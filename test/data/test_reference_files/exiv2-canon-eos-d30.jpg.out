@@ -51,19 +51,24 @@ Exif.CanonCs.MinAperture                     Short       1  285  F22
 Exif.CanonCs.FlashActivity                   Short       1  255  (255)
 Exif.CanonCs.FlashDetails                    Short       1  0  
 Exif.Canon.FocalLength                       Short       4  0 70 914 610  70.0 mm
+Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0  100 0 0 0
 Exif.CanonSi.AutoISO                         Short       1  0  100
 Exif.CanonSi.ISOSpeed                        Short       1  160  100
 Exif.CanonSi.MeasuredEV                      Short       1  248  12.75
 Exif.CanonSi.TargetAperture                  Short       1  128  F4
 Exif.CanonSi.TargetShutterSpeed              Short       1  270  1/347 s
+Exif.CanonSi.ExposureCompensation            Short       1  0  0
 Exif.CanonSi.WhiteBalance                    Short       1  1  Daylight
 Exif.CanonSi.SlowShutter                     Short       1  3  None
 Exif.CanonSi.Sequence                        Short       1  1  1
+Exif.CanonSi.OpticalZoomCode                 Short       1  8  8
 Exif.CanonSi.CameraTemperature               Short       1  0  --
 Exif.CanonSi.FlashGuideNumber                Short       1  0  0
 Exif.CanonSi.AFPointUsed                     Short       1  12288  3 focus points; none used
 Exif.CanonSi.FlashBias                       Short       1  0  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  0  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0  0
+Exif.CanonSi.ControlMode                     Short       1  1  1
 Exif.CanonSi.SubjectDistance                 Short       1  0  0 m
 Exif.CanonSi.ApertureValue                   Short       1  128  F4
 Exif.CanonSi.ShutterSpeedValue               Short       1  280  1/431 s

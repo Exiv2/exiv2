@@ -53,37 +53,45 @@ Exif.CanonCs.MinAperture                     Short       1  288  F23
 Exif.CanonCs.FlashActivity                   Short       1  0  Did not fire
 Exif.CanonCs.FlashDetails                    Short       1  0  
 Exif.CanonCs.FocusContinuous                 Short       1  65535  (65535)
-Exif.CanonCs.AESetting                       Short       1  65535  (65535)
+Exif.CanonCs.AESetting                       Short       1  65535  n/a
 Exif.CanonCs.ImageStabilization              Short       1  65535  (65535)
 Exif.CanonCs.DisplayAperture                 Short       1  0  0
 Exif.CanonCs.ZoomSourceWidth                 Short       1  0  0
 Exif.CanonCs.ZoomTargetWidth                 Short       1  0  0
-Exif.CanonCs.SpotMeteringMode                Short       1  65535  (65535)
-Exif.CanonCs.PhotoEffect                     Short       1  65535  (65535)
+Exif.CanonCs.SpotMeteringMode                Short       1  65535  n/a
+Exif.CanonCs.PhotoEffect                     Short       1  65535  n/a
 Exif.CanonCs.ManualFlashOutput               Short       1  0  n/a
 Exif.CanonCs.ColorTone                       Short       1  0  0
 Exif.CanonCs.SRAWQuality                     Short       1  65535  (65535)
 Exif.Canon.FocalLength                       Short       4  0 150 53893 12236  150.0 mm
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0  0 0 0 0
 Exif.CanonSi.AutoISO                         Short       1  0  100
 Exif.CanonSi.ISOSpeed                        Short       1  320  3200
 Exif.CanonSi.MeasuredEV                      Short       1  40  6.25
 Exif.CanonSi.TargetAperture                  Short       1  172  F6.3
 Exif.CanonSi.TargetShutterSpeed              Short       1  192  1/64 s
+Exif.CanonSi.ExposureCompensation            Short       1  0  0
 Exif.CanonSi.WhiteBalance                    Short       1  0  Auto
 Exif.CanonSi.SlowShutter                     Short       1  3  None
 Exif.CanonSi.Sequence                        Short       1  0  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  8  8
 Exif.CanonSi.CameraTemperature               Short       1  154  26 °C
 Exif.CanonSi.FlashGuideNumber                Short       1  0  0
 Exif.CanonSi.AFPointUsed                     Short       1  0  0 focus points; none used
 Exif.CanonSi.FlashBias                       Short       1  0  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  0  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0  0
+Exif.CanonSi.ControlMode                     Short       1  1  1
 Exif.CanonSi.SubjectDistance                 Short       1  0  0 m
 Exif.CanonSi.ApertureValue                   Short       1  168  F6.3
 Exif.CanonSi.ShutterSpeedValue               Short       1  192  1/64 s
 Exif.CanonSi.MeasuredEV2                     Short       1  108  7.50
 Exif.CanonSi.BulbDuration                    Short       1  0  0
 Exif.CanonSi.CameraType                      Short       1  248  EOS High-end
-Exif.CanonSi.AutoRotate                      Short       1  65535  65535
+Exif.CanonSi.AutoRotate                      Short       1  65535  (65535)
+Exif.CanonSi.NDFilter                        Short       1  65535  n/a
+Exif.CanonSi.SelfTimer2                      Short       1  65535  n/a
+Exif.CanonSi.FlashOutput                     Short       1  0  0
 Exif.Canon.ImageType                         Ascii      22  Canon EOS 5D Mark III  Canon EOS 5D Mark III
 Exif.Canon.FirmwareVersion                   Ascii      24  Firmware Version 1.3.3  Firmware Version 1.3.3
 Exif.Canon.OwnerName                         Ascii      32    
@@ -113,7 +121,7 @@ Exif.CanonFi.FileNumber                      Long        1  0  (0)
 Exif.CanonFi.BracketMode                     SShort      1  0  Off
 Exif.CanonFi.BracketValue                    SShort      1  0  0
 Exif.CanonFi.BracketShotNumber               SShort      1  0  0
-Exif.CanonFi.RawJpgQuality                   SShort      1  0  (0)
+Exif.CanonFi.RawJpgQuality                   SShort      1  0  unkown
 Exif.CanonFi.RawJpgSize                      SShort      1  0  Large
 Exif.CanonFi.NoiseReduction                  SShort      1  -1  (-1)
 Exif.CanonFi.WBBracketMode                   SShort      1  0  Off
@@ -151,13 +159,40 @@ Exif.Canon.SensorInfo                        Short      17  34 5920 3950 1 1 140
 Exif.Canon.ColorData                         Short     1312  10 794 1024 1024 366 540 1024 1024 515 380 1024 1024 714 1490 1885 1886 679 1850 3368 3369 1696 892 2274 2275 1577 5 0 272 270 275 0 1446 3116 3113 1802 655 208 207 30 99 669 670 1109 1388 2467 2466 468 1594 3282 3281 1894 696 241 240 36 118 700 700 1144 1505 2569 2569 513 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1024 1024 1024 1024 4387 1024 1024 1024 1024 4387 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1933 1023 1024 1838 4548 619 1170 1170 651 4548 2056 1024 1024 1649 5200 2362 1024 1024 1409 7000 2212 1024 1024 1520 6000 1487 1024 1024 2444 3200 1796 1024 1024 2346 3714 2056 1024 1024 1649 5189 2284 1024 1024 1496 6301 2056 1024 1024 1649 5189 2056 1024 1024 1649 5189 2056 1024 1024 1649 5189 2056 1024 1024 1649 5189 2056 1024 1024 1649 5189 1057 1024 1024 1040 4458 1057 1024 1024 1040 4458 1057 1024 1024 1040 4458 1057 1024 1024 1040 4458 1057 1024 1024 1040 4458 65230 384 879 10900 65248 393 857 10000 65294 416 800 8300 65345 444 744 7000 65398 474 690 6000 65425 491 664 5600 65454 510 636 5200 65501 537 590 4700 21 575 543 4200 74 617 503 3800 122 656 467 3500 178 705 429 3200 223 742 394 3000 263 789 376 2800 367 914 325 2400 500 2065 2081 2048 2048 2048 2048 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 3 5 15 17 19 472 11 0 0 0 15 7 29 119 57 761 797 1053 1203 1004 1299 5580 287 0 0 0 22 34 157 248 187 1008 615 464 301 134 88 170 45 2 7 93 7186 5335 4106 3099 944 2662 1610 3203 1900 773 452 966 16 0 0 0 32768 0 1024 1024 1024 2738 4132 7229 3859 65325 65506 3989 4349 230 33 4207 0 256 2 13478 3 1398 2 64773 1 20010 1024 1024 1024 0 0 0 65533 0 8191 256 0 0 1024 686 427 491 638 406 792 0 0 0 0 0 31 63 95 127 159 191 223 255 0 28 60 94 126 158 190 222 255 1 0 181 0 16 32 64 96 128 192 0 0 0 0 0 0 0 879 879 879 879 879 879 879 1160 0 2047 2047 2049 2049 14582 15094 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 43690 0 10 62 210 256 256 256 256 256 0 10 65 210 256 256 256 256 256 67 62 77 48 42 247 247 7 62 191 195 206 218 224 235 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 192 196 208 220 234 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1391 1024 859 0 0 0 0 149 95 32370 458 0 0 0 0 732 240 0 478 117 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 543 1024 1024 568 100 0 135 99 32376 408 0 0 0 0 100 108 112 106 50 174 255 22568 24568 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 28 60 94 126 158 190 222 255 0 0 0 0 0 0 0 0 0 0 10 65 42 247 0 0 0 0 0 0 0 29 62 96 128 159 191 223 255 0 1 3 6 14 25 38 58 75 82 85 85 82 76 67 51 34 25 19 18 16 16 15 15 14 13 13 13 13 13 13 14 16 19 27 37 45 56 66 82 93 102 110 114 119 126 135 139 146 153 151 155 173 178 175 165 160 149 139 139 126 95 74 0 255 3 108 112 22568 24568 0 0 0 0 0 174 255 50 728 230 0 477 112 0 352 0 0 106 0 0 6 0 0 0 43690 0 21845 43690 21845 0 0 0 0 0 0 0 0 100 100 100 100 100 100 100 100 71 100 100 0 28 0 0 0 0 0 108 112 22568 24568 0 0 0 0 0 174 255 50 32376 408 0 0 0 0 22568 24568 0 108 0 0 0 0 0 0 0 0 29 62 96 128 159 191 223 255 0 0 543 1024 1024 568  10 794 1024 1024 366 540 1024 1024 515 380 1024 1024 714 1490 1885 1886 679 1850 3368 3369 1696 892 2274 2275 1577 5 0 272 270 275 0 1446 3116 3113 1802 655 208 207 30 99 669 670 1109 1388 2467 2466 468 1594 3282 3281 1894 696 241 240 36 118 700 700 1144 1505 2569 2569 513 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1024 1024 1024 1024 4387 1024 1024 1024 1024 4387 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1935 1024 1024 1840 4548 1933 1023 1024 1838 4548 619 1170 1170 651 4548 2056 1024 1024 1649 5200 2362 1024 1024 1409 7000 2212 1024 1024 1520 6000 1487 1024 1024 2444 3200 1796 1024 1024 2346 3714 2056 1024 1024 1649 5189 2284 1024 1024 1496 6301 2056 1024 1024 1649 5189 2056 1024 1024 1649 5189 2056 1024 1024 1649 5189 2056 1024 1024 1649 5189 2056 1024 1024 1649 5189 1057 1024 1024 1040 4458 1057 1024 1024 1040 4458 1057 1024 1024 1040 4458 1057 1024 1024 1040 4458 1057 1024 1024 1040 4458 65230 384 879 10900 65248 393 857 10000 65294 416 800 8300 65345 444 744 7000 65398 474 690 6000 65425 491 664 5600 65454 510 636 5200 65501 537 590 4700 21 575 543 4200 74 617 503 3800 122 656 467 3500 178 705 429 3200 223 742 394 3000 263 789 376 2800 367 914 325 2400 500 2065 2081 2048 2048 2048 2048 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 3 5 15 17 19 472 11 0 0 0 15 7 29 119 57 761 797 1053 1203 1004 1299 5580 287 0 0 0 22 34 157 248 187 1008 615 464 301 134 88 170 45 2 7 93 7186 5335 4106 3099 944 2662 1610 3203 1900 773 452 966 16 0 0 0 32768 0 1024 1024 1024 2738 4132 7229 3859 65325 65506 3989 4349 230 33 4207 0 256 2 13478 3 1398 2 64773 1 20010 1024 1024 1024 0 0 0 65533 0 8191 256 0 0 1024 686 427 491 638 406 792 0 0 0 0 0 31 63 95 127 159 191 223 255 0 28 60 94 126 158 190 222 255 1 0 181 0 16 32 64 96 128 192 0 0 0 0 0 0 0 879 879 879 879 879 879 879 1160 0 2047 2047 2049 2049 14582 15094 10000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 43690 0 10 62 210 256 256 256 256 256 0 10 65 210 256 256 256 256 256 67 62 77 48 42 247 247 7 62 191 195 206 218 224 235 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 192 196 208 220 234 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1391 1024 859 0 0 0 0 149 95 32370 458 0 0 0 0 732 240 0 478 117 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 543 1024 1024 568 100 0 135 99 32376 408 0 0 0 0 100 108 112 106 50 174 255 22568 24568 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 28 60 94 126 158 190 222 255 0 0 0 0 0 0 0 0 0 0 10 65 42 247 0 0 0 0 0 0 0 29 62 96 128 159 191 223 255 0 1 3 6 14 25 38 58 75 82 85 85 82 76 67 51 34 25 19 18 16 16 15 15 14 13 13 13 13 13 13 14 16 19 27 37 45 56 66 82 93 102 110 114 119 126 135 139 146 153 151 155 173 178 175 165 160 149 139 139 126 95 74 0 255 3 108 112 22568 24568 0 0 0 0 0 174 255 50 728 230 0 477 112 0 352 0 0 106 0 0 6 0 0 0 43690 0 21845 43690 21845 0 0 0 0 0 0 0 0 100 100 100 100 100 100 100 100 71 100 100 0 28 0 0 0 0 0 108 112 22568 24568 0 0 0 0 0 174 255 50 32376 408 0 0 0 0 22568 24568 0 108 0 0 0 0 0 0 0 0 29 62 96 128 159 191 223 255 0 0 543 1024 1024 568
 Exif.Canon.PictureStyleUserDef               Short       3  129 129 129  Standard
 Exif.Canon.CustomPictureStyleFileName        Ascii      32    
-Exif.Canon.AFMicroAdj                        Long       11  44 0 0 10 4294967295 0 10 0 10 0 10  44 0 0 10 4294967295 0 10 0 10 0 10
+Exif.CanonAfMiAdj.AFMicroAdjMode             SLong       1  0  Disable
+Exif.CanonAfMiAdj.AFMicroAdjValue            SLong       1  0  0
 Exif.Canon.VignettingCorr                    Undefined 456  0 33 200 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 106 24 128 22 0 15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 150 0 0 0  0 33 200 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 106 24 128 22 0 15 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 150 0 0 0
-Exif.Canon.VignettingCorr2                   Long        7  28 0 1 0 1 0 0  28 0 1 0 1 0 0
-Exif.Canon.LightingOpt                       Long        7  28 0 0 0 0 0 1  28 0 0 0 0 0 1
-Exif.Canon.MultiExp                          Long        5  20 0 0 0 1  20 0 0 0 1
-Exif.Canon.HDRInfo                           Long        9  36 0 0 0 0 0 0 0 0  36 0 0 0 0 0 0 0 0
-Exif.Canon.AFConfig                          Long       19  76 0 0 0 0 0 0 0 0 0 0 0 63 1 0 0 0 0 0  76 0 0 0 0 0 0 0 0 0 0 0 63 1 0 0 0 0 0
+Exif.CanonVigCor2.PeripheralLightingSetting  SLong       1  0  Off
+Exif.CanonVigCor2.ChromaticAberrationSetting SLong       1  0  Off
+Exif.CanonLiOp.PeripheralIlluminationCorr    SLong       1  0  Off
+Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  0  Standard
+Exif.CanonLiOp.HighlightTonePriority         SLong       1  0  Off
+Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  0  Off
+Exif.CanonLiOp.HighISONoiseReduction         SLong       1  0  Standard
+Exif.CanonLe.LensSerialNumber                SLong       1  0  0
+Exif.CanonMe.MultiExposure                   SLong       1  0  Off
+Exif.CanonMe.MultiExposureControl            SLong       1  0  Additive
+Exif.CanonMe.MultiExposureShots              SLong       1  0  Off
+Exif.CanonHdr.HDR                            SLong       1  0  Off
+Exif.CanonHdr.HDREffect                      SLong       1  0  Natural
+Exif.CanonAfC.AFConfigTool                   SLong       1  0  0
+Exif.CanonAfC.AFTrackingSensitivity          SLong       1  0  0
+Exif.CanonAfC.AFAccelDecelTracking           SLong       1  0  0
+Exif.CanonAfC.AFPointSwitching               SLong       1  0  0
+Exif.CanonAfC.AIServoFirstImage              SLong       1  0  Equal Priority
+Exif.CanonAfC.AIServoSecondImage             SLong       1  0  Equal Priority
+Exif.CanonAfC.USMLensElectronicMF            SLong       1  0  Enable After AF
+Exif.CanonAfC.AFAssistBeam                   SLong       1  0  Enable
+Exif.CanonAfC.OneShotAFRelease               SLong       1  0  Focus Priority
+Exif.CanonAfC.AutoAFPointSelEOSiTRAF         SLong       1  0  Enable
+Exif.CanonAfC.LensDriveWhenAFImpossible      SLong       1  0  Continue Focus Search
+Exif.CanonAfC.SelectAFAreaSelectionMode      SLong       1  63  (63)
+Exif.CanonAfC.AFAreaSelectionMethod          SLong       1  1  Main Dial
+Exif.CanonAfC.OrientationLinkedAF            SLong       1  0  Same for Vert/Horiz Points
+Exif.CanonAfC.ManualAFPointSelPattern        SLong       1  0  Stops at AF Area Edges
+Exif.CanonAfC.AFPointDisplayDuringFocus      SLong       1  0  Selected (constant)
+Exif.CanonAfC.VFDisplayIllumination          SLong       1  0  Auto
+Exif.CanonAfC.AFStatusViewfinder             SLong       1  0  Auto
 Exif.Photo.UserComment                       Undefined 264    
 Exif.Photo.SubSecTime                        Ascii       3  00  00
 Exif.Photo.SubSecTimeOriginal                Ascii       3  00  00

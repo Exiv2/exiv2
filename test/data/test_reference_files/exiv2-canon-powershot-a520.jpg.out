@@ -59,26 +59,34 @@ Exif.CanonCs.PhotoEffect                     Short       1  0  Off
 Exif.CanonCs.ManualFlashOutput               Short       1  0  n/a
 Exif.CanonCs.ColorTone                       Short       1  32767  32767
 Exif.Canon.FocalLength                       Short       4  2 186 229 172  5.8 mm
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0  0 0 0 0
 Exif.CanonSi.AutoISO                         Short       1  0  100
 Exif.CanonSi.ISOSpeed                        Short       1  128  50
 Exif.CanonSi.MeasuredEV                      Short       1  320  15.00
 Exif.CanonSi.TargetAperture                  Short       1  128  F4
 Exif.CanonSi.TargetShutterSpeed              Short       1  319  1/1002 s
+Exif.CanonSi.ExposureCompensation            Short       1  0  0
 Exif.CanonSi.WhiteBalance                    Short       1  0  Auto
 Exif.CanonSi.SlowShutter                     Short       1  0  Off
 Exif.CanonSi.Sequence                        Short       1  0  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  0  0
 Exif.CanonSi.CameraTemperature               Short       1  0  --
 Exif.CanonSi.FlashGuideNumber                Short       1  0  0
 Exif.CanonSi.AFPointUsed                     Short       1  0  0 focus points; none used
 Exif.CanonSi.FlashBias                       Short       1  0  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  0  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0  0
+Exif.CanonSi.ControlMode                     Short       1  1  1
 Exif.CanonSi.SubjectDistance                 Short       1  6553  65.53 m
 Exif.CanonSi.ApertureValue                   Short       1  128  F4
 Exif.CanonSi.ShutterSpeedValue               Short       1  320  1/1024 s
 Exif.CanonSi.MeasuredEV2                     Short       1  0  -6.00
 Exif.CanonSi.BulbDuration                    Short       1  0  0
 Exif.CanonSi.CameraType                      Short       1  250  Compact
-Exif.CanonSi.AutoRotate                      Short       1  0  0
+Exif.CanonSi.AutoRotate                      Short       1  0  None
+Exif.CanonSi.NDFilter                        Short       1  0  Off
+Exif.CanonSi.SelfTimer2                      Short       1  0  Selftimer 2s
+Exif.CanonSi.FlashOutput                     Short       1  0  0
 Exif.CanonPa.PanoramaFrame                   Short       1  0  0
 Exif.CanonPa.PanoramaDirection               Short       1  1  Right to left
 Exif.CanonPi.ImageWidth                      Short       1  2272  2272
