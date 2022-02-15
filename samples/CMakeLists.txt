@@ -113,7 +113,7 @@ list(APPEND APPLICATIONS remotetest)
 
 # ******************************************************************************
 foreach(application ${APPLICATIONS})
-    target_link_libraries(${application} PRIVATE exiv2lib)
+    target_link_libraries(${application} PRIVATE exiv2lib std::filesystem)
     if(MSVC)
         target_link_libraries(${application} PRIVATE wmain)
         target_link_options(${application} PRIVATE "/ENTRY:wWinMainCRTStartup")
