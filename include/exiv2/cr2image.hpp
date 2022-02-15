@@ -40,11 +40,6 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Add CR2 to the supported image formats
-    namespace ImageType {
-        const int cr2 = 7;          //!< CR2 image type (see class Cr2Image)
-    }
-
     /*!
       @brief Class to access raw Canon CR2 images.  Exif metadata
           is supported directly, IPTC is read from the Exif data, if present.

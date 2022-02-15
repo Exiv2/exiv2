@@ -53,12 +53,6 @@ namespace Exiv2
     // *****************************************************************************
     // class definitions
 
-    // Add Base Media File Format to the supported image formats
-    namespace ImageType
-    {
-        const int bmff = 19;  //!< BMFF (bmff) image type (see class BMFF)
-    }
-
     /*!
       @brief Class to access BMFF images.
      */

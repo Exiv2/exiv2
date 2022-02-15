@@ -14,6 +14,7 @@ add_executable(unit_tests
     test_futils.cpp
     test_helper_functions.cpp
     test_image_int.cpp
+    test_ImageFactory.cpp
     test_IptcKey.cpp
     test_pngimage.cpp
     test_safe_op.cpp
