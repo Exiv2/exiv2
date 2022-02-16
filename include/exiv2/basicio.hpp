@@ -240,7 +240,7 @@ namespace Exiv2 {
               comprehensive error messages where only a BasicIo instance is
               available.
          */
-        virtual std::string path() const =0;
+        virtual const std::string& path() const noexcept =0;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -472,7 +472,7 @@ namespace Exiv2 {
         //! Returns true if the file position has reached the end, otherwise false.
         bool eof() const override;
         //! Returns the path of the file
-        std::string path() const override;
+        const std::string& path() const noexcept override;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -654,7 +654,7 @@ namespace Exiv2 {
         //!Returns true if the IO position has reached the end, otherwise false.
         bool eof() const override;
         //! Returns a dummy path, indicating that memory access is used
-        std::string path() const override;
+        const std::string& path() const noexcept override;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -898,7 +898,7 @@ namespace Exiv2 {
        //!Returns true if the IO position has reached the end, otherwise false.
        bool eof() const override;
        //!Returns the URL of the file.
-       std::string path() const override;
+       const std::string& path() const noexcept override;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory

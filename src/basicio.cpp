@@ -469,10 +469,7 @@ namespace Exiv2 {
 
             bool statOk = true;
             mode_t origStMode = 0;
-            std::string spf;
-            char* pf = nullptr;
-            spf = path();
-            pf = const_cast<char*>(spf.c_str());
+            char* pf = const_cast<char*>(path().c_str());
 
             // Get the permissions of the file, or linked-to file, on platforms which have lstat
 #ifdef EXV_HAVE_LSTAT
@@ -720,7 +717,7 @@ namespace Exiv2 {
         return std::feof(p_->fp_) != 0;
     }
 
-    std::string FileIo::path() const
+    const std::string& FileIo::path() const noexcept
     {
         return p_->path_;
     }
@@ -1044,9 +1041,10 @@ namespace Exiv2 {
         return p_->eof_;
     }
 
-    std::string MemIo::path() const
+    const std::string& MemIo::path() const noexcept
     {
-        return "MemIo";
+        static std::string _path{"MemIo"};
+        return _path;
     }
 
     void MemIo::populateFakeData() {
@@ -1116,7 +1114,7 @@ namespace Exiv2 {
     void XPathIo::transfer(BasicIo& src) {
         if (isTemp_) {
             // replace temp path to gent path.
-            std::string currentPath = path();
+            auto& currentPath = path();
             setPath(ReplaceStringInPlace(currentPath, XPathIo::TEMP_FILE_EXT, XPathIo::GEN_FILE_EXT));
             // rename the file
             tempFilePath_ = path();
@@ -1585,7 +1583,7 @@ namespace Exiv2 {
         return p_->eof_;
     }
 
-    std::string RemoteIo::path() const
+    const std::string& RemoteIo::path() const noexcept
     {
         return p_->path_;
     }
@@ -1989,8 +1987,9 @@ namespace Exiv2 {
         return file.write(buf.c_data(), buf.size());
     }
 
-    std::string ReplaceStringInPlace(std::string subject, const std::string& search,
-                          const std::string& replace) {
+    /// \todo do it in place!
+    std::string ReplaceStringInPlace(std::string subject, const std::string& search, const std::string& replace)
+    {
         size_t pos = 0;
         while((pos = subject.find(search, pos)) != std::string::npos) {
              subject.replace(pos, search.length(), replace);

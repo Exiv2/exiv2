@@ -133,7 +133,7 @@ namespace Exiv2 {
     bool isTgaType(BasicIo& iIo, bool /*advance*/)
     {
         // not all TARGA files have a signature string, so first just try to match the file name extension
-        std::string path = iIo.path();
+        const std::string& path = iIo.path();
         if(   path.rfind(".tga") != std::string::npos
            || path.rfind(".TGA") != std::string::npos) {
             return true;
