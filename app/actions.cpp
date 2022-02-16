@@ -268,7 +268,7 @@ namespace Action {
 
     int Print::printSummary()
     {
-        if (!Exiv2::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_)) {
             std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -402,7 +402,7 @@ namespace Action {
 
     int Print::printList()
     {
-        if (!Exiv2::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_)) {
             std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -607,7 +607,7 @@ namespace Action {
 
     int Print::printComment()
     {
-        if (!Exiv2::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_)) {
             std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -624,7 +624,7 @@ namespace Action {
 
     int Print::printPreviewList()
     {
-        if (!Exiv2::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_)) {
             std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -658,7 +658,7 @@ namespace Action {
     int Rename::run(const std::string& path)
     {
     try {
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -740,7 +740,7 @@ namespace Action {
     try {
         path_ = path;
 
-        if (!Exiv2::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_)) {
             std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -900,7 +900,7 @@ namespace Action {
 
     int Extract::writeThumbnail() const
     {
-        if (!Exiv2::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_)) {
             std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -947,7 +947,7 @@ namespace Action {
 
     int Extract::writePreviews() const
     {
-        if (!Exiv2::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_)) {
             std::cerr << path_ << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -983,7 +983,7 @@ namespace Action {
     int Extract::writeIccProfile(const std::string& target) const
     {
         int rc = 0;
-        if (!Exiv2::fileExists(path_, true)) {
+        if (!Exiv2::fileExists(path_)) {
             std::cerr << path_ << ": " << _("Failed to open the file\n");
             rc = -1;
         }
@@ -1049,7 +1049,7 @@ namespace Action {
         // -i{tgt}-  reading from stdin?
         bool bStdin = (Params::instance().target_ & Params::ctStdInOut) != 0;
 
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path
                       << ": " << _("Failed to open the file\n");
             return -1;
@@ -1106,12 +1106,12 @@ namespace Action {
             Params::instance().getStdin(xmpBlob);
             rc   = insertXmpPacket(path,xmpBlob,true);
         } else {
-            if (!Exiv2::fileExists(xmpPath, true)) {
+            if (!Exiv2::fileExists(xmpPath)) {
                 std::cerr << xmpPath
                           << ": " << _("Failed to open the file\n");
                 rc = -1;
             }
-            if (rc == 0 && !Exiv2::fileExists(path, true)) {
+            if (rc == 0 && !Exiv2::fileExists(path)) {
                 std::cerr << path
                           << ": " << _("Failed to open the file\n");
                 rc = -1;
@@ -1152,7 +1152,7 @@ namespace Action {
             Params::instance().getStdin(iccProfile);
             rc =  insertIccProfile(path,std::move(iccProfile));
         } else {
-            if (!Exiv2::fileExists(iccProfilePath, true)) {
+            if (!Exiv2::fileExists(iccProfilePath)) {
                 std::cerr << iccProfilePath
                           << ": " << _("Failed to open the file\n");
                 rc = -1;
@@ -1168,7 +1168,7 @@ namespace Action {
     {
         int rc = 0;
         // test path exists
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path << ": " << _("Failed to open the file\n");
             rc=-1;
         }
@@ -1192,12 +1192,12 @@ namespace Action {
     int Insert::insertThumbnail(const std::string& path)
     {
         std::string thumbPath = newFilePath(path, "-thumb.jpg");
-        if (!Exiv2::fileExists(thumbPath, true)) {
+        if (!Exiv2::fileExists(thumbPath)) {
             std::cerr << thumbPath
                       << ": " << _("Failed to open the file\n");
             return -1;
         }
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path
                       << ": " << _("Failed to open the file\n");
             return -1;
@@ -1220,7 +1220,7 @@ namespace Action {
     int Modify::run(const std::string& path)
     {
     try {
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -1452,7 +1452,7 @@ namespace Action {
         monthAdjustment_ = Params::instance().yodAdjust_[Params::yodMonth].adjustment_;
         dayAdjustment_   = Params::instance().yodAdjust_[Params::yodDay].adjustment_;
 
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path << ": " << _("Failed to open the file\n");
             return -1;
         }
@@ -1579,7 +1579,7 @@ namespace Action {
     int FixIso::run(const std::string& path)
     {
     try {
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path << ": " <<_("Failed to open the file\n");
             return -1;
         }
@@ -1632,7 +1632,7 @@ namespace Action {
     int FixCom::run(const std::string& path)
     {
     try {
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path << ": " <<_("Failed to open the file\n");
             return -1;
         }
@@ -1821,7 +1821,7 @@ namespace {
 
         // read the source metadata
         int  rc    = -1   ;
-        if (!Exiv2::fileExists(source, true)) {
+        if (!Exiv2::fileExists(source)) {
             std::cerr << source << ": " << _("Failed to open the file\n");
             return rc;
         }
@@ -2096,7 +2096,7 @@ namespace {
 
     int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string &path)
     {
-        if (!Exiv2::fileExists(path, true)) {
+        if (!Exiv2::fileExists(path)) {
             std::cerr << path << ": "
                       << _("Failed to open the file\n");
             return -1;

@@ -139,7 +139,7 @@ static void output(std::ostream& os,const std::vector<std::regex>& greps,const c
 
 static bool pushPath(std::string& path,std::vector<std::string>& libs,std::set<std::string>& paths)
 {
-    bool result = Exiv2::fileExists(path,true) && paths.find(path) == paths.end() && path != "/" ;
+    bool result = Exiv2::fileExists(path) && paths.find(path) == paths.end() && path != "/" ;
     if ( result ) {
         paths.insert(path);
         libs.push_back(path);

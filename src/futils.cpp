@@ -27,18 +27,22 @@
 #include "image_int.hpp"
 
 // + standard includes
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <array>
-#include <cstdio>
-#include <cerrno>
-#include <sstream>
-#include <cstring>
+#include <sys/types.h>
+
 #include <algorithm>
+#include <array>
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
+#include <filesystem>
+#include <sstream>
 #include <stdexcept>
-#ifdef   EXV_HAVE_UNISTD_H
-#include <unistd.h>                     // for stat()
+#ifdef EXV_HAVE_UNISTD_H
+#include <unistd.h>  // for stat()
 #endif
+
+namespace fs = std::filesystem;
 
 #if defined(WIN32)
 #include <windows.h>
@@ -243,19 +247,13 @@ namespace Exiv2 {
         return result;
     } // fileProtocol
 
-    bool fileExists(const std::string& path, bool ct)
+    bool fileExists(const std::string& path)
     {
-        // special case: accept "-" (means stdin)
-        if (path == "-" || fileProtocol(path) != pFile) {
+        if (fileProtocol(path) != pFile) {
             return true;
         }
-
-        struct stat buf;
-        int ret = ::stat(path.c_str(), &buf);
-        if (0 != ret)                    return false;
-        if (ct && !S_ISREG(buf.st_mode)) return false;
-        return true;
-    } // fileExists
+        return fs::exists(path);
+    }
 
     std::string pathOfFileUrl(const std::string& url) {
         std::string path = url.substr(7);

@@ -114,7 +114,7 @@ namespace Exiv2
       and its type, see stat(2). <b>errno</b> is left unchanged
       in case of an error.
      */
-    EXIV2API bool fileExists(const std::string& path, bool ct = false);
+    EXIV2API bool fileExists(const std::string& path);
 
     /*!
       @brief Get the path of file URL.
