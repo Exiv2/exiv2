@@ -66,17 +66,6 @@ namespace Exiv2
     EXIV2API std::string urlencode(const std::string_view& str);
 
     /*!
-      @brief Decode the input url.
-      @param str The url needs decoding.
-      @return the url-decoded version of str.
-
-      @note Be sure to 'free' the returned string after use with 'delete []'.
-            Source: http://www.geekhideout.com/urlcode.shtml
-      @todo This function can probably be hidden into the implementation details
-     */
-    EXIV2API char* urldecode(const char* str);
-
-    /*!
       @brief Like urlencode(char* str) but accept the input url in the std::string and modify it.
       @todo This function can probably be hidden into the implementation details
      */

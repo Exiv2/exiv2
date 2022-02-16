@@ -120,31 +120,24 @@ namespace Exiv2 {
         return encoded;
     }
 
-    char* urldecode(const char* str) {
-        const char* pstr = str;
-        auto buf = new char[(strlen(str) + 1)];
-        char* pbuf = buf;
-        while (*pstr) {
-            if (*pstr == '%') {
-                if (pstr[1] && pstr[2]) {
-                    *pbuf++ = from_hex(pstr[1]) << 4 | from_hex(pstr[2]);
-                    pstr += 2;
+    void urldecode(std::string& str)
+    {
+        size_t idxIn{0}, idxOut{0};
+        size_t sizeStr = str.size();
+        while (idxIn < sizeStr) {
+            if (str[idxIn] == '%') {
+                if (str[idxIn+1] && str[idxIn+2]) {
+                    str[idxOut++] = from_hex(str[idxIn+1]) << 4 | from_hex(str[idxIn+2]);
+                    idxIn += 2;
                 }
-            } else if (*pstr == '+') {
-                *pbuf++ = ' ';
+            } else if (str[idxIn] == '+') {
+                str[idxOut++] = ' ';
             } else {
-                *pbuf++ = *pstr;
+                str[idxOut++] = str[idxIn];
             }
-            pstr++;
+            idxIn++;
         }
-        *pbuf = '\0';
-        return buf;
-    }
-
-    void urldecode(std::string& str) {
-        char* decodeStr = Exiv2::urldecode(str.c_str());
-        str = std::string(decodeStr);
-        delete [] decodeStr;
+        str.erase(idxOut);
     }
 
     // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
