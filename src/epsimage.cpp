@@ -103,7 +103,7 @@ namespace {
     // closing part of all valid XMP trailers
     const std::string xmpTrailerEnd = "?>";
 
-    bool startsWith(const std::string& s, const std::string& start)
+    constexpr bool startsWith(const std::string_view& s, const std::string_view& start)
     {
         return s.find(start) == 0;
     }
