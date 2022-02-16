@@ -1008,12 +1008,6 @@ namespace Exiv2 {
       @throw Error In case of failure.
      */
     EXIV2API long writeFile(const DataBuf& buf, const std::string& path);
-    /*!
-      @brief replace each substring of the subject that matches the given search string with the given replacement.
-      @return the subject after replacing.
-     */
-    EXIV2API std::string ReplaceStringInPlace(std::string subject, const std::string& search,
-                          const std::string& replace);
 #ifdef EXV_USE_CURL
     /*!
       @brief The callback function is called by libcurl to write the data

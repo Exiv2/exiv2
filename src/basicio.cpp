@@ -77,6 +77,18 @@ using nlink_t = short;
 
 // *****************************************************************************
 // class member definitions
+namespace {
+    /// @brief replace each substring of the subject that matches the given search string with the given replacement.
+    void ReplaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace)
+    {
+        size_t pos = 0;
+        while ((pos = subject.find(search, pos)) != std::string::npos) {
+            subject.replace(pos, search.length(), replace);
+            pos += replace.length();
+        }
+    }
+}
+
 namespace Exiv2 {
     void BasicIo::readOrThrow(byte* buf, long rcount, ErrorCode err) {
         const long nread = read(buf, rcount);
@@ -1114,8 +1126,10 @@ namespace Exiv2 {
     void XPathIo::transfer(BasicIo& src) {
         if (isTemp_) {
             // replace temp path to gent path.
-            auto& currentPath = path();
-            setPath(ReplaceStringInPlace(currentPath, XPathIo::TEMP_FILE_EXT, XPathIo::GEN_FILE_EXT));
+            auto currentPath = path();
+            ReplaceStringInPlace(currentPath, XPathIo::TEMP_FILE_EXT, XPathIo::GEN_FILE_EXT);
+            setPath(currentPath);
+
             // rename the file
             tempFilePath_ = path();
             if (rename(currentPath.c_str(), tempFilePath_.c_str()) != 0) {
@@ -1987,16 +2001,6 @@ namespace Exiv2 {
         return file.write(buf.c_data(), buf.size());
     }
 
-    /// \todo do it in place!
-    std::string ReplaceStringInPlace(std::string subject, const std::string& search, const std::string& replace)
-    {
-        size_t pos = 0;
-        while((pos = subject.find(search, pos)) != std::string::npos) {
-             subject.replace(pos, search.length(), replace);
-             pos += replace.length();
-        }
-        return subject;
-    }
 
 #ifdef EXV_USE_CURL
     size_t curlWriter(char* data, size_t size, size_t nmemb,
