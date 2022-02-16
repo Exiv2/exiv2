@@ -294,6 +294,7 @@ namespace Exiv2 {
         { 76, ttUnsignedShort, 1 }, // AFAreaYPosition
         { 78, ttUnsignedShort, 1 }, // AFAreaWidth
         { 80, ttUnsignedShort, 1 }, // AFAreaHeight
+        { 82, ttUnsignedShort, 1 }, // ContrastDetectAFInFocus
     };
 
     //! Nikon AF2 configuration and definitions
