@@ -399,7 +399,7 @@ namespace Exiv2 {
         { 22, ttUnsignedShort, 1 }, // AFAreaYPosition
         { 24, ttUnsignedShort, 1 }, // AFAreaWidth
         { 26, ttUnsignedShort, 1 }, // AFAreaHeight
-        { 28, ttUnsignedShort, 1 }, // ContrastDetectAFInFocus
+        { 28, ttUnsignedByte,  1 }, // ContrastDetectAFInFocus
     };
     //! Nikon Auto Focus 22 binary array - configuration
     constexpr ArrayCfg nikonAf22Cfg = {
@@ -426,6 +426,7 @@ namespace Exiv2 {
         { 76, ttUnsignedShort, 1 }, // AFAreaYPosition
         { 78, ttUnsignedShort, 1 }, // AFAreaWidth
         { 80, ttUnsignedShort, 1 }, // AFAreaHeight
+        { 82, ttUnsignedByte,  1 }, // ContrastDetectAFInFocus
     };
 
     //! Nikon AF2 configuration and definitions

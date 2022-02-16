@@ -139,7 +139,7 @@ Exif.NikonAf2.AFAreaXPosition                Short       1  0  0
 Exif.NikonAf2.AFAreaYPosition                Short       1  0  0
 Exif.NikonAf2.AFAreaWidth                    Short       1  0  0
 Exif.NikonAf2.AFAreaHeight                   Short       1  0  0
-Exif.NikonAf2.ContrastDetectAFInFocus        Short       1  0  0
+Exif.NikonAf2.ContrastDetectAFInFocus        Byte        1  0  Off
 Exif.NikonFi.Version                         Undefined   4  48 49 48 48  1.00
 Exif.NikonFi.DirectoryNumber                 Short       1  100  100
 Exif.NikonFi.FileNumber                      Short       1  3  3
