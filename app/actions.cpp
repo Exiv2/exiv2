@@ -83,7 +83,6 @@ namespace {
     public:
         //! C'tor
         Timestamp() = default;
-        //! Read the timestamp of a file
         int read(const std::string& path);
         //! Read the timestamp from a broken-down time in buffer \em tm.
         int read(struct tm* tm);
@@ -2046,14 +2045,7 @@ namespace {
             std::cout << std::endl;
         }
 
-        // Workaround for MinGW rename which does not overwrite existing files
-        remove(newPath.c_str());
-        if (std::rename(path.c_str(), newPath.c_str()) == -1) {
-            std::cerr << Params::instance().progname() << ": " << _("Failed to rename") << " " << path << " " << _("to")
-                      << " " << newPath << ": " << Exiv2::strError() << "\n";
-            return 1;
-        }
-
+        fs::rename(path, newPath);
         return 0;
     }
 

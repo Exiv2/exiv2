@@ -34,18 +34,22 @@
 #include "image_int.hpp"
 
 // + standard includes
-#include <string>
-#include <memory>
-#include <iostream>
-#include <cstring>                      // std::memcpy
+#include <fcntl.h>      // _O_BINARY in FileIo::FileIo
+#include <sys/stat.h>   // for stat, chmod
+#include <sys/types.h>  // for stat, chmod
+
 #include <cassert>
-#include <fstream>                      // write the temporary file
-#include <fcntl.h>                      // _O_BINARY in FileIo::FileIo
-#include <cstdio>                       // for remove, rename
-#include <cstdlib>                      // for alloc, realloc, free
-#include <ctime>                        // timestamp for the name of temporary file
-#include <sys/types.h>                  // for stat, chmod
-#include <sys/stat.h>                   // for stat, chmod
+#include <cstdio>   // for remove, rename
+#include <cstdlib>  // for alloc, realloc, free
+#include <cstring>  // std::memcpy
+#include <ctime>    // timestamp for the name of temporary file
+#include <filesystem>
+#include <fstream>  // write the temporary file
+#include <iostream>
+#include <memory>
+#include <string>
+
+namespace fs = std::filesystem;
 
 #ifdef EXV_HAVE_SYS_MMAN_H
 # include <sys/mman.h>                  // for mmap and munmap
@@ -535,9 +539,7 @@ namespace Exiv2 {
                         BOOL ret = pfcn_ReplaceFileA(pf, fileIo->path().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
-                                if (::rename(fileIo->path().c_str(), pf) == -1) {
-                                    throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
-                                }
+                                fs::rename(fileIo->path().c_str(), pf);
                                 ::remove(fileIo->path().c_str());
                             }
                             else {
@@ -549,9 +551,7 @@ namespace Exiv2 {
                         if (fileExists(pf) && ::remove(pf) != 0) {
                             throw Error(kerCallFailed, pf, strError(), "::remove");
                         }
-                        if (::rename(fileIo->path().c_str(), pf) == -1) {
-                            throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
-                        }
+                        fs::rename(fileIo->path().c_str(), pf);
                         ::remove(fileIo->path().c_str());
                     }
                 }
@@ -559,9 +559,7 @@ namespace Exiv2 {
                 if (fileExists(pf) && ::remove(pf) != 0) {
                     throw Error(kerCallFailed, pf, strError(), "::remove");
                 }
-                if (::rename(fileIo->path().c_str(), pf) == -1) {
-                    throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
-                }
+                fs::rename(fileIo->path().c_str(), pf);
                 ::remove(fileIo->path().c_str());
 #endif
                 // Check permissions of new file
@@ -1130,11 +1128,8 @@ namespace Exiv2 {
             ReplaceStringInPlace(currentPath, XPathIo::TEMP_FILE_EXT, XPathIo::GEN_FILE_EXT);
             setPath(currentPath);
 
-            // rename the file
             tempFilePath_ = path();
-            if (rename(currentPath.c_str(), tempFilePath_.c_str()) != 0) {
-                // printf("Warning: Failed to rename the temp file. \n");
-            }
+            fs::rename(currentPath, tempFilePath_);
             isTemp_ = false;
             // call super class method
             FileIo::transfer(src);
