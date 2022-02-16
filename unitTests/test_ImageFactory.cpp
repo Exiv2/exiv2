@@ -65,7 +65,7 @@ TEST(TheImageFactory, createsInstancesForFewSupportedTypesInFiles)
     EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf, filePath));
     EXPECT_NO_THROW(ImageFactory::create(ImageType::png, filePath));
 
-    EXPECT_EQ(0, std::remove(filePath.c_str()));
+    EXPECT_TRUE(fs::remove(filePath));
 }
 
 TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles)

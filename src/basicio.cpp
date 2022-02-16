@@ -476,9 +476,8 @@ namespace Exiv2 {
             fileIo->close();
             // Check if the file can be written to, if it already exists
             if (open("a+b") != 0) {
-                /// \todo Use std::filesystem once C++17 can be used
                 // Remove the (temporary) file
-                ::remove(fileIo->path().c_str());
+                fs::remove(fileIo->path().c_str());
                 throw Error(kerFileOpenFailed, path(), "a+b", strError());
             }
             close();
@@ -540,7 +539,7 @@ namespace Exiv2 {
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 fs::rename(fileIo->path().c_str(), pf);
-                                ::remove(fileIo->path().c_str());
+                                fs::remove(fileIo->path().c_str());
                             }
                             else {
                                 throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
@@ -549,18 +548,18 @@ namespace Exiv2 {
                     }
                     else {
                         if (fileExists(pf) && ::remove(pf) != 0) {
-                            throw Error(kerCallFailed, pf, strError(), "::remove");
+                            throw Error(kerCallFailed, pf, strError(), "fs::remove");
                         }
                         fs::rename(fileIo->path().c_str(), pf);
-                        ::remove(fileIo->path().c_str());
+                        fs::remove(fileIo->path().c_str());
                     }
                 }
 #else
-                if (fileExists(pf) && ::remove(pf) != 0) {
-                    throw Error(kerCallFailed, pf, strError(), "::remove");
+                if (fileExists(pf) && fs::remove(pf) != 0) {
+                    throw Error(kerCallFailed, pf, strError(), "fs::remove");
                 }
                 fs::rename(fileIo->path().c_str(), pf);
-                ::remove(fileIo->path().c_str());
+                fs::remove(fileIo->path().c_str());
 #endif
                 // Check permissions of new file
                 struct stat buf2;
@@ -1115,7 +1114,7 @@ namespace Exiv2 {
     }
 
     XPathIo::~XPathIo() {
-        if (isTemp_ && remove(tempFilePath_.c_str()) != 0) {
+        if (isTemp_ && !fs::remove(tempFilePath_)) {
             // error when removing file
             // printf ("Warning: Unable to remove the temp file %s.\n", tempFilePath_.c_str());
         }

@@ -1945,7 +1945,8 @@ namespace {
         }
 
         // delete temporary target
-        if ( bStdout ) std::remove(target.c_str());
+        if ( bStdout )
+            fs::remove(target.c_str());
 
         return rc;
     } // metacopy

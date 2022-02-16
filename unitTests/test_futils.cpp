@@ -23,12 +23,15 @@
 #include <exiv2/futils.hpp>
 
 // Auxiliary headers
+#include <filesystem>
 #include <fstream>
 #include <cstdio>
 #include <cerrno>
 #include <stdexcept>
 
 #include <gtest/gtest.h>
+
+namespace fs = std::filesystem;
 
 using namespace Exiv2;
 
@@ -42,7 +45,7 @@ TEST(strError, returnSuccessAfterClosingFile)
     std::string tmpFile("tmp.dat");
     std::ofstream auxFile(tmpFile.c_str());
     auxFile.close();
-    std::remove(tmpFile.c_str());
+    fs::remove(tmpFile.c_str());
     ASSERT_TRUE(strError().find("(errno = 0)") != std::string::npos);
 }
 
