@@ -9,13 +9,11 @@ Exif.Photo.ExifVersion                       Undefined   4  48 50 51 50  2.32
 Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
 Exif.Photo.ColorSpace                        Short       1  65535  Uncalibrated
 Exif.Photo.ComponentsConfiguration           Undefined   1  1  Y
-Exif.Photo.DateTimeOriginal                  Ascii      20  2022:01:04 17:41:01  2022:01:04 17:41:01
 Iptc.Application2.ObjectName                 String     18  Test IPTC XMP file  Test IPTC XMP file
 Iptc.Envelope.CharacterSet                   String      3  %G  %G
 Iptc.Application2.Keywords                   String      4  Test  Test
 Iptc.Application2.SubLocation                String     16  Test Sublocation  Test Sublocation
 Iptc.Application2.SpecialInstructions        String     17  Test Instructions  Test Instructions
-Iptc.Application2.DateCreated                Date        8  2022-01-04  2022-01-04
 Iptc.Application2.Byline                     String     14  postscript-dev  postscript-dev
 Iptc.Application2.BylineTitle                String     24  Test Creator's Job Title  Test Creator's Job Title
 Iptc.Application2.City                       String      9  Test City  Test City
@@ -211,7 +209,6 @@ Xmp.exif.ExifVersion                         XmpText     4  0232  2.32
 Xmp.exif.FlashpixVersion                     XmpText     4  0100  1.00
 Xmp.exif.ColorSpace                          XmpText     5  65535  Uncalibrated
 Xmp.exif.ComponentsConfiguration             XmpSeq      1  1  Y
-Xmp.photoshop.DateCreated                    XmpText    25  2022-01-04T09:41:01+00:00  2022-01-04T09:41:01+00:00
 Xmp.photoshop.Instructions                   XmpText    17  Test Instructions  Test Instructions
 Xmp.photoshop.AuthorsPosition                XmpText    24  Test Creator's Job Title  Test Creator's Job Title
 Xmp.photoshop.City                           XmpText     9  Test City  Test City
