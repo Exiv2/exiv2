@@ -135,6 +135,12 @@ namespace {
         { ImageType::none, nullptr,               nullptr,          amNone,      amNone,      amNone,      amNone      }
     };
 
+    std::string pathOfFileUrl(const std::string& url) {
+        std::string path = url.substr(7);
+        size_t found = path.find('/');
+        return (found == std::string::npos) ? path : path.substr(found);
+    }
+
 }  // namespace
 
 // *****************************************************************************

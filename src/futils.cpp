@@ -255,13 +255,6 @@ namespace Exiv2 {
         return fs::exists(path);
     }
 
-    std::string pathOfFileUrl(const std::string& url) {
-        std::string path = url.substr(7);
-        size_t found = path.find('/');
-        if (found == std::string::npos) return path;
-        return path.substr(found);
-    }
-
     std::string strError()
     {
         int error = errno;

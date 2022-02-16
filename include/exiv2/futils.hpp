@@ -117,14 +117,6 @@ namespace Exiv2
     EXIV2API bool fileExists(const std::string& path);
 
     /*!
-      @brief Get the path of file URL.
-
-      @param  url The file URL in the format file:///path or file://host/path
-      @return the path of file URL.
-     */
-    EXIV2API std::string pathOfFileUrl(const std::string& url);
-
-    /*!
       @brief Return a system error message and the error code (errno).
              See %strerror(3).
      */
