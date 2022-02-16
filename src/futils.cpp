@@ -101,25 +101,23 @@ namespace Exiv2 {
         return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
     }
 
-    std::string urlencode(const char* str) {
-        const char* pstr = str;
-        // \todo try to use std::string for buf and avoid the creation of another string for just
-        // returning the final value
-        auto buf = new char[strlen(str) * 3 + 1];
-        char* pbuf = buf;
-        while (*pstr) {
-            if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
-                *pbuf++ = *pstr;
-            else if (*pstr == ' ')
-                *pbuf++ = '+';
-            else
-                *pbuf++ = '%', *pbuf++ = to_hex(*pstr >> 4), *pbuf++ = to_hex(*pstr & 15);
-            pstr++;
+    std::string urlencode(const std::string_view& str)
+    {
+        std::string encoded;
+        encoded.reserve(str.size() * 3);
+        for (auto c : str) {
+            if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~')
+                encoded += c;
+            else if (c == ' ')
+                encoded += '+';
+            else {
+                encoded += '%';
+                encoded += to_hex(c >> 4);
+                encoded += to_hex(c & 15);
+            }
         }
-        *pbuf = '\0';
-        std::string ret(buf);
-        delete [] buf;
-        return ret;
+        encoded.shrink_to_fit();
+        return encoded;
     }
 
     char* urldecode(const char* str) {

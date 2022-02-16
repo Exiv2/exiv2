@@ -63,7 +63,7 @@ namespace Exiv2
       @note Source: http://www.geekhideout.com/urlcode.shtml
       @todo This function can probably be hidden into the implementation details
      */
-    EXIV2API std::string urlencode(const char* str);
+    EXIV2API std::string urlencode(const std::string_view& str);
 
     /*!
       @brief Decode the input url.
