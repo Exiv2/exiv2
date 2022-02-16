@@ -630,7 +630,6 @@ namespace Exiv2 {
 
     void Image::setXmpPacket(const std::string& xmpPacket)
     {
-        xmpPacket_ = xmpPacket;
         if ( XmpParser::decode(xmpData_, xmpPacket) ) {
             throw Error(kerInvalidXMP);
         }
@@ -663,7 +662,7 @@ namespace Exiv2 {
         comment_.erase();
     }
 
-    void Image::setComment(const std::string& comment)
+    void Image::setComment(const std::string_view comment)
     {
         comment_ = comment;
     }

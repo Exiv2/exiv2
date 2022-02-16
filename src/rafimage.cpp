@@ -81,7 +81,7 @@ namespace Exiv2 {
         throw(Error(kerInvalidSettingForImage, "IPTC metadata", "RAF"));
     }
 
-    void RafImage::setComment(const std::string& /*comment*/)
+    void RafImage::setComment(const std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "RAF"));

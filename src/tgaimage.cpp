@@ -58,7 +58,7 @@ namespace Exiv2 {
         throw(Error(kerInvalidSettingForImage, "IPTC metadata", "TGA"));
     }
 
-    void TgaImage::setComment(const std::string& /*comment*/)
+    void TgaImage::setComment(const std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "TGA"));

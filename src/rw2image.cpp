@@ -83,7 +83,7 @@ namespace Exiv2 {
         throw(Error(kerInvalidSettingForImage, "IPTC metadata", "RW2"));
     }
 
-    void Rw2Image::setComment(const std::string& /*comment*/)
+    void Rw2Image::setComment(const std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "RW2"));

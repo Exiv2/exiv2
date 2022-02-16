@@ -64,7 +64,7 @@ namespace Exiv2 {
           @brief Not supported. XMP sidecar files do not contain a comment.
               Calling this function will throw an instance of Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment) override;
+        void setComment(const std::string_view comment) override;
         //@}
 
         //! @name Accessors

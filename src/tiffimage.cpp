@@ -162,7 +162,7 @@ namespace Exiv2 {
         return pixelHeightPrimary_;
     }
 
-    void TiffImage::setComment(const std::string& /*comment*/)
+    void TiffImage::setComment(const std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "TIFF"));

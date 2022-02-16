@@ -96,7 +96,7 @@ namespace Exiv2 {
         // throw(Error(kerInvalidSettingForImage, "IPTC metadata", "WebP"));
     }
 
-    void WebPImage::setComment(const std::string& /*comment*/)
+    void WebPImage::setComment(const std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "WebP"));

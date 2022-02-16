@@ -158,11 +158,11 @@ namespace Exiv2
         return "image/jp2";
     }
 
-    void Jp2Image::setComment(const std::string& /*comment*/)
+    void Jp2Image::setComment(const std::string_view /*comment*/)
     {
         // Todo: implement me!
         throw(Error(kerInvalidSettingForImage, "Image comment", "JP2"));
-    } // Jp2Image::setComment
+    }
 
     static void lf(std::ostream& out,bool& bLF)
     {

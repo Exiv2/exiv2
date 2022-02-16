@@ -627,11 +627,11 @@ namespace Exiv2
         }
     }
 
-    void BmffImage::setComment(const std::string& /*comment*/)
+    void BmffImage::setComment(const std::string_view /*comment*/)
     {
         // bmff files are read-only
         throw(Error(kerInvalidSettingForImage, "Image comment", "BMFF"));
-    }  // BmffImage::setComment
+    }
 
     void BmffImage::openOrThrow()
     {
