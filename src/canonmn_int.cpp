@@ -505,7 +505,8 @@ namespace Exiv2 {
     //! ColorSpace, tag 0x00b4
     constexpr TagDetails canonColorSpace[] = {
         {  1, N_("sRGB")      },
-        {  2, N_("Adobe RGB") }
+        {  2, N_("Adobe RGB") },
+        { 65535,  N_("n/a") }
     };
 
     //! Canon AF Area Mode, tag 0x2601
@@ -532,7 +533,7 @@ namespace Exiv2 {
         {0x0000, "0x0000", "0x0000", N_("Unknown"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x0001, "CameraSettings", N_("Camera Settings"), N_("Various camera settings"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x0002, "FocalLength", N_("Focal Length"), N_("Focal length"), canonId, makerTags, unsignedShort, -1, printFocalLength},
-        {0x0003, "0x0003", "0x0003", N_("Unknown"), canonId, makerTags, unsignedShort, -1, printValue},
+        {0x0003, "CanonFlashInfo", "Canon Flash Info", N_("Canon Flash Info"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x0004, "ShotInfo", N_("Shot Info"), N_("Shot information"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x0005, "Panorama", N_("Panorama"), N_("Panorama"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x0006, "ImageType", N_("Image Type"), N_("Image type"), canonId, makerTags, asciiString, -1, printValue},
@@ -596,6 +597,9 @@ namespace Exiv2 {
         {0x00c1, "0x00c1", "0x00c1", N_("Unknown"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x00d0, "VRDOffset", N_("VRD Offset"), N_("VRD offset"), canonId, makerTags, unsignedLong, -1, printValue},
         {0x00e0, "SensorInfo", N_("Sensor Info"), N_("Sensor info"), canonId, makerTags, unsignedShort, -1, printValue},
+        // AFInfo2 structure has a special decoder, see decodeCanonAFInfo in
+        // tiffvisitor_int.cpp that decoder useses the below tags from
+        // 0x2600 to 0x2611
         {0x2600, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonId, makerTags, signedShort, -1, printValue},
         {0x2601, "AFAreaMode", N_("AF Area Mode"), N_("AF Area Mode"), canonId, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)},
         {0x2602, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonId, makerTags, signedShort, -1, printValue},
@@ -611,6 +615,9 @@ namespace Exiv2 {
         {0x260c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonId, makerTags, signedShort, -1,printBitmask},
         {0x260d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonId, makerTags, signedShort, -1, printBitmask},
         {0x260e, "AFPointsUnusable", N_("AF Points Unusable"), N_("AF Points Unusable"), canonId, makerTags, signedShort, -1, printBitmask},
+        {0x260f, "0x260f", "0x260f", N_("0x260f"), canonId, makerTags, unsignedShort, -1, printValue},
+        {0x2610, "0x2610", "0x2610", N_("0x2610"), canonId, makerTags, unsignedShort, -1, printValue},
+        {0x2611, "AFFineRotation", N_("AF Fine Rotation"), N_("Mathematically positive (i.e. anti-clockwise) rotation of every AF rectangle in centidegrees"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4001, "ColorData", N_("Color Data"), N_("Color data"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4002, "CRWParam", N_("CRWParam"), N_("CRWParam"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4003, "ColorInfo", N_("ColorInfo"), N_("ColorInfo"), canonId, makerTags, unsignedShort, -1, printValue},
@@ -622,7 +629,7 @@ namespace Exiv2 {
         {0x4015, "VignettingCorr", N_("VignettingCorr"), N_("VignettingCorr"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4016, "VignettingCorr2", N_("VignettingCorr2"), N_("VignettingCorr2"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4018, "LightingOpt", N_("LightingOpt"), N_("LightingOpt"), canonId, makerTags, unsignedShort, -1, printValue},
-        {0x4018, "LensInfo", N_("LensInfo"), N_("LensInfo"), canonId, makerTags, unsignedShort, -1, printValue},
+        {0x4019, "LensInfo", N_("LensInfo"), N_("LensInfo"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4020, "AmbienceInfo", N_("AmbienceInfo"), N_("AmbienceInfo"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4021, "MultiExp", N_("MultiExp"), N_("MultiExp"), canonId, makerTags, unsignedShort, -1, printValue},
         {0x4024, "FilterInfo", N_("FilterInfo"), N_("FilterInfo"), canonId, makerTags, unsignedShort, -1, printValue},
@@ -762,57 +769,6 @@ namespace Exiv2 {
     {
         return tagInfoFcd3_;
     }
-
-
-    // Canon AFInfo2 Info Tag
-    constexpr TagInfo CanonMakerNote::tagInfoAf2_[] = {
-        {0x0000, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0001, "AFAreaMode", N_("AF Area Mode"), N_("AF Area Mode"), canonAf2Id, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)},
-        {0x0002, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0003, "AFValidPoints", N_("AF ValidPoints"), N_("AF ValidPoints"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0004, "AFCanonImageWidth", N_("AF ImageWidth"), N_("AF ImageWidth"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0005, "AFCanonImageHeight", N_("AF ImageHeight"), N_("AF ImageHeight"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0006, "AFImageWidth", N_("AF Width"), N_("AF Width"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0007, "AFImageHeight", N_("AF Height"), N_("AF Height"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0008, "AFAreaWidths", N_("AF Area Widths"), N_("AF Area Widths"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x0009, "AFAreaHeights", N_("AF Area Heights"), N_("AF Area Heights"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x000a, "AFXPositions", N_("AF X Positions"), N_("AF X Positions"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x000b, "AFYPositions", N_("AF Y Positions"), N_("AF Y Positions"), canonAf2Id, makerTags, signedShort, -1, printValue},
-        {0x000c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonAf2Id, makerTags, signedShort, -1,printBitmask},
-        {0x000d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonAf2Id, makerTags, signedShort, -1, printBitmask},
-        {0x000e, "AFPrimaryPoint", N_("AF Primary Point"), N_("AF Primary Point"), canonAf2Id, makerTags, signedShort, -1, printBitmask},
-    };
-
-    const TagInfo* CanonMakerNote::tagListAf2()
-    {
-        return tagInfoAf2_;
-    }
-
-
-    // Canon AFInfo3 Info Tag
-    constexpr TagInfo CanonMakerNote::tagInfoAf3_[] = {
-        {0x0000, "AFInfoSize", N_("AF InfoSize"), N_("AF InfoSize"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0001, "AFAreaMode", N_("AF Area Mode"), N_("AF Area Mode"), canonAf3Id, makerTags, signedShort, -1, EXV_PRINT_TAG(canonAFAreaMode)},
-        {0x0002, "AFNumPoints", N_("AF NumPoints"), N_("AF NumPoints"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0003, "AFValidPoints", N_("AF ValidPoints"), N_("AF ValidPoints"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0004, "AFCanonImageWidth", N_("AF ImageWidth"), N_("AF ImageWidth"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0005, "AFCanonImageHeight", N_("AF ImageHeight"), N_("AF ImageHeight"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0006, "AFImageWidth", N_("AF Width"), N_("AF Width"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0007, "AFImageHeight", N_("AF Height"), N_("AF Height"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0008, "AFAreaWidths", N_("AF Area Widths"), N_("AF Area Widths"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x0009, "AFAreaHeights", N_("AF Area Heights"), N_("AF Area Heights"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x000a, "AFXPositions", N_("AF X Positions"), N_("AF X Positions"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x000b, "AFYPositions", N_("AF Y Positions"), N_("AF Y Positions"), canonAf3Id, makerTags, signedShort, -1, printValue},
-        {0x000c, "AFPointsInFocus", N_("AF Points in Focus"), N_("AF Points in Focus"), canonAf3Id, makerTags, signedShort, -1,printBitmask},
-        {0x000d, "AFPointsSelected", N_("AF Points Selected"), N_("AF Points Selected"), canonAf3Id, makerTags, signedShort, -1, printBitmask},
-        {0x000e, "AFPrimaryPoint", N_("AF Primary Point"), N_("AF Primary Point"), canonAf3Id, makerTags, signedShort, -1, printBitmask},
-    };
-
-    const TagInfo* CanonMakerNote::tagListAf3()
-    {
-        return tagInfoAf3_;
-    }
-
 
     /*
     // Canon Aspect Info, tag 0x001d
@@ -959,6 +915,7 @@ namespace Exiv2 {
     constexpr TagInfo CanonMakerNote::tagInfoAfMiAdj_[] = {
          {0x0001, "AFMicroAdjMode", N_("AFMicroAdjMode"), N_("AFMicroAdjMode"), canonAfMiAdjId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAFMicroAdjMode)},
          {0x0002, "AFMicroAdjValue", N_("AF Micro Adj Value"), N_("AF Micro Adj Value"), canonAfMiAdjId, makerTags, signedRational, -1, printValue},
+         {0xffff, "(UnknownCanonAFMicroAdjTag)", "(UnknownCanonAFMicroAdjTag)", N_("Unknown Canon AFMicroAdj tag"), canonAfMiAdjId, makerTags, signedShort, 1, printValue}
     };
 
     const TagInfo* CanonMakerNote::tagListAfMiAdj()
@@ -990,6 +947,7 @@ namespace Exiv2 {
          {0x0005, "PeripheralLightingSetting", N_("Peripheral Lighting Setting"), N_("Peripheral Lighting Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},
          {0x0006, "ChromaticAberrationSetting", N_("Chromatic Aberration Setting"), N_("Chromatic Aberration Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},
          {0x0007, "DistortionCorrectionSetting", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonVigCor2Id, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},
+         {0xffff, "(UnknownVignettingCorr2Tag)", "(UnknownVignettingCorr2Tag)", N_("UnknownVignettingCorr2Tag  Tag"), canonVigCor2Id, makerTags, signedLong, 1, printValue} // important to add end of tag     
     };
 
     const TagInfo* CanonMakerNote::tagListVigCor2()
@@ -1002,8 +960,8 @@ namespace Exiv2 {
         { 0, N_("Standard") },
         { 1, N_("Low") },
         { 2, N_("Strong") },
-        { 2, N_("Off") }
-    };
+        { 3, N_("Off") }
+    };  
 
     // Canon HighISONoiseReduction, tag 0x0004
     constexpr TagDetails canonLongExposureNoiseReduction[] = {
@@ -1017,16 +975,17 @@ namespace Exiv2 {
         { 0, N_("Standard") },
         { 1, N_("Low") },
         { 2, N_("Strong") },
-        { 2, N_("off") }
-    };
+        { 3, N_("off") }
+    };  
 
-     // Canon LightingOpt Tag
+     // Canon LightingOpt Tag 
     constexpr TagInfo CanonMakerNote::tagInfoLiOp_[] = {
          {0x0001, "PeripheralIlluminationCorr", N_("Peripheral Lighting Setting"), N_("Peripheral Lighting Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},
-         {0x0002, "AutoLightingOptimizer", N_("Chromatic Aberration Setting"), N_("Chromatic Aberration Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAutoLightingOptimizer)},
-         {0x0003, "HighlightTonePriority", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},
-         {0x0004, "LongExposureNoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonLongExposureNoiseReduction)},
-         {0x0005, "HighISONoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHighISONoiseReduction)},
+         {0x0002, "AutoLightingOptimizer", N_("Chromatic Aberration Setting"), N_("Chromatic Aberration Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAutoLightingOptimizer)},    
+         {0x0003, "HighlightTonePriority", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonOffOn)},         
+         {0x0004, "LongExposureNoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonLongExposureNoiseReduction)},         
+         {0x0005, "HighISONoiseReduction", N_("Distortion Correction Setting"), N_("Distortion Correction Setting"), canonLiOpId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHighISONoiseReduction)},         
+         {0xffff, "(UnknownLightingOptimizationTag)", "(UnknownLightingOptimizationTag)", N_("UnknownLightingOptimizationTag Selection Tag"), canonLiOpId, makerTags, signedLong, 1, printValue} // important to add end of tag     
     };
 
     const TagInfo* CanonMakerNote::tagListLiOp()
@@ -1037,6 +996,7 @@ namespace Exiv2 {
     // Canon LensInfo Tag
     constexpr TagInfo CanonMakerNote::tagInfoLe_[] = {
          {0x0000, "LensSerialNumber", N_("Lens Seria lNumber"), N_("Lens Serial Number"), canonLeId, makerTags, asciiString, -1, printValue},
+         {0xffff, "(UnkownCanonLensInfoTag)", "(UnkownCanonLensInfoTag)", N_("UnkownCanonLensInfoTag"), canonLeId, makerTags, undefined, 1, printValue} // important to add end of tag          
     };
 
     const TagInfo* CanonMakerNote::tagListLe()
@@ -1062,6 +1022,7 @@ namespace Exiv2 {
     // Canon Ambience Tag
     constexpr TagInfo CanonMakerNote::tagInfoAm_[] = {
          {0x0001, "AmbienceSelection", N_("Ambience Selection"), N_("Ambience Selection"), canonAmId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAmbienceSelection)},
+         {0xffff, "(AmbienceSelectionTag)", "(AmbienceSelectionTag)", N_("UAmbience Selection Tag"), canonAmId, makerTags, signedLong, 1, printValue} // important to add end of tag
     };
 
     const TagInfo* CanonMakerNote::tagListAm()
@@ -1089,6 +1050,7 @@ namespace Exiv2 {
          {0x0001, "MultiExposure", N_("Multi Exposure"), N_("Multi Exposure"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposure)},
          {0x0002, "MultiExposureControl", N_("Multi Exposure Control"), N_("Multi Exposure Control"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposureControl)},
          {0x0003, "MultiExposureShots", N_("Multi Exposure Shots"), N_("Multi Exposure Shots"), canonMeId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonMultiExposure)},
+         {0xffff, "(UnknownMultiExposureTag)", "(UnknownMultiExposureTag)", N_("UnknownMultiExposureTag"), canonMeId, makerTags, signedLong, 1, printValue} // important to add end of tag
     };
 
     const TagInfo* CanonMakerNote::tagListMe()
@@ -1119,6 +1081,7 @@ namespace Exiv2 {
          {0x0501, "FisheyeFilter", N_("Fisheye Filter"), N_("Fisheye Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)},
          {0x0601, "PaintingFilter", N_("Painting Filter"), N_("Painting Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)},
          {0x0701, "WatercolorFilter", N_("Watercolor Filter"), N_("Watercolor Filter"), canonFilId, makerTags, asciiString, -1, EXV_PRINT_TAG(canonFilterInfo)},
+         {0xffff, "(UnknownFilterTag)", "(UnknownFilterTag)", N_("UnknownFilterTag"), canonFilId, makerTags, signedLong, 1, printValue} // important to add end of tag
     };
 
 
@@ -1148,6 +1111,7 @@ namespace Exiv2 {
    constexpr TagInfo CanonMakerNote::tagInfoHdr_[] = {
          {0x0001, "HDR", N_("HDR"), N_("HDR"), canonHdrId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHdr)},
          {0x0002, "HDREffect", N_("HDR Effect"), N_("HDR Effect"), canonHdrId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonHdrEffect)},
+         {0xffff, "(UnknownHDRTag)", "(UnknownHDRTag)", N_("Unknown Canon HDR Tag"), canonHdrId, makerTags, signedLong, 1, printValue}
     };
 
 
@@ -1284,6 +1248,7 @@ namespace Exiv2 {
          {0x0011, "VFDisplayIllumination", N_("VF Display Illumination"), N_("VF Display Illumination"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAVFDisplayIllumination)},
          {0x0012, "AFStatusViewfinder", N_("AF Status Viewfinder"), N_("AF Status Viewfinder"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonAFStatusViewfinder)},
          {0x0013, "InitialAFPointInServo", N_("Initial AF Point In Servo"), N_("Initial AF Point In Servo"), canonAfCId, makerTags, signedLong, -1, EXV_PRINT_TAG(canonInitialAFPointInServo)},
+         {0xffff, "(UnknownCanonAFTag)", "(UnknownCanonAFTag)", N_("UnknownCanonAFTag"), canonAfCId, makerTags, signedLong, 1, printValue} // important to add end of tag
     };
 
     const TagInfo* CanonMakerNote::tagListAfC()
@@ -1296,7 +1261,8 @@ namespace Exiv2 {
    // Canon RawBurstInfo Info Tag
    constexpr TagInfo CanonMakerNote::tagInfoRawB_[] = {
          {0x0001, "RawBurstImageNum", N_("Raw Burst Image Num"), N_("Raw Burst Image Num"), canonRawBId, makerTags, unsignedLong, -1, printValue},
-         {0x0002, "RawBurstImageCount", N_("Raw Burst Image Count"), N_("Raw Burst Image Count"), canonRawBId, makerTags, unsignedLong, -1, printValue}
+         {0x0002, "RawBurstImageCount", N_("Raw Burst Image Count"), N_("Raw Burst Image Count"), canonRawBId, makerTags, unsignedLong, -1, printValue},
+         {0xffff, "(UnknownRawBurstTag)", "(UnknownRawBurstTag)", N_("UnknownRawBurstTag"), canonRawBId, makerTags, signedLong, 1, printValue} // important to add end of tag
     };
 
     const TagInfo* CanonMakerNote::tagListRawB()
@@ -1313,6 +1279,7 @@ namespace Exiv2 {
     //! Quality, tag 0x0003
     constexpr TagDetails canonCsQuality[] = {
         { -1,  N_("n/a")          },
+        { 0,   N_("unkown")          },
         { 1,   N_("Economy")      },
         { 2,   N_("Normal")       },
         { 3,   N_("Fine")         },
@@ -1402,7 +1369,8 @@ namespace Exiv2 {
         { 129, N_("Medium Movie")      },
         { 130, N_("Small Movie")       },
         { 137, N_("1280x720 Movie")    },
-        { 142, N_("1920x1080 Movie")   }
+        { 142, N_("1920x1080 Movie")   },                
+        { 143, N_("4096x2160 Movie")   }  
     };
 
     //! EasyMode, tag 0x000b
@@ -2103,7 +2071,8 @@ namespace Exiv2 {
         { 1, N_("Exposure compensation")           },
         { 2, N_("AE lock")                         },
         { 3, N_("AE lock + exposure compensation") },
-        { 4, N_("No AE")                           }
+        { 4, N_("No AE")                           },
+        { 65535, N_("n/a")                         }
     };
 
     //! ImageStabilization, tag 0x0022
@@ -2123,7 +2092,8 @@ namespace Exiv2 {
     //! SpotMeteringMode, tag 0x0027
     constexpr TagDetails canonCsSpotMeteringMode[] = {
         { 0,   N_("Center")   },
-        { 1,   N_("AF Point") }
+        { 1,   N_("AF Point") },
+        { 65535,   N_("n/a") }
     };
 
     //! PhotoEffect, tag 0x0028
@@ -2136,7 +2106,7 @@ namespace Exiv2 {
         { 5,   N_("B&W")           },
         { 6,   N_("Custom")        },
         { 100, N_("My color data") },
-        { 100, N_("My color data") }    // To silence compiler warning
+        { 65535, N_("n/a") }        
     };
 
     //! ManualFlashOutput, tag 0x0029
@@ -2259,7 +2229,27 @@ namespace Exiv2 {
         { 0,     "Off"         },
         { 1,     "Night Scene" },
         { 2,     "On"          },
-        { 3,     "None"        },
+        { 3,     "None"        }
+    };
+
+    constexpr TagDetails autoRotate[] = {
+        { -1, "n/a"         },
+        { 0,     "None"         },
+        { 1,     "Rotate 90 CW" },
+        { 2,     "Rotate 180"          },
+        { 3,     "Rotate 270 CW"        }
+    };
+
+    constexpr TagDetails ndRotate[] = {
+        { 65535,    "n/a"         },
+        { 0,     "Off"         },
+        { 1,     "On" }        
+    };
+
+    constexpr TagDetails selfTimer2[] = {
+        { 65535,    "n/a"         },
+        { 0,     "Selftimer 2s"         },
+        { 1,     "Selftimer 10s" }        
     };
 
 
@@ -2270,19 +2260,19 @@ namespace Exiv2 {
         {0x0003, "MeasuredEV", N_("Measured EV"), N_("Measured EV"), canonSiId, makerTags, unsignedShort, 1, printSi0x0003},
         {0x0004, "TargetAperture", N_("Target Aperture"), N_("Target Aperture"), canonSiId, makerTags, unsignedShort, 1, printSi0x0015},
         {0x0005, "TargetShutterSpeed", N_("Target Shutter Speed"), N_("Target shutter speed"), canonSiId, makerTags, unsignedShort, 1, printSi0x0016},
-        {0x0006, "0x0006", "0x0006", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
+        {0x0006, "ExposureCompensation", "Exposure Compensation", N_("Exposure Compensation"), canonSiId, makerTags, unsignedShort, 1, printValue},
         {0x0007, "WhiteBalance", N_("White Balance"), N_("White balance setting"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(canonSiWhiteBalance)},
         {0x0008, "SlowShutter", N_("Slow Shutter"), N_("Slow shutter"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(slowShutter)},
         {0x0009, "Sequence", N_("Sequence"), N_("Sequence number (if in a continuous burst)"), canonSiId, makerTags, unsignedShort, 1, printSi0x0009},
-        {0x000a, "0x000a", "0x000a", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
+        {0x000a, "OpticalZoomCode", "Optical Zoom Code", N_("Optical Zoom Code"), canonSiId, makerTags, unsignedShort, 1, printValue},
         {0x000b, "0x000b", "0x000b", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
         {0x000c, "CameraTemperature", N_("Camera Temperature"), N_("Camera temperature"), canonSiId, makerTags, signedShort, 1, printSi0x000c},
         {0x000d, "FlashGuideNumber", N_("Flash Guide Number"), N_("Flash guide number"), canonSiId, makerTags, unsignedShort, 1, printSi0x000d},
         {0x000e, "AFPointUsed", N_("AF Point Used"), N_("AF point used"), canonSiId, makerTags, unsignedShort, 1, printSi0x000e},
         {0x000f, "FlashBias", N_("Flash Bias"), N_("Flash bias"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(canonSiFlashBias)},
         {0x0010, "AutoExposureBracketing", N_("Auto Exposure Bracketing"), N_("Auto exposure bracketing"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(autoExposureBracketing)},
-        {0x0011, "0x0011", "0x0011", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
-        {0x0012, "0x0012", "0x0012", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
+        {0x0011, "AEBBracketValue", "AEB Bracket Value", N_("AEB Bracket Value"), canonSiId, makerTags, unsignedShort, 1, printValue},
+        {0x0012, "ControlMode", "Control Mode", N_("Control Mode"), canonSiId, makerTags, unsignedShort, 1, printValue},
         {0x0013, "SubjectDistance", N_("Subject Distance"), N_("Subject distance"), canonSiId, makerTags, unsignedShort, 1, printSi0x0013},
         {0x0014, "0x0014", "0x0014", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
         {0x0015, "ApertureValue", N_("Aperture Value"), N_("Aperture"), canonSiId, makerTags, unsignedShort, 1, printSi0x0015},
@@ -2291,7 +2281,10 @@ namespace Exiv2 {
         {0x0018, "BulbDuration", N_("Bulb Duration"), N_("Bulb duration"), canonSiId, makerTags, unsignedShort, 1, printSi0x0018},
         {0x0019, "0x0019", "0x0019", N_("Unknown"), canonSiId, makerTags, unsignedShort, 1, printValue},
         {0x001a, "CameraType", N_("Camera Type"), N_("Camera type"), canonSiId, makerTags, unsignedShort, 1, EXV_PRINT_TAG(cameraType)},
-        {0x001b, "AutoRotate", N_("Auto Rotate"), N_("Auto rotate"), canonSiId, makerTags, signedShort, 1, printValue},
+        {0x001b, "AutoRotate", N_("Auto Rotate"), N_("Auto rotate"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(autoRotate)},
+        {0x001c, "NDFilter", N_("ND Filter"), N_("ND filter"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(ndRotate)},
+        {0x001d, "SelfTimer2", N_("Self Timer 2"), N_("Self timer2"), canonSiId, makerTags, signedShort, 1, EXV_PRINT_TAG(selfTimer2)},
+        {0x0021, "FlashOutput", N_("Flash Output"), N_("Flash output"), canonSiId, makerTags, signedShort, 1, printValue},
         // End of list marker
         {0xffff, "(UnknownCanonCsTag)", "(UnknownCanonCsTag)", N_("Unknown Canon Camera Settings 1 tag"), canonCsId, makerTags, unsignedShort, 1, printValue},
     };
@@ -2460,26 +2453,28 @@ namespace Exiv2 {
     constexpr TagDetails canonRFLensType[] = {
         { 0, N_("n/a")   },
         { 257, N_("Canon RF 50mm F1.2L USM")  },
-        { 257, N_("Canon RF 24-105mm F4L IS USM")  },
-        { 257, N_("Canon RF 28-70mm F2L USM")  },
-        { 257, N_("Canon RF 35mm F1.8 MACRO IS STM")  },
-        { 257, N_("Canon RF 85mm F1.2L USM")  },
-        { 257, N_("Canon RF 85mm F1.2L USM DS")  },
-        { 257, N_("Canon RF 24-70mm F2.8L IS USM")  },
-        { 257, N_("Canon RF 15-35mm F2.8L IS USM")  },
-        { 257, N_("Canon RF 24-240mm F4-6.3 IS USM")  },
-        { 257, N_("Canon RF 70-200mm F2.8L IS USM")  },
-        { 257, N_("Canon RF 85mm F2 MACRO IS STM")  },
-        { 257, N_("Canon RF 600mm F11 IS STM")  },
-        { 257, N_("Canon RF 600mm F11 IS STM + RF1.4x")  },
-        { 257, N_("Canon RF 600mm F11 IS STM + RF2x")  },
-        { 257, N_("Canon RF 800mm F11 IS STM")  },
-        { 257, N_("Canon RF 800mm F11 IS STM + RF1.4x")  },
-        { 257, N_("Canon RF 800mm F11 IS STM + RF2x")  },
-        { 257, N_("Canon RF 24-105mm F4-7.1 IS STM")  },
-        { 257, N_("Canon RF 100-500mm F4.5-7.1L IS USM")  },
-        { 257, N_("Canon RF 100-500mm F4.5-7.1L IS USM + RF1.4x")  },
-        { 257, N_("Canon RF 100-500mm F4.5-7.1L IS USM + RF2x")  }
+        { 258, N_("Canon RF 24-105mm F4L IS USM")  },
+        { 259, N_("Canon RF 28-70mm F2L USM")  },
+        { 260, N_("Canon RF 35mm F1.8 MACRO IS STM")  },
+        { 261, N_("Canon RF 85mm F1.2L USM")  },
+        { 262, N_("Canon RF 85mm F1.2L USM DS")  },
+        { 263, N_("Canon RF 24-70mm F2.8L IS USM")  },
+        { 264, N_("Canon RF 15-35mm F2.8L IS USM")  },
+        { 265, N_("Canon RF 24-240mm F4-6.3 IS USM")  },
+        { 266, N_("Canon RF 70-200mm F2.8L IS USM")  },
+        { 267, N_("Canon RF 85mm F2 MACRO IS STM")  },
+        { 268, N_("Canon RF 600mm F11 IS STM")  },
+        { 269, N_("Canon RF 600mm F11 IS STM + RF1.4x")  },
+        { 270, N_("Canon RF 600mm F11 IS STM + RF2x")  },
+        { 271, N_("Canon RF 800mm F11 IS STM")  },
+        { 272, N_("Canon RF 800mm F11 IS STM + RF1.4x")  },
+        { 273, N_("Canon RF 800mm F11 IS STM + RF2x")  },
+        { 274, N_("Canon RF 24-105mm F4-7.1 IS STM")  },
+        { 275, N_("Canon RF 100-500mm F4.5-7.1L IS USM")  },
+        { 276, N_("Canon RF 100-500mm F4.5-7.1L IS USM + RF1.4x")  },
+        { 277, N_("Canon RF 100-500mm F4.5-7.1L IS USM + RF2x")  },
+        { 278, N_("Canon RF 70-200mm F4L IS USM")  },
+        { 280, N_("Canon RF 50mm F1.8 STM")  }
     };
 
     // Canon File Info Tag

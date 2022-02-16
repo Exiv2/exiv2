@@ -51,37 +51,45 @@ Exif.CanonCs.MinAperture                     Short       1  340  F40
 Exif.CanonCs.FlashActivity                   Short       1  0  Did not fire
 Exif.CanonCs.FlashDetails                    Short       1  0  
 Exif.CanonCs.FocusContinuous                 Short       1  65535  (65535)
-Exif.CanonCs.AESetting                       Short       1  65535  (65535)
+Exif.CanonCs.AESetting                       Short       1  65535  n/a
 Exif.CanonCs.ImageStabilization              Short       1  65535  (65535)
 Exif.CanonCs.DisplayAperture                 Short       1  0  0
 Exif.CanonCs.ZoomSourceWidth                 Short       1  0  0
 Exif.CanonCs.ZoomTargetWidth                 Short       1  0  0
-Exif.CanonCs.SpotMeteringMode                Short       1  65535  (65535)
-Exif.CanonCs.PhotoEffect                     Short       1  65535  (65535)
+Exif.CanonCs.SpotMeteringMode                Short       1  65535  n/a
+Exif.CanonCs.PhotoEffect                     Short       1  65535  n/a
 Exif.CanonCs.ManualFlashOutput               Short       1  0  n/a
 Exif.CanonCs.ColorTone                       Short       1  0  0
 Exif.CanonCs.SRAWQuality                     Short       1  65535  (65535)
 Exif.Canon.FocalLength                       Short       4  0 200 63601 17271  200.0 mm
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0  0 0 0 0
 Exif.CanonSi.AutoISO                         Short       1  0  100
 Exif.CanonSi.ISOSpeed                        Short       1  288  1600
 Exif.CanonSi.MeasuredEV                      Short       1  0  5.00
 Exif.CanonSi.TargetAperture                  Short       1  172  F6.3
 Exif.CanonSi.TargetShutterSpeed              Short       1  108  1/10 s
+Exif.CanonSi.ExposureCompensation            Short       1  12  12
 Exif.CanonSi.WhiteBalance                    Short       1  1  Daylight
 Exif.CanonSi.SlowShutter                     Short       1  3  None
 Exif.CanonSi.Sequence                        Short       1  0  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  8  8
 Exif.CanonSi.CameraTemperature               Short       1  153  25 °C
 Exif.CanonSi.FlashGuideNumber                Short       1  0  0
 Exif.CanonSi.AFPointUsed                     Short       1  0  0 focus points; none used
 Exif.CanonSi.FlashBias                       Short       1  0  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  0  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0  0
+Exif.CanonSi.ControlMode                     Short       1  1  1
 Exif.CanonSi.SubjectDistance                 Short       1  0  0 m
 Exif.CanonSi.ApertureValue                   Short       1  168  F6.3
 Exif.CanonSi.ShutterSpeedValue               Short       1  108  1/10 s
 Exif.CanonSi.MeasuredEV2                     Short       1  82  4.25
 Exif.CanonSi.BulbDuration                    Short       1  0  0
 Exif.CanonSi.CameraType                      Short       1  248  EOS High-end
-Exif.CanonSi.AutoRotate                      Short       1  65535  65535
+Exif.CanonSi.AutoRotate                      Short       1  65535  (65535)
+Exif.CanonSi.NDFilter                        Short       1  65535  n/a
+Exif.CanonSi.SelfTimer2                      Short       1  65535  n/a
+Exif.CanonSi.FlashOutput                     Short       1  0  0
 Exif.Canon.ImageType                         Ascii      15  Canon EOS 500D  Canon EOS 500D
 Exif.Canon.FirmwareVersion                   Ascii      24  Firmware Version 1.1.1  Firmware Version 1.1.1
 Exif.Canon.OwnerName                         Ascii      32    
@@ -111,7 +119,7 @@ Exif.CanonFi.FileNumber                      Long        1  0  (0)
 Exif.CanonFi.BracketMode                     SShort      1  0  Off
 Exif.CanonFi.BracketValue                    SShort      1  0  0
 Exif.CanonFi.BracketShotNumber               SShort      1  0  0
-Exif.CanonFi.RawJpgQuality                   SShort      1  0  (0)
+Exif.CanonFi.RawJpgQuality                   SShort      1  0  unkown
 Exif.CanonFi.RawJpgSize                      SShort      1  0  Large
 Exif.CanonFi.NoiseReduction                  SShort      1  3  On
 Exif.CanonFi.WBBracketMode                   SShort      1  0  Off
@@ -149,7 +157,7 @@ Exif.Canon.ColorData                         Short     1251  7 804 1024 1024 466
 Exif.Canon.PictureStyleUserDef               Short       3  129 129 129  Standard
 Exif.Canon.CustomPictureStyleFileName        Ascii      32    
 Exif.Canon.VignettingCorr                    Undefined 116  0 16 116 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 92 18 144 18 96 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  0 16 116 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 92 18 144 18 96 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-Exif.Canon.VignettingCorr2                   Long        6  24 0 1 0 1 0  24 0 1 0 1 0
+Exif.CanonVigCor2.PeripheralLightingSetting  SLong       1  0  Off
 Exif.Photo.UserComment                       Undefined 264    
 Exif.Photo.SubSecTime                        Ascii       3  34  34
 Exif.Photo.SubSecTimeOriginal                Ascii       3  34  34

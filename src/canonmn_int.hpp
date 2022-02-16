@@ -77,8 +77,6 @@ namespace Exiv2 {
         static const TagInfo* tagListMv();
         //! Return read-only list of built-in Canon My Colors Info tags
         static const TagInfo* tagListMc();
-        //! Return read-only list of built-in Canon AFInfo3 Info tags
-        static const TagInfo* tagListAf3();
         //! Return read-only list of built-in Canon Face detection Info tags
         static const TagInfo* tagListFcd3();
         //! Return read-only list of built-in Canon White balance Info tags
@@ -123,15 +121,7 @@ namespace Exiv2 {
         static const TagInfo* tagListAfC();
         //! Return read-only list of built-in Canon RawBurstInfo Info tags
         static const TagInfo* tagListRawB();
-        //! Return read-only list of built-in Canon AFInfo2 Info tags
-        static const TagInfo* tagListAf2();
-        
-
-        
-        
-
-        
-        
+       
 
         //! @name Print functions for Canon %MakerNote tags
         //@{
@@ -182,8 +172,6 @@ namespace Exiv2 {
 
         //! Tag information
         static const TagInfo tagInfo_[];
-        static const TagInfo tagInfoAf2_[];
-        static const TagInfo tagInfoAf3_[];
         static const TagInfo tagInfoAfC_[];
         static const TagInfo tagInfoAfMiAdj_[];        
         static const TagInfo tagInfoAm_[];

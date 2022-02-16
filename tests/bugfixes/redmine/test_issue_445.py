@@ -88,26 +88,26 @@ Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
 Exif.CanonCs.0x0026                          Short       1  0
 Exif.CanonCs.SpotMeteringMode                Short       1  AF Point
 Exif.Canon.FocalLength                       Short       4  21.3 mm
-Exif.Canon.0x0003                            Short       4  0 0 0 0
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0
 Exif.CanonSi.0x0000                          Short       1  54
 Exif.CanonSi.AutoISO                         Short       1  100
 Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  13.63
 Exif.CanonSi.TargetAperture                  Short       1  F5
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/501 s
-Exif.CanonSi.0x0006                          Short       1  0
+Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
 Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
-Exif.CanonSi.0x000a                          Short       1  6
+Exif.CanonSi.OpticalZoomCode                 Short       1  6
 Exif.CanonSi.0x000b                          Short       1  0
 Exif.CanonSi.CameraTemperature               Short       1  --
 Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  Off
-Exif.CanonSi.0x0011                          Short       1  0
-Exif.CanonSi.0x0012                          Short       1  1
+Exif.CanonSi.AEBBracketValue                 Short       1  0
+Exif.CanonSi.ControlMode                     Short       1  1
 Exif.CanonSi.SubjectDistance                 Short       1  7.82 m
 Exif.CanonSi.0x0014                          Short       1  0
 Exif.CanonSi.ApertureValue                   Short       1  F5

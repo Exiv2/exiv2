@@ -55,36 +55,44 @@ Exif.CanonCs.MinAperture                     Short       1  285  F22
 Exif.CanonCs.FlashActivity                   Short       1  65535  (65535)
 Exif.CanonCs.FlashDetails                    Short       1  0  
 Exif.CanonCs.FocusContinuous                 Short       1  1  Continuous
-Exif.CanonCs.AESetting                       Short       1  65535  (65535)
+Exif.CanonCs.AESetting                       Short       1  65535  n/a
 Exif.CanonCs.ImageStabilization              Short       1  257  On (2)
 Exif.CanonCs.DisplayAperture                 Short       1  116  116
 Exif.CanonCs.ZoomSourceWidth                 Short       1  6000  6000
 Exif.CanonCs.ZoomTargetWidth                 Short       1  6000  6000
 Exif.CanonCs.SpotMeteringMode                Short       1  0  Center
-Exif.CanonCs.PhotoEffect                     Short       1  65535  (65535)
+Exif.CanonCs.PhotoEffect                     Short       1  65535  n/a
 Exif.CanonCs.ManualFlashOutput               Short       1  0  n/a
 Exif.CanonCs.ColorTone                       Short       1  0  0
 Exif.CanonCs.SRAWQuality                     Short       1  65535  (65535)
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0  0 0 0 0
 Exif.CanonSi.AutoISO                         Short       1  0  100
 Exif.CanonSi.ISOSpeed                        Short       1  160  100
 Exif.CanonSi.MeasuredEV                      Short       1  193  11.03
 Exif.CanonSi.TargetAperture                  Short       1  192  F8
 Exif.CanonSi.TargetShutterSpeed              Short       1  170  1/40 s
+Exif.CanonSi.ExposureCompensation            Short       1  65524  65524
 Exif.CanonSi.WhiteBalance                    Short       1  0  Auto
 Exif.CanonSi.SlowShutter                     Short       1  0  Off
 Exif.CanonSi.Sequence                        Short       1  0  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  0  0
 Exif.CanonSi.CameraTemperature               Short       1  0  --
 Exif.CanonSi.FlashGuideNumber                Short       1  0  0
 Exif.CanonSi.AFPointUsed                     Short       1  0  0 focus points; none used
 Exif.CanonSi.FlashBias                       Short       1  0  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  0  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0  0
+Exif.CanonSi.ControlMode                     Short       1  1  1
 Exif.CanonSi.SubjectDistance                 Short       1  0  0 m
 Exif.CanonSi.ApertureValue                   Short       1  192  F8
 Exif.CanonSi.ShutterSpeedValue               Short       1  173  1/42 s
 Exif.CanonSi.MeasuredEV2                     Short       1  0  -6.00
 Exif.CanonSi.BulbDuration                    Short       1  0  0
 Exif.CanonSi.CameraType                      Short       1  250  Compact
-Exif.CanonSi.AutoRotate                      Short       1  0  0
+Exif.CanonSi.AutoRotate                      Short       1  0  None
+Exif.CanonSi.NDFilter                        Short       1  65535  n/a
+Exif.CanonSi.SelfTimer2                      Short       1  0  Selftimer 2s
+Exif.CanonSi.FlashOutput                     Short       1  0  0
 Exif.Canon.ImageType                         Ascii      18  IMG:EOS M100 JPEG  IMG:EOS M100 JPEG
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.00  Firmware Version 1.00
 Exif.Canon.FileNumber                        Long        1  1000054  100-0054
@@ -138,10 +146,15 @@ Exif.Canon.MeasuredColor                     Short       6  12 1588 1024 1024 21
 Exif.Canon.VRDOffset                         Long        1  0  0
 Exif.Canon.PictureStyleUserDef               Short       3  135 135 135  Auto
 Exif.Canon.CustomPictureStyleFileName        Ascii      32    
-Exif.Canon.VignettingCorr2                   Long       10  40 0 1 0 1 1 1 0 1 0  40 0 1 0 1 1 1 0 1 0
-Exif.Canon.LightingOpt                       Long       13  52 0 0 0 1 1 1 1 1 1 0 0 0  52 0 0 0 1 1 1 1 1 1 0 0 0
-Exif.Canon.AmbienceInfo                      Long        8  32 0 0 0 0 0 0 1  32 0 0 0 0 0 0 1
-Exif.Canon.FilterInfo                        Long       53  212 7 1 20 1 257 1 4294967295 2 20 1 513 1 4294967295 3 20 1 769 1 4294967295 4 56 4 1025 1 4294967295 1026 1 4294967295 1027 1 4294967295 1028 1 4294967295 5 20 1 1281 1 4294967295 6 20 1 1537 1 4294967295 7 20 1 1793 1 4294967295  212 7 1 20 1 257 1 4294967295 2 20 1 513 1 4294967295 3 20 1 769 1 4294967295 4 56 4 1025 1 4294967295 1026 1 4294967295 1027 1 4294967295 1028 1 4294967295 5 20 1 1281 1 4294967295 6 20 1 1537 1 4294967295 7 20 1 1793 1 4294967295
+Exif.CanonVigCor2.PeripheralLightingSetting  SLong       1  1  On
+Exif.CanonVigCor2.ChromaticAberrationSetting SLong       1  1  On
+Exif.CanonVigCor2.DistortionCorrectionSetting SLong       1  0  Off
+Exif.CanonLiOp.PeripheralIlluminationCorr    SLong       1  0  Off
+Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  0  Standard
+Exif.CanonLiOp.HighlightTonePriority         SLong       1  0  Off
+Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  1  Auto
+Exif.CanonLiOp.HighISONoiseReduction         SLong       1  1  Low
+Exif.CanonAm.AmbienceSelection               SLong       1  0  Standard
 Exif.Photo.UserComment                       Undefined 264    
 Exif.Photo.SubSecTime                        Ascii       3  40  40
 Exif.Photo.SubSecTimeOriginal                Ascii       3  40  40
