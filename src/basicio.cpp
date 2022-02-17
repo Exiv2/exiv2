@@ -1246,7 +1246,7 @@ namespace Exiv2 {
         size_t left       = 0;
         size_t right      = 0;
         size_t blockIndex = 0;
-        auto buf = new byte [p_->blockSize_];
+        std::vector<byte> buf(p_->blockSize_);
         size_t nBlocks    = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
@@ -1288,8 +1288,6 @@ namespace Exiv2 {
                 }
             }
         }
-
-        delete []buf;
 
         // submit to the remote machine.
         long dataSize = static_cast<long>(src.size() - left - right);
