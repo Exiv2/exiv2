@@ -32,6 +32,7 @@
 #include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <string>
@@ -1223,11 +1224,8 @@ namespace Exiv2 {
     {
         // Not valid for models beginning
         std::string model = getExifModel(pRoot);
-        for (auto& m : { "SLT-", "HV", "ILCA-" }) {
-            if (model.find(m) == 0)
-                return -1;
-        }
-        return 0;
+        const std::vector<std::string> strs { "SLT-", "HV", "ILCA-"};
+        return std::any_of(strs.begin(), strs.end(), [&model](auto& m){return startsWith(model, m);}) ? -1 : 0;
     }
 
     int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
