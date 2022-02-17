@@ -443,42 +443,11 @@ namespace Exiv2 {
             mode_t origStMode = 0;
             char* pf = const_cast<char*>(path().c_str());
 
-            // Get the permissions of the file, or linked-to file, on platforms which have lstat
-#ifdef EXV_HAVE_LSTAT
-
-            struct stat buf1;
-            if (::lstat(pf, &buf1) == -1) {
-                statOk = false;
-#ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << Error(kerCallFailed, pf, strError(), "::lstat") << "\n";
-#endif
-            }
-            origStMode = buf1.st_mode;
-            DataBuf lbuf; // So that the allocated memory is freed. Must have same scope as pf
-            // In case path() is a symlink, get the path of the linked-to file
-            if (statOk && S_ISLNK(buf1.st_mode)) {
-                lbuf.alloc(buf1.st_size + 1);
-                lbuf.clear();
-                pf = reinterpret_cast<char*>(lbuf.data());
-                if (::readlink(path().c_str(), pf, lbuf.size() - 1) == -1) {
-                    throw Error(kerCallFailed, path(), strError(), "readlink");
-                }
-                // We need the permissions of the file, not the symlink
-                if (::stat(pf, &buf1) == -1) {
-                    statOk = false;
-#ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << Error(kerCallFailed, pf, strError(), "::stat") << "\n";
-#endif
-                }
-                origStMode = buf1.st_mode;
-            }
-#else // EXV_HAVE_LSTAT
             Impl::StructStat buf1;
             if (p_->stat(buf1) == -1) {
                 statOk = false;
             }
             origStMode = buf1.st_mode;
-#endif // !EXV_HAVE_LSTAT
 
             {
 #if defined(WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)

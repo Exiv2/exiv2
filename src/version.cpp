@@ -313,7 +313,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
     int have_lensdata    =0;
     int have_iconv       =0;
     int have_memory      =0;
-    int have_lstat       =0;
     int have_stdbool     =0;
     int have_stdint      =0;
     int have_stdlib      =0;
@@ -360,10 +359,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
 
 #ifdef EXV_HAVE_MEMORY_H
     have_memory=1;
-#endif
-
-#ifdef EXV_HAVE_LSTAT
-    have_lstat=1;
 #endif
 
 #ifdef EXV_HAVE_STDBOOL_H
@@ -492,7 +487,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_memory"       ,have_memory      );
-    output(os,keys,"have_lstat"        ,have_lstat       );
     output(os,keys,"have_stdbool"      ,have_stdbool     );
     output(os,keys,"have_stdint"       ,have_stdint      );
     output(os,keys,"have_stdlib"       ,have_stdlib      );
