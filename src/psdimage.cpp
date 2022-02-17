@@ -399,13 +399,15 @@ namespace Exiv2 {
 #endif
         // Copy colorData
         uint32_t readTotal = 0;
-        long toRead = 0;
         while (readTotal < colorDataLength) {
-            toRead =   static_cast<long>(colorDataLength - readTotal) < lbuf.size()
-                     ? static_cast<long>(colorDataLength - readTotal) : lbuf.size();
-            if (io_->read(lbuf.data(), toRead) != toRead) throw Error(kerNotAnImage, "Photoshop");
+            long toRead = static_cast<long>(colorDataLength - readTotal) < lbuf.size()
+                              ? static_cast<long>(colorDataLength - readTotal)
+                              : lbuf.size();
+            if (io_->read(lbuf.data(), toRead) != toRead)
+                throw Error(kerNotAnImage, "Photoshop");
             readTotal += toRead;
-            if (outIo.write(lbuf.c_data(), toRead) != toRead) throw Error(kerImageWriteFailed);
+            if (outIo.write(lbuf.c_data(), toRead) != toRead)
+                throw Error(kerImageWriteFailed);
         }
         if (outIo.error()) throw Error(kerImageWriteFailed);
 
@@ -505,15 +507,17 @@ namespace Exiv2 {
                 if (outIo.write(buf, 4) != 4) throw Error(kerImageWriteFailed);
 
                 readTotal = 0;
-                toRead = 0;
                 while (readTotal < pResourceSize) {
-                    toRead =   static_cast<long>(pResourceSize - readTotal) < lbuf.size()
-                             ? static_cast<long>(pResourceSize - readTotal) : lbuf.size();
+                    /// \todo almost same code as in lines 403-410. Factor out & reuse!
+                    long toRead = static_cast<long>(pResourceSize - readTotal) < lbuf.size()
+                                      ? static_cast<long>(pResourceSize - readTotal)
+                                      : lbuf.size();
                     if (io_->read(lbuf.data(), toRead) != toRead) {
                         throw Error(kerNotAnImage, "Photoshop");
                     }
                     readTotal += toRead;
-                    if (outIo.write(lbuf.c_data(), toRead) != toRead) throw Error(kerImageWriteFailed);
+                    if (outIo.write(lbuf.c_data(), toRead) != toRead)
+                        throw Error(kerImageWriteFailed);
                 }
                 if (outIo.error()) throw Error(kerImageWriteFailed);
                 newResLength += pResourceSize + adjResourceNameLen + 12;
@@ -532,13 +536,11 @@ namespace Exiv2 {
         // Append ExifInfo resource block, if not yet written
         if (!exifDone) {
             newResLength += writeExifData(exifData_, outIo);
-            exifDone = true;
         }
 
         // Append XmpPacket resource block, if not yet written
         if (!xmpDone) {
             newResLength += writeXmpData(xmpData_, outIo);
-            xmpDone = true;
         }
 
         // Populate the fake data, only make sense for remoteio, httpio and sshio.

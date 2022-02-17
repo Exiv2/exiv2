@@ -469,6 +469,7 @@ namespace Exiv2 {
         const uint16_t nMasks  = (nPoints+15)/(sizeof(uint16_t) * 8);
         int            nStart  = 0;
 
+        /// \todo make this static
         struct {
             uint16_t tag    ;
             uint16_t size   ;

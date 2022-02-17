@@ -127,6 +127,7 @@ namespace Exiv2 {
         return sectionInfo[ti->sectionId_].name_;
     }
 
+    /// \todo not used internally. At least we should test it
     uint16_t ExifTags::defaultCount(const ExifKey& key)
     {
         const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));

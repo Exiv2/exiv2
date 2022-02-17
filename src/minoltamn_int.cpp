@@ -2490,16 +2490,5 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(minoltaSonyZoneMatching)(os, value, metadata);
     }
 
-    std::ostream& printMinoltaSonyFlashExposureComp(std::ostream& os, const Value& value, const ExifData*)
-    {
-        std::ios::fmtflags f( os.flags() );
-        if (value.count() != 1 || value.typeId() != signedRational) {
-            return os << "(" << value << ")";
-        }
-        os << std::fixed << std::setprecision(2) << value.toFloat(0) << " EV";
-        os.flags(f);
-        return os;
-    }
-
     }  // namespace Internal
 }  // namespace Exiv2

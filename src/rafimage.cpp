@@ -96,12 +96,11 @@ namespace Exiv2 {
             if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "RAF");
         }
-        size_t address  = 0 ;
-        size_t address2 = 0 ;
+
         const bool bPrint = option==kpsBasic || option==kpsRecursive;
         if ( bPrint ) {
             io_->seek(0,BasicIo::beg); // rewind
-            address = io_->tell();
+            size_t address = io_->tell();
             const char* format = " %8d | %8d | ";
 
             {
@@ -174,7 +173,7 @@ namespace Exiv2 {
             byte jpg_img_offset [4];
             io_->read(jpg_img_offset, 4);
             byte jpg_img_length [4];
-            address2 = io_->tell();
+            size_t address2 = io_->tell();
             io_->read(jpg_img_length, 4);
 
             long jpg_img_off = Exiv2::getULong(jpg_img_offset, bigEndian);

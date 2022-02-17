@@ -1110,6 +1110,7 @@ namespace Exiv2 {
         return 1;
     }
 
+    /// \todo not used internally. At least we should test it
     void TimeValue::setTime( const Time& src )
     {
         std::memcpy(&time_, &src, sizeof(time_));

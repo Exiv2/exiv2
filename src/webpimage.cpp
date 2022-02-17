@@ -833,8 +833,6 @@ namespace Exiv2 {
             if (iIo.tell() % 2) {
                 if (iIo.write(&WEBP_PAD_ODD, 1) != 1) throw Error(kerImageWriteFailed);
             }
-
-            has_icc = false;
         }
     }
 

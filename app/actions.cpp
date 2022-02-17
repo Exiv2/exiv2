@@ -175,11 +175,6 @@ namespace Action {
         registry_.clear();
     }
 
-    void TaskFactory::registerTask(TaskType type, Task::UniquePtr task)
-    {
-        registry_[type] = std::move(task);
-    }
-
     TaskFactory::TaskFactory()
     {
         registry_.emplace(adjust, std::make_unique<Adjust>());
@@ -595,7 +590,6 @@ namespace Action {
         if (Params::instance().printItems_ & Params::prHex) {
             if (!first)
                 std::cout << std::endl;
-            first = false;
             Exiv2::DataBuf buf(md.size());
             md.copy(buf.data(), pImage->byteOrder());
             Exiv2::hexdump(std::cout, buf.c_data(), buf.size());
@@ -1892,7 +1886,6 @@ namespace {
 
             // #1148 use Raw XMP packet if there are no XMP modification commands
             int tRawSidecar = Params::ctXmpSidecar | Params::ctXmpRaw; // option -eXX
-            // printTarget("in metacopy",Params::instance().target_,true);
             if (Params::instance().modifyCmds_.empty() && (Params::instance().target_ & tRawSidecar) == tRawSidecar) {
                 // std::cout << "short cut" << std::endl;
                 // http://www.cplusplus.com/doc/tutorial/files/

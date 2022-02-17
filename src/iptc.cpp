@@ -327,11 +327,13 @@ namespace Exiv2 {
                             FindIptcdatum(dataset, record));
     }
 
+    /// \todo not used internally. At least we should test it
     void IptcData::sortByKey()
     {
         std::sort(iptcMetadata_.begin(), iptcMetadata_.end(), cmpMetadataByKey);
     }
 
+    /// \todo not used internally. At least we should test it
     void IptcData::sortByTag()
     {
         std::sort(iptcMetadata_.begin(), iptcMetadata_.end(), cmpMetadataByTag);
@@ -350,8 +352,7 @@ namespace Exiv2 {
         size_t i = 0;
         while (i < bytes.size() - 3 && bytes.at(i) != 0x1c)
             i++;
-        depth++;
-        out << Internal::indent(depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
+        out << Internal::indent(++depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
         while (i < bytes.size() - 3) {
             if (bytes.at(i) != 0x1c) {
                 break;
@@ -370,7 +371,6 @@ namespace Exiv2 {
                 << std::endl;
             i += 5 + len;
         }
-        depth--;
     }
 
     const char *IptcData::detectCharset() const

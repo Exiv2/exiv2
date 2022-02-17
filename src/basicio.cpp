@@ -352,10 +352,10 @@ namespace Exiv2 {
 
         byte buf[4096];
         long readCount = 0;
-        long writeCount = 0;
         long writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            writeTotal += writeCount = static_cast<long>(std::fwrite(buf, 1, readCount, p_->fp_));
+            long writeCount = static_cast<long>(std::fwrite(buf, 1, readCount, p_->fp_));
+            writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
                 src.seek(writeCount-readCount, BasicIo::cur);
@@ -678,18 +678,17 @@ namespace Exiv2 {
         {
             return type_ == bNone;
         }
-        bool    isInMem () const
-        {
-            return type_ == bMemory;
-        }
+
         bool    isKnown () const
         {
             return type_ == bKnown;
         }
+
         byte*   getData () const
         {
             return data_;
         }
+
         size_t  getSize () const
         {
             return size_;
@@ -1247,9 +1246,6 @@ namespace Exiv2 {
         size_t left       = 0;
         size_t right      = 0;
         size_t blockIndex = 0;
-        size_t i          = 0;
-        size_t readCount  = 0;
-        size_t blockSize  = 0;
         auto buf = new byte [p_->blockSize_];
         size_t nBlocks    = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
@@ -1257,11 +1253,11 @@ namespace Exiv2 {
         src.seek(0, BasicIo::beg);
         bool findDiff = false;
         while (blockIndex < nBlocks && !src.eof() && !findDiff) {
-            blockSize = p_->blocksMap_[blockIndex].getSize();
+            size_t blockSize = p_->blocksMap_[blockIndex].getSize();
             bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-            readCount = static_cast<size_t>(src.read(buf, static_cast<long>(blockSize)));
+            size_t readCount = static_cast<size_t>(src.read(buf.data(), static_cast<long>(blockSize)));
             byte* blockData = p_->blocksMap_[blockIndex].getData();
-            for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
+            for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                 if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
                     findDiff = true;
                 } else {
@@ -1276,14 +1272,14 @@ namespace Exiv2 {
         blockIndex  = nBlocks;
         while (blockIndex > 0 && right < src.size() && !findDiff) {
             blockIndex--;
-            blockSize = p_->blocksMap_[blockIndex].getSize();
+            size_t blockSize = p_->blocksMap_[blockIndex].getSize();
             if(src.seek(-1 * (blockSize + right), BasicIo::end)) {
                 findDiff = true;
             } else {
                 bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-                readCount = src.read(buf, static_cast<long>(blockSize));
+                size_t readCount = src.read(buf.data(), static_cast<long>(blockSize));
                 byte* blockData = p_->blocksMap_[blockIndex].getData();
-                for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
+                for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                     if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) || (isFakeData && buf[readCount - i - 1] != 0)) {
                         findDiff = true;
                     } else {

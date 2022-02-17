@@ -53,7 +53,6 @@ namespace {
 // *****************************************************************************
 // local definitions
 namespace {
-    //! @cond IGNORE
     constexpr RotationMap::OmList RotationMap::omList_[] = {
         { 1,    0 },
         { 3,  180 },
@@ -87,7 +86,6 @@ namespace {
         }
         return d;
     }
-    //! @endcond
 }  // namespace
 
 namespace Exiv2 {
@@ -502,16 +500,6 @@ namespace Exiv2 {
             }
         }
     } // CiffComponent::writeDirEntry
-
-    void CiffHeader::print(std::ostream& os, const std::string& prefix) const
-    {
-        std::ios::fmtflags f( os.flags() );
-        os << prefix
-           << _("Header, offset") << " = 0x" << std::setw(8) << std::setfill('0')
-           << std::hex << std::right << offset_ << "\n";
-        if (pRootDir_) pRootDir_->print(os, byteOrder_, prefix);
-        os.flags(f);
-    } // CiffHeader::print
 
     void CiffComponent::print(std::ostream&      os,
                               ByteOrder          byteOrder,

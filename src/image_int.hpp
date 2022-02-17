@@ -120,14 +120,7 @@ namespace Exiv2 {
         return binaryToStringHelper<T>(sl);
     }
 
-    /*!
-      @brief format binary for display of raw data .
-     */
-    std::string binaryToHex(const byte *data, size_t size);
-
-    /*!
-      @brief indent output for kpsRecursive in \em printStructure() \em .
-     */
+    /// @brief indent output for kpsRecursive in \em printStructure() \em .
     std::string indent(int32_t depth);
 
 }}                                      // namespace Internal, Exiv2

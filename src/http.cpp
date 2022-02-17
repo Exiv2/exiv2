@@ -239,8 +239,6 @@ int Exiv2::http(Exiv2::Dictionary& request,Exiv2::Dictionary& response,std::stri
         servername_p = Proxy.Host.c_str();
         port_p       = Proxy.Port.c_str();
         page         = url.c_str();
-        std::string  p(proxy?proxi:PROXI);
-    //  std::cerr << p << '=' << prox << " page = " << page << std::endl;
     }
     if ( !port  [0] ) port   = "80";
     if ( !port_p[0] ) port_p = "80";

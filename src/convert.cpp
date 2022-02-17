@@ -284,8 +284,6 @@ namespace Exiv2 {
         //@{
         //! Get the value of the erase flag, see also setErase(bool on).
         bool erase() const { return erase_; }
-        //! Get the value of the overwrite flag, see also setOverwrite(bool on).
-        bool overwrite() const { return overwrite_; }
         //@}
 
     private:
@@ -293,7 +291,6 @@ namespace Exiv2 {
         bool prepareIptcTarget(const char* to, bool force =false);
         bool prepareXmpTarget(const char* to, bool force =false);
         std::string computeExifDigest(bool tiff);
-        std::string computeIptcDigest();
 
         // DATA
         static const Conversion conversion_[];  //<! Conversion rules
@@ -1084,7 +1081,6 @@ namespace Exiv2 {
         else {
             sec = (min - static_cast<int>(min)) * 60.0;
             min = static_cast<double>(static_cast<int>(min));
-            sep2 = ',';
         }
 
         if (   in.bad() || !(ref == 'N' || ref == 'S' || ref == 'E' || ref == 'W')
@@ -1256,28 +1252,6 @@ namespace Exiv2 {
         writeExifDigest();
     }
 
-    std::string Converter::computeIptcDigest()
-    {
-#ifdef EXV_HAVE_XMP_TOOLKIT
-        std::ostringstream res;
-        MD5_CTX context;
-        unsigned char digest[16];
-
-        MD5Init(&context);
-
-        DataBuf data = IptcParser::encode(*iptcData_);
-        MD5Update(&context, data.c_data(), data.size());
-        MD5Final(digest, &context);
-        res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-        for (auto&& i : digest) {
-            res << static_cast<int>(i);
-        }
-        return res.str();
-#else
-        return std::string("");
-#endif
-    }
-
 
     // *************************************************************************
     // free functions
@@ -1288,6 +1262,7 @@ namespace Exiv2 {
         converter.cnvToXmp();
     }
 
+    /// \todo not used internally. We should at least have unit tests for this.
     void moveExifToXmp(ExifData& exifData, XmpData& xmpData)
     {
         Converter converter(exifData, xmpData);
@@ -1301,6 +1276,7 @@ namespace Exiv2 {
         converter.cnvFromXmp();
     }
 
+    /// \todo not used internally. We should at least have unit tests for this.
     void moveXmpToExif(XmpData& xmpData, ExifData& exifData)
     {
         Converter converter(exifData, xmpData);
@@ -1323,6 +1299,7 @@ namespace Exiv2 {
         converter.cnvToXmp();
     }
 
+    /// \todo not used internally. We should at least have unit tests for this.
     void moveIptcToXmp(IptcData& iptcData, XmpData& xmpData, const char *iptcCharset)
     {
         if (!iptcCharset) iptcCharset = iptcData.detectCharset();
@@ -1338,6 +1315,7 @@ namespace Exiv2 {
         converter.cnvFromXmp();
     }
 
+    /// \todo not used internally. We should at least have unit tests for this.
     void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData)
     {
         Converter converter(iptcData, xmpData);

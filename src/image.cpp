@@ -284,6 +284,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
+    /// \todo not used internally. At least we should test it
     uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) 
     {
         uint64_t v = 0;
@@ -373,7 +374,6 @@ namespace Exiv2 {
                 // Break for unknown tag types else we may segfault.
                 if ( !typeValid(type) ) {
                     EXV_ERROR << "invalid type in tiff structure" << type << std::endl;
-                    start = 0; // break from do loop
                     throw Error(kerInvalidTypeValue);
                 }
 
@@ -525,7 +525,6 @@ namespace Exiv2 {
             out << Internal::indent(depth) << "END " << io.path() << std::endl;
         }
         out.flush();
-        depth--;
     }
 
     void Image::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,int depth,size_t offset /*=0*/)
@@ -582,6 +581,7 @@ namespace Exiv2 {
         return xmpPacket_;
     }
 
+    /// \todo not used internally. At least we should test it
     void Image::setMetadata(const Image& image)
     {
         if (checkMode(mdExif) & amWrite) {
@@ -754,6 +754,7 @@ namespace Exiv2 {
         return ImageFactory::checkType(imageType_, *io_, false);
     }
 
+    /// \todo not used internally. At least we should test it
     bool Image::supportsMetadata(MetadataId metadataId) const
     {
         return (supportedMetadata_ & metadataId) != 0;

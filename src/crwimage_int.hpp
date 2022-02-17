@@ -481,13 +481,7 @@ namespace Exiv2 {
           @param image Image to add metadata to
          */
         void decode(Image& image) const;
-        /*!
-          @brief Print debug info for the CRW image to \em os.
 
-          @param os Output stream to write to.
-          @param prefix Prefix to be written before each line of output.
-         */
-        void print(std::ostream& os, const std::string& prefix ="") const;
         //! Return the byte order (little or big endian).
         ByteOrder byteOrder() const { return byteOrder_; }
         /*!
