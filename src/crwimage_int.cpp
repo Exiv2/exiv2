@@ -605,10 +605,10 @@ namespace Exiv2 {
     CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId,
                                                   uint16_t crwDir) const
     {
-        CiffComponent* cc;
         for (auto&& component : components_) {
-            cc = component->findComponent(crwTagId, crwDir);
-            if (cc) return cc;
+            auto cc = component->findComponent(crwTagId, crwDir);
+            if (cc)
+                return cc;
         }
         return nullptr;
     } // CiffDirectory::doFindComponent

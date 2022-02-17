@@ -152,7 +152,6 @@ namespace Exiv2 {
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         auto encoding_table = base64_encode;
-        size_t mod_table[]  = {0, 2, 1};
 
         size_t output_length = 4 * ((dataLength + 2) / 3);
         int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
@@ -172,6 +171,7 @@ namespace Exiv2 {
                 result[j++] = encoding_table[(triple >> 0 * 6) & 0x3F];
             }
 
+            const size_t mod_table[]  = {0, 2, 1};
             for (size_t i = 0; i < mod_table[dataLength % 3]; i++)
                 result[output_length - 1 - i] = '=';
             result[output_length]=0;

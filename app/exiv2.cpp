@@ -160,7 +160,6 @@ int main(int argc, char* const argv[])
         assert(task);
 
         // Process all files
-        int n = 1;
         int s = static_cast<int>(params.files_.size());
         if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && s > 1) {
             std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
@@ -168,6 +167,7 @@ int main(int argc, char* const argv[])
         }
         else {
             int w = s > 9 ? s > 99 ? 3 : 2 : 1;
+            int n = 1;
             for (auto&& file : params.files_) {
                 // If extracting to stdout then ignore verbose
                 if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {

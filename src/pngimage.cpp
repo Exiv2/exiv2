@@ -150,11 +150,11 @@ namespace Exiv2 {
 
     static bool tEXtToDataBuf(const byte* bytes,long length,DataBuf& result)
     {
-        static const char* hexdigits = "0123456789ABCDEF";
         static std::array<int, 256> value;
         static bool bFirst = true;
         if ( bFirst ) {
             value.fill(0);
+            const char* hexdigits = "0123456789ABCDEF";
             for ( int i = 0 ; i < 16 ; i++ ) {
                 value[tolower(hexdigits[i])]=i+1;
                 value[toupper(hexdigits[i])]=i+1;
