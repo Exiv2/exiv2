@@ -25,14 +25,16 @@
 // included header files
 #include <assert.h>
 #include <errno.h>
+#include <filesystem>
+#include <iostream>
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <iostream>
 
-#include "utils.hpp"
 #include "getopt.hpp"
+
+namespace fs = std::filesystem;
 
 namespace Util {
 
@@ -113,7 +115,7 @@ namespace Util {
 
     int Getopt::getopt(int argc, char* const argv[], const std::string& optstring)
     {
-        progname_ = Util::basename(argv[0]);
+        progname_ = fs::path(argv[0]).filename().string();
         Util::optind = 0; // reset the Util::Getopt scanner
 
         for (;!errcnt_;) {

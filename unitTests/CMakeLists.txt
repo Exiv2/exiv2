@@ -2,13 +2,11 @@ find_package(GTest REQUIRED)
 
 add_executable(unit_tests
     mainTestRunner.cpp
+    test_basicio.cpp
     test_bmpimage.cpp
+    test_cr2header_int.cpp
     test_datasets.cpp
     test_DateValue.cpp
-    test_TimeValue.cpp
-    test_XmpKey.cpp
-    test_basicio.cpp
-    test_cr2header_int.cpp
     test_enforce.cpp
     test_FileIo.cpp
     test_futils.cpp
@@ -16,12 +14,14 @@ add_executable(unit_tests
     test_image_int.cpp
     test_ImageFactory.cpp
     test_IptcKey.cpp
+    test_LangAltValueRead.cpp
     test_pngimage.cpp
     test_safe_op.cpp
     test_slice.cpp
     test_tiffheader.cpp
     test_types.cpp
-    test_LangAltValueRead.cpp
+    test_TimeValue.cpp
+    test_XmpKey.cpp
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 

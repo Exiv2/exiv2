@@ -24,12 +24,13 @@
 // included header files
 #include "config.h"
 
+#include "app_utils.hpp"
 #include "actions.hpp"
 #include "exiv2app.hpp"
+
 #include "image.hpp"
 #include "jpgimage.hpp"
 #include "xmpsidecar.hpp"
-#include "utils.hpp"
 #include "types.hpp"
 #include "exif.hpp"
 #include "easyaccess.hpp"
@@ -1958,26 +1959,38 @@ namespace {
         }
     };
 
+    void replace(std::string& text, const std::string& searchText, const std::string& replaceText)
+    {
+        std::string::size_type index = 0;
+        while ((index = text.find(searchText, index)) != std::string::npos)
+        {
+            text.replace(index, searchText.length(), replaceText.c_str(), replaceText.length());
+            index++;
+        }
+    }
+
     int renameFile(std::string& newPath, const struct tm* tm)
     {
+        auto p = fs::path(newPath);
         std::string path = newPath;
+        auto oldFsPath = fs::path(path);
         std::string format = Params::instance().format_;
-        Util::replace(format, ":basename:",   Util::basename(path, true));
-        Util::replace(format, ":dirname:",    Util::basename(Util::dirname(path)));
-        Util::replace(format, ":parentname:", Util::basename(Util::dirname(Util::dirname(path))));
+        replace(format, ":basename:", p.stem().string());
+        replace(format, ":dirname:", p.parent_path().filename().string());
+        replace(format, ":parentname:", p.parent_path().parent_path().filename().string());
 
         const size_t max = 1024;
         char basename[max];
         std::memset(basename, 0x0, max);
         if (strftime(basename, max, format.c_str(), tm) == 0) {
-            std::cerr << _("Filename format yields empty filename for the file") << " "
-                      << path << "\n";
+            std::cerr << _("Filename format yields empty filename for the file") << " " << path << "\n";
             return 1;
         }
-        newPath =   Util::dirname(path) + EXV_SEPARATOR_STR
-                  + basename + Util::suffix(path);
-        if (   Util::dirname(newPath)  == Util::dirname(path)
-            && Util::basename(newPath) == Util::basename(path)) {
+
+        newPath = (p.parent_path() / (basename + p.extension().string())).string();
+        p = fs::path(newPath);
+
+        if (p.parent_path() == oldFsPath.parent_path() && p.filename() == oldFsPath.filename()) {
             if (Params::instance().verbose_) {
                 std::cout << _("This file already has the correct name") << std::endl;
             }
@@ -1987,46 +2000,40 @@ namespace {
         bool go = true;
         int seq = 1;
         std::string s;
-        Params::FileExistsPolicy fileExistsPolicy
-            = Params::instance().fileExistsPolicy_;
+        Params::FileExistsPolicy fileExistsPolicy = Params::instance().fileExistsPolicy_;
         while (go) {
             if (Exiv2::fileExists(newPath)) {
                 switch (fileExistsPolicy) {
-                case Params::overwritePolicy:
-                    go = false;
-                    break;
-                case Params::renamePolicy:
-                    newPath = Util::dirname(path)
-                        + EXV_SEPARATOR_STR + basename
-                        + "_" + Exiv2::toString(seq++)
-                        + Util::suffix(path);
-                    break;
-                case Params::askPolicy:
-                    std::cout << Params::instance().progname()
-                              << ": " << _("File") << " `" << newPath
-                              << "' " << _("exists. [O]verwrite, [r]ename or [s]kip?")
-                              << " ";
-                    std::cin >> s;
-                    switch (s.at(0)) {
-                    case 'o':
-                    case 'O':
+                    case Params::overwritePolicy:
                         go = false;
                         break;
-                    case 'r':
-                    case 'R':
-                        fileExistsPolicy = Params::renamePolicy;
-                        newPath = Util::dirname(path)
-                            + EXV_SEPARATOR_STR + basename
-                            + "_" + Exiv2::toString(seq++)
-                            + Util::suffix(path);
+                    case Params::renamePolicy:
+                        newPath = (p.parent_path() /
+                                   (std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string()))
+                                      .string();
                         break;
-                    default: // skip
-                        return -1;
-                        break;
-                    }
+                    case Params::askPolicy:
+                        std::cout << Params::instance().progname() << ": " << _("File") << " `" << newPath << "' "
+                                  << _("exists. [O]verwrite, [r]ename or [s]kip?") << " ";
+                        std::cin >> s;
+                        switch (s.at(0)) {
+                            case 'o':
+                            case 'O':
+                                go = false;
+                                break;
+                            case 'r':
+                            case 'R':
+                                fileExistsPolicy = Params::renamePolicy;
+                                newPath = (p.parent_path() / (std::string(basename) + "_" + Exiv2::toString(seq++) +
+                                                              p.extension().string()))
+                                              .string();
+                                break;
+                            default:  // skip
+                                return -1;
+                                break;
+                        }
                 }
-            }
-            else {
+            } else {
                 go = false;
             }
         }
@@ -2042,25 +2049,23 @@ namespace {
         // Workaround for MinGW rename which does not overwrite existing files
         remove(newPath.c_str());
         if (std::rename(path.c_str(), newPath.c_str()) == -1) {
-            std::cerr << Params::instance().progname()
-                      << ": " << _("Failed to rename") << " "
-                      << path << " " << _("to") << " " << newPath << ": "
-                      << Exiv2::strError() << "\n";
+            std::cerr << Params::instance().progname() << ": " << _("Failed to rename") << " " << path << " " << _("to")
+                      << " " << newPath << ": " << Exiv2::strError() << "\n";
             return 1;
         }
 
         return 0;
-    } // renameFile
+    }
 
     std::string newFilePath(const std::string& path, const std::string& ext)
     {
-        std::string directory = Params::instance().directory_;
-        if (directory.empty()) directory = Util::dirname(path);
-        directory   = Exiv2::fileProtocol(path) == Exiv2::pFile
-                    ? directory + EXV_SEPARATOR_STR
-                    : "" // use current directory for remote files
-                    ;
-        return directory + Util::basename(path, true) + ext;
+        auto p = fs::path(path);
+        auto directory = fs::path(Params::instance().directory_);
+        if (directory.empty())
+            directory = p.parent_path();
+        if (Exiv2::fileProtocol(path) != Exiv2::pFile)
+            directory.clear(); // use current directory for remote files
+        return (directory / (p.stem().string() + ext)).string();
     }
 
     int dontOverwrite(const std::string& path)

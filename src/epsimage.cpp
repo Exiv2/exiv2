@@ -33,7 +33,6 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "version.hpp"
-#include "utils.hpp"
 
 // + standard includes
 #include <algorithm>
@@ -49,7 +48,6 @@
 namespace {
 
     using namespace Exiv2;
-    using namespace Util;
     using Exiv2::byte;
 
     // signature of DOS EPS
@@ -104,6 +102,11 @@ namespace {
 
     // closing part of all valid XMP trailers
     const std::string xmpTrailerEnd = "?>";
+
+    constexpr bool startsWith(const std::string_view& s, const std::string_view& start)
+    {
+        return s.find(start) == 0;
+    }
 
     //! Write data into temp file, taking care of errors
     void writeTemp(BasicIo& tempIo, const byte* data, size_t size)

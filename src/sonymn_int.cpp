@@ -27,7 +27,6 @@
 #include "value.hpp"
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
-#include "utils.hpp"
 
 // + standard includes
 #include <string>
@@ -905,7 +904,7 @@ namespace Exiv2 {
             // Ranges of models that do not support this tag
             std::string model = pos->toString();
             for (auto& m : { "DSC-", "Stellar" }) {
-                if (Util::startsWith(model, m)) {
+                if (model.find(m) == 0) {
                     os << N_("n/a");
                     return os;
                 }
