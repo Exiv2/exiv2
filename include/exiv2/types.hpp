@@ -40,12 +40,6 @@
  */
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
-#ifndef _MSC_VER
-#define EXV_UNUSED [[gnu::unused]]
-#else
-#define EXV_UNUSED
-#endif
-
 // *****************************************************************************
 // forward declarations
 struct tm;

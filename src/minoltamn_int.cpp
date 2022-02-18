@@ -63,7 +63,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta image quality values to readable labels
-    EXV_UNUSED constexpr TagDetails minoltaImageQuality[] = {
+    [[maybe_unused]] constexpr TagDetails minoltaImageQuality[] = {
         { 0, N_("Raw")        },
         { 1, N_("Super Fine") },
         { 2, N_("Fine")       },
@@ -273,7 +273,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings AF points values to readable labels
-    EXV_UNUSED constexpr TagDetails minoltaAFPointsStd[] = {
+    [[maybe_unused]] constexpr TagDetails minoltaAFPointsStd[] = {
         { 0, N_("Center")       },
         { 1, N_("Top")          },
         { 2, N_("Top-right")    },

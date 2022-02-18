@@ -490,7 +490,7 @@ namespace Exiv2 {
     };
 
     //! FocusMode, tag 0x0301
-    EXV_UNUSED constexpr TagDetails olympusCsFocusMode[] = {
+    [[maybe_unused]] constexpr TagDetails olympusCsFocusMode[] = {
         { 0, N_("Single AF")              },
         { 1, N_("Sequential shooting AF") },
         { 2, N_("Continuous AF")          },
