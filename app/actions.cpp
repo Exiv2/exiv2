@@ -278,11 +278,8 @@ namespace Action {
         std::cout << path_ << std::endl;
 
         // Filesize
-        struct stat buf;
-        if (0 == stat(path_.c_str(), &buf)) {
-            printLabel(_("File size"));
-            std::cout << buf.st_size << " " << _("Bytes") << std::endl;
-        }
+        printLabel(_("File size"));
+        std::cout << fs::file_size(path_) << " " << _("Bytes") << std::endl;
 
         // MIME type
         printLabel(_("MIME type"));
