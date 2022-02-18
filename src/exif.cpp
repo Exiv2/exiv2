@@ -157,7 +157,7 @@ namespace {
     }; // class JpegThumbnail
 
     //! Helper function to sum all components of the value of a metadatum
-    long sumToLong(const Exiv2::Exifdatum& md);
+    int64_t sumToLong(const Exiv2::Exifdatum& md);
 
     //! Helper function to delete all tags of a specific IFD from the metadata.
     void eraseIfd(Exiv2::ExifData& ed, Exiv2::Internal::IfdId ifdId);
@@ -405,9 +405,9 @@ namespace Exiv2 {
         return value_.get() == nullptr ? "" : value_->toString(n);
     }
 
-    long Exifdatum::toLong(long n) const
+    int64_t Exifdatum::toInt64(long n) const
     {
-        return value_.get() == nullptr ? -1 : static_cast<long>(value_->toInt64(n));
+        return value_.get() == nullptr ? -1 : value_->toInt64(n);
     }
 
     float Exifdatum::toFloat(long n) const
@@ -825,7 +825,7 @@ namespace {
         if (pos != exifData.end()) {
             if (pos->count() == 0)
                 return thumbnail;
-            long compression = pos->toLong();
+            auto compression = pos->toInt64();
             if (compression == 6) {
                 thumbnail = std::make_unique<JpegThumbnail>();
             }
@@ -889,11 +889,11 @@ namespace {
         return format->dataArea();
     }
 
-    long sumToLong(const Exiv2::Exifdatum& md)
+    int64_t sumToLong(const Exiv2::Exifdatum& md)
     {
-        long sum = 0;
+        int64_t sum = 0;
         for (long i = 0; i < md.count(); ++i) {
-            sum += md.toLong(i);
+            sum += md.toInt64(i);
         }
         return sum;
     }

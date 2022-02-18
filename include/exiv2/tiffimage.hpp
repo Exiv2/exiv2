@@ -105,8 +105,8 @@ namespace Exiv2 {
         // DATA
         mutable std::string primaryGroup_;     //!< The primary group
         mutable std::string mimeType_;         //!< The MIME type
-        mutable int pixelWidthPrimary_;        //!< Width of the primary image in pixels
-        mutable int pixelHeightPrimary_;       //!< Height of the primary image in pixels
+        mutable int64_t pixelWidthPrimary_;    //!< Width of the primary image in pixels
+        mutable int64_t pixelHeightPrimary_;   //!< Height of the primary image in pixels
 
     }; // class TiffImage
 

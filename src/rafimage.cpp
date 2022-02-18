@@ -55,7 +55,7 @@ namespace Exiv2 {
     {
         auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (widthIter != exifData_.end() && widthIter->count() > 0) {
-            return widthIter->toLong();
+            return widthIter->toInt64();
         }
         return 0;
     }
@@ -64,7 +64,7 @@ namespace Exiv2 {
     {
         auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (heightIter != exifData_.end() && heightIter->count() > 0) {
-            return heightIter->toLong();
+            return heightIter->toInt64();
         }
         return 0;
     }

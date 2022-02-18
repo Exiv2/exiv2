@@ -222,7 +222,7 @@ namespace Exiv2 {
                  The return value is -1 if the value is not set and the behaviour
                  of the method is undefined if there is no <EM>n</EM>-th component.
          */
-        virtual long toLong(long n =0) const =0;
+        virtual int64_t toInt64(long n =0) const =0;
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to float.
                  The return value is -1 if the value is not set and the behaviour

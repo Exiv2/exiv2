@@ -997,7 +997,7 @@ namespace Exiv2 {
                 uint32_t sizeTotal = 0;
                 object->strips_.clear();
                 for (long i = 0; i < pos->count(); ++i) {
-                    uint32_t len = pos->toLong(i);
+                    uint32_t len = pos->toInt64(i);
                     object->strips_.emplace_back(zero, len);
                     sizeTotal += len;
                 }

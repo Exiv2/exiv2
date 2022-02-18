@@ -857,7 +857,7 @@ namespace Exiv2 {
             return os << "(" << value << ")";
 
         auto pos = metadata->findKey(ExifKey("Exif.Sony2Fp.0x0002"));
-        if (pos != metadata->end() && pos-> count() == 1 && pos->toLong() == 255)
+        if (pos != metadata->end() && pos-> count() == 1 && pos->toInt64() == 255)
             return os << value << " °C";
 
         return os << N_("n/a");
@@ -944,7 +944,7 @@ namespace Exiv2 {
             return os << "(" << value << ")";
 
         auto pos = metadata->findKey(ExifKey("Exif.SonyMisc1.0x0004"));
-        if (pos != metadata->end() && pos->count() == 1 && pos->toLong() != 0 && pos->toLong() < 100)
+        if (pos != metadata->end() && pos->count() == 1 && pos->toInt64() != 0 && pos->toInt64() < 100)
             return os << value << " °C";
 
         return os << N_("n/a");
