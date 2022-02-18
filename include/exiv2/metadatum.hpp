@@ -218,11 +218,17 @@ namespace Exiv2 {
          */
         virtual std::string toString(long n) const =0;
         /*!
-          @brief Return the <EM>n</EM>-th component of the value converted to long.
+          @brief Return the <EM>n</EM>-th component of the value converted to int64_t.
                  The return value is -1 if the value is not set and the behaviour
                  of the method is undefined if there is no <EM>n</EM>-th component.
          */
         virtual int64_t toInt64(long n =0) const =0;
+        /*!
+          @brief Return the <EM>n</EM>-th component of the value converted to uint32_t.
+         */
+        uint32_t toUint32(long n =0) const {
+            return static_cast<uint32_t>(toInt64(n));
+        }
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to float.
                  The return value is -1 if the value is not set and the behaviour

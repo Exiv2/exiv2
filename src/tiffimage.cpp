@@ -134,7 +134,7 @@ namespace Exiv2 {
         return primaryGroup_;
     }
 
-    int TiffImage::pixelWidth() const
+    uint32_t TiffImage::pixelWidth() const
     {
         if (pixelWidthPrimary_ != 0) {
             return pixelWidthPrimary_;
@@ -143,12 +143,12 @@ namespace Exiv2 {
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageWidth"));
         auto imageWidth = exifData_.findKey(key);
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            pixelWidthPrimary_ = imageWidth->toInt64();
+            pixelWidthPrimary_ = imageWidth->toUint32();
         }
         return pixelWidthPrimary_;
     }
 
-    int TiffImage::pixelHeight() const
+    uint32_t TiffImage::pixelHeight() const
     {
         if (pixelHeightPrimary_ != 0) {
             return pixelHeightPrimary_;
@@ -157,7 +157,7 @@ namespace Exiv2 {
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageLength"));
         auto imageHeight = exifData_.findKey(key);
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            pixelHeightPrimary_ = imageHeight->toInt64();
+            pixelHeightPrimary_ = imageHeight->toUint32();
         }
         return pixelHeightPrimary_;
     }

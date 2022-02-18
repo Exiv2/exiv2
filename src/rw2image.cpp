@@ -51,22 +51,22 @@ namespace Exiv2 {
         return "image/x-panasonic-rw2";
     }
 
-    int Rw2Image::pixelWidth() const
+    uint32_t Rw2Image::pixelWidth() const
     {
         auto imageWidth =
             exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorWidth"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            return imageWidth->toInt64();
+            return imageWidth->toUint32();
         }
         return 0;
     }
 
-    int Rw2Image::pixelHeight() const
+    uint32_t Rw2Image::pixelHeight() const
     {
         auto imageHeight =
             exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorHeight"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            return imageHeight->toInt64();
+            return imageHeight->toUint32();
         }
         return 0;
     }

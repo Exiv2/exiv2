@@ -51,20 +51,20 @@ namespace Exiv2 {
         return "image/x-fuji-raf";
     }
 
-    int RafImage::pixelWidth() const
+    uint32_t RafImage::pixelWidth() const
     {
         auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (widthIter != exifData_.end() && widthIter->count() > 0) {
-            return widthIter->toInt64();
+            return widthIter->toUint32();
         }
         return 0;
     }
 
-    int RafImage::pixelHeight() const
+    uint32_t RafImage::pixelHeight() const
     {
         auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (heightIter != exifData_.end() && heightIter->count() > 0) {
-            return heightIter->toInt64();
+            return heightIter->toUint32();
         }
         return 0;
     }

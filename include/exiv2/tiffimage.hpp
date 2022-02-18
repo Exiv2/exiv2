@@ -83,8 +83,8 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         std::string mimeType() const override;
-        int pixelWidth() const override;
-        int pixelHeight() const override;
+        uint32_t pixelWidth() const override;
+        uint32_t pixelHeight() const override;
         //@}
 
         //! @name NOT Implemented
@@ -105,8 +105,8 @@ namespace Exiv2 {
         // DATA
         mutable std::string primaryGroup_;     //!< The primary group
         mutable std::string mimeType_;         //!< The MIME type
-        mutable int64_t pixelWidthPrimary_;    //!< Width of the primary image in pixels
-        mutable int64_t pixelHeightPrimary_;   //!< Height of the primary image in pixels
+        mutable uint32_t pixelWidthPrimary_;   //!< Width of the primary image in pixels
+        mutable uint32_t pixelHeightPrimary_;  //!< Height of the primary image in pixels
 
     }; // class TiffImage
 

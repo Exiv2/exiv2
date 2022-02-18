@@ -54,20 +54,20 @@ namespace Exiv2 {
         return "image/x-olympus-orf";
     }
 
-    int OrfImage::pixelWidth() const
+    uint32_t OrfImage::pixelWidth() const
     {
         auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            return imageWidth->toInt64();
+            return imageWidth->toUint32();
         }
         return 0;
     }
 
-    int OrfImage::pixelHeight() const
+    uint32_t OrfImage::pixelHeight() const
     {
         auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            return imageHeight->toInt64();
+            return imageHeight->toUint32();
         }
         return 0;
     }
