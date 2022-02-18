@@ -26,8 +26,6 @@
 #include "image.hpp"
 
 // + standard includes
-#include <iosfwd>
-#include <string>
 #include <vector>
 #include <stack>
 

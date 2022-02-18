@@ -26,15 +26,7 @@
 #include "tifffwd_int.hpp"
 #include "types.hpp"
 
-// + standard includes
 #include <array>
-#include <memory>
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <map>
-#include <set>
-#include <vector>
 
 // *****************************************************************************
 // namespace extensions
@@ -42,6 +34,8 @@ namespace Exiv2 {
 
     class IptcData;
     class XmpData;
+    class TiffImageEntry;
+    class TiffDataEntryBase;
 
     namespace Internal {
 

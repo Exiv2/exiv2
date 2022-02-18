@@ -25,12 +25,6 @@
 #include "tifffwd_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "image.hpp"
-#include "tags_int.hpp"
-#include "types.hpp"
-
-// + standard includes
-#include <map>
-#include <utility>
 
 // *****************************************************************************
 // namespace extensions

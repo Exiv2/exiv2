@@ -26,10 +26,6 @@
 #include "tags_int.hpp"
 #include "types.hpp"
 
-// + standard includes
-#include <iostream>
-#include <iomanip>
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {

@@ -26,11 +26,6 @@
 // included header files
 #include "metadatum.hpp"
 
-// + standard includes
-#include <string>
-#include <iosfwd>
-#include <memory>
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {

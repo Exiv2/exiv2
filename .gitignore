@@ -25,3 +25,5 @@ doc/html
 contrib/vms/.vagrant
 /.vscode
 .vs/
+
+*cppcheck*

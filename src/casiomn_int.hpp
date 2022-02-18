@@ -33,10 +33,6 @@
 #include "tags.hpp"
 #include "types.hpp"
 
-// + standard includes
-#include <string>
-#include <iosfwd>
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
