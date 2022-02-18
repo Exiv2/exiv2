@@ -36,6 +36,7 @@ target_link_libraries(unit_tests
         exiv2lib
         GTest::gtest
         GTest::gtest_main
+        std::filesystem
 )
 
 # ZLIB is used in exiv2lib_int.

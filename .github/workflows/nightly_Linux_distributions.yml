@@ -1,5 +1,7 @@
-# Runs daily at 04:00 AM
 on:
+  pull_request:
+    paths-ignore:
+      - "*.md"
   workflow_dispatch:
   schedule:
   - cron: 0 4 * * *

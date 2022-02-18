@@ -288,6 +288,8 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         target_include_directories(exiv2 PRIVATE ${Intl_INCLUDE_DIRS})
     endif()
 
+    target_link_libraries(exiv2 PRIVATE std::filesystem)
+
     if(MSVC OR MINGW)
         # Trick to get properly UTF-8 encoded argv 
         # More info at: https://github.com/huangqinjin/wmain
