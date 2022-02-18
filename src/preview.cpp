@@ -522,13 +522,13 @@ namespace {
         const ExifData &exifData = image_.exifData();
         auto pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
         if (pos != exifData.end() && pos->count() > 0) {
-            offset_ = pos->toInt64();
+            offset_ = pos->toUint32();
         }
 
         size_ = 0;
         pos = exifData.findKey(ExifKey(param_[parIdx].sizeKey_));
         if (pos != exifData.end() && pos->count() > 0) {
-            size_ = pos->toInt64();
+            size_ = pos->toUint32();
         }
 
         if (offset_ == 0 || size_ == 0) return;
@@ -536,7 +536,7 @@ namespace {
         if (param_[parIdx].baseOffsetKey_) {
             pos = exifData.findKey(ExifKey(param_[parIdx].baseOffsetKey_));
             if (pos != exifData.end() && pos->count() > 0) {
-                offset_ += pos->toInt64();
+                offset_ += pos->toUint32();
             }
         }
 
@@ -712,19 +712,19 @@ namespace {
         if (pos == exifData.end()) return;
         if (offsetCount != pos->value().count()) return;
         for (int i = 0; i < offsetCount; i++) {
-            size_ += pos->toInt64(i);
+            size_ += pos->toUint32(i);
         }
 
         if (size_ == 0) return;
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".ImageWidth"));
         if (pos != exifData.end() && pos->count() > 0) {
-            width_ = pos->toInt64();
+            width_ = pos->toUint32();
         }
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".ImageLength"));
         if (pos != exifData.end() && pos->count() > 0) {
-            height_ = pos->toInt64();
+            height_ = pos->toUint32();
         }
 
         if (width_ == 0 || height_ == 0) return;
@@ -852,8 +852,8 @@ namespace {
 
         if (formatDatum->toString() != "JPEG") return;
 
-        width_ = widthDatum->toInt64();
-        height_ = heightDatum->toInt64();
+        width_ = widthDatum->toUint32();
+        height_ = heightDatum->toUint32();
         preview_ = decodeBase64(imageDatum->toString());
         size_ = static_cast<uint32_t>(preview_.size());
         valid_ = true;
