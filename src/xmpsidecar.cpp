@@ -30,6 +30,7 @@
 #include "convert.hpp"
 
 // + standard includes
+#include <algorithm>
 #include <string>
 #include <iostream>
 #include <cassert>

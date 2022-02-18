@@ -40,6 +40,7 @@
 #include "sonymn_int.hpp"
 
 #include <cmath>
+#include <algorithm>
 
 // *****************************************************************************
 // local declarations

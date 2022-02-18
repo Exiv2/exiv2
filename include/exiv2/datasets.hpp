@@ -32,11 +32,6 @@
 // included header files
 #include "metadatum.hpp"
 
-// + standard includes
-#include <set>
-#include <vector>
-#include <map>
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {

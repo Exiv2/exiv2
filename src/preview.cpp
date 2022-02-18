@@ -21,6 +21,7 @@
 // included header files
 #include "config.h"
 
+#include <algorithm>
 #include <array>
 #include <climits>
 #include <string>

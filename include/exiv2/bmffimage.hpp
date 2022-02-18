@@ -25,7 +25,8 @@
 
 // included header files
 #include "image.hpp"
-#include "iostream"
+
+#include <set>
 
 // *****************************************************************************
 // namespace extensions

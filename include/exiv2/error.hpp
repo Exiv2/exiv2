@@ -34,10 +34,6 @@
 // included header files
 #include "types.hpp"
 
-// + standard includes
-#include <exception>
-#include <string>
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {

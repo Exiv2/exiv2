@@ -36,13 +36,10 @@
 #endif
 
 // + standard includes
-#include <iomanip>
-#include <sstream>
-#include <string>
-#include <stdio.h>
-#include <iostream>
 #include <fstream>
 #include <regex>
+#include <set>
+#include <sstream>
 
 // #1147
 #ifndef WIN32

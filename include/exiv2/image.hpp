@@ -30,10 +30,6 @@
 #include "image_types.hpp"
 #include "xmp_exiv2.hpp"
 
-// + standard includes
-#include <string>
-#include <vector>
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {

@@ -27,11 +27,9 @@
 #include "slice.hpp"
 
 // + standard includes
-#include <cstdint>
 #include <string>
 #include <vector>
 #include <limits>
-#include <algorithm>
 #include <sstream>
 
 
