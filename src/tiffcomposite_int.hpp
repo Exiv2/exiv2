@@ -24,6 +24,8 @@
 // included header files
 #include "tifffwd_int.hpp"
 
+#include <memory>
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {

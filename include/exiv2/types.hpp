@@ -27,11 +27,11 @@
 #include "slice.hpp"
 
 // + standard includes
-#include <string>
-#include <vector>
+#include <algorithm>
 #include <limits>
 #include <sstream>
-
+#include <string>
+#include <vector>
 
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.
