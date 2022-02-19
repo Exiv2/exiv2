@@ -627,7 +627,7 @@ namespace Exiv2
         }
     }
 
-    void BmffImage::setComment(const std::string_view /*comment*/)
+    void BmffImage::setComment(std::string_view /*comment*/)
     {
         // bmff files are read-only
         throw(Error(kerInvalidSettingForImage, "Image comment", "BMFF"));

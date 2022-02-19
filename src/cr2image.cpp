@@ -81,7 +81,7 @@ namespace Exiv2 {
         printTiffStructure(io(),out,option,depth-1);
     }
 
-    void Cr2Image::setComment(const std::string_view /*comment*/)
+    void Cr2Image::setComment(std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "CR2"));

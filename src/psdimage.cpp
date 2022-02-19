@@ -127,7 +127,7 @@ namespace Exiv2 {
         return "image/x-photoshop";
     }
 
-    void PsdImage::setComment(const std::string_view /*comment*/)
+    void PsdImage::setComment(std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "Photoshop"));

@@ -105,11 +105,11 @@ namespace Exiv2 {
         return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
     }
 
-    std::string urlencode(const std::string_view& str)
+    std::string urlencode(std::string_view str)
     {
         std::string encoded;
         encoded.reserve(str.size() * 3);
-        for (auto c : str) {
+        for (uint8_t c : str) {
             if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~')
                 encoded += c;
             else if (c == ' ')

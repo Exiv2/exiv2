@@ -62,7 +62,7 @@ namespace Exiv2 {
         return "application/rdf+xml";
     }
 
-    void XmpSidecar::setComment(const std::string_view /*comment*/)
+    void XmpSidecar::setComment(std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "XMP"));

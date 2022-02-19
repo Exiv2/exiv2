@@ -35,6 +35,7 @@
 #include "utils.hpp"
 
 // + standard includes
+#include <array>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -1197,7 +1198,7 @@ namespace Exiv2 {
     {
         // Not valid for models beginning
         std::string model = getExifModel(pRoot);
-        const std::vector<std::string> strs { "SLT-", "HV", "ILCA-"};
+        const std::array strs { "SLT-", "HV", "ILCA-"};
         return std::any_of(strs.begin(), strs.end(), [&model](auto& m){return startsWith(model, m);}) ? -1 : 0;
     }
 

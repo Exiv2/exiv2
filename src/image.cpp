@@ -662,7 +662,7 @@ namespace Exiv2 {
         comment_.erase();
     }
 
-    void Image::setComment(const std::string_view comment)
+    void Image::setComment(std::string_view comment)
     {
         comment_ = comment;
     }

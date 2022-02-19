@@ -385,7 +385,7 @@ namespace Exiv2 {
 
             bool statOk = true;
             mode_t origStMode = 0;
-            char* pf = const_cast<char*>(path().c_str());
+            auto pf = path().c_str();
 
             Impl::StructStat buf1;
             if (p_->stat(buf1) == -1) {

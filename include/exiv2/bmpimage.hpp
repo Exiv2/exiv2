@@ -85,7 +85,7 @@ namespace Exiv2 {
         void setIptcData(const IptcData& iptcData) override;
 
         /// @throws Error(kerInvalidSettingForImage)
-        void setComment(const std::string_view comment) override;
+        void setComment(std::string_view comment) override;
         //@}
 
         //! @name Accessors

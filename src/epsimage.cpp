@@ -1094,7 +1094,7 @@ namespace Exiv2
         return "application/postscript";
     }
 
-    void EpsImage::setComment(const std::string_view /*comment*/)
+    void EpsImage::setComment(std::string_view /*comment*/)
     {
         throw Error(kerInvalidSettingForImage, "Image comment", "EPS");
     }
