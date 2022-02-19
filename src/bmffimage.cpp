@@ -157,20 +157,20 @@ namespace Exiv2
         }
     }
 
-    int BmffImage::pixelWidth() const
+    uint32_t BmffImage::pixelWidth() const
     {
         auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            return imageWidth->toLong();
+            return imageWidth->toUint32();
         }
         return pixelWidth_;
     }
 
-    int BmffImage::pixelHeight() const
+    uint32_t BmffImage::pixelHeight() const
     {
         auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            return imageHeight->toLong();
+            return imageHeight->toUint32();
         }
         return pixelHeight_;
     }
@@ -406,9 +406,9 @@ namespace Exiv2
             case TAG_ispe: {
                 enforce(data.size() - skip >= 12, Exiv2::kerCorruptedMetadata);
                 skip += 4;
-                int width = data.read_uint32(skip, endian_);
+                uint32_t width = data.read_uint32(skip, endian_);
                 skip += 4;
-                int height = data.read_uint32(skip, endian_);
+                uint32_t height = data.read_uint32(skip, endian_);
                 skip += 4;
                 if ( bTrace ) {
                     out << "pixelWidth_, pixelHeight_ = " << Internal::stringFormat("%d, %d", width, height);

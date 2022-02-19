@@ -2665,14 +2665,14 @@ fmountlens[] = {
             if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
                 return os << value;
             }
-            raw[i] = static_cast<byte>(md->toLong());
+            raw[i] = static_cast<byte>(md->toInt64());
         }
 
         auto md = metadata->findKey(ExifKey("Exif.Nikon3.LensType"));
         if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
             return os << value;
         }
-        raw[7] = static_cast<byte>(md->toLong());
+        raw[7] = static_cast<byte>(md->toInt64());
 
         for (int i = 0; fmountlens[i].lensname != nullptr; ++i) {
             if (   raw[0] == fmountlens[i].lid ) {
@@ -2990,7 +2990,7 @@ fmountlens[] = {
             os << "(" << value << ")";
         }
         else {
-            if (pos->toLong() < 0x06) {
+            if (pos->toInt64() < 0x06) {
                 // FlashGroupACompensation value
                 if (temp == 0)
                     os << 0;
@@ -3031,7 +3031,7 @@ fmountlens[] = {
             os << "(" << value << ")";
         }
         else {
-            if (pos->toLong() < 0x06) {
+            if (pos->toInt64() < 0x06) {
                 // FlashGroupBCompensation value
                 if (temp == 0)
                     os << 0;
@@ -3072,7 +3072,7 @@ fmountlens[] = {
             os << "(" << value << ")";
         }
         else {
-            if (pos->toLong() < 0x06) {
+            if (pos->toInt64() < 0x06) {
                 // FlashGroupCCompensation value
                 if (temp == 0)
                     os << 0;

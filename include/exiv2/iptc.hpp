@@ -140,7 +140,7 @@ namespace Exiv2 {
         long size() const override;
         std::string toString() const override;
         std::string toString(long n) const override;
-        long toLong(long n = 0) const override;
+        int64_t toInt64(long n = 0) const override;
         float toFloat(long n = 0) const override;
         Rational toRational(long n = 0) const override;
         Value::UniquePtr getValue() const override;

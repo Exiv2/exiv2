@@ -181,9 +181,9 @@ namespace Exiv2 {
         return value_.get() == nullptr ? "" : value_->toString(n);
     }
 
-    long Iptcdatum::toLong(long n) const
+    int64_t Iptcdatum::toInt64(long n) const
     {
-        return value_.get() == nullptr ? -1 : static_cast<long>(value_->toInt64(n));
+        return value_.get() == nullptr ? -1 : value_->toInt64(n);
     }
 
     float Iptcdatum::toFloat(long n) const

@@ -403,9 +403,9 @@ namespace Exiv2 {
         return p_->value_.get() == nullptr ? "" : p_->value_->toString(n);
     }
 
-    long Xmpdatum::toLong(long n) const
+    int64_t Xmpdatum::toInt64(long n) const
     {
-        return p_->value_.get() == nullptr ? -1 : static_cast<long>(p_->value_->toInt64(n));
+        return p_->value_.get() == nullptr ? -1 : p_->value_->toInt64(n);
     }
 
     float Xmpdatum::toFloat(long n) const

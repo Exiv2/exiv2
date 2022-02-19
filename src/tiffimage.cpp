@@ -97,7 +97,7 @@ namespace Exiv2 {
         std::string key = "Exif." + primaryGroup() + ".Compression";
         auto md = exifData_.findKey(ExifKey(key));
         if (md != exifData_.end() && md->count() > 0) {
-            const MimeTypeList* i = find(mimeTypeList, static_cast<int>(md->toLong()));
+            const MimeTypeList* i = find(mimeTypeList, static_cast<int>(md->toInt64()));
             if (i) mimeType_ = std::string(i->mimeType_);
         }
         return mimeType_;
@@ -124,7 +124,7 @@ namespace Exiv2 {
         for (auto&& i : keys) {
             auto md = exifData_.findKey(ExifKey(i));
             // Is it the primary image?
-            if (md != exifData_.end() && md->count() > 0 && md->toLong() == 0) {
+            if (md != exifData_.end() && md->count() > 0 && md->toInt64() == 0) {
                 // Sometimes there is a JPEG primary image; that's not our first choice
                 primaryGroup_ = md->groupName();
                 std::string key = "Exif." + primaryGroup_ + ".JPEGInterchangeFormat";
@@ -134,7 +134,7 @@ namespace Exiv2 {
         return primaryGroup_;
     }
 
-    int TiffImage::pixelWidth() const
+    uint32_t TiffImage::pixelWidth() const
     {
         if (pixelWidthPrimary_ != 0) {
             return pixelWidthPrimary_;
@@ -143,12 +143,12 @@ namespace Exiv2 {
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageWidth"));
         auto imageWidth = exifData_.findKey(key);
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            pixelWidthPrimary_ = static_cast<int>(imageWidth->toLong());
+            pixelWidthPrimary_ = imageWidth->toUint32();
         }
         return pixelWidthPrimary_;
     }
 
-    int TiffImage::pixelHeight() const
+    uint32_t TiffImage::pixelHeight() const
     {
         if (pixelHeightPrimary_ != 0) {
             return pixelHeightPrimary_;
@@ -157,7 +157,7 @@ namespace Exiv2 {
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageLength"));
         auto imageHeight = exifData_.findKey(key);
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            pixelHeightPrimary_ = imageHeight->toLong();
+            pixelHeightPrimary_ = imageHeight->toUint32();
         }
         return pixelHeightPrimary_;
     }

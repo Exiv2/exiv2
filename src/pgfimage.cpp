@@ -187,7 +187,7 @@ namespace Exiv2 {
 
         readPgfHeaderSize(*io_);
 
-        int w = 0, h = 0;
+        uint32_t w = 0, h = 0;
         DataBuf header      = readPgfHeaderStructure(*io_, w, h);
 
         auto img = ImageFactory::create(ImageType::png);
@@ -278,7 +278,7 @@ namespace Exiv2 {
         return headerSize;
     } // PgfImage::readPgfHeaderSize
 
-    DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int& width, int& height) const
+    DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t& height) const
     {
         DataBuf header(16);
         long bufRead = iIo.read(header.data(), header.size());

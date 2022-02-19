@@ -698,7 +698,7 @@ namespace Exiv2 {
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
         for (long i = 0; i < pos->count(); ++i) {
-            value << static_cast<char>(pos->toLong(i));
+            value << static_cast<char>(pos->toInt64(i));
         }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
@@ -712,7 +712,7 @@ namespace Exiv2 {
         std::ostringstream value;
         for (long i = 0; i < pos->count(); ++i) {
             if (i > 0) value << '.';
-            value << pos->toLong(i);
+            value << pos->toInt64(i);
         }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
@@ -723,7 +723,7 @@ namespace Exiv2 {
         auto pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end() || pos->count() == 0) return;
         if (!prepareXmpTarget(to)) return;
-        int value = pos->toLong();
+        auto value = pos->toInt64();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -991,7 +991,7 @@ namespace Exiv2 {
         unsigned short value = 0;
 
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int fired = pos->toLong();
+            auto fired = pos->toInt64();
             if (pos->value().ok())
                 value |= fired & 1;
 #ifndef SUPPRESS_WARNINGS
@@ -1001,7 +1001,7 @@ namespace Exiv2 {
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Return"));
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int ret = pos->toLong();
+            auto ret = pos->toInt64();
             if (pos->value().ok())
                 value |= (ret & 3) << 1;
 #ifndef SUPPRESS_WARNINGS
@@ -1011,7 +1011,7 @@ namespace Exiv2 {
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Mode"));
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int mode = pos->toLong();
+            auto mode = pos->toInt64();
             if (pos->value().ok())
                 value |= (mode & 3) << 3;
 #ifndef SUPPRESS_WARNINGS
@@ -1021,7 +1021,7 @@ namespace Exiv2 {
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Function"));
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int function = pos->toLong();
+            auto function = pos->toInt64();
             if (pos->value().ok())
                 value |= (function & 1) << 5;
 #ifndef SUPPRESS_WARNINGS
@@ -1032,7 +1032,7 @@ namespace Exiv2 {
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
         if (pos != xmpData_->end()) {
             if (pos->count() > 0) {
-                int red = pos->toLong();
+                auto red = pos->toInt64();
                 if (pos->value().ok())
                     value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS

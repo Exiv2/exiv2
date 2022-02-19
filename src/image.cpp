@@ -691,12 +691,12 @@ namespace Exiv2 {
         return byteOrder_;
     }
 
-    int Image::pixelWidth() const
+    uint32_t Image::pixelWidth() const
     {
         return pixelWidth_;
     }
 
-    int Image::pixelHeight() const
+    uint32_t Image::pixelHeight() const
     {
         return pixelHeight_;
     }

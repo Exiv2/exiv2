@@ -1175,11 +1175,11 @@ namespace Exiv2 {
             return os;
         }
         const uint32_t date =
-            (dateIt->toLong(0) << 24) + (dateIt->toLong(1) << 16) +
-            (dateIt->toLong(2) <<  8) + (dateIt->toLong(3) <<  0);
+            (dateIt->toUint32(0) << 24) + (dateIt->toUint32(1) << 16) +
+            (dateIt->toUint32(2) <<  8) + (dateIt->toUint32(3) <<  0);
         const uint32_t time =
-            (timeIt->toLong(0) << 24) + (timeIt->toLong(1) << 16) +
-            (timeIt->toLong(2) <<  8);
+            (timeIt->toUint32(0) << 24) + (timeIt->toUint32(1) << 16) +
+            (timeIt->toUint32(2) <<  8);
         const uint32_t countEnc =
             (value.toUint32(0) << 24) + (value.toUint32(1) << 16) +
             (value.toUint32(2) <<  8) + (value.toUint32(3) <<  0);
@@ -1276,13 +1276,13 @@ namespace Exiv2 {
                 // 0x0207 Pentax       LensInfo  Undefined  36 3 255 0 0 40 148 71 152 80 6 241 65 237 153 88 36 1 76 107 251 255 255 255 0 0 80 6 241 0 0 0 0 0 0 0 0
                 unsigned long base   = 1;
 
-                unsigned int  autoAperture     = lensInfo->toLong(base+1) & 0x01 ;
-                unsigned int  minAperture      = lensInfo->toLong(base+2) & 0x06 ;
-                unsigned int  minFocusDistance = lensInfo->toLong(base+3) & 0xf8 ;
+                unsigned int  autoAperture     = lensInfo->toUint32(base+1) & 0x01 ;
+                unsigned int  minAperture      = lensInfo->toUint32(base+2) & 0x06 ;
+                unsigned int  minFocusDistance = lensInfo->toUint32(base+3) & 0xf8 ;
 
-                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+4) == 148) index = 8;
-                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+5) == 110) index = 7;
-                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toLong(base+4) == 110) index = 7;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toUint32(base+4) == 148) index = 8;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toUint32(base+5) == 110) index = 7;
+                if ( autoAperture == 0x0 && minAperture == 0x0 && minFocusDistance == 0x28 && lensInfo->toUint32(base+4) == 110) index = 7;
 
             } else if ( value.count() == 3 ) {
                 // http://dev.exiv2.org/attachments/download/858/_IGP9032.DNG
@@ -1290,15 +1290,15 @@ namespace Exiv2 {
                 // 0x003f PentaxDng    LensType  Byte        3    3 255   0
                 // 0x0207 PentaxDng    LensInfo  Undefined  69  131   0   0 255 0  40 148  68 244 ...
                 //                                                0   1   2   3 4   5   6
-                if ( lensInfo->toLong(4) == 0 && lensInfo->toLong(5) == 40 && lensInfo->toLong(6) == 148 ) index = 8;
+                if ( lensInfo->toUint32(4) == 0 && lensInfo->toUint32(5) == 40 && lensInfo->toUint32(6) == 148 ) index = 8;
 
             } else if ( value.count() == 4 ) {
                 // http://dev.exiv2.org/attachments/download/868/IMGP2221.JPG
                 // 0x0207 PentaxDng    LensInfo  Undefined 128    0 131 128   0 0 255   1 184   0 0 0 0 0
                 //                                                0   1   2   3 4   5   6
-                if ( lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 ) index = 8;
+                if ( lensInfo->count() == 128 && lensInfo->toUint32(1) == 131 && lensInfo->toUint32(2) == 128 ) index = 8;
                 // #1155
-                if ( lensInfo->toLong(6) == 5 )  index = 7;
+                if ( lensInfo->toUint32(6) == 5 )  index = 7;
             }
 
             if ( index > 0 )  {
@@ -1323,7 +1323,7 @@ namespace Exiv2 {
             const auto lensInfo = findLensInfo(metadata);
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
+                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toUint32(1) == 168 && lensInfo->toUint32(2) == 144 ) index = 7;
             }
 
             if ( index > 0 )  {
@@ -1348,7 +1348,7 @@ namespace Exiv2 {
             const auto lensInfo = findLensInfo(metadata);
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
+                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toUint32(1) == 131 && lensInfo->toUint32(2) == 128 )
                     index = 6;
             }
             if ( value.count() == 2 ) {
