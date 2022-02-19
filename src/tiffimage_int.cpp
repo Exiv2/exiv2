@@ -1731,7 +1731,7 @@ namespace Exiv2 {
         {    0x0098, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, nikonSelector) },
         {    0x00a8, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonFlSet, nikonSelector) },
         {    0x00b0, nikon3Id,         EXV_BINARY_ARRAY(nikonMeCfg, nikonMeDef)  },
-        {    0x00b7, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonAf2Set, nikonAf2Selector) },
+        {    0x00b7, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonAf2Set, nikonSelector) },
         {    0x00b8, nikon3Id,         EXV_BINARY_ARRAY(nikonFiCfg, nikonFiDef)  },
         {    0x00b9, nikon3Id,         EXV_BINARY_ARRAY(nikonAFTCfg, nikonAFTDef)  },
         {  Tag::all, nikon3Id,         newTiffEntry                              },
