@@ -42,6 +42,10 @@ namespace Exiv2 {
         return os.str();
     }
 
+    uint32_t Metadatum::toUint32(long n) const {
+        return static_cast<uint32_t>(toInt64(n));
+    }
+
     bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)
     {
         return lhs.tag() < rhs.tag();
