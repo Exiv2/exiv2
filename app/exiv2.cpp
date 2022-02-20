@@ -1039,7 +1039,7 @@ using long_t = std::map<std::string, std::string>;
 
 int Params::getopt(int argc, char* const Argv[])
 {
-    auto argv = new char*[argc + 1];
+    std::vector<char *> argv(argc+1);
     argv[argc] = nullptr;
     long_t longs;
 
@@ -1084,7 +1084,7 @@ int Params::getopt(int argc, char* const Argv[])
         }
     }
 
-    int rc = Util::Getopt::getopt(argc, argv, optstring_);
+    int rc = Util::Getopt::getopt(argc, argv.data(), optstring_);
     // Further consistency checks
     if (help_ || version_) {
         goto cleanup;
@@ -1157,10 +1157,9 @@ int Params::getopt(int argc, char* const Argv[])
     // cleanup the argument vector
     for (int i = 0; i < argc; i++)
         ::free(argv[i]);
-    delete [] argv;
 
     return rc;
-} // Params::getopt
+}
 
 // *****************************************************************************
 // local implementations
