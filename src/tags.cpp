@@ -295,7 +295,7 @@ namespace Exiv2 {
     }
 
     ExifKey::ExifKey(uint16_t tag, const std::string& groupName)
-        : p_(new Impl)
+        : p_(std::make_unique<Impl>())
     {
         IfdId ifdId = groupId(groupName);
         // Todo: Test if this condition can be removed
@@ -311,7 +311,7 @@ namespace Exiv2 {
     }
 
     ExifKey::ExifKey(const TagInfo& ti)
-        : p_(new Impl)
+        : p_(std::make_unique<Impl>())
     {
         auto ifdId = static_cast<IfdId>(ti.ifdId_);
         if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
@@ -322,13 +322,13 @@ namespace Exiv2 {
     }
 
     ExifKey::ExifKey(const std::string& key)
-        : p_(new Impl)
+        : p_(std::make_unique<Impl>())
     {
         p_->decomposeKey(key);
     }
 
     ExifKey::ExifKey(const ExifKey& rhs)
-        : p_(new Impl(*rhs.p_))
+        : p_(std::make_unique<Impl>(*rhs.p_))
     {
     }
 

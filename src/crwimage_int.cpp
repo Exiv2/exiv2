@@ -169,8 +169,6 @@ namespace Exiv2 {
 
     CiffHeader::~CiffHeader()
     {
-        delete   pRootDir_;
-        delete[] pPadding_;
     }
 
     CiffDirectory::~CiffDirectory()
@@ -214,12 +212,12 @@ namespace Exiv2 {
             throw Error(kerNotACrwImage);
         }
 
-        delete[] pPadding_;
-        pPadding_ = new byte[offset_ - 14];
+        pPadding_.clear();
+        pPadding_.resize(offset_ - 14);
         padded_ = offset_ - 14;
-        std::memcpy(pPadding_, pData + 14, padded_);
+        std::copy_n(pData+14, padded_, pPadding_.begin());
 
-        pRootDir_ = new CiffDirectory;
+        pRootDir_ = std::make_unique<CiffDirectory>();
         pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
     } // CiffHeader::read
 
@@ -329,8 +327,9 @@ namespace Exiv2 {
     void CiffHeader::decode(Image& image) const
     {
         // Nothing to decode from the header itself, just add correct byte order
-        if (pRootDir_) pRootDir_->decode(image, byteOrder_);
-    } // CiffHeader::decode
+        if (pRootDir_)
+            pRootDir_->decode(image, byteOrder_);
+    }
 
     void CiffComponent::decode(Image& image, ByteOrder byteOrder) const
     {
@@ -369,9 +368,9 @@ namespace Exiv2 {
         append(blob, reinterpret_cast<const byte*>(signature_), 8);
         o += 8;
         // Pad as needed
-        if (pPadding_) {
+        if (pPadding_.empty() == false) {
             assert(padded_ == offset_ - o);
-            append(blob, pPadding_, padded_);
+            append(blob, pPadding_.data(), padded_);
         }
         else {
             for (uint32_t i = o; i < offset_; ++i) {
@@ -622,7 +621,7 @@ namespace Exiv2 {
         assert(rootDirectory == 0x0000);
         crwDirs.pop();
         if (!pRootDir_) {
-            pRootDir_ = new CiffDirectory;
+            pRootDir_ = std::make_unique<CiffDirectory>();
         }
         CiffComponent* child = pRootDir_->add(crwDirs, crwTagId);
         if (child) {
@@ -683,7 +682,7 @@ namespace Exiv2 {
             }
             if (cc_ == nullptr) {
                 // Tag doesn't exist yet, add it
-                m_ = UniquePtr(new CiffEntry(crwTagId, tag()));
+                m_ = std::make_unique<CiffEntry>(crwTagId, tag());
                 cc_ = m_.get();
                 add(std::move(m_));
             }

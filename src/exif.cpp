@@ -181,7 +181,7 @@ namespace Exiv2 {
     template<typename T>
     Exiv2::Exifdatum& setValue(Exiv2::Exifdatum& exifDatum, const T& value)
     {
-        auto v = std::unique_ptr<Exiv2::ValueType<T> >(new Exiv2::ValueType<T>);
+        auto v = std::make_unique<Exiv2::ValueType<T>>();
         v->value_.push_back(value);
         exifDatum.value_ = std::move(v);
         return exifDatum;
@@ -696,9 +696,9 @@ namespace Exiv2 {
 
         // Encode and check if the result fits into a JPEG Exif APP1 segment
         MemIo mio1;
-        std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder, 0x00000008, false));
+        TiffHeader header(byteOrder, 0x00000008, false);
         WriteMethod wm = TiffParserWorker::encode(mio1, pData, size, ed, emptyIptc, emptyXmp, Tag::root,
-                                                  TiffMapping::findEncoder, header.get(), nullptr);
+                                                  TiffMapping::findEncoder, &header, nullptr);
         if (mio1.size() <= 65527) {
             append(blob, mio1.mmap(), static_cast<uint32_t>(mio1.size()));
             return wm;
@@ -796,7 +796,7 @@ namespace Exiv2 {
         // Encode the remaining Exif tags again, don't care if it fits this time
         MemIo mio2;
         wm = TiffParserWorker::encode(mio2, pData, size, ed, emptyIptc, emptyXmp, Tag::root, TiffMapping::findEncoder,
-                                      header.get(), nullptr);
+                                      &header, nullptr);
         append(blob, mio2.mmap(), static_cast<uint32_t>(mio2.size()));
 #ifdef EXIV2_DEBUG_MESSAGES
         if (wm == wmIntrusive) {

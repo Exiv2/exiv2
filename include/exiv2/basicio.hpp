@@ -916,7 +916,7 @@ namespace Exiv2 {
         // Pimpl idiom
         class Impl;
         //! Pointer to implementation
-        Impl* p_ {nullptr};
+        std::unique_ptr<Impl> p_;
     }; // class RemoteIo
 
     /*!

@@ -219,7 +219,7 @@ namespace Exiv2 {
     } // FileIo::Impl::stat
 
     FileIo::FileIo(const std::string& path)
-        : p_(new Impl(path))
+        : p_(std::make_unique<Impl>(path))
     {
     }
 
@@ -548,9 +548,11 @@ namespace Exiv2 {
     int FileIo::close()
     {
         int rc = 0;
-        if (munmap() != 0) rc = 2;
+        if (munmap() != 0)
+            rc = 2;
         if (p_->fp_ != nullptr) {
-            if (std::fclose(p_->fp_) != 0) rc |= 1;
+            if (std::fclose(p_->fp_) != 0)
+                rc |= 1;
             p_->fp_ = nullptr;
         }
         return rc;
@@ -738,12 +740,12 @@ namespace Exiv2 {
     }
 
     MemIo::MemIo()
-        : p_(new Impl())
+        : p_(std::make_unique<Impl>())
     {
     }
 
     MemIo::MemIo(const byte* data, long size)
-        : p_(new Impl(data, size))
+        : p_(std::make_unique<Impl>(data, size))
     {
     }
 
@@ -1172,7 +1174,6 @@ namespace Exiv2 {
     {
         if (p_) {
             close();
-            delete p_;
         }
     }
 
@@ -1588,11 +1589,10 @@ namespace Exiv2 {
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        auto encodeData = new char[encodeLength];
-        base64encode(data, size, encodeData, encodeLength);
+        std::vector<char> encodeData (encodeLength);
+        base64encode(data, size, encodeData.data(), encodeLength);
         // url encode
-        const std::string urlencodeData = urlencode(encodeData);
-        delete[] encodeData;
+        const std::string urlencodeData = urlencode(encodeData.data());
 
         std::stringstream ss;
         ss << "path="   << hostInfo_.Path << "&"
@@ -1613,9 +1613,10 @@ namespace Exiv2 {
             throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
     }
+
     HttpIo::HttpIo(const std::string& url, size_t blockSize)
     {
-        p_ = new HttpImpl(url, blockSize);
+        p_ = std::make_unique<HttpImpl>(url, blockSize);
     }
 
 #ifdef EXV_USE_CURL
@@ -1776,11 +1777,10 @@ namespace Exiv2 {
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        auto encodeData = new char[encodeLength];
-        base64encode(data, size, encodeData, encodeLength);
+        std::vector<char> encodeData (encodeLength);
+        base64encode(data, size, encodeData.data(), encodeLength);
         // url encode
-        const std::string urlencodeData = urlencode(encodeData);
-        delete[] encodeData;
+        const std::string urlencodeData = urlencode(encodeData.data());
         std::stringstream ss;
         ss << "path="       << hostInfo.Path << "&"
            << "from="       << from          << "&"
@@ -1824,7 +1824,7 @@ namespace Exiv2 {
 
     CurlIo::CurlIo(const std::string& url, size_t blockSize)
     {
-        p_ = new CurlImpl(url, blockSize);
+        p_ = std::make_unique<CurlImpl>(url, blockSize);
     }
 
 #endif

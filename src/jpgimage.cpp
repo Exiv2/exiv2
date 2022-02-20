@@ -848,13 +848,12 @@ namespace Exiv2 {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        auto tempIo = std::make_unique<MemIo>();
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
         io_->transfer(*tempIo); // may throw
-    } // JpegBase::writeMetadata
+    }
 
     void JpegBase::doWriteMetadata(BasicIo& outIo)
     {

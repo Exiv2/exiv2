@@ -298,9 +298,9 @@ namespace Exiv2 {
             ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
         }
 
-        std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
+        TiffHeader header(byteOrder);
         return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder,
-                                        header.get(), nullptr);
+                                        &header, nullptr);
     } // TiffParser::encode
 
     // *************************************************************************

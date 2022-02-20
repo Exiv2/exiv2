@@ -2057,7 +2057,7 @@ namespace Exiv2 {
         // Create standard TIFF header if necessary
         std::unique_ptr<TiffHeaderBase> ph;
         if (!pHeader) {
-            ph = std::unique_ptr<TiffHeaderBase>(new TiffHeader);
+            ph = std::make_unique<TiffHeader>();
             pHeader = ph.get();
         }
 
