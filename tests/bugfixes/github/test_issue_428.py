@@ -26,12 +26,15 @@ class PngReadRawProfile(metaclass=system_tests.CaseMeta):
     commands = ["$exiv2 " + fname for fname in filenames]
     stdout = [""] * len(filenames)
     stderr = [ stderr_exception(fname) for fname in filenames[0:5] ]
+
     stderr.append("""$exiv2_exception_message """ + filenames[5] + """:
 $kerInputDataReadFailed
 """)
+
     stderr.append("""Error: XMP Toolkit error 201: Error in XMLValidator
 Warning: Failed to decode XMP metadata.
 """ + stderr_exception(filenames[6]))
+
     stderr.append("""Warning: Failed to decode Exif metadata.
 """ + stderr_exception(filenames[7]))
 

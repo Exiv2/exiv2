@@ -764,6 +764,7 @@ namespace Exiv2 {
     class EXIV2API RemoteIo : public BasicIo {
     public:
         //! Destructor. Releases all managed memory.
+        RemoteIo();
         ~RemoteIo() override;
         //@}
 

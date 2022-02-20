@@ -37,11 +37,14 @@
 #include <cstring>
 #include <cassert>
 #include <cctype>
-
 #include <regex>
 
 #if defined(_MSC_VER)
 #include <Windows.h>
+#include <fcntl.h>
+#include <io.h>
+#else
+#include <unistd.h>
 #endif
 
 // *****************************************************************************

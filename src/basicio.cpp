@@ -1170,6 +1170,8 @@ namespace Exiv2 {
         delete[] blocksMap_;
     }
 
+    RemoteIo::RemoteIo() = default;
+
     RemoteIo::~RemoteIo()
     {
         if (p_) {

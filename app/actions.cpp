@@ -62,6 +62,8 @@
 #ifdef _MSC_VER
 # include <sys/utime.h>
 #include <Windows.h>
+#include <fcntl.h>
+#include <io.h>
 #else
 # include <utime.h>
 #endif
@@ -1820,11 +1822,15 @@ namespace {
         bool          bStdout = tgt    == "-";
 
         Exiv2::DataBuf stdIn;
-        if ( bStdin )
+        Exiv2::Image::UniquePtr sourceImage;
+        if ( bStdin ) {
             Params::instance().getStdin(stdIn);
+            auto ioStdin = std::make_unique<Exiv2::MemIo>(stdIn.c_data(),stdIn.size());
+            sourceImage = Exiv2::ImageFactory::open(std::move(ioStdin));
+        } else {
+            sourceImage = Exiv2::ImageFactory::open(source);
+        }
 
-        auto ioStdin = std::make_unique<Exiv2::MemIo>(stdIn.c_data(),stdIn.size());
-        auto sourceImage = bStdin ? Exiv2::ImageFactory::open(std::move(ioStdin)) : Exiv2::ImageFactory::open(source);
 
         assert(sourceImage);
         sourceImage->readMetadata();

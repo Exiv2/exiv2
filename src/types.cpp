@@ -119,39 +119,38 @@ namespace Exiv2 {
     }
 
     DataBuf::DataBuf(DataBuf&& rhs)
-        : pData_(rhs.pData_), size_(rhs.size_)
+        : pData_(std::move(rhs.pData_)), size_(rhs.size_)
     {
-        rhs.pData_ = nullptr;
         rhs.size_ = 0;
     }
 
     DataBuf::~DataBuf()
-    { delete[] pData_; }
+    { }
 
-    DataBuf::DataBuf() : pData_(nullptr), size_(0)
+    DataBuf::DataBuf() : pData_(), size_(0)
     {}
 
-    DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(size)
+    DataBuf::DataBuf(long size) : pData_(size), size_(size)
     {}
 
-    DataBuf::DataBuf(const byte* pData, long size) : pData_(nullptr), size_(0)
+    DataBuf::DataBuf(const byte* pData, long size) : pData_(), size_(0)
     {
         if (size > 0) {
-            pData_ = new byte[size];
-            std::memcpy(pData_, pData, size);
+            pData_.resize(size);
+            std::memcpy(pData_.data(), pData, size);
             size_ = size;
         }
     }
 
     DataBuf::DataBuf(const DataBuf& rhs)
-        : DataBuf(rhs.pData_, rhs.size_)
+        : DataBuf(rhs.pData_.data(), rhs.size_)
     {}
 
     DataBuf& DataBuf::operator=(DataBuf&& rhs)
     {
-        if (this == &rhs) return *this;
-        reset();
-        std::swap(pData_, rhs.pData_);
+        if (this == &rhs)
+            return *this;
+        pData_ = std::move(rhs.pData_);
         std::swap(size_, rhs.size_);
         return *this;
     }
@@ -159,8 +158,7 @@ namespace Exiv2 {
     void DataBuf::alloc(long size)
     {
         if (size > size_) {
-            delete[] pData_;
-            pData_ = new byte[size];
+            pData_.resize(size);
             size_ = size;
         }
     }
@@ -168,11 +166,10 @@ namespace Exiv2 {
     void DataBuf::resize(long size)
     {
         if (size > size_) {
-            byte* newbuf = new byte[size];
+            std::vector<byte> newbuf(size);
             if (size_ > 0) {
-                memcpy(newbuf, pData_, size_);
+                memcpy(newbuf.data(), pData_.data(), size_);
             }
-            delete[] pData_;
             pData_ = newbuf;
         }
         size_ = size;
@@ -180,13 +177,12 @@ namespace Exiv2 {
 
     void DataBuf::reset()
     {
-        delete[] pData_;
-        pData_ = nullptr;
+        pData_.clear();
         size_ = 0;
     }
 
     void DataBuf::clear() {
-        memset(pData_, 0, size_);
+        memset(pData_.data(), 0, size_);
     }
 
     uint8_t Exiv2::DataBuf::read_uint8(size_t offset) const {
@@ -245,11 +241,13 @@ namespace Exiv2 {
         ull2Data(&pData_[offset], x, byteOrder);
     }
 
+    /// \todo do not use void*
     void Exiv2::DataBuf::copyBytes(size_t offset, const void* buf, size_t bufsize) {
         if (static_cast<size_t>(size_) < bufsize || offset > size_ - bufsize) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::copyBytes");
+        } if (bufsize > 0) {
+            memcpy(&pData_[offset], buf, bufsize);
         }
-        memcpy(&pData_[offset], buf, bufsize);
     }
 
     int Exiv2::DataBuf::cmpBytes(size_t offset, const void* buf, size_t bufsize) const {
@@ -262,6 +260,8 @@ namespace Exiv2 {
     byte* Exiv2::DataBuf::data(size_t offset) {
         if (static_cast<size_t>(size_) < offset) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
+        } else if (size_ == 0 || static_cast<size_t>(size_) == offset) {
+            return nullptr;
         }
         return &pData_[offset];
     }
@@ -269,6 +269,8 @@ namespace Exiv2 {
     const byte* Exiv2::DataBuf::c_data(size_t offset) const {
         if (static_cast<size_t>(size_) < offset) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
+        } else if (size_ == 0 || static_cast<size_t>(size_) == offset) {
+            return nullptr;
         }
         return &pData_[offset];
     }

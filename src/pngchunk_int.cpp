@@ -154,7 +154,7 @@ namespace Exiv2
                 arr = DataBuf(text, textsize);
             } else if (type == iTXt_Chunk) {
                 enforce(data.size() >= Safe::add(keysize, 3), Exiv2::kerCorruptedMetadata);
-                const size_t nullCount = std::count(data.c_data(keysize + 3), data.c_data(data.size()), '\0');
+                const size_t nullCount = std::count(data.c_data(keysize + 3), data.c_data(data.size()-1), '\0');
                 enforce(nullCount >= nullSeparators, Exiv2::kerCorruptedMetadata);
 
                 // Extract a deflate compressed or uncompressed UTF-8 text chunk
@@ -277,7 +277,7 @@ namespace Exiv2
                     uint32_t sizeIptc = 0;
                     uint32_t sizeHdr = 0;
 
-                    const byte* pEnd = psData.c_data(psData.size());
+                    const byte* pEnd = psData.c_data(psData.size()-1);
                     const byte* pCur = psData.c_data();
                     while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur), &record,
                                                                         &sizeHdr, &sizeIptc)) {
@@ -551,7 +551,7 @@ namespace Exiv2
             }
 
             const char* sp = text.c_str(1);             // current byte (space pointer)
-            const char* eot = text.c_str(text.size());  // end of text
+            const char* eot = text.c_str(text.size()-1);  // end of text
 
             if (sp >= eot) {
                 return DataBuf();

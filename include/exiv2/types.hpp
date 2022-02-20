@@ -247,7 +247,7 @@ namespace Exiv2 {
       private:
         // DATA
         //! Pointer to the buffer, 0 if none has been allocated
-        byte* pData_;
+        std::vector<byte> pData_;
         //! The current size of the buffer
         long size_;
     }; // class DataBuf

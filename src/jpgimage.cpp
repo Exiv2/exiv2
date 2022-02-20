@@ -369,17 +369,16 @@ namespace Exiv2 {
         while (marker != sos_ && marker != eoi_ && search > 0) {
             // 2-byte buffer for reading the size.
             byte sizebuf[2];
-            uint16_t size = 0;
+            uint16_t size = 0; // Size of the segment, including the 2-byte size field
             if (markerHasLength(marker)) {
                 io_->readOrThrow(sizebuf, 2, kerFailedToReadImageData);
                 size = getUShort(sizebuf, bigEndian);
-                // `size` is the size of the segment, including the 2-byte size field
-                // that we just read.
                 enforce(size >= 2, kerFailedToReadImageData);
             }
 
             // Read the rest of the segment.
             DataBuf buf(size);
+            /// \todo check if it makes sense to check for size
             if (size > 0) {
                 io_->readOrThrow(buf.data(2), size - 2, kerFailedToReadImageData);
                 buf.copyBytes(0, sizebuf, 2);
