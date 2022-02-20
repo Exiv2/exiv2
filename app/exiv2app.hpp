@@ -148,9 +148,6 @@ public:
     //! Prevent copy-construction: not implemented.
     Params(const Params& rhs) = delete;
 
-    //! Destructor
-    static void cleanup();
-
     //! Enumerates print modes
     enum PrintMode {
         pmSummary,
@@ -244,8 +241,6 @@ public:
     Exiv2::DataBuf  stdinBuf;           //!< DataBuf with the binary bytes from stdin
 
 private:
-    //! Pointer to the global Params object.
-    static Params* instance_;
     //! Initializer for year, month and day adjustment info.
     static const YodAdjust emptyYodAdjust_[];
 

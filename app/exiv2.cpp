@@ -181,7 +181,6 @@ int main(int argc, char* const argv[])
             }
 
             taskFactory.cleanup();
-            Params::cleanup();
             Exiv2::XmpParser::terminate();
         }
     } catch (const std::exception& exc) {
@@ -195,7 +194,6 @@ int main(int argc, char* const argv[])
 
 // *****************************************************************************
 // class Params
-Params* Params::instance_ = nullptr;
 
 const Params::YodAdjust Params::emptyYodAdjust_[] = {
     { false, "-Y", 0 },
@@ -232,16 +230,8 @@ Params::Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q
 
 Params& Params::instance()
 {
-    if (nullptr == instance_) {
-        instance_ = new Params;
-    }
-    return *instance_;
-}
-
-void Params::cleanup()
-{
-    delete instance_;
-    instance_ = nullptr;
+    static Params instance_;
+    return instance_;
 }
 
 void Params::version(bool verbose, std::ostream& os)
