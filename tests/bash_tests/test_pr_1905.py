@@ -9,7 +9,7 @@ class TestExifTagsInTaglist(metaclass=CaseMeta):
     def setUp(self):
         self.stdout = [open(self.expand_variables("$filename_ref"),'r').read()]
 
-    filename_ref = path("$data_path/test_pr_1905_poc1_ref.out")
+    filename_ref = path("$ref_path/test_pr_1905_poc1_ref.out")
     
     commands = ["$taglist Exif"]
 
