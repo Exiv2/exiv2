@@ -203,6 +203,33 @@ const Params::YodAdjust Params::emptyYodAdjust_[] = {
     { false, "-D", 0 },
 };
 
+Params::Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
+           help_(false),
+           version_(false),
+           verbose_(false),
+           force_(false),
+           binary_(false),
+           unknown_(true),
+           preserve_(false),
+           timestamp_(false),
+           timestampOnly_(false),
+           fileExistsPolicy_(askPolicy),
+           adjust_(false),
+           printMode_(pmSummary),
+           printItems_(0),
+           printTags_(Exiv2::mdNone),
+           action_(0),
+           target_(ctExif|ctIptc|ctComment|ctXmp),
+           adjustment_(0),
+           format_("%Y%m%d_%H%M%S"),
+           formatSet_(false),
+           first_(true)
+{
+    yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
+    yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
+    yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
+}
+
 Params& Params::instance()
 {
     if (nullptr == instance_) {
