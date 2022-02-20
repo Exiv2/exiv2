@@ -65,8 +65,10 @@ int main(int argc, char* const argv[])
         if ( argc >= 5 ) {
             int blocksize = argc==6 ? atoi(ba) : 10000;
             // ensure blocksize is sane
-            if (blocksize>1024*1024) blocksize=10000;
-            Exiv2::byte* bytes = blocksize > 0 ? new Exiv2::byte[blocksize] : nullptr;
+            if (blocksize>1024*1024)
+                blocksize=10000;
+
+            std::vector<Exiv2::byte> bytes (blocksize);
 
             // copy fileIn from a remote location.
             BasicIo::UniquePtr io = Exiv2::ImageFactory::createIo(fr);
@@ -78,11 +80,11 @@ int main(int argc, char* const argv[])
                 Error(Exiv2::kerFileOpenFailed, output.path() , "w+b", strError());
             }
             size_t    l = 0;
-            if ( bytes ) {
+            if ( !bytes.empty() ) {
                 int r ;
-                while ( (r=io->read(bytes,blocksize)) > 0  ) {
+                while ( (r=io->read(bytes.data(),blocksize)) > 0  ) {
                     l += r;
-                    output.write(bytes,r) ;
+                    output.write(bytes.data(),r) ;
                 }
             } else {
                 // read/write byte-wise (#1029)
@@ -90,7 +92,6 @@ int main(int argc, char* const argv[])
                     output.putb(io->getb()) ;
                 }
             }
-            delete[] bytes;
             output.close();
         }
 

@@ -49,9 +49,9 @@ try {
     }
 
     // Use MemIo to increase test coverage.
-    Exiv2::BasicIo::UniquePtr fileIo(new Exiv2::FileIo(params.read_));
-    Exiv2::BasicIo::UniquePtr memIo(new Exiv2::MemIo);
-    memIo->transfer(*fileIo);
+    Exiv2::FileIo fileIo(params.read_);
+    auto memIo = std::make_unique<Exiv2::MemIo>();
+    memIo->transfer(fileIo);
 
     Exiv2::Image::UniquePtr readImg = Exiv2::ImageFactory::open(std::move(memIo));
     assert(readImg.get() != 0);

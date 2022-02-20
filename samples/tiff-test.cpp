@@ -91,7 +91,7 @@ void mini1(const char* path)
 
 void mini9(const char* path)
 {
-    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
+    TiffImage tiffImage(std::make_unique<FileIo>(path), false);
     tiffImage.readMetadata();
 
     std::cout << "MIME type:  " << tiffImage.mimeType() << "\n";
