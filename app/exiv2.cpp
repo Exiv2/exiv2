@@ -47,6 +47,11 @@
 // *****************************************************************************
 // local declarations
 namespace {
+    const Params::YodAdjust emptyYodAdjust_[] = {
+        { false, "-Y", 0 },
+        { false, "-O", 0 },
+        { false, "-D", 0 },
+    };
 
     //! List of all command identifiers and corresponding strings
     const CmdIdAndString cmdIdAndString[] = {
@@ -194,12 +199,6 @@ int main(int argc, char* const argv[])
 
 // *****************************************************************************
 // class Params
-
-const Params::YodAdjust Params::emptyYodAdjust_[] = {
-    { false, "-Y", 0 },
-    { false, "-O", 0 },
-    { false, "-D", 0 },
-};
 
 Params::Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
            help_(false),
