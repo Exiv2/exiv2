@@ -1035,45 +1035,44 @@ void Params::getStdin(Exiv2::DataBuf& buf)
 
 } // Params::getStdin()
 
-using long_t = std::map<std::string, std::string>;
-
 int Params::getopt(int argc, char* const Argv[])
 {
     std::vector<char *> argv(argc+1);
     argv[argc] = nullptr;
-    long_t longs;
 
-    longs["--adjust"   ] = "-a";
-    longs["--binary"   ] = "-b";
-    longs["--comment"  ] = "-c";
-    longs["--delete"   ] = "-d";
-    longs["--days"     ] = "-D";
-    longs["--extract"  ] = "-e";
-    longs["--force"    ] = "-f";
-    longs["--Force"    ] = "-F";
-    longs["--grep"     ] = "-g";
-    longs["--help"     ] = "-h";
-    longs["--insert"   ] = "-i";
-    longs["--keep"     ] = "-k";
-    longs["--key"      ] = "-K";
-    longs["--location" ] = "-l";
-    longs["--modify"   ] = "-m";
-    longs["--Modify"   ] = "-M";
-    longs["--encode"   ] = "-n";
-    longs["--months"   ] = "-O";
-    longs["--print"    ] = "-p";
-    longs["--Print"    ] = "-P";
-    longs["--quiet"    ] = "-q";
-    longs["--log"      ] = "-Q";
-    longs["--rename"   ] = "-r";
-    longs["--suffix"   ] = "-S";
-    longs["--timestamp"] = "-t";
-    longs["--Timestamp"] = "-T";
-    longs["--unknown"  ] = "-u";
-    longs["--verbose"  ] = "-v";
-    longs["--Version"  ] = "-V";
-    longs["--version"  ] = "-V";
-    longs["--years"    ] = "-Y";
+    std::unordered_map<std::string, std::string> longs {
+      {"--adjust"   , "-a"},
+      {"--binary"   , "-b"},
+      {"--comment"  , "-c"},
+      {"--delete"   , "-d"},
+      {"--days"     , "-D"},
+      {"--extract"  , "-e"},
+      {"--force"    , "-f"},
+      {"--Force"    , "-F"},
+      {"--grep"     , "-g"},
+      {"--help"     , "-h"},
+      {"--insert"   , "-i"},
+      {"--keep"     , "-k"},
+      {"--key"      , "-K"},
+      {"--location" , "-l"},
+      {"--modify"   , "-m"},
+      {"--Modify"   , "-M"},
+      {"--encode"   , "-n"},
+      {"--months"   , "-O"},
+      {"--print"    , "-p"},
+      {"--Print"    , "-P"},
+      {"--quiet"    , "-q"},
+      {"--log"      , "-Q"},
+      {"--rename"   , "-r"},
+      {"--suffix"   , "-S"},
+      {"--timestamp", "-t"},
+      {"--Timestamp", "-T"},
+      {"--unknown"  , "-u"},
+      {"--verbose"  , "-v"},
+      {"--Version"  , "-V"},
+      {"--version"  , "-V"},
+      {"--years"    , "-Y"},
+    };
 
     for ( int i = 0 ; i < argc ; i++ ) {
         std::string arg(Argv[i]);
