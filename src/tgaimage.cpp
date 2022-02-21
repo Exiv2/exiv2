@@ -58,7 +58,7 @@ namespace Exiv2 {
         throw(Error(kerInvalidSettingForImage, "IPTC metadata", "TGA"));
     }
 
-    void TgaImage::setComment(const std::string& /*comment*/)
+    void TgaImage::setComment(std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "TGA"));
@@ -133,7 +133,7 @@ namespace Exiv2 {
     bool isTgaType(BasicIo& iIo, bool /*advance*/)
     {
         // not all TARGA files have a signature string, so first just try to match the file name extension
-        std::string path = iIo.path();
+        const std::string& path = iIo.path();
         if(   path.rfind(".tga") != std::string::npos
            || path.rfind(".TGA") != std::string::npos) {
             return true;

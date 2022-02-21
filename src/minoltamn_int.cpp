@@ -63,7 +63,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta image quality values to readable labels
-    EXV_UNUSED constexpr TagDetails minoltaImageQuality[] = {
+    [[maybe_unused]] constexpr TagDetails minoltaImageQuality[] = {
         { 0, N_("Raw")        },
         { 1, N_("Super Fine") },
         { 2, N_("Fine")       },
@@ -273,7 +273,7 @@ namespace Exiv2 {
     };
 
     //! Lookup table to translate Minolta Std camera settings AF points values to readable labels
-    EXV_UNUSED constexpr TagDetails minoltaAFPointsStd[] = {
+    [[maybe_unused]] constexpr TagDetails minoltaAFPointsStd[] = {
         { 0, N_("Center")       },
         { 1, N_("Top")          },
         { 2, N_("Top-right")    },
@@ -2488,17 +2488,6 @@ namespace Exiv2 {
     std::ostream& printMinoltaSonyZoneMatching(std::ostream& os, const Value& value, const ExifData* metadata)
     {
         return EXV_PRINT_TAG(minoltaSonyZoneMatching)(os, value, metadata);
-    }
-
-    std::ostream& printMinoltaSonyFlashExposureComp(std::ostream& os, const Value& value, const ExifData*)
-    {
-        std::ios::fmtflags f( os.flags() );
-        if (value.count() != 1 || value.typeId() != signedRational) {
-            return os << "(" << value << ")";
-        }
-        os << std::fixed << std::setprecision(2) << value.toFloat(0) << " EV";
-        os.flags(f);
-        return os;
     }
 
     }  // namespace Internal

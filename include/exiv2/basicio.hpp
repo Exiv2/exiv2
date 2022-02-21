@@ -240,7 +240,7 @@ namespace Exiv2 {
               comprehensive error messages where only a BasicIo instance is
               available.
          */
-        virtual std::string path() const =0;
+        virtual const std::string& path() const noexcept =0;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -472,7 +472,7 @@ namespace Exiv2 {
         //! Returns true if the file position has reached the end, otherwise false.
         bool eof() const override;
         //! Returns the path of the file
-        std::string path() const override;
+        const std::string& path() const noexcept override;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -654,7 +654,7 @@ namespace Exiv2 {
         //!Returns true if the IO position has reached the end, otherwise false.
         bool eof() const override;
         //! Returns a dummy path, indicating that memory access is used
-        std::string path() const override;
+        const std::string& path() const noexcept override;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -898,7 +898,7 @@ namespace Exiv2 {
        //!Returns true if the IO position has reached the end, otherwise false.
        bool eof() const override;
        //!Returns the URL of the file.
-       std::string path() const override;
+       const std::string& path() const noexcept override;
 
         /*!
           @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -1008,12 +1008,6 @@ namespace Exiv2 {
       @throw Error In case of failure.
      */
     EXIV2API long writeFile(const DataBuf& buf, const std::string& path);
-    /*!
-      @brief replace each substring of the subject that matches the given search string with the given replacement.
-      @return the subject after replacing.
-     */
-    EXIV2API std::string ReplaceStringInPlace(std::string subject, const std::string& search,
-                          const std::string& replace);
 #ifdef EXV_USE_CURL
     /*!
       @brief The callback function is called by libcurl to write the data

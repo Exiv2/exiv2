@@ -22,14 +22,7 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
-#include "value.hpp"
-
-// + standard includes
-#include <string>
-#include <iostream>
-#include <memory>
 
 // *****************************************************************************
 // namespace extensions

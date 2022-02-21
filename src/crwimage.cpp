@@ -147,9 +147,6 @@ namespace Exiv2 {
         // Parse the image, starting with a CIFF header component
         CiffHeader header;
         header.read(pData, size);
-#ifdef EXIV2_DEBUG_MESSAGES
-        header.print(std::cerr);
-#endif
         header.decode(*pCrwImage);
 
         // a hack to get absolute offset of preview image inside CRW structure

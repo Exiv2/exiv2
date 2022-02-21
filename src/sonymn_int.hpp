@@ -22,13 +22,7 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
-#include "types.hpp"
 #include "tiffcomposite_int.hpp"
-
-// + standard includes
-#include <string>
-#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions

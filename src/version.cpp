@@ -36,13 +36,10 @@
 #endif
 
 // + standard includes
-#include <iomanip>
-#include <sstream>
-#include <string>
-#include <stdio.h>
-#include <iostream>
 #include <fstream>
 #include <regex>
+#include <set>
+#include <sstream>
 
 // #1147
 #ifndef WIN32
@@ -139,7 +136,7 @@ static void output(std::ostream& os,const std::vector<std::regex>& greps,const c
 
 static bool pushPath(std::string& path,std::vector<std::string>& libs,std::set<std::string>& paths)
 {
-    bool result = Exiv2::fileExists(path,true) && paths.find(path) == paths.end() && path != "/" ;
+    bool result = Exiv2::fileExists(path) && paths.find(path) == paths.end() && path != "/" ;
     if ( result ) {
         paths.insert(path);
         libs.push_back(path);
@@ -313,7 +310,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
     int have_lensdata    =0;
     int have_iconv       =0;
     int have_memory      =0;
-    int have_lstat       =0;
     int have_stdbool     =0;
     int have_stdint      =0;
     int have_stdlib      =0;
@@ -360,10 +356,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
 
 #ifdef EXV_HAVE_MEMORY_H
     have_memory=1;
-#endif
-
-#ifdef EXV_HAVE_LSTAT
-    have_lstat=1;
 #endif
 
 #ifdef EXV_HAVE_STDBOOL_H
@@ -492,7 +484,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
     output(os,keys,"have_memory"       ,have_memory      );
-    output(os,keys,"have_lstat"        ,have_lstat       );
     output(os,keys,"have_stdbool"      ,have_stdbool     );
     output(os,keys,"have_stdint"       ,have_stdint      );
     output(os,keys,"have_stdlib"       ,have_stdlib      );

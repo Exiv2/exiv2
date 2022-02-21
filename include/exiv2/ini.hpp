@@ -32,7 +32,6 @@
 
 #include <map>
 #include <string>
-#include <stdio.h>
 
 namespace Exiv2 {
 

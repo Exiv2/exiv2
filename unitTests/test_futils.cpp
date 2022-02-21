@@ -23,12 +23,15 @@
 #include <exiv2/futils.hpp>
 
 // Auxiliary headers
+#include <filesystem>
 #include <fstream>
 #include <cstdio>
 #include <cerrno>
 #include <stdexcept>
 
 #include <gtest/gtest.h>
+
+namespace fs = std::filesystem;
 
 using namespace Exiv2;
 
@@ -42,7 +45,7 @@ TEST(strError, returnSuccessAfterClosingFile)
     std::string tmpFile("tmp.dat");
     std::ofstream auxFile(tmpFile.c_str());
     auxFile.close();
-    std::remove(tmpFile.c_str());
+    fs::remove(tmpFile.c_str());
     ASSERT_TRUE(strError().find("(errno = 0)") != std::string::npos);
 }
 
@@ -95,15 +98,6 @@ TEST(urlencode, encodesGivenUrlWithSpace)
 {
     const std::string url = urlencode("http://www.geekhideout.com/url code.shtml");
     ASSERT_STREQ("http%3a%2f%2fwww.geekhideout.com%2furl+code.shtml", url.c_str());
-}
-
-TEST(urldecode, decodesGivenUrl)
-{
-    const std::string expectedDecodedUrl ("http://www.geekhideout.com/urlcode.shtml");
-    const std::string url ("http%3a%2f%2fwww.geekhideout.com%2furlcode.shtml");
-    char * url3 = urldecode(url.c_str());
-    ASSERT_STREQ(expectedDecodedUrl.c_str(), url3);
-    delete [] url3;
 }
 
 TEST(urldecode, decodesGivenUrlInPlace)

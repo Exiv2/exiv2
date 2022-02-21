@@ -32,11 +32,15 @@
 #include "tiffvisitor_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
+#include "utils.hpp"
 
 // + standard includes
-#include <string>
+#include <array>
+#include <filesystem>
 #include <fstream>
-#include <cstring>
+#include <iostream>
+
+namespace fs = std::filesystem;
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
 #ifndef __MINGW__
@@ -52,25 +56,6 @@
 #include <windows.h>
 #include <direct.h> // _getcwd
 #include <shlobj.h>
-  /* older SDKs not have these */
-# ifndef CSIDL_MYMUSIC
-#    define CSIDL_MYMUSIC 13
-# endif
-# ifndef CSIDL_MYVIDEO
-#    define CSIDL_MYVIDEO 14
-# endif
-# ifndef CSIDL_INTERNET_CACHE
-#    define CSIDL_INTERNET_CACHE 32
-# endif
-# ifndef CSIDL_COMMON_APPDATA
-#    define CSIDL_COMMON_APPDATA 35
-# endif
-# ifndef CSIDL_MYPICTURES
-#    define CSIDL_MYPICTURES 0x27
-# endif
-# ifndef CSIDL_COMMON_DOCUMENTS
-#    define CSIDL_COMMON_DOCUMENTS 46
-# endif
 # ifndef CSIDL_PROFILE
 #    define CSIDL_PROFILE 40
 # endif
@@ -96,7 +81,6 @@ namespace {
 namespace Exiv2 {
     namespace Internal {
 
-        // C++17 use std::filesystem
         // Function first looks for a config file in current working directory
         // on Win the file should be named "exiv2.ini"
         // on Lin the file should be named ".exiv2"
@@ -104,36 +88,27 @@ namespace Exiv2 {
         // which is the user profile path on win and the home dir on linux
         std::string getExiv2ConfigPath()
         {
-            std::string dir;
 #if defined(_MSC_VER) || defined(__MINGW__)
             std::string inifile("exiv2.ini");
 #else
             std::string inifile(".exiv2");
 #endif
-
-            // first lets get the current working directory to check if there is a config file
-            char buffer[1024];
-#if defined(_MSC_VER) || defined(__MINGW__)
-            auto path = _getcwd(buffer, sizeof(buffer));
-#else
-            auto path = getcwd(buffer, sizeof(buffer));
-#endif
-            dir = std::string(path ? path : "");
-            auto const filename = dir + EXV_SEPARATOR_CHR + inifile;
-            // true if the file exists
-            if (std::ifstream(filename).good()) {
-                return filename;
+            auto currentPath = fs::current_path();
+            auto iniPath = currentPath / inifile;
+            if (fs::exists(iniPath)) {
+                return iniPath.string();
             }
 
 #if defined(_MSC_VER) || defined(__MINGW__)
-            if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, path))) {
-                dir = std::string(path);
+            char buffer[1024];
+            if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, buffer))) {
+                currentPath = buffer;
             }
 #else
             struct passwd* pw = getpwuid(getuid());
-            dir = std::string(pw ? pw->pw_dir : "");
+            currentPath = std::string(pw ? pw->pw_dir : "");
 #endif
-            return dir + EXV_SEPARATOR_CHR + inifile;
+            return (currentPath / inifile).string();
         }
 
         std::string readExiv2Config(const std::string& section, const std::string& value, const std::string& def)
@@ -1223,11 +1198,8 @@ namespace Exiv2 {
     {
         // Not valid for models beginning
         std::string model = getExifModel(pRoot);
-        for (auto& m : { "SLT-", "HV", "ILCA-" }) {
-            if (model.find(m) == 0)
-                return -1;
-        }
-        return 0;
+        const std::array strs { "SLT-", "HV", "ILCA-"};
+        return std::any_of(strs.begin(), strs.end(), [&model](auto& m){return startsWith(model, m);}) ? -1 : 0;
     }
 
     int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)

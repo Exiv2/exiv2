@@ -34,18 +34,22 @@
 #include "image_int.hpp"
 
 // + standard includes
-#include <string>
-#include <memory>
-#include <iostream>
-#include <cstring>                      // std::memcpy
+#include <fcntl.h>      // _O_BINARY in FileIo::FileIo
+#include <sys/stat.h>   // for stat, chmod
+#include <sys/types.h>  // for stat, chmod
+
 #include <cassert>
-#include <fstream>                      // write the temporary file
-#include <fcntl.h>                      // _O_BINARY in FileIo::FileIo
-#include <cstdio>                       // for remove, rename
-#include <cstdlib>                      // for alloc, realloc, free
-#include <ctime>                        // timestamp for the name of temporary file
-#include <sys/types.h>                  // for stat, chmod
-#include <sys/stat.h>                   // for stat, chmod
+#include <cstdio>   // for remove, rename
+#include <cstdlib>  // for alloc, realloc, free
+#include <cstring>  // std::memcpy
+#include <ctime>    // timestamp for the name of temporary file
+#include <filesystem>
+#include <fstream>  // write the temporary file
+#include <iostream>
+#include <memory>
+#include <string>
+
+namespace fs = std::filesystem;
 
 #ifdef EXV_HAVE_SYS_MMAN_H
 # include <sys/mman.h>                  // for mmap and munmap
@@ -63,20 +67,25 @@
 
 #define mode_t unsigned short
 
-// Platform specific headers for handling extended attributes (xattr)
-#if defined(__APPLE__)
-# include <sys/xattr.h>
-#endif
-
 #if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN__))
-// Windows doesn't provide nlink_t
-using nlink_t = short;
 # include <windows.h>
 # include <io.h>
 #endif
 
 // *****************************************************************************
 // class member definitions
+namespace {
+    /// @brief replace each substring of the subject that matches the given search string with the given replacement.
+    void ReplaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace)
+    {
+        size_t pos = 0;
+        while ((pos = subject.find(search, pos)) != std::string::npos) {
+            subject.replace(pos, search.length(), replace);
+            pos += replace.length();
+        }
+    }
+}
+
 namespace Exiv2 {
     void BasicIo::readOrThrow(byte* buf, long rcount, ErrorCode err) {
         const long nread = read(buf, rcount);
@@ -117,7 +126,6 @@ namespace Exiv2 {
             StructStat() = default;
             mode_t st_mode{0};    //!< Permissions
             off_t st_size{0};     //!< Size
-            nlink_t st_nlink{0};  //!< Number of hard links (broken on Windows, see winNumberOfLinks())
         };
 // #endif
         // METHODS
@@ -130,12 +138,6 @@ namespace Exiv2 {
         int switchMode(OpMode opMode);
         //! stat wrapper for internal use
         int stat(StructStat& buf) const;
-        //! copy extended attributes (xattr) from another file
-        void copyXattrFrom(const FileIo& src);
-#if defined WIN32 && !defined __CYGWIN__
-        // Windows function to determine the number of hardlinks (on NTFS)
-        DWORD winNumberOfLinks() const;
-#endif
         // NOT IMPLEMENTED
         Impl(const Impl& rhs) = delete;             //!< Copy constructor
         Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
@@ -211,95 +213,10 @@ namespace Exiv2 {
         ret = ::stat(path_.c_str(), &st);
         if (0 == ret) {
             buf.st_size = st.st_size;
-            buf.st_nlink = st.st_nlink;
             buf.st_mode = st.st_mode;
         }
         return ret;
     } // FileIo::Impl::stat
-
-#if defined(__APPLE__)
-    void FileIo::Impl::copyXattrFrom(const FileIo& src)
-#else
-    void FileIo::Impl::copyXattrFrom(const FileIo&)
-#endif
-    {
-#if defined(__APPLE__)
-        ssize_t namebufSize = ::listxattr(src.p_->path_.c_str(), 0, 0, 0);
-        if (namebufSize < 0) {
-            throw Error(kerCallFailed, src.p_->path_, strError(), "listxattr");
-        }
-        if (namebufSize == 0) {
-            // No extended attributes in source file
-            return;
-        }
-        char* namebuf = new char[namebufSize];
-        if (::listxattr(src.p_->path_.c_str(), namebuf, namebufSize, 0) != namebufSize) {
-            throw Error(kerCallFailed, src.p_->path_, strError(), "listxattr");
-        }
-        for (ssize_t namebufPos = 0; namebufPos < namebufSize;) {
-            const char *name = namebuf + namebufPos;
-            namebufPos += strlen(name) + 1;
-            const ssize_t valueSize = ::getxattr(src.p_->path_.c_str(), name, 0, 0, 0, 0);
-            if (valueSize < 0) {
-                throw Error(kerCallFailed, src.p_->path_, strError(), "getxattr");
-            }
-            char* value = new char[valueSize];
-            if (::getxattr(src.p_->path_.c_str(), name, value, valueSize, 0, 0) != valueSize) {
-                throw Error(kerCallFailed, src.p_->path_, strError(), "getxattr");
-            }
-// #906.  Mountain Lion 'sandbox' terminates the app when we call setxattr
-#ifndef __APPLE__
-#ifdef  EXIV2_DEBUG_MESSAGES
-            EXV_DEBUG << "Copying xattr \"" << name << "\" with value size " << valueSize << "\n";
-#endif
-            if (::setxattr(path_.c_str(), name, value, valueSize, 0, 0) != 0) {
-                throw Error(kerCallFailed, path_, strError(), "setxattr");
-            }
-            delete [] value;
-#endif
-        }
-        delete [] namebuf;
-#else
-        // No xattr support for this platform.
-#endif
-    } // FileIo::Impl::copyXattrFrom
-
-#if defined WIN32 && !defined __CYGWIN__
-    DWORD FileIo::Impl::winNumberOfLinks() const
-    {
-        DWORD nlink = 1;
-
-        HANDLE hFd = (HANDLE)_get_osfhandle(fileno(fp_));
-        if (hFd != INVALID_HANDLE_VALUE) {
-            using GetFileInformationByHandle_t = BOOL(WINAPI*)(HANDLE, LPBY_HANDLE_FILE_INFORMATION);
-            HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
-            if (hKernel) {
-                GetFileInformationByHandle_t pfcn_GetFileInformationByHandle = (GetFileInformationByHandle_t)GetProcAddress(hKernel, "GetFileInformationByHandle");
-                if (pfcn_GetFileInformationByHandle) {
-                    BY_HANDLE_FILE_INFORMATION fi = {0,0,0,0,0,0,0,0,0,0,0,0,0};
-                    if (pfcn_GetFileInformationByHandle(hFd, &fi)) {
-                        nlink = fi.nNumberOfLinks;
-                    }
-#ifdef EXIV2_DEBUG_MESSAGES
-                    else EXV_DEBUG << "GetFileInformationByHandle failed\n";
-#endif
-                }
-#ifdef EXIV2_DEBUG_MESSAGES
-                else EXV_DEBUG << "GetProcAddress(hKernel, \"GetFileInformationByHandle\") failed\n";
-#endif
-            }
-#ifdef EXIV2_DEBUG_MESSAGES
-            else EXV_DEBUG << "GetModuleHandleA(\"kernel32.dll\") failed\n";
-#endif
-        }
-#ifdef EXIV2_DEBUG_MESSAGES
-        else EXV_DEBUG << "_get_osfhandle failed: INVALID_HANDLE_VALUE\n";
-#endif
-
-        return nlink;
-    } // FileIo::Impl::winNumberOfLinks
-
-#endif // defined WIN32 && !defined __CYGWIN__
 
     FileIo::FileIo(const std::string& path)
         : p_(new Impl(path))
@@ -435,10 +352,10 @@ namespace Exiv2 {
 
         byte buf[4096];
         long readCount = 0;
-        long writeCount = 0;
         long writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            writeTotal += writeCount = static_cast<long>(std::fwrite(buf, 1, readCount, p_->fp_));
+            long writeCount = static_cast<long>(std::fwrite(buf, 1, readCount, p_->fp_));
+            writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
                 src.seek(writeCount-readCount, BasicIo::cur);
@@ -460,56 +377,21 @@ namespace Exiv2 {
             fileIo->close();
             // Check if the file can be written to, if it already exists
             if (open("a+b") != 0) {
-                /// \todo Use std::filesystem once C++17 can be used
                 // Remove the (temporary) file
-                ::remove(fileIo->path().c_str());
+                fs::remove(fileIo->path().c_str());
                 throw Error(kerFileOpenFailed, path(), "a+b", strError());
             }
             close();
 
             bool statOk = true;
             mode_t origStMode = 0;
-            std::string spf;
-            char* pf = nullptr;
-            spf = path();
-            pf = const_cast<char*>(spf.c_str());
+            auto pf = path().c_str();
 
-            // Get the permissions of the file, or linked-to file, on platforms which have lstat
-#ifdef EXV_HAVE_LSTAT
-
-            struct stat buf1;
-            if (::lstat(pf, &buf1) == -1) {
-                statOk = false;
-#ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << Error(kerCallFailed, pf, strError(), "::lstat") << "\n";
-#endif
-            }
-            origStMode = buf1.st_mode;
-            DataBuf lbuf; // So that the allocated memory is freed. Must have same scope as pf
-            // In case path() is a symlink, get the path of the linked-to file
-            if (statOk && S_ISLNK(buf1.st_mode)) {
-                lbuf.alloc(buf1.st_size + 1);
-                lbuf.clear();
-                pf = reinterpret_cast<char*>(lbuf.data());
-                if (::readlink(path().c_str(), pf, lbuf.size() - 1) == -1) {
-                    throw Error(kerCallFailed, path(), strError(), "readlink");
-                }
-                // We need the permissions of the file, not the symlink
-                if (::stat(pf, &buf1) == -1) {
-                    statOk = false;
-#ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << Error(kerCallFailed, pf, strError(), "::stat") << "\n";
-#endif
-                }
-                origStMode = buf1.st_mode;
-            }
-#else // EXV_HAVE_LSTAT
             Impl::StructStat buf1;
             if (p_->stat(buf1) == -1) {
                 statOk = false;
             }
             origStMode = buf1.st_mode;
-#endif // !EXV_HAVE_LSTAT
 
             {
 #if defined(WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
@@ -526,10 +408,8 @@ namespace Exiv2 {
                         BOOL ret = pfcn_ReplaceFileA(pf, fileIo->path().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
-                                if (::rename(fileIo->path().c_str(), pf) == -1) {
-                                    throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
-                                }
-                                ::remove(fileIo->path().c_str());
+                                fs::rename(fileIo->path().c_str(), pf);
+                                fs::remove(fileIo->path().c_str());
                             }
                             else {
                                 throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
@@ -538,22 +418,18 @@ namespace Exiv2 {
                     }
                     else {
                         if (fileExists(pf) && ::remove(pf) != 0) {
-                            throw Error(kerCallFailed, pf, strError(), "::remove");
+                            throw Error(kerCallFailed, pf, strError(), "fs::remove");
                         }
-                        if (::rename(fileIo->path().c_str(), pf) == -1) {
-                            throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
-                        }
-                        ::remove(fileIo->path().c_str());
+                        fs::rename(fileIo->path().c_str(), pf);
+                        fs::remove(fileIo->path().c_str());
                     }
                 }
 #else
-                if (fileExists(pf) && ::remove(pf) != 0) {
-                    throw Error(kerCallFailed, pf, strError(), "::remove");
+                if (fileExists(pf) && fs::remove(pf) != 0) {
+                    throw Error(kerCallFailed, pf, strError(), "fs::remove");
                 }
-                if (::rename(fileIo->path().c_str(), pf) == -1) {
-                    throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
-                }
-                ::remove(fileIo->path().c_str());
+                fs::rename(fileIo->path().c_str(), pf);
+                fs::remove(fileIo->path().c_str());
 #endif
                 // Check permissions of new file
                 struct stat buf2;
@@ -720,7 +596,7 @@ namespace Exiv2 {
         return std::feof(p_->fp_) != 0;
     }
 
-    std::string FileIo::path() const
+    const std::string& FileIo::path() const noexcept
     {
         return p_->path_;
     }
@@ -802,18 +678,17 @@ namespace Exiv2 {
         {
             return type_ == bNone;
         }
-        bool    isInMem () const
-        {
-            return type_ == bMemory;
-        }
+
         bool    isKnown () const
         {
             return type_ == bKnown;
         }
+
         byte*   getData () const
         {
             return data_;
         }
+
         size_t  getSize () const
         {
             return size_;
@@ -1044,9 +919,10 @@ namespace Exiv2 {
         return p_->eof_;
     }
 
-    std::string MemIo::path() const
+    const std::string& MemIo::path() const noexcept
     {
-        return "MemIo";
+        static std::string _path{"MemIo"};
+        return _path;
     }
 
     void MemIo::populateFakeData() {
@@ -1107,7 +983,7 @@ namespace Exiv2 {
     }
 
     XPathIo::~XPathIo() {
-        if (isTemp_ && remove(tempFilePath_.c_str()) != 0) {
+        if (isTemp_ && !fs::remove(tempFilePath_)) {
             // error when removing file
             // printf ("Warning: Unable to remove the temp file %s.\n", tempFilePath_.c_str());
         }
@@ -1116,13 +992,12 @@ namespace Exiv2 {
     void XPathIo::transfer(BasicIo& src) {
         if (isTemp_) {
             // replace temp path to gent path.
-            std::string currentPath = path();
-            setPath(ReplaceStringInPlace(currentPath, XPathIo::TEMP_FILE_EXT, XPathIo::GEN_FILE_EXT));
-            // rename the file
+            auto currentPath = path();
+            ReplaceStringInPlace(currentPath, XPathIo::TEMP_FILE_EXT, XPathIo::GEN_FILE_EXT);
+            setPath(currentPath);
+
             tempFilePath_ = path();
-            if (rename(currentPath.c_str(), tempFilePath_.c_str()) != 0) {
-                // printf("Warning: Failed to rename the temp file. \n");
-            }
+            fs::rename(currentPath, tempFilePath_);
             isTemp_ = false;
             // call super class method
             FileIo::transfer(src);
@@ -1371,21 +1246,18 @@ namespace Exiv2 {
         size_t left       = 0;
         size_t right      = 0;
         size_t blockIndex = 0;
-        size_t i          = 0;
-        size_t readCount  = 0;
-        size_t blockSize  = 0;
-        auto buf = new byte [p_->blockSize_];
+        std::vector<byte> buf(p_->blockSize_);
         size_t nBlocks    = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
         // find $left
         src.seek(0, BasicIo::beg);
         bool findDiff = false;
         while (blockIndex < nBlocks && !src.eof() && !findDiff) {
-            blockSize = p_->blocksMap_[blockIndex].getSize();
+            size_t blockSize = p_->blocksMap_[blockIndex].getSize();
             bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-            readCount = static_cast<size_t>(src.read(buf, static_cast<long>(blockSize)));
+            size_t readCount = static_cast<size_t>(src.read(buf.data(), static_cast<long>(blockSize)));
             byte* blockData = p_->blocksMap_[blockIndex].getData();
-            for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
+            for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                 if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
                     findDiff = true;
                 } else {
@@ -1400,14 +1272,14 @@ namespace Exiv2 {
         blockIndex  = nBlocks;
         while (blockIndex > 0 && right < src.size() && !findDiff) {
             blockIndex--;
-            blockSize = p_->blocksMap_[blockIndex].getSize();
+            size_t blockSize = p_->blocksMap_[blockIndex].getSize();
             if(src.seek(-1 * (blockSize + right), BasicIo::end)) {
                 findDiff = true;
             } else {
                 bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-                readCount = src.read(buf, static_cast<long>(blockSize));
+                size_t readCount = src.read(buf.data(), static_cast<long>(blockSize));
                 byte* blockData = p_->blocksMap_[blockIndex].getData();
-                for (i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
+                for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                     if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) || (isFakeData && buf[readCount - i - 1] != 0)) {
                         findDiff = true;
                     } else {
@@ -1416,8 +1288,6 @@ namespace Exiv2 {
                 }
             }
         }
-
-        delete []buf;
 
         // submit to the remote machine.
         long dataSize = static_cast<long>(src.size() - left - right);
@@ -1585,7 +1455,7 @@ namespace Exiv2 {
         return p_->eof_;
     }
 
-    std::string RemoteIo::path() const
+    const std::string& RemoteIo::path() const noexcept
     {
         return p_->path_;
     }
@@ -1989,15 +1859,6 @@ namespace Exiv2 {
         return file.write(buf.c_data(), buf.size());
     }
 
-    std::string ReplaceStringInPlace(std::string subject, const std::string& search,
-                          const std::string& replace) {
-        size_t pos = 0;
-        while((pos = subject.find(search, pos)) != std::string::npos) {
-             subject.replace(pos, search.length(), replace);
-             pos += replace.length();
-        }
-        return subject;
-    }
 
 #ifdef EXV_USE_CURL
     size_t curlWriter(char* data, size_t size, size_t nmemb,

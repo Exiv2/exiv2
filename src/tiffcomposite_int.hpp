@@ -22,16 +22,9 @@
 
 // *****************************************************************************
 // included header files
-#include "value.hpp"
 #include "tifffwd_int.hpp"
-#include "types.hpp"
 
-// + standard includes
-#include <iosfwd>
 #include <memory>
-#include <vector>
-#include <string>
-#include <cassert>
 
 // *****************************************************************************
 // namespace extensions

@@ -30,6 +30,7 @@
 #include "convert.hpp"
 
 // + standard includes
+#include <algorithm>
 #include <string>
 #include <iostream>
 #include <cassert>
@@ -61,7 +62,7 @@ namespace Exiv2 {
         return "application/rdf+xml";
     }
 
-    void XmpSidecar::setComment(const std::string& /*comment*/)
+    void XmpSidecar::setComment(std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "XMP"));

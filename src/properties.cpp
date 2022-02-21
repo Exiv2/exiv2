@@ -3943,6 +3943,7 @@ namespace Exiv2 {
     XmpProperties::NsRegistry XmpProperties::nsRegistry_;
     std::mutex XmpProperties::mutex_;
 
+    /// \todo not used internally. At least we should test it
     const XmpNsInfo* XmpProperties::lookupNsRegistry(const XmpNsInfo::Prefix& prefix)
     {
         std::lock_guard<std::mutex> scoped_read_lock(mutex_);
@@ -4095,6 +4096,7 @@ namespace Exiv2 {
         return pi;
     }
 
+    /// \todo not used internally. At least we should test it
     const char* XmpProperties::nsDesc(const std::string& prefix)
     {
         return nsInfo(prefix)->desc_;

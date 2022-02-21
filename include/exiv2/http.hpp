@@ -25,8 +25,6 @@
 
 #include "datasets.hpp"
 
-#include <string>
-
 
 namespace Exiv2 {
     /*!

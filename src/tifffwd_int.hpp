@@ -26,9 +26,7 @@
 #include "tags_int.hpp"
 
 // + standard includes
-#include <memory>
 #include <stack>
-#include <vector>
 
 // *****************************************************************************
 // Exiv2 namespace extensions

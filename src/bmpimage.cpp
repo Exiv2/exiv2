@@ -61,7 +61,7 @@ namespace Exiv2
         throw(Error(kerInvalidSettingForImage, "IPTC metadata", "BMP"));
     }
 
-    void BmpImage::setComment(const std::string& /*comment*/)
+    void BmpImage::setComment(std::string_view /*comment*/)
     {
         throw(Error(kerInvalidSettingForImage, "Image comment", "BMP"));
     }

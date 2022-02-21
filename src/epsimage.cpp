@@ -32,6 +32,7 @@
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "utils.hpp"
 #include "version.hpp"
 
 // + standard includes
@@ -102,11 +103,6 @@ namespace {
 
     // closing part of all valid XMP trailers
     const std::string xmpTrailerEnd = "?>";
-
-    constexpr bool startsWith(const std::string_view& s, const std::string_view& start)
-    {
-        return s.find(start) == 0;
-    }
 
     //! Write data into temp file, taking care of errors
     void writeTemp(BasicIo& tempIo, const byte* data, size_t size)
@@ -1098,7 +1094,7 @@ namespace Exiv2
         return "application/postscript";
     }
 
-    void EpsImage::setComment(const std::string& /*comment*/)
+    void EpsImage::setComment(std::string_view /*comment*/)
     {
         throw Error(kerInvalidSettingForImage, "Image comment", "EPS");
     }

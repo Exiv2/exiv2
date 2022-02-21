@@ -27,13 +27,11 @@
 #include "slice.hpp"
 
 // + standard includes
-#include <cstdint>
+#include <algorithm>
+#include <limits>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <limits>
-#include <algorithm>
-#include <sstream>
-
 
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.
@@ -41,12 +39,6 @@
          <a href="http://www.parashift.com/c++-faq-lite/pointers-to-members.html#faq-33.5" title="[33.5] How can I avoid syntax errors when calling a member function using a pointer-to-member-function?">[33.5] How can I avoid syntax errors when calling a member function using a pointer-to-member-function?</a>.
  */
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
-
-#ifndef _MSC_VER
-#define EXV_UNUSED [[gnu::unused]]
-#else
-#define EXV_UNUSED
-#endif
 
 // *****************************************************************************
 // forward declarations
@@ -576,11 +568,6 @@ namespace Exiv2 {
         // This is abs() - given the existence of broken compilers with Koenig
         // lookup issues and other problems, I code this explicitly. (Remember,
         // IntType may be a user-defined type).
-#ifdef _MSC_VER
-#pragma warning( disable : 4146 )
-#undef max
-#undef min
-#endif
         if (n < zero) {
             if (n == std::numeric_limits<IntType>::min()) {
                 n = std::numeric_limits<IntType>::max();
@@ -590,9 +577,6 @@ namespace Exiv2 {
         }
         if (m < zero)
             m = -m;
-#ifdef _MSC_VER
-#pragma warning( default : 4146 )
-#endif
 
         // As n and m are now positive, we can be sure that %= returns a
         // positive value (the standard guarantees this for built-in types,

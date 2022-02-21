@@ -80,7 +80,7 @@ namespace Exiv2 {
           @brief Not supported. RW2 format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment) override;
+        void setComment(std::string_view comment) override;
         //@}
 
         //! @name Accessors

@@ -58,7 +58,7 @@ namespace Exiv2 {
         throw(Error(kerInvalidSettingForImage, "IPTC metadata", "GIF"));
     }
 
-    void GifImage::setComment(const std::string& /*comment*/)
+    void GifImage::setComment(std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "GIF"));

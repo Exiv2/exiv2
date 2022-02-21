@@ -24,11 +24,7 @@
 // included header files
 #include "tifffwd_int.hpp"
 #include "tags_int.hpp"
-#include "ini.hpp"
 #include "types.hpp"
-
-// + standard includes
-#include <string>
 
 // *****************************************************************************
 // namespace extensions

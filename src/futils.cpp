@@ -27,18 +27,22 @@
 #include "image_int.hpp"
 
 // + standard includes
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <array>
-#include <cstdio>
-#include <cerrno>
-#include <sstream>
-#include <cstring>
+#include <sys/types.h>
+
 #include <algorithm>
+#include <array>
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
+#include <filesystem>
+#include <sstream>
 #include <stdexcept>
-#ifdef   EXV_HAVE_UNISTD_H
-#include <unistd.h>                     // for stat()
+#ifdef EXV_HAVE_UNISTD_H
+#include <unistd.h>  // for stat()
 #endif
+
+namespace fs = std::filesystem;
 
 #if defined(WIN32)
 #include <windows.h>
@@ -101,52 +105,43 @@ namespace Exiv2 {
         return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
     }
 
-    std::string urlencode(const char* str) {
-        const char* pstr = str;
-        // \todo try to use std::string for buf and avoid the creation of another string for just
-        // returning the final value
-        auto buf = new char[strlen(str) * 3 + 1];
-        char* pbuf = buf;
-        while (*pstr) {
-            if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
-                *pbuf++ = *pstr;
-            else if (*pstr == ' ')
-                *pbuf++ = '+';
-            else
-                *pbuf++ = '%', *pbuf++ = to_hex(*pstr >> 4), *pbuf++ = to_hex(*pstr & 15);
-            pstr++;
-        }
-        *pbuf = '\0';
-        std::string ret(buf);
-        delete [] buf;
-        return ret;
-    }
-
-    char* urldecode(const char* str) {
-        const char* pstr = str;
-        auto buf = new char[(strlen(str) + 1)];
-        char* pbuf = buf;
-        while (*pstr) {
-            if (*pstr == '%') {
-                if (pstr[1] && pstr[2]) {
-                    *pbuf++ = from_hex(pstr[1]) << 4 | from_hex(pstr[2]);
-                    pstr += 2;
-                }
-            } else if (*pstr == '+') {
-                *pbuf++ = ' ';
-            } else {
-                *pbuf++ = *pstr;
+    std::string urlencode(std::string_view str)
+    {
+        std::string encoded;
+        encoded.reserve(str.size() * 3);
+        for (uint8_t c : str) {
+            if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~')
+                encoded += c;
+            else if (c == ' ')
+                encoded += '+';
+            else {
+                encoded += '%';
+                encoded += to_hex(c >> 4);
+                encoded += to_hex(c & 15);
             }
-            pstr++;
         }
-        *pbuf = '\0';
-        return buf;
+        encoded.shrink_to_fit();
+        return encoded;
     }
 
-    void urldecode(std::string& str) {
-        char* decodeStr = Exiv2::urldecode(str.c_str());
-        str = std::string(decodeStr);
-        delete [] decodeStr;
+    void urldecode(std::string& str)
+    {
+        size_t idxIn{0}, idxOut{0};
+        size_t sizeStr = str.size();
+        while (idxIn < sizeStr) {
+            if (str[idxIn] == '%') {
+                if (str[idxIn+1] && str[idxIn+2]) {
+                    str[idxOut++] = from_hex(str[idxIn+1]) << 4 | from_hex(str[idxIn+2]);
+                    idxIn += 2;
+                }
+            } else if (str[idxIn] == '+') {
+                str[idxOut++] = ' ';
+            } else {
+                str[idxOut++] = str[idxIn];
+            }
+            idxIn++;
+        }
+        str.erase(idxOut);
     }
 
     // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
@@ -157,7 +152,6 @@ namespace Exiv2 {
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         auto encoding_table = base64_encode;
-        size_t mod_table[]  = {0, 2, 1};
 
         size_t output_length = 4 * ((dataLength + 2) / 3);
         int   rc = result && data_buf && output_length < resultSize ? 1 : 0;
@@ -177,6 +171,7 @@ namespace Exiv2 {
                 result[j++] = encoding_table[(triple >> 0 * 6) & 0x3F];
             }
 
+            const size_t mod_table[]  = {0, 2, 1};
             for (size_t i = 0; i < mod_table[dataLength % 3]; i++)
                 result[output_length - 1 - i] = '=';
             result[output_length]=0;
@@ -252,25 +247,12 @@ namespace Exiv2 {
         return result;
     } // fileProtocol
 
-    bool fileExists(const std::string& path, bool ct)
+    bool fileExists(const std::string& path)
     {
-        // special case: accept "-" (means stdin)
-        if (path == "-" || fileProtocol(path) != pFile) {
+        if (fileProtocol(path) != pFile) {
             return true;
         }
-
-        struct stat buf;
-        int ret = ::stat(path.c_str(), &buf);
-        if (0 != ret)                    return false;
-        if (ct && !S_ISREG(buf.st_mode)) return false;
-        return true;
-    } // fileExists
-
-    std::string pathOfFileUrl(const std::string& url) {
-        std::string path = url.substr(7);
-        size_t found = path.find('/');
-        if (found == std::string::npos) return path;
-        return path.substr(found);
+        return fs::exists(path);
     }
 
     std::string strError()

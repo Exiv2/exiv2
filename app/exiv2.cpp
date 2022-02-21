@@ -160,7 +160,6 @@ int main(int argc, char* const argv[])
         assert(task);
 
         // Process all files
-        int n = 1;
         int s = static_cast<int>(params.files_.size());
         if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && s > 1) {
             std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
@@ -168,6 +167,7 @@ int main(int argc, char* const argv[])
         }
         else {
             int w = s > 9 ? s > 99 ? 3 : 2 : 1;
+            int n = 1;
             for (auto&& file : params.files_) {
                 // If extracting to stdout then ignore verbose
                 if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
@@ -246,25 +246,6 @@ void Params::usage(std::ostream& os) const
     os << _("Usage:") << " " << progname()
        << " " << _("[ option [ arg ] ]+ [ action ] file ...\n\n")
        << _("Image metadata manipulation tool.\n");
-}
-
-std::string Params::printTarget(const std::string &before, int target, bool bPrint, std::ostream& out)
-{
-    std::string t;
-    if ( target & Params::ctExif       ) t+= 'e';
-    if ( target & Params::ctXmpSidecar ) t+= 'X';
-    if ( target & Params::ctXmpRaw     ) t+= target & Params::ctXmpSidecar ? 'X' : 'R' ;
-    if ( target & Params::ctIptc       ) t+= 'i';
-    if ( target & Params::ctIccProfile ) t+= 'C';
-    if ( target & Params::ctIptcRaw    ) t+= 'I';
-    if ( target & Params::ctXmp        ) t+= 'x';
-    if ( target & Params::ctComment    ) t+= 'c';
-    if ( target & Params::ctThumb      ) t+= 't';
-    if ( target & Params::ctPreview    ) t+= 'p';
-    if ( target & Params::ctStdInOut   ) t+= '-';
-
-    if ( bPrint ) out << before << " :" << t << std::endl;
-    return t;
 }
 
 void Params::help(std::ostream& os) const

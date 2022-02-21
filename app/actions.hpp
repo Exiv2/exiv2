@@ -123,20 +123,6 @@ namespace Action {
          */
         Task::UniquePtr create(TaskType type);
 
-        /*!
-          @brief Register a task prototype together with its type.
-
-          The task factory creates new tasks of a given type by cloning its
-          associated prototype. Additional tasks can be registered.  If called
-          for a type which already exists in the list, the corresponding
-          prototype is replaced.
-
-          @param type Task type.
-          @param task Pointer to the prototype. Ownership is transferred to the
-                 task factory. That's what the auto pointer indicates.
-        */
-        void registerTask(TaskType type, Task::UniquePtr task);
-
     private:
         //! Prevent construction other than through instance().
         TaskFactory();

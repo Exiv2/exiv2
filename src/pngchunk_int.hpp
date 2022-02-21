@@ -25,11 +25,6 @@
 #include "types.hpp"
 #include "pngimage.hpp"
 
-// + standard includes
-#include <iosfwd>
-#include <cassert>
-#include <cstdarg>
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {

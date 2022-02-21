@@ -36,6 +36,7 @@ add_library( exiv2lib_int OBJECT
     tifffwd_int.hpp
     timegm.h
     unused.h
+    utils.hpp               utils.cpp
 )
 
 set(PUBLIC_HEADERS

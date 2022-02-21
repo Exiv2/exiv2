@@ -158,11 +158,11 @@ namespace Exiv2
         return "image/jp2";
     }
 
-    void Jp2Image::setComment(const std::string& /*comment*/)
+    void Jp2Image::setComment(std::string_view /*comment*/)
     {
         // Todo: implement me!
         throw(Error(kerInvalidSettingForImage, "Image comment", "JP2"));
-    } // Jp2Image::setComment
+    }
 
     static void lf(std::ostream& out,bool& bLF)
     {
@@ -221,7 +221,6 @@ static void boxes_check(size_t b,size_t m)
             throw Error(kerNotAnImage, "JPEG-2000");
         }
 
-        long              position  = 0;
         Jp2BoxHeader      box       = {0,0};
         Jp2BoxHeader      subBox    = {0,0};
         Jp2ImageHeaderBox ihdr      = {0,0,0,0,0,0,0,0};
@@ -231,7 +230,7 @@ static void boxes_check(size_t b,size_t m)
 
         while (io_->read(reinterpret_cast<byte*>(&box), sizeof(box)) == sizeof(box)) {
             boxes_check(boxes++,boxem );
-            position   = io_->tell();
+            long position   = io_->tell();
             box.length = getLong(reinterpret_cast<byte*>(&box.length), bigEndian);
             box.type = getLong(reinterpret_cast<byte*>(&box.type), bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -490,7 +489,6 @@ static void boxes_check(size_t b,size_t m)
 
         if ( bPrint || bXMP || bICC || bIPTCErase ) {
 
-            long              position  = 0;
             Jp2BoxHeader      box       = {1,1};
             Jp2BoxHeader      subBox    = {1,1};
             Jp2UuidBox        uuid      = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
@@ -498,7 +496,7 @@ static void boxes_check(size_t b,size_t m)
 
             while (box.length && box.type != kJp2BoxTypeClose &&
                    io_->read(reinterpret_cast<byte*>(&box), sizeof(box)) == sizeof(box)) {
-                position   = io_->tell();
+                long position   = io_->tell();
                 box.length = getLong(reinterpret_cast<byte*>(&box.length), bigEndian);
                 box.type = getLong(reinterpret_cast<byte*>(&box.type), bigEndian);
                 enforce(box.length <= sizeof(box)+io_->size()-io_->tell() , Exiv2::kerCorruptedMetadata);

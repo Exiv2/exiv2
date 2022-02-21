@@ -50,6 +50,54 @@
 
 #define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
 
+namespace {
+    [[maybe_unused]] std::string binaryToHex(const uint8_t* data, size_t size)
+    {
+        std::stringstream hexOutput;
+
+        auto tl = size_t(size / 16) * 16;
+        auto tl_offset = size_t(size) - tl;
+
+        for (size_t loop = 0; loop < size; loop++) {
+            if (data[loop] < 16) {
+                hexOutput << "0";
+            }
+            hexOutput << std::hex << static_cast<int>(data[loop]);
+            if ((loop % 8) == 7) {
+                hexOutput << "  ";
+            }
+            if ((loop % 16) == 15 || loop == (tl + tl_offset - 1)) {
+                int max = 15;
+                if (loop >= tl) {
+                    max = int(tl_offset) - 1;
+                    for (int offset = 0; offset < int(16 - tl_offset); offset++) {
+                        if ((offset % 8) == 7) {
+                            hexOutput << "  ";
+                        }
+                        hexOutput << "   ";
+                    }
+                }
+                hexOutput << " ";
+                for (int offset = max; offset >= 0; offset--) {
+                    if (offset == (max - 8)) {
+                        hexOutput << "  ";
+                    }
+                    uint8_t c = '.';
+                    if (data[loop - offset] >= 0x20 && data[loop - offset] <= 0x7E) {
+                        c = data[loop - offset];
+                    }
+                    hexOutput << static_cast<char>(c);
+                }
+                hexOutput << std::endl;
+            }
+        }
+
+        hexOutput << std::endl << std::endl << std::endl;
+
+        return hexOutput.str();
+    }
+}  // namespace
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -96,7 +144,7 @@ namespace Exiv2 {
         // throw(Error(kerInvalidSettingForImage, "IPTC metadata", "WebP"));
     }
 
-    void WebPImage::setComment(const std::string& /*comment*/)
+    void WebPImage::setComment(std::string_view /*comment*/)
     {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "WebP"));
@@ -688,7 +736,7 @@ namespace Exiv2 {
 
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Display Hex Dump [size:" << static_cast<unsigned long>(sizePayload) << "]" << std::endl;
-                std::cout << Internal::binaryToHex(rawExifData.c_data(), sizePayload);
+                std::cout << binaryToHex(rawExifData.c_data(), sizePayload);
 #endif
 
                 if (pos != -1) {
@@ -716,7 +764,7 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Display Hex Dump [size:" << static_cast<unsigned long>(payload.size()) << "]"
                               << std::endl;
-                    std::cout << Internal::binaryToHex(payload.c_data(), payload.size());
+                    std::cout << binaryToHex(payload.c_data(), payload.size());
 #endif
                 }
             } else {
@@ -833,8 +881,6 @@ namespace Exiv2 {
             if (iIo.tell() % 2) {
                 if (iIo.write(&WEBP_PAD_ODD, 1) != 1) throw Error(kerImageWriteFailed);
             }
-
-            has_icc = false;
         }
     }
 

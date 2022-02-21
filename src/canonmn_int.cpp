@@ -437,7 +437,7 @@ namespace Exiv2 {
 
 
     // Categories, tag 0x0023
-    EXV_UNUSED constexpr TagDetails canonCategories[] = {
+    [[maybe_unused]] constexpr TagDetails canonCategories[] = {
         { 0x0001, N_("People")  },
         { 0x0002, N_("Scenery") },
         { 0x0004, N_("Events")  },
@@ -2110,7 +2110,7 @@ namespace Exiv2 {
     };
 
     //! ManualFlashOutput, tag 0x0029
-    EXV_UNUSED constexpr TagDetails canonCsManualFlashOutput[] = {
+    [[maybe_unused]] constexpr TagDetails canonCsManualFlashOutput[] = {
         { 0x0000, N_("n/a")    },
         { 0x0500, N_("Full")   },
         { 0x0502, N_("Medium") },

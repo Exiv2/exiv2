@@ -25,11 +25,6 @@
 
 // included header files
 #include "image.hpp"
-#include "basicio.hpp"
-#include "types.hpp"
-
-// + standard includes
-#include <string>
 
 // *****************************************************************************
 // namespace extensions
@@ -87,7 +82,7 @@ namespace Exiv2 {
           @brief Not supported. RAF format does not contain a comment.
               Calling this function will throw an Error(kerInvalidSettingForImage).
          */
-        void setComment(const std::string& comment) override;
+        void setComment(std::string_view comment) override;
         //@}
 
         //! @name Accessors

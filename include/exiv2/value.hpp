@@ -27,11 +27,9 @@
 #include "types.hpp"
 
 // + standard includes
-#include <map>
-#include <iomanip>
-#include <memory>
 #include <cstring>
-#include <climits>
+#include <iomanip>
+#include <map>
 
 // *****************************************************************************
 // namespace extensions

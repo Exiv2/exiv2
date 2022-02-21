@@ -63,18 +63,7 @@ namespace Exiv2
       @note Source: http://www.geekhideout.com/urlcode.shtml
       @todo This function can probably be hidden into the implementation details
      */
-    EXIV2API std::string urlencode(const char* str);
-
-    /*!
-      @brief Decode the input url.
-      @param str The url needs decoding.
-      @return the url-decoded version of str.
-
-      @note Be sure to 'free' the returned string after use with 'delete []'.
-            Source: http://www.geekhideout.com/urlcode.shtml
-      @todo This function can probably be hidden into the implementation details
-     */
-    EXIV2API char* urldecode(const char* str);
+    EXIV2API std::string urlencode(std::string_view str);
 
     /*!
       @brief Like urlencode(char* str) but accept the input url in the std::string and modify it.
@@ -125,15 +114,7 @@ namespace Exiv2
       and its type, see stat(2). <b>errno</b> is left unchanged
       in case of an error.
      */
-    EXIV2API bool fileExists(const std::string& path, bool ct = false);
-
-    /*!
-      @brief Get the path of file URL.
-
-      @param  url The file URL in the format file:///path or file://host/path
-      @return the path of file URL.
-     */
-    EXIV2API std::string pathOfFileUrl(const std::string& url);
+    EXIV2API bool fileExists(const std::string& path);
 
     /*!
       @brief Return a system error message and the error code (errno).

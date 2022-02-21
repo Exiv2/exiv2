@@ -6,29 +6,8 @@
 ///// Start of Visual Studio Support /////
 #ifdef  _MSC_VER
 
-#define _MSC_VER_2010 1600
-#define _MSC_VER_2008 1500
-
-// Constants required by Microsoft SDKs to define SHGetFolderPathA and others
-
-#ifndef _WIN32_WINNT
-// Visual Studio 2012 and earlier
-# if _MSC_VER < 1800
-#  define _WIN32_WINNT 0x0501
-# else
-#  define _WIN32_WINNT 0x0600
-# endif
-#endif
-
-#if _MSC_VER >= _MSC_VER_2008
 #pragma warning(disable : 4996) // Disable warnings about 'deprecated' standard functions
 #pragma warning(disable : 4251) // Disable warnings from std templates about exporting interfaces
-#endif
-
-/* On Microsoft compilers pid_t has to be set to int. */
-#ifndef HAVE_PID_T
-typedef int pid_t;
-#endif
 
 #endif // _MSC_VER
 ///// End of Visual Studio Support /////
@@ -92,17 +71,5 @@ typedef int pid_t;
 # endif
 #endif
 //////////////////////////////////////
-
-
-// https://softwareengineering.stackexchange.com/questions/291141/how-to-handle-design-changes-for-auto-ptr-deprecation-in-c11
-#if __cplusplus >= 201103L
-  #include <memory>
-  #include <sys/types.h>
-  #ifndef  _MSC_VER
-    #include <unistd.h>
-  #endif
-  template <typename T>
-  using auto_ptr = std::unique_ptr<T>;
-#endif
 
 #endif // _CONFIG_H_

@@ -25,7 +25,8 @@
 
 // included header files
 #include "image.hpp"
-#include "iostream"
+
+#include <set>
 
 // *****************************************************************************
 // namespace extensions
@@ -127,7 +128,7 @@ namespace Exiv2
         //@{
         void readMetadata() override /* override */;
         void writeMetadata() override /* override */;
-        void setComment(const std::string& comment) override /* override */;
+        void setComment(std::string_view comment) override /* override */;
         void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) override;
         //@}
 
