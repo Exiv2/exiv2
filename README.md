@@ -39,6 +39,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     - [Using pkg-config to compile and link your code with Exiv2](#ConsumeWithPkgConfig)
     - [Localisation](#Localisation)
     - [Building Exiv2 Documentation](#BuildDoc)
+    - [Building Exiv2 Tag Webpages](#BuildTagWebpages)
     - [Building Exiv2 Packages](#GeneratePackages)
     - [Debugging Exiv2](#Debugging)
     - [Building  Exiv2 with Clang and other build chains](#BuildWithClangAndOthers)
@@ -397,6 +398,39 @@ To build the documentation, you must install the following products:
 | Product      | Availability |
 |:------------ |:------------ |
 | doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [http://www.doxygen.org/](http://www.doxygen.org/)<br/>[http://www.graphviz.org/](http://www.graphviz.org/)<br/>[http://www.python.org/](http://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
+
+[TOC](#TOC)
+<div id="BuildTagWebpages">
+
+## Building Exiv2 Tag Webpages
+
+Exiv2 provides many built-in metadata tags which are listed in the sub-pages of https://exiv2.org/metadata.html 
+and https://pre-release.exiv2.org/metadata.html. Those tag webpages are generated using tag information 
+extracted from the Exiv2 source code.
+
+The tag webpage build files are in the `<exiv2dir>/doc/templates` directory. If changes are made to 
+tag groups in the Exiv2 source code then the build files need to be updated. Any changes made 
+to individual tags in an existing tag group are automatically included.
+
+To build the tag webpages, first [build Exiv2 from source](#TOC) with the `-DEXIV2_BUILD_SAMPLES=ON` 
+option enabled. This is required as the [taglist](README-SAMPLES.md#taglist) sample program is used when building the tag webpages.
+
+Next, set the `EXIV2HOME` environment variable to the Exiv2 top-level directory.
+For example,
+
+```bash
+$ export EXIV2HOME=<exiv2dir>
+```
+
+Then, change to the `doc/templates` directory and run `make`.
+
+```bash
+$ cd <exiv2dir>/doc/templates
+$ make
+```
+
+After processing, the generated webpages are stored in the `<exiv2dir>/doc/templates` directory. 
+When the Exiv2 websites are updated, the generated tag webpages are reformatted before use.
 
 [TOC](#TOC)
 <div id="GeneratePackages">
@@ -1297,5 +1331,5 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2021-12-20
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2022-02-22
 
