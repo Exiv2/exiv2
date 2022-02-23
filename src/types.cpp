@@ -118,35 +118,12 @@ namespace Exiv2 {
         return tit->size_;
     }
 
-    DataBuf::DataBuf(DataBuf&& rhs)
-        : pData_(std::move(rhs.pData_))
-    {
-    }
-
-    DataBuf::~DataBuf()
-    { }
-
-    DataBuf::DataBuf() : pData_()
-    {}
-
     DataBuf::DataBuf(long size) : pData_(size)
     {}
 
     DataBuf::DataBuf(const byte* pData, long size) : pData_(size)
     {
         std::copy_n(pData, size, pData_.begin());
-    }
-
-    DataBuf::DataBuf(const DataBuf& rhs)
-        : DataBuf(rhs.pData_.data(), rhs.pData_.size())
-    {}
-
-    DataBuf& DataBuf::operator=(DataBuf&& rhs)
-    {
-        if (this == &rhs)
-            return *this;
-        pData_ = std::move(rhs.pData_);
-        return *this;
     }
 
     void DataBuf::alloc(long size)

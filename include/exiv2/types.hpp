@@ -166,37 +166,15 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        DataBuf();
+        DataBuf() = default;
         //! Constructor with an initial buffer size
         explicit DataBuf(long size);
         //! Constructor, copies an existing buffer
         DataBuf(const byte* pData, long size);
-        /*!
-          @brief Copy constructor. Copies an existing DataBuf.
-         */
-        DataBuf(const DataBuf& rhs);
-        /*!
-          @brief Move constructor. Transfers the buffer to the newly created
-                 object similar to std::unique_ptr, i.e., the original object is
-                 modified.
-         */
-        DataBuf(DataBuf&& rhs);
-        //! Destructor, deletes the allocated buffer
-        ~DataBuf();
         //@}
 
         //! @name Manipulators
         //@{
-        /*!
-          @brief Assignment operator. Transfers the buffer and releases the
-                 buffer at the original object similar to std::unique_ptr, i.e.,
-                 the original object is modified.
-         */
-        DataBuf& operator=(DataBuf&& rhs);
-
-        // No copy assignment.
-        DataBuf& operator=(const DataBuf&) = delete;
-
         /*!
           @brief Allocate a data buffer of at least the given size. Note that if
                  the requested \em size is less than the current buffer size, no
