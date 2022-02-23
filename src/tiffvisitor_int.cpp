@@ -624,7 +624,6 @@ namespace Exiv2 {
             if (rawIptc.size() % 4 != 0) {
                 // Pad the last unsignedLong value with 0s
                 buf.alloc((rawIptc.size() / 4) * 4 + 4);
-                buf.clear();
                 buf.copyBytes(0, rawIptc.c_data(), rawIptc.size());
             }
             else {

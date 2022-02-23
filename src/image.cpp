@@ -406,7 +406,6 @@ namespace Exiv2 {
                 enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
                 const long allocate = static_cast<long>(allocate64);
                 DataBuf  buf(allocate);  // allocate a buffer
-                buf.clear();
                 buf.copyBytes(0, dir.c_data(8), 4);  // copy dir[8:11] into buffer (short strings)
 
                 // We have already checked that this multiplication cannot overflow.

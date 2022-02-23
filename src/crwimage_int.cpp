@@ -1019,7 +1019,6 @@ namespace Exiv2 {
             auto size = static_cast<uint32_t>(comment.size());
             if (cc && cc->size() > size) size = cc->size();
             DataBuf buf(size);
-            buf.clear();
             buf.copyBytes(0, comment.data(), comment.size());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
@@ -1027,7 +1026,6 @@ namespace Exiv2 {
             if (cc) {
                 // Just delete the value, do not remove the tag
                 DataBuf buf(cc->size());
-                buf.clear();
                 cc->setValue(std::move(buf));
             }
         }
@@ -1117,7 +1115,6 @@ namespace Exiv2 {
         }
         if (t != 0) {
             DataBuf buf(12);
-            buf.clear();
             buf.write_uint32(0, static_cast<uint32_t>(t), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
@@ -1152,7 +1149,6 @@ namespace Exiv2 {
               size = cc->size();
             }
             DataBuf buf(size);
-            buf.clear();
             if (cc) buf.copyBytes(8, cc->pData() + 8, cc->size() - 8);
             if (edX != edEnd && edX->size() == 4) {
                 edX->copy(buf.data(), pHead->byteOrder());
@@ -1197,7 +1193,6 @@ namespace Exiv2 {
     {
         const uint16_t size = 1024;
         DataBuf buf(size);
-        buf.clear();
 
         uint16_t len = 0;
 

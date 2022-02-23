@@ -138,7 +138,6 @@ namespace Exiv2 {
         if (size == 0) return;
 
         DataBuf imgData(size);
-        imgData.clear();
         long bufRead = io_->read(imgData.data(), imgData.size());
         if (io_->error()) throw Error(kerFailedToReadImageData);
         if (bufRead != imgData.size()) throw Error(kerInputDataReadFailed);

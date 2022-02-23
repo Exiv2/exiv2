@@ -1294,7 +1294,6 @@ namespace Exiv2 {
                   << ": Writing offset " << o2 << "\n";
 #endif
         DataBuf buf(static_cast<long>(strips_.size()) * 4);
-        buf.clear();
         uint32_t idx = 0;
         for (auto&& strip : strips_) {
             idx += writeOffset(buf.data(idx), o2, tiffType(), byteOrder);
@@ -1905,7 +1904,6 @@ namespace {
     {
         if (curr < tobe) {
             Exiv2::DataBuf buf(tobe - curr);
-            buf.clear();
             ioWrapper.write(buf.c_data(), buf.size());
             return tobe - curr;
         }

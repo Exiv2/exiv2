@@ -141,10 +141,6 @@ namespace Exiv2 {
         pData_.clear();
     }
 
-    void DataBuf::clear() {
-        std::fill(pData_.begin(), pData_.end(), 0);
-    }
-
     uint8_t Exiv2::DataBuf::read_uint8(size_t offset) const {
         if (offset >= pData_.size()) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint8");
@@ -201,7 +197,6 @@ namespace Exiv2 {
         ull2Data(&pData_[offset], x, byteOrder);
     }
 
-    /// \todo do not use void*
     void Exiv2::DataBuf::copyBytes(size_t offset, const void* buf, size_t bufsize) {
         if (pData_.size() < bufsize || offset > pData_.size() - bufsize) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::copyBytes");

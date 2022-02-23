@@ -190,9 +190,6 @@ namespace Exiv2 {
         void reset();
         //@}
 
-        //! Fill the buffer with zeros.
-        void clear();
-
         long size() const { return pData_.size(); }
 
         uint8_t read_uint8(size_t offset) const;

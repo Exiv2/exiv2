@@ -766,8 +766,6 @@ static void boxes_check(size_t b,size_t m)
 #endif
 
             // Read chunk header.
-
-            bheaderBuf.clear();
             long bufRead = io_->read(bheaderBuf.data(), bheaderBuf.size());
             if (io_->error()) throw Error(kerFailedToReadImageData);
             if (bufRead != bheaderBuf.size()) throw Error(kerInputDataReadFailed);

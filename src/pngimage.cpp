@@ -246,7 +246,6 @@ namespace Exiv2 {
             while( !io_->eof() && ::strcmp(chType,"IEND") ) {
                 size_t address = io_->tell();
 
-                cheaderBuf.clear();
                 long bufRead = io_->read(cheaderBuf.data(), cheaderBuf.size());
                 if (io_->error()) throw Error(kerFailedToReadImageData);
                 if (bufRead != cheaderBuf.size()) throw Error(kerInputDataReadFailed);
@@ -440,7 +439,6 @@ namespace Exiv2 {
 
         while(!io_->eof())
         {
-            cheaderBuf.clear();
             readChunk(cheaderBuf, *io_); // Read chunk header.
 
             // Decode chunk data length.
@@ -560,8 +558,6 @@ namespace Exiv2 {
         while(!io_->eof())
         {
             // Read chunk header.
-
-            cheaderBuf.clear();
             long bufRead = io_->read(cheaderBuf.data(), 8);
             if (io_->error()) throw Error(kerFailedToReadImageData);
             if (bufRead != 8) throw Error(kerInputDataReadFailed);
