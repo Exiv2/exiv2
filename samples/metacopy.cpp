@@ -59,7 +59,9 @@ try {
 
     Exiv2::Image::UniquePtr writeImg = Exiv2::ImageFactory::open(params.write_);
     assert(writeImg.get() != 0);
-    if (params.preserve_) writeImg->readMetadata();
+    if (params.preserve_) {
+        writeImg->readMetadata();
+    }
     if (params.iptc_) {
         writeImg->setIptcData(readImg->iptcData());
     }

@@ -505,6 +505,7 @@ namespace Exiv2 {
 
     DataBuf IptcParser::encode(const IptcData& iptcData)
     {
+        /// \todo if iptcData.size() == 0 return early
         DataBuf buf(iptcData.size());
         byte *pWrite = buf.data();
 

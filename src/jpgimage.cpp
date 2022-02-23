@@ -1013,6 +1013,7 @@ namespace Exiv2 {
         // potential to change segment ordering (which is allowed).
         // Segments are erased if there is no assigned metadata.
         while (marker != sos_ && search > 0) {
+            /// \todo same block than above ... reuse!!!
             // 2-byte buffer for reading the size.
             byte sizebuf[2];
             uint16_t size = 0;
@@ -1147,10 +1148,10 @@ namespace Exiv2 {
                                                               static_cast<long>(psBlob.size()), iptcData_);
                     const long maxChunkSize = 0xffff - 16;
                     const byte* chunkStart = newPsData.c_data();
-                    const byte* chunkEnd = newPsData.c_data(newPsData.size()-1);
+                    const byte* chunkEnd = newPsData.size() == 0 ? nullptr : newPsData.c_data(newPsData.size()-1);
                     while (chunkStart < chunkEnd) {
                         // Determine size of next chunk
-                        long chunkSize = static_cast<long>(chunkEnd - chunkStart);
+                        long chunkSize = static_cast<long>(chunkEnd + 1 - chunkStart);
                         if (chunkSize > maxChunkSize) {
                             chunkSize = maxChunkSize;
                             // Don't break at a valid IRB boundary
