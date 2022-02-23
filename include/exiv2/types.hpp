@@ -215,7 +215,7 @@ namespace Exiv2 {
         //! Fill the buffer with zeros.
         void clear();
 
-        long size() const { return size_; }
+        long size() const { return pData_.size(); }
 
         uint8_t read_uint8(size_t offset) const;
         void write_uint8(size_t offset, uint8_t x);
@@ -245,12 +245,8 @@ namespace Exiv2 {
         const char* c_str(size_t offset = 0) const;
 
       private:
-        // DATA
-        //! Pointer to the buffer, 0 if none has been allocated
         std::vector<byte> pData_;
-        //! The current size of the buffer
-        long size_;
-    }; // class DataBuf
+    };
 
     /*!
      * @brief Create a new Slice from a DataBuf given the bounds.
