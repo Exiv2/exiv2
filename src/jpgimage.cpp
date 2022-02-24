@@ -41,6 +41,7 @@
 #include "fff.h"
 
 // + standard includes
+#include <algorithm>                               // for EOF
 #include <cstdio>                               // for EOF
 #include <cstring>
 #include <cassert>
@@ -99,10 +100,10 @@ namespace Exiv2 {
         return inRange(lo1,value,hi1) || inRange(lo2,value,hi2);
     }
 
-    bool Photoshop::isIrb(const byte* pPsData,
-                          long        sizePsData)
+    bool Photoshop::isIrb(const byte* pPsData, size_t sizePsData)
     {
-        if (sizePsData < 4) return false;
+        if (sizePsData < 4)
+            return false;
         for (auto&& i : irbId_) {
             assert(strlen(i) == 4);
             if (memcmp(pPsData, i, 4) == 0)
@@ -111,8 +112,7 @@ namespace Exiv2 {
         return false;
     }
 
-    bool Photoshop::valid(const byte* pPsData,
-                          long        sizePsData)
+    bool Photoshop::valid(const byte* pPsData, size_t sizePsData)
     {
         const byte* record = nullptr;
         uint32_t sizeIptc = 0;
@@ -121,8 +121,7 @@ namespace Exiv2 {
         const byte* pEnd = pPsData + sizePsData;
         int ret = 0;
         while (pCur < pEnd
-               && 0 == (ret = Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
-                                                       &record, &sizeHdr, &sizeIptc))) {
+               && 0 == (ret = Photoshop::locateIptcIrb(pCur, (pEnd - pCur), &record, &sizeHdr, &sizeIptc))) {
             pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
         return ret >= 0;
@@ -132,7 +131,7 @@ namespace Exiv2 {
     //       the format (in particular the header). So it remains to be confirmed
     //       if this also makes sense for psTag != Photoshop::iptc
     int Photoshop::locateIrb(const byte*     pPsData,
-                             long            sizePsData,
+                             size_t          sizePsData,
                              uint16_t        psTag,
                              const byte**    record,
                              uint32_t *const sizeHdr,
@@ -141,8 +140,12 @@ namespace Exiv2 {
         assert(record);
         assert(sizeHdr);
         assert(sizeData);
+        if (sizePsData < 12) {
+            return 3;
+        }
+
         // Used for error checking
-        long position = 0;
+        size_t position = 0;
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Photoshop::locateIrb: ";
 #endif
@@ -168,7 +171,7 @@ namespace Exiv2 {
             }
             uint32_t dataSize = getULong(pPsData + position, bigEndian);
             position += 4;
-            if (dataSize > static_cast<uint32_t>(sizePsData - position)) {
+            if (dataSize > (sizePsData - position)) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Warning: "
                           << "Invalid Photoshop IRB data size "
@@ -206,10 +209,10 @@ namespace Exiv2 {
             return -2;
         }
         return 3;
-    } // Photoshop::locateIrb
+    }
 
     int Photoshop::locateIptcIrb(const byte*     pPsData,
-                                 long            sizePsData,
+                                 size_t sizePsData,
                                  const byte**    record,
                                  uint32_t *const sizeHdr,
                                  uint32_t *const sizeData)
@@ -219,7 +222,7 @@ namespace Exiv2 {
     }
 
     int Photoshop::locatePreviewIrb(const byte*     pPsData,
-                                    long            sizePsData,
+                                    size_t sizePsData,
                                     const byte**    record,
                                     uint32_t *const sizeHdr,
                                     uint32_t *const sizeData)
@@ -228,11 +231,10 @@ namespace Exiv2 {
                          record, sizeHdr, sizeData);
     }
 
-    DataBuf Photoshop::setIptcIrb(const byte*     pPsData,
-                                  long            sizePsData,
-                                  const IptcData& iptcData)
+    DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData)
     {
-        if (sizePsData > 0) assert(pPsData);
+        if (sizePsData > 0)
+            assert(pPsData);
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IRB block at the beginning of Photoshop::setIptcIrb\n";
         if (sizePsData == 0) std::cerr << "  None.\n";
@@ -243,25 +245,24 @@ namespace Exiv2 {
         uint32_t    sizeHdr   = 0;
         DataBuf rc;
         // Safe to call with zero psData.size_
-        if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData,
-                                         &record, &sizeHdr, &sizeIptc)) {
+        if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData, &record, &sizeHdr, &sizeIptc)) {
             return rc;
         }
         Blob psBlob;
-        const auto sizeFront = static_cast<uint32_t>(record - pPsData);
+        const auto sizeFront = static_cast<size_t>(record - pPsData);
         // Write data before old record.
         if (sizePsData > 0 && sizeFront > 0) {
             append(psBlob, pPsData, sizeFront);
         }
         // Write new iptc record if we have it
         DataBuf rawIptc = IptcParser::encode(iptcData);
-        if (rawIptc.size() > 0) {
+        if (!rawIptc.empty()) {
             std::array<byte, 12> tmpBuf;
-            std::memcpy(tmpBuf.data(), Photoshop::irbId_[0], 4);
+            std::copy_n(Photoshop::irbId_[0], 4, tmpBuf.data());
             us2Data(tmpBuf.data() + 4, iptc_, bigEndian);
             tmpBuf[6] = 0;
             tmpBuf[7] = 0;
-            ul2Data(tmpBuf.data() + 8, rawIptc.size(), bigEndian);
+            ul2Data(tmpBuf.data() + 8, static_cast<uint32_t>(rawIptc.size()), bigEndian);
             append(psBlob, tmpBuf.data(), 12);
             append(psBlob, rawIptc.c_data(), rawIptc.size());
             // Data is padded to be even (but not included in size)
@@ -270,10 +271,9 @@ namespace Exiv2 {
         }
         // Write existing stuff after record,
         // skip the current and all remaining IPTC blocks
-        long pos = sizeFront;
-        while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos,
-                                             &record, &sizeHdr, &sizeIptc)) {
-            const long newPos = static_cast<long>(record - pPsData);
+        size_t pos = sizeFront;
+        while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos, &record, &sizeHdr, &sizeIptc)) {
+            const auto newPos = static_cast<size_t>(record - pPsData);
             // Copy data up to the IPTC IRB
             if (newPos > pos) {
                 append(psBlob, pPsData + pos, newPos - pos);
@@ -286,15 +286,16 @@ namespace Exiv2 {
         }
         // Data is rounded to be even
         if (!psBlob.empty())
-            rc = DataBuf(&psBlob[0], static_cast<long>(psBlob.size()));
+            rc = DataBuf(&psBlob[0], psBlob.size());
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
-        if (rc.size() == 0) std::cerr << "  None.\n";
+        if (rc.empty())
+            std::cerr << "  None.\n";
         else hexdump(std::cerr, rc.c_data(), rc.size());
 #endif
         return rc;
 
-    } // Photoshop::setIptcIrb
+    }
 
     bool JpegBase::markerHasLength(byte marker) {
         return (marker >= sof0_ && marker <= sof15_) ||
@@ -307,7 +308,7 @@ namespace Exiv2 {
     }
 
     JpegBase::JpegBase(ImageType type, BasicIo::UniquePtr io, bool create,
-                       const byte initData[], long dataSize)
+                       const byte initData[], size_t dataSize)
         : Image(type, mdExif | mdIptc | mdXmp | mdComment, std::move(io))
     {
         if (create) {
@@ -315,7 +316,7 @@ namespace Exiv2 {
         }
     }
 
-    int JpegBase::initImage(const byte initData[], long dataSize)
+    int JpegBase::initImage(const byte initData[], size_t dataSize)
     {
         if (io_->open() != 0) {
             return 4;
@@ -424,7 +425,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, buf.c_data(16), size - 16);
                 // Check whether psBlob is complete
-                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], static_cast<long>(psBlob.size()))) {
+                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], psBlob.size())) {
                     --search;
                     foundCompletePsData = true;
                 }
@@ -467,7 +468,7 @@ namespace Exiv2 {
                           << std::endl  ;
 #endif
                 // #1286 profile can be padded
-                long icc_size = size-2-14;
+                size_t icc_size = size-2-14;
                 if (chunk==1 && chunks==1) {
                   enforce(s <= static_cast<uint32_t>(icc_size), kerInvalidIccProfile);
                   icc_size = s;
@@ -509,8 +510,7 @@ namespace Exiv2 {
             const byte* pCur = &psBlob[0];
             const byte* pEnd = pCur + psBlob.size();
             while (   pCur < pEnd
-                   && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur),
-                                                    &record, &sizeHdr, &sizeIptc)) {
+                   && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur, &record, &sizeHdr, &sizeIptc)) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
 #endif
@@ -526,7 +526,7 @@ namespace Exiv2 {
 #endif
                 iptcData_.clear();
             }
-        }  // psBlob.size() > 0
+        }
 
         if (rc != 0) {
 #ifndef SUPPRESS_WARNINGS
@@ -961,7 +961,7 @@ namespace Exiv2 {
                 // Append to psBlob
                 append(psBlob, buf.c_data(16), buf.size() - 16);
                 // Check whether psBlob is complete
-                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], static_cast<long>(psBlob.size()))) {
+                if (!psBlob.empty() && Photoshop::valid(&psBlob[0], psBlob.size())) {
                     foundCompletePsData = true;
                 }
             } else if (marker == com_ && skipCom == notfound) {
@@ -1048,7 +1048,7 @@ namespace Exiv2 {
                             throw Error(kerImageWriteFailed);
 
                         // Write new Exif data buffer
-                        if (outIo.write(pExifData, static_cast<long>(exifSize)) != static_cast<long>(exifSize))
+                        if (outIo.write(pExifData, exifSize) != exifSize)
                             throw Error(kerImageWriteFailed);
                         if (outIo.error())
                             throw Error(kerImageWriteFailed);
@@ -1078,7 +1078,7 @@ namespace Exiv2 {
 
                     // Write new XMP packet
                     if (outIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()),
-                                    static_cast<long>(xmpPacket_.size())) != static_cast<long>(xmpPacket_.size()))
+                                    xmpPacket_.size()) != xmpPacket_.size())
                         throw Error(kerImageWriteFailed);
                     if (outIo.error())
                         throw Error(kerImageWriteFailed);
@@ -1093,14 +1093,14 @@ namespace Exiv2 {
                     tmpBuf[1] = app2_;
 
                     const long chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
-                    long size = iccProfile_.size();
+                    size_t size = iccProfile_.size();
                     assert(size > 0); // Because iccProfileDefined() == true
                     if (size >= 255 * chunk_size)
                         throw Error(kerTooLargeJpegSegment, "IccProfile");
-                    const long chunks = 1 + (size - 1) / chunk_size;
+                    const size_t chunks = 1 + (size - 1) / chunk_size;
                     assert(chunks <= 255); // Because size < 255 * chunk_size
-                    for (long chunk = 0; chunk < chunks; chunk++) {
-                        long bytes = size > chunk_size ? chunk_size : size;  // bytes to write
+                    for (size_t chunk = 0; chunk < chunks; chunk++) {
+                        size_t bytes = size > chunk_size ? chunk_size : size;  // bytes to write
                         size -= bytes;
 
                         // write JPEG marker (2 bytes)
@@ -1128,14 +1128,14 @@ namespace Exiv2 {
                 if (foundCompletePsData || iptcData_.count() > 0) {
                     // Set the new IPTC IRB, keeps existing IRBs but removes the
                     // IPTC block if there is no new IPTC data to write
-                    DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? &psBlob[0] : nullptr,
-                                                              static_cast<long>(psBlob.size()), iptcData_);
+                    DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? psBlob.data() : nullptr,
+                                                              psBlob.size(), iptcData_);
                     const long maxChunkSize = 0xffff - 16;
                     const byte* chunkStart = newPsData.c_data();
-                    const byte* chunkEnd = newPsData.size() == 0 ? nullptr : newPsData.c_data(newPsData.size()-1);
+                    const byte* chunkEnd = newPsData.empty() ? nullptr : newPsData.c_data(newPsData.size()-1);
                     while (chunkStart < chunkEnd) {
                         // Determine size of next chunk
-                        long chunkSize = static_cast<long>(chunkEnd + 1 - chunkStart);
+                        size_t chunkSize = (chunkEnd + 1 - chunkStart);
                         if (chunkSize > maxChunkSize) {
                             chunkSize = maxChunkSize;
                             // Don't break at a valid IRB boundary
@@ -1183,7 +1183,7 @@ namespace Exiv2 {
                     if (outIo.write(tmpBuf.data(), 4) != 4)
                         throw Error(kerImageWriteFailed);
                     if (outIo.write(reinterpret_cast<byte*>(const_cast<char*>(comment_.data())),
-                                    static_cast<long>(comment_.length())) != static_cast<long>(comment_.length()))
+                                    comment_.length()) != comment_.length())
                         throw Error(kerImageWriteFailed);
                     if (outIo.putb(0) == EOF)
                         throw Error(kerImageWriteFailed);
@@ -1230,7 +1230,7 @@ namespace Exiv2 {
             throw Error(kerImageWriteFailed);
 
         DataBuf buf(4096);
-        long readSize = 0;
+        size_t readSize = 0;
         while ((readSize = io_->read(buf.data(), buf.size()))) {
             if (outIo.write(buf.c_data(), readSize) != readSize)
                 throw Error(kerImageWriteFailed);

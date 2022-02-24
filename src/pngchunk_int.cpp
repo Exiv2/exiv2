@@ -56,7 +56,7 @@ PNG tags             : http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG
 */
 namespace
 {
-    constexpr int nullSeparators = 2;
+    constexpr size_t nullSeparators = 2;
 }
 
 // *****************************************************************************
@@ -101,24 +101,18 @@ namespace Exiv2
         DataBuf PngChunk::keyTXTChunk(const DataBuf& data, bool stripHeader)
         {
             // From a tEXt, zTXt, or iTXt chunk, we get the keyword which is null terminated.
-            const int offset = stripHeader ? 8 : 0;
+            const size_t offset = stripHeader ? 8ul : 0ul;
             if (data.size() <= offset)
                 throw Error(kerFailedToReadImageData);
 
-            // Search for null char until the end of the DataBuf
-            const byte* dataPtr = data.c_data();
-            int keysize = offset;
-            while (keysize < data.size() && dataPtr[keysize] != 0) {
-                keysize++;
-            }
-
-            if (keysize == data.size())
+            auto it = std::find(data.cbegin() + offset, data.cend(), 0);
+            if (it == data.cend())
                 throw Error(kerFailedToReadImageData);
 
-            return DataBuf(dataPtr + offset, keysize - offset);
+            return DataBuf(data.c_data() + offset, std::distance(data.cbegin(), it)- offset);
         }
 
-        DataBuf PngChunk::parseTXTChunk(const DataBuf& data, int keysize, TxtChunkType type)
+        DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkType type)
         {
             DataBuf arr;
 
@@ -139,21 +133,21 @@ namespace Exiv2
 
                 // compressed string after the compression technique spec
                 const byte* compressedText = data.c_data(keysize + nullSeparators);
-                long compressedTextSize = data.size() - keysize - nullSeparators;
+                size_t compressedTextSize = data.size() - keysize - nullSeparators;
                 enforce(compressedTextSize < data.size(), kerCorruptedMetadata);
 
-                zlibUncompress(compressedText, compressedTextSize, arr);
+                zlibUncompress(compressedText, static_cast<uint32_t>(compressedTextSize), arr);
             } else if (type == tEXt_Chunk) {
-                enforce(data.size() >= Safe::add(keysize, 1), Exiv2::kerCorruptedMetadata);
+                enforce(data.size() >= Safe::add(keysize, static_cast<size_t>(1)), Exiv2::kerCorruptedMetadata);
                 // Extract a non-compressed Latin-1 text chunk
 
                 // the text comes after the key, but isn't null terminated
                 const byte* text = data.c_data(keysize + 1);
-                long textsize = data.size() - keysize - 1;
+                size_t textsize = data.size() - keysize - 1;
 
                 arr = DataBuf(text, textsize);
             } else if (type == iTXt_Chunk) {
-                enforce(data.size() >= Safe::add(keysize, 3), Exiv2::kerCorruptedMetadata);
+                enforce(data.size() >= Safe::add(keysize, static_cast<size_t>(3)), Exiv2::kerCorruptedMetadata);
                 const size_t nullCount = std::count(data.c_data(keysize + 3), data.c_data(data.size()-1), '\0');
                 enforce(nullCount >= nullSeparators, Exiv2::kerCorruptedMetadata);
 
@@ -169,21 +163,19 @@ namespace Exiv2
 
                 // language description string after the compression technique spec
                 const size_t languageTextMaxSize = data.size() - keysize - 3;
-                std::string languageText =
-                    string_from_unterminated(data.c_str(Safe::add(keysize, 3)), languageTextMaxSize);
+                std::string languageText = string_from_unterminated(data.c_str(keysize+3), languageTextMaxSize);
                 const size_t languageTextSize = languageText.size();
 
-                enforce(static_cast<unsigned long>(data.size()) >=
-                            Safe::add(static_cast<size_t>(Safe::add(keysize, 4)), languageTextSize),
-                        Exiv2::kerCorruptedMetadata);
+                enforce(data.size() >= Safe::add(Safe::add(keysize, static_cast<size_t>(4)), languageTextSize),
+                    Exiv2::kerCorruptedMetadata);
                 // translated keyword string after the language description
                 std::string translatedKeyText = string_from_unterminated(
                     data.c_str(keysize + 3 + languageTextSize + 1), data.size() - (keysize + 3 + languageTextSize + 1));
-                const auto translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
+                const size_t translatedKeyTextSize = translatedKeyText.size();
 
                 if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
-                    enforce(Safe::add(static_cast<unsigned int>(keysize + 3 + languageTextSize + 1),
-                                      Safe::add(translatedKeyTextSize, 1U)) <= static_cast<size_t>(data.size()),
+                    enforce(Safe::add(keysize + 3 + languageTextSize + 1,
+                                      Safe::add(translatedKeyTextSize, static_cast<size_t>(1))) <= data.size(),
                             Exiv2::kerCorruptedMetadata);
 
                     const byte* text = data.c_data(keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
@@ -195,8 +187,6 @@ namespace Exiv2
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parseTXTChunk: We found an uncompressed iTXt field\n";
 #endif
-
-                        arr.alloc(textsize);
                         arr = DataBuf(text, textsize);
                     } else if (compressionFlag == 0x01 && compressionMethod == 0x00) {
                         // then it's a zlib compressed iTXt chunk
@@ -224,7 +214,7 @@ namespace Exiv2
             return arr;
         }
 
-        void PngChunk::parseChunkContent(Image* pImage, const byte* key, long keySize, const DataBuf& arr)
+        void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize, const DataBuf& arr)
         {
             // We look if an ImageMagick EXIF raw profile exist.
 
@@ -232,16 +222,16 @@ namespace Exiv2
                 (memcmp("Raw profile type exif", key, 21) == 0 || memcmp("Raw profile type APP1", key, 21) == 0) &&
                 pImage->exifData().empty()) {
                 DataBuf exifData = readRawProfile(arr, false);
-                long length = exifData.size();
+                size_t length = exifData.size();
 
-                if (length > 0) {
+                if (length >= 6) {  // length should have at least the size of exifHeader
                     // Find the position of Exif header in bytes array.
+                    const std::array<byte,6> exifHeader {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
+                    size_t pos = std::numeric_limits<size_t>::max();
 
-                    const byte exifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
-                    long pos = -1;
-
-                    for (long i = 0; i < length - static_cast<long>(sizeof(exifHeader)); i++) {
-                        if (exifData.cmpBytes(i, exifHeader, sizeof(exifHeader)) == 0) {
+                    /// \todo Find substring inside an string
+                    for (size_t i = 0; i < length - exifHeader.size(); i++) {
+                        if (exifData.cmpBytes(i, exifHeader.data(), exifHeader.size()) == 0) {
                             pos = i;
                             break;
                         }
@@ -249,14 +239,14 @@ namespace Exiv2
 
                     // If found it, store only these data at from this place.
 
-                    if (pos != -1) {
+                    if (pos != std::numeric_limits<size_t>::max()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parseChunkContent: Exif header found at position " << pos
                                   << "\n";
 #endif
                         pos = pos + sizeof(exifHeader);
                         ByteOrder bo = TiffParser::decode(pImage->exifData(), pImage->iptcData(), pImage->xmpData(),
-                                                          exifData.c_data(pos), length - pos);
+                                                          exifData.c_data(pos), static_cast<uint32_t>(length - pos));
                         pImage->setByteOrder(bo);
                     } else {
 #ifndef SUPPRESS_WARNINGS
@@ -279,8 +269,7 @@ namespace Exiv2
 
                     const byte* pEnd = psData.c_data(psData.size()-1);
                     const byte* pCur = psData.c_data();
-                    while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur), &record,
-                                                                        &sizeHdr, &sizeIptc)) {
+                    while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur, &record, &sizeHdr, &sizeIptc)) {
                         if (sizeIptc) {
 #ifdef EXIV2_DEBUG_MESSAGES
                             std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
@@ -298,7 +287,8 @@ namespace Exiv2
                         pImage->clearIptcData();
                     }
                     // If there is no IRB, try to decode the complete chunk data
-                    if (iptcBlob.empty() && IptcParser::decode(pImage->iptcData(), psData.c_data(), psData.size())) {
+                    if (iptcBlob.empty() && IptcParser::decode(pImage->iptcData(), psData.c_data(),
+                        static_cast<uint32_t>(psData.size()))) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
@@ -311,7 +301,7 @@ namespace Exiv2
 
             if (keySize >= 20 && memcmp("Raw profile type xmp", key, 20) == 0 && pImage->xmpData().empty()) {
                 DataBuf xmpBuf = readRawProfile(arr, false);
-                long length = xmpBuf.size();
+                size_t length = xmpBuf.size();
 
                 if (length > 0) {
                     std::string& xmpPacket = pImage->xmpPacket();
@@ -534,15 +524,16 @@ namespace Exiv2
 
         DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt)
         {
+            if (text.empty()) {
+                return DataBuf();
+            }
+
             DataBuf info;
             unsigned char unhex[103] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0, 0, 0,
                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0, 0, 0,
                                         0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7,  8,  9,  0,  0,  0, 0, 0,
                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0, 0, 0,
                                         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 11, 12, 13, 14, 15};
-            if (text.size() == 0) {
-                return DataBuf();
-            }
 
             if (iTXt) {
                 info.alloc(text.size());
@@ -578,15 +569,14 @@ namespace Exiv2
             }
 
             // Parse the length.
-            long length = 0;
+            size_t length = 0;
             while ('0' <= *sp && *sp <= '9') {
-                // Compute the new length using unsigned long, so that we can
-                // check for overflow.
-                const unsigned long newlength = (10 * static_cast<unsigned long>(length)) + (*sp - '0');
-                if (newlength > static_cast<unsigned long>(std::numeric_limits<long>::max())) {
+                // Compute the new length using unsigned long, so that we can check for overflow.
+                const size_t newlength = (10 * length) + (*sp - '0');
+                if (newlength > std::numeric_limits<size_t>::max()) {
                     return DataBuf();  // Integer overflow.
                 }
-                length = static_cast<long>(newlength);
+                length = newlength;
                 sp++;
                 if (sp == eot) {
                     return DataBuf();
@@ -597,7 +587,7 @@ namespace Exiv2
                 return DataBuf();
             }
 
-            enforce(length <= (eot - sp) / 2, Exiv2::kerCorruptedMetadata);
+            enforce(length <= static_cast<size_t>(eot - sp) / 2, Exiv2::kerCorruptedMetadata);
 
             // Allocate space
             if (length == 0) {
@@ -616,9 +606,9 @@ namespace Exiv2
             // Copy profile, skipping white space and column 1 "=" signs
 
             unsigned char* dp = info.data();  // decode pointer
-            unsigned int nibbles = length * 2;
+            size_t nibbles = length * 2;
 
-            for (long i = 0; i < static_cast<long>(nibbles); i++) {
+            for (size_t i = 0; i < nibbles; i++) {
                 enforce(sp < eot, Exiv2::kerCorruptedMetadata);
                 while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f') {
                     if (*sp == '\0') {

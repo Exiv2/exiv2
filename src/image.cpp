@@ -415,7 +415,7 @@ namespace Exiv2 {
                 if ( bOffsetIsPointer ) {         // read into buffer
                     const long restore = io.tell(); // save
                     io.seekOrThrow(offset, BasicIo::beg, kerCorruptedMetadata); // position
-                    io.readOrThrow(buf.data(), static_cast<long>(count_x_size), kerCorruptedMetadata); // read
+                    io.readOrThrow(buf.data(), count_x_size, kerCorruptedMetadata); // read
                     io.seekOrThrow(restore, BasicIo::beg, kerCorruptedMetadata); // restore
                 }
 
@@ -672,7 +672,7 @@ namespace Exiv2 {
             if (iccProfile.size() < static_cast<long>(sizeof(long))) {
                 throw Error(kerInvalidIccProfile);
             }
-            const long size = iccProfile.read_uint32(0, bigEndian);
+            const size_t size = iccProfile.read_uint32(0, bigEndian);
             if (size != iccProfile.size()) {
                 throw Error(kerInvalidIccProfile);
             }
@@ -826,7 +826,7 @@ namespace Exiv2 {
         return getType(fileIo);
     }
 
-    ImageType ImageFactory::getType(const byte* data, long size)
+    ImageType ImageFactory::getType(const byte* data, size_t size)
     {
         MemIo memIo(data, size);
         return getType(memIo);
@@ -875,7 +875,7 @@ namespace Exiv2 {
         return image;
     }
 
-    Image::UniquePtr ImageFactory::open(const byte* data, long size)
+    Image::UniquePtr ImageFactory::open(const byte* data, size_t size)
     {
         auto io = std::make_unique<MemIo>(data, size);
         auto image = open(std::move(io)); // may throw
@@ -937,7 +937,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // template, inline and free functions
 
-    void append(Blob& blob, const byte* buf, uint32_t len)
+    void append(Blob& blob, const byte* buf, size_t len)
     {
         if (len != 0) {
             assert(buf != 0);

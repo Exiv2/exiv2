@@ -49,7 +49,7 @@ namespace {
     struct TypeInfoTable {
         Exiv2::TypeId typeId_;                  //!< Type id
         const char* name_;                      //!< Name of the type
-        long size_;                             //!< Bytes per data entry
+        size_t size_;                           //!< Bytes per data entry
         //! Comparison operator for \em typeId
         bool operator==(Exiv2::TypeId typeId) const
         {
@@ -111,27 +111,28 @@ namespace Exiv2 {
         return tit->typeId_;
     }
 
-    long TypeInfo::typeSize(TypeId typeId)
+    size_t TypeInfo::typeSize(TypeId typeId)
     {
         const TypeInfoTable* tit = find(typeInfoTable, typeId);
-        if (!tit) return 0;
+        if (!tit)
+            return 0;
         return tit->size_;
     }
 
-    DataBuf::DataBuf(long size) : pData_(size)
+    DataBuf::DataBuf(size_t size) : pData_(size)
     {}
 
-    DataBuf::DataBuf(const byte* pData, long size) : pData_(size)
+    DataBuf::DataBuf(const byte* pData, size_t size) : pData_(size)
     {
         std::copy_n(pData, size, pData_.begin());
     }
 
-    void DataBuf::alloc(long size)
+    void DataBuf::alloc(size_t size)
     {
         pData_.resize(size);
     }
 
-    void DataBuf::resize(long size)
+    void DataBuf::resize(size_t size)
     {
         pData_.resize(size);
     }
@@ -213,18 +214,20 @@ namespace Exiv2 {
     }
 
     byte* Exiv2::DataBuf::data(size_t offset) {
+        /// \todo this first check should be for <= offset
         if (pData_.size() < offset) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
-        } else if (pData_.size() == 0 || pData_.size() == offset) {
+        } else if (pData_.empty() || pData_.size() == offset) {
             return nullptr;
         }
         return &pData_[offset];
     }
 
     const byte* Exiv2::DataBuf::c_data(size_t offset) const {
+        /// \todo this first check should be for <= offset
         if (pData_.size() < offset) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
-        } else if (pData_.size() == 0 || pData_.size() == offset) {
+        } else if (pData_.empty() || pData_.size() == offset) {
             return nullptr;
         }
         return &pData_[offset];
@@ -240,7 +243,7 @@ namespace Exiv2 {
     static void checkDataBufBounds(const DataBuf& buf, size_t end) {
         enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
                                        "end of slice too large to be compared with DataBuf bounds.");
-        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size(), "Invalid slice bounds specified");
+        enforce<std::out_of_range>(end <= buf.size(), "Invalid slice bounds specified");
     }
 
     Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)

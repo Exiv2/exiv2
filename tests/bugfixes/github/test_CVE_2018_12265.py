@@ -18,7 +18,6 @@ class AdditionOverflowInLoaderExifJpeg(metaclass=system_tests.CaseMeta):
 Warning: Directory Image, entry 0x0201: Strip 0 is outside of the data area; ignored.
 Warning: Directory Image, entry 0x0201: Strip 7 is outside of the data area; ignored.
 Error: Offset of directory Thumbnail, entry 0x0201 is out of bounds: Offset = 0x00000000; truncating the entry
-$uncaught_exception $addition_overflow_message
 """
     ]
-    retval = [1]
+    retval = [0]

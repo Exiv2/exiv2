@@ -107,8 +107,9 @@ namespace {
     //! Write data into temp file, taking care of errors
     void writeTemp(BasicIo& tempIo, const byte* data, size_t size)
     {
-        if (size == 0) return;
-        if (tempIo.write(data, static_cast<long>(size)) != static_cast<long>(size)) {
+        if (size == 0)
+            return;
+        if (tempIo.write(data, size) != size) {
             #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to write to temporary file.\n";
             #endif
@@ -1079,7 +1080,7 @@ namespace Exiv2
                 EXV_DEBUG << "Exiv2::EpsImage:: Creating blank EPS image\n";
                 #endif
                 IoCloser closer(*io_);
-                if (io_->write(reinterpret_cast<const byte*>(epsBlank.data()), static_cast<long>(epsBlank.size())) != static_cast<long>(epsBlank.size())) {
+                if (io_->write(reinterpret_cast<const byte*>(epsBlank.data()), epsBlank.size()) != epsBlank.size()) {
                     #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to write blank EPS image.\n";
                     #endif
@@ -1157,10 +1158,10 @@ namespace Exiv2
     bool isEpsType(BasicIo& iIo, bool advance)
     {
         // read as many bytes as needed for the longest (DOS) EPS signature
-        long bufSize = static_cast<long>(dosEpsSignature.size());
+        size_t bufSize = dosEpsSignature.size();
         for (auto&& i : epsFirstLine) {
-            if (bufSize < static_cast<long>(i.size())) {
-                bufSize = static_cast<long>(i.size());
+            if (bufSize < i.size()) {
+                bufSize = i.size();
             }
         }
         const long restore = iIo.tell(); // save

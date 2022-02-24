@@ -98,7 +98,7 @@ try {
     // Get a pointer to a copy of the value
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
-    auto prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
+    auto prv = dynamic_cast<Exiv2::URationalValue*>(v.get());
     if (prv == nullptr)
         throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
 

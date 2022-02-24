@@ -543,7 +543,7 @@ namespace Exiv2 {
     {
         storage_ = std::move(buf);
         pData_ = storage_.c_data();
-        size_  = storage_.size();
+        size_  = static_cast<uint32_t>(storage_.size());
         if (size_ > 8 && dataLocation() == directoryData) {
             tag_ &= 0x3fff;
         }
@@ -1082,7 +1082,7 @@ namespace Exiv2 {
         }
         assert(ifdId != ifdIdNotSet);
         DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
-        if (buf.size() == 0) {
+        if (buf.empty()) {
             // Try the undecoded tag
             encodeBasic(image, pCrwMapping, pHead);
         }

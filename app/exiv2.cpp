@@ -987,7 +987,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 void Params::getStdin(Exiv2::DataBuf& buf)
 {
     // copy stdin to stdinBuf
-    if ( stdinBuf.size() == 0 ) {
+    if (stdinBuf.empty()) {
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
         DWORD fdwMode;
         _setmode(fileno(stdin), O_BINARY);
@@ -1012,7 +1012,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         // this is only used to simulate reading from stdin when debugging
         // to simulate exiv2 -pX foo.jpg                | exiv2 -iXX- bar.jpg
         //             exiv2 -pX foo.jpg > ~/temp/stdin ; exiv2 -iXX- bar.jpg
-        if ( stdinBuf.size() == 0 ) {
+        if ( stdinBuf.empty()) {
             const char* path = "/Users/rmills/temp/stdin";
             FILE* f = fopen(path,"rb");
             if  ( f ) {
@@ -1043,7 +1043,7 @@ int Params::getopt(int argc, char* const Argv[])
     std::vector<char *> argv(argc+1);
     argv[argc] = nullptr;
 
-    std::unordered_map<std::string, std::string> longs {
+    const std::unordered_map<std::string, std::string> longs {
       {"--adjust"   , "-a"},
       {"--binary"   , "-b"},
       {"--comment"  , "-c"},
@@ -1080,7 +1080,7 @@ int Params::getopt(int argc, char* const Argv[])
     for ( int i = 0 ; i < argc ; i++ ) {
         std::string arg(Argv[i]);
         if (longs.find(arg) != longs.end() ) {
-            argv[i] = ::strdup(longs[arg].c_str());
+            argv[i] = ::strdup(longs.at(arg).c_str());
         } else {
             argv[i] = ::strdup(Argv[i]);
         }

@@ -118,7 +118,7 @@ namespace Exiv2 {
         return value;
     } // Value::create
 
-    int Value::setDataArea(const byte* /*buf*/, long /*len*/)
+    int Value::setDataArea(const byte* /*buf*/, size_t /*len*/)
     {
         return -1;
     }
@@ -131,12 +131,12 @@ namespace Exiv2 {
         return os.str();
     }
 
-    std::string Value::toString(long /*n*/) const
+    std::string Value::toString(size_t /*n*/) const
     {
         return toString();
     }
 
-    long Value::sizeDataArea() const
+    size_t Value::sizeDataArea() const
     {
         return 0;
     }
@@ -158,12 +158,12 @@ namespace Exiv2 {
         read(buf, len, byteOrder);
     }
 
-    long DataValue::count() const
+    size_t DataValue::count() const
     {
         return size();
     }
 
-    int DataValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
+    int DataValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         // byteOrder not needed
         value_.assign(buf, buf + len);
@@ -190,9 +190,9 @@ namespace Exiv2 {
         return static_cast<long>(std::copy(value_.begin(), value_.end(), buf) - buf);
     }
 
-    long DataValue::size() const
+    size_t DataValue::size() const
     {
-        return static_cast<long>(value_.size());
+        return value_.size();
     }
 
     DataValue* DataValue::clone_() const
@@ -210,7 +210,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::string DataValue::toString(long n) const
+    std::string DataValue::toString(size_t n) const
     {
         std::ostringstream os;
         os << static_cast<int>(value_.at(n));
@@ -218,25 +218,25 @@ namespace Exiv2 {
         return os.str();
     }
 
-    int64_t DataValue::toInt64(long n) const
+    int64_t DataValue::toInt64(size_t n) const
     {
         ok_ = true;
         return value_.at(n);
     }
 
-    uint32_t DataValue::toUint32(long n) const
+    uint32_t DataValue::toUint32(size_t n) const
     {
         ok_ = true;
         return value_.at(n);
     }
 
-    float DataValue::toFloat(long n) const
+    float DataValue::toFloat(size_t n) const
     {
         ok_ = true;
         return value_.at(n);
     }
 
-    Rational DataValue::toRational(long n) const
+    Rational DataValue::toRational(size_t n) const
     {
         ok_ = true;
         return {value_.at(n), 1};
@@ -267,7 +267,7 @@ namespace Exiv2 {
         return 0;
     }
 
-    int StringValueBase::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
+    int StringValueBase::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         // byteOrder not needed
         if (buf) value_ = std::string(reinterpret_cast<const char*>(buf), len);
@@ -285,14 +285,14 @@ namespace Exiv2 {
             );
     }
 
-    long StringValueBase::count() const
+    size_t StringValueBase::count() const
     {
         return size();
     }
 
-    long StringValueBase::size() const
+    size_t StringValueBase::size() const
     {
-        return static_cast<long>(value_.size());
+        return value_.size();
     }
 
     std::ostream& StringValueBase::write(std::ostream& os) const
@@ -300,25 +300,25 @@ namespace Exiv2 {
         return os << value_;
     }
 
-    int64_t StringValueBase::toInt64(long n) const
+    int64_t StringValueBase::toInt64(size_t n) const
     {
         ok_ = true;
         return value_.at(n);
     }
 
-    uint32_t StringValueBase::toUint32(long n) const
+    uint32_t StringValueBase::toUint32(size_t n) const
     {
         ok_ = true;
         return value_.at(n);
     }
 
-    float StringValueBase::toFloat(long n) const
+    float StringValueBase::toFloat(size_t n) const
     {
         ok_ = true;
         return value_.at(n);
     }
 
-    Rational StringValueBase::toRational(long n) const
+    Rational StringValueBase::toRational(size_t n) const
     {
         ok_ = true;
         return {value_.at(n), 1};
@@ -458,7 +458,7 @@ namespace Exiv2 {
         return StringValueBase::read(code + c);
     }
 
-    int CommentValue::read(const byte* buf, long len, ByteOrder byteOrder)
+    int CommentValue::read(const byte* buf, size_t len, ByteOrder byteOrder)
     {
         byteOrder_ = byteOrder;
         return StringValueBase::read(buf, len, byteOrder);
@@ -601,19 +601,17 @@ namespace Exiv2 {
         return static_cast<long>(s.size());
     }
 
-    int XmpValue::read(const byte* buf,
-                       long len,
-                       ByteOrder /*byteOrder*/)
+    int XmpValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         std::string s(reinterpret_cast<const char*>(buf), len);
         return read(s);
     }
 
-    long XmpValue::size() const
+    size_t XmpValue::size() const
     {
         std::ostringstream os;
         write(os);
-        return static_cast<long>(os.str().size());
+        return os.str().size();
     }
 
     XmpTextValue::XmpTextValue()
@@ -667,12 +665,12 @@ namespace Exiv2 {
         return UniquePtr(clone_());
     }
 
-    long XmpTextValue::size() const
+    size_t XmpTextValue::size() const
     {
-        return static_cast<long>(value_.size());
+        return value_.size();
     }
 
-    long XmpTextValue::count() const
+    size_t XmpTextValue::count() const
     {
         return size();
     }
@@ -700,22 +698,22 @@ namespace Exiv2 {
         return os << value_;
     }
 
-    int64_t XmpTextValue::toInt64(long /*n*/) const
+    int64_t XmpTextValue::toInt64(size_t /*n*/) const
     {
         return parseInt64(value_, ok_);
     }
 
-    uint32_t XmpTextValue::toUint32(long /*n*/) const
+    uint32_t XmpTextValue::toUint32(size_t /*n*/) const
     {
         return parseUint32(value_, ok_);
     }
 
-    float XmpTextValue::toFloat(long /*n*/) const
+    float XmpTextValue::toFloat(size_t /*n*/) const
     {
         return parseFloat(value_, ok_);
     }
 
-    Rational XmpTextValue::toRational(long /*n*/) const
+    Rational XmpTextValue::toRational(size_t /*n*/) const
     {
         return parseRational(value_, ok_);
     }
@@ -742,9 +740,9 @@ namespace Exiv2 {
         return UniquePtr(clone_());
     }
 
-    long XmpArrayValue::count() const
+    size_t XmpArrayValue::count() const
     {
-        return static_cast<long>(value_.size());
+        return value_.size();
     }
 
     std::ostream& XmpArrayValue::write(std::ostream& os) const
@@ -756,28 +754,28 @@ namespace Exiv2 {
         return os;
     }
 
-    std::string XmpArrayValue::toString(long n) const
+    std::string XmpArrayValue::toString(size_t n) const
     {
         ok_ = true;
         return value_.at(n);
     }
 
-    int64_t XmpArrayValue::toInt64(long n) const
+    int64_t XmpArrayValue::toInt64(size_t n) const
     {
         return parseInt64(value_.at(n), ok_);
     }
 
-    uint32_t XmpArrayValue::toUint32(long n) const
+    uint32_t XmpArrayValue::toUint32(size_t n) const
     {
         return parseUint32(value_.at(n), ok_);
     }
 
-    float XmpArrayValue::toFloat(long n) const
+    float XmpArrayValue::toFloat(size_t n) const
     {
         return parseFloat(value_.at(n), ok_);
     }
 
-    Rational XmpArrayValue::toRational(long n) const
+    Rational XmpArrayValue::toRational(size_t n) const
     {
         return parseRational(value_.at(n), ok_);
     }
@@ -846,9 +844,9 @@ namespace Exiv2 {
         return UniquePtr(clone_());
     }
 
-    long LangAltValue::count() const
+    size_t LangAltValue::count() const
     {
-        return static_cast<long>(value_.size());
+        return value_.size();
     }
 
     static const std::string x_default = "x-default";
@@ -875,7 +873,7 @@ namespace Exiv2 {
         return os;
     }
 
-    std::string LangAltValue::toString(long /*n*/) const
+    std::string LangAltValue::toString(size_t /*n*/) const
     {
         return toString(x_default);
     }
@@ -891,25 +889,25 @@ namespace Exiv2 {
         return "";
     }
 
-    int64_t LangAltValue::toInt64(long /*n*/) const
+    int64_t LangAltValue::toInt64(size_t /*n*/) const
     {
         ok_ = false;
         return 0;
     }
 
-    uint32_t LangAltValue::toUint32(long /*n*/) const
+    uint32_t LangAltValue::toUint32(size_t /*n*/) const
     {
         ok_ = false;
         return 0;
     }
 
-    float LangAltValue::toFloat(long /*n*/) const
+    float LangAltValue::toFloat(size_t /*n*/) const
     {
         ok_ = false;
         return 0.0F;
     }
 
-    Rational LangAltValue::toRational(long /*n*/) const
+    Rational LangAltValue::toRational(size_t /*n*/) const
     {
         ok_ = false;
         return {0, 0};
@@ -933,7 +931,7 @@ namespace Exiv2 {
         date_.day = day;
     }
 
-    int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
+    int DateValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         const std::string str(reinterpret_cast<const char*>(buf), len);
         return read(str);
@@ -986,12 +984,12 @@ namespace Exiv2 {
         return date_;
     }
 
-    long DateValue::count() const
+    size_t DateValue::count() const
     {
         return size();
     }
 
-    long DateValue::size() const
+    size_t DateValue::size() const
     {
         return 8;
     }
@@ -1012,7 +1010,7 @@ namespace Exiv2 {
         return os;
     }
 
-    int64_t DateValue::toInt64(long /*n*/) const
+    int64_t DateValue::toInt64(size_t /*n*/) const
     {
         // Range of tm struct is limited to about 1970 to 2038
         // This will return -1 if outside that range
@@ -1026,7 +1024,7 @@ namespace Exiv2 {
         return l;
     }
 
-    uint32_t DateValue::toUint32(long /*n*/) const
+    uint32_t DateValue::toUint32(size_t /*n*/) const
     {
         const int64_t t = toInt64();
         if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
@@ -1035,12 +1033,12 @@ namespace Exiv2 {
         return static_cast<uint32_t>(t);
     }
 
-    float DateValue::toFloat(long n) const
+    float DateValue::toFloat(size_t n) const
     {
         return static_cast<float>(toInt64(n));
     }
 
-    Rational DateValue::toRational(long n) const
+    Rational DateValue::toRational(size_t n) const
     {
         return {static_cast<int32_t>(toInt64(n)), 1};
     }
@@ -1062,7 +1060,7 @@ namespace Exiv2 {
         time_.tzMinute = tzMinute;
     }
 
-    int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
+    int TimeValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
         const std::string str(reinterpret_cast<const char*>(buf), len);
         return read(str);
@@ -1140,12 +1138,12 @@ namespace Exiv2 {
         return time_;
     }
 
-    long TimeValue::count() const
+    size_t TimeValue::count() const
     {
         return size();
     }
 
-    long TimeValue::size() const
+    size_t TimeValue::size() const
     {
         return 11;
     }
@@ -1174,7 +1172,7 @@ namespace Exiv2 {
         return os;
     }
 
-    int64_t TimeValue::toInt64(long /*n*/) const
+    int64_t TimeValue::toInt64(size_t /*n*/) const
     {
         // Returns number of seconds in the day in UTC.
         int64_t result = (time_.hour - time_.tzHour) * 60 * 60;
@@ -1187,7 +1185,7 @@ namespace Exiv2 {
         return result;
     }
 
-    uint32_t TimeValue::toUint32(long /*n*/) const
+    uint32_t TimeValue::toUint32(size_t /*n*/) const
     {
         const int64_t t = toInt64();
         if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
@@ -1196,12 +1194,12 @@ namespace Exiv2 {
         return static_cast<uint32_t>(t);
     }
 
-    float TimeValue::toFloat(long n) const
+    float TimeValue::toFloat(size_t n) const
     {
         return static_cast<float>(toInt64(n));
     }
 
-    Rational TimeValue::toRational(long n) const
+    Rational TimeValue::toRational(size_t n) const
     {
         return {static_cast<int32_t>(toInt64(n)), 1};
     }

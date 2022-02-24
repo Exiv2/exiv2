@@ -50,7 +50,7 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
-   
+
     //! Canon Camera Settings binary array - definition
     constexpr ArrayDef canonCsDef[] = {
         { 46, ttUnsignedShort, 3 } // Exif.CanonCs.Lens
@@ -259,7 +259,7 @@ namespace Exiv2 {
         { 0, ttSignedLong, 1 }
     };
 
-    
+
 
 
     //! Canon RawBurst Info binary array - configuration
@@ -1303,13 +1303,13 @@ namespace Exiv2 {
         { Tag::root, fujiId,           exifId,           0x927c    },
         { Tag::root, canonId,          exifId,           0x927c    },
         { Tag::root, canonCsId,        canonId,          0x0001    },
-        { Tag::root, canonSiId,        canonId,          0x0004    },        
+        { Tag::root, canonSiId,        canonId,          0x0004    },
         { Tag::root, canonPaId,        canonId,          0x0005    },
         { Tag::root, canonCfId,        canonId,          0x000f    },
         { Tag::root, canonPiId,        canonId,          0x0012    },
         { Tag::root, canonTiId,        canonId,          0x0035    },
         { Tag::root, canonFiId,        canonId,          0x0093    },
-        { Tag::root, canonPrId,        canonId,          0x00a0    },        
+        { Tag::root, canonPrId,        canonId,          0x00a0    },
         { Tag::root, canonAfMiAdjId,   canonId,          0x4013    },
         { Tag::root, canonVigCor2Id,   canonId,          0x4016    },
         { Tag::root, canonLiOpId,      canonId,          0x4018    },
@@ -1676,7 +1676,7 @@ namespace Exiv2 {
         {    0x0012, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPiCfg)       },
         {    0x0035, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonTiCfg)       },
         {    0x0093, canonId,          EXV_BINARY_ARRAY(canonFiCfg, canonFiDef)  },
-        {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)       },        
+        {    0x00a0, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonPrCfg)       },
         {    0x4013, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfMiAdjCfg)  },
     //  {    0x4015, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonVigCorCfg)   },
         {    0x4016, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonVigCor2Cfg)  },
@@ -1684,9 +1684,9 @@ namespace Exiv2 {
         {    0x4019, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonLeCfg)       },
         {    0x4020, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAmCfg)       },
         {    0x4021, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonMeCfg)       },
-        {    0x4024, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonFilCfg)      },        
+        {    0x4024, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonFilCfg)      },
         {    0x4025, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonHdrCfg)      },
-        {    0x4028, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCCfg)      },        
+        {    0x4028, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonAfCCfg)      },
         {    0x403f, canonId,          EXV_SIMPLE_BINARY_ARRAY(canonRawBCfg)     },
         { Tag::next, canonId,          ignoreTiffComponent                       },
         {  Tag::all, canonId,          newTiffEntry                              },
@@ -2041,7 +2041,7 @@ namespace Exiv2 {
             group = ts->parentGroup_;
         } while (!(ts->root_ == root && ts->group_ == ifdIdNotSet));
 
-    } // TiffCreator::getPath
+    }
 
     ByteOrder TiffParserWorker::decode(
               ExifData&          exifData,

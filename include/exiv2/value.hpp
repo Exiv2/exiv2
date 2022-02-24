@@ -58,18 +58,17 @@ namespace Exiv2 {
         //! Virtual destructor.
         virtual ~Value() = default;
         //@}
+
         //! @name Manipulators
         //@{
-        /*!
-          @brief Read the value from a character buffer.
 
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer
-          @param byteOrder Applicable byte order (little or big endian).
+        /// @brief Read the value from a character buffer.
+        /// @param buf Pointer to the data buffer to read from
+        /// @param len Number of bytes in the data buffer
+        /// @param byteOrder Applicable byte order (little or big endian).
+        /// @return 0 if successful.
+        virtual int read(const byte* buf, size_t len, ByteOrder byteOrder) =0;
 
-          @return 0 if successful.
-         */
-        virtual int read(const byte* buf, long len, ByteOrder byteOrder) =0;
         /*!
           @brief Set the value from a string buffer. The format of the string
                  corresponds to that of the write() method, i.e., a string
@@ -93,7 +92,7 @@ namespace Exiv2 {
           @param len Size of the data area
           @return Return -1 if the value has no data area, else 0.
          */
-        virtual int setDataArea(const byte* buf, long len);
+        virtual int setDataArea(const byte* buf, size_t len);
         //@}
 
         //! @name Accessors
@@ -118,9 +117,9 @@ namespace Exiv2 {
         */
         virtual long copy(byte* buf, ByteOrder byteOrder) const =0;
         //! Return the number of components of the value
-        virtual long count() const =0;
+        virtual size_t count() const =0;
         //! Return the size of the value in bytes
-        virtual long size() const =0;
+        virtual size_t size() const =0;
         /*!
           @brief Write the value to an output stream. You do not usually have
                  to use this function; it is used for the implementation of
@@ -139,7 +138,7 @@ namespace Exiv2 {
                  of this method may be undefined if there is no <EM>n</EM>-th
                  component.
          */
-        virtual std::string toString(long n) const;
+        virtual std::string toString(size_t n) const;
         /*!
           @brief Convert the <EM>n</EM>-th component of the value to an int64_t.
                  The behaviour of this method may be undefined if there is no
@@ -147,7 +146,7 @@ namespace Exiv2 {
 
           @return The converted value.
          */
-        virtual int64_t toInt64(long n =0) const =0;
+        virtual int64_t toInt64(size_t n =0) const =0;
         /*!
           @brief Convert the <EM>n</EM>-th component of the value to a float.
                  The behaviour of this method may be undefined if there is no
@@ -155,7 +154,7 @@ namespace Exiv2 {
 
           @return The converted value.
          */
-        virtual uint32_t toUint32(long n =0) const =0;
+        virtual uint32_t toUint32(size_t n =0) const =0;
         /*!
           @brief Convert the <EM>n</EM>-th component of the value to a float.
                  The behaviour of this method may be undefined if there is no
@@ -163,7 +162,7 @@ namespace Exiv2 {
 
           @return The converted value.
          */
-        virtual float toFloat(long n =0) const =0;
+        virtual float toFloat(size_t n =0) const =0;
         /*!
           @brief Convert the <EM>n</EM>-th component of the value to a Rational.
                  The behaviour of this method may be undefined if there is no
@@ -171,9 +170,9 @@ namespace Exiv2 {
 
           @return The converted value.
          */
-        virtual Rational toRational(long n =0) const =0;
+        virtual Rational toRational(size_t n =0) const =0;
         //! Return the size of the data area, 0 if there is none.
-        virtual long sizeDataArea() const;
+        virtual size_t sizeDataArea() const;
         /*!
           @brief Return a copy of the data area if the value has one. The
                  caller owns this copy and DataBuf ensures that it will be
@@ -246,8 +245,7 @@ namespace Exiv2 {
         virtual Value* clone_() const =0;
         // DATA
         TypeId type_;                    //!< Type of the data
-
-    }; // class Value
+    };
 
     //! Output operator for Value types
     inline std::ostream& operator<<(std::ostream& os, const Value& value)
@@ -271,19 +269,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        /*!
-          @brief Read the value from a character buffer.
-
-          @note The byte order is required by the interface but not
-                used by this method, so just use the default.
-
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer
-          @param byteOrder Byte order. Not needed.
-
-          @return 0 if successful.
-         */
-        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder) override;
         //! Set the data from a string of integer values (e.g., "0 1 2 3")
         int read(const std::string& buf) override;
         //@}
@@ -305,19 +291,19 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
                  The behaviour of this method may be undefined if there is no
                  <EM>n</EM>-th component.
          */
-        std::string toString(long n) const override;
-        int64_t toInt64(long n = 0) const override;
-        uint32_t toUint32(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        std::string toString(size_t n) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        uint32_t toUint32(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         //@}
 
     private:
@@ -358,19 +344,7 @@ namespace Exiv2 {
         //@{
         //! Read the value from buf. This default implementation uses buf as it is.
         int read(const std::string& buf) override;
-        /*!
-          @brief Read the value from a character buffer.
-
-          @note The byte order is required by the interface but not used by this
-                method, so just use the default.
-
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer
-          @param byteOrder Byte order. Not needed.
-
-          @return 0 if successful.
-         */
-        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder) override;
         //@}
 
         //! @name Accessors
@@ -390,12 +364,12 @@ namespace Exiv2 {
           @return Number of characters written.
         */
         long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
-        long count() const override;
-        long size() const override;
-        int64_t toInt64(long n = 0) const override;
-        uint32_t toUint32(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        size_t count() const override;
+        size_t size() const override;
+        int64_t toInt64(size_t n = 0) const override;
+        uint32_t toUint32(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         std::ostream& write(std::ostream& os) const override;
         //@}
 
@@ -568,10 +542,7 @@ namespace Exiv2 {
                   1 if an invalid character set is encountered
         */
         int read(const std::string& comment) override;
-        /*!
-          @brief Read the comment from a byte buffer.
-         */
-        int read(const byte* buf, long len, ByteOrder byteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder) override;
         //@}
 
         //! @name Accessors
@@ -646,7 +617,7 @@ namespace Exiv2 {
         XmpArrayType xmpArrayType() const;
         //! Return XMP struct, indicates if an XMP value is a structure.
         XmpStruct xmpStruct() const;
-        long size() const override;
+        size_t size() const override;
         /*!
           @brief Write value to a character data buffer.
 
@@ -669,21 +640,9 @@ namespace Exiv2 {
         void setXmpArrayType(XmpArrayType xmpArrayType);
         //! Set the XMP struct type to indicate that an XMP value is a structure.
         void setXmpStruct(XmpStruct xmpStruct =xsStruct);
-        /*!
-          @brief Read the value from a character buffer.
 
-          Uses read(const std::string& buf)
-
-          @note The byte order is required by the interface but not used by this
-                method, so just use the default.
-
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer
-          @param byteOrder Byte order. Not needed.
-
-          @return 0 if successful.
-         */
-        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
+        /// @note Uses read(const std::string& buf)
+        int read(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder) override;
         int read(const std::string& buf) override = 0;
         //@}
 
@@ -744,36 +703,36 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        long size() const override;
-        long count() const override;
+        size_t size() const override;
+        size_t count() const override;
         /*!
           @brief Convert the value to an int64_t.
                  The optional parameter \em n is not used and is ignored.
 
           @return The converted value.
          */
-        int64_t toInt64(long n = 0) const override;
+        int64_t toInt64(size_t n = 0) const override;
         /*!
           @brief Convert the value to an uint32_t.
                  The optional parameter \em n is not used and is ignored.
 
           @return The converted value.
          */
-        uint32_t toUint32(long n = 0) const override;
+        uint32_t toUint32(size_t n = 0) const override;
         /*!
           @brief Convert the value to a float.
                  The optional parameter \em n is not used and is ignored.
 
           @return The converted value.
          */
-        float toFloat(long n = 0) const override;
+        float toFloat(size_t n = 0) const override;
         /*!
           @brief Convert the value to a Rational.
                  The optional parameter \em n is not used and is ignored.
 
           @return The converted value.
          */
-        Rational toRational(long n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         std::ostream& write(std::ostream& os) const override;
         //@}
 
@@ -826,17 +785,17 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        long count() const override;
+        size_t count() const override;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
                  The behaviour of this method may be undefined if there is no
                  <EM>n</EM>-th component.
          */
-        std::string toString(long n) const override;
-        int64_t toInt64(long n = 0) const override;
-        uint32_t toUint32(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        std::string toString(size_t n) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        uint32_t toUint32(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         /*!
           @brief Write all elements of the value to \em os, separated by commas.
 
@@ -925,7 +884,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         UniquePtr clone() const;
-        long count() const override;
+        size_t count() const override;
         /*!
           @brief Return the text value associated with the default language
                  qualifier \c x-default. The parameter \em n is not used, but
@@ -933,17 +892,17 @@ namespace Exiv2 {
                  string and sets the ok-flag to \c false if there is no
                  default value.
          */
-        std::string toString(long n) const override;
+        std::string toString(size_t n) const override;
         /*!
           @brief Return the text value associated with the language qualifier
                  \em qualifier. Returns an empty string and sets the ok-flag
                  to \c false if there is no entry for the language qualifier.
          */
         std::string toString(const std::string& qualifier) const;
-        int64_t toInt64(long n = 0) const override;
-        uint32_t toUint32(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        uint32_t toUint32(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         /*!
           @brief Write all elements of the value to \em os, separated by commas.
 
@@ -999,20 +958,10 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        /*!
-          @brief Read the value from a character buffer.
 
-          @note The byte order is required by the interface but not used by this
-                method, so just use the default.
-
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer
-          @param byteOrder Byte order. Not needed.
-
-          @return 0 if successful<BR>
-                  1 in case of an unsupported date format
-         */
-        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
+        /// @return 0 if successful<BR>
+        ///         1 in case of an unsupported date format
+        int read(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder) override;
         /*!
           @brief Set the value to that of the string buf.
 
@@ -1046,17 +995,17 @@ namespace Exiv2 {
 
         //! Return date struct containing date information
         virtual const Date& getDate() const;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
         //! Return the value as a UNIX calender time converted to int64_t.
-        int64_t toInt64(long n = 0) const override;
+        int64_t toInt64(size_t n = 0) const override;
         //! Return the value as a UNIX calender time converted to uint32_t.
-        uint32_t toUint32(long n = 0) const override;
+        uint32_t toUint32(size_t n = 0) const override;
         //! Return the value as a UNIX calender time converted to float.
-        float toFloat(long n = 0) const override;
+        float toFloat(size_t n = 0) const override;
         //! Return the value as a UNIX calender time  converted to Rational.
-        Rational toRational(long n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         //@}
 
     private:
@@ -1107,20 +1056,10 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        /*!
-          @brief Read the value from a character buffer.
 
-          @note The byte order is required by the interface but not used by this
-                method, so just use the default.
-
-          @param buf Pointer to the data buffer to read from
-          @param len Number of bytes in the data buffer
-          @param byteOrder Byte order. Not needed.
-
-          @return 0 if successful<BR>
-                  1 in case of an unsupported time format
-         */
-        int read(const byte* buf, long len, ByteOrder byteOrder = invalidByteOrder) override;
+        ///  @return 0 if successful<BR>
+        ///          1 in case of an unsupported time format
+        int read(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder) override;
         /*!
           @brief Set the value to that of the string buf.
 
@@ -1153,17 +1092,17 @@ namespace Exiv2 {
         long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         //! Return time struct containing time information
         virtual const Time& getTime() const;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
         //! Returns number of seconds in the day in UTC.
-        int64_t toInt64(long n = 0) const override;
+        int64_t toInt64(size_t n = 0) const override;
         //! Returns number of seconds in the day in UTC.
-        uint32_t toUint32(long n = 0) const override;
+        uint32_t toUint32(size_t n = 0) const override;
         //! Returns number of seconds in the day in UTC converted to float.
-        float toFloat(long n = 0) const override;
+        float toFloat(size_t n = 0) const override;
         //! Returns number of seconds in the day in UTC converted to Rational.
-        Rational toRational(long n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         //@}
 
     private:
@@ -1233,7 +1172,7 @@ namespace Exiv2 {
         //@{
         //! Assignment operator.
         ValueType<T>& operator=(const ValueType<T>& rhs);
-        int read(const byte* buf, long len, ByteOrder byteOrder) override;
+        int read(const byte* buf, size_t len, ByteOrder byteOrder) override;
         /*!
           @brief Set the data from a string of values of type T (e.g.,
                  "0 1 2 3" or "1/2 1/3 1/4" depending on what T is).
@@ -1245,15 +1184,15 @@ namespace Exiv2 {
           @brief Set the data area. This method copies (clones) the buffer
                  pointed to by buf.
          */
-        int setDataArea(const byte* buf, long len) override;
+        int setDataArea(const byte* buf, size_t len) override;
         //@}
 
         //! @name Accessors
         //@{
         UniquePtr clone() const { return UniquePtr(clone_()); }
         long copy(byte* buf, ByteOrder byteOrder) const override;
-        long count() const override;
-        long size() const override;
+        size_t count() const override;
+        size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
         /*!
           @brief Return the <EM>n</EM>-th component of the value as a string.
@@ -1261,13 +1200,13 @@ namespace Exiv2 {
                  <EM>n</EM>-th
                  component.
          */
-        std::string toString(long n) const override;
-        int64_t toInt64(long n = 0) const override;
-        uint32_t toUint32(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        std::string toString(size_t n) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        uint32_t toUint32(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         //! Return the size of the data area.
-        long sizeDataArea() const override;
+        size_t sizeDataArea() const override;
         /*!
           @brief Return a copy of the data area in a DataBuf. The caller owns
                  this copy and DataBuf ensures that it will be deleted.
@@ -1294,7 +1233,7 @@ namespace Exiv2 {
     private:
         //! Utility for toInt64, toUint32, etc.
         template<typename I>
-        inline I float_to_integer_helper(long n) const {
+        inline I float_to_integer_helper(size_t n) const {
             const auto v = value_.at(n);
             if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
                 v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
@@ -1306,7 +1245,7 @@ namespace Exiv2 {
 
         //! Utility for toInt64, toUint32, etc.
         template<typename I>
-        inline I rational_to_integer_helper(long n) const {
+        inline I rational_to_integer_helper(size_t n) const {
             const auto& t = value_.at(n);
             const auto a = t.first;
             const auto b = t.second;
@@ -1355,7 +1294,7 @@ namespace Exiv2 {
         //! Pointer to the buffer, nullptr if none has been allocated
         byte* pDataArea_{nullptr};
         //! The current size of the buffer
-        long sizeDataArea_{0};
+        size_t sizeDataArea_{0};
     }; // class ValueType
 
     //! Unsigned short value type
@@ -1586,13 +1525,13 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    int ValueType<T>::read(const byte* buf, long len, ByteOrder byteOrder)
+    int ValueType<T>::read(const byte* buf, size_t len, ByteOrder byteOrder)
     {
         value_.clear();
-        long ts = TypeInfo::typeSize(typeId());
+        size_t ts = TypeInfo::typeSize(typeId());
         if (ts > 0)
             if (len % ts != 0) len = (len / ts) * ts;
-        for (long i = 0; i < len; i += ts) {
+        for (size_t i = 0; i < len; i += ts) {
             value_.push_back(getValue<T>(buf + i, byteOrder));
         }
         return 0;
@@ -1624,13 +1563,13 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    long ValueType<T>::count() const
+    size_t ValueType<T>::count() const
     {
-        return static_cast<long>(value_.size());
+        return value_.size();
     }
 
     template<typename T>
-    long ValueType<T>::size() const
+    size_t ValueType<T>::size() const
     {
         return static_cast<long>(TypeInfo::typeSize(typeId()) * value_.size());
     }
@@ -1655,7 +1594,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    std::string ValueType<T>::toString(long n) const
+    std::string ValueType<T>::toString(size_t n) const
     {
         ok_ = true;
         return Exiv2::toString<T>(value_.at(n));
@@ -1663,13 +1602,13 @@ namespace Exiv2 {
 
     // Default implementation
     template<typename T>
-    int64_t ValueType<T>::toInt64(long n) const
+    int64_t ValueType<T>::toInt64(size_t n) const
     {
         ok_ = true;
         return static_cast<int64_t>(value_.at(n));
     }
     template<typename T>
-    uint32_t ValueType<T>::toUint32(long n) const
+    uint32_t ValueType<T>::toUint32(size_t n) const
     {
         ok_ = true;
         return static_cast<uint32_t>(value_.at(n));
@@ -1678,58 +1617,59 @@ namespace Exiv2 {
 #define LARGE_INT 1000000
     // Specialization for double
     template<>
-    inline int64_t ValueType<double>::toInt64(long n) const
+    inline int64_t ValueType<double>::toInt64(size_t n) const
     {
         return float_to_integer_helper<int64_t>(n);
     }
+
     template<>
-    inline uint32_t ValueType<double>::toUint32(long n) const
+    inline uint32_t ValueType<double>::toUint32(size_t n) const
     {
         return float_to_integer_helper<uint32_t>(n);
     }
     // Specialization for float
     template<>
-    inline int64_t ValueType<float>::toInt64(long n) const
+    inline int64_t ValueType<float>::toInt64(size_t n) const
     {
         return float_to_integer_helper<int64_t>(n);
     }
     template<>
-    inline uint32_t ValueType<float>::toUint32(long n) const
+    inline uint32_t ValueType<float>::toUint32(size_t n) const
     {
         return float_to_integer_helper<uint32_t>(n);
     }
     // Specialization for rational
     template<>
-    inline int64_t ValueType<Rational>::toInt64(long n) const
+    inline int64_t ValueType<Rational>::toInt64(size_t n) const
     {
         return rational_to_integer_helper<int64_t>(n);
     }
     template<>
-    inline uint32_t ValueType<Rational>::toUint32(long n) const
+    inline uint32_t ValueType<Rational>::toUint32(size_t n) const
     {
         return rational_to_integer_helper<uint32_t>(n);
     }
     // Specialization for unsigned rational
     template<>
-    inline int64_t ValueType<URational>::toInt64(long n) const
+    inline int64_t ValueType<URational>::toInt64(size_t n) const
     {
         return rational_to_integer_helper<int64_t>(n);
     }
     template<>
-    inline uint32_t ValueType<URational>::toUint32(long n) const
+    inline uint32_t ValueType<URational>::toUint32(size_t n) const
     {
         return rational_to_integer_helper<uint32_t>(n);
     }
     // Default implementation
     template<typename T>
-    float ValueType<T>::toFloat(long n) const
+    float ValueType<T>::toFloat(size_t n) const
     {
         ok_ = true;
         return static_cast<float>(value_.at(n));
     }
     // Specialization for rational
     template<>
-    inline float ValueType<Rational>::toFloat(long n) const
+    inline float ValueType<Rational>::toFloat(size_t n) const
     {
         ok_ = (value_.at(n).second != 0);
         if (!ok_) return 0.0f;
@@ -1737,7 +1677,7 @@ namespace Exiv2 {
     }
     // Specialization for unsigned rational
     template<>
-    inline float ValueType<URational>::toFloat(long n) const
+    inline float ValueType<URational>::toFloat(size_t n) const
     {
         ok_ = (value_.at(n).second != 0);
         if (!ok_) return 0.0f;
@@ -1745,28 +1685,28 @@ namespace Exiv2 {
     }
     // Default implementation
     template<typename T>
-    Rational ValueType<T>::toRational(long n) const
+    Rational ValueType<T>::toRational(size_t n) const
     {
         ok_ = true;
         return {value_.at(n), 1};
     }
     // Specialization for rational
     template<>
-    inline Rational ValueType<Rational>::toRational(long n) const
+    inline Rational ValueType<Rational>::toRational(size_t n) const
     {
         ok_ = true;
         return {value_.at(n).first, value_.at(n).second};
     }
     // Specialization for unsigned rational
     template<>
-    inline Rational ValueType<URational>::toRational(long n) const
+    inline Rational ValueType<URational>::toRational(size_t n) const
     {
         ok_ = true;
         return {value_.at(n).first, value_.at(n).second};
     }
     // Specialization for float.
     template<>
-    inline Rational ValueType<float>::toRational(long n) const
+    inline Rational ValueType<float>::toRational(size_t n) const
     {
         ok_ = true;
         // Warning: This is a very simple conversion, see floatToRationalCast()
@@ -1774,7 +1714,7 @@ namespace Exiv2 {
     }
     // Specialization for double.
     template<>
-    inline Rational ValueType<double>::toRational(long n) const
+    inline Rational ValueType<double>::toRational(size_t n) const
     {
         ok_ = true;
         // Warning: This is a very simple conversion, see floatToRationalCast()
@@ -1782,7 +1722,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    long ValueType<T>::sizeDataArea() const
+    size_t ValueType<T>::sizeDataArea() const
     {
         return sizeDataArea_;
     }
@@ -1794,7 +1734,7 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    int ValueType<T>::setDataArea(const byte* buf, long len)
+    int ValueType<T>::setDataArea(const byte* buf, size_t len)
     {
         byte* tmp = nullptr;
         if (len > 0) {

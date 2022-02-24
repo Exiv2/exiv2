@@ -79,18 +79,20 @@ namespace Exiv2 {
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isXmpType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            if (io_->error() || io_->eof())
+                throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "XMP");
         }
         // Read the XMP packet from the IO stream
         std::string xmpPacket;
         const long len = 64 * 1024;
         byte buf[len];
-        long l;
+        size_t l;
         while ((l = io_->read(buf, len)) > 0) {
             xmpPacket.append(reinterpret_cast<char*>(buf), l);
         }
-        if (io_->error()) throw Error(kerFailedToReadImageData);
+        if (io_->error())
+            throw Error(kerFailedToReadImageData);
         clearMetadata();
         xmpPacket_ = xmpPacket;
         if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
@@ -179,9 +181,8 @@ namespace Exiv2 {
             auto tempIo = std::make_unique<MemIo>();
 
             // Write XMP packet
-            if (   tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()),
-                                 static_cast<long>(xmpPacket_.size()))
-                != static_cast<long>(xmpPacket_.size())) throw Error(kerImageWriteFailed);
+            if (tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size()) != xmpPacket_.size())
+                throw Error(kerImageWriteFailed);
             if (tempIo->error()) throw Error(kerImageWriteFailed);
             io_->close();
             io_->transfer(*tempIo); // may throw

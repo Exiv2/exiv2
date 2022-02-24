@@ -206,17 +206,17 @@ namespace Action {
             std::stringstream output(std::stringstream::out|std::stringstream::binary);
             result       = printStructure(output, option, path);
             if ( result == 0 ) {
-                size_t size = static_cast<long>(output.str().size());
-                Exiv2::DataBuf iccProfile(static_cast<long>(size));
-                Exiv2::DataBuf ascii(static_cast<long>(size * 3 + 1));
+                size_t size = output.str().size();
+                Exiv2::DataBuf iccProfile(size);
+                Exiv2::DataBuf ascii(size * 3 + 1);
                 ascii.write_uint8(size * 3, 0);
                 iccProfile.copyBytes(0,output.str().c_str(),size);
                 if (Exiv2::base64encode(iccProfile.c_data(), size, reinterpret_cast<char*>(ascii.data()), size * 3)) {
                     long       chunk = 60 ;
-                    std::string code = std::string("data:") + std::string(ascii.c_str());
-                    long length = static_cast<long>(code.size());
-                    for ( long start = 0 ; start < length ; start += chunk ) {
-                        long   count = (start+chunk) < length ? chunk : length - start ;
+                    std::string code = std::string("data:") + ascii.c_str();
+                    size_t length = code.size();
+                    for ( size_t start = 0 ; start < length ; start += chunk ) {
+                        size_t   count = (start+chunk) < length ? chunk : length - start ;
                         std::cout << code.substr(start,count) << std::endl;
                     }
                 }
@@ -306,7 +306,7 @@ namespace Action {
         }
         else {
             auto dataBuf = exifThumb.copy();
-            if (dataBuf.size() == 0) {
+            if (dataBuf.empty()) {
                 std::cout << _("None");
             }
             else {
@@ -569,7 +569,7 @@ namespace Action {
             std::ostringstream os;
             // #1114 - show negative values for SByte
             if (md.typeId() == Exiv2::signedByte) {
-                for ( long c = 0 ; c < md.value().count() ; c++ ) {
+                for ( size_t c = 0 ; c < md.value().count() ; c++ ) {
                     const auto value = md.value().toInt64(c);
                     os << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);
                 }
@@ -591,7 +591,7 @@ namespace Action {
                 std::cout << std::endl;
             Exiv2::DataBuf buf(md.size());
             md.copy(buf.data(), pImage->byteOrder());
-            Exiv2::hexdump(std::cout, buf.c_data(), buf.size());
+            Exiv2::hexdump(std::cout, buf.c_data(), static_cast<long>(buf.size()));
         }
         std::cout << std::endl;
         return true;
@@ -913,8 +913,7 @@ namespace Action {
         else {
             if ( (Params::instance().target_ & Params::ctStdInOut) != 0 ) {
                 Exiv2::DataBuf buf = exifThumb.copy();
-                std::cout.write(reinterpret_cast<char*>(buf.data()),
-                                buf.size());
+                std::cout.write(buf.c_str(), buf.size());
                 return 0;
             }
 
@@ -929,7 +928,7 @@ namespace Action {
                               << thumbPath << std::endl;
                 }
             }
-            rc = exifThumb.writeFile(thumb);
+            rc = static_cast<int>(exifThumb.writeFile(thumb));
             if (rc == 0) {
                 std::cerr << path_ << ": " << _("Exif data doesn't contain a thumbnail\n");
             }
@@ -992,15 +991,14 @@ namespace Action {
             } else {
 
                 if ( bStdout ) { // -eC-
-                    std::cout.write(image->iccProfile().c_str(),
-                                    image->iccProfile().size());
+                    std::cout.write(image->iccProfile().c_str(), image->iccProfile().size());
                 } else {
                     if (Params::instance().verbose_) {
                         std::cout << _("Writing iccProfile: ") << target << std::endl;
                     }
                     Exiv2::FileIo iccFile(target);
                     iccFile.open("wb") ;
-                    iccFile.write(image->iccProfile().c_data(),image->iccProfile().size());
+                    iccFile.write(image->iccProfile().c_data(), image->iccProfile().size());
                     iccFile.close();
                 }
             }
@@ -1024,7 +1022,7 @@ namespace Action {
             std::cout << pvImg.size() << " " << _("bytes") << ") "
                       << _("to file") << " " << pvPath << std::endl;
         }
-        long rc = pvImg.writeFile(pvFile);
+        auto rc = pvImg.writeFile(pvFile);
         if (rc == 0) {
             std::cerr << path_ << ": " << _("Image does not have preview")
                       << " " << num << "\n";
@@ -1089,7 +1087,7 @@ namespace Action {
         return 1;
     } // Insert::run
 
-    int Insert::insertXmpPacket(const std::string& path,const std::string& xmpPath) 
+    int Insert::insertXmpPacket(const std::string& path,const std::string& xmpPath)
     {
         int  rc     = 0;
         bool bStdin = xmpPath == "-" ;
@@ -1120,7 +1118,7 @@ namespace Action {
     int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket)
     {
         std::string xmpPacket;
-        for ( long i = 0 ; i < xmpBlob.size() ; i++ ) {
+        for ( size_t i = 0 ; i < xmpBlob.size() ; i++ ) {
             xmpPacket += static_cast<char>(xmpBlob.read_uint8(i));
         }
         auto image = Exiv2::ImageFactory::open(path);
@@ -1134,7 +1132,7 @@ namespace Action {
         return 0;
     }
 
-    int Insert::insertIccProfile(const std::string& path,const std::string& iccPath) 
+    int Insert::insertIccProfile(const std::string& path,const std::string& iccPath)
     {
         int rc = 0;
         // for path "foo.XXX", do a binary copy of "foo.icc"
@@ -1825,7 +1823,7 @@ namespace {
         Exiv2::Image::UniquePtr sourceImage;
         if ( bStdin ) {
             Params::instance().getStdin(stdIn);
-            auto ioStdin = std::make_unique<Exiv2::MemIo>(stdIn.c_data(),stdIn.size());
+            auto ioStdin = std::make_unique<Exiv2::MemIo>(stdIn.c_data(), stdIn.size());
             sourceImage = Exiv2::ImageFactory::open(std::move(ioStdin));
         } else {
             sourceImage = Exiv2::ImageFactory::open(source);

@@ -547,7 +547,7 @@ namespace Exiv2 {
         auto pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        for (long i = 0; i < pos->count(); ++i) {
+        for (size_t i = 0; i < pos->count(); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -695,7 +695,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (long i = 0; i < pos->count(); ++i) {
+        for (size_t i = 0; i < pos->count(); ++i) {
             value << static_cast<char>(pos->toInt64(i));
         }
         (*xmpData_)[to] = value.str();
@@ -708,7 +708,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (long i = 0; i < pos->count(); ++i) {
+        for (size_t i = 0; i < pos->count(); ++i) {
             if (i > 0) value << '.';
             value << pos->toInt64(i);
         }
@@ -826,7 +826,7 @@ namespace Exiv2 {
         auto pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         std::ostringstream array;
-        for (long i = 0; i < pos->count(); ++i) {
+        for (size_t i = 0; i < pos->count(); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -835,10 +835,12 @@ namespace Exiv2 {
                 return;
             }
             array << value;
-            if (i != pos->count() - 1) array << " ";
+            if (i != pos->count() - 1)
+                array << " ";
         }
         (*exifData_)[to] = array.str();
-        if (erase_) xmpData_->erase(pos);
+        if (erase_)
+            xmpData_->erase(pos);
     }
 
     void Converter::cnvXmpDate(const char* from, const char* to)
@@ -859,9 +861,9 @@ namespace Exiv2 {
             SXMPUtils::ConvertToDate(value, &datetime);
             char buf[30];
             if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
-    
+
                 SXMPUtils::ConvertToLocalTime(&datetime);
-    
+
                 snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d",
                          static_cast<int>(datetime.year),
                          static_cast<int>(datetime.month),
@@ -871,7 +873,7 @@ namespace Exiv2 {
                          static_cast<int>(datetime.second));
                 buf[sizeof(buf) - 1] = 0;
                 (*exifData_)[to] = buf;
-    
+
                 if (datetime.nanoSecond) {
                     const char* subsecTag = nullptr;
                     if (std::string(to) == "Exif.Image.DateTime") {
@@ -890,9 +892,9 @@ namespace Exiv2 {
                 }
             }
             else { // "Exif.GPSInfo.GPSTimeStamp"
-    
+
                 // Ignore the time zone, assuming the time is in UTC as it should be
-    
+
                 URational rhour(datetime.hour, 1);
                 URational rmin(datetime.minute, 1);
                 URational rsec(datetime.second, 1);
@@ -906,11 +908,11 @@ namespace Exiv2 {
                     rsec.second = 1000000000;
                     rsec.first = datetime.nanoSecond;
                 }
-    
+
                 std::ostringstream array;
                 array << rhour << " " << rmin << " " << rsec;
                 (*exifData_)[to] = array.str();
-    
+
                 prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
                 snprintf(buf, sizeof(buf), "%4d:%02d:%02d",
                         static_cast<int>(datetime.year),
@@ -1153,10 +1155,10 @@ namespace Exiv2 {
             return;
         }
 
-        int count = pos->count();
+        size_t count = pos->count();
         bool added = false;
-        for (int i = 0; i < count; ++i) {
-            std::string value = pos->toString(i);
+        for (size_t i = 0; i < count; ++i) {
+            std::string value = pos->toString(static_cast<long>(i));
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -1193,7 +1195,7 @@ namespace Exiv2 {
                 if (pos == exifData_->end()) continue;
                 DataBuf data(pos->size());
                 pos->copy(data.data(), littleEndian /* FIXME ? */);
-                MD5Update ( &context, data.c_data(), data.size());
+                MD5Update ( &context, data.c_data(), static_cast<uint32_t>(data.size()));
             }
         }
         MD5Final(digest, &context);

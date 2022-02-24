@@ -152,7 +152,7 @@ namespace Exiv2 {
         //! Return the type id for a type name
         static TypeId typeId(const std::string& typeName);
         //! Return the size in bytes of one element of this type
-        static long typeSize(TypeId typeId);
+        static size_t typeSize(TypeId typeId);
 
     };
 
@@ -168,9 +168,9 @@ namespace Exiv2 {
         //! Default constructor
         DataBuf() = default;
         //! Constructor with an initial buffer size
-        explicit DataBuf(long size);
+        explicit DataBuf(size_t size);
         //! Constructor, copies an existing buffer
-        DataBuf(const byte* pData, long size);
+        DataBuf(const byte* pData, size_t size);
         //@}
 
         //! @name Manipulators
@@ -180,17 +180,25 @@ namespace Exiv2 {
                  the requested \em size is less than the current buffer size, no
                  new memory is allocated and the buffer size doesn't change.
          */
-        void alloc(long size);
+        void alloc(size_t size);
         /*!
           @brief Resize the buffer. Existing data is preserved (like std::realloc()).
          */
-        void resize(long size);
+        void resize(size_t size);
 
         //! Reset value
         void reset();
         //@}
 
-        long size() const { return pData_.size(); }
+        using iterator = std::vector<byte>::iterator;
+        using const_iterator = std::vector<byte>::const_iterator;
+
+        inline iterator begin() noexcept { return pData_.begin(); }
+        inline const_iterator cbegin() const noexcept { return pData_.cbegin(); }
+        inline iterator end() noexcept { return pData_.end(); }
+        inline const_iterator cend() const noexcept { return pData_.end(); }
+
+        size_t size() const { return pData_.size(); }
 
         uint8_t read_uint8(size_t offset) const;
         void write_uint8(size_t offset, uint8_t x);
@@ -218,6 +226,8 @@ namespace Exiv2 {
 
         //! Returns a (read-only) C-style string pointer.
         const char* c_str(size_t offset = 0) const;
+
+        bool empty() const {return pData_.empty(); }
 
       private:
         std::vector<byte> pData_;

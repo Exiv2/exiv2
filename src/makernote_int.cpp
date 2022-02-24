@@ -241,7 +241,7 @@ namespace Exiv2 {
 
     uint32_t OlympusMnHeader::size() const
     {
-        return header_.size();
+        return static_cast<uint32_t>(header_.size());
     }
 
     uint32_t OlympusMnHeader::ifdOffset() const
@@ -283,7 +283,7 @@ namespace Exiv2 {
 
     uint32_t Olympus2MnHeader::size() const
     {
-        return header_.size();
+        return static_cast<uint32_t>(header_.size());
     }
 
     uint32_t Olympus2MnHeader::ifdOffset() const
@@ -331,7 +331,7 @@ namespace Exiv2 {
 
     uint32_t FujiMnHeader::size() const
     {
-        return header_.size();
+        return static_cast<uint32_t>(header_.size());
     }
 
     uint32_t FujiMnHeader::ifdOffset() const
@@ -470,12 +470,11 @@ namespace Exiv2 {
         assert(buf_.size() >= 10);
 
         ioWrapper.write(buf_.c_data(), 10);
-        // Todo: This removes any gap between the header and
-        // makernote IFD. The gap should be copied too.
+        /// \todo: This removes any gap between the header and makernote IFD. The gap should be copied too.
         TiffHeader th(byteOrder);
         DataBuf buf = th.write();
         ioWrapper.write(buf.c_data(), buf.size());
-        return 10 + buf.size();
+        return 10 + static_cast<uint32_t>(buf.size());
     } // Nikon3MnHeader::write
 
     void Nikon3MnHeader::setByteOrder(ByteOrder byteOrder)
@@ -542,7 +541,7 @@ namespace Exiv2 {
 
     uint32_t PentaxDngMnHeader::size() const
     {
-        return header_.size();
+        return static_cast<uint32_t>(header_.size());
     }
 
     uint32_t PentaxDngMnHeader::baseOffset(uint32_t mnOffset) const
@@ -589,7 +588,7 @@ namespace Exiv2 {
 
     uint32_t PentaxMnHeader::size() const
     {
-        return header_.size();
+        return static_cast<uint32_t>(header_.size());
     }
 
     uint32_t PentaxMnHeader::ifdOffset() const
@@ -1163,7 +1162,7 @@ namespace Exiv2 {
         }
         buf.alloc(size);
         buf.copyBytes(0, pData, buf.size());
-        ncrypt(buf.data(nci->start_), buf.size() - nci->start_, count, serial);
+        ncrypt(buf.data(nci->start_), static_cast<uint32_t>(buf.size()) - nci->start_, count, serial);
         return buf;
     }
 

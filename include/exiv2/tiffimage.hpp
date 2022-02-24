@@ -135,7 +135,7 @@ namespace Exiv2 {
                   IptcData& iptcData,
                   XmpData&  xmpData,
             const byte*     pData,
-                  uint32_t  size
+                  size_t    size
         );
         /*!
           @brief Encode metadata from the provided metadata to TIFF format.

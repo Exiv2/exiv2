@@ -225,14 +225,15 @@ namespace Exiv2 {
     {
         // format is:  "YYMM#00#00DDHH#00#00MM#00#00#00#00" or  "YYMM#00#00DDHH#00#00MMSS#00#00#00"
         std::vector<char> numbers;
-        for(long i=0; i<value.size(); i++)
+        for(size_t i=0; i<value.size(); i++)
         {
             const auto l = value.toInt64(i);
             if(l!=0)
             {
                 numbers.push_back(static_cast<char>(l));
-            };
-        };
+            }
+        }
+
         if(numbers.size()>=10)
         {
             //year
@@ -544,14 +545,15 @@ namespace Exiv2 {
     {
         // format is:  "YYMM#00#00DDHH#00#00MM#00#00#00#00"
         std::vector<char> numbers;
-        for(long i=0; i<value.size(); i++)
+        for(size_t i=0; i<value.size(); i++)
         {
-            const auto l = value.toInt64(i);
+            const char l = static_cast<char>(value.toInt64(i));
             if(l!=0)
             {
-                numbers.push_back(static_cast<char>(l));
-            };
-        };
+                numbers.push_back(l);
+            }
+        }
+
         if(numbers.size()>=10)
         {
             //year

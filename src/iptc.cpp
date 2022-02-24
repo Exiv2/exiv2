@@ -158,17 +158,17 @@ namespace Exiv2 {
 
     long Iptcdatum::typeSize() const
     {
-        return TypeInfo::typeSize(typeId());
+        return static_cast<long>(TypeInfo::typeSize(typeId()));
     }
 
-    long Iptcdatum::count() const
+    size_t Iptcdatum::count() const
     {
         return value_.get() == nullptr ? 0 : value_->count();
     }
 
     long Iptcdatum::size() const
     {
-        return value_.get() == nullptr ? 0 : value_->size();
+        return value_.get() == nullptr ? 0 : static_cast<long>(value_->size());
     }
 
     std::string Iptcdatum::toString() const
@@ -505,7 +505,9 @@ namespace Exiv2 {
 
     DataBuf IptcParser::encode(const IptcData& iptcData)
     {
-        /// \todo if iptcData.size() == 0 return early
+        if (iptcData.empty())
+            return {};
+
         DataBuf buf(iptcData.size());
         byte *pWrite = buf.data();
 

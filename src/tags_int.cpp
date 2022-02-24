@@ -2601,7 +2601,7 @@ namespace Exiv2 {
         {
             uint16_t bit   = 0;
             uint16_t comma = 0;
-            for (long i = 0; i < value.count(); i++ ) { // for each element in value array
+            for (size_t i = 0; i < value.count(); i++ ) { // for each element in value array
                 auto bits = static_cast<uint16_t>(value.toInt64(i));
                 for (uint16_t b = 0; b < 16; ++b) { // for every bit
                     if (bits & (1 << b)) {
@@ -2949,7 +2949,7 @@ namespace Exiv2 {
 
     std::ostream& print0x9101(std::ostream& os, const Value& value, const ExifData*)
     {
-        for (long i = 0; i < value.count(); ++i) {
+        for (size_t i = 0; i < value.count(); ++i) {
             const auto l = value.toInt64(i);
             switch (l) {
             case 0:  break;

@@ -81,7 +81,7 @@ int main(int argc, char* const argv[])
             }
             size_t    l = 0;
             if ( !bytes.empty() ) {
-                int r ;
+                size_t r ;
                 while ( (r=io->read(bytes.data(),blocksize)) > 0  ) {
                     l += r;
                     output.write(bytes.data(),r) ;
@@ -143,7 +143,7 @@ int main(int argc, char* const argv[])
             throw Error(Exiv2::kerFileOpenFailed, f2, "w+b", strError());
         }
 
-        long readCount = 0;
+        size_t readCount = 0;
         byte buf[32];
         while ((readCount=fileOut1.read(buf, sizeof(buf)))) {
             if (memIo2.write(buf, readCount) != readCount) {
@@ -180,7 +180,7 @@ int WriteReadSeek(BasicIo &io)
         throw Error(Exiv2::kerDataSourceOpenFailed, io.path(), strError());
     }
     IoCloser closer(io);
-    if (static_cast<size_t>(io.write(reinterpret_cast<const byte*>(tester1), static_cast<long>(size1))) != size1) {
+    if (io.write(reinterpret_cast<const byte*>(tester1), size1) != size1) {
         std::cerr << ": WRS initial write failed\n";
         return 2;
     }
@@ -233,7 +233,7 @@ int WriteReadSeek(BasicIo &io)
     }
 
     io.seek(insert, BasicIo::beg);
-    if (static_cast<size_t>(io.write(reinterpret_cast<const byte*>(tester2), static_cast<long>(size2))) != size2) {
+    if (io.write(reinterpret_cast<const byte*>(tester2), size2) != size2) {
         std::cerr << ": WRS bad write 1\n";
         return 9;
     }
@@ -243,7 +243,7 @@ int WriteReadSeek(BasicIo &io)
         throw Error(Exiv2::kerDataSourceOpenFailed, io.path(), strError());
     }
     std::memset(buf, -1, sizeof(buf));
-    if (static_cast<size_t>(io.read(buf, sizeof(buf))) != insert + size2) {
+    if (io.read(buf, sizeof(buf)) != insert + size2) {
         std::cerr << ": WRS something went wrong\n";
         return 10;
     }

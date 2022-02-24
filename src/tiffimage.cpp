@@ -194,7 +194,7 @@ namespace Exiv2 {
         Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
         auto pos   = exifData_.findKey(key);
         if ( pos != exifData_.end() ) {
-            long size = pos->count() * pos->typeSize();
+            size_t size = pos->count() * pos->typeSize();
             if (size == 0) {
                 throw Error(kerFailedToReadImageData);
             }
@@ -234,7 +234,7 @@ namespace Exiv2 {
         auto pos   = exifData_.findKey(key);
         bool                      found = pos != exifData_.end();
         if ( iccProfileDefined() ) {
-            Exiv2::DataValue value(iccProfile_.c_data(), iccProfile_.size());
+            Exiv2::DataValue value(iccProfile_.c_data(), static_cast<long>(iccProfile_.size()));
             if ( found ) pos->setValue(&value);
             else     exifData_.add(key,&value);
         } else {
@@ -247,12 +247,11 @@ namespace Exiv2 {
         TiffParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // TiffImage::writeMetadata
 
-    ByteOrder TiffParser::decode(
-              ExifData& exifData,
+    ByteOrder TiffParser::decode(ExifData& exifData,
               IptcData& iptcData,
               XmpData&  xmpData,
         const byte*     pData,
-              uint32_t  size
+              size_t size
     )
     {
         uint32_t root = Tag::root;
@@ -269,7 +268,7 @@ namespace Exiv2 {
                                         iptcData,
                                         xmpData,
                                         pData,
-                                        size,
+                                        static_cast<uint32_t>(size),
                                         root,
                                         TiffMapping::findDecoder);
     } // TiffParser::decode

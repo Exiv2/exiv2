@@ -122,7 +122,7 @@ namespace Exiv2 {
           The IO wrapper owns none of the objects passed in so the caller is
           responsible to keep them alive.
          */
-        IoWrapper(BasicIo& io, const byte* pHeader, long size, OffsetWriter* pow);
+        IoWrapper(BasicIo& io, const byte* pHeader, size_t size, OffsetWriter* pow);
         //@}
 
         //! @name Manipulators
@@ -133,7 +133,7 @@ namespace Exiv2 {
           Writes the TIFF header to the IO, if it hasn't been written yet, followed
           by the data passed in the arguments.
          */
-        long write(const byte* pData, long wcount);
+        size_t write(const byte* pData, size_t wcount);
         /*!
           @brief Wraps the corresponding BasicIo::putb() method.
 
@@ -149,7 +149,7 @@ namespace Exiv2 {
         // DATA
         BasicIo& io_;              //! Reference for the IO instance.
         const byte* pHeader_;      //! Pointer to the header data.
-        long size_;                //! Size of the header data.
+        size_t size_;              //! Size of the header data.
         bool wroteHeader_;         //! Indicates if the header has been written.
         OffsetWriter* pow_;        //! Pointer to an offset-writer, if any, or 0
     }; // class IoWrapper
@@ -289,14 +289,14 @@ namespace Exiv2 {
                  write(). Components derived from TiffEntryBase implement this
                  method corresponding to their implementation of writeData().
          */
-        uint32_t sizeData() const;
+        size_t sizeData() const;
         /*!
           @brief Return the size in bytes of the image data of this component
                  when written to a binary image.  This is a support function for
                  write(). TIFF components implement this method corresponding to
                  their implementation of writeImage().
          */
-        uint32_t sizeImage() const;
+        size_t sizeImage() const;
         /*!
           @brief Return the unique id of the entry in the image.
          */
@@ -346,9 +346,9 @@ namespace Exiv2 {
         //! Implements count().
         virtual uint32_t doCount() const =0;
         //! Implements sizeData().
-        virtual uint32_t doSizeData() const =0;
+        virtual size_t doSizeData() const =0;
         //! Implements sizeImage().
-        virtual uint32_t doSizeImage() const =0;
+        virtual size_t doSizeImage() const =0;
         //@}
 
     private:
@@ -529,9 +529,9 @@ namespace Exiv2 {
         //! Implements size(). Return the size of a standard TIFF entry
         uint32_t doSize() const override;
         //! Implements sizeData(). Return 0.
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         //! Implements sizeImage(). Return 0.
-        uint32_t doSizeImage() const override;
+        size_t doSizeImage() const override;
         //@}
 
         //! Helper function to write an \em offset to a preallocated binary buffer
@@ -552,7 +552,7 @@ namespace Exiv2 {
 
         // DATA
         TiffType tiffType_;   //!< Field TIFF type
-        uint32_t count_;      //!< The number of values of the indicated type
+        size_t count_;      //!< The number of values of the indicated type
         int64_t  offset_;     //!< Offset to the data area
         /*!
           Size of the data buffer holding the value in bytes, there is no
@@ -717,7 +717,7 @@ namespace Exiv2 {
         // Using doWriteImage from base class
         // Using doSize() from base class
         //! Implements sizeData(). Return the size of the data area.
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         // Using doSizeImage from base class
         //@}
 
@@ -792,9 +792,9 @@ namespace Exiv2 {
         //! Implements size(). Return the size of the strip pointers.
         uint32_t doSize() const override;
         //! Implements sizeData(). Return the size of the image data area.
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         //! Implements sizeImage(). Return the size of the image data area.
-        uint32_t doSizeImage() const override;
+        size_t doSizeImage() const override;
         //@}
 
     private:
@@ -926,12 +926,12 @@ namespace Exiv2 {
           @brief This class does not really implement sizeData(), it only has
                  size(). This method must not be called; it commits suicide.
          */
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         /*!
           @brief Implements sizeImage(). Return the sum of the image sizes of
                  all components plus that of the next-IFD, if there is any.
          */
-        uint32_t doSizeImage() const override;
+        size_t doSizeImage() const override;
         //@}
 
     private:
@@ -1015,9 +1015,9 @@ namespace Exiv2 {
         //! Implements size(). Return the size of the sub-Ifd pointers.
         uint32_t doSize() const override;
         //! Implements sizeData(). Return the sum of the sizes of all sub-IFDs.
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         //! Implements sizeImage(). Return the sum of the image sizes of all sub-IFDs.
-        uint32_t doSizeImage() const override;
+        size_t doSizeImage() const override;
         //@}
 
     private:
@@ -1228,12 +1228,12 @@ namespace Exiv2 {
           @brief This class does not really implement sizeData(), it only has
                  size(). This method must not be called; it commits suicide.
          */
-        uint32_t doSizeData() const override;
+        size_t doSizeData() const override;
         /*!
           @brief Implements sizeImage(). Return the total image data size of the
                  makernote IFD.
          */
-        uint32_t doSizeImage() const override;
+        size_t doSizeImage() const override;
         //@}
 
     private:
