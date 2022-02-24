@@ -279,6 +279,8 @@ namespace Exiv2 {
         byte advanceToMarker(ErrorCode err) const;
         //@}
 
+        DataBuf readNextSegment(byte marker);
+
         /*!
           @brief Is the marker followed by a non-zero payload?
           @param marker The marker at the start of a segment

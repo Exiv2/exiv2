@@ -855,6 +855,29 @@ namespace Exiv2 {
         io_->transfer(*tempIo); // may throw
     }
 
+    DataBuf JpegBase::readNextSegment(byte marker)
+    {
+        // 2-byte buffer for reading the size.
+        byte sizebuf[2];
+        uint16_t size = 0;
+        if (markerHasLength(marker)) {
+            io_->readOrThrow(sizebuf, 2, kerFailedToReadImageData);
+            size = getUShort(sizebuf, bigEndian);
+            // `size` is the size of the segment, including the 2-byte size field
+            // that we just read.
+            enforce(size >= 2, kerFailedToReadImageData);
+        }
+
+        // Read the rest of the segment.
+        DataBuf buf(size);
+        if (size > 0) {
+            assert(size >= 2); // enforced above
+            io_->readOrThrow(buf.data(2), size - 2, kerFailedToReadImageData);
+            buf.copyBytes(0, sizebuf, 2);
+        }
+        return buf;
+    }
+
     void JpegBase::doWriteMetadata(BasicIo& outIo)
     {
         if (!io_->isopen())
@@ -899,47 +922,28 @@ namespace Exiv2 {
         // to insert after it. But if app0 comes after com, app1 and app13 then
         // don't bother.
         while (marker != sos_ && marker != eoi_ && search < 6) {
-            // 2-byte buffer for reading the size.
-            byte sizebuf[2];
-            uint16_t size = 0;
-            if (markerHasLength(marker)) {
-                io_->readOrThrow(sizebuf, 2, kerFailedToReadImageData);
-                size = getUShort(sizebuf, bigEndian);
-                // `size` is the size of the segment, including the 2-byte size field
-                // that we just read.
-                enforce(size >= 2, kerFailedToReadImageData);
-            }
-
-            // Read the rest of the segment.
-            DataBuf buf(size);
-            if (size > 0) {
-                assert(size >= 2); // enforced above
-                io_->readOrThrow(buf.data(2), size - 2, kerFailedToReadImageData);
-                buf.copyBytes(0, sizebuf, 2);
-            }
+            DataBuf buf = readNextSegment(marker);
 
             if (marker == app0_) {
-                assert(markerHasLength(marker));
-                assert(size >= 2); // Because this marker has a length field.
                 insertPos = count + 1;
             } else if (skipApp1Exif == notfound &&
                        marker == app1_ &&
-                       size >= 8 && // prevent out-of-bounds read in memcmp on next line
+                       buf.size() >= 8 && // prevent out-of-bounds read in memcmp on next line
                        buf.cmpBytes(2, exifId_, 6) == 0) {
                 skipApp1Exif = count;
                 ++search;
-                if (size > 8) {
-                    rawExif.alloc(size - 8);
-                    rawExif.copyBytes(0, buf.c_data(8), size - 8);
+                if (buf.size() > 8) {
+                    rawExif.alloc(buf.size() - 8);
+                    rawExif.copyBytes(0, buf.c_data(8), buf.size() - 8);
                 }
             } else if (skipApp1Xmp == notfound &&
                        marker == app1_ &&
-                       size >= 31 && // prevent out-of-bounds read in memcmp on next line
+                       buf.size() >= 31 && // prevent out-of-bounds read in memcmp on next line
                        buf.cmpBytes(2, xmpId_, 29) == 0) {
                 skipApp1Xmp = count;
                 ++search;
             } else if (marker == app2_ &&
-                       size >= 13 && // prevent out-of-bounds read in memcmp on next line
+                       buf.size() >= 13 && // prevent out-of-bounds read in memcmp on next line
                        buf.cmpBytes(2, iccId_, 11) == 0) {
                 skipApp2Icc.push_back(count);
                 if (!foundIccData) {
@@ -948,21 +952,19 @@ namespace Exiv2 {
                 }
             } else if (!foundCompletePsData &&
                        marker == app13_ &&
-                       size >= 16 && // prevent out-of-bounds read in memcmp on next line
+                       buf.size() >= 16 && // prevent out-of-bounds read in memcmp on next line
                        buf.cmpBytes(2, Photoshop::ps3Id_, 14) == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found APP13 Photoshop PS3 segment\n";
 #endif
                 skipApp13Ps3.push_back(count);
                 // Append to psBlob
-                append(psBlob, buf.c_data(16), size - 16);
+                append(psBlob, buf.c_data(16), buf.size() - 16);
                 // Check whether psBlob is complete
                 if (!psBlob.empty() && Photoshop::valid(&psBlob[0], static_cast<long>(psBlob.size()))) {
                     foundCompletePsData = true;
                 }
             } else if (marker == com_ && skipCom == notfound) {
-                assert(markerHasLength(marker));
-                assert(size >= 2); // Because this marker has a length field.
                 // Jpegs can have multiple comments, but for now only handle
                 // the first one (most jpegs only have one anyway).
                 skipCom = count;
@@ -1013,25 +1015,7 @@ namespace Exiv2 {
         // potential to change segment ordering (which is allowed).
         // Segments are erased if there is no assigned metadata.
         while (marker != sos_ && search > 0) {
-            /// \todo same block than above ... reuse!!!
-            // 2-byte buffer for reading the size.
-            byte sizebuf[2];
-            uint16_t size = 0;
-            if (markerHasLength(marker)) {
-                io_->readOrThrow(sizebuf, 2, kerFailedToReadImageData);
-                size = getUShort(sizebuf, bigEndian);
-                // `size` is the size of the segment, including the 2-byte size field
-                // that we just read.
-                enforce(size >= 2, kerFailedToReadImageData);
-            }
-
-            // Read the rest of the segment.
-            DataBuf buf(size);
-            if (size > 0) {
-                assert(size >= 2); // enforced above
-                io_->readOrThrow(buf.data(2), size - 2, kerFailedToReadImageData);
-                buf.copyBytes(0, sizebuf, 2);
-            }
+            DataBuf buf = readNextSegment(marker);
 
             if (insertPos == count) {
                 // Write Exif data first so that - if there is no app0 - we
@@ -1223,7 +1207,7 @@ namespace Exiv2 {
                 tmpBuf[1] = marker;
                 if (outIo.write(tmpBuf.data(), 2) != 2)
                     throw Error(kerImageWriteFailed);
-                if (outIo.write(buf.c_data(), size) != size)
+                if (outIo.write(buf.c_data(), buf.size()) != buf.size())
                     throw Error(kerImageWriteFailed);
                 if (outIo.error())
                     throw Error(kerImageWriteFailed);
