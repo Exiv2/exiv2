@@ -68,5 +68,9 @@ try {
 }
 catch (Exiv2::AnyError& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
-    return -1;
+    return 1;
+}
+catch (const std::exception& e) {
+    std::cout << "Caught exception: '" << e.what() << "'\n";
+    return 1;
 }
