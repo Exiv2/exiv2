@@ -140,19 +140,7 @@ Exif.NikonMe.MultiExposureMode               Long        1  0  Off
 Exif.NikonMe.MultiExposureShots              Long        1  0  0
 Exif.NikonMe.MultiExposureAutoGain           Long        1  0  Off
 Exif.Nikon3.HighISONoiseReduction            Short       1  4  Normal
-Exif.NikonAf2.Version                        Undefined   4  48 51 48 48  3.00
-Exif.NikonAf2.ContrastDetectAF               Byte        1  1  On
-Exif.NikonAf2.AFAreaMode                     Byte        1  193  193
-Exif.NikonAf2.PhaseDetectAF                  Byte        1  0  Off
-Exif.NikonAf2.PrimaryAFPoint                 Byte        1  1  1
-Exif.NikonAf2.AFPointsUsed                   Byte        7  0 0 0 0 0 0 0  0 0 0 0 0 0 0
-Exif.NikonAf2.AFImageWidth                   Short       1  0  0
-Exif.NikonAf2.AFImageHeight                  Short       1  0  0
-Exif.NikonAf2.AFAreaXPosition                Short       1  0  0
-Exif.NikonAf2.AFAreaYPosition                Short       1  0  0
-Exif.NikonAf2.AFAreaWidth                    Short       1  0  0
-Exif.NikonAf2.AFAreaHeight                   Short       1  0  0
-Exif.NikonAf2.ContrastDetectAFInFocus        Short       1  0  0
+Exif.Nikon3.AFInfo2                          Undefined  60  48 51 48 48 1 193 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 160 23 184 15 208 11 220 7 29 1 52 1 0 0 0 0 0 0  48 51 48 48 1 193 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 160 23 184 15 208 11 220 7 29 1 52 1 0 0 0 0 0 0
 Exif.NikonFi.Version                         Undefined   4  48 49 48 48  1.00
 Exif.NikonFi.DirectoryNumber                 Short       1  100  100
 Exif.NikonFi.FileNumber                      Short       1  174  174

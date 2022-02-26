@@ -1117,6 +1117,9 @@ namespace Exiv2 {
         { 0x00a8, "0105",    0, 2,  NA },
         { 0x00a8, "0107",    0, 3,  NA },
         { 0x00a8, "0108",    0, 3,  NA },
+        // NikonAf
+        { 0x00b7, "0100",   30, 0,  NA }, // These sizes have been found in tiff headers of MN
+        { 0x00b7, "0101",   84, 1,  NA }, // tag 0xb7 in sample image metadata for each version
     };
 
     int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const /*pRoot*/)
@@ -1124,15 +1127,6 @@ namespace Exiv2 {
         if (size < 4) return -1;
         const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
         return aix == nullptr ? -1 : aix->idx_;
-    }
-
-    int nikonAf2Selector(uint16_t tag, const byte* /*pData*/, uint32_t size, TiffComponent* const /*pRoot*/)
-    {
-        int result = tag == 0x00b7 ? 0 : -1 ;
-        if (result > -1 && size == 84 ) {
-            result = 1;
-        }
-        return result;
     }
 
     DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot)

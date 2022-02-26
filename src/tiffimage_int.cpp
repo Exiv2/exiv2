@@ -401,7 +401,7 @@ namespace Exiv2 {
         { 22, ttUnsignedShort, 1 }, // AFAreaYPosition
         { 24, ttUnsignedShort, 1 }, // AFAreaWidth
         { 26, ttUnsignedShort, 1 }, // AFAreaHeight
-        { 28, ttUnsignedShort, 1 }, // ContrastDetectAFInFocus
+        { 28, ttUnsignedByte,  1 }, // ContrastDetectAFInFocus
     };
     //! Nikon Auto Focus 22 binary array - configuration
     constexpr ArrayCfg nikonAf22Cfg = {
@@ -428,6 +428,7 @@ namespace Exiv2 {
         { 76, ttUnsignedShort, 1 }, // AFAreaYPosition
         { 78, ttUnsignedShort, 1 }, // AFAreaWidth
         { 80, ttUnsignedShort, 1 }, // AFAreaHeight
+        { 82, ttUnsignedByte,  1 }, // ContrastDetectAFInFocus
     };
 
     //! Nikon AF2 configuration and definitions
@@ -1732,7 +1733,7 @@ namespace Exiv2 {
         {    0x0098, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, nikonSelector) },
         {    0x00a8, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonFlSet, nikonSelector) },
         {    0x00b0, nikon3Id,         EXV_BINARY_ARRAY(nikonMeCfg, nikonMeDef)  },
-        {    0x00b7, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonAf2Set, nikonAf2Selector) },
+        {    0x00b7, nikon3Id,         EXV_COMPLEX_BINARY_ARRAY(nikonAf2Set, nikonSelector) },
         {    0x00b8, nikon3Id,         EXV_BINARY_ARRAY(nikonFiCfg, nikonFiDef)  },
         {    0x00b9, nikon3Id,         EXV_BINARY_ARRAY(nikonAFTCfg, nikonAFTDef)  },
         {  Tag::all, nikon3Id,         newTiffEntry                              },

@@ -22,7 +22,7 @@ Exif.NikonAf22.AFAreaXPosition               Short       1  3950
 Exif.NikonAf22.AFAreaYPosition               Short       1  2871
 Exif.NikonAf22.AFAreaWidth                   Short       1  435
 Exif.NikonAf22.AFAreaHeight                  Short       1  360
-Exif.NikonAf22.ContrastDetectAFInFocus       Byte        2  1 0
+Exif.NikonAf22.ContrastDetectAFInFocus       Byte        1  Yes
 """
     ]
     stderr = [ "" ] * len(commands)

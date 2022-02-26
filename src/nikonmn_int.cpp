@@ -657,7 +657,7 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-    //! YesNo, used for DaylightSavings, tag index 2
+    //! YesNo, used for DaylightSavings, tag index 2, et al.
     constexpr TagDetails nikonYesNo[] = {
         { 0, N_("No")    },
         { 1, N_("Yes")   }
@@ -904,7 +904,7 @@ namespace Exiv2 {
        { 22, "AFAreaYPosition", N_("AF Area Y Position"), N_("AF area y position"), nikonAf21Id, makerTags, unsignedShort, 1, printValue},
        { 24, "AFAreaWidth", N_("AF Area Width"), N_("AF area width"), nikonAf21Id, makerTags, unsignedShort, 1, printValue},
        { 26, "AFAreaHeight", N_("AF Area Height"), N_("AF area height"), nikonAf21Id, makerTags, unsignedShort, 1, printValue},
-       { 28, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf21Id, makerTags, unsignedShort, 1, printValue},
+       { 28, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf21Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonYesNo)},
         // End of list marker
        {0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), nikonAf21Id, makerTags, unsignedByte, 1, printValue},
     };
@@ -928,7 +928,7 @@ namespace Exiv2 {
        { 76, "AFAreaYPosition", N_("AF Area Y Position"), N_("AF area y position"), nikonAf22Id, makerTags, unsignedShort, 1, printValue},
        { 78, "AFAreaWidth", N_("AF Area Width"), N_("AF area width"), nikonAf22Id, makerTags, unsignedShort, 1, printValue},
        { 80, "AFAreaHeight", N_("AF Area Height"), N_("AF area height"), nikonAf22Id, makerTags, unsignedShort, 1, printValue},
-       { 82, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf22Id, makerTags, unsignedShort, 1, printValue},
+       { 82, "ContrastDetectAFInFocus", N_("Contrast Detect AF In Focus"), N_("Contrast detect AF in focus"), nikonAf22Id, makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonYesNo)},
         // End of list marker
        {0xffff, "(UnknownNikonAf2Tag)", "(UnknownNikonAf2Tag)", N_("Unknown Nikon Auto Focus 2 Tag"), nikonAf22Id, makerTags, unsignedByte, 1, printValue},
     };

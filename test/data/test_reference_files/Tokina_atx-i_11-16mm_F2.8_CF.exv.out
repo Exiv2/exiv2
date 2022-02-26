@@ -141,7 +141,7 @@ Exif.NikonAf22.AFAreaXPosition               Short       1  0  0
 Exif.NikonAf22.AFAreaYPosition               Short       1  0  0
 Exif.NikonAf22.AFAreaWidth                   Short       1  0  0
 Exif.NikonAf22.AFAreaHeight                  Short       1  0  0
-Exif.NikonAf22.ContrastDetectAFInFocus       Byte        2  0 0  0 0
+Exif.NikonAf22.ContrastDetectAFInFocus       Byte        1  0  No
 Exif.NikonFi.Version                         Undefined   4  48 49 48 48  1.00
 Exif.NikonFi.DirectoryNumber                 Short       1  104  104
 Exif.NikonFi.FileNumber                      Short       1  476  476
