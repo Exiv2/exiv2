@@ -483,8 +483,10 @@ namespace Exiv2 {
     bool Converter::prepareExifTarget(const char* to, bool force)
     {
         auto pos = exifData_->findKey(ExifKey(to));
-        if (pos == exifData_->end()) return true;
-        if (!overwrite_ && !force) return false;
+        if (pos == exifData_->end())
+            return true;
+        if (!overwrite_ && !force)
+              return false;
         exifData_->erase(pos);
         return true;
     }
@@ -492,8 +494,10 @@ namespace Exiv2 {
     bool Converter::prepareIptcTarget(const char* to, bool force)
     {
         auto pos = iptcData_->findKey(IptcKey(to));
-        if (pos == iptcData_->end()) return true;
-        if (!overwrite_ && !force) return false;
+        if (pos == iptcData_->end())
+              return true;
+        if (!overwrite_ && !force)
+              return false;
         while ((pos = iptcData_->findKey(IptcKey(to))) != iptcData_->end()) {
             iptcData_->erase(pos);
         }
@@ -503,8 +507,10 @@ namespace Exiv2 {
     bool Converter::prepareXmpTarget(const char* to, bool force)
     {
         auto pos = xmpData_->findKey(XmpKey(to));
-        if (pos == xmpData_->end()) return true;
-        if (!overwrite_ && !force) return false;
+        if (pos == xmpData_->end())
+              return true;
+        if (!overwrite_ && !force)
+              return false;
         xmpData_->erase(pos);
         return true;
     }
@@ -512,7 +518,8 @@ namespace Exiv2 {
     void Converter::cnvExifValue(const char* from, const char* to)
     {
         auto pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end()) return;
+        if (pos == exifData_->end())
+              return;
         std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -520,7 +527,8 @@ namespace Exiv2 {
 #endif
             return;
         }
-        if (!prepareXmpTarget(to)) return;
+        if (!prepareXmpTarget(to))
+              return;
         (*xmpData_)[to] = value;
         if (erase_) exifData_->erase(pos);
     }
@@ -528,8 +536,10 @@ namespace Exiv2 {
     void Converter::cnvExifComment(const char* from, const char* to)
     {
         auto pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end()) return;
-        if (!prepareXmpTarget(to)) return;
+        if (pos == exifData_->end())
+              return;
+        if (!prepareXmpTarget(to))
+              return;
         const auto cv = dynamic_cast<const CommentValue*>(&pos->value());
         if (cv == nullptr) {
 #ifndef SUPPRESS_WARNINGS
@@ -545,10 +555,12 @@ namespace Exiv2 {
     void Converter::cnvExifArray(const char* from, const char* to)
     {
         auto pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end()) return;
-        if (!prepareXmpTarget(to)) return;
+        if (pos == exifData_->end())
+              return;
+        if (!prepareXmpTarget(to))
+              return;
         for (size_t i = 0; i < pos->count(); ++i) {
-            std::string value = pos->toString(i);
+            std::string value = pos->toString(static_cast<long>(i));
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -563,8 +575,10 @@ namespace Exiv2 {
     void Converter::cnvExifDate(const char* from, const char* to)
     {
         auto pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end()) return;
-        if (!prepareXmpTarget(to)) return;
+        if (pos == exifData_->end())
+              return;
+        if (!prepareXmpTarget(to))
+              return;
         int year=0, month=0, day=0, hour=0, min=0, sec=0;
         std::string subsec;
         char buf[30];
@@ -692,8 +706,10 @@ namespace Exiv2 {
     void Converter::cnvExifVersion(const char* from, const char* to)
     {
         auto pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end()) return;
-        if (!prepareXmpTarget(to)) return;
+        if (pos == exifData_->end())
+              return;
+        if (!prepareXmpTarget(to))
+              return;
         std::ostringstream value;
         for (size_t i = 0; i < pos->count(); ++i) {
             value << static_cast<char>(pos->toInt64(i));
@@ -705,12 +721,14 @@ namespace Exiv2 {
     void Converter::cnvExifGPSVersion(const char* from, const char* to)
     {
         auto pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end()) return;
-        if (!prepareXmpTarget(to)) return;
+        if (pos == exifData_->end())
+              return;
+        if (!prepareXmpTarget(to))
+              return;
         std::ostringstream value;
         for (size_t i = 0; i < pos->count(); ++i) {
             if (i > 0) value << '.';
-            value << pos->toInt64(i);
+            value << pos->toInt64(static_cast<long>(i));
         }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
@@ -719,8 +737,10 @@ namespace Exiv2 {
     void Converter::cnvExifFlash(const char* from, const char* to)
     {
         auto pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end() || pos->count() == 0) return;
-        if (!prepareXmpTarget(to)) return;
+        if (pos == exifData_->end() || pos->count() == 0)
+              return;
+        if (!prepareXmpTarget(to))
+              return;
         auto value = pos->toInt64();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -741,8 +761,10 @@ namespace Exiv2 {
     void Converter::cnvExifGPSCoord(const char* from, const char* to)
     {
         auto pos = exifData_->findKey(ExifKey(from));
-        if (pos == exifData_->end()) return;
-        if (!prepareXmpTarget(to)) return;
+        if (pos == exifData_->end())
+              return;
+        if (!prepareXmpTarget(to))
+              return;
         if (pos->count() != 3) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -785,8 +807,10 @@ namespace Exiv2 {
     void Converter::cnvXmpValue(const char* from, const char* to)
     {
         auto pos = xmpData_->findKey(XmpKey(from));
-        if (pos == xmpData_->end()) return;
-        if (!prepareExifTarget(to)) return;
+        if (pos == xmpData_->end())
+              return;
+        if (!prepareExifTarget(to))
+              return;
         std::string value;
         if (!getTextValue(value, pos)) {
 #ifndef SUPPRESS_WARNINGS
@@ -805,9 +829,11 @@ namespace Exiv2 {
 
     void Converter::cnvXmpComment(const char* from, const char* to)
     {
-        if (!prepareExifTarget(to)) return;
+        if (!prepareExifTarget(to))
+              return;
         auto pos = xmpData_->findKey(XmpKey(from));
-        if (pos == xmpData_->end()) return;
+        if (pos == xmpData_->end())
+              return;
         std::string value;
         if (!getTextValue(value, pos)) {
 #ifndef SUPPRESS_WARNINGS
@@ -822,12 +848,14 @@ namespace Exiv2 {
 
     void Converter::cnvXmpArray(const char* from, const char* to)
     {
-        if (!prepareExifTarget(to)) return;
+        if (!prepareExifTarget(to))
+              return;
         auto pos = xmpData_->findKey(XmpKey(from));
-        if (pos == xmpData_->end()) return;
+        if (pos == xmpData_->end())
+              return;
         std::ostringstream array;
         for (size_t i = 0; i < pos->count(); ++i) {
-            std::string value = pos->toString(i);
+            std::string value = pos->toString(static_cast<long>(i));
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -846,8 +874,10 @@ namespace Exiv2 {
     void Converter::cnvXmpDate(const char* from, const char* to)
     {
         auto pos = xmpData_->findKey(XmpKey(from));
-        if (pos == xmpData_->end()) return;
-        if (!prepareExifTarget(to)) return;
+        if (pos == xmpData_->end())
+              return;
+        if (!prepareExifTarget(to))
+              return;
 #ifdef EXV_HAVE_XMP_TOOLKIT
         std::string value = pos->toString();
         if (!pos->value().ok()) {
@@ -944,8 +974,10 @@ namespace Exiv2 {
     void Converter::cnvXmpVersion(const char* from, const char* to)
     {
         auto pos = xmpData_->findKey(XmpKey(from));
-        if (pos == xmpData_->end()) return;
-        if (!prepareExifTarget(to)) return;
+        if (pos == xmpData_->end())
+              return;
+        if (!prepareExifTarget(to))
+              return;
         std::string value = pos->toString();
         if (!pos->value().ok() || value.length() < 4) {
 #ifndef SUPPRESS_WARNINGS
@@ -967,8 +999,10 @@ namespace Exiv2 {
     void Converter::cnvXmpGPSVersion(const char* from, const char* to)
     {
         auto pos = xmpData_->findKey(XmpKey(from));
-        if (pos == xmpData_->end()) return;
-        if (!prepareExifTarget(to)) return;
+        if (pos == xmpData_->end())
+              return;
+        if (!prepareExifTarget(to))
+              return;
         std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -986,8 +1020,10 @@ namespace Exiv2 {
     void Converter::cnvXmpFlash(const char* from, const char* to)
     {
         auto pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Fired"));
-        if (pos == xmpData_->end()) return;
-        if (!prepareExifTarget(to)) return;
+        if (pos == xmpData_->end())
+              return;
+        if (!prepareExifTarget(to))
+              return;
         unsigned short value = 0;
 
         if (pos != xmpData_->end() && pos->count() > 0) {
@@ -1049,8 +1085,10 @@ namespace Exiv2 {
     void Converter::cnvXmpGPSCoord(const char* from, const char* to)
     {
         auto pos = xmpData_->findKey(XmpKey(from));
-        if (pos == xmpData_->end()) return;
-        if (!prepareExifTarget(to)) return;
+        if (pos == xmpData_->end())
+              return;
+        if (!prepareExifTarget(to))
+              return;
         std::string value = pos->toString();
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -1112,8 +1150,10 @@ namespace Exiv2 {
     void Converter::cnvIptcValue(const char* from, const char* to)
     {
         auto pos = iptcData_->findKey(IptcKey(from));
-        if (pos == iptcData_->end()) return;
-        if (!prepareXmpTarget(to)) return;
+        if (pos == iptcData_->end())
+              return;
+        if (!prepareXmpTarget(to))
+              return;
         while (pos != iptcData_->end()) {
             if (pos->key() == from) {
                 std::string value = pos->toString();
@@ -1138,8 +1178,10 @@ namespace Exiv2 {
     void Converter::cnvXmpValueToIptc(const char* from, const char* to)
     {
         auto pos = xmpData_->findKey(XmpKey(from));
-        if (pos == xmpData_->end()) return;
-        if (!prepareIptcTarget(to)) return;
+        if (pos == xmpData_->end())
+              return;
+        if (!prepareIptcTarget(to))
+              return;
 
         if (pos->typeId() == langAlt || pos->typeId() == xmpText) {
             std::string value;
@@ -1328,7 +1370,8 @@ namespace Exiv2 {
 
     bool convertStringCharset(std::string &str, const char* from, const char* to)
     {
-        if (0 == strcmp(from, to)) return true; // nothing to do
+        if (0 == strcmp(from, to))
+              return true; // nothing to do
         bool ret = false;
 #if defined EXV_HAVE_ICONV
         ret = convertStringCharsetIconv(str, from, to);
@@ -1370,7 +1413,8 @@ namespace {
 
     bool mb2wc(UINT cp, std::string& str)
     {
-        if (str.empty()) return true;
+        if (str.empty())
+              return true;
         int len = MultiByteToWideChar(cp, 0, str.c_str(), (int)str.size(), 0, 0);
         if (len == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -1393,7 +1437,8 @@ namespace {
 
     bool wc2mb(UINT cp, std::string& str)
     {
-        if (str.empty()) return true;
+        if (str.empty())
+              return true;
         if (str.size() & 1) {
 #ifdef EXIV2_DEBUG_MESSAGES
             EXV_DEBUG << "wc2mb: Size " << str.size() << " of input string is not even.\n";
@@ -1508,7 +1553,8 @@ namespace {
 #if defined EXV_HAVE_ICONV
     bool convertStringCharsetIconv(std::string& str, const char* from, const char* to)
     {
-        if (0 == strcmp(from, to)) return true; // nothing to do
+        if (0 == strcmp(from, to))
+              return true; // nothing to do
 
         bool ret = true;
         iconv_t cd;
