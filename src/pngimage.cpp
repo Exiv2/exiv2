@@ -701,14 +701,15 @@ namespace Exiv2 {
             } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt") ||
                        !strcmp(szChunk, "iCCP")) {
                 DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
-                if (compare("Raw profile type exif", key, 21) ||
+                if (key.empty() == false && (
+                    compare("Raw profile type exif", key, 21) ||
                     compare("Raw profile type APP1", key, 21) ||
                     compare("Raw profile type iptc", key, 21) ||
                     compare("Raw profile type xmp",  key, 20) ||
                     compare("XML:com.adobe.xmp",     key, 17) ||
                     compare("icc",                   key,  3) || // see test/data/imagemagick.png
                     compare("ICC",                   key,  3) ||
-                    compare("Description",           key, 11))
+                    compare("Description",           key, 11)))
                 {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk

@@ -303,8 +303,8 @@ namespace Exiv2
                 std::string id;
                 // Check that the string has a '\0' terminator.
                 const char* str = data.c_str(skip);
-                const auto maxlen = static_cast<size_t>(data.size() - skip);
-                enforce(strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
+                const size_t maxlen = data.size() - skip;
+                enforce(maxlen > 0 && strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
                 std::string name(str);
                 if (name.find("Exif") != std::string::npos) {  // "Exif" or "ExifExif"
                     exifID_ = ID;
