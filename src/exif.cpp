@@ -869,7 +869,7 @@ namespace {
     {
         int64_t sum = 0;
         for (size_t i = 0; i < md.count(); ++i) {
-            sum += md.toInt64(i);
+            sum += md.toInt64(static_cast<long>(i));
         }
         return sum;
     }

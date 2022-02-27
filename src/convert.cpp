@@ -712,7 +712,7 @@ namespace Exiv2 {
               return;
         std::ostringstream value;
         for (size_t i = 0; i < pos->count(); ++i) {
-            value << static_cast<char>(pos->toInt64(i));
+            value << static_cast<char>(pos->toInt64(static_cast<long>(i)));
         }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);

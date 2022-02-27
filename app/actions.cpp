@@ -59,7 +59,8 @@
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                    // for stat()
 #endif
-#ifdef _MSC_VER
+
+#if defined(_WIN32) || defined(__CYGWIN__)
 # include <sys/utime.h>
 #include <Windows.h>
 #include <fcntl.h>

@@ -39,7 +39,7 @@
 #include <cctype>
 #include <regex>
 
-#if defined(_MSC_VER)
+#if defined(_WIN32) || defined(__CYGWIN__)
 #include <Windows.h>
 #include <fcntl.h>
 #include <io.h>
