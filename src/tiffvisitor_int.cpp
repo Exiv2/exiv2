@@ -999,7 +999,7 @@ namespace Exiv2 {
                 uint32_t sizeTotal = 0;
                 object->strips_.clear();
                 for (size_t i = 0; i < pos->count(); ++i) {
-                    uint32_t len = pos->toUint32(i);
+                    uint32_t len = pos->toUint32(static_cast<long>(i));
                     object->strips_.emplace_back(zero, len);
                     sizeTotal += len;
                 }

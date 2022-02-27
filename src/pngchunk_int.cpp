@@ -147,7 +147,7 @@ namespace Exiv2
 
                 arr = DataBuf(text, textsize);
             } else if (type == iTXt_Chunk) {
-                enforce(data.size() >= Safe::add(keysize, static_cast<size_t>(3)), Exiv2::kerCorruptedMetadata);
+                enforce(data.size() > Safe::add(keysize, static_cast<size_t>(3)), Exiv2::kerCorruptedMetadata);
                 const size_t nullCount = std::count(data.c_data(keysize + 3), data.c_data(data.size()-1), '\0');
                 enforce(nullCount >= nullSeparators, Exiv2::kerCorruptedMetadata);
 
@@ -524,7 +524,7 @@ namespace Exiv2
 
         DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt)
         {
-            if (text.empty()) {
+            if (text.size() <= 1) {
                 return DataBuf();
             }
 

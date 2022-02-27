@@ -621,8 +621,7 @@ namespace Exiv2 {
                     assert(markerHasLength(marker));
                     assert(size >= 2); // Because this marker has a length field.
                     // http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf p75
-                    const std::string signature =
-                        string_from_unterminated(buf.c_str(2), size - 2);
+                    const std::string signature = string_from_unterminated(buf.c_str(2), size - 2);
 
                     // 728 rmills@rmillsmbp:~/gnu/exiv2/ttt $ exiv2 -pS test/data/exiv2-bug922.jpg
                     // STRUCTURE OF JPEG FILE: test/data/exiv2-bug922.jpg
