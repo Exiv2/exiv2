@@ -415,14 +415,9 @@ to individual tags in an existing tag group are automatically included.
 To build the tag webpages, first [build Exiv2 from source](#TOC) with the `-DEXIV2_BUILD_SAMPLES=ON` 
 option enabled. This is required as the [taglist](README-SAMPLES.md#taglist) sample program is used when building the tag webpages.
 
-Next, set the `EXIV2HOME` environment variable to the Exiv2 top-level directory.
-For example,
+Next, set the `EXIV2_BINDIR` environment variable (see [Exiv2 environment variables](#EnvironmentVariables)).
 
-```bash
-$ export EXIV2HOME=<exiv2dir>
-```
-
-Then, change to the `doc/templates` directory and run `make`.
+Then, change directory to `doc/templates` and run `make`.
 
 ```bash
 $ cd <exiv2dir>/doc/templates
@@ -900,6 +895,8 @@ The term _**bashTests**_ is historical.  These tests were originally bash script
 Visual Studio Users will appreciate the python implementation as it avoids the installation of mingw/cygwin and special PATH settings.
 
 If you build the code in the directory `<exiv2dir>/build`, tests will run using the default values of Environment Variables.
+
+<div id="EnvironmentVariables">
 
 | Variable           | Default                    | Platforms          | Purpose |
 |:--                 |:--                         |:--                 |:--      |
