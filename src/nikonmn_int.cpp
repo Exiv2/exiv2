@@ -1867,13 +1867,8 @@ namespace Exiv2 {
 #define FMLDATE "2018-03-03"
 //------------------------------------------------------------------------------
 //
-//
 // Created by Robert Rottmerhusen 2005 - 2018
 // http://www.rottmerhusen.com (lens_id@rottmerhusen.com)
-//
-// For contributor info and more visit my online list:
-// http://www.rottmerhusen.com/objektives/lensid/thirdparty.html
-//
 //
 // Eight misidentified lenses due to double LensIDs:
 //
@@ -1910,9 +1905,38 @@ namespace Exiv2 {
 //"data from TAG 0x98" "ltyp" " "TC" "MID" "maker" "PN" "lens name from manuf";
 //
 //------------------------------------------------------------------------------
-// Nikkor lenses by their LensID
+// EXIF data necessary for new entries
 //------------------------------------------------------------------------------
 //
+// lid:   LensIDNumber
+// stps:  LensFStops
+// focs:  MinFocalLength
+// focl:  MaxFocalLength
+// aps:   MaxApertureAtMinFocal
+// apl:   MaxApertureAtMaxFocal
+// lfw:   MCUVersion
+// ltype: LensType
+//
+// The tcinfo, dblid and mid fields are being ignored.
+//
+// Please note that all fields except LensType have to be looked up in the
+// Exif.NikonLd* prefix and not other Exif.Nikon* prefixes. For example: for modern
+// Nikon bodies with modern lenses, there will be both a Exif.Nikon3.LensFStops and a
+// Exif.NikonLd3.LensFStops entry in the EXIF data. You are looking for
+// Exif.NikonLd3.LensFStops.
+//
+// In most cases the necessary hex values should be extracted from a test image using
+// the following command:
+//
+// exiv2 -ph -g NikonLd3.LensIDNumber -g NikonLd3.LensFStops
+// -g NikonLd3.MinFocalLength -g NikonLd3.MaxFocalLength
+// -g NikonLd3.MaxApertureAtMinFocal -g NikonLd3.MaxApertureAtMaxFocal
+// -g NikonLd3.MCUVersion -g Nikon3.LensType test.NEF
+//
+//------------------------------------------------------------------------------
+// Nikkor lenses by their LensID
+//------------------------------------------------------------------------------
+
 static const struct FMntLens {unsigned char lid,stps,focs,focl,aps,apl,lfw, ltype, tcinfo, dblid, mid; const char *manuf, *lnumber, *lensname;}
 fmountlens[] = {
 {0x01,0x58,0x50,0x50,0x14,0x14,0x02,0x00,0x00,0x00,0x00, "Nikon", "JAA00901", "AF Nikkor 50mm f/1.8"},
