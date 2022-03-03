@@ -15,6 +15,10 @@
 #include <sstream>
 #include <stdexcept>
 
+#ifdef EXV_HAVE_UNISTD_H
+#include <unistd.h>  // for stat()
+#endif
+
 namespace fs = std::filesystem;
 
 #if defined(WIN32)
