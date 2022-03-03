@@ -53,6 +53,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     - [License](#License)
     - [Support](#Support)
 - [Test Suite](#TestSuite)
+    - [Exiv2 Environment Variables](#EnvironmentVariables)
     - [Running tests on a UNIX-like system](#TestsOnUnix)
     - [Running tests on Visual Studio builds](#TestsOnVisualStudio)
     - [Unit Tests](#UnitTests)
@@ -412,8 +413,12 @@ The tag webpage build files are in the `<exiv2dir>/doc/templates` directory. If 
 tag groups in the Exiv2 source code then the build files need to be updated. Any changes made 
 to individual tags in an existing tag group are automatically included.
 
+Building the tag webpages requires building the Exiv2 sample programs and using scripts which have additional dependancies on 
+[BASH](https://www.gnu.org/software/bash/), [make](https://manpages.org/make), [xsltproc](https://manpages.org/xsltproc) 
+and [Python3](https://www.python.org/).
+
 To build the tag webpages, first [build Exiv2 from source](#TOC) with the `-DEXIV2_BUILD_SAMPLES=ON` 
-option enabled. This is required as the [taglist](README-SAMPLES.md#taglist) sample program is used when building the tag webpages.
+option enabled. This is required as the [taglist](README-SAMPLES.md#taglist) sample program is used by one of the scripts.
 
 Next, set the `EXIV2_BINDIR` environment variable (see [Exiv2 environment variables](#EnvironmentVariables)).
 
@@ -896,11 +901,16 @@ Visual Studio Users will appreciate the python implementation as it avoids the i
 
 If you build the code in the directory `<exiv2dir>/build`, tests will run using the default values of Environment Variables.
 
+[TOC](#TOC)
 <div id="EnvironmentVariables">
+
+## Exiv2 Environment Variables
+
+Exiv2 optionally uses several different environment variables when building or testing.
 
 | Variable           | Default                    | Platforms          | Purpose |
 |:--                 |:--                         |:--                 |:--      |
-| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms      | Path of built binaries (exiv2.exe) |
+| EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms      | Path of built binaries (e.g., exiv2.exe) |
 | EXIV2_PORT         | **12762**<br>**12671**<br>**12760**             | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
 | EXIV2_HTTP         | **http://localhost**       | All Platforms      | Test http server   |
 | EXIV2_ECHO         | _**not set**_              | All Platforms      | For debugging bashTests |
