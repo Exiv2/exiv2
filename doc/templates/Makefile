@@ -166,7 +166,7 @@ SCHEMA = xmp_dc \
          xmp_mwg-rs \
          xmp_mwg-kw
 
-TAGLIST = ${EXIV2HOME}/build/bin/taglist
+TAGLIST = ${EXIV2_BINDIR}/taglist
 
 # **********************************************************************
 # ======================================================================
