@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #include <image.hpp>  // Unit under test
 
 #include <error.hpp>  // Need to include this header for the Exiv2::Error exception
