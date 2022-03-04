@@ -55,10 +55,10 @@ namespace {
     /// @brief replace each substring of the subject that matches the given search string with the given replacement.
     void ReplaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace)
     {
-        size_t pos = 0;
-        while ((pos = subject.find(search, pos)) != std::string::npos) {
+        auto pos = subject.find(search);
+        while (pos != std::string::npos) {
             subject.replace(pos, search.length(), replace);
-            pos += replace.length();
+            pos += subject.find(search, pos + replace.length());
         }
     }
 }
