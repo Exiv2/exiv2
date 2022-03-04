@@ -7,16 +7,12 @@
 #include "value.hpp"
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
-#include "datasets.hpp"
 
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include <cassert>
-#include <cstring>
 
 #include <stdio.h> // popen to call exiftool
-#include <string.h>
 
 // *****************************************************************************
 // class member definitions

@@ -5,13 +5,14 @@
 
 // *****************************************************************************
 // included header files
-#include "tifffwd_int.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 
-// *****************************************************************************
 // namespace extensions
 namespace Exiv2::Internal {
+
+    class IoWrapper;
+    class TiffComponent;
     // *****************************************************************************
     // function prototypes
     /*!

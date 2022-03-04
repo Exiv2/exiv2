@@ -2,10 +2,12 @@
 
 #include "image_int.hpp"
 
+#include <cassert>
 #include <cstdarg>
 #include <cstddef>
-#include <cstring>
 #include <cstdio>
+#include <cstring>
+#include <vector>
 
 namespace Exiv2::Internal {
     std::string stringFormat(const char* format, ...)

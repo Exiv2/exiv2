@@ -1,23 +1,15 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "cr2image.hpp"
-#include "tiffimage.hpp"
+
+#include "config.h"
 #include "cr2header_int.hpp"
-#include "tiffcomposite_int.hpp"
-#include "tiffimage_int.hpp"
-#include "image.hpp"
 #include "error.hpp"
 #include "futils.hpp"
-#include "i18n.h"                // NLS support.
-
-// + standard includes
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <cstring>
+#include "image.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage_int.hpp"
 
 // *****************************************************************************
 // class member definitions

@@ -14,8 +14,9 @@
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
-// included header files
-#include "types.hpp"
+#include <bits/exception.h>   // for exception
+#include <sstream>            // for operator<<, ostream, ostringstream, bas...
+#include <string>             // for basic_string, string
 
 // *****************************************************************************
 // namespace extensions

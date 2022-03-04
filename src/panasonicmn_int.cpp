@@ -8,11 +8,8 @@
 #include "i18n.h"                // NLS support.
 
 // + standard includes
-#include <string>
 #include <sstream>
 #include <iomanip>
-#include <cassert>
-#include <cstring>
 
 // *****************************************************************************
 // class member definitions

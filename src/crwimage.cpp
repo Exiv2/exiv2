@@ -11,20 +11,7 @@
 #include "crwimage_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
-#include "value.hpp"
 #include "tags.hpp"
-#include "tags_int.hpp"
-
-// + standard includes
-#include <iostream>
-#include <iomanip>
-#include <stack>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <cmath>
-#include <cassert>
-
 
 // *****************************************************************************
 // class member definitions

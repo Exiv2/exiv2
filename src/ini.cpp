@@ -7,7 +7,6 @@
 //
 // https://github.com/benhoyt/inih
 
-#include "config.h"
 #include "ini.hpp"
 
 #include <algorithm>
@@ -18,7 +17,6 @@ using std::string;
 using namespace Exiv2;
 
 #include <stdio.h>
-#include <ctype.h>
 #include <string.h>
 
 #if !INI_USE_STACK

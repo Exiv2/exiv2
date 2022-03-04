@@ -12,7 +12,6 @@
 
 #include <stdio.h>
 #include <array>
-#include <sys/stat.h>
 
 ////////////////////////////////////////
 // platform specific code
@@ -25,11 +24,8 @@
 #define  closesocket close
 
 #include <unistd.h>
-#include <strings.h>
 #include <errno.h>
 #include <sys/socket.h>
-#include <sys/un.h>
-#include <sys/uio.h>
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>

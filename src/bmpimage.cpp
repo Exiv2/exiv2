@@ -4,8 +4,6 @@
   Author(s): Marco Piovanelli, Ovolab (marco)
   History:   05-Mar-2007, marco: created
  */
-// included header files
-#include "config.h"
 
 #include "basicio.hpp"
 #include "bmpimage.hpp"
@@ -15,7 +13,6 @@
 
 // + standard includes
 #include <cstring>
-#include <iostream>
 #include <string>
 
 // *****************************************************************************

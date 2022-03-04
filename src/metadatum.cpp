@@ -1,15 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-// included header files
 #include "metadatum.hpp"
 
-// + standard includes
-#include <iostream>
-#include <iomanip>
-
-
-// *****************************************************************************
-// class member definitions
 namespace Exiv2 {
 
     Key::UniquePtr Key::clone() const

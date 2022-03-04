@@ -11,15 +11,9 @@
 #include "types.hpp"
 #include "fujimn_int.hpp"
 #include "tags_int.hpp"
-#include "value.hpp"
 #include "i18n.h"                // NLS support.
 
 // + standard includes
-#include <string>
-#include <sstream>
-#include <iomanip>
-#include <cassert>
-#include <cstring>
 
 // *****************************************************************************
 // class member definitions

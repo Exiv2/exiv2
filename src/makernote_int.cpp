@@ -11,21 +11,18 @@
 #include "ini.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
-#include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "utils.hpp"
 
 // + standard includes
 #include <array>
 #include <filesystem>
-#include <fstream>
 #include <iostream>
 
 namespace fs = std::filesystem;
 
 #if !defined(_MSC_VER) && !defined(__MINGW__)
 #include <unistd.h>
-#include <sys/types.h>
 #include <pwd.h>
 #else
 #include <shlobj.h>

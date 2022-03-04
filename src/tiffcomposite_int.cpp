@@ -11,13 +11,6 @@
 #include "error.hpp"
 #include "enforce.hpp"
 
-// + standard includes
-#include <string>
-#include <cstring>
-#include <iostream>
-#include <iomanip>
-#include <algorithm>
-
 // *****************************************************************************
 namespace {
     //! Add \em tobe - \em curr 0x00 filler bytes if necessary

@@ -6,24 +6,14 @@
 #include "tiffcomposite_int.hpp" // Do not change the order of these 2 includes,
 #include "tiffvisitor_int.hpp"   // see bug #487
 #include "tiffimage_int.hpp"
-#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "exif.hpp"
 #include "enforce.hpp"
 #include "iptc.hpp"
 #include "value.hpp"
-#include "image.hpp"
 #include "jpgimage.hpp"
 #include "sonymn_int.hpp"
-#include "i18n.h"             // NLS support.
 
-// + standard includes
-#include <string>
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <limits>
-#include <ostream>
 
 // *****************************************************************************
 namespace {

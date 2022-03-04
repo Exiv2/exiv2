@@ -9,11 +9,8 @@
 #include "datasets.hpp"
 #include "error.hpp"
 #include "types.hpp"
-#include "value.hpp"
-#include "metadatum.hpp"
 #include "i18n.h"                // NLS support.
 
-#include <iostream>
 #include <iomanip>
 #include <regex>
 #include <sstream>

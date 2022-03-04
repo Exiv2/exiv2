@@ -1,30 +1,22 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "mrwimage.hpp"
-#include "tiffimage.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
-#include "error.hpp"
+#include "config.h"
 #include "enforce.hpp"
+#include "error.hpp"
 #include "futils.hpp"
+#include "image.hpp"
+#include "tiffimage.hpp"
 
-// + standard includes
-#include <string>
-#include <cstring>
-#include <iostream>
-#include <cassert>
-
-// *****************************************************************************
-// class member definitions
 namespace Exiv2 {
 
     MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/)
         : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, std::move(io))
     {
-    } // MrwImage::MrwImage
+    }
 
     std::string MrwImage::mimeType() const
     {

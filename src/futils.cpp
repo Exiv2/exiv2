@@ -1,16 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "futils.hpp"
-#include "datasets.hpp"
-#include "enforce.hpp"
-#include "image_int.hpp"
+
+#include "config.h"
 
 // + standard includes
 #include <algorithm>
 #include <array>
+#include <cstring>
 #include <filesystem>
 #include <sstream>
 #include <stdexcept>

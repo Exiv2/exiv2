@@ -19,14 +19,8 @@
 #include "unused.h"
 
 // + standard includes
-#include <stdio.h>  // for snprintf (C99)
 #include <algorithm>
-#include <cstring>
 #include <iomanip>
-#include <ios>
-#include <iostream>
-#include <sstream>
-#include <utility>
 
 #if defined WIN32 && !defined __CYGWIN__
 # include <windows.h>

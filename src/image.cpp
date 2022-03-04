@@ -1,56 +1,48 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "image.hpp"
-#include "image_int.hpp"
-#include "error.hpp"
+
+#include "config.h"
 #include "enforce.hpp"
+#include "error.hpp"
 #include "futils.hpp"
+#include "image_int.hpp"
 #include "safe_op.hpp"
 #include "slice.hpp"
 
-#ifdef   EXV_ENABLE_BMFF
+#ifdef EXV_ENABLE_BMFF
 #include "bmffimage.hpp"
-#endif// EXV_ENABLE_BMFF
+#endif  // EXV_ENABLE_BMFF
 #include "cr2image.hpp"
 #include "crwimage.hpp"
 #include "epsimage.hpp"
 #include "jpgimage.hpp"
 #include "mrwimage.hpp"
-#ifdef   EXV_HAVE_LIBZ
-# include "pngimage.hpp"
-#endif// EXV_HAVE_LIBZ
-#include "rafimage.hpp"
-#include "tiffimage.hpp"
-#include "tiffimage_int.hpp"
-#include "tiffcomposite_int.hpp"
-#include "tiffvisitor_int.hpp"
-#include "webpimage.hpp"
-#include "orfimage.hpp"
-#include "gifimage.hpp"
-#include "psdimage.hpp"
-#include "tgaimage.hpp"
+#ifdef EXV_HAVE_LIBZ
+#include "pngimage.hpp"
+#endif  // EXV_HAVE_LIBZ
 #include "bmpimage.hpp"
+#include "gifimage.hpp"
 #include "jp2image.hpp"
 #include "nikonmn_int.hpp"
-
-#include "rw2image.hpp"
+#include "orfimage.hpp"
 #include "pgfimage.hpp"
+#include "psdimage.hpp"
+#include "rafimage.hpp"
+#include "rw2image.hpp"
+#include "tags_int.hpp"
+#include "tgaimage.hpp"
+#include "tiffimage.hpp"
+#include "webpimage.hpp"
 #include "xmpsidecar.hpp"
 
 // + standard includes
-#include <cerrno>
+#include <cassert>
 #include <cstdio>
 #include <cstring>
-#include <cassert>
-#include <iostream>
 #include <limits>
 #include <set>
-
-#include <sys/types.h>
-#include <sys/stat.h>
 
 // *****************************************************************************
 namespace {
