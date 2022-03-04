@@ -91,7 +91,7 @@ namespace Exiv2
             if (it == data.cend())
                 throw Error(kerFailedToReadImageData);
 
-            return DataBuf(data.c_data() + offset, std::distance(data.cbegin(), it)- offset);
+            return {data.c_data() + offset, std::distance(data.cbegin(), it) - offset};
         }
 
         DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkType type)
@@ -507,7 +507,7 @@ namespace Exiv2
         DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt)
         {
             if (text.size() <= 1) {
-                return DataBuf();
+                return {};
             }
 
             DataBuf info;
@@ -527,26 +527,26 @@ namespace Exiv2
             const char* eot = text.c_str(text.size()-1);  // end of text
 
             if (sp >= eot) {
-                return DataBuf();
+                return {};
             }
 
             // Look for newline
             while (*sp != '\n') {
                 sp++;
                 if (sp == eot) {
-                    return DataBuf();
+                    return {};
                 }
             }
             sp++;  // step over '\n'
             if (sp == eot) {
-                return DataBuf();
+                return {};
             }
 
             // Look for length
             while (*sp == '\0' || *sp == ' ' || *sp == '\n') {
                 sp++;
                 if (sp == eot) {
-                    return DataBuf();
+                    return {};
                 }
             }
 
@@ -556,17 +556,17 @@ namespace Exiv2
                 // Compute the new length using unsigned long, so that we can check for overflow.
                 const size_t newlength = (10 * length) + (*sp - '0');
                 if (newlength > std::numeric_limits<size_t>::max()) {
-                    return DataBuf();  // Integer overflow.
+                    return {};  // Integer overflow.
                 }
                 length = newlength;
                 sp++;
                 if (sp == eot) {
-                    return DataBuf();
+                    return {};
                 }
             }
             sp++;  // step over '\n'
             if (sp == eot) {
-                return DataBuf();
+                return {};
             }
 
             enforce(length <= static_cast<size_t>(eot - sp) / 2, Exiv2::kerCorruptedMetadata);
@@ -582,7 +582,7 @@ namespace Exiv2
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
 #endif
-                return DataBuf();
+                return {};
             }
 
             // Copy profile, skipping white space and column 1 "=" signs
@@ -597,7 +597,7 @@ namespace Exiv2
 #ifdef EXIV2_DEBUG_MESSAGES
                         std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: ran out of data\n";
 #endif
-                        return DataBuf();
+                        return {};
                     }
 
                     sp++;

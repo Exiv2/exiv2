@@ -13,7 +13,7 @@ namespace Exiv2 {
     DataBuf Rw2Header::write() const
     {
         // Todo: Implement me!
-        return DataBuf();
+        return {};
     }
 
     }  // namespace Internal

@@ -125,7 +125,7 @@ namespace Exiv2 {
 
     DataBuf Value::dataArea() const
     {
-        return DataBuf(nullptr, 0);
+        return {nullptr, 0};
     }
 
     DataValue::DataValue(TypeId typeId)

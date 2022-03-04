@@ -910,7 +910,7 @@ namespace Exiv2 {
         const Registry* r = find(registry, type);
 
         if (r == nullptr || type == ImageType::none) {
-            return Image::UniquePtr();
+            return {};
         }
 
         return r->newInstance_(std::move(io), true);
