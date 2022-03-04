@@ -2623,7 +2623,7 @@ fmountlens[] = {
      */
         if (metadata == nullptr)
         {
-            const unsigned char vid = static_cast<unsigned char>(value.toInt64(0));
+            const auto vid = static_cast<unsigned char>(value.toInt64(0));
 
             /* the 'FMntLens' name is added to the anonymous struct for
              * fmountlens[]

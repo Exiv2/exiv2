@@ -398,8 +398,8 @@ namespace Exiv2 {
                     foundIccData = true ;
                     --search ;
                 }
-                int chunk = static_cast<int>(buf.read_uint8(2 + 12));
-                int chunks = static_cast<int>(buf.read_uint8(2 + 13));
+                auto chunk = static_cast<int>(buf.read_uint8(2 + 12));
+                auto chunks = static_cast<int>(buf.read_uint8(2 + 13));
                 // ICC1v43_2010-12.pdf header is 14 bytes
                 // header = "ICC_PROFILE\0" (12 bytes)
                 // chunk/chunks are a single byte
@@ -1082,7 +1082,7 @@ namespace Exiv2 {
                         if (chunkSize > maxChunkSize) {
                             chunkSize = maxChunkSize;
                             // Don't break at a valid IRB boundary
-                            const long writtenSize = static_cast<long>(chunkStart - newPsData.c_data());
+                            const auto writtenSize = static_cast<long>(chunkStart - newPsData.c_data());
                             if (Photoshop::valid(newPsData.c_data(), writtenSize + chunkSize)) {
                                 // Since an IRB has minimum size 12,
                                 // (chunkSize - 8) can't be also a IRB boundary

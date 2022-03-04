@@ -301,8 +301,8 @@ namespace Exiv2 {
                 kerCorruptedMetadata);
 #endif
 
-        long jpg_img_off = static_cast<long>(jpg_img_off_u32);
-        long jpg_img_len = static_cast<long>(jpg_img_len_u32);
+        auto jpg_img_off = static_cast<long>(jpg_img_off_u32);
+        auto jpg_img_len = static_cast<long>(jpg_img_len_u32);
 
         enforce(jpg_img_len >= 12, kerCorruptedMetadata);
 

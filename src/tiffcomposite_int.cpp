@@ -1077,7 +1077,7 @@ namespace Exiv2::Internal {
             }
             // Also add the size of data, but only if needed
             if (isRootDir) {
-                uint32_t sd = static_cast<uint32_t>(component->sizeData());
+                auto sd = static_cast<uint32_t>(component->sizeData());
                 sd += sd & 1;               // Align data to word boundary
                 sizeData += sd;
             }
@@ -1104,7 +1104,7 @@ namespace Exiv2::Internal {
                 sv += sv & 1;               // Align value to word boundary
                 valueIdx += sv;
             }
-            uint32_t sd = static_cast<uint32_t>(component->sizeData());
+            auto sd = static_cast<uint32_t>(component->sizeData());
             sd += sd & 1;                   // Align data to word boundary
             dataIdx += sd;
         }
@@ -1134,7 +1134,7 @@ namespace Exiv2::Internal {
                 idx += sv;
                 valueIdx += sv;
             }
-            uint32_t sd = static_cast<uint32_t>(component->sizeData());
+            auto sd = static_cast<uint32_t>(component->sizeData());
             sd += sd & 1;                   // Align data to word boundary
             dataIdx += sd;
         }
@@ -1626,7 +1626,7 @@ namespace Exiv2::Internal {
                 sv += sv & 1;               // Align value to word boundary
                 len += sv;
             }
-            uint32_t sd = static_cast<uint32_t>(component->sizeData());
+            auto sd = static_cast<uint32_t>(component->sizeData());
             sd += sd & 1;                   // Align data to word boundary
             len += sd;
         }

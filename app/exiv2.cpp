@@ -150,7 +150,7 @@ int main(int argc, char* const argv[])
         assert(task);
 
         // Process all files
-        int s = static_cast<int>(params.files_.size());
+        auto s = static_cast<int>(params.files_.size());
         if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && s > 1) {
             std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
             rc = 1;
@@ -949,7 +949,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
     bool more {true};
     while   ( more ) {
         char buff[buff_size];
-        int n = static_cast<int>(fread(buff, 1, buff_size, f));
+        auto n = static_cast<int>(fread(buff, 1, buff_size, f));
         more       = n > 0 ;
         if ( more ) {
             bytes.resize(nBytes+n);
@@ -1270,7 +1270,7 @@ namespace {
             }
             if (k > i) {
                 bool ok = false;
-                int num = Exiv2::stringTo<int>(os.str(), ok);
+                auto num = Exiv2::stringTo<int>(os.str(), ok);
                 if (ok && num >= 0) {
                     previewNumbers.insert(num);
                 }
@@ -1282,7 +1282,7 @@ namespace {
             }
             if (!(k < optArg.size() && optArg[i] == ',')) break;
         }
-        int ret = static_cast<int>(k - j);
+        auto ret = static_cast<int>(k - j);
         if (ret == 0) {
             previewNumbers.insert(0);
         }

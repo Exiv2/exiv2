@@ -114,7 +114,7 @@ int main(int argc, char** const argv)
 	do {
 	    n = ::getopt(argc,argv,::optstring);
 	    if ( n >= 0 ) {
-            char N = static_cast<char>(n);
+            auto N = static_cast<char>(n);
             std::cout << n << " = " << N;
         } else {
             std::cout << n ;
@@ -132,7 +132,7 @@ int main(int argc, char** const argv)
 	do {
 	    n = Util::getopt(argc,argv,::optstring);
 	    if ( n >= 0 ) {
-            char N = static_cast<char>(n);
+            auto N = static_cast<char>(n);
             std::cout << n << " = " << N;
         } else {
             std::cout << n ;

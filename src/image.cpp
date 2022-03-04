@@ -386,7 +386,7 @@ namespace Exiv2 {
                 // Overflow check
                 enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<uint32_t>::max()), kerCorruptedMetadata);
                 enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
-                const long allocate = static_cast<long>(allocate64);
+                const auto allocate = static_cast<long>(allocate64);
                 DataBuf  buf(allocate);  // allocate a buffer
                 buf.copyBytes(0, dir.c_data(8), 4);  // copy dir[8:11] into buffer (short strings)
 
@@ -517,7 +517,7 @@ namespace Exiv2 {
 
             // read header (we already know for certain that we have a Tiff file)
             io.readOrThrow(dir.data(),  8, kerCorruptedMetadata);
-            char c = static_cast<char>(dir.read_uint8(0));
+            auto c = static_cast<char>(dir.read_uint8(0));
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )
                         ;

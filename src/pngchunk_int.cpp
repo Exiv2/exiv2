@@ -158,7 +158,7 @@ namespace Exiv2::Internal {
                             Exiv2::kerCorruptedMetadata);
 
                     const byte* text = data.c_data(keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
-                    const long textsize = static_cast<long>(
+                    const auto textsize = static_cast<long>(
                         data.size() - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1));
 
                     if (compressionFlag == 0x00) {

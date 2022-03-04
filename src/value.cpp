@@ -1001,7 +1001,7 @@ namespace Exiv2 {
         tms.tm_mday = date_.day;
         tms.tm_mon = date_.month - 1;
         tms.tm_year = date_.year - 1900;
-        int64_t l = static_cast<int64_t>(std::mktime(&tms));
+        auto l = static_cast<int64_t>(std::mktime(&tms));
         ok_ = (l != -1);
         return l;
     }

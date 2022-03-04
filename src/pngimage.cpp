@@ -313,7 +313,7 @@ namespace Exiv2 {
                                     1; // leading string length
                     enforce(name_l < dataOffset, kerCorruptedMetadata);
 
-                    uint32_t  start  = static_cast<uint32_t>(name_l);
+                    auto start = static_cast<uint32_t>(name_l);
                     bool      bLF    = false;
 
                     // decode the chunk

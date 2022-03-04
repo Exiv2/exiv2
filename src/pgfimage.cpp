@@ -181,7 +181,7 @@ namespace Exiv2 {
         img->setIptcData(iptcData_);
         img->setXmpData(xmpData_);
         img->writeMetadata();
-        long imgSize = static_cast<long>(img->io().size());
+        auto imgSize = static_cast<long>(img->io().size());
         DataBuf imgBuf   = img->io().read(imgSize);
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -257,7 +257,7 @@ namespace Exiv2 {
         if (bufRead != buffer.size())
             throw Error(kerInputDataReadFailed);
 
-        int headerSize = static_cast<int>(byteSwap_(buffer, 0, bSwap_));
+        auto headerSize = static_cast<int>(byteSwap_(buffer, 0, bSwap_));
         if (headerSize <= 0 ) throw Error(kerNoImageInInputData);
 
 #ifdef EXIV2_DEBUG_MESSAGES

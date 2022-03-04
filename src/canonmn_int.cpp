@@ -2730,8 +2730,8 @@ namespace Exiv2::Internal {
             return os;
         }
 
-        int const exifFlMin = static_cast<int>(static_cast<float>(pos->value().toInt64(1)) / pos->value().toFloat(2));
-        int const exifFlMax = static_cast<int>(static_cast<float>(pos->value().toInt64(0)) / pos->value().toFloat(2));
+        auto const exifFlMin = static_cast<int>(static_cast<float>(pos->value().toInt64(1)) / pos->value().toFloat(2));
+        auto const exifFlMax = static_cast<int>(static_cast<float>(pos->value().toInt64(0)) / pos->value().toFloat(2));
 
         ExifKey aperKey("Exif.CanonCs.MaxAperture");
         pos = metadata->findKey(aperKey);
@@ -2894,7 +2894,7 @@ namespace Exiv2::Internal {
             // see also printSi0x0017
             std::ostringstream oss;
             oss.copyfmt(os);
-            int res = static_cast<int>(100.0 * (static_cast<short>(value.toInt64()) / 32.0 + 5.0) + 0.5);
+            auto res = static_cast<int>(100.0 * (static_cast<short>(value.toInt64()) / 32.0 + 5.0) + 0.5);
             os << std::fixed << std::setprecision(2) << res / 100.0;
             os.copyfmt(oss);
         }
@@ -3067,7 +3067,7 @@ namespace Exiv2::Internal {
         // remove fraction
         const auto remainder = val & 0x1f;
         val -= remainder;
-        float frac = static_cast<float>(remainder);
+        auto frac = static_cast<float>(remainder);
         // convert 1/3 (0x0c) and 2/3 (0x14) codes
         if (frac == 0x0c) {
             frac = 32.0F / 3;

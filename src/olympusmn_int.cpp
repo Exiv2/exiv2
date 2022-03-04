@@ -1361,9 +1361,9 @@ namespace Exiv2::Internal {
             return os << value;
         }
 
-        byte v0 = static_cast<byte>(value.toInt64(0));
-        byte v2 = static_cast<byte>(value.toInt64(2));
-        byte v3 = static_cast<byte>(value.toInt64(3));
+        auto v0 = static_cast<byte>(value.toInt64(0));
+        auto v2 = static_cast<byte>(value.toInt64(2));
+        auto v3 = static_cast<byte>(value.toInt64(3));
 
         for (auto&& type : lensTypes) {
             if (type.val[0] == v0 && type.val[1] == v2 && type.val[2] == v3) {
@@ -1407,8 +1407,8 @@ namespace Exiv2::Internal {
             return os << value;
         }
 
-        byte v0 = static_cast<byte>(value.toInt64(0));
-        byte v2 = static_cast<byte>(value.toInt64(2));
+        auto v0 = static_cast<byte>(value.toInt64(0));
+        auto v2 = static_cast<byte>(value.toInt64(2));
 
         for (auto&& model : extenderModels) {
             if (model.val[0] == v0 && model.val[1] == v2) {

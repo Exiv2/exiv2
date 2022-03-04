@@ -308,7 +308,7 @@ int main(int argc, char* const argv[])
 
         if ( option == 'a' || option == 'i' ) {
             Exiv2::IptcData &iptcData = image->iptcData();
-            for (Exiv2::IptcData::const_iterator i = iptcData.begin(); i != iptcData.end(); ++i) {
+            for (auto i = iptcData.begin(); i != iptcData.end(); ++i) {
                 std::string name   ;
                 Jzon::Node& object = objectForKey(i->key(),root,name);
                 push(object,name,i);

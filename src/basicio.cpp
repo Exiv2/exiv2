@@ -1263,7 +1263,7 @@ namespace Exiv2 {
         }
 
         // submit to the remote machine.
-        long dataSize = static_cast<long>(src.size() - left - right);
+        auto dataSize = static_cast<long>(src.size() - left - right);
         if (dataSize > 0) {
             auto data = static_cast<byte*>(std::malloc(dataSize));
             src.seek(left, BasicIo::beg);

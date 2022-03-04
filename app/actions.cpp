@@ -932,7 +932,7 @@ namespace Action {
 
         const Params::PreviewNumbers& numbers = Params::instance().previewNumbers_;
         for (auto number : numbers) {
-            size_t num = static_cast<size_t>(number);
+            auto num = static_cast<size_t>(number);
             if (num == 0) {
                 // Write all previews
                 for (num = 0; num < pvList.size(); ++num) {

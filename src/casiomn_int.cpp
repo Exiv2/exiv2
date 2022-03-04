@@ -527,7 +527,7 @@ namespace Exiv2::Internal {
         std::vector<char> numbers;
         for(size_t i=0; i<value.size(); i++)
         {
-            const char l = static_cast<char>(value.toInt64(i));
+            const auto l = static_cast<char>(value.toInt64(i));
             if(l!=0)
             {
                 numbers.push_back(l);

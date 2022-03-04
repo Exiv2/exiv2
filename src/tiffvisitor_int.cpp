@@ -1521,7 +1521,7 @@ namespace Exiv2::Internal {
         if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
             throw Error(kerArithmeticOverflow);
         }
-        uint32_t size = static_cast<uint32_t>(typeSize * count);
+        auto size = static_cast<uint32_t>(typeSize * count);
         uint32_t offset = getLong(p, byteOrder());
         byte* pData = p;
         if (   size > 4
