@@ -33,7 +33,7 @@ namespace {
     using Exiv2::byte;
 
     // signature of DOS EPS
-    const std::string dosEpsSignature = "\xC5\xD0\xD3\xC6";
+    constexpr auto dosEpsSignature = std::string_view("\xC5\xD0\xD3\xC6");
 
     // first line of EPS
     constexpr auto epsFirstLine = std::array<std::string_view, 3>{
@@ -43,11 +43,12 @@ namespace {
     };
 
     // blank EPS file
-    const std::string epsBlank = "%!PS-Adobe-3.0 EPSF-3.0\n"
-                                 "%%BoundingBox: 0 0 0 0\n";
+    constexpr auto epsBlank = std::string_view(
+        "%!PS-Adobe-3.0 EPSF-3.0\n"
+        "%%BoundingBox: 0 0 0 0\n");
 
     // list of all valid XMP headers
-    const std::string xmpHeaders[] = {
+    constexpr std::string_view xmpHeaders[] = {
 
         // We do not enforce the trailing "?>" here, because the XMP specification
         // permits additional attributes after begin="..." and id="...".
@@ -67,23 +68,23 @@ namespace {
 
     // list of all valid XMP trailers
     struct XmpTrailer {
-        std::string trailer;
+        std::string_view trailer;
         bool readOnly;
     };
 
-    const XmpTrailer xmpTrailers[] = {
+    constexpr XmpTrailer xmpTrailers[] = {
 
         // We do not enforce the trailing "?>" here, because the XMP specification
         // permits additional attributes after end="...".
 
         {"<?xpacket end=\"r\"", true},
-        {"<?xpacket end='r'",   true},
+        {"<?xpacket end='r'", true},
         {"<?xpacket end=\"w\"", false},
-        {"<?xpacket end='w'",   false},
+        {"<?xpacket end='w'", false},
     };
 
     // closing part of all valid XMP trailers
-    const std::string xmpTrailerEnd = "?>";
+    constexpr auto xmpTrailerEnd = std::string_view("?>");
 
     //! Write data into temp file, taking care of errors
     void writeTemp(BasicIo& tempIo, const byte* data, size_t size)
@@ -186,7 +187,7 @@ namespace {
                 for (size_t trailerPos = xmpPos + header.size(); trailerPos < size; trailerPos++) {
                     if (data[xmpPos] != '\x00' && data[xmpPos] != '<') continue;
                     for (auto&& xmpTrailer : xmpTrailers) {
-                        const std::string& trailer = xmpTrailer.trailer;
+                        auto trailer = xmpTrailer.trailer;
                         const bool readOnly = xmpTrailer.readOnly;
 
                         if (trailerPos + trailer.size() > size) continue;

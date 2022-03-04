@@ -831,7 +831,7 @@ namespace Exiv2 {
         return value_.size();
     }
 
-    static const std::string x_default = "x-default";
+    static constexpr auto x_default = "x-default";
 
     std::ostream& LangAltValue::write(std::ostream& os) const
     {

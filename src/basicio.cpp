@@ -53,7 +53,7 @@ namespace fs = std::filesystem;
 // class member definitions
 namespace {
     /// @brief replace each substring of the subject that matches the given search string with the given replacement.
-    void ReplaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace)
+    void ReplaceStringInPlace(std::string& subject, std::string_view search, std::string_view replace)
     {
         auto pos = subject.find(search);
         while (pos != std::string::npos) {
@@ -946,9 +946,6 @@ namespace Exiv2 {
     }
 
 #else
-    const std::string XPathIo::TEMP_FILE_EXT = ".exiv2_temp";
-    const std::string XPathIo::GEN_FILE_EXT  = ".exiv2";
-
     XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), isTemp_(true)
     {
         tempFilePath_ = path();
