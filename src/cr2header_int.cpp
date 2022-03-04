@@ -2,8 +2,7 @@
 
 #include "cr2header_int.hpp"
 
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
     Cr2Header::Cr2Header(ByteOrder byteOrder)
         : TiffHeaderBase(42, 16, byteOrder, 0x00000010),
           offset2_(0x00000000)
@@ -65,5 +64,4 @@ namespace Exiv2 {
         return isTiffImageTag(tag, group);
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

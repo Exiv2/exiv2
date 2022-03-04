@@ -22,8 +22,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! OffOn, multiple tags
     constexpr TagDetails nikonOffOn[] = {
@@ -3256,5 +3255,4 @@ fmountlens[] = {
         return os;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

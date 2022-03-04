@@ -66,8 +66,7 @@ namespace Exiv2 {
 
 } // namespace Exiv2
 
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     bool TagVocabulary::operator==(const std::string& key) const
     {
@@ -80,8 +79,7 @@ namespace Exiv2 {
                                     N_("Unknown tag"),
                                     ifdIdNotSet, sectionIdNotSet, asciiString, -1, printValue};
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 
 namespace Exiv2 {
 

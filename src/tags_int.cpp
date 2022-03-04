@@ -37,8 +37,7 @@ namespace {
     }
 }  // namespace
 
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! List of all known Exif groups. Important: Group name (3rd column) must be unique!
     constexpr GroupInfo groupInfo[] = {
@@ -3296,5 +3295,4 @@ namespace Exiv2 {
         return ii->tagList_();
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

@@ -26,8 +26,7 @@ namespace {
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     bool TiffMappingInfo::operator==(const TiffMappingInfo::Key& key) const
     {
@@ -1883,8 +1882,7 @@ namespace Exiv2 {
         return std::make_unique<TiffBinaryElement>(tag, group);
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 
 // *****************************************************************************
 // local definitions

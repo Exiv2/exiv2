@@ -43,31 +43,28 @@ namespace
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2
-{
-    namespace Internal
+namespace Exiv2::Internal {
+    void PngChunk::decodeIHDRChunk(const DataBuf& data, uint32_t* outWidth, uint32_t* outHeight)
     {
-        void PngChunk::decodeIHDRChunk(const DataBuf& data, uint32_t* outWidth, uint32_t* outHeight)
-        {
-            assert(data.size() >= 8);
+        assert(data.size() >= 8);
 
-            // Extract image width and height from IHDR chunk.
+        // Extract image width and height from IHDR chunk.
 
-            *outWidth = data.read_uint32(0, bigEndian);
-            *outHeight = data.read_uint32(4, bigEndian);
-        }
+        *outWidth = data.read_uint32(0, bigEndian);
+        *outHeight = data.read_uint32(4, bigEndian);
+    }
 
-        void PngChunk::decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType type)
-        {
-            DataBuf key = keyTXTChunk(data);
-            DataBuf arr = parseTXTChunk(data, key.size(), type);
+    void PngChunk::decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType type)
+    {
+        DataBuf key = keyTXTChunk(data);
+        DataBuf arr = parseTXTChunk(data, key.size(), type);
 
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: " << std::string(arr.c_str(), arr.size())
                       << std::endl;
 #endif
             parseChunkContent(pImage, key.c_data(), key.size(), arr);
-        }
+    }
 
         DataBuf PngChunk::decodeTXTChunk(const DataBuf& data, TxtChunkType type)
         {
@@ -632,6 +629,5 @@ namespace Exiv2
 
         }  // PngChunk::writeRawProfile
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 #endif  // ifdef EXV_HAVE_LIBZ

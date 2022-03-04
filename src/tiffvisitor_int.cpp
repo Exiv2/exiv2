@@ -57,8 +57,7 @@ namespace {
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     TiffVisitor::TiffVisitor()
     {
@@ -1699,5 +1698,4 @@ namespace Exiv2 {
 
     } // TiffReader::visitBinaryElement
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

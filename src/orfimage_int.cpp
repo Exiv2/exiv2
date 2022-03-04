@@ -2,8 +2,7 @@
 
 #include "orfimage_int.hpp"
 
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     OrfHeader::OrfHeader(ByteOrder byteOrder)
         : TiffHeaderBase(0x4f52, 8, byteOrder, 0x00000008),
@@ -53,5 +52,4 @@ namespace Exiv2 {
         return buf;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

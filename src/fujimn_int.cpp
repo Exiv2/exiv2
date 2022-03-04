@@ -23,8 +23,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! OffOn, multiple tags
     constexpr TagDetails fujiOffOn[] = {
@@ -373,5 +372,4 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

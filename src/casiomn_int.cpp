@@ -21,8 +21,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! RecordingMode, tag 0x0001
     constexpr TagDetails casioRecordingMode[] = {
@@ -575,5 +574,4 @@ namespace Exiv2 {
         return os;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

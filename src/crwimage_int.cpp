@@ -70,8 +70,7 @@ namespace {
     }
 }  // namespace
 
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     /*
       Mapping table used to decode and encode CIFF tags to/from Exif tags.  Only
@@ -1194,5 +1193,4 @@ namespace Exiv2 {
         return buf;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

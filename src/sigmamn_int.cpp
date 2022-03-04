@@ -16,8 +16,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     // Sigma (Foveon) MakerNote Tag Info
     constexpr TagInfo SigmaMakerNote::tagInfo_[] = {
@@ -141,5 +140,4 @@ namespace Exiv2 {
         return os;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

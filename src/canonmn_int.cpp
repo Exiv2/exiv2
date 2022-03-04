@@ -28,8 +28,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! OffOn, multiple tags
     constexpr TagDetails canonOffOn[] = {
@@ -3082,5 +3081,4 @@ namespace Exiv2 {
         return sign * (val + frac) / 32.0F;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

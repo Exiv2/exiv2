@@ -19,8 +19,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! OffOn, multiple tags
     constexpr TagDetails olympusOffOn[] = {
@@ -1666,5 +1665,4 @@ value, const ExifData* metadata)
         return os << v;
     } // OlympusMakerNote::print0x0308
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

@@ -15,8 +15,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! ShootingMode, tag 0x0001
     constexpr TagDetails pentaxShootingMode[] = {
@@ -1685,5 +1684,4 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

@@ -16,8 +16,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! Quality, tag 0x0001
     constexpr TagDetails panasonicQuality[] = {
@@ -735,5 +734,4 @@ namespace Exiv2 {
         return tagInfoRaw_;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
