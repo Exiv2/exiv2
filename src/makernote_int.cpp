@@ -23,19 +23,11 @@
 
 namespace fs = std::filesystem;
 
-#if defined(__MINGW32__) || defined(__MINGW64__)
-#ifndef __MINGW__
-#define __MINGW__ 1
-#endif
-#endif
-
 #if !defined(_MSC_VER) && !defined(__MINGW__)
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
 #else
-#include <windows.h>
-#include <direct.h> // _getcwd
 #include <shlobj.h>
 # ifndef CSIDL_PROFILE
 #    define CSIDL_PROFILE 40

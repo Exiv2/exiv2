@@ -51,9 +51,6 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifdef EXV_HAVE_UNISTD_H
-# include <unistd.h>                            // stat
-#endif
 
 // *****************************************************************************
 namespace {

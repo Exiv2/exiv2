@@ -39,13 +39,6 @@
 #include <iostream>
 #include <regex>
 
-// stdin handler includes
-#ifndef  _MSC_VER
-#include <cstdlib>
-#include <stdio.h>
-#include <sys/select.h>
-#endif
-
 // *****************************************************************************
 // class definitions
 

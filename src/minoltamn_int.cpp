@@ -2186,7 +2186,7 @@ namespace Exiv2::Internal {
        uint32_t id_;                           //!< Lens id
        PrintFct fct_;                          //!< Pretty-print function
        //! Comparison operator for find template
-       bool operator==(long id) const { return id_ == id; }
+       bool operator==(uint32_t id) const { return id_ == id; }
     };
 
     //! List of lens ids which require special treatment from printMinoltaSonyLensID

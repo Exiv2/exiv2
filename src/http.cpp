@@ -1,44 +1,23 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__) || defined(__MINGW64__) || defined(__MINGW32__) 
+#include "config.h"
+
+#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
 #define __USE_W32_SOCKETS
 #include <winsock2.h>
 #endif
 
-#include "config.h"
-#include "datasets.hpp"
 #include "http.hpp"
 #include "futils.hpp"
 
-#include <sys/types.h>
 #include <stdio.h>
 #include <array>
-#include <cstdlib>
-#include <time.h>
 #include <sys/stat.h>
-#include <string.h>
-
-#define SLEEP       1000
-#define SNOOZE         0
-
-#ifdef  __MINGW__
-#define  fopen_S(f,n,a)  f=fopen(n,a)
-#endif
 
 ////////////////////////////////////////
 // platform specific code
 
 #if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
-#include <string.h>
-#include <io.h>
-#if !defined(__MINGW__) && !defined(__CYGWIN__)
-#define  write    _write
-#define  read     _read
-#define  close    _close
-#define  strdup   _strdup
-#define  stat     _stat
-#define  fopen_S(f,n,a)  fopen_s(&f,n,a)
-#endif
 #else
 ////////////////////////////////////////
 // Unix or Mac
@@ -98,8 +77,8 @@ static constexpr std::array<const char*, 2> blankLines{
     "\n\n",      // this is commonly sent by CGI scripts
 };
 
-static constexpr int snooze = SNOOZE;
-static int sleep_ = SLEEP;
+static constexpr int snooze = 0;
+static int sleep_ = 1000;
 
 static int forgive(int n,int& err)
 {
