@@ -9,7 +9,6 @@
 #include "error.hpp"
 #include "enforce.hpp"
 #include "http.hpp"
-#include "properties.hpp"
 #include "image_int.hpp"
 
 // + standard includes
@@ -28,8 +27,6 @@
 #include <memory>
 #include <string>
 
-namespace fs = std::filesystem;
-
 #ifdef EXV_HAVE_SYS_MMAN_H
 # include <sys/mman.h>                  // for mmap and munmap
 #endif
@@ -44,12 +41,13 @@ namespace fs = std::filesystem;
 # include <curl/curl.h>
 #endif
 
-#define mode_t unsigned short
-
 #if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN__))
+#define mode_t unsigned short
 # include <windows.h>
 # include <io.h>
 #endif
+
+namespace fs = std::filesystem;
 
 // *****************************************************************************
 // class member definitions
