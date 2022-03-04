@@ -44,7 +44,7 @@ namespace Exiv2 {
         //! Preview image extension.
         std::string extension_;
         //! Preview image size in bytes.
-        uint32_t size_;
+        size_t size_;
         //! Preview image width in pixels or 0 for unknown width.
         uint32_t width_;
         //! Preview image height in pixels or 0 for unknown height.
@@ -99,7 +99,7 @@ namespace Exiv2 {
           @param path File name of the preview image without extension.
           @return The number of bytes written.
         */
-        long writeFile(const std::string& path) const;
+        size_t writeFile(const std::string& path) const;
         /*!
           @brief Return the MIME type of the preview image, usually either
                  \c "image/tiff" or \c "image/jpeg".

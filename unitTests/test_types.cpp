@@ -62,7 +62,6 @@ TEST(DataBuf, allocatesDataWithNonEmptyConstructor)
 TEST(DataBuf, read_write_endianess)
 {
     DataBuf buf(4 + 1 + 2 + 4 + 8);
-    buf.clear();
 
     // Big endian.
     buf.write_uint8(4, 0x01);

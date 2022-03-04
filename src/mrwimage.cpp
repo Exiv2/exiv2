@@ -141,7 +141,7 @@ namespace Exiv2 {
                                           iptcData_,
                                           xmpData_,
                                           buf.c_data(),
-                                          buf.size());
+                                          static_cast<uint32_t>(buf.size()));
         setByteOrder(bo);
     } // MrwImage::readMetadata
 

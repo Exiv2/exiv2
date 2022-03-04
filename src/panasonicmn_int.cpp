@@ -659,19 +659,18 @@ namespace Exiv2 {
     {
         if(value.size()>0 && value.typeId() == undefined)
         {
-            for(long i=0; i< value.size(); i++)
+            for(size_t i=0; i< value.size(); i++)
             {
                 if(value.toInt64(i)==0)
                 {
                     break;
-                };
+                }
                 os << static_cast<char>(value.toInt64(i));
-            };
+            }
             return os;
         }
 
         return os << value;
-        ;
     } // PanasonicMakerNote::printPanasonicText
 
     // Manometer Pressure

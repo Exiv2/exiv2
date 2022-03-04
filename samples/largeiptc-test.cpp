@@ -47,7 +47,7 @@ int main(int argc, char* const argv[])
         }
         Exiv2::DataBuf buf(static_cast<long>(io.size()));
         std::cout << "Reading " << buf.size() << " bytes from " << data << "\n";
-        long readBytes = io.read(buf.data(), buf.size());
+        const size_t readBytes = io.read(buf.data(), buf.size());
         if (readBytes != buf.size() || io.error() || io.eof()) {
             throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
         }

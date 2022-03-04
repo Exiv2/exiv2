@@ -140,7 +140,7 @@ namespace {
         uint32_t height_;
 
         //! Preview image size in bytes
-        uint32_t size_;
+        size_t size_;
 
         //! True if the source image contains a preview image of given type
         bool valid_;
@@ -197,7 +197,7 @@ namespace {
         static const Param param_[];
 
         //! Offset value
-        uint32_t offset_;
+        size_t offset_;
     };
 
     //! Function to create new LoaderExifJpeg
@@ -424,7 +424,7 @@ namespace {
         if (nativePreview_.filter_.empty()) {
             size_ = nativePreview_.size_;
         } else {
-            size_ = getData().size();
+            size_ = static_cast<uint32_t>(getData().size());
         }
     }
 
@@ -496,11 +496,15 @@ namespace {
 
     bool LoaderNative::readDimensions()
     {
-        if (!valid()) return false;
-        if (width_ != 0 || height_ != 0) return true;
+        if (!valid())
+            return false;
+        if (width_ != 0 || height_ != 0)
+            return true;
 
         const DataBuf data = getData();
-        if (data.size() == 0) return false;
+        if (data.empty())
+            return false;
+
         try {
             auto image = ImageFactory::open(data.c_data(), data.size());
             if (!image)
@@ -618,7 +622,8 @@ namespace {
                 size_ = pos->size(); // direct data
         }
 
-        if (size_ == 0) return;
+        if (size_ == 0)
+            return;
 
         valid_ = true;
     }
@@ -644,7 +649,7 @@ namespace {
         if (pos != image_.exifData().end()) {
             DataBuf buf = pos->dataArea(); // indirect data
 
-            if (buf.size() == 0) { // direct data
+            if (buf.empty()) { // direct data
                 buf = DataBuf(pos->size());
                 pos->copy(buf.data(), invalidByteOrder);
             }
@@ -658,10 +663,12 @@ namespace {
 
     bool LoaderExifDataJpeg::readDimensions()
     {
-        if (!valid()) return false;
+        if (!valid())
+            return false;
 
         DataBuf buf = getData();
-        if (buf.size() == 0) return false;
+        if (buf.empty())
+            return false;
 
         try {
             auto image = ImageFactory::open(buf.c_data(), buf.size());
@@ -685,14 +692,16 @@ namespace {
     {
         const ExifData &exifData = image_.exifData();
 
-        int offsetCount = 0;
+        size_t offsetCount = 0;
         ExifData::const_iterator pos;
 
         // check if the group_ contains a preview image
         if (param_[parIdx].checkTag_) {
             pos = exifData.findKey(ExifKey(param_[parIdx].checkTag_));
-            if (pos == exifData.end()) return;
-            if (param_[parIdx].checkValue_ && pos->toString() != param_[parIdx].checkValue_) return;
+            if (pos == exifData.end())
+                return;
+            if (param_[parIdx].checkValue_ && pos->toString() != param_[parIdx].checkValue_)
+                return;
         }
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".StripOffsets"));
@@ -703,20 +712,24 @@ namespace {
         }
         else {
             pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".TileOffsets"));
-            if (pos == exifData.end()) return;
+            if (pos == exifData.end())
+                return;
             offsetTag_ = "TileOffsets";
             sizeTag_ = "TileByteCounts";
             offsetCount = pos->value().count();
         }
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + '.' + sizeTag_));
-        if (pos == exifData.end()) return;
-        if (offsetCount != pos->value().count()) return;
-        for (int i = 0; i < offsetCount; i++) {
-            size_ += pos->toUint32(i);
+        if (pos == exifData.end())
+            return;
+        if (offsetCount != pos->value().count())
+            return;
+        for (size_t i = 0; i < offsetCount; i++) {
+            size_ += pos->toUint32(static_cast<long>(i));
         }
 
-        if (size_ == 0) return;
+        if (size_ == 0)
+            return;
 
         pos = exifData.findKey(ExifKey(std::string("Exif.") + group_ + ".ImageWidth"));
         if (pos != exifData.end() && pos->count() > 0) {
@@ -728,7 +741,8 @@ namespace {
             height_ = pos->toUint32();
         }
 
-        if (width_ == 0 || height_ == 0) return;
+        if (width_ == 0 || height_ == 0)
+            return;
 
         valid_ = true;
     }
@@ -797,7 +811,7 @@ namespace {
                     enforce(size_ <= static_cast<uint32_t>(io.size()), kerCorruptedMetadata);
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
-                    for (long i = 0; i < sizes.count(); i++) {
+                    for (size_t i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toUint32(i);
                         uint32_t size = sizes.toUint32(i);
 
@@ -843,15 +857,20 @@ namespace {
         }
 
         auto imageDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":image"));
-        if (imageDatum == xmpData.end()) return;
+        if (imageDatum == xmpData.end())
+            return;
         auto formatDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":format"));
-        if (formatDatum == xmpData.end()) return;
+        if (formatDatum == xmpData.end())
+            return;
         auto widthDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":width"));
-        if (widthDatum == xmpData.end()) return;
+        if (widthDatum == xmpData.end())
+            return;
         auto heightDatum = xmpData.findKey(XmpKey("Xmp.xmp.Thumbnails[1]/" + prefix + ":height"));
-        if (heightDatum == xmpData.end()) return;
+        if (heightDatum == xmpData.end())
+            return;
 
-        if (formatDatum->toString() != "JPEG") return;
+        if (formatDatum->toString() != "JPEG")
+            return;
 
         width_ = widthDatum->toUint32();
         height_ = heightDatum->toUint32();
@@ -875,7 +894,8 @@ namespace {
 
     DataBuf LoaderXmpJpeg::getData() const
     {
-        if (!valid()) return DataBuf();
+        if (!valid())
+            return DataBuf();
         return DataBuf(preview_.c_data(), preview_.size());
     }
 
@@ -937,11 +957,13 @@ namespace {
             if (decodeBase64Table[static_cast<unsigned char>(src[srcPos])] != invalid)
                 validSrcSize++;
         }
-        if (validSrcSize > ULONG_MAX / 3) return DataBuf(); // avoid integer overflow
+        if (validSrcSize > ULONG_MAX / 3)
+            return DataBuf(); // avoid integer overflow
         const unsigned long destSize = (validSrcSize * 3) / 4;
 
         // allocate dest buffer
-        if (destSize > LONG_MAX) return DataBuf(); // avoid integer overflow
+        if (destSize > LONG_MAX)
+            return DataBuf(); // avoid integer overflow
         DataBuf dest(static_cast<long>(destSize));
 
         // decode
@@ -971,7 +993,7 @@ namespace {
             return DataBuf();
         }
         const byte *imageData = src.c_data(colorTableSize);
-        const long imageDataSize = src.size() - colorTableSize;
+        const long imageDataSize = static_cast<long>(src.size()) - colorTableSize;
         const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
         std::string dest;
         for (long i = rle ? 3 : 0; i < imageDataSize;) {
@@ -1005,7 +1027,7 @@ namespace {
 
     DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
     {
-        const long expectedSize = static_cast<long>(width) * static_cast<long>(height) * 3L;
+        const size_t expectedSize = width * height * 3UL;
         if (rgb.size() != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size() << " bytes.\n";
@@ -1037,13 +1059,14 @@ namespace Exiv2 {
 
     PreviewImage& PreviewImage::operator=(const PreviewImage& rhs)
     {
-        if (this == &rhs) return *this;
+        if (this == &rhs)
+            return *this;
         properties_ = rhs.properties_;
         preview_ = DataBuf(rhs.pData(), rhs.size());
         return *this;
     }
 
-    long PreviewImage::writeFile(const std::string& path) const
+    size_t PreviewImage::writeFile(const std::string& path) const
     {
         std::string name = path + extension();
         // Todo: Creating a DataBuf here unnecessarily copies the memory
@@ -1063,7 +1086,7 @@ namespace Exiv2 {
 
     uint32_t PreviewImage::size() const
     {
-        return preview_.size();
+        return static_cast<uint32_t>(preview_.size());
     }
 
     std::string PreviewImage::mimeType() const
@@ -1105,7 +1128,7 @@ namespace Exiv2 {
             if (loader && loader->readDimensions()) {
                 PreviewProperties props = loader->getProperties();
                 DataBuf buf             = loader->getData(); // #16 getPreviewImage()
-                props.size_             = buf.size();        //     update the size
+                props.size_             = static_cast<uint32_t>(buf.size()); //     update the size
                 list.push_back(props) ;
             }
         }

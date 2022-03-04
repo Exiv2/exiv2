@@ -57,8 +57,7 @@ namespace Exiv2 {
           @return true  if the IRB marker is known and the buffer is big enough to check this;<BR>
                   false otherwise
         */
-        static bool isIrb(const byte* pPsData,
-                          long        sizePsData);
+        static bool isIrb(const byte* pPsData, size_t sizePsData);
         /*!
           @brief Validates all IRBs
 
@@ -67,8 +66,7 @@ namespace Exiv2 {
           @return true  if all IRBs are valid;<BR>
                   false otherwise
         */
-        static bool valid(const byte* pPsData,
-                          long        sizePsData);
+        static bool valid(const byte* pPsData, size_t sizePsData);
         /*!
           @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory
               buffer. Operates on raw data to simplify reuse.
@@ -87,7 +85,7 @@ namespace Exiv2 {
                  -2 if the pPsData buffer does not contain valid data.
         */
         static int locateIrb(const byte *pPsData,
-                             long sizePsData,
+                             size_t sizePsData,
                              uint16_t psTag,
                              const byte **record,
                              uint32_t *const sizeHdr,
@@ -96,7 +94,7 @@ namespace Exiv2 {
           @brief Forwards to locateIrb() with \em psTag = \em iptc_
          */
         static int locateIptcIrb(const byte *pPsData,
-                                 long sizePsData,
+                                 size_t sizePsData,
                                  const byte **record,
                                  uint32_t *const sizeHdr,
                                  uint32_t *const sizeData);
@@ -104,7 +102,7 @@ namespace Exiv2 {
           @brief Forwards to locatePreviewIrb() with \em psTag = \em preview_
          */
         static int locatePreviewIrb(const byte *pPsData,
-                                    long sizePsData,
+                                    size_t sizePsData,
                                     const byte **record,
                                     uint32_t *const sizeHdr,
                                     uint32_t *const sizeData);
@@ -117,9 +115,7 @@ namespace Exiv2 {
           @param iptcData   Iptc data to embed, may be empty
           @return A data buffer containing the new IRB buffer, may have 0 size
         */
-        static DataBuf setIptcIrb(const byte*     pPsData,
-                                  long            sizePsData,
-                                  const IptcData& iptcData);
+        static DataBuf setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData);
 
     }; // class Photoshop
 
@@ -132,13 +128,6 @@ namespace Exiv2 {
         //@{
         void readMetadata() override;
         void writeMetadata() override;
-
-        /*!
-          @brief Print out the structure of image file.
-          @throw Error if reading of the file fails or the image data is
-                not valid (does not look like data of the specific image type).
-          @warning This function is not thread safe and intended for exiv2 -pS for debugging.
-         */
         void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
         //@}
 
@@ -177,7 +166,7 @@ namespace Exiv2 {
                  BasicIo::UniquePtr io,
                  bool             create,
                  const byte       initData[],
-                 long             dataSize);
+                 size_t           dataSize);
         //@}
 
         //! @name Accessors
@@ -254,7 +243,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   4 if the image can not be written to.
          */
-        int initImage(const byte initData[], long dataSize);
+        int initImage(const byte initData[], size_t dataSize);
         /*!
           @brief Provides the main implementation of writeMetadata() by
                 writing all buffered metadata to the provided BasicIo.
@@ -278,6 +267,8 @@ namespace Exiv2 {
          */
         byte advanceToMarker(ErrorCode err) const;
         //@}
+
+        DataBuf readNextSegment(byte marker);
 
         /*!
           @brief Is the marker followed by a non-zero payload?

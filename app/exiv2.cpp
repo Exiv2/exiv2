@@ -37,16 +37,24 @@
 #include <cstring>
 #include <cassert>
 #include <cctype>
-
 #include <regex>
 
-#if defined(_MSC_VER)
+#if defined(_WIN32) || defined(__CYGWIN__)
 #include <Windows.h>
+#include <fcntl.h>
+#include <io.h>
+#else
+#include <unistd.h>
 #endif
 
 // *****************************************************************************
 // local declarations
 namespace {
+    const Params::YodAdjust emptyYodAdjust_[] = {
+        { false, "-Y", 0 },
+        { false, "-O", 0 },
+        { false, "-D", 0 },
+    };
 
     //! List of all command identifiers and corresponding strings
     const CmdIdAndString cmdIdAndString[] = {
@@ -181,7 +189,6 @@ int main(int argc, char* const argv[])
             }
 
             taskFactory.cleanup();
-            Params::cleanup();
             Exiv2::XmpParser::terminate();
         }
     } catch (const std::exception& exc) {
@@ -195,26 +202,38 @@ int main(int argc, char* const argv[])
 
 // *****************************************************************************
 // class Params
-Params* Params::instance_ = nullptr;
 
-const Params::YodAdjust Params::emptyYodAdjust_[] = {
-    { false, "-Y", 0 },
-    { false, "-O", 0 },
-    { false, "-D", 0 },
-};
+Params::Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
+           help_(false),
+           version_(false),
+           verbose_(false),
+           force_(false),
+           binary_(false),
+           unknown_(true),
+           preserve_(false),
+           timestamp_(false),
+           timestampOnly_(false),
+           fileExistsPolicy_(askPolicy),
+           adjust_(false),
+           printMode_(pmSummary),
+           printItems_(0),
+           printTags_(Exiv2::mdNone),
+           action_(0),
+           target_(ctExif|ctIptc|ctComment|ctXmp),
+           adjustment_(0),
+           format_("%Y%m%d_%H%M%S"),
+           formatSet_(false),
+           first_(true)
+{
+    yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
+    yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
+    yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
+}
 
 Params& Params::instance()
 {
-    if (nullptr == instance_) {
-        instance_ = new Params;
-    }
-    return *instance_;
-}
-
-void Params::cleanup()
-{
-    delete instance_;
-    instance_ = nullptr;
+    static Params instance_;
+    return instance_;
 }
 
 void Params::version(bool verbose, std::ostream& os)
@@ -968,7 +987,7 @@ static int readFileToBuf(FILE* f,Exiv2::DataBuf& buf)
 void Params::getStdin(Exiv2::DataBuf& buf)
 {
     // copy stdin to stdinBuf
-    if ( stdinBuf.size() == 0 ) {
+    if (stdinBuf.empty()) {
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
         DWORD fdwMode;
         _setmode(fileno(stdin), O_BINARY);
@@ -993,7 +1012,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         // this is only used to simulate reading from stdin when debugging
         // to simulate exiv2 -pX foo.jpg                | exiv2 -iXX- bar.jpg
         //             exiv2 -pX foo.jpg > ~/temp/stdin ; exiv2 -iXX- bar.jpg
-        if ( stdinBuf.size() == 0 ) {
+        if ( stdinBuf.empty()) {
             const char* path = "/Users/rmills/temp/stdin";
             FILE* f = fopen(path,"rb");
             if  ( f ) {
@@ -1019,56 +1038,55 @@ void Params::getStdin(Exiv2::DataBuf& buf)
 
 } // Params::getStdin()
 
-using long_t = std::map<std::string, std::string>;
-
 int Params::getopt(int argc, char* const Argv[])
 {
-    auto argv = new char*[argc + 1];
+    std::vector<char *> argv(argc+1);
     argv[argc] = nullptr;
-    long_t longs;
 
-    longs["--adjust"   ] = "-a";
-    longs["--binary"   ] = "-b";
-    longs["--comment"  ] = "-c";
-    longs["--delete"   ] = "-d";
-    longs["--days"     ] = "-D";
-    longs["--extract"  ] = "-e";
-    longs["--force"    ] = "-f";
-    longs["--Force"    ] = "-F";
-    longs["--grep"     ] = "-g";
-    longs["--help"     ] = "-h";
-    longs["--insert"   ] = "-i";
-    longs["--keep"     ] = "-k";
-    longs["--key"      ] = "-K";
-    longs["--location" ] = "-l";
-    longs["--modify"   ] = "-m";
-    longs["--Modify"   ] = "-M";
-    longs["--encode"   ] = "-n";
-    longs["--months"   ] = "-O";
-    longs["--print"    ] = "-p";
-    longs["--Print"    ] = "-P";
-    longs["--quiet"    ] = "-q";
-    longs["--log"      ] = "-Q";
-    longs["--rename"   ] = "-r";
-    longs["--suffix"   ] = "-S";
-    longs["--timestamp"] = "-t";
-    longs["--Timestamp"] = "-T";
-    longs["--unknown"  ] = "-u";
-    longs["--verbose"  ] = "-v";
-    longs["--Version"  ] = "-V";
-    longs["--version"  ] = "-V";
-    longs["--years"    ] = "-Y";
+    const std::unordered_map<std::string, std::string> longs {
+      {"--adjust"   , "-a"},
+      {"--binary"   , "-b"},
+      {"--comment"  , "-c"},
+      {"--delete"   , "-d"},
+      {"--days"     , "-D"},
+      {"--extract"  , "-e"},
+      {"--force"    , "-f"},
+      {"--Force"    , "-F"},
+      {"--grep"     , "-g"},
+      {"--help"     , "-h"},
+      {"--insert"   , "-i"},
+      {"--keep"     , "-k"},
+      {"--key"      , "-K"},
+      {"--location" , "-l"},
+      {"--modify"   , "-m"},
+      {"--Modify"   , "-M"},
+      {"--encode"   , "-n"},
+      {"--months"   , "-O"},
+      {"--print"    , "-p"},
+      {"--Print"    , "-P"},
+      {"--quiet"    , "-q"},
+      {"--log"      , "-Q"},
+      {"--rename"   , "-r"},
+      {"--suffix"   , "-S"},
+      {"--timestamp", "-t"},
+      {"--Timestamp", "-T"},
+      {"--unknown"  , "-u"},
+      {"--verbose"  , "-v"},
+      {"--Version"  , "-V"},
+      {"--version"  , "-V"},
+      {"--years"    , "-Y"},
+    };
 
     for ( int i = 0 ; i < argc ; i++ ) {
         std::string arg(Argv[i]);
         if (longs.find(arg) != longs.end() ) {
-            argv[i] = ::strdup(longs[arg].c_str());
+            argv[i] = ::strdup(longs.at(arg).c_str());
         } else {
             argv[i] = ::strdup(Argv[i]);
         }
     }
 
-    int rc = Util::Getopt::getopt(argc, argv, optstring_);
+    int rc = Util::Getopt::getopt(argc, argv.data(), optstring_);
     // Further consistency checks
     if (help_ || version_) {
         goto cleanup;
@@ -1141,10 +1159,9 @@ int Params::getopt(int argc, char* const Argv[])
     // cleanup the argument vector
     for (int i = 0; i < argc; i++)
         ::free(argv[i]);
-    delete [] argv;
 
     return rc;
-} // Params::getopt
+}
 
 // *****************************************************************************
 // local implementations

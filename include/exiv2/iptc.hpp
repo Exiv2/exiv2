@@ -136,7 +136,7 @@ namespace Exiv2 {
         TypeId typeId() const override;
         const char* typeName() const override;
         long typeSize() const override;
-        long count() const override;
+        size_t count() const override;
         long size() const override;
         std::string toString() const override;
         std::string toString(long n) const override;
@@ -291,23 +291,17 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   5 if the binary IPTC data is invalid or corrupt
          */
-        static int decode(
-                  IptcData& iptcData,
-            const byte*     pData,
-                  uint32_t  size
-        );
+        static int decode(IptcData& iptcData, const byte* pData, uint32_t size);
+
         /*!
-          @brief Encode the IPTC datasets from \em iptcData to a binary
-                 representation in IPTC IIM4 format.
+          @brief Encode the IPTC datasets from \em iptcData to a binary representation in IPTC IIM4 format.
 
           Convert the IPTC datasets to binary format and return it.  Caller owns
           the returned buffer. The copied data follows the IPTC IIM4 standard.
 
           @return Data buffer containing the binary IPTC data in IPTC IIM4 format.
          */
-        static DataBuf encode(
-            const IptcData& iptcData
-        );
+        static DataBuf encode(const IptcData& iptcData);
 
     private:
         // Constant data

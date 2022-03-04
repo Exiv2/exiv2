@@ -84,14 +84,14 @@ void mini1(const char* path)
     enforce(wm == wmIntrusive, Exiv2::kerErrorMessage, "encode returned an unexpected value");
     std::cout << "Test 3: Wrote non-empty Exif data without original binary data:\n";
     exifData.clear();
-    ByteOrder bo = ExifParser::decode(exifData, &blob[0], static_cast<uint32_t>(blob.size()));
+    ByteOrder bo = ExifParser::decode(exifData, &blob[0], blob.size());
     enforce(bo == bigEndian, Exiv2::kerErrorMessage, "decode returned an unexpected value");
     print(exifData);
 }
 
 void mini9(const char* path)
 {
-    TiffImage tiffImage(BasicIo::UniquePtr(new FileIo(path)), false);
+    TiffImage tiffImage(std::make_unique<FileIo>(path), false);
     tiffImage.readMetadata();
 
     std::cout << "MIME type:  " << tiffImage.mimeType() << "\n";

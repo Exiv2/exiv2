@@ -87,8 +87,8 @@ namespace {
 }
 
 namespace Exiv2 {
-    void BasicIo::readOrThrow(byte* buf, long rcount, ErrorCode err) {
-        const long nread = read(buf, rcount);
+    void BasicIo::readOrThrow(byte* buf, size_t rcount, ErrorCode err) {
+        const size_t nread = read(buf, rcount);
         enforce(nread == rcount, err);
         enforce(!error(), err);
     }
@@ -219,7 +219,7 @@ namespace Exiv2 {
     } // FileIo::Impl::stat
 
     FileIo::FileIo(const std::string& path)
-        : p_(new Impl(path))
+        : p_(std::make_unique<Impl>(path))
     {
     }
 
@@ -336,25 +336,29 @@ namespace Exiv2 {
         p_->path_ = path;
     }
 
-    long FileIo::write(const byte* data, long wcount)
+    size_t FileIo::write(const byte* data, size_t wcount)
     {
         assert(p_->fp_ != 0);
-        if (p_->switchMode(Impl::opWrite) != 0) return 0;
-        return static_cast<long>(std::fwrite(data, 1, wcount, p_->fp_));
+        if (p_->switchMode(Impl::opWrite) != 0)
+            return 0;
+        return std::fwrite(data, 1, wcount, p_->fp_);
     }
 
-    long FileIo::write(BasicIo& src)
+    size_t FileIo::write(BasicIo& src)
     {
         assert(p_->fp_ != 0);
-        if (static_cast<BasicIo*>(this) == &src) return 0;
-        if (!src.isopen()) return 0;
-        if (p_->switchMode(Impl::opWrite) != 0) return 0;
+        if (static_cast<BasicIo*>(this) == &src)
+            return 0;
+        if (!src.isopen())
+            return 0;
+        if (p_->switchMode(Impl::opWrite) != 0)
+            return 0;
 
         byte buf[4096];
-        long readCount = 0;
-        long writeTotal = 0;
+        size_t readCount = 0;
+        size_t writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
-            long writeCount = static_cast<long>(std::fwrite(buf, 1, readCount, p_->fp_));
+            size_t writeCount = std::fwrite(buf, 1, readCount, p_->fp_);
             writeTotal += writeCount;
             if (writeCount != readCount) {
                 // try to reset back to where write stopped
@@ -548,35 +552,37 @@ namespace Exiv2 {
     int FileIo::close()
     {
         int rc = 0;
-        if (munmap() != 0) rc = 2;
+        if (munmap() != 0)
+            rc = 2;
         if (p_->fp_ != nullptr) {
-            if (std::fclose(p_->fp_) != 0) rc |= 1;
+            if (std::fclose(p_->fp_) != 0)
+                rc |= 1;
             p_->fp_ = nullptr;
         }
         return rc;
     }
 
-    DataBuf FileIo::read(long rcount)
+    DataBuf FileIo::read(size_t rcount)
     {
         assert(p_->fp_ != 0);
         if (static_cast<size_t>(rcount) > size())
             throw Error(kerInvalidMalloc);
         DataBuf buf(rcount);
-        long readCount = read(buf.data(), buf.size());
-        if (readCount < 0) {
+        size_t readCount = read(buf.data(), buf.size());
+        if (readCount == 0) {
             throw Error(kerInputDataReadFailed);
         }
         buf.resize(readCount);
         return buf;
     }
 
-    long FileIo::read(byte* buf, long rcount)
+    size_t FileIo::read(byte* buf, size_t rcount)
     {
         assert(p_->fp_ != 0);
         if (p_->switchMode(Impl::opRead) != 0) {
             return 0;
         }
-        return static_cast<long>(std::fread(buf, 1, rcount, p_->fp_));
+        return std::fread(buf, 1, rcount, p_->fp_);
     }
 
     int FileIo::getb()
@@ -609,25 +615,25 @@ namespace Exiv2 {
     class MemIo::Impl final{
     public:
         Impl() = default;                  //!< Default constructor
-        Impl(const byte* data, long size); //!< Constructor 2
+        Impl(const byte* data, size_t size); //!< Constructor 2
 
         // DATA
         byte* data_{nullptr};     //!< Pointer to the start of the memory area
-        long idx_{0};             //!< Index into the memory area
-        long size_{0};            //!< Size of the memory area
-        long sizeAlloced_{0};     //!< Size of the allocated buffer
+        size_t idx_{0};           //!< Index into the memory area
+        size_t size_{0};          //!< Size of the memory area
+        size_t sizeAlloced_{0};   //!< Size of the allocated buffer
         bool isMalloced_{false};  //!< Was the buffer allocated?
         bool eof_{false};         //!< EOF indicator
 
         // METHODS
-        void reserve(long wcount);         //!< Reserve memory
+        void reserve(size_t wcount);         //!< Reserve memory
 
         // NOT IMPLEMENTED
         Impl(const Impl& rhs) = delete;             //!< Copy constructor
         Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class MemIo::Impl
 
-    MemIo::Impl::Impl(const byte* data, long size) : data_(const_cast<byte*>(data)), size_(size)
+    MemIo::Impl::Impl(const byte* data, size_t size) : data_(const_cast<byte*>(data)), size_(size)
     {
     }
 
@@ -700,15 +706,15 @@ namespace Exiv2 {
         size_t size_{0};
     }; // class BlockMap
 
-    void MemIo::Impl::reserve(long wcount)
+    void MemIo::Impl::reserve(size_t wcount)
     {
-        const long need = wcount + idx_;
-        long    blockSize =     32*1024;   // 32768           `
-        const long maxBlockSize = 4*1024*1024;
+        const size_t need = wcount + idx_;
+        size_t blockSize =     32*1024;   // 32768
+        const size_t maxBlockSize = 4*1024*1024;
 
         if (!isMalloced_) {
             // Minimum size for 1st block
-            long size  = std::max(blockSize * (1 + need / blockSize), size_);
+            size_t size  = std::max(blockSize * (1 + need / blockSize), size_);
             auto data = static_cast<byte*>(std::malloc(size));
             if (data == nullptr) {
                 throw Error(kerMallocFailed);
@@ -726,7 +732,7 @@ namespace Exiv2 {
                 blockSize = 2*sizeAlloced_ ;
                 if ( blockSize > maxBlockSize ) blockSize = maxBlockSize ;
                 // Allocate in blocks
-                long want      = blockSize * (1 + need / blockSize );
+                size_t want      = blockSize * (1 + need / blockSize );
                 data_ = static_cast<byte*>(std::realloc(data_, want));
                 if (data_ == nullptr) {
                     throw Error(kerMallocFailed);
@@ -738,12 +744,12 @@ namespace Exiv2 {
     }
 
     MemIo::MemIo()
-        : p_(new Impl())
+        : p_(std::make_unique<Impl>())
     {
     }
 
-    MemIo::MemIo(const byte* data, long size)
-        : p_(new Impl(data, size))
+    MemIo::MemIo(const byte* data, size_t size)
+        : p_(std::make_unique<Impl>(data, size))
     {
     }
 
@@ -754,7 +760,7 @@ namespace Exiv2 {
         }
     }
 
-    long MemIo::write(const byte* data, long wcount)
+    size_t MemIo::write(const byte* data, size_t wcount)
     {
         p_->reserve(wcount);
         assert(p_->isMalloced_);
@@ -794,14 +800,14 @@ namespace Exiv2 {
         if (error() || src.error()) throw Error(kerMemoryTransferFailed, strError());
     }
 
-    long MemIo::write(BasicIo& src)
+    size_t MemIo::write(BasicIo& src)
     {
         if (static_cast<BasicIo*>(this) == &src) return 0;
         if (!src.isopen()) return 0;
 
         byte buf[4096];
-        long readCount = 0;
-        long writeTotal = 0;
+        size_t readCount = 0;
+        size_t writeTotal = 0;
         while ((readCount = src.read(buf, sizeof(buf)))) {
             write(buf, readCount);
             writeTotal += readCount;
@@ -831,7 +837,7 @@ namespace Exiv2 {
         if (newIdx < 0)
             return 1;
 
-        if (newIdx > p_->size_) {
+        if (newIdx > static_cast<int64_t>(p_->size_)) {
             p_->eof_ = true;
             return 1;
         }
@@ -853,7 +859,7 @@ namespace Exiv2 {
 
     long MemIo::tell() const
     {
-        return p_->idx_;
+        return static_cast<long>(p_->idx_);
     }
 
     size_t MemIo::size() const
@@ -878,18 +884,18 @@ namespace Exiv2 {
         return 0;
     }
 
-    DataBuf MemIo::read(long rcount)
+    DataBuf MemIo::read(size_t rcount)
     {
         DataBuf buf(rcount);
-        long readCount = read(buf.data(), buf.size());
+        size_t readCount = read(buf.data(), buf.size());
         buf.resize(readCount);
         return buf;
     }
 
-    long MemIo::read(byte* buf, long rcount)
+    size_t MemIo::read(byte* buf, size_t rcount)
     {
-        const long avail = std::max(p_->size_ - p_->idx_, 0L);
-        const long allow = std::min(rcount, avail);
+        const size_t avail = std::max(p_->size_ - p_->idx_, static_cast<size_t>(0));
+        const size_t allow = std::min(rcount, avail);
         if (allow > 0) {
             std::memcpy(buf, &p_->data_[p_->idx_], allow);
         }
@@ -1073,11 +1079,11 @@ namespace Exiv2 {
         size_t          blockSize_;     //!< Size of the block memory.
         BlockMap*       blocksMap_;     //!< An array contains all blocksMap
         size_t          size_;          //!< The file size
-        long            idx_;           //!< Index into the memory area
+        size_t          idx_;           //!< Index into the memory area
         bool            isMalloced_;    //!< Was the blocksMap_ allocated?
         bool            eof_;           //!< EOF indicator
         Protocol        protocol_;      //!< the protocol of url
-        uint32_t        totalRead_;     //!< bytes requested from host
+        size_t          totalRead_;     //!< bytes requested from host
 
         // METHODS
         /*!
@@ -1168,11 +1174,12 @@ namespace Exiv2 {
         delete[] blocksMap_;
     }
 
+    RemoteIo::RemoteIo() = default;
+
     RemoteIo::~RemoteIo()
     {
         if (p_) {
             close();
-            delete p_;
         }
     }
 
@@ -1226,12 +1233,12 @@ namespace Exiv2 {
         return 0;
     }
 
-    long RemoteIo::write(const byte* /* unused data*/, long /* unused wcount*/)
+    size_t RemoteIo::write(const byte* /* unused data*/, size_t /* unused wcount*/)
     {
         return 0; // means failure
     }
 
-    long RemoteIo::write(BasicIo& src)
+    size_t RemoteIo::write(BasicIo& src)
     {
         assert(p_->isMalloced_);
         if (!src.isopen()) return 0;
@@ -1255,7 +1262,7 @@ namespace Exiv2 {
         while (blockIndex < nBlocks && !src.eof() && !findDiff) {
             size_t blockSize = p_->blocksMap_[blockIndex].getSize();
             bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-            size_t readCount = static_cast<size_t>(src.read(buf.data(), static_cast<long>(blockSize)));
+            size_t readCount = src.read(buf.data(), blockSize);
             byte* blockData = p_->blocksMap_[blockIndex].getData();
             for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                 if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
@@ -1277,7 +1284,7 @@ namespace Exiv2 {
                 findDiff = true;
             } else {
                 bool isFakeData = p_->blocksMap_[blockIndex].isKnown(); // fake data
-                size_t readCount = src.read(buf.data(), static_cast<long>(blockSize));
+                size_t readCount = src.read(buf.data(), blockSize);
                 byte* blockData = p_->blocksMap_[blockIndex].getData();
                 for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
                     if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) || (isFakeData && buf[readCount - i - 1] != 0)) {
@@ -1295,9 +1302,9 @@ namespace Exiv2 {
             auto data = static_cast<byte*>(std::malloc(dataSize));
             src.seek(left, BasicIo::beg);
             src.read(data, dataSize);
-            p_->writeRemote(data, static_cast<size_t>(dataSize), static_cast<long>(left),
-                            static_cast<long>(p_->size_ - right));
-            if (data) std::free(data);
+            p_->writeRemote(data, dataSize, static_cast<long>(left), static_cast<long>(p_->size_ - right));
+            if (data)
+                std::free(data);
         }
         return static_cast<long>(src.size());
     }
@@ -1307,24 +1314,25 @@ namespace Exiv2 {
         return 0;
     }
 
-    DataBuf RemoteIo::read(long rcount)
+    DataBuf RemoteIo::read(size_t rcount)
     {
         DataBuf buf(rcount);
-        long readCount = read(buf.data(), buf.size());
-        if (readCount < 0) {
+        size_t readCount = read(buf.data(), buf.size());
+        if (readCount == 0) {
             throw Error(kerInputDataReadFailed);
         }
         buf.resize(readCount);
         return buf;
     }
 
-    long RemoteIo::read(byte* buf, long rcount)
+    size_t RemoteIo::read(byte* buf, size_t rcount)
     {
         assert(p_->isMalloced_);
-        if (p_->eof_) return 0;
+        if (p_->eof_)
+            return 0;
         p_->totalRead_ += rcount;
 
-        size_t allow     = std::min(rcount, (long)( p_->size_ - p_->idx_));
+        size_t allow     = std::min(rcount, ( p_->size_ - p_->idx_));
         size_t lowBlock  =  p_->idx_         /p_->blockSize_;
         size_t highBlock = (p_->idx_ + allow)/p_->blockSize_;
 
@@ -1351,16 +1359,16 @@ namespace Exiv2 {
 
         std::free(fakeData);
 
-        p_->idx_ += static_cast<long>(totalRead);
-        p_->eof_ = (p_->idx_ == static_cast<long>(p_->size_));
+        p_->idx_ += totalRead;
+        p_->eof_ = (p_->idx_ == p_->size_);
 
-        return static_cast<long>(totalRead);
+        return totalRead;
     }
 
     int RemoteIo::getb()
     {
         assert(p_->isMalloced_);
-        if (p_->idx_ == static_cast<long>(p_->size_)) {
+        if (p_->idx_ == p_->size_) {
             p_->eof_ = true;
             return EOF;
         }
@@ -1395,10 +1403,10 @@ namespace Exiv2 {
 
         // #1198.  Don't return 1 when asked to seek past EOF.  Stay calm and set eof_
         // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
-        p_->idx_ = static_cast<long>(newIdx);
-        p_->eof_ = newIdx > static_cast<long>(p_->size_);
-        if (p_->idx_ > static_cast<long>(p_->size_))
-            p_->idx_ = static_cast<long>(p_->size_);
+        p_->idx_ = static_cast<size_t>(newIdx);
+        p_->eof_ = newIdx > static_cast<int64_t>(p_->size_);
+        if (p_->idx_ > p_->size_)
+            p_->idx_ = p_->size_;
         return 0;
     }
 
@@ -1432,7 +1440,7 @@ namespace Exiv2 {
 
     long RemoteIo::tell() const
     {
-        return p_->idx_;
+        return static_cast<long>(p_->idx_);
     }
 
     size_t RemoteIo::size() const
@@ -1588,11 +1596,10 @@ namespace Exiv2 {
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        auto encodeData = new char[encodeLength];
-        base64encode(data, size, encodeData, encodeLength);
+        std::vector<char> encodeData (encodeLength);
+        base64encode(data, size, encodeData.data(), encodeLength);
         // url encode
-        const std::string urlencodeData = urlencode(encodeData);
-        delete[] encodeData;
+        const std::string urlencodeData = urlencode(encodeData.data());
 
         std::stringstream ss;
         ss << "path="   << hostInfo_.Path << "&"
@@ -1613,9 +1620,10 @@ namespace Exiv2 {
             throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
     }
+
     HttpIo::HttpIo(const std::string& url, size_t blockSize)
     {
-        p_ = new HttpImpl(url, blockSize);
+        p_ = std::make_unique<HttpImpl>(url, blockSize);
     }
 
 #ifdef EXV_USE_CURL
@@ -1776,11 +1784,10 @@ namespace Exiv2 {
 
         // encode base64
         size_t encodeLength = ((size + 2) / 3) * 4 + 1;
-        auto encodeData = new char[encodeLength];
-        base64encode(data, size, encodeData, encodeLength);
+        std::vector<char> encodeData (encodeLength);
+        base64encode(data, size, encodeData.data(), encodeLength);
         // url encode
-        const std::string urlencodeData = urlencode(encodeData);
-        delete[] encodeData;
+        const std::string urlencodeData = urlencode(encodeData.data());
         std::stringstream ss;
         ss << "path="       << hostInfo.Path << "&"
            << "from="       << from          << "&"
@@ -1806,7 +1813,7 @@ namespace Exiv2 {
         curl_easy_cleanup(curl_);
     }
 
-    long CurlIo::write(const byte* data, long wcount)
+    size_t CurlIo::write(const byte* data, size_t wcount)
     {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(data, wcount);
@@ -1814,7 +1821,7 @@ namespace Exiv2 {
         throw Error(kerErrorMessage, "doesnt support write for this protocol.");
     }
 
-    long CurlIo::write(BasicIo& src)
+    size_t CurlIo::write(BasicIo& src)
     {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(src);
@@ -1824,7 +1831,7 @@ namespace Exiv2 {
 
     CurlIo::CurlIo(const std::string& url, size_t blockSize)
     {
-        p_ = new CurlImpl(url, blockSize);
+        p_ = std::make_unique<CurlImpl>(url, blockSize);
     }
 
 #endif
@@ -1843,14 +1850,14 @@ namespace Exiv2 {
             throw Error(kerCallFailed, path, strError(), "::stat");
         }
         DataBuf buf(st.st_size);
-        long len = file.read(buf.data(), buf.size());
+        const size_t len = file.read(buf.data(), buf.size());
         if (len != buf.size()) {
             throw Error(kerCallFailed, path, strError(), "FileIo::read");
         }
         return buf;
     }
 
-    long writeFile(const DataBuf& buf, const std::string& path)
+    size_t writeFile(const DataBuf& buf, const std::string& path)
     {
         FileIo file(path);
         if (file.open("wb") != 0) {

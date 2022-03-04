@@ -35,33 +35,21 @@
 #include "getopt.hpp"
 
 // + standard includes
-#include <string>
 #include <vector>
 #include <set>
 #include <iostream>
 #include <regex>
 
-#ifdef EXV_HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 // stdin handler includes
 #ifndef  _MSC_VER
 #include <cstdlib>
 #include <stdio.h>
-#include <string.h>
 #if defined(__CYGWIN__) || defined(__MINGW__)
 #include <windows.h>
 #else
 #include <sys/select.h>
 #endif
 #endif
-
-#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
-#include <fcntl.h>
-#include <io.h>
-#endif
-
 
 // *****************************************************************************
 // class definitions
@@ -160,9 +148,6 @@ public:
     //! Prevent copy-construction: not implemented.
     Params(const Params& rhs) = delete;
 
-    //! Destructor
-    static void cleanup();
-
     //! Enumerates print modes
     enum PrintMode {
         pmSummary,
@@ -256,44 +241,11 @@ public:
     Exiv2::DataBuf  stdinBuf;           //!< DataBuf with the binary bytes from stdin
 
 private:
-    //! Pointer to the global Params object.
-    static Params* instance_;
-    //! Initializer for year, month and day adjustment info.
-    static const YodAdjust emptyYodAdjust_[];
-
     bool first_;
 
+    Params();
+
 private:
-    /*!
-      @brief Default constructor. Note that optstring_ is initialized here.
-             The c'tor is private to force instantiation through instance().
-     */
-    Params() : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
-               help_(false),
-               version_(false),
-               verbose_(false),
-               force_(false),
-               binary_(false),
-               unknown_(true),
-               preserve_(false),
-               timestamp_(false),
-               timestampOnly_(false),
-               fileExistsPolicy_(askPolicy),
-               adjust_(false),
-               printMode_(pmSummary),
-               printItems_(0),
-               printTags_(Exiv2::mdNone),
-               action_(0),
-               target_(ctExif|ctIptc|ctComment|ctXmp),
-               adjustment_(0),
-               format_("%Y%m%d_%H%M%S"),
-               formatSet_(false),
-               first_(true)
-    {
-        yodAdjust_[yodYear]  = emptyYodAdjust_[yodYear];
-        yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
-        yodAdjust_[yodDay]   = emptyYodAdjust_[yodDay];
-    }
 
     //! @name Helpers
     //@{

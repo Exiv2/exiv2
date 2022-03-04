@@ -101,7 +101,7 @@ namespace Exiv2 {
             throw Error(kerNotACrwImage);
         }
         clearMetadata();
-        DataBuf file(static_cast<long>(io().size()));
+        DataBuf file(io().size());
         io_->read(file.data(), file.size());
 
         CrwParser::decode(this, io_->mmap(), static_cast<uint32_t>(io_->size()));
@@ -120,7 +120,7 @@ namespace Exiv2 {
             // Ensure that this is the correct image type
             if (isCrwType(*io_, false)) {
                 // Read the image into a memory buffer
-                buf.alloc(static_cast<long>(io_->size()));
+                buf.alloc(io_->size());
                 io_->read(buf.data(), buf.size());
                 if (io_->error() || io_->eof()) {
                     buf.reset();
@@ -129,7 +129,7 @@ namespace Exiv2 {
         }
 
         Blob blob;
-        CrwParser::encode(blob, buf.c_data(), buf.size(), this);
+        CrwParser::encode(blob, buf.c_data(), static_cast<uint32_t>(buf.size()), this);
 
         // Write new buffer to file
         auto tempIo = std::make_unique<MemIo>();

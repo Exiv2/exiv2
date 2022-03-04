@@ -169,8 +169,6 @@ namespace Exiv2 {
 
     CiffHeader::~CiffHeader()
     {
-        delete   pRootDir_;
-        delete[] pPadding_;
     }
 
     CiffDirectory::~CiffDirectory()
@@ -214,12 +212,12 @@ namespace Exiv2 {
             throw Error(kerNotACrwImage);
         }
 
-        delete[] pPadding_;
-        pPadding_ = new byte[offset_ - 14];
+        pPadding_.clear();
+        pPadding_.resize(offset_ - 14);
         padded_ = offset_ - 14;
-        std::memcpy(pPadding_, pData + 14, padded_);
+        std::copy_n(pData+14, padded_, pPadding_.begin());
 
-        pRootDir_ = new CiffDirectory;
+        pRootDir_ = std::make_unique<CiffDirectory>();
         pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
     } // CiffHeader::read
 
@@ -329,8 +327,9 @@ namespace Exiv2 {
     void CiffHeader::decode(Image& image) const
     {
         // Nothing to decode from the header itself, just add correct byte order
-        if (pRootDir_) pRootDir_->decode(image, byteOrder_);
-    } // CiffHeader::decode
+        if (pRootDir_)
+            pRootDir_->decode(image, byteOrder_);
+    }
 
     void CiffComponent::decode(Image& image, ByteOrder byteOrder) const
     {
@@ -369,9 +368,9 @@ namespace Exiv2 {
         append(blob, reinterpret_cast<const byte*>(signature_), 8);
         o += 8;
         // Pad as needed
-        if (pPadding_) {
+        if (pPadding_.empty() == false) {
             assert(padded_ == offset_ - o);
-            append(blob, pPadding_, padded_);
+            append(blob, pPadding_.data(), padded_);
         }
         else {
             for (uint32_t i = o; i < offset_; ++i) {
@@ -544,7 +543,7 @@ namespace Exiv2 {
     {
         storage_ = std::move(buf);
         pData_ = storage_.c_data();
-        size_  = storage_.size();
+        size_  = static_cast<uint32_t>(storage_.size());
         if (size_ > 8 && dataLocation() == directoryData) {
             tag_ &= 0x3fff;
         }
@@ -622,7 +621,7 @@ namespace Exiv2 {
         assert(rootDirectory == 0x0000);
         crwDirs.pop();
         if (!pRootDir_) {
-            pRootDir_ = new CiffDirectory;
+            pRootDir_ = std::make_unique<CiffDirectory>();
         }
         CiffComponent* child = pRootDir_->add(crwDirs, crwTagId);
         if (child) {
@@ -683,7 +682,7 @@ namespace Exiv2 {
             }
             if (cc_ == nullptr) {
                 // Tag doesn't exist yet, add it
-                m_ = UniquePtr(new CiffEntry(crwTagId, tag()));
+                m_ = std::make_unique<CiffEntry>(crwTagId, tag());
                 cc_ = m_.get();
                 add(std::move(m_));
             }
@@ -1020,7 +1019,6 @@ namespace Exiv2 {
             auto size = static_cast<uint32_t>(comment.size());
             if (cc && cc->size() > size) size = cc->size();
             DataBuf buf(size);
-            buf.clear();
             buf.copyBytes(0, comment.data(), comment.size());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
@@ -1028,7 +1026,6 @@ namespace Exiv2 {
             if (cc) {
                 // Just delete the value, do not remove the tag
                 DataBuf buf(cc->size());
-                buf.clear();
                 cc->setValue(std::move(buf));
             }
         }
@@ -1085,7 +1082,7 @@ namespace Exiv2 {
         }
         assert(ifdId != ifdIdNotSet);
         DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
-        if (buf.size() == 0) {
+        if (buf.empty()) {
             // Try the undecoded tag
             encodeBasic(image, pCrwMapping, pHead);
         }
@@ -1118,7 +1115,6 @@ namespace Exiv2 {
         }
         if (t != 0) {
             DataBuf buf(12);
-            buf.clear();
             buf.write_uint32(0, static_cast<uint32_t>(t), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
         }
@@ -1153,7 +1149,6 @@ namespace Exiv2 {
               size = cc->size();
             }
             DataBuf buf(size);
-            buf.clear();
             if (cc) buf.copyBytes(8, cc->pData() + 8, cc->size() - 8);
             if (edX != edEnd && edX->size() == 4) {
                 edX->copy(buf.data(), pHead->byteOrder());
@@ -1198,7 +1193,6 @@ namespace Exiv2 {
     {
         const uint16_t size = 1024;
         DataBuf buf(size);
-        buf.clear();
 
         uint16_t len = 0;
 

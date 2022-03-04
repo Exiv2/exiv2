@@ -86,14 +86,15 @@ namespace Exiv2 {
         // not supported
         throw(Error(kerInvalidSettingForImage, "Image comment", "RAF"));
     }
-    
+
     void RafImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
         if (io_->open() != 0) {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         // Ensure this is the correct image type
         if (!isRafType(*io_, true)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            if (io_->error() || io_->eof())
+                throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "RAF");
         }
 
@@ -159,7 +160,7 @@ namespace Exiv2 {
 
             address = io_->tell();
             DataBuf   unknown(20);
-            io_->read(unknown.data(),unknown.size());
+            io_->read(unknown.data(), unknown.size());
             {
                 out << Internal::indent(depth)
                     << Internal::stringFormat(format,address, 20)
@@ -286,21 +287,26 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading RAF file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+        if (io_->open() != 0)
+            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isRafType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            if (io_->error() || io_->eof())
+                throw Error(kerFailedToReadImageData);
             throw Error(kerNotAnImage, "RAF");
         }
 
         clearMetadata();
 
-        if (io_->seek(84,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
+        if (io_->seek(84,BasicIo::beg) != 0)
+            throw Error(kerFailedToReadImageData);
         byte jpg_img_offset [4];
-        if (io_->read(jpg_img_offset, 4) != 4) throw Error(kerFailedToReadImageData);
+        if (io_->read(jpg_img_offset, 4) != 4)
+            throw Error(kerFailedToReadImageData);
         byte jpg_img_length [4];
-        if (io_->read(jpg_img_length, 4) != 4) throw Error(kerFailedToReadImageData);
+        if (io_->read(jpg_img_length, 4) != 4)
+            throw Error(kerFailedToReadImageData);
         uint32_t jpg_img_off_u32 = Exiv2::getULong(jpg_img_offset, bigEndian);
         uint32_t jpg_img_len_u32 = Exiv2::getULong(jpg_img_length, bigEndian);
 
@@ -319,9 +325,12 @@ namespace Exiv2 {
         enforce(jpg_img_len >= 12, kerCorruptedMetadata);
 
         DataBuf buf(jpg_img_len - 12);
-        if (io_->seek(jpg_img_off + 12,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
+        if (io_->seek(jpg_img_off + 12,BasicIo::beg) != 0)
+            throw Error(kerFailedToReadImageData);
+
         io_->read(buf.data(), buf.size());
-        if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+        if (io_->error() || io_->eof())
+            throw Error(kerFailedToReadImageData);
 
         io_->seek(0,BasicIo::beg); // rewind
 
@@ -329,7 +338,7 @@ namespace Exiv2 {
                                           iptcData_,
                                           xmpData_,
                                           buf.c_data(),
-                                          buf.size());
+                                          static_cast<uint32_t>(buf.size()));
 
         exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
         exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
@@ -338,22 +347,27 @@ namespace Exiv2 {
 
         // parse the tiff
         byte     readBuff[4];
-        if (io_->seek(100, BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
-        if (io_->read(readBuff, 4) != 4      ) throw Error(kerFailedToReadImageData);
+        if (io_->seek(100, BasicIo::beg) != 0)
+            throw Error(kerFailedToReadImageData);
+        if (io_->read(readBuff, 4) != 4      )
+            throw Error(kerFailedToReadImageData);
         uint32_t tiffOffset = Exiv2::getULong(readBuff, bigEndian);
 
-        if (io_->read(readBuff, 4) != 4) throw Error(kerFailedToReadImageData);
+        if (io_->read(readBuff, 4) != 4)
+            throw Error(kerFailedToReadImageData);
         uint32_t tiffLength = Exiv2::getULong(readBuff, bigEndian);
 
         // sanity check.  Does tiff lie inside the file?
         enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), kerCorruptedMetadata);
 
-        if (io_->seek(tiffOffset, BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
+        if (io_->seek(tiffOffset, BasicIo::beg) != 0)
+            throw Error(kerFailedToReadImageData);
 
         // Check if this really is a tiff and then call the tiff parser.
         // Check is needed because some older models just embed a raw bitstream.
-        // For those files we skip the parsing step. 
-        if (io_->read(readBuff, 4) != 4) { throw Error(kerFailedToReadImageData); }
+        // For those files we skip the parsing step.
+        if (io_->read(readBuff, 4) != 4) {
+            throw Error(kerFailedToReadImageData); }
         io_->seek(-4, BasicIo::cur);
         if (memcmp(readBuff, "\x49\x49\x2A\x00", 4) == 0 ||
             memcmp(readBuff, "\x4D\x4D\x00\x2A", 4) == 0)
@@ -367,7 +381,7 @@ namespace Exiv2 {
                                    iptcData_,
                                    xmpData_,
                                    tiff.c_data(),
-                                   tiff.size());
+                                   static_cast<uint32_t>(tiff.size()));
             }
         }
     } // RafImage::readMetadata

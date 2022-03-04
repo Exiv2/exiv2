@@ -561,7 +561,7 @@ namespace Exiv2 {
               matches that of the data buffer.
           @throw Error If the memory contains data of an unknown image type.
          */
-        static Image::UniquePtr open(const byte* data, long size);
+        static Image::UniquePtr open(const byte* data, size_t size);
         /*!
           @brief Create an Image subclass of the appropriate type by reading
               the provided BasicIo instance. %Image type is derived from the
@@ -630,7 +630,7 @@ namespace Exiv2 {
           @param size Number of bytes pointed to by \em data.
           @return %Image type or Image::none if the type is not recognized.
          */
-        static ImageType getType(const byte* data, long size);
+        static ImageType getType(const byte* data, size_t size);
         /*!
           @brief Returns the image type of data provided by a BasicIo instance.
               The passed in \em io instance is (re)opened by this method.
@@ -684,7 +684,7 @@ namespace Exiv2 {
 // template, inline and free functions
 
     //! Append \em len bytes pointed to by \em buf to \em blob.
-    EXIV2API void append(Exiv2::Blob& blob, const byte* buf, uint32_t len);
+    EXIV2API void append(Exiv2::Blob& blob, const byte* buf, size_t len);
 
 }                                       // namespace Exiv2
 

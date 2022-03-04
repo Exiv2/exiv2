@@ -49,7 +49,7 @@ namespace {
     struct TypeInfoTable {
         Exiv2::TypeId typeId_;                  //!< Type id
         const char* name_;                      //!< Name of the type
-        long size_;                             //!< Bytes per data entry
+        size_t size_;                           //!< Bytes per data entry
         //! Comparison operator for \em typeId
         bool operator==(Exiv2::TypeId typeId) const
         {
@@ -111,164 +111,124 @@ namespace Exiv2 {
         return tit->typeId_;
     }
 
-    long TypeInfo::typeSize(TypeId typeId)
+    size_t TypeInfo::typeSize(TypeId typeId)
     {
         const TypeInfoTable* tit = find(typeInfoTable, typeId);
-        if (!tit) return 0;
+        if (!tit)
+            return 0;
         return tit->size_;
     }
 
-    DataBuf::DataBuf(DataBuf&& rhs)
-        : pData_(rhs.pData_), size_(rhs.size_)
-    {
-        rhs.pData_ = nullptr;
-        rhs.size_ = 0;
-    }
-
-    DataBuf::~DataBuf()
-    { delete[] pData_; }
-
-    DataBuf::DataBuf() : pData_(nullptr), size_(0)
+    DataBuf::DataBuf(size_t size) : pData_(size)
     {}
 
-    DataBuf::DataBuf(long size) : pData_(new byte[size]()), size_(size)
-    {}
-
-    DataBuf::DataBuf(const byte* pData, long size) : pData_(nullptr), size_(0)
+    DataBuf::DataBuf(const byte* pData, size_t size) : pData_(size)
     {
-        if (size > 0) {
-            pData_ = new byte[size];
-            std::memcpy(pData_, pData, size);
-            size_ = size;
-        }
+        std::copy_n(pData, size, pData_.begin());
     }
 
-    DataBuf::DataBuf(const DataBuf& rhs)
-        : DataBuf(rhs.pData_, rhs.size_)
-    {}
-
-    DataBuf& DataBuf::operator=(DataBuf&& rhs)
+    void DataBuf::alloc(size_t size)
     {
-        if (this == &rhs) return *this;
-        reset();
-        std::swap(pData_, rhs.pData_);
-        std::swap(size_, rhs.size_);
-        return *this;
+        pData_.resize(size);
     }
 
-    void DataBuf::alloc(long size)
+    void DataBuf::resize(size_t size)
     {
-        if (size > size_) {
-            delete[] pData_;
-            pData_ = new byte[size];
-            size_ = size;
-        }
-    }
-
-    void DataBuf::resize(long size)
-    {
-        if (size > size_) {
-            byte* newbuf = new byte[size];
-            if (size_ > 0) {
-                memcpy(newbuf, pData_, size_);
-            }
-            delete[] pData_;
-            pData_ = newbuf;
-        }
-        size_ = size;
+        pData_.resize(size);
     }
 
     void DataBuf::reset()
     {
-        delete[] pData_;
-        pData_ = nullptr;
-        size_ = 0;
-    }
-
-    void DataBuf::clear() {
-        memset(pData_, 0, size_);
+        pData_.clear();
     }
 
     uint8_t Exiv2::DataBuf::read_uint8(size_t offset) const {
-        if (offset >= static_cast<size_t>(size_)) {
+        if (offset >= pData_.size()) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint8");
         }
         return pData_[offset];
     }
 
     void Exiv2::DataBuf::write_uint8(size_t offset, uint8_t x) {
-        if (offset >= static_cast<size_t>(size_)) {
+        if (offset >= pData_.size()) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint8");
         }
         pData_[offset] = x;
     }
 
     uint16_t Exiv2::DataBuf::read_uint16(size_t offset, ByteOrder byteOrder) const {
-        if (size_ < 2 || offset > static_cast<size_t>(size_ - 2)) {
+        if (pData_.size() < 2 || offset > (pData_.size() - 2)) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint16");
         }
         return getUShort(&pData_[offset], byteOrder);
     }
 
     void Exiv2::DataBuf::write_uint16(size_t offset, uint16_t x, ByteOrder byteOrder) {
-        if (size_ < 2 || offset > static_cast<size_t>(size_ - 2)) {
+        if (pData_.size() < 2 || offset > (pData_.size() - 2)) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint16");
         }
         us2Data(&pData_[offset], x, byteOrder);
     }
 
     uint32_t Exiv2::DataBuf::read_uint32(size_t offset, ByteOrder byteOrder) const {
-        if (size_ < 4 || offset > static_cast<size_t>(size_ - 4)) {
+        if (pData_.size() < 4 || offset > (pData_.size() - 4)) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint32");
         }
         return getULong(&pData_[offset], byteOrder);
     }
 
     void Exiv2::DataBuf::write_uint32(size_t offset, uint32_t x, ByteOrder byteOrder) {
-        if (size_ < 4 || offset > static_cast<size_t>(size_ - 4)) {
+        if (pData_.size() < 4 || offset > (pData_.size() - 4)) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint32");
         }
         ul2Data(&pData_[offset], x, byteOrder);
     }
 
     uint64_t Exiv2::DataBuf::read_uint64(size_t offset, ByteOrder byteOrder) const {
-        if (size_ < 8 || offset > static_cast<size_t>(size_ - 8)) {
+        if (pData_.size() < 8 || offset > (pData_.size() - 8)) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint64");
         }
         return getULongLong(&pData_[offset], byteOrder);
     }
 
     void Exiv2::DataBuf::write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder) {
-        if (size_ < 8 || offset > static_cast<size_t>(size_ - 8)) {
+        if (pData_.size() < 8 || offset > (pData_.size() - 8)) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint64");
         }
         ull2Data(&pData_[offset], x, byteOrder);
     }
 
     void Exiv2::DataBuf::copyBytes(size_t offset, const void* buf, size_t bufsize) {
-        if (static_cast<size_t>(size_) < bufsize || offset > size_ - bufsize) {
+        if (pData_.size() < bufsize || offset > pData_.size() - bufsize) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::copyBytes");
+        } if (bufsize > 0) {
+            memcpy(&pData_[offset], buf, bufsize);
         }
-        memcpy(&pData_[offset], buf, bufsize);
     }
 
     int Exiv2::DataBuf::cmpBytes(size_t offset, const void* buf, size_t bufsize) const {
-        if (static_cast<size_t>(size_) < bufsize || offset > size_ - bufsize) {
+        if (pData_.size() < bufsize || offset > pData_.size() - bufsize) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::cmpBytes");
         }
         return memcmp(&pData_[offset], buf, bufsize);
     }
 
     byte* Exiv2::DataBuf::data(size_t offset) {
-        if (static_cast<size_t>(size_) < offset) {
+        /// \todo this first check should be for <= offset
+        if (pData_.size() < offset) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
+        } else if (pData_.empty() || pData_.size() == offset) {
+            return nullptr;
         }
         return &pData_[offset];
     }
 
     const byte* Exiv2::DataBuf::c_data(size_t offset) const {
-        if (static_cast<size_t>(size_) < offset) {
+        /// \todo this first check should be for <= offset
+        if (pData_.size() < offset) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
+        } else if (pData_.empty() || pData_.size() == offset) {
+            return nullptr;
         }
         return &pData_[offset];
     }
@@ -283,7 +243,7 @@ namespace Exiv2 {
     static void checkDataBufBounds(const DataBuf& buf, size_t end) {
         enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
                                        "end of slice too large to be compared with DataBuf bounds.");
-        enforce<std::out_of_range>(static_cast<long>(end) <= buf.size(), "Invalid slice bounds specified");
+        enforce<std::out_of_range>(end <= buf.size(), "Invalid slice bounds specified");
     }
 
     Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end)

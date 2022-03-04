@@ -118,10 +118,10 @@ namespace Exiv2
                              std::ostream &out,
                              bool bTrace,
                              uint8_t version,
-                             uint32_t width_offset,
-                             uint32_t height_offset,
-                             uint32_t size_offset,
-                             uint32_t relative_position);
+                             size_t width_offset,
+                             size_t height_offset,
+                             size_t size_offset,
+                             size_t relative_position);
         //@}
 
         //! @name Manipulators
@@ -138,7 +138,7 @@ namespace Exiv2
         uint32_t pixelWidth() const override;
         uint32_t pixelHeight() const override;
         //@}
-        
+
         Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
     private:

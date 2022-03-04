@@ -4186,19 +4186,20 @@ namespace Exiv2 {
         prefix_ = prefix;
     }
 
-    XmpKey::XmpKey(const std::string& key) : p_(new Impl)
+    XmpKey::XmpKey(const std::string& key) : p_(std::make_unique<Impl>())
     {
         p_->decomposeKey(key);
     }
 
-    XmpKey::XmpKey(const std::string& prefix, const std::string& property) : p_(new Impl(prefix, property))
+    XmpKey::XmpKey(const std::string& prefix, const std::string& property)
+        : p_(std::make_unique<Impl>(prefix, property))
     {
     }
 
     XmpKey::~XmpKey() = default;
 
     XmpKey::XmpKey(const XmpKey& rhs)
-        : p_(new Impl(*rhs.p_))
+        : p_(std::make_unique<Impl>(*rhs.p_))
     {
     }
 

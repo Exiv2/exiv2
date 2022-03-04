@@ -206,7 +206,7 @@ namespace Exiv2 {
         //! Return the size in bytes of one component of this type
         virtual long typeSize() const =0;
         //! Return the number of components in the value
-        virtual long count() const =0;
+        virtual size_t count() const =0;
         //! Return the size of the value in bytes
         virtual long size() const =0;
         //! Return the value as a string.

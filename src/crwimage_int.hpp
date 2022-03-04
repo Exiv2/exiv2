@@ -493,10 +493,10 @@ namespace Exiv2 {
         // DATA
         static const char signature_[];   //!< Canon CRW signature "HEAPCCDR"
 
-        CiffDirectory*    pRootDir_ = nullptr;        //!< Pointer to the root directory
+        std::unique_ptr<CiffDirectory> pRootDir_;     //!< Pointer to the root directory
         ByteOrder         byteOrder_ = littleEndian;  //!< Applicable byte order
         uint32_t          offset_ = 0;                //!< Offset to the start of the root dir
-        byte*             pPadding_ = nullptr;        //!< Pointer to the (unknown) remainder
+        std::vector<byte> pPadding_;                  //!< the (unknown) remainder
         uint32_t          padded_ = 0;                //!< Number of padding-bytes
 
     }; // class CiffHeader

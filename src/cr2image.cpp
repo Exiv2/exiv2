@@ -177,7 +177,7 @@ namespace Exiv2 {
             ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
         }
 
-        std::unique_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));
+        Cr2Header header(byteOrder);
         OffsetWriter offsetWriter;
         offsetWriter.setOrigin(OffsetWriter::cr2RawIfdOffset, Cr2Header::offset2addr(), byteOrder);
         return TiffParserWorker::encode(io,
@@ -188,7 +188,7 @@ namespace Exiv2 {
                                         xmpData,
                                         Tag::root,
                                         TiffMapping::findEncoder,
-                                        header.get(),
+                                        &header,
                                         &offsetWriter);
     }
 

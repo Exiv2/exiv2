@@ -152,7 +152,7 @@ namespace Exiv2 {
         //! Return the type id for a type name
         static TypeId typeId(const std::string& typeName);
         //! Return the size in bytes of one element of this type
-        static long typeSize(TypeId typeId);
+        static size_t typeSize(TypeId typeId);
 
     };
 
@@ -166,56 +166,39 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        DataBuf();
+        DataBuf() = default;
         //! Constructor with an initial buffer size
-        explicit DataBuf(long size);
+        explicit DataBuf(size_t size);
         //! Constructor, copies an existing buffer
-        DataBuf(const byte* pData, long size);
-        /*!
-          @brief Copy constructor. Copies an existing DataBuf.
-         */
-        DataBuf(const DataBuf& rhs);
-        /*!
-          @brief Move constructor. Transfers the buffer to the newly created
-                 object similar to std::unique_ptr, i.e., the original object is
-                 modified.
-         */
-        DataBuf(DataBuf&& rhs);
-        //! Destructor, deletes the allocated buffer
-        ~DataBuf();
+        DataBuf(const byte* pData, size_t size);
         //@}
 
         //! @name Manipulators
         //@{
         /*!
-          @brief Assignment operator. Transfers the buffer and releases the
-                 buffer at the original object similar to std::unique_ptr, i.e.,
-                 the original object is modified.
-         */
-        DataBuf& operator=(DataBuf&& rhs);
-
-        // No copy assignment.
-        DataBuf& operator=(const DataBuf&) = delete;
-
-        /*!
           @brief Allocate a data buffer of at least the given size. Note that if
                  the requested \em size is less than the current buffer size, no
                  new memory is allocated and the buffer size doesn't change.
          */
-        void alloc(long size);
+        void alloc(size_t size);
         /*!
           @brief Resize the buffer. Existing data is preserved (like std::realloc()).
          */
-        void resize(long size);
+        void resize(size_t size);
 
         //! Reset value
         void reset();
         //@}
 
-        //! Fill the buffer with zeros.
-        void clear();
+        using iterator = std::vector<byte>::iterator;
+        using const_iterator = std::vector<byte>::const_iterator;
 
-        long size() const { return size_; }
+        inline iterator begin() noexcept { return pData_.begin(); }
+        inline const_iterator cbegin() const noexcept { return pData_.cbegin(); }
+        inline iterator end() noexcept { return pData_.end(); }
+        inline const_iterator cend() const noexcept { return pData_.end(); }
+
+        size_t size() const { return pData_.size(); }
 
         uint8_t read_uint8(size_t offset) const;
         void write_uint8(size_t offset, uint8_t x);
@@ -244,13 +227,11 @@ namespace Exiv2 {
         //! Returns a (read-only) C-style string pointer.
         const char* c_str(size_t offset = 0) const;
 
+        bool empty() const {return pData_.empty(); }
+
       private:
-        // DATA
-        //! Pointer to the buffer, 0 if none has been allocated
-        byte* pData_;
-        //! The current size of the buffer
-        long size_;
-    }; // class DataBuf
+        std::vector<byte> pData_;
+    };
 
     /*!
      * @brief Create a new Slice from a DataBuf given the bounds.

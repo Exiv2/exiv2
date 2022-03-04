@@ -65,8 +65,10 @@ int main(int argc, char* const argv[])
         if ( argc >= 5 ) {
             int blocksize = argc==6 ? atoi(ba) : 10000;
             // ensure blocksize is sane
-            if (blocksize>1024*1024) blocksize=10000;
-            Exiv2::byte* bytes = blocksize > 0 ? new Exiv2::byte[blocksize] : nullptr;
+            if (blocksize>1024*1024)
+                blocksize=10000;
+
+            std::vector<Exiv2::byte> bytes (blocksize);
 
             // copy fileIn from a remote location.
             BasicIo::UniquePtr io = Exiv2::ImageFactory::createIo(fr);
@@ -78,11 +80,11 @@ int main(int argc, char* const argv[])
                 Error(Exiv2::kerFileOpenFailed, output.path() , "w+b", strError());
             }
             size_t    l = 0;
-            if ( bytes ) {
-                int r ;
-                while ( (r=io->read(bytes,blocksize)) > 0  ) {
+            if ( !bytes.empty() ) {
+                size_t r ;
+                while ( (r=io->read(bytes.data(),blocksize)) > 0  ) {
                     l += r;
-                    output.write(bytes,r) ;
+                    output.write(bytes.data(),r) ;
                 }
             } else {
                 // read/write byte-wise (#1029)
@@ -90,7 +92,6 @@ int main(int argc, char* const argv[])
                     output.putb(io->getb()) ;
                 }
             }
-            delete[] bytes;
             output.close();
         }
 
@@ -142,7 +143,7 @@ int main(int argc, char* const argv[])
             throw Error(Exiv2::kerFileOpenFailed, f2, "w+b", strError());
         }
 
-        long readCount = 0;
+        size_t readCount = 0;
         byte buf[32];
         while ((readCount=fileOut1.read(buf, sizeof(buf)))) {
             if (memIo2.write(buf, readCount) != readCount) {
@@ -179,7 +180,7 @@ int WriteReadSeek(BasicIo &io)
         throw Error(Exiv2::kerDataSourceOpenFailed, io.path(), strError());
     }
     IoCloser closer(io);
-    if (static_cast<size_t>(io.write(reinterpret_cast<const byte*>(tester1), static_cast<long>(size1))) != size1) {
+    if (io.write(reinterpret_cast<const byte*>(tester1), size1) != size1) {
         std::cerr << ": WRS initial write failed\n";
         return 2;
     }
@@ -232,7 +233,7 @@ int WriteReadSeek(BasicIo &io)
     }
 
     io.seek(insert, BasicIo::beg);
-    if (static_cast<size_t>(io.write(reinterpret_cast<const byte*>(tester2), static_cast<long>(size2))) != size2) {
+    if (io.write(reinterpret_cast<const byte*>(tester2), size2) != size2) {
         std::cerr << ": WRS bad write 1\n";
         return 9;
     }
@@ -242,7 +243,7 @@ int WriteReadSeek(BasicIo &io)
         throw Error(Exiv2::kerDataSourceOpenFailed, io.path(), strError());
     }
     std::memset(buf, -1, sizeof(buf));
-    if (static_cast<size_t>(io.read(buf, sizeof(buf))) != insert + size2) {
+    if (io.read(buf, sizeof(buf)) != insert + size2) {
         std::cerr << ": WRS something went wrong\n";
         return 10;
     }

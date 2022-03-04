@@ -411,7 +411,8 @@ namespace Exiv2 {
                         WEBP_TAG_SIZE)
                         throw Error(kerImageWriteFailed);
                     ul2Data(data, static_cast<uint32_t>(iccProfile_.size()), littleEndian);
-                    if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
+                    if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
+                        throw Error(kerImageWriteFailed);
                     if (outIo.write(iccProfile_.c_data(), iccProfile_.size()) != iccProfile_.size()) {
                         throw Error(kerImageWriteFailed);
                     }
@@ -444,7 +445,7 @@ namespace Exiv2 {
             us2Data(data, static_cast<uint16_t>(blob.size()) + 8, bigEndian);
             ul2Data(data, static_cast<uint32_t>(blob.size()), littleEndian);
             if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            if (outIo.write(&blob[0], static_cast<long>(blob.size())) != static_cast<long>(blob.size())) {
+            if (outIo.write(&blob[0], blob.size()) != blob.size()) {
                 throw Error(kerImageWriteFailed);
             }
             if (outIo.tell() % 2) {
@@ -457,8 +458,7 @@ namespace Exiv2 {
                 throw Error(kerImageWriteFailed);
             ul2Data(data, static_cast<uint32_t>(xmpPacket().size()), littleEndian);
             if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            if (outIo.write(reinterpret_cast<const byte*>(xmp.data()), static_cast<long>(xmp.size())) !=
-                static_cast<long>(xmp.size())) {
+            if (outIo.write(reinterpret_cast<const byte*>(xmp.data()), xmp.size()) != xmp.size()) {
                 throw Error(kerImageWriteFailed);
             }
             if (outIo.tell() % 2) {
@@ -526,7 +526,7 @@ namespace Exiv2 {
 
                 if ( equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF) && option==kpsRecursive ) {
                     // create memio object with the payload, then print the structure
-                    MemIo p (payload.c_data(),payload.size());
+                    MemIo p (payload.c_data(), payload.size());
                     printTiffStructure(p,out,option,depth);
                 }
 
@@ -561,13 +561,11 @@ namespace Exiv2 {
 
         io_->readOrThrow(data, WEBP_TAG_SIZE * 3, Exiv2::kerCorruptedMetadata);
 
-        const uint32_t filesize_u32 =
-            Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
+        const uint32_t filesize_u32 = Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
         enforce(filesize_u32 <= io_->size(), Exiv2::kerCorruptedMetadata);
 
         // Check that `filesize_u32` is safe to cast to `long`.
-        enforce(filesize_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
-                Exiv2::kerCorruptedMetadata);
+        enforce(filesize_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()), Exiv2::kerCorruptedMetadata);
 
         WebPImage::decodeChunks(static_cast<long>(filesize_u32));
 
@@ -591,8 +589,7 @@ namespace Exiv2 {
             const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
             // Check that `size_u32` is safe to cast to `long`.
-            enforce(static_cast<uint64_t>(size_u32) <= static_cast<unsigned long>(std::numeric_limits<long>::max()),
-                    Exiv2::kerCorruptedMetadata);
+            enforce(size_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()), Exiv2::kerCorruptedMetadata);
             const long size = static_cast<long>(size_u32);
 
             // Check that `size` is within bounds.
@@ -684,26 +681,26 @@ namespace Exiv2 {
                 byte  exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
                 byte  exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
-                long  offset = 0;
+                size_t  offset = 0;
                 bool  s_header = false;
                 bool  le_header = false;
                 bool  be_header = false;
-                long pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 4);
+                long pos = getHeaderOffset(payload.c_data(), static_cast<long>(payload.size()), reinterpret_cast<byte*>(&exifLongHeader), 4);
 
                 if (pos == -1) {
-                    pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 6);
+                    pos = getHeaderOffset(payload.c_data(), static_cast<long>(payload.size()), reinterpret_cast<byte*>(&exifLongHeader), 6);
                     if (pos != -1) {
                         s_header = true;
                     }
                 }
                 if (pos == -1) {
-                    pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifTiffLEHeader), 3);
+                    pos = getHeaderOffset(payload.c_data(), static_cast<long>(payload.size()), reinterpret_cast<byte*>(&exifTiffLEHeader), 3);
                     if (pos != -1) {
                         le_header = true;
                     }
                 }
                 if (pos == -1) {
-                    pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifTiffBEHeader), 4);
+                    pos = getHeaderOffset(payload.c_data(), static_cast<long>(payload.size()), reinterpret_cast<byte*>(&exifTiffBEHeader), 4);
                     if (pos != -1) {
                         be_header = true;
                     }
@@ -716,7 +713,7 @@ namespace Exiv2 {
                     offset += 12;
                 }
 
-                const long sizePayload = Safe::add(payload.size(), offset);
+                const size_t sizePayload = Safe::add(payload.size(), offset);
                 DataBuf rawExifData(sizePayload);
 
                 if (s_header) {
@@ -871,7 +868,7 @@ namespace Exiv2 {
         /* Handle inject an icc profile right after VP8X chunk */
         if (has_icc) {
             byte size_buff[WEBP_TAG_SIZE];
-            ul2Data(size_buff, iccProfile_.size(), littleEndian);
+            ul2Data(size_buff, static_cast<uint32_t>(iccProfile_.size()), littleEndian);
             if (iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
                 throw Error(kerImageWriteFailed);
             if (iIo.write(size_buff, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)

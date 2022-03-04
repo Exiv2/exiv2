@@ -427,8 +427,7 @@ namespace Exiv2 {
             byte const* record = nullptr;
             uint32_t sizeHdr = 0;
             uint32_t sizeData = 0;
-            if (0 != Photoshop::locateIptcIrb(pData, size,
-                                              &record, &sizeHdr, &sizeData)) {
+            if (0 != Photoshop::locateIptcIrb(pData, size, &record, &sizeHdr, &sizeData)) {
                 return;
             }
             if (0 == IptcParser::decode(iptcData_, record + sizeHdr, sizeData)) {
@@ -456,12 +455,13 @@ namespace Exiv2 {
         // create vector of signedShorts from unsignedShorts in Exif.Canon.AFInfo
         std::vector<int16_t>  ints;
         std::vector<uint16_t> uint;
-        for (long i = 0; i < object->pValue()->count(); i++) {
+        for (size_t i = 0; i < object->pValue()->count(); i++) {
             ints.push_back(static_cast<int16_t>(object->pValue()->toInt64(i)));
             uint.push_back(static_cast<uint16_t>(object->pValue()->toInt64(i)));
         }
         // Check this is AFInfo2 (ints[0] = bytes in object)
-        if ( ints.at(0) != object->pValue()->count()*2 ) return ;
+        if ( ints.at(0) != static_cast<int16_t>(object->pValue()->count())*2 )
+            return ;
 
         std::string familyGroup(std::string("Exif.") + groupName(object->group()) + ".");
 
@@ -624,13 +624,12 @@ namespace Exiv2 {
             if (rawIptc.size() % 4 != 0) {
                 // Pad the last unsignedLong value with 0s
                 buf.alloc((rawIptc.size() / 4) * 4 + 4);
-                buf.clear();
                 buf.copyBytes(0, rawIptc.c_data(), rawIptc.size());
             }
             else {
                 buf = std::move(rawIptc); // Note: This resets rawIptc
             }
-            value->read(buf.data(), buf.size(), byteOrder_);
+            value->read(buf.data(), static_cast<long>(buf.size()), byteOrder_);
             Exifdatum iptcDatum(iptcNaaKey, value.get());
             exifData_.add(iptcDatum);
             pos = exifData_.findKey(irbKey); // needed after add()
@@ -644,7 +643,7 @@ namespace Exiv2 {
             exifData_.erase(pos);
             if (irbBuf.size() != 0) {
                 auto value = Value::create(unsignedByte);
-                value->read(irbBuf.data(), irbBuf.size(), invalidByteOrder);
+                value->read(irbBuf.data(), static_cast<long>(irbBuf.size()), invalidByteOrder);
                 Exifdatum iptcDatum(irbKey, value.get());
                 exifData_.add(iptcDatum);
             }
@@ -822,8 +821,10 @@ namespace Exiv2 {
         if (object->cfg() == nullptr || !object->decoded())
             return;
         int32_t size = object->TiffEntryBase::doSize();
-        if (size == 0) return;
-        if (!object->initialize(pRoot_)) return;
+        if (size == 0)
+            return;
+        if (!object->initialize(pRoot_))
+            return;
 
         // Re-encrypt buffer if necessary
         CryptFct cryptFct = object->cfg()->cryptFct_;
@@ -835,7 +836,7 @@ namespace Exiv2 {
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
             if (buf.size() > 0) {
                 pData = buf.c_data();
-                size = buf.size();
+                size = static_cast<int32_t>(buf.size());
             }
             if (!object->updOrigDataBuf(pData, size)) {
                 setDirty();
@@ -969,7 +970,7 @@ namespace Exiv2 {
     {
         encodeOffsetEntry(object, datum);
 
-        uint32_t sizeDataArea = object->pValue()->sizeDataArea();
+        size_t sizeDataArea = object->pValue()->sizeDataArea();
 
         if (sizeDataArea > 0 && writeMethod() == wmNonIntrusive) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -992,13 +993,13 @@ namespace Exiv2 {
                           << " not found. Writing only one strip.\n";
 #endif
                 object->strips_.clear();
-                object->strips_.emplace_back(zero, sizeDataArea);
+                object->strips_.emplace_back(zero, static_cast<uint32_t>(sizeDataArea));
             }
             else {
                 uint32_t sizeTotal = 0;
                 object->strips_.clear();
-                for (long i = 0; i < pos->count(); ++i) {
-                    uint32_t len = pos->toUint32(i);
+                for (size_t i = 0; i < pos->count(); ++i) {
+                    uint32_t len = pos->toUint32(static_cast<long>(i));
                     object->strips_.emplace_back(zero, len);
                     sizeTotal += len;
                 }
@@ -1510,7 +1511,7 @@ namespace Exiv2 {
         p += 2;
         TiffType tiffType = getUShort(p, byteOrder());
         TypeId typeId = toTypeId(tiffType, object->tag(), object->group());
-        long typeSize = TypeInfo::typeSize(typeId);
+        size_t typeSize = TypeInfo::typeSize(typeId);
         if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(object->group())
@@ -1539,7 +1540,7 @@ namespace Exiv2 {
         if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
             throw Error(kerArithmeticOverflow);
         }
-        uint32_t size = typeSize * count;
+        uint32_t size = static_cast<uint32_t>(typeSize * count);
         uint32_t offset = getLong(p, byteOrder());
         byte* pData = p;
         if (   size > 4

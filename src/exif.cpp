@@ -181,7 +181,7 @@ namespace Exiv2 {
     template<typename T>
     Exiv2::Exifdatum& setValue(Exiv2::Exifdatum& exifDatum, const T& value)
     {
-        auto v = std::unique_ptr<Exiv2::ValueType<T> >(new Exiv2::ValueType<T>);
+        auto v = std::make_unique<Exiv2::ValueType<T>>();
         v->value_.push_back(value);
         exifDatum.value_ = std::move(v);
         return exifDatum;
@@ -315,7 +315,7 @@ namespace Exiv2 {
         return value_->read(value);
     }
 
-    int Exifdatum::setDataArea(const byte* buf, long len)
+    int Exifdatum::setDataArea(const byte* buf, size_t len)
     {
         return value_.get() == nullptr ? -1 : value_->setDataArea(buf, len);
     }
@@ -382,17 +382,17 @@ namespace Exiv2 {
 
     long Exifdatum::typeSize() const
     {
-        return TypeInfo::typeSize(typeId());
+        return static_cast<long>(TypeInfo::typeSize(typeId()));
     }
 
-    long Exifdatum::count() const
+    size_t Exifdatum::count() const
     {
         return value_.get() == nullptr ? 0 : value_->count();
     }
 
     long Exifdatum::size() const
     {
-        return value_.get() == nullptr ? 0 : value_->size();
+        return value_.get() == nullptr ? 0 : static_cast<long>(value_->size());
     }
 
     std::string Exifdatum::toString() const
@@ -425,7 +425,7 @@ namespace Exiv2 {
         return value_.get() == nullptr ? nullptr : value_->clone();
     }
 
-    long Exifdatum::sizeDataArea() const
+    size_t Exifdatum::sizeDataArea() const
     {
         return value_.get() == nullptr ? 0 : value_->sizeDataArea();
     }
@@ -448,7 +448,7 @@ namespace Exiv2 {
         return thumbnail->copy(exifData_);
     }
 
-    long ExifThumbC::writeFile(const std::string& path) const
+    size_t ExifThumbC::writeFile(const std::string& path) const
     {
         auto thumbnail = Thumbnail::create(exifData_);
         if (!thumbnail.get())
@@ -456,7 +456,7 @@ namespace Exiv2 {
 
         std::string name = path + thumbnail->extension();
         DataBuf buf(thumbnail->copy(exifData_));
-        if (buf.size() == 0)
+        if (buf.empty())
             return 0;
 
         return Exiv2::writeFile(buf, name);
@@ -483,24 +483,13 @@ namespace Exiv2 {
     {
     }
 
-    void ExifThumb::setJpegThumbnail(
-        const std::string& path,
-              URational    xres,
-              URational    yres,
-              uint16_t     unit
-    )
+    void ExifThumb::setJpegThumbnail(const std::string& path, URational xres, URational yres, uint16_t unit)
     {
         DataBuf thumb = readFile(path); // may throw
         setJpegThumbnail(thumb.c_data(), thumb.size(), xres, yres, unit);
     }
 
-    void ExifThumb::setJpegThumbnail(
-        const byte*     buf,
-              long      size,
-              URational xres,
-              URational yres,
-              uint16_t  unit
-    )
+    void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit)
     {
         setJpegThumbnail(buf, size);
         exifData_["Exif.Thumbnail.XResolution"] = xres;
@@ -514,7 +503,7 @@ namespace Exiv2 {
         setJpegThumbnail(thumb.c_data(), thumb.size());
     }
 
-    void ExifThumb::setJpegThumbnail(const byte* buf, long size)
+    void ExifThumb::setJpegThumbnail(const byte* buf, size_t size)
     {
         exifData_["Exif.Thumbnail.Compression"] = uint16_t(6);
         Exifdatum& format = exifData_["Exif.Thumbnail.JPEGInterchangeFormat"];
@@ -587,19 +576,11 @@ namespace Exiv2 {
         return exifMetadata_.erase(pos);
     }
 
-    ByteOrder ExifParser::decode(
-              ExifData& exifData,
-        const byte*     pData,
-              uint32_t  size
-    )
+    ByteOrder ExifParser::decode(ExifData& exifData, const byte* pData, size_t size)
     {
         IptcData iptcData;
         XmpData  xmpData;
-        ByteOrder bo = TiffParser::decode(exifData,
-                                          iptcData,
-                                          xmpData,
-                                          pData,
-                                          size);
+        ByteOrder bo = TiffParser::decode(exifData, iptcData, xmpData, pData, size);
 #ifndef SUPPRESS_WARNINGS
         if (!iptcData.empty()) {
             EXV_WARNING << "Ignoring IPTC information encoded in the Exif data.\n";
@@ -609,7 +590,7 @@ namespace Exiv2 {
         }
 #endif
         return bo;
-    } // ExifParser::decode
+    }
 
     //! @cond IGNORE
     enum Ptt { pttLen, pttTag, pttIfd };
@@ -619,13 +600,8 @@ namespace Exiv2 {
     };
     //! @endcond
 
-    WriteMethod ExifParser::encode(
-              Blob&     blob,
-        const byte*     pData,
-              uint32_t  size,
-              ByteOrder byteOrder,
-        const ExifData& exifData
-    )
+    WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder,
+                                   const ExifData& exifData)
     {
         ExifData ed = exifData;
 
@@ -696,9 +672,9 @@ namespace Exiv2 {
 
         // Encode and check if the result fits into a JPEG Exif APP1 segment
         MemIo mio1;
-        std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder, 0x00000008, false));
-        WriteMethod wm = TiffParserWorker::encode(mio1, pData, size, ed, emptyIptc, emptyXmp, Tag::root,
-                                                  TiffMapping::findEncoder, header.get(), nullptr);
+        TiffHeader header(byteOrder, 0x00000008, false);
+        WriteMethod wm = TiffParserWorker::encode(mio1, pData, static_cast<uint32_t>(size), ed, emptyIptc, emptyXmp,
+                                                  Tag::root, TiffMapping::findEncoder, &header, nullptr);
         if (mio1.size() <= 65527) {
             append(blob, mio1.mmap(), static_cast<uint32_t>(mio1.size()));
             return wm;
@@ -795,8 +771,8 @@ namespace Exiv2 {
 
         // Encode the remaining Exif tags again, don't care if it fits this time
         MemIo mio2;
-        wm = TiffParserWorker::encode(mio2, pData, size, ed, emptyIptc, emptyXmp, Tag::root, TiffMapping::findEncoder,
-                                      header.get(), nullptr);
+        wm = TiffParserWorker::encode(mio2, pData, static_cast<uint32_t>(size), ed, emptyIptc, emptyXmp, Tag::root,
+                                      TiffMapping::findEncoder, &header, nullptr);
         append(blob, mio2.mmap(), static_cast<uint32_t>(mio2.size()));
 #ifdef EXIV2_DEBUG_MESSAGES
         if (wm == wmIntrusive) {
@@ -868,7 +844,7 @@ namespace {
         Exiv2::IptcData emptyIptc;
         Exiv2::XmpData  emptyXmp;
         Exiv2::TiffParser::encode(io, nullptr, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
-        return io.read(static_cast<long>(io.size()));
+        return io.read(io.size());
     }
 
     const char* JpegThumbnail::mimeType() const
@@ -892,8 +868,8 @@ namespace {
     int64_t sumToLong(const Exiv2::Exifdatum& md)
     {
         int64_t sum = 0;
-        for (long i = 0; i < md.count(); ++i) {
-            sum += md.toInt64(i);
+        for (size_t i = 0; i < md.count(); ++i) {
+            sum += md.toInt64(static_cast<long>(i));
         }
         return sum;
     }
