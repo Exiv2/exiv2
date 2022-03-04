@@ -202,7 +202,7 @@ namespace Action {
                 }
             }
         } else {
-            _setmode(_fileno(stdout),O_BINARY);
+            _setmode(fileno(stdout),O_BINARY);
             result = printStructure(std::cout, option, path);
         }
 
@@ -834,7 +834,7 @@ namespace Action {
 
             bool bStdout = (Params::instance().target_ & Params::ctStdInOut) != 0;
             if (bStdout) {
-                _setmode(_fileno(stdout), _O_BINARY);
+                _setmode(fileno(stdout), _O_BINARY);
             }
 
             if (Params::instance().target_ & Params::ctThumb) {
@@ -1905,7 +1905,7 @@ namespace {
         // if we used a temporary target, copy it to stdout
         if ( rc == 0 && bStdout ) {
             FILE* f = ::fopen(target.c_str(),"rb") ;
-            _setmode(_fileno(stdout),O_BINARY);
+            _setmode(fileno(stdout),O_BINARY);
 
             if (  f ) {
                 char buffer[8*1024];

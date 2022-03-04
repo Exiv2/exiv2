@@ -971,7 +971,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
     if (stdinBuf.empty()) {
 #if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
         DWORD fdwMode;
-        _setmode(fileno(stdin), O_BINARY);
+        _setmode(fileno(stdin),O_BINARY);
         Sleep(300);
         if ( !GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode) ) { // failed: stdin has bytes!
 #else
@@ -1380,7 +1380,9 @@ namespace {
         if (cmdEnd == std::string::npos || keyStart == std::string::npos) {
             std::string cmdLine ;
 #if defined(_MSC_VER) || defined(__MINGW__)
-            for ( int i = 1 ; i < __argc ; i++ ) { cmdLine += std::string(" ") + formatArg(__argv[i]) ; }
+            for ( int i = 1 ; i < __argc ; i++ ) {
+                cmdLine += std::string(" ") + formatArg(__argv[i]) ;
+            }
 #endif
             throw Exiv2::Error(Exiv2::kerErrorMessage, Exiv2::toString(num)
                                + ": " + _("Invalid command line:") + cmdLine);
