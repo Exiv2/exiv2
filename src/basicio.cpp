@@ -86,17 +86,17 @@ namespace Exiv2 {
         // DATA
         std::string path_;              //!< (Standard) path
         std::string openMode_;          //!< File open mode
-        FILE *fp_;                      //!< File stream pointer
-        OpMode opMode_;                 //!< File open mode
+        FILE* fp_{};                    //!< File stream pointer
+        OpMode opMode_{opSeek};         //!< File open mode
 
 #if defined WIN32 && !defined __CYGWIN__
-        HANDLE hFile_;                  //!< Duplicated fd
-        HANDLE hMap_;                   //!< Handle from CreateFileMapping
+        HANDLE hFile_{};  //!< Duplicated fd
+        HANDLE hMap_{};   //!< Handle from CreateFileMapping
 #endif
-        byte*  pMappedArea_;            //!< Pointer to the memory-mapped area
-        size_t mappedLength_;           //!< Size of the memory-mapped area
-        bool   isMalloced_;             //!< Is the mapped area allocated?
-        bool   isWriteable_;            //!< Can the mapped area be written to?
+        byte* pMappedArea_{};    //!< Pointer to the memory-mapped area
+        size_t mappedLength_{};  //!< Size of the memory-mapped area
+        bool isMalloced_{};      //!< Is the mapped area allocated?
+        bool isWriteable_{};     //!< Can the mapped area be written to?
         // TYPES
         //! Simple struct stat wrapper for internal use
         struct StructStat {
@@ -120,18 +120,7 @@ namespace Exiv2 {
         Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class FileIo::Impl
 
-    FileIo::Impl::Impl(std::string path)
-        : path_(std::move(path)),
-          fp_(nullptr),
-          opMode_(opSeek),
-#if defined WIN32 && !defined __CYGWIN__
-          hFile_(0),
-          hMap_(0),
-#endif
-          pMappedArea_(nullptr),
-          mappedLength_(0),
-          isMalloced_(false),
-          isWriteable_(false)
+    FileIo::Impl::Impl(std::string path) : path_(std::move(path))
     {
     }
 
