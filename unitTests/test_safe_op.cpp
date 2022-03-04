@@ -103,7 +103,7 @@ const bool
 template <typename T>
 void test_add()
 {
-    typedef AdditionTestValues<T> TestValues;
+    using TestValues = AdditionTestValues<T>;
 
 #define TEST_ADD(func)                                                                                        \
     for (size_t i = 0; i < TestValues::case_count; ++i) {                                                     \
@@ -133,7 +133,7 @@ void test_add()
 template <typename T>
 void test_safe_add()
 {
-    typedef AdditionTestValues<T> TestValues;
+    using TestValues = AdditionTestValues<T>;
 
     for (size_t i = 0; i < TestValues::case_count; ++i) {
         for (size_t j = 0; j < TestValues::case_count; ++j) {
