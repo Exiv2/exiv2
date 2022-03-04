@@ -1,9 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#if _MSC_VER >= 1400
-# pragma warning(disable : 4996)
-#endif
-
 // included header files
 #include <assert.h>
 #include <errno.h>

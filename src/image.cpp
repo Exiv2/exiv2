@@ -51,9 +51,6 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
-#ifdef _MSC_VER
-# define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
-#endif
 #ifdef EXV_HAVE_UNISTD_H
 # include <unistd.h>                            // stat
 #endif

@@ -35,7 +35,6 @@
 #include "getopt.hpp"
 
 // + standard includes
-#include <vector>
 #include <set>
 #include <iostream>
 #include <regex>
@@ -44,11 +43,7 @@
 #ifndef  _MSC_VER
 #include <cstdlib>
 #include <stdio.h>
-#if defined(__CYGWIN__) || defined(__MINGW__)
-#include <windows.h>
-#else
 #include <sys/select.h>
-#endif
 #endif
 
 // *****************************************************************************

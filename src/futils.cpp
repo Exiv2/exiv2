@@ -26,12 +26,8 @@ namespace fs = std::filesystem;
 #include <psapi.h>  // For access to GetModuleFileNameEx
 #endif
 
-#if defined(_MSC_VER)
-#define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
-#elif defined(__APPLE__)
-#if defined(EXV_HAVE_LIBPROC_H)
+#if defined(__APPLE__) && defined(EXV_HAVE_LIBPROC_H)
 #include <libproc.h>
-#endif
 #endif
 
 #if defined(__FreeBSD__)

@@ -45,7 +45,7 @@
 #include <fcntl.h>
 #include <io.h>
 #else
-# include <utime.h>
+#include <utime.h>
 #endif
 
 #if !defined(__MINGW__) && !defined(_MSC_VER)
