@@ -148,10 +148,6 @@ namespace Exiv2::Internal {
 
     const char CiffHeader::signature_[] = "HEAPCCDR";
 
-    CiffHeader::~CiffHeader()
-    {
-    }
-
     CiffDirectory::~CiffDirectory()
     {
         for (auto&& component : components_) {

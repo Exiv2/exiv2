@@ -1194,8 +1194,7 @@ namespace Exiv2::Internal {
 
     // Exception thrown by findLensInfo when the lens info can't be found.
     class LensInfoNotFound : public std::exception {
-    public:
-      LensInfoNotFound() {}
+        using std::exception::exception;
     };
 
     // Throws std::exception if the LensInfo can't be found.

@@ -403,7 +403,7 @@ namespace Exiv2 {
         //! Default constructor
         CiffHeader() = default;
         //! Virtual destructor
-        virtual ~CiffHeader();
+        virtual ~CiffHeader() = default;
         //@}
 
         //! @name Manipulators

@@ -280,7 +280,7 @@ namespace Action {
     /// @brief %Modify the Exif data according to the commands in the modification table.
     class Modify : public Task {
     public:
-        Modify() {}
+        Modify() = default;
         ~Modify() override = default;
         int run(const std::string& path) override;
         Task::UniquePtr clone() const override;
