@@ -425,7 +425,7 @@ namespace Exiv2::Internal {
                 }
             } while (zlibResult == Z_BUF_ERROR);
 
-            return std::string(arr.c_str(), arr.size());
+            return {arr.c_str(), arr.size()};
 
         }  // PngChunk::zlibCompress
 

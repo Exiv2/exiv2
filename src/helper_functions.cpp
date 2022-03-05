@@ -9,5 +9,5 @@ std::string string_from_unterminated(const char* data, size_t data_length)
         return {};
     }
     const size_t StringLength = strnlen(data, data_length);
-    return std::string(data, StringLength);
+    return {data, StringLength};
 }

@@ -1129,6 +1129,6 @@ namespace Exiv2 {
             buf = loader->getData();
         }
 
-        return PreviewImage(properties, std::move(buf));
+        return {properties, std::move(buf)};
     }
 }                                       // namespace Exiv2
