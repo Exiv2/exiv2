@@ -375,7 +375,8 @@ namespace Exiv2 {
                 if (hKernel) {
                     ReplaceFileA_t pfcn_ReplaceFileA = (ReplaceFileA_t)GetProcAddress(hKernel, "ReplaceFileA");
                     if (pfcn_ReplaceFileA) {
-                        BOOL ret = pfcn_ReplaceFileA(pf, fileIo->path().c_str(), NULL, REPLACEFILE_IGNORE_MERGE_ERRORS, NULL, NULL);
+                        BOOL ret = pfcn_ReplaceFileA(pf, fileIo->path().c_str(), nullptr,
+                                                     REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
                         if (ret == 0) {
                             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
                                 fs::rename(fileIo->path().c_str(), pf);
@@ -1834,7 +1835,8 @@ namespace Exiv2 {
     size_t curlWriter(char* data, size_t size, size_t nmemb,
                       std::string* writerData)
     {
-        if (writerData == NULL) return 0;
+        if (writerData == nullptr)
+            return 0;
         writerData->append(data, size*nmemb);
         return size * nmemb;
     }

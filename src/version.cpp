@@ -155,8 +155,8 @@ static std::vector<std::string> getLoadedLibraries()
     if ( isatty(STDIN_FILENO) ) {
         unsigned int n;
         struct procstat*      procstat = procstat_open_sysctl();
-        struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
-        struct filestat_list* files    = procs    ? procstat_getfiles(procstat, procs, true)                 : NULL;
+        struct kinfo_proc* procs = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : nullptr;
+        struct filestat_list* files = procs ? procstat_getfiles(procstat, procs, true) : nullptr;
         if ( files ) {
             filestat* entry;
             STAILQ_FOREACH(entry, files, next) {

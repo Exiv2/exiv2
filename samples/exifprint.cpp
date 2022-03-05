@@ -29,7 +29,7 @@
 static const Exiv2::TagInfo* findTag(const Exiv2::TagInfo* pList,uint16_t tag)
 {
     while ( pList->tag_ != 0xffff && pList->tag_ != tag ) pList++;
-    return  pList->tag_ != 0xffff  ? pList : NULL;
+    return pList->tag_ != 0xffff ? pList : nullptr;
 }
 
 

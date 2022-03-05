@@ -354,28 +354,28 @@ namespace Exiv2 {
     {
         std::string ret("unknown");
     #if defined(WIN32)
-        HANDLE processHandle = NULL;
+        HANDLE processHandle = nullptr;
         processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
-        if (processHandle != NULL) {
+        if (processHandle) {
             TCHAR filename[MAX_PATH];
-            if (GetModuleFileNameEx(processHandle, NULL, filename, MAX_PATH) != 0) {
+            if (GetModuleFileNameEx(processHandle, nullptr, filename, MAX_PATH) != 0) {
                 ret = filename;
             }
             CloseHandle(processHandle);
         }
-    #elif defined(__APPLE__)
-    #ifdef EXV_HAVE_LIBPROC_H
+#elif defined(__APPLE__)
+#ifdef EXV_HAVE_LIBPROC_H
         const int pid = getpid();
         char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
         if (proc_pidpath (pid, pathbuf, sizeof(pathbuf)) > 0) {
             ret = pathbuf;
         }
-    #endif
-    #elif defined(__FreeBSD__)
+#endif
+#elif defined(__FreeBSD__)
         unsigned int       n;
         char               buffer[PATH_MAX] = {};
         struct procstat*   procstat = procstat_open_sysctl();
-        struct kinfo_proc* procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
+        struct kinfo_proc* procs = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : nullptr;
         if ( procs ) {
             procstat_getpathname(procstat, procs, buffer, PATH_MAX);
             ret = std::string(buffer);
@@ -383,7 +383,7 @@ namespace Exiv2 {
         // release resources
         if ( procs    ) procstat_freeprocs(procstat, procs);
         if ( procstat ) procstat_close(procstat);
-    #elif defined(__sun__)
+#elif defined(__sun__)
         // https://stackoverflow.com/questions/47472762/on-solaris-how-to-get-the-full-path-of-executable-of-running-process-programatic        
         const char* proc = Internal::stringFormat("/proc/%d/path/a.out",getpid()).c_str();
         char        path[500];
@@ -392,7 +392,7 @@ namespace Exiv2 {
             path[l]=0;
             ret = path;
         }
-    #elif defined(__unix__)
+#elif defined(__unix__)
         // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
         char path[500];
         ssize_t l = readlink ("/proc/self/exe", path,sizeof(path)-1);
@@ -400,7 +400,7 @@ namespace Exiv2 {
             path[l]=0;
             ret = path;
         }
-    #endif
+#endif
 
         const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_STR);
         return ret.substr(0, idxLastSeparator);

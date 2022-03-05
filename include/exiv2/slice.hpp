@@ -248,7 +248,6 @@ namespace Exiv2
 
             const value_type& at(size_t index) const
             {
-                // TODO: use using base_type::at once we have C++11
                 return base_type::at(index);
             }
 
@@ -412,8 +411,7 @@ namespace Exiv2
              */
             PtrSliceStorage(storage_type ptr, size_t /*begin*/, size_t /*end*/) : data_(ptr)
             {
-                // TODO: change this to nullptr once we use C++11
-                if (ptr == NULL) {
+                if (!ptr) {
                     throw std::invalid_argument("Null pointer passed to slice constructor");
                 }
             }
