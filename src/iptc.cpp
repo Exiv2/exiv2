@@ -498,14 +498,14 @@ namespace Exiv2 {
         std::copy(iptcData.begin(), iptcData.end(), std::back_inserter(sortedIptcData));
         std::stable_sort(sortedIptcData.begin(), sortedIptcData.end(), cmpIptcdataByRecord);
 
-        for (auto iter = sortedIptcData.cbegin() ; iter != sortedIptcData.cend(); ++iter) {
+        for (const auto& iter : sortedIptcData) {
             // marker, record Id, dataset num
             *pWrite++ = marker_;
-            *pWrite++ = static_cast<byte>(iter->record());
-            *pWrite++ = static_cast<byte>(iter->tag());
+            *pWrite++ = static_cast<byte>(iter.record());
+            *pWrite++ = static_cast<byte>(iter.tag());
 
             // extended or standard dataset?
-            long dataSize = iter->size();
+            long dataSize = iter.size();
             if (dataSize > 32767) {
                 // always use 4 bytes for extended length
                 uint16_t sizeOfSize = 4 | 0x8000;
@@ -518,7 +518,7 @@ namespace Exiv2 {
                 us2Data(pWrite, static_cast<uint16_t>(dataSize), bigEndian);
                 pWrite += 2;
             }
-            pWrite += iter->value().copy(pWrite, bigEndian);
+            pWrite += iter.value().copy(pWrite, bigEndian);
         }
 
         return buf;

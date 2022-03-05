@@ -15,8 +15,7 @@
 #define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<&arrayCfg>)
 #define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, EXV_COUNTOF(arraySet), cfgSelFct>)
 
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! Constant for non-encrypted binary arrays
     constexpr CryptFct notEncrypted = nullptr;
@@ -2440,5 +2439,4 @@ namespace Exiv2 {
         }
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

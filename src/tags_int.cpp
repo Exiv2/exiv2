@@ -37,8 +37,7 @@ namespace {
     }
 }  // namespace
 
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! List of all known Exif groups. Important: Group name (3rd column) must be unique!
     constexpr GroupInfo groupInfo[] = {
@@ -2785,9 +2784,9 @@ namespace Exiv2 {
             if (fraction != 0) p = 1;
             const double ss = std::fmod(t, 60);
             const double minutes = (t - ss)/60;
-            const int mm = static_cast<int>(std::fmod(minutes, 60));
+            const auto mm = static_cast<int>(std::fmod(minutes, 60));
             const double hours = (minutes - mm)/60;
-            const int hh = static_cast<int>(std::fmod(hours, 24));
+            const auto hh = static_cast<int>(std::fmod(hours, 24));
 
             os << std::setw(2) << std::setfill('0') << std::right << hh << ":"
                << std::setw(2) << std::setfill('0') << std::right << mm << ":"
@@ -3296,5 +3295,4 @@ namespace Exiv2 {
         return ii->tagList_();
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

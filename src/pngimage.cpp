@@ -206,15 +206,14 @@ namespace Exiv2 {
         chType[4]=0;
 
         if ( option == kpsBasic || option == kpsXMP || option == kpsIccProfile || option == kpsRecursive ) {
-
-            const std::string xmpKey  = "XML:com.adobe.xmp";
-            const std::string exifKey = "Raw profile type exif";
-            const std::string app1Key = "Raw profile type APP1";
-            const std::string iptcKey = "Raw profile type iptc";
-            const std::string iccKey  = "icc";
-            const std::string softKey = "Software";
-            const std::string commKey = "Comment";
-            const std::string descKey = "Description";
+            constexpr auto xmpKey = "XML:com.adobe.xmp";
+            constexpr auto exifKey = "Raw profile type exif";
+            constexpr auto app1Key = "Raw profile type APP1";
+            constexpr auto iptcKey = "Raw profile type iptc";
+            constexpr auto iccKey = "icc";
+            constexpr auto softKey = "Software";
+            constexpr auto commKey = "Comment";
+            constexpr auto descKey = "Description";
 
             bool bPrint = option == kpsBasic || option == kpsRecursive ;
             if ( bPrint ) {
@@ -313,7 +312,7 @@ namespace Exiv2 {
                                     1; // leading string length
                     enforce(name_l < dataOffset, kerCorruptedMetadata);
 
-                    uint32_t  start  = static_cast<uint32_t>(name_l);
+                    auto start = static_cast<uint32_t>(name_l);
                     bool      bLF    = false;
 
                     // decode the chunk

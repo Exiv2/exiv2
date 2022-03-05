@@ -208,7 +208,7 @@ namespace Exiv2 {
             // Check that `size_u32` is safe to cast to `long`.
             enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
                     Exiv2::kerCorruptedMetadata);
-            const long size = static_cast<long>(size_u32);
+            const auto size = static_cast<long>(size_u32);
             DataBuf payload(size);
             io_->readOrThrow(payload.data(), payload.size(), Exiv2::kerCorruptedMetadata);
             if ( payload.size() % 2 ) {
@@ -346,7 +346,7 @@ namespace Exiv2 {
             // Check that `size_u32` is safe to cast to `long`.
             enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
                     Exiv2::kerCorruptedMetadata);
-            const long size = static_cast<long>(size_u32);
+            const auto size = static_cast<long>(size_u32);
 
             DataBuf payload(size);
             io_->readOrThrow(payload.data(), size, Exiv2::kerCorruptedMetadata);
@@ -572,7 +572,7 @@ namespace Exiv2 {
 
             // Check that `size_u32` is safe to cast to `long`.
             enforce(size_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()), Exiv2::kerCorruptedMetadata);
-            const long size = static_cast<long>(size_u32);
+            const auto size = static_cast<long>(size_u32);
 
             // Check that `size` is within bounds.
             enforce(io_->tell() <= filesize, Exiv2::kerCorruptedMetadata);

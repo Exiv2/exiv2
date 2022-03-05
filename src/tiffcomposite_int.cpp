@@ -26,8 +26,7 @@ namespace {
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     bool TiffMappingInfo::operator==(const TiffMappingInfo::Key& key) const
     {
@@ -1078,7 +1077,7 @@ namespace Exiv2 {
             }
             // Also add the size of data, but only if needed
             if (isRootDir) {
-                uint32_t sd = static_cast<uint32_t>(component->sizeData());
+                auto sd = static_cast<uint32_t>(component->sizeData());
                 sd += sd & 1;               // Align data to word boundary
                 sizeData += sd;
             }
@@ -1105,7 +1104,7 @@ namespace Exiv2 {
                 sv += sv & 1;               // Align value to word boundary
                 valueIdx += sv;
             }
-            uint32_t sd = static_cast<uint32_t>(component->sizeData());
+            auto sd = static_cast<uint32_t>(component->sizeData());
             sd += sd & 1;                   // Align data to word boundary
             dataIdx += sd;
         }
@@ -1135,7 +1134,7 @@ namespace Exiv2 {
                 idx += sv;
                 valueIdx += sv;
             }
-            uint32_t sd = static_cast<uint32_t>(component->sizeData());
+            auto sd = static_cast<uint32_t>(component->sizeData());
             sd += sd & 1;                   // Align data to word boundary
             dataIdx += sd;
         }
@@ -1627,7 +1626,7 @@ namespace Exiv2 {
                 sv += sv & 1;               // Align value to word boundary
                 len += sv;
             }
-            uint32_t sd = static_cast<uint32_t>(component->sizeData());
+            auto sd = static_cast<uint32_t>(component->sizeData());
             sd += sd & 1;                   // Align data to word boundary
             len += sd;
         }
@@ -1883,8 +1882,7 @@ namespace Exiv2 {
         return std::make_unique<TiffBinaryElement>(tag, group);
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 
 // *****************************************************************************
 // local definitions

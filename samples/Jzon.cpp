@@ -483,28 +483,28 @@ namespace Jzon
     Object::iterator Object::begin()
     {
         if (!children.empty())
-            return Object::iterator(&children.front());
-        return Object::iterator(nullptr);
+            return {&children.front()};
+        return {nullptr};
     }
 
     Object::const_iterator Object::begin() const
     {
         if (!children.empty())
-            return Object::const_iterator(&children.front());
-        return Object::const_iterator(nullptr);
+            return {&children.front()};
+        return {nullptr};
     }
 
     Object::iterator Object::end()
     {
         if (!children.empty())
-            return Object::iterator(&children.back() + 1);
-        return Object::iterator(nullptr);
+            return {&children.back() + 1};
+        return {nullptr};
     }
     Object::const_iterator Object::end() const
     {
         if (!children.empty())
-            return Object::const_iterator(&children.back() + 1);
-        return Object::const_iterator(nullptr);
+            return {&children.back() + 1};
+        return {nullptr};
     }
 
     bool Object::Has(const std::string &name) const
@@ -586,26 +586,26 @@ namespace Jzon
     Array::iterator Array::begin()
     {
         if (!children.empty())
-            return Array::iterator(&children.front());
-        return Array::iterator(nullptr);
+            return {&children.front()};
+        return {nullptr};
     }
     Array::const_iterator Array::begin() const
     {
         if (!children.empty())
-            return Array::const_iterator(&children.front());
-        return Array::const_iterator(nullptr);
+            return {&children.front()};
+        return {nullptr};
     }
     Array::iterator Array::end()
     {
         if (!children.empty())
-            return Array::iterator(&children.back() + 1);
-        return Array::iterator(nullptr);
+            return {&children.back() + 1};
+        return {nullptr};
     }
     Array::const_iterator Array::end() const
     {
         if (!children.empty())
-            return Array::const_iterator(&children.back() + 1);
-        return Array::const_iterator(nullptr);
+            return {&children.back() + 1};
+        return {nullptr};
     }
 
     size_t Array::GetCount() const

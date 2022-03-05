@@ -628,13 +628,13 @@ namespace Exiv2 {
 
     int64_t parseInt64(const std::string& s, bool& ok)
     {
-        int64_t ret = stringTo<int64_t>(s, ok);
+        auto ret = stringTo<int64_t>(s, ok);
         if (ok) return ret;
 
         auto f = stringTo<float>(s, ok);
         if (ok) return static_cast<int64_t>(f);
 
-        Rational r = stringTo<Rational>(s, ok);
+        auto r = stringTo<Rational>(s, ok);
         if (ok) {
             if (r.second <= 0) {
                 ok = false;
@@ -664,7 +664,7 @@ namespace Exiv2 {
         auto ret = stringTo<float>(s, ok);
         if (ok) return ret;
 
-        Rational r = stringTo<Rational>(s, ok);
+        auto r = stringTo<Rational>(s, ok);
         if (ok) {
             if (r.second == 0) {
                 ok = false;
@@ -683,10 +683,10 @@ namespace Exiv2 {
 
     Rational parseRational(const std::string& s, bool& ok)
     {
-        Rational ret = stringTo<Rational>(s, ok);
+        auto ret = stringTo<Rational>(s, ok);
         if (ok) return ret;
 
-        long l = stringTo<long>(s, ok);
+        auto l = stringTo<long>(s, ok);
         if (ok)
             return {l, 1};
 
@@ -714,7 +714,7 @@ namespace Exiv2 {
         }
         // Beware: primitive conversion algorithm
         int32_t den = 1000000;
-        const long d_as_long = static_cast<long>(d);
+        const auto d_as_long = static_cast<long>(d);
         if (Safe::abs(d_as_long) > 2147) {
             den = 10000;
         }

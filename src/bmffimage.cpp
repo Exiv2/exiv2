@@ -217,7 +217,7 @@ namespace Exiv2
         enforce(box_length >= hdrsize, Exiv2::kerCorruptedMetadata);
         enforce(box_length - hdrsize <= static_cast<uint64_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
 
-        const size_t buffer_size = static_cast<size_t>(box_length - hdrsize);
+        const auto buffer_size = static_cast<size_t>(box_length - hdrsize);
         if (skipBox(box_type)) {
             if (bTrace) {
                 out << std::endl;
@@ -637,7 +637,7 @@ namespace Exiv2
         xmpID_     = unknownID_;
 
         long address = 0;
-        const long file_end = static_cast<long>(io_->size());
+        const auto file_end = static_cast<long>(io_->size());
         while (address < file_end) {
             io_->seek(address, BasicIo::beg);
             address = boxHandler(std::cout,kpsNone,file_end,0);
@@ -671,7 +671,7 @@ namespace Exiv2
                 IoCloser closer(*io_);
 
                 long   address = 0;
-                const long file_end = static_cast<long>(io_->size());
+                const auto file_end = static_cast<long>(io_->size());
                 while (address < file_end) {
                     io_->seek(address, BasicIo::beg);
                     address = boxHandler(out,option,file_end,depth);

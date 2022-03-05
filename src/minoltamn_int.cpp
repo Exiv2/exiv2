@@ -20,8 +20,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     // -- Standard Minolta Makernotes tags ---------------------------------------------------------------
 
@@ -2471,5 +2470,4 @@ namespace Exiv2 {
         return EXV_PRINT_TAG(minoltaSonyZoneMatching)(os, value, metadata);
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

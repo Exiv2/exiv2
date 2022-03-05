@@ -57,8 +57,7 @@ namespace {
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     TiffVisitor::TiffVisitor()
     {
@@ -1522,7 +1521,7 @@ namespace Exiv2 {
         if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
             throw Error(kerArithmeticOverflow);
         }
-        uint32_t size = static_cast<uint32_t>(typeSize * count);
+        auto size = static_cast<uint32_t>(typeSize * count);
         uint32_t offset = getLong(p, byteOrder());
         byte* pData = p;
         if (   size > 4
@@ -1699,5 +1698,4 @@ namespace Exiv2 {
 
     } // TiffReader::visitBinaryElement
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

@@ -103,7 +103,7 @@ const bool
 template <typename T>
 void test_add()
 {
-    typedef AdditionTestValues<T> TestValues;
+    using TestValues = AdditionTestValues<T>;
 
 #define TEST_ADD(func)                                                                                        \
     for (size_t i = 0; i < TestValues::case_count; ++i) {                                                     \
@@ -133,7 +133,7 @@ void test_add()
 template <typename T>
 void test_safe_add()
 {
-    typedef AdditionTestValues<T> TestValues;
+    using TestValues = AdditionTestValues<T>;
 
     for (size_t i = 0; i < TestValues::case_count; ++i) {
         for (size_t j = 0; j < TestValues::case_count; ++j) {
@@ -186,8 +186,8 @@ TEST(safeAdd, checkSignedOverflow)
 TEST(safeAbs, checkValues)
 {
     static const int values[] = {-1, 1, std::numeric_limits<int>::max(), std::numeric_limits<int>::min() + 1};
-    for (size_t i = 0; i < sizeof(values) / sizeof(*values); ++i) {
-        ASSERT_EQ(Safe::abs(values[i]), abs(values[i]));
+    for (int value : values) {
+        ASSERT_EQ(Safe::abs(value), abs(value));
     }
     ASSERT_EQ(Safe::abs(std::numeric_limits<int>::min()), std::numeric_limits<int>::max());
 }

@@ -438,7 +438,8 @@ namespace {
 
     DataBuf LoaderNative::getData() const
     {
-        if (!valid()) return DataBuf();
+        if (!valid())
+            return {};
 
         BasicIo &io = image_.io();
         if (io.open() != 0) {
@@ -450,10 +451,10 @@ namespace {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid native preview position or size.\n";
 #endif
-            return DataBuf();
+            return {};
         }
         if (nativePreview_.filter_.empty()) {
-            return DataBuf(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
+            return {data + nativePreview_.position_, nativePreview_.size_};
         }
         if (nativePreview_.filter_ == "hex-ai7thumbnail-pnm") {
             const DataBuf ai7thumbnail = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
@@ -469,9 +470,9 @@ namespace {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Missing preview IRB in Photoshop EPS preview.\n";
 #endif
-                return DataBuf();
+                return {};
             }
-            return DataBuf(record + sizeHdr + 28, sizeData - 28);
+            return {record + sizeHdr + 28, sizeData - 28};
         }
         throw Error(kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
     }
@@ -548,7 +549,8 @@ namespace {
 
     DataBuf LoaderExifJpeg::getData() const
     {
-        if (!valid()) return DataBuf();
+        if (!valid())
+            return {};
         BasicIo &io = image_.io();
 
         if (io.open() != 0) {
@@ -558,7 +560,7 @@ namespace {
 
         const Exiv2::byte* base = io.mmap();
 
-        return DataBuf(base + offset_, size_);
+        return {base + offset_, size_};
     }
 
     bool LoaderExifJpeg::readDimensions()
@@ -625,7 +627,8 @@ namespace {
 
     DataBuf LoaderExifDataJpeg::getData() const
     {
-        if (!valid()) return DataBuf();
+        if (!valid())
+            return {};
 
         auto pos = image_.exifData().findKey(dataKey_);
         if (pos != image_.exifData().end()) {
@@ -640,7 +643,7 @@ namespace {
             return buf;
         }
 
-        return DataBuf();
+        return {};
     }
 
     bool LoaderExifDataJpeg::readDimensions()
@@ -823,7 +826,7 @@ namespace {
         IptcData emptyIptc;
         XmpData  emptyXmp;
         TiffParser::encode(mio, nullptr, 0, Exiv2::littleEndian, preview, emptyIptc, emptyXmp);
-        return DataBuf(mio.mmap(), static_cast<long>(mio.size()));
+        return {mio.mmap(), mio.size()};
     }
 
     LoaderXmpJpeg::LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx)
@@ -877,8 +880,8 @@ namespace {
     DataBuf LoaderXmpJpeg::getData() const
     {
         if (!valid())
-            return DataBuf();
-        return DataBuf(preview_.c_data(), preview_.size());
+            return {};
+        return {preview_.c_data(), preview_.size()};
     }
 
     bool LoaderXmpJpeg::readDimensions()
@@ -940,12 +943,12 @@ namespace {
                 validSrcSize++;
         }
         if (validSrcSize > ULONG_MAX / 3)
-            return DataBuf(); // avoid integer overflow
+            return {};  // avoid integer overflow
         const unsigned long destSize = (validSrcSize * 3) / 4;
 
         // allocate dest buffer
         if (destSize > LONG_MAX)
-            return DataBuf(); // avoid integer overflow
+            return {};  // avoid integer overflow
         DataBuf dest(static_cast<long>(destSize));
 
         // decode
@@ -972,7 +975,7 @@ namespace {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid size of AI7 thumbnail: " << src.size() << "\n";
 #endif
-            return DataBuf();
+            return {};
         }
         const byte *imageData = src.c_data(colorTableSize);
         const long imageDataSize = static_cast<long>(src.size()) - colorTableSize;
@@ -986,7 +989,7 @@ namespace {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Unexpected end of image data at AI7 thumbnail.\n";
 #endif
-                    return DataBuf();
+                    return {};
                 }
                 value = imageData[i++];
                 if (value != 0xFD) {
@@ -994,7 +997,7 @@ namespace {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Unexpected end of image data at AI7 thumbnail.\n";
 #endif
-                        return DataBuf();
+                        return {};
                     }
                     num = value;
                     value = imageData[i++];
@@ -1004,7 +1007,7 @@ namespace {
                 dest.append(reinterpret_cast<const char*>(colorTable + (3*value)), 3);
             }
         }
-        return DataBuf(reinterpret_cast<const byte*>(dest.data()), static_cast<long>(dest.size()));
+        return {reinterpret_cast<const byte *>(dest.data()), dest.size()};
     }
 
     DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
@@ -1014,7 +1017,7 @@ namespace {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size() << " bytes.\n";
 #endif
-            return DataBuf();
+            return {};
         }
 
         const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
@@ -1058,7 +1061,7 @@ namespace Exiv2 {
 
     DataBuf PreviewImage::copy() const
     {
-        return DataBuf(pData(), size());
+        return {pData(), size()};
     }
 
     const byte* PreviewImage::pData() const

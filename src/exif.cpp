@@ -427,7 +427,7 @@ namespace Exiv2 {
     {
         auto thumbnail = Thumbnail::create(exifData_);
         if (!thumbnail)
-            return DataBuf();
+            return {};
         return thumbnail->copy(exifData_);
     }
 
@@ -844,7 +844,8 @@ namespace {
     {
         Exiv2::ExifKey key("Exif.Thumbnail.JPEGInterchangeFormat");
         auto format = exifData.findKey(key);
-        if (format == exifData.end()) return Exiv2::DataBuf();
+        if (format == exifData.end())
+            return {};
         return format->dataArea();
     }
 

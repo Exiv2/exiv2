@@ -16,8 +16,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! Quality, tag 0x0001
     constexpr TagDetails panasonicQuality[] = {
@@ -673,14 +672,14 @@ namespace Exiv2 {
     std::ostream& PanasonicMakerNote::printAccelerometer(std::ostream& os, const Value& value, const ExifData*)
     {
         // value is stored as unsigned int, but should be read as int16_t.
-        const int16_t i = static_cast<int16_t>(value.toInt64());
+        const auto i = static_cast<int16_t>(value.toInt64());
         return os << i;
     }  // PanasonicMakerNote::printAccelerometer
 
     std::ostream& PanasonicMakerNote::printRollAngle(std::ostream& os, const Value& value, const ExifData*)
     {
         // value is stored as unsigned int, but should be read as int16_t.
-        const int16_t i = static_cast<int16_t>(value.toInt64());
+        const auto i = static_cast<int16_t>(value.toInt64());
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << i / 10.0;
@@ -692,7 +691,7 @@ namespace Exiv2 {
     std::ostream& PanasonicMakerNote::printPitchAngle(std::ostream& os, const Value& value, const ExifData*)
     {
         // value is stored as unsigned int, but should be read as int16_t.
-        const int16_t i = static_cast<int16_t>(value.toInt64());
+        const auto i = static_cast<int16_t>(value.toInt64());
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1) << -i / 10.0;
@@ -735,5 +734,4 @@ namespace Exiv2 {
         return tagInfoRaw_;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

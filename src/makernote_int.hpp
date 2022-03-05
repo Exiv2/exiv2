@@ -94,9 +94,9 @@ namespace Exiv2 {
                                      IfdId              group,
                                      IfdId              mnGroup);
 
-    protected:
         //! Prevent destruction (needed if used as a policy class)
-        ~TiffMnCreator() {}
+        ~TiffMnCreator() = delete;
+
     private:
         static const TiffMnRegistry registry_[]; //<! List of makernotes
     }; // class TiffMnCreator

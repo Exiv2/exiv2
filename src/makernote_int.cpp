@@ -59,16 +59,15 @@ namespace {
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-        // Function first looks for a config file in current working directory
-        // on Win the file should be named "exiv2.ini"
-        // on Lin the file should be named ".exiv2"
-        // If not found in cwd, we return the default path
-        // which is the user profile path on win and the home dir on linux
-        std::string getExiv2ConfigPath()
-        {
+    // Function first looks for a config file in current working directory
+    // on Win the file should be named "exiv2.ini"
+    // on Lin the file should be named ".exiv2"
+    // If not found in cwd, we return the default path
+    // which is the user profile path on win and the home dir on linux
+    std::string getExiv2ConfigPath()
+    {
 #if defined(_MSC_VER) || defined(__MINGW__)
             std::string inifile("exiv2.ini");
 #else
@@ -90,7 +89,7 @@ namespace Exiv2 {
             currentPath = std::string(pw ? pw->pw_dir : "");
 #endif
             return (currentPath / inifile).string();
-        }
+    }
 
         std::string readExiv2Config(const std::string& section, const std::string& value, const std::string& def)
         {
@@ -1232,8 +1231,7 @@ namespace Exiv2 {
         }
         return -1;
     }
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 
 // *****************************************************************************
 // local definitions

@@ -189,7 +189,7 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS size is not " << size1 << "\n";
         return 2;
     }
-    long backup = static_cast<long>(size1);
+    auto backup = static_cast<long>(size1);
     io.seek(-backup, BasicIo::cur);
 
     int c = EOF;

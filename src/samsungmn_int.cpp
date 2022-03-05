@@ -16,8 +16,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! LensType, tag 0xa003
     constexpr TagDetails samsung2LensType[] = {
@@ -179,5 +178,4 @@ namespace Exiv2 {
         return tagInfoPw_;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

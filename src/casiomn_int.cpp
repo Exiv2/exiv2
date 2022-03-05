@@ -21,8 +21,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! RecordingMode, tag 0x0001
     constexpr TagDetails casioRecordingMode[] = {
@@ -528,7 +527,7 @@ namespace Exiv2 {
         std::vector<char> numbers;
         for(size_t i=0; i<value.size(); i++)
         {
-            const char l = static_cast<char>(value.toInt64(i));
+            const auto l = static_cast<char>(value.toInt64(i));
             if(l!=0)
             {
                 numbers.push_back(l);
@@ -575,5 +574,4 @@ namespace Exiv2 {
         return os;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

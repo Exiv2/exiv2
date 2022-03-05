@@ -31,19 +31,19 @@ namespace cpp_98_boilerplate
     template <typename T>
     struct return_type_traits
     {
-        typedef T type;
+        using type = T;
     };
 
     template <typename U>
     struct return_type_traits<std::vector<U> >
     {
-        typedef typename std::vector<U>& type;
+        using type = typename std::vector<U>&;
     };
 
     template <typename U>
     struct return_type_traits<const std::vector<U> >
     {
-        typedef const typename std::vector<U>& type;
+        using type = const typename std::vector<U>&;
     };
 
     template <typename T>
@@ -171,7 +171,7 @@ TYPED_TEST_P(slice, constructionFailsWithZeroLength)
  */
 TYPED_TEST_P(slice, subSliceSuccessfulConstruction)
 {
-    typedef Slice<TypeParam> slice_t;
+    using slice_t = Slice<TypeParam>;
 
     // 0 1 2 3 4 5 6 7 8 9
     //       |     |       center_vals
@@ -244,7 +244,7 @@ void checkSubSlice(const Slice<T>& sl)
  */
 TYPED_TEST_P(slice, constMethodsPreserveConst)
 {
-    typedef Slice<TypeParam> slice_t;
+    using slice_t = Slice<TypeParam>;
 
     // 0 1 2 3 4 5 6 7 8 9
     //       |     |       center_vals
@@ -263,7 +263,7 @@ TYPED_TEST_P(slice, constMethodsPreserveConst)
  */
 TYPED_TEST_P(mutableSlice, iterators)
 {
-    typedef Slice<TypeParam> slice_t;
+    using slice_t = Slice<TypeParam>;
     slice_t sl = this->getTestSlice();
 
     ASSERT_EQ(*sl.begin(), static_cast<typename slice_t::value_type>(1));
@@ -286,7 +286,7 @@ TYPED_TEST_P(mutableSlice, iterators)
  */
 TYPED_TEST_P(mutableSlice, at)
 {
-    typedef Slice<TypeParam> slice_t;
+    using slice_t = Slice<TypeParam>;
     slice_t sl = this->getTestSlice(2, 4);
 
     sl.at(0) = 6;
@@ -421,13 +421,13 @@ REGISTER_TYPED_TEST_CASE_P(slice, atAccess, iteratorAccess, constructionFailsFro
                            subSliceFailedConstruction, subSliceConstructionOverflowResistance,
                            constMethodsPreserveConst);
 
-typedef ::testing::Types<const std::vector<int>, std::vector<int>, int*, const int*> test_types_t;
+using test_types_t = ::testing::Types<const std::vector<int>, std::vector<int>, int*, const int*>;
 INSTANTIATE_TYPED_TEST_CASE_P(slice, slice, test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(mutableSlice, iterators, at);
-typedef ::testing::Types<std::vector<int>, int*> mut_test_types_t;
+using mut_test_types_t = ::testing::Types<std::vector<int>, int*>;
 INSTANTIATE_TYPED_TEST_CASE_P(slice, mutableSlice, mut_test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(dataBufSlice, successfulConstruction, failedConstruction);
-typedef ::testing::Types<DataBuf&, const DataBuf&> data_buf_types_t;
+using data_buf_types_t = ::testing::Types<DataBuf&, const DataBuf&>;
 INSTANTIATE_TYPED_TEST_CASE_P(slice, dataBufSlice, data_buf_types_t);

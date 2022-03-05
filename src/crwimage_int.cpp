@@ -70,8 +70,7 @@ namespace {
     }
 }  // namespace
 
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     /*
       Mapping table used to decode and encode CIFF tags to/from Exif tags.  Only
@@ -148,10 +147,6 @@ namespace Exiv2 {
     };
 
     const char CiffHeader::signature_[] = "HEAPCCDR";
-
-    CiffHeader::~CiffHeader()
-    {
-    }
 
     CiffDirectory::~CiffDirectory()
     {
@@ -821,7 +816,7 @@ namespace Exiv2 {
         const uint32_t component_size = ciffComponent.size();
         enforce(component_size % 2 == 0, kerCorruptedMetadata);
         enforce(component_size/2 <= static_cast<uint32_t>(std::numeric_limits<uint16_t>::max()), kerCorruptedMetadata);
-        const uint16_t num_components = static_cast<uint16_t>(component_size/2);
+        const auto num_components = static_cast<uint16_t>(component_size / 2);
         uint16_t c = 1;
         while (c < num_components) {
             uint16_t n = 1;
@@ -1194,5 +1189,4 @@ namespace Exiv2 {
         return buf;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

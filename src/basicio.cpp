@@ -9,7 +9,6 @@
 #include "error.hpp"
 #include "enforce.hpp"
 #include "http.hpp"
-#include "properties.hpp"
 #include "image_int.hpp"
 
 // + standard includes
@@ -28,8 +27,6 @@
 #include <memory>
 #include <string>
 
-namespace fs = std::filesystem;
-
 #ifdef EXV_HAVE_SYS_MMAN_H
 # include <sys/mman.h>                  // for mmap and munmap
 #endif
@@ -44,23 +41,24 @@ namespace fs = std::filesystem;
 # include <curl/curl.h>
 #endif
 
-#define mode_t unsigned short
-
 #if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN__))
+#define mode_t unsigned short
 # include <windows.h>
 # include <io.h>
 #endif
+
+namespace fs = std::filesystem;
 
 // *****************************************************************************
 // class member definitions
 namespace {
     /// @brief replace each substring of the subject that matches the given search string with the given replacement.
-    void ReplaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace)
+    void ReplaceStringInPlace(std::string& subject, std::string_view search, std::string_view replace)
     {
-        size_t pos = 0;
-        while ((pos = subject.find(search, pos)) != std::string::npos) {
+        auto pos = subject.find(search);
+        while (pos != std::string::npos) {
             subject.replace(pos, search.length(), replace);
-            pos += replace.length();
+            pos += subject.find(search, pos + replace.length());
         }
     }
 }
@@ -88,17 +86,17 @@ namespace Exiv2 {
         // DATA
         std::string path_;              //!< (Standard) path
         std::string openMode_;          //!< File open mode
-        FILE *fp_;                      //!< File stream pointer
-        OpMode opMode_;                 //!< File open mode
+        FILE* fp_{};                    //!< File stream pointer
+        OpMode opMode_{opSeek};         //!< File open mode
 
 #if defined WIN32 && !defined __CYGWIN__
-        HANDLE hFile_;                  //!< Duplicated fd
-        HANDLE hMap_;                   //!< Handle from CreateFileMapping
+        HANDLE hFile_{};  //!< Duplicated fd
+        HANDLE hMap_{};   //!< Handle from CreateFileMapping
 #endif
-        byte*  pMappedArea_;            //!< Pointer to the memory-mapped area
-        size_t mappedLength_;           //!< Size of the memory-mapped area
-        bool   isMalloced_;             //!< Is the mapped area allocated?
-        bool   isWriteable_;            //!< Can the mapped area be written to?
+        byte* pMappedArea_{};    //!< Pointer to the memory-mapped area
+        size_t mappedLength_{};  //!< Size of the memory-mapped area
+        bool isMalloced_{};      //!< Is the mapped area allocated?
+        bool isWriteable_{};     //!< Can the mapped area be written to?
         // TYPES
         //! Simple struct stat wrapper for internal use
         struct StructStat {
@@ -122,18 +120,7 @@ namespace Exiv2 {
         Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
     }; // class FileIo::Impl
 
-    FileIo::Impl::Impl(std::string path)
-        : path_(std::move(path)),
-          fp_(nullptr),
-          opMode_(opSeek),
-#if defined WIN32 && !defined __CYGWIN__
-          hFile_(0),
-          hMap_(0),
-#endif
-          pMappedArea_(nullptr),
-          mappedLength_(0),
-          isMalloced_(false),
-          isWriteable_(false)
+    FileIo::Impl::Impl(std::string path) : path_(std::move(path))
     {
     }
 
@@ -959,9 +946,6 @@ namespace Exiv2 {
     }
 
 #else
-    const std::string XPathIo::TEMP_FILE_EXT = ".exiv2_temp";
-    const std::string XPathIo::GEN_FILE_EXT  = ".exiv2";
-
     XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), isTemp_(true)
     {
         tempFilePath_ = path();
@@ -1276,7 +1260,7 @@ namespace Exiv2 {
         }
 
         // submit to the remote machine.
-        long dataSize = static_cast<long>(src.size() - left - right);
+        auto dataSize = static_cast<long>(src.size() - left - right);
         if (dataSize > 0) {
             auto data = static_cast<byte*>(std::malloc(dataSize));
             src.seek(left, BasicIo::beg);

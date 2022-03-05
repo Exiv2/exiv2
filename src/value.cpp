@@ -125,7 +125,7 @@ namespace Exiv2 {
 
     DataBuf Value::dataArea() const
     {
-        return DataBuf(nullptr, 0);
+        return {nullptr, 0};
     }
 
     DataValue::DataValue(TypeId typeId)
@@ -831,7 +831,7 @@ namespace Exiv2 {
         return value_.size();
     }
 
-    static const std::string x_default = "x-default";
+    static constexpr auto x_default = "x-default";
 
     std::ostream& LangAltValue::write(std::ostream& os) const
     {
@@ -1001,7 +1001,7 @@ namespace Exiv2 {
         tms.tm_mday = date_.day;
         tms.tm_mon = date_.month - 1;
         tms.tm_year = date_.year - 1900;
-        int64_t l = static_cast<int64_t>(std::mktime(&tms));
+        auto l = static_cast<int64_t>(std::mktime(&tms));
         ok_ = (l != -1);
         return l;
     }

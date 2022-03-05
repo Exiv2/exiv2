@@ -774,7 +774,7 @@ namespace Exiv2 {
             deg[i] = static_cast<double>(z)/d;
         }
         double min = deg[0] * 60.0 + deg[1] + deg[2] / 60.0;
-        int ideg = static_cast<int>(min / 60.0);
+        auto ideg = static_cast<int>(min / 60.0);
         min -= ideg * 60;
         std::ostringstream oss;
         oss << ideg << ","

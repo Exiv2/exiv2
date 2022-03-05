@@ -22,8 +22,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! OffOn, multiple tags
     constexpr TagDetails nikonOffOn[] = {
@@ -2624,7 +2623,7 @@ fmountlens[] = {
      */
         if (metadata == nullptr)
         {
-            const unsigned char vid = static_cast<unsigned char>(value.toInt64(0));
+            const auto vid = static_cast<unsigned char>(value.toInt64(0));
 
             /* the 'FMntLens' name is added to the anonymous struct for
              * fmountlens[]
@@ -3256,5 +3255,4 @@ fmountlens[] = {
         return os;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

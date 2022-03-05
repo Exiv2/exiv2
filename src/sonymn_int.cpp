@@ -20,8 +20,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     // -- Standard Sony Makernotes tags ---------------------------------------------------------------
 
@@ -1358,5 +1357,4 @@ namespace Exiv2 {
         return sonyTagCipher(tag,bytes,size,object,false);
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

@@ -15,8 +15,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
     //! ShootingMode, tag 0x0001
     constexpr TagDetails pentaxShootingMode[] = {
@@ -1195,8 +1194,7 @@ namespace Exiv2 {
 
     // Exception thrown by findLensInfo when the lens info can't be found.
     class LensInfoNotFound : public std::exception {
-    public:
-      LensInfoNotFound() {}
+        using std::exception::exception;
     };
 
     // Throws std::exception if the LensInfo can't be found.
@@ -1685,5 +1683,4 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-    }  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

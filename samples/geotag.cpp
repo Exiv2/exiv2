@@ -247,13 +247,13 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
     const char* EW   = d>=0.0?"E":"W";
     const char* NSEW = bLat  ? NS: EW;
     if ( d < 0 ) d = -d;
-    int deg = static_cast<int>(d);
+    auto deg = static_cast<int>(d);
     d -= deg;
     d *= 60;
-    int min = static_cast<int>(d);
+    auto min = static_cast<int>(d);
     d -= min;
     d *= 60;
-    int sec = static_cast<int>(d);
+    auto sec = static_cast<int>(d);
     char result[200];
     if ( bRational )
         snprintf(result,sizeof(result),"%d/1 %d/1 %d/1" ,deg,min,sec);
