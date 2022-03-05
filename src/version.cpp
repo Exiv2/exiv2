@@ -194,7 +194,7 @@ static std::vector<std::string> getLoadedLibraries()
     }
 #endif
     if (libs.empty())
-        libs.push_back("unknown");
+        libs.emplace_back("unknown");
 
     return libs;
 }
