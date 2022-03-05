@@ -1391,7 +1391,7 @@ namespace Exiv2::Internal {
                  cryptFct  = sonyTagEncipher;
             }
             DataBuf buf = cryptFct(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
-            if (    buf.size()) {
+            if (!buf.empty()) {
                 mio.seek(0,Exiv2::FileIo::beg);
                 mio.write(buf.c_data(), buf.size());
             }

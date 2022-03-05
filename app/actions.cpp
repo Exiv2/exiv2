@@ -902,7 +902,7 @@ namespace Action {
             if (dontOverwrite(thumbPath)) return 0;
             if (Params::instance().verbose_) {
                 Exiv2::DataBuf buf = exifThumb.copy();
-                if (buf.size() != 0) {
+                if (!buf.empty()) {
                     std::cout << _("Writing thumbnail") << " (" << exifThumb.mimeType() << ", "
                               << buf.size() << " " << _("Bytes") << ") " << _("to file") << " "
                               << thumbPath << std::endl;
@@ -1150,7 +1150,7 @@ namespace Action {
             image->readMetadata();
             // clear existing profile, assign the blob and rewrite image
             image->clearIccProfile();
-            if ( iccProfileBlob.size() ) {
+            if (!iccProfileBlob.empty()) {
                 image->setIccProfile(std::move(iccProfileBlob));
             }
             image->writeMetadata();

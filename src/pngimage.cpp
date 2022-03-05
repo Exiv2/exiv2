@@ -342,7 +342,7 @@ namespace Exiv2 {
 #if EXIV2_DEBUG_MESSAGES
                             std::cerr << Exiv2::Internal::binaryToString(makeSlice(parsedBuf.c_data(), parsedBuf.size()>50?50:parsedBuf.size(),0)) << std::endl;
 #endif
-                            if ( parsedBuf.size() ) {
+                            if (!parsedBuf.empty()) {
                                 if ( bExif ) {
                                     // create memio object with the data, then print the structure
                                     MemIo p(parsedBuf.c_data(6), parsedBuf.size()-6);
@@ -354,7 +354,7 @@ namespace Exiv2 {
                             }
                         }
 
-                        if ( bSoft && dataBuf.size() > 0) {
+                        if (bSoft && !dataBuf.empty()) {
                             DataBuf     s(dataBuf.size()+1);               // allocate buffer with an extra byte
                             s.copyBytes(0,dataBuf.c_data(),dataBuf.size());// copy in the dataBuf
                             s.write_uint8(dataBuf.size(), 0);             // nul terminate it
@@ -621,8 +621,7 @@ namespace Exiv2 {
                 {
                     // Update IPTC data to a new PNG chunk
                     DataBuf newPsData = Photoshop::setIptcIrb(nullptr, 0, iptcData_);
-                    if (newPsData.size() > 0)
-                    {
+                    if (!newPsData.empty()) {
                         std::string rawIptc(newPsData.c_str(), newPsData.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
                         if (outIo.write(reinterpret_cast<const byte*>(chunk.data()), chunk.size()) != chunk.size()) {

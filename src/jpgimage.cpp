@@ -419,7 +419,7 @@ namespace Exiv2 {
                 }
 
                 DataBuf profile(Safe::add(iccProfile_.size(), icc_size));
-                if ( iccProfile_.size() ) {
+                if (!iccProfile_.empty()) {
                     profile.copyBytes(0, iccProfile_.c_data(), iccProfile_.size());
                 }
                 profile.copyBytes(iccProfile_.size(), buf.c_data(2+14), icc_size);

@@ -250,7 +250,7 @@ namespace Exiv2 {
                     throw Error(kerFailedToReadImageData);
                 ByteOrder bo = ExifParser::decode(exifData_, rawExif.c_data(), rawExif.size());
                 setByteOrder(bo);
-                if (rawExif.size() > 0 && byteOrder() == invalidByteOrder) {
+                if (!rawExif.empty() && byteOrder() == invalidByteOrder) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode Exif metadata.\n";
 #endif
@@ -579,7 +579,7 @@ namespace Exiv2 {
 
         if (iptcData.count() > 0) {
             DataBuf rawIptc = IptcParser::encode(iptcData);
-            if (rawIptc.size() > 0) {
+            if (!rawIptc.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_IPTC_NAA << "\n";
                 std::cerr << std::dec << "Writing IPTC_NAA: size: " << rawIptc.size() << "\n";

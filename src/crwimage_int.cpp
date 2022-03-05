@@ -1063,12 +1063,11 @@ namespace Exiv2::Internal {
             // Try the undecoded tag
             encodeBasic(image, pCrwMapping, pHead);
         }
-        if (buf.size() > 0) {
+        if (!buf.empty()) {
             // Write the number of shorts to the beginning of buf
             buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
-        }
-        else {
+        } else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
         }
     } // CrwMap::encodeArray
@@ -1154,10 +1153,9 @@ namespace Exiv2::Internal {
 
         ExifThumbC exifThumb(image.exifData());
         DataBuf buf = exifThumb.copy();
-        if (buf.size() != 0) {
+        if (!buf.empty()) {
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
-        }
-        else {
+        } else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
         }
     } // CrwMap::encode0x2008
