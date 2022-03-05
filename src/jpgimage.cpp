@@ -606,7 +606,7 @@ namespace Exiv2 {
                         enforce(start <= size, kerInvalidXmpText);
                         out.write(reinterpret_cast<const char*>(&xmp[start]), size - start);
                         done = !bExtXMP;
-                    } else if (option == kpsIccProfile && signature.compare(iccId_) == 0) {
+                    } else if (option == kpsIccProfile && signature == iccId_) {
                         // extract ICCProfile
                         if (size >= 16) {
                             out.write(buf.c_str(16), size - 16);
