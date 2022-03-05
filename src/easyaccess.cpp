@@ -113,6 +113,7 @@ namespace Exiv2 {
             std::ostringstream os;
             md->write(os, &ed);
             bool ok = false;
+            if ( os.str().find("inf") != std::string::npos ) break;
             iso_val = parseInt64(os.str(), ok);
             if (ok && iso_val > 0) break;
             while (strcmp(keys[idx++], md->key().c_str()) != 0 && idx < cnt) {}
