@@ -794,7 +794,7 @@ namespace Exiv2 {
                     }
                     val->value_[propValue] = text;
                 }
-                xmpData.add(*key.get(), val.get());
+                xmpData.add(*key, val.get());
                 continue;
             }
             if (    XMP_PropIsArray(opt)
@@ -825,7 +825,7 @@ namespace Exiv2 {
                         printNode(schemaNs, propPath, propValue, opt);
                         val->read(propValue);
                     }
-                    xmpData.add(*key.get(), val.get());
+                    xmpData.add(*key, val.get());
                     continue;
                 }
             }
@@ -835,12 +835,12 @@ namespace Exiv2 {
                 // Create a metadatum with only XMP options
                 val->setXmpArrayType(xmpArrayType(opt));
                 val->setXmpStruct(xmpStruct(opt));
-                xmpData.add(*key.get(), val.get());
+                xmpData.add(*key, val.get());
                 continue;
             }
             if (XMP_PropIsSimple(opt) || XMP_PropIsQualifier(opt)) {
                 val->read(propValue);
-                xmpData.add(*key.get(), val.get());
+                xmpData.add(*key, val.get());
                 continue;
             }
             // Don't let any node go by unnoticed

@@ -1588,7 +1588,7 @@ namespace Exiv2::Internal {
             }
         }
         auto v = Value::create(typeId);
-        enforce(v.get() != nullptr, kerCorruptedMetadata);
+        enforce(v != nullptr, kerCorruptedMetadata);
         v->read(pData, size, byteOrder());
 
         object->setValue(std::move(v));
@@ -1690,7 +1690,7 @@ namespace Exiv2::Internal {
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         auto v = Value::create(typeId);
-        enforce(v.get() != nullptr, kerCorruptedMetadata);
+        enforce(v != nullptr, kerCorruptedMetadata);
         v->read(pData, size, bo);
 
         object->setValue(std::move(v));
