@@ -39,8 +39,8 @@ const unsigned char pngBlank[] = { 0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,
 
 namespace
 {
-    const auto nullComp = (const Exiv2::byte*)"\0\0";
-    const auto typeICCP = (const Exiv2::byte*)"iCCP";
+    const auto nullComp = reinterpret_cast<const Exiv2::byte*>("\0\0");
+    const auto typeICCP = reinterpret_cast<const Exiv2::byte*>("iCCP");
     inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length)
     {
         assert(strlen(str) <= length);
@@ -641,7 +641,7 @@ namespace Exiv2 {
                         // calculate CRC
                         uLong   tmp = crc32(0L, Z_NULL, 0);
                         tmp         = crc32(tmp, typeICCP, 4);
-                        tmp         = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
+                        tmp = crc32(tmp, reinterpret_cast<const Bytef*>(profileName_.data()), nameLength);
                         tmp         = crc32(tmp, nullComp, 2);
                         tmp = crc32(tmp, compressed.c_data(), static_cast<uint32_t>(compressed.size()));
                         byte    crc[4];
