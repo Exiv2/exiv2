@@ -1248,8 +1248,7 @@ namespace Exiv2 {
               }
             } else if (std::is_signed<I>::value) {
               // conversion is from unsigned to signed
-              const auto imax =
-                static_cast<typename std::make_unsigned<I>::type>(std::numeric_limits<I>::max());
+              const auto imax = std::make_unsigned_t<I>(std::numeric_limits<I>::max());
               if (imax < b || imax < a) {
                 return 0;
               }
@@ -1260,8 +1259,8 @@ namespace Exiv2 {
                 return 0;
               }
               // Inputs are not negative so convert them to unsigned.
-              const auto a_u = static_cast<typename std::make_unsigned<decltype(a)>::type>(a);
-              const auto b_u = static_cast<typename std::make_unsigned<decltype(b)>::type>(b);
+              const auto a_u = std::make_unsigned_t<decltype(a)>(a);
+              const auto b_u = std::make_unsigned_t<decltype(b)>(b);
               if (imax < b_u || imax < a_u) {
                 return 0;
               }
