@@ -80,6 +80,7 @@ namespace Exiv2 {
     public:
         //! Constructor
         explicit Impl(std::string path);
+        ~Impl() = default;
         // Enumerations
         //! Mode of operation
         enum OpMode { opRead, opWrite, opSeek };
@@ -583,6 +584,7 @@ namespace Exiv2 {
     public:
         Impl() = default;                  //!< Default constructor
         Impl(const byte* data, size_t size); //!< Constructor 2
+        ~Impl() = default;
 
         // DATA
         byte* data_{nullptr};     //!< Pointer to the start of the memory area
@@ -622,6 +624,9 @@ namespace Exiv2 {
         {
             delete [] data_;
         }
+
+        BlockMap(const BlockMap&) = delete;
+        BlockMap& operator=(const BlockMap&) = delete;
 
         //! @brief Populate the block.
         //! @param source The data populate to the block
@@ -1038,6 +1043,9 @@ namespace Exiv2 {
         //! Destructor. Releases all managed memory.
         virtual ~Impl();
 
+        Impl(const Impl&) = delete;
+        Impl& operator=(const Impl&) = delete;
+
         // DATA
         std::string     path_;          //!< (Standard) path
         size_t          blockSize_;     //!< Size of the block memory.
@@ -1449,6 +1457,8 @@ namespace Exiv2 {
         //! Constructor
         HttpImpl(const std::string& url, size_t blockSize);
         Exiv2::Uri hostInfo_; //!< the host information extracted from the path
+
+        ~HttpImpl() override = default;
 
         // METHODS
         /*!

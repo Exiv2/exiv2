@@ -102,12 +102,7 @@ namespace {
     public:
         //! Shortcut for a %TiffThumbnail auto pointer.
         using UniquePtr = std::unique_ptr<TiffThumbnail>;
-
-        //! @name Manipulators
-        //@{
-        //! Assignment operator.
-        TiffThumbnail& operator=(const TiffThumbnail& rhs);
-        //@}
+        ~TiffThumbnail() override = default;
 
         //! @name Accessors
         //@{
@@ -123,12 +118,7 @@ namespace {
     public:
         //! Shortcut for a %JpegThumbnail auto pointer.
         using UniquePtr = std::unique_ptr<JpegThumbnail>;
-
-        //! @name Manipulators
-        //@{
-        //! Assignment operator.
-        JpegThumbnail& operator=(const JpegThumbnail& rhs);
-        //@}
+        ~JpegThumbnail() override = default;
 
         //! @name Accessors
         //@{
