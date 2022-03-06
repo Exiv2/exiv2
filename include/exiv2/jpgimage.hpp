@@ -25,11 +25,16 @@ namespace Exiv2 {
      */
     struct EXIV2API Photoshop {
         // Todo: Public for now
-        static constexpr std::array<const char*, 4> irbId_{"8BIM", "AgHg", "DCSR", "PHUT"}; //!< %Photoshop IRB markers
-        inline static const char* ps3Id_ = "Photoshop 3.0\0"; //!< %Photoshop marker
-        inline static const char* bimId_ = "8BIM";            //!< %Photoshop IRB marker (deprecated)
-        inline static const uint16_t iptc_ = 0x0404;          //!< %Photoshop IPTC marker
-        inline static const uint16_t preview_ = 0x040c;       //!< %Photoshop preview marker
+        static constexpr std::array<std::string_view, 4> irbId_{
+            "8BIM",
+            "AgHg",
+            "DCSR",
+            "PHUT",
+        };                                                 //!< %Photoshop IRB markers
+        static constexpr auto ps3Id_ = "Photoshop 3.0\0";  //!< %Photoshop marker
+        static constexpr auto bimId_ = "8BIM";             //!< %Photoshop IRB marker (deprecated)
+        static constexpr uint16_t iptc_ = 0x0404;          //!< %Photoshop IPTC marker
+        static constexpr uint16_t preview_ = 0x040c;       //!< %Photoshop preview marker
 
         /*!
           @brief Checks an IRB

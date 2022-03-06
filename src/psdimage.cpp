@@ -584,7 +584,7 @@ namespace Exiv2 {
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_IPTC_NAA << "\n";
                 std::cerr << std::dec << "Writing IPTC_NAA: size: " << rawIptc.size() << "\n";
 #endif
-                if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4)
+                if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0].data()), 4) != 4)
                     throw Error(kerImageWriteFailed);
                 us2Data(buf, kPhotoshopResourceID_IPTC_NAA, bigEndian);
                 if (out.write(buf, 2) != 2)
@@ -630,7 +630,7 @@ namespace Exiv2 {
                 std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_ExifInfo << "\n";
                 std::cerr << std::dec << "Writing ExifInfo: size: " << blob.size() << "\n";
 #endif
-                if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4)
+                if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0].data()), 4) != 4)
                     throw Error(kerImageWriteFailed);
                 us2Data(buf, kPhotoshopResourceID_ExifInfo, bigEndian);
                 if (out.write(buf, 2) != 2)
@@ -680,7 +680,7 @@ namespace Exiv2 {
             std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_XMPPacket << "\n";
             std::cerr << std::dec << "Writing XMPPacket: size: " << xmpPacket.size() << "\n";
 #endif
-            if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4)
+            if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0].data()), 4) != 4)
                 throw Error(kerImageWriteFailed);
             us2Data(buf, kPhotoshopResourceID_XMPPacket, bigEndian);
             if (out.write(buf, 2) != 2)

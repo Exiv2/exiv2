@@ -48,12 +48,8 @@ namespace Exiv2 {
     {
         if (sizePsData < 4)
             return false;
-        for (auto&& i : irbId_) {
-            assert(strlen(i) == 4);
-            if (memcmp(pPsData, i, 4) == 0)
-                return true;
-        }
-        return false;
+        return std::any_of(irbId_.begin(), irbId_.end(),
+                           [=](auto&& irb) { return irb == reinterpret_cast<const char*>(pPsData); });
     }
 
     bool Photoshop::valid(const byte* pPsData, size_t sizePsData)
@@ -202,7 +198,7 @@ namespace Exiv2 {
         DataBuf rawIptc = IptcParser::encode(iptcData);
         if (!rawIptc.empty()) {
             std::array<byte, 12> tmpBuf;
-            std::copy_n(Photoshop::irbId_[0], 4, tmpBuf.data());
+            std::copy_n(Photoshop::irbId_[0].data(), 4, tmpBuf.data());
             us2Data(tmpBuf.data() + 4, iptc_, bigEndian);
             tmpBuf[6] = 0;
             tmpBuf[7] = 0;
