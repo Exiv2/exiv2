@@ -198,7 +198,7 @@ namespace Exiv2 {
          */
         static void unregisterNs();
         //! Type for the namespace registry
-        typedef std::map<std::string, XmpNsInfo> NsRegistry;
+        using NsRegistry = std::map<std::string, XmpNsInfo>;
         /*!
           @brief Get the registered namespace for a specific \em prefix from the registry.
          */
@@ -221,7 +221,7 @@ namespace Exiv2 {
     {
     public:
         //! Shortcut for an %XmpKey auto pointer.
-        typedef std::unique_ptr<XmpKey> UniquePtr;
+        using UniquePtr = std::unique_ptr<XmpKey>;
 
         //! @name Creators
         //@{

@@ -19,9 +19,11 @@
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.
          See the C++ FAQ LITE, item
-         <a href="http://www.parashift.com/c++-faq-lite/pointers-to-members.html#faq-33.5" title="[33.5] How can I avoid syntax errors when calling a member function using a pointer-to-member-function?">[33.5] How can I avoid syntax errors when calling a member function using a pointer-to-member-function?</a>.
+         <a href="http://www.parashift.com/c++-faq-lite/pointers-to-members.html#faq-33.5" title="[33.5] How can I avoid
+  syntax errors when calling a member function using a pointer-to-member-function?">[33.5] How can I avoid syntax errors
+  when calling a member function using a pointer-to-member-function?</a>.
  */
-#define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
+#define EXV_CALL_MEMBER_FN(object, ptrToMember) ((object).*(ptrToMember))
 
 // *****************************************************************************
 // forward declarations
@@ -31,35 +33,32 @@ struct tm;
 // namespace extensions
 namespace Exiv2 {
 
-// *****************************************************************************
-// type definitions
+    // *****************************************************************************
+    // type definitions
 
     //! 1 byte unsigned integer type.
-    typedef uint8_t byte;
+    using byte = uint8_t;
 
     //! 8 byte unsigned rational type.
-    typedef std::pair<uint32_t, uint32_t> URational;
+    using URational = std::pair<uint32_t, uint32_t>;
     //! 8 byte signed rational type.
-    typedef std::pair<int32_t, int32_t> Rational;
+    using Rational = std::pair<int32_t, int32_t>;
 
     //! Type to express the byte order (little or big endian)
-    enum ByteOrder
-    {
+    enum ByteOrder {
         invalidByteOrder,
         littleEndian,
         bigEndian,
     };
 
     //! Type to indicate write method used by TIFF parsers
-    enum WriteMethod
-    {
+    enum WriteMethod {
         wmIntrusive,
         wmNonIntrusive,
     };
 
     //! An identifier for each type of metadata
-    enum MetadataId
-    {
+    enum MetadataId {
         mdNone = 0,
         mdExif = 1,
         mdIptc = 2,
@@ -69,8 +68,7 @@ namespace Exiv2 {
     };
 
     //! An identifier for each mode of metadata support
-    enum AccessMode
-    {
+    enum AccessMode {
         amNone = 0,
         amRead = 1,
         amWrite = 2,
@@ -84,41 +82,41 @@ namespace Exiv2 {
       See Value::create. 0x0000 to 0xffff are reserved for TIFF (Exif) types.
      */
     enum TypeId {
-        unsignedByte       = 1, //!< Exif BYTE type, 8-bit unsigned integer.
-        asciiString        = 2, //!< Exif ASCII type, 8-bit byte.
-        unsignedShort      = 3, //!< Exif SHORT type, 16-bit (2-byte) unsigned integer.
-        unsignedLong       = 4, //!< Exif LONG type, 32-bit (4-byte) unsigned integer.
-        unsignedRational   = 5, //!< Exif RATIONAL type, two LONGs: numerator and denominator of a fraction.
-        signedByte         = 6, //!< Exif SBYTE type, an 8-bit signed (twos-complement) integer.
-        undefined          = 7, //!< Exif UNDEFINED type, an 8-bit byte that may contain anything.
-        signedShort        = 8, //!< Exif SSHORT type, a 16-bit (2-byte) signed (twos-complement) integer.
-        signedLong         = 9, //!< Exif SLONG type, a 32-bit (4-byte) signed (twos-complement) integer.
-        signedRational     =10, //!< Exif SRATIONAL type, two SLONGs: numerator and denominator of a fraction.
-        tiffFloat          =11, //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
-        tiffDouble         =12, //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
-        tiffIfd            =13, //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
-        unsignedLongLong   =16, //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
-        signedLongLong     =17, //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
-        tiffIfd8           =18, //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
-        string        =0x10000, //!< IPTC string type.
-        date          =0x10001, //!< IPTC date type.
-        time          =0x10002, //!< IPTC time type.
-        comment       =0x10003, //!< %Exiv2 type for the Exif user comment.
-        directory     =0x10004, //!< %Exiv2 type for a CIFF directory.
-        xmpText       =0x10005, //!< XMP text type.
-        xmpAlt        =0x10006, //!< XMP alternative type.
-        xmpBag        =0x10007, //!< XMP bag type.
-        xmpSeq        =0x10008, //!< XMP sequence type.
-        langAlt       =0x10009, //!< XMP language alternative type.
-        invalidTypeId =0x1fffe, //!< Invalid type id.
-        lastTypeId    =0x1ffff  //!< Last type id.
+        unsignedByte = 1,         //!< Exif BYTE type, 8-bit unsigned integer.
+        asciiString = 2,          //!< Exif ASCII type, 8-bit byte.
+        unsignedShort = 3,        //!< Exif SHORT type, 16-bit (2-byte) unsigned integer.
+        unsignedLong = 4,         //!< Exif LONG type, 32-bit (4-byte) unsigned integer.
+        unsignedRational = 5,     //!< Exif RATIONAL type, two LONGs: numerator and denominator of a fraction.
+        signedByte = 6,           //!< Exif SBYTE type, an 8-bit signed (twos-complement) integer.
+        undefined = 7,            //!< Exif UNDEFINED type, an 8-bit byte that may contain anything.
+        signedShort = 8,          //!< Exif SSHORT type, a 16-bit (2-byte) signed (twos-complement) integer.
+        signedLong = 9,           //!< Exif SLONG type, a 32-bit (4-byte) signed (twos-complement) integer.
+        signedRational = 10,      //!< Exif SRATIONAL type, two SLONGs: numerator and denominator of a fraction.
+        tiffFloat = 11,           //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
+        tiffDouble = 12,          //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
+        tiffIfd = 13,             //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
+        unsignedLongLong = 16,    //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
+        signedLongLong = 17,      //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
+        tiffIfd8 = 18,            //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
+        string = 0x10000,         //!< IPTC string type.
+        date = 0x10001,           //!< IPTC date type.
+        time = 0x10002,           //!< IPTC time type.
+        comment = 0x10003,        //!< %Exiv2 type for the Exif user comment.
+        directory = 0x10004,      //!< %Exiv2 type for a CIFF directory.
+        xmpText = 0x10005,        //!< XMP text type.
+        xmpAlt = 0x10006,         //!< XMP alternative type.
+        xmpBag = 0x10007,         //!< XMP bag type.
+        xmpSeq = 0x10008,         //!< XMP sequence type.
+        langAlt = 0x10009,        //!< XMP language alternative type.
+        invalidTypeId = 0x1fffe,  //!< Invalid type id.
+        lastTypeId = 0x1ffff      //!< Last type id.
     };
 
     //! Container for binary data
-    typedef std::vector<byte> Blob;
+    using Blob = std::vector<byte>;
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! Type information lookup functions. Implemented as a static class.
     class EXIV2API TypeInfo {
@@ -136,7 +134,6 @@ namespace Exiv2 {
         static TypeId typeId(const std::string& typeName);
         //! Return the size in bytes of one element of this type
         static size_t typeSize(TypeId typeId);
-
     };
 
     /*!
@@ -210,9 +207,9 @@ namespace Exiv2 {
         //! Returns a (read-only) C-style string pointer.
         const char* c_str(size_t offset = 0) const;
 
-        bool empty() const {return pData_.empty(); }
+        bool empty() const { return pData_.empty(); }
 
-      private:
+    private:
         std::vector<byte> pData_;
     };
 
@@ -232,15 +229,14 @@ namespace Exiv2 {
     //! Overload of makeSlice for `const DataBuf`, returning an immutable Slice
     EXIV2API Slice<const byte*> makeSlice(const DataBuf& buf, size_t begin, size_t end);
 
-// *****************************************************************************
-// free functions
+    // *****************************************************************************
+    // free functions
 
     //! Read a 2 byte unsigned short value from the data buffer
     EXIV2API uint16_t getUShort(const byte* buf, ByteOrder byteOrder);
     //! Read a 2 byte unsigned short value from a Slice
     template <typename T>
-    uint16_t getUShort(const Slice<T>& buf, ByteOrder byteOrder)
-    {
+    uint16_t getUShort(const Slice<T>& buf, ByteOrder byteOrder) {
         if (byteOrder == littleEndian) {
             return static_cast<byte>(buf.at(1)) << 8 | static_cast<byte>(buf.at(0));
         }
@@ -324,16 +320,14 @@ namespace Exiv2 {
              stream, prefixed with the position in the buffer adjusted by
              offset.
      */
-    EXIV2API void hexdump(std::ostream& os, const byte* buf, long len, long offset =0);
+    EXIV2API void hexdump(std::ostream& os, const byte* buf, long len, long offset = 0);
 
     /*!
       @brief Return true if str is a hex number starting with prefix followed
              by size hex digits, false otherwise. If size is 0, any number of
              digits is allowed and all are checked.
      */
-    EXIV2API bool isHex(const std::string& str,
-               size_t size =0,
-               const std::string& prefix ="");
+    EXIV2API bool isHex(const std::string& str, size_t size = 0, const std::string& prefix = "");
 
     /*!
       @brief Converts a string in the form "%Y:%m:%d %H:%M:%S", e.g.,
@@ -414,8 +408,8 @@ namespace Exiv2 {
      */
     EXIV2API Rational floatToRationalCast(float f);
 
-// *****************************************************************************
-// template and inline definitions
+    // *****************************************************************************
+    // template and inline definitions
 
     /*!
       @brief Find an element that matches \em key in the array \em src.
@@ -461,22 +455,21 @@ namespace Exiv2 {
       }
       @endcode
     */
-    template<typename T, typename K, int N>
-    const T* find(T (&src)[N], const K& key)
-    {
+    template <typename T, typename K, int N>
+    const T* find(T (&src)[N], const K& key) {
         const T* rc = std::find(src, src + N, key);
         return rc == src + N ? nullptr : rc;
     }
 
     //! Template used in the COUNTOF macro to determine the size of an array
-    template <typename T, int N> char (&sizer(T (&)[N]))[N];
+    template <typename T, int N>
+    char (&sizer(T (&)[N]))[N];
 //! Macro to determine the size of an array
 #define EXV_COUNTOF(a) (sizeof(Exiv2::sizer(a)))
 
     //! Utility function to convert the argument of any type to a string
-    template<typename T>
-    std::string toString(const T& arg)
-    {
+    template <typename T>
+    std::string toString(const T& arg) {
         std::ostringstream os;
         os << arg;
         return os.str();
@@ -493,9 +486,8 @@ namespace Exiv2 {
       @return Returns the converted value and sets \em ok to \c true if the
               conversion was successful or \c false if not.
      */
-    template<typename T>
-    T stringTo(const std::string& s, bool& ok)
-    {
+    template <typename T>
+    T stringTo(const std::string& s, bool& ok) {
         std::istringstream is(s);
         T tmp = T();
         ok = bool(is >> tmp);
@@ -512,7 +504,7 @@ namespace Exiv2 {
       and returns \c true if it is "true", "t" or "1", and \c false if it is
       "false", "f" or "0".
      */
-    template<>
+    template <>
     bool stringTo<bool>(const std::string& s, bool& ok);
 
     /*!
@@ -524,8 +516,7 @@ namespace Exiv2 {
             anyway...
      */
     template <typename IntType>
-    IntType gcd(IntType n, IntType m)
-    {
+    IntType gcd(IntType n, IntType m) {
         // Avoid repeated construction
         IntType zero(0);
 
@@ -545,16 +536,14 @@ namespace Exiv2 {
         // As n and m are now positive, we can be sure that %= returns a
         // positive value (the standard guarantees this for built-in types,
         // and we require it of user-defined types).
-        for(;;) {
-            if(m == zero)
-                return n;
+        for (;;) {
+            if (m == zero) return n;
             n %= m;
-            if(n == zero)
-                return m;
+            if (n == zero) return m;
             m %= n;
         }
     }
 
-}                                       // namespace Exiv2
+}  // namespace Exiv2
 
-#endif                                  // #ifndef TYPES_HPP_
+#endif  // #ifndef TYPES_HPP_
