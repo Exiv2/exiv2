@@ -332,10 +332,7 @@ namespace Exiv2 {
         return p_->key_;
     }
 
-    const char* ExifKey::familyName() const
-    {
-        return p_->familyName_;
-    }
+    const char* ExifKey::familyName() const { return Exiv2::ExifKey::Impl::familyName_; }
 
     std::string ExifKey::groupName() const
     {

@@ -10,11 +10,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Samsung cameras
     class Samsung2MakerNote {
@@ -32,6 +31,6 @@ namespace Exiv2 {
 
     }; // class Samsung2MakerNote
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef SAMSUNGMN_INT_HPP_

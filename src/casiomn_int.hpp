@@ -18,11 +18,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Casio cameras
     class CasioMakerNote {
@@ -56,6 +55,6 @@ namespace Exiv2 {
 
     }; // class Casio2MakerNote
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef CasioMN_INT_HPP_

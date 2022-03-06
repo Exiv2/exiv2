@@ -10,11 +10,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Panasonic cameras
     class PanasonicMakerNote {
@@ -57,7 +56,6 @@ namespace Exiv2 {
         static const TagInfo tagInfoRaw_[];
 
     }; // class PanasonicMakerNote
-
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef PANASONICMN_INT_HPP_

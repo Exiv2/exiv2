@@ -22,11 +22,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Olympus cameras
     class OlympusMakerNote {
@@ -96,6 +95,6 @@ namespace Exiv2 {
 
     }; // class OlympusMakerNote
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef OLYMPUSMN_INT_HPP_

@@ -126,7 +126,7 @@ namespace Exiv2 {
 
     int FileIo::Impl::switchMode(OpMode opMode)
     {
-        assert(fp_ != 0);
+        assert(fp_);
         if (opMode_ == opMode) return 0;
         OpMode oldOpMode = opMode_;
         opMode_ = opMode;
@@ -231,7 +231,7 @@ namespace Exiv2 {
 
     byte* FileIo::mmap(bool isWriteable)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
         if (munmap() != 0) {
             throw Error(kerCallFailed, path(), strError(), "munmap");
         }
@@ -304,7 +304,7 @@ namespace Exiv2 {
 
     size_t FileIo::write(const byte* data, size_t wcount)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
         if (p_->switchMode(Impl::opWrite) != 0)
             return 0;
         return std::fwrite(data, 1, wcount, p_->fp_);
@@ -312,7 +312,7 @@ namespace Exiv2 {
 
     size_t FileIo::write(BasicIo& src)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
         if (static_cast<BasicIo*>(this) == &src)
             return 0;
         if (!src.isopen())
@@ -446,14 +446,14 @@ namespace Exiv2 {
 
     int FileIo::putb(byte data)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
         if (p_->switchMode(Impl::opWrite) != 0) return EOF;
         return putc(data, p_->fp_);
     }
 
     int FileIo::seek( int64_t offset, Position pos )
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
 
         int fileSeek = 0;
         switch (pos) {
@@ -472,7 +472,7 @@ namespace Exiv2 {
 
     long FileIo::tell() const
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
         return std::ftell(p_->fp_);
     }
 
@@ -531,7 +531,7 @@ namespace Exiv2 {
 
     DataBuf FileIo::read(size_t rcount)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
         if (static_cast<size_t>(rcount) > size())
             throw Error(kerInvalidMalloc);
         DataBuf buf(rcount);
@@ -545,7 +545,7 @@ namespace Exiv2 {
 
     size_t FileIo::read(byte* buf, size_t rcount)
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
         if (p_->switchMode(Impl::opRead) != 0) {
             return 0;
         }
@@ -554,7 +554,7 @@ namespace Exiv2 {
 
     int FileIo::getb()
     {
-        assert(p_->fp_ != 0);
+        assert(p_->fp_);
         if (p_->switchMode(Impl::opRead) != 0) return EOF;
         return getc(p_->fp_);
     }

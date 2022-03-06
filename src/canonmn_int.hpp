@@ -21,13 +21,9 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    class Value;
-
-    namespace Internal {
-
-// *****************************************************************************
-// class definitions
+namespace Exiv2::Internal {
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Canon cameras
     class CanonMakerNote {
@@ -205,7 +201,7 @@ namespace Exiv2 {
      */
     float canonEv(int64_t val);
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef CANONMN_INT_HPP_
 

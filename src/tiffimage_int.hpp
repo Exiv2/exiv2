@@ -11,12 +11,11 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
+namespace Exiv2::Internal {
     /*!
       @brief Contains internal objects which are not published and are not part
              of the <b>libexiv2</b> API.
      */
-    namespace Internal {
 
 // *****************************************************************************
 // class definitions
@@ -270,16 +269,9 @@ namespace Exiv2 {
           @return Byte order in which the data is encoded, invalidByteOrder if
                   decoding failed.
         */
-        static ByteOrder decode(
-                  ExifData&          exifData,
-                  IptcData&          iptcData,
-                  XmpData&           xmpData,
-            const byte*              pData,
-                  uint32_t           size,
-                  uint32_t           root,
-                  FindDecoderFct     findDecoderFct,
-                  TiffHeaderBase*    pHeader =0
-        );
+        static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
+                                uint32_t size, uint32_t root, FindDecoderFct findDecoderFct,
+                                TiffHeaderBase* pHeader = nullptr);
         /*!
           @brief Encode TIFF metadata from the metadata containers into a
                  memory block \em blob.
@@ -423,12 +415,12 @@ namespace Exiv2 {
         //! Data structure for the offset list.
         struct OffsetData {
             //! Default constructor
-            OffsetData() : origin_(0), target_(0), byteOrder_(littleEndian) {}
+            OffsetData() : origin_(0), byteOrder_(littleEndian) {}
             //! Constructor
-            OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), target_(0), byteOrder_(byteOrder) {}
+            OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), byteOrder_(byteOrder) {}
             // DATA
             uint32_t origin_;     //!< Origin address
-            uint32_t target_;     //!< Target address
+            uint32_t target_{};   //!< Target address
             ByteOrder byteOrder_; //!< Byte order to use to encode target address
         };
         //! Type of the list containing an identifier and an address pair.
@@ -453,6 +445,6 @@ namespace Exiv2 {
 
     }; // class FindExifdatum
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef TIFFIMAGE_INT_HPP_

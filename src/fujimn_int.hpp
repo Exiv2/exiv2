@@ -9,11 +9,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Fujifilm cameras
     class FujiMakerNote {
@@ -24,9 +23,8 @@ namespace Exiv2 {
     private:
         //! Tag information
         static const TagInfo tagInfo_[];
-
     }; // class FujiMakerNote
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef FUJIMN_INT_HPP_

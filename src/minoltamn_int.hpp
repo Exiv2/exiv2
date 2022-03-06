@@ -13,11 +13,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Minolta cameras
     class MinoltaMakerNote {
@@ -121,6 +120,6 @@ namespace Exiv2 {
 
     // TODO: Added shared methods here.
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef MINOLTAMN_INT_HPP_

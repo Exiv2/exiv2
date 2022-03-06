@@ -9,11 +9,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     /*!
       @brief Panasonic RW2 header structure.
@@ -36,6 +35,6 @@ namespace Exiv2 {
 
     }; // class Rw2Header
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef RW2IMAGE_INT_HPP_

@@ -11,23 +11,21 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
-// *****************************************************************************
-// function prototypes
-        /*!
-          @brief Determine the path to the Exiv2 configuration file
-         */
-        std::string getExiv2ConfigPath();
+namespace Exiv2::Internal {
+    // *****************************************************************************
+    // function prototypes
+    /*!
+      @brief Determine the path to the Exiv2 configuration file
+     */
+    std::string getExiv2ConfigPath();
 
-        /*!
-          @brief Read value from Exiv2 configuration file
-         */
-        std::string readExiv2Config(const std::string& section,const std::string& value,const std::string& def);
+    /*!
+      @brief Read value from Exiv2 configuration file
+     */
+    std::string readExiv2Config(const std::string& section, const std::string& value, const std::string& def);
 
-
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! Type for a pointer to a function creating a makernote (image)
     using NewMnFct = TiffComponent* (*)(uint16_t    tag,
@@ -748,6 +746,6 @@ namespace Exiv2 {
      */
     DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef MAKERNOTE_INT_HPP_

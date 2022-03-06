@@ -69,21 +69,10 @@ namespace Exiv2::Internal {
         if (pow_) pow_->setTarget(OffsetWriter::OffsetId(id), static_cast<uint32_t>(target));
     }
 
-    TiffComponent::TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group), pStart_(nullptr)
-    {
-    }
+    TiffComponent::TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group) {}
 
     TiffEntryBase::TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType)
-        : TiffComponent(tag, group),
-          tiffType_(tiffType),
-          count_(0),
-          offset_(0),
-          size_(0),
-          pData_(nullptr),
-          idx_(0),
-          pValue_(nullptr)
-    {
-    }
+        : TiffComponent(tag, group), tiffType_(tiffType) {}
 
     TiffSubIfd::TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup)
         : TiffEntryBase(tag, group, ttUnsignedLong), newGroup_(newGroup)
@@ -91,9 +80,7 @@ namespace Exiv2::Internal {
     }
 
     TiffMnEntry::TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup)
-        : TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup), mn_(nullptr)
-    {
-    }
+        : TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {}
 
     TiffIfdMakernote::TiffIfdMakernote(uint16_t  tag,
                                        IfdId     group,
@@ -103,7 +90,6 @@ namespace Exiv2::Internal {
         : TiffComponent(tag, group),
           pHeader_(pHeader),
           ifd_(tag, mnGroup, hasNext),
-          mnOffset_(0),
           imageByteOrder_(invalidByteOrder)
     {
     }
@@ -111,17 +97,9 @@ namespace Exiv2::Internal {
     TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg* arrayCfg, const ArrayDef* arrayDef,
                                      int defSize)
         : TiffEntryBase(tag, group, arrayCfg->elTiffType_),
-          cfgSelFct_(nullptr),
-          arraySet_(nullptr),
           arrayCfg_(arrayCfg),
           arrayDef_(arrayDef),
-          defSize_(defSize),
-          setSize_(0),
-          origData_(nullptr),
-          origSize_(0),
-          pRoot_(nullptr),
-          decoded_(false)
-    {
+          defSize_(defSize) {
         assert(arrayCfg != 0);
     }
 
@@ -130,15 +108,7 @@ namespace Exiv2::Internal {
         : TiffEntryBase(tag, group),  // Todo: Does it make a difference that there is no type?
           cfgSelFct_(cfgSelFct),
           arraySet_(arraySet),
-          arrayCfg_(nullptr),
-          arrayDef_(nullptr),
-          defSize_(0),
-          setSize_(setSize),
-          origData_(nullptr),
-          origSize_(0),
-          pRoot_(nullptr),
-          decoded_(false)
-    {
+          setSize_(setSize) {
         // We'll figure out the correct cfg later
         assert(cfgSelFct != 0);
         assert(arraySet_ != 0);
@@ -203,9 +173,7 @@ namespace Exiv2::Internal {
     {
     }
 
-    TiffDirectory::TiffDirectory(const TiffDirectory& rhs) : TiffComponent(rhs), hasNext_(rhs.hasNext_), pNext_(nullptr)
-    {
-    }
+    TiffDirectory::TiffDirectory(const TiffDirectory& rhs) : TiffComponent(rhs), hasNext_(rhs.hasNext_) {}
 
     TiffSubIfd::TiffSubIfd(const TiffSubIfd& rhs)
         : TiffEntryBase(rhs),
@@ -223,10 +191,7 @@ namespace Exiv2::Internal {
           setSize_(rhs.setSize_),
           origData_(rhs.origData_),
           origSize_(rhs.origSize_),
-          pRoot_(rhs.pRoot_),
-          decoded_(false)
-    {
-    }
+          pRoot_(rhs.pRoot_) {}
 
     TiffComponent::UniquePtr TiffComponent::clone() const
     {

@@ -136,8 +136,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Constructor, taking \em tag and \em group of the component to find.
-        TiffFinder(uint16_t tag, IfdId group)
-            : tag_(tag), group_(group), tiffComponent_(0) {}
+        TiffFinder(uint16_t tag, IfdId group) : tag_(tag), group_(group) {}
         //! Virtual destructor
         ~TiffFinder() override = default;
         //@}
@@ -183,7 +182,7 @@ namespace Exiv2 {
     private:
         uint16_t tag_;
         IfdId group_;
-        TiffComponent* tiffComponent_;
+        TiffComponent* tiffComponent_{};
     }; // class TiffFinder
 
     /*!
@@ -324,7 +323,6 @@ namespace Exiv2 {
                         const TiffEntryBase* object);
         //@}
 
-    private:
         // DATA
         ExifData& exifData_;         //!< Exif metadata container
         IptcData& iptcData_;         //!< IPTC metadata container
@@ -415,10 +413,7 @@ namespace Exiv2 {
 
           @note Encoder functions may use metadata other than \em datum.
          */
-        void encodeTiffComponent(
-                  TiffEntryBase* object,
-            const Exifdatum*     datum =0
-        );
+        void encodeTiffComponent(TiffEntryBase* object, const Exifdatum* datum = nullptr);
 
         //! Callback encoder function for an element of a binary array.
         void encodeBinaryElement(TiffBinaryElement* object, const Exifdatum* datum);
@@ -520,7 +515,6 @@ namespace Exiv2 {
         bool isImageTag(uint16_t tag, IfdId group) const;
         //@}
 
-    private:
         // DATA
         ExifData exifData_;          //!< Copy of the Exif data to encode
         const IptcData& iptcData_;   //!< IPTC data to encode, just a reference
@@ -645,7 +639,7 @@ namespace Exiv2 {
           Uses the \em state passed in, if any, and remembers it for use during
           subsequent calls without any argument.
          */
-        void setMnState(const TiffRwState* state =0);
+        void setMnState(const TiffRwState* state = nullptr);
         //! Set the state to the original state as set in the constructor.
         void setOrigState();
         //! Check IFD directory pointer \em start for circular reference

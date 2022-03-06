@@ -18,11 +18,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     /*!
       @brief format a string in the pattern of \em sprintf \em .
@@ -106,6 +105,6 @@ namespace Exiv2 {
     /// @brief indent output for kpsRecursive in \em printStructure() \em .
     std::string indent(int32_t depth);
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef IMAGE_INT_HPP_
