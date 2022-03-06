@@ -599,7 +599,7 @@ namespace Exiv2::Internal {
         if (pos != exifData_.end()) {
             irbKey.setIdx(pos->idx());
         }
-        if (rawIptc.size() != 0 && (del || pos == exifData_.end())) {
+        if (!rawIptc.empty() && (del || pos == exifData_.end())) {
             auto value = Value::create(unsignedLong);
             DataBuf buf;
             if (rawIptc.size() % 4 != 0) {
@@ -622,7 +622,7 @@ namespace Exiv2::Internal {
             pos->value().copy(irbBuf.data(), invalidByteOrder);
             irbBuf = Photoshop::setIptcIrb(irbBuf.c_data(), irbBuf.size(), iptcData_);
             exifData_.erase(pos);
-            if (irbBuf.size() != 0) {
+            if (!irbBuf.empty()) {
                 auto value = Value::create(unsignedByte);
                 value->read(irbBuf.data(), static_cast<long>(irbBuf.size()), invalidByteOrder);
                 Exifdatum iptcDatum(irbKey, value.get());
@@ -815,7 +815,7 @@ namespace Exiv2::Internal {
         if (cryptFct != nullptr) {
             const byte* pData = object->pData();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
-            if (buf.size() > 0) {
+            if (!buf.empty()) {
                 pData = buf.c_data();
                 size = static_cast<int32_t>(buf.size());
             }
@@ -930,7 +930,7 @@ namespace Exiv2::Internal {
                 std::cerr << "Writing data area for " << key << "\n";
 #endif
                 DataBuf buf = object->pValue()->dataArea();
-                if ( buf.size() > 0 ) {
+                if (!buf.empty()) {
                     memcpy(object->pDataArea_, buf.c_data(), buf.size());
                     if (object->sizeDataArea_ > static_cast<size_t>(buf.size())) {
                         memset(object->pDataArea_ + buf.size(),
@@ -1588,7 +1588,7 @@ namespace Exiv2::Internal {
             }
         }
         auto v = Value::create(typeId);
-        enforce(v.get() != nullptr, kerCorruptedMetadata);
+        enforce(v != nullptr, kerCorruptedMetadata);
         v->read(pData, size, byteOrder());
 
         object->setValue(std::move(v));
@@ -1639,7 +1639,8 @@ namespace Exiv2::Internal {
             std::shared_ptr<DataBuf> buf = std::make_shared<DataBuf>(
               cryptFct(object->tag(), pData, size, pRoot_)
             );
-            if (buf->size() > 0) object->setData(buf);
+            if (!buf->empty())
+                object->setData(buf);
         }
 
         const ArrayDef* defs = object->def();
@@ -1689,7 +1690,7 @@ namespace Exiv2::Internal {
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         auto v = Value::create(typeId);
-        enforce(v.get() != nullptr, kerCorruptedMetadata);
+        enforce(v != nullptr, kerCorruptedMetadata);
         v->read(pData, size, bo);
 
         object->setValue(std::move(v));

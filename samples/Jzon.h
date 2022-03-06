@@ -269,12 +269,12 @@ namespace Jzon
         Node *GetCopy() const override;
 
     private:
-		typedef std::vector<NamedNodePtr> ChildList;
-		ChildList children;
-	};
+        using ChildList = std::vector<NamedNodePtr>;
+        ChildList children;
+    };
 
-	class JzonAPI Array : public Node
-	{
+    class JzonAPI Array : public Node
+    {
 	public:
 		class iterator : public std::iterator<std::input_iterator_tag, Node>
 		{
@@ -336,12 +336,12 @@ namespace Jzon
         Node *GetCopy() const override;
 
     private:
-		typedef std::vector<Node*> ChildList;
-		ChildList children;
-	};
+        using ChildList = std::vector<Node *>;
+        ChildList children;
+    };
 
-	class JzonAPI FileWriter
-	{
+    class JzonAPI FileWriter
+    {
 	public:
         FileWriter(std::string filename);
         ~FileWriter() = default;

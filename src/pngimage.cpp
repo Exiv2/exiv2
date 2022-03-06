@@ -39,8 +39,8 @@ const unsigned char pngBlank[] = { 0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,
 
 namespace
 {
-    const auto nullComp = (const Exiv2::byte*)"\0\0";
-    const auto typeICCP = (const Exiv2::byte*)"iCCP";
+    const auto nullComp = reinterpret_cast<const Exiv2::byte*>("\0\0");
+    const auto typeICCP = reinterpret_cast<const Exiv2::byte*>("iCCP");
     inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length)
     {
         assert(strlen(str) <= length);
@@ -342,7 +342,7 @@ namespace Exiv2 {
 #if EXIV2_DEBUG_MESSAGES
                             std::cerr << Exiv2::Internal::binaryToString(makeSlice(parsedBuf.c_data(), parsedBuf.size()>50?50:parsedBuf.size(),0)) << std::endl;
 #endif
-                            if ( parsedBuf.size() ) {
+                            if (!parsedBuf.empty()) {
                                 if ( bExif ) {
                                     // create memio object with the data, then print the structure
                                     MemIo p(parsedBuf.c_data(6), parsedBuf.size()-6);
@@ -354,7 +354,7 @@ namespace Exiv2 {
                             }
                         }
 
-                        if ( bSoft && dataBuf.size() > 0) {
+                        if (bSoft && !dataBuf.empty()) {
                             DataBuf     s(dataBuf.size()+1);               // allocate buffer with an extra byte
                             s.copyBytes(0,dataBuf.c_data(),dataBuf.size());// copy in the dataBuf
                             s.write_uint8(dataBuf.size(), 0);             // nul terminate it
@@ -621,8 +621,7 @@ namespace Exiv2 {
                 {
                     // Update IPTC data to a new PNG chunk
                     DataBuf newPsData = Photoshop::setIptcIrb(nullptr, 0, iptcData_);
-                    if (newPsData.size() > 0)
-                    {
+                    if (!newPsData.empty()) {
                         std::string rawIptc(newPsData.c_str(), newPsData.size());
                         std::string chunk = PngChunk::makeMetadataChunk(rawIptc, mdIptc);
                         if (outIo.write(reinterpret_cast<const byte*>(chunk.data()), chunk.size()) != chunk.size()) {
@@ -642,7 +641,7 @@ namespace Exiv2 {
                         // calculate CRC
                         uLong   tmp = crc32(0L, Z_NULL, 0);
                         tmp         = crc32(tmp, typeICCP, 4);
-                        tmp         = crc32(tmp, (const Bytef*)profileName_.data(), nameLength);
+                        tmp = crc32(tmp, reinterpret_cast<const Bytef*>(profileName_.data()), nameLength);
                         tmp         = crc32(tmp, nullComp, 2);
                         tmp = crc32(tmp, compressed.c_data(), static_cast<uint32_t>(compressed.size()));
                         byte    crc[4];
@@ -682,22 +681,17 @@ namespace Exiv2 {
             } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt") ||
                        !strcmp(szChunk, "iCCP")) {
                 DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
-                if (key.empty() == false && (
-                    compare("Raw profile type exif", key, 21) ||
-                    compare("Raw profile type APP1", key, 21) ||
-                    compare("Raw profile type iptc", key, 21) ||
-                    compare("Raw profile type xmp",  key, 20) ||
-                    compare("XML:com.adobe.xmp",     key, 17) ||
-                    compare("icc",                   key,  3) || // see test/data/imagemagick.png
-                    compare("ICC",                   key,  3) ||
-                    compare("Description",           key, 11)))
-                {
+                if (!key.empty() &&
+                    (compare("Raw profile type exif", key, 21) || compare("Raw profile type APP1", key, 21) ||
+                     compare("Raw profile type iptc", key, 21) || compare("Raw profile type xmp", key, 20) ||
+                     compare("XML:com.adobe.xmp", key, 17) ||
+                     compare("icc", key, 3) ||  // see test/data/imagemagick.png
+                     compare("ICC", key, 3) || compare("Description", key, 11))) {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;
 #endif
-                } else
-                {
+                } else {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Exiv2::PngImage::doWriteMetadata: write " << szChunk
                               << " chunk (length: " << dataOffset << ")" << std::endl;

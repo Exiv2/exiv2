@@ -230,7 +230,7 @@ std::string Position::toExifTimeStamp(std::string& t)
         sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
     }
     snprintf(result,sizeof(result),"%d/1 %d/1 %d/1",HH,mm,SS1);
-    return std::string(result);
+    return result;
 }
 
 std::string Position::toExifString(double d)
@@ -238,7 +238,7 @@ std::string Position::toExifString(double d)
     char result[200];
     d *= 100;
     snprintf(result, sizeof(result), "%d/100", abs(static_cast<int>(d)));
-    return std::string(result);
+    return result;
 }
 
 std::string Position::toExifString(double d,bool bRational,bool bLat)
@@ -259,7 +259,7 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
         snprintf(result,sizeof(result),"%d/1 %d/1 %d/1" ,deg,min,sec);
     else
         snprintf(result,sizeof(result),"%03d%s%02d'%02d\"%s" ,deg,gDeg,min,sec,NSEW);
-    return std::string(result);
+    return result;
 }
 
 std::string Position::toString() const
@@ -268,7 +268,7 @@ std::string Position::toString() const
     std::string sLat = Position::toExifString(lat_,false,true );
     std::string sLon = Position::toExifString(lon_,false,false);
     snprintf(result,sizeof(result),"%s %s %-8.3f",sLon.c_str(),sLat.c_str(),ele_);
-    return std::string(result);
+    return result;
 }
 
 // defaults

@@ -1391,7 +1391,7 @@ namespace Exiv2::Internal {
                  cryptFct  = sonyTagEncipher;
             }
             DataBuf buf = cryptFct(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
-            if (    buf.size()) {
+            if (!buf.empty()) {
                 mio.seek(0,Exiv2::FileIo::beg);
                 mio.write(buf.c_data(), buf.size());
             }
@@ -1522,7 +1522,7 @@ namespace Exiv2::Internal {
             if (component->tag() == 0x014a) {
                 // Hack: delay writing of sub-IFD image data to get the order correct
 #ifndef SUPPRESS_WARNINGS
-                if (pSubIfd != 0) {
+                if (pSubIfd) {
                     EXV_ERROR << "Multiple sub-IFD image data tags found\n";
                 }
 #endif

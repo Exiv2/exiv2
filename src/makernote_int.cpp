@@ -81,7 +81,7 @@ namespace Exiv2::Internal {
 
 #if defined(_MSC_VER) || defined(__MINGW__)
             char buffer[1024];
-            if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_PROFILE, NULL, 0, buffer))) {
+            if (SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_PROFILE, nullptr, 0, buffer))) {
                 currentPath = buffer;
             }
 #else

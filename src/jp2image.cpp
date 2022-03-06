@@ -845,8 +845,7 @@ static void boxes_check(size_t b,size_t m)
                         // Update Iptc data to a new UUID box
 
                         DataBuf rawIptc = IptcParser::encode(iptcData_);
-                        if (rawIptc.size() > 0)
-                        {
+                        if (!rawIptc.empty()) {
                             DataBuf boxData(8 + 16 + rawIptc.size());
                             ul2Data(boxDataSize, static_cast<uint32_t>(boxData.size()), Exiv2::bigEndian);
                             ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);

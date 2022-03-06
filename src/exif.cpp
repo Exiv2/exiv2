@@ -434,7 +434,7 @@ namespace Exiv2 {
     size_t ExifThumbC::writeFile(const std::string& path) const
     {
         auto thumbnail = Thumbnail::create(exifData_);
-        if (!thumbnail.get())
+        if (!thumbnail)
             return 0;
 
         std::string name = path + thumbnail->extension();
@@ -448,7 +448,7 @@ namespace Exiv2 {
     const char* ExifThumbC::mimeType() const
     {
         auto thumbnail = Thumbnail::create(exifData_);
-        if (!thumbnail.get())
+        if (!thumbnail)
             return "";
         return thumbnail->mimeType();
     }

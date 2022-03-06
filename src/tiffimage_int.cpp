@@ -2043,7 +2043,7 @@ namespace Exiv2::Internal {
         }
 
         auto rootDir = parse(pData, size, root, pHeader);
-        if (nullptr != rootDir.get()) {
+        if (rootDir) {
             TiffDecoder decoder(exifData,
                                 iptcData,
                                 xmpData,
@@ -2081,7 +2081,7 @@ namespace Exiv2::Internal {
         auto parsedTree = parse(pData, size, root, pHeader);
         PrimaryGroups primaryGroups;
         findPrimaryGroups(primaryGroups, parsedTree.get());
-        if (nullptr != parsedTree.get()) {
+        if (parsedTree) {
             // Attempt to update existing TIFF components based on metadata entries
             TiffEncoder encoder(exifData,
                                 iptcData,
@@ -2096,14 +2096,14 @@ namespace Exiv2::Internal {
         }
         if (writeMethod == wmIntrusive) {
             auto createdTree = TiffCreator::create(root, ifdIdNotSet);
-            if (nullptr != parsedTree.get()) {
+            if (parsedTree) {
                 // Copy image tags from the original image to the composite
                 TiffCopier copier(createdTree.get(), root, pHeader, &primaryGroups);
                 parsedTree->accept(copier);
             }
             // Add entries from metadata to composite
-            TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), parsedTree.get() == nullptr,
-                                &primaryGroups, pHeader, findEncoderFct);
+            TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), parsedTree == nullptr, &primaryGroups,
+                                pHeader, findEncoderFct);
             encoder.add(createdTree.get(), parsedTree.get(), root);
             // Write binary representation from the composite tree
             DataBuf header = pHeader->write();

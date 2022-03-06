@@ -345,11 +345,10 @@ namespace Exiv2::Internal {
         append(blob, reinterpret_cast<const byte*>(signature_), 8);
         o += 8;
         // Pad as needed
-        if (pPadding_.empty() == false) {
+        if (!pPadding_.empty()) {
             assert(padded_ == offset_ - o);
             append(blob, pPadding_.data(), padded_);
-        }
-        else {
+        } else {
             for (uint32_t i = o; i < offset_; ++i) {
                 blob.push_back(0);
                 ++o;
@@ -1063,12 +1062,11 @@ namespace Exiv2::Internal {
             // Try the undecoded tag
             encodeBasic(image, pCrwMapping, pHead);
         }
-        if (buf.size() > 0) {
+        if (!buf.empty()) {
             // Write the number of shorts to the beginning of buf
             buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead->byteOrder());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
-        }
-        else {
+        } else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
         }
     } // CrwMap::encodeArray
@@ -1154,10 +1152,9 @@ namespace Exiv2::Internal {
 
         ExifThumbC exifThumb(image.exifData());
         DataBuf buf = exifThumb.copy();
-        if (buf.size() != 0) {
+        if (!buf.empty()) {
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
-        }
-        else {
+        } else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
         }
     } // CrwMap::encode0x2008

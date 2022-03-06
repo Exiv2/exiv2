@@ -240,7 +240,7 @@ namespace Exiv2::Internal {
 
             if (keySize >= 21 && memcmp("Raw profile type iptc", key, 21) == 0 && pImage->iptcData().empty()) {
                 DataBuf psData = readRawProfile(arr, false);
-                if (psData.size() > 0) {
+                if (!psData.empty()) {
                     Blob iptcBlob;
                     const byte* record = nullptr;
                     uint32_t sizeIptc = 0;
@@ -303,7 +303,7 @@ namespace Exiv2::Internal {
             // We look if an Adobe XMP string exist.
 
             if (keySize >= 17 && memcmp("XML:com.adobe.xmp", key, 17) == 0 && pImage->xmpData().empty()) {
-                if (arr.size() > 0) {
+                if (!arr.empty()) {
                     std::string& xmpPacket = pImage->xmpPacket();
                     xmpPacket.assign(arr.c_str(), arr.size());
                     std::string::size_type idx = xmpPacket.find_first_of('<');
@@ -425,7 +425,7 @@ namespace Exiv2::Internal {
                 }
             } while (zlibResult == Z_BUF_ERROR);
 
-            return std::string(arr.c_str(), arr.size());
+            return {arr.c_str(), arr.size()};
 
         }  // PngChunk::zlibCompress
 

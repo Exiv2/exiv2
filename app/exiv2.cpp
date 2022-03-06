@@ -1010,7 +1010,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
     }
 
     // copy stdinBuf to buf
-    if ( stdinBuf.size() ) {
+    if (!stdinBuf.empty()) {
         buf.alloc(stdinBuf.size());
         buf.copyBytes(0,stdinBuf.c_data(),buf.size());
     }

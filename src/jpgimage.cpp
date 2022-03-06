@@ -419,7 +419,7 @@ namespace Exiv2 {
                 }
 
                 DataBuf profile(Safe::add(iccProfile_.size(), icc_size));
-                if ( iccProfile_.size() ) {
+                if (!iccProfile_.empty()) {
                     profile.copyBytes(0, iccProfile_.c_data(), iccProfile_.size());
                 }
                 profile.copyBytes(iccProfile_.size(), buf.c_data(2+14), icc_size);
@@ -606,7 +606,7 @@ namespace Exiv2 {
                         enforce(start <= size, kerInvalidXmpText);
                         out.write(reinterpret_cast<const char*>(&xmp[start]), size - start);
                         done = !bExtXMP;
-                    } else if (option == kpsIccProfile && signature.compare(iccId_) == 0) {
+                    } else if (option == kpsIccProfile && signature == iccId_) {
                         // extract ICCProfile
                         if (size >= 16) {
                             out.write(buf.c_str(16), size - 16);
@@ -1058,7 +1058,7 @@ namespace Exiv2 {
                         uint8_t pad[2];
                         pad[0] = static_cast<uint8_t>(chunk + 1);
                         pad[1] = static_cast<uint8_t>(chunks);
-                        outIo.write((const byte*)iccId_, 12);
+                        outIo.write(reinterpret_cast<const byte*>(iccId_), 12);
                         outIo.write((const byte*)pad, 2);
                         if (outIo.write(iccProfile_.c_data(chunk * chunk_size), bytes) != bytes)
                             throw Error(kerImageWriteFailed);

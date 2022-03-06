@@ -12,11 +12,11 @@
 // namespace extensions
 namespace Exiv2 {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! Type of preview image.
-    typedef int PreviewId;
+    using PreviewId = int;
 
     /*!
       @brief Preview image properties.
@@ -37,13 +37,14 @@ namespace Exiv2 {
     };
 
     //! Container type to hold all preview images metadata.
-    typedef std::vector<PreviewProperties> PreviewPropertiesList;
+    using PreviewPropertiesList = std::vector<PreviewProperties>;
 
     /*!
       @brief Class that holds preview image properties and data buffer.
      */
     class EXIV2API PreviewImage {
         friend class PreviewManager;
+
     public:
         //! @name Constructors
         //@{
@@ -111,10 +112,10 @@ namespace Exiv2 {
         //! Private constructor
         PreviewImage(PreviewProperties properties, DataBuf&& data);
 
-        PreviewProperties properties_;          //!< Preview image properties
-        DataBuf preview_;                       //!< Preview image data
+        PreviewProperties properties_;  //!< Preview image properties
+        DataBuf preview_;               //!< Preview image data
 
-    }; // class PreviewImage
+    };  // class PreviewImage
 
     /*!
       @brief Class for extracting preview images from image metadata.
@@ -142,9 +143,9 @@ namespace Exiv2 {
         //@}
 
     private:
-    const Image& image_;
+        const Image& image_;
 
-    }; // class PreviewManager
-}                                       // namespace Exiv2
+    };  // class PreviewManager
+}  // namespace Exiv2
 
-#endif                                  // #ifndef PREVIEW_HPP_
+#endif  // #ifndef PREVIEW_HPP_

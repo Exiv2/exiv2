@@ -31,14 +31,12 @@ namespace Exiv2 {
     };
 
     //! List of native previews. This is meant to be used only by the PreviewManager.
-    typedef std::vector<NativePreview> NativePreviewList;
+    using NativePreviewList = std::vector<NativePreview>;
 
     /*!
       @brief Options for printStructure
      */
-    typedef enum { kpsNone, kpsBasic, kpsXMP, kpsRecursive
-                 , kpsIccProfile    , kpsIptcErase
-                 } PrintStructureOption;
+    enum PrintStructureOption { kpsNone, kpsBasic, kpsXMP, kpsRecursive, kpsIccProfile, kpsIptcErase };
 
     /*!
       @brief Abstract base class defining the interface for an image. This is
@@ -53,7 +51,7 @@ namespace Exiv2 {
     class EXIV2API Image {
     public:
         //! Image auto_ptr type
-        typedef std::unique_ptr<Image> UniquePtr;
+        using UniquePtr = std::unique_ptr<Image>;
 
         //! @name Creators
         //@{
@@ -490,9 +488,9 @@ namespace Exiv2 {
     }; // class Image
 
     //! Type for function pointer that creates new Image instances
-    typedef Image::UniquePtr (*NewInstanceFct)(BasicIo::UniquePtr io, bool create);
+    using NewInstanceFct = Image::UniquePtr (*)(BasicIo::UniquePtr io, bool create);
     //! Type for function pointer that checks image types
-    typedef bool (*IsThisTypeFct)(BasicIo& iIo, bool advance);
+    using IsThisTypeFct = bool (*)(BasicIo& iIo, bool advance);
 
     /*!
       @brief Returns an Image instance of the specified type.
