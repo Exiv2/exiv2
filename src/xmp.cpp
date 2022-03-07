@@ -64,6 +64,9 @@ namespace {
             validator.check_internal(buf, buflen);
         }
 
+        XMLValidator(const XMLValidator&) = delete;
+        XMLValidator& operator=(const XMLValidator&) = delete;
+
     private:
         // Private constructor, because this class is only constructed by
         // the (static) check method.
@@ -253,6 +256,10 @@ namespace {
         {
             if (xmpLockFct_) xmpLockFct_(pLockData_, false);
         }
+
+        AutoLock(const AutoLock&) = delete;
+        AutoLock& operator=(const AutoLock&) = delete;
+
     private:
         Exiv2::XmpParser::XmpLockFct xmpLockFct_;
         void* pLockData_;
@@ -268,6 +275,7 @@ namespace Exiv2 {
         Impl(const XmpKey& key, const Value* pValue);  //!< Constructor
         Impl(const Impl& rhs);                         //!< Copy constructor
         Impl& operator=(const Impl& rhs);              //!< Assignment
+        ~Impl() = default;
 
         // DATA
         XmpKey::UniquePtr key_;                          //!< Key

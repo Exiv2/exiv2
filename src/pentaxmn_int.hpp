@@ -11,11 +11,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Pentaxfilm cameras
     class PentaxMakerNote {
@@ -90,8 +89,6 @@ namespace Exiv2 {
 //! Shortcut for the printCombiTag template which requires typing the array name only once.
 #define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) printCombiTag<EXV_COUNTOF(array), array, count, ignoredcount, ignoredcountmax>
 
-    } // namespace Internal
-} // namespace Exiv2
-
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef PENTAXMN_INT_HPP_

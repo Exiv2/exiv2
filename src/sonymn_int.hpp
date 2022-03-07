@@ -9,11 +9,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! MakerNote for Sony cameras
     class SonyMakerNote {
@@ -83,6 +82,6 @@ namespace Exiv2 {
     DataBuf sonyTagDecipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
     DataBuf sonyTagEncipher(uint16_t, const byte*, uint32_t, TiffComponent* const);
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef SONYMN_INT_HPP_

@@ -10,11 +10,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     /*!
       @brief Olympus ORF header structure.
@@ -43,6 +42,6 @@ namespace Exiv2 {
         uint16_t sig_;       //<! The actual magic number
     }; // class OrfHeader
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef ORFIMAGE_INT_HPP_

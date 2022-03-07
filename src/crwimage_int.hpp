@@ -14,16 +14,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class declarations
-    class ExifData;
-
-    namespace Internal {
-
-// *****************************************************************************
-// class declarations
+    // *****************************************************************************
+    // class declarations
     class CiffHeader;
     class CiffComponent;
     struct CrwMapping;
@@ -691,6 +685,6 @@ namespace Exiv2 {
                             IfdId     ifdId,
                             ByteOrder byteOrder);
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef CRWIMAGE_INT_HPP_

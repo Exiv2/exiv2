@@ -16,11 +16,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     /// @brief Canon CR2 header structure.
     class Cr2Header : public TiffHeaderBase {
@@ -53,6 +52,6 @@ namespace Exiv2 {
         static constexpr auto cr2sig_ = "CR\2\0";  //!< Signature for CR2 type TIFF
     }; // class Cr2Header
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef CR2IMAGE_INT_HPP_

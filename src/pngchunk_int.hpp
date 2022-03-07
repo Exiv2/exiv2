@@ -10,16 +10,9 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-
-// *****************************************************************************
-// class declarations
-    class Image;
-
-    namespace Internal {
-
-// *****************************************************************************
-// class definitions
+namespace Exiv2::Internal {
+    // *****************************************************************************
+    // class definitions
 
     /*!
       @brief Stateless parser class for data in PNG chunk format. Images use this
@@ -161,6 +154,6 @@ namespace Exiv2 {
 
     }; // class PngChunk
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef PNGCHUNK_INT_HPP_

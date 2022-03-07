@@ -342,7 +342,7 @@ namespace Exiv2 {
           Pointer to the start of the binary representation of the component in
           a memory buffer. The buffer is allocated and freed outside of this class.
          */
-        byte*    pStart_;
+        byte* pStart_{};
 
     }; // class TiffComponent
 
@@ -535,23 +535,23 @@ namespace Exiv2 {
 
         // DATA
         TiffType tiffType_;   //!< Field TIFF type
-        size_t count_;      //!< The number of values of the indicated type
-        int64_t  offset_;     //!< Offset to the data area
+        size_t count_{};      //!< The number of values of the indicated type
+        int64_t offset_{};    //!< Offset to the data area
         /*!
           Size of the data buffer holding the value in bytes, there is no
           minimum size.
          */
-        uint32_t size_;
+        uint32_t size_{};
 
         // Notes on the ownership model of pData_: pData_ is a always a
         // pointer to a buffer owned by somebody else. Usually it is a
         // pointer into a copy of the image file, but if
         // TiffEntryBase::setData is used then it is a pointer into the
         // storage_ DataBuf below.
-        byte*    pData_;      //!< Pointer to the data area
+        byte* pData_{};  //!< Pointer to the data area
 
-        int      idx_;        //!< Unique id of the entry in the image
-        Value*   pValue_;     //!< Converted data value
+        int idx_{};        //!< Unique id of the entry in the image
+        Value* pValue_{};  //!< Converted data value
 
         // This DataBuf is only used when TiffEntryBase::setData is called.
         // Otherwise, it remains empty. It is wrapped in a shared_ptr because
@@ -653,15 +653,7 @@ namespace Exiv2 {
     class TiffDataEntry : public TiffDataEntryBase {
         friend class TiffEncoder;
     public:
-        //! @name Creators
-        //@{
-        //! Constructor
-        TiffDataEntry(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
-            : TiffDataEntryBase(tag, group, szTag, szGroup),
-              pDataArea_(0), sizeDataArea_(0) {}
-        //! Virtual destructor.
-        ~TiffDataEntry() override = default;
-        //@}
+        using TiffDataEntryBase::TiffDataEntryBase;
 
         //! @name Manipulators
         //@{
@@ -706,8 +698,8 @@ namespace Exiv2 {
 
     private:
         // DATA
-        byte*          pDataArea_;           //!< Pointer to the data area (never alloc'd)
-        uint32_t       sizeDataArea_;        //!< Size of the data area
+        byte* pDataArea_{};        //!< Pointer to the data area (never alloc'd)
+        uint32_t sizeDataArea_{};  //!< Size of the data area
 
     }; // class TiffDataEntry
 
@@ -725,16 +717,9 @@ namespace Exiv2 {
      */
     class TiffImageEntry : public TiffDataEntryBase {
         friend class TiffEncoder;
-    public:
-        //! @name Creators
-        //@{
-        //! Constructor
-        TiffImageEntry(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup)
-            : TiffDataEntryBase(tag, group, szTag, szGroup) {}
-        //! Virtual destructor.
-        ~TiffImageEntry() override = default;
-        //@}
+        using TiffDataEntryBase::TiffDataEntryBase;
 
+    public:
         //! @name Manipulators
         //@{
         void setStrips(const Value* pSize, const byte* pData, uint32_t sizeData, uint32_t baseOffset) override;
@@ -844,8 +829,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffDirectory(uint16_t tag, IfdId group, bool hasNext =true)
-            : TiffComponent(tag, group), hasNext_(hasNext), pNext_(0) {}
+        TiffDirectory(uint16_t tag, IfdId group, bool hasNext = true) : TiffComponent(tag, group), hasNext_(hasNext) {}
         //! Virtual destructor
         ~TiffDirectory() override;
         //@}
@@ -932,11 +916,10 @@ namespace Exiv2 {
                                       uint32_t& imageIdx);
         //@}
 
-    private:
         // DATA
         Components components_; //!< List of components in this directory
         const bool hasNext_;    //!< True if the directory has a next pointer
-        TiffComponent* pNext_;  //!< Pointer to the next IFD
+        TiffComponent* pNext_{};  //!< Pointer to the next IFD
 
     }; // class TiffDirectory
 
@@ -1083,7 +1066,7 @@ namespace Exiv2 {
 
         // DATA
         IfdId          mnGroup_;             //!< New group for concrete mn
-        TiffComponent* mn_;                  //!< The Makernote
+        TiffComponent* mn_{};                //!< The Makernote
 
     }; // class TiffMnEntry
 
@@ -1237,7 +1220,7 @@ namespace Exiv2 {
         // DATA
         MnHeader*     pHeader_;                 //!< Makernote header
         TiffDirectory ifd_;                     //!< Makernote IFD
-        uint32_t      mnOffset_;                //!< Makernote offset
+        uint32_t mnOffset_{};                   //!< Makernote offset
         ByteOrder     imageByteOrder_;          //!< Byte order for the image
 
     }; // class TiffIfdMakernote
@@ -1410,17 +1393,19 @@ namespace Exiv2 {
         //@}
 
         // DATA
-        const CfgSelFct cfgSelFct_; //!< Pointer to a function to determine which cfg to use (may be 0)
-        const ArraySet* arraySet_;  //!< Pointer to the array set, if any (may be 0)
-        const ArrayCfg* arrayCfg_;  //!< Pointer to the array configuration (must not be 0, except for unrecognized complex binary arrays)
-        const ArrayDef* arrayDef_;  //!< Pointer to the array definition (may be 0)
-        int defSize_;               //!< Size of the array definition array (may be 0)
-        int setSize_;               //!< Size of the array set (may be 0)
+        const CfgSelFct cfgSelFct_{};  //!< Pointer to a function to determine which cfg to use (may be 0)
+        const ArraySet* arraySet_{};   //!< Pointer to the array set, if any (may be 0)
+        const ArrayCfg* arrayCfg_{};   //!< Pointer to the array configuration (must not be 0, except for unrecognized
+                                       //!< complex binary arrays)
+        const ArrayDef* arrayDef_{};   //!< Pointer to the array definition (may be 0)
+        int defSize_{};                //!< Size of the array definition array (may be 0)
+        int setSize_{};                //!< Size of the array set (may be 0)
         Components elements_;       //!< List of elements in this composite
-        byte* origData_;            //!< Pointer to the original data buffer (unencrypted)
-        uint32_t origSize_;         //!< Size of the original data buffer
-        TiffComponent* pRoot_;      //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
-        bool decoded_;              //!< Flag to indicate if the array was decoded
+        byte* origData_{};          //!< Pointer to the original data buffer (unencrypted)
+        uint32_t origSize_{};       //!< Size of the original data buffer
+        TiffComponent*
+            pRoot_{};     //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
+        bool decoded_{};  //!< Flag to indicate if the array was decoded
     }; // class TiffBinaryArray
 
     /*!

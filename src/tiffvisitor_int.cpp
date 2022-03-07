@@ -669,10 +669,7 @@ namespace Exiv2::Internal {
         setGo(geTraverse, !flag);
     }
 
-    bool TiffEncoder::dirty() const
-    {
-        return dirty_ || exifData_.count() > 0;
-    }
+    bool TiffEncoder::dirty() const { return dirty_ || !exifData_.empty(); }
 
     void TiffEncoder::visitEntry(TiffEntry* object)
     {
@@ -768,7 +765,7 @@ namespace Exiv2::Internal {
         }
         if (del_) {
             // Remove remaining synthesized tags
-            static const char* synthesizedTags[] = {
+            static constexpr auto synthesizedTags = std::array{
                 "Exif.MakerNote.Offset",
             };
             for (auto&& synthesizedTag : synthesizedTags) {
@@ -1636,9 +1633,7 @@ namespace Exiv2::Internal {
         if (cryptFct != nullptr) {
             const byte* pData = object->pData();
             int32_t size = object->TiffEntryBase::doSize();
-            std::shared_ptr<DataBuf> buf = std::make_shared<DataBuf>(
-              cryptFct(object->tag(), pData, size, pRoot_)
-            );
+            auto buf = std::make_shared<DataBuf>(cryptFct(object->tag(), pData, size, pRoot_));
             if (!buf->empty())
                 object->setData(buf);
         }

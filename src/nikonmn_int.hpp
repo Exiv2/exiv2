@@ -27,11 +27,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-    namespace Internal {
+namespace Exiv2::Internal {
 
-// *****************************************************************************
-// class definitions
+    // *****************************************************************************
+    // class definitions
 
     //! A MakerNote format used by Nikon cameras, such as the E990 and D1.
     class Nikon1MakerNote {
@@ -286,6 +285,6 @@ namespace Exiv2 {
 
     }; // class Nikon3MakerNote
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef NIKONMN_INT_HPP_
