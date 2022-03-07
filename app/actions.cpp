@@ -571,7 +571,7 @@ namespace Action {
                 std::cout << std::endl;
             Exiv2::DataBuf buf(md.size());
             md.copy(buf.data(), pImage->byteOrder());
-            Exiv2::hexdump(std::cout, buf.c_data(), static_cast<long>(buf.size()));
+            Exiv2::hexdump(std::cout, buf.c_data(), buf.size());
         }
         std::cout << std::endl;
         return true;
