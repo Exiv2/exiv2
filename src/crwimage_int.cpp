@@ -3,7 +3,6 @@
 #include "crwimage_int.hpp"
 #include "canonmn_int.hpp"
 #include "i18n.h"                // NLS support.
-#include "unused.h"
 #include "error.hpp"
 #include "enforce.hpp"
 
@@ -592,8 +591,7 @@ namespace Exiv2::Internal {
     {
         CrwDirs crwDirs;
         CrwMap::loadStack(crwDirs, crwDir);
-        uint16_t rootDirectory = crwDirs.top().crwDir_;
-        UNUSED(rootDirectory);
+        [[maybe_unused]] uint16_t rootDirectory = crwDirs.top().crwDir_;
         assert(rootDirectory == 0x0000);
         crwDirs.pop();
         if (!pRootDir_) {
@@ -671,8 +669,7 @@ namespace Exiv2::Internal {
         if (pRootDir_) {
             CrwDirs crwDirs;
             CrwMap::loadStack(crwDirs, crwDir);
-            uint16_t rootDirectory = crwDirs.top().crwDir_;
-            UNUSED(rootDirectory);
+            [[maybe_unused]] uint16_t rootDirectory = crwDirs.top().crwDir_;
             assert(rootDirectory == 0x0000);
             crwDirs.pop();
             pRootDir_->remove(crwDirs, crwTagId);

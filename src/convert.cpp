@@ -16,7 +16,6 @@
 #include "xmp_exiv2.hpp"
 #include "futils.hpp"
 #include "convert.hpp"
-#include "unused.h"
 
 // + standard includes
 #include <algorithm>

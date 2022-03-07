@@ -6,7 +6,6 @@
 #include "enforce.hpp"
 #include "error.hpp"
 #include "convert.hpp"
-#include "unused.h"
 
 // + standard includes
 #include <ctype.h>
@@ -451,8 +450,7 @@ namespace Exiv2 {
         std::string c = value_;
         if (charsetId() == unicode) {
             c = value_.substr(8);
-            const size_t sz = c.size();
-            UNUSED(sz);
+            [[maybe_unused]] const size_t sz = c.size();
             if (byteOrder_ == littleEndian && byteOrder == bigEndian) {
                 convertStringCharset(c, "UCS-2LE", "UCS-2BE");
                 assert(c.size() == sz);

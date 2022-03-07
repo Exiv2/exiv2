@@ -14,7 +14,6 @@
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "types.hpp"
-#include "unused.h"
 
 // + standard includes
 #include <cassert>

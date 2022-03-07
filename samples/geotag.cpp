@@ -22,7 +22,6 @@
 // g++ geotag.cpp -o geotag -lexiv2 -lexpat
 
 #include <exiv2/exiv2.hpp>
-#include "unused.h"
 
 #include <filesystem>
 #include <iostream>

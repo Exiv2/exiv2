@@ -34,7 +34,6 @@ add_library( exiv2lib_int OBJECT
     tiffimage_int.cpp       tiffimage_int.hpp
     tiffvisitor_int.cpp     tiffvisitor_int.hpp
     tifffwd_int.hpp
-    unused.h
     utils.hpp               utils.cpp
 )
 

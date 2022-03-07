@@ -18,7 +18,6 @@
 #include "jpgimage.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
-#include "unused.h"
 
 // *****************************************************************************
 namespace {
