@@ -14,6 +14,8 @@
 #include "types.hpp"
 #include "safe_op.hpp"
 
+#include <array>
+
 // JPEG-2000 box types
 const uint32_t kJp2BoxTypeJp2Header   = 0x6a703268; // 'jp2h'
 const uint32_t kJp2BoxTypeImageHeader = 0x69686472; // 'ihdr'

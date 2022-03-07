@@ -9,9 +9,10 @@
 #include "config.h"
 #include "slice.hpp"
 
-// + standard includes
+// standard includes
 #include <algorithm>
 #include <sstream>
+#include <vector>
 
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.

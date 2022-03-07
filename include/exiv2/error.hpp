@@ -14,9 +14,11 @@
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
-#include <bits/exception.h>   // for exception
-#include <sstream>            // for operator<<, ostream, ostringstream, bas...
-#include <string>             // for basic_string, string
+#include "config.h"
+
+#include <exception>   // for exception
+#include <sstream>     // for operator<<, ostream, ostringstream, bas...
+#include <string>      // for basic_string, string
 
 // *****************************************************************************
 // namespace extensions
