@@ -37,9 +37,7 @@ try {
     std::cout << "Time sent: " << iptcData["Iptc.Envelope.TimeSent"] << "\n";
 
     // Open image file
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert (image.get() != 0);
-
+    auto image = Exiv2::ImageFactory::open(file);
     // Set IPTC data and write it to the file
     image->setIptcData(iptcData);
     image->writeMetadata();

@@ -28,8 +28,7 @@ try {
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();
-    auto size = static_cast<long>(file.size());
-    DataBuf buf(size);
+    DataBuf buf(file.size());
     // Read from the memory mapped region
     buf.copyBytes(0, pData, buf.size());
     // Reopen file in write mode and write to it

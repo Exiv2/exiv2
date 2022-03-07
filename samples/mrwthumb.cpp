@@ -19,8 +19,7 @@ int main(int argc, char* const argv[])
             return 1;
         }
 
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(argv[1]);
         image->readMetadata();
 
         Exiv2::ExifData& exifData = image->exifData();

@@ -63,8 +63,7 @@ try {
         return rc;
     }
 
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    auto image = Exiv2::ImageFactory::open(file);
     image->readMetadata();
 
     Exiv2::ExifData &exifData = image->exifData();

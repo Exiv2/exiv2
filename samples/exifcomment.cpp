@@ -20,8 +20,7 @@ try {
         return 1;
     }
 
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
-    assert (image.get() != 0);
+    auto image = Exiv2::ImageFactory::open(argv[1]);
     image->readMetadata();
     Exiv2::ExifData &exifData = image->exifData();
 
@@ -37,14 +36,10 @@ try {
       Following are a few examples of valid comments. The last one is written to
       the file.
      */
-    exifData["Exif.Photo.UserComment"]
-        = "charset=Unicode A Unicode Exif comment added with Exiv2";
-    exifData["Exif.Photo.UserComment"]
-        = "charset=Undefined An undefined Exif comment added with Exiv2";
-    exifData["Exif.Photo.UserComment"]
-        = "Another undefined Exif comment added with Exiv2";
-    exifData["Exif.Photo.UserComment"]
-        = "charset=Ascii An ASCII Exif comment added with Exiv2";
+    exifData["Exif.Photo.UserComment"] = "charset=Unicode A Unicode Exif comment added with Exiv2";
+    exifData["Exif.Photo.UserComment"] = "charset=Undefined An undefined Exif comment added with Exiv2";
+    exifData["Exif.Photo.UserComment"] = "Another undefined Exif comment added with Exiv2";
+    exifData["Exif.Photo.UserComment"] = "charset=Ascii An ASCII Exif comment added with Exiv2";
 
     std::cout << "Writing user comment '"
               << exifData["Exif.Photo.UserComment"]

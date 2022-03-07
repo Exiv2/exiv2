@@ -28,7 +28,8 @@ int main(int argc, char* const argv[])
         if (io.open() != 0) {
             throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
         }
-        Exiv2::DataBuf buf(static_cast<long>(io.size()));
+
+        Exiv2::DataBuf buf(io.size());
         std::cout << "Reading " << buf.size() << " bytes from " << data << "\n";
         const size_t readBytes = io.read(buf.data(), buf.size());
         if (readBytes != buf.size() || io.error() || io.eof()) {
@@ -36,8 +37,7 @@ int main(int argc, char* const argv[])
         }
 
         // Read metadata from file
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(file);
         image->readMetadata();
 
         // Set Preview field to the content of the data file

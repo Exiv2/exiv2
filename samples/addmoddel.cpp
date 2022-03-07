@@ -103,9 +103,7 @@ try {
 
     // *************************************************************************
     // Finally, write the remaining Exif data to the image file
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
-
+    auto image = Exiv2::ImageFactory::open(file);
     image->setExifData(exifData);
     image->writeMetadata();
 

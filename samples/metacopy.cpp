@@ -34,12 +34,10 @@ try {
     auto memIo = std::make_unique<Exiv2::MemIo>();
     memIo->transfer(fileIo);
 
-    Exiv2::Image::UniquePtr readImg = Exiv2::ImageFactory::open(std::move(memIo));
-    assert(readImg.get() != 0);
+    auto readImg = Exiv2::ImageFactory::open(std::move(memIo));
     readImg->readMetadata();
 
-    Exiv2::Image::UniquePtr writeImg = Exiv2::ImageFactory::open(params.write_);
-    assert(writeImg.get() != 0);
+    auto writeImg = Exiv2::ImageFactory::open(params.write_);
     if (params.preserve_) {
         writeImg->readMetadata();
     }

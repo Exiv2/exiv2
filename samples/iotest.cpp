@@ -49,7 +49,7 @@ int main(int argc, char* const argv[])
             std::vector<Exiv2::byte> bytes (blocksize);
 
             // copy fileIn from a remote location.
-            BasicIo::UniquePtr io = Exiv2::ImageFactory::createIo(fr);
+            auto io = Exiv2::ImageFactory::createIo(fr);
             if ( io->open() != 0 ) {
                 Error(Exiv2::kerFileOpenFailed, io->path(), "rb", strError());
             }

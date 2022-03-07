@@ -16,6 +16,7 @@ try {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
     }
+
     Exiv2::DataBuf buf = Exiv2::readFile(argv[1]);
     std::string xmpPacket;
     xmpPacket.assign(buf.c_str(), buf.size());

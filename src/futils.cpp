@@ -4,6 +4,7 @@
 #include "futils.hpp"
 
 #include "config.h"
+#include "error.hpp"
 
 // + standard includes
 #include <algorithm>

@@ -44,15 +44,13 @@ try {
     Exiv2::ExifKey key("Exif.Image.DateTime");
     exifData.add(key, v.get());
 
-    Exiv2::Image::UniquePtr writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
-    assert(writeTest.get() != 0);
+    auto writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
     writeTest->setExifData(exifData);
     writeTest->writeMetadata();
 
     // read the result to make sure everything fine
     std::cout << "Print out the new metadata ...\n";
-    Exiv2::Image::UniquePtr readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
-    assert(readTest.get() != 0);
+    auto readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
     readTest->readMetadata();
     Exiv2::ExifData &exifReadData = readTest->exifData();
     if (exifReadData.empty()) {

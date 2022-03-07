@@ -391,14 +391,13 @@ time_t parseTime(const char* arg,bool bAdjust)
 // West of GMT is negative (PDT = Pacific Daylight = -07:00 == -25200 seconds
 int timeZoneAdjust()
 {
-    time_t now = time(nullptr);
+    [[maybe_unused]] time_t now = time(nullptr);
     int       offset;
 
 #if   defined(_MSC_VER) || defined(__MINGW__)
     TIME_ZONE_INFORMATION TimeZoneInfo;
     GetTimeZoneInformation( &TimeZoneInfo );
     offset = - (((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
-    UNUSED(now);
 #elif defined(__CYGWIN__)
     struct tm lcopy = *localtime(&now);
     time_t    gmt   =  timegm(&lcopy) ; // timegm modifies lcopy
