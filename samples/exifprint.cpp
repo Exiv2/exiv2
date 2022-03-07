@@ -58,7 +58,8 @@ try {
         std::vector<std::regex> keys;
         Exiv2::dumpLibraryInfo(std::cout,keys);
         return rc;
-    } else if ( strcmp(file,"--version-test") == 0 ) {
+    }
+    if (strcmp(file, "--version-test") == 0) {
         // verifies/test macro EXIV2_TEST_VERSION
         // described in include/exiv2/version.hpp
         std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION             << std::endl
