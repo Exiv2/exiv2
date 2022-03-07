@@ -10,13 +10,9 @@
 // *****************************************************************************
 // namespace extensions
 
-namespace Exiv2 {
-    class ExifData;
-
-    namespace Internal {
-
-// *****************************************************************************
-// class definitions
+namespace Exiv2::Internal {
+    // *****************************************************************************
+    // class definitions
 
     //! Type to specify the IFD to which a metadata belongs
     enum IfdId {
@@ -501,6 +497,6 @@ namespace Exiv2 {
     //! Calculate the exposure time from an APEX shutter speed value
     URational exposureTime(float shutterSpeedValue);
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Exiv2::Internal
 
 #endif                                  // #ifndef TAGS_INT_HPP_
