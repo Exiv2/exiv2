@@ -1,16 +1,11 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include <assert.h>
-#include <errno.h>
-#include <filesystem>
-#include <iostream>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-
 #include "getopt.hpp"
+
+#include <cstdio>
+#include <cstring>
+#include <filesystem>
 
 namespace fs = std::filesystem;
 

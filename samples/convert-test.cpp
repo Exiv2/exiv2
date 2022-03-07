@@ -21,8 +21,8 @@
 // Conversion test driver - make sure you have a copy of the input file around!
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
-#include <iomanip>
 #include <cassert>
 
 int main(int argc, char* const argv[])

@@ -21,25 +21,20 @@
 // Sample program to print metadata in JSON format
 
 #include <exiv2/exiv2.hpp>
-#include "Jzon.h"
 
-#include <filesystem>
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <string>
-#include <map>
-#include <vector>
-#include <set>
-#include <cstdlib>
-#include <limits.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 
+#include <cassert>
+#include <cstdlib>
+#include <filesystem>
+#include <iostream>
+
+#include "Jzon.h"
+
 #if defined(__MINGW32__) || defined(__MINGW64__)
-# ifndef  __MINGW__
-#  define __MINGW__
-# endif
+#ifndef __MINGW__
+#define __MINGW__
+#endif
 #endif
 
 struct Token {

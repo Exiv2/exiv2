@@ -3,28 +3,21 @@
 // included header files
 #include "config.h"
 
-#ifdef   EXV_HAVE_LIBZ
-#include "pngchunk_int.hpp"
-#include "pngimage.hpp"
-#include "jpgimage.hpp"
-#include "tiffimage.hpp"
+#ifdef EXV_HAVE_LIBZ
+#include <zlib.h>  // To uncompress IccProfiles
+
+#include "basicio.hpp"
+#include "enforce.hpp"
+#include "error.hpp"
+#include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
-#include "basicio.hpp"
-#include "error.hpp"
-#include "enforce.hpp"
-#include "futils.hpp"
+#include "jpgimage.hpp"
+#include "pngchunk_int.hpp"
+#include "pngimage.hpp"
+#include "tiffimage.hpp"
 #include "types.hpp"
 
-// + standard includes
-#include <algorithm>
-#include <array>
-#include <string>
-#include <cstring>
-#include <iostream>
-#include <cassert>
-
-#include <zlib.h>     // To uncompress IccProfiles
 // Signature from front of PNG file
 const unsigned char pngSignature[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 

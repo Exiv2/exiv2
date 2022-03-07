@@ -1,29 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "tiffimage.hpp"
-#include "tiffimage_int.hpp"
-#include "tiffcomposite_int.hpp"
-#include "tiffvisitor_int.hpp"
-#include "orfimage.hpp"
-#include "makernote_int.hpp"
-#include "nikonmn_int.hpp"
-#include "image.hpp"
-#include "image_int.hpp"
+
+#include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
+#include "image.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage_int.hpp"
 #include "types.hpp"
-#include "basicio.hpp"
-#include "i18n.h"                // NLS support.
-
-// + standard includes
-#include <string>
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <cstdarg>
 
 /* --------------------------------------------------------------------------
 

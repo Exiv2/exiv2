@@ -2,21 +2,14 @@
 
 // included header files
 #include "value.hpp"
-#include "types.hpp"
+
+#include "convert.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
-#include "convert.hpp"
+#include "types.hpp"
 
 // + standard includes
-#include <ctype.h>
 
-#include <cassert>
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <iomanip>
 #include <regex>
 #include <sstream>
 

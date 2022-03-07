@@ -48,8 +48,6 @@
 #include <unistd.h>
 #endif
 #include <iostream>
-#include <iomanip>
-#include <cassert>
 
 #define Safe(x) (x?x:"unknown")
 const char* optstring = ":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:";

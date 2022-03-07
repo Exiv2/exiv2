@@ -21,9 +21,8 @@
 // Sample program to print the IPTC metadata of an image
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
-#include <iomanip>
-#include <cassert>
 
 int main(int argc, char* const argv[])
 try {

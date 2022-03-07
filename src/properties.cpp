@@ -2,22 +2,15 @@
 
 // included header files
 #include "properties.hpp"
-#include "tags_int.hpp"
+
 #include "error.hpp"
+#include "i18n.h"  // NLS support.
+#include "metadatum.hpp"
+#include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
-#include "metadatum.hpp"
-#include "i18n.h"                // NLS support.
 #include "xmp_exiv2.hpp"
 
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <cstring>
-#include <cstdlib>
-#include <cctype>
-
-// *****************************************************************************
 namespace {
 
     //! Struct used in the lookup table for pretty print functions

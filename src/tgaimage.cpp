@@ -1,18 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "tgaimage.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
-
-// + standard includes
-#include <string>
-#include <cstring>
-#include <iostream>
+#include "image.hpp"
 
 // *****************************************************************************
 // class member definitions
@@ -21,7 +16,7 @@ namespace Exiv2 {
     TgaImage::TgaImage(BasicIo::UniquePtr io)
         : Image(ImageType::tga, mdNone, std::move(io))
     {
-    } // TgaImage::TgaImage
+    }
 
     std::string TgaImage::mimeType() const
     {

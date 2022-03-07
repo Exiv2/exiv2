@@ -12,7 +12,6 @@
 #define ACTIONS_HPP_
 
 // *****************************************************************************
-// included header files
 #include "exiv2app.hpp"
 #include <unordered_map>
 

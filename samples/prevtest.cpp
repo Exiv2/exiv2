@@ -21,9 +21,8 @@
  */
 
 #include <exiv2/exiv2.hpp>
-#include <string>
+
 #include <iostream>
-#include <cassert>
 
 int main(int argc, char* const argv[])
 try {

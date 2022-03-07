@@ -22,10 +22,7 @@
 
 #include <exiv2/exiv2.hpp>
 
-#include <string>
 #include <iostream>
-#include <iomanip>
-#include <cassert>
 #include <cmath>
 
 bool isEqual(float a, float b)

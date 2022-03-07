@@ -20,11 +20,10 @@
  */
 
 #include <exiv2/exiv2.hpp>
+
 #include <filesystem>
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <string>
 
 namespace fs = std::filesystem;
 

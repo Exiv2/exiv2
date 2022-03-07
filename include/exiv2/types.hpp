@@ -11,10 +11,7 @@
 
 // + standard includes
 #include <algorithm>
-#include <limits>
 #include <sstream>
-#include <string>
-#include <vector>
 
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.
@@ -26,8 +23,6 @@
 #define EXV_CALL_MEMBER_FN(object, ptrToMember) ((object).*(ptrToMember))
 
 // *****************************************************************************
-// forward declarations
-struct tm;
 
 // *****************************************************************************
 // namespace extensions

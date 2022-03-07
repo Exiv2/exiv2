@@ -21,8 +21,8 @@
 // Sample program showing how to add, modify and delete Exif metadata.
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
-#include <iomanip>
 #include <cassert>
 
 int main(int argc, char* const argv[])

@@ -1,23 +1,17 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "orfimage.hpp"
-#include "orfimage_int.hpp"
-#include "tiffimage.hpp"
-#include "tiffcomposite_int.hpp"
-#include "tiffimage_int.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
-
-// + standard includes
-#include <string>
-#include <cstring>
-#include <iostream>
-#include <cassert>
+#include "image.hpp"
+#include "orfimage_int.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage.hpp"
+#include "tiffimage_int.hpp"
 
 // *****************************************************************************
 // class member definitions

@@ -21,10 +21,9 @@
 // Sample program to print value of an exif key in an image
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
-#include <iomanip>
 #include <cassert>
-#include <string>
 
 int main(int argc, char* const argv[])
 {

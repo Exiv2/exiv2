@@ -8,10 +8,7 @@
 #include "properties.hpp"
 
 // + standard includes
-#include <iostream>
 #include <algorithm>
-#include <cassert>
-#include <string>
 
 // Adobe XMP Toolkit
 #ifdef   EXV_HAVE_XMP_TOOLKIT

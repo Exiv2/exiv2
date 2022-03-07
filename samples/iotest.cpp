@@ -20,10 +20,8 @@
 // *****************************************************************************
 // included header files
 #include <exiv2/exiv2.hpp>
-#include <cstdio>                               // for EOF
-#include <cstring>
+
 #include <iostream>
-#include <stdio.h>
 
 using Exiv2::byte;
 using Exiv2::BasicIo;

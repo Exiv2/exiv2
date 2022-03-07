@@ -6,31 +6,16 @@
 */
 
 // included header files
-#include "config.h"
-
 #include "webpimage.hpp"
-#include "image_int.hpp"
+
+#include "basicio.hpp"
+#include "config.h"
+#include "convert.hpp"
 #include "enforce.hpp"
 #include "futils.hpp"
-#include "basicio.hpp"
-#include "tags.hpp"
-#include "tags_int.hpp"
-#include "types.hpp"
-#include "tiffimage.hpp"
-#include "tiffimage_int.hpp"
-#include "convert.hpp"
+#include "image_int.hpp"
 #include "safe_op.hpp"
-
-#include <cmath>
-#include <iomanip>
-#include <string>
-#include <cstring>
-#include <iostream>
-#include <sstream>
-#include <cassert>
-#include <cstdio>
-
-#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
+#include "types.hpp"
 
 namespace {
     [[maybe_unused]] std::string binaryToHex(const uint8_t* data, size_t size)

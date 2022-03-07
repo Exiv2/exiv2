@@ -8,7 +8,6 @@
 #include "exiv2app.hpp"
 
 #include "convert.hpp"
-#include "futils.hpp"
 #include "getopt.hpp"
 #include "i18n.h"  // NLS support.
 #include "xmp_exiv2.hpp"

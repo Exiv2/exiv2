@@ -21,8 +21,8 @@
  */
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
-#include <iomanip>
 
 static constexpr const char* testcases[] = {
     // bool

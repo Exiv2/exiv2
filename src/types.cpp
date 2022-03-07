@@ -2,26 +2,21 @@
 
 // included header files
 #include "types.hpp"
+
 #include "enforce.hpp"
 #include "futils.hpp"
 #include "i18n.h"  // for _exvGettext
 #include "safe_op.hpp"
 
 // + standard includes
-#include <string>
-#include <iostream>
+#include <cassert>
+#include <cctype>
+#include <climits>
+#include <cmath>
+#include <cstring>
 #include <iomanip>
 #include <sstream>
 #include <utility>
-#include <cctype>
-#include <climits>
-#include <ctime>
-#include <cstdio>
-#include <cstdlib>
-#include <cassert>
-#include <cstring>
-#include <cmath>
-#include <math.h>
 
 // *****************************************************************************
 namespace {

@@ -19,12 +19,8 @@
  */
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
-#include <sstream>
-#include <iomanip>
-#include <string>
-#include <utility>
-#include <cassert>
 
 // *****************************************************************************
 // local declarations

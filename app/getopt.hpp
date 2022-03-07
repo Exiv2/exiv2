@@ -21,8 +21,6 @@
 #ifndef GETOPT_H
 #define GETOPT_H
 
-#include <ctype.h>
-#include <stdio.h>
 #include <string>
 
 namespace Util {
