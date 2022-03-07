@@ -94,6 +94,7 @@ add_library( exiv2lib
     error.cpp
     exif.cpp
     futils.cpp
+    fff.h
     gifimage.cpp
     http.cpp
     image.cpp
