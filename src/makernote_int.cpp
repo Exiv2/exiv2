@@ -173,11 +173,8 @@ namespace Exiv2::Internal {
         TiffComponent* tc = nullptr;
         const TiffMnRegistry* tmr = find(registry_, mnGroup);
         if (tmr) {
-
-            if (tmr->newMnFct2_ == nullptr) {
-
+            if (!tmr->newMnFct2_) {
                 std::cout << "mnGroup = " << mnGroup << "\n";
-
             }
 
             assert(tmr->newMnFct2_);
@@ -1105,7 +1102,7 @@ namespace Exiv2::Internal {
     {
         if (size < 4) return -1;
         const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
-        return aix == nullptr ? -1 : aix->idx_;
+        return aix ? aix->idx_ : -1;
     }
 
     DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot)
@@ -1114,7 +1111,8 @@ namespace Exiv2::Internal {
 
         if (size < 4) return buf;
         const NikonArrayIdx* nci = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
-        if (nci == nullptr || nci->start_ == NA || size <= nci->start_) return buf;
+        if (!nci || nci->start_ == NA || size <= nci->start_)
+            return buf;
 
         // Find Exif.Nikon3.ShutterCount
         TiffFinder finder(0x00a7, nikon3Id);

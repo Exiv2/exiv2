@@ -2472,7 +2472,7 @@ namespace Exiv2::Internal {
     {
         bool rc = false;
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii != nullptr && 0 == strcmp(ii->ifdName_, "Makernote")) {
+        if (ii && 0 == strcmp(ii->ifdName_, "Makernote")) {
             rc = true;
         }
         return rc;
@@ -2509,7 +2509,7 @@ namespace Exiv2::Internal {
     void taglist(std::ostream& os, IfdId ifdId)
     {
         const TagInfo* ti = Internal::tagList(ifdId);
-        if (ti != nullptr) {
+        if (ti) {
             for (int k = 0; ti[k].tag_ != 0xffff; ++k) {
                 os << ti[k] << "\n";
             }
@@ -2519,14 +2519,16 @@ namespace Exiv2::Internal {
     const TagInfo* tagList(IfdId ifdId)
     {
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii == nullptr || ii->tagList_ == nullptr) return nullptr;
+        if (!ii || !ii->tagList_)
+            return nullptr;
         return ii->tagList_();
     } // tagList
 
     const TagInfo* tagInfo(uint16_t tag, IfdId ifdId)
     {
         const TagInfo* ti = tagList(ifdId);
-        if (ti == nullptr) return nullptr;
+        if (!ti)
+            return nullptr;
         int idx = 0;
         for (idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
             if (ti[idx].tag_ == tag) break;
@@ -2537,7 +2539,8 @@ namespace Exiv2::Internal {
     const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId)
     {
         const TagInfo* ti = tagList(ifdId);
-        if (ti == nullptr) return nullptr;
+        if (!ti)
+            return nullptr;
         if (tagName.empty()) return nullptr;
         const char* tn = tagName.c_str();
         for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
@@ -2552,21 +2555,24 @@ namespace Exiv2::Internal {
     {
         IfdId ifdId = ifdIdNotSet;
         const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
-        if (ii != nullptr) ifdId = static_cast<IfdId>(ii->ifdId_);
+        if (ii)
+            ifdId = static_cast<IfdId>(ii->ifdId_);
         return ifdId;
     }
 
     const char* ifdName(IfdId ifdId)
     {
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii == nullptr) return groupInfo[0].ifdName_;
+        if (!ii)
+            return groupInfo[0].ifdName_;
         return ii->ifdName_;
     }
 
     const char* groupName(IfdId ifdId)
     {
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii == nullptr) return groupInfo[0].groupName_;
+        if (!ii)
+            return groupInfo[0].groupName_;
         return ii->groupName_;
     }
 
@@ -2634,7 +2640,8 @@ namespace Exiv2::Internal {
     uint16_t tagNumber(const std::string& tagName, IfdId ifdId)
     {
         const TagInfo* ti = tagInfo(tagName, ifdId);
-        if (ti != nullptr && ti->tag_ != 0xffff) return ti->tag_;
+        if (ti && ti->tag_ != 0xffff)
+            return ti->tag_;
         if (!isHex(tagName, 4, "0x")) throw Error(kerInvalidTag, tagName, ifdId);
         std::istringstream is(tagName);
         uint16_t tag = 0;
@@ -3289,7 +3296,7 @@ namespace Exiv2::Internal {
     const TagInfo* tagList(const std::string& groupName)
     {
         const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
-        if (ii == nullptr || ii->tagList_ == nullptr) {
+        if (!ii || !ii->tagList_) {
             return nullptr;
         }
         return ii->tagList_();

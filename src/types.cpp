@@ -581,8 +581,8 @@ namespace Exiv2 {
 
     int exifTime(const char* buf, struct tm* tm)
     {
-        assert(buf != 0);
-        assert(tm != 0);
+        assert(buf);
+        assert(tm);
         int rc = 1;
         int year = 0, mon = 0, mday = 0, hour = 0, min = 0, sec = 0;
         int scanned = std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d",

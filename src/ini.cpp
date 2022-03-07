@@ -105,7 +105,7 @@ int Exiv2::ini_parse_stream(ini_reader reader, void* stream, ini_handler handler
 #endif
 
     /* Scan through stream line by line */
-    while (reader(line, INI_MAX_LINE, stream) != nullptr) {
+    while (reader(line, INI_MAX_LINE, stream)) {
         lineno++;
 
         start = line;

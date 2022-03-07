@@ -523,7 +523,7 @@ namespace Exiv2 {
         if (!prepareXmpTarget(to))
               return;
         const auto cv = dynamic_cast<const CommentValue*>(&pos->value());
-        if (cv == nullptr) {
+        if (!cv) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif

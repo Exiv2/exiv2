@@ -366,7 +366,7 @@ namespace {
 
         auto loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
 
-        if (loader.get() && !loader->valid())
+        if (loader && !loader->valid())
             loader.reset();
 
         return loader;

@@ -2017,7 +2017,7 @@ namespace Exiv2::Internal {
         do {
             tiffPath.push(TiffPathItem(extendedTag, group));
             ts = find(tiffTreeStruct_, TiffTreeStruct::Key(root, group));
-            assert(ts != 0);
+            assert(ts);
             extendedTag = ts->parentExtTag_;
             group = ts->parentGroup_;
         } while (!(ts->root_ == root && ts->group_ == ifdIdNotSet));
@@ -2102,13 +2102,12 @@ namespace Exiv2::Internal {
                 parsedTree->accept(copier);
             }
             // Add entries from metadata to composite
-            TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), parsedTree == nullptr, &primaryGroups,
-                                pHeader, findEncoderFct);
+            TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, &primaryGroups, pHeader,
+                                findEncoderFct);
             encoder.add(createdTree.get(), parsedTree.get(), root);
             // Write binary representation from the composite tree
             DataBuf header = pHeader->write();
             auto tempIo = std::make_unique<MemIo>();
-            assert(tempIo.get() != 0);
             IoWrapper ioWrapper(*tempIo, header.c_data(), header.size(), pOffsetWriter);
             auto imageIdx(uint32_t(-1));
             createdTree->write(ioWrapper,
@@ -2138,7 +2137,7 @@ namespace Exiv2::Internal {
               TiffHeaderBase*    pHeader
     )
     {
-        if (pData == nullptr || size == 0)
+        if (!pData || size == 0)
             return nullptr;
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
             throw Error(kerNotAnImage, "TIFF");
@@ -2157,7 +2156,7 @@ namespace Exiv2::Internal {
 
     void TiffParserWorker::findPrimaryGroups(PrimaryGroups& primaryGroups, TiffComponent* pSourceDir)
     {
-        if (nullptr == pSourceDir)
+        if (!pSourceDir)
             return;
 
         const IfdId imageGroups[] = {
@@ -2180,7 +2179,7 @@ namespace Exiv2::Internal {
             TiffFinder finder(0x00fe, imageGroup);
             pSourceDir->accept(finder);
             auto te = dynamic_cast<TiffEntryBase*>(finder.result());
-            const Value* pV = te != nullptr ? te->pValue() : nullptr;
+            const Value* pV = te ? te->pValue() : nullptr;
             if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toInt64() & 1) == 0) {
                 primaryGroups.push_back(te->group());
             }
@@ -2398,7 +2397,7 @@ namespace Exiv2::Internal {
         ExifKey key(tag, groupName(group));
 #endif
         // If there are primary groups and none matches group, we're done
-        if (pPrimaryGroups != nullptr && !pPrimaryGroups->empty() &&
+        if (pPrimaryGroups && !pPrimaryGroups->empty() &&
             std::find(pPrimaryGroups->begin(), pPrimaryGroups->end(), group) == pPrimaryGroups->end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Not an image tag: " << key << " (1)\n";
@@ -2407,7 +2406,7 @@ namespace Exiv2::Internal {
         }
         // All tags of marked primary groups other than IFD0 are considered
         // image tags. That should take care of NEFs until we know better.
-        if (pPrimaryGroups != nullptr && !pPrimaryGroups->empty() && group != ifd0Id) {
+        if (pPrimaryGroups && !pPrimaryGroups->empty() && group != ifd0Id) {
 #ifdef EXIV2_DEBUG_MESSAGES
             ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (2)\n";
