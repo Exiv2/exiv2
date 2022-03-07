@@ -61,7 +61,7 @@ namespace {
             pos += subject.find(search, pos + replace.length());
         }
     }
-}
+}  // namespace
 
 namespace Exiv2 {
     void BasicIo::readOrThrow(byte* buf, size_t rcount, ErrorCode err) {
