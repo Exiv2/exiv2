@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #ifndef APP_UTILS_HPP_
 #define APP_UTILS_HPP_
 
