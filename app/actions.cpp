@@ -30,7 +30,7 @@
 #endif
 
 #if defined(_WIN32) || defined(__CYGWIN__)
-#include <Windows.h>
+#include <windows.h>
 #include <fcntl.h>
 #include <io.h>
 #include <sys/utime.h>
