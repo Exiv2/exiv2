@@ -10,7 +10,6 @@
 #include "http.hpp"
 #include "futils.hpp"
 
-#include <stdio.h>
 #include <array>
 
 ////////////////////////////////////////

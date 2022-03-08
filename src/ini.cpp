@@ -16,8 +16,7 @@
 using std::string;
 using namespace Exiv2;
 
-#include <stdio.h>
-#include <string.h>
+#include <cstring>
 
 #if !INI_USE_STACK
 #include <cstdlib>

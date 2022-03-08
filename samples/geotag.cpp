@@ -4,11 +4,8 @@
 #include <exiv2/exiv2.hpp>
 #include <expat.h>
 
-#include <stdio.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <time.h>
 
 #include <algorithm>
 #include <filesystem>

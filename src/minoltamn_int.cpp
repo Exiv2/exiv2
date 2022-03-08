@@ -8,11 +8,9 @@
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
 
-#include <string>
 #include <sstream>
-#include <iomanip>
 
-#include <stdio.h> // popen to call exiftool
+#include <cstdio> // popen to call exiftool
 
 // *****************************************************************************
 // class member definitions

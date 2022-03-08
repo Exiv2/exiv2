@@ -7,8 +7,8 @@
 // included header files
 #include "slice.hpp"  // for Slice
 
-#include <stddef.h>   // for size_t
-#include <stdint.h>   // for int32_t
+#include <cstddef>    // for size_t
+#include <cstdint>    // for int32_t
 #include <ostream>    // for ostream, basic_ostream::put
 #include <string>
 
