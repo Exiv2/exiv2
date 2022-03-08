@@ -1268,7 +1268,7 @@ namespace Exiv2 {
     struct ArraySet {
         const ArrayCfg  cfg_;      //!< Binary array configuration
         const ArrayDef* def_;      //!< Binary array definition array
-        const int       defSize_;  //!< Size of the array definition array
+        const size_t defSize_;     //!< Size of the array definition array
     };
 
     /*!

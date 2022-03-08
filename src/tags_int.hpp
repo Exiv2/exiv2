@@ -260,7 +260,7 @@ namespace Exiv2::Internal {
     }
 
     //! Shortcut for the printTag template which requires typing the array name only once.
-#define EXV_PRINT_TAG(array) printTag<EXV_COUNTOF(array), array>
+#define EXV_PRINT_TAG(array) printTag<std::size(array), array>
 
     /*!
       @brief Generic print function to translate a long value to a description
@@ -293,7 +293,7 @@ namespace Exiv2::Internal {
     }
 
 //! Shortcut for the printTagBitmask template which requires typing the array name only once.
-#define EXV_PRINT_TAG_BITMASK(array) printTagBitmask<EXV_COUNTOF(array), array>
+#define EXV_PRINT_TAG_BITMASK(array) printTagBitmask<std::size(array), array>
 
     /*!
       @brief Generic pretty-print function to translate a controlled vocabulary value (string)
@@ -313,7 +313,7 @@ namespace Exiv2::Internal {
     }
 
 //! Shortcut for the printTagVocabulary template which requires typing the array name only once.
-#define EXV_PRINT_VOCABULARY(array) printTagVocabulary<EXV_COUNTOF(array), array>
+#define EXV_PRINT_VOCABULARY(array) printTagVocabulary<std::size(array), array>
 
     template <int N, const TagVocabulary (&array)[N]>
     std::ostream& printTagVocabularyMulti(std::ostream& os, const Value& value, const ExifData*)
@@ -339,10 +339,10 @@ namespace Exiv2::Internal {
     }
 
 //! Shortcut for the printTagVocabularyMulti template which requires typing the array name only once.
-#define EXV_PRINT_VOCABULARY_MULTI(array) printTagVocabularyMulti<EXV_COUNTOF(array), array>
+#define EXV_PRINT_VOCABULARY_MULTI(array) printTagVocabularyMulti<std::size(array), array>
 
-// *****************************************************************************
-// free functions
+    // *****************************************************************************
+    // free functions
 
     //! Return read-only list of built-in IFD0/1 tags
     const TagInfo* ifdTagList();

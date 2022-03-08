@@ -350,7 +350,7 @@ namespace Exiv2::Internal {
     {
         if (value.count() >= 1) {
             const uint32_t focusArea = value.toUint32(0);
-            if (focusArea >= EXV_COUNTOF(nikonFocusarea)) {
+            if (focusArea >= std::size(nikonFocusarea)) {
                 os << "Invalid value";
             } else {
                 os << nikonFocusarea[focusArea];
@@ -2963,9 +2963,9 @@ fmountlens[] = {
         oss.copyfmt(os);
         const auto temp = value.toInt64();
 
-        printTag<EXV_COUNTOF(nikonFlashControlMode), nikonFlashControlMode>(os, (temp >> 4), data);
+        printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (temp >> 4), data);
         os << ", ";
-        printTag<EXV_COUNTOF(nikonFlashControlMode), nikonFlashControlMode>(os, (temp & 0x0f), data);
+        printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (temp & 0x0f), data);
 
         os.copyfmt(oss);
         os.flags(f);

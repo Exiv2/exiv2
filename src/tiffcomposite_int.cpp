@@ -482,7 +482,7 @@ namespace Exiv2::Internal {
             if (arraySet_[idx].cfg_.group_ == group) {
                 arrayCfg_ = &arraySet_[idx].cfg_;
                 arrayDef_ = arraySet_[idx].def_;
-                defSize_  = arraySet_[idx].defSize_;
+                defSize_ = int(arraySet_[idx].defSize_);
                 return true;
             }
         }
@@ -498,7 +498,7 @@ namespace Exiv2::Internal {
         if (idx > -1) {
             arrayCfg_ = &arraySet_[idx].cfg_;
             arrayDef_ = arraySet_[idx].def_;
-            defSize_  = arraySet_[idx].defSize_;
+            defSize_ = int(arraySet_[idx].defSize_);
         }
         return idx > -1;
     }
