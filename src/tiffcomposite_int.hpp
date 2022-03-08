@@ -1510,14 +1510,14 @@ namespace Exiv2 {
     template<IfdId newGroup>
     TiffComponent::UniquePtr newTiffDirectory(uint16_t tag, IfdId /*group*/)
     {
-        return TiffComponent::UniquePtr(new TiffDirectory(tag, newGroup));
+        return std::make_unique<TiffDirectory>(tag, newGroup);
     }
 
     //! Function to create and initialize a new TIFF sub-directory
     template<IfdId newGroup>
     TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group)
     {
-        return TiffComponent::UniquePtr(new TiffSubIfd(tag, group, newGroup));
+        return std::make_unique<TiffSubIfd>(tag, group, newGroup);
     }
 
     //! Function to create and initialize a new binary array entry
@@ -1549,24 +1549,21 @@ namespace Exiv2 {
     template<uint16_t szTag, IfdId szGroup>
     TiffComponent::UniquePtr newTiffThumbData(uint16_t tag, IfdId group)
     {
-        return TiffComponent::UniquePtr(
-            new TiffDataEntry(tag, group, szTag, szGroup));
+        return std::make_unique<TiffDataEntry>(tag, group, szTag, szGroup);
     }
 
     //! Function to create and initialize a new TIFF entry for a thumbnail (size)
     template<uint16_t dtTag, IfdId dtGroup>
     TiffComponent::UniquePtr newTiffThumbSize(uint16_t tag, IfdId group)
     {
-        return TiffComponent::UniquePtr(
-            new TiffSizeEntry(tag, group, dtTag, dtGroup));
+        return std::make_unique<TiffSizeEntry>(tag, group, dtTag, dtGroup);
     }
 
     //! Function to create and initialize a new TIFF entry for image data
     template<uint16_t szTag, IfdId szGroup>
     TiffComponent::UniquePtr newTiffImageData(uint16_t tag, IfdId group)
     {
-        return TiffComponent::UniquePtr(
-            new TiffImageEntry(tag, group, szTag, szGroup));
+        return std::make_unique<TiffImageEntry>(tag, group, szTag, szGroup);
     }
 
     //! Function to create and initialize a new TIFF entry for image data (size)
@@ -1574,8 +1571,7 @@ namespace Exiv2 {
     TiffComponent::UniquePtr newTiffImageSize(uint16_t tag, IfdId group)
     {
         // Todo: Same as newTiffThumbSize - consolidate (rename)?
-        return TiffComponent::UniquePtr(
-            new TiffSizeEntry(tag, group, dtTag, dtGroup));
+        return std::make_unique<TiffSizeEntry>(tag, group, dtTag, dtGroup);
     }
 
 }}                                      // namespace Internal, Exiv2
