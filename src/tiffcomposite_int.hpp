@@ -526,13 +526,13 @@ namespace Exiv2 {
         //! Used (internally) to create another reference to the DataBuf reference by storage_.
         const std::shared_ptr<DataBuf>& storage() { return storage_; }
 
-    private:
         //! @name NOT implemented
         //@{
         //! Assignment operator.
-        TiffEntryBase& operator=(const TiffEntryBase& rhs);
+        TiffEntryBase& operator=(const TiffEntryBase& rhs) = delete;
         //@}
 
+    private:
         // DATA
         TiffType tiffType_;   //!< Field TIFF type
         size_t count_{};      //!< The number of values of the indicated type
@@ -901,13 +901,13 @@ namespace Exiv2 {
         size_t doSizeImage() const override;
         //@}
 
-    private:
         //! @name NOT implemented
         //@{
         //! Assignment operator.
-        TiffDirectory& operator=(const TiffDirectory& rhs);
+        TiffDirectory& operator=(const TiffDirectory&) = delete;
         //@}
 
+    private:
         //! @name Private Accessors
         //@{
         //! Write a binary directory entry for a TIFF component.
@@ -986,13 +986,13 @@ namespace Exiv2 {
         size_t doSizeImage() const override;
         //@}
 
-    private:
         //! @name NOT implemented
         //@{
         //! Assignment operator.
-        TiffSubIfd& operator=(const TiffSubIfd& rhs);
+        TiffSubIfd& operator=(const TiffSubIfd&) = delete;
         //@}
 
+    private:
         //! A collection of TIFF directories (IFDs)
         using Ifds = std::vector<TiffDirectory*>;
 
@@ -1055,15 +1055,15 @@ namespace Exiv2 {
         // Using doSizeImage from base class
         //@}
 
-    private:
         //! @name NOT implemented
         //@{
         //! Copy constructor.
-        TiffMnEntry(const TiffMnEntry& rhs);
+        TiffMnEntry(const TiffMnEntry&) = delete;
         //! Assignment operator.
-        TiffMnEntry& operator=(const TiffMnEntry& rhs);
+        TiffMnEntry& operator=(const TiffMnEntry&) = delete;
         //@}
 
+    private:
         // DATA
         IfdId          mnGroup_;             //!< New group for concrete mn
         TiffComponent* mn_{};                //!< The Makernote
@@ -1350,6 +1350,8 @@ namespace Exiv2 {
         TiffBinaryArray(const TiffBinaryArray& rhs);
         //@}
 
+        TiffBinaryArray& operator=(const TiffBinaryArray&) = delete;
+
         //! @name Protected Manipulators
         //@{
         /*!
@@ -1386,12 +1388,6 @@ namespace Exiv2 {
         //@}
 
     private:
-        //! @name NOT implemented
-        //@{
-        //! Assignment operator.
-        TiffBinaryArray& operator=(const TiffBinaryArray& rhs);
-        //@}
-
         // DATA
         const CfgSelFct cfgSelFct_{};  //!< Pointer to a function to determine which cfg to use (may be 0)
         const ArraySet* arraySet_{};   //!< Pointer to the array set, if any (may be 0)
