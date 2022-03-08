@@ -309,12 +309,12 @@ namespace Exiv2 {
     }
 
     Xmpdatum::Xmpdatum(const XmpKey& key, const Value* pValue)
-        : p_(new Impl(key, pValue))
+        : p_(std::make_unique<Impl>(key, pValue))
     {
     }
 
     Xmpdatum::Xmpdatum(const Xmpdatum& rhs)
-        : Metadatum(rhs), p_(new Impl(*rhs.p_))
+        : Metadatum(rhs), p_(std::make_unique<Impl>(*rhs.p_))
     {
     }
 
