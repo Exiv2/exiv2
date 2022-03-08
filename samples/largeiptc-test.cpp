@@ -26,14 +26,14 @@ int main(int argc, char* const argv[])
         // Read data file into data buffer
         Exiv2::FileIo io(data);
         if (io.open() != 0) {
-            throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
+            throw Exiv2::Error(Exiv2::ErrorCode::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
         }
 
         Exiv2::DataBuf buf(io.size());
         std::cout << "Reading " << buf.size() << " bytes from " << data << "\n";
         const size_t readBytes = io.read(buf.data(), buf.size());
         if (readBytes != buf.size() || io.error() || io.eof()) {
-            throw Exiv2::Error(Exiv2::kerFailedToReadImageData);
+            throw Exiv2::Error(Exiv2::ErrorCode::kerFailedToReadImageData);
         }
 
         // Read metadata from file

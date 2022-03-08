@@ -30,7 +30,7 @@ TEST(BmpImage, writeMetadataIsNotImplemented)
         bmp.writeMetadata();
         FAIL();
     } catch (const Exiv2::Error& e) {
-        ASSERT_EQ(kerWritingImageFormatUnsupported, e.code());
+        ASSERT_EQ(ErrorCode::kerWritingImageFormatUnsupported, e.code());
         ASSERT_STREQ("Writing to BMP images is not supported", e.what());
     }
 }
@@ -45,7 +45,7 @@ TEST(BmpImage, setExitDataIsNotImplemented)
         bmp.setExifData(data);
         FAIL();
     } catch (const Exiv2::Error& e) {
-        ASSERT_EQ(kerInvalidSettingForImage, e.code());
+        ASSERT_EQ(ErrorCode::kerInvalidSettingForImage, e.code());
         ASSERT_STREQ("Setting Exif metadata in BMP images is not supported", e.what());
     }
 }
@@ -60,7 +60,7 @@ TEST(BmpImage, setIptcDataIsNotImplemented)
         bmp.setIptcData(data);
         FAIL();
     } catch (const Exiv2::Error& e) {
-        ASSERT_EQ(kerInvalidSettingForImage, e.code());
+        ASSERT_EQ(ErrorCode::kerInvalidSettingForImage, e.code());
         ASSERT_STREQ("Setting IPTC metadata in BMP images is not supported", e.what());
     }
 }
@@ -74,7 +74,7 @@ TEST(BmpImage, setCommentIsNotImplemented)
         bmp.setComment("random comment");
         FAIL();
     } catch (const Exiv2::Error& e) {
-        ASSERT_EQ(kerInvalidSettingForImage, e.code());
+        ASSERT_EQ(ErrorCode::kerInvalidSettingForImage, e.code());
         ASSERT_STREQ("Setting Image comment in BMP images is not supported", e.what());
     }
 }
@@ -118,7 +118,7 @@ TEST(BmpImage, readMetadataThrowsWhenImageIsNotBMP)
         bmp.readMetadata();
         FAIL();
     } catch (const Exiv2::Error& e) {
-        ASSERT_EQ(kerNotAnImage, e.code());
+        ASSERT_EQ(ErrorCode::kerNotAnImage, e.code());
         ASSERT_STREQ("This does not look like a BMP image", e.what());
     }
 }
@@ -132,7 +132,7 @@ TEST(BmpImage, readMetadataThrowsWhenThereIsNotEnoughInfoToRead)
         bmp.readMetadata();
         FAIL();
     } catch (const Exiv2::Error& e) {
-        ASSERT_EQ(kerFailedToReadImageData, e.code());
+        ASSERT_EQ(ErrorCode::kerFailedToReadImageData, e.code());
         ASSERT_STREQ("Failed to read image data", e.what());
     }
 }
@@ -146,7 +146,7 @@ TEST(BmpImage, readMetadataThrowsWhenIoCannotBeOpened)
         bmp.readMetadata();
         FAIL();
     } catch (const Exiv2::Error& e) {
-        ASSERT_EQ(kerDataSourceOpenFailed, e.code());
+        ASSERT_EQ(ErrorCode::kerDataSourceOpenFailed, e.code());
     }
 }
 

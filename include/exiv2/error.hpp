@@ -146,33 +146,10 @@ namespace Exiv2 {
         return os.str();
     }
 
-    /*!
-      @brief Error class interface. Allows the definition and use of a hierarchy
-             of error classes which can all be handled in one catch block.
-             Inherits from the standard exception base-class, to make life
-             easier for library users (they have the option of catching most
-             things via std::exception).
-     */
-    class EXIV2API AnyError : public std::exception {
-    public:
-        AnyError() = default;
-        AnyError(const AnyError& o) = default;
-
-        ~AnyError() noexcept override = default;
-        ///@brief  Return the error code.
-        virtual int code() const noexcept = 0;
-    };
-
-    //! %AnyError output operator
-    inline std::ostream& operator<<(std::ostream& os, const AnyError& error)
-    {
-        return os << error.what();
-    }
-
     //! Complete list of all Exiv2 error codes
-    enum ErrorCode {
-        kerGeneralError = -1,
+    enum class ErrorCode {
         kerSuccess = 0,
+        kerGeneralError,
         kerErrorMessage,
         kerCallFailed,
         kerNotAnImage,
@@ -239,6 +216,28 @@ namespace Exiv2 {
     };
 
     /*!
+      @brief Error class interface. Allows the definition and use of a hierarchy
+             of error classes which can all be handled in one catch block.
+             Inherits from the standard exception base-class, to make life
+             easier for library users (they have the option of catching most
+             things via std::exception).
+     */
+    class EXIV2API AnyError : public std::exception {
+    public:
+        AnyError() = default;
+        AnyError(const AnyError& o) = default;
+
+        ~AnyError() noexcept override = default;
+        ///@brief  Return the error code.
+        virtual ErrorCode code() const noexcept = 0;
+    };
+
+    //! %AnyError output operator
+    inline std::ostream& operator<<(std::ostream& os, const AnyError& error)
+    {
+        return os << error.what();
+    }
+    /*!
       @brief Simple error class used for exceptions. An output operator is
              provided to print errors to a stream.
      */
@@ -268,7 +267,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        inline int code() const noexcept override;
+        inline ErrorCode code() const noexcept override;
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
@@ -299,7 +298,7 @@ namespace Exiv2 {
     // free functions, template and inline definitions
 
     //! Return the error message for the error with code \em code.
-    const char* errMsg(int code);
+    const char* errMsg(ErrorCode code);
 
     template<typename charT>
     BasicError<charT>::BasicError(ErrorCode code)
@@ -338,7 +337,7 @@ namespace Exiv2 {
     BasicError<charT>::~BasicError() noexcept = default;
 
     template <typename charT>
-    int BasicError<charT>::code() const noexcept
+    ErrorCode BasicError<charT>::code() const noexcept
     {
         return code_;
     }

@@ -56,7 +56,7 @@ try {
     if (exifReadData.empty()) {
         std::string error(argv[1]);
         error += ": No Exif data found in the file";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     auto end = exifReadData.end();
     for (auto i = exifReadData.begin(); i != end; ++i) {
@@ -82,19 +82,19 @@ try {
     exifReadData["Exif.Image.Copyright"]    = "Exiv2.org";                 // AsciiValue
     key = Exiv2::ExifKey("Exif.Image.Make");
     auto pos = exifReadData.findKey(key);
-    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Image.Make not found");
+    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Exif.Image.Make not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.Image.DateTime");
     pos = exifReadData.findKey(key);
-    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Image.DateTime not found");
+    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Exif.Image.DateTime not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.Canon.OwnerName");
     pos = exifReadData.findKey(key);
-    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Canon.OwnerName not found");
+    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Exif.Canon.OwnerName not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.CanonCs.LensType");
     pos = exifReadData.findKey(key);
-    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.CanonCs.LensType not found");
+    if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Exif.CanonCs.LensType not found");
     exifReadData.erase(pos);
     readTest->setExifData(exifReadData);
     readTest->writeMetadata();

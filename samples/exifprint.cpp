@@ -70,7 +70,7 @@ try {
     Exiv2::ExifData &exifData = image->exifData();
     if (exifData.empty()) {
         std::string error("No Exif data found in file");
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     
     std::set<std::string> shortLong;

@@ -46,7 +46,7 @@ namespace Exiv2 {
         //@}
 
         /*!
-          @brief Not supported. Calling this function will throw an Error(kerInvalidSettingForImage).
+          @brief Not supported. Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setComment(std::string_view comment) override;
         void setIptcData(const IptcData& /*iptcData*/) override;

@@ -230,12 +230,12 @@ namespace Exiv2 {
     {
         assert(p_->fp_);
         if (munmap() != 0) {
-            throw Error(kerCallFailed, path(), strError(), "munmap");
+            throw Error(ErrorCode::kerCallFailed, path(), strError(), "munmap");
         }
         p_->mappedLength_ = size();
         p_->isWriteable_ = isWriteable;
         if (p_->isWriteable_ && p_->switchMode(Impl::opWrite) != 0) {
-            throw Error(kerFailedToMapFileForReadWrite, path(), strError());
+            throw Error(ErrorCode::kerFailedToMapFileForReadWrite, path(), strError());
         }
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
         int prot = PROT_READ;
@@ -244,7 +244,7 @@ namespace Exiv2 {
         }
         void* rc = ::mmap(nullptr, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
         if (MAP_FAILED == rc) {
-            throw Error(kerCallFailed, path(), strError(), "mmap");
+            throw Error(ErrorCode::kerCallFailed, path(), strError(), "mmap");
         }
         p_->pMappedArea_ = static_cast<byte*>(rc);
 
@@ -265,28 +265,28 @@ namespace Exiv2 {
         HANDLE hPh = GetCurrentProcess();
         HANDLE hFd = (HANDLE)_get_osfhandle(fileno(p_->fp_));
         if (hFd == INVALID_HANDLE_VALUE) {
-            throw Error(kerCallFailed, path(), "MSG1", "_get_osfhandle");
+            throw Error(ErrorCode::kerCallFailed, path(), "MSG1", "_get_osfhandle");
         }
         if (!DuplicateHandle(hPh, hFd, hPh, &p_->hFile_, 0, false, DUPLICATE_SAME_ACCESS)) {
-            throw Error(kerCallFailed, path(), "MSG2", "DuplicateHandle");
+            throw Error(ErrorCode::kerCallFailed, path(), "MSG2", "DuplicateHandle");
         }
         p_->hMap_ = CreateFileMapping(p_->hFile_, 0, flProtect, 0, (DWORD) p_->mappedLength_, 0);
         if (p_->hMap_ == 0 ) {
-            throw Error(kerCallFailed, path(), "MSG3", "CreateFileMapping");
+            throw Error(ErrorCode::kerCallFailed, path(), "MSG3", "CreateFileMapping");
         }
         void* rc = MapViewOfFile(p_->hMap_, dwAccess, 0, 0, 0);
         if (rc == 0) {
-            throw Error(kerCallFailed, path(), "MSG4", "CreateFileMapping");
+            throw Error(ErrorCode::kerCallFailed, path(), "MSG4", "CreateFileMapping");
         }
         p_->pMappedArea_ = static_cast<byte*>(rc);
 #else
         // Workaround for platforms without mmap: Read the file into memory
         DataBuf buf(static_cast<long>(p_->mappedLength_));
         if (read(buf.data(), buf.size()) != buf.size()) {
-            throw Error(kerCallFailed, path(), strError(), "FileIo::read");
+            throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::read");
         }
         if (error()) {
-            throw Error(kerCallFailed, path(), strError(), "FileIo::mmap");
+            throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::mmap");
         }
         p_->pMappedArea_ = buf.release().first;
         p_->isMalloced_ = true;
@@ -346,7 +346,7 @@ namespace Exiv2 {
             if (open("a+b") != 0) {
                 // Remove the (temporary) file
                 fs::remove(fileIo->path().c_str());
-                throw Error(kerFileOpenFailed, path(), "a+b", strError());
+                throw Error(ErrorCode::kerFileOpenFailed, path(), "a+b", strError());
             }
             close();
 
@@ -380,13 +380,13 @@ namespace Exiv2 {
                                 fs::remove(fileIo->path().c_str());
                             }
                             else {
-                                throw Error(kerFileRenameFailed, fileIo->path(), pf, strError());
+                                throw Error(ErrorCode::kerFileRenameFailed, fileIo->path(), pf, strError());
                             }
                         }
                     }
                     else {
                         if (fileExists(pf) && ::remove(pf) != 0) {
-                            throw Error(kerCallFailed, pf, strError(), "fs::remove");
+                            throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
                         }
                         fs::rename(fileIo->path().c_str(), pf);
                         fs::remove(fileIo->path().c_str());
@@ -394,7 +394,7 @@ namespace Exiv2 {
                 }
 #else
                 if (fileExists(pf) && fs::remove(pf) != 0) {
-                    throw Error(kerCallFailed, pf, strError(), "fs::remove");
+                    throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
                 }
                 fs::rename(fileIo->path().c_str(), pf);
                 fs::remove(fileIo->path().c_str());
@@ -404,14 +404,14 @@ namespace Exiv2 {
                 if (statOk && ::stat(pf, &buf2) == -1) {
                     statOk = false;
 #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << Error(kerCallFailed, pf, strError(), "::stat") << "\n";
+                    EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::stat") << "\n";
 #endif
                 }
                 if (statOk && origStMode != buf2.st_mode) {
                     // Set original file permissions
                     if (::chmod(pf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-                        EXV_WARNING << Error(kerCallFailed, pf, strError(), "::chmod") << "\n";
+                        EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::chmod") << "\n";
 #endif
                     }
                 }
@@ -420,10 +420,10 @@ namespace Exiv2 {
         else {
             // Generic handling, reopen both to reset to start
             if (open("w+b") != 0) {
-                throw Error(kerFileOpenFailed, path(), "w+b", strError());
+                throw Error(ErrorCode::kerFileOpenFailed, path(), "w+b", strError());
             }
             if (src.open() != 0) {
-                throw Error(kerDataSourceOpenFailed, src.path(), strError());
+                throw Error(ErrorCode::kerDataSourceOpenFailed, src.path(), strError());
             }
             write(src);
             src.close();
@@ -431,13 +431,13 @@ namespace Exiv2 {
 
         if (wasOpen) {
             if (open(lastMode) != 0) {
-                throw Error(kerFileOpenFailed, path(), lastMode, strError());
+                throw Error(ErrorCode::kerFileOpenFailed, path(), lastMode, strError());
             }
         }
         else close();
 
         if (error() || src.error()) {
-            throw Error(kerTransferFailed, path(), strError());
+            throw Error(ErrorCode::kerTransferFailed, path(), strError());
         }
     } // FileIo::transfer
 
@@ -530,11 +530,11 @@ namespace Exiv2 {
     {
         assert(p_->fp_);
         if (static_cast<size_t>(rcount) > size())
-            throw Error(kerInvalidMalloc);
+            throw Error(ErrorCode::kerInvalidMalloc);
         DataBuf buf(rcount);
         size_t readCount = read(buf.data(), buf.size());
         if (readCount == 0) {
-            throw Error(kerInputDataReadFailed);
+            throw Error(ErrorCode::kerInputDataReadFailed);
         }
         buf.resize(readCount);
         return buf;
@@ -682,7 +682,7 @@ namespace Exiv2 {
             size_t size  = std::max(blockSize * (1 + need / blockSize), size_);
             auto data = static_cast<byte*>(std::malloc(size));
             if (!data) {
-                throw Error(kerMallocFailed);
+                throw Error(ErrorCode::kerMallocFailed);
             }
             if (data_) {
                 std::memcpy(data, data_, size_);
@@ -700,7 +700,7 @@ namespace Exiv2 {
                 size_t want      = blockSize * (1 + need / blockSize );
                 data_ = static_cast<byte*>(std::realloc(data_, want));
                 if (!data_) {
-                    throw Error(kerMallocFailed);
+                    throw Error(ErrorCode::kerMallocFailed);
                 }
                 sizeAlloced_ = want;
             }
@@ -756,13 +756,13 @@ namespace Exiv2 {
         else {
             // Generic reopen to reset position to start
             if (src.open() != 0) {
-                throw Error(kerDataSourceOpenFailed, src.path(), strError());
+                throw Error(ErrorCode::kerDataSourceOpenFailed, src.path(), strError());
             }
             p_->idx_ = 0;
             write(src);
             src.close();
         }
-        if (error() || src.error()) throw Error(kerMemoryTransferFailed, strError());
+        if (error() || src.error()) throw Error(ErrorCode::kerMemoryTransferFailed, strError());
     }
 
     size_t MemIo::write(BasicIo& src)
@@ -910,12 +910,12 @@ namespace Exiv2 {
 
     void XPathIo::ReadStdin() {
         if (isatty(fileno(stdin)))
-            throw Error(kerInputDataReadFailed);
+            throw Error(ErrorCode::kerInputDataReadFailed);
 
 #ifdef _O_BINARY
         // convert stdin to binary
         if (_setmode(_fileno(stdin), _O_BINARY) == -1)
-            throw Error(kerInputDataReadFailed);
+            throw Error(ErrorCode::kerInputDataReadFailed);
 #endif
 
         char readBuf[100*1024];
@@ -932,7 +932,7 @@ namespace Exiv2 {
     void XPathIo::ReadDataUri(const std::string& path) {
         size_t base64Pos = path.find("base64,");
         if (base64Pos == std::string::npos)
-            throw Error(kerErrorMessage, "No base64 data");
+            throw Error(ErrorCode::kerErrorMessage, "No base64 data");
 
         std::string data = path.substr(base64Pos+7);
         char* decodeData = new char[data.length()];
@@ -940,7 +940,7 @@ namespace Exiv2 {
         if (size > 0)
             write((byte*)decodeData, size);
         else
-            throw Error(kerErrorMessage, "Unable to decode base 64.");
+            throw Error(ErrorCode::kerErrorMessage, "Unable to decode base 64.");
         delete[] decodeData;
     }
 
@@ -983,11 +983,11 @@ namespace Exiv2 {
 
         if (prot == pStdin) {
             if (isatty(fileno(stdin)))
-                throw Error(kerInputDataReadFailed);
+                throw Error(ErrorCode::kerInputDataReadFailed);
 #if defined(_MSC_VER) || defined(__MINGW__)
             // convert stdin to binary
             if (_setmode(_fileno(stdin), _O_BINARY) == -1)
-                throw Error(kerInputDataReadFailed);
+                throw Error(ErrorCode::kerInputDataReadFailed);
 #endif
             std::ofstream fs(path.c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
             // read stdin and write to the temp file.
@@ -1007,7 +1007,7 @@ namespace Exiv2 {
             size_t base64Pos = orgPath.find("base64,");
             if (base64Pos == std::string::npos) {
                 fs.close();
-                throw Error(kerErrorMessage, "No base64 data");
+                throw Error(ErrorCode::kerErrorMessage, "No base64 data");
             }
 
             std::string data = orgPath.substr(base64Pos+7);
@@ -1018,7 +1018,7 @@ namespace Exiv2 {
                 fs.close();
             } else {
                 fs.close();
-                throw Error(kerErrorMessage, "Unable to decode base 64.");
+                throw Error(ErrorCode::kerErrorMessage, "Unable to decode base 64.");
             }
         }
 
@@ -1117,7 +1117,7 @@ namespace Exiv2 {
             getDataByRange(static_cast<long>(lowBlock), static_cast<long>(highBlock), data);
             rcount = data.length();
             if (rcount == 0) {
-                throw Error(kerErrorMessage, "Data By Range is empty. Please check the permission.");
+                throw Error(ErrorCode::kerErrorMessage, "Data By Range is empty. Please check the permission.");
             }
             auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
             size_t remain = rcount, totalRead = 0;
@@ -1171,7 +1171,7 @@ namespace Exiv2 {
                     iBlock++;
                 }
             } else if (length == 0) { // file is empty
-                throw Error(kerErrorMessage, "the file length is 0");
+                throw Error(ErrorCode::kerErrorMessage, "the file length is 0");
             } else {
                 p_->size_ = static_cast<size_t>(length);
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
@@ -1284,7 +1284,7 @@ namespace Exiv2 {
         DataBuf buf(rcount);
         size_t readCount = read(buf.data(), buf.size());
         if (readCount == 0) {
-            throw Error(kerInputDataReadFailed);
+            throw Error(ErrorCode::kerInputDataReadFailed);
         }
         buf.resize(readCount);
         return buf;
@@ -1305,7 +1305,7 @@ namespace Exiv2 {
         p_->populateBlocks(lowBlock, highBlock);
         auto fakeData = static_cast<byte*>(std::calloc(p_->blockSize_, sizeof(byte)));
         if (!fakeData) {
-            throw Error(kerErrorMessage, "Unable to allocate data");
+            throw Error(ErrorCode::kerErrorMessage, "Unable to allocate data");
         }
 
         size_t iBlock = lowBlock;
@@ -1349,7 +1349,7 @@ namespace Exiv2 {
     void RemoteIo::transfer(BasicIo& src)
     {
         if (src.open() != 0) {
-            throw Error(kerErrorMessage, "unable to open src when transferring");
+            throw Error(ErrorCode::kerErrorMessage, "unable to open src when transferring");
         }
         write(src);
         src.close();
@@ -1507,7 +1507,7 @@ namespace Exiv2 {
         request["verb"]   = "HEAD";
         int serverCode = http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
-            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
+            throw Error(ErrorCode::kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
 
         auto lengthIter = response.find("Content-Length");
@@ -1532,7 +1532,7 @@ namespace Exiv2 {
 
         int serverCode = http(request, responseDic, errors);
         if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
-            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
+            throw Error(ErrorCode::kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
         response = responseDic["body"];
     }
@@ -1541,7 +1541,7 @@ namespace Exiv2 {
     {
         std::string scriptPath(getEnv(envHTTPPOST));
         if (scriptPath.empty()) {
-            throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
+            throw Error(ErrorCode::kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 
         // standardize the path without "/" at the beginning.
@@ -1584,7 +1584,7 @@ namespace Exiv2 {
 
         int serverCode = http(request, response, errors);
         if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
-            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
+            throw Error(ErrorCode::kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode), hostInfo_.Path);
         }
     }
 
@@ -1646,7 +1646,7 @@ namespace Exiv2 {
     CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize), curl_(curl_easy_init())
     {
         if(!curl_) {
-            throw Error(kerErrorMessage, "Unable to init libcurl.");
+            throw Error(ErrorCode::kerErrorMessage, "Unable to init libcurl.");
         }
 
         // The default block size for FTP is much larger than other protocols
@@ -1659,7 +1659,7 @@ namespace Exiv2 {
         std::string timeout = getEnv(envTIMEOUT);
         timeout_ = atol(timeout.c_str());
         if (timeout_ == 0) {
-            throw Error(kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
+            throw Error(ErrorCode::kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
         }
     }
 
@@ -1679,13 +1679,13 @@ namespace Exiv2 {
         /* Perform the request, res will get the return code */
         CURLcode res = curl_easy_perform(curl_);
         if(res != CURLE_OK) { // error happened
-            throw Error(kerErrorMessage, curl_easy_strerror(res));
+            throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
         }
         // get status
         int serverCode;
         curl_easy_getinfo (curl_, CURLINFO_RESPONSE_CODE, &serverCode); // get code
         if (serverCode >= 400 || serverCode < 0) {
-            throw Error(kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
+            throw Error(ErrorCode::kerFileOpenFailed, "http",Exiv2::Internal::stringFormat("%d",serverCode),path_);
         }
         // get length
         double temp;
@@ -1717,12 +1717,12 @@ namespace Exiv2 {
         CURLcode res = curl_easy_perform(curl_);
 
         if(res != CURLE_OK) {
-            throw Error(kerErrorMessage, curl_easy_strerror(res));
+            throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
         }
         int serverCode;
         curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
         if (serverCode >= 400 || serverCode < 0) {
-            throw Error(kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
+            throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
         }
     }
 
@@ -1730,7 +1730,7 @@ namespace Exiv2 {
     {
         std::string scriptPath(getEnv(envHTTPPOST));
         if (scriptPath.empty()) {
-            throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
+            throw Error(ErrorCode::kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 
         Exiv2::Uri hostInfo = Exiv2::Uri::Parse(path_);
@@ -1767,12 +1767,12 @@ namespace Exiv2 {
         CURLcode res = curl_easy_perform(curl_);
 
         if(res != CURLE_OK) {
-            throw Error(kerErrorMessage, curl_easy_strerror(res));
+            throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
         }
         int serverCode;
         curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);
         if (serverCode >= 400 || serverCode < 0) {
-            throw Error(kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
+            throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
         }
     }
 
@@ -1785,7 +1785,7 @@ namespace Exiv2 {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(data, wcount);
         }
-        throw Error(kerErrorMessage, "doesnt support write for this protocol.");
+        throw Error(ErrorCode::kerErrorMessage, "doesnt support write for this protocol.");
     }
 
     size_t CurlIo::write(BasicIo& src)
@@ -1793,7 +1793,7 @@ namespace Exiv2 {
         if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
             return RemoteIo::write(src);
         }
-        throw Error(kerErrorMessage, "doesnt support write for this protocol.");
+        throw Error(ErrorCode::kerErrorMessage, "doesnt support write for this protocol.");
     }
 
     CurlIo::CurlIo(const std::string& url, size_t blockSize)
@@ -1810,16 +1810,16 @@ namespace Exiv2 {
     {
         FileIo file(path);
         if (file.open("rb") != 0) {
-            throw Error(kerFileOpenFailed, path, "rb", strError());
+            throw Error(ErrorCode::kerFileOpenFailed, path, "rb", strError());
         }
         struct stat st;
         if (0 != ::stat(path.c_str(), &st)) {
-            throw Error(kerCallFailed, path, strError(), "::stat");
+            throw Error(ErrorCode::kerCallFailed, path, strError(), "::stat");
         }
         DataBuf buf(st.st_size);
         const size_t len = file.read(buf.data(), buf.size());
         if (len != buf.size()) {
-            throw Error(kerCallFailed, path, strError(), "FileIo::read");
+            throw Error(ErrorCode::kerCallFailed, path, strError(), "FileIo::read");
         }
         return buf;
     }
@@ -1828,7 +1828,7 @@ namespace Exiv2 {
     {
         FileIo file(path);
         if (file.open("wb") != 0) {
-            throw Error(kerFileOpenFailed, path, "wb", strError());
+            throw Error(ErrorCode::kerFileOpenFailed, path, "wb", strError());
         }
         return file.write(buf.c_data(), buf.size());
     }

@@ -20,7 +20,7 @@ TEST(LangAltValueReadTest, noLanguageValBeforeSpace)
         xmpData["Xmp.dc.title"] = "lang= test1-1";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -37,7 +37,7 @@ TEST(LangAltValueReadTest, quoteThenNoLanguageValBeforeSpace)
         xmpData["Xmp.dc.title"] = "lang=\" test1-2";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -55,7 +55,7 @@ TEST(LangAltValueReadTest, emptyDoubleQuotesLanguageValBeforeSpace)
         xmpData["Xmp.dc.title"] = "lang=\"\" test2";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -73,7 +73,7 @@ TEST(LangAltValueReadTest, emptyDoubleQuotesLanguageValNoSpace)
         xmpData["Xmp.dc.title"] = "lang=\"\"test3-1";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -90,7 +90,7 @@ TEST(LangAltValueReadTest, oneDoubleQuotesLanguageValNoSpace)
         xmpData["Xmp.dc.title"] = "lang=\"test3-2";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -107,7 +107,7 @@ TEST(LangAltValueReadTest, oneDoubleQuotesLanguageValBeforeSpace)
         xmpData["Xmp.dc.title"] = "lang=\"en-UK test3-3";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -124,7 +124,7 @@ TEST(LangAltValueReadTest, languageValOneDoubleQuotesBeforeSpace)
         xmpData["Xmp.dc.title"] = "lang=en-US\" test3-4";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -141,7 +141,7 @@ TEST(LangAltValueReadTest, languageValOneDoubleQuotesNoSpace)
         xmpData["Xmp.dc.title"] = "lang=test3-5\"";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -158,7 +158,7 @@ TEST(LangAltValueReadTest, languageValTwoDoubleQuotesNoSpace)
         xmpData["Xmp.dc.title"] = "lang=test3-6\"\"";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -176,7 +176,7 @@ TEST(LangAltValueReadTest, languageValExtraHyphenBeforeSpace)
         xmpData["Xmp.dc.title"] = "lang=en-UK- test4-1";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);
@@ -193,7 +193,7 @@ TEST(LangAltValueReadTest, languageValWithInvalidCharBeforeSpace)
         xmpData["Xmp.dc.title"] = "lang=en=UK test4-2";
     }
     catch (AnyError& e) {
-        ASSERT_EQ(e.code(),Exiv2::kerInvalidLangAltValue);
+        ASSERT_EQ(e.code(),Exiv2::ErrorCode::kerInvalidLangAltValue);
     }
     catch (...) {
         ASSERT_TRUE(false);

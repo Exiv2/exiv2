@@ -24,12 +24,12 @@ try {
     if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket)) {
         std::string error(argv[1]);
         error += ": Failed to parse file contents (XMP packet)";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     if (xmpData.empty()) {
         std::string error(argv[1]);
         error += ": No XMP properties found in the XMP packet";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     for (auto&& md : xmpData) {
         std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9)

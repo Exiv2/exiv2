@@ -74,14 +74,14 @@ try {
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     auto pos = exifData.findKey(key);
     if (pos == exifData.end())
-        throw Exiv2::Error(Exiv2::kerErrorMessage, "Key not found");
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Key not found");
 
     // Get a pointer to a copy of the value
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
     auto prv = dynamic_cast<Exiv2::URationalValue*>(v.get());
     if (!prv)
-        throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Downcast failed");
 
     rv = Exiv2::URationalValue(*prv);
     // Modify the value directly through the interface of URationalValue
@@ -97,7 +97,7 @@ try {
     // Delete the metadatum at iterator position pos
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     pos = exifData.findKey(key);
-    if (pos == exifData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Key not found");
+    if (pos == exifData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Key not found");
     exifData.erase(pos);
     std::cout << "Deleted key \"" << key << "\"\n";
 

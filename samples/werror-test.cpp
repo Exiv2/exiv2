@@ -13,7 +13,7 @@ int main()
 #endif
 
     try {
-        throw Exiv2::Error(Exiv2::kerGeneralError, "ARG1", "ARG2", "ARG3");
+        throw Exiv2::Error(Exiv2::ErrorCode::kerGeneralError, "ARG1", "ARG2", "ARG3");
     }
     catch (const Exiv2::Error& e) {
         std::cout << "Caught Error '" << e.what() << "'\n";

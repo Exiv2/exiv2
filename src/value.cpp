@@ -417,7 +417,7 @@ namespace Exiv2 {
             charsetId = CharsetInfo::charsetIdByName(name);
             if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << Error(kerInvalidCharset, name) << "\n";
+                EXV_WARNING << Error(ErrorCode::kerInvalidCharset, name) << "\n";
 #endif
                 return 1;
             }
@@ -626,7 +626,7 @@ namespace Exiv2 {
                 setXmpStruct();
             }
             else {
-                throw Error(kerInvalidXmpText, type);
+                throw Error(ErrorCode::kerInvalidXmpText, type);
             }
         }
         value_ = b;
@@ -782,26 +782,26 @@ namespace Exiv2 {
             } else {
                 lang = buf.substr(5, pos-5);
             }
-            if (lang.empty()) throw Error(kerInvalidLangAltValue, buf);
+            if (lang.empty()) throw Error(ErrorCode::kerInvalidLangAltValue, buf);
             // Strip quotes (so you can also specify the language without quotes)
             if (lang[0] == '"') {
                 lang = lang.substr(1);
 
                 if (lang.empty() || lang.find('"') != lang.length() - 1)
-                    throw Error(kerInvalidLangAltValue, buf);
+                    throw Error(ErrorCode::kerInvalidLangAltValue, buf);
 
                 lang = lang.substr(0, lang.length()-1);
             }
 
             if (lang.empty())
-                throw Error(kerInvalidLangAltValue, buf);
+                throw Error(ErrorCode::kerInvalidLangAltValue, buf);
 
             // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
             std::string::size_type charPos = lang.find_first_not_of(ALPHA);
             if (charPos != std::string::npos) {
                 static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
                 if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
-                    throw Error(kerInvalidLangAltValue, buf);
+                    throw Error(ErrorCode::kerInvalidLangAltValue, buf);
             }
 
             b.clear();
@@ -920,7 +920,7 @@ namespace Exiv2 {
 
         auto printWarning = [](){
 #ifndef SUPPRESS_WARNINGS
-          EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
+          EXV_WARNING << Error(ErrorCode::kerUnsupportedDateFormat) << "\n";
 #endif
         };
 
@@ -1090,7 +1090,7 @@ namespace Exiv2 {
           return 0;
         }
 #ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
+        EXV_WARNING << Error(ErrorCode::kerUnsupportedTimeFormat) << "\n";
 #endif
         return 1;
     }
@@ -1115,7 +1115,7 @@ namespace Exiv2 {
                    time_.hour, time_.minute, time_.second,
                    plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
 
-        enforce(wrote == 11, Exiv2::kerUnsupportedTimeFormat);
+        enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
         std::memcpy(buf, temp, wrote);
         return wrote;
     }

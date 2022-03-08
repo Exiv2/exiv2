@@ -132,7 +132,7 @@ namespace Exiv2 {
 
     void Image::printStructure(std::ostream&, PrintStructureOption,int /*depth*/)
     {
-        throw Error(kerUnsupportedImageType, io_->path());
+        throw Error(ErrorCode::kerUnsupportedImageType, io_->path());
     }
 
     bool Image::isStringType(uint16_t type)
@@ -306,14 +306,14 @@ namespace Exiv2 {
 
         do {
             // Read top of directory
-            io.seekOrThrow(start, BasicIo::beg, kerCorruptedMetadata);
-            io.readOrThrow(dir.data(), 2, kerCorruptedMetadata);
+            io.seekOrThrow(start, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
+            io.readOrThrow(dir.data(), 2, ErrorCode::kerCorruptedMetadata);
             uint16_t   dirLength = byteSwap2(dir,0,bSwap);
             // Prevent infinite loops. (GHSA-m479-7frc-gqqg)
-            enforce(dirLength > 0, kerCorruptedMetadata);
+            enforce(dirLength > 0, ErrorCode::kerCorruptedMetadata);
 
             if ( dirLength > 500 ) // tooBig
-                throw Error(kerTiffDirectoryTooLarge);
+                throw Error(ErrorCode::kerTiffDirectoryTooLarge);
 
             if ( bFirst && bPrint ) {
                 out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ",c,c) << io.path() << std::endl;
@@ -322,7 +322,7 @@ namespace Exiv2 {
             // Read the dictionary
             for ( int i = 0 ; i < dirLength ; i ++ ) {
                 if ( visits.find(io.tell()) != visits.end()  ) { // #547
-                    throw Error(kerCorruptedMetadata);
+                    throw Error(ErrorCode::kerCorruptedMetadata);
                 }
                 visits.insert(io.tell());
                 
@@ -333,7 +333,7 @@ namespace Exiv2 {
                 }
                 bFirst = false;
 
-                io.readOrThrow(dir.data(), 12, kerCorruptedMetadata);
+                io.readOrThrow(dir.data(), 12, ErrorCode::kerCorruptedMetadata);
                 uint16_t tag    = byteSwap2(dir,0,bSwap);
                 uint16_t type   = byteSwap2(dir,2,bSwap);
                 uint32_t count  = byteSwap4(dir,4,bSwap);
@@ -342,7 +342,7 @@ namespace Exiv2 {
                 // Break for unknown tag types else we may segfault.
                 if ( !typeValid(type) ) {
                     EXV_ERROR << "invalid type in tiff structure" << type << std::endl;
-                    throw Error(kerInvalidTypeValue);
+                    throw Error(ErrorCode::kerInvalidTypeValue);
                 }
 
                 std::string sp;  // output spacer
@@ -367,11 +367,11 @@ namespace Exiv2 {
                 // #55 and #56 memory allocation crash test/data/POC8
                 const uint64_t allocate64 = static_cast<uint64_t>(size) * count + pad + 20;
                 if ( allocate64 > io.size() ) {
-                    throw Error(kerInvalidMalloc);
+                    throw Error(ErrorCode::kerInvalidMalloc);
                 }
                 // Overflow check
-                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<uint32_t>::max()), kerCorruptedMetadata);
-                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<uint32_t>::max()), ErrorCode::kerCorruptedMetadata);
+                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<long>::max()), ErrorCode::kerCorruptedMetadata);
                 const auto allocate = static_cast<long>(allocate64);
                 DataBuf  buf(allocate);  // allocate a buffer
                 buf.copyBytes(0, dir.c_data(8), 4);  // copy dir[8:11] into buffer (short strings)
@@ -382,9 +382,9 @@ namespace Exiv2 {
 
                 if ( bOffsetIsPointer ) {         // read into buffer
                     const long restore = io.tell(); // save
-                    io.seekOrThrow(offset, BasicIo::beg, kerCorruptedMetadata); // position
-                    io.readOrThrow(buf.data(), count_x_size, kerCorruptedMetadata); // read
-                    io.seekOrThrow(restore, BasicIo::beg, kerCorruptedMetadata); // restore
+                    io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata); // position
+                    io.readOrThrow(buf.data(), count_x_size, ErrorCode::kerCorruptedMetadata); // read
+                    io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata); // restore
                 }
 
                 if ( bPrint ) {
@@ -426,20 +426,20 @@ namespace Exiv2 {
                             const long restore = io.tell();
                             offset = byteSwap4(buf,k*size,bSwap);
                             printIFDStructure(io,out,option,offset,bSwap,c,depth);
-                            io.seekOrThrow(restore, BasicIo::beg, kerCorruptedMetadata);
+                            io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
                         }
                     } else if ( option == kpsRecursive && tag == 0x83bb /* IPTCNAA */ ) {
                         if (count > 0) {
                             if (static_cast<size_t>(Safe::add(count, offset)) > io.size()) {
-                                throw Error(kerCorruptedMetadata);
+                                throw Error(ErrorCode::kerCorruptedMetadata);
                             }
 
                             const long restore = io.tell();
-                            io.seekOrThrow(offset, BasicIo::beg, kerCorruptedMetadata);  // position
+                            io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
                             std::vector<byte> bytes(count) ;  // allocate memory
                             // TODO: once we have C++11 use bytes.data()
-                            io.readOrThrow(&bytes[0], count, kerCorruptedMetadata);
-                            io.seekOrThrow(restore, BasicIo::beg, kerCorruptedMetadata);
+                            io.readOrThrow(&bytes[0], count, ErrorCode::kerCorruptedMetadata);
+                            io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
                             // TODO: once we have C++11 use bytes.data()
                             IptcData::printStructure(out, makeSliceUntil(&bytes[0], count), depth);
                         }
@@ -449,8 +449,8 @@ namespace Exiv2 {
                         uint32_t jump= 10           ;
                         byte     bytes[20]          ;
                         const auto chars = reinterpret_cast<const char*>(&bytes[0]);
-                        io.seekOrThrow(offset, BasicIo::beg, kerCorruptedMetadata);  // position
-                        io.readOrThrow(bytes, jump, kerCorruptedMetadata)     ;  // read
+                        io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
+                        io.readOrThrow(bytes, jump, ErrorCode::kerCorruptedMetadata)     ;  // read
                         bytes[jump]=0               ;
 
                         bool bNikon = ::strcmp("Nikon"    ,chars) == 0;
@@ -460,17 +460,17 @@ namespace Exiv2 {
                             // tag is an embedded tiff
                             const long byteslen = count-jump;
                             DataBuf bytes(byteslen);  // allocate a buffer
-                            io.readOrThrow(bytes.data(), byteslen, kerCorruptedMetadata);  // read
+                            io.readOrThrow(bytes.data(), byteslen, ErrorCode::kerCorruptedMetadata);  // read
                             MemIo memIo(bytes.c_data(), byteslen)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
                         } else {
                             // tag is an IFD
                             uint32_t punt = bSony ? 12 : 0 ;
-                            io.seekOrThrow(0, BasicIo::beg, kerCorruptedMetadata);  // position
+                            io.seekOrThrow(0, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
                             printIFDStructure(io,out,option,offset+punt,bSwap,c,depth);
                         }
 
-                        io.seekOrThrow(restore, BasicIo::beg, kerCorruptedMetadata); // restore
+                        io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata); // restore
                     }
                 }
 
@@ -483,7 +483,7 @@ namespace Exiv2 {
                 }
             }
             if ( start ) {
-                io.readOrThrow(dir.data(), 4, kerCorruptedMetadata);
+                io.readOrThrow(dir.data(), 4, ErrorCode::kerCorruptedMetadata);
                 start = byteSwap4(dir,0,bSwap);
             }
         } while (start) ;
@@ -502,7 +502,7 @@ namespace Exiv2 {
             DataBuf  dir(dirSize);
 
             // read header (we already know for certain that we have a Tiff file)
-            io.readOrThrow(dir.data(),  8, kerCorruptedMetadata);
+            io.readOrThrow(dir.data(),  8, ErrorCode::kerCorruptedMetadata);
             auto c = static_cast<char>(dir.read_uint8(0));
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )
@@ -598,7 +598,7 @@ namespace Exiv2 {
     void Image::setXmpPacket(const std::string& xmpPacket)
     {
         if ( XmpParser::decode(xmpData_, xmpPacket) ) {
-            throw Error(kerInvalidXMP);
+            throw Error(ErrorCode::kerInvalidXMP);
         }
         xmpPacket_ = xmpPacket;
     }
@@ -638,11 +638,11 @@ namespace Exiv2 {
     {
         if ( bTestValid ) {
             if (iccProfile.size() < static_cast<long>(sizeof(long))) {
-                throw Error(kerInvalidIccProfile);
+                throw Error(ErrorCode::kerInvalidIccProfile);
             }
             const size_t size = iccProfile.read_uint32(0, bigEndian);
             if (size != iccProfile.size()) {
-                throw Error(kerInvalidIccProfile);
+                throw Error(ErrorCode::kerInvalidIccProfile);
             }
         }
         iccProfile_ = std::move(iccProfile);
@@ -755,7 +755,7 @@ namespace Exiv2 {
     {
         const Registry* r = find(registry, type);
         if (!r)
-            throw Error(kerUnsupportedImageType, static_cast<int>(type));
+            throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
         AccessMode am = amNone;
         switch (metadataId) {
         case mdNone:
@@ -839,7 +839,7 @@ namespace Exiv2 {
     {
         auto image = open(ImageFactory::createIo(path, useCurl)); // may throw
         if (!image)
-            throw Error(kerFileContainsUnknownImageType, path);
+            throw Error(ErrorCode::kerFileContainsUnknownImageType, path);
         return image;
     }
 
@@ -848,14 +848,14 @@ namespace Exiv2 {
         auto io = std::make_unique<MemIo>(data, size);
         auto image = open(std::move(io)); // may throw
         if (!image)
-            throw Error(kerMemoryContainsUnknownImageType);
+            throw Error(ErrorCode::kerMemoryContainsUnknownImageType);
         return image;
     }
 
     Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io)
     {
         if (io->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io->path(), strError());
         }
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
@@ -870,14 +870,14 @@ namespace Exiv2 {
         auto fileIo = std::make_unique<FileIo>(path);
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
-            throw Error(kerFileOpenFailed, path, "w+b", strError());
+            throw Error(ErrorCode::kerFileOpenFailed, path, "w+b", strError());
         }
         fileIo->close();
 
         BasicIo::UniquePtr io(std::move(fileIo));
         auto image = create(type, std::move(io));
         if (!image)
-            throw Error(kerUnsupportedImageType, static_cast<int>(type));
+            throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
         return image;
     }
 
@@ -886,7 +886,7 @@ namespace Exiv2 {
         auto io = std::make_unique<MemIo>();
         auto image = create(type, std::move(io));
         if (!image)
-            throw Error(kerUnsupportedImageType, static_cast<int>(type));
+            throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
         return image;
     }
 

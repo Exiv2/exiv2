@@ -56,7 +56,7 @@ namespace Exiv2
 
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(kerInvalidSettingForImage).
+              an instance of Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setComment(std::string_view comment) override;
         //@}

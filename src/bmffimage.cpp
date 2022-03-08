@@ -173,7 +173,7 @@ namespace Exiv2
         // never visit a box twice!
         if ( depth == 0 ) visits_.clear();
         if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
-            throw Error(kerCorruptedMetadata);
+            throw Error(ErrorCode::kerCorruptedMetadata);
         }
         visits_.insert(address);
 
@@ -186,7 +186,7 @@ namespace Exiv2
         byte hdrbuf[2 * sizeof(uint32_t)];
 
         size_t hdrsize = sizeof(hdrbuf);
-        enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
+        enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
         if (io_->read(reinterpret_cast<byte*>(&hdrbuf), sizeof(hdrbuf)) != sizeof(hdrbuf))
             return pbox_end;
 
@@ -205,7 +205,7 @@ namespace Exiv2
         if (box_length == 1) {
             // The box size is encoded as a uint64_t, so we need to read another 8 bytes.
             hdrsize += 8;
-            enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::kerCorruptedMetadata);
+            enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
             DataBuf data(8);
             io_->read(data.data(), data.size());
             box_length = data.read_uint64(0, endian_);
@@ -213,8 +213,8 @@ namespace Exiv2
 
         // read data in box and restore file position
         long restore = io_->tell();
-        enforce(box_length >= hdrsize, Exiv2::kerCorruptedMetadata);
-        enforce(box_length - hdrsize <= static_cast<uint64_t>(pbox_end - restore), Exiv2::kerCorruptedMetadata);
+        enforce(box_length >= hdrsize, Exiv2::ErrorCode::kerCorruptedMetadata);
+        enforce(box_length - hdrsize <= static_cast<uint64_t>(pbox_end - restore), Exiv2::ErrorCode::kerCorruptedMetadata);
 
         const auto buffer_size = static_cast<size_t>(box_length - hdrsize);
         if (skipBox(box_type)) {
@@ -236,7 +236,7 @@ namespace Exiv2
         uint32_t flags = 0;
 
         if (fullBox(box_type)) {
-            enforce(data.size() - skip >= 4, Exiv2::kerCorruptedMetadata);
+            enforce(data.size() - skip >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
             flags = data.read_uint32(skip, endian_);  // version/flags
             version = static_cast<uint8_t>(flags >> 24);
             flags &= 0x00ffffff;
@@ -246,7 +246,7 @@ namespace Exiv2
         switch (box_type) {
             //  See notes in skipBox()
             case TAG_ftyp: {
-                enforce(data.size() >= 4, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
                 fileType_ = data.read_uint32(0, endian_);
                 if ( bTrace ) {
                     out << "brand: " << toAscii(fileType_);
@@ -260,7 +260,7 @@ namespace Exiv2
                     bLF = false;
                 }
 
-                enforce(data.size() - skip >= 2, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= 2, Exiv2::ErrorCode::kerCorruptedMetadata);
                 uint16_t n = data.read_uint16(skip, endian_);
                 skip += 2;
 
@@ -272,7 +272,7 @@ namespace Exiv2
 
             // 8.11.6.2
             case TAG_infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
-                enforce(data.size() - skip >= 8, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
                 /* getLong (data.pData_+skip,endian_) ; */ skip += 4;
                 uint16_t ID = data.read_uint16(skip, endian_);
                 skip += 2;
@@ -281,7 +281,7 @@ namespace Exiv2
                 // Check that the string has a '\0' terminator.
                 const char* str = data.c_str(skip);
                 const size_t maxlen = data.size() - skip;
-                enforce(maxlen > 0 && strnlen(str, maxlen) < maxlen, Exiv2::kerCorruptedMetadata);
+                enforce(maxlen > 0 && strnlen(str, maxlen) < maxlen, Exiv2::ErrorCode::kerCorruptedMetadata);
                 std::string name(str);
                 if (name.find("Exif") != std::string::npos) {  // "Exif" or "ExifExif"
                     exifID_ = ID;
@@ -330,7 +330,7 @@ namespace Exiv2
 
             // 8.11.3.1
             case TAG_iloc: {
-                enforce(data.size() - skip >= 2, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= 2, Exiv2::ErrorCode::kerCorruptedMetadata);
                 uint8_t u = data.read_uint8(skip++);
                 uint16_t offsetSize = u >> 4;
                 uint16_t lengthSize = u & 0xF;
@@ -343,7 +343,7 @@ namespace Exiv2
 #else
                 skip++;
 #endif
-                enforce(data.size() - skip >= (version < 2u ? 2u : 4u), Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= (version < 2u ? 2u : 4u), Exiv2::ErrorCode::kerCorruptedMetadata);
                 uint32_t itemCount = version < 2 ? data.read_uint16(skip, endian_)
                                                  : data.read_uint32(skip, endian_);
                 skip += version < 2 ? 2 : 4;
@@ -357,8 +357,8 @@ namespace Exiv2
                     size_t base = skip;
                     for (uint32_t i = 0; i < itemCount; i++) {
                         skip = base + i * step;  // move in 14, 16 or 18 byte steps
-                        enforce(data.size() - skip >= (version > 2u ? 4u : 2u), Exiv2::kerCorruptedMetadata);
-                        enforce(data.size() - skip >= step, Exiv2::kerCorruptedMetadata);
+                        enforce(data.size() - skip >= (version > 2u ? 4u : 2u), Exiv2::ErrorCode::kerCorruptedMetadata);
+                        enforce(data.size() - skip >= step, Exiv2::ErrorCode::kerCorruptedMetadata);
                         uint32_t ID = version > 2 ? data.read_uint32(skip, endian_)
                                                   : data.read_uint16(skip, endian_);
                         uint32_t offset = step==14 || step==16 ? data.read_uint32(skip + step - 8, endian_)
@@ -381,7 +381,7 @@ namespace Exiv2
             } break;
 
             case TAG_ispe: {
-                enforce(data.size() - skip >= 12, Exiv2::kerCorruptedMetadata);
+                enforce(data.size() - skip >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
                 skip += 4;
                 uint32_t width = data.read_uint32(skip, endian_);
                 skip += 4;
@@ -492,10 +492,10 @@ namespace Exiv2
 
     void BmffImage::parseTiff(uint32_t root_tag, uint64_t length,uint64_t start)
     {
-        enforce(start <= io_->size(), kerCorruptedMetadata);
-        enforce(length <= io_->size() - start, kerCorruptedMetadata);
-        enforce(start <= std::numeric_limits<uint64_t>::max(), kerCorruptedMetadata);
-        enforce(length <= std::numeric_limits<uint64_t>::max(), kerCorruptedMetadata);
+        enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
+        enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
+        enforce(start <= std::numeric_limits<uint64_t>::max(), ErrorCode::kerCorruptedMetadata);
+        enforce(length <= std::numeric_limits<uint64_t>::max(), ErrorCode::kerCorruptedMetadata);
 
         // read and parse exif data
         long    restore = io_->tell();
@@ -522,15 +522,15 @@ namespace Exiv2
     void BmffImage::parseTiff(uint32_t root_tag, uint64_t length)
     {
         if (length > 8) {
-            enforce(length - 8 <= io_->size() - io_->tell(), kerCorruptedMetadata);
-            enforce(length - 8 <= std::numeric_limits<uint64_t>::max(), kerCorruptedMetadata);
+            enforce(length - 8 <= io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
+            enforce(length - 8 <= std::numeric_limits<uint64_t>::max(), ErrorCode::kerCorruptedMetadata);
             DataBuf data(static_cast<size_t>(length) - 8);
             const size_t bufRead = io_->read(data.data(), data.size());
 
             if (io_->error())
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
             if (bufRead != data.size())
-                throw Error(kerInputDataReadFailed);
+                throw Error(ErrorCode::kerInputDataReadFailed);
 
             Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(),
                                                data.c_data(), static_cast<uint32_t>(data.size()), root_tag,
@@ -541,24 +541,24 @@ namespace Exiv2
     void BmffImage::parseXmp(uint64_t length,uint64_t start)
     {
         if (length > 8) {
-            enforce(start <= io_->size(), kerCorruptedMetadata);
-            enforce(length <= io_->size() - start, kerCorruptedMetadata);
+            enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
+            enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
 
             long restore = io_->tell() ;
-            enforce(start <= std::numeric_limits<uint64_t>::max(), kerCorruptedMetadata);
+            enforce(start <= std::numeric_limits<uint64_t>::max(), ErrorCode::kerCorruptedMetadata);
             io_->seek(static_cast<long>(start),BasicIo::beg);
 
-            enforce(length < std::numeric_limits<uint64_t>::max(), kerCorruptedMetadata);
+            enforce(length < std::numeric_limits<uint64_t>::max(), ErrorCode::kerCorruptedMetadata);
             DataBuf  xmp(static_cast<size_t>(length+1));
             xmp.write_uint8(static_cast<size_t>(length), 0); // ensure xmp is null terminated!
             if ( io_->read(xmp.data(), static_cast<size_t>(length)) != length )
-                throw Error(kerInputDataReadFailed);
+                throw Error(ErrorCode::kerInputDataReadFailed);
             if ( io_->error() )
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
             try {
                 Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str()));
             } catch (...) {
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
             }
 
             io_->seek(restore,BasicIo::beg);
@@ -579,7 +579,7 @@ namespace Exiv2
         long here = io_->tell();
         enforce(here >= 0 &&
                 here <= std::numeric_limits<long>::max() - static_cast<long>(relative_position),
-                kerCorruptedMetadata);
+                ErrorCode::kerCorruptedMetadata);
         NativePreview nativePreview;
         nativePreview.position_ = here + static_cast<long>(relative_position);
         nativePreview.width_ =  data.read_uint16(width_offset, endian_);
@@ -607,19 +607,19 @@ namespace Exiv2
     void BmffImage::setComment(std::string_view /*comment*/)
     {
         // bmff files are read-only
-        throw(Error(kerInvalidSettingForImage, "Image comment", "BMFF"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMFF"));
     }
 
     void BmffImage::openOrThrow()
     {
         if (io_->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         // Ensure that this is the correct image type
         if (!isBmffType(*io_, false)) {
             if (io_->error() || io_->eof())
-                throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "BMFF");
+                throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAnImage, "BMFF");
         }
     } // Bmff::openOrThrow();
 
@@ -659,7 +659,7 @@ namespace Exiv2
             case kpsXMP : {
                 std::string xmp;
                 if ( Exiv2::XmpParser::encode(xmp, xmpData()) ) {
-                    throw Exiv2::Error(Exiv2::kerErrorMessage, "Failed to serialize XMP data");
+                    throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Failed to serialize XMP data");
                 }
                 out << xmp;
             } break;
@@ -682,7 +682,7 @@ namespace Exiv2
     void BmffImage::writeMetadata()
     {
         // bmff files are read-only
-        throw(Error(kerInvalidSettingForImage, "Image comment", "BMFF"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMFF"));
     }  // BmffImage::writeMetadata
 
     // *************************************************************************

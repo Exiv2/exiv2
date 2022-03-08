@@ -161,7 +161,7 @@ namespace Exiv2::Internal {
 
     void CiffEntry::doAdd(UniquePtr /*component*/)
     {
-        throw Error(kerFunctionNotSupported, "CiffEntry::add");
+        throw Error(ErrorCode::kerFunctionNotSupported, "CiffEntry::add");
     } // CiffEntry::doAdd
 
     void CiffDirectory::doAdd(UniquePtr component)
@@ -171,7 +171,8 @@ namespace Exiv2::Internal {
 
     void CiffHeader::read(const byte* pData, uint32_t size)
     {
-        if (size < 14) throw Error(kerNotACrwImage);
+        if (size < 14) throw
+            Error(ErrorCode::kerNotACrwImage);
 
         if (pData[0] == 'I' && pData[0] == pData[1]) {
             byteOrder_ = littleEndian;
@@ -180,12 +181,13 @@ namespace Exiv2::Internal {
             byteOrder_ = bigEndian;
         }
         else {
-            throw Error(kerNotACrwImage);
+            throw Error(ErrorCode::kerNotACrwImage);
         }
         offset_ = getULong(pData + 2, byteOrder_);
-        if (offset_ < 14 || offset_ > size) throw Error(kerNotACrwImage);
+        if (offset_ < 14 || offset_ > size)
+            throw Error(ErrorCode::kerNotACrwImage);
         if (std::memcmp(pData + 6, signature(), 8) != 0) {
-            throw Error(kerNotACrwImage);
+            throw Error(ErrorCode::kerNotACrwImage);
         }
 
         pPadding_.clear();
@@ -211,7 +213,7 @@ namespace Exiv2::Internal {
                                ByteOrder   byteOrder)
     {
         // We're going read 10 bytes. Make sure they won't be out-of-bounds.
-        enforce(size >= 10 && start <= size - 10, kerNotACrwImage);
+        enforce(size >= 10 && start <= size - 10, ErrorCode::kerNotACrwImage);
         tag_ = getUShort(pData + start, byteOrder);
 
         DataLocId dl = dataLocation();
@@ -228,12 +230,12 @@ namespace Exiv2::Internal {
             // bytes in memory.
             if (offset_ < start) {
               // Sub-region is before in memory.
-              enforce(size_ <= start - offset_, kerOffsetOutOfRange);
+              enforce(size_ <= start - offset_, ErrorCode::kerOffsetOutOfRange);
             } else {
               // Sub-region is after in memory.
-              enforce(offset_ >= start + 10, kerOffsetOutOfRange);
-              enforce(offset_ <= size, kerOffsetOutOfRange);
-              enforce(size_ <= size - offset_, kerOffsetOutOfRange);
+              enforce(offset_ >= start + 10, ErrorCode::kerOffsetOutOfRange);
+              enforce(offset_ <= size, ErrorCode::kerOffsetOutOfRange);
+              enforce(size_ <= size - offset_, ErrorCode::kerOffsetOutOfRange);
             }
         }
         if (dl == directoryData) {
@@ -260,7 +262,7 @@ namespace Exiv2::Internal {
         std::cout << "Reading directory 0x" << std::hex << tag() << "\n";
 #endif
         if (this->offset() + this->size() > size)
-            throw Error(kerOffsetOutOfRange);
+            throw Error(ErrorCode::kerOffsetOutOfRange);
 
         readDirectory(pData + offset(), this->size(), byteOrder);
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -273,10 +275,10 @@ namespace Exiv2::Internal {
                                       ByteOrder   byteOrder)
     {
         if (size < 4)
-            throw Error(kerCorruptedMetadata);
+            throw Error(ErrorCode::kerCorruptedMetadata);
         uint32_t o = getULong(pData + size - 4, byteOrder);
         if ( o > size-2 )
-            throw Error(kerCorruptedMetadata);
+            throw Error(ErrorCode::kerCorruptedMetadata);
         uint16_t count = getUShort(pData + o, byteOrder);
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Directory at offset " << std::dec << o
@@ -284,7 +286,7 @@ namespace Exiv2::Internal {
 #endif
         o += 2;
         if ( static_cast<uint32_t>(count) * 10 > size-o )
-            throw Error(kerCorruptedMetadata);
+            throw Error(ErrorCode::kerCorruptedMetadata);
 
         for (uint16_t i = 0; i < count; ++i) {
             uint16_t tag = getUShort(pData + o, byteOrder);
@@ -544,7 +546,7 @@ namespace Exiv2::Internal {
         switch (tag & 0xc000) {
         case 0x0000: return valueData;
         case 0x4000: return directoryData;
-        default: throw Error(kerCorruptedMetadata);
+        default: throw Error(ErrorCode::kerCorruptedMetadata);
         }
     } // CiffComponent::dataLocation
 
@@ -810,8 +812,8 @@ namespace Exiv2::Internal {
 
         std::string groupName(Internal::groupName(ifdId));
         const uint32_t component_size = ciffComponent.size();
-        enforce(component_size % 2 == 0, kerCorruptedMetadata);
-        enforce(component_size/2 <= static_cast<uint32_t>(std::numeric_limits<uint16_t>::max()), kerCorruptedMetadata);
+        enforce(component_size % 2 == 0, ErrorCode::kerCorruptedMetadata);
+        enforce(component_size/2 <= static_cast<uint32_t>(std::numeric_limits<uint16_t>::max()), ErrorCode::kerCorruptedMetadata);
         const auto num_components = static_cast<uint16_t>(component_size / 2);
         uint16_t c = 1;
         while (c < num_components) {
@@ -1117,7 +1119,7 @@ namespace Exiv2::Internal {
             uint32_t size = 28;
             if (cc) {
               if (cc->size() < size)
-                throw Error(kerCorruptedMetadata);
+                throw Error(ErrorCode::kerCorruptedMetadata);
               size = cc->size();
             }
             DataBuf buf(size);

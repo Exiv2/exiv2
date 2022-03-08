@@ -243,7 +243,7 @@ namespace Exiv2 {
         char buf[n];
         std::memset(buf, 0x0, n);
         const int ret = strerror_r(error, buf, n);
-        enforce(ret != ERANGE, Exiv2::kerCallFailed);
+        enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
 #endif
         os << buf;
         // Issue# 908.

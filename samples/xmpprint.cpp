@@ -30,13 +30,13 @@ int main(int argc, char** argv)
     if (xmpData.empty()) {
         std::string error(argv[1]);
         error += ": No XMP data found in the file";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     if (xmpData.empty()) 
       {
         std::string error(argv[1]);
         error += ": No XMP properties found in the XMP packet";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
       }
 
       for (auto&& md : xmpData) {

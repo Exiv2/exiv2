@@ -45,7 +45,7 @@ namespace Exiv2 {
         void writeMetadata() override;
         /*!
           @brief Not supported. XMP sidecar files do not contain a comment.
-              Calling this function will throw an instance of Error(kerInvalidSettingForImage).
+              Calling this function will throw an instance of Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setComment(std::string_view comment) override;
         //@}

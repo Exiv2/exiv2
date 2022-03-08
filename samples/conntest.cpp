@@ -23,7 +23,7 @@ void httpcon(const std::string& url, bool useHttp1_0 = false) {
 
     int serverCode = Exiv2::http(request,response,errors);
     if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
-        throw Exiv2::Error(Exiv2::kerTiffDirectoryTooLarge, "Server", serverCode);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerTiffDirectoryTooLarge, "Server", serverCode);
     }
 }
 
@@ -31,14 +31,14 @@ void httpcon(const std::string& url, bool useHttp1_0 = false) {
 void curlcon(const std::string& url, bool useHttp1_0 = false) {
     CURL* curl = curl_easy_init();
     if(!curl) {
-        throw Exiv2::Error(Exiv2::kerErrorMessage, "Unable to init libcurl.");
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Unable to init libcurl.");
     }
 
     // get the timeout value
     std::string timeoutStr = Exiv2::getEnv(Exiv2::envTIMEOUT);
     long timeout = atol(timeoutStr.c_str());
     if (timeout == 0) {
-        throw Exiv2::Error(Exiv2::kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
     }
 
     std::string response;
@@ -55,7 +55,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
     /* Perform the request, res will get the return code */
     CURLcode res = curl_easy_perform(curl);
     if(res != CURLE_OK) { // error happened
-        throw Exiv2::Error(Exiv2::kerErrorMessage, curl_easy_strerror(res));
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, curl_easy_strerror(res));
     }
 
     // get return code
@@ -64,7 +64,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
     curl_easy_cleanup(curl);
 
     if (returnCode >= 400 || returnCode < 0) {
-        throw Exiv2::Error(Exiv2::kerTiffDirectoryTooLarge, "Server", returnCode);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerTiffDirectoryTooLarge, "Server", returnCode);
     }
 }
 #endif

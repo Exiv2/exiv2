@@ -70,7 +70,7 @@ namespace {
         // the (static) check method.
         XMLValidator() : parser_(XML_ParserCreateNS(0, '@')) {
             if (!parser_) {
-                throw Error(kerXMPToolkitError, "Could not create expat parser");
+                throw Error(ErrorCode::kerXMPToolkitError, "Could not create expat parser");
             }
         }
 
@@ -97,7 +97,7 @@ namespace {
 
         void check_internal(const char* buf, size_t buflen) {
             if (buflen > static_cast<size_t>(std::numeric_limits<int>::max())) {
-                throw Error(kerXMPToolkitError, "Buffer length is greater than INT_MAX");
+                throw Error(ErrorCode::kerXMPToolkitError, "Buffer length is greater than INT_MAX");
             }
 
             XML_SetUserData(parser_, this);
@@ -369,13 +369,13 @@ namespace Exiv2 {
     const Value& Xmpdatum::value() const
     {
         if (!p_->value_)
-            throw Error(kerValueNotSet);
+            throw Error(ErrorCode::kerValueNotSet);
         return *p_->value_;
     }
 
     long Xmpdatum::copy(byte* /*buf*/, ByteOrder /*byteOrder*/) const
     {
-        throw Error(kerFunctionNotSupported, "Xmpdatum::copy");
+        throw Error(ErrorCode::kerFunctionNotSupported, "Xmpdatum::copy");
         return 0;
     }
 
@@ -634,7 +634,7 @@ namespace Exiv2 {
             SXMPMeta::DumpNamespaces(nsDumper,&dict);
             if (bInit) terminate();
         } catch (const XMP_Error& e) {
-            throw Error(kerXMPToolkitError, e.GetID(), e.GetErrMsg());
+            throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
         }
     }
 #else
@@ -667,7 +667,7 @@ namespace Exiv2 {
 #endif
         }
         catch (const XMP_Error& /* e */) {
-            // throw Error(kerXMPToolkitError, e.GetID(), e.GetErrMsg());
+            // throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
         }
     } // XmpParser::registerNs
 #else
@@ -686,7 +686,7 @@ namespace Exiv2 {
 //          SXMPMeta::DeleteNamespace(ns.c_str());
         }
         catch (const XMP_Error& e) {
-            throw Error(kerXMPToolkitError, e.GetID(), e.GetErrMsg());
+            throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
         }
 #endif
     } // XmpParser::unregisterNs
@@ -718,7 +718,7 @@ namespace Exiv2 {
         while (iter.Next(&schemaNs, &propPath, &propValue, &opt)) {
             printNode(schemaNs, propPath, propValue, opt);
             if (XMP_PropIsAlias(opt)) {
-                throw Error(kerAliasesNotSupported, schemaNs, propPath, propValue);
+                throw Error(ErrorCode::kerAliasesNotSupported, schemaNs, propPath, propValue);
                 continue;
             }
             if (XMP_NodeIsSchema(opt)) {
@@ -727,7 +727,7 @@ namespace Exiv2 {
                 if (XmpProperties::prefix(schemaNs).empty()) {
                     std::string prefix;
                     bool ret = SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &prefix);
-                    if (!ret) throw Error(kerSchemaNamespaceNotRegistered, schemaNs);
+                    if (!ret) throw Error(ErrorCode::kerSchemaNamespaceNotRegistered, schemaNs);
                     prefix = prefix.substr(0, prefix.size() - 1);
                     XmpProperties::registerNs(schemaNs, prefix);
                 }
@@ -745,7 +745,7 @@ namespace Exiv2 {
                     if (   !haveNext
                         || !XMP_PropIsSimple(opt)
                         || !XMP_PropHasLang(opt)) {
-                        throw Error(kerDecodeLangAltPropertyFailed, propPath, opt);
+                        throw Error(ErrorCode::kerDecodeLangAltPropertyFailed, propPath, opt);
                     }
                     const std::string text = propValue;
                     // Get the language qualifier
@@ -755,7 +755,7 @@ namespace Exiv2 {
                         || !XMP_PropIsSimple(opt)
                         || !XMP_PropIsQualifier(opt)
                         || propPath.substr(propPath.size() - 8, 8) != "xml:lang") {
-                        throw Error(kerDecodeLangAltQualifierFailed, propPath, opt);
+                        throw Error(ErrorCode::kerDecodeLangAltQualifierFailed, propPath, opt);
                     }
                     val->value_[propValue] = text;
                 }
@@ -809,14 +809,14 @@ namespace Exiv2 {
                 continue;
             }
             // Don't let any node go by unnoticed
-            throw Error(kerUnhandledXmpNode, key->key(), opt);
+            throw Error(ErrorCode::kerUnhandledXmpNode, key->key(), opt);
         } // iterate through all XMP nodes
 
         return 0;
     }
 #ifndef SUPPRESS_WARNINGS
     catch (const XMP_Error& e) {
-        EXV_ERROR << Error(kerXMPToolkitError, e.GetID(), e.GetErrMsg()) << "\n";
+        EXV_ERROR << Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg()) << "\n";
         xmpData.clear();
         return 3;
     }
@@ -874,7 +874,7 @@ namespace Exiv2 {
                 // Encode Lang Alt property
                 const auto la = dynamic_cast<const LangAltValue*>(&i.value());
                 if (!la)
-                    throw Error(kerEncodeLangAltPropertyFailed, i.key());
+                    throw Error(ErrorCode::kerEncodeLangAltPropertyFailed, i.key());
 
                 int idx = 1;
                 for (auto&& k : la->value_) {
@@ -892,7 +892,7 @@ namespace Exiv2 {
             // Todo: Xmpdatum should have an XmpValue, not a Value
             const auto val = dynamic_cast<const XmpValue*>(&i.value());
             if (!val)
-                throw Error(kerInvalidKeyXmpValue, i.key(), i.typeName());
+                throw Error(ErrorCode::kerInvalidKeyXmpValue, i.key(), i.typeName());
             options =   xmpArrayOptionBits(val->xmpArrayType())
                       | xmpArrayOptionBits(val->xmpStruct());
             if (i.typeId() == xmpBag || i.typeId() == xmpSeq || i.typeId() == xmpAlt) {
@@ -916,7 +916,7 @@ namespace Exiv2 {
                 continue;
             }
             // Don't let any Xmpdatum go by unnoticed
-            throw Error(kerUnhandledXmpdatum, i.tagName(), i.typeName());
+            throw Error(ErrorCode::kerUnhandledXmpdatum, i.tagName(), i.typeName());
         }
         std::string tmpPacket;
         meta.SerializeToBuffer(&tmpPacket, xmpFormatOptionBits(static_cast<XmpFormatFlags>(formatFlags)), padding); // throws
@@ -926,7 +926,7 @@ namespace Exiv2 {
     }
 #ifndef SUPPRESS_WARNINGS
     catch (const XMP_Error& e) {
-        EXV_ERROR << Error(kerXMPToolkitError, e.GetID(), e.GetErrMsg()) << "\n";
+        EXV_ERROR << Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg()) << "\n";
         return 3;
     }
 #else
@@ -1084,13 +1084,13 @@ namespace {
         std::string property;
         std::string::size_type idx = propPath.find(':');
         if (idx == std::string::npos) {
-            throw Exiv2::Error(Exiv2::kerPropertyNameIdentificationFailed, propPath, schemaNs);
+            throw Exiv2::Error(Exiv2::ErrorCode::kerPropertyNameIdentificationFailed, propPath, schemaNs);
         }
         // Don't worry about out_of_range, XMP parser takes care of this
         property = propPath.substr(idx + 1);
         std::string prefix = Exiv2::XmpProperties::prefix(schemaNs);
         if (prefix.empty()) {
-            throw Exiv2::Error(Exiv2::kerNoPrefixForNamespace, propPath, schemaNs);
+            throw Exiv2::Error(Exiv2::ErrorCode::kerNoPrefixForNamespace, propPath, schemaNs);
         }
         return std::make_unique<Exiv2::XmpKey>(prefix, property);
     } // makeXmpKey

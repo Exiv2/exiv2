@@ -378,7 +378,6 @@ namespace Exiv2 {
                 false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::application2, ""},
     };
 
-
     constexpr DataSet unknownDataSet{
         0xffff,     "Unknown dataset", N_("Unknown dataset"),       N_("Unknown dataset"), false, true, 0,
         0xffffffff, Exiv2::string,     IptcDataSets::invalidRecord, N_("Unknown dataset"),
@@ -489,7 +488,7 @@ namespace Exiv2 {
             dataSet = records_[recordId][idx].number_;
         } else {
             if (!isHex(dataSetName, 4, "0x"))
-                throw Error(kerInvalidDataset, dataSetName);
+                throw Error(ErrorCode::kerInvalidDataset, dataSetName);
             std::istringstream is(dataSetName);
             is >> std::hex >> dataSet;
         }
@@ -610,7 +609,7 @@ namespace Exiv2 {
         static const std::regex re(R"((\w+)(\.\w+){2})");
         std::smatch sm;
         if (!std::regex_match(key_, sm, re)) {
-          throw Error(kerInvalidKey, key_);
+          throw Error(ErrorCode::kerInvalidKey, key_);
         }
 
         // Get the family name, record name and dataSet name parts of the key
@@ -619,7 +618,7 @@ namespace Exiv2 {
 
         const std::string familyName = key_.substr(0, posDot1);
         if (0 != strcmp(familyName.c_str(), familyName_)) {
-            throw Error(kerInvalidKey, key_);
+            throw Error(ErrorCode::kerInvalidKey, key_);
         }
 
         std::string recordName = key_.substr(posDot1+1, posDot2 - posDot1 - 1);
