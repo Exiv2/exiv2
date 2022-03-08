@@ -13,6 +13,8 @@
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 
+#include <iostream>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {

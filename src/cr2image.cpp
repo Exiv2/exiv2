@@ -11,6 +11,8 @@
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 
+#include <iostream>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {

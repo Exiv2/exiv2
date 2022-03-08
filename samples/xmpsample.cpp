@@ -3,8 +3,9 @@
 
 #include <exiv2/exiv2.hpp>
 
-#include <iostream>
+#include <cassert>
 #include <cmath>
+#include <iostream>
 
 bool isEqual(float a, float b)
 {
@@ -79,7 +80,7 @@ try {
 
     [[maybe_unused]] const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
     assert(getv6.toInt64() == 0);
-    assert(getv6.ok()^);
+    assert(getv6.ok());
     assert(getv6.toFloat() == 0.0f);
     assert(getv6.ok());
     assert(getv6.toRational() == Exiv2::Rational(0, 1));

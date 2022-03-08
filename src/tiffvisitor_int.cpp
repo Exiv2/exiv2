@@ -14,6 +14,7 @@
 #include "jpgimage.hpp"
 #include "sonymn_int.hpp"
 
+#include <iostream>
 
 // *****************************************************************************
 namespace {

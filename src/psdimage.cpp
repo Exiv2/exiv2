@@ -11,6 +11,8 @@
 #include "image.hpp"
 #include "jpgimage.hpp"
 
+#include <iostream>
+
 // Todo: Consolidate with existing code in struct Photoshop (jpgimage.hpp):
 //       Extend this helper to a proper class with all required functionality,
 //       then move it here or into a separate file?

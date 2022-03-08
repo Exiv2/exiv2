@@ -9,6 +9,7 @@
 
 // + standard includes
 #include <algorithm>
+#include <iostream>
 
 // Adobe XMP Toolkit
 #ifdef   EXV_HAVE_XMP_TOOLKIT

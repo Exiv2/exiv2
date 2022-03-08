@@ -11,6 +11,8 @@
 #include "value.hpp"
 #include "xmp_exiv2.hpp"
 
+#include <iostream>
+
 namespace {
 
     //! Struct used in the lookup table for pretty print functions

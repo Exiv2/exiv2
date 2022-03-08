@@ -21,6 +21,8 @@
 
 #include "fff.h"
 
+#include <iostream>
+
 // *****************************************************************************
 // class member definitions
 

@@ -9,6 +9,8 @@
 #include "image.hpp"
 #include "xmp_exiv2.hpp"
 
+#include <iostream>
+
 namespace {
     constexpr auto xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
     const auto xmlHdrCnt = static_cast<long>(std::strlen(xmlHeader));  // without the trailing 0-character

@@ -12,6 +12,8 @@
 #include "tiffimage_int.hpp"
 #include "types.hpp"
 
+#include <iostream>
+
 /* --------------------------------------------------------------------------
 
    Todo:

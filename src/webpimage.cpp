@@ -17,6 +17,8 @@
 #include "safe_op.hpp"
 #include "types.hpp"
 
+#include <iostream>
+
 namespace {
     [[maybe_unused]] std::string binaryToHex(const uint8_t* data, size_t size)
     {

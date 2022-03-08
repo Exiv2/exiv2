@@ -12,6 +12,7 @@
 
 // + standard includes
 #include <algorithm>
+#include <iostream>
 
 // *****************************************************************************
 namespace {

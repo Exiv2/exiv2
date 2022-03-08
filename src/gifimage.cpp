@@ -7,6 +7,8 @@
 #include "error.hpp"
 #include "futils.hpp"
 
+#include <iostream>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {

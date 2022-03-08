@@ -14,6 +14,7 @@
 // + standard includes
 #include <cstring>
 #include <string>
+#include <iostream>
 
 // *****************************************************************************
 // class member definitions

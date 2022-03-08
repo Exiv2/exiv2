@@ -11,6 +11,8 @@
 #include "error.hpp"
 #include "enforce.hpp"
 
+#include <iostream>
+
 // *****************************************************************************
 namespace {
     //! Add \em tobe - \em curr 0x00 filler bytes if necessary

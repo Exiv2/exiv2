@@ -13,6 +13,8 @@
 #include "futils.hpp"
 #include "tags.hpp"
 
+#include <iostream>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {

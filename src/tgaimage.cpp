@@ -9,6 +9,8 @@
 #include "futils.hpp"
 #include "image.hpp"
 
+#include <iostream>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
