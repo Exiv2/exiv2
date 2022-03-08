@@ -11,9 +11,9 @@
 #include <iostream>
 
 // Shortcuts for the newTiffBinaryArray templates.
-#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<&arrayCfg, EXV_COUNTOF(arrayDef), arrayDef>)
+#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<&arrayCfg, std::size(arrayDef), arrayDef>)
 #define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<&arrayCfg>)
-#define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, EXV_COUNTOF(arraySet), cfgSelFct>)
+#define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, std::size(arraySet), cfgSelFct>)
 
 namespace Exiv2::Internal {
 
@@ -415,8 +415,8 @@ namespace Exiv2::Internal {
     //! Nikon AF2 configuration and definitions
     //  https://github.com/Exiv2/exiv2/issues/646
     constexpr ArraySet nikonAf2Set[] = {
-        { nikonAf21Cfg, nikonAf21Def, EXV_COUNTOF(nikonAf21Def) },
-        { nikonAf22Cfg, nikonAf22Def, EXV_COUNTOF(nikonAf22Def) },
+        {nikonAf21Cfg, nikonAf21Def, std::size(nikonAf21Def)},
+        {nikonAf22Cfg, nikonAf22Def, std::size(nikonAf22Def)},
     };
 
     //! Nikon AF Fine Tune binary array - configuration
@@ -575,10 +575,10 @@ namespace Exiv2::Internal {
 
     //! Nikon Flash Info Data configurations and definitions
     constexpr ArraySet nikonFlSet[] = {
-        { nikonFl1Cfg, nikonFl1Def, EXV_COUNTOF(nikonFl1Def) },
-        { nikonFl2Cfg, nikonFl2Def, EXV_COUNTOF(nikonFl2Def) },
-        { nikonFl3Cfg, nikonFl3Def, EXV_COUNTOF(nikonFl3Def) },
-        { nikonFl7Cfg, nikonFl7Def, EXV_COUNTOF(nikonFl7Def) }
+        {nikonFl1Cfg, nikonFl1Def, std::size(nikonFl1Def)},
+        {nikonFl2Cfg, nikonFl2Def, std::size(nikonFl2Def)},
+        {nikonFl3Cfg, nikonFl3Def, std::size(nikonFl3Def)},
+        {nikonFl7Cfg, nikonFl7Def, std::size(nikonFl7Def)},
     };
 
     //! Nikon Shot Info binary array - configuration 1 (D80)
@@ -689,12 +689,12 @@ namespace Exiv2::Internal {
     };
     //! Nikon Lens Data configurations and definitions
     constexpr ArraySet nikonSiSet[] = {
-        { nikonSi1Cfg, nikonSi1Def, EXV_COUNTOF(nikonSi1Def) },
-        { nikonSi2Cfg, nikonSi2Def, EXV_COUNTOF(nikonSi2Def) },
-        { nikonSi3Cfg, nikonSi3Def, EXV_COUNTOF(nikonSi3Def) },
-        { nikonSi4Cfg, nikonSi4Def, EXV_COUNTOF(nikonSi4Def) },
-        { nikonSi5Cfg, nikonSi5Def, EXV_COUNTOF(nikonSi5Def) },
-        { nikonSi6Cfg, nikonSi5Def, EXV_COUNTOF(nikonSi5Def) }  // uses nikonSi5Def
+        {nikonSi1Cfg, nikonSi1Def, std::size(nikonSi1Def)},
+        {nikonSi2Cfg, nikonSi2Def, std::size(nikonSi2Def)},
+        {nikonSi3Cfg, nikonSi3Def, std::size(nikonSi3Def)},
+        {nikonSi4Cfg, nikonSi4Def, std::size(nikonSi4Def)},
+        {nikonSi5Cfg, nikonSi5Def, std::size(nikonSi5Def)},
+        {nikonSi6Cfg, nikonSi5Def, std::size(nikonSi5Def)},  // uses nikonSi5Def
     };
 
     //! Nikon Lens Data binary array - configuration 1
@@ -755,10 +755,10 @@ namespace Exiv2::Internal {
     };
     //! Nikon Lens Data configurations and definitions
     constexpr ArraySet nikonLdSet[] = {
-        { nikonLd1Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
-        { nikonLd2Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
-        { nikonLd3Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
-        { nikonLd4Cfg, nikonLd4Def, EXV_COUNTOF(nikonLd4Def) }
+        {nikonLd1Cfg, nikonLdDef, std::size(nikonLdDef)},
+        {nikonLd2Cfg, nikonLdDef, std::size(nikonLdDef)},
+        {nikonLd3Cfg, nikonLdDef, std::size(nikonLdDef)},
+        {nikonLd4Cfg, nikonLd4Def, std::size(nikonLd4Def)},
     };
 
     //! Nikon Color Balance binary array - configuration 1
@@ -863,12 +863,12 @@ namespace Exiv2::Internal {
     };
     //! Nikon Color Balance configurations and definitions
     constexpr ArraySet nikonCbSet[] = {
-        { nikonCb1Cfg,  nikonCb1Def,  EXV_COUNTOF(nikonCb1Def)  },
-        { nikonCb2Cfg,  nikonCb2Def,  EXV_COUNTOF(nikonCb2Def)  },
-        { nikonCb2aCfg, nikonCb2aDef, EXV_COUNTOF(nikonCb2aDef) },
-        { nikonCb2bCfg, nikonCb2bDef, EXV_COUNTOF(nikonCb2bDef) },
-        { nikonCb3Cfg,  nikonCb3Def,  EXV_COUNTOF(nikonCb3Def)  },
-        { nikonCb4Cfg,  nikonCb4Def,  EXV_COUNTOF(nikonCb4Def)  }
+        { nikonCb1Cfg,  nikonCb1Def,  std::size(nikonCb1Def)  },
+        { nikonCb2Cfg,  nikonCb2Def,  std::size(nikonCb2Def)  },
+        { nikonCb2aCfg, nikonCb2aDef, std::size(nikonCb2aDef) },
+        { nikonCb2bCfg, nikonCb2bDef, std::size(nikonCb2bDef) },
+        { nikonCb3Cfg,  nikonCb3Def,  std::size(nikonCb3Def)  },
+        { nikonCb4Cfg,  nikonCb4Def,  std::size(nikonCb4Def)  },
     };
 
     //! Minolta Camera Settings (old) binary array - configuration
@@ -975,7 +975,7 @@ namespace Exiv2::Internal {
 
     //! Sony2Fp configurations and definitions
     constexpr ArraySet sony2FpSet[] = {
-        { sony2FpCfg,  sony2FpDef,  EXV_COUNTOF(sony2FpDef)  }
+        {sony2FpCfg, sony2FpDef, std::size(sony2FpDef)},
     };
 
     constexpr ArrayCfg sonyMisc1Cfg = {
@@ -1013,7 +1013,7 @@ namespace Exiv2::Internal {
 
     //! SonyMisc2b configurations and definitions
     constexpr ArraySet sonyMisc2bSet[] = {
-        { sonyMisc2bCfg,  sonyMisc2bDef,  EXV_COUNTOF(sonyMisc2bDef)  }
+        {sonyMisc2bCfg, sonyMisc2bDef, std::size(sonyMisc2bDef)},
     };
 
     constexpr ArrayCfg sonyMisc3cCfg = {
@@ -1042,7 +1042,7 @@ namespace Exiv2::Internal {
 
     //! SonyMisc3c Settings configurations and definitions
     constexpr ArraySet sonyMisc3cSet[] = {
-        { sonyMisc3cCfg,  sonyMisc3cDef,  EXV_COUNTOF(sonyMisc3cDef)  }
+        {sonyMisc3cCfg, sonyMisc3cDef, std::size(sonyMisc3cDef)},
     };
 
     constexpr ArrayCfg sonySInfo1Cfg = {
@@ -1115,7 +1115,7 @@ namespace Exiv2::Internal {
 
     //! Sony1 Camera Settings configurations and definitions
     constexpr ArraySet sony2010eSet[] = {
-        { sony2010eCfg,  sony2010eDef,  EXV_COUNTOF(sony2010eDef)  }
+        {sony2010eCfg, sony2010eDef, std::size(sony2010eDef)},
     };
 
     //! Sony[12] Camera Settings binary array - definition
@@ -1150,13 +1150,13 @@ namespace Exiv2::Internal {
     };
     //! Sony1 Camera Settings configurations and definitions
     constexpr ArraySet sony1CsSet[] = {
-        { sony1CsCfg,  sonyCsDef,  EXV_COUNTOF(sonyCsDef)  },
-        { sony1Cs2Cfg, sonyCs2Def, EXV_COUNTOF(sonyCs2Def) }
+        {sony1CsCfg, sonyCsDef, std::size(sonyCsDef)},
+        {sony1Cs2Cfg, sonyCs2Def, std::size(sonyCs2Def)},
     };
     //! Sony2 Camera Settings configurations and definitions
     constexpr ArraySet sony2CsSet[] = {
-        { sony2CsCfg,  sonyCsDef,  EXV_COUNTOF(sonyCsDef)  },
-        { sony2Cs2Cfg, sonyCs2Def, EXV_COUNTOF(sonyCs2Def) }
+        {sony2CsCfg, sonyCsDef, std::size(sonyCsDef)},
+        {sony2Cs2Cfg, sonyCs2Def, std::size(sonyCs2Def)},
     };
 
     //! Sony Minolta Camera Settings (old) binary array - configuration

@@ -390,10 +390,7 @@ namespace {
         return prop;
     }
 
-    PreviewId Loader::getNumLoaders()
-    {
-        return static_cast<PreviewId> EXV_COUNTOF(loaderList_);
-    }
+    PreviewId Loader::getNumLoaders() { return PreviewId(std::size(loaderList_)); }
 
     LoaderNative::LoaderNative(PreviewId id, const Image &image, int parIdx)
         : Loader(id, image)

@@ -85,9 +85,11 @@ namespace Exiv2::Internal {
     }
 
 //! Shortcut for the printCombiTag template which requires typing the array name only once.
-#define EXV_PRINT_COMBITAG(array, count, ignoredcount) printCombiTag<EXV_COUNTOF(array), array, count, ignoredcount, ignoredcount>
+#define EXV_PRINT_COMBITAG(array, count, ignoredcount) \
+    printCombiTag<std::size(array), array, count, ignoredcount, ignoredcount>
 //! Shortcut for the printCombiTag template which requires typing the array name only once.
-#define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) printCombiTag<EXV_COUNTOF(array), array, count, ignoredcount, ignoredcountmax>
+#define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) \
+    printCombiTag<std::size(array), array, count, ignoredcount, ignoredcountmax>
 
 }  // namespace Exiv2::Internal
 

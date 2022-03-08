@@ -199,7 +199,8 @@ namespace Exiv2 {
         /// \todo this first check should be for <= offset
         if (pData_.size() < offset) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
-        } else if (pData_.empty() || pData_.size() == offset) {
+        }
+        if (pData_.empty() || pData_.size() == offset) {
             return nullptr;
         }
         return &pData_[offset];
@@ -209,7 +210,8 @@ namespace Exiv2 {
         /// \todo this first check should be for <= offset
         if (pData_.size() < offset) {
             throw std::overflow_error("Overflow in Exiv2::DataBuf::c_data");
-        } else if (pData_.empty() || pData_.size() == offset) {
+        }
+        if (pData_.empty() || pData_.size() == offset) {
             return nullptr;
         }
         return &pData_[offset];
