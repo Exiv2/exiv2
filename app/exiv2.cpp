@@ -1316,7 +1316,7 @@ namespace {
                     }
                 }
             }
-            catch (const Exiv2::AnyError& error) {
+            catch (const Exiv2::Error& error) {
                 std::cerr << filename << ", " << _("line") << " " << error << "\n";
                 return false;
             }
@@ -1337,7 +1337,7 @@ namespace {
             }
             return true;
         }
-        catch (const Exiv2::AnyError& error) {
+        catch (const Exiv2::Error& error) {
             std::cerr << _("-M option") << " " << error << "\n";
             return false;
         }
@@ -1406,14 +1406,14 @@ namespace {
                 defaultType = Exiv2::IptcDataSets::dataSetType(iptcKey.tag(),
                                                                iptcKey.record());
             }
-            catch (const Exiv2::AnyError&) {}
+            catch (const Exiv2::Error&) {}
             if (metadataId == invalidMetadataId) {
                 try {
                     Exiv2::ExifKey exifKey(key);
                     metadataId = exif;
                     defaultType = exifKey.defaultTypeId();
                 }
-                catch (const Exiv2::AnyError&) {}
+                catch (const Exiv2::Error&) {}
             }
             if (metadataId == invalidMetadataId) {
                 try {
@@ -1421,7 +1421,7 @@ namespace {
                     metadataId = xmp;
                     defaultType = Exiv2::XmpProperties::propertyType(xmpKey);
                 }
-                catch (const Exiv2::AnyError&) {}
+                catch (const Exiv2::Error&) {}
             }
             if (metadataId == invalidMetadataId) {
                 throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, Exiv2::toString(num)

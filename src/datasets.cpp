@@ -523,7 +523,7 @@ namespace Exiv2 {
         }
         if (i == 0) {
             if (!isHex(recordName, 4, "0x"))
-                throw Error(kerInvalidRecord, recordName);
+                throw Error(ErrorCode::kerInvalidRecord, recordName);
             std::istringstream is(recordName);
             is >> std::hex >> i;
         }

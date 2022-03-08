@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-TEST(enforce, errMessage)
+TEST(enforce, errMessageCanBeRetrievedFromErrorException)
 {
     try {
         enforce(false, Exiv2::ErrorCode::kerErrorMessage, "an error occurred");
@@ -16,14 +16,17 @@ TEST(enforce, errMessage)
     }
 }
 
-TEST(enforce, exceptionThrown)
+TEST(enforce, withTrueConditionDoesNotThrow)
 {
     ASSERT_NO_THROW(enforce(true, Exiv2::ErrorCode::kerErrorMessage));
+}
 
+TEST(enforce, withFalseConditionThrows)
+{
     ASSERT_THROW(enforce(false, Exiv2::ErrorCode::kerErrorMessage), Exiv2::Error);
-    ASSERT_THROW(enforce<std::overflow_error>(false, "error message"), std::overflow_error);
-    ASSERT_THROW(enforce(false, Exiv2::ErrorCode::kerMallocFailed), Exiv2::Error);
     ASSERT_THROW(enforce(false, Exiv2::ErrorCode::kerErrorMessage, "error message"), Exiv2::Error);
     ASSERT_THROW(enforce(false, Exiv2::ErrorCode::kerDataSourceOpenFailed, "path", "strerror"), Exiv2::Error);
     ASSERT_THROW(enforce(false, Exiv2::ErrorCode::kerCallFailed, "path", "strerror", "function"), Exiv2::Error);
+    ASSERT_THROW(enforce(false, Exiv2::ErrorCode::kerMallocFailed), Exiv2::Error);
+    ASSERT_THROW(enforce<std::overflow_error>(false, "error message"), std::overflow_error);
 }
