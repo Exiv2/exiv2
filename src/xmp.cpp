@@ -765,8 +765,12 @@ namespace Exiv2 {
             return 2;
         }
 
-        XMLValidator::check(xmpPacket.data(), xmpPacket.size());
-        SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(xmpPacket.size()));
+        // Make sure the unterminated substring is used
+        size_t len = xmpPacket.size();
+        while (len > 0 && 0 == xmpPacket[len - 1]) --len;
+
+        XMLValidator::check(xmpPacket.data(), len);
+        SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(len));
         SXMPIterator iter(meta);
         std::string schemaNs, propPath, propValue;
         XMP_OptionBits opt = 0;
