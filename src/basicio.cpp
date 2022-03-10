@@ -162,7 +162,7 @@ namespace Exiv2 {
         long offset = std::ftell(fp_);
         if (offset == -1) return -1;
         // 'Manual' open("r+b") to avoid munmap()
-        if (fp_ != nullptr) {
+        if (fp_) {
             std::fclose(fp_);
             fp_ = nullptr;
         }
@@ -198,7 +198,7 @@ namespace Exiv2 {
     int FileIo::munmap()
     {
         int rc = 0;
-        if (p_->pMappedArea_ != nullptr) {
+        if (p_->pMappedArea_) {
 #if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
             if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
                 rc = 1;
@@ -221,7 +221,7 @@ namespace Exiv2 {
 #endif
         }
         if (p_->isWriteable_) {
-            if (p_->fp_ != nullptr)
+            if (p_->fp_)
                 p_->switchMode(Impl::opRead);
             p_->isWriteable_ = false;
         }
@@ -480,7 +480,7 @@ namespace Exiv2 {
     size_t FileIo::size() const
     {
         // Flush and commit only if the file is open for writing
-        if (p_->fp_ != nullptr && (p_->openMode_.at(0) != 'r' || p_->openMode_.at(1) == '+')) {
+        if (p_->fp_ && (p_->openMode_.at(0) != 'r' || p_->openMode_.at(1) == '+')) {
             std::fflush(p_->fp_);
 #if defined WIN32 && !defined __CYGWIN__
             // This is required on msvcrt before stat after writing to a file
@@ -522,7 +522,7 @@ namespace Exiv2 {
         int rc = 0;
         if (munmap() != 0)
             rc = 2;
-        if (p_->fp_ != nullptr) {
+        if (p_->fp_) {
             if (std::fclose(p_->fp_) != 0)
                 rc |= 1;
             p_->fp_ = nullptr;
@@ -560,10 +560,7 @@ namespace Exiv2 {
         return getc(p_->fp_);
     }
 
-    int FileIo::error() const
-    {
-        return p_->fp_ != nullptr ? ferror(p_->fp_) : 0;
-    }
+    int FileIo::error() const { return p_->fp_ ? ferror(p_->fp_) : 0; }
 
     bool FileIo::eof() const
     {
@@ -633,7 +630,7 @@ namespace Exiv2 {
         //! @param num The size of data
         void    populate (byte* source, size_t num)
         {
-            assert(source != nullptr);
+            assert(source);
             size_ = num;
             data_ = new byte [size_];
             type_ = bMemory;
@@ -688,10 +685,10 @@ namespace Exiv2 {
             // Minimum size for 1st block
             size_t size  = std::max(blockSize * (1 + need / blockSize), size_);
             auto data = static_cast<byte*>(std::malloc(size));
-            if (data == nullptr) {
+            if (!data) {
                 throw Error(kerMallocFailed);
             }
-            if (data_ != nullptr) {
+            if (data_) {
                 std::memcpy(data, data_, size_);
             }
             data_ = data;
@@ -706,7 +703,7 @@ namespace Exiv2 {
                 // Allocate in blocks
                 size_t want      = blockSize * (1 + need / blockSize );
                 data_ = static_cast<byte*>(std::realloc(data_, want));
-                if (data_ == nullptr) {
+                if (!data_) {
                     throw Error(kerMallocFailed);
                 }
                 sizeAlloced_ = want;
@@ -736,7 +733,7 @@ namespace Exiv2 {
     {
         p_->reserve(wcount);
         assert(p_->isMalloced_);
-        if (data != nullptr) {
+        if (data) {
             std::memcpy(&p_->data_[p_->idx_], data, wcount);
         }
         p_->idx_ += wcount;
@@ -1320,7 +1317,7 @@ namespace Exiv2 {
         size_t totalRead = 0;
         do {
             byte* data = p_->blocksMap_[iBlock++].getData();
-            if (data == nullptr)
+            if (!data)
                 data = fakeData;
             size_t blockR = std::min(allow, p_->blockSize_ - startPos);
             std::memcpy(&buf[totalRead], &data[startPos], blockR);
@@ -1845,7 +1842,7 @@ namespace Exiv2 {
     size_t curlWriter(char* data, size_t size, size_t nmemb,
                       std::string* writerData)
     {
-        if (writerData == nullptr)
+        if (!writerData)
             return 0;
         writerData->append(data, size*nmemb);
         return size * nmemb;

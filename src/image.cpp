@@ -796,7 +796,7 @@ namespace Exiv2 {
     bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance)
     {
         const Registry* r = find(registry, type);
-        if (nullptr != r) {
+        if (r) {
             return r->isThisType_(io, advance);
         }
         return false;
@@ -909,7 +909,7 @@ namespace Exiv2 {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
 
-        if (r == nullptr || type == ImageType::none) {
+        if (!r || type == ImageType::none) {
             return {};
         }
 
@@ -922,7 +922,7 @@ namespace Exiv2 {
     void append(Blob& blob, const byte* buf, size_t len)
     {
         if (len != 0) {
-            assert(buf != 0);
+            assert(buf);
             Blob::size_type size = blob.size();
             if (blob.capacity() - size < len) {
                 blob.reserve(size + 65536);

@@ -2621,32 +2621,30 @@ fmountlens[] = {
     /* if no meta obj is provided, try to use the value param that *may*
      * be the pre-parsed lensid
      */
-        if (metadata == nullptr)
-        {
-            const auto vid = static_cast<unsigned char>(value.toInt64(0));
+if (!metadata) {
+    const auto vid = static_cast<unsigned char>(value.toInt64(0));
 
-            /* the 'FMntLens' name is added to the anonymous struct for
-             * fmountlens[]
-             *
-             * remember to name the struct when importing/updating the lens info
-             * from:
-             *
-             * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
-             */
-            const struct FMntLens*  pf = fmountlens;
-            while (pf->lid && pf->lensname) {
-                if (pf->lid == vid) {
-                    break;
-                }
-                ++pf;
-            }
-
-            if (pf->lensname == nullptr) {
-                return os << value;
-            }
-            return os << pf->manuf << " " << pf->lensname;
+    /* the 'FMntLens' name is added to the anonymous struct for
+     * fmountlens[]
+     *
+     * remember to name the struct when importing/updating the lens info
+     * from:
+     *
+     * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
+     */
+    const struct FMntLens* pf = fmountlens;
+    while (pf->lid && pf->lensname) {
+        if (pf->lid == vid) {
+            break;
         }
+        ++pf;
+    }
 
+    if (!pf->lensname) {
+        return os << value;
+    }
+    return os << pf->manuf << " " << pf->lensname;
+}
 
         byte raw[] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 
@@ -2676,7 +2674,7 @@ fmountlens[] = {
         }
         raw[7] = static_cast<byte>(md->toInt64());
 
-        for (int i = 0; fmountlens[i].lensname != nullptr; ++i) {
+        for (int i = 0; fmountlens[i].lensname; ++i) {
             if (   raw[0] == fmountlens[i].lid ) {
                 // #1034
                 const std::string  undefined("undefined") ;

@@ -362,7 +362,7 @@ namespace Action {
         if (md != exifData.end()) {
             md->write(std::cout, &exifData);
             rc = 1;
-        } else if (nullptr != easyAccessFctFallback) {
+        } else if (easyAccessFctFallback) {
             md = easyAccessFctFallback(exifData);
             if (md != exifData.end()) {
                 md->write(std::cout, &exifData);
@@ -1337,7 +1337,7 @@ namespace Action {
         if (metadatum) {
             value = metadatum->getValue();
         }
-        if (value.get() == nullptr || (modifyCmd.explicitType_ && modifyCmd.typeId_ != value->typeId())) {
+        if (!value || (modifyCmd.explicitType_ && modifyCmd.typeId_ != value->typeId())) {
             value = Exiv2::Value::create(modifyCmd.typeId_);
         }
         int rc = value->read(modifyCmd.value_);
@@ -1711,7 +1711,7 @@ namespace {
         if (timeStr.length() < 19) return 2;
         if (  (timeStr[4]  != ':' && timeStr[4] != '-') || (timeStr[7]  != ':' && timeStr[7] != '-') || timeStr[10] != ' '
             || timeStr[13] != ':' || timeStr[16] != ':') return 3;
-        if (nullptr == tm)
+        if (!tm)
             return 4;
         std::memset(tm, 0x0, sizeof(struct tm));
         tm->tm_isdst = -1;
@@ -1745,7 +1745,7 @@ namespace {
 
     std::string tm2Str(const struct tm* tm)
     {
-        if (nullptr == tm)
+        if (!tm)
             return "";
 
         std::ostringstream os;

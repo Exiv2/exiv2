@@ -167,14 +167,14 @@ namespace Exiv2::Internal {
           pHeader_(pHeader),
           pPrimaryGroups_(pPrimaryGroups)
     {
-        assert(pRoot_ != 0);
-        assert(pHeader_ != 0);
-        assert(pPrimaryGroups_ != 0);
+        assert(pRoot_);
+        assert(pHeader_);
+        assert(pPrimaryGroups_);
     }
 
     void TiffCopier::copyObject(TiffComponent* object)
     {
-        assert(object != 0);
+        assert(object);
 
         if (pHeader_->isImageTag(object->tag(), object->group(), pPrimaryGroups_)) {
             auto clone = object->clone();
@@ -253,7 +253,7 @@ namespace Exiv2::Internal {
           findDecoderFct_(findDecoderFct),
           decodedIptc_(false)
     {
-        assert(pRoot != 0);
+        assert(pRoot);
 
         // #1402 Fujifilm RAF. Search for the make
         // Find camera make in existing metadata (read from the JPEG)
@@ -309,7 +309,7 @@ namespace Exiv2::Internal {
 
     void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* object)
     {
-        assert(object != 0);
+        assert(object);
 
         exifData_["Exif.MakerNote.Offset"] = object->mnOffset();
         switch (object->byteOrder()) {
@@ -502,7 +502,7 @@ namespace Exiv2::Internal {
 
     void TiffDecoder::decodeTiffEntry(const TiffEntryBase* object)
     {
-        assert(object != 0);
+        assert(object);
 
         // Don't decode the entry if value is not set
         if (!object->pValue()) return;
@@ -518,7 +518,7 @@ namespace Exiv2::Internal {
 
     void TiffDecoder::decodeStdTiffEntry(const TiffEntryBase* object)
     {
-        assert(object != 0);
+        assert(object);
         ExifKey key(object->tag(), groupName(object->group()));
         key.setIdx(object->idx());
         exifData_.add(key, object->pValue());
@@ -527,7 +527,7 @@ namespace Exiv2::Internal {
 
     void TiffDecoder::visitBinaryArray(TiffBinaryArray* object)
     {
-        if (object->cfg() == nullptr || !object->decoded()) {
+        if (!object->cfg() || !object->decoded()) {
             decodeTiffEntry(object);
         }
     }
@@ -553,9 +553,9 @@ namespace Exiv2::Internal {
           dirty_(false),
           writeMethod_(wmNonIntrusive)
     {
-        assert(pRoot != 0);
-        assert(pPrimaryGroups != 0);
-        assert(pHeader != 0);
+        assert(pRoot);
+        assert(pPrimaryGroups);
+        assert(pHeader);
 
         byteOrder_ = pHeader->byteOrder();
         origByteOrder_ = byteOrder_;
@@ -699,7 +699,7 @@ namespace Exiv2::Internal {
     void TiffEncoder::visitDirectoryNext(TiffDirectory* object)
     {
         // Update type and count in IFD entries, in case they changed
-        assert(object != 0);
+        assert(object);
 
         byte* p = object->start() + 2;
         for (auto&& component : object->components_) {
@@ -751,7 +751,7 @@ namespace Exiv2::Internal {
 
     void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object)
     {
-        assert(object != 0);
+        assert(object);
 
         auto pos = exifData_.findKey(ExifKey("Exif.MakerNote.ByteOrder"));
         if (pos != exifData_.end()) {
@@ -787,16 +787,16 @@ namespace Exiv2::Internal {
 
     void TiffEncoder::visitBinaryArray(TiffBinaryArray* object)
     {
-        if (object->cfg() == nullptr || !object->decoded()) {
+        if (!object->cfg() || !object->decoded()) {
             encodeTiffComponent(object);
         }
     }
 
     void TiffEncoder::visitBinaryArrayEnd(TiffBinaryArray* object)
     {
-        assert(object != 0);
+        assert(object);
 
-        if (object->cfg() == nullptr || !object->decoded())
+        if (!object->cfg() || !object->decoded())
             return;
         int32_t size = object->TiffEntryBase::doSize();
         if (size == 0)
@@ -809,7 +809,7 @@ namespace Exiv2::Internal {
         if ( cryptFct == sonyTagDecipher ) {
              cryptFct  = sonyTagEncipher;
         }
-        if (cryptFct != nullptr) {
+        if (cryptFct) {
             const byte* pData = object->pData();
             DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
             if (!buf.empty()) {
@@ -841,11 +841,11 @@ namespace Exiv2::Internal {
         const Exifdatum*     datum
     )
     {
-        assert(object != 0);
+        assert(object);
 
         auto pos = exifData_.end();
         const Exifdatum* ed = datum;
-        if (ed == nullptr) {
+        if (!ed) {
             // Non-intrusive writing: find matching tag
             ExifKey key(object->tag(), groupName(object->group()));
             pos = exifData_.findKey(key);
@@ -1034,8 +1034,8 @@ namespace Exiv2::Internal {
 
     void TiffEncoder::encodeTiffEntryBase(TiffEntryBase* object, const Exifdatum* datum)
     {
-        assert(object != 0);
-        assert(datum != 0);
+        assert(object);
+        assert(datum);
 
 #ifdef EXIV2_DEBUG_MESSAGES
         bool tooLarge = false;
@@ -1059,8 +1059,8 @@ namespace Exiv2::Internal {
 
     void TiffEncoder::encodeOffsetEntry(TiffEntryBase* object, const Exifdatum* datum)
     {
-        assert(object != 0);
-        assert(datum != 0);
+        assert(object);
+        assert(datum);
 
         uint32_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
@@ -1089,7 +1089,7 @@ namespace Exiv2::Internal {
         uint32_t       root
     )
     {
-        assert(pRootDir != 0);
+        assert(pRootDir);
 
         writeMethod_ = wmIntrusive;
         pSourceTree_ = pSourceDir;
@@ -1128,7 +1128,7 @@ namespace Exiv2::Internal {
                           << std::hex << i->tag() << "\n";
             }
 #endif
-            if (object != nullptr) {
+            if (object) {
                 encodeTiffComponent(object, &(*i));
             }
         }
@@ -1170,7 +1170,7 @@ namespace Exiv2::Internal {
     {
         pState_ = &origState_;
         assert(pData_);
-        assert(size_ > 0);
+        assert(size_);
 
     } // TiffReader::TiffReader
 
@@ -1181,7 +1181,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::setMnState(const TiffRwState* state)
     {
-        if (state != nullptr) {
+        if (state) {
             // invalidByteOrder indicates 'no change'
             if (state->byteOrder() == invalidByteOrder) {
                 mnState_ = TiffRwState(origState_.byteOrder(), state->baseOffset());
@@ -1207,7 +1207,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::readDataEntryBase(TiffDataEntryBase* object)
     {
-        assert(object != 0);
+        assert(object);
 
         readTiffEntry(object);
         TiffFinder finder(object->szTag(), object->szGroup());
@@ -1235,7 +1235,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::visitSizeEntry(TiffSizeEntry* object)
     {
-        assert(object != 0);
+        assert(object);
 
         readTiffEntry(object);
         TiffFinder finder(object->dtTag(), object->dtGroup());
@@ -1278,7 +1278,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::visitDirectory(TiffDirectory* object)
     {
-        assert(object != 0);
+        assert(object);
 
         const byte* p = object->start();
         assert(p >= pData_);
@@ -1337,13 +1337,13 @@ namespace Exiv2::Internal {
             if (next) {
                 tc = TiffCreator::create(Tag::next, object->group());
 #ifndef SUPPRESS_WARNINGS
-                if (tc.get() == nullptr) {
+                if (!tc) {
                     EXV_WARNING << "Directory " << groupName(object->group())
                                 << " has an unexpected next pointer; ignored.\n";
                 }
 #endif
             }
-            if (tc.get()) {
+            if (tc) {
                 if (baseOffset() + next > size_) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_ERROR << "Directory " << groupName(object->group())
@@ -1360,7 +1360,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::visitSubIfd(TiffSubIfd* object)
     {
-        assert(object != 0);
+        assert(object);
 
         readTiffEntry(object);
         if (   (object->tiffType() == ttUnsignedLong || object->tiffType() == ttSignedLong
@@ -1410,7 +1410,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::visitMnEntry(TiffMnEntry* object)
     {
-        assert(object != 0);
+        assert(object);
 
         readTiffEntry(object);
         // Find camera make
@@ -1434,7 +1434,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::visitIfdMakernote(TiffIfdMakernote* object)
     {
-        assert(object != 0);
+        assert(object);
 
         object->setImageByteOrder(byteOrder()); // set the byte order for the image
 
@@ -1472,7 +1472,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::readTiffEntry(TiffEntryBase* object)
     {
-        assert(object != 0);
+        assert(object);
 
         byte* p = object->start();
         assert(p >= pData_);
@@ -1597,7 +1597,7 @@ namespace Exiv2::Internal {
 
     void TiffReader::visitBinaryArray(TiffBinaryArray* object)
     {
-        assert(object != 0);
+        assert(object);
 
         if (!postProc_) {
             // Defer reading children until after all other components are read, but
@@ -1626,11 +1626,11 @@ namespace Exiv2::Internal {
         if (object->TiffEntryBase::doSize() == 0) return;
         if (!object->initialize(pRoot_)) return;
         const ArrayCfg* cfg = object->cfg();
-        if (cfg == nullptr)
+        if (!cfg)
             return;
 
         const CryptFct cryptFct = cfg->cryptFct_;
-        if (cryptFct != nullptr) {
+        if (cryptFct) {
             const byte* pData = object->pData();
             int32_t size = object->TiffEntryBase::doSize();
             auto buf = std::make_shared<DataBuf>(cryptFct(object->tag(), pData, size, pRoot_));

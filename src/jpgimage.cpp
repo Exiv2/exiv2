@@ -1059,7 +1059,7 @@ namespace Exiv2 {
                         pad[0] = static_cast<uint8_t>(chunk + 1);
                         pad[1] = static_cast<uint8_t>(chunks);
                         outIo.write(reinterpret_cast<const byte*>(iccId_), 12);
-                        outIo.write((const byte*)pad, 2);
+                        outIo.write(reinterpret_cast<const byte*>(pad), 2);
                         if (outIo.write(iccProfile_.c_data(chunk * chunk_size), bytes) != bytes)
                             throw Error(kerImageWriteFailed);
                         if (outIo.error())

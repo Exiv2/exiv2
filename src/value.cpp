@@ -261,7 +261,7 @@ namespace Exiv2 {
         if (value_.empty())
             return 0;
         // byteOrder not needed
-        assert(buf != 0);
+        assert(buf);
         return static_cast<long>(
             value_.copy(reinterpret_cast<char*>(buf), value_.size())
             );
@@ -465,7 +465,7 @@ namespace Exiv2 {
         }
         if (c.empty())
             return 0;
-        assert(buf != 0);
+        assert(buf);
         return static_cast<long>(c.copy(reinterpret_cast<char*>(buf), c.size()));
     }
 
@@ -486,7 +486,7 @@ namespace Exiv2 {
         }
         c = value_.substr(8);
         if (charsetId() == unicode) {
-            const char* from = encoding == nullptr || *encoding == '\0' ? detectCharset(c) : encoding;
+            const char* from = !encoding || *encoding == '\0' ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
         }
         bool bAscii = charsetId() == undefined || charsetId() == ascii ;

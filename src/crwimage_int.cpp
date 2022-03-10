@@ -557,7 +557,7 @@ namespace Exiv2::Internal {
     CiffComponent* CiffHeader::findComponent(uint16_t crwTagId,
                                              uint16_t crwDir) const
     {
-        if (pRootDir_ == nullptr)
+        if (!pRootDir_)
             return nullptr;
         return pRootDir_->findComponent(crwTagId, crwDir);
     } // CiffHeader::findComponent
@@ -639,7 +639,7 @@ namespace Exiv2::Internal {
                     break;
                 }
             }
-            if (cc_ == nullptr) {
+            if (!cc_) {
                 // Directory doesn't exist yet, add it
                 m_ = std::make_unique<CiffDirectory>(csd.crwDir_, csd.parent_);
                 cc_ = m_.get();
@@ -656,7 +656,7 @@ namespace Exiv2::Internal {
                     break;
                 }
             }
-            if (cc_ == nullptr) {
+            if (!cc_) {
                 // Tag doesn't exist yet, add it
                 m_ = std::make_unique<CiffEntry>(crwTagId, tag());
                 cc_ = m_.get();
@@ -952,7 +952,7 @@ namespace Exiv2::Internal {
     void CrwMap::encode(CiffHeader* pHead, const Image& image)
     {
         for (auto&& crw : crwMapping_) {
-            if (crw.fromExif_ != nullptr) {
+            if (crw.fromExif_) {
                 crw.fromExif_(image, &crw, pHead);
             }
         }

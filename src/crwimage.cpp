@@ -71,7 +71,7 @@ namespace Exiv2 {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading CRW file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) {
+        if (io_->open()) {
             throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
@@ -121,8 +121,8 @@ namespace Exiv2 {
 
     void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, uint32_t size)
     {
-        assert(pCrwImage != 0);
-        assert(pData != 0);
+        assert(pCrwImage);
+        assert(pData);
 
         // Parse the image, starting with a CIFF header component
         CiffHeader header;

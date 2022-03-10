@@ -290,9 +290,9 @@ namespace Exiv2 {
 
     Xmpdatum::Impl::Impl(const Impl& rhs)
     {
-        if (rhs.key_.get() != nullptr)
+        if (rhs.key_)
             key_ = rhs.key_->clone();  // deep copy
-        if (rhs.value_.get() != nullptr)
+        if (rhs.value_)
             value_ = rhs.value_->clone();  // deep copy
     }
 
@@ -300,10 +300,10 @@ namespace Exiv2 {
     {
         if (this == &rhs) return *this;
         key_.reset();
-        if (rhs.key_.get() != nullptr)
+        if (rhs.key_)
             key_ = rhs.key_->clone();  // deep copy
         value_.reset();
-        if (rhs.value_.get() != nullptr)
+        if (rhs.value_)
             value_ = rhs.value_->clone();  // deep copy
         return *this;
     }
@@ -328,40 +328,19 @@ namespace Exiv2 {
 
     Xmpdatum::~Xmpdatum() = default;
 
-    std::string Xmpdatum::key() const
-    {
-        return p_->key_.get() == nullptr ? "" : p_->key_->key();
-    }
+    std::string Xmpdatum::key() const { return p_->key_ ? p_->key_->key() : ""; }
 
-    const char* Xmpdatum::familyName() const
-    {
-        return p_->key_.get() == nullptr ? "" : p_->key_->familyName();
-    }
+    const char* Xmpdatum::familyName() const { return p_->key_ ? p_->key_->familyName() : ""; }
 
-    std::string Xmpdatum::groupName() const
-    {
-        return p_->key_.get() == nullptr ? "" : p_->key_->groupName();
-    }
+    std::string Xmpdatum::groupName() const { return p_->key_ ? p_->key_->groupName() : ""; }
 
-    std::string Xmpdatum::tagName() const
-    {
-        return p_->key_.get() == nullptr ? "" : p_->key_->tagName();
-    }
+    std::string Xmpdatum::tagName() const { return p_->key_ ? p_->key_->tagName() : ""; }
 
-    std::string Xmpdatum::tagLabel() const
-    {
-        return p_->key_.get() == nullptr ? "" : p_->key_->tagLabel();
-    }
+    std::string Xmpdatum::tagLabel() const { return p_->key_ ? p_->key_->tagLabel() : ""; }
 
-    uint16_t Xmpdatum::tag() const
-    {
-        return p_->key_.get() == nullptr ? 0 : p_->key_->tag();
-    }
+    uint16_t Xmpdatum::tag() const { return p_->key_ ? p_->key_->tag() : 0; }
 
-    TypeId Xmpdatum::typeId() const
-    {
-        return p_->value_.get() == nullptr ? invalidTypeId : p_->value_->typeId();
-    }
+    TypeId Xmpdatum::typeId() const { return p_->value_ ? p_->value_->typeId() : invalidTypeId; }
 
     const char* Xmpdatum::typeName() const
     {
@@ -373,49 +352,25 @@ namespace Exiv2 {
         return 0;
     }
 
-    size_t Xmpdatum::count() const
-    {
-        return p_->value_.get() == nullptr ? 0 : p_->value_->count();
-    }
+    size_t Xmpdatum::count() const { return p_->value_ ? p_->value_->count() : 0; }
 
-    long Xmpdatum::size() const
-    {
-        return p_->value_.get() == nullptr ? 0 : static_cast<long>(p_->value_->size());
-    }
+    long Xmpdatum::size() const { return p_->value_ ? static_cast<long>(p_->value_->size()) : 0; }
 
-    std::string Xmpdatum::toString() const
-    {
-        return p_->value_.get() == nullptr ? "" : p_->value_->toString();
-    }
+    std::string Xmpdatum::toString() const { return p_->value_ ? p_->value_->toString() : ""; }
 
-    std::string Xmpdatum::toString(long n) const
-    {
-        return p_->value_.get() == nullptr ? "" : p_->value_->toString(n);
-    }
+    std::string Xmpdatum::toString(long n) const { return p_->value_ ? p_->value_->toString(n) : ""; }
 
-    int64_t Xmpdatum::toInt64(long n) const
-    {
-        return p_->value_.get() == nullptr ? -1 : p_->value_->toInt64(n);
-    }
+    int64_t Xmpdatum::toInt64(long n) const { return p_->value_ ? p_->value_->toInt64(n) : -1; }
 
-    float Xmpdatum::toFloat(long n) const
-    {
-        return p_->value_.get() == nullptr ? -1 : p_->value_->toFloat(n);
-    }
+    float Xmpdatum::toFloat(long n) const { return p_->value_ ? p_->value_->toFloat(n) : -1; }
 
-    Rational Xmpdatum::toRational(long n) const
-    {
-        return p_->value_.get() == nullptr ? Rational(-1, 1) : p_->value_->toRational(n);
-    }
+    Rational Xmpdatum::toRational(long n) const { return p_->value_ ? p_->value_->toRational(n) : Rational(-1, 1); }
 
-    Value::UniquePtr Xmpdatum::getValue() const
-    {
-        return p_->value_.get() == nullptr ? nullptr : p_->value_->clone();
-    }
+    Value::UniquePtr Xmpdatum::getValue() const { return p_->value_ ? p_->value_->clone() : nullptr; }
 
     const Value& Xmpdatum::value() const
     {
-        if (p_->value_.get() == nullptr)
+        if (!p_->value_)
             throw Error(kerValueNotSet);
         return *p_->value_;
     }
@@ -451,9 +406,9 @@ namespace Exiv2 {
 
     int Xmpdatum::setValue(const std::string& value)
     {
-        if (p_->value_.get() == nullptr) {
+        if (!p_->value_) {
             TypeId type = xmpText;
-            if (nullptr != p_->key_.get()) {
+            if (p_->key_) {
                 type = XmpProperties::propertyType(*p_->key_.get());
             }
             p_->value_ = Value::create(type);
@@ -920,7 +875,7 @@ namespace Exiv2 {
             if (i.typeId() == langAlt) {
                 // Encode Lang Alt property
                 const auto la = dynamic_cast<const LangAltValue*>(&i.value());
-                if (la == nullptr)
+                if (!la)
                     throw Error(kerEncodeLangAltPropertyFailed, i.key());
 
                 int idx = 1;
@@ -938,7 +893,7 @@ namespace Exiv2 {
 
             // Todo: Xmpdatum should have an XmpValue, not a Value
             const auto val = dynamic_cast<const XmpValue*>(&i.value());
-            if (val == nullptr)
+            if (!val)
                 throw Error(kerInvalidKeyXmpValue, i.key(), i.typeName());
             options =   xmpArrayOptionBits(val->xmpArrayType())
                       | xmpArrayOptionBits(val->xmpStruct());

@@ -537,7 +537,7 @@ namespace Exiv2 {
     void IptcDataSets::dataSetList(std::ostream& os)
     {
         for (auto&& record : records_) {
-            for (int j = 0; record != nullptr && record[j].number_ != 0xffff; ++j) {
+            for (int j = 0; record && record[j].number_ != 0xffff; ++j) {
                 os << record[j] << "\n";
             }
         }

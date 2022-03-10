@@ -38,9 +38,7 @@ namespace {
     class FindExifdatumByKey {
     public:
         //! Constructor, initializes the object with the key to look for
-        explicit FindExifdatumByKey(const std::string& key) : key_(key)
-        {
-        }
+        explicit FindExifdatumByKey(std::string key) : key_(std::move(key)) {}
         /*!
           @brief Returns true if the key of \em exifdatum is equal
                  to that of the object.
@@ -51,8 +49,7 @@ namespace {
         }
 
     private:
-        const std::string& key_;
-
+        std::string key_;
     }; // class FindExifdatumByKey
 
     /*!
@@ -169,9 +166,9 @@ namespace Exiv2 {
     Exifdatum::Exifdatum(const Exifdatum& rhs)
         : Metadatum(rhs)
     {
-        if (rhs.key_.get() != nullptr)
+        if (rhs.key_)
             key_ = rhs.key_->clone();  // deep copy
-        if (rhs.value_.get() != nullptr)
+        if (rhs.value_)
             value_ = rhs.value_->clone();  // deep copy
     }
 
@@ -210,7 +207,7 @@ namespace Exiv2 {
 
     const Value& Exifdatum::value() const
     {
-        if (value_.get() == nullptr)
+        if (!value_)
             throw Error(kerValueNotSet);
         return *value_;
     }
@@ -221,11 +218,11 @@ namespace Exiv2 {
         Metadatum::operator=(rhs);
 
         key_.reset();
-        if (rhs.key_.get() != nullptr)
+        if (rhs.key_)
             key_ = rhs.key_->clone();  // deep copy
 
         value_.reset();
-        if (rhs.value_.get() != nullptr)
+        if (rhs.value_)
             value_ = rhs.value_->clone();  // deep copy
 
         return *this;
@@ -281,72 +278,36 @@ namespace Exiv2 {
 
     int Exifdatum::setValue(const std::string& value)
     {
-        if (value_.get() == nullptr) {
+        if (!value_) {
             TypeId type = key_->defaultTypeId();
             value_ = Value::create(type);
         }
         return value_->read(value);
     }
 
-    int Exifdatum::setDataArea(const byte* buf, size_t len)
-    {
-        return value_.get() == nullptr ? -1 : value_->setDataArea(buf, len);
-    }
+    int Exifdatum::setDataArea(const byte* buf, size_t len) { return value_ ? value_->setDataArea(buf, len) : -1; }
 
-    std::string Exifdatum::key() const
-    {
-        return key_.get() == nullptr ? "" : key_->key();
-    }
+    std::string Exifdatum::key() const { return key_ ? key_->key() : ""; }
 
-    const char* Exifdatum::familyName() const
-    {
-        return key_.get() == nullptr ? "" : key_->familyName();
-    }
+    const char* Exifdatum::familyName() const { return key_ ? key_->familyName() : ""; }
 
-    std::string Exifdatum::groupName() const
-    {
-        return key_.get() == nullptr ? "" : key_->groupName();
-    }
+    std::string Exifdatum::groupName() const { return key_ ? key_->groupName() : ""; }
 
-    std::string Exifdatum::tagName() const
-    {
-        return key_.get() == nullptr ? "" : key_->tagName();
-    }
+    std::string Exifdatum::tagName() const { return key_ ? key_->tagName() : ""; }
 
-    std::string Exifdatum::tagLabel() const
-    {
-        return key_.get() == nullptr ? "" : key_->tagLabel();
-    }
+    std::string Exifdatum::tagLabel() const { return key_ ? key_->tagLabel() : ""; }
 
-    uint16_t Exifdatum::tag() const
-    {
-        return key_.get() == nullptr ? 0xffff : key_->tag();
-    }
+    uint16_t Exifdatum::tag() const { return key_ ? key_->tag() : 0xffff; }
 
-    int Exifdatum::ifdId() const
-    {
-        return key_.get() == nullptr ? ifdIdNotSet : key_->ifdId();
-    }
+    int Exifdatum::ifdId() const { return key_ ? key_->ifdId() : ifdIdNotSet; }
 
-    const char* Exifdatum::ifdName() const
-    {
-        return key_.get() == nullptr ? "" : Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId()));
-    }
+    const char* Exifdatum::ifdName() const { return key_ ? Internal::ifdName(Internal::IfdId(key_->ifdId())) : ""; }
 
-    int Exifdatum::idx() const
-    {
-        return key_.get() == nullptr ? 0 : key_->idx();
-    }
+    int Exifdatum::idx() const { return key_ ? key_->idx() : 0; }
 
-    long Exifdatum::copy(byte* buf, ByteOrder byteOrder) const
-    {
-        return value_.get() == nullptr ? 0 : value_->copy(buf, byteOrder);
-    }
+    long Exifdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
 
-    TypeId Exifdatum::typeId() const
-    {
-        return value_.get() == nullptr ? invalidTypeId : value_->typeId();
-    }
+    TypeId Exifdatum::typeId() const { return value_ ? value_->typeId() : invalidTypeId; }
 
     const char* Exifdatum::typeName() const
     {
@@ -358,55 +319,25 @@ namespace Exiv2 {
         return static_cast<long>(TypeInfo::typeSize(typeId()));
     }
 
-    size_t Exifdatum::count() const
-    {
-        return value_.get() == nullptr ? 0 : value_->count();
-    }
+    size_t Exifdatum::count() const { return value_ ? value_->count() : 0; }
 
-    long Exifdatum::size() const
-    {
-        return value_.get() == nullptr ? 0 : static_cast<long>(value_->size());
-    }
+    long Exifdatum::size() const { return value_ ? static_cast<long>(value_->size()) : 0; }
 
-    std::string Exifdatum::toString() const
-    {
-        return value_.get() == nullptr ? "" : value_->toString();
-    }
+    std::string Exifdatum::toString() const { return value_ ? value_->toString() : ""; }
 
-    std::string Exifdatum::toString(long n) const
-    {
-        return value_.get() == nullptr ? "" : value_->toString(n);
-    }
+    std::string Exifdatum::toString(long n) const { return value_ ? value_->toString(n) : ""; }
 
-    int64_t Exifdatum::toInt64(long n) const
-    {
-        return value_.get() == nullptr ? -1 : value_->toInt64(n);
-    }
+    int64_t Exifdatum::toInt64(long n) const { return value_ ? value_->toInt64(n) : -1; }
 
-    float Exifdatum::toFloat(long n) const
-    {
-        return value_.get() == nullptr ? -1 : value_->toFloat(n);
-    }
+    float Exifdatum::toFloat(long n) const { return value_ ? value_->toFloat(n) : -1; }
 
-    Rational Exifdatum::toRational(long n) const
-    {
-        return value_.get() == nullptr ? Rational(-1, 1) : value_->toRational(n);
-    }
+    Rational Exifdatum::toRational(long n) const { return value_ ? value_->toRational(n) : Rational(-1, 1); }
 
-    Value::UniquePtr Exifdatum::getValue() const
-    {
-        return value_.get() == nullptr ? nullptr : value_->clone();
-    }
+    Value::UniquePtr Exifdatum::getValue() const { return value_ ? value_->clone() : nullptr; }
 
-    size_t Exifdatum::sizeDataArea() const
-    {
-        return value_.get() == nullptr ? 0 : value_->sizeDataArea();
-    }
+    size_t Exifdatum::sizeDataArea() const { return value_ ? value_->sizeDataArea() : 0; }
 
-    DataBuf Exifdatum::dataArea() const
-    {
-        return value_.get() == nullptr ? DataBuf(nullptr, 0) : value_->dataArea();
-    }
+    DataBuf Exifdatum::dataArea() const { return value_ ? value_->dataArea() : DataBuf(nullptr, 0); }
 
     ExifThumbC::ExifThumbC(const ExifData& exifData)
         : exifData_(exifData)

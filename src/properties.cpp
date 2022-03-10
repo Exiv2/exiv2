@@ -4025,7 +4025,8 @@ namespace Exiv2 {
     {
         std::lock_guard<std::mutex> scoped_read_lock(mutex_);
         const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
-        if (xn != nullptr) return xn->ns_;
+        if (xn)
+            return xn->ns_;
         return nsInfoUnsafe(prefix)->ns_;
     }
 
@@ -4069,7 +4070,7 @@ namespace Exiv2 {
         const XmpPropertyInfo* pl = propertyList(prefix);
         if (!pl) return nullptr;
         const XmpPropertyInfo* pi = nullptr;
-        for (int j = 0; pl[j].name_ != nullptr; ++j) {
+        for (int j = 0; pl[j].name_; ++j) {
             if (0 == strcmp(pl[j].name_, property.c_str())) {
                 pi = pl + j;
                 break;
@@ -4116,7 +4117,7 @@ namespace Exiv2 {
     {
         const XmpPropertyInfo* pl = propertyList(prefix);
         if (pl) {
-            for (int i = 0; pl[i].name_ != nullptr; ++i) {
+            for (int i = 0; pl[i].name_; ++i) {
                 os << pl[i];
             }
         }
