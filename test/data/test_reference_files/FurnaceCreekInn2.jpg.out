@@ -1,5 +1,3 @@
-Error: XMP Toolkit error 201: Error in XMLValidator
-Warning: Failed to decode XMP metadata.
 Exif.Image.Make                              Ascii       6  Canon  Canon
 Exif.Image.Model                             Ascii      22  Canon PowerShot S5 IS  Canon PowerShot S5 IS
 Exif.Image.Orientation                       Short       1  1  top, left
@@ -43,3 +41,11 @@ Iptc.Application2.DigitizationTime           Time       11  09:54:34+00:00  09:5
 Iptc.Application2.DigitizationDate           Date        8  2008-05-08  2008-05-08
 Iptc.Application2.DateCreated                Date        8  2008-05-08  2008-05-08
 Iptc.Application2.TimeCreated                Time       11  09:54:34+00:00  09:54:34+00:00
+Xmp.aux.LensInfo                             XmpText    16  6/1 72/1 0/0 0/0  6/1 72/1 0/0 0/0
+Xmp.aux.Lens                                 XmpText    11   6.0-72.0mm   6.0-72.0mm
+Xmp.aux.FlashCompensation                    XmpText     3  0/1  0/1
+Xmp.aux.Firmware                             XmpText    21  Firmware Version 1.01  Firmware Version 1.01
+Xmp.aux.OwnerName                            XmpText    11  Robin Mills  Robin Mills
+Xmp.xmp.CreateDate                           XmpText    19  2008-05-08T09:54:34  2008-05-08T09:54:34
+Xmp.xmp.ModifyDate                           XmpText    19  2008-05-08T09:54:34  2008-05-08T09:54:34
+Xmp.photoshop.DateCreated                    XmpText    19  2008-05-08T09:54:34  2008-05-08T09:54:34
