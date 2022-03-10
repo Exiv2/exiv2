@@ -11,7 +11,7 @@ on:
 jobs:
   windows:
     name: 'Win10 Arch: ${{matrix.platform}} BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     strategy:
       fail-fast: false
@@ -46,13 +46,12 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.43.0"
-          conan config install https://github.com/conan-io/conanclientcert.git
+          pip.exe install "conan==1.45.0"
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
+          conan profile update settings.compiler="Visual Studio" default
+          conan profile update settings.compiler.version=17 default
           conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
-          conan config get storage.path
-          tree /f ./conanCache
 
       - name: Conan Arch conditional config
         if: ${{matrix.platform == 'x86'}}
@@ -82,7 +81,7 @@ jobs:
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
             -DCMAKE_INSTALL_PREFIX=install `
             -S . -B build && `
-          cmake --build build
+          cmake --build build --parallel
 
       - name: Install
         run: |
@@ -134,13 +133,14 @@ jobs:
             -DCMAKE_CXX_FLAGS=-Wno-deprecated \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
+            -DEXIV2_BUILD_SAMPLES=ON \
             -DEXIV2_ENABLE_NLS=ON \
             -DEXIV2_ENABLE_WIN_UNICODE=ON \
             -DEXIV2_ENABLE_WEBREADY=ON \
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_BUILD_UNIT_TESTS=ON \
             -S . -B build && \
-          cmake --build build
+          cmake --build build --parallel
 
       - name: Test
         run: |
@@ -191,7 +191,7 @@ jobs:
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -S . -B build && \
-          cmake --build build
+          cmake --build build --parallel
 
       - name: Test
         run: |
