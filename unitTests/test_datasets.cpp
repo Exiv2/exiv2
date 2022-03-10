@@ -212,6 +212,21 @@ TEST(IptcDataSets, recordDesc_)
 
 // ----------------------
 
+TEST(IptcDataSets, recordId_returnsExpectedIdWithValidRecordName)
+{
+    ASSERT_EQ(IptcDataSets::envelope, IptcDataSets::recordId("Envelope"));
+    ASSERT_EQ(IptcDataSets::application2, IptcDataSets::recordId("Application2"));
+}
+
+TEST(IptcDataSets, recordId_throwsExceptionWithInvalidRecordName)
+{
+    ASSERT_THROW(IptcDataSets::recordId("NonExistingName"), Exiv2::Error);
+    ASSERT_THROW(IptcDataSets::recordId(""), Exiv2::Error);
+}
+
+
+// ----------------------
+
 TEST(IptcDataSets, dataSetLists_printDatasetsIntoOstream)
 {
     std::ostringstream stream;
