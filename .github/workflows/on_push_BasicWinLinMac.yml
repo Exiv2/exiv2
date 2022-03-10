@@ -31,10 +31,13 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.43.0"
+          pip.exe install "conan==1.45.0"
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile show default
+          conan profile update settings.compiler="Visual Studio" default
+          conan profile update settings.compiler.version=17 default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
 
       - name: Run Conan
         run: |
@@ -45,10 +48,20 @@ jobs:
 
       - name: Build
         run: |
-          cd build
-          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WIN_UNICODE=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install ..
-          cmake --build .
-
+          cmake -GNinja `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DBUILD_SHARED_LIBS=ON `
+            -DEXIV2_BUILD_SAMPLES=ON `
+            -DEXIV2_ENABLE_NLS=OFF `
+            -DEXIV2_ENABLE_PNG=ON `
+            -DEXIV2_ENABLE_WEBREADY=ON `
+            -DEXIV2_ENABLE_BMFF=ON `
+            -DEXIV2_BUILD_UNIT_TESTS=ON `
+            -DEXIV2_ENABLE_WIN_UNICODE=OFF `
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
+            -DCMAKE_INSTALL_PREFIX=install .. `
+            -S . -B build && `
+          cmake --build build --parallel
 
       - name: Test
         run: |
@@ -64,12 +77,11 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.43.0
+          pip3 install conan==1.45.0
 
       - name: Conan
         run: |
           mkdir build && cd build
-          conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
           conan profile show default
@@ -77,9 +89,22 @@ jobs:
 
       - name: build and compile
         run: |
-          cd build
-          cmake -GNinja -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_FLAGS=-Wno-deprecated ..
-          cmake --build .
+          cd build && \
+          cmake -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=ON \
+            -DEXIV2_BUILD_SAMPLES=ON \
+            -DEXIV2_ENABLE_PNG=ON \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_CURL=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
+            -DCMAKE_INSTALL_PREFIX=install \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            .. && \
+          cmake --build . --parallel
+
 
       - name: Test
         run: |
@@ -106,9 +131,21 @@ jobs:
 
       - name: build and compile
         run: |
-          mkdir build && cd build
-          cmake -GNinja -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ..
-          cmake --build .
+          mkdir build && cd build && \
+          cmake -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=ON \
+            -DEXIV2_BUILD_SAMPLES=ON \
+            -DEXIV2_ENABLE_PNG=ON \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_CURL=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
+            -DCMAKE_INSTALL_PREFIX=install \
+            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
+            .. && \
+          cmake --build . --parallel
 
       - name: Test
         run: |
