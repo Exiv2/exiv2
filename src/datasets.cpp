@@ -381,21 +381,6 @@ namespace Exiv2 {
                 false, false, 0, 0, Exiv2::unsignedShort, IptcDataSets::application2, ""},
     };
 
-    uint16_t recordId(const std::string& recordName)
-    {
-        uint16_t i;
-        for (i = IptcDataSets::application2; i > 0; --i) {
-            if (recordInfo_[i].name_ == recordName)
-                break;
-        }
-        if (i == 0) {
-            if (!isHex(recordName, 4, "0x"))
-                throw Error(kerInvalidRecord, recordName);
-            std::istringstream is(recordName);
-            is >> std::hex >> i;
-        }
-        return i;
-    }
 
     constexpr DataSet unknownDataSet{
         0xffff,     "Unknown dataset", N_("Unknown dataset"),       N_("Unknown dataset"), false, true, 0,
@@ -533,6 +518,21 @@ namespace Exiv2 {
         return recordInfo_[recordId].desc_;
     }
 
+    uint16_t IptcDataSets::recordId(const std::string& recordName)
+    {
+        uint16_t i;
+        for (i = IptcDataSets::application2; i > 0; --i) {
+            if (recordInfo_[i].name_ == recordName)
+                break;
+        }
+        if (i == 0) {
+            if (!isHex(recordName, 4, "0x"))
+                throw Error(kerInvalidRecord, recordName);
+            std::istringstream is(recordName);
+            is >> std::hex >> i;
+        }
+        return i;
+    }
 
     void IptcDataSets::dataSetList(std::ostream& os)
     {
@@ -629,7 +629,7 @@ namespace Exiv2 {
         std::string dataSetName = key_.substr(posDot2+1);
 
         // Use the parts of the key to find dataSet and recordId
-        uint16_t recId = recordId(recordName);
+        uint16_t recId = IptcDataSets::recordId(recordName);
         uint16_t dataSet = IptcDataSets::dataSet(dataSetName, recId);
 
         // Possibly translate hex name parts (0xabcd) to real names
