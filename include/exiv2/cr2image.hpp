@@ -99,16 +99,15 @@ namespace Exiv2 {
                   IptcData& iptcData,
                   XmpData&  xmpData,
             const byte*     pData,
-                  uint32_t  size
+                  size_t  size
         );
         /*!
           @brief Encode metadata from the provided metadata to CR2 format.
                  See TiffParser::encode().
         */
-        static WriteMethod encode(
-                  BasicIo&  io,
+        static WriteMethod encode(BasicIo&  io,
             const byte*     pData,
-                  uint32_t  size,
+                  size_t size,
                   ByteOrder byteOrder,
             const ExifData& exifData,
             const IptcData& iptcData,

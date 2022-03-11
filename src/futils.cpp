@@ -152,10 +152,12 @@ namespace Exiv2 {
         return rc;
     } // base64encode
 
-    long base64decode(const char* in,char* out,size_t out_size) {
-        long   result       = 0;
+    size_t base64decode(const char* in,char* out,size_t out_size)
+    {
+        size_t result       = 0;
         size_t input_length = in ? ::strlen(in) : 0;
-        if (!in || input_length % 4 != 0) return result;
+        if (!in || input_length % 4 != 0)
+            return result;
 
         auto encoding_table = reinterpret_cast<const unsigned char*>(base64_encode);
         unsigned char decoding_table[256];
@@ -186,11 +188,11 @@ namespace Exiv2 {
                 if (j < output_length) out[j++] = (triple >> 0 * 8) & 0xFF;
             }
             out[output_length]=0;
-            result = static_cast<long>(output_length);
+            result = output_length;
         }
-        
+
         return result;
-    } // base64decode
+    }
 
     Protocol fileProtocol(const std::string& path) {
         Protocol result = pFile ;
@@ -380,7 +382,7 @@ namespace Exiv2 {
         if ( procs    ) procstat_freeprocs(procstat, procs);
         if ( procstat ) procstat_close(procstat);
 #elif defined(__sun__)
-        // https://stackoverflow.com/questions/47472762/on-solaris-how-to-get-the-full-path-of-executable-of-running-process-programatic        
+        // https://stackoverflow.com/questions/47472762/on-solaris-how-to-get-the-full-path-of-executable-of-running-process-programatic
         const char* proc = Internal::stringFormat("/proc/%d/path/a.out",getpid()).c_str();
         char        path[500];
         ssize_t     l = readlink (proc,path,sizeof(path)-1);

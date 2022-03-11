@@ -281,7 +281,7 @@ namespace Exiv2 {
         p_->pMappedArea_ = static_cast<byte*>(rc);
 #else
         // Workaround for platforms without mmap: Read the file into memory
-        DataBuf buf(static_cast<long>(p_->mappedLength_));
+        DataBuf buf(p_->mappedLength_);
         if (read(buf.data(), buf.size()) != buf.size()) {
             throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::read");
         }
@@ -529,7 +529,7 @@ namespace Exiv2 {
     DataBuf FileIo::read(size_t rcount)
     {
         assert(p_->fp_);
-        if (static_cast<size_t>(rcount) > size())
+        if (rcount > size())
             throw Error(ErrorCode::kerInvalidMalloc);
         DataBuf buf(rcount);
         size_t readCount = read(buf.data(), buf.size());
@@ -767,8 +767,10 @@ namespace Exiv2 {
 
     size_t MemIo::write(BasicIo& src)
     {
-        if (static_cast<BasicIo*>(this) == &src) return 0;
-        if (!src.isopen()) return 0;
+        if (static_cast<BasicIo*>(this) == &src)
+            return 0;
+        if (!src.isopen())
+            return 0;
 
         byte buf[4096];
         size_t readCount = 0;
@@ -807,7 +809,7 @@ namespace Exiv2 {
             return 1;
         }
 
-        p_->idx_ = static_cast<long>(newIdx);
+        p_->idx_ = static_cast<size_t>(newIdx);
         p_->eof_ = false;
         return 0;
     }
@@ -936,7 +938,7 @@ namespace Exiv2 {
 
         std::string data = path.substr(base64Pos+7);
         char* decodeData = new char[data.length()];
-        long size = base64decode(data.c_str(), decodeData, data.length());
+        auto size = base64decode(data.c_str(), decodeData, data.length());
         if (size > 0)
             write((byte*)decodeData, size);
         else
@@ -1012,7 +1014,7 @@ namespace Exiv2 {
 
             std::string data = orgPath.substr(base64Pos+7);
             std::vector<char> decodeData (data.length());
-            long size = base64decode(data.c_str(), decodeData.data(), data.length());
+            auto size = base64decode(data.c_str(), decodeData.data(), data.length());
             if (size > 0) {
                 fs.write(decodeData.data(), size);
                 fs.close();
@@ -1065,7 +1067,7 @@ namespace Exiv2 {
           @throw Error if the server returns the error code.
           @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
          */
-        virtual void getDataByRange(long lowBlock, long highBlock, std::string& response) = 0;
+        virtual void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) = 0;
         /*!
           @brief Submit the data to the remote machine. The data replace a part of the remote file.
                 The replaced part of remote file is indicated by from and to parameters.
@@ -1077,7 +1079,7 @@ namespace Exiv2 {
                 on the remote machine to handle the data. SSH requires the permission to edit the file.
           @throw Error if it fails.
          */
-        virtual void writeRemote(const byte* data, size_t size, long from, long to) = 0;
+        virtual void writeRemote(const byte* data, size_t size, size_t from, size_t to) = 0;
         /*!
           @brief Get the data from the remote machine and write them to the memory blocks.
           @param lowBlock The start block index.
@@ -1114,7 +1116,7 @@ namespace Exiv2 {
         if (blocksMap_[highBlock].isNone())
         {
             std::string data;
-            getDataByRange(static_cast<long>(lowBlock), static_cast<long>(highBlock), data);
+            getDataByRange(lowBlock, highBlock, data);
             rcount = data.length();
             if (rcount == 0) {
                 throw Error(ErrorCode::kerErrorMessage, "Data By Range is empty. Please check the permission.");
@@ -1156,7 +1158,7 @@ namespace Exiv2 {
             long length = p_->getFileLength();
             if (length < 0) { // unable to get the length of remote file, get the whole file content.
                 std::string data;
-                p_->getDataByRange(-1, -1, data);
+                p_->getDataByRange(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::max(), data);
                 p_->size_ = data.length();
                 size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
                 p_->blocksMap_  = new BlockMap[nBlocks];
@@ -1206,7 +1208,8 @@ namespace Exiv2 {
     size_t RemoteIo::write(BasicIo& src)
     {
         assert(p_->isMalloced_);
-        if (!src.isopen()) return 0;
+        if (!src.isopen())
+            return 0;
 
         /*
          * The idea is to compare the file content, find the different bytes and submit them to the remote machine.
@@ -1262,16 +1265,14 @@ namespace Exiv2 {
         }
 
         // submit to the remote machine.
-        auto dataSize = static_cast<long>(src.size() - left - right);
+        auto dataSize = src.size() - left - right;
         if (dataSize > 0) {
-            auto data = static_cast<byte*>(std::malloc(dataSize));
+            std::vector<byte> data(dataSize);
             src.seek(left, BasicIo::beg);
-            src.read(data, dataSize);
-            p_->writeRemote(data, dataSize, static_cast<long>(left), static_cast<long>(p_->size_ - right));
-            if (data)
-                std::free(data);
+            src.read(data.data(), dataSize);
+            p_->writeRemote(data.data(), dataSize, left, p_->size_ - right);
         }
-        return static_cast<long>(src.size());
+        return src.size();
     }
 
     int RemoteIo::putb(byte /*unused data*/)
@@ -1410,7 +1411,7 @@ namespace Exiv2 {
 
     size_t RemoteIo::size() const
     {
-        return static_cast<long>(p_->size_);
+        return p_->size_;
     }
 
     bool RemoteIo::isopen() const
@@ -1468,7 +1469,7 @@ namespace Exiv2 {
           @throw Error if the server returns the error code.
           @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
          */
-        void getDataByRange(long lowBlock, long highBlock, std::string& response) override;
+        void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) override;
         /*!
           @brief Submit the data to the remote machine. The data replace a part of the remote file.
                 The replaced part of remote file is indicated by from and to parameters.
@@ -1482,7 +1483,7 @@ namespace Exiv2 {
                 "/exiv2.php". More info is available at http://dev.exiv2.org/wiki/exiv2
           @throw Error if it fails.
          */
-        void writeRemote(const byte* data, size_t size, long from, long to) override;
+        void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
 
         // NOT IMPLEMENTED
         HttpImpl(const HttpImpl& rhs) = delete;             //!< Copy constructor
@@ -1514,7 +1515,7 @@ namespace Exiv2 {
         return (lengthIter == response.end()) ? -1 : atol((lengthIter->second).c_str());
     }
 
-    void HttpIo::HttpImpl::getDataByRange(long lowBlock, long highBlock, std::string& response)
+    void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response)
     {
         Exiv2::Dictionary responseDic;
         Exiv2::Dictionary request;
@@ -1524,7 +1525,7 @@ namespace Exiv2 {
             request["port"] = hostInfo_.Port;
         request["verb"]   = "GET";
         std::string errors;
-        if (lowBlock > -1 && highBlock > -1) {
+        if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
             std::stringstream ss;
             ss << "Range: bytes=" << lowBlock * blockSize_  << "-" << ((highBlock + 1) * blockSize_ - 1) << "\r\n";
             request["header"] = ss.str();
@@ -1537,7 +1538,7 @@ namespace Exiv2 {
         response = responseDic["body"];
     }
 
-    void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, long from, long to)
+    void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, size_t to)
     {
         std::string scriptPath(getEnv(envHTTPPOST));
         if (scriptPath.empty()) {
@@ -1619,7 +1620,7 @@ namespace Exiv2 {
           @throw Error if the server returns the error code.
           @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
          */
-        void getDataByRange(long lowBlock, long highBlock, std::string& response) override;
+        void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) override;
         /*!
           @brief Submit the data to the remote machine. The data replace a part of the remote file.
                 The replaced part of remote file is indicated by from and to parameters.
@@ -1634,7 +1635,7 @@ namespace Exiv2 {
                 string EXIV2_HTTP_POST. The default value is "/exiv2.php". More info is available at
                 http://dev.exiv2.org/wiki/exiv2
          */
-        void writeRemote(const byte* data, size_t size, long from, long to) override;
+        void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
 
         // NOT IMPLEMENTED
         CurlImpl(const CurlImpl& rhs) = delete;             //!< Copy constructor
@@ -1693,7 +1694,7 @@ namespace Exiv2 {
         return static_cast<long>(temp);
     }
 
-    void CurlIo::CurlImpl::getDataByRange(long lowBlock, long highBlock, std::string& response)
+    void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response)
     {
         curl_easy_reset(curl_); // reset all options
         curl_easy_setopt(curl_, CURLOPT_URL, path_.c_str());
@@ -1706,7 +1707,7 @@ namespace Exiv2 {
 
         //curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
 
-        if (lowBlock > -1 && highBlock> -1) {
+        if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
             std::stringstream ss;
             ss << lowBlock * blockSize_  << "-" << ((highBlock + 1) * blockSize_ - 1);
             std::string range = ss.str();
@@ -1726,7 +1727,7 @@ namespace Exiv2 {
         }
     }
 
-    void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, long from, long to)
+    void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, size_t to)
     {
         std::string scriptPath(getEnv(envHTTPPOST));
         if (scriptPath.empty()) {

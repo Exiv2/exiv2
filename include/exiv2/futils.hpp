@@ -76,7 +76,7 @@ namespace Exiv2
 
       @note Source: https://github.com/davidgaleano/libwebsockets/blob/master/lib/base64-decode.c
       */
-    EXIV2API long base64decode(const char* in, char* out, size_t out_size);
+    EXIV2API size_t base64decode(const char* in, char* out, size_t out_size);
 
     /*!
       @brief Return the protocol of the path.

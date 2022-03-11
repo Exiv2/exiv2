@@ -118,14 +118,14 @@ namespace Exiv2 {
         uint16_t tag() const override;
         TypeId typeId() const override;
         const char* typeName() const override;
-        long typeSize() const override;
+        size_t typeSize() const override;
         size_t count() const override;
         size_t size() const override;
         std::string toString() const override;
-        std::string toString(long n) const override;
-        int64_t toInt64(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        std::string toString(size_t n) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         Value::UniquePtr getValue() const override;
         const Value& value() const override;
         //@}
@@ -272,7 +272,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   5 if the binary IPTC data is invalid or corrupt
          */
-        static int decode(IptcData& iptcData, const byte* pData, uint32_t size);
+        static int decode(IptcData& iptcData, const byte* pData, size_t size);
 
         /*!
           @brief Encode the IPTC datasets from \em iptcData to a binary representation in IPTC IIM4 format.

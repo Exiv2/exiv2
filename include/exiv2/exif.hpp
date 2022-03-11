@@ -164,17 +164,17 @@ namespace Exiv2 {
         //! Return the name of the type
         const char* typeName() const override;
         //! Return the size in bytes of one component of this type
-        long typeSize() const override;
+        size_t typeSize() const override;
         //! Return the number of components in the value
         size_t count() const override;
         //! Return the size of the value in bytes
         size_t size() const override;
         //! Return the value as a string.
         std::string toString() const override;
-        std::string toString(long n) const override;
-        int64_t toInt64(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        std::string toString(size_t n) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         Value::UniquePtr getValue() const override;
         const Value& value() const override;
         //! Return the size of the data area.

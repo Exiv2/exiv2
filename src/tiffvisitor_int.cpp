@@ -1146,10 +1146,7 @@ namespace Exiv2::Internal {
 
     } // TiffEncoder::add
 
-    TiffReader::TiffReader(const byte*    pData,
-                           uint32_t       size,
-                           TiffComponent* pRoot,
-                           TiffRwState    state)
+    TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state)
         : pData_(pData),
           size_(size),
           pLast_(pData + size),

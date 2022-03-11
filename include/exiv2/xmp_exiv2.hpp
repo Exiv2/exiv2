@@ -113,14 +113,14 @@ namespace Exiv2 {
         const char* typeName() const override;
         // Todo: Remove this method from the baseclass
         //! The Exif typeSize doesn't make sense here. Return 0.
-        long typeSize() const override;
+        size_t typeSize() const override;
         size_t count() const override;
         size_t size() const override;
         std::string toString() const override;
-        std::string toString(long n) const override;
-        int64_t toInt64(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        std::string toString(size_t n) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         Value::UniquePtr getValue() const override;
         const Value& value() const override;
         //@}

@@ -169,10 +169,10 @@ namespace Exiv2::Internal {
         components_.push_back(component.release());
     } // CiffDirectory::doAdd
 
-    void CiffHeader::read(const byte* pData, uint32_t size)
+    void CiffHeader::read(const byte* pData, size_t size)
     {
-        if (size < 14) throw
-            Error(ErrorCode::kerNotACrwImage);
+        if (size < 14)
+            throw Error(ErrorCode::kerNotACrwImage);
 
         if (pData[0] == 'I' && pData[0] == pData[1]) {
             byteOrder_ = littleEndian;
@@ -199,18 +199,12 @@ namespace Exiv2::Internal {
         pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
     } // CiffHeader::read
 
-    void CiffComponent::read(const byte* pData,
-                             uint32_t    size,
-                             uint32_t    start,
-                             ByteOrder   byteOrder)
+    void CiffComponent::read(const byte* pData, size_t size, uint32_t start, ByteOrder byteOrder)
     {
         doRead(pData, size, start, byteOrder);
     }
 
-    void CiffComponent::doRead(const byte* pData,
-                               uint32_t    size,
-                               uint32_t    start,
-                               ByteOrder   byteOrder)
+    void CiffComponent::doRead(const byte* pData, size_t size, uint32_t start, ByteOrder byteOrder)
     {
         // We're going read 10 bytes. Make sure they won't be out-of-bounds.
         enforce(size >= 10 && start <= size - 10, ErrorCode::kerNotACrwImage);
@@ -253,7 +247,7 @@ namespace Exiv2::Internal {
     } // CiffComponent::doRead
 
     void CiffDirectory::doRead(const byte* pData,
-                               uint32_t    size,
+                               size_t size,
                                uint32_t    start,
                                ByteOrder   byteOrder)
     {
@@ -270,9 +264,7 @@ namespace Exiv2::Internal {
 #endif
     } // CiffDirectory::doRead
 
-    void CiffDirectory::readDirectory(const byte* pData,
-                                      uint32_t    size,
-                                      ByteOrder   byteOrder)
+    void CiffDirectory::readDirectory(const byte* pData, size_t size, ByteOrder byteOrder)
     {
         if (size < 4)
             throw Error(ErrorCode::kerCorruptedMetadata);
@@ -360,21 +352,17 @@ namespace Exiv2::Internal {
         }
     }
 
-    uint32_t CiffComponent::write(Blob&     blob,
-                                  ByteOrder byteOrder,
-                                  uint32_t  offset)
+    size_t CiffComponent::write(Blob& blob, ByteOrder byteOrder, size_t offset)
     {
         return doWrite(blob, byteOrder, offset);
     }
 
-    uint32_t CiffEntry::doWrite(Blob&     blob,
-                                ByteOrder /*byteOrder*/,
-                                uint32_t  offset)
+    size_t CiffEntry::doWrite(Blob& blob, ByteOrder /*byteOrder*/, size_t offset)
     {
         return writeValueData(blob, offset);
-    } // CiffEntry::doWrite
+    }
 
-    uint32_t CiffComponent::writeValueData(Blob& blob, uint32_t offset)
+    size_t CiffComponent::writeValueData(Blob& blob, size_t offset)
     {
         if (dataLocation() == valueData) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -391,23 +379,21 @@ namespace Exiv2::Internal {
             }
         }
         return offset;
-    } // CiffComponent::writeValueData
+    }
 
-    uint32_t CiffDirectory::doWrite(Blob&     blob,
-                                    ByteOrder byteOrder,
-                                    uint32_t  offset)
+    size_t CiffDirectory::doWrite(Blob& blob, ByteOrder byteOrder, size_t offset)
     {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Writing directory 0x" << std::hex << tag() << "---->\n";
 #endif
         // Ciff offsets are relative to the start of the directory
-        uint32_t dirOffset = 0;
+        size_t dirOffset = 0;
 
         // Value data
         for (auto&& component : components_) {
             dirOffset = component->write(blob, byteOrder, dirOffset);
         }
-        const uint32_t dirStart = dirOffset;
+        const uint32_t dirStart = static_cast<uint32_t>(dirOffset);
 
         // Number of directory entries
         byte buf[4];
@@ -455,10 +441,10 @@ namespace Exiv2::Internal {
             us2Data(buf, tag_, byteOrder);
             append(blob, buf, 2);
 
-            ul2Data(buf, size_, byteOrder);
+            ul2Data(buf, static_cast<uint32_t>(size_), byteOrder);
             append(blob, buf, 4);
 
-            ul2Data(buf, offset_, byteOrder);
+            ul2Data(buf, static_cast<uint32_t>(offset_), byteOrder);
             append(blob, buf, 4);
         }
 
@@ -471,7 +457,7 @@ namespace Exiv2::Internal {
             // Copy value instead of size and offset
             append(blob, pData_, size_);
             // Pad with 0s
-            for (uint32_t i = size_; i < 8; ++i) {
+            for (size_t i = size_; i < 8; ++i) {
                 blob.push_back(0);
             }
         }
@@ -520,11 +506,11 @@ namespace Exiv2::Internal {
     {
         storage_ = std::move(buf);
         pData_ = storage_.c_data();
-        size_  = static_cast<uint32_t>(storage_.size());
+        size_  = storage_.size();
         if (size_ > 8 && dataLocation() == directoryData) {
             tag_ &= 0x3fff;
         }
-    } // CiffComponent::setValue
+    }
 
     TypeId CiffComponent::typeId(uint16_t tag)
     {
@@ -811,9 +797,9 @@ namespace Exiv2::Internal {
         assert(ifdId != ifdIdNotSet);
 
         std::string groupName(Internal::groupName(ifdId));
-        const uint32_t component_size = ciffComponent.size();
+        const size_t component_size = ciffComponent.size();
         enforce(component_size % 2 == 0, ErrorCode::kerCorruptedMetadata);
-        enforce(component_size/2 <= static_cast<uint32_t>(std::numeric_limits<uint16_t>::max()), ErrorCode::kerCorruptedMetadata);
+        enforce(component_size/2 <= static_cast<size_t>(std::numeric_limits<uint16_t>::max()), ErrorCode::kerCorruptedMetadata);
         const auto num_components = static_cast<uint16_t>(component_size / 2);
         uint16_t c = 1;
         while (c < num_components) {
@@ -915,10 +901,9 @@ namespace Exiv2::Internal {
         std::unique_ptr<Value> value;
         if (ciffComponent.typeId() != directory) {
             value = Value::create(ciffComponent.typeId());
-            uint32_t size = 0;
+            size_t size = 0;
             if (pCrwMapping->size_ != 0) {
-                // size in the mapping table overrides all
-                size = pCrwMapping->size_;
+                size = pCrwMapping->size_; // size in the mapping table overrides all
             }
             else if (ciffComponent.typeId() == asciiString) {
                 // determine size from the data, by looking for the first 0
@@ -991,8 +976,9 @@ namespace Exiv2::Internal {
         CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
                                                  pCrwMapping->crwDir_);
         if (!comment.empty()) {
-            auto size = static_cast<uint32_t>(comment.size());
-            if (cc && cc->size() > size) size = cc->size();
+            auto size = comment.size();
+            if (cc && cc->size() > size)
+                size = cc->size();
             DataBuf buf(size);
             buf.copyBytes(0, comment.data(), comment.size());
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
@@ -1115,10 +1101,9 @@ namespace Exiv2::Internal {
         const auto edO = exivData.findKey(kO);
         const auto edEnd = exivData.end();
 
-        CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_,
-                                                 pCrwMapping->crwDir_);
+        CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
         if (edX != edEnd || edY != edEnd || edO != edEnd) {
-            uint32_t size = 28;
+            size_t size = 28;
             if (cc) {
               if (cc->size() < size)
                 throw Error(ErrorCode::kerCorruptedMetadata);

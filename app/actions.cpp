@@ -926,7 +926,7 @@ namespace Action {
             if (num == 0) {
                 // Write all previews
                 for (num = 0; num < pvList.size(); ++num) {
-                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), static_cast<int>(num + 1));
+                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), num + 1);
                 }
                 break;
             }
@@ -936,7 +936,7 @@ namespace Action {
                           << " " << num + 1 << "\n";
                 continue;
             }
-            writePreviewFile(pvMgr.getPreviewImage(pvList[num]), static_cast<int>(num + 1));
+            writePreviewFile(pvMgr.getPreviewImage(pvList[num]), num + 1);
         }
         return 0;
     } // Extract::writePreviews
@@ -977,7 +977,7 @@ namespace Action {
     } // Extract::writeIccProfile
 
 
-    void Extract::writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const
+    void Extract::writePreviewFile(const Exiv2::PreviewImage& pvImg, size_t num) const
     {
         std::string pvFile = newFilePath(path_, "-preview") + Exiv2::toString(num);
         std::string pvPath = pvFile + pvImg.extension();
@@ -997,7 +997,7 @@ namespace Action {
             std::cerr << path_ << ": " << _("Image does not have preview")
                       << " " << num << "\n";
         }
-    } // Extract::writePreviewFile
+    }
 
     Task::UniquePtr Extract::clone() const
     {

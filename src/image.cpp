@@ -232,7 +232,7 @@ namespace Exiv2 {
         return bSwap ? result : value;
     }
 
-    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) 
+    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap)
     {
         uint16_t v = 0;
         auto p = reinterpret_cast<char*>(&v);
@@ -241,7 +241,7 @@ namespace Exiv2 {
         return Image::byteSwap(v,bSwap);
     }
 
-    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) 
+    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap)
     {
         uint32_t v = 0;
         auto p = reinterpret_cast<char*>(&v);
@@ -253,7 +253,7 @@ namespace Exiv2 {
     }
 
     /// \todo not used internally. At least we should test it
-    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) 
+    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap)
     {
         uint64_t v = 0;
         auto p = reinterpret_cast<byte*>(&v);
@@ -293,7 +293,8 @@ namespace Exiv2 {
     }
 
     static std::set<long> visits; // #547
-    void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth)
+
+    void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,size_t start,bool bSwap,char c,int depth)
     {
         depth++;
         if ( depth == 1 ) visits.clear();
@@ -325,7 +326,7 @@ namespace Exiv2 {
                     throw Error(ErrorCode::kerCorruptedMetadata);
                 }
                 visits.insert(io.tell());
-                
+
                 if ( bFirst && bPrint ) {
                     out << Internal::indent(depth)
                         << " address |    tag                              |     "
@@ -355,7 +356,7 @@ namespace Exiv2 {
                                 : count
                                 ;
                 uint32_t pad    = isStringType(type) ? 1 : 0;
-                uint32_t size   = isStringType(type) ? 1
+                size_t size   = isStringType(type) ? 1
                                 : is2ByteType(type)  ? 2
                                 : is4ByteType(type)  ? 4
                                 : is8ByteType(type)  ? 8
@@ -365,19 +366,17 @@ namespace Exiv2 {
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
 
                 // #55 and #56 memory allocation crash test/data/POC8
-                const uint64_t allocate64 = static_cast<uint64_t>(size) * count + pad + 20;
+                const size_t allocate64 = size * count + pad + 20;
                 if ( allocate64 > io.size() ) {
                     throw Error(ErrorCode::kerInvalidMalloc);
                 }
                 // Overflow check
-                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<uint32_t>::max()), ErrorCode::kerCorruptedMetadata);
-                enforce(allocate64 <= static_cast<uint64_t>(std::numeric_limits<long>::max()), ErrorCode::kerCorruptedMetadata);
-                const auto allocate = static_cast<long>(allocate64);
-                DataBuf  buf(allocate);  // allocate a buffer
+                enforce(allocate64 <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
+                DataBuf  buf(allocate64);  // allocate a buffer
                 buf.copyBytes(0, dir.c_data(8), 4);  // copy dir[8:11] into buffer (short strings)
 
                 // We have already checked that this multiplication cannot overflow.
-                const uint32_t count_x_size = count*size;
+                const size_t count_x_size = count*size;
                 const bool bOffsetIsPointer = count_x_size > 4;
 
                 if ( bOffsetIsPointer ) {         // read into buffer
@@ -388,7 +387,7 @@ namespace Exiv2 {
                 }
 
                 if ( bPrint ) {
-                    const uint32_t address = start + 2 + i*12 ;
+                    const size_t address = start + 2 + i*12 ;
                     const std::string offsetString = bOffsetIsPointer?
                         Internal::stringFormat("%10u", offset):
                         "";
@@ -503,12 +502,12 @@ namespace Exiv2 {
 
             // read header (we already know for certain that we have a Tiff file)
             io.readOrThrow(dir.data(),  8, ErrorCode::kerCorruptedMetadata);
-            auto c = static_cast<char>(dir.read_uint8(0));
+            auto c = dir.read_uint8(0);
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )
                         ;
-            uint32_t start = byteSwap4(dir,4,bSwap);
-            printIFDStructure(io, out, option, start + static_cast<uint32_t>(offset), bSwap, c, depth);
+            size_t start = byteSwap4(dir,4,bSwap);
+            printIFDStructure(io, out, option, start + offset, bSwap, c, depth);
         }
     }
 

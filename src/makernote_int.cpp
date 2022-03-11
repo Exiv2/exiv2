@@ -176,7 +176,7 @@ namespace Exiv2::Internal {
     {
     }
 
-    uint32_t MnHeader::ifdOffset() const
+    size_t MnHeader::ifdOffset() const
     {
         return 0;
     }
@@ -195,7 +195,7 @@ namespace Exiv2::Internal {
         'O', 'L', 'Y', 'M', 'P', 0x00, 0x01, 0x00
     };
 
-    uint32_t OlympusMnHeader::sizeOfSignature()
+    size_t OlympusMnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -205,39 +205,37 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    uint32_t OlympusMnHeader::size() const
+    size_t OlympusMnHeader::size() const
     {
-        return static_cast<uint32_t>(header_.size());
+        return header_.size();
     }
 
-    uint32_t OlympusMnHeader::ifdOffset() const
+    size_t OlympusMnHeader::ifdOffset() const
     {
         return sizeOfSignature();
     }
 
-    bool OlympusMnHeader::read(const byte* pData,
-                               uint32_t size,
-                               ByteOrder /*byteOrder*/)
+    bool OlympusMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
     {
-        if (!pData || size < sizeOfSignature()) return false;
+        if (!pData || size < sizeOfSignature())
+            return false;
         header_.alloc(sizeOfSignature());
         header_.copyBytes(0, pData, header_.size());
         return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
                  0 != header_.cmpBytes(0, signature_, 6));
     } // OlympusMnHeader::read
 
-    uint32_t OlympusMnHeader::write(IoWrapper& ioWrapper,
-                                    ByteOrder /*byteOrder*/) const
+    size_t OlympusMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
         return sizeOfSignature();
-    } // OlympusMnHeader::write
+    }  // OlympusMnHeader::write
 
     const byte Olympus2MnHeader::signature_[] = {
         'O', 'L', 'Y', 'M', 'P', 'U', 'S', 0x00, 'I', 'I', 0x03, 0x00
     };
 
-    uint32_t Olympus2MnHeader::sizeOfSignature()
+    size_t Olympus2MnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -247,12 +245,12 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    uint32_t Olympus2MnHeader::size() const
+    size_t Olympus2MnHeader::size() const
     {
-        return static_cast<uint32_t>(header_.size());
+        return header_.size();
     }
 
-    uint32_t Olympus2MnHeader::ifdOffset() const
+    size_t Olympus2MnHeader::ifdOffset() const
     {
         return sizeOfSignature();
     }
@@ -262,18 +260,17 @@ namespace Exiv2::Internal {
         return mnOffset;
     }
 
-    bool Olympus2MnHeader::read(const byte* pData,
-                                uint32_t size,
-                                ByteOrder /*byteOrder*/)
+    bool Olympus2MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
     {
-        if (!pData || size < sizeOfSignature()) return false;
+        if (!pData || size < sizeOfSignature())
+            return false;
         header_.alloc(sizeOfSignature());
         header_.copyBytes(0, pData, header_.size());
         return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
                  0 != header_.cmpBytes(0, signature_, 10));
     } // Olympus2MnHeader::read
 
-    uint32_t Olympus2MnHeader::write(IoWrapper& ioWrapper,
+    size_t Olympus2MnHeader::write(IoWrapper& ioWrapper,
                                     ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
@@ -285,7 +282,7 @@ namespace Exiv2::Internal {
     };
     const ByteOrder FujiMnHeader::byteOrder_ = littleEndian;
 
-    uint32_t FujiMnHeader::sizeOfSignature()
+    size_t FujiMnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -295,12 +292,12 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), byteOrder_);
     }
 
-    uint32_t FujiMnHeader::size() const
+    size_t FujiMnHeader::size() const
     {
-        return static_cast<uint32_t>(header_.size());
+        return header_.size();
     }
 
-    uint32_t FujiMnHeader::ifdOffset() const
+    size_t FujiMnHeader::ifdOffset() const
     {
         return start_;
     }
@@ -315,11 +312,10 @@ namespace Exiv2::Internal {
         return mnOffset;
     }
 
-    bool FujiMnHeader::read(const byte* pData,
-                            uint32_t size,
-                            ByteOrder /*byteOrder*/)
+    bool FujiMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
     {
-        if (!pData || size < sizeOfSignature()) return false;
+        if (!pData || size < sizeOfSignature())
+            return false;
         header_.alloc(sizeOfSignature());
         header_.copyBytes(0, pData, header_.size());
         // Read offset to the IFD relative to the start of the makernote
@@ -329,7 +325,7 @@ namespace Exiv2::Internal {
                  0 != header_.cmpBytes(0, signature_, 8));
     } // FujiMnHeader::read
 
-    uint32_t FujiMnHeader::write(IoWrapper& ioWrapper,
+    size_t FujiMnHeader::write(IoWrapper& ioWrapper,
                                  ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
@@ -340,7 +336,7 @@ namespace Exiv2::Internal {
         'N', 'i', 'k', 'o', 'n', '\0', 0x01, 0x00
     };
 
-    uint32_t Nikon2MnHeader::sizeOfSignature()
+    size_t Nikon2MnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -350,18 +346,18 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    uint32_t Nikon2MnHeader::size() const
+    size_t Nikon2MnHeader::size() const
     {
         return sizeOfSignature();
     }
 
-    uint32_t Nikon2MnHeader::ifdOffset() const
+    size_t Nikon2MnHeader::ifdOffset() const
     {
         return start_;
     }
 
     bool Nikon2MnHeader::read(const byte* pData,
-                              uint32_t    size,
+                              size_t size,
                               ByteOrder   /*byteOrder*/)
     {
         if (!pData || size < sizeOfSignature()) return false;
@@ -372,7 +368,7 @@ namespace Exiv2::Internal {
         return true;
     } // Nikon2MnHeader::read
 
-    uint32_t Nikon2MnHeader::write(IoWrapper& ioWrapper,
+    size_t Nikon2MnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
@@ -384,7 +380,7 @@ namespace Exiv2::Internal {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
     };
 
-    uint32_t Nikon3MnHeader::sizeOfSignature()
+    size_t Nikon3MnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -395,12 +391,12 @@ namespace Exiv2::Internal {
         buf_.copyBytes(0, signature_, buf_.size());
     }
 
-    uint32_t Nikon3MnHeader::size() const
+    size_t Nikon3MnHeader::size() const
     {
         return sizeOfSignature();
     }
 
-    uint32_t Nikon3MnHeader::ifdOffset() const
+    size_t Nikon3MnHeader::ifdOffset() const
     {
         return start_;
     }
@@ -416,7 +412,7 @@ namespace Exiv2::Internal {
     }
 
     bool Nikon3MnHeader::read(const byte* pData,
-                              uint32_t    size,
+                              size_t size,
                               ByteOrder   /*byteOrder*/)
     {
         if (!pData || size < sizeOfSignature()) return false;
@@ -430,7 +426,7 @@ namespace Exiv2::Internal {
         return true;
     } // Nikon3MnHeader::read
 
-    uint32_t Nikon3MnHeader::write(IoWrapper& ioWrapper,
+    size_t Nikon3MnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder byteOrder) const
     {
         assert(buf_.size() >= 10);
@@ -452,7 +448,7 @@ namespace Exiv2::Internal {
         'P', 'a', 'n', 'a', 's', 'o', 'n', 'i', 'c', 0x00, 0x00, 0x00
     };
 
-    uint32_t PanasonicMnHeader::sizeOfSignature()
+    size_t PanasonicMnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -462,19 +458,17 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    uint32_t PanasonicMnHeader::size() const
+    size_t PanasonicMnHeader::size() const
     {
         return sizeOfSignature();
     }
 
-    uint32_t PanasonicMnHeader::ifdOffset() const
+    size_t PanasonicMnHeader::ifdOffset() const
     {
         return start_;
     }
 
-    bool PanasonicMnHeader::read(const byte* pData,
-                                 uint32_t    size,
-                                 ByteOrder   /*byteOrder*/)
+    bool PanasonicMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
     {
         if (!pData || size < sizeOfSignature()) return false;
         if (0 != memcmp(pData, signature_, 9)) return false;
@@ -484,7 +478,7 @@ namespace Exiv2::Internal {
         return true;
     } // PanasonicMnHeader::read
 
-    uint32_t PanasonicMnHeader::write(IoWrapper& ioWrapper,
+    size_t PanasonicMnHeader::write(IoWrapper& ioWrapper,
                                       ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
@@ -495,7 +489,7 @@ namespace Exiv2::Internal {
         'P', 'E', 'N', 'T', 'A', 'X', ' ', 0x00, 'M', 'M'
     };
 
-    uint32_t PentaxDngMnHeader::sizeOfSignature()
+    size_t PentaxDngMnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -505,9 +499,9 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    uint32_t PentaxDngMnHeader::size() const
+    size_t PentaxDngMnHeader::size() const
     {
-        return static_cast<uint32_t>(header_.size());
+        return header_.size();
     }
 
     uint32_t PentaxDngMnHeader::baseOffset(uint32_t mnOffset) const
@@ -515,13 +509,13 @@ namespace Exiv2::Internal {
         return mnOffset;
     }
 
-    uint32_t PentaxDngMnHeader::ifdOffset() const
+    size_t PentaxDngMnHeader::ifdOffset() const
     {
         return sizeOfSignature();
     }
 
     bool PentaxDngMnHeader::read(const byte* pData,
-                              uint32_t size,
+                              size_t size,
                               ByteOrder /*byteOrder*/)
     {
         if (!pData || size < sizeOfSignature()) return false;
@@ -531,7 +525,7 @@ namespace Exiv2::Internal {
                  0 != header_.cmpBytes(0, signature_, 7));
     } // PentaxDngMnHeader::read
 
-    uint32_t PentaxDngMnHeader::write(IoWrapper& ioWrapper,
+    size_t PentaxDngMnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
@@ -542,7 +536,7 @@ namespace Exiv2::Internal {
         'A', 'O', 'C', 0x00, 'M', 'M'
     };
 
-    uint32_t PentaxMnHeader::sizeOfSignature()
+    size_t PentaxMnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -552,18 +546,18 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    uint32_t PentaxMnHeader::size() const
+    size_t PentaxMnHeader::size() const
     {
-        return static_cast<uint32_t>(header_.size());
+        return header_.size();
     }
 
-    uint32_t PentaxMnHeader::ifdOffset() const
+    size_t PentaxMnHeader::ifdOffset() const
     {
         return sizeOfSignature();
     }
 
     bool PentaxMnHeader::read(const byte* pData,
-                              uint32_t size,
+                              size_t size,
                               ByteOrder /*byteOrder*/)
     {
         if (!pData || size < sizeOfSignature()) return false;
@@ -573,7 +567,7 @@ namespace Exiv2::Internal {
                  0 != header_.cmpBytes(0, signature_, 3));
     } // PentaxMnHeader::read
 
-    uint32_t PentaxMnHeader::write(IoWrapper& ioWrapper,
+    size_t PentaxMnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
@@ -585,7 +579,7 @@ namespace Exiv2::Internal {
         read(nullptr, 0, invalidByteOrder);
     }
 
-    uint32_t SamsungMnHeader::size() const
+    size_t SamsungMnHeader::size() const
     {
         return 0;
     }
@@ -596,13 +590,13 @@ namespace Exiv2::Internal {
     }
 
     bool SamsungMnHeader::read(const byte* /*pData*/,
-                               uint32_t    /*size*/,
+                               size_t    /*size*/,
                                ByteOrder   /*byteOrder*/)
     {
         return true;
     } // SamsungMnHeader::read
 
-    uint32_t SamsungMnHeader::write(IoWrapper& /*ioWrapper*/,
+    size_t SamsungMnHeader::write(IoWrapper& /*ioWrapper*/,
                                     ByteOrder /*byteOrder*/) const
     {
         return 0;
@@ -615,7 +609,7 @@ namespace Exiv2::Internal {
         'F', 'O', 'V', 'E', 'O', 'N', '\0', '\0', 0x01, 0x00
     };
 
-    uint32_t SigmaMnHeader::sizeOfSignature()
+    size_t SigmaMnHeader::sizeOfSignature()
     {
         assert(sizeof(signature1_) == sizeof(signature2_));
         return sizeof(signature1_);
@@ -626,18 +620,18 @@ namespace Exiv2::Internal {
         read(signature1_, sizeOfSignature(), invalidByteOrder);
     }
 
-    uint32_t SigmaMnHeader::size() const
+    size_t SigmaMnHeader::size() const
     {
         return sizeOfSignature();
     }
 
-    uint32_t SigmaMnHeader::ifdOffset() const
+    size_t SigmaMnHeader::ifdOffset() const
     {
         return start_;
     }
 
     bool SigmaMnHeader::read(const byte* pData,
-                             uint32_t    size,
+                             size_t size,
                              ByteOrder   /*byteOrder*/)
     {
         if (!pData || size < sizeOfSignature()) return false;
@@ -649,7 +643,7 @@ namespace Exiv2::Internal {
         return true;
     } // SigmaMnHeader::read
 
-    uint32_t SigmaMnHeader::write(IoWrapper& ioWrapper,
+    size_t SigmaMnHeader::write(IoWrapper& ioWrapper,
                                   ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature1_, sizeOfSignature());
@@ -660,7 +654,7 @@ namespace Exiv2::Internal {
         'S', 'O', 'N', 'Y', ' ', 'D', 'S', 'C', ' ', '\0', '\0', '\0'
     };
 
-    uint32_t SonyMnHeader::sizeOfSignature()
+    size_t SonyMnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -670,18 +664,18 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), invalidByteOrder);
     }
 
-    uint32_t SonyMnHeader::size() const
+    size_t SonyMnHeader::size() const
     {
         return sizeOfSignature();
     }
 
-    uint32_t SonyMnHeader::ifdOffset() const
+    size_t SonyMnHeader::ifdOffset() const
     {
         return start_;
     }
 
     bool SonyMnHeader::read(const byte* pData,
-                            uint32_t    size,
+                            size_t size,
                             ByteOrder   /*byteOrder*/)
     {
         if (!pData || size < sizeOfSignature()) return false;
@@ -692,7 +686,7 @@ namespace Exiv2::Internal {
         return true;
     } // SonyMnHeader::read
 
-    uint32_t SonyMnHeader::write(IoWrapper& ioWrapper,
+    size_t SonyMnHeader::write(IoWrapper& ioWrapper,
                                  ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
@@ -704,7 +698,7 @@ namespace Exiv2::Internal {
     };
     const ByteOrder Casio2MnHeader::byteOrder_ = bigEndian;
 
-    uint32_t Casio2MnHeader::sizeOfSignature()
+    size_t Casio2MnHeader::sizeOfSignature()
     {
         return sizeof(signature_);
     }
@@ -714,12 +708,12 @@ namespace Exiv2::Internal {
         read(signature_, sizeOfSignature(), invalidByteOrder );
     }
 
-    uint32_t Casio2MnHeader::size() const
+    size_t Casio2MnHeader::size() const
     {
         return sizeOfSignature();
     }
 
-    uint32_t Casio2MnHeader::ifdOffset() const
+    size_t Casio2MnHeader::ifdOffset() const
     {
         return start_;
     }
@@ -730,7 +724,7 @@ namespace Exiv2::Internal {
     }
 
     bool Casio2MnHeader::read(const byte* pData,
-                            uint32_t    size,
+                            size_t size,
                             ByteOrder   /*byteOrder*/)
     {
         if (!pData || size < sizeOfSignature()) return false;
@@ -741,7 +735,7 @@ namespace Exiv2::Internal {
         return true;
     } // Casio2MnHeader::read
 
-    uint32_t Casio2MnHeader::write(IoWrapper& ioWrapper,
+    size_t Casio2MnHeader::write(IoWrapper& ioWrapper,
                                  ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());

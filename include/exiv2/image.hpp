@@ -298,7 +298,7 @@ namespace Exiv2 {
         /*!
           @brief Print out the structure of a TIFF IFD
          */
-        void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option,uint32_t start,bool bSwap,char c,int depth);
+        void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start, bool bSwap, char c, int depth);
 
         /*!
           @brief is the host platform bigEndian

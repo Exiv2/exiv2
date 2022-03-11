@@ -107,9 +107,9 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
-    long Iptcdatum::typeSize() const
+    size_t Iptcdatum::typeSize() const
     {
-        return static_cast<long>(TypeInfo::typeSize(typeId()));
+        return TypeInfo::typeSize(typeId());
     }
 
     size_t Iptcdatum::count() const { return value_ ? value_->count() : 0; }
@@ -118,13 +118,13 @@ namespace Exiv2 {
 
     std::string Iptcdatum::toString() const { return value_ ? value_->toString() : ""; }
 
-    std::string Iptcdatum::toString(long n) const { return value_ ? value_->toString(n) : ""; }
+    std::string Iptcdatum::toString(size_t n) const { return value_ ? value_->toString(n) : ""; }
 
-    int64_t Iptcdatum::toInt64(long n) const { return value_ ? value_->toInt64(n) : -1; }
+    int64_t Iptcdatum::toInt64(size_t n) const { return value_ ? value_->toInt64(n) : -1; }
 
-    float Iptcdatum::toFloat(long n) const { return value_ ? value_->toFloat(n) : -1; }
+    float Iptcdatum::toFloat(size_t n) const { return value_ ? value_->toFloat(n) : -1; }
 
-    Rational Iptcdatum::toRational(long n) const { return value_ ? value_->toRational(n) : Rational(-1, 1); }
+    Rational Iptcdatum::toRational(size_t n) const { return value_ ? value_->toRational(n) : Rational(-1, 1); }
 
     Value::UniquePtr Iptcdatum::getValue() const { return value_ ? value_->clone() : nullptr; }
 
@@ -353,11 +353,7 @@ namespace Exiv2 {
 
     const byte IptcParser::marker_ = 0x1C;          // Dataset marker
 
-    int IptcParser::decode(
-              IptcData& iptcData,
-        const byte*     pData,
-              uint32_t  size
-    )
+    int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size)
     {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IptcParser::decode, size = " << size << "\n";
@@ -385,7 +381,8 @@ namespace Exiv2 {
                 uint16_t sizeOfSize = (getUShort(pRead, bigEndian) & 0x7FFF);
                 if (sizeOfSize > 4) return 5;
                 pRead += 2;
-                if (sizeOfSize > static_cast<size_t>(pEnd - pRead)) return 6;
+                if (sizeOfSize > pEnd - pRead)
+                    return 6;
                 sizeData = 0;
                 for (; sizeOfSize > 0; --sizeOfSize) {
                     sizeData |= *pRead++ << (8 *(sizeOfSize-1));

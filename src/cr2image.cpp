@@ -77,8 +77,7 @@ namespace Exiv2 {
             throw Error(ErrorCode::kerNotAnImage, "CR2");
         }
         clearMetadata();
-        ByteOrder bo =
-            Cr2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
+        ByteOrder bo = Cr2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
         setByteOrder(bo);
     } // Cr2Image::readMetadata
 
@@ -89,13 +88,13 @@ namespace Exiv2 {
 #endif
         ByteOrder bo = byteOrder();
         byte* pData = nullptr;
-        long size = 0;
+        size_t size = 0;
         IoCloser closer(*io_);
         if (io_->open() == 0) {
             // Ensure that this is the correct image type
             if (isCr2Type(*io_, false)) {
                 pData = io_->mmap(true);
-                size = static_cast<long>(io_->size());
+                size = io_->size();
                 Cr2Header cr2Header;
                 if (0 == cr2Header.read(pData, 16)) {
                     bo = cr2Header.byteOrder();
@@ -109,13 +108,8 @@ namespace Exiv2 {
         Cr2Parser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // Cr2Image::writeMetadata
 
-    ByteOrder Cr2Parser::decode(
-              ExifData& exifData,
-              IptcData& iptcData,
-              XmpData&  xmpData,
-        const byte*     pData,
-              uint32_t  size
-    )
+    ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
+                                size_t size)
     {
         Cr2Header cr2Header;
         return TiffParserWorker::decode(exifData,
@@ -131,7 +125,7 @@ namespace Exiv2 {
     WriteMethod Cr2Parser::encode(
               BasicIo&  io,
         const byte*     pData,
-              uint32_t  size,
+              size_t  size,
               ByteOrder byteOrder,
         const ExifData& exifData,
         const IptcData& iptcData,

@@ -345,7 +345,7 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
-    long Xmpdatum::typeSize() const
+    size_t Xmpdatum::typeSize() const
     {
         return 0;
     }
@@ -356,13 +356,13 @@ namespace Exiv2 {
 
     std::string Xmpdatum::toString() const { return p_->value_ ? p_->value_->toString() : ""; }
 
-    std::string Xmpdatum::toString(long n) const { return p_->value_ ? p_->value_->toString(n) : ""; }
+    std::string Xmpdatum::toString(size_t n) const { return p_->value_ ? p_->value_->toString(n) : ""; }
 
-    int64_t Xmpdatum::toInt64(long n) const { return p_->value_ ? p_->value_->toInt64(n) : -1; }
+    int64_t Xmpdatum::toInt64(size_t n) const { return p_->value_ ? p_->value_->toInt64(n) : -1; }
 
-    float Xmpdatum::toFloat(long n) const { return p_->value_ ? p_->value_->toFloat(n) : -1; }
+    float Xmpdatum::toFloat(size_t n) const { return p_->value_ ? p_->value_->toFloat(n) : -1; }
 
-    Rational Xmpdatum::toRational(long n) const { return p_->value_ ? p_->value_->toRational(n) : Rational(-1, 1); }
+    Rational Xmpdatum::toRational(size_t n) const { return p_->value_ ? p_->value_->toRational(n) : Rational(-1, 1); }
 
     Value::UniquePtr Xmpdatum::getValue() const { return p_->value_ ? p_->value_->clone() : nullptr; }
 

@@ -103,7 +103,7 @@ namespace Exiv2 {
 
           @throw Error If the data buffer cannot be parsed.
         */
-        static void decode(CrwImage* pCrwImage, const byte* pData, uint32_t size);
+        static void decode(CrwImage* pCrwImage, const byte* pData, size_t size);
         /*!
           @brief Encode metadata from the CRW image into a data buffer (the
                  binary CRW image).
@@ -118,10 +118,9 @@ namespace Exiv2 {
 
           @throw Error If the metadata from the CRW image cannot be encoded.
          */
-        static void encode(
-                  Blob&     blob,
+        static void encode(Blob&     blob,
             const byte*     pData,
-                  uint32_t  size,
+                  size_t size,
             const CrwImage* pCrwImage
         );
 

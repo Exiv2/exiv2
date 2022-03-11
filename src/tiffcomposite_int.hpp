@@ -616,7 +616,7 @@ namespace Exiv2 {
          */
         virtual void setStrips(const Value* pSize,
                                const byte*  pData,
-                               uint32_t     sizeData,
+                               size_t       sizeData,
                                uint32_t     baseOffset) =0;
         //@}
 
@@ -653,7 +653,7 @@ namespace Exiv2 {
 
         //! @name Manipulators
         //@{
-        void setStrips(const Value* pSize, const byte* pData, uint32_t sizeData, uint32_t baseOffset) override;
+        void setStrips(const Value* pSize, const byte* pData, size_t   sizeData, uint32_t baseOffset) override;
         //@}
 
     protected:
@@ -718,7 +718,7 @@ namespace Exiv2 {
     public:
         //! @name Manipulators
         //@{
-        void setStrips(const Value* pSize, const byte* pData, uint32_t sizeData, uint32_t baseOffset) override;
+        void setStrips(const Value* pSize, const byte* pData, size_t   sizeData, uint32_t baseOffset) override;
         //@}
 
     protected:
@@ -1111,9 +1111,9 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         //! Return the size of the header in bytes.
-        uint32_t sizeHeader() const;
+        size_t sizeHeader() const;
         //! Write the header to a data buffer, return the number of bytes written.
-        uint32_t writeHeader(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        size_t writeHeader(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
         /*!
           @brief Return the offset to the makernote from the start of the
                  TIFF header.
@@ -1124,7 +1124,7 @@ namespace Exiv2 {
                  the start of the Makernote.
                  Returns 0 if there is no header.
          */
-        uint32_t ifdOffset() const;
+        size_t ifdOffset() const;
         /*!
           @brief Return the byte order for the makernote. Requires the image
                  byte order to be set (setImageByteOrder()).  Returns the byte

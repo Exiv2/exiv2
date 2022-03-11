@@ -2029,7 +2029,7 @@ namespace Exiv2::Internal {
               IptcData&          iptcData,
               XmpData&           xmpData,
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
               uint32_t           root,
               FindDecoderFct     findDecoderFct,
               TiffHeaderBase*    pHeader
@@ -2058,7 +2058,7 @@ namespace Exiv2::Internal {
     WriteMethod TiffParserWorker::encode(
               BasicIo&           io,
         const byte*              pData,
-              uint32_t           size,
+              size_t           size,
         const ExifData&          exifData,
         const IptcData&          iptcData,
         const XmpData&           xmpData,
@@ -2132,7 +2132,7 @@ namespace Exiv2::Internal {
 
     TiffComponent::UniquePtr TiffParserWorker::parse(
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
               uint32_t           root,
               TiffHeaderBase*    pHeader
     )

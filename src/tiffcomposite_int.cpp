@@ -299,7 +299,7 @@ namespace Exiv2::Internal {
 
     void TiffDataEntry::setStrips(const Value* pSize,
                                   const byte*  pData,
-                                  uint32_t     sizeData,
+                                  size_t sizeData,
                                   uint32_t     baseOffset)
     {
         if (!pValue() || !pSize) {
@@ -366,7 +366,7 @@ namespace Exiv2::Internal {
 
     void TiffImageEntry::setStrips(const Value* pSize,
                                    const byte*  pData,
-                                   uint32_t     sizeData,
+                                   size_t sizeData,
                                    uint32_t     baseOffset)
     {
         if (!pValue() || !pSize) {
@@ -410,7 +410,7 @@ namespace Exiv2::Internal {
         }
     } // TiffImageEntry::setStrips
 
-    uint32_t TiffIfdMakernote::ifdOffset() const
+    size_t TiffIfdMakernote::ifdOffset() const
     {
         if (!pHeader_) return 0;
         return pHeader_->ifdOffset();
@@ -449,15 +449,17 @@ namespace Exiv2::Internal {
         if (pHeader_) pHeader_->setByteOrder(byteOrder);
     }
 
-    uint32_t TiffIfdMakernote::sizeHeader() const
+    size_t TiffIfdMakernote::sizeHeader() const
     {
-        if (!pHeader_) return 0;
+        if (!pHeader_)
+            return 0;
         return pHeader_->size();
     }
 
-    uint32_t TiffIfdMakernote::writeHeader(IoWrapper& ioWrapper, ByteOrder byteOrder) const
+    size_t TiffIfdMakernote::writeHeader(IoWrapper& ioWrapper, ByteOrder byteOrder) const
     {
-        if (!pHeader_) return 0;
+        if (!pHeader_)
+            return 0;
         return pHeader_->write(ioWrapper, byteOrder);
     }
 
@@ -1295,7 +1297,7 @@ namespace Exiv2::Internal {
     {
         mnOffset_ = static_cast<uint32_t>(offset);
         setImageByteOrder(byteOrder);
-        uint32_t len = writeHeader(ioWrapper, this->byteOrder());
+        uint32_t len = static_cast<uint32_t>(writeHeader(ioWrapper, this->byteOrder()));
         len += ifd_.write(ioWrapper, this->byteOrder(),
                           offset - baseOffset() + len,
                           uint32_t(-1), uint32_t(-1),

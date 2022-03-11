@@ -244,9 +244,7 @@ namespace Exiv2 {
 
         explicit DataValue(TypeId typeId =undefined);
 
-        DataValue(const byte* buf,
-                  long len, ByteOrder byteOrder =invalidByteOrder,
-                  TypeId typeId =undefined);
+        DataValue(const byte* buf, size_t len, ByteOrder byteOrder =invalidByteOrder, TypeId typeId =undefined);
 
         ~DataValue() override = default;
 
@@ -1142,7 +1140,7 @@ namespace Exiv2 {
         // The default c'tor and this one can be combined, but that causes MSVC 7.1 to fall on its nose
         explicit ValueType(TypeId typeId);
         //! Constructor.
-        ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId =getType<T>());
+        ValueType(const byte* buf, size_t len, ByteOrder byteOrder, TypeId typeId =getType<T>());
         //! Constructor.
         explicit ValueType(const T& val, TypeId typeId =getType<T>());
         //! Copy constructor
@@ -1457,7 +1455,7 @@ namespace Exiv2 {
     }
 
     template <typename T>
-    ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId) : Value(typeId)
+    ValueType<T>::ValueType(const byte* buf, size_t len, ByteOrder byteOrder, TypeId typeId) : Value(typeId)
     {
         read(buf, len, byteOrder);
     }
@@ -1553,7 +1551,7 @@ namespace Exiv2 {
     template<typename T>
     size_t ValueType<T>::size() const
     {
-        return static_cast<long>(TypeInfo::typeSize(typeId()) * value_.size());
+        return TypeInfo::typeSize(typeId()) * value_.size();
     }
 
     template<typename T>
