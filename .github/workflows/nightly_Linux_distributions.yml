@@ -35,7 +35,7 @@ jobs:
         echo $distro_id
         if [[ "$distro_id" == "opensuse-tumbleweed" ]]; then zypper --non-interactive install tar gzip; fi
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: install dependencies
       run: ./ci/install_dependencies.sh
     - name: build and compile

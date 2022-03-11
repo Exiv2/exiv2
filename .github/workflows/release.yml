@@ -17,7 +17,7 @@ jobs:
     name: 'Build Linux Release'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install dependencies
         run: |
@@ -46,7 +46,7 @@ jobs:
           cmake --build . --target package
           tree -L 3
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: exiv2-linux64
           path: ./build/exiv2-*.tar.gz
@@ -57,7 +57,7 @@ jobs:
     name: 'Build macOS Release'
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install dependencies
         run: |
@@ -71,7 +71,7 @@ jobs:
           cmake --build . --target package
           tree -L 3
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: exiv2-macos
           path: ./build/exiv2-*.tar.gz
@@ -82,7 +82,7 @@ jobs:
     name: 'Build Windows Release'
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
@@ -93,7 +93,7 @@ jobs:
           version: 1.10.0
 
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v3
         with:
           python-version: 3.7
 
@@ -135,7 +135,7 @@ jobs:
           cmake --build . --target package
           tree -L 3
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: exiv2-win
           path: ./build/exiv2-*.zip
@@ -177,7 +177,7 @@ jobs:
 
       - name: Cleanup old 0.27-nightly
         if: env.TAG_NAME == '0.27-nightly'
-        uses: actions/github-script@v4
+        uses: actions/github-script@v6
         with:
           script: |
             try{
@@ -210,11 +210,11 @@ jobs:
               console.log( "Failed with error\n", error);
             }
 
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
       - name: List downloaded files
         run: tree -L 3
 
-      - uses: softprops/action-gh-release@v0.1.8
+      - uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
