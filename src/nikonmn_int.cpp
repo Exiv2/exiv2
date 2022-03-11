@@ -1,24 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "types.hpp"
 #include "nikonmn_int.hpp"
-#include "value.hpp"
-#include "image.hpp"
-#include "tags_int.hpp"
+
+#include "exif.hpp"
+#include "i18n.h"  // NLS support.
 #include "makernote_int.hpp"
-#include "error.hpp"
-#include "i18n.h"                // NLS support.
+#include "tags_int.hpp"
+#include "value.hpp"
 
 // + standard includes
-#include <string>
-#include <sstream>
-#include <iomanip>
-#include <cassert>
-#include <cstring>
-#include <math.h> //for log, pow, abs
 #include <cmath>
-#include <limits>
 
 // *****************************************************************************
 // class member definitions

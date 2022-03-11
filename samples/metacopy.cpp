@@ -1,26 +1,7 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 #include <exiv2/exiv2.hpp>
 #include <iostream>
-#include <fstream>
-#include <cassert>
 
 // include local header files which are not part of libexiv2
 #include "getopt.hpp"
@@ -53,12 +34,10 @@ try {
     auto memIo = std::make_unique<Exiv2::MemIo>();
     memIo->transfer(fileIo);
 
-    Exiv2::Image::UniquePtr readImg = Exiv2::ImageFactory::open(std::move(memIo));
-    assert(readImg.get() != 0);
+    auto readImg = Exiv2::ImageFactory::open(std::move(memIo));
     readImg->readMetadata();
 
-    Exiv2::Image::UniquePtr writeImg = Exiv2::ImageFactory::open(params.write_);
-    assert(writeImg.get() != 0);
+    auto writeImg = Exiv2::ImageFactory::open(params.write_);
     if (params.preserve_) {
         writeImg->readMetadata();
     }

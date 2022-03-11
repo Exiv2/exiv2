@@ -212,38 +212,7 @@ namespace Safe
 #undef SPECIALIZE_builtin_add_overflow
 #endif  // __GNUC__ >= 5 || __clang_major >= 3
 
-#elif defined(_MSC_VER)
-// intrinsics are not in available in MSVC 2005 and earlier
-#if _MSC_VER >= 1400
-
-/*!
- * This macro pastes a specialization of builtin_add_overflow using MSVC's
- * U(Int/Long/LongLong)Add.
- *
- * The add function is implemented by forwarding the parameters to the
- * intrinsic. As MSVC's intrinsics return S_OK on success, this specialization
- * returns whether the intrinsics return value does not equal S_OK. This ensures
- * a uniform interface of the add function (false is returned when no overflow
- * occurs, true on overflow).
- *
- * The intrinsics are documented here:
- * https://msdn.microsoft.com/en-us/library/windows/desktop/ff516460(v=vs.85).aspx
- */
-#define SPECIALIZE_builtin_add_overflow_WIN(type, builtin_name)                    \
-    template <>                                                                    \
-    inline bool builtin_add_overflow(type summand_1, type summand_2, type& result) \
-    {                                                                              \
-        return builtin_name(summand_1, summand_2, &result) != S_OK;                \
-    }
-
-        SPECIALIZE_builtin_add_overflow_WIN(unsigned int, UIntAdd);
-        SPECIALIZE_builtin_add_overflow_WIN(unsigned long, ULongAdd);
-        SPECIALIZE_builtin_add_overflow_WIN(unsigned long long, ULongLongAdd);
-
-#undef SPECIALIZE_builtin_add_overflow_WIN
-
-#endif  // _MSC_VER >= 1400
-#endif  // defined(_MSC_VER)
+#endif
 
     }  // namespace Internal
 

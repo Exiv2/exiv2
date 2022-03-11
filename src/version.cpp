@@ -6,7 +6,6 @@
 #include <curl/curl.h>
 #endif
 
-#include "http.hpp"
 #include "version.hpp"
 #include "makernote_int.hpp"
 #include "futils.hpp"
@@ -20,7 +19,6 @@
 #include <fstream>
 #include <regex>
 #include <set>
-#include <sstream>
 
 // #1147
 #ifndef WIN32

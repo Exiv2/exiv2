@@ -1,51 +1,41 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
+#include "actions.hpp"
 
 #include "app_utils.hpp"
-#include "actions.hpp"
-#include "exiv2app.hpp"
-
-#include "image.hpp"
-#include "jpgimage.hpp"
-#include "xmpsidecar.hpp"
-#include "types.hpp"
-#include "exif.hpp"
+#include "config.h"
 #include "easyaccess.hpp"
-#include "iptc.hpp"
-#include "xmp_exiv2.hpp"
-#include "preview.hpp"
+#include "exif.hpp"
 #include "futils.hpp"
-#include "i18n.h"                // NLS support.
+#include "i18n.h"  // NLS support.
+#include "image.hpp"
+#include "iptc.hpp"
+#include "preview.hpp"
+#include "types.hpp"
+#include "xmp_exiv2.hpp"
 
 // + standard includes
+#include <sys/stat.h>   // for stat()
+#include <sys/types.h>  // for stat()
+
 #include <filesystem>
-#include <string>
-#include <iostream>
-#include <iomanip>
 #include <fstream>
-#include <sstream>
-#include <cstring>
-#include <cstdio>
-#include <ctime>
-#include <cmath>
-#include <cassert>
+#include <iomanip>
+#include <iostream>
 #include <mutex>
-#include <stdexcept>
-#include <sys/types.h>                  // for stat()
-#include <sys/stat.h>                   // for stat()
+#include <sstream>
 #ifdef EXV_HAVE_UNISTD_H
-# include <unistd.h>                    // for stat()
+#include <unistd.h>  // for stat()
 #endif
 
 #if defined(_WIN32) || defined(__CYGWIN__)
-# include <sys/utime.h>
-#include <Windows.h>
+#include <windows.h>
 #include <fcntl.h>
 #include <io.h>
+#include <sys/utime.h>
 #else
-# include <utime.h>
+#include <utime.h>
 #endif
 
 #if !defined(__MINGW__) && !defined(_MSC_VER)
@@ -202,7 +192,7 @@ namespace Action {
                 }
             }
         } else {
-            _setmode(_fileno(stdout),O_BINARY);
+            _setmode(fileno(stdout),O_BINARY);
             result = printStructure(std::cout, option, path);
         }
 
@@ -571,7 +561,7 @@ namespace Action {
                 std::cout << std::endl;
             Exiv2::DataBuf buf(md.size());
             md.copy(buf.data(), pImage->byteOrder());
-            Exiv2::hexdump(std::cout, buf.c_data(), static_cast<long>(buf.size()));
+            Exiv2::hexdump(std::cout, buf.c_data(), buf.size());
         }
         std::cout << std::endl;
         return true;
@@ -834,7 +824,7 @@ namespace Action {
 
             bool bStdout = (Params::instance().target_ & Params::ctStdInOut) != 0;
             if (bStdout) {
-                _setmode(_fileno(stdout), _O_BINARY);
+                _setmode(fileno(stdout), _O_BINARY);
             }
 
             if (Params::instance().target_ & Params::ctThumb) {
@@ -1905,7 +1895,7 @@ namespace {
         // if we used a temporary target, copy it to stdout
         if ( rc == 0 && bStdout ) {
             FILE* f = ::fopen(target.c_str(),"rb") ;
-            _setmode(_fileno(stdout),O_BINARY);
+            _setmode(fileno(stdout),O_BINARY);
 
             if (  f ) {
                 char buffer[8*1024];

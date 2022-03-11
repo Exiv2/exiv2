@@ -1,21 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-#include "config.h"
-
 #include "xmpsidecar.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
-#include "error.hpp"
-#include "xmp_exiv2.hpp"
-#include "futils.hpp"
+#include "config.h"
 #include "convert.hpp"
+#include "error.hpp"
+#include "futils.hpp"
+#include "image.hpp"
+#include "xmp_exiv2.hpp"
 
-// + standard includes
-#include <algorithm>
-#include <string>
 #include <iostream>
-#include <cassert>
 
-// *****************************************************************************
 namespace {
     constexpr auto xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
     const auto xmlHdrCnt = static_cast<long>(std::strlen(xmlHeader));  // without the trailing 0-character

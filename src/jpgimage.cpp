@@ -4,7 +4,6 @@
 #include "config.h"
 
 #include "jpgimage.hpp"
-#include "tiffimage.hpp"
 #include "image_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -22,12 +21,6 @@
 
 #include "fff.h"
 
-// + standard includes
-#include <algorithm>                               // for EOF
-#include <cstdio>                               // for EOF
-#include <cstring>
-#include <cassert>
-#include <stdexcept>
 #include <iostream>
 
 // *****************************************************************************

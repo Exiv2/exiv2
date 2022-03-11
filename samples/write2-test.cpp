@@ -1,28 +1,7 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <exiv2/exiv2.hpp>
 #include <iostream>
-#include <iomanip>
-#include <string>
-#include <cassert>
 
 void write(const std::string& file, Exiv2::ExifData& ed);
 void print(const std::string& file);
@@ -48,19 +27,19 @@ int main(int argc, char* const argv[])
     Exiv2::ExifData ed1;
     ed1["Exif.Image.Model"] = "Test 1";
 
-    Exiv2::Value::UniquePtr v1 = Exiv2::Value::create(Exiv2::unsignedShort);
+    auto v1 = Exiv2::Value::create(Exiv2::unsignedShort);
     v1->read("160 161 162 163");
     ed1.add(Exiv2::ExifKey("Exif.Image.SamplesPerPixel"), v1.get());
 
-    Exiv2::Value::UniquePtr v2 = Exiv2::Value::create(Exiv2::signedLong);
+    auto v2 = Exiv2::Value::create(Exiv2::signedLong);
     v2->read("-2 -1 0 1");
     ed1.add(Exiv2::ExifKey("Exif.Image.XResolution"), v2.get());
 
-    Exiv2::Value::UniquePtr v3 = Exiv2::Value::create(Exiv2::signedRational);
+    auto v3 = Exiv2::Value::create(Exiv2::signedRational);
     v3->read("-2/3 -1/3 0/3 1/3");
     ed1.add(Exiv2::ExifKey("Exif.Image.YResolution"), v3.get());
 
-    Exiv2::Value::UniquePtr v4 = Exiv2::Value::create(Exiv2::undefined);
+    auto v4 = Exiv2::Value::create(Exiv2::undefined);
     v4->read("255 254 253 252");
     ed1.add(Exiv2::ExifKey("Exif.Image.WhitePoint"), v4.get());
 
@@ -87,8 +66,7 @@ int main(int argc, char* const argv[])
     print(file);
 
     std::cout <<"\n----- Non-intrusive writing of special Canon MakerNote tags\n";
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    auto image = Exiv2::ImageFactory::open(file);
     image->readMetadata();
 
     Exiv2::ExifData& rEd = image->exifData();
@@ -219,8 +197,7 @@ catch (Exiv2::AnyError& e) {
 
 void write(const std::string& file, Exiv2::ExifData& ed)
 {
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    auto image = Exiv2::ImageFactory::open(file);
 
     image->setExifData(ed);
     image->writeMetadata();
@@ -228,8 +205,7 @@ void write(const std::string& file, Exiv2::ExifData& ed)
 
 void print(const std::string& file)
 {
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    auto image = Exiv2::ImageFactory::open(file);
     image->readMetadata();
 
     Exiv2::ExifData &ed = image->exifData();

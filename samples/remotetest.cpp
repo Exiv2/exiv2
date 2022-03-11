@@ -1,26 +1,7 @@
-// ***************************************************************** -*- C++ -*-
-// remotetest.cpp
+// SPDX-License-Identifier: GPL-2.0-or-later
 // Tester application for testing remote i/o.
 // It makes some modifications on the metadata of remote file, reads new metadata from that file
 // and reset the metadata back to the original status.
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
 
 #include <exiv2/exiv2.hpp>
 #include <iostream>
@@ -63,15 +44,13 @@ try {
     Exiv2::ExifKey key("Exif.Image.DateTime");
     exifData.add(key, v.get());
 
-    Exiv2::Image::UniquePtr writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
-    assert(writeTest.get() != 0);
+    auto writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
     writeTest->setExifData(exifData);
     writeTest->writeMetadata();
 
     // read the result to make sure everything fine
     std::cout << "Print out the new metadata ...\n";
-    Exiv2::Image::UniquePtr readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
-    assert(readTest.get() != 0);
+    auto readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
     readTest->readMetadata();
     Exiv2::ExifData &exifReadData = readTest->exifData();
     if (exifReadData.empty()) {

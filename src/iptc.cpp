@@ -2,18 +2,17 @@
 
 // included header files
 #include "iptc.hpp"
-#include "types.hpp"
-#include "error.hpp"
-#include "enforce.hpp"
-#include "value.hpp"
+
 #include "datasets.hpp"
-#include "jpgimage.hpp"
+#include "enforce.hpp"
+#include "error.hpp"
 #include "image_int.hpp"
+#include "types.hpp"
+#include "value.hpp"
 
 // + standard includes
-#include <iostream>
 #include <algorithm>
-#include <fstream>      // write the temporary file
+#include <iostream>
 
 // *****************************************************************************
 namespace {

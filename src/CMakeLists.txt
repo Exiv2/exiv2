@@ -34,8 +34,6 @@ add_library( exiv2lib_int OBJECT
     tiffimage_int.cpp       tiffimage_int.hpp
     tiffvisitor_int.cpp     tiffvisitor_int.hpp
     tifffwd_int.hpp
-    timegm.h
-    unused.h
     utils.hpp               utils.cpp
 )
 
@@ -96,6 +94,7 @@ add_library( exiv2lib
     error.cpp
     exif.cpp
     futils.cpp
+    fff.h
     gifimage.cpp
     http.cpp
     image.cpp

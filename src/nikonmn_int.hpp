@@ -18,12 +18,6 @@
 // *****************************************************************************
 // included header files
 #include "tags.hpp"
-#include "types.hpp"
-
-// + standard includes
-#include <string>
-#include <iosfwd>
-#include <memory>
 
 // *****************************************************************************
 // namespace extensions

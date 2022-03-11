@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "gifimage.hpp"
+
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
 
@@ -16,7 +16,7 @@ namespace Exiv2 {
     GifImage::GifImage(BasicIo::UniquePtr io)
         : Image(ImageType::gif, mdNone, std::move(io))
     {
-    } // GifImage::GifImage
+    }
 
     std::string GifImage::mimeType() const
     {

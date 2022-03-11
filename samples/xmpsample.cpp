@@ -1,33 +1,11 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-// xmpsample.cpp
+// SPDX-License-Identifier: GPL-2.0-or-later
 // Sample/test for high level XMP classes. See also addmoddel.cpp
 
 #include <exiv2/exiv2.hpp>
-#include "unused.h"
 
-#include <string>
-#include <iostream>
-#include <iomanip>
 #include <cassert>
 #include <cmath>
+#include <iostream>
 
 bool isEqual(float a, float b)
 {
@@ -77,26 +55,22 @@ try {
     assert(xmpData["Xmp.dc.one"].toInt64() == -1);
     assert(xmpData["Xmp.dc.one"].value().ok());
 
-    const Exiv2::Value &getv1 = xmpData["Xmp.dc.one"].value();
-    UNUSED(getv1);
+    [[maybe_unused]] const Exiv2::Value &getv1 = xmpData["Xmp.dc.one"].value();
     assert(isEqual(getv1.toFloat(), -1));
     assert(getv1.ok());
     assert(getv1.toRational() == Exiv2::Rational(-1, 1));
     assert(getv1.ok());
 
-    const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
-    UNUSED(getv2);
+    [[maybe_unused]] const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
     assert(isEqual(getv2.toFloat(), 3.1415f));
     assert(getv2.ok());
     assert(getv2.toInt64() == 3);
     assert(getv2.ok());
-    Exiv2::Rational R = getv2.toRational();
-    UNUSED(R);
+    [[maybe_unused]] Exiv2::Rational R = getv2.toRational();
     assert(getv2.ok());
     assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415f ));
 
-    const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
-    UNUSED(getv3);
+    [[maybe_unused]] const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
     assert(isEqual(getv3.toFloat(), 5.0f/7.0f));
     assert(getv3.ok());
     assert(getv3.toInt64() == 0);  // long(5.0 / 7.0)
@@ -104,8 +78,7 @@ try {
     assert(getv3.toRational() == Exiv2::Rational(5, 7));
     assert(getv3.ok());
 
-    const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
-    UNUSED(getv6);
+    [[maybe_unused]] const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
     assert(getv6.toInt64() == 0);
     assert(getv6.ok());
     assert(getv6.toFloat() == 0.0f);
@@ -117,8 +90,7 @@ try {
     getv7.toInt64(); // this should fail
     assert(!getv7.ok());
 
-    const Exiv2::Value &getv8 = xmpData["Xmp.dc.eight"].value();
-    UNUSED(getv8);
+    [[maybe_unused]] const Exiv2::Value &getv8 = xmpData["Xmp.dc.eight"].value();
     assert(getv8.toInt64() == 1);
     assert(getv8.ok());
     assert(getv8.toFloat() == 1.0f);
@@ -136,7 +108,7 @@ try {
     // properties and language alternatives.
 
     // Add a simple XMP property in a known namespace
-    Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::xmpText);
+    auto v = Exiv2::Value::create(Exiv2::xmpText);
     v->read("image/jpeg");
     xmpData.add(Exiv2::XmpKey("Xmp.dc.format"), v.get());
 

@@ -7,11 +7,7 @@
 #include "value.hpp"
 #include "exif.hpp"
 #include "tags.hpp"
-#include "metadatum.hpp"
 #include "i18n.h"                // NLS support.
-
-// + standard includes
-#include <string>
 
 // *****************************************************************************
 // class member definitions

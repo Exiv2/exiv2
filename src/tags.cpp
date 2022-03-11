@@ -1,35 +1,15 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "types.hpp"
 #include "tags.hpp"
-#include "tags_int.hpp"
-#include "error.hpp"
-#include "futils.hpp"
-#include "value.hpp"
-#include "convert.hpp"
-#include "i18n.h"                // NLS support.
 
 #include "canonmn_int.hpp"
 #include "casiomn_int.hpp"
-#include "fujimn_int.hpp"
-#include "minoltamn_int.hpp"
-#include "nikonmn_int.hpp"
-#include "olympusmn_int.hpp"
-#include "panasonicmn_int.hpp"
-#include "pentaxmn_int.hpp"
-#include "samsungmn_int.hpp"
-#include "sigmamn_int.hpp"
-#include "sonymn_int.hpp"
-
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <utility>
-#include <cstdlib>
-#include <cassert>
-#include <cmath>
-#include <cstring>
+#include "convert.hpp"
+#include "error.hpp"
+#include "i18n.h"  // NLS support.
+#include "tags_int.hpp"
+#include "types.hpp"
 
 // *****************************************************************************
 // class member definitions

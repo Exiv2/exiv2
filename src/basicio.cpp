@@ -14,9 +14,7 @@
 // + standard includes
 #include <fcntl.h>      // _O_BINARY in FileIo::FileIo
 #include <sys/stat.h>   // for stat, chmod
-#include <sys/types.h>  // for stat, chmod
 
-#include <cassert>
 #include <cstdio>   // for remove, rename
 #include <cstdlib>  // for alloc, realloc, free
 #include <cstring>  // std::memcpy
@@ -24,8 +22,6 @@
 #include <filesystem>
 #include <fstream>  // write the temporary file
 #include <iostream>
-#include <memory>
-#include <string>
 
 #ifdef EXV_HAVE_SYS_MMAN_H
 # include <sys/mman.h>                  // for mmap and munmap

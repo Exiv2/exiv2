@@ -11,12 +11,7 @@
 #include "error.hpp"
 #include "enforce.hpp"
 
-// + standard includes
-#include <string>
-#include <cstring>
 #include <iostream>
-#include <iomanip>
-#include <algorithm>
 
 // *****************************************************************************
 namespace {
@@ -289,9 +284,8 @@ namespace Exiv2::Internal {
             memset(pData_, 0x0, size_);
         }
         size_ = value->copy(pData_, byteOrder);
-        assert(size_ == newSize);
         setValue(std::move(value));
-    } // TiffEntryBase::updateValue
+    }
 
     void TiffEntryBase::setValue(Value::UniquePtr value)
     {
@@ -301,7 +295,7 @@ namespace Exiv2::Internal {
         count_ = value->count();
         delete pValue_;
         pValue_ = value.release();
-    } // TiffEntryBase::setValue
+    }
 
     void TiffDataEntry::setStrips(const Value* pSize,
                                   const byte*  pData,

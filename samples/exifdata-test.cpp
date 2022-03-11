@@ -1,28 +1,7 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <exiv2/exiv2.hpp>
 #include <iostream>
-#include <iomanip>
-#include <string>
-#include <cassert>
 
 void write(const std::string& file, Exiv2::ExifData& ed);
 void print(const std::string& file);
@@ -44,8 +23,8 @@ try {
     }
     std::string file(argv[1]);
 
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert (image.get() != 0);
+    auto image = Exiv2::ImageFactory::open(file);
+    assert (image);
     image->readMetadata();
 
     Exiv2::ExifData &ed = image->exifData();
@@ -117,16 +96,14 @@ catch (Exiv2::AnyError& e) {
 
 void write(const std::string& file, Exiv2::ExifData& ed)
 {
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert (image.get() != 0);
+    auto image = Exiv2::ImageFactory::open(file);
     image->setExifData(ed);
     image->writeMetadata();
 }
 
 void print(const std::string& file)
 {
-    Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert (image.get() != 0);
+    auto image = Exiv2::ImageFactory::open(file);
     image->readMetadata();
 
     Exiv2::ExifData &ed = image->exifData();

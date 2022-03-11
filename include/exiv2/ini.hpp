@@ -11,6 +11,8 @@
 
 #include "exiv2lib_export.h"
 
+#include "config.h"
+
 #include <map>
 #include <string>
 

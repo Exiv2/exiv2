@@ -5,9 +5,11 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
+#include "slice.hpp"  // for Slice
 
-// + standard includes
+#include <cstddef>    // for size_t
+#include <cstdint>    // for int32_t
+#include <ostream>    // for ostream, basic_ostream::put
 #include <string>
 
 #if (defined(__GNUG__) || defined(__GNUC__)) || defined(__clang__)

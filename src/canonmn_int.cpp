@@ -20,10 +20,6 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include <ios>
-#include <algorithm>
-#include <cassert>
-#include <cstring>
 #include <cmath>
 
 // *****************************************************************************

@@ -1,24 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 // ***************************************************************** -*- C++ -*-
 // Test for large (>65535 bytes) IPTC buffer
 // ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
 
 #include <exiv2/exiv2.hpp>
 #include <cassert>
@@ -45,7 +28,8 @@ int main(int argc, char* const argv[])
         if (io.open() != 0) {
             throw Exiv2::Error(Exiv2::kerDataSourceOpenFailed, io.path(), Exiv2::strError());
         }
-        Exiv2::DataBuf buf(static_cast<long>(io.size()));
+
+        Exiv2::DataBuf buf(io.size());
         std::cout << "Reading " << buf.size() << " bytes from " << data << "\n";
         const size_t readBytes = io.read(buf.data(), buf.size());
         if (readBytes != buf.size() || io.error() || io.eof()) {
@@ -53,8 +37,7 @@ int main(int argc, char* const argv[])
         }
 
         // Read metadata from file
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-        assert(image.get() != 0);
+        auto image = Exiv2::ImageFactory::open(file);
         image->readMetadata();
 
         // Set Preview field to the content of the data file

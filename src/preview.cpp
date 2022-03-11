@@ -1,26 +1,19 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
-#include <algorithm>
-#include <array>
-#include <climits>
-#include <string>
-
 #include "preview.hpp"
-#include "futils.hpp"
-#include "enforce.hpp"
-#include "safe_op.hpp"
 
+#include "config.h"
+#include "enforce.hpp"
+#include "futils.hpp"
 #include "image.hpp"
-#include "cr2image.hpp"
 #include "jpgimage.hpp"
+#include "safe_op.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
-#include "unused.h"
 
-// *****************************************************************************
+#include <climits>
+
 namespace {
 
     using namespace Exiv2;

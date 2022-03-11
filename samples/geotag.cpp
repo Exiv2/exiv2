@@ -1,46 +1,15 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-// geotag.cpp
+// SPDX-License-Identifier: GPL-2.0-or-later
 // Sample program to read gpx files and update images with GPS tags
-// g++ geotag.cpp -o geotag -lexiv2 -lexpat
 
 #include <exiv2/exiv2.hpp>
-#include "unused.h"
+#include <expat.h>
 
-#include <filesystem>
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <algorithm>
-
-#include <stdio.h>
-#include <cstdlib>
-#include <time.h>
-#include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include <expat.h>
-
-#include <vector>
-#include <string>
+#include <algorithm>
+#include <filesystem>
+#include <iostream>
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
 # ifndef  __MINGW__
@@ -419,14 +388,13 @@ time_t parseTime(const char* arg,bool bAdjust)
 // West of GMT is negative (PDT = Pacific Daylight = -07:00 == -25200 seconds
 int timeZoneAdjust()
 {
-    time_t now = time(nullptr);
+    [[maybe_unused]] time_t now = time(nullptr);
     int       offset;
 
 #if   defined(_MSC_VER) || defined(__MINGW__)
     TIME_ZONE_INFORMATION TimeZoneInfo;
     GetTimeZoneInformation( &TimeZoneInfo );
     offset = - (((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
-    UNUSED(now);
 #elif defined(__CYGWIN__)
     struct tm lcopy = *localtime(&now);
     time_t    gmt   =  timegm(&lcopy) ; // timegm modifies lcopy

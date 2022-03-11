@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
-
 #include "futils.hpp"
-#include "datasets.hpp"
+
+#include "config.h"
 #include "enforce.hpp"
-#include "image_int.hpp"
+#include "error.hpp"
 
 // + standard includes
 #include <algorithm>
 #include <array>
+#include <cstring>
 #include <filesystem>
 #include <sstream>
 #include <stdexcept>
@@ -26,12 +26,8 @@ namespace fs = std::filesystem;
 #include <psapi.h>  // For access to GetModuleFileNameEx
 #endif
 
-#if defined(_MSC_VER)
-#define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
-#elif defined(__APPLE__)
-#if defined(EXV_HAVE_LIBPROC_H)
+#if defined(__APPLE__) && defined(EXV_HAVE_LIBPROC_H)
 #include <libproc.h>
-#endif
 #endif
 
 #if defined(__FreeBSD__)

@@ -1,30 +1,8 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
+// SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
-#include <sstream>
-#include <iomanip>
-#include <string>
-#include <utility>
-#include <cassert>
 
 // *****************************************************************************
 // local declarations
@@ -170,8 +148,7 @@ void testCase(const std::string& file1,
     ExifKey ek(key);
 
     //Open first image
-    Image::UniquePtr image1 = ImageFactory::open(file1);
-    assert(image1.get() != 0);
+    auto image1 = ImageFactory::open(file1);
 
     // Load existing metadata
     std::cerr << "---> Reading file " << file1 << "\n";
@@ -186,8 +163,7 @@ void testCase(const std::string& file1,
     pos->setValue(value);
 
     // Open second image
-    Image::UniquePtr image2 = ImageFactory::open(file2);
-    assert(image2.get() != 0);
+    auto image2 = ImageFactory::open(file2);
 
     image2->setExifData(image1->exifData());
 

@@ -1,28 +1,9 @@
-// ***************************************************************** -*- C++ -*-
-// mmap-test.cpp
+// SPDX-License-Identifier: GPL-2.0-or-later
 // Simple mmap tests
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
 
 #include <exiv2/exiv2.hpp>
+
 #include <iostream>
-#include <cstring>
 
 using namespace Exiv2;
 
@@ -47,8 +28,7 @@ try {
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();
-    auto size = static_cast<long>(file.size());
-    DataBuf buf(size);
+    DataBuf buf(file.size());
     // Read from the memory mapped region
     buf.copyBytes(0, pData, buf.size());
     // Reopen file in write mode and write to it

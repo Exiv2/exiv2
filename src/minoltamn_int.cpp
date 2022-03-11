@@ -7,16 +7,10 @@
 #include "value.hpp"
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
-#include "datasets.hpp"
 
-#include <string>
 #include <sstream>
-#include <iomanip>
-#include <cassert>
-#include <cstring>
 
-#include <stdio.h> // popen to call exiftool
-#include <string.h>
+#include <cstdio> // popen to call exiftool
 
 // *****************************************************************************
 // class member definitions
@@ -2186,7 +2180,7 @@ namespace Exiv2::Internal {
        uint32_t id_;                           //!< Lens id
        PrintFct fct_;                          //!< Pretty-print function
        //! Comparison operator for find template
-       bool operator==(long id) const { return id_ == id; }
+       bool operator==(uint32_t id) const { return id_ == id; }
     };
 
     //! List of lens ids which require special treatment from printMinoltaSonyLensID
