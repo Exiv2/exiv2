@@ -1031,7 +1031,7 @@ namespace Exiv2::Internal {
 #ifdef EXIV2_DEBUG_MESSAGES
         bool tooLarge = false;
 #endif
-        uint32_t newSize = datum->size();
+        size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -1046,14 +1046,14 @@ namespace Exiv2::Internal {
             std::cerr << "\t\t\t ALLOCATED " << std::dec << object->size_ << " BYTES";
         }
 #endif
-    } // TiffEncoder::encodeTiffEntryBase
+    }
 
     void TiffEncoder::encodeOffsetEntry(TiffEntryBase* object, const Exifdatum* datum)
     {
         assert(object);
         assert(datum);
 
-        uint32_t newSize = datum->size();
+        size_t newSize = datum->size();
         if (newSize > object->size_) { // value doesn't fit, encode for intrusive writing
             setDirty();
             object->updateValue(datum->getValue(), byteOrder()); // clones the value
@@ -1071,8 +1071,7 @@ namespace Exiv2::Internal {
             std::cerr << "\t\t\t PRESERVE VALUE DATA";
 #endif
         }
-
-    } // TiffEncoder::encodeOffsetEntry
+    }
 
     void TiffEncoder::add(
         TiffComponent* pRootDir,

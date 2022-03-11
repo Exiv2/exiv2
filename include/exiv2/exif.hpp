@@ -168,7 +168,7 @@ namespace Exiv2 {
         //! Return the number of components in the value
         size_t count() const override;
         //! Return the size of the value in bytes
-        long size() const override;
+        size_t size() const override;
         //! Return the value as a string.
         std::string toString() const override;
         std::string toString(long n) const override;

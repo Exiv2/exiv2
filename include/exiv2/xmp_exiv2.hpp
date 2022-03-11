@@ -115,7 +115,7 @@ namespace Exiv2 {
         //! The Exif typeSize doesn't make sense here. Return 0.
         long typeSize() const override;
         size_t count() const override;
-        long size() const override;
+        size_t size() const override;
         std::string toString() const override;
         std::string toString(long n) const override;
         int64_t toInt64(long n = 0) const override;

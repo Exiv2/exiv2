@@ -352,7 +352,7 @@ namespace Exiv2 {
 
     size_t Xmpdatum::count() const { return p_->value_ ? p_->value_->count() : 0; }
 
-    long Xmpdatum::size() const { return p_->value_ ? static_cast<long>(p_->value_->size()) : 0; }
+    size_t Xmpdatum::size() const { return p_->value_ ? p_->value_->size() : 0; }
 
     std::string Xmpdatum::toString() const { return p_->value_ ? p_->value_->toString() : ""; }
 

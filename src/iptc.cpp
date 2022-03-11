@@ -114,7 +114,7 @@ namespace Exiv2 {
 
     size_t Iptcdatum::count() const { return value_ ? value_->count() : 0; }
 
-    long Iptcdatum::size() const { return value_ ? static_cast<long>(value_->size()) : 0; }
+    size_t Iptcdatum::size() const { return value_ ? value_->size() : 0; }
 
     std::string Iptcdatum::toString() const { return value_ ? value_->toString() : ""; }
 
@@ -197,13 +197,13 @@ namespace Exiv2 {
         return *pos;
     }
 
-    long IptcData::size() const
+    size_t IptcData::size() const
     {
-        long newSize = 0;
+        size_t newSize = 0;
         for (auto&& iptc : iptcMetadata_) {
             // marker, record Id, dataset num, first 2 bytes of size
             newSize += 5;
-            long dataSize = iptc.size();
+            size_t dataSize = iptc.size();
             newSize += dataSize;
             if (dataSize > 32767) {
                 // extended dataset (we always use 4 bytes)
@@ -211,7 +211,7 @@ namespace Exiv2 {
             }
         }
         return newSize;
-    } // IptcData::size
+    }
 
     int IptcData::add(const IptcKey& key, Value* value)
     {
@@ -450,13 +450,13 @@ namespace Exiv2 {
             *pWrite++ = static_cast<byte>(iter.tag());
 
             // extended or standard dataset?
-            long dataSize = iter.size();
+            size_t dataSize = iter.size();
             if (dataSize > 32767) {
                 // always use 4 bytes for extended length
                 uint16_t sizeOfSize = 4 | 0x8000;
                 us2Data(pWrite, sizeOfSize, bigEndian);
                 pWrite += 2;
-                ul2Data(pWrite, dataSize, bigEndian);
+                ul2Data(pWrite, static_cast<uint32_t>(dataSize), bigEndian);
                 pWrite += 4;
             }
             else {

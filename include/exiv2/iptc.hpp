@@ -120,7 +120,7 @@ namespace Exiv2 {
         const char* typeName() const override;
         long typeSize() const override;
         size_t count() const override;
-        long size() const override;
+        size_t size() const override;
         std::string toString() const override;
         std::string toString(long n) const override;
         int64_t toInt64(long n = 0) const override;
@@ -236,19 +236,17 @@ namespace Exiv2 {
                               uint16_t record = IptcDataSets::application2) const;
         //! Return true if there is no IPTC metadata
         bool empty() const { return count() == 0; }
+
         //! Get the number of metadata entries
-        long count() const { return static_cast<long>(iptcMetadata_.size()); }
-        /*!
-          @brief Return the exact size of all contained IPTC metadata
-         */
-        long size() const;
-        /*!
-          @brief Return the metadata charset name or 0
-         */
+        size_t count() const { return iptcMetadata_.size(); }
+
+        //! @brief Return the exact size of all contained IPTC metadata
+        size_t size() const;
+
+        //! @brief Return the metadata charset name or 0
         const char *detectCharset() const;
-        /*!
-          @brief dump iptc formatted binary data (used by printStructure kpsRecursive)
-        */
+
+        //!  @brief dump iptc formatted binary data (used by printStructure kpsRecursive)
         static void printStructure(std::ostream& out, const Slice<byte*>& bytes,uint32_t depth);
         //@}
 

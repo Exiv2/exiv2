@@ -1019,12 +1019,14 @@ namespace Exiv2::Internal {
         const auto ed2 = image.exifData().findKey(k2);
         const auto edEnd = image.exifData().end();
 
-        long size = 0;
-        if (ed1 != edEnd) size += ed1->size();
-        if (ed2 != edEnd) size += ed2->size();
+        size_t size{0};
+        if (ed1 != edEnd)
+            size += ed1->size();
+        if (ed2 != edEnd)
+            size += ed2->size();
         if (size != 0) {
             DataBuf buf(size);
-            long pos = 0;
+            size_t pos{0};
             if (ed1 != edEnd) {
                 ed1->copy(buf.data(), pHead->byteOrder());
                 pos += ed1->size();
@@ -1039,7 +1041,7 @@ namespace Exiv2::Internal {
         else {
             pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
         }
-    } // CrwMap::encode0x080a
+    }
 
     void CrwMap::encodeArray(const Image&      image,
                              const CrwMapping* pCrwMapping,

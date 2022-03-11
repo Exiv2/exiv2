@@ -191,7 +191,7 @@ namespace Exiv2 {
         //! Return the number of components in the value
         virtual size_t count() const =0;
         //! Return the size of the value in bytes
-        virtual long size() const =0;
+        virtual size_t size() const =0;
         //! Return the value as a string.
         virtual std::string toString() const =0;
         /*!

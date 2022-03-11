@@ -318,7 +318,7 @@ namespace Exiv2 {
 
     size_t Exifdatum::count() const { return value_ ? value_->count() : 0; }
 
-    long Exifdatum::size() const { return value_ ? static_cast<long>(value_->size()) : 0; }
+    size_t Exifdatum::size() const { return value_ ? value_->size() : 0; }
 
     std::string Exifdatum::toString() const { return value_ ? value_->toString() : ""; }
 
