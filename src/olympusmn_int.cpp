@@ -1173,7 +1173,7 @@ namespace Exiv2::Internal {
             return os << value;
         }
         if (value.count() == 1) {
-            auto l0 = static_cast<short>(value.toInt64(0));
+            auto l0 = value.toInt64(0);
             if (l0 == 1) {
                 os << _("Auto");
             }
@@ -1182,8 +1182,8 @@ namespace Exiv2::Internal {
             }
         }
         else if (value.count() == 2) {
-            auto l0 = static_cast<short>(value.toInt64(0));
-            auto l1 = static_cast<short>(value.toInt64(1));
+            auto l0 = value.toInt64(0);
+            auto l1 = value.toInt64(1);
             if (l0 == 1) {
                 switch (l1) {
                 case 0: os << _("Auto"); break;

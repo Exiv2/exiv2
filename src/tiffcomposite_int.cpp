@@ -61,7 +61,8 @@ namespace Exiv2::Internal {
         if (target < 0 || target > std::numeric_limits<uint32_t>::max()) {
             throw Error(ErrorCode::kerOffsetOutOfRange);
         }
-        if (pow_) pow_->setTarget(OffsetWriter::OffsetId(id), static_cast<uint32_t>(target));
+        if (pow_)
+            pow_->setTarget(OffsetWriter::OffsetId(id), static_cast<uint32_t>(target));
     }
 
     TiffComponent::TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group) {}
@@ -259,7 +260,7 @@ namespace Exiv2::Internal {
     {
         storage_ = buf;
         pData_ = buf->data();
-        size_ = static_cast<uint32_t>(buf->size());
+        size_ = buf->size();
     }
 
     void TiffEntryBase::setData(byte* pData, uint32_t size,
@@ -337,9 +338,7 @@ namespace Exiv2::Internal {
         auto offset = pValue()->toUint32(0);
         // Todo: Remove limitation of JPEG writer: strips must be contiguous
         // Until then we check: last offset + last size - first offset == size?
-        if (  pValue()->toUint32(static_cast<long>(pValue()->count())-1)
-            + pSize->toUint32(static_cast<long>(pSize->count())-1)
-            - offset != size) {
+        if (pValue()->toUint32(pValue()->count()-1) + pSize->toUint32(pSize->count()-1) - offset != size) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Directory " << groupName(group())
                         << ", entry 0x" << std::setw(4)
@@ -631,7 +630,7 @@ namespace Exiv2::Internal {
                 auto atc = std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group());
                 tc = addChild(std::move(atc));
             }
-            setCount(static_cast<uint32_t>(ifds_.size()));
+            setCount(ifds_.size());
         }
         return tc->addPath(tag, tiffPath, pRoot, std::move(object));
     } // TiffSubIfd::doAddPath
@@ -702,7 +701,7 @@ namespace Exiv2::Internal {
             assert(atc);
             assert(tpi.extendedTag() != Tag::next);
             tc = addChild(std::move(atc));
-            setCount(static_cast<uint32_t>(elements_.size()));
+            setCount(elements_.size());
         }
         return tc->addPath(tag, tiffPath, pRoot, std::move(object));
     } // TiffBinaryArray::doAddPath
@@ -923,12 +922,12 @@ namespace Exiv2::Internal {
 
     size_t TiffDirectory::doCount() const
     {
-        return static_cast<uint32_t>(components_.size());
+        return components_.size();
     }
 
     size_t TiffEntryBase::doCount() const
     {
-        return static_cast<uint32_t>(count_);
+        return count_;
     }
 
     size_t TiffMnEntry::doCount() const
@@ -974,7 +973,7 @@ namespace Exiv2::Internal {
             typeSize = 1;
         }
 
-        return static_cast<uint32_t>(static_cast<double>(size()) / typeSize + 0.5);
+        return static_cast<size_t>(static_cast<double>(size()) / typeSize + 0.5);
     }
 
     size_t TiffBinaryElement::doCount() const
@@ -1168,7 +1167,8 @@ namespace Exiv2::Internal {
                                     uint32_t  /*dataIdx*/,
                                     uint32_t& /*imageIdx*/)
     {
-        if (!pValue_) return 0;
+        if (!pValue_)
+            return 0;
 
         DataBuf buf(pValue_->size());
         pValue_->copy(buf.data(), byteOrder);
@@ -1216,14 +1216,11 @@ namespace Exiv2::Internal {
         for (uint32_t i = 0; i < count(); ++i) {
             const int64_t newDataIdx = pValue()->toInt64(i) - prevOffset
                                      + static_cast<int64_t>(dataIdx);
-            idx += writeOffset(buf.data(idx),
-                               offset + newDataIdx,
-                               tiffType(),
-                               byteOrder);
+            idx += writeOffset(buf.data(idx), offset + newDataIdx, tiffType(), byteOrder);
         }
         ioWrapper.write(buf.c_data(), buf.size());
         return static_cast<uint32_t>(buf.size());
-    } // TiffDataEntry::doWrite
+    }
 
     uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper,
                                      ByteOrder byteOrder,

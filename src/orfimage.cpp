@@ -86,10 +86,9 @@ namespace Exiv2 {
             throw Error(ErrorCode::kerNotAnImage, "ORF");
         }
         clearMetadata();
-        ByteOrder bo =
-            OrfParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
+        ByteOrder bo = OrfParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
         setByteOrder(bo);
-    } // OrfImage::readMetadata
+    }
 
     void OrfImage::writeMetadata()
     {
@@ -98,13 +97,13 @@ namespace Exiv2 {
 #endif
         ByteOrder bo = byteOrder();
         byte* pData = nullptr;
-        long size = 0;
+        size_t size = 0;
         IoCloser closer(*io_);
         if (io_->open() == 0) {
             // Ensure that this is the correct image type
             if (isOrfType(*io_, false)) {
                 pData = io_->mmap(true);
-                size = static_cast<long>(io_->size());
+                size = io_->size();
                 OrfHeader orfHeader;
                 if (0 == orfHeader.read(pData, 8)) {
                     bo = orfHeader.byteOrder();
@@ -118,13 +117,8 @@ namespace Exiv2 {
         OrfParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
     } // OrfImage::writeMetadata
 
-    ByteOrder OrfParser::decode(
-              ExifData& exifData,
-              IptcData& iptcData,
-              XmpData&  xmpData,
-        const byte*     pData,
-              uint32_t  size
-    )
+    ByteOrder OrfParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
+                                size_t size)
     {
         OrfHeader orfHeader;
         return TiffParserWorker::decode(exifData,
@@ -140,7 +134,7 @@ namespace Exiv2 {
     WriteMethod OrfParser::encode(
               BasicIo&  io,
         const byte*     pData,
-              uint32_t  size,
+              size_t  size,
               ByteOrder byteOrder,
         const ExifData& exifData,
         const IptcData& iptcData,

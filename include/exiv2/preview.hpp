@@ -21,19 +21,14 @@ namespace Exiv2 {
     /*!
       @brief Preview image properties.
      */
-    struct EXIV2API PreviewProperties {
-        //! Preview image mime type.
-        std::string mimeType_;
-        //! Preview image extension.
-        std::string extension_;
-        //! Preview image size in bytes.
-        size_t size_;
-        //! Preview image width in pixels or 0 for unknown width.
-        uint32_t width_;
-        //! Preview image height in pixels or 0 for unknown height.
-        uint32_t height_;
-        //! Identifies type of preview image.
-        PreviewId id_;
+    struct EXIV2API PreviewProperties
+    {
+        std::string mimeType_;   //!< Preview image mime type.
+        std::string extension_;  //!< Preview image extension.
+        size_t size_;            //!< Preview image size in bytes.
+        size_t width_;           //!< Preview image width in pixels or 0 for unknown width.
+        size_t height_;          //!< Preview image height in pixels or 0 for unknown height.
+        PreviewId id_;           //!< Identifies type of preview image.
     };
 
     //! Container type to hold all preview images metadata.
@@ -97,11 +92,11 @@ namespace Exiv2 {
         /*!
           @brief Return the width of the preview image in pixels.
         */
-        uint32_t width() const;
+        size_t width() const;
         /*!
           @brief Return the height of the preview image in pixels.
         */
-        uint32_t height() const;
+        size_t height() const;
         /*!
           @brief Return the preview image type identifier.
         */

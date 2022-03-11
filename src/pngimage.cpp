@@ -457,11 +457,8 @@ namespace Exiv2 {
                 } else if (chunkType == "iTXt") {
                     PngChunk::decodeTXTChunk(this, chunkData, PngChunk::iTXt_Chunk);
                 } else if (chunkType == "eXIf") {
-                    ByteOrder bo = TiffParser::decode(exifData(),
-                                                      iptcData(),
-                                                      xmpData(),
-                                                      chunkData.c_data(),
-                                                      static_cast<uint32_t>(chunkData.size()));
+                    ByteOrder bo =
+                        TiffParser::decode(exifData(), iptcData(), xmpData(), chunkData.c_data(), chunkData.size());
                     setByteOrder(bo);
                 } else if (chunkType == "iCCP") {
                     // The ICC profile name can vary from 1-79 characters.
@@ -559,7 +556,7 @@ namespace Exiv2 {
             bufRead = io_->read(chunkBuf.data(8), dataOffset + 4); // Extract chunk data + CRC
             if (io_->error())
                 throw Error(ErrorCode::kerFailedToReadImageData);
-            if (bufRead != static_cast<size_t>(dataOffset) + 4)
+            if (bufRead != dataOffset + 4)
                 throw Error(ErrorCode::kerInputDataReadFailed);
 
             char szChunk[5];

@@ -24,36 +24,24 @@ namespace {
              of both lhs and rhs are available or else by size.
              Return true if lhs is smaller than rhs.
      */
-    bool cmpPreviewProperties(
-        const PreviewProperties& lhs,
-        const PreviewProperties& rhs
-    )
+    bool cmpPreviewProperties(const PreviewProperties &lhs, const PreviewProperties &rhs)
     {
-        uint32_t l = lhs.width_ * lhs.height_;
-        uint32_t r = rhs.width_ * rhs.height_;
-
+        auto l = lhs.width_ * lhs.height_;
+        auto r = rhs.width_ * rhs.height_;
         return l < r;
     }
 
-    /*!
-      @brief Decode a Hex string.
-     */
+    /// @brief Decode a Hex string.
     DataBuf decodeHex(const byte *src, long srcSize);
 
-    /*!
-      @brief Decode a Base64 string.
-     */
+    /// @brief Decode a Base64 string.
     DataBuf decodeBase64(const std::string &src);
 
-    /*!
-      @brief Decode an Illustrator thumbnail that follows after %AI7_Thumbnail.
-     */
+    /// @brief Decode an Illustrator thumbnail that follows after %AI7_Thumbnail.
     DataBuf decodeAi7Thumbnail(const DataBuf &src);
 
-    /*!
-      @brief Create a PNM image from raw RGB data.
-     */
-    DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb);
+    /// @brief Create a PNM image from raw RGB data.
+    DataBuf makePnm(size_t width, size_t height, const DataBuf &rgb);
 
     /*!
       Base class for image loaders. Provides virtual methods for reading properties
@@ -109,10 +97,10 @@ namespace {
         const Image &image_;
 
         //! Preview image width
-        uint32_t width_;
+        size_t width_;
 
         //! Preview image length
-        uint32_t height_;
+        size_t height_;
 
         //! Preview image size in bytes
         size_t size_;
@@ -388,7 +376,8 @@ namespace {
     LoaderNative::LoaderNative(PreviewId id, const Image &image, int parIdx)
         : Loader(id, image)
     {
-        if (!(0 <= parIdx && static_cast<size_t>(parIdx) < image.nativePreviews().size())) return;
+        if (!(0 <= parIdx && static_cast<size_t>(parIdx) < image.nativePreviews().size()))
+            return;
         nativePreview_ = image.nativePreviews()[parIdx];
         width_ = nativePreview_.width_;
         height_ = nativePreview_.height_;
@@ -396,7 +385,7 @@ namespace {
         if (nativePreview_.filter_.empty()) {
             size_ = nativePreview_.size_;
         } else {
-            size_ = static_cast<uint32_t>(getData().size());
+            size_ = getData().size();
         }
     }
 
@@ -437,7 +426,7 @@ namespace {
         }
         IoCloser closer(io);
         const byte* data = io.mmap();
-        if (static_cast<long>(io.size()) < nativePreview_.position_ + static_cast<long>(nativePreview_.size_)) {
+        if (io.size() < nativePreview_.position_ + nativePreview_.size_) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid native preview position or size.\n";
 #endif
@@ -1000,7 +989,7 @@ namespace {
         return {reinterpret_cast<const byte *>(dest.data()), dest.size()};
     }
 
-    DataBuf makePnm(uint32_t width, uint32_t height, const DataBuf &rgb)
+    DataBuf makePnm(size_t width, size_t height, const DataBuf &rgb)
     {
         const size_t expectedSize = width * height * 3UL;
         if (rgb.size() != expectedSize) {
@@ -1074,12 +1063,12 @@ namespace Exiv2 {
         return properties_.extension_;
     }
 
-    uint32_t PreviewImage::width() const
+    size_t PreviewImage::width() const
     {
         return properties_.width_;
     }
 
-    uint32_t PreviewImage::height() const
+    size_t PreviewImage::height() const
     {
         return properties_.height_;
     }

@@ -82,21 +82,15 @@ namespace Exiv2 {
                  with data in ORF format to the provided metadata containers.
                  See TiffParser::decode().
         */
-        static ByteOrder decode(
-                  ExifData& exifData,
-                  IptcData& iptcData,
-                  XmpData&  xmpData,
-            const byte*     pData,
-                  uint32_t  size
-        );
+        static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
+                                size_t size);
         /*!
           @brief Encode metadata from the provided metadata to ORF format.
                  See TiffParser::encode().
         */
-        static WriteMethod encode(
-                  BasicIo&  io,
+        static WriteMethod encode(BasicIo&  io,
             const byte*     pData,
-                  uint32_t  size,
+                  size_t size,
                   ByteOrder byteOrder,
             const ExifData& exifData,
             const IptcData& iptcData,

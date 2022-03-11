@@ -221,9 +221,8 @@ namespace Exiv2::Internal {
             return false;
         header_.alloc(sizeOfSignature());
         header_.copyBytes(0, pData, header_.size());
-        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
-                 0 != header_.cmpBytes(0, signature_, 6));
-    } // OlympusMnHeader::read
+        return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 6));
+    }
 
     size_t OlympusMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const
     {
@@ -266,9 +265,8 @@ namespace Exiv2::Internal {
             return false;
         header_.alloc(sizeOfSignature());
         header_.copyBytes(0, pData, header_.size());
-        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
-                 0 != header_.cmpBytes(0, signature_, 10));
-    } // Olympus2MnHeader::read
+        return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 10));
+    }
 
     size_t Olympus2MnHeader::write(IoWrapper& ioWrapper,
                                     ByteOrder /*byteOrder*/) const
@@ -321,9 +319,8 @@ namespace Exiv2::Internal {
         // Read offset to the IFD relative to the start of the makernote
         // from the header. Note that we ignore the byteOrder argument
         start_ = header_.read_uint32(8, byteOrder_);
-        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
-                 0 != header_.cmpBytes(0, signature_, 8));
-    } // FujiMnHeader::read
+        return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 8));
+    }
 
     size_t FujiMnHeader::write(IoWrapper& ioWrapper,
                                  ByteOrder /*byteOrder*/) const
@@ -426,8 +423,7 @@ namespace Exiv2::Internal {
         return true;
     } // Nikon3MnHeader::read
 
-    size_t Nikon3MnHeader::write(IoWrapper& ioWrapper,
-                                   ByteOrder byteOrder) const
+    size_t Nikon3MnHeader::write(IoWrapper& ioWrapper, ByteOrder byteOrder) const
     {
         assert(buf_.size() >= 10);
 
@@ -436,8 +432,8 @@ namespace Exiv2::Internal {
         TiffHeader th(byteOrder);
         DataBuf buf = th.write();
         ioWrapper.write(buf.c_data(), buf.size());
-        return 10 + static_cast<uint32_t>(buf.size());
-    } // Nikon3MnHeader::write
+        return 10 + buf.size();
+    }
 
     void Nikon3MnHeader::setByteOrder(ByteOrder byteOrder)
     {
@@ -514,16 +510,14 @@ namespace Exiv2::Internal {
         return sizeOfSignature();
     }
 
-    bool PentaxDngMnHeader::read(const byte* pData,
-                              size_t size,
-                              ByteOrder /*byteOrder*/)
+    bool PentaxDngMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
     {
-        if (!pData || size < sizeOfSignature()) return false;
+        if (!pData || size < sizeOfSignature())
+            return false;
         header_.alloc(sizeOfSignature());
         header_.copyBytes(0, pData, header_.size());
-        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
-                 0 != header_.cmpBytes(0, signature_, 7));
-    } // PentaxDngMnHeader::read
+        return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 7));
+    }
 
     size_t PentaxDngMnHeader::write(IoWrapper& ioWrapper,
                                    ByteOrder /*byteOrder*/) const
@@ -556,23 +550,20 @@ namespace Exiv2::Internal {
         return sizeOfSignature();
     }
 
-    bool PentaxMnHeader::read(const byte* pData,
-                              size_t size,
-                              ByteOrder /*byteOrder*/)
+    bool PentaxMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
     {
-        if (!pData || size < sizeOfSignature()) return false;
+        if (!pData || size < sizeOfSignature())
+            return false;
         header_.alloc(sizeOfSignature());
         header_.copyBytes(0, pData, header_.size());
-        return !(static_cast<uint32_t>(header_.size()) < sizeOfSignature() ||
-                 0 != header_.cmpBytes(0, signature_, 3));
-    } // PentaxMnHeader::read
+        return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 3));
+    }
 
-    size_t PentaxMnHeader::write(IoWrapper& ioWrapper,
-                                   ByteOrder /*byteOrder*/) const
+    size_t PentaxMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const
     {
         ioWrapper.write(signature_, sizeOfSignature());
         return sizeOfSignature();
-    } // PentaxMnHeader::write
+    }
 
     SamsungMnHeader::SamsungMnHeader()
     {

@@ -101,8 +101,7 @@ namespace Exiv2 {
             throw Error(ErrorCode::kerNotAnImage, "RW2");
         }
         clearMetadata();
-        ByteOrder bo =
-            Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
+        ByteOrder bo = Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
         setByteOrder(bo);
 
         // A lot more metadata is hidden in the embedded preview image
@@ -197,13 +196,8 @@ namespace Exiv2 {
         throw(Error(ErrorCode::kerWritingImageFormatUnsupported, "RW2"));
     } // Rw2Image::writeMetadata
 
-    ByteOrder Rw2Parser::decode(
-              ExifData& exifData,
-              IptcData& iptcData,
-              XmpData&  xmpData,
-        const byte*     pData,
-              uint32_t  size
-    )
+    ByteOrder Rw2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
+                                size_t size)
     {
         Rw2Header rw2Header;
         return TiffParserWorker::decode(exifData,

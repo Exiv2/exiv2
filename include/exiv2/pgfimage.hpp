@@ -77,7 +77,7 @@ namespace Exiv2
         //! Read Magick number. Only version >= 6 is supported.
         static byte readPgfMagicNumber(BasicIo& iIo);
         //! Read PGF Header size encoded in 32 bits integer.
-        uint32_t readPgfHeaderSize(BasicIo& iIo) const;
+        size_t readPgfHeaderSize(BasicIo& iIo) const;
         //! Read header structure.
         DataBuf readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t& height) const;
         //@}

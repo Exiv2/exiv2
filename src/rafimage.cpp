@@ -291,10 +291,8 @@ namespace Exiv2 {
         enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), ErrorCode::kerCorruptedMetadata);
 
 #if LONG_MAX < UINT_MAX
-        enforce(jpg_img_off_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
-                ErrorCode::kerCorruptedMetadata);
-        enforce(jpg_img_len_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
-                ErrorCode::kerCorruptedMetadata);
+        enforce(jpg_img_off_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
+        enforce(jpg_img_len_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
 #endif
 
         auto jpg_img_off = static_cast<long>(jpg_img_off_u32);
@@ -312,11 +310,8 @@ namespace Exiv2 {
 
         io_->seek(0,BasicIo::beg); // rewind
 
-        ByteOrder bo = TiffParser::decode(exifData_,
-                                          iptcData_,
-                                          xmpData_,
-                                          buf.c_data(),
-                                          static_cast<uint32_t>(buf.size()));
+        ByteOrder bo =
+            TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size());
 
         exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
         exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
@@ -355,14 +350,10 @@ namespace Exiv2 {
 
             if (!io_->error() && !io_->eof())
             {
-                TiffParser::decode(exifData_,
-                                   iptcData_,
-                                   xmpData_,
-                                   tiff.c_data(),
-                                   static_cast<uint32_t>(tiff.size()));
+                TiffParser::decode(exifData_, iptcData_, xmpData_, tiff.c_data(), tiff.size());
             }
         }
-    } // RafImage::readMetadata
+    }
 
     void RafImage::writeMetadata()
     {

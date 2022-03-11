@@ -224,7 +224,7 @@ namespace Exiv2::Internal {
 #endif
                         pos = pos + sizeof(exifHeader);
                         ByteOrder bo = TiffParser::decode(pImage->exifData(), pImage->iptcData(), pImage->xmpData(),
-                                                          exifData.c_data(pos), static_cast<uint32_t>(length - pos));
+                                                          exifData.c_data(pos), length - pos);
                         pImage->setByteOrder(bo);
                     } else {
 #ifndef SUPPRESS_WARNINGS
@@ -258,15 +258,14 @@ namespace Exiv2::Internal {
                         pCur += (sizeIptc & 1);
                     }
                     if (!iptcBlob.empty() &&
-                        IptcParser::decode(pImage->iptcData(), &iptcBlob[0], static_cast<uint32_t>(iptcBlob.size()))) {
+                        IptcParser::decode(pImage->iptcData(), &iptcBlob[0], iptcBlob.size())) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
                         pImage->clearIptcData();
                     }
                     // If there is no IRB, try to decode the complete chunk data
-                    if (iptcBlob.empty() && IptcParser::decode(pImage->iptcData(), psData.c_data(),
-                        static_cast<uint32_t>(psData.size()))) {
+                    if (iptcBlob.empty() && IptcParser::decode(pImage->iptcData(), psData.c_data(), psData.size())) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif

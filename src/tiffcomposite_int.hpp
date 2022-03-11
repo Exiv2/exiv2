@@ -482,7 +482,7 @@ namespace Exiv2 {
         //! Implements encode().
         virtual void doEncode(TiffEncoder& encoder, const Exifdatum* datum) =0;
         //! Set the number of components in this entry
-        void setCount(uint32_t count) { count_ = count; }
+        void setCount(size_t count) { count_ = count; }
         //! Set the unique id of the entry in the image
         void setIdx(int idx) { idx_ = idx; }
         /*!

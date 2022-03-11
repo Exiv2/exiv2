@@ -95,12 +95,11 @@ namespace Exiv2 {
                  with data in RW2 format to the provided metadata containers.
                  See TiffParser::decode().
         */
-        static ByteOrder decode(
-                  ExifData& exifData,
+        static ByteOrder decode(ExifData& exifData,
                   IptcData& iptcData,
                   XmpData&  xmpData,
             const byte*     pData,
-                  uint32_t  size
+                  size_t size
         );
 
     }; // class Rw2Parser
