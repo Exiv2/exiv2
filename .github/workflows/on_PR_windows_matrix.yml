@@ -21,7 +21,7 @@ jobs:
         platform: [ x64, x86 ]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
@@ -34,7 +34,7 @@ jobs:
           version: 1.10.0
 
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v3
         with:
           python-version: 3.7
 
@@ -107,7 +107,7 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
@@ -164,7 +164,7 @@ jobs:
       # Make sure we don't check out scripts using Windows CRLF line endings
       - run: git config --global core.autocrlf input
         shell: pwsh
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Cygwin
         uses: egor-tensin/setup-cygwin@v3
