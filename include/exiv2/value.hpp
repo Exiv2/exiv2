@@ -98,7 +98,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of bytes written.
         */
-        virtual long copy(byte* buf, ByteOrder byteOrder) const =0;
+        virtual size_t copy(byte* buf, ByteOrder byteOrder) const =0;
         //! Return the number of components of the value
         virtual size_t count() const =0;
         //! Return the size of the value in bytes
@@ -273,7 +273,7 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not needed.
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         size_t count() const override;
         size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
@@ -346,7 +346,7 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         size_t count() const override;
         size_t size() const override;
         int64_t toInt64(size_t n = 0) const override;
@@ -531,7 +531,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         UniquePtr clone() const { return UniquePtr(clone_()); }
-        long copy(byte* buf, ByteOrder byteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder) const override;
         /*!
           @brief Write the comment in a format which can be read by
           read(const std::string& comment).
@@ -614,7 +614,7 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         //@}
 
         //! @name Manipulators
@@ -974,7 +974,7 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
 
         //! Return date struct containing date information
         virtual const Date& getDate() const;
@@ -1072,7 +1072,7 @@ namespace Exiv2 {
           @param byteOrder Byte order. Not used.
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder = invalidByteOrder) const override;
         //! Return time struct containing time information
         virtual const Time& getTime() const;
         size_t count() const override;
@@ -1173,7 +1173,7 @@ namespace Exiv2 {
         //! @name Accessors
         //@{
         UniquePtr clone() const { return UniquePtr(clone_()); }
-        long copy(byte* buf, ByteOrder byteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder) const override;
         size_t count() const override;
         size_t size() const override;
         std::ostream& write(std::ostream& os) const override;
@@ -1535,9 +1535,9 @@ namespace Exiv2 {
     }
 
     template<typename T>
-    long ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const
+    size_t ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const
     {
-        long offset = 0;
+        size_t offset = 0;
         for (auto i = value_.begin(); i != value_.end(); ++i) {
             offset += toData(buf + offset, *i, byteOrder);
         }

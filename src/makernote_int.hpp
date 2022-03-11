@@ -33,7 +33,7 @@ namespace Exiv2::Internal {
                                         IfdId       group,
                                         IfdId       mnGroup,
                                         const byte* pData,
-                                        uint32_t    size,
+                                        size_t      size,
                                         ByteOrder   byteOrder);
 
     //! Type for a pointer to a function creating a makernote (group)
@@ -83,7 +83,7 @@ namespace Exiv2::Internal {
                                      IfdId              group,
                                      const std::string& make,
                                      const byte*        pData,
-                                     uint32_t           size,
+                                     size_t size,
                                      ByteOrder          byteOrder);
         /*!
           @brief Create the Makernote for a given group. This method is used
@@ -515,7 +515,7 @@ namespace Exiv2::Internal {
                             IfdId       group,
                             IfdId       mnGroup,
                             const byte* pData,
-                            uint32_t    size,
+                            size_t size,
                             ByteOrder   byteOrder);
 
     //! Function to create a simple IFD makernote (Canon, Minolta, Nikon1)
@@ -528,7 +528,7 @@ namespace Exiv2::Internal {
                                 IfdId       group,
                                 IfdId       mnGroup,
                                 const byte* pData,
-                                uint32_t    size,
+                                size_t    size,
                                 ByteOrder   byteOrder);
 
     //! Function to create an Olympus makernote
@@ -546,7 +546,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId       mnGroup,
                              const byte* pData,
-                             uint32_t    size,
+                             size_t    size,
                              ByteOrder   byteOrder);
 
     //! Function to create a Fujifilm makernote
@@ -562,7 +562,7 @@ namespace Exiv2::Internal {
                               IfdId       group,
                               IfdId       mnGroup,
                               const byte* pData,
-                              uint32_t    size,
+                              size_t    size,
                               ByteOrder   byteOrder);
 
     //! Function to create a Nikon2 makernote
@@ -580,7 +580,7 @@ namespace Exiv2::Internal {
                                   IfdId       group,
                                   IfdId       mnGroup,
                                   const byte* pData,
-                                  uint32_t    size,
+                                  size_t    size,
                                   ByteOrder   byteOrder);
 
     //! Function to create a Panasonic makernote
@@ -593,7 +593,7 @@ namespace Exiv2::Internal {
                                IfdId       group,
                                IfdId       mnGroup,
                                const byte* pData,
-                               uint32_t    size,
+                               size_t    size,
                                ByteOrder   byteOrder);
 
     //! Function to create an Pentax makernote
@@ -611,7 +611,7 @@ namespace Exiv2::Internal {
                                 IfdId       group,
                                 IfdId       mnGroup,
                                 const byte* pData,
-                                uint32_t    size,
+                                size_t    size,
                                 ByteOrder   byteOrder);
 
     //! Function to create a Samsung makernote
@@ -624,7 +624,7 @@ namespace Exiv2::Internal {
                               IfdId       group,
                               IfdId       mnGroup,
                               const byte* pData,
-                              uint32_t    size,
+                              size_t    size,
                               ByteOrder   byteOrder);
 
     //! Function to create a Sigma makernote
@@ -637,7 +637,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId       mnGroup,
                              const byte* pData,
-                             uint32_t    size,
+                             size_t    size,
                              ByteOrder   byteOrder);
 
     //! Function to create a Sony1 makernote
@@ -655,7 +655,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId       mnGroup,
                              const byte* pData,
-                             uint32_t    size,
+                             size_t    size,
                              ByteOrder   byteOrder);
 
     //! Function to create a Casio2 makernote
@@ -672,7 +672,7 @@ namespace Exiv2::Internal {
       @param pRoot Pointer to the root component of the TIFF tree.
       @return An index into the array set, -1 if no match was found.
      */
-    int sonyCsSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int sonyCsSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
         @brief Function to select cfg + def of the Sony 2010 Miscellaneous Information complex binary array.
@@ -683,8 +683,8 @@ namespace Exiv2::Internal {
         @param pRoot Pointer to the root component of the TIFF tree.
         @return An index into the array set, -1 if no match was found.
     */
-    int sony2010eSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
-       
+    int sony2010eSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+
     /*!
         @brief Function to select cfg + def of the Sony2Fp (tag 9402) complex binary array.
 
@@ -694,7 +694,7 @@ namespace Exiv2::Internal {
         @param pRoot Pointer to the root component of the TIFF tree.
         @return An index into the array set, -1 if no match was found.
     */
-    int sony2FpSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int sony2FpSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
         @brief Function to select cfg + def of the SonyMisc2b (tag 9404b) complex binary array.
@@ -705,7 +705,7 @@ namespace Exiv2::Internal {
         @param pRoot Pointer to the root component of the TIFF tree.
         @return An index into the array set, -1 if no match was found.
     */
-    int sonyMisc2bSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int sonyMisc2bSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
         @brief Function to select cfg + def of the SonyMisc3c (tag 9400) complex binary array.
@@ -716,7 +716,7 @@ namespace Exiv2::Internal {
         @param pRoot Pointer to the root component of the TIFF tree.
         @return An index into the array set, -1 if no match was found.
     */
-    int sonyMisc3cSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int sonyMisc3cSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
       @brief Function to select cfg + def of a Nikon complex binary array.
@@ -727,7 +727,7 @@ namespace Exiv2::Internal {
       @param pRoot Pointer to the root component of the TIFF tree.
       @return An index into the array set, -1 if no match was found.
      */
-    int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
       @brief Encrypt and decrypt Nikon data.
@@ -745,7 +745,7 @@ namespace Exiv2::Internal {
       @return En/decrypted data. Ownership of the memory is passed to the caller.
               The buffer may be empty in case no decryption was needed.
      */
-    DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
 }  // namespace Exiv2::Internal
 

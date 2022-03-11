@@ -77,7 +77,7 @@ namespace Exiv2 {
             value_ = rhs.value_->clone();  // deep copy
     }
 
-    long Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
+    size_t Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
 
     std::ostream& Iptcdatum::write(std::ostream& os, const ExifData*) const
     {

@@ -302,7 +302,7 @@ namespace Exiv2 {
 
     int Exifdatum::idx() const { return key_ ? key_->idx() : 0; }
 
-    long Exifdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
+    size_t Exifdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
 
     TypeId Exifdatum::typeId() const { return value_ ? value_->typeId() : invalidTypeId; }
 

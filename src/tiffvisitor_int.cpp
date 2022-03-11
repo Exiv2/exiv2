@@ -317,7 +317,7 @@ namespace Exiv2::Internal {
     }
 
     void TiffDecoder::getObjData(byte const*& pData,
-                                 long& size,
+                                 size_t &size,
                                  uint16_t tag,
                                  IfdId group,
                                  const TiffEntryBase* object)
@@ -343,7 +343,7 @@ namespace Exiv2::Internal {
         decodeStdTiffEntry(object);
 
         byte const* pData = nullptr;
-        long size = 0;
+        size_t size = 0;
         getObjData(pData, size, 0x02bc, ifd0Id, object);
         if (pData) {
             std::string xmpPacket;
@@ -377,10 +377,10 @@ namespace Exiv2::Internal {
         decodedIptc_ = true;
         // 1st choice: IPTCNAA
         byte const* pData = nullptr;
-        long size = 0;
+        size_t size = 0;
         getObjData(pData, size, 0x83bb, ifd0Id, object);
         if (pData) {
-            if (0 == IptcParser::decode(iptcData_, pData, size)) {
+            if (0 == IptcParser::decode(iptcData_, pData, static_cast<uint32_t>(size))) {
                 return;
             }
 #ifndef SUPPRESS_WARNINGS
@@ -705,7 +705,7 @@ namespace Exiv2::Internal {
         auto pTiffEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
         assert(pTiffEntry);
         us2Data(buf + 2, pTiffEntry->tiffType(), byteOrder);
-        ul2Data(buf + 4, pTiffEntry->count(),    byteOrder);
+        ul2Data(buf + 4, static_cast<uint32_t>(pTiffEntry->count()), byteOrder);
         // Move data to offset field, if it fits and is not yet there.
         if (pTiffEntry->size() <= 4 && buf + 8 != pTiffEntry->pData()) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -789,7 +789,7 @@ namespace Exiv2::Internal {
 
         if (!object->cfg() || !object->decoded())
             return;
-        int32_t size = object->TiffEntryBase::doSize();
+        size_t size = object->TiffEntryBase::doSize();
         if (size == 0)
             return;
         if (!object->initialize(pRoot_))
@@ -1623,7 +1623,7 @@ namespace Exiv2::Internal {
         const CryptFct cryptFct = cfg->cryptFct_;
         if (cryptFct) {
             const byte* pData = object->pData();
-            int32_t size = object->TiffEntryBase::doSize();
+            size_t size = object->TiffEntryBase::doSize();
             auto buf = std::make_shared<DataBuf>(cryptFct(object->tag(), pData, size, pRoot_));
             if (!buf->empty())
                 object->setData(buf);
@@ -1647,7 +1647,7 @@ namespace Exiv2::Internal {
                             gapSize = xdef->idx_ - idx;
                         }
                         else {
-                            gapSize = object->TiffEntryBase::doSize() - idx;
+                            gapSize = static_cast<uint32_t>(object->TiffEntryBase::doSize()) - idx;
                         }
                         gap.idx_ = idx;
                         gap.tiffType_ = cfg->elDefaultDef_.tiffType_;
@@ -1671,9 +1671,10 @@ namespace Exiv2::Internal {
     void TiffReader::visitBinaryElement(TiffBinaryElement* object)
     {
         byte* pData   = object->start();
-        uint32_t size = object->TiffEntryBase::doSize();
+        size_t size = object->TiffEntryBase::doSize();
         ByteOrder bo = object->elByteOrder();
-        if (bo == invalidByteOrder) bo = byteOrder();
+        if (bo == invalidByteOrder)
+            bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
         auto v = Value::create(typeId);
         enforce(v != nullptr, ErrorCode::kerCorruptedMetadata);
@@ -1682,7 +1683,6 @@ namespace Exiv2::Internal {
         object->setValue(std::move(v));
         object->setOffset(0);
         object->setIdx(nextIdx(object->group()));
-
-    } // TiffReader::visitBinaryElement
+    }
 
 }  // namespace Exiv2::Internal

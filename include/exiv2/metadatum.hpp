@@ -142,7 +142,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        virtual long copy(byte* buf, ByteOrder byteOrder) const =0;
+        virtual size_t copy(byte* buf, ByteOrder byteOrder) const =0;
         /*!
           @brief Write the interpreted value to an output stream, return
                  the stream.

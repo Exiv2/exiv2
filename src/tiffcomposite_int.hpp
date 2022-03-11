@@ -261,11 +261,11 @@ namespace Exiv2 {
           @brief Return the size in bytes of the IFD value of this component
                  when written to a binary image.
          */
-        uint32_t size() const;
+        size_t size() const;
         /*!
           @brief Return the number of components in this component.
          */
-        uint32_t count() const;
+        size_t count() const;
         /*!
           @brief Return the size in bytes of the IFD data of this component when
                  written to a binary image.  This is a support function for
@@ -325,9 +325,9 @@ namespace Exiv2 {
         virtual uint32_t doWriteImage(IoWrapper& ioWrapper,
                                       ByteOrder byteOrder) const =0;
         //! Implements size().
-        virtual uint32_t doSize() const =0;
+        virtual size_t doSize() const =0;
         //! Implements count().
-        virtual uint32_t doCount() const =0;
+        virtual size_t doCount() const =0;
         //! Implements sizeData().
         virtual size_t doSizeData() const =0;
         //! Implements sizeImage().
@@ -497,7 +497,7 @@ namespace Exiv2 {
         //! @name Protected Accessors
         //@{
         //! Implements count().
-        uint32_t doCount() const override;
+        size_t doCount() const override;
         /*!
           @brief Implements writeData(). Standard TIFF entries have no data:
                  write nothing and return 0.
@@ -510,7 +510,7 @@ namespace Exiv2 {
          */
         uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         //! Implements size(). Return the size of a standard TIFF entry
-        uint32_t doSize() const override;
+        size_t doSize() const override;
         //! Implements sizeData(). Return 0.
         size_t doSizeData() const override;
         //! Implements sizeImage(). Return 0.
@@ -537,11 +537,7 @@ namespace Exiv2 {
         TiffType tiffType_;   //!< Field TIFF type
         size_t count_{};      //!< The number of values of the indicated type
         int64_t offset_{};    //!< Offset to the data area
-        /*!
-          Size of the data buffer holding the value in bytes, there is no
-          minimum size.
-         */
-        uint32_t size_{};
+        size_t size_{};       //!< Size of the data buffer holding the value in bytes, there is no minimum size.
 
         // Notes on the ownership model of pData_: pData_ is a always a
         // pointer to a buffer owned by somebody else. Usually it is a
@@ -758,7 +754,7 @@ namespace Exiv2 {
          */
         uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         //! Implements size(). Return the size of the strip pointers.
-        uint32_t doSize() const override;
+        size_t doSize() const override;
         //! Implements sizeData(). Return the size of the image data area.
         size_t doSizeData() const override;
         //! Implements sizeImage(). Return the size of the image data area.
@@ -883,12 +879,12 @@ namespace Exiv2 {
           @brief Implements size(). Return the size of the TIFF directory,
                  values and additional data, including the next-IFD, if any.
          */
-        uint32_t doSize() const override;
+        size_t doSize() const override;
         /*!
           @brief Implements count(). Return the number of entries in the TIFF
                  directory. Does not count entries which are marked as deleted.
          */
-        uint32_t doCount() const override;
+        size_t doCount() const override;
         /*!
           @brief This class does not really implement sizeData(), it only has
                  size(). This method must not be called; it commits suicide.
@@ -979,7 +975,7 @@ namespace Exiv2 {
          */
         uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         //! Implements size(). Return the size of the sub-Ifd pointers.
-        uint32_t doSize() const override;
+        size_t doSize() const override;
         //! Implements sizeData(). Return the sum of the sizes of all sub-IFDs.
         size_t doSizeData() const override;
         //! Implements sizeImage(). Return the sum of the image sizes of all sub-IFDs.
@@ -1043,14 +1039,14 @@ namespace Exiv2 {
         //@{
         TiffMnEntry* doClone() const override;
         //! Implements count(). Return number of components in the entry.
-        uint32_t doCount() const override;
+        size_t doCount() const override;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
           @brief Implements size() by forwarding the call to the actual
                  concrete Makernote, if there is one.
          */
-        uint32_t doSize() const override;
+        size_t doSize() const override;
         // Using doSizeData from base class
         // Using doSizeImage from base class
         //@}
@@ -1183,13 +1179,13 @@ namespace Exiv2 {
           @brief Implements size(). Return the size of the Makernote header,
                  TIFF directory, values and additional data.
          */
-        uint32_t doSize() const override;
+        size_t doSize() const override;
         /*!
           @brief Implements count(). Return the number of entries in the IFD
                  of the Makernote. Does not count entries which are marked as
                  deleted.
          */
-        uint32_t doCount() const override;
+        size_t doCount() const override;
         /*!
           @brief This class does not really implement sizeData(), it only has
                  size(). This method must not be called; it commits suicide.
@@ -1229,10 +1225,10 @@ namespace Exiv2 {
       @brief Function pointer type for a function to determine which cfg + def
              of a corresponding array set to use.
      */
-    using CfgSelFct = int (*)(uint16_t, const byte*, uint32_t, TiffComponent* const);
+    using CfgSelFct = int (*)(uint16_t, const byte*, size_t, TiffComponent* const);
 
     //! Function pointer type for a crypt function used for binary arrays.
-    using CryptFct = DataBuf (*)(uint16_t, const byte*, uint32_t, TiffComponent* const);
+    using CryptFct = DataBuf (*)(uint16_t, const byte*, size_t, TiffComponent* const);
 
     //! Defines one tag in a binary array
     struct ArrayDef {
@@ -1326,7 +1322,7 @@ namespace Exiv2 {
         //! Initialize the original data buffer and its size from the base entry.
         void iniOrigDataBuf();
         //! Update the original data buffer and its size, return true if successful.
-        bool updOrigDataBuf(const byte* pData, uint32_t size);
+        bool updOrigDataBuf(const byte* pData, size_t size);
         //! Set a flag to indicate if the array was decoded
         void setDecoded(bool decoded) { decoded_ = decoded; }
         //@}
@@ -1376,13 +1372,13 @@ namespace Exiv2 {
         //@{
         TiffBinaryArray* doClone() const override;
         //! Implements count(). Todo: Document it!
-        uint32_t doCount() const override;
+        size_t doCount() const override;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
           @brief Implements size(). Todo: Document it!
          */
-        uint32_t doSize() const override;
+        size_t doSize() const override;
         // Using doSizeData from base class
         // Using doSizeImage from base class
         //@}
@@ -1396,9 +1392,9 @@ namespace Exiv2 {
         const ArrayDef* arrayDef_{};   //!< Pointer to the array definition (may be 0)
         int defSize_{};                //!< Size of the array definition array (may be 0)
         int setSize_{};                //!< Size of the array set (may be 0)
-        Components elements_;       //!< List of elements in this composite
-        byte* origData_{};          //!< Pointer to the original data buffer (unencrypted)
-        uint32_t origSize_{};       //!< Size of the original data buffer
+        Components elements_;          //!< List of elements in this composite
+        byte* origData_{};             //!< Pointer to the original data buffer (unencrypted)
+        size_t origSize_{};            //!< Size of the original data buffer
         TiffComponent*
             pRoot_{};     //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
         bool decoded_{};  //!< Flag to indicate if the array was decoded
@@ -1459,14 +1455,14 @@ namespace Exiv2 {
         /*!
           @brief Implements count(). Returns the count from the element definition.
          */
-        uint32_t doCount() const override;
+        size_t doCount() const override;
         // Using doWriteData from base class
         // Using doWriteImage from base class
         /*!
           @brief Implements size(). Returns count * type-size, both taken from
                  the element definition.
          */
-        uint32_t doSize() const override;
+        size_t doSize() const override;
         // Using doSizeData from base class
         // Using doSizeImage from base class
         //@}

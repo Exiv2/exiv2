@@ -138,7 +138,7 @@ namespace Exiv2::Internal {
                                          IfdId              group,
                                          const std::string& make,
                                          const byte*        pData,
-                                         uint32_t           size,
+                                         size_t             size,
                                          ByteOrder          byteOrder)
     {
         TiffComponent* tc = nullptr;
@@ -755,7 +755,7 @@ namespace Exiv2::Internal {
                             IfdId       group,
                             IfdId       mnGroup,
                             const byte* /*pData*/,
-                            uint32_t    size,
+                            size_t    size,
                             ByteOrder   /*byteOrder*/)
     {
         // Require at least an IFD with 1 entry, but not necessarily a next pointer
@@ -774,7 +774,7 @@ namespace Exiv2::Internal {
                                 IfdId       group,
                                 IfdId       /*mnGroup*/,
                                 const byte* pData,
-                                uint32_t    size,
+                                size_t size,
                                 ByteOrder   /*byteOrder*/)
     {
         if (size < 10 ||   std::string(reinterpret_cast<const char*>(pData), 10)
@@ -806,7 +806,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId       mnGroup,
                              const byte* /*pData*/,
-                             uint32_t    size,
+                             size_t size,
                              ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry
@@ -825,7 +825,7 @@ namespace Exiv2::Internal {
                               IfdId       group,
                               IfdId       /*mnGroup*/,
                               const byte* pData,
-                              uint32_t    size,
+                              size_t size,
                               ByteOrder   /*byteOrder*/)
     {
         // If there is no "Nikon" string it must be Nikon1 format
@@ -869,7 +869,7 @@ namespace Exiv2::Internal {
                                   IfdId       group,
                                   IfdId       mnGroup,
                                   const byte* /*pData*/,
-                                  uint32_t    size,
+                                  size_t size,
                                   ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry, but without a next pointer
@@ -884,7 +884,7 @@ namespace Exiv2::Internal {
         return new TiffIfdMakernote(tag, group, mnGroup, new PanasonicMnHeader, false);
     }
 
-    TiffComponent* newPentaxMn(uint16_t tag, IfdId group, IfdId /*mnGroup*/, const byte* pData, uint32_t size,
+    TiffComponent* newPentaxMn(uint16_t tag, IfdId group, IfdId /*mnGroup*/, const byte* pData, size_t size,
                                ByteOrder /*byteOrder*/)
     {
         if (size > 8 && std::string(reinterpret_cast<const char*>(pData), 8) == std::string("PENTAX \0", 8)) {
@@ -920,7 +920,7 @@ namespace Exiv2::Internal {
                                 IfdId       group,
                                 IfdId       mnGroup,
                                 const byte* pData,
-                                uint32_t    size,
+                                size_t size,
                                 ByteOrder   /*byteOrder*/)
     {
         if (   size > 4
@@ -948,7 +948,7 @@ namespace Exiv2::Internal {
                               IfdId       group,
                               IfdId       mnGroup,
                               const byte* /*pData*/,
-                              uint32_t    size,
+                              size_t size,
                               ByteOrder   /*byteOrder*/)
     {
         // Require at least the header and an IFD with 1 entry
@@ -967,7 +967,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId       /*mnGroup*/,
                              const byte* pData,
-                             uint32_t    size,
+                             size_t size,
                              ByteOrder   /*byteOrder*/)
     {
         // If there is no "SONY DSC " string we assume it's a simple IFD Makernote
@@ -1000,7 +1000,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId    /* mnGroup*/,
                              const byte* pData,
-                             uint32_t    size,
+                             size_t size,
                              ByteOrder/* byteOrder */ )
     {
         if (size > 6 && std::string(reinterpret_cast<const char*>(pData), 6)
@@ -1024,10 +1024,10 @@ namespace Exiv2::Internal {
         //! Key for comparisons
         struct Key {
             //! Constructor
-            Key(uint16_t tag, const char* ver, uint32_t size) : tag_(tag), ver_(ver), size_(size) {}
+            Key(uint16_t tag, const char* ver, size_t size) : tag_(tag), ver_(ver), size_(size) {}
             uint16_t    tag_;  //!< Tag number
             const char* ver_;  //!< Version string
-            uint32_t    size_; //!< Size of the data (not the version string)
+            size_t    size_; //!< Size of the data (not the version string)
         };
         //! Comparison operator for a key
         bool operator==(const Key& key) const
@@ -1087,14 +1087,15 @@ namespace Exiv2::Internal {
         { 0x00b7, "0101",   84, 1,  NA }, // tag 0xb7 in sample image metadata for each version
     };
 
-    int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const /*pRoot*/)
+    int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const /*pRoot*/)
     {
-        if (size < 4) return -1;
+        if (size < 4)
+            return -1;
         const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
         return aix ? aix->idx_ : -1;
     }
 
-    DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot)
+    DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot)
     {
         DataBuf buf;
 
@@ -1133,7 +1134,7 @@ namespace Exiv2::Internal {
         return buf;
     }
 
-    int sonyCsSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    int sonyCsSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot)
     {
         std::string model = getExifModel(pRoot);
         if (model.empty()) return -1;
@@ -1144,7 +1145,7 @@ namespace Exiv2::Internal {
         }
         return idx;
     }
-    int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot)
     {
         static constexpr const char* models[] = {
             "SLT-A58",   "SLT-A99",  "ILCE-3000", "ILCE-3500", "NEX-3N",    "NEX-5R",   "NEX-5T",
@@ -1154,7 +1155,7 @@ namespace Exiv2::Internal {
         return std::find(std::begin(models), std::end(models), getExifModel(pRoot)) != std::end(models) ? 0 : -1;
     }
 
-    int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot)
     {
         // Not valid for models beginning
         std::string model = getExifModel(pRoot);
@@ -1162,7 +1163,7 @@ namespace Exiv2::Internal {
         return std::any_of(strs.begin(), strs.end(), [&model](auto& m){return startsWith(model, m);}) ? -1 : 0;
     }
 
-    int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot)
     {
         // From Exiftool: https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
         // >  First byte must be 9 or 12 or 13 or 15 or 16 and 4th byte must be 2 (deciphered)
@@ -1190,7 +1191,7 @@ namespace Exiv2::Internal {
         }
         return -1;
     }
-    int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, uint32_t /*size*/, TiffComponent* const pRoot)
+    int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot)
     {
         // From Exiftool (Tag 9400c): https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
         // >  first byte decoded: 62, 48, 215, 28, 106 respectively

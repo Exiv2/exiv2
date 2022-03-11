@@ -373,7 +373,7 @@ namespace Exiv2 {
         return *p_->value_;
     }
 
-    long Xmpdatum::copy(byte* /*buf*/, ByteOrder /*byteOrder*/) const
+    size_t Xmpdatum::copy(byte* /*buf*/, ByteOrder /*byteOrder*/) const
     {
         throw Error(ErrorCode::kerFunctionNotSupported, "Xmpdatum::copy");
         return 0;

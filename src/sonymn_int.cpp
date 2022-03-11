@@ -898,12 +898,12 @@ namespace Exiv2::Internal {
     //! Sony Tag 9403 SonyMisc1
     constexpr TagInfo SonyMakerNote::tagInfoSonyMisc1_[] = {
         {0x05,  "CameraTemperature", N_("Camera temperature"),
-        		N_("Internal camera temperature (in degrees Celsius)"),
-				sonyMisc1Id, makerTags, signedByte, -1, printSonyMisc1CameraTemperature},
+                N_("Internal camera temperature (in degrees Celsius)"),
+                sonyMisc1Id, makerTags, signedByte, -1, printSonyMisc1CameraTemperature},
         // End of list marker
         {0xffff, "(UnknownSonyMisc1Tag)", "(UnknownSonyMisc1Tag)",
-        		 "(UnknownSonyMisc1Tag)",
-				 sonyMisc1Id, makerTags, unsignedByte, -1, printValue}
+                 "(UnknownSonyMisc1Tag)",
+                 sonyMisc1Id, makerTags, unsignedByte, -1, printValue}
     };
 
     const TagInfo* SonyMakerNote::tagListSonyMisc1()
@@ -1316,7 +1316,7 @@ namespace Exiv2::Internal {
     }
 
     // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
-    static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, uint32_t size, TiffComponent* const /*object*/, bool bDecipher)
+    static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size, TiffComponent* const /*object*/, bool bDecipher)
     {
         DataBuf b(bytes,size); // copy the data
 
@@ -1341,11 +1341,11 @@ namespace Exiv2::Internal {
         return b;
     }
 
-    DataBuf sonyTagDecipher(uint16_t tag, const byte* bytes, uint32_t size, TiffComponent* const object)
+    DataBuf sonyTagDecipher(uint16_t tag, const byte* bytes, size_t size, TiffComponent* const object)
     {
         return sonyTagCipher(tag,bytes,size,object,true);
     }
-    DataBuf sonyTagEncipher(uint16_t tag, const byte* bytes, uint32_t size, TiffComponent* const object)
+    DataBuf sonyTagEncipher(uint16_t tag, const byte* bytes, size_t size, TiffComponent* const object)
     {
         return sonyTagCipher(tag,bytes,size,object,false);
     }

@@ -157,7 +157,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder) const override;
         std::ostream& write(std::ostream& os, const ExifData* pMetadata = nullptr) const override;
         //! Return the type id of the value
         TypeId typeId() const override;

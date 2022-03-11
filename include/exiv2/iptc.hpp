@@ -87,7 +87,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        long copy(byte* buf, ByteOrder byteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder) const override;
         std::ostream& write(std::ostream& os, const ExifData* pMetadata = nullptr) const override;
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form

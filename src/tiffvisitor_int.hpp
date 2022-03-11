@@ -317,7 +317,7 @@ namespace Exiv2 {
           element is found the function leaves both of these parameters unchanged.
         */
         void getObjData(byte const*&         pData,
-                        long&                size,
+                        size_t&              size,
                         uint16_t             tag,
                         IfdId                group,
                         const TiffEntryBase* object);
