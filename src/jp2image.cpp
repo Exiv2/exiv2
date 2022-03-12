@@ -1,33 +1,33 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-// included header files
-#include "jp2image.hpp"
-
-#include <array>
-#include <iostream>
+#include "config.h"
 
 #include "basicio.hpp"
-#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
+#include "jp2image.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 #include "types.hpp"
 
+#include <array>
+#include <iostream>
+
 namespace Exiv2
 {
-  namespace {
-      // JPEG-2000 box types
-      constexpr uint32_t kJp2BoxTypeSignature = 0x6a502020;    // signature box, required,
-      constexpr uint32_t kJp2BoxTypeFileTypeBox = 0x66747970;  // File type box, required
-      constexpr uint32_t kJp2BoxTypeJp2Header = 0x6a703268;    // 'jp2h'
-      constexpr uint32_t kJp2BoxTypeImageHeader = 0x69686472;  // 'ihdr'
-      constexpr uint32_t kJp2BoxTypeColorHeader = 0x636f6c72;  // 'colr'
-      constexpr uint32_t kJp2BoxTypeUuid = 0x75756964;         // 'uuid'
-      constexpr uint32_t kJp2BoxTypeClose = 0x6a703263;        // 'jp2c'
+    namespace
+    {
+        // JPEG-2000 box types
+        constexpr uint32_t kJp2BoxTypeSignature = 0x6a502020;    // signature box, required,
+        constexpr uint32_t kJp2BoxTypeFileTypeBox = 0x66747970;  // File type box, required
+        constexpr uint32_t kJp2BoxTypeJp2Header = 0x6a703268;    // 'jp2h'
+        constexpr uint32_t kJp2BoxTypeImageHeader = 0x69686472;  // 'ihdr'
+        constexpr uint32_t kJp2BoxTypeColorHeader = 0x636f6c72;  // 'colr'
+        constexpr uint32_t kJp2BoxTypeUuid = 0x75756964;         // 'uuid'
+        constexpr uint32_t kJp2BoxTypeClose = 0x6a703263;        // 'jp2c'
 
         // from openjpeg-2.1.2/src/lib/openjp2/jp2.h
         /*#define JPIP_JPIP 0x6a706970*/
@@ -212,22 +212,18 @@ namespace Exiv2
             if (box.length == 0)
                 return;
 
-            if (box.length == 1)
-            {
+            if (box.length == 1) {
                 /// \todo In this case, the real box size is given in bytes XLBox (bytes 8-15)
             }
 
-            switch(box.type)
-            {
-                case kJp2BoxTypeSignature:
-                {
+            switch (box.type) {
+                case kJp2BoxTypeSignature: {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Exiv2::Jp2Image::readMetadata: JPEG 2000 Signature box found" << std::endl;
 #endif
                     break;
                 }
-                case kJp2BoxTypeJp2Header:
-                {
+                case kJp2BoxTypeJp2Header: {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found" << std::endl;
 #endif
@@ -476,11 +472,10 @@ namespace Exiv2
                     break;
 
                 switch (box.type) {
-                    case kJp2BoxTypeSignature:
-                    {
-    #ifdef EXIV2_DEBUG_MESSAGES
+                    case kJp2BoxTypeSignature: {
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::Jp2Image::readMetadata: JPEG 2000 Signature box found" << std::endl;
-    #endif
+#endif
                         break;
                     }
                     case kJp2BoxTypeJp2Header: {
@@ -943,14 +938,12 @@ namespace Exiv2
         const int32_t len = 12;
         byte buf[len];
         const size_t bytesRead = iIo.read(buf, len);
-        if (iIo.error() || iIo.eof() || bytesRead != len)
-        {
+        if (iIo.error() || iIo.eof() || bytesRead != len) {
             return false;
         }
         bool matched = (memcmp(buf, Jp2Signature, len) == 0);
-        if (advance == false || matched == false)
-        {
-            iIo.seek(-len, BasicIo::cur); // Return to original position
+        if (advance == false || matched == false) {
+            iIo.seek(-len, BasicIo::cur);  // Return to original position
         }
         return matched;
     }
