@@ -101,6 +101,16 @@ TEST(ADateValue, readFromStringWithExpectedSizeAndDashes)
     ASSERT_EQ(2, dateValue.getDate().day);
 }
 
+TEST(ADateValue, readFromStringWithExpectedSizeAndDashesAndZeroes)
+{
+    DateValue dateValue;
+    const std::string date ("2018-00-00");
+    ASSERT_EQ(0, dateValue.read(date));
+    ASSERT_EQ(2018, dateValue.getDate().year);
+    ASSERT_EQ(0, dateValue.getDate().month);
+    ASSERT_EQ(0, dateValue.getDate().day);
+}
+
 TEST(ADateValue, readFromStringWithExpectedSizeWithoutDashes)
 {
     DateValue dateValue;
@@ -110,6 +120,17 @@ TEST(ADateValue, readFromStringWithExpectedSizeWithoutDashes)
     ASSERT_EQ(4, dateValue.getDate().month);
     ASSERT_EQ(2, dateValue.getDate().day);
 }
+
+TEST(ADateValue, readFromStringWithExpectedSizeWithoutDashesAndZeroes)
+{
+    DateValue dateValue;
+    const std::string date ("20180000");
+    ASSERT_EQ(0, dateValue.read(date));
+    ASSERT_EQ(2018, dateValue.getDate().year);
+    ASSERT_EQ(0, dateValue.getDate().month);
+    ASSERT_EQ(0, dateValue.getDate().day);
+}
+
 
 TEST(ADateValue, readFromStringWithTime)
 {

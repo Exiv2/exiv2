@@ -914,21 +914,35 @@ namespace Exiv2 {
     {
         // ISO 8601 date formats:
         // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
-        static const std::regex reExtended(R"(^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01]))");
-        static const std::regex reBasic(R"(^(\d{4})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))");
+        static const std::regex reExtended(R"(^(\d{4})-(\d{2})-(\d{2}))");
+        static const std::regex reBasic(R"(^(\d{4})(\d{2})(\d{2}))");
         std::smatch sm;
+
+        auto printWarning = [](){
+#ifndef SUPPRESS_WARNINGS
+          EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
+#endif
+        };
 
         // Note: We use here regex_search instead of regex_match, because the string can be longer than expected and
         // also contain the time
         if (std::regex_search(buf, sm, reExtended) || std::regex_search(buf, sm, reBasic)) {
-          date_.year = std::stoi(sm[1].str());
-          date_.month = std::stoi(sm[2].str());
-          date_.day = std::stoi(sm[3].str());
-          return 0;
+            date_.year = std::stoi(sm[1].str());
+            date_.month = std::stoi(sm[2].str());
+            if (date_.month > 12) {
+                date_.month = 0;
+                printWarning();
+                return 1;
+            }
+            date_.day = std::stoi(sm[3].str());
+            if (date_.day > 31) {
+                date_.day = 0;
+                printWarning();
+                return 1;
+            }
+            return 0;
         }
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
+        printWarning();
         return 1;
     }
 
