@@ -23,18 +23,18 @@ namespace Exiv2
         // JPEG-2000 box types
         constexpr uint32_t kJp2BoxTypeSignature = 0x6a502020;    // signature box, required,
         constexpr uint32_t kJp2BoxTypeFileTypeBox = 0x66747970;  // File type box, required
-        constexpr uint32_t kJp2BoxTypeJp2Header = 0x6a703268;    // 'jp2h'
-        constexpr uint32_t kJp2BoxTypeImageHeader = 0x69686472;  // 'ihdr'
-        constexpr uint32_t kJp2BoxTypeColorHeader = 0x636f6c72;  // 'colr'
+        constexpr uint32_t kJp2BoxTypeHeader = 0x6a703268;       // Jp2 Header Box, required, Superbox
+        constexpr uint32_t kJp2BoxTypeImageHeader = 0x69686472;  // Image Header Box ('ihdr'), required,
+        constexpr uint32_t kJp2BoxTypeColorHeader = 0x636f6c72;  // Color Specification box ('colr'), required
         constexpr uint32_t kJp2BoxTypeUuid = 0x75756964;         // 'uuid'
         constexpr uint32_t kJp2BoxTypeClose = 0x6a703263;        // 'jp2c'
+
+        const uint32_t brandJp2 = 0x6a703220;
 
         // from openjpeg-2.1.2/src/lib/openjp2/jp2.h
         /*#define JPIP_JPIP 0x6a706970*/
 
-#define JP2_JP 0x6a502020   /**< JPEG 2000 signature box */
 #define JP2_JP2H 0x6a703268 /**< JP2 header box (super-box) */
-#define JP2_IHDR 0x69686472 /**< Image header box */
 #define JP2_COLR 0x636f6c72 /**< Colour specification box */
 #define JP2_JP2C 0x6a703263 /**< Contiguous codestream box */
 #define JP2_URL 0x75726c20  /**< Data entry URL box */
@@ -223,7 +223,7 @@ namespace Exiv2
 #endif
                     break;
                 }
-                case kJp2BoxTypeJp2Header: {
+                case kJp2BoxTypeHeader: {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found" << std::endl;
 #endif
@@ -473,13 +473,30 @@ namespace Exiv2
 
                 switch (box.type) {
                     case kJp2BoxTypeSignature: {
-#ifdef EXIV2_DEBUG_MESSAGES
-                        std::cout << "Exiv2::Jp2Image::readMetadata: JPEG 2000 Signature box found" << std::endl;
-#endif
+                        /// \todo we should make sure that only 1 of this boxes is found
+                        assert(box.length == 12);
+                        DataBuf data(4);
+                        io_->read(data.data(), data.size());
+                        if (data.read_uint32(0, bigEndian) != 0x0D0A870A) {
+                            throw Error(ErrorCode::kerCorruptedMetadata);
+                        }
                         break;
                     }
-                    case kJp2BoxTypeJp2Header: {
+                    case kJp2BoxTypeFileTypeBox: {
+                        // This box shall immediately follow the JPEG 2000 Signature box
+                        /// \todo  All files shall contain one and only one File Type box.
+                        DataBuf data(12);
+                        io_->read(data.data(), data.size());
+                        uint32_t brand = data.read_uint32(0, bigEndian);
+                        uint32_t minorVersion = data.read_uint32(4, bigEndian);
+                        uint32_t compatibilityList = data.read_uint32(8, bigEndian);
+                        if (brand != brandJp2 || minorVersion != 0 || compatibilityList != brandJp2)
+                            throw Error(ErrorCode::kerCorruptedMetadata);
+                        break;
+                    }
+                    case kJp2BoxTypeHeader: {
                         lf(out, bLF);
+                        /// \todo  All files shall contain one and only one Header box.
 
                         while (io_->read(reinterpret_cast<byte*>(&subBox), sizeof(subBox)) == sizeof(subBox) &&
                                io_->tell() < position + static_cast<long>(box.length))  // don't read beyond the box!
@@ -502,31 +519,46 @@ namespace Exiv2
                                 bLF = true;
                             }
 
-                            if (subBox.type == kJp2BoxTypeColorHeader) {
+                            if (subBox.type == kJp2BoxTypeImageHeader) {
+                                assert(subBox.length == 22);
+                                // height (4), width (4), componentsCount (2), bpc (1)
+                                auto compressionType = data.read_uint8(11);
+                                auto unkC = data.read_uint8(12);
+                                auto ipr = data.read_uint8(13);
+                                if (compressionType != 7 || unkC > 1 || ipr > 1) {
+                                    throw Error(ErrorCode::kerCorruptedMetadata);
+                                }
+                            } else if (subBox.type == kJp2BoxTypeColorHeader) {
                                 const size_t pad = 3;  // don't know why there are 3 padding bytes
-
                                 // Bounds-check for the `getULong()` below, which reads 4 bytes, starting at `pad`.
                                 enforce(data.size() >= pad + 4, ErrorCode::kerCorruptedMetadata);
 
-                                if (bPrint) {
-                                    out << " | pad:";
-                                    for (int i = 0; i < 3; i++)
-                                        out << " " << static_cast<int>(data.read_uint8(i));
-                                }
-
-                                const size_t iccLength = data.read_uint32(pad, bigEndian);
-                                if (bPrint) {
-                                    out << " | iccLength:" << iccLength;
-                                }
-                                enforce(iccLength <= data.size() - pad, ErrorCode::kerCorruptedMetadata);
-                                if (bICC) {
-                                    out.write(data.c_str(pad), iccLength);
+                                /// \todo A conforming JP2 reader shall ignore all Colour Specification boxes after the
+                                /// first.
+                                auto METH = data.read_uint8(0);
+//                                auto PREC = data.read_uint8(1);
+//                                auto APPROX = data.read_uint8(2);
+                                if (METH == 1) {  // Enumerated Colourspace
+                                    auto enumCS = data.read_uint32(3, bigEndian);
+                                    if (enumCS != 16 && enumCS != 17) {
+                                        throw Error(ErrorCode::kerCorruptedMetadata);
+                                    }
+                                } else {  // Restricted ICC Profile
+                                    // see the ICC Profile Format Specification, version ICC.1:1998-09
+                                    const size_t iccLength = data.read_uint32(pad, bigEndian);
+                                    if (bPrint) {
+                                        out << " | iccLength:" << iccLength;
+                                    }
+                                    enforce(iccLength <= data.size() - pad, ErrorCode::kerCorruptedMetadata);
+                                    if (bICC) {
+                                        out.write(data.c_str(pad), iccLength);
+                                    }
                                 }
                             }
                             lf(out, bLF);
                         }
-                    } break;
-
+                        break;
+                    }
                     case kJp2BoxTypeUuid: {
                         if (io_->read(reinterpret_cast<byte*>(&uuid), sizeof(uuid)) == sizeof(uuid)) {
                             bool bIsExif = memcmp(uuid.uuid, kJp2UuidExif, sizeof(uuid)) == 0;
@@ -579,8 +611,8 @@ namespace Exiv2
                                 out.write(rawData.c_str(), rawData.size());
                             }
                         }
-                    } break;
-
+                        break;
+                    }
                     default:
                         break;
                 }
@@ -690,9 +722,9 @@ namespace Exiv2
         outBuf.alloc(outlen);
         outBuf.copyBytes(0, output.c_data(), outlen);
         auto oBox = reinterpret_cast<Jp2BoxHeader*>(outBuf.data());
-        ul2Data(reinterpret_cast<byte*>(&oBox->type), kJp2BoxTypeJp2Header, bigEndian);
+        ul2Data(reinterpret_cast<byte*>(&oBox->type), kJp2BoxTypeHeader, bigEndian);
         ul2Data(reinterpret_cast<byte*>(&oBox->length), static_cast<uint32_t>(outlen), bigEndian);
-    }
+    }  // Jp2Image::encodeJp2Header
 
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -789,7 +821,7 @@ namespace Exiv2
             }
 
             switch (box.type) {
-                case kJp2BoxTypeJp2Header: {
+                case kJp2BoxTypeHeader: {
                     DataBuf newBuf;
                     encodeJp2Header(boxBuf, newBuf);
 #ifdef EXIV2_DEBUG_MESSAGES

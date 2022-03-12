@@ -2058,7 +2058,6 @@ namespace {
             return -1;
         }
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        assert(image.get() != 0);
         image->printStructure(out,option);
         return 0;
     }
