@@ -812,7 +812,7 @@ namespace Exiv2 {
         return ImageType::none;
     }
 
-    BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, bool useCurl)
+    BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, [[maybe_unused]] bool useCurl)
     {
         Protocol fProt = fileProtocol(path);
 
@@ -830,9 +830,7 @@ namespace Exiv2 {
             return std::make_unique<XPathIo>(path); // may throw
 
         return std::make_unique<FileIo>(path);
-
-        (void)(useCurl);
-    } // ImageFactory::createIo
+    }
 
     Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
