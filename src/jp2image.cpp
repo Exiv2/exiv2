@@ -174,10 +174,7 @@ void Jp2Image::readMetadata() {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   }
   IoCloser closer(*io_);
-  // Ensure that this is the correct image type
   if (!isJp2Type(*io_, true)) {
-    if (io_->error() || io_->eof())
-      throw Error(ErrorCode::kerFailedToReadImageData);
     throw Error(ErrorCode::kerNotAnImage, "JPEG-2000");
   }
 
@@ -411,10 +408,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, in
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
 
-  // Ensure that this is the correct image type
   if (!isJp2Type(*io_, false)) {
-    if (io_->error() || io_->eof())
-      throw Error(ErrorCode::kerFailedToReadImageData);
     throw Error(ErrorCode::kerNotAJpeg);
   }
 
