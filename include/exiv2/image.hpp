@@ -517,17 +517,14 @@ namespace Exiv2 {
         static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
 
         /*!
-          @brief Create an Image subclass of the appropriate type by reading
-              the specified file. %Image type is derived from the file
-              contents.
+          @brief Create an Image subclass of the appropriate type by reading the specified file. %Image type is
+                 derived from the file contents.
           @param  path %Image file. The contents of the file are tested to
               determine the image type. File extension is ignored.
           @param useCurl Indicate whether the libcurl is used or not.
                 If it's true, http is handled by CurlIo. Otherwise it is handled by HttpIo.
-          @return An auto-pointer that owns an Image instance whose type
-              matches that of the file.
-          @throw Error If opening the file fails or it contains data of an
-              unknown image type.
+          @return An auto-pointer that owns an Image instance whose type matches that of the file.
+          @throw Error If opening the file fails or it contains data of an unknown image type.
          */
         static Image::UniquePtr open(const std::string& path, bool useCurl = true);
 
