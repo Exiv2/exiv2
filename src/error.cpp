@@ -42,7 +42,7 @@ namespace {
         { Exiv2::kerInvalidTag,
           N_("Invalid tag name or ifdId `%1', ifdId %2") }, // %1=tag name, %2=ifdId
         { Exiv2::kerValueNotSet,
-          N_("Value not set") },
+          N_("%1 value not set") }, // %1=datum key name
         { Exiv2::kerDataSourceOpenFailed,
           N_("%1: Failed to open the data source: %2") }, // %1=path, %2=strerror
         { Exiv2::kerFileOpenFailed,

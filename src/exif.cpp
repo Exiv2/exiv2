@@ -205,7 +205,7 @@ namespace Exiv2 {
     const Value& Exifdatum::value() const
     {
         if (!value_)
-            throw Error(kerValueNotSet);
+            throw Error(kerValueNotSet, key());
         return *value_;
     }
 

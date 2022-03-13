@@ -369,7 +369,7 @@ namespace Exiv2 {
     const Value& Xmpdatum::value() const
     {
         if (!p_->value_)
-            throw Error(kerValueNotSet);
+            throw Error(kerValueNotSet, key());
         return *p_->value_;
     }
 
