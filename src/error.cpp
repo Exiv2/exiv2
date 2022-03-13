@@ -13,7 +13,7 @@
 namespace
 {
     //! Complete list of Exiv2 exception error messages
-    constexpr std::array<const char*, static_cast<size_t>(Exiv2::ErrorCode::kerErrorCount)> errList{
+    constexpr std::array errList{
         N_("Success"),                                   // kerSuccess
         N_("Error %0: arg2=%2, arg3=%3, arg1=%1."),      // KerGeneralError
         "%1",                                            //  kerErrorMessage,
@@ -92,6 +92,8 @@ namespace
         N_("Arithmetic operation overflow"),                         // kerArithmeticOverflow
         N_("Memory allocation failed"),                              // kerMallocFailed
     };
+    static_assert(errList.size() == static_cast<size_t>(Exiv2::ErrorCode::kerErrorCount),
+                  "errList needs to contain a error msg for every ErrorCode defined in error.hpp");
 
 }  // namespace
 
