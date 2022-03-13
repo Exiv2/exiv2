@@ -16,6 +16,7 @@
 #endif
 
 // + standard includes
+#include <array>
 #include <fstream>
 #include <regex>
 #include <set>
@@ -223,11 +224,14 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const std::vector<std::regex>& keys
     // add edition in brackets
     // 7.10 = 2003 8.00 = 2005 etc 12.00 = 2013 13.00 = 2015 (yet the installer labels it as 14.0!)
     size_t      edition       = (_MSC_VER-600)/100;
-    const char* editions[]    = { "0","1","2","3","4","5","6","2003", "2005", "2008", "2010", "2012","2013","2015","2017","2019"};
+    constexpr auto editions = std::array{
+        "0", "1", "2", "3", "4", "5", "6", "2003", "2005", "2008", "2010", "2012", "2013", "2015", "2017", "2019",
+    };
     if (  edition == 13 && _MSC_VER >= 1910 ) edition++ ; // 2017 _MSC_VAR  == 1910
     if (  edition == 14 && _MSC_VER >= 1920 ) edition++ ; // 2019 _MSC_VAR  == 1920
 
-    if  ( edition > lengthof(editions) ) edition = 0 ;
+    if (edition > editions.size())
+        edition = 0;
     if  ( edition ) {
       const size_t len = ::strlen(version);
       snprintf(version+len, sizeof(version) - len, " (%s/%s)",editions[edition],bits==64?"x64":"x86");

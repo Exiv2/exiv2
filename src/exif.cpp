@@ -24,6 +24,7 @@
 
 // + standard includes
 #include <algorithm>
+#include <array>
 #include <cstdio>
 #include <iostream>
 #include <utility>
@@ -508,7 +509,7 @@ namespace Exiv2 {
 
         // Delete IFD0 tags that are "not recorded" in compressed images
         // Reference: Exif 2.2 specs, 4.6.8 Tag Support Levels, section A
-        static const char* filteredIfd0Tags[] = {
+        static constexpr auto filteredIfd0Tags = std::array{
             "Exif.Image.PhotometricInterpretation",
             "Exif.Image.StripOffsets",
             "Exif.Image.RowsPerStrip",
@@ -586,35 +587,35 @@ namespace Exiv2 {
         // Delete preview tags if the preview is larger than 32kB.
         // Todo: Enhance preview classes to be able to write and delete previews and use that instead.
         // Table must be sorted by preview, the first tag in each group is the size
-        static const PreviewTags filteredPvTags[] = {
-            { pttLen, "Exif.Minolta.ThumbnailLength"                  },
-            { pttTag, "Exif.Minolta.ThumbnailOffset"                  },
-            { pttLen, "Exif.Minolta.Thumbnail"                        },
-            { pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength" },
-            { pttIfd, "NikonPreview"                                  },
-            { pttLen, "Exif.Olympus.ThumbnailLength"                  },
-            { pttTag, "Exif.Olympus.ThumbnailOffset"                  },
-            { pttLen, "Exif.Olympus.ThumbnailImage"                   },
-            { pttLen, "Exif.Olympus.Thumbnail"                        },
-            { pttLen, "Exif.Olympus2.ThumbnailLength"                 },
-            { pttTag, "Exif.Olympus2.ThumbnailOffset"                 },
-            { pttLen, "Exif.Olympus2.ThumbnailImage"                  },
-            { pttLen, "Exif.Olympus2.Thumbnail"                       },
-            { pttLen, "Exif.OlympusCs.PreviewImageLength"             },
-            { pttTag, "Exif.OlympusCs.PreviewImageStart"              },
-            { pttTag, "Exif.OlympusCs.PreviewImageValid"              },
-            { pttLen, "Exif.Pentax.PreviewLength"                     },
-            { pttTag, "Exif.Pentax.PreviewOffset"                     },
-            { pttTag, "Exif.Pentax.PreviewResolution"                 },
-            { pttLen, "Exif.PentaxDng.PreviewLength"                  },
-            { pttTag, "Exif.PentaxDng.PreviewOffset"                  },
-            { pttTag, "Exif.PentaxDng.PreviewResolution"              },
-            { pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength" },
-            { pttIfd, "SamsungPreview"                                },
-            { pttLen, "Exif.Thumbnail.StripByteCounts"                },
-            { pttIfd, "Thumbnail"                                     },
-            { pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"    },
-            { pttIfd, "Thumbnail"                                     }
+        static constexpr auto filteredPvTags = std::array{
+            PreviewTags{pttLen, "Exif.Minolta.ThumbnailLength"},
+            PreviewTags{pttTag, "Exif.Minolta.ThumbnailOffset"},
+            PreviewTags{pttLen, "Exif.Minolta.Thumbnail"},
+            PreviewTags{pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength"},
+            PreviewTags{pttIfd, "NikonPreview"},
+            PreviewTags{pttLen, "Exif.Olympus.ThumbnailLength"},
+            PreviewTags{pttTag, "Exif.Olympus.ThumbnailOffset"},
+            PreviewTags{pttLen, "Exif.Olympus.ThumbnailImage"},
+            PreviewTags{pttLen, "Exif.Olympus.Thumbnail"},
+            PreviewTags{pttLen, "Exif.Olympus2.ThumbnailLength"},
+            PreviewTags{pttTag, "Exif.Olympus2.ThumbnailOffset"},
+            PreviewTags{pttLen, "Exif.Olympus2.ThumbnailImage"},
+            PreviewTags{pttLen, "Exif.Olympus2.Thumbnail"},
+            PreviewTags{pttLen, "Exif.OlympusCs.PreviewImageLength"},
+            PreviewTags{pttTag, "Exif.OlympusCs.PreviewImageStart"},
+            PreviewTags{pttTag, "Exif.OlympusCs.PreviewImageValid"},
+            PreviewTags{pttLen, "Exif.Pentax.PreviewLength"},
+            PreviewTags{pttTag, "Exif.Pentax.PreviewOffset"},
+            PreviewTags{pttTag, "Exif.Pentax.PreviewResolution"},
+            PreviewTags{pttLen, "Exif.PentaxDng.PreviewLength"},
+            PreviewTags{pttTag, "Exif.PentaxDng.PreviewOffset"},
+            PreviewTags{pttTag, "Exif.PentaxDng.PreviewResolution"},
+            PreviewTags{pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength"},
+            PreviewTags{pttIfd, "SamsungPreview"},
+            PreviewTags{pttLen, "Exif.Thumbnail.StripByteCounts"},
+            PreviewTags{pttIfd, "Thumbnail"},
+            PreviewTags{pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"},
+            PreviewTags{pttIfd, "Thumbnail"},
         };
         bool delTags = false;
         for (auto&& filteredPvTag : filteredPvTags) {

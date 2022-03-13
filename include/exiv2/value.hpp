@@ -464,9 +464,7 @@ namespace Exiv2 {
         //! Information pertaining to the defined character sets
         struct CharsetTable {
             //! Constructor
-            CharsetTable(CharsetId charsetId,
-                         const char* name,
-                         const char* code);
+            constexpr CharsetTable(CharsetId charsetId, const char* name, const char* code);
             CharsetId charsetId_;                   //!< Charset id
             const char* name_;                      //!< Name of the charset
             const char* code_;                      //!< Code of the charset

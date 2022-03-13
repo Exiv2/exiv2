@@ -12,6 +12,7 @@
 #include "tiffimage_int.hpp"
 #include "types.hpp"
 
+#include <array>
 #include <iostream>
 
 /* --------------------------------------------------------------------------
@@ -54,10 +55,10 @@ namespace Exiv2 {
     };
 
     //! List of TIFF compression to MIME type mappings
-    constexpr MimeTypeList mimeTypeList[] = {
-        {32770, "image/x-samsung-srw"},
-        {34713, "image/x-nikon-nef"},
-        {65535, "image/x-pentax-pef"},
+    constexpr auto mimeTypeList = std::array{
+        MimeTypeList{32770, "image/x-samsung-srw"},
+        MimeTypeList{34713, "image/x-nikon-nef"},
+        MimeTypeList{65535, "image/x-pentax-pef"},
     };
 
     std::string TiffImage::mimeType() const
@@ -68,8 +69,9 @@ namespace Exiv2 {
         std::string key = "Exif." + primaryGroup() + ".Compression";
         auto md = exifData_.findKey(ExifKey(key));
         if (md != exifData_.end() && md->count() > 0) {
-            const MimeTypeList* i = find(mimeTypeList, static_cast<int>(md->toInt64()));
-            if (i) mimeType_ = std::string(i->mimeType_);
+            auto i = std::find(mimeTypeList.begin(), mimeTypeList.end(), static_cast<int>(md->toInt64()));
+            if (i != mimeTypeList.end())
+                mimeType_ = std::string(i->mimeType_);
         }
         return mimeType_;
     }
@@ -78,17 +80,11 @@ namespace Exiv2 {
     {
         if (!primaryGroup_.empty()) return primaryGroup_;
 
-        static const char* keys[] = {
-            "Exif.Image.NewSubfileType",
-            "Exif.SubImage1.NewSubfileType",
-            "Exif.SubImage2.NewSubfileType",
-            "Exif.SubImage3.NewSubfileType",
-            "Exif.SubImage4.NewSubfileType",
-            "Exif.SubImage5.NewSubfileType",
-            "Exif.SubImage6.NewSubfileType",
-            "Exif.SubImage7.NewSubfileType",
-            "Exif.SubImage8.NewSubfileType",
-            "Exif.SubImage9.NewSubfileType"
+        static constexpr auto keys = std::array{
+            "Exif.Image.NewSubfileType",     "Exif.SubImage1.NewSubfileType", "Exif.SubImage2.NewSubfileType",
+            "Exif.SubImage3.NewSubfileType", "Exif.SubImage4.NewSubfileType", "Exif.SubImage5.NewSubfileType",
+            "Exif.SubImage6.NewSubfileType", "Exif.SubImage7.NewSubfileType", "Exif.SubImage8.NewSubfileType",
+            "Exif.SubImage9.NewSubfileType",
         };
         // Find the group of the primary image, default to "Image"
         primaryGroup_ = std::string("Image");
@@ -250,8 +246,8 @@ namespace Exiv2 {
         ExifData ed = exifData;
 
         // Delete IFDs which do not occur in TIFF images
-        static const IfdId filteredIfds[] = {
-            panaRawId
+        static constexpr auto filteredIfds = std::array{
+            panaRawId,
         };
         for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES

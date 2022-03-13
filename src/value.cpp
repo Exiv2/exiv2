@@ -343,21 +343,19 @@ namespace Exiv2 {
         return os << value_.substr(0, pos);
     }
 
-    CommentValue::CharsetTable::CharsetTable(CharsetId charsetId,
-                                             const char* name,
-                                             const char* code)
+    constexpr CommentValue::CharsetTable::CharsetTable(CharsetId charsetId, const char* name, const char* code)
         : charsetId_(charsetId), name_(name), code_(code)
     {
     }
 
     //! Lookup list of supported IFD type information
-    const CommentValue::CharsetTable CommentValue::CharsetInfo::charsetTable_[] = {
-        CharsetTable(ascii,            "Ascii",            "ASCII\0\0\0"),
-        CharsetTable(jis,              "Jis",              "JIS\0\0\0\0\0"),
-        CharsetTable(unicode,          "Unicode",          "UNICODE\0"),
-        CharsetTable(undefined,        "Undefined",        "\0\0\0\0\0\0\0\0"),
+    constexpr CommentValue::CharsetTable CommentValue::CharsetInfo::charsetTable_[] = {
+        CharsetTable(ascii, "Ascii", "ASCII\0\0\0"),
+        CharsetTable(jis, "Jis", "JIS\0\0\0\0\0"),
+        CharsetTable(unicode, "Unicode", "UNICODE\0"),
+        CharsetTable(undefined, "Undefined", "\0\0\0\0\0\0\0\0"),
         CharsetTable(invalidCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"),
-        CharsetTable(lastCharsetId,    "InvalidCharsetId", "\0\0\0\0\0\0\0\0")
+        CharsetTable(lastCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"),
     };
 
     const char* CommentValue::CharsetInfo::name(CharsetId charsetId)
@@ -914,9 +912,9 @@ namespace Exiv2 {
         static const std::regex reBasic(R"(^(\d{4})(\d{2})(\d{2}))");
         std::smatch sm;
 
-        auto printWarning = [](){
+        auto printWarning = [] {
 #ifndef SUPPRESS_WARNINGS
-          EXV_WARNING << Error(ErrorCode::kerUnsupportedDateFormat) << "\n";
+            EXV_WARNING << Error(ErrorCode::kerUnsupportedDateFormat) << "\n";
 #endif
         };
 

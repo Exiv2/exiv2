@@ -8,6 +8,7 @@
 #include "tiffvisitor_int.hpp"
 #include "i18n.h"                // NLS support.
 
+#include <array>
 #include <iostream>
 
 // Shortcuts for the newTiffBinaryArray templates.
@@ -2159,20 +2160,9 @@ namespace Exiv2::Internal {
         if (!pSourceDir)
             return;
 
-        const IfdId imageGroups[] = {
-            ifd0Id,
-            ifd1Id,
-            ifd2Id,
-            ifd3Id,
-            subImage1Id,
-            subImage2Id,
-            subImage3Id,
-            subImage4Id,
-            subImage5Id,
-            subImage6Id,
-            subImage7Id,
-            subImage8Id,
-            subImage9Id
+        static constexpr auto imageGroups = std::array{
+            ifd0Id,      ifd1Id,      ifd2Id,      ifd3Id,      subImage1Id, subImage2Id, subImage3Id,
+            subImage4Id, subImage5Id, subImage6Id, subImage7Id, subImage8Id, subImage9Id,
         };
 
         for (auto&& imageGroup : imageGroups) {

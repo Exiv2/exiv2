@@ -11,6 +11,7 @@
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 
+#include <array>
 #include <iostream>
 
 // *****************************************************************************
@@ -136,8 +137,8 @@ namespace Exiv2 {
         ExifData ed = exifData;
 
         // Delete IFDs which do not occur in TIFF images
-        static const IfdId filteredIfds[] = {
-            panaRawId
+        static constexpr auto filteredIfds = std::array{
+            panaRawId,
         };
         for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES

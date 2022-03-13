@@ -1243,9 +1243,6 @@ namespace Exiv2 {
         return result;
     }
 
-    const char ExvImage::exiv2Id_[] = "Exiv2";
-    const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
-
     ExvImage::ExvImage(BasicIo::UniquePtr io, bool create)
         : JpegBase(ImageType::exv, std::move(io), create, blank_, sizeof(blank_))
     {

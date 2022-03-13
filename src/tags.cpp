@@ -11,6 +11,8 @@
 #include "tags_int.hpp"
 #include "types.hpp"
 
+#include <array>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -19,29 +21,29 @@ namespace Exiv2 {
 
 
     //! List of all defined Exif sections.
-    constexpr SectionInfo sectionInfo[] = {
-        { sectionIdNotSet, "(UnknownSection)",     N_("Unknown section")              },
-        { imgStruct,       "ImageStructure",       N_("Image data structure")         },
-        { recOffset,       "RecordingOffset",      N_("Recording offset")             },
-        { imgCharacter,    "ImageCharacteristics", N_("Image data characteristics")   },
-        { otherTags,       "OtherTags",            N_("Other data")                   },
-        { exifFormat,      "ExifFormat",           N_("Exif data structure")          },
-        { exifVersion,     "ExifVersion",          N_("Exif version")                 },
-        { imgConfig,       "ImageConfig",          N_("Image configuration")          },
-        { userInfo,        "UserInfo",             N_("User information")             },
-        { relatedFile,     "RelatedFile",          N_("Related file")                 },
-        { dateTime,        "DateTime",             N_("Date and time")                },
-        { captureCond,     "CaptureConditions",    N_("Picture taking conditions")    },
-        { gpsTags,         "GPS",                  N_("GPS information")              },
-        { iopTags,         "Interoperability",     N_("Interoperability information") },
-        { mpfTags,         "MPF",                  N_("CIPA Multi-Picture Format")    },
-        { makerTags,       "Makernote",            N_("Vendor specific information")  },
-        { dngTags,         "DngTags",              N_("Adobe DNG tags")               },
-        { panaRaw,         "PanasonicRaw",         N_("Panasonic RAW tags")           },
-        { tiffEp,          "TIFF/EP",              N_("TIFF/EP tags")                 },
-        { tiffPm6,         "TIFF&PM6",             N_("TIFF PageMaker 6.0 tags")      },
-        { adobeOpi,        "AdobeOPI",             N_("Adobe OPI tags")               },
-        { lastSectionId,   "(LastSection)",        N_("Last section")                 }
+    constexpr auto sectionInfo = std::array{
+        SectionInfo{sectionIdNotSet, "(UnknownSection)", N_("Unknown section")},
+        SectionInfo{imgStruct, "ImageStructure", N_("Image data structure")},
+        SectionInfo{recOffset, "RecordingOffset", N_("Recording offset")},
+        SectionInfo{imgCharacter, "ImageCharacteristics", N_("Image data characteristics")},
+        SectionInfo{otherTags, "OtherTags", N_("Other data")},
+        SectionInfo{exifFormat, "ExifFormat", N_("Exif data structure")},
+        SectionInfo{exifVersion, "ExifVersion", N_("Exif version")},
+        SectionInfo{imgConfig, "ImageConfig", N_("Image configuration")},
+        SectionInfo{userInfo, "UserInfo", N_("User information")},
+        SectionInfo{relatedFile, "RelatedFile", N_("Related file")},
+        SectionInfo{dateTime, "DateTime", N_("Date and time")},
+        SectionInfo{captureCond, "CaptureConditions", N_("Picture taking conditions")},
+        SectionInfo{gpsTags, "GPS", N_("GPS information")},
+        SectionInfo{iopTags, "Interoperability", N_("Interoperability information")},
+        SectionInfo{mpfTags, "MPF", N_("CIPA Multi-Picture Format")},
+        SectionInfo{makerTags, "Makernote", N_("Vendor specific information")},
+        SectionInfo{dngTags, "DngTags", N_("Adobe DNG tags")},
+        SectionInfo{panaRaw, "PanasonicRaw", N_("Panasonic RAW tags")},
+        SectionInfo{tiffEp, "TIFF/EP", N_("TIFF/EP tags")},
+        SectionInfo{tiffPm6, "TIFF&PM6", N_("TIFF PageMaker 6.0 tags")},
+        SectionInfo{adobeOpi, "AdobeOPI", N_("Adobe OPI tags")},
+        SectionInfo{lastSectionId, "(LastSection)", N_("Last section")},
     };
 
 } // namespace Exiv2
