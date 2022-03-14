@@ -59,7 +59,7 @@ namespace Exiv2::Internal {
     void IoWrapper::setTarget(int id, int64_t target)
     {
         if (target < 0 || target > std::numeric_limits<uint32_t>::max()) {
-            throw Error(kerOffsetOutOfRange);
+            throw Error(ErrorCode::kerOffsetOutOfRange);
         }
         if (pow_) pow_->setTarget(OffsetWriter::OffsetId(id), static_cast<uint32_t>(target));
     }
@@ -999,7 +999,8 @@ namespace Exiv2::Internal {
 
         // Number of components to write
         const uint32_t compCount = count();
-        if (compCount > 0xffff) throw Error(kerTooManyTiffDirectoryEntries, groupName(group()));
+        if (compCount > 0xffff)
+            throw Error(ErrorCode::kerTooManyTiffDirectoryEntries, groupName(group()));
 
         // Size of next IFD, if any
         uint32_t sizeNext = 0;
@@ -1085,7 +1086,7 @@ namespace Exiv2::Internal {
             uint32_t sv = component->size();
             if (sv > 4) {
                 uint32_t d = component->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
-                enforce(sv == d, kerImageWriteFailed);
+                enforce(sv == d, ErrorCode::kerImageWriteFailed);
                 if ((sv & 1) == 1) {
                     ioWrapper.putb(0x0);    // Align value to word boundary
                     sv += 1;
@@ -1178,7 +1179,8 @@ namespace Exiv2::Internal {
         switch(tiffType) {
         case ttUnsignedShort:
         case ttSignedShort:
-            if (static_cast<uint32_t>(offset) > 0xffff) throw Error(kerOffsetOutOfRange);
+            if (static_cast<uint32_t>(offset) > 0xffff)
+                throw Error(ErrorCode::kerOffsetOutOfRange);
             rc = s2Data(buf, static_cast<int16_t>(offset), byteOrder);
             break;
         case ttUnsignedLong:
@@ -1186,7 +1188,7 @@ namespace Exiv2::Internal {
             rc = l2Data(buf, static_cast<uint32_t>(offset), byteOrder);
             break;
         default:
-            throw Error(kerUnsupportedDataAreaOffsetType);
+            throw Error(ErrorCode::kerUnsupportedDataAreaOffsetType);
             break;
         }
         return rc;
@@ -1529,7 +1531,7 @@ namespace Exiv2::Internal {
                                           ByteOrder  /*byteOrder*/) const
     {
         if ( !pValue() )
-            throw Error(kerImageWriteFailed); // #1296
+            throw Error(ErrorCode::kerImageWriteFailed); // #1296
 
         size_t len = pValue()->sizeDataArea();
         if (len > 0) {

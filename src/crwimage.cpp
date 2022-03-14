@@ -52,7 +52,7 @@ namespace Exiv2 {
     void CrwImage::setIptcData(const IptcData& /*iptcData*/)
     {
         // not supported
-        throw(Error(kerInvalidSettingForImage, "IPTC metadata", "CRW"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "CRW"));
     }
 
     void CrwImage::readMetadata()
@@ -61,13 +61,14 @@ namespace Exiv2 {
         std::cerr << "Reading CRW file " << io_->path() << "\n";
 #endif
         if (io_->open()) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isCrwType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotACrwImage);
+            if (io_->error() || io_->eof())
+                throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotACrwImage);
         }
         clearMetadata();
         DataBuf file(io().size());
@@ -102,7 +103,7 @@ namespace Exiv2 {
 
         // Write new buffer to file
         auto tempIo = std::make_unique<MemIo>();
-        tempIo->write((!blob.empty() ? &blob[0] : nullptr), static_cast<long>(blob.size()));
+        tempIo->write((!blob.empty() ? &blob[0] : nullptr), blob.size());
         io_->close();
         io_->transfer(*tempIo); // may throw
 

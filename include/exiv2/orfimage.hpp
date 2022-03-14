@@ -57,7 +57,7 @@ namespace Exiv2 {
         void writeMetadata() override;
         /*!
           @brief Not supported. ORF format does not contain a comment.
-              Calling this function will throw an Error(kerInvalidSettingForImage).
+              Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setComment(std::string_view comment) override;
         //@}

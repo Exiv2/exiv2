@@ -61,7 +61,6 @@ As Exiv2 is open source, we publish all our materials.  The following programs a
 | _**remotetest**_ | Tester application for testing remote i/o. | [remotetest](#remotetest) |
 | _**stringto-test**_ | Test conversions from string to long, float and Rational types. | [stringto-test](#stringto-test) |
 | _**tiff-test**_ | Simple TIFF write test | [tiff-test](#tiff-test) |
-| _**werror-test**_ | Simple tests for the wide-string error class WError | [werror-test](#werror-test) |
 | _**write-test**_ | ExifData write unit tests | [write-test](#write-test) |
 | _**write2-test**_ | ExifData write unit tests for Exif data created from scratch | [write2-test](#write2-test) |
 | _**xmpparser-test**_ | Read an XMP packet from a file, parse and re-serialize it. | [xmpparser-test](#xmpparser-test)|
@@ -598,18 +597,6 @@ Simple TIFF write test
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
-
-<div id="werror-test">
-
-#### werror-test
-
-```
-Usage: werror-test
-```
-
-Simple tests for the wide-string error class WError
-
-[Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="write-test">
 

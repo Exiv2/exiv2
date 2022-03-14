@@ -71,16 +71,16 @@ namespace Exiv2::Internal {
         { canonFiId,       "Makernote", "CanonFi",      CanonMakerNote::tagListFi      },
         { canonPaId,       "Makernote", "CanonPa",      CanonMakerNote::tagListPa      },
         { canonPrId,       "Makernote", "CanonPr",      CanonMakerNote::tagListPr      },
-        { canonVigCor2Id,  "Makernote", "CanonVigCor2", CanonMakerNote::tagListVigCor2 }, 
-        { canonLiOpId,     "Makernote", "CanonLiOp",    CanonMakerNote::tagListLiOp    }, 
+        { canonVigCor2Id,  "Makernote", "CanonVigCor2", CanonMakerNote::tagListVigCor2 },
+        { canonLiOpId,     "Makernote", "CanonLiOp",    CanonMakerNote::tagListLiOp    },
         { canonAfMiAdjId,  "Makernote", "CanonAfMiAdj", CanonMakerNote::tagListAfMiAdj },
-        { canonLeId,       "Makernote", "CanonLe",      CanonMakerNote::tagListLe     }, 
-        { canonAmId,       "Makernote", "CanonAm",      CanonMakerNote::tagListAm     }, 
-        { canonFilId,      "Makernote", "CanonFil",     CanonMakerNote::tagListFil   }, 
-        { canonMeId,       "Makernote", "CanonMe",      CanonMakerNote::tagListMe      }, 
-        { canonHdrId,      "Makernote", "CanonHdr",     CanonMakerNote::tagListHdr     },         
-        { canonAfCId,      "Makernote", "CanonAfC",     CanonMakerNote::tagListAfC   },  
-        { canonRawBId,     "Makernote", "CanonRawB",    CanonMakerNote::tagListRawB   },                
+        { canonLeId,       "Makernote", "CanonLe",      CanonMakerNote::tagListLe     },
+        { canonAmId,       "Makernote", "CanonAm",      CanonMakerNote::tagListAm     },
+        { canonFilId,      "Makernote", "CanonFil",     CanonMakerNote::tagListFil   },
+        { canonMeId,       "Makernote", "CanonMe",      CanonMakerNote::tagListMe      },
+        { canonHdrId,      "Makernote", "CanonHdr",     CanonMakerNote::tagListHdr     },
+        { canonAfCId,      "Makernote", "CanonAfC",     CanonMakerNote::tagListAfC   },
+        { canonRawBId,     "Makernote", "CanonRawB",    CanonMakerNote::tagListRawB   },
         { casioId,         "Makernote", "Casio",        CasioMakerNote::tagList        },
         { casio2Id,        "Makernote", "Casio2",       Casio2MakerNote::tagList       },
         { fujiId,          "Makernote", "Fujifilm",     FujiMakerNote::tagList         },
@@ -2642,7 +2642,8 @@ namespace Exiv2::Internal {
         const TagInfo* ti = tagInfo(tagName, ifdId);
         if (ti && ti->tag_ != 0xffff)
             return ti->tag_;
-        if (!isHex(tagName, 4, "0x")) throw Error(kerInvalidTag, tagName, ifdId);
+        if (!isHex(tagName, 4, "0x"))
+            throw Error(ErrorCode::kerInvalidTag, tagName, ifdId);
         std::istringstream is(tagName);
         uint16_t tag = 0;
         is >> std::hex >> tag;

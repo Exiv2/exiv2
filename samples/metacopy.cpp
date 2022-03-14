@@ -57,7 +57,7 @@ try {
     try {
         writeImg->writeMetadata();
     }
-    catch (const Exiv2::AnyError&) {
+    catch (const Exiv2::Error&) {
         std::cerr << params.progname() <<
             ": Could not write metadata to (" << params.write_ << ")\n";
         return 8;
@@ -65,7 +65,7 @@ try {
 
     return 0;
 }
-catch (Exiv2::AnyError& e) {
+catch (Exiv2::Error& e) {
     std::cerr << "Caught Exiv2 exception '" << e << "'\n";
     return 10;
 }

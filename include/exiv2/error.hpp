@@ -22,10 +22,10 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2 {
-
-// *****************************************************************************
-// class definitions
+namespace Exiv2
+{
+    // *****************************************************************************
+    // class definitions
 
     /*!
       @brief Class for a log message, used by the library. Applications can set
@@ -54,7 +54,8 @@ namespace Exiv2 {
              Caveat: The entire log message is not processed in this case. So don't
              make that call any logic that always needs to be executed.
      */
-    class EXIV2API LogMsg {
+    class EXIV2API LogMsg
+    {
     public:
         //! Prevent copy-construction: not implemented.
         LogMsg(const LogMsg&) = delete;
@@ -64,7 +65,14 @@ namespace Exiv2 {
           @brief Defined log levels. To suppress all log messages, either set the
                  log level to \c mute or set the log message handler to 0.
          */
-        enum Level { debug = 0, info = 1, warn = 2, error = 3, mute = 4 };
+        enum Level
+        {
+            debug = 0,
+            info = 1,
+            warn = 2,
+            error = 3,
+            mute = 4
+        };
         /*!
           @brief Type for a log message handler function. The function receives
                  the log level and message and can process it in an application
@@ -119,26 +127,34 @@ namespace Exiv2 {
         // Holds the log message until it is passed to the message handler
         std::ostringstream os_;
 
-    }; // class LogMsg
+    };  // class LogMsg
 
 // Macros for simple access
 //! Shorthand to create a temp debug log message object and return its ostringstream
-#define EXV_DEBUG   if (LogMsg::debug >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::debug).os()
+#define EXV_DEBUG                                              \
+    if (LogMsg::debug >= LogMsg::level() && LogMsg::handler()) \
+    LogMsg(LogMsg::debug).os()
 //! Shorthand for a temp info log message object and return its ostringstream
-#define EXV_INFO    if (LogMsg::info  >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::info).os()
+#define EXV_INFO                                              \
+    if (LogMsg::info >= LogMsg::level() && LogMsg::handler()) \
+    LogMsg(LogMsg::info).os()
 //! Shorthand for a temp warning log message object and return its ostringstream
-#define EXV_WARNING if (LogMsg::warn  >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::warn).os()
+#define EXV_WARNING                                           \
+    if (LogMsg::warn >= LogMsg::level() && LogMsg::handler()) \
+    LogMsg(LogMsg::warn).os()
 //! Shorthand for a temp error log message object and return its ostringstream
-#define EXV_ERROR   if (LogMsg::error >= LogMsg::level() && LogMsg::handler()) LogMsg(LogMsg::error).os()
+#define EXV_ERROR                                              \
+    if (LogMsg::error >= LogMsg::level() && LogMsg::handler()) \
+    LogMsg(LogMsg::error).os()
 
 #ifdef _MSC_VER
 // Disable MSVC warnings "non - DLL-interface classkey 'identifier' used as base
 // for DLL-interface classkey 'identifier'"
-# pragma warning( disable : 4275 )
+#pragma warning(disable : 4275)
 #endif
 
     //! Generalised toString function
-    template<typename charT, typename T>
+    template <typename charT, typename T>
     std::basic_string<charT> toBasicString(const T& arg)
     {
         std::basic_ostringstream<charT> os;
@@ -146,33 +162,11 @@ namespace Exiv2 {
         return os.str();
     }
 
-    /*!
-      @brief Error class interface. Allows the definition and use of a hierarchy
-             of error classes which can all be handled in one catch block.
-             Inherits from the standard exception base-class, to make life
-             easier for library users (they have the option of catching most
-             things via std::exception).
-     */
-    class EXIV2API AnyError : public std::exception {
-    public:
-        AnyError() = default;
-        AnyError(const AnyError& o) = default;
-
-        ~AnyError() noexcept override = default;
-        ///@brief  Return the error code.
-        virtual int code() const noexcept = 0;
-    };
-
-    //! %AnyError output operator
-    inline std::ostream& operator<<(std::ostream& os, const AnyError& error)
-    {
-        return os << error.what();
-    }
-
     //! Complete list of all Exiv2 error codes
-    enum ErrorCode {
-        kerGeneralError = -1,
+    enum class ErrorCode
+    {
         kerSuccess = 0,
+        kerGeneralError,
         kerErrorMessage,
         kerCallFailed,
         kerNotAnImage,
@@ -196,9 +190,7 @@ namespace Exiv2 {
         kerImageWriteFailed,
         kerNoImageInInputData,
         kerInvalidIfdId,
-        //! Entry::setValue: Value too large
         kerValueTooLarge,
-        //! Entry::setDataArea: Value too large
         kerDataAreaValueTooLarge,
         kerOffsetOutOfRange,
         kerUnsupportedDataAreaOffsetType,
@@ -236,122 +228,86 @@ namespace Exiv2 {
         kerCorruptedMetadata,
         kerArithmeticOverflow,
         kerMallocFailed,
+
+        kerErrorCount,
     };
 
     /*!
       @brief Simple error class used for exceptions. An output operator is
              provided to print errors to a stream.
      */
-    template<typename charT>
-    class EXIV2API BasicError : public AnyError {
+    class EXIV2API Error : public std::exception
+    {
     public:
         //! @name Creators
         //@{
         //! Constructor taking only an error code
-        explicit inline BasicError(ErrorCode code);
+        explicit Error(ErrorCode code);
 
         //! Constructor taking an error code and one argument
-        template<typename A>
-        inline BasicError(ErrorCode code, const A& arg1);
+        template <typename A>
+        Error(ErrorCode code, const A& arg1) : code_(code), arg1_(toBasicString<char>(arg1))
+        {
+            setMsg(1);
+        }
 
         //! Constructor taking an error code and two arguments
-        template<typename A, typename B>
-        inline BasicError(ErrorCode code, const A& arg1, const B& arg2);
+        template <typename A, typename B>
+        Error(ErrorCode code, const A& arg1, const B& arg2)
+            : code_(code), arg1_(toBasicString<char>(arg1)), arg2_(toBasicString<char>(arg2))
+        {
+            setMsg(2);
+        }
 
         //! Constructor taking an error code and three arguments
-        template<typename A, typename B, typename C>
-        inline BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
+        template <typename A, typename B, typename C>
+        Error(ErrorCode code, const A& arg1, const B& arg2, const C& arg3)
+            : code_(code),
+              arg1_(toBasicString<char>(arg1)),
+              arg2_(toBasicString<char>(arg2)),
+              arg3_(toBasicString<char>(arg3))
+        {
+            setMsg(3);
+        }
 
         //! Virtual destructor. (Needed because of throw())
-        inline ~BasicError() noexcept override;
+        virtual ~Error() noexcept;
         //@}
 
         //! @name Accessors
         //@{
-        inline int code() const noexcept override;
+        ErrorCode code() const noexcept;
         /*!
           @brief Return the error message as a C-string. The pointer returned by what()
                  is valid only as long as the BasicError object exists.
          */
-        inline const char* what() const noexcept override;
+        const char* what() const noexcept override;
         //@}
 
     private:
         //! @name Manipulators
         //@{
         //! Assemble the error message from the arguments
-        void setMsg();
+        void setMsg(int count);
         //@}
 
         // DATA
-        ErrorCode code_;                       //!< Error code
-        int count_;                             //!< Number of arguments
-        std::basic_string<charT> arg1_;         //!< First argument
-        std::basic_string<charT> arg2_;         //!< Second argument
-        std::basic_string<charT> arg3_;         //!< Third argument
-        std::string              msg_;          //!< Complete error message
-    }; // class BasicError
+        const ErrorCode code_;    //!< Error code
+        const std::string arg1_;  //!< First argument
+        const std::string arg2_;  //!< Second argument
+        const std::string arg3_;  //!< Third argument
+        std::string msg_;         //!< Complete error message
+    };                            // class BasicError
 
-    //! Error class used for exceptions (std::string based)
-    using Error = BasicError<char>;
-
-    // *****************************************************************************
-    // free functions, template and inline definitions
-
-    //! Return the error message for the error with code \em code.
-    const char* errMsg(int code);
-
-    template<typename charT>
-    BasicError<charT>::BasicError(ErrorCode code)
-        : code_(code), count_(0)
+    //! %Error output operator
+    inline std::ostream& operator<<(std::ostream& os, const Error& error)
     {
-        setMsg();
-    }
-
-    template<typename charT> template<typename A>
-    BasicError<charT>::BasicError(ErrorCode code, const A& arg1)
-        : code_(code), count_(1), arg1_(toBasicString<charT>(arg1))
-    {
-        setMsg();
-    }
-
-    template<typename charT> template<typename A, typename B>
-    BasicError<charT>::BasicError(ErrorCode code, const A& arg1, const B& arg2)
-        : code_(code), count_(2),
-          arg1_(toBasicString<charT>(arg1)),
-          arg2_(toBasicString<charT>(arg2))
-    {
-        setMsg();
-    }
-
-    template<typename charT> template<typename A, typename B, typename C>
-    BasicError<charT>::BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3)
-        : code_(code), count_(3),
-          arg1_(toBasicString<charT>(arg1)),
-          arg2_(toBasicString<charT>(arg2)),
-          arg3_(toBasicString<charT>(arg3))
-    {
-        setMsg();
-    }
-
-    template <typename charT>
-    BasicError<charT>::~BasicError() noexcept = default;
-
-    template <typename charT>
-    int BasicError<charT>::code() const noexcept
-    {
-        return code_;
-    }
-
-    template <typename charT>
-    const char* BasicError<charT>::what() const noexcept
-    {
-        return msg_.c_str();
+        return os << error.what();
     }
 
 #ifdef _MSC_VER
-# pragma warning( default : 4275 )
+#pragma warning(default : 4275)
 #endif
 
-}                                       // namespace Exiv2
-#endif                                  // #ifndef ERROR_HPP_
+}  // namespace Exiv2
+#endif  // #ifndef ERROR_HPP_

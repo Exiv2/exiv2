@@ -2140,7 +2140,7 @@ namespace Exiv2::Internal {
         if (!pData || size == 0)
             return nullptr;
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
-            throw Error(kerNotAnImage, "TIFF");
+            throw Error(ErrorCode::kerNotAnImage, "TIFF");
         }
         auto rootDir = TiffCreator::create(root, ifdIdNotSet);
         if (rootDir) {

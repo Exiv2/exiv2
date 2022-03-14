@@ -81,11 +81,11 @@ namespace Exiv2::Internal {
             // From a tEXt, zTXt, or iTXt chunk, we get the keyword which is null terminated.
             const size_t offset = stripHeader ? 8ul : 0ul;
             if (data.size() <= offset)
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
 
             auto it = std::find(data.cbegin() + offset, data.cend(), 0);
             if (it == data.cend())
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
 
             return {data.c_data() + offset, std::distance(data.cbegin(), it) - offset};
         }
@@ -95,7 +95,7 @@ namespace Exiv2::Internal {
             DataBuf arr;
 
             if (type == zTXt_Chunk) {
-                enforce(data.size() >= Safe::add(keysize, nullSeparators), Exiv2::kerCorruptedMetadata);
+                enforce(data.size() >= Safe::add(keysize, nullSeparators), ErrorCode::kerCorruptedMetadata);
 
                 // Extract a deflate compressed Latin-1 text chunk
 
@@ -106,17 +106,17 @@ namespace Exiv2::Internal {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard zTXt compression method.\n";
 #endif
-                    throw Error(kerFailedToReadImageData);
+                    throw Error(ErrorCode::kerFailedToReadImageData);
                 }
 
                 // compressed string after the compression technique spec
                 const byte* compressedText = data.c_data(keysize + nullSeparators);
                 size_t compressedTextSize = data.size() - keysize - nullSeparators;
-                enforce(compressedTextSize < data.size(), kerCorruptedMetadata);
+                enforce(compressedTextSize < data.size(), ErrorCode::kerCorruptedMetadata);
 
                 zlibUncompress(compressedText, static_cast<uint32_t>(compressedTextSize), arr);
             } else if (type == tEXt_Chunk) {
-                enforce(data.size() >= Safe::add(keysize, static_cast<size_t>(1)), Exiv2::kerCorruptedMetadata);
+                enforce(data.size() >= Safe::add(keysize, static_cast<size_t>(1)), ErrorCode::kerCorruptedMetadata);
                 // Extract a non-compressed Latin-1 text chunk
 
                 // the text comes after the key, but isn't null terminated
@@ -125,9 +125,9 @@ namespace Exiv2::Internal {
 
                 arr = DataBuf(text, textsize);
             } else if (type == iTXt_Chunk) {
-                enforce(data.size() > Safe::add(keysize, static_cast<size_t>(3)), Exiv2::kerCorruptedMetadata);
+                enforce(data.size() > Safe::add(keysize, static_cast<size_t>(3)), ErrorCode::kerCorruptedMetadata);
                 const size_t nullCount = std::count(data.c_data(keysize + 3), data.c_data(data.size()-1), '\0');
-                enforce(nullCount >= nullSeparators, Exiv2::kerCorruptedMetadata);
+                enforce(nullCount >= nullSeparators, ErrorCode::kerCorruptedMetadata);
 
                 // Extract a deflate compressed or uncompressed UTF-8 text chunk
 
@@ -136,8 +136,8 @@ namespace Exiv2::Internal {
                 // we get the compression method after the compression flag
                 const byte compressionMethod = data.read_uint8(keysize + 2);
 
-                enforce(compressionFlag == 0x00 || compressionFlag == 0x01, Exiv2::kerCorruptedMetadata);
-                enforce(compressionMethod == 0x00, Exiv2::kerCorruptedMetadata);
+                enforce(compressionFlag == 0x00 || compressionFlag == 0x01, ErrorCode::kerCorruptedMetadata);
+                enforce(compressionMethod == 0x00, ErrorCode::kerCorruptedMetadata);
 
                 // language description string after the compression technique spec
                 const size_t languageTextMaxSize = data.size() - keysize - 3;
@@ -145,7 +145,7 @@ namespace Exiv2::Internal {
                 const size_t languageTextSize = languageText.size();
 
                 enforce(data.size() >= Safe::add(Safe::add(keysize, static_cast<size_t>(4)), languageTextSize),
-                    Exiv2::kerCorruptedMetadata);
+                    ErrorCode::kerCorruptedMetadata);
                 // translated keyword string after the language description
                 std::string translatedKeyText = string_from_unterminated(
                     data.c_str(keysize + 3 + languageTextSize + 1), data.size() - (keysize + 3 + languageTextSize + 1));
@@ -154,7 +154,7 @@ namespace Exiv2::Internal {
                 if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
                     enforce(Safe::add(keysize + 3 + languageTextSize + 1,
                                       Safe::add(translatedKeyTextSize, static_cast<size_t>(1))) <= data.size(),
-                            Exiv2::kerCorruptedMetadata);
+                            ErrorCode::kerCorruptedMetadata);
 
                     const byte* text = data.c_data(keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
                     const auto textsize = static_cast<long>(
@@ -180,13 +180,13 @@ namespace Exiv2::Internal {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard iTXt compression method.\n";
 #endif
-                    throw Error(kerFailedToReadImageData);
+                    throw Error(ErrorCode::kerFailedToReadImageData);
                 }
             } else {
 #ifdef DEBUG
                 std::cerr << "Exiv2::PngChunk::parseTXTChunk: We found a field, not expected though\n";
 #endif
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
             }
 
             return arr;
@@ -383,12 +383,12 @@ namespace Exiv2::Internal {
                     }
                 } else {
                     // something bad happened
-                    throw Error(kerFailedToReadImageData);
+                    throw Error(ErrorCode::kerFailedToReadImageData);
                 }
             } while (zlibResult == Z_BUF_ERROR);
 
             if (zlibResult != Z_OK) {
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
             }
         }  // PngChunk::zlibUncompress
 
@@ -416,11 +416,11 @@ namespace Exiv2::Internal {
                         compressedLen *= 2;
                         // DoS protection. Cap max compressed size
                         if (compressedLen > 131072)
-                            throw Error(kerFailedToReadImageData);
+                            throw Error(ErrorCode::kerFailedToReadImageData);
                         break;
                     default:
                         // Something bad happened
-                        throw Error(kerFailedToReadImageData);
+                        throw Error(ErrorCode::kerFailedToReadImageData);
                 }
             } while (zlibResult == Z_BUF_ERROR);
 
@@ -565,7 +565,7 @@ namespace Exiv2::Internal {
                 return {};
             }
 
-            enforce(length <= static_cast<size_t>(eot - sp) / 2, Exiv2::kerCorruptedMetadata);
+            enforce(length <= static_cast<size_t>(eot - sp) / 2, Exiv2::ErrorCode::kerCorruptedMetadata);
 
             // Allocate space
             if (length == 0) {
@@ -587,7 +587,7 @@ namespace Exiv2::Internal {
             size_t nibbles = length * 2;
 
             for (size_t i = 0; i < nibbles; i++) {
-                enforce(sp < eot, Exiv2::kerCorruptedMetadata);
+                enforce(sp < eot, Exiv2::ErrorCode::kerCorruptedMetadata);
                 while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f') {
                     if (*sp == '\0') {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -597,7 +597,7 @@ namespace Exiv2::Internal {
                     }
 
                     sp++;
-                    enforce(sp < eot, Exiv2::kerCorruptedMetadata);
+                    enforce(sp < eot, Exiv2::ErrorCode::kerCorruptedMetadata);
                 }
 
                 if (i % 2 == 0)

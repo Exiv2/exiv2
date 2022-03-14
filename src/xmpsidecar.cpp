@@ -40,7 +40,7 @@ namespace Exiv2 {
     void XmpSidecar::setComment(std::string_view /*comment*/)
     {
         // not supported
-        throw(Error(kerInvalidSettingForImage, "Image comment", "XMP"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "XMP"));
     }
 
     void XmpSidecar::readMetadata()
@@ -49,14 +49,14 @@ namespace Exiv2 {
         std::cerr << "Reading XMP file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isXmpType(*io_, false)) {
             if (io_->error() || io_->eof())
-                throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "XMP");
+                throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAnImage, "XMP");
         }
         // Read the XMP packet from the IO stream
         std::string xmpPacket;
@@ -67,7 +67,7 @@ namespace Exiv2 {
             xmpPacket.append(reinterpret_cast<char*>(buf), l);
         }
         if (io_->error())
-            throw Error(kerFailedToReadImageData);
+            throw Error(ErrorCode::kerFailedToReadImageData);
         clearMetadata();
         xmpPacket_ = xmpPacket;
         if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
@@ -106,7 +106,7 @@ namespace Exiv2 {
     void XmpSidecar::writeMetadata()
     {
         if (io_->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
 
@@ -157,8 +157,8 @@ namespace Exiv2 {
 
             // Write XMP packet
             if (tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size()) != xmpPacket_.size())
-                throw Error(kerImageWriteFailed);
-            if (tempIo->error()) throw Error(kerImageWriteFailed);
+                throw Error(ErrorCode::kerImageWriteFailed);
+            if (tempIo->error()) throw Error(ErrorCode::kerImageWriteFailed);
             io_->close();
             io_->transfer(*tempIo); // may throw
         }

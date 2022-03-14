@@ -61,7 +61,7 @@ namespace Exiv2
         void writeMetadata() override;
         /*!
           @brief Not supported.
-              Calling this function will throw an instance of Error(kerInvalidSettingForImage).
+              Calling this function will throw an instance of Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setComment(std::string_view comment) override;
         //@}

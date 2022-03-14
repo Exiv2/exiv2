@@ -2767,7 +2767,7 @@ namespace Exiv2::Internal {
             if (!std::regex_search(lens.label_, base_match, lens_regex)) {
                 // this should never happen, as it would indicate the lens is specified incorrectly
                 // in the CanonCsLensType array
-                throw Error(kerErrorMessage, std::string("Lens regex didn't match for: ") + std::string(lens.label_));
+                throw Error(ErrorCode::kerErrorMessage, std::string("Lens regex didn't match for: ") + std::string(lens.label_));
             }
 
             auto tc = base_match[5].length() > 0 ? std::stof(base_match[5].str()) : 1.f;

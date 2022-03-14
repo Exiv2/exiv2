@@ -51,11 +51,11 @@ int main(int argc, char* const argv[])
             // copy fileIn from a remote location.
             auto io = Exiv2::ImageFactory::createIo(fr);
             if ( io->open() != 0 ) {
-                Error(Exiv2::kerFileOpenFailed, io->path(), "rb", strError());
+                Error(Exiv2::ErrorCode::kerFileOpenFailed, io->path(), "rb", strError());
             }
             FileIo output(f0);
             if ( !output.open("wb") ) {
-                Error(Exiv2::kerFileOpenFailed, output.path() , "w+b", strError());
+                Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path() , "w+b", strError());
             }
             size_t    l = 0;
             if ( !bytes.empty() ) {
@@ -75,12 +75,12 @@ int main(int argc, char* const argv[])
 
         FileIo fileIn(f0);
         if (fileIn.open() != 0) {
-            throw Error(Exiv2::kerDataSourceOpenFailed, fileIn.path(), strError());
+            throw Error(Exiv2::ErrorCode::kerDataSourceOpenFailed, fileIn.path(), strError());
         }
 
         FileIo fileOut1(f1);
         if (fileOut1.open("w+b") != 0) {
-            throw Error(Exiv2::kerFileOpenFailed, f1, "w+b", strError());
+            throw Error(Exiv2::ErrorCode::kerFileOpenFailed, f1, "w+b", strError());
         }
 
         MemIo memIo1;
@@ -106,7 +106,7 @@ int main(int argc, char* const argv[])
         // Create or overwrite the file, then close it
         FileIo fileTest("iotest.txt");
         if (fileTest.open("w+b") != 0) {
-            throw Error(Exiv2::kerFileOpenFailed, "iotest.txt", "w+b", strError());
+            throw Error(Exiv2::ErrorCode::kerFileOpenFailed, "iotest.txt", "w+b", strError());
         }
 
         fileTest.close();
@@ -118,7 +118,7 @@ int main(int argc, char* const argv[])
         memIo2.seek(0, BasicIo::beg);
         FileIo fileOut2(f2);
         if (fileOut2.open("w+b") != 0) {
-            throw Error(Exiv2::kerFileOpenFailed, f2, "w+b", strError());
+            throw Error(Exiv2::ErrorCode::kerFileOpenFailed, f2, "w+b", strError());
         }
 
         size_t readCount = 0;
@@ -137,7 +137,7 @@ int main(int argc, char* const argv[])
         }
 
         return 0;
-    } catch (Exiv2::AnyError& e) {
+    } catch (Exiv2::Error& e) {
         std::cerr << "Caught Exiv2 exception '" << e << "'\n";
         return 20;
     }
@@ -155,7 +155,7 @@ int WriteReadSeek(BasicIo &io)
     const size_t size2  = std::strlen(tester2) + 1;
 
     if (io.open() != 0) {
-        throw Error(Exiv2::kerDataSourceOpenFailed, io.path(), strError());
+        throw Error(Exiv2::ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
     }
     IoCloser closer(io);
     if (io.write(reinterpret_cast<const byte*>(tester1), size1) != size1) {
@@ -218,7 +218,7 @@ int WriteReadSeek(BasicIo &io)
 
     // open should seek to beginning
     if (io.open() != 0)  {
-        throw Error(Exiv2::kerDataSourceOpenFailed, io.path(), strError());
+        throw Error(Exiv2::ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
     }
     std::memset(buf, -1, sizeof(buf));
     if (io.read(buf, sizeof(buf)) != insert + size2) {

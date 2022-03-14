@@ -56,16 +56,16 @@ namespace Exiv2 {
         //@{
         void readMetadata() override;
 
-        /// @throws Error(kerWritingImageFormatUnsupported).
+        /// @throws Error(ErrorCode::kerWritingImageFormatUnsupported).
         void writeMetadata() override;
 
-        /// @throws Error(kerInvalidSettingForImage)
+        /// @throws Error(ErrorCode::kerInvalidSettingForImage)
         void setExifData(const ExifData& exifData) override;
 
-        /// @throws Error(kerInvalidSettingForImage)
+        /// @throws Error(ErrorCode::kerInvalidSettingForImage)
         void setIptcData(const IptcData& iptcData) override;
 
-        /// @throws Error(kerInvalidSettingForImage)
+        /// @throws Error(ErrorCode::kerInvalidSettingForImage)
         void setComment(std::string_view comment) override;
         //@}
 

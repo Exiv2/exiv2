@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
                 try {
                     XmpProperties::printProperties(std::cout, item);
                     break;
-                } catch (const AnyError&) {
+                } catch (const Error&) {
                     rc = 2;
                 }
                 std::cerr << "Unexpected argument "  << argv[1] << std::endl;
@@ -135,7 +135,7 @@ int main(int argc, char* argv[])
                 << "Print Exif tags, MakerNote tags, or Iptc datasets" << std::endl
                 ;
         }
-    } catch (AnyError& e) {
+    } catch (Error& e) {
         std::cout << "Caught Exiv2 exception '" << e << "'\n";
         rc = EXIT_FAILURE ;
     }

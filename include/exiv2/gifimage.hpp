@@ -52,22 +52,22 @@ namespace Exiv2 {
         void readMetadata() override;
         /*!
           @brief Todo: Write metadata back to the image. This method is not
-              yet(?) implemented. Calling it will throw an Error(kerWritingImageFormatUnsupported).
+              yet(?) implemented. Calling it will throw an Error(ErrorCode::kerWritingImageFormatUnsupported).
          */
         void writeMetadata() override;
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(kerInvalidSettingForImage).
+              an instance of Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setExifData(const ExifData& exifData) override;
         /*!
           @brief Todo: Not supported yet(?). Calling this function will throw
-              an instance of Error(kerInvalidSettingForImage).
+              an instance of Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setIptcData(const IptcData& iptcData) override;
         /*!
           @brief Not supported. Calling this function will throw an instance
-              of Error(kerInvalidSettingForImage).
+              of Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setComment(std::string_view comment) override;
         //@}
