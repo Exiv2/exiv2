@@ -23,7 +23,7 @@ namespace
         N_("Invalid record name '%1'"),                  // kerInvalidRecord %1=record name
         N_("Invalid key '%1'"),                          // kerInvalidKey %1=key
         N_("Invalid tag name or ifdId `%1', ifdId %2"),  // kerInvalidTag %1=tag name, %2=ifdId
-        N_("Value not set"),                             // kerValueNotSet
+        N_("%1 value not set"),                          // kerValueNotSet %1=key name
         N_("%1: Failed to open the data source: %2"),    // kerDataSourceOpenFailed %1=path, %2=strerror
         N_("%1: Failed to open file (%2): %3"),          // kerFileOpenFailed %1=path, %2=mode, %3=strerror
         N_("%1: The file contains data of an unknown image type"),  // kerFileContainsUnknownImageType %1=path
