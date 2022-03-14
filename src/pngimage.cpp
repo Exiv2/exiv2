@@ -510,8 +510,7 @@ namespace Exiv2 {
         doWriteMetadata(*tempIo); // may throw
         io_->close();
         io_->transfer(*tempIo); // may throw
-
-    } // PngImage::writeMetadata
+    }
 
     void PngImage::doWriteMetadata(BasicIo& outIo)
     {

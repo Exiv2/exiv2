@@ -185,8 +185,6 @@ namespace Exiv2
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isJp2Type(*io_, true)) {
-            if (io_->error() || io_->eof())
-                throw Error(ErrorCode::kerFailedToReadImageData);
             throw Error(ErrorCode::kerNotAnImage, "JPEG-2000");
         }
 
@@ -638,8 +636,7 @@ namespace Exiv2
         doWriteMetadata(*tempIo);  // may throw
         io_->close();
         io_->transfer(*tempIo);  // may throw
-
-    }  // Jp2Image::writeMetadata
+    }
 
 #ifdef __clang__
 // ignore cast align errors.  dataBuf.pData_ is allocated by malloc() and 4 (or 8 byte aligned).
@@ -744,8 +741,6 @@ namespace Exiv2
 
         // Ensure that this is the correct image type
         if (!isJp2Type(*io_, true)) {
-            if (io_->error() || io_->eof())
-                throw Error(ErrorCode::kerInputDataReadFailed);
             throw Error(ErrorCode::kerNoImageInInputData);
         }
 

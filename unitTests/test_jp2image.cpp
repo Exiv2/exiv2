@@ -52,3 +52,68 @@ TEST(Jp2Image, printStructurePrintsDataWithKpsBasic)
 
     ASSERT_FALSE(stream.str().empty());
 }
+
+TEST(Jp2Image, cannotReadMetadataFromEmptyIo)
+{
+    auto memIo = std::make_unique<MemIo>();
+    const bool create {false};
+    Jp2Image image(std::move(memIo), create);
+
+    try {
+      image.readMetadata();
+      FAIL();
+    }  catch (const Exiv2::Error& e) {
+      ASSERT_EQ(ErrorCode::kerNotAnImage, e.code());
+      ASSERT_STREQ("This does not look like a JPEG-2000 image", e.what());
+    }
+}
+
+TEST(Jp2Image, cannotReadMetadataFromIoWhichCannotBeOpened)
+{
+    auto memIo = std::make_unique<FileIo>("NonExistingPath.jp2");
+    const bool create {false};
+    Jp2Image image(std::move(memIo), create);
+
+    try {
+      image.readMetadata();
+      FAIL();
+    }  catch (const Exiv2::Error& e) {
+      ASSERT_EQ(ErrorCode::kerDataSourceOpenFailed, e.code());
+    }
+}
+
+TEST(Jp2Image, cannotWriteMetadataToEmptyIo)
+{
+    auto memIo = std::make_unique<MemIo>();
+    const bool create {false};
+    Jp2Image image(std::move(memIo), create);
+
+    try {
+      image.writeMetadata();
+      FAIL();
+    }  catch (const Exiv2::Error& e) {
+      ASSERT_EQ(ErrorCode::kerNoImageInInputData, e.code());
+    }
+}
+
+TEST(Jp2Image, canWriteMetadataFromCreatedJp2Image)
+{
+    auto memIo = std::make_unique<MemIo>();
+    const bool create {true};
+    Jp2Image image(std::move(memIo), create);
+    ASSERT_NO_THROW(image.writeMetadata());
+}
+
+TEST(Jp2Image, cannotWriteMetadataToIoWhichCannotBeOpened)
+{
+    auto memIo = std::make_unique<FileIo>("NonExistingPath.jp2");
+    const bool create {false};
+    Jp2Image image(std::move(memIo), create);
+
+    try {
+      image.readMetadata();
+      FAIL();
+    }  catch (const Exiv2::Error& e) {
+      ASSERT_EQ(ErrorCode::kerDataSourceOpenFailed, e.code());
+    }
+}
