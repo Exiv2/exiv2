@@ -117,3 +117,12 @@ TEST(Jp2Image, cannotWriteMetadataToIoWhichCannotBeOpened)
       ASSERT_EQ(ErrorCode::kerDataSourceOpenFailed, e.code());
     }
 }
+
+TEST(Jp2Image, canWriteMetadataAndReadAfterwards)
+{
+    auto memIo = std::make_unique<MemIo>();
+    const bool create {true};
+    Jp2Image image(std::move(memIo), create);
+    ASSERT_NO_THROW(image.writeMetadata());
+    ASSERT_NO_THROW(image.readMetadata());
+}
