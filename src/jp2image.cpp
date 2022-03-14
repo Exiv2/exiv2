@@ -682,7 +682,6 @@ namespace Exiv2
                 if (!iccProfileDefined()) {
                     const char* pad = "\x01\x00\x00\x00\x00\x00\x10\x00\x00\x05\x1cuuid";
                     uint32_t psize = 15;
-                    newlen = boxSize + psize;
                     enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
                     ul2Data(reinterpret_cast<byte*>(&newBox.length), psize, bigEndian);
                     ul2Data(reinterpret_cast<byte*>(&newBox.type), newBox.type, bigEndian);
