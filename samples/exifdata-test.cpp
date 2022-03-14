@@ -30,7 +30,7 @@ try {
     Exiv2::ExifData &ed = image->exifData();
     if (ed.empty()) {
         std::string error = file + ": No Exif data found in the file";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
 
     std::cout << "Copy construction, non-intrusive changes\n";
@@ -88,7 +88,7 @@ try {
 
     return 0;
 }
-catch (Exiv2::AnyError& e) {
+catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }

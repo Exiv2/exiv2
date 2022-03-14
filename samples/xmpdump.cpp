@@ -25,12 +25,12 @@ int main(int argc, char* const argv[])
         if (xmpPacket.empty()) {
             std::string error(argv[1]);
             error += ": No XMP packet found in the file";
-            throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+            throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
         }
         std::cout << xmpPacket << "\n";
 
         return 0;
-    } catch (Exiv2::AnyError& e) {
+    } catch (Exiv2::Error& e) {
         std::cout << "Caught Exiv2 exception '" << e << "'\n";
         return -1;
     }

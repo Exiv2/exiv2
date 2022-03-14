@@ -433,7 +433,7 @@ namespace {
 
         BasicIo &io = image_.io();
         if (io.open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io.path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
         const byte* data = io.mmap();
@@ -464,7 +464,7 @@ namespace {
             }
             return {record + sizeHdr + 28, sizeData - 28};
         }
-        throw Error(kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
+        throw Error(ErrorCode::kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
     }
 
     bool LoaderNative::readDimensions()
@@ -486,7 +486,7 @@ namespace {
 
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
-        } catch (const AnyError& /* error */) {
+        } catch (const Error& /* error */) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid native preview image.\n";
 #endif
@@ -544,7 +544,7 @@ namespace {
         BasicIo &io = image_.io();
 
         if (io.open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io.path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
 
@@ -561,7 +561,7 @@ namespace {
         BasicIo &io = image_.io();
 
         if (io.open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io.path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
         }
         IoCloser closer(io);
         const Exiv2::byte* base = io.mmap();
@@ -575,7 +575,7 @@ namespace {
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
         }
-        catch (const AnyError& /* error */ ) {
+        catch (const Error& /* error */ ) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Invalid JPEG preview image.\n";
 #endif
@@ -654,7 +654,7 @@ namespace {
             width_ = image->pixelWidth();
             height_ = image->pixelHeight();
         }
-        catch (const AnyError& /* error */ ) {
+        catch (const Error& /* error */ ) {
             return false;
         }
 
@@ -765,7 +765,7 @@ namespace {
             BasicIo &io = image_.io();
 
             if (io.open() != 0) {
-                throw Error(kerDataSourceOpenFailed, io.path(), strError());
+                throw Error(ErrorCode::kerDataSourceOpenFailed, io.path(), strError());
             }
             IoCloser closer(io);
 
@@ -783,7 +783,7 @@ namespace {
                 }
                 else {
                     // FIXME: the buffer is probably copied twice, it should be optimized
-                    enforce(size_ <= static_cast<uint32_t>(io.size()), kerCorruptedMetadata);
+                    enforce(size_ <= static_cast<uint32_t>(io.size()), ErrorCode::kerCorruptedMetadata);
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
                     for (size_t i = 0; i < sizes.count(); i++) {
@@ -794,7 +794,7 @@ namespace {
                         // see the constructor of LoaderTiff
                         // But e.g in malicious files some of these values could be negative
                         // That's why we check again for each step here to really make sure we don't overstep
-                        enforce(Safe::add(idxBuf, size) <= size_, kerCorruptedMetadata);
+                        enforce(Safe::add(idxBuf, size) <= size_, ErrorCode::kerCorruptedMetadata);
                         if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size())){
                             buf.copyBytes(idxBuf, base + offset, size);
                         }

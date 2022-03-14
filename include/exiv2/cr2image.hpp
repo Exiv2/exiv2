@@ -60,7 +60,7 @@ namespace Exiv2 {
         void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
         /*!
           @brief Not supported. CR2 format does not contain a comment.
-              Calling this function will throw an Error(kerInvalidSettingForImage).
+              Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setComment(std::string_view comment) override;
         //@}

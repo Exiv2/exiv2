@@ -61,7 +61,7 @@ namespace Exiv2 {
         void writeMetadata() override;
         /*!
           @brief Not supported. CRW format does not contain IPTC metadata.
-              Calling this function will throw an Error(kerInvalidSettingForImage).
+              Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setIptcData(const IptcData& iptcData) override;
         //@}

@@ -25,12 +25,12 @@ try {
     if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket)) {
         std::string error(argv[1]);
         error += ": Failed to parse file contents (XMP packet)";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     if (xmpData.empty()) {
         std::string error(argv[1]);
         error += ": No XMP properties found in the XMP packet";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     for (auto&& md : xmpData) {
         std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9)
@@ -42,19 +42,19 @@ try {
     if (0 != Exiv2::XmpParser::encode(xmpPacket, xmpData)) {
         std::string error(argv[1]);
         error += ": Failed to encode the XMP data";
-        throw Exiv2::Error(Exiv2::kerErrorMessage, error);
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
     Exiv2::FileIo file(filename);
     if (file.open("wb") != 0) {
-        throw Exiv2::Error(Exiv2::kerFileOpenFailed, filename, "wb", Exiv2::strError());
+        throw Exiv2::Error(Exiv2::ErrorCode::kerFileOpenFailed, filename, "wb", Exiv2::strError());
     }
     if (file.write(reinterpret_cast<const Exiv2::byte*>(xmpPacket.data()), xmpPacket.size()) == 0) {
-        throw Exiv2::Error(Exiv2::kerCallFailed, filename, Exiv2::strError(), "FileIo::write");
+        throw Exiv2::Error(Exiv2::ErrorCode::kerCallFailed, filename, Exiv2::strError(), "FileIo::write");
     }
     Exiv2::XmpParser::terminate();
     return 0;
 }
-catch (Exiv2::AnyError& e) {
+catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
 }

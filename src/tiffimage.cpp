@@ -26,7 +26,7 @@
    in crwimage.* :
 
    + Fix CiffHeader according to TiffHeader
-   + Combine Error(kerNotAJpeg) and Error(kerNotACrwImage), add format argument %1
+   + Combine Error(ErrorCode::kerNotAJpeg) and Error(kerNotACrwImage), add format argument %1
    + Search crwimage for todos, fix writeMetadata comment
    + rename loadStack to getPath for consistency
 
@@ -136,7 +136,7 @@ namespace Exiv2 {
     void TiffImage::setComment(std::string_view /*comment*/)
     {
         // not supported
-        throw(Error(kerInvalidSettingForImage, "Image comment", "TIFF"));
+        throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TIFF"));
     }
 
     void TiffImage::readMetadata()
@@ -145,15 +145,15 @@ namespace Exiv2 {
         std::cerr << "Reading TIFF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+            throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
 
         IoCloser closer(*io_);
         // Ensure that this is the correct image type
         if (!isTiffType(*io_, false)) {
             if (io_->error() || io_->eof())
-                throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "TIFF");
+                throw Error(ErrorCode::kerFailedToReadImageData);
+            throw Error(ErrorCode::kerNotAnImage, "TIFF");
         }
         clearMetadata();
 
@@ -167,7 +167,7 @@ namespace Exiv2 {
         if ( pos != exifData_.end() ) {
             size_t size = pos->count() * pos->typeSize();
             if (size == 0) {
-                throw Error(kerFailedToReadImageData);
+                throw Error(ErrorCode::kerFailedToReadImageData);
             }
             iccProfile_.alloc(size);
             pos->copy(iccProfile_.data(),bo);
@@ -302,13 +302,13 @@ namespace Exiv2 {
 
     void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option,int depth)
     {
-        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
+        if (io_->open() != 0) throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
         if (imageType() == ImageType::none) {
             if (!isTiffType(*io_, false)) {
                 if (io_->error() || io_->eof())
-                    throw Error(kerFailedToReadImageData);
-                throw Error(kerNotAJpeg);
+                    throw Error(ErrorCode::kerFailedToReadImageData);
+                throw Error(ErrorCode::kerNotAJpeg);
             }
         }
 

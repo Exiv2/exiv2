@@ -22,7 +22,6 @@ set( SAMPLES
      stringto-test.cpp
      taglist.cpp
      tiff-test.cpp
-     werror-test.cpp
      write-test.cpp
      write2-test.cpp
      xmpparse.cpp

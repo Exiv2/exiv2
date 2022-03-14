@@ -13,7 +13,7 @@ TEST(IptcKey, creationWithNonValidStringFormatThrows)
       IptcKey key("Yeah");
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerInvalidKey, e.code());
+      ASSERT_EQ(ErrorCode::kerInvalidKey, e.code());
       ASSERT_STREQ("Invalid key 'Yeah'", e.what());
     }
 }
@@ -24,7 +24,7 @@ TEST(IptcKey, creationWithNonValidRecordNameThrows)
       IptcKey key("Iptc.WrongRecordName.ModelVersion");
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerInvalidRecord, e.code());
+      ASSERT_EQ(ErrorCode::kerInvalidRecord, e.code());
       ASSERT_STREQ("Invalid record name 'WrongRecordName'", e.what());
     }
 }
@@ -35,7 +35,7 @@ TEST(IptcKey, creationWithNonValidDatasetNameThrows)
       IptcKey key("Iptc.Envelope.WrongDataset");
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerInvalidDataset, e.code());
+      ASSERT_EQ(ErrorCode::kerInvalidDataset, e.code());
       ASSERT_STREQ("Invalid dataset name 'WrongDataset'", e.what());
     }
 }
@@ -46,7 +46,7 @@ TEST(IptcKey, creationWithNonValidFamiltyNameThrows)
       IptcKey key("JOJO.Envelope.WrongDataset");
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerInvalidKey, e.code());
+      ASSERT_EQ(ErrorCode::kerInvalidKey, e.code());
       ASSERT_STREQ("Invalid key 'JOJO.Envelope.WrongDataset'", e.what());
     }
 }

@@ -51,7 +51,7 @@ namespace Exiv2 {
         void readMetadata() override;
         void writeMetadata() override;
         /*!
-          @brief Not supported. Calling this function will throw an Error(kerInvalidSettingForImage).
+          @brief Not supported. Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
          */
         void setComment(std::string_view comment) override;
         //@}

@@ -80,7 +80,7 @@ int main()
                 std::cout << "nok";
 
             std::cout << std::endl;
-        } catch (Exiv2::AnyError& e) {
+        } catch (Exiv2::Error& e) {
             std::cout << "Caught Exiv2 exception '" << e << "'\n";
             return -1;
         }

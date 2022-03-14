@@ -108,7 +108,7 @@ TEST(PngImage, cannotReadMetadataFromEmptyIo)
       png.readMetadata();
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerNotAnImage, e.code());
+      ASSERT_EQ(ErrorCode::kerNotAnImage, e.code());
       ASSERT_STREQ("This does not look like a PNG image", e.what());
     }
 }
@@ -123,7 +123,7 @@ TEST(PngImage, cannotReadMetadataFromIoWhichCannotBeOpened)
       png.readMetadata();
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerDataSourceOpenFailed, e.code());
+      ASSERT_EQ(ErrorCode::kerDataSourceOpenFailed, e.code());
     }
 }
 
@@ -137,7 +137,7 @@ TEST(PngImage, cannotWriteMetadataToEmptyIo)
       png.writeMetadata();
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerNoImageInInputData, e.code());
+      ASSERT_EQ(ErrorCode::kerNoImageInInputData, e.code());
     }
 }
 
@@ -159,7 +159,7 @@ TEST(PngImage, cannotWriteMetadataToIoWhichCannotBeOpened)
       png.readMetadata();
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerDataSourceOpenFailed, e.code());
+      ASSERT_EQ(ErrorCode::kerDataSourceOpenFailed, e.code());
     }
 }
 
@@ -200,6 +200,6 @@ TEST(isPngType, withMemIoInErroneousStatusThrows)
       isPngType(memIo, false);
       FAIL();
     }  catch (const Exiv2::Error& e) {
-      ASSERT_EQ(kerInputDataReadFailed, e.code());
+      ASSERT_EQ(ErrorCode::kerInputDataReadFailed, e.code());
     }
 }
