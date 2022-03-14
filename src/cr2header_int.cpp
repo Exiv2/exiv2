@@ -9,7 +9,7 @@ namespace Exiv2::Internal {
     {
     }
 
-    bool Cr2Header::read(const byte* pData, uint32_t size)
+    bool Cr2Header::read(const byte* pData, size_t size)
     {
         if (!pData || size < 16) {
             return false;
@@ -24,13 +24,15 @@ namespace Exiv2::Internal {
         else {
             return false;
         }
-        if (tag() != getUShort(pData + 2, byteOrder())) return false;
+        if (tag() != getUShort(pData + 2, byteOrder()))
+            return false;
         setOffset(getULong(pData + 4, byteOrder()));
-        if (0 != memcmp(pData + 8, cr2sig_, 4)) return false;
+        if (0 != memcmp(pData + 8, cr2sig_, 4))
+            return false;
         offset2_ = getULong(pData + 12, byteOrder());
 
         return true;
-    } // Cr2Header::read
+    }
 
     DataBuf Cr2Header::write() const
     {

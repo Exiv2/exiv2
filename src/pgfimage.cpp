@@ -94,16 +94,12 @@ namespace Exiv2 {
 
         readPgfMagicNumber(*io_);
 
-        uint32_t headerSize = readPgfHeaderSize(*io_);
+        size_t headerSize = readPgfHeaderSize(*io_);
         readPgfHeaderStructure(*io_, pixelWidth_, pixelHeight_);
 
         // And now, the most interesting, the user data byte array where metadata are stored as small image.
 
-        enforce(headerSize <= std::numeric_limits<uint32_t>::max() - 8, ErrorCode::kerCorruptedMetadata);
-#if LONG_MAX < UINT_MAX
-        enforce(headerSize + 8 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
-                ErrorCode::kerCorruptedMetadata);
-#endif
+        enforce(headerSize <= std::numeric_limits<size_t>::max() - 8, ErrorCode::kerCorruptedMetadata);
         long size = static_cast<long>(headerSize) + 8 - io_->tell();
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -175,7 +171,7 @@ namespace Exiv2 {
         img->setIptcData(iptcData_);
         img->setXmpData(xmpData_);
         img->writeMetadata();
-        auto imgSize = static_cast<long>(img->io().size());
+        size_t imgSize = img->io().size();
         DataBuf imgBuf   = img->io().read(imgSize);
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -185,13 +181,15 @@ namespace Exiv2 {
         //---------------------------------------------------------------
 
         // Write PGF Signature.
-        if (outIo.write(pgfSignature, 3) != 3) throw Error(ErrorCode::kerImageWriteFailed);
+        if (outIo.write(pgfSignature, 3) != 3)
+            throw Error(ErrorCode::kerImageWriteFailed);
 
         // Write Magic number.
-        if (outIo.putb(mnb) == EOF) throw Error(ErrorCode::kerImageWriteFailed);
+        if (outIo.putb(mnb) == EOF)
+            throw Error(ErrorCode::kerImageWriteFailed);
 
         // Write new Header size.
-        uint32_t newHeaderSize = static_cast<uint32_t>(header.size()) + imgSize;
+        uint32_t newHeaderSize = static_cast<uint32_t>(header.size() + imgSize);
         DataBuf buffer(4);
         buffer.copyBytes(0, &newHeaderSize, 4);
         byteSwap_(buffer,0,bSwap_);
@@ -242,7 +240,7 @@ namespace Exiv2 {
         return b;
     } // PgfImage::readPgfMagicNumber
 
-    uint32_t PgfImage::readPgfHeaderSize(BasicIo& iIo) const
+    size_t PgfImage::readPgfHeaderSize(BasicIo& iIo) const
     {
         DataBuf buffer(4);
         const size_t bufRead = iIo.read(buffer.data(), buffer.size());
@@ -251,15 +249,16 @@ namespace Exiv2 {
         if (bufRead != buffer.size())
             throw Error(ErrorCode::kerInputDataReadFailed);
 
-        auto headerSize = static_cast<int>(byteSwap_(buffer, 0, bSwap_));
-        if (headerSize <= 0 ) throw Error(ErrorCode::kerNoImageInInputData);
+        auto headerSize = static_cast<size_t>(byteSwap_(buffer, 0, bSwap_));
+        if (headerSize == 0 )
+            throw Error(ErrorCode::kerNoImageInInputData);
 
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage: PGF header size : " << headerSize << " bytes\n";
 #endif
 
         return headerSize;
-    } // PgfImage::readPgfHeaderSize
+    }
 
     DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t& height) const
     {

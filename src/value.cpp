@@ -125,8 +125,7 @@ namespace Exiv2 {
     {
     }
 
-    DataValue::DataValue(const byte* buf,
-              long len, ByteOrder byteOrder,TypeId typeId)
+    DataValue::DataValue(const byte* buf, size_t len, ByteOrder byteOrder, TypeId typeId)
         : Value(typeId)
     {
         read(buf, len, byteOrder);
@@ -158,10 +157,10 @@ namespace Exiv2 {
         return 0;
     }
 
-    long DataValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
+    size_t DataValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         // byteOrder not needed
-        return static_cast<long>(std::copy(value_.begin(), value_.end(), buf) - buf);
+        return std::copy(value_.begin(), value_.end(), buf) - buf;
     }
 
     size_t DataValue::size() const
@@ -248,15 +247,13 @@ namespace Exiv2 {
         return 0;
     }
 
-    long StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const
+    size_t StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         if (value_.empty())
             return 0;
         // byteOrder not needed
         assert(buf);
-        return static_cast<long>(
-            value_.copy(reinterpret_cast<char*>(buf), value_.size())
-            );
+        return value_.copy(reinterpret_cast<char*>(buf), value_.size());
     }
 
     size_t StringValueBase::count() const
@@ -438,7 +435,7 @@ namespace Exiv2 {
         return StringValueBase::read(buf, len, byteOrder);
     }
 
-    long CommentValue::copy(byte* buf, ByteOrder byteOrder) const
+    size_t CommentValue::copy(byte* buf, ByteOrder byteOrder) const
     {
         std::string c = value_;
         if (charsetId() == unicode) {
@@ -457,7 +454,7 @@ namespace Exiv2 {
         if (c.empty())
             return 0;
         assert(buf);
-        return static_cast<long>(c.copy(reinterpret_cast<char*>(buf), c.size()));
+        return c.copy(reinterpret_cast<char*>(buf), c.size());
     }
 
     std::ostream& CommentValue::write(std::ostream& os) const
@@ -563,15 +560,14 @@ namespace Exiv2 {
         return xmpStruct_;
     }
 
-    long XmpValue::copy(byte* buf,
-                        ByteOrder /*byteOrder*/) const
+    size_t XmpValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         std::ostringstream os;
         write(os);
         std::string s = os.str();
         if (!s.empty())
             std::memcpy(buf, &s[0], s.size());
-        return static_cast<long>(s.size());
+        return s.size();
     }
 
     int XmpValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
@@ -953,14 +949,15 @@ namespace Exiv2 {
         date_.day = src.day;
     }
 
-    long DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
+    size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
         // \note Here the date is copied in the Basic format YYYYMMDD, as the IPTC key	Iptc.Application2.DateCreated
         // wants it. Check https://exiv2.org/iptc.html
 
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[9];
-        int wrote = snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day);
+        size_t wrote =
+            static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
         assert(wrote == 8);
         std::memcpy(buf, temp, wrote);
         return wrote;
@@ -1101,19 +1098,19 @@ namespace Exiv2 {
         std::memcpy(&time_, &src, sizeof(time_));
     }
 
-    long TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
+    size_t TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
-        // NOTE: Here the time is copied in the Basic format HHMMSS:HHMM, as the IPTC key	Iptc.Application2.TimeCreated
-        // wants it. Check https://exiv2.org/iptc.html
+        // NOTE: Here the time is copied in the Basic format HHMMSS:HHMM, as the IPTC key
+        // Iptc.Application2.TimeCreated wants it. Check https://exiv2.org/iptc.html
         char temp[12];
         char plusMinus = '+';
         if (time_.tzHour < 0 || time_.tzMinute < 0)
             plusMinus = '-';
 
-        const int wrote = snprintf(temp, sizeof(temp), // 11 bytes are written + \0
-                   "%02d%02d%02d%1c%02d%02d",
-                   time_.hour, time_.minute, time_.second,
-                   plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
+        const auto wrote =
+            static_cast<size_t>(snprintf(temp, sizeof(temp),  // 11 bytes are written + \0
+                                         "%02d%02d%02d%1c%02d%02d", time_.hour, time_.minute, time_.second, plusMinus,
+                                         abs(time_.tzHour), abs(time_.tzMinute)));
 
         enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
         std::memcpy(buf, temp, wrote);

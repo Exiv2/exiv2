@@ -57,7 +57,7 @@ namespace Action {
         /// @param path Path of the file to process.
         /// @return 0 if successful.
         virtual int run(const std::string& path) =0;
-        
+
         bool setBinary(bool b)
         {
             bool bResult = binary_;
@@ -240,7 +240,7 @@ namespace Action {
         /// @brief Write one preview image to a file. The filename is composed by removing the suffix from the image
         /// filename and appending "-preview<num>" and the appropriate suffix (".jpg" or ".tif"), depending on the
         /// format of the Exif thumbnail image.
-        void writePreviewFile(const Exiv2::PreviewImage& pvImg, int num) const;
+        void writePreviewFile(const Exiv2::PreviewImage& pvImg, size_t num) const;
 
         /// @brief Write embedded iccProfile files.
         int writeIccProfile(const std::string& target) const;

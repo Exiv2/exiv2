@@ -117,8 +117,7 @@ namespace Exiv2 {
                 return -2;
             }
 #ifdef EXIV2_DEBUG_MESSAGES
-            if (   (dataSize & 1)
-                && position + dataSize == static_cast<uint32_t>(sizePsData)) {
+            if (   (dataSize & 1) && position + dataSize == sizePsData) {
                 std::cerr << "Warning: "
                           << "Photoshop IRB data is not padded to even size\n";
             }
@@ -174,7 +173,8 @@ namespace Exiv2 {
             assert(pPsData);
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IRB block at the beginning of Photoshop::setIptcIrb\n";
-        if (sizePsData == 0) std::cerr << "  None.\n";
+        if (sizePsData == 0)
+            std::cerr << "  None.\n";
         else hexdump(std::cerr, pPsData, sizePsData);
 #endif
         const byte* record    = pPsData;
@@ -357,7 +357,6 @@ namespace Exiv2 {
                      && buf.cmpBytes(2, Photoshop::ps3Id_, 14) == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Found app13 segment, size = " << size << "\n";
-                //hexdump(std::cerr, psData.pData_, psData.size_);
 #endif
                 // Append to psBlob
                 append(psBlob, buf.c_data(16), size - 16);
@@ -457,7 +456,7 @@ namespace Exiv2 {
                 pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
             }
             if (!iptcBlob.empty() &&
-                IptcParser::decode(iptcData_, &iptcBlob[0], static_cast<uint32_t>(iptcBlob.size()))) {
+                IptcParser::decode(iptcData_, &iptcBlob[0], iptcBlob.size())) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
@@ -732,7 +731,7 @@ namespace Exiv2 {
             size_t count = iptcDataSegs.size();
 
             // figure out which blocks to copy
-            std::vector<long> pos(count + 2);
+            std::vector<size_t> pos(count + 2);
             pos[0] = 0;
             // copy the data that is not iptc
             auto it = iptcDataSegs.begin();
@@ -742,7 +741,7 @@ namespace Exiv2 {
                 pos[i + 1] = bEven ? *it : pos[i] + *it;
                 ++it;
             }
-            pos[count + 1] = static_cast<long>(io_->size());
+            pos[count + 1] = io_->size();
 #ifdef EXIV2_DEBUG_MESSAGES
             for (size_t i = 0; i < count + 2; i++)
                 std::cout << pos[i] << " ";
@@ -756,10 +755,10 @@ namespace Exiv2 {
             // binary copy io_ to a temporary file
             auto tempIo = std::make_unique<MemIo>();
             for (size_t i = 0; i < (count / 2) + 1; i++) {
-                long start = pos[2 * i] + 2;  // step JPG 2 byte marker
+                size_t start = pos[2 * i] + 2;  // step JPG 2 byte marker
                 if (start == 2)
                     start = 0;  // read the file 2 byte SOI
-                long length = pos[2 * i + 1] - start;
+                size_t length = pos[2 * i + 1] - start;
                 if (length) {
 #ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << start << ":" << length << std::endl;

@@ -50,7 +50,7 @@ namespace Exiv2::Internal {
           @return True if the TIFF header was read successfully. False if the
                  data buffer does not contain a valid TIFF header.
          */
-        virtual bool read(const byte* pData, uint32_t size);
+        virtual bool read(const byte* pData, size_t size);
         //! Set the byte order.
         virtual void setByteOrder(ByteOrder byteOrder);
         //! Set the offset to the start of the root directory.
@@ -270,7 +270,7 @@ namespace Exiv2::Internal {
                   decoding failed.
         */
         static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
-                                uint32_t size, uint32_t root, FindDecoderFct findDecoderFct,
+                                size_t size, uint32_t root, FindDecoderFct findDecoderFct,
                                 TiffHeaderBase* pHeader = nullptr);
         /*!
           @brief Encode TIFF metadata from the metadata containers into a
@@ -282,10 +282,9 @@ namespace Exiv2::Internal {
              writing"). If there is a parsed tree, it is only used to access the
              image data in this case.
          */
-        static WriteMethod encode(
-                  BasicIo&           io,
+        static WriteMethod encode(BasicIo& io,
             const byte*              pData,
-                  uint32_t           size,
+                  size_t             size,
             const ExifData&          exifData,
             const IptcData&          iptcData,
             const XmpData&           xmpData,
@@ -311,7 +310,7 @@ namespace Exiv2::Internal {
          */
         static std::unique_ptr<TiffComponent> parse(
             const byte*              pData,
-                  uint32_t           size,
+                  size_t             size,
                   uint32_t           root,
                   TiffHeaderBase*    pHeader
         );

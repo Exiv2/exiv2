@@ -152,10 +152,9 @@ namespace Exiv2 {
 
           @return Write method used.
         */
-        static WriteMethod encode(
-                  BasicIo&  io,
+        static WriteMethod encode(BasicIo&  io,
             const byte*     pData,
-                  uint32_t  size,
+                  size_t size,
                   ByteOrder byteOrder,
             const ExifData& exifData,
             const IptcData& iptcData,

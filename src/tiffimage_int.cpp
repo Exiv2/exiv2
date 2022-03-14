@@ -2029,7 +2029,7 @@ namespace Exiv2::Internal {
               IptcData&          iptcData,
               XmpData&           xmpData,
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
               uint32_t           root,
               FindDecoderFct     findDecoderFct,
               TiffHeaderBase*    pHeader
@@ -2058,7 +2058,7 @@ namespace Exiv2::Internal {
     WriteMethod TiffParserWorker::encode(
               BasicIo&           io,
         const byte*              pData,
-              uint32_t           size,
+              size_t           size,
         const ExifData&          exifData,
         const IptcData&          iptcData,
         const XmpData&           xmpData,
@@ -2132,7 +2132,7 @@ namespace Exiv2::Internal {
 
     TiffComponent::UniquePtr TiffParserWorker::parse(
         const byte*              pData,
-              uint32_t           size,
+              size_t             size,
               uint32_t           root,
               TiffHeaderBase*    pHeader
     )
@@ -2198,9 +2198,10 @@ namespace Exiv2::Internal {
     {
     }
 
-    bool TiffHeaderBase::read(const byte* pData, uint32_t size)
+    bool TiffHeaderBase::read(const byte* pData, size_t size)
     {
-        if (!pData || size < 8) return false;
+        if (!pData || size < 8)
+            return false;
 
         if (pData[0] == 'I' && pData[0] == pData[1]) {
             byteOrder_ = littleEndian;
@@ -2216,7 +2217,7 @@ namespace Exiv2::Internal {
         offset_ = getULong(pData + 4, byteOrder_);
 
         return true;
-    } // TiffHeaderBase::read
+    }
 
     DataBuf TiffHeaderBase::write() const
     {

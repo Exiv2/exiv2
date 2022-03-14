@@ -535,7 +535,7 @@ namespace Exiv2 {
         if (!prepareXmpTarget(to))
               return;
         for (size_t i = 0; i < pos->count(); ++i) {
-            std::string value = pos->toString(static_cast<long>(i));
+            std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -687,7 +687,7 @@ namespace Exiv2 {
               return;
         std::ostringstream value;
         for (size_t i = 0; i < pos->count(); ++i) {
-            value << static_cast<char>(pos->toInt64(static_cast<long>(i)));
+            value << static_cast<char>(pos->toInt64(i));
         }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
@@ -702,8 +702,9 @@ namespace Exiv2 {
               return;
         std::ostringstream value;
         for (size_t i = 0; i < pos->count(); ++i) {
-            if (i > 0) value << '.';
-            value << pos->toInt64(static_cast<long>(i));
+            if (i > 0)
+                value << '.';
+            value << pos->toInt64(i);
         }
         (*xmpData_)[to] = value.str();
         if (erase_) exifData_->erase(pos);
@@ -830,7 +831,7 @@ namespace Exiv2 {
               return;
         std::ostringstream array;
         for (size_t i = 0; i < pos->count(); ++i) {
-            std::string value = pos->toString(static_cast<long>(i));
+            std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";

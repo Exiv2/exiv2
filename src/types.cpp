@@ -544,9 +544,7 @@ namespace Exiv2 {
 
         size_t i = 0;
         while (i < len) {
-            os << "  "
-               << std::setw(4) << std::setfill('0') << std::hex
-               << i + offset << "  ";
+            os << "  " << std::setw(4) << std::setfill('0') << std::hex << i + offset << "  ";
             std::ostringstream ss;
             do {
                 byte c = buf[i];

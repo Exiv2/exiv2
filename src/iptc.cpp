@@ -77,7 +77,7 @@ namespace Exiv2 {
             value_ = rhs.value_->clone();  // deep copy
     }
 
-    long Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
+    size_t Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
 
     std::ostream& Iptcdatum::write(std::ostream& os, const ExifData*) const
     {
@@ -107,24 +107,24 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
-    long Iptcdatum::typeSize() const
+    size_t Iptcdatum::typeSize() const
     {
-        return static_cast<long>(TypeInfo::typeSize(typeId()));
+        return TypeInfo::typeSize(typeId());
     }
 
     size_t Iptcdatum::count() const { return value_ ? value_->count() : 0; }
 
-    long Iptcdatum::size() const { return value_ ? static_cast<long>(value_->size()) : 0; }
+    size_t Iptcdatum::size() const { return value_ ? value_->size() : 0; }
 
     std::string Iptcdatum::toString() const { return value_ ? value_->toString() : ""; }
 
-    std::string Iptcdatum::toString(long n) const { return value_ ? value_->toString(n) : ""; }
+    std::string Iptcdatum::toString(size_t n) const { return value_ ? value_->toString(n) : ""; }
 
-    int64_t Iptcdatum::toInt64(long n) const { return value_ ? value_->toInt64(n) : -1; }
+    int64_t Iptcdatum::toInt64(size_t n) const { return value_ ? value_->toInt64(n) : -1; }
 
-    float Iptcdatum::toFloat(long n) const { return value_ ? value_->toFloat(n) : -1; }
+    float Iptcdatum::toFloat(size_t n) const { return value_ ? value_->toFloat(n) : -1; }
 
-    Rational Iptcdatum::toRational(long n) const { return value_ ? value_->toRational(n) : Rational(-1, 1); }
+    Rational Iptcdatum::toRational(size_t n) const { return value_ ? value_->toRational(n) : Rational(-1, 1); }
 
     Value::UniquePtr Iptcdatum::getValue() const { return value_ ? value_->clone() : nullptr; }
 
@@ -197,13 +197,13 @@ namespace Exiv2 {
         return *pos;
     }
 
-    long IptcData::size() const
+    size_t IptcData::size() const
     {
-        long newSize = 0;
+        size_t newSize = 0;
         for (auto&& iptc : iptcMetadata_) {
             // marker, record Id, dataset num, first 2 bytes of size
             newSize += 5;
-            long dataSize = iptc.size();
+            size_t dataSize = iptc.size();
             newSize += dataSize;
             if (dataSize > 32767) {
                 // extended dataset (we always use 4 bytes)
@@ -211,7 +211,7 @@ namespace Exiv2 {
             }
         }
         return newSize;
-    } // IptcData::size
+    }
 
     int IptcData::add(const IptcKey& key, Value* value)
     {
@@ -353,11 +353,7 @@ namespace Exiv2 {
 
     const byte IptcParser::marker_ = 0x1C;          // Dataset marker
 
-    int IptcParser::decode(
-              IptcData& iptcData,
-        const byte*     pData,
-              uint32_t  size
-    )
+    int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size)
     {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "IptcParser::decode, size = " << size << "\n";
@@ -385,7 +381,8 @@ namespace Exiv2 {
                 uint16_t sizeOfSize = (getUShort(pRead, bigEndian) & 0x7FFF);
                 if (sizeOfSize > 4) return 5;
                 pRead += 2;
-                if (sizeOfSize > static_cast<size_t>(pEnd - pRead)) return 6;
+                if (sizeOfSize > pEnd - pRead)
+                    return 6;
                 sizeData = 0;
                 for (; sizeOfSize > 0; --sizeOfSize) {
                     sizeData |= *pRead++ << (8 *(sizeOfSize-1));
@@ -450,13 +447,13 @@ namespace Exiv2 {
             *pWrite++ = static_cast<byte>(iter.tag());
 
             // extended or standard dataset?
-            long dataSize = iter.size();
+            size_t dataSize = iter.size();
             if (dataSize > 32767) {
                 // always use 4 bytes for extended length
                 uint16_t sizeOfSize = 4 | 0x8000;
                 us2Data(pWrite, sizeOfSize, bigEndian);
                 pWrite += 2;
-                ul2Data(pWrite, dataSize, bigEndian);
+                ul2Data(pWrite, static_cast<uint32_t>(dataSize), bigEndian);
                 pWrite += 4;
             }
             else {

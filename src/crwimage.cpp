@@ -74,7 +74,7 @@ namespace Exiv2 {
         DataBuf file(io().size());
         io_->read(file.data(), file.size());
 
-        CrwParser::decode(this, io_->mmap(), static_cast<uint32_t>(io_->size()));
+        CrwParser::decode(this, io_->mmap(), io_->size());
 
     } // CrwImage::readMetadata
 
@@ -99,7 +99,7 @@ namespace Exiv2 {
         }
 
         Blob blob;
-        CrwParser::encode(blob, buf.c_data(), static_cast<uint32_t>(buf.size()), this);
+        CrwParser::encode(blob, buf.c_data(), buf.size(), this);
 
         // Write new buffer to file
         auto tempIo = std::make_unique<MemIo>();
@@ -109,7 +109,7 @@ namespace Exiv2 {
 
     } // CrwImage::writeMetadata
 
-    void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, uint32_t size)
+    void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, size_t size)
     {
         assert(pCrwImage);
         assert(pData);
@@ -123,16 +123,11 @@ namespace Exiv2 {
         CiffComponent* preview = header.findComponent(0x2007, 0x0000);
         if (preview) {
             (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormat"] = uint32_t(preview->pData() - pData);
-            (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormatLength"] = preview->size();
+            (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormatLength"] = static_cast<uint32_t>(preview->size());
         }
     } // CrwParser::decode
 
-    void CrwParser::encode(
-              Blob&     blob,
-        const byte*     pData,
-              uint32_t  size,
-        const CrwImage* pCrwImage
-    )
+    void CrwParser::encode(Blob& blob, const byte* pData, size_t size, const CrwImage* pCrwImage)
     {
         // Parse image, starting with a CIFF header component
         CiffHeader header;

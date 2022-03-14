@@ -87,7 +87,7 @@ namespace Exiv2 {
 
         //! @name Accessors
         //@{
-        long copy(byte* buf, ByteOrder byteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder) const override;
         std::ostream& write(std::ostream& os, const ExifData* pMetadata = nullptr) const override;
         /*!
           @brief Return the key of the Iptcdatum. The key is of the form
@@ -118,14 +118,14 @@ namespace Exiv2 {
         uint16_t tag() const override;
         TypeId typeId() const override;
         const char* typeName() const override;
-        long typeSize() const override;
+        size_t typeSize() const override;
         size_t count() const override;
-        long size() const override;
+        size_t size() const override;
         std::string toString() const override;
-        std::string toString(long n) const override;
-        int64_t toInt64(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        std::string toString(size_t n) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         Value::UniquePtr getValue() const override;
         const Value& value() const override;
         //@}
@@ -236,19 +236,17 @@ namespace Exiv2 {
                               uint16_t record = IptcDataSets::application2) const;
         //! Return true if there is no IPTC metadata
         bool empty() const { return count() == 0; }
+
         //! Get the number of metadata entries
-        long count() const { return static_cast<long>(iptcMetadata_.size()); }
-        /*!
-          @brief Return the exact size of all contained IPTC metadata
-         */
-        long size() const;
-        /*!
-          @brief Return the metadata charset name or 0
-         */
+        size_t count() const { return iptcMetadata_.size(); }
+
+        //! @brief Return the exact size of all contained IPTC metadata
+        size_t size() const;
+
+        //! @brief Return the metadata charset name or 0
         const char *detectCharset() const;
-        /*!
-          @brief dump iptc formatted binary data (used by printStructure kpsRecursive)
-        */
+
+        //!  @brief dump iptc formatted binary data (used by printStructure kpsRecursive)
         static void printStructure(std::ostream& out, const Slice<byte*>& bytes,uint32_t depth);
         //@}
 
@@ -274,7 +272,7 @@ namespace Exiv2 {
           @return 0 if successful;<BR>
                   5 if the binary IPTC data is invalid or corrupt
          */
-        static int decode(IptcData& iptcData, const byte* pData, uint32_t size);
+        static int decode(IptcData& iptcData, const byte* pData, size_t size);
 
         /*!
           @brief Encode the IPTC datasets from \em iptcData to a binary representation in IPTC IIM4 format.

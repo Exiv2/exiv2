@@ -34,7 +34,7 @@ namespace Exiv2::Internal {
 
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size) override;
+        bool read(const byte* pData, size_t size) override;
         //@}
 
         //! @name Accessors

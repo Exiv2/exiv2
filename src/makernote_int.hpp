@@ -33,7 +33,7 @@ namespace Exiv2::Internal {
                                         IfdId       group,
                                         IfdId       mnGroup,
                                         const byte* pData,
-                                        uint32_t    size,
+                                        size_t      size,
                                         ByteOrder   byteOrder);
 
     //! Type for a pointer to a function creating a makernote (group)
@@ -83,7 +83,7 @@ namespace Exiv2::Internal {
                                      IfdId              group,
                                      const std::string& make,
                                      const byte*        pData,
-                                     uint32_t           size,
+                                     size_t size,
                                      ByteOrder          byteOrder);
         /*!
           @brief Create the Makernote for a given group. This method is used
@@ -111,9 +111,7 @@ namespace Exiv2::Internal {
         //! @name Manipulators
         //@{
         //! Read the header from a data buffer, return true if ok
-        virtual bool read(const byte* pData,
-                          uint32_t    size,
-                          ByteOrder   byteOrder) =0;
+        virtual bool read(const byte* pData, size_t size, ByteOrder byteOrder) = 0;
         /*!
           @brief Set the byte order for the makernote.
          */
@@ -122,15 +120,14 @@ namespace Exiv2::Internal {
         //! @name Accessors
         //@{
         //! Return the size of the header (in bytes).
-        virtual uint32_t size() const =0;
+        virtual size_t size() const =0;
         //! Write the header to a data buffer, return the number of bytes written.
-        virtual uint32_t write(IoWrapper& ioWrapper,
-                               ByteOrder  byteOrder) const =0;
+        virtual size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const = 0;
         /*!
           @brief Return the offset to the start of the Makernote IFD from
                  the start of the Makernote (= the start of the header).
          */
-        virtual uint32_t ifdOffset() const;
+        virtual size_t ifdOffset() const;
         /*!
           @brief Return the byte order for the makernote. If the return value is
                  invalidByteOrder, this means that the byte order of the the
@@ -159,16 +156,16 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
@@ -188,17 +185,17 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
@@ -218,19 +215,19 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         // setByteOrder not implemented
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         ByteOrder byteOrder() const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
@@ -252,20 +249,20 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        size_t start_;                //!< Start of the mn IFD rel. to mn start
         static const byte signature_[]; //!< Nikon 2 makernote header signature
 
     }; // class Nikon2MnHeader
@@ -282,24 +279,24 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         void setByteOrder(ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         ByteOrder byteOrder() const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
         ByteOrder byteOrder_;           //!< Byteorder for makernote
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        size_t start_;                //!< Start of the mn IFD rel. to mn start
         static const byte signature_[]; //!< Nikon 3 makernote header signature
 
     }; // class Nikon3MnHeader
@@ -316,20 +313,20 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        size_t start_;                //!< Start of the mn IFD rel. to mn start
         static const byte signature_[]; //!< Panasonic makernote header signature
 
     }; // class PanasonicMnHeader
@@ -346,17 +343,17 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
@@ -376,16 +373,16 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf header_;                //!< Data buffer for the makernote header
@@ -403,12 +400,12 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
         uint32_t baseOffset(uint32_t mnOffset) const override;
         //@}
 
@@ -426,20 +423,20 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf buf_;                    //!< Raw header data
-        uint32_t start_;                 //!< Start of the mn IFD rel. to mn start
+        size_t start_;                 //!< Start of the mn IFD rel. to mn start
         static const byte signature1_[]; //!< Sigma makernote header signature 1
         static const byte signature2_[]; //!< Sigma makernote header signature 2
 
@@ -457,20 +454,20 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        size_t start_;                //!< Start of the mn IFD rel. to mn start
         static const byte signature_[]; //!< Sony makernote header signature
 
     }; // class SonyMnHeader
@@ -487,21 +484,21 @@ namespace Exiv2::Internal {
         //@}
         //! @name Manipulators
         //@{
-        bool read(const byte* pData, uint32_t size, ByteOrder byteOrder) override;
+        bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
         //@}
         //! @name Accessors
         //@{
-        uint32_t size() const override;
-        uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-        uint32_t ifdOffset() const override;
+        size_t size() const override;
+        size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+        size_t ifdOffset() const override;
         ByteOrder byteOrder() const override;
         //@}
         //! Return the size of the makernote header signature
-        static uint32_t sizeOfSignature();
+        static size_t sizeOfSignature();
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        size_t start_;                //!< Start of the mn IFD rel. to mn start
         static const byte signature_[]; //!< Casio makernote header signature
         static const ByteOrder byteOrder_; //!< Byteorder for makernote (always big endian)
 
@@ -515,7 +512,7 @@ namespace Exiv2::Internal {
                             IfdId       group,
                             IfdId       mnGroup,
                             const byte* pData,
-                            uint32_t    size,
+                            size_t size,
                             ByteOrder   byteOrder);
 
     //! Function to create a simple IFD makernote (Canon, Minolta, Nikon1)
@@ -528,7 +525,7 @@ namespace Exiv2::Internal {
                                 IfdId       group,
                                 IfdId       mnGroup,
                                 const byte* pData,
-                                uint32_t    size,
+                                size_t    size,
                                 ByteOrder   byteOrder);
 
     //! Function to create an Olympus makernote
@@ -546,7 +543,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId       mnGroup,
                              const byte* pData,
-                             uint32_t    size,
+                             size_t    size,
                              ByteOrder   byteOrder);
 
     //! Function to create a Fujifilm makernote
@@ -562,7 +559,7 @@ namespace Exiv2::Internal {
                               IfdId       group,
                               IfdId       mnGroup,
                               const byte* pData,
-                              uint32_t    size,
+                              size_t    size,
                               ByteOrder   byteOrder);
 
     //! Function to create a Nikon2 makernote
@@ -580,7 +577,7 @@ namespace Exiv2::Internal {
                                   IfdId       group,
                                   IfdId       mnGroup,
                                   const byte* pData,
-                                  uint32_t    size,
+                                  size_t    size,
                                   ByteOrder   byteOrder);
 
     //! Function to create a Panasonic makernote
@@ -593,7 +590,7 @@ namespace Exiv2::Internal {
                                IfdId       group,
                                IfdId       mnGroup,
                                const byte* pData,
-                               uint32_t    size,
+                               size_t    size,
                                ByteOrder   byteOrder);
 
     //! Function to create an Pentax makernote
@@ -611,7 +608,7 @@ namespace Exiv2::Internal {
                                 IfdId       group,
                                 IfdId       mnGroup,
                                 const byte* pData,
-                                uint32_t    size,
+                                size_t    size,
                                 ByteOrder   byteOrder);
 
     //! Function to create a Samsung makernote
@@ -624,7 +621,7 @@ namespace Exiv2::Internal {
                               IfdId       group,
                               IfdId       mnGroup,
                               const byte* pData,
-                              uint32_t    size,
+                              size_t    size,
                               ByteOrder   byteOrder);
 
     //! Function to create a Sigma makernote
@@ -637,7 +634,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId       mnGroup,
                              const byte* pData,
-                             uint32_t    size,
+                             size_t    size,
                              ByteOrder   byteOrder);
 
     //! Function to create a Sony1 makernote
@@ -655,7 +652,7 @@ namespace Exiv2::Internal {
                              IfdId       group,
                              IfdId       mnGroup,
                              const byte* pData,
-                             uint32_t    size,
+                             size_t    size,
                              ByteOrder   byteOrder);
 
     //! Function to create a Casio2 makernote
@@ -672,7 +669,7 @@ namespace Exiv2::Internal {
       @param pRoot Pointer to the root component of the TIFF tree.
       @return An index into the array set, -1 if no match was found.
      */
-    int sonyCsSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int sonyCsSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
         @brief Function to select cfg + def of the Sony 2010 Miscellaneous Information complex binary array.
@@ -683,8 +680,8 @@ namespace Exiv2::Internal {
         @param pRoot Pointer to the root component of the TIFF tree.
         @return An index into the array set, -1 if no match was found.
     */
-    int sony2010eSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
-       
+    int sony2010eSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+
     /*!
         @brief Function to select cfg + def of the Sony2Fp (tag 9402) complex binary array.
 
@@ -694,7 +691,7 @@ namespace Exiv2::Internal {
         @param pRoot Pointer to the root component of the TIFF tree.
         @return An index into the array set, -1 if no match was found.
     */
-    int sony2FpSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int sony2FpSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
         @brief Function to select cfg + def of the SonyMisc2b (tag 9404b) complex binary array.
@@ -705,7 +702,7 @@ namespace Exiv2::Internal {
         @param pRoot Pointer to the root component of the TIFF tree.
         @return An index into the array set, -1 if no match was found.
     */
-    int sonyMisc2bSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int sonyMisc2bSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
         @brief Function to select cfg + def of the SonyMisc3c (tag 9400) complex binary array.
@@ -716,7 +713,7 @@ namespace Exiv2::Internal {
         @param pRoot Pointer to the root component of the TIFF tree.
         @return An index into the array set, -1 if no match was found.
     */
-    int sonyMisc3cSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int sonyMisc3cSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
       @brief Function to select cfg + def of a Nikon complex binary array.
@@ -727,7 +724,7 @@ namespace Exiv2::Internal {
       @param pRoot Pointer to the root component of the TIFF tree.
       @return An index into the array set, -1 if no match was found.
      */
-    int nikonSelector(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
     /*!
       @brief Encrypt and decrypt Nikon data.
@@ -745,7 +742,7 @@ namespace Exiv2::Internal {
       @return En/decrypted data. Ownership of the memory is passed to the caller.
               The buffer may be empty in case no decryption was needed.
      */
-    DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
+    DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
 
 }  // namespace Exiv2::Internal
 

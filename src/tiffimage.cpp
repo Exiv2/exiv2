@@ -157,8 +157,7 @@ namespace Exiv2 {
         }
         clearMetadata();
 
-        ByteOrder bo =
-            TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
+        ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
         setByteOrder(bo);
 
         // read profile from the metadata
@@ -182,13 +181,13 @@ namespace Exiv2 {
 #endif
         ByteOrder bo = byteOrder();
         byte* pData = nullptr;
-        long size = 0;
+        size_t size = 0;
         IoCloser closer(*io_);
         if (io_->open() == 0) {
             // Ensure that this is the correct image type
             if (isTiffType(*io_, false)) {
                 pData = io_->mmap(true);
-                size = static_cast<long>(io_->size());
+                size = io_->size();
                 TiffHeader tiffHeader;
                 if (0 == tiffHeader.read(pData, 8)) {
                     bo = tiffHeader.byteOrder();
@@ -205,7 +204,7 @@ namespace Exiv2 {
         auto pos   = exifData_.findKey(key);
         bool                      found = pos != exifData_.end();
         if ( iccProfileDefined() ) {
-            Exiv2::DataValue value(iccProfile_.c_data(), static_cast<long>(iccProfile_.size()));
+            Exiv2::DataValue value(iccProfile_.c_data(), iccProfile_.size());
             if ( found ) pos->setValue(&value);
             else     exifData_.add(key,&value);
         } else {
@@ -244,15 +243,8 @@ namespace Exiv2 {
                                         TiffMapping::findDecoder);
     } // TiffParser::decode
 
-    WriteMethod TiffParser::encode(
-              BasicIo&  io,
-        const byte*     pData,
-              uint32_t  size,
-              ByteOrder byteOrder,
-        const ExifData& exifData,
-        const IptcData& iptcData,
-        const XmpData&  xmpData
-    )
+    WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
+                                   const ExifData& exifData, const IptcData& iptcData, const XmpData& xmpData)
     {
         // Copy to be able to modify the Exif data
         ExifData ed = exifData;

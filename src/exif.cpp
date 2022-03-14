@@ -302,7 +302,7 @@ namespace Exiv2 {
 
     int Exifdatum::idx() const { return key_ ? key_->idx() : 0; }
 
-    long Exifdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
+    size_t Exifdatum::copy(byte* buf, ByteOrder byteOrder) const { return value_ ? value_->copy(buf, byteOrder) : 0; }
 
     TypeId Exifdatum::typeId() const { return value_ ? value_->typeId() : invalidTypeId; }
 
@@ -311,24 +311,24 @@ namespace Exiv2 {
         return TypeInfo::typeName(typeId());
     }
 
-    long Exifdatum::typeSize() const
+    size_t Exifdatum::typeSize() const
     {
-        return static_cast<long>(TypeInfo::typeSize(typeId()));
+        return TypeInfo::typeSize(typeId());
     }
 
     size_t Exifdatum::count() const { return value_ ? value_->count() : 0; }
 
-    long Exifdatum::size() const { return value_ ? static_cast<long>(value_->size()) : 0; }
+    size_t Exifdatum::size() const { return value_ ? value_->size() : 0; }
 
     std::string Exifdatum::toString() const { return value_ ? value_->toString() : ""; }
 
-    std::string Exifdatum::toString(long n) const { return value_ ? value_->toString(n) : ""; }
+    std::string Exifdatum::toString(size_t n) const { return value_ ? value_->toString(n) : ""; }
 
-    int64_t Exifdatum::toInt64(long n) const { return value_ ? value_->toInt64(n) : -1; }
+    int64_t Exifdatum::toInt64(size_t n) const { return value_ ? value_->toInt64(n) : -1; }
 
-    float Exifdatum::toFloat(long n) const { return value_ ? value_->toFloat(n) : -1; }
+    float Exifdatum::toFloat(size_t n) const { return value_ ? value_->toFloat(n) : -1; }
 
-    Rational Exifdatum::toRational(long n) const { return value_ ? value_->toRational(n) : Rational(-1, 1); }
+    Rational Exifdatum::toRational(size_t n) const { return value_ ? value_->toRational(n) : Rational(-1, 1); }
 
     Value::UniquePtr Exifdatum::getValue() const { return value_ ? value_->clone() : nullptr; }
 
@@ -574,10 +574,10 @@ namespace Exiv2 {
         // Encode and check if the result fits into a JPEG Exif APP1 segment
         MemIo mio1;
         TiffHeader header(byteOrder, 0x00000008, false);
-        WriteMethod wm = TiffParserWorker::encode(mio1, pData, static_cast<uint32_t>(size), ed, emptyIptc, emptyXmp,
+        WriteMethod wm = TiffParserWorker::encode(mio1, pData, size, ed, emptyIptc, emptyXmp,
                                                   Tag::root, TiffMapping::findEncoder, &header, nullptr);
         if (mio1.size() <= 65527) {
-            append(blob, mio1.mmap(), static_cast<uint32_t>(mio1.size()));
+            append(blob, mio1.mmap(), mio1.size());
             return wm;
         }
 
@@ -672,9 +672,9 @@ namespace Exiv2 {
 
         // Encode the remaining Exif tags again, don't care if it fits this time
         MemIo mio2;
-        wm = TiffParserWorker::encode(mio2, pData, static_cast<uint32_t>(size), ed, emptyIptc, emptyXmp, Tag::root,
+        wm = TiffParserWorker::encode(mio2, pData, size, ed, emptyIptc, emptyXmp, Tag::root,
                                       TiffMapping::findEncoder, &header, nullptr);
-        append(blob, mio2.mmap(), static_cast<uint32_t>(mio2.size()));
+        append(blob, mio2.mmap(), mio2.size());
 #ifdef EXIV2_DEBUG_MESSAGES
         if (wm == wmIntrusive) {
             std::cerr << "SIZE OF EXIF DATA IS " << std::dec << mio2.size() << " BYTES\n";
@@ -771,7 +771,7 @@ namespace {
     {
         int64_t sum = 0;
         for (size_t i = 0; i < md.count(); ++i) {
-            sum += md.toInt64(static_cast<long>(i));
+            sum += md.toInt64(i);
         }
         return sum;
     }

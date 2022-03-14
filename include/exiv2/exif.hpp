@@ -157,24 +157,24 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        long copy(byte* buf, ByteOrder byteOrder) const override;
+        size_t copy(byte* buf, ByteOrder byteOrder) const override;
         std::ostream& write(std::ostream& os, const ExifData* pMetadata = nullptr) const override;
         //! Return the type id of the value
         TypeId typeId() const override;
         //! Return the name of the type
         const char* typeName() const override;
         //! Return the size in bytes of one component of this type
-        long typeSize() const override;
+        size_t typeSize() const override;
         //! Return the number of components in the value
         size_t count() const override;
         //! Return the size of the value in bytes
-        long size() const override;
+        size_t size() const override;
         //! Return the value as a string.
         std::string toString() const override;
-        std::string toString(long n) const override;
-        int64_t toInt64(long n = 0) const override;
-        float toFloat(long n = 0) const override;
-        Rational toRational(long n = 0) const override;
+        std::string toString(size_t n) const override;
+        int64_t toInt64(size_t n = 0) const override;
+        float toFloat(size_t n = 0) const override;
+        Rational toRational(size_t n = 0) const override;
         Value::UniquePtr getValue() const override;
         const Value& value() const override;
         //! Return the size of the data area.

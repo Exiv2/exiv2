@@ -142,7 +142,7 @@ namespace Exiv2 {
           @param byteOrder Applicable byte order (little or big endian).
           @return Number of characters written.
         */
-        virtual long copy(byte* buf, ByteOrder byteOrder) const =0;
+        virtual size_t copy(byte* buf, ByteOrder byteOrder) const =0;
         /*!
           @brief Write the interpreted value to an output stream, return
                  the stream.
@@ -187,11 +187,11 @@ namespace Exiv2 {
         //! Return the name of the type
         virtual const char* typeName() const =0;
         //! Return the size in bytes of one component of this type
-        virtual long typeSize() const =0;
+        virtual size_t typeSize() const =0;
         //! Return the number of components in the value
         virtual size_t count() const =0;
         //! Return the size of the value in bytes
-        virtual long size() const =0;
+        virtual size_t size() const =0;
         //! Return the value as a string.
         virtual std::string toString() const =0;
         /*!
@@ -199,29 +199,29 @@ namespace Exiv2 {
                  a string. The behaviour of the method is undefined if there
                  is no <EM>n</EM>-th component.
          */
-        virtual std::string toString(long n) const =0;
+        virtual std::string toString(size_t n) const =0;
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to int64_t.
                  The return value is -1 if the value is not set and the behaviour
                  of the method is undefined if there is no <EM>n</EM>-th component.
          */
-        virtual int64_t toInt64(long n =0) const =0;
+        virtual int64_t toInt64(size_t n =0) const =0;
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to uint32_t.
          */
-        uint32_t toUint32(long n =0) const;
+        uint32_t toUint32(size_t n =0) const;
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to float.
                  The return value is -1 if the value is not set and the behaviour
                  of the method is undefined if there is no <EM>n</EM>-th component.
          */
-        virtual float toFloat(long n =0) const =0;
+        virtual float toFloat(size_t n =0) const =0;
         /*!
           @brief Return the <EM>n</EM>-th component of the value converted to Rational.
                  The return value is -1/1 if the value is not set and the behaviour
                  of the method is undefined if there is no <EM>n</EM>-th component.
          */
-        virtual Rational toRational(long n =0) const =0;
+        virtual Rational toRational(size_t n =0) const =0;
         /*!
           @brief Return an auto-pointer to a copy (clone) of the value. The
                  caller owns this copy and the auto-poiner ensures that it will
