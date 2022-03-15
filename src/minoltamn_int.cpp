@@ -8,6 +8,7 @@
 #include "exif.hpp"
 #include "i18n.h"                // NLS support.
 
+#include <array>
 #include <sstream>
 
 #include <cstdio> // popen to call exiftool
@@ -2137,7 +2138,7 @@ namespace Exiv2::Internal {
             std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue" ,metadata);
 
             std::string F1_8        = "434/256" ;
-            static constexpr const char* maxApertures[] = {
+            static constexpr auto maxApertures = std::array{
                 "926/256",   // F3.5
                 "1024/256",  // F4
                 "1110/256",  // F4.5
@@ -2155,7 +2156,7 @@ namespace Exiv2::Internal {
             } catch (...) {}
 
             if (model == "ILCE-6000" &&
-                std::find(std::begin(maxApertures), std::end(maxApertures), maxAperture) != std::end(maxApertures))
+                std::find(maxApertures.begin(), maxApertures.end(), maxAperture) != maxApertures.end())
                 try {
                     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
                     if (focalLength > 0) {

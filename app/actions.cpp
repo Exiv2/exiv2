@@ -125,7 +125,7 @@ namespace {
              multi-byte characters correctly. Replace code in the form
              os << setw(width) << myString
              with
-             os << make_pair( myString, width)
+             os << pair( myString, width)
      */
     std::ostream& operator<<(std::ostream& os, const std::pair<std::string, int>& strAndWidth);
 
@@ -317,8 +317,7 @@ namespace Action {
         if (Params::instance().files_.size() > 1) {
             std::cout << std::setw(20) << path_ << " ";
         }
-        std::cout << std::make_pair( label, align_)
-                  << ": ";
+        std::cout << std::pair(label, align_) << ": ";
     }
 
     int Print::printTag(const Exiv2::ExifData& exifData,

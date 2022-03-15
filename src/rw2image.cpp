@@ -13,6 +13,7 @@
 #include "tiffimage_int.hpp"
 
 // + standard includes
+#include <array>
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
 #endif
@@ -143,7 +144,7 @@ namespace Exiv2 {
             }
         }
         // Remove tags not applicable for raw images
-        static const char* filteredTags[] = {
+        static constexpr auto filteredTags = std::array{
             "Exif.Photo.ComponentsConfiguration",
             "Exif.Photo.CompressedBitsPerPixel",
             "Exif.Panasonic.ColorEffect",
@@ -171,7 +172,7 @@ namespace Exiv2 {
             "Exif.Photo.Saturation",
             "Exif.Photo.Sharpness",
             "Exif.Image.PrintImageMatching",
-            "Exif.Image.YCbCrPositioning"
+            "Exif.Image.YCbCrPositioning",
         };
         for (auto&& filteredTag : filteredTags) {
             auto pos = prevData.findKey(ExifKey(filteredTag));

@@ -10,6 +10,7 @@
 #include "value.hpp"
 
 // + standard includes
+#include <array>
 #include <cmath>
 
 // *****************************************************************************
@@ -2640,14 +2641,9 @@ if (!metadata) {
 
         byte raw[] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 
-        static const char* tags[] = {
-            "LensIDNumber",
-            "LensFStops",
-            "MinFocalLength",
-            "MaxFocalLength",
-            "MaxApertureAtMinFocal",
-            "MaxApertureAtMaxFocal",
-            "MCUVersion"
+        static constexpr auto tags = std::array{
+            "LensIDNumber",          "LensFStops", "MinFocalLength", "MaxFocalLength", "MaxApertureAtMinFocal",
+            "MaxApertureAtMaxFocal", "MCUVersion",
         };
 
         const std::string pre = std::string("Exif.") + group + std::string(".");

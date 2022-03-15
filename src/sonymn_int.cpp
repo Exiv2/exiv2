@@ -9,6 +9,7 @@
 #include "tiffcomposite_int.hpp"
 #include "value.hpp"
 
+#include <array>
 #include <cmath>
 
 // *****************************************************************************
@@ -1118,12 +1119,12 @@ namespace Exiv2::Internal {
             return os << "(" << value << ")";
 
         // Models that support this tag
-        static constexpr const char* models[] = { "ILCA-68",     "ILCA-77M2",   "ILCA-99M2",
-                                                  "ILCE-5000",   "ILCE-5100",   "ILCE-6000",   "ILCE-6300",   "ILCE-6500",   "ILCE-7",
-                                                  "ILCE-7M2",    "ILCE-7R",     "ILCE-7RM2",   "ILCE-7S",     "ILCE-7SM2",   "ILCE-QX1",
-                                                  "DSC-HX350",   "DSC-HX400V",  "DSC-HX60V",   "DSC-HX80",    "DSC-HX90",    "DSC-HX90V",
-                                                  "DSC-QX30",    "DSC-RX0",     "DSC-RX1RM2",  "DSC-RX10",    "DSC-RX10M2",  "DSC-RX10M3",
-                                                  "DSC-RX100M3", "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",   "DSC-WX350",   "DSC-WX500"
+        static constexpr auto models = std::array{
+            "ILCA-68",     "ILCA-77M2",   "ILCA-99M2",  "ILCE-5000", "ILCE-5100",  "ILCE-6000",  "ILCE-6300",
+            "ILCE-6500",   "ILCE-7",      "ILCE-7M2",   "ILCE-7R",   "ILCE-7RM2",  "ILCE-7S",    "ILCE-7SM2",
+            "ILCE-QX1",    "DSC-HX350",   "DSC-HX400V", "DSC-HX60V", "DSC-HX80",   "DSC-HX90",   "DSC-HX90V",
+            "DSC-QX30",    "DSC-RX0",     "DSC-RX1RM2", "DSC-RX10",  "DSC-RX10M2", "DSC-RX10M3", "DSC-RX100M3",
+            "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",  "DSC-WX350", "DSC-WX500",
         };
 
         std::string model = pos->toString();

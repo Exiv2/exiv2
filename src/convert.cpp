@@ -1513,7 +1513,7 @@ namespace {
     bool convertStringCharsetWindows(std::string& str, const char* from, const char* to)
     {
         bool ret = false;
-        const ConvFctList* p = find(convFctList, std::make_pair(from, to));
+        const ConvFctList* p = find(convFctList, std::pair(from, to));
         std::string tmpstr = str;
         if (p) ret = p->convFct_(tmpstr);
 #ifndef SUPPRESS_WARNINGS

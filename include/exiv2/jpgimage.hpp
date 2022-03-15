@@ -379,8 +379,8 @@ namespace Exiv2 {
 
     private:
         // Constant data
-        static const char exiv2Id_[];  // EXV identifier
-        static const byte blank_[];    // Minimal exiv2 file
+        static constexpr char exiv2Id_[] = "Exiv2";                                          // EXV identifier
+        static constexpr byte blank_[] = {0xff, 0x01, 'E', 'x', 'i', 'v', '2', 0xff, 0xd9};  // Minimal exiv2 file
 
     }; // class ExvImage
 

@@ -66,41 +66,41 @@ namespace {
     };
 
     /// \todo Use std::unordered_map for implementing the registry. Avoid to use ImageType::none
-    const Registry registry[] = {
-        //image type       creation fct     type check  Exif mode    IPTC mode    XMP mode     Comment mode
+    constexpr Registry registry[] = {
+        // image type       creation fct     type check  Exif mode    IPTC mode    XMP mode     Comment mode
         //---------------  ---------------  ----------  -----------  -----------  -----------  ------------
-        { ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite },
-        { ImageType::exv,  newExvInstance,  isExvType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
-        { ImageType::cr2,  newCr2Instance,  isCr2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
-        { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
-        { ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone,      amReadWrite, amNone      },
-        { ImageType::dng,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::nef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::pef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::arw,  newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
-        { ImageType::rw2,  newRw2Instance,  isRw2Type,  amRead,      amRead,      amRead,      amNone      },
-        { ImageType::sr2,  newTiffInstance, isTiffType, amRead,      amRead,      amRead,      amNone      },
-        { ImageType::srw,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::orf,  newOrfInstance,  isOrfType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+        {ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+        {ImageType::exv, newExvInstance, isExvType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+        {ImageType::cr2, newCr2Instance, isCr2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
+        {ImageType::crw, newCrwInstance, isCrwType, amReadWrite, amNone, amNone, amReadWrite},
+        {ImageType::mrw, newMrwInstance, isMrwType, amRead, amRead, amRead, amNone},
+        {ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+        {ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone, amReadWrite, amNone},
+        {ImageType::dng, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+        {ImageType::nef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+        {ImageType::pef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+        {ImageType::arw, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
+        {ImageType::rw2, newRw2Instance, isRw2Type, amRead, amRead, amRead, amNone},
+        {ImageType::sr2, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
+        {ImageType::srw, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+        {ImageType::orf, newOrfInstance, isOrfType, amReadWrite, amReadWrite, amReadWrite, amNone},
 #ifdef EXV_HAVE_LIBZ
-        { ImageType::png,  newPngInstance,  isPngType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
+        {ImageType::png, newPngInstance, isPngType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
 #endif // EXV_HAVE_LIBZ
-        { ImageType::pgf,  newPgfInstance,  isPgfType,  amReadWrite, amReadWrite, amReadWrite, amReadWrite },
-        { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
-        { ImageType::eps,  newEpsInstance,  isEpsType,  amNone,      amNone,      amReadWrite, amNone      },
-        { ImageType::xmp,  newXmpInstance,  isXmpType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::gif,  newGifInstance,  isGifType,  amNone,      amNone,      amNone,      amNone      },
-        { ImageType::psd,  newPsdInstance,  isPsdType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
-        { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
-        { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
+        {ImageType::pgf, newPgfInstance, isPgfType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+        {ImageType::raf, newRafInstance, isRafType, amRead, amRead, amRead, amNone},
+        {ImageType::eps, newEpsInstance, isEpsType, amNone, amNone, amReadWrite, amNone},
+        {ImageType::xmp, newXmpInstance, isXmpType, amReadWrite, amReadWrite, amReadWrite, amNone},
+        {ImageType::gif, newGifInstance, isGifType, amNone, amNone, amNone, amNone},
+        {ImageType::psd, newPsdInstance, isPsdType, amReadWrite, amReadWrite, amReadWrite, amNone},
+        {ImageType::tga, newTgaInstance, isTgaType, amNone, amNone, amNone, amNone},
+        {ImageType::bmp, newBmpInstance, isBmpType, amNone, amNone, amNone, amNone},
+        {ImageType::jp2, newJp2Instance, isJp2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
 #ifdef EXV_ENABLE_BMFF
-        { ImageType::bmff, newBmffInstance, isBmffType, amRead,      amRead,      amRead,      amNone      },
+        {ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif // EXV_ENABLE_BMFF
         // End of list marker
-        { ImageType::none, nullptr,               nullptr,          amNone,      amNone,      amNone,      amNone      }
+        {ImageType::none, nullptr, nullptr, amNone, amNone, amNone, amNone},
     };
 
     std::string pathOfFileUrl(const std::string& url) {
