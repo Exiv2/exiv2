@@ -13,6 +13,8 @@ class Jp2ImageEncodeJp2HeaderOutOfBoundsRead2(metaclass=CaseMeta):
     filename = path("$tmp_path/issue_ghsa_mxw9_qx4c_6m8v_poc.jp2")
     commands = ["$exiv2 rm $filename"]
     stdout = [""]
-    retval = [0]
-
-    compare_stderr = check_no_ASAN_UBSAN_errors
+    stderr = [
+        """$exception_in_erase """ + filename + """:
+$kerCorruptedMetadata
+"""]
+    retval = [1]
