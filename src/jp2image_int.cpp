@@ -16,7 +16,7 @@ bool isValidBoxFileType(const std::vector<uint8_t> &boxData)
         return false;
     }
 
-    const size_t N = boxData.size() - 8u / 4u;
+    const size_t N = (boxData.size() - 8u) / 4u;
     const uint32_t brand = getULong(boxData.data(), bigEndian);
     const uint32_t minorVersion = getULong(boxData.data()+4, bigEndian);
 
