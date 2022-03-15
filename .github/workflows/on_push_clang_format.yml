@@ -1,0 +1,14 @@
+name: Clang Format Checker
+on: [push]
+jobs:
+  clang-format-checking:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: DoozyX/clang-format-lint-action@v0.13
+        with:
+          source: '.'
+          exclude: './xmpsdk ./contrib'
+          extensions: 'c,h,cpp,hpp'
+          clangFormatVersion: 12
+          style: file
