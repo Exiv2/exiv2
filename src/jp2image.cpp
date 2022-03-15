@@ -12,6 +12,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
+#include "jp2image_int.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 #include "types.hpp"
@@ -20,30 +21,8 @@ namespace Exiv2
 {
     namespace
     {
-        struct Jp2BoxHeader
-        {
-            uint32_t length;
-            uint32_t type;
-        };
 
-        struct Jp2ImageHeaderBox
-        {
-            uint32_t imageHeight;
-            uint32_t imageWidth;
-            uint16_t componentCount;
-            uint8_t bpc;   //<! Bits per component
-            uint8_t c;     //<! Compression type
-            uint8_t unkC;  //<! Colourspace unknown
-            uint8_t ipr;   //<! Intellectual property
-                           //            uint16_t compressionTypeProfile;
-        };
-
-        struct Jp2UuidBox
-        {
-            uint8_t uuid[16];
-        };
-
-        const size_t boxSize = sizeof(Jp2BoxHeader);
+        constexpr size_t boxSize = sizeof(Internal::Jp2BoxHeader);
         // JPEG-2000 box types
         constexpr uint32_t kJp2BoxTypeSignature = 0x6a502020;    // signature box, required,
         constexpr uint32_t kJp2BoxTypeFileTypeBox = 0x66747970;  // File type box, required
@@ -52,8 +31,6 @@ namespace Exiv2
         constexpr uint32_t kJp2BoxTypeColorSpec = 0x636f6c72;    // Color Specification box ('colr'), required
         constexpr uint32_t kJp2BoxTypeUuid = 0x75756964;         // 'uuid'
         constexpr uint32_t kJp2BoxTypeClose = 0x6a703263;        // 'jp2c'
-
-        const uint32_t brandJp2 = 0x6a703220;
 
         // JPEG-2000 UUIDs for embedded metadata
         //
@@ -65,7 +42,8 @@ namespace Exiv2
         constexpr unsigned char kJp2UuidXmp[] = "\xbe\x7a\xcf\xcb\x97\xa9\x42\xe8\x9c\x71\x99\x94\x91\xe3\xaf\xac";
 
         // See section B.1.1 (JPEG 2000 Signature box) of JPEG-2000 specification
-        constexpr unsigned char Jp2Signature[12] = {0x00, 0x00, 0x00, 0x0c, 0x6a, 0x50, 0x20, 0x20, 0x0d, 0x0a, 0x87, 0x0a};
+        constexpr std::array<byte, 12> Jp2Signature{0x00, 0x00, 0x00, 0x0c, 0x6a, 0x50,
+                                                    0x20, 0x20, 0x0d, 0x0a, 0x87, 0x0a};
 
         constexpr std::array<byte, 249> Jp2Blank{
             0x00, 0x00, 0x00, 0x0c, 0x6a, 0x50, 0x20, 0x20, 0x0d, 0x0a, 0x87, 0x0a, 0x00, 0x00, 0x00, 0x14, 0x66, 0x74,
@@ -162,16 +140,19 @@ namespace Exiv2
             throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        if (!isJp2Type(*io_, true)) {
+        if (!isJp2Type(*io_, false)) {
             throw Error(ErrorCode::kerNotAnImage, "JPEG-2000");
         }
 
         const size_t maxBoxes = 1000;  // boxes max
-        Jp2BoxHeader box = {0, 0};
-        Jp2BoxHeader subBox = {0, 0};
-        Jp2ImageHeaderBox ihdr = {0, 0, 0, 0, 0, 0, 0};
-        Jp2UuidBox uuid = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+        Internal::Jp2BoxHeader box = {0, 0};
+        Internal::Jp2BoxHeader subBox = {0, 0};
+        Internal::Jp2ImageHeaderBox ihdr = {0, 0, 0, 0, 0, 0, 0};
+        Internal::Jp2UuidBox uuid = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
         size_t boxesCount = 0;
+        uint32_t lastBoxTypeRead = 0;
+        bool boxSignatureFound = false;
+        bool boxFileTypeFound = false;
 
         while (io_->read(reinterpret_cast<byte*>(&box), boxSize) == boxSize) {
             boxes_check(boxesCount++, maxBoxes);
@@ -189,30 +170,25 @@ namespace Exiv2
                 return;
 
             if (box.length == 1) {
-                /// \todo In this case, the real box size is given in bytes XLBox (bytes 8-15)
+                /// \todo In this case, the real box size is given in XLBox (bytes 8-15)
             }
 
             switch (box.type) {
                 case kJp2BoxTypeSignature: {
-#ifdef EXIV2_DEBUG_MESSAGES
-                    std::cout << "Jp2Image::readMetadata: JPEG 2000 Signature box found" << std::endl;
-#endif
+                    if (boxSignatureFound) // Only one is allowed
+                        throw Error(ErrorCode::kerCorruptedMetadata);
+                    boxSignatureFound = true;
                     break;
                 }
                 case kJp2BoxTypeFileTypeBox: {
                     // This box shall immediately follow the JPEG 2000 Signature box
-                    /// \todo  All files shall contain one and only one File Type box.
-                    assert(box.length >= 20);  // 8 (box) + 4 (BR) + 4(MinV) + >=4 (CLn)
-                    DataBuf data(box.length - boxSize);
-                    io_->read(data.data(), data.size());
-                    const uint32_t brand = data.read_uint32(0, bigEndian);
-                    const uint32_t minorVersion = data.read_uint32(4, bigEndian);
-                    const uint32_t compatibilityList = data.read_uint32(8, bigEndian);
-                    //                    const size_t clCount = (data.size() - 8) / 4;
-                    //                    for(size_t i = 0; i < clCount; i++) {
-                    //                        uint32_t compatibilityList = data.read_uint32(8 + i*4, bigEndian);
-                    //                    }
-                    if (brand != brandJp2 || minorVersion != 0 || compatibilityList != brandJp2)
+                    if (boxFileTypeFound || lastBoxTypeRead != kJp2BoxTypeSignature) { // Only one is allowed
+                        throw Error(ErrorCode::kerCorruptedMetadata);
+                    }
+                    boxFileTypeFound = true;
+                    std::vector<byte> boxData(box.length - boxSize);
+                    io_->readOrThrow(boxData.data(), boxData.size(), ErrorCode::kerCorruptedMetadata);
+                    if (!Internal::isValidBoxFileType(boxData))
                         throw Error(ErrorCode::kerCorruptedMetadata);
                     break;
                 }
@@ -405,6 +381,8 @@ namespace Exiv2
                 }
             }
 
+            lastBoxTypeRead = box.type;
+
             // Move to the next box.
             io_->seek(static_cast<long>(position - boxSize + box.length), BasicIo::beg);
             if (io_->error())
@@ -433,15 +411,17 @@ namespace Exiv2
         bool bXMP = option == kpsXMP;
         bool bIPTCErase = option == kpsIptcErase;
 
+        bool boxSignatureFound = false;
+
         if (bPrint) {
             out << "STRUCTURE OF JPEG2000 FILE: " << io_->path() << std::endl;
             out << " address |   length | box       | data" << std::endl;
         }
 
         if (bPrint || bXMP || bICC || bIPTCErase) {
-            Jp2BoxHeader box = {1, 1};
-            Jp2BoxHeader subBox = {1, 1};
-            Jp2UuidBox uuid = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+            Internal::Jp2BoxHeader box = {1, 1};
+            Internal::Jp2BoxHeader subBox = {1, 1};
+            Internal::Jp2UuidBox uuid = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
             bool bLF = false;
 
             while (box.length && box.type != kJp2BoxTypeClose &&
@@ -463,24 +443,17 @@ namespace Exiv2
 
                 switch (box.type) {
                     case kJp2BoxTypeSignature: {
-                        /// \todo we should make sure that only 1 of this boxes is found
-                        assert(box.length == 12);
-                        DataBuf data(4);
-                        io_->read(data.data(), data.size());
-                        if (data.read_uint32(0, bigEndian) != 0x0D0A870A) {
+                        if (boxSignatureFound) // Only one is allowed
                             throw Error(ErrorCode::kerCorruptedMetadata);
-                        }
+                        boxSignatureFound = true;
                         break;
                     }
                     case kJp2BoxTypeFileTypeBox: {
                         // This box shall immediately follow the JPEG 2000 Signature box
                         /// \todo  All files shall contain one and only one File Type box.
-                        DataBuf data(12);
-                        io_->read(data.data(), data.size());
-                        uint32_t brand = data.read_uint32(0, bigEndian);
-                        uint32_t minorVersion = data.read_uint32(4, bigEndian);
-                        uint32_t compatibilityList = data.read_uint32(8, bigEndian);
-                        if (brand != brandJp2 || minorVersion != 0 || compatibilityList != brandJp2)
+                        std::vector<byte> boxData(box.length - boxSize);
+                        io_->readOrThrow(boxData.data(), boxData.size(), ErrorCode::kerCorruptedMetadata);
+                        if (!Internal::isValidBoxFileType(boxData))
                             throw Error(ErrorCode::kerCorruptedMetadata);
                         break;
                     }
@@ -642,7 +615,7 @@ namespace Exiv2
         long outlen = boxSize;                                     // now many bytes have we written to output?
         long inlen = boxSize;                                      // how many bytes have we read from boxBuf?
         enforce(boxSize <= output.size(), ErrorCode::kerCorruptedMetadata);
-        auto pBox = reinterpret_cast<const Jp2BoxHeader*>(boxBuf.c_data());
+        auto pBox = reinterpret_cast<const Internal::Jp2BoxHeader*>(boxBuf.c_data());
         uint32_t length = getLong(reinterpret_cast<const byte*>(&pBox->length), bigEndian);
 
         enforce(length <= output.size(), ErrorCode::kerCorruptedMetadata);
@@ -652,12 +625,12 @@ namespace Exiv2
 
         while (count < length && !bWroteColor) {
             enforce(boxSize <= length - count, ErrorCode::kerCorruptedMetadata);
-            auto pSubBox = reinterpret_cast<const Jp2BoxHeader*>(p + count);
+            auto pSubBox = reinterpret_cast<const Internal::Jp2BoxHeader*>(p + count);
 
             // copy data.  pointer could be into a memory mapped file which we will decode!
-            Jp2BoxHeader subBox;
+            Internal::Jp2BoxHeader subBox;
             memcpy(&subBox, pSubBox, boxSize);
-            Jp2BoxHeader newBox = subBox;
+            Internal::Jp2BoxHeader newBox = subBox;
 
             if (count < length) {
                 subBox.length = getLong(reinterpret_cast<byte*>(&subBox.length), bigEndian);
@@ -710,7 +683,7 @@ namespace Exiv2
         // allocate the correct number of bytes, copy the data and update the box header
         outBuf.alloc(outlen);
         outBuf.copyBytes(0, output.c_data(), outlen);
-        auto oBox = reinterpret_cast<Jp2BoxHeader*>(outBuf.data());
+        auto oBox = reinterpret_cast<Internal::Jp2BoxHeader*>(outBuf.data());
         ul2Data(reinterpret_cast<byte*>(&oBox->type), kJp2BoxTypeHeader, bigEndian);
         ul2Data(reinterpret_cast<byte*>(&oBox->length), outlen, bigEndian);
     }
@@ -737,14 +710,14 @@ namespace Exiv2
         }
 
         // Write JPEG2000 Signature (This is the 1st box)
-        if (outIo.write(Jp2Signature, 12) != 12)
+        if (outIo.write(Jp2Signature.data(), Jp2Signature.size()) != 12)
             throw Error(ErrorCode::kerImageWriteFailed);
 
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Jp2Image::doWriteMetadata: JPEG 2000 Signature box written" << std::endl;
 #endif
 
-        Jp2BoxHeader box = {0, 0};
+        Internal::Jp2BoxHeader box = {0, 0};
 
         byte boxDataSize[4];
         byte boxUUIDtype[4];
@@ -935,7 +908,7 @@ namespace Exiv2
         if (iIo.error() || iIo.eof() || bytesRead != len) {
             return false;
         }
-        bool matched = (memcmp(buf, Jp2Signature, len) == 0);
+        bool matched = (memcmp(buf, Jp2Signature.data(), len) == 0);
         if (advance == false || matched == false) {
             iIo.seek(-len, BasicIo::cur);  // Return to original position
         }
