@@ -22,6 +22,55 @@
 #include <gtest/gtest.h>
 using namespace Exiv2;
 
+TEST(MemIo_Default, readEReturns0)
+{
+    std::vector<byte> buf(10);
+    MemIo io;
+    ASSERT_EQ(0, io.read(buf.data(), (long)buf.size()));
+}
+
+TEST(MemIo_Default, isNotAtEof)
+{
+    MemIo io;
+    ASSERT_FALSE(io.eof());
+}
+
+TEST(MemIo_Default, seekBeyondBufferSizeReturns1AndSetsEofToTrue)
+{
+    MemIo io;
+    ASSERT_EQ(1, io.seek(1, BasicIo::beg));
+    ASSERT_TRUE(io.eof());
+}
+
+TEST(MemIo_Default, seekBefore0Returns1ButItDoesNotSetEofToTrue)
+{
+    MemIo io;
+    ASSERT_EQ(1, io.seek(-1, BasicIo::beg));
+    ASSERT_FALSE(io.eof());
+}
+
+TEST(MemIo_Default, seekToEndPosition_doesNotTriggerEof)
+{
+    MemIo io;
+    ASSERT_EQ(0, io.tell());
+    ASSERT_EQ(0, io.seek(0, BasicIo::end));
+    ASSERT_EQ(0, io.tell());
+    ASSERT_FALSE(io.eof());
+}
+
+TEST(MemIo_Default, seekToEndPositionAndReadTriggersEof)
+{
+    MemIo io;
+    ASSERT_EQ(0, io.seek(0, BasicIo::end));
+    ASSERT_EQ(0, io.tell());
+
+    std::vector<byte> buf2(64, 0);
+    ASSERT_EQ(0, io.read(buf2.data(), 1)); // Note that we cannot even read 1 byte being at the end
+    ASSERT_TRUE(io.eof());
+}
+
+// -------------------------
+
 TEST(MemIo, seek_out_of_bounds_00)
 {
     byte buf[1024];

@@ -19,6 +19,7 @@ add_library( exiv2lib_int OBJECT
     fujimn_int.cpp          fujimn_int.hpp
     helper_functions.cpp    helper_functions.hpp
     image_int.cpp           image_int.hpp
+    jp2image_int.cpp        jp2image_int.hpp
     makernote_int.cpp       makernote_int.hpp
     minoltamn_int.cpp       minoltamn_int.hpp
     nikonmn_int.cpp         nikonmn_int.hpp
