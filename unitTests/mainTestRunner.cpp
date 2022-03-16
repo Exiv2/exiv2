@@ -3,13 +3,12 @@
 #include <gtest/gtest.h>
 #include <iostream>
 
-int main(int argc, char** argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
+int main(int argc, char** argv) {
+  ::testing::InitGoogleTest(&argc, argv);
 
-    int ret = RUN_ALL_TESTS();
+  int ret = RUN_ALL_TESTS();
 
-    std::cout << "Tests finished with return value: " << ret << std::endl;
+  std::cout << "Tests finished with return value: " << ret << std::endl;
 
-    return ret;
+  return ret;
 }

@@ -57,7 +57,7 @@ target_include_directories(getopt-test PRIVATE
   ${CMAKE_SOURCE_DIR}/app
 ) # To find getopt.hpp
 
-add_executable( metacopy metacopy.cpp ../app/getopt.cpp)
+add_executable( metacopy metacopy.cpp metacopy.hpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS metacopy)
 target_include_directories(metacopy PRIVATE 
   ${CMAKE_SOURCE_DIR}/app

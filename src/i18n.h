@@ -30,18 +30,18 @@
 
 /* NLS can be disabled through the configure --disable-nls option. */
 #ifdef EXV_ENABLE_NLS
-# include <libintl.h>
+#include <libintl.h>
 
 // Definition is in types.cpp
 EXIV2API const char* _exvGettext(const char* str);
 
-# define _(String) _exvGettext(String)
-# define N_(String) String
+#define _(String) _exvGettext(String)
+#define N_(String) String
 
 #else /* NLS is disabled */
 
-# define _(String) (String)
-# define N_(String) String
+#define _(String) (String)
+#define N_(String) String
 
 #endif /* EXV_ENABLE_NLS */
 

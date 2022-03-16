@@ -12,34 +12,30 @@ Config loaded from : 'initest.ini' version=6, name=Bob Smith, email=bob@smith.co
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 
-int main()
-{
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
+int main() {
+  Exiv2::XmpParser::initialize();
+  ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
+  Exiv2::enableBMFF();
 #endif
 
-    int              result = 0 ;
-    const char*      ini    = "ini-test.ini";
-    Exiv2::INIReader reader(ini);
+  int result = 0;
+  const char* ini = "ini-test.ini";
+  Exiv2::INIReader reader(ini);
 
-    if (reader.ParseError() < 0) {
-        std::cerr << "Can't load '" << ini << "'" << std::endl ;
-        result = 1;
-    } else {
-        std::cout << "Config loaded from : '" << ini << "' "
-                  << "version="  << reader.GetInteger("protocol", "version", -1)
-                  << ", name="   << reader.Get("user", "name", "UNKNOWN")
-                  << ", email="  << reader.Get("user", "email", "UNKNOWN")
-                  << ", pi="     << reader.GetReal("user", "pi", -1)
-                  << ", active=" << reader.GetBoolean("user", "active", true)
-                  << std::endl ;
+  if (reader.ParseError() < 0) {
+    std::cerr << "Can't load '" << ini << "'" << std::endl;
+    result = 1;
+  } else {
+    std::cout << "Config loaded from : '" << ini << "' "
+              << "version=" << reader.GetInteger("protocol", "version", -1)
+              << ", name=" << reader.Get("user", "name", "UNKNOWN")
+              << ", email=" << reader.Get("user", "email", "UNKNOWN") << ", pi=" << reader.GetReal("user", "pi", -1)
+              << ", active=" << reader.GetBoolean("user", "active", true) << std::endl;
 
-        std::cout << "169="      << reader.Get("canon",   "169","UNDEFINED")
-                  << ", 170="    << reader.Get("canon",   "170","UNDEFINED")
-                  << std::endl ;
-    }
+    std::cout << "169=" << reader.Get("canon", "169", "UNDEFINED")
+              << ", 170=" << reader.Get("canon", "170", "UNDEFINED") << std::endl;
+  }
 
-    return result ;
+  return result;
 }

@@ -36,55 +36,54 @@ static constexpr const char* testcases[] = {
     "text",
 };
 
-int main()
-{
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
+int main() {
+  Exiv2::XmpParser::initialize();
+  ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
+  Exiv2::enableBMFF();
 #endif
 
-    std::cout << std::setfill(' ');
+  std::cout << std::setfill(' ');
 
-    std::cout << std::setw(12) << std::left << "string";
-    std::cout << std::setw(12) << std::left << "long";
-    std::cout << std::setw(12) << std::left << "float";
-    std::cout << std::setw(12) << std::left << "Rational";
+  std::cout << std::setw(12) << std::left << "string";
+  std::cout << std::setw(12) << std::left << "long";
+  std::cout << std::setw(12) << std::left << "float";
+  std::cout << std::setw(12) << std::left << "Rational";
 
-    std::cout << std::endl;
+  std::cout << std::endl;
 
-    for (auto&& testcase : testcases) {
-        try {
-            std::string s(testcase);
-            std::cout << std::setw(12) << std::left << s;
-            bool ok = false;
+  for (auto&& testcase : testcases) {
+    try {
+      std::string s(testcase);
+      std::cout << std::setw(12) << std::left << s;
+      bool ok = false;
 
-            const auto l = Exiv2::parseInt64(s, ok);
-            std::cout << std::setw(12) << std::left;
-            if (ok)
-                std::cout << l;
-            else
-                std::cout << "nok";
+      const auto l = Exiv2::parseInt64(s, ok);
+      std::cout << std::setw(12) << std::left;
+      if (ok)
+        std::cout << l;
+      else
+        std::cout << "nok";
 
-            float f = Exiv2::parseFloat(s, ok);
-            std::cout << std::setw(12) << std::left;
-            if (ok)
-                std::cout << f;
-            else
-                std::cout << "nok";
+      float f = Exiv2::parseFloat(s, ok);
+      std::cout << std::setw(12) << std::left;
+      if (ok)
+        std::cout << f;
+      else
+        std::cout << "nok";
 
-            Exiv2::Rational r = Exiv2::parseRational(s, ok);
-            if (ok)
-                std::cout << r.first << "/" << r.second;
-            else
-                std::cout << "nok";
+      Exiv2::Rational r = Exiv2::parseRational(s, ok);
+      if (ok)
+        std::cout << r.first << "/" << r.second;
+      else
+        std::cout << "nok";
 
-            std::cout << std::endl;
-        } catch (Exiv2::Error& e) {
-            std::cout << "Caught Exiv2 exception '" << e << "'\n";
-            return -1;
-        }
+      std::cout << std::endl;
+    } catch (Exiv2::Error& e) {
+      std::cout << "Caught Exiv2 exception '" << e << "'\n";
+      return -1;
     }
+  }
 
-    return 0;
+  return 0;
 }

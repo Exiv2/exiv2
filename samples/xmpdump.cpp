@@ -4,34 +4,33 @@
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 
-int main(int argc, char* const argv[])
-{
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
+int main(int argc, char* const argv[]) {
+  Exiv2::XmpParser::initialize();
+  ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
+  Exiv2::enableBMFF();
 #endif
 
-    try {
-        if (argc != 2) {
-            std::cout << "Usage: " << argv[0] << " file\n";
-            return 1;
-        }
-
-        auto image = Exiv2::ImageFactory::open(argv[1]);
-        image->readMetadata();
-
-        const std::string& xmpPacket = image->xmpPacket();
-        if (xmpPacket.empty()) {
-            std::string error(argv[1]);
-            error += ": No XMP packet found in the file";
-            throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
-        }
-        std::cout << xmpPacket << "\n";
-
-        return 0;
-    } catch (Exiv2::Error& e) {
-        std::cout << "Caught Exiv2 exception '" << e << "'\n";
-        return -1;
+  try {
+    if (argc != 2) {
+      std::cout << "Usage: " << argv[0] << " file\n";
+      return 1;
     }
+
+    auto image = Exiv2::ImageFactory::open(argv[1]);
+    image->readMetadata();
+
+    const std::string& xmpPacket = image->xmpPacket();
+    if (xmpPacket.empty()) {
+      std::string error(argv[1]);
+      error += ": No XMP packet found in the file";
+      throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
+    }
+    std::cout << xmpPacket << "\n";
+
+    return 0;
+  } catch (Exiv2::Error& e) {
+    std::cout << "Caught Exiv2 exception '" << e << "'\n";
+    return -1;
+  }
 }

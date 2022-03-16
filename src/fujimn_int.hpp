@@ -10,21 +10,20 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2::Internal {
+// *****************************************************************************
+// class definitions
 
-    // *****************************************************************************
-    // class definitions
+//! MakerNote for Fujifilm cameras
+class FujiMakerNote {
+ public:
+  //! Return read-only list of built-in Fujifilm tags
+  static const TagInfo* tagList();
 
-    //! MakerNote for Fujifilm cameras
-    class FujiMakerNote {
-    public:
-        //! Return read-only list of built-in Fujifilm tags
-        static const TagInfo* tagList();
-
-    private:
-        //! Tag information
-        static const TagInfo tagInfo_[];
-    }; // class FujiMakerNote
+ private:
+  //! Tag information
+  static const TagInfo tagInfo_[];
+};  // class FujiMakerNote
 
 }  // namespace Exiv2::Internal
 
-#endif                                  // #ifndef FUJIMN_INT_HPP_
+#endif  // #ifndef FUJIMN_INT_HPP_

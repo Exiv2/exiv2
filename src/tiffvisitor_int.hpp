@@ -14,675 +14,667 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+class IptcData;
+class XmpData;
+class TiffImageEntry;
+class TiffDataEntryBase;
 
-    class IptcData;
-    class XmpData;
-    class TiffImageEntry;
-    class TiffDataEntryBase;
-
-    namespace Internal {
-
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
-    /*!
-      @brief Abstract base class defining the interface for TIFF composite
-             visitors (Visitor pattern)
+/*!
+  @brief Abstract base class defining the interface for TIFF composite
+         visitors (Visitor pattern)
 
-      A concrete visitor class is used as shown in the example below. Accept()
-      will invoke the member function corresponding to the concrete type of each
-      component in the composite.
+  A concrete visitor class is used as shown in the example below. Accept()
+  will invoke the member function corresponding to the concrete type of each
+  component in the composite.
 
-      @code
-      void visitorExample(Exiv2::TiffComponent* tiffComponent, Exiv2::TiffVisitor& visitor)
-      {
-          tiffComponent->accept(visitor);
-      }
-      @endcode
-     */
-    class TiffVisitor {
-    public:
-        //! Events for the stop/go flag. See setGo().
-        enum GoEvent {
-            //! Signal to control traversing of the composite tree.
-            geTraverse       = 0,
-            //! Signal used by TiffReader to signal an unknown makernote.
-            geKnownMakernote = 1
-            // Note: If you add more events here, adjust the events_ constant too!
-        };
+  @code
+  void visitorExample(Exiv2::TiffComponent* tiffComponent, Exiv2::TiffVisitor& visitor)
+  {
+      tiffComponent->accept(visitor);
+  }
+  @endcode
+ */
+class TiffVisitor {
+ public:
+  //! Events for the stop/go flag. See setGo().
+  enum GoEvent {
+    //! Signal to control traversing of the composite tree.
+    geTraverse = 0,
+    //! Signal used by TiffReader to signal an unknown makernote.
+    geKnownMakernote = 1
+    // Note: If you add more events here, adjust the events_ constant too!
+  };
 
-    private:
-        static const int events_ = 2;  //!< The number of stop/go flags.
-        std::array<bool, events_> go_; //!< Array of stop/go flags. See setGo().
+ private:
+  static const int events_ = 2;   //!< The number of stop/go flags.
+  std::array<bool, events_> go_;  //!< Array of stop/go flags. See setGo().
 
-    public:
-        //! @name Creators
-        //@{
-        //! Default constructor. Initialises all stop/go flags to true.
-        TiffVisitor();
-        //! Virtual destructor
-        virtual ~TiffVisitor() = default;
-        //@}
+ public:
+  //! @name Creators
+  //@{
+  //! Default constructor. Initialises all stop/go flags to true.
+  TiffVisitor();
+  //! Virtual destructor
+  virtual ~TiffVisitor() = default;
+  //@}
 
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Set the stop/go flag: true for go, false for stop.
+  //! @name Manipulators
+  //@{
+  /*!
+    @brief Set the stop/go flag: true for go, false for stop.
 
-          This mechanism is used by visitors and components to signal special
-          events. Specifically, TiffFinder sets the geTraverse flag as soon as
-          it finds the correct component to signal to components that the search
-          should be aborted. TiffReader uses geKnownMakernote to signal problems
-          reading a makernote to the TiffMnEntry component. There is an array
-          of flags, one for each defined \em event, so different signals can be
-          used independent of each other.
-         */
-        void setGo(GoEvent event, bool go);
-        //! Operation to perform for a TIFF entry
-        virtual void visitEntry(TiffEntry* object) =0;
-        //! Operation to perform for a TIFF data entry
-        virtual void visitDataEntry(TiffDataEntry* object) =0;
-        //! Operation to perform for a TIFF image entry
-        virtual void visitImageEntry(TiffImageEntry* object) =0;
-        //! Operation to perform for a TIFF size entry
-        virtual void visitSizeEntry(TiffSizeEntry* object) =0;
-        //! Operation to perform for a TIFF directory
-        virtual void visitDirectory(TiffDirectory* object) =0;
-        /*!
-          @brief Operation to perform for a TIFF directory, after all components
-                 and before the next entry is processed.
-         */
-        virtual void visitDirectoryNext(TiffDirectory* object);
-        /*!
-          @brief Operation to perform for a TIFF directory, at the end of the
-                 processing.
-         */
-        virtual void visitDirectoryEnd(TiffDirectory* object);
-        //! Operation to perform for a TIFF sub-IFD
-        virtual void visitSubIfd(TiffSubIfd* object) =0;
-        //! Operation to perform for the makernote component
-        virtual void visitMnEntry(TiffMnEntry* object) =0;
-        //! Operation to perform for an IFD makernote
-        virtual void visitIfdMakernote(TiffIfdMakernote* object) =0;
-        //! Operation to perform after processing an IFD makernote
-        virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
-        //! Operation to perform for a binary array
-        virtual void visitBinaryArray(TiffBinaryArray* object) =0;
-        /*!
-          @brief Operation to perform for a TIFF binary array, at the end
-                 of the processing.
-         */
-        virtual void visitBinaryArrayEnd(TiffBinaryArray* object);
-        //! Operation to perform for an element of a binary array
-        virtual void visitBinaryElement(TiffBinaryElement* object) =0;
-        //@}
+    This mechanism is used by visitors and components to signal special
+    events. Specifically, TiffFinder sets the geTraverse flag as soon as
+    it finds the correct component to signal to components that the search
+    should be aborted. TiffReader uses geKnownMakernote to signal problems
+    reading a makernote to the TiffMnEntry component. There is an array
+    of flags, one for each defined \em event, so different signals can be
+    used independent of each other.
+   */
+  void setGo(GoEvent event, bool go);
+  //! Operation to perform for a TIFF entry
+  virtual void visitEntry(TiffEntry* object) = 0;
+  //! Operation to perform for a TIFF data entry
+  virtual void visitDataEntry(TiffDataEntry* object) = 0;
+  //! Operation to perform for a TIFF image entry
+  virtual void visitImageEntry(TiffImageEntry* object) = 0;
+  //! Operation to perform for a TIFF size entry
+  virtual void visitSizeEntry(TiffSizeEntry* object) = 0;
+  //! Operation to perform for a TIFF directory
+  virtual void visitDirectory(TiffDirectory* object) = 0;
+  /*!
+    @brief Operation to perform for a TIFF directory, after all components
+           and before the next entry is processed.
+   */
+  virtual void visitDirectoryNext(TiffDirectory* object);
+  /*!
+    @brief Operation to perform for a TIFF directory, at the end of the
+           processing.
+   */
+  virtual void visitDirectoryEnd(TiffDirectory* object);
+  //! Operation to perform for a TIFF sub-IFD
+  virtual void visitSubIfd(TiffSubIfd* object) = 0;
+  //! Operation to perform for the makernote component
+  virtual void visitMnEntry(TiffMnEntry* object) = 0;
+  //! Operation to perform for an IFD makernote
+  virtual void visitIfdMakernote(TiffIfdMakernote* object) = 0;
+  //! Operation to perform after processing an IFD makernote
+  virtual void visitIfdMakernoteEnd(TiffIfdMakernote* object);
+  //! Operation to perform for a binary array
+  virtual void visitBinaryArray(TiffBinaryArray* object) = 0;
+  /*!
+    @brief Operation to perform for a TIFF binary array, at the end
+           of the processing.
+   */
+  virtual void visitBinaryArrayEnd(TiffBinaryArray* object);
+  //! Operation to perform for an element of a binary array
+  virtual void visitBinaryElement(TiffBinaryElement* object) = 0;
+  //@}
 
-        //! @name Accessors
-        //@{
-        //! Check if stop flag for \em event is clear, return true if it's clear.
-        bool go(GoEvent event) const;
-        //@}
+  //! @name Accessors
+  //@{
+  //! Check if stop flag for \em event is clear, return true if it's clear.
+  bool go(GoEvent event) const;
+  //@}
 
-    }; // class TiffVisitor
+};  // class TiffVisitor
 
-    /*!
-      @brief Search the composite for a component with \em tag and \em group.
-             Return a pointer to the component or 0, if not found. The class
-             is ready for a first search after construction and can be
-             re-initialized with init().
-    */
-    class TiffFinder : public TiffVisitor {
-    public:
-        //! @name Creators
-        //@{
-        //! Constructor, taking \em tag and \em group of the component to find.
-        TiffFinder(uint16_t tag, IfdId group) : tag_(tag), group_(group) {}
-        //! Virtual destructor
-        ~TiffFinder() override = default;
-        //@}
+/*!
+  @brief Search the composite for a component with \em tag and \em group.
+         Return a pointer to the component or 0, if not found. The class
+         is ready for a first search after construction and can be
+         re-initialized with init().
+*/
+class TiffFinder : public TiffVisitor {
+ public:
+  //! @name Creators
+  //@{
+  //! Constructor, taking \em tag and \em group of the component to find.
+  TiffFinder(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
+  }
+  //! Virtual destructor
+  ~TiffFinder() override = default;
+  //@}
 
-        //! @name Manipulators
-        //@{
-        //! Find tag and group in a TIFF entry
-        void visitEntry(TiffEntry* object) override;
-        //! Find tag and group in a TIFF data entry
-        void visitDataEntry(TiffDataEntry* object) override;
-        //! Find tag and group in a TIFF image entry
-        void visitImageEntry(TiffImageEntry* object) override;
-        //! Find tag and group in a TIFF size entry
-        void visitSizeEntry(TiffSizeEntry* object) override;
-        //! Find tag and group in a TIFF directory
-        void visitDirectory(TiffDirectory* object) override;
-        //! Find tag and group in a TIFF sub-IFD
-        void visitSubIfd(TiffSubIfd* object) override;
-        //! Find tag and group in a TIFF makernote
-        void visitMnEntry(TiffMnEntry* object) override;
-        //! Find tag and group in an IFD makernote
-        void visitIfdMakernote(TiffIfdMakernote* object) override;
-        //! Find tag and group in a binary array
-        void visitBinaryArray(TiffBinaryArray* object) override;
-        //! Find tag and group in an element of a binary array
-        void visitBinaryElement(TiffBinaryElement* object) override;
+  //! @name Manipulators
+  //@{
+  //! Find tag and group in a TIFF entry
+  void visitEntry(TiffEntry* object) override;
+  //! Find tag and group in a TIFF data entry
+  void visitDataEntry(TiffDataEntry* object) override;
+  //! Find tag and group in a TIFF image entry
+  void visitImageEntry(TiffImageEntry* object) override;
+  //! Find tag and group in a TIFF size entry
+  void visitSizeEntry(TiffSizeEntry* object) override;
+  //! Find tag and group in a TIFF directory
+  void visitDirectory(TiffDirectory* object) override;
+  //! Find tag and group in a TIFF sub-IFD
+  void visitSubIfd(TiffSubIfd* object) override;
+  //! Find tag and group in a TIFF makernote
+  void visitMnEntry(TiffMnEntry* object) override;
+  //! Find tag and group in an IFD makernote
+  void visitIfdMakernote(TiffIfdMakernote* object) override;
+  //! Find tag and group in a binary array
+  void visitBinaryArray(TiffBinaryArray* object) override;
+  //! Find tag and group in an element of a binary array
+  void visitBinaryElement(TiffBinaryElement* object) override;
 
-        //! Check if \em object matches \em tag and \em group
-        void findObject(TiffComponent* object);
-        //! Initialize the Finder for a new search.
-        void init(uint16_t tag, IfdId group);
-        //@}
+  //! Check if \em object matches \em tag and \em group
+  void findObject(TiffComponent* object);
+  //! Initialize the Finder for a new search.
+  void init(uint16_t tag, IfdId group);
+  //@}
 
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Return the search result. 0 if no TIFF component was found
-                 for the tag and group combination.
-         */
-        TiffComponent* result() const { return tiffComponent_; }
-        //@}
+  //! @name Accessors
+  //@{
+  /*!
+    @brief Return the search result. 0 if no TIFF component was found
+           for the tag and group combination.
+   */
+  TiffComponent* result() const {
+    return tiffComponent_;
+  }
+  //@}
 
-    private:
-        uint16_t tag_;
-        IfdId group_;
-        TiffComponent* tiffComponent_{};
-    }; // class TiffFinder
+ private:
+  uint16_t tag_;
+  IfdId group_;
+  TiffComponent* tiffComponent_{};
+};  // class TiffFinder
 
-    /*!
-      @brief Copy all image tags from the source tree (the tree that is traversed) to a
-             target tree, which is empty except for the root element provided in the
-             constructor.
-    */
-    class TiffCopier : public TiffVisitor {
-    public:
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor
+/*!
+  @brief Copy all image tags from the source tree (the tree that is traversed) to a
+         target tree, which is empty except for the root element provided in the
+         constructor.
+*/
+class TiffCopier : public TiffVisitor {
+ public:
+  //! @name Creators
+  //@{
+  /*!
+    @brief Constructor
 
-          @param pRoot Pointer to the root element of the (empty) target tree.
-          @param root
-          @param pHeader Pointer to the TIFF header of the source image.
-          @param pPrimaryGroups Pointer to the list of primary groups.
-         */
-        TiffCopier(      TiffComponent*  pRoot,
-                         uint32_t        root,
-                   const TiffHeaderBase* pHeader,
-                   const PrimaryGroups*  pPrimaryGroups);
-        //! Virtual destructor
-        ~TiffCopier() override = default;
-        //@}
+    @param pRoot Pointer to the root element of the (empty) target tree.
+    @param root
+    @param pHeader Pointer to the TIFF header of the source image.
+    @param pPrimaryGroups Pointer to the list of primary groups.
+   */
+  TiffCopier(TiffComponent* pRoot, uint32_t root, const TiffHeaderBase* pHeader, const PrimaryGroups* pPrimaryGroups);
+  //! Virtual destructor
+  ~TiffCopier() override = default;
+  //@}
 
-        //! @name Manipulators
-        //@{
-        //! Copy a TIFF entry if it is an image tag
-        void visitEntry(TiffEntry* object) override;
-        //! Copy a TIFF data entry if it is an image tag
-        void visitDataEntry(TiffDataEntry* object) override;
-        //! Copy a TIFF image entry if it is an image tag
-        void visitImageEntry(TiffImageEntry* object) override;
-        //! Copy a TIFF size entry if it is an image tag
-        void visitSizeEntry(TiffSizeEntry* object) override;
-        //! Copy a TIFF directory if it is an image tag
-        void visitDirectory(TiffDirectory* object) override;
-        //! Copy a TIFF sub-IFD if it is an image tag
-        void visitSubIfd(TiffSubIfd* object) override;
-        //! Copy a TIFF makernote if it is an image tag
-        void visitMnEntry(TiffMnEntry* object) override;
-        //! Copy an IFD makernote if it is an image tag
-        void visitIfdMakernote(TiffIfdMakernote* object) override;
-        //! Copy a binary array if it is an image tag
-        void visitBinaryArray(TiffBinaryArray* object) override;
-        //! Copy an element of a binary array if it is an image tag
-        void visitBinaryElement(TiffBinaryElement* object) override;
+  //! @name Manipulators
+  //@{
+  //! Copy a TIFF entry if it is an image tag
+  void visitEntry(TiffEntry* object) override;
+  //! Copy a TIFF data entry if it is an image tag
+  void visitDataEntry(TiffDataEntry* object) override;
+  //! Copy a TIFF image entry if it is an image tag
+  void visitImageEntry(TiffImageEntry* object) override;
+  //! Copy a TIFF size entry if it is an image tag
+  void visitSizeEntry(TiffSizeEntry* object) override;
+  //! Copy a TIFF directory if it is an image tag
+  void visitDirectory(TiffDirectory* object) override;
+  //! Copy a TIFF sub-IFD if it is an image tag
+  void visitSubIfd(TiffSubIfd* object) override;
+  //! Copy a TIFF makernote if it is an image tag
+  void visitMnEntry(TiffMnEntry* object) override;
+  //! Copy an IFD makernote if it is an image tag
+  void visitIfdMakernote(TiffIfdMakernote* object) override;
+  //! Copy a binary array if it is an image tag
+  void visitBinaryArray(TiffBinaryArray* object) override;
+  //! Copy an element of a binary array if it is an image tag
+  void visitBinaryElement(TiffBinaryElement* object) override;
 
-        //! Check if \em object is an image tag and if so, copy it to the target tree.
-        void copyObject(TiffComponent* object);
-        //@}
+  //! Check if \em object is an image tag and if so, copy it to the target tree.
+  void copyObject(TiffComponent* object);
+  //@}
 
-    private:
-              TiffComponent*  pRoot_;
-              uint32_t        root_;
-        const TiffHeaderBase* pHeader_;
-        const PrimaryGroups*  pPrimaryGroups_;
-    }; // class TiffCopier
+ private:
+  TiffComponent* pRoot_;
+  uint32_t root_;
+  const TiffHeaderBase* pHeader_;
+  const PrimaryGroups* pPrimaryGroups_;
+};  // class TiffCopier
 
-    /*!
-      @brief TIFF composite visitor to decode metadata from the TIFF tree and
-             add it to an Image, which is supplied in the constructor (Visitor
-             pattern). Used by TiffParser to decode the metadata from a
-             TIFF composite.
-     */
-    class TiffDecoder : public TiffVisitor {
-    public:
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor, taking metadata containers to add the metadata to,
-                 the root element of the composite to decode and a FindDecoderFct
-                 function to get the decoder function for each tag.
-         */
-        TiffDecoder(
-            ExifData&            exifData,
-            IptcData&            iptcData,
-            XmpData&             xmpData,
-            TiffComponent* const pRoot,
-            FindDecoderFct       findDecoderFct
-        );
-        //! Virtual destructor
-        ~TiffDecoder() override = default;
-        //@}
+/*!
+  @brief TIFF composite visitor to decode metadata from the TIFF tree and
+         add it to an Image, which is supplied in the constructor (Visitor
+         pattern). Used by TiffParser to decode the metadata from a
+         TIFF composite.
+ */
+class TiffDecoder : public TiffVisitor {
+ public:
+  //! @name Creators
+  //@{
+  /*!
+    @brief Constructor, taking metadata containers to add the metadata to,
+           the root element of the composite to decode and a FindDecoderFct
+           function to get the decoder function for each tag.
+   */
+  TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* const pRoot,
+              FindDecoderFct findDecoderFct);
+  //! Virtual destructor
+  ~TiffDecoder() override = default;
+  //@}
 
-        //! @name Manipulators
-        //@{
-        //! Decode a TIFF entry
-        void visitEntry(TiffEntry* object) override;
-        //! Decode a TIFF data entry
-        void visitDataEntry(TiffDataEntry* object) override;
-        //! Decode a TIFF image entry
-        void visitImageEntry(TiffImageEntry* object) override;
-        //! Decode a TIFF size entry
-        void visitSizeEntry(TiffSizeEntry* object) override;
-        //! Decode a TIFF directory
-        void visitDirectory(TiffDirectory* object) override;
-        //! Decode a TIFF sub-IFD
-        void visitSubIfd(TiffSubIfd* object) override;
-        //! Decode a TIFF makernote
-        void visitMnEntry(TiffMnEntry* object) override;
-        //! Decode an IFD makernote
-        void visitIfdMakernote(TiffIfdMakernote* object) override;
-        //! Decode a binary array
-        void visitBinaryArray(TiffBinaryArray* object) override;
-        //! Decode an element of a binary array
-        void visitBinaryElement(TiffBinaryElement* object) override;
+  //! @name Manipulators
+  //@{
+  //! Decode a TIFF entry
+  void visitEntry(TiffEntry* object) override;
+  //! Decode a TIFF data entry
+  void visitDataEntry(TiffDataEntry* object) override;
+  //! Decode a TIFF image entry
+  void visitImageEntry(TiffImageEntry* object) override;
+  //! Decode a TIFF size entry
+  void visitSizeEntry(TiffSizeEntry* object) override;
+  //! Decode a TIFF directory
+  void visitDirectory(TiffDirectory* object) override;
+  //! Decode a TIFF sub-IFD
+  void visitSubIfd(TiffSubIfd* object) override;
+  //! Decode a TIFF makernote
+  void visitMnEntry(TiffMnEntry* object) override;
+  //! Decode an IFD makernote
+  void visitIfdMakernote(TiffIfdMakernote* object) override;
+  //! Decode a binary array
+  void visitBinaryArray(TiffBinaryArray* object) override;
+  //! Decode an element of a binary array
+  void visitBinaryElement(TiffBinaryElement* object) override;
 
-        //! Entry function, determines how to decode each tag
-        void decodeTiffEntry(const TiffEntryBase* object);
-        //! Decode a standard TIFF entry
-        void decodeStdTiffEntry(const TiffEntryBase* object);
-        //! Decode IPTC data from an IPTCNAA tag or Photoshop ImageResources
-        void decodeIptc(const TiffEntryBase* object);
-        //! Decode XMP packet from an XMLPacket tag
-        void decodeXmp(const TiffEntryBase* object);
-        //! Decode Exif.Canon.AFInfo
-        void decodeCanonAFInfo(const TiffEntryBase* object);
-        //@}
+  //! Entry function, determines how to decode each tag
+  void decodeTiffEntry(const TiffEntryBase* object);
+  //! Decode a standard TIFF entry
+  void decodeStdTiffEntry(const TiffEntryBase* object);
+  //! Decode IPTC data from an IPTCNAA tag or Photoshop ImageResources
+  void decodeIptc(const TiffEntryBase* object);
+  //! Decode XMP packet from an XMLPacket tag
+  void decodeXmp(const TiffEntryBase* object);
+  //! Decode Exif.Canon.AFInfo
+  void decodeCanonAFInfo(const TiffEntryBase* object);
+  //@}
 
-    private:
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Get the data for a \em tag and \em group, either from the
-                 \em object provided, if it matches or from the matching element
-                 in the hierarchy.
+ private:
+  //! @name Manipulators
+  //@{
+  /*!
+    @brief Get the data for a \em tag and \em group, either from the
+           \em object provided, if it matches or from the matching element
+           in the hierarchy.
 
-          Populates \em pData and \em size with the result. If no matching
-          element is found the function leaves both of these parameters unchanged.
-        */
-        void getObjData(byte const*&         pData,
-                        size_t&              size,
-                        uint16_t             tag,
-                        IfdId                group,
-                        const TiffEntryBase* object);
-        //@}
+    Populates \em pData and \em size with the result. If no matching
+    element is found the function leaves both of these parameters unchanged.
+  */
+  void getObjData(byte const*& pData, size_t& size, uint16_t tag, IfdId group, const TiffEntryBase* object);
+  //@}
 
-        // DATA
-        ExifData& exifData_;         //!< Exif metadata container
-        IptcData& iptcData_;         //!< IPTC metadata container
-        XmpData&  xmpData_;          //!< XMP metadata container
-        TiffComponent* const pRoot_; //!< Root element of the composite
-        const FindDecoderFct findDecoderFct_; //!< Ptr to the function to find special decoding functions
-        std::string make_;           //!< Camera make, determined from the tags to decode
-        bool decodedIptc_;           //!< Indicates if IPTC has been decoded yet
+  // DATA
+  ExifData& exifData_;                   //!< Exif metadata container
+  IptcData& iptcData_;                   //!< IPTC metadata container
+  XmpData& xmpData_;                     //!< XMP metadata container
+  TiffComponent* const pRoot_;           //!< Root element of the composite
+  const FindDecoderFct findDecoderFct_;  //!< Ptr to the function to find special decoding functions
+  std::string make_;                     //!< Camera make, determined from the tags to decode
+  bool decodedIptc_;                     //!< Indicates if IPTC has been decoded yet
 
-    }; // class TiffDecoder
+};  // class TiffDecoder
 
-    /*!
-      @brief TIFF composite visitor to encode metadata from an image to the TIFF
-             tree. The metadata containers and root element of the tree are
-             supplied in the constructor. Used by TiffParserWorker to encode the
-             metadata into a TIFF composite.
+/*!
+  @brief TIFF composite visitor to encode metadata from an image to the TIFF
+         tree. The metadata containers and root element of the tree are
+         supplied in the constructor. Used by TiffParserWorker to encode the
+         metadata into a TIFF composite.
 
-             For non-intrusive writing, the encoder is used as a visitor (by
-             passing it to the accept() member of a TiffComponent). The
-             composite tree is then traversed and metadata from the image is
-             used to encode each existing component.
+         For non-intrusive writing, the encoder is used as a visitor (by
+         passing it to the accept() member of a TiffComponent). The
+         composite tree is then traversed and metadata from the image is
+         used to encode each existing component.
 
-             For intrusive writing, add() is called, which loops through the
-             metadata and creates and populates corresponding TiffComponents
-             as needed.
-     */
-    class TiffEncoder : public TiffVisitor {
-    public:
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor, taking the root element of the composite to encode
-                 to, the image with the metadata to encode and a function to
-                 find special encoders.
-         */
-        TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
-                    const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
-                    FindEncoderFct findEncoderFct);
-        //! Virtual destructor
-        ~TiffEncoder() override = default;
-        //@}
+         For intrusive writing, add() is called, which loops through the
+         metadata and creates and populates corresponding TiffComponents
+         as needed.
+ */
+class TiffEncoder : public TiffVisitor {
+ public:
+  //! @name Creators
+  //@{
+  /*!
+    @brief Constructor, taking the root element of the composite to encode
+           to, the image with the metadata to encode and a function to
+           find special encoders.
+   */
+  TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
+              const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+              FindEncoderFct findEncoderFct);
+  //! Virtual destructor
+  ~TiffEncoder() override = default;
+  //@}
 
-        //! @name Manipulators
-        //@{
-        //! Encode a TIFF entry
-        void visitEntry(TiffEntry* object) override;
-        //! Encode a TIFF data entry
-        void visitDataEntry(TiffDataEntry* object) override;
-        //! Encode a TIFF image entry
-        void visitImageEntry(TiffImageEntry* object) override;
-        //! Encode a TIFF size entry
-        void visitSizeEntry(TiffSizeEntry* object) override;
-        //! Encode a TIFF directory
-        void visitDirectory(TiffDirectory* object) override;
-        //! Update directory entries
-        void visitDirectoryNext(TiffDirectory* object) override;
-        //! Encode a TIFF sub-IFD
-        void visitSubIfd(TiffSubIfd* object) override;
-        //! Encode a TIFF makernote
-        void visitMnEntry(TiffMnEntry* object) override;
-        //! Encode an IFD makernote
-        void visitIfdMakernote(TiffIfdMakernote* object) override;
-        //! Reset encoder to its original state, undo makernote specific settings
-        void visitIfdMakernoteEnd(TiffIfdMakernote* object) override;
-        //! Encode a binary array
-        void visitBinaryArray(TiffBinaryArray* object) override;
-        //! Re-encrypt binary array if necessary
-        void visitBinaryArrayEnd(TiffBinaryArray* object) override;
-        //! Encode an element of a binary array
-        void visitBinaryElement(TiffBinaryElement* object) override;
+  //! @name Manipulators
+  //@{
+  //! Encode a TIFF entry
+  void visitEntry(TiffEntry* object) override;
+  //! Encode a TIFF data entry
+  void visitDataEntry(TiffDataEntry* object) override;
+  //! Encode a TIFF image entry
+  void visitImageEntry(TiffImageEntry* object) override;
+  //! Encode a TIFF size entry
+  void visitSizeEntry(TiffSizeEntry* object) override;
+  //! Encode a TIFF directory
+  void visitDirectory(TiffDirectory* object) override;
+  //! Update directory entries
+  void visitDirectoryNext(TiffDirectory* object) override;
+  //! Encode a TIFF sub-IFD
+  void visitSubIfd(TiffSubIfd* object) override;
+  //! Encode a TIFF makernote
+  void visitMnEntry(TiffMnEntry* object) override;
+  //! Encode an IFD makernote
+  void visitIfdMakernote(TiffIfdMakernote* object) override;
+  //! Reset encoder to its original state, undo makernote specific settings
+  void visitIfdMakernoteEnd(TiffIfdMakernote* object) override;
+  //! Encode a binary array
+  void visitBinaryArray(TiffBinaryArray* object) override;
+  //! Re-encrypt binary array if necessary
+  void visitBinaryArrayEnd(TiffBinaryArray* object) override;
+  //! Encode an element of a binary array
+  void visitBinaryElement(TiffBinaryElement* object) override;
 
-        /*!
-          @brief Top level encoder function. Determines how to encode each TIFF
-                 component. This function is called by the visit methods of the
-                 encoder as well as the add() method.
+  /*!
+    @brief Top level encoder function. Determines how to encode each TIFF
+           component. This function is called by the visit methods of the
+           encoder as well as the add() method.
 
-          If no \em datum is provided, search the metadata based on tag and
-          group of the \em object. This is the case if the function is called
-          from a visit method.
+    If no \em datum is provided, search the metadata based on tag and
+    group of the \em object. This is the case if the function is called
+    from a visit method.
 
-          Then check if a special encoder function is registered for the tag,
-          and if so use it to encode the \em object. Else use the callback
-          encoder function at the object (which results in a double-dispatch to
-          the appropriate encoding function of the encoder.
+    Then check if a special encoder function is registered for the tag,
+    and if so use it to encode the \em object. Else use the callback
+    encoder function at the object (which results in a double-dispatch to
+    the appropriate encoding function of the encoder.
 
-          @param object Object in the TIFF component tree to encode.
-          @param datum  The corresponding metadatum with the updated value.
+    @param object Object in the TIFF component tree to encode.
+    @param datum  The corresponding metadatum with the updated value.
 
-          @note Encoder functions may use metadata other than \em datum.
-         */
-        void encodeTiffComponent(TiffEntryBase* object, const Exifdatum* datum = nullptr);
+    @note Encoder functions may use metadata other than \em datum.
+   */
+  void encodeTiffComponent(TiffEntryBase* object, const Exifdatum* datum = nullptr);
 
-        //! Callback encoder function for an element of a binary array.
-        void encodeBinaryElement(TiffBinaryElement* object, const Exifdatum* datum);
-        //! Callback encoder function for a binary array.
-        void encodeBinaryArray(TiffBinaryArray* object, const Exifdatum* datum);
-        //! Callback encoder function for a data entry.
-        void encodeDataEntry(TiffDataEntry* object, const Exifdatum* datum);
-        //! Callback encoder function for a standard TIFF entry
-        void encodeTiffEntry(TiffEntry* object, const Exifdatum* datum);
-        //! Callback encoder function for an image entry.
-        void encodeImageEntry(TiffImageEntry* object, const Exifdatum* datum);
-        //! Callback encoder function for a %Makernote entry.
-        void encodeMnEntry(TiffMnEntry* object, const Exifdatum* datum);
-        //! Callback encoder function for a size entry.
-        void encodeSizeEntry(TiffSizeEntry* object, const Exifdatum* datum);
-        //! Callback encoder function for a sub-IFD entry.
-        void encodeSubIfd(TiffSubIfd* object, const Exifdatum* datum);
+  //! Callback encoder function for an element of a binary array.
+  void encodeBinaryElement(TiffBinaryElement* object, const Exifdatum* datum);
+  //! Callback encoder function for a binary array.
+  void encodeBinaryArray(TiffBinaryArray* object, const Exifdatum* datum);
+  //! Callback encoder function for a data entry.
+  void encodeDataEntry(TiffDataEntry* object, const Exifdatum* datum);
+  //! Callback encoder function for a standard TIFF entry
+  void encodeTiffEntry(TiffEntry* object, const Exifdatum* datum);
+  //! Callback encoder function for an image entry.
+  void encodeImageEntry(TiffImageEntry* object, const Exifdatum* datum);
+  //! Callback encoder function for a %Makernote entry.
+  void encodeMnEntry(TiffMnEntry* object, const Exifdatum* datum);
+  //! Callback encoder function for a size entry.
+  void encodeSizeEntry(TiffSizeEntry* object, const Exifdatum* datum);
+  //! Callback encoder function for a sub-IFD entry.
+  void encodeSubIfd(TiffSubIfd* object, const Exifdatum* datum);
 
-        //! Special encoder function for the base part of a TIFF entry.
-        void encodeTiffEntryBase(TiffEntryBase* object, const Exifdatum* datum);
-        //! Special encoder function for an offset entry.
-        void encodeOffsetEntry(TiffEntryBase* object, const Exifdatum* datum);
+  //! Special encoder function for the base part of a TIFF entry.
+  void encodeTiffEntryBase(TiffEntryBase* object, const Exifdatum* datum);
+  //! Special encoder function for an offset entry.
+  void encodeOffsetEntry(TiffEntryBase* object, const Exifdatum* datum);
 
-        //! Special encoder function to encode SubIFD contents to Image group if it contains primary image data
-        // Todo void encodeNikonSubIfd(TiffEntryBase* object, const Exifdatum* datum);
+  //! Special encoder function to encode SubIFD contents to Image group if it contains primary image data
+  // Todo void encodeNikonSubIfd(TiffEntryBase* object, const Exifdatum* datum);
 
-        //! Special encoder function to encode IPTC data to an IPTCNAA or Photoshop ImageResources tag.
-        void encodeIptc(TiffEntryBase* object, const Exifdatum* datum);
-        /*!
-          @brief Add metadata from image to the TIFF composite.
+  //! Special encoder function to encode IPTC data to an IPTCNAA or Photoshop ImageResources tag.
+  void encodeIptc(TiffEntryBase* object, const Exifdatum* datum);
+  /*!
+    @brief Add metadata from image to the TIFF composite.
 
-          For each Exif metadatum, the corresponding TiffComponent is created
-          if necessary and populated using encodeTiffComponent(). The add() function
-          is used during intrusive writing, to create a new TIFF structure.
+    For each Exif metadatum, the corresponding TiffComponent is created
+    if necessary and populated using encodeTiffComponent(). The add() function
+    is used during intrusive writing, to create a new TIFF structure.
 
-          @note For non-intrusive writing, the encoder is used as a visitor (by
-          passing it to the accept() member of a TiffComponent). The composite
-          tree is then traversed and metadata from the image is used to encode
-          each existing component.
-        */
-        void add(
-            TiffComponent* pRootDir,
-            TiffComponent* pSourceDir,
-            uint32_t       root
-        );
-        //! Set the dirty flag and end of traversing signal.
-        void setDirty(bool flag =true);
-        //@}
+    @note For non-intrusive writing, the encoder is used as a visitor (by
+    passing it to the accept() member of a TiffComponent). The composite
+    tree is then traversed and metadata from the image is used to encode
+    each existing component.
+  */
+  void add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32_t root);
+  //! Set the dirty flag and end of traversing signal.
+  void setDirty(bool flag = true);
+  //@}
 
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Return the applicable byte order. May be different for
-                 the Makernote and the rest of the TIFF entries.
-         */
-        ByteOrder byteOrder() const { return byteOrder_; }
-        /*!
-          @brief True if any tag was deleted or allocated in the process of
-                 visiting a TIFF composite tree.
-         */
-        bool dirty() const;
-        //! Return the write method used.
-        WriteMethod writeMethod() const { return writeMethod_; }
-        //@}
+  //! @name Accessors
+  //@{
+  /*!
+    @brief Return the applicable byte order. May be different for
+           the Makernote and the rest of the TIFF entries.
+   */
+  ByteOrder byteOrder() const {
+    return byteOrder_;
+  }
+  /*!
+    @brief True if any tag was deleted or allocated in the process of
+           visiting a TIFF composite tree.
+   */
+  bool dirty() const;
+  //! Return the write method used.
+  WriteMethod writeMethod() const {
+    return writeMethod_;
+  }
+  //@}
 
-    private:
-        //! @name Manipulators
-        //@{
-        /*!
-          Encode IPTC data. Updates or adds tag Exif.Image.IPTCNAA, updates but
-          never adds tag Exif.Image.ImageResources.
-          This method is called from the constructor.
-         */
-        void encodeIptc();
-        /*!
-          Encode XMP data. Adds tag Exif.Image.XMLPacket with the XMP packet.
-          This method is called from the constructor.
-         */
-        void encodeXmp();
-        //@}
+ private:
+  //! @name Manipulators
+  //@{
+  /*!
+    Encode IPTC data. Updates or adds tag Exif.Image.IPTCNAA, updates but
+    never adds tag Exif.Image.ImageResources.
+    This method is called from the constructor.
+   */
+  void encodeIptc();
+  /*!
+    Encode XMP data. Adds tag Exif.Image.XMLPacket with the XMP packet.
+    This method is called from the constructor.
+   */
+  void encodeXmp();
+  //@}
 
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Update a directory entry. This is called after all directory
-                 entries are encoded. It takes care of type and count changes
-                 and size shrinkage for non-intrusive writing.
-         */
-        static uint32_t updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent);
-        /*!
-          @brief Check if the tag is an image tag of an existing image. Such
-                 tags are copied from the original image and can't be modified.
+  //! @name Accessors
+  //@{
+  /*!
+    @brief Update a directory entry. This is called after all directory
+           entries are encoded. It takes care of type and count changes
+           and size shrinkage for non-intrusive writing.
+   */
+  static uint32_t updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent);
+  /*!
+    @brief Check if the tag is an image tag of an existing image. Such
+           tags are copied from the original image and can't be modified.
 
-                 The condition is true if there is an existing image (as
-                 opposed to a newly created TIFF image) and \em tag, \em group
-                 is considered an image tag of this image - whether or not
-                 it's actually present in the existing image doesn't matter.
-         */
-        bool isImageTag(uint16_t tag, IfdId group) const;
-        //@}
+           The condition is true if there is an existing image (as
+           opposed to a newly created TIFF image) and \em tag, \em group
+           is considered an image tag of this image - whether or not
+           it's actually present in the existing image doesn't matter.
+   */
+  bool isImageTag(uint16_t tag, IfdId group) const;
+  //@}
 
-        // DATA
-        ExifData exifData_;          //!< Copy of the Exif data to encode
-        const IptcData& iptcData_;   //!< IPTC data to encode, just a reference
-        const XmpData&  xmpData_;    //!< XMP data to encode, just a reference
-        bool del_;                   //!< Indicates if Exif data entries should be deleted after encoding
-        const TiffHeaderBase* pHeader_; //!< TIFF image header
-        TiffComponent* pRoot_;       //!< Root element of the composite
-        const bool isNewImage_;      //!< True if the TIFF image is created from scratch
-        const PrimaryGroups* pPrimaryGroups_; //!< List of primary image groups
-        TiffComponent* pSourceTree_; //!< Parsed source tree for reference
-        ByteOrder byteOrder_;        //!< Byteorder for encoding
-        ByteOrder origByteOrder_;    //!< Byteorder as set in the c'tor
-        const FindEncoderFct findEncoderFct_; //!< Ptr to the function to find special encoding functions
-        std::string make_;           //!< Camera make, determined from the tags to encode
-        bool dirty_;                 //!< Signals if any tag is deleted or allocated
-        WriteMethod writeMethod_;    //!< Write method used.
+  // DATA
+  ExifData exifData_;                    //!< Copy of the Exif data to encode
+  const IptcData& iptcData_;             //!< IPTC data to encode, just a reference
+  const XmpData& xmpData_;               //!< XMP data to encode, just a reference
+  bool del_;                             //!< Indicates if Exif data entries should be deleted after encoding
+  const TiffHeaderBase* pHeader_;        //!< TIFF image header
+  TiffComponent* pRoot_;                 //!< Root element of the composite
+  const bool isNewImage_;                //!< True if the TIFF image is created from scratch
+  const PrimaryGroups* pPrimaryGroups_;  //!< List of primary image groups
+  TiffComponent* pSourceTree_;           //!< Parsed source tree for reference
+  ByteOrder byteOrder_;                  //!< Byteorder for encoding
+  ByteOrder origByteOrder_;              //!< Byteorder as set in the c'tor
+  const FindEncoderFct findEncoderFct_;  //!< Ptr to the function to find special encoding functions
+  std::string make_;                     //!< Camera make, determined from the tags to encode
+  bool dirty_;                           //!< Signals if any tag is deleted or allocated
+  WriteMethod writeMethod_;              //!< Write method used.
 
-    }; // class TiffEncoder
+};  // class TiffEncoder
 
-    /*!
-      @brief Simple state class containing relevant state information for
-             the TIFF reader. This is in a separate class so that the
-             reader can change state if needed (e.g., to read certain complex
-             makernotes).
-     */
-    class TiffRwState {
-    public:
-        //! @name Creators
-        //@{
-        //! Constructor.
-        TiffRwState(ByteOrder byteOrder,
-                    uint32_t  baseOffset)
-            : byteOrder_(byteOrder),
-              baseOffset_(baseOffset) {}
-        //@}
+/*!
+  @brief Simple state class containing relevant state information for
+         the TIFF reader. This is in a separate class so that the
+         reader can change state if needed (e.g., to read certain complex
+         makernotes).
+ */
+class TiffRwState {
+ public:
+  //! @name Creators
+  //@{
+  //! Constructor.
+  TiffRwState(ByteOrder byteOrder, uint32_t baseOffset) : byteOrder_(byteOrder), baseOffset_(baseOffset) {
+  }
+  //@}
 
-        //! @name Accessors
-        //@{
-        /*!
-          @brief Return the applicable byte order. May be different for
-                 the Makernote and the rest of the TIFF entries.
-         */
-        ByteOrder          byteOrder()  const { return byteOrder_; }
-        /*!
-          @brief Return the base offset.
+  //! @name Accessors
+  //@{
+  /*!
+    @brief Return the applicable byte order. May be different for
+           the Makernote and the rest of the TIFF entries.
+   */
+  ByteOrder byteOrder() const {
+    return byteOrder_;
+  }
+  /*!
+    @brief Return the base offset.
 
-          TIFF standard format uses byte offsets which are always relative to
-          the start of the TIFF file, i.e., relative to the start of the TIFF
-          image header. In this case, the base offset is 0.  However, some
-          camera vendors encode their makernotes in TIFF IFDs using offsets
-          relative to (somewhere near) the start of the makernote data. In this
-          case, base offset added to the start of the TIFF image header points
-          to the basis for such makernote offsets.
-         */
-        uint32_t           baseOffset() const { return baseOffset_; }
-        //@}
+    TIFF standard format uses byte offsets which are always relative to
+    the start of the TIFF file, i.e., relative to the start of the TIFF
+    image header. In this case, the base offset is 0.  However, some
+    camera vendors encode their makernotes in TIFF IFDs using offsets
+    relative to (somewhere near) the start of the makernote data. In this
+    case, base offset added to the start of the TIFF image header points
+    to the basis for such makernote offsets.
+   */
+  uint32_t baseOffset() const {
+    return baseOffset_;
+  }
+  //@}
 
-    private:
-        ByteOrder byteOrder_;
-        uint32_t  baseOffset_;
-    }; // TiffRwState
+ private:
+  ByteOrder byteOrder_;
+  uint32_t baseOffset_;
+};  // TiffRwState
 
-    /*!
-      @brief TIFF composite visitor to read the TIFF structure from a block of
-             memory and build the composite from it (Visitor pattern). Used by
-             TiffParser to read the TIFF data from a block of memory.
-     */
-    class TiffReader : public TiffVisitor {
-    public:
-        //! @name Creators
-        //@{
-        /*!
-          @brief Constructor. The data buffer and table describing the TIFF
-                           structure of the data are set in the constructor.
-          @param pData     Pointer to the data buffer, starting with a TIFF header.
-          @param size      Number of bytes in the data buffer.
-          @param pRoot     Root element of the TIFF composite.
-          @param state     State object for creation function, byte order and
-                           base offset.
-         */
-        TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state);
+/*!
+  @brief TIFF composite visitor to read the TIFF structure from a block of
+         memory and build the composite from it (Visitor pattern). Used by
+         TiffParser to read the TIFF data from a block of memory.
+ */
+class TiffReader : public TiffVisitor {
+ public:
+  //! @name Creators
+  //@{
+  /*!
+    @brief Constructor. The data buffer and table describing the TIFF
+                     structure of the data are set in the constructor.
+    @param pData     Pointer to the data buffer, starting with a TIFF header.
+    @param size      Number of bytes in the data buffer.
+    @param pRoot     Root element of the TIFF composite.
+    @param state     State object for creation function, byte order and
+                     base offset.
+   */
+  TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state);
 
-        //! Virtual destructor
-        ~TiffReader() override = default;
-        //@}
+  //! Virtual destructor
+  ~TiffReader() override = default;
+  //@}
 
-        //! @name Manipulators
-        //@{
-        //! Read a TIFF entry from the data buffer
-        void visitEntry(TiffEntry* object) override;
-        //! Read a TIFF data entry from the data buffer
-        void visitDataEntry(TiffDataEntry* object) override;
-        //! Read a TIFF image entry from the data buffer
-        void visitImageEntry(TiffImageEntry* object) override;
-        //! Read a TIFF size entry from the data buffer
-        void visitSizeEntry(TiffSizeEntry* object) override;
-        //! Read a TIFF directory from the data buffer
-        void visitDirectory(TiffDirectory* object) override;
-        //! Read a TIFF sub-IFD from the data buffer
-        void visitSubIfd(TiffSubIfd* object) override;
-        //! Read a TIFF makernote entry from the data buffer
-        void visitMnEntry(TiffMnEntry* object) override;
-        //! Read an IFD makernote from the data buffer
-        void visitIfdMakernote(TiffIfdMakernote* object) override;
-        //! Reset reader to its original state, undo makernote specific settings
-        void visitIfdMakernoteEnd(TiffIfdMakernote* object) override;
-        //! Read a binary array from the data buffer
-        void visitBinaryArray(TiffBinaryArray* object) override;
-        //! Read an element of a binary array from the data buffer
-        void visitBinaryElement(TiffBinaryElement* object) override;
+  //! @name Manipulators
+  //@{
+  //! Read a TIFF entry from the data buffer
+  void visitEntry(TiffEntry* object) override;
+  //! Read a TIFF data entry from the data buffer
+  void visitDataEntry(TiffDataEntry* object) override;
+  //! Read a TIFF image entry from the data buffer
+  void visitImageEntry(TiffImageEntry* object) override;
+  //! Read a TIFF size entry from the data buffer
+  void visitSizeEntry(TiffSizeEntry* object) override;
+  //! Read a TIFF directory from the data buffer
+  void visitDirectory(TiffDirectory* object) override;
+  //! Read a TIFF sub-IFD from the data buffer
+  void visitSubIfd(TiffSubIfd* object) override;
+  //! Read a TIFF makernote entry from the data buffer
+  void visitMnEntry(TiffMnEntry* object) override;
+  //! Read an IFD makernote from the data buffer
+  void visitIfdMakernote(TiffIfdMakernote* object) override;
+  //! Reset reader to its original state, undo makernote specific settings
+  void visitIfdMakernoteEnd(TiffIfdMakernote* object) override;
+  //! Read a binary array from the data buffer
+  void visitBinaryArray(TiffBinaryArray* object) override;
+  //! Read an element of a binary array from the data buffer
+  void visitBinaryElement(TiffBinaryElement* object) override;
 
-        //! Read a standard TIFF entry from the data buffer
-        void readTiffEntry(TiffEntryBase* object);
-        //! Read a TiffDataEntryBase from the data buffer
-        void readDataEntryBase(TiffDataEntryBase* object);
-        /*!
-          @brief Set the \em state of the reader to one suitable for the Makernote.
+  //! Read a standard TIFF entry from the data buffer
+  void readTiffEntry(TiffEntryBase* object);
+  //! Read a TiffDataEntryBase from the data buffer
+  void readDataEntryBase(TiffDataEntryBase* object);
+  /*!
+    @brief Set the \em state of the reader to one suitable for the Makernote.
 
-          Uses the \em state passed in, if any, and remembers it for use during
-          subsequent calls without any argument.
-         */
-        void setMnState(const TiffRwState* state = nullptr);
-        //! Set the state to the original state as set in the constructor.
-        void setOrigState();
-        //! Check IFD directory pointer \em start for circular reference
-        bool circularReference(const byte* start, IfdId group);
-        //! Return the next idx sequence number for \em group
-        int nextIdx(IfdId group);
+    Uses the \em state passed in, if any, and remembers it for use during
+    subsequent calls without any argument.
+   */
+  void setMnState(const TiffRwState* state = nullptr);
+  //! Set the state to the original state as set in the constructor.
+  void setOrigState();
+  //! Check IFD directory pointer \em start for circular reference
+  bool circularReference(const byte* start, IfdId group);
+  //! Return the next idx sequence number for \em group
+  int nextIdx(IfdId group);
 
-        /*!
-          @brief Read deferred components.
+  /*!
+    @brief Read deferred components.
 
-          This function is called after the TIFF composite is read by passing a
-          TiffReader to the accept() function of the root component. It reads
-          all components for which reading was deferred during that pass.  This
-          is usually done to make sure that all other components are accessible
-          at the time the deferred components are processed.
-         */
-        void postProcess();
-        //@}
+    This function is called after the TIFF composite is read by passing a
+    TiffReader to the accept() function of the root component. It reads
+    all components for which reading was deferred during that pass.  This
+    is usually done to make sure that all other components are accessible
+    at the time the deferred components are processed.
+   */
+  void postProcess();
+  //@}
 
-        //! @name Accessors
-        //@{
-        //! Return the byte order.
-        ByteOrder byteOrder() const;
-        //! Return the base offset. See class TiffRwState for details
-        uint32_t baseOffset() const;
-        //@}
+  //! @name Accessors
+  //@{
+  //! Return the byte order.
+  ByteOrder byteOrder() const;
+  //! Return the base offset. See class TiffRwState for details
+  uint32_t baseOffset() const;
+  //@}
 
-    private:
-        using DirList = std::map<const byte*, IfdId>;
-        using IdxSeq = std::map<uint16_t, int>;
-        using PostList = std::vector<TiffComponent*>;
+ private:
+  using DirList = std::map<const byte*, IfdId>;
+  using IdxSeq = std::map<uint16_t, int>;
+  using PostList = std::vector<TiffComponent*>;
 
-        // DATA
-        const byte*          pData_;      //!< Pointer to the memory buffer
-        const size_t         size_;       //!< Size of the buffer
-        const byte*          pLast_;      //!< Pointer to the last byte
-        TiffComponent* const pRoot_;      //!< Root element of the composite
-        TiffRwState*         pState_;     //!< Pointer to the state in effect (origState_ or mnState_)
-        TiffRwState          origState_;  //!< State class as set in the c'tor
-        TiffRwState          mnState_;    //!< State class as set in the c'tor or by setMnState()
-        DirList              dirList_;    //!< List of IFD pointers and their groups
-        IdxSeq               idxSeq_;     //!< Sequences for group, used for the entry's idx
-        PostList             postList_;   //!< List of components with deferred reading
-        bool                 postProc_;   //!< True in postProcessList()
-    }; // class TiffReader
+  // DATA
+  const byte* pData_;           //!< Pointer to the memory buffer
+  const size_t size_;           //!< Size of the buffer
+  const byte* pLast_;           //!< Pointer to the last byte
+  TiffComponent* const pRoot_;  //!< Root element of the composite
+  TiffRwState* pState_;         //!< Pointer to the state in effect (origState_ or mnState_)
+  TiffRwState origState_;       //!< State class as set in the c'tor
+  TiffRwState mnState_;         //!< State class as set in the c'tor or by setMnState()
+  DirList dirList_;             //!< List of IFD pointers and their groups
+  IdxSeq idxSeq_;               //!< Sequences for group, used for the entry's idx
+  PostList postList_;           //!< List of components with deferred reading
+  bool postProc_;               //!< True in postProcessList()
+};                              // class TiffReader
 
-}}                                      // namespace Internal, Exiv2
+}  // namespace Internal
+}  // namespace Exiv2
 
-#endif                                  // #ifndef TIFFVISITOR_INT_HPP_
+#endif  // #ifndef TIFFVISITOR_INT_HPP_

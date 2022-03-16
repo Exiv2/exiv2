@@ -3,9 +3,8 @@
 
 #include <string_view>
 
-namespace Exiv2
-{
-    bool startsWith(const std::string_view& s, const std::string_view& start);
+namespace Exiv2 {
+bool startsWith(const std::string_view& s, const std::string_view& start);
 }
 
-#endif // EXIV2_UTILS_HPP
+#endif  // EXIV2_UTILS_HPP

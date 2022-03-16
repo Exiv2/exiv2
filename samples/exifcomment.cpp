@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Abstract : Sample program showing how to set the Exif comment of an image, Exif.Photo.UserComment
 
+#include <cassert>
 #include <exiv2/exiv2.hpp>
 #include <iostream>
-#include <cassert>
 
 // *****************************************************************************
 // Main
-int main(int argc, char* const argv[])
-try {
+int main(int argc, char* const argv[]) {
+  try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
@@ -16,13 +16,13 @@ try {
 #endif
 
     if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " file\n";
-        return 1;
+      std::cout << "Usage: " << argv[0] << " file\n";
+      return 1;
     }
 
     auto image = Exiv2::ImageFactory::open(argv[1]);
     image->readMetadata();
-    Exiv2::ExifData &exifData = image->exifData();
+    Exiv2::ExifData& exifData = image->exifData();
 
     /*
       Exiv2 uses a CommentValue for Exif user comments. The format of the
@@ -41,15 +41,13 @@ try {
     exifData["Exif.Photo.UserComment"] = "Another undefined Exif comment added with Exiv2";
     exifData["Exif.Photo.UserComment"] = "charset=Ascii An ASCII Exif comment added with Exiv2";
 
-    std::cout << "Writing user comment '"
-              << exifData["Exif.Photo.UserComment"]
-              << "' back to the image\n";
+    std::cout << "Writing user comment '" << exifData["Exif.Photo.UserComment"] << "' back to the image\n";
 
     image->writeMetadata();
 
     return 0;
-}
-catch (Exiv2::Error& e) {
+  } catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
+  }
 }

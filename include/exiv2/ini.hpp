@@ -17,7 +17,6 @@
 #include <string>
 
 namespace Exiv2 {
-
 #ifndef __INI_H__
 #define __INI_H__
 
@@ -72,8 +71,7 @@ int ini_parse_file(FILE* file, ini_handler handler, void* user);
 
    @return 0 on success
 */
-int ini_parse_stream(ini_reader reader, void* stream, ini_handler handler,
-                     void* user);
+int ini_parse_stream(ini_reader reader, void* stream, ini_handler handler, void* user);
 
 /*! @brief Nonzero to allow multi-line value parsing, in the style of Python's
     configparser. If allowed, ini_parse() will call the handler with the same
@@ -122,76 +120,74 @@ int ini_parse_stream(ini_reader reader, void* stream, ini_handler handler,
 
 #endif /* __INI_H__ */
 
-
 /*! @brief Read an INI file into easy-to-access name/value pairs. (Note that I've gone
   for simplicity here rather than speed, but it should be pretty decent.)
   */
-class EXIV2API INIReader
-{
-public:
-    /*! @brief Construct INIReader and parse given filename. See ini.h for more info
-       about the parsing.
-    */
-    explicit INIReader(const std::string& filename);
+class EXIV2API INIReader {
+ public:
+  /*! @brief Construct INIReader and parse given filename. See ini.h for more info
+     about the parsing.
+  */
+  explicit INIReader(const std::string& filename);
 
-    /*! @brief Return the result of ini_parse(), i.e., 0 on success, line number of
-        first error on parse error, or -1 on file open error.
-    */
-    int ParseError() const;
+  /*! @brief Return the result of ini_parse(), i.e., 0 on success, line number of
+      first error on parse error, or -1 on file open error.
+  */
+  int ParseError() const;
 
-    /*! @brief Get a string value from INI file, returning default_value if not found.
+  /*! @brief Get a string value from INI file, returning default_value if not found.
 
-      @param section name of section
-      @param name    name of key
-      @param default_value default if not found
+    @param section name of section
+    @param name    name of key
+    @param default_value default if not found
 
-      @return value
-    */
-    std::string Get(const std::string& section, const std::string& name, const std::string& default_value);
+    @return value
+  */
+  std::string Get(const std::string& section, const std::string& name, const std::string& default_value);
 
-    /*! @brief Get an integer (long) value from INI file, returning default_value if
-        not found or not a valid integer (decimal "1234", "-1234", or hex "0x4d2").
+  /*! @brief Get an integer (long) value from INI file, returning default_value if
+      not found or not a valid integer (decimal "1234", "-1234", or hex "0x4d2").
 
-      @param section name of section
-      @param name    name of key
-      @param default_value default if not found
+    @param section name of section
+    @param name    name of key
+    @param default_value default if not found
 
-      @return value
-    */
-    long GetInteger(const std::string& section, const std::string& name, long default_value);
+    @return value
+  */
+  long GetInteger(const std::string& section, const std::string& name, long default_value);
 
-    /*! @brief Get a real (floating point double) value from INI file, returning
-        default_value if not found or not a valid floating point value
-        according to strtod().
+  /*! @brief Get a real (floating point double) value from INI file, returning
+      default_value if not found or not a valid floating point value
+      according to strtod().
 
-      @param section name of section
-      @param name    name of key
-      @param default_value default if not found
+    @param section name of section
+    @param name    name of key
+    @param default_value default if not found
 
-      @return value
-    */
-    double GetReal(const std::string& section, const std::string& name, double default_value);
+    @return value
+  */
+  double GetReal(const std::string& section, const std::string& name, double default_value);
 
-    /*! @brief Get a boolean value from INI file, returning default_value if not found or if
-        not a valid true/false value. Valid true values are "true", "yes", "on", "1",
-        and valid false values are "false", "no", "off", "0" (not case sensitive).
+  /*! @brief Get a boolean value from INI file, returning default_value if not found or if
+      not a valid true/false value. Valid true values are "true", "yes", "on", "1",
+      and valid false values are "false", "no", "off", "0" (not case sensitive).
 
-      @param section name of section
-      @param name    name of key
-      @param default_value default if not found
+    @param section name of section
+    @param name    name of key
+    @param default_value default if not found
 
-      @return value
-    */
-    bool GetBoolean(const std::string& section, const std::string& name, bool default_value);
+    @return value
+  */
+  bool GetBoolean(const std::string& section, const std::string& name, bool default_value);
 
-private:
-    int _error;                                                        //!< status
-    std::map<std::string, std::string> _values;                        //!< values from file
-    static std::string MakeKey(const std::string& section,
-                               const std::string& name);  //!< return key encoded from section/name
-    static int ValueHandler(void* user, const char* section, const char* name,
-                            const char* value); //!< value handler
+ private:
+  int _error;                                  //!< status
+  std::map<std::string, std::string> _values;  //!< values from file
+  static std::string MakeKey(const std::string& section,
+                             const std::string& name);  //!< return key encoded from section/name
+  static int ValueHandler(void* user, const char* section, const char* name,
+                          const char* value);  //!< value handler
 };
-} // namespace Exiv2
+}  // namespace Exiv2
 
 #endif  // __INIREADER_H__

@@ -3,11 +3,11 @@
 
 #include <exiv2/exiv2.hpp>
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
-int main(int argc, char* const argv[])
-try {
+int main(int argc, char* const argv[]) {
+  try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
@@ -15,8 +15,8 @@ try {
 #endif
 
     if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " file\n";
-        return 1;
+      std::cout << "Usage: " << argv[0] << " file\n";
+      return 1;
     }
 
     auto image = Exiv2::ImageFactory::open(argv[1]);
@@ -31,10 +31,10 @@ try {
     image->setXmpData(xmpData);
     image->setExifData(exifData);
     image->writeMetadata();
-    
+
     return 0;
-}
-catch (Exiv2::Error& e) {
+  } catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
+  }
 }
