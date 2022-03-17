@@ -20,6 +20,7 @@ def get_valid_files(data_dir):
         ".jp2",
         ".jpg",
         ".jxl",
+        ".jxr",
         ".pgf",
         ".png",
         ".psd",
