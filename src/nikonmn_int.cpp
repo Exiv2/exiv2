@@ -149,10 +149,15 @@ namespace Exiv2::Internal {
 
     //! NEFCompression, tag 0x0093
     constexpr TagDetails nikonNefCompression[] = {
-        {  1, N_("Lossy (type 1)") },
-        {  2, N_("Uncompressed")   },
-        {  3, N_("Lossless")       },
-        {  4, N_("Lossy (type 2)") }
+        {  1, N_("Lossy (type 1)")   },
+        {  2, N_("Uncompressed")     },
+        {  3, N_("Lossless")         },
+        {  4, N_("Lossy (type 2)")   },
+        {  6, N_("Packed 12 bits")   },
+        {  9, N_("Packed 12 bits")   },
+        { 10, N_("Packed 14 bits")   },
+        { 13, N_("High efficiency")  },
+        { 14, N_("High efficiency*") }
     };
 
     //! RetouchHistory, tag 0x009e
