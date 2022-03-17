@@ -46,6 +46,10 @@ namespace Exiv2::Internal {
         static std::ostream& printRollAngle(std::ostream& os, const Value& value, const ExifData*);
         //! Print pitch angle
         static std::ostream& printPitchAngle(std::ostream& os, const Value& value, const ExifData*);
+        //! Print distortion info
+        static std::ostream& printDistortionInfo(std::ostream& os, const Value& value, const ExifData*);
+        //! Print chromatic aberration
+        static std::ostream& printChromaticAberration(std::ostream& os, const Value& value, const ExifData*);
         //@}
 
     private:

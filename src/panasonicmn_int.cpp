@@ -697,6 +697,37 @@ namespace Exiv2::Internal {
         return os;
     }  // PanasonicMakerNote::printPitchAngle
 
+/**
+  Distortion Info is makernote tag 0x0119. There are 32 bytes of data, parsed as 15 signed little endian ints.
+  Usage:
+  exiv2 -K "Exif.PanasonicRaw.DistortionInfo" P1000000.RW2
+  exiv2 -ph -K "Exif.PanasonicRaw.DistortionInfo" P1000000.RW2
+  explanation see: https://syscall.eu/#pana
+  formular (guessed so far): Ru = scale*(Rd + a*Rd^3 + b*Rd^5 + c*Rd^7)
+    where a=p[8], b=p[4], c[11], scale=p[5]
+  Checksum is in p[0],p[1],p[14],p[15]
+  See: https://github.com/trou/panasonic-rw2/
+*/
+    std::ostream& PanasonicMakerNote::printDistortionInfo(std::ostream& os, const Value& value, const ExifData*)
+    {
+        std::ostringstream oss;
+        oss.copyfmt(os);
+
+        if (value.count() != 32 || value.typeId() != undefined) {
+            return os << value;
+        }
+        int distortionParam[16]; // save for later decoding
+        for (int i=0; i<value.size(); i=i+2) {
+            // values are signed little endian integers
+            distortionParam[i] = static_cast<int16_t>((value.toInt64(i)) | (value.toInt64(i+1) << 8));
+            os << " ";
+            os << distortionParam[i];
+         }
+        os.copyfmt(oss);
+
+        return os;
+    }  // PanasonicMakerNote::printDistortionInfo
+
     // Panasonic MakerNote Tag Info
     constexpr TagInfo PanasonicMakerNote::tagInfoRaw_[] = {
         {0x0001, "Version", N_("Version"), N_("Panasonic raw version"), panaRawId, panaRaw, undefined, -1, printExifVersion},
@@ -720,6 +751,8 @@ namespace Exiv2::Internal {
         {0x0116, "RowsPerStrip", N_("Rows Per Strip"), N_("The number of rows per strip"), panaRawId, panaRaw, unsignedShort, -1, printValue},
         {0x0117, "StripByteCounts", N_("Strip Byte Counts"), N_("Strip byte counts"), panaRawId, panaRaw, unsignedLong, -1, printValue},
         {0x0118, "RawDataOffset", N_("Raw Data Offset"), N_("Raw data offset"), panaRawId, panaRaw, unsignedLong, -1, printValue},
+        {0x0119, "DistortionInfo", N_("Distortion Info"), N_("Distortion info"), panaRawId, panaRaw, undefined, -1, printDistortionInfo},
+        {0x011b, "ChromaticAberration", N_("Chromatic Aberration"), N_("Chromatic aberration"), panaRawId, panaRaw, undefined, -1, printValue},
         {0x8769, "ExifTag", N_("Exif IFD Pointer"), N_("A pointer to the Exif IFD"), panaRawId, panaRaw, unsignedLong, -1, printValue},
         {0x8825, "GPSTag", N_("GPS Info IFD Pointer"), N_("A pointer to the GPS Info IFD"), panaRawId, panaRaw, unsignedLong, -1, printValue},
         // End of list marker
