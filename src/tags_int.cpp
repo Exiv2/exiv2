@@ -163,7 +163,8 @@ constexpr GroupInfo groupInfo[] = {{ifdIdNotSet, "Unknown IFD", "Unknown", nullp
                                    {sonyMisc3cId, "Makernote", "SonyMisc3c", SonyMakerNote::tagListSonyMisc3c},
                                    {sonySInfo1Id, "Makernote", "SonySInfo1", SonyMakerNote::tagListSonySInfo1},
                                    {sony2010eId, "Makernote", "Sony2010e", SonyMakerNote::tagList2010e},
-                                   {lastId, "(Last IFD info)", "(Last IFD item)", nullptr}};
+                                   {lastId, "(Last IFD info)", "(Last IFD item)", nullptr},
+                                   };
 
 //! Units for measuring X and Y resolution, tags 0x0128, 0xa210
 constexpr TagDetails exifUnit[] = {{1, N_("none")}, {2, N_("inch")}, {3, N_("cm")}};
