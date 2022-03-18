@@ -297,7 +297,7 @@ class EXIV2API IptcParser {
 
  private:
   // Constant data
-  static const byte marker_;  // Dataset marker
+  static constexpr byte marker_ = 0x1C;  // Dataset marker
 
 };  // class IptcParser
 

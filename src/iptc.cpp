@@ -359,8 +359,6 @@ const char* IptcData::detectCharset() const {
   return nullptr;
 }
 
-const byte IptcParser::marker_ = 0x1C;  // Dataset marker
-
 int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size) {
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "IptcParser::decode, size = " << size << "\n";

@@ -69,22 +69,23 @@ class EXIV2API WebPImage : public Image {
   void debugPrintHex(byte* data, long size);
   void decodeChunks(long filesize);
   void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, int width, int height);
-
-  static const byte WEBP_PAD_ODD;
-  static const int WEBP_TAG_SIZE;
-  static const int WEBP_VP8X_ICC_BIT;
-  static const int WEBP_VP8X_ALPHA_BIT;
-  static const int WEBP_VP8X_EXIF_BIT;
-  static const int WEBP_VP8X_XMP_BIT;
-  static const char* const WEBP_CHUNK_HEADER_VP8X;
-  static const char* const WEBP_CHUNK_HEADER_VP8L;
-  static const char* const WEBP_CHUNK_HEADER_VP8;
-  static const char* const WEBP_CHUNK_HEADER_ANMF;
-  static const char* const WEBP_CHUNK_HEADER_ANIM;
-  static const char* const WEBP_CHUNK_HEADER_ICCP;
-  static const char* const WEBP_CHUNK_HEADER_EXIF;
-  static const char* const WEBP_CHUNK_HEADER_XMP;
-
+  /* Misc. */
+  static constexpr byte WEBP_PAD_ODD = 0;
+  static constexpr int WEBP_TAG_SIZE = 0x4;
+  /* VP8X feature flags */
+  static constexpr int WEBP_VP8X_ICC_BIT = 0x20;
+  static constexpr int WEBP_VP8X_ALPHA_BIT = 0x10;
+  static constexpr int WEBP_VP8X_EXIF_BIT = 0x8;
+  static constexpr int WEBP_VP8X_XMP_BIT = 0x4;
+  /* Chunk header names */
+  static constexpr auto WEBP_CHUNK_HEADER_VP8X = "VP8X";
+  static constexpr auto WEBP_CHUNK_HEADER_VP8L = "VP8L";
+  static constexpr auto WEBP_CHUNK_HEADER_VP8 = "VP8 ";
+  static constexpr auto WEBP_CHUNK_HEADER_ANMF = "ANMF";
+  static constexpr auto WEBP_CHUNK_HEADER_ANIM = "ANIM";
+  static constexpr auto WEBP_CHUNK_HEADER_ICCP = "ICCP";
+  static constexpr auto WEBP_CHUNK_HEADER_EXIF = "EXIF";
+  static constexpr auto WEBP_CHUNK_HEADER_XMP = "XMP ";
 };  // Class WebPImage
 
 // *****************************************************************************

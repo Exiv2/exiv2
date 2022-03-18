@@ -36,7 +36,7 @@ constexpr TagDetails nikonActiveDLighting[] = {
 };
 
 //! Focus area for Nikon cameras.
-constexpr const char* nikonFocusarea[] = {
+constexpr auto nikonFocusarea = std::array{
     N_("Single area"),   N_("Dynamic area"),       N_("Dynamic area, closest subject"),
     N_("Group dynamic"), N_("Single area (wide)"), N_("Dynamic area (wide)"),
 };
@@ -45,7 +45,7 @@ constexpr const char* nikonFocusarea[] = {
 // module. Note that relative size and position will vary depending on if
 // "wide" or not
 //! Focus points for Nikon cameras, used for Nikon 1 and Nikon 3 makernotes.
-constexpr const char* nikonFocuspoints[] = {
+constexpr auto nikonFocuspoints = std::array{
     N_("Center"),      N_("Top"),        N_("Bottom"),      N_("Left"),      N_("Right"),      N_("Upper-left"),
     N_("Upper-right"), N_("Lower-left"), N_("Lower-right"), N_("Left-most"), N_("Right-most"),
 };
@@ -227,7 +227,7 @@ std::ostream& Nikon1MakerNote::print0x0086(std::ostream& os, const Value& value,
 std::ostream& Nikon1MakerNote::print0x0088(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() >= 1) {
     const uint32_t focusArea = value.toUint32(0);
-    if (focusArea >= std::size(nikonFocusarea)) {
+    if (focusArea >= nikonFocusarea.size()) {
       os << "Invalid value";
     } else {
       os << nikonFocusarea[focusArea];
@@ -248,7 +248,7 @@ std::ostream& Nikon1MakerNote::print0x0088(std::ostream& os, const Value& value,
         break;
       default:
         os << value;
-        if (focusPoint < sizeof(nikonFocuspoints) / sizeof(nikonFocuspoints[0]))
+        if (focusPoint < nikonFocuspoints.size())
           os << " " << _("guess") << " " << nikonFocuspoints[focusPoint];
         break;
     }
@@ -1416,7 +1416,6 @@ std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os, const Value& value,
     const uint32_t focuspoint = value.toUint32(1);
     const uint32_t focusused = (value.toUint32(2) << 8) + value.toUint32(3);
     // TODO: enum {standard, wide} combination = standard;
-    const size_t focuspoints = sizeof(nikonFocuspoints) / sizeof(nikonFocuspoints[0]);
 
     if (focusmetering == 0 && focuspoint == 0 && focusused == 0) {
       // Special case, in Manual focus and with Nikon compacts
@@ -1457,7 +1456,7 @@ std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os, const Value& value,
       os << sep << ' ';
 
       // What focuspoint did the user select?
-      if (focuspoint < focuspoints) {
+      if (focuspoint < nikonFocuspoints.size()) {
         os << nikonFocuspoints[focuspoint];
         // TODO: os << position[focuspoint][combination]
       } else
@@ -1473,7 +1472,7 @@ std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os, const Value& value,
       // selected point was not the actually used one
       // (Roger Larsson: my interpretation, verify)
       os << sep;
-      for (size_t fpid = 0; fpid < focuspoints; fpid++)
+      for (size_t fpid = 0; fpid < nikonFocuspoints.size(); fpid++)
         if (focusused & 1 << fpid)
           os << ' ' << nikonFocuspoints[fpid];
     }
