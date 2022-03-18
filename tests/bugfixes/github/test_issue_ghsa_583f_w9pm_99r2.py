@@ -12,7 +12,7 @@ class Jp2ImagePrintStructureICC(metaclass=CaseMeta):
     filename = path("$data_path/issue_ghsa_583f_w9pm_99r2_poc.jp2")
     commands = ["$exiv2 -p C $filename"]
     stdout = [""]
-    stderr = ["""Exiv2 exception in print action for file $filename:
+    stderr = ["""$exiv2_exception_message """ + filename + """:
 $kerCorruptedMetadata
 """]
     retval = [1]
