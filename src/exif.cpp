@@ -496,10 +496,7 @@ ByteOrder ExifParser::decode(ExifData& exifData, const byte* pData, size_t size)
 
 //! @cond IGNORE
 enum Ptt { pttLen, pttTag, pttIfd };
-struct PreviewTags {
-  Ptt ptt_;
-  const char* key_;
-};
+using PreviewTags = std::pair<Ptt, const char*>;
 //! @endcond
 
 WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder,
@@ -545,12 +542,13 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   }
 
   // Delete IFDs which do not occur in JPEGs
-  static const IfdId filteredIfds[] = {subImage1Id, subImage2Id, subImage3Id, subImage4Id, subImage5Id,
-                                       subImage6Id, subImage7Id, subImage8Id, subImage9Id, subThumb1Id,
-                                       panaRawId,   ifd2Id,      ifd3Id};
+  static constexpr auto filteredIfds = std::array{
+      subImage1Id, subImage2Id, subImage3Id, subImage4Id, subImage5Id, subImage6Id, subImage7Id,
+      subImage8Id, subImage9Id, subThumb1Id, panaRawId,   ifd2Id,      ifd3Id,
+  };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
-    std::cerr << "Warning: Exif IFD " << filteredIfds << " not encoded\n";
+    std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
     eraseIfd(ed, filteredIfd);
   }
@@ -575,41 +573,41 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   // Todo: Enhance preview classes to be able to write and delete previews and use that instead.
   // Table must be sorted by preview, the first tag in each group is the size
   static constexpr auto filteredPvTags = std::array{
-      PreviewTags{pttLen, "Exif.Minolta.ThumbnailLength"},
-      PreviewTags{pttTag, "Exif.Minolta.ThumbnailOffset"},
-      PreviewTags{pttLen, "Exif.Minolta.Thumbnail"},
-      PreviewTags{pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength"},
-      PreviewTags{pttIfd, "NikonPreview"},
-      PreviewTags{pttLen, "Exif.Olympus.ThumbnailLength"},
-      PreviewTags{pttTag, "Exif.Olympus.ThumbnailOffset"},
-      PreviewTags{pttLen, "Exif.Olympus.ThumbnailImage"},
-      PreviewTags{pttLen, "Exif.Olympus.Thumbnail"},
-      PreviewTags{pttLen, "Exif.Olympus2.ThumbnailLength"},
-      PreviewTags{pttTag, "Exif.Olympus2.ThumbnailOffset"},
-      PreviewTags{pttLen, "Exif.Olympus2.ThumbnailImage"},
-      PreviewTags{pttLen, "Exif.Olympus2.Thumbnail"},
-      PreviewTags{pttLen, "Exif.OlympusCs.PreviewImageLength"},
-      PreviewTags{pttTag, "Exif.OlympusCs.PreviewImageStart"},
-      PreviewTags{pttTag, "Exif.OlympusCs.PreviewImageValid"},
-      PreviewTags{pttLen, "Exif.Pentax.PreviewLength"},
-      PreviewTags{pttTag, "Exif.Pentax.PreviewOffset"},
-      PreviewTags{pttTag, "Exif.Pentax.PreviewResolution"},
-      PreviewTags{pttLen, "Exif.PentaxDng.PreviewLength"},
-      PreviewTags{pttTag, "Exif.PentaxDng.PreviewOffset"},
-      PreviewTags{pttTag, "Exif.PentaxDng.PreviewResolution"},
-      PreviewTags{pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength"},
-      PreviewTags{pttIfd, "SamsungPreview"},
-      PreviewTags{pttLen, "Exif.Thumbnail.StripByteCounts"},
-      PreviewTags{pttIfd, "Thumbnail"},
-      PreviewTags{pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"},
-      PreviewTags{pttIfd, "Thumbnail"},
+      PreviewTags(pttLen, "Exif.Minolta.ThumbnailLength"),
+      PreviewTags(pttTag, "Exif.Minolta.ThumbnailOffset"),
+      PreviewTags(pttLen, "Exif.Minolta.Thumbnail"),
+      PreviewTags(pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength"),
+      PreviewTags(pttIfd, "NikonPreview"),
+      PreviewTags(pttLen, "Exif.Olympus.ThumbnailLength"),
+      PreviewTags(pttTag, "Exif.Olympus.ThumbnailOffset"),
+      PreviewTags(pttLen, "Exif.Olympus.ThumbnailImage"),
+      PreviewTags(pttLen, "Exif.Olympus.Thumbnail"),
+      PreviewTags(pttLen, "Exif.Olympus2.ThumbnailLength"),
+      PreviewTags(pttTag, "Exif.Olympus2.ThumbnailOffset"),
+      PreviewTags(pttLen, "Exif.Olympus2.ThumbnailImage"),
+      PreviewTags(pttLen, "Exif.Olympus2.Thumbnail"),
+      PreviewTags(pttLen, "Exif.OlympusCs.PreviewImageLength"),
+      PreviewTags(pttTag, "Exif.OlympusCs.PreviewImageStart"),
+      PreviewTags(pttTag, "Exif.OlympusCs.PreviewImageValid"),
+      PreviewTags(pttLen, "Exif.Pentax.PreviewLength"),
+      PreviewTags(pttTag, "Exif.Pentax.PreviewOffset"),
+      PreviewTags(pttTag, "Exif.Pentax.PreviewResolution"),
+      PreviewTags(pttLen, "Exif.PentaxDng.PreviewLength"),
+      PreviewTags(pttTag, "Exif.PentaxDng.PreviewOffset"),
+      PreviewTags(pttTag, "Exif.PentaxDng.PreviewResolution"),
+      PreviewTags(pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength"),
+      PreviewTags(pttIfd, "SamsungPreview"),
+      PreviewTags(pttLen, "Exif.Thumbnail.StripByteCounts"),
+      PreviewTags(pttIfd, "Thumbnail"),
+      PreviewTags(pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"),
+      PreviewTags(pttIfd, "Thumbnail"),
   };
   bool delTags = false;
-  for (auto&& filteredPvTag : filteredPvTags) {
-    switch (filteredPvTag.ptt_) {
+  for (auto&& [ptt, key] : filteredPvTags) {
+    switch (ptt) {
       case pttLen: {
         delTags = false;
-        auto pos = ed.findKey(ExifKey(filteredPvTag.key_));
+        auto pos = ed.findKey(ExifKey(key));
         if (pos != ed.end() && sumToLong(*pos) > 32768) {
           delTags = true;
 #ifndef SUPPRESS_WARNINGS
@@ -621,7 +619,7 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
       }
       case pttTag: {
         if (delTags) {
-          auto pos = ed.findKey(ExifKey(filteredPvTag.key_));
+          auto pos = ed.findKey(ExifKey(key));
           if (pos != ed.end()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
@@ -634,9 +632,9 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
       case pttIfd:
         if (delTags) {
 #ifndef SUPPRESS_WARNINGS
-          EXV_WARNING << "Exif IFD " << filteredPvTag.key_ << " not encoded\n";
+          EXV_WARNING << "Exif IFD " << key << " not encoded\n";
 #endif
-          eraseIfd(ed, Internal::groupId(filteredPvTag.key_));
+          eraseIfd(ed, Internal::groupId(key));
         }
         break;
     }

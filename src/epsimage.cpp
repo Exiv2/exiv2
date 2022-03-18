@@ -66,20 +66,17 @@ constexpr std::string_view xmpHeaders[] = {
 };
 
 // list of all valid XMP trailers
-struct XmpTrailer {
-  std::string_view trailer;
-  bool readOnly;
-};
+using XmpTrailer = std::pair<std::string_view, bool>;
 
-constexpr XmpTrailer xmpTrailers[] = {
+constexpr auto xmpTrailers = std::array{
 
     // We do not enforce the trailing "?>" here, because the XMP specification
     // permits additional attributes after end="...".
 
-    {"<?xpacket end=\"r\"", true},
-    {"<?xpacket end='r'", true},
-    {"<?xpacket end=\"w\"", false},
-    {"<?xpacket end='w'", false},
+    XmpTrailer("<?xpacket end=\"r\"", true),
+    XmpTrailer("<?xpacket end='r'", true),
+    XmpTrailer("<?xpacket end=\"w\"", false),
+    XmpTrailer("<?xpacket end='w'", false),
 };
 
 // closing part of all valid XMP trailers
@@ -190,8 +187,7 @@ void findXmp(size_t& xmpPos, size_t& xmpSize, const byte* data, size_t startPos,
         if (data[xmpPos] != '\x00' && data[xmpPos] != '<')
           continue;
         for (auto&& xmpTrailer : xmpTrailers) {
-          auto trailer = xmpTrailer.trailer;
-          const bool readOnly = xmpTrailer.readOnly;
+          auto [trailer, readOnly] = xmpTrailer;
 
           if (trailerPos + trailer.size() > size)
             continue;
