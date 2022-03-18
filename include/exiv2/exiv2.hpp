@@ -5,14 +5,14 @@
 
 // *****************************************************************************
 // included header files
-#include "exiv2/config.h"
-#include "exiv2/datasets.hpp"
 #include "exiv2/basicio.hpp"
 #include "exiv2/bmffimage.hpp"
 #include "exiv2/bmpimage.hpp"
+#include "exiv2/config.h"
 #include "exiv2/convert.hpp"
 #include "exiv2/cr2image.hpp"
 #include "exiv2/crwimage.hpp"
+#include "exiv2/datasets.hpp"
 #include "exiv2/easyaccess.hpp"
 #include "exiv2/epsimage.hpp"
 #include "exiv2/error.hpp"
@@ -49,4 +49,4 @@
 #include "exiv2/xmp_exiv2.hpp"
 #include "exiv2/xmpsidecar.hpp"
 
-#endif//ifndef EXIV2_HPP_
+#endif  // ifndef EXIV2_HPP_

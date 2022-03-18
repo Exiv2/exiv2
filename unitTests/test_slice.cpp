@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include <exiv2/exiv2.hpp>
+#include <gtest/gtest.h>
 #include <stdint.h>
+#include <exiv2/exiv2.hpp>
 #include "slice.hpp"
 #include "types.hpp"
-#include <gtest/gtest.h>
 
 using namespace Exiv2;
 
@@ -26,28 +26,24 @@ class slice;
  * but not the template specializations of get_test_data (for that we need
  * C++17, so see you in 2025).
  */
-namespace cpp_98_boilerplate
-{
-    template <typename T>
-    struct return_type_traits
-    {
-        using type = T;
-    };
+namespace cpp_98_boilerplate {
+template <typename T>
+struct return_type_traits {
+  using type = T;
+};
 
-    template <typename U>
-    struct return_type_traits<std::vector<U> >
-    {
-        using type = typename std::vector<U>&;
-    };
+template <typename U>
+struct return_type_traits<std::vector<U>> {
+  using type = typename std::vector<U>&;
+};
 
-    template <typename U>
-    struct return_type_traits<const std::vector<U> >
-    {
-        using type = const typename std::vector<U>&;
-    };
+template <typename U>
+struct return_type_traits<const std::vector<U>> {
+  using type = const typename std::vector<U>&;
+};
 
-    template <typename T>
-    typename return_type_traits<T>::type get_test_data(slice<T>& st);
+template <typename T>
+typename return_type_traits<T>::type get_test_data(slice<T>& st);
 
 }  // namespace cpp_98_boilerplate
 
@@ -63,55 +59,47 @@ namespace cpp_98_boilerplate
  * @tparam T  Type that is used to construct a slice for testing.
  */
 template <typename T>
-class slice : public ::testing::Test
-{
-public:
-    static const size_t vec_size = 10;
+class slice : public ::testing::Test {
+ public:
+  static const size_t vec_size = 10;
 
-    void SetUp() override
-    {
-        vec_.reserve(vec_size);
-        for (unsigned int i = 0; i < vec_size; ++i) {
-            vec_.push_back(i);
-        }
+  void SetUp() override {
+    vec_.reserve(vec_size);
+    for (unsigned int i = 0; i < vec_size; ++i) {
+      vec_.push_back(i);
     }
+  }
 
-    Slice<T> getTestSlice(size_t begin = 1, size_t end = vec_size - 1)
-    {
-        return Slice<T>(cpp_98_boilerplate::get_test_data<T>(*this), begin, end);
-    }
+  Slice<T> getTestSlice(size_t begin = 1, size_t end = vec_size - 1) {
+    return Slice<T>(cpp_98_boilerplate::get_test_data<T>(*this), begin, end);
+  }
 
-    // TODO: once we have C++11: use initializer list
-    std::vector<int> vec_;
+  // TODO: once we have C++11: use initializer list
+  std::vector<int> vec_;
 };
 
 // specializations of get_test_data are provided here, since they must have the
 // full definition of slice available
-namespace cpp_98_boilerplate
-{
-    template <>
-    int* get_test_data<int*>(slice<int*>& st)
-    {
-        return st.vec_.data();
-    }
+namespace cpp_98_boilerplate {
+template <>
+int* get_test_data<int*>(slice<int*>& st) {
+  return st.vec_.data();
+}
 
-    template <>
-    const int* get_test_data<const int*>(slice<const int*>& st)
-    {
-        return st.vec_.data();
-    }
+template <>
+const int* get_test_data<const int*>(slice<const int*>& st) {
+  return st.vec_.data();
+}
 
-    template <>
-    std::vector<int>& get_test_data<std::vector<int> >(slice<std::vector<int> >& st)
-    {
-        return st.vec_;
-    }
+template <>
+std::vector<int>& get_test_data<std::vector<int>>(slice<std::vector<int>>& st) {
+  return st.vec_;
+}
 
-    template <>
-    const std::vector<int>& get_test_data<const std::vector<int> >(slice<const std::vector<int> >& st)
-    {
-        return st.vec_;
-    }
+template <>
+const std::vector<int>& get_test_data<const std::vector<int>>(slice<const std::vector<int>>& st) {
+  return st.vec_;
+}
 }  // namespace cpp_98_boilerplate
 
 /*!
@@ -121,94 +109,84 @@ namespace cpp_98_boilerplate
  * different tests on it.
  */
 template <typename T>
-class mutableSlice : public slice<T>
-{
-};
+class mutableSlice : public slice<T> {};
 
 TYPED_TEST_CASE_P(slice);
 TYPED_TEST_CASE_P(mutableSlice);
 
-TYPED_TEST_P(slice, atAccess)
-{
-    // typedef Slice<TypeParam> slice_t;
-    // const size_t begin = 1;
-    // const size_t end = this->vec_.size() - 1;
-    Slice<TypeParam> sl = this->getTestSlice();
+TYPED_TEST_P(slice, atAccess) {
+  // typedef Slice<TypeParam> slice_t;
+  // const size_t begin = 1;
+  // const size_t end = this->vec_.size() - 1;
+  Slice<TypeParam> sl = this->getTestSlice();
 
-    ASSERT_EQ(this->vec_.size() - 2, sl.size());
+  ASSERT_EQ(this->vec_.size() - 2, sl.size());
 
-    for (unsigned int i = 0; i < sl.size(); ++i) {
-        ASSERT_EQ(this->vec_.at(i + 1), sl.at(i));
-    }
+  for (unsigned int i = 0; i < sl.size(); ++i) {
+    ASSERT_EQ(this->vec_.at(i + 1), sl.at(i));
+  }
 }
 
 // TODO C++11: test range based for loop
-TYPED_TEST_P(slice, iteratorAccess)
-{
-    Slice<TypeParam> sl = this->getTestSlice();
+TYPED_TEST_P(slice, iteratorAccess) {
+  Slice<TypeParam> sl = this->getTestSlice();
 
-    auto vec_it = this->vec_.begin() + 1;
-    for (auto it = sl.cbegin(); it < sl.cend(); ++it, ++vec_it) {
-        ASSERT_EQ(*it, *vec_it);
-    }
+  auto vec_it = this->vec_.begin() + 1;
+  for (auto it = sl.cbegin(); it < sl.cend(); ++it, ++vec_it) {
+    ASSERT_EQ(*it, *vec_it);
+  }
 
-    ASSERT_THROW(sl.at(sl.size()), std::out_of_range);
+  ASSERT_THROW(sl.at(sl.size()), std::out_of_range);
 }
 
-TYPED_TEST_P(slice, constructionFailsFromInvalidRange)
-{
-    // start > end
-    ASSERT_THROW(this->getTestSlice(2, 1), std::out_of_range);
+TYPED_TEST_P(slice, constructionFailsFromInvalidRange) {
+  // start > end
+  ASSERT_THROW(this->getTestSlice(2, 1), std::out_of_range);
 }
 
-TYPED_TEST_P(slice, constructionFailsWithZeroLength)
-{
-    ASSERT_THROW(this->getTestSlice(1, 1), std::out_of_range);
+TYPED_TEST_P(slice, constructionFailsWithZeroLength) {
+  ASSERT_THROW(this->getTestSlice(1, 1), std::out_of_range);
 }
 
 /*!
  * Test the construction of subSlices and their behavior.
  */
-TYPED_TEST_P(slice, subSliceSuccessfulConstruction)
-{
-    using slice_t = Slice<TypeParam>;
+TYPED_TEST_P(slice, subSliceSuccessfulConstruction) {
+  using slice_t = Slice<TypeParam>;
 
-    // 0 1 2 3 4 5 6 7 8 9
-    //       |     |       center_vals
-    //         | |         middle
-    slice_t center_vals = this->getTestSlice(3, 7);
-    ASSERT_EQ(center_vals.size(), static_cast<size_t>(4));
-    ASSERT_NO_THROW(center_vals.subSlice(1, 3));
+  // 0 1 2 3 4 5 6 7 8 9
+  //       |     |       center_vals
+  //         | |         middle
+  slice_t center_vals = this->getTestSlice(3, 7);
+  ASSERT_EQ(center_vals.size(), static_cast<size_t>(4));
+  ASSERT_NO_THROW(center_vals.subSlice(1, 3));
 
-    ASSERT_NO_THROW(center_vals.subSlice(1, center_vals.size()));
+  ASSERT_NO_THROW(center_vals.subSlice(1, center_vals.size()));
 }
 
-TYPED_TEST_P(slice, subSliceFunctions)
-{
-    Slice<TypeParam> middle = this->getTestSlice(3, 7).subSlice(1, 3);
+TYPED_TEST_P(slice, subSliceFunctions) {
+  Slice<TypeParam> middle = this->getTestSlice(3, 7).subSlice(1, 3);
 
-    ASSERT_EQ(middle.size(), static_cast<size_t>(2));
-    ASSERT_EQ(middle.at(1), static_cast<typename Slice<TypeParam>::value_type>(5));
+  ASSERT_EQ(middle.size(), static_cast<size_t>(2));
+  ASSERT_EQ(middle.at(1), static_cast<typename Slice<TypeParam>::value_type>(5));
 }
 
-TYPED_TEST_P(slice, subSliceFailedConstruction)
-{
-    // 0 1 2 3 4 5 6 7 8 9
-    //         | |         middle
-    Slice<TypeParam> middle = this->getTestSlice(4, 6);
+TYPED_TEST_P(slice, subSliceFailedConstruction) {
+  // 0 1 2 3 4 5 6 7 8 9
+  //         | |         middle
+  Slice<TypeParam> middle = this->getTestSlice(4, 6);
 
-    ASSERT_THROW(middle.subSlice(1, 5), std::out_of_range);
-    ASSERT_THROW(middle.subSlice(2, 1), std::out_of_range);
-    ASSERT_THROW(middle.subSlice(2, 2), std::out_of_range);
+  ASSERT_THROW(middle.subSlice(1, 5), std::out_of_range);
+  ASSERT_THROW(middle.subSlice(2, 1), std::out_of_range);
+  ASSERT_THROW(middle.subSlice(2, 2), std::out_of_range);
 }
 
 /*! try to cause integer overflows in a sub-optimal implementation */
-TYPED_TEST_P(slice, subSliceConstructionOverflowResistance)
-{
-    Slice<TypeParam> center_vals = this->getTestSlice(3, 7);
+TYPED_TEST_P(slice, subSliceConstructionOverflowResistance) {
+  Slice<TypeParam> center_vals = this->getTestSlice(3, 7);
 
-    ASSERT_THROW(center_vals.subSlice(std::numeric_limits<size_t>::max() - 2, 3), std::out_of_range);
-    ASSERT_THROW(center_vals.subSlice(2, std::numeric_limits<size_t>::max() - 1), std::out_of_range);
+  ASSERT_THROW(center_vals.subSlice(std::numeric_limits<size_t>::max() - 2, 3), std::out_of_range);
+  ASSERT_THROW(center_vals.subSlice(2, std::numeric_limits<size_t>::max() - 1), std::out_of_range);
 }
 
 /*!
@@ -216,9 +194,8 @@ TYPED_TEST_P(slice, subSliceConstructionOverflowResistance)
  * constant reference.
  */
 template <typename T>
-void checkConstSliceValueAt(const Slice<T>& sl, typename Slice<T>::value_type value, size_t index)
-{
-    ASSERT_EQ(sl.at(index), value);
+void checkConstSliceValueAt(const Slice<T>& sl, typename Slice<T>::value_type value, size_t index) {
+  ASSERT_EQ(sl.at(index), value);
 }
 
 /*!
@@ -226,169 +203,153 @@ void checkConstSliceValueAt(const Slice<T>& sl, typename Slice<T>::value_type va
  * loop.
  */
 template <typename T>
-void checkConstSliceIterator(const Slice<T>& sl, typename Slice<T>::value_type first_value)
-{
-    for (auto it = sl.cbegin(); it < sl.cend(); ++it) {
-        ASSERT_EQ(*it, first_value++);
-    }
+void checkConstSliceIterator(const Slice<T>& sl, typename Slice<T>::value_type first_value) {
+  for (auto it = sl.cbegin(); it < sl.cend(); ++it) {
+    ASSERT_EQ(*it, first_value++);
+  }
 }
 
 template <typename T>
-void checkSubSlice(const Slice<T>& sl)
-{
-    ASSERT_EQ(sl.at(1), sl.subSlice(1, sl.size()).at(0));
+void checkSubSlice(const Slice<T>& sl) {
+  ASSERT_EQ(sl.at(1), sl.subSlice(1, sl.size()).at(0));
 }
 
 /*!
  * Test that all slices can be also passed as const references and still work
  */
-TYPED_TEST_P(slice, constMethodsPreserveConst)
-{
-    using slice_t = Slice<TypeParam>;
+TYPED_TEST_P(slice, constMethodsPreserveConst) {
+  using slice_t = Slice<TypeParam>;
 
-    // 0 1 2 3 4 5 6 7 8 9
-    //       |     |       center_vals
-    slice_t center_vals = this->getTestSlice(3, 7);
+  // 0 1 2 3 4 5 6 7 8 9
+  //       |     |       center_vals
+  slice_t center_vals = this->getTestSlice(3, 7);
 
-    // check at() const works
-    checkConstSliceValueAt(center_vals, 4, 1);
+  // check at() const works
+  checkConstSliceValueAt(center_vals, 4, 1);
 
-    checkConstSliceIterator(center_vals, 3);
+  checkConstSliceIterator(center_vals, 3);
 
-    checkSubSlice(center_vals);
+  checkSubSlice(center_vals);
 }
 
 /*!
  * Test the non-const iterators
  */
-TYPED_TEST_P(mutableSlice, iterators)
-{
-    using slice_t = Slice<TypeParam>;
-    slice_t sl = this->getTestSlice();
+TYPED_TEST_P(mutableSlice, iterators) {
+  using slice_t = Slice<TypeParam>;
+  slice_t sl = this->getTestSlice();
 
-    ASSERT_EQ(*sl.begin(), static_cast<typename slice_t::value_type>(1));
-    ASSERT_EQ(*sl.end(), static_cast<typename slice_t::value_type>(this->vec_size - 1));
+  ASSERT_EQ(*sl.begin(), static_cast<typename slice_t::value_type>(1));
+  ASSERT_EQ(*sl.end(), static_cast<typename slice_t::value_type>(this->vec_size - 1));
 
-    for (auto it = sl.begin(); it < sl.end(); ++it) {
-        *it = 2 * (*it);
-    }
+  for (auto it = sl.begin(); it < sl.end(); ++it) {
+    *it = 2 * (*it);
+  }
 
-    ASSERT_EQ(this->vec_.at(0), 0);
-    for (size_t j = 1; j < this->vec_size - 1; ++j) {
-        ASSERT_EQ(this->vec_.at(j), static_cast<typename slice_t::value_type>(2 * j));
-        ASSERT_EQ(this->vec_.at(j), sl.at(j - 1));
-    }
-    ASSERT_EQ(this->vec_.at(this->vec_size - 1), static_cast<typename slice_t::value_type>(this->vec_size - 1));
+  ASSERT_EQ(this->vec_.at(0), 0);
+  for (size_t j = 1; j < this->vec_size - 1; ++j) {
+    ASSERT_EQ(this->vec_.at(j), static_cast<typename slice_t::value_type>(2 * j));
+    ASSERT_EQ(this->vec_.at(j), sl.at(j - 1));
+  }
+  ASSERT_EQ(this->vec_.at(this->vec_size - 1), static_cast<typename slice_t::value_type>(this->vec_size - 1));
 }
 
 /*!
  * Test the non-const version of at()
  */
-TYPED_TEST_P(mutableSlice, at)
-{
-    using slice_t = Slice<TypeParam>;
-    slice_t sl = this->getTestSlice(2, 4);
+TYPED_TEST_P(mutableSlice, at) {
+  using slice_t = Slice<TypeParam>;
+  slice_t sl = this->getTestSlice(2, 4);
 
-    sl.at(0) = 6;
-    sl.at(1) = 12;
+  sl.at(0) = 6;
+  sl.at(1) = 12;
 
-    ASSERT_EQ(this->vec_.at(2), 6);
-    ASSERT_EQ(this->vec_.at(3), 12);
-    for (size_t j = 0; j < this->vec_size - 1; ++j) {
-        if (j == 2 || j == 3) {
-            continue;
-        }
-        ASSERT_EQ(this->vec_.at(j), static_cast<typename slice_t::value_type>(j));
+  ASSERT_EQ(this->vec_.at(2), 6);
+  ASSERT_EQ(this->vec_.at(3), 12);
+  for (size_t j = 0; j < this->vec_size - 1; ++j) {
+    if (j == 2 || j == 3) {
+      continue;
     }
+    ASSERT_EQ(this->vec_.at(j), static_cast<typename slice_t::value_type>(j));
+  }
 }
 
-TEST(pointerSlice, failedConstructionFromNullpointer)
-{
-    ASSERT_THROW(Slice<long*>(nullptr, 1, 2), std::invalid_argument);
+TEST(pointerSlice, failedConstructionFromNullpointer) {
+  ASSERT_THROW(Slice<long*>(nullptr, 1, 2), std::invalid_argument);
 }
 
 /*!
  * Test the construction of an invalid slices from a container (so that a proper
  * range check can be conducted)
  */
-TEST(containerSlice, failedConstructionFromContainer)
-{
-    std::vector<int> tmp(10);
-    // slice end too large
-    ASSERT_THROW(Slice<std::vector<int> >(tmp, 1, tmp.size() + 1), std::out_of_range);
+TEST(containerSlice, failedConstructionFromContainer) {
+  std::vector<int> tmp(10);
+  // slice end too large
+  ASSERT_THROW(Slice<std::vector<int>>(tmp, 1, tmp.size() + 1), std::out_of_range);
 }
 
 /*!
  * Test all functions from the makeSlice* family.
  */
-TEST(containerSlice, makeSlice)
-{
-    std::string str = "this is a sentence";
+TEST(containerSlice, makeSlice) {
+  std::string str = "this is a sentence";
 
-    Slice<std::string> is = makeSlice(str, 5, 7);
-    ASSERT_TRUE(std::equal(is.begin(), is.end(), "is"));
+  Slice<std::string> is = makeSlice(str, 5, 7);
+  ASSERT_TRUE(std::equal(is.begin(), is.end(), "is"));
 
-    Slice<std::string> sl_this = makeSliceUntil(str, 4);
-    ASSERT_TRUE(std::equal(sl_this.begin(), sl_this.end(), "this"));
+  Slice<std::string> sl_this = makeSliceUntil(str, 4);
+  ASSERT_TRUE(std::equal(sl_this.begin(), sl_this.end(), "this"));
 
-    Slice<std::string> sl_sentence = makeSliceFrom(str, 10);
-    ASSERT_TRUE(std::equal(sl_sentence.begin(), sl_sentence.end(), "sentence"));
+  Slice<std::string> sl_sentence = makeSliceFrom(str, 10);
+  ASSERT_TRUE(std::equal(sl_sentence.begin(), sl_sentence.end(), "sentence"));
 
-    Slice<std::string> sl_full = makeSlice(str);
-    ASSERT_TRUE(std::equal(sl_full.begin(), sl_full.end(), str.c_str()));
+  Slice<std::string> sl_full = makeSlice(str);
+  ASSERT_TRUE(std::equal(sl_full.begin(), sl_full.end(), str.c_str()));
 }
 
-struct stringSlice : public ::testing::Test
-{
-    std::string sentence;
+struct stringSlice : public ::testing::Test {
+  std::string sentence;
 
-    void SetUp() override
-    {
-        sentence = "this is a sentence";
-    }
+  void SetUp() override {
+    sentence = "this is a sentence";
+  }
 };
 
-TEST_F(stringSlice, at)
-{
-    const Slice<const std::string> is_a = makeSlice(static_cast<const std::string&>(this->sentence), 5, 10);
+TEST_F(stringSlice, at) {
+  const Slice<const std::string> is_a = makeSlice(static_cast<const std::string&>(this->sentence), 5, 10);
 
-    ASSERT_EQ(is_a.at(0), 'i');
-    ASSERT_EQ(is_a.at(4), ' ');
+  ASSERT_EQ(is_a.at(0), 'i');
+  ASSERT_EQ(is_a.at(4), ' ');
 }
 
-TEST_F(stringSlice, atFailure)
-{
-    const Slice<const std::string> is_a = makeSlice(static_cast<const std::string&>(this->sentence), 5, 10);
-    ASSERT_THROW(is_a.at(5), std::out_of_range);
+TEST_F(stringSlice, atFailure) {
+  const Slice<const std::string> is_a = makeSlice(static_cast<const std::string&>(this->sentence), 5, 10);
+  ASSERT_THROW(is_a.at(5), std::out_of_range);
 }
 
-TEST_F(stringSlice, size)
-{
-    const Slice<const std::string> is_a = makeSlice(static_cast<const std::string&>(this->sentence), 5, 10);
-    ASSERT_EQ(is_a.size(), static_cast<size_t>(5));
+TEST_F(stringSlice, size) {
+  const Slice<const std::string> is_a = makeSlice(static_cast<const std::string&>(this->sentence), 5, 10);
+  ASSERT_EQ(is_a.size(), static_cast<size_t>(5));
 }
 
-TEST_F(stringSlice, mutateString)
-{
-    Slice<std::string> is_a_mutable = makeSlice(this->sentence, 5, 10);
+TEST_F(stringSlice, mutateString) {
+  Slice<std::string> is_a_mutable = makeSlice(this->sentence, 5, 10);
 
-    for (auto it = is_a_mutable.begin(); it < is_a_mutable.end(); ++it) {
-        *it = ' ';
-    }
+  for (auto it = is_a_mutable.begin(); it < is_a_mutable.end(); ++it) {
+    *it = ' ';
+  }
 
-    ASSERT_STREQ(this->sentence.c_str(), "this      sentence");
+  ASSERT_STREQ(this->sentence.c_str(), "this      sentence");
 }
 
 template <typename T>
-struct dataBufSlice : public ::testing::Test
-{
-    static byte data[4];  // = {0xde, 0xad, 0xbe, 0xef};
-    DataBuf buf;
+struct dataBufSlice : public ::testing::Test {
+  static byte data[4];  // = {0xde, 0xad, 0xbe, 0xef};
+  DataBuf buf;
 
-    void SetUp() override
-    {
-        buf = DataBuf(data, sizeof(data));
-    }
+  void SetUp() override {
+    buf = DataBuf(data, sizeof(data));
+  }
 };
 
 template <typename T>
@@ -396,21 +357,19 @@ byte dataBufSlice<T>::data[4] = {0xde, 0xad, 0xbe, 0xef};
 
 TYPED_TEST_CASE_P(dataBufSlice);
 
-TYPED_TEST_P(dataBufSlice, successfulConstruction)
-{
-    // just check that makeSlice appears to work
-    ASSERT_EQ(makeSlice(static_cast<TypeParam>(this->buf), 1, 3).size(), static_cast<size_t>(2));
+TYPED_TEST_P(dataBufSlice, successfulConstruction) {
+  // just check that makeSlice appears to work
+  ASSERT_EQ(makeSlice(static_cast<TypeParam>(this->buf), 1, 3).size(), static_cast<size_t>(2));
 }
 
-TYPED_TEST_P(dataBufSlice, failedConstruction)
-{
-    // check that we get an exception when end is larger than LONG_MAX
-    ASSERT_THROW(
-        makeSlice(static_cast<TypeParam>(this->buf), 1, static_cast<size_t>(std::numeric_limits<long>::max()) + 1),
-        std::invalid_argument);
+TYPED_TEST_P(dataBufSlice, failedConstruction) {
+  // check that we get an exception when end is larger than LONG_MAX
+  ASSERT_THROW(
+      makeSlice(static_cast<TypeParam>(this->buf), 1, static_cast<size_t>(std::numeric_limits<long>::max()) + 1),
+      std::invalid_argument);
 
-    // check that we get an exception when end is larger than the DataBuf
-    ASSERT_THROW(makeSlice(static_cast<TypeParam>(this->buf), 1, 5), std::out_of_range);
+  // check that we get an exception when end is larger than the DataBuf
+  ASSERT_THROW(makeSlice(static_cast<TypeParam>(this->buf), 1, 5), std::out_of_range);
 }
 
 //

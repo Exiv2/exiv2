@@ -10,26 +10,25 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2::Internal {
+// *****************************************************************************
+// class definitions
 
-    // *****************************************************************************
-    // class definitions
+//! MakerNote for Samsung cameras
+class Samsung2MakerNote {
+ public:
+  //! Return read-only list of built-in Samsung tags
+  static const TagInfo* tagList();
+  //! Return read-only list of built-in PictureWizard tags
+  static const TagInfo* tagListPw();
 
-    //! MakerNote for Samsung cameras
-    class Samsung2MakerNote {
-    public:
-        //! Return read-only list of built-in Samsung tags
-        static const TagInfo* tagList();
-        //! Return read-only list of built-in PictureWizard tags
-        static const TagInfo* tagListPw();
+ private:
+  //! Tag information
+  static const TagInfo tagInfo_[];
+  //! PictureWizard tag information
+  static const TagInfo tagInfoPw_[];
 
-    private:
-        //! Tag information
-        static const TagInfo tagInfo_[];
-        //! PictureWizard tag information
-        static const TagInfo tagInfoPw_[];
-
-    }; // class Samsung2MakerNote
+};  // class Samsung2MakerNote
 
 }  // namespace Exiv2::Internal
 
-#endif                                  // #ifndef SAMSUNGMN_INT_HPP_
+#endif  // #ifndef SAMSUNGMN_INT_HPP_

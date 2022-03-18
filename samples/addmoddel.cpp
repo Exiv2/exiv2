@@ -3,11 +3,11 @@
 
 #include <exiv2/exiv2.hpp>
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
-int main(int argc, char* const argv[])
-try {
+int main(int argc, char* const argv[]) {
+  try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
@@ -15,8 +15,8 @@ try {
 #endif
 
     if (argc != 2) {
-        std::cout << "Usage: " << argv[0] << " file\n";
-        return 1;
+      std::cout << "Usage: " << argv[0] << " file\n";
+      return 1;
     }
     std::string file(argv[1]);
 
@@ -31,10 +31,10 @@ try {
     // This is the quickest way to add (simple) Exif data. If a metadatum for
     // a given key already exists, its value is overwritten. Otherwise a new
     // tag is added.
-    exifData["Exif.Image.Model"] = "Test 1";                     // AsciiValue
-    exifData["Exif.Image.SamplesPerPixel"] = uint16_t(162);      // UShortValue
-    exifData["Exif.Image.XResolution"] = -2;            // LongValue
-    exifData["Exif.Image.YResolution"] = Exiv2::Rational(-2, 3); // RationalValue
+    exifData["Exif.Image.Model"] = "Test 1";                      // AsciiValue
+    exifData["Exif.Image.SamplesPerPixel"] = uint16_t(162);       // UShortValue
+    exifData["Exif.Image.XResolution"] = -2;                      // LongValue
+    exifData["Exif.Image.YResolution"] = Exiv2::Rational(-2, 3);  // RationalValue
     std::cout << "Added a few tags the quick way.\n";
 
     // Create a ASCII string value (note the use of create)
@@ -67,29 +67,27 @@ try {
     std::string date = tag.toString();
     date.replace(0, 4, "2000");
     tag.setValue(date);
-    std::cout << "Modified key \"" << tag.key()
-              << "\", new value \"" << tag.value() << "\"\n";
+    std::cout << "Modified key \"" << tag.key() << "\", new value \"" << tag.value() << "\"\n";
 
     // Alternatively, we can use findKey()
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     auto pos = exifData.findKey(key);
     if (pos == exifData.end())
-        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Key not found");
+      throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Key not found");
 
     // Get a pointer to a copy of the value
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
     auto prv = dynamic_cast<Exiv2::URationalValue*>(v.get());
     if (!prv)
-        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Downcast failed");
+      throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Downcast failed");
 
     rv = Exiv2::URationalValue(*prv);
     // Modify the value directly through the interface of URationalValue
     rv.value_.at(2) = {88, 77};
     // Copy the modified value back to the metadatum
     pos->setValue(&rv);
-    std::cout << "Modified key \"" << key
-              << "\", new value \"" << pos->value() << "\"\n";
+    std::cout << "Modified key \"" << key << "\", new value \"" << pos->value() << "\"\n";
 
     // *************************************************************************
     // Delete metadata from the Exif data container
@@ -97,7 +95,8 @@ try {
     // Delete the metadatum at iterator position pos
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
     pos = exifData.findKey(key);
-    if (pos == exifData.end()) throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Key not found");
+    if (pos == exifData.end())
+      throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Key not found");
     exifData.erase(pos);
     std::cout << "Deleted key \"" << key << "\"\n";
 
@@ -108,8 +107,8 @@ try {
     image->writeMetadata();
 
     return 0;
-}
-catch (Exiv2::Error& e) {
+  } catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
     return -1;
+  }
 }

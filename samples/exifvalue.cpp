@@ -5,40 +5,39 @@
 
 #include <iostream>
 
-int main(int argc, char* const argv[])
-{
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
+int main(int argc, char* const argv[]) {
+  Exiv2::XmpParser::initialize();
+  ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
+  Exiv2::enableBMFF();
 #endif
 
-    if (argc != 3) {
-        std::cerr << "Usage: " << argv[0] << " file key\n";
-        return 1;
-    }
+  if (argc != 3) {
+    std::cerr << "Usage: " << argv[0] << " file key\n";
+    return 1;
+  }
 
-    const char* file = argv[1];
-    const char* key  = argv[2];
+  const char* file = argv[1];
+  const char* key = argv[2];
 
-    auto image = Exiv2::ImageFactory::open(file);
-    image->readMetadata();
-    Exiv2::ExifData &exifData = image->exifData();
+  auto image = Exiv2::ImageFactory::open(file);
+  image->readMetadata();
+  Exiv2::ExifData& exifData = image->exifData();
 
-    if ( exifData.empty()) {
-		std::cerr << "no metadata found in file " << file << std::endl;
-		exit(2);
-	}
+  if (exifData.empty()) {
+    std::cerr << "no metadata found in file " << file << std::endl;
+    exit(2);
+  }
 
-	try {
-     	std::cout << exifData[key] << std::endl;
-	} catch (Exiv2::Error& e) {
-    	std::cerr << "Caught Exiv2 exception '" << e << "'" << std::endl;
-    	exit(3);
-	} catch ( ... ) {
-		std::cerr << "Caught a cold!" << std::endl;
-    	exit(4);
-	}
+  try {
+    std::cout << exifData[key] << std::endl;
+  } catch (Exiv2::Error& e) {
+    std::cerr << "Caught Exiv2 exception '" << e << "'" << std::endl;
+    exit(3);
+  } catch (...) {
+    std::cerr << "Caught a cold!" << std::endl;
+    exit(4);
+  }
 
-    return 0;
+  return 0;
 }

@@ -94,8 +94,8 @@
 
   @section formats File Formats
 
-  <P>See the <A HREF="http://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats">list of supported image formats</A>
-  in the Wiki and the <A HREF="crw-mapping.html">Canon CRW mapping</A>.</P>
+  <P>See the <A HREF="http://dev.exiv2.org/projects/exiv2/wiki/Supported_image_formats">list of supported image
+  formats</A> in the Wiki and the <A HREF="crw-mapping.html">Canon CRW mapping</A>.</P>
 
   @section supp Support
 
