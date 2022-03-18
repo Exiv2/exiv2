@@ -912,7 +912,7 @@ int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, 
       "NEX-6",     "VG30E",    "VG900",     "DSC-RX100", "DSC-RX1",   "DSC-RX1R", "DSC-HX300",
       "DSC-HX50V", "DSC-TX30", "DSC-WX60",  "DSC-WX200", "DSC-WX300",
   };
-  return std::find(models.begin(), models.end(), getExifModel(pRoot)) != std::end(models) ? 0 : -1;
+  return std::find(models.begin(), models.end(), getExifModel(pRoot)) != models.end() ? 0 : -1;
 }
 
 int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot) {

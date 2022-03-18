@@ -3242,32 +3242,30 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
   }
 
   // from https://github.com/exiftool/exiftool/blob/12.12/lib/Image/ExifTool/Nikon.pm#L4646
-  static const struct ZMntLens {
-    uint16_t lid;
-    const char *manuf, *lensname;
-  } zmountlens[] = {
-      {1, "Nikon", "Nikkor Z 24-70mm f/4 S"},
-      {2, "Nikon", "Nikkor Z 14-30mm f/4 S"},
-      {4, "Nikon", "Nikkor Z 35mm f/1.8 S"},
-      {8, "Nikon", "Nikkor Z 58mm f/0.95 S Noct"},  // IB
-      {9, "Nikon", "Nikkor Z 50mm f/1.8 S"},
-      {11, "Nikon", "Nikkor Z DX 16-50mm f/3.5-6.3 VR"},
-      {12, "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"},
-      {13, "Nikon", "Nikkor Z 24-70mm f/2.8 S"},
-      {14, "Nikon", "Nikkor Z 85mm f/1.8 S"},
-      {15, "Nikon", "Nikkor Z 24mm f/1.8 S"},         // IB
-      {16, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"},  // IB
-      {17, "Nikon", "Nikkor Z 20mm f/1.8 S"},         // IB
-      {18, "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"},  // IB
-      {21, "Nikon", "Nikkor Z 50mm f/1.2 S"},         // IB
-      {22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"},      // IB
-      {23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"},      // IB
+  using ZMntLens = std::tuple<uint16_t, const char*, const char*>;
+  static constexpr auto zmountlens = std::array{
+      ZMntLens(1, "Nikon", "Nikkor Z 24-70mm f/4 S"),
+      ZMntLens(2, "Nikon", "Nikkor Z 14-30mm f/4 S"),
+      ZMntLens(4, "Nikon", "Nikkor Z 35mm f/1.8 S"),
+      ZMntLens(8, "Nikon", "Nikkor Z 58mm f/0.95 S Noct"),  // IB
+      ZMntLens(9, "Nikon", "Nikkor Z 50mm f/1.8 S"),
+      ZMntLens(11, "Nikon", "Nikkor Z DX 16-50mm f/3.5-6.3 VR"),
+      ZMntLens(12, "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"),
+      ZMntLens(13, "Nikon", "Nikkor Z 24-70mm f/2.8 S"),
+      ZMntLens(14, "Nikon", "Nikkor Z 85mm f/1.8 S"),
+      ZMntLens(15, "Nikon", "Nikkor Z 24mm f/1.8 S"),         // IB
+      ZMntLens(16, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"),  // IB
+      ZMntLens(17, "Nikon", "Nikkor Z 20mm f/1.8 S"),         // IB
+      ZMntLens(18, "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"),  // IB
+      ZMntLens(21, "Nikon", "Nikkor Z 50mm f/1.2 S"),         // IB
+      ZMntLens(22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"),      // IB
+      ZMntLens(23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"),      // IB
   };
 
   auto lid = static_cast<uint16_t>(value.toInt64());
-  auto it = std::find_if(std::begin(zmountlens), std::end(zmountlens), [=](const ZMntLens& z) { return z.lid == lid; });
-  if (it != std::end(zmountlens))
-    return os << it->manuf << " " << it->lensname;
+  for (auto&& [l, manuf, lensname] : zmountlens)
+    if (l == lid)
+      return os << manuf << " " << lensname;
   return os << lid;
 }
 
