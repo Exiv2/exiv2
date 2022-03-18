@@ -11,6 +11,7 @@
 #include "i18n.h"  // NLS support.
 #include "types.hpp"
 
+#include <array>
 #include <iomanip>
 #include <regex>
 #include <sstream>
@@ -19,11 +20,11 @@
 // class member definitions
 
 namespace Exiv2 {
-constexpr const char* familyName_{"Iptc"};
-constexpr RecordInfo recordInfo_[] = {
-    {IptcDataSets::invalidRecord, "(invalid)", N_("(invalid)")},
-    {IptcDataSets::envelope, "Envelope", N_("IIM envelope record")},
-    {IptcDataSets::application2, "Application2", N_("IIM application record 2")},
+constexpr auto familyName_ = "Iptc";
+constexpr auto recordInfo_ = std::array{
+    RecordInfo{IptcDataSets::invalidRecord, "(invalid)", N_("(invalid)")},
+    RecordInfo{IptcDataSets::envelope, "Envelope", N_("IIM envelope record")},
+    RecordInfo{IptcDataSets::application2, "Application2", N_("IIM application record 2")},
 };
 
 constexpr DataSet envelopeRecord[] = {

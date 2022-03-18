@@ -10,6 +10,8 @@
 #include "tags_int.hpp"
 #include "value.hpp"
 
+#include <array>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {
@@ -1344,20 +1346,17 @@ std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& val
 //! OlympusCs FocusMode, tag 0x0301
 // (1 or 2 values)
 std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& value, const ExifData*) {
-  static struct {
-    uint16_t val;
-    const char* label;
-  } focusModes0[] = {
-      {0, N_("Single AF")},     {1, N_("Sequential shooting AF")},
-      {2, N_("Continuous AF")}, {3, N_("Multi AF")},
-      {4, N_("Face detect")},   {10, N_("MF")},
+  using mode0 = std::pair<uint16_t, const char*>;
+  static constexpr auto focusModes0 = std::array{
+      mode0(0, N_("Single AF")),     mode0(1, N_("Sequential shooting AF")),
+      mode0(2, N_("Continuous AF")), mode0(3, N_("Multi AF")),
+      mode0(4, N_("Face detect")),   mode0(10, N_("MF")),
   };
-  static struct {
-    uint16_t val;
-    const char* label;
-  } focusModes1[] = {
-      {0x0001, N_("S-AF")},        {0x0004, N_("C-AF")},      {0x0010, N_("MF")},
-      {0x0020, N_("Face detect")}, {0x0040, N_("Imager AF")}, {0x0100, N_("AF sensor")},
+
+  using mode1 = std::pair<uint16_t, const char*>;
+  static constexpr auto focusModes1 = std::array{
+      mode1(0x0001, N_("S-AF")),        mode1(0x0004, N_("C-AF")),      mode1(0x0010, N_("MF")),
+      mode1(0x0020, N_("Face detect")), mode1(0x0040, N_("Imager AF")), mode1(0x0100, N_("AF sensor")),
   };
 
   if (value.count() < 1 || value.typeId() != unsignedShort) {
@@ -1370,19 +1369,19 @@ std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& val
     std::string p;  // Used to enable ',' separation
 
     v = static_cast<uint16_t>(value.toInt64(1));
-    for (auto&& mode : focusModes1) {
-      if ((v & mode.val) != 0) {
+    for (auto&& [val, label] : focusModes1) {
+      if ((v & val) != 0) {
         if (!p.empty()) {
           os << ", ";
         }
-        p = mode.label;
+        p = label;
         os << p;
       }
     }
   } else {
-    for (auto&& mode : focusModes0) {
-      if (mode.val == v) {
-        os << mode.label;
+    for (auto&& [val, label] : focusModes0) {
+      if (val == v) {
+        os << label;
         break;
       }
     }
@@ -1500,41 +1499,38 @@ std::ostream& OlympusMakerNote::print0x0305(std::ostream& os, const Value& value
 
 // Olympus FocusInfo tag 0x0308 AFPoint
 std::ostream& OlympusMakerNote::print0x0308(std::ostream& os, const Value& value, const ExifData* metadata) {
-  static struct {
-    uint16_t val;
-    const char* label;
-  } afPoints[] = {
-      {0, N_("Left (or n/a)")}, {1, N_("Center (horizontal)")}, {2, N_("Right")}, {3, N_("Center (vertical)")},
-      {255, N_("None")},
+  using point = std::pair<uint16_t, const char*>;
+  static constexpr auto afPoints = std::array{
+      point(0, N_("Left (or n/a)")), point(1, N_("Center (horizontal)")),
+      point(2, N_("Right")),         point(3, N_("Center (vertical)")),
+      point(255, N_("None")),
   };
 
-  static struct {
-    byte val;
-    const char* label;
-  } afPointsE3[] = {
-      {0x00, N_("None")},
-      {0x01, N_("Top-left (horizontal)")},
-      {0x02, N_("Top-center (horizontal)")},
-      {0x03, N_("Top-right (horizontal)")},
-      {0x04, N_("Left (horizontal)")},
-      {0x05, N_("Mid-left (horizontal)")},
-      {0x06, N_("Center (horizontal)")},
-      {0x07, N_("Mid-right (horizontal)")},
-      {0x08, N_("Right (horizontal)")},
-      {0x09, N_("Bottom-left (horizontal)")},
-      {0x0a, N_("Bottom-center (horizontal)")},
-      {0x0b, N_("Bottom-right (horizontal)")},
-      {0x0c, N_("Top-left (vertical)")},
-      {0x0d, N_("Top-center (vertical)")},
-      {0x0e, N_("Top-right (vertical)")},
-      {0x0f, N_("Left (vertical)")},
-      {0x10, N_("Mid-left (vertical)")},
-      {0x11, N_("Center (vertical)")},
-      {0x12, N_("Mid-right (vertical)")},
-      {0x13, N_("Right (vertical)")},
-      {0x14, N_("Bottom-left (vertical)")},
-      {0x15, N_("Bottom-center (vertical)")},
-      {0x16, N_("Bottom-right (vertical)")},
+  using pointE3 = std::pair<byte, const char*>;
+  static constexpr auto afPointsE3 = std::array{
+      pointE3(0x00, N_("None")),
+      pointE3(0x01, N_("Top-left (horizontal)")),
+      pointE3(0x02, N_("Top-center (horizontal)")),
+      pointE3(0x03, N_("Top-right (horizontal)")),
+      pointE3(0x04, N_("Left (horizontal)")),
+      pointE3(0x05, N_("Mid-left (horizontal)")),
+      pointE3(0x06, N_("Center (horizontal)")),
+      pointE3(0x07, N_("Mid-right (horizontal)")),
+      pointE3(0x08, N_("Right (horizontal)")),
+      pointE3(0x09, N_("Bottom-left (horizontal)")),
+      pointE3(0x0a, N_("Bottom-center (horizontal)")),
+      pointE3(0x0b, N_("Bottom-right (horizontal)")),
+      pointE3(0x0c, N_("Top-left (vertical)")),
+      pointE3(0x0d, N_("Top-center (vertical)")),
+      pointE3(0x0e, N_("Top-right (vertical)")),
+      pointE3(0x0f, N_("Left (vertical)")),
+      pointE3(0x10, N_("Mid-left (vertical)")),
+      pointE3(0x11, N_("Center (vertical)")),
+      pointE3(0x12, N_("Mid-right (vertical)")),
+      pointE3(0x13, N_("Right (vertical)")),
+      pointE3(0x14, N_("Bottom-left (vertical)")),
+      pointE3(0x15, N_("Bottom-center (vertical)")),
+      pointE3(0x16, N_("Bottom-right (vertical)")),
   };
 
   if (value.count() != 1 || value.typeId() != unsignedShort) {
@@ -1556,16 +1552,16 @@ std::ostream& OlympusMakerNote::print0x0308(std::ostream& os, const Value& value
   auto v = static_cast<uint16_t>(value.toInt64(0));
 
   if (!E3_E30model) {
-    for (auto&& point : afPoints) {
-      if (point.val == v) {
-        return os << point.label;
+    for (auto&& [val, label] : afPoints) {
+      if (val == v) {
+        return os << label;
       }
     }
   } else {
     // E-3 and E-30
-    for (auto&& point : afPointsE3) {
-      if (point.val == (v & 0x1f)) {
-        os << point.label;
+    for (auto&& [val, label] : afPointsE3) {
+      if (val == (v & 0x1f)) {
+        os << label;
         os << ", ";
         if ((v & 0xe0) == 0)
           return os << N_("Single Target");

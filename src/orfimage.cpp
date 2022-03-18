@@ -13,6 +13,7 @@
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 
+#include <array>
 #include <iostream>
 
 // *****************************************************************************
@@ -124,10 +125,12 @@ WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
   ExifData ed = exifData;
 
   // Delete IFDs which do not occur in TIFF images
-  static const IfdId filteredIfds[] = {panaRawId};
+  static constexpr auto filteredIfds = {
+      panaRawId,
+  };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
-    std::cerr << "Warning: Exif IFD " << filteredIfds << " not encoded\n";
+    std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
     ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
   }
