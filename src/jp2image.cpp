@@ -601,7 +601,7 @@ void Jp2Image::writeMetadata() {
 void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
   DataBuf output(boxBuf.size() + iccProfile_.size() + 100);  // allocate sufficient space
   size_t outlen = boxHSize;                                  // now many bytes have we written to output?
-  long inlen = boxHSize;                                     // how many bytes have we read from boxBuf?
+  size_t inlen = boxHSize;                                   // how many bytes have we read from boxBuf?
   enforce(boxHSize <= output.size(), ErrorCode::kerCorruptedMetadata);
   auto pBox = reinterpret_cast<const Internal::Jp2BoxHeader*>(boxBuf.c_data());
   uint32_t length = getLong(reinterpret_cast<const byte*>(&pBox->length), bigEndian);
@@ -651,7 +651,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
         const char* pad = "\x02\x00\x00";
         uint32_t psize = 3;
         newlen = sizeof(newBox) + psize + iccProfile_.size();
-        enforce(newlen <= static_cast<size_t>(output.size() - outlen), ErrorCode::kerCorruptedMetadata);
+        enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
         ul2Data(reinterpret_cast<byte*>(&newBox.length), static_cast<uint32_t>(newlen), bigEndian);
         ul2Data(reinterpret_cast<byte*>(&newBox.type), newBox.type, bigEndian);
         output.copyBytes(outlen, &newBox, sizeof(newBox));
@@ -659,7 +659,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
         output.copyBytes(outlen + sizeof(newBox) + psize, iccProfile_.c_data(), iccProfile_.size());
       }
     } else {
-      enforce(newlen <= static_cast<size_t>(output.size() - outlen), ErrorCode::kerCorruptedMetadata);
+      enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
       output.copyBytes(outlen, boxBuf.c_data(inlen), subBox.length);
     }
 
@@ -898,7 +898,7 @@ bool isJp2Type(BasicIo& iIo, bool advance) {
   }
   bool matched = (memcmp(buf, Jp2Signature.data(), Jp2Signature.size()) == 0);
   if (!advance || !matched) {
-    iIo.seek(-Jp2Signature.size(), BasicIo::cur);  // Return to original position
+    iIo.seek(-static_cast<long>(Jp2Signature.size()), BasicIo::cur);  // Return to original position
   }
   return matched;
 }
