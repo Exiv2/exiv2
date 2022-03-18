@@ -65,41 +65,41 @@ struct Registry {
 };
 
 /// \todo Use std::unordered_map for implementing the registry. Avoid to use ImageType::none
-constexpr Registry registry[] = {
+constexpr auto registry = std::array{
     // image type       creation fct     type check  Exif mode    IPTC mode    XMP mode     Comment mode
     //---------------  ---------------  ----------  -----------  -----------  -----------  ------------
-    {ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
-    {ImageType::exv, newExvInstance, isExvType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
-    {ImageType::cr2, newCr2Instance, isCr2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
-    {ImageType::crw, newCrwInstance, isCrwType, amReadWrite, amNone, amNone, amReadWrite},
-    {ImageType::mrw, newMrwInstance, isMrwType, amRead, amRead, amRead, amNone},
-    {ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    {ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone, amReadWrite, amNone},
-    {ImageType::dng, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    {ImageType::nef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    {ImageType::pef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    {ImageType::arw, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
-    {ImageType::rw2, newRw2Instance, isRw2Type, amRead, amRead, amRead, amNone},
-    {ImageType::sr2, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
-    {ImageType::srw, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    {ImageType::orf, newOrfInstance, isOrfType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+    Registry{ImageType::exv, newExvInstance, isExvType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+    Registry{ImageType::cr2, newCr2Instance, isCr2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::crw, newCrwInstance, isCrwType, amReadWrite, amNone, amNone, amReadWrite},
+    Registry{ImageType::mrw, newMrwInstance, isMrwType, amRead, amRead, amRead, amNone},
+    Registry{ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone, amReadWrite, amNone},
+    Registry{ImageType::dng, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::nef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::pef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::arw, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
+    Registry{ImageType::rw2, newRw2Instance, isRw2Type, amRead, amRead, amRead, amNone},
+    Registry{ImageType::sr2, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
+    Registry{ImageType::srw, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::orf, newOrfInstance, isOrfType, amReadWrite, amReadWrite, amReadWrite, amNone},
 #ifdef EXV_HAVE_LIBZ
-    {ImageType::png, newPngInstance, isPngType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+    Registry{ImageType::png, newPngInstance, isPngType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
 #endif  // EXV_HAVE_LIBZ
-    {ImageType::pgf, newPgfInstance, isPgfType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
-    {ImageType::raf, newRafInstance, isRafType, amRead, amRead, amRead, amNone},
-    {ImageType::eps, newEpsInstance, isEpsType, amNone, amNone, amReadWrite, amNone},
-    {ImageType::xmp, newXmpInstance, isXmpType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    {ImageType::gif, newGifInstance, isGifType, amNone, amNone, amNone, amNone},
-    {ImageType::psd, newPsdInstance, isPsdType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    {ImageType::tga, newTgaInstance, isTgaType, amNone, amNone, amNone, amNone},
-    {ImageType::bmp, newBmpInstance, isBmpType, amNone, amNone, amNone, amNone},
-    {ImageType::jp2, newJp2Instance, isJp2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::pgf, newPgfInstance, isPgfType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+    Registry{ImageType::raf, newRafInstance, isRafType, amRead, amRead, amRead, amNone},
+    Registry{ImageType::eps, newEpsInstance, isEpsType, amNone, amNone, amReadWrite, amNone},
+    Registry{ImageType::xmp, newXmpInstance, isXmpType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::gif, newGifInstance, isGifType, amNone, amNone, amNone, amNone},
+    Registry{ImageType::psd, newPsdInstance, isPsdType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    Registry{ImageType::tga, newTgaInstance, isTgaType, amNone, amNone, amNone, amNone},
+    Registry{ImageType::bmp, newBmpInstance, isBmpType, amNone, amNone, amNone, amNone},
+    Registry{ImageType::jp2, newJp2Instance, isJp2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
 #ifdef EXV_ENABLE_BMFF
-    {ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
+    Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
         // End of list marker
-    {ImageType::none, nullptr, nullptr, amNone, amNone, amNone, amNone},
+    Registry{ImageType::none, nullptr, nullptr, amNone, amNone, amNone, amNone},
 };
 
 std::string pathOfFileUrl(const std::string& url) {
@@ -706,8 +706,8 @@ const std::string& Image::tagName(uint16_t tag) {
 }
 
 AccessMode ImageFactory::checkMode(ImageType type, MetadataId metadataId) {
-  const Registry* r = find(registry, type);
-  if (!r)
+  auto r = std::find(registry.begin(), registry.end(), type);
+  if (r == registry.end())
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
   AccessMode am = amNone;
   switch (metadataId) {
@@ -734,10 +734,9 @@ AccessMode ImageFactory::checkMode(ImageType type, MetadataId metadataId) {
 }
 
 bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance) {
-  const Registry* r = find(registry, type);
-  if (r) {
+  auto r = std::find(registry.begin(), registry.end(), type);
+  if (r != registry.end())
     return r->isThisType_(io, advance);
-  }
   return false;
 }
 
@@ -836,12 +835,11 @@ Image::UniquePtr ImageFactory::create(ImageType type) {
 
 Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io) {
   // BasicIo instance does not need to be open
-  const Registry* r = find(registry, type);
-
-  if (!r || type == ImageType::none) {
+  if (type == ImageType::none)
     return {};
-  }
-
+  auto r = std::find(registry.begin(), registry.end(), type);
+  if (r == registry.end())
+    return {};
   return r->newInstance_(std::move(io), true);
 }
 

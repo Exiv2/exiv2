@@ -40,9 +40,9 @@ constexpr RotationMap::OmList RotationMap::omList_[] = {
 
 uint16_t RotationMap::orientation(int32_t degrees) {
   uint16_t o = 1;
-  for (auto&& om : omList_) {
-    if (om.degrees == degrees) {
-      o = om.orientation;
+  for (auto&& [deg, orient] : omList_) {
+    if (deg == degrees) {
+      o = orient;
       break;
     }
   }
@@ -51,9 +51,9 @@ uint16_t RotationMap::orientation(int32_t degrees) {
 
 int32_t RotationMap::degrees(uint16_t orientation) {
   int32_t d = 0;
-  for (auto&& om : omList_) {
-    if (om.orientation == orientation) {
-      d = om.degrees;
+  for (auto&& [deg, orient] : omList_) {
+    if (orient == orientation) {
+      d = deg;
       break;
     }
   }

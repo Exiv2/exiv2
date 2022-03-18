@@ -43,20 +43,12 @@ TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
 }  // TiffImage::TiffImage
 
 //! Structure for TIFF compression to MIME type mappings
-struct MimeTypeList {
-  //! Comparison operator for compression
-  bool operator==(int compression) const {
-    return compression_ == compression;
-  }
-  int compression_;       //!< TIFF compression
-  const char* mimeType_;  //!< MIME type
-};
-
+using MimeTypeList = std::pair<int, const char*>;
 //! List of TIFF compression to MIME type mappings
 constexpr auto mimeTypeList = std::array{
-    MimeTypeList{32770, "image/x-samsung-srw"},
-    MimeTypeList{34713, "image/x-nikon-nef"},
-    MimeTypeList{65535, "image/x-pentax-pef"},
+    MimeTypeList(32770, "image/x-samsung-srw"),
+    MimeTypeList(34713, "image/x-nikon-nef"),
+    MimeTypeList(65535, "image/x-pentax-pef"),
 };
 
 std::string TiffImage::mimeType() const {
@@ -67,9 +59,10 @@ std::string TiffImage::mimeType() const {
   std::string key = "Exif." + primaryGroup() + ".Compression";
   auto md = exifData_.findKey(ExifKey(key));
   if (md != exifData_.end() && md->count() > 0) {
-    auto i = std::find(mimeTypeList.begin(), mimeTypeList.end(), static_cast<int>(md->toInt64()));
-    if (i != mimeTypeList.end())
-      mimeType_ = std::string(i->mimeType_);
+    for (auto&& [comp, type] : mimeTypeList)
+      if (comp == static_cast<int>(md->toInt64())) {
+        mimeType_ = type;
+      }
   }
   return mimeType_;
 }
