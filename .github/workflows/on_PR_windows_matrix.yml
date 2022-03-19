@@ -26,6 +26,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          lfs: true
 
       - name: Set up Visual Studio shell
         uses: egor-tensin/vs-shell@v2
@@ -112,6 +114,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          lfs: true
 
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
@@ -167,6 +171,8 @@ jobs:
       - run: git config --global core.autocrlf input
         shell: pwsh
       - uses: actions/checkout@v3
+        with:
+          lfs: true
 
       - name: Set up Cygwin
         uses: egor-tensin/setup-cygwin@v3
