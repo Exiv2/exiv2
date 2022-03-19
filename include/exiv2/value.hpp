@@ -13,6 +13,7 @@
 #include <cstring>
 #include <iomanip>
 #include <map>
+#include <cmath>
 
 // *****************************************************************************
 // namespace extensions
@@ -1251,7 +1252,7 @@ class ValueType : public Value {
     const auto v = value_.at(n);
     if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
         v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
-      return static_cast<I>(v);
+      return static_cast<I>(std::round(v));
     } else {
       return 0;
     }
