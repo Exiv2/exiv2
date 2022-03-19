@@ -1,0 +1,25 @@
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  pr_commented:
+    name: On PR-Comments - Automatically apply clang-format
+    if: ${{ github.event.issue.pull_request }} && contains(github.event.comment.body, '/clang-format-me/') 
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: DoozyX/clang-format-lint-action@v0.13
+        with:
+          source: '.'
+          exclude: './xmpsdk ./contrib'
+          extensions: 'c,h,cpp,hpp'
+          clangFormatVersion: 12
+          style: file
+          inplace: True
+      - uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Clang-Robot
+          author_email: robot@example.com
+          message: 'Committing clang-format changes'
+
