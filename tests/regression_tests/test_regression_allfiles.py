@@ -88,6 +88,7 @@ def get_valid_files(data_dir):
         "issue_857_poc.raf",
         "issue_869_poc.png",
         "issue_960.poc.webp",
+        "issue_2160_poc.jpg",
         "issue_ghsa_583f_w9pm_99r2_poc.jp2",
         "issue_ghsa_7569_phvm_vwc2_poc.jp2",
         "pocIssue283.jpg",
