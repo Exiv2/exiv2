@@ -12,6 +12,7 @@
 #include "i18n.h"  // NLS support.
 #include "xmp_exiv2.hpp"
 
+#include <algorithm>
 #include <cctype>
 #include <cstring>
 #include <fstream>
@@ -941,20 +942,20 @@ static int readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
   std::vector<Exiv2::byte> bytes(buff_size);
   int nBytes = 0;
   bool more{true};
+  std::array<char, buff_size> buff;
   while (more) {
-    char buff[buff_size];
-    auto n = static_cast<int>(fread(buff, 1, buff_size, f));
+    auto n = fread(buff.data(), 1, buff_size, f);
     more = n > 0;
     if (more) {
       bytes.resize(nBytes + n);
-      memcpy(bytes.data() + nBytes, buff, n);
+      std::copy_n(buff.begin(), n, bytes.begin() + nBytes);
       nBytes += n;
     }
   }
 
   if (nBytes) {
     buf.alloc(nBytes);
-    buf.copyBytes(0, bytes.data(), nBytes);
+    std::copy(bytes.begin(), bytes.end(), buf.begin());
   }
   return nBytes;
 }
@@ -1004,7 +1005,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
   // copy stdinBuf to buf
   if (!stdinBuf.empty()) {
     buf.alloc(stdinBuf.size());
-    buf.copyBytes(0, stdinBuf.c_data(), buf.size());
+    std::copy(stdinBuf.begin(), stdinBuf.end(), buf.begin());
   }
 #ifdef DEBUG
   std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;

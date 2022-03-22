@@ -164,15 +164,6 @@ void Exiv2::DataBuf::write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder
   ull2Data(&pData_[offset], x, byteOrder);
 }
 
-void Exiv2::DataBuf::copyBytes(size_t offset, const void* buf, size_t bufsize) {
-  if (pData_.size() < bufsize || offset > pData_.size() - bufsize) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::copyBytes");
-  }
-  if (bufsize > 0) {
-    memcpy(&pData_[offset], buf, bufsize);
-  }
-}
-
 int Exiv2::DataBuf::cmpBytes(size_t offset, const void* buf, size_t bufsize) const {
   if (pData_.size() < bufsize || offset > pData_.size() - bufsize) {
     throw std::overflow_error("Overflow in Exiv2::DataBuf::cmpBytes");

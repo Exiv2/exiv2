@@ -512,7 +512,7 @@ void TiffEncoder::encodeIptc() {
     if (rawIptc.size() % 4 != 0) {
       // Pad the last unsignedLong value with 0s
       buf.alloc((rawIptc.size() / 4) * 4 + 4);
-      buf.copyBytes(0, rawIptc.c_data(), rawIptc.size());
+      std::copy(rawIptc.begin(), rawIptc.end(), buf.begin());
     } else {
       buf = std::move(rawIptc);  // Note: This resets rawIptc
     }

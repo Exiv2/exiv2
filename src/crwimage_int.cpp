@@ -874,7 +874,7 @@ void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, Cif
     if (cc && cc->size() > size)
       size = cc->size();
     DataBuf buf(size);
-    buf.copyBytes(0, comment.data(), comment.size());
+    std::copy(comment.begin(), comment.end(), buf.begin());
     pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
   } else {
     if (cc) {
@@ -984,7 +984,7 @@ void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, Cif
     }
     DataBuf buf(size);
     if (cc)
-      buf.copyBytes(8, cc->pData() + 8, cc->size() - 8);
+      std::copy_n(cc->pData() + 8, cc->size() - 8, buf.begin() + 8);
     if (edX != edEnd && edX->size() == 4) {
       edX->copy(buf.data(), pHead->byteOrder());
     }

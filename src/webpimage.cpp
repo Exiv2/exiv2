@@ -680,18 +680,18 @@ void WebPImage::decodeChunks(long filesize) {
 
       if (s_header) {
         us2Data(size_buff2, static_cast<uint16_t>(sizePayload - 6), bigEndian);
-        rawExifData.copyBytes(0, reinterpret_cast<char*>(&exifLongHeader), 4);
-        rawExifData.copyBytes(4, reinterpret_cast<char*>(&size_buff2), 2);
+        std::copy_n(reinterpret_cast<char*>(&exifLongHeader), 4, rawExifData.begin());
+        std::copy_n(reinterpret_cast<char*>(&size_buff2), 2, rawExifData.begin() + 4);
       }
 
       if (be_header || le_header) {
         us2Data(size_buff2, static_cast<uint16_t>(sizePayload - 6), bigEndian);
-        rawExifData.copyBytes(0, reinterpret_cast<char*>(&exifLongHeader), 4);
-        rawExifData.copyBytes(4, reinterpret_cast<char*>(&size_buff2), 2);
-        rawExifData.copyBytes(6, reinterpret_cast<char*>(&exifShortHeader), 6);
+        std::copy_n(reinterpret_cast<char*>(&exifLongHeader), 4, rawExifData.begin());
+        std::copy_n(reinterpret_cast<char*>(&size_buff2), 2, rawExifData.begin() + 4);
+        std::copy_n(reinterpret_cast<char*>(&exifShortHeader), 6, rawExifData.begin() + 6);
       }
 
-      rawExifData.copyBytes(offset, payload.c_data(), payload.size());
+      std::copy(payload.begin(), payload.end(), rawExifData.begin() + offset);
 
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Display Hex Dump [size:" << static_cast<unsigned long>(sizePayload) << "]" << std::endl;

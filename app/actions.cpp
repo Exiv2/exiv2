@@ -171,12 +171,12 @@ int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::stri
     std::stringstream output(std::stringstream::out | std::stringstream::binary);
     result = printStructure(output, option, path);
     if (result == 0) {
-      size_t size = output.str().size();
-      Exiv2::DataBuf iccProfile(size);
-      Exiv2::DataBuf ascii(size * 3 + 1);
-      ascii.write_uint8(size * 3, 0);
-      iccProfile.copyBytes(0, output.str().c_str(), size);
-      if (Exiv2::base64encode(iccProfile.c_data(), size, reinterpret_cast<char*>(ascii.data()), size * 3)) {
+      std::string str = output.str();
+      Exiv2::DataBuf iccProfile(str.size());
+      Exiv2::DataBuf ascii(str.size() * 3 + 1);
+      ascii.write_uint8(str.size() * 3, 0);
+      std::copy(str.begin(), str.end(), iccProfile.begin());
+      if (Exiv2::base64encode(iccProfile.c_data(), str.size(), reinterpret_cast<char*>(ascii.data()), str.size() * 3)) {
         long chunk = 60;
         std::string code = std::string("data:") + ascii.c_str();
         size_t length = code.size();

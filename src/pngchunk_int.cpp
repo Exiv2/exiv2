@@ -490,7 +490,7 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
 
   if (iTXt) {
     info.alloc(text.size());
-    info.copyBytes(0, text.c_data(), text.size());
+    std::copy(text.cbegin(), text.cend(), info.begin());
     return info;
   }
 

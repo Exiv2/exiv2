@@ -12,6 +12,7 @@
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 
+#include <algorithm>
 #include <climits>
 
 namespace {
@@ -739,7 +740,7 @@ DataBuf LoaderTiff::getData() const {
           // That's why we check again for each step here to really make sure we don't overstep
           enforce(Safe::add(idxBuf, size) <= size_, ErrorCode::kerCorruptedMetadata);
           if (size != 0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size())) {
-            buf.copyBytes(idxBuf, base + offset, size);
+            std::copy_n(base + offset, size, buf.begin() + idxBuf);
           }
 
           idxBuf += size;
@@ -953,9 +954,9 @@ DataBuf makePnm(size_t width, size_t height, const DataBuf &rgb) {
   const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
   const auto headerBytes = reinterpret_cast<const byte *>(header.data());
 
-  DataBuf dest(static_cast<long>(header.size() + rgb.size()));
-  dest.copyBytes(0, headerBytes, header.size());
-  dest.copyBytes(header.size(), rgb.c_data(), rgb.size());
+  DataBuf dest(header.size() + rgb.size());
+  std::copy_n(headerBytes, header.size(), dest.begin());
+  std::copy_n(rgb.c_data(), rgb.size(), dest.begin() + header.size());
   return dest;
 }
 

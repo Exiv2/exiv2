@@ -340,10 +340,10 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
           }
 
           if (bSoft && !dataBuf.empty()) {
-            DataBuf s(dataBuf.size() + 1);                     // allocate buffer with an extra byte
-            s.copyBytes(0, dataBuf.c_data(), dataBuf.size());  // copy in the dataBuf
-            s.write_uint8(dataBuf.size(), 0);                  // nul terminate it
-            const auto str = s.c_str();                        // give it name
+            DataBuf s(dataBuf.size() + 1);                         // allocate buffer with an extra byte
+            std::copy(dataBuf.begin(), dataBuf.end(), s.begin());  // copy in the dataBuf
+            s.write_uint8(dataBuf.size(), 0);                      // nul terminate it
+            const auto str = s.c_str();                            // give it name
             out << Internal::indent(depth) << buff.c_str() << ": " << str;
             bLF = true;
           }
@@ -526,7 +526,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
     // Read whole chunk : Chunk header + Chunk data (not fixed size - can be null) + CRC (4 bytes).
 
     DataBuf chunkBuf(8 + dataOffset + 4);                   // Chunk header (8 bytes) + Chunk data + CRC (4 bytes).
-    chunkBuf.copyBytes(0, cheaderBuf.c_data(), 8);          // Copy header.
+    std::copy_n(cheaderBuf.begin(), 8, chunkBuf.begin());   // Copy header.
     bufRead = io_->read(chunkBuf.data(8), dataOffset + 4);  // Extract chunk data + CRC
     if (io_->error())
       throw Error(ErrorCode::kerFailedToReadImageData);

@@ -28,13 +28,16 @@ int main(int argc, char* const argv[]) {
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();
-    DataBuf buf(file.size());
+    std::vector<byte> buf(file.size());
+
     // Read from the memory mapped region
-    buf.copyBytes(0, pData, buf.size());
+    std::copy_n(pData, buf.size(), buf.begin());
+
     // Reopen file in write mode and write to it
-    file.write(buf.c_data(), buf.size());
+    file.write(buf.data(), buf.size());
+
     // Read from the mapped region again
-    buf.copyBytes(0, pData, buf.size());
+    std::copy_n(pData, buf.size(), buf.begin());
     file.close();
 
     return EXIT_SUCCESS;

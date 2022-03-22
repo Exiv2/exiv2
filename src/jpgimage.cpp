@@ -272,11 +272,11 @@ void JpegBase::readMetadata() {
 
   while (marker != sos_ && marker != eoi_ && search > 0) {
     // 2-byte buffer for reading the size.
-    byte sizebuf[2];
+    std::array<byte, 2> sizebuf;
     uint16_t size = 0;  // Size of the segment, including the 2-byte size field
     if (markerHasLength(marker)) {
-      io_->readOrThrow(sizebuf, 2, ErrorCode::kerFailedToReadImageData);
-      size = getUShort(sizebuf, bigEndian);
+      io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
+      size = getUShort(sizebuf.data(), bigEndian);
       enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
     }
 
@@ -285,7 +285,7 @@ void JpegBase::readMetadata() {
     /// \todo check if it makes sense to check for size
     if (size > 0) {
       io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
-      buf.copyBytes(0, sizebuf, 2);
+      std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
     }
 
     if (!foundExifData && marker == app1_ && size >= 8  // prevent out-of-bounds read in memcmp on next line
@@ -363,9 +363,9 @@ void JpegBase::readMetadata() {
 
       DataBuf profile(Safe::add(iccProfile_.size(), icc_size));
       if (!iccProfile_.empty()) {
-        profile.copyBytes(0, iccProfile_.c_data(), iccProfile_.size());
+        std::copy(iccProfile_.begin(), iccProfile_.end(), profile.begin());
       }
-      profile.copyBytes(iccProfile_.size(), buf.c_data(2 + 14), icc_size);
+      std::copy_n(buf.c_data(2 + 14), icc_size, profile.data() + iccProfile_.size());
       setIccProfile(std::move(profile), chunk == chunks);
     } else if (pixelHeight_ == 0 && inRange2(marker, sof0_, sof3_, sof5_, sof15_)) {
       // We hit a SOFn (start-of-frame) marker
@@ -479,11 +479,11 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
       bool bLF = bPrint;
 
       // 2-byte buffer for reading the size.
-      byte sizebuf[2];
+      std::array<byte, 2> sizebuf;
       uint16_t size = 0;
       if (markerHasLength(marker)) {
-        io_->readOrThrow(sizebuf, 2, ErrorCode::kerFailedToReadImageData);
-        size = getUShort(sizebuf, bigEndian);
+        io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
+        size = getUShort(sizebuf.data(), bigEndian);
         // `size` is the size of the segment, including the 2-byte size field
         // that we just read.
         enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
@@ -493,7 +493,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
       DataBuf buf(size);
       if (size > 0) {
         io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
-        buf.copyBytes(0, sizebuf, 2);
+        std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
       }
 
       if (bPrint && markerHasLength(marker))
@@ -732,11 +732,11 @@ void JpegBase::writeMetadata() {
 
 DataBuf JpegBase::readNextSegment(byte marker) {
   // 2-byte buffer for reading the size.
-  byte sizebuf[2];
+  std::array<byte, 2> sizebuf;
   uint16_t size = 0;
   if (markerHasLength(marker)) {
-    io_->readOrThrow(sizebuf, 2, ErrorCode::kerFailedToReadImageData);
-    size = getUShort(sizebuf, bigEndian);
+    io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
+    size = getUShort(sizebuf.data(), bigEndian);
     // `size` is the size of the segment, including the 2-byte size field
     // that we just read.
     enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
@@ -746,7 +746,7 @@ DataBuf JpegBase::readNextSegment(byte marker) {
   DataBuf buf(size);
   if (size > 0) {
     io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
-    buf.copyBytes(0, sizebuf, 2);
+    std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
   }
   return buf;
 }
@@ -805,7 +805,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
       ++search;
       if (buf.size() > 8) {
         rawExif.alloc(buf.size() - 8);
-        rawExif.copyBytes(0, buf.c_data(8), buf.size() - 8);
+        std::copy_n(buf.c_data(8), rawExif.size(), rawExif.begin());
       }
     } else if (skipApp1Xmp == notfound && marker == app1_ &&
                buf.size() >= 31 &&  // prevent out-of-bounds read in memcmp on next line

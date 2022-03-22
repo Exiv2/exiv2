@@ -44,7 +44,7 @@ DataBuf Cr2Header::write() const {
 
   buf.write_uint16(2, tag(), byteOrder());
   buf.write_uint32(4, 0x00000010, byteOrder());
-  buf.copyBytes(8, cr2sig_, 4);
+  std::copy_n(cr2sig_, 4, buf.begin() + 8);
   // Write a dummy value for the RAW IFD offset. The offset-writer is used to set this offset in a second pass.
   buf.write_uint32(12, 0x00000000, byteOrder());
   return buf;
