@@ -15,25 +15,28 @@ void print(const ExifData& exifData);
 void mini1(const char* path);
 void mini9(const char* path);
 
-int main(int argc, char* const argv[]) try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
+int main(int argc, char* const argv[]) {
+  try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
+    Exiv2::enableBMFF();
 #endif
 
-  if (argc != 2) {
-    std::cout << "Usage: " << argv[0] << " file\n";
-    return 1;
+    if (argc != 2) {
+      std::cout << "Usage: " << argv[0] << " file\n";
+      return EXIT_FAILURE;
+    }
+
+    const char* path = argv[1];
+    mini1(path);
+    mini9(path);
+
+    return EXIT_SUCCESS;
+  } catch (const Error& e) {
+    std::cout << e << "\n";
+    return EXIT_FAILURE;
   }
-
-  const char* path = argv[1];
-  mini1(path);
-  mini9(path);
-
-  return 0;
-} catch (const Error& e) {
-  std::cout << e << "\n";
 }
 
 void mini1(const char* path) {

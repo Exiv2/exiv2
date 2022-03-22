@@ -17,12 +17,12 @@ int main(int argc, char* const argv[]) {
 
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " file\n";
-    return 1;
+    return EXIT_FAILURE;
   }
   std::ifstream file(argv[1]);
   if (!file) {
     std::cerr << *argv[1] << ": Failed to open file for reading\n";
-    return 1;
+    return EXIT_FAILURE;
   }
   std::string line;
   while (std::getline(file, line)) {
@@ -38,5 +38,5 @@ int main(int argc, char* const argv[]) {
     }
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

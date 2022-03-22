@@ -92,7 +92,7 @@ int main(int argc, char* const argv[]) {
     // Make sure they are all the same size
     if (fileIn.size() != memIo1.size() || memIo1.size() != fileOut1.size()) {
       std::cerr << argv[0] << ": Sizes do not match\n";
-      return 1;
+      return EXIT_FAILURE;
     }
 
     // Read writereadseek test on MemIo
@@ -134,10 +134,10 @@ int main(int argc, char* const argv[]) {
       }
     }
 
-    return 0;
+    return EXIT_SUCCESS;
   } catch (Exiv2::Error& e) {
     std::cerr << "Caught Exiv2 exception '" << e << "'\n";
-    return 20;
+    return EXIT_FAILURE;
   }
 }
 

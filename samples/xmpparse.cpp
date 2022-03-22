@@ -13,7 +13,7 @@ int main(int argc, char* const argv[]) try {
 
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " file\n";
-    return 1;
+    return EXIT_FAILURE;
   }
 
   Exiv2::DataBuf buf = Exiv2::readFile(argv[1]);
@@ -36,8 +36,8 @@ int main(int argc, char* const argv[]) try {
               << md.count() << "  " << std::dec << md.toString() << std::endl;
   }
   Exiv2::XmpParser::terminate();
-  return 0;
+  return EXIT_SUCCESS;
 } catch (Exiv2::Error& e) {
   std::cout << "Caught Exiv2 exception '" << e << "'\n";
-  return -1;
+  return EXIT_FAILURE;
 }

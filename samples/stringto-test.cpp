@@ -81,9 +81,9 @@ int main() {
       std::cout << std::endl;
     } catch (Exiv2::Error& e) {
       std::cout << "Caught Exiv2 exception '" << e << "'\n";
-      return -1;
+      return EXIT_FAILURE;
     }
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

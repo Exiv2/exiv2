@@ -131,7 +131,7 @@ int main(int argc, char* const argv[]) {
     return 0;
   }
 
-  int returnCode = 0;
+  int returnCode = EXIT_SUCCESS;
 
   try {
     // Create the required action class
@@ -141,7 +141,7 @@ int main(int argc, char* const argv[]) {
     auto filesCount = params.files_.size();
     if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && filesCount > 1) {
       std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
-      returnCode = 1;
+      returnCode = EXIT_FAILURE;
     } else {
       int w = filesCount > 9 ? filesCount > 99 ? 3 : 2 : 1;
       int n = 1;
@@ -153,7 +153,7 @@ int main(int argc, char* const argv[]) {
         }
         task->setBinary(params.binary_);
         int ret = task->run(file);
-        if (returnCode == 0)
+        if (returnCode == EXIT_SUCCESS)
           returnCode = ret;
       }
 
@@ -162,7 +162,7 @@ int main(int argc, char* const argv[]) {
     }
   } catch (const std::exception& exc) {
     std::cerr << "Uncaught exception: " << exc.what() << std::endl;
-    returnCode = 1;
+    returnCode = EXIT_FAILURE;
   }
 
   // Return a positive one byte code for better consistency across platforms

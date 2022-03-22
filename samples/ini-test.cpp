@@ -19,13 +19,12 @@ int main() {
   Exiv2::enableBMFF();
 #endif
 
-  int result = 0;
   const char* ini = "ini-test.ini";
   Exiv2::INIReader reader(ini);
 
   if (reader.ParseError() < 0) {
     std::cerr << "Can't load '" << ini << "'" << std::endl;
-    result = 1;
+    return EXIT_FAILURE;
   } else {
     std::cout << "Config loaded from : '" << ini << "' "
               << "version=" << reader.GetInteger("protocol", "version", -1)
@@ -37,5 +36,5 @@ int main() {
               << ", 170=" << reader.Get("canon", "170", "UNDEFINED") << std::endl;
   }
 
-  return result;
+  return EXIT_SUCCESS;
 }

@@ -16,7 +16,7 @@ int main(int argc, char* const argv[]) {
 
     if (argc != 3) {
       std::cout << "Usage: " << argv[0] << " image datafile\n";
-      return 1;
+      return EXIT_FAILURE;
     }
     std::string file(argv[1]);
     std::string data(argv[2]);
@@ -69,9 +69,9 @@ int main(int argc, char* const argv[]) {
     // Set Iptc data and write it to the file
     image->writeMetadata();
 
-    return 0;
+    return EXIT_SUCCESS;
   } catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 }

@@ -24,7 +24,7 @@ int main(int argc, char* const argv[]) {
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " image\n";
       std::cout << "Commands read from stdin.\n";
-      return 1;
+      return EXIT_FAILURE;
     }
 
     auto image = ImageFactory::open(argv[1]);
@@ -41,10 +41,10 @@ int main(int argc, char* const argv[]) {
     // Save any changes
     image->writeMetadata();
 
-    return 0;
+    return EXIT_SUCCESS;
   } catch (Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 }
 
