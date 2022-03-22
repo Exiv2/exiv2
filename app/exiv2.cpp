@@ -132,7 +132,7 @@ int main(int argc, char* const argv[]) {
     return 0;
   }
 
-  int rc = 0;
+  int returnCode = 0;
 
   try {
     // Create the required action class
@@ -141,22 +141,23 @@ int main(int argc, char* const argv[]) {
     assert(task);
 
     // Process all files
-    auto s = static_cast<int>(params.files_.size());
-    if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && s > 1) {
+    auto filesCount = params.files_.size();
+    if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && filesCount > 1) {
       std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
-      rc = 1;
+      returnCode = 1;
     } else {
-      int w = s > 9 ? s > 99 ? 3 : 2 : 1;
+      int w = filesCount > 9 ? filesCount > 99 ? 3 : 2 : 1;
       int n = 1;
       for (auto&& file : params.files_) {
         // If extracting to stdout then ignore verbose
         if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
-          std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file << std::endl;
+          std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << filesCount << ": " << file
+                    << std::endl;
         }
         task->setBinary(params.binary_);
         int ret = task->run(file);
-        if (rc == 0)
-          rc = ret;
+        if (returnCode == 0)
+          returnCode = ret;
       }
 
       taskFactory.cleanup();
@@ -164,11 +165,11 @@ int main(int argc, char* const argv[]) {
     }
   } catch (const std::exception& exc) {
     std::cerr << "Uncaught exception: " << exc.what() << std::endl;
-    rc = 1;
+    returnCode = 1;
   }
 
   // Return a positive one byte code for better consistency across platforms
-  return static_cast<unsigned int>(rc) % 256;
+  return static_cast<unsigned int>(returnCode) % 256;
 }  // main
 
 // *****************************************************************************
