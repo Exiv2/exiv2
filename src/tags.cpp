@@ -233,8 +233,6 @@ void ExifKey::Impl::decomposeKey(const std::string& key) {
 }
 
 void ExifKey::Impl::makeKey(uint16_t tag, IfdId ifdId, const TagInfo* tagInfo) {
-  assert(tagInfo);
-
   tagInfo_ = tagInfo;
   tag_ = tag;
   ifdId_ = ifdId;

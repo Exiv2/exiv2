@@ -37,8 +37,8 @@ constexpr unsigned char pngBlank[] = {
 
 const auto nullComp = reinterpret_cast<const Exiv2::byte*>("\0\0");
 const auto typeICCP = reinterpret_cast<const Exiv2::byte*>("iCCP");
+/// \todo use string_view and remove the last parameter
 inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length) {
-  assert(strlen(str) <= length);
   const auto minlen = std::min(length, buf.size());
   return buf.cmpBytes(0, str, minlen) == 0;
 }

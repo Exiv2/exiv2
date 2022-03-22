@@ -241,7 +241,6 @@ int Print::printSummary() {
   }
 
   auto image = Exiv2::ImageFactory::open(path_);
-  assert(image);
   image->readMetadata();
   Exiv2::ExifData& exifData = image->exifData();
   align_ = 16;
@@ -361,7 +360,6 @@ int Print::printList() {
   }
 
   auto image = Exiv2::ImageFactory::open(path_);
-  assert(image);
   image->readMetadata();
   // Set defaults for metadata types and data columns
   if (Params::instance().printTags_ == Exiv2::mdNone) {
@@ -566,7 +564,6 @@ int Print::printComment() {
   }
 
   auto image = Exiv2::ImageFactory::open(path_);
-  assert(image);
   image->readMetadata();
   if (Params::instance().verbose_) {
     std::cout << _("JPEG comment") << ": ";
@@ -582,7 +579,6 @@ int Print::printPreviewList() {
   }
 
   auto image = Exiv2::ImageFactory::open(path_);
-  assert(image);
   image->readMetadata();
   bool const manyFiles = Params::instance().files_.size() > 1;
   int cnt = 0;
@@ -616,7 +612,6 @@ int Rename::run(const std::string& path) {
       ts.read(path);
 
     auto image = Exiv2::ImageFactory::open(path);
-    assert(image);
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
@@ -686,7 +681,6 @@ int Erase::run(const std::string& path) {
       ts.read(path);
 
     auto image = Exiv2::ImageFactory::open(path_);
-    assert(image);
     image->readMetadata();
     // Thumbnail must be before Exif
     int rc = 0;
@@ -829,7 +823,6 @@ int Extract::writeThumbnail() const {
     return -1;
   }
   auto image = Exiv2::ImageFactory::open(path_);
-  assert(image);
   image->readMetadata();
   Exiv2::ExifData& exifData = image->exifData();
   if (exifData.empty()) {
@@ -874,7 +867,6 @@ int Extract::writePreviews() const {
   }
 
   auto image = Exiv2::ImageFactory::open(path_);
-  assert(image);
   image->readMetadata();
 
   Exiv2::PreviewManager pvMgr(*image);
@@ -911,7 +903,6 @@ int Extract::writeIccProfile(const std::string& target) const {
 
   if (rc == 0) {
     auto image = Exiv2::ImageFactory::open(path_);
-    assert(image);
     image->readMetadata();
     if (!image->iccProfileDefined()) {
       std::cerr << _("No embedded iccProfile: ") << path_ << std::endl;
@@ -1034,7 +1025,6 @@ int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBl
     xmpPacket += static_cast<char>(xmpBlob.read_uint8(i));
   }
   auto image = Exiv2::ImageFactory::open(path);
-  assert(image);
   image->readMetadata();
   image->clearXmpData();
   image->setXmpPacket(xmpPacket);
@@ -1075,7 +1065,6 @@ int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfil
   // read in the metadata
   if (rc == 0) {
     auto image = Exiv2::ImageFactory::open(path);
-    assert(image);
     image->readMetadata();
     // clear existing profile, assign the blob and rewrite image
     image->clearIccProfile();
@@ -1099,7 +1088,6 @@ int Insert::insertThumbnail(const std::string& path) {
     return -1;
   }
   auto image = Exiv2::ImageFactory::open(path);
-  assert(image);
   image->readMetadata();
   Exiv2::ExifThumb exifThumb(image->exifData());
   exifThumb.setJpegThumbnail(thumbPath);
@@ -1123,7 +1111,6 @@ int Modify::run(const std::string& path) {
       ts.read(path);
 
     auto image = Exiv2::ImageFactory::open(path);
-    assert(image);
     image->readMetadata();
 
     int rc = applyCommands(image.get());
@@ -1174,7 +1161,6 @@ int Modify::applyCommands(Exiv2::Image* pImage) {
         regNamespace(cmd);
         break;
       case invalidCmdId:
-        assert(invalidCmdId == cmd.cmdId_);
         break;
     }
   }
@@ -1334,7 +1320,6 @@ int Adjust::run(const std::string& path) try {
     ts.read(path);
 
   auto image = Exiv2::ImageFactory::open(path);
-  assert(image);
   image->readMetadata();
   Exiv2::ExifData& exifData = image->exifData();
   if (exifData.empty()) {
@@ -1452,7 +1437,6 @@ int FixIso::run(const std::string& path) {
       ts.read(path);
 
     auto image = Exiv2::ImageFactory::open(path);
-    assert(image);
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
@@ -1501,7 +1485,6 @@ int FixCom::run(const std::string& path) {
       ts.read(path);
 
     auto image = Exiv2::ImageFactory::open(path);
-    assert(image);
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
@@ -1691,7 +1674,6 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
     sourceImage = Exiv2::ImageFactory::open(source);
   }
 
-  assert(sourceImage);
   sourceImage->readMetadata();
 
   // Apply any modification commands to the source image on-the-fly
@@ -1703,11 +1685,9 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
   std::unique_ptr<Exiv2::Image> targetImage;
   if (Exiv2::fileExists(target)) {
     targetImage = Exiv2::ImageFactory::open(target);
-    assert(targetImage);
     targetImage->readMetadata();
   } else {
     targetImage = Exiv2::ImageFactory::create(targetType, target);
-    assert(targetImage);
   }
 
   // Copy each type of metadata
@@ -1932,7 +1912,6 @@ int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const 
     return -1;
   }
   Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-  assert(image.get() != 0);
   image->printStructure(out, option);
   return 0;
 }

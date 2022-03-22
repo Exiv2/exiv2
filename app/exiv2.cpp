@@ -12,7 +12,6 @@
 #include "i18n.h"  // NLS support.
 #include "xmp_exiv2.hpp"
 
-#include <cassert>
 #include <cctype>
 #include <cstring>
 #include <fstream>
@@ -136,9 +135,7 @@ int main(int argc, char* const argv[]) {
 
   try {
     // Create the required action class
-    Action::TaskFactory& taskFactory = Action::TaskFactory::instance();
-    auto task = taskFactory.create(Action::TaskType(params.action_));
-    assert(task);
+    auto task = Action::TaskFactory::instance().create(Action::TaskType(params.action_));
 
     // Process all files
     auto filesCount = params.files_.size();
@@ -160,7 +157,7 @@ int main(int argc, char* const argv[]) {
           returnCode = ret;
       }
 
-      taskFactory.cleanup();
+      Action::TaskFactory::instance().cleanup();
       Exiv2::XmpParser::terminate();
     }
   } catch (const std::exception& exc) {

@@ -39,7 +39,6 @@ bool Photoshop::isIrb(const byte* pPsData, size_t sizePsData) {
   if (sizePsData < 4)
     return false;
   for (auto&& i : irbId_) {
-    assert(strlen(i) == 4);
     if (memcmp(pPsData, i, 4) == 0)
       return true;
   }
@@ -64,9 +63,6 @@ bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {
 //       if this also makes sense for psTag != Photoshop::iptc
 int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record,
                          uint32_t* const sizeHdr, uint32_t* const sizeData) {
-  assert(record);
-  assert(sizeHdr);
-  assert(sizeData);
   if (sizePsData < 12) {
     return 3;
   }
@@ -147,8 +143,6 @@ int Photoshop::locatePreviewIrb(const byte* pPsData, size_t sizePsData, const by
 }
 
 DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData) {
-  if (sizePsData > 0)
-    assert(pPsData);
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "IRB block at the beginning of Photoshop::setIptcIrb\n";
   if (sizePsData == 0)
@@ -498,7 +492,6 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
       // Read the rest of the segment.
       DataBuf buf(size);
       if (size > 0) {
-        assert(size >= 2);  // enforced above
         io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
         buf.copyBytes(0, sizebuf, 2);
       }
@@ -508,8 +501,6 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
 
       // print signature for APPn
       if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
-        assert(markerHasLength(marker));
-        assert(size >= 2);  // Because this marker has a length field.
         // http://www.adobe.com/content/dam/Adobe/en/devnet/xmp/pdfs/XMPSpecificationPart3.pdf p75
         const std::string signature = string_from_unterminated(buf.c_str(2), size - 2);
 
@@ -646,8 +637,6 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
 
       // print COM marker
       if (bPrint && marker == com_) {
-        assert(markerHasLength(marker));
-        assert(size >= 2);  // Because this marker has a length field.
         // size includes 2 for the two bytes for size!
         const size_t n = (size - 2) > 32 ? 32 : size - 2;
         // start after the two bytes
@@ -756,7 +745,6 @@ DataBuf JpegBase::readNextSegment(byte marker) {
   // Read the rest of the segment.
   DataBuf buf(size);
   if (size > 0) {
-    assert(size >= 2);  // enforced above
     io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
     buf.copyBytes(0, sizebuf, 2);
   }
@@ -972,11 +960,9 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
 
         const long chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
         size_t size = iccProfile_.size();
-        assert(size > 0);  // Because iccProfileDefined() == true
         if (size >= 255 * chunk_size)
           throw Error(ErrorCode::kerTooLargeJpegSegment, "IccProfile");
         const size_t chunks = 1 + (size - 1) / chunk_size;
-        assert(chunks <= 255);  // Because size < 255 * chunk_size
         for (size_t chunk = 0; chunk < chunks; chunk++) {
           size_t bytes = size > chunk_size ? chunk_size : size;  // bytes to write
           size -= bytes;

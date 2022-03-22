@@ -16,7 +16,6 @@
 #include "types.hpp"
 
 // + standard includes
-#include <cassert>
 #include <cstdio>
 #include <cstring>
 #include <iostream>

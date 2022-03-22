@@ -23,7 +23,6 @@ int main(int argc, char* const argv[]) {
     std::string file(argv[1]);
 
     auto image = Exiv2::ImageFactory::open(file);
-    assert(image);
     image->readMetadata();
 
     Exiv2::ExifData& ed = image->exifData();

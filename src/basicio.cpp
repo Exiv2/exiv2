@@ -120,7 +120,6 @@ FileIo::Impl::Impl(std::string path) : path_(std::move(path)) {
 }
 
 int FileIo::Impl::switchMode(OpMode opMode) {
-  assert(fp_);
   if (opMode_ == opMode)
     return 0;
   OpMode oldOpMode = opMode_;
@@ -225,7 +224,6 @@ int FileIo::munmap() {
 }
 
 byte* FileIo::mmap(bool isWriteable) {
-  assert(p_->fp_);
   if (munmap() != 0) {
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "munmap");
   }
@@ -297,14 +295,12 @@ void FileIo::setPath(const std::string& path) {
 }
 
 size_t FileIo::write(const byte* data, size_t wcount) {
-  assert(p_->fp_);
   if (p_->switchMode(Impl::opWrite) != 0)
     return 0;
   return std::fwrite(data, 1, wcount, p_->fp_);
 }
 
 size_t FileIo::write(BasicIo& src) {
-  assert(p_->fp_);
   if (static_cast<BasicIo*>(this) == &src)
     return 0;
   if (!src.isopen())
@@ -434,15 +430,12 @@ void FileIo::transfer(BasicIo& src) {
 }  // FileIo::transfer
 
 int FileIo::putb(byte data) {
-  assert(p_->fp_);
   if (p_->switchMode(Impl::opWrite) != 0)
     return EOF;
   return putc(data, p_->fp_);
 }
 
 int FileIo::seek(int64_t offset, Position pos) {
-  assert(p_->fp_);
-
   int fileSeek = 0;
   switch (pos) {
     case BasicIo::cur:
@@ -466,7 +459,6 @@ int FileIo::seek(int64_t offset, Position pos) {
 }
 
 long FileIo::tell() const {
-  assert(p_->fp_);
   return std::ftell(p_->fp_);
 }
 
@@ -520,7 +512,6 @@ int FileIo::close() {
 }
 
 DataBuf FileIo::read(size_t rcount) {
-  assert(p_->fp_);
   if (rcount > size())
     throw Error(ErrorCode::kerInvalidMalloc);
   DataBuf buf(rcount);
@@ -533,7 +524,6 @@ DataBuf FileIo::read(size_t rcount) {
 }
 
 size_t FileIo::read(byte* buf, size_t rcount) {
-  assert(p_->fp_);
   if (p_->switchMode(Impl::opRead) != 0) {
     return 0;
   }
@@ -541,7 +531,6 @@ size_t FileIo::read(byte* buf, size_t rcount) {
 }
 
 int FileIo::getb() {
-  assert(p_->fp_);
   if (p_->switchMode(Impl::opRead) != 0)
     return EOF;
   return getc(p_->fp_);
@@ -613,7 +602,6 @@ class EXIV2API BlockMap {
   //! @param source The data populate to the block
   //! @param num The size of data
   void populate(byte* source, size_t num) {
-    assert(source);
     size_ = num;
     data_ = new byte[size_];
     type_ = bMemory;
@@ -704,7 +692,6 @@ MemIo::~MemIo() {
 
 size_t MemIo::write(const byte* data, size_t wcount) {
   p_->reserve(wcount);
-  assert(p_->isMalloced_);
   if (data) {
     std::memcpy(&p_->data_[p_->idx_], data, wcount);
   }
@@ -759,7 +746,6 @@ size_t MemIo::write(BasicIo& src) {
 
 int MemIo::putb(byte data) {
   p_->reserve(1);
-  assert(p_->isMalloced_);
   p_->data_[p_->idx_++] = data;
   return data;
 }
@@ -1068,8 +1054,6 @@ RemoteIo::Impl::Impl(const std::string& url, size_t blockSize) :
 }
 
 size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
-  assert(isMalloced_);
-
   // optimize: ignore all true blocks on left & right sides.
   while (!blocksMap_[lowBlock].isNone() && lowBlock < highBlock)
     lowBlock++;
@@ -1165,7 +1149,6 @@ size_t RemoteIo::write(const byte* /* unused data*/, size_t /* unused wcount*/) 
 }
 
 size_t RemoteIo::write(BasicIo& src) {
-  assert(p_->isMalloced_);
   if (!src.isopen())
     return 0;
 
@@ -1249,7 +1232,6 @@ DataBuf RemoteIo::read(size_t rcount) {
 }
 
 size_t RemoteIo::read(byte* buf, size_t rcount) {
-  assert(p_->isMalloced_);
   if (p_->eof_)
     return 0;
   p_->totalRead_ += rcount;
@@ -1288,7 +1270,6 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
 }
 
 int RemoteIo::getb() {
-  assert(p_->isMalloced_);
   if (p_->idx_ == p_->size_) {
     p_->eof_ = true;
     return EOF;
@@ -1311,7 +1292,6 @@ void RemoteIo::transfer(BasicIo& src) {
 }
 
 int RemoteIo::seek(int64_t offset, Position pos) {
-  assert(p_->isMalloced_);
   int64_t newIdx = 0;
 
   switch (pos) {
@@ -1386,7 +1366,6 @@ const std::string& RemoteIo::path() const noexcept {
 }
 
 void RemoteIo::populateFakeData() {
-  assert(p_->isMalloced_);
   size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
   for (size_t i = 0; i < nBlocks; i++) {
     if (p_->blocksMap_[i].isNone())

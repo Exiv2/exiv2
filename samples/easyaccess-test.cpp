@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Sample program using high-level metadata access functions
 
-#include <cassert>
 #include <exiv2/exiv2.hpp>
 #include <iomanip>
 #include <iostream>

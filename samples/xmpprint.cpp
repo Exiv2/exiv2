@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Read an XMP from a video or graphic file, parse it and print  all (known) properties.
 
-#include <cassert>
 #include <exiv2/exiv2.hpp>
 #include <iomanip>
 #include <iostream>

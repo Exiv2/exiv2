@@ -5,7 +5,6 @@
 
 #include <sys/stat.h>
 
-#include <cassert>
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
@@ -262,7 +261,6 @@ int main(int argc, char* const argv[]) {
     char option = opt[0];
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-    assert(image.get() != 0);
     image->readMetadata();
 
     Jzon::Object root;

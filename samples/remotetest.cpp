@@ -3,7 +3,6 @@
 // It makes some modifications on the metadata of remote file, reads new metadata from that file
 // and reset the metadata back to the original status.
 
-#include <cassert>
 #include <exiv2/exiv2.hpp>
 #include <iomanip>
 #include <iostream>

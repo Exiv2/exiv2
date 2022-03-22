@@ -37,8 +37,7 @@ DataBuf Cr2Header::write() const {
     case bigEndian:
       buf.write_uint8(0, 'M');
       break;
-    case invalidByteOrder:
-      assert(false);
+    default:
       break;
   }
   buf.write_uint8(1, buf.read_uint8(0));

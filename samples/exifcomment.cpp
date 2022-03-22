@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Abstract : Sample program showing how to set the Exif comment of an image, Exif.Photo.UserComment
 
-#include <cassert>
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 

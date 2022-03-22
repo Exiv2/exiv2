@@ -1832,7 +1832,6 @@ void TiffCreator::getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group,
   do {
     tiffPath.push(TiffPathItem(extendedTag, group));
     ts = find(tiffTreeStruct_, TiffTreeStruct::Key(root, group));
-    assert(ts);
     extendedTag = ts->parentExtTag_;
     group = ts->parentGroup_;
   } while (!(ts->root_ == root && ts->group_ == ifdIdNotSet));
@@ -1867,8 +1866,6 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
         writing"). If there is a parsed tree, it is only used to access the
         image data in this case.
    */
-  assert(pHeader);
-  assert(pHeader->byteOrder() != invalidByteOrder);
   WriteMethod writeMethod = wmIntrusive;
   auto parsedTree = parse(pData, size, root, pHeader);
   PrimaryGroups primaryGroups;
@@ -1985,7 +1982,6 @@ DataBuf TiffHeaderBase::write() const {
       buf.write_uint8(0, 'M');
       break;
     case invalidByteOrder:
-      assert(false);
       break;
   }
   buf.write_uint8(1, buf.read_uint8(0));

@@ -38,7 +38,6 @@
 #include "xmpsidecar.hpp"
 
 // + standard includes
-#include <cassert>
 #include <cstdio>
 #include <cstring>
 #include <limits>
@@ -851,7 +850,6 @@ Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io) {
 
 void append(Blob& blob, const byte* buf, size_t len) {
   if (len != 0) {
-    assert(buf);
     Blob::size_type size = blob.size();
     if (blob.capacity() - size < len) {
       blob.reserve(size + 65536);

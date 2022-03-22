@@ -133,7 +133,6 @@ TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, const std::strin
   TiffComponent* tc = nullptr;
   const TiffMnRegistry* tmr = find(registry_, make);
   if (tmr) {
-    assert(tmr->newMnFct_);
     tc = tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
   }
   return tc;
@@ -147,7 +146,6 @@ TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, IfdId mnGroup) {
       std::cout << "mnGroup = " << mnGroup << "\n";
     }
 
-    assert(tmr->newMnFct2_);
     tc = tmr->newMnFct2_(tag, group, mnGroup);
   }
   return tc;
@@ -355,8 +353,6 @@ bool Nikon3MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
 }  // Nikon3MnHeader::read
 
 size_t Nikon3MnHeader::write(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
-  assert(buf_.size() >= 10);
-
   ioWrapper.write(buf_.c_data(), 10);
   /// \todo: This removes any gap between the header and makernote IFD. The gap should be copied too.
   TiffHeader th(byteOrder);
@@ -493,7 +489,6 @@ const byte SigmaMnHeader::signature1_[] = {'S', 'I', 'G', 'M', 'A', '\0', '\0', 
 const byte SigmaMnHeader::signature2_[] = {'F', 'O', 'V', 'E', 'O', 'N', '\0', '\0', 0x01, 0x00};
 
 size_t SigmaMnHeader::sizeOfSignature() {
-  assert(sizeof(signature1_) == sizeof(signature2_));
   return sizeof(signature1_);
 }
 

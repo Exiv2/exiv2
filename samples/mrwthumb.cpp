@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Sample program to extract a Minolta thumbnail from the makernote
 
-#include <cassert>
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 
