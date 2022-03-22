@@ -728,7 +728,7 @@ void MemIo::transfer(BasicIo& src) {
 }
 
 size_t MemIo::write(BasicIo& src) {
-  if (static_cast<BasicIo*>(this) == &src)
+  if (this == &src)
     return 0;
   if (!src.isopen())
     return 0;

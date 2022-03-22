@@ -602,7 +602,7 @@ void Image::setComment(std::string_view comment) {
 
 void Image::setIccProfile(Exiv2::DataBuf&& iccProfile, bool bTestValid) {
   if (bTestValid) {
-    if (iccProfile.size() < static_cast<long>(sizeof(long))) {
+    if (iccProfile.size() < sizeof(long)) {
       throw Error(ErrorCode::kerInvalidIccProfile);
     }
     const size_t size = iccProfile.read_uint32(0, bigEndian);

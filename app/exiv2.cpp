@@ -937,10 +937,10 @@ int Params::nonoption(const std::string& argv) {
   return rc;
 }  // Params::nonoption
 
-static int readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
+static size_t readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
   const int buff_size = 4 * 1028;
   std::vector<Exiv2::byte> bytes(buff_size);
-  int nBytes = 0;
+  size_t nBytes = 0;
   bool more{true};
   std::array<char, buff_size> buff;
   while (more) {

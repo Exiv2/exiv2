@@ -217,7 +217,7 @@ void TiffEntryBase::setData(const std::shared_ptr<DataBuf>& buf) {
   size_ = buf->size();
 }
 
-void TiffEntryBase::setData(byte* pData, uint32_t size, const std::shared_ptr<DataBuf>& storage) {
+void TiffEntryBase::setData(byte* pData, size_t size, const std::shared_ptr<DataBuf>& storage) {
   pData_ = pData;
   size_ = size;
   storage_ = storage;
@@ -352,7 +352,7 @@ uint32_t TiffIfdMakernote::baseOffset() const {
   return pHeader_->baseOffset(mnOffset_);
 }
 
-bool TiffIfdMakernote::readHeader(const byte* pData, uint32_t size, ByteOrder byteOrder) {
+bool TiffIfdMakernote::readHeader(const byte* pData, size_t size, ByteOrder byteOrder) {
   if (!pHeader_)
     return true;
   return pHeader_->read(pData, size, byteOrder);

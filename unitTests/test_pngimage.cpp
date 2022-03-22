@@ -18,7 +18,7 @@ TEST(PngChunk, keyTxtChunkExtractsKeywordCorrectlyInPresenceOfNullChar) {
                                           0x20, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x20, 0x74, 0x79,
                                           0x70, 0x65, 0x20, 0x65, 0x78, 0x69, 0x66, 0x00, 0x00, 0x78};
 
-  DataBuf chunkBuf(data.data(), static_cast<long>(data.size()));
+  DataBuf chunkBuf(data.data(), data.size());
   DataBuf key = Internal::PngChunk::keyTXTChunk(chunkBuf, true);
   ASSERT_EQ(21, key.size());
 
@@ -31,13 +31,13 @@ TEST(PngChunk, keyTxtChunkThrowsExceptionWhenThereIsNoNullChar) {
                                           0x77, 0x20, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x20,
                                           0x74, 0x79, 0x70, 0x65, 0x20, 0x65, 0x78, 0x69, 0x66, 0x78};
 
-  DataBuf chunkBuf(data.data(), static_cast<long>(data.size()));
+  DataBuf chunkBuf(data.data(), data.size());
   ASSERT_THROW(Internal::PngChunk::keyTXTChunk(chunkBuf, true), Exiv2::Error);
 }
 
 TEST(PngChunk, keyTxtChunkThrowsIfSizeIsNotEnough) {
   const std::array<std::uint8_t, 4> data{0x00, 0x00, 0x22, 0x41};
-  DataBuf chunkBuf(data.data(), static_cast<long>(data.size()));
+  DataBuf chunkBuf(data.data(), data.size());
   ASSERT_THROW(Internal::PngChunk::keyTXTChunk(chunkBuf, true), Exiv2::Error);
 
   DataBuf emptyChunk(data.data(), 0);

@@ -310,7 +310,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
   size_t size = 0;
   getObjData(pData, size, 0x83bb, ifd0Id, object);
   if (pData) {
-    if (0 == IptcParser::decode(iptcData_, pData, static_cast<uint32_t>(size))) {
+    if (0 == IptcParser::decode(iptcData_, pData, size)) {
       return;
     }
 #ifndef SUPPRESS_WARNINGS
@@ -516,7 +516,7 @@ void TiffEncoder::encodeIptc() {
     } else {
       buf = std::move(rawIptc);  // Note: This resets rawIptc
     }
-    value->read(buf.data(), static_cast<long>(buf.size()), byteOrder_);
+    value->read(buf.data(), buf.size(), byteOrder_);
     Exifdatum iptcDatum(iptcNaaKey, value.get());
     exifData_.add(iptcDatum);
     pos = exifData_.findKey(irbKey);  // needed after add()
@@ -530,7 +530,7 @@ void TiffEncoder::encodeIptc() {
     exifData_.erase(pos);
     if (!irbBuf.empty()) {
       auto value = Value::create(unsignedByte);
-      value->read(irbBuf.data(), static_cast<long>(irbBuf.size()), invalidByteOrder);
+      value->read(irbBuf.data(), irbBuf.size(), invalidByteOrder);
       Exifdatum iptcDatum(irbKey, value.get());
       exifData_.add(iptcDatum);
     }
@@ -559,7 +559,7 @@ void TiffEncoder::encodeXmp() {
   if (!xmpPacket.empty()) {
     // Set the XMP Exif tag to the new value
     auto value = Value::create(unsignedByte);
-    value->read(reinterpret_cast<const byte*>(&xmpPacket[0]), static_cast<long>(xmpPacket.size()), invalidByteOrder);
+    value->read(reinterpret_cast<const byte*>(&xmpPacket[0]), xmpPacket.size(), invalidByteOrder);
     Exifdatum xmpDatum(xmpKey, value.get());
     exifData_.add(xmpDatum);
   }
@@ -697,7 +697,7 @@ void TiffEncoder::visitBinaryArrayEnd(TiffBinaryArray* object) {
     DataBuf buf = cryptFct(object->tag(), pData, size, pRoot_);
     if (!buf.empty()) {
       pData = buf.c_data();
-      size = static_cast<int32_t>(buf.size());
+      size = buf.size();
     }
     if (!object->updOrigDataBuf(pData, size)) {
       setDirty();
@@ -837,7 +837,7 @@ void TiffEncoder::encodeImageEntry(TiffImageEntry* object, const Exifdatum* datu
       uint32_t sizeTotal = 0;
       object->strips_.clear();
       for (size_t i = 0; i < pos->count(); ++i) {
-        uint32_t len = pos->toUint32(static_cast<long>(i));
+        uint32_t len = pos->toUint32(i);
         object->strips_.emplace_back(zero, len);
         sizeTotal += len;
       }
@@ -1225,12 +1225,12 @@ void TiffReader::visitMnEntry(TiffMnEntry* object) {
 void TiffReader::visitIfdMakernote(TiffIfdMakernote* object) {
   object->setImageByteOrder(byteOrder());  // set the byte order for the image
 
-  if (!object->readHeader(object->start(), static_cast<uint32_t>(pLast_ - object->start()), byteOrder())) {
+  if (!object->readHeader(object->start(), pLast_ - object->start(), byteOrder())) {
 #ifndef SUPPRESS_WARNINGS
     EXV_ERROR << "Failed to read " << groupName(object->ifd_.group()) << " IFD Makernote header.\n";
 #ifdef EXIV2_DEBUG_MESSAGES
-    if (static_cast<uint32_t>(pLast_ - object->start()) >= 16) {
-      hexdump(std::cerr, object->start(), 16);
+    if (pLast_ - object->start() >= 16u) {
+      hexdump(std::cerr, object->start(), 16u);
     }
 #endif  // EXIV2_DEBUG_MESSAGES
 #endif  // SUPPRESS_WARNINGS
@@ -1291,10 +1291,10 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
   if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
     throw Error(ErrorCode::kerArithmeticOverflow);
   }
-  auto size = static_cast<uint32_t>(typeSize * count);
+  size_t size = typeSize * count;
   uint32_t offset = getLong(p, byteOrder());
   byte* pData = p;
-  if (size > 4 && (baseOffset() + offset >= size_ || static_cast<int32_t>(baseOffset()) + offset <= 0)) {
+  if (size > 4 && (baseOffset() + offset >= size_ || baseOffset() + offset <= 0)) {
     // #1143
     if (object->tag() == 0x2001 && std::string(groupName(object->group())) == "Sony1") {
       // This tag is Exif.Sony1.PreviewImage, which refers to a preview image which is
@@ -1335,7 +1335,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     pData = const_cast<byte*>(pData_) + baseOffset() + offset;
 
     // check for size being invalid
-    if (size > static_cast<uint32_t>(pLast_ - pData)) {
+    if (size > static_cast<size_t>(pLast_ - pData)) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "Upper boundary of data for "
                 << "directory " << groupName(object->group()) << ", entry 0x" << std::setw(4) << std::setfill('0')

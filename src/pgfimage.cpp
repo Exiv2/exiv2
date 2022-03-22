@@ -90,13 +90,13 @@ void PgfImage::readMetadata() {
   // And now, the most interesting, the user data byte array where metadata are stored as small image.
 
   enforce(headerSize <= std::numeric_limits<size_t>::max() - 8, ErrorCode::kerCorruptedMetadata);
-  long size = static_cast<long>(headerSize) + 8 - io_->tell();
+  size_t size = headerSize + 8 - static_cast<size_t>(io_->tell());
 
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
 #endif
 
-  if (size < 0 || static_cast<size_t>(size) > io_->size())
+  if (size > io_->size())
     throw Error(ErrorCode::kerInputDataReadFailed);
   if (size == 0)
     return;

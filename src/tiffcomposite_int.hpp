@@ -422,7 +422,7 @@ class TiffEntryBase : public TiffComponent {
                    you should pass std::shared_ptr<DataBuf>(), which is essentially
                    a nullptr.
    */
-  void setData(byte* pData, uint32_t size, const std::shared_ptr<DataBuf>& storage);
+  void setData(byte* pData, size_t size, const std::shared_ptr<DataBuf>& storage);
   /*!
     @brief Set the entry's data buffer. A shared_ptr is used to manage the DataBuf
            because TiffEntryBase has a clone method so it is possible (in theory) for
@@ -1113,7 +1113,7 @@ class TiffIfdMakernote : public TiffComponent {
 
     The default implementation simply returns true.
    */
-  bool readHeader(const byte* pData, uint32_t size, ByteOrder byteOrder);
+  bool readHeader(const byte* pData, size_t size, ByteOrder byteOrder);
   /*!
     @brief Set the byte order for the makernote.
    */

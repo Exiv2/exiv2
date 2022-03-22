@@ -244,7 +244,7 @@ void CiffDirectory::readDirectory(const byte* pData, size_t size, ByteOrder byte
   std::cout << "Directory at offset " << std::dec << o << ", " << count << " entries \n";
 #endif
   o += 2;
-  if (static_cast<uint32_t>(count) * 10 > size - o)
+  if (count * 10u > size - o)
     throw Error(ErrorCode::kerCorruptedMetadata);
 
   for (uint16_t i = 0; i < count; ++i) {

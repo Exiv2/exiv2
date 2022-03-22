@@ -64,7 +64,7 @@ class EXIV2API WebPImage : public Image {
   void doWriteMetadata(BasicIo& outIo);
   //! @name NOT Implemented
   //@{
-  static long getHeaderOffset(const byte* data, long data_size, const byte* header, long header_size);
+  static long getHeaderOffset(const byte* data, size_t data_size, const byte* header, size_t header_size);
   static bool equalsWebPTag(Exiv2::DataBuf& buf, const char* str);
   void debugPrintHex(byte* data, long size);
   void decodeChunks(long filesize);
