@@ -30,7 +30,18 @@ class PreviewImage;
 /// @brief Contains all action classes (task subclasses).
 namespace Action {
 //! Enumerates all tasks
-enum TaskType { none, adjust, print, rename, erase, extract, insert, modify, fixiso, fixcom };
+enum TaskType {
+  none,
+  adjust,
+  print,
+  rename,
+  erase,
+  extract,
+  insert,
+  modify,
+  fixiso,
+  fixcom,
+};
 
 // *****************************************************************************
 // class definitions

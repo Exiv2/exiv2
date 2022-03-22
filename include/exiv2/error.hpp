@@ -63,7 +63,13 @@ class EXIV2API LogMsg {
     @brief Defined log levels. To suppress all log messages, either set the
            log level to \c mute or set the log message handler to 0.
    */
-  enum Level { debug = 0, info = 1, warn = 2, error = 3, mute = 4 };
+  enum Level {
+    debug = 0,
+    info = 1,
+    warn = 2,
+    error = 3,
+    mute = 4,
+  };
   /*!
     @brief Type for a log message handler function. The function receives
            the log level and message and can process it in an application
