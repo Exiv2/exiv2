@@ -37,10 +37,9 @@ constexpr unsigned char pngBlank[] = {
 
 const auto nullComp = reinterpret_cast<const Exiv2::byte*>("\0\0");
 const auto typeICCP = reinterpret_cast<const Exiv2::byte*>("iCCP");
-/// \todo use string_view and remove the last parameter
-inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length) {
-  const auto minlen = std::min(length, buf.size());
-  return buf.cmpBytes(0, str, minlen) == 0;
+inline bool compare(std::string_view str, const Exiv2::DataBuf& buf) {
+  const auto minlen = std::min(str.size(), buf.size());
+  return buf.cmpBytes(0, str.data(), minlen) == 0;
 }
 }  // namespace
 
@@ -640,11 +639,10 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
     } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt") ||
                !strcmp(szChunk, "iCCP")) {
       DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
-      if (!key.empty() &&
-          (compare("Raw profile type exif", key, 21) || compare("Raw profile type APP1", key, 21) ||
-           compare("Raw profile type iptc", key, 21) || compare("Raw profile type xmp", key, 20) ||
-           compare("XML:com.adobe.xmp", key, 17) || compare("icc", key, 3) ||  // see test/data/imagemagick.png
-           compare("ICC", key, 3) || compare("Description", key, 11))) {
+      if (!key.empty() && (compare("Raw profile type exif", key) || compare("Raw profile type APP1", key) ||
+                           compare("Raw profile type iptc", key) || compare("Raw profile type xmp", key) ||
+                           compare("XML:com.adobe.xmp", key) || compare("icc", key) ||  // see test/data/imagemagick.png
+                           compare("ICC", key) || compare("Description", key))) {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk << " chunk (length: " << dataOffset << ")"
                   << std::endl;
