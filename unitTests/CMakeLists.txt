@@ -14,6 +14,8 @@ add_executable(unit_tests
     test_helper_functions.cpp
     test_image_int.cpp
     test_ImageFactory.cpp
+    test_jp2image.cpp
+    test_jp2image_int.cpp
     test_IptcKey.cpp
     test_LangAltValueRead.cpp
     test_pngimage.cpp
