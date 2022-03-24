@@ -10,10 +10,10 @@
 #include "types.hpp"
 
 // + standard includes
+#include <cmath>
 #include <cstring>
 #include <iomanip>
 #include <map>
-#include <cmath>
 
 // *****************************************************************************
 // namespace extensions
