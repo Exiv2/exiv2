@@ -7,17 +7,24 @@ on:
 
 jobs:
   Linux:
-    name: 'Ubuntu 20.04 - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 20.04 - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}, Arch:${{matrix.architecture}}'
+    runs-on: ubuntu-20.04
 
     strategy:
       fail-fast: false
       matrix:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
+        architecture: [x64, x86]
         
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set up GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 10
+          platform: ${{matrix.architecture}}
 
       - name: install dependencies
         run: |
