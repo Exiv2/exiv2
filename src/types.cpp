@@ -10,7 +10,6 @@
 
 // + standard includes
 #include <array>
-#include <cassert>
 #include <cctype>
 #include <climits>
 #include <cmath>
@@ -163,15 +162,6 @@ void Exiv2::DataBuf::write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder
     throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint64");
   }
   ull2Data(&pData_[offset], x, byteOrder);
-}
-
-void Exiv2::DataBuf::copyBytes(size_t offset, const void* buf, size_t bufsize) {
-  if (pData_.size() < bufsize || offset > pData_.size() - bufsize) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::copyBytes");
-  }
-  if (bufsize > 0) {
-    memcpy(&pData_[offset], buf, bufsize);
-  }
 }
 
 int Exiv2::DataBuf::cmpBytes(size_t offset, const void* buf, size_t bufsize) const {
@@ -331,7 +321,6 @@ float getFloat(const byte* buf, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the float
   // type is the 4-byte IEEE 754 binary32 format, which is common but not
   // required by the C++ standard.
-  assert(sizeof(float) == 4);
   union {
     uint32_t ul_;
     float f_;
@@ -344,7 +333,6 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the double
   // type is the 8-byte IEEE 754 binary64 format, which is common but not
   // required by the C++ standard.
-  assert(sizeof(double) == 8);
   union {
     uint64_t ull_;
     double d_;
@@ -447,7 +435,6 @@ long f2Data(byte* buf, float f, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the float
   // type is the 4-byte IEEE 754 binary32 format, which is common but not
   // required by the C++ standard.
-  assert(sizeof(float) == 4);
   union {
     uint32_t ul_;
     float f_;
@@ -460,7 +447,6 @@ long d2Data(byte* buf, double d, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the double
   // type is the 8-byte IEEE 754 binary64 format, which is common but not
   // required by the C++ standard.
-  assert(sizeof(double) == 8);
   union {
     uint64_t ull_;
     double d_;
@@ -524,8 +510,6 @@ bool isHex(const std::string& str, size_t size, const std::string& prefix) {
 }  // isHex
 
 int exifTime(const char* buf, struct tm* tm) {
-  assert(buf);
-  assert(tm);
   int rc = 1;
   int year = 0, mon = 0, mday = 0, hour = 0, min = 0, sec = 0;
   int scanned = std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d", &year, &mon, &mday, &hour, &min, &sec);

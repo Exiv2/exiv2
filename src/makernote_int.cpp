@@ -133,7 +133,6 @@ TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, const std::strin
   TiffComponent* tc = nullptr;
   const TiffMnRegistry* tmr = find(registry_, make);
   if (tmr) {
-    assert(tmr->newMnFct_);
     tc = tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
   }
   return tc;
@@ -147,7 +146,6 @@ TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, IfdId mnGroup) {
       std::cout << "mnGroup = " << mnGroup << "\n";
     }
 
-    assert(tmr->newMnFct2_);
     tc = tmr->newMnFct2_(tag, group, mnGroup);
   }
   return tc;
@@ -190,7 +188,7 @@ bool OlympusMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  header_.copyBytes(0, pData, header_.size());
+  std::copy_n(pData, header_.size(), header_.data());
   return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 6));
 }
 
@@ -225,7 +223,7 @@ bool Olympus2MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrde
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  header_.copyBytes(0, pData, header_.size());
+  std::copy_n(pData, header_.size(), header_.data());
   return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 10));
 }
 
@@ -265,7 +263,7 @@ bool FujiMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  header_.copyBytes(0, pData, header_.size());
+  std::copy_n(pData, header_.size(), header_.data());
   // Read offset to the IFD relative to the start of the makernote
   // from the header. Note that we ignore the byteOrder argument
   start_ = header_.read_uint32(8, byteOrder_);
@@ -301,7 +299,7 @@ bool Nikon2MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
   if (0 != memcmp(pData, signature_, 6))
     return false;
   buf_.alloc(sizeOfSignature());
-  buf_.copyBytes(0, pData, buf_.size());
+  std::copy_n(pData, buf_.size(), buf_.data());
   start_ = sizeOfSignature();
   return true;
 }  // Nikon2MnHeader::read
@@ -320,7 +318,7 @@ size_t Nikon3MnHeader::sizeOfSignature() {
 
 Nikon3MnHeader::Nikon3MnHeader() : byteOrder_(invalidByteOrder), start_(sizeOfSignature()) {
   buf_.alloc(sizeOfSignature());
-  buf_.copyBytes(0, signature_, buf_.size());
+  std::copy_n(signature_, buf_.size(), buf_.data());
 }
 
 size_t Nikon3MnHeader::size() const {
@@ -345,7 +343,7 @@ bool Nikon3MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
   if (0 != memcmp(pData, signature_, 6))
     return false;
   buf_.alloc(sizeOfSignature());
-  buf_.copyBytes(0, pData, buf_.size());
+  std::copy_n(pData, buf_.size(), buf_.data());
   TiffHeader th;
   if (!th.read(buf_.data(10), 8))
     return false;
@@ -355,8 +353,6 @@ bool Nikon3MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
 }  // Nikon3MnHeader::read
 
 size_t Nikon3MnHeader::write(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
-  assert(buf_.size() >= 10);
-
   ioWrapper.write(buf_.c_data(), 10);
   /// \todo: This removes any gap between the header and makernote IFD. The gap should be copied too.
   TiffHeader th(byteOrder);
@@ -393,7 +389,7 @@ bool PanasonicMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrd
   if (0 != memcmp(pData, signature_, 9))
     return false;
   buf_.alloc(sizeOfSignature());
-  buf_.copyBytes(0, pData, buf_.size());
+  std::copy_n(pData, buf_.size(), buf_.data());
   start_ = sizeOfSignature();
   return true;
 }  // PanasonicMnHeader::read
@@ -429,7 +425,7 @@ bool PentaxDngMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrd
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  header_.copyBytes(0, pData, header_.size());
+  std::copy_n(pData, header_.size(), header_.data());
   return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 7));
 }
 
@@ -460,7 +456,7 @@ bool PentaxMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  header_.copyBytes(0, pData, header_.size());
+  std::copy_n(pData, header_.size(), header_.data());
   return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 3));
 }
 
@@ -493,7 +489,6 @@ const byte SigmaMnHeader::signature1_[] = {'S', 'I', 'G', 'M', 'A', '\0', '\0', 
 const byte SigmaMnHeader::signature2_[] = {'F', 'O', 'V', 'E', 'O', 'N', '\0', '\0', 0x01, 0x00};
 
 size_t SigmaMnHeader::sizeOfSignature() {
-  assert(sizeof(signature1_) == sizeof(signature2_));
   return sizeof(signature1_);
 }
 
@@ -515,7 +510,7 @@ bool SigmaMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/
   if (0 != memcmp(pData, signature1_, 8) && 0 != memcmp(pData, signature2_, 8))
     return false;
   buf_.alloc(sizeOfSignature());
-  buf_.copyBytes(0, pData, buf_.size());
+  std::copy_n(pData, buf_.size(), buf_.data());
   start_ = sizeOfSignature();
   return true;
 }  // SigmaMnHeader::read
@@ -549,7 +544,7 @@ bool SonyMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
   if (0 != memcmp(pData, signature_, sizeOfSignature()))
     return false;
   buf_.alloc(sizeOfSignature());
-  buf_.copyBytes(0, pData, buf_.size());
+  std::copy_n(pData, buf_.size(), buf_.data());
   start_ = sizeOfSignature();
   return true;
 }  // SonyMnHeader::read
@@ -588,7 +583,7 @@ bool Casio2MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
   if (0 != memcmp(pData, signature_, sizeOfSignature()))
     return false;
   buf_.alloc(sizeOfSignature());
-  buf_.copyBytes(0, pData, buf_.size());
+  std::copy_n(pData, buf_.size(), buf_.data());
   start_ = sizeOfSignature();
   return true;
 }  // Casio2MnHeader::read
@@ -896,7 +891,7 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
     }
   }
   buf.alloc(size);
-  buf.copyBytes(0, pData, buf.size());
+  std::copy_n(pData, buf.size(), buf.data());
   ncrypt(buf.data(nci->start_), static_cast<uint32_t>(buf.size()) - nci->start_, count, serial);
   return buf;
 }

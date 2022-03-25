@@ -101,9 +101,6 @@ void CrwImage::writeMetadata() {
 }  // CrwImage::writeMetadata
 
 void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, size_t size) {
-  assert(pCrwImage);
-  assert(pData);
-
   // Parse the image, starting with a CIFF header component
   CiffHeader header;
   header.read(pData, size);

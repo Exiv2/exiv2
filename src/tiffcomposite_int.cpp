@@ -79,7 +79,6 @@ TiffIfdMakernote::TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, MnH
 TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg* arrayCfg, const ArrayDef* arrayDef,
                                  int defSize) :
     TiffEntryBase(tag, group, arrayCfg->elTiffType_), arrayCfg_(arrayCfg), arrayDef_(arrayDef), defSize_(defSize) {
-  assert(arrayCfg);
 }
 
 TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, int setSize,
@@ -89,8 +88,6 @@ TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arra
     arraySet_(arraySet),
     setSize_(setSize) {
   // We'll figure out the correct cfg later
-  assert(cfgSelFct);
-  assert(arraySet_);
 }
 
 TiffBinaryElement::TiffBinaryElement(uint16_t tag, IfdId group) :
@@ -191,12 +188,10 @@ TiffSubIfd* TiffSubIfd::doClone() const {
 }
 
 TiffMnEntry* TiffMnEntry::doClone() const {
-  assert(false);  // Not implemented
   return nullptr;
 }
 
 TiffIfdMakernote* TiffIfdMakernote::doClone() const {
-  assert(false);  // Not implemented
   return nullptr;
 }
 
@@ -222,7 +217,7 @@ void TiffEntryBase::setData(const std::shared_ptr<DataBuf>& buf) {
   size_ = buf->size();
 }
 
-void TiffEntryBase::setData(byte* pData, uint32_t size, const std::shared_ptr<DataBuf>& storage) {
+void TiffEntryBase::setData(byte* pData, size_t size, const std::shared_ptr<DataBuf>& storage) {
   pData_ = pData;
   size_ = size;
   storage_ = storage;
@@ -341,7 +336,6 @@ size_t TiffIfdMakernote::ifdOffset() const {
 }
 
 ByteOrder TiffIfdMakernote::byteOrder() const {
-  assert(imageByteOrder_ != invalidByteOrder);
   if (!pHeader_ || pHeader_->byteOrder() == invalidByteOrder) {
     return imageByteOrder_;
   }
@@ -358,7 +352,7 @@ uint32_t TiffIfdMakernote::baseOffset() const {
   return pHeader_->baseOffset(mnOffset_);
 }
 
-bool TiffIfdMakernote::readHeader(const byte* pData, uint32_t size, ByteOrder byteOrder) {
+bool TiffIfdMakernote::readHeader(const byte* pData, size_t size, ByteOrder byteOrder) {
   if (!pHeader_)
     return true;
   return pHeader_->read(pData, size, byteOrder);
@@ -420,8 +414,6 @@ void TiffBinaryArray::iniOrigDataBuf() {
 }
 
 bool TiffBinaryArray::updOrigDataBuf(const byte* pData, size_t size) {
-  assert(pData);
-
   if (origSize_ != size)
     return false;
   if (origData_ == pData)
@@ -437,7 +429,6 @@ uint32_t TiffBinaryArray::addElement(uint32_t idx, const ArrayDef& def) {
   auto tp = dynamic_cast<TiffBinaryElement*>(tc.get());
   // The assertion typically fails if a component is not configured in
   // the TIFF structure table (TiffCreator::tiffTreeStruct_)
-  assert(tp);
   tp->setStart(pData() + idx);
   tp->setData(const_cast<byte*>(pData() + idx), sz, storage());
   tp->setElDef(def);
@@ -458,7 +449,6 @@ TiffComponent* TiffComponent::doAddPath(uint16_t /*tag*/, TiffPath& /*tiffPath*/
 
 TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
                                         TiffComponent::UniquePtr object) {
-  assert(tiffPath.size() > 1);
   tiffPath.pop();
   const TiffPathItem tpi = tiffPath.top();
 
@@ -486,7 +476,6 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
     } else {
       atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
     }
-    assert(atc);
 
     // Prevent dangling sub-IFD tags: Do not add a sub-IFD component without children.
     // Todo: How to check before creating the component?
@@ -504,7 +493,6 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
 
 TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
                                      TiffComponent::UniquePtr object) {
-  assert(!tiffPath.empty());
   const TiffPathItem tpi1 = tiffPath.top();
   tiffPath.pop();
   if (tiffPath.empty()) {
@@ -535,7 +523,6 @@ TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCompo
 
 TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
                                       TiffComponent::UniquePtr object) {
-  assert(!tiffPath.empty());
   const TiffPathItem tpi1 = tiffPath.top();
   tiffPath.pop();
   if (tiffPath.empty()) {
@@ -547,7 +534,6 @@ TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComp
   if (!mn_) {
     mnGroup_ = tpi2.group();
     mn_ = TiffMnCreator::create(tpi1.tag(), tpi1.group(), mnGroup_);
-    assert(mn_);
   }
   return mn_->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffMnEntry::doAddPath
@@ -587,8 +573,6 @@ TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag, TiffPath& tiffPath, Tiff
     } else {
       atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
     }
-    assert(atc);
-    assert(tpi.extendedTag() != Tag::next);
     tc = addChild(std::move(atc));
     setCount(elements_.size());
   }
@@ -611,7 +595,6 @@ TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent)
 
 TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
   auto d = dynamic_cast<TiffDirectory*>(tiffComponent.release());
-  assert(d);
   ifds_.push_back(d);
   return d;
 }  // TiffSubIfd::doAddChild
@@ -926,7 +909,6 @@ uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64
     ioWrapper.write(buf, 4);
     idx += 4;
   }
-  assert(idx == sizeDir);
 
   // 2nd: Write IFD values - may contain pointers to additional data
   valueIdx = static_cast<uint32_t>(sizeDir);
@@ -947,7 +929,6 @@ uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64
     sd += sd & 1;  // Align data to word boundary
     dataIdx += sd;
   }
-  assert(idx == sizeDir + sizeValue);
 
   // 3rd: Write data - may contain offsets too (eg sub-IFD)
   dataIdx = static_cast<uint32_t>(sizeDir + sizeValue);
@@ -969,9 +950,7 @@ uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64
 uint32_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset,
                                       TiffComponent* pTiffComponent, uint32_t valueIdx, uint32_t dataIdx,
                                       uint32_t& imageIdx) {
-  assert(pTiffComponent);
   auto pDirEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
-  assert(pDirEntry);
   byte buf[8];
   us2Data(buf, pDirEntry->tag(), byteOrder);
   us2Data(buf + 2, pDirEntry->tiffType(), byteOrder);
@@ -1122,7 +1101,7 @@ uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int
         idx += ul2Data(buf, static_cast<uint32_t>(size()), byteOrder);
         break;
       default:
-        assert(false);
+        break;
     }
     mioWrapper.write(buf, elSize);
   }
@@ -1229,9 +1208,8 @@ uint32_t TiffSubIfd::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int6
 
 uint32_t TiffIfdMakernote::doWriteData(IoWrapper& /*ioWrapper*/, ByteOrder /*byteOrder*/, int64_t /*offset*/,
                                        uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) const {
-  assert(false);
   return 0;
-}  // TiffIfdMakernote::doWriteData
+}
 
 uint32_t TiffComponent::writeImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
   return doWriteImage(ioWrapper, byteOrder);
@@ -1413,7 +1391,6 @@ size_t TiffComponent::sizeData() const {
 }
 
 size_t TiffDirectory::doSizeData() const {
-  assert(false);
   return 0;
 }
 
@@ -1445,7 +1422,6 @@ size_t TiffSubIfd::doSizeData() const {
 }
 
 size_t TiffIfdMakernote::doSizeData() const {
-  assert(false);
   return 0;
 }
 
@@ -1537,16 +1513,12 @@ TiffType toTiffType(TypeId typeId) {
 }
 
 bool cmpTagLt(TiffComponent const* lhs, TiffComponent const* rhs) {
-  assert(lhs);
-  assert(rhs);
   if (lhs->tag() != rhs->tag())
     return lhs->tag() < rhs->tag();
   return lhs->idx() < rhs->idx();
 }
 
 bool cmpGroupLt(TiffComponent const* lhs, TiffComponent const* rhs) {
-  assert(lhs);
-  assert(rhs);
   return lhs->group() < rhs->group();
 }
 

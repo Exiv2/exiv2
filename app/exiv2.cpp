@@ -12,7 +12,7 @@
 #include "i18n.h"  // NLS support.
 #include "xmp_exiv2.hpp"
 
-#include <cassert>
+#include <algorithm>
 #include <cctype>
 #include <cstring>
 #include <fstream>
@@ -132,43 +132,42 @@ int main(int argc, char* const argv[]) {
     return 0;
   }
 
-  int rc = 0;
+  int returnCode = EXIT_SUCCESS;
 
   try {
     // Create the required action class
-    Action::TaskFactory& taskFactory = Action::TaskFactory::instance();
-    auto task = taskFactory.create(Action::TaskType(params.action_));
-    assert(task);
+    auto task = Action::TaskFactory::instance().create(Action::TaskType(params.action_));
 
     // Process all files
-    auto s = static_cast<int>(params.files_.size());
-    if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && s > 1) {
+    auto filesCount = params.files_.size();
+    if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && filesCount > 1) {
       std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
-      rc = 1;
+      returnCode = EXIT_FAILURE;
     } else {
-      int w = s > 9 ? s > 99 ? 3 : 2 : 1;
+      int w = filesCount > 9 ? filesCount > 99 ? 3 : 2 : 1;
       int n = 1;
       for (auto&& file : params.files_) {
         // If extracting to stdout then ignore verbose
         if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
-          std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file << std::endl;
+          std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << filesCount << ": " << file
+                    << std::endl;
         }
         task->setBinary(params.binary_);
         int ret = task->run(file);
-        if (rc == 0)
-          rc = ret;
+        if (returnCode == EXIT_SUCCESS)
+          returnCode = ret;
       }
 
-      taskFactory.cleanup();
+      Action::TaskFactory::instance().cleanup();
       Exiv2::XmpParser::terminate();
     }
   } catch (const std::exception& exc) {
     std::cerr << "Uncaught exception: " << exc.what() << std::endl;
-    rc = 1;
+    returnCode = EXIT_FAILURE;
   }
 
   // Return a positive one byte code for better consistency across platforms
-  return static_cast<unsigned int>(rc) % 256;
+  return static_cast<unsigned int>(returnCode) % 256;
 }  // main
 
 // *****************************************************************************
@@ -938,25 +937,25 @@ int Params::nonoption(const std::string& argv) {
   return rc;
 }  // Params::nonoption
 
-static int readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
+static size_t readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
   const int buff_size = 4 * 1028;
   std::vector<Exiv2::byte> bytes(buff_size);
-  int nBytes = 0;
+  size_t nBytes = 0;
   bool more{true};
+  std::array<char, buff_size> buff;
   while (more) {
-    char buff[buff_size];
-    auto n = static_cast<int>(fread(buff, 1, buff_size, f));
+    auto n = fread(buff.data(), 1, buff_size, f);
     more = n > 0;
     if (more) {
       bytes.resize(nBytes + n);
-      memcpy(bytes.data() + nBytes, buff, n);
+      std::copy_n(buff.begin(), n, bytes.begin() + nBytes);
       nBytes += n;
     }
   }
 
   if (nBytes) {
     buf.alloc(nBytes);
-    buf.copyBytes(0, bytes.data(), nBytes);
+    std::copy(bytes.begin(), bytes.end(), buf.begin());
   }
   return nBytes;
 }
@@ -1006,7 +1005,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
   // copy stdinBuf to buf
   if (!stdinBuf.empty()) {
     buf.alloc(stdinBuf.size());
-    buf.copyBytes(0, stdinBuf.c_data(), buf.size());
+    std::copy(stdinBuf.begin(), stdinBuf.end(), buf.begin());
   }
 #ifdef DEBUG
   std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;

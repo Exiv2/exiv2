@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Sample program to extract a Minolta thumbnail from the makernote
 
-#include <cassert>
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 
@@ -15,7 +14,7 @@ int main(int argc, char* const argv[]) {
   try {
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " file\n";
-      return 1;
+      return EXIT_FAILURE;
     }
 
     auto image = Exiv2::ImageFactory::open(argv[1]);
@@ -44,9 +43,9 @@ int main(int argc, char* const argv[]) {
       file.close();
     }
 
-    return 0;
+    return EXIT_SUCCESS;
   } catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 }

@@ -85,7 +85,7 @@ TEST(BmpImage, readMetadataReadsImageDimensionsWhenDataIsAvailable) {
       0x20, 0x03, 0x00, 0x00,  // The bitmap height in pixels (unsigned 16 bit)                     off:22, size:4
   };
 
-  auto memIo = std::make_unique<MemIo>(header.data(), static_cast<long>(header.size()));
+  auto memIo = std::make_unique<MemIo>(header.data(), header.size());
   BmpImage bmp(std::move(memIo));
   ASSERT_NO_THROW(bmp.readMetadata());
   ASSERT_EQ(1280, bmp.pixelWidth());
@@ -104,7 +104,7 @@ TEST(BmpImage, readMetadataThrowsWhenImageIsNotBMP) {
       0x20, 0x03, 0x00, 0x00,  // The bitmap height in pixels (unsigned 16 bit)                     off:22, size:4
   };
 
-  auto memIo = std::make_unique<MemIo>(header.data(), static_cast<long>(header.size()));
+  auto memIo = std::make_unique<MemIo>(header.data(), header.size());
   BmpImage bmp(std::move(memIo));
   try {
     bmp.readMetadata();
@@ -117,7 +117,7 @@ TEST(BmpImage, readMetadataThrowsWhenImageIsNotBMP) {
 
 TEST(BmpImage, readMetadataThrowsWhenThereIsNotEnoughInfoToRead) {
   const std::array<unsigned char, 1> header{'B'};
-  auto memIo = std::make_unique<MemIo>(header.data(), static_cast<long>(header.size()));
+  auto memIo = std::make_unique<MemIo>(header.data(), header.size());
   BmpImage bmp(std::move(memIo));
   try {
     bmp.readMetadata();
@@ -147,7 +147,7 @@ TEST(newBmpInstance, createsValidInstace) {
       0x00, 0x00,              // Reserved
       0x00, 0x00, 0x00, 0x00   // Offset of the byte where the bitmap image data can be found
   };
-  auto memIo = std::make_unique<MemIo>(bitmapHeader.data(), static_cast<long>(bitmapHeader.size()));
+  auto memIo = std::make_unique<MemIo>(bitmapHeader.data(), bitmapHeader.size());
   auto img = newBmpInstance(std::move(memIo), false);
   ASSERT_TRUE(img->good());
 }
@@ -166,7 +166,7 @@ TEST(isBmpType, withValidSignatureReturnsTrue) {
       0x00, 0x00,              // Reserved
       0x00, 0x00, 0x00, 0x00   // Offset of the byte where the bitmap image data can be found
   };
-  MemIo memIo(bitmapHeader.data(), static_cast<long>(bitmapHeader.size()));
+  MemIo memIo(bitmapHeader.data(), bitmapHeader.size());
   ASSERT_TRUE(isBmpType(memIo, false));
 }
 
@@ -178,6 +178,6 @@ TEST(isBmpType, withInvalidSignatureReturnsFalse) {
       0x00, 0x00,              // Reserved
       0x00, 0x00, 0x00, 0x00   // Offset of the byte where the bitmap image data can be found
   };
-  MemIo memIo(bitmapHeader.data(), static_cast<long>(bitmapHeader.size()));
+  MemIo memIo(bitmapHeader.data(), bitmapHeader.size());
   ASSERT_FALSE(isBmpType(memIo, false));
 }

@@ -5,7 +5,6 @@
 
 #include <sys/stat.h>
 
-#include <cassert>
 #include <cstdlib>
 #include <filesystem>
 #include <iostream>
@@ -253,7 +252,7 @@ int main(int argc, char* const argv[]) {
     if (argc < 2 || argc > 3) {
       std::cout << "Usage: " << argv[0] << " [-option] file" << std::endl;
       std::cout << "Option: all | exif | iptc | xmp | filesystem" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
     const char* path = argv[argc - 1];
     const char* opt = argc == 3 ? argv[1] : "-all";
@@ -262,7 +261,6 @@ int main(int argc, char* const argv[]) {
     char option = opt[0];
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-    assert(image.get() != 0);
     image->readMetadata();
 
     Jzon::Object root;

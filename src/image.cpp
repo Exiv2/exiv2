@@ -38,7 +38,6 @@
 #include "xmpsidecar.hpp"
 
 // + standard includes
-#include <cassert>
 #include <cstdio>
 #include <cstring>
 #include <limits>
@@ -362,8 +361,8 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       }
       // Overflow check
       enforce(allocate64 <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
-      DataBuf buf(allocate64);             // allocate a buffer
-      buf.copyBytes(0, dir.c_data(8), 4);  // copy dir[8:11] into buffer (short strings)
+      DataBuf buf(allocate64);                     // allocate a buffer
+      std::copy_n(dir.c_data(8), 4, buf.begin());  // copy dir[8:11] into buffer (short strings)
 
       // We have already checked that this multiplication cannot overflow.
       const size_t count_x_size = count * size;
@@ -603,7 +602,7 @@ void Image::setComment(std::string_view comment) {
 
 void Image::setIccProfile(Exiv2::DataBuf&& iccProfile, bool bTestValid) {
   if (bTestValid) {
-    if (iccProfile.size() < static_cast<long>(sizeof(long))) {
+    if (iccProfile.size() < sizeof(long)) {
       throw Error(ErrorCode::kerInvalidIccProfile);
     }
     const size_t size = iccProfile.read_uint32(0, bigEndian);
@@ -851,7 +850,6 @@ Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io) {
 
 void append(Blob& blob, const byte* buf, size_t len) {
   if (len != 0) {
-    assert(buf);
     Blob::size_type size = blob.size();
     if (blob.capacity() - size < len) {
       blob.reserve(size + 65536);

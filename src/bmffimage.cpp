@@ -16,7 +16,6 @@
 #include "types.hpp"
 
 // + standard includes
-#include <cassert>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -507,7 +506,7 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length) {
   if (length > 8) {
     enforce(length - 8 <= io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
     enforce(length - 8 <= std::numeric_limits<uint64_t>::max(), ErrorCode::kerCorruptedMetadata);
-    DataBuf data(static_cast<size_t>(length) - 8);
+    DataBuf data(static_cast<size_t>(length - 8u));
     const size_t bufRead = io_->read(data.data(), data.size());
 
     if (io_->error())
@@ -515,8 +514,7 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length) {
     if (bufRead != data.size())
       throw Error(ErrorCode::kerInputDataReadFailed);
 
-    Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), data.c_data(),
-                                       static_cast<uint32_t>(data.size()), root_tag,
+    Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), data.c_data(), data.size(), root_tag,
                                        Internal::TiffMapping::findDecoder);
   }
 }
@@ -527,13 +525,12 @@ void BmffImage::parseXmp(uint64_t length, uint64_t start) {
     enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
 
     long restore = io_->tell();
-    enforce(start <= std::numeric_limits<uint64_t>::max(), ErrorCode::kerCorruptedMetadata);
     io_->seek(static_cast<long>(start), BasicIo::beg);
 
-    enforce(length < std::numeric_limits<uint64_t>::max(), ErrorCode::kerCorruptedMetadata);
-    DataBuf xmp(static_cast<size_t>(length + 1));
-    xmp.write_uint8(static_cast<size_t>(length), 0);  // ensure xmp is null terminated!
-    if (io_->read(xmp.data(), static_cast<size_t>(length)) != length)
+    size_t lengthSizeT = static_cast<size_t>(length);
+    DataBuf xmp(lengthSizeT + 1);
+    xmp.write_uint8(lengthSizeT, 0);  // ensure xmp is null terminated!
+    if (io_->read(xmp.data(), lengthSizeT) != lengthSizeT)
       throw Error(ErrorCode::kerInputDataReadFailed);
     if (io_->error())
       throw Error(ErrorCode::kerFailedToReadImageData);
@@ -555,7 +552,7 @@ void BmffImage::parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, u
   enforce(here >= 0 && here <= std::numeric_limits<long>::max() - static_cast<long>(relative_position),
           ErrorCode::kerCorruptedMetadata);
   NativePreview nativePreview;
-  nativePreview.position_ = here + static_cast<long>(relative_position);
+  nativePreview.position_ = here + relative_position;
   nativePreview.width_ = data.read_uint16(width_offset, endian_);
   nativePreview.height_ = data.read_uint16(height_offset, endian_);
   nativePreview.size_ = data.read_uint32(size_offset, endian_);

@@ -7,7 +7,6 @@
 
 // + standard includes
 #include <array>
-#include <cassert>
 #include <iostream>
 
 namespace {
@@ -144,8 +143,8 @@ void LogMsg::defaultHandler(int level, const char* s) {
     case LogMsg::error:
       std::cerr << "Error: ";
       break;
-    case LogMsg::mute:
-      assert(false);
+    default:
+      break;
   }
   std::cerr << s;
 }

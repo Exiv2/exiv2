@@ -6,7 +6,6 @@
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 
-#include <cassert>
 #include <ctime>
 #include <iostream>
 
@@ -188,7 +187,6 @@ void CiffComponent::doRead(const byte* pData, size_t size, uint32_t start, ByteO
   tag_ = getUShort(pData + start, byteOrder);
 
   DataLocId dl = dataLocation();
-  assert(dl == directoryData || dl == valueData);
 
   if (dl == valueData) {
     size_ = getULong(pData + start + 2, byteOrder);
@@ -246,7 +244,7 @@ void CiffDirectory::readDirectory(const byte* pData, size_t size, ByteOrder byte
   std::cout << "Directory at offset " << std::dec << o << ", " << count << " entries \n";
 #endif
   o += 2;
-  if (static_cast<uint32_t>(count) * 10 > size - o)
+  if (count * 10u > size - o)
     throw Error(ErrorCode::kerCorruptedMetadata);
 
   for (uint16_t i = 0; i < count; ++i) {
@@ -288,7 +286,6 @@ void CiffDirectory::doDecode(Image& image, ByteOrder byteOrder) const {
 }  // CiffDirectory::doDecode
 
 void CiffHeader::write(Blob& blob) const {
-  assert(byteOrder_ == littleEndian || byteOrder_ == bigEndian);
   if (byteOrder_ == littleEndian) {
     blob.push_back('I');
     blob.push_back('I');
@@ -305,7 +302,6 @@ void CiffHeader::write(Blob& blob) const {
   o += 8;
   // Pad as needed
   if (!pPadding_.empty()) {
-    assert(padded_ == offset_ - o);
     append(blob, pPadding_.data(), padded_);
   } else {
     for (uint32_t i = o; i < offset_; ++i) {
@@ -392,7 +388,6 @@ void CiffComponent::writeDirEntry(Blob& blob, ByteOrder byteOrder) const {
   byte buf[4];
 
   DataLocId dl = dataLocation();
-  assert(dl == directoryData || dl == valueData);
 
   if (dl == valueData) {
     us2Data(buf, tag_, byteOrder);
@@ -407,7 +402,6 @@ void CiffComponent::writeDirEntry(Blob& blob, ByteOrder byteOrder) const {
 
   if (dl == directoryData) {
     // Only 8 bytes fit in the directory entry
-    assert(size_ <= 8);
 
     us2Data(buf, tag_, byteOrder);
     append(blob, buf, 2);
@@ -527,7 +521,6 @@ void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf&& buf) {
   CrwDirs crwDirs;
   CrwMap::loadStack(crwDirs, crwDir);
   [[maybe_unused]] uint16_t rootDirectory = crwDirs.top().crwDir_;
-  assert(rootDirectory == 0x0000);
   crwDirs.pop();
   if (!pRootDir_) {
     pRootDir_ = std::make_unique<CiffDirectory>();
@@ -600,7 +593,6 @@ void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) {
     CrwDirs crwDirs;
     CrwMap::loadStack(crwDirs, crwDir);
     [[maybe_unused]] uint16_t rootDirectory = crwDirs.top().crwDir_;
-    assert(rootDirectory == 0x0000);
     crwDirs.pop();
     pRootDir_->remove(crwDirs, crwTagId);
   }
@@ -725,7 +717,6 @@ void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* p
       ifdId = canonPiId;
       break;
   }
-  assert(ifdId != ifdIdNotSet);
 
   std::string groupName(Internal::groupName(ifdId));
   const size_t component_size = ciffComponent.size();
@@ -771,7 +762,6 @@ void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* 
   if (ciffComponent.size() < 8 || ciffComponent.typeId() != unsignedLong) {
     return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
   }
-  assert(pCrwMapping != 0);
   ULongValue v;
   v.read(ciffComponent.pData(), 8, byteOrder);
   time_t t = v.value_.at(0);
@@ -818,7 +808,6 @@ void CrwMap::decode0x2008(const CiffComponent& ciffComponent, const CrwMapping* 
 
 void CrwMap::decodeBasic(const CiffComponent& ciffComponent, const CrwMapping* pCrwMapping, Image& image,
                          ByteOrder byteOrder) {
-  assert(pCrwMapping != 0);
   // create a key and value pair
   ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
   std::unique_ptr<Value> value;
@@ -862,9 +851,6 @@ void CrwMap::encode(CiffHeader* pHead, const Image& image) {
 }  // CrwMap::encode
 
 void CrwMap::encodeBasic(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  assert(pCrwMapping != 0);
-  assert(pHead != 0);
-
   // Determine the source Exif metadatum
   ExifKey ek(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
   auto ed = image.exifData().findKey(ek);
@@ -880,9 +866,6 @@ void CrwMap::encodeBasic(const Image& image, const CrwMapping* pCrwMapping, Ciff
 }  // CrwMap::encodeBasic
 
 void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  assert(pCrwMapping != 0);
-  assert(pHead != 0);
-
   std::string comment = image.comment();
 
   CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
@@ -891,7 +874,7 @@ void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, Cif
     if (cc && cc->size() > size)
       size = cc->size();
     DataBuf buf(size);
-    buf.copyBytes(0, comment.data(), comment.size());
+    std::copy(comment.begin(), comment.end(), buf.begin());
     pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
   } else {
     if (cc) {
@@ -903,9 +886,6 @@ void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, Cif
 }  // CrwMap::encode0x0805
 
 void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  assert(pCrwMapping != 0);
-  assert(pHead != 0);
-
   const ExifKey k1("Exif.Image.Make");
   const ExifKey k2("Exif.Image.Model");
   const auto ed1 = image.exifData().findKey(k1);
@@ -928,7 +908,6 @@ void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, Cif
       ed2->copy(buf.data(pos), pHead->byteOrder());
       pos += ed2->size();
     }
-    assert(pos == size);
     pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
   } else {
     pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
@@ -936,9 +915,6 @@ void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, Cif
 }
 
 void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  assert(pCrwMapping != 0);
-  assert(pHead != 0);
-
   IfdId ifdId = ifdIdNotSet;
   switch (pCrwMapping->tag_) {
     case 0x0001:
@@ -954,7 +930,6 @@ void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, Ciff
       ifdId = canonPiId;
       break;
   }
-  assert(ifdId != ifdIdNotSet);
   DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
   if (buf.empty()) {
     // Try the undecoded tag
@@ -970,9 +945,6 @@ void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, Ciff
 }  // CrwMap::encodeArray
 
 void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  assert(pCrwMapping != 0);
-  assert(pHead != 0);
-
   time_t t = 0;
   const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
   const auto ed = image.exifData().findKey(key);
@@ -993,9 +965,6 @@ void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, Cif
 }  // CrwMap::encode0x180e
 
 void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  assert(pCrwMapping != 0);
-  assert(pHead != 0);
-
   const ExifKey kX("Exif.Photo.PixelXDimension");
   const ExifKey kY("Exif.Photo.PixelYDimension");
   const ExifKey kO("Exif.Image.Orientation");
@@ -1015,7 +984,7 @@ void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, Cif
     }
     DataBuf buf(size);
     if (cc)
-      buf.copyBytes(8, cc->pData() + 8, cc->size() - 8);
+      std::copy_n(cc->pData() + 8, cc->size() - 8, buf.begin() + 8);
     if (edX != edEnd && edX->size() == 4) {
       edX->copy(buf.data(), pHead->byteOrder());
     }
@@ -1034,9 +1003,6 @@ void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, Cif
 }  // CrwMap::encode0x1810
 
 void CrwMap::encode0x2008(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  assert(pCrwMapping != 0);
-  assert(pHead != 0);
-
   ExifThumbC exifThumb(image.exifData());
   DataBuf buf = exifThumb.copy();
   if (!buf.empty()) {

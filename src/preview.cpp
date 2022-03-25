@@ -12,6 +12,7 @@
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 
+#include <algorithm>
 #include <climits>
 
 namespace {
@@ -30,7 +31,7 @@ bool cmpPreviewProperties(const PreviewProperties &lhs, const PreviewProperties 
 }
 
 /// @brief Decode a Hex string.
-DataBuf decodeHex(const byte *src, long srcSize);
+DataBuf decodeHex(const byte *src, size_t srcSize);
 
 /// @brief Decode a Base64 string.
 DataBuf decodeBase64(const std::string &src);
@@ -408,12 +409,12 @@ DataBuf LoaderNative::getData() const {
     return {data + nativePreview_.position_, nativePreview_.size_};
   }
   if (nativePreview_.filter_ == "hex-ai7thumbnail-pnm") {
-    const DataBuf ai7thumbnail = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
+    const DataBuf ai7thumbnail = decodeHex(data + nativePreview_.position_, nativePreview_.size_);
     const DataBuf rgb = decodeAi7Thumbnail(ai7thumbnail);
     return makePnm(width_, height_, rgb);
   }
   if (nativePreview_.filter_ == "hex-irb") {
-    const DataBuf psData = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
+    const DataBuf psData = decodeHex(data + nativePreview_.position_, nativePreview_.size_);
     const byte *record;
     uint32_t sizeHdr = 0;
     uint32_t sizeData = 0;
@@ -478,7 +479,7 @@ LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image &image, int parIdx) : L
     }
   }
 
-  if (Safe::add(offset_, size_) > static_cast<uint32_t>(image_.io().size()))
+  if (Safe::add(offset_, size_) > image_.io().size())
     return;
 
   valid_ = true;
@@ -647,7 +648,7 @@ LoaderTiff::LoaderTiff(PreviewId id, const Image &image, int parIdx) :
   if (offsetCount != pos->value().count())
     return;
   for (size_t i = 0; i < offsetCount; i++) {
-    size_ += pos->toUint32(static_cast<long>(i));
+    size_ += pos->toUint32(i);
   }
 
   if (size_ == 0)
@@ -726,7 +727,7 @@ DataBuf LoaderTiff::getData() const {
           dataValue.setDataArea(base + offset, size);
       } else {
         // FIXME: the buffer is probably copied twice, it should be optimized
-        enforce(size_ <= static_cast<uint32_t>(io.size()), ErrorCode::kerCorruptedMetadata);
+        enforce(size_ <= io.size(), ErrorCode::kerCorruptedMetadata);
         DataBuf buf(size_);
         uint32_t idxBuf = 0;
         for (size_t i = 0; i < sizes.count(); i++) {
@@ -739,7 +740,7 @@ DataBuf LoaderTiff::getData() const {
           // That's why we check again for each step here to really make sure we don't overstep
           enforce(Safe::add(idxBuf, size) <= size_, ErrorCode::kerCorruptedMetadata);
           if (size != 0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size())) {
-            buf.copyBytes(idxBuf, base + offset, size);
+            std::copy_n(base + offset, size, buf.begin() + idxBuf);
           }
 
           idxBuf += size;
@@ -791,7 +792,7 @@ LoaderXmpJpeg::LoaderXmpJpeg(PreviewId id, const Image &image, int parIdx) : Loa
   width_ = widthDatum->toUint32();
   height_ = heightDatum->toUint32();
   preview_ = decodeBase64(imageDatum->toString());
-  size_ = static_cast<uint32_t>(preview_.size());
+  size_ = preview_.size();
   valid_ = true;
 }
 
@@ -816,7 +817,7 @@ bool LoaderXmpJpeg::readDimensions() {
   return valid();
 }
 
-DataBuf decodeHex(const byte *src, long srcSize) {
+DataBuf decodeHex(const byte *src, size_t srcSize) {
   // create decoding table
   byte invalid = 16;
   std::array<byte, 256> decodeHexTable;
@@ -830,17 +831,17 @@ DataBuf decodeHex(const byte *src, long srcSize) {
 
   // calculate dest size
   long validSrcSize = 0;
-  for (long srcPos = 0; srcPos < srcSize; srcPos++) {
+  for (size_t srcPos = 0; srcPos < srcSize; srcPos++) {
     if (decodeHexTable[src[srcPos]] != invalid)
       validSrcSize++;
   }
-  const long destSize = validSrcSize / 2;
+  const size_t destSize = validSrcSize / 2;
 
   // allocate dest buffer
   DataBuf dest(destSize);
 
   // decode
-  for (long srcPos = 0, destPos = 0; destPos < destSize; destPos++) {
+  for (size_t srcPos = 0, destPos = 0; destPos < destSize; destPos++) {
     byte buffer = 0;
     for (int bufferPos = 1; bufferPos >= 0 && srcPos < srcSize; srcPos++) {
       byte srcValue = decodeHexTable[src[srcPos]];
@@ -879,7 +880,7 @@ DataBuf decodeBase64(const std::string &src) {
   // allocate dest buffer
   if (destSize > LONG_MAX)
     return {};  // avoid integer overflow
-  DataBuf dest(static_cast<long>(destSize));
+  DataBuf dest(destSize);
 
   // decode
   for (unsigned long srcPos = 0, destPos = 0; destPos < destSize;) {
@@ -900,7 +901,7 @@ DataBuf decodeBase64(const std::string &src) {
 
 DataBuf decodeAi7Thumbnail(const DataBuf &src) {
   const byte *colorTable = src.c_data();
-  const long colorTableSize = 256 * 3;
+  const size_t colorTableSize = 256 * 3;
   if (src.size() < colorTableSize) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Invalid size of AI7 thumbnail: " << src.size() << "\n";
@@ -908,10 +909,10 @@ DataBuf decodeAi7Thumbnail(const DataBuf &src) {
     return {};
   }
   const byte *imageData = src.c_data(colorTableSize);
-  const long imageDataSize = static_cast<long>(src.size()) - colorTableSize;
+  const size_t imageDataSize = src.size() - colorTableSize;
   const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
   std::string dest;
-  for (long i = rle ? 3 : 0; i < imageDataSize;) {
+  for (size_t i = rle ? 3 : 0; i < imageDataSize;) {
     byte num = 1;
     byte value = imageData[i++];
     if (rle && value == 0xFD) {
@@ -953,9 +954,9 @@ DataBuf makePnm(size_t width, size_t height, const DataBuf &rgb) {
   const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
   const auto headerBytes = reinterpret_cast<const byte *>(header.data());
 
-  DataBuf dest(static_cast<long>(header.size() + rgb.size()));
-  dest.copyBytes(0, headerBytes, header.size());
-  dest.copyBytes(header.size(), rgb.c_data(), rgb.size());
+  DataBuf dest(header.size() + rgb.size());
+  std::copy_n(headerBytes, header.size(), dest.begin());
+  std::copy_n(rgb.c_data(), rgb.size(), dest.begin() + header.size());
   return dest;
 }
 
@@ -1028,8 +1029,8 @@ PreviewPropertiesList PreviewManager::getPreviewProperties() const {
     auto loader = Loader::create(id, image_);
     if (loader && loader->readDimensions()) {
       PreviewProperties props = loader->getProperties();
-      DataBuf buf = loader->getData();                  // #16 getPreviewImage()
-      props.size_ = static_cast<uint32_t>(buf.size());  //     update the size
+      DataBuf buf = loader->getData();  // #16 getPreviewImage()
+      props.size_ = buf.size();         //     update the size
       list.push_back(props);
     }
   }

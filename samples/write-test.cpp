@@ -26,7 +26,7 @@ int main(int argc, char* const argv[]) {
     if (argc != 3) {
       std::cout << "Usage: write-test file case\n\n"
                 << "where case is an integer between 1 and 11\n";
-      return 1;
+      return EXIT_FAILURE;
     }
 
     std::string testFile = argv[1];
@@ -34,7 +34,7 @@ int main(int argc, char* const argv[]) {
     int testNo = 0;
     iss >> testNo;
 
-    int rc = 0;
+    int rc = EXIT_SUCCESS;
     switch (testNo) {
       case 1:
         std::cerr << "Case 1: ";
@@ -101,14 +101,14 @@ int main(int argc, char* const argv[]) {
       default:
         std::cout << "Usage: exiftest file case\n\n"
                   << "where case is an integer between 1 and 11\n";
-        rc = 1;
+        rc = EXIT_FAILURE;
         break;
     }
 
     return rc;
   } catch (Error& e) {
     std::cerr << "Caught Exiv2 exception '" << e << "'\n";
-    return 1;
+    return EXIT_FAILURE;
   }
 }
 

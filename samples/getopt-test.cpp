@@ -114,5 +114,5 @@ int main(int argc, char** const argv) {
   Params params;
   params.getopt(argc, argv);
 
-  return 0;
+  return EXIT_SUCCESS;
 }

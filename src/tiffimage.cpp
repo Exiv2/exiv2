@@ -220,8 +220,7 @@ ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xm
     }
   }
 
-  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, static_cast<uint32_t>(size), root,
-                                  TiffMapping::findDecoder);
+  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, root, TiffMapping::findDecoder);
 }  // TiffParser::decode
 
 WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,

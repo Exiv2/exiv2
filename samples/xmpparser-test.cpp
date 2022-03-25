@@ -13,7 +13,7 @@ int main(int argc, char* const argv[]) try {
 
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " file\n";
-    return 1;
+    return EXIT_FAILURE;
   }
   std::string filename(argv[1]);
   Exiv2::DataBuf buf = Exiv2::readFile(filename);
@@ -51,8 +51,8 @@ int main(int argc, char* const argv[]) try {
     throw Exiv2::Error(Exiv2::ErrorCode::kerCallFailed, filename, Exiv2::strError(), "FileIo::write");
   }
   Exiv2::XmpParser::terminate();
-  return 0;
+  return EXIT_SUCCESS;
 } catch (Exiv2::Error& e) {
   std::cout << "Caught Exiv2 exception '" << e << "'\n";
-  return -1;
+  return EXIT_FAILURE;
 }

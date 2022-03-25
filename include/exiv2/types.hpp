@@ -198,9 +198,6 @@ struct EXIV2API DataBuf {
   uint64_t read_uint64(size_t offset, ByteOrder byteOrder) const;
   void write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder);
 
-  //! Copy bytes into the buffer (starting at address &pData_[offset]).
-  void copyBytes(size_t offset, const void* buf, size_t bufsize);
-
   //! Equivalent to: memcmp(&pData_[offset], buf, bufsize)
   int cmpBytes(size_t offset, const void* buf, size_t bufsize) const;
 

@@ -81,7 +81,7 @@ int main(int argc, const char** argv) {
 
   if (argc < 2) {
     std::cout << "Usage: " << argv[0] << " url {-http1_0}" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
   }
   std::string url(argv[1]);
   Exiv2::Protocol prot = Exiv2::fileProtocol(url);
@@ -107,14 +107,14 @@ int main(int argc, const char** argv) {
     }
   } catch (const Exiv2::Error& e) {
     std::cout << "Error: '" << e << "'" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   if (!isOk)
     std::cout << "The protocol is unsupported." << std::endl;
   else
     std::cout << "OK." << std::endl;
-  return 0;
+  return EXIT_SUCCESS;
 }
 
 // That's all Folks!

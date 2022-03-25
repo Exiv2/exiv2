@@ -217,7 +217,7 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
       io_->read(rawIPTC.data(), rawIPTC.size());
       if (io_->error() || io_->eof())
         throw Error(ErrorCode::kerFailedToReadImageData);
-      if (IptcParser::decode(iptcData_, rawIPTC.c_data(), static_cast<uint32_t>(rawIPTC.size()))) {
+      if (IptcParser::decode(iptcData_, rawIPTC.c_data(), rawIPTC.size())) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
@@ -484,8 +484,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
       readTotal = 0;
       while (readTotal < pResourceSize) {
         /// \todo almost same code as in lines 403-410. Factor out & reuse!
-        size_t toRead = (pResourceSize - readTotal) < lbuf.size() ? static_cast<long>(pResourceSize - readTotal)
-                                                                  : static_cast<long>(lbuf.size());
+        size_t toRead = (pResourceSize - readTotal) < lbuf.size() ? pResourceSize - readTotal : lbuf.size();
         if (io_->read(lbuf.data(), toRead) != toRead) {
           throw Error(ErrorCode::kerNotAnImage, "Photoshop");
         }

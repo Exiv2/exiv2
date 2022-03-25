@@ -14,7 +14,7 @@ int main(int argc, char* const argv[]) {
 
   if (argc != 3) {
     std::cerr << "Usage: " << argv[0] << " file key\n";
-    return 1;
+    return EXIT_FAILURE;
   }
 
   const char* file = argv[1];
@@ -26,18 +26,18 @@ int main(int argc, char* const argv[]) {
 
   if (exifData.empty()) {
     std::cerr << "no metadata found in file " << file << std::endl;
-    exit(2);
+    return EXIT_FAILURE;
   }
 
   try {
     std::cout << exifData[key] << std::endl;
   } catch (Exiv2::Error& e) {
     std::cerr << "Caught Exiv2 exception '" << e << "'" << std::endl;
-    exit(3);
+    return EXIT_FAILURE;
   } catch (...) {
     std::cerr << "Caught a cold!" << std::endl;
-    exit(4);
+    return EXIT_FAILURE;
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

@@ -23,10 +23,10 @@ int main(int argc, char* const argv[]) {
     const char* prog = argv[0];
     if (argc == 1) {
       std::cout << "Usage: " << prog << " [ [--lint] path | --version | --version-test ]" << std::endl;
-      return 1;
+      return EXIT_FAILURE;
     }
 
-    int rc = 0;
+    int rc = EXIT_SUCCESS;
     const char* file = argv[1];
     bool bLint = strcmp(file, "--lint") == 0 && argc == 3;
     if (bLint)
@@ -110,6 +110,6 @@ int main(int argc, char* const argv[]) {
     return rc;
   } catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e.what() << "'\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 }

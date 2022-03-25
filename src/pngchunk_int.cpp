@@ -19,7 +19,6 @@
 
 // standard includes
 #include <algorithm>
-#include <cassert>
 #include <cstdio>
 #include <cstring>
 #include <iomanip>
@@ -43,10 +42,7 @@ constexpr size_t nullSeparators = 2;
 // class member definitions
 namespace Exiv2::Internal {
 void PngChunk::decodeIHDRChunk(const DataBuf& data, uint32_t* outWidth, uint32_t* outHeight) {
-  assert(data.size() >= 8);
-
   // Extract image width and height from IHDR chunk.
-
   *outWidth = data.read_uint32(0, bigEndian);
   *outHeight = data.read_uint32(4, bigEndian);
 }
@@ -340,7 +336,7 @@ std::string PngChunk::makeMetadataChunk(const std::string& metadata, MetadataId 
     case mdIccProfile:
       break;
     case mdNone:
-      assert(false);
+      break;
   }
 
   return chunk;
@@ -356,7 +352,6 @@ void PngChunk::zlibUncompress(const byte* compressedText, unsigned int compresse
     arr.alloc(uncompressedLen);
     zlibResult = uncompress(arr.data(), &uncompressedLen, compressedText, compressedTextSize);
     if (zlibResult == Z_OK) {
-      assert((uLongf)arr.size() >= uncompressedLen);
       arr.resize(uncompressedLen);
     } else if (zlibResult == Z_BUF_ERROR) {
       // the uncompressedArray needs to be larger
@@ -390,7 +385,6 @@ std::string PngChunk::zlibCompress(const std::string& text) {
 
     switch (zlibResult) {
       case Z_OK:
-        assert((uLongf)arr.size() >= compressedLen);
         arr.resize(compressedLen);
         break;
       case Z_BUF_ERROR:
@@ -496,7 +490,7 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
 
   if (iTXt) {
     info.alloc(text.size());
-    info.copyBytes(0, text.c_data(), text.size());
+    std::copy(text.cbegin(), text.cend(), info.begin());
     return info;
   }
 

@@ -20,16 +20,21 @@
 #include <regex>
 #include <set>
 
-// *****************************************************************************
-// class definitions
-
 //! Command identifiers
-enum CmdId { invalidCmdId, add, set, del, reg };
+enum CmdId {
+  invalidCmdId,
+  add,
+  set,
+  del,
+  reg,
+};
 //! Metadata identifiers
-// enum MetadataId { invalidMetadataId, iptc, exif, xmp };
-//! Metadata identifiers
-// mdNone=0, mdExif=1, mdIptc=2, mdComment=4, mdXmp=8
-enum MetadataId { invalidMetadataId = Exiv2::mdNone, iptc = Exiv2::mdIptc, exif = Exiv2::mdExif, xmp = Exiv2::mdXmp };
+enum MetadataId {
+  invalidMetadataId = Exiv2::mdNone,  // 0
+  exif = Exiv2::mdExif,               // 1
+  iptc = Exiv2::mdIptc,               // 2
+  xmp = Exiv2::mdXmp,                 // 8
+};
 
 //! Structure for one parsed modification command
 struct ModifyCmd {
@@ -114,7 +119,16 @@ class Params : public Util::Getopt {
   Params(const Params& rhs) = delete;
 
   //! Enumerates print modes
-  enum PrintMode { pmSummary, pmList, pmComment, pmPreview, pmStructure, pmXMP, pmIccProfile, pmRecursive };
+  enum PrintMode {
+    pmSummary,
+    pmList,
+    pmComment,
+    pmPreview,
+    pmStructure,
+    pmXMP,
+    pmIccProfile,
+    pmRecursive,
+  };
 
   //! Individual items to print, bitmap
   enum PrintItem {
@@ -148,10 +162,18 @@ class Params : public Util::Getopt {
   };
 
   //! Enumerates the policies to handle existing files in rename action
-  enum FileExistsPolicy { overwritePolicy, renamePolicy, askPolicy };
+  enum FileExistsPolicy {
+    overwritePolicy,
+    renamePolicy,
+    askPolicy,
+  };
 
   //! Enumerates year, month and day adjustments.
-  enum Yod { yodYear, yodMonth, yodDay };
+  enum Yod {
+    yodYear,
+    yodMonth,
+    yodDay,
+  };
 
   //! Structure for year, month and day adjustment command line arguments.
   struct YodAdjust {

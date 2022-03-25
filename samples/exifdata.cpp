@@ -3,7 +3,6 @@
 
 #include <exiv2/exiv2.hpp>
 
-#include <cassert>
 #include <iostream>
 #include <string>
 

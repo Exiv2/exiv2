@@ -37,10 +37,9 @@ constexpr unsigned char pngBlank[] = {
 
 const auto nullComp = reinterpret_cast<const Exiv2::byte*>("\0\0");
 const auto typeICCP = reinterpret_cast<const Exiv2::byte*>("iCCP");
-inline bool compare(const char* str, const Exiv2::DataBuf& buf, size_t length) {
-  assert(strlen(str) <= length);
-  const auto minlen = std::min(length, buf.size());
-  return buf.cmpBytes(0, str, minlen) == 0;
+inline bool compare(std::string_view str, const Exiv2::DataBuf& buf) {
+  const auto minlen = std::min(str.size(), buf.size());
+  return buf.cmpBytes(0, str.data(), minlen) == 0;
 }
 }  // namespace
 
@@ -341,10 +340,10 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
           }
 
           if (bSoft && !dataBuf.empty()) {
-            DataBuf s(dataBuf.size() + 1);                     // allocate buffer with an extra byte
-            s.copyBytes(0, dataBuf.c_data(), dataBuf.size());  // copy in the dataBuf
-            s.write_uint8(dataBuf.size(), 0);                  // nul terminate it
-            const auto str = s.c_str();                        // give it name
+            DataBuf s(dataBuf.size() + 1);                         // allocate buffer with an extra byte
+            std::copy(dataBuf.begin(), dataBuf.end(), s.begin());  // copy in the dataBuf
+            s.write_uint8(dataBuf.size(), 0);                      // nul terminate it
+            const auto str = s.c_str();                            // give it name
             out << Internal::indent(depth) << buff.c_str() << ": " << str;
             bLF = true;
           }
@@ -527,7 +526,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
     // Read whole chunk : Chunk header + Chunk data (not fixed size - can be null) + CRC (4 bytes).
 
     DataBuf chunkBuf(8 + dataOffset + 4);                   // Chunk header (8 bytes) + Chunk data + CRC (4 bytes).
-    chunkBuf.copyBytes(0, cheaderBuf.c_data(), 8);          // Copy header.
+    std::copy_n(cheaderBuf.begin(), 8, chunkBuf.begin());   // Copy header.
     bufRead = io_->read(chunkBuf.data(8), dataOffset + 4);  // Extract chunk data + CRC
     if (io_->error())
       throw Error(ErrorCode::kerFailedToReadImageData);
@@ -640,11 +639,10 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
     } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt") ||
                !strcmp(szChunk, "iCCP")) {
       DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
-      if (!key.empty() &&
-          (compare("Raw profile type exif", key, 21) || compare("Raw profile type APP1", key, 21) ||
-           compare("Raw profile type iptc", key, 21) || compare("Raw profile type xmp", key, 20) ||
-           compare("XML:com.adobe.xmp", key, 17) || compare("icc", key, 3) ||  // see test/data/imagemagick.png
-           compare("ICC", key, 3) || compare("Description", key, 11))) {
+      if (!key.empty() && (compare("Raw profile type exif", key) || compare("Raw profile type APP1", key) ||
+                           compare("Raw profile type iptc", key) || compare("Raw profile type xmp", key) ||
+                           compare("XML:com.adobe.xmp", key) || compare("icc", key) ||  // see test/data/imagemagick.png
+                           compare("ICC", key) || compare("Description", key))) {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk << " chunk (length: " << dataOffset << ")"
                   << std::endl;

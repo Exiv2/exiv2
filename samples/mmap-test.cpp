@@ -7,36 +7,42 @@
 
 using namespace Exiv2;
 
-int main(int argc, char* const argv[]) try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
+int main(int argc, char* const argv[]) {
+  try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
+    Exiv2::enableBMFF();
 #endif
 
-  if (argc != 2) {
-    std::cout << "Usage: " << argv[0] << " file\n";
-    return 1;
-  }
-  const char* path = argv[1];
+    if (argc != 2) {
+      std::cout << "Usage: " << argv[0] << " file\n";
+      return EXIT_FAILURE;
+    }
+    const char* path = argv[1];
 
-  FileIo file(path);
-  // Open the file in read mode
-  if (file.open("rb") != 0) {
-    throw Error(ErrorCode::kerFileOpenFailed, path, "rb", strError());
-  }
-  // Map it to memory
-  const Exiv2::byte* pData = file.mmap();
-  DataBuf buf(file.size());
-  // Read from the memory mapped region
-  buf.copyBytes(0, pData, buf.size());
-  // Reopen file in write mode and write to it
-  file.write(buf.c_data(), buf.size());
-  // Read from the mapped region again
-  buf.copyBytes(0, pData, buf.size());
-  file.close();
+    FileIo file(path);
+    // Open the file in read mode
+    if (file.open("rb") != 0) {
+      throw Error(ErrorCode::kerFileOpenFailed, path, "rb", strError());
+    }
+    // Map it to memory
+    const Exiv2::byte* pData = file.mmap();
+    std::vector<byte> buf(file.size());
 
-  return 0;
-} catch (const Error& e) {
-  std::cout << e << "\n";
+    // Read from the memory mapped region
+    std::copy_n(pData, buf.size(), buf.begin());
+
+    // Reopen file in write mode and write to it
+    file.write(buf.data(), buf.size());
+
+    // Read from the mapped region again
+    std::copy_n(pData, buf.size(), buf.begin());
+    file.close();
+
+    return EXIT_SUCCESS;
+  } catch (const Error& e) {
+    std::cout << e << "\n";
+    return EXIT_FAILURE;
+  }
 }

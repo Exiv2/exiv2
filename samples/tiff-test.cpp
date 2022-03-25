@@ -4,7 +4,6 @@
 #include <enforce.hpp>
 #include <exiv2/exiv2.hpp>
 
-#include <cassert>
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -16,25 +15,28 @@ void print(const ExifData& exifData);
 void mini1(const char* path);
 void mini9(const char* path);
 
-int main(int argc, char* const argv[]) try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
+int main(int argc, char* const argv[]) {
+  try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
+    Exiv2::enableBMFF();
 #endif
 
-  if (argc != 2) {
-    std::cout << "Usage: " << argv[0] << " file\n";
-    return 1;
+    if (argc != 2) {
+      std::cout << "Usage: " << argv[0] << " file\n";
+      return EXIT_FAILURE;
+    }
+
+    const char* path = argv[1];
+    mini1(path);
+    mini9(path);
+
+    return EXIT_SUCCESS;
+  } catch (const Error& e) {
+    std::cout << e << "\n";
+    return EXIT_FAILURE;
   }
-
-  const char* path = argv[1];
-  mini1(path);
-  mini9(path);
-
-  return 0;
-} catch (const Error& e) {
-  std::cout << e << "\n";
 }
 
 void mini1(const char* path) {
@@ -45,14 +47,12 @@ void mini1(const char* path) {
   // Write nothing to a new structure, without a previous binary image
   wm = ExifParser::encode(blob, nullptr, 0, bigEndian, exifData);
   enforce(wm == wmIntrusive, Exiv2::ErrorCode::kerErrorMessage, "encode returned an unexpected value");
-  assert(blob.empty());
   std::cout << "Test 1: Writing empty Exif data without original binary data: ok.\n";
 
   // Write nothing, this time with a previous binary image
   DataBuf buf = readFile(path);
   wm = ExifParser::encode(blob, buf.c_data(), buf.size(), bigEndian, exifData);
   enforce(wm == wmIntrusive, Exiv2::ErrorCode::kerErrorMessage, "encode returned an unexpected value");
-  assert(blob.empty());
   std::cout << "Test 2: Writing empty Exif data with original binary data: ok.\n";
 
   // Write something to a new structure, without a previous binary image

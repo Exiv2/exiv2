@@ -106,7 +106,7 @@ void MrwImage::readMetadata() {
   io_->read(buf.data(), buf.size());
   enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
-  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), static_cast<uint32_t>(buf.size()));
+  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size());
   setByteOrder(bo);
 }  // MrwImage::readMetadata
 

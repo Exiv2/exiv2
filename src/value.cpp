@@ -9,7 +9,6 @@
 #include "types.hpp"
 
 // + standard includes
-
 #include <regex>
 #include <sstream>
 
@@ -156,8 +155,8 @@ DataValue* DataValue::clone_() const {
 }
 
 std::ostream& DataValue::write(std::ostream& os) const {
-  std::vector<byte>::size_type end = value_.size();
-  for (std::vector<byte>::size_type i = 0; i != end; ++i) {
+  size_t end = value_.size();
+  for (size_t i = 0; i != end; ++i) {
     os << static_cast<int>(value_.at(i));
     if (i < end - 1)
       os << " ";
@@ -223,7 +222,6 @@ size_t StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   if (value_.empty())
     return 0;
   // byteOrder not needed
-  assert(buf);
   return value_.copy(reinterpret_cast<char*>(buf), value_.size());
 }
 
@@ -381,16 +379,13 @@ size_t CommentValue::copy(byte* buf, ByteOrder byteOrder) const {
     [[maybe_unused]] const size_t sz = c.size();
     if (byteOrder_ == littleEndian && byteOrder == bigEndian) {
       convertStringCharset(c, "UCS-2LE", "UCS-2BE");
-      assert(c.size() == sz);
     } else if (byteOrder_ == bigEndian && byteOrder == littleEndian) {
       convertStringCharset(c, "UCS-2BE", "UCS-2LE");
-      assert(c.size() == sz);
     }
     c = value_.substr(0, 8) + c;
   }
   if (c.empty())
     return 0;
-  assert(buf);
   return c.copy(reinterpret_cast<char*>(buf), c.size());
 }
 
@@ -849,7 +844,6 @@ size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   // sprintf wants to add the null terminator, so use oversized buffer
   char temp[9];
   size_t wrote = static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
-  assert(wrote == 8);
   std::memcpy(buf, temp, wrote);
   return wrote;
 }

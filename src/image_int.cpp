@@ -2,7 +2,6 @@
 
 #include "image_int.hpp"
 
-#include <cassert>
 #include <cstdarg>
 #include <cstddef>
 #include <cstdio>
@@ -26,8 +25,7 @@ std::string stringFormat(const char* format, ...) {
     va_list args;            // variable arg list
     va_start(args, format);  // args start after format
     rc = vsnprintf(&buffer[0], buffer.size(), format, args);
-    va_end(args);     // free the args
-    assert(rc >= 0);  // rc < 0 => we have made an error in the format string
+    va_end(args);  // free the args
     if (rc > 0)
       need = static_cast<size_t>(rc);
   } while (buffer.size() <= need);

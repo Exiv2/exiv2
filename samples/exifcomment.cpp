@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Abstract : Sample program showing how to set the Exif comment of an image, Exif.Photo.UserComment
 
-#include <cassert>
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 
@@ -17,7 +16,7 @@ int main(int argc, char* const argv[]) {
 
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " file\n";
-      return 1;
+      return EXIT_FAILURE;
     }
 
     auto image = Exiv2::ImageFactory::open(argv[1]);
@@ -45,9 +44,9 @@ int main(int argc, char* const argv[]) {
 
     image->writeMetadata();
 
-    return 0;
+    return EXIT_SUCCESS;
   } catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 }

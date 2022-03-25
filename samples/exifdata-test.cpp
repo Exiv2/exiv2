@@ -18,12 +18,11 @@ int main(int argc, char* const argv[]) {
 
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " file\n";
-      return 1;
+      return EXIT_FAILURE;
     }
     std::string file(argv[1]);
 
     auto image = Exiv2::ImageFactory::open(file);
-    assert(image);
     image->readMetadata();
 
     Exiv2::ExifData& ed = image->exifData();
@@ -85,10 +84,10 @@ int main(int argc, char* const argv[]) {
     write(file, ed4);
     print(file);
 
-    return 0;
+    return EXIT_SUCCESS;
   } catch (Exiv2::Error& e) {
     std::cout << "Caught Exiv2 exception '" << e << "'\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 }
 
