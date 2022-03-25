@@ -232,6 +232,38 @@ namespace Exiv2 {
 
     }; // class Olympus2MnHeader
 
+    //! Header of an OM Digital Solutions (ex Olympus) Makernote
+    class OMSystemMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        OMSystemMnHeader();
+        //! Virtual destructor.
+        virtual ~OMSystemMnHeader();
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
+        virtual uint32_t baseOffset(uint32_t mnOffset) const;
+        //@}
+        //! Return the size of the makernote header signature
+        static uint32_t sizeOfSignature();
+
+    private:
+        DataBuf header_;                //!< Data buffer for the makernote header
+        static const byte signature_[]; //!< OM Digital Solutions makernote header signature
+
+    }; // class OMSystemMnHeader
+
     //! Header of a Fujifilm Makernote
     class FujiMnHeader : public MnHeader {
     public:
@@ -586,6 +618,19 @@ namespace Exiv2 {
     TiffComponent* newOlympus2Mn2(uint16_t tag,
                                  IfdId     group,
                                  IfdId     mnGroup);
+
+    //! Function to create an OM Digital Solutions makernote
+    TiffComponent* newOMSystemMn(uint16_t    tag,
+                                 IfdId       group,
+                                 IfdId       mnGroup,
+                                 const byte* pData,
+                                 uint32_t    size,
+                                 ByteOrder   byteOrder);
+
+    //! Function to create a OM Digital Solutions makernote
+    TiffComponent* newOMSystemMn2(uint16_t tag,
+                                  IfdId    group,
+                                  IfdId    mnGroup);
 
     //! Function to create a Fujifilm makernote
     TiffComponent* newFujiMn(uint16_t    tag,
