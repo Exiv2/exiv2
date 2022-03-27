@@ -876,8 +876,7 @@ std::ostream& DateValue::write(std::ostream& os) const {
 int64_t DateValue::toInt64(size_t /*n*/) const {
   // Range of tm struct is limited to about 1970 to 2038
   // This will return -1 if outside that range
-  std::tm tms;
-  std::memset(&tms, 0, sizeof(tms));
+  std::tm tms = {};
   tms.tm_mday = date_.day;
   tms.tm_mon = date_.month - 1;
   tms.tm_year = date_.year - 1900;

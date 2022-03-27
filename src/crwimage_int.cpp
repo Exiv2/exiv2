@@ -949,8 +949,7 @@ void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, Cif
   const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
   const auto ed = image.exifData().findKey(key);
   if (ed != image.exifData().end()) {
-    struct tm tm;
-    std::memset(&tm, 0x0, sizeof(tm));
+    struct tm tm = {};
     if (exifTime(ed->toString().c_str(), &tm) == 0) {
       t = ::mktime(&tm);
     }

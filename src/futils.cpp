@@ -228,12 +228,10 @@ std::string strError() {
   const size_t n = 1024;
 #ifdef EXV_STRERROR_R_CHAR_P
   char* buf = nullptr;
-  char buf2[n];
-  std::memset(buf2, 0x0, n);
+  char buf2[n] = {};
   buf = strerror_r(error, buf2, n);
 #else
-  char buf[n];
-  std::memset(buf, 0x0, n);
+  char buf[n] = {};
   const int ret = strerror_r(error, buf, n);
   enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
 #endif
