@@ -5059,17 +5059,16 @@ std::ostream& XmpProperties::printProperty(std::ostream& os, const std::string& 
 
 //! @brief Internal Pimpl structure with private members and data of class XmpKey.
 struct XmpKey::Impl {
-  Impl() = default;                                              //!< Default constructor
-  Impl(const std::string& prefix, const std::string& property);  //!< Constructor
+  Impl() = default;
+  Impl(const std::string& prefix, const std::string& property) : prefix_(prefix), property_(property) {
+    if (XmpProperties::ns(prefix).empty())
+      throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
+  }
 
-  /*!
-    @brief Parse and convert the \em key string into property and prefix.
-           Updates data members if the string can be decomposed, or throws
-           \em Error.
-
-    @throw Error if the key cannot be decomposed.
-  */
-  void decomposeKey(const std::string& key);  //!< Mysterious magic
+  /// @brief Parse and convert the \em key string into property and prefix.
+  /// Updates data members if the string can be decomposed, or throws \em Error.
+  /// @throw Error if the key cannot be decomposed.
+  void decomposeKey(const std::string& key);
 
   // DATA
   static constexpr auto familyName_ = "Xmp";  //!< "Xmp"
@@ -5077,16 +5076,6 @@ struct XmpKey::Impl {
   std::string prefix_;    //!< Prefix
   std::string property_;  //!< Property name
 };
-
-//! @brief Constructor for Internal Pimpl structure XmpKey::Impl::Impl
-XmpKey::Impl::Impl(const std::string& prefix, const std::string& property) {
-  // Validate prefix
-  if (XmpProperties::ns(prefix).empty())
-    throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
-
-  property_ = property;
-  prefix_ = prefix;
-}
 
 XmpKey::XmpKey(const std::string& key) : p_(std::make_unique<Impl>()) {
   p_->decomposeKey(key);
@@ -5108,8 +5097,8 @@ XmpKey& XmpKey::operator=(const XmpKey& rhs) {
   return *this;
 }
 
-XmpKey::UniquePtr XmpKey::clone() const {
-  return UniquePtr(clone_());
+std::unique_ptr<XmpKey> XmpKey::clone() const {
+  return std::unique_ptr<XmpKey>(clone_());
 }
 
 XmpKey* XmpKey::clone_() const {
@@ -5154,19 +5143,23 @@ void XmpKey::Impl::decomposeKey(const std::string& key) {
   if (pos1 == std::string::npos) {
     throw Error(ErrorCode::kerInvalidKey, key);
   }
+
   std::string familyName = key.substr(0, pos1);
   if (0 != strcmp(familyName.c_str(), familyName_)) {
     throw Error(ErrorCode::kerInvalidKey, key);
   }
+
   std::string::size_type pos0 = pos1 + 1;
   pos1 = key.find('.', pos0);
   if (pos1 == std::string::npos) {
     throw Error(ErrorCode::kerInvalidKey, key);
   }
+
   std::string prefix = key.substr(pos0, pos1 - pos0);
   if (prefix.empty()) {
     throw Error(ErrorCode::kerInvalidKey, key);
   }
+
   std::string property = key.substr(pos1 + 1);
   if (property.empty()) {
     throw Error(ErrorCode::kerInvalidKey, key);
@@ -5178,7 +5171,7 @@ void XmpKey::Impl::decomposeKey(const std::string& key) {
 
   property_ = property;
   prefix_ = prefix;
-}  // XmpKey::Impl::decomposeKey
+}
 
 // *************************************************************************
 // free functions

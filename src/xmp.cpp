@@ -226,7 +226,7 @@ void printNode(const std::string& schemaNs, const std::string& propPath, const s
                const XMP_OptionBits& opt);
 
 //! Make an XMP key from a schema namespace and property path
-Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs, const std::string& propPath);
+std::unique_ptr<Exiv2::XmpKey> makeXmpKey(const std::string& schemaNs, const std::string& propPath);
 #endif  // EXV_HAVE_XMP_TOOLKIT
 
 //! Helper class used to serialize critical sections
@@ -261,8 +261,8 @@ struct Xmpdatum::Impl {
   ~Impl() = default;
 
   // DATA
-  XmpKey::UniquePtr key_;   //!< Key
-  Value::UniquePtr value_;  //!< Value
+  std::unique_ptr<XmpKey> key_;  //!< Key
+  Value::UniquePtr value_;       //!< Value
 };
 
 Xmpdatum::Impl::Impl(const XmpKey& key, const Value* pValue) : key_(key.clone()) {
@@ -1042,7 +1042,7 @@ void printNode(const std::string&, const std::string&, const std::string&, const
 }
 #endif  // EXIV2_DEBUG_MESSAGES
 
-Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs, const std::string& propPath) {
+std::unique_ptr<Exiv2::XmpKey> makeXmpKey(const std::string& schemaNs, const std::string& propPath) {
   std::string property;
   std::string::size_type idx = propPath.find(':');
   if (idx == std::string::npos) {
@@ -1055,7 +1055,7 @@ Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs, const std::stri
     throw Exiv2::Error(Exiv2::ErrorCode::kerNoPrefixForNamespace, propPath, schemaNs);
   }
   return std::make_unique<Exiv2::XmpKey>(prefix, property);
-}  // makeXmpKey
+}
 #endif  // EXV_HAVE_XMP_TOOLKIT
 
 }  // namespace
