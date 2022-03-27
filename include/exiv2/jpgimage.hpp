@@ -314,8 +314,8 @@ class EXIV2API JpegImage : public JpegBase {
  private:
   // Constant data
   static constexpr byte soi_ = 0xd8;  // SOI marker
-  static const byte blank_[];  // Minimal Jpeg image
-};                             // class JpegImage
+  static const byte blank_[];         // Minimal Jpeg image
+};                                    // class JpegImage
 
 //! Helper class to access %Exiv2 files
 class EXIV2API ExvImage : public JpegBase {
