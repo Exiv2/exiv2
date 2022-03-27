@@ -366,8 +366,7 @@ time_t parseTime(const char* arg, bool bAdjust) {
       char a = 0, b = 0, c = 0, d = 0, e = 0;
       sscanf(arg, "%d%c%d%c%d%c%d%c%d%c%d", &YY, &a, &MM, &b, &DD, &c, &HH, &d, &mm, &e, &SS1);
 
-      struct tm T;
-      memset(&T, 0, sizeof(T));
+      struct tm T = {};
       T.tm_min = mm;
       T.tm_hour = HH;
       T.tm_sec = SS1;
@@ -720,8 +719,7 @@ int main(int argc, const char* argv[]) {
   types[typeCode] = "code";
   types[typeFile] = "file";
 
-  char const* keywords[kwMAX];
-  memset(keywords, 0, sizeof(keywords));
+  char const* keywords[kwMAX] = {};
   keywords[kwHELP] = "help";
   keywords[kwVERSION] = "version";
   keywords[kwVERBOSE] = "verbose";

@@ -1803,8 +1803,7 @@ int renameFile(std::string& newPath, const struct tm* tm) {
   replace(format, ":parentname:", p.parent_path().parent_path().filename().string());
 
   const size_t max = 1024;
-  char basename[max];
-  std::memset(basename, 0x0, max);
+  char basename[max] = {};
   if (strftime(basename, max, format.c_str(), tm) == 0) {
     std::cerr << _("Filename format yields empty filename for the file") << " " << path << "\n";
     return 1;

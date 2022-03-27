@@ -90,8 +90,7 @@ static int forgive(int n, int& err) {
 
 static int error(std::string& errors, const char* msg, const char* x = nullptr, const char* y = nullptr, int z = 0) {
   static const size_t buffer_size = 512;
-  char buffer[buffer_size];
-  memset(buffer, 0, buffer_size);
+  char buffer[buffer_size] = {};
   snprintf(buffer, buffer_size, msg, x, y, z);
   if (errno) {
     perror(buffer);
@@ -210,9 +209,8 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   int server = -1;
 
   // fill in the address
-  struct sockaddr_in serv_addr;
+  struct sockaddr_in serv_addr = {};
   int serv_len = sizeof(serv_addr);
-  memset(reinterpret_cast<char*>(&serv_addr), 0, serv_len);
 
   serv_addr.sin_addr.s_addr = inet_addr(servername_p);
   serv_addr.sin_family = AF_INET;

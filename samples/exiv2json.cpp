@@ -214,8 +214,7 @@ void fileSystemPush(const char* path, Jzon::Node& nfs) {
   fs.Add("path", path);
   fs.Add("realpath", std::filesystem::absolute(std::filesystem::path(path)).string());
 
-  struct stat buf;
-  memset(&buf, 0, sizeof(buf));
+  struct stat buf = {};
   stat(path, &buf);
 
   fs.Add("st_dev", static_cast<int>(buf.st_dev));     /* ID of device containing file    */
