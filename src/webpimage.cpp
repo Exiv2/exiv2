@@ -78,30 +78,6 @@ std::string WebPImage::mimeType() const {
   return "image/webp";
 }
 
-/* =========================================== */
-
-/* Misc. */
-constexpr byte WebPImage::WEBP_PAD_ODD = 0;
-constexpr int WebPImage::WEBP_TAG_SIZE = 0x4;
-
-/* VP8X feature flags */
-constexpr int WebPImage::WEBP_VP8X_ICC_BIT = 0x20;
-constexpr int WebPImage::WEBP_VP8X_ALPHA_BIT = 0x10;
-constexpr int WebPImage::WEBP_VP8X_EXIF_BIT = 0x8;
-constexpr int WebPImage::WEBP_VP8X_XMP_BIT = 0x4;
-
-/* Chunk header names */
-constexpr const char* WebPImage::WEBP_CHUNK_HEADER_VP8X = "VP8X";
-constexpr const char* WebPImage::WEBP_CHUNK_HEADER_VP8L = "VP8L";
-constexpr const char* WebPImage::WEBP_CHUNK_HEADER_VP8 = "VP8 ";
-constexpr const char* WebPImage::WEBP_CHUNK_HEADER_ANMF = "ANMF";
-constexpr const char* WebPImage::WEBP_CHUNK_HEADER_ANIM = "ANIM";
-constexpr const char* WebPImage::WEBP_CHUNK_HEADER_ICCP = "ICCP";
-constexpr const char* WebPImage::WEBP_CHUNK_HEADER_EXIF = "EXIF";
-constexpr const char* WebPImage::WEBP_CHUNK_HEADER_XMP = "XMP ";
-
-/* =========================================== */
-
 void WebPImage::setIptcData(const IptcData& /*iptcData*/) {
   // not supported
   // just quietly ignore the request

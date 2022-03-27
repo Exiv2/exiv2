@@ -2568,16 +2568,16 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
   bool unmatched = true;
   // we loop over all our lenses to print out all matching lenses
   // if we have multiple possibilities, they are concatenated by "*OR*"
-  for (auto const& lens : canonCsLensType) {
-    if (lens.val_ != lensType) {
+  for (auto&& [val, label] : canonCsLensType) {
+    if (val != lensType) {
       continue;
     }
 
     std::cmatch base_match;
-    if (!std::regex_search(lens.label_, base_match, lens_regex)) {
+    if (!std::regex_search(label, base_match, lens_regex)) {
       // this should never happen, as it would indicate the lens is specified incorrectly
       // in the CanonCsLensType array
-      throw Error(ErrorCode::kerErrorMessage, std::string("Lens regex didn't match for: ") + std::string(lens.label_));
+      throw Error(ErrorCode::kerErrorMessage, std::string("Lens regex didn't match for: ") + std::string(label));
     }
 
     auto tc = base_match[5].length() > 0 ? std::stof(base_match[5].str()) : 1.f;
@@ -2595,11 +2595,11 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
 
     if (unmatched) {
       unmatched = false;
-      os << lens.label_;
+      os << label;
       continue;
     }
 
-    os << " *OR* " << lens.label_;
+    os << " *OR* " << label;
   }
 
   // if the entire for loop left us with unmatched==false

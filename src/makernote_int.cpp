@@ -808,51 +808,42 @@ struct NikonArrayIdx {
 #define NA ((uint32_t)-1)
 
 //! Nikon binary array version lookup table
-constexpr NikonArrayIdx nikonArrayIdx[] = {
+constexpr auto nikonArrayIdx = std::array{
     // NikonSi
-    {0x0091, "0208", 0, 0, 4},     // D80
-    {0x0091, "0209", 0, 1, 4},     // D40
-    {0x0091, "0210", 5291, 2, 4},  // D300
-    {0x0091, "0210", 5303, 3, 4},  // D300, firmware version 1.10
-    {0x0091, "02", 0, 4, 4},       // Other v2.* (encrypted)
-    {0x0091, "01", 0, 5, NA},      // Other v1.* (not encrypted)
+    NikonArrayIdx{0x0091, "0208", 0, 0, 4},     // D80
+    NikonArrayIdx{0x0091, "0209", 0, 1, 4},     // D40
+    NikonArrayIdx{0x0091, "0210", 5291, 2, 4},  // D300
+    NikonArrayIdx{0x0091, "0210", 5303, 3, 4},  // D300, firmware version 1.10
+    NikonArrayIdx{0x0091, "02", 0, 4, 4},       // Other v2.* (encrypted)
+    NikonArrayIdx{0x0091, "01", 0, 5, NA},      // Other v1.* (not encrypted)
     // NikonCb
-    {0x0097, "0100", 0, 0, NA},
-    {0x0097, "0102", 0, 1, NA},
-    {0x0097, "0103", 0, 4, NA},
-    {0x0097, "0205", 0, 2, 4},
-    {0x0097, "0209", 0, 5, 284},
-    {0x0097, "0212", 0, 5, 284},
-    {0x0097, "0214", 0, 5, 284},
-    {0x0097, "02", 0, 3, 284},
+    NikonArrayIdx{0x0097, "0100", 0, 0, NA}, NikonArrayIdx{0x0097, "0102", 0, 1, NA},
+    NikonArrayIdx{0x0097, "0103", 0, 4, NA}, NikonArrayIdx{0x0097, "0205", 0, 2, 4},
+    NikonArrayIdx{0x0097, "0209", 0, 5, 284}, NikonArrayIdx{0x0097, "0212", 0, 5, 284},
+    NikonArrayIdx{0x0097, "0214", 0, 5, 284}, NikonArrayIdx{0x0097, "02", 0, 3, 284},
     // NikonLd
-    {0x0098, "0100", 0, 0, NA},
-    {0x0098, "0101", 0, 1, NA},
-    {0x0098, "0201", 0, 1, 4},
-    {0x0098, "0202", 0, 1, 4},
-    {0x0098, "0203", 0, 1, 4},
-    {0x0098, "0204", 0, 2, 4},
-    {0x0098, "0800", 0, 3, 4},  // for e.g. Z6/7
-    {0x0098, "0801", 0, 3, 4},  // for e.g. Z6/7
+    NikonArrayIdx{0x0098, "0100", 0, 0, NA}, NikonArrayIdx{0x0098, "0101", 0, 1, NA},
+    NikonArrayIdx{0x0098, "0201", 0, 1, 4}, NikonArrayIdx{0x0098, "0202", 0, 1, 4},
+    NikonArrayIdx{0x0098, "0203", 0, 1, 4}, NikonArrayIdx{0x0098, "0204", 0, 2, 4},
+    NikonArrayIdx{0x0098, "0800", 0, 3, 4},  // for e.g. Z6/7
+    NikonArrayIdx{0x0098, "0801", 0, 3, 4},  // for e.g. Z6/7
     // NikonFl
-    {0x00a8, "0100", 0, 0, NA},
-    {0x00a8, "0101", 0, 0, NA},
-    {0x00a8, "0102", 0, 1, NA},
-    {0x00a8, "0103", 0, 2, NA},
-    {0x00a8, "0104", 0, 2, NA},
-    {0x00a8, "0105", 0, 2, NA},
-    {0x00a8, "0107", 0, 3, NA},
-    {0x00a8, "0108", 0, 3, NA},
+    NikonArrayIdx{0x00a8, "0100", 0, 0, NA}, NikonArrayIdx{0x00a8, "0101", 0, 0, NA},
+    NikonArrayIdx{0x00a8, "0102", 0, 1, NA}, NikonArrayIdx{0x00a8, "0103", 0, 2, NA},
+    NikonArrayIdx{0x00a8, "0104", 0, 2, NA}, NikonArrayIdx{0x00a8, "0105", 0, 2, NA},
+    NikonArrayIdx{0x00a8, "0107", 0, 3, NA}, NikonArrayIdx{0x00a8, "0108", 0, 3, NA},
     // NikonAf
-    {0x00b7, "0100", 30, 0, NA},  // These sizes have been found in tiff headers of MN
-    {0x00b7, "0101", 84, 1, NA},  // tag 0xb7 in sample image metadata for each version
+    NikonArrayIdx{0x00b7, "0100", 30, 0, NA},  // These sizes have been found in tiff headers of MN
+    NikonArrayIdx{0x00b7, "0101", 84, 1, NA},  // tag 0xb7 in sample image metadata for each version
 };
 
 int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const /*pRoot*/) {
   if (size < 4)
     return -1;
-  const NikonArrayIdx* aix = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
-  return aix ? aix->idx_ : -1;
+  for (auto&& aix : nikonArrayIdx)
+    if (aix == NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size))
+      return aix.idx_;
+  return -1;
 }
 
 DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot) {
@@ -860,8 +851,9 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
 
   if (size < 4)
     return buf;
-  const NikonArrayIdx* nci = find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
-  if (!nci || nci->start_ == NA || size <= nci->start_)
+  auto nci = std::find(nikonArrayIdx.begin(), nikonArrayIdx.end(),
+                       NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
+  if (nci == nikonArrayIdx.end() || nci->start_ == NA || size <= nci->start_)
     return buf;
 
   // Find Exif.Nikon3.ShutterCount
@@ -912,7 +904,7 @@ int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, 
       "NEX-6",     "VG30E",    "VG900",     "DSC-RX100", "DSC-RX1",   "DSC-RX1R", "DSC-HX300",
       "DSC-HX50V", "DSC-TX30", "DSC-WX60",  "DSC-WX200", "DSC-WX300",
   };
-  return std::find(models.begin(), models.end(), getExifModel(pRoot)) != std::end(models) ? 0 : -1;
+  return std::find(models.begin(), models.end(), getExifModel(pRoot)) != models.end() ? 0 : -1;
 }
 
 int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot) {

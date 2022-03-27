@@ -1625,19 +1625,11 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 
-struct LensIdFct {
-  uint32_t id_;   //!< Lens id
-  PrintFct fct_;  //!< Pretty-print function
-  //! Comparison operator for find template
-  bool operator==(uint32_t id) const {
-    return id_ == id;
-  }
-};
-
+using LensIdFct = std::pair<uint32_t, PrintFct>;
 //! List of lens ids which require special treatment from printMinoltaSonyLensID
-const LensIdFct lensIdFct[] = {
-    {0x001c, resolveLens0x1c}, {0x0029, resolveLens0x29}, {0x0034, resolveLens0x34},
-    {0x0080, resolveLens0x80}, {0x00ff, resolveLens0xff}, {0xffff, resolveLens0xffff},
+constexpr auto lensIdFct = std::array{
+    LensIdFct(0x001c, resolveLens0x1c), LensIdFct(0x0029, resolveLens0x29), LensIdFct(0x0034, resolveLens0x34),
+    LensIdFct(0x0080, resolveLens0x80), LensIdFct(0x00ff, resolveLens0xff), LensIdFct(0xffff, resolveLens0xffff),
     //     {   0x00ff, resolveLensTypeUsingExiftool }, // was used for debugging
 };
 // #1145 end - respect lenses with shared LensID
@@ -1657,12 +1649,9 @@ std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const
 
   // #1145 - respect lenses with shared LensID
   uint32_t index = value.toUint32();
-  const LensIdFct* lif = find(lensIdFct, index);
-  if (lif && metadata) {
-    if (lif->fct_)
-      return lif->fct_(os, value, metadata);
-  }
-
+  for (auto&& [idx, fct] : lensIdFct)
+    if (metadata && idx == index && fct)
+      return fct(os, value, metadata);
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 

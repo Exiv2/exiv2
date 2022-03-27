@@ -36,7 +36,7 @@ constexpr TagDetails nikonActiveDLighting[] = {
 };
 
 //! Focus area for Nikon cameras.
-constexpr const char* nikonFocusarea[] = {
+constexpr auto nikonFocusarea = std::array{
     N_("Single area"),   N_("Dynamic area"),       N_("Dynamic area, closest subject"),
     N_("Group dynamic"), N_("Single area (wide)"), N_("Dynamic area (wide)"),
 };
@@ -45,7 +45,7 @@ constexpr const char* nikonFocusarea[] = {
 // module. Note that relative size and position will vary depending on if
 // "wide" or not
 //! Focus points for Nikon cameras, used for Nikon 1 and Nikon 3 makernotes.
-constexpr const char* nikonFocuspoints[] = {
+constexpr auto nikonFocuspoints = std::array{
     N_("Center"),      N_("Top"),        N_("Bottom"),      N_("Left"),      N_("Right"),      N_("Upper-left"),
     N_("Upper-right"), N_("Lower-left"), N_("Lower-right"), N_("Left-most"), N_("Right-most"),
 };
@@ -227,7 +227,7 @@ std::ostream& Nikon1MakerNote::print0x0086(std::ostream& os, const Value& value,
 std::ostream& Nikon1MakerNote::print0x0088(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() >= 1) {
     const uint32_t focusArea = value.toUint32(0);
-    if (focusArea >= std::size(nikonFocusarea)) {
+    if (focusArea >= nikonFocusarea.size()) {
       os << "Invalid value";
     } else {
       os << nikonFocusarea[focusArea];
@@ -248,7 +248,7 @@ std::ostream& Nikon1MakerNote::print0x0088(std::ostream& os, const Value& value,
         break;
       default:
         os << value;
-        if (focusPoint < sizeof(nikonFocuspoints) / sizeof(nikonFocuspoints[0]))
+        if (focusPoint < nikonFocuspoints.size())
           os << " " << _("guess") << " " << nikonFocuspoints[focusPoint];
         break;
     }
@@ -1416,7 +1416,6 @@ std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os, const Value& value,
     const uint32_t focuspoint = value.toUint32(1);
     const uint32_t focusused = (value.toUint32(2) << 8) + value.toUint32(3);
     // TODO: enum {standard, wide} combination = standard;
-    const size_t focuspoints = sizeof(nikonFocuspoints) / sizeof(nikonFocuspoints[0]);
 
     if (focusmetering == 0 && focuspoint == 0 && focusused == 0) {
       // Special case, in Manual focus and with Nikon compacts
@@ -1457,7 +1456,7 @@ std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os, const Value& value,
       os << sep << ' ';
 
       // What focuspoint did the user select?
-      if (focuspoint < focuspoints) {
+      if (focuspoint < nikonFocuspoints.size()) {
         os << nikonFocuspoints[focuspoint];
         // TODO: os << position[focuspoint][combination]
       } else
@@ -1473,7 +1472,7 @@ std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os, const Value& value,
       // selected point was not the actually used one
       // (Roger Larsson: my interpretation, verify)
       os << sep;
-      for (size_t fpid = 0; fpid < focuspoints; fpid++)
+      for (size_t fpid = 0; fpid < nikonFocuspoints.size(); fpid++)
         if (focusused & 1 << fpid)
           os << ' ' << nikonFocuspoints[fpid];
     }
@@ -3242,32 +3241,30 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
   }
 
   // from https://github.com/exiftool/exiftool/blob/12.12/lib/Image/ExifTool/Nikon.pm#L4646
-  static const struct ZMntLens {
-    uint16_t lid;
-    const char *manuf, *lensname;
-  } zmountlens[] = {
-      {1, "Nikon", "Nikkor Z 24-70mm f/4 S"},
-      {2, "Nikon", "Nikkor Z 14-30mm f/4 S"},
-      {4, "Nikon", "Nikkor Z 35mm f/1.8 S"},
-      {8, "Nikon", "Nikkor Z 58mm f/0.95 S Noct"},  // IB
-      {9, "Nikon", "Nikkor Z 50mm f/1.8 S"},
-      {11, "Nikon", "Nikkor Z DX 16-50mm f/3.5-6.3 VR"},
-      {12, "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"},
-      {13, "Nikon", "Nikkor Z 24-70mm f/2.8 S"},
-      {14, "Nikon", "Nikkor Z 85mm f/1.8 S"},
-      {15, "Nikon", "Nikkor Z 24mm f/1.8 S"},         // IB
-      {16, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"},  // IB
-      {17, "Nikon", "Nikkor Z 20mm f/1.8 S"},         // IB
-      {18, "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"},  // IB
-      {21, "Nikon", "Nikkor Z 50mm f/1.2 S"},         // IB
-      {22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"},      // IB
-      {23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"},      // IB
+  using ZMntLens = std::tuple<uint16_t, const char*, const char*>;
+  static constexpr auto zmountlens = std::array{
+      ZMntLens(1, "Nikon", "Nikkor Z 24-70mm f/4 S"),
+      ZMntLens(2, "Nikon", "Nikkor Z 14-30mm f/4 S"),
+      ZMntLens(4, "Nikon", "Nikkor Z 35mm f/1.8 S"),
+      ZMntLens(8, "Nikon", "Nikkor Z 58mm f/0.95 S Noct"),  // IB
+      ZMntLens(9, "Nikon", "Nikkor Z 50mm f/1.8 S"),
+      ZMntLens(11, "Nikon", "Nikkor Z DX 16-50mm f/3.5-6.3 VR"),
+      ZMntLens(12, "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"),
+      ZMntLens(13, "Nikon", "Nikkor Z 24-70mm f/2.8 S"),
+      ZMntLens(14, "Nikon", "Nikkor Z 85mm f/1.8 S"),
+      ZMntLens(15, "Nikon", "Nikkor Z 24mm f/1.8 S"),         // IB
+      ZMntLens(16, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"),  // IB
+      ZMntLens(17, "Nikon", "Nikkor Z 20mm f/1.8 S"),         // IB
+      ZMntLens(18, "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"),  // IB
+      ZMntLens(21, "Nikon", "Nikkor Z 50mm f/1.2 S"),         // IB
+      ZMntLens(22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"),      // IB
+      ZMntLens(23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"),      // IB
   };
 
   auto lid = static_cast<uint16_t>(value.toInt64());
-  auto it = std::find_if(std::begin(zmountlens), std::end(zmountlens), [=](const ZMntLens& z) { return z.lid == lid; });
-  if (it != std::end(zmountlens))
-    return os << it->manuf << " " << it->lensname;
+  for (auto&& [l, manuf, lensname] : zmountlens)
+    if (l == lid)
+      return os << manuf << " " << lensname;
   return os << lid;
 }
 
