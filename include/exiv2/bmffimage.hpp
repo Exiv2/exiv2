@@ -110,7 +110,7 @@ class EXIV2API BmffImage : public Image {
   uint32_t pixelHeight() const override;
   //@}
 
-  Exiv2::ByteOrder endian_{Exiv2::bigEndian};
+  const Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
  private:
   void openOrThrow();
