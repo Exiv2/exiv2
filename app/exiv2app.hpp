@@ -116,7 +116,7 @@ class Params : public Util::Getopt {
   static Params& instance();
 
   //! Prevent copy-construction: not implemented.
-  Params(const Params& rhs) = delete;
+  Params(const Params&) = delete;
 
   //! Enumerates print modes
   enum PrintMode {

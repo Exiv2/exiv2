@@ -29,9 +29,9 @@ class EXIV2API BmpImage : public Image {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  BmpImage(const BmpImage& rhs) = delete;
+  BmpImage(const BmpImage&) = delete;
   //! Assignment operator
-  BmpImage& operator=(const BmpImage& rhs) = delete;
+  BmpImage& operator=(const BmpImage&) = delete;
   //@}
 
   //! @name Creators

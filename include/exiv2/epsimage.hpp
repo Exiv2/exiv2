@@ -76,9 +76,9 @@ class EXIV2API EpsImage : public Image {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  EpsImage(const EpsImage& rhs) = delete;
+  EpsImage(const EpsImage&) = delete;
   //! Assignment operator
-  EpsImage& operator=(const EpsImage& rhs) = delete;
+  EpsImage& operator=(const EpsImage&) = delete;
   //@}
 
 };  // class EpsImage

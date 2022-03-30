@@ -63,9 +63,9 @@ class EXIV2API PngImage : public Image {
   //! @name NOT implemented
   //@{
   //! Copy constructor
-  PngImage(const PngImage& rhs) = delete;
+  PngImage(const PngImage&) = delete;
   //! Assignment operator
-  PngImage& operator=(const PngImage& rhs) = delete;
+  PngImage& operator=(const PngImage&) = delete;
 
  private:
   /*!

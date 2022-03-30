@@ -24,9 +24,9 @@ class EXIV2API GifImage : public Image {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  GifImage(const GifImage& rhs) = delete;
+  GifImage(const GifImage&) = delete;
   //! Assignment operator
-  GifImage& operator=(const GifImage& rhs) = delete;
+  GifImage& operator=(const GifImage&) = delete;
   //@}
 
   //! @name Creators

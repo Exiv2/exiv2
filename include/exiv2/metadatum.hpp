@@ -77,7 +77,7 @@ class EXIV2API Key {
     @brief Assignment operator. Protected so that it can only be used
            by subclasses but not directly.
    */
-  Key& operator=(const Key& rhs) = default;
+  Key& operator=(const Key&) = default;
   //@}
 
  private:
@@ -102,7 +102,7 @@ class EXIV2API Metadatum {
   //! Default Constructor
   Metadatum() = default;
   //! Copy constructor
-  Metadatum(const Metadatum& rhs) = default;
+  Metadatum(const Metadatum&) = default;
   //! Destructor
   virtual ~Metadatum() = default;
   //@}
@@ -259,7 +259,7 @@ class EXIV2API Metadatum {
     @brief Assignment operator. Protected so that it can only be used
            by subclasses but not directly.
    */
-  Metadatum& operator=(const Metadatum& rhs) = default;
+  Metadatum& operator=(const Metadatum&) = default;
   //@}
 
 };  // class Metadatum

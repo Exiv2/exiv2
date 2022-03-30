@@ -24,9 +24,9 @@ class EXIV2API OrfImage : public TiffImage {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  OrfImage(const OrfImage& rhs) = delete;
+  OrfImage(const OrfImage&) = delete;
   //! Assignment operator
-  OrfImage& operator=(const OrfImage& rhs) = delete;
+  OrfImage& operator=(const OrfImage&) = delete;
   //@}
 
   //! @name Creators

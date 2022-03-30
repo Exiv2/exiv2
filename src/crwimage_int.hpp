@@ -531,8 +531,8 @@ class CrwMap {
  public:
   //! @name Not implemented
   //@{
-  //! Default constructor
-  CrwMap() = delete;
+  CrwMap(const CrwMap&) = delete;
+  CrwMap& operator=(const CrwMap&) = delete;
   //@}
 
   /*!

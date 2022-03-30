@@ -396,7 +396,7 @@ class TiffEntryBase : public TiffComponent {
   //! @name NOT implemented
   //@{
   //! Assignment operator.
-  TiffEntryBase& operator=(const TiffEntryBase& rhs) = delete;
+  TiffEntryBase& operator=(const TiffEntryBase&) = delete;
   //@}
 
   //! @name Manipulators

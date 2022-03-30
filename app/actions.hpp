@@ -98,7 +98,7 @@ class TaskFactory {
   static TaskFactory& instance();
 
   //! Prevent copy construction: not implemented.
-  TaskFactory(const TaskFactory& rhs) = delete;
+  TaskFactory(const TaskFactory&) = delete;
 
   //! Destructor
   void cleanup();

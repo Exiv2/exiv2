@@ -50,7 +50,7 @@ class EXIV2API Jp2Image : public Image {
           not valid (does not look like data of the specific image type).
     @warning This function is not thread safe and intended for exiv2 -pS for debugging.
    */
-  void printStructure(std::ostream &out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
 
   /*!
     @brief Todo: Not supported yet(?). Calling this function will throw
@@ -67,9 +67,9 @@ class EXIV2API Jp2Image : public Image {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  Jp2Image(const Jp2Image &rhs) = delete;
+  Jp2Image(const Jp2Image&) = delete;
   //! Assignment operator
-  Jp2Image &operator=(const Jp2Image &rhs) = delete;
+  Jp2Image& operator=(const Jp2Image&) = delete;
 
  private:
   /*!
@@ -79,14 +79,14 @@ class EXIV2API Jp2Image : public Image {
 
     @return 4 if opening or writing to the associated BasicIo fails
    */
-  void doWriteMetadata(BasicIo &outIo);
+  void doWriteMetadata(BasicIo& outIo);
 
   /*!
    @brief reformats the Jp2Header to store iccProfile
    @param oldData DataBufRef to data in the file.
    @param newData DataBufRef with updated data
    */
-  void encodeJp2Header(const DataBuf &boxBuf, DataBuf &outBuf);
+  void encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf);
   //@}
 
 };  // class Jp2Image
@@ -104,7 +104,7 @@ class EXIV2API Jp2Image : public Image {
 EXIV2API Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create);
 
 //! Check if the file iIo is a JPEG-2000 image.
-EXIV2API bool isJp2Type(BasicIo &iIo, bool advance);
+EXIV2API bool isJp2Type(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 

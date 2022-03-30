@@ -24,9 +24,9 @@ class EXIV2API MrwImage : public Image {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  MrwImage(const MrwImage& rhs) = delete;
+  MrwImage(const MrwImage&) = delete;
   //! Assignment operator
-  MrwImage& operator=(const MrwImage& rhs) = delete;
+  MrwImage& operator=(const MrwImage&) = delete;
   //@}
 
   //! @name Creators
