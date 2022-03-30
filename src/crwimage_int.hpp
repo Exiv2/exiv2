@@ -26,10 +26,10 @@ struct CrwSubDir;
 // type definitions
 
 //! Function pointer for functions to decode Exif tags from a CRW entry
-using CrwDecodeFct = void (*)(const CiffComponent&, const CrwMapping*, Image&, ByteOrder);
+using CrwDecodeFct = std::function<void(const CiffComponent&, const CrwMapping*, Image&, ByteOrder)>;
 
 //! Function pointer for functions to encode CRW entries from Exif tags
-using CrwEncodeFct = void (*)(const Image&, const CrwMapping*, CiffHeader*);
+using CrwEncodeFct = std::function<void(const Image&, const CrwMapping*, CiffHeader*)>;
 
 //! Stack to hold a path of CRW directories
 using CrwDirs = std::stack<CrwSubDir>;
@@ -501,7 +501,7 @@ struct CrwMapping {
   //@{
   //! Default constructor
   CrwMapping(uint16_t crwTagId, uint16_t crwDir, uint32_t size, uint16_t tag, Internal::IfdId ifdId,
-             CrwDecodeFct toExif, CrwEncodeFct fromExif) :
+             const CrwDecodeFct& toExif, const CrwEncodeFct& fromExif) :
       crwTagId_(crwTagId),
       crwDir_(crwDir),
       size_(size),
