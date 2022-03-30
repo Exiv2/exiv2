@@ -11,6 +11,8 @@
 #include "http.hpp"
 
 #include <array>
+#include <chrono>
+#include <thread>
 
 ////////////////////////////////////////
 // platform specific code
@@ -41,13 +43,6 @@ using DWORD = unsigned long;
 static int WSAGetLastError() {
   return errno;
 }
-
-static void Sleep(int millisecs) {
-  const struct timespec rqtp = {0, millisecs * 1000000};
-  struct timespec rmtp;
-  nanosleep(&rqtp, &rmtp);
-}
-
 #endif
 
 ////////////////////////////////////////
@@ -246,7 +241,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   ////////////////////////////////////
   // send the header (we'll have to wait for the connection by the non-blocking socket)
   while (sleep_ >= 0 && send(sockfd, buffer, n, 0) == SOCKET_ERROR /* && WSAGetLastError() == WSAENOTCONN */) {
-    Sleep(snooze);
+    std::this_thread::sleep_for(std::chrono::milliseconds(snooze));
     sleep_ -= snooze;
   }
 
@@ -330,7 +325,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     }
     n = forgive(recv(sockfd, buffer + end, static_cast<int>(buff_l - end), 0), err);
     if (!n) {
-      Sleep(snooze);
+      std::this_thread::sleep_for(std::chrono::milliseconds(snooze));
       sleep_ -= snooze;
       if (sleep_ < 0)
         n = FINISH;
