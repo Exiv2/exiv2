@@ -26,8 +26,8 @@
 #endif
 
 #ifdef EXV_HAVE_ICONV
-#include <errno.h>
 #include <iconv.h>
+#include <cerrno>
 #endif
 
 // Adobe XMP Toolkit
