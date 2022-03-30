@@ -225,7 +225,7 @@ class EXIV2API Value {
     @brief Assignment operator. Protected so that it can only be used
            by subclasses but not directly.
    */
-  Value& operator=(const Value& rhs) = default;
+  Value& operator=(const Value&) = default;
   // DATA
   mutable bool ok_;  //!< Indicates the status of the previous to<Type> conversion
 
@@ -323,7 +323,7 @@ class EXIV2API StringValueBase : public Value {
   //! Constructor for subclasses
   StringValueBase(TypeId typeId, const std::string& buf);
   //! Copy constructor
-  StringValueBase(const StringValueBase& rhs) = default;
+  StringValueBase(const StringValueBase&) = default;
   //! Virtual destructor.
   ~StringValueBase() override = default;
   //@}
@@ -365,7 +365,7 @@ class EXIV2API StringValueBase : public Value {
 
  protected:
   //! Assignment operator.
-  StringValueBase& operator=(const StringValueBase& rhs);
+  StringValueBase& operator=(const StringValueBase&);
   //! Internal virtual copy constructor.
   StringValueBase* clone_() const override = 0;
 
@@ -485,8 +485,6 @@ class EXIV2API CommentValue : public StringValueBase {
   //! Charset information lookup functions. Implemented as a static class.
   class EXIV2API CharsetInfo {
    public:
-    //! Prevent construction: not implemented.
-    CharsetInfo() = delete;
     //! Prevent copy-construction: not implemented.
     CharsetInfo(const CharsetInfo&) = delete;
     //! Prevent assignment: not implemented.

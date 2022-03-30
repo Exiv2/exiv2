@@ -75,9 +75,9 @@ class EXIV2API Rw2Image : public Image {
   //! @name NOT implemented
   //@{
   //! Copy constructor
-  Rw2Image(const Rw2Image& rhs) = delete;
+  Rw2Image(const Rw2Image&) = delete;
   //! Assignment operator
-  Rw2Image& operator=(const Rw2Image& rhs) = delete;
+  Rw2Image& operator=(const Rw2Image&) = delete;
   //@}
 
 };  // class Rw2Image

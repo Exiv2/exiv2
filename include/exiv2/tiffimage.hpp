@@ -71,9 +71,9 @@ class EXIV2API TiffImage : public Image {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  TiffImage(const TiffImage& rhs) = delete;
+  TiffImage(const TiffImage&) = delete;
   //! Assignment operator
-  TiffImage& operator=(const TiffImage& rhs) = delete;
+  TiffImage& operator=(const TiffImage&) = delete;
   //@}
 
  private:

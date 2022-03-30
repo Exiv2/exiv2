@@ -57,9 +57,9 @@ class EXIV2API PgfImage : public Image {
   //! @name NOT implemented
   //@{
   //! Copy constructor
-  PgfImage(const PgfImage& rhs) = delete;
+  PgfImage(const PgfImage&) = delete;
   //! Assignment operator
-  PgfImage& operator=(const PgfImage& rhs) = delete;
+  PgfImage& operator=(const PgfImage&) = delete;
 
  private:
   bool bSwap_;  // true for bigEndian hardware, else false

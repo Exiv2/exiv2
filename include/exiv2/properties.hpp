@@ -71,12 +71,10 @@ class EXIV2API XmpProperties {
   static const XmpNsInfo* lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix);
 
  public:
-  //! Prevent construction: not implemented.
-  XmpProperties() = delete;
   //! Prevent copy-construction: not implemented.
   XmpProperties(const XmpProperties&) = delete;
   //! Prevent assignment: not implemented.
-  XmpProperties& operator=(const XmpProperties& rhs) = delete;
+  XmpProperties& operator=(const XmpProperties&) = delete;
 
   /*!
     @brief Return the title (label) of the property.

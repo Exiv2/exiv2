@@ -77,9 +77,9 @@ class EXIV2API RafImage : public Image {
   //! @name NOT implemented
   //@{
   //! Copy constructor
-  RafImage(const RafImage& rhs) = delete;
+  RafImage(const RafImage&) = delete;
   //! Assignment operator
-  RafImage& operator=(const RafImage& rhs) = delete;
+  RafImage& operator=(const RafImage&) = delete;
   //@}
 
 };  // class RafImage

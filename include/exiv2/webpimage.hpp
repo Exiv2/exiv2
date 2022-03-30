@@ -55,9 +55,9 @@ class EXIV2API WebPImage : public Image {
   //@}
 
   //! Copy constructor
-  WebPImage(const WebPImage& rhs) = delete;
+  WebPImage(const WebPImage&) = delete;
   //! Assignment operator
-  WebPImage& operator=(const WebPImage& rhs) = delete;
+  WebPImage& operator=(const WebPImage&) = delete;
   //@}
 
  private:

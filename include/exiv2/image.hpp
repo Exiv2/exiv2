@@ -453,9 +453,9 @@ class EXIV2API Image {
   //! @name NOT implemented
   //@{
   //! Copy constructor
-  Image(const Image& rhs) = delete;
+  Image(const Image&) = delete;
   //! Assignment operator
-  Image& operator=(const Image& rhs) = delete;
+  Image& operator=(const Image&) = delete;
   //@}
 
  protected:
@@ -656,10 +656,9 @@ class EXIV2API ImageFactory {
 
   //! @name Creators
   //@{
-  //! Prevent construction: not implemented.
-  ImageFactory() = delete;
   //! Prevent copy construction: not implemented.
-  ImageFactory(const ImageFactory& rhs) = delete;
+  ImageFactory(const ImageFactory&) = delete;
+  ImageFactory& operator=(const ImageFactory&) = delete;
   //@}
 
 };  // class ImageFactory

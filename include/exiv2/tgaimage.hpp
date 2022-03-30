@@ -23,9 +23,9 @@ class EXIV2API TgaImage : public Image {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  TgaImage(const TgaImage& rhs) = delete;
+  TgaImage(const TgaImage&) = delete;
   //! Assignment operator
-  TgaImage& operator=(const TgaImage& rhs) = delete;
+  TgaImage& operator=(const TgaImage&) = delete;
   //@}
 
   //! @name Creators

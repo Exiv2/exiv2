@@ -79,7 +79,7 @@ class EXIV2API BasicIo {
     @return Number of bytes written to IO source successfully;<BR>
         0 if failure;
    */
-  virtual size_t write(const byte *data, size_t wcount) = 0;
+  virtual size_t write(const byte* data, size_t wcount) = 0;
   /*!
     @brief Write data that is read from another BasicIo instance to
         the IO source. Current IO position is advanced by the number
@@ -89,7 +89,7 @@ class EXIV2API BasicIo {
     @return Number of bytes written to IO source successfully;<BR>
         0 if failure;
    */
-  virtual size_t write(BasicIo &src) = 0;
+  virtual size_t write(BasicIo& src) = 0;
   /*!
     @brief Write one byte to the IO source. Current IO position is
         advanced by one byte.
@@ -121,7 +121,7 @@ class EXIV2API BasicIo {
     @return Number of bytes read from IO source successfully;<BR>
         0 if failure;
    */
-  virtual size_t read(byte *buf, size_t rcount) = 0;
+  virtual size_t read(byte* buf, size_t rcount) = 0;
   /*!
     @brief Safe version of `read()` that checks for errors and throws
         an exception if the read was unsuccessful.
@@ -132,7 +132,7 @@ class EXIV2API BasicIo {
         read if \em rcount bytes are not available.
     @param err Error code to use if an exception is thrown.
    */
-  void readOrThrow(byte *buf, size_t rcount, ErrorCode err);
+  void readOrThrow(byte* buf, size_t rcount, ErrorCode err);
   /*!
     @brief Read one byte from the IO source. Current IO position is
         advanced by one byte.
@@ -153,7 +153,7 @@ class EXIV2API BasicIo {
         invalidated by the method.
     @throw Error In case of failure
    */
-  virtual void transfer(BasicIo &src) = 0;
+  virtual void transfer(BasicIo& src) = 0;
   /*!
     @brief Move the current IO position.
     @param offset Number of bytes to move the position relative
@@ -183,7 +183,7 @@ class EXIV2API BasicIo {
     @return A pointer to the mapped area.
     @throw Error In case of failure.
    */
-  virtual byte *mmap(bool isWriteable = false) = 0;
+  virtual byte* mmap(bool isWriteable = false) = 0;
   /*!
     @brief Remove a mapping established with mmap(). If the mapped area
            is writeable, this ensures that changes are written back.
@@ -219,7 +219,7 @@ class EXIV2API BasicIo {
         comprehensive error messages where only a BasicIo instance is
         available.
    */
-  [[nodiscard]] virtual const std::string &path() const noexcept = 0;
+  [[nodiscard]] virtual const std::string& path() const noexcept = 0;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -233,7 +233,7 @@ class EXIV2API BasicIo {
   /*!
     @brief this is allocated and populated by mmap()
    */
-  byte *bigBlock_{};
+  byte* bigBlock_{};
 
   //@}
 };  // class BasicIo
@@ -249,7 +249,7 @@ class EXIV2API IoCloser {
   //! @name Creators
   //@{
   //! Constructor, takes a BasicIo reference
-  explicit IoCloser(BasicIo &bio) : bio_(bio) {
+  explicit IoCloser(BasicIo& bio) : bio_(bio) {
   }
   //! Destructor, closes the BasicIo reference
   virtual ~IoCloser() {
@@ -268,13 +268,13 @@ class EXIV2API IoCloser {
 
   // DATA
   //! The BasicIo reference
-  BasicIo &bio_;
+  BasicIo& bio_;
 
   // Not implemented
   //! Copy constructor
-  IoCloser(const IoCloser &) = delete;
+  IoCloser(const IoCloser&) = delete;
   //! Assignment operator
-  IoCloser &operator=(const IoCloser &) = delete;
+  IoCloser& operator=(const IoCloser&) = delete;
 };  // class IoCloser
 
 /*!
@@ -291,7 +291,7 @@ class EXIV2API FileIo : public BasicIo {
         therefore never fails.
     @param path The full path of a file
    */
-  explicit FileIo(const std::string &path);
+  explicit FileIo(const std::string& path);
 
   //! Destructor. Flushes and closes an open file.
   ~FileIo() override;
@@ -312,7 +312,7 @@ class EXIV2API FileIo : public BasicIo {
     @return 0 if successful;<BR>
         Nonzero if failure.
    */
-  int open(const std::string &mode);
+  int open(const std::string& mode);
   /*!
     @brief Open the file using the default access mode of "rb".
         This method can also be used to "reopen" a file which will flush
@@ -337,7 +337,7 @@ class EXIV2API FileIo : public BasicIo {
     @return Number of bytes written to the file successfully;<BR>
            0 if failure;
    */
-  size_t write(const byte *data, size_t wcount) override;
+  size_t write(const byte* data, size_t wcount) override;
   /*!
     @brief Write data that is read from another BasicIo instance to
         the file. The file position is advanced by the number
@@ -347,7 +347,7 @@ class EXIV2API FileIo : public BasicIo {
     @return Number of bytes written to the file successfully;<BR>
            0 if failure;
    */
-  size_t write(BasicIo &src) override;
+  size_t write(BasicIo& src) override;
   /*!
     @brief Write one byte to the file. The file position is
         advanced by one byte.
@@ -379,7 +379,7 @@ class EXIV2API FileIo : public BasicIo {
     @return Number of bytes read from the file successfully;<BR>
            0 if failure;
    */
-  size_t read(byte *buf, size_t rcount) override;
+  size_t read(byte* buf, size_t rcount) override;
   /*!
     @brief Read one byte from the file. The file position is
         advanced by one byte.
@@ -405,7 +405,7 @@ class EXIV2API FileIo : public BasicIo {
         invalidated by the method.
     @throw Error In case of failure
    */
-  void transfer(BasicIo &src) override;
+  void transfer(BasicIo& src) override;
 
   int seek(int64_t offset, Position pos) override;
 
@@ -420,7 +420,7 @@ class EXIV2API FileIo : public BasicIo {
     @return A pointer to the mapped area.
     @throw Error In case of failure.
    */
-  byte *mmap(bool isWriteable = false) override;
+  byte* mmap(bool isWriteable = false) override;
   /*!
     @brief Remove a mapping established with mmap(). If the mapped area is
            writeable, this ensures that changes are written back to the
@@ -432,7 +432,7 @@ class EXIV2API FileIo : public BasicIo {
   /*!
     @brief close the file source and set a new path.
    */
-  virtual void setPath(const std::string &path);
+  virtual void setPath(const std::string& path);
 
   //@}
   //! @name Accessors
@@ -457,7 +457,7 @@ class EXIV2API FileIo : public BasicIo {
   //! Returns true if the file position has reached the end, otherwise false.
   [[nodiscard]] bool eof() const override;
   //! Returns the path of the file
-  [[nodiscard]] const std::string &path() const noexcept override;
+  [[nodiscard]] const std::string& path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -471,9 +471,9 @@ class EXIV2API FileIo : public BasicIo {
 
   // NOT IMPLEMENTED
   //! Copy constructor
-  FileIo(FileIo &rhs) = delete;
+  FileIo(const FileIo&) = delete;
   //! Assignment operator
-  FileIo &operator=(const FileIo &rhs) = delete;
+  FileIo& operator=(const FileIo&) = delete;
 
  private:
   // Pimpl idiom
@@ -507,7 +507,7 @@ class EXIV2API MemIo : public BasicIo {
     @param data Pointer to data. Data must be at least \em size bytes long
     @param size Number of bytes to copy.
    */
-  MemIo(const byte *data, size_t size);
+  MemIo(const byte* data, size_t size);
   //! Destructor. Releases all managed memory
   ~MemIo() override;
   //@}
@@ -536,7 +536,7 @@ class EXIV2API MemIo : public BasicIo {
     @return Number of bytes written to the memory block successfully;<BR>
            0 if failure;
    */
-  size_t write(const byte *data, size_t wcount) override;
+  size_t write(const byte* data, size_t wcount) override;
   /*!
     @brief Write data that is read from another BasicIo instance to
         the memory block. If needed, the size of the internal memory
@@ -547,7 +547,7 @@ class EXIV2API MemIo : public BasicIo {
     @return Number of bytes written to the memory block successfully;<BR>
            0 if failure;
    */
-  size_t write(BasicIo &src) override;
+  size_t write(BasicIo& src) override;
   /*!
     @brief Write one byte to the memory block. The IO position is
         advanced by one byte.
@@ -579,7 +579,7 @@ class EXIV2API MemIo : public BasicIo {
     @return Number of bytes read from the memory block successfully;<BR>
            0 if failure;
    */
-  size_t read(byte *buf, size_t rcount) override;
+  size_t read(byte* buf, size_t rcount) override;
   /*!
     @brief Read one byte from the memory block. The IO position is
         advanced by one byte.
@@ -602,7 +602,7 @@ class EXIV2API MemIo : public BasicIo {
         invalidated by the method.
     @throw Error In case of failure
    */
-  void transfer(BasicIo &src) override;
+  void transfer(BasicIo& src) override;
 
   int seek(int64_t offset, Position pos) override;
 
@@ -614,7 +614,7 @@ class EXIV2API MemIo : public BasicIo {
            returned pointer remains valid and allocated as long as the
            MemIo object exists.
    */
-  byte *mmap(bool /*isWriteable*/ = false) override;
+  byte* mmap(bool /*isWriteable*/ = false) override;
   int munmap() override;
   //@}
 
@@ -638,7 +638,7 @@ class EXIV2API MemIo : public BasicIo {
   //! Returns true if the IO position has reached the end, otherwise false.
   [[nodiscard]] bool eof() const override;
   //! Returns a dummy path, indicating that memory access is used
-  [[nodiscard]] const std::string &path() const noexcept override;
+  [[nodiscard]] const std::string& path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -653,9 +653,9 @@ class EXIV2API MemIo : public BasicIo {
 
   // NOT IMPLEMENTED
   //! Copy constructor
-  MemIo(MemIo &rhs) = delete;
+  MemIo(const MemIo&) = delete;
   //! Assignment operator
-  MemIo &operator=(const MemIo &rhs) = delete;
+  MemIo& operator=(const MemIo&) = delete;
 
  private:
   // Pimpl idiom
@@ -673,7 +673,7 @@ class EXIV2API XPathIo : public MemIo {
   //! @name Creators
   //@{
   //! Default constructor
-  XPathIo(const std::string &path);
+  XPathIo(const std::string& path);
   //@}
  private:
   /*!
@@ -686,7 +686,7 @@ class EXIV2API XPathIo : public MemIo {
       @param path The data uri.
       @throw Error if no base64 data in path.
    */
-  void ReadDataUri(const std::string &path);
+  void ReadDataUri(const std::string& path);
 };  // class XPathIo
 #else
 class EXIV2API XPathIo : public FileIo {
@@ -705,7 +705,7 @@ class EXIV2API XPathIo : public FileIo {
   //! @name Creators
   //@{
   //! Default constructor that reads data from stdin/data uri path and writes them to the temp file.
-  explicit XPathIo(const std::string &orgPath);
+  explicit XPathIo(const std::string& orgPath);
 
   //! Destructor. Releases all managed memory and removes the temp file.
   ~XPathIo() override;
@@ -717,7 +717,7 @@ class EXIV2API XPathIo : public FileIo {
       @brief Change the name of the temp file and make it untemporary before
               calling the method of superclass FileIo::transfer.
    */
-  void transfer(BasicIo &src) override;
+  void transfer(BasicIo& src) override;
 
   //@}
 
@@ -729,7 +729,7 @@ class EXIV2API XPathIo : public FileIo {
       @return the name of the new file.
       @throw Error if it fails.
    */
-  static std::string writeDataToFile(const std::string &orgPath);
+  static std::string writeDataToFile(const std::string& orgPath);
   //@}
 
  private:
@@ -774,7 +774,7 @@ class EXIV2API RemoteIo : public BasicIo {
     @brief Not support this method.
     @return 0 means failure
    */
-  size_t write(const byte *data, size_t wcount) override;
+  size_t write(const byte* data, size_t wcount) override;
   /*!
     @brief Write data that is read from another BasicIo instance to the remote file.
 
@@ -789,7 +789,7 @@ class EXIV2API RemoteIo : public BasicIo {
 
     @note The write access is only supported by http, https, ssh.
    */
-  size_t write(BasicIo &src) override;
+  size_t write(BasicIo& src) override;
 
   /*!
    @brief Not support
@@ -823,7 +823,7 @@ class EXIV2API RemoteIo : public BasicIo {
     @return Number of bytes read from the memory block successfully;<BR>
            0 if failure;
    */
-  size_t read(byte *buf, size_t rcount) override;
+  size_t read(byte* buf, size_t rcount) override;
   /*!
     @brief Read one byte from the memory blocks. The IO position is
         advanced by one byte.
@@ -847,7 +847,7 @@ class EXIV2API RemoteIo : public BasicIo {
 
     @note The write access is only supported by http, https, ssh.
    */
-  void transfer(BasicIo &src) override;
+  void transfer(BasicIo& src) override;
 
   int seek(int64_t offset, Position pos) override;
 
@@ -855,7 +855,7 @@ class EXIV2API RemoteIo : public BasicIo {
     @brief Not support
     @return NULL
    */
-  byte *mmap(bool /*isWriteable*/ = false) override;
+  byte* mmap(bool /*isWriteable*/ = false) override;
   /*!
     @brief Not support
     @return 0
@@ -882,7 +882,7 @@ class EXIV2API RemoteIo : public BasicIo {
   //! Returns true if the IO position has reached the end, otherwise false.
   [[nodiscard]] bool eof() const override;
   //! Returns the URL of the file.
-  [[nodiscard]] const std::string &path() const noexcept override;
+  [[nodiscard]] const std::string& path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -918,13 +918,13 @@ class EXIV2API HttpIo : public RemoteIo {
           divided into the memory blocks. These blocks are populated
           on demand from the server, so it avoids copying the complete file.
    */
-  explicit HttpIo(const std::string &url, size_t blockSize = 1024);
+  explicit HttpIo(const std::string& url, size_t blockSize = 1024);
 
   // NOT IMPLEMENTED
   //! Copy constructor
-  HttpIo(HttpIo &rhs) = delete;
+  HttpIo(const HttpIo&) = delete;
   //! Assignment operator
-  HttpIo &operator=(const HttpIo &rhs) = delete;
+  HttpIo& operator=(const HttpIo&) = delete;
 
  private:
   // Pimpl idiom
@@ -949,26 +949,26 @@ class EXIV2API CurlIo : public RemoteIo {
           on demand from the server, so it avoids copying the complete file.
     @throw Error if it is unable to init curl pointer.
    */
-  explicit CurlIo(const std::string &url, size_t blockSize = 0);
+  explicit CurlIo(const std::string& url, size_t blockSize = 0);
 
   /*!
     @brief Write access is only available for some protocols. This method
           will call RemoteIo::write(const byte* data, long wcount) if the write
           access is available for the protocol. Otherwise, it throws the Error.
    */
-  size_t write(const byte *data, size_t wcount) override;
+  size_t write(const byte* data, size_t wcount) override;
   /*!
     @brief Write access is only available for some protocols. This method
           will call RemoteIo::write(BasicIo& src) if the write access is available
           for the protocol. Otherwise, it throws the Error.
    */
-  size_t write(BasicIo &src) override;
+  size_t write(BasicIo& src) override;
 
   // NOT IMPLEMENTED
   //! Copy constructor
-  CurlIo(CurlIo &rhs) = delete;
+  CurlIo(const CurlIo&) = delete;
   //! Assignment operator
-  CurlIo &operator=(const CurlIo &rhs) = delete;
+  CurlIo& operator=(const CurlIo&) = delete;
 
  protected:
   // Pimpl idiom
@@ -984,18 +984,18 @@ class EXIV2API CurlIo : public RemoteIo {
   @return Buffer containing the file.
   @throw Error In case of failure.
  */
-EXIV2API DataBuf readFile(const std::string &path);
+EXIV2API DataBuf readFile(const std::string& path);
 /*!
   @brief Write DataBuf \em buf to file \em path.
   @return Return the number of bytes written.
   @throw Error In case of failure.
  */
-EXIV2API size_t writeFile(const DataBuf &buf, const std::string &path);
+EXIV2API size_t writeFile(const DataBuf& buf, const std::string& path);
 #ifdef EXV_USE_CURL
 /*!
   @brief The callback function is called by libcurl to write the data
 */
-EXIV2API size_t curlWriter(char *data, size_t size, size_t nmemb, std::string *writerData);
+EXIV2API size_t curlWriter(char* data, size_t size, size_t nmemb, std::string* writerData);
 #endif
 }  // namespace Exiv2
 #endif  // #ifndef BASICIO_HPP_

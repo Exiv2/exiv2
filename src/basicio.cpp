@@ -112,9 +112,9 @@ class FileIo::Impl {
   //! stat wrapper for internal use
   int stat(StructStat& buf) const;
   // NOT IMPLEMENTED
-  Impl(const Impl& rhs) = delete;             //!< Copy constructor
-  Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
-};                                            // class FileIo::Impl
+  Impl(const Impl&) = delete;             //!< Copy constructor
+  Impl& operator=(const Impl&) = delete;  //!< Assignment
+};
 
 FileIo::Impl::Impl(std::string path) : path_(std::move(path)) {
 }
@@ -570,9 +570,9 @@ class MemIo::Impl final {
   void reserve(size_t wcount);  //!< Reserve memory
 
   // NOT IMPLEMENTED
-  Impl(const Impl& rhs) = delete;             //!< Copy constructor
-  Impl& operator=(const Impl& rhs) = delete;  //!< Assignment
-};                                            // class MemIo::Impl
+  Impl(const Impl&) = delete;             //!< Copy constructor
+  Impl& operator=(const Impl&) = delete;  //!< Assignment
+};
 
 MemIo::Impl::Impl(const byte* data, size_t size) : data_(const_cast<byte*>(data)), size_(size) {
 }
@@ -1414,9 +1414,9 @@ class HttpIo::HttpImpl : public Impl {
   void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
 
   // NOT IMPLEMENTED
-  HttpImpl(const HttpImpl& rhs) = delete;             //!< Copy constructor
-  HttpImpl& operator=(const HttpImpl& rhs) = delete;  //!< Assignment
-};                                                    // class HttpIo::HttpImpl
+  HttpImpl(const HttpImpl&) = delete;             //!< Copy constructor
+  HttpImpl& operator=(const HttpImpl&) = delete;  //!< Assignment
+};
 
 HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize) {
   hostInfo_ = Exiv2::Uri::Parse(url);
@@ -1564,8 +1564,8 @@ class CurlIo::CurlImpl : public Impl {
   void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
 
   // NOT IMPLEMENTED
-  CurlImpl(const CurlImpl& rhs) = delete;             //!< Copy constructor
-  CurlImpl& operator=(const CurlImpl& rhs) = delete;  //!< Assignment
+  CurlImpl(const CurlImpl&) = delete;             //!< Copy constructor
+  CurlImpl& operator=(const CurlImpl&) = delete;  //!< Assignment
  private:
   long timeout_;  //!< The number of seconds to wait while trying to connect.
 };                // class RemoteIo::Impl

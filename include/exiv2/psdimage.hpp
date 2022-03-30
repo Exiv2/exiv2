@@ -23,9 +23,9 @@ class EXIV2API PsdImage : public Image {
   //! @name NOT Implemented
   //@{
   //! Copy constructor
-  PsdImage(const PsdImage& rhs) = delete;
+  PsdImage(const PsdImage&) = delete;
   //! Assignment operator
-  PsdImage& operator=(const PsdImage& rhs) = delete;
+  PsdImage& operator=(const PsdImage&) = delete;
   //@}
 
   //! @name Creators

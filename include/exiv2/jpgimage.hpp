@@ -104,12 +104,10 @@ class EXIV2API JpegBase : public Image {
 
   //! @name NOT implemented
   //@{
-  //! Default constructor.
-  JpegBase() = delete;
   //! Copy constructor
-  JpegBase(const JpegBase& rhs) = delete;
+  JpegBase(const JpegBase&) = delete;
   //! Assignment operator
-  JpegBase& operator=(const JpegBase& rhs) = delete;
+  JpegBase& operator=(const JpegBase&) = delete;
   //@}
 
  protected:
@@ -286,12 +284,10 @@ class EXIV2API JpegImage : public JpegBase {
   //@}
 
   // NOT Implemented
-  //! Default constructor
-  JpegImage() = delete;
   //! Copy constructor
-  JpegImage(const JpegImage& rhs) = delete;
+  JpegImage(const JpegImage&) = delete;
   //! Assignment operator
-  JpegImage& operator=(const JpegImage& rhs) = delete;
+  JpegImage& operator=(const JpegImage&) = delete;
 
  protected:
   //! @name Accessors
@@ -347,12 +343,10 @@ class EXIV2API ExvImage : public JpegBase {
   //@}
 
   // NOT Implemented
-  //! Default constructor
-  ExvImage() = delete;
   //! Copy constructor
-  ExvImage(const ExvImage& rhs) = delete;
+  ExvImage(const ExvImage&) = delete;
   //! Assignment operator
-  ExvImage& operator=(const ExvImage& rhs) = delete;
+  ExvImage& operator=(const ExvImage&) = delete;
 
  protected:
   //! @name Accessors
