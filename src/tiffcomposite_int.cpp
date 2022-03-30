@@ -1073,7 +1073,7 @@ uint32_t TiffIfdMakernote::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, in
                                    uint32_t /*dataIdx*/, uint32_t& imageIdx) {
   mnOffset_ = static_cast<uint32_t>(offset);
   setImageByteOrder(byteOrder);
-  uint32_t len = static_cast<uint32_t>(writeHeader(ioWrapper, this->byteOrder()));
+  auto len = static_cast<uint32_t>(writeHeader(ioWrapper, this->byteOrder()));
   len += ifd_.write(ioWrapper, this->byteOrder(), offset - baseOffset() + len, uint32_t(-1), uint32_t(-1), imageIdx);
   return len;
 }  // TiffIfdMakernote::doWrite

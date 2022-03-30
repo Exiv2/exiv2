@@ -350,7 +350,7 @@ size_t CiffDirectory::doWrite(Blob& blob, ByteOrder byteOrder, size_t offset) {
   for (auto&& component : components_) {
     dirOffset = component->write(blob, byteOrder, dirOffset);
   }
-  const uint32_t dirStart = static_cast<uint32_t>(dirOffset);
+  const auto dirStart = static_cast<uint32_t>(dirOffset);
 
   // Number of directory entries
   byte buf[4];

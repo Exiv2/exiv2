@@ -527,7 +527,7 @@ void BmffImage::parseXmp(uint64_t length, uint64_t start) {
     long restore = io_->tell();
     io_->seek(static_cast<long>(start), BasicIo::beg);
 
-    size_t lengthSizeT = static_cast<size_t>(length);
+    auto lengthSizeT = static_cast<size_t>(length);
     DataBuf xmp(lengthSizeT + 1);
     xmp.write_uint8(lengthSizeT, 0);  // ensure xmp is null terminated!
     if (io_->read(xmp.data(), lengthSizeT) != lengthSizeT)
