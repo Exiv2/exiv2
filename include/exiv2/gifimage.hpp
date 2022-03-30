@@ -73,7 +73,7 @@ class EXIV2API GifImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
 };  // class GifImage

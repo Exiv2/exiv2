@@ -26,10 +26,10 @@ struct CrwSubDir;
 // type definitions
 
 //! Function pointer for functions to decode Exif tags from a CRW entry
-using CrwDecodeFct = void (*)(const CiffComponent&, const CrwMapping*, Image&, ByteOrder);
+using CrwDecodeFct = std::function<void(const CiffComponent&, const CrwMapping*, Image&, ByteOrder)>;
 
 //! Function pointer for functions to encode CRW entries from Exif tags
-using CrwEncodeFct = void (*)(const Image&, const CrwMapping*, CiffHeader*);
+using CrwEncodeFct = std::function<void(const Image&, const CrwMapping*, CiffHeader*)>;
 
 //! Stack to hold a path of CRW directories
 using CrwDirs = std::stack<CrwSubDir>;
@@ -167,17 +167,17 @@ class CiffComponent {
    */
   void writeDirEntry(Blob& blob, ByteOrder byteOrder) const;
   //! Return the tag of the directory containing this component
-  uint16_t dir() const {
+  [[nodiscard]] uint16_t dir() const {
     return dir_;
   }
 
   //! Return the tag of this component
-  uint16_t tag() const {
+  [[nodiscard]] uint16_t tag() const {
     return tag_;
   }
 
   //! Return true if the component is empty, else false
-  bool empty() const;
+  [[nodiscard]] bool empty() const;
 
   /*!
     @brief Return the data size of this component
@@ -187,32 +187,32 @@ class CiffComponent {
           of data bytes this component can have. The actual size,
           i.e., used data bytes, may be less than 8.
    */
-  size_t size() const {
+  [[nodiscard]] size_t size() const {
     return size_;
   }
 
   //! Return the offset to the data from the start of the directory
-  size_t offset() const {
+  [[nodiscard]] size_t offset() const {
     return offset_;
   }
 
   //! Return a pointer to the data area of this component
-  const byte* pData() const {
+  [[nodiscard]] const byte* pData() const {
     return pData_;
   }
 
   //! Return the tag id of this component
-  uint16_t tagId() const {
+  [[nodiscard]] uint16_t tagId() const {
     return tag_ & 0x3fff;
   }
 
   //! Return the type id of this component
-  TypeId typeId() const {
+  [[nodiscard]] TypeId typeId() const {
     return typeId(tag_);
   }
 
   //! Return the data location for this component
-  DataLocId dataLocation() const {
+  [[nodiscard]] DataLocId dataLocation() const {
     return dataLocation(tag_);
   }
 
@@ -220,7 +220,7 @@ class CiffComponent {
     @brief Finds \em crwTagId in directory \em crwDir, returning a pointer to
            the component or 0 if not found.
    */
-  CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir) const;
+  [[nodiscard]] CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir) const;
   //@}
 
  protected:
@@ -253,9 +253,9 @@ class CiffComponent {
   //! Implements print(). The default implementation prints the entry.
   virtual void doPrint(std::ostream& os, ByteOrder byteOrder, const std::string& prefix) const;
   //! Implements empty(). Default implementation returns true if size is 0.
-  virtual bool doEmpty() const;
+  [[nodiscard]] virtual bool doEmpty() const;
   //! Implements findComponent(). The default implementation checks the entry.
-  virtual CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const;
+  [[nodiscard]] virtual CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const;
   //@}
 
  private:
@@ -374,7 +374,7 @@ class CiffDirectory : public CiffComponent {
   bool doEmpty() const override;
 
   // See base class comment
-  CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const override;
+  [[nodiscard]] CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const override;
   //@}
 
  private:
@@ -464,14 +464,14 @@ class CiffHeader {
   void decode(Image& image) const;
 
   //! Return the byte order (little or big endian).
-  ByteOrder byteOrder() const {
+  [[nodiscard]] ByteOrder byteOrder() const {
     return byteOrder_;
   }
   /*!
     @brief Finds \em crwTagId in directory \em crwDir in the parse tree,
            returning a pointer to the component or 0 if not found.
    */
-  CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir) const;
+  [[nodiscard]] CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir) const;
   //@}
 
  private:
@@ -501,7 +501,7 @@ struct CrwMapping {
   //@{
   //! Default constructor
   CrwMapping(uint16_t crwTagId, uint16_t crwDir, uint32_t size, uint16_t tag, Internal::IfdId ifdId,
-             CrwDecodeFct toExif, CrwEncodeFct fromExif) :
+             const CrwDecodeFct& toExif, const CrwEncodeFct& fromExif) :
       crwTagId_(crwTagId),
       crwDir_(crwDir),
       size_(size),
@@ -528,13 +528,13 @@ struct CrwMapping {
          to image metadata and vice versa
  */
 class CrwMap {
+ public:
   //! @name Not implemented
   //@{
   //! Default constructor
-  CrwMap();
+  CrwMap() = delete;
   //@}
 
- public:
   /*!
     @brief Decode image metadata from a CRW entry, convert and add it
            to the image metadata. This function converts only one CRW

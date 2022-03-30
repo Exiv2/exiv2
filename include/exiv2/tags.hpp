@@ -154,27 +154,27 @@ class EXIV2API ExifKey : public Key {
 
   //! @name Accessors
   //@{
-  std::string key() const override;
-  const char* familyName() const override;
-  std::string groupName() const override;
+  [[nodiscard]] std::string key() const override;
+  [[nodiscard]] const char* familyName() const override;
+  [[nodiscard]] std::string groupName() const override;
   //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
-  int ifdId() const;
-  std::string tagName() const override;
-  uint16_t tag() const override;
-  std::string tagLabel() const override;
+  [[nodiscard]] int ifdId() const;
+  [[nodiscard]] std::string tagName() const override;
+  [[nodiscard]] uint16_t tag() const override;
+  [[nodiscard]] std::string tagLabel() const override;
   //! Return the tag description.
-  std::string tagDesc() const;  // Todo: should be in the base class
+  [[nodiscard]] std::string tagDesc() const;  // Todo: should be in the base class
   //! Return the default type id for this tag.
-  TypeId defaultTypeId() const;  // Todo: should be in the base class
+  [[nodiscard]] TypeId defaultTypeId() const;  // Todo: should be in the base class
 
-  UniquePtr clone() const;
+  [[nodiscard]] UniquePtr clone() const;
   //! Return the index (unique id of this key within the original Exif data, 0 if not set)
-  int idx() const;
+  [[nodiscard]] int idx() const;
   //@}
 
  private:
   //! Internal virtual copy constructor.
-  ExifKey* clone_() const override;
+  [[nodiscard]] ExifKey* clone_() const override;
 
   // Pimpl idiom
   struct Impl;

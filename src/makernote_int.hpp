@@ -107,26 +107,26 @@ class MnHeader {
   //! @name Accessors
   //@{
   //! Return the size of the header (in bytes).
-  virtual size_t size() const = 0;
+  [[nodiscard]] virtual size_t size() const = 0;
   //! Write the header to a data buffer, return the number of bytes written.
   virtual size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const = 0;
   /*!
     @brief Return the offset to the start of the Makernote IFD from
            the start of the Makernote (= the start of the header).
    */
-  virtual size_t ifdOffset() const;
+  [[nodiscard]] virtual size_t ifdOffset() const;
   /*!
     @brief Return the byte order for the makernote. If the return value is
            invalidByteOrder, this means that the byte order of the the
            image should be used for the makernote.
    */
-  virtual ByteOrder byteOrder() const;
+  [[nodiscard]] virtual ByteOrder byteOrder() const;
   /*!
     @brief Return the base offset for the makernote IFD entries relative
            to the start of the TIFF header. \em mnOffset is the offset
            to the makernote from the start of the TIFF header.
    */
-  virtual uint32_t baseOffset(uint32_t mnOffset) const;
+  [[nodiscard]] virtual uint32_t baseOffset(uint32_t mnOffset) const;
   //@}
 
 };  // class MnHeader
@@ -147,9 +147,9 @@ class OlympusMnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
+  [[nodiscard]] size_t ifdOffset() const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -176,10 +176,10 @@ class Olympus2MnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
-  uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t ifdOffset() const override;
+  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -207,11 +207,11 @@ class FujiMnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
-  ByteOrder byteOrder() const override;
-  uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t ifdOffset() const override;
+  [[nodiscard]] ByteOrder byteOrder() const override;
+  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -240,9 +240,9 @@ class Nikon2MnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
+  [[nodiscard]] size_t ifdOffset() const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -271,11 +271,11 @@ class Nikon3MnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
-  ByteOrder byteOrder() const override;
-  uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t ifdOffset() const override;
+  [[nodiscard]] ByteOrder byteOrder() const override;
+  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -304,9 +304,9 @@ class PanasonicMnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
+  [[nodiscard]] size_t ifdOffset() const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -334,10 +334,10 @@ class PentaxDngMnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
-  uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t ifdOffset() const override;
+  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -364,9 +364,9 @@ class PentaxMnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
+  [[nodiscard]] size_t ifdOffset() const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -391,9 +391,9 @@ class SamsungMnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
   //@}
 
 };  // class SamsungMnHeader
@@ -414,9 +414,9 @@ class SigmaMnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
+  [[nodiscard]] size_t ifdOffset() const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -445,9 +445,9 @@ class SonyMnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
+  [[nodiscard]] size_t ifdOffset() const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -475,10 +475,10 @@ class Casio2MnHeader : public MnHeader {
   //@}
   //! @name Accessors
   //@{
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  size_t ifdOffset() const override;
-  ByteOrder byteOrder() const override;
+  [[nodiscard]] size_t ifdOffset() const override;
+  [[nodiscard]] ByteOrder byteOrder() const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();

@@ -62,7 +62,7 @@ class TiffHeaderBase {
 
     @return Binary header data.
    */
-  virtual DataBuf write() const;
+  [[nodiscard]] virtual DataBuf write() const;
   /*!
     @brief Print debug info for the image header to \em os.
 
@@ -71,13 +71,13 @@ class TiffHeaderBase {
    */
   virtual void print(std::ostream& os, const std::string& prefix = "") const;
   //! Return the byte order (little or big endian).
-  virtual ByteOrder byteOrder() const;
+  [[nodiscard]] virtual ByteOrder byteOrder() const;
   //! Return the offset to the start of the root directory.
-  virtual uint32_t offset() const;
+  [[nodiscard]] virtual uint32_t offset() const;
   //! Return the size (in bytes) of the image header.
-  virtual uint32_t size() const;
+  [[nodiscard]] virtual uint32_t size() const;
   //! Return the tag value (magic number) which identifies the buffer as TIFF data.
-  virtual uint16_t tag() const;
+  [[nodiscard]] virtual uint16_t tag() const;
   /*!
     @brief Return \c true if the %Exif \em tag from \em group is an image tag.
 
@@ -171,7 +171,7 @@ struct TiffGroupStruct {
     return key.g_ == group_ && (Tag::all == extendedTag_ || key.e_ == extendedTag_);
   }
   //! Return the tag corresponding to the extended tag
-  uint16_t tag() const {
+  [[nodiscard]] uint16_t tag() const {
     return static_cast<uint16_t>(extendedTag_ & 0xffff);
   }
 

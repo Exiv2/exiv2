@@ -272,21 +272,21 @@ class EXIV2API IptcKey : public Key {
 
   //! @name Accessors
   //@{
-  std::string key() const override;
-  const char* familyName() const override;
+  [[nodiscard]] std::string key() const override;
+  [[nodiscard]] const char* familyName() const override;
   /*!
     @brief Return the name of the group (the second part of the key).
            For IPTC keys, the group name is the record name.
   */
-  std::string groupName() const override;
-  std::string tagName() const override;
-  std::string tagLabel() const override;
-  uint16_t tag() const override;
-  UniquePtr clone() const;
+  [[nodiscard]] std::string groupName() const override;
+  [[nodiscard]] std::string tagName() const override;
+  [[nodiscard]] std::string tagLabel() const override;
+  [[nodiscard]] uint16_t tag() const override;
+  [[nodiscard]] UniquePtr clone() const;
   //! Return the name of the record
-  std::string recordName() const;
+  [[nodiscard]] std::string recordName() const;
   //! Return the record id
-  uint16_t record() const;
+  [[nodiscard]] uint16_t record() const;
   //@}
 
  protected:
@@ -309,7 +309,7 @@ class EXIV2API IptcKey : public Key {
 
  private:
   //! Internal virtual copy constructor.
-  IptcKey* clone_() const override;
+  [[nodiscard]] IptcKey* clone_() const override;
 
   uint16_t tag_;     //!< Tag value
   uint16_t record_;  //!< Record value

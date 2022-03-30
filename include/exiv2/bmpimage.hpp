@@ -70,7 +70,7 @@ class EXIV2API BmpImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 };  // class BmpImage
 

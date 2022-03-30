@@ -200,13 +200,13 @@ class EXIV2API Image {
     @brief Returns the status of the ICC profile in the image instance
    */
   virtual bool iccProfileDefined() {
-    return iccProfile_.size() != 0;
+    return !iccProfile_.empty();
   }
 
   /*!
     @brief return iccProfile
    */
-  virtual const DataBuf& iccProfile() const {
+  [[nodiscard]] virtual const DataBuf& iccProfile() const {
     return iccProfile_;
   }
 
@@ -337,12 +337,12 @@ class EXIV2API Image {
     @brief Return the byte order in which the Exif metadata of the image is
            encoded. Initially, it is not set (\em invalidByteOrder).
    */
-  ByteOrder byteOrder() const;
+  [[nodiscard]] ByteOrder byteOrder() const;
 
   /*! @brief Check if the Image instance is valid. Use after object construction.
     @return true if the Image is in a valid state.
    */
-  bool good() const;
+  [[nodiscard]] bool good() const;
   /*!
     @brief Return the MIME type of the image.
 
@@ -353,15 +353,15 @@ class EXIV2API Image {
     and thus they all have MIME type "image/tiff", although a more
     specific MIME type may exist (e.g., "image/x-nikon-nef").
    */
-  virtual std::string mimeType() const = 0;
+  [[nodiscard]] virtual std::string mimeType() const = 0;
   /*!
     @brief Return the pixel width of the image.
    */
-  virtual uint32_t pixelWidth() const;
+  [[nodiscard]] virtual uint32_t pixelWidth() const;
   /*!
     @brief Return the pixel height of the image.
    */
-  virtual uint32_t pixelHeight() const;
+  [[nodiscard]] virtual uint32_t pixelHeight() const;
   /*!
     @brief Returns an ExifData instance containing currently buffered
         Exif data.
@@ -373,7 +373,7 @@ class EXIV2API Image {
 
     @return read only ExifData instance containing Exif values
    */
-  virtual const ExifData& exifData() const;
+  [[nodiscard]] virtual const ExifData& exifData() const;
   /*!
     @brief Returns an IptcData instance containing currently buffered
         IPTC data.
@@ -385,7 +385,7 @@ class EXIV2API Image {
 
     @return modifiable IptcData instance containing IPTC values
    */
-  virtual const IptcData& iptcData() const;
+  [[nodiscard]] virtual const IptcData& iptcData() const;
   /*!
     @brief Returns an XmpData instance containing currently buffered
         XMP data.
@@ -397,15 +397,15 @@ class EXIV2API Image {
 
     @return modifiable XmpData instance containing XMP values
    */
-  virtual const XmpData& xmpData() const;
+  [[nodiscard]] virtual const XmpData& xmpData() const;
   /*!
     @brief Return a copy of the image comment. May be an empty string.
    */
-  virtual std::string comment() const;
+  [[nodiscard]] virtual std::string comment() const;
   /*!
     @brief Return the raw XMP packet as a string.
    */
-  virtual const std::string& xmpPacket() const;
+  [[nodiscard]] virtual const std::string& xmpPacket() const;
   /*!
     @brief Return a reference to the BasicIo instance being used for Io.
 
@@ -420,23 +420,23 @@ class EXIV2API Image {
        Image class will not see those changes until the readMetadata()
        method is called.
    */
-  virtual BasicIo& io() const;
+  [[nodiscard]] virtual BasicIo& io() const;
   /*!
     @brief Returns the access mode, i.e., the metadata functions, which
        this image supports for the metadata type \em metadataId.
     @param metadataId The metadata identifier.
     @return Access mode for the requested image type and metadata identifier.
    */
-  AccessMode checkMode(MetadataId metadataId) const;
+  [[nodiscard]] AccessMode checkMode(MetadataId metadataId) const;
   /*!
     @brief Check if image supports a particular type of metadata.
        This method is deprecated. Use checkMode() instead.
    */
-  bool supportsMetadata(MetadataId metadataId) const;
+  [[nodiscard]] bool supportsMetadata(MetadataId metadataId) const;
   //! Return the flag indicating the source when writing XMP metadata.
-  bool writeXmpFromPacket() const;
+  [[nodiscard]] bool writeXmpFromPacket() const;
   //! Return list of native previews. This is meant to be used only by the PreviewManager.
-  const NativePreviewList& nativePreviews() const;
+  [[nodiscard]] const NativePreviewList& nativePreviews() const;
   //@}
 
   //! set type support for this image format
@@ -446,7 +446,7 @@ class EXIV2API Image {
   }
 
   //! set type support for this image format
-  ImageType imageType() const {
+  [[nodiscard]] ImageType imageType() const {
     return imageType_;
   }
 

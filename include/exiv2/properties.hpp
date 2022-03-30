@@ -65,19 +65,19 @@ struct EXIV2API XmpNsInfo {
 
 //! XMP property reference, implemented as a static class.
 class EXIV2API XmpProperties {
-  //! Prevent construction: not implemented.
-  XmpProperties();
-  //! Prevent copy-construction: not implemented.
-  XmpProperties(const XmpProperties& rhs);
-  //! Prevent assignment: not implemented.
-  XmpProperties& operator=(const XmpProperties& rhs);
-
  private:
   static const XmpNsInfo* nsInfoUnsafe(const std::string& prefix);
   static void unregisterNsUnsafe(const std::string& ns);
   static const XmpNsInfo* lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix);
 
  public:
+  //! Prevent construction: not implemented.
+  XmpProperties() = delete;
+  //! Prevent copy-construction: not implemented.
+  XmpProperties(const XmpProperties&) = delete;
+  //! Prevent assignment: not implemented.
+  XmpProperties& operator=(const XmpProperties& rhs) = delete;
+
   /*!
     @brief Return the title (label) of the property.
     @param key The property key
@@ -254,28 +254,28 @@ class EXIV2API XmpKey : public Key {
 
   //! @name Accessors
   //@{
-  std::string key() const override;
-  const char* familyName() const override;
+  [[nodiscard]] std::string key() const override;
+  [[nodiscard]] const char* familyName() const override;
   /*!
     @brief Return the name of the group (the second part of the key).
            For XMP keys, the group name is the schema prefix name.
   */
-  std::string groupName() const override;
-  std::string tagName() const override;
-  std::string tagLabel() const override;
+  [[nodiscard]] std::string groupName() const override;
+  [[nodiscard]] std::string tagName() const override;
+  [[nodiscard]] std::string tagLabel() const override;
   //! Properties don't have a tag number. Return 0.
-  uint16_t tag() const override;
+  [[nodiscard]] uint16_t tag() const override;
 
-  UniquePtr clone() const;
+  [[nodiscard]] UniquePtr clone() const;
 
   // Todo: Should this be removed? What about tagLabel then?
   //! Return the schema namespace for the prefix of the key
-  std::string ns() const;
+  [[nodiscard]] std::string ns() const;
   //@}
 
  private:
   //! Internal virtual copy constructor.
-  XmpKey* clone_() const override;
+  [[nodiscard]] XmpKey* clone_() const override;
 
   // Pimpl idiom
   struct Impl;

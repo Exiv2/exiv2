@@ -61,7 +61,7 @@ class EXIV2API Jp2Image : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
   //! @name NOT Implemented

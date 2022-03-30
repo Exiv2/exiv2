@@ -29,7 +29,9 @@ int main(int argc, char* const argv[]) try {
               << "\n";
 
     Exiv2::PreviewImage preview = loader.getPreviewImage(pos);
-    preview.writeFile(filename + "_" + Exiv2::toString(pos.width_) + "x" + Exiv2::toString(pos.height_));
+    auto s = preview.writeFile(filename + "_" + Exiv2::toString(pos.width_) + "x" + Exiv2::toString(pos.height_));
+    if (s == 0)
+      return EXIT_FAILURE;
   }
 
   // Cleanup

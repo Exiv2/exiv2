@@ -33,7 +33,7 @@ class OrfHeader : public TiffHeaderBase {
 
   //! @name Accessors
   //@{
-  DataBuf write() const override;
+  [[nodiscard]] DataBuf write() const override;
   //@}
  private:
   // DATA
