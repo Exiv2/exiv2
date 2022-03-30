@@ -45,6 +45,8 @@ class EXIV2API PreviewImage {
   PreviewImage(const PreviewImage& rhs);
   //@}
 
+  ~PreviewImage() = default;
+
   //! @name Manipulators
   //@{
   //! Assignment operator
