@@ -49,7 +49,7 @@ class EXIV2API PgfImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override {
+  [[nodiscard]] std::string mimeType() const override {
     return "image/pgf";
   }
   //@}

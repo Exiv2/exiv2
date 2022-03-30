@@ -172,30 +172,30 @@ struct EXIV2API DataBuf {
   inline iterator begin() noexcept {
     return pData_.begin();
   }
-  inline const_iterator cbegin() const noexcept {
+  [[nodiscard]] inline const_iterator cbegin() const noexcept {
     return pData_.cbegin();
   }
   inline iterator end() noexcept {
     return pData_.end();
   }
-  inline const_iterator cend() const noexcept {
+  [[nodiscard]] inline const_iterator cend() const noexcept {
     return pData_.end();
   }
 
-  size_t size() const {
+  [[nodiscard]] size_t size() const {
     return pData_.size();
   }
 
-  uint8_t read_uint8(size_t offset) const;
+  [[nodiscard]] uint8_t read_uint8(size_t offset) const;
   void write_uint8(size_t offset, uint8_t x);
 
-  uint16_t read_uint16(size_t offset, ByteOrder byteOrder) const;
+  [[nodiscard]] uint16_t read_uint16(size_t offset, ByteOrder byteOrder) const;
   void write_uint16(size_t offset, uint16_t x, ByteOrder byteOrder);
 
-  uint32_t read_uint32(size_t offset, ByteOrder byteOrder) const;
+  [[nodiscard]] uint32_t read_uint32(size_t offset, ByteOrder byteOrder) const;
   void write_uint32(size_t offset, uint32_t x, ByteOrder byteOrder);
 
-  uint64_t read_uint64(size_t offset, ByteOrder byteOrder) const;
+  [[nodiscard]] uint64_t read_uint64(size_t offset, ByteOrder byteOrder) const;
   void write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder);
 
   //! Equivalent to: memcmp(&pData_[offset], buf, bufsize)
@@ -205,12 +205,12 @@ struct EXIV2API DataBuf {
   byte* data(size_t offset = 0);
 
   //! Returns a (read-only) data pointer.
-  const byte* c_data(size_t offset = 0) const;
+  [[nodiscard]] const byte* c_data(size_t offset = 0) const;
 
   //! Returns a (read-only) C-style string pointer.
-  const char* c_str(size_t offset = 0) const;
+  [[nodiscard]] const char* c_str(size_t offset = 0) const;
 
-  bool empty() const {
+  [[nodiscard]] bool empty() const {
     return pData_.empty();
   }
 

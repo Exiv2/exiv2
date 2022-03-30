@@ -118,7 +118,7 @@ class TiffVisitor {
   //! @name Accessors
   //@{
   //! Check if stop flag for \em event is clear, return true if it's clear.
-  bool go(GoEvent event) const;
+  [[nodiscard]] bool go(GoEvent event) const;
   //@}
 
 };  // class TiffVisitor
@@ -175,7 +175,7 @@ class TiffFinder : public TiffVisitor {
     @brief Return the search result. 0 if no TIFF component was found
            for the tag and group combination.
    */
-  TiffComponent* result() const {
+  [[nodiscard]] TiffComponent* result() const {
     return tiffComponent_;
   }
   //@}
@@ -454,16 +454,16 @@ class TiffEncoder : public TiffVisitor {
     @brief Return the applicable byte order. May be different for
            the Makernote and the rest of the TIFF entries.
    */
-  ByteOrder byteOrder() const {
+  [[nodiscard]] ByteOrder byteOrder() const {
     return byteOrder_;
   }
   /*!
     @brief True if any tag was deleted or allocated in the process of
            visiting a TIFF composite tree.
    */
-  bool dirty() const;
+  [[nodiscard]] bool dirty() const;
   //! Return the write method used.
-  WriteMethod writeMethod() const {
+  [[nodiscard]] WriteMethod writeMethod() const {
     return writeMethod_;
   }
   //@}
@@ -501,7 +501,7 @@ class TiffEncoder : public TiffVisitor {
            is considered an image tag of this image - whether or not
            it's actually present in the existing image doesn't matter.
    */
-  bool isImageTag(uint16_t tag, IfdId group) const;
+  [[nodiscard]] bool isImageTag(uint16_t tag, IfdId group) const;
   //@}
 
   // DATA
@@ -544,7 +544,7 @@ class TiffRwState {
     @brief Return the applicable byte order. May be different for
            the Makernote and the rest of the TIFF entries.
    */
-  ByteOrder byteOrder() const {
+  [[nodiscard]] ByteOrder byteOrder() const {
     return byteOrder_;
   }
   /*!
@@ -558,7 +558,7 @@ class TiffRwState {
     case, base offset added to the start of the TIFF image header points
     to the basis for such makernote offsets.
    */
-  uint32_t baseOffset() const {
+  [[nodiscard]] uint32_t baseOffset() const {
     return baseOffset_;
   }
   //@}
@@ -650,9 +650,9 @@ class TiffReader : public TiffVisitor {
   //! @name Accessors
   //@{
   //! Return the byte order.
-  ByteOrder byteOrder() const;
+  [[nodiscard]] ByteOrder byteOrder() const;
   //! Return the base offset. See class TiffRwState for details
-  uint32_t baseOffset() const;
+  [[nodiscard]] uint32_t baseOffset() const;
   //@}
 
  private:

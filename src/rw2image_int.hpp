@@ -29,7 +29,7 @@ class Rw2Header : public TiffHeaderBase {
   //! @name Accessors
   //@{
   //! Not yet implemented. Does nothing and returns an empty buffer.
-  DataBuf write() const override;
+  [[nodiscard]] DataBuf write() const override;
   //@}
 
 };  // class Rw2Header

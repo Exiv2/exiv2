@@ -38,7 +38,7 @@ class Cr2Header : public TiffHeaderBase {
 
   //! @name Accessors
   //@{
-  DataBuf write() const override;
+  [[nodiscard]] DataBuf write() const override;
   bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
   //@}
 

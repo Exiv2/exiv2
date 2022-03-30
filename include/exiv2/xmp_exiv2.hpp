@@ -99,29 +99,29 @@ class EXIV2API Xmpdatum : public Metadatum {
            key is not necessarily unique, i.e., an XmpData object may
            contain multiple metadata with the same key.
    */
-  std::string key() const override;
-  const char* familyName() const override;
+  [[nodiscard]] std::string key() const override;
+  [[nodiscard]] const char* familyName() const override;
   //! Return the (preferred) schema namespace prefix.
-  std::string groupName() const override;
+  [[nodiscard]] std::string groupName() const override;
   //! Return the property name.
-  std::string tagName() const override;
-  std::string tagLabel() const override;
+  [[nodiscard]] std::string tagName() const override;
+  [[nodiscard]] std::string tagLabel() const override;
   //! Properties don't have a tag number. Return 0.
-  uint16_t tag() const override;
-  TypeId typeId() const override;
-  const char* typeName() const override;
+  [[nodiscard]] uint16_t tag() const override;
+  [[nodiscard]] TypeId typeId() const override;
+  [[nodiscard]] const char* typeName() const override;
   // Todo: Remove this method from the baseclass
   //! The Exif typeSize doesn't make sense here. Return 0.
-  size_t typeSize() const override;
-  size_t count() const override;
-  size_t size() const override;
-  std::string toString() const override;
-  std::string toString(size_t n) const override;
-  int64_t toInt64(size_t n = 0) const override;
-  float toFloat(size_t n = 0) const override;
-  Rational toRational(size_t n = 0) const override;
-  Value::UniquePtr getValue() const override;
-  const Value& value() const override;
+  [[nodiscard]] size_t typeSize() const override;
+  [[nodiscard]] size_t count() const override;
+  [[nodiscard]] size_t size() const override;
+  [[nodiscard]] std::string toString() const override;
+  [[nodiscard]] std::string toString(size_t n) const override;
+  [[nodiscard]] int64_t toInt64(size_t n = 0) const override;
+  [[nodiscard]] float toFloat(size_t n = 0) const override;
+  [[nodiscard]] Rational toRational(size_t n = 0) const override;
+  [[nodiscard]] Value::UniquePtr getValue() const override;
+  [[nodiscard]] const Value& value() const override;
   //@}
 
  private:
@@ -209,21 +209,21 @@ class EXIV2API XmpData {
   //! @name Accessors
   //@{
   //! Begin of the metadata
-  const_iterator begin() const;
+  [[nodiscard]] const_iterator begin() const;
   //! End of the metadata
-  const_iterator end() const;
+  [[nodiscard]] const_iterator end() const;
   /*!
     @brief Find the first Xmpdatum with the given key, return a const
            iterator to it.
    */
-  const_iterator findKey(const XmpKey& key) const;
+  [[nodiscard]] const_iterator findKey(const XmpKey& key) const;
   //! Return true if there is no XMP metadata
-  bool empty() const;
+  [[nodiscard]] bool empty() const;
   //! Get the number of metadata entries
-  long count() const;
+  [[nodiscard]] long count() const;
 
   //! are we to use the packet?
-  bool usePacket() const {
+  [[nodiscard]] bool usePacket() const {
     return usePacket_;
   };
 
@@ -234,12 +234,12 @@ class EXIV2API XmpData {
     return r;
   };
   //! setPacket
-  void setPacket(const std::string& xmpPacket) {
-    xmpPacket_ = xmpPacket;
+  void setPacket(std::string xmpPacket) {
+    xmpPacket_ = std::move(xmpPacket);
     usePacket(false);
   };
   // ! getPacket
-  const std::string& xmpPacket() const {
+  [[nodiscard]] const std::string& xmpPacket() const {
     return xmpPacket_;
   };
 

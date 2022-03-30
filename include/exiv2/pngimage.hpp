@@ -57,7 +57,7 @@ class EXIV2API PngImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
   //! @name NOT implemented

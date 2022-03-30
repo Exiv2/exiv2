@@ -67,9 +67,9 @@ class EXIV2API Rw2Image : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
   //! @name NOT implemented

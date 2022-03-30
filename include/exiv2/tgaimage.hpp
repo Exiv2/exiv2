@@ -72,7 +72,7 @@ class EXIV2API TgaImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
 };  // class TgaImage

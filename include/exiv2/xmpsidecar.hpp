@@ -51,7 +51,7 @@ class EXIV2API XmpSidecar : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
  private:

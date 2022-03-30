@@ -76,9 +76,9 @@ class EXIV2API MrwImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 };  // class MrwImage
 

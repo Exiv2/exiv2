@@ -1701,7 +1701,7 @@ size_t ValueType<T>::sizeDataArea() const {
 
 template <typename T>
 DataBuf ValueType<T>::dataArea() const {
-  return DataBuf(pDataArea_, sizeDataArea_);
+  return {pDataArea_, sizeDataArea_};
 }
 
 template <typename T>

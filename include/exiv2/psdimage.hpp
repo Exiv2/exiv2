@@ -68,7 +68,7 @@ class EXIV2API PsdImage : public Image {
         but Apple, as of Tiger (10.4.8), maps this official MIME type to a
         dynamic UTI, rather than "com.adobe.photoshop-image" as it should.
    */
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
  private:

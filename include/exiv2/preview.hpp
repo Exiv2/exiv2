@@ -59,15 +59,15 @@ class EXIV2API PreviewImage {
     @brief Return a copy of the preview image data. The caller owns
            this copy and %DataBuf ensures that it will be deleted.
    */
-  DataBuf copy() const;
+  [[nodiscard]] DataBuf copy() const;
   /*!
     @brief Return a pointer to the image data for read-only access.
    */
-  const byte* pData() const;
+  [[nodiscard]] const byte* pData() const;
   /*!
     @brief Return the size of the preview image in bytes.
    */
-  uint32_t size() const;
+  [[nodiscard]] uint32_t size() const;
   /*!
     @brief Write the thumbnail image to a file.
 
@@ -78,29 +78,29 @@ class EXIV2API PreviewImage {
     @param path File name of the preview image without extension.
     @return The number of bytes written.
   */
-  size_t writeFile(const std::string& path) const;
+  [[nodiscard]] size_t writeFile(const std::string& path) const;
   /*!
     @brief Return the MIME type of the preview image, usually either
            \c "image/tiff" or \c "image/jpeg".
    */
-  std::string mimeType() const;
+  [[nodiscard]] std::string mimeType() const;
   /*!
     @brief Return the file extension for the format of the preview image
            (".tif" or ".jpg").
    */
-  std::string extension() const;
+  [[nodiscard]] std::string extension() const;
   /*!
     @brief Return the width of the preview image in pixels.
   */
-  size_t width() const;
+  [[nodiscard]] size_t width() const;
   /*!
     @brief Return the height of the preview image in pixels.
   */
-  size_t height() const;
+  [[nodiscard]] size_t height() const;
   /*!
     @brief Return the preview image type identifier.
   */
-  PreviewId id() const;
+  [[nodiscard]] PreviewId id() const;
   //@}
 
  private:
@@ -130,11 +130,11 @@ class EXIV2API PreviewManager {
            sorted by preview width * height, starting with the smallest
            preview image.
    */
-  PreviewPropertiesList getPreviewProperties() const;
+  [[nodiscard]] PreviewPropertiesList getPreviewProperties() const;
   /*!
     @brief Return the preview image for the given preview properties.
    */
-  PreviewImage getPreviewImage(const PreviewProperties& properties) const;
+  [[nodiscard]] PreviewImage getPreviewImage(const PreviewProperties& properties) const;
   //@}
 
  private:

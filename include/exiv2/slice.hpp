@@ -26,7 +26,7 @@ struct SliceBase {
   /*!
    * Return the number of elements in the slice.
    */
-  inline size_t size() const noexcept {
+  [[nodiscard]] inline size_t size() const noexcept {
     // cannot underflow, as we know that begin < end
     return end_ - begin_;
   }

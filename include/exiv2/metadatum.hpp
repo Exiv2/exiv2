@@ -42,23 +42,23 @@ class EXIV2API Key {
            key is not necessarily unique, e.g., an ExifData may contain
            multiple metadata with the same key.
    */
-  virtual std::string key() const = 0;
+  [[nodiscard]] virtual std::string key() const = 0;
   //! Return an identifier for the type of metadata (the first part of the key)
-  virtual const char* familyName() const = 0;
+  [[nodiscard]] virtual const char* familyName() const = 0;
   //! Return the name of the group (the second part of the key)
-  virtual std::string groupName() const = 0;
+  [[nodiscard]] virtual std::string groupName() const = 0;
   //! Return the name of the tag (which is also the third part of the key)
-  virtual std::string tagName() const = 0;
+  [[nodiscard]] virtual std::string tagName() const = 0;
   //! Return a label for the tag
-  virtual std::string tagLabel() const = 0;
+  [[nodiscard]] virtual std::string tagLabel() const = 0;
   //! Return the tag number
-  virtual uint16_t tag() const = 0;
+  [[nodiscard]] virtual uint16_t tag() const = 0;
   /*!
     @brief Return an auto-pointer to a copy of itself (deep copy).
            The caller owns this copy and the auto-pointer ensures that it
            will be deleted.
    */
-  UniquePtr clone() const;
+  [[nodiscard]] UniquePtr clone() const;
   /*!
     @brief Write the key to an output stream. You do not usually have
            to use this function; it is used for the implementation of
@@ -82,7 +82,7 @@ class EXIV2API Key {
 
  private:
   //! Internal virtual copy constructor.
-  virtual Key* clone_() const = 0;
+  [[nodiscard]] virtual Key* clone_() const = 0;
 
 };  // class Key
 
@@ -171,57 +171,57 @@ class EXIV2API Metadatum {
            is not necessarily unique, e.g., an ExifData object may
            contain multiple metadata with the same key.
    */
-  virtual std::string key() const = 0;
+  [[nodiscard]] virtual std::string key() const = 0;
   //! Return the name of the metadata family (which is also the first part of the key)
-  virtual const char* familyName() const = 0;
+  [[nodiscard]] virtual const char* familyName() const = 0;
   //! Return the name of the metadata group (which is also the second part of the key)
-  virtual std::string groupName() const = 0;
+  [[nodiscard]] virtual std::string groupName() const = 0;
   //! Return the name of the tag (which is also the third part of the key)
-  virtual std::string tagName() const = 0;
+  [[nodiscard]] virtual std::string tagName() const = 0;
   //! Return a label for the tag
-  virtual std::string tagLabel() const = 0;
+  [[nodiscard]] virtual std::string tagLabel() const = 0;
   //! Return the tag
-  virtual uint16_t tag() const = 0;
+  [[nodiscard]] virtual uint16_t tag() const = 0;
   //! Return the type id of the value
-  virtual TypeId typeId() const = 0;
+  [[nodiscard]] virtual TypeId typeId() const = 0;
   //! Return the name of the type
-  virtual const char* typeName() const = 0;
+  [[nodiscard]] virtual const char* typeName() const = 0;
   //! Return the size in bytes of one component of this type
-  virtual size_t typeSize() const = 0;
+  [[nodiscard]] virtual size_t typeSize() const = 0;
   //! Return the number of components in the value
-  virtual size_t count() const = 0;
+  [[nodiscard]] virtual size_t count() const = 0;
   //! Return the size of the value in bytes
-  virtual size_t size() const = 0;
+  [[nodiscard]] virtual size_t size() const = 0;
   //! Return the value as a string.
-  virtual std::string toString() const = 0;
+  [[nodiscard]] virtual std::string toString() const = 0;
   /*!
     @brief Return the <EM>n</EM>-th component of the value converted to
            a string. The behaviour of the method is undefined if there
            is no <EM>n</EM>-th component.
    */
-  virtual std::string toString(size_t n) const = 0;
+  [[nodiscard]] virtual std::string toString(size_t n) const = 0;
   /*!
     @brief Return the <EM>n</EM>-th component of the value converted to int64_t.
            The return value is -1 if the value is not set and the behaviour
            of the method is undefined if there is no <EM>n</EM>-th component.
    */
-  virtual int64_t toInt64(size_t n = 0) const = 0;
+  [[nodiscard]] virtual int64_t toInt64(size_t n = 0) const = 0;
   /*!
     @brief Return the <EM>n</EM>-th component of the value converted to uint32_t.
    */
-  uint32_t toUint32(size_t n = 0) const;
+  [[nodiscard]] uint32_t toUint32(size_t n = 0) const;
   /*!
     @brief Return the <EM>n</EM>-th component of the value converted to float.
            The return value is -1 if the value is not set and the behaviour
            of the method is undefined if there is no <EM>n</EM>-th component.
    */
-  virtual float toFloat(size_t n = 0) const = 0;
+  [[nodiscard]] virtual float toFloat(size_t n = 0) const = 0;
   /*!
     @brief Return the <EM>n</EM>-th component of the value converted to Rational.
            The return value is -1/1 if the value is not set and the behaviour
            of the method is undefined if there is no <EM>n</EM>-th component.
    */
-  virtual Rational toRational(size_t n = 0) const = 0;
+  [[nodiscard]] virtual Rational toRational(size_t n = 0) const = 0;
   /*!
     @brief Return an auto-pointer to a copy (clone) of the value. The
            caller owns this copy and the auto-poiner ensures that it will
@@ -235,7 +235,7 @@ class EXIV2API Metadatum {
     @return An auto-pointer containing a pointer to a copy (clone) of the
             value, 0 if the value is not set.
    */
-  virtual Value::UniquePtr getValue() const = 0;
+  [[nodiscard]] virtual Value::UniquePtr getValue() const = 0;
   /*!
     @brief Return a constant reference to the value.
 
@@ -249,7 +249,7 @@ class EXIV2API Metadatum {
     @return A constant reference to the value.
     @throw Error if the value is not set.
    */
-  virtual const Value& value() const = 0;
+  [[nodiscard]] virtual const Value& value() const = 0;
   //@}
 
  protected:
