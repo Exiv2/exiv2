@@ -200,7 +200,7 @@ class EXIV2API Image {
     @brief Returns the status of the ICC profile in the image instance
    */
   virtual bool iccProfileDefined() {
-    return iccProfile_.size() != 0;
+    return !iccProfile_.empty();
   }
 
   /*!
