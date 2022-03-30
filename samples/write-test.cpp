@@ -149,6 +149,8 @@ void testCase(const std::string& file1, const std::string& file2, const std::str
   std::cerr << "---> Writing Exif thumbnail to file " << thumb << ".*\n";
   ExifThumbC et2(ed2);
   auto s = et2.writeFile(thumb);
+  if (s == 0)
+    std::cerr << "---> Failed to write to file " << thumb << ".*\n";
 }
 
 // *****************************************************************************

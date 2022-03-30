@@ -262,17 +262,17 @@ class EXIV2API Error : public std::exception {
   }
 
   //! Virtual destructor. (Needed because of throw())
-  virtual ~Error() noexcept;
+  ~Error() noexcept override;
   //@}
 
   //! @name Accessors
   //@{
-  ErrorCode code() const noexcept;
+  [[nodiscard]] ErrorCode code() const noexcept;
   /*!
     @brief Return the error message as a C-string. The pointer returned by what()
            is valid only as long as the BasicError object exists.
    */
-  const char* what() const noexcept override;
+  [[nodiscard]] const char* what() const noexcept override;
   //@}
 
  private:

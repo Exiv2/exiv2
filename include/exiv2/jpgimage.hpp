@@ -241,7 +241,7 @@ class EXIV2API JpegBase : public Image {
     @return the next Jpeg segment marker if successful;<BR>
             throws an Error if not successful
    */
-  byte advanceToMarker(ErrorCode err) const;
+  [[nodiscard]] byte advanceToMarker(ErrorCode err) const;
   //@}
 
   DataBuf readNextSegment(byte marker);
@@ -282,7 +282,7 @@ class EXIV2API JpegImage : public JpegBase {
   //@}
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
   // NOT Implemented
@@ -343,7 +343,7 @@ class EXIV2API ExvImage : public JpegBase {
   //@}
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
   // NOT Implemented

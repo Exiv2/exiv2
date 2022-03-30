@@ -201,25 +201,25 @@ class EXIV2API BasicIo {
     @return Offset from the start of IO if successful;<BR>
            -1 if failure;
    */
-  virtual long tell() const = 0;
+  [[nodiscard]] virtual long tell() const = 0;
   /*!
     @brief Get the current size of the IO source in bytes.
     @return Size of the IO source in bytes;<BR>
            -1 if failure;
    */
-  virtual size_t size() const = 0;
+  [[nodiscard]] virtual size_t size() const = 0;
   //! Returns true if the IO source is open, otherwise false.
-  virtual bool isopen() const = 0;
+  [[nodiscard]] virtual bool isopen() const = 0;
   //! Returns 0 if the IO source is in a valid state, otherwise nonzero.
-  virtual int error() const = 0;
+  [[nodiscard]] virtual int error() const = 0;
   //! Returns true if the IO position has reached the end, otherwise false.
-  virtual bool eof() const = 0;
+  [[nodiscard]] virtual bool eof() const = 0;
   /*!
     @brief Return the path to the IO resource. Often used to form
         comprehensive error messages where only a BasicIo instance is
         available.
    */
-  virtual const std::string &path() const noexcept = 0;
+  [[nodiscard]] virtual const std::string &path() const noexcept = 0;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -442,22 +442,22 @@ class EXIV2API FileIo : public BasicIo {
     @return Offset from the start of the file if successful;<BR>
            -1 if failure;
    */
-  long tell() const override;
+  [[nodiscard]] long tell() const override;
   /*!
     @brief Flush any buffered writes and get the current file size
         in bytes.
     @return Size of the file in bytes;<BR>
            -1 if failure;
    */
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   //! Returns true if the file is open, otherwise false.
-  bool isopen() const override;
+  [[nodiscard]] bool isopen() const override;
   //! Returns 0 if the file is in a valid state, otherwise nonzero.
-  int error() const override;
+  [[nodiscard]] int error() const override;
   //! Returns true if the file position has reached the end, otherwise false.
-  bool eof() const override;
+  [[nodiscard]] bool eof() const override;
   //! Returns the path of the file
-  const std::string &path() const noexcept override;
+  [[nodiscard]] const std::string &path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -624,21 +624,21 @@ class EXIV2API MemIo : public BasicIo {
     @brief Get the current IO position.
     @return Offset from the start of the memory block
    */
-  long tell() const override;
+  [[nodiscard]] long tell() const override;
   /*!
     @brief Get the current memory buffer size in bytes.
     @return Size of the in memory data in bytes;<BR>
            -1 if failure;
    */
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   //! Always returns true
-  bool isopen() const override;
+  [[nodiscard]] bool isopen() const override;
   //! Always returns 0
-  int error() const override;
+  [[nodiscard]] int error() const override;
   //! Returns true if the IO position has reached the end, otherwise false.
-  bool eof() const override;
+  [[nodiscard]] bool eof() const override;
   //! Returns a dummy path, indicating that memory access is used
-  const std::string &path() const noexcept override;
+  [[nodiscard]] const std::string &path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -868,21 +868,21 @@ class EXIV2API RemoteIo : public BasicIo {
     @brief Get the current IO position.
     @return Offset from the start of the memory block
    */
-  long tell() const override;
+  [[nodiscard]] long tell() const override;
   /*!
     @brief Get the current memory buffer size in bytes.
     @return Size of the in memory data in bytes;<BR>
            -1 if failure;
    */
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   //! Returns true if the memory area is allocated.
-  bool isopen() const override;
+  [[nodiscard]] bool isopen() const override;
   //! Always returns 0
-  int error() const override;
+  [[nodiscard]] int error() const override;
   //! Returns true if the IO position has reached the end, otherwise false.
-  bool eof() const override;
+  [[nodiscard]] bool eof() const override;
   //! Returns the URL of the file.
-  const std::string &path() const noexcept override;
+  [[nodiscard]] const std::string &path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory

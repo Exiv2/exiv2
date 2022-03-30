@@ -94,39 +94,39 @@ class EXIV2API Iptcdatum : public Metadatum {
            is not necessarily unique, i.e., an IptcData object may contain
            multiple metadata with the same key.
    */
-  std::string key() const override;
+  [[nodiscard]] std::string key() const override;
   /*!
      @brief Return the name of the record (deprecated)
      @return record name
    */
-  std::string recordName() const;
+  [[nodiscard]] std::string recordName() const;
   /*!
      @brief Return the record id
      @return record id
    */
-  uint16_t record() const;
-  const char* familyName() const override;
-  std::string groupName() const override;
+  [[nodiscard]] uint16_t record() const;
+  [[nodiscard]] const char* familyName() const override;
+  [[nodiscard]] std::string groupName() const override;
   /*!
      @brief Return the name of the tag (aka dataset)
      @return tag name
    */
-  std::string tagName() const override;
-  std::string tagLabel() const override;
+  [[nodiscard]] std::string tagName() const override;
+  [[nodiscard]] std::string tagLabel() const override;
   //! Return the tag (aka dataset) number
-  uint16_t tag() const override;
-  TypeId typeId() const override;
-  const char* typeName() const override;
-  size_t typeSize() const override;
-  size_t count() const override;
-  size_t size() const override;
-  std::string toString() const override;
-  std::string toString(size_t n) const override;
-  int64_t toInt64(size_t n = 0) const override;
-  float toFloat(size_t n = 0) const override;
-  Rational toRational(size_t n = 0) const override;
-  Value::UniquePtr getValue() const override;
-  const Value& value() const override;
+  [[nodiscard]] uint16_t tag() const override;
+  [[nodiscard]] TypeId typeId() const override;
+  [[nodiscard]] const char* typeName() const override;
+  [[nodiscard]] size_t typeSize() const override;
+  [[nodiscard]] size_t count() const override;
+  [[nodiscard]] size_t size() const override;
+  [[nodiscard]] std::string toString() const override;
+  [[nodiscard]] std::string toString(size_t n) const override;
+  [[nodiscard]] int64_t toInt64(size_t n = 0) const override;
+  [[nodiscard]] float toFloat(size_t n = 0) const override;
+  [[nodiscard]] Rational toRational(size_t n = 0) const override;
+  [[nodiscard]] Value::UniquePtr getValue() const override;
+  [[nodiscard]] const Value& value() const override;
   //@}
 
  private:
@@ -224,38 +224,38 @@ class EXIV2API IptcData {
   //! @name Accessors
   //@{
   //! Begin of the metadata
-  const_iterator begin() const {
+  [[nodiscard]] const_iterator begin() const {
     return iptcMetadata_.begin();
   }
   //! End of the metadata
-  const_iterator end() const {
+  [[nodiscard]] const_iterator end() const {
     return iptcMetadata_.end();
   }
   /*!
     @brief Find the first Iptcdatum with the given key, return a const
            iterator to it.
    */
-  const_iterator findKey(const IptcKey& key) const;
+  [[nodiscard]] const_iterator findKey(const IptcKey& key) const;
   /*!
     @brief Find the first Iptcdatum with the given record and dataset
            number, return a const iterator to it.
    */
-  const_iterator findId(uint16_t dataset, uint16_t record = IptcDataSets::application2) const;
+  [[nodiscard]] const_iterator findId(uint16_t dataset, uint16_t record = IptcDataSets::application2) const;
   //! Return true if there is no IPTC metadata
-  bool empty() const {
+  [[nodiscard]] bool empty() const {
     return count() == 0;
   }
 
   //! Get the number of metadata entries
-  size_t count() const {
+  [[nodiscard]] size_t count() const {
     return iptcMetadata_.size();
   }
 
   //! @brief Return the exact size of all contained IPTC metadata
-  size_t size() const;
+  [[nodiscard]] size_t size() const;
 
   //! @brief Return the metadata charset name or 0
-  const char* detectCharset() const;
+  [[nodiscard]] const char* detectCharset() const;
 
   //!  @brief dump iptc formatted binary data (used by printStructure kpsRecursive)
   static void printStructure(std::ostream& out, const Slice<byte*>& bytes, uint32_t depth);

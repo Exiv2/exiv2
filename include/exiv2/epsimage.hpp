@@ -70,7 +70,7 @@ class EXIV2API EpsImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
   //! @name NOT Implemented

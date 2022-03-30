@@ -135,18 +135,18 @@ class EXIV2API Exifdatum : public Metadatum {
   //! @name Accessors
   //@{
   //! Return the key of the %Exifdatum.
-  std::string key() const override;
-  const char* familyName() const override;
-  std::string groupName() const override;
-  std::string tagName() const override;
-  std::string tagLabel() const override;
-  uint16_t tag() const override;
+  [[nodiscard]] std::string key() const override;
+  [[nodiscard]] const char* familyName() const override;
+  [[nodiscard]] std::string groupName() const override;
+  [[nodiscard]] std::string tagName() const override;
+  [[nodiscard]] std::string tagLabel() const override;
+  [[nodiscard]] uint16_t tag() const override;
   //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
-  int ifdId() const;
+  [[nodiscard]] int ifdId() const;
   //! Return the name of the IFD
-  const char* ifdName() const;
+  [[nodiscard]] const char* ifdName() const;
   //! Return the index (unique id of this key within the original IFD)
-  int idx() const;
+  [[nodiscard]] int idx() const;
   /*!
     @brief Write value to a data buffer and return the number
            of bytes written.
@@ -161,25 +161,25 @@ class EXIV2API Exifdatum : public Metadatum {
   size_t copy(byte* buf, ByteOrder byteOrder) const override;
   std::ostream& write(std::ostream& os, const ExifData* pMetadata = nullptr) const override;
   //! Return the type id of the value
-  TypeId typeId() const override;
+  [[nodiscard]] TypeId typeId() const override;
   //! Return the name of the type
-  const char* typeName() const override;
+  [[nodiscard]] const char* typeName() const override;
   //! Return the size in bytes of one component of this type
-  size_t typeSize() const override;
+  [[nodiscard]] size_t typeSize() const override;
   //! Return the number of components in the value
-  size_t count() const override;
+  [[nodiscard]] size_t count() const override;
   //! Return the size of the value in bytes
-  size_t size() const override;
+  [[nodiscard]] size_t size() const override;
   //! Return the value as a string.
-  std::string toString() const override;
-  std::string toString(size_t n) const override;
-  int64_t toInt64(size_t n = 0) const override;
-  float toFloat(size_t n = 0) const override;
-  Rational toRational(size_t n = 0) const override;
-  Value::UniquePtr getValue() const override;
-  const Value& value() const override;
+  [[nodiscard]] std::string toString() const override;
+  [[nodiscard]] std::string toString(size_t n) const override;
+  [[nodiscard]] int64_t toInt64(size_t n = 0) const override;
+  [[nodiscard]] float toFloat(size_t n = 0) const override;
+  [[nodiscard]] Rational toRational(size_t n = 0) const override;
+  [[nodiscard]] Value::UniquePtr getValue() const override;
+  [[nodiscard]] const Value& value() const override;
   //! Return the size of the data area.
-  size_t sizeDataArea() const;
+  [[nodiscard]] size_t sizeDataArea() const;
   /*!
     @brief Return a copy of the data area of the value. The caller owns
            this copy and %DataBuf ensures that it will be deleted.
@@ -192,7 +192,7 @@ class EXIV2API Exifdatum : public Metadatum {
             %DataBuf if the value does not have a data area assigned or the
             value is not set.
    */
-  DataBuf dataArea() const;
+  [[nodiscard]] DataBuf dataArea() const;
   //@}
 
  private:
@@ -227,7 +227,7 @@ class EXIV2API ExifThumbC {
     @brief Return the thumbnail image in a %DataBuf. The caller owns the
            data buffer and %DataBuf ensures that it will be deleted.
    */
-  DataBuf copy() const;
+  [[nodiscard]] DataBuf copy() const;
   /*!
     @brief Write the thumbnail image to a file.
 
@@ -238,17 +238,17 @@ class EXIV2API ExifThumbC {
     @param path File name of the thumbnail without extension.
     @return The number of bytes written.
   */
-  size_t writeFile(const std::string& path) const;
+  [[nodiscard]] size_t writeFile(const std::string& path) const;
   /*!
     @brief Return the MIME type of the thumbnail, either \c "image/tiff"
            or \c "image/jpeg".
    */
-  const char* mimeType() const;
+  [[nodiscard]] const char* mimeType() const;
   /*!
     @brief Return the file extension for the format of the thumbnail
            (".tif" or ".jpg").
    */
-  const char* extension() const;
+  [[nodiscard]] const char* extension() const;
   //@}
 
  private:
@@ -442,24 +442,24 @@ class EXIV2API ExifData {
   //! @name Accessors
   //@{
   //! Begin of the metadata
-  const_iterator begin() const {
+  [[nodiscard]] const_iterator begin() const {
     return exifMetadata_.begin();
   }
   //! End of the metadata
-  const_iterator end() const {
+  [[nodiscard]] const_iterator end() const {
     return exifMetadata_.end();
   }
   /*!
     @brief Find the first Exifdatum with the given \em key, return a const
            iterator to it.
    */
-  const_iterator findKey(const ExifKey& key) const;
+  [[nodiscard]] const_iterator findKey(const ExifKey& key) const;
   //! Return true if there is no Exif metadata
-  bool empty() const {
+  [[nodiscard]] bool empty() const {
     return exifMetadata_.empty();
   }
   //! Get the number of metadata entries
-  size_t count() const {
+  [[nodiscard]] size_t count() const {
     return exifMetadata_.size();
   }
   //@}

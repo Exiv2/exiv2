@@ -254,28 +254,28 @@ class EXIV2API XmpKey : public Key {
 
   //! @name Accessors
   //@{
-  std::string key() const override;
-  const char* familyName() const override;
+  [[nodiscard]] std::string key() const override;
+  [[nodiscard]] const char* familyName() const override;
   /*!
     @brief Return the name of the group (the second part of the key).
            For XMP keys, the group name is the schema prefix name.
   */
-  std::string groupName() const override;
-  std::string tagName() const override;
-  std::string tagLabel() const override;
+  [[nodiscard]] std::string groupName() const override;
+  [[nodiscard]] std::string tagName() const override;
+  [[nodiscard]] std::string tagLabel() const override;
   //! Properties don't have a tag number. Return 0.
-  uint16_t tag() const override;
+  [[nodiscard]] uint16_t tag() const override;
 
-  UniquePtr clone() const;
+  [[nodiscard]] UniquePtr clone() const;
 
   // Todo: Should this be removed? What about tagLabel then?
   //! Return the schema namespace for the prefix of the key
-  std::string ns() const;
+  [[nodiscard]] std::string ns() const;
   //@}
 
  private:
   //! Internal virtual copy constructor.
-  XmpKey* clone_() const override;
+  [[nodiscard]] XmpKey* clone_() const override;
 
   // Pimpl idiom
   struct Impl;

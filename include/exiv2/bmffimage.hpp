@@ -26,7 +26,7 @@ struct Iloc {
   uint32_t start_;
   uint32_t length_;
 
-  std::string toString() const;
+  [[nodiscard]] std::string toString() const;
 };  // class Iloc
 
 // *****************************************************************************
@@ -105,9 +105,9 @@ class EXIV2API BmffImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override /* override */;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override /* override */;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
   const Exiv2::ByteOrder endian_{Exiv2::bigEndian};
@@ -123,7 +123,7 @@ class EXIV2API BmffImage : public Image {
     @warning This function should only be called by readMetadata()
    */
   long boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, const long pbox_end, int depth);
-  std::string indent(int i) const {
+  [[nodiscard]] std::string indent(int i) const {
     return std::string(2 * i, ' ');
   }
 

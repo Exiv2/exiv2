@@ -30,6 +30,8 @@ int main(int argc, char* const argv[]) try {
 
     Exiv2::PreviewImage preview = loader.getPreviewImage(pos);
     auto s = preview.writeFile(filename + "_" + Exiv2::toString(pos.width_) + "x" + Exiv2::toString(pos.height_));
+    if (s == 0)
+      return EXIT_FAILURE;
   }
 
   // Cleanup
