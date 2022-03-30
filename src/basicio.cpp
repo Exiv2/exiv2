@@ -619,19 +619,19 @@ class EXIV2API BlockMap {
     size_ = num;
   }
 
-  bool isNone() const {
+  [[nodiscard]] bool isNone() const {
     return type_ == bNone;
   }
 
-  bool isKnown() const {
+  [[nodiscard]] bool isKnown() const {
     return type_ == bKnown;
   }
 
-  byte* getData() const {
+  [[nodiscard]] byte* getData() const {
     return data_;
   }
 
-  size_t getSize() const {
+  [[nodiscard]] size_t getSize() const {
     return size_;
   }
 

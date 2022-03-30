@@ -58,15 +58,15 @@ class Loader {
   static UniquePtr create(PreviewId id, const Image& image);
 
   //! Check if a preview image with given params exists in the image
-  virtual bool valid() const {
+  [[nodiscard]] virtual bool valid() const {
     return valid_;
   }
 
   //! Get properties of a preview image with given params
-  virtual PreviewProperties getProperties() const;
+  [[nodiscard]] virtual PreviewProperties getProperties() const;
 
   //! Get a buffer that contains the preview image
-  virtual DataBuf getData() const = 0;
+  [[nodiscard]] virtual DataBuf getData() const = 0;
 
   //! Read preview image dimensions when they are not available directly
   virtual bool readDimensions() {
@@ -119,10 +119,10 @@ class LoaderNative : public Loader {
   LoaderNative(PreviewId id, const Image& image, int parIdx);
 
   //! Get properties of a preview image with given params
-  PreviewProperties getProperties() const override;
+  [[nodiscard]] PreviewProperties getProperties() const override;
 
   //! Get a buffer that contains the preview image
-  DataBuf getData() const override;
+  [[nodiscard]] DataBuf getData() const override;
 
   //! Read preview image dimensions
   bool readDimensions() override;
@@ -142,10 +142,10 @@ class LoaderExifJpeg : public Loader {
   LoaderExifJpeg(PreviewId id, const Image& image, int parIdx);
 
   //! Get properties of a preview image with given params
-  PreviewProperties getProperties() const override;
+  [[nodiscard]] PreviewProperties getProperties() const override;
 
   //! Get a buffer that contains the preview image
-  DataBuf getData() const override;
+  [[nodiscard]] DataBuf getData() const override;
 
   //! Read preview image dimensions
   bool readDimensions() override;
@@ -175,10 +175,10 @@ class LoaderExifDataJpeg : public Loader {
   LoaderExifDataJpeg(PreviewId id, const Image& image, int parIdx);
 
   //! Get properties of a preview image with given params
-  PreviewProperties getProperties() const override;
+  [[nodiscard]] PreviewProperties getProperties() const override;
 
   //! Get a buffer that contains the preview image
-  DataBuf getData() const override;
+  [[nodiscard]] DataBuf getData() const override;
 
   //! Read preview image dimensions
   bool readDimensions() override;
@@ -207,10 +207,10 @@ class LoaderTiff : public Loader {
   LoaderTiff(PreviewId id, const Image& image, int parIdx);
 
   //! Get properties of a preview image with given params
-  PreviewProperties getProperties() const override;
+  [[nodiscard]] PreviewProperties getProperties() const override;
 
   //! Get a buffer that contains the preview image
-  DataBuf getData() const override;
+  [[nodiscard]] DataBuf getData() const override;
 
  protected:
   //! Name of the group that contains the preview image
@@ -243,10 +243,10 @@ class LoaderXmpJpeg : public Loader {
   LoaderXmpJpeg(PreviewId id, const Image& image, int parIdx);
 
   //! Get properties of a preview image with given params
-  PreviewProperties getProperties() const override;
+  [[nodiscard]] PreviewProperties getProperties() const override;
 
   //! Get a buffer that contains the preview image
-  DataBuf getData() const override;
+  [[nodiscard]] DataBuf getData() const override;
 
   //! Read preview image dimensions
   bool readDimensions() override;

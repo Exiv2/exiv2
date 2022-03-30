@@ -262,7 +262,7 @@ class Converter {
   //! @name Accessors
   //@{
   //! Get the value of the erase flag, see also setErase(bool on).
-  bool erase() const {
+  [[nodiscard]] bool erase() const {
     return erase_;
   }
   //@}

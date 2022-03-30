@@ -168,7 +168,7 @@ struct ExifKey::Impl {
   //! @name Accessors
   //@{
   //! Return the name of the tag
-  std::string tagName() const;
+  [[nodiscard]] std::string tagName() const;
   //@}
 
   // DATA
