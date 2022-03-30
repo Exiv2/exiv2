@@ -153,9 +153,6 @@ Error::Error(ErrorCode code) : code_(code) {
   setMsg(0);
 }
 
-Error::~Error() noexcept {
-}
-
 ErrorCode Error::code() const noexcept {
   return code_;
 }
