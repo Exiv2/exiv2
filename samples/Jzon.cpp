@@ -43,11 +43,11 @@ class FormatInterpreter {
   FormatInterpreter() {
     SetFormat(NoFormat);
   }
-  explicit FormatInterpreter(const Format &format) {
+  explicit FormatInterpreter(const Format& format) {
     SetFormat(format);
   }
 
-  void SetFormat(const Format &format) {
+  void SetFormat(const Format& format) {
     this->format = format;
     indentationChar = (format.useTabs ? '\t' : ' ');
     spacing = (format.spacing ? " " : "");
@@ -60,10 +60,10 @@ class FormatInterpreter {
     return "";
   }
 
-  inline const std::string &GetNewline() const {
+  inline const std::string& GetNewline() const {
     return newline;
   }
-  inline const std::string &GetSpacing() const {
+  inline const std::string& GetSpacing() const {
     return spacing;
   }
 
@@ -81,38 +81,38 @@ inline bool IsNumber(char c) {
   return ((c >= '0' && c <= '9') || c == '.' || c == '-');
 }
 
-Object &Node::AsObject() {
+Object& Node::AsObject() {
   if (IsObject())
-    return dynamic_cast<Object &>(*this);
+    return dynamic_cast<Object&>(*this);
   throw TypeException();
 }
-const Object &Node::AsObject() const {
+const Object& Node::AsObject() const {
   if (IsObject())
-    return dynamic_cast<const Object &>(*this);
+    return dynamic_cast<const Object&>(*this);
   throw TypeException();
 }
-Array &Node::AsArray() {
+Array& Node::AsArray() {
   if (IsArray())
-    return dynamic_cast<Array &>(*this);
+    return dynamic_cast<Array&>(*this);
   throw TypeException();
 }
-const Array &Node::AsArray() const {
+const Array& Node::AsArray() const {
   if (IsArray())
-    return dynamic_cast<const Array &>(*this);
+    return dynamic_cast<const Array&>(*this);
   throw TypeException();
 }
-Value &Node::AsValue() {
+Value& Node::AsValue() {
   if (IsValue())
-    return dynamic_cast<Value &>(*this);
+    return dynamic_cast<Value&>(*this);
   throw TypeException();
 }
-const Value &Node::AsValue() const {
+const Value& Node::AsValue() const {
   if (IsValue())
-    return dynamic_cast<const Value &>(*this);
+    return dynamic_cast<const Value&>(*this);
   throw TypeException();
 }
 
-Node::Type Node::DetermineType(const std::string &json) {
+Node::Type Node::DetermineType(const std::string& json) {
   auto jsonIt = std::find_if(json.begin(), json.end(), IsWhitespace);
   if (jsonIt == json.end())
     return T_VALUE;
@@ -130,20 +130,20 @@ Node::Type Node::DetermineType(const std::string &json) {
 Value::Value() {
   SetNull();
 }
-Value::Value(const Value &rhs) {
+Value::Value(const Value& rhs) {
   Set(rhs);
 }
-Value::Value(const Node &rhs) {
-  const Value &value = rhs.AsValue();
+Value::Value(const Node& rhs) {
+  const Value& value = rhs.AsValue();
   Set(value);
 }
-Value::Value(ValueType type, const std::string &value) {
+Value::Value(ValueType type, const std::string& value) {
   Set(type, value);
 }
-Value::Value(const std::string &value) {
+Value::Value(const std::string& value) {
   Set(value);
 }
-Value::Value(const char *value) {
+Value::Value(const char* value) {
   Set(value);
 }
 Value::Value(const int value) {
@@ -209,21 +209,21 @@ void Value::SetNull() {
   valueStr = "";
   type = VT_NULL;
 }
-void Value::Set(const Value &value) {
+void Value::Set(const Value& value) {
   if (this != &value) {
     valueStr = value.valueStr;
     type = value.type;
   }
 }
-void Value::Set(ValueType type, const std::string &value) {
+void Value::Set(ValueType type, const std::string& value) {
   valueStr = value;
   this->type = type;
 }
-void Value::Set(const std::string &value) {
+void Value::Set(const std::string& value) {
   valueStr = UnescapeString(value);
   type = VT_STRING;
 }
-void Value::Set(const char *value) {
+void Value::Set(const char* value) {
   valueStr = UnescapeString(std::string(value));
   type = VT_STRING;
 }
@@ -250,73 +250,73 @@ void Value::Set(const bool value) {
   type = VT_BOOL;
 }
 
-Value &Value::operator=(const Value &rhs) {
+Value& Value::operator=(const Value& rhs) {
   if (this != &rhs)
     Set(rhs);
   return *this;
 }
-Value &Value::operator=(const Node &rhs) {
+Value& Value::operator=(const Node& rhs) {
   if (this != &rhs)
     Set(rhs.AsValue());
   return *this;
 }
-Value &Value::operator=(const std::string &rhs) {
+Value& Value::operator=(const std::string& rhs) {
   Set(rhs);
   return *this;
 }
-Value &Value::operator=(const char *rhs) {
+Value& Value::operator=(const char* rhs) {
   Set(rhs);
   return *this;
 }
-Value &Value::operator=(const int rhs) {
+Value& Value::operator=(const int rhs) {
   Set(rhs);
   return *this;
 }
-Value &Value::operator=(const float rhs) {
+Value& Value::operator=(const float rhs) {
   Set(rhs);
   return *this;
 }
-Value &Value::operator=(const double rhs) {
+Value& Value::operator=(const double rhs) {
   Set(rhs);
   return *this;
 }
-Value &Value::operator=(const bool rhs) {
+Value& Value::operator=(const bool rhs) {
   Set(rhs);
   return *this;
 }
 
-bool Value::operator==(const Value &other) const {
+bool Value::operator==(const Value& other) const {
   return ((type == other.type) && (valueStr == other.valueStr));
 }
-bool Value::operator!=(const Value &other) const {
+bool Value::operator!=(const Value& other) const {
   return !(*this == other);
 }
 
-Node *Value::GetCopy() const {
+Node* Value::GetCopy() const {
   return new Value(*this);
 }
 
 // This is not the most beautiful place for these, but it'll do
 using chrPair = struct {
   char first;
-  const char *second;
+  const char* second;
 };
 static constexpr std::array<chrPair, 8> chars{
     chrPair{'\\', "\\\\"}, chrPair{'/', "\\/"},  chrPair{'\"', "\\\""}, chrPair{'\n', "\\n"},
     chrPair{'\t', "\\t"},  chrPair{'\b', "\\b"}, chrPair{'\f', "\\f"},  chrPair{'\r', "\\r"},
 };
 static constexpr char nullUnescaped = '\0';
-static constexpr const char *nullEscaped = "\0\0";
-const char *const &getEscaped(const char &c) {
-  for (auto &&chr : chars) {
+static constexpr const char* nullEscaped = "\0\0";
+const char* const& getEscaped(const char& c) {
+  for (auto&& chr : chars) {
     if (chr.first == c) {
       return chr.second;
     }
   }
   return nullEscaped;
 }
-const char &getUnescaped(const char &c1, const char &c2) {
-  for (auto &&chr : chars) {
+const char& getUnescaped(const char& c1, const char& c2) {
+  for (auto&& chr : chars) {
     if (c1 == chars[0].first && c2 == chars[1].first) {
       return chr.first;
     }
@@ -324,11 +324,11 @@ const char &getUnescaped(const char &c1, const char &c2) {
   return nullUnescaped;
 }
 
-std::string Value::EscapeString(const std::string &value) {
+std::string Value::EscapeString(const std::string& value) {
   std::string escaped;
 
-  for (auto &&c : value) {
-    auto &&a = getEscaped(c);
+  for (auto&& c : value) {
+    auto&& a = getEscaped(c);
     if (a[0] != '\0') {
       escaped += a[0];
       escaped += a[1];
@@ -339,16 +339,16 @@ std::string Value::EscapeString(const std::string &value) {
 
   return escaped;
 }
-std::string Value::UnescapeString(const std::string &value) {
+std::string Value::UnescapeString(const std::string& value) {
   std::string unescaped;
 
   for (auto it = value.cbegin(); it != value.cend(); ++it) {
-    const char &c = (*it);
+    const char& c = (*it);
     char c2 = '\0';
     if (it + 1 != value.end())
       c2 = *(it + 1);
 
-    const char &a = getUnescaped(c, c2);
+    const char& a = getUnescaped(c, c2);
     if (a != '\0') {
       unescaped += a;
       if (it + 1 != value.end())
@@ -361,13 +361,13 @@ std::string Value::UnescapeString(const std::string &value) {
   return unescaped;
 }
 
-Object::Object(const Object &other) {
+Object::Object(const Object& other) {
   std::transform(other.children.begin(), other.children.end(), std::back_inserter(children),
-                 [](const NamedNodePtr &child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
+                 [](const NamedNodePtr& child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
 }
-Object::Object(const Node &other) {
+Object::Object(const Node& other) {
   std::transform(other.AsObject().children.begin(), other.AsObject().children.end(), std::back_inserter(children),
-                 [](const NamedNodePtr &child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
+                 [](const NamedNodePtr& child) { return NamedNodePtr(child.first, child.second->GetCopy()); });
 }
 Object::~Object() {
   Clear();
@@ -377,13 +377,13 @@ Node::Type Object::GetType() const {
   return T_OBJECT;
 }
 
-void Object::Add(const std::string &name, Node &node) {
+void Object::Add(const std::string& name, Node& node) {
   children.emplace_back(name, node.GetCopy());
 }
-void Object::Add(const std::string &name, const Value &node) {
+void Object::Add(const std::string& name, const Value& node) {
   children.emplace_back(name, new Value(node));
 }
-void Object::Remove(const std::string &name) {
+void Object::Remove(const std::string& name) {
   for (auto it = children.cbegin(); it != children.cend(); ++it) {
     if ((*it).first == name) {
       delete (*it).second;
@@ -394,7 +394,7 @@ void Object::Remove(const std::string &name) {
 }
 
 void Object::Clear() {
-  for (auto &&child : children) {
+  for (auto&& child : children) {
     delete child.second;
     child.second = nullptr;
   }
@@ -424,14 +424,14 @@ Object::const_iterator Object::end() const {
   return {nullptr};
 }
 
-bool Object::Has(const std::string &name) const {
-  return std::any_of(children.begin(), children.end(), [&](const NamedNodePtr &child) { return child.first == name; });
+bool Object::Has(const std::string& name) const {
+  return std::any_of(children.begin(), children.end(), [&](const NamedNodePtr& child) { return child.first == name; });
 }
 size_t Object::GetCount() const {
   return children.size();
 }
-Node &Object::Get(const std::string &name) const {
-  for (auto &&child : children) {
+Node& Object::Get(const std::string& name) const {
+  for (auto&& child : children) {
     if (child.first == name) {
       return *child.second;
     }
@@ -440,20 +440,20 @@ Node &Object::Get(const std::string &name) const {
   throw NotFoundException();
 }
 
-Node *Object::GetCopy() const {
+Node* Object::GetCopy() const {
   return new Object(*this);
 }
 
-Array::Array(const Array &other) {
-  for (auto &&value : other.children) {
+Array::Array(const Array& other) {
+  for (auto&& value : other.children) {
     children.push_back(value->GetCopy());
   }
 }
 
-Array::Array(const Node &other) {
-  const Array &array = other.AsArray();
+Array::Array(const Node& other) {
+  const Array& array = other.AsArray();
 
-  for (auto &&value : array.children) {
+  for (auto&& value : array.children) {
     children.push_back(value->GetCopy());
   }
 }
@@ -466,10 +466,10 @@ Node::Type Array::GetType() const {
   return T_ARRAY;
 }
 
-void Array::Add(Node &node) {
+void Array::Add(Node& node) {
   children.push_back(node.GetCopy());
 }
-void Array::Add(const Value &node) {
+void Array::Add(const Value& node) {
   children.push_back(new Value(node));
 }
 void Array::Remove(size_t index) {
@@ -480,7 +480,7 @@ void Array::Remove(size_t index) {
   }
 }
 void Array::Clear() {
-  for (auto &&child : children) {
+  for (auto&& child : children) {
     delete child;
     child = nullptr;
   }
@@ -511,7 +511,7 @@ Array::const_iterator Array::end() const {
 size_t Array::GetCount() const {
   return children.size();
 }
-Node &Array::Get(size_t index) const {
+Node& Array::Get(size_t index) const {
   if (index < children.size()) {
     return *children.at(index);
   }
@@ -519,19 +519,19 @@ Node &Array::Get(size_t index) const {
   throw NotFoundException();
 }
 
-Node *Array::GetCopy() const {
+Node* Array::GetCopy() const {
   return new Array(*this);
 }
 
 FileWriter::FileWriter(std::string filename) : filename(std::move(filename)) {
 }
 
-void FileWriter::WriteFile(const std::string &filename, const Node &root, const Format &format) {
+void FileWriter::WriteFile(const std::string& filename, const Node& root, const Format& format) {
   FileWriter writer(filename);
   writer.Write(root, format);
 }
 
-void FileWriter::Write(const Node &root, const Format &format) {
+void FileWriter::Write(const Node& root, const Format& format) {
   Writer writer(root, format);
   writer.Write();
 
@@ -540,18 +540,18 @@ void FileWriter::Write(const Node &root, const Format &format) {
   file.close();
 }
 
-FileReader::FileReader(const std::string &filename) {
+FileReader::FileReader(const std::string& filename) {
   if (!loadFile(filename, json)) {
     error = "Failed to load file";
   }
 }
 
-bool FileReader::ReadFile(const std::string &filename, Node &node) {
+bool FileReader::ReadFile(const std::string& filename, Node& node) {
   FileReader reader(filename);
   return reader.Read(node);
 }
 
-bool FileReader::Read(Node &node) {
+bool FileReader::Read(Node& node) {
   if (!error.empty())
     return false;
 
@@ -567,11 +567,11 @@ Node::Type FileReader::DetermineType() {
   return Node::DetermineType(json);
 }
 
-const std::string &FileReader::GetError() const {
+const std::string& FileReader::GetError() const {
   return error;
 }
 
-bool FileReader::loadFile(const std::string &filename, std::string &json) {
+bool FileReader::loadFile(const std::string& filename, std::string& json) {
   std::fstream file(filename.c_str(), std::ios::in | std::ios::binary);
 
   if (!file.is_open()) {
@@ -588,7 +588,7 @@ bool FileReader::loadFile(const std::string &filename, std::string &json) {
   return true;
 }
 
-Writer::Writer(const Node &root, const Format &format) : fi(new FormatInterpreter), root(root) {
+Writer::Writer(const Node& root, const Format& format) : fi(new FormatInterpreter), root(root) {
   SetFormat(format);
 }
 Writer::~Writer() {
@@ -596,20 +596,20 @@ Writer::~Writer() {
   fi = nullptr;
 }
 
-void Writer::SetFormat(const Format &format) {
+void Writer::SetFormat(const Format& format) {
   fi->SetFormat(format);
 }
-const std::string &Writer::Write() {
+const std::string& Writer::Write() {
   result.clear();
   writeNode(root, 0);
   return result;
 }
 
-const std::string &Writer::GetResult() const {
+const std::string& Writer::GetResult() const {
   return result;
 }
 
-void Writer::writeNode(const Node &node, size_t level) {
+void Writer::writeNode(const Node& node, size_t level) {
   switch (node.GetType()) {
     case Node::T_OBJECT:
       writeObject(node.AsObject(), level);
@@ -622,11 +622,11 @@ void Writer::writeNode(const Node &node, size_t level) {
       break;
   }
 }
-void Writer::writeObject(const Object &node, size_t level) {
+void Writer::writeObject(const Object& node, size_t level) {
   result += "{" + fi->GetNewline();
 
   for (auto it = node.begin(); it != node.end(); ++it) {
-    const std::string &name = (*it).first;
+    const std::string& name = (*it).first;
     // const Node &value = (*it).second;
 
     if (it != node.begin())
@@ -637,11 +637,11 @@ void Writer::writeObject(const Object &node, size_t level) {
 
   result += fi->GetNewline() + fi->GetIndentation(level) + "}";
 }
-void Writer::writeArray(const Array &node, size_t level) {
+void Writer::writeArray(const Array& node, size_t level) {
   result += "[" + fi->GetNewline();
 
   for (auto it = node.begin(); it != node.end(); ++it) {
-    const Node &value = (*it);
+    const Node& value = (*it);
 
     if (it != node.begin())
       result += "," + fi->GetNewline();
@@ -651,7 +651,7 @@ void Writer::writeArray(const Array &node, size_t level) {
 
   result += fi->GetNewline() + fi->GetIndentation(level) + "]";
 }
-void Writer::writeValue(const Value &node) {
+void Writer::writeValue(const Value& node) {
   if (node.IsString()) {
     result += "\"" + Value::EscapeString(node.ToString()) + "\"";
   } else {
@@ -659,13 +659,13 @@ void Writer::writeValue(const Value &node) {
   }
 }
 
-Parser::Parser(Node &root) : root(root) {
+Parser::Parser(Node& root) : root(root) {
 }
-Parser::Parser(Node &root, const std::string &json) : root(root) {
+Parser::Parser(Node& root, const std::string& json) : root(root) {
   SetJson(json);
 }
 
-void Parser::SetJson(const std::string &json) {
+void Parser::SetJson(const std::string& json) {
   this->json = json;
   jsonSize = json.size();
 }
@@ -678,7 +678,7 @@ bool Parser::Parse() {
   return success;
 }
 
-const std::string &Parser::GetError() const {
+const std::string& Parser::GetError() const {
   return error;
 }
 
@@ -766,7 +766,7 @@ void Parser::tokenize() {
   }
 }
 bool Parser::assemble() {
-  std::stack<std::pair<std::string, Node *>> nodeStack;
+  std::stack<std::pair<std::string, Node*>> nodeStack;
 
   std::string name;
 
@@ -777,13 +777,13 @@ bool Parser::assemble() {
 
     switch (token) {
       case T_UNKNOWN: {
-        const std::string &unknownToken = data.front().second;
+        const std::string& unknownToken = data.front().second;
         error = "Unknown token: " + unknownToken;
         data.pop();
         return false;
       }
       case T_OBJ_BEGIN: {
-        Node *node = nullptr;
+        Node* node = nullptr;
         if (nodeStack.empty()) {
           if (!root.IsObject()) {
             error = "The given root node is not an object";
@@ -800,7 +800,7 @@ bool Parser::assemble() {
         break;
       }
       case T_ARRAY_BEGIN: {
-        Node *node = nullptr;
+        Node* node = nullptr;
         if (nodeStack.empty()) {
           if (!root.IsArray()) {
             error = "The given root node is not an array";
@@ -832,7 +832,7 @@ bool Parser::assemble() {
         }
 
         std::string name = nodeStack.top().first;
-        Node *node = nodeStack.top().second;
+        Node* node = nodeStack.top().second;
         nodeStack.pop();
 
         if (!nodeStack.empty()) {
@@ -860,7 +860,7 @@ bool Parser::assemble() {
           name = data.front().second;
           data.pop();
         } else {
-          Node *node = nullptr;
+          Node* node = nullptr;
           if (nodeStack.empty()) {
             if (!root.IsValue()) {
               error = "The given root node is not a value";
@@ -873,9 +873,9 @@ bool Parser::assemble() {
           }
 
           if (data.front().first == Value::VT_STRING) {
-            dynamic_cast<Value *>(node)->Set(data.front().second);  // This method calls UnescapeString()
+            dynamic_cast<Value*>(node)->Set(data.front().second);  // This method calls UnescapeString()
           } else {
-            dynamic_cast<Value *>(node)->Set(data.front().first, data.front().second);
+            dynamic_cast<Value*>(node)->Set(data.front().first, data.front().second);
           }
           data.pop();
 
@@ -951,7 +951,7 @@ void Parser::readString() {
 
   data.emplace(Value::VT_STRING, str);
 }
-bool Parser::interpretValue(const std::string &value) {
+bool Parser::interpretValue(const std::string& value) {
   std::string upperValue;
   upperValue.reserve(value.size());
   std::transform(value.begin(), value.end(), upperValue.begin(), toupper);
