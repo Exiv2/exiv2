@@ -190,6 +190,36 @@ class Olympus2MnHeader : public MnHeader {
 
 };  // class Olympus2MnHeader
 
+//! Header of an OM Digital Solutions (ex Olympus) Makernote
+class OMSystemMnHeader : public MnHeader {
+ public:
+  //! @name Creators
+  //@{
+  //! Default constructor
+  OMSystemMnHeader();
+  //! Virtual destructor.
+  ~OMSystemMnHeader() override = default;
+  //@}
+  //! @name Manipulators
+  //@{
+  bool read(const byte* pData, size_t size, ByteOrder byteOrder) override;
+  //@}
+  //! @name Accessors
+  //@{
+  [[nodiscard]] size_t size() const override;
+  size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
+  [[nodiscard]] size_t ifdOffset() const override;
+  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
+  //@}
+  //! Return the size of the makernote header signature
+  static size_t sizeOfSignature();
+
+ private:
+  DataBuf header_;                 //!< Data buffer for the makernote header
+  static const byte signature_[];  //!< Olympus makernote header signature
+
+};  // class OMSystemMnHeader
+
 //! Header of a Fujifilm Makernote
 class FujiMnHeader : public MnHeader {
  public:
@@ -509,6 +539,13 @@ TiffComponent* newOlympusMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create an Olympus II makernote
 TiffComponent* newOlympus2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
+
+//! Function to create an OM Digital Solutions makernote
+TiffComponent* newOMSystemMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                             ByteOrder byteOrder);
+
+//! Function to create an OM Digital Solutions makernote
+TiffComponent* newOMSystemMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Fujifilm makernote
 TiffComponent* newFujiMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size, ByteOrder byteOrder);

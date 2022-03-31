@@ -97,6 +97,7 @@ const TiffMnRegistry TiffMnCreator::registry_[] = {
     {"Minolta", minoltaId, newIfdMn, newIfdMn2},
     {"NIKON", ifdIdNotSet, newNikonMn, nullptr},      // mnGroup_ is not used
     {"OLYMPUS", ifdIdNotSet, newOlympusMn, nullptr},  // mnGroup_ is not used
+    {"OM Digital", olympus2Id, newOMSystemMn, newOMSystemMn2},
     {"Panasonic", panasonicId, newPanasonicMn, newPanasonicMn2},
     {"PENTAX", ifdIdNotSet, newPentaxMn, nullptr},  // mnGroup_ is not used
     {"RICOH", ifdIdNotSet, newPentaxMn, nullptr},   // mnGroup_ is not used
@@ -231,6 +232,42 @@ size_t Olympus2MnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) co
   ioWrapper.write(signature_, sizeOfSignature());
   return sizeOfSignature();
 }  // Olympus2MnHeader::write
+
+const byte OMSystemMnHeader::signature_[] = {'O', 'M',  ' ',  'S',  'Y', 'S', 'T',  'E',
+                                             'M', 0x00, 0x00, 0x00, 'I', 'I', 0x04, 0x00};
+
+size_t OMSystemMnHeader::sizeOfSignature() {
+  return sizeof(signature_);
+}
+
+OMSystemMnHeader::OMSystemMnHeader() {
+  read(signature_, sizeOfSignature(), invalidByteOrder);
+}
+
+size_t OMSystemMnHeader::size() const {
+  return header_.size();
+}
+
+size_t OMSystemMnHeader::ifdOffset() const {
+  return sizeOfSignature();
+}
+
+uint32_t OMSystemMnHeader::baseOffset(uint32_t mnOffset) const {
+  return mnOffset;
+}
+
+bool OMSystemMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/) {
+  if (!pData || size < sizeOfSignature())
+    return false;
+  header_.alloc(sizeOfSignature());
+  std::copy_n(pData, header_.size(), header_.data());
+  return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, sizeOfSignature() - 2));
+}
+
+size_t OMSystemMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const {
+  ioWrapper.write(signature_, sizeOfSignature());
+  return sizeOfSignature();
+}  // OMSystemMnHeader::write
 
 const byte FujiMnHeader::signature_[] = {'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00};
 const ByteOrder FujiMnHeader::byteOrder_ = littleEndian;
@@ -628,6 +665,18 @@ TiffComponent* newOlympusMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
 
 TiffComponent* newOlympus2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return new TiffIfdMakernote(tag, group, mnGroup, new Olympus2MnHeader);
+}
+
+TiffComponent* newOMSystemMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* /*pData*/, size_t size,
+                             ByteOrder /*byteOrder*/) {
+  // Require at least the header and an IFD with 1 entry
+  if (size < OMSystemMnHeader::sizeOfSignature() + 18)
+    return nullptr;
+  return newOMSystemMn2(tag, group, mnGroup);
+}
+
+TiffComponent* newOMSystemMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+  return new TiffIfdMakernote(tag, group, mnGroup, new OMSystemMnHeader);
 }
 
 TiffComponent* newFujiMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* /*pData*/, size_t size,
