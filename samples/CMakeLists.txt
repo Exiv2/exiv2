@@ -70,10 +70,7 @@ target_include_directories(path-test PRIVATE
   ${CMAKE_SOURCE_DIR}/app
 ) # To find getopt.hpp
 
-add_executable(          exiv2json exiv2json.cpp Jzon.cpp Jzon.h)
-list(APPEND APPLICATIONS exiv2json)
-
-install( TARGETS metacopy exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install( TARGETS metacopy RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 if( EXPAT_FOUND )
     add_executable(        geotag    geotag.cpp)
