@@ -53,13 +53,13 @@ int main() try {
   assert(xmpData["Xmp.dc.one"].toInt64() == -1);
   assert(xmpData["Xmp.dc.one"].value().ok());
 
-  [[maybe_unused]] const Exiv2::Value &getv1 = xmpData["Xmp.dc.one"].value();
+  [[maybe_unused]] const Exiv2::Value& getv1 = xmpData["Xmp.dc.one"].value();
   assert(isEqual(getv1.toFloat(), -1));
   assert(getv1.ok());
   assert(getv1.toRational() == Exiv2::Rational(-1, 1));
   assert(getv1.ok());
 
-  [[maybe_unused]] const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
+  [[maybe_unused]] const Exiv2::Value& getv2 = xmpData["Xmp.dc.two"].value();
   assert(isEqual(getv2.toFloat(), 3.1415f));
   assert(getv2.ok());
   assert(getv2.toInt64() == 3);
@@ -68,7 +68,7 @@ int main() try {
   assert(getv2.ok());
   assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415f));
 
-  [[maybe_unused]] const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
+  [[maybe_unused]] const Exiv2::Value& getv3 = xmpData["Xmp.dc.three"].value();
   assert(isEqual(getv3.toFloat(), 5.0f / 7.0f));
   assert(getv3.ok());
   assert(getv3.toInt64() == 0);  // long(5.0 / 7.0)
@@ -76,7 +76,7 @@ int main() try {
   assert(getv3.toRational() == Exiv2::Rational(5, 7));
   assert(getv3.ok());
 
-  [[maybe_unused]] const Exiv2::Value &getv6 = xmpData["Xmp.dc.six"].value();
+  [[maybe_unused]] const Exiv2::Value& getv6 = xmpData["Xmp.dc.six"].value();
   assert(getv6.toInt64() == 0);
   assert(getv6.ok());
   assert(getv6.toFloat() == 0.0f);
@@ -84,11 +84,11 @@ int main() try {
   assert(getv6.toRational() == Exiv2::Rational(0, 1));
   assert(getv6.ok());
 
-  const Exiv2::Value &getv7 = xmpData["Xmp.dc.seven"].value();
+  const Exiv2::Value& getv7 = xmpData["Xmp.dc.seven"].value();
   getv7.toInt64();  // this should fail
   assert(!getv7.ok());
 
-  [[maybe_unused]] const Exiv2::Value &getv8 = xmpData["Xmp.dc.eight"].value();
+  [[maybe_unused]] const Exiv2::Value& getv8 = xmpData["Xmp.dc.eight"].value();
   assert(getv8.toInt64() == 1);
   assert(getv8.ok());
   assert(getv8.toFloat() == 1.0f);
@@ -185,7 +185,7 @@ int main() try {
 
   // -------------------------------------------------------------------------
   // Output XMP properties
-  for (auto &&md : xmpData) {
+  for (auto&& md : xmpData) {
     std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9) << std::setfill(' ')
               << std::left << md.typeName() << " " << std::dec << std::setw(3) << std::setfill(' ') << std::right
               << md.count() << "  " << std::dec << md.value() << std::endl;
@@ -203,7 +203,7 @@ int main() try {
   Exiv2::XmpParser::terminate();
 
   return EXIT_SUCCESS;
-} catch (Exiv2::Error &e) {
+} catch (Exiv2::Error& e) {
   std::cout << "Caught Exiv2 exception '" << e << "'\n";
   return EXIT_FAILURE;
 }

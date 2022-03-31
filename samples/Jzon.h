@@ -43,8 +43,8 @@ class Node;
 class Value;
 class Object;
 class Array;
-using NamedNode = std::pair<std::string, Node &>;
-using NamedNodePtr = std::pair<std::string, Node *>;
+using NamedNode = std::pair<std::string, Node&>;
+using NamedNodePtr = std::pair<std::string, Node*>;
 
 class TypeException : public std::logic_error {
  public:
@@ -88,12 +88,12 @@ class JzonAPI Node {
     return (GetType() == T_VALUE);
   }
 
-  Object &AsObject();
-  const Object &AsObject() const;
-  Array &AsArray();
-  const Array &AsArray() const;
-  Value &AsValue();
-  const Value &AsValue() const;
+  Object& AsObject();
+  const Object& AsObject() const;
+  Array& AsArray();
+  const Array& AsArray() const;
+  Value& AsValue();
+  const Value& AsValue() const;
 
   virtual inline bool IsNull() const {
     return false;
@@ -124,23 +124,23 @@ class JzonAPI Node {
     throw TypeException();
   }
 
-  virtual bool Has(const std::string & /*name*/) const {
+  virtual bool Has(const std::string& /*name*/) const {
     throw TypeException();
   }
   virtual size_t GetCount() const {
     return 0;
   }
-  virtual Node &Get(const std::string & /*name*/) const {
+  virtual Node& Get(const std::string& /*name*/) const {
     throw TypeException();
   }
-  virtual Node &Get(size_t /*index*/) const {
+  virtual Node& Get(size_t /*index*/) const {
     throw TypeException();
   }
 
-  static Type DetermineType(const std::string &json);
+  static Type DetermineType(const std::string& json);
 
  protected:
-  virtual Node *GetCopy() const = 0;
+  virtual Node* GetCopy() const = 0;
 };
 
 class JzonAPI Value : public Node {
@@ -148,11 +148,11 @@ class JzonAPI Value : public Node {
   enum ValueType { VT_NULL, VT_STRING, VT_NUMBER, VT_BOOL };
 
   Value();
-  Value(const Value &rhs);
-  Value(const Node &rhs);
-  Value(ValueType type, const std::string &value);
-  Value(const std::string &value);
-  Value(const char *value);
+  Value(const Value& rhs);
+  Value(const Node& rhs);
+  Value(ValueType type, const std::string& value);
+  Value(const std::string& value);
+  Value(const char* value);
   Value(const int value);
   Value(const float value);
   Value(const double value);
@@ -182,32 +182,32 @@ class JzonAPI Value : public Node {
   bool ToBool() const override;
 
   void SetNull();
-  void Set(const Value &value);
-  void Set(ValueType type, const std::string &value);
-  void Set(const std::string &value);
-  void Set(const char *value);
+  void Set(const Value& value);
+  void Set(ValueType type, const std::string& value);
+  void Set(const std::string& value);
+  void Set(const char* value);
   void Set(const int value);
   void Set(const float value);
   void Set(const double value);
   void Set(const bool value);
 
-  Value &operator=(const Value &rhs);
-  Value &operator=(const Node &rhs);
-  Value &operator=(const std::string &rhs);
-  Value &operator=(const char *rhs);
-  Value &operator=(const int rhs);
-  Value &operator=(const float rhs);
-  Value &operator=(const double rhs);
-  Value &operator=(const bool rhs);
+  Value& operator=(const Value& rhs);
+  Value& operator=(const Node& rhs);
+  Value& operator=(const std::string& rhs);
+  Value& operator=(const char* rhs);
+  Value& operator=(const int rhs);
+  Value& operator=(const float rhs);
+  Value& operator=(const double rhs);
+  Value& operator=(const bool rhs);
 
-  bool operator==(const Value &other) const;
-  bool operator!=(const Value &other) const;
+  bool operator==(const Value& other) const;
+  bool operator!=(const Value& other) const;
 
-  static std::string EscapeString(const std::string &value);
-  static std::string UnescapeString(const std::string &value);
+  static std::string EscapeString(const std::string& value);
+  static std::string UnescapeString(const std::string& value);
 
  protected:
-  Node *GetCopy() const override;
+  Node* GetCopy() const override;
 
  private:
   std::string valueStr;
@@ -220,12 +220,12 @@ class JzonAPI Object : public Node {
  public:
   class iterator : public std::iterator<std::input_iterator_tag, NamedNode> {
    public:
-    iterator(NamedNodePtr *o) : p(o) {
+    iterator(NamedNodePtr* o) : p(o) {
     }
-    iterator(const iterator &it) : p(it.p) {
+    iterator(const iterator& it) : p(it.p) {
     }
 
-    iterator &operator++() {
+    iterator& operator++() {
       ++p;
       return *this;
     }
@@ -235,10 +235,10 @@ class JzonAPI Object : public Node {
       return tmp;
     }
 
-    bool operator==(const iterator &rhs) {
+    bool operator==(const iterator& rhs) {
       return p == rhs.p;
     }
-    bool operator!=(const iterator &rhs) {
+    bool operator!=(const iterator& rhs) {
       return p != rhs.p;
     }
 
@@ -247,16 +247,16 @@ class JzonAPI Object : public Node {
     }
 
    private:
-    NamedNodePtr *p;
+    NamedNodePtr* p;
   };
   class const_iterator : public std::iterator<std::input_iterator_tag, const NamedNode> {
    public:
-    const_iterator(const NamedNodePtr *o) : p(o) {
+    const_iterator(const NamedNodePtr* o) : p(o) {
     }
-    const_iterator(const const_iterator &it) : p(it.p) {
+    const_iterator(const const_iterator& it) : p(it.p) {
     }
 
-    const_iterator &operator++() {
+    const_iterator& operator++() {
       ++p;
       return *this;
     }
@@ -266,10 +266,10 @@ class JzonAPI Object : public Node {
       return tmp;
     }
 
-    bool operator==(const const_iterator &rhs) {
+    bool operator==(const const_iterator& rhs) {
       return p == rhs.p;
     }
-    bool operator!=(const const_iterator &rhs) {
+    bool operator!=(const const_iterator& rhs) {
       return p != rhs.p;
     }
 
@@ -278,19 +278,19 @@ class JzonAPI Object : public Node {
     }
 
    private:
-    const NamedNodePtr *p;
+    const NamedNodePtr* p;
   };
 
   Object() = default;
-  Object(const Object &other);
-  Object(const Node &other);
+  Object(const Object& other);
+  Object(const Node& other);
   ~Object() override;
 
   Type GetType() const override;
 
-  void Add(const std::string &name, Node &node);
-  void Add(const std::string &name, const Value &node);
-  void Remove(const std::string &name);
+  void Add(const std::string& name, Node& node);
+  void Add(const std::string& name, const Value& node);
+  void Remove(const std::string& name);
   void Clear();
 
   iterator begin();
@@ -298,13 +298,13 @@ class JzonAPI Object : public Node {
   iterator end();
   const_iterator end() const;
 
-  bool Has(const std::string &name) const override;
+  bool Has(const std::string& name) const override;
   size_t GetCount() const override;
-  Node &Get(const std::string &name) const override;
+  Node& Get(const std::string& name) const override;
   using Node::Get;
 
  protected:
-  Node *GetCopy() const override;
+  Node* GetCopy() const override;
 
  private:
   using ChildList = std::vector<NamedNodePtr>;
@@ -315,12 +315,12 @@ class JzonAPI Array : public Node {
  public:
   class iterator : public std::iterator<std::input_iterator_tag, Node> {
    public:
-    iterator(Node **o) : p(o) {
+    iterator(Node** o) : p(o) {
     }
-    iterator(const iterator &it) : p(it.p) {
+    iterator(const iterator& it) : p(it.p) {
     }
 
-    iterator &operator++() {
+    iterator& operator++() {
       ++p;
       return *this;
     }
@@ -330,28 +330,28 @@ class JzonAPI Array : public Node {
       return tmp;
     }
 
-    bool operator==(const iterator &rhs) {
+    bool operator==(const iterator& rhs) {
       return p == rhs.p;
     }
-    bool operator!=(const iterator &rhs) {
+    bool operator!=(const iterator& rhs) {
       return p != rhs.p;
     }
 
-    Node &operator*() {
+    Node& operator*() {
       return **p;
     }
 
    private:
-    Node **p;
+    Node** p;
   };
   class const_iterator : public std::iterator<std::input_iterator_tag, const Node> {
    public:
-    const_iterator(const Node *const *o) : p(o) {
+    const_iterator(const Node* const* o) : p(o) {
     }
-    const_iterator(const const_iterator &it) : p(it.p) {
+    const_iterator(const const_iterator& it) : p(it.p) {
     }
 
-    const_iterator &operator++() {
+    const_iterator& operator++() {
       ++p;
       return *this;
     }
@@ -361,30 +361,30 @@ class JzonAPI Array : public Node {
       return tmp;
     }
 
-    bool operator==(const const_iterator &rhs) {
+    bool operator==(const const_iterator& rhs) {
       return p == rhs.p;
     }
-    bool operator!=(const const_iterator &rhs) {
+    bool operator!=(const const_iterator& rhs) {
       return p != rhs.p;
     }
 
-    const Node &operator*() {
+    const Node& operator*() {
       return **p;
     }
 
    private:
-    const Node *const *p;
+    const Node* const* p;
   };
 
   Array() = default;
-  Array(const Array &other);
-  Array(const Node &other);
+  Array(const Array& other);
+  Array(const Node& other);
   ~Array() override;
 
   Type GetType() const override;
 
-  void Add(Node &node);
-  void Add(const Value &node);
+  void Add(Node& node);
+  void Add(const Value& node);
   void Remove(size_t index);
   void Clear();
 
@@ -394,14 +394,14 @@ class JzonAPI Array : public Node {
   const_iterator end() const;
 
   size_t GetCount() const override;
-  Node &Get(size_t index) const override;
+  Node& Get(size_t index) const override;
   using Node::Get;
 
  protected:
-  Node *GetCopy() const override;
+  Node* GetCopy() const override;
 
  private:
-  using ChildList = std::vector<Node *>;
+  using ChildList = std::vector<Node*>;
   ChildList children;
 };
 
@@ -410,9 +410,9 @@ class JzonAPI FileWriter {
   FileWriter(std::string filename);
   ~FileWriter() = default;
 
-  static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);
+  static void WriteFile(const std::string& filename, const Node& root, const Format& format = NoFormat);
 
-  void Write(const Node &root, const Format &format = NoFormat);
+  void Write(const Node& root, const Format& format = NoFormat);
 
  private:
   std::string filename;
@@ -420,63 +420,63 @@ class JzonAPI FileWriter {
 
 class JzonAPI FileReader {
  public:
-  FileReader(const std::string &filename);
+  FileReader(const std::string& filename);
   ~FileReader() = default;
 
-  static bool ReadFile(const std::string &filename, Node &node);
+  static bool ReadFile(const std::string& filename, Node& node);
 
-  bool Read(Node &node);
+  bool Read(Node& node);
 
   Node::Type DetermineType();
 
-  const std::string &GetError() const;
+  const std::string& GetError() const;
 
  private:
-  static bool loadFile(const std::string &filename, std::string &json);
+  static bool loadFile(const std::string& filename, std::string& json);
   std::string json;
   std::string error;
 };
 
 class JzonAPI Writer {
  public:
-  Writer(const Node &root, const Format &format = NoFormat);
+  Writer(const Node& root, const Format& format = NoFormat);
   ~Writer();
 
-  void SetFormat(const Format &format);
-  const std::string &Write();
+  void SetFormat(const Format& format);
+  const std::string& Write();
 
   // Return result from last call to Write()
-  const std::string &GetResult() const;
+  const std::string& GetResult() const;
 
   // Disable assignment operator
-  Writer &operator=(const Writer &) = delete;
+  Writer& operator=(const Writer&) = delete;
 
  private:
-  void writeNode(const Node &node, size_t level);
-  void writeObject(const Object &node, size_t level);
-  void writeArray(const Array &node, size_t level);
-  void writeValue(const Value &node);
+  void writeNode(const Node& node, size_t level);
+  void writeObject(const Object& node, size_t level);
+  void writeArray(const Array& node, size_t level);
+  void writeValue(const Value& node);
 
   std::string result;
 
-  class FormatInterpreter *fi;
+  class FormatInterpreter* fi;
 
-  const Node &root;
+  const Node& root;
 };
 
 class JzonAPI Parser {
  public:
-  Parser(Node &root);
-  Parser(Node &root, const std::string &json);
+  Parser(Node& root);
+  Parser(Node& root, const std::string& json);
   ~Parser() = default;
 
-  void SetJson(const std::string &json);
+  void SetJson(const std::string& json);
   bool Parse();
 
-  const std::string &GetError() const;
+  const std::string& GetError() const;
 
   // Disable assignment operator
-  Parser &operator=(const Parser &) = delete;
+  Parser& operator=(const Parser&) = delete;
 
  private:
   enum Token {
@@ -498,7 +498,7 @@ class JzonAPI Parser {
   void jumpToCommentEnd();
 
   void readString();
-  bool interpretValue(const std::string &value);
+  bool interpretValue(const std::string& value);
 
   std::string json;
   std::size_t jsonSize{0};
@@ -508,7 +508,7 @@ class JzonAPI Parser {
 
   std::size_t cursor{0};
 
-  Node &root;
+  Node& root;
 
   std::string error;
 };

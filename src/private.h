@@ -197,8 +197,8 @@ static char privatehid[] = "@(#)private.h	7.53";
 #if HAVE_INCOMPATIBLE_CTIME_R
 #undef asctime_r
 #undef ctime_r
-char *asctime_r P((struct tm const *, char *));
-char *ctime_r P((time_t const *, char *));
+char* asctime_r P((struct tm const*, char*));
+char* ctime_r P((time_t const*, char*));
 #endif /* HAVE_INCOMPATIBLE_CTIME_R */
 
 /*
