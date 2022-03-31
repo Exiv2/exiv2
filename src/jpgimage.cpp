@@ -178,18 +178,21 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   // Write existing stuff after record,
   // skip the current and all remaining IPTC blocks
   size_t pos = sizeFront;
-  while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos, &record, &sizeHdr, &sizeIptc)) {
+  long nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
+  enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
+  while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData, &record, &sizeHdr, &sizeIptc)) {
     const auto newPos = static_cast<size_t>(record - pPsData);
-    // Copy data up to the IPTC IRB
-    if (newPos > pos) {
+    if (newPos > pos) {  // Copy data up to the IPTC IRB
       append(psBlob, pPsData + pos, newPos - pos);
     }
-    // Skip the IPTC IRB
-    pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);
+    pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);  // Skip the IPTC IRB
+    nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
+    enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
   }
   if (pos < sizePsData) {
     append(psBlob, pPsData + pos, sizePsData - pos);
   }
+
   // Data is rounded to be even
   if (!psBlob.empty())
     rc = DataBuf(&psBlob[0], psBlob.size());
