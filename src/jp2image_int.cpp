@@ -11,7 +11,7 @@ namespace Exiv2::Internal {
 
 bool isValidBoxFileType(const std::vector<uint8_t>& boxData) {
   // BR & MinV are obligatory (4 + 4 bytes). Afterwards we have N compatibility lists (of size 4)
-  if ((boxData.size() - 8u) % 4u != 0) {
+  if (boxData.size() < 8 || ((boxData.size() - 8u) % 4u) != 0) {
     return false;
   }
 
