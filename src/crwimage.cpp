@@ -18,7 +18,6 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-using namespace Internal;
 
 CrwImage::CrwImage(BasicIo::UniquePtr io, bool /*create*/) : Image(ImageType::crw, mdExif | mdComment, std::move(io)) {
 }  // CrwImage::CrwImage
@@ -102,12 +101,12 @@ void CrwImage::writeMetadata() {
 
 void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, size_t size) {
   // Parse the image, starting with a CIFF header component
-  CiffHeader header;
+  Internal::CiffHeader header;
   header.read(pData, size);
   header.decode(*pCrwImage);
 
   // a hack to get absolute offset of preview image inside CRW structure
-  CiffComponent* preview = header.findComponent(0x2007, 0x0000);
+  auto preview = header.findComponent(0x2007, 0x0000);
   if (preview) {
     (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormat"] = uint32_t(preview->pData() - pData);
     (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormatLength"] = static_cast<uint32_t>(preview->size());
@@ -116,14 +115,14 @@ void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, size_t size) {
 
 void CrwParser::encode(Blob& blob, const byte* pData, size_t size, const CrwImage* pCrwImage) {
   // Parse image, starting with a CIFF header component
-  CiffHeader header;
+  Internal::CiffHeader header;
   if (size != 0) {
     header.read(pData, size);
   }
 
   // Encode Exif tags from image into the CRW parse tree and write the
   // structure to the binary image blob
-  CrwMap::encode(&header, *pCrwImage);
+  Internal::CrwMap::encode(&header, *pCrwImage);
   header.write(blob);
 }
 
@@ -147,7 +146,7 @@ bool isCrwType(BasicIo& iIo, bool advance) {
   if (!(('I' == tmpBuf[0] && 'I' == tmpBuf[1]) || ('M' == tmpBuf[0] && 'M' == tmpBuf[1]))) {
     result = false;
   }
-  if (result && std::memcmp(tmpBuf + 6, CiffHeader::signature(), 8) != 0) {
+  if (result && std::memcmp(tmpBuf + 6, Internal::CiffHeader::signature(), 8) != 0) {
     result = false;
   }
   if (!advance || !result)
