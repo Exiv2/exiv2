@@ -1,4 +1,4 @@
-add_library(exiv2-xmp STATIC
+add_library(exiv2-xmp OBJECT
     src/ExpatAdapter.cpp
     src/MD5.cpp
     src/ParseRDF.cpp
