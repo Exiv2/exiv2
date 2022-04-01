@@ -39,11 +39,17 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cd build
-          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_BUILD_DOC=ON ..
-          cmake --build . -t doc
-          cmake --build . -t package
-          tree -L 3
+          cmake -GNinja -S . -B build \
+            -DEXIV2_TEAM_PACKAGING=ON \
+            -DBUILD_SHARED_LIBS=ON \
+            -DEXIV2_ENABLE_WEBREADY=OFF \
+            -DEXIV2_ENABLE_NLS=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
+            -DEXIV2_BUILD_DOC=ON
+          cmake --build build -t doc
+          cmake --build build -t package
 
       - uses: actions/upload-artifact@v3
         with:
@@ -68,11 +74,19 @@ jobs:
 
       - name: Build packaged release
         run: |
-          mkdir build && cd build
-          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=ON -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_BUILD_DOC=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ..
-          cmake --build . -t doc
-          cmake --build . -t package
-          tree -L 3
+          mkdir build
+          cmake -GNinja -S . -B build \
+            -DEXIV2_TEAM_PACKAGING=ON \
+            -DBUILD_SHARED_LIBS=ON \
+            -DEXIV2_ENABLE_WEBREADY=OFF \
+            -DEXIV2_ENABLE_NLS=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
+            -DEXIV2_BUILD_DOC=ON \
+            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"
+          cmake --build build -t doc
+          cmake --build build -t package
 
       - uses: actions/upload-artifact@v3
         with:
@@ -121,11 +135,17 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cd build
-          cmake -GNinja -DEXIV2_TEAM_PACKAGING=ON -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_NLS=OFF -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DEXIV2_BUILD_DOC=ON ..
-          cmake --build . -t doc
-          cmake --build . -t package
-          tree -L 3
+          cmake -GNinja -S . -B build `
+            -DEXIV2_TEAM_PACKAGING=ON `
+            -DBUILD_SHARED_LIBS=ON `
+            -DEXIV2_ENABLE_WEBREADY=OFF `
+            -DEXIV2_ENABLE_NLS=OFF `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DEXIV2_ENABLE_BMFF=ON `
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
+            -DEXIV2_BUILD_DOC=ON
+          cmake --build build -t doc
+          cmake --build build -t package
 
       - uses: actions/upload-artifact@v3
         with:
