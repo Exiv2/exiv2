@@ -58,6 +58,11 @@ TEST(Jp2_FileTypeBox, withInvalidBoxDataSizeIsInvalid) {
   ASSERT_FALSE(isValidBoxFileType(boxData));
 }
 
+TEST(Jp2_FileTypeBox, withSmallBoxDataSizeIsInvalid) {
+  std::vector<std::uint8_t> boxData(7);  // Minimum size is 8
+  ASSERT_FALSE(isValidBoxFileType(boxData));
+}
+
 TEST(Jp2_FileTypeBox, with2CLs_lastOneWithBrandValue_isValid) {
   std::vector<std::uint8_t> boxData(16);
   // The first 4 bytes correspond to the BR (Brand). It must have the value 'jp2\040'
