@@ -1282,10 +1282,10 @@ uint32_t TiffImageEntry::doWriteImage(IoWrapper& ioWrapper, ByteOrder /*byteOrde
               << std::hex << tag() << std::dec << ": Writing " << strips_.size() << " strips";
 #endif
     len = 0;
-    for (auto&& strip : strips_) {
-      ioWrapper.write(strip.first, strip.second);
-      len += strip.second;
-      uint32_t align = strip.second & 1;  // Align strip data to word boundary
+    for (auto&& [f, s] : strips_) {
+      ioWrapper.write(f, s);
+      len += s;
+      uint32_t align = s & 1;  // Align strip data to word boundary
       if (align)
         ioWrapper.putb(0x0);
       len += align;

@@ -503,9 +503,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
 
   Exiv2::Dictionary ns;
   Exiv2::XmpProperties::registeredNamespaces(ns);
-  for (auto&& n : ns) {
-    std::string xmlns = n.first;
-    std::string uri = n.second;
+  for (auto&& [xmlns, uri] : ns) {
     output(os, keys, name, xmlns + ":" + uri);
   }
 #endif

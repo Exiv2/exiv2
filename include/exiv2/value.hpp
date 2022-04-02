@@ -1259,9 +1259,7 @@ class ValueType : public Value {
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
   inline I rational_to_integer_helper(size_t n) const {
-    const auto& t = value_.at(n);
-    const auto a = t.first;
-    const auto b = t.second;
+    auto&& [a, b] = value_.at(n);
 
     // Protect against divide-by-zero.
     if (b <= 0) {

@@ -2763,10 +2763,10 @@ std::ostream& CanonMakerNote::printSi0x0016(std::ostream& os, const Value& value
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  URational ur = exposureTime(canonEv(value.toInt64()));
-  os << ur.first;
-  if (ur.second > 1) {
-    os << "/" << ur.second;
+  auto [u, r] = exposureTime(canonEv(value.toInt64()));
+  os << u;
+  if (r > 1) {
+    os << "/" << r;
   }
   os.flags(f);
   return os << " s";

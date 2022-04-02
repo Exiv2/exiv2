@@ -114,11 +114,9 @@ void XmpSidecar::writeMetadata() {
     copyIptcToXmp(iptcData_, xmpData_);
 
     // #1112 - restore dates if they lost their TZ info
-    for (auto&& date : dates_) {
-      std::string sKey = date.first;
+    for (auto&& [sKey, value_orig] : dates_) {
       Exiv2::XmpKey key(sKey);
       if (xmpData_.findKey(key) != xmpData_.end()) {
-        std::string value_orig(date.second);
         std::string value_now(xmpData_[sKey].value().toString());
         // std::cout << key << " -> " << value_now << " => " << value_orig << std::endl;
         if (value_orig.find(value_now.substr(0, 10)) != std::string::npos) {
