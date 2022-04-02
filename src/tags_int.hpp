@@ -213,10 +213,7 @@ struct TagDetails {
   @brief Helper structure for lookup tables for translations of bitmask
          values to human readable labels.
  */
-struct TagDetailsBitmask {
-  uint32_t mask_;      //!< Bitmask value
-  const char* label_;  //!< Description of the tag value
-};                     // struct TagDetailsBitmask
+using TagDetailsBitmask = std::pair<uint32_t, const char*>;
 
 /*!
   @brief Helper structure for lookup tables for translations of controlled
@@ -271,20 +268,20 @@ template <int N, const TagDetailsBitmask (&array)[N]>
 std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifData*) {
   const auto val = value.toUint32();
   if (val == 0 && N > 0) {
-    const TagDetailsBitmask* td = *(&array);
-    if (td->mask_ == 0)
-      return os << exvGettext(td->label_);
+    auto [mask, label] = *array;
+    if (mask == 0)
+      return os << exvGettext(label);
   }
   bool sep = false;
   for (int i = 0; i < N; ++i) {
     // *& acrobatics is a workaround for a MSVC 7.1 bug
-    const TagDetailsBitmask* td = *(&array) + i;
+    auto [mask, label] = *(array + i);
 
-    if (val & td->mask_) {
+    if (val & mask) {
       if (sep) {
-        os << ", " << exvGettext(td->label_);
+        os << ", " << exvGettext(label);
       } else {
-        os << exvGettext(td->label_);
+        os << exvGettext(label);
         sep = true;
       }
     }

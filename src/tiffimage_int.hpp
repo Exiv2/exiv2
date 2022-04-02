@@ -134,17 +134,11 @@ class TiffHeader : public TiffHeaderBase {
  */
 struct TiffImgTagStruct {
   //! Search key for TIFF image tag structure.
-  struct Key {
-    //! Constructor
-    Key(uint16_t t, IfdId g) : t_(t), g_(g) {
-    }
-    uint16_t t_;  //!< %Tag
-    IfdId g_;     //!< %Group
-  };
-
+  using Key = std::pair<uint16_t, IfdId>;
   //! Comparison operator to compare a TiffImgTagStruct with a TiffImgTagStruct::Key
   bool operator==(const Key& key) const {
-    return key.g_ == group_ && key.t_ == tag_;
+    auto [t, g] = key;
+    return g == group_ && t == tag_;
   }
 
   // DATA
@@ -158,17 +152,12 @@ struct TiffImgTagStruct {
  */
 struct TiffGroupStruct {
   //! Search key for TIFF group structure.
-  struct Key {
-    //! Constructor
-    Key(uint32_t e, IfdId g) : e_(e), g_(g) {
-    }
-    uint32_t e_;  //!< Extended tag
-    IfdId g_;     //!< %Group
-  };
+  using Key = std::pair<uint32_t, IfdId>;
 
   //! Comparison operator to compare a TiffGroupStruct with a TiffGroupStruct::Key
   bool operator==(const Key& key) const {
-    return key.g_ == group_ && (Tag::all == extendedTag_ || key.e_ == extendedTag_);
+    auto [e, g] = key;
+    return g == group_ && (Tag::all == extendedTag_ || e == extendedTag_);
   }
   //! Return the tag corresponding to the extended tag
   [[nodiscard]] uint16_t tag() const {

@@ -22,10 +22,7 @@ class RotationMap {
 
  private:
   //! Helper structure for the mapping list
-  struct OmList {
-    uint16_t orientation;  //!< Exif orientation value
-    int32_t degrees;       //!< CRW Rotation degrees
-  };
+  using OmList = std::pair<uint16_t, int32_t>;
   // DATA
   static const OmList omList_[];
 };  // class RotationMap
@@ -520,7 +517,7 @@ CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId, uint16_t crwDir
 void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf&& buf) {
   CrwDirs crwDirs;
   CrwMap::loadStack(crwDirs, crwDir);
-  [[maybe_unused]] uint16_t rootDirectory = crwDirs.top().crwDir_;
+  [[maybe_unused]] auto [rootDirectory, _] = crwDirs.top();
   crwDirs.pop();
   if (!pRootDir_) {
     pRootDir_ = std::make_unique<CiffDirectory>();
@@ -553,18 +550,18 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
         set value
   */
   if (!crwDirs.empty()) {
-    CrwSubDir csd = crwDirs.top();
+    auto [dir, parent] = crwDirs.top();
     crwDirs.pop();
     // Find the directory
     for (auto&& component : components_) {
-      if (component->tag() == csd.crwDir_) {
+      if (component->tag() == dir) {
         cc_ = component;
         break;
       }
     }
     if (!cc_) {
       // Directory doesn't exist yet, add it
-      m_ = std::make_unique<CiffDirectory>(csd.crwDir_, csd.parent_);
+      m_ = std::make_unique<CiffDirectory>(dir, parent);
       cc_ = m_.get();
       add(std::move(m_));
     }
@@ -592,7 +589,6 @@ void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) {
   if (pRootDir_) {
     CrwDirs crwDirs;
     CrwMap::loadStack(crwDirs, crwDir);
-    [[maybe_unused]] uint16_t rootDirectory = crwDirs.top().crwDir_;
     crwDirs.pop();
     pRootDir_->remove(crwDirs, crwTagId);
   }
@@ -608,11 +604,11 @@ void CiffComponent::doRemove(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/) {
 
 void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId) {
   if (!crwDirs.empty()) {
-    CrwSubDir csd = crwDirs.top();
+    auto [dir, _] = crwDirs.top();
     crwDirs.pop();
     // Find the directory
     for (auto i = components_.begin(); i != components_.end(); ++i) {
-      if ((*i)->tag() == csd.crwDir_) {
+      if ((*i)->tag() == dir) {
         // Recursive call to next lower level directory
         (*i)->remove(crwDirs, crwTagId);
         if ((*i)->empty())
@@ -743,8 +739,8 @@ void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* p
   if (ifdId == canonSiId) {
     // Exif.Photo.FNumber
     float f = fnumber(canonEv(aperture));
-    Rational r = floatToRationalCast(f);
-    URational ur(r.first, r.second);
+    auto [r, s] = floatToRationalCast(f);
+    auto ur = URational(r, s);
     URationalValue fn;
     fn.value_.push_back(ur);
     image.exifData().add(ExifKey("Exif.Photo.FNumber"), &fn);
@@ -835,9 +831,10 @@ void CrwMap::decodeBasic(const CiffComponent& ciffComponent, const CrwMapping* p
 
 void CrwMap::loadStack(CrwDirs& crwDirs, uint16_t crwDir) {
   for (auto&& crw : crwSubDir_) {
-    if (crw.crwDir_ == crwDir) {
+    auto&& [dir, parent] = crw;
+    if (dir == crwDir) {
       crwDirs.push(crw);
-      crwDir = crw.parent_;
+      crwDir = parent;
     }
   }
 }  // CrwMap::loadStack
