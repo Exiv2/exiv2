@@ -733,11 +733,11 @@ std::ostream& LangAltValue::write(std::ostream& os) const {
   }
 
   // Write the others
-  for (auto&& v : value_) {
-    if (v.first != x_default) {
+  for (auto&& [lang, s] : value_) {
+    if (lang != x_default) {
       if (!first)
         os << ", ";
-      os << "lang=\"" << v.first << "\" " << v.second;
+      os << "lang=\"" << lang << "\" " << s;
       first = false;
     }
   }

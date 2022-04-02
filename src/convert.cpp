@@ -662,8 +662,8 @@ void Converter::cnvExifDate(const char* from, const char* to) {
     double dhour = pos->toFloat(0);
     double dmin = pos->toFloat(1);
     // Hack: Need Value::toDouble
-    Rational r = pos->toRational(2);
-    double dsec = static_cast<double>(r.first) / r.second;
+    auto [r, s] = pos->toRational(2);
+    double dsec = static_cast<double>(r) / s;
 
     if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -821,8 +821,7 @@ void Converter::cnvExifGPSCoord(const char* from, const char* to) {
   }
   double deg[3];
   for (int i = 0; i < 3; ++i) {
-    const int32_t z = pos->toRational(i).first;
-    const int32_t d = pos->toRational(i).second;
+    const auto [z, d] = pos->toRational(i);
     if (d == 0) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";

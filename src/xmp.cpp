@@ -822,11 +822,11 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
       return 2;
     }
     // Register custom namespaces with XMP-SDK
-    for (auto&& i : XmpProperties::nsRegistry_) {
+    for (auto&& [xmp, uri] : XmpProperties::nsRegistry_) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Registering " << i.second.prefix_ << " : " << i.first << "\n";
+      std::cerr << "Registering " << uri.prefix_ << " : " << xmp << "\n";
 #endif
-      registerNs(i.first, i.second.prefix_);
+      registerNs(xmp, uri.prefix_);
     }
     SXMPMeta meta;
     for (auto&& i : xmpData) {
@@ -840,12 +840,12 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
           throw Error(ErrorCode::kerEncodeLangAltPropertyFailed, i.key());
 
         int idx = 1;
-        for (auto&& k : la->value_) {
-          if (!k.second.empty()) {  // remove lang specs with no value
-            printNode(ns, i.tagName(), k.second, 0);
-            meta.AppendArrayItem(ns.c_str(), i.tagName().c_str(), kXMP_PropArrayIsAlternate, k.second.c_str());
+        for (auto&& [lang, specs] : la->value_) {
+          if (!specs.empty()) {  // remove lang specs with no value
+            printNode(ns, i.tagName(), specs, 0);
+            meta.AppendArrayItem(ns.c_str(), i.tagName().c_str(), kXMP_PropArrayIsAlternate, specs.c_str());
             const std::string item = i.tagName() + "[" + toString(idx++) + "]";
-            meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", k.first.c_str());
+            meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", lang.c_str());
           }
         }
         continue;

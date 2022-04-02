@@ -625,13 +625,11 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     }
     removableEmbeddings.emplace_back(posXmpTrailer, posXmpTrailerEnd);
 #ifdef DEBUG
-    EXV_DEBUG << "readWriteEpsMetadata: Recognized unmarked trailer of removable XMP embedding at "
-                 "["
-              << removableEmbeddings.back().first << "," << removableEmbeddings.back().second
-              << ")"
-                 "\n";
+    auto [r, s] = removableEmbeddings.back();
+    EXV_DEBUG << "readWriteEpsMetadata: Recognized unmarked trailer of removable XMP embedding at [" << r << "," << s
+              << ")\n"
 #endif
-    posXmpTrailerEnd = posXmpTrailer;
+        posXmpTrailerEnd = posXmpTrailer;
   }
 
   // interpret comment "%ADO_ContainsXMP:"
@@ -707,8 +705,8 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       if (posOtherXmp >= posEndPageSetup)
         break;
       bool isRemovableEmbedding = false;
-      for (auto&& removableEmbedding : removableEmbeddings) {
-        if (removableEmbedding.first <= posOtherXmp && posOtherXmp < removableEmbedding.second) {
+      for (auto&& [r, s] : removableEmbeddings) {
+        if (r <= posOtherXmp && posOtherXmp < s) {
           isRemovableEmbedding = true;
           break;
         }
@@ -837,8 +835,8 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     if (useFlexibleEmbedding) {
       positions.push_back(xmpPos);
     }
-    for (auto&& removableEmbedding : removableEmbeddings) {
-      positions.push_back(removableEmbedding.first);
+    for (auto&& [r, s] : removableEmbeddings) {
+      positions.push_back(r);
     }
     std::sort(positions.begin(), positions.end());
 
@@ -955,9 +953,9 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       }
       if (!useFlexibleEmbedding) {
         // remove preceding embedding(s)
-        for (auto&& removableEmbedding : removableEmbeddings) {
-          if (pos == removableEmbedding.first) {
-            skipPos = removableEmbedding.second;
+        for (auto&& [p, s] : removableEmbeddings) {
+          if (pos == p) {
+            skipPos = s;
 #ifdef DEBUG
             EXV_DEBUG << "readWriteEpsMetadata: Skipping to " << skipPos << " at " << __FILE__ << ":" << __LINE__
                       << "\n";

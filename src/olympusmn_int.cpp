@@ -1483,14 +1483,14 @@ std::ostream& OlympusMakerNote::print0x0305(std::ostream& os, const Value& value
     return os << value;
   }
 
-  Rational distance = value.toRational();
-  if (static_cast<uint32_t>(distance.first) == 0xffffffff) {
+  auto [r, s] = value.toRational();
+  if (static_cast<uint32_t>(r) == 0xffffffff) {
     os << _("Infinity");
   } else {
     std::ostringstream oss;
     oss.copyfmt(os);
     os << std::fixed << std::setprecision(2);
-    os << static_cast<float>(distance.first) / 1000 << " m";
+    os << static_cast<float>(r) / 1000 << " m";
     os.copyfmt(oss);
   }
   os.flags(f);

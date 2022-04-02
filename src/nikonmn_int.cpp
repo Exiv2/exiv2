@@ -192,13 +192,13 @@ std::ostream& Nikon1MakerNote::print0x0007(std::ostream& os, const Value& value,
 
 std::ostream& Nikon1MakerNote::print0x0085(std::ostream& os, const Value& value, const ExifData*) {
   std::ios::fmtflags f(os.flags());
-  Rational distance = value.toRational();
-  if (distance.first == 0) {
+  auto [r, s] = value.toRational();
+  if (r == 0) {
     os << _("Unknown");
-  } else if (distance.second != 0) {
+  } else if (s != 0) {
     std::ostringstream oss;
     oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
+    os << std::fixed << std::setprecision(2) << static_cast<float>(r) / s << " m";
     os.copyfmt(oss);
   } else {
     os << "(" << value << ")";
@@ -209,13 +209,13 @@ std::ostream& Nikon1MakerNote::print0x0085(std::ostream& os, const Value& value,
 
 std::ostream& Nikon1MakerNote::print0x0086(std::ostream& os, const Value& value, const ExifData*) {
   std::ios::fmtflags f(os.flags());
-  Rational zoom = value.toRational();
-  if (zoom.first == 0) {
+  auto [r, s] = value.toRational();
+  if (r == 0) {
     os << _("Not used");
-  } else if (zoom.second != 0) {
+  } else if (s != 0) {
     std::ostringstream oss;
     oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
+    os << std::fixed << std::setprecision(1) << static_cast<float>(r) / s << "x";
     os.copyfmt(oss);
   } else {
     os << "(" << value << ")";
@@ -342,13 +342,13 @@ const TagInfo* Nikon2MakerNote::tagList() {
 
 std::ostream& Nikon2MakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
   std::ios::fmtflags f(os.flags());
-  Rational zoom = value.toRational();
-  if (zoom.first == 0) {
+  auto [r, s] = value.toRational();
+  if (r == 0) {
     os << _("Not used");
-  } else if (zoom.second != 0) {
+  } else if (s != 0) {
     std::ostringstream oss;
     oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
+    os << std::fixed << std::setprecision(1) << static_cast<float>(r) / s << "x";
     os.copyfmt(oss);
   } else {
     os << "(" << value << ")";
@@ -1355,8 +1355,8 @@ std::ostream& Nikon3MakerNote::print0x0084(std::ostream& os, const Value& value,
   const int64_t len1 = value.toInt64(0);
   const int64_t len2 = value.toInt64(1);
 
-  Rational fno1 = value.toRational(2);
-  Rational fno2 = value.toRational(3);
+  auto [r1, s1] = value.toRational(2);
+  auto [r2, s2] = value.toRational(3);
   os << len1;
   if (len2 != len1) {
     os << "-" << len2;
@@ -1364,9 +1364,9 @@ std::ostream& Nikon3MakerNote::print0x0084(std::ostream& os, const Value& value,
   os << "mm ";
   std::ostringstream oss;
   oss.copyfmt(os);
-  os << "F" << std::setprecision(2) << static_cast<float>(fno1.first) / fno1.second;
-  if (fno2 != fno1) {
-    os << "-" << std::setprecision(2) << static_cast<float>(fno2.first) / fno2.second;
+  os << "F" << std::setprecision(2) << static_cast<float>(r1) / s1;
+  if (r2 != r1) {
+    os << "-" << std::setprecision(2) << static_cast<float>(r2) / s2;
   }
   os.copyfmt(oss);
   os.flags(f);
@@ -1375,13 +1375,13 @@ std::ostream& Nikon3MakerNote::print0x0084(std::ostream& os, const Value& value,
 
 std::ostream& Nikon3MakerNote::print0x0085(std::ostream& os, const Value& value, const ExifData*) {
   std::ios::fmtflags f(os.flags());
-  Rational distance = value.toRational();
-  if (distance.first == 0) {
+  auto [r, s] = value.toRational();
+  if (r == 0) {
     os << _("Unknown");
-  } else if (distance.second != 0) {
+  } else if (s != 0) {
     std::ostringstream oss;
     oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
+    os << std::fixed << std::setprecision(2) << static_cast<float>(r) / s << " m";
     os.copyfmt(oss);
   } else {
     os << "(" << value << ")";
@@ -1392,13 +1392,13 @@ std::ostream& Nikon3MakerNote::print0x0085(std::ostream& os, const Value& value,
 
 std::ostream& Nikon3MakerNote::print0x0086(std::ostream& os, const Value& value, const ExifData*) {
   std::ios::fmtflags f(os.flags());
-  Rational zoom = value.toRational();
-  if (zoom.first == 0) {
+  auto [r, s] = value.toRational();
+  if (r == 0) {
     os << _("Not used");
-  } else if (zoom.second != 0) {
+  } else if (s != 0) {
     std::ostringstream oss;
     oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
+    os << std::fixed << std::setprecision(1) << static_cast<float>(r) / s << "x";
     os.copyfmt(oss);
   } else {
     os << "(" << value << ")";

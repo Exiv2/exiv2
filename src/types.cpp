@@ -561,13 +561,13 @@ int64_t parseInt64(const std::string& s, bool& ok) {
   if (ok)
     return static_cast<int64_t>(f);
 
-  auto r = stringTo<Rational>(s, ok);
+  auto [r, st] = stringTo<Rational>(s, ok);
   if (ok) {
-    if (r.second <= 0) {
+    if (st <= 0) {
       ok = false;
       return 0;
     }
-    return static_cast<int64_t>(static_cast<float>(r.first) / r.second);
+    return static_cast<int64_t>(static_cast<float>(r) / st);
   }
 
   bool b = stringTo<bool>(s, ok);
@@ -591,13 +591,13 @@ float parseFloat(const std::string& s, bool& ok) {
   if (ok)
     return ret;
 
-  auto r = stringTo<Rational>(s, ok);
+  auto [r, st] = stringTo<Rational>(s, ok);
   if (ok) {
-    if (r.second == 0) {
+    if (st == 0) {
       ok = false;
       return 0.0;
     }
-    return static_cast<float>(r.first) / r.second;
+    return static_cast<float>(r) / st;
   }
 
   bool b = stringTo<bool>(s, ok);
