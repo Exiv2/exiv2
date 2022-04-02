@@ -1527,7 +1527,7 @@ bool asciiToUtf8(std::string& /*str*/) {
   return true;
 }
 
-using ConvFct = bool (*)(std::string& str);
+using ConvFct = std::function<bool(std::string&)>;
 
 struct ConvFctList {
   bool operator==(const std::pair<const char*, const char*>& fromTo) const {
