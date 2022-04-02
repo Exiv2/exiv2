@@ -1525,7 +1525,7 @@ HttpIo::HttpIo(const std::string& url, size_t blockSize) {
 class CurlIo::CurlImpl : public Impl {
  public:
   //! Constructor
-  CurlImpl(const std::string& path, size_t blockSize);
+  CurlImpl(const std::string& url, size_t blockSize);
   //! Destructor. Cleans up the curl pointer and releases all managed memory.
   ~CurlImpl() override;
 
