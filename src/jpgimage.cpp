@@ -39,7 +39,7 @@ constexpr byte app1_ = 0xe1;   //!< JPEG APP1 marker
 constexpr byte app2_ = 0xe2;   //!< JPEG APP2 marker
 constexpr byte app13_ = 0xed;  //!< JPEG APP13 marker
 constexpr byte com_ = 0xfe;    //!< JPEG Comment marker
-constexpr byte soi_ = 0xd8;  ///!< SOI marker
+constexpr byte soi_ = 0xd8;    ///!< SOI marker
 
 // Start of Frame markers, nondifferential Huffman-coding frames
 constexpr byte sof0_ = 0xc0;  //!< JPEG Start-Of-Frame marker
@@ -74,6 +74,16 @@ inline bool inRange(int lo, int value, int hi) {
 inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
   return inRange(lo1, value, hi1) || inRange(lo2, value, hi2);
 }
+
+/// @brief has the segment a non-zero payload?
+/// @param marker The marker at the start of a segment
+/// @return true if the segment has a length field/payload
+bool markerHasLength(byte marker) {
+  /// \todo there are less markers without payload. Maybe we should revert the logic.
+  return (marker >= sof0_ && marker <= sof15_) || (marker >= app0_ && marker <= (app0_ | 0x0F)) || marker == dht_ ||
+         marker == dqt_ || marker == dri_ || marker == com_ || marker == sos_;
+}
+
 }  // namespace
 
 bool Photoshop::isIrb(const byte* pPsData) {
@@ -250,11 +260,6 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   return rc;
 }
 
-bool JpegBase::markerHasLength(byte marker) {
-  return (marker >= sof0_ && marker <= sof15_) || (marker >= app0_ && marker <= (app0_ | 0x0F)) || marker == dht_ ||
-         marker == dqt_ || marker == dri_ || marker == com_ || marker == sos_;
-}
-
 JpegBase::JpegBase(ImageType type, BasicIo::UniquePtr io, bool create, const byte initData[], size_t dataSize) :
     Image(type, mdExif | mdIptc | mdXmp | mdComment, std::move(io)) {
   if (create) {
@@ -314,6 +319,7 @@ void JpegBase::readMetadata() {
   byte marker = advanceToMarker(ErrorCode::kerNotAJpeg);
 
   while (marker != sos_ && marker != eoi_ && search > 0) {
+    /// @todo the block to read the size of the segment is repeated in 3 places. Factor-out
     // 2-byte buffer for reading the size.
     std::array<byte, 2> sizebuf;
     uint16_t size = 0;  // Size of the segment, including the 2-byte size field

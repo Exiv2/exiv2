@@ -187,14 +187,7 @@ class EXIV2API JpegBase : public Image {
   //@}
 
   DataBuf readNextSegment(byte marker);
-
-  /*!
-    @brief Is the marker followed by a non-zero payload?
-    @param marker The marker at the start of a segment
-    @return true if the marker is followed by a non-zero payload
-   */
-  static bool markerHasLength(byte marker);
-};  // class JpegBase
+};
 
 /*!
   @brief Class to access JPEG images
