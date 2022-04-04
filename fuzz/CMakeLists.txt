@@ -16,10 +16,7 @@ macro(fuzzer name)
                     COMPILE_FLAGS "-fsanitize=fuzzer"
                     LINK_FLAGS "-fsanitize=fuzzer")
     endif()
-    target_link_libraries(${name}
-            PRIVATE
-            exiv2lib
-            )
+    target_link_libraries(${name} PRIVATE exiv2lib std::filesystem)
 endmacro()
 
 fuzzer(fuzz-read-print-write)
