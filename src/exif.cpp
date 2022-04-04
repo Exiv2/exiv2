@@ -14,6 +14,7 @@
 #include "config.h"
 #include "error.hpp"
 #include "metadatum.hpp"
+#include "safe_op.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
 #include "tiffcomposite_int.hpp"  // for Tag::root
@@ -741,7 +742,7 @@ Exiv2::DataBuf JpegThumbnail::copy(const Exiv2::ExifData& exifData) const {
 int64_t sumToLong(const Exiv2::Exifdatum& md) {
   int64_t sum = 0;
   for (size_t i = 0; i < md.count(); ++i) {
-    sum += md.toInt64(i);
+    sum = Safe::add(sum, md.toInt64(i));
   }
   return sum;
 }
