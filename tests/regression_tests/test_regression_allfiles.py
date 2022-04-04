@@ -54,6 +54,7 @@ def get_valid_files(data_dir):
         "issue_ghsa_8949_hhfh_j7rj_poc.exv",
         "exiv2-bug495.jpg",
         "issue_1920_poc.tiff",
+        "issue_2190_poc.jp2",
         # non-zero return code files, most of them are security POC so we don't
         # really need to worry about them here
         "2018-01-09-exiv2-crash-001.tiff",
