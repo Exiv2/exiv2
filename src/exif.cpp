@@ -35,6 +35,7 @@
 #include "types.hpp"
 #include "error.hpp"
 #include "basicio.hpp"
+#include "safe_op.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp" // for Tag::root
@@ -964,7 +965,7 @@ namespace {
     {
         long sum = 0;
         for (long i = 0; i < md.count(); ++i) {
-            sum += md.toLong(i);
+            sum = Safe::add(sum, md.toLong(i));
         }
         return sum;
     }
