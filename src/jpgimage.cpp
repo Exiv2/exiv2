@@ -27,13 +27,15 @@
 // class member definitions
 
 namespace Exiv2 {
-static inline bool inRange(int lo, int value, int hi) {
+namespace {
+inline bool inRange(int lo, int value, int hi) {
   return lo <= value && value <= hi;
 }
 
-static inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
+inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
   return inRange(lo1, value, hi1) || inRange(lo2, value, hi2);
 }
+}  // namespace
 
 bool Photoshop::isIrb(const byte* pPsData) {
   if (pPsData == nullptr) {
