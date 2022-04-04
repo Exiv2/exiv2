@@ -84,6 +84,14 @@ bool markerHasLength(byte marker) {
          marker == dqt_ || marker == dri_ || marker == com_ || marker == sos_;
 }
 
+void readSegmentSize(const byte marker, BasicIo& io, std::array<byte, 2>& buf, std::uint16_t& size) {
+  if (markerHasLength(marker)) {
+    io.readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
+    size = getUShort(buf.data(), bigEndian);
+    enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
+  }
+}
+
 }  // namespace
 
 bool Photoshop::isIrb(const byte* pPsData) {
@@ -320,14 +328,9 @@ void JpegBase::readMetadata() {
 
   while (marker != sos_ && marker != eoi_ && search > 0) {
     /// @todo the block to read the size of the segment is repeated in 3 places. Factor-out
-    // 2-byte buffer for reading the size.
-    std::array<byte, 2> sizebuf;
-    uint16_t size = 0;  // Size of the segment, including the 2-byte size field
-    if (markerHasLength(marker)) {
-      io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
-      size = getUShort(sizebuf.data(), bigEndian);
-      enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
-    }
+    std::array<byte, 2> sizebuf;  // 2-byte buffer for reading the size.
+    uint16_t size = 0;            // Size of the segment, including the 2-byte size field
+    readSegmentSize(marker, *io_, sizebuf, size);
 
     // Read the rest of the segment.
     DataBuf buf(size);
@@ -530,13 +533,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
       // 2-byte buffer for reading the size.
       std::array<byte, 2> sizebuf;
       uint16_t size = 0;
-      if (markerHasLength(marker)) {
-        io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
-        size = getUShort(sizebuf.data(), bigEndian);
-        // `size` is the size of the segment, including the 2-byte size field
-        // that we just read.
-        enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
-      }
+      readSegmentSize(marker, *io_, sizebuf, size);
 
       // Read the rest of the segment.
       DataBuf buf(size);
@@ -783,13 +780,7 @@ DataBuf JpegBase::readNextSegment(byte marker) {
   // 2-byte buffer for reading the size.
   std::array<byte, 2> sizebuf;
   uint16_t size = 0;
-  if (markerHasLength(marker)) {
-    io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
-    size = getUShort(sizebuf.data(), bigEndian);
-    // `size` is the size of the segment, including the 2-byte size field
-    // that we just read.
-    enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
-  }
+  readSegmentSize(marker, *io_, sizebuf, size);
 
   // Read the rest of the segment.
   DataBuf buf(size);
