@@ -28,6 +28,45 @@
 
 namespace Exiv2 {
 namespace {
+// JPEG Segment markers (The first byte is always 0xFF, the value of these constants correspond to the 2nd byte)
+constexpr byte dht_ = 0xc4;    //!< JPEG DHT marker: Define Huffman Table(s)
+constexpr byte dqt_ = 0xdb;    //!< JPEG DQT marker: Define Quantization Table(s)
+constexpr byte dri_ = 0xdd;    //!< JPEG DRI marker
+constexpr byte sos_ = 0xda;    //!< JPEG SOS marker
+constexpr byte eoi_ = 0xd9;    //!< JPEG EOI marker
+constexpr byte app0_ = 0xe0;   //!< JPEG APP0 marker
+constexpr byte app1_ = 0xe1;   //!< JPEG APP1 marker
+constexpr byte app2_ = 0xe2;   //!< JPEG APP2 marker
+constexpr byte app13_ = 0xed;  //!< JPEG APP13 marker
+constexpr byte com_ = 0xfe;    //!< JPEG Comment marker
+constexpr byte soi_ = 0xd8;  ///!< SOI marker
+
+// Start of Frame markers, nondifferential Huffman-coding frames
+constexpr byte sof0_ = 0xc0;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof1_ = 0xc1;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof2_ = 0xc2;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof3_ = 0xc3;  //!< JPEG Start-Of-Frame marker
+
+// Start of Frame markers, differential Huffman-coding frames
+constexpr byte sof5_ = 0xc5;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof6_ = 0xc6;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof7_ = 0xc7;  //!< JPEG Start-Of-Frame marker
+
+// Start of Frame markers, nondifferential arithmetic-coding frames
+constexpr byte sof9_ = 0xc9;   //!< JPEG Start-Of-Frame marker
+constexpr byte sof10_ = 0xca;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof11_ = 0xcb;  //!< JPEG Start-Of-Frame marker
+
+// Start of Frame markers, differential arithmetic-coding frames
+constexpr byte sof13_ = 0xcd;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof14_ = 0xce;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof15_ = 0xcf;  //!< JPEG Start-Of-Frame marker
+
+constexpr auto exifId_ = "Exif\0\0";                       //!< Exif identifier
+constexpr auto jfifId_ = "JFIF\0";                         //!< JFIF identifier
+constexpr auto xmpId_ = "http://ns.adobe.com/xap/1.0/\0";  //!< XMP packet identifier
+constexpr auto iccId_ = "ICC_PROFILE\0";                   //!< ICC profile identifier
+
 inline bool inRange(int lo, int value, int hi) {
   return lo <= value && value <= hi;
 }
@@ -1162,7 +1201,7 @@ bool isJpegType(BasicIo& iIo, bool advance) {
   if (iIo.error() || iIo.eof())
     return false;
 
-  if (0xff != tmpBuf[0] || JpegImage::soi_ != tmpBuf[1]) {
+  if (0xff != tmpBuf[0] || soi_ != tmpBuf[1]) {
     result = false;
   }
   if (!advance || !result)

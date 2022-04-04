@@ -150,43 +150,6 @@ class EXIV2API JpegBase : public Image {
   virtual int writeHeader(BasicIo& oIo) const = 0;
   //@}
 
-  // Constant Data
-  static constexpr byte dht_ = 0xc4;    //!< JPEG DHT marker
-  static constexpr byte dqt_ = 0xdb;    //!< JPEG DQT marker
-  static constexpr byte dri_ = 0xdd;    //!< JPEG DRI marker
-  static constexpr byte sos_ = 0xda;    //!< JPEG SOS marker
-  static constexpr byte eoi_ = 0xd9;    //!< JPEG EOI marker
-  static constexpr byte app0_ = 0xe0;   //!< JPEG APP0 marker
-  static constexpr byte app1_ = 0xe1;   //!< JPEG APP1 marker
-  static constexpr byte app2_ = 0xe2;   //!< JPEG APP2 marker
-  static constexpr byte app13_ = 0xed;  //!< JPEG APP13 marker
-  static constexpr byte com_ = 0xfe;    //!< JPEG Comment marker
-
-  // Start of Frame markers, nondifferential Huffman-coding frames
-  static constexpr byte sof0_ = 0xc0;  //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof1_ = 0xc1;  //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof2_ = 0xc2;  //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof3_ = 0xc3;  //!< JPEG Start-Of-Frame marker
-
-  // Start of Frame markers, differential Huffman-coding frames
-  static constexpr byte sof5_ = 0xc5;  //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof6_ = 0xc6;  //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof7_ = 0xc7;  //!< JPEG Start-Of-Frame marker
-
-  // Start of Frame markers, nondifferential arithmetic-coding frames
-  static constexpr byte sof9_ = 0xc9;   //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof10_ = 0xca;  //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof11_ = 0xcb;  //!< JPEG Start-Of-Frame marker
-
-  // Start of Frame markers, differential arithmetic-coding frames
-  static constexpr byte sof13_ = 0xcd;  //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof14_ = 0xce;  //!< JPEG Start-Of-Frame marker
-  static constexpr byte sof15_ = 0xcf;  //!< JPEG Start-Of-Frame marker
-
-  static constexpr auto exifId_ = "Exif\0\0";                       //!< Exif identifier
-  static constexpr auto jfifId_ = "JFIF\0";                         //!< JFIF identifier
-  static constexpr auto xmpId_ = "http://ns.adobe.com/xap/1.0/\0";  //!< XMP packet identifier
-  static constexpr auto iccId_ = "ICC_PROFILE\0";                   //!< ICC profile identifier
 
  private:
   //! @name Manipulators
@@ -290,9 +253,8 @@ class EXIV2API JpegImage : public JpegBase {
 
  private:
   // Constant data
-  static constexpr byte soi_ = 0xd8;  // SOI marker
-  static const byte blank_[];         // Minimal Jpeg image
-};                                    // class JpegImage
+  static const byte blank_[];         ///< Minimal Jpeg image
+};
 
 //! Helper class to access %Exiv2 files
 class EXIV2API ExvImage : public JpegBase {
