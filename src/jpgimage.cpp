@@ -29,41 +29,30 @@
 namespace Exiv2 {
 namespace {
 // JPEG Segment markers (The first byte is always 0xFF, the value of these constants correspond to the 2nd byte)
-constexpr byte dht_ = 0xc4;    //!< JPEG DHT marker: Define Huffman Table(s)
-constexpr byte dqt_ = 0xdb;    //!< JPEG DQT marker: Define Quantization Table(s)
-constexpr byte dri_ = 0xdd;    //!< JPEG DRI marker
 constexpr byte sos_ = 0xda;    //!< JPEG SOS marker
-constexpr byte eoi_ = 0xd9;    //!< JPEG EOI marker
 constexpr byte app0_ = 0xe0;   //!< JPEG APP0 marker
 constexpr byte app1_ = 0xe1;   //!< JPEG APP1 marker
 constexpr byte app2_ = 0xe2;   //!< JPEG APP2 marker
 constexpr byte app13_ = 0xed;  //!< JPEG APP13 marker
 constexpr byte com_ = 0xfe;    //!< JPEG Comment marker
-constexpr byte soi_ = 0xd8;    ///!< SOI marker
+
+// Markers without payload
+constexpr byte soi_ = 0xd8;   ///!< SOI marker
+constexpr byte eoi_ = 0xd9;   //!< JPEG EOI marker
+constexpr byte rst1_ = 0xd0;  //!< JPEG Restart 0 Marker (from 0xD0 to 0xD7 there might be 8 of these markers)
 
 // Start of Frame markers, nondifferential Huffman-coding frames
 constexpr byte sof0_ = 0xc0;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof1_ = 0xc1;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof2_ = 0xc2;  //!< JPEG Start-Of-Frame marker
 constexpr byte sof3_ = 0xc3;  //!< JPEG Start-Of-Frame marker
 
 // Start of Frame markers, differential Huffman-coding frames
 constexpr byte sof5_ = 0xc5;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof6_ = 0xc6;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof7_ = 0xc7;  //!< JPEG Start-Of-Frame marker
-
-// Start of Frame markers, nondifferential arithmetic-coding frames
-constexpr byte sof9_ = 0xc9;   //!< JPEG Start-Of-Frame marker
-constexpr byte sof10_ = 0xca;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof11_ = 0xcb;  //!< JPEG Start-Of-Frame marker
 
 // Start of Frame markers, differential arithmetic-coding frames
-constexpr byte sof13_ = 0xcd;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof14_ = 0xce;  //!< JPEG Start-Of-Frame marker
 constexpr byte sof15_ = 0xcf;  //!< JPEG Start-Of-Frame marker
 
-constexpr auto exifId_ = "Exif\0\0";                       //!< Exif identifier
-constexpr auto jfifId_ = "JFIF\0";                         //!< JFIF identifier
+constexpr auto exifId_ = "Exif\0\0";  //!< Exif identifier
+// constexpr auto jfifId_ = "JFIF\0";                         //!< JFIF identifier
 constexpr auto xmpId_ = "http://ns.adobe.com/xap/1.0/\0";  //!< XMP packet identifier
 constexpr auto iccId_ = "ICC_PROFILE\0";                   //!< ICC profile identifier
 
@@ -76,12 +65,11 @@ inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
 }
 
 /// @brief has the segment a non-zero payload?
-/// @param marker The marker at the start of a segment
+/// @param m The marker at the start of a segment
 /// @return true if the segment has a length field/payload
-bool markerHasLength(byte marker) {
-  /// \todo there are less markers without payload. Maybe we should revert the logic.
-  return (marker >= sof0_ && marker <= sof15_) || (marker >= app0_ && marker <= (app0_ | 0x0F)) || marker == dht_ ||
-         marker == dqt_ || marker == dri_ || marker == com_ || marker == sos_;
+bool markerHasLength(byte m) {
+  bool markerWithoutLength = m >= rst1_ && m <= eoi_;
+  return !markerWithoutLength;
 }
 
 void readSegmentSize(const byte marker, BasicIo& io, std::array<byte, 2>& buf, std::uint16_t& size) {
@@ -294,6 +282,7 @@ byte JpegBase::advanceToMarker(ErrorCode err) const {
       throw Error(err);
   }
 
+  /// \todo should we check for validity of the marker? 0x59 does not look fine
   // Markers can start with any number of 0xff
   while ((c = io_->getb()) == 0xff) {
   }
