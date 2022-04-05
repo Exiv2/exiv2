@@ -71,7 +71,7 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
   std::cerr << "Photoshop::locateIrb: ";
 #endif
   // Data should follow Photoshop format, if not exit
-  while (position <= sizePsData - 12 && isIrb(pPsData + position)) {
+  while (position <= (sizePsData - 12) && isIrb(pPsData + position)) {
     const byte* hrd = pPsData + position;
     position += 4;
     uint16_t type = getUShort(pPsData + position, bigEndian);
@@ -152,16 +152,17 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   uint32_t sizeIptc = 0;
   uint32_t sizeHdr = 0;
   DataBuf rc;
-  // Safe to call with zero psData.size_
   if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData, &record, &sizeHdr, &sizeIptc)) {
     return rc;
   }
+
   Blob psBlob;
   const auto sizeFront = static_cast<size_t>(record - pPsData);
   // Write data before old record.
   if (sizePsData > 0 && sizeFront > 0) {
     append(psBlob, pPsData, sizeFront);
   }
+
   // Write new iptc record if we have it
   DataBuf rawIptc = IptcParser::encode(iptcData);
   if (!rawIptc.empty()) {
@@ -177,8 +178,8 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
     if (rawIptc.size() & 1)
       psBlob.push_back(0x00);
   }
-  // Write existing stuff after record,
-  // skip the current and all remaining IPTC blocks
+
+  // Write existing stuff after record, skip the current and all remaining IPTC blocks
   size_t pos = sizeFront;
   long nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
   enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
