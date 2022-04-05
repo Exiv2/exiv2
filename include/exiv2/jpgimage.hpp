@@ -27,11 +27,11 @@ struct EXIV2API Photoshop {
   static constexpr uint16_t preview_ = 0x040c;                         //!< %Photoshop preview marker
 
   /// @brief Checks an IRB
-  /// @param pPsData        Existing IRB buffer
-  /// @param sizePsData     Size of the IRB buffer
-  /// @return true  if the IRB marker is known and the buffer is big enough to check this;<BR>
-  ///   false otherwise
-  static bool isIrb(const byte* pPsData, size_t sizePsData);
+  /// @param pPsData  Existing IRB buffer. It is expected to be of size 4.
+  /// @return true  if the IRB marker is known
+  /// @todo This should be an implementation detail and not exposed in the API. An attacker could try to pass
+  ///   a smaller buffer or null pointer.
+  static bool isIrb(const byte* pPsData);
 
   /// @brief Validates all IRBs
   /// @param pPsData        Existing IRB buffer

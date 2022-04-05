@@ -35,9 +35,11 @@ static inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
   return inRange(lo1, value, hi1) || inRange(lo2, value, hi2);
 }
 
-bool Photoshop::isIrb(const byte* pPsData, size_t sizePsData) {
-  if (sizePsData < 4)
+bool Photoshop::isIrb(const byte* pPsData) {
+  if (pPsData == nullptr) {
     return false;
+  }
+  /// \todo check if direct array comparison is faster than a call to memcmp
   return std::any_of(irbId_.begin(), irbId_.end(), [pPsData](auto id) { return memcmp(pPsData, id, 4) == 0; });
 }
 
@@ -69,7 +71,7 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
   std::cerr << "Photoshop::locateIrb: ";
 #endif
   // Data should follow Photoshop format, if not exit
-  while (position <= sizePsData - 12 && isIrb(pPsData + position, 4)) {
+  while (position <= sizePsData - 12 && isIrb(pPsData + position)) {
     const byte* hrd = pPsData + position;
     position += 4;
     uint16_t type = getUShort(pPsData + position, bigEndian);
