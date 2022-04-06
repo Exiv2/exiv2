@@ -35,9 +35,11 @@ static inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
   return inRange(lo1, value, hi1) || inRange(lo2, value, hi2);
 }
 
-bool Photoshop::isIrb(const byte* pPsData, size_t sizePsData) {
-  if (sizePsData < 4)
+bool Photoshop::isIrb(const byte* pPsData) {
+  if (pPsData == nullptr) {
     return false;
+  }
+  /// \todo check if direct array comparison is faster than a call to memcmp
   return std::any_of(irbId_.begin(), irbId_.end(), [pPsData](auto id) { return memcmp(pPsData, id, 4) == 0; });
 }
 
@@ -69,7 +71,7 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
   std::cerr << "Photoshop::locateIrb: ";
 #endif
   // Data should follow Photoshop format, if not exit
-  while (position <= sizePsData - 12 && isIrb(pPsData + position, 4)) {
+  while (position <= (sizePsData - 12) && isIrb(pPsData + position)) {
     const byte* hrd = pPsData + position;
     position += 4;
     uint16_t type = getUShort(pPsData + position, bigEndian);
@@ -150,16 +152,17 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   uint32_t sizeIptc = 0;
   uint32_t sizeHdr = 0;
   DataBuf rc;
-  // Safe to call with zero psData.size_
   if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData, &record, &sizeHdr, &sizeIptc)) {
     return rc;
   }
+
   Blob psBlob;
   const auto sizeFront = static_cast<size_t>(record - pPsData);
   // Write data before old record.
   if (sizePsData > 0 && sizeFront > 0) {
     append(psBlob, pPsData, sizeFront);
   }
+
   // Write new iptc record if we have it
   DataBuf rawIptc = IptcParser::encode(iptcData);
   if (!rawIptc.empty()) {
@@ -175,21 +178,24 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
     if (rawIptc.size() & 1)
       psBlob.push_back(0x00);
   }
-  // Write existing stuff after record,
-  // skip the current and all remaining IPTC blocks
+
+  // Write existing stuff after record, skip the current and all remaining IPTC blocks
   size_t pos = sizeFront;
-  while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos, &record, &sizeHdr, &sizeIptc)) {
+  long nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
+  enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
+  while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData, &record, &sizeHdr, &sizeIptc)) {
     const auto newPos = static_cast<size_t>(record - pPsData);
-    // Copy data up to the IPTC IRB
-    if (newPos > pos) {
+    if (newPos > pos) {  // Copy data up to the IPTC IRB
       append(psBlob, pPsData + pos, newPos - pos);
     }
-    // Skip the IPTC IRB
-    pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);
+    pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);  // Skip the IPTC IRB
+    nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
+    enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
   }
   if (pos < sizePsData) {
     append(psBlob, pPsData + pos, sizePsData - pos);
   }
+
   // Data is rounded to be even
   if (!psBlob.empty())
     rc = DataBuf(&psBlob[0], psBlob.size());

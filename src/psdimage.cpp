@@ -175,7 +175,7 @@ void PsdImage::readMetadata() {
       throw Error(ErrorCode::kerNotAnImage, "Photoshop");
     }
 
-    if (!Photoshop::isIrb(buf, 4)) {
+    if (!Photoshop::isIrb(buf)) {
       break;  // bad resource type
     }
     uint16_t resourceId = getUShort(buf + 4, bigEndian);
@@ -413,7 +413,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
     // read resource type and ID
     uint32_t resourceType = getULong(buf, bigEndian);
 
-    if (!Photoshop::isIrb(buf, 4)) {
+    if (!Photoshop::isIrb(buf)) {
       throw Error(ErrorCode::kerNotAnImage, "Photoshop");  // bad resource type
     }
     uint16_t resourceId = getUShort(buf + 4, bigEndian);
