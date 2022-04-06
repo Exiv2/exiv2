@@ -11,6 +11,9 @@
 #include "http.hpp"
 
 #include <array>
+#include <chrono>
+#include <cinttypes>
+#include <thread>
 
 ////////////////////////////////////////
 // platform specific code
@@ -23,12 +26,12 @@
 #define closesocket close
 
 #include <arpa/inet.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <cerrno>
 
 #define fopen_S(f, n, o) f = fopen(n, o)
 #define WINAPI
@@ -41,13 +44,6 @@ using DWORD = unsigned long;
 static int WSAGetLastError() {
   return errno;
 }
-
-static void Sleep(int millisecs) {
-  const struct timespec rqtp = {0, millisecs * 1000000};
-  struct timespec rmtp;
-  nanosleep(&rqtp, &rmtp);
-}
-
 #endif
 
 ////////////////////////////////////////
@@ -70,8 +66,8 @@ static constexpr std::array<const char*, 2> blankLines{
     "\n\n",      // this is commonly sent by CGI scripts
 };
 
-static constexpr int snooze = 0;
-static int sleep_ = 1000;
+static constexpr auto snooze = std::chrono::milliseconds::zero();
+static auto sleep_ = std::chrono::milliseconds(1000);
 
 static int forgive(int n, int& err) {
   err = WSAGetLastError();
@@ -245,12 +241,13 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // send the header (we'll have to wait for the connection by the non-blocking socket)
-  while (sleep_ >= 0 && send(sockfd, buffer, n, 0) == SOCKET_ERROR /* && WSAGetLastError() == WSAENOTCONN */) {
-    Sleep(snooze);
+  while (sleep_ >= std::chrono::milliseconds::zero() &&
+         send(sockfd, buffer, n, 0) == SOCKET_ERROR /* && WSAGetLastError() == WSAENOTCONN */) {
+    std::this_thread::sleep_for(snooze);
     sleep_ -= snooze;
   }
 
-  if (sleep_ < 0)
+  if (sleep_ < std::chrono::milliseconds::zero())
     return error(errors, "error - timeout connecting to server = %s port = %s wsa_error = %d", servername, port,
                  WSAGetLastError());
 
@@ -330,16 +327,16 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     }
     n = forgive(recv(sockfd, buffer + end, static_cast<int>(buff_l - end), 0), err);
     if (!n) {
-      Sleep(snooze);
+      std::this_thread::sleep_for(snooze);
       sleep_ -= snooze;
-      if (sleep_ < 0)
+      if (sleep_ < std::chrono::milliseconds::zero())
         n = FINISH;
     }
   }
 
   if (n != FINISH || !OK(status)) {
-    snprintf(buffer, sizeof buffer, "wsa_error = %d,n = %d,sleep_ = %d status = %d", WSAGetLastError(), n, sleep_,
-             status);
+    snprintf(buffer, sizeof buffer, "wsa_error = %d,n = %d,sleep_ = %d status = %d", WSAGetLastError(), n,
+             int(sleep_.count()), status);
     error(errors, buffer, nullptr, nullptr, 0);
   } else if (bSearching && OK(status)) {
     if (end) {

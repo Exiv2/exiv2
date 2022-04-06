@@ -843,7 +843,7 @@ size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
 
   // sprintf wants to add the null terminator, so use oversized buffer
   char temp[9];
-  size_t wrote = static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
+  auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
   std::memcpy(buf, temp, wrote);
   return wrote;
 }

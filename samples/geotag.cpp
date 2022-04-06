@@ -123,7 +123,7 @@ class Position {
   virtual ~Position() = default;
 
   //  instance methods
-  bool good() const {
+  [[nodiscard]] bool good() const {
     return time_ || lon_ || lat_ || ele_;
   }
   std::string getTimeString() {
@@ -131,22 +131,22 @@ class Position {
       times_ = getExifTime(time_);
     return times_;
   }
-  time_t getTime() const {
+  [[nodiscard]] time_t getTime() const {
     return time_;
   }
-  std::string toString() const;
+  [[nodiscard]] std::string toString() const;
 
   //  getters/setters
-  double lat() const {
+  [[nodiscard]] double lat() const {
     return lat_;
   }
-  double lon() const {
+  [[nodiscard]] double lon() const {
     return lon_;
   }
-  double ele() const {
+  [[nodiscard]] double ele() const {
     return ele_;
   }
-  int delta() const {
+  [[nodiscard]] int delta() const {
     return delta_;
   }
   void delta(int delta) {

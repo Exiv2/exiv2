@@ -17,7 +17,6 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-using namespace Internal;
 
 Cr2Image::Cr2Image(BasicIo::UniquePtr io, bool /*create*/) :
     Image(ImageType::cr2, mdExif | mdIptc | mdXmp, std::move(io)) {
@@ -87,7 +86,7 @@ void Cr2Image::writeMetadata() {
     if (isCr2Type(*io_, false)) {
       pData = io_->mmap(true);
       size = io_->size();
-      Cr2Header cr2Header;
+      Internal::Cr2Header cr2Header;
       if (0 == cr2Header.read(pData, 16)) {
         bo = cr2Header.byteOrder();
       }
@@ -101,9 +100,9 @@ void Cr2Image::writeMetadata() {
 }  // Cr2Image::writeMetadata
 
 ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size) {
-  Cr2Header cr2Header;
-  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, Tag::root, TiffMapping::findDecoder,
-                                  &cr2Header);
+  Internal::Cr2Header cr2Header;
+  return Internal::TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, Internal::Tag::root,
+                                            Internal::TiffMapping::findDecoder, &cr2Header);
 }
 
 WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
@@ -113,20 +112,20 @@ WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
-      panaRawId,
+      Internal::panaRawId,
   };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
-    ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
+    ed.erase(std::remove_if(ed.begin(), ed.end(), Internal::FindExifdatum(filteredIfd)), ed.end());
   }
 
-  Cr2Header header(byteOrder);
-  OffsetWriter offsetWriter;
-  offsetWriter.setOrigin(OffsetWriter::cr2RawIfdOffset, Cr2Header::offset2addr(), byteOrder);
-  return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder, &header,
-                                  &offsetWriter);
+  auto header = Internal::Cr2Header(byteOrder);
+  Internal::OffsetWriter offsetWriter;
+  offsetWriter.setOrigin(Internal::OffsetWriter::cr2RawIfdOffset, Internal::Cr2Header::offset2addr(), byteOrder);
+  return Internal::TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Internal::Tag::root,
+                                            Internal::TiffMapping::findEncoder, &header, &offsetWriter);
 }
 
 // *************************************************************************
@@ -146,7 +145,7 @@ bool isCr2Type(BasicIo& iIo, bool advance) {
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  Cr2Header header;
+  Internal::Cr2Header header;
   bool rc = header.read(buf, len);
   if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);

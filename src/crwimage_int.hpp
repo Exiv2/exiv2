@@ -20,7 +20,7 @@ namespace Exiv2::Internal {
 class CiffHeader;
 class CiffComponent;
 struct CrwMapping;
-struct CrwSubDir;
+using CrwSubDir = std::pair<uint16_t, uint16_t>;
 
 // *****************************************************************************
 // type definitions
@@ -485,12 +485,6 @@ class CiffHeader {
   uint32_t padded_ = 0;                      //!< Number of padding-bytes
 
 };  // class CiffHeader
-
-//! Structure for the CIFF directory hierarchy
-struct CrwSubDir {
-  uint16_t crwDir_;  //!< Directory tag
-  uint16_t parent_;  //!< Parent directory tag
-};                   // struct CrwSubDir
 
 /*!
   @brief Structure for a mapping table for conversion of CIFF entries to

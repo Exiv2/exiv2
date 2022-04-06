@@ -38,11 +38,7 @@ static inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
 bool Photoshop::isIrb(const byte* pPsData, size_t sizePsData) {
   if (sizePsData < 4)
     return false;
-  for (auto&& i : irbId_) {
-    if (memcmp(pPsData, i, 4) == 0)
-      return true;
-  }
-  return false;
+  return std::any_of(irbId_.begin(), irbId_.end(), [pPsData](auto id) { return memcmp(pPsData, id, 4) == 0; });
 }
 
 bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {

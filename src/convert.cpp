@@ -26,8 +26,8 @@
 #endif
 
 #ifdef EXV_HAVE_ICONV
-#include <errno.h>
 #include <iconv.h>
+#include <cerrno>
 #endif
 
 // Adobe XMP Toolkit
@@ -262,7 +262,7 @@ class Converter {
   //! @name Accessors
   //@{
   //! Get the value of the erase flag, see also setErase(bool on).
-  bool erase() const {
+  [[nodiscard]] bool erase() const {
     return erase_;
   }
   //@}
@@ -1527,7 +1527,7 @@ bool asciiToUtf8(std::string& /*str*/) {
   return true;
 }
 
-using ConvFct = bool (*)(std::string& str);
+using ConvFct = std::function<bool(std::string&)>;
 
 struct ConvFctList {
   bool operator==(const std::pair<const char*, const char*>& fromTo) const {

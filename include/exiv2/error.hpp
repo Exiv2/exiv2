@@ -262,7 +262,7 @@ class EXIV2API Error : public std::exception {
   }
 
   //! Virtual destructor. (Needed because of throw())
-  ~Error() noexcept override;
+  ~Error() noexcept override = default;
   //@}
 
   //! @name Accessors

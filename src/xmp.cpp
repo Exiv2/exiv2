@@ -232,7 +232,8 @@ Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs, const std::stri
 //! Helper class used to serialize critical sections
 class AutoLock {
  public:
-  AutoLock(Exiv2::XmpParser::XmpLockFct xmpLockFct, void* pLockData) : xmpLockFct_(xmpLockFct), pLockData_(pLockData) {
+  AutoLock(Exiv2::XmpParser::XmpLockFct xmpLockFct, void* pLockData) :
+      xmpLockFct_(std::move(xmpLockFct)), pLockData_(pLockData) {
     if (xmpLockFct_)
       xmpLockFct_(pLockData_, true);
   }
@@ -510,7 +511,7 @@ void* XmpParser::pLockData_ = nullptr;
 #ifdef EXV_HAVE_XMP_TOOLKIT
 bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
   if (!initialized_) {
-    xmpLockFct_ = xmpLockFct;
+    xmpLockFct_ = std::move(xmpLockFct);
     pLockData_ = pLockData;
     initialized_ = SXMPMeta::Initialize();
 #ifdef EXV_ADOBE_XMPSDK

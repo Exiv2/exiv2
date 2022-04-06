@@ -77,17 +77,17 @@ class Thumbnail {
     @brief Return the thumbnail image in a %DataBuf. The caller owns the
            data buffer and %DataBuf ensures that it will be deleted.
    */
-  virtual Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const = 0;
+  [[nodiscard]] virtual Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const = 0;
   /*!
     @brief Return the MIME type of the thumbnail ("image/tiff" or
            "image/jpeg").
    */
-  virtual const char* mimeType() const = 0;
+  [[nodiscard]] virtual const char* mimeType() const = 0;
   /*!
     @brief Return the file extension for the format of the thumbnail
            (".tif", ".jpg").
    */
-  virtual const char* extension() const = 0;
+  [[nodiscard]] virtual const char* extension() const = 0;
   //@}
 
 };  // class Thumbnail
@@ -101,9 +101,9 @@ class TiffThumbnail : public Thumbnail {
 
   //! @name Accessors
   //@{
-  Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
-  const char* mimeType() const override;
-  const char* extension() const override;
+  [[nodiscard]] Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
+  [[nodiscard]] const char* mimeType() const override;
+  [[nodiscard]] const char* extension() const override;
   //@}
 
 };  // class TiffThumbnail
@@ -117,9 +117,9 @@ class JpegThumbnail : public Thumbnail {
 
   //! @name Accessors
   //@{
-  Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
-  const char* mimeType() const override;
-  const char* extension() const override;
+  [[nodiscard]] Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
+  [[nodiscard]] const char* mimeType() const override;
+  [[nodiscard]] const char* extension() const override;
   //@}
 
 };  // class JpegThumbnail

@@ -25,16 +25,15 @@ int main() {
   if (reader.ParseError() < 0) {
     std::cerr << "Can't load '" << ini << "'" << std::endl;
     return EXIT_FAILURE;
-  } else {
-    std::cout << "Config loaded from : '" << ini << "' "
-              << "version=" << reader.GetInteger("protocol", "version", -1)
-              << ", name=" << reader.Get("user", "name", "UNKNOWN")
-              << ", email=" << reader.Get("user", "email", "UNKNOWN") << ", pi=" << reader.GetReal("user", "pi", -1)
-              << ", active=" << reader.GetBoolean("user", "active", true) << std::endl;
-
-    std::cout << "169=" << reader.Get("canon", "169", "UNDEFINED")
-              << ", 170=" << reader.Get("canon", "170", "UNDEFINED") << std::endl;
   }
+  std::cout << "Config loaded from : '" << ini << "' "
+            << "version=" << reader.GetInteger("protocol", "version", -1)
+            << ", name=" << reader.Get("user", "name", "UNKNOWN")
+            << ", email=" << reader.Get("user", "email", "UNKNOWN") << ", pi=" << reader.GetReal("user", "pi", -1)
+            << ", active=" << reader.GetBoolean("user", "active", true) << std::endl;
+
+  std::cout << "169=" << reader.Get("canon", "169", "UNDEFINED") << ", 170=" << reader.Get("canon", "170", "UNDEFINED")
+            << std::endl;
 
   return EXIT_SUCCESS;
 }
