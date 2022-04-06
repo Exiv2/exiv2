@@ -288,7 +288,9 @@ namespace Exiv2 {
         // Write existing stuff after record,
         // skip the current and all remaining IPTC blocks
         long pos = sizeFront;
-        while (0 == Photoshop::locateIptcIrb(pPsData + pos, sizePsData - pos,
+        long nextSizeData = Safe::add<long>(sizePsData, -pos);
+        enforce(nextSizeData >= 0, kerCorruptedMetadata);
+        while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData,
                                              &record, &sizeHdr, &sizeIptc)) {
             const long newPos = static_cast<long>(record - pPsData);
             // Copy data up to the IPTC IRB
@@ -296,6 +298,8 @@ namespace Exiv2 {
                 append(psBlob, pPsData + pos, newPos - pos);
             }
             // Skip the IPTC IRB
+            nextSizeData = Safe::add<long>(sizePsData, -pos);
+            enforce(nextSizeData >= 0, kerCorruptedMetadata);
             pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);
         }
         if (pos < sizePsData) {
