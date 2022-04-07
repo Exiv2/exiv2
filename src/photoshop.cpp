@@ -4,6 +4,8 @@
 #include "image.hpp"
 #include "safe_op.hpp"
 
+#include <iostream>
+
 namespace Exiv2 {
 
 bool Photoshop::isIrb(const byte* data) {
