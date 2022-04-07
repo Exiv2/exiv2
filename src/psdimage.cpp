@@ -10,6 +10,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "jpgimage.hpp"
+#include "photoshop.hpp"
 
 #include <iostream>
 

@@ -8,6 +8,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "jpgimage.hpp"
+#include "photoshop.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
