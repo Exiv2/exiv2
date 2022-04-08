@@ -75,12 +75,15 @@ bool markerHasLength(byte m) {
   return !markerWithoutLength;
 }
 
-void readSegmentSize(const byte marker, BasicIo& io, std::array<byte, 2>& buf, std::uint16_t& size) {
+std::pair<std::array<byte, 2>, uint16_t> readSegmentSize(const byte marker, BasicIo& io) {
+  std::array<byte, 2> buf{0, 0};  // 2-byte buffer for reading the size.
+  uint16_t size{0};               // Size of the segment, including the 2-byte size field
   if (markerHasLength(marker)) {
     io.readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
     size = getUShort(buf.data(), bigEndian);
     enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
   }
+  return {buf, size};
 }
 }  // namespace
 
@@ -143,9 +146,7 @@ void JpegBase::readMetadata() {
   byte marker = advanceToMarker(ErrorCode::kerNotAJpeg);
 
   while (marker != sos_ && marker != eoi_ && search > 0) {
-    std::array<byte, 2> sizebuf;  // 2-byte buffer for reading the size.
-    uint16_t size = 0;            // Size of the segment, including the 2-byte size field
-    readSegmentSize(marker, *io_, sizebuf, size);
+    auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
     // Read the rest of the segment.
     DataBuf buf(size);
@@ -345,10 +346,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
       first = false;
       bool bLF = bPrint;
 
-      // 2-byte buffer for reading the size.
-      std::array<byte, 2> sizebuf;
-      uint16_t size = 0;
-      readSegmentSize(marker, *io_, sizebuf, size);
+      auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
       // Read the rest of the segment.
       DataBuf buf(size);
@@ -592,10 +590,7 @@ void JpegBase::writeMetadata() {
 }
 
 DataBuf JpegBase::readNextSegment(byte marker) {
-  // 2-byte buffer for reading the size.
-  std::array<byte, 2> sizebuf;
-  uint16_t size = 0;
-  readSegmentSize(marker, *io_, sizebuf, size);
+  auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
   // Read the rest of the segment.
   DataBuf buf(size);
