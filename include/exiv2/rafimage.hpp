@@ -74,6 +74,7 @@ class EXIV2API RafImage : public Image {
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
+  ~RafImage() override = default;
   //! @name NOT implemented
   //@{
   //! Copy constructor

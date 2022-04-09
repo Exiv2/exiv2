@@ -30,10 +30,11 @@ class EXIV2API Key {
 
   //! @name Creators
   //@{
+  Key() = default;
   //! Destructor
   virtual ~Key() = default;
   //@}
-
+  Key(const Key&) = default;
   //! @name Accessors
   //@{
   /*!

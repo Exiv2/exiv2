@@ -656,6 +656,7 @@ class EXIV2API ImageFactory {
 
   //! @name Creators
   //@{
+  ~ImageFactory() = delete;
   //! Prevent copy construction: not implemented.
   ImageFactory(const ImageFactory&) = delete;
   ImageFactory& operator=(const ImageFactory&) = delete;

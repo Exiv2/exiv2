@@ -21,6 +21,7 @@ namespace Exiv2 {
  */
 class EXIV2API OrfImage : public TiffImage {
  public:
+  ~OrfImage() override = default;
   //! @name NOT Implemented
   //@{
   //! Copy constructor

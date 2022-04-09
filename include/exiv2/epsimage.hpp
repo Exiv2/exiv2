@@ -73,6 +73,7 @@ class EXIV2API EpsImage : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
+  ~EpsImage() override = default;
   //! @name NOT Implemented
   //@{
   //! Copy constructor

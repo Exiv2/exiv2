@@ -20,6 +20,7 @@ namespace Exiv2 {
  */
 class EXIV2API TgaImage : public Image {
  public:
+  ~TgaImage() override = default;
   //! @name NOT Implemented
   //@{
   //! Copy constructor

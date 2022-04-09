@@ -38,6 +38,7 @@ class EXIV2API Value {
   //@{
   //! Constructor, taking a type id to initialize the base class with
   explicit Value(TypeId typeId);
+  Value(const Value&) = default;
   //! Virtual destructor.
   virtual ~Value() = default;
   //@}
@@ -489,6 +490,7 @@ class EXIV2API CommentValue : public StringValueBase {
     CharsetInfo(const CharsetInfo&) = delete;
     //! Prevent assignment: not implemented.
     CharsetInfo& operator=(const CharsetInfo&) = delete;
+    ~CharsetInfo() = delete;
 
     //! Return the name for a charset id
     static const char* name(CharsetId charsetId);

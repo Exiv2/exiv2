@@ -20,6 +20,7 @@ namespace Exiv2 {
  */
 class EXIV2API PsdImage : public Image {
  public:
+  ~PsdImage() override = default;
   //! @name NOT Implemented
   //@{
   //! Copy constructor

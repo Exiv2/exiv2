@@ -64,6 +64,7 @@ class EXIV2API Jp2Image : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
+  ~Jp2Image() override = default;
   //! @name NOT Implemented
   //@{
   //! Copy constructor

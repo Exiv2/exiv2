@@ -71,6 +71,7 @@ class EXIV2API Cr2Image : public Image {
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
+  ~Cr2Image() override = default;
   //! @name NOT implemented
   //@{
   //! Copy constructor
