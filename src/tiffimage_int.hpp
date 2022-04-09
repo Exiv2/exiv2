@@ -115,7 +115,7 @@ class TiffHeader : public TiffHeaderBase {
   //! @name Creators
   //@{
   //! Default constructor
-  TiffHeader(ByteOrder byteOrder = littleEndian, uint32_t offset = 0x00000008, bool hasImageTags = true);
+  explicit TiffHeader(ByteOrder byteOrder = littleEndian, uint32_t offset = 0x00000008, bool hasImageTags = true);
   //! Destructor
   ~TiffHeader() override = default;
   //@}
@@ -371,13 +371,12 @@ class OffsetWriter {
   //! Data structure for the offset list.
   struct OffsetData {
     //! Default constructor
-    OffsetData() {
-    }
+    OffsetData() = default;
     //! Constructor
     OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), byteOrder_(byteOrder) {
     }
     // DATA
-    uint32_t origin_{0};                 //!< Origin address
+    uint32_t origin_{};                  //!< Origin address
     uint32_t target_{};                  //!< Target address
     ByteOrder byteOrder_{littleEndian};  //!< Byte order to use to encode target address
   };

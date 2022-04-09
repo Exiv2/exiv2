@@ -109,14 +109,14 @@ struct ConstSliceBase : SliceBase {
   /*!
    * Obtain a constant iterator to the first element in the slice.
    */
-  const_iterator cbegin() const noexcept {
+  [[nodiscard]] const_iterator cbegin() const noexcept {
     return storage_.unsafeGetIteratorAt(begin_);
   }
 
   /*!
    * Obtain a constant iterator to the first beyond the slice.
    */
-  const_iterator cend() const noexcept {
+  [[nodiscard]] const_iterator cend() const noexcept {
     return storage_.unsafeGetIteratorAt(end_);
   }
 
@@ -129,7 +129,7 @@ struct ConstSliceBase : SliceBase {
    * mutable_slice_base.
    */
   template <typename slice_type>
-  slice_type subSlice(size_t begin, size_t end) const {
+  [[nodiscard]] slice_type subSlice(size_t begin, size_t end) const {
     this->rangeCheck(begin);
     // end == size() is a legal value, since end is the first
     // element beyond the slice
@@ -219,8 +219,8 @@ struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
    * the appropriate `slice<const T>` and call its `subSlice() const`,
    * which returns the correct type.
    */
-  ConstSliceBase<storage_type, const data_type> to_const_base() const noexcept {
-    return ConstSliceBase<storage_type, const data_type>(this->storage_.data_, this->begin_, this->end_);
+  [[nodiscard]] ConstSliceBase<storage_type, const data_type> to_const_base() const noexcept {
+    return {this->storage_.data_, this->begin_, this->end_};
   }
 
   using base_type = ConstSliceBase<storage_type, data_type>;
@@ -281,11 +281,11 @@ struct ContainerStorage {
    *
    * @throw whatever container::at() throws
    */
-  const value_type& unsafeAt(size_t index) const {
+  [[nodiscard]] const value_type& unsafeAt(size_t index) const {
     return data_.at(index);
   }
 
-  value_type& unsafeAt(size_t index) {
+  [[nodiscard]] value_type& unsafeAt(size_t index) {
     return data_.at(index);
   }
 
@@ -295,19 +295,19 @@ struct ContainerStorage {
    *
    * @throw whatever container::begin() and std::advance() throw
    */
-  iterator unsafeGetIteratorAt(size_t index) {
+  [[nodiscard]] iterator unsafeGetIteratorAt(size_t index) {
     // we are screwed if the container got changed => try to catch it
     assert(index <= data_.size());
 
-    iterator it = data_.begin();
+    auto it = data_.begin();
     std::advance(it, index);
     return it;
   }
 
-  const_iterator unsafeGetIteratorAt(size_t index) const {
+  [[nodiscard]] const_iterator unsafeGetIteratorAt(size_t index) const {
     assert(index <= data_.size());
 
-    const_iterator it = data_.begin();
+    auto it = data_.begin();
     std::advance(it, index);
     return it;
   }
@@ -346,11 +346,11 @@ struct PtrSliceStorage {
    *
    * @throw nothing
    */
-  value_type& unsafeAt(size_t index) noexcept {
+  [[nodiscard]] value_type& unsafeAt(size_t index) noexcept {
     return data_[index];
   }
 
-  const value_type& unsafeAt(size_t index) const noexcept {
+  [[nodiscard]] const value_type& unsafeAt(size_t index) const noexcept {
     return data_[index];
   }
 
@@ -360,11 +360,11 @@ struct PtrSliceStorage {
    *
    * @throw nothing
    */
-  iterator unsafeGetIteratorAt(size_t index) noexcept {
+  [[nodiscard]] iterator unsafeGetIteratorAt(size_t index) noexcept {
     return data_ + index;
   }
 
-  const_iterator unsafeGetIteratorAt(size_t index) const noexcept {
+  [[nodiscard]] const_iterator unsafeGetIteratorAt(size_t index) const noexcept {
     return data_ + index;
   }
 
@@ -462,7 +462,7 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
    * Constructs a new constant subSlice. Behaves otherwise exactly like
    * the non-const version.
    */
-  Slice<const container> subSlice(size_t begin, size_t end) const {
+  [[nodiscard]] Slice<const container> subSlice(size_t begin, size_t end) const {
     return this->to_const_base().template subSlice<Slice<const container>>(begin, end);
   }
 };
@@ -534,7 +534,7 @@ struct Slice<T*> : public Internal::MutableSliceBase<Internal::PtrSliceStorage, 
     return Internal::MutableSliceBase<Internal::PtrSliceStorage, T*>::template subSlice<Slice<T*>>(begin, end);
   }
 
-  Slice<const T*> subSlice(size_t begin, size_t end) const {
+  [[nodiscard]] Slice<const T*> subSlice(size_t begin, size_t end) const {
     return this->to_const_base().template subSlice<Slice<const T*>>(begin, end);
   }
 };

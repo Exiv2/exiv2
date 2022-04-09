@@ -48,7 +48,7 @@ struct binaryToStringHelper;
 template <typename T>
 std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr) {
   for (size_t i = 0; i < binToStr.buf_.size(); ++i) {
-    int c = static_cast<int>(binToStr.buf_.at(i));
+    auto c = static_cast<int>(binToStr.buf_.at(i));
     const bool bTrailingNull = c == 0 && i == binToStr.buf_.size() - 1;
     if (!bTrailingNull) {
       if (c < ' ' || c >= 127) {

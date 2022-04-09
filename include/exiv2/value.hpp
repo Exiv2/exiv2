@@ -1251,9 +1251,8 @@ class ValueType : public Value {
     if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
         v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
       return static_cast<I>(std::round(v));
-    } else {
-      return 0;
     }
+    return 0;
   }
 
   //! Utility for toInt64, toUint32, etc.

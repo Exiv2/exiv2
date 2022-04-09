@@ -1101,6 +1101,20 @@ class TiffIfdMakernote : public TiffComponent {
   ~TiffIfdMakernote() override;
   //@}
 
+  /*!
+    @name NOT implemented
+
+    Implementing the copy constructor and assignment operator will require
+    cloning the header, i.e., clone() functionality on the MnHeader
+    hierarchy.
+   */
+  //@{
+  //! Copy constructor.
+  TiffIfdMakernote(const TiffIfdMakernote&) = delete;
+  //! Assignment operator.
+  TiffIfdMakernote& operator=(const TiffIfdMakernote&) = delete;
+  //@}
+
   //! @name Manipulators
   //@{
   /*!
@@ -1211,20 +1225,6 @@ class TiffIfdMakernote : public TiffComponent {
            makernote IFD.
    */
   [[nodiscard]] size_t doSizeImage() const override;
-  //@}
-
-  /*!
-    @name NOT implemented
-
-    Implementing the copy constructor and assignment operator will require
-    cloning the header, i.e., clone() functionality on the MnHeader
-    hierarchy.
-   */
-  //@{
-  //! Copy constructor.
-  TiffIfdMakernote(const TiffIfdMakernote&) = delete;
-  //! Assignment operator.
-  TiffIfdMakernote& operator=(const TiffIfdMakernote&) = delete;
   //@}
 
  private:
