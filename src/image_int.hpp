@@ -62,7 +62,7 @@ std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& bi
 
 template <typename T>
 struct binaryToStringHelper {
-  explicit binaryToStringHelper(const Slice<T> myBuf) throw() : buf_(myBuf) {
+  explicit binaryToStringHelper(const Slice<T> myBuf) noexcept : buf_(myBuf) {
   }
 
   friend std::ostream& operator<<<T>(std::ostream& stream, const binaryToStringHelper<T>& binToStr);
@@ -95,7 +95,7 @@ struct binaryToStringHelper {
  *     the stream throws neither.
  */
 template <typename T>
-inline binaryToStringHelper<T> binaryToString(const Slice<T> sl) throw() {
+inline binaryToStringHelper<T> binaryToString(const Slice<T> sl) noexcept {
   return binaryToStringHelper<T>(sl);
 }
 
