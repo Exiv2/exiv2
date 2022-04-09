@@ -314,11 +314,11 @@ void PsdImage::writeMetadata() {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   }
   IoCloser closer(*io_);
-  auto tempIo = std::make_unique<MemIo>();
+  MemIo tempIo;
 
-  doWriteMetadata(*tempIo);  // may throw
+  doWriteMetadata(tempIo);  // may throw
   io_->close();
-  io_->transfer(*tempIo);  // may throw
+  io_->transfer(tempIo);  // may throw
 
 }  // PsdImage::writeMetadata
 

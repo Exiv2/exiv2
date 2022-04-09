@@ -140,15 +140,15 @@ void XmpSidecar::writeMetadata() {
     if (xmpPacket_.substr(0, 5) != "<?xml") {
       xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
     }
-    auto tempIo = std::make_unique<MemIo>();
+    MemIo tempIo;
 
     // Write XMP packet
-    if (tempIo->write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size()) != xmpPacket_.size())
+    if (tempIo.write(reinterpret_cast<const byte*>(xmpPacket_.data()), xmpPacket_.size()) != xmpPacket_.size())
       throw Error(ErrorCode::kerImageWriteFailed);
-    if (tempIo->error())
+    if (tempIo.error())
       throw Error(ErrorCode::kerImageWriteFailed);
     io_->close();
-    io_->transfer(*tempIo);  // may throw
+    io_->transfer(tempIo);  // may throw
   }
 }  // XmpSidecar::writeMetadata
 

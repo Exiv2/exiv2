@@ -791,8 +791,7 @@ Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl) {
 }
 
 Image::UniquePtr ImageFactory::open(const byte* data, size_t size) {
-  auto io = std::make_unique<MemIo>(data, size);
-  auto image = open(std::move(io));  // may throw
+  auto image = open(std::make_unique<MemIo>(data, size));  // may throw
   if (!image)
     throw Error(ErrorCode::kerMemoryContainsUnknownImageType);
   return image;
@@ -826,8 +825,7 @@ Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path) {
 }
 
 Image::UniquePtr ImageFactory::create(ImageType type) {
-  auto io = std::make_unique<MemIo>();
-  auto image = create(type, std::move(io));
+  auto image = create(type, std::make_unique<MemIo>());
   if (!image)
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
   return image;
