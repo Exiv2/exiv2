@@ -1213,7 +1213,6 @@ class TiffIfdMakernote : public TiffComponent {
   [[nodiscard]] size_t doSizeImage() const override;
   //@}
 
- private:
   /*!
     @name NOT implemented
 
@@ -1223,11 +1222,12 @@ class TiffIfdMakernote : public TiffComponent {
    */
   //@{
   //! Copy constructor.
-  TiffIfdMakernote(const TiffIfdMakernote& rhs);
+  TiffIfdMakernote(const TiffIfdMakernote&) = delete;
   //! Assignment operator.
-  TiffIfdMakernote& operator=(const TiffIfdMakernote& rhs);
+  TiffIfdMakernote& operator=(const TiffIfdMakernote&) = delete;
   //@}
 
+ private:
   // DATA
   MnHeader* pHeader_;         //!< Makernote header
   TiffDirectory ifd_;         //!< Makernote IFD
