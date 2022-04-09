@@ -27,9 +27,6 @@
 #include <unistd.h>
 #endif
 
-#ifndef lengthof
-#define lengthof(x) sizeof(x) / sizeof(x[0])
-#endif
 #ifndef _MAX_PATH
 #define _MAX_PATH 512
 #endif
@@ -126,10 +123,10 @@ static std::vector<std::string> getLoadedLibraries() {
   // enumerate loaded libraries and determine path to executable
   HMODULE handles[200];
   DWORD cbNeeded;
-  if (EnumProcessModules(GetCurrentProcess(), handles, lengthof(handles), &cbNeeded)) {
+  if (EnumProcessModules(GetCurrentProcess(), handles, std::size(handles), &cbNeeded)) {
     char szFilename[_MAX_PATH];
     for (DWORD h = 0; h < cbNeeded / sizeof(handles[0]); h++) {
-      GetModuleFileNameA(handles[h], szFilename, lengthof(szFilename));
+      GetModuleFileNameA(handles[h], szFilename, std::size(szFilename));
       std::string path(szFilename);
       pushPath(path, libs, paths);
     }

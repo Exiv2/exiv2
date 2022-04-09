@@ -37,7 +37,7 @@
 #define WINAPI
 using DWORD = unsigned long;
 
-#define SOCKET_ERROR -1
+#define SOCKET_ERROR (-1)
 #define WSAEWOULDBLOCK EINPROGRESS
 #define WSAENOTCONN EAGAIN
 
@@ -56,10 +56,10 @@ static constexpr auto httpTemplate =
     "%s"            // $header
     "\r\n";
 
-#define white(c) ((c == ' ') || (c == '\t'))
+#define white(c) (((c) == ' ') || ((c) == '\t'))
 
-#define FINISH -999
-#define OK(s) (200 <= s && s < 300)
+#define FINISH (-999)
+#define OK(s) (200 <= (s) && (s) < 300)
 
 static constexpr std::array<const char*, 2> blankLines{
     "\r\n\r\n",  // this is the standard

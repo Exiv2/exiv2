@@ -31,7 +31,7 @@
 #endif
 #include <iostream>
 
-#define Safe(x) (x ? x : "unknown")
+#define Safe(x) ((x) ? (x) : "unknown")
 const char* optstring = ":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:";
 
 // *****************************************************************************
