@@ -68,7 +68,7 @@ class XMLValidator {
  private:
   // Private constructor, because this class is only constructed by
   // the (static) check method.
-  XMLValidator() : parser_(XML_ParserCreateNS(0, '@')) {
+  XMLValidator() : parser_(XML_ParserCreateNS(nullptr, '@')) {
     if (!parser_) {
       throw Error(ErrorCode::kerXMPToolkitError, "Could not create expat parser");
     }

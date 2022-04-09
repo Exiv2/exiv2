@@ -1547,7 +1547,7 @@ TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
 //! Function to create and initialize a new simple binary array entry
 template <const ArrayCfg* arrayCfg>
 TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group) {
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, 0, 0));
+  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, nullptr, 0));
 }
 
 //! Function to create and initialize a new complex binary array entry
