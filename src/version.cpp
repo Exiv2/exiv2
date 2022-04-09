@@ -123,10 +123,10 @@ static std::vector<std::string> getLoadedLibraries() {
   // enumerate loaded libraries and determine path to executable
   HMODULE handles[200];
   DWORD cbNeeded;
-  if (EnumProcessModules(GetCurrentProcess(), handles, std::size(handles), &cbNeeded)) {
+  if (EnumProcessModules(GetCurrentProcess(), handles, DWORD(std::size(handles)), &cbNeeded)) {
     char szFilename[_MAX_PATH];
     for (DWORD h = 0; h < cbNeeded / sizeof(handles[0]); h++) {
-      GetModuleFileNameA(handles[h], szFilename, std::size(szFilename));
+      GetModuleFileNameA(handles[h], szFilename, DWORD(std::size(szFilename)));
       std::string path(szFilename);
       pushPath(path, libs, paths);
     }

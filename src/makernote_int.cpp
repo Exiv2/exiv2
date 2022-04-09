@@ -142,10 +142,10 @@ TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, const std::strin
 TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, IfdId mnGroup) {
   auto tmr = std::find(std::begin(registry_), std::end(registry_), mnGroup);
   if (tmr != std::end(registry_)) {
-    if (!tmr->newMnFct2_) {
-      std::cout << "mnGroup = " << mnGroup << "\n";
+    if (tmr->newMnFct2_) {
+      return tmr->newMnFct2_(tag, group, mnGroup);
     }
-    return tmr->newMnFct2_(tag, group, mnGroup);
+    std::cout << "mnGroup = " << mnGroup << "\n";
   }
   return nullptr;
 }  // TiffMnCreator::create
