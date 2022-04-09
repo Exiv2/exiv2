@@ -37,8 +37,8 @@ class OrfHeader : public TiffHeaderBase {
   //@}
  private:
   // DATA
-  uint16_t sig_;  //<! The actual magic number
-};                // class OrfHeader
+  uint16_t sig_{0x4f52};  //<! The actual magic number
+};                        // class OrfHeader
 
 }  // namespace Exiv2::Internal
 

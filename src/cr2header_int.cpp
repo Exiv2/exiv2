@@ -3,7 +3,7 @@
 #include "cr2header_int.hpp"
 
 namespace Exiv2::Internal {
-Cr2Header::Cr2Header(ByteOrder byteOrder) : TiffHeaderBase(42, 16, byteOrder, 0x00000010), offset2_(0x00000000) {
+Cr2Header::Cr2Header(ByteOrder byteOrder) : TiffHeaderBase(42, 16, byteOrder, 0x00000010) {
 }
 
 bool Cr2Header::read(const byte* pData, size_t size) {

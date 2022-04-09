@@ -3,7 +3,7 @@
 #include "orfimage_int.hpp"
 
 namespace Exiv2::Internal {
-OrfHeader::OrfHeader(ByteOrder byteOrder) : TiffHeaderBase(0x4f52, 8, byteOrder, 0x00000008), sig_(0x4f52) {
+OrfHeader::OrfHeader(ByteOrder byteOrder) : TiffHeaderBase(0x4f52, 8, byteOrder, 0x00000008) {
 }
 
 bool OrfHeader::read(const byte* pData, size_t size) {
