@@ -889,7 +889,7 @@ void XPathIo::ReadDataUri(const std::string& path) {
     throw Error(ErrorCode::kerErrorMessage, "No base64 data");
 
   std::string data = path.substr(base64Pos + 7);
-  char* decodeData = new char[data.length()];
+  auto decodeData = new char[data.length()];
   auto size = base64decode(data.c_str(), decodeData, data.length());
   if (size > 0)
     write((byte*)decodeData, size);

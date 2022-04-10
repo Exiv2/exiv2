@@ -4899,10 +4899,10 @@ void XmpProperties::registerNs(const std::string& ns, const std::string& prefix)
   // Using malloc/free for better system compatibility in case
   // users don't unregister their namespaces explicitly.
   XmpNsInfo xn;
-  auto c = static_cast<char*>(std::malloc(ns2.size() + 1));
+  auto c = new char[ns2.size() + 1];
   std::strcpy(c, ns2.c_str());
   xn.ns_ = c;
-  c = static_cast<char*>(std::malloc(prefix.size() + 1));
+  c = new char[prefix.size() + 1];
   std::strcpy(c, prefix.c_str());
   xn.prefix_ = c;
   xn.xmpPropertyInfo_ = nullptr;
@@ -4918,8 +4918,8 @@ void XmpProperties::unregisterNs(const std::string& ns) {
 void XmpProperties::unregisterNsUnsafe(const std::string& ns) {
   auto i = nsRegistry_.find(ns);
   if (i != nsRegistry_.end()) {
-    std::free(const_cast<char*>(i->second.prefix_));
-    std::free(const_cast<char*>(i->second.ns_));
+    delete[] i->second.prefix_;
+    delete[] i->second.ns_;
     nsRegistry_.erase(i);
   }
 }
