@@ -887,10 +887,13 @@ constexpr auto nikonArrayIdx = std::array{
 int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const /*pRoot*/) {
   if (size < 4)
     return -1;
-  for (auto&& aix : nikonArrayIdx)
-    if (aix == NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size))
-      return aix.idx_;
-  return -1;
+
+  auto ix = NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size);
+  auto it = std::find_if(nikonArrayIdx.begin(), nikonArrayIdx.end(), [ix](auto&& aix) { return aix == ix; });
+  if (it == nikonArrayIdx.end())
+    return -1;
+
+  return it->idx_;
 }
 
 DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot) {
