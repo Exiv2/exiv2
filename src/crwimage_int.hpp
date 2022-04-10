@@ -371,13 +371,12 @@ class CiffDirectory : public CiffComponent {
   void doPrint(std::ostream& os, ByteOrder byteOrder, const std::string& prefix) const override;
 
   //! See base class comment. A directory is empty if it has no components.
-  bool doEmpty() const override;
+  [[nodiscard]] bool doEmpty() const override;
 
   // See base class comment
   [[nodiscard]] CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const override;
   //@}
 
- private:
   // DATA
   Components components_;  //!< List of components in this dir
   UniquePtr m_;            // used by recursive doAdd
@@ -495,14 +494,14 @@ struct CrwMapping {
   //@{
   //! Default constructor
   CrwMapping(uint16_t crwTagId, uint16_t crwDir, uint32_t size, uint16_t tag, Internal::IfdId ifdId,
-             const CrwDecodeFct& toExif, const CrwEncodeFct& fromExif) :
+             CrwDecodeFct toExif, CrwEncodeFct fromExif) :
       crwTagId_(crwTagId),
       crwDir_(crwDir),
       size_(size),
       tag_(tag),
       ifdId_(ifdId),
-      toExif_(toExif),
-      fromExif_(fromExif) {
+      toExif_(std::move(toExif)),
+      fromExif_(std::move(fromExif)) {
   }
   //@}
 
@@ -633,7 +632,6 @@ class CrwMap {
   //! Encode the thumbnail image
   static void encode0x2008(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
 
- private:
   // DATA
   static const CrwMapping crwMapping_[];  //!< Metadata conversion table
   static const CrwSubDir crwSubDir_[];    //!< Ciff directory hierarchy

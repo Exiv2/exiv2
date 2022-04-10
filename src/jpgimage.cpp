@@ -696,7 +696,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
     // exiv2 -pS E.jpg
 
     // binary copy io_ to a temporary file
-    auto tempIo = std::make_unique<MemIo>();
+    MemIo tempIo;
     for (size_t i = 0; i < (count / 2) + 1; i++) {
       size_t start = pos[2 * i] + 2;  // step JPG 2 byte marker
       if (start == 2)
@@ -709,12 +709,12 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
         io_->seekOrThrow(start, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
         DataBuf buf(length);
         io_->readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
-        tempIo->write(buf.c_data(), buf.size());
+        tempIo.write(buf.c_data(), buf.size());
       }
     }
 
     io_->seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
-    io_->transfer(*tempIo);  // may throw
+    io_->transfer(tempIo);  // may throw
     io_->seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
     readMetadata();
   }
@@ -725,11 +725,11 @@ void JpegBase::writeMetadata() {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   }
   IoCloser closer(*io_);
-  auto tempIo = std::make_unique<MemIo>();
+  MemIo tempIo;
 
-  doWriteMetadata(*tempIo);  // may throw
+  doWriteMetadata(tempIo);  // may throw
   io_->close();
-  io_->transfer(*tempIo);  // may throw
+  io_->transfer(tempIo);  // may throw
 }
 
 DataBuf JpegBase::readNextSegment(byte marker) {

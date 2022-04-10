@@ -54,6 +54,7 @@ class EXIV2API PgfImage : public Image {
   }
   //@}
 
+  ~PgfImage() override = default;
   //! @name NOT implemented
   //@{
   //! Copy constructor

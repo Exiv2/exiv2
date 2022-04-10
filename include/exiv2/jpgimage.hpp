@@ -83,6 +83,7 @@ class EXIV2API JpegBase : public Image {
   void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
   //@}
 
+  ~JpegBase() override = default;
   //! @name NOT implemented
   //@{
   //! Copy constructor
@@ -264,6 +265,7 @@ class EXIV2API JpegImage : public JpegBase {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
+  ~JpegImage() override = default;
   // NOT Implemented
   //! Copy constructor
   JpegImage(const JpegImage&) = delete;
@@ -323,6 +325,7 @@ class EXIV2API ExvImage : public JpegBase {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
+  ~ExvImage() override = default;
   // NOT Implemented
   //! Copy constructor
   ExvImage(const ExvImage&) = delete;

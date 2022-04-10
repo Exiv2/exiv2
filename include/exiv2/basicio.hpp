@@ -711,6 +711,9 @@ class EXIV2API XPathIo : public FileIo {
   ~XPathIo() override;
   //@}
 
+  XPathIo(const XPathIo&) = delete;
+  XPathIo& operator=(const XPathIo&) = delete;
+
   //! @name Manipulators
   //@{
   /*!
@@ -750,6 +753,9 @@ class EXIV2API RemoteIo : public BasicIo {
   RemoteIo();
   ~RemoteIo() override;
   //@}
+
+  RemoteIo(const RemoteIo&) = delete;
+  RemoteIo& operator=(const RemoteIo&) = delete;
 
   //! @name Manipulators
   //@{
@@ -920,6 +926,7 @@ class EXIV2API HttpIo : public RemoteIo {
    */
   explicit HttpIo(const std::string& url, size_t blockSize = 1024);
 
+  ~HttpIo() override = default;
   // NOT IMPLEMENTED
   //! Copy constructor
   HttpIo(const HttpIo&) = delete;
@@ -964,6 +971,7 @@ class EXIV2API CurlIo : public RemoteIo {
    */
   size_t write(BasicIo& src) override;
 
+  ~CurlIo() override = default;
   // NOT IMPLEMENTED
   //! Copy constructor
   CurlIo(const CurlIo&) = delete;

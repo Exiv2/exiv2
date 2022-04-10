@@ -513,8 +513,7 @@ TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCompo
     if (tiffPath.size() == 1 && object) {
       tc = addChild(std::move(object));
     } else {
-      auto atc = std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group());
-      tc = addChild(std::move(atc));
+      tc = addChild(std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group()));
     }
     setCount(ifds_.size());
   }

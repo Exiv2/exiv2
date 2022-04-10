@@ -1101,6 +1101,20 @@ class TiffIfdMakernote : public TiffComponent {
   ~TiffIfdMakernote() override;
   //@}
 
+  /*!
+    @name NOT implemented
+
+    Implementing the copy constructor and assignment operator will require
+    cloning the header, i.e., clone() functionality on the MnHeader
+    hierarchy.
+   */
+  //@{
+  //! Copy constructor.
+  TiffIfdMakernote(const TiffIfdMakernote&) = delete;
+  //! Assignment operator.
+  TiffIfdMakernote& operator=(const TiffIfdMakernote&) = delete;
+  //@}
+
   //! @name Manipulators
   //@{
   /*!
@@ -1214,20 +1228,6 @@ class TiffIfdMakernote : public TiffComponent {
   //@}
 
  private:
-  /*!
-    @name NOT implemented
-
-    Implementing the copy constructor and assignment operator will require
-    cloning the header, i.e., clone() functionality on the MnHeader
-    hierarchy.
-   */
-  //@{
-  //! Copy constructor.
-  TiffIfdMakernote(const TiffIfdMakernote& rhs);
-  //! Assignment operator.
-  TiffIfdMakernote& operator=(const TiffIfdMakernote& rhs);
-  //@}
-
   // DATA
   MnHeader* pHeader_;         //!< Makernote header
   TiffDirectory ifd_;         //!< Makernote IFD
@@ -1547,7 +1547,7 @@ TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
 //! Function to create and initialize a new simple binary array entry
 template <const ArrayCfg* arrayCfg>
 TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group) {
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, 0, 0));
+  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, nullptr, 0));
 }
 
 //! Function to create and initialize a new complex binary array entry

@@ -92,10 +92,10 @@ void CrwImage::writeMetadata() {
   CrwParser::encode(blob, buf.c_data(), buf.size(), this);
 
   // Write new buffer to file
-  auto tempIo = std::make_unique<MemIo>();
-  tempIo->write((!blob.empty() ? &blob[0] : nullptr), blob.size());
+  MemIo tempIo;
+  tempIo.write((!blob.empty() ? &blob[0] : nullptr), blob.size());
   io_->close();
-  io_->transfer(*tempIo);  // may throw
+  io_->transfer(tempIo);  // may throw
 
 }  // CrwImage::writeMetadata
 

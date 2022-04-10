@@ -68,6 +68,7 @@ class EXIV2API TiffImage : public Image {
   uint32_t pixelHeight() const override;
   //@}
 
+  ~TiffImage() override = default;
   //! @name NOT Implemented
   //@{
   //! Copy constructor

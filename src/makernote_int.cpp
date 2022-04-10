@@ -274,7 +274,7 @@ size_t FujiMnHeader::sizeOfSignature() {
   return sizeof(signature_);
 }
 
-FujiMnHeader::FujiMnHeader() : start_(0) {
+FujiMnHeader::FujiMnHeader() {
   read(signature_, sizeOfSignature(), byteOrder_);
 }
 
@@ -316,7 +316,7 @@ size_t Nikon2MnHeader::sizeOfSignature() {
   return sizeof(signature_);
 }
 
-Nikon2MnHeader::Nikon2MnHeader() : start_(0) {
+Nikon2MnHeader::Nikon2MnHeader() {
   read(signature_, sizeOfSignature(), invalidByteOrder);
 }
 
@@ -351,7 +351,7 @@ size_t Nikon3MnHeader::sizeOfSignature() {
   return sizeof(signature_);
 }
 
-Nikon3MnHeader::Nikon3MnHeader() : byteOrder_(invalidByteOrder), start_(sizeOfSignature()) {
+Nikon3MnHeader::Nikon3MnHeader() : start_(sizeOfSignature()) {
   buf_.alloc(sizeOfSignature());
   std::copy_n(signature_, buf_.size(), buf_.data());
 }
@@ -406,7 +406,7 @@ size_t PanasonicMnHeader::sizeOfSignature() {
   return sizeof(signature_);
 }
 
-PanasonicMnHeader::PanasonicMnHeader() : start_(0) {
+PanasonicMnHeader::PanasonicMnHeader() {
   read(signature_, sizeOfSignature(), invalidByteOrder);
 }
 
@@ -527,7 +527,7 @@ size_t SigmaMnHeader::sizeOfSignature() {
   return sizeof(signature1_);
 }
 
-SigmaMnHeader::SigmaMnHeader() : start_(0) {
+SigmaMnHeader::SigmaMnHeader() {
   read(signature1_, sizeOfSignature(), invalidByteOrder);
 }
 
@@ -561,7 +561,7 @@ size_t SonyMnHeader::sizeOfSignature() {
   return sizeof(signature_);
 }
 
-SonyMnHeader::SonyMnHeader() : start_(0) {
+SonyMnHeader::SonyMnHeader() {
   read(signature_, sizeOfSignature(), invalidByteOrder);
 }
 
@@ -596,7 +596,7 @@ size_t Casio2MnHeader::sizeOfSignature() {
   return sizeof(signature_);
 }
 
-Casio2MnHeader::Casio2MnHeader() : start_(0) {
+Casio2MnHeader::Casio2MnHeader() {
   read(signature_, sizeOfSignature(), invalidByteOrder);
 }
 
@@ -887,10 +887,13 @@ constexpr auto nikonArrayIdx = std::array{
 int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const /*pRoot*/) {
   if (size < 4)
     return -1;
-  for (auto&& aix : nikonArrayIdx)
-    if (aix == NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size))
-      return aix.idx_;
-  return -1;
+
+  auto ix = NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size);
+  auto it = std::find_if(nikonArrayIdx.begin(), nikonArrayIdx.end(), [ix](auto&& aix) { return aix == ix; });
+  if (it == nikonArrayIdx.end())
+    return -1;
+
+  return it->idx_;
 }
 
 DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot) {

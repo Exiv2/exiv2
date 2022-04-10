@@ -21,6 +21,7 @@ namespace Exiv2 {
  */
 class EXIV2API GifImage : public Image {
  public:
+  ~GifImage() override = default;
   //! @name NOT Implemented
   //@{
   //! Copy constructor

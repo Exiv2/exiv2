@@ -26,6 +26,7 @@ namespace Exiv2 {
  */
 class EXIV2API BmpImage : public Image {
  public:
+  ~BmpImage() override = default;
   //! @name NOT Implemented
   //@{
   //! Copy constructor

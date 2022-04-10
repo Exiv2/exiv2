@@ -1890,13 +1890,13 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
     encoder.add(createdTree.get(), parsedTree.get(), root);
     // Write binary representation from the composite tree
     DataBuf header = pHeader->write();
-    auto tempIo = std::make_unique<MemIo>();
-    IoWrapper ioWrapper(*tempIo, header.c_data(), header.size(), pOffsetWriter);
+    auto tempIo = MemIo();
+    IoWrapper ioWrapper(tempIo, header.c_data(), header.size(), pOffsetWriter);
     auto imageIdx(uint32_t(-1));
     createdTree->write(ioWrapper, pHeader->byteOrder(), header.size(), uint32_t(-1), uint32_t(-1), imageIdx);
     if (pOffsetWriter)
-      pOffsetWriter->writeOffsets(*tempIo);
-    io.transfer(*tempIo);  // may throw
+      pOffsetWriter->writeOffsets(tempIo);
+    io.transfer(tempIo);  // may throw
 #ifndef SUPPRESS_WARNINGS
     EXV_INFO << "Write strategy: Intrusive\n";
 #endif

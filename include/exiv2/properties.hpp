@@ -71,6 +71,7 @@ class EXIV2API XmpProperties {
   static const XmpNsInfo* lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix);
 
  public:
+  ~XmpProperties() = delete;
   //! Prevent copy-construction: not implemented.
   XmpProperties(const XmpProperties&) = delete;
   //! Prevent assignment: not implemented.

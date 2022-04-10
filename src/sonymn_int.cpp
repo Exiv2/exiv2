@@ -855,12 +855,9 @@ std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream&
       "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",  "DSC-WX350", "DSC-WX500",
   };
 
-  std::string model = pos->toString();
-  for (auto& m : models) {
-    if (m == model)
-      return os << value.toInt64();
-  }
-
+  bool f = std::any_of(models.begin(), models.end(), [model = pos->toString()](auto&& m) { return m == model; });
+  if (f)
+    return os << value.toInt64();
   return os << N_("n/a");
 }
 
@@ -923,13 +920,11 @@ std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, co
   if (pos == metadata->end())
     return os << "(" << value << ")";
 
-  std::string model = pos->toString();
-
   // Models that do not support this tag
-  for (auto& m : {"ILCE-1", "ILCE-7SM3", "ILME-FX3"}) {
-    if (m == model)
-      return os << N_("n/a");
-  }
+  const auto models = std::array{"ILCE-1", "ILCE-7SM3", "ILME-FX3"};
+  bool f = std::any_of(models.begin(), models.end(), [model = pos->toString()](auto&& m) { return m == model; });
+  if (f)
+    return os << N_("n/a");
 
   const auto val = value.toInt64();
   return val > 0 ? os << (8 * val) : os << N_("n/a");
@@ -944,13 +939,11 @@ std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, c
   if (pos == metadata->end())
     return os << "(" << value << ")";
 
-  std::string model = pos->toString();
-
   // Models that do not support this tag
-  for (auto& m : {"ILCE-1", "ILCE-7SM3", "ILME-FX3"}) {
-    if (m == model)
-      return os << N_("n/a");
-  }
+  const auto models = std::array{"ILCE-1", "ILCE-7SM3", "ILME-FX3"};
+  bool f = std::any_of(models.begin(), models.end(), [model = pos->toString()](auto&& m) { return m == model; });
+  if (f)
+    return os << N_("n/a");
 
   const auto val = value.toInt64();
   if (val > 99)

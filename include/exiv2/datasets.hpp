@@ -132,6 +132,7 @@ class EXIV2API IptcDataSets {
   static constexpr uint16_t Preview = 202;
   //@}
 
+  ~IptcDataSets() = delete;
   //! Prevent copy-construction: not implemented.
   IptcDataSets(const IptcDataSets&) = delete;
   //! Prevent assignment: not implemented.
@@ -263,7 +264,7 @@ class EXIV2API IptcKey : public Key {
   IptcKey(uint16_t tag, uint16_t record);
   //! Copy constructor
   IptcKey(const IptcKey& rhs);
-  IptcKey& operator=(const IptcKey&) = delete;
+  IptcKey& operator=(const IptcKey&) = default;
   //! Destructor
   ~IptcKey() override = default;
   //@}

@@ -250,7 +250,7 @@ class FujiMnHeader : public MnHeader {
   DataBuf header_;                    //!< Data buffer for the makernote header
   static const byte signature_[];     //!< Fujifilm makernote header signature
   static const ByteOrder byteOrder_;  //!< Byteorder for makernote (always II)
-  uint32_t start_;                    //!< Start of the mn IFD rel. to mn start
+  uint32_t start_{0};                 //!< Start of the mn IFD rel. to mn start
 
 };  // class FujiMnHeader
 
@@ -279,7 +279,7 @@ class Nikon2MnHeader : public MnHeader {
 
  private:
   DataBuf buf_;                    //!< Raw header data
-  size_t start_;                   //!< Start of the mn IFD rel. to mn start
+  size_t start_{0};                //!< Start of the mn IFD rel. to mn start
   static const byte signature_[];  //!< Nikon 2 makernote header signature
 
 };  // class Nikon2MnHeader
@@ -311,10 +311,10 @@ class Nikon3MnHeader : public MnHeader {
   static size_t sizeOfSignature();
 
  private:
-  DataBuf buf_;                    //!< Raw header data
-  ByteOrder byteOrder_;            //!< Byteorder for makernote
-  size_t start_;                   //!< Start of the mn IFD rel. to mn start
-  static const byte signature_[];  //!< Nikon 3 makernote header signature
+  DataBuf buf_;                            //!< Raw header data
+  ByteOrder byteOrder_{invalidByteOrder};  //!< Byteorder for makernote
+  size_t start_;                           //!< Start of the mn IFD rel. to mn start
+  static const byte signature_[];          //!< Nikon 3 makernote header signature
 
 };  // class Nikon3MnHeader
 
@@ -343,7 +343,7 @@ class PanasonicMnHeader : public MnHeader {
 
  private:
   DataBuf buf_;                    //!< Raw header data
-  size_t start_;                   //!< Start of the mn IFD rel. to mn start
+  size_t start_{0};                //!< Start of the mn IFD rel. to mn start
   static const byte signature_[];  //!< Panasonic makernote header signature
 
 };  // class PanasonicMnHeader
@@ -453,7 +453,7 @@ class SigmaMnHeader : public MnHeader {
 
  private:
   DataBuf buf_;                     //!< Raw header data
-  size_t start_;                    //!< Start of the mn IFD rel. to mn start
+  size_t start_{0};                 //!< Start of the mn IFD rel. to mn start
   static const byte signature1_[];  //!< Sigma makernote header signature 1
   static const byte signature2_[];  //!< Sigma makernote header signature 2
 
@@ -484,7 +484,7 @@ class SonyMnHeader : public MnHeader {
 
  private:
   DataBuf buf_;                    //!< Raw header data
-  size_t start_;                   //!< Start of the mn IFD rel. to mn start
+  size_t start_{0};                //!< Start of the mn IFD rel. to mn start
   static const byte signature_[];  //!< Sony makernote header signature
 
 };  // class SonyMnHeader
@@ -515,7 +515,7 @@ class Casio2MnHeader : public MnHeader {
 
  private:
   DataBuf buf_;                       //!< Raw header data
-  size_t start_;                      //!< Start of the mn IFD rel. to mn start
+  size_t start_{0};                   //!< Start of the mn IFD rel. to mn start
   static const byte signature_[];     //!< Casio makernote header signature
   static const ByteOrder byteOrder_;  //!< Byteorder for makernote (always big endian)
 

@@ -63,6 +63,7 @@ struct EXIV2API TagInfo {
 //! Access to Exif group and tag lists and misc. tag reference methods, implemented as a static class.
 class EXIV2API ExifTags {
  public:
+  ~ExifTags() = delete;
   //! Prevent copy-construction: not implemented.
   ExifTags(const ExifTags&) = delete;
   //! Prevent assignment: not implemented.

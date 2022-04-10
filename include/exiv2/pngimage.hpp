@@ -60,6 +60,7 @@ class EXIV2API PngImage : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
+  ~PngImage() override = default;
   //! @name NOT implemented
   //@{
   //! Copy constructor

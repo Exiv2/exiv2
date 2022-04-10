@@ -25,7 +25,6 @@ class PngChunk {
   */
   enum TxtChunkType { tEXt_Chunk = 0, zTXt_Chunk = 1, iTXt_Chunk = 2 };
 
- public:
   /*!
     @brief Decode PNG IHDR chunk data from a data buffer
            \em data and return image size to \em outWidth and \em outHeight.

@@ -72,6 +72,7 @@ class EXIV2API Rw2Image : public Image {
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
+  ~Rw2Image() override = default;
   //! @name NOT implemented
   //@{
   //! Copy constructor
