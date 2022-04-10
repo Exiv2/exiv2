@@ -65,6 +65,7 @@ set(PUBLIC_HEADERS
     ../include/exiv2/mrwimage.hpp
     ../include/exiv2/orfimage.hpp
     ../include/exiv2/pgfimage.hpp
+    ../include/exiv2/photoshop.hpp
     ../include/exiv2/preview.hpp
     ../include/exiv2/properties.hpp
     ../include/exiv2/psdimage.hpp
@@ -107,6 +108,7 @@ add_library( exiv2lib
     mrwimage.cpp
     orfimage.cpp
     pgfimage.cpp
+    photoshop.cpp
     preview.cpp
     properties.cpp
     psdimage.cpp

@@ -13,12 +13,14 @@
 #include "image.hpp"
 #include "iptc.hpp"
 #include "jpgimage.hpp"
+#include "photoshop.hpp"
 #include "pngchunk_int.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 
 // standard includes
 #include <algorithm>
+#include <array>
 #include <cstdio>
 #include <cstring>
 #include <iomanip>

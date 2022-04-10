@@ -29,6 +29,7 @@
 #include "exiv2/mrwimage.hpp"
 #include "exiv2/orfimage.hpp"
 #include "exiv2/pgfimage.hpp"
+#include "exiv2/photoshop.hpp"
 
 #ifdef EXV_HAVE_LIBZ
 #include "exiv2/pngimage.hpp"

@@ -11,7 +11,9 @@ class TiffMnEntryDoCountInvalidTiffType(metaclass=CaseMeta):
 
     filename = path("$data_path/issue_1833_poc.jpg")
     commands = ["$exiv2 -pS $filename"]
-    stderr = [""]
-    retval = [0]
+    stderr   = ["""$exiv2_exception_message """ + filename + """:
+$kerFailedToReadImageData
+"""]
+    retval = [1]
 
     compare_stdout = check_no_ASAN_UBSAN_errors

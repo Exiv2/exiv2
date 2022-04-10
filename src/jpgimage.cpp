@@ -9,6 +9,7 @@
 #include "helper_functions.hpp"
 #include "image_int.hpp"
 #include "jpgimage.hpp"
+#include "photoshop.hpp"
 #include "safe_op.hpp"
 
 #ifdef WIN32
@@ -21,198 +22,70 @@
 
 #include "fff.h"
 
+#include <array>
 #include <iostream>
 
 // *****************************************************************************
 // class member definitions
 
 namespace Exiv2 {
-static inline bool inRange(int lo, int value, int hi) {
+
+namespace {
+// JPEG Segment markers (The first byte is always 0xFF, the value of these constants correspond to the 2nd byte)
+constexpr byte sos_ = 0xda;    //!< JPEG SOS marker
+constexpr byte app0_ = 0xe0;   //!< JPEG APP0 marker
+constexpr byte app1_ = 0xe1;   //!< JPEG APP1 marker
+constexpr byte app2_ = 0xe2;   //!< JPEG APP2 marker
+constexpr byte app13_ = 0xed;  //!< JPEG APP13 marker
+constexpr byte com_ = 0xfe;    //!< JPEG Comment marker
+
+// Markers without payload
+constexpr byte soi_ = 0xd8;   ///!< SOI marker
+constexpr byte eoi_ = 0xd9;   //!< JPEG EOI marker
+constexpr byte rst1_ = 0xd0;  //!< JPEG Restart 0 Marker (from 0xD0 to 0xD7 there might be 8 of these markers)
+
+// Start of Frame markers, nondifferential Huffman-coding frames
+constexpr byte sof0_ = 0xc0;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof3_ = 0xc3;  //!< JPEG Start-Of-Frame marker
+
+// Start of Frame markers, differential Huffman-coding frames
+constexpr byte sof5_ = 0xc5;  //!< JPEG Start-Of-Frame marker
+
+// Start of Frame markers, differential arithmetic-coding frames
+constexpr byte sof15_ = 0xcf;  //!< JPEG Start-Of-Frame marker
+
+constexpr auto exifId_ = "Exif\0\0";  //!< Exif identifier
+// constexpr auto jfifId_ = "JFIF\0";                         //!< JFIF identifier
+constexpr auto xmpId_ = "http://ns.adobe.com/xap/1.0/\0";  //!< XMP packet identifier
+constexpr auto iccId_ = "ICC_PROFILE\0";                   //!< ICC profile identifier
+
+inline bool inRange(int lo, int value, int hi) {
   return lo <= value && value <= hi;
 }
 
-static inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
+inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
   return inRange(lo1, value, hi1) || inRange(lo2, value, hi2);
 }
 
-bool Photoshop::isIrb(const byte* pPsData) {
-  if (pPsData == nullptr) {
-    return false;
-  }
-  /// \todo check if direct array comparison is faster than a call to memcmp
-  return std::any_of(irbId_.begin(), irbId_.end(), [pPsData](auto id) { return memcmp(pPsData, id, 4) == 0; });
+/// @brief has the segment a non-zero payload?
+/// @param m The marker at the start of a segment
+/// @return true if the segment has a length field/payload
+bool markerHasLength(byte m) {
+  bool markerWithoutLength = m >= rst1_ && m <= eoi_;
+  return !markerWithoutLength;
 }
 
-bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {
-  const byte* record = nullptr;
-  uint32_t sizeIptc = 0;
-  uint32_t sizeHdr = 0;
-  const byte* pCur = pPsData;
-  const byte* pEnd = pPsData + sizePsData;
-  int ret = 0;
-  while (pCur < pEnd && 0 == (ret = Photoshop::locateIptcIrb(pCur, (pEnd - pCur), &record, &sizeHdr, &sizeIptc))) {
-    pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
+std::pair<std::array<byte, 2>, uint16_t> readSegmentSize(const byte marker, BasicIo& io) {
+  std::array<byte, 2> buf{0, 0};  // 2-byte buffer for reading the size.
+  uint16_t size{0};               // Size of the segment, including the 2-byte size field
+  if (markerHasLength(marker)) {
+    io.readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
+    size = getUShort(buf.data(), bigEndian);
+    enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
   }
-  return ret >= 0;
+  return {buf, size};
 }
-
-// Todo: Generalised from JpegBase::locateIptcData without really understanding
-//       the format (in particular the header). So it remains to be confirmed
-//       if this also makes sense for psTag != Photoshop::iptc
-int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record,
-                         uint32_t* const sizeHdr, uint32_t* const sizeData) {
-  if (sizePsData < 12) {
-    return 3;
-  }
-
-  // Used for error checking
-  size_t position = 0;
-#ifdef EXIV2_DEBUG_MESSAGES
-  std::cerr << "Photoshop::locateIrb: ";
-#endif
-  // Data should follow Photoshop format, if not exit
-  while (position <= (sizePsData - 12) && isIrb(pPsData + position)) {
-    const byte* hrd = pPsData + position;
-    position += 4;
-    uint16_t type = getUShort(pPsData + position, bigEndian);
-    position += 2;
-#ifdef EXIV2_DEBUG_MESSAGES
-    std::cerr << "0x" << std::hex << type << std::dec << " ";
-#endif
-    // Pascal string is padded to have an even size (including size byte)
-    byte psSize = pPsData[position] + 1;
-    psSize += (psSize & 1);
-    position += psSize;
-    if (position + 4 > sizePsData) {
-#ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Warning: "
-                << "Invalid or extended Photoshop IRB\n";
-#endif
-      return -2;
-    }
-    uint32_t dataSize = getULong(pPsData + position, bigEndian);
-    position += 4;
-    if (dataSize > (sizePsData - position)) {
-#ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Warning: "
-                << "Invalid Photoshop IRB data size " << dataSize << " or extended Photoshop IRB\n";
-#endif
-      return -2;
-    }
-#ifdef EXIV2_DEBUG_MESSAGES
-    if ((dataSize & 1) && position + dataSize == sizePsData) {
-      std::cerr << "Warning: "
-                << "Photoshop IRB data is not padded to even size\n";
-    }
-#endif
-    if (type == psTag) {
-#ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "ok\n";
-#endif
-      *sizeData = dataSize;
-      *sizeHdr = psSize + 10;
-      *record = hrd;
-      return 0;
-    }
-    // Data size is also padded to be even
-    position += dataSize + (dataSize & 1);
-  }
-#ifdef EXIV2_DEBUG_MESSAGES
-  std::cerr << "pPsData doesn't start with '8BIM'\n";
-#endif
-  if (position < sizePsData) {
-#ifdef EXIV2_DEBUG_MESSAGES
-    std::cerr << "Warning: "
-              << "Invalid or extended Photoshop IRB\n";
-#endif
-    return -2;
-  }
-  return 3;
-}
-
-int Photoshop::locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* const sizeHdr,
-                             uint32_t* const sizeData) {
-  return locateIrb(pPsData, sizePsData, iptc_, record, sizeHdr, sizeData);
-}
-
-int Photoshop::locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* const sizeHdr,
-                                uint32_t* const sizeData) {
-  return locateIrb(pPsData, sizePsData, preview_, record, sizeHdr, sizeData);
-}
-
-DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData) {
-#ifdef EXIV2_DEBUG_MESSAGES
-  std::cerr << "IRB block at the beginning of Photoshop::setIptcIrb\n";
-  if (sizePsData == 0)
-    std::cerr << "  None.\n";
-  else
-    hexdump(std::cerr, pPsData, sizePsData);
-#endif
-  const byte* record = pPsData;
-  uint32_t sizeIptc = 0;
-  uint32_t sizeHdr = 0;
-  DataBuf rc;
-  if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData, &record, &sizeHdr, &sizeIptc)) {
-    return rc;
-  }
-
-  Blob psBlob;
-  const auto sizeFront = static_cast<size_t>(record - pPsData);
-  // Write data before old record.
-  if (sizePsData > 0 && sizeFront > 0) {
-    append(psBlob, pPsData, sizeFront);
-  }
-
-  // Write new iptc record if we have it
-  DataBuf rawIptc = IptcParser::encode(iptcData);
-  if (!rawIptc.empty()) {
-    std::array<byte, 12> tmpBuf;
-    std::copy_n(Photoshop::irbId_[0], 4, tmpBuf.data());
-    us2Data(tmpBuf.data() + 4, iptc_, bigEndian);
-    tmpBuf[6] = 0;
-    tmpBuf[7] = 0;
-    ul2Data(tmpBuf.data() + 8, static_cast<uint32_t>(rawIptc.size()), bigEndian);
-    append(psBlob, tmpBuf.data(), 12);
-    append(psBlob, rawIptc.c_data(), rawIptc.size());
-    // Data is padded to be even (but not included in size)
-    if (rawIptc.size() & 1)
-      psBlob.push_back(0x00);
-  }
-
-  // Write existing stuff after record, skip the current and all remaining IPTC blocks
-  size_t pos = sizeFront;
-  auto nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
-  enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
-  while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData, &record, &sizeHdr, &sizeIptc)) {
-    const auto newPos = static_cast<size_t>(record - pPsData);
-    if (newPos > pos) {  // Copy data up to the IPTC IRB
-      append(psBlob, pPsData + pos, newPos - pos);
-    }
-    pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);  // Skip the IPTC IRB
-    nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
-    enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
-  }
-  if (pos < sizePsData) {
-    append(psBlob, pPsData + pos, sizePsData - pos);
-  }
-
-  // Data is rounded to be even
-  if (!psBlob.empty())
-    rc = DataBuf(&psBlob[0], psBlob.size());
-#ifdef EXIV2_DEBUG_MESSAGES
-  std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
-  if (rc.empty())
-    std::cerr << "  None.\n";
-  else
-    hexdump(std::cerr, rc.c_data(), rc.size());
-#endif
-  return rc;
-}
-
-bool JpegBase::markerHasLength(byte marker) {
-  return (marker >= sof0_ && marker <= sof15_) || (marker >= app0_ && marker <= (app0_ | 0x0F)) || marker == dht_ ||
-         marker == dqt_ || marker == dri_ || marker == com_ || marker == sos_;
-}
+}  // namespace
 
 JpegBase::JpegBase(ImageType type, BasicIo::UniquePtr io, bool create, const byte initData[], size_t dataSize) :
     Image(type, mdExif | mdIptc | mdXmp | mdComment, std::move(io)) {
@@ -273,14 +146,7 @@ void JpegBase::readMetadata() {
   byte marker = advanceToMarker(ErrorCode::kerNotAJpeg);
 
   while (marker != sos_ && marker != eoi_ && search > 0) {
-    // 2-byte buffer for reading the size.
-    std::array<byte, 2> sizebuf;
-    uint16_t size = 0;  // Size of the segment, including the 2-byte size field
-    if (markerHasLength(marker)) {
-      io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
-      size = getUShort(sizebuf.data(), bigEndian);
-      enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
-    }
+    auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
     // Read the rest of the segment.
     DataBuf buf(size);
@@ -480,16 +346,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
       first = false;
       bool bLF = bPrint;
 
-      // 2-byte buffer for reading the size.
-      std::array<byte, 2> sizebuf;
-      uint16_t size = 0;
-      if (markerHasLength(marker)) {
-        io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
-        size = getUShort(sizebuf.data(), bigEndian);
-        // `size` is the size of the segment, including the 2-byte size field
-        // that we just read.
-        enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
-      }
+      auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
       // Read the rest of the segment.
       DataBuf buf(size);
@@ -733,16 +590,7 @@ void JpegBase::writeMetadata() {
 }
 
 DataBuf JpegBase::readNextSegment(byte marker) {
-  // 2-byte buffer for reading the size.
-  std::array<byte, 2> sizebuf;
-  uint16_t size = 0;
-  if (markerHasLength(marker)) {
-    io_->readOrThrow(sizebuf.data(), sizebuf.size(), ErrorCode::kerFailedToReadImageData);
-    size = getUShort(sizebuf.data(), bigEndian);
-    // `size` is the size of the segment, including the 2-byte size field
-    // that we just read.
-    enforce(size >= 2, ErrorCode::kerFailedToReadImageData);
-  }
+  auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
   // Read the rest of the segment.
   DataBuf buf(size);
@@ -1160,7 +1008,7 @@ bool isJpegType(BasicIo& iIo, bool advance) {
   if (iIo.error() || iIo.eof())
     return false;
 
-  if (0xff != tmpBuf[0] || JpegImage::soi_ != tmpBuf[1]) {
+  if (0xff != tmpBuf[0] || soi_ != tmpBuf[1]) {
     result = false;
   }
   if (!advance || !result)

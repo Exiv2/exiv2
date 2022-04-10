@@ -8,6 +8,7 @@
 #include "iptc.hpp"
 #include "jpgimage.hpp"
 #include "makernote_int.hpp"
+#include "photoshop.hpp"
 #include "sonymn_int.hpp"
 #include "tiffcomposite_int.hpp"  // Do not change the order of these 2 includes,
 #include "tiffimage_int.hpp"

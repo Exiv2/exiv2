@@ -38,6 +38,7 @@
 #include "xmpsidecar.hpp"
 
 // + standard includes
+#include <array>
 #include <cstdio>
 #include <cstring>
 #include <limits>

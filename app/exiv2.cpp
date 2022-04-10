@@ -13,6 +13,7 @@
 #include "xmp_exiv2.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <cstring>
 #include <fstream>

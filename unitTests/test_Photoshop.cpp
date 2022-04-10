@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include <exiv2/jpgimage.hpp>
+#include "photoshop.hpp"
+
+#include "error.hpp"
+#include "iptc.hpp"
 
 #include <gtest/gtest.h>
 
