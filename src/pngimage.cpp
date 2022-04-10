@@ -210,7 +210,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
     const size_t imgSize = io_->size();
     DataBuf cheaderBuf(8);
 
-    while (!io_->eof() && ::strcmp(chType, "IEND")) {
+    while (!io_->eof() && ::strcmp(chType, "IEND") != 0) {
       size_t address = io_->tell();
 
       size_t bufRead = io_->read(cheaderBuf.data(), cheaderBuf.size());

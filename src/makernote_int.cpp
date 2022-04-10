@@ -116,7 +116,8 @@ const TiffMnRegistry TiffMnCreator::registry_[] = {
     {"-", pentaxId, nullptr, newPentaxMn2},
     {"-", pentaxDngId, nullptr, newPentaxDngMn2},
     {"-", casioId, nullptr, newIfdMn2},
-    {"-", casio2Id, nullptr, newCasio2Mn2}};
+    {"-", casio2Id, nullptr, newCasio2Mn2},
+};
 
 bool TiffMnRegistry::operator==(const std::string& key) const {
   std::string make(make_);
@@ -131,25 +132,22 @@ bool TiffMnRegistry::operator==(IfdId key) const {
 
 TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, const std::string& make, const byte* pData, size_t size,
                                      ByteOrder byteOrder) {
-  TiffComponent* tc = nullptr;
-  const TiffMnRegistry* tmr = find(registry_, make);
-  if (tmr) {
-    tc = tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
+  auto tmr = std::find(std::begin(registry_), std::end(registry_), make);
+  if (tmr != std::end(registry_)) {
+    return tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
   }
-  return tc;
+  return nullptr;
 }  // TiffMnCreator::create
 
 TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, IfdId mnGroup) {
-  TiffComponent* tc = nullptr;
-  const TiffMnRegistry* tmr = find(registry_, mnGroup);
-  if (tmr) {
-    if (!tmr->newMnFct2_) {
-      std::cout << "mnGroup = " << mnGroup << "\n";
+  auto tmr = std::find(std::begin(registry_), std::end(registry_), mnGroup);
+  if (tmr != std::end(registry_)) {
+    if (tmr->newMnFct2_) {
+      return tmr->newMnFct2_(tag, group, mnGroup);
     }
-
-    tc = tmr->newMnFct2_(tag, group, mnGroup);
+    std::cout << "mnGroup = " << mnGroup << "\n";
   }
-  return tc;
+  return nullptr;
 }  // TiffMnCreator::create
 
 void MnHeader::setByteOrder(ByteOrder /*byteOrder*/) {

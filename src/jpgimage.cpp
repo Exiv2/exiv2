@@ -181,7 +181,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
 
   // Write existing stuff after record, skip the current and all remaining IPTC blocks
   size_t pos = sizeFront;
-  long nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
+  auto nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
   enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
   while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData, &record, &sizeHdr, &sizeIptc)) {
     const auto newPos = static_cast<size_t>(record - pPsData);
