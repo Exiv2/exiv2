@@ -16,8 +16,6 @@
 namespace Exiv2 {
 class IptcData;
 class XmpData;
-class TiffImageEntry;
-class TiffDataEntryBase;
 
 namespace Internal {
 // *****************************************************************************
