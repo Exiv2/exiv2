@@ -484,6 +484,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             BT.copyTestFile('large.icc', iccname)
             out      += BT.Executer('exiv2 -iC          {img}', vars())
             e         = BT.Executer('exiv2 -pC          {img}', vars(), compatible_output=False, decode_output=False)
+            self.assertIsNotNone(e.stdout, msg="Empty ICC profile in {}".format(img))
             BT.save(e.stdout, stub + '_large_1.icc')
             out      += BT.Executer('exiv2 -pS          {img}', vars())
             out      += BT.Executer('exiv2 -eC --force  {img}', vars())
