@@ -604,25 +604,20 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
   size_t outlen = boxHSize;                                  // now many bytes have we written to output?
   size_t inlen = boxHSize;                                   // how many bytes have we read from boxBuf?
   enforce(boxHSize <= output.size(), ErrorCode::kerCorruptedMetadata);
-  auto pBox = reinterpret_cast<const Internal::Jp2BoxHeader*>(boxBuf.c_data());
-  uint32_t length = getLong(reinterpret_cast<const byte*>(&pBox->length), bigEndian);
+  uint32_t length = getLong(boxBuf.c_data(0), bigEndian);
   enforce(length <= output.size(), ErrorCode::kerCorruptedMetadata);
   uint32_t count = boxHSize;
-  auto p = boxBuf.c_str();
   bool bWroteColor = false;
 
   while (count < length && !bWroteColor) {
     enforce(boxHSize <= length - count, ErrorCode::kerCorruptedMetadata);
-    auto pSubBox = reinterpret_cast<const Internal::Jp2BoxHeader*>(p + count);
-
-    // copy data.  pointer could be into a memory mapped file which we will decode!
     Internal::Jp2BoxHeader subBox;
-    memcpy(&subBox, pSubBox, boxHSize);
+    memcpy(&subBox, boxBuf.c_data(count), boxHSize);
     Internal::Jp2BoxHeader newBox = subBox;
 
     if (count < length) {
-      subBox.length = getLong(reinterpret_cast<byte*>(&subBox.length), bigEndian);
-      subBox.type = getLong(reinterpret_cast<byte*>(&subBox.type), bigEndian);
+      subBox.length = getLong(boxBuf.c_data(count), bigEndian);
+      subBox.type = getLong(boxBuf.c_data(count + 4), bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Jp2Image::encodeJp2Header subbox: " << toAscii(subBox.type) << " length = " << subBox.length
                 << std::endl;
@@ -671,9 +666,8 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
   // allocate the correct number of bytes, copy the data and update the box header
   outBuf.alloc(outlen);
   std::copy_n(output.c_data(), outlen, outBuf.begin());
-  auto oBox = reinterpret_cast<Internal::Jp2BoxHeader*>(outBuf.data());
-  ul2Data(reinterpret_cast<byte*>(&oBox->type), kJp2BoxTypeHeader, bigEndian);
-  ul2Data(reinterpret_cast<byte*>(&oBox->length), static_cast<uint32_t>(outlen), bigEndian);
+  ul2Data(outBuf.data(0), static_cast<uint32_t>(outlen), bigEndian);
+  ul2Data(outBuf.data(4), kJp2BoxTypeHeader, bigEndian);
 }
 
 #ifdef __clang__
