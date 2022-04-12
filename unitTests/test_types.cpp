@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include <gtest/gtest.h>
-#include <cmath>
 #include <exiv2/types.hpp>
+
+#include <gtest/gtest.h>
+
+#include <algorithm>
+#include <cmath>
 #include <limits>
+
 using namespace Exiv2;
 
 // More info about tm : http://www.cplusplus.com/reference/ctime/tm/
@@ -24,16 +28,27 @@ TEST(ExivTime, doesNotGetTimeWithBadFormedString) {
   ASSERT_EQ(1, exifTime("007:a5:24 aa:bb:cc", &tmInstance));
 }
 
-TEST(DataBuf, pointsToNullByDefault) {
+TEST(DataBuf, defaultInstanceIsEmpty) {
   DataBuf instance;
-  ASSERT_EQ(nullptr, instance.c_data());
-  ASSERT_EQ(0, instance.size());
+  ASSERT_TRUE(instance.empty());
 }
 
 TEST(DataBuf, allocatesDataWithNonEmptyConstructor) {
   DataBuf instance(5);
   ASSERT_NE(static_cast<byte*>(nullptr), instance.c_data());  /// \todo use nullptr once we move to c++11
   ASSERT_EQ(5, instance.size());
+}
+
+TEST(DataBuf, canBeConstructedFromExistingData) {
+  const std::array<byte, 4> data {'h', 'o', 'l', 'a'};
+  DataBuf instance(data.data(), data.size());
+  ASSERT_TRUE(std::equal(data.begin(), data.end(), instance.begin()));
+}
+
+TEST(DataBuf, tryingToAccessTooFarElementThrows) {
+  const std::array<byte, 4> data {'h', 'o', 'l', 'a'};
+  DataBuf instance(data.data(), data.size());
+  ASSERT_THROW(instance.data(4), std::out_of_range);
 }
 
 // Test methods like DataBuf::read_uint32 and DataBuf::write_uint32.
