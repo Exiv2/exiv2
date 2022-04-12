@@ -14,8 +14,7 @@ class WebPImageGetHeaderOffset(metaclass=CaseMeta):
     commands = ["$exiv2 $filename1"]
     stdout = [""]
     stderr = [
-"""Warning: Failed to decode Exif metadata.
-Exiv2 exception in print action for file $filename1:
+"""Exiv2 exception in print action for file $filename1:
 $kerCorruptedMetadata
 """
 ]

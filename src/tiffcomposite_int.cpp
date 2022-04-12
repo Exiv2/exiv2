@@ -976,7 +976,7 @@ uint32_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder,
 
 uint32_t TiffEntryBase::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t /*offset*/, uint32_t /*valueIdx*/,
                                 uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) {
-  if (!pValue_)
+  if (!pValue_ || pValue_->size() == 0)
     return 0;
 
   DataBuf buf(pValue_->size());
@@ -1182,7 +1182,8 @@ uint32_t TiffDataEntry::doWriteData(IoWrapper& ioWrapper, ByteOrder /*byteOrder*
     return 0;
 
   DataBuf buf = pValue()->dataArea();
-  ioWrapper.write(buf.c_data(), buf.size());
+  if (!buf.empty())
+    ioWrapper.write(buf.c_data(), buf.size());
   // Align data to word boundary
   uint32_t align = (buf.size() & 1);
   if (align)

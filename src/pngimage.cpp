@@ -234,8 +234,10 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
       }
 
       DataBuf buff(dataOffset);
-      bufRead = io_->read(buff.data(), dataOffset);
-      enforce(bufRead == dataOffset, ErrorCode::kerFailedToReadImageData);
+      if (dataOffset > 0) {
+        bufRead = io_->read(buff.data(), dataOffset);
+        enforce(bufRead == dataOffset, ErrorCode::kerFailedToReadImageData);
+      }
       io_->seek(restore, BasicIo::beg);
 
       // format output
@@ -426,7 +428,9 @@ void PngImage::readMetadata() {
     if (chunkType == "IEND" || chunkType == "IHDR" || chunkType == "tEXt" || chunkType == "zTXt" ||
         chunkType == "eXIf" || chunkType == "iTXt" || chunkType == "iCCP") {
       DataBuf chunkData(chunkLength);
-      readChunk(chunkData, *io_);  // Extract chunk data.
+      if (chunkLength > 0) {
+        readChunk(chunkData, *io_);  // Extract chunk data.
+      }
 
       if (chunkType == "IEND") {
         return;  // Last chunk found: we stop parsing.

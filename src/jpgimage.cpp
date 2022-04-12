@@ -184,8 +184,9 @@ void JpegBase::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << "Found app13 segment, size = " << size << "\n";
 #endif
-      // Append to psBlob
-      append(psBlob, buf.c_data(16), size - 16);
+      if (buf.size() > 16) {  // Append to psBlob
+        append(psBlob, buf.c_data(16), size - 16);
+      }
       // Check whether psBlob is complete
       if (!psBlob.empty() && Photoshop::valid(&psBlob[0], psBlob.size())) {
         --search;
@@ -745,9 +746,9 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           bo = littleEndian;
           setByteOrder(bo);
         }
-        WriteMethod wm = ExifParser::encode(blob, rawExif.c_data(), rawExif.size(), bo, exifData_);
-        const byte* pExifData = rawExif.c_data();
+        const byte* pExifData = rawExif.empty() ? nullptr : rawExif.c_data();
         size_t exifSize = rawExif.size();
+        WriteMethod wm = ExifParser::encode(blob, pExifData, exifSize, bo, exifData_);
         if (wm == wmIntrusive) {
           pExifData = !blob.empty() ? &blob[0] : nullptr;
           exifSize = blob.size();
@@ -844,7 +845,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         // IPTC block if there is no new IPTC data to write
         DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? psBlob.data() : nullptr, psBlob.size(), iptcData_);
         const long maxChunkSize = 0xffff - 16;
-        const byte* chunkStart = newPsData.c_data();
+        const byte* chunkStart = newPsData.empty() ? nullptr : newPsData.c_data();
         const byte* chunkEnd = newPsData.empty() ? nullptr : newPsData.c_data(newPsData.size() - 1);
         while (chunkStart < chunkEnd) {
           // Determine size of next chunk

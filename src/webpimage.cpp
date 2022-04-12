@@ -162,10 +162,12 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     // Check that `size_u32` is safe to cast to `long`.
     enforce(size_u32 <= std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
     DataBuf payload(size_u32);
-    io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
-    if (payload.size() % 2) {
-      byte c = 0;
-      io_->readOrThrow(&c, 1, Exiv2::ErrorCode::kerCorruptedMetadata);
+    if (!payload.empty()) {
+      io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+      if (payload.size() % 2) {
+        byte c = 0;
+        io_->readOrThrow(&c, 1, Exiv2::ErrorCode::kerCorruptedMetadata);
+      }
     }
 
     /* Chunk with information about features
@@ -528,7 +530,9 @@ void WebPImage::decodeChunks(long filesize) {
 
     DataBuf payload(size);
 
-    if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_canvas_data) {
+    if (payload.empty()) {
+      io_->seek(size, BasicIo::cur);
+    } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_canvas_data) {
       enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;

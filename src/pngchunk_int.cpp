@@ -56,7 +56,8 @@ void PngChunk::decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType t
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: " << std::string(arr.c_str(), arr.size()) << std::endl;
 #endif
-  parseChunkContent(pImage, key.c_data(), key.size(), arr);
+  if (!key.empty())
+    parseChunkContent(pImage, key.c_data(), key.size(), arr);
 }
 
 DataBuf PngChunk::decodeTXTChunk(const DataBuf& data, TxtChunkType type) {
@@ -558,8 +559,10 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
     return {};
   }
 
-  // Copy profile, skipping white space and column 1 "=" signs
+  if (info.empty())  // Early return
+    return info;
 
+  // Copy profile, skipping white space and column 1 "=" signs
   unsigned char* dp = info.data();  // decode pointer
   size_t nibbles = length * 2;
 
