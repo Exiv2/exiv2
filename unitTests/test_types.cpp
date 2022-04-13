@@ -36,7 +36,7 @@ TEST(DataBuf, defaultInstanceIsEmpty) {
 
 TEST(DataBuf, allocatesDataWithNonEmptyConstructor) {
   DataBuf instance(5);
-  ASSERT_NE(static_cast<byte*>(nullptr), instance.c_data());  /// \todo use nullptr once we move to c++11
+  ASSERT_NE(nullptr, instance.c_data());
   ASSERT_EQ(5, instance.size());
 }
 
