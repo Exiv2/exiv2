@@ -561,6 +561,7 @@ uint32_t parseUint32(const std::string& s, bool& ok) {
   if (ok && 0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
     return static_cast<uint32_t>(x);
   }
+  ok = false;
   return 0;
 }
 

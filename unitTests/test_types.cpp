@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <limits>
 
@@ -145,7 +146,7 @@ TEST(Rational, floatToRationalCast) {
 }
 
 TEST(Rational, toStream) {
-  Rational r = {1,2};
+  Rational r = {1, 2};
   std::stringstream str;
   str << r;
   ASSERT_EQ("1/2", str.str());
@@ -160,7 +161,7 @@ TEST(Rational, readRationalFromStream) {
 }
 
 TEST(URational, toStream) {
-  URational r = {1,2};
+  URational r = {1, 2};
   std::stringstream str;
   str << r;
   ASSERT_EQ("1/2", str.str());
@@ -172,4 +173,18 @@ TEST(URational, readRationalFromStream) {
   input >> r;
   ASSERT_EQ(1, r.first);
   ASSERT_EQ(2, r.second);
+}
+
+// --------------------
+
+TEST(parseUint32, withNumberInRangeReturnsOK) {
+  bool ok{false};
+  ASSERT_EQ(123456, parseUint32("123456", ok));
+  ASSERT_TRUE(ok);
+}
+
+TEST(parseUint32, withNumberOutOfRangeReturnsFalse) {
+  bool ok{false};
+  ASSERT_EQ(0, parseUint32("4333333333", ok));
+  ASSERT_FALSE(ok);
 }
