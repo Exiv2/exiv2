@@ -160,6 +160,62 @@ TEST(Rational, readRationalFromStream) {
   ASSERT_EQ(2, r.second);
 }
 
+TEST(Rational, parseRationalFromStringSuccessfully) {
+  bool ok{false};
+  Rational rational = parseRational("1/2", ok);
+  ASSERT_EQ(std::make_pair(1, 2), rational);
+  ASSERT_TRUE(ok);
+}
+
+TEST(Rational, parseRationalFromLongIsOK) {
+  bool ok{true};
+  Rational rational = parseRational("12", ok);
+  ASSERT_EQ(std::make_pair(12, 1), rational);
+  ASSERT_TRUE(ok);
+}
+
+TEST(Rational, parseRationalFromBoolIsOK) {
+  bool ok{true};
+  Rational rational = parseRational("true", ok);
+  ASSERT_EQ(std::make_pair(1, 1), rational);
+  ASSERT_TRUE(ok);
+
+  rational = parseRational("false", ok);
+  ASSERT_EQ(std::make_pair(0, 1), rational);
+  ASSERT_TRUE(ok);
+}
+
+TEST(Rational, parseRationalFromFloatIsOK) {
+  bool ok{true};
+  Rational rational = parseRational("1.2", ok);
+  ASSERT_EQ(std::make_pair(6, 5), rational);
+  ASSERT_TRUE(ok);
+
+  rational = parseRational("1.4", ok);
+  ASSERT_EQ(std::make_pair(7, 5), rational);
+  ASSERT_TRUE(ok);
+}
+
+TEST(Rational, parseRationalFromFloatWithFCharIsNoOK) {
+  bool ok{true};
+  Rational rational = parseRational("1.2f", ok);
+  ASSERT_EQ(std::make_pair(0, 0), rational);
+  ASSERT_FALSE(ok);
+}
+
+TEST(Rational, floatToRationalCastWorks) {
+  ASSERT_EQ(std::make_pair(6, 5), floatToRationalCast(1.2f));
+  ASSERT_EQ(std::make_pair(11001, 5), floatToRationalCast(2200.2f));
+  ASSERT_EQ(std::make_pair(1100001, 5), floatToRationalCast(220000.2f));
+  ASSERT_EQ(std::make_pair(22000000, 1), floatToRationalCast(22000000.2f));
+  ASSERT_EQ(std::make_pair(22000000, 1), floatToRationalCast(22000000.2f));
+}
+
+TEST(Rational, floatToRationalCastWithIntegersOutOfLimits) {
+  ASSERT_EQ(std::make_pair(1, 0), floatToRationalCast(2247483647.f));
+  ASSERT_EQ(std::make_pair(-1, 0), floatToRationalCast(-2247483647.f));
+}
+
 TEST(URational, toStream) {
   URational r = {1, 2};
   std::stringstream str;

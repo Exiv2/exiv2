@@ -620,14 +620,12 @@ Rational floatToRationalCast(float f) {
   // Beware: primitive conversion algorithm
   int32_t den = 1000000;
   const auto d_as_long = static_cast<long>(d);
-  if (Safe::abs(d_as_long) > 2147) {
-    den = 10000;
-  }
-  if (Safe::abs(d_as_long) > 214748) {
-    den = 100;
-  }
   if (Safe::abs(d_as_long) > 21474836) {
     den = 1;
+  } else if (Safe::abs(d_as_long) > 214748) {
+    den = 100;
+  } else if (Safe::abs(d_as_long) > 2147) {
+    den = 10000;
   }
   const auto nom = static_cast<int32_t>(std::round(d * den));
   const int32_t g = gcd(nom, den);
