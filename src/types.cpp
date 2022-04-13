@@ -110,63 +110,63 @@ void DataBuf::reset() {
 
 uint8_t Exiv2::DataBuf::read_uint8(size_t offset) const {
   if (offset >= pData_.size()) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint8");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::read_uint8");
   }
   return pData_[offset];
 }
 
 void Exiv2::DataBuf::write_uint8(size_t offset, uint8_t x) {
   if (offset >= pData_.size()) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint8");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::write_uint8");
   }
   pData_[offset] = x;
 }
 
 uint16_t Exiv2::DataBuf::read_uint16(size_t offset, ByteOrder byteOrder) const {
   if (pData_.size() < 2 || offset > (pData_.size() - 2)) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint16");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::read_uint16");
   }
   return getUShort(&pData_[offset], byteOrder);
 }
 
 void Exiv2::DataBuf::write_uint16(size_t offset, uint16_t x, ByteOrder byteOrder) {
   if (pData_.size() < 2 || offset > (pData_.size() - 2)) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint16");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::write_uint16");
   }
   us2Data(&pData_[offset], x, byteOrder);
 }
 
 uint32_t Exiv2::DataBuf::read_uint32(size_t offset, ByteOrder byteOrder) const {
   if (pData_.size() < 4 || offset > (pData_.size() - 4)) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint32");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::read_uint32");
   }
   return getULong(&pData_[offset], byteOrder);
 }
 
 void Exiv2::DataBuf::write_uint32(size_t offset, uint32_t x, ByteOrder byteOrder) {
   if (pData_.size() < 4 || offset > (pData_.size() - 4)) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint32");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::write_uint32");
   }
   ul2Data(&pData_[offset], x, byteOrder);
 }
 
 uint64_t Exiv2::DataBuf::read_uint64(size_t offset, ByteOrder byteOrder) const {
   if (pData_.size() < 8 || offset > (pData_.size() - 8)) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::read_uint64");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::read_uint64");
   }
   return getULongLong(&pData_[offset], byteOrder);
 }
 
 void Exiv2::DataBuf::write_uint64(size_t offset, uint64_t x, ByteOrder byteOrder) {
   if (pData_.size() < 8 || offset > (pData_.size() - 8)) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::write_uint64");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::write_uint64");
   }
   ull2Data(&pData_[offset], x, byteOrder);
 }
 
 int Exiv2::DataBuf::cmpBytes(size_t offset, const void* buf, size_t bufsize) const {
   if (pData_.size() < bufsize || offset > pData_.size() - bufsize) {
-    throw std::overflow_error("Overflow in Exiv2::DataBuf::cmpBytes");
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::cmpBytes");
   }
   return memcmp(&pData_[offset], buf, bufsize);
 }

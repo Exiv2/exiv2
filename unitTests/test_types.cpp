@@ -40,16 +40,59 @@ TEST(DataBuf, allocatesDataWithNonEmptyConstructor) {
 }
 
 TEST(DataBuf, canBeConstructedFromExistingData) {
-  const std::array<byte, 4> data {'h', 'o', 'l', 'a'};
+  const std::array<byte, 4> data{'h', 'o', 'l', 'a'};
   DataBuf instance(data.data(), data.size());
   ASSERT_TRUE(std::equal(data.begin(), data.end(), instance.begin()));
 }
 
 TEST(DataBuf, tryingToAccessTooFarElementThrows) {
-  const std::array<byte, 4> data {'h', 'o', 'l', 'a'};
+  const std::array<byte, 4> data{'h', 'o', 'l', 'a'};
   DataBuf instance(data.data(), data.size());
   ASSERT_THROW([[maybe_unused]] auto d = instance.data(4), std::out_of_range);
   ASSERT_THROW([[maybe_unused]] auto d = instance.c_data(4), std::out_of_range);
+}
+
+TEST(DataBuf, read_uintFunctionsWorksOnExistingData) {
+  const std::array<byte, 8> data{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+  DataBuf instance(data.data(), data.size());
+  ASSERT_EQ(data[0], instance.read_uint8(0));
+  ASSERT_EQ(data[1], instance.read_uint16(0, bigEndian));
+  ASSERT_EQ(0x00010203, instance.read_uint32(0, bigEndian));
+  ASSERT_EQ(0x0001020304050607, instance.read_uint64(0, bigEndian));
+}
+
+TEST(DataBuf, read_uintFunctionsThrowsOnTooFarElements) {
+  const std::array<byte, 8> data{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+  DataBuf instance(data.data(), data.size());
+  ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint8(data.size()), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint16(data.size(), bigEndian), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint32(data.size(), bigEndian), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint64(data.size(), bigEndian), std::out_of_range);
+}
+
+TEST(DataBuf, write_uintFunctionsWorksWhenThereIsEnoughData) {
+  DataBuf instance(8);
+  std::uint64_t val{0x0102030405060708};
+  ASSERT_NO_THROW(instance.write_uint8(0, (val >> 56)));
+  ASSERT_EQ(0x01, instance.read_uint8(0));
+
+  ASSERT_NO_THROW(instance.write_uint16(0, (val >> 48), bigEndian));
+  ASSERT_EQ(0x0102, instance.read_uint16(0, bigEndian));
+
+  ASSERT_NO_THROW(instance.write_uint32(0, (val >> 32), bigEndian));
+  ASSERT_EQ(0x01020304, instance.read_uint32(0, bigEndian));
+
+  ASSERT_NO_THROW(instance.write_uint64(0, val, bigEndian));
+  ASSERT_EQ(val, instance.read_uint64(0, bigEndian));
+}
+
+TEST(DataBuf, write_uintFunctionsThrowsIfTryingToWriteOutOfBounds) {
+  DataBuf instance(8);
+  std::uint64_t val{0x0102030405060708};
+  ASSERT_THROW(instance.write_uint8(8, (val >> 56)), std::out_of_range);
+  ASSERT_THROW(instance.write_uint16(7, (val >> 48), bigEndian), std::out_of_range);
+  ASSERT_THROW(instance.write_uint32(5, (val >> 32), bigEndian), std::out_of_range);
+  ASSERT_THROW(instance.write_uint64(1, (val >> 32), bigEndian), std::out_of_range);
 }
 
 // Test methods like DataBuf::read_uint32 and DataBuf::write_uint32.
