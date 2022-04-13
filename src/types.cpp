@@ -172,21 +172,14 @@ int Exiv2::DataBuf::cmpBytes(size_t offset, const void* buf, size_t bufsize) con
 }
 
 byte* Exiv2::DataBuf::data(size_t offset) {
-  if (offset >= pData_.size()) {
-    throw std::out_of_range("Overflow in Exiv2::DataBuf::c_data");
-  }
-  if (pData_.empty() || pData_.size() == offset) {
-    return nullptr;
-  }
-  return &pData_[offset];
+  return const_cast<byte*>(c_data(offset));
 }
 
 const byte* Exiv2::DataBuf::c_data(size_t offset) const {
-  if (offset >= pData_.size()) {
-    throw std::out_of_range("Overflow in Exiv2::DataBuf::c_data");
-  }
-  if (pData_.empty() || pData_.size() == offset) {
+  if (pData_.empty()) {
     return nullptr;
+  } else if (offset >= pData_.size()) {
+    throw std::out_of_range("Overflow in Exiv2::DataBuf::c_data");
   }
   return &pData_[offset];
 }

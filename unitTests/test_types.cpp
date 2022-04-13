@@ -48,7 +48,8 @@ TEST(DataBuf, canBeConstructedFromExistingData) {
 TEST(DataBuf, tryingToAccessTooFarElementThrows) {
   const std::array<byte, 4> data {'h', 'o', 'l', 'a'};
   DataBuf instance(data.data(), data.size());
-  ASSERT_THROW(instance.data(4), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.data(4), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.c_data(4), std::out_of_range);
 }
 
 // Test methods like DataBuf::read_uint32 and DataBuf::write_uint32.

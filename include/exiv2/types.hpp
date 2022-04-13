@@ -201,7 +201,7 @@ struct EXIV2API DataBuf {
   int cmpBytes(size_t offset, const void* buf, size_t bufsize) const;
 
   //! Returns a data pointer.
-  byte* data(size_t offset = 0);
+  [[nodiscard]] byte* data(size_t offset = 0);
 
   //! Returns a (read-only) data pointer.
   [[nodiscard]] const byte* c_data(size_t offset = 0) const;
