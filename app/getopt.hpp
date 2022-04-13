@@ -29,7 +29,7 @@ int getopt(int argc, char* const argv[], const char* optstring);
 class Getopt {
  public:
   //! Default constructor.
-  Getopt();
+  Getopt() = default;
 
   //! Destructor.
   virtual ~Getopt() = default;
@@ -96,7 +96,7 @@ class Getopt {
 
  private:
   std::string progname_;
-  int errcnt_;
+  int errcnt_{0};
 };
 
 };  // namespace Util

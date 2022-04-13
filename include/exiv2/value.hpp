@@ -582,7 +582,7 @@ class EXIV2API CommentValue : public StringValueBase {
 
  public:
   // DATA
-  ByteOrder byteOrder_;  //!< Byte order of the comment string that was read
+  ByteOrder byteOrder_{littleEndian};  //!< Byte order of the comment string that was read
 
 };  // class CommentValue
 
