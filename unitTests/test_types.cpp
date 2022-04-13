@@ -143,3 +143,33 @@ TEST(Rational, floatToRationalCast) {
   ASSERT_EQ(minus_inf.first, -1);
   ASSERT_EQ(minus_inf.second, 0);
 }
+
+TEST(Rational, toStream) {
+  Rational r = {1,2};
+  std::stringstream str;
+  str << r;
+  ASSERT_EQ("1/2", str.str());
+}
+
+TEST(Rational, readRationalFromStream) {
+  Rational r;
+  std::istringstream input("1/2");
+  input >> r;
+  ASSERT_EQ(1, r.first);
+  ASSERT_EQ(2, r.second);
+}
+
+TEST(URational, toStream) {
+  URational r = {1,2};
+  std::stringstream str;
+  str << r;
+  ASSERT_EQ("1/2", str.str());
+}
+
+TEST(URational, readRationalFromStream) {
+  URational r;
+  std::istringstream input("1/2");
+  input >> r;
+  ASSERT_EQ(1, r.first);
+  ASSERT_EQ(2, r.second);
+}

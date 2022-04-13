@@ -211,7 +211,8 @@ std::ostream& operator<<(std::ostream& os, const Rational& r) {
   return os << r.first << "/" << r.second;
 }
 
-std::istream& operator>>(std::istream& is, Rational& r) {
+template <typename T>
+std::istream& fromStreamToRational(std::istream& is, T& r) {
   // http://dev.exiv2.org/boards/3/topics/1912?r=1915
   if (std::tolower(is.peek()) == 'f') {
     char F = 0;
@@ -232,30 +233,16 @@ std::istream& operator>>(std::istream& is, Rational& r) {
   return is;
 }
 
+std::istream& operator>>(std::istream& is, Rational& r) {
+  return fromStreamToRational(is, r);
+}
+
 std::ostream& operator<<(std::ostream& os, const URational& r) {
   return os << r.first << "/" << r.second;
 }
 
 std::istream& operator>>(std::istream& is, URational& r) {
-  // http://dev.exiv2.org/boards/3/topics/1912?r=1915
-  /// \todo This implementation seems to be duplicated for the Rational type. Try to remove duplication
-  if (std::tolower(is.peek()) == 'f') {
-    char F = 0;
-    float f = 0.F;
-    is >> F >> f;
-    f = 2.0F * std::log(f) / std::log(2.0F);
-    r = Exiv2::floatToRationalCast(f);
-  } else {
-    uint32_t nominator = 0;
-    uint32_t denominator = 0;
-    char c('\0');
-    is >> nominator >> c >> denominator;
-    if (c != '/')
-      is.setstate(std::ios::failbit);
-    if (is)
-      r = {nominator, denominator};
-  }
-  return is;
+  return fromStreamToRational(is, r);
 }
 
 uint16_t getUShort(const byte* buf, ByteOrder byteOrder) {
