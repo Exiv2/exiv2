@@ -5,9 +5,6 @@
 #include <iterator>
 
 namespace Exiv2 {
-bool startsWith(std::string_view s, std::string_view start) {
-  return s.find(start) == 0;
-}
 
 std::string upper(const std::string& str) {
   std::string result;

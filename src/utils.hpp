@@ -5,7 +5,9 @@
 #include <string_view>
 
 namespace Exiv2 {
-bool startsWith(std::string_view s, std::string_view start);
+constexpr bool startsWith(std::string_view s, std::string_view start) {
+  return s.find(start) == 0;
+}
 
 /// @brief Returns the uppercase version of \b str
 std::string upper(const std::string& str);
