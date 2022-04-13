@@ -190,6 +190,9 @@ enum SectionId {
 
 //! The details of a section.
 struct SectionInfo {
+  constexpr SectionInfo(SectionId sectionId, const char* name, const char* desc) :
+      sectionId_(sectionId), name_(name), desc_(desc) {
+  }
   SectionId sectionId_;  //!< Section id
   const char* name_;     //!< Section name (one word)
   const char* desc_;     //!< Section description
