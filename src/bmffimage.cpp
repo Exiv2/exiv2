@@ -16,6 +16,7 @@
 #include "types.hpp"
 
 // + standard includes
+#include <cinttypes>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -184,7 +185,7 @@ long BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintStruc
   if (bTrace) {
     bLF = true;
     out << indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box_type)
-        << Internal::stringFormat(" %8ld->%lu ", address, box_length);
+        << Internal::stringFormat(" %8ld->%" PRIu64 " ", address, box_length);
   }
 
   if (box_length == 1) {
