@@ -18,6 +18,7 @@
 #include "pngimage.hpp"
 #include "tiffimage.hpp"
 #include "types.hpp"
+#include "utils.hpp"
 
 #include <array>
 #include <iostream>
@@ -169,12 +170,6 @@ static bool tEXtToDataBuf(const byte* bytes, long length, DataBuf& result) {
     }
   }
   return true;
-}
-
-std::string upper(const std::string& str) {
-  std::string result;
-  transform(str.begin(), str.end(), std::back_inserter(result), toupper);
-  return result;
 }
 
 std::string::size_type findi(const std::string& str, const std::string& substr) {
