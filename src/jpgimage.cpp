@@ -746,7 +746,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           bo = littleEndian;
           setByteOrder(bo);
         }
-        const byte* pExifData = rawExif.empty() ? nullptr : rawExif.c_data();
+        const byte* pExifData = rawExif.c_data();
         size_t exifSize = rawExif.size();
         WriteMethod wm = ExifParser::encode(blob, pExifData, exifSize, bo, exifData_);
         if (wm == wmIntrusive) {
@@ -843,7 +843,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
       if (foundCompletePsData || iptcData_.count() > 0) {
         // Set the new IPTC IRB, keeps existing IRBs but removes the
         // IPTC block if there is no new IPTC data to write
-        DataBuf newPsData = Photoshop::setIptcIrb(!psBlob.empty() ? psBlob.data() : nullptr, psBlob.size(), iptcData_);
+        DataBuf newPsData = Photoshop::setIptcIrb(psBlob.data(), psBlob.size(), iptcData_);
         const long maxChunkSize = 0xffff - 16;
         const byte* chunkStart = newPsData.empty() ? nullptr : newPsData.c_data();
         const byte* chunkEnd = newPsData.empty() ? nullptr : newPsData.c_data(newPsData.size() - 1);

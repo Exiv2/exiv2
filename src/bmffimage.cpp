@@ -620,7 +620,7 @@ void BmffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption op
       break;  // do nothing
 
     case kpsIccProfile: {
-      out.write(iccProfile_.empty() ? nullptr : iccProfile_.c_str(), iccProfile_.size());
+      out.write(iccProfile_.c_str(), iccProfile_.size());
     } break;
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
