@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-using namespace Exiv2;
+using namespace Exiv2::Internal;
 
 TEST(stringUtils, startsWithReturnsTrue) {
   ASSERT_TRUE(startsWith("Exiv2 rocks", "Exiv2"));

@@ -4,7 +4,8 @@
 #include <string>
 #include <string_view>
 
-namespace Exiv2 {
+namespace Exiv2::Internal {
+
 constexpr bool startsWith(std::string_view s, std::string_view start) {
   return s.find(start) == 0;
 }
@@ -15,6 +16,6 @@ std::string upper(const std::string& str);
 /// @brief Returns the lowercase version of \b str
 std::string lower(const std::string& str);
 
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 
 #endif  // EXIV2_UTILS_HPP

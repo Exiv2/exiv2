@@ -84,7 +84,7 @@ void XmpSidecar::readMetadata() {
 }  // XmpSidecar::readMetadata
 
 static bool matchi(const std::string& key, const char* substr) {
-  return lower(key).find(substr) != std::string::npos;
+  return Internal::lower(key).find(substr) != std::string::npos;
 }
 
 void XmpSidecar::writeMetadata() {

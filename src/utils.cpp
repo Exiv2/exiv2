@@ -4,7 +4,7 @@
 #include <cctype>
 #include <iterator>
 
-namespace Exiv2 {
+namespace Exiv2::Internal {
 
 std::string upper(const std::string& str) {
   std::string result;
@@ -18,4 +18,4 @@ std::string lower(const std::string& a) {
   return b;
 }
 
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal

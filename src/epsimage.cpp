@@ -29,7 +29,7 @@
 // *****************************************************************************
 namespace {
 using namespace Exiv2;
-using Exiv2::byte;
+using namespace Exiv2::Internal;
 
 // signature of DOS EPS
 constexpr auto dosEpsSignature = std::string_view("\xC5\xD0\xD3\xC6");
