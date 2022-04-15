@@ -143,11 +143,6 @@ void ExifTags::taglist(std::ostream& os, const std::string& groupName) {
 
 //! %Internal Pimpl structure with private members and data of class ExifKey.
 struct ExifKey::Impl {
-  //! @name Creators
-  //@{
-  Impl() = default;  //!< Default constructor
-  //@}
-
   //! @name Manipulators
   //@{
   /*!
