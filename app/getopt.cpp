@@ -79,9 +79,6 @@ int getopt(int argc, char* const argv[], const char* optstring) {
 
 // *****************************************************************************
 // class Getopt
-Getopt::Getopt() : errcnt_(0) {
-}
-
 int Getopt::getopt(int argc, char* const argv[], const std::string& optstring) {
   progname_ = fs::path(argv[0]).filename().string();
   Util::optind = 0;  // reset the Util::Getopt scanner

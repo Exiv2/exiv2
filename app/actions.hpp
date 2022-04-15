@@ -162,7 +162,7 @@ class Print : public Task {
     @return 1 if a line was written, 0 if the information was not found.
    */
   int printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct, const std::string& label = "",
-               EasyAccessFct easyAccessFctFallback = NULL) const;
+               EasyAccessFct easyAccessFctFallback = nullptr) const;
 
  private:
   std::string path_;

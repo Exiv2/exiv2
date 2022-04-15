@@ -330,10 +330,10 @@ CommentValue::CharsetId CommentValue::CharsetInfo::charsetIdByCode(const std::st
   return charsetTable_[i].charsetId_ == lastCharsetId ? invalidCharsetId : charsetTable_[i].charsetId_;
 }
 
-CommentValue::CommentValue() : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian) {
+CommentValue::CommentValue() : StringValueBase(Exiv2::undefined) {
 }
 
-CommentValue::CommentValue(const std::string& comment) : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian) {
+CommentValue::CommentValue(const std::string& comment) : StringValueBase(Exiv2::undefined) {
   read(comment);
 }
 
