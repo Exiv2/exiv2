@@ -1437,9 +1437,10 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 
 CmdId commandId(const std::string& cmdString) {
   int i = 0;
-  for (; cmdIdAndString[i].cmdId_ != invalidCmdId && cmdIdAndString[i].cmdString_ != cmdString; ++i) {
+  while (cmdIdAndString[i].first != invalidCmdId && cmdIdAndString[i].second != cmdString) {
+    ++i;
   }
-  return cmdIdAndString[i].cmdId_;
+  return cmdIdAndString[i].first;
 }
 
 std::string parseEscapes(const std::string& input) {
