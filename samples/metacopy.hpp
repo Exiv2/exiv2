@@ -22,7 +22,6 @@ class Params : public Util::Getopt {
   std::string read_;      //!< Source file
   std::string write_;     //!< Destination file
 
- public:
   /*!
     @brief Default constructor. Note that optstring_ is initialized here.
    */
