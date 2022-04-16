@@ -187,7 +187,7 @@ void TiffCopier::visitBinaryElement(TiffBinaryElement* object) {
   copyObject(object);
 }
 
-TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* const pRoot,
+TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
                          FindDecoderFct findDecoderFct) :
     exifData_(exifData),
     iptcData_(iptcData),

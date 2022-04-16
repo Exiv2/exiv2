@@ -178,7 +178,7 @@ class TiffComponent {
 
     @return A pointer to the newly added TIFF entry.
    */
-  TiffComponent* addPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot, UniquePtr object = nullptr);
+  TiffComponent* addPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object = nullptr);
   /*!
     @brief Add a child to the component. Default is to do nothing.
     @param tiffComponent Auto pointer to the component to add.
@@ -293,7 +293,7 @@ class TiffComponent {
   //! @name Protected Manipulators
   //@{
   //! Implements addPath(). The default implementation does nothing.
-  virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                                    TiffComponent::UniquePtr object);
   //! Implements addChild(). The default implementation does nothing.
   virtual TiffComponent* doAddChild(UniquePtr tiffComponent);
@@ -382,7 +382,7 @@ struct TiffMappingInfo::Key {
 class TiffEntryBase : public TiffComponent {
   friend class TiffReader;
   friend class TiffEncoder;
-  friend int selectNikonLd(TiffBinaryArray* const, TiffComponent* const);
+  friend int selectNikonLd(TiffBinaryArray*, TiffComponent*);
 
  public:
   //! @name Creators
@@ -869,7 +869,7 @@ class TiffDirectory : public TiffComponent {
 
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
   TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
@@ -965,7 +965,7 @@ class TiffSubIfd : public TiffEntryBase {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
@@ -1043,7 +1043,7 @@ class TiffMnEntry : public TiffEntryBase {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
   TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
@@ -1176,7 +1176,7 @@ class TiffIfdMakernote : public TiffComponent {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
   TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
@@ -1330,7 +1330,7 @@ class TiffBinaryArray : public TiffEntryBase {
     @param pRoot Pointer to the root component of the TIFF tree.
     @return true if the initialization succeeded, else false.
    */
-  bool initialize(TiffComponent* const pRoot);
+  bool initialize(TiffComponent* pRoot);
   //! Initialize the original data buffer and its size from the base entry.
   void iniOrigDataBuf();
   //! Update the original data buffer and its size, return true if successful.
@@ -1373,7 +1373,7 @@ class TiffBinaryArray : public TiffEntryBase {
   /*!
     @brief Implements addPath(). Todo: Document it!
    */
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   /*!
     @brief Implements addChild(). Todo: Document it!

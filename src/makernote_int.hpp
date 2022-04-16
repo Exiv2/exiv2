@@ -623,7 +623,7 @@ TiffComponent* newCasio2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
   @param pRoot Pointer to the root component of the TIFF tree.
   @return An index into the array set, -1 if no match was found.
  */
-int sonyCsSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+int sonyCsSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot);
 
 /*!
     @brief Function to select cfg + def of the Sony 2010 Miscellaneous Information complex binary array.
@@ -634,7 +634,7 @@ int sonyCsSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
     @param pRoot Pointer to the root component of the TIFF tree.
     @return An index into the array set, -1 if no match was found.
 */
-int sony2010eSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+int sony2010eSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot);
 
 /*!
     @brief Function to select cfg + def of the Sony2Fp (tag 9402) complex binary array.
@@ -645,7 +645,7 @@ int sony2010eSelector(uint16_t tag, const byte* pData, size_t size, TiffComponen
     @param pRoot Pointer to the root component of the TIFF tree.
     @return An index into the array set, -1 if no match was found.
 */
-int sony2FpSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+int sony2FpSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot);
 
 /*!
     @brief Function to select cfg + def of the SonyMisc2b (tag 9404b) complex binary array.
@@ -656,7 +656,7 @@ int sony2FpSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent*
     @param pRoot Pointer to the root component of the TIFF tree.
     @return An index into the array set, -1 if no match was found.
 */
-int sonyMisc2bSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+int sonyMisc2bSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot);
 
 /*!
     @brief Function to select cfg + def of the SonyMisc3c (tag 9400) complex binary array.
@@ -667,7 +667,7 @@ int sonyMisc2bSelector(uint16_t tag, const byte* pData, size_t size, TiffCompone
     @param pRoot Pointer to the root component of the TIFF tree.
     @return An index into the array set, -1 if no match was found.
 */
-int sonyMisc3cSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+int sonyMisc3cSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot);
 
 /*!
   @brief Function to select cfg + def of a Nikon complex binary array.
@@ -678,7 +678,7 @@ int sonyMisc3cSelector(uint16_t tag, const byte* pData, size_t size, TiffCompone
   @param pRoot Pointer to the root component of the TIFF tree.
   @return An index into the array set, -1 if no match was found.
  */
-int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot);
 
 /*!
   @brief Encrypt and decrypt Nikon data.
@@ -696,7 +696,7 @@ int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* c
   @return En/decrypted data. Ownership of the memory is passed to the caller.
           The buffer may be empty in case no decryption was needed.
  */
-DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot);
+DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot);
 
 }  // namespace Exiv2::Internal
 

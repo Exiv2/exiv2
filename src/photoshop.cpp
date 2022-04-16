@@ -31,8 +31,8 @@ bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {
 // Todo: Generalised from JpegBase::locateIptcData without really understanding
 //       the format (in particular the header). So it remains to be confirmed
 //       if this also makes sense for psTag != Photoshop::iptc
-int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record,
-                         uint32_t* const sizeHdr, uint32_t* const sizeData) {
+int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record, uint32_t* sizeHdr,
+                         uint32_t* sizeData) {
   if (sizePsData < 12) {
     return 3;
   }
@@ -102,13 +102,13 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
   return 3;
 }
 
-int Photoshop::locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* const sizeHdr,
-                             uint32_t* const sizeData) {
+int Photoshop::locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* sizeHdr,
+                             uint32_t* sizeData) {
   return locateIrb(pPsData, sizePsData, iptc_, record, sizeHdr, sizeData);
 }
 
-int Photoshop::locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* const sizeHdr,
-                                uint32_t* const sizeData) {
+int Photoshop::locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* sizeHdr,
+                                uint32_t* sizeData) {
   return locateIrb(pPsData, sizePsData, preview_, record, sizeHdr, sizeData);
 }
 
@@ -153,7 +153,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
 
   // Write existing stuff after record, skip the current and all remaining IPTC blocks
   size_t pos = sizeFront;
-  long nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
+  auto nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
   enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
   while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData, &record, &sizeHdr, &sizeIptc)) {
     const auto newPos = static_cast<size_t>(record - pPsData);

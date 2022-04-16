@@ -255,7 +255,7 @@ class TiffDecoder : public TiffVisitor {
            the root element of the composite to decode and a FindDecoderFct
            function to get the decoder function for each tag.
    */
-  TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* const pRoot,
+  TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
               FindDecoderFct findDecoderFct);
   //! Virtual destructor
   ~TiffDecoder() override = default;
@@ -314,7 +314,7 @@ class TiffDecoder : public TiffVisitor {
   ExifData& exifData_;                   //!< Exif metadata container
   IptcData& iptcData_;                   //!< IPTC metadata container
   XmpData& xmpData_;                     //!< XMP metadata container
-  TiffComponent* const pRoot_;           //!< Root element of the composite
+  TiffComponent* pRoot_;                 //!< Root element of the composite
   const FindDecoderFct findDecoderFct_;  //!< Ptr to the function to find special decoding functions
   std::string make_;                     //!< Camera make, determined from the tags to decode
   bool decodedIptc_;                     //!< Indicates if IPTC has been decoded yet
@@ -346,7 +346,7 @@ class TiffEncoder : public TiffVisitor {
            find special encoders.
    */
   TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
-              const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+              bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
               FindEncoderFct findEncoderFct);
   //! Virtual destructor
   ~TiffEncoder() override = default;
@@ -659,18 +659,18 @@ class TiffReader : public TiffVisitor {
   using PostList = std::vector<TiffComponent*>;
 
   // DATA
-  const byte* pData_;           //!< Pointer to the memory buffer
-  const size_t size_;           //!< Size of the buffer
-  const byte* pLast_;           //!< Pointer to the last byte
-  TiffComponent* const pRoot_;  //!< Root element of the composite
-  TiffRwState* pState_;         //!< Pointer to the state in effect (origState_ or mnState_)
-  TiffRwState origState_;       //!< State class as set in the c'tor
-  TiffRwState mnState_;         //!< State class as set in the c'tor or by setMnState()
-  DirList dirList_;             //!< List of IFD pointers and their groups
-  IdxSeq idxSeq_;               //!< Sequences for group, used for the entry's idx
-  PostList postList_;           //!< List of components with deferred reading
-  bool postProc_;               //!< True in postProcessList()
-};                              // class TiffReader
+  const byte* pData_;      //!< Pointer to the memory buffer
+  const size_t size_;      //!< Size of the buffer
+  const byte* pLast_;      //!< Pointer to the last byte
+  TiffComponent* pRoot_;   //!< Root element of the composite
+  TiffRwState* pState_;    //!< Pointer to the state in effect (origState_ or mnState_)
+  TiffRwState origState_;  //!< State class as set in the c'tor
+  TiffRwState mnState_;    //!< State class as set in the c'tor or by setMnState()
+  DirList dirList_;        //!< List of IFD pointers and their groups
+  IdxSeq idxSeq_;          //!< Sequences for group, used for the entry's idx
+  PostList postList_;      //!< List of components with deferred reading
+  bool postProc_;          //!< True in postProcessList()
+};                         // class TiffReader
 
 }  // namespace Internal
 }  // namespace Exiv2
