@@ -1240,10 +1240,10 @@ class TiffIfdMakernote : public TiffComponent {
   @brief Function pointer type for a function to determine which cfg + def
          of a corresponding array set to use.
  */
-using CfgSelFct = int (*)(uint16_t, const byte*, size_t, TiffComponent* const);
+using CfgSelFct = int (*)(uint16_t, const byte*, size_t, TiffComponent*);
 
 //! Function pointer type for a crypt function used for binary arrays.
-using CryptFct = DataBuf (*)(uint16_t, const byte*, size_t, TiffComponent* const);
+using CryptFct = DataBuf (*)(uint16_t, const byte*, size_t, TiffComponent*);
 
 //! Defines one tag in a binary array
 struct ArrayDef {

@@ -8,6 +8,8 @@
 #include "tags_int.hpp"
 #include "types.hpp"
 
+#include <functional>
+
 // namespace extensions
 namespace Exiv2::Internal {
 class IoWrapper;
@@ -28,11 +30,10 @@ std::string readExiv2Config(const std::string& section, const std::string& value
 // class definitions
 
 //! Type for a pointer to a function creating a makernote (image)
-using NewMnFct = TiffComponent* (*)(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                                    ByteOrder byteOrder);
+using NewMnFct = std::function<TiffComponent*(uint16_t, IfdId, IfdId, const byte*, size_t, ByteOrder)>;
 
 //! Type for a pointer to a function creating a makernote (group)
-using NewMnFct2 = TiffComponent* (*)(uint16_t tag, IfdId group, IfdId mnGroup);
+using NewMnFct2 = std::function<TiffComponent*(uint16_t tag, IfdId group, IfdId mnGroup)>;
 
 //! Makernote registry structure
 struct TiffMnRegistry {

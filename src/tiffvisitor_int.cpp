@@ -193,7 +193,7 @@ TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpDat
     iptcData_(iptcData),
     xmpData_(xmpData),
     pRoot_(pRoot),
-    findDecoderFct_(findDecoderFct),
+    findDecoderFct_(std::move(findDecoderFct)),
     decodedIptc_(false) {
   // #1402 Fujifilm RAF. Search for the make
   // Find camera make in existing metadata (read from the JPEG)
@@ -460,7 +460,7 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
     isNewImage_(isNewImage),
     pPrimaryGroups_(pPrimaryGroups),
     pSourceTree_(nullptr),
-    findEncoderFct_(findEncoderFct),
+    findEncoderFct_(std::move(findEncoderFct)),
     dirty_(false),
     writeMethod_(wmNonIntrusive) {
   byteOrder_ = pHeader->byteOrder();
