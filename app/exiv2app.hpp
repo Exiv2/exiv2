@@ -217,7 +217,6 @@ class Params : public Util::Getopt {
 
   Params();
 
- private:
   //! @name Helpers
   //@{
   int setLogLevel(const std::string& optarg);

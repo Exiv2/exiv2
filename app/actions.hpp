@@ -73,7 +73,7 @@ class Task {
     return bResult;
   }
 
-  bool binary() {
+  bool binary() const {
     return binary_;
   }
 
