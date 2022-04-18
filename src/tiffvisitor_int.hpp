@@ -311,13 +311,13 @@ class TiffDecoder : public TiffVisitor {
   //@}
 
   // DATA
-  ExifData& exifData_;                   //!< Exif metadata container
-  IptcData& iptcData_;                   //!< IPTC metadata container
-  XmpData& xmpData_;                     //!< XMP metadata container
-  TiffComponent* pRoot_;                 //!< Root element of the composite
-  const FindDecoderFct findDecoderFct_;  //!< Ptr to the function to find special decoding functions
-  std::string make_;                     //!< Camera make, determined from the tags to decode
-  bool decodedIptc_;                     //!< Indicates if IPTC has been decoded yet
+  ExifData& exifData_;             //!< Exif metadata container
+  IptcData& iptcData_;             //!< IPTC metadata container
+  XmpData& xmpData_;               //!< XMP metadata container
+  TiffComponent* pRoot_;           //!< Root element of the composite
+  FindDecoderFct findDecoderFct_;  //!< Ptr to the function to find special decoding functions
+  std::string make_;               //!< Camera make, determined from the tags to decode
+  bool decodedIptc_;               //!< Indicates if IPTC has been decoded yet
 
 };  // class TiffDecoder
 
