@@ -235,7 +235,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 
       const byte* pEnd = psData.c_data(psData.size() - 1);
       const byte* pCur = psData.c_data();
-      while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur, &record, &sizeHdr, &sizeIptc)) {
+      while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur, &record, sizeHdr, sizeIptc)) {
         if (sizeIptc) {
 #ifdef EXIV2_DEBUG_MESSAGES
           std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";

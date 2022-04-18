@@ -47,16 +47,16 @@ struct EXIV2API Photoshop {
   /// @return 0 if successful;<BR>
   ///   3 if no data for psTag was found in pPsData;<BR>
   ///  -2 if the pPsData buffer does not contain valid data.
-  static int locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record, uint32_t* sizeHdr,
-                       uint32_t* sizeData);
+  static int locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record, uint32_t& sizeHdr,
+                       uint32_t& sizeData);
 
   /// @brief Forwards to locateIrb() with \em psTag = \em iptc_
-  static int locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* sizeHdr,
-                           uint32_t* sizeData);
+  static int locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t& sizeHdr,
+                           uint32_t& sizeData);
 
   /// @brief Forwards to locatePreviewIrb() with \em psTag = \em preview_
-  static int locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* sizeHdr,
-                              uint32_t* sizeData);
+  static int locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t& sizeHdr,
+                              uint32_t& sizeData);
 
   /// @brief Set the new IPTC IRB, keeps existing IRBs but removes the IPTC block if there is no new IPTC data to write.
   /// @param pPsData    Existing IRB buffer

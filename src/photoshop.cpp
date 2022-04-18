@@ -22,7 +22,7 @@ bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {
   const byte* pCur = pPsData;
   const byte* pEnd = pPsData + sizePsData;
   int ret = 0;
-  while (pCur < pEnd && 0 == (ret = Photoshop::locateIptcIrb(pCur, (pEnd - pCur), &record, &sizeHdr, &sizeIptc))) {
+  while (pCur < pEnd && 0 == (ret = Photoshop::locateIptcIrb(pCur, (pEnd - pCur), &record, sizeHdr, sizeIptc))) {
     pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
   }
   return ret >= 0;
@@ -31,8 +31,8 @@ bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {
 // Todo: Generalised from JpegBase::locateIptcData without really understanding
 //       the format (in particular the header). So it remains to be confirmed
 //       if this also makes sense for psTag != Photoshop::iptc
-int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record, uint32_t* sizeHdr,
-                         uint32_t* sizeData) {
+int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record, uint32_t& sizeHdr,
+                         uint32_t& sizeData) {
   if (sizePsData < 12) {
     return 3;
   }
@@ -81,8 +81,8 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << "ok\n";
 #endif
-      *sizeData = dataSize;
-      *sizeHdr = psSize + 10;
+      sizeData = dataSize;
+      sizeHdr = psSize + 10;
       *record = hrd;
       return 0;
     }
@@ -102,13 +102,13 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
   return 3;
 }
 
-int Photoshop::locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* sizeHdr,
-                             uint32_t* sizeData) {
+int Photoshop::locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t& sizeHdr,
+                             uint32_t& sizeData) {
   return locateIrb(pPsData, sizePsData, iptc_, record, sizeHdr, sizeData);
 }
 
-int Photoshop::locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t* sizeHdr,
-                                uint32_t* sizeData) {
+int Photoshop::locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t& sizeHdr,
+                                uint32_t& sizeData) {
   return locateIrb(pPsData, sizePsData, preview_, record, sizeHdr, sizeData);
 }
 
@@ -124,7 +124,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   uint32_t sizeIptc = 0;
   uint32_t sizeHdr = 0;
   DataBuf rc;
-  if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData, &record, &sizeHdr, &sizeIptc)) {
+  if (0 > Photoshop::locateIptcIrb(pPsData, sizePsData, &record, sizeHdr, sizeIptc)) {
     return rc;
   }
 
@@ -155,7 +155,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   size_t pos = sizeFront;
   auto nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
   enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
-  while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData, &record, &sizeHdr, &sizeIptc)) {
+  while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData, &record, sizeHdr, sizeIptc)) {
     const auto newPos = static_cast<size_t>(record - pPsData);
     if (newPos > pos) {  // Copy data up to the IPTC IRB
       append(psBlob, pPsData + pos, newPos - pos);

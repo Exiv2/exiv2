@@ -264,7 +264,7 @@ void JpegBase::readMetadata() {
     uint32_t sizeHdr = 0;
     const byte* pCur = &psBlob[0];
     const byte* pEnd = pCur + psBlob.size();
-    while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur, &record, &sizeHdr, &sizeIptc)) {
+    while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur, &record, sizeHdr, sizeIptc)) {
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
 #endif

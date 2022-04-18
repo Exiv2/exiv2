@@ -330,7 +330,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
     byte const* record = nullptr;
     uint32_t sizeHdr = 0;
     uint32_t sizeData = 0;
-    if (0 != Photoshop::locateIptcIrb(pData, size, &record, &sizeHdr, &sizeData)) {
+    if (0 != Photoshop::locateIptcIrb(pData, size, &record, sizeHdr, sizeData)) {
       return;
     }
     if (0 == IptcParser::decode(iptcData_, record + sizeHdr, sizeData)) {

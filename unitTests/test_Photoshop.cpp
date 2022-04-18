@@ -41,7 +41,7 @@ TEST(Photoshop_locateIrb, returnsMinus2withInvalidPhotoshopIRB) {
   uint32_t sizeHdr = 0;
   uint32_t sizeData = 0;
   ASSERT_EQ(-2, Photoshop::locateIrb(reinterpret_cast<const byte*>(data.c_str()), data.size(), Photoshop::iptc_,
-                                     &record, &sizeHdr, &sizeData));
+                                     &record, sizeHdr, sizeData));
 }
 
 TEST(Photoshop_locateIrb, returnsMinus2WithMarkerNotStartingWith8BIM) {
@@ -50,7 +50,7 @@ TEST(Photoshop_locateIrb, returnsMinus2WithMarkerNotStartingWith8BIM) {
   uint32_t sizeHdr = 0;
   uint32_t sizeData = 0;
   ASSERT_EQ(-2, Photoshop::locateIrb(reinterpret_cast<const byte*>(data.c_str()), data.size(), Photoshop::iptc_,
-                                     &record, &sizeHdr, &sizeData));
+                                     &record, sizeHdr, sizeData));
 }
 
 TEST(Photoshop_locateIrb, returns3withNotLongEnoughData) {
@@ -59,7 +59,7 @@ TEST(Photoshop_locateIrb, returns3withNotLongEnoughData) {
   uint32_t sizeHdr = 0;
   uint32_t sizeData = 0;
   ASSERT_EQ(3, Photoshop::locateIrb(reinterpret_cast<const byte*>(data.c_str()), data.size(), Photoshop::iptc_, &record,
-                                    &sizeHdr, &sizeData));
+                                    sizeHdr, sizeData));
 }
 
 TEST(Photoshop_locateIrb, returns0withGoodIptcIrb) {
@@ -75,7 +75,7 @@ TEST(Photoshop_locateIrb, returns0withGoodIptcIrb) {
   uint32_t sizeHdr = 0;
   uint32_t sizeData = 0;
 
-  ASSERT_EQ(0, Photoshop::locateIrb(data.data(), data.size(), Photoshop::iptc_, &record, &sizeHdr, &sizeData));
+  ASSERT_EQ(0, Photoshop::locateIrb(data.data(), data.size(), Photoshop::iptc_, &record, sizeHdr, sizeData));
   ASSERT_EQ(12, sizeHdr);
   ASSERT_EQ(27, sizeData);
 }
@@ -93,7 +93,7 @@ TEST(Photoshop_locateIptcIrb, returns0withGoodIptcIrb) {
   uint32_t sizeHdr = 0;
   uint32_t sizeData = 0;
 
-  ASSERT_EQ(0, Photoshop::locateIptcIrb(data.data(), data.size(), &record, &sizeHdr, &sizeData));
+  ASSERT_EQ(0, Photoshop::locateIptcIrb(data.data(), data.size(), &record, sizeHdr, sizeData));
   ASSERT_EQ(12, sizeHdr);
   ASSERT_EQ(27, sizeData);
 }
@@ -111,7 +111,7 @@ TEST(Photoshop_locateIptcIrb, returns3withoutIptcMarker) {
   uint32_t sizeHdr = 0;
   uint32_t sizeData = 0;
 
-  ASSERT_EQ(3, Photoshop::locateIptcIrb(data.data(), data.size(), &record, &sizeHdr, &sizeData));
+  ASSERT_EQ(3, Photoshop::locateIptcIrb(data.data(), data.size(), &record, sizeHdr, sizeData));
 }
 
 TEST(Photoshop_locatePreviewIrb, returns0withGoodPreviewIrb) {
@@ -127,7 +127,7 @@ TEST(Photoshop_locatePreviewIrb, returns0withGoodPreviewIrb) {
   uint32_t sizeHdr = 0;
   uint32_t sizeData = 0;
 
-  ASSERT_EQ(0, Photoshop::locatePreviewIrb(data.data(), data.size(), &record, &sizeHdr, &sizeData));
+  ASSERT_EQ(0, Photoshop::locatePreviewIrb(data.data(), data.size(), &record, sizeHdr, sizeData));
   ASSERT_EQ(12, sizeHdr);
   ASSERT_EQ(27, sizeData);
 }
