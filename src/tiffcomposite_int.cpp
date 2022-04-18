@@ -1138,7 +1138,7 @@ uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int
 
 uint32_t TiffBinaryElement::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t /*offset*/,
                                     uint32_t /*valueIdx*/, uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) {
-  Value const* pv = pValue();
+  auto pv = pValue();
   if (!pv || pv->count() == 0)
     return 0;
   DataBuf buf(pv->size());
@@ -1511,13 +1511,13 @@ TiffType toTiffType(TypeId typeId) {
   return static_cast<uint16_t>(typeId);
 }
 
-bool cmpTagLt(TiffComponent const* lhs, TiffComponent const* rhs) {
+bool cmpTagLt(const TiffComponent* lhs, const TiffComponent* rhs) {
   if (lhs->tag() != rhs->tag())
     return lhs->tag() < rhs->tag();
   return lhs->idx() < rhs->idx();
 }
 
-bool cmpGroupLt(TiffComponent const* lhs, TiffComponent const* rhs) {
+bool cmpGroupLt(const TiffComponent* lhs, const TiffComponent* rhs) {
   return lhs->group() < rhs->group();
 }
 

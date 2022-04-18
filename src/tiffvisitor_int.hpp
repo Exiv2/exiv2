@@ -307,7 +307,7 @@ class TiffDecoder : public TiffVisitor {
     Populates \em pData and \em size with the result. If no matching
     element is found the function leaves both of these parameters unchanged.
   */
-  void getObjData(byte const*& pData, size_t& size, uint16_t tag, IfdId group, const TiffEntryBase* object);
+  void getObjData(const byte*& pData, size_t& size, uint16_t tag, IfdId group, const TiffEntryBase* object);
   //@}
 
   // DATA

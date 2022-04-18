@@ -254,7 +254,7 @@ void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* object) {
   }
 }
 
-void TiffDecoder::getObjData(byte const*& pData, size_t& size, uint16_t tag, IfdId group, const TiffEntryBase* object) {
+void TiffDecoder::getObjData(const byte*& pData, size_t& size, uint16_t tag, IfdId group, const TiffEntryBase* object) {
   if (object && object->tag() == tag && object->group() == group) {
     pData = object->pData();
     size = object->size();
@@ -262,7 +262,7 @@ void TiffDecoder::getObjData(byte const*& pData, size_t& size, uint16_t tag, Ifd
   }
   TiffFinder finder(tag, group);
   pRoot_->accept(finder);
-  TiffEntryBase const* te = dynamic_cast<TiffEntryBase*>(finder.result());
+  auto te = dynamic_cast<TiffEntryBase*>(finder.result());
   if (te) {
     pData = te->pData();
     size = te->size();
@@ -274,7 +274,7 @@ void TiffDecoder::decodeXmp(const TiffEntryBase* object) {
   // add Exif tag anyway
   decodeStdTiffEntry(object);
 
-  byte const* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   getObjData(pData, size, 0x02bc, ifd0Id, object);
   if (pData) {
@@ -307,7 +307,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
   }
   decodedIptc_ = true;
   // 1st choice: IPTCNAA
-  byte const* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   getObjData(pData, size, 0x83bb, ifd0Id, object);
   if (pData) {
@@ -327,7 +327,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
   size = 0;
   getObjData(pData, size, 0x8649, ifd0Id, object);
   if (pData) {
-    byte const* record = nullptr;
+    const byte* record = nullptr;
     uint32_t sizeHdr = 0;
     uint32_t sizeData = 0;
     if (0 != Photoshop::locateIptcIrb(pData, size, &record, sizeHdr, sizeData)) {
