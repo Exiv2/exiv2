@@ -178,7 +178,7 @@ class TiffComponent {
 
     @return A pointer to the newly added TIFF entry.
    */
-  TiffComponent* addPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot, UniquePtr object = nullptr);
+  TiffComponent* addPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object = nullptr);
   /*!
     @brief Add a child to the component. Default is to do nothing.
     @param tiffComponent Auto pointer to the component to add.
@@ -293,7 +293,7 @@ class TiffComponent {
   //! @name Protected Manipulators
   //@{
   //! Implements addPath(). The default implementation does nothing.
-  virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                                    TiffComponent::UniquePtr object);
   //! Implements addChild(). The default implementation does nothing.
   virtual TiffComponent* doAddChild(UniquePtr tiffComponent);
@@ -382,7 +382,7 @@ struct TiffMappingInfo::Key {
 class TiffEntryBase : public TiffComponent {
   friend class TiffReader;
   friend class TiffEncoder;
-  friend int selectNikonLd(TiffBinaryArray* const, TiffComponent* const);
+  friend int selectNikonLd(TiffBinaryArray*, TiffComponent*);
 
  public:
   //! @name Creators
@@ -869,7 +869,7 @@ class TiffDirectory : public TiffComponent {
 
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
   TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
@@ -965,7 +965,7 @@ class TiffSubIfd : public TiffEntryBase {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
@@ -1043,7 +1043,7 @@ class TiffMnEntry : public TiffEntryBase {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
   TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
@@ -1176,7 +1176,7 @@ class TiffIfdMakernote : public TiffComponent {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
   TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
@@ -1240,10 +1240,10 @@ class TiffIfdMakernote : public TiffComponent {
   @brief Function pointer type for a function to determine which cfg + def
          of a corresponding array set to use.
  */
-using CfgSelFct = int (*)(uint16_t, const byte*, size_t, TiffComponent* const);
+using CfgSelFct = int (*)(uint16_t, const byte*, size_t, TiffComponent*);
 
 //! Function pointer type for a crypt function used for binary arrays.
-using CryptFct = DataBuf (*)(uint16_t, const byte*, size_t, TiffComponent* const);
+using CryptFct = DataBuf (*)(uint16_t, const byte*, size_t, TiffComponent*);
 
 //! Defines one tag in a binary array
 struct ArrayDef {
@@ -1330,7 +1330,7 @@ class TiffBinaryArray : public TiffEntryBase {
     @param pRoot Pointer to the root component of the TIFF tree.
     @return true if the initialization succeeded, else false.
    */
-  bool initialize(TiffComponent* const pRoot);
+  bool initialize(TiffComponent* pRoot);
   //! Initialize the original data buffer and its size from the base entry.
   void iniOrigDataBuf();
   //! Update the original data buffer and its size, return true if successful.
@@ -1373,7 +1373,7 @@ class TiffBinaryArray : public TiffEntryBase {
   /*!
     @brief Implements addPath(). Todo: Document it!
    */
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                            TiffComponent::UniquePtr object) override;
   /*!
     @brief Implements addChild(). Todo: Document it!
@@ -1508,13 +1508,13 @@ class TiffBinaryElement : public TiffEntryBase {
   @brief Compare two TIFF component pointers by tag. Return true if the tag
          of component lhs is less than that of rhs.
  */
-bool cmpTagLt(TiffComponent const* lhs, TiffComponent const* rhs);
+bool cmpTagLt(const TiffComponent* lhs, const TiffComponent* rhs);
 
 /*!
   @brief Compare two TIFF component pointers by group. Return true if the
          group of component lhs is less than that of rhs.
  */
-bool cmpGroupLt(TiffComponent const* lhs, TiffComponent const* rhs);
+bool cmpGroupLt(const TiffComponent* lhs, const TiffComponent* rhs);
 
 //! Function to create and initialize a new TIFF entry
 TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group);
@@ -1538,10 +1538,9 @@ TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group) {
 }
 
 //! Function to create and initialize a new binary array entry
-template <const ArrayCfg* arrayCfg, int N, const ArrayDef (&arrayDef)[N]>
+template <const ArrayCfg* arrayCfg, int N, const ArrayDef arrayDef[N]>
 TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
-  // *& acrobatics is a workaround for a MSVC 7.1 bug
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, *(&arrayDef), N));
+  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, arrayDef, N));
 }
 
 //! Function to create and initialize a new simple binary array entry

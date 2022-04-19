@@ -1848,7 +1848,7 @@ ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpDa
 
   auto rootDir = parse(pData, size, root, pHeader);
   if (rootDir) {
-    TiffDecoder decoder(exifData, iptcData, xmpData, rootDir.get(), findDecoderFct);
+    TiffDecoder decoder(exifData, iptcData, xmpData, rootDir.get(), std::move(findDecoderFct));
     rootDir->accept(decoder);
   }
   return pHeader->byteOrder();
@@ -1857,7 +1857,7 @@ ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpDa
 
 WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size, const ExifData& exifData,
                                      const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
-                                     FindEncoderFct findEncoderFct, TiffHeaderBase* pHeader,
+                                     const FindEncoderFct& findEncoderFct, TiffHeaderBase* pHeader,
                                      OffsetWriter* pOffsetWriter) {
   /*
      1) parse the binary image, if one is provided, and

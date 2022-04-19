@@ -187,13 +187,13 @@ void TiffCopier::visitBinaryElement(TiffBinaryElement* object) {
   copyObject(object);
 }
 
-TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* const pRoot,
+TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
                          FindDecoderFct findDecoderFct) :
     exifData_(exifData),
     iptcData_(iptcData),
     xmpData_(xmpData),
     pRoot_(pRoot),
-    findDecoderFct_(findDecoderFct),
+    findDecoderFct_(std::move(findDecoderFct)),
     decodedIptc_(false) {
   // #1402 Fujifilm RAF. Search for the make
   // Find camera make in existing metadata (read from the JPEG)
@@ -254,7 +254,7 @@ void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* object) {
   }
 }
 
-void TiffDecoder::getObjData(byte const*& pData, size_t& size, uint16_t tag, IfdId group, const TiffEntryBase* object) {
+void TiffDecoder::getObjData(const byte*& pData, size_t& size, uint16_t tag, IfdId group, const TiffEntryBase* object) {
   if (object && object->tag() == tag && object->group() == group) {
     pData = object->pData();
     size = object->size();
@@ -262,7 +262,7 @@ void TiffDecoder::getObjData(byte const*& pData, size_t& size, uint16_t tag, Ifd
   }
   TiffFinder finder(tag, group);
   pRoot_->accept(finder);
-  TiffEntryBase const* te = dynamic_cast<TiffEntryBase*>(finder.result());
+  auto te = dynamic_cast<TiffEntryBase*>(finder.result());
   if (te) {
     pData = te->pData();
     size = te->size();
@@ -274,7 +274,7 @@ void TiffDecoder::decodeXmp(const TiffEntryBase* object) {
   // add Exif tag anyway
   decodeStdTiffEntry(object);
 
-  byte const* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   getObjData(pData, size, 0x02bc, ifd0Id, object);
   if (pData) {
@@ -307,7 +307,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
   }
   decodedIptc_ = true;
   // 1st choice: IPTCNAA
-  byte const* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   getObjData(pData, size, 0x83bb, ifd0Id, object);
   if (pData) {
@@ -327,10 +327,10 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
   size = 0;
   getObjData(pData, size, 0x8649, ifd0Id, object);
   if (pData) {
-    byte const* record = nullptr;
+    const byte* record = nullptr;
     uint32_t sizeHdr = 0;
     uint32_t sizeData = 0;
-    if (0 != Photoshop::locateIptcIrb(pData, size, &record, &sizeHdr, &sizeData)) {
+    if (0 != Photoshop::locateIptcIrb(pData, size, &record, sizeHdr, sizeData)) {
       return;
     }
     if (0 == IptcParser::decode(iptcData_, record + sizeHdr, sizeData)) {
@@ -460,7 +460,7 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
     isNewImage_(isNewImage),
     pPrimaryGroups_(pPrimaryGroups),
     pSourceTree_(nullptr),
-    findEncoderFct_(findEncoderFct),
+    findEncoderFct_(std::move(findEncoderFct)),
     dirty_(false),
     writeMethod_(wmNonIntrusive) {
   byteOrder_ = pHeader->byteOrder();

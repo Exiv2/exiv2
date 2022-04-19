@@ -37,7 +37,7 @@ namespace fs = std::filesystem;
 namespace {
 // Todo: Can be generalized further - get any tag as a string/long/...
 //! Get the Value for a tag within a particular group
-const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, const uint16_t& tag,
+const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const uint16_t& tag,
                                  const Exiv2::Internal::IfdId& group);
 //! Get the model name from tag Exif.Image.Model
 std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot);
@@ -884,7 +884,7 @@ constexpr auto nikonArrayIdx = std::array{
     NikonArrayIdx{0x00b7, "0101", 84, 1, NA},  // tag 0xb7 in sample image metadata for each version
 };
 
-int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* const /*pRoot*/) {
+int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* /*pRoot*/) {
   if (size < 4)
     return -1;
 
@@ -896,7 +896,7 @@ int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* c
   return it->idx_;
 }
 
-DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* const pRoot) {
+DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot) {
   DataBuf buf;
 
   if (size < 4)
@@ -938,7 +938,7 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
   return buf;
 }
 
-int sonyCsSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot) {
+int sonyCsSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
   std::string model = getExifModel(pRoot);
   if (model.empty())
     return -1;
@@ -948,7 +948,7 @@ int sonyCsSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, Tif
   }
   return idx;
 }
-int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot) {
+int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
   static constexpr auto models = std::array{
       "SLT-A58",   "SLT-A99",  "ILCE-3000", "ILCE-3500", "NEX-3N",    "NEX-5R",   "NEX-5T",
       "NEX-6",     "VG30E",    "VG900",     "DSC-RX100", "DSC-RX1",   "DSC-RX1R", "DSC-HX300",
@@ -957,14 +957,14 @@ int sony2010eSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, 
   return std::find(models.begin(), models.end(), getExifModel(pRoot)) != models.end() ? 0 : -1;
 }
 
-int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot) {
+int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
   // Not valid for models beginning
   std::string model = getExifModel(pRoot);
   const std::array strs{"SLT-", "HV", "ILCA-"};
   return std::any_of(strs.begin(), strs.end(), [&model](auto& m) { return startsWith(model, m); }) ? -1 : 0;
 }
 
-int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot) {
+int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
   // From Exiftool: https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
   // >  First byte must be 9 or 12 or 13 or 15 or 16 and 4th byte must be 2 (deciphered)
 
@@ -991,7 +991,7 @@ int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
   }
   return -1;
 }
-int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* const pRoot) {
+int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
   // From Exiftool (Tag 9400c): https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
   // >  first byte decoded: 62, 48, 215, 28, 106 respectively
 
@@ -1023,7 +1023,7 @@ int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
 // *****************************************************************************
 // local definitions
 namespace {
-const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, const uint16_t& tag,
+const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const uint16_t& tag,
                                  const Exiv2::Internal::IfdId& group) {
   Exiv2::Internal::TiffFinder finder(tag, group);
   if (!pRoot)
@@ -1033,7 +1033,7 @@ const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* const pRoot, co
   return (!te || !te->pValue()) ? nullptr : te->pValue();
 }
 
-std::string getExifModel(Exiv2::Internal::TiffComponent* const pRoot) {
+std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot) {
   // Lookup the Exif.Image.Model tag
   const auto value = getExifValue(pRoot, 0x0110, Exiv2::Internal::ifd0Id);
   return (!value || value->count() == 0) ? std::string("") : std::string(value->toString());

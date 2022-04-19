@@ -363,8 +363,8 @@ int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size) {
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "IptcParser::decode, size = " << size << "\n";
 #endif
-  const byte* pRead = pData;
-  const byte* const pEnd = pData + size;
+  auto pRead = pData;
+  const auto pEnd = pData + size;
   iptcData.clear();
 
   uint16_t record = 0;

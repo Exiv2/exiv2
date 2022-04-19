@@ -52,7 +52,7 @@ int main(int argc, char* const argv[]) {
     const Exiv2::byte* record;
     uint32_t sizeHdr = 0;
     uint32_t sizeData = 0;
-    Exiv2::Photoshop::locateIptcIrb(irb.data(), irb.size(), &record, &sizeHdr, &sizeData);
+    Exiv2::Photoshop::locateIptcIrb(irb.data(), irb.size(), &record, sizeHdr, sizeData);
     Exiv2::DataBuf rawIptc = Exiv2::IptcParser::encode(iptcData);
     std::cout << "Comparing IPTC and IRB size... ";
     if (static_cast<uint32_t>(rawIptc.size()) != sizeData) {

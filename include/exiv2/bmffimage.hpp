@@ -122,7 +122,7 @@ class EXIV2API BmffImage : public Image {
     @return address of next box
     @warning This function should only be called by readMetadata()
    */
-  long boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, const long pbox_end, int depth);
+  long boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, long pbox_end, int depth);
   [[nodiscard]] static std::string indent(int i) {
     return std::string(2 * i, ' ');
   }

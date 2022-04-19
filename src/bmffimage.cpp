@@ -153,7 +153,7 @@ std::string BmffImage::uuidName(Exiv2::DataBuf& uuid) {
 }
 
 long BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintStructureOption option /* = kpsNone */,
-                           const long pbox_end, int depth) {
+                           long pbox_end, int depth) {
   long address = io_->tell();
   // never visit a box twice!
   if (depth == 0)

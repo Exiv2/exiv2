@@ -395,7 +395,7 @@ bool TiffBinaryArray::initialize(IfdId group) {
   return false;
 }
 
-bool TiffBinaryArray::initialize(TiffComponent* const pRoot) {
+bool TiffBinaryArray::initialize(TiffComponent* pRoot) {
   if (!cfgSelFct_)
     return true;  // Not a complex array
 
@@ -437,17 +437,17 @@ uint32_t TiffBinaryArray::addElement(uint32_t idx, const ArrayDef& def) {
   return sz;
 }  // TiffBinaryArray::addElement
 
-TiffComponent* TiffComponent::addPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+TiffComponent* TiffComponent::addPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                                       TiffComponent::UniquePtr object) {
   return doAddPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffComponent::addPath
 
-TiffComponent* TiffComponent::doAddPath(uint16_t /*tag*/, TiffPath& /*tiffPath*/, TiffComponent* const /*pRoot*/,
+TiffComponent* TiffComponent::doAddPath(uint16_t /*tag*/, TiffPath& /*tiffPath*/, TiffComponent* /*pRoot*/,
                                         TiffComponent::UniquePtr /*object*/) {
   return this;
 }  // TiffComponent::doAddPath
 
-TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                                         TiffComponent::UniquePtr object) {
   tiffPath.pop();
   const TiffPathItem tpi = tiffPath.top();
@@ -491,7 +491,7 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
   return tc->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffDirectory::doAddPath
 
-TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                                      TiffComponent::UniquePtr object) {
   const TiffPathItem tpi1 = tiffPath.top();
   tiffPath.pop();
@@ -520,7 +520,7 @@ TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCompo
   return tc->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffSubIfd::doAddPath
 
-TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                                       TiffComponent::UniquePtr object) {
   const TiffPathItem tpi1 = tiffPath.top();
   tiffPath.pop();
@@ -537,12 +537,12 @@ TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComp
   return mn_->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffMnEntry::doAddPath
 
-TiffComponent* TiffIfdMakernote::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+TiffComponent* TiffIfdMakernote::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                                            TiffComponent::UniquePtr object) {
   return ifd_.addPath(tag, tiffPath, pRoot, std::move(object));
 }
 
-TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* const pRoot,
+TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
                                           TiffComponent::UniquePtr object) {
   pRoot_ = pRoot;
   if (tiffPath.size() == 1) {
@@ -1138,7 +1138,7 @@ uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int
 
 uint32_t TiffBinaryElement::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t /*offset*/,
                                     uint32_t /*valueIdx*/, uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) {
-  Value const* pv = pValue();
+  auto pv = pValue();
   if (!pv || pv->count() == 0)
     return 0;
   DataBuf buf(pv->size());
@@ -1511,13 +1511,13 @@ TiffType toTiffType(TypeId typeId) {
   return static_cast<uint16_t>(typeId);
 }
 
-bool cmpTagLt(TiffComponent const* lhs, TiffComponent const* rhs) {
+bool cmpTagLt(const TiffComponent* lhs, const TiffComponent* rhs) {
   if (lhs->tag() != rhs->tag())
     return lhs->tag() < rhs->tag();
   return lhs->idx() < rhs->idx();
 }
 
-bool cmpGroupLt(TiffComponent const* lhs, TiffComponent const* rhs) {
+bool cmpGroupLt(const TiffComponent* lhs, const TiffComponent* rhs) {
   return lhs->group() < rhs->group();
 }
 

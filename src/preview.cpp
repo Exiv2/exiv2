@@ -419,7 +419,7 @@ DataBuf LoaderNative::getData() const {
     const byte* record;
     uint32_t sizeHdr = 0;
     uint32_t sizeData = 0;
-    if (Photoshop::locatePreviewIrb(psData.c_data(), psData.size(), &record, &sizeHdr, &sizeData) != 0) {
+    if (Photoshop::locatePreviewIrb(psData.c_data(), psData.size(), &record, sizeHdr, sizeData) != 0) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Missing preview IRB in Photoshop EPS preview.\n";
 #endif
