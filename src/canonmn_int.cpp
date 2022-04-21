@@ -1906,34 +1906,40 @@ constexpr TagDetails canonCsLensType[] = {{1, "Canon EF 50mm f/1.8"},
                                           {61494, "Canon CN-E 85mm T1.3 L F"},
                                           {61495, "Canon CN-E 135mm T2.2 L F"},
                                           {61496, "Canon CN-E 35mm T1.5 L F"},
+                                          // All RF lenses seem to share the LensType value 61182;
+                                          // unique RFLensType tag below is to be preferred instead.
+                                          // Please keep this list in sync w/ RFLensType list
+                                          {61182, "Canon RF 50mm F1.2L USM"},
+                                          {61182, "Canon RF 24-105mm F4L IS USM"},
+                                          {61182, "Canon RF 28-70mm F2L USM"},
                                           {61182, "Canon RF 35mm F1.8 MACRO IS STM"},
-                                          {61182, "Canon RF 50mm F1.2L USM"},                       // 1
-                                          {61182, "Canon RF 24-105mm F4L IS USM"},                  // 2
-                                          {61182, "Canon RF 28-70mm F2L USM"},                      // 3
-                                          {61182, "Canon RF 85mm F1.2L USM"},                       // 4
-                                          {61182, "Canon RF 24-240mm F4-6.3 IS USM"},               // 5
-                                          {61182, "Canon RF 24-70mm F2.8L IS USM"},                 // 6
-                                          {61182, "Canon RF 15-35mm F2.8L IS USM"},                 // 7
-                                          {61182, "Canon RF 50mm F1.8 STM"},                        // 8
-                                          {61182, "Canon RF 70-200mm F4L IS USM"},                  // 9
-                                          {61182, "Canon RF 28-70mm F2L USM"},                      // 10
-                                          {61182, "Canon RF 85mm F2 MACRO IS STM"},                 // 11
-                                          {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF1.4x"},  // 12
-                                          {61182, "Canon RF 35mm F1.8 MACRO IS STM"},               // 13
-                                          {61182, "Canon RF 85mm F1.2L USM DS"},                    // 14
-                                          {61182, "Canon RF 24-70mm F2.8L IS USM"},                 // 15
-                                          {61182, "Canon RF 15-35mm F2.8L IS USM"},                 // 16
-                                          {61182, "Canon RF 24-240mm F4-6.3 IS USM"},               // 17
-                                          {61182, "Canon RF 70-200mm F2.8L IS USM"},                // 18
-                                          {61182, "Canon RF 600mm F11 IS STM"},                     // 19
-                                          {61182, "Canon RF 600mm F11 IS STM + RF1.4x"},            // 20
-                                          {61182, "Canon RF 600mm F11 IS STM + RF2x"},              // 21
-                                          {61182, "Canon RF 800mm F11 IS STM"},                     // 22
-                                          {61182, "Canon RF 800mm F11 IS STM + RF1.4x"},            // 23
-                                          {61182, "Canon RF 800mm F11 IS STM + RF2x"},              // 24
-                                          {61182, "Canon RF 24-105mm F4-7.1 IS STM"},               // 25
-                                          {61182, "Canon RF 100-500mm F4.5-7.1L IS USM"},           // 26
-                                          {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF2x"},    // 27
+                                          {61182, "Canon RF 85mm F1.2L USM"},
+                                          {61182, "Canon RF 85mm F1.2L USM DS"},
+                                          {61182, "Canon RF 24-70mm F2.8L IS USM"},
+                                          {61182, "Canon RF 15-35mm F2.8L IS USM"},
+                                          {61182, "Canon RF 24-240mm F4-6.3 IS USM"},
+                                          {61182, "Canon RF 70-200mm F2.8L IS USM"},
+                                          {61182, "Canon RF 85mm F2 MACRO IS STM"},
+                                          {61182, "Canon RF 600mm F11 IS STM"},
+                                          {61182, "Canon RF 600mm F11 IS STM + RF1.4x"},
+                                          {61182, "Canon RF 600mm F11 IS STM + RF2x"},
+                                          {61182, "Canon RF 800mm F11 IS STM"},
+                                          {61182, "Canon RF 800mm F11 IS STM + RF1.4x"},
+                                          {61182, "Canon RF 800mm F11 IS STM + RF2x"},
+                                          {61182, "Canon RF 24-105mm F4-7.1 IS STM"},
+                                          {61182, "Canon RF 100-500mm F4.5-7.1L IS USM"},
+                                          {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF1.4x"},
+                                          {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF2x"},
+                                          {61182, "Canon RF 70-200mm F4L IS USM"},
+                                          {61182, "Canon RF 50mm F1.8 STM"},
+                                          {61182, "Canon RF 14-35mm F4L IS USM"},
+                                          {61182, "Canon RF 100-400mm F5.6-8 IS USM"},
+                                          {61182, "Canon RF 100-400mm F5.6-8 IS USM + RF1.4x"},
+                                          {61182, "Canon RF 100-400mm F5.6-8 IS USM + RF2x"},
+                                          {61182, "Canon RF 16mm F2.8 STM"},
+                                          {61182, "Canon RF 400mm F2.8L IS USM"},
+                                          {61182, "Canon RF 400mm F2.8L IS USM + RF1.4x"},
+                                          {61182, "Canon RF 400mm F2.8L IS USM + RF2x"},
                                           {65535, "n/a"}};
 
 //! FlashActivity, tag 0x001c
@@ -2325,7 +2331,15 @@ constexpr TagDetails canonRFLensType[] = {{0, N_("n/a")},
                                           {276, N_("Canon RF 100-500mm F4.5-7.1L IS USM + RF1.4x")},
                                           {277, N_("Canon RF 100-500mm F4.5-7.1L IS USM + RF2x")},
                                           {278, N_("Canon RF 70-200mm F4L IS USM")},
-                                          {280, N_("Canon RF 50mm F1.8 STM")}};
+                                          {280, N_("Canon RF 50mm F1.8 STM")},
+                                          {281, N_("Canon RF 14-35mm F4L IS USM")},
+                                          {283, N_("Canon RF 100-400mm F5.6-8 IS USM")},
+                                          {284, N_("Canon RF 100-400mm F5.6-8 IS USM + RF1.4x")},
+                                          {285, N_("Canon RF 100-400mm F5.6-8 IS USM + RF2x")},
+                                          {288, N_("Canon RF 16mm F2.8 STM")},
+                                          {289, N_("Canon RF 400mm F2.8L IS USM")},
+                                          {290, N_("Canon RF 400mm F2.8L IS USM + RF1.4x")},
+                                          {291, N_("Canon RF 400mm F2.8L IS USM + RF2x")}};
 
 // Canon File Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoFi_[] = {
