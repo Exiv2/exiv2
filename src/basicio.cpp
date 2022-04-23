@@ -283,7 +283,7 @@ byte* FileIo::mmap(bool isWriteable) {
   if (error()) {
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::mmap");
   }
-  p_->pMappedArea_ = buf.release().first;
+  p_->pMappedArea_ = buf->first;
   p_->isMalloced_ = true;
 #endif
   return p_->pMappedArea_;
