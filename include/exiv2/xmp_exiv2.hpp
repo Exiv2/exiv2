@@ -366,7 +366,7 @@ class EXIV2API XmpParser {
 
     @return True if the initialization was successful, else false.
    */
-  static bool initialize(XmpParser::XmpLockFct xmpLockFct = nullptr, void* pLockData = nullptr);
+  static bool initialize(const XmpParser::XmpLockFct& xmpLockFct = nullptr, void* pLockData = nullptr);
   /*!
     @brief Terminate the XMP Toolkit and unregister custom namespaces.
 

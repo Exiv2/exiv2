@@ -565,7 +565,7 @@ bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
   return initialized_;
 }
 #else
-bool XmpParser::initialize(XmpParser::XmpLockFct, void*) {
+bool XmpParser::initialize(const XmpParser::XmpLockFct&, void*) {
   initialized_ = true;
   return initialized_;
 }
