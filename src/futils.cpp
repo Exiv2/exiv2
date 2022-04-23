@@ -375,13 +375,7 @@ std::string getProcessPath() {
     ret = path;
   }
 #elif defined(__unix__)
-  // http://stackoverflow.com/questions/606041/how-do-i-get-the-path-of-a-process-in-unix-linux
-  char path[500];
-  ssize_t l = readlink("/proc/self/exe", path, sizeof(path) - 1);
-  if (l > 0) {
-    path[l] = 0;
-    ret = path;
-  }
+  ret = std::filesystem::read_symlink("/proc/self/exe");
 #endif
 
   const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_STR);
