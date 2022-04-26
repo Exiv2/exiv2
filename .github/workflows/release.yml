@@ -39,16 +39,7 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake -GNinja -S . -B build \
-            -DEXIV2_TEAM_PACKAGING=ON \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_ENABLE_WEBREADY=OFF \
-            -DEXIV2_ENABLE_NLS=ON \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-            -DEXIV2_BUILD_DOC=ON
+          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
           cmake --build build -t doc
           cmake --build build -t package
 
@@ -137,16 +128,7 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake -GNinja -S . -B build `
-            -DEXIV2_TEAM_PACKAGING=ON `
-            -DBUILD_SHARED_LIBS=ON `
-            -DEXIV2_ENABLE_WEBREADY=OFF `
-            -DEXIV2_ENABLE_NLS=OFF `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DEXIV2_ENABLE_BMFF=ON `
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON `
-            -DEXIV2_BUILD_DOC=ON
+          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_BUILD_DOC=ON
           cmake --build build -t doc
           cmake --build build -t package
 

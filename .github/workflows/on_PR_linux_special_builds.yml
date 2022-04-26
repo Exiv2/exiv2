@@ -37,21 +37,8 @@ jobs:
 
       - name: Build
         run: |
-          cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DBUILD_WITH_COVERAGE=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset linux-coverage -S . -B build
+          cmake --build build --parallel
 
       - name: Tests + Upload coverage
         run: |
@@ -78,7 +65,6 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get update
           sudo apt-get install valgrind ninja-build
           pip3 install conan==1.45.0
 
@@ -96,9 +82,8 @@ jobs:
 
       - name: Build
         run: |
-          cd build
-          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=OFF -DCMAKE_INSTALL_PREFIX=install ..
-          cmake --build . --parallel
+          cmake --preset linux-release -S . -B build
+          cmake --build build --parallel
 
       - name: Tests with valgrind
         run: |
@@ -132,22 +117,8 @@ jobs:
 
       - name: Build
         run: |
-          cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DBUILD_WITH_COVERAGE=OFF \
-            -DEXIV2_TEAM_USE_SANITIZERS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset linux-sanitizers -S . -B build
+          cmake --build build --parallel
 
       - name: Tests
         run: |
@@ -163,8 +134,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install valgrind doxygen graphviz gettext
+          sudo apt-get install valgrind doxygen graphviz gettext ninja-build
           pip3 install conan==1.45.0
 
       - name: Conan common config
@@ -181,22 +151,8 @@ jobs:
 
       - name: Build
         run: |
-          cd build && \
-          cmake -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DBUILD_WITH_COVERAGE=ON \
-            -DEXIV2_BUILD_DOC=ON \
-            -DEXIV2_ENABLE_NLS=ON \
-            -DCMAKE_CXX_FLAGS="-DEXIV2_DEBUG_MESSAGES" \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON -DCMAKE_CXX_FLAGS="-DEXIV2_DEBUG_MESSAGES" 
+          cmake --build build --parallel
 
       - name: Generate documentation
         run: |
