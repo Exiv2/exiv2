@@ -1,7 +1,21 @@
 #include "utils.hpp"
 
-namespace Exiv2 {
-bool startsWith(const std::string_view& s, const std::string_view& start) {
-  return s.find(start) == 0;
+#include <algorithm>
+#include <cctype>
+#include <iterator>
+
+namespace Exiv2::Internal {
+
+std::string upper(const std::string& str) {
+  std::string result;
+  std::transform(str.begin(), str.end(), std::back_inserter(result), ::toupper);
+  return result;
 }
-}  // namespace Exiv2
+
+std::string lower(const std::string& a) {
+  std::string b = a;
+  std::transform(a.begin(), a.end(), b.begin(), ::tolower);
+  return b;
+}
+
+}  // namespace Exiv2::Internal

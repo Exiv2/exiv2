@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
+
 // Sample program showing how to add, modify and delete Exif metadata.
 
 #include <exiv2/exiv2.hpp>

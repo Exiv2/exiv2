@@ -1,9 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include <gtest/gtest.h>
-#include <cmath>
 #include <exiv2/types.hpp>
+
+#include <gtest/gtest.h>
+
+#include <algorithm>
+#include <array>
+#include <cmath>
 #include <limits>
+
 using namespace Exiv2;
 
 // More info about tm : http://www.cplusplus.com/reference/ctime/tm/
@@ -24,16 +29,71 @@ TEST(ExivTime, doesNotGetTimeWithBadFormedString) {
   ASSERT_EQ(1, exifTime("007:a5:24 aa:bb:cc", &tmInstance));
 }
 
-TEST(DataBuf, pointsToNullByDefault) {
+TEST(DataBuf, defaultInstanceIsEmpty) {
   DataBuf instance;
-  ASSERT_EQ(nullptr, instance.c_data());
-  ASSERT_EQ(0, instance.size());
+  ASSERT_TRUE(instance.empty());
 }
 
 TEST(DataBuf, allocatesDataWithNonEmptyConstructor) {
   DataBuf instance(5);
-  ASSERT_NE(static_cast<byte*>(nullptr), instance.c_data());  /// \todo use nullptr once we move to c++11
+  ASSERT_NE(nullptr, instance.c_data());
   ASSERT_EQ(5, instance.size());
+}
+
+TEST(DataBuf, canBeConstructedFromExistingData) {
+  const std::array<byte, 4> data{'h', 'o', 'l', 'a'};
+  DataBuf instance(data.data(), data.size());
+  ASSERT_TRUE(std::equal(data.begin(), data.end(), instance.begin()));
+}
+
+TEST(DataBuf, tryingToAccessTooFarElementThrows) {
+  const std::array<byte, 4> data{'h', 'o', 'l', 'a'};
+  DataBuf instance(data.data(), data.size());
+  ASSERT_THROW([[maybe_unused]] auto d = instance.data(4), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.c_data(4), std::out_of_range);
+}
+
+TEST(DataBuf, read_uintFunctionsWorksOnExistingData) {
+  const std::array<byte, 8> data{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+  DataBuf instance(data.data(), data.size());
+  ASSERT_EQ(data[0], instance.read_uint8(0));
+  ASSERT_EQ(data[1], instance.read_uint16(0, bigEndian));
+  ASSERT_EQ(0x00010203, instance.read_uint32(0, bigEndian));
+  ASSERT_EQ(0x0001020304050607, instance.read_uint64(0, bigEndian));
+}
+
+TEST(DataBuf, read_uintFunctionsThrowsOnTooFarElements) {
+  const std::array<byte, 8> data{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+  DataBuf instance(data.data(), data.size());
+  ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint8(data.size()), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint16(data.size(), bigEndian), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint32(data.size(), bigEndian), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint64(data.size(), bigEndian), std::out_of_range);
+}
+
+TEST(DataBuf, write_uintFunctionsWorksWhenThereIsEnoughData) {
+  DataBuf instance(8);
+  std::uint64_t val{0x0102030405060708};
+  ASSERT_NO_THROW(instance.write_uint8(0, (val >> 56)));
+  ASSERT_EQ(0x01, instance.read_uint8(0));
+
+  ASSERT_NO_THROW(instance.write_uint16(0, (val >> 48), bigEndian));
+  ASSERT_EQ(0x0102, instance.read_uint16(0, bigEndian));
+
+  ASSERT_NO_THROW(instance.write_uint32(0, (val >> 32), bigEndian));
+  ASSERT_EQ(0x01020304, instance.read_uint32(0, bigEndian));
+
+  ASSERT_NO_THROW(instance.write_uint64(0, val, bigEndian));
+  ASSERT_EQ(val, instance.read_uint64(0, bigEndian));
+}
+
+TEST(DataBuf, write_uintFunctionsThrowsIfTryingToWriteOutOfBounds) {
+  DataBuf instance(8);
+  std::uint64_t val{0x0102030405060708};
+  ASSERT_THROW(instance.write_uint8(8, (val >> 56)), std::out_of_range);
+  ASSERT_THROW(instance.write_uint16(7, (val >> 48), bigEndian), std::out_of_range);
+  ASSERT_THROW(instance.write_uint32(5, (val >> 32), bigEndian), std::out_of_range);
+  ASSERT_THROW(instance.write_uint64(1, (val >> 32), bigEndian), std::out_of_range);
 }
 
 // Test methods like DataBuf::read_uint32 and DataBuf::write_uint32.
@@ -83,4 +143,104 @@ TEST(Rational, floatToRationalCast) {
   const Rational minus_inf = floatToRationalCast(-1 * std::numeric_limits<float>::infinity());
   ASSERT_EQ(minus_inf.first, -1);
   ASSERT_EQ(minus_inf.second, 0);
+}
+
+TEST(Rational, toStream) {
+  Rational r = {1, 2};
+  std::stringstream str;
+  str << r;
+  ASSERT_EQ("1/2", str.str());
+}
+
+TEST(Rational, readRationalFromStream) {
+  Rational r;
+  std::istringstream input("1/2");
+  input >> r;
+  ASSERT_EQ(1, r.first);
+  ASSERT_EQ(2, r.second);
+}
+
+TEST(Rational, parseRationalFromStringSuccessfully) {
+  bool ok{false};
+  Rational rational = parseRational("1/2", ok);
+  ASSERT_EQ(std::make_pair(1, 2), rational);
+  ASSERT_TRUE(ok);
+}
+
+TEST(Rational, parseRationalFromLongIsOK) {
+  bool ok{true};
+  Rational rational = parseRational("12", ok);
+  ASSERT_EQ(std::make_pair(12, 1), rational);
+  ASSERT_TRUE(ok);
+}
+
+TEST(Rational, parseRationalFromBoolIsOK) {
+  bool ok{true};
+  Rational rational = parseRational("true", ok);
+  ASSERT_EQ(std::make_pair(1, 1), rational);
+  ASSERT_TRUE(ok);
+
+  rational = parseRational("false", ok);
+  ASSERT_EQ(std::make_pair(0, 1), rational);
+  ASSERT_TRUE(ok);
+}
+
+TEST(Rational, parseRationalFromFloatIsOK) {
+  bool ok{true};
+  Rational rational = parseRational("1.2", ok);
+  ASSERT_EQ(std::make_pair(6, 5), rational);
+  ASSERT_TRUE(ok);
+
+  rational = parseRational("1.4", ok);
+  ASSERT_EQ(std::make_pair(7, 5), rational);
+  ASSERT_TRUE(ok);
+}
+
+TEST(Rational, parseRationalFromFloatWithFCharIsNoOK) {
+  bool ok{true};
+  Rational rational = parseRational("1.2f", ok);
+  ASSERT_EQ(std::make_pair(0, 0), rational);
+  ASSERT_FALSE(ok);
+}
+
+TEST(Rational, floatToRationalCastWorks) {
+  ASSERT_EQ(std::make_pair(6, 5), floatToRationalCast(1.2f));
+  ASSERT_EQ(std::make_pair(11001, 5), floatToRationalCast(2200.2f));
+  ASSERT_EQ(std::make_pair(1100001, 5), floatToRationalCast(220000.2f));
+  ASSERT_EQ(std::make_pair(22000000, 1), floatToRationalCast(22000000.2f));
+  ASSERT_EQ(std::make_pair(22000000, 1), floatToRationalCast(22000000.2f));
+}
+
+TEST(Rational, floatToRationalCastWithIntegersOutOfLimits) {
+  ASSERT_EQ(std::make_pair(1, 0), floatToRationalCast(2247483647.f));
+  ASSERT_EQ(std::make_pair(-1, 0), floatToRationalCast(-2247483647.f));
+}
+
+TEST(URational, toStream) {
+  URational r = {1, 2};
+  std::stringstream str;
+  str << r;
+  ASSERT_EQ("1/2", str.str());
+}
+
+TEST(URational, readRationalFromStream) {
+  URational r;
+  std::istringstream input("1/2");
+  input >> r;
+  ASSERT_EQ(1, r.first);
+  ASSERT_EQ(2, r.second);
+}
+
+// --------------------
+
+TEST(parseUint32, withNumberInRangeReturnsOK) {
+  bool ok{false};
+  ASSERT_EQ(123456, parseUint32("123456", ok));
+  ASSERT_TRUE(ok);
+}
+
+TEST(parseUint32, withNumberOutOfRangeReturnsFalse) {
+  bool ok{false};
+  ASSERT_EQ(0, parseUint32("4333333333", ok));
+  ASSERT_FALSE(ok);
 }

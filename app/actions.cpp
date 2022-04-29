@@ -170,8 +170,8 @@ int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::stri
   if (binary && option == Exiv2::kpsIccProfile) {
     std::stringstream output(std::stringstream::out | std::stringstream::binary);
     result = printStructure(output, option, path);
-    if (result == 0) {
-      std::string str = output.str();
+    std::string str = output.str();
+    if (result == 0 && !str.empty()) {
       Exiv2::DataBuf iccProfile(str.size());
       Exiv2::DataBuf ascii(str.size() * 3 + 1);
       ascii.write_uint8(str.size() * 3, 0);
@@ -549,9 +549,11 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
   if (Params::instance().printItems_ & Params::prHex) {
     if (!first)
       std::cout << std::endl;
-    Exiv2::DataBuf buf(md.size());
-    md.copy(buf.data(), pImage->byteOrder());
-    Exiv2::hexdump(std::cout, buf.c_data(), buf.size());
+    if (md.size() > 0) {
+      Exiv2::DataBuf buf(md.size());
+      md.copy(buf.data(), pImage->byteOrder());
+      Exiv2::hexdump(std::cout, buf.c_data(), buf.size());
+    }
   }
   std::cout << std::endl;
   return true;

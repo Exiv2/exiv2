@@ -259,11 +259,11 @@ void RafImage::readMetadata() {
   if (io_->seek(jpg_img_off + 12, BasicIo::beg) != 0)
     throw Error(ErrorCode::kerFailedToReadImageData);
 
-  io_->read(buf.data(), buf.size());
-  if (io_->error() || io_->eof())
-    throw Error(ErrorCode::kerFailedToReadImageData);
-
-  io_->seek(0, BasicIo::beg);  // rewind
+  if (!buf.empty()) {
+    io_->read(buf.data(), buf.size());
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+  }
 
   ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size());
 

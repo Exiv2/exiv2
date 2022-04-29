@@ -18,6 +18,7 @@
 #include "pngimage.hpp"
 #include "tiffimage.hpp"
 #include "types.hpp"
+#include "utils.hpp"
 
 #include <array>
 #include <iostream>
@@ -171,14 +172,8 @@ static bool tEXtToDataBuf(const byte* bytes, long length, DataBuf& result) {
   return true;
 }
 
-std::string upper(const std::string& str) {
-  std::string result;
-  transform(str.begin(), str.end(), std::back_inserter(result), toupper);
-  return result;
-}
-
 std::string::size_type findi(const std::string& str, const std::string& substr) {
-  return upper(str).find(upper(substr));
+  return str.find(substr);
 }
 
 void PngImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
@@ -194,14 +189,14 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
   chType[4] = 0;
 
   if (option == kpsBasic || option == kpsXMP || option == kpsIccProfile || option == kpsRecursive) {
-    constexpr auto xmpKey = "XML:com.adobe.xmp";
-    constexpr auto exifKey = "Raw profile type exif";
-    constexpr auto app1Key = "Raw profile type APP1";
-    constexpr auto iptcKey = "Raw profile type iptc";
-    constexpr auto iccKey = "icc";
-    constexpr auto softKey = "Software";
-    constexpr auto commKey = "Comment";
-    constexpr auto descKey = "Description";
+    const auto xmpKey = upper("XML:com.adobe.xmp");
+    const auto exifKey = upper("Raw profile type exif");
+    const auto app1Key = upper("Raw profile type APP1");
+    const auto iptcKey = upper("Raw profile type iptc");
+    const auto iccKey = upper("icc");
+    const auto softKey = upper("Software");
+    const auto commKey = upper("Comment");
+    const auto descKey = upper("Description");
 
     bool bPrint = option == kpsBasic || option == kpsRecursive;
     if (bPrint) {
@@ -234,8 +229,10 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
       }
 
       DataBuf buff(dataOffset);
-      bufRead = io_->read(buff.data(), dataOffset);
-      enforce(bufRead == dataOffset, ErrorCode::kerFailedToReadImageData);
+      if (dataOffset > 0) {
+        bufRead = io_->read(buff.data(), dataOffset);
+        enforce(bufRead == dataOffset, ErrorCode::kerFailedToReadImageData);
+      }
       io_->seek(restore, BasicIo::beg);
 
       // format output
@@ -273,15 +270,14 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
       bool eXIf = std::strcmp(chType, "eXIf") == 0;
 
       // for XMP, ICC etc: read and format data
-      /// \todo inside findi we are transforming the dataString to uppercase. Therefore we are transforming it
-      /// several times when we could do it just once and reuse it.
-      bool bXMP = option == kpsXMP && findi(dataString, xmpKey) == 0;
-      bool bICC = option == kpsIccProfile && findi(dataString, iccKey) == 0;
-      bool bExif = option == kpsRecursive && (findi(dataString, exifKey) == 0 || findi(dataString, app1Key) == 0);
-      bool bIptc = option == kpsRecursive && findi(dataString, iptcKey) == 0;
-      bool bSoft = option == kpsRecursive && findi(dataString, softKey) == 0;
-      bool bComm = option == kpsRecursive && findi(dataString, commKey) == 0;
-      bool bDesc = option == kpsRecursive && findi(dataString, descKey) == 0;
+      const auto dataStringU = upper(dataString);
+      bool bXMP = option == kpsXMP && findi(dataStringU, xmpKey) == 0;
+      bool bICC = option == kpsIccProfile && findi(dataStringU, iccKey) == 0;
+      bool bExif = option == kpsRecursive && (findi(dataStringU, exifKey) == 0 || findi(dataStringU, app1Key) == 0);
+      bool bIptc = option == kpsRecursive && findi(dataStringU, iptcKey) == 0;
+      bool bSoft = option == kpsRecursive && findi(dataStringU, softKey) == 0;
+      bool bComm = option == kpsRecursive && findi(dataStringU, commKey) == 0;
+      bool bDesc = option == kpsRecursive && findi(dataStringU, descKey) == 0;
       bool bDump = bXMP || bICC || bExif || bIptc || bSoft || bComm || bDesc || eXIf;
 
       if (bDump) {
@@ -426,7 +422,9 @@ void PngImage::readMetadata() {
     if (chunkType == "IEND" || chunkType == "IHDR" || chunkType == "tEXt" || chunkType == "zTXt" ||
         chunkType == "eXIf" || chunkType == "iTXt" || chunkType == "iCCP") {
       DataBuf chunkData(chunkLength);
-      readChunk(chunkData, *io_);  // Extract chunk data.
+      if (chunkLength > 0) {
+        readChunk(chunkData, *io_);  // Extract chunk data.
+      }
 
       if (chunkType == "IEND") {
         return;  // Last chunk found: we stop parsing.

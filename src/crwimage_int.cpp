@@ -853,7 +853,7 @@ void CrwMap::encodeBasic(const Image& image, const CrwMapping* pCrwMapping, Ciff
   auto ed = image.exifData().findKey(ek);
 
   // Set the new value or remove the entry
-  if (ed != image.exifData().end()) {
+  if (ed != image.exifData().end() && ed->size() > 0) {
     DataBuf buf(ed->size());
     ed->copy(buf.data(), pHead->byteOrder());
     pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));

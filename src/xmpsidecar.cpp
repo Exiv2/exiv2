@@ -7,6 +7,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "utils.hpp"
 #include "xmp_exiv2.hpp"
 
 #include <iostream>
@@ -82,16 +83,8 @@ void XmpSidecar::readMetadata() {
   copyXmpToExif(xmpData_, exifData_);
 }  // XmpSidecar::readMetadata
 
-// lower case string
-/// \todo very similar function in pngimage (upper). We should move those things to a string utilities file
-static std::string toLowerCase(const std::string& a) {
-  std::string b = a;
-  std::transform(a.begin(), a.end(), b.begin(), ::tolower);
-  return b;
-}
-
 static bool matchi(const std::string& key, const char* substr) {
-  return toLowerCase(key).find(substr) != std::string::npos;
+  return Internal::lower(key).find(substr) != std::string::npos;
 }
 
 void XmpSidecar::writeMetadata() {
