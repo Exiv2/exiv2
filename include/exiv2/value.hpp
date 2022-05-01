@@ -1268,14 +1268,14 @@ class ValueType : public Value {
     }
 
     // Check for integer overflow.
-    if (std::is_signed<I>::value == std::is_signed<decltype(a)>::value) {
+    if (std::is_signed_v<I> == std::is_signed_v<decltype(a)>) {
       // conversion does not change sign
       const auto imin = std::numeric_limits<I>::min();
       const auto imax = std::numeric_limits<I>::max();
       if (imax < b || a < imin || imax < a) {
         return 0;
       }
-    } else if (std::is_signed<I>::value) {
+    } else if (std::is_signed_v<I>) {
       // conversion is from unsigned to signed
       const auto imax = std::make_unsigned_t<I>(std::numeric_limits<I>::max());
       if (imax < b || imax < a) {
