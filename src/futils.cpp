@@ -71,7 +71,7 @@ std::string getEnv(int env_var) {
 
 /// @brief Convert an integer value to its hex character.
 char to_hex(char code) {
-  static char hex[] = "0123456789abcdef";
+  static const char hex[] = "0123456789abcdef";
   return hex[code & 15];
 }
 
