@@ -85,7 +85,7 @@ $ mkdir build && cd build                   # Create a build directory
 $ cmake -DCMAKE_BUILD_TYPE=Release ..       # Configure the project with CMake
 $ cmake --build .                           # Compile the project
 $ ctest --verbose                           # Run tests
-$ cmake --install                           # Run the install target (install library, public headers, application and CMake files)
+$ cmake --install .                         # Run the install target (install library, public headers, application and CMake files)
 ```
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`. The target directory for the installation can be modified by using the CMake option `-DCMAKE_INSTALL_PREFIX`. 
