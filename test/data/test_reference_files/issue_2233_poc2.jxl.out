@@ -1,0 +1,39 @@
+Exif.Image.ImageWidth                        Long        1  160  160
+Exif.Image.ImageLength                       Long        1  97  97
+Exif.Image.BitsPerSample                     Short       3  8 8 8  8 8 8
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  300/1  300
+Exif.Image.YResolution                       Rational    1  300/1  300
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      13  GIMP 2.99.11  GIMP 2.99.11
+Exif.Image.DateTime                          Ascii      20  2022:05:10 17:10:08  2022:05:10 17:10:08
+Exif.Image.ExifTag                           Long        1  202  202
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Image.GPSTag                            Long        1  220  220
+Exif.GPSInfo.GPSAltitude                     Rational    1  0/100  0.0 m
+Xmp.xmpMM.DocumentID                         XmpText    52  gimp:docid:gimp:044333cc-8cd4-44da-a3f7-b4d9ae9ee740  gimp:docid:gimp:044333cc-8cd4-44da-a3f7-b4d9ae9ee740
+Xmp.xmpMM.InstanceID                         XmpText    44  xmp.iid:b9cf7f00-cf00-4264-a8f8-bccde48e0f1a  xmp.iid:b9cf7f00-cf00-4264-a8f8-bccde48e0f1a
+Xmp.xmpMM.OriginalDocumentID                 XmpText    44  xmp.did:6589fec5-f1c4-4e37-b7ba-f58bfcc61271  xmp.did:6589fec5-f1c4-4e37-b7ba-f58bfcc61271
+Xmp.xmpMM.History                            XmpText     0  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved  saved
+Xmp.xmpMM.History[1]/stEvt:changed           XmpText     9  /metadata  /metadata
+Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    44  xmp.iid:d87c2c5a-77f8-4da9-b6ac-04ce223765a9  xmp.iid:d87c2c5a-77f8-4da9-b6ac-04ce223765a9
+Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    20  GIMP 2.99.11 (Linux)  GIMP 2.99.11 (Linux)
+Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2022-05-10T17:09:05+02:00  2022-05-10T17:09:05+02:00
+Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved  saved
+Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /  /
+Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    44  xmp.iid:f9384fe5-1151-433d-a148-49f9fe6cf112  xmp.iid:f9384fe5-1151-433d-a148-49f9fe6cf112
+Xmp.xmpMM.History[2]/stEvt:softwareAgent     XmpText    20  GIMP 2.99.11 (Linux)  GIMP 2.99.11 (Linux)
+Xmp.xmpMM.History[2]/stEvt:when              XmpText    25  2022-05-10T17:10:08+02:00  2022-05-10T17:10:08+02:00
+Xmp.dc.Format                                XmpText     9  image/jxl  image/jxl
+Xmp.dc.creator                               XmpSeq      1  exiv2.org  exiv2.org
+Xmp.dc.description                           LangAlt     1  lang="x-default" Test image  lang="x-default" Test image
+Xmp.dc.title                                 LangAlt     1  lang="x-default" Logo  lang="x-default" Logo
+Xmp.GIMP.API                                 XmpText     3  3.0  3.0
+Xmp.GIMP.Platform                            XmpText     5  Linux  Linux
+Xmp.GIMP.TimeStamp                           XmpText    16  1652195408540570  1652195408540570
+Xmp.GIMP.Version                             XmpText     7  2.99.11  2.99.11
+Xmp.tiff.Orientation                         XmpText     1  1  top, left
+Xmp.xmp.CreatorTool                          XmpText     4  GIMP  GIMP
