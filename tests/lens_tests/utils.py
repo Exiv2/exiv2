@@ -119,10 +119,9 @@ def lens_is_match(l1, l2):
     """
     Test if lens l2 is compatible with lens l1
 
-    This assumes we write l1's metadata and pick its 'aperture_max_short' value
-    as the maximum aperture value to write into exif.
-    Normally the canon maker note holds the max aperture of the lens at the focal length
-    the picture was taken at. Thus for a f/4-6.3 lens, this value could be anywhere in that range.
+    This assumes we write l1's metadata and pick its 'aperture_min_short' value
+    as the minimum aperture value to write into exif.
+    Normally the canon makernote holds the minimum aperture of the camera.
     """
     # the problem is that the round trip transformation isn't exact
     # so we need to account for this here as well to not define a target
@@ -132,9 +131,9 @@ def lens_is_match(l1, l2):
         [
             l1["focal_length_min"] * l1["tc"] == l2["focal_length_min"] * l2["tc"],
             l1["focal_length_max"] * l1["tc"] == l2["focal_length_max"] * l2["tc"],
-            (l2["aperture_max_short"] - 0.1) * l2["tc"]
-            <= reconstructed_aperture
-            <= (l2["aperture_max_tele"] + 0.1) * l2["tc"],
+            (l2["aperture_min_short"] - 0.1) * l2["tc"]
+            >= reconstructed_aperture
+            <= (l2["aperture_min_tele"] + 0.1) * l2["tc"],
         ]
     )
 
