@@ -334,13 +334,13 @@ constexpr TagDetails fujiFaceElementType[] = {{1, N_("Face")}, {2, N_("Left Eye"
 //! FaceElementType, tag 0x4203
 std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() == asciiString || value.typeId() == unsignedShort) {
-    int elements = value.count();
+    auto elements = value.count();
 
-    if (value.typeId() == asciiString) {
+    if (value.typeId() == asciiString && elements > 0) {
       elements -= 1;  // null escaped
     }
 
-    for (int n = 0; n < elements; n++) {
+    for (size_t n = 0; n < elements; n++) {
       auto longValue = value.toInt64(n);
 
       if (value.typeId() == asciiString) {
