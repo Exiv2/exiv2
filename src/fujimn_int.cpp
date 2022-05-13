@@ -23,10 +23,6 @@ constexpr TagDetails fujiOffOn[] = {{0, N_("Off")}, {1, N_("On")}};
 
 //! Sharpness, tag 0x1001
 constexpr TagDetails fujiSharpness[] = {
-    {1, N_("Soft mode 1")}, {2, N_("Soft mode 2")}, {3, N_("Normal")}, {4, N_("Hard mode 1")}, {5, N_("Hard mode 2")}};
-
-//! Sharpness, tag 0x1001
-constexpr TagDetails fujiSharpness[] = {
     {   0, N_("-4 (softest)")     },
     {   1, N_("-3 (very soft)")   },
     {   2, N_("-2 (soft)")        },
@@ -104,9 +100,9 @@ constexpr TagDetails fujiContrast[] = {
 std::ostream& printFujiWhiteBalanceFineTune(std::ostream& os, const Value& value, const ExifData*) {
     if (value.typeId() == signedLong && value.size() == 8) {
         auto longValue = static_cast<const LongValue&>(value);
-        if (longValue.toLong(0) % 20 == 0 && longValue.toLong(1) % 20 == 0) {
-            auto redShift = longValue.toLong(0) / 20;
-            auto blueShift = longValue.toLong(1) / 20;
+        if (longValue.toInt64(0) % 20 == 0 && longValue.toInt64(1) % 20 == 0) {
+            auto redShift = longValue.toInt64(0) / 20;
+            auto blueShift = longValue.toInt64(1) / 20;
             os << "R: " << redShift << " B: " << blueShift;
             return os;
         }
@@ -285,7 +281,7 @@ constexpr TagDetails fujiCropMode[] = {
 //! MonochromaticColor, tag 0x1049 and 0x104b
 std::ostream& printFujiMonochromaticColor(std::ostream& os, const Value& value, const ExifData*) {
     if (value.size() == 1) {
-        auto v = static_cast<std::int8_t>(value.toLong());
+        auto v = static_cast<std::int8_t>(value.toInt64());
         os << (v > 0 ? "+": "") << static_cast<int>(v);
     } else {
         os << "(" << value << ")";
@@ -318,10 +314,10 @@ constexpr TagDetails fujiDriveSettingByte1[] = {
 
 //! DriveSetting, tag 0x1103
 std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value, const ExifData*) {
-    auto byte1 = value.toLong() & 0xff;
-    auto byte2 = (value.toLong() >> 8) & 0xff;
-    auto byte3 = (value.toLong() >> 16) & 0xff;
-    auto fps = value.toLong() >> 24;
+    auto byte1 = value.toInt64() & 0xff;
+    auto byte2 = (value.toInt64() >> 8) & 0xff;
+    auto byte3 = (value.toInt64() >> 16) & 0xff;
+    auto fps = value.toInt64() >> 24;
 
     auto setting = find(fujiDriveSettingByte1, byte1);
     if (setting) {
@@ -365,18 +361,8 @@ constexpr TagDetails fujiAdvancedFilter[] = {
     { 0x90000, N_("Low Key")              }
 };
 
-<<<<<<< HEAD
 //! FinePixColor, tag 0x1210
 constexpr TagDetails fujiFinePixColor[] = {{0, N_("Standard")}, {16, N_("Chrome")}, {48, N_("Black & white")}};
-=======
-    //! DriveSetting, tag 0x1103
-    std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value, const ExifData*) {
-        unsigned long v = static_cast<unsigned long>(value.toLong());
-        auto byte1 = v & 0xff;
-        auto byte2 = (v >> 8) & 0xff;
-        auto byte3 = (v >> 16) & 0xff;
-        auto fps = v >> 24;
->>>>>>> 9891e2a3 (fix typo in fujiSharpness and prevent undefined behaviour when shifting signed values)
 
 //! DynamicRange, tag 0x1400
 constexpr TagDetails fujiDynamicRange[] = {{1, N_("Standard")}, {3, N_("Wide")}};
@@ -428,12 +414,6 @@ constexpr TagDetails fujiImageGeneration[] = {
 };
 
 //! DRangePriority, tag 0x1443
-constexpr TagDetails fujiDRangePriority[] = {
-    {     0, N_("Auto")  },
-    {     1, N_("Fixed") }
-};
-
-//! DRangePriority, tag 0x1443
 constexpr TagDetails fujiDRangePriority[] = {{0, N_("Auto")}, {1, N_("Fixed")}};
 
 //! DRangePriorityAuto, tag 0x1444
@@ -459,7 +439,7 @@ std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& value, co
         }
 
         for (int n = 0; n < elements; n++) {
-            auto longValue = value.toLong(n);
+            auto longValue = value.toInt64(n);
 
             if (value.typeId() == asciiString) {
                 longValue -= '0';
@@ -472,7 +452,7 @@ std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& value, co
             if (td) {
                 os << exvGettext(td->label_);
             } else {
-                os << "(" << value.toLong(n) << ")";
+                os << "(" << value.toInt64(n) << ")";
             }
         }
     } else {
@@ -591,7 +571,7 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
             fujiId, makerTags, unsignedByte,-1, printFujiMonochromaticColor},
     {0x104c, "GrainEffectSize", N_("Grain Effect Size"),
             N_("Grain effect size setting"),
-            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiGrainEffectSize)},
+            fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiOff0Weak32Strong64)},
     {0x104d, "CropMode", N_("Crop Mode"), N_("Crop mode"),
             fujiId, makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiCropMode)},
     {0x104e, "ColorChromeFXBlue", N_("Color Chrome FX Blue"),
