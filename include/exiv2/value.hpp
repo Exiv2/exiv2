@@ -14,6 +14,7 @@
 #include <cstring>
 #include <iomanip>
 #include <map>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
