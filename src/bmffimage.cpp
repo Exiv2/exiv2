@@ -482,10 +482,10 @@ namespace Exiv2
                 parseTiff(Internal::Tag::cmt4, box_length);
                 break;
             case TAG_exif:
-                parseTiff(Internal::Tag::root, box_length,address+8);
+                parseTiff(Internal::Tag::root, buffer_size, io_->tell());
                 break;
             case TAG_xml:
-                parseXmp(box_length,io_->tell());
+                parseXmp(buffer_size, io_->tell());
                 break;
             case TAG_thmb:
                 switch (version) {
@@ -568,29 +568,27 @@ namespace Exiv2
 
     void BmffImage::parseXmp(uint64_t length,uint64_t start)
     {
-        if (length > 8) {
-            enforce(start <= io_->size(), kerCorruptedMetadata);
-            enforce(length <= io_->size() - start, kerCorruptedMetadata);
+        enforce(start <= io_->size(), kerCorruptedMetadata);
+        enforce(length <= io_->size() - start, kerCorruptedMetadata);
 
-            long restore = io_->tell() ;
-            enforce(start <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
-            io_->seek(static_cast<long>(start),BasicIo::beg);
+        long restore = io_->tell() ;
+        enforce(start <= static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+        io_->seek(static_cast<long>(start),BasicIo::beg);
 
-            enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
-            DataBuf  xmp(static_cast<long>(length+1));
-            xmp.pData_[length]=0  ; // ensure xmp is null terminated!
-            if ( io_->read(xmp.pData_, static_cast<long>(length)) != static_cast<long>(length) )
-                throw Error(kerInputDataReadFailed);
-            if ( io_->error() )
-                throw Error(kerFailedToReadImageData);
-            try {
-                Exiv2::XmpParser::decode(xmpData(), std::string(reinterpret_cast<char*>(xmp.pData_)));
-            } catch (...) {
-                throw Error(kerFailedToReadImageData);
-            }
-
-            io_->seek(restore,BasicIo::beg);
+        enforce(length < static_cast<unsigned long>(std::numeric_limits<long>::max()), kerCorruptedMetadata);
+        DataBuf  xmp(static_cast<long>(length+1));
+        xmp.pData_[length]=0  ; // ensure xmp is null terminated!
+        if ( io_->read(xmp.pData_, static_cast<long>(length)) != static_cast<long>(length) )
+            throw Error(kerInputDataReadFailed);
+        if ( io_->error() )
+            throw Error(kerFailedToReadImageData);
+        try {
+            Exiv2::XmpParser::decode(xmpData(), std::string(reinterpret_cast<char*>(xmp.pData_)));
+        } catch (...) {
+            throw Error(kerFailedToReadImageData);
         }
+
+        io_->seek(restore,BasicIo::beg);
     }
 
     void BmffImage::parseCr3Preview(DataBuf &data,
