@@ -437,10 +437,10 @@ long BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintStruc
       parseTiff(Internal::Tag::cmt4, box_length);
       break;
     case TAG_exif:
-      parseTiff(Internal::Tag::root, box_length, address + 8);
+      parseTiff(Internal::Tag::root, buffer_size, io_->tell());
       break;
     case TAG_xml:
-      parseXmp(box_length, io_->tell());
+      parseXmp(buffer_size, io_->tell());
       break;
     case TAG_thmb:
       switch (version) {
@@ -521,28 +521,26 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length) {
 }
 
 void BmffImage::parseXmp(uint64_t length, uint64_t start) {
-  if (length > 8) {
-    enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
-    enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
+  enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
+  enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
 
-    long restore = io_->tell();
-    io_->seek(static_cast<long>(start), BasicIo::beg);
+  long restore = io_->tell();
+  io_->seek(static_cast<long>(start), BasicIo::beg);
 
-    auto lengthSizeT = static_cast<size_t>(length);
-    DataBuf xmp(lengthSizeT + 1);
-    xmp.write_uint8(lengthSizeT, 0);  // ensure xmp is null terminated!
-    if (io_->read(xmp.data(), lengthSizeT) != lengthSizeT)
-      throw Error(ErrorCode::kerInputDataReadFailed);
-    if (io_->error())
-      throw Error(ErrorCode::kerFailedToReadImageData);
-    try {
-      Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str()));
-    } catch (...) {
-      throw Error(ErrorCode::kerFailedToReadImageData);
-    }
-
-    io_->seek(restore, BasicIo::beg);
+  auto lengthSizeT = static_cast<size_t>(length);
+  DataBuf xmp(lengthSizeT + 1);
+  xmp.write_uint8(lengthSizeT, 0);  // ensure xmp is null terminated!
+  if (io_->read(xmp.data(), lengthSizeT) != lengthSizeT)
+    throw Error(ErrorCode::kerInputDataReadFailed);
+  if (io_->error())
+    throw Error(ErrorCode::kerFailedToReadImageData);
+  try {
+    Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str()));
+  } catch (...) {
+    throw Error(ErrorCode::kerFailedToReadImageData);
   }
+
+  io_->seek(restore, BasicIo::beg);
 }
 
 /// \todo instead of passing the last 4 parameters, pass just one and build the different offsets inside
