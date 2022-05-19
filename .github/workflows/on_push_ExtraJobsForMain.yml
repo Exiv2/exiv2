@@ -19,7 +19,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip3 install conan==1.45.0
+          pip3 install conan==1.48.1
           pip install gcovr
 
       - name: Conan common config

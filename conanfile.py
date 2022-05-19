@@ -24,7 +24,7 @@ class Exiv2Conan(ConanFile):
         self.requires('zlib/1.2.12')
 
         if self.options.webready:
-            self.requires('libcurl/7.79.0')
+            self.requires('libcurl/7.80.0')
 
         if os_info.is_windows and self.options.iconv:
             self.requires('libiconv/1.16')
