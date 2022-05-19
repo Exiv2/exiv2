@@ -21,7 +21,7 @@ class Exiv2Conan(ConanFile):
         self.options['gtest'].shared = False
 
     def requirements(self):
-        self.requires('zlib/1.2.11')
+        self.requires('zlib/1.2.12')
 
         if os_info.is_windows and self.options.iconv:
             self.requires('libiconv/1.16')
@@ -37,7 +37,7 @@ class Exiv2Conan(ConanFile):
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
         else:
-            self.requires('expat/2.4.1')
+            self.requires('expat/2.4.8')
 
     def imports(self):
         self.copy('*.dll', dst='conanDlls', src='bin')
