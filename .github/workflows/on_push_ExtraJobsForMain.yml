@@ -8,6 +8,7 @@ on:
     - '!*'
     paths-ignore:
       - "*.md"
+  workflow_dispatch:
 
 jobs:
   special_debugRelease:
@@ -19,8 +20,9 @@ jobs:
 
       - name: install dependencies
         run: |
+          sudo apt-get install ninja-build
           pip3 install conan==1.48.1
-          pip install gcovr
+          pip3 install gcovr
 
       - name: Conan common config
         run: |
