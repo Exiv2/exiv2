@@ -377,7 +377,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     ul2Data(data, static_cast<uint32_t>(blob.size()), littleEndian);
     if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
       throw Error(ErrorCode::kerImageWriteFailed);
-    if (outIo.write(&blob[0], blob.size()) != blob.size()) {
+    if (outIo.write(blob.data(), blob.size()) != blob.size()) {
       throw Error(ErrorCode::kerImageWriteFailed);
     }
     if (outIo.tell() % 2) {

@@ -93,7 +93,7 @@ void CrwImage::writeMetadata() {
 
   // Write new buffer to file
   MemIo tempIo;
-  tempIo.write((!blob.empty() ? &blob[0] : nullptr), blob.size());
+  tempIo.write((!blob.empty() ? blob.data() : nullptr), blob.size());
   io_->close();
   io_->transfer(tempIo);  // may throw
 

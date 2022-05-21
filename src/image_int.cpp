@@ -24,14 +24,14 @@ std::string stringFormat(const char* format, ...) {
     buffer.resize(need + 1);
     va_list args;            // variable arg list
     va_start(args, format);  // args start after format
-    rc = vsnprintf(&buffer[0], buffer.size(), format, args);
+    rc = vsnprintf(buffer.data(), buffer.size(), format, args);
     va_end(args);  // free the args
     if (rc > 0)
       need = static_cast<size_t>(rc);
   } while (buffer.size() <= need);
 
   if (rc > 0)
-    result = std::string(&buffer[0], need);
+    result = std::string(buffer.data(), need);
   return result;
 }
 

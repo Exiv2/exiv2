@@ -188,7 +188,7 @@ void JpegBase::readMetadata() {
         append(psBlob, buf.c_data(16), size - 16);
       }
       // Check whether psBlob is complete
-      if (!psBlob.empty() && Photoshop::valid(&psBlob[0], psBlob.size())) {
+      if (!psBlob.empty() && Photoshop::valid(psBlob.data(), psBlob.size())) {
         --search;
         foundCompletePsData = true;
       }
@@ -263,7 +263,7 @@ void JpegBase::readMetadata() {
     const byte* record = nullptr;
     uint32_t sizeIptc = 0;
     uint32_t sizeHdr = 0;
-    const byte* pCur = &psBlob[0];
+    const byte* pCur = psBlob.data();
     const byte* pEnd = pCur + psBlob.size();
     while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur, &record, sizeHdr, sizeIptc)) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -274,7 +274,7 @@ void JpegBase::readMetadata() {
       }
       pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
     }
-    if (!iptcBlob.empty() && IptcParser::decode(iptcData_, &iptcBlob[0], iptcBlob.size())) {
+    if (!iptcBlob.empty() && IptcParser::decode(iptcData_, iptcBlob.data(), iptcBlob.size())) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
@@ -680,7 +680,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
       // Append to psBlob
       append(psBlob, buf.c_data(16), buf.size() - 16);
       // Check whether psBlob is complete
-      if (!psBlob.empty() && Photoshop::valid(&psBlob[0], psBlob.size())) {
+      if (!psBlob.empty() && Photoshop::valid(psBlob.data(), psBlob.size())) {
         foundCompletePsData = true;
       }
     } else if (marker == com_ && skipCom == notfound) {
@@ -750,7 +750,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         size_t exifSize = rawExif.size();
         WriteMethod wm = ExifParser::encode(blob, pExifData, exifSize, bo, exifData_);
         if (wm == wmIntrusive) {
-          pExifData = !blob.empty() ? &blob[0] : nullptr;
+          pExifData = !blob.empty() ? blob.data() : nullptr;
           exifSize = blob.size();
         }
         if (exifSize > 0) {

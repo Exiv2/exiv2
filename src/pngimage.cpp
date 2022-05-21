@@ -572,7 +572,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
         if (!blob.empty()) {
           static const char exifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
           std::string rawExif =
-              std::string(exifHeader, 6) + std::string(reinterpret_cast<const char*>(&blob[0]), blob.size());
+              std::string(exifHeader, 6) + std::string(reinterpret_cast<const char*>(blob.data()), blob.size());
           std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
           if (outIo.write(reinterpret_cast<const byte*>(chunk.data()), chunk.size()) != chunk.size()) {
             throw Error(ErrorCode::kerImageWriteFailed);
