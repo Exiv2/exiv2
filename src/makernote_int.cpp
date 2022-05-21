@@ -1036,7 +1036,7 @@ const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const ui
 std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot) {
   // Lookup the Exif.Image.Model tag
   const auto value = getExifValue(pRoot, 0x0110, Exiv2::Internal::ifd0Id);
-  return (!value || value->count() == 0) ? std::string("") : std::string(value->toString());
+  return (!value || value->count() == 0) ? std::string("") : static_cast<std::string>(value->toString());
 }
 
 void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial) {

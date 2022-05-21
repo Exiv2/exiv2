@@ -336,7 +336,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   if (n != FINISH || !OK(status)) {
     snprintf(buffer, sizeof buffer, "wsa_error = %d,n = %d,sleep_ = %d status = %d", WSAGetLastError(), n,
-             int(sleep_.count()), status);
+             static_cast<int>(sleep_.count()), status);
     error(errors, buffer, nullptr, nullptr, 0);
   } else if (bSearching && OK(status)) {
     if (end) {

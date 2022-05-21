@@ -583,7 +583,7 @@ std::ostream& MinoltaMakerNote::printMinoltaExposureManualBias5D(std::ostream& o
   std::ios::fmtflags f(os.flags());
   std::ostringstream oss;
   oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << (float(value.toInt64() - 128) / 24);
+  os << std::fixed << std::setprecision(2) << (static_cast<float>(value.toInt64() - 128) / 24);
   os.copyfmt(oss);
   os.flags(f);
   return os;
@@ -595,7 +595,7 @@ std::ostream& MinoltaMakerNote::printMinoltaExposureCompensation5D(std::ostream&
   std::ios::fmtflags f(os.flags());
   std::ostringstream oss;
   oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << (float(value.toInt64() - 300) / 100);
+  os << std::fixed << std::setprecision(2) << (static_cast<float>(value.toInt64() - 300) / 100);
   os.copyfmt(oss);
   os.flags(f);
   return os;

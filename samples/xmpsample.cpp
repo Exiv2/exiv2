@@ -40,7 +40,7 @@ int main() try {
   xmpData["Xmp.dc.one"] = -1;
   xmpData["Xmp.dc.two"] = 3.1415;
   xmpData["Xmp.dc.three"] = Exiv2::Rational(5, 7);
-  xmpData["Xmp.dc.four"] = uint16_t(255);
+  xmpData["Xmp.dc.four"] = static_cast<uint16_t>(255);
   xmpData["Xmp.dc.five"] = 256;
   xmpData["Xmp.dc.six"] = false;
 

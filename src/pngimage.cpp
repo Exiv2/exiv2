@@ -224,7 +224,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
 
       // test that we haven't hit EOF, or wanting to read excessive data
       long restore = io_->tell();
-      if (restore == -1 || dataOffset > uint32_t(0x7FFFFFFF) || dataOffset > imgSize - restore) {
+      if (restore == -1 || dataOffset > static_cast<uint32_t>(0x7FFFFFFF) || dataOffset > imgSize - restore) {
         throw Exiv2::Error(ErrorCode::kerFailedToReadImageData);
       }
 
@@ -408,7 +408,7 @@ void PngImage::readMetadata() {
     // Decode chunk data length.
     uint32_t chunkLength = cheaderBuf.read_uint32(0, Exiv2::bigEndian);
     long pos = io_->tell();
-    if (pos == -1 || chunkLength > uint32_t(0x7FFFFFFF) || chunkLength > imgSize - pos) {
+    if (pos == -1 || chunkLength > static_cast<uint32_t>(0x7FFFFFFF) || chunkLength > imgSize - pos) {
       throw Exiv2::Error(ErrorCode::kerFailedToReadImageData);
     }
 

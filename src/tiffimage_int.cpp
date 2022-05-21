@@ -1892,8 +1892,9 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
     DataBuf header = pHeader->write();
     auto tempIo = MemIo();
     IoWrapper ioWrapper(tempIo, header.c_data(), header.size(), pOffsetWriter);
-    auto imageIdx(uint32_t(-1));
-    createdTree->write(ioWrapper, pHeader->byteOrder(), header.size(), uint32_t(-1), uint32_t(-1), imageIdx);
+    auto imageIdx(static_cast<uint32_t>(-1));
+    createdTree->write(ioWrapper, pHeader->byteOrder(), header.size(), static_cast<uint32_t>(-1),
+                       static_cast<uint32_t>(-1), imageIdx);
     if (pOffsetWriter)
       pOffsetWriter->writeOffsets(tempIo);
     io.transfer(tempIo);  // may throw

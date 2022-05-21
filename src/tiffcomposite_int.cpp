@@ -54,7 +54,7 @@ void IoWrapper::setTarget(int id, int64_t target) {
     throw Error(ErrorCode::kerOffsetOutOfRange);
   }
   if (pow_)
-    pow_->setTarget(OffsetWriter::OffsetId(id), static_cast<uint32_t>(target));
+    pow_->setTarget(static_cast<OffsetWriter::OffsetId>(id), static_cast<uint32_t>(target));
 }
 
 TiffComponent::TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
@@ -388,7 +388,7 @@ bool TiffBinaryArray::initialize(IfdId group) {
     if (arraySet_[idx].cfg_.group_ == group) {
       arrayCfg_ = &arraySet_[idx].cfg_;
       arrayDef_ = arraySet_[idx].def_;
-      defSize_ = int(arraySet_[idx].defSize_);
+      defSize_ = static_cast<int>(arraySet_[idx].defSize_);
       return true;
     }
   }
@@ -403,7 +403,7 @@ bool TiffBinaryArray::initialize(TiffComponent* pRoot) {
   if (idx > -1) {
     arrayCfg_ = &arraySet_[idx].cfg_;
     arrayDef_ = arraySet_[idx].def_;
-    defSize_ = int(arraySet_[idx].defSize_);
+    defSize_ = static_cast<int>(arraySet_[idx].defSize_);
   }
   return idx > -1;
 }
@@ -825,7 +825,7 @@ uint32_t TiffComponent::write(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t
 
 uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx,
                                 uint32_t dataIdx, uint32_t& imageIdx) {
-  bool isRootDir = (imageIdx == uint32_t(-1));
+  bool isRootDir = (imageIdx == static_cast<uint32_t>(-1));
 
   // Number of components to write
   const size_t compCount = count();
@@ -935,7 +935,8 @@ uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64
 
   // 4th: Write next-IFD
   if (pNext_ && sizeNext) {
-    idx += pNext_->write(ioWrapper, byteOrder, offset + idx, uint32_t(-1), uint32_t(-1), imageIdx);
+    idx += pNext_->write(ioWrapper, byteOrder, offset + idx, static_cast<uint32_t>(-1), static_cast<uint32_t>(-1),
+                         imageIdx);
   }
 
   // 5th, at the root directory level only: write image data
@@ -1065,7 +1066,8 @@ uint32_t TiffMnEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t
   if (!mn_) {
     return TiffEntryBase::doWrite(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
   }
-  return mn_->write(ioWrapper, byteOrder, offset + valueIdx, uint32_t(-1), uint32_t(-1), imageIdx);
+  return mn_->write(ioWrapper, byteOrder, offset + valueIdx, static_cast<uint32_t>(-1), static_cast<uint32_t>(-1),
+                    imageIdx);
 }  // TiffMnEntry::doWrite
 
 uint32_t TiffIfdMakernote::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t /*valueIdx*/,
@@ -1073,7 +1075,8 @@ uint32_t TiffIfdMakernote::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, in
   mnOffset_ = static_cast<uint32_t>(offset);
   setImageByteOrder(byteOrder);
   auto len = static_cast<uint32_t>(writeHeader(ioWrapper, this->byteOrder()));
-  len += ifd_.write(ioWrapper, this->byteOrder(), offset - baseOffset() + len, uint32_t(-1), uint32_t(-1), imageIdx);
+  len += ifd_.write(ioWrapper, this->byteOrder(), offset - baseOffset() + len, static_cast<uint32_t>(-1),
+                    static_cast<uint32_t>(-1), imageIdx);
   return len;
 }  // TiffIfdMakernote::doWrite
 
@@ -1196,7 +1199,8 @@ uint32_t TiffSubIfd::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int6
                                  uint32_t& imageIdx) const {
   uint32_t len = 0;
   for (auto&& ifd : ifds_) {
-    len += ifd->write(ioWrapper, byteOrder, offset + dataIdx + len, uint32_t(-1), uint32_t(-1), imageIdx);
+    len += ifd->write(ioWrapper, byteOrder, offset + dataIdx + len, static_cast<uint32_t>(-1),
+                      static_cast<uint32_t>(-1), imageIdx);
   }
   // Align data to word boundary
   uint32_t align = (len & 1);
@@ -1484,7 +1488,7 @@ static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
 // *************************************************************************
 // free functions
 TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group) {
-  auto ti = TypeId(tiffType);
+  auto ti = static_cast<TypeId>(tiffType);
   // On the fly type conversion for Exif.Photo.UserComment, Exif.GPSProcessingMethod, GPSAreaInformation
   if (const TagInfo* pTag = ti == undefined ? findTagInfo(tag, group) : nullptr) {
     if (pTag->typeId_ == comment) {

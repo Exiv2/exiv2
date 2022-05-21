@@ -34,12 +34,12 @@ int main(int argc, char* const argv[]) {
     // set/add metadata
     std::cout << "Modify the metadata ...\n";
     Exiv2::ExifData exifData;
-    exifData["Exif.Photo.UserComment"] = "Hello World";   // AsciiValue
-    exifData["Exif.Image.Software"] = "Exiv2";            // AsciiValue
-    exifData["Exif.Image.Copyright"] = "Exiv2";           // AsciiValue
-    exifData["Exif.Image.Make"] = "Canon";                // AsciiValue
-    exifData["Exif.Canon.OwnerName"] = "Tuan";            // UShortValue
-    exifData["Exif.CanonCs.LensType"] = uint16_t(65535);  // LongValue
+    exifData["Exif.Photo.UserComment"] = "Hello World";                // AsciiValue
+    exifData["Exif.Image.Software"] = "Exiv2";                         // AsciiValue
+    exifData["Exif.Image.Copyright"] = "Exiv2";                        // AsciiValue
+    exifData["Exif.Image.Make"] = "Canon";                             // AsciiValue
+    exifData["Exif.Canon.OwnerName"] = "Tuan";                         // UShortValue
+    exifData["Exif.CanonCs.LensType"] = static_cast<uint16_t>(65535);  // LongValue
     Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::asciiString);
     v->read("2013:06:09 14:30:30");
     Exiv2::ExifKey key("Exif.Image.DateTime");
