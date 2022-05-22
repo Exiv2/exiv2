@@ -42,7 +42,11 @@ const Params::YodAdjust emptyYodAdjust_[] = {
 
 //! List of all command identifiers and corresponding strings
 const CmdIdAndString cmdIdAndString[] = {
-    {add, "add"}, {set, "set"}, {del, "del"}, {reg, "reg"}, {invalidCmdId, "invalidCmd"},  // End of list marker
+    {CmdId::add, "add"},
+    {CmdId::set, "set"},
+    {CmdId::del, "del"},
+    {CmdId::reg, "reg"},
+    {CmdId::invalid, "invalidCmd"},  // End of list marker
 };
 
 // Return a command Id for a command string
@@ -50,7 +54,7 @@ CmdId commandId(const std::string& cmdString);
 
 // Evaluate [-]HH[:MM[:SS]], returns true and sets time to the value
 // in seconds if successful, else returns false.
-bool parseTime(const std::string& ts, long& time);
+bool parseTime(const std::string& ts, int64_t& time);
 
 /*!
   @brief Parse the oparg string into a bitmap of common targets.
@@ -58,7 +62,7 @@ bool parseTime(const std::string& ts, long& time);
   @param action Action being processed
   @return A bitmap of common targets or -1 in case of a parse error
  */
-int parseCommonTargets(const std::string& optArg, const std::string& action);
+int64_t parseCommonTargets(const std::string& optArg, const std::string& action);
 
 /*!
   @brief Parse numbers separated by commas into container
@@ -672,13 +676,13 @@ int Params::evalPrintFlags(const std::string& optArg) {
       for (auto&& i : optArg) {
         switch (i) {
           case 'E':
-            printTags_ |= Exiv2::mdExif;
+            printTags_ |= MetadataId::exif;
             break;
           case 'I':
-            printTags_ |= Exiv2::mdIptc;
+            printTags_ |= MetadataId::iptc;
             break;
           case 'X':
-            printTags_ |= Exiv2::mdXmp;
+            printTags_ |= MetadataId::xmp;
             break;
           case 'x':
             printItems_ |= prTag;
@@ -735,81 +739,71 @@ int Params::evalPrintFlags(const std::string& optArg) {
 }  // Params::evalPrintFlags
 
 int Params::evalDelete(const std::string& optArg) {
-  int rc = 0;
   switch (action_) {
     case Action::none:
       action_ = Action::erase;
-      target_ = 0;
+      target_ = CommonTarget(0);
       // fallthrough
-    case Action::erase:
-      rc = parseCommonTargets(optArg, "erase");
+    case Action::erase: {
+      const auto rc = parseCommonTargets(optArg, "erase");
       if (rc > 0) {
-        target_ |= rc;
-        rc = 0;
+        target_ |= CommonTarget(rc);
+        return 0;
       } else {
-        rc = 1;
+        return 1;
       }
-      break;
+    }
     default:
       std::cerr << progname() << ": " << _("Option -d is not compatible with a previous option\n");
-      rc = 1;
-      break;
+      return 1;
   }
-  return rc;
 }  // Params::evalDelete
 
 int Params::evalExtract(const std::string& optArg) {
-  int rc = 0;
   switch (action_) {
     case Action::none:
     case Action::modify:
       action_ = Action::extract;
-      target_ = 0;
+      target_ = CommonTarget(0);
       // fallthrough
-    case Action::extract:
-      rc = parseCommonTargets(optArg, "extract");
+    case Action::extract: {
+      const auto rc = parseCommonTargets(optArg, "extract");
       if (rc > 0) {
-        target_ |= rc;
-        rc = 0;
+        target_ |= CommonTarget(rc);
+        return 0;
       } else {
-        rc = 1;
+        return 1;
       }
-      break;
+    }
     default:
       std::cerr << progname() << ": " << _("Option -e is not compatible with a previous option\n");
-      rc = 1;
-      break;
+      return 1;
   }
-  return rc;
 }  // Params::evalExtract
 
 int Params::evalInsert(const std::string& optArg) {
-  int rc = 0;
   switch (action_) {
     case Action::none:
     case Action::modify:
       action_ = Action::insert;
-      target_ = 0;
+      target_ = CommonTarget(0);
       // fallthrough
-    case Action::insert:
-      rc = parseCommonTargets(optArg, "insert");
+    case Action::insert: {
+      const auto rc = parseCommonTargets(optArg, "insert");
       if (rc > 0) {
-        target_ |= rc;
-        rc = 0;
+        target_ |= CommonTarget(rc);
+        return 0;
       } else {
-        rc = 1;
+        return 1;
       }
-      break;
+    }
     default:
       std::cerr << progname() << ": " << _("Option -i is not compatible with a previous option\n");
-      rc = 1;
-      break;
+      return 1;
   }
-  return rc;
 }  // Params::evalInsert
 
 int Params::evalModify(int opt, const std::string& optArg) {
-  int rc = 0;
   switch (action_) {
     case Action::none:
       action_ = Action::modify;
@@ -823,14 +817,12 @@ int Params::evalModify(int opt, const std::string& optArg) {
         cmdFiles_.push_back(optArg);  // parse the files later
       if (opt == 'M')
         cmdLines_.push_back(optArg);  // parse the commands later
-      break;
+      return 0;
     default:
       std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(opt) << " "
                 << _("is not compatible with a previous option\n");
-      rc = 1;
-      break;
+      return 1;
   }
-  return rc;
 }  // Params::evalModify
 
 int Params::nonoption(const std::string& argv) {
@@ -1090,7 +1082,7 @@ cleanup:
 // *****************************************************************************
 // local implementations
 namespace {
-bool parseTime(const std::string& ts, long& time) {
+bool parseTime(const std::string& ts, int64_t& time) {
   std::string hstr, mstr, sstr;
   auto cts = new char[ts.length() + 1];
   strcpy(cts, ts.c_str());
@@ -1106,7 +1098,7 @@ bool parseTime(const std::string& ts, long& time) {
   delete[] cts;
 
   int sign = 1;
-  long hh(0), mm(0), ss(0);
+  int64_t hh(0), mm(0), ss(0);
   // [-]HH part
   if (!Util::strtol(hstr.c_str(), hh))
     return false;
@@ -1145,11 +1137,11 @@ void printUnrecognizedArgument(const char argc, const std::string& action) {
             << argc << "'\n";
 }
 
-int parseCommonTargets(const std::string& optArg, const std::string& action) {
-  int rc = 0;
-  int target = 0;
-  int all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
-  int extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
+int64_t parseCommonTargets(const std::string& optArg, const std::string& action) {
+  int64_t rc = 0;
+  Params::CommonTarget target = Params::CommonTarget(0);
+  Params::CommonTarget all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
+  Params::CommonTarget extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
   for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
     switch (optArg[i]) {
       case 'e':
@@ -1183,7 +1175,7 @@ int parseCommonTargets(const std::string& optArg, const std::string& action) {
         target |= extra;  // -eX
         if (i > 0) {      // -eXX or -iXX
           target |= Params::ctXmpRaw;
-          target &= ~extra;  // turn off those bits
+          target = Params::CommonTarget(target & ~extra);  // turn off those bits
         }
         break;
 
@@ -1204,7 +1196,7 @@ int parseCommonTargets(const std::string& optArg, const std::string& action) {
         break;
     }
   }
-  return rc ? rc : target;
+  return rc ? rc : int64_t(target);
 }
 
 int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::string& optArg, int j) {
@@ -1334,38 +1326,38 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 
   std::string cmd(line.substr(cmdStart, cmdEnd - cmdStart));
   CmdId cmdId = commandId(cmd);
-  if (cmdId == invalidCmdId) {
+  if (cmdId == CmdId::invalid) {
     throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
                        Exiv2::toString(num) + ": " + _("Invalid command") + " `" + cmd + "'");
   }
 
   Exiv2::TypeId defaultType = Exiv2::invalidTypeId;
   std::string key(line.substr(keyStart, keyEnd - keyStart));
-  MetadataId metadataId = invalidMetadataId;
-  if (cmdId != reg) {
+  MetadataId metadataId = MetadataId::invalid;
+  if (cmdId != CmdId::reg) {
     try {
       Exiv2::IptcKey iptcKey(key);
-      metadataId = iptc;
+      metadataId = MetadataId::iptc;
       defaultType = Exiv2::IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
     } catch (const Exiv2::Error&) {
     }
-    if (metadataId == invalidMetadataId) {
+    if (metadataId == MetadataId::invalid) {
       try {
         Exiv2::ExifKey exifKey(key);
-        metadataId = exif;
+        metadataId = MetadataId::exif;
         defaultType = exifKey.defaultTypeId();
       } catch (const Exiv2::Error&) {
       }
     }
-    if (metadataId == invalidMetadataId) {
+    if (metadataId == MetadataId::invalid) {
       try {
         Exiv2::XmpKey xmpKey(key);
-        metadataId = xmp;
+        metadataId = MetadataId::xmp;
         defaultType = Exiv2::XmpProperties::propertyType(xmpKey);
       } catch (const Exiv2::Error&) {
       }
     }
-    if (metadataId == invalidMetadataId) {
+    if (metadataId == MetadataId::invalid) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
                          Exiv2::toString(num) + ": " + _("Invalid key") + " `" + key + "'");
     }
@@ -1373,7 +1365,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
   std::string value;
   Exiv2::TypeId type = defaultType;
   bool explicitType = false;
-  if (cmdId != del) {
+  if (cmdId != CmdId::del) {
     // Get type and value
     std::string::size_type typeStart = std::string::npos;
     if (keyEnd != std::string::npos)
@@ -1386,12 +1378,12 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
     if (valStart != std::string::npos)
       valEnd = line.find_last_not_of(delim);
 
-    if (cmdId == reg && (keyEnd == std::string::npos || valStart == std::string::npos)) {
+    if (cmdId == CmdId::reg && (keyEnd == std::string::npos || valStart == std::string::npos)) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
                          Exiv2::toString(num) + ": " + _("Invalid command line") + " ");
     }
 
-    if (cmdId != reg && typeStart != std::string::npos && typeEnd != std::string::npos) {
+    if (cmdId != CmdId::reg && typeStart != std::string::npos && typeEnd != std::string::npos) {
       std::string typeStr(line.substr(typeStart, typeEnd - typeStart));
       Exiv2::TypeId tmpType = Exiv2::TypeInfo::typeId(typeStr);
       if (tmpType != Exiv2::invalidTypeId) {
@@ -1421,7 +1413,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
   modifyCmd.explicitType_ = explicitType;
   modifyCmd.value_ = value;
 
-  if (cmdId == reg) {
+  if (cmdId == CmdId::reg) {
     if (value.empty()) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
                          Exiv2::toString(num) + ": " + _("Empty value for key") + +" `" + key + "'");
@@ -1437,7 +1429,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 
 CmdId commandId(const std::string& cmdString) {
   int i = 0;
-  while (cmdIdAndString[i].first != invalidCmdId && cmdIdAndString[i].second != cmdString) {
+  while (cmdIdAndString[i].first != CmdId::invalid && cmdIdAndString[i].second != cmdString) {
     ++i;
   }
   return cmdIdAndString[i].first;

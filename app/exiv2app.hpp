@@ -21,28 +21,40 @@
 #include <set>
 
 //! Command identifiers
-enum CmdId {
-  invalidCmdId,
+enum class CmdId {
+  invalid,
   add,
   set,
   del,
   reg,
 };
 //! Metadata identifiers
-enum MetadataId {
-  invalidMetadataId = Exiv2::mdNone,  // 0
-  exif = Exiv2::mdExif,               // 1
-  iptc = Exiv2::mdIptc,               // 2
-  xmp = Exiv2::mdXmp,                 // 8
+enum class MetadataId : uint32_t {
+  invalid = Exiv2::mdNone,  // 0
+  exif = Exiv2::mdExif,     // 1
+  iptc = Exiv2::mdIptc,     // 2
+  xmp = Exiv2::mdXmp,       // 8
 };
+
+inline MetadataId operator&(MetadataId x, MetadataId y) {
+  return (MetadataId)(uint32_t(x) & uint32_t(y));
+}
+
+inline MetadataId operator|(MetadataId x, MetadataId y) {
+  return (MetadataId)(uint32_t(x) | uint32_t(y));
+}
+
+inline MetadataId& operator|=(MetadataId& x, MetadataId y) {
+  return x = x | y;
+}
 
 //! Structure for one parsed modification command
 struct ModifyCmd {
   //! C'tor
   ModifyCmd() = default;
-  CmdId cmdId_{invalidCmdId};                   //!< Command identifier
+  CmdId cmdId_{CmdId::invalid};                 //!< Command identifier
   std::string key_;                             //!< Exiv2 key string
-  MetadataId metadataId_{invalidMetadataId};    //!< Metadata identifier
+  MetadataId metadataId_{MetadataId::invalid};  //!< Metadata identifier
   Exiv2::TypeId typeId_{Exiv2::invalidTypeId};  //!< Exiv2 type identifier
   //! Flag to indicate if the type was explicitly specified (true)
   bool explicitType_{false};
@@ -125,7 +137,7 @@ class Params : public Util::Getopt {
   };
 
   //! Individual items to print, bitmap
-  enum PrintItem {
+  enum PrintItem : uint32_t {
     prTag = 1,
     prGroup = 2,
     prKey = 4,
@@ -141,7 +153,7 @@ class Params : public Util::Getopt {
   };
 
   //! Enumerates common targets, bitmap
-  enum CommonTarget {
+  enum CommonTarget : uint32_t {
     ctExif = 1,
     ctIptc = 2,
     ctComment = 4,
@@ -173,7 +185,7 @@ class Params : public Util::Getopt {
   struct YodAdjust {
     bool flag_;           //!< Adjustment flag.
     const char* option_;  //!< Adjustment option string.
-    long adjustment_;     //!< Adjustment value.
+    int64_t adjustment_;  //!< Adjustment value.
   };
 
   bool help_{false};                              //!< Help option flag.
@@ -188,13 +200,13 @@ class Params : public Util::Getopt {
   FileExistsPolicy fileExistsPolicy_{askPolicy};  //!< What to do if file to rename exists.
   bool adjust_{false};                            //!< Adjustment flag.
   PrintMode printMode_{pmSummary};                //!< Print mode.
-  unsigned long printItems_{0};                   //!< Print items.
-  unsigned long printTags_{Exiv2::mdNone};        //!< Print tags (bitmap of MetadataId flags).
+  PrintItem printItems_{0};                       //!< Print items.
+  MetadataId printTags_{Exiv2::mdNone};           //!< Print tags (bitmap of MetadataId flags).
   //! %Action (integer rather than TaskType to avoid dependency).
   int action_{0};
-  int target_;  //!< What common target to process.
+  CommonTarget target_;  //!< What common target to process.
 
-  long adjustment_{0};             //!< Adjustment in seconds.
+  int64_t adjustment_{0};          //!< Adjustment in seconds.
   YodAdjust yodAdjust_[3];         //!< Year, month and day adjustment info.
   std::string format_;             //!< Filename format (-r option arg).
   bool formatSet_{false};          //!< Whether the format is set with -r
@@ -269,5 +281,21 @@ class Params : public Util::Getopt {
   void getStdin(Exiv2::DataBuf& buf);
 
 };  // class Params
+
+inline Params::CommonTarget operator|(Params::CommonTarget x, Params::CommonTarget y) {
+  return (Params::CommonTarget)(uint32_t(x) | uint32_t(y));
+}
+
+inline Params::CommonTarget& operator|=(Params::CommonTarget& x, Params::CommonTarget y) {
+  return x = x | y;
+}
+
+inline Params::PrintItem operator|(Params::PrintItem x, Params::PrintItem y) {
+  return (Params::PrintItem)(uint32_t(x) | uint32_t(y));
+}
+
+inline Params::PrintItem& operator|=(Params::PrintItem& x, Params::PrintItem y) {
+  return x = x | y;
+}
 
 #endif  // #ifndef EXIV2APP_HPP_
