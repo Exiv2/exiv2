@@ -56,11 +56,11 @@ int main(int argc, char* const argv[]) {
     edMn1["Exif.Image.Make"] = "Canon";
     edMn1["Exif.Image.Model"] = "Canon PowerShot S40";
     edMn1["Exif.Canon.0xabcd"] = "A Canon makernote tag";
-    edMn1["Exif.CanonCs.0x0002"] = uint16_t(41);
-    edMn1["Exif.CanonSi.0x0005"] = uint16_t(42);
-    edMn1["Exif.CanonCf.0x0001"] = uint16_t(43);
-    edMn1["Exif.CanonPi.0x0001"] = uint16_t(44);
-    edMn1["Exif.CanonPa.0x0001"] = uint16_t(45);
+    edMn1["Exif.CanonCs.0x0002"] = static_cast<uint16_t>(41);
+    edMn1["Exif.CanonSi.0x0005"] = static_cast<uint16_t>(42);
+    edMn1["Exif.CanonCf.0x0001"] = static_cast<uint16_t>(43);
+    edMn1["Exif.CanonPi.0x0001"] = static_cast<uint16_t>(44);
+    edMn1["Exif.CanonPa.0x0001"] = static_cast<uint16_t>(45);
     write(file, edMn1);
     print(file);
 
@@ -69,8 +69,8 @@ int main(int argc, char* const argv[]) {
     image->readMetadata();
 
     Exiv2::ExifData& rEd = image->exifData();
-    rEd["Exif.CanonCs.0x0001"] = uint16_t(88);
-    rEd["Exif.CanonSi.0x0004"] = uint16_t(99);
+    rEd["Exif.CanonCs.0x0001"] = static_cast<uint16_t>(88);
+    rEd["Exif.CanonSi.0x0004"] = static_cast<uint16_t>(99);
     image->writeMetadata();
     print(file);
 
@@ -118,7 +118,7 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifData edMn7;
     edMn7["Exif.Image.Make"] = "OLYMPUS CORPORATION";
     edMn7["Exif.Image.Model"] = "C8080WZ";
-    edMn7["Exif.Olympus.0x0201"] = uint16_t(1);
+    edMn7["Exif.Olympus.0x0201"] = static_cast<uint16_t>(1);
     write(file, edMn7);
     print(file);
 
@@ -126,7 +126,7 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifData edMn8;
     edMn8["Exif.Image.Make"] = "Panasonic";
     edMn8["Exif.Image.Model"] = "DMC-FZ5";
-    edMn8["Exif.Panasonic.0x0001"] = uint16_t(1);
+    edMn8["Exif.Panasonic.0x0001"] = static_cast<uint16_t>(1);
     write(file, edMn8);
     print(file);
 
@@ -142,13 +142,13 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifData edMn10;
     edMn10["Exif.Image.Make"] = "Minolta";
     edMn10["Exif.Image.Model"] = "A fancy Minolta camera";
-    edMn10["Exif.Minolta.ColorMode"] = uint32_t(1);
-    edMn10["Exif.MinoltaCsNew.WhiteBalance"] = uint32_t(2);
-    edMn10["Exif.MinoltaCs5D.WhiteBalance"] = uint16_t(3);
-    edMn10["Exif.MinoltaCs5D.ColorTemperature"] = int16_t(-1);
-    edMn10["Exif.MinoltaCs7D.WhiteBalance"] = uint16_t(4);
-    edMn10["Exif.MinoltaCs7D.ExposureCompensation"] = int16_t(-2);
-    edMn10["Exif.MinoltaCs7D.ColorTemperature"] = int16_t(-3);
+    edMn10["Exif.Minolta.ColorMode"] = static_cast<uint32_t>(1);
+    edMn10["Exif.MinoltaCsNew.WhiteBalance"] = static_cast<uint32_t>(2);
+    edMn10["Exif.MinoltaCs5D.WhiteBalance"] = static_cast<uint16_t>(3);
+    edMn10["Exif.MinoltaCs5D.ColorTemperature"] = static_cast<int16_t>(-1);
+    edMn10["Exif.MinoltaCs7D.WhiteBalance"] = static_cast<uint16_t>(4);
+    edMn10["Exif.MinoltaCs7D.ExposureCompensation"] = static_cast<int16_t>(-2);
+    edMn10["Exif.MinoltaCs7D.ColorTemperature"] = static_cast<int16_t>(-3);
     write(file, edMn10);
     print(file);
 

@@ -170,7 +170,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
 
   // Data is rounded to be even
   if (!psBlob.empty())
-    rc = DataBuf(&psBlob[0], psBlob.size());
+    rc = DataBuf(psBlob.data(), psBlob.size());
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
   if (rc.empty())

@@ -349,7 +349,7 @@ PreviewProperties Loader::getProperties() const {
 }
 
 PreviewId Loader::getNumLoaders() {
-  return PreviewId(std::size(loaderList_));
+  return static_cast<PreviewId>(std::size(loaderList_));
 }
 
 LoaderNative::LoaderNative(PreviewId id, const Image& image, int parIdx) : Loader(id, image) {
@@ -753,7 +753,7 @@ DataBuf LoaderTiff::getData() const {
 
   // Fix compression value in the CR2 IFD2 image
   if (0 == strcmp(group_, "Image2") && image_.mimeType() == "image/x-canon-cr2") {
-    preview["Exif.Image.Compression"] = uint16_t(1);
+    preview["Exif.Image.Compression"] = static_cast<uint16_t>(1);
   }
 
   // write new image

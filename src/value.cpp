@@ -490,7 +490,7 @@ size_t XmpValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   write(os);
   std::string s = os.str();
   if (!s.empty())
-    std::memcpy(buf, &s[0], s.size());
+    std::memcpy(buf, s.data(), s.size());
   return s.size();
 }
 

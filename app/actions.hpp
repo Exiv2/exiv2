@@ -97,8 +97,10 @@ class TaskFactory {
   */
   static TaskFactory& instance();
 
+  ~TaskFactory() = default;
   //! Prevent copy construction: not implemented.
   TaskFactory(const TaskFactory&) = delete;
+  TaskFactory& operator=(const TaskFactory&) = delete;
 
   //! Destructor
   void cleanup();

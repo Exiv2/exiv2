@@ -3013,7 +3013,7 @@ std::ostream& Nikon3MakerNote::printFlashCompensation(std::ostream& os, const Va
   }
   std::ostringstream oss;
   oss.copyfmt(os);
-  float temp = (value.toFloat() / float(-6.0));
+  float temp = (value.toFloat() / static_cast<float>(-6.0));
 
   if (temp == 0)
     os << 0;
@@ -3064,7 +3064,7 @@ std::ostream& Nikon3MakerNote::printFlashGroupAData(std::ostream& os, const Valu
 
   std::ostringstream oss;
   oss.copyfmt(os);
-  double temp = value.toFloat() / double(-6.0);
+  double temp = value.toFloat() / (-6.0);
 
   auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupAControlData"));
   if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
@@ -3100,7 +3100,7 @@ std::ostream& Nikon3MakerNote::printFlashGroupBData(std::ostream& os, const Valu
 
   std::ostringstream oss;
   oss.copyfmt(os);
-  double temp = value.toFloat() / double(-6.0);
+  double temp = value.toFloat() / (-6.0);
 
   auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupBCControlData"));
   if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
@@ -3136,7 +3136,7 @@ std::ostream& Nikon3MakerNote::printFlashGroupCData(std::ostream& os, const Valu
 
   std::ostringstream oss;
   oss.copyfmt(os);
-  double temp = value.toFloat() / double(-6.0);
+  double temp = value.toFloat() / (-6.0);
 
   auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupBCControlData"));
   if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
@@ -3172,8 +3172,8 @@ std::ostream& Nikon3MakerNote::printTimeZone(std::ostream& os, const Value& valu
   std::ostringstream oss;
   oss.copyfmt(os);
   char sign = value.toInt64() < 0 ? '-' : '+';
-  long h = long(std::abs(static_cast<int>(value.toFloat() / 60.0F))) % 24;
-  long min = long(std::abs(static_cast<int>(value.toFloat() - h * 60))) % 60;
+  long h = static_cast<long>(std::abs(static_cast<int>(value.toFloat() / 60.0F))) % 24;
+  long min = static_cast<long>(std::abs(static_cast<int>(value.toFloat() - h * 60))) % 60;
   os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":" << std::setw(2)
      << std::setfill('0') << min;
   os.copyfmt(oss);

@@ -1584,7 +1584,7 @@ bool convertStringCharsetIconv(std::string& str, const char* from, const char* t
     size_t outbytesleft = sizeof(outbuf);
     size_t rc = iconv(cd, &inptr, &inbytesleft, &outptr, &outbytesleft);
     const size_t outbytesProduced = sizeof(outbuf) - outbytesleft;
-    if (rc == size_t(-1) && errno != E2BIG) {
+    if (rc == static_cast<size_t>(-1) && errno != E2BIG) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "iconv: " << strError() << " inbytesleft = " << inbytesleft << "\n";
 #endif

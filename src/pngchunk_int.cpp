@@ -246,7 +246,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
         pCur = record + sizeHdr + sizeIptc;
         pCur += (sizeIptc & 1);
       }
-      if (!iptcBlob.empty() && IptcParser::decode(pImage->iptcData(), &iptcBlob[0], iptcBlob.size())) {
+      if (!iptcBlob.empty() && IptcParser::decode(pImage->iptcData(), iptcBlob.data(), iptcBlob.size())) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif

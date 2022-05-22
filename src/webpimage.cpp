@@ -23,8 +23,8 @@ namespace {
 [[maybe_unused]] std::string binaryToHex(const uint8_t* data, size_t size) {
   std::stringstream hexOutput;
 
-  auto tl = size_t(size / 16) * 16;
-  auto tl_offset = size_t(size) - tl;
+  auto tl = static_cast<size_t>(size / 16) * 16;
+  auto tl_offset = size - tl;
 
   for (size_t loop = 0; loop < size; loop++) {
     if (data[loop] < 16) {
@@ -37,8 +37,8 @@ namespace {
     if ((loop % 16) == 15 || loop == (tl + tl_offset - 1)) {
       int max = 15;
       if (loop >= tl) {
-        max = int(tl_offset) - 1;
-        for (int offset = 0; offset < int(16 - tl_offset); offset++) {
+        max = static_cast<int>(tl_offset) - 1;
+        for (int offset = 0; offset < static_cast<int>(16 - tl_offset); offset++) {
           if ((offset % 8) == 7) {
             hexOutput << "  ";
           }
@@ -377,7 +377,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     ul2Data(data, static_cast<uint32_t>(blob.size()), littleEndian);
     if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
       throw Error(ErrorCode::kerImageWriteFailed);
-    if (outIo.write(&blob[0], blob.size()) != blob.size()) {
+    if (outIo.write(blob.data(), blob.size()) != blob.size()) {
       throw Error(ErrorCode::kerImageWriteFailed);
     }
     if (outIo.tell() % 2) {

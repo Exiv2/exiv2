@@ -610,7 +610,7 @@ uint32_t PsdImage::writeExifData(const ExifData& exifData, BasicIo& out) {
       if (out.write(buf, 4) != 4)
         throw Error(ErrorCode::kerImageWriteFailed);
       // Write encoded Exif data
-      if (out.write(&blob[0], blob.size()) != blob.size())
+      if (out.write(blob.data(), blob.size()) != blob.size())
         throw Error(ErrorCode::kerImageWriteFailed);
       resLength += static_cast<long>(blob.size()) + 12;
       if (blob.size() & 1)  // even padding

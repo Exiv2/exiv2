@@ -301,7 +301,7 @@ int Exifdatum::ifdId() const {
 }
 
 const char* Exifdatum::ifdName() const {
-  return key_ ? Internal::ifdName(Internal::IfdId(key_->ifdId())) : "";
+  return key_ ? Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId())) : "";
 }
 
 int Exifdatum::idx() const {
@@ -422,11 +422,11 @@ void ExifThumb::setJpegThumbnail(const std::string& path) {
 }
 
 void ExifThumb::setJpegThumbnail(const byte* buf, size_t size) {
-  exifData_["Exif.Thumbnail.Compression"] = uint16_t(6);
+  exifData_["Exif.Thumbnail.Compression"] = static_cast<uint16_t>(6);
   Exifdatum& format = exifData_["Exif.Thumbnail.JPEGInterchangeFormat"];
-  format = uint32_t(0);
+  format = static_cast<uint32_t>(0);
   format.setDataArea(buf, size);
-  exifData_["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(size);
+  exifData_["Exif.Thumbnail.JPEGInterchangeFormatLength"] = static_cast<uint32_t>(size);
 }
 
 void ExifThumb::erase() {

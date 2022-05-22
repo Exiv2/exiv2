@@ -137,7 +137,7 @@ int main(int argc, char* const argv[]) {
 
   try {
     // Create the required action class
-    auto task = Action::TaskFactory::instance().create(Action::TaskType(params.action_));
+    auto task = Action::TaskFactory::instance().create(static_cast<Action::TaskType>(params.action_));
 
     // Process all files
     auto filesCount = params.files_.size();
