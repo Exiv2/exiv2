@@ -110,7 +110,9 @@ class Params : public Util::Getopt {
   static Params& instance();
 
   //! Prevent copy-construction: not implemented.
+  ~Params() = default;
   Params(const Params&) = delete;
+  Params& operator=(const Params&) = delete;
 
   //! Enumerates print modes
   enum PrintMode {

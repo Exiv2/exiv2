@@ -330,6 +330,9 @@ class CiffDirectory : public CiffComponent {
   ~CiffDirectory() override;
   //@}
 
+  CiffDirectory(const CiffDirectory&) = delete;
+  CiffDirectory& operator=(const CiffDirectory&) = delete;
+
   //! @name Manipulators
   //@{
   // Default assignment operator is fine
@@ -522,6 +525,7 @@ struct CrwMapping {
  */
 class CrwMap {
  public:
+  ~CrwMap() = delete;
   //! @name Not implemented
   //@{
   CrwMap(const CrwMap&) = delete;
