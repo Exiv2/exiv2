@@ -179,7 +179,7 @@ int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::stri
       ascii.write_uint8(str.size() * 3, 0);
       std::copy(str.begin(), str.end(), iccProfile.begin());
       if (Exiv2::base64encode(iccProfile.c_data(), str.size(), reinterpret_cast<char*>(ascii.data()), str.size() * 3)) {
-        long chunk = 60;
+        const size_t chunk = 60;
         std::string code = std::string("data:") + ascii.c_str();
         size_t length = code.size();
         for (size_t start = 0; start < length; start += chunk) {
@@ -364,8 +364,8 @@ int Print::printList() {
   auto image = Exiv2::ImageFactory::open(path_);
   image->readMetadata();
   // Set defaults for metadata types and data columns
-  if (Params::instance().printTags_ == Exiv2::mdNone) {
-    Params::instance().printTags_ = Exiv2::mdExif | Exiv2::mdIptc | Exiv2::mdXmp;
+  if (Params::instance().printTags_ == MetadataId::invalid) {
+    Params::instance().printTags_ = MetadataId::exif | MetadataId::iptc | MetadataId::xmp;
   }
   if (Params::instance().printItems_ == 0) {
     Params::instance().printItems_ = Params::prKey | Params::prType | Params::prCount | Params::prTrans;
@@ -376,7 +376,7 @@ int Print::printList() {
 int Print::printMetadata(const Exiv2::Image* image) {
   bool ret = false;
   bool noExif = false;
-  if (Params::instance().printTags_ & Exiv2::mdExif) {
+  if ((Params::instance().printTags_ & MetadataId::exif) == MetadataId::exif) {
     const Exiv2::ExifData& exifData = image->exifData();
     for (auto&& md : exifData) {
       ret |= printMetadatum(md, image);
@@ -386,7 +386,7 @@ int Print::printMetadata(const Exiv2::Image* image) {
   }
 
   bool noIptc = false;
-  if (Params::instance().printTags_ & Exiv2::mdIptc) {
+  if ((Params::instance().printTags_ & MetadataId::iptc) == MetadataId::iptc) {
     const Exiv2::IptcData& iptcData = image->iptcData();
     for (auto&& md : iptcData) {
       ret |= printMetadatum(md, image);
@@ -396,7 +396,7 @@ int Print::printMetadata(const Exiv2::Image* image) {
   }
 
   bool noXmp = false;
-  if (Params::instance().printTags_ & Exiv2::mdXmp) {
+  if ((Params::instance().printTags_ & MetadataId::xmp) == MetadataId::xmp) {
     const Exiv2::XmpData& xmpData = image->xmpData();
     for (auto&& md : xmpData) {
       ret |= printMetadatum(md, image);
@@ -1148,23 +1148,23 @@ int Modify::applyCommands(Exiv2::Image* pImage) {
   int ret = 0;
   for (auto&& cmd : modifyCmds) {
     switch (cmd.cmdId_) {
-      case add:
+      case CmdId::add:
         ret = addMetadatum(pImage, cmd);
         if (rc == 0)
           rc = ret;
         break;
-      case set:
+      case CmdId::set:
         ret = setMetadatum(pImage, cmd);
         if (rc == 0)
           rc = ret;
         break;
-      case del:
+      case CmdId::del:
         delMetadatum(pImage, cmd);
         break;
-      case reg:
+      case CmdId::reg:
         regNamespace(cmd);
         break;
-      case invalidCmdId:
+      case CmdId::invalid:
         break;
     }
   }
@@ -1184,13 +1184,13 @@ int Modify::addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
   auto value = Exiv2::Value::create(modifyCmd.typeId_);
   int rc = value->read(modifyCmd.value_);
   if (0 == rc) {
-    if (modifyCmd.metadataId_ == exif) {
+    if (modifyCmd.metadataId_ == MetadataId::exif) {
       exifData.add(Exiv2::ExifKey(modifyCmd.key_), value.get());
     }
-    if (modifyCmd.metadataId_ == iptc) {
+    if (modifyCmd.metadataId_ == MetadataId::iptc) {
       iptcData.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
     }
-    if (modifyCmd.metadataId_ == xmp) {
+    if (modifyCmd.metadataId_ == MetadataId::xmp) {
       xmpData.add(Exiv2::XmpKey(modifyCmd.key_), value.get());
     }
   } else {
@@ -1213,19 +1213,19 @@ int Modify::setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
   Exiv2::IptcData& iptcData = pImage->iptcData();
   Exiv2::XmpData& xmpData = pImage->xmpData();
   Exiv2::Metadatum* metadatum = nullptr;
-  if (modifyCmd.metadataId_ == exif) {
+  if (modifyCmd.metadataId_ == MetadataId::exif) {
     auto pos = exifData.findKey(Exiv2::ExifKey(modifyCmd.key_));
     if (pos != exifData.end()) {
       metadatum = &(*pos);
     }
   }
-  if (modifyCmd.metadataId_ == iptc) {
+  if (modifyCmd.metadataId_ == MetadataId::iptc) {
     auto pos = iptcData.findKey(Exiv2::IptcKey(modifyCmd.key_));
     if (pos != iptcData.end()) {
       metadatum = &(*pos);
     }
   }
-  if (modifyCmd.metadataId_ == xmp) {
+  if (modifyCmd.metadataId_ == MetadataId::xmp) {
     auto pos = xmpData.findKey(Exiv2::XmpKey(modifyCmd.key_));
     if (pos != xmpData.end()) {
       metadatum = &(*pos);
@@ -1246,13 +1246,13 @@ int Modify::setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
     if (metadatum) {
       metadatum->setValue(value.get());
     } else {
-      if (modifyCmd.metadataId_ == exif) {
+      if (modifyCmd.metadataId_ == MetadataId::exif) {
         exifData.add(Exiv2::ExifKey(modifyCmd.key_), value.get());
       }
-      if (modifyCmd.metadataId_ == iptc) {
+      if (modifyCmd.metadataId_ == MetadataId::iptc) {
         iptcData.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
       }
-      if (modifyCmd.metadataId_ == xmp) {
+      if (modifyCmd.metadataId_ == MetadataId::xmp) {
         xmpData.add(Exiv2::XmpKey(modifyCmd.key_), value.get());
       }
     }
@@ -1273,21 +1273,21 @@ void Modify::delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
   Exiv2::ExifData& exifData = pImage->exifData();
   Exiv2::IptcData& iptcData = pImage->iptcData();
   Exiv2::XmpData& xmpData = pImage->xmpData();
-  if (modifyCmd.metadataId_ == exif) {
+  if (modifyCmd.metadataId_ == MetadataId::exif) {
     Exiv2::ExifData::iterator pos;
     const Exiv2::ExifKey exifKey(modifyCmd.key_);
     while ((pos = exifData.findKey(exifKey)) != exifData.end()) {
       exifData.erase(pos);
     }
   }
-  if (modifyCmd.metadataId_ == iptc) {
+  if (modifyCmd.metadataId_ == MetadataId::iptc) {
     Exiv2::IptcData::iterator pos;
     const Exiv2::IptcKey iptcKey(modifyCmd.key_);
     while ((pos = iptcData.findKey(iptcKey)) != iptcData.end()) {
       iptcData.erase(pos);
     }
   }
-  if (modifyCmd.metadataId_ == xmp) {
+  if (modifyCmd.metadataId_ == MetadataId::xmp) {
     Exiv2::XmpData::iterator pos;
     const Exiv2::XmpKey xmpKey(modifyCmd.key_);
     if ((pos = xmpData.findKey(xmpKey)) != xmpData.end()) {
@@ -1617,7 +1617,7 @@ int str2Tm(const std::string& timeStr, struct tm* tm) {
   std::memset(tm, 0x0, sizeof(struct tm));
   tm->tm_isdst = -1;
 
-  long tmp = 0;
+  int64_t tmp = 0;
   if (!Util::strtol(timeStr.substr(0, 4).c_str(), tmp))
     return 5;
   // tmp is a 4-digit number so this cast cannot overflow
@@ -1759,7 +1759,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
     }
 
     // #1148 use Raw XMP packet if there are no XMP modification commands
-    int tRawSidecar = Params::ctXmpSidecar | Params::ctXmpRaw;  // option -eXX
+    Params::CommonTarget tRawSidecar = Params::ctXmpSidecar | Params::ctXmpRaw;  // option -eXX
     if (Params::instance().modifyCmds_.empty() && (Params::instance().target_ & tRawSidecar) == tRawSidecar) {
       // std::cout << "short cut" << std::endl;
       // http://www.cplusplus.com/doc/tutorial/files/
