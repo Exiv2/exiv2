@@ -6,12 +6,14 @@
 #include "app_utils.hpp"
 #include "config.h"
 #include "easyaccess.hpp"
+#include "enforce.hpp"
 #include "exif.hpp"
 #include "futils.hpp"
 #include "i18n.h"  // NLS support.
 #include "image.hpp"
 #include "iptc.hpp"
 #include "preview.hpp"
+#include "safe_op.hpp"
 #include "types.hpp"
 #include "xmp_exiv2.hpp"
 
@@ -1407,19 +1409,47 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
     std::cerr << path << ": " << _("Failed to parse timestamp") << " `" << timeStr << "'\n";
     return 1;
   }
-  const long monOverflow = (tm.tm_mon + monthAdjustment_) / 12;
-  tm.tm_mon = (tm.tm_mon + monthAdjustment_) % 12;
-  tm.tm_year += yearAdjustment_ + monOverflow;
+
+  // bounds checking for yearAdjustment_
+  enforce<std::overflow_error>(yearAdjustment_ >= std::numeric_limits<decltype(tm.tm_year)>::min(),
+                               "year adjustment too low");
+  enforce<std::overflow_error>(yearAdjustment_ <= std::numeric_limits<decltype(tm.tm_year)>::max(),
+                               "year adjustment too high");
+  const auto yearAdjustment = static_cast<decltype(tm.tm_year)>(yearAdjustment_);
+
+  // bounds checking for monthAdjustment_
+  enforce<std::overflow_error>(monthAdjustment_ >= std::numeric_limits<decltype(tm.tm_mon)>::min(),
+                               "month adjustment too low");
+  enforce<std::overflow_error>(monthAdjustment_ <= std::numeric_limits<decltype(tm.tm_mon)>::max(),
+                               "month adjustment too high");
+  const auto monthAdjustment = static_cast<decltype(tm.tm_mon)>(monthAdjustment_);
+
+  // bounds checking for dayAdjustment_
+  static constexpr time_t secondsInDay = 24 * 60 * 60;
+  enforce<std::overflow_error>(dayAdjustment_ >= std::numeric_limits<time_t>::min() / secondsInDay,
+                               "day adjustment too low");
+  enforce<std::overflow_error>(dayAdjustment_ <= std::numeric_limits<time_t>::max() / secondsInDay,
+                               "day adjustment too high");
+  const auto dayAdjustment = static_cast<time_t>(dayAdjustment_);
+
+  // bounds checking for adjustment_
+  enforce<std::overflow_error>(adjustment_ >= std::numeric_limits<time_t>::min(), "seconds adjustment too low");
+  enforce<std::overflow_error>(adjustment_ <= std::numeric_limits<time_t>::max(), "seconds adjustment too high");
+  const auto adjustment = static_cast<time_t>(adjustment_);
+
+  const auto monOverflow = Safe::add(tm.tm_mon, monthAdjustment) / 12;
+  tm.tm_mon = Safe::add(tm.tm_mon, monthAdjustment) % 12;
+  tm.tm_year = Safe::add(tm.tm_year, Safe::add(yearAdjustment, monOverflow));
   // Let's not create files with non-4-digit years, we can't read them.
   if (tm.tm_year > 9999 - 1900 || tm.tm_year < 1000 - 1900) {
     if (Params::instance().verbose_)
       std::cout << std::endl;
-    std::cerr << path << ": " << _("Can't adjust timestamp by") << " " << yearAdjustment_ + monOverflow << " "
+    std::cerr << path << ": " << _("Can't adjust timestamp by") << " " << yearAdjustment + monOverflow << " "
               << _("years") << "\n";
     return 1;
   }
   time_t time = mktime(&tm);
-  time += adjustment_ + dayAdjustment_ * 86400;
+  time = Safe::add(time, Safe::add(adjustment, dayAdjustment * secondsInDay));
   timeStr = time2Str(time);
   if (Params::instance().verbose_) {
     std::cout << " " << _("to") << " " << timeStr << std::endl;
@@ -1590,22 +1620,28 @@ int str2Tm(const std::string& timeStr, struct tm* tm) {
   long tmp = 0;
   if (!Util::strtol(timeStr.substr(0, 4).c_str(), tmp))
     return 5;
-  tm->tm_year = tmp - 1900;
+  // tmp is a 4-digit number so this cast cannot overflow
+  tm->tm_year = static_cast<decltype(tm->tm_year)>(tmp - 1900);
   if (!Util::strtol(timeStr.substr(5, 2).c_str(), tmp))
     return 6;
-  tm->tm_mon = tmp - 1;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_mon = static_cast<decltype(tm->tm_mon)>(tmp - 1);
   if (!Util::strtol(timeStr.substr(8, 2).c_str(), tmp))
     return 7;
-  tm->tm_mday = tmp;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_mday = static_cast<decltype(tm->tm_mday)>(tmp);
   if (!Util::strtol(timeStr.substr(11, 2).c_str(), tmp))
     return 8;
-  tm->tm_hour = tmp;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_hour = static_cast<decltype(tm->tm_hour)>(tmp);
   if (!Util::strtol(timeStr.substr(14, 2).c_str(), tmp))
     return 9;
-  tm->tm_min = tmp;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_min = static_cast<decltype(tm->tm_min)>(tmp);
   if (!Util::strtol(timeStr.substr(17, 2).c_str(), tmp))
     return 10;
-  tm->tm_sec = tmp;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_sec = static_cast<decltype(tm->tm_sec)>(tmp);
 
   // Conversions to set remaining fields of the tm structure
   if (mktime(tm) == static_cast<time_t>(-1))
