@@ -2527,13 +2527,6 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
     return printCsLensFFFF(os, value, metadata);
   }
 
-  // TODO: The lens identification could be improved further:
-  // 1. RF lenses also set Exif.CanonFi.RFLensType. If a lens cannot be found here then
-  //    the RF mechanism could be used instead.
-  // 2. Exif.Photo.LensModel and Exif.Canon.LensModel provide a text description of the lens
-  //    (e.g., "RF24-105mm F4-7.1 IS STM" - Note: no manufacturer or space after "RF").
-  //    After parsing, the values could be used to search in the lens array.
-
   // get the values we need from the metadata container
   ExifKey lensKey("Exif.CanonCs.Lens");
   auto pos = metadata->findKey(lensKey);
@@ -2547,14 +2540,14 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
   auto const exifFlMin = static_cast<int>(static_cast<float>(pos->value().toInt64(1)) / pos->value().toFloat(2));
   auto const exifFlMax = static_cast<int>(static_cast<float>(pos->value().toInt64(0)) / pos->value().toFloat(2));
 
-  ExifKey aperKey("Exif.CanonCs.MinAperture");
+  ExifKey aperKey("Exif.CanonCs.MaxAperture");
   pos = metadata->findKey(aperKey);
   if (pos == metadata->end() || pos->value().count() != 1 || pos->value().typeId() != unsignedShort) {
     os << "Unknown Lens (" << lensType << ")";
     return os;
   }
 
-  auto exifAperMin = fnumber(canonEv(static_cast<int16_t>(pos->value().toInt64(0))));
+  auto exifAperMax = fnumber(canonEv(static_cast<int16_t>(pos->value().toInt64(0))));
 
   // regex to extract short and tele focal length, max aperture at short and tele position
   // and the teleconverter factor from the lens label
@@ -2595,8 +2588,8 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
     auto aperMaxTele = std::stof(base_match[4].str()) * tc;
     auto aperMaxShort = base_match[3].length() > 0 ? std::stof(base_match[3].str()) * tc : aperMaxTele;
 
-    if (flMin != exifFlMin || flMax != exifFlMax || exifAperMin < (aperMaxShort - .1 * tc) ||
-        exifAperMin < (aperMaxTele + .1 * tc)) {
+    if (flMin != exifFlMin || flMax != exifFlMax || exifAperMax < (aperMaxShort - .1 * tc) ||
+        exifAperMax > (aperMaxTele + .1 * tc)) {
       continue;
     }
 
