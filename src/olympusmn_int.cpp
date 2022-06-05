@@ -1392,64 +1392,69 @@ std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& val
 
 //! OlympusCs ArtFilter, tag 0x0529, OlympusCs MagicFilter, tag 0x052c
 std::ostream& OlympusMakerNote::print0x0529(std::ostream& os, const Value& value, const ExifData*) {
-  static struct {
-    uint16_t val[2];
+  static constexpr struct {
+    const uint16_t val;
     const char* label;
   } artFilters[] = {
-      {{0, 0}, N_("Off")},
-      {{0, 1280}, N_("Off")},
-      {{1, 1280}, N_("Soft Focus")},
-      {{2, 1280}, N_("Pop Art")},
-      {{3, 1280}, N_("Pale & Light Color")},
-      {{4, 1280}, N_("Light Tone")},
-      {{5, 1280}, N_("Pin Hole")},
-      {{6, 1280}, N_("Grainy Film")},
-      {{9, 1280}, N_("Diorama")},
-      {{10, 1280}, N_("Cross Process")},
-      {{12, 1280}, N_("Fish Eye")},
-      {{13, 1280}, N_("Drawing")},
-      {{14, 1280}, N_("Gentle Sepia")},
-      {{15, 1280}, N_("Pale & Light Color II")},
-      {{16, 1280}, N_("Pop Art II")},
-      {{17, 1280}, N_("Pin Hole II")},
-      {{18, 1280}, N_("Pin Hole III")},
-      {{19, 1280}, N_("Grainy Film II")},
-      {{20, 1280}, N_("Dramatic Tone")},
-      {{21, 1280}, N_("Punk")},
-      {{22, 1280}, N_("Soft Focus 2")},
-      {{23, 1280}, N_("Sparkle")},
-      {{24, 1280}, N_("Watercolor")},
-      {{25, 1280}, N_("Key Line")},
-      {{26, 1280}, N_("Key Line II")},
-      {{27, 1280}, N_("Miniature")},
-      {{28, 1280}, N_("Reflection")},
-      {{29, 1280}, N_("Fragmented")},
-      {{31, 1280}, N_("Cross Process II")},
-      {{32, 1280}, N_("Dramatic Tone II")},
-      {{33, 1280}, N_("Watercolor I")},
-      {{34, 1280}, N_("Watercolor II")},
-      {{35, 1280}, N_("Diorama II")},
-      {{36, 1280}, N_("Vintage")},
-      {{37, 1280}, N_("Vintage II")},
-      {{38, 1280}, N_("Vintage III")},
-      {{39, 1280}, N_("Partial Color")},
-      {{40, 1280}, N_("Partial Color II")},
-      {{41, 1280}, N_("Partial Color III")},
+      {0, N_("Off")},
+      {1, N_("Soft Focus")},
+      {2, N_("Pop Art")},
+      {3, N_("Pale & Light Color")},
+      {4, N_("Light Tone")},
+      {5, N_("Pin Hole")},
+      {6, N_("Grainy Film")},
+      {9, N_("Diorama")},
+      {10, N_("Cross Process")},
+      {12, N_("Fish Eye")},
+      {13, N_("Drawing")},
+      {14, N_("Gentle Sepia")},
+      {15, N_("Pale & Light Color II")},
+      {16, N_("Pop Art II")},
+      {17, N_("Pin Hole II")},
+      {18, N_("Pin Hole III")},
+      {19, N_("Grainy Film II")},
+      {20, N_("Dramatic Tone")},
+      {21, N_("Punk")},
+      {22, N_("Soft Focus 2")},
+      {23, N_("Sparkle")},
+      {24, N_("Watercolor")},
+      {25, N_("Key Line")},
+      {26, N_("Key Line II")},
+      {27, N_("Miniature")},
+      {28, N_("Reflection")},
+      {29, N_("Fragmented")},
+      {31, N_("Cross Process II")},
+      {32, N_("Dramatic Tone II")},
+      {33, N_("Watercolor I")},
+      {34, N_("Watercolor II")},
+      {35, N_("Diorama II")},
+      {36, N_("Vintage")},
+      {37, N_("Vintage II")},
+      {38, N_("Vintage III")},
+      {39, N_("Partial Color")},
+      {40, N_("Partial Color II")},
+      {41, N_("Partial Color III")},
   };
 
   if (value.count() != 4 || value.typeId() != unsignedShort) {
-    return os << value;
+    return os << "(" << value << ")";
   }
 
-  auto v0 = static_cast<uint16_t>(value.toInt64(0));
-  auto v1 = static_cast<uint16_t>(value.toInt64(1));
+  const auto v0 = static_cast<uint16_t>(value.toInt64(0));
 
-  for (auto&& filter : artFilters) {
-    if (filter.val[0] == v0 && filter.val[1] == v1) {
+  if (v0 == 39) {  // The "Partial color" option has a color choice
+    const auto v3 = value.toInt64(3);
+    os << N_("Partial Color") << " (" << N_("position") << " " << (v3 + 1) << ")";
+    return os;
+  }
+
+  for (const auto& filter : artFilters) {
+    if (filter.val == v0) {
       return os << filter.label;
     }
   }
-  return os << "";
+
+  return os << "(" << value << ")";
 }  // OlympusMakerNote::print0x0529
 
 // Olympus FocusInfo tag 0x1209 ManualFlash
