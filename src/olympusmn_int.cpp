@@ -1466,7 +1466,7 @@ std::ostream& OlympusMakerNote::print0x0604(std::ostream& os, const Value& value
   static constexpr TagDetails olympusImageStabilization1[] = {
       {0, N_("Off")}, {1, N_("S-IS 1")}, {2, N_("S-IS 2")}, {3, N_("S-IS 3")}, {4, N_("S-IS AUTO")}};
 
-  const auto v0 = static_cast<uint16_t>(value.toInt64(0));
+  const auto v0 = value.toInt64(0);
 
   if (metadata) {
     const auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
