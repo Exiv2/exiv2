@@ -68,6 +68,8 @@ class OlympusMakerNote {
   static std::ostream& print0x0527(std::ostream& os, const Value& value, const ExifData*);
   //! Print Olympus ArtFilter
   static std::ostream& print0x0529(std::ostream& os, const Value& value, const ExifData*);
+  //! Print Olympus ImageStabilization
+  static std::ostream& print0x0604(std::ostream& os, const Value& value, const ExifData*);
   //! Print Olympus focus info ManualFlash
   static std::ostream& print0x1209(std::ostream& os, const Value& value, const ExifData*);
   //! Print Olympus focus distance

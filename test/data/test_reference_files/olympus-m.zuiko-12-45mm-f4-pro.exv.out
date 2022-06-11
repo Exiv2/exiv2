@@ -78,7 +78,7 @@ Exif.OlympusCs.FlashRemoteControl            Short       1  0  Off
 Exif.OlympusCs.FlashControlMode              Short       4  0 0 0 0  Off
 Exif.OlympusCs.FlashIntensity                SRational   4  0/0 0/0 0/0 0/0  0/0 0/0 0/0 0/0
 Exif.OlympusCs.ManualFlashStrength           SRational   4  0/0 0/0 0/0 0/0  0/0 0/0 0/0 0/0
-Exif.OlympusCs.WhiteBalance                  Short       1  1  Auto (Keep Warm Color Off
+Exif.OlympusCs.WhiteBalance                  Short       1  1  Auto (Keep Warm Color Off)
 Exif.OlympusCs.WhiteBalanceTemperature       Short       1  0  0
 Exif.OlympusCs.WhiteBalanceBracket           SShort      2  0 0  0 0
 Exif.OlympusCs.CustomSaturation              SShort      3  0 -5 5  0 -5 5
@@ -102,7 +102,7 @@ Exif.OlympusCs.NoiseFilter                   SShort      3  -2 -2 1  Off
 Exif.OlympusCs.ArtFilter                     Short       4  0 0 0 0  Off
 Exif.OlympusCs.DriveMode                     Short       5  1 1 0 0 0  1 1 0 0 0
 Exif.OlympusCs.PanoramaMode                  Short       2  0 0  0 0
-Exif.OlympusCs.ImageStabilization            Long        1  4  (4)
+Exif.OlympusCs.ImageStabilization            Long        1  4  On, Mode 4
 Exif.OlympusCs.ManometerPressure             Short       1  0  0
 Exif.OlympusCs.ManometerReading              SLong       2  -9999 -9999  -9999 -9999
 Exif.OlympusCs.ExtendedWBDetect              Short       1  0  Off

@@ -325,7 +325,7 @@ constexpr TagDetails olympusFlashControlMode[] = {{0, N_("Off")}, {3, N_("TTL")}
 
 //! WhiteBalance, tag 0x0500
 constexpr TagDetails olympusWhiteBalance[] = {{0, N_("Auto")},
-                                              {1, N_("Auto (Keep Warm Color Off")},
+                                              {1, N_("Auto (Keep Warm Color Off)")},
                                               {16, N_("7500K (Fine Weather with Shade)")},
                                               {17, N_("6000K (Cloudy)")},
                                               {18, N_("5300K (Fine Weather)")},
@@ -394,7 +394,7 @@ constexpr TagDetails olympusCsQuality[] = {{1, N_("SQ")}, {2, N_("HQ")}, {3, N_(
 
 //! Olympus ImageStabilization, tag 0x0604
 constexpr TagDetails olympusImageStabilization[] = {
-    {0, N_("Off")}, {1, N_("On, Mode 1")}, {2, N_("On, Mode 2")}, {3, N_("On, Mode 3")}};
+    {0, N_("Off")}, {1, N_("On, Mode 1")}, {2, N_("On, Mode 2")}, {3, N_("On, Mode 3")}, {4, N_("On, Mode 4")}};
 
 constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
     {0x0000, "CameraSettingsVersion", N_("Camera Settings Version"), N_("Camera settings version"), olympusCsId,
@@ -489,7 +489,7 @@ constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
     {0x0603, "Quality", N_("Image Quality 2"), N_("Image quality 2"), olympusCsId, makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(olympusCsQuality)},
     {0x0604, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), olympusCsId, makerTags,
-     unsignedShort, -1, EXV_PRINT_TAG(olympusImageStabilization)},
+     unsignedLong, -1, print0x0604},
     {0x0900, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), olympusCsId, makerTags,
      unsignedShort, -1, printValue},
     {0x0901, "ManometerReading", N_("Manometer Reading"), N_("Manometer reading"), olympusCsId, makerTags, signedLong,
@@ -1456,6 +1456,31 @@ std::ostream& OlympusMakerNote::print0x0529(std::ostream& os, const Value& value
 
   return os << "(" << value << ")";
 }  // OlympusMakerNote::print0x0529
+
+//! OlympusCs ArtFilter, tag 0x0604, OlympusCs ImageStabilization
+std::ostream& OlympusMakerNote::print0x0604(std::ostream& os, const Value& value, const ExifData* metadata) {
+  if (value.count() != 1 || value.typeId() != unsignedLong) {
+    return os << "(" << value << ")";
+  }
+
+  static constexpr TagDetails olympusImageStabilization1[] = {
+      {0, N_("Off")}, {1, N_("S-IS 1")}, {2, N_("S-IS 2")}, {3, N_("S-IS 3")}, {4, N_("S-IS AUTO")}};
+
+  const auto v0 = static_cast<uint16_t>(value.toInt64(0));
+
+  if (metadata) {
+    const auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+    if (pos != metadata->end() && pos->count() != 0) {
+      const auto model = pos->toString();
+      if (model.find("E-M10MarkII") != std::string::npos) {
+        printTag<std::size(olympusImageStabilization1), olympusImageStabilization1>(os, v0, metadata);
+        return os;
+      }
+    }
+  }
+  printTag<std::size(olympusImageStabilization), olympusImageStabilization>(os, v0, metadata);
+  return os;
+}  // OlympusMakerNote::print0x0604
 
 // Olympus FocusInfo tag 0x1209 ManualFlash
 std::ostream& OlympusMakerNote::print0x1209(std::ostream& os, const Value& value, const ExifData*) {
