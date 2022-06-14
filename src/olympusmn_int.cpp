@@ -392,9 +392,13 @@ constexpr TagDetails olympusPictureModeTone[] = {{0, N_("n/a")},  {1, N_("Neutra
 //! OlympusCs Quality, tag 0x0603
 constexpr TagDetails olympusCsQuality[] = {{1, N_("SQ")}, {2, N_("HQ")}, {3, N_("SHQ")}, {4, N_("RAW")}};
 
-//! Olympus ImageStabilization, tag 0x0604
+//! Olympus ImageStabilization, tag 0x0604 - Generic labels
 constexpr TagDetails olympusImageStabilization[] = {
     {0, N_("Off")}, {1, N_("On, Mode 1")}, {2, N_("On, Mode 2")}, {3, N_("On, Mode 3")}, {4, N_("On, Mode 4")}};
+
+//! Olympus ImageStabilization, tag 0x0604 - Group 1 labels
+static constexpr TagDetails olympusImageStabilization1[] = {
+    {0, N_("Off")}, {1, N_("S-IS 1")}, {2, N_("S-IS 2")}, {3, N_("S-IS 3")}, {4, N_("S-IS AUTO")}};
 
 constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
     {0x0000, "CameraSettingsVersion", N_("Camera Settings Version"), N_("Camera settings version"), olympusCsId,
@@ -1462,9 +1466,6 @@ std::ostream& OlympusMakerNote::print0x0604(std::ostream& os, const Value& value
   if (value.count() != 1 || value.typeId() != unsignedLong) {
     return os << "(" << value << ")";
   }
-
-  static constexpr TagDetails olympusImageStabilization1[] = {
-      {0, N_("Off")}, {1, N_("S-IS 1")}, {2, N_("S-IS 2")}, {3, N_("S-IS 3")}, {4, N_("S-IS AUTO")}};
 
   const auto v0 = value.toInt64(0);
 
