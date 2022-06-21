@@ -742,12 +742,12 @@ int Params::evalDelete(const std::string& optArg) {
   switch (action_) {
     case Action::none:
       action_ = Action::erase;
-      target_ = CommonTarget(0);
+      target_ = static_cast<CommonTarget>(0);
       // fallthrough
     case Action::erase: {
       const auto rc = parseCommonTargets(optArg, "erase");
       if (rc > 0) {
-        target_ |= CommonTarget(rc);
+        target_ |= static_cast<CommonTarget>(rc);
         return 0;
       } else {
         return 1;
@@ -764,12 +764,12 @@ int Params::evalExtract(const std::string& optArg) {
     case Action::none:
     case Action::modify:
       action_ = Action::extract;
-      target_ = CommonTarget(0);
+      target_ = static_cast<CommonTarget>(0);
       // fallthrough
     case Action::extract: {
       const auto rc = parseCommonTargets(optArg, "extract");
       if (rc > 0) {
-        target_ |= CommonTarget(rc);
+        target_ |= static_cast<CommonTarget>(rc);
         return 0;
       } else {
         return 1;
@@ -786,12 +786,12 @@ int Params::evalInsert(const std::string& optArg) {
     case Action::none:
     case Action::modify:
       action_ = Action::insert;
-      target_ = CommonTarget(0);
+      target_ = static_cast<CommonTarget>(0);
       // fallthrough
     case Action::insert: {
       const auto rc = parseCommonTargets(optArg, "insert");
       if (rc > 0) {
-        target_ |= CommonTarget(rc);
+        target_ |= static_cast<CommonTarget>(rc);
         return 0;
       } else {
         return 1;
@@ -1139,7 +1139,7 @@ void printUnrecognizedArgument(const char argc, const std::string& action) {
 
 int64_t parseCommonTargets(const std::string& optArg, const std::string& action) {
   int64_t rc = 0;
-  Params::CommonTarget target = Params::CommonTarget(0);
+  Params::CommonTarget target = static_cast<Params::CommonTarget>(0);
   Params::CommonTarget all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
   Params::CommonTarget extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
   for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
@@ -1175,7 +1175,7 @@ int64_t parseCommonTargets(const std::string& optArg, const std::string& action)
         target |= extra;  // -eX
         if (i > 0) {      // -eXX or -iXX
           target |= Params::ctXmpRaw;
-          target = Params::CommonTarget(target & ~extra);  // turn off those bits
+          target = static_cast<Params::CommonTarget>(target & ~extra);  // turn off those bits
         }
         break;
 
@@ -1196,7 +1196,7 @@ int64_t parseCommonTargets(const std::string& optArg, const std::string& action)
         break;
     }
   }
-  return rc ? rc : int64_t(target);
+  return rc ? rc : static_cast<int64_t>(target);
 }
 
 int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::string& optArg, int j) {
