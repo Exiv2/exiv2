@@ -53,7 +53,7 @@ class XMLValidator {
   // error out if the depth exceeds this limit.
   static const size_t max_recursion_limit_ = 1000;
 
-  const XML_Parser parser_;
+  XML_Parser parser_;
 
  public:
   // Runs an XML parser on `buf`. Throws an exception if the XML is invalid.
