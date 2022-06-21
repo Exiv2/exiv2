@@ -749,9 +749,8 @@ int Params::evalDelete(const std::string& optArg) {
       if (rc > 0) {
         target_ |= static_cast<CommonTarget>(rc);
         return 0;
-      } else {
-        return 1;
       }
+      return 1;
     }
     default:
       std::cerr << progname() << ": " << _("Option -d is not compatible with a previous option\n");
@@ -771,9 +770,8 @@ int Params::evalExtract(const std::string& optArg) {
       if (rc > 0) {
         target_ |= static_cast<CommonTarget>(rc);
         return 0;
-      } else {
-        return 1;
       }
+      return 1;
     }
     default:
       std::cerr << progname() << ": " << _("Option -e is not compatible with a previous option\n");
@@ -793,9 +791,8 @@ int Params::evalInsert(const std::string& optArg) {
       if (rc > 0) {
         target_ |= static_cast<CommonTarget>(rc);
         return 0;
-      } else {
-        return 1;
       }
+      return 1;
     }
     default:
       std::cerr << progname() << ": " << _("Option -i is not compatible with a previous option\n");
