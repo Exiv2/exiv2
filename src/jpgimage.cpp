@@ -304,7 +304,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
   }
 
   bool bPrint = option == kpsBasic || option == kpsRecursive;
-  std::vector<long> iptcDataSegs;
+  std::vector<size_t> iptcDataSegs;
 
   if (bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase) {
     // mnemonic for markers
@@ -618,7 +618,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
   // Used to initialize search variables such as skipCom.
   static const size_t notfound = std::numeric_limits<size_t>::max();
 
-  const long seek = io_->tell();
+  const size_t seek = io_->tell();
   size_t count = 0;
   size_t search = 0;
   size_t insertPos = 0;
@@ -809,7 +809,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         tmpBuf[0] = 0xff;
         tmpBuf[1] = app2_;
 
-        const long chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
+        const size_t chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
         size_t size = iccProfile_.size();
         if (size >= 255 * chunk_size)
           throw Error(ErrorCode::kerTooLargeJpegSegment, "IccProfile");
@@ -844,7 +844,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         // Set the new IPTC IRB, keeps existing IRBs but removes the
         // IPTC block if there is no new IPTC data to write
         DataBuf newPsData = Photoshop::setIptcIrb(psBlob.data(), psBlob.size(), iptcData_);
-        const long maxChunkSize = 0xffff - 16;
+        const size_t maxChunkSize = 0xffff - 16;
         const byte* chunkStart = newPsData.empty() ? nullptr : newPsData.c_data();
         const byte* chunkEnd = newPsData.empty() ? nullptr : newPsData.c_data(newPsData.size() - 1);
         while (chunkStart < chunkEnd) {
@@ -853,7 +853,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           if (chunkSize > maxChunkSize) {
             chunkSize = maxChunkSize;
             // Don't break at a valid IRB boundary
-            const auto writtenSize = static_cast<long>(chunkStart - newPsData.c_data());
+            const auto writtenSize = chunkStart - newPsData.c_data();
             if (Photoshop::valid(newPsData.c_data(), writtenSize + chunkSize)) {
               // Since an IRB has minimum size 12,
               // (chunkSize - 8) can't be also a IRB boundary

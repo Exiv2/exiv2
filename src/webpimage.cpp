@@ -154,13 +154,11 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
   /* Verify for a VP8X Chunk First before writing in
    case we have any exif or xmp data, also check
    for any chunks with alpha frame/layer set */
-  while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
+  while (!io_->eof() && io_->tell() < filesize) {
     io_->readOrThrow(chunkId.data(), WEBP_TAG_SIZE, Exiv2::ErrorCode::kerCorruptedMetadata);
     io_->readOrThrow(size_buff, WEBP_TAG_SIZE, Exiv2::ErrorCode::kerCorruptedMetadata);
     const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
-    // Check that `size_u32` is safe to cast to `long`.
-    enforce(size_u32 <= std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
     DataBuf payload(size_u32);
     if (!payload.empty()) {
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -286,15 +284,11 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
   }
 
   io_->seek(12, BasicIo::beg);
-  while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
+  while (!io_->eof() && io_->tell() < filesize) {
     io_->readOrThrow(chunkId.data(), 4, Exiv2::ErrorCode::kerCorruptedMetadata);
     io_->readOrThrow(size_buff, 4, Exiv2::ErrorCode::kerCorruptedMetadata);
 
     const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
-
-    // Check that `size_u32` is safe to cast to `long`.
-    enforce(size_u32 <= std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
-
     DataBuf payload(size_u32);
     io_->readOrThrow(payload.data(), size_u32, Exiv2::ErrorCode::kerCorruptedMetadata);
     if (io_->tell() % 2)
@@ -438,19 +432,18 @@ void WebPImage::printStructure(std::ostream& out, PrintStructureOption option, i
     }
 
     io_->seek(0, BasicIo::beg);  // rewind
-    while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
-      auto offset = static_cast<uint64_t>(io_->tell());
+    while (!io_->eof() && io_->tell() < filesize) {
+      auto offset = io_->tell();
       byte size_buff[WEBP_TAG_SIZE];
       io_->read(chunkId.data(), WEBP_TAG_SIZE);
       io_->read(size_buff, WEBP_TAG_SIZE);
-      long size = Exiv2::getULong(size_buff, littleEndian);
+      const uint32_t size = Exiv2::getULong(size_buff, littleEndian);
       DataBuf payload(offset ? size : WEBP_TAG_SIZE);  // header is different from chunks
       io_->read(payload.data(), payload.size());
 
       if (bPrint) {
         out << Internal::indent(depth)
-            << Internal::stringFormat("  %s | %8u | %8u | ", chunkId.c_str(), static_cast<uint32_t>(size),
-                                      static_cast<uint32_t>(offset))
+            << Internal::stringFormat("  %s | %8u | %8u | ", chunkId.c_str(), size, static_cast<uint32_t>(offset))
             << Internal::binaryToString(makeSlice(payload, 0, payload.size() > 32 ? 32 : payload.size())) << std::endl;
       }
 
@@ -492,18 +485,14 @@ void WebPImage::readMetadata() {
 
   io_->readOrThrow(data, WEBP_TAG_SIZE * 3, Exiv2::ErrorCode::kerCorruptedMetadata);
 
-  const uint32_t filesize_u32 = Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
-  enforce(filesize_u32 <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  const uint32_t filesize = Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
+  enforce(filesize <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
-  // Check that `filesize_u32` is safe to cast to `long`.
-  enforce(filesize_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
-          Exiv2::ErrorCode::kerCorruptedMetadata);
-
-  WebPImage::decodeChunks(static_cast<long>(filesize_u32));
+  WebPImage::decodeChunks(filesize);
 
 }  // WebPImage::readMetadata
 
-void WebPImage::decodeChunks(long filesize) {
+void WebPImage::decodeChunks(uint32_t filesize) {
   DataBuf chunkId(5);
   byte size_buff[WEBP_TAG_SIZE];
   bool has_canvas_data = false;
@@ -517,12 +506,7 @@ void WebPImage::decodeChunks(long filesize) {
     io_->readOrThrow(chunkId.data(), WEBP_TAG_SIZE, Exiv2::ErrorCode::kerCorruptedMetadata);
     io_->readOrThrow(size_buff, WEBP_TAG_SIZE, Exiv2::ErrorCode::kerCorruptedMetadata);
 
-    const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
-
-    // Check that `size_u32` is safe to cast to `long`.
-    enforce(size_u32 <= static_cast<uint32_t>(std::numeric_limits<long>::max()),
-            Exiv2::ErrorCode::kerCorruptedMetadata);
-    const auto size = static_cast<long>(size_u32);
+    const uint32_t size = Exiv2::getULong(size_buff, littleEndian);
 
     // Check that `size` is within bounds.
     enforce(io_->tell() <= filesize, Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -619,23 +603,23 @@ void WebPImage::decodeChunks(long filesize) {
       bool s_header = false;
       bool le_header = false;
       bool be_header = false;
-      long pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 4);
+      size_t pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 4);
 
-      if (pos == -1) {
+      if (pos == std::string::npos) {
         pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 6);
-        if (pos != -1) {
+        if (pos != std::string::npos) {
           s_header = true;
         }
       }
-      if (pos == -1) {
+      if (pos == std::string::npos) {
         pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifTiffLEHeader), 3);
-        if (pos != -1) {
+        if (pos != std::string::npos) {
           le_header = true;
         }
       }
-      if (pos == -1) {
+      if (pos == std::string::npos) {
         pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifTiffBEHeader), 4);
-        if (pos != -1) {
+        if (pos != std::string::npos) {
           be_header = true;
         }
       }
@@ -666,11 +650,11 @@ void WebPImage::decodeChunks(long filesize) {
       std::copy(payload.begin(), payload.end(), rawExifData.begin() + offset);
 
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cout << "Display Hex Dump [size:" << static_cast<unsigned long>(sizePayload) << "]" << std::endl;
+      std::cout << "Display Hex Dump [size:" << sizePayload << "]" << std::endl;
       std::cout << binaryToHex(rawExifData.c_data(), sizePayload);
 #endif
 
-      if (pos != -1) {
+      if (pos != std::string::npos) {
         XmpData xmpData;
         ByteOrder bo = ExifParser::decode(exifData_, payload.c_data(pos), payload.size() - pos);
         setByteOrder(bo);
@@ -689,7 +673,7 @@ void WebPImage::decodeChunks(long filesize) {
 #endif
       } else {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cout << "Display Hex Dump [size:" << static_cast<unsigned long>(payload.size()) << "]" << std::endl;
+        std::cout << "Display Hex Dump [size:" << payload.size() << "]" << std::endl;
         std::cout << binaryToHex(payload.c_data(), payload.size());
 #endif
       }
@@ -807,14 +791,14 @@ void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_
   }
 }
 
-long WebPImage::getHeaderOffset(const byte* data, size_t data_size, const byte* header, size_t header_size) {
+size_t WebPImage::getHeaderOffset(const byte* data, size_t data_size, const byte* header, size_t header_size) {
+  size_t pos = std::string::npos;  // error value
   if (data_size < header_size) {
-    return -1;
+    return pos;
   }
-  long pos = -1;
   for (size_t i = 0; i < data_size - header_size; i++) {
     if (memcmp(header, &data[i], header_size) == 0) {
-      pos = static_cast<long>(i);
+      pos = i;
       break;
     }
   }
