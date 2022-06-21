@@ -737,7 +737,7 @@ class EXIV2API XPathIo : public FileIo {
 
  private:
   // True if the file is a temporary file and it should be deleted in destructor.
-  bool isTemp_;
+  bool isTemp_{true};
   std::string tempFilePath_;
 };  // class XPathIo
 #endif

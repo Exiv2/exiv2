@@ -317,7 +317,7 @@ class TiffDecoder : public TiffVisitor {
   TiffComponent* pRoot_;           //!< Root element of the composite
   FindDecoderFct findDecoderFct_;  //!< Ptr to the function to find special decoding functions
   std::string make_;               //!< Camera make, determined from the tags to decode
-  bool decodedIptc_;               //!< Indicates if IPTC has been decoded yet
+  bool decodedIptc_{false};        //!< Indicates if IPTC has been decoded yet
 
 };  // class TiffDecoder
 
@@ -503,21 +503,21 @@ class TiffEncoder : public TiffVisitor {
   //@}
 
   // DATA
-  ExifData exifData_;                    //!< Copy of the Exif data to encode
-  const IptcData& iptcData_;             //!< IPTC data to encode, just a reference
-  const XmpData& xmpData_;               //!< XMP data to encode, just a reference
-  bool del_;                             //!< Indicates if Exif data entries should be deleted after encoding
-  const TiffHeaderBase* pHeader_;        //!< TIFF image header
-  TiffComponent* pRoot_;                 //!< Root element of the composite
-  const bool isNewImage_;                //!< True if the TIFF image is created from scratch
-  const PrimaryGroups* pPrimaryGroups_;  //!< List of primary image groups
-  TiffComponent* pSourceTree_;           //!< Parsed source tree for reference
-  ByteOrder byteOrder_;                  //!< Byteorder for encoding
-  ByteOrder origByteOrder_;              //!< Byteorder as set in the c'tor
-  const FindEncoderFct findEncoderFct_;  //!< Ptr to the function to find special encoding functions
-  std::string make_;                     //!< Camera make, determined from the tags to encode
-  bool dirty_;                           //!< Signals if any tag is deleted or allocated
-  WriteMethod writeMethod_;              //!< Write method used.
+  ExifData exifData_;                        //!< Copy of the Exif data to encode
+  const IptcData& iptcData_;                 //!< IPTC data to encode, just a reference
+  const XmpData& xmpData_;                   //!< XMP data to encode, just a reference
+  bool del_{true};                           //!< Indicates if Exif data entries should be deleted after encoding
+  const TiffHeaderBase* pHeader_;            //!< TIFF image header
+  TiffComponent* pRoot_;                     //!< Root element of the composite
+  bool isNewImage_;                          //!< True if the TIFF image is created from scratch
+  const PrimaryGroups* pPrimaryGroups_;      //!< List of primary image groups
+  TiffComponent* pSourceTree_{nullptr};      //!< Parsed source tree for reference
+  ByteOrder byteOrder_;                      //!< Byteorder for encoding
+  ByteOrder origByteOrder_;                  //!< Byteorder as set in the c'tor
+  FindEncoderFct findEncoderFct_;            //!< Ptr to the function to find special encoding functions
+  std::string make_;                         //!< Camera make, determined from the tags to encode
+  bool dirty_{false};                        //!< Signals if any tag is deleted or allocated
+  WriteMethod writeMethod_{wmNonIntrusive};  //!< Write method used.
 
 };  // class TiffEncoder
 
@@ -669,7 +669,7 @@ class TiffReader : public TiffVisitor {
   DirList dirList_;        //!< List of IFD pointers and their groups
   IdxSeq idxSeq_;          //!< Sequences for group, used for the entry's idx
   PostList postList_;      //!< List of components with deferred reading
-  bool postProc_;          //!< True in postProcessList()
+  bool postProc_{false};   //!< True in postProcessList()
 };                         // class TiffReader
 
 }  // namespace Internal

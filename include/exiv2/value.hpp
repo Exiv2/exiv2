@@ -229,7 +229,7 @@ class EXIV2API Value {
    */
   Value& operator=(const Value&) = default;
   // DATA
-  mutable bool ok_;  //!< Indicates the status of the previous to<Type> conversion
+  mutable bool ok_{true};  //!< Indicates the status of the previous to<Type> conversion
 
  private:
   //! Internal virtual copy constructor.
@@ -648,8 +648,8 @@ class EXIV2API XmpValue : public Value {
 
  private:
   // DATA
-  XmpArrayType xmpArrayType_;  //!< Type of XMP array
-  XmpStruct xmpStruct_;        //!< XMP structure indicator
+  XmpArrayType xmpArrayType_{xaNone};  //!< Type of XMP array
+  XmpStruct xmpStruct_{xsNone};        //!< XMP structure indicator
 
 };  // class XmpValue
 

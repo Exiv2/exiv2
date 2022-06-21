@@ -28,7 +28,7 @@ bool TiffMappingInfo::operator==(const TiffMappingInfo::Key& key) const {
 }
 
 IoWrapper::IoWrapper(BasicIo& io, const byte* pHeader, size_t size, OffsetWriter* pow) :
-    io_(io), pHeader_(pHeader), size_(size), wroteHeader_(false), pow_(pow) {
+    io_(io), pHeader_(pHeader), size_(size), pow_(pow) {
   if (!pHeader_ || size_ == 0)
     wroteHeader_ = true;
 }
@@ -73,7 +73,7 @@ TiffMnEntry::TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
 }
 
 TiffIfdMakernote::TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, MnHeader* pHeader, bool hasNext) :
-    TiffComponent(tag, group), pHeader_(pHeader), ifd_(tag, mnGroup, hasNext), imageByteOrder_(invalidByteOrder) {
+    TiffComponent(tag, group), pHeader_(pHeader), ifd_(tag, mnGroup, hasNext) {
 }
 
 TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg* arrayCfg, const ArrayDef* arrayDef,
@@ -90,8 +90,7 @@ TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arra
   // We'll figure out the correct cfg later
 }
 
-TiffBinaryElement::TiffBinaryElement(uint16_t tag, IfdId group) :
-    TiffEntryBase(tag, group), elByteOrder_(invalidByteOrder) {
+TiffBinaryElement::TiffBinaryElement(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
   elDef_.idx_ = 0;
   elDef_.tiffType_ = ttUndefined;
   elDef_.count_ = 0;
