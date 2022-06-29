@@ -193,7 +193,6 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
     const auto exifKey = upper("Raw profile type exif");
     const auto app1Key = upper("Raw profile type APP1");
     const auto iptcKey = upper("Raw profile type iptc");
-    const auto iccKey = upper("icc");
     const auto softKey = upper("Software");
     const auto commKey = upper("Comment");
     const auto descKey = upper("Description");
@@ -272,13 +271,12 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
       // for XMP, ICC etc: read and format data
       const auto dataStringU = upper(dataString);
       bool bXMP = option == kpsXMP && findi(dataStringU, xmpKey) == 0;
-      bool bICC = option == kpsIccProfile && findi(dataStringU, iccKey) == 0;
       bool bExif = option == kpsRecursive && (findi(dataStringU, exifKey) == 0 || findi(dataStringU, app1Key) == 0);
       bool bIptc = option == kpsRecursive && findi(dataStringU, iptcKey) == 0;
       bool bSoft = option == kpsRecursive && findi(dataStringU, softKey) == 0;
       bool bComm = option == kpsRecursive && findi(dataStringU, commKey) == 0;
       bool bDesc = option == kpsRecursive && findi(dataStringU, descKey) == 0;
-      bool bDump = bXMP || bICC || bExif || bIptc || bSoft || bComm || bDesc || eXIf;
+      bool bDump = bXMP || bExif || bIptc || bSoft || bComm || bDesc || iCCP || eXIf;
 
       if (bDump) {
         DataBuf dataBuf;
@@ -346,7 +344,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
             bLF = true;
           }
 
-          if (bICC || bComm) {
+          if ((iCCP && option == kpsIccProfile) || bComm) {
             out.write(dataBuf.c_str(), dataBuf.size());
             bLF = bComm;
           }
@@ -356,6 +354,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
             out.write(decoded.c_str(), decoded.size());
             bLF = true;
           }
+
           if (eXIf && option == kpsRecursive) {
             // create memio object with the data, then print the structure
             MemIo p(data.c_data(), dataOffset);
@@ -546,9 +545,14 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
         throw Error(ErrorCode::kerImageWriteFailed);
       return;
     }
-    if (!strcmp(szChunk, "eXIf")) {
-      ;  // do nothing  Exif metadata is written following IHDR
-      ;  // as zTXt chunk with signature Raw profile type exif__
+    if (!strcmp(szChunk, "eXIf") || !strcmp(szChunk, "iCCP")) {
+      // do nothing (strip): Exif metadata is written following IHDR
+      // as zTXt chunk with signature "Raw profile type exif",
+      // together with the ICC profile as a fresh iCCP chunk
+#ifdef EXIV2_DEBUG_MESSAGES
+      std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk << " chunk (length: " << dataOffset << ")"
+                << std::endl;
+#endif
     } else if (!strcmp(szChunk, "IHDR")) {
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
@@ -636,13 +640,11 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
           throw Error(ErrorCode::kerImageWriteFailed);
         }
       }
-    } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt") ||
-               !strcmp(szChunk, "iCCP")) {
+    } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt")) {
       DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
       if (!key.empty() && (compare("Raw profile type exif", key) || compare("Raw profile type APP1", key) ||
                            compare("Raw profile type iptc", key) || compare("Raw profile type xmp", key) ||
-                           compare("XML:com.adobe.xmp", key) || compare("icc", key) ||  // see test/data/imagemagick.png
-                           compare("ICC", key) || compare("Description", key))) {
+                           compare("XML:com.adobe.xmp", key) || compare("Description", key))) {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk << " chunk (length: " << dataOffset << ")"
                   << std::endl;
