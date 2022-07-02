@@ -1261,7 +1261,8 @@ class ValueType : public Value {
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
   inline I rational_to_integer_helper(size_t n) const {
-    auto&& [a, b] = value_.at(n);
+    auto a = value_.at(n).first;
+    auto b = value_.at(n).second;
 
     // Protect against divide-by-zero.
     if (b <= 0) {
@@ -1269,16 +1270,16 @@ class ValueType : public Value {
     }
 
     // Check for integer overflow.
-    if (std::is_signed_v<I> == std::is_signed_v<decltype(a)>) {
+    if (std::is_signed<I>::value == std::is_signed<decltype(a)>::value) {
       // conversion does not change sign
       const auto imin = std::numeric_limits<I>::min();
       const auto imax = std::numeric_limits<I>::max();
       if (imax < b || a < imin || imax < a) {
         return 0;
       }
-    } else if (std::is_signed_v<I>) {
+    } else if (std::is_signed<I>::value) {
       // conversion is from unsigned to signed
-      const auto imax = std::make_unsigned_t<I>(std::numeric_limits<I>::max());
+      const auto imax = typename std::make_unsigned<I>::type(std::numeric_limits<I>::max());
       if (imax < b || imax < a) {
         return 0;
       }
@@ -1289,8 +1290,8 @@ class ValueType : public Value {
         return 0;
       }
       // Inputs are not negative so convert them to unsigned.
-      const auto a_u = std::make_unsigned_t<decltype(a)>(a);
-      const auto b_u = std::make_unsigned_t<decltype(b)>(b);
+      const auto a_u = typename std::make_unsigned<decltype(a)>::type(a);
+      const auto b_u = typename std::make_unsigned<decltype(b)>::type(b);
       if (imax < b_u || imax < a_u) {
         return 0;
       }
