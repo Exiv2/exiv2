@@ -1136,7 +1136,7 @@ void printUnrecognizedArgument(const char argc, const std::string& action) {
 
 int64_t parseCommonTargets(const std::string& optArg, const std::string& action) {
   int64_t rc = 0;
-  Params::CommonTarget target = static_cast<Params::CommonTarget>(0);
+  auto target = static_cast<Params::CommonTarget>(0);
   Params::CommonTarget all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
   Params::CommonTarget extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
   for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
