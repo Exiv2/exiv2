@@ -119,7 +119,7 @@ uint32_t TiffImage::pixelHeight() const {
   return pixelHeightPrimary_;
 }
 
-void TiffImage::setComment(std::string_view /*comment*/) {
+void TiffImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TIFF"));
 }

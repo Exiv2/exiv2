@@ -1099,7 +1099,7 @@ std::string EpsImage::mimeType() const {
   return "application/postscript";
 }
 
-void EpsImage::setComment(std::string_view /*comment*/) {
+void EpsImage::setComment(const std::string&) {
   throw Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "EPS");
 }
 

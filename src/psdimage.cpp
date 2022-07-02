@@ -107,7 +107,7 @@ std::string PsdImage::mimeType() const {
   return "image/x-photoshop";
 }
 
-void PsdImage::setComment(std::string_view /*comment*/) {
+void PsdImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "Photoshop"));
 }

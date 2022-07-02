@@ -123,7 +123,7 @@ std::string Jp2Image::mimeType() const {
   return "image/jp2";
 }
 
-void Jp2Image::setComment(std::string_view /*comment*/) {
+void Jp2Image::setComment(const std::string&) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "JP2"));
 }
 

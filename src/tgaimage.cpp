@@ -31,7 +31,7 @@ void TgaImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "TGA"));
 }
 
-void TgaImage::setComment(std::string_view /*comment*/) {
+void TgaImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TGA"));
 }

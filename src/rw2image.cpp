@@ -56,7 +56,7 @@ void Rw2Image::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "RW2"));
 }
 
-void Rw2Image::setComment(std::string_view /*comment*/) {
+void Rw2Image::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "RW2"));
 }

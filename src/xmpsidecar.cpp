@@ -33,7 +33,7 @@ std::string XmpSidecar::mimeType() const {
   return "application/rdf+xml";
 }
 
-void XmpSidecar::setComment(std::string_view /*comment*/) {
+void XmpSidecar::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "XMP"));
 }

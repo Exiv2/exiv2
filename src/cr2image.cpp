@@ -49,7 +49,7 @@ void Cr2Image::printStructure(std::ostream& out, Exiv2::PrintStructureOption opt
   printTiffStructure(io(), out, option, depth - 1);
 }
 
-void Cr2Image::setComment(std::string_view /*comment*/) {
+void Cr2Image::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "CR2"));
 }

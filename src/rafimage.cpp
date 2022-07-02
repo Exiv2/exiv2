@@ -52,7 +52,7 @@ void RafImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "RAF"));
 }
 
-void RafImage::setComment(std::string_view /*comment*/) {
+void RafImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "RAF"));
 }

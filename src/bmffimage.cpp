@@ -570,7 +570,7 @@ void BmffImage::parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, u
   }
 }
 
-void BmffImage::setComment(std::string_view /*comment*/) {
+void BmffImage::setComment(const std::string&) {
   // bmff files are read-only
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMFF"));
 }

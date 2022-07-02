@@ -177,7 +177,7 @@ class EXIV2API Image {
   virtual void clearXmpData();
 
   /// @brief Set the image comment. The comment is written to the image when writeMetadata() is called.
-  virtual void setComment(std::string_view comment);
+  virtual void setComment(const std::string& comment);
 
   /*!
     @brief Erase any buffered comment. Comment is not removed

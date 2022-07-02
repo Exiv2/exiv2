@@ -591,7 +591,7 @@ void Image::clearComment() {
   comment_.erase();
 }
 
-void Image::setComment(std::string_view comment) {
+void Image::setComment(const std::string& comment) {
   comment_ = comment;
 }
 

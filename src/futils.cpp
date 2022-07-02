@@ -79,7 +79,7 @@ char from_hex(char ch) {
   return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
 }
 
-std::string urlencode(std::string_view str) {
+std::string urlencode(const std::string& str) {
   std::string encoded;
   encoded.reserve(str.size() * 3);
   for (uint8_t c : str) {

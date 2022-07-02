@@ -66,7 +66,7 @@ class EXIV2API BmpImage : public Image {
   void setIptcData(const IptcData& iptcData) override;
 
   /// @throws Error(ErrorCode::kerInvalidSettingForImage)
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
