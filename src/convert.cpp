@@ -1284,7 +1284,7 @@ std::string Converter::computeExifDigest(bool tiff) {
 }
 #else
 std::string Converter::computeExifDigest(bool) {
-  return std::string("");
+  return {};
 }
 #endif
 
