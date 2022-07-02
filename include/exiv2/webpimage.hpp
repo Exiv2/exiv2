@@ -46,7 +46,7 @@ class EXIV2API WebPImage : public Image {
   /*!
     @brief Not supported. Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   void setIptcData(const IptcData& /*iptcData*/) override;
 
   //! @name Accessors

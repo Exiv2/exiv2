@@ -35,7 +35,7 @@ void BmpImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "BMP"));
 }
 
-void BmpImage::setComment(std::string_view /*comment*/) {
+void BmpImage::setComment(const std::string&) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMP"));
 }
 

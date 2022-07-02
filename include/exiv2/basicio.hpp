@@ -693,12 +693,12 @@ class EXIV2API XPathIo : public FileIo {
       @brief The extension of the temporary file which is created when getting input data
               to read metadata. This file will be deleted in destructor.
   */
-  static constexpr std::string_view TEMP_FILE_EXT = ".exiv2_temp";
+  static constexpr auto TEMP_FILE_EXT = ".exiv2_temp";
   /*!
       @brief The extension of the generated file which is created when getting input data
               to add or modify the metadata.
   */
-  static constexpr std::string_view GEN_FILE_EXT = ".exiv2";
+  static constexpr auto GEN_FILE_EXT = ".exiv2";
 
   //! @name Creators
   //@{

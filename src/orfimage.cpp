@@ -46,7 +46,7 @@ uint32_t OrfImage::pixelHeight() const {
   return 0;
 }
 
-void OrfImage::setComment(std::string_view /*comment*/) {
+void OrfImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "ORF"));
 }

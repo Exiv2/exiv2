@@ -84,7 +84,7 @@ void WebPImage::setIptcData(const IptcData& /*iptcData*/) {
   // throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "WebP"));
 }
 
-void WebPImage::setComment(std::string_view /*comment*/) {
+void WebPImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "WebP"));
 }

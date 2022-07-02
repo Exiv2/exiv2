@@ -56,7 +56,7 @@ class EXIV2API Jp2Image : public Image {
     @brief Todo: Not supported yet(?). Calling this function will throw
         an instance of Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors

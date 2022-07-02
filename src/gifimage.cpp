@@ -29,7 +29,7 @@ void GifImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "GIF"));
 }
 
-void GifImage::setComment(std::string_view /*comment*/) {
+void GifImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "GIF"));
 }

@@ -97,15 +97,15 @@ class EXIV2API BmffImage : public Image {
 
   //! @name Manipulators
   //@{
-  void readMetadata() override /* override */;
-  void writeMetadata() override /* override */;
-  void setComment(std::string_view comment) override /* override */;
+  void readMetadata() override;
+  void writeMetadata() override;
+  void setComment(const std::string& comment) override;
   void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) override;
   //@}
 
   //! @name Accessors
   //@{
-  [[nodiscard]] std::string mimeType() const override /* override */;
+  [[nodiscard]] std::string mimeType() const override;
   [[nodiscard]] uint32_t pixelWidth() const override;
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
