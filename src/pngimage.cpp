@@ -230,7 +230,6 @@ namespace Exiv2 {
             const std::string exifKey = "Raw profile type exif";
             const std::string app1Key = "Raw profile type APP1";
             const std::string iptcKey = "Raw profile type iptc";
-            const std::string iccKey  = "icc";
             const std::string softKey = "Software";
             const std::string commKey = "Comment";
             const std::string descKey = "Description";
@@ -309,13 +308,12 @@ namespace Exiv2 {
 
                 // for XMP, ICC etc: read and format data
                 bool bXMP  = option == kpsXMP        && findi(dataString,xmpKey)==0;
-                bool bICC  = option == kpsIccProfile && findi(dataString,iccKey)==0;
                 bool bExif = option == kpsRecursive  &&(findi(dataString,exifKey)==0 || findi(dataString,app1Key)==0);
                 bool bIptc = option == kpsRecursive  && findi(dataString,iptcKey)==0;
                 bool bSoft = option == kpsRecursive  && findi(dataString,softKey)==0;
                 bool bComm = option == kpsRecursive  && findi(dataString,commKey)==0;
                 bool bDesc = option == kpsRecursive  && findi(dataString,descKey)==0;
-                bool bDump = bXMP || bICC || bExif || bIptc || bSoft || bComm || bDesc || eXIf ;
+                bool bDump = bXMP || bExif || bIptc || bSoft || bComm || bDesc || iCCP || eXIf ;
 
                 if( bDump ) {
                     DataBuf   dataBuf;
@@ -379,7 +377,7 @@ namespace Exiv2 {
                             bLF=true;
                         }
 
-                        if ( bICC || bComm ) {
+                        if ( ( iCCP && option == kpsIccProfile ) || bComm ) {
                             out.write((const char*) dataBuf.pData_,dataBuf.size_);
                             bLF = bComm ;
                         }
@@ -389,6 +387,7 @@ namespace Exiv2 {
                             out.write((const char*)decoded.pData_,decoded.size_);
                             bLF = true;
                         }
+
                         if ( eXIf && option == kpsRecursive ) {
                             // create memio object with the data, then print the structure
                             BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(data.pData_, dataOffset));
@@ -591,9 +590,14 @@ namespace Exiv2 {
                     throw Error(kerImageWriteFailed);
                 return;
             }
-            else if ( !strcmp(szChunk, "eXIf") ) {
-                ; // do nothing  Exif metdata is written following IHDR
-                ; // as zTXt chunk with signature Raw profile type exif__
+            else if ( !strcmp(szChunk, "eXIf") || !strcmp(szChunk, "iCCP") ) {
+                // do nothing (strip): Exif metadata is written following IHDR
+                // as zTXt chunk with signature "Raw profile type exif",
+                // together with the ICC profile as a fresh iCCP chunk
+#ifdef EXIV2_DEBUG_MESSAGES
+                std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk
+                            << " chunk (length: " << dataOffset << ")" << std::endl;
+#endif
             }
             else if ( !strcmp(szChunk, "IHDR")  )
             {
@@ -699,8 +703,7 @@ namespace Exiv2 {
             }
             else if (!strcmp(szChunk, "tEXt") ||
                      !strcmp(szChunk, "zTXt") ||
-                     !strcmp(szChunk, "iTXt") ||
-                     !strcmp(szChunk, "iCCP"))
+                     !strcmp(szChunk, "iTXt"))
             {
                 DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
                 if (compare("Raw profile type exif", key, 21) ||
@@ -708,8 +711,6 @@ namespace Exiv2 {
                     compare("Raw profile type iptc", key, 21) ||
                     compare("Raw profile type xmp",  key, 20) ||
                     compare("XML:com.adobe.xmp",     key, 17) ||
-                    compare("icc",                   key,  3) || // see test/data/imagemagick.png
-                    compare("ICC",                   key,  3) ||
                     compare("Description",           key, 11))
                 {
 #ifdef EXIV2_DEBUG_MESSAGES
