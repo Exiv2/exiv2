@@ -122,7 +122,7 @@ class Params : public Util::Getopt {
   static Params& instance();
 
   //! Prevent copy-construction: not implemented.
-  ~Params() = default;
+  ~Params() override = default;
   Params(const Params&) = delete;
   Params& operator=(const Params&) = delete;
 
