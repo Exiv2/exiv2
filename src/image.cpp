@@ -381,7 +381,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         const std::string offsetString = bOffsetIsPointer ? Internal::stringFormat("%10u", offset) : "";
 
         out << Internal::indent(depth)
-            << Internal::stringFormat("%8u | %#06x %-28s |%10s |%9u |%10s | ", address, tag, tagName(tag).c_str(),
+            << Internal::stringFormat("%8zu | %#06x %-28s |%10s |%9u |%10s | ", address, tag, tagName(tag).c_str(),
                                       typeName(type), count, offsetString.c_str());
         if (isShortType(type)) {
           for (size_t k = 0; k < kount; k++) {
