@@ -186,14 +186,14 @@ jobs:
         with:
           script: |
             try{
-              const rel_id = await github.repos.getReleaseByTag({
+              const rel_id = await github.rest.repos.getReleaseByTag({
                 ...context.repo,
                 tag: "nightly"
               }).then(result => result.data.id);
 
               console.log( "Found existing nightly release with id: ", rel_id);
 
-              await github.repos.deleteRelease({
+              await github.rest.repos.deleteRelease({
                 ...context.repo,
                 release_id: rel_id
               });
@@ -205,7 +205,7 @@ jobs:
             }
 
             try{
-              await github.git.deleteRef({
+              await github.rest.git.deleteRef({
                 ...context.repo,
                 ref: "tags/nightly"
               });
