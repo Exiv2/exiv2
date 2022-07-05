@@ -132,8 +132,8 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
   bool has_alpha = false;
   bool has_icc = iccProfileDefined();
 
-  int width = 0;
-  int height = 0;
+  uint32_t width = 0;
+  uint32_t height = 0;
 
   byte size_buff[WEBP_TAG_SIZE];
   Blob blob;
@@ -244,8 +244,8 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
 
       // Fetch height - 14 bits wide
       memcpy(&size_buf_h, payload.c_data(2), 3);
-      size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3F) << 0x2);
-      size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xF) << 0x2);
+      size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3FU) << 0x2);
+      size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2);
       height = Exiv2::getUShort(size_buf_h, littleEndian) + 1;
     }
 
@@ -567,8 +567,8 @@ void WebPImage::decodeChunks(uint32_t filesize) {
 
       // Fetch height
       memcpy(&size_buf_h, payload.c_data(2), 3);
-      size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3F) << 0x2);
-      size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xF) << 0x2);
+      size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3FU) << 0x2);
+      size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2);
       pixelHeight_ = Exiv2::getUShort(size_buf_h, littleEndian) + 1;
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_canvas_data) {
       enforce(size >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -737,8 +737,8 @@ bool WebPImage::equalsWebPTag(Exiv2::DataBuf& buf, const char* str) {
  @param has_exif Verify if we have exif data and set required flag
  @return Returns void
  */
-void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, int width,
-                            int height) {
+void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, uint32_t width,
+                            uint32_t height) {
   byte size[4] = {0x0A, 0x00, 0x00, 0x00};
   byte data[10] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
   iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE);

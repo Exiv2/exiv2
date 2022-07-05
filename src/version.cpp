@@ -58,7 +58,7 @@
 #endif
 
 namespace Exiv2 {
-int versionNumber() {
+uint32_t versionNumber() {
   return EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
 }
 
@@ -78,7 +78,7 @@ const char* version() {
   return EXV_PACKAGE_VERSION;
 }
 
-bool testVersion(int major, int minor, int patch) {
+bool testVersion(uint32_t major, uint32_t minor, uint32_t patch) {
   return versionNumber() >= EXIV2_MAKE_VERSION(major, minor, patch);
 }
 }  // namespace Exiv2
