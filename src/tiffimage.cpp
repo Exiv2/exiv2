@@ -39,7 +39,7 @@ namespace Exiv2 {
 using namespace Internal;
 
 TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)), pixelWidthPrimary_(0), pixelHeightPrimary_(0) {
+    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)) {
 }  // TiffImage::TiffImage
 
 //! Structure for TIFF compression to MIME type mappings

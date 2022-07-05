@@ -901,7 +901,7 @@ void XPathIo::ReadDataUri(const std::string& path) {
 }
 
 #else
-XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), isTemp_(true) {
+XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)) {
   tempFilePath_ = path();
 }
 
@@ -994,15 +994,15 @@ class RemoteIo::Impl {
   Impl& operator=(const Impl&) = delete;
 
   // DATA
-  std::string path_;     //!< (Standard) path
-  size_t blockSize_;     //!< Size of the block memory.
-  BlockMap* blocksMap_;  //!< An array contains all blocksMap
-  size_t size_;          //!< The file size
-  size_t idx_;           //!< Index into the memory area
-  bool isMalloced_;      //!< Was the blocksMap_ allocated?
-  bool eof_;             //!< EOF indicator
-  Protocol protocol_;    //!< the protocol of url
-  size_t totalRead_;     //!< bytes requested from host
+  std::string path_;              //!< (Standard) path
+  size_t blockSize_;              //!< Size of the block memory.
+  BlockMap* blocksMap_{nullptr};  //!< An array contains all blocksMap
+  size_t size_{0};                //!< The file size
+  size_t idx_{0};                 //!< Index into the memory area
+  bool isMalloced_{false};        //!< Was the blocksMap_ allocated?
+  bool eof_{false};               //!< EOF indicator
+  Protocol protocol_;             //!< the protocol of url
+  size_t totalRead_{0};           //!< bytes requested from host
 
   // METHODS
   /*!
@@ -1044,15 +1044,7 @@ class RemoteIo::Impl {
 };  // class RemoteIo::Impl
 
 RemoteIo::Impl::Impl(const std::string& url, size_t blockSize) :
-    path_(url),
-    blockSize_(blockSize),
-    blocksMap_(nullptr),
-    size_(0),
-    idx_(0),
-    isMalloced_(false),
-    eof_(false),
-    protocol_(fileProtocol(url)),
-    totalRead_(0) {
+    path_(url), blockSize_(blockSize), protocol_(fileProtocol(url)) {
 }
 
 size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {

@@ -15,7 +15,7 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-Value::Value(TypeId typeId) : ok_(true), type_(typeId) {
+Value::Value(TypeId typeId) : type_(typeId) {
 }
 
 Value::UniquePtr Value::create(TypeId typeId) {
@@ -448,7 +448,7 @@ CommentValue* CommentValue::clone_() const {
   return new CommentValue(*this);
 }
 
-XmpValue::XmpValue(TypeId typeId) : Value(typeId), xmpArrayType_(xaNone), xmpStruct_(xsNone) {
+XmpValue::XmpValue(TypeId typeId) : Value(typeId) {
 }
 
 void XmpValue::setXmpArrayType(XmpArrayType xmpArrayType) {

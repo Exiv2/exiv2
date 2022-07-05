@@ -193,8 +193,7 @@ TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpDat
     iptcData_(iptcData),
     xmpData_(xmpData),
     pRoot_(pRoot),
-    findDecoderFct_(std::move(findDecoderFct)),
-    decodedIptc_(false) {
+    findDecoderFct_(std::move(findDecoderFct)) {
   // #1402 Fujifilm RAF. Search for the make
   // Find camera make in existing metadata (read from the JPEG)
   ExifKey key("Exif.Image.Make");
@@ -454,15 +453,11 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
     exifData_(std::move(exifData)),
     iptcData_(iptcData),
     xmpData_(xmpData),
-    del_(true),
     pHeader_(pHeader),
     pRoot_(pRoot),
     isNewImage_(isNewImage),
     pPrimaryGroups_(pPrimaryGroups),
-    pSourceTree_(nullptr),
-    findEncoderFct_(std::move(findEncoderFct)),
-    dirty_(false),
-    writeMethod_(wmNonIntrusive) {
+    findEncoderFct_(std::move(findEncoderFct)) {
   byteOrder_ = pHeader->byteOrder();
   origByteOrder_ = byteOrder_;
 
@@ -994,13 +989,7 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
 }  // TiffEncoder::add
 
 TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state) :
-    pData_(pData),
-    size_(size),
-    pLast_(pData + size),
-    pRoot_(pRoot),
-    origState_(state),
-    mnState_(state),
-    postProc_(false) {
+    pData_(pData), size_(size), pLast_(pData + size), pRoot_(pRoot), origState_(state), mnState_(state) {
   pState_ = &origState_;
 
 }  // TiffReader::TiffReader
