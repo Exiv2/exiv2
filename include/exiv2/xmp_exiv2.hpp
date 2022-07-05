@@ -222,23 +222,23 @@ class EXIV2API XmpData {
   //! are we to use the packet?
   [[nodiscard]] bool usePacket() const {
     return usePacket_;
-  };
+  }
 
   //! set usePacket_
   bool usePacket(bool b) {
     bool r = usePacket_;
     usePacket_ = b;
     return r;
-  };
+  }
   //! setPacket
   void setPacket(std::string xmpPacket) {
     xmpPacket_ = std::move(xmpPacket);
     usePacket(false);
-  };
+  }
   // ! getPacket
   [[nodiscard]] const std::string& xmpPacket() const {
     return xmpPacket_;
-  };
+  }
 
   //@}
 
