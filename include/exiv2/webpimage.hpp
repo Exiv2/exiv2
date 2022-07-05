@@ -63,12 +63,13 @@ class EXIV2API WebPImage : public Image {
 
  private:
   void doWriteMetadata(BasicIo& outIo);
-  //! @name NOT Implemented
-  //@{
-  static long getHeaderOffset(const byte* data, size_t data_size, const byte* header, size_t header_size);
+
+  //! Finds the offset of header in data. Returns std::string::npos if the header isn't found.
+  static size_t getHeaderOffset(const byte* data, size_t data_size, const byte* header, size_t header_size);
+
   static bool equalsWebPTag(Exiv2::DataBuf& buf, const char* str);
-  void debugPrintHex(byte* data, long size);
-  void decodeChunks(long filesize);
+  void debugPrintHex(byte* data, size_t size);
+  void decodeChunks(uint32_t filesize);
   void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, int width, int height);
   /* Misc. */
   static constexpr byte WEBP_PAD_ODD = 0;

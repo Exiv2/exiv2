@@ -198,10 +198,9 @@ class EXIV2API BasicIo {
   //@{
   /*!
     @brief Get the current IO position.
-    @return Offset from the start of IO if successful;<BR>
-           -1 if failure;
+    @return Offset from the start of IO
    */
-  [[nodiscard]] virtual long tell() const = 0;
+  [[nodiscard]] virtual size_t tell() const = 0;
   /*!
     @brief Get the current size of the IO source in bytes.
     @return Size of the IO source in bytes;<BR>
@@ -439,10 +438,9 @@ class EXIV2API FileIo : public BasicIo {
   //@{
   /*!
     @brief Get the current file position.
-    @return Offset from the start of the file if successful;<BR>
-           -1 if failure;
+    @return Offset from the start of the file
    */
-  [[nodiscard]] long tell() const override;
+  [[nodiscard]] size_t tell() const override;
   /*!
     @brief Flush any buffered writes and get the current file size
         in bytes.
@@ -624,7 +622,7 @@ class EXIV2API MemIo : public BasicIo {
     @brief Get the current IO position.
     @return Offset from the start of the memory block
    */
-  [[nodiscard]] long tell() const override;
+  [[nodiscard]] size_t tell() const override;
   /*!
     @brief Get the current memory buffer size in bytes.
     @return Size of the in memory data in bytes;<BR>
@@ -874,7 +872,7 @@ class EXIV2API RemoteIo : public BasicIo {
     @brief Get the current IO position.
     @return Offset from the start of the memory block
    */
-  [[nodiscard]] long tell() const override;
+  [[nodiscard]] size_t tell() const override;
   /*!
     @brief Get the current memory buffer size in bytes.
     @return Size of the in memory data in bytes;<BR>
