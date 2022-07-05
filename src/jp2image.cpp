@@ -468,7 +468,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, in
             DataBuf data(subBox.length - boxHSize);
             io_->read(data.data(), data.size());
             if (bPrint) {
-              out << Internal::stringFormat("%8ld | %8ld |  sub:", address, subBox.length) << toAscii(subBox.type)
+              out << Internal::stringFormat("%8zu | %8u |  sub:", address, subBox.length) << toAscii(subBox.type)
                   << " | "
                   << Internal::binaryToString(makeSlice(data, 0, std::min(static_cast<size_t>(30), data.size())));
               bLF = true;

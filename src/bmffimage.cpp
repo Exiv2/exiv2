@@ -565,7 +565,7 @@ void BmffImage::parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, u
   nativePreviews_.push_back(nativePreview);
 
   if (bTrace) {
-    out << Internal::stringFormat("width,height,size = %u,%u,%u", nativePreview.width_, nativePreview.height_,
+    out << Internal::stringFormat("width,height,size = %zu,%zu,%zu", nativePreview.width_, nativePreview.height_,
                                   nativePreview.size_);
   }
 }
