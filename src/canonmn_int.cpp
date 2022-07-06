@@ -2716,10 +2716,10 @@ std::ostream& CanonMakerNote::printSi0x000e(std::ostream& os, const Value& value
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  const auto l = value.toInt64();
-  const auto num = (l & 0xf000) >> 12;
+  const auto l = value.toUint32();
+  const auto num = (l & 0xf000U) >> 12;
   os << num << " focus points; ";
-  const auto used = l & 0x0fff;
+  const auto used = l & 0x0fffU;
   if (used == 0) {
     os << "none";
   } else {

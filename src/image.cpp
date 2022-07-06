@@ -186,17 +186,17 @@ uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
 
 uint32_t Image::byteSwap(uint32_t value, bool bSwap) {
   uint32_t result = 0;
-  result |= (value & 0x000000FF) << 24;
-  result |= (value & 0x0000FF00) << 8;
-  result |= (value & 0x00FF0000) >> 8;
-  result |= (value & 0xFF000000) >> 24;
+  result |= (value & 0x000000FFU) << 24;
+  result |= (value & 0x0000FF00U) << 8;
+  result |= (value & 0x00FF0000U) >> 8;
+  result |= (value & 0xFF000000U) >> 24;
   return bSwap ? result : value;
 }
 
 uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
   uint16_t result = 0;
-  result |= (value & 0x00FF) << 8;
-  result |= (value & 0xFF00) >> 8;
+  result |= (value & 0x00FFU) << 8;
+  result |= (value & 0xFF00U) >> 8;
   return bSwap ? result : value;
 }
 
