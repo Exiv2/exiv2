@@ -507,7 +507,7 @@ namespace Exiv2
                             }
 
                             if (subBox.type == kJp2BoxTypeImageHeader) {
-                                assert(subBox.length == 22);
+                                enforce(subBox.length == 22, kerCorruptedMetadata);
                                 // height (4), width (4), componentsCount (2), bpc (1)
                                 uint8_t compressionType = data.pData_[11];
                                 uint8_t unkC = data.pData_[12];
