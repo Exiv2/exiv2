@@ -1465,7 +1465,7 @@ std::string parseEscapes(const std::string& input) {
         break;
       case 'u':  // Escaping of unicode
         if (input.length() >= 4 && input.length() - 4 > i) {
-          int acc = 0;
+          uint32_t acc = 0;
           for (int j = 0; j < 4; ++j) {
             ++i;
             acc <<= 4;
@@ -1476,19 +1476,19 @@ std::string parseEscapes(const std::string& input) {
             } else if (input[i] >= 'A' && input[i] <= 'F') {
               acc |= input[i] - 'A' + 10;
             } else {
-              acc = -1;
+              acc = 0xFFFFFFFF;
               break;
             }
           }
-          if (acc == -1) {
+          if (acc == 0xFFFFFFFF) {
             result.push_back('\\');
             i = escapeStart;
             break;
           }
 
           std::string ucs2toUtf8;
-          ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00) >> 8));
-          ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ff));
+          ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00U) >> 8));
+          ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ffU));
 
           if (Exiv2::convertStringCharset(ucs2toUtf8, "UCS-2BE", "UTF-8")) {
             result.append(ucs2toUtf8);

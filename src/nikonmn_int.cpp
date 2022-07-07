@@ -1500,7 +1500,7 @@ std::ostream& Nikon3MakerNote::printAfPointsInFocus(std::ostream& os, const Valu
 
   auto val = static_cast<uint16_t>(value.toInt64());
   if (dModel)
-    val = (val >> 8) | ((val & 0x00ff) << 8);
+    val = (val >> 8) | ((val & 0x00ffU) << 8);
 
   if (val == 0x07ff)
     return os << _("All 11 Points");
@@ -3043,7 +3043,7 @@ std::ostream& Nikon3MakerNote::printFlashGroupBCControlData(std::ostream& os, co
   }
   std::ostringstream oss;
   oss.copyfmt(os);
-  const auto temp = value.toInt64();
+  const auto temp = value.toUint32();
 
   printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (temp >> 4), data);
   os << ", ";
