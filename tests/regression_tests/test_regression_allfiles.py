@@ -91,6 +91,7 @@ def get_valid_files(data_dir):
         "issue_960.poc.webp",
         "issue_2160_poc.jpg",
         "issue_2178_poc.jp2",
+        "issue_2268_poc.jp2",
         "issue_ghsa_583f_w9pm_99r2_poc.jp2",
         "issue_ghsa_7569_phvm_vwc2_poc.jp2",
         "issue_ghsa_mxw9_qx4c_6m8v_poc.jp2",
