@@ -53,7 +53,7 @@ predicate indexK_with_fixedarray(ClassTemplateInstantiation t, ArrayIndexCall ca
     t.getSimpleName() = "array" and
     idx = call.getArgument(0) and
     lowerBound(idx) >= 0 and
-    upperBound(idx) < t.getTemplateArgument(1).(Literal).getValue().toInt()
+    upperBound(idx) < lowerBound(t.getTemplateArgument(1))
   )
 }
 
