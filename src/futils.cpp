@@ -378,7 +378,7 @@ std::string getProcessPath() {
   ret = std::filesystem::read_symlink("/proc/self/exe");
 #endif
 
-  const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_STR);
+  const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_CHR);
   return ret.substr(0, idxLastSeparator);
 }
 }  // namespace Exiv2
