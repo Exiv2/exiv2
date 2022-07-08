@@ -889,7 +889,7 @@ int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* /
     return -1;
 
   auto ix = NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size);
-  auto it = std::find_if(nikonArrayIdx.begin(), nikonArrayIdx.end(), [ix](auto&& aix) { return aix == ix; });
+  auto it = std::find(nikonArrayIdx.begin(), nikonArrayIdx.end(), ix);
   if (it == nikonArrayIdx.end())
     return -1;
 
