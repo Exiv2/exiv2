@@ -475,7 +475,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, in
             }
 
             if (subBox.type == kJp2BoxTypeImageHeader) {
-              assert(subBox.length == 22);
+              enforce(subBox.length == 22, ErrorCode::kerCorruptedMetadata);
               // height (4), width (4), componentsCount (2), bpc (1)
               auto compressionType = data.read_uint8(11);
               auto unkC = data.read_uint8(12);
