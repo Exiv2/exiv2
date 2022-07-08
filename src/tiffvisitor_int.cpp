@@ -23,7 +23,7 @@ namespace {
 class FindExifdatum2 {
  public:
   //! Constructor, initializes the object with the group and index to look for.
-  FindExifdatum2(Exiv2::Internal::IfdId group, int idx) : groupName_(Exiv2::Internal::groupName(group)), idx_(idx) {
+  FindExifdatum2(Exiv2::IfdId group, int idx) : groupName_(Exiv2::Internal::groupName(group)), idx_(idx) {
   }
   //! Returns true if group and index match.
   bool operator()(const Exiv2::Exifdatum& md) const {

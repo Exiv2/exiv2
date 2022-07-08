@@ -128,7 +128,7 @@ class JpegThumbnail : public Thumbnail {
 int64_t sumToLong(const Exiv2::Exifdatum& md);
 
 //! Helper function to delete all tags of a specific IFD from the metadata.
-void eraseIfd(Exiv2::ExifData& ed, Exiv2::Internal::IfdId ifdId);
+void eraseIfd(Exiv2::ExifData& ed, Exiv2::IfdId ifdId);
 
 }  // namespace
 
@@ -301,7 +301,7 @@ int Exifdatum::ifdId() const {
 }
 
 const char* Exifdatum::ifdName() const {
-  return key_ ? Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId())) : "";
+  return key_ ? Internal::ifdName(static_cast<IfdId>(key_->ifdId())) : "";
 }
 
 int Exifdatum::idx() const {

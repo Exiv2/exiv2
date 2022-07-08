@@ -37,8 +37,7 @@ namespace fs = std::filesystem;
 namespace {
 // Todo: Can be generalized further - get any tag as a string/long/...
 //! Get the Value for a tag within a particular group
-const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const uint16_t& tag,
-                                 const Exiv2::Internal::IfdId& group);
+const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const uint16_t& tag, const Exiv2::IfdId& group);
 //! Get the model name from tag Exif.Image.Model
 std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot);
 
@@ -969,9 +968,9 @@ int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
   // >  First byte must be 9 or 12 or 13 or 15 or 16 and 4th byte must be 2 (deciphered)
 
   // Get the value from the image format that is being used
-  auto value = getExifValue(pRoot, 0x9404, Exiv2::Internal::sony1Id);
+  auto value = getExifValue(pRoot, 0x9404, Exiv2::sony1Id);
   if (!value) {
-    value = getExifValue(pRoot, 0x9404, Exiv2::Internal::sony2Id);
+    value = getExifValue(pRoot, 0x9404, Exiv2::sony2Id);
     if (!value)
       return -1;
   }
@@ -996,9 +995,9 @@ int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
   // >  first byte decoded: 62, 48, 215, 28, 106 respectively
 
   // Get the value from the image format that is being used
-  auto value = getExifValue(pRoot, 0x9400, Exiv2::Internal::sony1Id);
+  auto value = getExifValue(pRoot, 0x9400, Exiv2::sony1Id);
   if (!value) {
-    value = getExifValue(pRoot, 0x9400, Exiv2::Internal::sony2Id);
+    value = getExifValue(pRoot, 0x9400, Exiv2::sony2Id);
     if (!value)
       return -1;
   }
@@ -1024,7 +1023,7 @@ int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
 // local definitions
 namespace {
 const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const uint16_t& tag,
-                                 const Exiv2::Internal::IfdId& group) {
+                                 const Exiv2::IfdId& group) {
   Exiv2::Internal::TiffFinder finder(tag, group);
   if (!pRoot)
     return nullptr;
@@ -1035,7 +1034,7 @@ const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const ui
 
 std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot) {
   // Lookup the Exif.Image.Model tag
-  const auto value = getExifValue(pRoot, 0x0110, Exiv2::Internal::ifd0Id);
+  const auto value = getExifValue(pRoot, 0x0110, Exiv2::ifd0Id);
   return (!value || value->count() == 0) ? std::string("") : static_cast<std::string>(value->toString());
 }
 

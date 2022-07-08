@@ -697,7 +697,7 @@ DataBuf LoaderTiff::getData() const {
                          consistent result for all previews, including JPEG
       */
       uint16_t tag = pos.tag();
-      if (tag != 0x00fe && tag != 0x00ff && Internal::isTiffImageTag(tag, Internal::ifd0Id)) {
+      if (tag != 0x00fe && tag != 0x00ff && Internal::isTiffImageTag(tag, ifd0Id)) {
         preview.add(ExifKey(tag, "Image"), &pos.value());
       }
     }

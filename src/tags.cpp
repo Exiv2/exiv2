@@ -75,7 +75,7 @@ bool GroupInfo::operator==(const GroupName& groupName) const {
 }
 
 const char* ExifTags::sectionName(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
+  const TagInfo* ti = tagInfo(key.tag(), static_cast<IfdId>(key.ifdId()));
   if (!ti)
     return sectionInfo[unknownTag.sectionId_].name_;
   return sectionInfo[ti->sectionId_].name_;
@@ -83,7 +83,7 @@ const char* ExifTags::sectionName(const ExifKey& key) {
 
 /// \todo not used internally. At least we should test it
 uint16_t ExifTags::defaultCount(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
+  const TagInfo* ti = tagInfo(key.tag(), static_cast<IfdId>(key.ifdId()));
   if (!ti)
     return unknownTag.count_;
   return ti->count_;
