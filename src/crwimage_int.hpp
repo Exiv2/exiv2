@@ -496,8 +496,8 @@ struct CrwMapping {
   //! @name Creators
   //@{
   //! Default constructor
-  CrwMapping(uint16_t crwTagId, uint16_t crwDir, uint32_t size, uint16_t tag, IfdId ifdId,
-             CrwDecodeFct toExif, CrwEncodeFct fromExif) :
+  CrwMapping(uint16_t crwTagId, uint16_t crwDir, uint32_t size, uint16_t tag, IfdId ifdId, CrwDecodeFct toExif,
+             CrwEncodeFct fromExif) :
       crwTagId_(crwTagId),
       crwDir_(crwDir),
       size_(size),
