@@ -162,6 +162,8 @@ class TiffComponent {
   TiffComponent(uint16_t tag, IfdId group);
   //! Virtual destructor.
   virtual ~TiffComponent() = default;
+  TiffComponent(const TiffComponent&) = default;
+  TiffComponent& operator=(const TiffComponent&) = default;
   //@}
 
   //! @name Manipulators

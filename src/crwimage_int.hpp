@@ -60,6 +60,8 @@ class CiffComponent {
   //! Constructor taking a tag and directory
   CiffComponent(uint16_t tag, uint16_t dir) : dir_(dir), tag_(tag) {
   }
+  CiffComponent(const CiffComponent&) = delete;
+  CiffComponent& operator=(const CiffComponent&) = delete;
   //! Virtual destructor.
   virtual ~CiffComponent() = default;
   //@}

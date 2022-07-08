@@ -207,6 +207,9 @@ class LoaderTiff : public Loader {
   //! Constructor
   LoaderTiff(PreviewId id, const Image& image, int parIdx);
 
+  LoaderTiff(const LoaderTiff&) = delete;
+  LoaderTiff& operator=(const LoaderTiff&) = delete;
+
   //! Get properties of a preview image with given params
   [[nodiscard]] PreviewProperties getProperties() const override;
 
