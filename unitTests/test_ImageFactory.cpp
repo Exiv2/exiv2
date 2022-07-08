@@ -353,13 +353,4 @@ TEST(TheImageFactory, getsExpectedModesForXmpImages) {
   EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::xmp, mdIccProfile));
 }
 
-TEST(TheImageFactory, getsExpectedModesForNoneValue) {
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdNone));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdExif));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdIptc));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdXmp));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdComment));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdIccProfile));
-}
-
 /// \todo check why JpegBase is taking ImageType in the constructor

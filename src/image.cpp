@@ -99,8 +99,6 @@ constexpr auto registry = std::array{
 #ifdef EXV_ENABLE_BMFF
     Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
-        // End of list marker
-    Registry{ImageType::none, nullptr, nullptr, amNone, amNone, amNone, amNone},
 };
 
 std::string pathOfFileUrl(const std::string& url) {
@@ -751,9 +749,9 @@ ImageType ImageFactory::getType(BasicIo& io) {
   if (io.open() != 0)
     return ImageType::none;
   IoCloser closer(io);
-  for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
-    if (registry[i].isThisType_(io, false)) {
-      return registry[i].imageType_;
+  for (const auto& r : registry) {
+    if (r.isThisType_(io, false)) {
+      return r.imageType_;
     }
   }
   return ImageType::none;
@@ -798,9 +796,9 @@ Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io) {
   if (io->open() != 0) {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io->path(), strError());
   }
-  for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
-    if (registry[i].isThisType_(*io, false)) {
-      return registry[i].newInstance_(std::move(io), false);
+  for (const auto& r : registry) {
+    if (r.isThisType_(*io, false)) {
+      return r.newInstance_(std::move(io), false);
     }
   }
   return nullptr;
