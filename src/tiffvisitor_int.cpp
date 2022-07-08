@@ -185,11 +185,7 @@ void TiffCopier::visitBinaryElement(TiffBinaryElement* object) {
 
 TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
                          FindDecoderFct findDecoderFct) :
-    exifData_(exifData),
-    iptcData_(iptcData),
-    xmpData_(xmpData),
-    pRoot_(pRoot),
-    findDecoderFct_(std::move(findDecoderFct)) {
+    exifData_(exifData), iptcData_(iptcData), xmpData_(xmpData), pRoot_(pRoot), findDecoderFct_(findDecoderFct) {
   // #1402 Fujifilm RAF. Search for the make
   // Find camera make in existing metadata (read from the JPEG)
   ExifKey key("Exif.Image.Make");
@@ -452,7 +448,7 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
     pRoot_(pRoot),
     isNewImage_(isNewImage),
     pPrimaryGroups_(pPrimaryGroups),
-    findEncoderFct_(std::move(findEncoderFct)) {
+    findEncoderFct_(findEncoderFct) {
   byteOrder_ = pHeader->byteOrder();
   origByteOrder_ = byteOrder_;
 

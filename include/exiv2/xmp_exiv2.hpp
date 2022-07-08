@@ -10,8 +10,6 @@
 #include "metadatum.hpp"
 #include "properties.hpp"
 
-#include <functional>
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -310,7 +308,7 @@ class EXIV2API XmpParser {
     @param pLockData Pointer to the pLockData passed to initialize()
     @param lockUnlock Indicates whether to lock (true) or unlock (false)
    */
-  using XmpLockFct = std::function<void(void* pLockData, bool lockUnlock)>;
+  using XmpLockFct = void (*)(void* pLockData, bool lockUnlock);
 
   /*!
     @brief Initialize the XMP Toolkit.
