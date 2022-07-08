@@ -550,18 +550,16 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
         set value
   */
   if (!crwDirs.empty()) {
-    auto [dir, parent] = crwDirs.top();
+    auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
-    for (auto&& component : components_) {
-      if (component->tag() == dir) {
-        cc_ = component;
-        break;
-      }
-    }
+    auto it =
+        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.first; });
+    if (it != components_.end())
+      cc_ = *it;
     if (!cc_) {
       // Directory doesn't exist yet, add it
-      m_ = std::make_unique<CiffDirectory>(dir, parent);
+      m_ = std::make_unique<CiffDirectory>(dir.first, dir.second);
       cc_ = m_.get();
       add(std::move(m_));
     }
@@ -569,12 +567,10 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
     cc_ = cc_->add(crwDirs, crwTagId);
   } else {
     // Find the tag
-    for (auto&& component : components_) {
-      if (component->tagId() == crwTagId) {
-        cc_ = component;
-        break;
-      }
-    }
+    auto it =
+        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tagId() == crwTagId; });
+    if (it != components_.end())
+      cc_ = *it;
     if (!cc_) {
       // Tag doesn't exist yet, add it
       m_ = std::make_unique<CiffEntry>(crwTagId, tag());
@@ -604,27 +600,23 @@ void CiffComponent::doRemove(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/) {
 
 void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId) {
   if (!crwDirs.empty()) {
-    auto [dir, _] = crwDirs.top();
+    auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
-    for (auto i = components_.begin(); i != components_.end(); ++i) {
-      if ((*i)->tag() == dir) {
-        // Recursive call to next lower level directory
-        (*i)->remove(crwDirs, crwTagId);
-        if ((*i)->empty())
-          components_.erase(i);
-        break;
-      }
+    auto it =
+        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.first; });
+    if (it != components_.end()) {
+      // Recursive call to next lower level directory
+      (*it)->remove(crwDirs, crwTagId);
+      if ((*it)->empty())
+        components_.erase(it);
     }
   } else {
     // Find the tag
-    for (auto i = components_.begin(); i != components_.end(); ++i) {
-      if ((*i)->tagId() == crwTagId) {
-        // Remove the entry and abort the loop
-        delete *i;
-        components_.erase(i);
-        break;
-      }
+    auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == crwTagId; });
+    if (it != components_.end()) {
+      delete *it;
+      components_.erase(it);
     }
   }
 }  // CiffDirectory::doRemove

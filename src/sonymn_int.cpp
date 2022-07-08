@@ -871,7 +871,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream&
       "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",  "DSC-WX350", "DSC-WX500",
   };
 
-  bool f = std::any_of(models.begin(), models.end(), [model = pos->toString()](auto&& m) { return m == model; });
+  bool f = std::find(models.begin(), models.end(), pos->toString()) != models.end();
   if (f)
     return os << value.toInt64();
   return os << N_("n/a");
@@ -938,7 +938,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, co
 
   // Models that do not support this tag
   const auto models = std::array{"ILCE-1", "ILCE-7SM3", "ILME-FX3"};
-  bool f = std::any_of(models.begin(), models.end(), [model = pos->toString()](auto&& m) { return m == model; });
+  bool f = std::find(models.begin(), models.end(), pos->toString()) != models.end();
   if (f)
     return os << N_("n/a");
 
@@ -957,7 +957,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, c
 
   // Models that do not support this tag
   const auto models = std::array{"ILCE-1", "ILCE-7SM3", "ILME-FX3"};
-  bool f = std::any_of(models.begin(), models.end(), [model = pos->toString()](auto&& m) { return m == model; });
+  bool f = std::find(models.begin(), models.end(), pos->toString()) != models.end();
   if (f)
     return os << N_("n/a");
 
