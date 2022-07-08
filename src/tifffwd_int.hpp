@@ -9,7 +9,6 @@
 #include "types.hpp"
 
 // + standard includes
-#include <functional>
 #include <stack>
 
 // *****************************************************************************
@@ -62,17 +61,17 @@ using EncoderFct = void (TiffEncoder::*)(TiffEntryBase*, const Exifdatum*);
 /*!
   @brief Type for a function pointer for a function to decode a TIFF component.
  */
-using FindDecoderFct = std::function<DecoderFct(const std::string& make, uint32_t extendedTag, IfdId group)>;
+using FindDecoderFct = DecoderFct (*)(const std::string& make, uint32_t extendedTag, IfdId group);
 /*!
   @brief Type for a function pointer for a function to encode a TIFF component.
  */
-using FindEncoderFct = std::function<EncoderFct(const std::string& make, uint32_t extendedTag, IfdId group)>;
+using FindEncoderFct = EncoderFct (*)(const std::string& make, uint32_t extendedTag, IfdId group);
 /*!
   @brief Type for a function pointer for a function to create a TIFF component.
          Use TiffComponent::UniquePtr, it is not used in this declaration only
          to reduce dependencies.
  */
-using NewTiffCompFct = std::function<std::unique_ptr<TiffComponent>(uint16_t tag, IfdId group)>;
+using NewTiffCompFct = std::unique_ptr<TiffComponent> (*)(uint16_t tag, IfdId group);
 
 //! Stack to hold a path from the TIFF root element to a TIFF entry
 using TiffPath = std::stack<TiffPathItem>;

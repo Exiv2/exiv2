@@ -157,14 +157,14 @@ class Print : public Task {
    */
   int printTag(const Exiv2::ExifData& exifData, const std::string& key, const std::string& label = "") const;
   //! Type for an Exiv2 Easy access function
-  using EasyAccessFct = std::function<Exiv2::ExifData::const_iterator(const Exiv2::ExifData& ed)>;
+  using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
   /*!
     @brief Print one summary line with a label (if provided) and requested
            data. A line break is printed only if a label is provided.
     @return 1 if a line was written, 0 if the information was not found.
    */
-  int printTag(const Exiv2::ExifData& exifData, const EasyAccessFct& easyAccessFct, const std::string& label = "",
-               const EasyAccessFct& easyAccessFctFallback = nullptr) const;
+  int printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct, const std::string& label = "",
+               EasyAccessFct easyAccessFctFallback = nullptr) const;
 
  private:
   std::string path_;

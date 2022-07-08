@@ -1363,7 +1363,7 @@ const TiffTreeTable TiffCreator::tiffTreeTable_ = {
   Each entry of the table defines for a particular tag and group combination
   the corresponding TIFF component create function.
  */
-#define ignoreTiffComponent 0
+#define ignoreTiffComponent nullptr
 const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     // ext. tag  group             create function
     //---------  ----------------- -----------------------------------------
@@ -1987,7 +1987,7 @@ ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpDa
 
   auto rootDir = parse(pData, size, root, pHeader);
   if (rootDir) {
-    TiffDecoder decoder(exifData, iptcData, xmpData, rootDir.get(), std::move(findDecoderFct));
+    TiffDecoder decoder(exifData, iptcData, xmpData, rootDir.get(), findDecoderFct);
     rootDir->accept(decoder);
   }
   return pHeader->byteOrder();
@@ -1996,7 +1996,7 @@ ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpDa
 
 WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size, const ExifData& exifData,
                                      const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
-                                     const FindEncoderFct& findEncoderFct, TiffHeaderBase* pHeader,
+                                     FindEncoderFct findEncoderFct, TiffHeaderBase* pHeader,
                                      OffsetWriter* pOffsetWriter) {
   /*
      1) parse the binary image, if one is provided, and

@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <iostream>
 
-using EasyAccessFct = std::function<Exiv2::ExifData::const_iterator(const Exiv2::ExifData&)>;
+using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
 using EasyAccess = std::pair<const char*, EasyAccessFct>;
 
 static const EasyAccess easyAccess[] = {

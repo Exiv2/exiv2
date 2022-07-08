@@ -325,8 +325,8 @@ int Print::printTag(const Exiv2::ExifData& exifData, const std::string& key, con
   return rc;
 }  // Print::printTag
 
-int Print::printTag(const Exiv2::ExifData& exifData, const EasyAccessFct& easyAccessFct, const std::string& label,
-                    const EasyAccessFct& easyAccessFctFallback) const {
+int Print::printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct, const std::string& label,
+                    EasyAccessFct easyAccessFctFallback) const {
   int rc = 0;
   if (!label.empty()) {
     printLabel(label);

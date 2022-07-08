@@ -222,7 +222,7 @@ class TiffParserWorker {
    */
   static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, const ExifData& exifData,
                             const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
-                            const FindEncoderFct& findEncoderFct, TiffHeaderBase* pHeader, OffsetWriter* pOffsetWriter);
+                            FindEncoderFct findEncoderFct, TiffHeaderBase* pHeader, OffsetWriter* pOffsetWriter);
 
  private:
   /*!
