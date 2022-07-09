@@ -412,7 +412,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
           }
         } else if (option == kpsIptcErase && signature == "Photoshop 3.0") {
           // delete IPTC data segment from JPEG
-          iptcDataSegs.push_back(std::make_pair(io_->tell() - size, io_->tell()));
+          iptcDataSegs.emplace_back(io_->tell() - size, io_->tell());
         } else if (bPrint) {
           const size_t start = 2;
           const size_t end = size > 34 ? 34 : size;
@@ -518,7 +518,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
   }
   if (option == kpsIptcErase && !iptcDataSegs.empty()) {
     // Add a sentinel to the end of iptcDataSegs
-    iptcDataSegs.push_back(std::make_pair(io_->size(), 0));
+    iptcDataSegs.emplace_back(io_->size(), 0);
 
     // $ dd bs=1 skip=$((0)) count=$((13164)) if=ETH0138028.jpg of=E1.jpg
     // $ dd bs=1 skip=$((49304)) count=2000000  if=ETH0138028.jpg of=E2.jpg
