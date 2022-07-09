@@ -146,7 +146,7 @@ void JpegBase::readMetadata() {
   byte marker = advanceToMarker(ErrorCode::kerNotAJpeg);
 
   while (marker != sos_ && marker != eoi_ && search > 0) {
-    auto [sizebuf, size] = readSegmentSize(marker, *io_);
+    const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
     // Read the rest of the segment.
     DataBuf buf(size);
@@ -304,7 +304,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
   }
 
   bool bPrint = option == kpsBasic || option == kpsRecursive;
-  std::vector<size_t> iptcDataSegs;
+  std::vector<std::pair<size_t, size_t>> iptcDataSegs;
 
   if (bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase) {
     // mnemonic for markers
@@ -347,7 +347,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
       first = false;
       bool bLF = bPrint;
 
-      auto [sizebuf, size] = readSegmentSize(marker, *io_);
+      const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
       // Read the rest of the segment.
       DataBuf buf(size);
@@ -412,8 +412,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
           }
         } else if (option == kpsIptcErase && signature == "Photoshop 3.0") {
           // delete IPTC data segment from JPEG
-          iptcDataSegs.push_back(io_->tell() - size);
-          iptcDataSegs.push_back(size);
+          iptcDataSegs.emplace_back(io_->tell() - size, io_->tell());
         } else if (bPrint) {
           const size_t start = 2;
           const size_t end = size > 34 ? 34 : size;
@@ -518,36 +517,9 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
     }
   }
   if (option == kpsIptcErase && !iptcDataSegs.empty()) {
-#ifdef EXIV2_DEBUG_MESSAGES
-    std::cout << "iptc data blocks: " << iptcDataSegs.size() << std::endl;
-    uint32_t toggle = 0;
-    for (auto&& iptc : iptcDataSegs) {
-      std::cout << iptc;
-      if (toggle++ % 2)
-        std::cout << std::endl;
-      else
-        std::cout << ' ';
-    }
-#endif
-    size_t count = iptcDataSegs.size();
+    // Add a sentinel to the end of iptcDataSegs
+    iptcDataSegs.emplace_back(io_->size(), 0);
 
-    // figure out which blocks to copy
-    std::vector<size_t> pos(count + 2);
-    pos[0] = 0;
-    // copy the data that is not iptc
-    auto it = iptcDataSegs.begin();
-    for (size_t i = 0; i < count; i++) {
-      bool bOdd = (i % 2) != 0;
-      bool bEven = !bOdd;
-      pos[i + 1] = bEven ? *it : pos[i] + *it;
-      ++it;
-    }
-    pos[count + 1] = io_->size();
-#ifdef EXIV2_DEBUG_MESSAGES
-    for (size_t i = 0; i < count + 2; i++)
-      std::cout << pos[i] << " ";
-    std::cout << std::endl;
-#endif
     // $ dd bs=1 skip=$((0)) count=$((13164)) if=ETH0138028.jpg of=E1.jpg
     // $ dd bs=1 skip=$((49304)) count=2000000  if=ETH0138028.jpg of=E2.jpg
     // cat E1.jpg E2.jpg > E.jpg
@@ -555,25 +527,21 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
 
     // binary copy io_ to a temporary file
     MemIo tempIo;
-    for (size_t i = 0; i < (count / 2) + 1; i++) {
-      size_t start = pos[2 * i] + 2;  // step JPG 2 byte marker
-      if (start == 2)
-        start = 0;  // read the file 2 byte SOI
-      size_t length = pos[2 * i + 1] - start;
-      if (length) {
-#ifdef EXIV2_DEBUG_MESSAGES
-        std::cout << start << ":" << length << std::endl;
-#endif
-        io_->seekOrThrow(start, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
-        DataBuf buf(length);
-        io_->readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
-        tempIo.write(buf.c_data(), buf.size());
-      }
+    size_t start = 0;
+    for (const auto& p : iptcDataSegs) {
+      const size_t length = p.first - start;
+      io_->seekOrThrow(start, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+      DataBuf buf(length);
+      io_->readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
+      tempIo.write(buf.c_data(), buf.size());
+      start = p.second + 2;  // skip the 2 byte marker
     }
 
     io_->seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
     io_->transfer(tempIo);  // may throw
     io_->seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+
+    // Check that the result is correctly formatted.
     readMetadata();
   }
 }  // JpegBase::printStructure
@@ -591,7 +559,7 @@ void JpegBase::writeMetadata() {
 }
 
 DataBuf JpegBase::readNextSegment(byte marker) {
-  auto [sizebuf, size] = readSegmentSize(marker, *io_);
+  const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
   // Read the rest of the segment.
   DataBuf buf(size);
