@@ -237,20 +237,13 @@ std::ostream& Nikon1MakerNote::print0x0088(std::ostream& os, const Value& value,
     os << "; ";
     const uint32_t focusPoint = value.toUint32(1);
 
-    switch (focusPoint) {
-      // Could use array nikonFocuspoints
-      case 0:
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-        os << nikonFocuspoints[focusPoint];
-        break;
-      default:
-        os << value;
-        if (focusPoint < nikonFocuspoints.size())
-          os << " " << _("guess") << " " << nikonFocuspoints[focusPoint];
-        break;
+    if (focusPoint <= 4) {
+      os << nikonFocuspoints[focusPoint];
+    } else {
+      os << value;
+      if (focusPoint < nikonFocuspoints.size()) {
+        os << " " << _("guess") << " " << nikonFocuspoints[focusPoint];
+      }
     }
   }
   if (value.count() >= 3) {

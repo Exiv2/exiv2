@@ -127,10 +127,12 @@ static bool tEXtToDataBuf(const byte* bytes, size_t length, DataBuf& result) {
   static bool bFirst = true;
   if (bFirst) {
     value.fill(0);
-    const char* hexdigits = "0123456789ABCDEF";
-    for (int i = 0; i < 16; i++) {
-      value[tolower(hexdigits[i])] = i + 1;
-      value[toupper(hexdigits[i])] = i + 1;
+    for (int i = 0; i < 10; i++) {
+      value['0' + i] = i + 1;
+    }
+    for (int i = 0; i < 6; i++) {
+      value['a' + i] = i + 10 + 1;
+      value['A' + i] = i + 10 + 1;
     }
     bFirst = false;
   }
