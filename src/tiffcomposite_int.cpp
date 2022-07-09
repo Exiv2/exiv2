@@ -468,25 +468,26 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
       }
     }
   }
-  if (!tc) {
-    std::unique_ptr<TiffComponent> atc;
-    if (tiffPath.size() == 1 && object) {
-      atc = std::move(object);
-    } else {
-      atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
-    }
 
-    // Prevent dangling sub-IFD tags: Do not add a sub-IFD component without children.
-    // Todo: How to check before creating the component?
-    if (tiffPath.size() == 1 && dynamic_cast<TiffSubIfd*>(atc.get()))
-      return nullptr;
+  if (tc)
+    return tc->addPath(tag, tiffPath, pRoot, std::move(object));
 
-    if (tpi.extendedTag() == Tag::next) {
-      tc = this->addNext(std::move(atc));
-    } else {
-      tc = this->addChild(std::move(atc));
-    }
-  }
+  auto atc = [&] {
+    if (tiffPath.size() == 1 && object)
+      return std::move(object);
+    return TiffCreator::create(tpi.extendedTag(), tpi.group());
+  }();
+
+  // Prevent dangling sub-IFD tags: Do not add a sub-IFD component without children.
+  // Todo: How to check before creating the component?
+  if (tiffPath.size() == 1 && dynamic_cast<TiffSubIfd*>(atc.get()))
+    return nullptr;
+
+  tc = [&] {
+    if (tpi.extendedTag() == Tag::next)
+      return this->addNext(std::move(atc));
+    return this->addChild(std::move(atc));
+  }();
   return tc->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffDirectory::doAddPath
 
@@ -501,21 +502,16 @@ TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCompo
   }
   const TiffPathItem tpi2 = tiffPath.top();
   tiffPath.push(tpi1);
-  TiffComponent* tc = nullptr;
-  for (auto&& ifd : ifds_) {
-    if (ifd->group() == tpi2.group()) {
-      tc = ifd;
-      break;
-    }
-  }
-  if (!tc) {
-    if (tiffPath.size() == 1 && object) {
-      tc = addChild(std::move(object));
-    } else {
-      tc = addChild(std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group()));
-    }
-    setCount(ifds_.size());
-  }
+  auto it = std::find_if(ifds_.begin(), ifds_.end(), [&](auto&& ifd) { return ifd->group() == tpi2.group(); });
+  if (it != ifds_.end())
+    return (*it)->addPath(tag, tiffPath, pRoot, std::move(object));
+
+  auto tc = [&] {
+    if (tiffPath.size() == 1 && object)
+      return addChild(std::move(object));
+    return addChild(std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group()));
+  }();
+  setCount(ifds_.size());
   return tc->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffSubIfd::doAddPath
 
@@ -552,28 +548,25 @@ TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag, TiffPath& tiffPath, Tiff
   const TiffPathItem tpi = tiffPath.top();
   // Initialize the binary array (if it is a complex array)
   initialize(tpi.group());
-  TiffComponent* tc = nullptr;
+  auto it = elements_.end();
   // Todo: Duplicates are not allowed!
   // To allow duplicate entries, we only check if the new component already
   // exists if there is still at least one composite tag on the stack
   if (tiffPath.size() > 1) {
-    for (auto&& element : elements_) {
-      if (element->tag() == tpi.tag() && element->group() == tpi.group()) {
-        tc = element;
-        break;
-      }
-    }
+    it = std::find_if(elements_.begin(), it,
+                      [&](auto&& element) { return element->tag() == tpi.tag() && element->group() == tpi.group(); });
   }
-  if (!tc) {
-    std::unique_ptr<TiffComponent> atc;
-    if (tiffPath.size() == 1 && object) {
-      atc = std::move(object);
-    } else {
-      atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
-    }
-    tc = addChild(std::move(atc));
-    setCount(elements_.size());
-  }
+
+  if (it != elements_.end())
+    return (*it)->addPath(tag, tiffPath, pRoot, std::move(object));
+
+  auto atc = [&] {
+    if (tiffPath.size() == 1 && object)
+      return std::move(object);
+    return TiffCreator::create(tpi.extendedTag(), tpi.group());
+  }();
+  auto tc = addChild(std::move(atc));
+  setCount(elements_.size());
   return tc->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffBinaryArray::doAddPath
 
