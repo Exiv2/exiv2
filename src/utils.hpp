@@ -14,7 +14,7 @@ constexpr bool startsWith(std::string_view s, std::string_view start) {
 std::string upper(const std::string& str);
 
 /// @brief Returns the lowercase version of \b str
-std::string lower(const std::string& str);
+std::string lower(const std::string& a);
 
 }  // namespace Exiv2::Internal
 

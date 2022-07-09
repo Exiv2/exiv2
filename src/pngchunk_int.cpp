@@ -318,31 +318,25 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 }  // PngChunk::parseChunkContent
 
 std::string PngChunk::makeMetadataChunk(const std::string& metadata, MetadataId type) {
-  std::string chunk;
   std::string rawProfile;
 
   switch (type) {
     case mdComment:
-      chunk = makeUtf8TxtChunk("Description", metadata, true);
-      break;
+      return makeUtf8TxtChunk("Description", metadata, true);
     case mdExif:
       rawProfile = writeRawProfile(metadata, "exif");
-      chunk = makeAsciiTxtChunk("Raw profile type exif", rawProfile, true);
-      break;
+      return makeAsciiTxtChunk("Raw profile type exif", rawProfile, true);
     case mdIptc:
       rawProfile = writeRawProfile(metadata, "iptc");
-      chunk = makeAsciiTxtChunk("Raw profile type iptc", rawProfile, true);
-      break;
+      return makeAsciiTxtChunk("Raw profile type iptc", rawProfile, true);
     case mdXmp:
-      chunk = makeUtf8TxtChunk("XML:com.adobe.xmp", metadata, false);
-      break;
+      return makeUtf8TxtChunk("XML:com.adobe.xmp", metadata, false);
     case mdIccProfile:
-      break;
     case mdNone:
-      break;
+      return {};
   }
 
-  return chunk;
+  return {};
 
 }  // PngChunk::makeMetadataChunk
 

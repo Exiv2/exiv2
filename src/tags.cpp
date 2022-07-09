@@ -302,7 +302,7 @@ std::string ExifKey::tagLabel() const {
 
 std::string ExifKey::tagDesc() const {
   if (!p_->tagInfo_ || p_->tagInfo_->tag_ == 0xffff)
-    return "";
+    return {};
   return _(p_->tagInfo_->desc_);
 }
 

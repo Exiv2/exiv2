@@ -59,15 +59,10 @@ class EXIV2API Xmpdatum : public Metadatum {
    */
   Xmpdatum& operator=(const std::string& value);
   /*!
-    @brief Assign const char* \em value to the %Xmpdatum.
-           Calls operator=(const std::string&).
-   */
-  Xmpdatum& operator=(const char* value);
-  /*!
     @brief Assign a boolean \em value to the %Xmpdatum.
            Translates the value to a string "true" or "false".
    */
-  Xmpdatum& operator=(const bool& value);
+  Xmpdatum& operator=(bool value);
   /*!
     @brief Assign a \em value of any type with an output operator
            to the %Xmpdatum. Calls operator=(const std::string&).
@@ -227,23 +222,23 @@ class EXIV2API XmpData {
   //! are we to use the packet?
   [[nodiscard]] bool usePacket() const {
     return usePacket_;
-  };
+  }
 
   //! set usePacket_
   bool usePacket(bool b) {
     bool r = usePacket_;
     usePacket_ = b;
     return r;
-  };
+  }
   //! setPacket
   void setPacket(std::string xmpPacket) {
     xmpPacket_ = std::move(xmpPacket);
     usePacket(false);
-  };
+  }
   // ! getPacket
   [[nodiscard]] const std::string& xmpPacket() const {
     return xmpPacket_;
-  };
+  }
 
   //@}
 
@@ -404,11 +399,7 @@ class EXIV2API XmpParser {
 // *****************************************************************************
 // free functions, template and inline definitions
 
-inline Xmpdatum& Xmpdatum::operator=(const char* value) {
-  return Xmpdatum::operator=(std::string(value));
-}
-
-inline Xmpdatum& Xmpdatum::operator=(const bool& value) {
+inline Xmpdatum& Xmpdatum::operator=(bool value) {
   return operator=(value ? "True" : "False");
 }
 
