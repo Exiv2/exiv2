@@ -259,19 +259,17 @@ void Uri::Decode(Uri& uri) {
 Uri Uri::Parse(const std::string& uri) {
   Uri result;
 
-  using iterator_t = std::string::const_iterator;
-
   if (!uri.length())
     return result;
 
-  iterator_t uriEnd = uri.end();
+  auto uriEnd = uri.end();
 
   // get query start
-  iterator_t queryStart = std::find(uri.begin(), uriEnd, '?');
+  auto queryStart = std::find(uri.begin(), uriEnd, '?');
 
   // protocol
-  iterator_t protocolStart = uri.begin();
-  iterator_t protocolEnd = std::find(protocolStart, uriEnd, ':');  //"://");
+  auto protocolStart = uri.begin();
+  auto protocolEnd = std::find(protocolStart, uriEnd, ':');  //"://");
 
   if (protocolEnd != uriEnd) {
     std::string prot = &*(protocolEnd);
@@ -284,11 +282,11 @@ Uri Uri::Parse(const std::string& uri) {
     protocolEnd = uri.begin();  // no protocol
 
   // username & password
-  iterator_t authStart = protocolEnd;
-  iterator_t authEnd = std::find(protocolEnd, uriEnd, '@');
+  auto authStart = protocolEnd;
+  auto authEnd = std::find(protocolEnd, uriEnd, '@');
   if (authEnd != uriEnd) {
-    iterator_t userStart = authStart;
-    iterator_t userEnd = std::find(authStart, authEnd, ':');
+    auto userStart = authStart;
+    auto userEnd = std::find(authStart, authEnd, ':');
     if (userEnd != authEnd) {
       result.Username = std::string(userStart, userEnd);
       ++userEnd;
@@ -302,11 +300,11 @@ Uri Uri::Parse(const std::string& uri) {
   }
 
   // host
-  iterator_t hostStart = authEnd;
-  iterator_t pathStart = std::find(hostStart, uriEnd, '/');  // get pathStart
+  auto hostStart = authEnd;
+  auto pathStart = std::find(hostStart, uriEnd, '/');  // get pathStart
 
-  iterator_t hostEnd = std::find(authEnd, (pathStart != uriEnd) ? pathStart : queryStart,
-                                 ':');  // check for port
+  auto hostEnd = std::find(authEnd, (pathStart != uriEnd) ? pathStart : queryStart,
+                           ':');  // check for port
 
   result.Host = std::string(hostStart, hostEnd);
 
@@ -314,7 +312,7 @@ Uri Uri::Parse(const std::string& uri) {
   if ((hostEnd != uriEnd) && ((&*(hostEnd))[0] == ':'))  // we have a port
   {
     ++hostEnd;
-    iterator_t portEnd = (pathStart != uriEnd) ? pathStart : queryStart;
+    auto portEnd = (pathStart != uriEnd) ? pathStart : queryStart;
     result.Port = std::string(hostEnd, portEnd);
   }
   if (!result.Port.length() && result.Protocol == "http")
