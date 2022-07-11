@@ -456,7 +456,7 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
   // composite tag on the stack or the tag to add is the MakerNote tag.
   // This is used to prevent duplicate entries. Sub-IFDs also, but the > 1
   // condition takes care of them, see below.
-  if (tiffPath.size() > 1 || (tpi.extendedTag() == 0x927c && tpi.group() == exifId)) {
+  if (tiffPath.size() > 1 || (tpi.extendedTag() == 0x927c && tpi.group() == IfdId::exifId)) {
     if (tpi.extendedTag() == Tag::next) {
       tc = pNext_;
     } else {
@@ -841,7 +841,7 @@ uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64
     return 0;
 
   // Remember the offset of the CR2 RAW IFD
-  if (group() == ifd3Id) {
+  if (group() == IfdId::ifd3Id) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Directory " << groupName(group()) << " offset is 0x" << std::setw(8) << std::setfill('0') << std::hex
               << offset << std::dec << "\n";
@@ -853,7 +853,7 @@ uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64
 
   // TIFF standard requires IFD entries to be sorted in ascending order by tag.
   // Not sorting makernote directories sometimes preserves them better.
-  if (group() < mnId) {
+  if (group() < IfdId::mnId) {
     std::sort(components_.begin(), components_.end(), cmpTagLt);
   }
   // Size of IFD values and additional data
@@ -1025,7 +1025,7 @@ uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int6
                                  uint32_t dataIdx, uint32_t& imageIdx) {
   uint32_t o2 = imageIdx;
   // For makernotes, write TIFF image data to the data area
-  if (group() > mnId)
+  if (group() > IfdId::mnId)
     o2 = static_cast<uint32_t>(offset + dataIdx);
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "TiffImageEntry, Directory " << groupName(group()) << ", entry 0x" << std::setw(4) << std::setfill('0')
@@ -1036,8 +1036,8 @@ uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int6
   for (auto&& strip : strips_) {
     idx += writeOffset(buf.data(idx), o2, tiffType(), byteOrder);
     o2 += strip.second;
-    o2 += strip.second & 1;   // Align strip data to word boundary
-    if (!(group() > mnId)) {  // Todo: FIX THIS!! SHOULDN'T USE >
+    o2 += strip.second & 1;          // Align strip data to word boundary
+    if (!(group() > IfdId::mnId)) {  // Todo: FIX THIS!! SHOULDN'T USE >
       imageIdx += strip.second;
       imageIdx += strip.second & 1;  // Align strip data to word boundary
     }
@@ -1172,7 +1172,7 @@ uint32_t TiffImageEntry::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, 
                                      uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) const {
   uint32_t len = 0;
   // For makernotes, write TIFF image data to the data area
-  if (group() > mnId) {  // Todo: FIX THIS HACK!!!
+  if (group() > IfdId::mnId) {  // Todo: FIX THIS HACK!!!
     len = writeImage(ioWrapper, byteOrder);
   }
   return len;
@@ -1404,7 +1404,7 @@ size_t TiffEntryBase::doSizeData() const {
 size_t TiffImageEntry::doSizeData() const {
   size_t len = 0;
   // For makernotes, TIFF image data is written to the data area
-  if (group() > mnId) {  // Todo: Fix this hack!!
+  if (group() > IfdId::mnId) {  // Todo: Fix this hack!!
     len = sizeImage();
   }
   return len;
@@ -1473,7 +1473,9 @@ size_t TiffImageEntry::doSizeImage() const {
 
 static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
   const TagInfo* result = nullptr;
-  const TagInfo* tags = group == exifId ? Internal::exifTagList() : group == gpsId ? Internal::gpsTagList() : nullptr;
+  const TagInfo* tags = group == IfdId::exifId  ? Internal::exifTagList()
+                        : group == IfdId::gpsId ? Internal::gpsTagList()
+                                                : nullptr;
   if (tags) {
     for (size_t idx = 0; !result && tags[idx].tag_ != 0xffff; ++idx) {
       if (tags[idx].tag_ == tag) {
@@ -1497,7 +1499,7 @@ TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group) {
   // http://dev.exiv2.org/boards/3/topics/1337 change unsignedByte to signedByte
   // Exif.NikonAFT.AFFineTuneAdj || Exif.Pentax.Temperature
   if (ti == Exiv2::unsignedByte) {
-    if ((tag == 0x0002 && group == nikonAFTId) || (tag == 0x0047 && group == pentaxId)) {
+    if ((tag == 0x0002 && group == IfdId::nikonAFTId) || (tag == 0x0047 && group == IfdId::pentaxId)) {
       ti = Exiv2::signedByte;
     }
   }
@@ -1530,7 +1532,7 @@ TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group) {
 }
 
 TiffComponent::UniquePtr newTiffMnEntry(uint16_t tag, IfdId group) {
-  return std::make_unique<TiffMnEntry>(tag, group, mnId);
+  return std::make_unique<TiffMnEntry>(tag, group, IfdId::mnId);
 }
 
 TiffComponent::UniquePtr newTiffBinaryElement(uint16_t tag, IfdId group) {

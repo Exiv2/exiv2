@@ -223,7 +223,7 @@ WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, Byte
 
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
-      panaRawId,
+      IfdId::panaRawId,
   };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES

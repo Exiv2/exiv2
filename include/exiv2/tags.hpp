@@ -30,25 +30,8 @@ using TagListFct = const TagInfo* (*)();
 // *****************************************************************************
 // class definitions
 
-//! The details of an Exif group. Groups include IFDs and binary arrays.
-struct EXIV2API GroupInfo {
-  struct GroupName;
-  bool operator==(int ifdId) const;                   //!< Comparison operator for IFD id
-  bool operator==(const GroupName& groupName) const;  //!< Comparison operator for group name
-  int ifdId_;                                         //!< IFD id
-  const char* ifdName_;                               //!< IFD name
-  const char* groupName_;                             //!< Group name, unique for each group.
-  TagListFct tagList_;                                //!< Tag list
-};
-
-//! Search key to find a GroupInfo by its group name.
-struct EXIV2API GroupInfo::GroupName {
-  explicit GroupName(std::string groupName);
-  std::string g_;  //!< Group name
-};
-
 //! Type to specify the IFD to which a metadata belongs
-enum IfdId {
+enum class IfdId : uint32_t {
   ifdIdNotSet,
   ifd0Id,
   ifd1Id,
@@ -192,11 +175,32 @@ enum IfdId {
   ignoreId = lastId
 };
 
+inline std::ostream& operator<<(std::ostream& os, IfdId id) {
+  return os << static_cast<int>(id);
+}
+
+//! The details of an Exif group. Groups include IFDs and binary arrays.
+struct EXIV2API GroupInfo {
+  struct GroupName;
+  bool operator==(IfdId ifdId) const;                 //!< Comparison operator for IFD id
+  bool operator==(const GroupName& groupName) const;  //!< Comparison operator for group name
+  IfdId ifdId_;                                       //!< IFD id
+  const char* ifdName_;                               //!< IFD name
+  const char* groupName_;                             //!< Group name, unique for each group.
+  TagListFct tagList_;                                //!< Tag list
+};
+
+//! Search key to find a GroupInfo by its group name.
+struct EXIV2API GroupInfo::GroupName {
+  explicit GroupName(std::string groupName);
+  std::string g_;  //!< Group name
+};
+
 /*!
   @brief Section identifiers to logically group tags. A section consists
          of nothing more than a name, based on the Exif standard.
  */
-enum SectionId {
+enum class SectionId {
   sectionIdNotSet,
   imgStruct,     // 4.6.4 A
   recOffset,     // 4.6.4 B
@@ -330,8 +334,8 @@ class EXIV2API ExifKey : public Key {
   [[nodiscard]] std::string key() const override;
   [[nodiscard]] const char* familyName() const override;
   [[nodiscard]] std::string groupName() const override;
-  //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
-  [[nodiscard]] int ifdId() const;
+  //! Return the IFD id. (Do not use, this is meant for library internal use.)
+  [[nodiscard]] IfdId ifdId() const;
   [[nodiscard]] std::string tagName() const override;
   [[nodiscard]] uint16_t tag() const override;
   [[nodiscard]] std::string tagLabel() const override;

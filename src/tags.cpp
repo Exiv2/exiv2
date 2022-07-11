@@ -20,28 +20,28 @@ using namespace Internal;
 
 //! List of all defined Exif sections.
 constexpr auto sectionInfo = std::array{
-    SectionInfo(sectionIdNotSet, "(UnknownSection)", N_("Unknown section")),
-    SectionInfo(imgStruct, "ImageStructure", N_("Image data structure")),
-    SectionInfo(recOffset, "RecordingOffset", N_("Recording offset")),
-    SectionInfo(imgCharacter, "ImageCharacteristics", N_("Image data characteristics")),
-    SectionInfo(otherTags, "OtherTags", N_("Other data")),
-    SectionInfo(exifFormat, "ExifFormat", N_("Exif data structure")),
-    SectionInfo(exifVersion, "ExifVersion", N_("Exif version")),
-    SectionInfo(imgConfig, "ImageConfig", N_("Image configuration")),
-    SectionInfo(userInfo, "UserInfo", N_("User information")),
-    SectionInfo(relatedFile, "RelatedFile", N_("Related file")),
-    SectionInfo(dateTime, "DateTime", N_("Date and time")),
-    SectionInfo(captureCond, "CaptureConditions", N_("Picture taking conditions")),
-    SectionInfo(gpsTags, "GPS", N_("GPS information")),
-    SectionInfo(iopTags, "Interoperability", N_("Interoperability information")),
-    SectionInfo(mpfTags, "MPF", N_("CIPA Multi-Picture Format")),
-    SectionInfo(makerTags, "Makernote", N_("Vendor specific information")),
-    SectionInfo(dngTags, "DngTags", N_("Adobe DNG tags")),
-    SectionInfo(panaRaw, "PanasonicRaw", N_("Panasonic RAW tags")),
-    SectionInfo(tiffEp, "TIFF/EP", N_("TIFF/EP tags")),
-    SectionInfo(tiffPm6, "TIFF&PM6", N_("TIFF PageMaker 6.0 tags")),
-    SectionInfo(adobeOpi, "AdobeOPI", N_("Adobe OPI tags")),
-    SectionInfo(lastSectionId, "(LastSection)", N_("Last section")),
+    SectionInfo(SectionId::sectionIdNotSet, "(UnknownSection)", N_("Unknown section")),
+    SectionInfo(SectionId::imgStruct, "ImageStructure", N_("Image data structure")),
+    SectionInfo(SectionId::recOffset, "RecordingOffset", N_("Recording offset")),
+    SectionInfo(SectionId::imgCharacter, "ImageCharacteristics", N_("Image data characteristics")),
+    SectionInfo(SectionId::otherTags, "OtherTags", N_("Other data")),
+    SectionInfo(SectionId::exifFormat, "ExifFormat", N_("Exif data structure")),
+    SectionInfo(SectionId::exifVersion, "ExifVersion", N_("Exif version")),
+    SectionInfo(SectionId::imgConfig, "ImageConfig", N_("Image configuration")),
+    SectionInfo(SectionId::userInfo, "UserInfo", N_("User information")),
+    SectionInfo(SectionId::relatedFile, "RelatedFile", N_("Related file")),
+    SectionInfo(SectionId::dateTime, "DateTime", N_("Date and time")),
+    SectionInfo(SectionId::captureCond, "CaptureConditions", N_("Picture taking conditions")),
+    SectionInfo(SectionId::gpsTags, "GPS", N_("GPS information")),
+    SectionInfo(SectionId::iopTags, "Interoperability", N_("Interoperability information")),
+    SectionInfo(SectionId::mpfTags, "MPF", N_("CIPA Multi-Picture Format")),
+    SectionInfo(SectionId::makerTags, "Makernote", N_("Vendor specific information")),
+    SectionInfo(SectionId::dngTags, "DngTags", N_("Adobe DNG tags")),
+    SectionInfo(SectionId::panaRaw, "PanasonicRaw", N_("Panasonic RAW tags")),
+    SectionInfo(SectionId::tiffEp, "TIFF/EP", N_("TIFF/EP tags")),
+    SectionInfo(SectionId::tiffPm6, "TIFF&PM6", N_("TIFF PageMaker 6.0 tags")),
+    SectionInfo(SectionId::adobeOpi, "AdobeOPI", N_("Adobe OPI tags")),
+    SectionInfo(SectionId::lastSectionId, "(LastSection)", N_("Last section")),
 };
 
 }  // namespace Exiv2
@@ -54,8 +54,14 @@ bool TagVocabulary::operator==(const std::string& key) const {
 }
 
 // Unknown Tag
-static const TagInfo unknownTag{0xffff,      "Unknown tag",   N_("Unknown tag"), N_("Unknown tag"),
-                                ifdIdNotSet, sectionIdNotSet, asciiString,       -1,
+static const TagInfo unknownTag{0xffff,
+                                "Unknown tag",
+                                N_("Unknown tag"),
+                                N_("Unknown tag"),
+                                IfdId::ifdIdNotSet,
+                                SectionId::sectionIdNotSet,
+                                asciiString,
+                                -1,
                                 printValue};
 
 }  // namespace Exiv2::Internal
@@ -66,7 +72,7 @@ GroupInfo::GroupName::GroupName(std::string groupName) : g_(std::move(groupName)
 }
 //! @endcond
 
-bool GroupInfo::operator==(int ifdId) const {
+bool GroupInfo::operator==(IfdId ifdId) const {
   return ifdId_ == ifdId;
 }
 
@@ -77,8 +83,8 @@ bool GroupInfo::operator==(const GroupName& groupName) const {
 const char* ExifTags::sectionName(const ExifKey& key) {
   const TagInfo* ti = tagInfo(key.tag(), static_cast<IfdId>(key.ifdId()));
   if (!ti)
-    return sectionInfo[unknownTag.sectionId_].name_;
-  return sectionInfo[ti->sectionId_].name_;
+    return sectionInfo[static_cast<int>(unknownTag.sectionId_)].name_;
+  return sectionInfo[static_cast<int>(ti->sectionId_)].name_;
 }
 
 /// \todo not used internally. At least we should test it
@@ -169,12 +175,12 @@ struct ExifKey::Impl {
   // DATA
   static constexpr auto familyName_ = "Exif";  //!< "Exif"
 
-  const TagInfo* tagInfo_{};  //!< Tag info
-  uint16_t tag_{0};           //!< Tag value
-  IfdId ifdId_{ifdIdNotSet};  //!< The IFD associated with this tag
-  int idx_{0};                //!< Unique id of the Exif key in the image
-  std::string groupName_;     //!< The group name
-  std::string key_;           //!< %Key
+  const TagInfo* tagInfo_{};         //!< Tag info
+  uint16_t tag_{0};                  //!< Tag value
+  IfdId ifdId_{IfdId::ifdIdNotSet};  //!< The IFD associated with this tag
+  int idx_{0};                       //!< Unique id of the Exif key in the image
+  std::string groupName_;            //!< The group name
+  std::string key_;                  //!< %Key
 };
 
 std::string ExifKey::Impl::tagName() const {
@@ -208,7 +214,7 @@ void ExifKey::Impl::decomposeKey(const std::string& key) {
 
   // Find IfdId
   IfdId ifdId = groupId(groupName);
-  if (ifdId == ifdIdNotSet)
+  if (ifdId == IfdId::ifdIdNotSet)
     throw Error(ErrorCode::kerInvalidKey, key);
   if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
     throw Error(ErrorCode::kerInvalidKey, key);
@@ -324,7 +330,7 @@ ExifKey* ExifKey::clone_() const {
   return new ExifKey(*this);
 }
 
-int ExifKey::ifdId() const {
+IfdId ExifKey::ifdId() const {
   return p_->ifdId_;
 }
 
