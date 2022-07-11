@@ -283,14 +283,16 @@ void Params::help(std::ostream& os) const {
      << _("             X : Extract \"raw\" XMP\n")
      << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
      << _("             E : Exif tags\n") << _("             I : IPTC tags\n") << _("             X : XMP tags\n")
-     << _("             x : Tag number (Exif and IPTC only)\n")
+     << _("             x : Tag number for Exif or IPTC tags (in hexadecimal)\n")
      << _("             g : Group name (e.g. Exif.Photo.UserComment, Photo)\n")
      << _("             k : Key (e.g. Exif.Photo.UserComment)\n")
      << _("             l : Tag label (e.g. Exif.Photo.UserComment, 'User comment')\n")
+     << _("             d : Tag description\n")
      << _("             n : Tag name (e.g. Exif.Photo.UserComment, UserComment)\n") << _("             y : Type\n")
-     << _("             c : Number of components (count)\n")
-     << _("             s : Size in bytes (Ascii and Comment types include NULL)\n")
-     << _("             v : Plain data value, untranslated (vanilla)\n")
+     << _("             y : Type\n") << _("             c : Number of components (count)\n")
+     << _("             s : Size in bytes of vanilla value (may include NULL)\n")
+     << _("             v : Plain data value of untranslated (vanilla)\n")
+     << _("             V : Plain data value, data type and the word 'set'\n")
      << _("             t : Interpreted (translated) human readable values\n")
      << _("             h : Hex dump of the data\n")
      << _("   -d tgt1  Delete target(s) for the 'delete' action. Possible targets are:\n")
@@ -719,6 +721,9 @@ int Params::evalPrintFlags(const std::string& optArg) {
             break;
           case 'V':
             printItems_ |= prSet | prKey | prType | prValue;
+            break;
+          case 'd':
+            printItems_ |= prDesc;
             break;
           default:
             std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << i << "'\n";

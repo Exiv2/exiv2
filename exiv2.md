@@ -566,34 +566,33 @@ as well as data columns included in the print output. Valid flags are:
 | g      | Group name (e.g., for Exif.Photo.UserComment, outputs Photo)                |
 | k      | Key (e.g., Exif.Photo.UserComment)                                          |
 | l      | Tag label (human-readable tagname, e.g., for Exif.Photo.UserComment, outputs 'User comment') |
-| n      | Tagname (e.g., for Exif.Photo.UserComment, outputs UserComment)             |
+| d      | Tag description                                                             |
+| n      | Tag name (e.g., for Exif.Photo.UserComment, outputs UserComment)             |
 | y      | Type (for available types, see [Exif/IPTC/XMP types](#exiv2_types))         |
 | c      | Number of components (for single entry types, the number of **sizeof('type')** in 'size'. For multi-entry types, the number of entries. See [Exif/IPTC/XMP types](#exiv2_types)) |
 | s      | Size in bytes of vanilla output (see note in [Exif 'Comment' values](#exif_comment_values)). Some types include a *NULL* character in the size (see [Exif/IPTC/XMP types](#exiv2_types)) |
 | v      | Plain data value (vanilla values, i.e., untranslated)                       |
-| V      | Plain data value, data type and the word 'set ' (see ['MODIFY' COMMANDS](#modify_cmds))|
+| V      | Plain data value, data type and the word 'set' (see ['MODIFY' COMMANDS](#modify_cmds))|
 | t      | Interpreted (translated) human-readable data values (includes plain vanilla values) |
 | h      | Hex dump of the data                                                        |
 
-<div id="Print_flgs_order">
-
-The order of the values in *flgs* is not respected. For example, the order 
-of the columns, using some tags from *Stonehenge.jpg*, is as follows:
-
-```
-$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
-$ exiv2 --Print xgknlycst Stonehenge.jpg
-```
-
-| Tag number<br>(x) | Plain 'set'<br>(V) | Group<br>(g) | Key<br>(k)                 | Tagname<br>(n) | Tagname label<br>(l) | Type<br>(y) | Comp<br>(c) | Size<br>(s) | Value<br>(E, I, X, v, t) | Translated<br>(t) |
-|:------            |:----               |:------       |:------                     |:------         |:------               |:------      |:------      |:------      |:------                   |:------           |
-| 0x0110            | set                | Image        | Exif.Image.Model           | Model          | Model                | Ascii       | 12          | 12          | NIKON D5300              | NIKON D5300      |
-| 0x0006            | set                | NikonIi      | Exif.NikonIi.ISO2          | ISO2           | ISO 2                | Byte        | 1           | 1           | 72                       | 200              |
-| 0x0000            | set                | xmp          | Xmp.xmp.Rating             | Rating         | Rating               | XmpText     | 1           | 1           | 0                        | 0                |
-| 0x0000            | set                | dc           | Xmp.dc.Family              | Family         | Family               | XmpBag      | 1           | 5           | Robin                    | Robin            |
-
 **--Print** *flgs* can be combined with [--grep str](#grep_str) or 
 [--key key](#key_key) to further filter the output.
+
+<div id="Print_flgs_order">
+
+The order of the values in *flgs* is not respected and is output as follows:
+
+| Tag number<br>(x) | Plain 'set'<br>(V) | Group<br>(g) | Key<br>(k) | Tagname<br>(n) | Tagname label<br>(l) |Description<br>(d) | Type<br>(y) | Comp<br>(c) | Size<br>(s) | Value<br>(v) | Translated<br>(t) |
+|:------            |:----               |:------       |:------     |:------         |:------               |:------            |:------      |:------      |:------      |:---          |:------            |
+
+For example,
+
+```bash
+$ curl --silent -O https://www.exiv2.org/Stonehenge.jpg
+$ exiv2 --Print xVgknldycsvt -K Exif.Nikon3.Quality Stonehenge.jpg
+0x0004 set Nikon3       Exif.Nikon3.Quality                          Quality                     Quality                        Image quality setting          Ascii       8   8  NORMAL   NORMAL
+```
 
 <div id="delete_tgt1">
 
