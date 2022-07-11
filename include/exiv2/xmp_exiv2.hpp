@@ -108,6 +108,7 @@ class EXIV2API Xmpdatum : public Metadatum {
   //! Return the property name.
   [[nodiscard]] std::string tagName() const override;
   [[nodiscard]] std::string tagLabel() const override;
+  [[nodiscard]] std::string tagDesc() const override;
   //! Properties don't have a tag number. Return 0.
   [[nodiscard]] uint16_t tag() const override;
   [[nodiscard]] TypeId typeId() const override;

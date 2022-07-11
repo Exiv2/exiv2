@@ -161,8 +161,7 @@ class EXIV2API ExifKey : public Key {
   [[nodiscard]] std::string tagName() const override;
   [[nodiscard]] uint16_t tag() const override;
   [[nodiscard]] std::string tagLabel() const override;
-  //! Return the tag description.
-  [[nodiscard]] std::string tagDesc() const;  // Todo: should be in the base class
+  [[nodiscard]] std::string tagDesc() const;
   //! Return the default type id for this tag.
   [[nodiscard]] TypeId defaultTypeId() const;  // Todo: should be in the base class
 

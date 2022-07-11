@@ -101,6 +101,10 @@ std::string Iptcdatum::tagLabel() const {
   return key_ ? key_->tagLabel() : "";
 }
 
+std::string Iptcdatum::tagDesc() const {
+  return key_ ? key_->tagDesc() : "";
+}
+
 uint16_t Iptcdatum::tag() const {
   return key_ ? key_->tag() : 0;
 }

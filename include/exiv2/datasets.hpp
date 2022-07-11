@@ -280,6 +280,7 @@ class EXIV2API IptcKey : public Key {
   [[nodiscard]] std::string groupName() const override;
   [[nodiscard]] std::string tagName() const override;
   [[nodiscard]] std::string tagLabel() const override;
+  [[nodiscard]] std::string tagDesc() const override;
   [[nodiscard]] uint16_t tag() const override;
   [[nodiscard]] UniquePtr clone() const;
   //! Return the name of the record

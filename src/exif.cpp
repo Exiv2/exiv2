@@ -292,6 +292,10 @@ std::string Exifdatum::tagLabel() const {
   return key_ ? key_->tagLabel() : "";
 }
 
+std::string Exifdatum::tagDesc() const {
+  return key_ ? key_->tagDesc() : "";
+}
+
 uint16_t Exifdatum::tag() const {
   return key_ ? key_->tag() : 0xffff;
 }
