@@ -326,6 +326,10 @@ std::string Xmpdatum::tagLabel() const {
   return p_->key_ ? p_->key_->tagLabel() : "";
 }
 
+std::string Xmpdatum::tagDesc() const {
+  return p_->key_ ? p_->key_->tagDesc() : "";
+}
+
 uint16_t Xmpdatum::tag() const {
   return p_->key_ ? p_->key_->tag() : 0;
 }

@@ -5139,6 +5139,13 @@ std::string XmpKey::tagLabel() const {
   return pt;
 }
 
+std::string XmpKey::tagDesc() const {
+  const char* pt = XmpProperties::propertyDesc(*this);
+  if (!pt)
+    return "";
+  return pt;
+}
+
 uint16_t XmpKey::tag() const {
   return 0;
 }

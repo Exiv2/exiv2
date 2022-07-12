@@ -151,7 +151,8 @@ class Params : public Util::Getopt {
     prValue = 256,
     prTrans = 512,
     prHex = 1024,
-    prSet = 2048
+    prSet = 2048,
+    prDesc = 4096
   };
 
   //! Enumerates common targets, bitmap

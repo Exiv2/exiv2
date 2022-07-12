@@ -498,6 +498,12 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
     first = false;
     std::cout << std::setw(30) << std::setfill(' ') << std::left << md.tagLabel();
   }
+  if (Params::instance().printItems_ & Params::prDesc) {
+    if (!first)
+      std::cout << " ";
+    first = false;
+    std::cout << std::setw(30) << std::setfill(' ') << std::left << md.tagDesc();
+  }
   if (Params::instance().printItems_ & Params::prType) {
     if (!first)
       std::cout << " ";

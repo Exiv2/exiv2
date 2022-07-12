@@ -113,6 +113,7 @@ class EXIV2API Iptcdatum : public Metadatum {
    */
   [[nodiscard]] std::string tagName() const override;
   [[nodiscard]] std::string tagLabel() const override;
+  [[nodiscard]] std::string tagDesc() const override;
   //! Return the tag (aka dataset) number
   [[nodiscard]] uint16_t tag() const override;
   [[nodiscard]] TypeId typeId() const override;
