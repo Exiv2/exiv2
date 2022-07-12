@@ -655,7 +655,7 @@ class TiffReader : public TiffVisitor {
 
  private:
   using DirList = std::map<const byte*, IfdId>;
-  using IdxSeq = std::map<uint16_t, int>;
+  using IdxSeq = std::map<IfdId, int>;
   using PostList = std::vector<TiffComponent*>;
 
   // DATA

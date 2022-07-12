@@ -142,7 +142,7 @@ class EXIV2API Exifdatum : public Metadatum {
   [[nodiscard]] std::string tagLabel() const override;
   [[nodiscard]] uint16_t tag() const override;
   //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
-  [[nodiscard]] int ifdId() const;
+  [[nodiscard]] IfdId ifdId() const;
   //! Return the name of the IFD
   [[nodiscard]] const char* ifdName() const;
   //! Return the index (unique id of this key within the original IFD)

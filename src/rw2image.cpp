@@ -122,7 +122,7 @@ void Rw2Image::readMetadata() {
   if (!prevData.empty()) {
     // Filter duplicate tags
     for (auto&& pos : exifData_) {
-      if (pos.ifdId() == panaRawId)
+      if (pos.ifdId() == IfdId::panaRawId)
         continue;
       auto dup = prevData.findKey(ExifKey(pos.key()));
       if (dup != prevData.end()) {

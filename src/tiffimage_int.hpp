@@ -393,7 +393,7 @@ class OffsetWriter {
 class FindExifdatum {
  public:
   //! Constructor, initializes the object with the IfdId to look for.
-  explicit FindExifdatum(Exiv2::Internal::IfdId ifdId) : ifdId_(ifdId) {
+  explicit FindExifdatum(Exiv2::IfdId ifdId) : ifdId_(ifdId) {
   }
   //! Returns true if IFD id matches.
   bool operator()(const Exiv2::Exifdatum& md) const {
@@ -401,7 +401,7 @@ class FindExifdatum {
   }
 
  private:
-  Exiv2::Internal::IfdId ifdId_;
+  Exiv2::IfdId ifdId_;
 
 };  // class FindExifdatum
 
