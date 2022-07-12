@@ -3,8 +3,9 @@
 import system_tests
 
 class TestExifIPTCXmpTagOutput(metaclass=system_tests.CaseMeta):
-    url = "https://github.com/Exiv2/exiv2/pull/2069"
+    url = "https://github.com/Exiv2/exiv2/pull/2279"
     
+    # Test the exiv2 application's `--Print` command
     filename = "$data_path/Stonehenge.exv"
     commands = ["$exiv2 --Print xVgknldycsvt --key Exif.Image.Model $filename",
                 "$exiv2 --Print xVgknldycsvt --key Iptc.Application2.Caption $filename",
