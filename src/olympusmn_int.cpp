@@ -433,12 +433,8 @@ constexpr TagDetails artFilters[] = {
 //! OlympusCs Quality, tag 0x0603
 constexpr TagDetails olympusCsQuality[] = {{1, N_("SQ")}, {2, N_("HQ")}, {3, N_("SHQ")}, {4, N_("RAW")}};
 
-//! Olympus ImageStabilization, tag 0x0604 - Generic labels
-constexpr TagDetails olympusImageStabilization[] = {
-    {0, N_("Off")}, {1, N_("On, Mode 1")}, {2, N_("On, Mode 2")}, {3, N_("On, Mode 3")}, {4, N_("On, Mode 4")}};
-
-//! Olympus ImageStabilization, tag 0x0604 - Group 1 labels
-static constexpr TagDetails olympusImageStabilization1[] = {
+//! Olympus ImageStabilization, tag 0x0604
+static constexpr TagDetails olympusImageStabilization[] = {
     {0, N_("Off")}, {1, N_("S-IS 1")}, {2, N_("S-IS 2")}, {3, N_("S-IS 3")}, {4, N_("S-IS AUTO")}};
 
 constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
@@ -534,7 +530,7 @@ constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
     {0x0603, "Quality", N_("Image Quality 2"), N_("Image quality 2"), olympusCsId, makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(olympusCsQuality)},
     {0x0604, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), olympusCsId, makerTags,
-     unsignedLong, -1, print0x0604},
+     unsignedLong, -1, EXV_PRINT_TAG(olympusImageStabilization)},
     {0x0900, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), olympusCsId, makerTags,
      unsignedShort, -1, printValue},
     {0x0901, "ManometerReading", N_("Manometer Reading"), N_("Manometer reading"), olympusCsId, makerTags, signedLong,
@@ -1453,28 +1449,6 @@ std::ostream& OlympusMakerNote::print0x0529(std::ostream& os, const Value& value
 
   return os;
 }  // OlympusMakerNote::print0x0529
-
-//! OlympusCs ArtFilter, tag 0x0604, OlympusCs ImageStabilization
-std::ostream& OlympusMakerNote::print0x0604(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedLong) {
-    return os << "(" << value << ")";
-  }
-
-  const auto v0 = value.toInt64(0);
-
-  if (metadata) {
-    const auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-    if (pos != metadata->end() && pos->count() != 0) {
-      const auto model = pos->toString();
-      if (model.find("E-M10MarkII") != std::string::npos) {
-        printTag<std::size(olympusImageStabilization1), olympusImageStabilization1>(os, v0, metadata);
-        return os;
-      }
-    }
-  }
-  printTag<std::size(olympusImageStabilization), olympusImageStabilization>(os, v0, metadata);
-  return os;
-}  // OlympusMakerNote::print0x0604
 
 // Olympus FocusInfo tag 0x1209 ManualFlash
 std::ostream& OlympusMakerNote::print0x1209(std::ostream& os, const Value& value, const ExifData*) {
