@@ -536,6 +536,7 @@ constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
     {0x0604, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), IfdId::olympusCsId, SectionId::makerTags,
      unsignedLong, -1, EXV_PRINT_TAG(olympusImageStabilization)},
     {0x0900, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), IfdId::olympusCsId, SectionId::makerTags,
+     unsignedShort, -1, printValue},
     {0x0307, "AFFineTuneAdj", N_("AF Fine Tune Adjust"), N_("AF fine tune adjust"), IfdId::olympusCsId,
      SectionId::makerTags, signedShort, -1, printValue},
     {0x0400, "FlashMode", N_("Flash Mode"), N_("Flash mode"), IfdId::olympusCsId, SectionId::makerTags, unsignedShort,
