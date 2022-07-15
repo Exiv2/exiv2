@@ -31,8 +31,8 @@ std::ostream& printVersion(std::ostream& os, const std::string& str) {
   if (str.size() != 4) {
     return os << "(" << str << ")";
   }
-  if (str[0] != '0')
-    os << str[0];
+  if (str.front() != '0')
+    os << str.front();
   return os << str[1] << "." << str[2] << str[3];
 }
 }  // namespace

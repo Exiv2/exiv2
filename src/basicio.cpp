@@ -1467,7 +1467,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
 
   // standardize the path without "/" at the beginning.
   std::size_t protocolIndex = scriptPath.find("://");
-  if (protocolIndex == std::string::npos && scriptPath[0] != '/') {
+  if (protocolIndex == std::string::npos && scriptPath.front() != '/') {
     scriptPath = "/" + scriptPath;
   }
 
@@ -1657,7 +1657,7 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   // add the protocol and host to the path
   std::size_t protocolIndex = scriptPath.find("://");
   if (protocolIndex == std::string::npos) {
-    if (scriptPath[0] != '/')
+    if (scriptPath.front() != '/')
       scriptPath = "/" + scriptPath;
     scriptPath = hostInfo.Protocol + "://" + hostInfo.Host + scriptPath;
   }

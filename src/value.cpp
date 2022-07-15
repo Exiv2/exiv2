@@ -323,7 +323,7 @@ int CommentValue::read(const std::string& comment) {
     const std::string::size_type pos = comment.find_first_of(' ');
     std::string name = comment.substr(8, pos - 8);
     // Strip quotes (so you can also specify the charset without quotes)
-    if (!name.empty() && name[0] == '"')
+    if (!name.empty() && name.front() == '"')
       name = name.substr(1);
     if (!name.empty() && name[name.length() - 1] == '"')
       name = name.substr(0, name.length() - 1);
@@ -499,7 +499,7 @@ int XmpTextValue::read(const std::string& buf) {
     std::string::size_type pos = buf.find_first_of(' ');
     type = buf.substr(5, pos - 5);
     // Strip quotes (so you can also specify the type without quotes)
-    if (!type.empty() && type[0] == '"')
+    if (!type.empty() && type.front() == '"')
       type = type.substr(1);
     if (!type.empty() && type[type.length() - 1] == '"')
       type = type.substr(0, type.length() - 1);
@@ -662,7 +662,7 @@ int LangAltValue::read(const std::string& buf) {
     if (lang.empty())
       throw Error(ErrorCode::kerInvalidLangAltValue, buf);
     // Strip quotes (so you can also specify the language without quotes)
-    if (lang[0] == '"') {
+    if (lang.front() == '"') {
       lang = lang.substr(1);
 
       if (lang.empty() || lang.find('"') != lang.length() - 1)

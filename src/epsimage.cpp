@@ -475,7 +475,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #endif
     // implicit comments
     if (line == "%%EOF" || line == "%begin_xml_code" ||
-        !(line.size() >= 2 && line[0] == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
+        !(line.size() >= 2 && line.front() == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
       if (posEndComments == posEndEps) {
         posEndComments = startPos;
 #ifdef DEBUG
@@ -492,20 +492,21 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #endif
     }
     if (posBeginPageSetup == posEndEps &&
-        (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && !line.empty() && line[0] != '%'))) {
+        (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && !line.empty() && line.front() != '%'))) {
       posBeginPageSetup = startPos;
       implicitPageSetup = true;
 #ifdef DEBUG
       EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup at position: " << startPos << "\n";
 #endif
     }
-    if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && !line.empty() && line[0] != '%') {
+    if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && !line.empty() &&
+        line.front() != '%') {
       posEndPageSetup = startPos;
 #ifdef DEBUG
       EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
 #endif
     }
-    if (!line.empty() && line[0] != '%')
+    if (!line.empty() && line.front() != '%')
       continue;  // performance optimization
     if (line == "%%EOF" || line == "%%Trailer" || line == "%%PageTrailer") {
       if (posBeginPageSetup == posEndEps) {
