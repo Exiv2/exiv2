@@ -120,7 +120,7 @@ const TiffMnRegistry TiffMnCreator::registry_[] = {
 
 bool TiffMnRegistry::operator==(const std::string& key) const {
   std::string make(make_);
-  if (!key.empty() && key[0] == '-')
+  if (!key.empty() && key.front() == '-')
     return false;
   return make == key.substr(0, make.length());
 }
