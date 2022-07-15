@@ -2,13 +2,12 @@
 
 #include <algorithm>
 #include <cctype>
-#include <iterator>
 
 namespace Exiv2::Internal {
 
 std::string upper(const std::string& str) {
-  std::string result;
-  std::transform(str.begin(), str.end(), std::back_inserter(result), ::toupper);
+  std::string result = str;
+  std::transform(str.begin(), str.end(), result.begin(), ::toupper);
   return result;
 }
 
