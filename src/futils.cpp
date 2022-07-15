@@ -272,7 +272,7 @@ Uri Uri::Parse(const std::string& uri) {
   auto protocolEnd = std::find(protocolStart, uriEnd, ':');  //"://");
 
   if (protocolEnd != uriEnd) {
-    std::string prot = &*(protocolEnd);
+    auto prot = std::string(protocolEnd, uriEnd);
     if ((prot.length() > 3) && (prot.substr(0, 3) == "://")) {
       result.Protocol = std::string(protocolStart, protocolEnd);
       protocolEnd += 3;  //      ://
@@ -309,7 +309,7 @@ Uri Uri::Parse(const std::string& uri) {
   result.Host = std::string(hostStart, hostEnd);
 
   // port
-  if ((hostEnd != uriEnd) && ((&*(hostEnd))[0] == ':'))  // we have a port
+  if ((hostEnd != uriEnd) && (*hostEnd == ':'))  // we have a port
   {
     ++hostEnd;
     auto portEnd = (pathStart != uriEnd) ? pathStart : queryStart;
