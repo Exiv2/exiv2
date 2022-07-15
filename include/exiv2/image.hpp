@@ -467,8 +467,8 @@ class EXIV2API Image {
   DataBuf iccProfile_;                //!< ICC buffer (binary data)
   std::string comment_;               //!< User comment
   std::string xmpPacket_;             //!< XMP packet
-  uint32_t pixelWidth_;               //!< image pixel width
-  uint32_t pixelHeight_;              //!< image pixel height
+  uint32_t pixelWidth_{0};            //!< image pixel width
+  uint32_t pixelHeight_{0};           //!< image pixel height
   NativePreviewList nativePreviews_;  //!< list of native previews
 
   //! Return tag name for given tag id.
@@ -479,13 +479,13 @@ class EXIV2API Image {
 
  private:
   // DATA
-  ImageType imageType_;         //!< Image type
-  uint16_t supportedMetadata_;  //!< Bitmap with all supported metadata types
-  bool writeXmpFromPacket_;     //!< Determines the source when writing XMP
-  ByteOrder byteOrder_;         //!< Byte order
+  ImageType imageType_;                    //!< Image type
+  uint16_t supportedMetadata_;             //!< Bitmap with all supported metadata types
+  bool writeXmpFromPacket_;                //!< Determines the source when writing XMP
+  ByteOrder byteOrder_{invalidByteOrder};  //!< Byte order
 
   std::map<int, std::string> tags_;  //!< Map of tags
-  bool init_;                        //!< Flag marking if map of tags needs to be initialized
+  bool init_{true};                  //!< Flag marking if map of tags needs to be initialized
 
 };  // class Image
 

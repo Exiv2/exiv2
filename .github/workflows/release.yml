@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install ninja-build gettext doxygen graphviz
-          pip3 install conan==1.45.0
+          pip3 install conan==1.48.1
 
       - name: Conan common config
         run: |
@@ -39,7 +39,7 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
+          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF
           cmake --build build -t doc
           cmake --build build -t package
 
@@ -105,20 +105,28 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: 3.9
+          python-version: 3.7
 
       - name: Install doxygen
         run: |
           choco install doxygen.install
           choco install graphviz
 
+      - name: Restore conan cache
+        uses: actions/cache@v2
+        with:
+            path: ${{github.workspace}}/conanCache
+            key: ${{runner.os}}-release-win-${{ hashFiles('conanfile.py') }}
+
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.45.0"
+          pip.exe install "conan==1.48.1"
           conan profile new --detect default
+          conan profile show default
           conan profile update settings.build_type=Release default
           conan profile update settings.compiler="Visual Studio" default
           conan profile update settings.compiler.version=17 default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
 
       - name: Run Conan
         run: |
@@ -128,9 +136,9 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_BUILD_DOC=ON
-          cmake --build build -t doc
-          cmake --build build -t package
+          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF
+          cmake --build build --parallel -t doc
+          cmake --build build --parallel -t package
 
       - uses: actions/upload-artifact@v3
         with:
@@ -178,14 +186,14 @@ jobs:
         with:
           script: |
             try{
-              const rel_id = await github.repos.getReleaseByTag({
+              const rel_id = await github.rest.repos.getReleaseByTag({
                 ...context.repo,
                 tag: "nightly"
               }).then(result => result.data.id);
 
               console.log( "Found existing nightly release with id: ", rel_id);
 
-              await github.repos.deleteRelease({
+              await github.rest.repos.deleteRelease({
                 ...context.repo,
                 release_id: rel_id
               });
@@ -197,7 +205,7 @@ jobs:
             }
 
             try{
-              await github.git.deleteRef({
+              await github.rest.git.deleteRef({
                 ...context.repo,
                 ref: "tags/nightly"
               });

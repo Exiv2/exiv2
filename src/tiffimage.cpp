@@ -39,7 +39,7 @@ namespace Exiv2 {
 using namespace Internal;
 
 TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)), pixelWidthPrimary_(0), pixelHeightPrimary_(0) {
+    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)) {
 }  // TiffImage::TiffImage
 
 //! Structure for TIFF compression to MIME type mappings
@@ -223,7 +223,7 @@ WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, Byte
 
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
-      panaRawId,
+      IfdId::panaRawId,
   };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES

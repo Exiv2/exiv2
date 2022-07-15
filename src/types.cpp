@@ -178,7 +178,8 @@ byte* Exiv2::DataBuf::data(size_t offset) {
 const byte* Exiv2::DataBuf::c_data(size_t offset) const {
   if (pData_.empty()) {
     return nullptr;
-  } else if (offset >= pData_.size()) {
+  }
+  if (offset >= pData_.size()) {
     throw std::out_of_range("Overflow in Exiv2::DataBuf::c_data");
   }
   return &pData_[offset];
@@ -332,26 +333,26 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
 
 long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(s & 0x00ff);
-    buf[1] = static_cast<byte>((s & 0xff00) >> 8);
+    buf[0] = static_cast<byte>(s & 0x00ffU);
+    buf[1] = static_cast<byte>((s & 0xff00U) >> 8);
   } else {
-    buf[0] = static_cast<byte>((s & 0xff00) >> 8);
-    buf[1] = static_cast<byte>(s & 0x00ff);
+    buf[0] = static_cast<byte>((s & 0xff00U) >> 8);
+    buf[1] = static_cast<byte>(s & 0x00ffU);
   }
   return 2;
 }
 
 long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(l & 0x000000ff);
-    buf[1] = static_cast<byte>((l & 0x0000ff00) >> 8);
-    buf[2] = static_cast<byte>((l & 0x00ff0000) >> 16);
-    buf[3] = static_cast<byte>((l & 0xff000000) >> 24);
+    buf[0] = static_cast<byte>(l & 0x000000ffU);
+    buf[1] = static_cast<byte>((l & 0x0000ff00U) >> 8);
+    buf[2] = static_cast<byte>((l & 0x00ff0000U) >> 16);
+    buf[3] = static_cast<byte>((l & 0xff000000U) >> 24);
   } else {
-    buf[0] = static_cast<byte>((l & 0xff000000) >> 24);
-    buf[1] = static_cast<byte>((l & 0x00ff0000) >> 16);
-    buf[2] = static_cast<byte>((l & 0x0000ff00) >> 8);
-    buf[3] = static_cast<byte>(l & 0x000000ff);
+    buf[0] = static_cast<byte>((l & 0xff000000U) >> 24);
+    buf[1] = static_cast<byte>((l & 0x00ff0000U) >> 16);
+    buf[2] = static_cast<byte>((l & 0x0000ff00U) >> 8);
+    buf[3] = static_cast<byte>(l & 0x000000ffU);
   }
   return 4;
 }
@@ -379,26 +380,26 @@ long ur2Data(byte* buf, URational l, ByteOrder byteOrder) {
 
 long s2Data(byte* buf, int16_t s, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(s & 0x00ff);
-    buf[1] = static_cast<byte>((s & 0xff00) >> 8);
+    buf[0] = static_cast<byte>(s & 0x00ffU);
+    buf[1] = static_cast<byte>((s & 0xff00U) >> 8);
   } else {
-    buf[0] = static_cast<byte>((s & 0xff00) >> 8);
-    buf[1] = static_cast<byte>(s & 0x00ff);
+    buf[0] = static_cast<byte>((s & 0xff00U) >> 8);
+    buf[1] = static_cast<byte>(s & 0x00ffU);
   }
   return 2;
 }
 
 long l2Data(byte* buf, int32_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(l & 0x000000ff);
-    buf[1] = static_cast<byte>((l & 0x0000ff00) >> 8);
-    buf[2] = static_cast<byte>((l & 0x00ff0000) >> 16);
-    buf[3] = static_cast<byte>((l & 0xff000000) >> 24);
+    buf[0] = static_cast<byte>(l & 0x000000ffU);
+    buf[1] = static_cast<byte>((l & 0x0000ff00U) >> 8);
+    buf[2] = static_cast<byte>((l & 0x00ff0000U) >> 16);
+    buf[3] = static_cast<byte>((l & 0xff000000U) >> 24);
   } else {
-    buf[0] = static_cast<byte>((l & 0xff000000) >> 24);
-    buf[1] = static_cast<byte>((l & 0x00ff0000) >> 16);
-    buf[2] = static_cast<byte>((l & 0x0000ff00) >> 8);
-    buf[3] = static_cast<byte>(l & 0x000000ff);
+    buf[0] = static_cast<byte>((l & 0xff000000U) >> 24);
+    buf[1] = static_cast<byte>((l & 0x00ff0000U) >> 16);
+    buf[2] = static_cast<byte>((l & 0x0000ff00U) >> 8);
+    buf[3] = static_cast<byte>(l & 0x000000ffU);
   }
   return 4;
 }

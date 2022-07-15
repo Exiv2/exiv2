@@ -85,10 +85,10 @@ class EXIV2API TiffImage : public Image {
   //@}
 
   // DATA
-  mutable std::string primaryGroup_;     //!< The primary group
-  mutable std::string mimeType_;         //!< The MIME type
-  mutable uint32_t pixelWidthPrimary_;   //!< Width of the primary image in pixels
-  mutable uint32_t pixelHeightPrimary_;  //!< Height of the primary image in pixels
+  mutable std::string primaryGroup_;        //!< The primary group
+  mutable std::string mimeType_;            //!< The MIME type
+  mutable uint32_t pixelWidthPrimary_{0};   //!< Width of the primary image in pixels
+  mutable uint32_t pixelHeightPrimary_{0};  //!< Height of the primary image in pixels
 
 };  // class TiffImage
 

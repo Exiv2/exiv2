@@ -122,7 +122,7 @@ class Params : public Util::Getopt {
   static Params& instance();
 
   //! Prevent copy-construction: not implemented.
-  ~Params() = default;
+  ~Params() override = default;
   Params(const Params&) = delete;
   Params& operator=(const Params&) = delete;
 
@@ -151,7 +151,8 @@ class Params : public Util::Getopt {
     prValue = 256,
     prTrans = 512,
     prHex = 1024,
-    prSet = 2048
+    prSet = 2048,
+    prDesc = 4096
   };
 
   //! Enumerates common targets, bitmap

@@ -8,6 +8,7 @@
 
 // included header files
 #include <mutex>
+
 #include "datasets.hpp"
 
 // *****************************************************************************
@@ -262,6 +263,7 @@ class EXIV2API XmpKey : public Key {
   [[nodiscard]] std::string groupName() const override;
   [[nodiscard]] std::string tagName() const override;
   [[nodiscard]] std::string tagLabel() const override;
+  [[nodiscard]] std::string tagDesc() const override;
   //! Properties don't have a tag number. Return 0.
   [[nodiscard]] uint16_t tag() const override;
 

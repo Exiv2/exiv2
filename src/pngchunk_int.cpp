@@ -318,31 +318,25 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 }  // PngChunk::parseChunkContent
 
 std::string PngChunk::makeMetadataChunk(const std::string& metadata, MetadataId type) {
-  std::string chunk;
   std::string rawProfile;
 
   switch (type) {
     case mdComment:
-      chunk = makeUtf8TxtChunk("Description", metadata, true);
-      break;
+      return makeUtf8TxtChunk("Description", metadata, true);
     case mdExif:
       rawProfile = writeRawProfile(metadata, "exif");
-      chunk = makeAsciiTxtChunk("Raw profile type exif", rawProfile, true);
-      break;
+      return makeAsciiTxtChunk("Raw profile type exif", rawProfile, true);
     case mdIptc:
       rawProfile = writeRawProfile(metadata, "iptc");
-      chunk = makeAsciiTxtChunk("Raw profile type iptc", rawProfile, true);
-      break;
+      return makeAsciiTxtChunk("Raw profile type iptc", rawProfile, true);
     case mdXmp:
-      chunk = makeUtf8TxtChunk("XML:com.adobe.xmp", metadata, false);
-      break;
+      return makeUtf8TxtChunk("XML:com.adobe.xmp", metadata, false);
     case mdIccProfile:
-      break;
     case mdNone:
-      break;
+      return {};
   }
 
-  return chunk;
+  return {};
 
 }  // PngChunk::makeMetadataChunk
 
@@ -595,12 +589,12 @@ std::string PngChunk::writeRawProfile(const std::string& profileData, const char
 
   std::ostringstream oss;
   oss << '\n' << profileType << '\n' << std::setw(8) << profileData.size();
-  const char* sp = profileData.data();
+  const byte* sp = reinterpret_cast<const byte*>(profileData.data());
   for (std::string::size_type i = 0; i < profileData.size(); ++i) {
     if (i % 36 == 0)
       oss << '\n';
-    oss << hex[((*sp >> 4) & 0x0f)];
-    oss << hex[((*sp++) & 0x0f)];
+    oss << hex[((*sp >> 4) & 0x0fU)];
+    oss << hex[((*sp++) & 0x0fU)];
   }
   oss << '\n';
   return oss.str();

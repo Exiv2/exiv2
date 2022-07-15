@@ -11,6 +11,7 @@
 #include "config.h"
 
 #include "basicio.hpp"
+#include "enforce.hpp"
 #include "epsimage.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -101,13 +102,8 @@ void writeTemp(BasicIo& tempIo, const std::string& data) {
 
 //! Get the current write position of temp file, taking care of errors
 uint32_t posTemp(const BasicIo& tempIo) {
-  const long pos = tempIo.tell();
-  if (pos == -1) {
-#ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "Internal error while determining current write position in temporary file.\n";
-#endif
-    throw Error(ErrorCode::kerImageWriteFailed);
-  }
+  const size_t pos = tempIo.tell();
+  enforce(pos <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerImageWriteFailed);
   return static_cast<uint32_t>(pos);
 }
 
@@ -1167,7 +1163,7 @@ bool isEpsType(BasicIo& iIo, bool advance) {
       bufSize = i.size();
     }
   }
-  const long restore = iIo.tell();  // save
+  const size_t restore = iIo.tell();  // save
   DataBuf buf = iIo.read(bufSize);
   if (iIo.error() || buf.size() != bufSize) {
     iIo.seek(restore, BasicIo::beg);

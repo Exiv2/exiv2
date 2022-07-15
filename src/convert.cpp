@@ -782,7 +782,7 @@ void Converter::cnvExifFlash(const char* from, const char* to) {
     return;
   if (!prepareXmpTarget(to))
     return;
-  auto value = pos->toInt64();
+  auto value = pos->toUint32();
   if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -1052,7 +1052,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   unsigned short value = 0;
 
   if (pos != xmpData_->end() && pos->count() > 0) {
-    auto fired = pos->toInt64();
+    auto fired = pos->toUint32();
     if (pos->value().ok())
       value |= fired & 1;
 #ifndef SUPPRESS_WARNINGS
@@ -1063,7 +1063,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   }
   pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Return"));
   if (pos != xmpData_->end() && pos->count() > 0) {
-    auto ret = pos->toInt64();
+    auto ret = pos->toUint32();
     if (pos->value().ok())
       value |= (ret & 3) << 1;
 #ifndef SUPPRESS_WARNINGS
@@ -1074,7 +1074,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   }
   pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Mode"));
   if (pos != xmpData_->end() && pos->count() > 0) {
-    auto mode = pos->toInt64();
+    auto mode = pos->toUint32();
     if (pos->value().ok())
       value |= (mode & 3) << 3;
 #ifndef SUPPRESS_WARNINGS
@@ -1085,7 +1085,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   }
   pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Function"));
   if (pos != xmpData_->end() && pos->count() > 0) {
-    auto function = pos->toInt64();
+    auto function = pos->toUint32();
     if (pos->value().ok())
       value |= (function & 1) << 5;
 #ifndef SUPPRESS_WARNINGS
@@ -1097,7 +1097,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
   pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
   if (pos != xmpData_->end()) {
     if (pos->count() > 0) {
-      auto red = pos->toInt64();
+      auto red = pos->toUint32();
       if (pos->value().ok())
         value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
@@ -1284,7 +1284,7 @@ std::string Converter::computeExifDigest(bool tiff) {
 }
 #else
 std::string Converter::computeExifDigest(bool) {
-  return std::string("");
+  return {};
 }
 #endif
 

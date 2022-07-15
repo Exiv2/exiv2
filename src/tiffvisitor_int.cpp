@@ -23,7 +23,7 @@ namespace {
 class FindExifdatum2 {
  public:
   //! Constructor, initializes the object with the group and index to look for.
-  FindExifdatum2(Exiv2::Internal::IfdId group, int idx) : groupName_(Exiv2::Internal::groupName(group)), idx_(idx) {
+  FindExifdatum2(Exiv2::IfdId group, int idx) : groupName_(Exiv2::Internal::groupName(group)), idx_(idx) {
   }
   //! Returns true if group and index match.
   bool operator()(const Exiv2::Exifdatum& md) const {
@@ -193,8 +193,7 @@ TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpDat
     iptcData_(iptcData),
     xmpData_(xmpData),
     pRoot_(pRoot),
-    findDecoderFct_(std::move(findDecoderFct)),
-    decodedIptc_(false) {
+    findDecoderFct_(std::move(findDecoderFct)) {
   // #1402 Fujifilm RAF. Search for the make
   // Find camera make in existing metadata (read from the JPEG)
   ExifKey key("Exif.Image.Make");
@@ -202,7 +201,7 @@ TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpDat
     make_ = exifData_.findKey(key)->toString();
   } else {
     // Find camera make by looking for tag 0x010f in IFD0
-    TiffFinder finder(0x010f, ifd0Id);
+    TiffFinder finder(0x010f, IfdId::ifd0Id);
     pRoot_->accept(finder);
     auto te = dynamic_cast<TiffEntryBase*>(finder.result());
     if (te && te->pValue()) {
@@ -276,7 +275,7 @@ void TiffDecoder::decodeXmp(const TiffEntryBase* object) {
 
   const byte* pData = nullptr;
   size_t size = 0;
-  getObjData(pData, size, 0x02bc, ifd0Id, object);
+  getObjData(pData, size, 0x02bc, IfdId::ifd0Id, object);
   if (pData) {
     std::string xmpPacket;
     xmpPacket.assign(reinterpret_cast<const char*>(pData), size);
@@ -309,7 +308,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
   // 1st choice: IPTCNAA
   const byte* pData = nullptr;
   size_t size = 0;
-  getObjData(pData, size, 0x83bb, ifd0Id, object);
+  getObjData(pData, size, 0x83bb, IfdId::ifd0Id, object);
   if (pData) {
     if (0 == IptcParser::decode(iptcData_, pData, size)) {
       return;
@@ -325,7 +324,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
   // ImageResources
   pData = nullptr;
   size = 0;
-  getObjData(pData, size, 0x8649, ifd0Id, object);
+  getObjData(pData, size, 0x8649, IfdId::ifd0Id, object);
   if (pData) {
     const byte* record = nullptr;
     uint32_t sizeHdr = 0;
@@ -454,15 +453,11 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
     exifData_(std::move(exifData)),
     iptcData_(iptcData),
     xmpData_(xmpData),
-    del_(true),
     pHeader_(pHeader),
     pRoot_(pRoot),
     isNewImage_(isNewImage),
     pPrimaryGroups_(pPrimaryGroups),
-    pSourceTree_(nullptr),
-    findEncoderFct_(std::move(findEncoderFct)),
-    dirty_(false),
-    writeMethod_(wmNonIntrusive) {
+    findEncoderFct_(std::move(findEncoderFct)) {
   byteOrder_ = pHeader->byteOrder();
   origByteOrder_ = byteOrder_;
 
@@ -476,7 +471,7 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
     make_ = pos->toString();
   }
   if (make_.empty() && pRoot_) {
-    TiffFinder finder(0x010f, ifd0Id);
+    TiffFinder finder(0x010f, IfdId::ifd0Id);
     pRoot_->accept(finder);
     auto te = dynamic_cast<TiffEntryBase*>(finder.result());
     if (te && te->pValue()) {
@@ -940,7 +935,7 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
   for (auto i = exifData_.begin(); i != exifData_.end(); ++i) {
     IfdId group = groupId(i->groupName());
     // Skip synthesized info tags
-    if (group == mnId) {
+    if (group == IfdId::mnId) {
       if (i->tag() == 0x0002) {
         posBo = i;
       }
@@ -978,7 +973,7 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
   if (posBo == exifData_.end())
     return;
 
-  TiffFinder finder(0x927c, exifId);
+  TiffFinder finder(0x927c, IfdId::exifId);
   pRootDir->accept(finder);
   auto te = dynamic_cast<TiffMnEntry*>(finder.result());
   if (te) {
@@ -994,13 +989,7 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
 }  // TiffEncoder::add
 
 TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state) :
-    pData_(pData),
-    size_(size),
-    pLast_(pData + size),
-    pRoot_(pRoot),
-    origState_(state),
-    mnState_(state),
-    postProc_(false) {
+    pData_(pData), size_(size), pLast_(pData + size), pRoot_(pRoot), origState_(state), mnState_(state) {
   pState_ = &origState_;
 
 }  // TiffReader::TiffReader
@@ -1169,7 +1158,7 @@ void TiffReader::visitSubIfd(TiffSubIfd* object) {
       object->count() >= 1) {
     // Todo: Fix hack
     uint32_t maxi = 9;
-    if (object->group() == ifd1Id)
+    if (object->group() == IfdId::ifd1Id)
       maxi = 1;
     for (uint32_t i = 0; i < object->count(); ++i) {
       uint32_t offset = getLong(object->pData() + 4 * i, byteOrder());
@@ -1188,7 +1177,8 @@ void TiffReader::visitSubIfd(TiffSubIfd* object) {
         break;
       }
       // If there are multiple dirs, group is incremented for each
-      auto td = std::make_unique<TiffDirectory>(object->tag(), static_cast<IfdId>(object->newGroup_ + i));
+      auto td = std::make_unique<TiffDirectory>(object->tag(),
+                                                static_cast<IfdId>(static_cast<uint32_t>(object->newGroup_) + i));
       td->setStart(pData_ + baseOffset() + offset);
       object->addChild(std::move(td));
     }
@@ -1205,7 +1195,7 @@ void TiffReader::visitSubIfd(TiffSubIfd* object) {
 void TiffReader::visitMnEntry(TiffMnEntry* object) {
   readTiffEntry(object);
   // Find camera make
-  TiffFinder finder(0x010f, ifd0Id);
+  TiffFinder finder(0x010f, IfdId::ifd0Id);
   pRoot_->accept(finder);
   auto te = dynamic_cast<TiffEntryBase*>(finder.result());
   std::string make;

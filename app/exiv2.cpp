@@ -283,14 +283,16 @@ void Params::help(std::ostream& os) const {
      << _("             X : Extract \"raw\" XMP\n")
      << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
      << _("             E : Exif tags\n") << _("             I : IPTC tags\n") << _("             X : XMP tags\n")
-     << _("             x : Tag number (Exif and IPTC only)\n")
+     << _("             x : Tag number for Exif or IPTC tags (in hexadecimal)\n")
      << _("             g : Group name (e.g. Exif.Photo.UserComment, Photo)\n")
      << _("             k : Key (e.g. Exif.Photo.UserComment)\n")
      << _("             l : Tag label (e.g. Exif.Photo.UserComment, 'User comment')\n")
+     << _("             d : Tag description\n")
      << _("             n : Tag name (e.g. Exif.Photo.UserComment, UserComment)\n") << _("             y : Type\n")
-     << _("             c : Number of components (count)\n")
-     << _("             s : Size in bytes (Ascii and Comment types include NULL)\n")
-     << _("             v : Plain data value, untranslated (vanilla)\n")
+     << _("             y : Type\n") << _("             c : Number of components (count)\n")
+     << _("             s : Size in bytes of vanilla value (may include NULL)\n")
+     << _("             v : Plain data value of untranslated (vanilla)\n")
+     << _("             V : Plain data value, data type and the word 'set'\n")
      << _("             t : Interpreted (translated) human readable values\n")
      << _("             h : Hex dump of the data\n")
      << _("   -d tgt1  Delete target(s) for the 'delete' action. Possible targets are:\n")
@@ -720,6 +722,9 @@ int Params::evalPrintFlags(const std::string& optArg) {
           case 'V':
             printItems_ |= prSet | prKey | prType | prValue;
             break;
+          case 'd':
+            printItems_ |= prDesc;
+            break;
           default:
             std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << i << "'\n";
             rc = 1;
@@ -742,16 +747,15 @@ int Params::evalDelete(const std::string& optArg) {
   switch (action_) {
     case Action::none:
       action_ = Action::erase;
-      target_ = CommonTarget(0);
+      target_ = static_cast<CommonTarget>(0);
       // fallthrough
     case Action::erase: {
       const auto rc = parseCommonTargets(optArg, "erase");
       if (rc > 0) {
-        target_ |= CommonTarget(rc);
+        target_ |= static_cast<CommonTarget>(rc);
         return 0;
-      } else {
-        return 1;
       }
+      return 1;
     }
     default:
       std::cerr << progname() << ": " << _("Option -d is not compatible with a previous option\n");
@@ -764,16 +768,15 @@ int Params::evalExtract(const std::string& optArg) {
     case Action::none:
     case Action::modify:
       action_ = Action::extract;
-      target_ = CommonTarget(0);
+      target_ = static_cast<CommonTarget>(0);
       // fallthrough
     case Action::extract: {
       const auto rc = parseCommonTargets(optArg, "extract");
       if (rc > 0) {
-        target_ |= CommonTarget(rc);
+        target_ |= static_cast<CommonTarget>(rc);
         return 0;
-      } else {
-        return 1;
       }
+      return 1;
     }
     default:
       std::cerr << progname() << ": " << _("Option -e is not compatible with a previous option\n");
@@ -786,16 +789,15 @@ int Params::evalInsert(const std::string& optArg) {
     case Action::none:
     case Action::modify:
       action_ = Action::insert;
-      target_ = CommonTarget(0);
+      target_ = static_cast<CommonTarget>(0);
       // fallthrough
     case Action::insert: {
       const auto rc = parseCommonTargets(optArg, "insert");
       if (rc > 0) {
-        target_ |= CommonTarget(rc);
+        target_ |= static_cast<CommonTarget>(rc);
         return 0;
-      } else {
-        return 1;
       }
+      return 1;
     }
     default:
       std::cerr << progname() << ": " << _("Option -i is not compatible with a previous option\n");
@@ -1139,7 +1141,7 @@ void printUnrecognizedArgument(const char argc, const std::string& action) {
 
 int64_t parseCommonTargets(const std::string& optArg, const std::string& action) {
   int64_t rc = 0;
-  Params::CommonTarget target = Params::CommonTarget(0);
+  auto target = static_cast<Params::CommonTarget>(0);
   Params::CommonTarget all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
   Params::CommonTarget extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
   for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
@@ -1175,7 +1177,7 @@ int64_t parseCommonTargets(const std::string& optArg, const std::string& action)
         target |= extra;  // -eX
         if (i > 0) {      // -eXX or -iXX
           target |= Params::ctXmpRaw;
-          target = Params::CommonTarget(target & ~extra);  // turn off those bits
+          target = static_cast<Params::CommonTarget>(target & ~extra);  // turn off those bits
         }
         break;
 
@@ -1196,7 +1198,7 @@ int64_t parseCommonTargets(const std::string& optArg, const std::string& action)
         break;
     }
   }
-  return rc ? rc : int64_t(target);
+  return rc ? rc : static_cast<int64_t>(target);
 }
 
 int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::string& optArg, int j) {
@@ -1465,7 +1467,7 @@ std::string parseEscapes(const std::string& input) {
         break;
       case 'u':  // Escaping of unicode
         if (input.length() >= 4 && input.length() - 4 > i) {
-          int acc = 0;
+          uint32_t acc = 0;
           for (int j = 0; j < 4; ++j) {
             ++i;
             acc <<= 4;
@@ -1476,19 +1478,19 @@ std::string parseEscapes(const std::string& input) {
             } else if (input[i] >= 'A' && input[i] <= 'F') {
               acc |= input[i] - 'A' + 10;
             } else {
-              acc = -1;
+              acc = 0xFFFFFFFF;
               break;
             }
           }
-          if (acc == -1) {
+          if (acc == 0xFFFFFFFF) {
             result.push_back('\\');
             i = escapeStart;
             break;
           }
 
           std::string ucs2toUtf8;
-          ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00) >> 8));
-          ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ff));
+          ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00U) >> 8));
+          ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ffU));
 
           if (Exiv2::convertStringCharset(ucs2toUtf8, "UCS-2BE", "UTF-8")) {
             result.append(ucs2toUtf8);

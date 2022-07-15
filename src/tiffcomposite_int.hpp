@@ -134,12 +134,12 @@ class IoWrapper {
 
  private:
   // DATA
-  BasicIo& io_;          //! Reference for the IO instance.
-  const byte* pHeader_;  //! Pointer to the header data.
-  size_t size_;          //! Size of the header data.
-  bool wroteHeader_;     //! Indicates if the header has been written.
-  OffsetWriter* pow_;    //! Pointer to an offset-writer, if any, or 0
-};                       // class IoWrapper
+  BasicIo& io_;              //! Reference for the IO instance.
+  const byte* pHeader_;      //! Pointer to the header data.
+  size_t size_;              //! Size of the header data.
+  bool wroteHeader_{false};  //! Indicates if the header has been written.
+  OffsetWriter* pow_;        //! Pointer to an offset-writer, if any, or 0
+};                           // class IoWrapper
 
 /*!
   @brief Interface class for components of a TIFF directory hierarchy
@@ -1229,10 +1229,10 @@ class TiffIfdMakernote : public TiffComponent {
 
  private:
   // DATA
-  MnHeader* pHeader_;         //!< Makernote header
-  TiffDirectory ifd_;         //!< Makernote IFD
-  uint32_t mnOffset_{};       //!< Makernote offset
-  ByteOrder imageByteOrder_;  //!< Byte order for the image
+  MnHeader* pHeader_;                           //!< Makernote header
+  TiffDirectory ifd_;                           //!< Makernote IFD
+  uint32_t mnOffset_{};                         //!< Makernote offset
+  ByteOrder imageByteOrder_{invalidByteOrder};  //!< Byte order for the image
 
 };  // class TiffIfdMakernote
 
@@ -1496,8 +1496,8 @@ class TiffBinaryElement : public TiffEntryBase {
 
  private:
   // DATA
-  ArrayDef elDef_;         //!< The array element definition
-  ByteOrder elByteOrder_;  //!< Byte order to read/write the element
+  ArrayDef elDef_;                           //!< The array element definition
+  ByteOrder elByteOrder_{invalidByteOrder};  //!< Byte order to read/write the element
 
 };  // class TiffBinaryElement
 

@@ -128,7 +128,7 @@ class JpegThumbnail : public Thumbnail {
 int64_t sumToLong(const Exiv2::Exifdatum& md);
 
 //! Helper function to delete all tags of a specific IFD from the metadata.
-void eraseIfd(Exiv2::ExifData& ed, Exiv2::Internal::IfdId ifdId);
+void eraseIfd(Exiv2::ExifData& ed, Exiv2::IfdId ifdId);
 
 }  // namespace
 
@@ -292,16 +292,20 @@ std::string Exifdatum::tagLabel() const {
   return key_ ? key_->tagLabel() : "";
 }
 
+std::string Exifdatum::tagDesc() const {
+  return key_ ? key_->tagDesc() : "";
+}
+
 uint16_t Exifdatum::tag() const {
   return key_ ? key_->tag() : 0xffff;
 }
 
-int Exifdatum::ifdId() const {
-  return key_ ? key_->ifdId() : ifdIdNotSet;
+IfdId Exifdatum::ifdId() const {
+  return key_ ? key_->ifdId() : IfdId::ifdIdNotSet;
 }
 
 const char* Exifdatum::ifdName() const {
-  return key_ ? Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId())) : "";
+  return key_ ? Internal::ifdName(static_cast<IfdId>(key_->ifdId())) : "";
 }
 
 int Exifdatum::idx() const {
@@ -430,7 +434,7 @@ void ExifThumb::setJpegThumbnail(const byte* buf, size_t size) {
 }
 
 void ExifThumb::erase() {
-  eraseIfd(exifData_, ifd1Id);
+  eraseIfd(exifData_, IfdId::ifd1Id);
 }
 
 Exifdatum& ExifData::operator[](const std::string& key) {
@@ -544,8 +548,9 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
 
   // Delete IFDs which do not occur in JPEGs
   static constexpr auto filteredIfds = std::array{
-      subImage1Id, subImage2Id, subImage3Id, subImage4Id, subImage5Id, subImage6Id, subImage7Id,
-      subImage8Id, subImage9Id, subThumb1Id, panaRawId,   ifd2Id,      ifd3Id,
+      IfdId::subImage1Id, IfdId::subImage2Id, IfdId::subImage3Id, IfdId::subImage4Id, IfdId::subImage5Id,
+      IfdId::subImage6Id, IfdId::subImage7Id, IfdId::subImage8Id, IfdId::subImage9Id, IfdId::subThumb1Id,
+      IfdId::panaRawId,   IfdId::ifd2Id,      IfdId::ifd3Id,
   };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
