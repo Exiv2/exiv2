@@ -614,18 +614,18 @@ Rational floatToRationalCast(float f) {
   // below. (INT_MAX can be represented accurately as a double, but
   // gets rounded when it's converted to float.)
   const double d = f;
-  const bool in_range = INT_MIN <= d && d <= INT_MAX;
+  const bool in_range = std::numeric_limits<int32_t>::min() <= d && d <= std::numeric_limits<int32_t>::max();
   if (!in_range) {
     return {d > 0 ? 1 : -1, 0};
   }
   // Beware: primitive conversion algorithm
   int32_t den = 1000000;
-  const auto d_as_long = static_cast<long>(d);
-  if (Safe::abs(d_as_long) > 21474836) {
+  const auto d_as_int32_t = static_cast<int32_t>(d);
+  if (Safe::abs(d_as_int32_t) > 21474836) {
     den = 1;
-  } else if (Safe::abs(d_as_long) > 214748) {
+  } else if (Safe::abs(d_as_int32_t) > 214748) {
     den = 100;
-  } else if (Safe::abs(d_as_long) > 2147) {
+  } else if (Safe::abs(d_as_int32_t) > 2147) {
     den = 10000;
   }
   const auto nom = static_cast<int32_t>(std::round(d * den));
