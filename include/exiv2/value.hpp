@@ -1397,13 +1397,13 @@ inline double getValue(const byte* buf, ByteOrder byteOrder) {
   @return The number of bytes written to the buffer.
  */
 template <typename T>
-long toData(byte* buf, T t, ByteOrder byteOrder);
+size_t toData(byte* buf, T t, ByteOrder byteOrder);
 /*!
   @brief Specialization to write an unsigned short to the data buffer.
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, uint16_t t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, uint16_t t, ByteOrder byteOrder) {
   return us2Data(buf, t, byteOrder);
 }
 /*!
@@ -1411,7 +1411,7 @@ inline long toData(byte* buf, uint16_t t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, uint32_t t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, uint32_t t, ByteOrder byteOrder) {
   return ul2Data(buf, t, byteOrder);
 }
 /*!
@@ -1419,7 +1419,7 @@ inline long toData(byte* buf, uint32_t t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, URational t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, URational t, ByteOrder byteOrder) {
   return ur2Data(buf, t, byteOrder);
 }
 /*!
@@ -1427,7 +1427,7 @@ inline long toData(byte* buf, URational t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, int16_t t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, int16_t t, ByteOrder byteOrder) {
   return s2Data(buf, t, byteOrder);
 }
 /*!
@@ -1435,7 +1435,7 @@ inline long toData(byte* buf, int16_t t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, int32_t t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, int32_t t, ByteOrder byteOrder) {
   return l2Data(buf, t, byteOrder);
 }
 /*!
@@ -1443,7 +1443,7 @@ inline long toData(byte* buf, int32_t t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, Rational t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, Rational t, ByteOrder byteOrder) {
   return r2Data(buf, t, byteOrder);
 }
 /*!
@@ -1451,7 +1451,7 @@ inline long toData(byte* buf, Rational t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, float t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, float t, ByteOrder byteOrder) {
   return f2Data(buf, t, byteOrder);
 }
 /*!
@@ -1459,7 +1459,7 @@ inline long toData(byte* buf, float t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, double t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, double t, ByteOrder byteOrder) {
   return d2Data(buf, t, byteOrder);
 }
 
