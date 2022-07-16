@@ -2686,8 +2686,8 @@ msgstr "Justiere"
 #: src/exiv2.cpp:1026
 msgid "Adjust action requires at least one -a, -Y, -O or -D option\n"
 msgstr ""
-"Die Aktion \"justieren\" benötigt mindestens eine der Optionen \"-a\", \"-Y"
-"\", \"-O\" oder \"-D\"\n"
+"Die Aktion \"justieren\" benötigt mindestens eine der Optionen \"-a\", \"-"
+"Y\", \"-O\" oder \"-D\"\n"
 
 #: src/actions.cpp:1745
 msgid "Adjusting"
@@ -2894,8 +2894,8 @@ msgstr "Algier"
 
 #: src/error.cpp:101
 msgid ""
-"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `"
-"%1', `%2', `%3'"
+"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net "
+"`%1', `%2', `%3'"
 msgstr ""
 "Aliase werden nicht unterstützt. Bitte senden Sie dieses XMP-Packet an "
 "ahuggel@gmx.net `%1', `%2', `%3'"
@@ -13532,8 +13532,8 @@ msgstr ""
 
 #: src/tags.cpp:2107
 msgid ""
-"Indicates the unit used to express the distance to the destination point. \"K"
-"\", \"M\" and \"N\" represent kilometers, miles and knots."
+"Indicates the unit used to express the distance to the destination point. "
+"\"K\", \"M\" and \"N\" represent kilometers, miles and knots."
 msgstr ""
 
 #: src/tags.cpp:1981
@@ -20475,7 +20475,7 @@ msgstr ""
 
 #: src/properties.cpp:277
 msgid ""
-"References to resources that were incorporated, byinclusion or reference, "
+"References to resources that were incorporated, by inclusion or reference, "
 "into this resource."
 msgstr ""
 

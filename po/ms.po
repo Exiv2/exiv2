@@ -2900,11 +2900,11 @@ msgstr "Algiers"
 
 #: src/error.cpp:101
 msgid ""
-"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `"
-"%1', `%2', `%3'"
+"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net "
+"`%1', `%2', `%3'"
 msgstr ""
-"Alias tidak disokong. Sila hantar paket XMP ini ke ahuggel@gmx.net `%1', `"
-"%2', `%3'"
+"Alias tidak disokong. Sila hantar paket XMP ini ke ahuggel@gmx.net `%1', "
+"`%2', `%3'"
 
 #: src/nikonmn.cpp:1680
 msgid "All 11 Points"
@@ -13169,11 +13169,11 @@ msgstr ""
 
 #: src/tags.cpp:2107
 msgid ""
-"Indicates the unit used to express the distance to the destination point. \"K"
-"\", \"M\" and \"N\" represent kilometers, miles and knots."
+"Indicates the unit used to express the distance to the destination point. "
+"\"K\", \"M\" and \"N\" represent kilometers, miles and knots."
 msgstr ""
-"Menunjukkan unit yang digunakan untuk mengungkap jarak titik destinasi. \"K"
-"\", \"M\" dan \"N\" mewakili kilometer, batu dan knot."
+"Menunjukkan unit yang digunakan untuk mengungkap jarak titik destinasi. "
+"\"K\", \"M\" dan \"N\" mewakili kilometer, batu dan knot."
 
 #: src/tags.cpp:1981
 msgid ""
@@ -19805,7 +19805,7 @@ msgstr ""
 
 #: src/properties.cpp:277
 msgid ""
-"References to resources that were incorporated, byinclusion or reference, "
+"References to resources that were incorporated, by inclusion or reference, "
 "into this resource."
 msgstr ""
 
@@ -25750,8 +25750,9 @@ msgid ""
 "default \"look\" table. The data for this table is stored in the "
 "ProfileLookTableData tag."
 msgstr ""
-"Tag ini menyatakan bilangan sampel input dalam setiap dimensi jadual \"lihat"
-"\" lalai. Data bagi jadual ini disimpan dalam tag ProfileLookTableData."
+"Tag ini menyatakan bilangan sampel input dalam setiap dimensi jadual "
+"\"lihat\" lalai. Data bagi jadual ini disimpan dalam tag "
+"ProfileLookTableData."
 
 #: src/tags.cpp:1256
 msgid ""
