@@ -785,7 +785,7 @@ LangAltValue* LangAltValue::clone_() const {
 DateValue::DateValue() : Value(date) {
 }
 
-DateValue::DateValue(int year, int month, int day) : Value(date) {
+DateValue::DateValue(int32_t year, int32_t month, int32_t day) : Value(date) {
   date_.year = year;
   date_.month = month;
   date_.day = day;
@@ -904,7 +904,7 @@ Rational DateValue::toRational(size_t n) const {
 TimeValue::TimeValue() : Value(time) {
 }
 
-TimeValue::TimeValue(int hour, int minute, int second, int tzHour, int tzMinute) : Value(date) {
+TimeValue::TimeValue(int32_t hour, int32_t minute, int32_t second, int32_t tzHour, int32_t tzMinute) : Value(date) {
   time_.hour = hour;
   time_.minute = minute;
   time_.second = second;
