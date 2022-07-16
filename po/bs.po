@@ -670,8 +670,8 @@ msgstr ""
 "Sadrzaj koda drzave je fokusiran na -- ili je drzava prikazana u vizuelom "
 "mediju ili je navedena u tekstualnom ili zvucnom mediju. Ovaj element je na "
 "vrhu/prvom nivou odozgo prema dole geografskoj hijerarhiji. Sifra treba biti "
-"uzeta iz ISO 3166 dva ili tri slova. Puni naziv drzave treba ici u \"Drzava"
-"\" element."
+"uzeta iz ISO 3166 dva ili tri slova. Puni naziv drzave treba ici u "
+"\"Drzava\" element."
 
 #: src/properties.cpp:965
 #, fuzzy
@@ -2842,8 +2842,8 @@ msgstr "Alžir"
 
 #: src/error.cpp:101
 msgid ""
-"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `"
-"%1', `%2', `%3'"
+"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net "
+"`%1', `%2', `%3'"
 msgstr ""
 "Aliases nisu podržani. Molimo pošaljite ovaj XMP paket ahuggel@gmx.net '% "
 "1', '% 2', '% 3'"
@@ -13170,8 +13170,8 @@ msgstr ""
 
 #: src/tags.cpp:2107
 msgid ""
-"Indicates the unit used to express the distance to the destination point. \"K"
-"\", \"M\" and \"N\" represent kilometers, miles and knots."
+"Indicates the unit used to express the distance to the destination point. "
+"\"K\", \"M\" and \"N\" represent kilometers, miles and knots."
 msgstr ""
 "Pokazuje jedinicu upotrijebljenu za izražavanje udaljenosti do krajnje "
 "destinacije. \"K\",\"M\" i \"N\" predstavljaju kilometre, milje i čvorova."
@@ -13229,8 +13229,8 @@ msgid ""
 "latitude. The ASCII value \"N\" indicates north latitude, and \"S\" is south "
 "latitude."
 msgstr ""
-"Pokazuje da li je smjer destinacije sjeverno ili južno. ASCII vrijednost \"N"
-"\" označava sjevernu, a \"S\" južnu usmjerenost."
+"Pokazuje da li je smjer destinacije sjeverno ili južno. ASCII vrijednost "
+"\"N\" označava sjevernu, a \"S\" južnu usmjerenost."
 
 #: src/tags.cpp:2000
 msgid ""
@@ -19872,7 +19872,7 @@ msgstr ""
 
 #: src/properties.cpp:277
 msgid ""
-"References to resources that were incorporated, byinclusion or reference, "
+"References to resources that were incorporated, by inclusion or reference, "
 "into this resource."
 msgstr ""
 
@@ -24184,8 +24184,8 @@ msgid ""
 "\"Oktoberfest, Munich Germany\" For more accurate positioning, use the EXIF "
 "GPS values."
 msgstr ""
-"Naziv mjesta gdje je video snimljen. Naprimjer: \"Oktoberfest, Munich Germany"
-"\". Za preciznije pozicioniranje, iskoristi EXIF GPS vrijednosti."
+"Naziv mjesta gdje je video snimljen. Naprimjer: \"Oktoberfest, Munich "
+"Germany\". Za preciznije pozicioniranje, iskoristi EXIF GPS vrijednosti."
 
 #: src/properties.cpp:2293
 msgid ""

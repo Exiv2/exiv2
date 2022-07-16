@@ -2911,8 +2911,8 @@ msgstr "Argel"
 
 #: src/error.cpp:101
 msgid ""
-"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `"
-"%1', `%2', `%3'"
+"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net "
+"`%1', `%2', `%3'"
 msgstr ""
 "Los alias no están permitidos. Por favor envíe este paquete XMP a "
 "ahuggel@gmx.net «%1», «%2», «%3»"
@@ -8800,8 +8800,8 @@ msgstr ""
 #: src/error.cpp:78
 msgid "Entry::setValue: Value too large (tag=%1, size=%2, requested=%3)"
 msgstr ""
-"Entry::setValue:  Valor demasiado grande (etiqueta=%1, tamaño=%2, solicitado="
-"%3)"
+"Entry::setValue:  Valor demasiado grande (etiqueta=%1, tamaño=%2, "
+"solicitado=%3)"
 
 #: src/datasets.cpp:108
 msgid "Envelope Number"
@@ -13130,8 +13130,8 @@ msgstr ""
 
 #: src/tags.cpp:2107
 msgid ""
-"Indicates the unit used to express the distance to the destination point. \"K"
-"\", \"M\" and \"N\" represent kilometers, miles and knots."
+"Indicates the unit used to express the distance to the destination point. "
+"\"K\", \"M\" and \"N\" represent kilometers, miles and knots."
 msgstr ""
 "Indica la unidad de medida empleada para expresar la distancia al punto de "
 "destino. «K», «M» y «N» representan kilómetros, millas y nudos, "
@@ -19696,7 +19696,7 @@ msgstr ""
 
 #: src/properties.cpp:277
 msgid ""
-"References to resources that were incorporated, byinclusion or reference, "
+"References to resources that were incorporated, by inclusion or reference, "
 "into this resource."
 msgstr ""
 
@@ -23886,8 +23886,8 @@ msgid ""
 "'/' character (ex.: \"City/Paris/Monument/Eiffel Tower\"."
 msgstr ""
 "La lista de ruta de etiquetas completa como cadena. La jerarquía de la ruta "
-"se separa por el carácter «/» (ej.: «Ciudad/Madrid/Monumento/Museo del Prado"
-"\"."
+"se separa por el carácter «/» (ej.: «Ciudad/Madrid/Monumento/Museo del "
+"Prado\"."
 
 #: src/properties.cpp:212
 msgid ""
