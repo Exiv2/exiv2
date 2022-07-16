@@ -932,16 +932,16 @@ class EXIV2API DateValue : public Value {
   //! Default constructor.
   DateValue();
   //! Constructor
-  DateValue(int year, int month, int day);
+  DateValue(int32_t year, int32_t month, int32_t day);
   //! Virtual destructor.
   ~DateValue() override = default;
   //@}
 
   //! Simple Date helper structure
   struct EXIV2API Date {
-    int year{0};   //!< Year
-    int month{0};  //!< Month
-    int day{0};    //!< Day
+    int32_t year{0};   //!< Year
+    int32_t month{0};  //!< Month
+    int32_t day{0};    //!< Day
   };
 
   //! @name Manipulators
@@ -1025,7 +1025,7 @@ class EXIV2API TimeValue : public Value {
   //! Default constructor.
   TimeValue();
   //! Constructor
-  TimeValue(int hour, int minute, int second = 0, int tzHour = 0, int tzMinute = 0);
+  TimeValue(int32_t hour, int32_t minute, int32_t second = 0, int32_t tzHour = 0, int32_t tzMinute = 0);
 
   //! Virtual destructor.
   ~TimeValue() override = default;
@@ -1035,11 +1035,11 @@ class EXIV2API TimeValue : public Value {
   struct Time {
     Time() = default;
 
-    int hour{0};      //!< Hour
-    int minute{0};    //!< Minute
-    int second{0};    //!< Second
-    int tzHour{0};    //!< Hours ahead or behind UTC
-    int tzMinute{0};  //!< Minutes ahead or behind UTC
+    int32_t hour{0};      //!< Hour
+    int32_t minute{0};    //!< Minute
+    int32_t second{0};    //!< Second
+    int32_t tzHour{0};    //!< Hours ahead or behind UTC
+    int32_t tzMinute{0};  //!< Minutes ahead or behind UTC
   };
 
   //! @name Manipulators
