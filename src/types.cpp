@@ -331,7 +331,7 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
   return u.d_;
 }
 
-long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder) {
+size_t us2Data(byte* buf, uint16_t s, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
     buf[0] = static_cast<byte>(s & 0x00ffU);
     buf[1] = static_cast<byte>((s & 0xff00U) >> 8);
@@ -342,7 +342,7 @@ long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder) {
   return 2;
 }
 
-long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder) {
+size_t ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
     buf[0] = static_cast<byte>(l & 0x000000ffU);
     buf[1] = static_cast<byte>((l & 0x0000ff00U) >> 8);
@@ -357,7 +357,7 @@ long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder) {
   return 4;
 }
 
-long ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder) {
+size_t ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
     for (size_t i = 0; i < 8; i++) {
       buf[i] = static_cast<byte>(l & 0xff);
@@ -372,13 +372,13 @@ long ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder) {
   return 8;
 }
 
-long ur2Data(byte* buf, URational l, ByteOrder byteOrder) {
-  long o = ul2Data(buf, l.first, byteOrder);
+size_t ur2Data(byte* buf, URational l, ByteOrder byteOrder) {
+  size_t o = ul2Data(buf, l.first, byteOrder);
   o += ul2Data(buf + o, l.second, byteOrder);
   return o;
 }
 
-long s2Data(byte* buf, int16_t s, ByteOrder byteOrder) {
+size_t s2Data(byte* buf, int16_t s, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
     buf[0] = static_cast<byte>(s & 0x00ffU);
     buf[1] = static_cast<byte>((s & 0xff00U) >> 8);
@@ -389,7 +389,7 @@ long s2Data(byte* buf, int16_t s, ByteOrder byteOrder) {
   return 2;
 }
 
-long l2Data(byte* buf, int32_t l, ByteOrder byteOrder) {
+size_t l2Data(byte* buf, int32_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
     buf[0] = static_cast<byte>(l & 0x000000ffU);
     buf[1] = static_cast<byte>((l & 0x0000ff00U) >> 8);
@@ -404,13 +404,13 @@ long l2Data(byte* buf, int32_t l, ByteOrder byteOrder) {
   return 4;
 }
 
-long r2Data(byte* buf, Rational l, ByteOrder byteOrder) {
-  long o = l2Data(buf, l.first, byteOrder);
+size_t r2Data(byte* buf, Rational l, ByteOrder byteOrder) {
+  size_t o = l2Data(buf, l.first, byteOrder);
   o += l2Data(buf + o, l.second, byteOrder);
   return o;
 }
 
-long f2Data(byte* buf, float f, ByteOrder byteOrder) {
+size_t f2Data(byte* buf, float f, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the float
   // type is the 4-byte IEEE 754 binary32 format, which is common but not
   // required by the C++ standard.
@@ -422,7 +422,7 @@ long f2Data(byte* buf, float f, ByteOrder byteOrder) {
   return ul2Data(buf, u.ul_, byteOrder);
 }
 
-long d2Data(byte* buf, double d, ByteOrder byteOrder) {
+size_t d2Data(byte* buf, double d, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the double
   // type is the 8-byte IEEE 754 binary64 format, which is common but not
   // required by the C++ standard.

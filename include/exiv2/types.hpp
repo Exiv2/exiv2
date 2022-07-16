@@ -277,47 +277,47 @@ EXIV2API std::istream& operator>>(std::istream& is, URational& r);
   @brief Convert an unsigned short to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder);
+EXIV2API size_t us2Data(byte* buf, uint16_t s, ByteOrder byteOrder);
 /*!
   @brief Convert an unsigned long to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
+EXIV2API size_t ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
 /*!
   @brief Convert an uint64_t to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder);
+EXIV2API size_t ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder);
 /*!
   @brief Convert an unsigned rational to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long ur2Data(byte* buf, URational l, ByteOrder byteOrder);
+EXIV2API size_t ur2Data(byte* buf, URational l, ByteOrder byteOrder);
 /*!
   @brief Convert a signed short to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long s2Data(byte* buf, int16_t s, ByteOrder byteOrder);
+EXIV2API size_t s2Data(byte* buf, int16_t s, ByteOrder byteOrder);
 /*!
   @brief Convert a signed long to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long l2Data(byte* buf, int32_t l, ByteOrder byteOrder);
+EXIV2API size_t l2Data(byte* buf, int32_t l, ByteOrder byteOrder);
 /*!
   @brief Convert a signed rational to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long r2Data(byte* buf, Rational l, ByteOrder byteOrder);
+EXIV2API size_t r2Data(byte* buf, Rational l, ByteOrder byteOrder);
 /*!
   @brief Convert a single precision floating point (IEEE 754 binary32) float
          to data, write the data to the buffer, return number of bytes written.
  */
-EXIV2API long f2Data(byte* buf, float f, ByteOrder byteOrder);
+EXIV2API size_t f2Data(byte* buf, float f, ByteOrder byteOrder);
 /*!
   @brief Convert a double precision floating point (IEEE 754 binary64) double
          to data, write the data to the buffer, return number of bytes written.
  */
-EXIV2API long d2Data(byte* buf, double d, ByteOrder byteOrder);
+EXIV2API size_t d2Data(byte* buf, double d, ByteOrder byteOrder);
 
 /*!
   @brief Print len bytes from buf in hex and ASCII format to the given
