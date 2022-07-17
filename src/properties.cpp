@@ -4868,7 +4868,7 @@ std::mutex XmpProperties::mutex_;
 
 /// \todo not used internally. At least we should test it
 const XmpNsInfo* XmpProperties::lookupNsRegistry(const XmpNsInfo::Prefix& prefix) {
-  std::lock_guard<std::mutex> scoped_read_lock(mutex_);
+  auto scoped_read_lock = std::scoped_lock(mutex_);
   return lookupNsRegistryUnsafe(prefix);
 }
 
@@ -4881,7 +4881,7 @@ const XmpNsInfo* XmpProperties::lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& 
 }
 
 void XmpProperties::registerNs(const std::string& ns, const std::string& prefix) {
-  std::lock_guard<std::mutex> scoped_write_lock(mutex_);
+  auto scoped_write_lock = std::scoped_lock(mutex_);
   std::string ns2 = ns;
   if (ns2.substr(ns2.size() - 1, 1) != "/" && ns2.substr(ns2.size() - 1, 1) != "#")
     ns2 += "/";
@@ -4911,7 +4911,7 @@ void XmpProperties::registerNs(const std::string& ns, const std::string& prefix)
 }
 
 void XmpProperties::unregisterNs(const std::string& ns) {
-  std::lock_guard<std::mutex> scoped_write_lock(mutex_);
+  auto scoped_write_lock = std::scoped_lock(mutex_);
   unregisterNsUnsafe(ns);
 }
 
@@ -4925,7 +4925,7 @@ void XmpProperties::unregisterNsUnsafe(const std::string& ns) {
 }
 
 void XmpProperties::unregisterNs() {
-  std::lock_guard<std::mutex> scoped_write_lock(mutex_);
+  auto scoped_write_lock = std::scoped_lock(mutex_);
   /// \todo check if we are not unregistering the first NS
   auto i = nsRegistry_.begin();
   while (i != nsRegistry_.end()) {
@@ -4935,7 +4935,7 @@ void XmpProperties::unregisterNs() {
 }
 
 std::string XmpProperties::prefix(const std::string& ns) {
-  std::lock_guard<std::mutex> scoped_read_lock(mutex_);
+  auto scoped_read_lock = std::scoped_lock(mutex_);
   std::string ns2 = ns;
   if (ns2.substr(ns2.size() - 1, 1) != "/" && ns2.substr(ns2.size() - 1, 1) != "#")
     ns2 += "/";
@@ -4953,7 +4953,7 @@ std::string XmpProperties::prefix(const std::string& ns) {
 }
 
 std::string XmpProperties::ns(const std::string& prefix) {
-  std::lock_guard<std::mutex> scoped_read_lock(mutex_);
+  auto scoped_read_lock = std::scoped_lock(mutex_);
   const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
   if (xn)
     return xn->ns_;
@@ -5016,7 +5016,7 @@ const XmpPropertyInfo* XmpProperties::propertyList(const std::string& prefix) {
 }
 
 const XmpNsInfo* XmpProperties::nsInfo(const std::string& prefix) {
-  std::lock_guard<std::mutex> scoped_read_lock(mutex_);
+  auto scoped_read_lock = std::scoped_lock(mutex_);
   return nsInfoUnsafe(prefix);
 }
 

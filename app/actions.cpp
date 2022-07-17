@@ -1666,7 +1666,7 @@ std::string tm2Str(const struct tm* tm) {
 
 std::string temporaryPath() {
   static int count = 0;
-  std::lock_guard<std::mutex> guard(cs);
+  auto guard = std::scoped_lock(cs);
 
 #if defined(_MSC_VER) || defined(__MINGW__)
   HANDLE process = 0;
