@@ -285,7 +285,6 @@ static std::set<size_t> visits;  // #547
 
 void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start,
                               bool bSwap, char c, int depth) {
-  depth++;
   if (depth == 1)
     visits.clear();
   bool bFirst = true;
@@ -406,7 +405,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
           for (size_t k = 0; k < count; k++) {
             const size_t restore = io.tell();
             offset = byteSwap4(buf, k * size, bSwap);
-            printIFDStructure(io, out, option, offset, bSwap, c, depth);
+            printIFDStructure(io, out, option, offset, bSwap, c, depth+1);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
           }
         } else if (option == kpsRecursive && tag == 0x83bb /* IPTCNAA */) {
@@ -448,7 +447,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
             // tag is an IFD
             uint32_t punt = bSony ? 12 : 0;
             io.seekOrThrow(0, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
-            printIFDStructure(io, out, option, offset + punt, bSwap, c, depth);
+            printIFDStructure(io, out, option, offset + punt, bSwap, c, depth+1);
           }
 
           io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // restore
@@ -487,7 +486,7 @@ void Image::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruc
     auto c = dir.read_uint8(0);
     bool bSwap = (c == 'M' && isLittleEndianPlatform()) || (c == 'I' && isBigEndianPlatform());
     size_t start = byteSwap4(dir, 4, bSwap);
-    printIFDStructure(io, out, option, start + offset, bSwap, c, depth);
+    printIFDStructure(io, out, option, start + offset, bSwap, c, depth+1);
   }
 }
 
