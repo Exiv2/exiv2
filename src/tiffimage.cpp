@@ -276,7 +276,7 @@ void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption op
 
   io_->seek(0, BasicIo::beg);
 
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }
 
 }  // namespace Exiv2

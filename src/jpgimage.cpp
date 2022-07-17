@@ -485,7 +485,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
             if (start < max) {
               // create a copy on write memio object with the data, then print the structure
               MemIo p(buf.c_data(start), size - start);
-              printTiffStructure(p, out, option, depth);
+              printTiffStructure(p, out, option, depth+1);
             }
           }
 

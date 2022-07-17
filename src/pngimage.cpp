@@ -330,7 +330,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
               if (bExif) {
                 // create memio object with the data, then print the structure
                 MemIo p(parsedBuf.c_data(6), parsedBuf.size() - 6);
-                printTiffStructure(p, out, option, depth);
+                printTiffStructure(p, out, option, depth+1);
               }
               if (bIptc) {
                 IptcData::printStructure(out, makeSlice(parsedBuf, 0, parsedBuf.size()), depth);
@@ -361,7 +361,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, in
           if (eXIf && option == kpsRecursive) {
             // create memio object with the data, then print the structure
             MemIo p(data.c_data(), dataOffset);
-            printTiffStructure(p, out, option, depth);
+            printTiffStructure(p, out, option, depth+1);
           }
 
           if (bLF)

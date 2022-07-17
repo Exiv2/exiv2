@@ -442,7 +442,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
             DataBuf bytes(byteslen);                                                  // allocate a buffer
             io.readOrThrow(bytes.data(), byteslen, ErrorCode::kerCorruptedMetadata);  // read
             MemIo memIo(bytes.c_data(), byteslen);                                    // create a file
-            printTiffStructure(memIo, out, option, depth);
+            printTiffStructure(memIo, out, option, depth+1);
           } else {
             // tag is an IFD
             uint32_t punt = bSony ? 12 : 0;
@@ -486,7 +486,7 @@ void Image::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruc
     auto c = dir.read_uint8(0);
     bool bSwap = (c == 'M' && isLittleEndianPlatform()) || (c == 'I' && isBigEndianPlatform());
     size_t start = byteSwap4(dir, 4, bSwap);
-    printIFDStructure(io, out, option, start + offset, bSwap, c, depth+1);
+    printIFDStructure(io, out, option, start + offset, bSwap, c, depth);
   }
 }
 

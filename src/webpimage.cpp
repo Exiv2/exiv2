@@ -450,7 +450,7 @@ void WebPImage::printStructure(std::ostream& out, PrintStructureOption option, i
       if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF) && option == kpsRecursive) {
         // create memio object with the payload, then print the structure
         MemIo p(payload.c_data(), payload.size());
-        printTiffStructure(p, out, option, depth);
+        printTiffStructure(p, out, option, depth+1);
       }
 
       bool bPrintPayload = (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP) && option == kpsXMP) ||

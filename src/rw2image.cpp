@@ -75,7 +75,7 @@ void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, in
 
   io_->seek(0, BasicIo::beg);
 
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }  // Rw2Image::printStructure
 
 void Rw2Image::readMetadata() {

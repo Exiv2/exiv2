@@ -65,7 +65,7 @@ void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, in
 
   io_->seek(0, BasicIo::beg);
 
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }  // OrfImage::printStructure
 
 void OrfImage::readMetadata() {

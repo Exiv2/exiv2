@@ -553,7 +553,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, in
               const char b = rawData.read_uint8(1);
               if (a == b && (a == 'I' || a == 'M')) {
                 MemIo p(rawData.c_data(), rawData.size());
-                printTiffStructure(p, out, option, depth);
+                printTiffStructure(p, out, option, depth+1);
               }
             }
 

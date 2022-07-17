@@ -46,7 +46,7 @@ void Cr2Image::printStructure(std::ostream& out, Exiv2::PrintStructureOption opt
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   io_->seek(0, BasicIo::beg);
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }
 
 void Cr2Image::setComment(const std::string&) {
