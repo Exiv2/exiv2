@@ -185,12 +185,9 @@ bool isXmpType(BasicIo& iIo, bool advance) {
   std::string head(reinterpret_cast<const char*>(buf + start), len - start);
   if (head.substr(0, 5) == "<?xml") {
     // Forward to the next tag
-    for (size_t i = 5; i < head.size(); ++i) {
-      if (head[i] == '<') {
-        head = head.substr(i);
-        break;
-      }
-    }
+    auto it = std::find(head.begin() + 5, head.end(), '<');
+    if (it != head.end())
+      head = head.substr(std::distance(head.begin(), it));
   }
   if (head.size() > 9 && (head.substr(0, 9) == "<?xpacket" || head.substr(0, 10) == "<x:xmpmeta")) {
     rc = true;
