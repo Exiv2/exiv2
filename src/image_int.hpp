@@ -12,12 +12,6 @@
 #include <ostream>  // for ostream, basic_ostream::put
 #include <string>
 
-#if (defined(__GNUG__) || defined(__GNUC__)) || defined(__clang__)
-#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(printf, 1, 0)))
-#else
-#define ATTRIBUTE_FORMAT_PRINTF
-#endif
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2::Internal {
@@ -27,7 +21,7 @@ namespace Exiv2::Internal {
 /*!
   @brief format a string in the pattern of \em sprintf \em .
  */
-std::string stringFormat(const char* format, ...) ATTRIBUTE_FORMAT_PRINTF;
+std::string stringFormat(const char* format, ...) [[gnu::format(printf, 1, 0)]];
 
 /*!
  * @brief Helper struct for binary data output via @ref binaryToString.
