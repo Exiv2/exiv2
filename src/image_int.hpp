@@ -65,8 +65,6 @@ struct binaryToStringHelper {
   explicit binaryToStringHelper(const Slice<T> myBuf) noexcept : buf_(myBuf) {
   }
 
-  friend std::ostream& operator<<<T>(std::ostream& stream, const binaryToStringHelper<T>& binToStr);
-
   // the Slice is stored by value to avoid dangling references, in case we
   // invoke:
   // binaryToString(makeSlice(buf, 0, n));
