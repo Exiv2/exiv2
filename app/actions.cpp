@@ -40,9 +40,10 @@
 #include <utime.h>
 #endif
 
-#if !defined(__MINGW__) && !defined(_MSC_VER)
-#define _fileno(a) a
-#define _setmode(a, b)
+#ifndef _WIN32
+#define _setmode(a, b) \
+  do {                 \
+  } while (false)
 #endif
 
 namespace fs = std::filesystem;
