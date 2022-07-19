@@ -103,7 +103,7 @@ Exif.OlympusCs.NoiseFilter                   SShort      3  0 -2 1  Standard
 Exif.OlympusCs.ArtFilter                     Short       4  0 0 0 0  Off
 Exif.OlympusCs.DriveMode                     Short       5  5 1 1 0 0  5 1 1 0 0
 Exif.OlympusCs.PanoramaMode                  Short       2  0 0  0 0
-Exif.OlympusCs.ImageStabilization            Long        1  4  (4)
+Exif.OlympusCs.ImageStabilization            Long        1  4  S-IS AUTO
 Exif.OlympusCs.ManometerPressure             Short       1  0  0
 Exif.OlympusCs.ManometerReading              SLong       2  -9999 -9999  -9999 -9999
 Exif.OlympusCs.ExtendedWBDetect              Short       1  0  Off

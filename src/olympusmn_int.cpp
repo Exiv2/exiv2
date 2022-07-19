@@ -341,7 +341,7 @@ constexpr TagDetails olympusFlashControlMode[] = {{0, N_("Off")}, {3, N_("TTL")}
 
 //! WhiteBalance, tag 0x0500
 constexpr TagDetails olympusWhiteBalance[] = {{0, N_("Auto")},
-                                              {1, N_("Auto (Keep Warm Color Off")},
+                                              {1, N_("Auto (Keep Warm Color Off)")},
                                               {16, N_("7500K (Fine Weather with Shade)")},
                                               {17, N_("6000K (Cloudy)")},
                                               {18, N_("5300K (Fine Weather)")},
@@ -405,12 +405,53 @@ constexpr TagDetails olympusPictureModeBWFilter[] = {{0, N_("n/a")},    {1, N_("
 constexpr TagDetails olympusPictureModeTone[] = {{0, N_("n/a")},  {1, N_("Neutral")}, {2, N_("Sepia")},
                                                  {3, N_("Blue")}, {4, N_("Purple")},  {5, N_("Green")}};
 
+constexpr TagDetails artFilters[] = {
+    {0, N_("Off")},
+    {1, N_("Soft Focus")},
+    {2, N_("Pop Art")},
+    {3, N_("Pale & Light Color")},
+    {4, N_("Light Tone")},
+    {5, N_("Pin Hole")},
+    {6, N_("Grainy Film")},
+    {9, N_("Diorama")},
+    {10, N_("Cross Process")},
+    {12, N_("Fish Eye")},
+    {13, N_("Drawing")},
+    {14, N_("Gentle Sepia")},
+    {15, N_("Pale & Light Color II")},
+    {16, N_("Pop Art II")},
+    {17, N_("Pin Hole II")},
+    {18, N_("Pin Hole III")},
+    {19, N_("Grainy Film II")},
+    {20, N_("Dramatic Tone")},
+    {21, N_("Punk")},
+    {22, N_("Soft Focus 2")},
+    {23, N_("Sparkle")},
+    {24, N_("Watercolor")},
+    {25, N_("Key Line")},
+    {26, N_("Key Line II")},
+    {27, N_("Miniature")},
+    {28, N_("Reflection")},
+    {29, N_("Fragmented")},
+    {31, N_("Cross Process II")},
+    {32, N_("Dramatic Tone II")},
+    {33, N_("Watercolor I")},
+    {34, N_("Watercolor II")},
+    {35, N_("Diorama II")},
+    {36, N_("Vintage")},
+    {37, N_("Vintage II")},
+    {38, N_("Vintage III")},
+    {39, N_("Partial Color")},
+    {40, N_("Partial Color II")},
+    {41, N_("Partial Color III")},
+};
+
 //! OlympusCs Quality, tag 0x0603
 constexpr TagDetails olympusCsQuality[] = {{1, N_("SQ")}, {2, N_("HQ")}, {3, N_("SHQ")}, {4, N_("RAW")}};
 
 //! Olympus ImageStabilization, tag 0x0604
-constexpr TagDetails olympusImageStabilization[] = {
-    {0, N_("Off")}, {1, N_("On, Mode 1")}, {2, N_("On, Mode 2")}, {3, N_("On, Mode 3")}};
+static constexpr TagDetails olympusImageStabilization[] = {
+    {0, N_("Off")}, {1, N_("S-IS 1")}, {2, N_("S-IS 2")}, {3, N_("S-IS 3")}, {4, N_("S-IS AUTO")}};
 
 constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
     {0x0000, "CameraSettingsVersion", N_("Camera Settings Version"), N_("Camera settings version"), IfdId::olympusCsId,
@@ -510,7 +551,7 @@ constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
     {0x0603, "Quality", N_("Image Quality 2"), N_("Image quality 2"), IfdId::olympusCsId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(olympusCsQuality)},
     {0x0604, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), IfdId::olympusCsId,
-     SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(olympusImageStabilization)},
+     SectionId::makerTags, unsignedLong, -1, EXV_PRINT_TAG(olympusImageStabilization)},
     {0x0900, "ManometerPressure", N_("Manometer Pressure"), N_("Manometer pressure"), IfdId::olympusCsId,
      SectionId::makerTags, unsignedShort, -1, printValue},
     {0x0901, "ManometerReading", N_("Manometer Reading"), N_("Manometer reading"), IfdId::olympusCsId,
@@ -1438,65 +1479,22 @@ std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& val
 }  // OlympusMakerNote::printCs0x0301
 
 //! OlympusCs ArtFilter, tag 0x0529, OlympusCs MagicFilter, tag 0x052c
-std::ostream& OlympusMakerNote::print0x0529(std::ostream& os, const Value& value, const ExifData*) {
-  static struct {
-    uint16_t val[2];
-    const char* label;
-  } artFilters[] = {
-      {{0, 0}, N_("Off")},
-      {{0, 1280}, N_("Off")},
-      {{1, 1280}, N_("Soft Focus")},
-      {{2, 1280}, N_("Pop Art")},
-      {{3, 1280}, N_("Pale & Light Color")},
-      {{4, 1280}, N_("Light Tone")},
-      {{5, 1280}, N_("Pin Hole")},
-      {{6, 1280}, N_("Grainy Film")},
-      {{9, 1280}, N_("Diorama")},
-      {{10, 1280}, N_("Cross Process")},
-      {{12, 1280}, N_("Fish Eye")},
-      {{13, 1280}, N_("Drawing")},
-      {{14, 1280}, N_("Gentle Sepia")},
-      {{15, 1280}, N_("Pale & Light Color II")},
-      {{16, 1280}, N_("Pop Art II")},
-      {{17, 1280}, N_("Pin Hole II")},
-      {{18, 1280}, N_("Pin Hole III")},
-      {{19, 1280}, N_("Grainy Film II")},
-      {{20, 1280}, N_("Dramatic Tone")},
-      {{21, 1280}, N_("Punk")},
-      {{22, 1280}, N_("Soft Focus 2")},
-      {{23, 1280}, N_("Sparkle")},
-      {{24, 1280}, N_("Watercolor")},
-      {{25, 1280}, N_("Key Line")},
-      {{26, 1280}, N_("Key Line II")},
-      {{27, 1280}, N_("Miniature")},
-      {{28, 1280}, N_("Reflection")},
-      {{29, 1280}, N_("Fragmented")},
-      {{31, 1280}, N_("Cross Process II")},
-      {{32, 1280}, N_("Dramatic Tone II")},
-      {{33, 1280}, N_("Watercolor I")},
-      {{34, 1280}, N_("Watercolor II")},
-      {{35, 1280}, N_("Diorama II")},
-      {{36, 1280}, N_("Vintage")},
-      {{37, 1280}, N_("Vintage II")},
-      {{38, 1280}, N_("Vintage III")},
-      {{39, 1280}, N_("Partial Color")},
-      {{40, 1280}, N_("Partial Color II")},
-      {{41, 1280}, N_("Partial Color III")},
-  };
-
+std::ostream& OlympusMakerNote::print0x0529(std::ostream& os, const Value& value, const ExifData* metadata) {
   if (value.count() != 4 || value.typeId() != unsignedShort) {
-    return os << value;
+    return os << "(" << value << ")";
   }
 
-  auto v0 = static_cast<uint16_t>(value.toInt64(0));
-  auto v1 = static_cast<uint16_t>(value.toInt64(1));
+  const auto v0 = value.toInt64(0);
 
-  for (auto&& filter : artFilters) {
-    if (filter.val[0] == v0 && filter.val[1] == v1) {
-      return os << filter.label;
-    }
+  printTag<std::size(artFilters), artFilters>(os, v0, metadata);
+
+  if (v0 == 39) {  // The "Partial color" option also has a color choice
+    const auto v3 = value.toInt64(3);
+    os << " (" << _("position") << " " << (v3 + 1) << ")";
+    return os;
   }
-  return os << "";
+
+  return os;
 }  // OlympusMakerNote::print0x0529
 
 // Olympus FocusInfo tag 0x1209 ManualFlash
