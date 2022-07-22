@@ -2929,7 +2929,7 @@ fmountlens[] = {
             return os << "(" << value << ")";
         }
 
-// from https://github.com/exiftool/exiftool/blob/12.12/lib/Image/ExifTool/Nikon.pm#L4646
+// from https://github.com/exiftool/exiftool/blob/12.44/lib/Image/ExifTool/Nikon.pm#L4969
 static const struct ZMntLens {uint16_t lid; const char *manuf, *lensname;}
 zmountlens[] = {
              {1 , "Nikon", "Nikkor Z 24-70mm f/4 S"},
@@ -2948,6 +2948,13 @@ zmountlens[] = {
             {21 , "Nikon", "Nikkor Z 50mm f/1.2 S"}, //IB
             {22 , "Nikon", "Nikkor Z 24-50mm f/4-6.3"}, //IB
             {23 , "Nikon", "Nikkor Z 14-24mm f/2.8 S"}, //IB
+            {24 , "Nikon", "Nikkor Z MC 105mm f/2.8 VR S"}, //IB
+            {27 , "Nikon", "Nikkor Z MC 50mm f/2.8"}, //IB
+            {28 , "Nikon", "Nikkor Z 100-400mm f/4.5-5.6 VR S"}, //28
+            {29 , "Nikon", "Nikkor Z 28mm f/2.8"}, //IB
+            {30 , "Nikon", "Nikkor Z 400mm f/2.8 TC VR S"}, //28
+            {31 , "Nikon", "Nikkor Z 24-120 f/4"}, //28
+            {32 , "Nikon", "Nikkor Z 800mm f/6.3 VR S"}, //28
             {0 , "", ""} //end of array
 };
 
