@@ -873,6 +873,7 @@ constexpr auto nikonArrayIdx = std::array{
     NikonArrayIdx{0x0098, "0203", 0, 1, 4}, NikonArrayIdx{0x0098, "0204", 0, 2, 4},
     NikonArrayIdx{0x0098, "0800", 0, 3, 4},  // for e.g. Z6/7
     NikonArrayIdx{0x0098, "0801", 0, 3, 4},  // for e.g. Z6/7
+    NikonArrayIdx{0x0098, "0802", 0, 3, 4},  // for e.g. Z9
     // NikonFl
     NikonArrayIdx{0x00a8, "0100", 0, 0, NA}, NikonArrayIdx{0x00a8, "0101", 0, 0, NA},
     NikonArrayIdx{0x00a8, "0102", 0, 1, NA}, NikonArrayIdx{0x00a8, "0103", 0, 2, NA},
