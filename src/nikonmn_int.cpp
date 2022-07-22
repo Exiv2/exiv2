@@ -3337,7 +3337,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
     return os << "(" << value << ")";
   }
 
-  // from https://github.com/exiftool/exiftool/blob/12.12/lib/Image/ExifTool/Nikon.pm#L4646
+  // from https://github.com/exiftool/exiftool/blob/12.44/lib/Image/ExifTool/Nikon.pm#L4969
   using ZMntLens = std::tuple<uint16_t, const char*, const char*>;
   static constexpr auto zmountlens = std::array{
       ZMntLens(1, "Nikon", "Nikkor Z 24-70mm f/4 S"),
@@ -3349,13 +3349,20 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
       ZMntLens(12, "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"),
       ZMntLens(13, "Nikon", "Nikkor Z 24-70mm f/2.8 S"),
       ZMntLens(14, "Nikon", "Nikkor Z 85mm f/1.8 S"),
-      ZMntLens(15, "Nikon", "Nikkor Z 24mm f/1.8 S"),         // IB
-      ZMntLens(16, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"),  // IB
-      ZMntLens(17, "Nikon", "Nikkor Z 20mm f/1.8 S"),         // IB
-      ZMntLens(18, "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"),  // IB
-      ZMntLens(21, "Nikon", "Nikkor Z 50mm f/1.2 S"),         // IB
-      ZMntLens(22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"),      // IB
-      ZMntLens(23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"),      // IB
+      ZMntLens(15, "Nikon", "Nikkor Z 24mm f/1.8 S"),              // IB
+      ZMntLens(16, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"),       // IB
+      ZMntLens(17, "Nikon", "Nikkor Z 20mm f/1.8 S"),              // IB
+      ZMntLens(18, "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"),       // IB
+      ZMntLens(21, "Nikon", "Nikkor Z 50mm f/1.2 S"),              // IB
+      ZMntLens(22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"),           // IB
+      ZMntLens(23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"),           // IB
+      ZMntLens(24, "Nikon", "Nikkor Z MC 105mm f/2.8 VR S"),       // IB
+      ZMntLens(27, "Nikon", "Nikkor Z MC 50mm f/2.8"),             // IB
+      ZMntLens(28, "Nikon", "Nikkor Z 100-400mm f/4.5-5.6 VR S"),  // 28
+      ZMntLens(29, "Nikon", "Nikkor Z 28mm f/2.8"),                // IB
+      ZMntLens(30, "Nikon", "Nikkor Z 400mm f/2.8 TC VR S"),       // 28
+      ZMntLens(31, "Nikon", "Nikkor Z 24-120 f/4"),                // 28
+      ZMntLens(32, "Nikon", "Nikkor Z 800mm f/6.3 VR S"),          // 28
   };
 
   auto lid = static_cast<uint16_t>(value.toInt64());
