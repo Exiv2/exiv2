@@ -589,7 +589,7 @@ std::string PngChunk::writeRawProfile(const std::string& profileData, const char
 
   std::ostringstream oss;
   oss << '\n' << profileType << '\n' << std::setw(8) << profileData.size();
-  const byte* sp = reinterpret_cast<const byte*>(profileData.data());
+  auto sp = reinterpret_cast<const byte*>(profileData.data());
   for (std::string::size_type i = 0; i < profileData.size(); ++i) {
     if (i % 36 == 0)
       oss << '\n';
