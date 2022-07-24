@@ -1542,19 +1542,19 @@ TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group) {
 //! Function to create and initialize a new binary array entry
 template <const ArrayCfg* arrayCfg, int N, const ArrayDef arrayDef[N]>
 TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, arrayDef, N));
+  return std::make_unique<TiffBinaryArray>(tag, group, &(*arrayCfg), &(*arrayDef), N);
 }
 
 //! Function to create and initialize a new simple binary array entry
 template <const ArrayCfg* arrayCfg>
 TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group) {
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, nullptr, 0));
+  return std::make_unique<TiffBinaryArray>(tag, group, &(*arrayCfg), nullptr, 0);
 }
 
 //! Function to create and initialize a new complex binary array entry
 template <const ArraySet* arraySet, int N, CfgSelFct cfgSelFct>
 TiffComponent::UniquePtr newTiffBinaryArray2(uint16_t tag, IfdId group) {
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arraySet, N, cfgSelFct));
+  return std::make_unique<TiffBinaryArray>(tag, group, &(*arraySet), N, cfgSelFct);
 }
 
 //! Function to create and initialize a new TIFF entry for a thumbnail (data)
