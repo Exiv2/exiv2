@@ -37,11 +37,11 @@ enum class MetadataId : uint32_t {
 };
 
 inline MetadataId operator&(MetadataId x, MetadataId y) {
-  return (MetadataId)(uint32_t(x) & uint32_t(y));
+  return static_cast<MetadataId>(static_cast<uint32_t>(x) & static_cast<uint32_t>(y));
 }
 
 inline MetadataId operator|(MetadataId x, MetadataId y) {
-  return (MetadataId)(uint32_t(x) | uint32_t(y));
+  return static_cast<MetadataId>(static_cast<uint32_t>(x) | static_cast<uint32_t>(y));
 }
 
 inline MetadataId& operator|=(MetadataId& x, MetadataId y) {
@@ -286,7 +286,7 @@ class Params : public Util::Getopt {
 };  // class Params
 
 inline Params::CommonTarget operator|(Params::CommonTarget x, Params::CommonTarget y) {
-  return (Params::CommonTarget)(uint32_t(x) | uint32_t(y));
+  return static_cast<Params::CommonTarget>(static_cast<uint32_t>(x) | static_cast<uint32_t>(y));
 }
 
 inline Params::CommonTarget& operator|=(Params::CommonTarget& x, Params::CommonTarget y) {
@@ -294,7 +294,7 @@ inline Params::CommonTarget& operator|=(Params::CommonTarget& x, Params::CommonT
 }
 
 inline Params::PrintItem operator|(Params::PrintItem x, Params::PrintItem y) {
-  return (Params::PrintItem)(uint32_t(x) | uint32_t(y));
+  return static_cast<Params::PrintItem>(static_cast<uint32_t>(x) | static_cast<uint32_t>(y));
 }
 
 inline Params::PrintItem& operator|=(Params::PrintItem& x, Params::PrintItem y) {
