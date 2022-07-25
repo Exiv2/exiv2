@@ -81,15 +81,13 @@ void Cr2Image::writeMetadata() {
   byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
-  if (io_->open() == 0) {
-    // Ensure that this is the correct image type
-    if (isCr2Type(*io_, false)) {
-      pData = io_->mmap(true);
-      size = io_->size();
-      Internal::Cr2Header cr2Header;
-      if (0 == cr2Header.read(pData, 16)) {
-        bo = cr2Header.byteOrder();
-      }
+  // Ensure that this is the correct image type
+  if (io_->open() == 0 && isCr2Type(*io_, false)) {
+    pData = io_->mmap(true);
+    size = io_->size();
+    Internal::Cr2Header cr2Header;
+    if (0 == cr2Header.read(pData, 16)) {
+      bo = cr2Header.byteOrder();
     }
   }
   if (bo == invalidByteOrder) {

@@ -682,13 +682,13 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
       comPos = insertPos;
     ++search;
   }
-  if (exifData_.count() > 0)
+  if (!exifData_.empty())
     ++search;
-  if (!writeXmpFromPacket() && xmpData_.count() > 0)
+  if (!writeXmpFromPacket() && !xmpData_.empty())
     ++search;
   if (writeXmpFromPacket() && !xmpPacket_.empty())
     ++search;
-  if (foundCompletePsData || iptcData_.count() > 0)
+  if (foundCompletePsData || !iptcData_.empty())
     ++search;
   if (!comment_.empty())
     ++search;
@@ -707,7 +707,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
     if (insertPos == count) {
       // Write Exif data first so that - if there is no app0 - we
       // create "Exif images" according to the Exif standard.
-      if (exifData_.count() > 0) {
+      if (!exifData_.empty()) {
         Blob blob;
         ByteOrder bo = byteOrder();
         if (bo == invalidByteOrder) {
@@ -808,7 +808,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         --search;
       }
 
-      if (foundCompletePsData || iptcData_.count() > 0) {
+      if (foundCompletePsData || !iptcData_.empty()) {
         // Set the new IPTC IRB, keeps existing IRBs but removes the
         // IPTC block if there is no new IPTC data to write
         DataBuf newPsData = Photoshop::setIptcIrb(psBlob.data(), psBlob.size(), iptcData_);

@@ -236,7 +236,7 @@ int Print::printSummary() {
 
   auto image = Exiv2::ImageFactory::open(path_);
   image->readMetadata();
-  Exiv2::ExifData& exifData = image->exifData();
+  const Exiv2::ExifData& exifData = image->exifData();
   align_ = 16;
 
   // Filename
@@ -428,7 +428,7 @@ bool Print::grepTag(const std::string& key) {
 
 bool Print::keyTag(const std::string& key) {
   bool result = Params::instance().keys_.empty();
-  for (auto&& k : Params::instance().keys_) {
+  for (const auto& k : Params::instance().keys_) {
     if (result)
       break;
     result = key == k;
@@ -586,7 +586,7 @@ int Print::printPreviewList() {
   int cnt = 0;
   Exiv2::PreviewManager pm(*image);
   Exiv2::PreviewPropertiesList list = pm.getPreviewProperties();
-  for (auto&& pos : list) {
+  for (const auto& pos : list) {
     if (manyFiles) {
       std::cout << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
     }
@@ -735,7 +735,7 @@ int Erase::eraseThumbnail(Exiv2::Image* image) {
 }
 
 int Erase::eraseExifData(Exiv2::Image* image) {
-  if (Params::instance().verbose_ && image->exifData().count() > 0) {
+  if (Params::instance().verbose_ && !image->exifData().empty()) {
     std::cout << _("Erasing Exif data from the file") << std::endl;
   }
   image->clearExifData();
@@ -743,7 +743,7 @@ int Erase::eraseExifData(Exiv2::Image* image) {
 }
 
 int Erase::eraseIptcData(Exiv2::Image* image) {
-  if (Params::instance().verbose_ && image->iptcData().count() > 0) {
+  if (Params::instance().verbose_ && !image->iptcData().empty()) {
     std::cout << _("Erasing IPTC data from the file") << std::endl;
   }
   image->clearIptcData();
@@ -759,7 +759,7 @@ int Erase::eraseComment(Exiv2::Image* image) {
 }
 
 int Erase::eraseXmpData(Exiv2::Image* image) {
-  if (Params::instance().verbose_ && image->xmpData().count() > 0) {
+  if (Params::instance().verbose_ && !image->xmpData().empty()) {
     std::cout << _("Erasing XMP data from the file") << std::endl;
   }
   image->clearXmpData();  // Quick fix for bug #612
@@ -1141,10 +1141,10 @@ int Modify::applyCommands(Exiv2::Image* pImage) {
   }
 
   // loop through command table and apply each command
-  ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
+  const ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
   int rc = 0;
   int ret = 0;
-  for (auto&& cmd : modifyCmds) {
+  for (const auto& cmd : modifyCmds) {
     switch (cmd.cmdId_) {
       case CmdId::add:
         ret = addMetadatum(pImage, cmd);
@@ -1649,7 +1649,7 @@ int str2Tm(const std::string& timeStr, struct tm* tm) {
 }  // str2Tm
 
 std::string time2Str(time_t time) {
-  struct tm* tm = localtime(&time);
+  auto tm = localtime(&time);
   return tm2Str(tm);
 }  // time2Str
 
@@ -1732,7 +1732,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
       std::cout << _("Writing Exif data from") << " " << source << " " << _("to") << " " << target << std::endl;
     }
     if (preserve) {
-      for (auto&& exif : sourceImage->exifData()) {
+      for (const auto& exif : sourceImage->exifData()) {
         targetImage->exifData()[exif.key()] = exif.value();
       }
     } else {
@@ -1744,7 +1744,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
       std::cout << _("Writing IPTC data from") << " " << source << " " << _("to") << " " << target << std::endl;
     }
     if (preserve) {
-      for (auto&& iptc : sourceImage->iptcData()) {
+      for (const auto& iptc : sourceImage->iptcData()) {
         targetImage->iptcData()[iptc.key()] = iptc.value();
       }
     } else {
@@ -1767,7 +1767,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
       os.close();
       rc = 0;
     } else if (preserve) {
-      for (auto&& xmp : sourceImage->xmpData()) {
+      for (const auto& xmp : sourceImage->xmpData()) {
         targetImage->xmpData()[xmp.key()] = xmp.value();
       }
     } else {

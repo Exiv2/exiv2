@@ -104,17 +104,15 @@ void boxes_check(size_t b, size_t m) {
 }  // namespace
 
 Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create) : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, std::move(io)) {
-  if (create) {
-    if (io_->open() == 0) {
+  if (create && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Exiv2::Jp2Image:: Creating JPEG2000 image to memory" << std::endl;
+    std::cerr << "Exiv2::Jp2Image:: Creating JPEG2000 image to memory" << std::endl;
 #endif
-      IoCloser closer(*io_);
-      if (io_->write(Jp2Blank.data(), Jp2Blank.size()) != Jp2Blank.size()) {
+    IoCloser closer(*io_);
+    if (io_->write(Jp2Blank.data(), Jp2Blank.size()) != Jp2Blank.size()) {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cerr << "Exiv2::Jp2Image:: Failed to create JPEG2000 image on memory" << std::endl;
+      std::cerr << "Exiv2::Jp2Image:: Failed to create JPEG2000 image on memory" << std::endl;
 #endif
-      }
     }
   }
 }
@@ -756,7 +754,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
 
         // Write all updated metadata here, just after JP2Header.
 
-        if (exifData_.count() > 0) {
+        if (!exifData_.empty()) {
           // Update Exif data to a new UUID box
 
           Blob blob;
@@ -782,7 +780,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
           }
         }
 
-        if (iptcData_.count() > 0) {
+        if (!iptcData_.empty()) {
           // Update Iptc data to a new UUID box
 
           DataBuf rawIptc = IptcParser::encode(iptcData_);

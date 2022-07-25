@@ -1934,7 +1934,7 @@ void TiffParserWorker::findPrimaryGroups(PrimaryGroups& primaryGroups, TiffCompo
       IfdId::subImage7Id, IfdId::subImage8Id, IfdId::subImage9Id,
   };
 
-  for (auto&& imageGroup : imageGroups) {
+  for (auto imageGroup : imageGroups) {
     TiffFinder finder(0x00fe, imageGroup);
     pSourceDir->accept(finder);
     auto te = dynamic_cast<TiffEntryBase*>(finder.result());
@@ -2164,10 +2164,10 @@ void OffsetWriter::setTarget(OffsetId id, uint32_t target) {
 }
 
 void OffsetWriter::writeOffsets(BasicIo& io) const {
-  for (auto&& it : offsetList_) {
-    io.seek(it.second.origin_, BasicIo::beg);
+  for (const auto& [_, off] : offsetList_) {
+    io.seek(off.origin_, BasicIo::beg);
     byte buf[4] = {0, 0, 0, 0};
-    l2Data(buf, it.second.target_, it.second.byteOrder_);
+    l2Data(buf, off.target_, off.byteOrder_);
     io.write(buf, 4);
   }
 }

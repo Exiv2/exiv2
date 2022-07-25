@@ -148,11 +148,10 @@ std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, 
   if (numbers.size() >= 10) {
     // year
     long l = (numbers[0] - 48) * 10 + (numbers[1] - 48);
-    if (l < 70) {
+    if (l < 70)
       l += 2000;
-    } else {
+    else
       l += 1900;
-    };
     os << l << ":";
     // month, day, hour, minutes
     os << numbers[2] << numbers[3] << ":" << numbers[4] << numbers[5] << " " << numbers[6] << numbers[7] << ":"
@@ -160,10 +159,9 @@ std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, 
     // optional seconds
     if (numbers.size() == 12) {
       os << ":" << numbers[10] << numbers[11];
-    };
-  } else {
+    }
+  } else
     os << value;
-  };
   return os;
 }
 
@@ -393,18 +391,16 @@ std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value,
   if (numbers.size() >= 10) {
     // year
     long l = (numbers[0] - 48) * 10 + (numbers[1] - 48);
-    if (l < 70) {
+    if (l < 70)
       l += 2000;
-    } else {
+    else
       l += 1900;
-    };
     os << l << ":";
     // month, day, hour, minutes
     os << numbers[2] << numbers[3] << ":" << numbers[4] << numbers[5] << " " << numbers[6] << numbers[7] << ":"
        << numbers[8] << numbers[9];
-  } else {
+  } else
     os << value;
-  };
   return os;
 }
 
@@ -414,7 +410,7 @@ std::ostream& Casio2MakerNote::print0x2022(std::ostream& os, const Value& value,
     os << N_("Inf");
     os.flags(f);
     return os;
-  };
+  }
   std::ostringstream oss;
   oss.copyfmt(os);
   os << std::fixed << std::setprecision(2) << value.toInt64() / 1000.0 << _(" m");

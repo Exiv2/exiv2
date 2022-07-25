@@ -2581,7 +2581,7 @@ std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifDa
     ) {
       return os << "Canon EF-S 24mm f/2.8 STM";
     }
-  } catch (std::exception&) {
+  } catch (const std::exception&) {
   };
 
   return EXV_PRINT_TAG(canonCsLensType)(os, value, metadata);
@@ -2652,7 +2652,7 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
 
     auto tc = base_match[5].length() > 0 ? std::stof(base_match[5].str()) : 1.f;
 
-    int flMax = static_cast<int>(std::stof(base_match[2].str()) * tc);
+    auto flMax = static_cast<int>(std::stof(base_match[2].str()) * tc);
     int flMin = base_match[1].length() > 0 ? static_cast<int>(std::stof(base_match[1].str()) * tc) : flMax;
 
     auto aperMaxTele = std::stof(base_match[4].str()) * tc;

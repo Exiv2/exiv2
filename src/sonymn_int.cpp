@@ -666,13 +666,10 @@ std::ostream& SonyMakerNote::printSony2FpFocusPosition2(std::ostream& os, const 
       }
     }
     const auto val = value.toInt64();
-    switch (val) {
-      case 255:
-        os << N_("Infinity");
-        break;
-      default:
-        os << val;
-    }
+    if (val == 255)
+      os << N_("Infinity");
+    else
+      os << val;
   }
   return os;
 }
@@ -770,7 +767,7 @@ std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, c
       return os << N_("n/a");
   }
 
-  os << std::round((value.toInt64() / 10.24)) << "%";
+  os << std::round(value.toInt64() / 10.24) << "%";
 
   return os;
 }
