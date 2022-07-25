@@ -503,7 +503,7 @@ void XmpData::eraseFamily(XmpData::iterator& pos) {
     }
   }
   // now erase the family!
-  for (auto&& k : keys) {
+  for (const auto& k : keys) {
     erase(findKey(Exiv2::XmpKey(k)));
   }
 }
@@ -826,29 +826,29 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
       return 2;
     }
     // Register custom namespaces with XMP-SDK
-    for (auto&& [xmp, uri] : XmpProperties::nsRegistry_) {
+    for (const auto& [xmp, uri] : XmpProperties::nsRegistry_) {
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << "Registering " << uri.prefix_ << " : " << xmp << "\n";
 #endif
       registerNs(xmp, uri.prefix_);
     }
     SXMPMeta meta;
-    for (auto&& i : xmpData) {
-      const std::string ns = XmpProperties::ns(i.groupName());
+    for (const auto& xmp : xmpData) {
+      const std::string ns = XmpProperties::ns(xmp.groupName());
       XMP_OptionBits options = 0;
 
-      if (i.typeId() == langAlt) {
+      if (xmp.typeId() == langAlt) {
         // Encode Lang Alt property
-        const auto la = dynamic_cast<const LangAltValue*>(&i.value());
+        const auto la = dynamic_cast<const LangAltValue*>(&xmp.value());
         if (!la)
-          throw Error(ErrorCode::kerEncodeLangAltPropertyFailed, i.key());
+          throw Error(ErrorCode::kerEncodeLangAltPropertyFailed, xmp.key());
 
         int idx = 1;
-        for (auto&& [lang, specs] : la->value_) {
+        for (const auto& [lang, specs] : la->value_) {
           if (!specs.empty()) {  // remove lang specs with no value
-            printNode(ns, i.tagName(), specs, 0);
-            meta.AppendArrayItem(ns.c_str(), i.tagName().c_str(), kXMP_PropArrayIsAlternate, specs.c_str());
-            const std::string item = i.tagName() + "[" + toString(idx++) + "]";
+            printNode(ns, xmp.tagName(), specs, 0);
+            meta.AppendArrayItem(ns.c_str(), xmp.tagName().c_str(), kXMP_PropArrayIsAlternate, specs.c_str());
+            const std::string item = xmp.tagName() + "[" + toString(idx++) + "]";
             meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", lang.c_str());
           }
         }
@@ -856,32 +856,32 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
       }
 
       // Todo: Xmpdatum should have an XmpValue, not a Value
-      const auto val = dynamic_cast<const XmpValue*>(&i.value());
+      const auto val = dynamic_cast<const XmpValue*>(&xmp.value());
       if (!val)
-        throw Error(ErrorCode::kerInvalidKeyXmpValue, i.key(), i.typeName());
+        throw Error(ErrorCode::kerInvalidKeyXmpValue, xmp.key(), xmp.typeName());
       options = xmpArrayOptionBits(val->xmpArrayType()) | xmpArrayOptionBits(val->xmpStruct());
-      if (i.typeId() == xmpBag || i.typeId() == xmpSeq || i.typeId() == xmpAlt) {
-        printNode(ns, i.tagName(), "", options);
-        meta.SetProperty(ns.c_str(), i.tagName().c_str(), nullptr, options);
-        for (size_t idx = 0; idx < i.count(); ++idx) {
-          const std::string item = i.tagName() + "[" + toString(idx + 1) + "]";
-          printNode(ns, item, i.toString(static_cast<long>(idx)), 0);
-          meta.SetProperty(ns.c_str(), item.c_str(), i.toString(static_cast<long>(idx)).c_str());
+      if (xmp.typeId() == xmpBag || xmp.typeId() == xmpSeq || xmp.typeId() == xmpAlt) {
+        printNode(ns, xmp.tagName(), "", options);
+        meta.SetProperty(ns.c_str(), xmp.tagName().c_str(), nullptr, options);
+        for (size_t idx = 0; idx < xmp.count(); ++idx) {
+          const std::string item = xmp.tagName() + "[" + toString(idx + 1) + "]";
+          printNode(ns, item, xmp.toString(static_cast<long>(idx)), 0);
+          meta.SetProperty(ns.c_str(), item.c_str(), xmp.toString(static_cast<long>(idx)).c_str());
         }
         continue;
       }
-      if (i.typeId() == xmpText) {
-        if (i.count() == 0) {
-          printNode(ns, i.tagName(), "", options);
-          meta.SetProperty(ns.c_str(), i.tagName().c_str(), nullptr, options);
+      if (xmp.typeId() == xmpText) {
+        if (xmp.count() == 0) {
+          printNode(ns, xmp.tagName(), "", options);
+          meta.SetProperty(ns.c_str(), xmp.tagName().c_str(), nullptr, options);
         } else {
-          printNode(ns, i.tagName(), i.toString(0), options);
-          meta.SetProperty(ns.c_str(), i.tagName().c_str(), i.toString(0).c_str(), options);
+          printNode(ns, xmp.tagName(), xmp.toString(0), options);
+          meta.SetProperty(ns.c_str(), xmp.tagName().c_str(), xmp.toString(0).c_str(), options);
         }
         continue;
       }
       // Don't let any Xmpdatum go by unnoticed
-      throw Error(ErrorCode::kerUnhandledXmpdatum, i.tagName(), i.typeName());
+      throw Error(ErrorCode::kerUnhandledXmpdatum, xmp.tagName(), xmp.typeName());
     }
     std::string tmpPacket;
     meta.SerializeToBuffer(&tmpPacket, xmpFormatOptionBits(static_cast<XmpFormatFlags>(formatFlags)),

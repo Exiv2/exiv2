@@ -23,7 +23,7 @@ namespace {
 [[maybe_unused]] std::string binaryToHex(const uint8_t* data, size_t size) {
   std::stringstream hexOutput;
 
-  auto tl = static_cast<size_t>(size / 16) * 16;
+  auto tl = size / 16 * 16;
   auto tl_offset = size - tl;
 
   for (size_t loop = 0; loop < size; loop++) {
@@ -138,14 +138,14 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
   byte size_buff[WEBP_TAG_SIZE];
   Blob blob;
 
-  if (exifData_.count() > 0) {
+  if (!exifData_.empty()) {
     ExifParser::encode(blob, littleEndian, exifData_);
     if (!blob.empty()) {
       has_exif = true;
     }
   }
 
-  if (xmpData_.count() > 0 && !writeXmpFromPacket()) {
+  if (!xmpData_.empty() && !writeXmpFromPacket()) {
     XmpParser::encode(xmpPacket_, xmpData_, XmpParser::useCompactFormat | XmpParser::omitAllFormatting);
   }
   has_xmp = !xmpPacket_.empty();
@@ -326,10 +326,8 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
         throw Error(ErrorCode::kerImageWriteFailed);
       if (outIo.write(payload.c_data(), payload.size()) != payload.size())
         throw Error(ErrorCode::kerImageWriteFailed);
-      if (outIo.tell() % 2) {
-        if (outIo.write(&WEBP_PAD_ODD, 1) != 1)
-          throw Error(ErrorCode::kerImageWriteFailed);
-      }
+      if (outIo.tell() % 2 && outIo.write(&WEBP_PAD_ODD, 1) != 1)
+        throw Error(ErrorCode::kerImageWriteFailed);
 
       if (has_icc) {
         if (outIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_ICCP), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
@@ -358,10 +356,8 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     }
 
     // Encoder required to pad odd sized data with a null byte
-    if (outIo.tell() % 2) {
-      if (outIo.write(&WEBP_PAD_ODD, 1) != 1)
-        throw Error(ErrorCode::kerImageWriteFailed);
-    }
+    if (outIo.tell() % 2 && outIo.write(&WEBP_PAD_ODD, 1) != 1)
+      throw Error(ErrorCode::kerImageWriteFailed);
   }
 
   if (has_exif) {
@@ -374,10 +370,8 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     if (outIo.write(blob.data(), blob.size()) != blob.size()) {
       throw Error(ErrorCode::kerImageWriteFailed);
     }
-    if (outIo.tell() % 2) {
-      if (outIo.write(&WEBP_PAD_ODD, 1) != 1)
-        throw Error(ErrorCode::kerImageWriteFailed);
-    }
+    if (outIo.tell() % 2 && outIo.write(&WEBP_PAD_ODD, 1) != 1)
+      throw Error(ErrorCode::kerImageWriteFailed);
   }
 
   if (has_xmp) {
@@ -389,10 +383,8 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     if (outIo.write(reinterpret_cast<const byte*>(xmp.data()), xmp.size()) != xmp.size()) {
       throw Error(ErrorCode::kerImageWriteFailed);
     }
-    if (outIo.tell() % 2) {
-      if (outIo.write(&WEBP_PAD_ODD, 1) != 1)
-        throw Error(ErrorCode::kerImageWriteFailed);
-    }
+    if (outIo.tell() % 2 && outIo.write(&WEBP_PAD_ODD, 1) != 1)
+      throw Error(ErrorCode::kerImageWriteFailed);
   }
 
   // Fix File Size Payload Data
@@ -722,7 +714,7 @@ bool isWebPType(BasicIo& iIo, bool /*advance*/) {
  @param str char* Pointer to string
  @return Returns true if the buffer value is equal to string.
  */
-bool WebPImage::equalsWebPTag(Exiv2::DataBuf& buf, const char* str) {
+bool WebPImage::equalsWebPTag(const Exiv2::DataBuf& buf, const char* str) {
   for (int i = 0; i < 4; i++)
     if (toupper(buf.read_uint8(i)) != str[i])
       return false;
@@ -784,10 +776,8 @@ void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_
       throw Error(ErrorCode::kerImageWriteFailed);
     if (iIo.write(iccProfile_.c_data(), iccProfile_.size()) != iccProfile_.size())
       throw Error(ErrorCode::kerImageWriteFailed);
-    if (iIo.tell() % 2) {
-      if (iIo.write(&WEBP_PAD_ODD, 1) != 1)
-        throw Error(ErrorCode::kerImageWriteFailed);
-    }
+    if (iIo.tell() % 2 && iIo.write(&WEBP_PAD_ODD, 1) != 1)
+      throw Error(ErrorCode::kerImageWriteFailed);
   }
 }
 

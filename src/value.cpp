@@ -712,7 +712,7 @@ std::ostream& LangAltValue::write(std::ostream& os) const {
   }
 
   // Write the others
-  for (auto&& [lang, s] : value_) {
+  for (const auto& [lang, s] : value_) {
     if (lang != x_default) {
       if (!first)
         os << ", ";

@@ -384,7 +384,6 @@ struct TiffMappingInfo::Key {
 class TiffEntryBase : public TiffComponent {
   friend class TiffReader;
   friend class TiffEncoder;
-  friend int selectNikonLd(TiffBinaryArray*, TiffComponent*);
 
  public:
   //! @name Creators
@@ -1161,12 +1160,7 @@ class TiffIfdMakernote : public TiffComponent {
            the header is \c invalidByteOrder.
    */
   [[nodiscard]] ByteOrder byteOrder() const;
-  /*!
-    @brief Return the byte order used for the image.
-   */
-  [[nodiscard]] ByteOrder imageByteOrder() const {
-    return imageByteOrder_;
-  }
+
   /*!
     @brief Return the base offset for use with the makernote IFD entries
            relative to the start of the TIFF header.

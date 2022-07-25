@@ -234,7 +234,7 @@ class TiffCopier : public TiffVisitor {
   void visitBinaryElement(TiffBinaryElement* object) override;
 
   //! Check if \em object is an image tag and if so, copy it to the target tree.
-  void copyObject(TiffComponent* object);
+  void copyObject(const TiffComponent* object);
   //@}
 
  private:

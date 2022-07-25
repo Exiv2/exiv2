@@ -1038,14 +1038,13 @@ uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size
 #endif
   DataBuf buf(strips_.size() * 4);
   uint32_t idx = 0;
-  for (auto&& strip : strips_) {
+  for (const auto& [_, off] : strips_) {
     idx += writeOffset(buf.data(idx), o2, tiffType(), byteOrder);
     // Align strip data to word boundary
-    const auto sz = Safe::add(strip.second, strip.second & 1);
+    const auto sz = Safe::add(off, off & 1);
     o2 = Safe::add(o2, sz);
-    if (!(group() > IfdId::mnId)) {  // Todo: FIX THIS!! SHOULDN'T USE >
+    if (group() <= IfdId::mnId)
       imageIdx = Safe::add(imageIdx, static_cast<uint32_t>(sz));
-    }
   }
   ioWrapper.write(buf.c_data(), buf.size());
   return static_cast<uint32_t>(buf.size());
@@ -1129,7 +1128,7 @@ uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, siz
   if (cfg()->cryptFct_) {
     // Select sonyTagEncipher
     CryptFct cryptFct = cfg()->cryptFct_;
-    if (cryptFct == sonyTagDecipher) {
+    if (cryptFct == &sonyTagDecipher) {
       cryptFct = sonyTagEncipher;
     }
     DataBuf buf = cryptFct(tag(), mio.mmap(), static_cast<uint32_t>(mio.size()), pRoot_);
@@ -1226,7 +1225,7 @@ uint32_t TiffComponent::writeImage(IoWrapper& ioWrapper, ByteOrder byteOrder) co
 uint32_t TiffDirectory::doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
   uint32_t len = 0;
   TiffComponent* pSubIfd = nullptr;
-  for (auto&& component : components_) {
+  for (auto component : components_) {
     if (component->tag() == 0x014a) {
       // Hack: delay writing of sub-IFD image data to get the order correct
 #ifndef SUPPRESS_WARNINGS
@@ -1469,8 +1468,8 @@ size_t TiffImageEntry::doSizeImage() const {
     return 0;
   auto len = pValue()->sizeDataArea();
   if (len == 0) {
-    for (auto&& strip : strips_) {
-      len += strip.second;
+    for (const auto& [_, off] : strips_) {
+      len += off;
     }
   }
   return len;
@@ -1478,9 +1477,11 @@ size_t TiffImageEntry::doSizeImage() const {
 
 static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
   const TagInfo* result = nullptr;
-  const TagInfo* tags = group == IfdId::exifId  ? Internal::exifTagList()
-                        : group == IfdId::gpsId ? Internal::gpsTagList()
-                                                : nullptr;
+  const TagInfo* tags = [=] {
+    if (group == IfdId::gpsId)
+      return group == IfdId::exifId ? Internal::exifTagList() : Internal::gpsTagList();
+    return group == IfdId::exifId ? Internal::exifTagList() : nullptr;
+  }();
   if (tags) {
     for (size_t idx = 0; !result && tags[idx].tag_ != 0xffff; ++idx) {
       if (tags[idx].tag_ == tag) {
@@ -1503,10 +1504,9 @@ TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group) {
   }
   // http://dev.exiv2.org/boards/3/topics/1337 change unsignedByte to signedByte
   // Exif.NikonAFT.AFFineTuneAdj || Exif.Pentax.Temperature
-  if (ti == Exiv2::unsignedByte) {
-    if ((tag == 0x0002 && group == IfdId::nikonAFTId) || (tag == 0x0047 && group == IfdId::pentaxId)) {
-      ti = Exiv2::signedByte;
-    }
+  if (ti == Exiv2::unsignedByte &&
+      ((tag == 0x0002 && group == IfdId::nikonAFTId) || (tag == 0x0047 && group == IfdId::pentaxId))) {
+    ti = Exiv2::signedByte;
   }
   return ti;
 }

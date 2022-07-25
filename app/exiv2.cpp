@@ -34,19 +34,19 @@
 // *****************************************************************************
 // local declarations
 namespace {
-const Params::YodAdjust emptyYodAdjust_[] = {
-    {false, "-Y", 0},
-    {false, "-O", 0},
-    {false, "-D", 0},
+constexpr auto emptyYodAdjust_ = std::array{
+    Params::YodAdjust{false, "-Y", 0},
+    Params::YodAdjust{false, "-O", 0},
+    Params::YodAdjust{false, "-D", 0},
 };
 
 //! List of all command identifiers and corresponding strings
-const CmdIdAndString cmdIdAndString[] = {
-    {CmdId::add, "add"},
-    {CmdId::set, "set"},
-    {CmdId::del, "del"},
-    {CmdId::reg, "reg"},
-    {CmdId::invalid, "invalidCmd"},  // End of list marker
+constexpr auto cmdIdAndString = std::array{
+    CmdIdAndString{CmdId::add, "add"},
+    CmdIdAndString{CmdId::set, "set"},
+    CmdIdAndString{CmdId::del, "del"},
+    CmdIdAndString{CmdId::reg, "reg"},
+    CmdIdAndString{CmdId::invalid, "invalidCmd"},  // End of list marker
 };
 
 // Return a command Id for a command string
@@ -151,7 +151,7 @@ int main(int argc, char* const argv[]) {
     } else {
       int w = filesCount > 9 ? filesCount > 99 ? 3 : 2 : 1;
       int n = 1;
-      for (auto&& file : params.files_) {
+      for (const auto& file : params.files_) {
         // If extracting to stdout then ignore verbose
         if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
           std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << filesCount << ": " << file
@@ -1088,7 +1088,7 @@ bool parseTime(const std::string& ts, int64_t& time) {
   std::string hstr, mstr, sstr;
   auto cts = new char[ts.length() + 1];
   strcpy(cts, ts.c_str());
-  char* tmp = ::strtok(cts, ":");
+  auto tmp = ::strtok(cts, ":");
   if (tmp)
     hstr = tmp;
   tmp = ::strtok(nullptr, ":");
@@ -1430,11 +1430,8 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 }  // parseLine
 
 CmdId commandId(const std::string& cmdString) {
-  int i = 0;
-  while (cmdIdAndString[i].first != CmdId::invalid && cmdIdAndString[i].second != cmdString) {
-    ++i;
-  }
-  return cmdIdAndString[i].first;
+  auto it = std::find_if(cmdIdAndString.begin(), cmdIdAndString.end(), [&](auto cs) { return cs.second == cmdString; });
+  return it != cmdIdAndString.end() ? it->first : CmdId::invalid;
 }
 
 std::string parseEscapes(const std::string& input) {
@@ -1446,7 +1443,7 @@ std::string parseEscapes(const std::string& input) {
       continue;
     }
     size_t escapeStart = i;
-    if (!(input.length() - 1 > i)) {
+    if (input.length() - 1 <= i) {
       result.push_back(ch);
       continue;
     }

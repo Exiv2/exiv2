@@ -63,7 +63,7 @@ struct ModifyCmd {
 //! Container for modification commands
 using ModifyCmds = std::vector<ModifyCmd>;
 //! Structure to link command identifiers to strings
-using CmdIdAndString = std::pair<CmdId, std::string>;
+using CmdIdAndString = std::pair<CmdId, std::string_view>;
 /*!
   @brief Implements the command line handling for the program.
 
@@ -209,21 +209,21 @@ class Params : public Util::Getopt {
   int action_{0};
   CommonTarget target_;  //!< What common target to process.
 
-  int64_t adjustment_{0};          //!< Adjustment in seconds.
-  YodAdjust yodAdjust_[3];         //!< Year, month and day adjustment info.
-  std::string format_;             //!< Filename format (-r option arg).
-  bool formatSet_{false};          //!< Whether the format is set with -r
-  CmdFiles cmdFiles_;              //!< Names of the modification command files
-  CmdLines cmdLines_;              //!< Commands from the command line
-  ModifyCmds modifyCmds_;          //!< Parsed modification commands
-  std::string jpegComment_;        //!< Jpeg comment to set in the image
-  std::string directory_;          //!< Location for files to extract/insert
-  std::string suffix_;             //!< File extension of the file to insert
-  Files files_;                    //!< List of non-option arguments.
-  PreviewNumbers previewNumbers_;  //!< List of preview numbers
-  std::vector<std::regex> greps_;  //!< List of keys to 'grep' from the metadata
-  Keys keys_;                      //!< List of keys to match from the metadata
-  std::string charset_;            //!< Charset to use for UNICODE Exif user comment
+  int64_t adjustment_{0};               //!< Adjustment in seconds.
+  std::array<YodAdjust, 3> yodAdjust_;  //!< Year, month and day adjustment info.
+  std::string format_;                  //!< Filename format (-r option arg).
+  bool formatSet_{false};               //!< Whether the format is set with -r
+  CmdFiles cmdFiles_;                   //!< Names of the modification command files
+  CmdLines cmdLines_;                   //!< Commands from the command line
+  ModifyCmds modifyCmds_;               //!< Parsed modification commands
+  std::string jpegComment_;             //!< Jpeg comment to set in the image
+  std::string directory_;               //!< Location for files to extract/insert
+  std::string suffix_;                  //!< File extension of the file to insert
+  Files files_;                         //!< List of non-option arguments.
+  PreviewNumbers previewNumbers_;       //!< List of preview numbers
+  std::vector<std::regex> greps_;       //!< List of keys to 'grep' from the metadata
+  Keys keys_;                           //!< List of keys to match from the metadata
+  std::string charset_;                 //!< Charset to use for UNICODE Exif user comment
 
   Exiv2::DataBuf stdinBuf;  //!< DataBuf with the binary bytes from stdin
 

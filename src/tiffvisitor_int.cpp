@@ -133,7 +133,7 @@ TiffCopier::TiffCopier(TiffComponent* pRoot, uint32_t root, const TiffHeaderBase
     pRoot_(pRoot), root_(root), pHeader_(pHeader), pPrimaryGroups_(pPrimaryGroups) {
 }
 
-void TiffCopier::copyObject(TiffComponent* object) {
+void TiffCopier::copyObject(const TiffComponent* object) {
   if (pHeader_->isImageTag(object->tag(), object->group(), pPrimaryGroups_)) {
     auto clone = object->clone();
     // Assumption is that the corresponding TIFF entry doesn't exist
@@ -282,8 +282,7 @@ void TiffDecoder::decodeXmp(const TiffEntryBase* object) {
     std::string::size_type idx = xmpPacket.find_first_of('<');
     if (idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "Removing " << static_cast<unsigned long>(idx)
-                  << " characters from the beginning of the XMP packet\n";
+      EXV_WARNING << "Removing " << idx << " characters from the beginning of the XMP packet\n";
 #endif
       xmpPacket = xmpPacket.substr(idx);
     }
@@ -392,13 +391,13 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   };
   // check we have enough data!
   uint16_t count = 0;
-  for (auto&& [tag, size, bSigned] : records) {
+  for (const auto& [tag, size, bSigned] : records) {
     count += size;
     if (count > ints.size())
       return;
   }
 
-  for (auto&& [tag, size, bSigned] : records) {
+  for (const auto& [tag, size, bSigned] : records) {
     const TagInfo* pTags = ExifTags::tagList("Canon");
     const TagInfo* pTag = findTag(pTags, tag);
     if (pTag) {
@@ -591,7 +590,7 @@ void TiffEncoder::visitDirectory(TiffDirectory* /*object*/) {
 void TiffEncoder::visitDirectoryNext(TiffDirectory* object) {
   // Update type and count in IFD entries, in case they changed
   byte* p = object->start() + 2;
-  for (auto&& component : object->components_) {
+  for (auto component : object->components_) {
     p += updateDirEntry(p, byteOrder(), component);
   }
 }
@@ -648,7 +647,7 @@ void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object) {
     static constexpr auto synthesizedTags = std::array{
         "Exif.MakerNote.Offset",
     };
-    for (auto&& synthesizedTag : synthesizedTags) {
+    for (auto synthesizedTag : synthesizedTags) {
       pos = exifData_.findKey(ExifKey(synthesizedTag));
       if (pos != exifData_.end())
         exifData_.erase(pos);
@@ -682,7 +681,7 @@ void TiffEncoder::visitBinaryArrayEnd(TiffBinaryArray* object) {
 
   // Re-encrypt buffer if necessary
   CryptFct cryptFct = object->cfg()->cryptFct_;
-  if (cryptFct == sonyTagDecipher) {
+  if (cryptFct == &sonyTagDecipher) {
     cryptFct = sonyTagEncipher;
   }
   if (cryptFct) {
@@ -1070,7 +1069,7 @@ int TiffReader::nextIdx(IfdId group) {
 void TiffReader::postProcess() {
   setMnState();  // All components to be post-processed must be from the Makernote
   postProc_ = true;
-  for (auto&& pos : postList_) {
+  for (auto pos : postList_) {
     pos->accept(*this);
   }
   postProc_ = false;
@@ -1427,7 +1426,7 @@ void TiffReader::visitBinaryArray(TiffBinaryArray* object) {
 }  // TiffReader::visitBinaryArray
 
 void TiffReader::visitBinaryElement(TiffBinaryElement* object) {
-  byte* pData = object->start();
+  auto pData = object->start();
   size_t size = object->TiffEntryBase::doSize();
   ByteOrder bo = object->elByteOrder();
   if (bo == invalidByteOrder)

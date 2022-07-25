@@ -21,11 +21,9 @@ constexpr auto xmlFooter = "<?xpacket end=\"w\"?>";
 // class member definitions
 namespace Exiv2 {
 XmpSidecar::XmpSidecar(BasicIo::UniquePtr io, bool create) : Image(ImageType::xmp, mdXmp, std::move(io)) {
-  if (create) {
-    if (io_->open() == 0) {
-      IoCloser closer(*io_);
-      io_->write(reinterpret_cast<const byte*>(xmlHeader), xmlHdrCnt);
-    }
+  if (create && io_->open() == 0) {
+    IoCloser closer(*io_);
+    io_->write(reinterpret_cast<const byte*>(xmlHeader), xmlHdrCnt);
   }
 }  // XmpSidecar::XmpSidecar
 
@@ -71,10 +69,10 @@ void XmpSidecar::readMetadata() {
   }
 
   // #1112 - store dates to deal with loss of TZ information during conversions
-  for (auto&& it : xmpData_) {
-    std::string key(it.key());
+  for (const auto& xmp : xmpData_) {
+    std::string key(xmp.key());
     if (key.find("Date") != std::string::npos) {
-      std::string value(it.value().toString());
+      std::string value(xmp.value().toString());
       dates_[key] = value;
     }
   }
@@ -96,9 +94,9 @@ void XmpSidecar::writeMetadata() {
   if (!writeXmpFromPacket()) {
     // #589 copy XMP tags
     Exiv2::XmpData copy;
-    for (auto&& it : xmpData_) {
-      if (!matchi(it.key(), "exif") && !matchi(it.key(), "iptc")) {
-        copy[it.key()] = it.value();
+    for (const auto& xmp : xmpData_) {
+      if (!matchi(xmp.key(), "exif") && !matchi(xmp.key(), "iptc")) {
+        copy[xmp.key()] = xmp.value();
       }
     }
 
@@ -107,7 +105,7 @@ void XmpSidecar::writeMetadata() {
     copyIptcToXmp(iptcData_, xmpData_);
 
     // #1112 - restore dates if they lost their TZ info
-    for (auto&& [sKey, value_orig] : dates_) {
+    for (const auto& [sKey, value_orig] : dates_) {
       Exiv2::XmpKey key(sKey);
       if (xmpData_.findKey(key) != xmpData_.end()) {
         std::string value_now(xmpData_[sKey].value().toString());
@@ -119,8 +117,8 @@ void XmpSidecar::writeMetadata() {
     }
 
     // #589 - restore tags which were modified by the convertors
-    for (auto&& it : copy) {
-      xmpData_[it.key()] = it.value();
+    for (const auto& xmp : copy) {
+      xmpData_[xmp.key()] = xmp.value();
     }
 
     if (XmpParser::encode(xmpPacket_, xmpData_, XmpParser::omitPacketWrapper | XmpParser::useCompactFormat) > 1) {

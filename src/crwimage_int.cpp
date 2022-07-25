@@ -749,7 +749,7 @@ void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* 
   ULongValue v;
   v.read(ciffComponent.pData(), 8, byteOrder);
   time_t t = v.value_.at(0);
-  struct tm* tm = std::localtime(&t);
+  auto tm = std::localtime(&t);
   if (tm) {
     const size_t m = 20;
     char s[m];
@@ -958,7 +958,7 @@ void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, Cif
   const auto edO = exivData.findKey(kO);
   const auto edEnd = exivData.end();
 
-  CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+  auto cc = pHead->findComponent(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
   if (edX != edEnd || edY != edEnd || edO != edEnd) {
     size_t size = 28;
     if (cc) {
