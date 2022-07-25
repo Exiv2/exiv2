@@ -681,26 +681,22 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
 namespace {
 //! @cond IGNORE
 Thumbnail::UniquePtr Thumbnail::create(const Exiv2::ExifData& exifData) {
-  std::unique_ptr<Thumbnail> thumbnail;
   const Exiv2::ExifKey k1("Exif.Thumbnail.Compression");
   auto pos = exifData.findKey(k1);
   if (pos != exifData.end()) {
     if (pos->count() == 0)
-      return thumbnail;
+      return nullptr;
     auto compression = pos->toInt64();
-    if (compression == 6) {
-      thumbnail = std::make_unique<JpegThumbnail>();
-    } else {
-      thumbnail = std::make_unique<TiffThumbnail>();
-    }
-  } else {
-    const Exiv2::ExifKey k2("Exif.Thumbnail.JPEGInterchangeFormat");
-    pos = exifData.findKey(k2);
-    if (pos != exifData.end()) {
-      thumbnail = std::make_unique<JpegThumbnail>();
-    }
+    if (compression == 6)
+      return std::make_unique<JpegThumbnail>();
+    return std::make_unique<TiffThumbnail>();
   }
-  return thumbnail;
+
+  const Exiv2::ExifKey k2("Exif.Thumbnail.JPEGInterchangeFormat");
+  pos = exifData.findKey(k2);
+  if (pos != exifData.end())
+    return std::make_unique<JpegThumbnail>();
+  return nullptr;
 }
 
 const char* TiffThumbnail::mimeType() const {

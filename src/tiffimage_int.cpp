@@ -1807,24 +1807,19 @@ bool TiffTreeStruct::operator==(const TiffTreeStruct::Key& key) const {
 }
 
 TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag, IfdId group) {
-  std::unique_ptr<TiffComponent> tc;
   auto tag = static_cast<uint16_t>(extendedTag & 0xffff);
   const TiffGroupStruct* ts = find(tiffGroupStruct_, TiffGroupStruct::Key(extendedTag, group));
-  if (ts && ts->newTiffCompFct_) {
-    tc = ts->newTiffCompFct_(tag, group);
-  }
+  if (ts && ts->newTiffCompFct_)
+    return ts->newTiffCompFct_(tag, group);
 #ifdef EXIV2_DEBUG_MESSAGES
-  else {
-    if (!ts) {
-      std::cerr << "Warning: No TIFF structure entry found for ";
-    } else {
-      std::cerr << "Warning: No TIFF component creator found for ";
-    }
-    std::cerr << "extended tag 0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << extendedTag
-              << ", group " << groupName(group) << "\n";
-  }
+  if (!ts)
+    std::cerr << "Warning: No TIFF structure entry found for ";
+  else
+    std::cerr << "Warning: No TIFF component creator found for ";
+  std::cerr << "extended tag 0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << extendedTag
+            << ", group " << groupName(group) << "\n";
 #endif
-  return tc;
+  return nullptr;
 }  // TiffCreator::create
 
 void TiffCreator::getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group, uint32_t root) {
