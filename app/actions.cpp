@@ -199,34 +199,25 @@ int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::stri
 int Print::run(const std::string& path) {
   try {
     path_ = path;
-    int rc = 0;
     switch (Params::instance().printMode_) {
       case Params::pmSummary:
-        rc = Params::instance().greps_.empty() ? printSummary() : printList();
-        break;
+        return Params::instance().greps_.empty() ? printSummary() : printList();
       case Params::pmList:
-        rc = printList();
-        break;
+        return printList();
       case Params::pmComment:
-        rc = printComment();
-        break;
+        return printComment();
       case Params::pmPreview:
-        rc = printPreviewList();
-        break;
+        return printPreviewList();
       case Params::pmStructure:
-        rc = printStructure(std::cout, Exiv2::kpsBasic, path_);
-        break;
+        return printStructure(std::cout, Exiv2::kpsBasic, path_);
       case Params::pmRecursive:
-        rc = printStructure(std::cout, Exiv2::kpsRecursive, path_);
-        break;
+        return printStructure(std::cout, Exiv2::kpsRecursive, path_);
       case Params::pmXMP:
-        rc = setModeAndPrintStructure(Exiv2::kpsXMP, path_, binary());
-        break;
+        return setModeAndPrintStructure(Exiv2::kpsXMP, path_, binary());
       case Params::pmIccProfile:
-        rc = setModeAndPrintStructure(Exiv2::kpsIccProfile, path_, binary());
-        break;
+        return setModeAndPrintStructure(Exiv2::kpsIccProfile, path_, binary());
     }
-    return rc;
+    return 0;
   } catch (const Exiv2::Error& e) {
     std::cerr << "Exiv2 exception in print action for file " << path << ":\n" << e << "\n";
     return 1;

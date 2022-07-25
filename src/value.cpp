@@ -19,72 +19,51 @@ Value::Value(TypeId typeId) : type_(typeId) {
 }
 
 Value::UniquePtr Value::create(TypeId typeId) {
-  std::unique_ptr<Value> value;
   switch (typeId) {
     case invalidTypeId:
     case signedByte:
     case unsignedByte:
-      value = std::make_unique<DataValue>(typeId);
-      break;
+      return std::make_unique<DataValue>(typeId);
     case asciiString:
-      value = std::make_unique<AsciiValue>();
-      break;
+      return std::make_unique<AsciiValue>();
     case unsignedShort:
-      value = std::make_unique<ValueType<uint16_t>>();
-      break;
+      return std::make_unique<ValueType<uint16_t>>();
     case unsignedLong:
     case tiffIfd:
-      value = std::make_unique<ValueType<uint32_t>>(typeId);
-      break;
+      return std::make_unique<ValueType<uint32_t>>(typeId);
     case unsignedRational:
-      value = std::make_unique<ValueType<URational>>();
-      break;
+      return std::make_unique<ValueType<URational>>();
     case undefined:
-      value = std::make_unique<DataValue>();
-      break;
+      return std::make_unique<DataValue>();
     case signedShort:
-      value = std::make_unique<ValueType<int16_t>>();
-      break;
+      return std::make_unique<ValueType<int16_t>>();
     case signedLong:
-      value = std::make_unique<ValueType<int32_t>>();
-      break;
+      return std::make_unique<ValueType<int32_t>>();
     case signedRational:
-      value = std::make_unique<ValueType<Rational>>();
-      break;
+      return std::make_unique<ValueType<Rational>>();
     case tiffFloat:
-      value = std::make_unique<ValueType<float>>();
-      break;
+      return std::make_unique<ValueType<float>>();
     case tiffDouble:
-      value = std::make_unique<ValueType<double>>();
-      break;
+      return std::make_unique<ValueType<double>>();
     case string:
-      value = std::make_unique<StringValue>();
-      break;
+      return std::make_unique<StringValue>();
     case date:
-      value = std::make_unique<DateValue>();
-      break;
+      return std::make_unique<DateValue>();
     case time:
-      value = std::make_unique<TimeValue>();
-      break;
+      return std::make_unique<TimeValue>();
     case comment:
-      value = std::make_unique<CommentValue>();
-      break;
+      return std::make_unique<CommentValue>();
     case xmpText:
-      value = std::make_unique<XmpTextValue>();
-      break;
+      return std::make_unique<XmpTextValue>();
     case xmpBag:
     case xmpSeq:
     case xmpAlt:
-      value = std::make_unique<XmpArrayValue>(typeId);
-      break;
+      return std::make_unique<XmpArrayValue>(typeId);
     case langAlt:
-      value = std::make_unique<LangAltValue>();
-      break;
+      return std::make_unique<LangAltValue>();
     default:
-      value = std::make_unique<DataValue>(typeId);
-      break;
+      return std::make_unique<DataValue>(typeId);
   }
-  return value;
 }  // Value::create
 
 int Value::setDataArea(const byte* /*buf*/, size_t /*len*/) {

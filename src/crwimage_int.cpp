@@ -246,15 +246,11 @@ void CiffDirectory::readDirectory(const byte* pData, size_t size, ByteOrder byte
 
   for (uint16_t i = 0; i < count; ++i) {
     uint16_t tag = getUShort(pData + o, byteOrder);
-    std::unique_ptr<CiffComponent> m;
-    switch (CiffComponent::typeId(tag)) {
-      case directory:
-        m = std::make_unique<CiffDirectory>();
-        break;
-      default:
-        m = std::make_unique<CiffEntry>();
-        break;
-    }
+    auto m = [this, tag]() -> std::unique_ptr<CiffComponent> {
+      if (this->typeId(tag) == TypeId::directory)
+        return std::make_unique<CiffDirectory>();
+      return std::make_unique<CiffEntry>();
+    }();
     m->setDir(this->tag());
     m->read(pData, size, o, byteOrder);
     add(std::move(m));
