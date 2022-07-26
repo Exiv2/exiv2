@@ -1,5 +1,9 @@
 name: On PRs - Linux-Ubuntu Matrix
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths-ignore:

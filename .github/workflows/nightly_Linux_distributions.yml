@@ -6,6 +6,10 @@ on:
   schedule:
   - cron: 0 4 * * *
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 name: Nightly - Linux distributions
 
 jobs:
