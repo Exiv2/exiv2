@@ -4,6 +4,10 @@
 
 name: On PRs - Linux-Ubuntu Quick Fuzz
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths-ignore:
