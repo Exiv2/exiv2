@@ -5,6 +5,7 @@
 #include "enforce.hpp"
 #include "error.hpp"
 #include "makernote_int.hpp"
+#include "safe_op.hpp"
 #include "sonymn_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
@@ -49,8 +50,8 @@ int IoWrapper::putb(byte data) {
   return io_.putb(data);
 }
 
-void IoWrapper::setTarget(int id, int64_t target) {
-  if (target < 0 || target > std::numeric_limits<uint32_t>::max()) {
+void IoWrapper::setTarget(int id, size_t target) {
+  if (target > std::numeric_limits<uint32_t>::max()) {
     throw Error(ErrorCode::kerOffsetOutOfRange);
   }
   if (pow_)
@@ -270,24 +271,24 @@ void TiffDataEntry::setStrips(const Value* pSize, const byte* pData, size_t size
 #endif
     return;
   }
-  uint32_t size = 0;
+  size_t size = 0;
   for (size_t i = 0; i < pSize->count(); ++i) {
-    size += pSize->toUint32(i);
+    size = Safe::add<size_t>(size, pSize->toUint32(i));
   }
-  auto offset = pValue()->toUint32(0);
-  // Todo: Remove limitation of JPEG writer: strips must be contiguous
-  // Until then we check: last offset + last size - first offset == size?
-  if (pValue()->toUint32(pValue()->count() - 1) + pSize->toUint32(pSize->count() - 1) - offset != size) {
-#ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "Directory " << groupName(group()) << ", entry 0x" << std::setw(4) << std::setfill('0') << std::hex
-                << tag() << ": Data area is not contiguous, ignoring it.\n";
-#endif
-    return;
-  }
-  if (offset > sizeData || size > sizeData || baseOffset + offset > sizeData - size) {
+  const size_t offset = pValue()->toUint32(0);
+  if (size > sizeData || offset > sizeData - size || baseOffset > sizeData - size - offset) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Directory " << groupName(group()) << ", entry 0x" << std::setw(4) << std::setfill('0') << std::hex
                 << tag() << ": Data area exceeds data buffer, ignoring it.\n";
+#endif
+    return;
+  }
+  // Todo: Remove limitation of JPEG writer: strips must be contiguous
+  // Until then we check: last offset + last size - first offset == size?
+  if (pValue()->toUint32(pValue()->count() - 1) + pSize->toUint32(pSize->count() - 1) != size + offset) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "Directory " << groupName(group()) << ", entry 0x" << std::setw(4) << std::setfill('0') << std::hex
+                << tag() << ": Data area is not contiguous, ignoring it.\n";
 #endif
     return;
   }
@@ -313,11 +314,11 @@ void TiffImageEntry::setStrips(const Value* pSize, const byte* pData, size_t siz
     return;
   }
   for (size_t i = 0; i < pValue()->count(); ++i) {
-    const auto offset = pValue()->toUint32(i);
+    const size_t offset = pValue()->toUint32(i);
     const byte* pStrip = pData + baseOffset + offset;
-    const auto size = pSize->toUint32(i);
+    const size_t size = pSize->toUint32(i);
 
-    if (offset > sizeData || size > sizeData || baseOffset + offset > sizeData - size) {
+    if (size > sizeData || offset > sizeData - size || baseOffset > sizeData - size - offset) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Directory " << groupName(group()) << ", entry 0x" << std::setw(4) << std::setfill('0') << std::hex
                   << tag() << ": Strip " << std::dec << i << " is outside of the data area; ignored.\n";
@@ -817,12 +818,12 @@ size_t TiffBinaryElement::doCount() const {
   return elDef_.count_;
 }
 
-uint32_t TiffComponent::write(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx,
+uint32_t TiffComponent::write(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx,
                               uint32_t dataIdx, uint32_t& imageIdx) {
   return doWrite(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
 }  // TiffComponent::write
 
-uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx,
+uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx,
                                 uint32_t dataIdx, uint32_t& imageIdx) {
   bool isRootDir = (imageIdx == static_cast<uint32_t>(-1));
 
@@ -946,7 +947,7 @@ uint32_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64
   return static_cast<uint32_t>(idx);
 }
 
-uint32_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset,
+uint32_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset,
                                       TiffComponent* pTiffComponent, uint32_t valueIdx, uint32_t dataIdx,
                                       uint32_t& imageIdx) {
   auto pDirEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
@@ -956,8 +957,8 @@ uint32_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder,
   ul2Data(buf + 4, static_cast<uint32_t>(pDirEntry->count()), byteOrder);
   ioWrapper.write(buf, 8);
   if (pDirEntry->size() > 4) {
-    pDirEntry->setOffset(offset + static_cast<int32_t>(valueIdx));
-    l2Data(buf, static_cast<uint32_t>(pDirEntry->offset()), byteOrder);
+    pDirEntry->setOffset(Safe::add<size_t>(offset, valueIdx));
+    l2Data(buf, pDirEntry->offset(), byteOrder);
     ioWrapper.write(buf, 4);
   } else {
     const uint32_t len = pDirEntry->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
@@ -974,7 +975,7 @@ uint32_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder,
   return 12;
 }  // TiffDirectory::writeDirEntry
 
-uint32_t TiffEntryBase::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t /*offset*/, uint32_t /*valueIdx*/,
+uint32_t TiffEntryBase::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t /*offset*/, uint32_t /*valueIdx*/,
                                 uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) {
   if (!pValue_ || pValue_->size() == 0)
     return 0;
@@ -985,14 +986,14 @@ uint32_t TiffEntryBase::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64
   return static_cast<uint32_t>(buf.size());
 }  // TiffEntryBase::doWrite
 
-uint32_t TiffEntryBase::writeOffset(byte* buf, int64_t offset, TiffType tiffType, ByteOrder byteOrder) {
+uint32_t TiffEntryBase::writeOffset(byte* buf, size_t offset, TiffType tiffType, ByteOrder byteOrder) {
   uint32_t rc = 0;
   switch (tiffType) {
     case ttUnsignedShort:
     case ttSignedShort:
-      if (static_cast<uint32_t>(offset) > 0xffff)
+      if (offset > std::numeric_limits<uint16_t>::max())
         throw Error(ErrorCode::kerOffsetOutOfRange);
-      rc = s2Data(buf, static_cast<int16_t>(offset), byteOrder);
+      rc = us2Data(buf, static_cast<uint16_t>(offset), byteOrder);
       break;
     case ttUnsignedLong:
     case ttSignedLong:
@@ -1005,23 +1006,25 @@ uint32_t TiffEntryBase::writeOffset(byte* buf, int64_t offset, TiffType tiffType
   return rc;
 }  // TiffEntryBase::writeOffset
 
-uint32_t TiffDataEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t /*valueIdx*/,
+uint32_t TiffDataEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t /*valueIdx*/,
                                 uint32_t dataIdx, uint32_t& /*imageIdx*/) {
   if (!pValue() || pValue()->count() == 0)
     return 0;
 
   DataBuf buf(pValue()->size());
   uint32_t idx = 0;
-  const auto prevOffset = pValue()->toInt64(0);
-  for (uint32_t i = 0; i < count(); ++i) {
-    const int64_t newDataIdx = pValue()->toInt64(i) - prevOffset + static_cast<int64_t>(dataIdx);
-    idx += writeOffset(buf.data(idx), offset + newDataIdx, tiffType(), byteOrder);
+  const size_t prevOffset = pValue()->toUint32(0);
+  for (size_t i = 0; i < count(); ++i) {
+    const size_t iOffset = pValue()->toUint32(i);
+    enforce(prevOffset <= iOffset, ErrorCode::kerOffsetOutOfRange);
+    const auto newDataIdx = Safe::add<size_t>(iOffset - prevOffset, dataIdx);
+    idx += writeOffset(buf.data(idx), Safe::add(offset, newDataIdx), tiffType(), byteOrder);
   }
   ioWrapper.write(buf.c_data(), buf.size());
   return static_cast<uint32_t>(buf.size());
 }
 
-uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t /*valueIdx*/,
+uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t /*valueIdx*/,
                                  uint32_t dataIdx, uint32_t& imageIdx) {
   uint32_t o2 = imageIdx;
   // For makernotes, write TIFF image data to the data area
@@ -1046,7 +1049,7 @@ uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int6
   return static_cast<uint32_t>(buf.size());
 }  // TiffImageEntry::doWrite
 
-uint32_t TiffSubIfd::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t /*valueIdx*/,
+uint32_t TiffSubIfd::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t /*valueIdx*/,
                              uint32_t dataIdx, uint32_t& /*imageIdx*/) {
   DataBuf buf(ifds_.size() * 4);
   uint32_t idx = 0;
@@ -1060,7 +1063,7 @@ uint32_t TiffSubIfd::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t 
   return static_cast<uint32_t>(buf.size());
 }  // TiffSubIfd::doWrite
 
-uint32_t TiffMnEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx,
+uint32_t TiffMnEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx,
                               uint32_t dataIdx, uint32_t& imageIdx) {
   if (!mn_) {
     return TiffEntryBase::doWrite(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
@@ -1069,7 +1072,7 @@ uint32_t TiffMnEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t
                     imageIdx);
 }  // TiffMnEntry::doWrite
 
-uint32_t TiffIfdMakernote::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t /*valueIdx*/,
+uint32_t TiffIfdMakernote::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t /*valueIdx*/,
                                    uint32_t /*dataIdx*/, uint32_t& imageIdx) {
   mnOffset_ = static_cast<uint32_t>(offset);
   setImageByteOrder(byteOrder);
@@ -1079,7 +1082,7 @@ uint32_t TiffIfdMakernote::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, in
   return len;
 }  // TiffIfdMakernote::doWrite
 
-uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx,
+uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx,
                                   uint32_t dataIdx, uint32_t& imageIdx) {
   if (!cfg() || !decoded())
     return TiffEntryBase::doWrite(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
@@ -1138,8 +1141,8 @@ uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int
   return idx;
 }  // TiffBinaryArray::doWrite
 
-uint32_t TiffBinaryElement::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t /*offset*/,
-                                    uint32_t /*valueIdx*/, uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) {
+uint32_t TiffBinaryElement::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t /*offset*/, uint32_t /*valueIdx*/,
+                                    uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) {
   auto pv = pValue();
   if (!pv || pv->count() == 0)
     return 0;
@@ -1149,12 +1152,12 @@ uint32_t TiffBinaryElement::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, i
   return static_cast<uint32_t>(buf.size());
 }  // TiffBinaryElement::doWrite
 
-uint32_t TiffComponent::writeData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+uint32_t TiffComponent::writeData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                                   uint32_t& imageIdx) const {
   return doWriteData(ioWrapper, byteOrder, offset, dataIdx, imageIdx);
 }  // TiffComponent::writeData
 
-uint32_t TiffDirectory::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+uint32_t TiffDirectory::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                                     uint32_t& imageIdx) const {
   uint32_t len = 0;
   for (auto&& component : components_) {
@@ -1163,13 +1166,13 @@ uint32_t TiffDirectory::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, i
   return len;
 }  // TiffDirectory::doWriteData
 
-uint32_t TiffEntryBase::doWriteData(IoWrapper& /*ioWrapper*/, ByteOrder /*byteOrder*/, int64_t /*offset*/,
+uint32_t TiffEntryBase::doWriteData(IoWrapper& /*ioWrapper*/, ByteOrder /*byteOrder*/, size_t /*offset*/,
                                     uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) const {
   return 0;
 }  // TiffEntryBase::doWriteData
 
-uint32_t TiffImageEntry::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t /*offset*/,
-                                     uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) const {
+uint32_t TiffImageEntry::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t /*offset*/, uint32_t /*dataIdx*/,
+                                     uint32_t& /*imageIdx*/) const {
   uint32_t len = 0;
   // For makernotes, write TIFF image data to the data area
   if (group() > IfdId::mnId) {  // Todo: FIX THIS HACK!!!
@@ -1178,7 +1181,7 @@ uint32_t TiffImageEntry::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, 
   return len;
 }  // TiffImageEntry::doWriteData
 
-uint32_t TiffDataEntry::doWriteData(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/, int64_t /*offset*/,
+uint32_t TiffDataEntry::doWriteData(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/, size_t /*offset*/,
                                     uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) const {
   if (!pValue())
     return 0;
@@ -1194,7 +1197,7 @@ uint32_t TiffDataEntry::doWriteData(IoWrapper& ioWrapper, ByteOrder /*byteOrder*
   return static_cast<uint32_t>(buf.size() + align);
 }  // TiffDataEntry::doWriteData
 
-uint32_t TiffSubIfd::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+uint32_t TiffSubIfd::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                                  uint32_t& imageIdx) const {
   uint32_t len = 0;
   for (auto&& ifd : ifds_) {
@@ -1209,7 +1212,7 @@ uint32_t TiffSubIfd::doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int6
   return len + align;
 }  // TiffSubIfd::doWriteData
 
-uint32_t TiffIfdMakernote::doWriteData(IoWrapper& /*ioWrapper*/, ByteOrder /*byteOrder*/, int64_t /*offset*/,
+uint32_t TiffIfdMakernote::doWriteData(IoWrapper& /*ioWrapper*/, ByteOrder /*byteOrder*/, size_t /*offset*/,
                                        uint32_t /*dataIdx*/, uint32_t& /*imageIdx*/) const {
   return 0;
 }
