@@ -772,7 +772,7 @@ class TiffImageEntry : public TiffDataEntryBase {
 
  private:
   //! Pointers to the image data (strips) and their sizes.
-  using Strips = std::vector<std::pair<const byte*, uint32_t>>;
+  using Strips = std::vector<std::pair<const byte*, size_t>>;
 
   // DATA
   Strips strips_;  //!< Image strips data (never alloc'd) and sizes

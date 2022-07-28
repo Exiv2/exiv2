@@ -1416,7 +1416,7 @@ size_t TiffImageEntry::doSizeData() const {
 size_t TiffDataEntry::doSizeData() const {
   if (!pValue())
     return 0;
-  return static_cast<uint32_t>(pValue()->sizeDataArea());
+  return pValue()->sizeDataArea();
 }
 
 size_t TiffSubIfd::doSizeData() const {
