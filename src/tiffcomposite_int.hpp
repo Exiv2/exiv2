@@ -703,8 +703,8 @@ class TiffDataEntry : public TiffDataEntryBase {
 
  private:
   // DATA
-  byte* pDataArea_{};        //!< Pointer to the data area (never alloc'd)
-  size_t sizeDataArea_{};    //!< Size of the data area
+  byte* pDataArea_{};      //!< Pointer to the data area (never alloc'd)
+  size_t sizeDataArea_{};  //!< Size of the data area
 
 };  // class TiffDataEntry
 

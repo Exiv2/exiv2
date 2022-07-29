@@ -958,7 +958,7 @@ uint32_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder,
   ioWrapper.write(buf, 8);
   if (pDirEntry->size() > 4) {
     pDirEntry->setOffset(Safe::add<size_t>(offset, valueIdx));
-    l2Data(buf, pDirEntry->offset(), byteOrder);
+    ul2Data(buf, static_cast<uint32_t>(pDirEntry->offset()), byteOrder);
     ioWrapper.write(buf, 4);
   } else {
     const uint32_t len = pDirEntry->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
@@ -1026,10 +1026,10 @@ uint32_t TiffDataEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_
 
 uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t /*valueIdx*/,
                                  uint32_t dataIdx, uint32_t& imageIdx) {
-  uint32_t o2 = imageIdx;
+  size_t o2 = imageIdx;
   // For makernotes, write TIFF image data to the data area
   if (group() > IfdId::mnId)
-    o2 = static_cast<uint32_t>(offset + dataIdx);
+    o2 = Safe::add<size_t>(offset, dataIdx);
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "TiffImageEntry, Directory " << groupName(group()) << ", entry 0x" << std::setw(4) << std::setfill('0')
             << std::hex << tag() << std::dec << ": Writing offset " << o2 << "\n";
@@ -1038,11 +1038,11 @@ uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size
   uint32_t idx = 0;
   for (auto&& strip : strips_) {
     idx += writeOffset(buf.data(idx), o2, tiffType(), byteOrder);
-    o2 += strip.second;
-    o2 += strip.second & 1;          // Align strip data to word boundary
+    // Align strip data to word boundary
+    const auto sz = Safe::add(strip.second, strip.second & 1);
+    o2 = Safe::add(o2, sz);
     if (!(group() > IfdId::mnId)) {  // Todo: FIX THIS!! SHOULDN'T USE >
-      imageIdx += strip.second;
-      imageIdx += strip.second & 1;  // Align strip data to word boundary
+      imageIdx = Safe::add(imageIdx, static_cast<uint32_t>(sz));
     }
   }
   ioWrapper.write(buf.c_data(), buf.size());
