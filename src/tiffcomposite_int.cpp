@@ -473,8 +473,11 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
     return tc->addPath(tag, tiffPath, pRoot, std::move(object));
 
   auto atc = [&] {
-    if (tiffPath.size() == 1 && object)
-      return std::move(object);
+    if (tiffPath.size() == 1 && object) {
+      TiffComponent::UniquePtr tempObject;
+      std::swap(object, tempObject);
+      return tempObject;
+    }
     return TiffCreator::create(tpi.extendedTag(), tpi.group());
   }();
 
@@ -507,8 +510,11 @@ TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCompo
     return (*it)->addPath(tag, tiffPath, pRoot, std::move(object));
 
   auto tc = [&] {
-    if (tiffPath.size() == 1 && object)
-      return addChild(std::move(object));
+    if (tiffPath.size() == 1 && object) {
+      TiffComponent::UniquePtr tempObject;
+      std::swap(object, tempObject);
+      return addChild(std::move(tempObject));
+    }
     return addChild(std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group()));
   }();
   setCount(ifds_.size());
@@ -561,8 +567,11 @@ TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag, TiffPath& tiffPath, Tiff
     return (*it)->addPath(tag, tiffPath, pRoot, std::move(object));
 
   auto atc = [&] {
-    if (tiffPath.size() == 1 && object)
-      return std::move(object);
+    if (tiffPath.size() == 1 && object) {
+      TiffComponent::UniquePtr tempObject;
+      std::swap(object, tempObject);
+      return tempObject;
+    }
     return TiffCreator::create(tpi.extendedTag(), tpi.group());
   }();
   auto tc = addChild(std::move(atc));
