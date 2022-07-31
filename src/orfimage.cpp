@@ -51,7 +51,7 @@ void OrfImage::setComment(const std::string&) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "ORF"));
 }
 
-void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
+void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
   out << "ORF IMAGE" << std::endl;
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());

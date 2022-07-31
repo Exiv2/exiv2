@@ -42,7 +42,7 @@ uint32_t Cr2Image::pixelHeight() const {
   return 0;
 }
 
-void Cr2Image::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) {
+void Cr2Image::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   io_->seek(0, BasicIo::beg);

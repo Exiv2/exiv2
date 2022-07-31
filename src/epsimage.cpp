@@ -362,8 +362,8 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
   size_t posPageTrailer = posEndEps;
   size_t posEof = posEndEps;
   std::vector<std::pair<size_t, size_t>> removableEmbeddings;
-  unsigned int depth = 0;
-  const unsigned int maxDepth = UINT_MAX;
+  size_t depth = 0;
+  const size_t maxDepth = std::numeric_limits<size_t>::max();
   bool illustrator8 = false;
   bool corelDraw = false;
   bool implicitPage = false;
@@ -372,7 +372,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
   bool inDefaultsPreviewPrologSetup = false;
   bool inRemovableEmbedding = false;
   std::string removableEmbeddingEndLine;
-  unsigned int removableEmbeddingsWithUnmarkedTrailer = 0;
+  size_t removableEmbeddingsWithUnmarkedTrailer = 0;
   for (size_t pos = posEps; pos < posEof;) {
     const size_t startPos = pos;
     std::string line;

@@ -259,7 +259,7 @@ class EXIV2API IptcData {
   [[nodiscard]] const char* detectCharset() const;
 
   //!  @brief dump iptc formatted binary data (used by printStructure kpsRecursive)
-  static void printStructure(std::ostream& out, const Slice<byte*>& bytes, uint32_t depth);
+  static void printStructure(std::ostream& out, const Slice<byte*>& bytes, size_t depth);
   //@}
 
  private:

@@ -262,7 +262,7 @@ bool isTiffType(BasicIo& iIo, bool advance) {
   return rc;
 }
 
-void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) {
+void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type

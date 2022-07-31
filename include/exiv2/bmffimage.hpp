@@ -100,7 +100,7 @@ class EXIV2API BmffImage : public Image {
   void readMetadata() override;
   void writeMetadata() override;
   void setComment(const std::string& comment) override;
-  void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, size_t depth) override;
   //@}
 
   //! @name Accessors
@@ -122,10 +122,7 @@ class EXIV2API BmffImage : public Image {
     @return address of next box
     @warning This function should only be called by readMetadata()
    */
-  uint64_t boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, uint64_t pbox_end, int depth);
-  [[nodiscard]] static std::string indent(int i) {
-    return std::string(2 * i, ' ');
-  }
+  uint64_t boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, uint64_t pbox_end, size_t depth);
 
   uint32_t fileType_{0};
   std::set<size_t> visits_;

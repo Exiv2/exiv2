@@ -388,7 +388,7 @@ void Jp2Image::readMetadata() {
 
 }  // Jp2Image::readMetadata
 
-void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
+void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
 
@@ -553,7 +553,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, in
               const char b = rawData.read_uint8(1);
               if (a == b && (a == 'I' || a == 'M')) {
                 MemIo p(rawData.c_data(), rawData.size());
-                printTiffStructure(p, out, option, depth+1);
+                printTiffStructure(p, out, option, depth + 1);
               }
             }
 

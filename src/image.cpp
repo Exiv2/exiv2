@@ -123,7 +123,7 @@ Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io) 
 #endif
 }
 
-void Image::printStructure(std::ostream&, PrintStructureOption, int /*depth*/) {
+void Image::printStructure(std::ostream&, PrintStructureOption, size_t /*depth*/) {
   throw Error(ErrorCode::kerUnsupportedImageType, io_->path());
 }
 
@@ -284,7 +284,7 @@ static bool typeValid(uint16_t type) {
 static std::set<size_t> visits;  // #547
 
 void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start,
-                              bool bSwap, char c, int depth) {
+                              bool bSwap, char c, size_t depth) {
   if (depth == 1)
     visits.clear();
   bool bFirst = true;
@@ -405,7 +405,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
           for (size_t k = 0; k < count; k++) {
             const size_t restore = io.tell();
             offset = byteSwap4(buf, k * size, bSwap);
-            printIFDStructure(io, out, option, offset, bSwap, c, depth+1);
+            printIFDStructure(io, out, option, offset, bSwap, c, depth + 1);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
           }
         } else if (option == kpsRecursive && tag == 0x83bb /* IPTCNAA */) {
@@ -442,12 +442,12 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
             DataBuf bytes(byteslen);                                                  // allocate a buffer
             io.readOrThrow(bytes.data(), byteslen, ErrorCode::kerCorruptedMetadata);  // read
             MemIo memIo(bytes.c_data(), byteslen);                                    // create a file
-            printTiffStructure(memIo, out, option, depth+1);
+            printTiffStructure(memIo, out, option, depth + 1);
           } else {
             // tag is an IFD
             uint32_t punt = bSony ? 12 : 0;
             io.seekOrThrow(0, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
-            printIFDStructure(io, out, option, offset + punt, bSwap, c, depth+1);
+            printIFDStructure(io, out, option, offset + punt, bSwap, c, depth + 1);
           }
 
           io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // restore
@@ -474,7 +474,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
   out.flush();
 }
 
-void Image::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, int depth,
+void Image::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t depth,
                                size_t offset /*=0*/) {
   if (option == kpsBasic || option == kpsXMP || option == kpsRecursive || option == kpsIccProfile) {
     // buffer

@@ -52,7 +52,7 @@ class EXIV2API TiffImage : public Image {
           not valid (does not look like data of the specific image type).
     @warning This function is not thread safe and intended for exiv2 -p{S|R} as a file debugging aid
    */
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth = 0) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
 
   /*!
     @brief Not supported. TIFF format does not contain a comment.
