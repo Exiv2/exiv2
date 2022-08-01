@@ -995,11 +995,11 @@ uint32_t TiffEntryBase::writeOffset(byte* buf, size_t offset, TiffType tiffType,
     case ttSignedShort:
       if (offset > std::numeric_limits<uint16_t>::max())
         throw Error(ErrorCode::kerOffsetOutOfRange);
-      rc = us2Data(buf, static_cast<uint16_t>(offset), byteOrder);
+      rc = static_cast<uint32_t>(us2Data(buf, static_cast<uint16_t>(offset), byteOrder));
       break;
     case ttUnsignedLong:
     case ttSignedLong:
-      rc = l2Data(buf, static_cast<uint32_t>(offset), byteOrder);
+      rc = static_cast<uint32_t>(l2Data(buf, static_cast<uint32_t>(offset), byteOrder));
       break;
     default:
       throw Error(ErrorCode::kerUnsupportedDataAreaOffsetType);
@@ -1100,10 +1100,10 @@ uint32_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, siz
     size_t elSize = TypeInfo::typeSize(toTypeId(cfg()->elTiffType_, 0, cfg()->group_));
     switch (elSize) {
       case 2:
-        idx += us2Data(buf, static_cast<uint16_t>(size()), byteOrder);
+        idx += static_cast<uint32_t>(us2Data(buf, static_cast<uint16_t>(size()), byteOrder));
         break;
       case 4:
-        idx += ul2Data(buf, static_cast<uint32_t>(size()), byteOrder);
+        idx += static_cast<uint32_t>(ul2Data(buf, static_cast<uint32_t>(size()), byteOrder));
         break;
       default:
         break;
