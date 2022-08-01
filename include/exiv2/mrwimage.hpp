@@ -72,7 +72,7 @@ class EXIV2API MrwImage : public Image {
     @brief Not supported. MRW format does not contain a comment.
         Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors

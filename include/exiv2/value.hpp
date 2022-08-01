@@ -14,6 +14,7 @@
 #include <cstring>
 #include <iomanip>
 #include <map>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -228,7 +229,7 @@ class EXIV2API Value {
    */
   Value& operator=(const Value&) = default;
   // DATA
-  mutable bool ok_;  //!< Indicates the status of the previous to<Type> conversion
+  mutable bool ok_{true};  //!< Indicates the status of the previous to<Type> conversion
 
  private:
   //! Internal virtual copy constructor.
@@ -647,8 +648,8 @@ class EXIV2API XmpValue : public Value {
 
  private:
   // DATA
-  XmpArrayType xmpArrayType_;  //!< Type of XMP array
-  XmpStruct xmpStruct_;        //!< XMP structure indicator
+  XmpArrayType xmpArrayType_{xaNone};  //!< Type of XMP array
+  XmpStruct xmpStruct_{xsNone};        //!< XMP structure indicator
 
 };  // class XmpValue
 
@@ -931,16 +932,16 @@ class EXIV2API DateValue : public Value {
   //! Default constructor.
   DateValue();
   //! Constructor
-  DateValue(int year, int month, int day);
+  DateValue(int32_t year, int32_t month, int32_t day);
   //! Virtual destructor.
   ~DateValue() override = default;
   //@}
 
   //! Simple Date helper structure
   struct EXIV2API Date {
-    int year{0};   //!< Year
-    int month{0};  //!< Month
-    int day{0};    //!< Day
+    int32_t year{0};   //!< Year
+    int32_t month{0};  //!< Month
+    int32_t day{0};    //!< Day
   };
 
   //! @name Manipulators
@@ -1024,7 +1025,7 @@ class EXIV2API TimeValue : public Value {
   //! Default constructor.
   TimeValue();
   //! Constructor
-  TimeValue(int hour, int minute, int second = 0, int tzHour = 0, int tzMinute = 0);
+  TimeValue(int32_t hour, int32_t minute, int32_t second = 0, int32_t tzHour = 0, int32_t tzMinute = 0);
 
   //! Virtual destructor.
   ~TimeValue() override = default;
@@ -1034,11 +1035,11 @@ class EXIV2API TimeValue : public Value {
   struct Time {
     Time() = default;
 
-    int hour{0};      //!< Hour
-    int minute{0};    //!< Minute
-    int second{0};    //!< Second
-    int tzHour{0};    //!< Hours ahead or behind UTC
-    int tzMinute{0};  //!< Minutes ahead or behind UTC
+    int32_t hour{0};      //!< Hour
+    int32_t minute{0};    //!< Minute
+    int32_t second{0};    //!< Second
+    int32_t tzHour{0};    //!< Hours ahead or behind UTC
+    int32_t tzMinute{0};  //!< Minutes ahead or behind UTC
   };
 
   //! @name Manipulators
@@ -1260,7 +1261,8 @@ class ValueType : public Value {
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
   inline I rational_to_integer_helper(size_t n) const {
-    auto&& [a, b] = value_.at(n);
+    auto a = value_.at(n).first;
+    auto b = value_.at(n).second;
 
     // Protect against divide-by-zero.
     if (b <= 0) {
@@ -1268,16 +1270,16 @@ class ValueType : public Value {
     }
 
     // Check for integer overflow.
-    if (std::is_signed_v<I> == std::is_signed_v<decltype(a)>) {
+    if (std::is_signed<I>::value == std::is_signed<decltype(a)>::value) {
       // conversion does not change sign
       const auto imin = std::numeric_limits<I>::min();
       const auto imax = std::numeric_limits<I>::max();
       if (imax < b || a < imin || imax < a) {
         return 0;
       }
-    } else if (std::is_signed_v<I>) {
+    } else if (std::is_signed<I>::value) {
       // conversion is from unsigned to signed
-      const auto imax = std::make_unsigned_t<I>(std::numeric_limits<I>::max());
+      const auto imax = typename std::make_unsigned<I>::type(std::numeric_limits<I>::max());
       if (imax < b || imax < a) {
         return 0;
       }
@@ -1288,8 +1290,8 @@ class ValueType : public Value {
         return 0;
       }
       // Inputs are not negative so convert them to unsigned.
-      const auto a_u = std::make_unsigned_t<decltype(a)>(a);
-      const auto b_u = std::make_unsigned_t<decltype(b)>(b);
+      const auto a_u = typename std::make_unsigned<decltype(a)>::type(a);
+      const auto b_u = typename std::make_unsigned<decltype(b)>::type(b);
       if (imax < b_u || imax < a_u) {
         return 0;
       }

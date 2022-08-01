@@ -3001,8 +3001,8 @@ msgstr "Alger"
 
 #: src/error.cpp:101
 msgid ""
-"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `"
-"%1', `%2', `%3'"
+"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net "
+"`%1', `%2', `%3'"
 msgstr ""
 "Alias stöds inte. Skicka detta XMP-paket till ahuggel@gmx.net ”%1”, ”%2”, "
 "”%3”"
@@ -13244,8 +13244,8 @@ msgstr ""
 
 #: src/tags.cpp:2107
 msgid ""
-"Indicates the unit used to express the distance to the destination point. \"K"
-"\", \"M\" and \"N\" represent kilometers, miles and knots."
+"Indicates the unit used to express the distance to the destination point. "
+"\"K\", \"M\" and \"N\" represent kilometers, miles and knots."
 msgstr ""
 "Visar enheten som används för att visa avstånd till destinationen. ”K”, ”M” "
 "och ”N” representerar kilometer, miles, och knop."
@@ -19811,7 +19811,7 @@ msgstr ""
 
 #: src/properties.cpp:277
 msgid ""
-"References to resources that were incorporated, byinclusion or reference, "
+"References to resources that were incorporated, by inclusion or reference, "
 "into this resource."
 msgstr ""
 

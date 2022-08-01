@@ -72,9 +72,9 @@
 // namespace extensions
 namespace Exiv2 {
 /*!
-  @brief Return the version of %Exiv2 available at runtime as an integer.
+  @brief Return the version of %Exiv2 available at runtime as a uint32_t.
 */
-EXIV2API int versionNumber();
+EXIV2API uint32_t versionNumber();
 /*!
   @brief Return the version string Example: "0.25.0" (major.minor.patch)
 */
@@ -96,7 +96,7 @@ EXIV2API const char* version();
   Versions are denoted using a triplet of integers: \em major.minor.patch .
   The fourth version number is designated a "tweak" an used by Release Candidates
 */
-EXIV2API bool testVersion(int major, int minor, int patch);
+EXIV2API bool testVersion(uint32_t major, uint32_t minor, uint32_t patch);
 /*!
   @brief dumpLibraryInfo implements the exiv2 option --version --verbose
          used by exiv2 test suite to inspect libraries loaded at run-time

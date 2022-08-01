@@ -11,6 +11,7 @@
 #include "config.h"
 
 #include "basicio.hpp"
+#include "enforce.hpp"
 #include "epsimage.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -101,13 +102,8 @@ void writeTemp(BasicIo& tempIo, const std::string& data) {
 
 //! Get the current write position of temp file, taking care of errors
 uint32_t posTemp(const BasicIo& tempIo) {
-  const long pos = tempIo.tell();
-  if (pos == -1) {
-#ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "Internal error while determining current write position in temporary file.\n";
-#endif
-    throw Error(ErrorCode::kerImageWriteFailed);
-  }
+  const size_t pos = tempIo.tell();
+  enforce(pos <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerImageWriteFailed);
   return static_cast<uint32_t>(pos);
 }
 
@@ -479,7 +475,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #endif
     // implicit comments
     if (line == "%%EOF" || line == "%begin_xml_code" ||
-        !(line.size() >= 2 && line[0] == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
+        !(line.size() >= 2 && line.front() == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
       if (posEndComments == posEndEps) {
         posEndComments = startPos;
 #ifdef DEBUG
@@ -496,20 +492,21 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #endif
     }
     if (posBeginPageSetup == posEndEps &&
-        (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && !line.empty() && line[0] != '%'))) {
+        (implicitPage || (posPage != posEndEps && !inRemovableEmbedding && !line.empty() && line.front() != '%'))) {
       posBeginPageSetup = startPos;
       implicitPageSetup = true;
 #ifdef DEBUG
       EXV_DEBUG << "readWriteEpsMetadata: Found implicit BeginPageSetup at position: " << startPos << "\n";
 #endif
     }
-    if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && !line.empty() && line[0] != '%') {
+    if (posEndPageSetup == posEndEps && implicitPageSetup && !inRemovableEmbedding && !line.empty() &&
+        line.front() != '%') {
       posEndPageSetup = startPos;
 #ifdef DEBUG
       EXV_DEBUG << "readWriteEpsMetadata: Found implicit EndPageSetup at position: " << startPos << "\n";
 #endif
     }
-    if (!line.empty() && line[0] != '%')
+    if (!line.empty() && line.front() != '%')
       continue;  // performance optimization
     if (line == "%%EOF" || line == "%%Trailer" || line == "%%PageTrailer") {
       if (posBeginPageSetup == posEndEps) {
@@ -1103,7 +1100,7 @@ std::string EpsImage::mimeType() const {
   return "application/postscript";
 }
 
-void EpsImage::setComment(std::string_view /*comment*/) {
+void EpsImage::setComment(const std::string&) {
   throw Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "EPS");
 }
 
@@ -1167,7 +1164,7 @@ bool isEpsType(BasicIo& iIo, bool advance) {
       bufSize = i.size();
     }
   }
-  const long restore = iIo.tell();  // save
+  const size_t restore = iIo.tell();  // save
   DataBuf buf = iIo.read(bufSize);
   if (iIo.error() || buf.size() != bufSize) {
     iIo.seek(restore, BasicIo::beg);

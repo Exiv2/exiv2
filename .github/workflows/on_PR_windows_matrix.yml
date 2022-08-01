@@ -1,5 +1,9 @@
 name: On PRs - Windows Matrix
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths-ignore:
@@ -50,7 +54,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.45.0"
+          pip.exe install "conan==1.48.1"
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
@@ -73,23 +77,12 @@ jobs:
 
       - name: Build
         run: |
-          cmake -GNinja `
-            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} `
-            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} `
-            -DEXIV2_ENABLE_NLS=OFF `
-            -DEXIV2_ENABLE_WEBREADY=ON `
-            -DEXIV2_ENABLE_BMFF=ON `
-            -DEXIV2_BUILD_UNIT_TESTS=ON `
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
-            -DCMAKE_INSTALL_PREFIX=install `
-            -S . -B build && `
+          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
           cmake --build build --parallel
 
       - name: Install
         run: |
-          cd build
-          cmake --install .
-          tree /f install
+          cmake --install build
 
       - name: Test
         if: ${{matrix.platform == 'x64'}}
@@ -122,26 +115,26 @@ jobs:
           install: >-
             base-devel
           pacboy: >-
-            toolchain:p
+            cc:p
+            gcc-libs:p
+            libwinpthread:p
             cmake:p
+            ninja:p
             expat:p
             gettext:p
             gtest:p
             libiconv:p
             zlib:p
+            curl:p
 
       - name: Build
         run: |
-          cmake -G"MSYS Makefiles" \
-            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+          cmake --preset base_windows -S . -B build \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_NLS=OFF \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -S . -B build && \
+            -DCONAN_AUTO_INSTALL=OFF \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF
           cmake --build build --parallel
 
       - name: Test
@@ -176,6 +169,7 @@ jobs:
             gcc-g++
             cmake
             ninja
+            libcurl-devel
             libexpat-devel
             libxml2-devel
             libxslt-devel
@@ -190,6 +184,7 @@ jobs:
             -DEXIV2_ENABLE_NLS=OFF \
             -DEXIV2_ENABLE_WIN_UNICODE=OFF \
             -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_CURL=ON \
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -S . -B build && \

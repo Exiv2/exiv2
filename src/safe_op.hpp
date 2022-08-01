@@ -46,7 +46,7 @@ namespace Internal {
  */
 template <typename T>
 struct is_signed {
-  enum { VALUE = T(-1) < T(0) };
+  enum { VALUE = static_cast<T>(-1) < static_cast<T>(0) };
 };
 
 /*!

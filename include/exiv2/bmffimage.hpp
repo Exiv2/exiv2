@@ -14,7 +14,7 @@
 // namespace extensions
 namespace Exiv2 {
 EXIV2API bool enableBMFF(bool enable = true);
-}
+}  // namespace Exiv2
 
 #ifdef EXV_ENABLE_BMFF
 namespace Exiv2 {
@@ -97,15 +97,15 @@ class EXIV2API BmffImage : public Image {
 
   //! @name Manipulators
   //@{
-  void readMetadata() override /* override */;
-  void writeMetadata() override /* override */;
-  void setComment(std::string_view comment) override /* override */;
+  void readMetadata() override;
+  void writeMetadata() override;
+  void setComment(const std::string& comment) override;
   void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) override;
   //@}
 
   //! @name Accessors
   //@{
-  [[nodiscard]] std::string mimeType() const override /* override */;
+  [[nodiscard]] std::string mimeType() const override;
   [[nodiscard]] uint32_t pixelWidth() const override;
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
@@ -122,13 +122,13 @@ class EXIV2API BmffImage : public Image {
     @return address of next box
     @warning This function should only be called by readMetadata()
    */
-  long boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, long pbox_end, int depth);
+  uint64_t boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, uint64_t pbox_end, int depth);
   [[nodiscard]] static std::string indent(int i) {
     return std::string(2 * i, ' ');
   }
 
   uint32_t fileType_{0};
-  std::set<uint64_t> visits_;
+  std::set<size_t> visits_;
   uint64_t visits_max_{0};
   uint16_t unknownID_{0xffff};
   uint16_t exifID_{0xffff};
@@ -140,7 +140,7 @@ class EXIV2API BmffImage : public Image {
   /*!
     @brief box utilities
    */
-  static std::string toAscii(long n);
+  static std::string toAscii(uint32_t n);
   std::string boxName(uint32_t box);
   static bool superBox(uint32_t box);
   static bool fullBox(uint32_t box);

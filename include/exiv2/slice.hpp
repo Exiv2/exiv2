@@ -263,7 +263,7 @@ struct ContainerStorage {
 
   using const_iterator = typename container::const_iterator;
 
-  using value_type = std::remove_cv_t<typename container::value_type>;
+  using value_type = typename std::remove_cv<typename container::value_type>::type;
 
   /*!
    * @throw std::out_of_range when end is larger than the container's
@@ -324,7 +324,7 @@ struct ContainerStorage {
  */
 template <typename storage_type>
 struct PtrSliceStorage {
-  using value_type = std::remove_cv_t<std::remove_pointer_t<storage_type>>;
+  using value_type = typename std::remove_cv<typename std::remove_pointer<storage_type>::type>::type;
   using iterator = value_type*;
   using const_iterator = const value_type*;
 
@@ -423,7 +423,7 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
 
   using const_iterator = typename container::const_iterator;
 
-  using value_type = std::remove_cv_t<typename container::value_type>;
+  using value_type = typename std::remove_cv<typename container::value_type>::type;
 
   /*!
    * @brief Construct a slice of the container `cont` starting at `begin`
@@ -476,7 +476,7 @@ struct Slice<const container> : public Internal::ConstSliceBase<Internal::Contai
 
   using const_iterator = typename container::const_iterator;
 
-  using value_type = std::remove_cv_t<typename container::value_type>;
+  using value_type = typename std::remove_cv<typename container::value_type>::type;
 
   Slice(const container& cont, size_t begin, size_t end) :
       Internal::ConstSliceBase<Internal::ContainerStorage, const container>(cont, begin, end) {

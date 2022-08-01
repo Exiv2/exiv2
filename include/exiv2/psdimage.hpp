@@ -53,7 +53,7 @@ class EXIV2API PsdImage : public Image {
   /*!
     @brief Not supported. Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors

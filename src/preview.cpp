@@ -101,16 +101,16 @@ class Loader {
   const Image& image_;
 
   //! Preview image width
-  size_t width_;
+  size_t width_{0};
 
   //! Preview image length
-  size_t height_;
+  size_t height_{0};
 
   //! Preview image size in bytes
-  size_t size_;
+  size_t size_{0};
 
   //! True if the source image contains a preview image of given type
-  bool valid_;
+  bool valid_{false};
 };
 
 //! Loader for native previews
@@ -163,7 +163,7 @@ class LoaderExifJpeg : public Loader {
   static const Param param_[];
 
   //! Offset value
-  size_t offset_;
+  size_t offset_{0};
 };
 
 //! Function to create new LoaderExifJpeg
@@ -206,6 +206,9 @@ class LoaderTiff : public Loader {
  public:
   //! Constructor
   LoaderTiff(PreviewId id, const Image& image, int parIdx);
+
+  LoaderTiff(const LoaderTiff&) = delete;
+  LoaderTiff& operator=(const LoaderTiff&) = delete;
 
   //! Get properties of a preview image with given params
   [[nodiscard]] PreviewProperties getProperties() const override;
@@ -335,8 +338,7 @@ Loader::UniquePtr Loader::create(PreviewId id, const Image& image) {
   return loader;
 }
 
-Loader::Loader(PreviewId id, const Image& image) :
-    id_(id), image_(image), width_(0), height_(0), size_(0), valid_(false) {
+Loader::Loader(PreviewId id, const Image& image) : id_(id), image_(image) {
 }
 
 PreviewProperties Loader::getProperties() const {
@@ -349,7 +351,7 @@ PreviewProperties Loader::getProperties() const {
 }
 
 PreviewId Loader::getNumLoaders() {
-  return PreviewId(std::size(loaderList_));
+  return static_cast<PreviewId>(std::size(loaderList_));
 }
 
 LoaderNative::LoaderNative(PreviewId id, const Image& image, int parIdx) : Loader(id, image) {
@@ -457,7 +459,7 @@ bool LoaderNative::readDimensions() {
   return true;
 }
 
-LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image& image, int parIdx) : Loader(id, image), offset_(0) {
+LoaderExifJpeg::LoaderExifJpeg(PreviewId id, const Image& image, int parIdx) : Loader(id, image) {
   const ExifData& exifData = image_.exifData();
   auto pos = exifData.findKey(ExifKey(param_[parIdx].offsetKey_));
   if (pos != exifData.end() && pos->count() > 0) {
@@ -698,7 +700,7 @@ DataBuf LoaderTiff::getData() const {
                          consistent result for all previews, including JPEG
       */
       uint16_t tag = pos.tag();
-      if (tag != 0x00fe && tag != 0x00ff && Internal::isTiffImageTag(tag, Internal::ifd0Id)) {
+      if (tag != 0x00fe && tag != 0x00ff && Internal::isTiffImageTag(tag, IfdId::ifd0Id)) {
         preview.add(ExifKey(tag, "Image"), &pos.value());
       }
     }
@@ -753,7 +755,7 @@ DataBuf LoaderTiff::getData() const {
 
   // Fix compression value in the CR2 IFD2 image
   if (0 == strcmp(group_, "Image2") && image_.mimeType() == "image/x-canon-cr2") {
-    preview["Exif.Image.Compression"] = uint16_t(1);
+    preview["Exif.Image.Compression"] = static_cast<uint16_t>(1);
   }
 
   // write new image

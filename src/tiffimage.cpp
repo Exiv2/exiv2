@@ -39,7 +39,7 @@ namespace Exiv2 {
 using namespace Internal;
 
 TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)), pixelWidthPrimary_(0), pixelHeightPrimary_(0) {
+    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)) {
 }  // TiffImage::TiffImage
 
 //! Structure for TIFF compression to MIME type mappings
@@ -59,7 +59,7 @@ std::string TiffImage::mimeType() const {
   std::string key = "Exif." + primaryGroup() + ".Compression";
   auto md = exifData_.findKey(ExifKey(key));
   if (md != exifData_.end() && md->count() > 0) {
-    for (auto&& [comp, type] : mimeTypeList)
+    for (const auto& [comp, type] : mimeTypeList)
       if (comp == static_cast<int>(md->toInt64())) {
         mimeType_ = type;
       }
@@ -79,7 +79,7 @@ std::string TiffImage::primaryGroup() const {
   };
   // Find the group of the primary image, default to "Image"
   primaryGroup_ = std::string("Image");
-  for (auto&& i : keys) {
+  for (auto i : keys) {
     auto md = exifData_.findKey(ExifKey(i));
     // Is it the primary image?
     if (md != exifData_.end() && md->count() > 0 && md->toInt64() == 0) {
@@ -119,7 +119,7 @@ uint32_t TiffImage::pixelHeight() const {
   return pixelHeightPrimary_;
 }
 
-void TiffImage::setComment(std::string_view /*comment*/) {
+void TiffImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TIFF"));
 }
@@ -165,15 +165,13 @@ void TiffImage::writeMetadata() {
   byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
-  if (io_->open() == 0) {
-    // Ensure that this is the correct image type
-    if (isTiffType(*io_, false)) {
-      pData = io_->mmap(true);
-      size = io_->size();
-      TiffHeader tiffHeader;
-      if (0 == tiffHeader.read(pData, 8)) {
-        bo = tiffHeader.byteOrder();
-      }
+  // Ensure that this is the correct image type
+  if (io_->open() == 0 && isTiffType(*io_, false)) {
+    pData = io_->mmap(true);
+    size = io_->size();
+    TiffHeader tiffHeader;
+    if (0 == tiffHeader.read(pData, 8)) {
+      bo = tiffHeader.byteOrder();
     }
   }
   if (bo == invalidByteOrder) {
@@ -207,10 +205,8 @@ ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xm
 
   // #1402  Fujifilm RAF. Change root when parsing embedded tiff
   Exiv2::ExifKey key("Exif.Image.Make");
-  if (exifData.findKey(key) != exifData.end()) {
-    if (exifData.findKey(key)->toString() == "FUJIFILM") {
-      root = Tag::fuji;
-    }
+  if (exifData.findKey(key) != exifData.end() && exifData.findKey(key)->toString() == "FUJIFILM") {
+    root = Tag::fuji;
   }
 
   return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, root, TiffMapping::findDecoder);
@@ -223,9 +219,9 @@ WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, Byte
 
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
-      panaRawId,
+      IfdId::panaRawId,
   };
-  for (auto&& filteredIfd : filteredIfds) {
+  for (auto filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
@@ -266,12 +262,10 @@ void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption op
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type
-  if (imageType() == ImageType::none) {
-    if (!isTiffType(*io_, false)) {
-      if (io_->error() || io_->eof())
-        throw Error(ErrorCode::kerFailedToReadImageData);
-      throw Error(ErrorCode::kerNotAJpeg);
-    }
+  if (imageType() == ImageType::none && !isTiffType(*io_, false)) {
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    throw Error(ErrorCode::kerNotAJpeg);
   }
 
   io_->seek(0, BasicIo::beg);

@@ -178,7 +178,8 @@ byte* Exiv2::DataBuf::data(size_t offset) {
 const byte* Exiv2::DataBuf::c_data(size_t offset) const {
   if (pData_.empty()) {
     return nullptr;
-  } else if (offset >= pData_.size()) {
+  }
+  if (offset >= pData_.size()) {
     throw std::out_of_range("Overflow in Exiv2::DataBuf::c_data");
   }
   return &pData_[offset];
@@ -332,26 +333,26 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
 
 long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(s & 0x00ff);
-    buf[1] = static_cast<byte>((s & 0xff00) >> 8);
+    buf[0] = static_cast<byte>(s & 0x00ffU);
+    buf[1] = static_cast<byte>((s & 0xff00U) >> 8);
   } else {
-    buf[0] = static_cast<byte>((s & 0xff00) >> 8);
-    buf[1] = static_cast<byte>(s & 0x00ff);
+    buf[0] = static_cast<byte>((s & 0xff00U) >> 8);
+    buf[1] = static_cast<byte>(s & 0x00ffU);
   }
   return 2;
 }
 
 long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(l & 0x000000ff);
-    buf[1] = static_cast<byte>((l & 0x0000ff00) >> 8);
-    buf[2] = static_cast<byte>((l & 0x00ff0000) >> 16);
-    buf[3] = static_cast<byte>((l & 0xff000000) >> 24);
+    buf[0] = static_cast<byte>(l & 0x000000ffU);
+    buf[1] = static_cast<byte>((l & 0x0000ff00U) >> 8);
+    buf[2] = static_cast<byte>((l & 0x00ff0000U) >> 16);
+    buf[3] = static_cast<byte>((l & 0xff000000U) >> 24);
   } else {
-    buf[0] = static_cast<byte>((l & 0xff000000) >> 24);
-    buf[1] = static_cast<byte>((l & 0x00ff0000) >> 16);
-    buf[2] = static_cast<byte>((l & 0x0000ff00) >> 8);
-    buf[3] = static_cast<byte>(l & 0x000000ff);
+    buf[0] = static_cast<byte>((l & 0xff000000U) >> 24);
+    buf[1] = static_cast<byte>((l & 0x00ff0000U) >> 16);
+    buf[2] = static_cast<byte>((l & 0x0000ff00U) >> 8);
+    buf[3] = static_cast<byte>(l & 0x000000ffU);
   }
   return 4;
 }
@@ -379,26 +380,26 @@ long ur2Data(byte* buf, URational l, ByteOrder byteOrder) {
 
 long s2Data(byte* buf, int16_t s, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(s & 0x00ff);
-    buf[1] = static_cast<byte>((s & 0xff00) >> 8);
+    buf[0] = static_cast<byte>(s & 0x00ffU);
+    buf[1] = static_cast<byte>((s & 0xff00U) >> 8);
   } else {
-    buf[0] = static_cast<byte>((s & 0xff00) >> 8);
-    buf[1] = static_cast<byte>(s & 0x00ff);
+    buf[0] = static_cast<byte>((s & 0xff00U) >> 8);
+    buf[1] = static_cast<byte>(s & 0x00ffU);
   }
   return 2;
 }
 
 long l2Data(byte* buf, int32_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(l & 0x000000ff);
-    buf[1] = static_cast<byte>((l & 0x0000ff00) >> 8);
-    buf[2] = static_cast<byte>((l & 0x00ff0000) >> 16);
-    buf[3] = static_cast<byte>((l & 0xff000000) >> 24);
+    buf[0] = static_cast<byte>(l & 0x000000ffU);
+    buf[1] = static_cast<byte>((l & 0x0000ff00U) >> 8);
+    buf[2] = static_cast<byte>((l & 0x00ff0000U) >> 16);
+    buf[3] = static_cast<byte>((l & 0xff000000U) >> 24);
   } else {
-    buf[0] = static_cast<byte>((l & 0xff000000) >> 24);
-    buf[1] = static_cast<byte>((l & 0x00ff0000) >> 16);
-    buf[2] = static_cast<byte>((l & 0x0000ff00) >> 8);
-    buf[3] = static_cast<byte>(l & 0x000000ff);
+    buf[0] = static_cast<byte>((l & 0xff000000U) >> 24);
+    buf[1] = static_cast<byte>((l & 0x00ff0000U) >> 16);
+    buf[2] = static_cast<byte>((l & 0x0000ff00U) >> 8);
+    buf[3] = static_cast<byte>(l & 0x000000ffU);
   }
   return 4;
 }
@@ -465,7 +466,7 @@ void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
     do {
       byte c = buf[i];
       os << std::setw(2) << std::setfill('0') << std::right << std::hex << static_cast<int>(c) << " ";
-      ss << (static_cast<int>(c) >= 31 && static_cast<int>(c) < 127 ? char(buf[i]) : '.');
+      ss << (static_cast<int>(c) >= 31 && static_cast<int>(c) < 127 ? static_cast<char>(buf[i]) : '.');
     } while (++i < len && i % 16 != 0);
     std::string::size_type width = 9 + ((i - 1) % 16 + 1) * 3;
     os << (width > pos ? "" : align.substr(width)) << ss.str() << "\n";
@@ -613,18 +614,18 @@ Rational floatToRationalCast(float f) {
   // below. (INT_MAX can be represented accurately as a double, but
   // gets rounded when it's converted to float.)
   const double d = f;
-  const bool in_range = INT_MIN <= d && d <= INT_MAX;
+  const bool in_range = std::numeric_limits<int32_t>::min() <= d && d <= std::numeric_limits<int32_t>::max();
   if (!in_range) {
     return {d > 0 ? 1 : -1, 0};
   }
   // Beware: primitive conversion algorithm
   int32_t den = 1000000;
-  const auto d_as_long = static_cast<long>(d);
-  if (Safe::abs(d_as_long) > 21474836) {
+  const auto d_as_int32_t = static_cast<int32_t>(d);
+  if (Safe::abs(d_as_int32_t) > 21474836) {
     den = 1;
-  } else if (Safe::abs(d_as_long) > 214748) {
+  } else if (Safe::abs(d_as_int32_t) > 214748) {
     den = 100;
-  } else if (Safe::abs(d_as_long) > 2147) {
+  } else if (Safe::abs(d_as_int32_t) > 2147) {
     den = 10000;
   }
   const auto nom = static_cast<int32_t>(std::round(d * den));

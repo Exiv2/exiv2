@@ -129,17 +129,17 @@ class IoWrapper {
    */
   int putb(byte data);
   //! Wrapper for OffsetWriter::setTarget(), using an int instead of the enum to reduce include deps
-  void setTarget(int id, int64_t target);
+  void setTarget(int id, size_t target);
   //@}
 
  private:
   // DATA
-  BasicIo& io_;          //! Reference for the IO instance.
-  const byte* pHeader_;  //! Pointer to the header data.
-  size_t size_;          //! Size of the header data.
-  bool wroteHeader_;     //! Indicates if the header has been written.
-  OffsetWriter* pow_;    //! Pointer to an offset-writer, if any, or 0
-};                       // class IoWrapper
+  BasicIo& io_;              //! Reference for the IO instance.
+  const byte* pHeader_;      //! Pointer to the header data.
+  size_t size_;              //! Size of the header data.
+  bool wroteHeader_{false};  //! Indicates if the header has been written.
+  OffsetWriter* pow_;        //! Pointer to an offset-writer, if any, or 0
+};                           // class IoWrapper
 
 /*!
   @brief Interface class for components of a TIFF directory hierarchy
@@ -162,6 +162,8 @@ class TiffComponent {
   TiffComponent(uint16_t tag, IfdId group);
   //! Virtual destructor.
   virtual ~TiffComponent() = default;
+  TiffComponent(const TiffComponent&) = default;
+  TiffComponent& operator=(const TiffComponent&) = default;
   //@}
 
   //! @name Manipulators
@@ -221,7 +223,7 @@ class TiffComponent {
                       nested components.
     @throw            Error If the component cannot be written.
    */
-  uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                  uint32_t& imageIdx);
   //@}
 
@@ -250,7 +252,7 @@ class TiffComponent {
            Return the number of bytes written. Components derived from
            TiffEntryBase implement this method if needed.
    */
-  uint32_t writeData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+  uint32_t writeData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                      uint32_t& imageIdx) const;
   /*!
     @brief Write the image data of this component to a binary image.
@@ -302,7 +304,7 @@ class TiffComponent {
   //! Implements accept().
   virtual void doAccept(TiffVisitor& visitor) = 0;
   //! Implements write().
-  virtual uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx,
+  virtual uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx,
                            uint32_t dataIdx, uint32_t& imageIdx) = 0;
   //@}
 
@@ -311,7 +313,7 @@ class TiffComponent {
   //! Internal virtual copy constructor, implements clone().
   [[nodiscard]] virtual TiffComponent* doClone() const = 0;
   //! Implements writeData().
-  virtual uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+  virtual uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                                uint32_t& imageIdx) const = 0;
   //! Implements writeImage().
   virtual uint32_t doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const = 0;
@@ -382,7 +384,6 @@ struct TiffMappingInfo::Key {
 class TiffEntryBase : public TiffComponent {
   friend class TiffReader;
   friend class TiffEncoder;
-  friend int selectNikonLd(TiffBinaryArray*, TiffComponent*);
 
  public:
   //! @name Creators
@@ -410,7 +411,7 @@ class TiffEntryBase : public TiffComponent {
    */
   void encode(TiffEncoder& encoder, const Exifdatum* datum);
   //! Set the offset
-  void setOffset(int64_t offset) {
+  void setOffset(size_t offset) {
     offset_ = offset;
   }
   /*!
@@ -459,7 +460,7 @@ class TiffEntryBase : public TiffComponent {
     @brief Return the offset to the data area relative to the base
            for the component (usually the start of the TIFF header)
    */
-  [[nodiscard]] int64_t offset() const {
+  [[nodiscard]] size_t offset() const {
     return offset_;
   }
   /*!
@@ -503,7 +504,7 @@ class TiffEntryBase : public TiffComponent {
            the \em ioWrapper, return the number of bytes written. Only the
            \em ioWrapper and \em byteOrder arguments are used.
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -515,7 +516,7 @@ class TiffEntryBase : public TiffComponent {
     @brief Implements writeData(). Standard TIFF entries have no data:
            write nothing and return 0.
    */
-  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                        uint32_t& imageIdx) const override;
   /*!
     @brief Implements writeImage(). Standard TIFF entries have no image data:
@@ -531,7 +532,7 @@ class TiffEntryBase : public TiffComponent {
   //@}
 
   //! Helper function to write an \em offset to a preallocated binary buffer
-  static uint32_t writeOffset(byte* buf, int64_t offset, TiffType tiffType, ByteOrder byteOrder);
+  static uint32_t writeOffset(byte* buf, size_t offset, TiffType tiffType, ByteOrder byteOrder);
 
   //! Used (internally) to create another reference to the DataBuf reference by storage_.
   [[nodiscard]] const std::shared_ptr<DataBuf>& storage() const {
@@ -542,7 +543,7 @@ class TiffEntryBase : public TiffComponent {
   // DATA
   TiffType tiffType_;  //!< Field TIFF type
   size_t count_{};     //!< The number of values of the indicated type
-  int64_t offset_{};   //!< Offset to the data area
+  size_t offset_{};    //!< Offset to the data area
   size_t size_{};      //!< Size of the data buffer holding the value in bytes, there is no minimum size.
 
   // Notes on the ownership model of pData_: pData_ is a always a
@@ -681,7 +682,7 @@ class TiffDataEntry : public TiffDataEntryBase {
     on write. The type of the value can only be signed or unsigned short or
     long.
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -692,7 +693,7 @@ class TiffDataEntry : public TiffDataEntryBase {
     @brief Implements writeData(). Write the data area to the \em ioWrapper.
            Return the number of bytes written.
    */
-  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                        uint32_t& imageIdx) const override;
   // Using doWriteImage from base class
   // Using doSize() from base class
@@ -703,8 +704,8 @@ class TiffDataEntry : public TiffDataEntryBase {
 
  private:
   // DATA
-  byte* pDataArea_{};        //!< Pointer to the data area (never alloc'd)
-  uint32_t sizeDataArea_{};  //!< Size of the data area
+  byte* pDataArea_{};      //!< Pointer to the data area (never alloc'd)
+  size_t sizeDataArea_{};  //!< Size of the data area
 
 };  // class TiffDataEntry
 
@@ -740,7 +741,7 @@ class TiffImageEntry : public TiffDataEntryBase {
            \em ioWrapper. Return the number of bytes written. The \em valueIdx
            and \em dataIdx  arguments are not used.
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -755,7 +756,7 @@ class TiffImageEntry : public TiffDataEntryBase {
     directory. It is used for TIFF image entries in the makernote (large
     preview images) so that the image data remains in the makernote IFD.
    */
-  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                        uint32_t& imageIdx) const override;
   /*!
     @brief Implements writeImage(). Write the image data area to the \em ioWrapper.
@@ -772,7 +773,7 @@ class TiffImageEntry : public TiffDataEntryBase {
 
  private:
   //! Pointers to the image data (strips) and their sizes.
-  using Strips = std::vector<std::pair<const byte*, uint32_t>>;
+  using Strips = std::vector<std::pair<const byte*, size_t>>;
 
   // DATA
   Strips strips_;  //!< Image strips data (never alloc'd) and sizes
@@ -879,7 +880,7 @@ class TiffDirectory : public TiffComponent {
            additional data, including the next-IFD, if any, to the
            \em ioWrapper, return the number of bytes written.
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -890,7 +891,7 @@ class TiffDirectory : public TiffComponent {
     @brief This class does not really implement writeData(), it only has
            write(). This method must not be called; it commits suicide.
    */
-  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                        uint32_t& imageIdx) const override;
   /*!
     @brief Implements writeImage(). Write the image data of the TIFF
@@ -925,8 +926,8 @@ class TiffDirectory : public TiffComponent {
   //! @name Private Accessors
   //@{
   //! Write a binary directory entry for a TIFF component.
-  static uint32_t writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset,
-                                TiffComponent* pTiffComponent, uint32_t valueIdx, uint32_t dataIdx, uint32_t& imageIdx);
+  static uint32_t writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, TiffComponent* pTiffComponent,
+                                uint32_t valueIdx, uint32_t dataIdx, uint32_t& imageIdx);
   //@}
 
   // DATA
@@ -975,7 +976,7 @@ class TiffSubIfd : public TiffEntryBase {
            return the number of bytes written. The \em valueIdx and
            \em imageIdx arguments are not used.
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -986,7 +987,7 @@ class TiffSubIfd : public TiffEntryBase {
     @brief Implements writeData(). Write the sub-IFDs to the \em ioWrapper.
            Return the number of bytes written.
    */
-  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                        uint32_t& imageIdx) const override;
   /*!
     @brief Implements writeImage(). Write the image data of each sub-IFD to
@@ -1053,7 +1054,7 @@ class TiffMnEntry : public TiffEntryBase {
     @brief Implements write() by forwarding the call to the actual
            concrete Makernote, if there is one.
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -1159,12 +1160,7 @@ class TiffIfdMakernote : public TiffComponent {
            the header is \c invalidByteOrder.
    */
   [[nodiscard]] ByteOrder byteOrder() const;
-  /*!
-    @brief Return the byte order used for the image.
-   */
-  [[nodiscard]] ByteOrder imageByteOrder() const {
-    return imageByteOrder_;
-  }
+
   /*!
     @brief Return the base offset for use with the makernote IFD entries
            relative to the start of the TIFF header.
@@ -1186,7 +1182,7 @@ class TiffIfdMakernote : public TiffComponent {
            values and additional data to the \em ioWrapper, return the
            number of bytes written.
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -1197,7 +1193,7 @@ class TiffIfdMakernote : public TiffComponent {
     @brief This class does not really implement writeData(), it only has
            write(). This method must not be called; it commits suicide.
    */
-  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t dataIdx,
+  uint32_t doWriteData(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t dataIdx,
                        uint32_t& imageIdx) const override;
   /*!
     @brief Implements writeImage(). Write the image data of the IFD of
@@ -1229,10 +1225,10 @@ class TiffIfdMakernote : public TiffComponent {
 
  private:
   // DATA
-  MnHeader* pHeader_;         //!< Makernote header
-  TiffDirectory ifd_;         //!< Makernote IFD
-  uint32_t mnOffset_{};       //!< Makernote offset
-  ByteOrder imageByteOrder_;  //!< Byte order for the image
+  MnHeader* pHeader_;                           //!< Makernote header
+  TiffDirectory ifd_;                           //!< Makernote IFD
+  uint32_t mnOffset_{};                         //!< Makernote offset
+  ByteOrder imageByteOrder_{invalidByteOrder};  //!< Byte order for the image
 
 };  // class TiffIfdMakernote
 
@@ -1384,7 +1380,7 @@ class TiffBinaryArray : public TiffEntryBase {
   /*!
     @brief Implements write(). Todo: Document it!
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -1472,7 +1468,7 @@ class TiffBinaryElement : public TiffEntryBase {
   /*!
     @brief Implements write(). Todo: Document it!
    */
-  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, int64_t offset, uint32_t valueIdx, uint32_t dataIdx,
+  uint32_t doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset, uint32_t valueIdx, uint32_t dataIdx,
                    uint32_t& imageIdx) override;
   //@}
 
@@ -1496,8 +1492,8 @@ class TiffBinaryElement : public TiffEntryBase {
 
  private:
   // DATA
-  ArrayDef elDef_;         //!< The array element definition
-  ByteOrder elByteOrder_;  //!< Byte order to read/write the element
+  ArrayDef elDef_;                           //!< The array element definition
+  ByteOrder elByteOrder_{invalidByteOrder};  //!< Byte order to read/write the element
 
 };  // class TiffBinaryElement
 
@@ -1540,19 +1536,19 @@ TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group) {
 //! Function to create and initialize a new binary array entry
 template <const ArrayCfg* arrayCfg, int N, const ArrayDef arrayDef[N]>
 TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, arrayDef, N));
+  return std::make_unique<TiffBinaryArray>(tag, group, &(*arrayCfg), &(*arrayDef), N);
 }
 
 //! Function to create and initialize a new simple binary array entry
 template <const ArrayCfg* arrayCfg>
 TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group) {
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arrayCfg, nullptr, 0));
+  return std::make_unique<TiffBinaryArray>(tag, group, &(*arrayCfg), nullptr, 0);
 }
 
 //! Function to create and initialize a new complex binary array entry
 template <const ArraySet* arraySet, int N, CfgSelFct cfgSelFct>
 TiffComponent::UniquePtr newTiffBinaryArray2(uint16_t tag, IfdId group) {
-  return TiffComponent::UniquePtr(new TiffBinaryArray(tag, group, arraySet, N, cfgSelFct));
+  return std::make_unique<TiffBinaryArray>(tag, group, &(*arraySet), N, cfgSelFct);
 }
 
 //! Function to create and initialize a new TIFF entry for a thumbnail (data)

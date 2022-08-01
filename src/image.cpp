@@ -99,8 +99,6 @@ constexpr auto registry = std::array{
 #ifdef EXV_ENABLE_BMFF
     Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
-        // End of list marker
-    Registry{ImageType::none, nullptr, nullptr, amNone, amNone, amNone, amNone},
 };
 
 std::string pathOfFileUrl(const std::string& url) {
@@ -116,17 +114,13 @@ std::string pathOfFileUrl(const std::string& url) {
 namespace Exiv2 {
 Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io) :
     io_(std::move(io)),
-    pixelWidth_(0),
-    pixelHeight_(0),
     imageType_(type),
     supportedMetadata_(supportedMetadata),
 #ifdef EXV_HAVE_XMP_TOOLKIT
-    writeXmpFromPacket_(false),
+    writeXmpFromPacket_(false) {
 #else
-    writeXmpFromPacket_(true),
+    writeXmpFromPacket_(true) {
 #endif
-    byteOrder_(invalidByteOrder),
-    init_(true) {
 }
 
 void Image::printStructure(std::ostream&, PrintStructureOption, int /*depth*/) {
@@ -190,17 +184,17 @@ uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
 
 uint32_t Image::byteSwap(uint32_t value, bool bSwap) {
   uint32_t result = 0;
-  result |= (value & 0x000000FF) << 24;
-  result |= (value & 0x0000FF00) << 8;
-  result |= (value & 0x00FF0000) >> 8;
-  result |= (value & 0xFF000000) >> 24;
+  result |= (value & 0x000000FFU) << 24;
+  result |= (value & 0x0000FF00U) << 8;
+  result |= (value & 0x00FF0000U) >> 8;
+  result |= (value & 0xFF000000U) >> 24;
   return bSwap ? result : value;
 }
 
 uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
   uint16_t result = 0;
-  result |= (value & 0x00FF) << 8;
-  result |= (value & 0xFF00) >> 8;
+  result |= (value & 0x00FFU) << 8;
+  result |= (value & 0xFF00U) >> 8;
   return bSwap ? result : value;
 }
 
@@ -287,7 +281,7 @@ static bool typeValid(uint16_t type) {
   return type >= 1 && type <= 13;
 }
 
-static std::set<long> visits;  // #547
+static std::set<size_t> visits;  // #547
 
 void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start,
                               bool bSwap, char c, int depth) {
@@ -370,7 +364,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       const bool bOffsetIsPointer = count_x_size > 4;
 
       if (bOffsetIsPointer) {                                                       // read into buffer
-        const long restore = io.tell();                                             // save
+        const size_t restore = io.tell();                                           // save
         io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);      // position
         io.readOrThrow(buf.data(), count_x_size, ErrorCode::kerCorruptedMetadata);  // read
         io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);     // restore
@@ -381,7 +375,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         const std::string offsetString = bOffsetIsPointer ? Internal::stringFormat("%10u", offset) : "";
 
         out << Internal::indent(depth)
-            << Internal::stringFormat("%8u | %#06x %-28s |%10s |%9u |%10s | ", address, tag, tagName(tag).c_str(),
+            << Internal::stringFormat("%8zu | %#06x %-28s |%10s |%9u |%10s | ", address, tag, tagName(tag).c_str(),
                                       typeName(type), count, offsetString.c_str());
         if (isShortType(type)) {
           for (size_t k = 0; k < kount; k++) {
@@ -410,7 +404,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
         if (option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a /*SubIFDs*/ || type == tiffIfd)) {
           for (size_t k = 0; k < count; k++) {
-            const long restore = io.tell();
+            const size_t restore = io.tell();
             offset = byteSwap4(buf, k * size, bSwap);
             printIFDStructure(io, out, option, offset, bSwap, c, depth);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
@@ -421,17 +415,17 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
               throw Error(ErrorCode::kerCorruptedMetadata);
             }
 
-            const long restore = io.tell();
+            const size_t restore = io.tell();
             io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
             std::vector<byte> bytes(count);                                         // allocate memory
             // TODO: once we have C++11 use bytes.data()
-            io.readOrThrow(&bytes[0], count, ErrorCode::kerCorruptedMetadata);
+            io.readOrThrow(bytes.data(), count, ErrorCode::kerCorruptedMetadata);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
             // TODO: once we have C++11 use bytes.data()
-            IptcData::printStructure(out, makeSliceUntil(&bytes[0], count), depth);
+            IptcData::printStructure(out, makeSliceUntil(bytes.data(), count), depth);
           }
         } else if (option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
-          const long restore = io.tell();  // save
+          const size_t restore = io.tell();  // save
 
           uint32_t jump = 10;
           byte bytes[20];
@@ -597,7 +591,7 @@ void Image::clearComment() {
   comment_.erase();
 }
 
-void Image::setComment(std::string_view comment) {
+void Image::setComment(const std::string& comment) {
   comment_ = comment;
 }
 
@@ -755,9 +749,9 @@ ImageType ImageFactory::getType(BasicIo& io) {
   if (io.open() != 0)
     return ImageType::none;
   IoCloser closer(io);
-  for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
-    if (registry[i].isThisType_(io, false)) {
-      return registry[i].imageType_;
+  for (const auto& r : registry) {
+    if (r.isThisType_(io, false)) {
+      return r.imageType_;
     }
   }
   return ImageType::none;
@@ -802,9 +796,9 @@ Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io) {
   if (io->open() != 0) {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io->path(), strError());
   }
-  for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
-    if (registry[i].isThisType_(*io, false)) {
-      return registry[i].newInstance_(std::move(io), false);
+  for (const auto& r : registry) {
+    if (r.isThisType_(*io, false)) {
+      return r.newInstance_(std::move(io), false);
     }
   }
   return nullptr;

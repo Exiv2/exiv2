@@ -97,8 +97,10 @@ class TaskFactory {
   */
   static TaskFactory& instance();
 
+  ~TaskFactory() = default;
   //! Prevent copy construction: not implemented.
   TaskFactory(const TaskFactory&) = delete;
+  TaskFactory& operator=(const TaskFactory&) = delete;
 
   //! Destructor
   void cleanup();
@@ -187,10 +189,10 @@ class Adjust : public Task {
  private:
   int adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const std::string& path) const;
 
-  long adjustment_{0};
-  long yearAdjustment_{0};
-  long monthAdjustment_{0};
-  long dayAdjustment_{0};
+  int64_t adjustment_{0};
+  int64_t yearAdjustment_{0};
+  int64_t monthAdjustment_{0};
+  int64_t dayAdjustment_{0};
 
 };  // class Adjust
 

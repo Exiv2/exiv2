@@ -15,76 +15,55 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-Value::Value(TypeId typeId) : ok_(true), type_(typeId) {
+Value::Value(TypeId typeId) : type_(typeId) {
 }
 
 Value::UniquePtr Value::create(TypeId typeId) {
-  std::unique_ptr<Value> value;
   switch (typeId) {
     case invalidTypeId:
     case signedByte:
     case unsignedByte:
-      value = std::make_unique<DataValue>(typeId);
-      break;
+      return std::make_unique<DataValue>(typeId);
     case asciiString:
-      value = std::make_unique<AsciiValue>();
-      break;
+      return std::make_unique<AsciiValue>();
     case unsignedShort:
-      value = std::make_unique<ValueType<uint16_t>>();
-      break;
+      return std::make_unique<ValueType<uint16_t>>();
     case unsignedLong:
     case tiffIfd:
-      value = std::make_unique<ValueType<uint32_t>>(typeId);
-      break;
+      return std::make_unique<ValueType<uint32_t>>(typeId);
     case unsignedRational:
-      value = std::make_unique<ValueType<URational>>();
-      break;
+      return std::make_unique<ValueType<URational>>();
     case undefined:
-      value = std::make_unique<DataValue>();
-      break;
+      return std::make_unique<DataValue>();
     case signedShort:
-      value = std::make_unique<ValueType<int16_t>>();
-      break;
+      return std::make_unique<ValueType<int16_t>>();
     case signedLong:
-      value = std::make_unique<ValueType<int32_t>>();
-      break;
+      return std::make_unique<ValueType<int32_t>>();
     case signedRational:
-      value = std::make_unique<ValueType<Rational>>();
-      break;
+      return std::make_unique<ValueType<Rational>>();
     case tiffFloat:
-      value = std::make_unique<ValueType<float>>();
-      break;
+      return std::make_unique<ValueType<float>>();
     case tiffDouble:
-      value = std::make_unique<ValueType<double>>();
-      break;
+      return std::make_unique<ValueType<double>>();
     case string:
-      value = std::make_unique<StringValue>();
-      break;
+      return std::make_unique<StringValue>();
     case date:
-      value = std::make_unique<DateValue>();
-      break;
+      return std::make_unique<DateValue>();
     case time:
-      value = std::make_unique<TimeValue>();
-      break;
+      return std::make_unique<TimeValue>();
     case comment:
-      value = std::make_unique<CommentValue>();
-      break;
+      return std::make_unique<CommentValue>();
     case xmpText:
-      value = std::make_unique<XmpTextValue>();
-      break;
+      return std::make_unique<XmpTextValue>();
     case xmpBag:
     case xmpSeq:
     case xmpAlt:
-      value = std::make_unique<XmpArrayValue>(typeId);
-      break;
+      return std::make_unique<XmpArrayValue>(typeId);
     case langAlt:
-      value = std::make_unique<LangAltValue>();
-      break;
+      return std::make_unique<LangAltValue>();
     default:
-      value = std::make_unique<DataValue>(typeId);
-      break;
+      return std::make_unique<DataValue>(typeId);
   }
-  return value;
 }  // Value::create
 
 int Value::setDataArea(const byte* /*buf*/, size_t /*len*/) {
@@ -344,7 +323,7 @@ int CommentValue::read(const std::string& comment) {
     const std::string::size_type pos = comment.find_first_of(' ');
     std::string name = comment.substr(8, pos - 8);
     // Strip quotes (so you can also specify the charset without quotes)
-    if (!name.empty() && name[0] == '"')
+    if (!name.empty() && name.front() == '"')
       name = name.substr(1);
     if (!name.empty() && name[name.length() - 1] == '"')
       name = name.substr(0, name.length() - 1);
@@ -448,7 +427,7 @@ CommentValue* CommentValue::clone_() const {
   return new CommentValue(*this);
 }
 
-XmpValue::XmpValue(TypeId typeId) : Value(typeId), xmpArrayType_(xaNone), xmpStruct_(xsNone) {
+XmpValue::XmpValue(TypeId typeId) : Value(typeId) {
 }
 
 void XmpValue::setXmpArrayType(XmpArrayType xmpArrayType) {
@@ -490,7 +469,7 @@ size_t XmpValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   write(os);
   std::string s = os.str();
   if (!s.empty())
-    std::memcpy(buf, &s[0], s.size());
+    std::memcpy(buf, s.data(), s.size());
   return s.size();
 }
 
@@ -520,7 +499,7 @@ int XmpTextValue::read(const std::string& buf) {
     std::string::size_type pos = buf.find_first_of(' ');
     type = buf.substr(5, pos - 5);
     // Strip quotes (so you can also specify the type without quotes)
-    if (!type.empty() && type[0] == '"')
+    if (!type.empty() && type.front() == '"')
       type = type.substr(1);
     if (!type.empty() && type[type.length() - 1] == '"')
       type = type.substr(0, type.length() - 1);
@@ -683,7 +662,7 @@ int LangAltValue::read(const std::string& buf) {
     if (lang.empty())
       throw Error(ErrorCode::kerInvalidLangAltValue, buf);
     // Strip quotes (so you can also specify the language without quotes)
-    if (lang[0] == '"') {
+    if (lang.front() == '"') {
       lang = lang.substr(1);
 
       if (lang.empty() || lang.find('"') != lang.length() - 1)
@@ -733,7 +712,7 @@ std::ostream& LangAltValue::write(std::ostream& os) const {
   }
 
   // Write the others
-  for (auto&& [lang, s] : value_) {
+  for (const auto& [lang, s] : value_) {
     if (lang != x_default) {
       if (!first)
         os << ", ";
@@ -785,7 +764,7 @@ LangAltValue* LangAltValue::clone_() const {
 DateValue::DateValue() : Value(date) {
 }
 
-DateValue::DateValue(int year, int month, int day) : Value(date) {
+DateValue::DateValue(int32_t year, int32_t month, int32_t day) : Value(date) {
   date_.year = year;
   date_.month = month;
   date_.day = day;
@@ -904,7 +883,7 @@ Rational DateValue::toRational(size_t n) const {
 TimeValue::TimeValue() : Value(time) {
 }
 
-TimeValue::TimeValue(int hour, int minute, int second, int tzHour, int tzMinute) : Value(date) {
+TimeValue::TimeValue(int32_t hour, int32_t minute, int32_t second, int32_t tzHour, int32_t tzMinute) : Value(date) {
   time_.hour = hour;
   time_.minute = minute;
   time_.second = second;

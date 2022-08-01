@@ -31,7 +31,7 @@ void TgaImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "TGA"));
 }
 
-void TgaImage::setComment(std::string_view /*comment*/) {
+void TgaImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TGA"));
 }
@@ -103,7 +103,7 @@ bool isTgaType(BasicIo& iIo, bool /*advance*/) {
     return true;
   }
   byte buf[26];
-  long curPos = iIo.tell();
+  const size_t curPos = iIo.tell();
   if (curPos < 26)
     return false;
 

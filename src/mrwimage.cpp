@@ -48,7 +48,7 @@ void MrwImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "MRW"));
 }
 
-void MrwImage::setComment(std::string_view /*comment*/) {
+void MrwImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "MRW"));
 }

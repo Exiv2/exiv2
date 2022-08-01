@@ -52,6 +52,8 @@ class EXIV2API Key {
   [[nodiscard]] virtual std::string tagName() const = 0;
   //! Return a label for the tag
   [[nodiscard]] virtual std::string tagLabel() const = 0;
+  //! Return a description for the tag
+  [[nodiscard]] virtual std::string tagDesc() const = 0;
   //! Return the tag number
   [[nodiscard]] virtual uint16_t tag() const = 0;
   /*!
@@ -181,6 +183,8 @@ class EXIV2API Metadatum {
   [[nodiscard]] virtual std::string tagName() const = 0;
   //! Return a label for the tag
   [[nodiscard]] virtual std::string tagLabel() const = 0;
+  //! Return a description for the tag
+  [[nodiscard]] virtual std::string tagDesc() const = 0;
   //! Return the tag
   [[nodiscard]] virtual uint16_t tag() const = 0;
   //! Return the type id of the value

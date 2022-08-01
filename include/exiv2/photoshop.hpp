@@ -16,10 +16,10 @@ class IptcData;
 /// @brief Helper class, has methods to deal with %Photoshop "Information Resource Blocks" (IRBs).
 struct EXIV2API Photoshop {
   // Todo: Public for now
-  static constexpr std::array irbId_{"8BIM", "AgHg", "DCSR", "PHUT"};  //!< %Photoshop IRB markers
-  static constexpr auto ps3Id_ = "Photoshop 3.0\0";                    //!< %Photoshop marker
-  static constexpr uint16_t iptc_ = 0x0404;                            //!< %Photoshop IPTC marker
-  static constexpr uint16_t preview_ = 0x040c;                         //!< %Photoshop preview marker
+  static constexpr std::array<const char*, 4> irbId_{"8BIM", "AgHg", "DCSR", "PHUT"};  //!< %Photoshop IRB markers
+  static constexpr auto ps3Id_ = "Photoshop 3.0\0";                                    //!< %Photoshop marker
+  static constexpr uint16_t iptc_ = 0x0404;                                            //!< %Photoshop IPTC marker
+  static constexpr uint16_t preview_ = 0x040c;                                         //!< %Photoshop preview marker
 
   /// @brief Checks an IRB
   /// @param pPsData  Existing IRB buffer. It is expected to be of size 4.

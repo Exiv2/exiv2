@@ -1,5 +1,9 @@
 name: On PRs - Linux-Ubuntu Matrix
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths-ignore:
@@ -22,7 +26,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.45.0
+          pip3 install conan==1.48.1
 
       - name: Conan common config
         run: |
@@ -39,20 +43,8 @@ jobs:
 
       - name: Build
         run: |
-          cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
-            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset base_linux -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
+          cmake --build build --parallel
 
       - name: Install
         run: |

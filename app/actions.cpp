@@ -6,12 +6,14 @@
 #include "app_utils.hpp"
 #include "config.h"
 #include "easyaccess.hpp"
+#include "enforce.hpp"
 #include "exif.hpp"
 #include "futils.hpp"
 #include "i18n.h"  // NLS support.
 #include "image.hpp"
 #include "iptc.hpp"
 #include "preview.hpp"
+#include "safe_op.hpp"
 #include "types.hpp"
 #include "xmp_exiv2.hpp"
 
@@ -38,9 +40,10 @@
 #include <utime.h>
 #endif
 
-#if !defined(__MINGW__) && !defined(_MSC_VER)
-#define _fileno(a) a
-#define _setmode(a, b)
+#ifndef _WIN32
+#define _setmode(a, b) \
+  do {                 \
+  } while (false)
 #endif
 
 namespace fs = std::filesystem;
@@ -177,7 +180,7 @@ int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::stri
       ascii.write_uint8(str.size() * 3, 0);
       std::copy(str.begin(), str.end(), iccProfile.begin());
       if (Exiv2::base64encode(iccProfile.c_data(), str.size(), reinterpret_cast<char*>(ascii.data()), str.size() * 3)) {
-        long chunk = 60;
+        const size_t chunk = 60;
         std::string code = std::string("data:") + ascii.c_str();
         size_t length = code.size();
         for (size_t start = 0; start < length; start += chunk) {
@@ -197,34 +200,25 @@ int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::stri
 int Print::run(const std::string& path) {
   try {
     path_ = path;
-    int rc = 0;
     switch (Params::instance().printMode_) {
       case Params::pmSummary:
-        rc = Params::instance().greps_.empty() ? printSummary() : printList();
-        break;
+        return Params::instance().greps_.empty() ? printSummary() : printList();
       case Params::pmList:
-        rc = printList();
-        break;
+        return printList();
       case Params::pmComment:
-        rc = printComment();
-        break;
+        return printComment();
       case Params::pmPreview:
-        rc = printPreviewList();
-        break;
+        return printPreviewList();
       case Params::pmStructure:
-        rc = printStructure(std::cout, Exiv2::kpsBasic, path_);
-        break;
+        return printStructure(std::cout, Exiv2::kpsBasic, path_);
       case Params::pmRecursive:
-        rc = printStructure(std::cout, Exiv2::kpsRecursive, path_);
-        break;
+        return printStructure(std::cout, Exiv2::kpsRecursive, path_);
       case Params::pmXMP:
-        rc = setModeAndPrintStructure(Exiv2::kpsXMP, path_, binary());
-        break;
+        return setModeAndPrintStructure(Exiv2::kpsXMP, path_, binary());
       case Params::pmIccProfile:
-        rc = setModeAndPrintStructure(Exiv2::kpsIccProfile, path_, binary());
-        break;
+        return setModeAndPrintStructure(Exiv2::kpsIccProfile, path_, binary());
     }
-    return rc;
+    return 0;
   } catch (const Exiv2::Error& e) {
     std::cerr << "Exiv2 exception in print action for file " << path << ":\n" << e << "\n";
     return 1;
@@ -242,7 +236,7 @@ int Print::printSummary() {
 
   auto image = Exiv2::ImageFactory::open(path_);
   image->readMetadata();
-  Exiv2::ExifData& exifData = image->exifData();
+  const Exiv2::ExifData& exifData = image->exifData();
   align_ = 16;
 
   // Filename
@@ -362,8 +356,8 @@ int Print::printList() {
   auto image = Exiv2::ImageFactory::open(path_);
   image->readMetadata();
   // Set defaults for metadata types and data columns
-  if (Params::instance().printTags_ == Exiv2::mdNone) {
-    Params::instance().printTags_ = Exiv2::mdExif | Exiv2::mdIptc | Exiv2::mdXmp;
+  if (Params::instance().printTags_ == MetadataId::invalid) {
+    Params::instance().printTags_ = MetadataId::exif | MetadataId::iptc | MetadataId::xmp;
   }
   if (Params::instance().printItems_ == 0) {
     Params::instance().printItems_ = Params::prKey | Params::prType | Params::prCount | Params::prTrans;
@@ -374,7 +368,7 @@ int Print::printList() {
 int Print::printMetadata(const Exiv2::Image* image) {
   bool ret = false;
   bool noExif = false;
-  if (Params::instance().printTags_ & Exiv2::mdExif) {
+  if ((Params::instance().printTags_ & MetadataId::exif) == MetadataId::exif) {
     const Exiv2::ExifData& exifData = image->exifData();
     for (auto&& md : exifData) {
       ret |= printMetadatum(md, image);
@@ -384,7 +378,7 @@ int Print::printMetadata(const Exiv2::Image* image) {
   }
 
   bool noIptc = false;
-  if (Params::instance().printTags_ & Exiv2::mdIptc) {
+  if ((Params::instance().printTags_ & MetadataId::iptc) == MetadataId::iptc) {
     const Exiv2::IptcData& iptcData = image->iptcData();
     for (auto&& md : iptcData) {
       ret |= printMetadatum(md, image);
@@ -394,7 +388,7 @@ int Print::printMetadata(const Exiv2::Image* image) {
   }
 
   bool noXmp = false;
-  if (Params::instance().printTags_ & Exiv2::mdXmp) {
+  if ((Params::instance().printTags_ & MetadataId::xmp) == MetadataId::xmp) {
     const Exiv2::XmpData& xmpData = image->xmpData();
     for (auto&& md : xmpData) {
       ret |= printMetadatum(md, image);
@@ -434,7 +428,7 @@ bool Print::grepTag(const std::string& key) {
 
 bool Print::keyTag(const std::string& key) {
   bool result = Params::instance().keys_.empty();
-  for (auto&& k : Params::instance().keys_) {
+  for (const auto& k : Params::instance().keys_) {
     if (result)
       break;
     result = key == k;
@@ -495,6 +489,12 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
       std::cout << " ";
     first = false;
     std::cout << std::setw(30) << std::setfill(' ') << std::left << md.tagLabel();
+  }
+  if (Params::instance().printItems_ & Params::prDesc) {
+    if (!first)
+      std::cout << " ";
+    first = false;
+    std::cout << std::setw(30) << std::setfill(' ') << std::left << md.tagDesc();
   }
   if (Params::instance().printItems_ & Params::prType) {
     if (!first)
@@ -586,7 +586,7 @@ int Print::printPreviewList() {
   int cnt = 0;
   Exiv2::PreviewManager pm(*image);
   Exiv2::PreviewPropertiesList list = pm.getPreviewProperties();
-  for (auto&& pos : list) {
+  for (const auto& pos : list) {
     if (manyFiles) {
       std::cout << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
     }
@@ -735,7 +735,7 @@ int Erase::eraseThumbnail(Exiv2::Image* image) {
 }
 
 int Erase::eraseExifData(Exiv2::Image* image) {
-  if (Params::instance().verbose_ && image->exifData().count() > 0) {
+  if (Params::instance().verbose_ && !image->exifData().empty()) {
     std::cout << _("Erasing Exif data from the file") << std::endl;
   }
   image->clearExifData();
@@ -743,7 +743,7 @@ int Erase::eraseExifData(Exiv2::Image* image) {
 }
 
 int Erase::eraseIptcData(Exiv2::Image* image) {
-  if (Params::instance().verbose_ && image->iptcData().count() > 0) {
+  if (Params::instance().verbose_ && !image->iptcData().empty()) {
     std::cout << _("Erasing IPTC data from the file") << std::endl;
   }
   image->clearIptcData();
@@ -759,7 +759,7 @@ int Erase::eraseComment(Exiv2::Image* image) {
 }
 
 int Erase::eraseXmpData(Exiv2::Image* image) {
-  if (Params::instance().verbose_ && image->xmpData().count() > 0) {
+  if (Params::instance().verbose_ && !image->xmpData().empty()) {
     std::cout << _("Erasing XMP data from the file") << std::endl;
   }
   image->clearXmpData();  // Quick fix for bug #612
@@ -1141,28 +1141,28 @@ int Modify::applyCommands(Exiv2::Image* pImage) {
   }
 
   // loop through command table and apply each command
-  ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
+  const ModifyCmds& modifyCmds = Params::instance().modifyCmds_;
   int rc = 0;
   int ret = 0;
-  for (auto&& cmd : modifyCmds) {
+  for (const auto& cmd : modifyCmds) {
     switch (cmd.cmdId_) {
-      case add:
+      case CmdId::add:
         ret = addMetadatum(pImage, cmd);
         if (rc == 0)
           rc = ret;
         break;
-      case set:
+      case CmdId::set:
         ret = setMetadatum(pImage, cmd);
         if (rc == 0)
           rc = ret;
         break;
-      case del:
+      case CmdId::del:
         delMetadatum(pImage, cmd);
         break;
-      case reg:
+      case CmdId::reg:
         regNamespace(cmd);
         break;
-      case invalidCmdId:
+      case CmdId::invalid:
         break;
     }
   }
@@ -1182,13 +1182,13 @@ int Modify::addMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
   auto value = Exiv2::Value::create(modifyCmd.typeId_);
   int rc = value->read(modifyCmd.value_);
   if (0 == rc) {
-    if (modifyCmd.metadataId_ == exif) {
+    if (modifyCmd.metadataId_ == MetadataId::exif) {
       exifData.add(Exiv2::ExifKey(modifyCmd.key_), value.get());
     }
-    if (modifyCmd.metadataId_ == iptc) {
+    if (modifyCmd.metadataId_ == MetadataId::iptc) {
       iptcData.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
     }
-    if (modifyCmd.metadataId_ == xmp) {
+    if (modifyCmd.metadataId_ == MetadataId::xmp) {
       xmpData.add(Exiv2::XmpKey(modifyCmd.key_), value.get());
     }
   } else {
@@ -1211,19 +1211,19 @@ int Modify::setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
   Exiv2::IptcData& iptcData = pImage->iptcData();
   Exiv2::XmpData& xmpData = pImage->xmpData();
   Exiv2::Metadatum* metadatum = nullptr;
-  if (modifyCmd.metadataId_ == exif) {
+  if (modifyCmd.metadataId_ == MetadataId::exif) {
     auto pos = exifData.findKey(Exiv2::ExifKey(modifyCmd.key_));
     if (pos != exifData.end()) {
       metadatum = &(*pos);
     }
   }
-  if (modifyCmd.metadataId_ == iptc) {
+  if (modifyCmd.metadataId_ == MetadataId::iptc) {
     auto pos = iptcData.findKey(Exiv2::IptcKey(modifyCmd.key_));
     if (pos != iptcData.end()) {
       metadatum = &(*pos);
     }
   }
-  if (modifyCmd.metadataId_ == xmp) {
+  if (modifyCmd.metadataId_ == MetadataId::xmp) {
     auto pos = xmpData.findKey(Exiv2::XmpKey(modifyCmd.key_));
     if (pos != xmpData.end()) {
       metadatum = &(*pos);
@@ -1244,13 +1244,13 @@ int Modify::setMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
     if (metadatum) {
       metadatum->setValue(value.get());
     } else {
-      if (modifyCmd.metadataId_ == exif) {
+      if (modifyCmd.metadataId_ == MetadataId::exif) {
         exifData.add(Exiv2::ExifKey(modifyCmd.key_), value.get());
       }
-      if (modifyCmd.metadataId_ == iptc) {
+      if (modifyCmd.metadataId_ == MetadataId::iptc) {
         iptcData.add(Exiv2::IptcKey(modifyCmd.key_), value.get());
       }
-      if (modifyCmd.metadataId_ == xmp) {
+      if (modifyCmd.metadataId_ == MetadataId::xmp) {
         xmpData.add(Exiv2::XmpKey(modifyCmd.key_), value.get());
       }
     }
@@ -1271,21 +1271,21 @@ void Modify::delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
   Exiv2::ExifData& exifData = pImage->exifData();
   Exiv2::IptcData& iptcData = pImage->iptcData();
   Exiv2::XmpData& xmpData = pImage->xmpData();
-  if (modifyCmd.metadataId_ == exif) {
+  if (modifyCmd.metadataId_ == MetadataId::exif) {
     Exiv2::ExifData::iterator pos;
     const Exiv2::ExifKey exifKey(modifyCmd.key_);
     while ((pos = exifData.findKey(exifKey)) != exifData.end()) {
       exifData.erase(pos);
     }
   }
-  if (modifyCmd.metadataId_ == iptc) {
+  if (modifyCmd.metadataId_ == MetadataId::iptc) {
     Exiv2::IptcData::iterator pos;
     const Exiv2::IptcKey iptcKey(modifyCmd.key_);
     while ((pos = iptcData.findKey(iptcKey)) != iptcData.end()) {
       iptcData.erase(pos);
     }
   }
-  if (modifyCmd.metadataId_ == xmp) {
+  if (modifyCmd.metadataId_ == MetadataId::xmp) {
     Exiv2::XmpData::iterator pos;
     const Exiv2::XmpKey xmpKey(modifyCmd.key_);
     if ((pos = xmpData.findKey(xmpKey)) != xmpData.end()) {
@@ -1407,19 +1407,47 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
     std::cerr << path << ": " << _("Failed to parse timestamp") << " `" << timeStr << "'\n";
     return 1;
   }
-  const long monOverflow = (tm.tm_mon + monthAdjustment_) / 12;
-  tm.tm_mon = (tm.tm_mon + monthAdjustment_) % 12;
-  tm.tm_year += yearAdjustment_ + monOverflow;
+
+  // bounds checking for yearAdjustment_
+  enforce<std::overflow_error>(yearAdjustment_ >= std::numeric_limits<decltype(tm.tm_year)>::min(),
+                               "year adjustment too low");
+  enforce<std::overflow_error>(yearAdjustment_ <= std::numeric_limits<decltype(tm.tm_year)>::max(),
+                               "year adjustment too high");
+  const auto yearAdjustment = static_cast<decltype(tm.tm_year)>(yearAdjustment_);
+
+  // bounds checking for monthAdjustment_
+  enforce<std::overflow_error>(monthAdjustment_ >= std::numeric_limits<decltype(tm.tm_mon)>::min(),
+                               "month adjustment too low");
+  enforce<std::overflow_error>(monthAdjustment_ <= std::numeric_limits<decltype(tm.tm_mon)>::max(),
+                               "month adjustment too high");
+  const auto monthAdjustment = static_cast<decltype(tm.tm_mon)>(monthAdjustment_);
+
+  // bounds checking for dayAdjustment_
+  static constexpr time_t secondsInDay = 24 * 60 * 60;
+  enforce<std::overflow_error>(dayAdjustment_ >= std::numeric_limits<time_t>::min() / secondsInDay,
+                               "day adjustment too low");
+  enforce<std::overflow_error>(dayAdjustment_ <= std::numeric_limits<time_t>::max() / secondsInDay,
+                               "day adjustment too high");
+  const auto dayAdjustment = static_cast<time_t>(dayAdjustment_);
+
+  // bounds checking for adjustment_
+  enforce<std::overflow_error>(adjustment_ >= std::numeric_limits<time_t>::min(), "seconds adjustment too low");
+  enforce<std::overflow_error>(adjustment_ <= std::numeric_limits<time_t>::max(), "seconds adjustment too high");
+  const auto adjustment = static_cast<time_t>(adjustment_);
+
+  const auto monOverflow = Safe::add(tm.tm_mon, monthAdjustment) / 12;
+  tm.tm_mon = Safe::add(tm.tm_mon, monthAdjustment) % 12;
+  tm.tm_year = Safe::add(tm.tm_year, Safe::add(yearAdjustment, monOverflow));
   // Let's not create files with non-4-digit years, we can't read them.
   if (tm.tm_year > 9999 - 1900 || tm.tm_year < 1000 - 1900) {
     if (Params::instance().verbose_)
       std::cout << std::endl;
-    std::cerr << path << ": " << _("Can't adjust timestamp by") << " " << yearAdjustment_ + monOverflow << " "
+    std::cerr << path << ": " << _("Can't adjust timestamp by") << " " << yearAdjustment + monOverflow << " "
               << _("years") << "\n";
     return 1;
   }
   time_t time = mktime(&tm);
-  time += adjustment_ + dayAdjustment_ * 86400;
+  time = Safe::add(time, Safe::add(adjustment, dayAdjustment * secondsInDay));
   timeStr = time2Str(time);
   if (Params::instance().verbose_) {
     std::cout << " " << _("to") << " " << timeStr << std::endl;
@@ -1587,25 +1615,31 @@ int str2Tm(const std::string& timeStr, struct tm* tm) {
   std::memset(tm, 0x0, sizeof(struct tm));
   tm->tm_isdst = -1;
 
-  long tmp = 0;
+  int64_t tmp = 0;
   if (!Util::strtol(timeStr.substr(0, 4).c_str(), tmp))
     return 5;
-  tm->tm_year = tmp - 1900;
+  // tmp is a 4-digit number so this cast cannot overflow
+  tm->tm_year = static_cast<decltype(tm->tm_year)>(tmp - 1900);
   if (!Util::strtol(timeStr.substr(5, 2).c_str(), tmp))
     return 6;
-  tm->tm_mon = tmp - 1;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_mon = static_cast<decltype(tm->tm_mon)>(tmp - 1);
   if (!Util::strtol(timeStr.substr(8, 2).c_str(), tmp))
     return 7;
-  tm->tm_mday = tmp;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_mday = static_cast<decltype(tm->tm_mday)>(tmp);
   if (!Util::strtol(timeStr.substr(11, 2).c_str(), tmp))
     return 8;
-  tm->tm_hour = tmp;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_hour = static_cast<decltype(tm->tm_hour)>(tmp);
   if (!Util::strtol(timeStr.substr(14, 2).c_str(), tmp))
     return 9;
-  tm->tm_min = tmp;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_min = static_cast<decltype(tm->tm_min)>(tmp);
   if (!Util::strtol(timeStr.substr(17, 2).c_str(), tmp))
     return 10;
-  tm->tm_sec = tmp;
+  // tmp is a 2-digit number so this cast cannot overflow
+  tm->tm_sec = static_cast<decltype(tm->tm_sec)>(tmp);
 
   // Conversions to set remaining fields of the tm structure
   if (mktime(tm) == static_cast<time_t>(-1))
@@ -1615,7 +1649,7 @@ int str2Tm(const std::string& timeStr, struct tm* tm) {
 }  // str2Tm
 
 std::string time2Str(time_t time) {
-  struct tm* tm = localtime(&time);
+  auto tm = localtime(&time);
   return tm2Str(tm);
 }  // time2Str
 
@@ -1633,7 +1667,7 @@ std::string tm2Str(const struct tm* tm) {
 
 std::string temporaryPath() {
   static int count = 0;
-  std::lock_guard<std::mutex> guard(cs);
+  auto guard = std::scoped_lock(cs);
 
 #if defined(_MSC_VER) || defined(__MINGW__)
   HANDLE process = 0;
@@ -1698,7 +1732,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
       std::cout << _("Writing Exif data from") << " " << source << " " << _("to") << " " << target << std::endl;
     }
     if (preserve) {
-      for (auto&& exif : sourceImage->exifData()) {
+      for (const auto& exif : sourceImage->exifData()) {
         targetImage->exifData()[exif.key()] = exif.value();
       }
     } else {
@@ -1710,7 +1744,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
       std::cout << _("Writing IPTC data from") << " " << source << " " << _("to") << " " << target << std::endl;
     }
     if (preserve) {
-      for (auto&& iptc : sourceImage->iptcData()) {
+      for (const auto& iptc : sourceImage->iptcData()) {
         targetImage->iptcData()[iptc.key()] = iptc.value();
       }
     } else {
@@ -1723,7 +1757,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
     }
 
     // #1148 use Raw XMP packet if there are no XMP modification commands
-    int tRawSidecar = Params::ctXmpSidecar | Params::ctXmpRaw;  // option -eXX
+    Params::CommonTarget tRawSidecar = Params::ctXmpSidecar | Params::ctXmpRaw;  // option -eXX
     if (Params::instance().modifyCmds_.empty() && (Params::instance().target_ & tRawSidecar) == tRawSidecar) {
       // std::cout << "short cut" << std::endl;
       // http://www.cplusplus.com/doc/tutorial/files/
@@ -1733,7 +1767,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
       os.close();
       rc = 0;
     } else if (preserve) {
-      for (auto&& xmp : sourceImage->xmpData()) {
+      for (const auto& xmp : sourceImage->xmpData()) {
         targetImage->xmpData()[xmp.key()] = xmp.value();
       }
     } else {

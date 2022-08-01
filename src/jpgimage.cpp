@@ -146,7 +146,7 @@ void JpegBase::readMetadata() {
   byte marker = advanceToMarker(ErrorCode::kerNotAJpeg);
 
   while (marker != sos_ && marker != eoi_ && search > 0) {
-    auto [sizebuf, size] = readSegmentSize(marker, *io_);
+    const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
     // Read the rest of the segment.
     DataBuf buf(size);
@@ -188,7 +188,7 @@ void JpegBase::readMetadata() {
         append(psBlob, buf.c_data(16), size - 16);
       }
       // Check whether psBlob is complete
-      if (!psBlob.empty() && Photoshop::valid(&psBlob[0], psBlob.size())) {
+      if (!psBlob.empty() && Photoshop::valid(psBlob.data(), psBlob.size())) {
         --search;
         foundCompletePsData = true;
       }
@@ -263,7 +263,7 @@ void JpegBase::readMetadata() {
     const byte* record = nullptr;
     uint32_t sizeIptc = 0;
     uint32_t sizeHdr = 0;
-    const byte* pCur = &psBlob[0];
+    const byte* pCur = psBlob.data();
     const byte* pEnd = pCur + psBlob.size();
     while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, pEnd - pCur, &record, sizeHdr, sizeIptc)) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -274,7 +274,7 @@ void JpegBase::readMetadata() {
       }
       pCur = record + sizeHdr + sizeIptc + (sizeIptc & 1);
     }
-    if (!iptcBlob.empty() && IptcParser::decode(iptcData_, &iptcBlob[0], iptcBlob.size())) {
+    if (!iptcBlob.empty() && IptcParser::decode(iptcData_, iptcBlob.data(), iptcBlob.size())) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Failed to decode IPTC metadata.\n";
 #endif
@@ -304,7 +304,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
   }
 
   bool bPrint = option == kpsBasic || option == kpsRecursive;
-  std::vector<long> iptcDataSegs;
+  std::vector<std::pair<size_t, size_t>> iptcDataSegs;
 
   if (bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase) {
     // mnemonic for markers
@@ -347,7 +347,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
       first = false;
       bool bLF = bPrint;
 
-      auto [sizebuf, size] = readSegmentSize(marker, *io_);
+      const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
       // Read the rest of the segment.
       DataBuf buf(size);
@@ -412,8 +412,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
           }
         } else if (option == kpsIptcErase && signature == "Photoshop 3.0") {
           // delete IPTC data segment from JPEG
-          iptcDataSegs.push_back(io_->tell() - size);
-          iptcDataSegs.push_back(size);
+          iptcDataSegs.emplace_back(io_->tell() - size, io_->tell());
         } else if (bPrint) {
           const size_t start = 2;
           const size_t end = size > 34 ? 34 : size;
@@ -518,36 +517,9 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
     }
   }
   if (option == kpsIptcErase && !iptcDataSegs.empty()) {
-#ifdef EXIV2_DEBUG_MESSAGES
-    std::cout << "iptc data blocks: " << iptcDataSegs.size() << std::endl;
-    uint32_t toggle = 0;
-    for (auto&& iptc : iptcDataSegs) {
-      std::cout << iptc;
-      if (toggle++ % 2)
-        std::cout << std::endl;
-      else
-        std::cout << ' ';
-    }
-#endif
-    size_t count = iptcDataSegs.size();
+    // Add a sentinel to the end of iptcDataSegs
+    iptcDataSegs.emplace_back(io_->size(), 0);
 
-    // figure out which blocks to copy
-    std::vector<size_t> pos(count + 2);
-    pos[0] = 0;
-    // copy the data that is not iptc
-    auto it = iptcDataSegs.begin();
-    for (size_t i = 0; i < count; i++) {
-      bool bOdd = (i % 2) != 0;
-      bool bEven = !bOdd;
-      pos[i + 1] = bEven ? *it : pos[i] + *it;
-      ++it;
-    }
-    pos[count + 1] = io_->size();
-#ifdef EXIV2_DEBUG_MESSAGES
-    for (size_t i = 0; i < count + 2; i++)
-      std::cout << pos[i] << " ";
-    std::cout << std::endl;
-#endif
     // $ dd bs=1 skip=$((0)) count=$((13164)) if=ETH0138028.jpg of=E1.jpg
     // $ dd bs=1 skip=$((49304)) count=2000000  if=ETH0138028.jpg of=E2.jpg
     // cat E1.jpg E2.jpg > E.jpg
@@ -555,25 +527,21 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
 
     // binary copy io_ to a temporary file
     MemIo tempIo;
-    for (size_t i = 0; i < (count / 2) + 1; i++) {
-      size_t start = pos[2 * i] + 2;  // step JPG 2 byte marker
-      if (start == 2)
-        start = 0;  // read the file 2 byte SOI
-      size_t length = pos[2 * i + 1] - start;
-      if (length) {
-#ifdef EXIV2_DEBUG_MESSAGES
-        std::cout << start << ":" << length << std::endl;
-#endif
-        io_->seekOrThrow(start, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
-        DataBuf buf(length);
-        io_->readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
-        tempIo.write(buf.c_data(), buf.size());
-      }
+    size_t start = 0;
+    for (const auto& p : iptcDataSegs) {
+      const size_t length = p.first - start;
+      io_->seekOrThrow(start, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+      DataBuf buf(length);
+      io_->readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
+      tempIo.write(buf.c_data(), buf.size());
+      start = p.second + 2;  // skip the 2 byte marker
     }
 
     io_->seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
     io_->transfer(tempIo);  // may throw
     io_->seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+
+    // Check that the result is correctly formatted.
     readMetadata();
   }
 }  // JpegBase::printStructure
@@ -591,7 +559,7 @@ void JpegBase::writeMetadata() {
 }
 
 DataBuf JpegBase::readNextSegment(byte marker) {
-  auto [sizebuf, size] = readSegmentSize(marker, *io_);
+  const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
   // Read the rest of the segment.
   DataBuf buf(size);
@@ -618,7 +586,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
   // Used to initialize search variables such as skipCom.
   static const size_t notfound = std::numeric_limits<size_t>::max();
 
-  const long seek = io_->tell();
+  const size_t seek = io_->tell();
   size_t count = 0;
   size_t search = 0;
   size_t insertPos = 0;
@@ -680,7 +648,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
       // Append to psBlob
       append(psBlob, buf.c_data(16), buf.size() - 16);
       // Check whether psBlob is complete
-      if (!psBlob.empty() && Photoshop::valid(&psBlob[0], psBlob.size())) {
+      if (!psBlob.empty() && Photoshop::valid(psBlob.data(), psBlob.size())) {
         foundCompletePsData = true;
       }
     } else if (marker == com_ && skipCom == notfound) {
@@ -714,13 +682,13 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
       comPos = insertPos;
     ++search;
   }
-  if (exifData_.count() > 0)
+  if (!exifData_.empty())
     ++search;
-  if (!writeXmpFromPacket() && xmpData_.count() > 0)
+  if (!writeXmpFromPacket() && !xmpData_.empty())
     ++search;
   if (writeXmpFromPacket() && !xmpPacket_.empty())
     ++search;
-  if (foundCompletePsData || iptcData_.count() > 0)
+  if (foundCompletePsData || !iptcData_.empty())
     ++search;
   if (!comment_.empty())
     ++search;
@@ -739,7 +707,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
     if (insertPos == count) {
       // Write Exif data first so that - if there is no app0 - we
       // create "Exif images" according to the Exif standard.
-      if (exifData_.count() > 0) {
+      if (!exifData_.empty()) {
         Blob blob;
         ByteOrder bo = byteOrder();
         if (bo == invalidByteOrder) {
@@ -750,7 +718,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         size_t exifSize = rawExif.size();
         WriteMethod wm = ExifParser::encode(blob, pExifData, exifSize, bo, exifData_);
         if (wm == wmIntrusive) {
-          pExifData = !blob.empty() ? &blob[0] : nullptr;
+          pExifData = !blob.empty() ? blob.data() : nullptr;
           exifSize = blob.size();
         }
         if (exifSize > 0) {
@@ -809,7 +777,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         tmpBuf[0] = 0xff;
         tmpBuf[1] = app2_;
 
-        const long chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
+        const size_t chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
         size_t size = iccProfile_.size();
         if (size >= 255 * chunk_size)
           throw Error(ErrorCode::kerTooLargeJpegSegment, "IccProfile");
@@ -840,11 +808,11 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         --search;
       }
 
-      if (foundCompletePsData || iptcData_.count() > 0) {
+      if (foundCompletePsData || !iptcData_.empty()) {
         // Set the new IPTC IRB, keeps existing IRBs but removes the
         // IPTC block if there is no new IPTC data to write
         DataBuf newPsData = Photoshop::setIptcIrb(psBlob.data(), psBlob.size(), iptcData_);
-        const long maxChunkSize = 0xffff - 16;
+        const size_t maxChunkSize = 0xffff - 16;
         const byte* chunkStart = newPsData.empty() ? nullptr : newPsData.c_data();
         const byte* chunkEnd = newPsData.empty() ? nullptr : newPsData.c_data(newPsData.size() - 1);
         while (chunkStart < chunkEnd) {
@@ -853,7 +821,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           if (chunkSize > maxChunkSize) {
             chunkSize = maxChunkSize;
             // Don't break at a valid IRB boundary
-            const auto writtenSize = static_cast<long>(chunkStart - newPsData.c_data());
+            const auto writtenSize = chunkStart - newPsData.c_data();
             if (Photoshop::valid(newPsData.c_data(), writtenSize + chunkSize)) {
               // Since an IRB has minimum size 12,
               // (chunkSize - 8) can't be also a IRB boundary

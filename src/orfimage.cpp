@@ -46,7 +46,7 @@ uint32_t OrfImage::pixelHeight() const {
   return 0;
 }
 
-void OrfImage::setComment(std::string_view /*comment*/) {
+void OrfImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "ORF"));
 }
@@ -126,7 +126,7 @@ WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = {
-      panaRawId,
+      IfdId::panaRawId,
   };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES

@@ -62,7 +62,7 @@ class EXIV2API Rw2Image : public Image {
     @brief Not supported. RW2 format does not contain a comment.
         Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors

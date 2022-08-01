@@ -90,15 +90,18 @@ Options:
              E : Exif tags
              I : IPTC tags
              X : XMP tags
-             x : Tag number (Exif and IPTC only)
+             x : Tag number for Exif or IPTC tags (in hexadecimal)
              g : Group name (e.g. Exif.Photo.UserComment, Photo)
              k : Key (e.g. Exif.Photo.UserComment)
              l : Tag label (e.g. Exif.Photo.UserComment, 'User comment')
+             d : Tag description
              n : Tag name (e.g. Exif.Photo.UserComment, UserComment)
              y : Type
+             y : Type
              c : Number of components (count)
-             s : Size in bytes (Ascii and Comment types include NULL)
-             v : Plain data value, untranslated (vanilla)
+             s : Size in bytes of vanilla value (may include NULL)
+             v : Plain data value of untranslated (vanilla)
+             V : Plain data value, data type and the word 'set'
              t : Interpreted (translated) human readable values
              h : Hex dump of the data
    -d tgt1  Delete target(s) for the 'delete' action. Possible targets are:

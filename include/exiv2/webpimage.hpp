@@ -46,7 +46,7 @@ class EXIV2API WebPImage : public Image {
   /*!
     @brief Not supported. Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   void setIptcData(const IptcData& /*iptcData*/) override;
 
   //! @name Accessors
@@ -54,6 +54,7 @@ class EXIV2API WebPImage : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
+  ~WebPImage() override = default;
   //! Copy constructor
   WebPImage(const WebPImage&) = delete;
   //! Assignment operator
@@ -62,13 +63,15 @@ class EXIV2API WebPImage : public Image {
 
  private:
   void doWriteMetadata(BasicIo& outIo);
-  //! @name NOT Implemented
-  //@{
-  static long getHeaderOffset(const byte* data, size_t data_size, const byte* header, size_t header_size);
-  static bool equalsWebPTag(Exiv2::DataBuf& buf, const char* str);
-  void debugPrintHex(byte* data, long size);
-  void decodeChunks(long filesize);
-  void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, int width, int height);
+
+  //! Finds the offset of header in data. Returns std::string::npos if the header isn't found.
+  static size_t getHeaderOffset(const byte* data, size_t data_size, const byte* header, size_t header_size);
+
+  static bool equalsWebPTag(const Exiv2::DataBuf& buf, const char* str);
+  void debugPrintHex(byte* data, size_t size);
+  void decodeChunks(uint32_t filesize);
+  void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, uint32_t width,
+                   uint32_t height);
   /* Misc. */
   static constexpr byte WEBP_PAD_ODD = 0;
   static constexpr int WEBP_TAG_SIZE = 0x4;

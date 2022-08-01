@@ -107,7 +107,7 @@ std::string PsdImage::mimeType() const {
   return "image/x-photoshop";
 }
 
-void PsdImage::setComment(std::string_view /*comment*/) {
+void PsdImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "Photoshop"));
 }
@@ -194,7 +194,7 @@ void PsdImage::readMetadata() {
       throw Error(ErrorCode::kerNotAnImage, "Photoshop");
     }
     uint32_t resourceSize = getULong(buf, bigEndian);
-    uint32_t curOffset = io_->tell();
+    const size_t curOffset = io_->tell();
 
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << std::hex << "resourceId: " << resourceId << std::dec << " length: " << resourceSize << std::hex
@@ -382,7 +382,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
   if (outIo.error())
     throw Error(ErrorCode::kerImageWriteFailed);
 
-  uint32_t resLenOffset = io_->tell();  // remember for later update
+  const size_t resLenOffset = io_->tell();  // remember for later update
 
   // Read length of all resource blocks from original PSD
   if (io_->read(buf, 4) != 4)
@@ -433,7 +433,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
 
     uint32_t resourceSize = getULong(buf, bigEndian);
     uint32_t pResourceSize = (resourceSize + 1) & ~1;  // padded resource size
-    uint32_t curOffset = io_->tell();
+    const size_t curOffset = io_->tell();
 
     // Write IPTC_NAA resource block
     if ((resourceId == kPhotoshopResourceID_IPTC_NAA || resourceId > kPhotoshopResourceID_IPTC_NAA) && !iptcDone) {
@@ -610,7 +610,7 @@ uint32_t PsdImage::writeExifData(const ExifData& exifData, BasicIo& out) {
       if (out.write(buf, 4) != 4)
         throw Error(ErrorCode::kerImageWriteFailed);
       // Write encoded Exif data
-      if (out.write(&blob[0], blob.size()) != blob.size())
+      if (out.write(blob.data(), blob.size()) != blob.size())
         throw Error(ErrorCode::kerImageWriteFailed);
       resLength += static_cast<long>(blob.size()) + 12;
       if (blob.size() & 1)  // even padding

@@ -58,7 +58,7 @@
 #endif
 
 namespace Exiv2 {
-int versionNumber() {
+uint32_t versionNumber() {
   return EXIV2_MAKE_VERSION(EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
 }
 
@@ -78,7 +78,7 @@ const char* version() {
   return EXV_PACKAGE_VERSION;
 }
 
-bool testVersion(int major, int minor, int patch) {
+bool testVersion(uint32_t major, uint32_t minor, uint32_t patch) {
   return versionNumber() >= EXIV2_MAKE_VERSION(major, minor, patch);
 }
 }  // namespace Exiv2
@@ -105,7 +105,7 @@ static void output(std::ostream& os, const std::vector<std::regex>& greps, const
   output(os, greps, name, stringStream.str());
 }
 
-static bool pushPath(std::string& path, std::vector<std::string>& libs, std::set<std::string>& paths) {
+static bool pushPath(const std::string& path, std::vector<std::string>& libs, std::set<std::string>& paths) {
   bool result = Exiv2::fileExists(path) && paths.find(path) == paths.end() && path != "/";
   if (result) {
     paths.insert(path);
@@ -500,7 +500,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
 
   Exiv2::Dictionary ns;
   Exiv2::XmpProperties::registeredNamespaces(ns);
-  for (auto&& [xmlns, uri] : ns) {
+  for (const auto& [xmlns, uri] : ns) {
     output(os, keys, name, xmlns + ":" + uri);
   }
 #endif

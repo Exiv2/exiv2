@@ -58,7 +58,7 @@ class EXIV2API TiffImage : public Image {
     @brief Not supported. TIFF format does not contain a comment.
         Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
@@ -85,10 +85,10 @@ class EXIV2API TiffImage : public Image {
   //@}
 
   // DATA
-  mutable std::string primaryGroup_;     //!< The primary group
-  mutable std::string mimeType_;         //!< The MIME type
-  mutable uint32_t pixelWidthPrimary_;   //!< Width of the primary image in pixels
-  mutable uint32_t pixelHeightPrimary_;  //!< Height of the primary image in pixels
+  mutable std::string primaryGroup_;        //!< The primary group
+  mutable std::string mimeType_;            //!< The MIME type
+  mutable uint32_t pixelWidthPrimary_{0};   //!< Width of the primary image in pixels
+  mutable uint32_t pixelHeightPrimary_{0};  //!< Height of the primary image in pixels
 
 };  // class TiffImage
 

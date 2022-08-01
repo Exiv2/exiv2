@@ -8,6 +8,10 @@ on:
     paths-ignore:
       - "*.md"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 name: On PUSH - Basic CI for main platforms
 
 jobs:
@@ -41,35 +45,16 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.45.0"
+          pip.exe install "conan==1.48.1"
           conan profile new --detect default
           conan profile show default
           conan profile update settings.compiler="Visual Studio" default
           conan profile update settings.compiler.version=17 default
           conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
 
-      - name: Run Conan
-        run: |
-          md build
-          cd build
-          conan profile list
-          conan install .. --build missing
-
       - name: Build
         run: |
-          cmake -GNinja `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DBUILD_SHARED_LIBS=ON `
-            -DEXIV2_BUILD_SAMPLES=ON `
-            -DEXIV2_ENABLE_NLS=OFF `
-            -DEXIV2_ENABLE_PNG=ON `
-            -DEXIV2_ENABLE_WEBREADY=ON `
-            -DEXIV2_ENABLE_BMFF=ON `
-            -DEXIV2_BUILD_UNIT_TESTS=ON `
-            -DEXIV2_ENABLE_WIN_UNICODE=OFF `
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
-            -DCMAKE_INSTALL_PREFIX=install .. `
-            -S . -B build && `
+          cmake --preset win-release -S . -B build
           cmake --build build --parallel
 
 
@@ -88,7 +73,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.45.0
+          pip3 install conan==1.48.1
 
       - name: Conan
         run: |
@@ -100,20 +85,8 @@ jobs:
 
       - name: build and compile
         run: |
-          cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset linux-release-NoConan -S . -B build
+          cmake --build build --parallel
 
       - name: Test
         run: |
@@ -141,21 +114,8 @@ jobs:
 
       - name: build and compile
         run: |
-          mkdir build && cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset base_mac -S . -B build -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" 
+          cmake --build build --parallel
 
       - name: Test
         run: |

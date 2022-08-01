@@ -69,7 +69,7 @@ class EXIV2API GifImage : public Image {
     @brief Not supported. Calling this function will throw an instance
         of Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors

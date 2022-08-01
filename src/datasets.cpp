@@ -531,6 +531,10 @@ std::string IptcKey::tagLabel() const {
   return IptcDataSets::dataSetTitle(tag_, record_);
 }
 
+std::string IptcKey::tagDesc() const {
+  return IptcDataSets::dataSetDesc(tag_, record_);
+}
+
 uint16_t IptcKey::tag() const {
   return tag_;
 }

@@ -60,6 +60,8 @@ class CiffComponent {
   //! Constructor taking a tag and directory
   CiffComponent(uint16_t tag, uint16_t dir) : dir_(dir), tag_(tag) {
   }
+  CiffComponent(const CiffComponent&) = delete;
+  CiffComponent& operator=(const CiffComponent&) = delete;
   //! Virtual destructor.
   virtual ~CiffComponent() = default;
   //@}
@@ -330,6 +332,9 @@ class CiffDirectory : public CiffComponent {
   ~CiffDirectory() override;
   //@}
 
+  CiffDirectory(const CiffDirectory&) = delete;
+  CiffDirectory& operator=(const CiffDirectory&) = delete;
+
   //! @name Manipulators
   //@{
   // Default assignment operator is fine
@@ -493,8 +498,8 @@ struct CrwMapping {
   //! @name Creators
   //@{
   //! Default constructor
-  CrwMapping(uint16_t crwTagId, uint16_t crwDir, uint32_t size, uint16_t tag, Internal::IfdId ifdId,
-             CrwDecodeFct toExif, CrwEncodeFct fromExif) :
+  CrwMapping(uint16_t crwTagId, uint16_t crwDir, uint32_t size, uint16_t tag, IfdId ifdId, CrwDecodeFct toExif,
+             CrwEncodeFct fromExif) :
       crwTagId_(crwTagId),
       crwDir_(crwDir),
       size_(size),
@@ -522,6 +527,7 @@ struct CrwMapping {
  */
 class CrwMap {
  public:
+  ~CrwMap() = delete;
   //! @name Not implemented
   //@{
   CrwMap(const CrwMap&) = delete;

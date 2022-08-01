@@ -5,6 +5,10 @@
 # or to provide custom queries or build logic.
 name: "CodeQL"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: [0.27-maintenance, main]

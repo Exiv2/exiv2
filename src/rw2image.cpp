@@ -56,7 +56,7 @@ void Rw2Image::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "RW2"));
 }
 
-void Rw2Image::setComment(std::string_view /*comment*/) {
+void Rw2Image::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "RW2"));
 }
@@ -122,7 +122,7 @@ void Rw2Image::readMetadata() {
   if (!prevData.empty()) {
     // Filter duplicate tags
     for (auto&& pos : exifData_) {
-      if (pos.ifdId() == panaRawId)
+      if (pos.ifdId() == IfdId::panaRawId)
         continue;
       auto dup = prevData.findKey(ExifKey(pos.key()));
       if (dup != prevData.end()) {

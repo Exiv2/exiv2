@@ -1,5 +1,9 @@
 name: On PUSH - Linux Special Builds for main branch
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -8,6 +12,7 @@ on:
     - '!*'
     paths-ignore:
       - "*.md"
+  workflow_dispatch:
 
 jobs:
   special_debugRelease:
@@ -19,8 +24,9 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip3 install conan==1.45.0
-          pip install gcovr
+          sudo apt-get install ninja-build
+          pip3 install conan==1.48.1
+          pip3 install gcovr
 
       - name: Conan common config
         run: |
@@ -36,20 +42,8 @@ jobs:
 
       - name: Build
         run: |
-          cd build && \
-          cmake -DCMAKE_BUILD_TYPE=Debug \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DBUILD_WITH_COVERAGE=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build .
+          cmake --preset linux-coverage -S . -B build 
+          cmake --build build
 
       - name: Tests + Upload coverage
         run: |

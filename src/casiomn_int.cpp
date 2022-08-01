@@ -80,43 +80,45 @@ constexpr TagDetails casioCCDSensitivity[] = {
 
 // Casio MakerNote Tag Info
 constexpr TagInfo CasioMakerNote::tagInfo_[] = {
-    {0x0001, "RecodingMode", N_("RecodingMode"), N_("Recording Mode"), casioId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casioRecordingMode)},
-    {0x0002, "Quality", N_("Quality"), N_("Quality"), casioId, makerTags, unsignedShort, -1,
+    {0x0001, "RecodingMode", N_("RecodingMode"), N_("Recording Mode"), IfdId::casioId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casioRecordingMode)},
+    {0x0002, "Quality", N_("Quality"), N_("Quality"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casioQuality)},
-    {0x0003, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), casioId, makerTags, unsignedShort, -1,
+    {0x0003, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casioFocusMode)},
-    {0x0004, "FlashMode", N_("Flash Mode"), N_("Flash Mode"), casioId, makerTags, unsignedShort, -1,
+    {0x0004, "FlashMode", N_("Flash Mode"), N_("Flash Mode"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casioFlashMode)},
-    {0x0005, "FlashIntensity", N_("Flash Intensity"), N_("Flash Intensity"), casioId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casioFlashIntensity)},
-    {0x0006, "ObjectDistance", N_("Object Distance"), N_("Distance to object"), casioId, makerTags, unsignedLong, -1,
-     print0x0006},
-    {0x0007, "WhiteBalance", N_("White Balance"), N_("White balance settings"), casioId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casioWhiteBalance)},
-    {0x000a, "DigitalZoom", N_("Digital Zoom"), N_("Digital zoom"), casioId, makerTags, unsignedLong, -1,
-     EXV_PRINT_TAG(casioDigitalZoom)},
-    {0x000b, "Sharpness", N_("Sharpness"), N_("Sharpness"), casioId, makerTags, unsignedShort, -1,
+    {0x0005, "FlashIntensity", N_("Flash Intensity"), N_("Flash Intensity"), IfdId::casioId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casioFlashIntensity)},
+    {0x0006, "ObjectDistance", N_("Object Distance"), N_("Distance to object"), IfdId::casioId, SectionId::makerTags,
+     unsignedLong, -1, print0x0006},
+    {0x0007, "WhiteBalance", N_("White Balance"), N_("White balance settings"), IfdId::casioId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casioWhiteBalance)},
+    {0x000a, "DigitalZoom", N_("Digital Zoom"), N_("Digital zoom"), IfdId::casioId, SectionId::makerTags, unsignedLong,
+     -1, EXV_PRINT_TAG(casioDigitalZoom)},
+    {0x000b, "Sharpness", N_("Sharpness"), N_("Sharpness"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casioSharpness)},
-    {0x000c, "Contrast", N_("Contrast"), N_("Contrast"), casioId, makerTags, unsignedShort, -1,
+    {0x000c, "Contrast", N_("Contrast"), N_("Contrast"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casioContrast)},
-    {0x000d, "Saturation", N_("Saturation"), N_("Saturation"), casioId, makerTags, unsignedShort, -1,
+    {0x000d, "Saturation", N_("Saturation"), N_("Saturation"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casioSaturation)},
-    {0x0014, "ISO", N_("ISO"), N_("ISO"), casioId, makerTags, unsignedShort, -1, printValue},
-    {0x0015, "FirmwareDate", N_("Firmware date"), N_("Firmware date"), casioId, makerTags, asciiString, -1,
-     print0x0015},
-    {0x0016, "Enhancement", N_("Enhancement"), N_("Enhancement"), casioId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casioEnhancement)},
-    {0x0017, "ColorFilter", N_("Color Filter"), N_("Color Filter"), casioId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casioColorFilter)},
-    {0x0018, "AFPoint", N_("AF Point"), N_("AF Point"), casioId, makerTags, unsignedShort, -1, printValue},
-    {0x0019, "FlashIntensity2", N_("Flash Intensity"), N_("Flash Intensity"), casioId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casioFlashIntensity2)},
-    {0x0020, "CCDSensitivity", N_("CCDSensitivity"), N_("CCDSensitivity"), casioId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casioCCDSensitivity)},
-    {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), casioId, makerTags, undefined, -1, printValue},
-    {0xffff, "(UnknownCasioMakerNoteTag)", "(UnknownCasioMakerNoteTag)", N_("Unknown CasioMakerNote tag"), casioId,
-     makerTags, asciiString, -1, printValue},
+    {0x0014, "ISO", N_("ISO"), N_("ISO"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1, printValue},
+    {0x0015, "FirmwareDate", N_("Firmware date"), N_("Firmware date"), IfdId::casioId, SectionId::makerTags,
+     asciiString, -1, print0x0015},
+    {0x0016, "Enhancement", N_("Enhancement"), N_("Enhancement"), IfdId::casioId, SectionId::makerTags, unsignedShort,
+     -1, EXV_PRINT_TAG(casioEnhancement)},
+    {0x0017, "ColorFilter", N_("Color Filter"), N_("Color Filter"), IfdId::casioId, SectionId::makerTags, unsignedShort,
+     -1, EXV_PRINT_TAG(casioColorFilter)},
+    {0x0018, "AFPoint", N_("AF Point"), N_("AF Point"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
+     printValue},
+    {0x0019, "FlashIntensity2", N_("Flash Intensity"), N_("Flash Intensity"), IfdId::casioId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casioFlashIntensity2)},
+    {0x0020, "CCDSensitivity", N_("CCDSensitivity"), N_("CCDSensitivity"), IfdId::casioId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casioCCDSensitivity)},
+    {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), IfdId::casioId, SectionId::makerTags, undefined, -1,
+     printValue},
+    {0xffff, "(UnknownCasioMakerNoteTag)", "(UnknownCasioMakerNoteTag)", N_("Unknown CasioMakerNote tag"),
+     IfdId::casioId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
 const TagInfo* CasioMakerNote::tagList() {
@@ -146,11 +148,10 @@ std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, 
   if (numbers.size() >= 10) {
     // year
     long l = (numbers[0] - 48) * 10 + (numbers[1] - 48);
-    if (l < 70) {
+    if (l < 70)
       l += 2000;
-    } else {
+    else
       l += 1900;
-    };
     os << l << ":";
     // month, day, hour, minutes
     os << numbers[2] << numbers[3] << ":" << numbers[4] << numbers[5] << " " << numbers[6] << numbers[7] << ":"
@@ -158,10 +159,9 @@ std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, 
     // optional seconds
     if (numbers.size() == 12) {
       os << ":" << numbers[10] << numbers[11];
-    };
-  } else {
+    }
+  } else
     os << value;
-  };
   return os;
 }
 
@@ -273,98 +273,105 @@ constexpr TagDetails casio2VideoQuality[] = {
 
 // Casio2 MakerNote Tag Info
 constexpr TagInfo Casio2MakerNote::tagInfo_[] = {
-    {0x0002, "PreviewImageSize", N_("Preview Image Size"), N_("Preview Image Size"), casio2Id, makerTags, unsignedShort,
-     -1, printValue},
-    {0x0003, "PreviewImageLength", N_("Preview Image Length"), N_("Preview Image Length"), casio2Id, makerTags,
-     unsignedLong, -1, printValue},
-    {0x0004, "PreviewImageStart", N_("Preview Image Start"), N_("Preview Image Start"), casio2Id, makerTags,
-     unsignedLong, -1, printValue},
-    {0x0008, "QualityMode", N_("Quality Mode"), N_("Quality Mode"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2QualityMode)},
-    {0x0009, "ImageSize", N_("Image Size"), N_("Image Size"), casio2Id, makerTags, unsignedShort, -1,
+    {0x0002, "PreviewImageSize", N_("Preview Image Size"), N_("Preview Image Size"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedShort, -1, printValue},
+    {0x0003, "PreviewImageLength", N_("Preview Image Length"), N_("Preview Image Length"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedLong, -1, printValue},
+    {0x0004, "PreviewImageStart", N_("Preview Image Start"), N_("Preview Image Start"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedLong, -1, printValue},
+    {0x0008, "QualityMode", N_("Quality Mode"), N_("Quality Mode"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casio2QualityMode)},
+    {0x0009, "ImageSize", N_("Image Size"), N_("Image Size"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2ImageSize)},
-    {0x000d, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), casio2Id, makerTags, unsignedShort, -1,
+    {0x000d, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2FocusMode)},
-    {0x0014, "ISOSpeed", N_("ISO Speed"), N_("ISO Speed"), casio2Id, makerTags, unsignedShort, -1,
+    {0x0014, "ISOSpeed", N_("ISO Speed"), N_("ISO Speed"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2IsoSpeed)},
-    {0x0019, "WhiteBalance", N_("White Balance"), N_("White Balance Setting"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2WhiteBalance)},
-    {0x001d, "FocalLength", N_("Focal Length"), N_("Focal Length"), casio2Id, makerTags, unsignedRational, -1,
-     printValue},
-    {0x001f, "Saturation", N_("Saturation"), N_("Saturation"), casio2Id, makerTags, unsignedShort, -1,
+    {0x0019, "WhiteBalance", N_("White Balance"), N_("White Balance Setting"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casio2WhiteBalance)},
+    {0x001d, "FocalLength", N_("Focal Length"), N_("Focal Length"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedRational, -1, printValue},
+    {0x001f, "Saturation", N_("Saturation"), N_("Saturation"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2Saturation)},
-    {0x0020, "Contrast", N_("Contrast"), N_("Contrast"), casio2Id, makerTags, unsignedShort, -1,
+    {0x0020, "Contrast", N_("Contrast"), N_("Contrast"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2Contrast)},
-    {0x0021, "Sharpness", N_("Sharpness"), N_("Sharpness"), casio2Id, makerTags, unsignedShort, -1,
+    {0x0021, "Sharpness", N_("Sharpness"), N_("Sharpness"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2Sharpness)},
-    {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), casio2Id, makerTags, undefined, -1, printValue},
-    {0x2000, "PreviewImage", N_("Preview Image"), N_("Preview Image"), casio2Id, makerTags, undefined, -1, printValue},
-    {0x2001, "FirmwareDate", N_("Firmware Date"), N_("Firmware Date"), casio2Id, makerTags, asciiString, -1,
-     print0x2001},
-    {0x2011, "WhiteBalanceBias", N_("White Balance Bias"), N_("White Balance Bias"), casio2Id, makerTags, unsignedShort,
-     -1, printValue},
-    {0x2012, "WhiteBalance2", N_("White Balance"), N_("White Balance Setting"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2WhiteBalance2)},
-    {0x2021, "AFPointPosition", N_("AF Point Position"), N_("AF Point Position"), casio2Id, makerTags, unsignedShort,
-     -1, printValue},
-    {0x2022, "ObjectDistance", N_("Object Distance"), N_("Object Distance"), casio2Id, makerTags, unsignedLong, -1,
-     print0x2022},
-    {0x2034, "FlashDistance", N_("Flash Distance"), N_("Flash Distance"), casio2Id, makerTags, unsignedShort, -1,
+    {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), IfdId::casio2Id, SectionId::makerTags, undefined, -1,
      printValue},
-    {0x2076, "SpecialEffectMode", N_("Special Effect Mode"), N_("Special Effect Mode"), casio2Id, makerTags,
+    {0x2000, "PreviewImage", N_("Preview Image"), N_("Preview Image"), IfdId::casio2Id, SectionId::makerTags, undefined,
+     -1, printValue},
+    {0x2001, "FirmwareDate", N_("Firmware Date"), N_("Firmware Date"), IfdId::casio2Id, SectionId::makerTags,
+     asciiString, -1, print0x2001},
+    {0x2011, "WhiteBalanceBias", N_("White Balance Bias"), N_("White Balance Bias"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedShort, -1, printValue},
+    {0x2012, "WhiteBalance2", N_("White Balance"), N_("White Balance Setting"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casio2WhiteBalance2)},
+    {0x2021, "AFPointPosition", N_("AF Point Position"), N_("AF Point Position"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, printValue},
+    {0x2022, "ObjectDistance", N_("Object Distance"), N_("Object Distance"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedLong, -1, print0x2022},
+    {0x2034, "FlashDistance", N_("Flash Distance"), N_("Flash Distance"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, printValue},
+    {0x2076, "SpecialEffectMode", N_("Special Effect Mode"), N_("Special Effect Mode"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedByte, -1, printValue},
+    {0x2089, "FaceInfo", N_("Face Info"), N_("Face Info"), IfdId::casio2Id, SectionId::makerTags, undefined, -1,
+     printValue},
+    {0x211c, "FacesDetected", N_("Faces detected"), N_("Faces detected"), IfdId::casio2Id, SectionId::makerTags,
      unsignedByte, -1, printValue},
-    {0x2089, "FaceInfo", N_("Face Info"), N_("Face Info"), casio2Id, makerTags, undefined, -1, printValue},
-    {0x211c, "FacesDetected", N_("Faces detected"), N_("Faces detected"), casio2Id, makerTags, unsignedByte, -1,
-     printValue},
-    {0x3000, "RecordMode", N_("Record Mode"), N_("Record Mode"), casio2Id, makerTags, unsignedShort, -1, printValue},
-    {0x3001, "ReleaseMode", N_("Release Mode"), N_("Release Mode"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2ReleaseMode)},
-    {0x3002, "Quality", N_("Quality"), N_("Quality"), casio2Id, makerTags, unsignedShort, -1,
+    {0x3000, "RecordMode", N_("Record Mode"), N_("Record Mode"), IfdId::casio2Id, SectionId::makerTags, unsignedShort,
+     -1, printValue},
+    {0x3001, "ReleaseMode", N_("Release Mode"), N_("Release Mode"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casio2ReleaseMode)},
+    {0x3002, "Quality", N_("Quality"), N_("Quality"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2Quality)},
-    {0x3003, "FocusMode2", N_("Focus Mode2"), N_("Focus Mode2"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2FocusMode2)},
-    {0x3006, "HometownCity", N_("Home town city"), N_("Home town city"), casio2Id, makerTags, asciiString, -1,
-     printValue},
-    {0x3007, "BestShotMode", N_("Best Shot Mode"), N_("Best Shot Mode"), casio2Id, makerTags, unsignedShort, -1,
-     printValue},
-    {0x3008, "AutoISO", N_("Auto ISO"), N_("Auto ISO"), casio2Id, makerTags, unsignedShort, -1,
+    {0x3003, "FocusMode2", N_("Focus Mode2"), N_("Focus Mode2"), IfdId::casio2Id, SectionId::makerTags, unsignedShort,
+     -1, EXV_PRINT_TAG(casio2FocusMode2)},
+    {0x3006, "HometownCity", N_("Home town city"), N_("Home town city"), IfdId::casio2Id, SectionId::makerTags,
+     asciiString, -1, printValue},
+    {0x3007, "BestShotMode", N_("Best Shot Mode"), N_("Best Shot Mode"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, printValue},
+    {0x3008, "AutoISO", N_("Auto ISO"), N_("Auto ISO"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2AutoISO)},
-    {0x3009, "AFMode", N_("AF Mode"), N_("AF Mode"), casio2Id, makerTags, unsignedShort, -1,
+    {0x3009, "AFMode", N_("AF Mode"), N_("AF Mode"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2AFMode)},
-    {0x3011, "Sharpness2", N_("Sharpness"), N_("Sharpness"), casio2Id, makerTags, undefined, -1, printValue},
-    {0x3012, "Contrast2", N_("Contrast"), N_("Contrast"), casio2Id, makerTags, undefined, -1, printValue},
-    {0x3013, "Saturation2", N_("Saturation"), N_("Saturation"), casio2Id, makerTags, undefined, -1, printValue},
-    {0x3014, "ISO", N_("ISO"), N_("ISO"), casio2Id, makerTags, unsignedShort, -1, printValue},
-    {0x3015, "ColorMode", N_("Color Mode"), N_("Color Mode"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2ColorMode)},
-    {0x3016, "Enhancement", N_("Enhancement"), N_("Enhancement"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2Enhancement)},
-    {0x3017, "ColorFilter", N_("Color Filter"), N_("Color Filter"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2ColorFilter)},
-    {0x301b, "ArtMode", N_("Art Mode"), N_("Art Mode"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2ArtMode)},
-    {0x301c, "SequenceNumber", N_("Sequence Number"), N_("Sequence Number"), casio2Id, makerTags, unsignedShort, -1,
+    {0x3011, "Sharpness2", N_("Sharpness"), N_("Sharpness"), IfdId::casio2Id, SectionId::makerTags, undefined, -1,
      printValue},
-    {0x3020, "ImageStabilization", N_("Image Stabilization"), N_("Image Stabilization"), casio2Id, makerTags,
+    {0x3012, "Contrast2", N_("Contrast"), N_("Contrast"), IfdId::casio2Id, SectionId::makerTags, undefined, -1,
+     printValue},
+    {0x3013, "Saturation2", N_("Saturation"), N_("Saturation"), IfdId::casio2Id, SectionId::makerTags, undefined, -1,
+     printValue},
+    {0x3014, "ISO", N_("ISO"), N_("ISO"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1, printValue},
+    {0x3015, "ColorMode", N_("Color Mode"), N_("Color Mode"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
+     EXV_PRINT_TAG(casio2ColorMode)},
+    {0x3016, "Enhancement", N_("Enhancement"), N_("Enhancement"), IfdId::casio2Id, SectionId::makerTags, unsignedShort,
+     -1, EXV_PRINT_TAG(casio2Enhancement)},
+    {0x3017, "ColorFilter", N_("Color Filter"), N_("Color Filter"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casio2ColorFilter)},
+    {0x301b, "ArtMode", N_("Art Mode"), N_("Art Mode"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
+     EXV_PRINT_TAG(casio2ArtMode)},
+    {0x301c, "SequenceNumber", N_("Sequence Number"), N_("Sequence Number"), IfdId::casio2Id, SectionId::makerTags,
      unsignedShort, -1, printValue},
-    {0x302a, "LightingMode", N_("Lighting Mode"), N_("Lighting Mode"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2LightingMode)},
-    {0x302b, "PortraitRefiner", N_("Portrait Refiner"), N_("Portrait Refiner settings"), casio2Id, makerTags,
-     unsignedShort, -1, EXV_PRINT_TAG(casio2PortraitRefiner)},
-    {0x3030, "SpecialEffectLevel", N_("Special Effect Level"), N_("Special Effect Level"), casio2Id, makerTags,
-     unsignedShort, -1, printValue},
-    {0x3031, "SpecialEffectSetting", N_("Special Effect Setting"), N_("Special Effect Setting"), casio2Id, makerTags,
-     unsignedShort, -1, EXV_PRINT_TAG(casio2SpecialEffectSetting)},
-    {0x3103, "DriveMode", N_("Drive Mode"), N_("Drive Mode"), casio2Id, makerTags, unsignedShort, -1,
+    {0x3020, "ImageStabilization", N_("Image Stabilization"), N_("Image Stabilization"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedShort, -1, printValue},
+    {0x302a, "LightingMode", N_("Lighting Mode"), N_("Lighting Mode"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casio2LightingMode)},
+    {0x302b, "PortraitRefiner", N_("Portrait Refiner"), N_("Portrait Refiner settings"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2PortraitRefiner)},
+    {0x3030, "SpecialEffectLevel", N_("Special Effect Level"), N_("Special Effect Level"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedShort, -1, printValue},
+    {0x3031, "SpecialEffectSetting", N_("Special Effect Setting"), N_("Special Effect Setting"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(casio2SpecialEffectSetting)},
+    {0x3103, "DriveMode", N_("Drive Mode"), N_("Drive Mode"), IfdId::casio2Id, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casio2DriveMode)},
-    {0x310b, "ArtModeParameters", N_("Art Mode Parameters"), N_("Art Mode Parameters"), casio2Id, makerTags, undefined,
-     -1, printValue},
-    {0x4001, "CaptureFrameRate", N_("Capture Frame Rate"), N_("Capture Frame Rate"), casio2Id, makerTags, unsignedShort,
-     -1, printValue},
-    {0x4003, "VideoQuality", N_("Video Quality"), N_("Video Quality"), casio2Id, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(casio2VideoQuality)},
-    {0xffff, "(UnknownCasio2MakerNoteTag)", "(UnknownCasio2MakerNoteTag)", N_("Unknown Casio2MakerNote tag"), casio2Id,
-     makerTags, asciiString, -1, printValue},
+    {0x310b, "ArtModeParameters", N_("Art Mode Parameters"), N_("Art Mode Parameters"), IfdId::casio2Id,
+     SectionId::makerTags, undefined, -1, printValue},
+    {0x4001, "CaptureFrameRate", N_("Capture Frame Rate"), N_("Capture Frame Rate"), IfdId::casio2Id,
+     SectionId::makerTags, unsignedShort, -1, printValue},
+    {0x4003, "VideoQuality", N_("Video Quality"), N_("Video Quality"), IfdId::casio2Id, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(casio2VideoQuality)},
+    {0xffff, "(UnknownCasio2MakerNoteTag)", "(UnknownCasio2MakerNoteTag)", N_("Unknown Casio2MakerNote tag"),
+     IfdId::casio2Id, SectionId::makerTags, asciiString, -1, printValue},
 };
 
 const TagInfo* Casio2MakerNote::tagList() {
@@ -384,18 +391,16 @@ std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value,
   if (numbers.size() >= 10) {
     // year
     long l = (numbers[0] - 48) * 10 + (numbers[1] - 48);
-    if (l < 70) {
+    if (l < 70)
       l += 2000;
-    } else {
+    else
       l += 1900;
-    };
     os << l << ":";
     // month, day, hour, minutes
     os << numbers[2] << numbers[3] << ":" << numbers[4] << numbers[5] << " " << numbers[6] << numbers[7] << ":"
        << numbers[8] << numbers[9];
-  } else {
+  } else
     os << value;
-  };
   return os;
 }
 
@@ -405,7 +410,7 @@ std::ostream& Casio2MakerNote::print0x2022(std::ostream& os, const Value& value,
     os << N_("Inf");
     os.flags(f);
     return os;
-  };
+  }
   std::ostringstream oss;
   oss.copyfmt(os);
   os << std::fixed << std::setprecision(2) << value.toInt64() / 1000.0 << _(" m");
