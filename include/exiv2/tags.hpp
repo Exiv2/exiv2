@@ -181,19 +181,13 @@ inline std::ostream& operator<<(std::ostream& os, IfdId id) {
 
 //! The details of an Exif group. Groups include IFDs and binary arrays.
 struct EXIV2API GroupInfo {
-  struct GroupName;
+  using GroupName = std::string;
   bool operator==(IfdId ifdId) const;                 //!< Comparison operator for IFD id
   bool operator==(const GroupName& groupName) const;  //!< Comparison operator for group name
   IfdId ifdId_;                                       //!< IFD id
   const char* ifdName_;                               //!< IFD name
   const char* groupName_;                             //!< Group name, unique for each group.
   TagListFct tagList_;                                //!< Tag list
-};
-
-//! Search key to find a GroupInfo by its group name.
-struct EXIV2API GroupInfo::GroupName {
-  explicit GroupName(std::string groupName);
-  std::string g_;  //!< Group name
 };
 
 /*!
