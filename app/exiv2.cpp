@@ -1182,7 +1182,7 @@ int64_t parseCommonTargets(const std::string& optArg, const std::string& action)
         break;
 
       case 'p': {
-        if (strcmp(action.c_str(), "extract") == 0) {
+        if (action == "extract") {
           i += static_cast<size_t>(
               parsePreviewNumbers(Params::instance().previewNumbers_, optArg, static_cast<int>(i) + 1));
           target |= Params::ctPreview;

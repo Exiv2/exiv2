@@ -18,7 +18,7 @@ namespace {
 struct XmpPrintInfo {
   //! Comparison operator for key
   bool operator==(const std::string& key) const {
-    return 0 == strcmp(key_, key.c_str());
+    return key == key_;
   }
 
   const char* key_;           //!< XMP key
@@ -4889,9 +4889,8 @@ void XmpProperties::registerNs(const std::string& ns, const std::string& prefix)
   const XmpNsInfo* xnp = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
   if (xnp) {
 #ifndef SUPPRESS_WARNINGS
-    if (strcmp(xnp->ns_, ns2.c_str()) != 0) {
+    if (ns2 != xnp->ns_)
       EXV_WARNING << "Updating namespace URI for " << prefix << " from " << xnp->ns_ << " to " << ns2 << "\n";
-    }
 #endif
     unregisterNsUnsafe(xnp->ns_);
   }
@@ -4998,7 +4997,7 @@ const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key) {
     return nullptr;
   const XmpPropertyInfo* pi = nullptr;
   for (int j = 0; pl[j].name_; ++j) {
-    if (0 == strcmp(pl[j].name_, property.c_str())) {
+    if (property == pl[j].name_) {
       pi = pl + j;
       break;
     }
@@ -5158,26 +5157,21 @@ std::string XmpKey::ns() const {
 void XmpKey::Impl::decomposeKey(const std::string& key) {
   // Get the family name, prefix and property name parts of the key
   std::string::size_type pos1 = key.find('.');
-  if (pos1 == std::string::npos) {
+  if (pos1 == std::string::npos)
     throw Error(ErrorCode::kerInvalidKey, key);
-  }
   std::string familyName = key.substr(0, pos1);
-  if (0 != strcmp(familyName.c_str(), familyName_)) {
+  if (familyName != familyName_)
     throw Error(ErrorCode::kerInvalidKey, key);
-  }
   std::string::size_type pos0 = pos1 + 1;
   pos1 = key.find('.', pos0);
-  if (pos1 == std::string::npos) {
+  if (pos1 == std::string::npos)
     throw Error(ErrorCode::kerInvalidKey, key);
-  }
   std::string prefix = key.substr(pos0, pos1 - pos0);
-  if (prefix.empty()) {
+  if (prefix.empty())
     throw Error(ErrorCode::kerInvalidKey, key);
-  }
   std::string property = key.substr(pos1 + 1);
-  if (property.empty()) {
+  if (property.empty())
     throw Error(ErrorCode::kerInvalidKey, key);
-  }
 
   // Validate prefix
   if (XmpProperties::ns(prefix).empty())

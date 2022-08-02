@@ -31,7 +31,7 @@ struct TypeInfoTable {
   }
   //! Comparison operator for \em name
   bool operator==(const std::string& name) const {
-    return 0 == strcmp(name_, name.c_str());
+    return name == name_;
   }
 };  // struct TypeInfoTable
 
