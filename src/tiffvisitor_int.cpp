@@ -27,7 +27,7 @@ class FindExifdatum2 {
   }
   //! Returns true if group and index match.
   bool operator()(const Exiv2::Exifdatum& md) const {
-    return idx_ == md.idx() && 0 == strcmp(md.groupName().c_str(), groupName_);
+    return idx_ == md.idx() && md.groupName() == groupName_;
   }
 
  private:
@@ -38,9 +38,9 @@ class FindExifdatum2 {
 
 Exiv2::ByteOrder stringToByteOrder(const std::string& val) {
   Exiv2::ByteOrder bo = Exiv2::invalidByteOrder;
-  if (0 == strcmp("II", val.c_str()))
+  if (val == "II")
     bo = Exiv2::littleEndian;
-  else if (0 == strcmp("MM", val.c_str()))
+  else if (val == "MM")
     bo = Exiv2::bigEndian;
 
   return bo;

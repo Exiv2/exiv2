@@ -100,7 +100,7 @@ ExifData::const_iterator isoSpeed(const ExifData& ed) {
     iso_val = parseInt64(os.str(), ok);
     if (ok && iso_val > 0)
       break;
-    while (strcmp(keys[idx++], md->key().c_str()) != 0 && idx < cnt) {
+    while (md->key() != keys[idx++] && idx < cnt) {
     }
     md = ed.end();
   }
@@ -139,7 +139,7 @@ ExifData::const_iterator isoSpeed(const ExifData& ed) {
         md = md_st;
         break;
       }
-      while (strcmp(sensKeys->keys[idx++], md_st->key().c_str()) != 0 && idx < sensKeys->count) {
+      while (md_st->key() != sensKeys->keys[idx++] && idx < sensKeys->count) {
       }
     }
     break;

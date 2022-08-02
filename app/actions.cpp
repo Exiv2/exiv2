@@ -1475,7 +1475,7 @@ int FixIso::run(const std::string& path) {
     }
     auto md = Exiv2::isoSpeed(exifData);
     if (md != exifData.end()) {
-      if (strcmp(md->key().c_str(), "Exif.Photo.ISOSpeedRatings") == 0) {
+      if (md->key() == "Exif.Photo.ISOSpeedRatings") {
         if (Params::instance().verbose_) {
           std::cout << _("Standard Exif ISO tag exists; not modified\n");
         }

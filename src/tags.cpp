@@ -77,7 +77,7 @@ bool GroupInfo::operator==(IfdId ifdId) const {
 }
 
 bool GroupInfo::operator==(const GroupName& groupName) const {
-  return 0 == strcmp(groupName.g_.c_str(), groupName_);
+  return groupName.g_ == groupName_;
 }
 
 const char* ExifTags::sectionName(const ExifKey& key) {
@@ -198,9 +198,8 @@ void ExifKey::Impl::decomposeKey(const std::string& key) {
   if (pos1 == std::string::npos)
     throw Error(ErrorCode::kerInvalidKey, key);
   std::string familyName = key.substr(0, pos1);
-  if (0 != strcmp(familyName.c_str(), familyName_)) {
+  if (familyName != familyName_)
     throw Error(ErrorCode::kerInvalidKey, key);
-  }
   std::string::size_type pos0 = pos1 + 1;
   pos1 = key.find('.', pos0);
   if (pos1 == std::string::npos)

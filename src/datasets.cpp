@@ -568,9 +568,8 @@ void IptcKey::decomposeKey() {
   auto posDot2 = key_.find('.', posDot1 + 1);
 
   const std::string familyName = key_.substr(0, posDot1);
-  if (0 != strcmp(familyName.c_str(), familyName_)) {
+  if (familyName != familyName_)
     throw Error(ErrorCode::kerInvalidKey, key_);
-  }
 
   std::string recordName = key_.substr(posDot1 + 1, posDot2 - posDot1 - 1);
   std::string dataSetName = key_.substr(posDot2 + 1);
