@@ -146,29 +146,13 @@ struct TiffImgTagStruct {
   IfdId group_;   //!< Group that contains the image tag
 };                // struct TiffImgTagStruct
 
+typedef std::pair<uint32_t, IfdId> TiffGroupKey;
+
 /*!
   @brief Data structure used as a row (element) of a table (array)
          defining the TIFF component used for each tag in a group.
  */
-struct TiffGroupStruct {
-  //! Search key for TIFF group structure.
-  using Key = std::pair<uint32_t, IfdId>;
-
-  //! Comparison operator to compare a TiffGroupStruct with a TiffGroupStruct::Key
-  bool operator==(const Key& key) const {
-    auto [e, g] = key;
-    return g == group_ && (Tag::all == extendedTag_ || e == extendedTag_);
-  }
-  //! Return the tag corresponding to the extended tag
-  [[nodiscard]] uint16_t tag() const {
-    return static_cast<uint16_t>(extendedTag_ & 0xffff);
-  }
-
-  // DATA
-  uint32_t extendedTag_;           //!< Tag (32 bit so that it can contain special tags)
-  IfdId group_;                    //!< Group that contains the tag
-  NewTiffCompFct newTiffCompFct_;  //!< Function to create the correct TIFF component
-};
+typedef std::map<TiffGroupKey, NewTiffCompFct> TiffGroupTable;
 
 /*!
   @brief Data structure used as a row of the table which describes TIFF trees.
@@ -216,8 +200,8 @@ class TiffCreator {
   static void getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group, uint32_t root);
 
  private:
-  static const TiffTreeStruct tiffTreeStruct_[];    //<! TIFF tree structure
-  static const TiffGroupStruct tiffGroupStruct_[];  //<! TIFF group structure
+  static const TiffTreeStruct tiffTreeStruct_[];  //<! TIFF tree structure
+  static const TiffGroupTable tiffGroupTable_;    //<! TIFF group structure
 
 };  // class TiffCreator
 
