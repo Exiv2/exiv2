@@ -132,19 +132,7 @@ class TiffHeader : public TiffHeaderBase {
 /*!
   @brief Data structure used to list image tags for TIFF and TIFF-like images.
  */
-struct TiffImgTagStruct {
-  //! Search key for TIFF image tag structure.
-  using Key = std::pair<uint16_t, IfdId>;
-  //! Comparison operator to compare a TiffImgTagStruct with a TiffImgTagStruct::Key
-  bool operator==(const Key& key) const {
-    auto [t, g] = key;
-    return g == group_ && t == tag_;
-  }
-
-  // DATA
-  uint16_t tag_;  //!< Image tag
-  IfdId group_;   //!< Group that contains the image tag
-};                // struct TiffImgTagStruct
+using TiffImgTagStruct = std::pair<uint16_t, IfdId>;
 
 /*!
   @brief Data structure used as a row (element) of a table (array)
@@ -176,7 +164,7 @@ struct TiffGroupStruct {
          use standard TIFF layout.
 */
 struct TiffTreeStruct {
-  struct Key;
+  using Key = std::pair<uint32_t, IfdId>;
   //! Comparison operator to compare a TiffTreeStruct with a TiffTreeStruct::Key
   bool operator==(const Key& key) const;
 
@@ -185,15 +173,6 @@ struct TiffTreeStruct {
   IfdId group_;            //!< Each group is a node in the tree
   IfdId parentGroup_;      //!< Parent group
   uint32_t parentExtTag_;  //!< Parent tag (32 bit so that it can contain special tags)
-};
-
-//! Search key for TIFF tree structure.
-struct TiffTreeStruct::Key {
-  //! Constructor
-  Key(uint32_t r, IfdId g) : r_(r), g_(g) {
-  }
-  uint32_t r_;  //!< Root
-  IfdId g_;     //!< %Group
 };
 
 /*!

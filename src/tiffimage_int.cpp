@@ -1803,7 +1803,7 @@ EncoderFct TiffMapping::findEncoder(const std::string& make, uint32_t extendedTa
 }
 
 bool TiffTreeStruct::operator==(const TiffTreeStruct::Key& key) const {
-  return key.r_ == root_ && key.g_ == group_;
+  return key.first == root_ && key.second == group_;
 }
 
 TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag, IfdId group) {
@@ -2036,7 +2036,7 @@ bool TiffHeaderBase::isImageTag(uint16_t /*tag*/, IfdId /*group*/, const Primary
 
 bool isTiffImageTag(uint16_t tag, IfdId group) {
   //! List of TIFF image tags
-  static const TiffImgTagStruct tiffImageTags[] = {
+  static constexpr TiffImgTagStruct tiffImageTags[] = {
       {0x00fe, IfdId::ifd0Id},  // Exif.Image.NewSubfileType
       {0x00ff, IfdId::ifd0Id},  // Exif.Image.SubfileType
       {0x0100, IfdId::ifd0Id},  // Exif.Image.ImageWidth
@@ -2107,7 +2107,7 @@ bool isTiffImageTag(uint16_t tag, IfdId group) {
 
   // If tag, group is one of the image tags listed above -> bingo!
 #ifdef EXIV2_DEBUG_MESSAGES
-  if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
+  if (find(tiffImageTags, TiffImgTagStruct(tag, group))) {
     ExifKey key(tag, groupName(group));
     std::cerr << "Image tag: " << key << " (3)\n";
     return true;
@@ -2115,7 +2115,7 @@ bool isTiffImageTag(uint16_t tag, IfdId group) {
   std::cerr << "Not an image tag: " << tag << " (4)\n";
   return false;
 #endif
-  return find(tiffImageTags, TiffImgTagStruct::Key(tag, group));
+  return find(tiffImageTags, TiffImgTagStruct(tag, group));
 }
 
 TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags) :
