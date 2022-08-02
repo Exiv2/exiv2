@@ -5,6 +5,7 @@
 
 // *****************************************************************************
 // included header files
+#include <unordered_map>
 #include "image.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tifffwd_int.hpp"
@@ -134,13 +135,19 @@ class TiffHeader : public TiffHeaderBase {
  */
 using TiffImgTagStruct = std::pair<uint16_t, IfdId>;
 
-typedef std::pair<uint32_t, IfdId> TiffGroupKey;
+using TiffGroupKey = std::pair<uint32_t, IfdId>;
+
+struct TiffGroupKey_hash {
+  std::size_t operator()(const TiffGroupKey& pair) const {
+    return std::hash<uint64_t>{}(static_cast<uint64_t>(pair.first) << 32 | static_cast<uint64_t>(pair.second));
+  }
+};
 
 /*!
   @brief Data structure used as a row (element) of a table (array)
          defining the TIFF component used for each tag in a group.
  */
-typedef std::map<TiffGroupKey, NewTiffCompFct> TiffGroupTable;
+using TiffGroupTable = std::unordered_map<TiffGroupKey, NewTiffCompFct, TiffGroupKey_hash>;
 
 /*!
   @brief Data structure used as a row of the table which describes TIFF trees.
