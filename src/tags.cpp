@@ -67,17 +67,12 @@ static const TagInfo unknownTag{0xffff,
 }  // namespace Exiv2::Internal
 
 namespace Exiv2 {
-//! @cond IGNORE
-GroupInfo::GroupName::GroupName(std::string groupName) : g_(std::move(groupName)) {
-}
-//! @endcond
-
 bool GroupInfo::operator==(IfdId ifdId) const {
   return ifdId_ == ifdId;
 }
 
 bool GroupInfo::operator==(const GroupName& groupName) const {
-  return groupName.g_ == groupName_;
+  return groupName == groupName_;
 }
 
 const char* ExifTags::sectionName(const ExifKey& key) {
