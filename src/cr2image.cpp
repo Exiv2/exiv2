@@ -14,6 +14,8 @@
 #include <array>
 #include <iostream>
 
+// bogus comment
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
