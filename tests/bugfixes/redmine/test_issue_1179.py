@@ -26,237 +26,357 @@ class CheckFilmMode(metaclass=system_tests.CaseMeta):
         """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  Normal
+Exif.Fujifilm.Color                          Short       1  0 (normal)
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
+Exif.Fujifilm.FocusArea                      Short       1  Single Point
+Exif.Fujifilm.FocusPoint                     Short       2  961 641
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  Off
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.FilmMode                       Short       1  F0/Standard (Provia)
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.FilmMode                       Short       1  PROVIA (F0/Standard)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """,
         """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  Normal
+Exif.Fujifilm.Color                          Short       1  0 (normal)
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
+Exif.Fujifilm.FocusArea                      Short       1  Single Point
+Exif.Fujifilm.FocusPoint                     Short       2  961 939
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  Off
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.FilmMode                       Short       1  F2/Fujichrome (Velvia)
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.FilmMode                       Short       1  Velvia (F2/Fujichrome)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """, #b
         """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  Normal
+Exif.Fujifilm.Color                          Short       1  0 (normal)
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
+Exif.Fujifilm.FocusArea                      Short       1  Single Point
+Exif.Fujifilm.FocusPoint                     Short       2  961 939
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  Off
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.FilmMode                       Short       1  F1b/Studio Portrait Smooth Skin Tone (Astia)
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.FilmMode                       Short       1  ASTIA (F1b/Studio Portrait Smooth Skin Tone)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """,
     """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  Normal
+Exif.Fujifilm.Color                          Short       1  0 (normal)
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
+Exif.Fujifilm.FocusArea                      Short       1  Single Point
+Exif.Fujifilm.FocusPoint                     Short       2  961 939
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  Off
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.FilmMode                       Short       1  Classic Chrome
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.FilmMode                       Short       1  CLASSIC CHROME
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """,
     """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  Normal
+Exif.Fujifilm.Color                          Short       1  0 (normal)
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Auto
+Exif.Fujifilm.FocusArea                      Short       1  Single Point
+Exif.Fujifilm.FocusPoint                     Short       2  961 939
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  Off
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.FilmMode                       Short       1  Pro Neg. Hi
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.FilmMode                       Short       1  PRO Neg. Hi
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """,
     """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
 Exif.Fujifilm.Color                          Short       1  Monochrome
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
+Exif.Fujifilm.FocusArea                      Short       1  Wide
+Exif.Fujifilm.FocusPoint                     Short       2  961 641
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  On
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  On
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """,
     """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
 Exif.Fujifilm.Color                          Short       1  Monochrome + Ye Filter
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
+Exif.Fujifilm.FocusArea                      Short       1  Wide
+Exif.Fujifilm.FocusPoint                     Short       2  961 641
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Program AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  On
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  On
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """,
     """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
 Exif.Fujifilm.Color                          Short       1  Monochrome + R Filter
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
+Exif.Fujifilm.FocusArea                      Short       1  Wide
+Exif.Fujifilm.FocusPoint                     Short       2  961 641
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Shutter speed priority AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  On
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """,
     """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
 Exif.Fujifilm.Color                          Short       1  Monochrome + G Filter
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
+Exif.Fujifilm.FocusArea                      Short       1  Wide
+Exif.Fujifilm.FocusPoint                     Short       2  961 641
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Shutter speed priority AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  On
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """,
     """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FFDT22794526     593332303134151113535030217060
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
 Exif.Fujifilm.Color                          Short       1  Sepia
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
 Exif.Fujifilm.FlashMode                      Short       1  Off
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.Macro                          Short       1  Off
 Exif.Fujifilm.FocusMode                      Short       1  Manual
+Exif.Fujifilm.FocusArea                      Short       1  Wide
+Exif.Fujifilm.FocusPoint                     Short       2  961 641
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Shutter speed priority AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  On
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto (100-400%)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Auto
+Exif.Fujifilm.AutoDynamicRange               Short       1  100
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 """
     ]
     stderr = [""] * 10
