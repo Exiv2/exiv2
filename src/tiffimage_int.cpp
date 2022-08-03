@@ -10,7 +10,6 @@
 
 #include <array>
 #include <iostream>
-#include <unordered_set>
 
 // Shortcuts for the newTiffBinaryArray templates.
 #define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<&(arrayCfg), std::size(arrayDef), arrayDef>)
@@ -2042,89 +2041,98 @@ bool TiffHeaderBase::isImageTag(uint16_t /*tag*/, IfdId /*group*/, const Primary
   return false;
 }
 
-bool isTiffImageTag(uint16_t tag, IfdId group) {
-  //! List of TIFF image tags
-  static const std::unordered_set<TiffImgTagKey, TiffImgTagKey_hash> tiffImageTags({
-      {0x00fe, IfdId::ifd0Id},  // Exif.Image.NewSubfileType
-      {0x00ff, IfdId::ifd0Id},  // Exif.Image.SubfileType
-      {0x0100, IfdId::ifd0Id},  // Exif.Image.ImageWidth
-      {0x0101, IfdId::ifd0Id},  // Exif.Image.ImageLength
-      {0x0102, IfdId::ifd0Id},  // Exif.Image.BitsPerSample
-      {0x0103, IfdId::ifd0Id},  // Exif.Image.Compression
-      {0x0106, IfdId::ifd0Id},  // Exif.Image.PhotometricInterpretation
-      {0x010a, IfdId::ifd0Id},  // Exif.Image.FillOrder
-      {0x0111, IfdId::ifd0Id},  // Exif.Image.StripOffsets
-      {0x0115, IfdId::ifd0Id},  // Exif.Image.SamplesPerPixel
-      {0x0116, IfdId::ifd0Id},  // Exif.Image.RowsPerStrip
-      {0x0117, IfdId::ifd0Id},  // Exif.Image.StripByteCounts
-      {0x011a, IfdId::ifd0Id},  // Exif.Image.XResolution
-      {0x011b, IfdId::ifd0Id},  // Exif.Image.YResolution
-      {0x011c, IfdId::ifd0Id},  // Exif.Image.PlanarConfiguration
-      {0x0122, IfdId::ifd0Id},  // Exif.Image.GrayResponseUnit
-      {0x0123, IfdId::ifd0Id},  // Exif.Image.GrayResponseCurve
-      {0x0124, IfdId::ifd0Id},  // Exif.Image.T4Options
-      {0x0125, IfdId::ifd0Id},  // Exif.Image.T6Options
-      {0x0128, IfdId::ifd0Id},  // Exif.Image.ResolutionUnit
-      {0x0129, IfdId::ifd0Id},  // Exif.Image.PageNumber
-      {0x012d, IfdId::ifd0Id},  // Exif.Image.TransferFunction
-      {0x013d, IfdId::ifd0Id},  // Exif.Image.Predictor
-      {0x013e, IfdId::ifd0Id},  // Exif.Image.WhitePoint
-      {0x013f, IfdId::ifd0Id},  // Exif.Image.PrimaryChromaticities
-      {0x0140, IfdId::ifd0Id},  // Exif.Image.ColorMap
-      {0x0141, IfdId::ifd0Id},  // Exif.Image.HalftoneHints
-      {0x0142, IfdId::ifd0Id},  // Exif.Image.TileWidth
-      {0x0143, IfdId::ifd0Id},  // Exif.Image.TileLength
-      {0x0144, IfdId::ifd0Id},  // Exif.Image.TileOffsets
-      {0x0145, IfdId::ifd0Id},  // Exif.Image.TileByteCounts
-      {0x014c, IfdId::ifd0Id},  // Exif.Image.InkSet
-      {0x014d, IfdId::ifd0Id},  // Exif.Image.InkNames
-      {0x014e, IfdId::ifd0Id},  // Exif.Image.NumberOfInks
-      {0x0150, IfdId::ifd0Id},  // Exif.Image.DotRange
-      {0x0151, IfdId::ifd0Id},  // Exif.Image.TargetPrinter
-      {0x0152, IfdId::ifd0Id},  // Exif.Image.ExtraSamples
-      {0x0153, IfdId::ifd0Id},  // Exif.Image.SampleFormat
-      {0x0154, IfdId::ifd0Id},  // Exif.Image.SMinSampleValue
-      {0x0155, IfdId::ifd0Id},  // Exif.Image.SMaxSampleValue
-      {0x0156, IfdId::ifd0Id},  // Exif.Image.TransferRange
-      {0x0157, IfdId::ifd0Id},  // Exif.Image.ClipPath
-      {0x0158, IfdId::ifd0Id},  // Exif.Image.XClipPathUnits
-      {0x0159, IfdId::ifd0Id},  // Exif.Image.YClipPathUnits
-      {0x015a, IfdId::ifd0Id},  // Exif.Image.Indexed
-      {0x015b, IfdId::ifd0Id},  // Exif.Image.JPEGTables
-      {0x0200, IfdId::ifd0Id},  // Exif.Image.JPEGProc
-      {0x0201, IfdId::ifd0Id},  // Exif.Image.JPEGInterchangeFormat
-      {0x0202, IfdId::ifd0Id},  // Exif.Image.JPEGInterchangeFormatLength
-      {0x0203, IfdId::ifd0Id},  // Exif.Image.JPEGRestartInterval
-      {0x0205, IfdId::ifd0Id},  // Exif.Image.JPEGLosslessPredictors
-      {0x0206, IfdId::ifd0Id},  // Exif.Image.JPEGPointTransforms
-      {0x0207, IfdId::ifd0Id},  // Exif.Image.JPEGQTables
-      {0x0208, IfdId::ifd0Id},  // Exif.Image.JPEGDCTables
-      {0x0209, IfdId::ifd0Id},  // Exif.Image.JPEGACTables
-      {0x0211, IfdId::ifd0Id},  // Exif.Image.YCbCrCoefficients
-      {0x0212, IfdId::ifd0Id},  // Exif.Image.YCbCrSubSampling
-      {0x0213, IfdId::ifd0Id},  // Exif.Image.YCbCrPositioning
-      {0x0214, IfdId::ifd0Id},  // Exif.Image.ReferenceBlackWhite
-      {0x828d, IfdId::ifd0Id},  // Exif.Image.CFARepeatPatternDim
-      {0x828e, IfdId::ifd0Id},  // Exif.Image.CFAPattern
-                                //  { 0x8773, IfdId::ifd0Id }, // Exif.Image.InterColorProfile
-      {0x8824, IfdId::ifd0Id},  // Exif.Image.SpectralSensitivity
-      {0x8828, IfdId::ifd0Id},  // Exif.Image.OECF
-      {0x9102, IfdId::ifd0Id},  // Exif.Image.CompressedBitsPerPixel
-      {0x9217, IfdId::ifd0Id},  // Exif.Image.SensingMethod
-  });
+static bool isTiffImageTagLookup(uint16_t tag, IfdId group) {
+  if (group != IfdId::ifd0Id) {
+    return false;
+  } else {
+    //! List of TIFF image tags
+    switch (tag) {
+      case 0x00fe:  // Exif.Image.NewSubfileType
+      case 0x00ff:  // Exif.Image.SubfileType
+      case 0x0100:  // Exif.Image.ImageWidth
+      case 0x0101:  // Exif.Image.ImageLength
+      case 0x0102:  // Exif.Image.BitsPerSample
+      case 0x0103:  // Exif.Image.Compression
+      case 0x0106:  // Exif.Image.PhotometricInterpretation
+      case 0x010a:  // Exif.Image.FillOrder
+      case 0x0111:  // Exif.Image.StripOffsets
+      case 0x0115:  // Exif.Image.SamplesPerPixel
+      case 0x0116:  // Exif.Image.RowsPerStrip
+      case 0x0117:  // Exif.Image.StripByteCounts
+      case 0x011a:  // Exif.Image.XResolution
+      case 0x011b:  // Exif.Image.YResolution
+      case 0x011c:  // Exif.Image.PlanarConfiguration
+      case 0x0122:  // Exif.Image.GrayResponseUnit
+      case 0x0123:  // Exif.Image.GrayResponseCurve
+      case 0x0124:  // Exif.Image.T4Options
+      case 0x0125:  // Exif.Image.T6Options
+      case 0x0128:  // Exif.Image.ResolutionUnit
+      case 0x0129:  // Exif.Image.PageNumber
+      case 0x012d:  // Exif.Image.TransferFunction
+      case 0x013d:  // Exif.Image.Predictor
+      case 0x013e:  // Exif.Image.WhitePoint
+      case 0x013f:  // Exif.Image.PrimaryChromaticities
+      case 0x0140:  // Exif.Image.ColorMap
+      case 0x0141:  // Exif.Image.HalftoneHints
+      case 0x0142:  // Exif.Image.TileWidth
+      case 0x0143:  // Exif.Image.TileLength
+      case 0x0144:  // Exif.Image.TileOffsets
+      case 0x0145:  // Exif.Image.TileByteCounts
+      case 0x014c:  // Exif.Image.InkSet
+      case 0x014d:  // Exif.Image.InkNames
+      case 0x014e:  // Exif.Image.NumberOfInks
+      case 0x0150:  // Exif.Image.DotRange
+      case 0x0151:  // Exif.Image.TargetPrinter
+      case 0x0152:  // Exif.Image.ExtraSamples
+      case 0x0153:  // Exif.Image.SampleFormat
+      case 0x0154:  // Exif.Image.SMinSampleValue
+      case 0x0155:  // Exif.Image.SMaxSampleValue
+      case 0x0156:  // Exif.Image.TransferRange
+      case 0x0157:  // Exif.Image.ClipPath
+      case 0x0158:  // Exif.Image.XClipPathUnits
+      case 0x0159:  // Exif.Image.YClipPathUnits
+      case 0x015a:  // Exif.Image.Indexed
+      case 0x015b:  // Exif.Image.JPEGTables
+      case 0x0200:  // Exif.Image.JPEGProc
+      case 0x0201:  // Exif.Image.JPEGInterchangeFormat
+      case 0x0202:  // Exif.Image.JPEGInterchangeFormatLength
+      case 0x0203:  // Exif.Image.JPEGRestartInterval
+      case 0x0205:  // Exif.Image.JPEGLosslessPredictors
+      case 0x0206:  // Exif.Image.JPEGPointTransforms
+      case 0x0207:  // Exif.Image.JPEGQTables
+      case 0x0208:  // Exif.Image.JPEGDCTables
+      case 0x0209:  // Exif.Image.JPEGACTables
+      case 0x0211:  // Exif.Image.YCbCrCoefficients
+      case 0x0212:  // Exif.Image.YCbCrSubSampling
+      case 0x0213:  // Exif.Image.YCbCrPositioning
+      case 0x0214:  // Exif.Image.ReferenceBlackWhite
+      case 0x828d:  // Exif.Image.CFARepeatPatternDim
+      case 0x828e:  // Exif.Image.CFAPattern
+#if 0
+    case 0x8773:  // Exif.Image.InterColorProfile
+#endif
+      case 0x8824:  // Exif.Image.SpectralSensitivity
+      case 0x8828:  // Exif.Image.OECF
+      case 0x9102:  // Exif.Image.CompressedBitsPerPixel
+      case 0x9217:  // Exif.Image.SensingMethod
+        return true;
+      default:
+        return false;
+    }
+  }
+}
 
-  const bool found = tiffImageTags.find(TiffImgTagKey(tag, group)) != tiffImageTags.end();
-  // If tag, group is one of the image tags listed above -> bingo!
+bool isTiffImageTag(uint16_t tag, IfdId group) {
+  const bool result = isTiffImageTagLookup(tag, group);
 #ifdef EXIV2_DEBUG_MESSAGES
-  if (found) {
+  if (result) {
     ExifKey key(tag, groupName(group));
     std::cerr << "Image tag: " << key << " (3)\n";
-    return true;
+  } else {
+    std::cerr << "Not an image tag: " << tag << " (4)\n";
   }
-  std::cerr << "Not an image tag: " << tag << " (4)\n";
-  return false;
 #endif
-  return found;
+  return result;
 }
 
 TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags) :

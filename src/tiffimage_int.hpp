@@ -133,14 +133,6 @@ class TiffHeader : public TiffHeaderBase {
 /*!
   @brief Data structure used to list image tags for TIFF and TIFF-like images.
  */
-using TiffImgTagKey = std::pair<uint16_t, IfdId>;
-
-struct TiffImgTagKey_hash {
-  std::size_t operator()(const TiffImgTagKey& pair) const {
-    return std::hash<uint64_t>{}(static_cast<uint64_t>(pair.first) << 32 | static_cast<uint64_t>(pair.second));
-  }
-};
-
 using TiffGroupKey = std::pair<uint32_t, IfdId>;
 
 struct TiffGroupKey_hash {
