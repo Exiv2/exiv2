@@ -155,16 +155,15 @@ using TiffGroupTable = std::unordered_map<TiffGroupKey, NewTiffCompFct, TiffGrou
          use standard TIFF layout.
 */
 struct TiffTreeStruct {
-  using Key = std::pair<uint32_t, IfdId>;
-  //! Comparison operator to compare a TiffTreeStruct with a TiffTreeStruct::Key
-  bool operator==(const Key& key) const;
+  const IfdId parentGroup_;      //!< Parent group
+  const uint32_t parentExtTag_;  //!< Parent tag (32 bit so that it can contain special tags)
 
-  // DATA
-  uint32_t root_;          //!< Tree root element, identifies a tree
-  IfdId group_;            //!< Each group is a node in the tree
-  IfdId parentGroup_;      //!< Parent group
-  uint32_t parentExtTag_;  //!< Parent tag (32 bit so that it can contain special tags)
+ public:
+  TiffTreeStruct(IfdId parentGroup, uint32_t parentExtTag) : parentGroup_(parentGroup), parentExtTag_(parentExtTag) {
+  }
 };
+
+using TiffTreeTable = std::unordered_map<TiffGroupKey, TiffTreeStruct, TiffGroupKey_hash>;
 
 /*!
   @brief TIFF component factory.
@@ -186,8 +185,8 @@ class TiffCreator {
   static void getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group, uint32_t root);
 
  private:
-  static const TiffTreeStruct tiffTreeStruct_[];  //<! TIFF tree structure
-  static const TiffGroupTable tiffGroupTable_;    //<! TIFF group structure
+  static const TiffTreeTable tiffTreeTable_;    //<! TIFF tree structure
+  static const TiffGroupTable tiffGroupTable_;  //<! TIFF group structure
 
 };  // class TiffCreator
 
