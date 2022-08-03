@@ -35,7 +35,7 @@ using CrwEncodeFct = std::function<void(const Image&, const CrwMapping*, CiffHea
 using CrwDirs = std::stack<CrwSubDir>;
 
 //! Type to identify where the data is stored in a directory
-enum DataLocId { valueData, directoryData, lastDataLocId };
+enum class DataLocId { valueData, directoryData, lastDataLocId };
 
 // *****************************************************************************
 // class definitions

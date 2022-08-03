@@ -185,7 +185,7 @@ void CiffComponent::doRead(const byte* pData, size_t size, uint32_t start, ByteO
 
   DataLocId dl = dataLocation();
 
-  if (dl == valueData) {
+  if (dl == DataLocId::valueData) {
     size_ = getULong(pData + start + 2, byteOrder);
     offset_ = getULong(pData + start + 6, byteOrder);
 
@@ -204,7 +204,7 @@ void CiffComponent::doRead(const byte* pData, size_t size, uint32_t start, ByteO
       enforce(size_ <= size - offset_, ErrorCode::kerOffsetOutOfRange);
     }
   }
-  if (dl == directoryData) {
+  if (dl == DataLocId::directoryData) {
     size_ = 8;
     offset_ = start + 2;
   }
@@ -316,7 +316,7 @@ size_t CiffEntry::doWrite(Blob& blob, ByteOrder /*byteOrder*/, size_t offset) {
 }
 
 size_t CiffComponent::writeValueData(Blob& blob, size_t offset) {
-  if (dataLocation() == valueData) {
+  if (dataLocation() == DataLocId::valueData) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cout << "  Data for tag 0x" << std::hex << tagId() << ", " << std::dec << size_ << " Bytes\n";
 #endif
@@ -382,7 +382,7 @@ void CiffComponent::writeDirEntry(Blob& blob, ByteOrder byteOrder) const {
 
   DataLocId dl = dataLocation();
 
-  if (dl == valueData) {
+  if (dl == DataLocId::valueData) {
     us2Data(buf, tag_, byteOrder);
     append(blob, buf, 2);
 
@@ -393,7 +393,7 @@ void CiffComponent::writeDirEntry(Blob& blob, ByteOrder byteOrder) const {
     append(blob, buf, 4);
   }
 
-  if (dl == directoryData) {
+  if (dl == DataLocId::directoryData) {
     // Only 8 bytes fit in the directory entry
 
     us2Data(buf, tag_, byteOrder);
@@ -437,7 +437,7 @@ void CiffComponent::setValue(DataBuf&& buf) {
   storage_ = std::move(buf);
   pData_ = storage_.c_data();
   size_ = storage_.size();
-  if (size_ > 8 && dataLocation() == directoryData) {
+  if (size_ > 8 && dataLocation() == DataLocId::directoryData) {
     tag_ &= 0x3fff;
   }
 }
@@ -464,9 +464,9 @@ TypeId CiffComponent::typeId(uint16_t tag) {
 DataLocId CiffComponent::dataLocation(uint16_t tag) {
   switch (tag & 0xc000) {
     case 0x0000:
-      return valueData;
+      return DataLocId::valueData;
     case 0x4000:
-      return directoryData;
+      return DataLocId::directoryData;
     default:
       throw Error(ErrorCode::kerCorruptedMetadata);
   }
