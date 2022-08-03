@@ -50,10 +50,6 @@ Exiv2::ByteOrder stringToByteOrder(const std::string& val) {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {
-TiffVisitor::TiffVisitor() {
-  go_.fill(true);
-}
-
 void TiffVisitor::setGo(GoEvent event, bool go) {
   go_[event] = go;
 }
