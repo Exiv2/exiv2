@@ -10,6 +10,7 @@
 
 #include <array>
 #include <iostream>
+#include <unordered_set>
 
 // Shortcuts for the newTiffBinaryArray templates.
 #define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<&(arrayCfg), std::size(arrayDef), arrayDef>)
@@ -2043,7 +2044,7 @@ bool TiffHeaderBase::isImageTag(uint16_t /*tag*/, IfdId /*group*/, const Primary
 
 bool isTiffImageTag(uint16_t tag, IfdId group) {
   //! List of TIFF image tags
-  static constexpr TiffImgTagStruct tiffImageTags[] = {
+  static const std::unordered_set<TiffImgTagKey, TiffImgTagKey_hash> tiffImageTags({
       {0x00fe, IfdId::ifd0Id},  // Exif.Image.NewSubfileType
       {0x00ff, IfdId::ifd0Id},  // Exif.Image.SubfileType
       {0x0100, IfdId::ifd0Id},  // Exif.Image.ImageWidth
@@ -2110,11 +2111,12 @@ bool isTiffImageTag(uint16_t tag, IfdId group) {
       {0x8828, IfdId::ifd0Id},  // Exif.Image.OECF
       {0x9102, IfdId::ifd0Id},  // Exif.Image.CompressedBitsPerPixel
       {0x9217, IfdId::ifd0Id},  // Exif.Image.SensingMethod
-  };
+  });
 
+  const bool found = tiffImageTags.find(TiffImgTagKey(tag, group)) != tiffImageTags.end();
   // If tag, group is one of the image tags listed above -> bingo!
 #ifdef EXIV2_DEBUG_MESSAGES
-  if (find(tiffImageTags, TiffImgTagStruct(tag, group))) {
+  if (found) {
     ExifKey key(tag, groupName(group));
     std::cerr << "Image tag: " << key << " (3)\n";
     return true;
@@ -2122,7 +2124,7 @@ bool isTiffImageTag(uint16_t tag, IfdId group) {
   std::cerr << "Not an image tag: " << tag << " (4)\n";
   return false;
 #endif
-  return find(tiffImageTags, TiffImgTagStruct(tag, group));
+  return found;
 }
 
 TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags) :
