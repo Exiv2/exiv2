@@ -52,7 +52,7 @@ class EXIV2API OrfImage : public TiffImage {
 
   //! @name Manipulators
   //@{
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   void readMetadata() override;
   void writeMetadata() override;
   /*!

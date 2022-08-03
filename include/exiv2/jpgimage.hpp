@@ -24,7 +24,7 @@ class EXIV2API JpegBase : public Image {
   //@{
   void readMetadata() override;
   void writeMetadata() override;
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   //@}
 
   ~JpegBase() override = default;

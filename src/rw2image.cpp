@@ -61,7 +61,7 @@ void Rw2Image::setComment(const std::string&) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "RW2"));
 }
 
-void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
+void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
   out << "RW2 IMAGE" << std::endl;
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
@@ -75,7 +75,7 @@ void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, in
 
   io_->seek(0, BasicIo::beg);
 
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }  // Rw2Image::printStructure
 
 void Rw2Image::readMetadata() {

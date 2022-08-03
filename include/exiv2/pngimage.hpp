@@ -52,7 +52,7 @@ class EXIV2API PngImage : public Image {
           not valid (does not look like data of the specific image type).
     @warning This function is not thread safe and intended for exiv2 -pS for debugging.
    */
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   //@}
 
   //! @name Accessors

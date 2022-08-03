@@ -73,7 +73,7 @@ class EXIV2API Image {
     @warning This function is not thread safe and intended for exiv2 -pS for debugging.
     @warning You may need to put the stream into binary mode (see src/actions.cpp)
    */
-  virtual void printStructure(std::ostream& out, PrintStructureOption option = kpsNone, int depth = 0);
+  virtual void printStructure(std::ostream& out, PrintStructureOption option = kpsNone, size_t depth = 0);
   /*!
     @brief Read all metadata supported by a specific image format from the
         image. Before this method is called, the image metadata will be
@@ -293,13 +293,13 @@ class EXIV2API Image {
     @throw Error if reading of the file fails or the image data is
           not valid (does not look like data of the specific image type).
    */
-  void printTiffStructure(BasicIo& io, std::ostream& out, PrintStructureOption option, int depth, size_t offset = 0);
+  void printTiffStructure(BasicIo& io, std::ostream& out, PrintStructureOption option, size_t depth, size_t offset = 0);
 
   /*!
     @brief Print out the structure of a TIFF IFD
    */
   void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start, bool bSwap,
-                         char c, int depth);
+                         char c, size_t depth);
 
   /*!
     @brief is the host platform bigEndian

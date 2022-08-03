@@ -57,7 +57,7 @@ void RafImage::setComment(const std::string&) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "RAF"));
 }
 
-void RafImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
+void RafImage::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
   if (io_->open() != 0) {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   }

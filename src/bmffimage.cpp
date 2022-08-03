@@ -153,7 +153,7 @@ std::string BmffImage::uuidName(Exiv2::DataBuf& uuid) {
 }
 
 uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintStructureOption option /* = kpsNone */,
-                               uint64_t pbox_end, int depth) {
+                               uint64_t pbox_end, size_t depth) {
   const size_t address = io_->tell();
   // never visit a box twice!
   if (depth == 0)
@@ -184,7 +184,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 
   if (bTrace) {
     bLF = true;
-    out << indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box_type)
+    out << Internal::indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box_type)
         << Internal::stringFormat(" %8ld->%" PRIu64 " ", address, box_length);
   }
 
@@ -299,14 +299,14 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
         if (ilocs_.find(exifID_) != ilocs_.end()) {
           const Iloc& iloc = ilocs_.find(exifID_)->second;
           if (bTrace) {
-            out << indent(depth) << "Exiv2::BMFF Exif: " << iloc.toString() << std::endl;
+            out << Internal::indent(depth) << "Exiv2::BMFF Exif: " << iloc.toString() << std::endl;
           }
           parseTiff(Internal::Tag::root, iloc.length_, iloc.start_);
         }
         if (ilocs_.find(xmpID_) != ilocs_.end()) {
           const Iloc& iloc = ilocs_.find(xmpID_)->second;
           if (bTrace) {
-            out << indent(depth) << "Exiv2::BMFF XMP: " << iloc.toString() << std::endl;
+            out << Internal::indent(depth) << "Exiv2::BMFF XMP: " << iloc.toString() << std::endl;
           }
           parseXmp(iloc.length_, iloc.start_);
         }
@@ -351,7 +351,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 
           uint32_t ldata = data.read_uint32(skip + step - 4, endian_);
           if (bTrace) {
-            out << indent(depth)
+            out << Internal::indent(depth)
                 << Internal::stringFormat("%8ld | %8ld |   ID | %4u | %6u,%6u", address + skip, step, ID, offset, ldata)
                 << std::endl;
           }
@@ -607,7 +607,7 @@ void BmffImage::readMetadata() {
   bReadMetadata_ = true;
 }  // BmffImage::readMetadata
 
-void BmffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) {
+void BmffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, size_t depth) {
   if (!bReadMetadata_)
     readMetadata();
 

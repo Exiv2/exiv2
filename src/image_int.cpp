@@ -35,12 +35,8 @@ std::string stringFormat(const char* format, ...) {
   return result;
 }
 
-std::string indent(int32_t d) {
-  std::string result;
-  if (d > 0)
-    while (d--)
-      result += "  ";
-  return result;
+[[nodiscard]] std::string indent(size_t i) {
+  return std::string(2 * i, ' ');
 }
 
 }  // namespace Exiv2::Internal

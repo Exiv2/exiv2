@@ -293,7 +293,7 @@ void JpegBase::readMetadata() {
   if ((option == kpsBasic || option == kpsRecursive)) \
   out << Internal::stringFormat("%8ld | 0xff%02x %-5s", io_->tell() - 2, marker, nm[marker].c_str())
 
-void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
+void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type
@@ -485,7 +485,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, in
             if (start < max) {
               // create a copy on write memio object with the data, then print the structure
               MemIo p(buf.c_data(start), size - start);
-              printTiffStructure(p, out, option, depth);
+              printTiffStructure(p, out, option, depth + 1);
             }
           }
 

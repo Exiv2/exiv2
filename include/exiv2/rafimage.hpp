@@ -43,7 +43,7 @@ class EXIV2API RafImage : public Image {
 
   //! @name Manipulators
   //@{
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   void readMetadata() override;
   /*!
     @brief Todo: Write metadata back to the image. This method is not

@@ -275,7 +275,7 @@ IptcData::iterator IptcData::erase(IptcData::iterator pos) {
   return iptcMetadata_.erase(pos);
 }
 
-void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, uint32_t depth) {
+void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, size_t depth) {
   if (bytes.size() < 3) {
     return;
   }
