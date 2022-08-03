@@ -443,29 +443,22 @@ void CiffComponent::setValue(DataBuf&& buf) {
 }
 
 TypeId CiffComponent::typeId(uint16_t tag) {
-  TypeId ti = invalidTypeId;
   switch (tag & 0x3800) {
     case 0x0000:
-      ti = unsignedByte;
-      break;
+      return unsignedByte;
     case 0x0800:
-      ti = asciiString;
-      break;
+      return asciiString;
     case 0x1000:
-      ti = unsignedShort;
-      break;
+      return unsignedShort;
     case 0x1800:
-      ti = unsignedLong;
-      break;
+      return unsignedLong;
     case 0x2000:
-      ti = undefined;
-      break;
-    case 0x2800:  // fallthrough
+      return undefined;
+    case 0x2800:
     case 0x3000:
-      ti = directory;
-      break;
+      return directory;
   }
-  return ti;
+  return invalidTypeId;
 }  // CiffComponent::typeId
 
 DataLocId CiffComponent::dataLocation(uint16_t tag) {
