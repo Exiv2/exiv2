@@ -21,14 +21,16 @@ namespace Exiv2::Internal {
 constexpr CryptFct notEncrypted = nullptr;
 
 //! Canon Camera Settings binary array - configuration
-constexpr ArrayCfg canonCsCfg = {IfdId::canonCsId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUnsignedShort,   // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 true,              // With size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg canonCsCfg = {
+    IfdId::canonCsId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUnsignedShort,   // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // With size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 
 //! Canon Camera Settings binary array - definition
 constexpr ArrayDef canonCsDef[] = {
@@ -36,263 +38,312 @@ constexpr ArrayDef canonCsDef[] = {
 };
 
 //! Canon Shot Info binary array - configuration
-constexpr ArrayCfg canonSiCfg = {IfdId::canonSiId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUnsignedShort,   // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 true,              // With size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg canonSiCfg = {
+    IfdId::canonSiId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUnsignedShort,   // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // With size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 
 //! Canon Panorama binary array - configuration
-constexpr ArrayCfg canonPaCfg = {IfdId::canonPaId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUnsignedShort,   // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg canonPaCfg = {
+    IfdId::canonPaId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUnsignedShort,   // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 
 //! Canon Custom Function binary array - configuration
-constexpr ArrayCfg canonCfCfg = {IfdId::canonCfId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUnsignedShort,   // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 true,              // With size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg canonCfCfg = {
+    IfdId::canonCfId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUnsignedShort,   // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // With size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 
 //! Canon Picture Info binary array - configuration
-constexpr ArrayCfg canonPiCfg = {IfdId::canonPiId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUnsignedShort,   // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg canonPiCfg = {
+    IfdId::canonPiId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUnsignedShort,   // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 
 //! Canon Time Info binary array - configuration
-constexpr ArrayCfg canonTiCfg = {IfdId::canonTiId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttSignedLong,      // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 true,              // With size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonTiCfg = {
+    IfdId::canonTiId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttSignedLong,      // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // With size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon File Info binary array - configuration
-constexpr ArrayCfg canonFiCfg = {IfdId::canonFiId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUnsignedShort,   // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 true,              // Has a size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttSignedShort, 1}};
+constexpr ArrayCfg canonFiCfg = {
+    IfdId::canonFiId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUnsignedShort,   // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // Has a size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttSignedShort, 1},
+};
 //! Canon File Info binary array - definition
-constexpr ArrayDef canonFiDef[] = {{2, ttUnsignedLong, 1}};
+constexpr ArrayDef canonFiDef[] = {
+    {2, ttUnsignedLong, 1},
+};
 
 //! Canon Processing Info binary array - configuration
-constexpr ArrayCfg canonPrCfg = {IfdId::canonPrId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUnsignedShort,   // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 true,              // Has a size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttSignedShort, 1}};
+constexpr ArrayCfg canonPrCfg = {
+    IfdId::canonPrId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUnsignedShort,   // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // Has a size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttSignedShort, 1},
+};
 
 //! Canon canonAfMiAdj Info binary array - configuration
-extern const ArrayCfg canonAfMiAdjCfg = {IfdId::canonAfMiAdjId,  // Group for the elements
-                                         invalidByteOrder,       // Use byte order from parent
-                                         ttSignedLong,           // Type for array entry and size element
-                                         notEncrypted,           // Not encrypted
-                                         true,                   // Has a size element
-                                         false,                  // No fillers
-                                         false,                  // Don't concatenate gaps
-                                         {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonAfMiAdjCfg = {
+    IfdId::canonAfMiAdjId,  // Group for the elements
+    invalidByteOrder,       // Use byte order from parent
+    ttSignedLong,           // Type for array entry and size element
+    notEncrypted,           // Not encrypted
+    true,                   // Has a size element
+    false,                  // No fillers
+    false,                  // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon Vignetting Correction 2 Info binary array - configuration
-extern const ArrayCfg canonVigCor2Cfg = {IfdId::canonVigCor2Id,  // Group for the elements
-                                         invalidByteOrder,       // Use byte order from parent
-                                         ttSignedLong,           // Type for array entry and size element
-                                         notEncrypted,           // Not encrypted
-                                         true,                   // Has a size element
-                                         false,                  // No fillers
-                                         false,                  // Don't concatenate gaps
-                                         {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonVigCor2Cfg = {
+    IfdId::canonVigCor2Id,  // Group for the elements
+    invalidByteOrder,       // Use byte order from parent
+    ttSignedLong,           // Type for array entry and size element
+    notEncrypted,           // Not encrypted
+    true,                   // Has a size element
+    false,                  // No fillers
+    false,                  // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon Lighting Optimization Info binary array - configuration
-extern const ArrayCfg canonLiOpCfg = {IfdId::canonLiOpId,  // Group for the elements
-                                      invalidByteOrder,    // Use byte order from parent
-                                      ttSignedLong,        // Type for array entry and size element
-                                      notEncrypted,        // Not encrypted
-                                      true,                // Has a size element
-                                      false,               // No fillers
-                                      false,               // Don't concatenate gaps
-                                      {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonLiOpCfg = {
+    IfdId::canonLiOpId,  // Group for the elements
+    invalidByteOrder,    // Use byte order from parent
+    ttSignedLong,        // Type for array entry and size element
+    notEncrypted,        // Not encrypted
+    true,                // Has a size element
+    false,               // No fillers
+    false,               // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon LensInfo binary array - configuration
-extern const ArrayCfg canonLeCfg = {IfdId::canonLeId,  // Group for the elements
-                                    invalidByteOrder,  // Use byte order from parent
-                                    ttSignedLong,      // Type for array entry and size element
-                                    notEncrypted,      // Not encrypted
-                                    true,              // Has a size element
-                                    false,             // No fillers
-                                    false,             // Don't concatenate gaps
-                                    {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonLeCfg = {
+    IfdId::canonLeId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttSignedLong,      // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // Has a size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon Ambience Selction Info binary array - configuration
-extern const ArrayCfg canonAmCfg = {IfdId::canonAmId,  // Group for the elements
-                                    invalidByteOrder,  // Use byte order from parent
-                                    ttSignedLong,      // Type for array entry and size element
-                                    notEncrypted,      // Not encrypted
-                                    true,              // Has a size element
-                                    false,             // No fillers
-                                    false,             // Don't concatenate gaps
-                                    {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonAmCfg = {
+    IfdId::canonAmId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttSignedLong,      // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // Has a size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon MultiExposure Selction Info binary array - configuration
-extern const ArrayCfg canonMeCfg = {IfdId::canonMeId,  // Group for the elements
-                                    invalidByteOrder,  // Use byte order from parent
-                                    ttSignedLong,      // Type for array entry and size element
-                                    notEncrypted,      // Not encrypted
-                                    true,              // Has a size element
-                                    false,             // No fillers
-                                    false,             // Don't concatenate gaps
-                                    {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonMeCfg = {
+    IfdId::canonMeId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttSignedLong,      // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    true,              // Has a size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon Filter Info binary array - configuration
-extern const ArrayCfg canonFilCfg = {IfdId::canonFilId,  // Group for the elements
-                                     invalidByteOrder,   // Use byte order from parent
-                                     ttSignedLong,       // Type for array entry and size element
-                                     notEncrypted,       // Not encrypted
-                                     true,               // Has a size element
-                                     false,              // No fillers
-                                     false,              // Don't concatenate gaps
-                                     {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonFilCfg = {
+    IfdId::canonFilId,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttSignedLong,       // Type for array entry and size element
+    notEncrypted,       // Not encrypted
+    true,               // Has a size element
+    false,              // No fillers
+    false,              // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon Hdr Info binary array - configuration
-extern const ArrayCfg canonHdrCfg = {IfdId::canonHdrId,  // Group for the elements
-                                     invalidByteOrder,   // Use byte order from parent
-                                     ttSignedLong,       // Type for array entry and size element
-                                     notEncrypted,       // Not encrypted
-                                     true,               // Has a size element
-                                     false,              // No fillers
-                                     false,              // Don't concatenate gaps
-                                     {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonHdrCfg = {
+    IfdId::canonHdrId,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttSignedLong,       // Type for array entry and size element
+    notEncrypted,       // Not encrypted
+    true,               // Has a size element
+    false,              // No fillers
+    false,              // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon AF Config Info binary array - configuration
-extern const ArrayCfg canonAfCCfg = {IfdId::canonAfCId,  // Group for the elements
-                                     invalidByteOrder,   // Use byte order from parent
-                                     ttSignedLong,       // Type for array entry and size element
-                                     notEncrypted,       // Not encrypted
-                                     true,               // Has a size element
-                                     false,              // No fillers
-                                     false,              // Don't concatenate gaps
-                                     {0, ttSignedLong, 1}};
+constexpr ArrayCfg canonAfCCfg = {
+    IfdId::canonAfCId,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttSignedLong,       // Type for array entry and size element
+    notEncrypted,       // Not encrypted
+    true,               // Has a size element
+    false,              // No fillers
+    false,              // Don't concatenate gaps
+    {0, ttSignedLong, 1},
+};
 
 //! Canon RawBurst Info binary array - configuration
-extern const ArrayCfg canonRawBCfg = {IfdId::canonRawBId,  // Group for the elements
-                                      invalidByteOrder,    // Use byte order from parent
-                                      ttSignedLong,        // Type for array entry and size element
-                                      notEncrypted,        // Not encrypted
-                                      true,                // Has a size element
-                                      false,               // No fillers
-                                      false,               // Don't concatenate gaps
-                                      {0, ttUnsignedLong, 1}};
+constexpr ArrayCfg canonRawBCfg = {
+    IfdId::canonRawBId,  // Group for the elements
+    invalidByteOrder,    // Use byte order from parent
+    ttSignedLong,        // Type for array entry and size element
+    notEncrypted,        // Not encrypted
+    true,                // Has a size element
+    false,               // No fillers
+    false,               // Don't concatenate gaps
+    {0, ttUnsignedLong, 1},
+};
 
 //! Nikon Vibration Reduction binary array - configuration
-constexpr ArrayCfg nikonVrCfg = {IfdId::nikonVrId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUndefined,       // Type for array entry
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 true,              // Write all tags
-                                 true,              // Concatenate gaps
-                                 {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonVrCfg = {
+    IfdId::nikonVrId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUndefined,       // Type for array entry
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    true,              // Write all tags
+    true,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Vibration Reduction binary array - definition
 constexpr ArrayDef nikonVrDef[] = {
-    {0, ttUndefined, 4},    // Version
-    {7, ttUnsignedByte, 1}  // The array contains 8 bytes
+    {0, ttUndefined, 4},     // Version
+    {7, ttUnsignedByte, 1},  // The array contains 8 bytes
 };
 
 //! Nikon Picture Control binary array - configuration
-constexpr ArrayCfg nikonPcCfg = {IfdId::nikonPcId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUndefined,       // Type for array entry
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 true,              // Write all tags
-                                 true,              // Concatenate gaps
-                                 {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonPcCfg = {
+    IfdId::nikonPcId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUndefined,       // Type for array entry
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    true,              // Write all tags
+    true,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Picture Control binary array - definition
 constexpr ArrayDef nikonPcDef[] = {
     {0, ttUndefined, 4},  // Version
     {4, ttAsciiString, 20},  {24, ttAsciiString, 20}, {48, ttUnsignedByte, 1},
     {49, ttUnsignedByte, 1}, {50, ttUnsignedByte, 1}, {51, ttUnsignedByte, 1},
     {52, ttUnsignedByte, 1}, {53, ttUnsignedByte, 1}, {54, ttUnsignedByte, 1},
-    {55, ttUnsignedByte, 1}, {56, ttUnsignedByte, 1}, {57, ttUnsignedByte, 1}  // The array contains 58 bytes
+    {55, ttUnsignedByte, 1}, {56, ttUnsignedByte, 1}, {57, ttUnsignedByte, 1},  // The array contains 58 bytes
 };
 
 //! Nikon World Time binary array - configuration
-constexpr ArrayCfg nikonWtCfg = {IfdId::nikonWtId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUndefined,       // Type for array entry
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 true,              // Write all tags
-                                 true,              // Concatenate gaps
-                                 {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonWtCfg = {
+    IfdId::nikonWtId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUndefined,       // Type for array entry
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    true,              // Write all tags
+    true,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon World Time binary array - definition
-constexpr ArrayDef nikonWtDef[] = {{0, ttSignedShort, 1}, {2, ttUnsignedByte, 1}, {3, ttUnsignedByte, 1}};
+constexpr ArrayDef nikonWtDef[] = {
+    {0, ttSignedShort, 1},
+    {2, ttUnsignedByte, 1},
+    {3, ttUnsignedByte, 1},
+};
 
 //! Nikon ISO info binary array - configuration
-constexpr ArrayCfg nikonIiCfg = {IfdId::nikonIiId,  // Group for the elements
-                                 bigEndian,         // Byte order
-                                 ttUndefined,       // Type for array entry
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 true,              // Write all tags
-                                 true,              // Concatenate gaps
-                                 {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonIiCfg = {
+    IfdId::nikonIiId,  // Group for the elements
+    bigEndian,         // Byte order
+    ttUndefined,       // Type for array entry
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    true,              // Write all tags
+    true,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon ISO info binary array - definition
 constexpr ArrayDef nikonIiDef[] = {
-    {0, ttUnsignedByte, 1},
-    {4, ttUnsignedShort, 1},
-    {6, ttUnsignedByte, 1},
-    {10, ttUnsignedShort, 1},
-    {13, ttUnsignedByte, 1}  // The array contains 14 bytes
+    {0, ttUnsignedByte, 1},   {4, ttUnsignedShort, 1}, {6, ttUnsignedByte, 1},
+    {10, ttUnsignedShort, 1}, {13, ttUnsignedByte, 1},  // The array contains 14 bytes
 };
 
 //! Nikon Auto Focus binary array - configuration
-constexpr ArrayCfg nikonAfCfg = {IfdId::nikonAfId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUndefined,       // Type for array entry
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 true,              // Write all tags
-                                 true,              // Concatenate gaps
-                                 {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonAfCfg = {
+    IfdId::nikonAfId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUndefined,       // Type for array entry
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    true,              // Write all tags
+    true,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Auto Focus binary array - definition
 constexpr ArrayDef nikonAfDef[] = {
-    {0, ttUnsignedByte, 1}, {1, ttUnsignedByte, 1}, {2, ttUnsignedShort, 1}  // The array contains 4 bytes
+    {0, ttUnsignedByte, 1}, {1, ttUnsignedByte, 1}, {2, ttUnsignedShort, 1},  // The array contains 4 bytes
 };
 
 //! Nikon Auto Focus 21 binary array - configuration
-constexpr ArrayCfg nikonAf21Cfg = {IfdId::nikonAf21Id,  // Group for the elements
-                                   invalidByteOrder,    // Use byte order from parent
-                                   ttUndefined,         // Type for array entry
-                                   notEncrypted,        // Not encrypted
-                                   false,               // No size element
-                                   true,                // Write all tags
-                                   true,                // Concatenate gaps
-                                   {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonAf21Cfg = {
+    IfdId::nikonAf21Id,  // Group for the elements
+    invalidByteOrder,    // Use byte order from parent
+    ttUndefined,         // Type for array entry
+    notEncrypted,        // Not encrypted
+    false,               // No size element
+    true,                // Write all tags
+    true,                // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Auto Focus 21 binary array - definition
 constexpr ArrayDef nikonAf21Def[] = {
     {0, ttUndefined, 4},       // Version
@@ -310,14 +361,16 @@ constexpr ArrayDef nikonAf21Def[] = {
     {28, ttUnsignedByte, 1},   // ContrastDetectAFInFocus
 };
 //! Nikon Auto Focus 22 binary array - configuration
-constexpr ArrayCfg nikonAf22Cfg = {IfdId::nikonAf22Id,  // Group for the elements
-                                   invalidByteOrder,    // Byte order
-                                   ttUndefined,         // Type for array entry
-                                   notEncrypted,        // Not encrypted
-                                   false,               // No size element
-                                   true,                // Write all tags
-                                   true,                // Concatenate gaps
-                                   {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonAf22Cfg = {
+    IfdId::nikonAf22Id,  // Group for the elements
+    invalidByteOrder,    // Byte order
+    ttUndefined,         // Type for array entry
+    notEncrypted,        // Not encrypted
+    false,               // No size element
+    true,                // Write all tags
+    true,                // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Auto Focus 22 binary array - definition
 constexpr ArrayDef nikonAf22Def[] = {
     {0, ttUndefined, 4},       // Version
@@ -343,63 +396,71 @@ constexpr ArraySet nikonAf2Set[] = {
 };
 
 //! Nikon AF Fine Tune binary array - configuration
-constexpr ArrayCfg nikonAFTCfg = {IfdId::nikonAFTId,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonAFTCfg = {
+    IfdId::nikonAFTId,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon AF Fine Tune binary array - definition
 constexpr ArrayDef nikonAFTDef[] = {
     {0, ttUnsignedByte, 1},  // AF Fine Tune on/off
     {1, ttUnsignedByte, 1},  // AF Fine Tune index
-    {2, ttUnsignedByte, 1}   // AF Fine Tune value
+    {2, ttUnsignedByte, 1},  // AF Fine Tune value
 };
 
 //! Nikon File Info binary array - configuration
-constexpr ArrayCfg nikonFiCfg = {IfdId::nikonFiId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUndefined,       // Type for array entry
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 true,              // Write all tags
-                                 true,              // Concatenate gaps
-                                 {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonFiCfg = {
+    IfdId::nikonFiId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUndefined,       // Type for array entry
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    true,              // Write all tags
+    true,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon File Info binary array - definition
 constexpr ArrayDef nikonFiDef[] = {
     {0, ttUndefined, 4},      // Version
     {6, ttUnsignedShort, 1},  // Directory Number
-    {8, ttUnsignedShort, 1}   // File Number
+    {8, ttUnsignedShort, 1},  // File Number
 };
 
 //! Nikon Multi Exposure binary array - configuration
-constexpr ArrayCfg nikonMeCfg = {IfdId::nikonMeId,  // Group for the elements
-                                 invalidByteOrder,  // Use byte order from parent
-                                 ttUndefined,       // Type for array entry
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 true,              // Write all tags
-                                 true,              // Concatenate gaps
-                                 {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonMeCfg = {
+    IfdId::nikonMeId,  // Group for the elements
+    invalidByteOrder,  // Use byte order from parent
+    ttUndefined,       // Type for array entry
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    true,              // Write all tags
+    true,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Multi Exposure binary array - definition
 constexpr ArrayDef nikonMeDef[] = {
-    {0, ttUndefined, 4},     // Version
-    {4, ttUnsignedLong, 1},  // MultiExposureMode
-    {8, ttUnsignedLong, 1},  // MultiExposureShots
-    {12, ttUnsignedLong, 1}  // MultiExposureAutoGain
+    {0, ttUndefined, 4},      // Version
+    {4, ttUnsignedLong, 1},   // MultiExposureMode
+    {8, ttUnsignedLong, 1},   // MultiExposureShots
+    {12, ttUnsignedLong, 1},  // MultiExposureAutoGain
 };
 
 //! Nikon Flash Info binary array - configuration 1
-constexpr ArrayCfg nikonFl1Cfg = {IfdId::nikonFl1Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonFl1Cfg = {
+    IfdId::nikonFl1Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Flash Info binary array - definition 1
 constexpr ArrayDef nikonFl1Def[] = {
     {0, ttUndefined, 4},      // Version
@@ -411,17 +472,19 @@ constexpr ArrayDef nikonFl1Def[] = {
     {13, ttUnsignedByte, 1},  // RepeatingFlashCount
     {14, ttUnsignedByte, 1},  // FlashGNDistance
     {15, ttUnsignedByte, 1},  // FlashGroupAControlMode
-    {16, ttUnsignedByte, 1}   // FlashGroupBControlMode
+    {16, ttUnsignedByte, 1},  // FlashGroupBControlMode
 };
 //! Nikon Flash Info binary array - configuration 2
-constexpr ArrayCfg nikonFl2Cfg = {IfdId::nikonFl2Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonFl2Cfg = {
+    IfdId::nikonFl2Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Flash Info binary array - definition 2
 constexpr ArrayDef nikonFl2Def[] = {
     {0, ttUndefined, 4},      // Version
@@ -434,14 +497,16 @@ constexpr ArrayDef nikonFl2Def[] = {
     {15, ttUnsignedByte, 1},  // FlashGNDistance
 };
 //! Nikon Flash Info binary array - configuration 3
-constexpr ArrayCfg nikonFl3Cfg = {IfdId::nikonFl3Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonFl3Cfg = {
+    IfdId::nikonFl3Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Flash Info binary array - definition
 constexpr ArrayDef nikonFl3Def[] = {
     {0, ttUndefined, 4},      // Version
@@ -455,14 +520,16 @@ constexpr ArrayDef nikonFl3Def[] = {
     {16, ttUnsignedByte, 1},  // FlashColorFilter
 };
 //! Nikon Flash Info 7 (0107 and 0108) binary array - configuration
-constexpr ArrayCfg nikonFl7Cfg = {IfdId::nikonFl7Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonFl7Cfg = {
+    IfdId::nikonFl7Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Flash Info 7 (0107 and 0108) binary array - definition
 constexpr ArrayDef nikonFl7Def[] = {
     {0, ttUndefined, 4},      // Version
@@ -491,78 +558,88 @@ constexpr ArraySet nikonFlSet[] = {
 };
 
 //! Nikon Shot Info binary array - configuration 1 (D80)
-constexpr ArrayCfg nikonSi1Cfg = {IfdId::nikonSi1Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonSi1Cfg = {
+    IfdId::nikonSi1Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Shot Info binary array - definition 1 (D80)
 constexpr ArrayDef nikonSi1Def[] = {
-    {0, ttUndefined, 4},       // Version
-    {586, ttUnsignedLong, 1},  // ShutterCount
-    {1155, ttUnsignedByte, 1}  // The array contains 1156 bytes
+    {0, ttUndefined, 4},        // Version
+    {586, ttUnsignedLong, 1},   // ShutterCount
+    {1155, ttUnsignedByte, 1},  // The array contains 1156 bytes
 };
 //! Nikon Shot Info binary array - configuration 2 (D40)
-constexpr ArrayCfg nikonSi2Cfg = {IfdId::nikonSi2Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonSi2Cfg = {
+    IfdId::nikonSi2Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Shot Info binary array - definition 2 (D40)
 constexpr ArrayDef nikonSi2Def[] = {
     {0, ttUndefined, 4},       // Version
     {582, ttUnsignedLong, 1},  // ShutterCount
     {738, ttUnsignedByte, 1},
-    {1112, ttUnsignedByte, 1}  // The array contains 1113 bytes
+    {1112, ttUnsignedByte, 1},  // The array contains 1113 bytes
 };
 //! Nikon Shot Info binary array - configuration 3 (D300a)
-constexpr ArrayCfg nikonSi3Cfg = {IfdId::nikonSi3Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonSi3Cfg = {
+    IfdId::nikonSi3Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Shot Info binary array - definition 3 (D300a)
 constexpr ArrayDef nikonSi3Def[] = {
     {0, ttUndefined, 4},        // Version
     {604, ttUnsignedByte, 1},   // ISO
     {633, ttUnsignedLong, 1},   // ShutterCount
     {721, ttUnsignedShort, 1},  // AFFineTuneAdj
-    {814, ttUndefined, 4478}    // The array contains 5291 bytes
+    {814, ttUndefined, 4478},   // The array contains 5291 bytes
 };
 //! Nikon Shot Info binary array - configuration 4 (D300b)
-constexpr ArrayCfg nikonSi4Cfg = {IfdId::nikonSi4Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonSi4Cfg = {
+    IfdId::nikonSi4Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Shot Info binary array - definition 4 (D300b)
 constexpr ArrayDef nikonSi4Def[] = {
     {0, ttUndefined, 4},        // Version
     {644, ttUnsignedLong, 1},   // ShutterCount
     {732, ttUnsignedShort, 1},  // AFFineTuneAdj
-    {826, ttUndefined, 4478}    // The array contains 5303 bytes
+    {826, ttUndefined, 4478},   // The array contains 5303 bytes
 };
 //! Nikon Shot Info binary array - configuration 5 (ver 02.xx)
-constexpr ArrayCfg nikonSi5Cfg = {IfdId::nikonSi5Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  false,              // Write all tags (don't know how many)
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonSi5Cfg = {
+    IfdId::nikonSi5Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    false,              // Write all tags (don't know how many)
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Shot Info binary array - definition 5 (ver 01.xx and ver 02.xx)
 constexpr ArrayDef nikonSi5Def[] = {
     {0, ttUndefined, 4},       // Version
@@ -576,14 +653,16 @@ constexpr ArrayDef nikonSi5Def[] = {
     {630, ttUnsignedLong, 1}   // ShutterCount
 };
 //! Nikon Shot Info binary array - configuration 6 (ver 01.xx)
-constexpr ArrayCfg nikonSi6Cfg = {IfdId::nikonSi6Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Encryption function
-                                  false,              // No size element
-                                  false,              // Write all tags (don't know how many)
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonSi6Cfg = {
+    IfdId::nikonSi6Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Encryption function
+    false,              // No size element
+    false,              // Write all tags (don't know how many)
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Lens Data configurations and definitions
 constexpr ArraySet nikonSiSet[] = {
     {nikonSi1Cfg, nikonSi1Def, std::size(nikonSi1Def)},
@@ -595,44 +674,52 @@ constexpr ArraySet nikonSiSet[] = {
 };
 
 //! Nikon Lens Data binary array - configuration 1
-constexpr ArrayCfg nikonLd1Cfg = {IfdId::nikonLd1Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Encryption function
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  false,              // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonLd1Cfg = {
+    IfdId::nikonLd1Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Encryption function
+    false,              // No size element
+    true,               // Write all tags
+    false,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Lens Data binary array - configuration 2
-constexpr ArrayCfg nikonLd2Cfg = {IfdId::nikonLd2Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  false,              // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonLd2Cfg = {
+    IfdId::nikonLd2Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    true,               // Write all tags
+    false,              // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Lens Data binary array - configuration 3
-constexpr ArrayCfg nikonLd3Cfg = {IfdId::nikonLd3Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  false,              // Don't concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonLd3Cfg = {
+    IfdId::nikonLd3Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    true,               // Write all tags
+    false,              // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Lens Data binary array - configuration 3
-constexpr ArrayCfg nikonLd4Cfg = {IfdId::nikonLd4Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  false,              // Don't concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonLd4Cfg = {
+    IfdId::nikonLd4Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    true,               // Write all tags
+    false,              // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Lens Data binary array - definition
 constexpr ArrayDef nikonLdDef[] = {
-    {0, ttUndefined, 4}  // Version
+    {0, ttUndefined, 4},  // Version
 };
 //! Nikon Lens Data binary array - definition
 constexpr ArrayDef nikonLd4Def[] = {
@@ -640,7 +727,7 @@ constexpr ArrayDef nikonLd4Def[] = {
     {48, ttUnsignedShort, 1},  // LensID
     {54, ttUnsignedShort, 1},  // MacAperture
     {56, ttUnsignedShort, 1},  // FNumber
-    {60, ttUnsignedShort, 1}   // FocalLength
+    {60, ttUnsignedShort, 1},  // FocalLength
 };
 //! Nikon Lens Data configurations and definitions
 constexpr ArraySet nikonLdSet[] = {
@@ -651,92 +738,104 @@ constexpr ArraySet nikonLdSet[] = {
 };
 
 //! Nikon Color Balance binary array - configuration 1
-constexpr ArrayCfg nikonCb1Cfg = {IfdId::nikonCb1Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Encryption function
-                                  false,              // No size element
-                                  false,              // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg nikonCb1Cfg = {
+    IfdId::nikonCb1Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Encryption function
+    false,              // No size element
+    false,              // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Nikon Color Balance binary array - configuration 2
-constexpr ArrayCfg nikonCb2Cfg = {IfdId::nikonCb2Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  false,              // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg nikonCb2Cfg = {
+    IfdId::nikonCb2Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    false,              // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Nikon Color Balance binary array - configuration 2a
-constexpr ArrayCfg nikonCb2aCfg = {IfdId::nikonCb2aId,  // Group for the elements
-                                   invalidByteOrder,    // Use byte order from parent
-                                   ttUndefined,         // Type for array entry
-                                   nikonCrypt,          // Encryption function
-                                   false,               // No size element
-                                   false,               // Write all tags
-                                   true,                // Concatenate gaps
-                                   {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg nikonCb2aCfg = {
+    IfdId::nikonCb2aId,  // Group for the elements
+    invalidByteOrder,    // Use byte order from parent
+    ttUndefined,         // Type for array entry
+    nikonCrypt,          // Encryption function
+    false,               // No size element
+    false,               // Write all tags
+    true,                // Concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Nikon Color Balance binary array - configuration 2b
-constexpr ArrayCfg nikonCb2bCfg = {IfdId::nikonCb2bId,  // Group for the elements
-                                   invalidByteOrder,    // Use byte order from parent
-                                   ttUndefined,         // Type for array entry
-                                   nikonCrypt,          // Encryption function
-                                   false,               // No size element
-                                   false,               // Write all tags
-                                   true,                // Concatenate gaps
-                                   {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg nikonCb2bCfg = {
+    IfdId::nikonCb2bId,  // Group for the elements
+    invalidByteOrder,    // Use byte order from parent
+    ttUndefined,         // Type for array entry
+    nikonCrypt,          // Encryption function
+    false,               // No size element
+    false,               // Write all tags
+    true,                // Concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Nikon Color Balance binary array - configuration 3
-constexpr ArrayCfg nikonCb3Cfg = {IfdId::nikonCb3Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Encryption function
-                                  false,              // No size element
-                                  false,              // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg nikonCb3Cfg = {
+    IfdId::nikonCb3Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Encryption function
+    false,              // No size element
+    false,              // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Nikon Color Balance binary array - configuration 4
-constexpr ArrayCfg nikonCb4Cfg = {IfdId::nikonCb4Id,  // Group for the elements
-                                  invalidByteOrder,   // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  nikonCrypt,         // Encryption function
-                                  false,              // No size element
-                                  false,              // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg nikonCb4Cfg = {
+    IfdId::nikonCb4Id,  // Group for the elements
+    invalidByteOrder,   // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    nikonCrypt,         // Encryption function
+    false,              // No size element
+    false,              // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Nikon Color Balance binary array - definition 1 (D100)
 constexpr ArrayDef nikonCb1Def[] = {
-    {0, ttUndefined, 4},      // Version
-    {72, ttUnsignedShort, 4}  // Color balance levels
+    {0, ttUndefined, 4},       // Version
+    {72, ttUnsignedShort, 4},  // Color balance levels
 };
 //! Nikon Color Balance binary array - definition 2 (D2H)
 constexpr ArrayDef nikonCb2Def[] = {
-    {0, ttUndefined, 4},      // Version
-    {10, ttUnsignedShort, 4}  // Color balance levels
+    {0, ttUndefined, 4},       // Version
+    {10, ttUnsignedShort, 4},  // Color balance levels
 };
 //! Nikon Color Balance binary array - definition 2a (D50)
 constexpr ArrayDef nikonCb2aDef[] = {
-    {0, ttUndefined, 4},      // Version
-    {18, ttUnsignedShort, 4}  // Color balance levels
+    {0, ttUndefined, 4},       // Version
+    {18, ttUnsignedShort, 4},  // Color balance levels
 };
 //! Nikon Color Balance binary array - definition 2b (D2X=0204,D2Hs=0206,D200=0207,D40=0208)
 constexpr ArrayDef nikonCb2bDef[] = {
     {0, ttUndefined, 4},        // Version
     {4, ttUnsignedShort, 140},  // Unknown
     {284, ttUnsignedShort, 3},  // Unknown (encrypted)
-    {290, ttUnsignedShort, 4}   // Color balance levels
+    {290, ttUnsignedShort, 4},  // Color balance levels
 };
 //! Nikon Color Balance binary array - definition 3 (D70)
 constexpr ArrayDef nikonCb3Def[] = {
-    {0, ttUndefined, 4},      // Version
-    {20, ttUnsignedShort, 4}  // Color balance levels
+    {0, ttUndefined, 4},       // Version
+    {20, ttUnsignedShort, 4},  // Color balance levels
 };
 //! Nikon Color Balance binary array - definition 4 (D3)
 constexpr ArrayDef nikonCb4Def[] = {
     {0, ttUndefined, 4},        // Version
     {4, ttUnsignedShort, 140},  // Unknown
     {284, ttUnsignedShort, 5},  // Unknown (encrypted)
-    {294, ttUnsignedShort, 4}   // Color balance levels
+    {294, ttUnsignedShort, 4},  // Color balance levels
 };
 //! Nikon Color Balance configurations and definitions
 constexpr ArraySet nikonCbSet[] = {
@@ -746,52 +845,60 @@ constexpr ArraySet nikonCbSet[] = {
 };
 
 //! Minolta Camera Settings (old) binary array - configuration
-constexpr ArrayCfg minoCsoCfg = {IfdId::minoltaCsOldId,  // Group for the elements
-                                 bigEndian,              // Big endian
-                                 ttUndefined,            // Type for array entry and size element
-                                 notEncrypted,           // Not encrypted
-                                 false,                  // No size element
-                                 false,                  // No fillers
-                                 false,                  // Don't concatenate gaps
-                                 {0, ttUnsignedLong, 1}};
+constexpr ArrayCfg minoCsoCfg = {
+    IfdId::minoltaCsOldId,  // Group for the elements
+    bigEndian,              // Big endian
+    ttUndefined,            // Type for array entry and size element
+    notEncrypted,           // Not encrypted
+    false,                  // No size element
+    false,                  // No fillers
+    false,                  // Don't concatenate gaps
+    {0, ttUnsignedLong, 1},
+};
 
 //! Minolta Camera Settings (new) binary array - configuration
-constexpr ArrayCfg minoCsnCfg = {IfdId::minoltaCsNewId,  // Group for the elements
-                                 bigEndian,              // Big endian
-                                 ttUndefined,            // Type for array entry and size element
-                                 notEncrypted,           // Not encrypted
-                                 false,                  // No size element
-                                 false,                  // No fillers
-                                 false,                  // Don't concatenate gaps
-                                 {0, ttUnsignedLong, 1}};
+constexpr ArrayCfg minoCsnCfg = {
+    IfdId::minoltaCsNewId,  // Group for the elements
+    bigEndian,              // Big endian
+    ttUndefined,            // Type for array entry and size element
+    notEncrypted,           // Not encrypted
+    false,                  // No size element
+    false,                  // No fillers
+    false,                  // Don't concatenate gaps
+    {0, ttUnsignedLong, 1},
+};
 
 //! Minolta 7D Camera Settings binary array - configuration
-constexpr ArrayCfg minoCs7Cfg = {IfdId::minoltaCs7DId,  // Group for the elements
-                                 bigEndian,             // Big endian
-                                 ttUndefined,           // Type for array entry and size element
-                                 notEncrypted,          // Not encrypted
-                                 false,                 // No size element
-                                 false,                 // No fillers
-                                 false,                 // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg minoCs7Cfg = {
+    IfdId::minoltaCs7DId,  // Group for the elements
+    bigEndian,             // Big endian
+    ttUndefined,           // Type for array entry and size element
+    notEncrypted,          // Not encrypted
+    false,                 // No size element
+    false,                 // No fillers
+    false,                 // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Minolta 7D Camera Settings binary array - definition
 constexpr ArrayDef minoCs7Def[] = {
-    {60, ttSignedShort, 1},  // Exif.MinoltaCs7D.ExposureCompensation
-    {126, ttSignedShort, 1}  // Exif.MinoltaCs7D.ColorTemperature
+    {60, ttSignedShort, 1},   // Exif.MinoltaCs7D.ExposureCompensation
+    {126, ttSignedShort, 1},  // Exif.MinoltaCs7D.ColorTemperature
 };
 
 //! Minolta 5D Camera Settings binary array - configuration
-constexpr ArrayCfg minoCs5Cfg = {IfdId::minoltaCs5DId,  // Group for the elements
-                                 bigEndian,             // Big endian
-                                 ttUndefined,           // Type for array entry and size element
-                                 notEncrypted,          // Not encrypted
-                                 false,                 // No size element
-                                 false,                 // No fillers
-                                 false,                 // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg minoCs5Cfg = {
+    IfdId::minoltaCs5DId,  // Group for the elements
+    bigEndian,             // Big endian
+    ttUndefined,           // Type for array entry and size element
+    notEncrypted,          // Not encrypted
+    false,                 // No size element
+    false,                 // No fillers
+    false,                 // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Minolta 5D Camera Settings binary array - definition
 constexpr ArrayDef minoCs5Def[] = {
-    {146, ttSignedShort, 1}  // Exif.MinoltaCs5D.ColorTemperature
+    {146, ttSignedShort, 1},  // Exif.MinoltaCs5D.ColorTemperature
 };
 
 // Todo: Performance of the handling of Sony Camera Settings can be
@@ -800,37 +907,43 @@ constexpr ArrayDef minoCs5Def[] = {
 //       setting in all four configurations.
 
 //! Sony1 Camera Settings binary array - configuration
-constexpr ArrayCfg sony1CsCfg = {IfdId::sony1CsId,  // Group for the elements
-                                 bigEndian,         // Big endian
-                                 ttUndefined,       // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg sony1CsCfg = {
+    IfdId::sony1CsId,  // Group for the elements
+    bigEndian,         // Big endian
+    ttUndefined,       // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Sony1 Camera Settings 2 binary array - configuration
-constexpr ArrayCfg sony1Cs2Cfg = {IfdId::sony1Cs2Id,  // Group for the elements
-                                  bigEndian,          // Big endian
-                                  ttUndefined,        // Type for array entry and size element
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  false,              // No fillers
-                                  false,              // Don't concatenate gaps
-                                  {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg sony1Cs2Cfg = {
+    IfdId::sony1Cs2Id,  // Group for the elements
+    bigEndian,          // Big endian
+    ttUndefined,        // Type for array entry and size element
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    false,              // No fillers
+    false,              // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 
-constexpr ArrayCfg sony2FpCfg = {IfdId::sony2FpId,  // Group for the elements
-                                 bigEndian,         // Big endian
-                                 ttUnsignedByte,    // Type for array entry and size element
-                                 sonyTagDecipher,   // (uint16_t, const byte*, uint32_t, TiffComponent* const);
-                                 false,             // No size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg sony2FpCfg = {
+    IfdId::sony2FpId,  // Group for the elements
+    bigEndian,         // Big endian
+    ttUnsignedByte,    // Type for array entry and size element
+    sonyTagDecipher,   // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+    false,             // No size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 constexpr ArrayDef sony2FpDef[] = {
     {0x4, ttSignedByte, 1},     // Exif.Sony2Fp.AmbientTemperature
     {0x16, ttUnsignedByte, 1},  // Exif.Sony2Fp.FocusMode
     {0x17, ttUnsignedByte, 1},  // Exif.Sony2Fp.AFAreaMode
-    {0x2d, ttUnsignedByte, 1}   // Exif.Sony2Fp.FocusPosition2
+    {0x2d, ttUnsignedByte, 1},  // Exif.Sony2Fp.FocusPosition2
 };
 
 //! Sony2Fp configurations and definitions
@@ -838,27 +951,31 @@ constexpr ArraySet sony2FpSet[] = {
     {sony2FpCfg, sony2FpDef, std::size(sony2FpDef)},
 };
 
-constexpr ArrayCfg sonyMisc1Cfg = {IfdId::sonyMisc1Id,  // Group for the elements
-                                   bigEndian,           // Big endian
-                                   ttUnsignedByte,      // Type for array entry and size element
-                                   sonyTagDecipher,     // (uint16_t, const byte*, uint32_t, TiffComponent* const);
-                                   false,               // No size element
-                                   false,               // No fillers
-                                   false,               // Don't concatenate gaps
-                                   {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg sonyMisc1Cfg = {
+    IfdId::sonyMisc1Id,  // Group for the elements
+    bigEndian,           // Big endian
+    ttUnsignedByte,      // Type for array entry and size element
+    sonyTagDecipher,     // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+    false,               // No size element
+    false,               // No fillers
+    false,               // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 
 constexpr ArrayDef sonyMisc1Def[] = {
     {0x05, ttSignedByte, 1},  // Exif.SonyMisc1.CameraTemperature
 };
 
-constexpr ArrayCfg sonyMisc2bCfg = {IfdId::sonyMisc2bId,  // Group for the elements
-                                    littleEndian,         // Little endian
-                                    ttUnsignedByte,       // Type for array entry and size element
-                                    sonyTagDecipher,      // (uint16_t, const byte*, uint32_t, TiffComponent* const);
-                                    false,                // No size element
-                                    false,                // No fillers
-                                    false,                // Don't concatenate gaps
-                                    {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg sonyMisc2bCfg = {
+    IfdId::sonyMisc2bId,  // Group for the elements
+    littleEndian,         // Little endian
+    ttUnsignedByte,       // Type for array entry and size element
+    sonyTagDecipher,      // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+    false,                // No size element
+    false,                // No fillers
+    false,                // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 
 constexpr ArrayDef sonyMisc2bDef[] = {
     {12, ttUnsignedByte, 1},   // Exif.SonyMisc2b.ExposureProgram
@@ -872,14 +989,16 @@ constexpr ArraySet sonyMisc2bSet[] = {
     {sonyMisc2bCfg, sonyMisc2bDef, std::size(sonyMisc2bDef)},
 };
 
-constexpr ArrayCfg sonyMisc3cCfg = {IfdId::sonyMisc3cId,  // Group for the elements
-                                    littleEndian,         // Little endian
-                                    ttUnsignedByte,       // Type for array entry and size element
-                                    sonyTagDecipher,      // (uint16_t, const byte*, uint32_t, TiffComponent* const);
-                                    false,                // No size element
-                                    false,                // No fillers
-                                    false,                // Don't concatenate gaps
-                                    {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg sonyMisc3cCfg = {
+    IfdId::sonyMisc3cId,  // Group for the elements
+    littleEndian,         // Little endian
+    ttUnsignedByte,       // Type for array entry and size element
+    sonyTagDecipher,      // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+    false,                // No size element
+    false,                // No fillers
+    false,                // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 
 constexpr ArrayDef sonyMisc3cDef[] = {
     {0x09, ttUnsignedByte, 1},   // Exif.SonyMisc3c.ReleaseMode2
@@ -899,14 +1018,16 @@ constexpr ArraySet sonyMisc3cSet[] = {
     {sonyMisc3cCfg, sonyMisc3cDef, std::size(sonyMisc3cDef)},
 };
 
-constexpr ArrayCfg sonySInfo1Cfg = {IfdId::sonySInfo1Id,  // Group for the elements
-                                    littleEndian,         // Little endian
-                                    ttUnsignedByte,       // Type for array entry and size element
-                                    notEncrypted,         // (uint16_t, const byte*, uint32_t, TiffComponent* const);
-                                    false,                // No size element
-                                    false,                // No fillers
-                                    false,                // Don't concatenate gaps
-                                    {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg sonySInfo1Cfg = {
+    IfdId::sonySInfo1Id,  // Group for the elements
+    littleEndian,         // Little endian
+    ttUnsignedByte,       // Type for array entry and size element
+    notEncrypted,         // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+    false,                // No size element
+    false,                // No fillers
+    false,                // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 constexpr ArrayDef sonySInfo1Def[] = {
     {6, ttAsciiString, 20},    // Exif.SonySInfo1.SonyDateTime
     {26, ttUnsignedShort, 1},  // Exif.SonySInfo1.SonyImageHeight
@@ -916,14 +1037,16 @@ constexpr ArrayDef sonySInfo1Def[] = {
                                //
 };
 
-constexpr ArrayCfg sony2010eCfg = {IfdId::sony2010eId,  // Group for the elements
-                                   invalidByteOrder,    // inherit from file.  Usually littleEndian
-                                   ttUnsignedByte,      // Type for array entry and size element
-                                   sonyTagDecipher,     // (uint16_t, const byte*, uint32_t, TiffComponent* const);
-                                   false,               // No size element
-                                   false,               // No fillers
-                                   false,               // Don't concatenate gaps
-                                   {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg sony2010eCfg = {
+    IfdId::sony2010eId,  // Group for the elements
+    invalidByteOrder,    // inherit from file.  Usually littleEndian
+    ttUnsignedByte,      // Type for array entry and size element
+    sonyTagDecipher,     // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+    false,               // No size element
+    false,               // No fillers
+    false,               // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 constexpr ArrayDef sony2010eDef[] = {
     {0, ttUnsignedLong, 1},      // Exif.Sony2010. SequenceImageNumber
     {4, ttUnsignedLong, 1},      // Exif.Sony2010. SequenceFileNumber
@@ -960,7 +1083,7 @@ constexpr ArrayDef sony2010eDef[] = {
     {6291, ttUnsignedShort, 1},  // Exif.Sony2010. LensType2
     {6294, ttUnsignedShort, 1},  // Exif.Sony2010. LensType
     {6296, ttUnsignedByte, 1},   // Exif.Sony2010. DistortionCorrParamsPresent
-    {6297, ttUnsignedByte, 1}    // Exif.Sony2010. DistortionCorrParamsNumber
+    {6297, ttUnsignedByte, 1},   // Exif.Sony2010. DistortionCorrParamsNumber
 };
 
 //! Sony1 Camera Settings configurations and definitions
@@ -970,29 +1093,33 @@ constexpr ArraySet sony2010eSet[] = {
 
 //! Sony[12] Camera Settings binary array - definition
 constexpr ArrayDef sonyCsDef[] = {
-    {12, ttSignedShort, 1}  // Exif.Sony[12]Cs.WhiteBalanceFineTune
+    {12, ttSignedShort, 1},  // Exif.Sony[12]Cs.WhiteBalanceFineTune
 };
 //! Sony2 Camera Settings binary array - configuration
-constexpr ArrayCfg sony2CsCfg = {IfdId::sony2CsId,  // Group for the elements
-                                 bigEndian,         // Big endian
-                                 ttUndefined,       // Type for array entry and size element
-                                 notEncrypted,      // Not encrypted
-                                 false,             // No size element
-                                 false,             // No fillers
-                                 false,             // Don't concatenate gaps
-                                 {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg sony2CsCfg = {
+    IfdId::sony2CsId,  // Group for the elements
+    bigEndian,         // Big endian
+    ttUndefined,       // Type for array entry and size element
+    notEncrypted,      // Not encrypted
+    false,             // No size element
+    false,             // No fillers
+    false,             // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Sony2 Camera Settings 2 binary array - configuration
-constexpr ArrayCfg sony2Cs2Cfg = {IfdId::sony2Cs2Id,  // Group for the elements
-                                  bigEndian,          // Big endian
-                                  ttUndefined,        // Type for array entry and size element
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  false,              // No fillers
-                                  false,              // Don't concatenate gaps
-                                  {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg sony2Cs2Cfg = {
+    IfdId::sony2Cs2Id,  // Group for the elements
+    bigEndian,          // Big endian
+    ttUndefined,        // Type for array entry and size element
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    false,              // No fillers
+    false,              // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Sony[12] Camera Settings 2 binary array - definition
 constexpr ArrayDef sonyCs2Def[] = {
-    {44, ttUnsignedShort, 1}  // Exif.Sony[12]Cs2.FocusMode
+    {44, ttUnsignedShort, 1},  // Exif.Sony[12]Cs2.FocusMode
 };
 //! Sony1 Camera Settings configurations and definitions
 constexpr ArraySet sony1CsSet[] = {
@@ -1006,67 +1133,77 @@ constexpr ArraySet sony2CsSet[] = {
 };
 
 //! Sony Minolta Camera Settings (old) binary array - configuration
-constexpr ArrayCfg sony1MCsoCfg = {IfdId::sony1MltCsOldId,  // Group for the elements
-                                   bigEndian,               // Big endian
-                                   ttUndefined,             // Type for array entry and size element
-                                   notEncrypted,            // Not encrypted
-                                   false,                   // No size element
-                                   false,                   // No fillers
-                                   false,                   // Don't concatenate gaps
-                                   {0, ttUnsignedLong, 1}};
+constexpr ArrayCfg sony1MCsoCfg = {
+    IfdId::sony1MltCsOldId,  // Group for the elements
+    bigEndian,               // Big endian
+    ttUndefined,             // Type for array entry and size element
+    notEncrypted,            // Not encrypted
+    false,                   // No size element
+    false,                   // No fillers
+    false,                   // Don't concatenate gaps
+    {0, ttUnsignedLong, 1},
+};
 
 //! Sony Minolta Camera Settings (new) binary array - configuration
-constexpr ArrayCfg sony1MCsnCfg = {IfdId::sony1MltCsNewId,  // Group for the elements
-                                   bigEndian,               // Big endian
-                                   ttUndefined,             // Type for array entry and size element
-                                   notEncrypted,            // Not encrypted
-                                   false,                   // No size element
-                                   false,                   // No fillers
-                                   false,                   // Don't concatenate gaps
-                                   {0, ttUnsignedLong, 1}};
+constexpr ArrayCfg sony1MCsnCfg = {
+    IfdId::sony1MltCsNewId,  // Group for the elements
+    bigEndian,               // Big endian
+    ttUndefined,             // Type for array entry and size element
+    notEncrypted,            // Not encrypted
+    false,                   // No size element
+    false,                   // No fillers
+    false,                   // Don't concatenate gaps
+    {0, ttUnsignedLong, 1},
+};
 
 //! Sony Minolta 7D Camera Settings binary array - configuration
-constexpr ArrayCfg sony1MCs7Cfg = {IfdId::sony1MltCs7DId,  // Group for the elements
-                                   bigEndian,              // Big endian
-                                   ttUndefined,            // Type for array entry and size element
-                                   notEncrypted,           // Not encrypted
-                                   false,                  // No size element
-                                   false,                  // No fillers
-                                   false,                  // Don't concatenate gaps
-                                   {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg sony1MCs7Cfg = {
+    IfdId::sony1MltCs7DId,  // Group for the elements
+    bigEndian,              // Big endian
+    ttUndefined,            // Type for array entry and size element
+    notEncrypted,           // Not encrypted
+    false,                  // No size element
+    false,                  // No fillers
+    false,                  // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 
 //! Sony Minolta A100 Camera Settings binary array - configuration
-constexpr ArrayCfg sony1MCsA100Cfg = {IfdId::sony1MltCsA100Id,  // Group for the elements
-                                      bigEndian,                // Big endian
-                                      ttUndefined,              // Type for array entry and size element
-                                      notEncrypted,             // Not encrypted
-                                      false,                    // No size element
-                                      false,                    // No fillers
-                                      false,                    // Don't concatenate gaps
-                                      {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg sony1MCsA100Cfg = {
+    IfdId::sony1MltCsA100Id,  // Group for the elements
+    bigEndian,                // Big endian
+    ttUndefined,              // Type for array entry and size element
+    notEncrypted,             // Not encrypted
+    false,                    // No size element
+    false,                    // No fillers
+    false,                    // Don't concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Sony Minolta A100 Camera Settings binary array - definition
 constexpr ArrayDef sony1MCsA100Def[] = {
     {112, ttSignedShort, 1},  // Exif.Sony1MltCsA100.WhiteBalanceFineTune
     {116, ttSignedShort, 1},  // Exif.Sony1MltCsA100.ColorCompensationFilter
-    {190, ttSignedShort, 1}   // Exif.Sony1MltCsA100.ColorCompensationFilter2
+    {190, ttSignedShort, 1},  // Exif.Sony1MltCsA100.ColorCompensationFilter2
 };
 
 //! Samsung PictureWizard binary array - configuration
-constexpr ArrayCfg samsungPwCfg = {IfdId::samsungPwId,  // Group for the elements
-                                   invalidByteOrder,    // Use byte order from parent
-                                   ttUnsignedShort,     // Type for array entry
-                                   notEncrypted,        // Not encrypted
-                                   false,               // No size element
-                                   true,                // Write all tags
-                                   true,                // Concatenate gaps
-                                   {0, ttUnsignedShort, 1}};
+constexpr ArrayCfg samsungPwCfg = {
+    IfdId::samsungPwId,  // Group for the elements
+    invalidByteOrder,    // Use byte order from parent
+    ttUnsignedShort,     // Type for array entry
+    notEncrypted,        // Not encrypted
+    false,               // No size element
+    true,                // Write all tags
+    true,                // Concatenate gaps
+    {0, ttUnsignedShort, 1},
+};
 //! Samsung PictureWizard binary array - definition
 constexpr ArrayDef samsungPwDef[] = {
     {0, ttUnsignedShort, 1},  // Mode
     {2, ttUnsignedShort, 1},  // Color
     {4, ttUnsignedShort, 1},  // Saturation
     {6, ttUnsignedShort, 1},  // Sharpness
-    {8, ttUnsignedShort, 1}   // Contrast
+    {8, ttUnsignedShort, 1},  // Contrast
 };
 
 /*
@@ -1213,7 +1350,8 @@ const TiffTreeStruct TiffCreator::tiffTreeStruct_[] = {
     {Tag::pana, IfdId::ifdIdNotSet, IfdId::ifdIdNotSet, Tag::pana},
     {Tag::pana, IfdId::panaRawId, IfdId::ifdIdNotSet, Tag::pana},
     {Tag::pana, IfdId::exifId, IfdId::panaRawId, 0x8769},
-    {Tag::pana, IfdId::gpsId, IfdId::panaRawId, 0x8825}};
+    {Tag::pana, IfdId::gpsId, IfdId::panaRawId, 0x8825},
+};
 
 /*
   This table describes the layout of each known TIFF group (including
@@ -1771,7 +1909,8 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     // -----------------------------------------------------------------------
     // Tags which are not de/encoded
     {{Tag::next, IfdId::ignoreId}, ignoreTiffComponent},
-    {{Tag::all, IfdId::ignoreId}, newTiffEntry}};
+    {{Tag::all, IfdId::ignoreId}, newTiffEntry},
+};
 
 // TIFF mapping table for special decoding and encoding requirements
 const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
