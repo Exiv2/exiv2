@@ -1968,8 +1968,8 @@ void TiffCreator::getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group,
     tiffPath.push(TiffPathItem(extendedTag, group));
     const auto ts = tiffTreeTable_.find(TiffGroupKey(root, group));
     assert(ts != tiffTreeTable_.end());
-    extendedTag = ts->second.parentExtTag_;
-    group = ts->second.parentGroup_;
+    extendedTag = ts->second.second;
+    group = ts->second.first;
     if (ts->first == TiffGroupKey(root, IfdId::ifdIdNotSet)) {
       break;
     }
