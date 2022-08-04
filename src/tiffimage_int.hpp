@@ -153,12 +153,8 @@ using TiffGroupTable = std::unordered_map<TiffGroupKey, NewTiffCompFct, TiffGrou
          use standard TIFF layout.
 */
 struct TiffTreeStruct {
-  const IfdId parentGroup_;      //!< Parent group
-  const uint32_t parentExtTag_;  //!< Parent tag (32 bit so that it can contain special tags)
-
- public:
-  TiffTreeStruct(IfdId parentGroup, uint32_t parentExtTag) : parentGroup_(parentGroup), parentExtTag_(parentExtTag) {
-  }
+  IfdId parentGroup_;      //!< Parent group
+  uint32_t parentExtTag_;  //!< Parent tag (32 bit so that it can contain special tags)
 };
 
 using TiffTreeTable = std::unordered_map<TiffGroupKey, TiffTreeStruct, TiffGroupKey_hash>;
