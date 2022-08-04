@@ -152,12 +152,8 @@ using TiffGroupTable = std::unordered_map<TiffGroupKey, NewTiffCompFct, TiffGrou
          Multiple trees are needed as TIFF-based RAW image formats do not always
          use standard TIFF layout.
 */
-struct TiffTreeStruct {
-  IfdId parentGroup_;      //!< Parent group
-  uint32_t parentExtTag_;  //!< Parent tag (32 bit so that it can contain special tags)
-};
-
-using TiffTreeTable = std::unordered_map<TiffGroupKey, TiffTreeStruct, TiffGroupKey_hash>;
+using TiffTreeParent = std::pair<IfdId, uint32_t>;  // Parent group, parent tag
+using TiffTreeTable = std::unordered_map<TiffGroupKey, TiffTreeParent, TiffGroupKey_hash>;
 
 /*!
   @brief TIFF component factory.
