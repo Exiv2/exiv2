@@ -480,7 +480,7 @@ class CiffHeader {
 
  private:
   // DATA
-  static const char signature_[];  //!< Canon CRW signature "HEAPCCDR"
+  static constexpr auto signature_ = "HEAPCCDR";  //!< Canon CRW signature
 
   std::unique_ptr<CiffDirectory> pRootDir_;  //!< Pointer to the root directory
   ByteOrder byteOrder_ = littleEndian;       //!< Applicable byte order
