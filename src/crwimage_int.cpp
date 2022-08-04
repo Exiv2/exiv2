@@ -127,8 +127,6 @@ const CrwSubDir CrwMap::crwSubDir_[] = {
     {0x2807, 0x300a}, {0x2804, 0x300a}, {0x300a, 0x0000}, {0x0000, 0xffff},
 };
 
-const char CiffHeader::signature_[] = "HEAPCCDR";
-
 CiffDirectory::~CiffDirectory() {
   for (auto&& component : components_) {
     delete component;
