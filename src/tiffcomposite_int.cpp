@@ -10,6 +10,7 @@
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
+#include "utils.hpp"
 #include "value.hpp"
 
 #include <iostream>
@@ -24,8 +25,8 @@ uint32_t fillGap(Exiv2::Internal::IoWrapper& ioWrapper, uint32_t curr, uint32_t 
 // class member definitions
 namespace Exiv2::Internal {
 bool TiffMappingInfo::operator==(const TiffMappingInfo::Key& key) const {
-  return (0 == strcmp("*", make_) || key.m_ == make_) && (Tag::all == extendedTag_ || key.e_ == extendedTag_) &&
-         key.g_ == group_;
+  return (0 == strcmp("*", make_) || startsWith(key.m_, make_)) &&
+         (Tag::all == extendedTag_ || key.e_ == extendedTag_) && key.g_ == group_;
 }
 
 IoWrapper::IoWrapper(BasicIo& io, const byte* pHeader, size_t size, OffsetWriter* pow) :
