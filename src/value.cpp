@@ -651,7 +651,7 @@ int LangAltValue::read(const std::string& buf) {
   std::string b = buf;
   std::string lang = "x-default";
   if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
-    static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static constexpr auto ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     const std::string::size_type pos = buf.find_first_of(' ');
     if (pos == std::string::npos) {
@@ -677,7 +677,7 @@ int LangAltValue::read(const std::string& buf) {
     // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
     std::string::size_type charPos = lang.find_first_not_of(ALPHA);
     if (charPos != std::string::npos) {
-      static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      static constexpr auto ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos + 1) != std::string::npos)
         throw Error(ErrorCode::kerInvalidLangAltValue, buf);
     }
