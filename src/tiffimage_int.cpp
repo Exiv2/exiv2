@@ -2183,81 +2183,78 @@ bool TiffHeaderBase::isImageTag(uint16_t /*tag*/, IfdId /*group*/, const Primary
 static bool isTiffImageTagLookup(uint16_t tag, IfdId group) {
   if (group != IfdId::ifd0Id) {
     return false;
-  } else {
-    //! List of TIFF image tags
-    switch (tag) {
-      case 0x00fe:  // Exif.Image.NewSubfileType
-      case 0x00ff:  // Exif.Image.SubfileType
-      case 0x0100:  // Exif.Image.ImageWidth
-      case 0x0101:  // Exif.Image.ImageLength
-      case 0x0102:  // Exif.Image.BitsPerSample
-      case 0x0103:  // Exif.Image.Compression
-      case 0x0106:  // Exif.Image.PhotometricInterpretation
-      case 0x010a:  // Exif.Image.FillOrder
-      case 0x0111:  // Exif.Image.StripOffsets
-      case 0x0115:  // Exif.Image.SamplesPerPixel
-      case 0x0116:  // Exif.Image.RowsPerStrip
-      case 0x0117:  // Exif.Image.StripByteCounts
-      case 0x011a:  // Exif.Image.XResolution
-      case 0x011b:  // Exif.Image.YResolution
-      case 0x011c:  // Exif.Image.PlanarConfiguration
-      case 0x0122:  // Exif.Image.GrayResponseUnit
-      case 0x0123:  // Exif.Image.GrayResponseCurve
-      case 0x0124:  // Exif.Image.T4Options
-      case 0x0125:  // Exif.Image.T6Options
-      case 0x0128:  // Exif.Image.ResolutionUnit
-      case 0x0129:  // Exif.Image.PageNumber
-      case 0x012d:  // Exif.Image.TransferFunction
-      case 0x013d:  // Exif.Image.Predictor
-      case 0x013e:  // Exif.Image.WhitePoint
-      case 0x013f:  // Exif.Image.PrimaryChromaticities
-      case 0x0140:  // Exif.Image.ColorMap
-      case 0x0141:  // Exif.Image.HalftoneHints
-      case 0x0142:  // Exif.Image.TileWidth
-      case 0x0143:  // Exif.Image.TileLength
-      case 0x0144:  // Exif.Image.TileOffsets
-      case 0x0145:  // Exif.Image.TileByteCounts
-      case 0x014c:  // Exif.Image.InkSet
-      case 0x014d:  // Exif.Image.InkNames
-      case 0x014e:  // Exif.Image.NumberOfInks
-      case 0x0150:  // Exif.Image.DotRange
-      case 0x0151:  // Exif.Image.TargetPrinter
-      case 0x0152:  // Exif.Image.ExtraSamples
-      case 0x0153:  // Exif.Image.SampleFormat
-      case 0x0154:  // Exif.Image.SMinSampleValue
-      case 0x0155:  // Exif.Image.SMaxSampleValue
-      case 0x0156:  // Exif.Image.TransferRange
-      case 0x0157:  // Exif.Image.ClipPath
-      case 0x0158:  // Exif.Image.XClipPathUnits
-      case 0x0159:  // Exif.Image.YClipPathUnits
-      case 0x015a:  // Exif.Image.Indexed
-      case 0x015b:  // Exif.Image.JPEGTables
-      case 0x0200:  // Exif.Image.JPEGProc
-      case 0x0201:  // Exif.Image.JPEGInterchangeFormat
-      case 0x0202:  // Exif.Image.JPEGInterchangeFormatLength
-      case 0x0203:  // Exif.Image.JPEGRestartInterval
-      case 0x0205:  // Exif.Image.JPEGLosslessPredictors
-      case 0x0206:  // Exif.Image.JPEGPointTransforms
-      case 0x0207:  // Exif.Image.JPEGQTables
-      case 0x0208:  // Exif.Image.JPEGDCTables
-      case 0x0209:  // Exif.Image.JPEGACTables
-      case 0x0211:  // Exif.Image.YCbCrCoefficients
-      case 0x0212:  // Exif.Image.YCbCrSubSampling
-      case 0x0213:  // Exif.Image.YCbCrPositioning
-      case 0x0214:  // Exif.Image.ReferenceBlackWhite
-      case 0x828d:  // Exif.Image.CFARepeatPatternDim
-      case 0x828e:  // Exif.Image.CFAPattern
-#if 0
-    case 0x8773:  // Exif.Image.InterColorProfile
-#endif
-      case 0x8824:  // Exif.Image.SpectralSensitivity
-      case 0x8828:  // Exif.Image.OECF
-      case 0x9102:  // Exif.Image.CompressedBitsPerPixel
-      case 0x9217:  // Exif.Image.SensingMethod
-        return true;
-      default:
-        return false;
-    }
+  }
+  //! List of TIFF image tags
+  switch (tag) {
+    case 0x00fe:  // Exif.Image.NewSubfileType
+    case 0x00ff:  // Exif.Image.SubfileType
+    case 0x0100:  // Exif.Image.ImageWidth
+    case 0x0101:  // Exif.Image.ImageLength
+    case 0x0102:  // Exif.Image.BitsPerSample
+    case 0x0103:  // Exif.Image.Compression
+    case 0x0106:  // Exif.Image.PhotometricInterpretation
+    case 0x010a:  // Exif.Image.FillOrder
+    case 0x0111:  // Exif.Image.StripOffsets
+    case 0x0115:  // Exif.Image.SamplesPerPixel
+    case 0x0116:  // Exif.Image.RowsPerStrip
+    case 0x0117:  // Exif.Image.StripByteCounts
+    case 0x011a:  // Exif.Image.XResolution
+    case 0x011b:  // Exif.Image.YResolution
+    case 0x011c:  // Exif.Image.PlanarConfiguration
+    case 0x0122:  // Exif.Image.GrayResponseUnit
+    case 0x0123:  // Exif.Image.GrayResponseCurve
+    case 0x0124:  // Exif.Image.T4Options
+    case 0x0125:  // Exif.Image.T6Options
+    case 0x0128:  // Exif.Image.ResolutionUnit
+    case 0x0129:  // Exif.Image.PageNumber
+    case 0x012d:  // Exif.Image.TransferFunction
+    case 0x013d:  // Exif.Image.Predictor
+    case 0x013e:  // Exif.Image.WhitePoint
+    case 0x013f:  // Exif.Image.PrimaryChromaticities
+    case 0x0140:  // Exif.Image.ColorMap
+    case 0x0141:  // Exif.Image.HalftoneHints
+    case 0x0142:  // Exif.Image.TileWidth
+    case 0x0143:  // Exif.Image.TileLength
+    case 0x0144:  // Exif.Image.TileOffsets
+    case 0x0145:  // Exif.Image.TileByteCounts
+    case 0x014c:  // Exif.Image.InkSet
+    case 0x014d:  // Exif.Image.InkNames
+    case 0x014e:  // Exif.Image.NumberOfInks
+    case 0x0150:  // Exif.Image.DotRange
+    case 0x0151:  // Exif.Image.TargetPrinter
+    case 0x0152:  // Exif.Image.ExtraSamples
+    case 0x0153:  // Exif.Image.SampleFormat
+    case 0x0154:  // Exif.Image.SMinSampleValue
+    case 0x0155:  // Exif.Image.SMaxSampleValue
+    case 0x0156:  // Exif.Image.TransferRange
+    case 0x0157:  // Exif.Image.ClipPath
+    case 0x0158:  // Exif.Image.XClipPathUnits
+    case 0x0159:  // Exif.Image.YClipPathUnits
+    case 0x015a:  // Exif.Image.Indexed
+    case 0x015b:  // Exif.Image.JPEGTables
+    case 0x0200:  // Exif.Image.JPEGProc
+    case 0x0201:  // Exif.Image.JPEGInterchangeFormat
+    case 0x0202:  // Exif.Image.JPEGInterchangeFormatLength
+    case 0x0203:  // Exif.Image.JPEGRestartInterval
+    case 0x0205:  // Exif.Image.JPEGLosslessPredictors
+    case 0x0206:  // Exif.Image.JPEGPointTransforms
+    case 0x0207:  // Exif.Image.JPEGQTables
+    case 0x0208:  // Exif.Image.JPEGDCTables
+    case 0x0209:  // Exif.Image.JPEGACTables
+    case 0x0211:  // Exif.Image.YCbCrCoefficients
+    case 0x0212:  // Exif.Image.YCbCrSubSampling
+    case 0x0213:  // Exif.Image.YCbCrPositioning
+    case 0x0214:  // Exif.Image.ReferenceBlackWhite
+    case 0x828d:  // Exif.Image.CFARepeatPatternDim
+    case 0x828e:  // Exif.Image.CFAPattern
+    // case 0x8773:  // Exif.Image.InterColorProfile
+    case 0x8824:  // Exif.Image.SpectralSensitivity
+    case 0x8828:  // Exif.Image.OECF
+    case 0x9102:  // Exif.Image.CompressedBitsPerPixel
+    case 0x9217:  // Exif.Image.SensingMethod
+      return true;
+    default:
+      return false;
   }
 }
 
