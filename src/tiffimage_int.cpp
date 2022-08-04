@@ -1965,7 +1965,7 @@ TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag, IfdId group) 
 
 void TiffCreator::getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group, uint32_t root) {
   while (true) {
-    tiffPath.push(TiffPathItem(extendedTag, group));
+    tiffPath.emplace(extendedTag, group);
     const auto ts = tiffTreeTable_.find(TiffGroupKey(root, group));
     assert(ts != tiffTreeTable_.end());
     extendedTag = ts->second.second;
