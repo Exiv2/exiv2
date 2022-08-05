@@ -306,11 +306,8 @@ const char* IptcData::detectCharset() const {
   auto pos = findKey(IptcKey("Iptc.Envelope.CharacterSet"));
   if (pos != end()) {
     const std::string value = pos->toString();
-    if (pos->value().ok()) {
-      if (value == "\033%G")
-        return "UTF-8";
-      // other values are probably not practically relevant
-    }
+    if (pos->value().ok() && value == "\033%G")
+      return "UTF-8";
   }
 
   bool ascii = true;
@@ -320,7 +317,7 @@ const char* IptcData::detectCharset() const {
     std::string value = pos->toString();
     if (pos->value().ok()) {
       int seqCount = 0;
-      for (auto&& c : value) {
+      for (auto c : value) {
         if (seqCount) {
           if ((c & 0xc0) != 0x80) {
             utf8 = false;

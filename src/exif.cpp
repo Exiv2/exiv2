@@ -188,7 +188,7 @@ std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) cons
     // cause a std::out_of_range exception to be thrown.
     try {
       fct(os, value(), pMetadata);
-    } catch (std::out_of_range&) {
+    } catch (const std::out_of_range&) {
       os << "Bad value";
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << "Caught std::out_of_range exception in Exifdatum::write().\n";

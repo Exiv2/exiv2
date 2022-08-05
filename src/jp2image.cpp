@@ -802,12 +802,10 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
           }
         }
 
-        if (!writeXmpFromPacket()) {
-          if (XmpParser::encode(xmpPacket_, xmpData_) > 1) {
+        if (!writeXmpFromPacket() && XmpParser::encode(xmpPacket_, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
-            EXV_ERROR << "Failed to encode XMP metadata." << std::endl;
+          EXV_ERROR << "Failed to encode XMP metadata." << std::endl;
 #endif
-          }
         }
         if (!xmpPacket_.empty()) {
           // Update Xmp data to a new UUID box

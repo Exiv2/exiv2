@@ -395,13 +395,11 @@ void FileIo::transfer(BasicIo& src) {
         EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::stat") << "\n";
 #endif
       }
-      if (statOk && origStMode != buf2.st_mode) {
-        // Set original file permissions
-        if (::chmod(pf, origStMode) == -1) {
+      // Set original file permissions
+      if (statOk && origStMode != buf2.st_mode && ::chmod(pf, origStMode) == -1) {
 #ifndef SUPPRESS_WARNINGS
-          EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::chmod") << "\n";
+        EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::chmod") << "\n";
 #endif
-        }
       }
     }
   }  // if (fileIo)
@@ -1316,7 +1314,7 @@ byte* RemoteIo::mmap(bool /*isWriteable*/) {
     size_t blocks = (p_->size_ + blockSize - 1) / blockSize;
     bigBlock_ = new byte[blocks * blockSize];
     for (size_t block = 0; block < blocks; block++) {
-      void* p = p_->blocksMap_[block].getData();
+      auto p = p_->blocksMap_[block].getData();
       if (p) {
         size_t nRead = block == (blocks - 1) ? p_->size_ - nRealData : blockSize;
         memcpy(bigBlock_ + (block * blockSize), p, nRead);

@@ -1188,14 +1188,10 @@ std::ostream& OlympusMakerNote::print0x1015(std::ostream& os, const Value& value
     auto l0 = value.toInt64(0);
     auto l1 = value.toInt64(1);
     if (l0 == 1) {
-      switch (l1) {
-        case 0:
-          os << _("Auto");
-          break;
-        default:
-          os << _("Auto") << " (" << l1 << ")";
-          break;
-      }
+      if (l1 == 0)
+        os << _("Auto");
+      else
+        os << _("Auto") << " (" << l1 << ")";
     } else if (l0 == 2) {
       switch (l1) {
         case 2:
@@ -1224,17 +1220,12 @@ std::ostream& OlympusMakerNote::print0x1015(std::ostream& os, const Value& value
           break;
       }
     } else if (l0 == 3) {
-      switch (l1) {
-        case 0:
-          os << _("One-touch");
-          break;
-        default:
-          os << value;
-          break;
-      }
-    } else {
+      if (l1 == 0)
+        os << _("One-touch");
+      else
+        os << value;
+    } else
       return os << value;
-    }
   } else {
     return os << value;
   }
@@ -1380,7 +1371,7 @@ std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, const Value& value
   auto v2 = static_cast<byte>(value.toInt64(2));
   auto v3 = static_cast<byte>(value.toInt64(3));
 
-  for (auto&& type : lensTypes) {
+  for (const auto& type : lensTypes) {
     if (type.val[0] == v0 && type.val[1] == v2 && type.val[2] == v3) {
       return os << type.label;
     }
@@ -1423,7 +1414,7 @@ std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& val
   auto v0 = static_cast<byte>(value.toInt64(0));
   auto v2 = static_cast<byte>(value.toInt64(2));
 
-  for (auto&& model : extenderModels) {
+  for (const auto& model : extenderModels) {
     if (model.val[0] == v0 && model.val[1] == v2) {
       return os << model.label;
     }

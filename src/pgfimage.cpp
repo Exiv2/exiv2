@@ -51,17 +51,15 @@ static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
 
 PgfImage::PgfImage(BasicIo::UniquePtr io, bool create) :
     Image(ImageType::pgf, mdExif | mdIptc | mdXmp | mdComment, std::move(io)), bSwap_(isBigEndianPlatform()) {
-  if (create) {
-    if (io_->open() == 0) {
+  if (create && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
+    std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
 #endif
-      IoCloser closer(*io_);
-      if (io_->write(pgfBlank, sizeof(pgfBlank)) != sizeof(pgfBlank)) {
+    IoCloser closer(*io_);
+    if (io_->write(pgfBlank, sizeof(pgfBlank)) != sizeof(pgfBlank)) {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cerr << "Exiv2::PgfImage:: Failed to create PGF image on memory\n";
+      std::cerr << "Exiv2::PgfImage:: Failed to create PGF image on memory\n";
 #endif
-      }
     }
   }
 }  // PgfImage::PgfImage

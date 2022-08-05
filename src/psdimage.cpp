@@ -584,7 +584,7 @@ uint32_t PsdImage::writeExifData(const ExifData& exifData, BasicIo& out) {
   uint32_t resLength = 0;
   byte buf[8];
 
-  if (exifData.count() > 0) {
+  if (!exifData.empty()) {
     Blob blob;
     ByteOrder bo = byteOrder();
     if (bo == invalidByteOrder) {
@@ -634,12 +634,10 @@ uint32_t PsdImage::writeXmpData(const XmpData& xmpData, BasicIo& out) const {
   std::cerr << "writeXmpFromPacket(): " << writeXmpFromPacket() << "\n";
 #endif
   //        writeXmpFromPacket(true);
-  if (!writeXmpFromPacket()) {
-    if (XmpParser::encode(xmpPacket, xmpData) > 1) {
+  if (!writeXmpFromPacket() && XmpParser::encode(xmpPacket, xmpData) > 1) {
 #ifndef SUPPRESS_WARNINGS
-      EXV_ERROR << "Failed to encode XMP metadata.\n";
+    EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
-    }
   }
 
   if (!xmpPacket.empty()) {

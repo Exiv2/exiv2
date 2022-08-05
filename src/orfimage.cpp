@@ -56,12 +56,11 @@ void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, si
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type
-  if (imageType() == ImageType::none)
-    if (!isOrfType(*io_, false)) {
-      if (io_->error() || io_->eof())
-        throw Error(ErrorCode::kerFailedToReadImageData);
-      throw Error(ErrorCode::kerNotAJpeg);
-    }
+  if (imageType() == ImageType::none && !isOrfType(*io_, false)) {
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    throw Error(ErrorCode::kerNotAJpeg);
+  }
 
   io_->seek(0, BasicIo::beg);
 
@@ -95,15 +94,13 @@ void OrfImage::writeMetadata() {
   byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
-  if (io_->open() == 0) {
-    // Ensure that this is the correct image type
-    if (isOrfType(*io_, false)) {
-      pData = io_->mmap(true);
-      size = io_->size();
-      OrfHeader orfHeader;
-      if (0 == orfHeader.read(pData, 8)) {
-        bo = orfHeader.byteOrder();
-      }
+  // Ensure that this is the correct image type
+  if (io_->open() == 0 && isOrfType(*io_, false)) {
+    pData = io_->mmap(true);
+    size = io_->size();
+    OrfHeader orfHeader;
+    if (0 == orfHeader.read(pData, 8)) {
+      bo = orfHeader.byteOrder();
     }
   }
   if (bo == invalidByteOrder) {

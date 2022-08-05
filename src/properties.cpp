@@ -4912,18 +4912,15 @@ XmpNsInfo::Prefix::Prefix(std::string prefix) : prefix_(std::move(prefix)) {
 }
 
 bool XmpNsInfo::operator==(const XmpNsInfo::Ns& ns) const {
-  std::string n(ns_);
-  return n == ns.ns_;
+  return ns_ == ns.ns_;
 }
 
 bool XmpNsInfo::operator==(const XmpNsInfo::Prefix& prefix) const {
-  std::string p(prefix_);
-  return p == prefix.prefix_;
+  return prefix_ == prefix.prefix_;
 }
 
 bool XmpPropertyInfo::operator==(const std::string& name) const {
-  std::string n(name_);
-  return n == name;
+  return name_ == name;
 }
 
 XmpProperties::NsRegistry XmpProperties::nsRegistry_;
@@ -4931,20 +4928,20 @@ std::mutex XmpProperties::mutex_;
 
 /// \todo not used internally. At least we should test it
 const XmpNsInfo* XmpProperties::lookupNsRegistry(const XmpNsInfo::Prefix& prefix) {
-  auto scoped_read_lock = std::scoped_lock(mutex_);
+  auto scopedReadLock = std::scoped_lock(mutex_);
   return lookupNsRegistryUnsafe(prefix);
 }
 
 const XmpNsInfo* XmpProperties::lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix) {
-  for (auto&& ns : nsRegistry_) {
-    if (ns.second == prefix)
-      return &(ns.second);
+  for (const auto& [_, p] : nsRegistry_) {
+    if (p == prefix)
+      return &p;
   }
   return nullptr;
 }
 
 void XmpProperties::registerNs(const std::string& ns, const std::string& prefix) {
-  auto scoped_write_lock = std::scoped_lock(mutex_);
+  auto scopedWriteLock = std::scoped_lock(mutex_);
   std::string ns2 = ns;
   if (ns2.substr(ns2.size() - 1, 1) != "/" && ns2.substr(ns2.size() - 1, 1) != "#")
     ns2 += "/";

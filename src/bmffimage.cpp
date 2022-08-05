@@ -145,11 +145,13 @@ std::string BmffImage::uuidName(Exiv2::DataBuf& uuid) {
   const char* uuidCano = "\x85\xC0\xB6\x87\x82\xF\x11\xE0\x81\x11\xF4\xCE\x46\x2B\x6A\x48";
   const char* uuidXmp = "\xBE\x7A\xCF\xCB\x97\xA9\x42\xE8\x9C\x71\x99\x94\x91\xE3\xAF\xAC";
   const char* uuidCanp = "\xEA\xF4\x2B\x5E\x1C\x98\x4B\x88\xB9\xFB\xB7\xDC\x40\x6E\x4D\x16";
-  const char* result = uuid.cmpBytes(0, uuidCano, 16) == 0   ? "cano"
-                       : uuid.cmpBytes(0, uuidXmp, 16) == 0  ? "xmp"
-                       : uuid.cmpBytes(0, uuidCanp, 16) == 0 ? "canp"
-                                                             : "";
-  return result;
+  if (uuid.cmpBytes(0, uuidCano, 16) == 0)
+    return "cano";
+  if (uuid.cmpBytes(0, uuidXmp, 16) == 0)
+    return "xmp";
+  if (uuid.cmpBytes(0, uuidCanp, 16) == 0)
+    return "canp";
+  return "";
 }
 
 uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintStructureOption option /* = kpsNone */,
@@ -345,9 +347,13 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
           enforce(data.size() - skip >= (version > 2u ? 4u : 2u), Exiv2::ErrorCode::kerCorruptedMetadata);
           enforce(data.size() - skip >= step, Exiv2::ErrorCode::kerCorruptedMetadata);
           uint32_t ID = version > 2 ? data.read_uint32(skip, endian_) : data.read_uint16(skip, endian_);
-          uint32_t offset = step == 14 || step == 16 ? data.read_uint32(skip + step - 8, endian_)
-                            : step == 18             ? data.read_uint32(skip + 4, endian_)
-                                                     : 0;
+          auto offset = [=] {
+            if (step == 14 || step == 16)
+              return data.read_uint32(skip + step - 8, endian_);
+            if (step == 18)
+              return data.read_uint32(skip + 4, endian_);
+            return 0u;
+          }();
 
           uint32_t ldata = data.read_uint32(skip + step - 4, endian_);
           if (bTrace) {
@@ -388,7 +394,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
         uint8_t meth = data.read_uint8(skip + 0);
         uint8_t prec = data.read_uint8(skip + 1);
         uint8_t approx = data.read_uint8(skip + 2);
-        std::string colour_type = std::string(data.c_str(), 4);
+        auto colour_type = std::string(data.c_str(), 4);
         skip += 4;
         if (colour_type == "rICC" || colour_type == "prof") {
           DataBuf profile(data.c_data(skip), data.size() - skip);
@@ -554,14 +560,11 @@ void BmffImage::parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, u
   nativePreview.height_ = data.read_uint16(height_offset, endian_);
   nativePreview.size_ = data.read_uint32(size_offset, endian_);
   nativePreview.filter_ = "";
-  switch (version) {
-    case 0:
-      nativePreview.mimeType_ = "image/jpeg";
-      break;
-    default:
-      nativePreview.mimeType_ = "application/octet-stream";
-      break;
-  }
+  nativePreview.mimeType_ = [version] {
+    if (version == 0)
+      return "image/jpeg";
+    return "application/octet-stream";
+  }();
   nativePreviews_.push_back(nativePreview);
 
   if (bTrace) {
@@ -639,7 +642,7 @@ void BmffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption op
         io_->seek(address, BasicIo::beg);
         address = boxHandler(out, option, file_end, depth);
       }
-    }; break;
+    } break;
   }
 }
 

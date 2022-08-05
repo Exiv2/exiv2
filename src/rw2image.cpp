@@ -66,12 +66,11 @@ void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, si
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type
-  if (imageType() == ImageType::none)
-    if (!isRw2Type(*io_, false)) {
-      if (io_->error() || io_->eof())
-        throw Error(ErrorCode::kerFailedToReadImageData);
-      throw Error(ErrorCode::kerNotAJpeg);
-    }
+  if (imageType() == ImageType::none && !isRw2Type(*io_, false)) {
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    throw Error(ErrorCode::kerNotAJpeg);
+  }
 
   io_->seek(0, BasicIo::beg);
 
@@ -121,7 +120,7 @@ void Rw2Image::readMetadata() {
   ExifData& prevData = image->exifData();
   if (!prevData.empty()) {
     // Filter duplicate tags
-    for (auto&& pos : exifData_) {
+    for (const auto& pos : exifData_) {
       if (pos.ifdId() == IfdId::panaRawId)
         continue;
       auto dup = prevData.findKey(ExifKey(pos.key()));
@@ -176,7 +175,7 @@ void Rw2Image::readMetadata() {
   }
 
   // Add the remaining tags
-  for (auto&& pos : prevData) {
+  for (const auto& pos : prevData) {
     exifData_.add(pos);
   }
 

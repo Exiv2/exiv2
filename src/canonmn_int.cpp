@@ -2582,7 +2582,7 @@ std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifDa
       return os << "Canon EF-S 24mm f/2.8 STM";
     }
   } catch (const std::exception&) {
-  };
+  }
 
   return EXV_PRINT_TAG(canonCsLensType)(os, value, metadata);
 }

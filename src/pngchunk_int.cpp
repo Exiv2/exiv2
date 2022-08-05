@@ -288,23 +288,21 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 
   // We look if an Adobe XMP string exist.
 
-  if (keySize >= 17 && memcmp("XML:com.adobe.xmp", key, 17) == 0 && pImage->xmpData().empty()) {
-    if (!arr.empty()) {
-      std::string& xmpPacket = pImage->xmpPacket();
-      xmpPacket.assign(arr.c_str(), arr.size());
-      std::string::size_type idx = xmpPacket.find_first_of('<');
-      if (idx != std::string::npos && idx > 0) {
+  if (keySize >= 17 && memcmp("XML:com.adobe.xmp", key, 17) == 0 && pImage->xmpData().empty() && !arr.empty()) {
+    std::string& xmpPacket = pImage->xmpPacket();
+    xmpPacket.assign(arr.c_str(), arr.size());
+    std::string::size_type idx = xmpPacket.find_first_of('<');
+    if (idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << "Removing " << idx << " characters "
-                    << "from the beginning of the XMP packet\n";
+      EXV_WARNING << "Removing " << idx << " characters "
+                  << "from the beginning of the XMP packet\n";
 #endif
-        xmpPacket = xmpPacket.substr(idx);
-      }
-      if (XmpParser::decode(pImage->xmpData(), xmpPacket)) {
+      xmpPacket = xmpPacket.substr(idx);
+    }
+    if (XmpParser::decode(pImage->xmpData(), xmpPacket)) {
 #ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << "Failed to decode XMP metadata.\n";
+      EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
-      }
     }
   }
 
@@ -593,8 +591,8 @@ std::string PngChunk::writeRawProfile(const std::string& profileData, const char
   for (std::string::size_type i = 0; i < profileData.size(); ++i) {
     if (i % 36 == 0)
       oss << '\n';
-    oss << hex[((*sp >> 4) & 0x0fU)];
-    oss << hex[((*sp++) & 0x0fU)];
+    oss << hex[*sp >> 4 & 0x0fU];
+    oss << hex[*sp++ & 0x0fU];
   }
   oss << '\n';
   return oss.str();
