@@ -335,7 +335,7 @@ void FileIo::transfer(BasicIo& src) {
     // Check if the file can be written to, if it already exists
     if (open("a+b") != 0) {
       // Remove the (temporary) file
-      fs::remove(fileIo->path().c_str());
+      fs::remove(fileIo->path());
       throw Error(ErrorCode::kerFileOpenFailed, path(), "a+b", strError());
     }
     close();
@@ -366,8 +366,8 @@ void FileIo::transfer(BasicIo& src) {
               pfcn_ReplaceFileA(pf, fileIo->path().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
           if (ret == 0) {
             if (GetLastError() == ERROR_FILE_NOT_FOUND) {
-              fs::rename(fileIo->path().c_str(), pf);
-              fs::remove(fileIo->path().c_str());
+              fs::rename(fileIo->path(), pf);
+              fs::remove(fileIo->path());
             } else {
               throw Error(ErrorCode::kerFileRenameFailed, fileIo->path(), pf, strError());
             }
@@ -376,16 +376,16 @@ void FileIo::transfer(BasicIo& src) {
           if (fileExists(pf) && ::remove(pf) != 0) {
             throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
           }
-          fs::rename(fileIo->path().c_str(), pf);
-          fs::remove(fileIo->path().c_str());
+          fs::rename(fileIo->path(), pf);
+          fs::remove(fileIo->path());
         }
       }
 #else
       if (fileExists(pf) && fs::remove(pf) != 0) {
         throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
       }
-      fs::rename(fileIo->path().c_str(), pf);
-      fs::remove(fileIo->path().c_str());
+      fs::rename(fileIo->path(), pf);
+      fs::remove(fileIo->path());
 #endif
       // Check permissions of new file
       struct stat buf2;
