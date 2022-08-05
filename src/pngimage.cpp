@@ -53,17 +53,15 @@ using namespace Internal;
 
 PngImage::PngImage(BasicIo::UniquePtr io, bool create) :
     Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, std::move(io)) {
-  if (create) {
-    if (io_->open() == 0) {
+  if (create && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Exiv2::PngImage:: Creating PNG image to memory\n";
+    std::cerr << "Exiv2::PngImage:: Creating PNG image to memory\n";
 #endif
-      IoCloser closer(*io_);
-      if (io_->write(pngBlank, sizeof(pngBlank)) != sizeof(pngBlank)) {
+    IoCloser closer(*io_);
+    if (io_->write(pngBlank, sizeof(pngBlank)) != sizeof(pngBlank)) {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cerr << "Exiv2::PngImage:: Failed to create PNG image on memory\n";
+      std::cerr << "Exiv2::PngImage:: Failed to create PNG image on memory\n";
 #endif
-      }
     }
   }
 }
@@ -572,7 +570,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
         }
       }
 
-      if (exifData_.count() > 0) {
+      if (!exifData_.empty()) {
         // Update Exif data to a new PNG chunk
         Blob blob;
         ExifParser::encode(blob, littleEndian, exifData_);
@@ -587,7 +585,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
         }
       }
 
-      if (iptcData_.count() > 0) {
+      if (!iptcData_.empty()) {
         // Update IPTC data to a new PNG chunk
         DataBuf newPsData = Photoshop::setIptcIrb(nullptr, 0, iptcData_);
         if (!newPsData.empty()) {
@@ -630,12 +628,10 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
         }
       }
 
-      if (!writeXmpFromPacket()) {
-        if (XmpParser::encode(xmpPacket_, xmpData_) > 1) {
+      if (!writeXmpFromPacket() && XmpParser::encode(xmpPacket_, xmpData_) > 1) {
 #ifndef SUPPRESS_WARNINGS
-          EXV_ERROR << "Failed to encode XMP metadata.\n";
+        EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
-        }
       }
       if (!xmpPacket_.empty()) {
         // Update XMP data to a new PNG chunk

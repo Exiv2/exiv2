@@ -71,7 +71,7 @@ std::string getExiv2ConfigPath() {
     currentPath = buffer;
   }
 #else
-  struct passwd* pw = getpwuid(getuid());
+  auto pw = getpwuid(getuid());
   currentPath = std::string(pw ? pw->pw_dir : "");
 #endif
   return (currentPath / inifile).string();
@@ -815,9 +815,8 @@ TiffComponent* newSony2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
 
 TiffComponent* newCasioMn(uint16_t tag, IfdId group, IfdId /* mnGroup*/, const byte* pData, size_t size,
                           ByteOrder /* byteOrder */) {
-  if (size > 6 && std::string(reinterpret_cast<const char*>(pData), 6) == std::string("QVC\0\0\0", 6)) {
+  if (size > 6 && std::string(reinterpret_cast<const char*>(pData), 6) == std::string("QVC\0\0\0", 6))
     return newCasio2Mn2(tag, group, IfdId::casio2Id);
-  };
   // Require at least an IFD with 1 entry, but not necessarily a next pointer
   if (size < 14)
     return nullptr;

@@ -550,17 +550,16 @@ std::ostream& PanasonicMakerNote::print0x0033(std::ostream& os, const Value& val
     os << N_("not set");
   } else {
     os << value;
-  };
+  }
   return os;
 }  // PanasonicMakerNote::print0x0033
 
 // Travel days
 std::ostream& PanasonicMakerNote::print0x0036(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.toInt64() == 65535) {
+  if (value.toInt64() == 65535)
     os << N_("not set");
-  } else {
+  else
     os << value;
-  };
   return os;
 }  // PanasonicMakerNote::print0x0036
 
@@ -576,7 +575,7 @@ std::ostream& PanasonicMakerNote::print0x003c(std::ostream& os, const Value& val
     default:
       os << value;
       break;
-  };
+  }
   return os;
 }  // PanasonicMakerNote::print0x003c
 
@@ -596,14 +595,10 @@ std::ostream& PanasonicMakerNote::printPanasonicText(std::ostream& os, const Val
 
 // Manometer Pressure
 std::ostream& PanasonicMakerNote::printPressure(std::ostream& os, const Value& value, const ExifData*) {
-  switch (value.toInt64()) {
-    case 65535:
-      os << N_("infinite");
-      break;
-    default:
-      os << value << N_(" hPa");
-      break;
-  };
+  if (value.toInt64() == 65535)
+    os << N_("infinite");
+  else
+    os << value << N_(" hPa");
   return os;
 }  // PanasonicMakerNote::printPressure
 

@@ -251,7 +251,7 @@ void JpegBase::readMetadata() {
     // Read the beginning of the next segment
     try {
       marker = advanceToMarker(ErrorCode::kerFailedToReadImageData);
-    } catch (Error&) {
+    } catch (const Error&) {
       rc = 5;
       break;
     }
@@ -742,12 +742,11 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           --search;
         }
       }
-      if (!writeXmpFromPacket()) {
-        if (XmpParser::encode(xmpPacket_, xmpData_, XmpParser::useCompactFormat | XmpParser::omitAllFormatting) > 1) {
+      if (!writeXmpFromPacket() &&
+          XmpParser::encode(xmpPacket_, xmpData_, XmpParser::useCompactFormat | XmpParser::omitAllFormatting) > 1) {
 #ifndef SUPPRESS_WARNINGS
-          EXV_ERROR << "Failed to encode XMP metadata.\n";
+        EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
-        }
       }
       if (!xmpPacket_.empty()) {
         std::array<byte, 33> tmpBuf;
