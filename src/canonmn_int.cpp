@@ -1669,9 +1669,9 @@ namespace Exiv2 {
         {   33, "Carl Zeiss Makro-Planar T* 50mm f/2 ZE"                    }, // 12
         {   33, "Carl Zeiss Makro-Planar T* 100mm f/2 ZE"                   }, // 13
         {   33, "Carl Zeiss Apo-Sonnar T* 135mm f/2 ZE"                     }, // 14
-        {   35, "Canon EF 35-80mm f/4-5.6"                                  },
+        {   35, "Canon EF 35-80mm f/4-5.6 II"                               },
         {   36, "Canon EF 38-76mm f/4.5-5.6"                                },
-        {   37, "Canon EF 35-80mm f/4-5.6"                                  },
+        {   37, "Canon EF 35-80mm f/4-5.6 III"                              },
         {   37, "Tamron 70-200mm f/2.8 Di LD IF Macro"                      }, // 1
         {   37, "Tamron AF 28-300mm f/3.5-6.3 XR Di VC LD Aspherical [IF] Macro"}, // 2
         {   37, "Tamron SP AF 17-50mm f/2.8 XR Di II VC LD Aspherical [IF]" }, // 3
