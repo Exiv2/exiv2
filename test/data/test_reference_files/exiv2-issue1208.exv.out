@@ -80,6 +80,7 @@ Exif.NikonIi.ISOExpansion2                   Short       1  0  Off
 Exif.Nikon3.VignetteControl                  Short       1  0  Off
 Exif.Nikon3.ShutterMode                      Short       1  0  Mechanical
 Exif.Nikon3.MechanicalShutterCount           Long        1  43750  43750
+Exif.Nikon3.WhiteBalanceBias2                SRational   2  0/4 0/4  0/4 0/4
 Exif.Nikon3.LensType                         Byte        1  70  D G 
 Exif.Nikon3.Lens                             Rational    4  850/10 850/10 14/10 14/10  85mm F1.4
 Exif.Nikon3.FlashMode                        Byte        1  7  Fire, external

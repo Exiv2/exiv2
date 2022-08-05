@@ -117,6 +117,7 @@ Exif.Nikon3.SerialNumber                     Ascii       8  4463736  4463736
 Exif.Nikon3.ColorSpace                       Short       1  2  Adobe RGB
 Exif.Nikon3.ActiveDLighting                  Short       1  0  Off
 Exif.Nikon3.VignetteControl                  Short       1  0  Off
+Exif.Nikon3.WhiteBalanceBias2                SRational   2  0/4 0/4  0/4 0/4
 Exif.Nikon3.LensType                         Byte        1  78  D G VR
 Exif.Nikon3.Lens                             Rational    4  1500/10 6000/10 50/10 63/10  150-600mm F5-6.3
 Exif.Nikon3.FlashMode                        Byte        1  0  Did not fire

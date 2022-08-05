@@ -76,6 +76,7 @@ Exif.NikonIi.ISOExpansion                    Short       1  0  Off
 Exif.NikonIi.ISO2                            Byte        1  60  100
 Exif.NikonIi.ISOExpansion2                   Short       1  0  Off
 Exif.Nikon3.VignetteControl                  Short       1  0  Off
+Exif.Nikon3.WhiteBalanceBias2                SRational   2  0/4 0/4  0/4 0/4
 Exif.Nikon3.LensType                         Byte        1  6  D G 
 Exif.Nikon3.Lens                             Rational    4  140/10 200/10 20/10 20/10  14-20mm F2
 Exif.Nikon3.FlashMode                        Byte        1  0  Did not fire
