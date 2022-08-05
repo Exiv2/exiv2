@@ -433,6 +433,8 @@ constexpr TagInfo Nikon3MakerNote::tagInfo_[] = {
      unsignedShort, -1, EXV_PRINT_TAG(nikonShutterModes)},
     {0x0037, "MechanicalShutterCount", N_("Mechanical Shutter Count"), N_("Mechanical shutter count"), IfdId::nikon3Id,
      SectionId::makerTags, unsignedLong, -1, printValue},
+    {0x003f, "WhiteBalanceBias2", N_("White Balance Bias 2"), N_("White balance bias 2"), IfdId::nikon3Id,
+     SectionId::makerTags, signedRational, -1, printValue},
     {0x0080, "ImageAdjustment", N_("Image Adjustment"), N_("Image adjustment setting"), IfdId::nikon3Id,
      SectionId::makerTags, asciiString, -1, printValue},
     {0x0081, "ToneComp", N_("Tone Compensation"), N_("Tone compensation"), IfdId::nikon3Id, SectionId::makerTags,
