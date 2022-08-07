@@ -1404,7 +1404,6 @@ bool convertStringCharset(std::string& str, const char* from, const char* to) {
 #ifndef SUPPRESS_WARNINGS
   EXV_WARNING << "Charset conversion required but no character mapping functionality available.\n";
 #endif
-  UNUSED(str);
 #endif
   return ret;
 }
