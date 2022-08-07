@@ -18,7 +18,7 @@
 ////////////////////////////////////////
 // platform specific code
 
-#if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__)
+#if defined(__CYGWIN__) || defined(_MSC_VER) || defined(__MINGW__)
 #else
 ////////////////////////////////////////
 // Unix or Mac
@@ -73,7 +73,7 @@ static int forgive(int n, int& err) {
   err = WSAGetLastError();
   if (!n && !err)
     return FINISH;
-#ifndef WIN32
+#ifndef _WIN32
   if (n == 0)
     return FINISH;  // server hungup
 #endif
@@ -122,7 +122,7 @@ static Exiv2::Dictionary stringToDict(const std::string& s) {
 }
 
 static int makeNonBlocking(int sockfd) {
-#ifdef WIN32
+#ifdef _WIN32
   ULONG ioctl_opt = 1;
   return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
 #else
@@ -147,7 +147,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // Windows specific code
-#if defined(WIN32) || defined(_MSC_VER) || defined(__MINGW__) || defined(__CYGWIN__)
+#if defined(_WIN32) || defined(_MSC_VER) || defined(__MINGW__) || defined(__CYGWIN__)
   WSADATA wsaData;
   WSAStartup(MAKEWORD(2, 2), &wsaData);
 #endif

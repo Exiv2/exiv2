@@ -21,7 +21,7 @@
 
 namespace fs = std::filesystem;
 
-#if defined(WIN32)
+#if defined(_WIN32)
 // clang-format off
 #include <windows.h>
 #include <psapi.h>  // For access to GetModuleFileNameEx
@@ -331,7 +331,7 @@ Uri Uri::Parse(const std::string& uri) {
 
 std::string getProcessPath() {
   std::string ret("unknown");
-#if defined(WIN32)
+#if defined(_WIN32)
   HANDLE processHandle = nullptr;
   processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
   if (processHandle) {

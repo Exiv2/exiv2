@@ -22,7 +22,7 @@
 #include <set>
 
 // #1147
-#ifndef WIN32
+#ifndef _WIN32
 #include <sys/types.h>
 #include <unistd.h>
 #endif
@@ -32,7 +32,7 @@
 #endif
 
 // platform specific support for getLoadedLibraries
-#if defined(__CYGWIN__) || defined(__MINGW__) || defined(WIN32)
+#if defined(__CYGWIN__) || defined(__MINGW__) || defined(_WIN32)
 // clang-format off
 #include <windows.h>
 #include <psapi.h>
@@ -119,7 +119,7 @@ static std::vector<std::string> getLoadedLibraries() {
   std::set<std::string> paths;
   std::string path;
 
-#if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
+#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
   // enumerate loaded libraries and determine path to executable
   HMODULE handles[200];
   DWORD cbNeeded;
@@ -486,7 +486,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   output(os, keys, "config_path", Exiv2::Internal::getExiv2ConfigPath());
 
 // #1147
-#ifndef WIN32
+#ifndef _WIN32
   uid_t uid = getuid();
   output(os, keys, "uid", uid);
   uid_t euid = geteuid();

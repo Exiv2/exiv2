@@ -62,7 +62,7 @@
 
 ///// Path separator macros      /////
 #ifndef EXV_SEPARATOR_STR
-#if defined(WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32) && !defined(__CYGWIN__)
 #define EXV_SEPARATOR_STR "\\"
 #define EXV_SEPARATOR_CHR '\\'
 #else

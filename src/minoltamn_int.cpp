@@ -1398,7 +1398,7 @@ extern TagDetails const minoltaSonyLensID[] = {
     static std::ostream& resolveLensTypeUsingExiftool(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
     {
-// #if ! defined(WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
+// #if ! defined(_WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
 #ifndef _MSC_VER
         FILE* f = ::popen("/bin/bash -c \"exiftool ~/temp/screen.jpg | grep 'Lens ID' | cut -d: -f 2 | sed -E -e 's/^ //g'\"","r");
         if ( f ) {
