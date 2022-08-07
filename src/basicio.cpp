@@ -37,7 +37,7 @@
 #include <curl/curl.h>
 #endif
 
-#if defined(__MINGW__) || (defined(WIN32) && !defined(__CYGWIN__))
+#if defined(__MINGW__) || defined(_MSC_VER)
 #define mode_t unsigned short
 #include <io.h>
 #include <windows.h>
@@ -85,7 +85,7 @@ class FileIo::Impl {
   FILE* fp_{};             //!< File stream pointer
   OpMode opMode_{opSeek};  //!< File open mode
 
-#if defined WIN32 && !defined __CYGWIN__
+#if defined _WIN32 && !defined __CYGWIN__
   HANDLE hFile_{};  //!< Duplicated fd
   HANDLE hMap_{};   //!< Handle from CreateFileMapping
 #endif
@@ -196,7 +196,7 @@ int FileIo::munmap() {
     if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
       rc = 1;
     }
-#elif defined WIN32 && !defined __CYGWIN__
+#elif defined _WIN32 && !defined __CYGWIN__
     UnmapViewOfFile(p_->pMappedArea_);
     CloseHandle(p_->hMap_);
     p_->hMap_ = 0;
@@ -243,7 +243,7 @@ byte* FileIo::mmap(bool isWriteable) {
   }
   p_->pMappedArea_ = static_cast<byte*>(rc);
 
-#elif defined WIN32 && !defined __CYGWIN__
+#elif defined _WIN32 && !defined __CYGWIN__
   // Windows implementation
 
   // TODO: An attempt to map a file with a length of 0 (zero) fails with
@@ -351,7 +351,7 @@ void FileIo::transfer(BasicIo& src) {
     origStMode = buf1.st_mode;
 
     {
-#if defined(WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
+#if defined(_WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
       // Windows implementation that deals with the fact that ::rename fails
       // if the target filename still exists, which regularly happens when
       // that file has been opened with FILE_SHARE_DELETE by another process,
@@ -466,7 +466,7 @@ size_t FileIo::size() const {
   // Flush and commit only if the file is open for writing
   if (p_->fp_ && (p_->openMode_.at(0) != 'r' || p_->openMode_.at(1) == '+')) {
     std::fflush(p_->fp_);
-#if defined WIN32 && !defined __CYGWIN__
+#ifdef _MSC_VER
     // This is required on msvcrt before stat after writing to a file
     _commit(_fileno(p_->fp_));
 #endif
