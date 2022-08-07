@@ -11,15 +11,9 @@
 #include <filesystem>
 #include <iostream>
 
-#if defined(__MINGW32__) || defined(__MINGW64__)
-#ifndef __MINGW__
-#define __MINGW__
-#endif
-#endif
-
 using namespace std;
 
-#if defined(_MSC_VER) || defined(__MINGW__)
+#ifdef _WIN32
 #include <windows.h>
 char* realpath(const char* file, char* path);
 #define lstat _stat
@@ -384,7 +378,7 @@ int timeZoneAdjust() {
   [[maybe_unused]] time_t now = time(nullptr);
   int offset;
 
-#if defined(_MSC_VER) || defined(__MINGW__)
+#if defined(_WIN32)
   TIME_ZONE_INFORMATION TimeZoneInfo;
   GetTimeZoneInformation(&TimeZoneInfo);
   offset = -(((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);

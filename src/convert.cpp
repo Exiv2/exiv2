@@ -21,7 +21,7 @@
 #include <algorithm>
 #include <iomanip>
 
-#if defined _WIN32 && !defined __CYGWIN__
+#if defined _WIN32
 #include <windows.h>
 #endif
 
@@ -47,7 +47,7 @@ namespace {
 #if defined EXV_HAVE_ICONV
 // Convert string charset with iconv.
 bool convertStringCharsetIconv(std::string& str, const char* from, const char* to);
-#elif defined _WIN32 && !defined __CYGWIN__
+#elif defined _WIN32
 // Convert string charset with Windows functions.
 bool convertStringCharsetWindows(std::string& str, const char* from, const char* to);
 #endif
@@ -1397,7 +1397,7 @@ bool convertStringCharset(std::string& str, const char* from, const char* to) {
   bool ret = false;
 #if defined EXV_HAVE_ICONV
   ret = convertStringCharsetIconv(str, from, to);
-#elif defined _WIN32 && !defined __CYGWIN__
+#elif defined _WIN32
   ret = convertStringCharsetWindows(str, from, to);
 #else
 #ifndef SUPPRESS_WARNINGS
@@ -1413,7 +1413,7 @@ bool convertStringCharset(std::string& str, const char* from, const char* to) {
 namespace {
 using namespace Exiv2;
 
-#if defined _WIN32 && !defined __CYGWIN__
+#if defined _WIN32
 bool swapBytes(std::string& str) {
   // Naive byte-swapping, I'm sure this can be done more efficiently
   if (str.size() & 1) {
@@ -1558,7 +1558,7 @@ const ConvFctList convFctList[] = {
   return ret;
 }
 
-#endif  // defined _WIN32 && !defined __CYGWIN__
+#endif  // defined _WIN32
 #if defined EXV_HAVE_ICONV
 bool convertStringCharsetIconv(std::string& str, const char* from, const char* to) {
   if (0 == strcmp(from, to))

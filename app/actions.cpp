@@ -31,7 +31,7 @@
 #include <unistd.h>  // for stat()
 #endif
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32)
 #include <fcntl.h>
 #include <io.h>
 #include <sys/utime.h>
@@ -1669,7 +1669,7 @@ std::string temporaryPath() {
   static int count = 0;
   auto guard = std::scoped_lock(cs);
 
-#if defined(_MSC_VER) || defined(__MINGW__)
+#if defined(_WIN32)
   HANDLE process = 0;
   DWORD pid = ::GetProcessId(process);
 #else

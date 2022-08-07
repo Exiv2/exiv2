@@ -21,7 +21,7 @@
 #include <iostream>
 #include <regex>
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32)
 #include <fcntl.h>
 #include <io.h>
 #include <windows.h>
@@ -942,7 +942,7 @@ static size_t readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
 void Params::getStdin(Exiv2::DataBuf& buf) {
   // copy stdin to stdinBuf
   if (stdinBuf.empty()) {
-#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
+#if defined(_WIN32)
     DWORD fdwMode;
     _setmode(fileno(stdin), O_BINARY);
     Sleep(300);
@@ -1276,7 +1276,7 @@ bool parseCmdLines(ModifyCmds& modifyCmds, const Params::CmdLines& cmdLines) {
   }
 }  // parseCmdLines
 
-#if defined(_MSC_VER) || defined(__MINGW__)
+#ifdef _WIN32
 static std::string formatArg(const char* arg) {
   std::string result = "";
   char b = ' ';
@@ -1317,7 +1317,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
   std::string::size_type keyEnd = line.find_first_of(delim, keyStart + 1);
   if (cmdEnd == std::string::npos || keyStart == std::string::npos) {
     std::string cmdLine;
-#if defined(_MSC_VER) || defined(__MINGW__)
+#ifdef _WIN32
     for (int i = 1; i < __argc; i++) {
       cmdLine += std::string(" ") + formatArg(__argv[i]);
     }
