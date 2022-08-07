@@ -32,7 +32,7 @@
 #endif
 
 // platform specific support for getLoadedLibraries
-#if defined(__CYGWIN__) || defined(__MINGW__) || defined(_WIN32)
+#if defined(_WIN32) || defined(__CYGWIN__)
 // clang-format off
 #include <windows.h>
 #include <psapi.h>
@@ -119,7 +119,7 @@ static std::vector<std::string> getLoadedLibraries() {
   std::set<std::string> paths;
   std::string path;
 
-#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
+#if defined(_WIN32) || defined(__CYGWIN__)
   // enumerate loaded libraries and determine path to executable
   HMODULE handles[200];
   DWORD cbNeeded;

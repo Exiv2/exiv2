@@ -21,7 +21,7 @@
 
 namespace fs = std::filesystem;
 
-#if !defined(_MSC_VER) && !defined(__MINGW__)
+#if !defined(_WIN32)
 #include <pwd.h>
 #include <unistd.h>
 #else
@@ -54,7 +54,7 @@ namespace Exiv2::Internal {
 // If not found in cwd, we return the default path
 // which is the user profile path on win and the home dir on linux
 std::string getExiv2ConfigPath() {
-#if defined(_MSC_VER) || defined(__MINGW__)
+#ifdef _WIN32
   std::string inifile("exiv2.ini");
 #else
   std::string inifile(".exiv2");
@@ -65,7 +65,7 @@ std::string getExiv2ConfigPath() {
     return iniPath.string();
   }
 
-#if defined(_MSC_VER) || defined(__MINGW__)
+#ifdef _WIN32
   char buffer[1024];
   if (SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_PROFILE, nullptr, 0, buffer))) {
     currentPath = buffer;

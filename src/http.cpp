@@ -2,7 +2,7 @@
 
 #include "config.h"
 
-#if defined(_MSC_VER) || defined(__CYGWIN__) || defined(__MINGW__)
+#if defined(_WIN32) || defined(__CYGWIN__)
 #define __USE_W32_SOCKETS
 #include <winsock2.h>
 #endif
@@ -18,7 +18,7 @@
 ////////////////////////////////////////
 // platform specific code
 
-#if defined(__CYGWIN__) || defined(_MSC_VER) || defined(__MINGW__)
+#if defined(_WIN32) || defined(__CYGWIN__)
 #else
 ////////////////////////////////////////
 // Unix or Mac
@@ -122,7 +122,7 @@ static Exiv2::Dictionary stringToDict(const std::string& s) {
 }
 
 static int makeNonBlocking(int sockfd) {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__CYGWIN__)
   ULONG ioctl_opt = 1;
   return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
 #else
@@ -147,7 +147,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // Windows specific code
-#if defined(_WIN32) || defined(_MSC_VER) || defined(__MINGW__) || defined(__CYGWIN__)
+#if defined(_WIN32) || defined(__CYGWIN__)
   WSADATA wsaData;
   WSAStartup(MAKEWORD(2, 2), &wsaData);
 #endif

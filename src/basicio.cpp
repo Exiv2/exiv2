@@ -37,7 +37,7 @@
 #include <curl/curl.h>
 #endif
 
-#if defined(__MINGW__) || defined(_MSC_VER)
+#ifdef _WIN32
 #define mode_t unsigned short
 #include <io.h>
 #include <windows.h>
@@ -85,7 +85,7 @@ class FileIo::Impl {
   FILE* fp_{};             //!< File stream pointer
   OpMode opMode_{opSeek};  //!< File open mode
 
-#if defined _WIN32 && !defined __CYGWIN__
+#if defined _WIN32
   HANDLE hFile_{};  //!< Duplicated fd
   HANDLE hMap_{};   //!< Handle from CreateFileMapping
 #endif
@@ -196,7 +196,7 @@ int FileIo::munmap() {
     if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
       rc = 1;
     }
-#elif defined _WIN32 && !defined __CYGWIN__
+#elif defined _WIN32
     UnmapViewOfFile(p_->pMappedArea_);
     CloseHandle(p_->hMap_);
     p_->hMap_ = 0;
@@ -243,7 +243,7 @@ byte* FileIo::mmap(bool isWriteable) {
   }
   p_->pMappedArea_ = static_cast<byte*>(rc);
 
-#elif defined _WIN32 && !defined __CYGWIN__
+#elif defined _WIN32
   // Windows implementation
 
   // TODO: An attempt to map a file with a length of 0 (zero) fails with
@@ -937,7 +937,7 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
   if (prot == pStdin) {
     if (isatty(fileno(stdin)))
       throw Error(ErrorCode::kerInputDataReadFailed);
-#if defined(_MSC_VER) || defined(__MINGW__)
+#ifdef _WIN32
     // convert stdin to binary
     if (_setmode(_fileno(stdin), _O_BINARY) == -1)
       throw Error(ErrorCode::kerInputDataReadFailed);
