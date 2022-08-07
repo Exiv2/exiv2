@@ -1576,7 +1576,11 @@ bool convertStringCharsetIconv(std::string& str, const char* from, const char* t
     return false;
   }
   std::string outstr;
+#ifdef WINICONV_CONST
+  auto inptr = (WINICONV_CONST char*)(str.c_str());
+#else
   auto inptr = const_cast<char*>(str.c_str());
+#endif
   size_t inbytesleft = str.length();
   while (inbytesleft) {
     char outbuf[256];
