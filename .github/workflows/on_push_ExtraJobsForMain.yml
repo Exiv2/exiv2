@@ -25,7 +25,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.48.1
+          pip3 install conan==1.51.0
           pip3 install gcovr
 
       - name: Conan common config
