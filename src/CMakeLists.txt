@@ -218,7 +218,7 @@ if (NOT MSVC)
         target_link_libraries( exiv2lib PRIVATE -lprocstat)
     endif()
 
-    if (CYGWIN OR MINGW OR MSYS)
+    if (MINGW)
         target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
     endif()
 
