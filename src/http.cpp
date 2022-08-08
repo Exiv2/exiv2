@@ -2,7 +2,7 @@
 
 #include "config.h"
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32)
 #define __USE_W32_SOCKETS
 #include <winsock2.h>
 #endif
@@ -18,8 +18,7 @@
 ////////////////////////////////////////
 // platform specific code
 
-#if defined(_WIN32) || defined(__CYGWIN__)
-#else
+#ifndef _WIN32
 ////////////////////////////////////////
 // Unix or Mac
 
@@ -122,7 +121,7 @@ static Exiv2::Dictionary stringToDict(const std::string& s) {
 }
 
 static int makeNonBlocking(int sockfd) {
-#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32)
   ULONG ioctl_opt = 1;
   return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
 #else
@@ -147,7 +146,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // Windows specific code
-#if defined(_WIN32) || defined(__CYGWIN__)
+#if defined(_WIN32)
   WSADATA wsaData;
   WSAStartup(MAKEWORD(2, 2), &wsaData);
 #endif
