@@ -57,7 +57,6 @@ std::mutex cs;
 class Timestamp {
  public:
   //! C'tor
-  Timestamp() = default;
   int read(const std::string& path);
   //! Read the timestamp from a broken-down time in buffer \em tm.
   int read(struct tm* tm);
