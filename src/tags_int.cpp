@@ -2519,7 +2519,7 @@ std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*
     const int32_t mm = min.first / min.second;
     const int32_t rem = min.first % min.second;
     if ((min.second > 1) && (rem > 0)) {
-      if ((sec.first == 0) && (sec.second == 1)) {
+      if ((sec.first == 0) && (sec.second == 1) && (rem <= std::numeric_limits<int32_t>::max() / 60)) {
         sec.first = 60 * rem;
         sec.second = min.second;
       } else {
