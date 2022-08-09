@@ -2572,10 +2572,23 @@ namespace Exiv2 {
         if (ii == 0) return groupInfo[0].groupName_;
         return ii->groupName_;
     }
+<<<<<<< HEAD
 
     std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*)
     {
         return os << value;
+=======
+    const int32_t dd = deg.first;
+    const int32_t mm = min.first / min.second;
+    const int32_t rem = min.first % min.second;
+    if ((min.second > 1) && (rem > 0)) {
+      if ((sec.first == 0) && (sec.second == 1) && (rem <= std::numeric_limits<int32_t>::max() / 60)) {
+        sec.first = 60 * rem;
+        sec.second = min.second;
+      } else {
+        return os << "(" << value << ")";
+      }
+>>>>>>> fe4f56d9 (Credit to OSS-Fuzz: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=49894)
     }
 
     std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData* metadata)
