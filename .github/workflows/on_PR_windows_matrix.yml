@@ -46,7 +46,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.48.1"
+          pip.exe install "conan==1.51.0"
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
           conan profile update settings.compiler="Visual Studio" default

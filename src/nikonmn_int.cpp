@@ -593,6 +593,7 @@ namespace Exiv2 {
         TagInfo(0x002a, "VignetteControl", N_("Vignette Control"), N_("Vignette control"), nikon3Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(nikonOlnh)),
         TagInfo(0x0034, "ShutterMode", N_("Shutter Mode"), N_("Shutter mode"), nikon3Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(nikonShutterModes)),
         TagInfo(0x0037, "MechanicalShutterCount", N_("Mechanical Shutter Count"), N_("Mechanical shutter count"), nikon3Id, makerTags, unsignedLong, -1, printValue),
+        TagInfo(0x003f, "WhiteBalanceBias2", N_("White Balance Bias 2"), N_("White balance bias 2"), nikon3Id, makerTags, signedRational, -1, printValue),
         TagInfo(0x0080, "ImageAdjustment", N_("Image Adjustment"), N_("Image adjustment setting"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x0081, "ToneComp", N_("Tone Compensation"), N_("Tone compensation"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x0082, "AuxiliaryLens", N_("Auxiliary Lens"), N_("Auxiliary lens (adapter)"), nikon3Id, makerTags, asciiString, -1, printValue),
