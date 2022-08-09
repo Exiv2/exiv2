@@ -1,5 +1,5 @@
 # Minimum version imposed by Centos:8
-cmake_minimum_required( VERSION 3.11.0 ) 
+cmake_minimum_required( VERSION 3.11.0 )
 
 project(exiv2          # use TWEAK to categorize the build
     VERSION 1.00.0.9   # 1.00.0    = GM               (tagged and released)
@@ -13,7 +13,7 @@ project(exiv2          # use TWEAK to categorize the build
 )
 
 if(NOT CMAKE_BUILD_TYPE)
-    set (CMAKE_BUILD_TYPE Release)
+  set (CMAKE_BUILD_TYPE Release)
 endif()
 
 include(cmake/mainSetup.cmake  REQUIRED)
@@ -64,11 +64,11 @@ include(cmake/gcovr.cmake REQUIRED)
 set( PACKAGE_URL                      "https://exiv2.org")
 
 if ( EXIV2_ENABLE_EXTERNAL_XMP )
-    set(EXIV2_ENABLE_XMP OFF)
+  set(EXIV2_ENABLE_XMP OFF)
 endif()
 
 if( EXIV2_BUILD_UNIT_TESTS )
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
+  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
 endif()
 
 include(cmake/findDependencies.cmake   REQUIRED)
@@ -76,15 +76,14 @@ include(cmake/compilerFlags.cmake      REQUIRED)
 include(cmake/generateConfigFile.cmake REQUIRED)
 
 if (EXIV2_BUILD_DOC)
-    include(cmake/generateDoc.cmake        REQUIRED)
-    generate_documentation("${PROJECT_SOURCE_DIR}/cmake/Doxyfile.in")
+  include(cmake/generateDoc.cmake        REQUIRED)
+  generate_documentation("${PROJECT_SOURCE_DIR}/cmake/Doxyfile.in")
 endif()
-
 
 include_directories(${CMAKE_BINARY_DIR})  # Make the exv_conf.h file visible for the full project
 
 if( EXIV2_ENABLE_XMP )
-    add_subdirectory( xmpsdk )
+  add_subdirectory( xmpsdk )
 endif()
 
 include(cmake/compilerFlagsExiv2.cmake REQUIRED)
@@ -92,53 +91,53 @@ include(cmake/compilerFlagsExiv2.cmake REQUIRED)
 add_subdirectory( src )
 
 if( EXIV2_BUILD_UNIT_TESTS )
-    add_subdirectory ( unitTests )
+  add_subdirectory ( unitTests )
 endif()
 
 if( EXIV2_BUILD_FUZZ_TESTS )
-    add_subdirectory ( fuzz )
+  add_subdirectory ( fuzz )
 endif()
 
 if(EXIV2_BUILD_EXIV2_COMMAND)
-    add_subdirectory ( app )
+  add_subdirectory ( app )
 
-  if( EXIV2_BUILD_SAMPLES )
-      add_subdirectory( samples )
-      get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
+if( EXIV2_BUILD_SAMPLES )
+    add_subdirectory( samples )
+    get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
 
-      if (Python3_Interpreter_FOUND)
-          add_test(NAME bashTests
-              WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-              COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests)
-      endif()
-  endif()
+    if (Python3_Interpreter_FOUND)
+      add_test(NAME bashTests
+          WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+          COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests)
+    endif()
+endif()
 
-  if (Python3_Interpreter_FOUND)
-      add_test(NAME bugfixTests
-          WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-          COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bugfixes)
-      add_test(NAME lensTests
-          WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-          COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests)
-      add_test(NAME tiffTests
-          WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-          COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose tiff_test)
-      add_test(NAME versionTests
-          WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-          COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests/version_test.py )
-      add_test(NAME regressionTests
-          WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
-          COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose regression_tests)
-  endif()
+if (Python3_Interpreter_FOUND)
+    add_test(NAME bugfixTests
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bugfixes)
+    add_test(NAME lensTests
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests)
+    add_test(NAME tiffTests
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose tiff_test)
+    add_test(NAME versionTests
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose bash_tests/version_test.py )
+    add_test(NAME regressionTests
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+        COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose regression_tests)
+endif()
 
 endif()
 
 if( EXIV2_ENABLE_NLS )
-    add_subdirectory( po )
+  add_subdirectory( po )
 endif()
 
 if (EXIV2_TEAM_PACKAGING)
-    include(cmake/packaging.cmake)
+  include(cmake/packaging.cmake)
 endif()
 
 join_paths(libdir_for_pc_file "\${prefix}" "${CMAKE_INSTALL_LIBDIR}")
@@ -149,7 +148,6 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_L
 # ******************************************************************************
 # Man page
 install( FILES ${PROJECT_SOURCE_DIR}/man/man1/exiv2.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
-
 
 include(cmake/printSummary.cmake)
 
