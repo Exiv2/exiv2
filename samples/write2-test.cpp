@@ -134,7 +134,7 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifData edMn9;
     edMn9["Exif.Image.Make"] = "SONY";
     edMn9["Exif.Image.Model"] = "DSC-W7";
-    edMn9["Exif.Sony1.0x2000"] = "0 1 2 3 4 5";
+    edMn9["Exif.Sony1.Quality"] = static_cast<uint32_t>(2);
     write(file, edMn9);
     print(file);
 

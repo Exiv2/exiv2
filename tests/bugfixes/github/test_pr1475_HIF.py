@@ -36,7 +36,10 @@ Exif.Photo.DateTimeOriginal                  Ascii      20  2021:02:18 19:55:41
 Exif.Photo.DateTimeDigitized                 Ascii      20  2021:02:18 19:55:41
 Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 Exif.Photo.Flash                             Short       1  No, compulsory
+Exif.Sony1.LongExposureNoiseReduction        Long        1  Off
 Exif.Sony1.FlashExposureComp                 SRational   1  0 EV
+Exif.Sony1.FlashAction                       Long        1  Did not fire
+Exif.Sony1.ExposureStandardAdjustment        SRational   1  0.0
 Exif.Sony1.ExposureMode                      Short       1  Manual
 Exif.Sony1.FlashLevel                        SShort      1  Normal
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
