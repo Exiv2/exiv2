@@ -1131,30 +1131,15 @@ static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::
     bool prepend;
   };
   static constexpr std::array<LensSpecFlags, 8> lSFArray = {
-      0x4000,
-      {0x4000, "PZ"},
-      true,
-      0x0300,
-      {0x0100, "DT", 0x0200, "FE", 0x0300, "E"},
-      true,
-      0x00e0,
-      {0x0020, "STF", 0x0040, N_("Reflex"), 0x0060, N_("Macro"), 0x0080, N_("Fisheye")},
-      false,
-      0x000c,
-      {0x0004, "ZA", 0x0008, "G"},
-      false,
-      0x0003,
-      {0x0001, "SSM", 0x0002, "SAM"},
-      false,
-      0x8000,
-      {0x8000, "OSS"},
-      false,
-      0x2000,
-      {0x2000, "LE"},
-      false,
-      0x0800,
-      {0x0800, "II"},
-      false};
+      LensSpecFlags{0x4000, {{{0x4000, "PZ"}}}, true},
+      LensSpecFlags{0x0300, {{{0x0100, "DT"}, {0x0200, "FE"}, {0x0300, "E"}}}, true},
+      LensSpecFlags{
+          0x00e0, {{{0x0020, "STF"}, {0x0040, N_("Reflex")}, {0x0060, N_("Macro")}, {0x0080, N_("Fisheye")}}}, false},
+      LensSpecFlags{0x000c, {{{0x0004, "ZA"}, {0x0008, "G"}}}, false},
+      LensSpecFlags{0x0003, {{{0x0001, "SSM"}, {0x0002, "SAM"}}}, false},
+      LensSpecFlags{0x8000, {{{0x8000, "OSS"}}}, false},
+      LensSpecFlags{0x2000, {{{0x2000, "LE"}}}, false},
+      LensSpecFlags{0x0800, {{{0x0800, "II"}}}, false}};
 
   // When processing, a bitwise 'AND' selects a compatible LensSpecFlags entry,
   // then search inside the 'flags' array for one match.
