@@ -5,9 +5,7 @@ Exif.Image.Orientation                       Short       1  1  top, left
 Exif.Image.XResolution                       Rational    1  350/1  350
 Exif.Image.YResolution                       Rational    1  350/1  350
 Exif.Image.ResolutionUnit                    Short       1  2  inch
-Exif.Image.Software                          Ascii      21  DSC-RX100M5A v1.00
-  DSC-RX100M5A v1.00
-
+Exif.Image.Software                          Ascii      19  DSC-RX100M5A v1.00  DSC-RX100M5A v1.00
 Exif.Image.DateTime                          Ascii      20  2018:06:14 11:35:45  2018:06:14 11:35:45
 Exif.Image.YCbCrPositioning                  Short       1  2  Co-sited
 Exif.Image.ExifTag                           Long        1  296  296
