@@ -70,7 +70,7 @@ Exif.Sony1.LensSpec                          Byte        8  0 0 36 7 32 53 99 0 
 Exif.Sony1.AutoPortraitFramed                Short       1  0  No
 Exif.Sony1.FlashAction                       Long        1  0  Did not fire
 Exif.Sony1.ElectronicFrontCurtainShutter     Long        1  0  Off
-Exif.Sony1.FocusMode2                        Byte        1  0  0)
+Exif.Sony1.FocusMode2                        Byte        1  0  n/a
 Exif.Sony1.AFAreaModeSetting                 Byte        1  0  n/a
 Exif.Sony1.FlexibleSpotPosition              Short       2  0 0  n/a
 Exif.Sony1.AFPointSelected                   Byte        1  0  n/a
@@ -80,7 +80,7 @@ Exif.Sony1.FocalPlaneAFPointsUsed            Byte       13  255 255 255 255 255 
 Exif.Sony1.MultiFrameNREffect                Long        1  0  Normal
 Exif.Sony1.Macro                             Short       1  0  Off
 Exif.Sony1.ExposureMode                      Short       1  0  Program AE
-Exif.Sony1.FocusMode                         Short       1  0  (0)
+Exif.Sony1.FocusMode                         Short       1  0  n/a
 Exif.Sony1.AFMode                            Short       1  0  n/a
 Exif.Sony1.AFIlluminator                     Short       1  0  Off
 Exif.Sony1.JPEGQuality                       Short       1  1  Fine

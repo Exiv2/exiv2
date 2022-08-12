@@ -70,7 +70,7 @@ Exif.Sony1.LensSpec                          Byte        8  0 0 40 1 0 24 73 0  
 Exif.Sony1.AutoPortraitFramed                Short       1  0  No
 Exif.Sony1.Macro                             Short       1  0  Off
 Exif.Sony1.ExposureMode                      Short       1  8  Shutter speed priority AE
-Exif.Sony1.FocusMode                         Short       1  0  (0)
+Exif.Sony1.FocusMode                         Short       1  0  n/a
 Exif.Sony1.AFMode                            Short       1  0  n/a
 Exif.Sony1.AFIlluminator                     Short       1  0  Off
 Exif.Sony1.JPEGQuality                       Short       1  1  Fine
