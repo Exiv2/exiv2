@@ -514,6 +514,7 @@ constexpr TagDetails sonyExposureMode[] = {{0, N_("Program AE")},
                                            {39, N_("Superior Auto")},
                                            {40, N_("Background Defocus")},
                                            {41, N_("Soft Skin")},
+                                           {42, N_("3D Image")},
                                            {0xffff, N_("n/a")}};
 
 //! Lookup table to translate Sony JPEG quality values to readable labels
@@ -794,7 +795,7 @@ std::ostream& SonyMakerNote::printWBShiftABGM(std::ostream& os, const Value& val
 }
 
 std::ostream& SonyMakerNote::printFocusMode(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
+  if (value.count() != 1 || value.typeId() != unsignedShort) {
     os << "(" << value << ")";
     return os;
   }
@@ -1183,7 +1184,7 @@ std::ostream& SonyMakerNote::printLensSpec(std::ostream& os, const Value& value,
   // 3>
   //   (0)       (1)         (2)              (3)               (4)             (5)            (6)          (7)
   //
-  // Bytes 2-6 are each interpreted as 2 nibbles which are used as decimal.
+  // Bytes 2-6 are each interpreted as 2 nibbles which are used as decimal. Nibbles have a value less than 10.
   // e.g., 36 == 0x24, converts to "2" and "4".
   // Optional elements (==0) are <Flgs 1>, <Flgs 2>, <Focal len max 1>, <Focal len max 2>, <Aperture max> and
   // <Flgs 3>
@@ -1206,7 +1207,7 @@ std::ostream& SonyMakerNote::printLensSpec(std::ostream& os, const Value& value,
   const auto appertureMin = value.toUint32(5);
   const auto apertureMax = value.toUint32(6);
 
-  if (focalLenMin == 0 || appertureMin == 0 || value.toString() == "0 0 0 0 0 0 0 0") {
+  if (value.toString() == "0 0 0 0 0 0 0 0" || focalLenMin == 0 || appertureMin == 0) {
     os << _("Unknown");
     return os;
   }
@@ -1272,8 +1273,8 @@ std::ostream& SonyMakerNote::printImageSize(std::ostream& os, const Value& value
 }
 
 std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort) {
-    os << value << ")";
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
     return os;
   }
   // Only valid for certain models of camera. See
