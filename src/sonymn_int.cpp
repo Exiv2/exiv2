@@ -676,26 +676,29 @@ static bool getAFAreaModeSetting(const ExifData* metadata, uint32_t& val) {
 static bool getMetaVersion(const ExifData* metadata, std::string& val) {
   const auto pos = metadata->findKey(ExifKey("Exif.SonySInfo1.MetaVersion"));
 
-  if (pos == metadata->end() || pos->typeId() != asciiString || pos->count() != 16) {
-    val = "";
-    return false;
+  if (pos != metadata->end() && pos->count() == 16 && pos->typeId() == asciiString) {
+    val = pos->toString();
+    return true;
   }
-  val = pos->toString();
-  return true;
+  val = "";
+  return false;
 }
 
 static bool getFocusMode2(const ExifData* metadata, uint32_t& val) {
   auto pos = metadata->findKey(ExifKey("Exif.Sony1.FocusMode2"));
 
-  if (pos == metadata->end() || pos->size() == 0 || pos->typeId() != unsignedShort) {
-    pos = metadata->findKey(ExifKey("Exif.Sony2.FocusMode2"));
-    if (pos == metadata->end() || pos->size() == 0 || pos->typeId() != unsignedShort) {
-      val = 0;
-      return false;
-    }
+  if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
+    val = pos->toUint32(0);
+    return true;
   }
-  val = pos->toUint32(0);
-  return true;
+  pos = metadata->findKey(ExifKey("Exif.Sony2.FocusMode2"));
+  if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
+    val = pos->toUint32(0);
+    return true;
+  }
+
+  val = 0;
+  return false;
 }
 
 std::ostream& SonyMakerNote::printWhiteBalanceFineTune(std::ostream& os, const Value& value, const ExifData*) {

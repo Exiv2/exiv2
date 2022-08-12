@@ -243,7 +243,7 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
   if (N == 0)
     throw Error(ErrorCode::kerErrorMessage, std::string("Passed zero length TagDetailsBitlistSorted"));
 
-  auto vN = 0;
+  uint32_t vN = 0;
   uint32_t currentVNBit = 0;
   auto lastArrayPos = 0;  // Prevents unneeded searching of array
   constexpr auto maxArrayBit = (array + N - 1)->first;
