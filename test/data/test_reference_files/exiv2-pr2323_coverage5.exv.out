@@ -71,7 +71,7 @@ Exif.Sony1.LensSpec                          Byte        8  1 0 22 0 80 40 0 1  
 Exif.Sony1.AutoPortraitFramed                Short       1  0  No
 Exif.Sony1.FlashAction                       Long        1  0  Did not fire
 Exif.Sony1.ElectronicFrontCurtainShutter     Long        1  1  On
-Exif.Sony1.FocusMode2                        Byte        1  2  AF-C
+Exif.Sony1.FocusMode2                        Byte        1  2  AF-S
 Exif.Sony1.FlexibleSpotPosition              Short       2  0 0  n/a
 Exif.Sony1.AFPointSelected                   Byte        1  9  Bottom Right Zone
 Exif.Sony1.AFPointsUsed                      Byte       10  0 0 0 0 128 0 0 0 0 0  n/a

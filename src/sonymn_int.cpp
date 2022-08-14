@@ -275,9 +275,9 @@ constexpr TagDetailsBitlistSorted sonyAFPointsUsedSet2[] = {
     {64, "G9"},  {65, "G10"}, {66, "G11"}, {67, "H2"},  {68, "H3"},  {69, "H4"},  {70, "H5"},  {71, "H6"},
     {72, "H7"},  {73, "H8"},  {74, "H9"},  {75, "H10"}, {76, "I5"},  {77, "I6"},  {78, "I7"},  {128, N_("Auto")}};
 
-//! Lookup table to translate Sony focus mode values to readable labels
-constexpr TagDetails sonyFocusMode[] = {{0, N_("Manual")}, {2, N_("AF-S")}, {3, N_("AF-C")},
-                                        {4, N_("AF-A")},   {6, N_("DMF")},  {7, N_("AF-D")}};
+//! Lookup table to translate Sony focus mode 2 values to readable labels
+constexpr TagDetails sonyFocusMode2[] = {{0, N_("Manual")}, {2, N_("AF-S")}, {3, N_("AF-C")},
+                                         {4, N_("AF-A")},   {6, N_("DMF")},  {7, N_("AF-D")}};
 
 //! Lookup table to translate Sony auto focus area mode setting (set 1) values to readable labels
 constexpr TagDetails sonyAFAreaModeSettingSet1[] = {
@@ -547,8 +547,8 @@ constexpr TagDetails sonyWhiteBalance2[] = {{0, N_("Auto")},
                                             {18, N_("Underwater 2 (Green Water)")},
                                             {19, N_("Underwater Auto")}};
 
-//! Lookup table to translate Sony focus mode 2 values to readable labels
-constexpr TagDetails sonyFocusMode2[] = {{1, "AF-S"}, {2, "AF-C"}, {4, N_("Permanent-AF")}, {0xffff, N_("n/a")}};
+//! Lookup table to translate Sony focus mode values to readable labels
+constexpr TagDetails sonyFocusMode[] = {{1, "AF-S"}, {2, "AF-C"}, {4, N_("Permanent-AF")}, {0xffff, N_("n/a")}};
 
 //! Lookup table to translate Sony auto focus mode (set 1) values to readable labels
 constexpr TagDetails sonyAFModeSet1[] = {{0, N_("Default")},   {1, N_("Multi")},          {2, N_("Center")},
@@ -641,17 +641,23 @@ static bool getModel(const ExifData* metadata, std::string& val) {
   // NOTE: As using the translated SonyModelID value, need to be synchronized with the array format
   pos = metadata->findKey(ExifKey("Exif.Sony1.SonyModelID"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
-    val = pos->print(metadata);
-    if (val.find(' ') == std::string::npos)
+    std::string temp = pos->print(metadata);
+    if (temp.find(' ') == std::string::npos) {
+      val = temp;
       return true;
+    }
     val = "";
     return false;
   }
   pos = metadata->findKey(ExifKey("Exif.Sony2.SonyModelID"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
-    val = pos->print(metadata);
-    if (val.find(' ') == std::string::npos)
+    std::string temp = pos->print(metadata);
+    if (temp.find(' ') == std::string::npos) {
+      val = temp;
       return true;
+    }
+    val = "";
+    return false;
   }
 
   val = "";
@@ -661,11 +667,25 @@ static bool getModel(const ExifData* metadata, std::string& val) {
 static bool getAFAreaModeSetting(const ExifData* metadata, uint32_t& val) {
   auto pos = metadata->findKey(ExifKey("Exif.Sony1.AFAreaModeSetting"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedByte) {
+    std::ostringstream oss;
+    pos->write(oss, metadata);
+    if (oss.str() == _("n/a")) {
+      val = 0;
+      return false;
+    }
+
     val = pos->toUint32(0);
     return true;
   }
   pos = metadata->findKey(ExifKey("Exif.Sony2.AFAreaModeSetting"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedByte) {
+    std::ostringstream oss;
+    pos->write(oss, metadata);
+    if (oss.str() == _("n/a")) {
+      val = 0;
+      return false;
+    }
+
     val = pos->toUint32(0);
     return true;
   }
@@ -677,9 +697,12 @@ static bool getAFAreaModeSetting(const ExifData* metadata, uint32_t& val) {
 static bool getMetaVersion(const ExifData* metadata, std::string& val) {
   const auto pos = metadata->findKey(ExifKey("Exif.SonySInfo1.MetaVersion"));
 
-  if (pos != metadata->end() && pos->count() == 16 && pos->typeId() == asciiString) {
-    val = pos->toString();
-    return true;
+  if (pos != metadata->end() && pos->typeId() == asciiString) {
+    std::string temp = pos->toString();
+    if (temp.length() != 0) {
+      val = temp;
+      return true;
+    }
   }
   val = "";
   return false;
@@ -689,11 +712,24 @@ static bool getFocusMode2(const ExifData* metadata, uint32_t& val) {
   auto pos = metadata->findKey(ExifKey("Exif.Sony1.FocusMode2"));
 
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
+    std::ostringstream oss;
+    pos->write(oss, metadata);
+    if (oss.str() == _("n/a")) {
+      val = 0;
+      return false;
+    }
+
     val = pos->toUint32(0);
     return true;
   }
   pos = metadata->findKey(ExifKey("Exif.Sony2.FocusMode2"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
+    std::ostringstream oss;
+    pos->write(oss, metadata);
+    if (oss.str() == _("n/a")) {
+      val = 0;
+      return false;
+    }
     val = pos->toUint32(0);
     return true;
   }
@@ -714,32 +750,24 @@ std::ostream& SonyMakerNote::printWhiteBalanceFineTune(std::ostream& os, const V
 }
 
 std::ostream& SonyMakerNote::printMultiBurstMode(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1) {
+  if (value.count() != 1 || value.typeId() != undefined) {
     os << "(" << value << ")";
     return os;
   }
-  // Only valid for camera models that set the type as undefined. Source:
+  // Some cameras do not set the type to undefined. Source:
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L763
-  if (value.typeId() != undefined) {
-    os << _("n/a");
-    return os;
-  }
 
   printMinoltaSonyBoolValue(os, value, metadata);
   return os;
 }
 
 std::ostream& SonyMakerNote::printMultiBurstSize(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 1) {
+  if (value.count() != 1 || value.typeId() != unsignedShort) {
     os << "(" << value << ")";
     return os;
   }
-  // Only valid for camera models that set the type as unsignedShort. Source:
+  // Some cameras do not set the type to unsignedShort. Source:
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L771
-  if (value.typeId() != unsignedShort) {
-    os << _("n/a");
-    return os;
-  }
 
   os << value.toUint32(0);
   return os;
@@ -794,8 +822,8 @@ std::ostream& SonyMakerNote::printWBShiftABGM(std::ostream& os, const Value& val
   return os;
 }
 
-std::ostream& SonyMakerNote::printFocusMode(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort) {
+std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& value, const ExifData* metadata) {
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
     os << "(" << value << ")";
     return os;
   }
@@ -812,7 +840,7 @@ std::ostream& SonyMakerNote::printFocusMode(std::ostream& os, const Value& value
   constexpr std::array models{"DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
   if (!startsWith(model, "DSC-") ||
       std::any_of(models.begin(), models.end(), [&model](auto& m) { return startsWith(model, m); })) {
-    EXV_PRINT_TAG(sonyFocusMode)(os, v0, metadata);
+    EXV_PRINT_TAG(sonyFocusMode2)(os, v0, metadata);
     return os;
   }
 
@@ -932,7 +960,7 @@ std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value&
 
 std::ostream& SonyMakerNote::printAFPointsUsed(std::ostream& os, const Value& value, const ExifData* metadata) {
   if (value.typeId() != unsignedByte) {
-    os << "(" << value << ")" << value.typeId();
+    os << "(" << value << ")";
     return os;
   }
 
@@ -1272,8 +1300,8 @@ std::ostream& SonyMakerNote::printImageSize(std::ostream& os, const Value& value
   return os;
 }
 
-std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
+std::ostream& SonyMakerNote::printFocusMode(std::ostream& os, const Value& value, const ExifData* metadata) {
+  if (value.count() != 1 || value.typeId() != unsignedShort) {
     os << "(" << value << ")";
     return os;
   }
@@ -1282,7 +1310,7 @@ std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& valu
 
   std::string metaVersion;
   if (!getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000") {
-    EXV_PRINT_TAG(sonyFocusMode2)(os, value.toUint32(0), metadata);
+    EXV_PRINT_TAG(sonyFocusMode)(os, value.toUint32(0), metadata);
     return os;
   }
 

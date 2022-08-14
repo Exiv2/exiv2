@@ -89,7 +89,7 @@ Exif.Sony1.PixelShiftInfo                    Undefined   6  1 2 3 4 5 6  Group 0
 Exif.Sony1.SerialNumber                      Ascii       9  12345678  12345678
 Exif.Sony1.ColorTemperature                  Long        1  4294967295  n/a
 Exif.Sony1.LensSpec                          Byte        8  131 11 1 0 2 53 86 0  E 1-02mm F3.5-5.6 OSS
-Exif.Sony1.FocusMode                         Short       1  1  (1)
+Exif.Sony1.FocusMode                         Short       1  1  AF-S
 Exif.Sony1.FocusMode3                        Short       1  2  n/a
 Exif.Sony1.ColorCompensationFilter           Long        1  4294967295  G/M: G1
 Exif.Sony1.AFMode                            Short       1  0  Default
