@@ -947,7 +947,7 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
         }
         if (subsecTag) {
           prepareExifTarget(subsecTag, true);
-          (*exifData_)[subsecTag] = toString(datetime.nanoSecond);
+          (*exifData_)[subsecTag] = std::to_string(datetime.nanoSecond);
         }
       }
     } else {  // "Exif.GPSInfo.GPSTimeStamp"
