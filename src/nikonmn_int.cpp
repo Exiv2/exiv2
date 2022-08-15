@@ -3328,7 +3328,7 @@ std::ostream& Nikon3MakerNote::print0x009e(std::ostream& os, const Value& value,
     if (td) {
       s = std::string(exvGettext(td->label_)).append(d).append(s);
     } else {
-      s = std::string(_("Unknown")).append(" (").append(toString(l)).append(")").append(d).append(s);
+      s = std::string(_("Unknown")).append(" (").append(std::to_string(l)).append(")").append(d).append(s);
     }
   }
   return os << s;

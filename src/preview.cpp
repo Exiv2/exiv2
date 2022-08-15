@@ -954,7 +954,7 @@ DataBuf makePnm(size_t width, size_t height, const DataBuf& rgb) {
     return {};
   }
 
-  const std::string header = "P6\n" + toString(width) + " " + toString(height) + "\n255\n";
+  const std::string header = "P6\n" + std::to_string(width) + " " + std::to_string(height) + "\n255\n";
   const auto headerBytes = reinterpret_cast<const byte*>(header.data());
 
   DataBuf dest(header.size() + rgb.size());

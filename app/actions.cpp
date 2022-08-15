@@ -926,7 +926,7 @@ int Extract::writeIccProfile(const std::string& target) const {
 }  // Extract::writeIccProfile
 
 void Extract::writePreviewFile(const Exiv2::PreviewImage& pvImg, size_t num) const {
-  std::string pvFile = newFilePath(path_, "-preview") + Exiv2::toString(num);
+  std::string pvFile = newFilePath(path_, "-preview") + std::to_string(num);
   std::string pvPath = pvFile + pvImg.extension();
   if (dontOverwrite(pvPath))
     return;

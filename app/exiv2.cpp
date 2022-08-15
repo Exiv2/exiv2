@@ -1323,14 +1323,14 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
     }
 #endif
     throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                       Exiv2::toString(num) + ": " + _("Invalid command line:") + cmdLine);
+                       std::to_string(num) + ": " + _("Invalid command line:") + cmdLine);
   }
 
   std::string cmd(line.substr(cmdStart, cmdEnd - cmdStart));
   CmdId cmdId = commandId(cmd);
   if (cmdId == CmdId::invalid) {
     throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                       Exiv2::toString(num) + ": " + _("Invalid command") + " `" + cmd + "'");
+                       std::to_string(num) + ": " + _("Invalid command") + " `" + cmd + "'");
   }
 
   Exiv2::TypeId defaultType = Exiv2::invalidTypeId;
@@ -1361,7 +1361,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
     }
     if (metadataId == MetadataId::invalid) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                         Exiv2::toString(num) + ": " + _("Invalid key") + " `" + key + "'");
+                         std::to_string(num) + ": " + _("Invalid key") + " `" + key + "'");
     }
   }
   std::string value;
@@ -1382,7 +1382,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 
     if (cmdId == CmdId::reg && (keyEnd == std::string::npos || valStart == std::string::npos)) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                         Exiv2::toString(num) + ": " + _("Invalid command line") + " ");
+                         std::to_string(num) + ": " + _("Invalid command line") + " ");
     }
 
     if (cmdId != CmdId::reg && typeStart != std::string::npos && typeEnd != std::string::npos) {
@@ -1392,7 +1392,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
         valStart = line.find_first_not_of(delim, typeEnd + 1);
         if (valStart == std::string::npos) {
           throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                             Exiv2::toString(num) + ": " + _("Invalid command line") + " ");
+                             std::to_string(num) + ": " + _("Invalid command line") + " ");
         }
         type = tmpType;
         explicitType = true;
@@ -1418,7 +1418,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
   if (cmdId == CmdId::reg) {
     if (value.empty()) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                         Exiv2::toString(num) + ": " + _("Empty value for key") + +" `" + key + "'");
+                         std::to_string(num) + ": " + _("Empty value for key") + +" `" + key + "'");
     }
 
     // Registration needs to be done immediately as the new namespaces are

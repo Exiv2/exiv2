@@ -165,7 +165,7 @@ void Error::setMsg(int count) {
   std::string msg{errList.at(static_cast<size_t>(code_))};
   auto pos = msg.find("%0");
   if (pos != std::string::npos) {
-    msg.replace(pos, 2, toString(static_cast<int>(code_)));
+    msg.replace(pos, 2, std::to_string(static_cast<int>(code_)));
   }
   if (count > 0) {
     pos = msg.find("%1");
