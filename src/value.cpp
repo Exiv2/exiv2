@@ -699,13 +699,11 @@ size_t LangAltValue::count() const {
   return value_.size();
 }
 
-static constexpr auto x_default = "x-default";
-
 std::ostream& LangAltValue::write(std::ostream& os) const {
   bool first = true;
 
   // Write the default entry first
-  auto i = value_.find(x_default);
+  auto i = value_.find("x-default");
   if (i != value_.end()) {
     os << "lang=\"" << i->first << "\" " << i->second;
     first = false;
@@ -713,7 +711,7 @@ std::ostream& LangAltValue::write(std::ostream& os) const {
 
   // Write the others
   for (const auto& [lang, s] : value_) {
-    if (lang != x_default) {
+    if (lang != "x-default") {
       if (!first)
         os << ", ";
       os << "lang=\"" << lang << "\" " << s;
@@ -724,7 +722,7 @@ std::ostream& LangAltValue::write(std::ostream& os) const {
 }
 
 std::string LangAltValue::toString(size_t /*n*/) const {
-  return toString(x_default);
+  return toString("x-default");
 }
 
 std::string LangAltValue::toString(const std::string& qualifier) const {
