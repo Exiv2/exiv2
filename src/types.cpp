@@ -15,6 +15,7 @@
 #include <cmath>
 #include <cstring>
 #include <iomanip>
+#include <numeric>
 #include <sstream>
 #include <utility>
 
@@ -629,7 +630,7 @@ Rational floatToRationalCast(float f) {
     den = 10000;
   }
   const auto nom = static_cast<int32_t>(std::round(d * den));
-  const int32_t g = gcd(nom, den);
+  const int32_t g = std::gcd(nom, den);
 
   return {nom / g, den / g};
 }

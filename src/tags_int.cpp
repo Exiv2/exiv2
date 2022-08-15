@@ -22,6 +22,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <numeric>
 
 // *****************************************************************************
 // local declarations
@@ -2807,7 +2808,7 @@ std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*)
   } else if (bias.second <= 0) {
     os << "(" << bias.first << "/" << bias.second << ")";
   } else {
-    int32_t d = gcd(bias.first, bias.second);
+    int32_t d = std::gcd(bias.first, bias.second);
     int32_t num = std::abs(bias.first) / d;
     int32_t den = bias.second / d;
     os << (bias.first < 0 ? "-" : "+") << num;

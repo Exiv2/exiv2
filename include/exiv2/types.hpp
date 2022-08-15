@@ -506,45 +506,6 @@ T stringTo(const std::string& s, bool& ok) {
 template <>
 bool stringTo<bool>(const std::string& s, bool& ok);
 
-/*!
-  @brief Return the greatest common denominator of n and m.
-         (Implementation from Boost rational.hpp)
-
-  @note We use n and m as temporaries in this function, so there is no
-        value in using const IntType& as we would only need to make a copy
-        anyway...
- */
-template <typename IntType>
-IntType gcd(IntType n, IntType m) {
-  // Avoid repeated construction
-  IntType zero(0);
-
-  // This is abs() - given the existence of broken compilers with Koenig
-  // lookup issues and other problems, I code this explicitly. (Remember,
-  // IntType may be a user-defined type).
-  if (n < zero) {
-    if (n == std::numeric_limits<IntType>::min()) {
-      n = std::numeric_limits<IntType>::max();
-    } else {
-      n = -n;
-    }
-  }
-  if (m < zero)
-    m = -m;
-
-  // As n and m are now positive, we can be sure that %= returns a
-  // positive value (the standard guarantees this for built-in types,
-  // and we require it of user-defined types).
-  for (;;) {
-    if (m == zero)
-      return n;
-    n %= m;
-    if (n == zero)
-      return m;
-    m %= n;
-  }
-}
-
 }  // namespace Exiv2
 
 #endif  // #ifndef TYPES_HPP_
