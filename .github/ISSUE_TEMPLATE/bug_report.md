@@ -21,6 +21,7 @@ A short description of what you expected to happen.
 
 ##### **Desktop (please complete the following information):**
 - OS and version: (e.g., Linux (Fedora 34), macOS 12, Windows 11)
+- Exiv2 version and source: (e.g., 0.27.5 from exiv2.org)
 - Compiler and version: (e.g., Gcc 11.2, Clang 13.0.0, MSVC 2019)
 - Compilation mode and/or compiler flags:
 
