@@ -42,11 +42,11 @@ constexpr auto emptyYodAdjust_ = std::array{
 
 //! List of all command identifiers and corresponding strings
 constexpr auto cmdIdAndString = std::array{
-    CmdIdAndString{CmdId::add, "add"},
-    CmdIdAndString{CmdId::set, "set"},
-    CmdIdAndString{CmdId::del, "del"},
-    CmdIdAndString{CmdId::reg, "reg"},
-    CmdIdAndString{CmdId::invalid, "invalidCmd"},  // End of list marker
+    std::pair(CmdId::add, "add"),
+    std::pair(CmdId::set, "set"),
+    std::pair(CmdId::del, "del"),
+    std::pair(CmdId::reg, "reg"),
+    std::pair(CmdId::invalid, "invalidCmd"),  // End of list marker
 };
 
 // Return a command Id for a command string

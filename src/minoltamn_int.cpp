@@ -1641,12 +1641,11 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 
-using LensIdFct = std::pair<uint32_t, PrintFct>;
 //! List of lens ids which require special treatment from printMinoltaSonyLensID
 constexpr auto lensIdFct = std::array{
-    LensIdFct(0x001c, resolveLens0x1c), LensIdFct(0x0029, resolveLens0x29), LensIdFct(0x0034, resolveLens0x34),
-    LensIdFct(0x0080, resolveLens0x80), LensIdFct(0x00ff, resolveLens0xff), LensIdFct(0xffff, resolveLens0xffff),
-    //     {   0x00ff, resolveLensTypeUsingExiftool }, // was used for debugging
+    std::pair(0x001cu, &resolveLens0x1c), std::pair(0x0029u, &resolveLens0x29), std::pair(0x0034u, &resolveLens0x34),
+    std::pair(0x0080u, &resolveLens0x80), std::pair(0x00ffu, &resolveLens0xff), std::pair(0xffffu, &resolveLens0xffff),
+    //     std::pair(0x00ff, resolveLensTypeUsingExiftool), // was used for debugging
 };
 // #1145 end - respect lenses with shared LensID
 // ----------------------------------------------------------------------

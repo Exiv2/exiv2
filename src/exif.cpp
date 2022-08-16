@@ -501,7 +501,6 @@ ByteOrder ExifParser::decode(ExifData& exifData, const byte* pData, size_t size)
 
 //! @cond IGNORE
 enum Ptt { pttLen, pttTag, pttIfd };
-using PreviewTags = std::pair<Ptt, const char*>;
 //! @endcond
 
 WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder,
@@ -579,34 +578,34 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   // Todo: Enhance preview classes to be able to write and delete previews and use that instead.
   // Table must be sorted by preview, the first tag in each group is the size
   static constexpr auto filteredPvTags = std::array{
-      PreviewTags(pttLen, "Exif.Minolta.ThumbnailLength"),
-      PreviewTags(pttTag, "Exif.Minolta.ThumbnailOffset"),
-      PreviewTags(pttLen, "Exif.Minolta.Thumbnail"),
-      PreviewTags(pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength"),
-      PreviewTags(pttIfd, "NikonPreview"),
-      PreviewTags(pttLen, "Exif.Olympus.ThumbnailLength"),
-      PreviewTags(pttTag, "Exif.Olympus.ThumbnailOffset"),
-      PreviewTags(pttLen, "Exif.Olympus.ThumbnailImage"),
-      PreviewTags(pttLen, "Exif.Olympus.Thumbnail"),
-      PreviewTags(pttLen, "Exif.Olympus2.ThumbnailLength"),
-      PreviewTags(pttTag, "Exif.Olympus2.ThumbnailOffset"),
-      PreviewTags(pttLen, "Exif.Olympus2.ThumbnailImage"),
-      PreviewTags(pttLen, "Exif.Olympus2.Thumbnail"),
-      PreviewTags(pttLen, "Exif.OlympusCs.PreviewImageLength"),
-      PreviewTags(pttTag, "Exif.OlympusCs.PreviewImageStart"),
-      PreviewTags(pttTag, "Exif.OlympusCs.PreviewImageValid"),
-      PreviewTags(pttLen, "Exif.Pentax.PreviewLength"),
-      PreviewTags(pttTag, "Exif.Pentax.PreviewOffset"),
-      PreviewTags(pttTag, "Exif.Pentax.PreviewResolution"),
-      PreviewTags(pttLen, "Exif.PentaxDng.PreviewLength"),
-      PreviewTags(pttTag, "Exif.PentaxDng.PreviewOffset"),
-      PreviewTags(pttTag, "Exif.PentaxDng.PreviewResolution"),
-      PreviewTags(pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength"),
-      PreviewTags(pttIfd, "SamsungPreview"),
-      PreviewTags(pttLen, "Exif.Thumbnail.StripByteCounts"),
-      PreviewTags(pttIfd, "Thumbnail"),
-      PreviewTags(pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"),
-      PreviewTags(pttIfd, "Thumbnail"),
+      std::pair(pttLen, "Exif.Minolta.ThumbnailLength"),
+      std::pair(pttTag, "Exif.Minolta.ThumbnailOffset"),
+      std::pair(pttLen, "Exif.Minolta.Thumbnail"),
+      std::pair(pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength"),
+      std::pair(pttIfd, "NikonPreview"),
+      std::pair(pttLen, "Exif.Olympus.ThumbnailLength"),
+      std::pair(pttTag, "Exif.Olympus.ThumbnailOffset"),
+      std::pair(pttLen, "Exif.Olympus.ThumbnailImage"),
+      std::pair(pttLen, "Exif.Olympus.Thumbnail"),
+      std::pair(pttLen, "Exif.Olympus2.ThumbnailLength"),
+      std::pair(pttTag, "Exif.Olympus2.ThumbnailOffset"),
+      std::pair(pttLen, "Exif.Olympus2.ThumbnailImage"),
+      std::pair(pttLen, "Exif.Olympus2.Thumbnail"),
+      std::pair(pttLen, "Exif.OlympusCs.PreviewImageLength"),
+      std::pair(pttTag, "Exif.OlympusCs.PreviewImageStart"),
+      std::pair(pttTag, "Exif.OlympusCs.PreviewImageValid"),
+      std::pair(pttLen, "Exif.Pentax.PreviewLength"),
+      std::pair(pttTag, "Exif.Pentax.PreviewOffset"),
+      std::pair(pttTag, "Exif.Pentax.PreviewResolution"),
+      std::pair(pttLen, "Exif.PentaxDng.PreviewLength"),
+      std::pair(pttTag, "Exif.PentaxDng.PreviewOffset"),
+      std::pair(pttTag, "Exif.PentaxDng.PreviewResolution"),
+      std::pair(pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength"),
+      std::pair(pttIfd, "SamsungPreview"),
+      std::pair(pttLen, "Exif.Thumbnail.StripByteCounts"),
+      std::pair(pttIfd, "Thumbnail"),
+      std::pair(pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"),
+      std::pair(pttIfd, "Thumbnail"),
   };
   bool delTags = false;
   for (auto&& [ptt, key] : filteredPvTags) {
