@@ -42,13 +42,11 @@ TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
     Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)) {
 }  // TiffImage::TiffImage
 
-//! Structure for TIFF compression to MIME type mappings
-using MimeTypeList = std::pair<int, const char*>;
 //! List of TIFF compression to MIME type mappings
 constexpr auto mimeTypeList = std::array{
-    MimeTypeList(32770, "image/x-samsung-srw"),
-    MimeTypeList(34713, "image/x-nikon-nef"),
-    MimeTypeList(65535, "image/x-pentax-pef"),
+    std::pair(32770, "image/x-samsung-srw"),
+    std::pair(34713, "image/x-nikon-nef"),
+    std::pair(65535, "image/x-pentax-pef"),
 };
 
 std::string TiffImage::mimeType() const {

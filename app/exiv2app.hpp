@@ -62,8 +62,6 @@ struct ModifyCmd {
 };
 //! Container for modification commands
 using ModifyCmds = std::vector<ModifyCmd>;
-//! Structure to link command identifiers to strings
-using CmdIdAndString = std::pair<CmdId, std::string_view>;
 /*!
   @brief Implements the command line handling for the program.
 
