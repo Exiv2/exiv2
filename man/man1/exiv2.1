@@ -114,7 +114,8 @@ Rename files and/or set file timestamps according to the Exif create
 timestamp. Uses the value of tag Exif.Photo.DateTimeOriginal or, if
 not present, Exif.Image.DateTime to determine the timestamp. The
 filename format can be set with \fB\-r\fP \fIfmt\fP, timestamp options
-are \fB\-t\fP and \fB\-T\fP.
+are \fB\-t\fP and \fB\-T\fP. When no rename format is provided, 
+the default is \'%Y%m%d_%H%M%S\' using definitions from \fBstrftime\fP(3).
 .TP
 .B fi | fixiso
 Copy the ISO setting from one of the proprietary Nikon or Canon
@@ -312,15 +313,17 @@ The 'extract' command will overwrite files when either --force or --Force is use
 .br
 .TP
 .B \-r \fIfmt\fP
-Filename format for the 'rename' action. The format string follows
-\fBstrftime\fP(3) and supports the following keywords:
+Filename format for the 'rename' action. The format string 
+uses \fBstrftime\fP(3) definitions and supports the following 
+keywords:
 .TS
 l l.
 :basename:	original filename without extension
 :dirname:	name of the directory holding the original file
 :parentname:	name of parent directory
 .TE
-Default filename format is %Y%m%d_%H%M%S.
+.sp 1
+Note that the colons are part of the keyword.
 .TP
 .B \-a \fItime\fP
 Time adjustment in the format [\-]HH[:MM[:SS]]. This option is only
