@@ -734,10 +734,10 @@ Prints the IPTC metadata of the image.
 .nf
 $ exiv2 rename img_1234.jpg
 .fi
-Renames img_1234.jpg (taken on 13\-Nov\-05 at 22:58:31) to img_1234_225831.jpg
+Renames img_1234.jpg (taken on 13\-Nov\-05 at 22:58:31) to 20051113_225831.jpg
 .sp 1
 .nf
-$ exiv2 \-r':basename:_%H%M%S' rename img_1234.jpg
+$ exiv2 \-r'\:basename\:_%Y%m' rename img_1234.jpg
 .fi
 Renames img_1234.jpg to img_1234_200511.jpg
 .sp 1
