@@ -79,7 +79,7 @@ Exif.Sony1.WhiteBalance2                     Short       1  0  Auto
 Exif.Sony2Fp.AmbientTemperature              SByte       1  22  22 °C
 Exif.Sony2Fp.FocusMode                       Byte        1  130  AF-S
 Exif.Sony2Fp.AFAreaMode                      Byte        1  0  Multi
-Exif.Sony2Fp.FocusPosition2                  Byte        1  142  (142)
+Exif.Sony2Fp.FocusPosition2                  Byte        1  142  142
 Exif.SonyMisc1.CameraTemperature             SByte       1  0  n/a
 Exif.Sony1.MultiBurstImageWidth              Short       1  100  100
 Exif.Sony1.MultiBurstImageHeight             Short       1  100  100

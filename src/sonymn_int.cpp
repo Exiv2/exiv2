@@ -1845,12 +1845,13 @@ std::ostream& SonyMakerNote::printSony2FpFocusPosition2(std::ostream& os, const 
   if (value.count() != 1)
     os << "(" << value << ")";
   else {
-    auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-    if (pos == metadata->end())
-      return os << "(" << value << ")";
+    std::string model;
+    if (!getModel(metadata, model)) {
+      os << "(" << value << ")";
+      return os;
+    }
 
     // Ranges of models that do not support this tag
-    std::string model = pos->toString();
     for (auto& m : {"DSC-", "Stellar"}) {
       if (model.find(m) == 0) {
         os << N_("n/a");
@@ -1948,12 +1949,13 @@ std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, c
   if (value.count() != 1)
     return os << "(" << value << ")";
 
-  auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-  if (pos == metadata->end())
-    return os << "(" << value << ")";
+  std::string model;
+  if (!getModel(metadata, model)) {
+    os << "(" << value << ")";
+    return os;
+  }
 
   // Models that do not support this tag
-  std::string model = pos->toString();
   for (auto& m : {"SLT-", "HV", "ILCA-"}) {
     if (model.find(m) != std::string::npos)
       return os << N_("n/a");
@@ -1969,12 +1971,13 @@ std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, con
   if (value.count() != 1)
     return os << "(" << value << ")";
 
-  auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-  if (pos == metadata->end())
-    return os << "(" << value << ")";
+  std::string model;
+  if (!getModel(metadata, model)) {
+    os << "(" << value << ")";
+    return os;
+  }
 
   // Models that do not support this tag
-  std::string model = pos->toString();
   for (auto& m : {"SLT-", "HV", "ILCA-"}) {
     if (model.find(m) != std::string::npos)
       return os << N_("n/a");
@@ -2047,9 +2050,11 @@ std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream&
   if (value.count() != 1)
     return os << "(" << value << ")";
 
-  auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-  if (pos == metadata->end())
-    return os << "(" << value << ")";
+  std::string model;
+  if (!getModel(metadata, model)) {
+    os << "(" << value << ")";
+    return os;
+  }
 
   // Models that support this tag
   static constexpr auto models = std::array{
@@ -2060,7 +2065,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream&
       "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",  "DSC-WX350", "DSC-WX500",
   };
 
-  bool f = std::find(models.begin(), models.end(), pos->toString()) != models.end();
+  bool f = std::find(models.begin(), models.end(), model) != models.end();
   if (f)
     return os << value.toInt64();
   return os << N_("n/a");
@@ -2074,12 +2079,13 @@ std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Val
   if (value.count() != 1)
     return os << "(" << value << ")";
 
-  auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-  if (pos == metadata->end())
-    return os << "(" << value << ")";
+  std::string model;
+  if (!getModel(metadata, model)) {
+    os << "(" << value << ")";
+    return os;
+  }
 
   const auto val = value.toInt64();
-  std::string model = pos->toString();
 
   // Value is interpreted differently if model is in list or not
   for (auto& m : {"ILCE-1", "ILCE-7SM3", "ILME-FX3"}) {
@@ -2121,13 +2127,15 @@ std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, co
   if (value.count() != 1)
     return os << "(" << value << ")";
 
-  auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-  if (pos == metadata->end())
-    return os << "(" << value << ")";
+  std::string model;
+  if (!getModel(metadata, model)) {
+    os << "(" << value << ")";
+    return os;
+  }
 
   // Models that do not support this tag
   const auto models = std::array{"ILCE-1", "ILCE-7SM3", "ILME-FX3"};
-  bool f = std::find(models.begin(), models.end(), pos->toString()) != models.end();
+  bool f = std::find(models.begin(), models.end(), model) != models.end();
   if (f)
     return os << N_("n/a");
 
@@ -2140,13 +2148,15 @@ std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, c
   if (value.count() != 1)
     return os << "(" << value << ")";
 
-  auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
-  if (pos == metadata->end())
-    return os << "(" << value << ")";
+  std::string model;
+  if (!getModel(metadata, model)) {
+    os << "(" << value << ")";
+    return os;
+  }
 
   // Models that do not support this tag
   const auto models = std::array{"ILCE-1", "ILCE-7SM3", "ILME-FX3"};
-  bool f = std::find(models.begin(), models.end(), pos->toString()) != models.end();
+  bool f = std::find(models.begin(), models.end(), model) != models.end();
   if (f)
     return os << N_("n/a");
 
