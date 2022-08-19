@@ -684,7 +684,8 @@ bool isBmffType(BasicIo& iIo, bool advance) {
   // MOV(quicktime) files seem to also start with ftyp, but we don't want to process them
   // so check that we don't encounter "qt  "
   // FIXME what others types can we abort early here?
-  bool const is_video = (buf[8] == 'q' && buf[9] == 't' && buf[10] == ' ' && buf[11] == ' ');
+  bool const is_video = (buf[8] == 'm' && buf[9] == 'p' && buf[10] == '4' && buf[11] == '2') ||
+                        (buf[8] == 'q' && buf[9] == 't' && buf[10] == ' ' && buf[11] == ' ');
   bool matched = is_jxl || (is_ftyp && !is_video);
   if (!advance || !matched) {
     iIo.seek(0, BasicIo::beg);
