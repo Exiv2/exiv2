@@ -44,9 +44,9 @@ TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
 
 //! List of TIFF compression to MIME type mappings
 constexpr auto mimeTypeList = std::array{
-    std::pair(32770, "image/x-samsung-srw"),
-    std::pair(34713, "image/x-nikon-nef"),
-    std::pair(65535, "image/x-pentax-pef"),
+    std::pair(32767, "image/x-sony-arw"),    std::pair(32769, "image/x-epson-erf"),
+    std::pair(32770, "image/x-samsung-srw"), std::pair(34713, "image/x-nikon-nef"),
+    std::pair(65000, "image/x-kodak-dcr"),   std::pair(65535, "image/x-pentax-pef"),
 };
 
 std::string TiffImage::mimeType() const {
