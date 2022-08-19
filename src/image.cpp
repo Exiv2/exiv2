@@ -36,6 +36,7 @@
 #include "tiffimage.hpp"
 #include "webpimage.hpp"
 #include "xmpsidecar.hpp"
+#include "quicktimevideo.hpp"
 
 // + standard includes
 #include <array>
@@ -99,6 +100,7 @@ constexpr auto registry = std::array{
 #ifdef EXV_ENABLE_BMFF
     Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
+    Registry{ ImageType::qtime,newQTimeInstance,isQTimeType,amRead,amNone, amRead, amNone},
 };
 
 std::string pathOfFileUrl(const std::string& url) {

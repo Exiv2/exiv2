@@ -81,6 +81,7 @@ set(PUBLIC_HEADERS
     ../include/exiv2/webpimage.hpp
     ../include/exiv2/xmp_exiv2.hpp
     ../include/exiv2/xmpsidecar.hpp
+    ../include/exiv2/quicktimevideo.hpp
 )
 
 add_library( exiv2lib
@@ -123,6 +124,7 @@ add_library( exiv2lib
     webpimage.cpp
     xmp.cpp
     xmpsidecar.cpp
+    quicktimevideo.cpp
     ${PUBLIC_HEADERS}
     $<TARGET_OBJECTS:exiv2lib_int>
 )

@@ -34,6 +34,7 @@ enum class ImageType {
   tiff,
   webp,
   xmp,  ///< XMP sidecar files
+  qtime,
 };
 }  // namespace Exiv2
 

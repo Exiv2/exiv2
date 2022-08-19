@@ -4902,8 +4902,7 @@ const XmpPrintInfo xmpPrintInfo[] = {
     {"Xmp.plus.MinorModelAgeDisclosure", EXV_PRINT_VOCABULARY(plusMinorModelAgeDisclosure)},
     {"Xmp.plus.ModelReleaseStatus", EXV_PRINT_VOCABULARY(plusModelReleaseStatus)},
     {"Xmp.plus.PropertyReleaseStatus", EXV_PRINT_VOCABULARY(plusPropertyReleaseStatus)},
-    {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)},
-};
+    {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)}};
 
 XmpNsInfo::Ns::Ns(std::string ns) : ns_(std::move(ns)) {
 }
