@@ -1449,7 +1449,7 @@ constexpr TagInfo SonyMakerNote::tagInfo_[] = {
     {0x201e, "AFPointSelected", N_("Auto-focus point selected"), N_("Auto-focus point selected"), IfdId::sony1Id,
      SectionId::makerTags, unsignedByte, -1, printAFPointSelected},
     {0x2020, "AFPointsUsed", N_("Auto-focus points used"), N_("Auto-focus points used"), IfdId::sony1Id,
-     SectionId::makerTags, undefined, -1, printAFPointsUsed},
+     SectionId::makerTags, unsignedByte, -1, printAFPointsUsed},
     {0x2021, "AFTracking", N_("Auto-focus tracking"), N_("Auto-focus tracking"), IfdId::sony1Id, SectionId::makerTags,
      unsignedByte, -1, printAFTracking},
     {0x2022, "FocalPlaneAFPointsUsed", N_("Focal plane auto-focus points used"),
