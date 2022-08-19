@@ -83,8 +83,11 @@ namespace Exiv2 {
 
     //! List of TIFF compression to MIME type mappings
     MimeTypeList mimeTypeList[] = {
+        { 32767, "image/x-sony-arw"    },
+        { 32769, "image/x-epson-erf"   },
         { 32770, "image/x-samsung-srw" },
         { 34713, "image/x-nikon-nef"   },
+        { 65000, "image/x-kodak-dcr"   },
         { 65535, "image/x-pentax-pef"  }
     };
 
