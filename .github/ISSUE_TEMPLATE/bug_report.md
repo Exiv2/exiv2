@@ -12,7 +12,7 @@ A clear and concise description of the bug.
 
 ##### **To Reproduce**
 Steps to reproduce the behavior:
-1. Provide the file with which you observed the issue (commonly named PoC)
+1. Provide the file with which you observed the issue (commonly named PoC). Explain the status of the file (e.g., direct from camera, edited with darktable)
 2. List the exact commands/functions to reproduce the issue and include any related output
 3. Mention the branch/commit in which you observed the issue (e.g., `main`, `0.27-maintenance`, `commit 9f721b40`)
 
