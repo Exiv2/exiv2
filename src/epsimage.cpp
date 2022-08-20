@@ -182,9 +182,7 @@ void findXmp(size_t& xmpPos, size_t& xmpSize, const byte* data, size_t startPos,
       for (size_t trailerPos = xmpPos + header.size(); trailerPos < size; trailerPos++) {
         if (data[xmpPos] != '\x00' && data[xmpPos] != '<')
           continue;
-        for (auto&& xmpTrailer : xmpTrailers) {
-          const auto& [trailer, readOnly] = xmpTrailer;
-
+        for (const auto& [trailer, readOnly] : xmpTrailers) {
           if (trailerPos + trailer.size() > size)
             continue;
           if (memcmp(data + trailerPos, trailer.data(), trailer.size()) != 0)
