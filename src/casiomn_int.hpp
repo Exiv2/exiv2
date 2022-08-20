@@ -9,8 +9,8 @@
   Specification</a> by Evan Hunter.
   @date    30-Oct-13, ahu: created
  */
-#ifndef CASIOMN_INT_HPP_
-#define CASIOMN_INT_HPP_
+#ifndef EXIV2_CASIOMN_INT_HPP
+#define EXIV2_CASIOMN_INT_HPP
 
 // *****************************************************************************
 // included header files
@@ -57,4 +57,4 @@ class Casio2MakerNote {
 
 }  // namespace Exiv2::Internal
 
-#endif  // #ifndef CasioMN_INT_HPP_
+#endif  // EXIV2_CASIOMN_INT_HPP

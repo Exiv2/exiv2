@@ -141,7 +141,7 @@ class EXIV2API BmffImage : public Image {
   std::string boxName(uint32_t box);
   static bool superBox(uint32_t box);
   static bool fullBox(uint32_t box);
-  static std::string uuidName(Exiv2::DataBuf& uuid);
+  static std::string uuidName(const Exiv2::DataBuf& uuid);
 
 };  // class BmffImage
 
