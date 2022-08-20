@@ -149,7 +149,14 @@ int main(int argc, char* const argv[]) {
       std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
       returnCode = EXIT_FAILURE;
     } else {
-      int w = filesCount > 9 ? filesCount > 99 ? 3 : 2 : 1;
+      int w = [=]() {
+        if (filesCount > 9) {
+          if (filesCount > 99)
+            return 3;
+          return 2;
+        }
+        return 1;
+      }();
       int n = 1;
       for (const auto& file : params.files_) {
         // If extracting to stdout then ignore verbose
@@ -1038,19 +1045,15 @@ int Params::getopt(int argc, char* const Argv[]) {
     std::cerr << progname() << ": " << _("At least one file is required\n");
     rc = 1;
   }
-  if (rc == 0 && !cmdFiles_.empty()) {
-    // Parse command files
-    if (!parseCmdFiles(modifyCmds_, cmdFiles_)) {
-      std::cerr << progname() << ": " << _("Error parsing -m option arguments\n");
-      rc = 1;
-    }
+  // Parse command files
+  if (rc == 0 && !cmdFiles_.empty() && !parseCmdFiles(modifyCmds_, cmdFiles_)) {
+    std::cerr << progname() << ": " << _("Error parsing -m option arguments\n");
+    rc = 1;
   }
-  if (rc == 0 && !cmdLines_.empty()) {
-    // Parse command lines
-    if (!parseCmdLines(modifyCmds_, cmdLines_)) {
-      std::cerr << progname() << ": " << _("Error parsing -M option arguments\n");
-      rc = 1;
-    }
+  // Parse command lines
+  if (rc == 0 && !cmdLines_.empty() && !parseCmdLines(modifyCmds_, cmdLines_)) {
+    std::cerr << progname() << ": " << _("Error parsing -M option arguments\n");
+    rc = 1;
   }
   if (rc == 0 && (!cmdFiles_.empty() || !cmdLines_.empty())) {
     // We'll set them again, after reading the file
@@ -1060,15 +1063,15 @@ int Params::getopt(int argc, char* const Argv[]) {
     std::cerr << progname() << ": " << _("-l option can only be used with extract or insert actions\n");
     rc = 1;
   }
-  if (!suffix_.empty() && !(action_ == Action::insert)) {
+  if (!suffix_.empty() && action_ != Action::insert) {
     std::cerr << progname() << ": " << _("-S option can only be used with insert action\n");
     rc = 1;
   }
-  if (timestamp_ && !(action_ == Action::rename)) {
+  if (timestamp_ && action_ != Action::rename) {
     std::cerr << progname() << ": " << _("-t option can only be used with rename action\n");
     rc = 1;
   }
-  if (timestampOnly_ && !(action_ == Action::rename)) {
+  if (timestampOnly_ && action_ != Action::rename) {
     std::cerr << progname() << ": " << _("-T option can only be used with rename action\n");
     rc = 1;
   }

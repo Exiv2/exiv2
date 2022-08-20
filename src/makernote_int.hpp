@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef MAKERNOTE_INT_HPP_
-#define MAKERNOTE_INT_HPP_
+#ifndef EXIV2_MAKERNOTE_INT_HPP
+#define EXIV2_MAKERNOTE_INT_HPP
 
 // *****************************************************************************
 // included header files
@@ -700,4 +700,4 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
 
 }  // namespace Exiv2::Internal
 
-#endif  // #ifndef MAKERNOTE_INT_HPP_
+#endif  // EXIV2_MAKERNOTE_INT_HPP

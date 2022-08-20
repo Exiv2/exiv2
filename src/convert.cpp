@@ -1276,7 +1276,7 @@ std::string Converter::computeExifDigest(bool tiff) {
   MD5Final(digest, &context);
   res << ';';
   res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
-  for (auto&& i : digest) {
+  for (const auto& i : digest) {
     res << static_cast<int>(i);
   }
   return res.str();

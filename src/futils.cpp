@@ -201,7 +201,7 @@ Protocol fileProtocol(const std::string& path) {
   } prots[] = {{"http://", pHttp, true}, {"https://", pHttps, true},  {"ftp://", pFtp, true},
                {"sftp://", pSftp, true}, {"file://", pFileUri, true}, {"data://", pDataUri, true},
                {"-", pStdin, false}};
-  for (auto&& prot : prots) {
+  for (const auto& prot : prots) {
     if (result != pFile)
       break;
 

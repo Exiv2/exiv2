@@ -79,9 +79,13 @@ std::string BmffImage::toAscii(uint32_t n) {
   std::string result;
   for (int i = 0; i < 4; i++) {
     char c = p[isBigEndianPlatform() ? i : (3 - i)];
-    result += (32 <= c && c < 127) ? c    // only allow 7-bit printable ascii
-              : c == 0             ? '_'  // show 0 as _
-                                   : '.';             // others .
+    result += [c]() {
+      if (32 <= c && c < 127)
+        return c;  // only allow 7-bit printable ascii
+      if (c == 0)
+        return '_';  // show 0 as _
+      return '.';    // others .
+    }();
   }
   return result;
 }
@@ -141,7 +145,7 @@ uint32_t BmffImage::pixelHeight() const {
   return pixelHeight_;
 }
 
-std::string BmffImage::uuidName(Exiv2::DataBuf& uuid) {
+std::string BmffImage::uuidName(const Exiv2::DataBuf& uuid) {
   const char* uuidCano = "\x85\xC0\xB6\x87\x82\xF\x11\xE0\x81\x11\xF4\xCE\x46\x2B\x6A\x48";
   const char* uuidXmp = "\xBE\x7A\xCF\xCB\x97\xA9\x42\xE8\x9C\x71\x99\x94\x91\xE3\xAF\xAC";
   const char* uuidCanp = "\xEA\xF4\x2B\x5E\x1C\x98\x4B\x88\xB9\xFB\xB7\xDC\x40\x6E\x4D\x16";

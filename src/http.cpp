@@ -177,7 +177,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   const char* NO_PROXY = getenv(NO_PROXI);
   const char* no_proxy = getenv(no_proxi);
   bool bNoProxy = NO_PROXY || no_proxy;
-  std::string no_prox = std::string(bNoProxy ? (no_proxy ? no_proxy : NO_PROXY) : "");
+  auto no_prox = std::string(bNoProxy ? (no_proxy ? no_proxy : NO_PROXY) : "");
   Exiv2::Dictionary noProxy = stringToDict(no_prox + ",localhost,127.0.0.1");
 
   // if the server is on the no_proxy list ... ignore the proxy!
@@ -214,7 +214,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   // convert unknown servername into IP address
   // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzab6/rzab6uafinet.htm
   if (serv_addr.sin_addr.s_addr == static_cast<unsigned long>(INADDR_NONE)) {
-    struct hostent* host = gethostbyname(servername_p);
+    auto host = gethostbyname(servername_p);
     if (!host)
       return error(errors, "no such host", servername_p);
     memcpy(&serv_addr.sin_addr, host->h_addr, sizeof(serv_addr.sin_addr));
@@ -300,7 +300,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
           break;
         }
         result = atoi(firstSpace);
-        char* c = strchr(h, C);
+        auto c = strchr(h, C);
         char* first_newline = strchr(h, N);
         while (c && first_newline && c < first_newline && h < buffer + body) {
           std::string key(h);

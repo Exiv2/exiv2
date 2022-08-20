@@ -828,7 +828,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     if (useFlexibleEmbedding) {
       positions.push_back(xmpPos);
     }
-    for (auto&& [r, s] : removableEmbeddings) {
+    for (const auto& [r, s] : removableEmbeddings) {
       positions.push_back(r);
     }
     std::sort(positions.begin(), positions.end());
@@ -842,7 +842,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     const uint32_t posEpsNew = posTemp(tempIo);
     size_t prevPos = posEps;
     size_t prevSkipPos = prevPos;
-    for (auto&& pos : positions) {
+    for (const auto& pos : positions) {
       if (pos == prevPos)
         continue;
 #ifdef DEBUG
@@ -937,7 +937,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       }
       if (!useFlexibleEmbedding) {
         // remove preceding embedding(s)
-        for (auto&& [p, s] : removableEmbeddings) {
+        for (const auto& [p, s] : removableEmbeddings) {
           if (pos == p) {
             skipPos = s;
 #ifdef DEBUG

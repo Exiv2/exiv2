@@ -14,4 +14,4 @@ namespace Util {
 bool strtol(const char* nptr, int64_t& n);
 }  // namespace Util
 
-#endif  // #ifndef UTILS_HPP_
+#endif  // APP_UTILS_HPP_

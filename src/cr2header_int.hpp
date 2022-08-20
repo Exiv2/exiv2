@@ -7,8 +7,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    23-Apr-08, ahu: created
  */
-#ifndef CR2IMAGE_INT_HPP_
-#define CR2IMAGE_INT_HPP_
+#ifndef EXIV2_CR2HEADER_INT_HPP
+#define EXIV2_CR2HEADER_INT_HPP
 
 // *****************************************************************************
 // included header files
@@ -55,4 +55,4 @@ class Cr2Header : public TiffHeaderBase {
 
 }  // namespace Exiv2::Internal
 
-#endif  // #ifndef CR2IMAGE_INT_HPP_
+#endif  // EXIV2_CR2HEADER_INT_HPP

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef CRWIMAGE_INT_HPP_
-#define CRWIMAGE_INT_HPP_
+#ifndef EXIV2_CRWIMAGE_INT_HPP
+#define EXIV2_CRWIMAGE_INT_HPP
 
 // *****************************************************************************
 // included header files
@@ -656,4 +656,4 @@ DataBuf packIfdId(const ExifData& exifData, IfdId ifdId, ByteOrder byteOrder);
 
 }  // namespace Exiv2::Internal
 
-#endif  // #ifndef CRWIMAGE_INT_HPP_
+#endif  // EXIV2_CRWIMAGE_INT_HPP
