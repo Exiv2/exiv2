@@ -711,7 +711,7 @@ static bool getMetaVersion(const ExifData* metadata, std::string& val) {
 static bool getFocusMode2(const ExifData* metadata, uint32_t& val) {
   auto pos = metadata->findKey(ExifKey("Exif.Sony1.FocusMode2"));
 
-  if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
+  if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedByte) {
     std::ostringstream oss;
     pos->write(oss, metadata);
     if (oss.str() == _("n/a")) {
@@ -723,7 +723,7 @@ static bool getFocusMode2(const ExifData* metadata, uint32_t& val) {
     return true;
   }
   pos = metadata->findKey(ExifKey("Exif.Sony2.FocusMode2"));
-  if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
+  if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedByte) {
     std::ostringstream oss;
     pos->write(oss, metadata);
     if (oss.str() == _("n/a")) {
