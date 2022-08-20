@@ -110,7 +110,7 @@ Exif.SonyMisc2b.ExposureProgram              Byte        1  1  Aperture-priority
 Exif.SonyMisc2b.IntelligentAuto              Byte        1  0  Off
 Exif.SonyMisc2b.LensZoomPosition             Short       1  0  (0)
 Exif.SonyMisc2b.FocusPosition2               Byte        1  0  (0)
-Exif.Sony2.AFMode                            Short       1  0  n/a
+Exif.Sony2.AFMode                            Short       1  0  Multi
 Exif.Photo.UserComment                       Undefined  64    
 Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
 Exif.Photo.ColorSpace                        Short       1  1  sRGB

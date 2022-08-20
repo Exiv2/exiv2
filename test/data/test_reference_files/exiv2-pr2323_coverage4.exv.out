@@ -114,7 +114,7 @@ Exif.SonyMisc2b.FocusPosition2               Byte        1  0  0
 Exif.Sony2.WBShiftABGM                       SLong       2  1 1  A/B: B1, G/M: M1
 Exif.Sony2.WBShiftABGMPrecise                SLong       2  1000 1000  A/B: B1.00, G/M: M1.00
 Exif.Sony2.FocusFrameSize                    Undefined   6  0 0 0 0 0 0  n/a
-Exif.Sony2.AFMode                            Short       1  0  n/a
+Exif.Sony2.AFMode                            Short       1  0  Multi
 Exif.Photo.UserComment                       Undefined  64    
 Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
 Exif.Photo.ColorSpace                        Short       1  1  sRGB
