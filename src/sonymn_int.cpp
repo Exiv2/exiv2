@@ -631,7 +631,7 @@ constexpr TagDetails sonyLongExposureNoiseReduction[] = {
 constexpr TagDetails sonyHighISONoiseReductionStd[] = {{0, N_("Off")},  {1, N_("Low")},    {2, N_("Normal")},
                                                        {3, N_("High")}, {256, N_("Auto")}, {0xffff, N_("n/a")}};
 
-static bool getModel(const ExifData* metadata, std::string& val) {
+static auto getModel(const ExifData* metadata, std::string& val) {
   auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == asciiString) {
     val = pos->toString(0);
@@ -664,7 +664,7 @@ static bool getModel(const ExifData* metadata, std::string& val) {
   return false;
 }
 
-static bool getAFAreaModeSetting(const ExifData* metadata, uint32_t& val) {
+static auto getAFAreaModeSetting(const ExifData* metadata, uint32_t& val) {
   auto pos = metadata->findKey(ExifKey("Exif.Sony1.AFAreaModeSetting"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedByte) {
     std::ostringstream oss;
@@ -694,7 +694,7 @@ static bool getAFAreaModeSetting(const ExifData* metadata, uint32_t& val) {
   return false;
 }
 
-static bool getMetaVersion(const ExifData* metadata, std::string& val) {
+static auto getMetaVersion(const ExifData* metadata, std::string& val) {
   const auto pos = metadata->findKey(ExifKey("Exif.SonySInfo1.MetaVersion"));
 
   if (pos != metadata->end() && pos->typeId() == asciiString) {
@@ -708,7 +708,7 @@ static bool getMetaVersion(const ExifData* metadata, std::string& val) {
   return false;
 }
 
-static bool getFocusMode2(const ExifData* metadata, uint32_t& val) {
+static auto getFocusMode2(const ExifData* metadata, uint32_t& val) {
   auto pos = metadata->findKey(ExifKey("Exif.Sony1.FocusMode2"));
 
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedByte) {
@@ -928,7 +928,7 @@ std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value&
   uint32_t aFAreaModeSetting = 0;
   const auto status = getAFAreaModeSetting(metadata, aFAreaModeSetting);
   constexpr std::array models1{"SLT-", "HV-"};
-  constexpr std::array models2{"ILCE-", "ILCME-"};
+  constexpr std::array models2{"ILCE-", "ILME-"};
   constexpr std::array models3{"ILCA-68", "ILCA-77M2"};
   constexpr std::array models4{"NEX-", "ILCE-", "ILME-"};
 
