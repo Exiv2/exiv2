@@ -28,6 +28,7 @@ def get_valid_files(data_dir):
         ".tiff",
         ".webp",
         ".xmp",
+        ".mp4",
     ]
 
     excludes = [
