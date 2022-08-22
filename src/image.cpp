@@ -97,10 +97,12 @@ constexpr auto registry = std::array{
     Registry{ImageType::tga, newTgaInstance, isTgaType, amNone, amNone, amNone, amNone},
     Registry{ImageType::bmp, newBmpInstance, isBmpType, amNone, amNone, amNone, amNone},
     Registry{ImageType::jp2, newJp2Instance, isJp2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
+    // needs to be before bmff because some ftyp files are handled as qt and
+    // the rest should fall through to bmff
+    Registry{ ImageType::qtime,newQTimeInstance,isQTimeType,amRead,amNone, amRead, amNone},
 #ifdef EXV_ENABLE_BMFF
     Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
-    Registry{ ImageType::qtime,newQTimeInstance,isQTimeType,amRead,amNone, amRead, amNone},
 };
 
 std::string pathOfFileUrl(const std::string& url) {
