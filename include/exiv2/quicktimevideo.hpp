@@ -80,7 +80,7 @@ class QuickTimeVideo : public Image {
     @param buf Data buffer which cotains tag ID.
     @param size Size of the data block used to store Tag Information.
    */
-  void tagDecoder(Exiv2::DataBuf& buf, uint64_t size);
+  void tagDecoder(Exiv2::DataBuf& buf, size_t size);
 
  private:
   /*!
@@ -88,37 +88,37 @@ class QuickTimeVideo : public Image {
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void fileTypeDecoder(uint64_t size);
+  void fileTypeDecoder(size_t size);
   /*!
     @brief Interpret Media Header Tag, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void mediaHeaderDecoder(uint64_t size);
+  void mediaHeaderDecoder(size_t size);
   /*!
     @brief Interpret Video Header Tag, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void videoHeaderDecoder(uint64_t size);
+  void videoHeaderDecoder(size_t size);
   /*!
     @brief Interpret Movie Header Tag, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void movieHeaderDecoder(uint64_t size);
+  void movieHeaderDecoder(size_t size);
   /*!
     @brief Interpret Track Header Tag, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void trackHeaderDecoder(uint64_t size);
+  void trackHeaderDecoder(size_t size);
   /*!
     @brief Interpret Handler Tag, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void handlerDecoder(uint64_t size);
+  void handlerDecoder(size_t size);
   /*!
     @brief Interpret Tag which contain other sub-tags,
         and save it in the respective XMP container.
@@ -129,7 +129,7 @@ class QuickTimeVideo : public Image {
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void sampleDesc(uint64_t size);
+  void sampleDesc(size_t size);
   /*!
     @brief Interpret Image Description Tag, and save it
         in the respective XMP container.
@@ -140,37 +140,37 @@ class QuickTimeVideo : public Image {
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void userDataDecoder(uint64_t size);
+  void userDataDecoder(size_t size);
   /*!
     @brief Interpret Preview Tag, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void previewTagDecoder(uint64_t size);
+  void previewTagDecoder(size_t size);
   /*!
     @brief Interpret Meta Keys Tags, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void keysTagDecoder(uint64_t size);
+  void keysTagDecoder(size_t size);
   /*!
     @brief Interpret Track Aperture Tags, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void trackApertureTagDecoder(uint64_t size);
+  void trackApertureTagDecoder(size_t size);
   /*!
     @brief Interpret Nikon Tag, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void NikonTagsDecoder(uint64_t size);
+  void NikonTagsDecoder(size_t size);
   /*!
     @brief Interpret Tags from Different Camera make, and save it
         in the respective XMP container.
     @param size Size of the data block used to store Tag Information.
    */
-  void CameraTagsDecoder(uint64_t size);
+  void CameraTagsDecoder(size_t size);
   /*!
     @brief Interpret Audio Description Tag, and save it
         in the respective XMP container.
@@ -191,7 +191,7 @@ class QuickTimeVideo : public Image {
         be skipped and not decoded.
     @param size Size of the data block that is to skipped.
    */
-  void discard(uint64_t size);
+  void discard(size_t size);
   /*!
     @brief Calculates Aspect Ratio of a video, and stores it in the
         respective XMP container.
