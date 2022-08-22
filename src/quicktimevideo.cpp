@@ -30,6 +30,8 @@
 // + standard includes
 #include <cmath>
 #include <iostream>
+#include <array>
+#include <string>
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -575,25 +577,6 @@ namespace Exiv2 {
         return temp;
     }
 
-    /*!
-      @brief Function used to quicktime files, by checking the
-          the tags at the start of the file. If the Tag is any one
-          of the tags listed below, then it is of Quicktime Type.
-      @param a, b, c, d - characters used to compare
-      @return Returns true, if Tag is found in the list qTimeTags
-     */
-    bool isQuickTimeType (char a, char b, char c, char d) {
-        char qTimeTags[][5] = {
-            "PICT", "free", "ftyp", "junk", "mdat",
-            "moov", "pict", "pnot", "skip",  "uuid", "wide"
-        };
-
-        for(int i = 0; i <= 10; i++)
-            if(a == qTimeTags[i][0] && b == qTimeTags[i][1] && c == qTimeTags[i][2] && d == qTimeTags[i][3])
-                return true;
-        return false;
-    }
-
 }}                                      // namespace Internal, Exiv2
 
 namespace Exiv2 {
@@ -666,7 +649,7 @@ namespace Exiv2 {
         if(size < 8)
             return;
 
-     std::cerr<<"\nTag=>"<<buf.data()<<"     size=>"<<size-8 << "";
+     // std::cerr<<"\nTag=>"<<buf.data()<<"     size=>"<<size-8 << "";
         tagDecoder(buf,size-8);
     } // QuickTimeVideo::decodeBlock
 
@@ -1637,16 +1620,30 @@ namespace Exiv2 {
     }
 
     bool isQTimeType(BasicIo& iIo, bool advance) {
-        const int32_t len = 4;
-        byte buf[len];
-        iIo.read(buf, len);
-        iIo.read(buf, len);
+        auto buf = iIo.read(12);
 
         if (iIo.error() || iIo.eof()) {
             return false;
         }
+        auto qTimeTags =
+            std::array{"PICT", "free", "ftyp", "junk", "mdat", "moov", "pict", "pnot", "skip", "uuid", "wide"};
 
-        bool matched = isQuickTimeType(buf[0], buf[1], buf[2], buf[3]);
+        bool  matched = false;
+
+        for (auto const& tag : qTimeTags) {
+          auto tmp = buf.cmpBytes(4, tag, 4);
+          if (tmp == 0) {
+            // we only match if we actually know the video type. This is done
+            // to avoid matching just on ftyp because bmffimage also has that
+            // header.
+            auto td = find(qTimeFileType, std::string{buf.c_str(8), 4} );
+            if (td){
+              matched = true;
+            }
+            break;
+          }
+        }
+
         if (!advance || !matched) {
             iIo.seek(static_cast<long>(0), BasicIo::beg);
         }
