@@ -1588,7 +1588,8 @@ Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool /*create*/) {
 }
 
 bool isQTimeType(BasicIo& iIo, bool advance) {
-  auto buf = iIo.read(12);
+  auto buf = DataBuf(12);
+  iIo.read(buf.data(), 12);
 
   if (iIo.error() || iIo.eof()) {
     return false;
