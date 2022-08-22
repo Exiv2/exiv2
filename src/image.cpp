@@ -29,6 +29,7 @@
 #include "orfimage.hpp"
 #include "pgfimage.hpp"
 #include "psdimage.hpp"
+#include "quicktimevideo.hpp"
 #include "rafimage.hpp"
 #include "rw2image.hpp"
 #include "tags_int.hpp"
@@ -36,7 +37,6 @@
 #include "tiffimage.hpp"
 #include "webpimage.hpp"
 #include "xmpsidecar.hpp"
-#include "quicktimevideo.hpp"
 
 // + standard includes
 #include <array>
@@ -99,7 +99,7 @@ constexpr auto registry = std::array{
     Registry{ImageType::jp2, newJp2Instance, isJp2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
     // needs to be before bmff because some ftyp files are handled as qt and
     // the rest should fall through to bmff
-    Registry{ ImageType::qtime,newQTimeInstance,isQTimeType,amRead,amNone, amRead, amNone},
+    Registry{ImageType::qtime, newQTimeInstance, isQTimeType, amRead, amNone, amRead, amNone},
 #ifdef EXV_ENABLE_BMFF
     Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
