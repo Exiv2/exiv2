@@ -334,7 +334,8 @@ constexpr StringTagDetails sonyQuality2Std[] = {{"0 0", N_("n/a")},
 constexpr TagDetails sonyJPEGHEIFSwitch[] = {{0, "JPEG"}, {1, "HEIF"}, {0xffff, N_("n/a")}};
 
 //! Lookup table to translate Sony model ID values to readable labels
-// NOTE: Keep the array format in sync with the getModel() function
+//  FORMAT: Uses a space before alternative models and caveats
+//  NOTE:   Keep the array format in sync with the getModel() function
 constexpr TagDetails sonyModelId[] = {{0, N_("Multiple camera models")},
                                       {2, "DSC-R1"},
                                       {256, "DSLR-A100"},
