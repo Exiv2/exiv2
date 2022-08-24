@@ -71,7 +71,7 @@ class QuickTimeVideo : public Image {
     @brief Check for a valid tag and decode the block at the current IO
     position. Calls tagDecoder() or skips to next tag, if required.
    */
-  void decodeBlock();
+  void decodeBlock(std::string const& parent_box = "");
   /*!
     @brief Interpret tag information, and call the respective function
         to save it in the respective XMP container. Decodes a Tag
