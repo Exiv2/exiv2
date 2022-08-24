@@ -132,7 +132,7 @@ class EXIV2API BasicIo {
         read if \em rcount bytes are not available.
     @param err Error code to use if an exception is thrown.
    */
-  void readOrThrow(byte* buf, size_t rcount, ErrorCode err);
+  void readOrThrow(byte* buf, size_t rcount, ErrorCode err = ErrorCode::kerCorruptedMetadata);
   /*!
     @brief Read one byte from the IO source. Current IO position is
         advanced by one byte.
