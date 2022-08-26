@@ -668,7 +668,7 @@ void QuickTimeVideo::previewTagDecoder(size_t size) {
   if (equalsQTimeTag(buf, "PICT"))
     xmpData_["Xmp.video.PreviewAtomType"] = "QuickDraw Picture";
   else
-    xmpData_["Xmp.video.PreviewAtomType"] = Exiv2::toString(buf.data());
+    xmpData_["Xmp.video.PreviewAtomType"] = std::string{buf.c_str(), 4};
 
   io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::previewTagDecoder
@@ -685,7 +685,7 @@ void QuickTimeVideo::keysTagDecoder(size_t size) {
   if (equalsQTimeTag(buf, "PICT"))
     xmpData_["Xmp.video.PreviewAtomType"] = "QuickDraw Picture";
   else
-    xmpData_["Xmp.video.PreviewAtomType"] = Exiv2::toString(buf.data());
+    xmpData_["Xmp.video.PreviewAtomType"] = std::string{buf.c_str(), 4};
 
   io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::keysTagDecoder
