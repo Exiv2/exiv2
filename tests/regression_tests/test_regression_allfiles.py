@@ -58,6 +58,7 @@ def get_valid_files(data_dir):
         "issue_2190_poc.jp2",
         # non-zero return code files, most of them are security POC so we don't
         # really need to worry about them here
+        "issue_2340_poc.mp4",
         "2018-01-09-exiv2-crash-001.tiff",
         "cve_2017_1000126_stack-oob-read.webp",
         "exiv2-bug1247.jpg",
