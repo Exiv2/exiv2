@@ -105,6 +105,8 @@ class Nikon3MakerNote {
   static const TagInfo* tagListFl2();
   //! Return read-only list of built-in Flash Info 3 tags
   static const TagInfo* tagListFl3();
+  //! Return read-only list of built-in Flash Info 6 (0106) tags
+  static const TagInfo* tagListFl6();
   //! Return read-only list of built-in Flash Info 7 (0107 and 0108) tags
   static const TagInfo* tagListFl7();
   //! Return read-only list of built-in Shot Info D80 tags
@@ -195,20 +197,42 @@ class Nikon3MakerNote {
   static std::ostream& printRepeatingFlashRate(std::ostream& os, const Value& value, const ExifData*);
   //! Print repeating flash count
   static std::ostream& printRepeatingFlashCount(std::ostream& os, const Value& value, const ExifData*);
-  //! Print external flash data 1 value
-  static std::ostream& printExternalFlashData1(std::ostream& os, const Value& value, const ExifData*);
+  //! Print external flash data 1 value when using NikonFl6
+  static std::ostream& printExternalFlashData1Fl6(std::ostream& os, const Value& value, const ExifData*);
+  //! Print external flash data 1 value when using NikonFl7
+  static std::ostream& printExternalFlashData1Fl7(std::ostream& os, const Value& value, const ExifData*);
+  //! Print external flash data 1 value when using NikonFl6
+  static std::ostream& printExternalFlashData2Fl6(std::ostream& os, const Value& value, const ExifData*);
   //! Print external flash data 2 value
   static std::ostream& printExternalFlashData2(std::ostream& os, const Value& value, const ExifData*);
-  //! Print flash compensation value
-  static std::ostream& printFlashCompensation(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash compensation value for the Master when using NikonFl6
+  static std::ostream& printFlashMasterDataFl6(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash compensation value for the Master when using NikonFl7
+  static std::ostream& printFlashMasterDataFl7(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash group A control data value
+  static std::ostream& printFlashGroupAControlData(std::ostream& os, const Value& value, const ExifData* data);
   //! Print flash group B/C control data value
   static std::ostream& printFlashGroupBCControlData(std::ostream& os, const Value& value, const ExifData* data);
-  //! Print flash group A data value
-  static std::ostream& printFlashGroupAData(std::ostream& os, const Value& value, const ExifData*);
-  //! Print flash group B data value
-  static std::ostream& printFlashGroupBData(std::ostream& os, const Value& value, const ExifData*);
-  //! Print flash group C data value
-  static std::ostream& printFlashGroupCData(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash compensation value for group A when using NikonFl6
+  static std::ostream& printFlashGroupADataFl6(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash compensation value for group A when using NikonFl7
+  static std::ostream& printFlashGroupADataFl7(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash compensation value for group B when using NikonFl6
+  static std::ostream& printFlashGroupBDataFl6(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash compensation value for group B when using NikonFl7
+  static std::ostream& printFlashGroupBDataFl7(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash compensation value for group C when using NikonFl6
+  static std::ostream& printFlashGroupCDataFl6(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash compensation value for group C when using NikonFl7
+  static std::ostream& printFlashGroupCDataFl7(std::ostream& os, const Value& value, const ExifData*);
+  //! Print external flash data 3 value
+  static std::ostream& printExternalFlashData3(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash camera exposure compensation values
+  static std::ostream& printCameraExposureCompensation(std::ostream& os, const Value& value, const ExifData*);
+  //! Print external flash data 4 value
+  static std::ostream& printExternalFlashData4(std::ostream& os, const Value& value, const ExifData*);
+  //! Print flash head zoom value
+  static std::ostream& printFlashZoomHeadPosition(std::ostream& os, const Value& value, const ExifData*);
   //! Print time zone
   static std::ostream& printTimeZone(std::ostream& os, const Value& value, const ExifData*);
   //! Print picture control value
@@ -244,6 +268,8 @@ class Nikon3MakerNote {
   static const TagInfo tagInfoFl2_[];
   //! Flash Info 3 tag information
   static const TagInfo tagInfoFl3_[];
+  //! Flash Info 6 (0106) tag information
+  static const TagInfo tagInfoFl6_[];
   //! Flash Info 7 (0107 and 0108) tag information
   static const TagInfo tagInfoFl7_[];
   //! Shot Info D80 tag information

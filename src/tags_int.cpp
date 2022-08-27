@@ -106,6 +106,7 @@ constexpr GroupInfo groupInfo[] = {
     {IfdId::nikonFl1Id, "Makernote", "NikonFl1", Nikon3MakerNote::tagListFl1},
     {IfdId::nikonFl2Id, "Makernote", "NikonFl2", Nikon3MakerNote::tagListFl2},
     {IfdId::nikonFl3Id, "Makernote", "NikonFl3", Nikon3MakerNote::tagListFl3},
+    {IfdId::nikonFl6Id, "Makernote", "NikonFl6", Nikon3MakerNote::tagListFl6},
     {IfdId::nikonFl7Id, "Makernote", "NikonFl7", Nikon3MakerNote::tagListFl7},
     {IfdId::nikonSi1Id, "Makernote", "NikonSiD80", Nikon3MakerNote::tagListSi1},
     {IfdId::nikonSi2Id, "Makernote", "NikonSiD40", Nikon3MakerNote::tagListSi2},

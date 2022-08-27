@@ -101,7 +101,7 @@ Exif.NikonFl1.ExternalFlashFlags             Byte        1  0  Fired
 Exif.NikonFl1.FlashFocalLength               Byte        1  0  n/a
 Exif.NikonFl1.RepeatingFlashRate             Byte        1  0  n/a
 Exif.NikonFl1.RepeatingFlashCount            Byte        1  0  n/a
-Exif.NikonFl1.FlashGNDistance                Byte        1  0  None
+Exif.NikonFl1.FlashGNDistance                Byte        1  0  n/a
 Exif.NikonFl1.FlashGroupAControlMode         Byte        1  0  Off
 Exif.NikonFl1.FlashGroupBControlMode         Byte        1  0  Off
 Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL           NORMAL         

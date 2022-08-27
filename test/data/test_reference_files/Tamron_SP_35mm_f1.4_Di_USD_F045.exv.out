@@ -116,18 +116,30 @@ Exif.Nikon3.ShutterCount                     Long        1  200434  200434
 Exif.NikonFl7.Version                        Undefined   4  48 49 48 56  1.08
 Exif.NikonFl7.FlashSource                    Byte        1  0  None
 Exif.NikonFl7.ExternalFlashFirmware          Short       1  0  n/a
-Exif.NikonFl7.ExternalFlashData1             Byte        1  0  No external flash zoom override, external flash not attached
-Exif.NikonFl7.ExternalFlashData2             Byte        1  0  n/a
-Exif.NikonFl7.FlashCompensation              SByte       1  0  0
+Exif.NikonFl7.ExternalFlashData1             Byte        1  0  External flash off
+Exif.NikonFl7.ExternalFlashData2             Byte        1  0  Off
+Exif.NikonFl7.FlashCompensationMaster        Byte        1  0  n/a
 Exif.NikonFl7.FlashFocalLength               Byte        1  0  n/a
 Exif.NikonFl7.RepeatingFlashRate             Byte        1  0  n/a
 Exif.NikonFl7.RepeatingFlashCount            Byte        1  0  n/a
-Exif.NikonFl7.FlashGNDistance                Byte        1  0  None
+Exif.NikonFl7.FlashGNDistance                Byte        1  0  n/a
+Exif.NikonFl7.FlashColorFilter               Byte        1  0  None
 Exif.NikonFl7.FlashGroupAControlData         Byte        1  0  Off
 Exif.NikonFl7.FlashGroupBCControlData        Byte        1  0  Off, Off
-Exif.NikonFl7.FlashGroupAData                Byte        1  0  0
-Exif.NikonFl7.FlashGroupBData                Byte        1  0  0
-Exif.NikonFl7.FlashGroupCData                Byte        1  0  0
+Exif.NikonFl7.FlashCompensationGroupA        Byte        1  0  n/a
+Exif.NikonFl7.FlashCompensationGroupB        Byte        1  0  n/a
+Exif.NikonFl7.FlashCompensationGroupC        Byte        1  0  n/a
+Exif.NikonFl7.ExternalFlashData3             Byte        1  0  Exposure Comp.: Entire frame
+Exif.NikonFl7.CameraFlashOutput              Byte        1  0  0.0 EV
+Exif.NikonFl7.CameraExposureCompensation     Byte        1  0  0.0 EV
+Exif.NikonFl7.CameraFlashCompensation        Byte        1  0  0.0 EV
+Exif.NikonFl7.ExternalFlashData4             Byte        1  0  Illumination Pat.: Standard
+Exif.NikonFl7.FlashZoomHeadPosition          Byte        1  0  n/a
+Exif.NikonFl7.FlashMasterOutput              Byte        1  0  n/a
+Exif.NikonFl7.FlashGroupAOutput              Byte        1  0  n/a
+Exif.NikonFl7.FlashGroupBOutput              Byte        1  0  n/a
+Exif.NikonFl7.FlashGroupCOutput              Byte        1  0  n/a
+Exif.NikonFl7.WirelessFlashData              Byte        1  0  AWL Off
 Exif.Nikon3.VariProgram                      Ascii      16                                  
 Exif.NikonMe.Version                         Undefined   4  48 49 48 49  1.01
 Exif.NikonMe.MultiExposureMode               Long        1  0  Off

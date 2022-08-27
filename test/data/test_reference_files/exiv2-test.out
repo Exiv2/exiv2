@@ -977,7 +977,7 @@ File  4/16: 20040329_224245.jpg
 20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
@@ -2618,7 +2618,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
@@ -4181,7 +4181,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
@@ -5982,7 +5982,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
@@ -7545,7 +7545,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.0x0011                         Byte        3  0 0 0

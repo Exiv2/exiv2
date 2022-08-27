@@ -519,17 +519,49 @@ constexpr ArrayDef nikonFl3Def[] = {
     {15, ttUnsignedByte, 1},  // FlashGNDistance
     {16, ttUnsignedByte, 1},  // FlashColorFilter
 };
-//! Nikon Flash Info 7 (0107 and 0108) binary array - configuration
-constexpr ArrayCfg nikonFl7Cfg = {
-    IfdId::nikonFl7Id,  // Group for the elements
-    bigEndian,          // Use byte order from parent
-    ttUndefined,        // Type for array entry
-    notEncrypted,       // Not encrypted
-    false,              // No size element
-    true,               // Write all tags
-    true,               // Concatenate gaps
-    {0, ttUnsignedByte, 1},
+//! Nikon Flash Info 6 (0106) binary array - configuration
+constexpr ArrayCfg nikonFl6Cfg = {IfdId::nikonFl6Id,  // Group for the elements
+                                  bigEndian,          // Use byte order from parent
+                                  ttUndefined,        // Type for array entry
+                                  notEncrypted,       // Not encrypted
+                                  false,              // No size element
+                                  true,               // Write all tags
+                                  true,               // Concatenate gaps
+                                  {0, ttUnsignedByte, 1}};
+//! Nikon Flash Info 6 (0106) binary array - definition
+constexpr ArrayDef nikonFl6Def[] = {
+    {0, ttUndefined, 4},      // Version
+    {4, ttUnsignedByte, 1},   // FlashSource
+    {6, ttUnsignedShort, 1},  // ExternalFlashFirmware
+    {8, ttUnsignedByte, 1},   // ExternalFlashData1
+    {9, ttUnsignedByte, 1},   // ExternalFlashData2
+    {10, ttUnsignedByte, 1},  // FlashCompensationMaster
+    {12, ttUnsignedByte, 1},  // FlashFocalLength
+    {13, ttUnsignedByte, 1},  // RepeatingFlashRate
+    {14, ttUnsignedByte, 1},  // RepeatingFlashCount
+    {15, ttUnsignedByte, 1},  // FlashGNDistance
+    {16, ttUnsignedByte, 1},  // FlashColorFilter
+    {17, ttUnsignedByte, 1},  // FlashGroupAControlData
+    {18, ttUnsignedByte, 1},  // FlashGroupBCControlData
+    {19, ttUnsignedByte, 1},  // FlashCompensationGroupA
+    {20, ttUnsignedByte, 1},  // FlashCompensationGroupB
+    {21, ttUnsignedByte, 1},  // FlashCompensationGroupC
+    {28, ttUnsignedByte, 1},  // CameraExposureCompensation
+    {29, ttUnsignedByte, 1},  // CameraFlashCompensation
+    {39, ttUnsignedByte, 1},  // FlashMasterOutput
+    {40, ttUnsignedByte, 1},  // FlashGroupAOutput
+    {41, ttUnsignedByte, 1},  // FlashGroupBOutput
+    {42, ttUnsignedByte, 1},  // FlashGroupCOutput
 };
+//! Nikon Flash Info 7 (0107 and 0108) binary array - configuration
+constexpr ArrayCfg nikonFl7Cfg = {IfdId::nikonFl7Id,  // Group for the elements
+                                  bigEndian,          // Use byte order from parent
+                                  ttUndefined,        // Type for array entry
+                                  notEncrypted,       // Not encrypted
+                                  false,              // No size element
+                                  true,               // Write all tags
+                                  true,               // Concatenate gaps
+                                  {0, ttUnsignedByte, 1}};
 //! Nikon Flash Info 7 (0107 and 0108) binary array - definition
 constexpr ArrayDef nikonFl7Def[] = {
     {0, ttUndefined, 4},      // Version
@@ -537,23 +569,34 @@ constexpr ArrayDef nikonFl7Def[] = {
     {6, ttUnsignedShort, 1},  // ExternalFlashFirmware
     {8, ttUnsignedByte, 1},   // ExternalFlashData1
     {9, ttUnsignedByte, 1},   // ExternalFlashData2
-    {10, ttSignedByte, 1},    // FlashCompensation
+    {10, ttUnsignedByte, 1},  // FlashCompensationMaster
     {12, ttUnsignedByte, 1},  // FlashFocalLength
     {13, ttUnsignedByte, 1},  // RepeatingFlashRate
     {14, ttUnsignedByte, 1},  // RepeatingFlashCount
     {15, ttUnsignedByte, 1},  // FlashGNDistance
+    {16, ttUnsignedByte, 1},  // FlashColorFilter
     {17, ttUnsignedByte, 1},  // FlashGroupAControlData
     {18, ttUnsignedByte, 1},  // FlashGroupBCControlData
-    {40, ttUnsignedByte, 1},  // FlashGroupAData
-    {41, ttUnsignedByte, 1},  // FlashGroupBData
-    {42, ttUnsignedByte, 1}   // FlashGroupCData
+    {19, ttUnsignedByte, 1},  // FlashCompensationGroupA
+    {20, ttUnsignedByte, 1},  // FlashCompensationGroupB
+    {21, ttUnsignedByte, 1},  // FlashCompensationGroupC
+    {22, ttUnsignedByte, 1},  // ExternalFlashData3
+    {27, ttUnsignedByte, 1},  // CameraFlashOutput
+    {28, ttUnsignedByte, 1},  // CameraExposureCompensation
+    {29, ttUnsignedByte, 1},  // CameraFlashCompensation
+    {37, ttUnsignedByte, 1},  // ExternalFlashData4
+    {38, ttUnsignedByte, 1},  // FlashZoomHeadPosition
+    {39, ttUnsignedByte, 1},  // FlashMasterOutput
+    {40, ttUnsignedByte, 1},  // FlashGroupAOutput
+    {41, ttUnsignedByte, 1},  // FlashGroupBOutput
+    {42, ttUnsignedByte, 1},  // FlashGroupCOutput
+    {67, ttUnsignedByte, 1},  // WirelessFlashData
 };
 
 //! Nikon Flash Info Data configurations and definitions
 constexpr ArraySet nikonFlSet[] = {
-    {nikonFl1Cfg, nikonFl1Def, std::size(nikonFl1Def)},
-    {nikonFl2Cfg, nikonFl2Def, std::size(nikonFl2Def)},
-    {nikonFl3Cfg, nikonFl3Def, std::size(nikonFl3Def)},
+    {nikonFl1Cfg, nikonFl1Def, std::size(nikonFl1Def)}, {nikonFl2Cfg, nikonFl2Def, std::size(nikonFl2Def)},
+    {nikonFl3Cfg, nikonFl3Def, std::size(nikonFl3Def)}, {nikonFl6Cfg, nikonFl6Def, std::size(nikonFl6Def)},
     {nikonFl7Cfg, nikonFl7Def, std::size(nikonFl7Def)},
 };
 
@@ -1307,6 +1350,7 @@ const TiffTreeTable TiffCreator::tiffTreeTable_ = {
     {{Tag::root, IfdId::nikonFl1Id}, {IfdId::nikon3Id, 0x00a8}},
     {{Tag::root, IfdId::nikonFl2Id}, {IfdId::nikon3Id, 0x00a8}},
     {{Tag::root, IfdId::nikonFl3Id}, {IfdId::nikon3Id, 0x00a8}},
+    {{Tag::root, IfdId::nikonFl6Id}, {IfdId::nikon3Id, 0x00a8}},
     {{Tag::root, IfdId::nikonFl7Id}, {IfdId::nikon3Id, 0x00a8}},
     {{Tag::root, IfdId::panasonicId}, {IfdId::exifId, 0x927c}},
     {{Tag::root, IfdId::pentaxId}, {IfdId::exifId, 0x927c}},
@@ -1729,6 +1773,7 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     {{Tag::all, IfdId::nikonFl1Id}, newTiffBinaryElement},
     {{Tag::all, IfdId::nikonFl2Id}, newTiffBinaryElement},
     {{Tag::all, IfdId::nikonFl3Id}, newTiffBinaryElement},
+    {{Tag::all, IfdId::nikonFl6Id}, newTiffBinaryElement},
     {{Tag::all, IfdId::nikonFl7Id}, newTiffBinaryElement},
 
     // Nikon3 shot info

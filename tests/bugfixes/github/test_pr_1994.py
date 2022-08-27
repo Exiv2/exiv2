@@ -20,7 +20,7 @@ Exif.NikonFl3.ExternalFlashFlags             Byte        1  Fired
 Exif.NikonFl3.FlashFocalLength               Byte        1  n/a
 Exif.NikonFl3.RepeatingFlashRate             Byte        1  n/a
 Exif.NikonFl3.RepeatingFlashCount            Byte        1  n/a
-Exif.NikonFl3.FlashGNDistance                Byte        1  None
+Exif.NikonFl3.FlashGNDistance                Byte        1  n/a
 Exif.NikonFl3.FlashColorFilter               Byte        1  None
 """,
 """Exif.NikonFl3.Version                        Undefined   4  1.05
@@ -30,7 +30,7 @@ Exif.NikonFl3.ExternalFlashFlags             Byte        1  Fired
 Exif.NikonFl3.FlashFocalLength               Byte        1  n/a
 Exif.NikonFl3.RepeatingFlashRate             Byte        1  n/a
 Exif.NikonFl3.RepeatingFlashCount            Byte        1  n/a
-Exif.NikonFl3.FlashGNDistance                Byte        1  None
+Exif.NikonFl3.FlashGNDistance                Byte        1  n/a
 Exif.NikonFl3.FlashColorFilter               Byte        1  None
 """]
     stderr = [""]*2

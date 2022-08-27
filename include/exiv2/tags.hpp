@@ -111,6 +111,7 @@ enum class IfdId : uint32_t {
   nikonFl1Id,
   nikonFl2Id,
   nikonFl3Id,
+  nikonFl6Id,
   nikonFl7Id,
   nikonSi1Id,
   nikonSi2Id,

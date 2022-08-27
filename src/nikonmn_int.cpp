@@ -66,11 +66,9 @@ constexpr TagDetails nikonFlashComp[] = {
 constexpr TagDetails nikonColorSpace[] = {{1, N_("sRGB")}, {2, N_("Adobe RGB")}};
 
 //! FlashMode, tag 0x0087
-constexpr TagDetails nikonFlashMode[] = {{0, N_("Did not fire")},
-                                         {1, N_("Fire, manual")},
-                                         {7, N_("Fire, external")},
-                                         {8, N_("Fire, commander mode")},
-                                         {9, N_("Fire, TTL mode")}};
+constexpr TagDetails nikonFlashMode[] = {
+    {0, N_("Did not fire")},   {1, N_("Fire, manual")},         {3, N_("Not ready")},      {6, N_("Off")},
+    {7, N_("Fire, external")}, {8, N_("Fire, commander mode")}, {9, N_("Fire, TTL mode")}, {18, N_("LED Light")}};
 
 //! ShootingMode, tag 0x0089
 constexpr TagDetailsBitmask nikonShootingMode[] = {{0x0001, N_("Continuous")},
@@ -855,32 +853,159 @@ constexpr TagDetails nikonFlashFirmware[] = {{0x0000, N_("n/a")},
                                              {0x0501, "5.01 (SB-900)"},
                                              {0x0502, "5.02 (SB-900)"},
                                              {0x0601, "6.01 (SB-700)"},
-                                             {0x0701, "7.01 (SB-910)"}};
+                                             {0x0701, "7.01 (SB-910)"},
+                                             {0x0800, "8.01 (SB-N5)"},
+                                             {0x0a00, "10.00 (SB-N7)"},
+                                             {0x0b00, "11.00 (SB-300)"},
+                                             {0x0d00, "13.00 (SB-500)"},
+                                             {0x0e00, "14.00 (SB-5000)"}};
 
 //! FlashGNDistance
 constexpr TagDetails nikonFlashGNDistance[] = {
-    {0, N_("None")}, {1, "0.1 m"},   {2, "0.2 m"},    {3, "0.3 m"},   {4, "0.4 m"},   {5, "0.5 m"},   {6, "0.6 m"},
-    {7, "0.7 m"},    {8, "0.8 m"},   {9, "0.9 m"},    {10, "1.0 m"},  {11, "1.1 m"},  {12, "1.3 m"},  {13, "1.4 m"},
-    {14, "1.6 m"},   {15, "1.8 m"},  {16, "2.0 m"},   {17, "2.2 m"},  {18, "2.5 m"},  {19, "2.8 m"},  {20, "3.2 m"},
-    {21, "3.6 m"},   {22, "4.0 m"},  {23, "4.5 m"},   {24, "5.0 m"},  {25, "5.6 m"},  {26, "6.3 m"},  {27, "7.1 m"},
-    {28, "8.0 m"},   {29, "9.0 m"},  {30, "10.0 m"},  {31, "11.0 m"}, {32, "13.0 m"}, {33, "14.0 m"}, {34, "16.0 m"},
-    {35, "18.0 m"},  {36, "20.0 m"}, {255, N_("n/a")}};
+    {0, N_("n/a")},   {1, "0.1 m"},     {2, "0.2 m"},     {3, "0.3 m"},     {4, "0.4 m"},     {5, "0.5 m"},
+    {6, "0.6 m"},     {7, "0.7 m"},     {8, "0.8 m"},     {9, "0.9 m"},     {10, "1.0 m"},    {11, "1.1 m"},
+    {12, "1.3 m"},    {13, "1.4 m"},    {14, "1.6 m"},    {15, "1.8 m"},    {16, "2.0 m"},    {17, "2.2 m"},
+    {18, "2.5 m"},    {19, "2.8 m"},    {20, "3.2 m"},    {21, "3.6 m"},    {22, "4.0 m"},    {23, "4.5 m"},
+    {24, "5.0 m"},    {25, "5.6 m"},    {26, "6.3 m"},    {27, "7.1 m"},    {28, "8.0 m"},    {29, "9.0 m"},
+    {30, "10.0 m"},   {31, "11.0 m"},   {32, "13.0 m"},   {33, "14.0 m"},   {34, "16.0 m"},   {35, "18.0 m"},
+    {36, "20.0 m"},   {37, "23.0 m"},   {38, "25.0 m"},   {39, "29.0 m"},   {128, N_("n/a")}, {129, "0.3 ft"},
+    {130, "0.7 ft"},  {131, "1.0 ft"},  {132, "1.3 ft"},  {133, "1.7 ft"},  {134, "2.0 ft"},  {135, "2.3 ft"},
+    {136, "2.6 ft"},  {137, "2.9 ft"},  {138, "3.3 ft"},  {139, "3.7 ft"},  {140, "4.1 ft"},  {141, "4.6 ft"},
+    {142, "5.2 ft"},  {143, "5.8 ft"},  {144, "6.6 ft"},  {145, "7.4 ft"},  {146, "8.3 ft"},  {147, "9.3 ft"},
+    {148, "10.0 ft"}, {149, "12.0 ft"}, {150, "13.0 ft"}, {151, "15.0 ft"}, {152, "17.0 ft"}, {153, "19.0 ft"},
+    {154, "21.0 ft"}, {155, "23.0 ft"}, {156, "26.0 ft"}, {157, "29.0 ft"}, {158, "33.0 ft"}, {159, "37.0 ft"},
+    {160, "42.0 ft"}, {161, "47.0 ft"}, {162, "52.0 ft"}, {163, "59.0 ft"}, {164, "66.0 ft"}, {165, "74.0 ft"},
+    {166, "83.0 ft"}, {167, "94.0 ft"}, {255, N_("n/a")}};
 
 //! FlashControlMode
 constexpr TagDetails nikonFlashControlMode[] = {
-    {0, N_("Off")},           {1, N_("iTTL-BL")},         {2, N_("iTTL")},
-    {3, N_("Auto Aperture")}, {4, N_("Automatic")},       {5, N_("GN (distance priority)")},
-    {6, N_("Manual")},        {7, N_("Repeating Flash")},
+    {0, N_("Off")},       {1, N_("TTL")},
+    {2, N_("iTTL")},      {3, N_("Auto Aperture")},
+    {4, N_("Automatic")}, {5, N_("GN (distance priority)")},
+    {6, N_("Manual")},    {7, N_("Repeating Flash")},
+    // 8: When used with Group A (and possibly Group B), may have an additional "Quick Wireless Flash Control [A:B]"
+    //    mode that applies to Groups A and B. May only be available with Radio AWL modes?
+    // ?: Possibly includes "iTTL-BL", "i-AA" and "i-A" modes.
 };
+
+static constexpr bool flashModeUsesManualScale(const int64_t mode) {
+  return (mode == 6 || mode == 7);
+}
 
 //! ExternalFlashFlags
 constexpr TagDetails nikonExternalFlashFlags[] = {
     {0, N_("Fired")}, {2, N_("Bounce Flash")}, {4, N_("Wide Flash Adapter")}};
 
 //! FlashColorFilter
-constexpr TagDetails nikonFlashColorFilter[] = {{0, N_("None")},  {1, N_("FL-GL1")},  {2, N_("FL-GL2")},
-                                                {9, N_("TN-A1")}, {10, N_("TN-A2")},  {65, N_("Red")},
-                                                {66, N_("Blue")}, {67, N_("Yellow")}, {68, N_("Amber")}};
+constexpr TagDetails nikonFlashColorFilter[] = {{0, N_("None")},
+                                                {1, N_("FL-GL1 (for fluorescent light)")},
+                                                {2, N_("FL-GL2 (for fluorescent light)")},
+                                                {9, N_("TN-A1 (for incandescent light)")},
+                                                {10, N_("TN-A2 (for incandescent light)")},
+                                                {65, N_("Red")},
+                                                {66, N_("Blue")},
+                                                {67, N_("Yellow")},
+                                                {68, N_("Amber")},
+                                                {79, N_("Other")}};
+
+//! FlashWirelessOptions
+constexpr TagDetails nikonFlashAWLMode[] = {
+    {0, N_("AWL Off")}, {1, N_("Optical AWL")}, {2, N_("Optical/Radio AWL")}, {3, N_("Radio AWL")}};
+
+//! FlashExposureComp
+constexpr TagDetails nikonFlashExposureComp[] = {{0, N_("Exposure Comp.: Entire frame")},
+                                                 {4, N_("Exposure Comp.: Background Only")}};
+
+//! FlashIlluminationPattern
+constexpr TagDetails nikonFlashIlluminationPat[] = {{0, N_("Illumination Pat.: Standard")},
+                                                    {1, N_("Illumination Pat.: Center-weighted")},
+                                                    {2, N_("Illumination Pat.: Even")}};
+
+//! FlashAdaptors
+constexpr TagDetailsBitmask nikonFlashAdaptors[] = {
+    {0x04, N_("Bounce Flash adaptor")}, {0x10, N_("Wide Flash adaptor")}, {0x20, N_("Nikon Diffusion Dome")}};
+
+static void printFlashCompensationValue(std::ostream& os, const unsigned char value, const bool manualScale) {
+  std::ios::fmtflags f(os.flags());
+  std::ostringstream oss;
+  oss.copyfmt(os);
+
+  if (manualScale) {
+    /*
+       // Format:
+       0 = "1/1"
+       1 = "1/1 (-1/6EV)"
+       2 = "1/1 (-1/3EV)"
+       3 = "1/1 (-1/2EV)"
+       4 = "1/1 (-2/3EV)"
+       5 = "1/1 (-5/6EV)"
+       6 = "1/2"
+       7 = "1/2 (-1/6EV)"
+       ...
+       48 = "1/256"
+    */
+    if (value > 48) {
+      os << "(" << value << ")";
+      os.flags(f);
+      return;
+    }
+    const auto mod = value % 6;
+    auto temp = (value < 6) ? 0 : (value - mod) / 6;
+    os << "1/" << std::pow(2, temp);
+    if (mod != 0) {
+      os << " (-";
+      switch (mod) {
+        case 1:
+          os << "1/6 EV)";
+          break;
+        case 2:
+          os << "1/3 EV)";
+          break;
+        case 3:
+          os << "1/2 EV)";
+          break;
+        case 4:
+          os << "2/3 EV)";
+          break;
+        case 5:
+          os << "5/6 EV)";
+          break;
+      }
+    }
+  } else {
+    /*
+    // Format uses 127 as boundary between +/- then values descend:
+    0   = "0.0EV"
+    1   = "-0.2EV"
+    2   = "-0.3EV"
+    3   = "-0.5EV"
+    4   = "-0.7EV"
+    5   = "-0.8EV"
+    6   = "-1.0EV"
+    7   = "-1.2EV"
+    ...
+    127 = "-21.2EV"
+    128 = "+21.3EV"
+    129 = "+21.2EV"
+    130 = "+21.0EV"
+    ...
+    255 = "+0.2"
+     */
+    float output = 0.0;
+    if (value < 128) {
+      if (value != 0)
+        output = float(value) * float(-1.0);
+    } else {
+      output = float(256.0) - float(value);
+    }
+    os.precision(1);
+    if (value != 0)
+      os << std::showpos;
+    os << std::fixed << (output / 6) << " EV";
+  }
+  os.copyfmt(os);
+  os.flags(f);
+}
 
 // Nikon3 Flash Info 1 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoFl1_[] = {
@@ -971,44 +1096,168 @@ const TagInfo* Nikon3MakerNote::tagListFl3() {
   return tagInfoFl3_;
 }
 
+// Nikon3 Flash Info 6 (0106) Tag Info
+constexpr TagInfo Nikon3MakerNote::tagInfoFl6_[] = {
+    {0, "Version", N_("Version"), N_("Identifies the NikonFl version"), IfdId::nikonFl6Id, SectionId::makerTags,
+     undefined, 4, printExifVersion},
+    {4, "FlashSource", N_("Flash source"), N_("The type of flash used"), IfdId::nikonFl6Id, SectionId::makerTags,
+     unsignedByte, 1, EXV_PRINT_TAG(nikonFlashSource)},
+    // 5: May be connected to high-speed shutter setting?
+    {6, "ExternalFlashFirmware", N_("External flash firmware"), N_("External flash firmware version"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(nikonFlashFirmware)},
+    {8, "ExternalFlashData1", N_("External flash data 1"),
+     N_("The Speedlight flash status and any attached flash adapters"), IfdId::nikonFl6Id, SectionId::makerTags,
+     unsignedByte, 1, printExternalFlashData1Fl6},
+    {9, "ExternalFlashData2", N_("External flash data 2"),
+     N_("The external flash status and the mode used for the Master flash (see FlashSource)"), IfdId::nikonFl6Id,
+     SectionId::makerTags, unsignedByte, 1, printExternalFlashData2Fl6},
+    {10, "FlashCompensationMaster", N_("Flash compensation Master"),
+     N_("Flash compensation for the Master flash (see FlashSource)"), IfdId::nikonFl6Id, SectionId::makerTags,
+     unsignedByte, 1, printFlashMasterDataFl6},
+    {12, "FlashFocalLength", N_("Flash focal length"), N_("Flash focal length"), IfdId::nikonFl6Id,
+     SectionId::makerTags, unsignedByte, 1, printFlashFocalLength},
+    {13, "RepeatingFlashRate", N_("Repeating flash rate"), N_("For repeating flash mode, the rate (in Hz)"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printRepeatingFlashRate},
+    {14, "RepeatingFlashCount", N_("Repeating flash count"),
+     N_("For repeating flash mode, the number of flash firings"), IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte,
+     1, printRepeatingFlashCount},
+    {15, "FlashGNDistance", N_("Flash GN distance"),
+     N_("For GN (distance priority) mode on the Master flash (see FlashSource), the distance to the subject"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashGNDistance)},
+    {16, "FlashColorFilter", N_("Flash color filter"), N_("The attached color filter"), IfdId::nikonFl6Id,
+     SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashColorFilter)},
+    {17, "FlashGroupAControlData", N_("Flash Group A control data"), N_("The mode used for Group A flashes"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupAControlData},
+    {18, "FlashGroupBCControlData", N_("Flash Group B/C control data"), N_("The modes used for Group B and C flashes"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupBCControlData},
+    {19, "FlashCompensationGroupA", N_("Flash compensation Group A"), N_("Flash compensation for Group A flashes"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupADataFl6},
+    {20, "FlashCompensationGroupB", N_("Flash compensation Group B data"), N_("Flash compensation for Group B flashes"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupBDataFl6},
+    {21, "FlashCompensationGroupC", N_("Flash Compensation Group C data"), N_("Flash compensation for Group C flashes"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupCDataFl6},
+    // 22: Possibly includes nikonFlashExposureComp array?
+    {28, "CameraExposureCompensation", N_("Camera exposure compensation"), N_("The camera's exposure compensation"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printCameraExposureCompensation},
+    {29, "CameraFlashCompensation", N_("Camera flash compensation"), N_("The camera's flash compensation"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printCameraExposureCompensation},
+    {39, "FlashMasterOutput", N_("Flash Master output"),
+     N_("Total flash output for the Master (see FlashSource). FlashMasterOutput = CameraExposureCompensation "
+        "(if exposure uses \"Entire frame\" mode and Master uses a non-manual mode) + CameraFlashCompensation (if "
+        "Master uses a non-manual mode) + FlashCompensationMaster"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashMasterDataFl6},
+    {40, "FlashGroupAOutput", N_("Flash Group A output"),
+     N_("Total flash output for Group A. FlashGroupAOutput = CameraExposureCompensation (if exposure uses \"Entire "
+        "frame\" mode and Group A uses a non-manual mode) + CameraFlashCompensation (if Group A uses a non-manual "
+        "mode) + "
+        "FlashCompensationGroupA"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupADataFl6},
+    {41, "FlashGroupBOutput", N_("Flash Group B output"),
+     N_("Total flash output for Group B. FlashGroupBOutput = CameraExposureCompensation (if exposure uses \"Entire "
+        "frame\" mode and Group B uses a non-manual mode) + CameraFlashCompensation (if Group B uses a non-manual "
+        "mode) + "
+        "FlashCompensationGroupB"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupBDataFl6},
+    {42, "FlashGroupCOutput", N_("Flash Group C output"),
+     N_("Total flash output for Group C. FlashGroupCOutput = CameraExposureCompensation (if exposure uses \"Entire "
+        "frame\" mode and Group C uses a non-manual mode) + CameraFlashCompensation (if Group C uses a non-manual "
+        "mode) + "
+        "FlashCompensationGroupC"),
+     IfdId::nikonFl6Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupCDataFl6},
+    // End of list marker
+    {0xffff, "(UnknownNikonFl6Tag)", "(UnknownNikonFl6Tag)", N_("Unknown Nikon Flash Info 6 Tag"), IfdId::nikonFl6Id,
+     SectionId::makerTags, unsignedByte, 1, printValue},
+};
+
+const TagInfo* Nikon3MakerNote::tagListFl6() {
+  return tagInfoFl6_;
+}
+
 // Nikon3 Flash Info 7 (0107 and 0108) Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoFl7_[] = {
-    {0, "Version", N_("Version"), N_("Flash info version"), IfdId::nikonFl7Id, SectionId::makerTags, undefined, 4,
-     printExifVersion},
-    {4, "FlashSource", N_("Flash source"), N_("The type of flash used (if any)"), IfdId::nikonFl7Id,
-     SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashSource)},
-    {6, "ExternalFlashFirmware", N_("External Flash Firmware"), N_("External flash firmware version"),
+    {0, "Version", N_("Version"), N_("Identifies the NikonFl version"), IfdId::nikonFl7Id, SectionId::makerTags,
+     undefined, 4, printExifVersion},
+    {4, "FlashSource", N_("Flash source"), N_("The type of flash used"), IfdId::nikonFl7Id, SectionId::makerTags,
+     unsignedByte, 1, EXV_PRINT_TAG(nikonFlashSource)},
+    // 5: Possibly connected to high-speed shutter setting?
+    {6, "ExternalFlashFirmware", N_("External flash firmware"), N_("The firmware version used by the external flash"),
      IfdId::nikonFl7Id, SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(nikonFlashFirmware)},
-    {8, "ExternalFlashData1", N_("External flash data"), N_("External flash data"), IfdId::nikonFl7Id,
-     SectionId::makerTags, unsignedByte, 1, printExternalFlashData1},
-    {9, "ExternalFlashData2", N_("External flash ready state"), N_("External flash ready state"), IfdId::nikonFl7Id,
-     SectionId::makerTags, unsignedByte, 1, printExternalFlashData2},
-    {10, "FlashCompensation", N_("Flash compensation"), N_("Flash compensation"), IfdId::nikonFl7Id,
-     SectionId::makerTags, signedByte, 1, printFlashCompensation},
+    {8, "ExternalFlashData1", N_("External flash data 1"),
+     N_("The external flash state, zoom status and attached flash adapters"), IfdId::nikonFl7Id, SectionId::makerTags,
+     unsignedByte, 1, printExternalFlashData1Fl7},
+    {9, "ExternalFlashData2", N_("External flash data 2"), N_("The mode used for the Master flash (see FlashSource)"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printExternalFlashData2},
+    {10, "FlashCompensationMaster", N_("Flash compensation Master"),
+     N_("Flash compensation for the Master flash (see FlashSource)"), IfdId::nikonFl7Id, SectionId::makerTags,
+     unsignedByte, 1, printFlashMasterDataFl7},
+    // 12: Purpose of tag is unclear as manual zoom value is found in tag 38. Possibly connected to automatic zoom?
     {12, "FlashFocalLength", N_("Flash focal length"), N_("Flash focal length"), IfdId::nikonFl7Id,
      SectionId::makerTags, unsignedByte, 1, printFlashFocalLength},
-    {13, "RepeatingFlashRate", N_("Repeating flash rate"), N_("Repeating flash rate"), IfdId::nikonFl7Id,
-     SectionId::makerTags, unsignedByte, 1, printRepeatingFlashRate},
-    {14, "RepeatingFlashCount", N_("Repeating flash count"), N_("Repeating flash count"), IfdId::nikonFl7Id,
-     SectionId::makerTags, unsignedByte, 1, printRepeatingFlashCount},
-    {15, "FlashGNDistance", N_("Flash GN Distance"), N_("Flash GN distance"), IfdId::nikonFl7Id, SectionId::makerTags,
-     unsignedByte, 1, EXV_PRINT_TAG(nikonFlashGNDistance)},
-    {17, "FlashGroupAControlData", N_("Flash group A control data"), N_("Flash group A control data"),
-     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashControlMode)},
-    {18, "FlashGroupBCControlData", N_("Flash group B/C control data"), N_("Flash group B/C control data"),
+    {13, "RepeatingFlashRate", N_("Repeating flash rate"), N_("For repeating flash modes, the rate (in Hz)"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printRepeatingFlashRate},
+    {14, "RepeatingFlashCount", N_("Repeating flash count"),
+     N_("For repeating flash modes, the number of flash firings"), IfdId::nikonFl7Id, SectionId::makerTags,
+     unsignedByte, 1, printRepeatingFlashCount},
+    {15, "FlashGNDistance", N_("Flash GN distance"),
+     N_("For GN (distance priority) mode on the Master flash (see FlashSource), the distance to the subject"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashGNDistance)},
+    {16, "FlashColorFilter", N_("Flash color filter"), N_("The attached color filters"), IfdId::nikonFl7Id,
+     SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashColorFilter)},
+    // 17: Possibly also contains control data for Group D in upper nibble?
+    {17, "FlashGroupAControlData", N_("Flash Group A control data"), N_("The mode used for Group A flashes"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupAControlData},
+    {18, "FlashGroupBCControlData", N_("Flash Groups B/C control data"), N_("The modes used for Group B and C flashes"),
      IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupBCControlData},
-    {40, "FlashGroupAData", N_("Flash group A data"),
-     N_("Depending upon FlashGroupAControlData, either the FlashGroupACompensation value or the FlashGroupAOutput "
-        "value"),
-     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupAData},
-    {41, "FlashGroupBData", N_("Flash group B data"),
-     N_("Depending upon FlashGroupBCControlData, either the FlashGroupBCompensation value or the FlashGroupBOutput "
-        "value"),
-     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupBData},
-    {42, "FlashGroupCData", N_("Flash group C data"),
-     N_("Depending upon FlashGroupBCControlData, either the FlashGroupCCompensation value or the FlashGroupCOutput "
-        "value"),
-     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupCData},
+    {19, "FlashCompensationGroupA", N_("Flash compensation Group A"), N_("Flash compensation for Group A flashes"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupADataFl7},
+    {20, "FlashCompensationGroupB", N_("Flash compensation Group B data"), N_("Flash compensation for Group B flashes"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupBDataFl7},
+    {21, "FlashCompensationGroupC", N_("Flash Compensation Group C data"), N_("Flash compensation for Group C flashes"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupCDataFl7},
+    {22, "ExternalFlashData3", N_("External flash data 3"),
+     N_("For the camera's exposure compensation, defines how the flash level is adjusted"), IfdId::nikonFl7Id,
+     SectionId::makerTags, unsignedByte, 1, printExternalFlashData3},
+    {27, "CameraFlashOutput", N_("Camera flash output"),
+     N_("Total flash output for the camera. CameraFlashOutput = CameraExposureCompensation (if ExternalFlashData3 "
+        "uses \"Entire frame\" mode) + CameraFlashCompensation"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printCameraExposureCompensation},
+    {28, "CameraExposureCompensation", N_("Camera exposure compensation"), N_("The camera's exposure compensation"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printCameraExposureCompensation},
+    {29, "CameraFlashCompensation", N_("Camera flash compensation"), N_("The camera's flash compensation"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printCameraExposureCompensation},
+    // 34: Possible that FV Lock sets '0100 0000'?
+    {37, "ExternalFlashData4", N_("External flash data 4"), N_("The flash illumination pattern"), IfdId::nikonFl7Id,
+     SectionId::makerTags, unsignedByte, 1, printExternalFlashData4},
+    {38, "FlashZoomHeadPosition", N_("Flash zoom head position"), N_("Flash zoom head position (in mm)"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashZoomHeadPosition},
+    {39, "FlashMasterOutput", N_("Flash Master output"),
+     N_("Total flash output for the Master (see FlashSource). FlashMasterOutput = CameraFlashOutput (if Master uses a "
+        "non-manual mode) + "
+        "FlashCompensationMaster"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashMasterDataFl7},
+    {40, "FlashGroupAOutput", N_("Flash Group A output"),
+     N_("Total flash output for Group A. FlashGroupAOutput = CameraFlashOutput (if Group A uses a non-manual mode) + "
+        "FlashCompensationGroupA"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupADataFl7},
+    {41, "FlashGroupBOutput", N_("Flash Group B output"),
+     N_("Total flash output for Group B. FlashGroupBOutput = CameraFlashOutput (if Group B uses a non-manual mode) + "
+        "FlashCompensationGroupB"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupBDataFl7},
+    {42, "FlashGroupCOutput", N_("Flash Group C output"),
+     N_("Total flash output for Group C. FlashGroupCOutput = CameraFlashOutput (if Group C uses a non-manual mode) + "
+        "FlashCompensationGroupC"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, printFlashGroupCDataFl7},
+    // 43-46: Each corresponds to M/A/B/C - set when using TTL modes, otherwise is zero. Could be connected to the
+    //        monitor pre-flashes?
+    {67, "WirelessFlashData", N_("Wireless flash data"), N_("Advanced Wireless Lighting (AWL) communication mode"),
+     IfdId::nikonFl7Id, SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonFlashAWLMode)},
+    // 68-72: Related to WirelessFlashData? Set if AWL is on, zero if AWL is off. 68-71 connected to M/A/B/C?
+    // ?:     1. Groups D/E/F will have equivalent tags to Groups A/B/C (see note in tag 17). This could also include
+    //           equivalent tags in 43-46?
+    //        2. Compatible remote flashes using 'Radio AWL' could transmit settings/data back to the Speedflash?
+    //        3. Automatic flash mode (A) uses an aperture value.
+    //        4. The Speedlight can detect if the Master is not pointed straight ahead. The vertical and horizontal
+    //           angles/positions of the flash could be recorded?
     // End of list marker
     {0xffff, "(UnknownNikonFl7Tag)", "(UnknownNikonFl7Tag)", N_("Unknown Nikon Flash Info 7 Tag"), IfdId::nikonFl7Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
@@ -3047,7 +3296,8 @@ std::ostream& Nikon3MakerNote::printRepeatingFlashCount(std::ostream& os, const 
   return os;
 }
 
-std::ostream& Nikon3MakerNote::printExternalFlashData1(std::ostream& os, const Value& value, const ExifData*) {
+std::ostream& Nikon3MakerNote::printExternalFlashData1Fl6(std::ostream& os, const Value& value,
+                                                          const ExifData* metadata) {
   std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     os << "(" << value << ")";
@@ -3056,16 +3306,74 @@ std::ostream& Nikon3MakerNote::printExternalFlashData1(std::ostream& os, const V
   }
   std::ostringstream oss;
   oss.copyfmt(os);
-  os << (value.toInt64() & 0x80 ? _("External flash zoom override") : _("No external flash zoom override"));
-  os << ", ";
-  os << (value.toInt64() & 0x01 ? _("external flash attached") : _("external flash not attached"));
+  const auto v0 = value.toUint32(0);
+  os << (v0 & 0x01 ? _("Fired") : _("Did not fire"));
 
+  if (v0 & 0x01) {
+    std::ostringstream ossTemp;
+    printTagBitmask<std::size(nikonFlashAdaptors), nikonFlashAdaptors>(ossTemp, value, metadata);
+    std::string tempStr = ossTemp.str();
+    if (!tempStr.empty()) {
+      os << ", " << tempStr;
+    }
+  }
   os.copyfmt(oss);
   os.flags(f);
   return os;
 }
 
-std::ostream& Nikon3MakerNote::printExternalFlashData2(std::ostream& os, const Value& value, const ExifData*) {
+std::ostream& Nikon3MakerNote::printExternalFlashData2Fl6(std::ostream& os, const Value& value,
+                                                          const ExifData* metadata) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+  std::ostringstream oss;
+  oss.copyfmt(os);
+  const auto v0 = value.toUint32(0);
+  os << (v0 & 0x80 ? _("External flash on") : _("External flash off"));
+
+  if (v0 & 0x80) {
+    os << ", ";
+    printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (value.toUint32() & 0x0F), metadata);
+  }
+  os.copyfmt(oss);
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printExternalFlashData1Fl7(std::ostream& os, const Value& value,
+                                                          const ExifData* metadata) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+  std::ostringstream oss;
+  oss.copyfmt(os);
+  const auto v0 = value.toUint32();
+  os << (v0 & 0x01 ? _("External flash on") : _("External flash off"));
+
+  if (v0 & 0x01) {
+    os << ", ";
+    os << (v0 & 0x80 ? _("External flash zoom override") : _("No external flash zoom override"));
+
+    std::ostringstream ossTemp;
+    printTagBitmask<std::size(nikonFlashAdaptors), nikonFlashAdaptors>(ossTemp, value, metadata);
+    std::string tempStr = ossTemp.str();
+    if (!tempStr.empty()) {
+      os << ", " << tempStr;
+    }
+  }
+  os.copyfmt(oss);
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printExternalFlashData2(std::ostream& os, const Value& value, const ExifData* metadata) {
   std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     os << "(" << value << ")";
@@ -3073,53 +3381,81 @@ std::ostream& Nikon3MakerNote::printExternalFlashData2(std::ostream& os, const V
     return os;
   }
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  const auto temp = value.toInt64();
+  printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (value.toUint32() & 0x0F), metadata);
 
-  switch (temp & 0x07) {
-    case 0:
-      os << _("n/a");
-      break;
-    case 1:
-      os << _("Ready");
-      break;
-    case 6:
-      os << _("Not ready");
-      break;
-    default:
-      os << "(" << temp << ")";
-      break;
-  }
-
-  os.copyfmt(oss);
   os.flags(f);
   return os;
 }
 
-std::ostream& Nikon3MakerNote::printFlashCompensation(std::ostream& os, const Value& value, const ExifData*) {
+std::ostream& Nikon3MakerNote::printFlashMasterDataFl6(std::ostream& os, const Value& value, const ExifData* metadata) {
   std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != signedByte) {
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  // Check if using an automated or manual mode
+  auto pos = metadata->findKey(ExifKey("Exif.NikonFl6.ExternalFlashData1"));
+  if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  const auto mode = pos->toUint32(0) & 0x0F;
+  if (mode == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), flashModeUsesManualScale(mode));
+
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printFlashMasterDataFl7(std::ostream& os, const Value& value, const ExifData* metadata) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  // Check if using an automated or manual mode
+  auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.ExternalFlashData2"));
+  if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  const auto mode = pos->toUint32(0) & 0x0F;
+  if (mode == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), flashModeUsesManualScale(mode));
+
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printFlashGroupAControlData(std::ostream& os, const Value& value, const ExifData* data) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
     os << "(" << value << ")";
     os.flags(f);
     return os;
   }
   std::ostringstream oss;
   oss.copyfmt(os);
-  float temp = (value.toFloat() / static_cast<float>(-6.0));
 
-  if (temp == 0)
-    os << 0;
-  else if (!std::isfinite(temp))
-    os << "(" << value << ")";
-  else if (std::abs(std::remainderf(temp, 1)) < 0.001)
-    os << std::round(temp);
-  else if (std::abs(std::remainderf(temp * 2, 1)) < 0.001)
-    os << std::round(temp * 2) << "/2";
-  else if (std::abs(std::remainderf(temp * 3, 1)) < 0.001)
-    os << std::round(temp * 3) << "/3";
-  else
-    os << std::setprecision(3) << temp;
+  printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (value.toUint32() & 0x0F), data);
 
   os.copyfmt(oss);
   os.flags(f);
@@ -3147,7 +3483,7 @@ std::ostream& Nikon3MakerNote::printFlashGroupBCControlData(std::ostream& os, co
   return os;
 }
 
-std::ostream& Nikon3MakerNote::printFlashGroupAData(std::ostream& os, const Value& value, const ExifData* metadata) {
+std::ostream& Nikon3MakerNote::printFlashGroupADataFl6(std::ostream& os, const Value& value, const ExifData* metadata) {
   std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     os << "(" << value << ")";
@@ -3155,35 +3491,57 @@ std::ostream& Nikon3MakerNote::printFlashGroupAData(std::ostream& os, const Valu
     return os;
   }
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  double temp = value.toFloat() / (-6.0);
+  // Check if using an automated or manual mode
+  auto pos = metadata->findKey(ExifKey("Exif.NikonFl6.FlashGroupAControlData"));
+  if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
 
+  const auto mode = pos->toUint32(0) & 0x0F;
+  if (mode == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), flashModeUsesManualScale(mode));
+
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printFlashGroupADataFl7(std::ostream& os, const Value& value, const ExifData* metadata) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  // Check if using an automated or manual mode
   auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupAControlData"));
   if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
     os << "(" << value << ")";
-  } else {
-    if (pos->toInt64() < 0x06) {
-      // FlashGroupACompensation value
-      if (temp == 0)
-        os << 0;
-      else
-        os << std::fixed << std::setprecision(1) << temp;
-    } else {
-      // FlashGroupAOutput value
-      double flashGroupAOutput = std::exp2(temp);
-      if (flashGroupAOutput > 0.99)
-        os << _("Full");
-      else
-        os << std::setprecision(2) << std::round(flashGroupAOutput * 100) << "%";
-    }
+    os.flags(f);
+    return os;
   }
-  os.copyfmt(oss);
+
+  const auto mode = pos->toUint32(0) & 0x0F;
+  if (mode == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), flashModeUsesManualScale(mode));
+
   os.flags(f);
   return os;
 }
 
-std::ostream& Nikon3MakerNote::printFlashGroupBData(std::ostream& os, const Value& value, const ExifData* metadata) {
+std::ostream& Nikon3MakerNote::printFlashGroupBDataFl6(std::ostream& os, const Value& value, const ExifData* metadata) {
   std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     os << "(" << value << ")";
@@ -3191,35 +3549,28 @@ std::ostream& Nikon3MakerNote::printFlashGroupBData(std::ostream& os, const Valu
     return os;
   }
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  double temp = value.toFloat() / (-6.0);
-
-  auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupBCControlData"));
+  // Check if using an automated or manual mode
+  auto pos = metadata->findKey(ExifKey("Exif.NikonFl6.FlashGroupBCControlData"));
   if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
     os << "(" << value << ")";
-  } else {
-    if (pos->toInt64() < 0x06) {
-      // FlashGroupBCompensation value
-      if (temp == 0)
-        os << 0;
-      else
-        os << std::fixed << std::setprecision(1) << temp;
-    } else {
-      // FlashGroupBOutput value
-      double flashGroupAOutput = std::exp2(temp);
-      if (flashGroupAOutput > 0.99)
-        os << _("Full");
-      else
-        os << std::setprecision(2) << std::round(flashGroupAOutput * 100) << "%";
-    }
+    os.flags(f);
+    return os;
   }
-  os.copyfmt(oss);
+
+  const auto mode = pos->toUint32(0) >> 4;
+  if (mode == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), flashModeUsesManualScale(mode));
+
   os.flags(f);
   return os;
 }
 
-std::ostream& Nikon3MakerNote::printFlashGroupCData(std::ostream& os, const Value& value, const ExifData* metadata) {
+std::ostream& Nikon3MakerNote::printFlashGroupBDataFl7(std::ostream& os, const Value& value, const ExifData* metadata) {
   std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     os << "(" << value << ")";
@@ -3227,31 +3578,147 @@ std::ostream& Nikon3MakerNote::printFlashGroupCData(std::ostream& os, const Valu
     return os;
   }
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  double temp = value.toFloat() / (-6.0);
-
+  // Check if using an automated or manual mode
   auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupBCControlData"));
   if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
     os << "(" << value << ")";
-  } else {
-    if (pos->toInt64() < 0x06) {
-      // FlashGroupCCompensation value
-      if (temp == 0)
-        os << 0;
-      else
-        os << std::fixed << std::setprecision(1) << temp;
-    } else {
-      // FlashGroupCOutput value
-      double flashGroupAOutput = std::exp2(temp);
-      if (flashGroupAOutput > 0.99)
-        os << _("Full");
-      else
-        os << std::setprecision(2) << std::round(flashGroupAOutput * 100) << "%";
-    }
+    os.flags(f);
+    return os;
   }
+
+  const auto mode = pos->toUint32(0) >> 4;
+  if (mode == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), flashModeUsesManualScale(mode));
+
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printFlashGroupCDataFl6(std::ostream& os, const Value& value, const ExifData* metadata) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  // Check if using an automated or manual mode
+  auto pos = metadata->findKey(ExifKey("Exif.NikonFl6.FlashGroupBCControlData"));
+  if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  const auto mode = pos->toUint32(0) & 0x000F;
+  if (mode == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), flashModeUsesManualScale(mode));
+
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printFlashGroupCDataFl7(std::ostream& os, const Value& value, const ExifData* metadata) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  // Check if using an automated or manual mode
+  auto pos = metadata->findKey(ExifKey("Exif.NikonFl7.FlashGroupBCControlData"));
+  if (pos == metadata->end() || pos->count() != 1 || pos->typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  const auto mode = pos->toUint32(0) & 0x000F;
+  if (mode == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), flashModeUsesManualScale(mode));
+
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printExternalFlashData3(std::ostream& os, const Value& value, const ExifData* data) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  printTag<std::size(nikonFlashExposureComp), nikonFlashExposureComp>(os, (value.toUint32(0) & 0x04), data);
+
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printCameraExposureCompensation(std::ostream& os, const Value& value, const ExifData*) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+  printFlashCompensationValue(os, static_cast<unsigned char>(value.toUint32(0)), false);
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printExternalFlashData4(std::ostream& os, const Value& value, const ExifData* metadata) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+
+  printTag<std::size(nikonFlashIlluminationPat), nikonFlashIlluminationPat>(os, value.toUint32(0), metadata);
+
+  os.flags(f);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printFlashZoomHeadPosition(std::ostream& os, const Value& value, const ExifData*) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 1 || value.typeId() != unsignedByte) {
+    os << "(" << value << ")";
+    os.flags(f);
+    return os;
+  }
+  std::ostringstream oss;
+  oss.copyfmt(os);
+  const auto v0 = value.toUint32(0);
+
+  if (v0 == 0) {
+    os << _("n/a");
+    os.flags(f);
+    return os;
+  }
+
+  os << v0 << " mm";
+
   os.copyfmt(oss);
   os.flags(f);
+
   return os;
 }
 
