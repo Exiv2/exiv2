@@ -228,8 +228,9 @@ ExifData::const_iterator lensName(const ExifData& ed) {
                                "Exif.CanonCs.LensType",      "Exif.Photo.LensModel",       "Exif.NikonLd1.LensIDNumber",
                                "Exif.NikonLd2.LensIDNumber", "Exif.NikonLd3.LensIDNumber", "Exif.Pentax.LensType",
                                "Exif.PentaxDng.LensType",    "Exif.Minolta.LensID",        "Exif.SonyMinolta.LensID",
-                               "Exif.Sony1.LensID",          "Exif.Sony2.LensID",          "Exif.OlympusEq.LensType",
-                               "Exif.Panasonic.LensType",    "Exif.Samsung2.LensType"};
+                               "Exif.Sony1.LensID",          "Exif.Sony2.LensID",          "Exif.Sony1.LensSpec",
+                               "Exif.Sony2.LensSpec",        "Exif.OlympusEq.LensType",    "Exif.Panasonic.LensType",
+                               "Exif.Samsung2.LensType"};
   return findMetadatum(ed, keys, std::size(keys));
 }
 
