@@ -87,6 +87,7 @@ TABLES = Exif \
          NikonFl1 \
          NikonFl2 \
          NikonFl3 \
+         NikonFl6 \
          NikonFl7 \
          NikonSiD80 \
          NikonSiD40 \

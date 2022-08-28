@@ -97,7 +97,28 @@ Exif.NikonLd3.EffectiveMaxAperture           Byte        1  52  F4.5
 Exif.Nikon3.RetouchHistory                   Short      10  0 0 0 0 0 0 0 0 0 0  None
 Exif.Nikon3.ImageDataSize                    Long        1  6173648  6173648
 Exif.Nikon3.ShutterCount                     Long        1  9608  9608
-Exif.Nikon3.FlashInfo                        Undefined  49  48 49 48 54 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  48 49 48 54 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.NikonFl6.Version                        Undefined   4  48 49 48 54  1.06
+Exif.NikonFl6.FlashSource                    Byte        1  0  None
+Exif.NikonFl6.ExternalFlashFirmware          Short       1  0  n/a
+Exif.NikonFl6.ExternalFlashData1             Byte        1  0  Did not fire
+Exif.NikonFl6.ExternalFlashData2             Byte        1  0  External flash off
+Exif.NikonFl6.FlashCompensationMaster        Byte        1  0  n/a
+Exif.NikonFl6.FlashFocalLength               Byte        1  0  n/a
+Exif.NikonFl6.RepeatingFlashRate             Byte        1  0  n/a
+Exif.NikonFl6.RepeatingFlashCount            Byte        1  0  n/a
+Exif.NikonFl6.FlashGNDistance                Byte        1  0  n/a
+Exif.NikonFl6.FlashColorFilter               Byte        1  0  None
+Exif.NikonFl6.FlashGroupAControlData         Byte        1  0  Off
+Exif.NikonFl6.FlashGroupBCControlData        Byte        1  0  Off, Off
+Exif.NikonFl6.FlashCompensationGroupA        Byte        1  0  n/a
+Exif.NikonFl6.FlashCompensationGroupB        Byte        1  0  n/a
+Exif.NikonFl6.FlashCompensationGroupC        Byte        1  0  n/a
+Exif.NikonFl6.CameraExposureCompensation     Byte        1  0  0.0 EV
+Exif.NikonFl6.CameraFlashCompensation        Byte        1  0  0.0 EV
+Exif.NikonFl6.FlashMasterOutput              Byte        1  0  n/a
+Exif.NikonFl6.FlashGroupAOutput              Byte        1  0  n/a
+Exif.NikonFl6.FlashGroupBOutput              Byte        1  0  n/a
+Exif.NikonFl6.FlashGroupCOutput              Byte        1  0  n/a
 Exif.Nikon3.VariProgram                      Ascii      16  AUTO(FLASH OFF)  AUTO(FLASH OFF)
 Exif.NikonMe.Version                         Undefined   4  48 49 48 48  1.00
 Exif.NikonMe.MultiExposureMode               Long        1  0  Off

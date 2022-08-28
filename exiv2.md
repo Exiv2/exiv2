@@ -778,33 +778,6 @@ available from: https://www.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMPSDK
 
 ### 7.2 Exiv2 tags
 For an explanation of Exiv2 keys, see [Exiv2 key syntax](#exiv2_key_syntax).
-The following groups are defined for the Exif family:
-
-```
-GPSInfo    Canon         Nikon1     NikonMe       OlympusFe8      SonyMisc2b
-Image      CanonCf       Nikon2     NikonPc       OlympusFe9      SonyMisc3c
-Image2     CanonCs       Nikon3     NikonPreview  OlympusFi       SonyMinolta
-Image3     CanonFi       NikonAFT   NikonSi01xx   OlympusIp       SonySInfo1
-Iop        CanonPa       NikonAf    NikonSi02xx   OlympusRd
-MakerNote  CanonPi       NikonAf2   NikonSiD300a  OlympusRd2      Samsung2
-MpfInfo    CanonPr       NikonAf22  NikonSiD300b  OlympusRi       SamsungPictureWizard
-Photo      CanonSi       NikonCb1   NikonSiD40    SamsungPreview
-SubImage1  CanonTi       NikonCb2   NikonSiD80    Sigma	
-SubImage2                NikonCb2a  NikonVr
-SubImage3  Casio         NikonCb2b  NikonWt       Sony1
-SubImage4  Casio2        NikonCb3                 Sony1Cs
-SubImage5                NikonCb4   Olympus       Sony1Cs2
-SubImage6  Minolta       NikonFi    Olympus2      Sony1MltCs7D
-SubImage7  MinoltaCs5D   NikonFl1   OlympusCs     Sony1MltCsA100
-SubImage8  MinoltaCs7D   NikonFl2   OlympusEq     Sony1MltCsNew
-SubImage9  MinoltaCsNew  NikonFl3   OlympusFe1    Sony1MltCsOld
-SubThumb1  MinoltaCsOld  NikonFl7   OlympusFe2    Sony2
-Thumbnail                NikonIi    OlympusFe3    Sony2Cs
-           Panasonic     NikonLd1   OlympusFe4    Sony2Cs2
-Pentax     PanasonicRaw  NikonLd2   OlympusFe5    Sony2010e
-PentaxDng                NikonLd3   OlympusFe6    Sony2Fp
-           Fujifilm      NikonLd4   OlympusFe7    SonyMisc1
-```
 
 A full list of built-in Exif, IPTC and XMP tags is available online at 
 https://www.exiv2.org/metadata.html. To query Exiv2 Groups and Tagnames, 
