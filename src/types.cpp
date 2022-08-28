@@ -615,7 +615,8 @@ Rational floatToRationalCast(float f) {
   // below. (INT_MAX can be represented accurately as a double, but
   // gets rounded when it's converted to float.)
   const double d = f;
-  const bool in_range = std::numeric_limits<int32_t>::min() <= d && d <= std::numeric_limits<int32_t>::max();
+  // Don't allow INT_MIN (0x80000000) because it can cause a UBSAN failure in std::gcd().
+  const bool in_range = std::numeric_limits<int32_t>::min() < d && d <= std::numeric_limits<int32_t>::max();
   if (!in_range) {
     return {d > 0 ? 1 : -1, 0};
   }
