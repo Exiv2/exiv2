@@ -626,7 +626,7 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size) {
     keysTagDecoder(size);
 
   else if (equalsQTimeTag(buf, "url ")) {
-    Exiv2::DataBuf url(size+1);
+    Exiv2::DataBuf url(size + 1);
     io_->readOrThrow(url.data(), size);
     url.write_uint8(size, 0);
     if (currentStream_ == Video)
@@ -636,7 +636,7 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size) {
   }
 
   else if (equalsQTimeTag(buf, "urn ")) {
-    Exiv2::DataBuf urn(size+1);
+    Exiv2::DataBuf urn(size + 1);
     io_->readOrThrow(urn.data(), size);
     urn.write_uint8(size, 0);
     if (currentStream_ == Video)
@@ -646,7 +646,7 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size) {
   }
 
   else if (equalsQTimeTag(buf, "dcom")) {
-    Exiv2::DataBuf dcom(size+1);
+    Exiv2::DataBuf dcom(size + 1);
     io_->readOrThrow(dcom.data(), size);
     dcom.write_uint8(size, 0);
     xmpData_["Xmp.video.Compressor"] = Exiv2::toString(dcom.data());
