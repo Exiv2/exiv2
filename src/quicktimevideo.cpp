@@ -803,7 +803,7 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
 
     tv = find(userDataReferencetags, Exiv2::toString(buf.data()));
 
-    if (size == 0 || (size - 12) <= 0)
+    if (size <= 12)
       break;
 
     else if (equalsQTimeTag(buf, "DcMD") || equalsQTimeTag(buf, "NCDT"))
