@@ -611,24 +611,22 @@ Rational parseRational(const std::string& s, bool& ok) {
 }
 
 Rational floatToRationalCast(float f) {
-  // Convert f to double because it simplifies the "in_range" check
-  // below. (INT_MAX can be represented accurately as a double, but
-  // gets rounded when it's converted to float.)
+  // Convert f to double because it simplifies the range checks
+  // below. (All int values can be losslessly converted to double, but
+  // sometimes get rounded when converted to float.)
   const double d = f;
-  // Don't allow INT_MIN (0x80000000) because it can cause a UBSAN failure in std::gcd().
-  const bool in_range = std::numeric_limits<int32_t>::min() < d && d <= std::numeric_limits<int32_t>::max();
-  if (!in_range) {
-    return {d > 0 ? 1 : -1, 0};
-  }
   // Beware: primitive conversion algorithm
-  int32_t den = 1000000;
-  const auto d_as_int32_t = static_cast<int32_t>(d);
-  if (Safe::abs(d_as_int32_t) > 21474836) {
-    den = 1;
-  } else if (Safe::abs(d_as_int32_t) > 214748) {
-    den = 100;
-  } else if (Safe::abs(d_as_int32_t) > 2147) {
+  int32_t den;
+  if (std::fabs(d) <= std::numeric_limits<int32_t>::max() / 1000000) {
+    den = 1000000;
+  } else if (std::fabs(d) <= std::numeric_limits<int32_t>::max() / 10000) {
     den = 10000;
+  } else if (std::fabs(d) <= std::numeric_limits<int32_t>::max() / 100) {
+    den = 100;
+  } else if (std::fabs(d) <= std::numeric_limits<int32_t>::max()) {
+    den = 1;
+  } else {
+    return {d > 0 ? 1 : -1, 0};
   }
   const auto nom = static_cast<int32_t>(std::round(d * den));
   const int32_t g = std::gcd(nom, den);
