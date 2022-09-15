@@ -79,7 +79,7 @@ class EXIV2API PngImage : public Image {
   void doWriteMetadata(BasicIo& outIo);
   //@}
 
-  std::string profileName_;
+  std::string profileName_{"ICC Profile"};
 
 };  // class PngImage
 

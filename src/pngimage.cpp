@@ -447,13 +447,16 @@ void PngImage::readMetadata() {
           enforce(iccOffset < 80 && iccOffset < chunkLength, Exiv2::ErrorCode::kerCorruptedMetadata);
         } while (chunkData.read_uint8(iccOffset++) != 0x00);
 
-        profileName_ = std::string(chunkData.c_str(), iccOffset - 1);
+        // Don't fail on empty ICC profile name, but also don't overwrite the default
+        std::string profileName = std::string(chunkData.c_str(), iccOffset - 1);
+        if (profileName.size() > 0)
+          profileName_ = profileName;
         ++iccOffset;  // +1 = 'compressed' flag
         enforce(iccOffset <= chunkLength, Exiv2::ErrorCode::kerCorruptedMetadata);
 
         zlibToDataBuf(chunkData.c_data(iccOffset), static_cast<uLongf>(chunkLength - iccOffset), iccProfile_);
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cout << "Exiv2::PngImage::readMetadata: profile name: " << profileName_ << std::endl;
+        std::cout << "Exiv2::PngImage::readMetadata: profile name: " << profileName << std::endl;
         std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ (uncompressed) : " << iccProfile_.size()
                   << std::endl;
 #endif
