@@ -77,8 +77,8 @@ void BmpImage::readMetadata() {
   */
   byte buf[26];
   if (io_->read(buf, sizeof(buf)) == sizeof(buf)) {
-    pixelWidth_ = getLong(buf + 18, littleEndian);
-    pixelHeight_ = getLong(buf + 22, littleEndian);
+    pixelWidth_ = getULong(buf + 18, littleEndian);
+    pixelHeight_ = getULong(buf + 22, littleEndian);
   }
 }
 

@@ -150,8 +150,8 @@ void Jp2Image::readMetadata() {
   while (io_->read(reinterpret_cast<byte*>(&box), boxHSize) == boxHSize) {
     boxes_check(boxesCount++, boxem);
     const size_t position = io_->tell();
-    box.length = getLong(reinterpret_cast<byte*>(&box.length), bigEndian);
-    box.type = getLong(reinterpret_cast<byte*>(&box.type), bigEndian);
+    box.length = getULong(reinterpret_cast<byte*>(&box.length), bigEndian);
+    box.type = getULong(reinterpret_cast<byte*>(&box.type), bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cout << "Exiv2::Jp2Image::readMetadata: "
               << "Position: " << position << " box type: " << toAscii(box.type) << " length: " << box.length
@@ -193,8 +193,8 @@ void Jp2Image::readMetadata() {
 
         while (io_->read(reinterpret_cast<byte*>(&subBox), boxHSize) == boxHSize && subBox.length) {
           boxes_check(boxesCount++, boxem);
-          subBox.length = getLong(reinterpret_cast<byte*>(&subBox.length), bigEndian);
-          subBox.type = getLong(reinterpret_cast<byte*>(&subBox.type), bigEndian);
+          subBox.length = getULong(reinterpret_cast<byte*>(&subBox.length), bigEndian);
+          subBox.type = getULong(reinterpret_cast<byte*>(&subBox.type), bigEndian);
           if (subBox.length > io_->size()) {
             throw Error(ErrorCode::kerCorruptedMetadata);
           }
@@ -242,8 +242,8 @@ void Jp2Image::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::Jp2Image::readMetadata: Ihdr data found" << std::endl;
 #endif
-            ihdr.imageHeight = getLong(reinterpret_cast<byte*>(&ihdr.imageHeight), bigEndian);
-            ihdr.imageWidth = getLong(reinterpret_cast<byte*>(&ihdr.imageWidth), bigEndian);
+            ihdr.imageHeight = getULong(reinterpret_cast<byte*>(&ihdr.imageHeight), bigEndian);
+            ihdr.imageWidth = getULong(reinterpret_cast<byte*>(&ihdr.imageWidth), bigEndian);
             ihdr.componentCount = getShort(reinterpret_cast<byte*>(&ihdr.componentCount), bigEndian);
             enforce(ihdr.c == 7, ErrorCode::kerCorruptedMetadata);
 
@@ -418,8 +418,8 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
     while (box.length && box.type != kJp2BoxTypeClose &&
            io_->read(reinterpret_cast<byte*>(&box), boxHSize) == boxHSize) {
       const size_t position = io_->tell();
-      box.length = getLong(reinterpret_cast<byte*>(&box.length), bigEndian);
-      box.type = getLong(reinterpret_cast<byte*>(&box.type), bigEndian);
+      box.length = getULong(reinterpret_cast<byte*>(&box.length), bigEndian);
+      box.type = getULong(reinterpret_cast<byte*>(&box.type), bigEndian);
       enforce(box.length <= boxHSize + io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
 
       if (bPrint) {
@@ -456,8 +456,8 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
                  io_->tell() < position + box.length)  // don't read beyond the box!
           {
             const size_t address = io_->tell() - boxHSize;
-            subBox.length = getLong(reinterpret_cast<byte*>(&subBox.length), bigEndian);
-            subBox.type = getLong(reinterpret_cast<byte*>(&subBox.type), bigEndian);
+            subBox.length = getULong(reinterpret_cast<byte*>(&subBox.length), bigEndian);
+            subBox.type = getULong(reinterpret_cast<byte*>(&subBox.type), bigEndian);
 
             if (subBox.length < boxHSize || subBox.length > io_->size() - io_->tell()) {
               throw Error(ErrorCode::kerCorruptedMetadata);
@@ -603,7 +603,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
   size_t outlen = boxHSize;                                  // now many bytes have we written to output?
   size_t inlen = boxHSize;                                   // how many bytes have we read from boxBuf?
   enforce(boxHSize <= output.size(), ErrorCode::kerCorruptedMetadata);
-  uint32_t length = getLong(boxBuf.c_data(0), bigEndian);
+  uint32_t length = getULong(boxBuf.c_data(0), bigEndian);
   enforce(length <= output.size(), ErrorCode::kerCorruptedMetadata);
   uint32_t count = boxHSize;
   bool bWroteColor = false;
@@ -615,8 +615,8 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
     Internal::Jp2BoxHeader newBox = subBox;
 
     if (count < length) {
-      subBox.length = getLong(boxBuf.c_data(count), bigEndian);
-      subBox.type = getLong(boxBuf.c_data(count + 4), bigEndian);
+      subBox.length = getULong(boxBuf.c_data(count), bigEndian);
+      subBox.type = getULong(boxBuf.c_data(count + 4), bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Jp2Image::encodeJp2Header subbox: " << toAscii(subBox.type) << " length = " << subBox.length
                 << std::endl;

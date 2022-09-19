@@ -184,8 +184,8 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 
   // The box length is encoded as a uint32_t by default, but the special value 1 means
   // that it's a uint64_t.
-  uint64_t box_length = getLong(reinterpret_cast<byte*>(&hdrbuf[0]), endian_);
-  uint32_t box_type = getLong(reinterpret_cast<byte*>(&hdrbuf[sizeof(uint32_t)]), endian_);
+  uint64_t box_length = getULong(reinterpret_cast<byte*>(&hdrbuf[0]), endian_);
+  uint32_t box_type = getULong(reinterpret_cast<byte*>(&hdrbuf[sizeof(uint32_t)]), endian_);
   bool bLF = true;
 
   if (bTrace) {
@@ -265,7 +265,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     // 8.11.6.2
     case TAG_infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
       enforce(data.size() - skip >= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
-      /* getLong (data.pData_+skip,endian_) ; */ skip += 4;
+      /* getULong (data.pData_+skip,endian_) ; */ skip += 4;
       uint16_t ID = data.read_uint16(skip, endian_);
       skip += 2;
       /* getShort(data.pData_+skip,endian_) ; */ skip += 2;  // protection
