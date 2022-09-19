@@ -373,6 +373,16 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
   }
 }
 
+void PngImage::setIccProfile(DataBuf&& iccProfile, bool bTestValid, const std::string& profileName) {
+  profileName_ = profileName;
+  Image::setIccProfile(std::move(iccProfile), bTestValid);
+}
+
+void PngImage::clearIccProfile() {
+  profileName_ = std::string("ICC profile");
+  Image::clearIccProfile();
+}
+
 void readChunk(DataBuf& buffer, BasicIo& io) {
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;

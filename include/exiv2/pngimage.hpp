@@ -53,6 +53,20 @@ class EXIV2API PngImage : public Image {
     @warning This function is not thread safe and intended for exiv2 -pS for debugging.
    */
   void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
+  /*!
+    @brief Set the image iccProfile. The new profile is not written
+        to the image until the writeMetadata() method is called.
+    @param iccProfile DataBuf containing profile (binary)
+    @param bTestValid - tests that iccProfile contains credible data
+    @param profileName Name for referring to the profile
+   */
+  void setIccProfile(DataBuf&& iccProfile, bool bTestValid = true,
+                     const std::string& profileName = std::string("ICC profile"));
+  /*!
+    @brief Erase iccProfile. The profile is not removed from
+        the actual image until the writeMetadata() method is called.
+   */
+  void clearIccProfile() override;
   //@}
 
   //! @name Accessors
@@ -79,7 +93,7 @@ class EXIV2API PngImage : public Image {
   void doWriteMetadata(BasicIo& outIo);
   //@}
 
-  std::string profileName_{"ICC Profile"};
+  std::string profileName_{"ICC profile"};
 
 };  // class PngImage
 
