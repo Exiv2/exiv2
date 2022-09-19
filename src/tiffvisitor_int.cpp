@@ -1120,7 +1120,7 @@ void TiffReader::visitDirectory(TiffDirectory* object) {
       return;
     }
     TiffComponent::UniquePtr tc;
-    uint32_t next = getLong(p, byteOrder());
+    uint32_t next = getULong(p, byteOrder());
     if (next) {
       tc = TiffCreator::create(Tag::next, object->group());
 #ifndef SUPPRESS_WARNINGS
@@ -1152,7 +1152,7 @@ void TiffReader::visitSubIfd(TiffSubIfd* object) {
     if (object->group() == IfdId::ifd1Id)
       maxi = 1;
     for (uint32_t i = 0; i < object->count(); ++i) {
-      uint32_t offset = getLong(object->pData() + 4 * i, byteOrder());
+      uint32_t offset = getULong(object->pData() + 4 * i, byteOrder());
       if (baseOffset() + offset > size_) {
 #ifndef SUPPRESS_WARNINGS
         EXV_ERROR << "Directory " << groupName(object->group()) << ", entry 0x" << std::setw(4) << std::setfill('0')
@@ -1271,7 +1271,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     throw Error(ErrorCode::kerArithmeticOverflow);
   }
   size_t size = typeSize * count;
-  uint32_t offset = getLong(p, byteOrder());
+  uint32_t offset = getULong(p, byteOrder());
   byte* pData = p;
   if (size > 4 && (baseOffset() + offset >= size_ || baseOffset() + offset <= 0)) {
     // #1143
