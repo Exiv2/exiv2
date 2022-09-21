@@ -568,10 +568,16 @@ void QuickTimeVideo::decodeBlock(std::string const& entered_from) {
   enforce(size - hdrsize <= std::numeric_limits<size_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
   // std::cerr<<"Tag=>"<<buf.data()<<"     size=>"<<size-hdrsize << std::endl;
-  tagDecoder(buf, static_cast<size_t>(size - hdrsize));
+  const size_t newsize = static_cast<size_t>(size - hdrsize);
+  if (newsize > buf.size()) {
+    buf.resize(newsize);
+  }
+  tagDecoder(buf, newsize);
 }  // QuickTimeVideo::decodeBlock
 
 void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size) {
+  assert(buf.size() > 4);
+
   if (ignoreList(buf))
     discard(size);
 
@@ -620,24 +626,30 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size) {
     keysTagDecoder(size);
 
   else if (equalsQTimeTag(buf, "url ")) {
-    io_->readOrThrow(buf.data(), size);
+    Exiv2::DataBuf url(size + 1);
+    io_->readOrThrow(url.data(), size);
+    url.write_uint8(size, 0);
     if (currentStream_ == Video)
-      xmpData_["Xmp.video.URL"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.video.URL"] = Exiv2::toString(url.data());
     else if (currentStream_ == Audio)
-      xmpData_["Xmp.audio.URL"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.audio.URL"] = Exiv2::toString(url.data());
   }
 
   else if (equalsQTimeTag(buf, "urn ")) {
-    io_->readOrThrow(buf.data(), size);
+    Exiv2::DataBuf urn(size + 1);
+    io_->readOrThrow(urn.data(), size);
+    urn.write_uint8(size, 0);
     if (currentStream_ == Video)
-      xmpData_["Xmp.video.URN"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.video.URN"] = Exiv2::toString(urn.data());
     else if (currentStream_ == Audio)
-      xmpData_["Xmp.audio.URN"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.audio.URN"] = Exiv2::toString(urn.data());
   }
 
   else if (equalsQTimeTag(buf, "dcom")) {
-    io_->readOrThrow(buf.data(), size);
-    xmpData_["Xmp.video.Compressor"] = Exiv2::toString(buf.data());
+    Exiv2::DataBuf dcom(size + 1);
+    io_->readOrThrow(dcom.data(), size);
+    dcom.write_uint8(size, 0);
+    xmpData_["Xmp.video.Compressor"] = Exiv2::toString(dcom.data());
   }
 
   else if (equalsQTimeTag(buf, "smhd")) {
