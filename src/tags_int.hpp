@@ -245,7 +245,7 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
 
   uint32_t vN = 0;
   uint32_t currentVNBit = 0;
-  auto lastArrayPos = 0;  // Prevents unneeded searching of array
+  size_t lastArrayPos = 0;  // Prevents unneeded searching of array
   constexpr auto maxArrayBit = (array + N - 1)->first;
   auto allVNZero = true;
   auto useSep = false;
