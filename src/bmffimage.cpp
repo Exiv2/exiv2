@@ -652,7 +652,7 @@ void BmffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption op
 
 void BmffImage::writeMetadata() {
   // bmff files are read-only
-  throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMFF"));
+  throw(Error(ErrorCode::kerWritingImageFormatUnsupported, "BMFF"));
 }  // BmffImage::writeMetadata
 
 // *************************************************************************
