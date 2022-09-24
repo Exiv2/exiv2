@@ -93,7 +93,7 @@ struct TagVocabulary {
   @brief Generic pretty-print function to translate a full string value to a description
          by looking up a reference table.
  */
-template <int N, const StringTagDetails (&array)[N]>
+template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString(std::ostream& os, const std::string value, const ExifData*) {
   const StringTagDetails* td = find(array, value);
   if (td) {
@@ -108,7 +108,7 @@ std::ostream& printTagString(std::ostream& os, const std::string value, const Ex
   @brief Generic pretty-print function to translate the full string value in Value, to a description
          by looking up a reference table.
  */
-template <int N, const StringTagDetails (&array)[N]>
+template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString(std::ostream& os, const Value& value, const ExifData* data) {
   return printTagString<N, array>(os, value.toString(0), data);
 }
@@ -120,7 +120,7 @@ std::ostream& printTagString(std::ostream& os, const Value& value, const ExifDat
   @brief Generic pretty-print function to translate the first 2 values in Value as a string,
          to a description by looking up a reference table.
  */
-template <int N, const StringTagDetails (&array)[N]>
+template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString2(std::ostream& os, const Value& value, const ExifData* data) {
   if (value.count() < 2)
     return os << "(" << value << ")";
@@ -135,7 +135,7 @@ std::ostream& printTagString2(std::ostream& os, const Value& value, const ExifDa
   @brief Generic pretty-print function to translate the first 4 values in Value as a string,
          to a description by looking up a reference table.
  */
-template <int N, const StringTagDetails (&array)[N]>
+template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString4(std::ostream& os, const Value& value, const ExifData* data) {
   if (value.count() < 4)
     return os << "(" << value << ")";
@@ -150,7 +150,7 @@ std::ostream& printTagString4(std::ostream& os, const Value& value, const ExifDa
   @brief Generic pretty-print function to translate a long value to a description
          by looking up a reference table. Unknown values are passed through without error.
  */
-template <int N, const TagDetails (&array)[N]>
+template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTagNoError(std::ostream& os, const int64_t value, const ExifData*) {
   const TagDetails* td = find(array, value);
   if (td) {
@@ -165,7 +165,7 @@ std::ostream& printTagNoError(std::ostream& os, const int64_t value, const ExifD
   @brief Generic pretty-print function to translate the full string value in Value, to a description
          by looking up a reference table.
  */
-template <int N, const TagDetails (&array)[N]>
+template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTagNoError(std::ostream& os, const Value& value, const ExifData* data) {
   return printTagNoError<N, array>(os, value.toInt64(), data);
 }
@@ -177,7 +177,7 @@ std::ostream& printTagNoError(std::ostream& os, const Value& value, const ExifDa
   @brief Generic pretty-print function to translate a long value to a description
          by looking up a reference table.
  */
-template <int N, const TagDetails (&array)[N]>
+template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*) {
   const TagDetails* td = find(array, value);
   if (td) {
@@ -192,7 +192,7 @@ std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*) {
   @brief Generic pretty-print function to translate the first long value in Value, to a description
          by looking up a reference table.
  */
-template <int N, const TagDetails (&array)[N]>
+template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTag(std::ostream& os, const Value& value, const ExifData* data) {
   return printTag<N, array>(os, value.toInt64(), data);
 }
@@ -204,7 +204,7 @@ std::ostream& printTag(std::ostream& os, const Value& value, const ExifData* dat
   @brief Generic print function to translate a long value to a description
          by looking up bitmasks in a reference table.
  */
-template <int N, const TagDetailsBitmask (&array)[N]>
+template <size_t N, const TagDetailsBitmask (&array)[N]>
 std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifData*) {
   const auto val = value.toUint32();
   if (val == 0 && N > 0) {
@@ -213,7 +213,7 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
       return os << exvGettext(label);
   }
   bool sep = false;
-  for (int i = 0; i < N; ++i) {
+  for (size_t i = 0; i < N; ++i) {
     // *& acrobatics is a workaround for a MSVC 7.1 bug
     auto [mask, label] = *(array + i);
 
@@ -238,7 +238,7 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
          processes the values using little endian format. Any bits not
          found in the array are also output.
  */
-template <int N, const TagDetailsBitlistSorted (&array)[N]>
+template <size_t N, const TagDetailsBitlistSorted (&array)[N]>
 std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const ExifData*) {
   if (N == 0)
     throw Error(ErrorCode::kerErrorMessage, std::string("Passed zero length TagDetailsBitlistSorted"));
@@ -269,7 +269,7 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
       }
 
       // Check to see if the numbered bit is found in the array
-      for (int k = lastArrayPos; k < N; ++k) {
+      for (size_t k = lastArrayPos; k < N; ++k) {
         // *& acrobatics is a workaround for a MSVC 7.1 bug
         auto [bit, label] = *(array + k);
 
@@ -298,7 +298,7 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
   @brief Generic pretty-print function to translate a controlled vocabulary value (string)
          to a description by looking up a reference table.
  */
-template <int N, const TagVocabulary (&array)[N]>
+template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const ExifData*) {
   const TagVocabulary* td = find(array, value.toString());
   if (td) {
@@ -312,7 +312,7 @@ std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const Exi
 //! Shortcut for the printTagVocabulary template which requires typing the array name only once.
 #define EXV_PRINT_VOCABULARY(array) printTagVocabulary<std::size(array), array>
 
-template <int N, const TagVocabulary (&array)[N]>
+template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabularyMulti(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() == 0) {
     os << "(" << value << ")";
