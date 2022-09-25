@@ -1152,7 +1152,7 @@ void Converter::cnvXmpGPSCoord(const char* from, const char* to) {
     min = static_cast<double>(static_cast<int>(min));
   }
 
-  if (in.bad() || !(ref == 'N' || ref == 'S' || ref == 'E' || ref == 'W') || sep1 != ',' || !in.eof()) {
+  if (in.bad() || (ref != 'N' && ref != 'S' && ref != 'E' && ref != 'W') || sep1 != ',' || !in.eof()) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
 #endif

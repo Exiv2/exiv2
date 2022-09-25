@@ -1053,7 +1053,7 @@ const TagInfo* OlympusMakerNote::tagListRi() {
 
 // Gradation
 std::ostream& OlympusMakerNote::print0x050f(std::ostream& os, const Value& value, const ExifData*) {
-  if (!(value.count() == 3 || value.count() == 4) || value.typeId() != signedShort) {
+  if ((value.count() != 3 && value.count() != 4) || value.typeId() != signedShort) {
     return os << value;
   }
 

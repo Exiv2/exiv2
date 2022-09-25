@@ -3034,7 +3034,7 @@ std::ostream& printXmpVersion(std::ostream& os, const Value& value, const ExifDa
 }
 
 std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*) {
-  if (!(value.size() == 19 || value.size() == 20) || value.typeId() != xmpText) {
+  if ((value.size() != 19 && value.size() != 20) || value.typeId() != xmpText) {
     return os << value;
   }
 
