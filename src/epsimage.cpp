@@ -272,7 +272,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       EXV_DEBUG << "readWriteEpsMetadata: DOS EPS checksum is not FFFF\n";
 #endif
     }
-    if (!((posWmf == 0 && sizeWmf == 0) || (posTiff == 0 && sizeTiff == 0))) {
+    if ((posWmf != 0 || sizeWmf != 0) && (posTiff != 0 || sizeTiff != 0)) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "DOS EPS file has both WMF and TIFF section. Only one of those is allowed.\n";
 #endif
@@ -472,8 +472,8 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     significantLine = true;
 #endif
     // implicit comments
-    if (line == "%%EOF" || line == "%begin_xml_code" ||
-        !(line.size() >= 2 && line.front() == '%' && '\x21' <= line[1] && line[1] <= '\x7e')) {
+    if (line == "%%EOF" || line == "%begin_xml_code" || line.size() < 2 || line.front() != '%' || '\x21' > line[1] ||
+        line[1] > '\x7e') {
       if (posEndComments == posEndEps) {
         posEndComments = startPos;
 #ifdef DEBUG

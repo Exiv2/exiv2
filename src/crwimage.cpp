@@ -143,7 +143,7 @@ bool isCrwType(BasicIo& iIo, bool advance) {
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  if (!(('I' == tmpBuf[0] && 'I' == tmpBuf[1]) || ('M' == tmpBuf[0] && 'M' == tmpBuf[1]))) {
+  if (('I' != tmpBuf[0] || 'I' != tmpBuf[1]) && ('M' != tmpBuf[0] || 'M' != tmpBuf[1])) {
     result = false;
   }
   if (result && std::memcmp(tmpBuf + 6, Internal::CiffHeader::signature(), 8) != 0) {

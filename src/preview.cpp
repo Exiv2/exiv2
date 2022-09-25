@@ -355,7 +355,7 @@ PreviewId Loader::getNumLoaders() {
 }
 
 LoaderNative::LoaderNative(PreviewId id, const Image& image, int parIdx) : Loader(id, image) {
-  if (!(0 <= parIdx && static_cast<size_t>(parIdx) < image.nativePreviews().size()))
+  if (0 > parIdx || static_cast<size_t>(parIdx) >= image.nativePreviews().size())
     return;
   nativePreview_ = image.nativePreviews()[parIdx];
   width_ = nativePreview_.width_;

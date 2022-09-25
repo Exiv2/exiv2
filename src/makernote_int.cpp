@@ -187,7 +187,7 @@ bool OlympusMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder
     return false;
   header_.alloc(sizeOfSignature());
   std::copy_n(pData, header_.size(), header_.data());
-  return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 6));
+  return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 6);
 }
 
 size_t OlympusMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const {
@@ -222,7 +222,7 @@ bool Olympus2MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrde
     return false;
   header_.alloc(sizeOfSignature());
   std::copy_n(pData, header_.size(), header_.data());
-  return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 10));
+  return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 10);
 }
 
 size_t Olympus2MnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const {
@@ -258,7 +258,7 @@ bool OMSystemMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrde
     return false;
   header_.alloc(sizeOfSignature());
   std::copy_n(pData, header_.size(), header_.data());
-  return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, sizeOfSignature() - 2));
+  return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, sizeOfSignature() - 2);
 }
 
 size_t OMSystemMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const {
@@ -301,7 +301,7 @@ bool FujiMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
   // Read offset to the IFD relative to the start of the makernote
   // from the header. Note that we ignore the byteOrder argument
   start_ = header_.read_uint32(8, byteOrder_);
-  return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 8));
+  return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 8);
 }
 
 size_t FujiMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const {
@@ -460,7 +460,7 @@ bool PentaxDngMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrd
     return false;
   header_.alloc(sizeOfSignature());
   std::copy_n(pData, header_.size(), header_.data());
-  return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 7));
+  return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 7);
 }
 
 size_t PentaxDngMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const {
@@ -491,7 +491,7 @@ bool PentaxMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
     return false;
   header_.alloc(sizeOfSignature());
   std::copy_n(pData, header_.size(), header_.data());
-  return !(header_.size() < sizeOfSignature() || 0 != header_.cmpBytes(0, signature_, 3));
+  return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 3);
 }
 
 size_t PentaxMnHeader::write(IoWrapper& ioWrapper, ByteOrder /*byteOrder*/) const {

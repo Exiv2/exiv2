@@ -1059,7 +1059,7 @@ int Params::getopt(int argc, char* const Argv[]) {
     // We'll set them again, after reading the file
     Exiv2::XmpProperties::unregisterNs();
   }
-  if (!directory_.empty() && !(action_ == Action::insert || action_ == Action::extract)) {
+  if (!directory_.empty() && action_ != Action::insert && action_ != Action::extract) {
     std::cerr << progname() << ": " << _("-l option can only be used with extract or insert actions\n");
     rc = 1;
   }
@@ -1221,7 +1221,7 @@ int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::strin
       }
       i = k;
     }
-    if (!(k < optArg.size() && optArg[i] == ','))
+    if (k >= optArg.size() || optArg[i] != ',')
       break;
   }
   auto ret = static_cast<int>(k - j);
