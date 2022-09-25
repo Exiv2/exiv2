@@ -846,12 +846,13 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
 
     else if (tv) {
       const size_t tv_size = size - 12;
-      if (tv_size > buf.size()) {
+      if (tv_size >= buf.size()) {
         enforce(tv_size <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
-        buf.resize(tv_size);
+        buf.resize(tv_size + 1);
       }
       io_->readOrThrow(buf.data(), 4);
       io_->readOrThrow(buf.data(), tv_size);
+      buf.write_uint8(tv_size, 0); // nul-terminate string
       xmpData_[exvGettext(tv->label_)] = Exiv2::toString(buf.data());
     }
 
