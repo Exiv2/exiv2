@@ -1292,7 +1292,7 @@ class TiffBinaryArray : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg* arrayCfg, const ArrayDef* arrayDef, int defSize);
+  TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg& arrayCfg, const ArrayDef* arrayDef, int defSize);
   //! Constructor for a complex binary array
   TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, int setSize, CfgSelFct cfgSelFct);
   //! Virtual destructor
@@ -1534,15 +1534,15 @@ TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group) {
 }
 
 //! Function to create and initialize a new binary array entry
-template <const ArrayCfg* arrayCfg, int N, const ArrayDef arrayDef[N]>
+template <const ArrayCfg& arrayCfg, int N, const ArrayDef arrayDef[N]>
 TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
-  return std::make_unique<TiffBinaryArray>(tag, group, &(*arrayCfg), &(*arrayDef), N);
+  return std::make_unique<TiffBinaryArray>(tag, group, arrayCfg, &(*arrayDef), N);
 }
 
 //! Function to create and initialize a new simple binary array entry
-template <const ArrayCfg* arrayCfg>
+template <const ArrayCfg& arrayCfg>
 TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group) {
-  return std::make_unique<TiffBinaryArray>(tag, group, &(*arrayCfg), nullptr, 0);
+  return std::make_unique<TiffBinaryArray>(tag, group, arrayCfg, nullptr, 0);
 }
 
 //! Function to create and initialize a new complex binary array entry

@@ -78,9 +78,9 @@ TiffIfdMakernote::TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, MnH
     TiffComponent(tag, group), pHeader_(pHeader), ifd_(tag, mnGroup, hasNext) {
 }
 
-TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg* arrayCfg, const ArrayDef* arrayDef,
+TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg& arrayCfg, const ArrayDef* arrayDef,
                                  int defSize) :
-    TiffEntryBase(tag, group, arrayCfg->elTiffType_), arrayCfg_(arrayCfg), arrayDef_(arrayDef), defSize_(defSize) {
+    TiffEntryBase(tag, group, arrayCfg.elTiffType_), arrayCfg_(&arrayCfg), arrayDef_(arrayDef), defSize_(defSize) {
 }
 
 TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, int setSize,
