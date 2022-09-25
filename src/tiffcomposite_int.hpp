@@ -1534,9 +1534,9 @@ TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group) {
 }
 
 //! Function to create and initialize a new binary array entry
-template <const ArrayCfg& arrayCfg, int N, const ArrayDef arrayDef[N]>
+template <const ArrayCfg& arrayCfg, int N, const ArrayDef* arrayDef>
 TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
-  return std::make_unique<TiffBinaryArray>(tag, group, arrayCfg, &(*arrayDef), N);
+  return std::make_unique<TiffBinaryArray>(tag, group, arrayCfg, arrayDef, N);
 }
 
 //! Function to create and initialize a new simple binary array entry
