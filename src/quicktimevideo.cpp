@@ -852,7 +852,7 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
       }
       io_->readOrThrow(buf.data(), 4);
       io_->readOrThrow(buf.data(), tv_size);
-      buf.write_uint8(tv_size, 0); // nul-terminate string
+      buf.write_uint8(tv_size, 0);  // nul-terminate string
       xmpData_[exvGettext(tv->label_)] = Exiv2::toString(buf.data());
     }
 
