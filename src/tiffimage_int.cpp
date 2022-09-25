@@ -12,8 +12,8 @@
 #include <iostream>
 
 // Shortcuts for the newTiffBinaryArray templates.
-#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<&(arrayCfg), std::size(arrayDef), arrayDef>)
-#define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<&(arrayCfg)>)
+#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<arrayCfg, std::size(arrayDef), arrayDef>)
+#define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<arrayCfg>)
 #define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, std::size(arraySet), cfgSelFct>)
 
 namespace Exiv2::Internal {
