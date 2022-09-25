@@ -797,13 +797,13 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
 
   const long bufMinSize = 100;
   DataBuf buf(bufMinSize);
-  size_t size = 0, size_internal = size_external;
+  size_t size_internal = size_external;
   std::memset(buf.data(), 0x0, buf.size());
 
   while ((size_internal / 4 != 0) && (size_internal > 0)) {
     buf.data()[4] = '\0';
     io_->readOrThrow(buf.data(), 4);
-    size = buf.read_uint32(0, bigEndian);
+    const size_t size = buf.read_uint32(0, bigEndian);
     if (size > size_internal)
       break;
     size_internal -= size;
@@ -845,8 +845,13 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
     }
 
     else if (tv) {
+      const size_t tv_size = size - 12;
+      if (tv_size > buf.size()) {
+        enforce(tv_size <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+        buf.resize(tv_size);
+      }
       io_->readOrThrow(buf.data(), 4);
-      io_->readOrThrow(buf.data(), size - 12);
+      io_->readOrThrow(buf.data(), tv_size);
       xmpData_[exvGettext(tv->label_)] = Exiv2::toString(buf.data());
     }
 
