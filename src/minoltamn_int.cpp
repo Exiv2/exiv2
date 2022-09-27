@@ -18,6 +18,14 @@
 namespace Exiv2::Internal {
 // -- Standard Minolta Makernotes tags ---------------------------------------------------------------
 
+//! Lookup table to translate Minolta Std (tag 0x0115) white balance values to readable labels
+constexpr TagDetails minoltaWhiteBalanceStd0x0115[] = {
+    {0x00, N_("Auto")},     {0x01, N_("Color Temperature/Color Filter")},
+    {0x10, N_("Daylight")}, {0x20, N_("Cloudy")},
+    {0x30, N_("Shade")},    {0x40, N_("Tungsten")},
+    {0x50, N_("Flash")},    {0x60, N_("Fluorescent")},
+    {0x70, N_("Custom")}};
+
 //! Lookup table to translate Minolta color mode values to readable labels
 constexpr TagDetails minoltaColorMode[] = {
     {0, N_("Natural Color")}, {1, N_("Black & White")},  {2, N_("Vivid Color")}, {3, N_("Solarization")},
@@ -26,9 +34,8 @@ constexpr TagDetails minoltaColorMode[] = {
     {17, N_("Night Scene")},  {18, N_("Night Portrait")}};
 
 //! Lookup table to translate Minolta image quality values to readable labels
-[[maybe_unused]] constexpr TagDetails minoltaImageQuality[] = {{0, N_("Raw")},     {1, N_("Super Fine")},
-                                                               {2, N_("Fine")},    {3, N_("Standard")},
-                                                               {4, N_("Economy")}, {5, N_("Extra Fine")}};
+constexpr TagDetails minoltaImageQuality[] = {{0, N_("Raw")},      {1, N_("Super Fine")}, {2, N_("Fine")},
+                                              {3, N_("Standard")}, {4, N_("Economy")},    {5, N_("Extra Fine")}};
 
 //! Lookup table to translate Minolta image stabilization values
 constexpr TagDetails minoltaImageStabilization[] = {{1, N_("Off")}, {5, N_("On")}};
@@ -68,7 +75,7 @@ constexpr TagInfo MinoltaMakerNote::tagInfo_[] = {
      EXV_PRINT_TAG(minoltaColorMode)},
 
     {0x0102, "Quality", N_("Image Quality"), N_("Image quality"), IfdId::minoltaId, SectionId::makerTags, unsignedLong,
-     -1, printMinoltaSonyImageQuality},
+     -1, EXV_PRINT_TAG(minoltaImageQuality)},
 
     // TODO: Tag 0x0103 : quality or image size (see ExifTool doc).
     {0x0103, "0x0103", N_("0x0103"), N_("Unknown"), IfdId::minoltaId, SectionId::makerTags, unsignedLong, -1,
@@ -101,7 +108,7 @@ constexpr TagInfo MinoltaMakerNote::tagInfo_[] = {
      IfdId::minoltaId, SectionId::makerTags, undefined, -1, printValue},
 
     {0x0115, "WhiteBalance", N_("White Balance"), N_("White balance"), IfdId::minoltaId, SectionId::makerTags,
-     unsignedLong, -1, printMinoltaSonyWhiteBalanceStd},
+     unsignedLong, -1, EXV_PRINT_TAG(minoltaWhiteBalanceStd0x0115)},
     {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), IfdId::minoltaId, SectionId::makerTags, undefined,
      -1, printValue},
     {0x0f00, "CameraSettingsZ1", N_("Camera Settings (Z1)"), N_("Camera Settings (for Z1, DImage X, and F100 models)"),
@@ -1768,24 +1775,35 @@ std::ostream& printMinoltaSonyRotation(std::ostream& os, const Value& value, con
 
 //! Lookup table to translate Minolta/Sony scene mode values to readable labels
 constexpr TagDetails minoltaSonySceneMode[] = {
-    {0, N_("Standard")}, {1, N_("Portrait")},    {2, N_("Text")},      {3, N_("Night Scene")},
-    {4, N_("Sunset")},   {5, N_("Sports")},      {6, N_("Landscape")}, {7, N_("Night Portrait")},
-    {8, N_("Macro")},    {9, N_("Super Macro")}, {16, N_("Auto")},     {17, N_("Night View/Portrait")}};
+    {0, N_("Standard")},
+    {1, N_("Portrait")},
+    {2, N_("Text")},
+    {3, N_("Night Scene")},
+    {4, N_("Sunset")},
+    {5, N_("Sports")},
+    {6, N_("Landscape")},
+    {7, N_("Night Portrait")},
+    {8, N_("Macro")},
+    {9, N_("Super Macro")},
+    {16, N_("Auto")},
+    {17, N_("Night View/Portrait")},
+    {18, N_("Sweep Panorama")},
+    {19, N_("Handheld Night Shot")},
+    {20, N_("Anti Motion Blur")},
+    {21, N_("Cont. Priority AE")},
+    {22, N_("Auto+")},
+    {23, N_("3D Sweep Panorama")},
+    {24, N_("Superior Auto")},
+    {25, N_("High Sensitivity")},
+    {26, N_("Fireworks")},
+    {27, N_("Food")},
+    {28, N_("Pet")},
+    {33, N_("HDR")},
+    {0xffff, N_("n/a")},
+};
 
 std::ostream& printMinoltaSonySceneMode(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_TAG(minoltaSonySceneMode)(os, value, metadata);
-}
-
-// ----------------------------------------------------------------------------------------------------
-
-//! Lookup table to translate Sony/Minolta image quality values to readable labels
-constexpr TagDetails minoltaSonyImageQuality[] = {
-    {0, N_("Raw")},        {1, N_("Super Fine")},     {2, N_("Fine")},
-    {3, N_("Standard")},   {4, N_("Economy")},        {5, N_("Extra Fine")},
-    {6, N_("Raw + JPEG")}, {7, N_("Compressed Raw")}, {8, N_("Compressed Raw + JPEG")}};
-
-std::ostream& printMinoltaSonyImageQuality(std::ostream& os, const Value& value, const ExifData* metadata) {
-  return EXV_PRINT_TAG(minoltaSonyImageQuality)(os, value, metadata);
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -1806,18 +1824,6 @@ std::ostream& printMinoltaSonyTeleconverterModel(std::ostream& os, const Value& 
 }
 
 // ----------------------------------------------------------------------------------------------------
-
-//! Lookup table to translate Sony/Minolta Std camera settings white balance values to readable labels
-constexpr TagDetails minoltaSonyWhiteBalanceStd[] = {
-    {0x00, N_("Auto")},     {0x01, N_("Color Temperature/Color Filter")},
-    {0x10, N_("Daylight")}, {0x20, N_("Cloudy")},
-    {0x30, N_("Shade")},    {0x40, N_("Tungsten")},
-    {0x50, N_("Flash")},    {0x60, N_("Fluorescent")},
-    {0x70, N_("Custom")}};
-
-std::ostream& printMinoltaSonyWhiteBalanceStd(std::ostream& os, const Value& value, const ExifData* metadata) {
-  return EXV_PRINT_TAG(minoltaSonyWhiteBalanceStd)(os, value, metadata);
-}
 
 //! Lookup table to translate Sony/Minolta zone matching values to readable labels
 constexpr TagDetails minoltaSonyZoneMatching[] = {{0, N_("ISO Setting Used")}, {1, N_("High Key")}, {2, N_("Low Key")}};

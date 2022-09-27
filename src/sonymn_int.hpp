@@ -37,6 +37,54 @@ class SonyMakerNote {
 
   //! @name Print functions for Sony %MakerNote tags
   //@{
+  //! Print Sony white balance fine tune values
+  static std::ostream& printWhiteBalanceFineTune(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony multi-burst mode values
+  static std::ostream& printMultiBurstMode(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony multi-burst size values
+  static std::ostream& printMultiBurstSize(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony HDR values
+  static std::ostream& printAutoHDRStd(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony white balance shift amber/blue or green/magenta values
+  static std::ostream& printWBShiftABGM(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focus mode 2 values
+  static std::ostream& printFocusMode2(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus area mode Settings values
+  static std::ostream& printAFAreaModeSetting(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony flexible spot position values
+  static std::ostream& printFlexibleSpotPosition(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus point selected values
+  static std::ostream& printAFPointSelected(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus points used values
+  static std::ostream& printAFPointsUsed(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus tracking values
+  static std::ostream& printAFTracking(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focal plane auto-focus points used values
+  static std::ostream& printFocalPlaneAFPointsUsed(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony white balance shift amber/blue and green/magenta precise values
+  static std::ostream& printWBShiftABGMPrecise(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony variable low pass filter values
+  static std::ostream& printExposureStandardAdjustment(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony pixel shift information values
+  static std::ostream& printPixelShiftInfo(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focus frame size values
+  static std::ostream& printFocusFrameSize(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony color temperature values
+  static std::ostream& printColorTemperature(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony color compensation filter values
+  static std::ostream& printColorCompensationFilter(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony lens specification values
+  static std::ostream& printLensSpec(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focus mode values
+  static std::ostream& printFocusMode(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony full and preview image size values
+  static std::ostream& printImageSize(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus area mode values
+  static std::ostream& printAFMode(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focus mode 3 values
+  static std::ostream& printFocusMode3(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony high ISO noise reduction 2 values
+  static std::ostream& printHighISONoiseReduction2(std::ostream&, const Value&, const ExifData*);
   //! Print Sony SonyMisc1 CameraTemperature values (in degrees Celsius)
   static std::ostream& printSonyMisc1CameraTemperature(std::ostream&, const Value&, const ExifData*);
   //! Print Sony2Fp Focus Mode value
@@ -59,10 +107,6 @@ class SonyMakerNote {
   static std::ostream& printSonyMisc3cModelReleaseYear(std::ostream&, const Value&, const ExifData* metadata);
   //! Print SonyMisc3c quality 2 value
   static std::ostream& printSonyMisc3cQuality2(std::ostream&, const Value&, const ExifData* metadata);
-  //! Print Sony Camera Model
-  static std::ostream& print0xb000(std::ostream&, const Value&, const ExifData*);
-  //! Print Full and Preview Image size
-  static std::ostream& printImageSize(std::ostream&, const Value&, const ExifData*);
 
  private:
   //! Tag information
