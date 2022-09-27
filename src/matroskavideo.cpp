@@ -759,5 +759,4 @@ namespace Exiv2 {
         return result;
     }
 
-}                                       // namespace Exiv2
-//#endif // EXV_ENABLE_VIDEO
+}// namespace Exiv2

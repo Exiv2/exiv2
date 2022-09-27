@@ -25,6 +25,7 @@
 #include "bmpimage.hpp"
 #include "gifimage.hpp"
 #include "jp2image.hpp"
+#include "matroskavideo.hpp"
 #include "nikonmn_int.hpp"
 #include "orfimage.hpp"
 #include "pgfimage.hpp"
