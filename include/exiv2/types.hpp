@@ -466,15 +466,6 @@ const T* find(T (&src)[N], const K& key) {
   return rc == src + N ? nullptr : rc;
 }
 
-/// @brief  Utility function to search into std::array of pairs 
-/// @return the serached pair if exist,else nullptr
-template <typename T, typename K, uint64_t N>
-const T* find(const std::array<T,N>& src, const K& key)
-{
-  const T* rc =  std::find_if( src.begin(), src.end(), [&key](const T& element){ return element.first == key;} );
-  return rc == src.end()? nullptr : rc;
-}
-
 //! Utility function to convert the argument of any type to a string
 template <typename T>
 std::string toString(const T& arg) {
