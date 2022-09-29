@@ -14,6 +14,7 @@
 #include <limits>
 #include <sstream>
 #include <vector>
+#include <array>
 
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.
@@ -463,6 +464,15 @@ template <typename T, typename K, int N>
 const T* find(T (&src)[N], const K& key) {
   const T* rc = std::find(src, src + N, key);
   return rc == src + N ? nullptr : rc;
+}
+
+/// @brief  Utility function to search into std::array of pairs 
+/// @return the serached pair if exist,else nullptr
+template <typename T, typename K, uint64_t N>
+const T* find(const std::array<T,N>& src, const K& key)
+{
+  const T* rc =  std::find_if( src.begin(), src.end(), [&key](const T& element){ return element.first == key;} );
+  return rc == src.end()? nullptr : rc;
 }
 
 //! Utility function to convert the argument of any type to a string

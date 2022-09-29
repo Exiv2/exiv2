@@ -33,18 +33,11 @@ namespace Exiv2 {
 // *****************************************************************************
 // class definitions
 
-    // Todo: Should be hidden
     /*!
       @brief Helper structure for the Matroska tags lookup table.
      */
-    struct MatroskaTags {
-        uint64_t val_;                          //!< Tag value
-        const char* label_;                     //!< Translation of the tag value
-
-        //! Comparison operator for use with the find template
-       bool operator==(uint64_t key) const { return val_ == key; }
-    }; // struct TagDetails
-
+    using MatroskaTags = std::pair<uint64_t /*Tag value*/,const char* /*Translation of the tag value*/>  ;
+   
     /*!
       @brief Class to access Matroska video files.
      */
@@ -69,12 +62,12 @@ namespace Exiv2 {
         //! @name Manipulators
         //@{
         void readMetadata() override;
-        void writeMetadata();
+        void writeMetadata() override;
         //@}
 
         //! @name Accessors
         //@{
-        std::string mimeType() const;
+        std::string mimeType() const override;
         //@}
 
     protected:
@@ -107,8 +100,6 @@ namespace Exiv2 {
         void aspectRatio();
 
     private:
-        //! @name NOT Implemented
-        //@{
         //! Copy constructor
         MatroskaVideo(const MatroskaVideo& rhs);
         //! Assignment operator
@@ -124,10 +115,6 @@ namespace Exiv2 {
     }; // class MatroskaVideo
 
 // *****************************************************************************
-// template, inline and free functions
-
-    // These could be static private functions on Image subclasses but then
-    // ImageFactory needs to be made a friend.
     /*!
       @brief Create a new MatroskaVideo instance and return an auto-pointer to it.
           Caller owns the returned object and the auto-pointer ensures that
@@ -138,6 +125,6 @@ namespace Exiv2 {
     //! Check if the file iIo is a Matroska Video.
     bool isMkvType(BasicIo& iIo, bool advance);
 
-}                                       // namespace Exiv2
+}// namespace Exiv2
 
-#endif                                  // #ifndef MATROSKAVIDEO_HPP_
+#endif// #ifndef MATROSKAVIDEO_HPP_
