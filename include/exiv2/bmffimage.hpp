@@ -99,6 +99,9 @@ class EXIV2API BmffImage : public Image {
   //@{
   void readMetadata() override;
   void writeMetadata() override;
+  void setExifData(const ExifData&) override;
+  void setIptcData(const IptcData&) override;
+  void setXmpData(const XmpData&) override;
   void setComment(const std::string& comment) override;
   void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, size_t depth) override;
   //@}
