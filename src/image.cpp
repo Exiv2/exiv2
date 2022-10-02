@@ -38,7 +38,6 @@
 #include "tiffimage.hpp"
 #include "webpimage.hpp"
 #include "xmpsidecar.hpp"
-#include "matroskavideo.hpp"
 
 // + standard includes
 #include <array>

@@ -30,18 +30,29 @@
 // namespace extensions
 namespace Exiv2 {
 
-// *****************************************************************************
-// class definitions
-
 /*!
   @brief Helper structure for the Matroska tags lookup table.
  */
 using MatroskaTags = std::pair<uint64_t /*Tag value*/, const char* /*Translation of the tag value*/>;
 
+// *****************************************************************************
+// class definitions
+namespace Internal {
+
+/// @brief  Utility function to search into std::array of pairs
+/// @return the searched pair if exist,else nullptr
+template <size_t N>
+[[nodiscard]] const Exiv2::MatroskaTags* findTag(const std::array<Exiv2::MatroskaTags, N>& src, const uint64_t& key) {
+  const Exiv2::MatroskaTags* rc =
+      std::find_if(src.begin(), src.end(), [&key](const Exiv2::MatroskaTags& element) { return element.first == key; });
+  return rc == src.end() ? nullptr : rc;
+}
+}  // namespace Internal
+
 /*!
   @brief Class to access Matroska video files.
  */
-class MatroskaVideo : public Image {
+class EXIV2API MatroskaVideo : public Image {
  public:
   //! @name Creators
   //@{
@@ -56,7 +67,7 @@ class MatroskaVideo : public Image {
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
    */
-  MatroskaVideo(BasicIo::UniquePtr io);
+  explicit MatroskaVideo(BasicIo::UniquePtr io);
   //@}
 
   //! @name Manipulators
@@ -67,7 +78,7 @@ class MatroskaVideo : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
  protected:
@@ -80,7 +91,7 @@ class MatroskaVideo : public Image {
     @param b The byte, which stores the information to calculate the size
     @return Return the size of the block.
    */
-  uint32_t findBlockSize(byte b);
+  [[nodiscard]] uint32_t findBlockSize(byte b);
   /*!
     @brief Check for a valid tag and decode the block at the current IO position.
         Calls contentManagement() or skips to next tag, if required.
@@ -120,10 +131,10 @@ class MatroskaVideo : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-Image::UniquePtr newMkvInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newMkvInstance(BasicIo::UniquePtr io, bool create);
 
 //! Check if the file iIo is a Matroska Video.
-bool isMkvType(BasicIo& iIo, bool advance);
+EXIV2API bool isMkvType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 

@@ -365,7 +365,7 @@ constexpr std::array<Exiv2::MatroskaTags, 2> streamRate = {Exiv2::MatroskaTags(0
       bytes are used to calculate the rest of the Tag.
       Returns Tag Value.
  */
-uint64_t returnTagValue(const byte* buf, long size) {
+[[nodiscard]] uint64_t returnTagValue(const byte* buf, long size) {
   assert(size > 0 && size <= 8);
 
   uint64_t b0 = buf[0] & (0xff >> size);
@@ -381,22 +381,13 @@ uint64_t returnTagValue(const byte* buf, long size) {
     @brief Function used to convert buffer data into numerical information,
         information stored in BigEndian format
  */
-uint64_t returnValue(const byte* buf, long size) {
+[[nodiscard]] uint64_t returnValue(const byte* buf, long size) {
   uint64_t ret = 0;
   for (long i = 0; i < size; ++i) {
     ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
   }
 
   return ret;
-}
-
-/// @brief  Utility function to search into std::array of pairs
-/// @return the searched pair if exist,else nullptr
-template <uint64_t N>
-const Exiv2::MatroskaTags* findTag(const std::array<Exiv2::MatroskaTags, N>& src, const uint64_t& key) {
-  const Exiv2::MatroskaTags* rc =
-      std::find_if(src.begin(), src.end(), [&key](const Exiv2::MatroskaTags& element) { return element.first == key; });
-  return rc == src.end() ? nullptr : rc;
 }
 
 }  // namespace Internal
