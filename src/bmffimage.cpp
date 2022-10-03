@@ -577,6 +577,18 @@ void BmffImage::parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, u
   }
 }
 
+void BmffImage::setExifData(const ExifData& /*exifData*/) {
+  throw(Error(ErrorCode::kerInvalidSettingForImage, "Exif metadata", "BMFF"));
+}
+
+void BmffImage::setIptcData(const IptcData& /*iptcData*/) {
+  throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "BMFF"));
+}
+
+void BmffImage::setXmpData(const XmpData& /*xmpData*/) {
+  throw(Error(ErrorCode::kerInvalidSettingForImage, "XMP metadata", "BMFF"));
+}
+
 void BmffImage::setComment(const std::string&) {
   // bmff files are read-only
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMFF"));
@@ -652,7 +664,7 @@ void BmffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption op
 
 void BmffImage::writeMetadata() {
   // bmff files are read-only
-  throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMFF"));
+  throw(Error(ErrorCode::kerWritingImageFormatUnsupported, "BMFF"));
 }  // BmffImage::writeMetadata
 
 // *************************************************************************
