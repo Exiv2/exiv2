@@ -11,10 +11,10 @@
 
 // standard includes
 #include <algorithm>
+#include <array>
 #include <limits>
 #include <sstream>
 #include <vector>
-#include <array>
 
 /*!
   @brief Macro to make calls to member functions through a pointer more readable.

@@ -43,9 +43,14 @@ namespace Internal {
 /// @return the searched pair if exist,else nullptr
 template <size_t N>
 [[nodiscard]] const Exiv2::MatroskaTags* findTag(const std::array<Exiv2::MatroskaTags, N>& src, const uint64_t& key) {
-  const Exiv2::MatroskaTags* rc =
-      std::find_if(src.begin(), src.end(), [&key](const Exiv2::MatroskaTags& element) { return element.first == key; });
-  return rc == src.end() ? nullptr : rc;
+  // for some reasons these two lines does not compile on windows but compile on linux/MacOS
+  // const auto rc = std::find_if(src.begin(), src.end(), [&key](const Exiv2::MatroskaTags& element) { return element.first == key; }); 
+  //return rc == std::end(src) ? nullptr : rc;
+  for (auto it = src.begin(); it != src.end(); ++it) {
+    if (it->first == key)
+      return it;
+  }
+  return nullptr;
 }
 }  // namespace Internal
 
