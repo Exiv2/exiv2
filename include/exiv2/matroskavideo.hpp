@@ -43,14 +43,11 @@ namespace Internal {
 /// @return the searched pair if exist,else nullptr
 template <size_t N>
 [[nodiscard]] const Exiv2::MatroskaTags* findTag(const std::array<Exiv2::MatroskaTags, N>& src, const uint64_t& key) {
-  // for some reasons these two lines does not compile on windows but compile on linux/MacOS
-  // const auto rc = std::find_if(src.begin(), src.end(), [&key](const Exiv2::MatroskaTags& element) { return element.first == key; }); 
-  //return rc == std::end(src) ? nullptr : rc;
-  for (auto it = src.begin(); it != src.end(); ++it) {
-    if (it->first == key)
-      return it;
-  }
-  return nullptr;
+  const auto rc =
+      std::find_if(src.begin(), src.end(), [&key](const Exiv2::MatroskaTags& element) { return element.first == key; });
+  // the return value is of type "const Exiv2::MatroskaTags*", so we return the adress of the content of the input
+  // iterator return by find_if
+  return rc == std::end(src) ? nullptr : &(*rc);
 }
 }  // namespace Internal
 
@@ -73,7 +70,13 @@ class EXIV2API MatroskaVideo : public Image {
         method to get a temporary reference.
    */
   explicit MatroskaVideo(BasicIo::UniquePtr io);
+
+    //! Copy constructor
+  MatroskaVideo(const MatroskaVideo& rhs) = delete;
+  //! Assignment operator
+  MatroskaVideo& operator=(const MatroskaVideo& rhs) = delete;
   //@}
+
 
   //! @name Manipulators
   //@{
@@ -114,13 +117,6 @@ class EXIV2API MatroskaVideo : public Image {
         respective XMP container.
    */
   void aspectRatio();
-
- private:
-  //! Copy constructor
-  MatroskaVideo(const MatroskaVideo& rhs);
-  //! Assignment operator
-  MatroskaVideo& operator=(const MatroskaVideo& rhs);
-  //@}
 
  private:
   //! Variable to check the end of metadata traversing.

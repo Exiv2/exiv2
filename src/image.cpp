@@ -345,11 +345,12 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
       // prepare to print the value
       uint32_t kount = isPrintXMP(tag, option)
-                           ? count  // haul in all the data
-                           : isPrintICC(tag, option)
-                                 ? count                                           // ditto
-                                 : isStringType(type) ? (count > 32 ? 32 : count)  // restrict long arrays
-                                                      : count > 5 ? 5 : count;
+                       ? count  // haul in all the data
+                       : isPrintICC(tag, option)
+                       ? count                                           // ditto
+                       : isStringType(type) ? (count > 32 ? 32 : count)  // restrict long arrays
+                       : count > 5 ? 5 : count;
+
       uint32_t pad = isStringType(type) ? 1 : 0;
       size_t size = isStringType(type) ? 1 : is2ByteType(type) ? 2 : is4ByteType(type) ? 4 : is8ByteType(type) ? 8 : 1;
 
