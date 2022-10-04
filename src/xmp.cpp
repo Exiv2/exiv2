@@ -4,6 +4,7 @@
 #include "error.hpp"
 #include "properties.hpp"
 #include "types.hpp"
+#include "utils.hpp"
 #include "value.hpp"
 #include "xmp_exiv2.hpp"
 
@@ -494,7 +495,7 @@ void XmpData::eraseFamily(XmpData::iterator& pos) {
   std::string key(pos->key());
   std::vector<std::string> keys;
   while (pos != xmpMetadata_.end()) {
-    if (pos->key().find(key) == 0) {
+    if (Exiv2::Internal::startsWith(pos->key(), key)) {
       keys.push_back(pos->key());
       pos++;
     } else {

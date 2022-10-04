@@ -7,6 +7,7 @@
 #include "makernote_int.hpp"
 #include "tags.hpp"
 #include "types.hpp"
+#include "utils.hpp"
 #include "value.hpp"
 
 #include <array>
@@ -1178,7 +1179,7 @@ std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifD
     const auto lensInfo = findLensInfo(metadata);
     if (value.count() == 4) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (model.rfind("PENTAX K-3", 0) == 0 && lensInfo->count() == 128 && lensInfo->toUint32(1) == 168 &&
+      if (startsWith(model, "PENTAX K-3") && lensInfo->count() == 128 && lensInfo->toUint32(1) == 168 &&
           lensInfo->toUint32(2) == 144)
         index = 7;
     }
@@ -1205,15 +1206,15 @@ std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifD
     const auto lensInfo = findLensInfo(metadata);
     if (value.count() == 4) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (model.rfind("PENTAX K-3", 0) == 0 && lensInfo->count() == 128 && lensInfo->toUint32(1) == 131 &&
+      if (startsWith(model, "PENTAX K-3") && lensInfo->count() == 128 && lensInfo->toUint32(1) == 131 &&
           lensInfo->toUint32(2) == 128)
         index = 6;
     }
     if (value.count() == 2) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (model.rfind("PENTAX K100D", 0) == 0 && lensInfo->count() == 44)
+      if (startsWith(model, "PENTAX K100D") && lensInfo->count() == 44)
         index = 6;
-      if (model.rfind("PENTAX *ist DL", 0) == 0 && lensInfo->count() == 36)
+      if (startsWith(model, "PENTAX *ist DL") && lensInfo->count() == 36)
         index = 6;
     }
 

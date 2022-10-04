@@ -1862,7 +1862,7 @@ std::ostream& SonyMakerNote::printSony2FpFocusPosition2(std::ostream& os, const 
 
     // Ranges of models that do not support this tag
     for (auto& m : {"DSC-", "Stellar"}) {
-      if (model.find(m) == 0) {
+      if (startsWith(model, m)) {
         os << N_("n/a");
         return os;
       }
