@@ -344,14 +344,35 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       std::string sp;  // output spacer
 
       // prepare to print the value
-      uint32_t kount = isPrintXMP(tag, option)   ? count                      // haul in all the data
-                       : isPrintICC(tag, option) ? count                      // ditto
-                       : isStringType(type)      ? (count > 32 ? 32 : count)  // restrict long arrays
-                       : count > 5               ? 5
-                                                 : count;
-
+      uint32_t kount = [=] {
+        // haul in all the data
+        if (isPrintXMP(tag, option))
+          return count;
+        // ditto
+        if (isPrintICC(tag, option))
+          return count;
+        // restrict long arrays
+        if (isStringType(type)) {
+          if (count > 32u)
+            return 32u;
+          return count;
+        }
+        if (count > 5u)
+          return 5u;
+        return count;
+      }();
       uint32_t pad = isStringType(type) ? 1 : 0;
-      size_t size = isStringType(type) ? 1 : is2ByteType(type) ? 2 : is4ByteType(type) ? 4 : is8ByteType(type) ? 8 : 1;
+      size_t size = [=] {
+        if (isStringType(type))
+          return 1;
+        if (is2ByteType(type))
+          return 2;
+        if (is4ByteType(type))
+          return 4;
+        if (is8ByteType(type))
+          return 8;
+        return 1;
+      }();
 
       // if ( offset > io.size() ) offset = 0; // Denial of service?
 
