@@ -174,10 +174,10 @@ class EXIV2API RiffVideo : public Image {
   [[nodiscard]] bool equalsRiffTag(Exiv2::DataBuf& buf, const char* str);
 
  private:
-  const static int RIFF_TAG_SIZE = 0x4;
-  const char* RIFF_CHUNK_HEADER_ICCP = "ICCP";
-  const char* RIFF_CHUNK_HEADER_EXIF = "EXIF";
-  const char* RIFF_CHUNK_HEADER_XMP = "XMP ";
+  static constexpr int RIFF_TAG_SIZE = 0x4;
+  static constexpr auto RIFF_CHUNK_HEADER_ICCP = "ICCP";
+  static constexpr auto RIFF_CHUNK_HEADER_EXIF = "EXIF";
+  static constexpr auto RIFF_CHUNK_HEADER_XMP = "XMP ";
   //! Variable to check the end of metadata traversing.
   bool continueTraversing_;
   //! Variable which stores current stream being processsed.

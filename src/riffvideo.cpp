@@ -424,24 +424,6 @@ constexpr TagDetails nikonAVITags[] = {{0x0003, "Xmp.video.Make"},
                                        {0x001f, "Xmp.video.WhiteBalance"},
                                        {0x0020, "Xmp.video.ColorNoiseReduction"}};
 
-/*
-constexpr TagDetails orientation[] =  {
-    {   1, "Horizontal (normal)" },
-    {   2, "Mirror horizontal" },
-    {   3, "Rotate 180" },
-    {   4, "Mirror vertical" },
-    {   5, "Mirror horizontal and rotate 270 CW" },
-    {   6, "Rotate 90 CW" },
-    {   7, "Mirror horizontal and rotate 90 CW" },
-    {   8, "Rotate 270 CW" }
-};
- */
-constexpr TagDetails meteringMode[] = {{0, "Unknown"}, {1, "Average"},    {2, "Center-weighted average"},
-                                       {3, "Spot"},    {4, "Multi-spot"}, {5, "Multi-segment"},
-                                       {6, "Partial"}, {255, "Other"}};
-
-constexpr TagDetails resolutionUnit[] = {{1, "None"}, {2, "inches"}, {3, "cm"}};
-
 /*!
   @brief Function used to check equality of a Tags with a
       particular string (ignores case while comparing).
@@ -530,7 +512,7 @@ void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, s
       byte size_buff[RIFF_TAG_SIZE];
       io_->read(chunkId.data(), RIFF_TAG_SIZE);
       io_->read(size_buff, RIFF_TAG_SIZE);
-      long size = Exiv2::getULong(size_buff, littleEndian);
+      uint32_t size = Exiv2::getULong(size_buff, littleEndian);
       DataBuf payload(offset ? size : RIFF_TAG_SIZE);  // header is different from chunks
       io_->read(payload.data(), payload.size());
 
@@ -902,8 +884,8 @@ void RiffVideo::infoTagsHandler() {
   buf.data()[4] = '\0';
   io_->seek(-12, BasicIo::cur);
   io_->read(buf.data(), 4);
-  long infoSize, size = Exiv2::getULong(buf.data(), littleEndian);
-  long size_external = size;
+  uint32_t infoSize, size = Exiv2::getULong(buf.data(), littleEndian);
+  uint32_t size_external = size;
   const TagVocabulary* tv;
 
   uint64_t cur_pos = io_->tell();
@@ -920,12 +902,10 @@ void RiffVideo::infoTagsHandler() {
     size -= 4;
     infoSize = Exiv2::getULong(buf.data(), littleEndian);
 
-    if (infoSize >= 0) {
-      size -= infoSize;
-      io_->read(buf.data(), infoSize);
-      if (infoSize < 4)
-        buf.data()[infoSize] = '\0';
-    }
+    size -= infoSize;
+    io_->read(buf.data(), infoSize);
+    if (infoSize < 4)
+      buf.data()[infoSize] = '\0';
 
     if (tv)
       xmpData_[exvGettext(tv->label_)] = buf.data();
