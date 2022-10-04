@@ -523,9 +523,9 @@ void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, s
       }
 
       if (equalsRiffTag(chunkId, RIFF_CHUNK_HEADER_EXIF) && option == kpsRecursive) {
-        // create memio object with the payload, then print the structure
-        auto p = BasicIo::UniquePtr(new MemIo(payload.data(), payload.size()));
-        printTiffStructure(*p, out, option, depth);
+        // create MemIo object with the payload, then print the structure
+        MemIo p(payload.c_data(), payload.size());
+        printTiffStructure(p, out, option, depth);
       }
 
       bool bPrintPayload = (equalsRiffTag(chunkId, RIFF_CHUNK_HEADER_XMP) && option == kpsXMP) ||
@@ -1266,7 +1266,7 @@ void RiffVideo::fillDuration(double frame_rate, long frame_count) {
 }  // RiffVideo::fillDuration
 
 Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  Image::UniquePtr image(new RiffVideo(std::move(io)));
+  auto image = std::make_unique<RiffVideo>(std::move(io));
   if (!image->good()) {
     image.reset();
   }
