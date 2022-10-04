@@ -31,6 +31,7 @@
 #include "psdimage.hpp"
 #include "quicktimevideo.hpp"
 #include "rafimage.hpp"
+#include "riffvideo.hpp"
 #include "rw2image.hpp"
 #include "tags_int.hpp"
 #include "tgaimage.hpp"
@@ -100,6 +101,7 @@ constexpr auto registry = std::array{
     // needs to be before bmff because some ftyp files are handled as qt and
     // the rest should fall through to bmff
     Registry{ImageType::qtime, newQTimeInstance, isQTimeType, amRead, amNone, amRead, amNone},
+    Registry{ImageType::riff, newRiffInstance, isRiffType, amRead, amNone, amRead, amNone},
 #ifdef EXV_ENABLE_BMFF
     Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
@@ -342,6 +344,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       std::string sp;  // output spacer
 
       // prepare to print the value
+<<<<<<< HEAD
       uint32_t kount = [=] {
         // haul in all the data
         if (isPrintXMP(tag, option))
@@ -359,6 +362,14 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
           return 5u;
         return count;
       }();
+=======
+      uint32_t kount = isPrintXMP(tag, option)   ? count                      // haul in all the data
+                       : isPrintICC(tag, option) ? count                      // ditto
+                       : isStringType(type)      ? (count > 32 ? 32 : count)  // restrict long arrays
+                       : count > 5               ? 5
+                                                 : count;
+
+>>>>>>> 1748 Video Support in V1.0: part 2/3 : support riffViedo
       uint32_t pad = isStringType(type) ? 1 : 0;
       size_t size = [=] {
         if (isStringType(type))

@@ -39,6 +39,7 @@
 #include "exiv2/properties.hpp"
 #include "exiv2/psdimage.hpp"
 #include "exiv2/rafimage.hpp"
+#include "exiv2/riffvideo.hpp"
 #include "exiv2/rw2image.hpp"
 
 #include "exiv2/tags.hpp"
