@@ -6,6 +6,7 @@
 #include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <algorithm>
@@ -205,7 +206,7 @@ Protocol fileProtocol(const std::string& path) {
     if (result != pFile)
       break;
 
-    if (path.rfind(prot.name, 0) == 0)
+    if (Exiv2::Internal::startsWith(path, prot.name))
       // URL's require data.  Stdin == "-" and no further data
       if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
         result = prot.prot;
