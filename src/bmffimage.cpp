@@ -711,7 +711,7 @@ namespace Exiv2
     void BmffImage::writeMetadata()
     {
         // bmff files are read-only
-        throw(Error(kerInvalidSettingForImage, "Image comment", "BMFF"));
+        throw(Error(kerWritingImageFormatUnsupported, "BMFF"));
     }  // BmffImage::writeMetadata
 
     // *************************************************************************
