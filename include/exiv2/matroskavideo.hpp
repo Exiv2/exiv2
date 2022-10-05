@@ -71,12 +71,11 @@ class EXIV2API MatroskaVideo : public Image {
    */
   explicit MatroskaVideo(BasicIo::UniquePtr io);
 
-    //! Copy constructor
+  //! Copy constructor
   MatroskaVideo(const MatroskaVideo& rhs) = delete;
   //! Assignment operator
   MatroskaVideo& operator=(const MatroskaVideo& rhs) = delete;
   //@}
-
 
   //! @name Manipulators
   //@{
