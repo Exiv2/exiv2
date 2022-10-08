@@ -579,7 +579,7 @@ static std::string readString(BasicIo& io, size_t size) {
   enforce(size <= io.size() - io.tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   Exiv2::DataBuf str(size + 1);
   io.readOrThrow(str.data(), size);
-  str.write_uint8(size, 0); // nul-terminate string
+  str.write_uint8(size, 0);  // nul-terminate string
   return Exiv2::toString(str.data());
 }
 
