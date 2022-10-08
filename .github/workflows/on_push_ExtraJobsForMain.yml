@@ -17,7 +17,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip3 install conan==1.51.0
+          pip3 install conan==1.52.0
 
       - name: Conan common config
         run: |
