@@ -45,7 +45,7 @@ static constexpr auto easyAccess = std::array{
     std::make_tuple("AF point", &Exiv2::afPoint, "AFpoint"),
 };
 
-static const void printFct(EasyAccessFct fct, Exiv2::ExifData ed, const char* label) {
+static void printFct(EasyAccessFct fct, Exiv2::ExifData ed, const char* label) {
   auto pos = fct(ed);
   std::cout << std::setw(21) << std::left << label;
   if (pos != ed.end()) {
