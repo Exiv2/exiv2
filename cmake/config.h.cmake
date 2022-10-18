@@ -47,8 +47,11 @@
 // Define if you have the <sys/mman.h> header file.
 #cmakedefine EXV_HAVE_SYS_MMAN_H
 
-// Define if you have are using the zlib library.
+// Define if you have the zlib library.
 #cmakedefine EXV_HAVE_LIBZ
+
+// Define if you have the brotli library.
+#cmakedefine EXV_HAVE_BROTLI
 
 /* Define if you have (Exiv2/xmpsdk) Adobe XMP Toolkit. */
 #cmakedefine EXV_HAVE_XMP_TOOLKIT

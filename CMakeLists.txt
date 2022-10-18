@@ -28,7 +28,7 @@ option( EXIV2_ENABLE_LENSDATA         "Build including lens data"               
 option( EXIV2_ENABLE_DYNAMIC_RUNTIME  "Use dynamic runtime (used for static libs)"            ON  )
 option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"                   OFF )
 option( EXIV2_ENABLE_CURL             "USE Libcurl for HttpIo (WEBREADY)"                     OFF )
-option( EXIV2_ENABLE_BMFF             "Build with BMFF support"                               ON  )
+option( EXIV2_ENABLE_BMFF             "Build with BMFF support (brotli recommended)"          ON  )
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )

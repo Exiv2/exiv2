@@ -298,6 +298,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   int have_unistd_h = 0;
   int have_sys_mman = 0;
   int have_libz = 0;
+  int have_brotli = 0;
   int have_xmptoolkit = 0;
   int adobe_xmpsdk = 0;
   int have_bool = 0;
@@ -378,6 +379,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
 
 #ifdef EXV_HAVE_LIBZ
   have_libz = 1;
+#endif
+
+#ifdef EXV_HAVE_BROTLI
+  have_brotli = 1;
 #endif
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -472,6 +477,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   output(os, keys, "have_unistd_h", have_unistd_h);
   output(os, keys, "have_sys_mman", have_sys_mman);
   output(os, keys, "have_libz", have_libz);
+  output(os, keys, "have_brotli", have_brotli);
   output(os, keys, "have_xmptoolkit", have_xmptoolkit);
   output(os, keys, "adobe_xmpsdk", adobe_xmpsdk);
   output(os, keys, "have_bool", have_bool);
