@@ -499,7 +499,7 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length, uint64_t start) {
     // hunt for "II" or "MM"
     const size_t eof = std::numeric_limits<size_t>::max();  // impossible value for punt
     size_t punt = eof;
-    for (size_t i = 0; i < exif.size() - 8 && punt == eof; i += 2) {
+    for (size_t i = 0; i < exif.size() - 9 && punt == eof; ++i) {
       if (exif.read_uint8(i) == exif.read_uint8(i + 1))
         if (exif.read_uint8(i) == 'I' || exif.read_uint8(i) == 'M')
           punt = i;
