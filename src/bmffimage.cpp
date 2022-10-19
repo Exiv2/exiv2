@@ -533,7 +533,7 @@ namespace Exiv2
             // hunt for "II" or "MM"
             long  eof  = 0xffffffff; // impossible value for punt
             long  punt = eof;
-            for ( long i = 0 ; i < exif.size_ -8 && punt==eof ; i+=2) {
+            for (long i = 0; i < exif.size_ - 9 && punt == eof; ++i) {
                 if ( exif.pData_[i] == exif.pData_[i+1] )
                     if ( exif.pData_[i] == 'I' || exif.pData_[i] == 'M' )
                         punt = i;
