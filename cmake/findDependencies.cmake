@@ -1,5 +1,3 @@
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-
 if (CONAN_AUTO_INSTALL)
   # Download automatically the cmake-conan integration file
   if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
@@ -29,6 +27,8 @@ else()
     list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
     list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 endif()
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
 
 find_package (Python3 COMPONENTS Interpreter)
 if (NOT Python3_Interpreter_FOUND)
