@@ -1,20 +1,20 @@
 if (CONAN_AUTO_INSTALL)
-  # Download automatically the cmake-conan integration file
-  if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-     message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-     file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
-                    "${CMAKE_BINARY_DIR}/conan.cmake"
-                    TLS_VERIFY ON)
-  endif()
+    # Download automatically the cmake-conan integration file
+    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+        message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+        file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
+                      "${CMAKE_BINARY_DIR}/conan.cmake"
+                      TLS_VERIFY ON)
+    endif()
 
-  include(${CMAKE_BINARY_DIR}/conan.cmake)
+    include(${CMAKE_BINARY_DIR}/conan.cmake)
 
-  conan_cmake_autodetect(settings)
-  conan_cmake_install(PATH_OR_REFERENCE ..
-                      BUILD missing
-                      REMOTE conancenter
-                      OPTIONS webready=True
-                      SETTINGS ${settings})
+    conan_cmake_autodetect(settings)
+    conan_cmake_install(PATH_OR_REFERENCE ..
+                        BUILD missing
+                        REMOTE conancenter
+                        OPTIONS webready=True
+                        SETTINGS ${settings})
 endif()
 
 if (APPLE)
@@ -39,15 +39,15 @@ find_package(Filesystem REQUIRED)
 
 # don't use Frameworks on the Mac (#966)
 if (APPLE)
-     set(CMAKE_FIND_FRAMEWORK NEVER)
+    set(CMAKE_FIND_FRAMEWORK NEVER)
 endif()
 
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
 endif( )
 
-if( EXIV2_ENABLE_BMFF )
-    find_package( Brotli )
+if( EXIV2_ENABLE_BMFF AND EXIV2_ENABLE_BROTLI )
+    find_package( Brotli REQUIRED )
 endif( )
 
 if( EXIV2_ENABLE_WEBREADY )
@@ -72,8 +72,8 @@ endif( )
 
 find_package(Iconv)
 if( ICONV_FOUND )
-    message ( "-- ICONV_INCLUDE_DIR : " ${Iconv_INCLUDE_DIR} )
-    message ( "-- ICONV_LIBRARIES : " ${Iconv_LIBRARY} )
+    message ( "-- Iconv_INCLUDE_DIRS : " ${Iconv_INCLUDE_DIRS} )
+    message ( "-- Iconv_LIBRARIES : " ${Iconv_LIBRARIES} )
 endif()
 
 if( BUILD_WITH_CCACHE )
@@ -84,4 +84,3 @@ if( BUILD_WITH_CCACHE )
         set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
     endif()
 endif()
-

@@ -246,12 +246,13 @@ Options defined at `exiv2/CMakeLists.txt` include:
 
 ```bash
 576 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $ grep ^option CMakeLists.txt
-option( BUILD_SHARED_LIBS          "Build exiv2lib as a shared library"            ON )
-option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"               ON )
-option( EXIV2_ENABLE_EXTERNAL_XMP  "Use external version of XMP"                  OFF )
-option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"        ON )
+option( BUILD_SHARED_LIBS          "Build exiv2lib as a shared library"              ON  )
+option( EXIV2_ENABLE_XMP           "Build with XMP metadata support"                 ON  )
+option( EXIV2_ENABLE_EXTERNAL_XMP  "Use external version of XMP"                     OFF )
+option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"          ON  )
 ...
-option( EXIV2_ENABLE_BMFF          "Build with BMFF support (brotli recommended)"  ON )
+option( EXIV2_ENABLE_BMFF          "Build with BMFF support (brotli recommended)"    ON  )
+option( EXIV2_ENABLE_BROTLI        "Use Brotli for JPEG XL compressed boxes (BMFF)"  ON  )
 577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
 ```
 
@@ -268,13 +269,13 @@ $ cmake -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_NLS=OFF
 
 The following Exiv2 features require external libraries:
 
-| Feature                  | Package  | Default | To change default        | Availability |
-|:------------------------ |:-------- |:-------:| :------------------------|:-----------  |
-| PNG image support        | zlib     | ON      | -DEXIV2\_ENABLE\_PNG=OFF | [http://zlib.net/](http://zlib.net/) |
-| XMP support              | expat    | ON      | -DEXIV2\_ENABLE\_XMP=OFF | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
-| Natural language system  | gettext  | OFF     | -DEXIV2\_ENABLE\_NLS=ON  | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
-| Character set conversion | libiconv |         | Disabled for Visual Studio.<br>Linked when installed on UNIX like platforms.                              | [https://www.gnu.org/software/libiconv/](https://www.gnu.org/software/libiconv/) |
-| JPEG XL brob support     | brotli   |         | Linked when installed and -DEXIV2\_ENABLE\_BMFF=ON | [https://github.com/google/brotli](https://github.com/google/brotli) |
+| Feature                  | Package  | Default | To change default           | Availability |
+|:------------------------ |:-------- |:-------:|:--------------------------- |:------------ |
+| PNG image support        | zlib     | ON      | -DEXIV2\_ENABLE\_PNG=OFF    | [http://zlib.net/](http://zlib.net/) |
+| XMP support              | expat    | ON      | -DEXIV2\_ENABLE\_XMP=OFF    | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
+| Natural language system  | gettext  | OFF     | -DEXIV2\_ENABLE\_NLS=ON     | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
+| JPEG XL brob support     | brotli   | ON      | -DEXIV2\_ENABLE\_BROTLI=OFF | [https://github.com/google/brotli](https://github.com/google/brotli) |
+| Character set conversion | libiconv |         | Disabled for Visual Studio.<br>Linked when installed on UNIX like platforms. | [https://www.gnu.org/software/libiconv/](https://www.gnu.org/software/libiconv/) |
 
 On UNIX systems, you may install the dependencies using the distribution's package management system. Install the
 development package of a dependency to install the header files and libraries required to build Exiv2. The script
