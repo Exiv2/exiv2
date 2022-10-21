@@ -47,7 +47,7 @@ if( EXIV2_ENABLE_PNG )
 endif( )
 
 if( EXIV2_ENABLE_BMFF )
-    find_package( BROTLI )
+    find_package( Brotli )
 endif( )
 
 if( EXIV2_ENABLE_WEBREADY )

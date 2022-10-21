@@ -233,8 +233,8 @@ if( EXIV2_ENABLE_PNG )
 endif()
 
 if( EXIV2_ENABLE_BMFF AND BROTLI_FOUND )
-    target_link_libraries( exiv2lib PRIVATE ${BROTLI_LIBRARIES})
-    target_include_directories(exiv2lib PRIVATE ${BROTLI_INCLUDE_DIRS})
+    target_link_libraries( exiv2lib PRIVATE ${Brotli_LIBRARIES})
+    target_include_directories(exiv2lib PRIVATE ${Brotli_INCLUDE_DIRS})
 endif()
 
 if( EXIV2_ENABLE_NLS )

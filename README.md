@@ -1260,7 +1260,7 @@ The CI workflow file `.github/workflows/on_PR_windows_matrix.yml` has a build jo
 Please note that you will need to install the `ucrt-x86_64` package version of the exiv2 dependencies:
 
 ```bash
-pacman -S mingw-w64-ucrt-x86_64-{brotli,cc,cmake,curl,expat,gettext,gtest,libiconv,libwinpthread,ninja,zlib}
+pacman -S --needed mingw-w64-ucrt-x86_64-{brotli,cc,cmake,curl,expat,gettext,gtest,libiconv,libwinpthread,ninja,zlib}
 ```
 
 ### Download exiv2 from github and build

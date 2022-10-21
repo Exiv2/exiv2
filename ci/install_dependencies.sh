@@ -23,7 +23,7 @@ debian_build_gtest() {
 # workaround for really bare-bones Archlinux containers:
 if [ -x "$(command -v pacman)" ]; then
     pacman --noconfirm -Sy
-    pacman --noconfirm -S grep gawk sed
+    pacman --noconfirm --needed -S grep gawk sed
 fi
 
 distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
@@ -41,7 +41,7 @@ case "$distro_id" in
 
     'arch')
         pacman --noconfirm -Syu
-        pacman --noconfirm -S gcc clang cmake make expat zlib brotli libssh curl gtest dos2unix which diffutils
+        pacman --noconfirm --needed -S gcc clang cmake make expat zlib brotli libssh curl gtest dos2unix which diffutils
         ;;
 
     'ubuntu')
