@@ -365,12 +365,12 @@ constexpr std::array<Exiv2::MatroskaTags, 2> streamRate = {Exiv2::MatroskaTags(0
       bytes are used to calculate the rest of the Tag.
       Returns Tag Value.
  */
-[[nodiscard]] uint64_t returnTagValue(const byte* buf, long size) {
+[[nodiscard]] uint64_t returnTagValue(const byte* buf, size_t size) {
   assert(size > 0 && size <= 8);
 
   uint64_t b0 = buf[0] & (0xff >> size);
   uint64_t tag = b0 << ((size - 1) * 8);
-  for (long i = 1; i < size; ++i) {
+  for (size_t i = 1; i < size; ++i) {
     tag |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
   }
 
@@ -381,9 +381,9 @@ constexpr std::array<Exiv2::MatroskaTags, 2> streamRate = {Exiv2::MatroskaTags(0
     @brief Function used to convert buffer data into numerical information,
         information stored in BigEndian format
  */
-[[nodiscard]] uint64_t returnValue(const byte* buf, long size) {
+[[nodiscard]] uint64_t returnValue(const byte* buf, size_t size) {
   uint64_t ret = 0;
-  for (long i = 0; i < size; ++i) {
+  for (size_t i = 0; i < size; ++i) {
     ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
   }
 
@@ -486,12 +486,12 @@ void MatroskaVideo::decodeBlock() {
 
   DataBuf buf2(bufMinSize + 1);
   std::fill(buf2.begin(), buf2.end(), 0x0);
-  long s = static_cast<long>(size);
+  size_t s = static_cast<size_t>(size);
   io_->read(buf2.data(), s);
   contentManagement(mt, buf2.data(), s);
 }  // MatroskaVideo::decodeBlock
 
-void MatroskaVideo::contentManagement(const MatroskaTags* mt, const byte* buf, long size) {
+void MatroskaVideo::contentManagement(const MatroskaTags* mt, const byte* buf, size_t size) {
   int64_t duration_in_ms = 0;
   static double time_code_scale = 1.0, temp = 0;
   static uint64_t stream = 0, track_count = 0;
