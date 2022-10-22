@@ -1145,7 +1145,7 @@ std::ostream& SonyMakerNote::printColorCompensationFilter(std::ostream& os, cons
   // Tag is written as an unsignedLong but used as a signedLong. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2093
 
-  int32_t temp = static_cast<int32_t>(value.toUint32(0));
+  int64_t temp = static_cast<int32_t>(value.toUint32(0));
   os << "G/M: ";
   if (temp == 0)
     os << "0";
