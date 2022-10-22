@@ -352,10 +352,16 @@ Conversion test driver
 #### easyaccess-test
 
 ```
-Usage: easyaccess-test file
+Usage: ..\build\bin\easyaccess-test.exe file [category [category ...]]
+Categories: Orientation | ISOspeed | DateTimeOriginal | FlashBias | ExposureMode | SceneMode |
+            MacroMode | ImageQuality | WhiteBalance | LensName | Saturation | Sharpness |
+            Contrast | SceneCaptureType | MeteringMode | Make | Model | ExposureTime | FNumber |
+            ShutterSpeed | Aperture | Brightness | ExposureBias | MaxAperture | SubjectDistance |
+            LightSource | Flash | SerialNumber | FocalLength | SubjectArea | FlashEnergy |
+            ExposureIndex | SensingMethod | AFpoint
 ```
 
-Sample program using high-level metadata access functions
+Sample program using high-level metadata access functions. Without specification of a category, metadata for all categories are shown.
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
