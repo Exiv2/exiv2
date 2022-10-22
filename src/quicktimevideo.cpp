@@ -834,6 +834,7 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
     }
 
     else if (equalsQTimeTag(buf, "CMbo") || equalsQTimeTag(buf, "Cmbo")) {
+      enforce(tv, Exiv2::ErrorCode::kerCorruptedMetadata);
       io_->readOrThrow(buf.data(), 2);
       buf.data()[2] = '\0';
       tv_internal = find(cameraByteOrderTags, Exiv2::toString(buf.data()));
