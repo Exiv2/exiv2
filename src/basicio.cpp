@@ -276,14 +276,19 @@ byte* FileIo::mmap(bool isWriteable) {
   p_->pMappedArea_ = static_cast<byte*>(rc);
 #else
   // Workaround for platforms without mmap: Read the file into memory
-  DataBuf buf(p_->mappedLength_);
-  if (read(buf.data(), buf.size()) != buf.size()) {
+  byte* buf = new byte[p_->mappedLength_];
+  const long offset = std::ftell(p_->fp_);
+  std::fseek(p_->fp_, 0, SEEK_SET);
+  if (read(buf, p_->mappedLength_) != p_->mappedLength_) {
+    delete[] buf;
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::read");
   }
+  std::fseek(p_->fp_, offset, SEEK_SET);
   if (error()) {
+    delete[] buf;
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::mmap");
   }
-  p_->pMappedArea_ = buf.data();
+  p_->pMappedArea_ = buf;
   p_->isMalloced_ = true;
 #endif
   return p_->pMappedArea_;
