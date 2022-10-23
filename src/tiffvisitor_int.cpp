@@ -233,7 +233,7 @@ void TiffDecoder::visitMnEntry(TiffMnEntry* object) {
 }
 
 void TiffDecoder::visitIfdMakernote(TiffIfdMakernote* object) {
-  exifData_["Exif.MakerNote.Offset"] = object->mnOffset();
+  exifData_["Exif.MakerNote.Offset"] = static_cast<uint32_t>(object->mnOffset());
   switch (object->byteOrder()) {
     case littleEndian:
       exifData_["Exif.MakerNote.ByteOrder"] = "II";
@@ -764,7 +764,7 @@ void TiffEncoder::encodeDataEntry(TiffDataEntry* object, const Exifdatum* datum)
   encodeOffsetEntry(object, datum);
 
   if (!dirty_ && writeMethod() == wmNonIntrusive) {
-    if (object->sizeDataArea_ < static_cast<uint32_t>(object->pValue()->sizeDataArea())) {
+    if (object->sizeDataArea_ < object->pValue()->sizeDataArea()) {
 #ifdef EXIV2_DEBUG_MESSAGES
       ExifKey key(object->tag(), groupName(object->group()));
       std::cerr << "DATAAREA GREW     " << key << "\n";
@@ -779,7 +779,7 @@ void TiffEncoder::encodeDataEntry(TiffDataEntry* object, const Exifdatum* datum)
       DataBuf buf = object->pValue()->dataArea();
       if (!buf.empty()) {
         memcpy(object->pDataArea_, buf.c_data(), buf.size());
-        if (object->sizeDataArea_ > static_cast<size_t>(buf.size())) {
+        if (object->sizeDataArea_ > buf.size()) {
           memset(object->pDataArea_ + buf.size(), 0x0, object->sizeDataArea_ - buf.size());
         }
       }
@@ -817,9 +817,9 @@ void TiffEncoder::encodeImageEntry(TiffImageEntry* object, const Exifdatum* datu
       EXV_ERROR << "Size tag " << key << " not found. Writing only one strip.\n";
 #endif
       object->strips_.clear();
-      object->strips_.emplace_back(zero, static_cast<uint32_t>(sizeDataArea));
+      object->strips_.emplace_back(zero, sizeDataArea);
     } else {
-      uint32_t sizeTotal = 0;
+      size_t sizeTotal = 0;
       object->strips_.clear();
       for (size_t i = 0; i < pos->count(); ++i) {
         uint32_t len = pos->toUint32(i);
@@ -1006,7 +1006,7 @@ ByteOrder TiffReader::byteOrder() const {
   return pState_->byteOrder();
 }
 
-uint32_t TiffReader::baseOffset() const {
+size_t TiffReader::baseOffset() const {
   return pState_->baseOffset();
 }
 
@@ -1221,7 +1221,7 @@ void TiffReader::visitIfdMakernote(TiffIfdMakernote* object) {
   object->ifd_.setStart(object->start() + object->ifdOffset());
 
   // Modify reader for Makernote peculiarities, byte order and offset
-  object->mnOffset_ = static_cast<uint32_t>(object->start() - pData_);
+  object->mnOffset_ = object->start() - pData_;
   TiffRwState state(object->byteOrder(), object->baseOffset());
   setMnState(&state);
 
@@ -1269,11 +1269,11 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     }
     p += 4;
 
-    if (count > std::numeric_limits<uint32_t>::max() / typeSize) {
+    if (count > std::numeric_limits<size_t>::max() / typeSize) {
       throw Error(ErrorCode::kerArithmeticOverflow);
     }
     size_t size = typeSize * count;
-    uint32_t offset = getULong(p, byteOrder());
+    size_t offset = getULong(p, byteOrder());
     byte* pData = p;
     if (size > 4 && Safe::add<size_t>(baseOffset(), offset) >= size_) {
       // #1143
@@ -1319,7 +1319,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
                   << size
                   << ", exceeds buffer size by "
                   // cast to make MSVC happy
-                  << static_cast<uint32_t>(pData + size - pLast_) << " Bytes; truncating the entry\n";
+                  << static_cast<size_t>(pData + size - pLast_) << " Bytes; truncating the entry\n";
 #endif
         size = 0;
       }
@@ -1382,7 +1382,7 @@ void TiffReader::visitBinaryArray(TiffBinaryArray* object) {
   const ArrayDef* def = &cfg->elDefaultDef_;
   ArrayDef gap = *def;
 
-  for (uint32_t idx = 0; idx < object->TiffEntryBase::doSize();) {
+  for (size_t idx = 0; idx < object->TiffEntryBase::doSize();) {
     if (defs) {
       def = std::find(defs, defsEnd, idx);
       if (def == defsEnd) {
@@ -1391,11 +1391,11 @@ void TiffReader::visitBinaryArray(TiffBinaryArray* object) {
           const ArrayDef* xdef = defs;
           for (; xdef != defsEnd && xdef->idx_ <= idx; ++xdef) {
           }
-          uint32_t gapSize = 0;
+          size_t gapSize = 0;
           if (xdef != defsEnd && xdef->idx_ > idx) {
             gapSize = xdef->idx_ - idx;
           } else {
-            gapSize = static_cast<uint32_t>(object->TiffEntryBase::doSize()) - idx;
+            gapSize = object->TiffEntryBase::doSize() - idx;
           }
           gap.idx_ = idx;
           gap.tiffType_ = cfg->elDefaultDef_.tiffType_;

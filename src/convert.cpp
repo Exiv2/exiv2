@@ -1228,7 +1228,7 @@ void Converter::cnvXmpValueToIptc(const char* from, const char* to) {
   size_t count = pos->count();
   bool added = false;
   for (size_t i = 0; i < count; ++i) {
-    std::string value = pos->toString(static_cast<long>(i));
+    std::string value = pos->toString(i);
     if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";

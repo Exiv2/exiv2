@@ -127,7 +127,7 @@ class MnHeader {
            to the start of the TIFF header. \em mnOffset is the offset
            to the makernote from the start of the TIFF header.
    */
-  [[nodiscard]] virtual uint32_t baseOffset(uint32_t mnOffset) const;
+  [[nodiscard]] virtual size_t baseOffset(size_t mnOffset) const;
   //@}
 
 };  // class MnHeader
@@ -180,7 +180,7 @@ class Olympus2MnHeader : public MnHeader {
   [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
   [[nodiscard]] size_t ifdOffset() const override;
-  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t baseOffset(size_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -210,7 +210,7 @@ class OMSystemMnHeader : public MnHeader {
   [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
   [[nodiscard]] size_t ifdOffset() const override;
-  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t baseOffset(size_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -242,7 +242,7 @@ class FujiMnHeader : public MnHeader {
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
   [[nodiscard]] size_t ifdOffset() const override;
   [[nodiscard]] ByteOrder byteOrder() const override;
-  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t baseOffset(size_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -251,7 +251,7 @@ class FujiMnHeader : public MnHeader {
   DataBuf header_;                    //!< Data buffer for the makernote header
   static const byte signature_[];     //!< Fujifilm makernote header signature
   static const ByteOrder byteOrder_;  //!< Byteorder for makernote (always II)
-  uint32_t start_{0};                 //!< Start of the mn IFD rel. to mn start
+  size_t start_{0};                   //!< Start of the mn IFD rel. to mn start
 
 };  // class FujiMnHeader
 
@@ -306,7 +306,7 @@ class Nikon3MnHeader : public MnHeader {
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
   [[nodiscard]] size_t ifdOffset() const override;
   [[nodiscard]] ByteOrder byteOrder() const override;
-  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t baseOffset(size_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -368,7 +368,7 @@ class PentaxDngMnHeader : public MnHeader {
   [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
   [[nodiscard]] size_t ifdOffset() const override;
-  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t baseOffset(size_t mnOffset) const override;
   //@}
   //! Return the size of the makernote header signature
   static size_t sizeOfSignature();
@@ -424,7 +424,7 @@ class SamsungMnHeader : public MnHeader {
   //@{
   [[nodiscard]] size_t size() const override;
   size_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const override;
-  [[nodiscard]] uint32_t baseOffset(uint32_t mnOffset) const override;
+  [[nodiscard]] size_t baseOffset(size_t mnOffset) const override;
   //@}
 
 };  // class SamsungMnHeader

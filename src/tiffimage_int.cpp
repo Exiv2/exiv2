@@ -2076,9 +2076,8 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
     DataBuf header = pHeader->write();
     auto tempIo = MemIo();
     IoWrapper ioWrapper(tempIo, header.c_data(), header.size(), pOffsetWriter);
-    auto imageIdx(static_cast<uint32_t>(-1));
-    createdTree->write(ioWrapper, pHeader->byteOrder(), header.size(), static_cast<uint32_t>(-1),
-                       static_cast<uint32_t>(-1), imageIdx);
+    auto imageIdx(std::string::npos);
+    createdTree->write(ioWrapper, pHeader->byteOrder(), header.size(), std::string::npos, std::string::npos, imageIdx);
     if (pOffsetWriter)
       pOffsetWriter->writeOffsets(tempIo);
     io.transfer(tempIo);  // may throw
