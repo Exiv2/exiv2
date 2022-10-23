@@ -203,6 +203,7 @@ int FileIo::munmap() {
     CloseHandle(p_->hFile_);
     p_->hFile_ = 0;
 #else
+#error Platforms without mmap are not supported. See https://github.com/Exiv2/exiv2/issues/2380
     if (p_->isWriteable_) {
       seek(0, BasicIo::beg);
       write(p_->pMappedArea_, p_->mappedLength_);
@@ -275,6 +276,7 @@ byte* FileIo::mmap(bool isWriteable) {
   }
   p_->pMappedArea_ = static_cast<byte*>(rc);
 #else
+#error Platforms without mmap are not supported. See https://github.com/Exiv2/exiv2/issues/2380
   // Workaround for platforms without mmap: Read the file into memory
   byte* buf = new byte[p_->mappedLength_];
   const long offset = std::ftell(p_->fp_);
