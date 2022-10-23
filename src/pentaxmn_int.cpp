@@ -158,8 +158,12 @@ constexpr TagDetails pentaxModel[] = {
     {0x13092, "K-1"},
     {0x1309c, "K-3 II"},
     {0x131f0, "WG-M2"},
+    {0x1320e, "GR III"},
     {0x13222, "K-70"},
     {0x1322c, "KP"},
+    {0x13240, "K-1 Mark II"},
+    {0x13254, "K-3 Mark III"},
+    {0x13290, "WG-70"},
 };
 
 //! Quality, tag 0x0008
