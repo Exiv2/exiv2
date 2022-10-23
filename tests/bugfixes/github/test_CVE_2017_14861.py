@@ -41,7 +41,7 @@ Exif comment    :
     ]
     stderr = [
         """Error: Directory Image: Next pointer is out of bounds; ignored.
-Error: Offset of directory Image, entry 0x00fe is out of bounds: Offset = 0x00000000; truncating the entry
+Error: Upper boundary of data for directory Image, entry 0x00fe is out of bounds: Offset = 0x00000000, size = 177156, exceeds buffer size by 176816 Bytes; truncating the entry
 Error: Directory Image, entry 0x0100 has invalid size 1935897193*2; skipping entry.
 Warning: Directory Image, entry 0x303e has unknown Exif (TIFF) type 12320; setting type size 1.
 Error: Offset of directory Image, entry 0x0116 is out of bounds: Offset = 0x0011302a; truncating the entry

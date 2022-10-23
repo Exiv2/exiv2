@@ -17,16 +17,14 @@ Error: Offset of directory Photo, entry 0x829a is out of bounds: Offset = 0x6d00
 Error: Upper boundary of data for directory Photo, entry 0x8822 is out of bounds: Offset = 0x00000003, size = 56834, exceeds buffer size by 11577 Bytes; truncating the entry
 Error: Upper boundary of data for directory Photo, entry 0x8827 is out of bounds: Offset = 0x00000640, size = 1179650, exceeds buffer size by 1135990 Bytes; truncating the entry
 Warning: Directory Photo, entry 0x8832 has unknown Exif (TIFF) type 49; setting type size 1.
-Error: Offset of directory Sony2, entry 0x2006 is out of bounds: Offset = 0x00000000; truncating the entry
+Error: Upper boundary of data for directory Sony2, entry 0x2006 is out of bounds: Offset = 0x00000000, size = 46661636, exceeds buffer size by 46616376 Bytes; truncating the entry
 Warning: Directory Sony2, entry 0x20c1 has unknown Exif (TIFF) type 181; setting type size 1.
-Error: Offset of directory Sony2, entry 0x2063 is out of bounds: Offset = 0x00000000; truncating the entry
 Error: Offset of directory Sony2, entry 0x3000 is out of bounds: Offset = 0x0057097c; truncating the entry
-Error: Offset of directory Sony2, entry 0x0115 is out of bounds: Offset = 0x00000000; truncating the entry
+Error: Upper boundary of data for directory Sony2, entry 0x0115 is out of bounds: Offset = 0x00000000, size = 59768836, exceeds buffer size by 59723576 Bytes; truncating the entry
 Error: Upper boundary of data for directory Sony2, entry 0x2013 is out of bounds: Offset = 0x00000002, size = 37486596, exceeds buffer size by 37441338 Bytes; truncating the entry
 Warning: Directory Photo, entry 0xa003 has unknown Exif (TIFF) type 242; setting type size 1.
 Warning: Directory Iop has an unexpected next pointer; ignored.
 Warning: Directory Photo, entry 0xa402 has unknown Exif (TIFF) type 89; setting type size 1.
-Error: Offset of directory Photo, entry 0xa402 is out of bounds: Offset = 0x00000000; truncating the entry
 Error: Offset of directory Thumbnail, entry 0x0132 is out of bounds: Offset = 0xff00968b; truncating the entry
 """]
     retval = [0]
