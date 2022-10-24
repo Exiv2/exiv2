@@ -516,8 +516,8 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       DataBuf arr;
       brotliUncompress(data.c_data(4), data.size() - 4, arr);
       if (realType == TAG_exif) {
-        uint32_t offset = arr.read_uint32(0, endian_) + 4;
-        enforce(offset + 4 < arr.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+        uint32_t offset = Safe::add(arr.read_uint32(0, endian_), 4u);
+        enforce(Safe::add(offset, 4u) < arr.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
         Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), arr.c_data(offset), arr.size() - offset,
                                            Internal::Tag::root, Internal::TiffMapping::findDecoder);
       } else if (realType == TAG_xml) {
