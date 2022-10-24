@@ -232,6 +232,11 @@ if( EXIV2_ENABLE_PNG )
 	target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
 endif()
 
+if( EXIV2_ENABLE_BMFF AND BROTLI_FOUND )
+    target_link_libraries( exiv2lib PRIVATE ${Brotli_LIBRARIES})
+    target_include_directories(exiv2lib PRIVATE ${Brotli_INCLUDE_DIRS})
+endif()
+
 if( EXIV2_ENABLE_NLS )
     target_link_libraries(exiv2lib PRIVATE ${Intl_LIBRARIES})
     target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})

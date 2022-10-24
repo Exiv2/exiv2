@@ -125,6 +125,7 @@ jobs:
             gtest:p
             libiconv:p
             zlib:p
+            brotli:p
             curl:p
 
       - name: Build
@@ -175,6 +176,9 @@ jobs:
             libxslt-devel
             python38-lxml
             zlib-devel
+            libbrotlicommon1
+            libbrotlidec1
+            libbrotli-devel
       - name: Build
         run: |
           cmake -GNinja \

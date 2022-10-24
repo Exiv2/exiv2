@@ -15,6 +15,10 @@
 #include "tiffimage_int.hpp"
 #include "types.hpp"
 
+#ifdef EXV_HAVE_BROTLI
+#include <brotli/decode.h>  // for JXL brob
+#endif
+
 // + standard includes
 #include <cinttypes>
 #include <cstdio>
@@ -51,8 +55,9 @@
 #define TAG_cmt3 0x434D5433 /**< "CMT3" canonID */
 #define TAG_cmt4 0x434D5434 /**< "CMT4" gpsID */
 #define TAG_colr 0x636f6c72 /**< "colr" Colour information */
-#define TAG_exif 0x45786966 /**< "Exif" Used by JXL*/
-#define TAG_xml 0x786d6c20  /**< "xml " Used by JXL*/
+#define TAG_exif 0x45786966 /**< "Exif" Used by JXL */
+#define TAG_xml 0x786d6c20  /**< "xml " Used by JXL */
+#define TAG_brob 0x62726f62 /**< "brob" Used by JXL (brotli box) */
 #define TAG_thmb 0x54484d42 /**< "THMB" Canon thumbnail */
 #define TAG_prvw 0x50525657 /**< "PRVW" Canon preview image */
 
@@ -157,6 +162,55 @@ std::string BmffImage::uuidName(const Exiv2::DataBuf& uuid) {
     return "canp";
   return "";
 }
+
+#ifdef EXV_HAVE_BROTLI
+void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBufSize, DataBuf& arr) {
+  BrotliDecoderState* decoder = NULL;
+  decoder = BrotliDecoderCreateInstance(NULL, NULL, NULL);
+  if (!decoder) {
+    throw Error(ErrorCode::kerMallocFailed);
+  }
+
+  size_t uncompressedLen = compressedBufSize * 2;  // just a starting point
+  BrotliDecoderResult result;
+  int dos = 0;
+  size_t available_in = compressedBufSize;
+  const byte* next_in = compressedBuf;
+  size_t available_out;
+  byte* next_out;
+  size_t total_out = 0;
+
+  do {
+    arr.alloc(uncompressedLen);
+    available_out = uncompressedLen - total_out;
+    next_out = arr.data() + total_out;
+    result = BrotliDecoderDecompressStream(decoder, &available_in, &next_in, &available_out, &next_out, &total_out);
+    if (result == BROTLI_DECODER_RESULT_SUCCESS) {
+      arr.resize(total_out);
+    } else if (result == BROTLI_DECODER_RESULT_NEEDS_MORE_OUTPUT) {
+      uncompressedLen *= 2;
+      // DoS protection - can't be bigger than 128k
+      if (uncompressedLen > 131072) {
+        if (++dos > 1)
+          break;
+        uncompressedLen = 131072;
+      }
+    } else if (result == BROTLI_DECODER_RESULT_NEEDS_MORE_INPUT) {
+      // compressed input buffer in incomplete
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    } else {
+      // something bad happened
+      throw Error(ErrorCode::kerErrorMessage, BrotliDecoderErrorString(BrotliDecoderGetErrorCode(decoder)));
+    }
+  } while (result != BROTLI_DECODER_RESULT_SUCCESS);
+
+  BrotliDecoderDestroyInstance(decoder);
+
+  if (result != BROTLI_DECODER_RESULT_SUCCESS) {
+    throw Error(ErrorCode::kerFailedToReadImageData);
+  }
+}
+#endif
 
 uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintStructureOption option /* = kpsNone */,
                                uint64_t pbox_end, size_t depth) {
@@ -452,6 +506,31 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     case TAG_xml:
       parseXmp(buffer_size, io_->tell());
       break;
+    case TAG_brob: {
+      enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
+      uint32_t realType = data.read_uint32(0, endian_);
+      if (bTrace) {
+        out << "type: " << toAscii(realType);
+      }
+#ifdef EXV_HAVE_BROTLI
+      DataBuf arr;
+      brotliUncompress(data.c_data(4), data.size() - 4, arr);
+      if (realType == TAG_exif) {
+        uint32_t offset = Safe::add(arr.read_uint32(0, endian_), 4u);
+        enforce(Safe::add(offset, 4u) < arr.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+        Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), arr.c_data(offset), arr.size() - offset,
+                                           Internal::Tag::root, Internal::TiffMapping::findDecoder);
+      } else if (realType == TAG_xml) {
+        arr.resize(arr.size() + 1);
+        arr.write_uint8(arr.size() - 1, 0);  // ensure xmp is null terminated!
+        try {
+          Exiv2::XmpParser::decode(xmpData(), std::string(arr.c_str()));
+        } catch (...) {
+          throw Error(ErrorCode::kerFailedToReadImageData);
+        }
+      }
+#endif
+    } break;
     case TAG_thmb:
       switch (version) {
         case 0:  // JPEG
@@ -499,7 +578,7 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length, uint64_t start) {
     // hunt for "II" or "MM"
     const size_t eof = std::numeric_limits<size_t>::max();  // impossible value for punt
     size_t punt = eof;
-    for (size_t i = 0; i < exif.size() - 8 && punt == eof; i += 2) {
+    for (size_t i = 0; i < exif.size() - 9 && punt == eof; ++i) {
       if (exif.read_uint8(i) == exif.read_uint8(i + 1))
         if (exif.read_uint8(i) == 'I' || exif.read_uint8(i) == 'M')
           punt = i;
