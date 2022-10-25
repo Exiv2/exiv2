@@ -521,10 +521,8 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
         Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), arr.c_data(offset), arr.size() - offset,
                                            Internal::Tag::root, Internal::TiffMapping::findDecoder);
       } else if (realType == TAG_xml) {
-        arr.resize(arr.size() + 1);
-        arr.write_uint8(arr.size() - 1, 0);  // ensure xmp is null terminated!
         try {
-          Exiv2::XmpParser::decode(xmpData(), std::string(arr.c_str()));
+          Exiv2::XmpParser::decode(xmpData(), std::string(arr.c_str(), arr.size()));
         } catch (...) {
           throw Error(ErrorCode::kerFailedToReadImageData);
         }
