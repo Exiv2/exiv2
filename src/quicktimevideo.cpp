@@ -1221,12 +1221,13 @@ void QuickTimeVideo::multipleEntriesDecoder() {
   DataBuf buf(4 + 1);
   io_->readOrThrow(buf.data(), 4);
   io_->readOrThrow(buf.data(), 4);
-  size_t noOfEntries;
+  uint32_t noOfEntries;
 
   noOfEntries = buf.read_uint32(0, bigEndian);
 
-  for (unsigned long i = 1; i <= noOfEntries; i++)
+  for (uint32_t i = 0; i < noOfEntries && continueTraversing_; i++) {
     decodeBlock();
+  }
 }  // QuickTimeVideo::multipleEntriesDecoder
 
 void QuickTimeVideo::videoHeaderDecoder(size_t size) {
