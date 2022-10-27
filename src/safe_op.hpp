@@ -5,6 +5,7 @@
 
 #include <limits>
 #include <stdexcept>
+#include <type_traits>
 
 #ifdef _MSC_VER
 #include <Intsafe.h>
@@ -38,35 +39,6 @@ namespace Safe {
  */
 namespace Internal {
 /*!
- * @brief Helper struct to determine whether a type is signed or unsigned
- *
- * This struct is a backport of std::is_signed from C++11. It has a public
- * enum with the property VALUE which is true when the type is signed or
- * false if it is unsigned.
- */
-template <typename T>
-struct is_signed {
-  enum { VALUE = static_cast<T>(-1) < static_cast<T>(0) };
-};
-
-/*!
- * @brief Helper struct for SFINAE, from C++11
-
- * This struct has a public typedef called type typedef'd to T if B is
- * true. Otherwise there is no typedef.
- */
-template <bool B, class T = void>
-struct enable_if {};
-
-/*!
- * @brief Specialization of enable_if for the case B == true
- */
-template <class T>
-struct enable_if<true, T> {
-  using type = T;
-};
-
-/*!
  * @brief Check the addition of two numbers for overflows for signed
  * integer types larger than int or with the same size as int.
  *
@@ -84,9 +56,8 @@ struct enable_if<true, T> {
  * https://wiki.sei.cmu.edu/confluence/display/c/INT32-C.+Ensure+that+operations+on+signed+integers+do+not+result+in+overflow
  */
 template <typename T>
-typename enable_if<is_signed<T>::VALUE && sizeof(T) >= sizeof(int), bool>::type fallback_add_overflow(T summand_1,
-                                                                                                      T summand_2,
-                                                                                                      T& result) {
+typename std::enable_if<std::is_signed<T>::value && sizeof(T) >= sizeof(int), bool>::type fallback_add_overflow(
+    T summand_1, T summand_2, T& result) {
   if (((summand_2 >= 0) && (summand_1 > std::numeric_limits<T>::max() - summand_2)) ||
       ((summand_2 < 0) && (summand_1 < std::numeric_limits<T>::min() - summand_2))) {
     return true;
@@ -116,9 +87,8 @@ typename enable_if<is_signed<T>::VALUE && sizeof(T) >= sizeof(int), bool>::type 
  * https://wiki.sei.cmu.edu/confluence/display/c/INT02-C.+Understand+integer+conversion+rules
  */
 template <typename T>
-typename enable_if<is_signed<T>::VALUE && sizeof(T) < sizeof(int), bool>::type fallback_add_overflow(T summand_1,
-                                                                                                     T summand_2,
-                                                                                                     T& result) {
+typename std::enable_if<std::is_signed<T>::value && sizeof(T) < sizeof(int), bool>::type fallback_add_overflow(
+    T summand_1, T summand_2, T& result) {
   const int res = summand_1 + summand_2;
   if ((res > std::numeric_limits<T>::max()) || (res < std::numeric_limits<T>::min())) {
     return true;
@@ -145,7 +115,8 @@ typename enable_if<is_signed<T>::VALUE && sizeof(T) < sizeof(int), bool>::type f
  * https://wiki.sei.cmu.edu/confluence/display/c/INT30-C.+Ensure+that+unsigned+integer+operations+do+not+wrap
  */
 template <typename T>
-typename enable_if<!is_signed<T>::VALUE, bool>::type fallback_add_overflow(T summand_1, T summand_2, T& result) {
+typename std::enable_if<!std::is_signed<T>::value, bool>::type fallback_add_overflow(T summand_1, T summand_2,
+                                                                                     T& result) {
   result = summand_1 + summand_2;
   return result < summand_1;
 }
@@ -255,7 +226,7 @@ T add(T summand_1, T summand_2) {
  *          when `num == std::numeric_limits<T>::min()`.
  */
 template <typename T>
-typename Internal::enable_if<Internal::is_signed<T>::VALUE, T>::type abs(T num) throw() {
+typename std::enable_if<std::is_signed<T>::value, T>::type abs(T num) throw() {
   if (num == std::numeric_limits<T>::min()) {
     return std::numeric_limits<T>::max();
   }
