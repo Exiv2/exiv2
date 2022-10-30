@@ -1008,7 +1008,7 @@ class RemoteIo::Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  virtual long getFileLength() = 0;
+  virtual int64_t getFileLength() = 0;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1092,7 +1092,7 @@ int RemoteIo::open() {
   close();  // reset the IO position
   bigBlock_ = nullptr;
   if (!p_->isMalloced_) {
-    long length = p_->getFileLength();
+    const auto length = p_->getFileLength();
     if (length < 0) {  // unable to get the length of remote file, get the whole file content.
       std::string data;
       p_->getDataByRange(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::max(), data);
@@ -1380,7 +1380,7 @@ class HttpIo::HttpImpl : public Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  long getFileLength() override;
+  int64_t getFileLength() override;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1415,7 +1415,7 @@ HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize) : Impl(url,
   Exiv2::Uri::Decode(hostInfo_);
 }
 
-long HttpIo::HttpImpl::getFileLength() {
+int64_t HttpIo::HttpImpl::getFileLength() {
   Exiv2::Dictionary response;
   Exiv2::Dictionary request;
   std::string errors;
@@ -1529,7 +1529,7 @@ class CurlIo::CurlImpl : public Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  long getFileLength() override;
+  int64_t getFileLength() override;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1581,7 +1581,7 @@ CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url,
   }
 }
 
-long CurlIo::CurlImpl::getFileLength() {
+int64_t CurlIo::CurlImpl::getFileLength() {
   curl_easy_reset(curl_);  // reset all options
   std::string response;
   curl_easy_setopt(curl_, CURLOPT_URL, path_.c_str());
@@ -1605,9 +1605,9 @@ long CurlIo::CurlImpl::getFileLength() {
     throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
   }
   // get length
-  double temp;
-  curl_easy_getinfo(curl_, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &temp);  // return -1 if unknown
-  return static_cast<long>(temp);
+  curl_off_t temp;
+  curl_easy_getinfo(curl_, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &temp);  // return -1 if unknown
+  return temp;
 }
 
 void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) {
