@@ -344,7 +344,6 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       std::string sp;  // output spacer
 
       // prepare to print the value
-<<<<<<< HEAD
       uint32_t kount = [=] {
         // haul in all the data
         if (isPrintXMP(tag, option))
@@ -362,17 +361,6 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
           return 5u;
         return count;
       }();
-=======
-      uint32_t kount = isPrintXMP(tag, option)   ? count                      // haul in all the data
-                       : isPrintICC(tag, option) ? count                      // ditto
-                       : isStringType(type)      ? (count > 32 ? 32 : count)  // restrict long arrays
-                       : count > 5               ? 5
-                                                 : count;
-
-<<<<<<< HEAD
->>>>>>> 1748 Video Support in V1.0: part 2/3 : support riffViedo
-=======
->>>>>>> 6ddd61bc56f6b65c4c093984b08a56b3062b6302
       uint32_t pad = isStringType(type) ? 1 : 0;
       size_t size = [=] {
         if (isStringType(type))
