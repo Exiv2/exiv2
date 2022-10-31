@@ -369,7 +369,10 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
                        : count > 5               ? 5
                                                  : count;
 
+<<<<<<< HEAD
 >>>>>>> 1748 Video Support in V1.0: part 2/3 : support riffViedo
+=======
+>>>>>>> 6ddd61bc56f6b65c4c093984b08a56b3062b6302
       uint32_t pad = isStringType(type) ? 1 : 0;
       size_t size = [=] {
         if (isStringType(type))
