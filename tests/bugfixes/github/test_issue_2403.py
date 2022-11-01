@@ -9,7 +9,7 @@ class checkIconvSegFault(metaclass=CaseMeta):
 
     filename = """$tmp_path/issue_2403_poc.exv"""
 
-    commands = ["""$exiv2 --verbose --encode made_up_encoding fixcom $filename""",
+    commands = ["""$exiv2 --verbose --log e --encode made_up_encoding fixcom $filename""",
                 """$exiv2 --verbose --keep --encode UCS-2LE fixcom $filename"""]
     retval   = [1,0]
     
@@ -19,8 +19,7 @@ class checkIconvSegFault(metaclass=CaseMeta):
 Setting Exif UNICODE user comment to "Test"
 """]
     
-    stderr   = ["""Warning: iconv_open: Invalid argument (errno = 22)
-Exiv2 exception in fixcom action for file $filename:
+    stderr   = ["""Exiv2 exception in fixcom action for file $filename:
 Cannot convert text encoding from 'made_up_encoding' to 'UTF-8'
 """, 
 """"""]
