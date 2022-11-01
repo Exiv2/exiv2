@@ -11,6 +11,7 @@
 
 // standard includes
 #include <algorithm>
+#include <array>
 #include <limits>
 #include <sstream>
 #include <vector>

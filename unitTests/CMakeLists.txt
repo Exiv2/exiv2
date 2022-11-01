@@ -18,6 +18,7 @@ add_executable(unit_tests
     test_jp2image_int.cpp
     test_IptcKey.cpp
     test_LangAltValueRead.cpp
+    test_matroskavideo.cpp
     test_Photoshop.cpp
     test_pngimage.cpp
     test_safe_op.cpp

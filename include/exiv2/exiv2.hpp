@@ -25,6 +25,7 @@
 #include "exiv2/iptc.hpp"
 #include "exiv2/jp2image.hpp"
 #include "exiv2/jpgimage.hpp"
+#include "exiv2/matroskavideo.hpp"
 #include "exiv2/metadatum.hpp"
 #include "exiv2/mrwimage.hpp"
 #include "exiv2/orfimage.hpp"
