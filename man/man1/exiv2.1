@@ -53,6 +53,7 @@ HEIC	Read	Read	Read	-	-
 HEIF	Read	Read	Read	-	-
 JP2	Read/Write	Read/Write	Read/Write	-	Read/Write
 JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+JXL	Read	Read	Read	-	-
 MRW	Read	Read	Read	-	-
 NEF	Read/Write	Read/Write	Read/Write	-	Read/Write
 ORF	Read/Write	Read/Write	Read/Write	-	-
@@ -76,6 +77,21 @@ image are determined.
 .IP \(bu 2
 Reading other TIFF-like RAW image formats, which are not listed in the
 table, may also work.
+.IP \(bu 2
+Support for BMFF-based types such as AVIF, CR3, HEIF, HEIC and JXL is 
+a build option (see https://github.com/Exiv2/exiv2/blob/main/README.md#BMFF). 
+To check if this is enabled, use: 
+.PP
+.in +4n
+.EX
+$ exiv2 --version --verbose --grep bmff
+exiv2 0.27.5
+enable_bmff=1
+.EE
+.in
+.PP
+.IP \(bu 2
+Naked codestream JXL files do not contain Exif, IPTC or XMP metadata.
 .SH ACTIONS
 The \fIaction\fP argument is only required if it is not clear from the
 \fIoptions\fP which action is implied.
