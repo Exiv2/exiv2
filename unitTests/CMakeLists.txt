@@ -25,6 +25,7 @@ add_executable(unit_tests
     test_tiffheader.cpp
     test_types.cpp
     test_TimeValue.cpp
+    test_riffVideo.cpp
     test_utils.cpp
     test_XmpKey.cpp
     $<TARGET_OBJECTS:exiv2lib_int>
@@ -40,7 +41,7 @@ target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
         GTest::gtest
-        GTest::gtest_main
+        GTest::gtest_main 
         std::filesystem
 )
 

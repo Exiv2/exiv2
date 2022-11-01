@@ -31,6 +31,7 @@
 #include "psdimage.hpp"
 #include "quicktimevideo.hpp"
 #include "rafimage.hpp"
+#include "riffvideo.hpp"
 #include "rw2image.hpp"
 #include "tags_int.hpp"
 #include "tgaimage.hpp"
@@ -100,6 +101,7 @@ constexpr auto registry = std::array{
     // needs to be before bmff because some ftyp files are handled as qt and
     // the rest should fall through to bmff
     Registry{ImageType::qtime, newQTimeInstance, isQTimeType, amRead, amNone, amRead, amNone},
+    Registry{ImageType::riff, newRiffInstance, isRiffType, amRead, amNone, amRead, amNone},
 #ifdef EXV_ENABLE_BMFF
     Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF

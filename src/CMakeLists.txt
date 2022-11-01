@@ -71,6 +71,7 @@ set(PUBLIC_HEADERS
     ../include/exiv2/psdimage.hpp
     ../include/exiv2/rafimage.hpp
     ../include/exiv2/rw2image.hpp
+    ../include/exiv2/riffvideo.hpp
     ../include/exiv2/slice.hpp
     ../include/exiv2/tags.hpp
     ../include/exiv2/tgaimage.hpp
@@ -115,6 +116,7 @@ add_library( exiv2lib
     psdimage.cpp
     rafimage.cpp
     rw2image.cpp
+    riffvideo.cpp
     tags.cpp
     tgaimage.cpp
     tiffimage.cpp
