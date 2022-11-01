@@ -589,7 +589,13 @@ void Converter::cnvExifComment(const char* from, const char* to) {
     return;
   }
   // Todo: Convert to UTF-8 if necessary
-  (*xmpData_)[to] = cv->comment();
+  try {
+    (*xmpData_)[to] = cv->comment();
+  } catch (const Error&) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
+#endif
+  }
   if (erase_)
     exifData_->erase(pos);
 }
@@ -1567,7 +1573,7 @@ bool convertStringCharsetIconv(std::string& str, const char* from, const char* t
   bool ret = true;
   iconv_t cd;
   cd = iconv_open(to, from);
-  if (!cd) {
+  if (cd == (iconv_t)(-1)) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "iconv_open: " << strError() << "\n";
 #endif
