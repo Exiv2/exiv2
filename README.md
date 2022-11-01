@@ -49,7 +49,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     - [Library Initialisation and Cleanup](#InitAndCleanup)
     - [Cross Platform Build and Test on Linux for MinGW](#CrossPlatformSupport)
     - [Static and Shared Libraries](#StaticShared)
-    - [Support for bmff files (CR3, HEIF, HEIC, and AVIF)](#BMFF)
+    - [Support for bmff files (e.g., AVIF, CR3, HEIF, HEIC, and JXL)](#BMFF)
 - [License and Support](#LicenseSupport)
     - [License](#License)
     - [Support](#Support)
@@ -898,7 +898,7 @@ This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.c
 [TOC](#TOC)
 <div id="BMFF">
 
-## Support for bmff files (CR3, HEIF, HEIC, and AVIF)
+## Support for bmff files (e.g., AVIF, CR3, HEIF, HEIC, and JXL)
 
 **Attention is drawn to the possibility that bmff support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
 
