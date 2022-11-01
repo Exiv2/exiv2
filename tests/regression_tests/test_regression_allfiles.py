@@ -147,6 +147,7 @@ def get_valid_files(data_dir):
         # this test file actually contains some eixf info, but windows has
         # different output let's try and fix this later
         "exiv2-bug1044.tif",
+        "issue_2403_poc.exv",
     ]
 
     file_paths = [
