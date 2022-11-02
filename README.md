@@ -49,7 +49,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
     - [Library Initialisation and Cleanup](#InitAndCleanup)
     - [Cross Platform Build and Test on Linux for MinGW](#CrossPlatformSupport)
     - [Static and Shared Libraries](#StaticShared)
-    - [Support for bmff files (e.g., AVIF, CR3, HEIF, HEIC, and JXL)](#BMFF)
+    - [Support for BMFF files (e.g., CR3, HEIF, HEIC, AVIF, and JPEG XL)](#BMFF)
 - [License and Support](#LicenseSupport)
     - [License](#License)
     - [Support](#Support)
@@ -740,7 +740,7 @@ int main(int argc, const char* argv[])
     ...
 }
 ```
-The use of the _**thread unsafe function**_ Exiv2::enableBMFF(true) is discussed in [2.19 Support for bmff files](#BMFF)
+The use of the _**thread unsafe function**_ Exiv2::enableBMFF(true) is discussed in [Support for BMFF files (e.g., CR3, HEIF, HEIC, AVIF, and JPEG XL)](#BMFF)
 
 [TOC](#TOC)
 <div id="InitAndCleanup">
@@ -898,19 +898,19 @@ This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.c
 [TOC](#TOC)
 <div id="BMFF">
 
-## Support for bmff files (e.g., AVIF, CR3, HEIF, HEIC, and JXL)
+## Support for BMFF files (e.g., CR3, HEIF, HEIC, AVIF, and JPEG XL)
 
-**Attention is drawn to the possibility that bmff support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
+**Attention is drawn to the possibility that BMFF support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
 
-Access to the bmff code is guarded in two ways.  Firstly, you have to build the library with the CMake option: `-DEXIV2_ENABLE_BMFF=ON`.  Secondly, the application must enable bmff support at run-time by calling the following function.
+Access to the BMFF code is guarded in two ways.  Firstly, you have to build the library with the CMake option: `-DEXIV2_ENABLE_BMFF=ON`.  Secondly, the application must enable BMFF support at run-time by calling the following function.
 
 ```cpp
 EXIV2API bool enableBMFF(bool enable);
 ```
 
-The return value from `enableBMFF()` is true if the library has been build with bmff support (CMake option -DEXIV2_ENABLE_BMFF=ON).
+The return value from `enableBMFF()` is true if the library has been build with BMFF support (CMake option -DEXIV2_ENABLE_BMFF=ON).
 
-Applications may wish to provide a preference setting to enable bmff support and thereby place the responsibility for the use of this code with the user of the application.
+Applications may wish to provide a preference setting to enable BMFF support and thereby place the responsibility for the use of this code with the user of the application.
 
 [TOC](#TOC)
 <div id="LicenseSupport">
