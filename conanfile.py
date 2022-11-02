@@ -6,12 +6,16 @@ class Exiv2Conan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
     generators = 'cmake_find_package', 'cmake_paths'
     options = {'unitTests': [True, False],
+               'png': [True, False],
                'xmp': [True, False],
+               'brotli': [True, False],
                'iconv': [True, False],
                'webready': [True, False],
               }
     default_options = ('unitTests=True',
+                       'png=True',
                        'xmp=False',
+                       'brotli=True',
                        'iconv=False',
                        'webready=False',
                       )
@@ -21,9 +25,11 @@ class Exiv2Conan(ConanFile):
         self.options['gtest'].shared = False
 
     def requirements(self):
-        self.requires('zlib/1.2.13')
+        if self.options.png:
+            self.requires('zlib/1.2.13')
 
-        self.requires('brotli/1.0.9')
+        if self.options.brotli:
+            self.requires('brotli/1.0.9')
 
         if self.options.webready:
             self.requires('libcurl/7.85.0')
