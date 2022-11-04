@@ -465,7 +465,6 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
      unsignedShort, -1, printValue},
     {0x1154, "PanoramaDirection", N_("Panorama direction"), N_("Panorama direction"), IfdId::fujiId,
      SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(fujiPanoramaDirection)},
-    {0x1200, "0x1200", "0x1200", N_("Unknown"), IfdId::fujiId, SectionId::makerTags, unsignedShort, -1, printValue},
     {0x1201, "AdvancedFilter", N_("Advanced filter"), N_("Advanced filter setting"), IfdId::fujiId,
      SectionId::makerTags, unsignedLong, -1, EXV_PRINT_TAG(fujiAdvancedFilter)},
     {0x1210, "FinePixColor", N_("FinePix Color"), N_("Fuji FinePix color setting"), IfdId::fujiId, SectionId::makerTags,
