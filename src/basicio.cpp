@@ -203,6 +203,7 @@ int FileIo::munmap() {
     CloseHandle(p_->hFile_);
     p_->hFile_ = 0;
 #else
+#error Platforms without mmap are not supported. See https://github.com/Exiv2/exiv2/issues/2380
     if (p_->isWriteable_) {
       seek(0, BasicIo::beg);
       write(p_->pMappedArea_, p_->mappedLength_);
@@ -275,15 +276,21 @@ byte* FileIo::mmap(bool isWriteable) {
   }
   p_->pMappedArea_ = static_cast<byte*>(rc);
 #else
+#error Platforms without mmap are not supported. See https://github.com/Exiv2/exiv2/issues/2380
   // Workaround for platforms without mmap: Read the file into memory
-  DataBuf buf(p_->mappedLength_);
-  if (read(buf.data(), buf.size()) != buf.size()) {
+  byte* buf = new byte[p_->mappedLength_];
+  const long offset = std::ftell(p_->fp_);
+  std::fseek(p_->fp_, 0, SEEK_SET);
+  if (read(buf, p_->mappedLength_) != p_->mappedLength_) {
+    delete[] buf;
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::read");
   }
+  std::fseek(p_->fp_, offset, SEEK_SET);
   if (error()) {
+    delete[] buf;
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::mmap");
   }
-  p_->pMappedArea_ = buf.data();
+  p_->pMappedArea_ = buf;
   p_->isMalloced_ = true;
 #endif
   return p_->pMappedArea_;
@@ -1008,7 +1015,7 @@ class RemoteIo::Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  virtual long getFileLength() = 0;
+  virtual int64_t getFileLength() = 0;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1092,7 +1099,7 @@ int RemoteIo::open() {
   close();  // reset the IO position
   bigBlock_ = nullptr;
   if (!p_->isMalloced_) {
-    long length = p_->getFileLength();
+    const auto length = p_->getFileLength();
     if (length < 0) {  // unable to get the length of remote file, get the whole file content.
       std::string data;
       p_->getDataByRange(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::max(), data);
@@ -1380,7 +1387,7 @@ class HttpIo::HttpImpl : public Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  long getFileLength() override;
+  int64_t getFileLength() override;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1415,7 +1422,7 @@ HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize) : Impl(url,
   Exiv2::Uri::Decode(hostInfo_);
 }
 
-long HttpIo::HttpImpl::getFileLength() {
+int64_t HttpIo::HttpImpl::getFileLength() {
   Exiv2::Dictionary response;
   Exiv2::Dictionary request;
   std::string errors;
@@ -1529,7 +1536,7 @@ class CurlIo::CurlImpl : public Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  long getFileLength() override;
+  int64_t getFileLength() override;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1581,7 +1588,7 @@ CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url,
   }
 }
 
-long CurlIo::CurlImpl::getFileLength() {
+int64_t CurlIo::CurlImpl::getFileLength() {
   curl_easy_reset(curl_);  // reset all options
   std::string response;
   curl_easy_setopt(curl_, CURLOPT_URL, path_.c_str());
@@ -1605,9 +1612,9 @@ long CurlIo::CurlImpl::getFileLength() {
     throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
   }
   // get length
-  double temp;
-  curl_easy_getinfo(curl_, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &temp);  // return -1 if unknown
-  return static_cast<long>(temp);
+  curl_off_t temp;
+  curl_easy_getinfo(curl_, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &temp);  // return -1 if unknown
+  return temp;
 }
 
 void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) {

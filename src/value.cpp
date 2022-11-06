@@ -370,10 +370,11 @@ size_t CommentValue::copy(byte* buf, ByteOrder byteOrder) const {
 
 std::ostream& CommentValue::write(std::ostream& os) const {
   CharsetId csId = charsetId();
+  std::string text = comment();
   if (csId != undefined) {
     os << "charset=" << CharsetInfo::name(csId) << " ";
   }
-  return os << comment();
+  return os << text;
 }
 
 std::string CommentValue::comment(const char* encoding) const {
@@ -384,7 +385,8 @@ std::string CommentValue::comment(const char* encoding) const {
   c = value_.substr(8);
   if (charsetId() == unicode) {
     const char* from = !encoding || *encoding == '\0' ? detectCharset(c) : encoding;
-    convertStringCharset(c, from, "UTF-8");
+    if (!convertStringCharset(c, from, "UTF-8"))
+      throw Error(ErrorCode::kerInvalidIconvEncoding, encoding, "UTF-8");
   }
   bool bAscii = charsetId() == undefined || charsetId() == ascii;
   // # 1266 Remove trailing nulls

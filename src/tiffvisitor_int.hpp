@@ -538,7 +538,7 @@ class TiffRwState {
   //! @name Creators
   //@{
   //! Constructor.
-  TiffRwState(ByteOrder byteOrder, uint32_t baseOffset) : byteOrder_(byteOrder), baseOffset_(baseOffset) {
+  TiffRwState(ByteOrder byteOrder, size_t baseOffset) : byteOrder_(byteOrder), baseOffset_(baseOffset) {
   }
   //@}
 
@@ -562,14 +562,14 @@ class TiffRwState {
     case, base offset added to the start of the TIFF image header points
     to the basis for such makernote offsets.
    */
-  [[nodiscard]] uint32_t baseOffset() const {
+  [[nodiscard]] size_t baseOffset() const {
     return baseOffset_;
   }
   //@}
 
  private:
   ByteOrder byteOrder_;
-  uint32_t baseOffset_;
+  size_t baseOffset_;
 };  // TiffRwState
 
 /*!
@@ -658,7 +658,7 @@ class TiffReader : public TiffVisitor {
   //! Return the byte order.
   [[nodiscard]] ByteOrder byteOrder() const;
   //! Return the base offset. See class TiffRwState for details
-  [[nodiscard]] uint32_t baseOffset() const;
+  [[nodiscard]] size_t baseOffset() const;
   //@}
 
  private:

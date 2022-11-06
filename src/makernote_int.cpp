@@ -9,6 +9,7 @@
 
 #include "ini.hpp"
 #include "makernote_int.hpp"
+#include "safe_op.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
@@ -160,7 +161,7 @@ ByteOrder MnHeader::byteOrder() const {
   return invalidByteOrder;
 }
 
-uint32_t MnHeader::baseOffset(uint32_t /*mnOffset*/) const {
+size_t MnHeader::baseOffset(size_t /*mnOffset*/) const {
   return 0;
 }
 
@@ -213,7 +214,7 @@ size_t Olympus2MnHeader::ifdOffset() const {
   return sizeOfSignature();
 }
 
-uint32_t Olympus2MnHeader::baseOffset(uint32_t mnOffset) const {
+size_t Olympus2MnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -249,7 +250,7 @@ size_t OMSystemMnHeader::ifdOffset() const {
   return sizeOfSignature();
 }
 
-uint32_t OMSystemMnHeader::baseOffset(uint32_t mnOffset) const {
+size_t OMSystemMnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -289,7 +290,7 @@ ByteOrder FujiMnHeader::byteOrder() const {
   return byteOrder_;
 }
 
-uint32_t FujiMnHeader::baseOffset(uint32_t mnOffset) const {
+size_t FujiMnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -367,8 +368,8 @@ ByteOrder Nikon3MnHeader::byteOrder() const {
   return byteOrder_;
 }
 
-uint32_t Nikon3MnHeader::baseOffset(uint32_t mnOffset) const {
-  return mnOffset + 10;
+size_t Nikon3MnHeader::baseOffset(size_t mnOffset) const {
+  return Safe::add<size_t>(mnOffset, 10);
 }
 
 bool Nikon3MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/) {
@@ -447,7 +448,7 @@ size_t PentaxDngMnHeader::size() const {
   return header_.size();
 }
 
-uint32_t PentaxDngMnHeader::baseOffset(uint32_t mnOffset) const {
+size_t PentaxDngMnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -507,7 +508,7 @@ size_t SamsungMnHeader::size() const {
   return 0;
 }
 
-uint32_t SamsungMnHeader::baseOffset(uint32_t mnOffset) const {
+size_t SamsungMnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
