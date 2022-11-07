@@ -148,13 +148,6 @@ constexpr const TagVocabulary GUIDReferenceTags[] = {
     {"6698B84E-0AFA-4330-AEB2-1C0A98D7A44D", "Payload_Extension_System_Encryption_Sample_ID"},
     {"00E1AF06-7BEC-11D1-A582-00C04FC29CFB", "Payload_Extension_System_Degradable_JPEG"}};
 
-//! Audio codec type-specific data in ASF
-constexpr const TagDetails audioCodec[] = {{0x161, "Windows Media Audio (7, 8, and 9 Series)"},
-                                           {0x162, "Windows Media Audio 9 Professional"},
-                                           {0x163, "Windows Media Audio 9 Lossless"},
-                                           {0x7A21, "GSM-AMR (CBR, no SID)"},
-                                           {0x7A22, "GSM-AMR (VBR including SID)"}};
-
 constexpr const TagDetails filePropertiesTags[] = {{7, "Xmp.video.FileLength"},   {6, "Xmp.video.CreationDate"},
                                                    {5, "Xmp.video.DataPackets"},  {4, "Xmp.video.Duration"},
                                                    {3, "Xmp.video.SendDuration"}, {2, "Xmp.video.Preroll"},
