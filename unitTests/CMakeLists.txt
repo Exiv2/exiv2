@@ -2,6 +2,7 @@ find_package(GTest REQUIRED)
 
 add_executable(unit_tests
     mainTestRunner.cpp
+    test_asfvideo.cpp
     test_basicio.cpp
     test_bmpimage.cpp
     test_cr2header_int.cpp

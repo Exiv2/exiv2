@@ -8,6 +8,7 @@ namespace Exiv2 {
 enum class ImageType {
   none,
   arw,
+  asf,
   bigtiff,
   bmff,
   bmp,  ///< Windows bitmap
