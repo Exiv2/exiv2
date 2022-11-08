@@ -532,49 +532,28 @@ void AsfVideo::codecList() {
     io_->read(buf.data(), 2);
     descLength = Exiv2::getUShort(buf.data(), littleEndian) * 2;
 
-    if (descLength < 0) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_ERROR << " Description found in this ASF file is not of valid size ."
-                << " Entries considered invalid. Not Processed.\n";
-#endif
-    } else {
-      io_->read(buf.data(), descLength);
-      if (codecType == 1)
-        xmpData()["Xmp.video.Codec"] = toString16(buf);
-      else if (codecType == 2)
-        xmpData()["Xmp.audio.Compressor"] = toString16(buf);
-    }
+    io_->read(buf.data(), descLength);
+    if (codecType == 1)
+      xmpData()["Xmp.video.Codec"] = toString16(buf);
+    else if (codecType == 2)
+      xmpData()["Xmp.audio.Compressor"] = toString16(buf);
 
     std::memset(buf.data(), 0x0, buf.size());
     io_->read(buf.data(), 2);
     descLength = Exiv2::getUShort(buf.data(), littleEndian) * 2;
 
-    if (descLength < 0) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_ERROR << " Description found in this ASF file is not of valid size ."
-                << " Entries considered invalid. Not Processed.\n";
-#endif
-    } else {
-      io_->read(buf.data(), descLength);
+    io_->read(buf.data(), descLength);
 
-      if (codecType == 1)
-        xmpData()["Xmp.video.CodecDescription"] = toString16(buf);
-      else if (codecType == 2)
-        xmpData()["Xmp.audio.CodecDescription"] = toString16(buf);
-    }
+    if (codecType == 1)
+      xmpData()["Xmp.video.CodecDescription"] = toString16(buf);
+    else if (codecType == 2)
+      xmpData()["Xmp.audio.CodecDescription"] = toString16(buf);
 
     std::memset(buf.data(), 0x0, buf.size());
     io_->read(buf.data(), 2);
     descLength = Exiv2::getUShort(buf.data(), littleEndian);
 
-    if (descLength < 0) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_ERROR << " Description found in this ASF file is not of valid size ."
-                << " Entries considered invalid. Not Processed.\n";
-#endif
-    } else {
-      io_->read(buf.data(), descLength);
-    }
+    io_->read(buf.data(), descLength);
   }
 }  // AsfVideo::codecList
 
