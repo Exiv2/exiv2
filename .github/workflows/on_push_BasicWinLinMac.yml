@@ -9,7 +9,7 @@ on:
       - "*.md"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: On PUSH - Basic CI for main platforms
@@ -45,7 +45,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.52.0"
+          pip.exe install "conan==1.54.0"
           conan profile new --detect default
           conan profile show default
           conan profile update settings.compiler="Visual Studio" default
@@ -73,7 +73,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.54.0
 
       - name: Conan
         run: |

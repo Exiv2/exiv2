@@ -1,7 +1,7 @@
 name: On PUSH - Linux Special Builds for main branch
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 on:
@@ -25,7 +25,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.54.0
           pip3 install gcovr
 
       - name: Conan common config
