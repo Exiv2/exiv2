@@ -2020,6 +2020,13 @@ constexpr TagDetails sonyMisc3cSequenceLength2[] = {{0, N_("Continuous")}, {1, N
 constexpr TagDetails sonyMisc3cCameraOrientation[] = {
     {1, N_("Horizontal (normal)")}, {3, N_("Rotate 180°")}, {6, N_("Rotate 90° CW")}, {8, N_("Rotate 270° CW")}};
 
+//! Lookup table to translate SonyMisc3c Quality2 (a) values to readable labels
+constexpr TagDetails sonyMisc3cQuality2a[] = {
+    {1, "JPEG"}, {2, "Raw"}, {3, "Raw + JPEG"}, {4, "HEIF"}, {6, "Raw + HEIF"}};
+
+//! Lookup table to translate SonyMisc3c Quality2 (b) values to readable labels
+constexpr TagDetails sonyMisc3cQuality2b[] = {{0, "JPEG"}, {1, "Raw"}, {2, "Raw + JPEG"}, {3, "Raw + MPO"}};
+
 //! SonyMisc3c tags (Tag 9400c)
 constexpr TagInfo SonyMakerNote::tagInfoSonyMisc3c_[] = {
     {9, "ReleaseMode2", N_("Release mode 2"), N_("Release mode 2"), IfdId::sonyMisc3cId, SectionId::makerTags,
@@ -2029,12 +2036,12 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc3c_[] = {
      unsignedLong, -1, printSonyMisc3cShotNumberSincePowerUp},
     {18, "SequenceImageNumber", N_("Sequence image number"), N_("Number of images captured in burst sequence"),
      IfdId::sonyMisc3cId, SectionId::makerTags, unsignedLong, -1, printSonyMisc3cSequenceNumber},
-    // In Exiftool, "SequenceLength1" is called "SequenceLength. Renamed due to clash of names."
+    // In Exiftool, "SequenceLength1" is called "SequenceLength (22). Renamed due to clash of names."
     {22, "SequenceLength1", N_("Sequence length 1"), N_("Length of the sequence of photos taken"), IfdId::sonyMisc3cId,
      SectionId::makerTags, unsignedByte, -1, EXV_PRINT_TAG(sonyMisc3cSequenceLength1)},
     {26, "SequenceFileNumber", N_("Sequence file number"), N_("File number in burst sequence"), IfdId::sonyMisc3cId,
      SectionId::makerTags, unsignedLong, -1, printSonyMisc3cSequenceNumber},
-    // In Exiftool, "SequenceLength2" is called "SequenceLength". Renamed due to clash of names."
+    // In Exiftool, "SequenceLength2" is called "SequenceLength" (30). Renamed due to clash of names."
     {30, "SequenceLength2", N_("Sequence length 2"), N_("Length of the sequence of photos taken"), IfdId::sonyMisc3cId,
      SectionId::makerTags, unsignedByte, -1, EXV_PRINT_TAG(sonyMisc3cSequenceLength2)},
     {41, "CameraOrientation", N_("Camera orientation"), N_("Orientation of the camera when the photo was taken"),
@@ -2056,7 +2063,7 @@ const TagInfo* SonyMakerNote::tagListSonyMisc3c() {
 
 std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream& os, const Value& value,
                                                                    const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || value.typeId() != unsignedLong)
     return os << "(" << value << ")";
 
   std::string model;
@@ -2065,27 +2072,29 @@ std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream&
     return os;
   }
 
-  // Models that support this tag
+  // Tag only valid for certain camera models. See
+  // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8170
   static constexpr auto models = std::array{
-      "ILCA-68",     "ILCA-77M2",   "ILCA-99M2",  "ILCE-5000", "ILCE-5100",  "ILCE-6000",  "ILCE-6300",
-      "ILCE-6500",   "ILCE-7",      "ILCE-7M2",   "ILCE-7R",   "ILCE-7RM2",  "ILCE-7S",    "ILCE-7SM2",
-      "ILCE-QX1",    "DSC-HX350",   "DSC-HX400V", "DSC-HX60V", "DSC-HX80",   "DSC-HX90",   "DSC-HX90V",
-      "DSC-QX30",    "DSC-RX0",     "DSC-RX1RM2", "DSC-RX10",  "DSC-RX10M2", "DSC-RX10M3", "DSC-RX100M3",
-      "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",  "DSC-WX350", "DSC-WX500",
+      "ILCA-68",     "ILCA-77M2",   "ILCA-99M2",   "ILCE-5000",  "ILCE-5100", "ILCE-6000",  "ILCE-6300",
+      "ILCE-6500",   "ILCE-7",      "ILCE-7M2",    "ILCE-7R",    "ILCE-7RM2", "ILCE-7S",    "ILCE-7SM2",
+      "ILCE-7SM5",   "ILCE-QX1",    "DSC-HX350",   "DSC-HX400V", "DSC-HX60V", "DSC-HX80",   "DSC-HX90",
+      "DSC-HX90V",   "DSC-QX30",    "DSC-RX0",     "DSC-RX1RM2", "DSC-RX10",  "DSC-RX10M2", "DSC-RX10M3",
+      "DSC-RX100M3", "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",  "DSC-WX350", "DSC-WX500",
   };
 
-  bool f = std::find(models.begin(), models.end(), model) != models.end();
-  if (f)
+  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return (model == m); })) {
     return os << value.toInt64();
+  }
   return os << N_("n/a");
 }
 
 std::ostream& SonyMakerNote::printSonyMisc3cSequenceNumber(std::ostream& os, const Value& value, const ExifData*) {
-  return (value.count() != 1) ? os << "(" << value << ")" : os << (value.toInt64() + 1);
+  return (value.count() != 1 || value.typeId() != unsignedLong) ? os << "(" << value << ")"
+                                                                : os << (value.toInt64() + 1);
 }
 
 std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || value.typeId() != unsignedByte)
     return os << "(" << value << ")";
 
   std::string model;
@@ -2096,44 +2105,21 @@ std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Val
 
   const auto val = value.toInt64();
 
-  // Value is interpreted differently if model is in list or not
-  for (auto& m : {"ILCE-1", "ILCE-7SM3", "ILME-FX3"}) {
-    if (m == model) {
-      switch (val) {
-        case 1:
-          return os << N_("JPEG");
-        case 2:
-          return os << N_("Raw");
-        case 3:
-          return os << N_("Raw + JPEG");
-        case 4:
-          return os << N_("HEIF");
-        case 6:
-          return os << N_("Raw + HEIF");
-        default:
-          return os << "(" << val << ")";
-      }
-    }
+  // Tag only valid for certain camera models. See
+  // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8219
+  constexpr std::array models{"ILCE-1", "ILCE-7M4", "ILCE-7RM5", "ILCE-7SM3", "ILME-FX3"};
+
+  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return (model == m); })) {
+    EXV_PRINT_TAG(sonyMisc3cQuality2a)(os, val, metadata);
+    return os;
   }
 
-  switch (val) {
-    case 0:
-      return os << N_("JPEG");
-    case 1:
-      return os << N_("Raw");
-    case 2:
-      return os << N_("Raw + JPEG");
-    case 3:
-      return os << N_("Raw + MPO");
-    default:
-      os << "(" << val << ")";
-  }
-  return os;
+  return EXV_PRINT_TAG(sonyMisc3cQuality2b)(os, val, metadata);
 }
 
 std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, const Value& value,
                                                             const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || value.typeId() != unsignedShort)
     return os << "(" << value << ")";
 
   std::string model;
@@ -2142,19 +2128,21 @@ std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, co
     return os;
   }
 
-  // Models that do not support this tag
-  const auto models = std::array{"ILCE-1", "ILCE-7SM3", "ILME-FX3"};
-  bool f = std::find(models.begin(), models.end(), model) != models.end();
-  if (f)
-    return os << N_("n/a");
+  // Tag only valid for certain camera models. See
+  // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8239
+  constexpr std::array models{"ILCE-1", "ILCE-7M4", "ILCE-7RM5", "ILCE-7SM3", "ILME-FX3"};
 
+  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return (model == m); })) {
+    return os << N_("n/a");
+  }
   const auto val = value.toInt64();
+
   return val > 0 ? os << (8 * val) : os << N_("n/a");
 }
 
 std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || value.typeId() != unsignedByte)
     return os << "(" << value << ")";
 
   std::string model;
@@ -2163,11 +2151,13 @@ std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, c
     return os;
   }
 
-  // Models that do not support this tag
-  const auto models = std::array{"ILCE-1", "ILCE-7SM3", "ILME-FX3"};
-  bool f = std::find(models.begin(), models.end(), model) != models.end();
-  if (f)
+  // Tag only valid for certain camera models. See
+  // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8245
+  constexpr std::array models{"ILCE-1", "ILCE-7M4", "ILCE-7RM5", "ILCE-7SM3", "ILME-FX3"};
+
+  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return (model == m); })) {
     return os << N_("n/a");
+  }
 
   const auto val = value.toInt64();
   if (val > 99)
