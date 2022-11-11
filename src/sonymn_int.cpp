@@ -430,6 +430,7 @@ constexpr TagDetails sonyModelId[] = {{0, N_("Multiple camera models")},
                                       {387, "ILCE-7RM4A"},
                                       {388, "ILCE-7M4"},
                                       {389, "ZV-1F"},
+                                      {390, "ILCE-7RM5"},
                                       {391, "ILME-FX30"}};
 
 //! Lookup table to translate Sony creative style (main group) values to readable labels
