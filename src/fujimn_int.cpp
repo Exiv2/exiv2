@@ -495,7 +495,7 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
      SectionId::makerTags, unsignedShort, -1, printValue},
     {0x1422, "ImageStabilization", N_("Image Stabilization"), N_("Image stabilization"), IfdId::fujiId,
      SectionId::makerTags, unsignedShort, -1, printValue},
-    {0x1425, "SzeneRecognition", N_("Scene recognition"), N_("Scene recognition"), IfdId::fujiId, SectionId::makerTags,
+    {0x1425, "SceneRecognition", N_("Scene recognition"), N_("Scene recognition"), IfdId::fujiId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(fujiSceneRecognition)},
     {0x1431, "Rating", N_("Rating"), N_("Rating"), IfdId::fujiId, SectionId::makerTags, unsignedLong, -1, printValue},
     {0x1436, "ImageGeneration", N_("Image Generation"), N_("Image generation"), IfdId::fujiId, SectionId::makerTags,
