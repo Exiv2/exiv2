@@ -138,7 +138,7 @@ Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  850/10 850/10 14/10 14/10  850/10 850/10 14/10 14/10
+Exif.Photo.LensSpecification                 Rational    4  850/10 850/10 14/10 14/10  85mm F1.4
 Exif.Photo.LensModel                         Ascii      16  FE 85mm F1.4 GM  FE 85mm F1.4 GM
 Exif.Photo.Gamma                             Rational    1  22/10  2.2
 Exif.Image.PrintImageMatching                Undefined 106  80 114 105 110 116 73 77 0 48 51 48 48 0 0 3 0 2 0 1 0 0 0 3 0 34 0 0 0 1 1 0 0 0 0 209 23 0 0 16 39 0 0 5 8 0 0 16 39 0 0 212 5 0 0 16 39 0 0 39 12 0 0 16 39 0 0 113 24 0 0 16 39 0 0 120 2 0 0 16 39 0 0 195 0 0 0 16 39 0 0 97 2 0 0 16 39 0 0 22 29 0 0 16 39 0 0  80 114 105 110 116 73 77 0 48 51 48 48 0 0 3 0 2 0 1 0 0 0 3 0 34 0 0 0 1 1 0 0 0 0 209 23 0 0 16 39 0 0 5 8 0 0 16 39 0 0 212 5 0 0 16 39 0 0 39 12 0 0 16 39 0 0 113 24 0 0 16 39 0 0 120 2 0 0 16 39 0 0 195 0 0 0 16 39 0 0 97 2 0 0 16 39 0 0 22 29 0 0 16 39 0 0

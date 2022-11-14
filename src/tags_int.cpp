@@ -2003,7 +2003,7 @@ constexpr TagInfo exifTagInfo[] = {
         "in the maximum focal length, which are specification information "
         "for the lens that was used in photography. When the minimum F "
         "number is unknown, the notation is 0/0"),
-     IfdId::exifId, SectionId::otherTags, unsignedRational, 4, printValue},
+     IfdId::exifId, SectionId::otherTags, unsignedRational, 4, printLensSpecification},
     {0xa433, "LensMake", N_("Lens Make"), N_("This tag records the lens manufactor as an ASCII string."), IfdId::exifId,
      SectionId::otherTags, asciiString, 0, printValue},
     {0xa434, "LensModel", N_("Lens Model"),
@@ -2573,6 +2573,35 @@ std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*) {
 
 std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_TAG(exifUnit)(os, value, metadata);
+}
+
+std::ostream& printLensSpecification(std::ostream& os, const Value& value, const ExifData*) {
+  std::ios::fmtflags f(os.flags());
+  if (value.count() != 4 || value.toRational(0).second == 0 || value.toRational(1).second == 0) {
+    os << "(" << value << ")";
+    return os;
+  }
+  const int64_t len1 = value.toInt64(0);
+  const int64_t len2 = value.toInt64(1);
+
+  auto [r1, s1] = value.toRational(2);
+  auto [r2, s2] = value.toRational(3);
+  os << len1;
+  if (len2 != len1) {
+    os << "-" << len2;
+  }
+  os << "mm ";
+  std::ostringstream oss;
+  oss.copyfmt(os);
+  if (s1 > 0.0 && s2 > 0.0) {
+    os << "F" << std::setprecision(2) << static_cast<float>(r1) / s1;
+    if (r2 != r1) {
+      os << "-" << std::setprecision(2) << static_cast<float>(r2) / s2;
+    }
+  }
+  os.copyfmt(oss);
+  os.flags(f);
+  return os;
 }
 
 std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*) {

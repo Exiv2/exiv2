@@ -180,7 +180,7 @@ Exif.Photo.GainControl                       Short       1  0  None
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  17/1 17/1 12/10 12/10  17/1 17/1 12/10 12/10
+Exif.Photo.LensSpecification                 Rational    4  17/1 17/1 12/10 12/10  17mm F1.2
 Exif.Photo.LensModel                         Ascii      32  OLYMPUS M.17mm F1.2  OLYMPUS M.17mm F1.2
 Exif.Image.GPSTag                            Long        1  16792  16792
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 3 0 0  2.3.0.0
