@@ -343,7 +343,7 @@ class HttpServer:
         log.info('Starting HTTP server ...')
         self.proc = multiprocessing.Process(target=self._start, name=str(self))
         self.proc.start()
-        time.sleep(2)
+        time.sleep(5)
         try:
             with request.urlopen('http://127.0.0.1:{}'.format(self.port), timeout=3) as f:
                 if f.status != 200:
