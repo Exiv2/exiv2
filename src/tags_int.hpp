@@ -398,6 +398,8 @@ std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*
 std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*);
 //! Print function for Exif units
 std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData*);
+//! Print function for lens specification
+std::ostream& printLensSpecification(std::ostream& os, const Value& value, const ExifData*);
 //! Print GPS version
 std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*);
 //! Print GPS altitude ref

@@ -70,7 +70,7 @@ Exif.NikonIi.ISO2                            Byte        1  72  200
 Exif.NikonIi.ISOExpansion2                   Short       1  0  Off
 Exif.Nikon3.ShutterMode                      Short       1  16  Electronic
 Exif.Nikon3.LensType                         Byte        1  16  (16)
-Exif.Nikon3.Lens                             Rational    4  110/10 275/10 35/10 56/10  11-27mm F3.5-5.6
+Exif.Nikon3.Lens                             Rational    4  110/10 275/10 35/10 56/10  11-27.5mm F3.5-5.6
 Exif.Nikon3.FlashMode                        Byte        1  0  Did not fire
 Exif.Nikon3.ShootingMode                     Short       1  32  Single-frame, Auto ISO
 Exif.Nikon3.AutoBracketRelease               Short       1  1  Auto release

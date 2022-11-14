@@ -98,7 +98,7 @@ Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  0/10 0/10 0/10 0/10  0/10 0/10 0/10 0/10
+Exif.Photo.LensSpecification                 Rational    4  0/10 0/10 0/10 0/10  n/a
 Exif.Photo.LensModel                         Ascii       5  ----  ----
 Exif.Image.GPSTag                            Long        1  21004  21004
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 3 0 0  2.3.0.0

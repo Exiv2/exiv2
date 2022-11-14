@@ -2003,7 +2003,7 @@ constexpr TagInfo exifTagInfo[] = {
         "in the maximum focal length, which are specification information "
         "for the lens that was used in photography. When the minimum F "
         "number is unknown, the notation is 0/0"),
-     IfdId::exifId, SectionId::otherTags, unsignedRational, 4, printValue},
+     IfdId::exifId, SectionId::otherTags, unsignedRational, 4, printLensSpecification},
     {0xa433, "LensMake", N_("Lens Make"), N_("This tag records the lens manufactor as an ASCII string."), IfdId::exifId,
      SectionId::otherTags, asciiString, 0, printValue},
     {0xa434, "LensModel", N_("Lens Model"),
@@ -2567,6 +2567,78 @@ std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*) {
 
 std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_TAG(exifUnit)(os, value, metadata);
+}
+
+std::ostream& printLensSpecification(std::ostream& os, const Value& value, const ExifData*) {
+  std::ios::fmtflags f(os.flags());
+  // check type and count of values
+  if (value.typeId() != unsignedRational || value.count() != 4 ||
+      // divisor may be zero only if dividend is not zero
+      (value.toRational(0).first != 0 && value.toRational(0).second == 0) ||
+      (value.toRational(1).first != 0 && value.toRational(1).second == 0) ||
+      (value.toRational(2).first != 0 && value.toRational(2).second == 0) ||
+      (value.toRational(3).first != 0 && value.toRational(3).second == 0)) {
+    os << "(" << value << ")";
+    return os;
+  }
+  // values numerically are ok, so they can be converted
+  // here first and second can be zero, so initialise float with 0.0
+  float focalLength1 = 0.0;
+  if (value.toRational(0).first != 0)
+    focalLength1 = value.toFloat(0);
+  float focalLength2 = 0.0;
+  if (value.toRational(1).first != 0)
+    focalLength2 = value.toFloat(1);
+  float fNumber1 = 0.0;
+  if (value.toRational(2).first != 0)
+    fNumber1 = value.toFloat(2);
+  float fNumber2 = 0.0;
+  if (value.toRational(3).first != 0)
+    fNumber2 = value.toFloat(3);
+
+  // first value must not be bigger than second
+  if ((focalLength1 > focalLength2 && focalLength2 > 0.0) || (fNumber1 > fNumber2 && fNumber2 > 0.0)) {
+    os << "(" << value << ")";
+    return os;
+  }
+
+  // no lens specification available
+  if (focalLength1 == 0.0 && focalLength2 == 0.0 && fNumber1 == 0.0 && fNumber2 == 0.0) {
+    os << "n/a";
+    return os;
+  }
+
+  // lens specification available - at least parts
+  if (focalLength1 == 0.0)
+    os << "n/a";
+  else
+    os << std::setprecision(5) << focalLength1;
+  if (focalLength1 != focalLength2) {
+    if (focalLength2 == 0.0)
+      os << "-n/a ";
+    else
+      os << "-" << std::setprecision(5) << focalLength2;
+  }
+  os << "mm";
+  std::ostringstream oss;
+  oss.copyfmt(os);
+
+  if (fNumber1 > 0.0 || fNumber2 > 0.0) {
+    os << " F";
+    if (fNumber1 == 0.0)
+      os << " n/a";
+    else
+      os << std::setprecision(2) << fNumber1;
+    if (fNumber1 != fNumber2) {
+      if (fNumber2 == 0.0)
+        os << "-n/a";
+      else
+        os << "-" << std::setprecision(2) << fNumber2;
+    }
+  }
+  os.copyfmt(oss);
+  os.flags(f);
+  return os;
 }
 
 std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*) {

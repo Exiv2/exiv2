@@ -14,7 +14,7 @@ class CheckTokina11_20mm(metaclass=system_tests.CaseMeta):
 Exif.CanonCs.Lens                            Short       3  11.0 - 20.0 mm
 Exif.Canon.LensModel                         Ascii      74  11-20mm
 Exif.CanonLe.LensSerialNumber                SLong       1  0
-Exif.Photo.LensSpecification                 Rational    4  11/1 20/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  11-20mm
 Exif.Photo.LensModel                         Ascii       8  11-20mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000
 """,

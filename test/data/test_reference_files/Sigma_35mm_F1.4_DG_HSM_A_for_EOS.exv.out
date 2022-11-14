@@ -218,7 +218,7 @@ Exif.Photo.ExposureMode                      Short       1  0  Auto
 Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
-Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1  35/1 35/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1  35mm
 Exif.Photo.LensModel                         Ascii      27  35mm F1.4 DG HSM | Art 012  35mm F1.4 DG HSM | Art 012
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.GPSTag                            Long        1  43020  43020

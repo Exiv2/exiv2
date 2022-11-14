@@ -196,7 +196,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
 Exif.Photo.BodySerialNumber                  Ascii      13  053024015642  053024015642
-Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1  35/1 35/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1  35mm
 Exif.Photo.LensModel                         Ascii       5  35mm  35mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.DateTimeOriginal                  Ascii      20  2016:03:22 12:58:55  2016:03:22 12:58:55

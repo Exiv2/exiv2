@@ -147,7 +147,7 @@ Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  1040/100 3710/100 18/10 49/10  1040/100 3710/100 18/10 49/10
+Exif.Photo.LensSpecification                 Rational    4  1040/100 3710/100 18/10 49/10  10.4-37.1mm F1.8-4.9
 Exif.Image.PrintImageMatching                Undefined  28  80 114 105 110 116 73 77 0 48 51 48 48 0 0 2 0 2 0 1 0 0 0 1 1 1 0 0 0  80 114 105 110 116 73 77 0 48 51 48 48 0 0 2 0 2 0 1 0 0 0 1 1 1 0 0 0
 Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
 Exif.Thumbnail.ImageDescription              Ascii      32                                                                  

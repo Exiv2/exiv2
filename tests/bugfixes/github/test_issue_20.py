@@ -27,7 +27,7 @@ class TamronSupport(metaclass=system_tests.CaseMeta):
 Exif.CanonCs.Lens                            Short       3  90.0 mm
 Exif.Canon.LensModel                         Ascii      70  TAMRON SP 90mm F/2.8 Di VC USD MACRO1:1 F017
 Exif.CanonLe.LensSerialNumber                SLong       1  0
-Exif.Photo.LensSpecification                 Rational    4  90/1 90/1 0/0 0/0
+Exif.Photo.LensSpecification                 Rational    4  90mm
 Exif.Photo.LensModel                         Ascii      70  TAMRON SP 90mm F/2.8 Di VC USD MACRO1:1 F017
 Exif.Photo.LensSerialNumber                  Ascii      12  0000000000
 """,

@@ -175,7 +175,7 @@ Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  1  Low
 Exif.Photo.Sharpness                         Short       1  0  Normal
 Exif.Photo.BodySerialNumber                  Ascii      10  BHLB61153  BHLB61153
-Exif.Photo.LensSpecification                 Rational    4  14/1 42/1 7/2 28/5  14/1 42/1 7/2 28/5
+Exif.Photo.LensSpecification                 Rational    4  14/1 42/1 7/2 28/5  14-42mm F3.5-5.6
 Exif.Photo.LensModel                         Ascii      30  OLYMPUS M.14-42mm F3.5-5.6 EZ  OLYMPUS M.14-42mm F3.5-5.6 EZ
 Exif.Photo.LensSerialNumber                  Ascii      10  AC3C74257  AC3C74257
 Exif.Image.GPSTag                            Long        1  13978  13978

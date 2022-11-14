@@ -230,13 +230,28 @@ ExifData::const_iterator whiteBalance(const ExifData& ed) {
 }
 
 ExifData::const_iterator lensName(const ExifData& ed) {
-  static const char* keys[] = {
-      // Try Exif.CanonCs.LensType first.
-      "Exif.CanonCs.LensType",      "Exif.Photo.LensModel",       "Exif.Canon.LensModel",  "Exif.NikonLd1.LensIDNumber",
-      "Exif.NikonLd2.LensIDNumber", "Exif.NikonLd3.LensIDNumber", "Exif.NikonLd4.LensID",  "Exif.NikonLd4.LensIDNumber",
-      "Exif.Pentax.LensType",       "Exif.PentaxDng.LensType",    "Exif.Minolta.LensID",   "Exif.SonyMinolta.LensID",
-      "Exif.Sony1.LensID",          "Exif.Sony2.LensID",          "Exif.Sony1.LensSpec",   "Exif.Sony2.LensSpec",
-      "Exif.OlympusEq.LensType",    "Exif.Panasonic.LensType",    "Exif.Samsung2.LensType"};
+  static const char* keys[] = {// Try Exif.CanonCs.LensType first.
+                               "Exif.CanonCs.LensType",
+                               "Exif.Photo.LensModel",
+                               "Exif.Canon.LensModel",
+                               "Exif.NikonLd1.LensIDNumber",
+                               "Exif.NikonLd2.LensIDNumber",
+                               "Exif.NikonLd3.LensIDNumber",
+                               "Exif.NikonLd4.LensID",
+                               "Exif.NikonLd4.LensIDNumber",
+                               "Exif.Pentax.LensType",
+                               "Exif.PentaxDng.LensType",
+                               "Exif.Minolta.LensID",
+                               "Exif.SonyMinolta.LensID",
+                               "Exif.Sony1.LensID",
+                               "Exif.Sony2.LensID",
+                               "Exif.Sony1.LensSpec",
+                               "Exif.Sony2.LensSpec",
+                               "Exif.OlympusEq.LensType",
+                               "Exif.Panasonic.LensType",
+                               "Exif.Samsung2.LensType",
+                               "Exif.Photo.LensSpecification",
+                               "Exif.Nikon3.Lens"};
 
   for (size_t i = 0; i < std::size(keys); ++i) {
     Exiv2::ExifData::const_iterator pos = ed.findKey(ExifKey(keys[i]));

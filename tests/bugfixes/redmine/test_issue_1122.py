@@ -23,7 +23,7 @@ class CheckLensDetectionTeleconverter(metaclass=system_tests.CaseMeta):
 Exif.CanonCs.Lens                            Short       3  300.0 - 1000.0 mm
 Exif.Canon.LensModel                         Ascii      74  300-1000mm
 Exif.CanonLe.LensSerialNumber                SLong       1  0
-Exif.Photo.LensSpecification                 Rational    4  300/1 1000/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  300-1000mm
 Exif.Photo.LensModel                         Ascii      11  300-1000mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000
 """

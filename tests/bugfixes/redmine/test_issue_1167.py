@@ -14,7 +14,7 @@ class CheckSigma17_70Lens(metaclass=system_tests.CaseMeta):
 Exif.CanonCs.Lens                            Short       3  17.0 - 70.0 mm
 Exif.Canon.LensModel                         Ascii      74  17-70mm
 Exif.CanonLe.LensSerialNumber                SLong       1  0
-Exif.Photo.LensSpecification                 Rational    4  17/1 70/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  17-70mm
 Exif.Photo.LensModel                         Ascii       8  17-70mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000
 """,

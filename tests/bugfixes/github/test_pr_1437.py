@@ -22,7 +22,7 @@ Exif.NikonLd4.EffectiveMaxAperture           Byte        1  F2.8
 Exif.NikonLd4.LensID                         Short       1  0
 Exif.NikonLd4.MaxAperture                    Short       1  F0.5
 Exif.Nikon3.ShutterCount                     Long        1  174
-Exif.Photo.LensSpecification                 Rational    4  700/10 2000/10 280/100 280/100
+Exif.Photo.LensSpecification                 Rational    4  70-200mm F2.8
 Exif.Photo.LensMake                          Ascii       6  
 Exif.Photo.LensModel                         Ascii      65  
 Exif.Photo.LensSerialNumber                  Ascii      11  

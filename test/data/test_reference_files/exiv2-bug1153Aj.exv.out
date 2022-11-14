@@ -130,7 +130,7 @@ Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  160/10 500/10 35/10 56/10  160/10 500/10 35/10 56/10
+Exif.Photo.LensSpecification                 Rational    4  160/10 500/10 35/10 56/10  16-50mm F3.5-5.6
 Exif.Photo.LensModel                         Ascii      26  E PZ 16-50mm F3.5-5.6 OSS  E PZ 16-50mm F3.5-5.6 OSS
 Exif.Image.PrintImageMatching                Undefined 106  80 114 105 110 116 73 77 0 48 51 48 48 0 0 3 0 2 0 1 0 0 0 3 0 34 0 0 0 1 1 0 0 0 0 9 17 0 0 16 39 0 0 11 15 0 0 16 39 0 0 151 5 0 0 16 39 0 0 176 8 0 0 16 39 0 0 1 28 0 0 16 39 0 0 94 2 0 0 16 39 0 0 139 0 0 0 16 39 0 0 203 3 0 0 16 39 0 0 229 27 0 0 16 39 0 0  80 114 105 110 116 73 77 0 48 51 48 48 0 0 3 0 2 0 1 0 0 0 3 0 34 0 0 0 1 1 0 0 0 0 9 17 0 0 16 39 0 0 11 15 0 0 16 39 0 0 151 5 0 0 16 39 0 0 176 8 0 0 16 39 0 0 1 28 0 0 16 39 0 0 94 2 0 0 16 39 0 0 139 0 0 0 16 39 0 0 203 3 0 0 16 39 0 0 229 27 0 0 16 39 0 0
 Exif.Image.DNGPrivateData                    Byte        4  98 185 0 0  98 185 0 0
