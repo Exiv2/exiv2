@@ -184,6 +184,64 @@ Del Exif.Photo.ISOSpeedRatings
     retval = [0] * len(commands)
 
 ###########################################################
+# FUJIFILM X-T3
+###########################################################
+@CopyTmpFiles("$data_path/FujiTagsDRangeAutoRating1.jpg")
+class Canon2(metaclass=CaseMeta):
+
+    filename = path("$tmp_path/FujiTagsDRangeAutoRating1.jpg")
+
+    commands = [
+        "$easyaccess_test $filename",
+		"""$exiv2 -u -v -M"del Exif.Photo.LensModel" $filename""",
+        "$easyaccess_test $filename LensName"
+    ]
+    stdout = [
+	"""Orientation           (Exif.Image.Orientation             ) : top, left
+ISO speed             (Exif.Photo.ISOSpeedRatings         ) : 800
+Date & time original  (                                   ) : 
+Flash bias            (                                   ) : 
+Exposure mode         (Exif.Photo.ExposureProgram         ) : Manual
+Scene mode            (Exif.Fujifilm.PictureMode          ) : Manual
+Macro mode            (                                   ) : 
+Image quality         (Exif.Fujifilm.Quality              ) : NORMAL 
+White balance         (Exif.Fujifilm.WhiteBalance         ) : Auto
+Lens name             (Exif.Photo.LensModel               ) : XF50mmF2 R WR
+Saturation            (Exif.Fujifilm.Color                ) : 0 (normal)
+Sharpness             (Exif.Photo.Sharpness               ) : Normal
+Contrast              (                                   ) : 
+Scene capture type    (Exif.Photo.SceneCaptureType        ) : Standard
+Metering mode         (Exif.Photo.MeteringMode            ) : Multi-segment
+Camera make           (Exif.Image.Make                    ) : FUJIFILM
+Camera model          (Exif.Image.Model                   ) : X-T3
+Exposure time         (Exif.Photo.ExposureTime            ) : 1/8000 s
+FNumber               (Exif.Photo.FNumber                 ) : F2
+Shutter speed value   (Exif.Photo.ShutterSpeedValue       ) : 1/8192 s
+Aperture value        (Exif.Photo.ApertureValue           ) : F2
+Brightness value      (Exif.Photo.BrightnessValue         ) : 2.53
+Exposure bias         (Exif.Photo.ExposureBiasValue       ) : 0 EV
+Max aperture value    (Exif.Photo.MaxApertureValue        ) : F2
+Subject distance      (                                   ) : 
+Light source          (Exif.Photo.LightSource             ) : Unknown
+Flash                 (Exif.Photo.Flash                   ) : No flash
+Camera serial number  (                                   ) : 
+Focal length          (Exif.Photo.FocalLength             ) : 50.0 mm
+Subject location/area (                                   ) : 
+Flash energy          (                                   ) : 
+Exposure index        (                                   ) : 
+Sensing method        (Exif.Photo.SensingMethod           ) : One-chip color area
+AF point              (                                   ) : 
+""",
+    """File 1/1: $filename
+Del Exif.Photo.LensModel
+""",
+	"""Lens name             (Exif.Photo.LensSpecification       ) : 50mm F2
+"""
+    ]
+    stderr = [""] * len(commands)
+    retval = [0] * len(commands)
+
+###########################################################
 # Nikon D1
 ###########################################################
 class Nikon1(metaclass=CaseMeta):
