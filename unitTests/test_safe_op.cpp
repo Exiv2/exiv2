@@ -26,42 +26,41 @@ struct AdditionTestValues;
  * Overload for unsigned types.
  */
 template <typename T>
-struct AdditionTestValues<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type> {
+struct AdditionTestValues<T, std::enable_if_t<!std::is_signed_v<T>>> {
   static const size_t case_count = 5;
   static const T summand[case_count];
   static const bool overflow[case_count][case_count];
 };
 
 template <typename T>
-const T AdditionTestValues<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type>::summand[] = {
+const T AdditionTestValues<T, std::enable_if_t<!std::is_signed_v<T>>>::summand[] = {
     0, 1, 2, static_cast<T>(std::numeric_limits<T>::max() - 1), std::numeric_limits<T>::max()};
 
 template <typename T>
-const bool
-    AdditionTestValues<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type>::overflow[case_count][case_count] = {
-        // 0
-        {false, false, false, false, false},
-        // 1
-        {false, false, false, false, true},
-        // 2
-        {false, false, false, true, true},
-        // max - 1
-        {false, false, true, true, true},
-        // max
-        {false, true, true, true, true}};
+const bool AdditionTestValues<T, std::enable_if_t<!std::is_signed_v<T>>>::overflow[case_count][case_count] = {
+    // 0
+    {false, false, false, false, false},
+    // 1
+    {false, false, false, false, true},
+    // 2
+    {false, false, false, true, true},
+    // max - 1
+    {false, false, true, true, true},
+    // max
+    {false, true, true, true, true}};
 
 /*!
  * Overload for signed integers
  */
 template <typename T>
-struct AdditionTestValues<T, typename si::enable_if<si::is_signed<T>::VALUE>::type> {
+struct AdditionTestValues<T, std::enable_if_t<std::is_signed_v<T>>> {
   static const size_t case_count = 8;
   static const T summand[case_count];
   static const bool overflow[case_count][case_count];
 };
 
 template <typename T>
-const T AdditionTestValues<T, typename si::enable_if<si::is_signed<T>::VALUE>::type>::summand[] = {
+const T AdditionTestValues<T, std::enable_if_t<std::is_signed_v<T>>>::summand[] = {
     std::numeric_limits<T>::min(),
     static_cast<T>(std::numeric_limits<T>::min() + 1),
     -1,
@@ -72,24 +71,23 @@ const T AdditionTestValues<T, typename si::enable_if<si::is_signed<T>::VALUE>::t
     std::numeric_limits<T>::max()};
 
 template <typename T>
-const bool
-    AdditionTestValues<T, typename si::enable_if<si::is_signed<T>::VALUE>::type>::overflow[case_count][case_count] = {
-        // min
-        {true, true, true, false, false, false, false, false},
-        // min + 1
-        {true, true, false, false, false, false, false, false},
-        // -1
-        {true, false, false, false, false, false, false, false},
-        // 0
-        {false, false, false, false, false, false, false, false},
-        // 1
-        {false, false, false, false, false, false, false, true},
-        // 2
-        {false, false, false, false, false, false, true, true},
-        // max - 1
-        {false, false, false, false, false, true, true, true},
-        // max
-        {false, false, false, false, true, true, true, true}};
+const bool AdditionTestValues<T, std::enable_if_t<std::is_signed_v<T>>>::overflow[case_count][case_count] = {
+    // min
+    {true, true, true, false, false, false, false, false},
+    // min + 1
+    {true, true, false, false, false, false, false, false},
+    // -1
+    {true, false, false, false, false, false, false, false},
+    // 0
+    {false, false, false, false, false, false, false, false},
+    // 1
+    {false, false, false, false, false, false, false, true},
+    // 2
+    {false, false, false, false, false, false, true, true},
+    // max - 1
+    {false, false, false, false, false, true, true, true},
+    // max
+    {false, false, false, false, true, true, true, true}};
 
 /*!
  * Test the addition of all combinations of AdditionTestValues<T>::summand[i],

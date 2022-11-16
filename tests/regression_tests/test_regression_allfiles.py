@@ -64,6 +64,7 @@ def get_valid_files(data_dir):
         "issue_2376_poc.mp4",
         "issue_2377_poc.mp4",
         "issue_2383_poc.mp4",
+        "issue_2393_poc.mp4",
         "2018-01-09-exiv2-crash-001.tiff",
         "cve_2017_1000126_stack-oob-read.webp",
         "exiv2-bug1247.jpg",
@@ -146,6 +147,7 @@ def get_valid_files(data_dir):
         # this test file actually contains some eixf info, but windows has
         # different output let's try and fix this later
         "exiv2-bug1044.tif",
+        "issue_2403_poc.exv",
     ]
 
     file_paths = [

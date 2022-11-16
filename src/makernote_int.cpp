@@ -9,6 +9,7 @@
 
 #include "ini.hpp"
 #include "makernote_int.hpp"
+#include "safe_op.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
@@ -160,7 +161,7 @@ ByteOrder MnHeader::byteOrder() const {
   return invalidByteOrder;
 }
 
-uint32_t MnHeader::baseOffset(uint32_t /*mnOffset*/) const {
+size_t MnHeader::baseOffset(size_t /*mnOffset*/) const {
   return 0;
 }
 
@@ -213,7 +214,7 @@ size_t Olympus2MnHeader::ifdOffset() const {
   return sizeOfSignature();
 }
 
-uint32_t Olympus2MnHeader::baseOffset(uint32_t mnOffset) const {
+size_t Olympus2MnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -249,7 +250,7 @@ size_t OMSystemMnHeader::ifdOffset() const {
   return sizeOfSignature();
 }
 
-uint32_t OMSystemMnHeader::baseOffset(uint32_t mnOffset) const {
+size_t OMSystemMnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -289,7 +290,7 @@ ByteOrder FujiMnHeader::byteOrder() const {
   return byteOrder_;
 }
 
-uint32_t FujiMnHeader::baseOffset(uint32_t mnOffset) const {
+size_t FujiMnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -367,8 +368,8 @@ ByteOrder Nikon3MnHeader::byteOrder() const {
   return byteOrder_;
 }
 
-uint32_t Nikon3MnHeader::baseOffset(uint32_t mnOffset) const {
-  return mnOffset + 10;
+size_t Nikon3MnHeader::baseOffset(size_t mnOffset) const {
+  return Safe::add<size_t>(mnOffset, 10);
 }
 
 bool Nikon3MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/) {
@@ -447,7 +448,7 @@ size_t PentaxDngMnHeader::size() const {
   return header_.size();
 }
 
-uint32_t PentaxDngMnHeader::baseOffset(uint32_t mnOffset) const {
+size_t PentaxDngMnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -507,7 +508,7 @@ size_t SamsungMnHeader::size() const {
   return 0;
 }
 
-uint32_t SamsungMnHeader::baseOffset(uint32_t mnOffset) const {
+size_t SamsungMnHeader::baseOffset(size_t mnOffset) const {
   return mnOffset;
 }
 
@@ -992,8 +993,8 @@ int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
   return -1;
 }
 int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
-  // From Exiftool (Tag 9400c): https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
-  // >  first byte decoded: 62, 48, 215, 28, 106 respectively
+  // For condition, see Exiftool (Tag 9400c):
+  // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L1681
 
   // Get the value from the image format that is being used
   auto value = getExifValue(pRoot, 0x9400, Exiv2::IfdId::sony1Id);
@@ -1006,12 +1007,13 @@ int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
   if (value->count() < 1)
     return -1;
 
-  switch (value->toInt64()) {  // Using encrypted values
-    case 35:                   // 35  == 62
-    case 36:                   // 36  == 48
-    case 38:                   // 38  == 215
-    case 40:                   // 40  == 28
-    case 49:                   // 112 == 106
+  switch (value->toInt64()) {
+    case 35:
+    case 36:
+    case 38:
+    case 40:
+    case 49:
+    case 50:
       return 0;
     default:
       break;
