@@ -68,7 +68,7 @@ Exif.MinoltaCs5D.FocusMode                   Short       1  0  Auto focus
 Exif.MinoltaCs5D.ColorTemperature            SShort      1  0  0
 Exif.MinoltaCs5D.Rotation                    Short       1  72  Horizontal (normal)
 Exif.MinoltaCs5D.ExposureCompensation        Short       1  300  0.00
-Exif.MinoltaCs5D.FreeMemoryCardImages        Short       1  77  77
+Exif.MinoltaCs5D.FreeMemoryCardImages2       Short       1  77  77
 Exif.MinoltaCs5D.Rotation2                   Short       1  0  Horizontal (normal)
 Exif.MinoltaCs5D.Color Temperature           Short       1  55  55
 Exif.MinoltaCs5D.PictureFinish               Short       1  0  Natural

@@ -100,12 +100,12 @@ Exif.Sony2010e.SonyDateTime                  Undefined   1  228  228
 Exif.Sony2010e.DynamicRangeOptimizer         Byte        1  1  1
 Exif.Sony2010e.MeterInfo                     Undefined   1  12  12
 Exif.Sony2010e.ReleaseMode3                  Byte        1  1  1
-Exif.Sony2010e.ReleaseMode2                  Byte        1  26  26
+Exif.Sony2010e.ReleaseMode4                  Byte        1  26  26
 Exif.Sony2010e.SelfTimer                     Byte        1  0  0
 Exif.Sony2010e.FlashMode                     Byte        1  2  2
 Exif.Sony2010e.StopsAboveBaseISO             Short       1  3797  3797
 Exif.Sony2010e.BrightnessValue               Short       1  15966  15966
-Exif.Sony2010e.DynamicRangeOptimizer         Byte        1  1  1
+Exif.Sony2010e.DynamicRangeOptimizer2        Byte        1  1  1
 Exif.Sony2010e.HDRSetting                    Byte        1  0  0
 Exif.Sony2010e.ExposureCompensation          SShort      1  0  0
 Exif.Sony2010e.PictureProfile                Byte        1  0  0
