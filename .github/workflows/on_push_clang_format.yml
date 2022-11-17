@@ -1,14 +1,14 @@
 name: Clang Format Checker
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 on: [push, pull_request]
 jobs:
   clang-format-checking:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: DoozyX/clang-format-lint-action@v0.13
+      - uses: actions/checkout@v3
+      - uses: DoozyX/clang-format-lint-action@v0.14
         with:
           source: '.'
           exclude: './xmpsdk ./contrib'
