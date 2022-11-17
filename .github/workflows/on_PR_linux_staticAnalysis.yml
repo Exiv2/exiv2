@@ -1,7 +1,7 @@
 name: On PRs - Linux - Static Analysis
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 on:
@@ -23,7 +23,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          pip3 install conan==1.52.0
+          pip3 install conan==1.54.0
           sudo add-apt-repository ppa:ubuntu-lxc/daily -y
           wget -q -O - https://files.pvs-studio.com/etc/pubkey.txt |sudo apt-key add -
           sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.pvs-studio.com/etc/viva64.list

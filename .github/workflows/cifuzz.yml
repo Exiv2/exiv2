@@ -3,7 +3,7 @@
 
 name: CIFuzz
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 on:
   pull_request:

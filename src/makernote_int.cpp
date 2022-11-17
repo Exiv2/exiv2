@@ -993,8 +993,8 @@ int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
   return -1;
 }
 int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
-  // From Exiftool (Tag 9400c): https://github.com/exiftool/exiftool/blob/master/lib/Image/ExifTool/Sony.pm
-  // >  first byte decoded: 62, 48, 215, 28, 106 respectively
+  // For condition, see Exiftool (Tag 9400c):
+  // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L1681
 
   // Get the value from the image format that is being used
   auto value = getExifValue(pRoot, 0x9400, Exiv2::IfdId::sony1Id);
@@ -1007,12 +1007,13 @@ int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
   if (value->count() < 1)
     return -1;
 
-  switch (value->toInt64()) {  // Using encrypted values
-    case 35:                   // 35  == 62
-    case 36:                   // 36  == 48
-    case 38:                   // 38  == 215
-    case 40:                   // 40  == 28
-    case 49:                   // 112 == 106
+  switch (value->toInt64()) {
+    case 35:
+    case 36:
+    case 38:
+    case 40:
+    case 49:
+    case 50:
       return 0;
     default:
       break;
