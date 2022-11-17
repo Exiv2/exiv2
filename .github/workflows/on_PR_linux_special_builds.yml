@@ -1,7 +1,7 @@
 name: On PRs - Linux Special Builds
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 on:
@@ -24,7 +24,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.54.0
           pip3 install gcovr
 
       - name: Conan common config
@@ -70,7 +70,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install valgrind ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.54.0
 
       - name: Conan common config
         run: |
@@ -105,7 +105,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.54.0
 
       - name: Conan common config
         run: |
@@ -139,7 +139,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install valgrind doxygen graphviz gettext ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.54.0
 
       - name: Conan common config
         run: |
