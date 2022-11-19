@@ -2580,10 +2580,10 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
   // check type and count of values
   if (value.typeId() != unsignedRational || value.count() != 4 ||
       // divisor may be zero only if dividend is not zero
-      value.toRational(0).first != 0 && value.toRational(0).second == 0 ||
-      value.toRational(1).first != 0 && value.toRational(1).second == 0 ||
-      value.toRational(2).first != 0 && value.toRational(2).second == 0 ||
-      value.toRational(3).first != 0 && value.toRational(3).second == 0) {
+      (value.toRational(0).first != 0 && value.toRational(0).second == 0) ||
+      (value.toRational(1).first != 0 && value.toRational(1).second == 0) ||
+      (value.toRational(2).first != 0 && value.toRational(2).second == 0) ||
+      (value.toRational(3).first != 0 && value.toRational(3).second == 0)) {
     os << "(" << value << ")";
     return os;
   }
@@ -2603,7 +2603,7 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
     fNumber2 = value.toFloat(3);
 
   // first value must not be bigger than second
-  if (focalLength1 > focalLength2 && focalLength2 > 0.0 || fNumber1 > fNumber2 && fNumber2 > 0.0) {
+  if ((focalLength1 > focalLength2 && focalLength2 > 0.0) || (fNumber1 > fNumber2 && fNumber2 > 0.0)) {
     os << "(" << value << ")";
     return os;
   }
