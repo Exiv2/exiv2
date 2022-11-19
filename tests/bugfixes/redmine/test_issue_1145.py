@@ -27,12 +27,12 @@ Exif.Photo.LensModel                         Ascii      20  DT 11-18mm F4.5-5.6
 """,
               """Exif.Sony1.LensID                            Long        1  Tamron SP AF 17-50mm F2.8 XR Di II LD Aspherical
 Exif.Sony1.LensSpec                          Byte        8  Unknown
-Exif.Photo.LensSpecification                 Rational    4  0mm F0
+Exif.Photo.LensSpecification                 Rational    4  n/a
 Exif.Photo.LensModel                         Ascii       5  ----
 """,
               """Exif.Sony1.LensID                            Long        1  Tamron AF 18-200mm F3.5-6.3 XR Di II LD Aspherical [IF] Macro
 Exif.Sony1.LensSpec                          Byte        8  Unknown
-Exif.Photo.LensSpecification                 Rational    4  0mm F0
+Exif.Photo.LensSpecification                 Rational    4  n/a
 Exif.Photo.LensModel                         Ascii       5  ----
 """,
               """Exif.Sony1.LensID                            Long        1  Tamron SP 70-300mm F4-5.6 Di USD
