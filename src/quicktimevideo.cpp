@@ -26,6 +26,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "quicktimevideo.hpp"
+#include "safe_op.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
 // + standard includes
@@ -496,7 +497,8 @@ namespace Exiv2 {
 
 using namespace Exiv2::Internal;
 
-QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io) : Image(ImageType::qtime, mdNone, std::move(io)), timeScale_(1) {
+QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io) :
+    Image(ImageType::qtime, mdNone, std::move(io)), timeScale_(1), currentStream_(Null) {
 }  // QuickTimeVideo::QuickTimeVideo
 
 std::string QuickTimeVideo::mimeType() const {
@@ -860,8 +862,8 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
 void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
   size_t cur_pos = io_->tell();
   DataBuf buf(200), buf2(4 + 1);
-  unsigned long TagID = 0;
-  unsigned short dataLength = 0, dataType = 2;
+  uint32_t TagID = 0;
+  uint16_t dataLength = 0, dataType = 2;
   const TagDetails *td, *td2;
 
   for (int i = 0; i < 100; i++) {
@@ -1094,13 +1096,12 @@ void QuickTimeVideo::timeToSampleDecoder() {
   DataBuf buf(4 + 1);
   io_->readOrThrow(buf.data(), 4);
   io_->readOrThrow(buf.data(), 4);
-  size_t noOfEntries, totalframes = 0, timeOfFrames = 0;
-  noOfEntries = buf.read_uint32(0, bigEndian);
-  size_t temp;
+  uint64_t totalframes = 0, timeOfFrames = 0;
+  const uint32_t noOfEntries = buf.read_uint32(0, bigEndian);
 
-  for (unsigned long i = 1; i <= noOfEntries; i++) {
+  for (uint32_t i = 0; i < noOfEntries; i++) {
     io_->readOrThrow(buf.data(), 4);
-    temp = buf.read_uint32(0, bigEndian);
+    const uint64_t temp = buf.read_uint32(0, bigEndian);
     totalframes += temp;
     io_->readOrThrow(buf.data(), 4);
     timeOfFrames += temp * buf.read_uint32(0, bigEndian);
@@ -1114,16 +1115,17 @@ void QuickTimeVideo::sampleDesc(size_t size) {
   size_t cur_pos = io_->tell();
   io_->readOrThrow(buf.data(), 4);
   io_->readOrThrow(buf.data(), 4);
-  size_t noOfEntries;
-  noOfEntries = buf.read_uint32(0, bigEndian);
+  const uint32_t noOfEntries = buf.read_uint32(0, bigEndian);
 
-  for (unsigned long i = 1; i <= noOfEntries; i++) {
+  for (uint32_t i = 0; i < noOfEntries; i++) {
     if (currentStream_ == Video)
       imageDescDecoder();
     else if (currentStream_ == Audio)
       audioDescDecoder();
+    else
+      break;
   }
-  io_->seek(cur_pos + size, BasicIo::beg);
+  io_->seek(Safe::add(cur_pos, size), BasicIo::beg);
 }  // QuickTimeVideo::sampleDesc
 
 void QuickTimeVideo::audioDescDecoder() {
