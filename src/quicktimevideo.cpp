@@ -1102,9 +1102,9 @@ void QuickTimeVideo::timeToSampleDecoder() {
   for (uint32_t i = 0; i < noOfEntries; i++) {
     io_->readOrThrow(buf.data(), 4);
     const uint64_t temp = buf.read_uint32(0, bigEndian);
-    totalframes += temp;
+    totalframes = Safe::add(totalframes, temp);
     io_->readOrThrow(buf.data(), 4);
-    timeOfFrames += temp * buf.read_uint32(0, bigEndian);
+    timeOfFrames = Safe::add(timeOfFrames, temp * buf.read_uint32(0, bigEndian));
   }
   if (currentStream_ == Video)
     xmpData_["Xmp.video.FrameRate"] = (double)totalframes * (double)timeScale_ / (double)timeOfFrames;
