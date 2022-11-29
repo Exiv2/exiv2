@@ -163,7 +163,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up Cygwin
-        uses: egor-tensin/setup-cygwin@v3
+        uses: cygwin/cygwin-install-action@v3
         with:
           platform: ${{matrix.platform}}
           packages: >-
@@ -179,19 +179,10 @@ jobs:
             libbrotlicommon1
             libbrotlidec1
             libbrotli-devel
+
       - name: Build
         run: |
-          cmake -GNinja \
-            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
-            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
-            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DEXIV2_ENABLE_NLS=OFF \
-            -DEXIV2_ENABLE_WIN_UNICODE=OFF \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=OFF \
-            -S . -B build && \
+          cmake -GNinja -DCMAKE_CXX_FLAGS=-Wno-deprecated -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_NLS=OFF -DEXIV2_ENABLE_WIN_UNICODE=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -S . -B build
           cmake --build build --parallel
 
       - name: Test
