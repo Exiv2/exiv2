@@ -166,19 +166,27 @@ jobs:
         uses: egor-tensin/setup-cygwin@v3
         with:
           platform: ${{matrix.platform}}
-          packages: >-
-            gcc-g++
-            cmake
-            ninja
-            libcurl-devel
-            libexpat-devel
-            libxml2-devel
-            libxslt-devel
-            python38-lxml
-            zlib-devel
-            libbrotlicommon1
-            libbrotlidec1
-            libbrotli-devel
+          # This stopped working, so it has been replaced by the "Package installation workaround" (below)
+          #packages: >-
+          #  gcc-g++
+          #  cmake
+          #  ninja
+          #  libcurl-devel
+          #  libexpat-devel
+          #  libxml2-devel
+          #  libxslt-devel
+          #  python-lxml
+          #  zlib-devel
+      - name: Package installation workaround
+        run: C:\tools\cygwin\cygwinsetup.exe \
+             --quiet-mode \
+             --no-desktop \
+             --no-startmenu \
+             --root C:\tools\cygwin\ \
+             --local-package-dir C:\tools\cygwin\packages \
+             --site "http://mirrors.kernel.org/sourceware/cygwin/" \
+             --packages gcc-g++ cmake ninja libcurl-devel libexpat-devel libxml2-devel libxslt-devel python38-lxml zlib-devel libbrotlicommon1 libbrotlidec1 libbrotli-devel
+        shell: pwsh
       - name: Build
         run: |
           cmake -GNinja \
@@ -193,6 +201,7 @@ jobs:
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -S . -B build && \
           cmake --build build --parallel
+        shell: C:\tools\cygwin\bin\bash.exe -eo pipefail '{0}'
 
       - name: Test
         run: |
