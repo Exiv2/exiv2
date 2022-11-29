@@ -185,7 +185,7 @@ jobs:
              --root C:\tools\cygwin\ \
              --local-package-dir C:\tools\cygwin\packages \
              --site "http://mirrors.kernel.org/sourceware/cygwin/" \
-             --packages gcc-g++ cmake ninja libcurl-devel libexpat-devel libxml2-devel libxslt-devel python38-lxml zlib-devel libbrotlicommon1 libbrotlidec1 libbrotli-devel
+             --packages gcc-g++,cmake,ninja,libcurl-devel,libexpat-devel,libxml2-devel,libxslt-devel,python38-lxml,zlib-devel,libbrotlicommon1,libbrotlidec1,libbrotli-devel
         shell: pwsh
       - name: Build
         run: |
