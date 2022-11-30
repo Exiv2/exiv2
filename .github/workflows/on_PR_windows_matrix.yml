@@ -156,7 +156,7 @@ jobs:
       SHELLOPTS: igncr
     defaults:
       run:
-        shell: C:\tools\cygwin\bin\bash.exe -eo pipefail '{0}'
+        shell: C:\cygwin\bin\bash.exe -eo pipefail '{0}'
     steps:
       # Make sure we don't check out scripts using Windows CRLF line endings
       - run: git config --global core.autocrlf input
@@ -164,7 +164,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up Cygwin
-        uses: egor-tensin/setup-cygwin@v3
+        uses: cygwin/cygwin-install-action@v3
         with:
           platform: ${{matrix.platform}}
           packages: >-
@@ -180,6 +180,7 @@ jobs:
             libbrotlicommon1
             libbrotlidec1
             libbrotli-devel
+
       - name: Build
         run: |
           cmake -GNinja \
