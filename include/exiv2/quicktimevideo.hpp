@@ -209,13 +209,13 @@ class QuickTimeVideo : public Image {
 
  private:
   //! Variable which stores Time Scale unit, used to calculate time.
-  uint64_t timeScale_;
+  uint64_t timeScale_ = 0;
   //! Variable which stores current stream being processsed.
-  int currentStream_;
+  int currentStream_ = 0;
   //! Variable to check the end of metadata traversing.
-  bool continueTraversing_;
+  bool continueTraversing_ = 0;
   //! Variable to store height and width of a video frame.
-  uint64_t height_, width_;
+  uint64_t height_ = 0, width_ = 0;
 
 };  // QuickTimeVideo End
 
