@@ -33,8 +33,6 @@ class Exiv2Conan(ConanFile):
 
         if self.options.unitTests:
             self.requires('gtest/1.12.1')
-            if self.settings.build_type == "Debug":
-                self.options['gtest'].debug_postfix = ''
 
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo

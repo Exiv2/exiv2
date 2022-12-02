@@ -164,13 +164,30 @@ std::string BmffImage::uuidName(const Exiv2::DataBuf& uuid) {
 }
 
 #ifdef EXV_HAVE_BROTLI
-void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBufSize, DataBuf& arr) {
-  BrotliDecoderState* decoder = NULL;
-  decoder = BrotliDecoderCreateInstance(NULL, NULL, NULL);
-  if (!decoder) {
-    throw Error(ErrorCode::kerMallocFailed);
+
+// Wrapper class for BrotliDecoderState that automatically calls
+// BrotliDecoderDestroyInstance in its destructor.
+class BrotliDecoderWrapper {
+  BrotliDecoderState* decoder_;
+
+ public:
+  BrotliDecoderWrapper() : decoder_(BrotliDecoderCreateInstance(NULL, NULL, NULL)) {
+    if (!decoder_) {
+      throw Error(ErrorCode::kerMallocFailed);
+    }
   }
 
+  ~BrotliDecoderWrapper() {
+    BrotliDecoderDestroyInstance(decoder_);
+  }
+
+  BrotliDecoderState* get() const {
+    return decoder_;
+  }
+};
+
+void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBufSize, DataBuf& arr) {
+  BrotliDecoderWrapper decoder;
   size_t uncompressedLen = compressedBufSize * 2;  // just a starting point
   BrotliDecoderResult result;
   int dos = 0;
@@ -184,7 +201,8 @@ void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBuf
     arr.alloc(uncompressedLen);
     available_out = uncompressedLen - total_out;
     next_out = arr.data() + total_out;
-    result = BrotliDecoderDecompressStream(decoder, &available_in, &next_in, &available_out, &next_out, &total_out);
+    result =
+        BrotliDecoderDecompressStream(decoder.get(), &available_in, &next_in, &available_out, &next_out, &total_out);
     if (result == BROTLI_DECODER_RESULT_SUCCESS) {
       arr.resize(total_out);
     } else if (result == BROTLI_DECODER_RESULT_NEEDS_MORE_OUTPUT) {
@@ -200,11 +218,9 @@ void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBuf
       throw Error(ErrorCode::kerFailedToReadImageData);
     } else {
       // something bad happened
-      throw Error(ErrorCode::kerErrorMessage, BrotliDecoderErrorString(BrotliDecoderGetErrorCode(decoder)));
+      throw Error(ErrorCode::kerErrorMessage, BrotliDecoderErrorString(BrotliDecoderGetErrorCode(decoder.get())));
     }
   } while (result != BROTLI_DECODER_RESULT_SUCCESS);
-
-  BrotliDecoderDestroyInstance(decoder);
 
   if (result != BROTLI_DECODER_RESULT_SUCCESS) {
     throw Error(ErrorCode::kerFailedToReadImageData);

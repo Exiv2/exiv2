@@ -2328,7 +2328,6 @@ bool isMakerIfd(IfdId ifdId) {
 }
 
 bool isExifIfd(IfdId ifdId) {
-  bool rc;
   switch (ifdId) {
     case IfdId::ifd0Id:
     case IfdId::exifId:
@@ -2349,13 +2348,10 @@ bool isExifIfd(IfdId ifdId) {
     case IfdId::subImage9Id:
     case IfdId::subThumb1Id:
     case IfdId::panaRawId:
-      rc = true;
-      break;
+      return true;
     default:
-      rc = false;
-      break;
+      return false;
   }
-  return rc;
 }
 
 void taglist(std::ostream& os, IfdId ifdId) {
@@ -2554,11 +2550,9 @@ std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*) {
 
     // Strip trailing UCS-2 0-characters
     while (buf.size() >= 2) {
-      if (buf.read_uint8(buf.size() - 1) == 0 && buf.read_uint8(buf.size() - 2) == 0) {
-        buf.resize(buf.size() - 2);
-      } else {
+      if (buf.read_uint8(buf.size() - 1) != 0 || buf.read_uint8(buf.size() - 2) != 0)
         break;
-      }
+      buf.resize(buf.size() - 2);
     }
 
     std::string str(buf.c_str(), buf.size());
