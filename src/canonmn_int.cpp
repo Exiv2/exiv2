@@ -379,6 +379,7 @@ constexpr TagDetails canonModelId[] = {{0x00000412, "EOS M50 / Kiss M"},
                                        {0x80000465, "EOS R10"},
                                        {0x80000467, "PowerShot ZOOM"},
                                        {0x80000468, "EOS M50 Mark II / Kiss M2"},
+                                       {0x80000481, "EOS R6 Mark II"},
                                        //{ (long int)tbd, "EOS Ra" },
                                        {0x80000520, "EOS D2000C"},
                                        {0x80000560, "EOS D6000C"}};
