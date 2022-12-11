@@ -30,34 +30,15 @@
 #include "tags_int.hpp"
 
 // + standard includes
+#include <stdlib.h>
 #include <array>
 #include <cassert>
 #include <cmath>
 #include <iostream>
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 namespace Internal {
-
-//! List of composite tags. They are skipped and the child tags are read immediately
-constexpr uint64_t compositeTagsList[] = {
-    0x0000,    0x000e,    0x000f,    0x0020,    0x0026,    0x002e,    0x0036,    0x0037,   0x003b, 0x005b,    0x0060,
-    0x0061,    0x0068,    0x05b9,    0x0dbb,    0x1034,    0x1035,    0x1854,    0x21a7,   0x2240, 0x23c0,    0x2624,
-    0x27c8,    0x2911,    0x2924,    0x2944,    0x2d80,    0x3373,    0x35a1,    0x3e5b,   0x3e7b, 0x14d9b74, 0x254c367,
-    0x549a966, 0x654ae6b, 0x8538067, 0x941a469, 0xa45dfa3, 0xb538667, 0xc53bb6b, 0xf43b675};
-
-//! List of tags which are ignored, i.e., tag and value won't be read
-constexpr uint64_t ignoredTagsList[] = {
-    0x0021,  0x0023,   0x0033,   0x0071,   0x0077,  0x006c,   0x0067,  0x007b, 0x02f2, 0x02f3, 0x1031, 0x1032, 0x13ab,
-    0x13ac,  0x15ee,   0x23a2,   0x23c6,   0x2e67,  0x33a4,   0x33c5,  0x3446, 0x2de7, 0x2df8, 0x26bf, 0x28ca, 0x3384,
-    0x13b8,  0x037e,   0x0485,   0x18d7,   0x0005,  0x0009,   0x0011,  0x0012, 0x0016, 0x0017, 0x0018, 0x0022, 0x0024,
-    0x0025,  0x0027,   0x002b,   0x002f,   0x003f,  0x004b,   0x004c,  0x004d, 0x004e, 0x004f, 0x006a, 0x006b, 0x006e,
-    0x007a,  0x007d,   0x0255,   0x3eb5,   0x3ea5,  0x3d7b,   0x33c4,  0x2fab, 0x2ebc, 0x29fc, 0x29a5, 0x2955, 0x2933,
-    0x135f,  0x2922,   0x26a5,   0x26fc,   0x2532,  0x23c9,   0x23c4,  0x23c5, 0x137f, 0x1378, 0x07e2, 0x07e3, 0x07e4,
-    0x0675,  0x05bc,   0x05bd,   0x05db,   0x05dd,  0x0598,   0x050d,  0x0444, 0x037c,
-
-    0x3314f, 0x43a770, 0x1eb923, 0x1cb923, 0xeb524, 0x1c83ab, 0x1e83bb};
 
 /*!
   Tag Look-up list for Matroska Type Video Files
@@ -67,295 +48,489 @@ constexpr uint64_t ignoredTagsList[] = {
   sd  --  Tag to be Skipped along with its data
   u   --  Tag used directly for storing metadata
   ui  --  Tag used only internally
+
+  see : https://www.matroska.org/technical/elements.html
+        https://matroska.sourceforge.net/technical/specs/chapters/index.html
  */
-constexpr std::array<Exiv2::MatroskaTags, 198> matroskaTags = {
-    Exiv2::MatroskaTags(0x0000, "ChapterDisplay"),                     // s
-    Exiv2::MatroskaTags(0x0003, "TrackType"),                          // ui
-    Exiv2::MatroskaTags(0x0005, "ChapterString"),                      // sd
-    Exiv2::MatroskaTags(0x0006, "VideoCodecID/AudioCodecID/CodecID"),  // ui
-    Exiv2::MatroskaTags(0x0008, "TrackDefault"),                       // ui
-    Exiv2::MatroskaTags(0x0009, "ChapterTrackNumber"),                 // sd
-    Exiv2::MatroskaTags(0x000e, "Slices"),                             // s
-    Exiv2::MatroskaTags(0x000f, "ChapterTrack"),                       // s
-    Exiv2::MatroskaTags(0x0011, "ChapterTimeStart"),                   // sd
-    Exiv2::MatroskaTags(0x0012, "ChapterTimeEnd"),                     // sd
-    Exiv2::MatroskaTags(0x0016, "CueRefTime"),                         // sd
-    Exiv2::MatroskaTags(0x0017, "CueRefCluster"),                      // sd
-    Exiv2::MatroskaTags(0x0018, "ChapterFlagHidden"),                  // sd
-    Exiv2::MatroskaTags(0x001a, "Xmp.video.VideoScanTpye"),            // u
-    Exiv2::MatroskaTags(0x001b, "BlockDuration"),                      // s
-    Exiv2::MatroskaTags(0x001c, "TrackLacing"),                        // ui
-    Exiv2::MatroskaTags(0x001f, "Xmp.audio.ChannelType"),              // u
-    Exiv2::MatroskaTags(0x0020, "BlockGroup"),                         // s
-    Exiv2::MatroskaTags(0x0021, "Block"),                              // sd
-    Exiv2::MatroskaTags(0x0022, "BlockVirtual"),                       // sd
-    Exiv2::MatroskaTags(0x0023, "SimpleBlock"),                        // sd
-    Exiv2::MatroskaTags(0x0024, "CodecState"),                         // sd
-    Exiv2::MatroskaTags(0x0025, "BlockAdditional"),                    // sd
-    Exiv2::MatroskaTags(0x0026, "BlockMore"),                          // s
-    Exiv2::MatroskaTags(0x0027, "Position"),                           // sd
-    Exiv2::MatroskaTags(0x002a, "CodecDecodeAll"),                     // ui
-    Exiv2::MatroskaTags(0x002b, "PrevSize"),                           // sd
-    Exiv2::MatroskaTags(0x002e, "TrackEntry"),                         // s
-    Exiv2::MatroskaTags(0x002f, "EncryptedBlock"),                     // sd
-    Exiv2::MatroskaTags(0x0030, "Xmp.video.Width"),                    // u
-    Exiv2::MatroskaTags(0x0033, "CueTime"),                            // sd
-    Exiv2::MatroskaTags(0x0035, "Xmp.audio.SampleRate"),               // u
-    Exiv2::MatroskaTags(0x0036, "ChapterAtom"),                        // s
-    Exiv2::MatroskaTags(0x0037, "CueTrackPositions"),                  // s
-    Exiv2::MatroskaTags(0x0039, "TrackUsed"),                          // ui
-    Exiv2::MatroskaTags(0x003a, "Xmp.video.Height"),                   // u
-    Exiv2::MatroskaTags(0x003b, "CuePoint"),                           // s
-    Exiv2::MatroskaTags(0x003f, "CRC-32"),                             // sd
-    Exiv2::MatroskaTags(0x004b, "BlockAdditionalID"),                  // sd
-    Exiv2::MatroskaTags(0x004c, "LaceNumber"),                         // sd
-    Exiv2::MatroskaTags(0x004d, "FrameNumber"),                        // sd
-    Exiv2::MatroskaTags(0x004e, "Delay"),                              // sd
-    Exiv2::MatroskaTags(0x004f, "ClusterDuration"),                    // sd
-    Exiv2::MatroskaTags(0x0057, "TrackNumber"),                        // ui
-    Exiv2::MatroskaTags(0x005b, "CueReference"),                       // s
-    Exiv2::MatroskaTags(0x0060, "Video"),                              // s
-    Exiv2::MatroskaTags(0x0061, "Audio"),                              // s
-    Exiv2::MatroskaTags(0x0067, "Timecode"),                           // sd
-    Exiv2::MatroskaTags(0x0068, "TimeSlice"),                          // s
-    Exiv2::MatroskaTags(0x006a, "CueCodecState"),                      // sd
-    Exiv2::MatroskaTags(0x006b, "CueRefCodecState"),                   // sd
-    Exiv2::MatroskaTags(0x006c, "Void"),                               // sd
-    Exiv2::MatroskaTags(0x006e, "BlockAddID"),                         // sd
-    Exiv2::MatroskaTags(0x0071, "CueClusterPosition"),                 // sd
-    Exiv2::MatroskaTags(0x0077, "CueTrack"),                           // sd
-    Exiv2::MatroskaTags(0x007a, "ReferencePriority"),                  // sd
-    Exiv2::MatroskaTags(0x007b, "ReferenceBlock"),                     // sd
-    Exiv2::MatroskaTags(0x007d, "ReferenceVirtual"),                   // sd
-    Exiv2::MatroskaTags(0x0254, "Xmp.video.ContentCompressAlgo"),      // u
-    Exiv2::MatroskaTags(0x0255, "ContentCompressionSettings"),         // sd
-    Exiv2::MatroskaTags(0x0282, "Xmp.video.DocType"),                  // u
-    Exiv2::MatroskaTags(0x0285, "Xmp.video.DocTypeReadVersion"),       // u
-    Exiv2::MatroskaTags(0x0286, "Xmp.video.EBMLVersion"),              // u
-    Exiv2::MatroskaTags(0x0287, "Xmp.video.DocTypeVersion"),           // u
-    Exiv2::MatroskaTags(0x02f2, "EBMLMaxIDLength"),                    // sd
-    Exiv2::MatroskaTags(0x02f3, "EBMLMaxSizeLength"),                  // sd
-    Exiv2::MatroskaTags(0x02f7, "Xmp.video.EBMLReadVersion"),          // u
-    Exiv2::MatroskaTags(0x037c, "ChapterLanguage"),                    // sd
-    Exiv2::MatroskaTags(0x037e, "ChapterCountry"),                     // sd
-    Exiv2::MatroskaTags(0x0444, "SegmentFamily"),                      // sd
-    Exiv2::MatroskaTags(0x0461, "Xmp.video.DateUTC"),                  // Date Time Original - measured in seconds relatively to Jan 01, 2001, 0:00:00 GMT+0h
-    Exiv2::MatroskaTags(0x047a, "Xmp.video.TagLanguage"),                     // u
-    Exiv2::MatroskaTags(0x0484, "Xmp.video.TagDefault"),                      // u
-    Exiv2::MatroskaTags(0x0485, "TagBinary"),                                 // sd
-    Exiv2::MatroskaTags(0x0487, "Xmp.video.TagString"),                       // u
-    Exiv2::MatroskaTags(0x0489, "Xmp.video.Duration"),                        // u
-    Exiv2::MatroskaTags(0x050d, "ChapterProcessPrivate"),                     // sd
-    Exiv2::MatroskaTags(0x0598, "ChapterFlagEnabled"),                        // sd
-    Exiv2::MatroskaTags(0x05a3, "Xmp.video.TagName"),                         // u
-    Exiv2::MatroskaTags(0x05b9, "EditionEntry"),                              // s
-    Exiv2::MatroskaTags(0x05bc, "EditionUID"),                                // sd
-    Exiv2::MatroskaTags(0x05bd, "EditionFlagHidden"),                         // sd
-    Exiv2::MatroskaTags(0x05db, "EditionFlagDefault"),                        // sd
-    Exiv2::MatroskaTags(0x05dd, "EditionFlagOrdered"),                        // sd
-    Exiv2::MatroskaTags(0x065c, "Xmp.video.AttachFileData"),                  // u
-    Exiv2::MatroskaTags(0x0660, "Xmp.video.AttachFileMIME"),                  // u
-    Exiv2::MatroskaTags(0x066e, "Xmp.video.AttachFileName"),                  // u
-    Exiv2::MatroskaTags(0x0675, "AttachedFileReferral"),                      // sd
-    Exiv2::MatroskaTags(0x067e, "Xmp.video.AttachFileDesc"),                  // u
-    Exiv2::MatroskaTags(0x06ae, "Xmp.video.AttachFileUID"),                   // u
-    Exiv2::MatroskaTags(0x07e1, "Xmp.video.ContentEncryptAlgo"),              // u
-    Exiv2::MatroskaTags(0x07e2, "ContentEncryptionKeyID"),                    // sd
-    Exiv2::MatroskaTags(0x07e3, "ContentSignature"),                          // sd
-    Exiv2::MatroskaTags(0x07e4, "ContentSignatureKeyID"),                     // sd
-    Exiv2::MatroskaTags(0x07e5, "Xmp.video.ContentSignAlgo"),                 // u
-    Exiv2::MatroskaTags(0x07e6, "Xmp.video.ContentSignHashAlgo"),             // u
-    Exiv2::MatroskaTags(0x0d80, "Xmp.video.MuxingApp"),                       // u
-    Exiv2::MatroskaTags(0x0dbb, "Seek"),                                      // s
-    Exiv2::MatroskaTags(0x1031, "ContentEncodingOrder"),                      // sd
-    Exiv2::MatroskaTags(0x1032, "ContentEncodingScope"),                      // sd
-    Exiv2::MatroskaTags(0x1033, "Xmp.video.ContentEncodingType"),             // u
-    Exiv2::MatroskaTags(0x1034, "ContentCompression"),                        // s
-    Exiv2::MatroskaTags(0x1035, "ContentEncryption"),                         // s
-    Exiv2::MatroskaTags(0x135f, "CueRefNumber"),                              // sd
-    Exiv2::MatroskaTags(0x136e, "Xmp.video.TrackName"),                       // u
-    Exiv2::MatroskaTags(0x1378, "CueBlockNumber"),                            // sd
-    Exiv2::MatroskaTags(0x137f, "TrackOffset"),                               // sd
-    Exiv2::MatroskaTags(0x13ab, "SeekID"),                                    // sd
-    Exiv2::MatroskaTags(0x13ac, "SeekPosition"),                              // sd
-    Exiv2::MatroskaTags(0x13b8, "Stereo3DMode"),                              // sd
-    Exiv2::MatroskaTags(0x14aa, "Xmp.video.CropBottom"),                      // ui
-    Exiv2::MatroskaTags(0x14b0, "Xmp.video.Width"),                           // u
-    Exiv2::MatroskaTags(0x14b2, "Xmp.video.DisplayUnit"),                     // u
-    Exiv2::MatroskaTags(0x14b3, "Xmp.video.AspectRatioType"),                 // u
-    Exiv2::MatroskaTags(0x14ba, "Xmp.video.Height"),                          // u
-    Exiv2::MatroskaTags(0x14bb, "Xmp.video.CropTop"),                         // ui
-    Exiv2::MatroskaTags(0x14cc, "Xmp.video.CropLeft"),                        // ui
-    Exiv2::MatroskaTags(0x14dd, "Xmp.video.CropRight"),                       // ui
-    Exiv2::MatroskaTags(0x15aa, "TrackForced"),                               // ui
-    Exiv2::MatroskaTags(0x15ee, "MaxBlockAdditionID"),                        // sd
-    Exiv2::MatroskaTags(0x1741, "Xmp.video.WritingApp"),                      // u
-    Exiv2::MatroskaTags(0x1854, "SilentTracks"),                              // s
-    Exiv2::MatroskaTags(0x18d7, "SilentTrackNumber"),                         // sd
-    Exiv2::MatroskaTags(0x21a7, "AttachedFile"),                              // s
-    Exiv2::MatroskaTags(0x2240, "ContentEncoding"),                           // s
-    Exiv2::MatroskaTags(0x2264, "Xmp.audio.BitsPerSample"),                   // u
-    Exiv2::MatroskaTags(0x23a2, "CodecPrivate"),                              // sd
-    Exiv2::MatroskaTags(0x23c0, "Targets"),                                   // s
-    Exiv2::MatroskaTags(0x23c3, "Xmp.video.PhysicalEquivalent"),              // u
-    Exiv2::MatroskaTags(0x23c4, "TagChapterUID"),                             // sd
-    Exiv2::MatroskaTags(0x23c5, "TagTrackUID"),                               // sd
-    Exiv2::MatroskaTags(0x23c6, "TagAttachmentUID"),                          // sd
-    Exiv2::MatroskaTags(0x23c9, "TagEditionUID"),                             // sd
-    Exiv2::MatroskaTags(0x23ca, "Xmp.video.TargetType"),                      // u
-    Exiv2::MatroskaTags(0x2532, "SignedElement"),                             // sd
-    Exiv2::MatroskaTags(0x2624, "TrackTranslate"),                            // s
-    Exiv2::MatroskaTags(0x26a5, "TrackTranslateTrackID"),                     // sd
-    Exiv2::MatroskaTags(0x26bf, "TrackTranslateCodec"),                       // sd
-    Exiv2::MatroskaTags(0x26fc, "TrackTranslateEditionUID"),                  // sd
-    Exiv2::MatroskaTags(0x27c8, "SimpleTag"),                                 // s
-    Exiv2::MatroskaTags(0x28ca, "TargetTypeValue"),                           // sd
-    Exiv2::MatroskaTags(0x2911, "ChapterProcessCommand"),                     // s
-    Exiv2::MatroskaTags(0x2922, "ChapterProcessTime"),                        // sd
-    Exiv2::MatroskaTags(0x2924, "ChapterTranslate"),                          // s
-    Exiv2::MatroskaTags(0x2933, "ChapterProcessData"),                        // sd
-    Exiv2::MatroskaTags(0x2944, "ChapterProcess"),                            // s
-    Exiv2::MatroskaTags(0x2955, "ChapterProcessCodecID"),                     // sd
-    Exiv2::MatroskaTags(0x29a5, "ChapterTranslateID"),                        // sd
-    Exiv2::MatroskaTags(0x29bf, "Xmp.video.TranslateCodec"),                  // u
-    Exiv2::MatroskaTags(0x29fc, "ChapterTranslateEditionUID"),                // sd
-    Exiv2::MatroskaTags(0x2d80, "ContentEncodings"),                          // s
-    Exiv2::MatroskaTags(0x2de7, "MinCache"),                                  // sd
-    Exiv2::MatroskaTags(0x2df8, "MaxCache"),                                  // sd
-    Exiv2::MatroskaTags(0x2e67, "ChapterSegmentUID"),                         // sd
-    Exiv2::MatroskaTags(0x2ebc, "ChapterSegmentEditionUID"),                  // sd
-    Exiv2::MatroskaTags(0x2fab, "TrackOverlay"),                              // sd
-    Exiv2::MatroskaTags(0x3373, "Tag"),                                       // s
-    Exiv2::MatroskaTags(0x3384, "SegmentFileName"),                           // sd
-    Exiv2::MatroskaTags(0x33a4, "SegmentUID"),                                // sd
-    Exiv2::MatroskaTags(0x33c4, "ChapterUID"),                                // sd
-    Exiv2::MatroskaTags(0x33c5, "TrackUID"),                                  // sd
-    Exiv2::MatroskaTags(0x3446, "TrackAttachmentUID"),                        // sd
-    Exiv2::MatroskaTags(0x35a1, "BlockAdditions"),                            // s
-    Exiv2::MatroskaTags(0x38b5, "Xmp.audio.OutputSampleRate"),                // u
-    Exiv2::MatroskaTags(0x3ba9, "Xmp.video.Title"),                           // u
-    Exiv2::MatroskaTags(0x3d7b, "ChannelPositions"),                          // sd
-    Exiv2::MatroskaTags(0x3e5b, "SignatureElements"),                         // s
-    Exiv2::MatroskaTags(0x3e7b, "SignatureElementList"),                      // s
-    Exiv2::MatroskaTags(0x3e8a, "Xmp.video.ContentSignAlgo"),                 // u
-    Exiv2::MatroskaTags(0x3e9a, "Xmp.video.ContentSignHashAlgo"),             // u
-    Exiv2::MatroskaTags(0x3ea5, "SignaturePublicKey"),                        // sd
-    Exiv2::MatroskaTags(0x3eb5, "Signature"),                                 // sd
-    Exiv2::MatroskaTags(0x2b59c, "TrackLanguage"),                            // ui
-    Exiv2::MatroskaTags(0x3314f, "TrackTimecodeScale"),                       // sd
-    Exiv2::MatroskaTags(0x383e3, "Xmp.video.FrameRate"),                      // u
-    Exiv2::MatroskaTags(0x3e383, "VideoFrameRate/DefaultDuration"),           // ui
-    Exiv2::MatroskaTags(0x58688, "VideoCodecName/AudioCodecName/CodecName"),  // ui
-    Exiv2::MatroskaTags(0x6b240, "CodecDownloadURL"),                         // ui
-    Exiv2::MatroskaTags(0xad7b1, "TimecodeScale"),                            // ui
-    Exiv2::MatroskaTags(0xeb524, "ColorSpace"),                               // sd
-    Exiv2::MatroskaTags(0xfb523, "Xmp.video.OpColor"),                        // u
-    Exiv2::MatroskaTags(0x1a9697, "CodecSettings"),                           // ui
-    Exiv2::MatroskaTags(0x1b4040, "CodecInfoURL"),                            // ui
-    Exiv2::MatroskaTags(0x1c83ab, "PrevFileName"),                            // sd
-    Exiv2::MatroskaTags(0x1cb923, "PrevUID"),                                 // sd
-    Exiv2::MatroskaTags(0x1e83bb, "NextFileName"),                            // sd
-    Exiv2::MatroskaTags(0x1eb923, "NextUID"),                                 // sd
-    Exiv2::MatroskaTags(0x43a770, "Chapters"),                                // sd
-    Exiv2::MatroskaTags(0x14d9b74, "SeekHead"),                               // s
-    Exiv2::MatroskaTags(0x254c367, "Tags"),                                   // s
-    Exiv2::MatroskaTags(0x549a966, "Info"),                                   // s
-    Exiv2::MatroskaTags(0x654ae6b, "Tracks"),                                 // s
-    Exiv2::MatroskaTags(0x8538067, "SegmentHeader"),                          // s
-    Exiv2::MatroskaTags(0x941a469, "Attachments"),                            // s
-    Exiv2::MatroskaTags(0xa45dfa3, "EBMLHeader"),                             // s
-    Exiv2::MatroskaTags(0xb538667, "SignatureSlot"),                          // s
-    Exiv2::MatroskaTags(0xc53bb6b, "Cues"),                                   // s
-    Exiv2::MatroskaTags(0xf43b675, "Cluster"),                                // s
+
+enum matroskaEnum : uint64_t {
+  ChapterDisplay = 0x0000,
+  TrackType = 0x0003,
+  ChapterString = 0x0005,
+  Video_Audio_CodecID = 0x0006,
+  TrackDefault = 0x0008,
+  ChapterTrackNumber = 0x0009,
+  Slices = 0x000e,
+  ChapterTrack = 0x000f,
+  ChapterTimeStart = 0x0011,
+  ChapterTimeEnd = 0x0012,
+  CueRefTime = 0x0016,
+  CueRefCluster = 0x0017,
+  ChapterFlagHidden = 0x0018,
+  Xmp_video_VideoScanTpye = 0x001a,
+  BlockDuration = 0x001b,
+  TrackLacing = 0x001c,
+  Xmp_audio_ChannelType = 0x001f,
+  BlockGroup = 0x0020,
+  Block = 0x0021,
+  BlockVirtual = 0x0022,
+  SimpleBlock = 0x0023,
+  CodecState = 0x0024,
+  BlockAdditional = 0x0025,
+  BlockMore = 0x0026,
+  Position = 0x0027,
+  CodecDecodeAll = 0x002a,
+  PrevSize = 0x002b,
+  TrackEntry = 0x002e,
+  EncryptedBlock = 0x002f,
+  Xmp_video_Width_1 = 0x0030,
+  CueTime = 0x0033,
+  Xmp_audio_SampleRate = 0x0035,
+  ChapterAtom = 0x0036,
+  CueTrackPositions = 0x0037,
+  TrackUsed = 0x0039,
+  Xmp_video_Height_1 = 0x003a,
+  CuePoint = 0x003b,
+  CRC_32 = 0x003f,
+  BlockAdditionalID = 0x004b,
+  LaceNumber = 0x004c,
+  FrameNumber = 0x004d,
+  Delay = 0x004e,
+  ClusterDuration = 0x004f,
+  TrackNumber = 0x0057,
+  CueReference = 0x005b,
+  Video = 0x0060,
+  Audio = 0x0061,
+  Timecode = 0x0067,
+  TimeSlice = 0x0068,
+  CueCodecState = 0x006a,
+  CueRefCodecState = 0x006b,
+  Void = 0x006c,
+  BlockAddID = 0x006e,
+  CueClusterPosition = 0x0071,
+  CueTrack = 0x0077,
+  ReferencePriority = 0x007a,
+  ReferenceBlock = 0x007b,
+  ReferenceVirtual = 0x007d,
+  Xmp_video_ContentCompressAlgo = 0x0254,
+  ContentCompressionSettings = 0x0255,
+  Xmp_video_DocType = 0x0282,
+  Xmp_video_DocTypeReadVersion = 0x0285,
+  Xmp_video_EBMLVersion = 0x0286,
+  Xmp_video_DocTypeVersion = 0x0287,
+  EBMLMaxIDLength = 0x02f2,
+  EBMLMaxSizeLength = 0x02f3,
+  Xmp_video_EBMLReadVersion = 0x02f7,
+  ChapterLanguage = 0x037c,
+  ChapterCountry = 0x037e,
+  SegmentFamily = 0x0444,
+  Xmp_video_DateUTC = 0x0461,
+  Xmp_video_TagLanguage = 0x047a,
+  Xmp_video_TagDefault = 0x0484,
+  TagBinary = 0x0485,
+  Xmp_video_TagString = 0x0487,
+  Xmp_video_Duration = 0x0489,
+  ChapterProcessPrivate = 0x050d,
+  ChapterFlagEnabled = 0x0598,
+  Xmp_video_TagName = 0x05a3,
+  EditionEntry = 0x05b9,
+  EditionUID = 0x05bc,
+  EditionFlagHidden = 0x05bd,
+  EditionFlagDefault = 0x05db,
+  EditionFlagOrdered = 0x05dd,
+  Xmp_video_AttachFileData = 0x065c,
+  Xmp_video_AttachFileMIME = 0x0660,
+  Xmp_video_AttachFileName = 0x066e,
+  AttachedFileReferral = 0x0675,
+  Xmp_video_AttachFileDesc = 0x067e,
+  Xmp_video_AttachFileUID = 0x06ae,
+  Xmp_video_ContentEncryptAlgo = 0x07e1,
+  ContentEncryptionKeyID = 0x07e2,
+  ContentSignature = 0x07e3,
+  ContentSignatureKeyID = 0x07e4,
+  Xmp_video_ContentSignAlgo_1 = 0x07e5,
+  Xmp_video_ContentSignHashAlgo_1 = 0x07e6,
+  Xmp_video_MuxingApp = 0x0d80,
+  Seek = 0x0dbb,
+  ContentEncodingOrder = 0x1031,
+  ContentEncodingScope = 0x1032,
+  Xmp_video_ContentEncodingType = 0x1033,
+  ContentCompression = 0x1034,
+  ContentEncryption = 0x1035,
+  CueRefNumber = 0x135f,
+  Xmp_video_TrackName = 0x136e,
+  CueBlockNumber = 0x1378,
+  TrackOffset = 0x137f,
+  SeekID = 0x13ab,
+  SeekPosition = 0x13ac,
+  Stereo3DMode = 0x13b8,
+  Xmp_video_CropBottom = 0x14aa,
+  Xmp_video_Width_2 = 0x14b0,
+  Xmp_video_DisplayUnit = 0x14b2,
+  Xmp_video_AspectRatioType = 0x14b3,
+  Xmp_video_Height_2 = 0x14ba,
+  Xmp_video_CropTop = 0x14bb,
+  Xmp_video_CropLeft = 0x14cc,
+  Xmp_video_CropRight = 0x14dd,
+  TrackForced = 0x15aa,
+  MaxBlockAdditionID = 0x15ee,
+  Xmp_video_WritingApp = 0x1741,
+  SilentTracks = 0x1854,
+  SilentTrackNumber = 0x18d7,
+  AttachedFile = 0x21a7,
+  ContentEncoding = 0x2240,
+  Xmp_audio_BitsPerSample = 0x2264,
+  CodecPrivate = 0x23a2,
+  Targets = 0x23c0,
+  Xmp_video_PhysicalEquivalent = 0x23c3,
+  TagChapterUID = 0x23c4,
+  TagTrackUID = 0x23c5,
+  TagAttachmentUID = 0x23c6,
+  TagEditionUID = 0x23c9,
+  Xmp_video_TargetType = 0x23ca,
+  SignedElement = 0x2532,
+  TrackTranslate = 0x2624,
+  TrackTranslateTrackID = 0x26a5,
+  TrackTranslateCodec = 0x26bf,
+  TrackTranslateEditionUID = 0x26fc,
+  SimpleTag = 0x27c8,
+  TargetTypeValue = 0x28ca,
+  ChapterProcessCommand = 0x2911,
+  ChapterProcessTime = 0x2922,
+  ChapterTranslate = 0x2924,
+  ChapterProcessData = 0x2933,
+  ChapterProcess = 0x2944,
+  ChapterProcessCodecID = 0x2955,
+  ChapterTranslateID = 0x29a5,
+  Xmp_video_TranslateCodec = 0x29bf,
+  ChapterTranslateEditionUID = 0x29fc,
+  ContentEncodings = 0x2d80,
+  MinCache = 0x2de7,
+  MaxCache = 0x2df8,
+  ChapterSegmentUID = 0x2e67,
+  ChapterSegmentEditionUID = 0x2ebc,
+  TrackOverlay = 0x2fab,
+  Tag = 0x3373,
+  SegmentFileName = 0x3384,
+  SegmentUID = 0x33a4,
+  ChapterUID = 0x33c4,
+  TrackUID = 0x33c5,
+  TrackAttachmentUID = 0x3446,
+  BlockAdditions = 0x35a1,
+  Xmp_audio_OutputSampleRate = 0x38b5,
+  Xmp_video_Title = 0x3ba9,
+  ChannelPositions = 0x3d7b,
+  SignatureElements = 0x3e5b,
+  SignatureElementList = 0x3e7b,
+  Xmp_video_ContentSignAlgo_2 = 0x3e8a,
+  Xmp_video_ContentSignHashAlgo_2 = 0x3e9a,
+  SignaturePublicKey = 0x3ea5,
+  Signature = 0x3eb5,
+  TrackLanguage = 0x2b59c,
+  TrackTimecodeScale = 0x3314f,
+  Xmp_video_FrameRate = 0x383e3,
+  VideoFrameRate_DefaultDuration = 0x3e383,
+  Video_Audio_CodecName = 0x58688,
+  CodecDownloadURL = 0x6b240,
+  TimecodeScale = 0xad7b1,
+  ColorSpace = 0xeb524,
+  Xmp_video_OpColor = 0xfb523,
+  CodecSettings = 0x1a9697,
+  CodecInfoURL = 0x1b4040,
+  PrevFileName = 0x1c83ab,
+  PrevUID = 0x1cb923,
+  NextFileName = 0x1e83bb,
+  NextUID = 0x1eb923,
+  Chapters = 0x43a770,
+  SeekHead = 0x14d9b74,
+  Tags = 0x254c367,
+  Info = 0x549a966,
+  Tracks = 0x654ae6b,
+  SegmentHeader = 0x8538067,
+  Attachments = 0x941a469,
+  EBMLHeader = 0xa45dfa3,
+  SignatureSlot = 0xb538667,
+  Cues = 0xc53bb6b,
+  Cluster = 0xf43b675
 };
 
-constexpr std::array<MatroskaTags, 7> matroskaTrackType = {
-    Exiv2::MatroskaTags(0x1, "Video"),   Exiv2::MatroskaTags(0x2, "Audio"),     Exiv2::MatroskaTags(0x3, "Complex"),
-    Exiv2::MatroskaTags(0x10, "Logo"),   Exiv2::MatroskaTags(0x11, "Subtitle"), Exiv2::MatroskaTags(0x12, "Buttons"),
-    Exiv2::MatroskaTags(0x20, "Control")};
+const std::array<MatroskaTag, 198> matroskaTags = {
+    MatroskaTag(ChapterDisplay, "ChapterDisplay", Master, Composite),
+    MatroskaTag(TrackType, "TrackType", Boolean, Process),
+    MatroskaTag(ChapterString, "ChapterString", String, Skip),
+    MatroskaTag(Video_Audio_CodecID, "Video.Audio.CodecID", InternalField, Skip),  // process
+    MatroskaTag(TrackDefault, "TrackDefault", Boolean, Process),
+    MatroskaTag(ChapterTrackNumber, "ChapterTrackNumber", UInteger, Skip),
+    MatroskaTag(Slices, "Slices", Master, Composite),
+    MatroskaTag(ChapterTrack, "ChapterTrack", Master, Composite),
+    MatroskaTag(ChapterTimeStart, "ChapterTimeStart", UInteger, Skip),
+    MatroskaTag(ChapterTimeEnd, "ChapterTimeEnd", UInteger, Skip),
+    MatroskaTag(CueRefTime, "CueRefTime", UInteger, Skip),
+    MatroskaTag(CueRefCluster, "CueRefCluster", UInteger, Skip),
+    MatroskaTag(ChapterFlagHidden, "ChapterFlagHidden", UInteger, Skip),
+    MatroskaTag(Xmp_video_VideoScanTpye, "Xmp.video.VideoScanTpye", InternalField, Process),
+    MatroskaTag(BlockDuration, "BlockDuration", UInteger, Skip),
+    MatroskaTag(TrackLacing, "TrackLacing", Boolean, Process),
+    MatroskaTag(Xmp_audio_ChannelType, "Xmp.audio.ChannelType", InternalField, Process),
+    MatroskaTag(BlockGroup, "BlockGroup", Master, Composite),
+    MatroskaTag(Block, "Block", Binary, Skip),
+    MatroskaTag(BlockVirtual, "BlockVirtual", Binary, Skip),
+    MatroskaTag(SimpleBlock, "SimpleBlock", Binary, Skip),
+    MatroskaTag(CodecState, "CodecState", Binary, Skip),
+    MatroskaTag(BlockAdditional, "BlockAdditional", UInteger, Skip),
+    MatroskaTag(BlockMore, "BlockMore", Master, Composite),
+    MatroskaTag(Position, "Position", UInteger, Skip),
+    MatroskaTag(CodecDecodeAll, "CodecDecodeAll", Boolean, Process),
+    MatroskaTag(PrevSize, "PrevSize", UInteger, Skip),
+    MatroskaTag(TrackEntry, "TrackEntry", Master, Composite),
+    MatroskaTag(EncryptedBlock, "EncryptedBlock", Binary, Skip),
+    MatroskaTag(Xmp_video_Width_1, "Xmp.video.Width", UInteger, Process),
+    MatroskaTag(CueTime, "CueTime", UInteger, Skip),
+    MatroskaTag(Xmp_audio_SampleRate, "Xmp.audio.SampleRate", Float, Process),
+    MatroskaTag(ChapterAtom, "ChapterAtom", Master, Composite),
+    MatroskaTag(CueTrackPositions, "CueTrackPositions", Master, Composite),
+    MatroskaTag(TrackUsed, "TrackUsed", Boolean, Process),
+    MatroskaTag(Xmp_video_Height_1, "Xmp.video.Height", Integer, Process),
+    MatroskaTag(CuePoint, "CuePoint", Master, Composite),
+    MatroskaTag(CRC_32, "CRC_32", Binary, Skip),
+    MatroskaTag(BlockAdditionalID, "BlockAdditionalID", UInteger, Skip),
+    MatroskaTag(LaceNumber, "LaceNumber", UInteger, Skip),
+    MatroskaTag(FrameNumber, "FrameNumber", UInteger, Skip),
+    MatroskaTag(Delay, "Delay", UInteger, Skip),
+    MatroskaTag(ClusterDuration, "ClusterDuration", Float, Skip),
+    MatroskaTag(TrackNumber, "Xmp.video.TotalStream", String, Process),
+    MatroskaTag(CueReference, "CueReference", Master, Composite),
+    MatroskaTag(Video, "Video", Master, Composite),
+    MatroskaTag(Audio, "Audio", Master, Composite),
+    MatroskaTag(Timecode, "Timecode", UInteger, Skip),
+    MatroskaTag(TimeSlice, "TimeSlice", Master, Composite),
+    MatroskaTag(CueCodecState, "CueCodecState", UInteger, Skip),
+    MatroskaTag(CueRefCodecState, "CueRefCodecState", UInteger, Skip),
+    MatroskaTag(Void, "Void", Binary, Skip),
+    MatroskaTag(BlockAddID, "BlockAddID", UInteger, Skip),
+    MatroskaTag(CueClusterPosition, "CueClusterPosition", UInteger, Skip),
+    MatroskaTag(CueTrack, "CueTrack", UInteger, Skip),
+    MatroskaTag(ReferencePriority, "ReferencePriority", UInteger, Skip),
+    MatroskaTag(ReferenceBlock, "ReferenceBlock", Integer, Skip),
+    MatroskaTag(ReferenceVirtual, "ReferenceVirtual", Integer, Skip),
+    MatroskaTag(Xmp_video_ContentCompressAlgo, "Xmp.video.ContentCompressAlgo", InternalField, Process),
+    MatroskaTag(ContentCompressionSettings, "ContentCompressionSettings", Binary, Skip),
+    MatroskaTag(Xmp_video_DocType, "Xmp.video.DocType", String, Process),
+    MatroskaTag(Xmp_video_DocTypeReadVersion, "Xmp.video.DocTypeReadVersion", Integer, Process),
+    MatroskaTag(Xmp_video_EBMLVersion, "Xmp.video.EBMLVersion", Integer, Process),
+    MatroskaTag(Xmp_video_DocTypeVersion, "Xmp.video.DocTypeVersion", Integer, Process),
+    MatroskaTag(EBMLMaxIDLength, "EBMLMaxIDLength", UInteger, Skip),
+    MatroskaTag(EBMLMaxSizeLength, "EBMLMaxSizeLength", UInteger, Skip),
+    MatroskaTag(Xmp_video_EBMLReadVersion, "Xmp.video.EBMLReadVersion", UInteger, Process),
+    MatroskaTag(ChapterLanguage, "ChapterLanguage", String, Skip),
+    MatroskaTag(ChapterCountry, "ChapterCountry", Utf8, Skip),
+    MatroskaTag(SegmentFamily, "SegmentFamily", Binary, Skip),
+    MatroskaTag(Xmp_video_DateUTC, "Xmp.video.DateUTC", Date, Process),
+    MatroskaTag(Xmp_video_TagLanguage, "Xmp.video.TagLanguage", String, Process),
+    MatroskaTag(Xmp_video_TagDefault, "Xmp.video.TagDefault", Boolean, Process),
+    MatroskaTag(TagBinary, "TagBinary", Binary, Skip),
+    MatroskaTag(Xmp_video_TagString, "Xmp.video.TagString", String, Process),
+    MatroskaTag(Xmp_video_Duration, "Xmp.video.Duration", Date, Process),
+    MatroskaTag(ChapterProcessPrivate, "ChapterProcessPrivate", Master, Skip),
+    MatroskaTag(ChapterFlagEnabled, "ChapterFlagEnabled", Boolean, Skip),
+    MatroskaTag(Xmp_video_TagName, "Xmp.video.TagName", String, Process),
+    MatroskaTag(EditionEntry, "EditionEntry", Master, Composite),
+    MatroskaTag(EditionUID, "EditionUID", UInteger, Skip),
+    MatroskaTag(EditionFlagHidden, "EditionFlagHidden", Boolean, Skip),
+    MatroskaTag(EditionFlagDefault, "EditionFlagDefault", Boolean, Skip),
+    MatroskaTag(EditionFlagOrdered, "EditionFlagOrdered", Boolean, Skip),
+    MatroskaTag(Xmp_video_AttachFileData, "Xmp.video.AttachFileData", String, Process),
+    MatroskaTag(Xmp_video_AttachFileMIME, "Xmp.video.AttachFileMIME", String, Process),
+    MatroskaTag(Xmp_video_AttachFileName, "Xmp.video.AttachFileName", String, Process),
+    MatroskaTag(AttachedFileReferral, "AttachedFileReferral", Binary, Skip),
+    MatroskaTag(Xmp_video_AttachFileDesc, "Xmp.video.AttachFileDesc", String, Process),
+    MatroskaTag(Xmp_video_AttachFileUID, "Xmp.video.AttachFileUID", UInteger, Process),
+    MatroskaTag(Xmp_video_ContentEncryptAlgo, "Xmp.video.ContentEncryptAlgo", InternalField, Process),
+    MatroskaTag(ContentEncryptionKeyID, "ContentEncryptionKeyID", Binary, Skip),
+    MatroskaTag(ContentSignature, "ContentSignature", Binary, Skip),
+    MatroskaTag(ContentSignatureKeyID, "ContentSignatureKeyID", Binary, Skip),
+    MatroskaTag(Xmp_video_ContentSignAlgo_1, "Xmp.video.ContentSignAlgo", InternalField, Process),
+    MatroskaTag(Xmp_video_ContentSignHashAlgo_1, "Xmp.video.ContentSignHashAlgo", InternalField, Process),
+    MatroskaTag(Xmp_video_MuxingApp, "Xmp.video.MuxingApp", String, Process),
+    MatroskaTag(Seek, "Seek", Master, Composite),
+    MatroskaTag(ContentEncodingOrder, "ContentEncodingOrder", UInteger, Skip),
+    MatroskaTag(ContentEncodingScope, "ContentEncodingScope", UInteger, Skip),
+    MatroskaTag(Xmp_video_ContentEncodingType, "Xmp.video.ContentEncodingType", InternalField, Process),
+    MatroskaTag(ContentCompression, "ContentCompression", Master, Composite),
+    MatroskaTag(ContentEncryption, "ContentEncryption", Master, Composite),
+    MatroskaTag(CueRefNumber, "CueRefNumber", UInteger, Skip),
+    MatroskaTag(Xmp_video_TrackName, "Xmp.video.TrackName", String, Process),
+    MatroskaTag(CueBlockNumber, "CueBlockNumber", UInteger, Skip),
+    MatroskaTag(TrackOffset, "TrackOffset", Integer, Skip),
+    MatroskaTag(SeekID, "SeekID", Binary, Skip),
+    MatroskaTag(SeekPosition, "SeekPosition", UInteger, Skip),
+    MatroskaTag(Stereo3DMode, "Stereo3DMode", UInteger, Skip),
+    MatroskaTag(Xmp_video_CropBottom, "Xmp.video.CropBottom", Integer, Process),
+    MatroskaTag(Xmp_video_Width_2, "Xmp.video.Width", Integer, Process),
+    MatroskaTag(Xmp_video_DisplayUnit, "Xmp.video.DisplayUnit", InternalField, Process),
+    MatroskaTag(Xmp_video_AspectRatioType, "Xmp.video.AspectRatioType", InternalField, Process),
+    MatroskaTag(Xmp_video_Height_2, "Xmp.video.Height", Integer, Process),
+    MatroskaTag(Xmp_video_CropTop, "Xmp.video.CropTop", Integer, Process),
+    MatroskaTag(Xmp_video_CropLeft, "Xmp.video.CropLeft", Integer, Process),
+    MatroskaTag(Xmp_video_CropRight, "Xmp.video.CropRight", Integer, Process),
+    MatroskaTag(TrackForced, "TrackForced", Boolean, Process),
+    MatroskaTag(MaxBlockAdditionID, "MaxBlockAdditionID", UInteger, Skip),
+    MatroskaTag(Xmp_video_WritingApp, "Xmp.video.WritingApp", String, Process),
+    MatroskaTag(SilentTracks, "SilentTracks", Master, Composite),
+    MatroskaTag(SilentTrackNumber, "SilentTrackNumber", UInteger, Skip),
+    MatroskaTag(AttachedFile, "AttachedFile", Master, Composite),
+    MatroskaTag(ContentEncoding, "ContentEncoding", Master, Composite),
+    MatroskaTag(Xmp_audio_BitsPerSample, "Xmp.audio.BitsPerSample", Integer, Process),
+    MatroskaTag(CodecPrivate, "CodecPrivate", Binary, Skip),
+    MatroskaTag(Targets, "Targets", Master, Composite),
+    MatroskaTag(Xmp_video_PhysicalEquivalent, "Xmp.video.PhysicalEquivalent", InternalField, Process),
+    MatroskaTag(TagChapterUID, "TagChapterUID", UInteger, Skip),
+    MatroskaTag(TagTrackUID, "TagTrackUID", UInteger, Skip),
+    MatroskaTag(TagAttachmentUID, "TagAttachmentUID", UInteger, Skip),
+    MatroskaTag(TagEditionUID, "TagEditionUID", UInteger, Skip),
+    MatroskaTag(Xmp_video_TargetType, "Xmp.video.TargetType", String, Process),
+    MatroskaTag(SignedElement, "SignedElement", Binary, Skip),
+    MatroskaTag(TrackTranslate, "TrackTranslate", Master, Composite),
+    MatroskaTag(TrackTranslateTrackID, "TrackTranslateTrackID", Binary, Skip),
+    MatroskaTag(TrackTranslateCodec, "TrackTranslateCodec", UInteger, Skip),
+    MatroskaTag(TrackTranslateEditionUID, "TrackTranslateEditionUID", UInteger, Skip),
+    MatroskaTag(SimpleTag, "SimpleTag", Master, Composite),
+    MatroskaTag(TargetTypeValue, "TargetTypeValue", UInteger, Skip),
+    MatroskaTag(ChapterProcessCommand, "ChapterProcessCommand", Master, Composite),
+    MatroskaTag(ChapterProcessTime, "ChapterProcessTime", UInteger, Skip),
+    MatroskaTag(ChapterTranslate, "ChapterTranslate", Master, Composite),
+    MatroskaTag(ChapterProcessData, "ChapterProcessData", Binary, Skip),
+    MatroskaTag(ChapterProcess, "ChapterProcess", Master, Composite),
+    MatroskaTag(ChapterProcessCodecID, "ChapterProcessCodecID", UInteger, Skip),
+    MatroskaTag(ChapterTranslateID, "ChapterTranslateID", Binary, Skip),
+    MatroskaTag(Xmp_video_TranslateCodec, "Xmp.video.TranslateCodec", InternalField, Process),
+    MatroskaTag(ChapterTranslateEditionUID, "ChapterTranslateEditionUID", UInteger, Skip),
+    MatroskaTag(ContentEncodings, "ContentEncodings", Master, Composite),
+    MatroskaTag(MinCache, "MinCache", UInteger, Skip),
+    MatroskaTag(MaxCache, "MaxCache", UInteger, Skip),
+    MatroskaTag(ChapterSegmentUID, "ChapterSegmentUID", Binary, Skip),
+    MatroskaTag(ChapterSegmentEditionUID, "ChapterSegmentEditionUID", UInteger, Skip),
+    MatroskaTag(TrackOverlay, "TrackOverlay", UInteger, Skip),
+    MatroskaTag(Tag, "Tag", Master, Composite),
+    MatroskaTag(SegmentFileName, "SegmentFileName", Utf8, Skip),
+    MatroskaTag(SegmentUID, "SegmentUID", Binary, Skip),
+    MatroskaTag(ChapterUID, "ChapterUID", UInteger, Skip),
+    MatroskaTag(TrackUID, "TrackUID", UInteger, Skip),
+    MatroskaTag(TrackAttachmentUID, "TrackAttachmentUID", UInteger, Skip),
+    MatroskaTag(BlockAdditions, "BlockAdditions", Master, Composite),
+    MatroskaTag(Xmp_audio_OutputSampleRate, "Xmp.audio.OutputSampleRate", Float, Process),
+    MatroskaTag(Xmp_video_Title, "Xmp.video.Title", String, Process),
+    MatroskaTag(ChannelPositions, "ChannelPositions", Binary, Skip),
+    MatroskaTag(SignatureElements, "SignatureElements", Master, Composite),
+    MatroskaTag(SignatureElementList, "SignatureElementList", Master, Composite),
+    MatroskaTag(Xmp_video_ContentSignAlgo_2, "Xmp.video.ContentSignAlgo", InternalField, Process),
+    MatroskaTag(Xmp_video_ContentSignHashAlgo_2, "Xmp.video.ContentSignHashAlgo", InternalField, Process),
+    MatroskaTag(SignaturePublicKey, "SignaturePublicKey", Binary, Skip),
+    MatroskaTag(Signature, "Signature", Binary, Skip),
+    MatroskaTag(TrackLanguage, "TrackLanguage", String,
+                Skip),  // Process :  see values here https://www.loc.gov/standards/iso639-2/php/code_list.php
+    MatroskaTag(TrackTimecodeScale, "TrackTimecodeScale", Float, Skip),
+    MatroskaTag(Xmp_video_FrameRate, "Xmp.video.FrameRate", Float, Process),
+    MatroskaTag(VideoFrameRate_DefaultDuration, "VideoFrameRate.DefaultDuration", Float, Skip),
+    MatroskaTag(Video_Audio_CodecName, "Video.Audio.CodecName", InternalField, Process),
+    MatroskaTag(CodecDownloadURL, "CodecDownloadURL", InternalField, Process),
+    MatroskaTag(TimecodeScale, "Xmp.video.TimecodeScale", Date, Process),
+    MatroskaTag(ColorSpace, "ColorSpace", String, Process),
+    MatroskaTag(Xmp_video_OpColor, "Xmp.video.OpColor", Float, Skip),
+    MatroskaTag(CodecSettings, "CodecSettings", Boolean, Process),
+    MatroskaTag(CodecInfoURL, "CodecInfoURL", InternalField, Process),
+    MatroskaTag(PrevFileName, "PrevFileName", Utf8, Skip),
+    MatroskaTag(PrevUID, "PrevUID", Binary, Skip),
+    MatroskaTag(NextFileName, "NextFileName", Utf8, Skip),
+    MatroskaTag(NextUID, "NextUID", Binary, Skip),
+    MatroskaTag(Chapters, "Chapters", Master, Skip),
+    MatroskaTag(SeekHead, "SeekHead", Master, Composite),
+    MatroskaTag(Tags, "Tags", Master, Composite),
+    MatroskaTag(Info, "Info", Master, Composite),
+    MatroskaTag(Tracks, "Tracks", Master, Composite),
+    MatroskaTag(SegmentHeader, "SegmentHeader", Master, Composite),
+    MatroskaTag(Attachments, "Attachments", Master, Composite),
+    MatroskaTag(EBMLHeader, "EBMLHeader", Master, Composite),
+    MatroskaTag(SignatureSlot, "SignatureSlot", Master, Composite),
+    MatroskaTag(Cues, "Cues", Master, Composite),
+    MatroskaTag(Cluster, "Cluster", Master, Composite)};
 
-constexpr std::array<Exiv2::MatroskaTags, 4> compressionAlgorithm = {
-    Exiv2::MatroskaTags(0, "zlib "), Exiv2::MatroskaTags(1, "bzlib"), Exiv2::MatroskaTags(2, "lzo1x"),
-    Exiv2::MatroskaTags(3, "Header Stripping")};
+std::array<MatroskaTag, 7> matroskaTrackType = {
+    MatroskaTag(0x1, "Video"),     MatroskaTag(0x2, "Audio"),    MatroskaTag(0x3, "Complex"), MatroskaTag(0x10, "Logo"),
+    MatroskaTag(0x11, "Subtitle"), MatroskaTag(0x12, "Buttons"), MatroskaTag(0x20, "Control")};
 
-constexpr std::array<Exiv2::MatroskaTags, 4> audioChannels = {
-    Exiv2::MatroskaTags(1, "Mono"), Exiv2::MatroskaTags(2, "Stereo"), Exiv2::MatroskaTags(5, "5.1 Surround Sound"),
-    Exiv2::MatroskaTags(7, "7.1 Surround Sound")};
+const std::array<MatroskaTag, 4> compressionAlgorithm = {MatroskaTag(0, "zlib "), MatroskaTag(1, "bzlib"),
+                                                         MatroskaTag(2, "lzo1x"), MatroskaTag(3, "Header Stripping")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> displayUnit = {
-    Exiv2::MatroskaTags(0x0, "Pixels"), Exiv2::MatroskaTags(0x1, "cm"), Exiv2::MatroskaTags(0x2, "inches")};
+const std::array<MatroskaTag, 4> audioChannels = {MatroskaTag(1, "Mono"), MatroskaTag(2, "Stereo"),
+                                                  MatroskaTag(5, "5.1 Surround Sound"),
+                                                  MatroskaTag(7, "7.1 Surround Sound")};
 
-constexpr std::array<Exiv2::MatroskaTags, 6> encryptionAlgorithm = {
-    Exiv2::MatroskaTags(0, "Not Encrypted"), Exiv2::MatroskaTags(1, "DES"),      Exiv2::MatroskaTags(2, "3DES"),
-    Exiv2::MatroskaTags(3, "Twofish"),       Exiv2::MatroskaTags(4, "Blowfish"), Exiv2::MatroskaTags(5, "AES")};
+const std::array<MatroskaTag, 5> displayUnit = {MatroskaTag(0x0, "Pixels"), MatroskaTag(0x1, "cm"),
+                                                MatroskaTag(0x2, "inches"), MatroskaTag(0x3, "display aspect ratio"),
+                                                MatroskaTag(0x2, "unknown")};
 
-constexpr std::array<Exiv2::MatroskaTags, 7> chapterPhysicalEquivalent = {
-    Exiv2::MatroskaTags(10, "Index"),         Exiv2::MatroskaTags(20, "Track"), Exiv2::MatroskaTags(30, "Session"),
-    Exiv2::MatroskaTags(40, "Layer"),         Exiv2::MatroskaTags(50, "Side"),  Exiv2::MatroskaTags(60, "CD / DVD"),
-    Exiv2::MatroskaTags(70, "Set / Package"),
-};
+const std::array<MatroskaTag, 6> encryptionAlgorithm = {MatroskaTag(0, "Not Encrypted"), MatroskaTag(1, "DES"),
+                                                        MatroskaTag(2, "3DES"),          MatroskaTag(3, "Twofish"),
+                                                        MatroskaTag(4, "Blowfish"),      MatroskaTag(5, "AES")};
 
-constexpr std::array<Exiv2::MatroskaTags, 2> encodingType = {Exiv2::MatroskaTags(0, "Compression"),
-                                                             Exiv2::MatroskaTags(1, "Encryption")};
+const std::array<MatroskaTag, 7> chapterPhysicalEquivalent = {
+    MatroskaTag(10, "Index"), MatroskaTag(20, "Track"),    MatroskaTag(30, "Session"),      MatroskaTag(40, "Layer"),
+    MatroskaTag(50, "Side"),  MatroskaTag(60, "CD / DVD"), MatroskaTag(70, "Set / Package")};
 
-constexpr std::array<Exiv2::MatroskaTags, 2> videoScanType = {Exiv2::MatroskaTags(0, "Progressive"),
-                                                              Exiv2::MatroskaTags(1, "Interlaced")};
+const std::array<MatroskaTag, 2> encodingType = {MatroskaTag(0, "Compression"), MatroskaTag(1, "Encryption")};
 
-constexpr std::array<Exiv2::MatroskaTags, 2> chapterTranslateCodec = {Exiv2::MatroskaTags(0, "Matroska Script"),
-                                                                      Exiv2::MatroskaTags(1, "DVD Menu")};
+const std::array<MatroskaTag, 2> videoScanType = {MatroskaTag(0, "Progressive"), MatroskaTag(1, "Interlaced")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> aspectRatioType = {Exiv2::MatroskaTags(0, "Free Resizing"),
-                                                                Exiv2::MatroskaTags(1, "Keep Aspect Ratio"),
-                                                                Exiv2::MatroskaTags(2, "Fixed")};
+const std::array<MatroskaTag, 2> chapterTranslateCodec = {MatroskaTag(0, "Matroska Script"),
+                                                          MatroskaTag(1, "DVD Menu")};
 
-constexpr std::array<Exiv2::MatroskaTags, 2> contentSignatureAlgorithm = {Exiv2::MatroskaTags(0, "Not Signed"),
-                                                                          Exiv2::MatroskaTags(1, "RSA")};
+const std::array<MatroskaTag, 3> aspectRatioType = {MatroskaTag(0, "Free Resizing"),
+                                                    MatroskaTag(1, "Keep Aspect Ratio"), MatroskaTag(2, "Fixed")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> contentSignatureHashAlgorithm = {
-    Exiv2::MatroskaTags(0, "Not Signed"), Exiv2::MatroskaTags(1, "SHA1-160"), Exiv2::MatroskaTags(2, "MD5")};
+const std::array<MatroskaTag, 2> contentSignatureAlgorithm = {MatroskaTag(0, "Not Signed"), MatroskaTag(1, "RSA")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> trackEnable = {Exiv2::MatroskaTags(0x1, "Xmp.video.Enabled"),
-                                                            Exiv2::MatroskaTags(0x2, "Xmp.audio.Enabled"),
-                                                            Exiv2::MatroskaTags(0x11, "Xmp.video.SubTEnabled")};
+const std::array<MatroskaTag, 3> contentSignatureHashAlgorithm = {MatroskaTag(0, "Not Signed"),
+                                                                  MatroskaTag(1, "SHA1-160"), MatroskaTag(2, "MD5")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> defaultOn = {Exiv2::MatroskaTags(0x1, "Xmp.video.DefaultOn"),
-                                                          Exiv2::MatroskaTags(0x2, "Xmp.audio.DefaultOn"),
-                                                          Exiv2::MatroskaTags(0x11, "Xmp.video.SubTDefaultOn")};
+const std::array<MatroskaTag, 3> trackEnable = {MatroskaTag(0x1, "Xmp.video.Enabled"),
+                                                MatroskaTag(0x2, "Xmp.audio.Enabled"),
+                                                MatroskaTag(0x11, "Xmp.video.SubTEnabled")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> trackForced = {Exiv2::MatroskaTags(0x1, "Xmp.video.TrackForced"),
-                                                            Exiv2::MatroskaTags(0x2, "Xmp.audio.TrackForced"),
-                                                            Exiv2::MatroskaTags(0x11, "Xmp.video.SubTTrackForced")};
+const std::array<MatroskaTag, 3> defaultOn = {MatroskaTag(0x1, "Xmp.video.DefaultOn"),
+                                              MatroskaTag(0x2, "Xmp.audio.DefaultOn"),
+                                              MatroskaTag(0x11, "Xmp.video.SubTDefaultOn")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> trackLacing = {Exiv2::MatroskaTags(0x1, "Xmp.video.TrackLacing"),
-                                                            Exiv2::MatroskaTags(0x2, "Xmp.audio.TrackLacing"),
-                                                            Exiv2::MatroskaTags(0x11, "Xmp.video.SubTTrackLacing")};
+const std::array<MatroskaTag, 3> trackForced = {MatroskaTag(0x1, "Xmp.video.TrackForced"),
+                                                MatroskaTag(0x2, "Xmp.audio.TrackForced"),
+                                                MatroskaTag(0x11, "Xmp.video.SubTTrackForced")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> codecDecodeAll = {
-    Exiv2::MatroskaTags(0x1, "Xmp.video.CodecDecodeAll"), Exiv2::MatroskaTags(0x2, "Xmp.audio.CodecDecodeAll"),
-    Exiv2::MatroskaTags(0x11, "Xmp.video.SubTCodecDecodeAll")};
+const std::array<MatroskaTag, 3> trackLacing = {MatroskaTag(0x1, "Xmp.video.TrackLacing"),
+                                                MatroskaTag(0x2, "Xmp.audio.TrackLacing"),
+                                                MatroskaTag(0x11, "Xmp.video.SubTTrackLacing")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> codecDownloadUrl = {
-    Exiv2::MatroskaTags(0x1, "Xmp.video.CodecDownloadUrl"), Exiv2::MatroskaTags(0x2, "Xmp.audio.CodecDownloadUrl"),
-    Exiv2::MatroskaTags(0x11, "Xmp.video.SubTCodecDownloadUrl")};
+const std::array<MatroskaTag, 3> codecDecodeAll = {MatroskaTag(0x1, "Xmp.video.CodecDecodeAll"),
+                                                   MatroskaTag(0x2, "Xmp.audio.CodecDecodeAll"),
+                                                   MatroskaTag(0x11, "Xmp.video.SubTCodecDecodeAll")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> codecSettings = {Exiv2::MatroskaTags(0x1, "Xmp.video.CodecSettings"),
-                                                              Exiv2::MatroskaTags(0x2, "Xmp.audio.CodecSettings"),
-                                                              Exiv2::MatroskaTags(0x11, "Xmp.video.SubTCodecSettings")};
+const std::array<MatroskaTag, 3> codecDownloadUrl = {MatroskaTag(0x1, "Xmp.video.CodecDownloadUrl"),
+                                                     MatroskaTag(0x2, "Xmp.audio.CodecDownloadUrl"),
+                                                     MatroskaTag(0x11, "Xmp.video.SubTCodecDownloadUrl")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> trackCodec = {Exiv2::MatroskaTags(0x1, "Xmp.video.Codec"),
-                                                           Exiv2::MatroskaTags(0x2, "Xmp.audio.Compressor"),
-                                                           Exiv2::MatroskaTags(0x11, "Xmp.video.SubTCodec")};
+const std::array<MatroskaTag, 3> codecSettings = {MatroskaTag(0x1, "Xmp.video.CodecSettings"),
+                                                  MatroskaTag(0x2, "Xmp.audio.CodecSettings"),
+                                                  MatroskaTag(0x11, "Xmp.video.SubTCodecSettings")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> trackLanguage = {Exiv2::MatroskaTags(0x1, "Xmp.video.TrackLang"),
-                                                              Exiv2::MatroskaTags(0x2, "Xmp.audio.TrackLang"),
-                                                              Exiv2::MatroskaTags(0x11, "Xmp.video.SubTLang")};
+const std::array<MatroskaTag, 3> trackCodec = {MatroskaTag(0x1, "Xmp.video.Codec"),
+                                               MatroskaTag(0x2, "Xmp.audio.Compressor"),
+                                               MatroskaTag(0x11, "Xmp.video.SubTCodec")};
 
-constexpr std::array<Exiv2::MatroskaTags, 3> codecInfo = {Exiv2::MatroskaTags(0x1, "Xmp.video.CodecInfo"),
-                                                          Exiv2::MatroskaTags(0x2, "Xmp.audio.CodecInfo"),
-                                                          Exiv2::MatroskaTags(0x11, "Xmp.video.SubTCodecInfo")};
+const std::array<MatroskaTag, 3> codecInfo = {MatroskaTag(0x1, "Xmp.video.CodecInfo"),
+                                              MatroskaTag(0x2, "Xmp.audio.CodecInfo"),
+                                              MatroskaTag(0x11, "Xmp.video.SubTCodecInfo")};
 
-constexpr std::array<Exiv2::MatroskaTags, 2> streamRate = {Exiv2::MatroskaTags(0x1, "Xmp.video.FrameRate"),
-                                                           Exiv2::MatroskaTags(0x2, "Xmp.audio.DefaultDuration")};
+const std::array<MatroskaTag, 2> streamRate = {MatroskaTag(0x1, "Xmp.video.FrameRate"),
+                                               MatroskaTag(0x2, "Xmp.audio.DefaultDuration")};
 
 /*!
   @brief Function used to calculate Tags, Tags may comprise of more than
@@ -376,10 +551,10 @@ constexpr std::array<Exiv2::MatroskaTags, 2> streamRate = {Exiv2::MatroskaTags(0
 }
 
 /*!
-    @brief Function used to convert buffer data into numerical information,
+    @brief Function used to convert buffer data into Integeral information,
         information stored in BigEndian format
  */
-[[nodiscard]] uint64_t returnValue(const byte* buf, size_t size) {
+[[nodiscard]] uint64_t convertToUint64(const byte* buf, size_t size) {
   uint64_t ret = 0;
   for (size_t i = 0; i < size; ++i) {
     ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
@@ -422,7 +597,7 @@ void MatroskaVideo::readMetadata() {
   height_ = width_ = 1;
 
   xmpData_["Xmp.video.FileName"] = io_->path();
-  xmpData_["Xmp.video.FileSize"] = (double)io_->size() / (double)1048576;
+  xmpData_["Xmp.video.FileSize"] = io_->size() / bytesMB;
   xmpData_["Xmp.video.MimeType"] = mimeType();
 
   while (continueTraversing_)
@@ -440,283 +615,261 @@ void MatroskaVideo::decodeBlock() {
     return;
   }
 
-  uint32_t sz = findBlockSize(buf[0]);  // 0-8
-  if (sz > 0)
-    io_->read(buf + 1, sz - 1);
+  uint32_t block_size = findBlockSize(buf[0]);  // 0-8
+  if (block_size > 0)
+    io_->read(buf + 1, block_size - 1);
 
-  const MatroskaTags* mt = findTag(matroskaTags, returnTagValue(buf, sz));
+  auto tag_id = returnTagValue(buf, block_size);
+  const MatroskaTag* tag = findTag(matroskaTags, tag_id);
 
-  if (!mt) {
+  if (!tag) {
     continueTraversing_ = false;
     return;
   }
 
-  if (mt->first == 0xc53bb6b || mt->first == 0xf43b675) {
+  // tag->dump(std::cout);
+
+  if (tag->_id == Cues || tag->_id == Cluster) {
     continueTraversing_ = false;
     return;
   }
-
-  bool skip = find(compositeTagsList, mt->first) != 0;
-  bool ignore = find(ignoredTagsList, mt->first) != 0;
 
   io_->read(buf, 1);
-  sz = findBlockSize(buf[0]);  // 0-8
+  block_size = findBlockSize(buf[0]);  // 0-8
 
-  if (sz > 0)
-    io_->read(buf + 1, sz - 1);
-  uint64_t size = returnTagValue(buf, sz);
+  if (block_size > 0)
+    io_->read(buf + 1, block_size - 1);
+  size_t size = returnTagValue(buf, block_size);
 
-  if (skip && !ignore)
+  if (tag->isComposite() && !tag->isSkipped())
     return;
 
-  const uint64_t bufMinSize = 200;
+  const uint64_t bufMaxSize = 200;
 
 #ifndef SUPPRESS_WARNINGS
-  if (!ignore && size > bufMinSize) {
-    EXV_WARNING << "Size " << size << " of Matroska tag 0x" << std::hex << mt->first << std::dec << " is greater than "
-                << bufMinSize << ": ignoring it.\n";
+  if (!tag->isSkipped() && size > bufMaxSize) {
+    EXV_WARNING << "Size " << size << " of Matroska tag 0x" << std::hex << tag->_id << std::dec << " is greater than "
+                << bufMaxSize << ": ignoring it.\n";
   }
 #endif
-  if (ignore || size > bufMinSize) {
+  if (tag->isSkipped() || size > bufMaxSize) {
     io_->seek(size, BasicIo::cur);
     return;
   }
 
-  DataBuf buf2(bufMinSize + 1);
-  std::fill(buf2.begin(), buf2.end(), 0x0);
-  size_t s = static_cast<size_t>(size);
-  io_->read(buf2.data(), s);
-  contentManagement(mt, buf2.data(), s);
-}  // MatroskaVideo::decodeBlock
-
-void MatroskaVideo::contentManagement(const MatroskaTags* mt, const byte* buf, size_t size) {
-  int64_t duration_in_ms = 0;
-  static double time_code_scale = 1.0, temp = 0;
-  static uint64_t stream = 0, track_count = 0;
-  char str[4] = "No";
-  const MatroskaTags* internalMt = 0;
-
-  switch (mt->first) {
-    case 0x0282:
-    case 0x0d80:
-    case 0x1741:
-    case 0x3ba9:
-    case 0x066e:
-    case 0x0660:
-    case 0x065c:
-    case 0x067e:
-    case 0x047a:
-    case 0x0487:
-    case 0x05a3:
-    case 0x136e:
-    case 0x23ca:
-    case 0xeb524:
-      xmpData_[mt->second] = buf;
+  DataBuf buf2(bufMaxSize + 1);
+  io_->read(buf2.data(), size);
+  switch (tag->_type) {
+    case InternalField:
+      decodeInternalTags(tag, buf2.data(), size);
       break;
-
-    case 0x0030:
-    case 0x003a:
-    case 0x0287:
-    case 0x14b0:
-    case 0x14ba:
-    case 0x285:
-    case 0x06ae:
-    case 0x0286:
-    case 0x02f7:
-    case 0x2264:
-    case 0x14aa:
-    case 0x14bb:
-    case 0x14cc:
-    case 0x14dd:
-      xmpData_[mt->second] = returnValue(buf, size);
-
-      if (mt->first == 0x0030 || mt->first == 0x14b0) {
-        width_ = returnValue(buf, size);
-      } else if (mt->first == 0x003a || mt->first == 0x14ba) {
-        height_ = returnValue(buf, size);
-      }
+    case String:
+    case Utf8:
+      decodeStringTags(tag, buf2.data());
       break;
-
-    case 0x001a:
-    case 0x001f:
-    case 0x0254:
-    case 0x07e1:
-    case 0x07e5:
-    case 0x07e6:
-    case 0x1033:
-    case 0x14b2:
-    case 0x14b3:
-    case 0x23c3:
-    case 0x29bf:
-    case 0x3e8a:
-    case 0x3e9a:
-      switch (mt->first) {
-        case 0x001a:
-          internalMt = findTag(videoScanType, returnValue(buf, size));
-          break;
-        case 0x001f:
-          internalMt = findTag(audioChannels, returnValue(buf, size));
-          break;
-        case 0x0254:
-          internalMt = findTag(compressionAlgorithm, returnValue(buf, size));
-          break;
-        case 0x07e1:
-          internalMt = findTag(encryptionAlgorithm, returnValue(buf, size));
-          break;
-        case 0x1033:
-          internalMt = findTag(encodingType, returnValue(buf, size));
-          break;
-        case 0x3e8a:
-        case 0x07e5:
-          internalMt = findTag(contentSignatureAlgorithm, returnValue(buf, size));
-          break;
-        case 0x3e9a:
-        case 0x07e6:
-          internalMt = findTag(contentSignatureHashAlgorithm, returnValue(buf, size));
-          break;
-        case 0x14b2:
-          internalMt = findTag(displayUnit, returnValue(buf, size));
-          break;
-        case 0x14b3:
-          internalMt = findTag(aspectRatioType, returnValue(buf, size));
-          break;
-        case 0x23c3:
-          internalMt = findTag(chapterPhysicalEquivalent, returnValue(buf, size));
-          break;
-        case 0x29bf:
-          internalMt = findTag(chapterTranslateCodec, returnValue(buf, size));
-          break;
-      }
-      if (internalMt)
-        xmpData_[mt->second] = internalMt->second;
+    case Integer:
+    case UInteger:
+      decodeIntegerTags(tag, buf2.data(), size);
       break;
-
-    case 0x0035:
-    case 0x38b5:
-      xmpData_[mt->second] = getFloat(buf, bigEndian);
+    case Boolean:
+      decodeBooleanTags(tag, buf2.data(), size);
       break;
-
-    case 0x0039:
-    case 0x0008:
-    case 0x15aa:
-    case 0x001c:
-    case 0x002a:
-    case 0x1a9697:
-    case 0x0484:
-      if (returnValue(buf, size))
-        strcpy(str, "Yes");
-      switch (mt->first) {
-        case 0x0039:
-          internalMt = findTag(trackEnable, stream);
-          break;
-        case 0x0008:
-          internalMt = findTag(defaultOn, stream);
-          break;
-        case 0x15aa:
-          internalMt = findTag(trackForced, stream);
-          break;
-        case 0x001c:
-          internalMt = findTag(trackLacing, stream);
-          break;
-        case 0x002a:
-          internalMt = findTag(codecDecodeAll, stream);
-          break;
-        case 0x1a9697:
-          internalMt = findTag(codecSettings, stream);
-          break;
-        case 0x0484:
-          internalMt = mt;
-          break;
-      }
-      if (internalMt)
-        xmpData_[internalMt->second] = str;
-
+    case Date:
+      decodeDateTags(tag, buf2.data(), size);
       break;
-
-    case 0x0006:
-    case 0x2b59c:
-    case 0x58688:
-    case 0x6b240:
-    case 0x1b4040:
-      switch (mt->first) {
-        case 0x0006:
-          internalMt = findTag(trackCodec, stream);
-          break;
-        case 0x2b59c:
-          internalMt = findTag(trackLanguage, stream);
-          break;
-        case 0x58688:
-          internalMt = findTag(codecInfo, stream);
-          break;
-        case 0x6b240:
-        case 0x1b4040:
-          internalMt = findTag(codecDownloadUrl, stream);
-          break;
-      }
-      if (internalMt)
-        xmpData_[internalMt->second] = buf;
+    case Float:
+      decodeFloatTags(tag, buf2.data(), size);
       break;
-
-    case 0x0489:
-    case 0x0461:
-      switch (mt->first) {
-        case 0x0489:
-          if (size <= 4) {
-            duration_in_ms =
-                static_cast<int64_t>(getFloat(buf, bigEndian) * static_cast<float>(time_code_scale) * 1000.0f);
-          } else {
-            duration_in_ms = static_cast<int64_t>(getDouble(buf, bigEndian) * time_code_scale * 1000);
-          }
-          break;
-        case 0x0461: {
-          duration_in_ms = returnValue(buf, size) / 1000000000;
-          break;
-        }
-      }
-      xmpData_[mt->second] = duration_in_ms;
+    case Binary:
       break;
-
-    case 0x0057:
-      track_count++;
-      xmpData_["Xmp.video.TotalStream"] = track_count;
+    case Master:
       break;
-
-    case 0xad7b1:
-      time_code_scale = (double)returnValue(buf, size) / (double)1000000000;
-      xmpData_["Xmp.video.TimecodeScale"] = time_code_scale;
-      break;
-
-    case 0x0003:
-      internalMt = findTag(matroskaTrackType, returnValue(buf, size));
-      stream = internalMt->first;
-      break;
-
-    case 0x3e383:
-    case 0x383e3:
-      internalMt = findTag(streamRate, stream);
-      if (returnValue(buf, size)) {
-        switch (stream) {
-          case 1:
-            temp = (double)1000000000 / (double)returnValue(buf, size);
-            break;
-          case 2:
-            temp = static_cast<double>(returnValue(buf, size) / 1000);
-            break;
-        }
-        if (internalMt)
-          xmpData_[internalMt->second] = temp;
-      } else if (internalMt)
-        xmpData_[internalMt->second] = "Variable Bit Rate";
-      break;
-
     default:
       break;
   }
-}  // MatroskaVideo::contentManagement
+}  // MatroskaVideo::decodeBlock
+
+void MatroskaVideo::decodeInternalTags(const MatroskaTag* tag, const byte* buf, size_t size) {
+  const MatroskaTag* internalMt = nullptr;
+  auto key = convertToUint64(buf, size);  // todo protect this method
+
+  switch (tag->_id) {
+    case Xmp_video_VideoScanTpye:
+      internalMt = findTag(videoScanType, key);
+      break;
+    case Xmp_audio_ChannelType:
+      internalMt = findTag(audioChannels, key);
+      break;
+    case Xmp_video_ContentCompressAlgo:
+      internalMt = findTag(compressionAlgorithm, key);
+      break;
+    case Xmp_video_ContentEncryptAlgo:
+      internalMt = findTag(encryptionAlgorithm, key);
+      break;
+    case Xmp_video_ContentSignAlgo_1:
+    case Xmp_video_ContentSignAlgo_2:
+      internalMt = findTag(contentSignatureAlgorithm, key);
+      break;
+    case Xmp_video_ContentSignHashAlgo_1:
+    case Xmp_video_ContentSignHashAlgo_2:
+      internalMt = findTag(contentSignatureHashAlgorithm, key);
+      break;
+    case Xmp_video_ContentEncodingType:
+      internalMt = findTag(encodingType, key);
+      break;
+    case Xmp_video_DisplayUnit:
+      internalMt = findTag(displayUnit, key);
+      break;
+    case Xmp_video_AspectRatioType:
+      internalMt = findTag(aspectRatioType, key);
+      break;
+    case Xmp_video_PhysicalEquivalent:
+      internalMt = findTag(chapterPhysicalEquivalent, key);
+      break;
+    case Xmp_video_TranslateCodec:
+      internalMt = findTag(chapterTranslateCodec, key);
+      break;
+    case Video_Audio_CodecID:
+      internalMt = findTag(trackCodec, key);
+      break;
+    case Video_Audio_CodecName:
+      internalMt = findTag(codecInfo, key);
+      break;
+    case CodecDownloadURL:
+    case CodecInfoURL:
+      internalMt = findTag(codecDownloadUrl, key);
+      break;
+    default:
+      break;
+  }
+  if (internalMt) {
+    xmpData_[tag->_label] = internalMt->_label;
+  } else {
+    xmpData_[tag->_label] = key;
+  }
+}
+
+void MatroskaVideo::decodeStringTags(const MatroskaTag* tag, const byte* buf) {
+  if (tag->_id == TrackNumber) {
+    track_count_++;
+    xmpData_[tag->_label] = track_count_;
+  } else {
+    xmpData_[tag->_label] = buf;
+  }
+}
+
+void MatroskaVideo::decodeIntegerTags(const MatroskaTag* tag, const byte* buf, size_t size) {
+  auto value = convertToUint64(buf, size);
+  if (tag->_id == Xmp_video_Width_1 || tag->_id == Xmp_video_Width_2)
+    width_ = value;
+  if (tag->_id == Xmp_video_Height_1 || tag->_id == Xmp_video_Height_2)
+    height_ = value;
+  xmpData_[tag->_label] = value;
+}
+
+void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf, size_t size) {
+  std::string str("No");
+  const MatroskaTag* internalMt = nullptr;
+  auto key = convertToUint64(buf, size);
+
+  switch (tag->_id) {
+    case TrackType:
+      internalMt = findTag(matroskaTrackType, key);
+      stream_ = internalMt->_id;
+      internalMt = nullptr;
+      break;
+    case TrackUsed:
+      internalMt = findTag(trackEnable, key);
+      break;
+    case TrackDefault:
+      internalMt = findTag(defaultOn, key);
+      break;
+    case TrackForced:
+      internalMt = findTag(trackForced, key);
+      break;
+    case TrackLacing:
+      internalMt = findTag(trackLacing, key);
+      break;
+    case CodecDecodeAll:
+      internalMt = findTag(codecDecodeAll, key);
+      break;
+    case CodecSettings:
+      internalMt = findTag(codecSettings, key);
+      break;
+    case Xmp_video_TagDefault:
+      internalMt = tag;
+      break;
+    default:
+      break;
+  }
+
+  if (internalMt) {
+    str = "Yes";
+    xmpData_[internalMt->_label] = str;
+  }
+}
+
+void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size_t size) {
+  int64_t duration_in_ms = 0;
+  switch (tag->_id) {
+    case Xmp_video_Duration:
+      if (size <= 4) {
+        duration_in_ms =
+            static_cast<int64_t>(getFloat(buf, bigEndian) * static_cast<float>(time_code_scale_) * 1000.0f);
+      } else {
+        duration_in_ms = static_cast<int64_t>(getDouble(buf, bigEndian) * time_code_scale_ * 1000);
+      }
+      xmpData_[tag->_label] = duration_in_ms;
+      break;
+    case Xmp_video_DateUTC:
+      duration_in_ms = convertToUint64(buf, size) / 1000000000;
+      xmpData_[tag->_label] = duration_in_ms;
+      break;
+
+    case TimecodeScale:
+      time_code_scale_ = (double)convertToUint64(buf, size) / (double)1000000000;
+      xmpData_[tag->_label] = time_code_scale_;
+      break;
+    default:
+      break;
+  }
+}
+
+void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, size_t size) {
+  xmpData_[tag->_label] = getFloat(buf, bigEndian);
+
+  double frame_rate = 0;
+  switch (tag->_id) {
+    case Xmp_audio_SampleRate:
+    case Xmp_audio_OutputSampleRate:
+      xmpData_[tag->_label] = getFloat(buf, bigEndian);
+      break;
+    case VideoFrameRate_DefaultDuration:
+    case Xmp_video_FrameRate: {
+      const MatroskaTag* internalMt = findTag(streamRate, convertToUint64(buf, size));
+      if (internalMt) {
+        switch (stream_) {
+          case 1:  // video
+            frame_rate = (double)1000000000 / (double)convertToUint64(buf, size);
+            break;
+          case 2:  // audio
+            frame_rate = static_cast<double>(convertToUint64(buf, size) / 1000);
+            break;
+          default:
+            break;
+        }
+        if (frame_rate)
+          xmpData_[internalMt->_label] = frame_rate;
+      } else
+        xmpData_[tag->_label] = "Variable Bit Rate";
+    } break;
+    default:
+      xmpData_[tag->_label] = getFloat(buf, bigEndian);
+      break;
+  }
+}
 
 void MatroskaVideo::aspectRatio() {
-  // TODO - Make a better unified method to handle all cases of Aspect Ratio
-
   double aspectRatio = (double)width_ / (double)height_;
   aspectRatio = floor(aspectRatio * 10) / 10;
   xmpData_["Xmp.video.AspectRatio"] = aspectRatio;

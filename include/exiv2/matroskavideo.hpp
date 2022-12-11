@@ -33,22 +33,65 @@ namespace Exiv2 {
 /*!
   @brief Helper structure for the Matroska tags lookup table.
  */
-using MatroskaTags = std::pair<uint64_t /*Tag value*/, const char* /*Translation of the tag value*/>;
 
 // *****************************************************************************
 // class definitions
 namespace Internal {
 
+enum matroskaTypeEnum : char {
+  String = 's',
+  Integer = 'i',
+  UInteger = 'u',
+  Date = 'd',
+  InternalField = 'n',
+  Boolean = 'o',
+  Binary = 'b',
+  Master = 'm',
+  Float = 'f',
+  Utf8 = '8',
+  UndefinedType = 'z'
+
+};
+
+enum matroskaProcessEnum : char { Process = 'p', Skip = 's', Composite = 'c', Undefined = 'u' };
+
+struct MatroskaTag {
+  uint64_t _id;
+  std::string _label;
+  matroskaTypeEnum _type;
+  matroskaProcessEnum _process;
+
+  MatroskaTag(uint64_t id, const std::string& label, matroskaTypeEnum type, matroskaProcessEnum process) :
+      _id(id), _label(label), _type(type), _process(process) {
+  }
+
+  MatroskaTag(uint64_t id, const std::string& label) :
+      _id(id), _label(label), _type(matroskaTypeEnum::UndefinedType), _process(matroskaProcessEnum::Undefined) {
+  }
+
+  bool isSkipped() const {
+    return _process == Skip;
+  }
+  bool isComposite() const {
+    return _process == Composite;
+  }
+  void dump(std::ostream& os) const {
+    os << " MatroskaTag "
+       << " id: [0x" << std::hex << _id << "] label:[" << _label << "] type:[" << _type << "] process :[" << _process
+       << "]\n";
+  }
+};
+
 /// @brief  Utility function to search into std::array of pairs
 /// @return the searched pair if exist,else nullptr
 template <size_t N>
-[[nodiscard]] const Exiv2::MatroskaTags* findTag(const std::array<Exiv2::MatroskaTags, N>& src, const uint64_t& key) {
-  const auto rc =
-      std::find_if(src.begin(), src.end(), [&key](const Exiv2::MatroskaTags& element) { return element.first == key; });
-  // the return value is of type "const Exiv2::MatroskaTags*", so we return the adress of the content of the input
+[[nodiscard]] const MatroskaTag* findTag(const std::array<MatroskaTag, N>& src, const uint64_t& key) {
+  const auto rc = std::find_if(src.begin(), src.end(), [&key](const MatroskaTag& tag) { return tag._id == key; });
+  // the return value is of type "const MatroskaTag*", so we return the adress of the content of the input
   // iterator return by find_if
   return rc == std::end(src) ? nullptr : &(*rc);
 }
+
 }  // namespace Internal
 
 /*!
@@ -110,8 +153,14 @@ class EXIV2API MatroskaVideo : public Image {
     @param buf Pointer to the memory area with the tag information.
     @param size Size of \em buf.
    */
-  void contentManagement(const MatroskaTags* mt, const byte* buf, size_t size);
-  /*!
+
+  void decodeInternalTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
+  void decodeStringTags(const Internal::MatroskaTag* tag, const byte* buf);
+  void decodeIntegerTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
+  void decodeBooleanTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
+  void decodeDateTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
+  void decodeFloatTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
+  /*!Internal::
     @brief Calculates Aspect Ratio of a video, and stores it in the
         respective XMP container.
    */
@@ -121,7 +170,13 @@ class EXIV2API MatroskaVideo : public Image {
   //! Variable to check the end of metadata traversing.
   bool continueTraversing_;
   //! Variable to store height and width of a video frame.
-  uint64_t height_, width_;
+  uint64_t height_;
+  uint64_t width_;
+  uint32_t track_count_;
+  double time_code_scale_ = 1.0;
+  uint64_t stream_ = 0;
+
+  static constexpr double bytesMB = 1048576;
 
 };  // class MatroskaVideo
 
