@@ -35,6 +35,7 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <limits>
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -554,13 +555,19 @@ const std::array<MatroskaTag, 2> streamRate = {MatroskaTag(0x1, "Xmp.video.Frame
     @brief Function used to convert buffer data into Integeral information,
         information stored in BigEndian format
  */
-[[nodiscard]] uint64_t convertToUint64(const byte* buf, size_t size) {
+[[nodiscard]] bool convertToUint64(const byte* buf, size_t size, uint64_t& value) {
   uint64_t ret = 0;
   for (size_t i = 0; i < size; ++i) {
     ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
   }
 
-  return ret;
+  if (ret < std::numeric_limits<uint64_t>::min())
+    return false;
+  if (ret > std::numeric_limits<uint64_t>::max())
+    return false;
+
+  value = ret;
+  return true;
 }
 
 }  // namespace Internal
@@ -639,7 +646,7 @@ void MatroskaVideo::decodeBlock() {
 
   if (block_size > 0)
     io_->read(buf + 1, block_size - 1);
-  size_t size = returnTagValue(buf, block_size);
+  uint64_t size = returnTagValue(buf, block_size);
 
   if (tag->isComposite() && !tag->isSkipped())
     return;
@@ -691,7 +698,9 @@ void MatroskaVideo::decodeBlock() {
 
 void MatroskaVideo::decodeInternalTags(const MatroskaTag* tag, const byte* buf, size_t size) {
   const MatroskaTag* internalMt = nullptr;
-  auto key = convertToUint64(buf, size);  // todo protect this method
+  uint64_t key = 0;
+  if (!convertToUint64(buf, size, key))
+    return;
 
   switch (tag->_id) {
     case Xmp_video_VideoScanTpye:
@@ -759,7 +768,10 @@ void MatroskaVideo::decodeStringTags(const MatroskaTag* tag, const byte* buf) {
 }
 
 void MatroskaVideo::decodeIntegerTags(const MatroskaTag* tag, const byte* buf, size_t size) {
-  auto value = convertToUint64(buf, size);
+  uint64_t value = 0;
+  if (!convertToUint64(buf, size, value))
+    return;
+
   if (tag->_id == Xmp_video_Width_1 || tag->_id == Xmp_video_Width_2)
     width_ = value;
   if (tag->_id == Xmp_video_Height_1 || tag->_id == Xmp_video_Height_2)
@@ -770,10 +782,12 @@ void MatroskaVideo::decodeIntegerTags(const MatroskaTag* tag, const byte* buf, s
 void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf, size_t size) {
   std::string str("No");
   const MatroskaTag* internalMt = nullptr;
-  auto key = convertToUint64(buf, size);
+  uint64_t key = 0;
+  if (!convertToUint64(buf, size, key))
+    return;
 
   switch (tag->_id) {
-    case TrackType:
+    case TrackType:  // this tags is used internally only to deduce the type of track (video or audio)
       internalMt = findTag(matroskaTrackType, key);
       stream_ = internalMt->_id;
       internalMt = nullptr;
@@ -811,6 +825,7 @@ void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf, s
 
 void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size_t size) {
   int64_t duration_in_ms = 0;
+  uint64_t value = 0;
   switch (tag->_id) {
     case Xmp_video_Duration:
       if (size <= 4) {
@@ -822,12 +837,17 @@ void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size
       xmpData_[tag->_label] = duration_in_ms;
       break;
     case Xmp_video_DateUTC:
-      duration_in_ms = convertToUint64(buf, size) / 1000000000;
+
+      if (!convertToUint64(buf, size, value))
+        return;
+      duration_in_ms = value / 1000000000;
       xmpData_[tag->_label] = duration_in_ms;
       break;
 
     case TimecodeScale:
-      time_code_scale_ = (double)convertToUint64(buf, size) / (double)1000000000;
+      if (!convertToUint64(buf, size, value))
+        return;
+      time_code_scale_ = (double)value / (double)1000000000;
       xmpData_[tag->_label] = time_code_scale_;
       break;
     default:
@@ -846,14 +866,17 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, siz
       break;
     case VideoFrameRate_DefaultDuration:
     case Xmp_video_FrameRate: {
-      const MatroskaTag* internalMt = findTag(streamRate, convertToUint64(buf, size));
+      uint64_t key = 0;
+      if (!convertToUint64(buf, size, key))
+        return;
+      const MatroskaTag* internalMt = findTag(streamRate, key);
       if (internalMt) {
         switch (stream_) {
           case 1:  // video
-            frame_rate = (double)1000000000 / (double)convertToUint64(buf, size);
+            frame_rate = (double)1000000000 / (double)key;
             break;
           case 2:  // audio
-            frame_rate = static_cast<double>(convertToUint64(buf, size) / 1000);
+            frame_rate = static_cast<double>(key / 1000);
             break;
           default:
             break;
