@@ -506,6 +506,7 @@ void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, s
           << std::endl;
     }
 
+    const uint64_t bufMaxSize = 200;
     io_->seek(0, BasicIo::beg);  // rewind
     while (!io_->eof() && (uint64_t)io_->tell() < filesize) {
       uint64_t offset = (uint64_t)io_->tell();
@@ -513,6 +514,10 @@ void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, s
       io_->read(chunkId.data(), RIFF_TAG_SIZE);
       io_->read(size_buff, RIFF_TAG_SIZE);
       uint32_t size = Exiv2::getULong(size_buff, littleEndian);
+      if (size > bufMaxSize) {
+        io_->seek(size, BasicIo::cur);
+        continue;
+      }
       DataBuf payload(offset ? size : RIFF_TAG_SIZE);  // header is different from chunks
       io_->read(payload.data(), payload.size());
 
