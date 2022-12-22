@@ -18,7 +18,7 @@ on:
 jobs:
   Linux:
     name: 'Build Linux Release'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
 
@@ -152,7 +152,7 @@ jobs:
 
   publish:
     needs: [Linux, macOS, Windows]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
     steps:
