@@ -16,8 +16,8 @@ on:
 
 jobs:
   Linux:
-    name: 'Ubuntu 20.04 - clang/libFuzzer'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - clang/libFuzzer'
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v3
