@@ -18,6 +18,11 @@ endif()
 
 target_link_libraries( exiv2 PRIVATE exiv2lib )
 
+if( inih_FOUND )
+    target_link_libraries( exiv2 PRIVATE inih::libinih )
+    target_link_libraries( exiv2 PRIVATE inih::inireader )
+endif()
+
 if( EXIV2_ENABLE_NLS )
     target_link_libraries(exiv2 PRIVATE ${Intl_LIBRARIES})
     target_include_directories(exiv2 PRIVATE ${Intl_INCLUDE_DIRS})

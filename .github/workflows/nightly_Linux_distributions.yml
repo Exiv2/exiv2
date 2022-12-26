@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         # arch suffering this issue: https://github.com/abseil/abseil-cpp/issues/709
-        container_image: ["fedora:latest", "debian:10", "archlinux:base", "ubuntu:20.04", "tgagor/centos-stream:2.0.11", "alpine:3.13"]
+        container_image: ["fedora:latest", "debian:latest", "archlinux:base", "ubuntu:latest", "tgagor/centos:latest", "alpine:latest"]
         compiler: [g++, clang++]
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]

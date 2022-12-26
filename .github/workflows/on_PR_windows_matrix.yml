@@ -115,6 +115,7 @@ jobs:
           update: true
           install: >-
             base-devel
+            git
           pacboy: >-
             cc:p
             gcc-libs:p
@@ -128,6 +129,16 @@ jobs:
             zlib:p
             brotli:p
             curl:p
+            meson:p
+
+      - name: Build and install inih
+        run: |
+          git clone https://github.com/benhoyt/inih.git inih_build
+          cd inih_build
+          git checkout r56
+          meson --buildtype=plain builddir
+          meson compile -C builddir
+          meson install -C builddir
 
       - name: Build
         run: |
@@ -180,6 +191,19 @@ jobs:
             libbrotlicommon1
             libbrotlidec1
             libbrotli-devel
+            meson
+            ccache
+
+      - name: Build and install inih
+        run: |
+          git clone https://github.com/benhoyt/inih.git inih_build && \
+          cd inih_build && \
+          git checkout r56 && \
+          meson --buildtype=plain builddir && \
+          meson compile -vC builddir && \
+          meson install -C builddir && \
+          env && \
+          echo $CC
 
       - name: Build
         run: |
@@ -194,8 +218,14 @@ jobs:
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -S . -B build && \
-          cmake --build build --parallel
+          cmake --build build --parallel --verbose
 
       - name: Test
         run: |
+          pwd && \
+          ls -l && \
+          ls -l test/data && \
+          cd build && \
+          strace ./bin/exiv2 ../test/data/Stonehenge.exv && \
+          cd .. && \
           ctest --test-dir build --output-on-failure

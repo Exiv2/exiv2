@@ -9,6 +9,7 @@ Config loaded from : 'initest.ini' version=6, name=Bob Smith, email=bob@smith.co
 */
 
 // Example that shows simple usage of the INIReader class
+#include <INIReader.h>
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 
@@ -20,7 +21,7 @@ int main() {
 #endif
 
   const char* ini = "ini-test.ini";
-  Exiv2::INIReader reader(ini);
+  INIReader reader(ini);
 
   if (reader.ParseError() < 0) {
     std::cerr << "Can't load '" << ini << "'" << std::endl;
