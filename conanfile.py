@@ -25,6 +25,8 @@ class Exiv2Conan(ConanFile):
 
         self.requires('brotli/1.0.9')
 
+        self.requires('inih/55')
+
         if self.options.webready:
             self.requires('libcurl/7.85.0')
 

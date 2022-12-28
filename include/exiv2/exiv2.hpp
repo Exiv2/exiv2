@@ -21,7 +21,6 @@
 #include "exiv2/gifimage.hpp"
 #include "exiv2/http.hpp"
 #include "exiv2/image.hpp"
-#include "exiv2/ini.hpp"
 #include "exiv2/iptc.hpp"
 #include "exiv2/jp2image.hpp"
 #include "exiv2/jpgimage.hpp"
