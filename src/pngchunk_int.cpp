@@ -321,14 +321,12 @@ std::string PngChunk::makeMetadataChunk(const std::string& metadata, MetadataId 
   switch (type) {
     case mdComment:
       return makeUtf8TxtChunk("Description", metadata, true);
-    case mdExif:
-      rawProfile = writeRawProfile(metadata, "exif");
-      return makeAsciiTxtChunk("Raw profile type exif", rawProfile, true);
     case mdIptc:
       rawProfile = writeRawProfile(metadata, "iptc");
       return makeAsciiTxtChunk("Raw profile type iptc", rawProfile, true);
     case mdXmp:
       return makeUtf8TxtChunk("XML:com.adobe.xmp", metadata, false);
+    case mdExif:
     case mdIccProfile:
     case mdNone:
       return {};

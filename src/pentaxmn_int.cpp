@@ -816,6 +816,7 @@ constexpr TagDetails pentaxLensType[] = {
     {0x083d, "HD PENTAX-D FA 28-105mm F3.5-5.6 ED DC WR"},
     {0x083e, "HD PENTAX-D FA 24-70mm F2.8 ED SDM WR"},
     {0x083f, "HD PENTAX-D FA 15-30mm F2.8 ED SDM WR"},
+    {0x08c4, "HD PENTAX-DA* 11-18mm F2.8 ED DC AW"},
     {0x08c5, "HD PENTAX-DA 55-300mm F4.5-6.3 ED PLM WR RE"},
     {0x08c6, "smc PENTAX-DA L 18-50mm F4-5.6 DC WR RE"},
     {0x08c7, "HD PENTAX-DA 18-50mm F4-5.6 DC WR RE"},

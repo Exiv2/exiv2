@@ -12,8 +12,8 @@ on:
 
 jobs:
   special_pvsStudio:
-    name: 'Ubuntu 20.04 - GCC - Static Analyzer: PVS-Studio'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC - Static Analyzer: PVS-Studio'
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3

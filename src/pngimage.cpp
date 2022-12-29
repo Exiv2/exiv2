@@ -39,6 +39,7 @@ constexpr unsigned char pngBlank[] = {
 };
 
 const auto nullComp = reinterpret_cast<const Exiv2::byte*>("\0\0");
+const auto typeExif = reinterpret_cast<const Exiv2::byte*>("eXIf");
 const auto typeICCP = reinterpret_cast<const Exiv2::byte*>("iCCP");
 inline bool compare(std::string_view str, const Exiv2::DataBuf& buf) {
   const auto minlen = std::min(str.size(), buf.size());
@@ -306,7 +307,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
           bGood = (3 <= dataOffset) && (start < dataOffset - 3);  // good if not a nul chunk
         }
         if (eXIf) {
-          bGood = true;  // eXIf requires no pre-processing)
+          bGood = true;  // eXIf requires no pre-processing
         }
 
         // format is content dependent
@@ -548,8 +549,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
     }
     if (!strcmp(szChunk, "eXIf") || !strcmp(szChunk, "iCCP")) {
       // do nothing (strip): Exif metadata is written following IHDR
-      // as zTXt chunk with signature "Raw profile type exif",
-      // together with the ICC profile as a fresh iCCP chunk
+      // together with the ICC profile as fresh eXIf and iCCP chunks
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk << " chunk (length: " << dataOffset << ")"
                 << std::endl;
@@ -575,13 +575,24 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
         Blob blob;
         ExifParser::encode(blob, littleEndian, exifData_);
         if (!blob.empty()) {
-          static const char exifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
-          std::string rawExif =
-              std::string(exifHeader, 6) + std::string(reinterpret_cast<const char*>(blob.data()), blob.size());
-          std::string chunk = PngChunk::makeMetadataChunk(rawExif, mdExif);
-          if (outIo.write(reinterpret_cast<const byte*>(chunk.data()), chunk.size()) != chunk.size()) {
+          byte length[4];
+          ul2Data(length, static_cast<uint32_t>(blob.size()), bigEndian);
+
+          // calculate CRC
+          uLong tmp = crc32(0L, Z_NULL, 0);
+          tmp = crc32(tmp, typeExif, 4);
+          tmp = crc32(tmp, blob.data(), static_cast<uint32_t>(blob.size()));
+          byte crc[4];
+          ul2Data(crc, tmp, bigEndian);
+
+          if (outIo.write(length, 4) != 4 || outIo.write(typeExif, 4) != 4 ||
+              outIo.write(blob.data(), blob.size()) != blob.size() || outIo.write(crc, 4) != 4) {
             throw Error(ErrorCode::kerImageWriteFailed);
           }
+#ifdef EXIV2_DEBUG_MESSAGES
+          std::cout << "Exiv2::PngImage::doWriteMetadata: build eXIf"
+                    << " chunk (length: " << blob.size() << ")" << std::endl;
+#endif
         }
       }
 
@@ -623,7 +634,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
           }
 #ifdef EXIV2_DEBUG_MESSAGES
           std::cout << "Exiv2::PngImage::doWriteMetadata: build iCCP"
-                    << " chunk (length: " << compressed.size() + chunkLength << ")" << std::endl;
+                    << " chunk (length: " << chunkLength << ")" << std::endl;
 #endif
         }
       }
