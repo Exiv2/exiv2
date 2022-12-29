@@ -16,8 +16,8 @@ on:
 
 jobs:
   special_debugRelease:
-    name: 'Ubuntu 20.04 - GCC - Debug+Coverage'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC - Debug+Coverage'
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
