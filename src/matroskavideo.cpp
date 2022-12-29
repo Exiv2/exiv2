@@ -539,13 +539,13 @@ const std::array<MatroskaTag, 2> streamRate = {MatroskaTag(0x1, "Xmp.video.Frame
       bytes are used to calculate the rest of the Tag.
       Returns Tag Value.
  */
-[[nodiscard]] uint64_t returnTagValue(const byte* buf, size_t size) {
+[[nodiscard]] size_t returnTagValue(const byte* buf, size_t size) {
   assert(size > 0 && size <= 8);
 
-  uint64_t b0 = buf[0] & (0xff >> size);
-  uint64_t tag = b0 << ((size - 1) * 8);
+  size_t b0 = buf[0] & (0xff >> size);
+  size_t tag = b0 << ((size - 1) * 8);
   for (size_t i = 1; i < size; ++i) {
-    tag |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
+    tag |= static_cast<size_t>(buf[i]) << ((size - i - 1) * 8);
   }
 
   return tag;
@@ -646,12 +646,12 @@ void MatroskaVideo::decodeBlock() {
 
   if (block_size > 0)
     io_->read(buf + 1, block_size - 1);
-  uint64_t size = returnTagValue(buf, block_size);
+  size_t size = returnTagValue(buf, block_size);
 
   if (tag->isComposite() && !tag->isSkipped())
     return;
 
-  const uint64_t bufMaxSize = 200;
+  const size_t bufMaxSize = 200;
 
 #ifndef SUPPRESS_WARNINGS
   if (!tag->isSkipped() && size > bufMaxSize) {
