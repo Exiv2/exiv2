@@ -64,8 +64,8 @@ jobs:
           ctest --output-on-failure
 
   Linux:
-    name: 'Ubuntu 20.04 - GCC - Arch:x64 BuildType:Release - SHARED'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC - Arch:x64 BuildType:Release - SHARED'
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
