@@ -61,6 +61,7 @@ set(PUBLIC_HEADERS
     ../include/exiv2/iptc.hpp
     ../include/exiv2/jp2image.hpp
     ../include/exiv2/jpgimage.hpp
+    ../include/exiv2/matroskavideo.hpp
     ../include/exiv2/metadatum.hpp
     ../include/exiv2/mrwimage.hpp
     ../include/exiv2/orfimage.hpp
@@ -105,6 +106,7 @@ add_library( exiv2lib
     iptc.cpp
     jp2image.cpp
     jpgimage.cpp
+    matroskavideo.cpp
     metadatum.cpp
     mrwimage.cpp
     orfimage.cpp
