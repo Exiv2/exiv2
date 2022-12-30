@@ -73,7 +73,7 @@ Exif.Nikon3.SerialNO                         Ascii      21
 Exif.Nikon3.ShutterCount                     Long        1  5670  5670
 Exif.Nikon3.FlashInfo                        Undefined  20  0 0 0 1 0 0 0 8 0 0 97 126 78 73 75 79 78 32 67 79  0 0 0 1 0 0 0 8 0 0 97 126 78 73 75 79 78 32 67 79
 Exif.Nikon3.ImageOptimization                Ascii      16  RPORATION  RPORATION
-Exif.Nikon3.Saturation                       Ascii      16  D70  D70
+Exif.Nikon3.Saturation2                      Ascii      16  D70  D70
 Exif.Nikon3.VariProgram                      Ascii      16    
 Exif.Photo.PixelXDimension                   SLong       1  320  320
 Exif.Photo.PixelYDimension                   SLong       1  211  211

@@ -982,7 +982,7 @@ File  4/16: 20040329_224245.jpg
 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+20040329_224245.jpg   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -2623,7 +2623,7 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 < 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-< 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+< 20040329_224245.jpg   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 < 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 < 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -4186,7 +4186,7 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 > 20040329_224245.exv   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-> 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+> 20040329_224245.exv   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
 > 20040329_224245.exv   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 > 20040329_224245.exv   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -5987,7 +5987,7 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 < 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-< 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+< 20040329_224245.jpg   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 < 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 < 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -7550,7 +7550,7 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 > 20040329_224245.exv   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-> 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+> 20040329_224245.exv   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
 > 20040329_224245.exv   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 > 20040329_224245.exv   Exif.Photo.SubSecTime                        Ascii       3  00

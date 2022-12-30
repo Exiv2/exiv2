@@ -495,12 +495,10 @@ void XmpData::eraseFamily(XmpData::iterator& pos) {
   std::string key(pos->key());
   std::vector<std::string> keys;
   while (pos != xmpMetadata_.end()) {
-    if (Exiv2::Internal::startsWith(pos->key(), key)) {
-      keys.push_back(pos->key());
-      pos++;
-    } else {
+    if (!Exiv2::Internal::startsWith(pos->key(), key))
       break;
-    }
+    keys.push_back(pos->key());
+    pos++;
   }
   // now erase the family!
   for (const auto& k : keys) {
