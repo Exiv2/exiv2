@@ -1574,7 +1574,7 @@ void QuickTimeVideo::aspectRatio() {
 }  // QuickTimeVideo::aspectRatio
 
 Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  Image::UniquePtr image(new QuickTimeVideo(std::move(io)));
+  auto image = std::make_unique<QuickTimeVideo>(std::move(io));
   if (!image->good()) {
     image.reset();
   }
