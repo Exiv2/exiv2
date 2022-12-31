@@ -238,12 +238,12 @@ ExifData::const_iterator lensName(const ExifData& ed) {
       "Exif.Sony1.LensID",          "Exif.Sony2.LensID",          "Exif.Sony1.LensSpec",   "Exif.Sony2.LensSpec",
       "Exif.OlympusEq.LensType",    "Exif.Panasonic.LensType",    "Exif.Samsung2.LensType"};
 
-  for (size_t i = 0; i < std::size(keys); ++i) {
-    Exiv2::ExifData::const_iterator pos = ed.findKey(ExifKey(keys[i]));
+  for (auto& key : keys) {
+    auto pos = ed.findKey(ExifKey(key));
     if (pos != ed.end()) {
       // Exif.NikonLd4.LensID and Exif.NikonLd4.LensIDNumber are usually together included,
       // one of them has value 0 (which means undefined), so skip tag with value 0
-      if (strncmp(keys[i], "Exif.NikonLd4", 13) == 0) {
+      if (strncmp(key, "Exif.NikonLd4", 13) == 0) {
         if (pos->getValue()->toInt64(0) > 0)
           return pos;
       } else

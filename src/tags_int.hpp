@@ -51,7 +51,7 @@ struct StringTagDetails {
   bool operator==(const char* key) const {
     return (strcmp(val_, key) == 0);
   }
-  bool operator==(const std::string key) const {
+  bool operator==(const std::string& key) const {
     return (key == val_);
   }
 };  // struct TagDetails
