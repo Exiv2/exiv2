@@ -73,6 +73,11 @@ class EXIV2API AsfVideo : public Image {
   //@{
   std::string mimeType() const override;
   //@}
+ private:
+  static constexpr size_t ASF_TAG_SIZE = 0x4;
+  static constexpr size_t BUFF_MIN_SIZE = 0x8;
+  static constexpr size_t GUI_SIZE = 16;
+  static constexpr size_t GUID_SIZE = 37;
 
  protected:
   /*!
