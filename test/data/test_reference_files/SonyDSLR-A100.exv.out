@@ -143,8 +143,8 @@ Exif.Sony1MltCsA100.ImageStabilization       Short       1  1  On
 Exif.Sony1MltCsA100.FocusModeSwitch          Short       1  0  AM
 Exif.Sony1MltCsA100.FlashType                Short       1  0  Off
 Exif.Sony1MltCsA100.Rotation                 Short       1  0  Horizontal (normal)
-Exif.Sony1MltCsA100.ColorTemperature         Short       1  55  55
-Exif.Sony1MltCsA100.ColorCompensationFilter  SShort      1  0  0
+Exif.Sony1MltCsA100.ColorTemperature2        Short       1  55  55
+Exif.Sony1MltCsA100.ColorCompensationFilter2 SShort      1  0  0
 Exif.Sony1MltCsA100.BatteryLevel             Short       1  6  Sufficient Power Remaining
 Exif.SonyMinolta.WhiteBalance                Long        1  0  Auto
 Exif.Sony1.ColorMode                         Long        1  0  Standard

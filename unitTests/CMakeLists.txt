@@ -19,6 +19,7 @@ add_executable(unit_tests
     test_jp2image_int.cpp
     test_IptcKey.cpp
     test_LangAltValueRead.cpp
+    test_matroskavideo.cpp
     test_Photoshop.cpp
     test_pngimage.cpp
     test_safe_op.cpp
@@ -26,6 +27,7 @@ add_executable(unit_tests
     test_tiffheader.cpp
     test_types.cpp
     test_TimeValue.cpp
+    test_riffVideo.cpp
     test_utils.cpp
     test_XmpKey.cpp
     $<TARGET_OBJECTS:exiv2lib_int>

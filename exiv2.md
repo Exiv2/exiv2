@@ -117,8 +117,8 @@ and see if `enable_bmff=1`.
 - Naked codestream JXL files do not contain Exif, IPTC or XMP metadata.
 
 - Support of video files is limited. Currently **exiv2** only has some
-  rudimentary support to read metadata from quicktime and asf based video files (e.g.
-  .MOV/.MP4, .ASF).
+  rudimentary support to read metadata from quicktime, matroska and riff based video files (e.g.
+  .MOV/.MP4, .MKV, .AVI, .WAV, .ASF).
 
 
 [TOC](#TOC)
