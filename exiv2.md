@@ -118,7 +118,7 @@ and see if `enable_bmff=1`.
 
 - Support of video files is limited. Currently **exiv2** only has some
   rudimentary support to read metadata from quicktime, matroska and riff based video files (e.g.
-  .MOV/.MP4, .MKV, .AVI, .WAV).
+  .MOV/.MP4, .MKV, .AVI, .WAV, .ASF).
 
 
 [TOC](#TOC)

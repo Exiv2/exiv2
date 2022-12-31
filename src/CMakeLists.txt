@@ -39,6 +39,7 @@ add_library( exiv2lib_int OBJECT
 )
 
 set(PUBLIC_HEADERS
+    ../include/exiv2/asfvideo.hpp
     ../include/exiv2/basicio.hpp
     ../include/exiv2/bmffimage.hpp
     ../include/exiv2/bmpimage.hpp
@@ -87,6 +88,7 @@ set(PUBLIC_HEADERS
 )
 
 add_library( exiv2lib
+    asfvideo.cpp
     basicio.cpp
     bmffimage.cpp
     bmpimage.cpp
