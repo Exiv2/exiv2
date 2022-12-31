@@ -2081,7 +2081,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream&
       "DSC-RX100M3", "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",  "DSC-WX350", "DSC-WX500",
   };
 
-  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return (model == m); })) {
+  if (std::find(models.begin(), models.end(), model) != models.end()) {
     return os << value.toInt64();
   }
   return os << N_("n/a");
@@ -2108,7 +2108,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Val
   // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8219
   constexpr std::array models{"ILCE-1", "ILCE-7M4", "ILCE-7RM5", "ILCE-7SM3", "ILME-FX3"};
 
-  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return (model == m); })) {
+  if (std::find(models.begin(), models.end(), model) != models.end()) {
     EXV_PRINT_TAG(sonyMisc3cQuality2a)(os, val, metadata);
     return os;
   }
@@ -2131,7 +2131,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, co
   // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8239
   constexpr std::array models{"ILCE-1", "ILCE-7M4", "ILCE-7RM5", "ILCE-7SM3", "ILME-FX3"};
 
-  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return (model == m); })) {
+  if (std::find(models.begin(), models.end(), model) != models.end()) {
     return os << N_("n/a");
   }
   const auto val = value.toInt64();
@@ -2154,7 +2154,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, c
   // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8245
   constexpr std::array models{"ILCE-1", "ILCE-7M4", "ILCE-7RM5", "ILCE-7SM3", "ILME-FX3"};
 
-  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return (model == m); })) {
+  if (std::find(models.begin(), models.end(), model) != models.end()) {
     return os << N_("n/a");
   }
 
