@@ -173,8 +173,10 @@ class EXIV2API RiffVideo : public Image {
 
   [[nodiscard]] bool equalsRiffTag(Exiv2::DataBuf& buf, const char* str);
 
+  void copyTagValue(DataBuf& buf_dest, DataBuf& buf_src, size_t index = RIFF_TAG_SIZE);
+
  private:
-  static constexpr int RIFF_TAG_SIZE = 0x4;
+  static constexpr size_t RIFF_TAG_SIZE = 0x4;
   static constexpr auto RIFF_CHUNK_HEADER_ICCP = "ICCP";
   static constexpr auto RIFF_CHUNK_HEADER_EXIF = "EXIF";
   static constexpr auto RIFF_CHUNK_HEADER_XMP = "XMP ";
