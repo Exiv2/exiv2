@@ -55,15 +55,23 @@ class QuickTimeVideo : public Image {
   QuickTimeVideo(BasicIo::UniquePtr io);
   //@}
 
+  //! @name NOT Implemented
+  //@{
+  //! Copy constructor
+  QuickTimeVideo(const QuickTimeVideo&) = delete;
+  //! Assignment operator
+  QuickTimeVideo& operator=(const QuickTimeVideo&) = delete;
+  //@}
+
   //! @name Manipulators
   //@{
-  void readMetadata();
-  void writeMetadata();
+  void readMetadata() override;
+  void writeMetadata() override;
   //@}
 
   //! @name Accessors
   //@{
-  std::string mimeType() const;
+  std::string mimeType() const override;
   //@}
 
  protected:
@@ -199,21 +207,12 @@ class QuickTimeVideo : public Image {
   void aspectRatio();
 
  private:
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  QuickTimeVideo(const QuickTimeVideo& rhs);
-  //! Assignment operator
-  QuickTimeVideo& operator=(const QuickTimeVideo& rhs);
-  //@}
-
- private:
   //! Variable which stores Time Scale unit, used to calculate time.
   uint64_t timeScale_ = 0;
   //! Variable which stores current stream being processsed.
   int currentStream_ = 0;
   //! Variable to check the end of metadata traversing.
-  bool continueTraversing_ = 0;
+  bool continueTraversing_ = false;
   //! Variable to store height and width of a video frame.
   uint64_t height_ = 0, width_ = 0;
 

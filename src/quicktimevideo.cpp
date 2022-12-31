@@ -36,8 +36,7 @@
 #include <string>
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-namespace Internal {
+namespace Exiv2::Internal {
 
 extern const TagVocabulary qTimeFileType[] = {
     {"3g2a", "3GPP2 Media (.3G2) compliant with 3GPP2 C.S0050-0 V1.0"},
@@ -465,8 +464,8 @@ bool ignoreList(Exiv2::DataBuf& buf) {
       "mdat", "edts", "junk", "iods", "alis", "stsc", "stsz", "stco", "ctts", "stss", "skip", "wide", "cmvd",
   };
 
-  for (int i = 0; i < 13; ++i)
-    if (equalsQTimeTag(buf, ignoreList[i]))
+  for (auto i : ignoreList)
+    if (equalsQTimeTag(buf, i))
       return true;
 
   return false;
@@ -484,14 +483,13 @@ bool dataIgnoreList(Exiv2::DataBuf& buf) {
       "moov", "mdia", "minf", "dinf", "alis", "stbl", "cmov", "meta",
   };
 
-  for (int i = 0; i < 8; ++i)
-    if (equalsQTimeTag(buf, ignoreList[i]))
+  for (auto i : ignoreList)
+    if (equalsQTimeTag(buf, i))
       return true;
 
   return false;
 }
-}  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 
 namespace Exiv2 {
 
@@ -524,7 +522,7 @@ void QuickTimeVideo::readMetadata() {
   continueTraversing_ = true;
   height_ = width_ = 1;
 
-  xmpData_["Xmp.video.FileSize"] = (double)io_->size() / (double)1048576;
+  xmpData_["Xmp.video.FileSize"] = static_cast<double>(io_->size()) / static_cast<double>(1048576);
   xmpData_["Xmp.video.MimeType"] = mimeType();
 
   while (continueTraversing_)
@@ -570,7 +568,7 @@ void QuickTimeVideo::decodeBlock(std::string const& entered_from) {
   enforce(size - hdrsize <= std::numeric_limits<size_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
   // std::cerr<<"Tag=>"<<buf.data()<<"     size=>"<<size-hdrsize << std::endl;
-  const size_t newsize = static_cast<size_t>(size - hdrsize);
+  const auto newsize = static_cast<size_t>(size - hdrsize);
   if (newsize > buf.size()) {
     buf.resize(newsize);
   }
@@ -765,14 +763,16 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
     io_->readOrThrow(buf.data(), 14);
     xmpData_["Xmp.video.Model"] = Exiv2::toString(buf.data());
     io_->readOrThrow(buf.data(), 4);
-    xmpData_["Xmp.video.ExposureTime"] = "1/" + Exiv2::toString(ceil(buf.read_uint32(0, littleEndian) / (double)10));
+    xmpData_["Xmp.video.ExposureTime"] =
+        "1/" + Exiv2::toString(ceil(buf.read_uint32(0, littleEndian) / static_cast<double>(10)));
     io_->readOrThrow(buf.data(), 4);
     io_->readOrThrow(buf2.data(), 4);
-    xmpData_["Xmp.video.FNumber"] = buf.read_uint32(0, littleEndian) / (double)buf2.read_uint32(0, littleEndian);
+    xmpData_["Xmp.video.FNumber"] =
+        buf.read_uint32(0, littleEndian) / static_cast<double>(buf2.read_uint32(0, littleEndian));
     io_->readOrThrow(buf.data(), 4);
     io_->readOrThrow(buf2.data(), 4);
     xmpData_["Xmp.video.ExposureCompensation"] =
-        buf.read_uint32(0, littleEndian) / (double)buf2.read_uint32(0, littleEndian);
+        buf.read_uint32(0, littleEndian) / static_cast<double>(buf2.read_uint32(0, littleEndian));
     io_->readOrThrow(buf.data(), 10);
     io_->readOrThrow(buf.data(), 4);
     td = find(whiteBalance, buf.read_uint32(0, littleEndian));
@@ -780,7 +780,8 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
       xmpData_["Xmp.video.WhiteBalance"] = exvGettext(td->label_);
     io_->readOrThrow(buf.data(), 4);
     io_->readOrThrow(buf2.data(), 4);
-    xmpData_["Xmp.video.FocalLength"] = buf.read_uint32(0, littleEndian) / (double)buf2.read_uint32(0, littleEndian);
+    xmpData_["Xmp.video.FocalLength"] =
+        buf.read_uint32(0, littleEndian) / static_cast<double>(buf2.read_uint32(0, littleEndian));
     io_->seek(static_cast<long>(95), BasicIo::cur);
     io_->readOrThrow(buf.data(), 48);
     buf.write_uint8(48, 0);
@@ -820,7 +821,7 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
     if (size <= 12)
       break;
 
-    else if (equalsQTimeTag(buf, "DcMD") || equalsQTimeTag(buf, "NCDT"))
+    if (equalsQTimeTag(buf, "DcMD") || equalsQTimeTag(buf, "NCDT"))
       userDataDecoder(size - 8);
 
     else if (equalsQTimeTag(buf, "NCTG"))
@@ -892,64 +893,64 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
       std::memset(buf.data(), 0x0, buf.size());
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(PictureControlAdjust, (int)buf.data()[0] & 7);
+      td2 = find(PictureControlAdjust, static_cast<int>(buf.data()[0]) & 7);
       if (td2)
         xmpData_["Xmp.video.PictureControlAdjust"] = exvGettext(td2->label_);
       else
-        xmpData_["Xmp.video.PictureControlAdjust"] = (int)buf.data()[0] & 7;
+        xmpData_["Xmp.video.PictureControlAdjust"] = static_cast<int>(buf.data()[0]) & 7;
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(NormalSoftHard, (int)buf.data()[0] & 7);
+      td2 = find(NormalSoftHard, static_cast<int>(buf.data()[0]) & 7);
       if (td2)
         xmpData_["Xmp.video.PictureControlQuickAdjust"] = exvGettext(td2->label_);
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(NormalSoftHard, (int)buf.data()[0] & 7);
+      td2 = find(NormalSoftHard, static_cast<int>(buf.data()[0]) & 7);
       if (td2)
         xmpData_["Xmp.video.Sharpness"] = exvGettext(td2->label_);
       else
-        xmpData_["Xmp.video.Sharpness"] = (int)buf.data()[0] & 7;
+        xmpData_["Xmp.video.Sharpness"] = static_cast<int>(buf.data()[0]) & 7;
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(NormalSoftHard, (int)buf.data()[0] & 7);
+      td2 = find(NormalSoftHard, static_cast<int>(buf.data()[0]) & 7);
       if (td2)
         xmpData_["Xmp.video.Contrast"] = exvGettext(td2->label_);
       else
-        xmpData_["Xmp.video.Contrast"] = (int)buf.data()[0] & 7;
+        xmpData_["Xmp.video.Contrast"] = static_cast<int>(buf.data()[0]) & 7;
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(NormalSoftHard, (int)buf.data()[0] & 7);
+      td2 = find(NormalSoftHard, static_cast<int>(buf.data()[0]) & 7);
       if (td2)
         xmpData_["Xmp.video.Brightness"] = exvGettext(td2->label_);
       else
-        xmpData_["Xmp.video.Brightness"] = (int)buf.data()[0] & 7;
+        xmpData_["Xmp.video.Brightness"] = static_cast<int>(buf.data()[0]) & 7;
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(Saturation, (int)buf.data()[0] & 7);
+      td2 = find(Saturation, static_cast<int>(buf.data()[0]) & 7);
       if (td2)
         xmpData_["Xmp.video.Saturation"] = exvGettext(td2->label_);
       else
-        xmpData_["Xmp.video.Saturation"] = (int)buf.data()[0] & 7;
+        xmpData_["Xmp.video.Saturation"] = static_cast<int>(buf.data()[0]) & 7;
 
       io_->readOrThrow(buf.data(), 1);
-      xmpData_["Xmp.video.HueAdjustment"] = (int)buf.data()[0] & 7;
+      xmpData_["Xmp.video.HueAdjustment"] = static_cast<int>(buf.data()[0]) & 7;
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(FilterEffect, (int)buf.data()[0]);
+      td2 = find(FilterEffect, static_cast<int>(buf.data()[0]));
       if (td2)
         xmpData_["Xmp.video.FilterEffect"] = exvGettext(td2->label_);
       else
-        xmpData_["Xmp.video.FilterEffect"] = (int)buf.data()[0];
+        xmpData_["Xmp.video.FilterEffect"] = static_cast<int>(buf.data()[0]);
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(ToningEffect, (int)buf.data()[0]);
+      td2 = find(ToningEffect, static_cast<int>(buf.data()[0]));
       if (td2)
         xmpData_["Xmp.video.ToningEffect"] = exvGettext(td2->label_);
       else
-        xmpData_["Xmp.video.ToningEffect"] = (int)buf.data()[0];
+        xmpData_["Xmp.video.ToningEffect"] = static_cast<int>(buf.data()[0]);
 
       io_->readOrThrow(buf.data(), 1);
-      xmpData_["Xmp.video.ToningSaturation"] = (int)buf.data()[0];
+      xmpData_["Xmp.video.ToningSaturation"] = static_cast<int>(buf.data()[0]);
 
       io_->seek(local_pos + dataLength, BasicIo::beg);
     }
@@ -962,12 +963,12 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
       io_->readOrThrow(buf.data(), 2);
       xmpData_["Xmp.video.TimeZone"] = Exiv2::getShort(buf.data(), bigEndian);
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(YesNo, (int)buf.data()[0]);
+      td2 = find(YesNo, static_cast<int>(buf.data()[0]));
       if (td2)
         xmpData_["Xmp.video.DayLightSavings"] = exvGettext(td2->label_);
 
       io_->readOrThrow(buf.data(), 1);
-      td2 = find(DateDisplayFormat, (int)buf.data()[0]);
+      td2 = find(DateDisplayFormat, static_cast<int>(buf.data()[0]));
       if (td2)
         xmpData_["Xmp.video.DateDisplayFormat"] = exvGettext(td2->label_);
 
@@ -1030,8 +1031,8 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
       io_->readOrThrow(buf.data(), 4);
       io_->readOrThrow(buf2.data(), 4);
       if (td)
-        xmpData_[exvGettext(td->label_)] =
-            Exiv2::toString((double)buf.read_uint32(0, bigEndian) / (double)buf2.read_uint32(0, bigEndian));
+        xmpData_[exvGettext(td->label_)] = Exiv2::toString(static_cast<double>(buf.read_uint32(0, bigEndian)) /
+                                                           static_cast<double>(buf2.read_uint32(0, bigEndian)));
 
       // Sanity check with an "unreasonably" large number
       if (dataLength > 200 || dataLength < 8) {
@@ -1107,7 +1108,8 @@ void QuickTimeVideo::timeToSampleDecoder() {
     timeOfFrames = Safe::add(timeOfFrames, temp * buf.read_uint32(0, bigEndian));
   }
   if (currentStream_ == Video)
-    xmpData_["Xmp.video.FrameRate"] = (double)totalframes * (double)timeScale_ / (double)timeOfFrames;
+    xmpData_["Xmp.video.FrameRate"] =
+        static_cast<double>(totalframes) * static_cast<double>(timeScale_) / static_cast<double>(timeOfFrames);
 }  // QuickTimeVideo::timeToSampleDecoder
 
 void QuickTimeVideo::sampleDesc(size_t size) {
@@ -1537,11 +1539,11 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
 void QuickTimeVideo::aspectRatio() {
   // TODO - Make a better unified method to handle all cases of Aspect Ratio
 
-  double aspectRatio = (double)width_ / (double)height_;
+  double aspectRatio = static_cast<double>(width_) / static_cast<double>(height_);
   aspectRatio = floor(aspectRatio * 10) / 10;
   xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
 
-  int aR = (int)((aspectRatio * 10.0) + 0.1);
+  auto aR = static_cast<int>((aspectRatio * 10.0) + 0.1);
 
   switch (aR) {
     case 13:

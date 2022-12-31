@@ -21,7 +21,7 @@
 // included header files
 #include "config.h"
 
-//#ifdef EXV_ENABLE_VIDEO
+// #ifdef EXV_ENABLE_VIDEO
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -30,16 +30,15 @@
 #include "tags_int.hpp"
 
 // + standard includes
-#include <stdlib.h>
 #include <array>
 #include <cassert>
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include <limits>
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-namespace Internal {
+namespace Exiv2::Internal {
 
 /*!
   Tag Look-up list for Matroska Type Video Files
@@ -570,8 +569,7 @@ const std::array<MatroskaTag, 2> streamRate = {MatroskaTag(0x1, "Xmp.video.Frame
   return true;
 }
 
-}  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 
 namespace Exiv2 {
 
@@ -847,7 +845,7 @@ void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size
     case TimecodeScale:
       if (!convertToUint64(buf, size, value))
         return;
-      time_code_scale_ = (double)value / (double)1000000000;
+      time_code_scale_ = static_cast<double>(value) / static_cast<double>(1000000000);
       xmpData_[tag->_label] = time_code_scale_;
       break;
     default:
@@ -873,7 +871,7 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, siz
       if (internalMt) {
         switch (stream_) {
           case 1:  // video
-            frame_rate = (double)1000000000 / (double)key;
+            frame_rate = static_cast<double>(1000000000) / static_cast<double>(key);
             break;
           case 2:  // audio
             frame_rate = static_cast<double>(key / 1000);
@@ -893,11 +891,11 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, siz
 }
 
 void MatroskaVideo::aspectRatio() {
-  double aspectRatio = (double)width_ / (double)height_;
+  double aspectRatio = static_cast<double>(width_) / static_cast<double>(height_);
   aspectRatio = floor(aspectRatio * 10) / 10;
   xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
 
-  int aR = (int)((aspectRatio * 10.0) + 0.1);
+  auto aR = static_cast<int>((aspectRatio * 10.0) + 0.1);
 
   switch (aR) {
     case 13:
@@ -930,22 +928,21 @@ void MatroskaVideo::aspectRatio() {
 uint32_t MatroskaVideo::findBlockSize(byte b) {
   if (b & 128)
     return 1;
-  else if (b & 64)
+  if (b & 64)
     return 2;
-  else if (b & 32)
+  if (b & 32)
     return 3;
-  else if (b & 16)
+  if (b & 16)
     return 4;
-  else if (b & 8)
+  if (b & 8)
     return 5;
-  else if (b & 4)
+  if (b & 4)
     return 6;
-  else if (b & 2)
+  if (b & 2)
     return 7;
-  else if (b & 1)
+  if (b & 1)
     return 8;
-  else
-    return 0;
+  return 0;
 }
 
 Image::UniquePtr newMkvInstance(BasicIo::UniquePtr io, bool /*create*/) {

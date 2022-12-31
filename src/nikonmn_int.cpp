@@ -994,9 +994,9 @@ static void printFlashCompensationValue(std::ostream& os, const unsigned char va
     float output = 0.0;
     if (value < 128) {
       if (value != 0)
-        output = float(value) * float(-1.0);
+        output = static_cast<float>(value) * static_cast<float>(-1.0);
     } else {
-      output = float(256.0) - float(value);
+      output = static_cast<float>(256.0) - static_cast<float>(value);
     }
     os.precision(1);
     if (value != 0)
