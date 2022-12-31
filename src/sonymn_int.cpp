@@ -1188,9 +1188,7 @@ static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::
   for (const auto& i : lSFArray) {
     temp = i.mask & joinedV0V7;
     if (temp) {  // Check if a flag matches in the current LensSpecFlags
-      const auto it =
-          std::find_if(i.flags.begin(), i.flags.end(), [temp](const TagDetails& td) { return (temp == td.val_); });
-
+      const auto it = std::find(i.flags.begin(), i.flags.end(), temp);
       if (it == i.flags.end()) {
         // Should never get in here. LensSpecFlags.mask should contain all the
         // bits in all the LensSpecFlags.flags.val_ entries
