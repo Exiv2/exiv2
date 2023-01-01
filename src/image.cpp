@@ -14,7 +14,7 @@
 #ifdef EXV_ENABLE_BMFF
 #include "bmffimage.hpp"
 #endif  // EXV_ENABLE_BMFF
-#include "asfvideo.hpp"
+
 #include "cr2image.hpp"
 #include "crwimage.hpp"
 #include "epsimage.hpp"
@@ -26,20 +26,23 @@
 #include "bmpimage.hpp"
 #include "gifimage.hpp"
 #include "jp2image.hpp"
-#include "matroskavideo.hpp"
 #include "nikonmn_int.hpp"
 #include "orfimage.hpp"
 #include "pgfimage.hpp"
 #include "psdimage.hpp"
-#include "quicktimevideo.hpp"
 #include "rafimage.hpp"
-#include "riffvideo.hpp"
 #include "rw2image.hpp"
 #include "tags_int.hpp"
 #include "tgaimage.hpp"
 #include "tiffimage.hpp"
 #include "webpimage.hpp"
 #include "xmpsidecar.hpp"
+#ifdef EXV_ENABLE_VIDEO
+#include "asfvideo.hpp"
+#include "matroskavideo.hpp"
+#include "quicktimevideo.hpp"
+#include "riffvideo.hpp"
+#endif  // EXV_ENABLE_VIDEO
 
 // + standard includes
 #include <array>
@@ -100,13 +103,14 @@ constexpr auto registry = std::array{
     Registry{ImageType::tga, newTgaInstance, isTgaType, amNone, amNone, amNone, amNone},
     Registry{ImageType::bmp, newBmpInstance, isBmpType, amNone, amNone, amNone, amNone},
     Registry{ImageType::jp2, newJp2Instance, isJp2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
-    // needs to be before bmff because some ftyp files are handled as qt and
-    // the rest should fall through to bmff
+// needs to be before bmff because some ftyp files are handled as qt and
+// the rest should fall through to bmff
+#ifdef EXV_ENABLE_VIDEO
     Registry{ImageType::qtime, newQTimeInstance, isQTimeType, amRead, amNone, amRead, amNone},
     Registry{ImageType::asf, newAsfInstance, isAsfType, amRead, amNone, amRead, amNone},
     Registry{ImageType::riff, newRiffInstance, isRiffType, amRead, amNone, amRead, amNone},
     Registry{ImageType::mkv, newMkvInstance, isMkvType, amRead, amNone, amRead, amNone},
-
+#endif  // EXV_ENABLE_VIDEO
 #ifdef EXV_ENABLE_BMFF
     Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF

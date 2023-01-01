@@ -40,5 +40,6 @@ check_include_file_cxx( "unistd.h"      EXV_HAVE_UNISTD_H )
 check_include_file_cxx( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 
 set(EXV_ENABLE_NLS ${EXIV2_ENABLE_NLS})
+set(EXV_ENABLE_VIDEO ${EXIV2_ENABLE_VIDEO})
 
 configure_file(cmake/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)

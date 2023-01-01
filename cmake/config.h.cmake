@@ -15,6 +15,9 @@
 // Define if you want translation of program messages to the user's native language
 #cmakedefine EXV_ENABLE_NLS
 
+// Define if you want to enable the decoding of video metadata
+#cmakedefine EXV_ENABLE_VIDEO
+
 // Define if you want BMFF support.
 #cmakedefine EXV_ENABLE_BMFF
 
