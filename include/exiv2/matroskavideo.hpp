@@ -61,12 +61,15 @@ struct MatroskaTag {
   matroskaTypeEnum _type;
   matroskaProcessEnum _process;
 
-  MatroskaTag(uint64_t id, const std::string& label, matroskaTypeEnum type, matroskaProcessEnum process) :
-      _id(id), _label(label), _type(type), _process(process) {
+  MatroskaTag(uint64_t id, std::string label, matroskaTypeEnum type, matroskaProcessEnum process) :
+      _id(id), _label(std::move(label)), _type(type), _process(process) {
   }
 
-  MatroskaTag(uint64_t id, const std::string& label) :
-      _id(id), _label(label), _type(matroskaTypeEnum::UndefinedType), _process(matroskaProcessEnum::Undefined) {
+  MatroskaTag(uint64_t id, std::string label) :
+      _id(id),
+      _label(std::move(label)),
+      _type(matroskaTypeEnum::UndefinedType),
+      _process(matroskaProcessEnum::Undefined) {
   }
 
   bool isSkipped() const {
@@ -141,7 +144,7 @@ class EXIV2API MatroskaVideo : public Image {
     @param b The byte, which stores the information to calculate the size
     @return Return the size of the block.
    */
-  [[nodiscard]] uint32_t findBlockSize(byte b);
+  [[nodiscard]] static uint32_t findBlockSize(byte b);
   /*!
     @brief Check for a valid tag and decode the block at the current IO position.
         Calls contentManagement() or skips to next tag, if required.

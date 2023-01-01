@@ -11,7 +11,7 @@ using namespace Exiv2;
 
 namespace {
 constexpr std::array validMarkers{"8BIM", "AgHg", "DCSR", "PHUT"};
-}
+}  // namespace
 
 TEST(Photoshop_isIrb, returnsTrueWithValidMarkers) {
   for (const auto& marker : validMarkers) {

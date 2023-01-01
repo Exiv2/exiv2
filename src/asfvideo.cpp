@@ -28,7 +28,7 @@
 #include <iostream>
 #include "config.h"
 
-//#ifdef EXV_ENABLE_VIDEO
+// #ifdef EXV_ENABLE_VIDEO
 #include "asfvideo.hpp"
 #include "basicio.hpp"
 #include "convert.hpp"
@@ -40,8 +40,8 @@
 #include "types.hpp"
 
 // + standard includes
-#include <ctype.h>
 #include <cassert>
+#include <cctype>
 #include <cstring>
 
 // *****************************************************************************
@@ -215,12 +215,9 @@ void getGUID(byte buf[], char GUID[]) {
   @return Returns true if the buffer data is equivalent to Header GUID.
  */
 bool isASFType(byte buf[]) {
-  if (buf[0] == 0x30 && buf[1] == 0x26 && buf[2] == 0xb2 && buf[3] == 0x75 && buf[4] == 0x8e && buf[5] == 0x66 &&
-      buf[6] == 0xcf && buf[7] == 0x11 && buf[8] == 0xa6 && buf[9] == 0xd9 && buf[10] == 0x00 && buf[11] == 0xaa &&
-      buf[12] == 0x00 && buf[13] == 0x62 && buf[14] == 0xce && buf[15] == 0x6c)
-    return true;
-
-  return false;
+  return buf[0] == 0x30 && buf[1] == 0x26 && buf[2] == 0xb2 && buf[3] == 0x75 && buf[4] == 0x8e && buf[5] == 0x66 &&
+         buf[6] == 0xcf && buf[7] == 0x11 && buf[8] == 0xa6 && buf[9] == 0xd9 && buf[10] == 0x00 && buf[11] == 0xaa &&
+         buf[12] == 0x00 && buf[13] == 0x62 && buf[14] == 0xce && buf[15] == 0x6c;
 }
 
 }  // namespace Exiv2::Internal
@@ -341,7 +338,7 @@ void AsfVideo::decodeBlock() {
         while (count--) {
           std::memset(buf.data(), 0x0, buf.size());
           io_->read(buf.data(), 1);
-          tempLength = (int)buf.data()[0];
+          tempLength = static_cast<int>(buf.data()[0]);
 
           io_->read(buf.data(), tempLength);
           v->read(Util::toString16(buf));
@@ -383,12 +380,12 @@ void AsfVideo::extendedStreamProperties(uint64_t size) {
 void AsfVideo::contentDescription(uint64_t size) {
   const size_t pos = io_->tell();
   size_t length[5];
-  for (int i = 0; i < 5; ++i) {
+  for (size_t& i : length) {
     byte buf[2];
     io_->read(buf, 2);
     if (io_->error() || io_->eof())
       throw Error(ErrorCode::kerFailedToReadImageData);
-    length[i] = getUShort(buf, littleEndian);
+    i = getUShort(buf, littleEndian);
   }
   for (int i = 0; i < 5; ++i) {
     DataBuf buf(length[i]);
@@ -398,7 +395,7 @@ void AsfVideo::contentDescription(uint64_t size) {
       throw Error(ErrorCode::kerFailedToReadImageData);
     const TagDetails* td = find(contentDescriptionTags, i);
     assert(td);
-    std::string str((const char*)buf.data(), length[i]);
+    std::string str(reinterpret_cast<const char*>(buf.data()), length[i]);
     if (convertStringCharset(str, "UCS-2LE", "UTF-8")) {
       xmpData()[td->label_] = str;
     } else {
@@ -436,7 +433,7 @@ void AsfVideo::streamProperties() {
   io_->read(buf.data(), BUFF_MIN_SIZE);
   std::memset(buf.data(), 0x0, buf.size());
   io_->read(buf.data(), 1);
-  streamNumber_ = (int)buf.data()[0] & 127;
+  streamNumber_ = static_cast<int>(buf.data()[0]) & 127;
 
   io_->read(buf.data(), 5);
   std::memset(buf.data(), 0x0, buf.size());
@@ -553,16 +550,17 @@ void AsfVideo::metadataHandler(int meta) {
       if (dataType == 6) {
         io_->read(guidBuf, GUI_SIZE);
         getGUID(guidBuf, fileID);
-      } else
-          // Sanity check with an "unreasonably" large number
-          if (dataLength > 5000) {
+      } else {
+        // Sanity check with an "unreasonably" large number
+        if (dataLength > 5000) {
 #ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video.Metadata dataLength was found to be larger than 5000 "
-                  << " entries considered invalid; not read.\n";
+          EXV_ERROR << "Xmp.video.Metadata dataLength was found to be larger than 5000 "
+                    << " entries considered invalid; not read.\n";
 #endif
-        io_->seek(io_->tell() + dataLength, BasicIo::beg);
-      } else
-        io_->read(buf.data(), dataLength);
+          io_->seek(io_->tell() + dataLength, BasicIo::beg);
+        } else
+          io_->read(buf.data(), dataLength);
+      }
     }
 
     else if (meta == 2) {
@@ -655,11 +653,11 @@ void AsfVideo::fileProperties() {
 void AsfVideo::aspectRatio() {
   // TODO - Make a better unified method to handle all cases of Aspect Ratio
 
-  double aspectRatio = (double)width_ / height_;
+  double aspectRatio = static_cast<double>(width_) / height_;
   aspectRatio = floor(aspectRatio * 10) / 10;
   xmpData()["Xmp.video.AspectRatio"] = aspectRatio;
 
-  int aR = (int)((aspectRatio * 10.0) + 0.1);
+  auto aR = static_cast<int>((aspectRatio * 10.0) + 0.1);
 
   switch (aR) {
     case 13:
@@ -715,4 +713,4 @@ bool isAsfType(BasicIo& iIo, bool advance) {
 }
 
 }  // namespace Exiv2
-   //#endif // EXV_ENABLE_VIDEO
+   // #endif // EXV_ENABLE_VIDEO

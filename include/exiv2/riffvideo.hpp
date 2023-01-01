@@ -71,7 +71,7 @@ class EXIV2API RiffVideo : public Image {
   //! @name Accessors
   //@{
   [[nodiscard]] std::string mimeType() const override;
-  [[nodiscard]] const char* printAudioEncoding(uint64_t i);
+  [[nodiscard]] static const char* printAudioEncoding(uint64_t i);
   //@}
 
  protected:
@@ -155,7 +155,7 @@ class EXIV2API RiffVideo : public Image {
     @param divisor The Divisor required to calculate sample rate.
     @return Return the sample rate of the stream.
    */
-  [[nodiscard]] double returnSampleRate(Exiv2::DataBuf& buf, size_t divisor = 1);
+  [[nodiscard]] static double returnSampleRate(Exiv2::DataBuf& buf, size_t divisor = 1);
   /*!
     @brief Calculates Aspect Ratio of a video, and stores it in the
         respective XMP container.
@@ -171,9 +171,9 @@ class EXIV2API RiffVideo : public Image {
    */
   void fillDuration(double frame_rate, size_t frame_count);
 
-  [[nodiscard]] bool equalsRiffTag(Exiv2::DataBuf& buf, const char* str);
+  [[nodiscard]] static bool equalsRiffTag(Exiv2::DataBuf& buf, const char* str);
 
-  void copyTagValue(DataBuf& buf_dest, DataBuf& buf_src, size_t index = RIFF_TAG_SIZE);
+  static void copyTagValue(DataBuf& buf_dest, DataBuf& buf_src, size_t index = RIFF_TAG_SIZE);
 
  private:
   static constexpr size_t RIFF_TAG_SIZE = 0x4;

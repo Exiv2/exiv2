@@ -21,7 +21,7 @@
 // included header files
 #include "config.h"
 
-//#ifdef EXV_ENABLE_VIDEO
+// #ifdef EXV_ENABLE_VIDEO
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -36,8 +36,7 @@
 
 // *****************************************************************************
 // class member definitions
-namespace Exiv2 {
-namespace Internal {
+namespace Exiv2::Internal {
 
 /*!
   @brief Dummy TIFF header structure.
@@ -49,7 +48,7 @@ class DummyTiffHeader : public TiffHeaderBase {
   //! Default constructor
   DummyTiffHeader(ByteOrder byteOrder);
   //! Destructor
-  ~DummyTiffHeader();
+  ~DummyTiffHeader() override = default;
   //@}
 
   //! @name Manipulators
@@ -61,9 +60,6 @@ class DummyTiffHeader : public TiffHeaderBase {
 };  // class TiffHeader
 
 DummyTiffHeader::DummyTiffHeader(ByteOrder byteOrder) : TiffHeaderBase(42, 0, byteOrder, 0) {
-}
-
-DummyTiffHeader::~DummyTiffHeader() {
 }
 
 bool DummyTiffHeader::read(const byte* /*pData*/, size_t /*size*/) {
@@ -426,8 +422,7 @@ constexpr TagDetails nikonAVITags[] = {{0x0003, "Xmp.video.Make"},
 
 enum streamTypeInfo { Audio = 1, MIDI, Text, Video };
 
-}  // namespace Internal
-}  // namespace Exiv2
+}  // namespace Exiv2::Internal
 
 namespace Exiv2 {
 using namespace Exiv2::Internal;
@@ -479,8 +474,8 @@ void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, s
 
     const uint64_t bufMaxSize = 200;
     io_->seek(0, BasicIo::beg);  // rewind
-    while (!io_->eof() && (uint64_t)io_->tell() < filesize) {
-      uint64_t offset = (uint64_t)io_->tell();
+    while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
+      auto offset = static_cast<uint64_t>(io_->tell());
       byte size_buff[RIFF_TAG_SIZE];
       io_->read(chunkId.data(), RIFF_TAG_SIZE);
       io_->read(size_buff, RIFF_TAG_SIZE);
@@ -494,7 +489,8 @@ void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, s
 
       if (bPrint) {
         out << Internal::indent(depth)
-            << Internal::stringFormat("  %s | %12u | %12u | ", (const char*)chunkId.data(), size, (uint32_t)offset)
+            << Internal::stringFormat("  %s | %12u | %12u | ", reinterpret_cast<const char*>(chunkId.data()), size,
+                                      static_cast<uint32_t>(offset))
             << Internal::binaryToString(makeSlice(payload, 0, payload.size() > 32 ? 32 : payload.size())) << std::endl;
       }
 
@@ -507,7 +503,7 @@ void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, s
       bool bPrintPayload = (equalsRiffTag(chunkId, RIFF_CHUNK_HEADER_XMP) && option == kpsXMP) ||
                            (equalsRiffTag(chunkId, RIFF_CHUNK_HEADER_ICCP) && option == kpsIccProfile);
       if (bPrintPayload) {
-        out.write((const char*)payload.data(), payload.size());
+        out.write(reinterpret_cast<const char*>(payload.data()), payload.size());
       }
 
       if (offset && io_->tell() % 2)
@@ -560,7 +556,8 @@ void RiffVideo::decodeBlock() {
   if (io_->eof() || equalsRiffTag(buf2, "MOVI") || equalsRiffTag(buf2, "DATA")) {
     continueTraversing_ = false;
     return;
-  } else if (equalsRiffTag(buf2, "HDRL") || equalsRiffTag(buf2, "STRL")) {
+  }
+  if (equalsRiffTag(buf2, "HDRL") || equalsRiffTag(buf2, "STRL")) {
     decodeBlock();
   } else {
     io_->read(buf.data(), RIFF_TAG_SIZE);
@@ -578,7 +575,7 @@ void RiffVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size) {
     listFlag = true;
     listEnd = false;
 
-    while ((uint64_t)(io_->tell()) < cur_pos + size)
+    while (static_cast<uint64_t>(io_->tell()) < cur_pos + size)
       decodeBlock();
 
     listEnd = true;
@@ -762,7 +759,7 @@ void RiffVideo::nikonTagsHandler() {
           while (dataSize) {
             std::memset(buf.data(), 0x0, buf.size());
             io_->read(buf.data(), 1);
-            str[(RIFF_TAG_SIZE - dataSize) * 2] = (char)(Exiv2::getULong(buf.data(), littleEndian) + 48);
+            str[(RIFF_TAG_SIZE - dataSize) * 2] = static_cast<char>(Exiv2::getULong(buf.data(), littleEndian) + 48);
             --dataSize;
           }
           xmpData_["Xmp.video.MakerNoteVersion"] = str;
@@ -817,7 +814,7 @@ void RiffVideo::nikonTagsHandler() {
             case 0x001b:
             case 0x0016:
               copyTagValue(buf2, buf);
-              denominator = (double)Exiv2::getLong(buf2.data(), littleEndian);
+              denominator = static_cast<double>(Exiv2::getLong(buf2.data(), littleEndian));
               if (denominator != 0)
                 xmpData_[exvGettext(td->label_)] = Exiv2::getLong(buf.data(), littleEndian) / denominator;
               else
@@ -901,7 +898,7 @@ void RiffVideo::junkHandler(size_t size) {
     io_->read(buf.data(), 8);
     copyTagValue(buf2, buf);
     xmpData_["Xmp.video.FNumber"] =
-        (double)Exiv2::getLong(buf.data(), littleEndian) / Exiv2::getLong(buf2.data(), littleEndian);
+        static_cast<double>(Exiv2::getLong(buf.data(), littleEndian)) / Exiv2::getLong(buf2.data(), littleEndian);
     ;
 
     io_->seek(cur_pos + 131, BasicIo::beg);
@@ -943,7 +940,7 @@ void RiffVideo::aviHeaderTagsHandler(size_t size) {
   uint64_t cur_pos = io_->tell();
 
   enum aviHeaderTags { frameRate, maxDataRate, frameCount = 4, streamCount = 6, imageWidth_h = 8, imageHeight_h, last };
-  for (aviHeaderTags tag = frameRate; tag != aviHeaderTags::last; tag = aviHeaderTags(tag + 1)) {
+  for (aviHeaderTags tag = frameRate; tag != aviHeaderTags::last; tag = static_cast<aviHeaderTags>(tag + 1)) {
     std::memset(buf.data(), 0x0, buf.size());
     io_->read(buf.data(), RIFF_TAG_SIZE);
 
@@ -1001,7 +998,7 @@ void RiffVideo::streamHandler(size_t size) {
     sampleSize = 11,
     last
   };
-  for (streamHeaderTags tag = codec; tag != streamHeaderTags::last; tag = streamHeaderTags(tag + 1)) {
+  for (streamHeaderTags tag = codec; tag != streamHeaderTags::last; tag = static_cast<streamHeaderTags>(tag + 1)) {
     std::memset(buf.data(), 0x0, buf.size());
     io_->read(buf.data(), RIFF_TAG_SIZE);  // the position is advanced by the number of bytes read, that's why we need
                                            // to iterate sequentially , not only on switch values.
@@ -1073,7 +1070,7 @@ void RiffVideo::streamFormatHandler(size_t size) {
       numImportantColors,
       last
     };
-    for (bmptags tag = imageWidth; tag != bmptags::last; tag = bmptags(tag + 1)) {
+    for (bmptags tag = imageWidth; tag != bmptags::last; tag = static_cast<bmptags>(tag + 1)) {
       std::memset(buf.data(), 0x0, buf.size());
 
       switch (tag) {
@@ -1131,7 +1128,7 @@ void RiffVideo::streamFormatHandler(size_t size) {
     int c = 0;
     const TagDetails* td;
     enum audioFormatTags { encoding, numberOfChannels, audioSampleRate, avgBytesPerSec = 4, bitsPerSample = 7, last };
-    for (audioFormatTags tag = encoding; tag != audioFormatTags::last; tag = audioFormatTags(tag + 1)) {
+    for (audioFormatTags tag = encoding; tag != audioFormatTags::last; tag = static_cast<audioFormatTags>(tag + 1)) {
       io_->read(buf.data(), 2);
 
       switch (tag) {
@@ -1175,7 +1172,7 @@ void RiffVideo::streamFormatHandler(size_t size) {
 }  // RiffVideo::streamFormatHandler
 
 double RiffVideo::returnSampleRate(Exiv2::DataBuf& buf, size_t divisor) {
-  return ((double)Exiv2::getULong(buf.data(), littleEndian) / divisor);
+  return (static_cast<double>(Exiv2::getULong(buf.data(), littleEndian)) / divisor);
 }  // RiffVideo::returnSampleRate
 
 const char* RiffVideo::printAudioEncoding(uint64_t i) {
@@ -1190,11 +1187,11 @@ const char* RiffVideo::printAudioEncoding(uint64_t i) {
 void RiffVideo::fillAspectRatio(size_t width, size_t height) {
   if (height == 0)
     return;
-  double aspectRatio = (double)width / height;
+  double aspectRatio = static_cast<double>(width) / height;
   aspectRatio = floor(aspectRatio * 10) / 10;
   xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
 
-  int aR = (int)((aspectRatio * 10.0) + 0.1);
+  auto aR = static_cast<int>((aspectRatio * 10.0) + 0.1);
 
   switch (aR) {
     case 13:
@@ -1228,7 +1225,7 @@ void RiffVideo::fillDuration(double frame_rate, size_t frame_count) {
   if (frame_rate == 0)
     return;
 
-  uint64_t duration = static_cast<uint64_t>(frame_count * 1000. / frame_rate);
+  auto duration = static_cast<uint64_t>(frame_count * 1000. / frame_rate);
   xmpData_["Xmp.video.FileDataRate"] = io_->size() / (1048576. * duration);
   xmpData_["Xmp.video.Duration"] = duration;  // Duration in number of seconds
 }  // RiffVideo::fillDuration
@@ -1257,4 +1254,4 @@ bool isRiffType(BasicIo& iIo, bool advance) {
 }
 
 }  // namespace Exiv2
-   //#endif // EXV_ENABLE_VIDEO
+   // #endif // EXV_ENABLE_VIDEO

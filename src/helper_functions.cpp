@@ -16,9 +16,8 @@ std::string string_from_unterminated(const char* data, size_t data_length) {
 namespace Util {
 char returnHEX(int n) {
   if (n >= 0 && n <= 9)
-    return (char)(n + 48);
-  else
-    return (char)(n + 55);
+    return static_cast<char>(n + 48);
+  return static_cast<char>(n + 55);
 }
 
 std::string toString16(Exiv2::DataBuf& buf) {

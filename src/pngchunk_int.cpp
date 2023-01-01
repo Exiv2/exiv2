@@ -38,7 +38,7 @@ PNG tags             : http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG
 */
 namespace {
 constexpr size_t nullSeparators = 2;
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions

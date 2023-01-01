@@ -939,27 +939,31 @@ std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value&
   if (std::any_of(models1.begin(), models1.end(), [&model](auto& m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
     return os;
-  } else if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return startsWith(model, m); }) &&
-             status && aFAreaModeSetting == 4) {
+  }
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return startsWith(model, m); }) && status &&
+      aFAreaModeSetting == 4) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
     return os;
-  } else if (std::any_of(models3.begin(), models3.end(), [&model](auto& m) { return startsWith(model, m); }) &&
-             status && aFAreaModeSetting != 8) {
+  }
+  if (std::any_of(models3.begin(), models3.end(), [&model](auto& m) { return startsWith(model, m); }) && status &&
+      aFAreaModeSetting != 8) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet2)(os, value, metadata);
     return os;
-  } else if (startsWith(model, "ILCA-99M2") && status && aFAreaModeSetting != 8) {
+  }
+  if (startsWith(model, "ILCA-99M2") && status && aFAreaModeSetting != 8) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet3)(os, value, metadata);
     return os;
-  } else if (startsWith(model, "ILCA-") && status && aFAreaModeSetting == 8) {
+  }
+  if (startsWith(model, "ILCA-") && status && aFAreaModeSetting == 8) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet4)(os, value.toUint32(0), metadata);
     return os;
-  } else if (std::any_of(models4.begin(), models4.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  }
+  if (std::any_of(models4.begin(), models4.end(), [&model](auto& m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet5)(os, value.toUint32(0), metadata);
     return os;
-  } else {
-    os << _("n/a");
-    return os;
   }
+  os << _("n/a");
+  return os;
 }
 
 std::ostream& SonyMakerNote::printAFPointsUsed(std::ostream& os, const Value& value, const ExifData* metadata) {
@@ -980,13 +984,13 @@ std::ostream& SonyMakerNote::printAFPointsUsed(std::ostream& os, const Value& va
   if (std::none_of(models1.begin(), models1.end(), [&model](auto& m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet1)(os, value, metadata);
     return os;
-  } else if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  }
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet2)(os, value, metadata);
     return os;
-  } else {
-    os << _("n/a");
-    return os;
   }
+  os << _("n/a");
+  return os;
 }
 
 std::ostream& SonyMakerNote::printAFTracking(std::ostream& os, const Value& value, const ExifData* metadata) {
