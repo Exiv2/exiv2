@@ -61,10 +61,9 @@ typename std::enable_if<std::is_signed<T>::value && sizeof(T) >= sizeof(int), bo
   if (((summand_2 >= 0) && (summand_1 > std::numeric_limits<T>::max() - summand_2)) ||
       ((summand_2 < 0) && (summand_1 < std::numeric_limits<T>::min() - summand_2))) {
     return true;
-  } else {
-    result = summand_1 + summand_2;
-    return false;
   }
+  result = summand_1 + summand_2;
+  return false;
 }
 
 /*!
@@ -92,10 +91,9 @@ typename std::enable_if<std::is_signed<T>::value && sizeof(T) < sizeof(int), boo
   const int res = summand_1 + summand_2;
   if ((res > std::numeric_limits<T>::max()) || (res < std::numeric_limits<T>::min())) {
     return true;
-  } else {
-    result = static_cast<T>(res);
-    return false;
   }
+  result = static_cast<T>(res);
+  return false;
 }
 
 /*!
