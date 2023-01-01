@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-
+#ifdef EXV_ENABLE_VIDEO
 #include <gtest/gtest.h>
 
 #include <array>
@@ -53,3 +53,4 @@ TEST(RiffVideo, readMetadata) {
   ASSERT_FALSE(data.empty());
   ASSERT_EQ(xmpData["Xmp.video.TotalStream"].count(), 4);
 }
+#endif  // EXV_ENABLE_VIDEO
