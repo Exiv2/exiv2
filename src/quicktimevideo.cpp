@@ -21,7 +21,6 @@
 // included header files
 #include "config.h"
 
-#ifdef EXV_ENABLE_VIDEO
 #include "basicio.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
@@ -1615,4 +1614,3 @@ bool isQTimeType(BasicIo& iIo, bool advance) {
 }
 
 }  // namespace Exiv2
-#endif  // EXV_ENABLE_VIDEO

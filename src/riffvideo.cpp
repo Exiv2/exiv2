@@ -21,7 +21,6 @@
 // included header files
 #include "config.h"
 
-#ifdef EXV_ENABLE_VIDEO
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -1257,4 +1256,3 @@ bool isRiffType(BasicIo& iIo, bool advance) {
 }
 
 }  // namespace Exiv2
-#endif  // EXV_ENABLE_VIDEO
