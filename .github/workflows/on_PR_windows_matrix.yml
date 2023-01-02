@@ -192,6 +192,7 @@ jobs:
             -DEXIV2_ENABLE_WEBREADY=ON \
             -DEXIV2_ENABLE_CURL=ON \
             -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_ENABLE_VIDEO=ON \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -S . -B build && \
           cmake --build build --parallel

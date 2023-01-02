@@ -987,7 +987,7 @@ Except for the `unitTests`,  CMake needs to find a python3 interpreter in the sy
 | Name               | Language  | Location    | Command<br>_(in build directory)_ | CMake Option to Build          |
 |:--                 |:--        |:--                      |:--                    |:--                             |
 | bashTests          | python    | tests/bash_tests       | $ ctest -R bash        | -DEXIV2_BUILD_SAMPLES=ON       |
-| bugfixTests        | python    | tests/bugfixes          | $ ctest -R bugfix     |                                |
+| bugfixTests        | python    | tests/bugfixes          | $ ctest -R bugfix     | -DEXIV2_ENBALE_VIDEO=ON        |
 | lensTest           | C++       | tests/lens_tests        | $ ctest -R lens       |                                |
 | tiffTests          | python    | tests/tiff_test         | $ ctest -R tiff       |                                |
 | unitTests          | C++       | unitTests/              | $ ctest -R unit       | -DEXIV2_BUILD_UNIT_TESTS=ON    |
