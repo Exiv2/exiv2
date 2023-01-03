@@ -206,7 +206,6 @@ class QuickTimeVideo : public Image {
    */
   void aspectRatio();
 
- private:
   //! Variable which stores Time Scale unit, used to calculate time.
   uint64_t timeScale_ = 0;
   //! Variable which stores current stream being processsed.

@@ -1669,7 +1669,7 @@ std::string temporaryPath() {
   auto guard = std::scoped_lock(cs);
 
 #if defined(_WIN32)
-  HANDLE process = 0;
+  HANDLE process = nullptr;
   DWORD pid = ::GetProcessId(process);
 #else
   pid_t pid = ::getpid();

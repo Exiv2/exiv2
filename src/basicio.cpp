@@ -199,9 +199,9 @@ int FileIo::munmap() {
 #elif defined _WIN32
     UnmapViewOfFile(p_->pMappedArea_);
     CloseHandle(p_->hMap_);
-    p_->hMap_ = 0;
+    p_->hMap_ = nullptr;
     CloseHandle(p_->hFile_);
-    p_->hFile_ = 0;
+    p_->hFile_ = nullptr;
 #else
 #error Platforms without mmap are not supported. See https://github.com/Exiv2/exiv2/issues/2380
     if (p_->isWriteable_) {
@@ -259,19 +259,19 @@ byte* FileIo::mmap(bool isWriteable) {
     flProtect = PAGE_READWRITE;
   }
   HANDLE hPh = GetCurrentProcess();
-  HANDLE hFd = (HANDLE)_get_osfhandle(fileno(p_->fp_));
+  auto hFd = reinterpret_cast<HANDLE>(_get_osfhandle(fileno(p_->fp_)));
   if (hFd == INVALID_HANDLE_VALUE) {
     throw Error(ErrorCode::kerCallFailed, path(), "MSG1", "_get_osfhandle");
   }
   if (!DuplicateHandle(hPh, hFd, hPh, &p_->hFile_, 0, false, DUPLICATE_SAME_ACCESS)) {
     throw Error(ErrorCode::kerCallFailed, path(), "MSG2", "DuplicateHandle");
   }
-  p_->hMap_ = CreateFileMapping(p_->hFile_, 0, flProtect, 0, (DWORD)p_->mappedLength_, 0);
-  if (p_->hMap_ == 0) {
+  p_->hMap_ = CreateFileMapping(p_->hFile_, nullptr, flProtect, 0, static_cast<DWORD>(p_->mappedLength_), nullptr);
+  if (p_->hMap_ == nullptr) {
     throw Error(ErrorCode::kerCallFailed, path(), "MSG3", "CreateFileMapping");
   }
   void* rc = MapViewOfFile(p_->hMap_, dwAccess, 0, 0, 0);
-  if (rc == 0) {
+  if (rc == nullptr) {
     throw Error(ErrorCode::kerCallFailed, path(), "MSG4", "CreateFileMapping");
   }
   p_->pMappedArea_ = static_cast<byte*>(rc);
@@ -367,7 +367,7 @@ void FileIo::transfer(BasicIo& src) {
       using ReplaceFileA_t = BOOL(WINAPI*)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
       HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
       if (hKernel) {
-        ReplaceFileA_t pfcn_ReplaceFileA = (ReplaceFileA_t)GetProcAddress(hKernel, "ReplaceFileA");
+        auto pfcn_ReplaceFileA = reinterpret_cast<ReplaceFileA_t>(GetProcAddress(hKernel, "ReplaceFileA"));
         if (pfcn_ReplaceFileA) {
           BOOL ret =
               pfcn_ReplaceFileA(pf, fileIo->path().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);

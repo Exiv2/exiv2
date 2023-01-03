@@ -1280,15 +1280,15 @@ bool parseCmdLines(ModifyCmds& modifyCmds, const Params::CmdLines& cmdLines) {
 }  // parseCmdLines
 
 #ifdef _WIN32
-static std::string formatArg(const char* arg) {
-  std::string result = "";
+std::string formatArg(const char* arg) {
+  std::string result;
   char b = ' ';
   char e = '\\';
   std::string E = std::string("\\");
   char q = '\'';
   std::string Q = std::string("'");
   bool qt = false;
-  char* a = (char*)arg;
+  char* a = const_cast<char*>(arg);
   while (*a) {
     if (*a == b || *a == e || *a == q)
       qt = true;
