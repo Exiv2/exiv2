@@ -78,7 +78,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
+          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}  -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
       - name: Install
@@ -136,6 +136,7 @@ jobs:
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
             -DCONAN_AUTO_INSTALL=OFF \
             -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DEXIV2_ENABLE_VIDEO=ON \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF
           cmake --build build --parallel
 

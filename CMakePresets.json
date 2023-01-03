@@ -19,7 +19,7 @@
         "EXIV2_BUILD_UNIT_TESTS": true,
         "EXIV2_TEAM_WARNINGS_AS_ERRORS": true,
         "EXIV2_ENABLE_NLS": false,
-        "EXIV2_ENABLE_VIDEO": true
+        "EXIV2_ENABLE_VIDEO": false
       }
     },
     {

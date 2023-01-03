@@ -42,7 +42,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-coverage -S . -B build 
+          cmake --preset linux-coverage -S . -B build -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build
 
       - name: Tests + Upload coverage
