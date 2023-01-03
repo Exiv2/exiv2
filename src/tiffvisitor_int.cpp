@@ -1329,7 +1329,8 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     v->read(pData, size, byteOrder());
 
     object->setValue(std::move(v));
-    object->setData(pData, size, std::make_shared<DataBuf>());
+    auto d = std::make_shared<DataBuf>();
+    object->setData(pData, size, std::move(d));
     object->setOffset(offset);
     object->setIdx(nextIdx(object->group()));
   } catch (std::overflow_error&) {
@@ -1374,7 +1375,7 @@ void TiffReader::visitBinaryArray(TiffBinaryArray* object) {
     size_t size = object->TiffEntryBase::doSize();
     auto buf = std::make_shared<DataBuf>(cryptFct(object->tag(), pData, size, pRoot_));
     if (!buf->empty())
-      object->setData(buf);
+      object->setData(std::move(buf));
   }
 
   const ArrayDef* defs = object->def();
