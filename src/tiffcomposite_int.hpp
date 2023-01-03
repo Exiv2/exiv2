@@ -428,13 +428,13 @@ class TiffEntryBase : public TiffComponent {
                    you should pass std::shared_ptr<DataBuf>(), which is essentially
                    a nullptr.
    */
-  void setData(byte* pData, size_t size, const std::shared_ptr<DataBuf>& storage);
+  void setData(byte* pData, size_t size, std::shared_ptr<DataBuf> storage);
   /*!
     @brief Set the entry's data buffer. A shared_ptr is used to manage the DataBuf
            because TiffEntryBase has a clone method so it is possible (in theory) for
            the DataBuf to have multiple owners.
    */
-  void setData(const std::shared_ptr<DataBuf>& buf);
+  void setData(std::shared_ptr<DataBuf> buf);
   /*!
    @brief Update the value. Takes ownership of the pointer passed in.
 
@@ -534,7 +534,7 @@ class TiffEntryBase : public TiffComponent {
   static size_t writeOffset(byte* buf, size_t offset, TiffType tiffType, ByteOrder byteOrder);
 
   //! Used (internally) to create another reference to the DataBuf reference by storage_.
-  [[nodiscard]] const std::shared_ptr<DataBuf>& storage() const {
+  [[nodiscard]] std::shared_ptr<DataBuf> storage() const {
     return storage_;
   }
 
