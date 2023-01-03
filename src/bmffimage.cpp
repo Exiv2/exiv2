@@ -171,7 +171,7 @@ class BrotliDecoderWrapper {
   BrotliDecoderState* decoder_;
 
  public:
-  BrotliDecoderWrapper() : decoder_(BrotliDecoderCreateInstance(NULL, NULL, NULL)) {
+  BrotliDecoderWrapper() : decoder_(BrotliDecoderCreateInstance(nullptr, nullptr, nullptr)) {
     if (!decoder_) {
       throw Error(ErrorCode::kerMallocFailed);
     }

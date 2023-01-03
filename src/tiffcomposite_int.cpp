@@ -212,16 +212,16 @@ int TiffEntryBase::idx() const {
   return idx_;
 }
 
-void TiffEntryBase::setData(const std::shared_ptr<DataBuf>& buf) {
-  storage_ = buf;
-  pData_ = buf->data();
-  size_ = buf->size();
+void TiffEntryBase::setData(std::shared_ptr<DataBuf> buf) {
+  storage_ = std::move(buf);
+  pData_ = storage_->data();
+  size_ = storage_->size();
 }
 
-void TiffEntryBase::setData(byte* pData, size_t size, const std::shared_ptr<DataBuf>& storage) {
+void TiffEntryBase::setData(byte* pData, size_t size, std::shared_ptr<DataBuf> storage) {
   pData_ = pData;
   size_ = size;
-  storage_ = storage;
+  storage_ = std::move(storage);
   if (!pData_)
     size_ = 0;
 }
@@ -231,7 +231,8 @@ void TiffEntryBase::updateValue(Value::UniquePtr value, ByteOrder byteOrder) {
     return;
   size_t newSize = value->size();
   if (newSize > size_) {
-    setData(std::make_shared<DataBuf>(newSize));
+    auto d = std::make_shared<DataBuf>(newSize);
+    setData(std::move(d));
   }
   if (pData_) {
     memset(pData_, 0x0, size_);
@@ -431,7 +432,8 @@ size_t TiffBinaryArray::addElement(size_t idx, const ArrayDef& def) {
   // The assertion typically fails if a component is not configured in
   // the TIFF structure table (TiffCreator::tiffTreeStruct_)
   tp->setStart(pData() + idx);
-  tp->setData(const_cast<byte*>(pData() + idx), sz, storage());
+  auto s = storage();
+  tp->setData(const_cast<byte*>(pData() + idx), sz, std::move(s));
   tp->setElDef(def);
   tp->setElByteOrder(cfg()->byteOrder_);
   addChild(std::move(tc));

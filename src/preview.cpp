@@ -206,6 +206,7 @@ class LoaderTiff : public Loader {
  public:
   //! Constructor
   LoaderTiff(PreviewId id, const Image& image, int parIdx);
+  ~LoaderTiff() override = default;
 
   LoaderTiff(const LoaderTiff&) = delete;
   LoaderTiff& operator=(const LoaderTiff&) = delete;

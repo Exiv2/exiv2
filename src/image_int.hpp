@@ -98,7 +98,7 @@ inline binaryToStringHelper<T> binaryToString(const Slice<T> sl) noexcept {
 }
 
 /// @brief indent output for kpsRecursive in \em printStructure() \em .
-std::string indent(size_t depth);
+std::string indent(size_t i);
 
 }  // namespace Exiv2::Internal
 
