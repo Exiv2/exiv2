@@ -1439,7 +1439,7 @@ bool swapBytes(std::string& str) {
 bool mb2wc(UINT cp, std::string& str) {
   if (str.empty())
     return true;
-  int len = MultiByteToWideChar(cp, 0, str.c_str(), (int)str.size(), 0, 0);
+  int len = MultiByteToWideChar(cp, 0, str.c_str(), static_cast<int>(str.size()), nullptr, 0);
   if (len == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     EXV_DEBUG << "mb2wc: Failed to determine required size of output buffer.\n";
@@ -1448,7 +1448,8 @@ bool mb2wc(UINT cp, std::string& str) {
   }
   std::vector<std::string::value_type> out;
   out.resize(len * 2);
-  int ret = MultiByteToWideChar(cp, 0, str.c_str(), (int)str.size(), (LPWSTR)&out[0], len * 2);
+  int ret = MultiByteToWideChar(cp, 0, str.c_str(), static_cast<int>(str.size()), reinterpret_cast<LPWSTR>(out.data()),
+                                len * 2);
   if (ret == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     EXV_DEBUG << "mb2wc: Failed to convert the input string to a wide character string.\n";
@@ -1468,7 +1469,8 @@ bool wc2mb(UINT cp, std::string& str) {
 #endif
     return false;
   }
-  int len = WideCharToMultiByte(cp, 0, (LPCWSTR)str.data(), (int)str.size() / 2, 0, 0, 0, 0);
+  int len = WideCharToMultiByte(cp, 0, reinterpret_cast<LPCWSTR>(str.data()), static_cast<int>(str.size()) / 2, nullptr,
+                                0, nullptr, nullptr);
   if (len == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     EXV_DEBUG << "wc2mb: Failed to determine required size of output buffer.\n";
@@ -1477,7 +1479,8 @@ bool wc2mb(UINT cp, std::string& str) {
   }
   std::vector<std::string::value_type> out;
   out.resize(len);
-  int ret = WideCharToMultiByte(cp, 0, (LPCWSTR)str.data(), (int)str.size() / 2, (LPSTR)&out[0], len, 0, 0);
+  int ret = WideCharToMultiByte(cp, 0, reinterpret_cast<LPCWSTR>(str.data()), static_cast<int>(str.size()) / 2,
+                                static_cast<LPSTR>(out.data()), len, nullptr, nullptr);
   if (ret == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     EXV_DEBUG << "wc2mb: Failed to convert the input string to a multi byte string.\n";
