@@ -28,7 +28,7 @@ target_link_libraries(exiv2 PRIVATE std::filesystem)
 if(MSVC OR MINGW)
     # Trick to get properly UTF-8 encoded argv 
     # More info at: https://github.com/huangqinjin/wmain
-    add_library(wmain STATIC wmain.c)
+    add_library(wmain STATIC wmain.cpp)
     target_link_libraries(exiv2 PRIVATE wmain)
 endif()
 

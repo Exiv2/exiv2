@@ -2,23 +2,23 @@
 
 #include <windows.h>
 
-extern int __cdecl main();
+extern int __cdecl main(int, char*[]);
 
 int wmain(int argc, wchar_t* argv[]) {
   char** args;
-  int nbytes = (int)(sizeof(char*) * (argc + 1));
+  int nbytes = static_cast<int>(sizeof(char*) * (argc + 1));
   HANDLE heap = GetProcessHeap();
 
   for (int i = 0; i < argc; ++i)
-    nbytes += WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, NULL, 0, NULL, NULL);
+    nbytes += WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, nullptr, 0, nullptr, nullptr);
 
-  args = HeapAlloc(heap, 0, nbytes);
-  args[0] = (char*)(args + argc + 1);
+  args = reinterpret_cast<char**>(HeapAlloc(heap, 0, nbytes));
+  args[0] = reinterpret_cast<char*>(args + argc + 1);
 
   for (int i = 0; i < argc; ++i)
-    args[i + 1] = args[i] + WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, args[i], nbytes, NULL, NULL);
+    args[i + 1] = args[i] + WideCharToMultiByte(CP_UTF8, 0, argv[i], -1, args[i], nbytes, nullptr, nullptr);
 
-  args[argc] = NULL;
+  args[argc] = nullptr;
 
   argc = main(argc, args);
   HeapFree(heap, 0, args);
