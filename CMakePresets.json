@@ -142,7 +142,7 @@
       "inherits": "linux-release-NoConan",
       "cacheVariables": { 
         "EXIV2_ENABLE_NLS": true,
-        "EXIV2_ENABLE_VIDEO": true,
+        "EXIV2_ENABLE_VIDEO": false,
         "EXIV2_BUILD_DOC": true
       }
     }
