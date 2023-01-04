@@ -197,7 +197,7 @@ ByteOrder Rw2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
 Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<Rw2Image>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

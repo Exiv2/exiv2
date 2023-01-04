@@ -334,7 +334,7 @@ Loader::UniquePtr Loader::create(PreviewId id, const Image& image) {
   auto loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
 
   if (loader && !loader->valid())
-    loader.reset();
+    return nullptr;
 
   return loader;
 }

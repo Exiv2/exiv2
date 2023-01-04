@@ -1131,7 +1131,7 @@ void EpsImage::writeMetadata() {
 Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<EpsImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

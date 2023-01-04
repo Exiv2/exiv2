@@ -682,7 +682,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
 Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<WebPImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

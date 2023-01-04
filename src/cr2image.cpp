@@ -131,7 +131,7 @@ WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<Cr2Image>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
