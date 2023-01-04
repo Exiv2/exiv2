@@ -479,9 +479,13 @@ class EXIV2API Image {
 
  private:
   // DATA
-  ImageType imageType_;                    //!< Image type
-  uint16_t supportedMetadata_;             //!< Bitmap with all supported metadata types
-  bool writeXmpFromPacket_;                //!< Determines the source when writing XMP
+  ImageType imageType_;         //!< Image type
+  uint16_t supportedMetadata_;  //!< Bitmap with all supported metadata types
+#ifdef EXV_HAVE_XMP_TOOLKIT
+  bool writeXmpFromPacket_{false};  //!< Determines the source when writing XMP
+#else
+  bool writeXmpFromPacket_{true};  //!< Determines the source when writing XMP
+#endif
   ByteOrder byteOrder_{invalidByteOrder};  //!< Byte order
 
   std::map<int, std::string> tags_;  //!< Map of tags

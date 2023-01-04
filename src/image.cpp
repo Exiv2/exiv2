@@ -128,14 +128,7 @@ std::string pathOfFileUrl(const std::string& url) {
 // class member definitions
 namespace Exiv2 {
 Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io) :
-    io_(std::move(io)),
-    imageType_(type),
-    supportedMetadata_(supportedMetadata),
-#ifdef EXV_HAVE_XMP_TOOLKIT
-    writeXmpFromPacket_(false) {
-#else
-    writeXmpFromPacket_(true) {
-#endif
+    io_(std::move(io)), imageType_(type), supportedMetadata_(supportedMetadata) {
 }
 
 void Image::printStructure(std::ostream&, PrintStructureOption, size_t /*depth*/) {
