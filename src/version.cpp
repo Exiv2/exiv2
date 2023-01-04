@@ -316,10 +316,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   have_inttypes = 1;
 #endif
 
-#ifdef EXV_HAVE_LIBINTL_H
-  have_libintl = 1;
-#endif
-
 #ifdef EXV_HAVE_LENSDATA
   have_lensdata = 1;
 #endif
