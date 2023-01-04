@@ -28,7 +28,7 @@ jobs:
 
     - name: build and compile
       run: |
-        cmake --preset linux-sanitizers -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$(which clang++) -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_BUILD_UNIT_TESTS=OFF
+        cmake --preset linux-sanitizers -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=$(which clang++) -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_VIDEO=ON
         cmake --build build --parallel
 
     - name: Fuzz

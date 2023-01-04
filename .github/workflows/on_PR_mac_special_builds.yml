@@ -33,7 +33,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_mac -S . -B build -DEXIV2_TEAM_USE_SANITIZERS=ON
+          cmake --preset base_mac -S . -B build -DEXIV2_TEAM_USE_SANITIZERS=ON -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
       - name: Tests

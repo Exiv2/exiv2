@@ -28,7 +28,6 @@
 #include <iostream>
 #include "config.h"
 
-// #ifdef EXV_ENABLE_VIDEO
 #include "asfvideo.hpp"
 #include "basicio.hpp"
 #include "convert.hpp"
@@ -713,4 +712,3 @@ bool isAsfType(BasicIo& iIo, bool advance) {
 }
 
 }  // namespace Exiv2
-   // #endif // EXV_ENABLE_VIDEO

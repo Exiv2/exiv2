@@ -21,7 +21,6 @@
 // included header files
 #include "config.h"
 
-// #ifdef EXV_ENABLE_VIDEO
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"

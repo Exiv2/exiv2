@@ -54,7 +54,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset win-release -S . -B build
+          cmake --preset win-release -S . -B build  -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
 
@@ -85,7 +85,7 @@ jobs:
 
       - name: build and compile
         run: |
-          cmake --preset linux-release-NoConan -S . -B build
+          cmake --preset linux-release-NoConan -S . -B build  -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
       - name: Test
@@ -115,7 +115,7 @@ jobs:
 
       - name: build and compile
         run: |
-          cmake --preset base_mac -S . -B build -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" 
+          cmake --preset base_mac -S . -B build -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
       - name: Test

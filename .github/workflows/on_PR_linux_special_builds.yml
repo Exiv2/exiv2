@@ -41,7 +41,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-coverage -S . -B build
+          cmake --preset linux-coverage -S . -B build -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
       - name: Tests + Upload coverage
@@ -121,7 +121,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-sanitizers -S . -B build
+          cmake --preset linux-sanitizers -S . -B build -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
       - name: Tests
