@@ -103,6 +103,7 @@ jobs:
       - name: install dependencies
         run: |
           brew install ninja
+          brew install inih
           pushd /tmp
           curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
           tar xzf   release-1.8.0.tar.gz

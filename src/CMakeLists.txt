@@ -58,7 +58,6 @@ set(PUBLIC_HEADERS
     ../include/exiv2/http.hpp
     ../include/exiv2/image.hpp
     ../include/exiv2/image_types.hpp
-    ../include/exiv2/ini.hpp
     ../include/exiv2/iptc.hpp
     ../include/exiv2/jp2image.hpp
     ../include/exiv2/jpgimage.hpp
@@ -105,7 +104,6 @@ add_library( exiv2lib
     gifimage.cpp
     http.cpp
     image.cpp
-    ini.cpp
     iptc.cpp
     jp2image.cpp
     jpgimage.cpp
@@ -255,6 +253,11 @@ endif()
 if( ICONV_FOUND )
     target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
 endif()
+
+target_link_libraries( exiv2lib_int PRIVATE inih::libinih )
+target_link_libraries( exiv2lib_int PRIVATE inih::inireader )
+target_link_libraries( exiv2lib PRIVATE inih::libinih )
+target_link_libraries( exiv2lib PRIVATE inih::inireader )
 
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 

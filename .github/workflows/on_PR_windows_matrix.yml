@@ -128,6 +128,8 @@ jobs:
             zlib:p
             brotli:p
             curl:p
+            meson:p
+            libinih:p
 
       - name: Build
         run: |
@@ -150,7 +152,7 @@ jobs:
       matrix:
         build_type: [Release]
         shared_libraries: [ON]
-        platform: [x64]
+        platform: [x86_64]
     name: Cygwin ${{matrix.platform}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
     env:
       SHELLOPTS: igncr
@@ -180,6 +182,17 @@ jobs:
             libbrotlicommon1
             libbrotlidec1
             libbrotli-devel
+            meson
+            ccache
+
+      - name: Build and install inih
+        run: |
+          git clone https://github.com/benhoyt/inih.git inih_build && \
+          cd inih_build && \
+          git checkout r56 && \
+          meson --buildtype=plain --prefix=/usr builddir && \
+          meson compile -C builddir && \
+          meson install -C builddir
 
       - name: Build
         run: |
