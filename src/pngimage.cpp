@@ -686,7 +686,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
 Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<PngImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

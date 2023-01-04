@@ -766,7 +766,7 @@ void BmffImage::writeMetadata() {
 Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<BmffImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

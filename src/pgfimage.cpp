@@ -288,7 +288,7 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
 Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<PgfImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

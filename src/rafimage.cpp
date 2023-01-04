@@ -317,7 +317,7 @@ void RafImage::writeMetadata() {
 Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<RafImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

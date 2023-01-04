@@ -148,7 +148,7 @@ void XmpSidecar::writeMetadata() {
 Image::UniquePtr newXmpInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<XmpSidecar>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

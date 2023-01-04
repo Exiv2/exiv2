@@ -877,7 +877,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
 Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<Jp2Image>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

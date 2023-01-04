@@ -142,7 +142,7 @@ WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<OrfImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

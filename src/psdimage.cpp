@@ -678,7 +678,7 @@ uint32_t PsdImage::writeXmpData(const XmpData& xmpData, BasicIo& out) const {
 Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<PsdImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

@@ -131,7 +131,7 @@ void CrwParser::encode(Blob& blob, const byte* pData, size_t size, const CrwImag
 Image::UniquePtr newCrwInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<CrwImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

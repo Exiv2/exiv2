@@ -120,7 +120,7 @@ void MrwImage::writeMetadata() {
 Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<MrwImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

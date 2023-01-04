@@ -1232,7 +1232,7 @@ void RiffVideo::fillDuration(double frame_rate, size_t frame_count) {
 Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<RiffVideo>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

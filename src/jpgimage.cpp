@@ -966,7 +966,7 @@ bool JpegImage::isThisType(BasicIo& iIo, bool advance) const {
 Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<JpegImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
@@ -1014,7 +1014,7 @@ bool ExvImage::isThisType(BasicIo& iIo, bool advance) const {
 Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<ExvImage>(std::move(io), create);
   if (!image->good())
-    image.reset();
+    return nullptr;
   return image;
 }
 

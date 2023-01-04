@@ -91,7 +91,7 @@ void TgaImage::writeMetadata() {
 Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<TgaImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

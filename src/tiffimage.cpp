@@ -236,7 +236,7 @@ WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, Byte
 Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<TiffImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

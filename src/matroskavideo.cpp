@@ -947,7 +947,7 @@ uint32_t MatroskaVideo::findBlockSize(byte b) {
 Image::UniquePtr newMkvInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<MatroskaVideo>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

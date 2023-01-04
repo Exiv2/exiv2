@@ -689,7 +689,7 @@ void AsfVideo::aspectRatio() {
 Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<AsfVideo>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
