@@ -1271,7 +1271,7 @@ class ValueType : public Value {
 
     // Check for integer overflow.
 #if __cplusplus >= 201703L
-    if (std::is_signed_v<I> == std::is_signed_v<decltype(a)>) {
+    if constexpr (std::is_signed_v<I> == std::is_signed_v<decltype(a)>) {
 #else
     if (std::is_signed<I>::value == std::is_signed<decltype(a)>::value) {
 #endif
@@ -1282,7 +1282,7 @@ class ValueType : public Value {
         return 0;
       }
 #if __cplusplus >= 201703L
-    } else if (std::is_signed_v<I>) {
+    } else if constexpr (std::is_signed_v<I>) {
 #else
     } else if (std::is_signed<I>::value) {
 #endif
