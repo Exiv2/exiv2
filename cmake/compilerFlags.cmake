@@ -169,5 +169,6 @@ if(MSVC)
 
     add_compile_options(/MP)    # Object Level Parallelism
     add_compile_options(/utf-8) # Set source and execution character sets to UTF-8
+    add_compile_options(/W4)    # all warnings
     add_definitions(-DNOMINMAX) # This definition is not only needed for Exiv2 but also for xmpsdk
 endif()
