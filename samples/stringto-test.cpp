@@ -1,30 +1,11 @@
-// ***************************************************************** -*- C++ -*-
-// stringto-test.cpp
+// SPDX-License-Identifier: GPL-2.0-or-later
 // Test conversions from string to long, float and Rational types.
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
 
 #include <exiv2/exiv2.hpp>
-#include <iostream>
-#include <iomanip>
 
-const char* testcases[] = {
+#include <iostream>
+
+static constexpr const char* testcases[] = {
     // bool
     "True",
     "False",
@@ -52,49 +33,57 @@ const char* testcases[] = {
     "-4/3",
     "0/0",
     // nok
-    "text"
+    "text",
 };
 
-int main()
-{
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
+int main() {
+  Exiv2::XmpParser::initialize();
+  ::atexit(Exiv2::XmpParser::terminate);
 #ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
+  Exiv2::enableBMFF();
 #endif
 
-    std::cout << std::setfill(' ');
+  std::cout << std::setfill(' ');
 
-    std::cout << std::setw(12) << std::left << "string";
-    std::cout << std::setw(12) << std::left << "long";
-    std::cout << std::setw(12) << std::left << "float";
-    std::cout << std::setw(12) << std::left << "Rational";
+  std::cout << std::setw(12) << std::left << "string";
+  std::cout << std::setw(12) << std::left << "long";
+  std::cout << std::setw(12) << std::left << "float";
+  std::cout << std::setw(12) << std::left << "Rational";
 
-    std::cout << std::endl;
+  std::cout << std::endl;
 
-    for (unsigned int i = 0; i < EXV_COUNTOF(testcases); ++i) try {
-        std::string s(testcases[i]);
-        std::cout << std::setw(12) << std::left << s;
-        bool ok;
+  for (auto&& testcase : testcases) {
+    try {
+      std::string s(testcase);
+      std::cout << std::setw(12) << std::left << s;
+      bool ok = false;
 
-        long l = Exiv2::parseLong(s, ok);
-        std::cout << std::setw(12) << std::left;
-        if (ok) std::cout << l; else std::cout << "nok";
+      const auto l = Exiv2::parseInt64(s, ok);
+      std::cout << std::setw(12) << std::left;
+      if (ok)
+        std::cout << l;
+      else
+        std::cout << "nok";
 
-        float f = Exiv2::parseFloat(s, ok);
-        std::cout << std::setw(12) << std::left;
-        if (ok) std::cout << f; else std::cout << "nok";
+      float f = Exiv2::parseFloat(s, ok);
+      std::cout << std::setw(12) << std::left;
+      if (ok)
+        std::cout << f;
+      else
+        std::cout << "nok";
 
-        Exiv2::Rational r = Exiv2::parseRational(s, ok);
-        if (ok) std::cout << r.first << "/" << r.second;
-        else std::cout << "nok";
+      Exiv2::Rational r = Exiv2::parseRational(s, ok);
+      if (ok)
+        std::cout << r.first << "/" << r.second;
+      else
+        std::cout << "nok";
 
-        std::cout << std::endl;
+      std::cout << std::endl;
+    } catch (Exiv2::Error& e) {
+      std::cout << "Caught Exiv2 exception '" << e << "'\n";
+      return EXIT_FAILURE;
     }
-    catch (Exiv2::AnyError& e) {
-        std::cout << "Caught Exiv2 exception '" << e << "'\n";
-        return -1;
-    }
+  }
 
-    return 0;
+  return EXIT_SUCCESS;
 }

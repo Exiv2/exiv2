@@ -1,0 +1,23 @@
+<!DOCTYPE qhelp SYSTEM "qhelp.dtd">
+<qhelp>
+    <overview>
+        <p>
+        A C++ iterator is a lot like a C pointer: if you dereference it without
+        first checking that it's valid then it can cause a crash.
+        </p>
+    </overview>
+    <recommendation>
+        <p>
+        Always check that the iterator is valid before derefencing it.
+        </p>
+    </recommendation>
+    <example>
+        <p>
+        <a href="https://github.com/Exiv2/exiv2/issues/1763">Issue 1763</a> was caused by
+        <a href="https://github.com/Exiv2/exiv2/blob/9b3ed3f9564b4ea51b43c78671435bde6b862e08/src/canonmn_int.cpp#L2755">this
+        dereference</a> of the iterator <tt>pos</tt>.
+        The bug was <a href="https://github.com/Exiv2/exiv2/pull/1767">fixed</a> by not dereferencing
+        <tt>pos</tt> if <tt>pos == metadata->end()</tt>.
+        </p>
+    </example>
+</qhelp>

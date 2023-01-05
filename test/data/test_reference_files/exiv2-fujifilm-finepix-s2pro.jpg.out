@@ -1,0 +1,76 @@
+Exif.Image.Make                              Ascii       9  FUJIFILM  FUJIFILM
+Exif.Image.Model                             Ascii      13  FinePixS2Pro  FinePixS2Pro
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  72/1  72
+Exif.Image.YResolution                       Rational    1  72/1  72
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      36  Digital Camera FinePixS2Pro Ver1.00  Digital Camera FinePixS2Pro Ver1.00
+Exif.Image.DateTime                          Ascii      20  2003:09:26 23:16:36  2003:09:26 23:16:36
+Exif.Image.YCbCrPositioning                  Short       1  2  Co-sited
+Exif.Image.Copyright                         Ascii       5            
+Exif.Image.ExifTag                           Long        1  248  248
+Exif.Photo.ExposureTime                      Rational    1  10/600  1/60 s
+Exif.Photo.FNumber                           Rational    1  400/100  F4
+Exif.Photo.ExposureProgram                   Short       1  3  Aperture priority
+Exif.Photo.ISOSpeedRatings                   Short       1  400  400
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48  2.20
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:26 23:16:36  2003:09:26 23:16:36
+Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:26 23:16:36  2003:09:26 23:16:36
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  15/10  1.5
+Exif.Photo.ShutterSpeedValue                 SRational   1  600/100  1/64 s
+Exif.Photo.ApertureValue                     Rational    1  400/100  F4
+Exif.Photo.BrightnessValue                   SRational   1  -183/100  -1.83
+Exif.Photo.ExposureBiasValue                 SRational   1  50/100  +1/2 EV
+Exif.Photo.MeteringMode                      Short       1  2  Center weighted average
+Exif.Photo.LightSource                       Short       1  0  Unknown
+Exif.Photo.Flash                             Short       1  9  Yes, compulsory
+Exif.Photo.FocalLength                       Rational    1  2800/100  28.0 mm
+Exif.Photo.MakerNote                         Undefined 226  70 85 74 73 70 73 76 77 12 0 0 0 16 0 0 0 7 0 4 0 0 0 48 49 51 48 0 16 2 0 8 0 0 0 210 0 0 0 1 16 3 0 1 0 0 0 3 0 0 0 2 16 3 0 1 0 0 0 0 1 0 0 3 16 3 0 1 0 0 0 0 0 0 0 4 16 3 0 1 0 0 0 0 0 0 0 16 16 3 0 1 0 0 0 1 0 0 0 17 16 10 0 1 0 0 0 218 0 0 0 33 16 3 0 1 0 0 0 0 0 0 0 34 16 3 0 1 0 0 0 1 0 0 0 48 16 3 0 1 0 0 0 0 0 0 0 49 16 3 0 1 0 0 0 0 1 0 0 50 16 3 0 1 0 0 0 1 0 0 0 0 17 3 0 1 0 0 0 0 0 0 0 1 17 3 0 1 0 0 0 0 0 0 0 0 18 3 0 1 0 0 0 0 0 0 0 0 0 0 0 78 79 82 77 65 76 32 0 10 0 0 0 10 0 0 0  70 85 74 73 70 73 76 77 12 0 0 0 16 0 0 0 7 0 4 0 0 0 48 49 51 48 0 16 2 0 8 0 0 0 210 0 0 0 1 16 3 0 1 0 0 0 3 0 0 0 2 16 3 0 1 0 0 0 0 1 0 0 3 16 3 0 1 0 0 0 0 0 0 0 4 16 3 0 1 0 0 0 0 0 0 0 16 16 3 0 1 0 0 0 1 0 0 0 17 16 10 0 1 0 0 0 218 0 0 0 33 16 3 0 1 0 0 0 0 0 0 0 34 16 3 0 1 0 0 0 1 0 0 0 48 16 3 0 1 0 0 0 0 0 0 0 49 16 3 0 1 0 0 0 0 1 0 0 50 16 3 0 1 0 0 0 1 0 0 0 0 17 3 0 1 0 0 0 0 0 0 0 1 17 3 0 1 0 0 0 0 0 0 0 0 18 3 0 1 0 0 0 0 0 0 0 0 0 0 0 78 79 82 77 65 76 32 0 10 0 0 0 10 0 0 0
+Exif.MakerNote.Offset                        Long        1  830  830
+Exif.MakerNote.ByteOrder                     Ascii       3  II  II
+Exif.Fujifilm.Version                        Undefined   4  48 49 51 48  48 49 51 48
+Exif.Fujifilm.Quality                        Ascii       8  NORMAL   NORMAL 
+Exif.Fujifilm.Sharpness                      Short       1  3  0 (normal)
+Exif.Fujifilm.WhiteBalance                   Short       1  256  Daylight
+Exif.Fujifilm.Color                          Short       1  0  0 (normal)
+Exif.Fujifilm.Tone                           Short       1  0  Normal
+Exif.Fujifilm.FlashMode                      Short       1  1  On
+Exif.Fujifilm.FlashStrength                  SRational   1  10/10  10/10
+Exif.Fujifilm.FocusMode                      Short       1  0  Auto
+Exif.Fujifilm.FocusArea                      Short       1  1  Single Point
+Exif.Fujifilm.SlowSync                       Short       1  0  Off
+Exif.Fujifilm.PictureMode                    Short       1  256  Aperture-priority AE
+Exif.Fujifilm.ExposureCount                  Short       1  1  1
+Exif.Fujifilm.Continuous                     Short       1  0  Off
+Exif.Fujifilm.SequenceNumber                 Short       1  0  0
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  3024  3024
+Exif.Photo.PixelYDimension                   Long        1  2016  2016
+Exif.Photo.InteroperabilityTag               Long        1  1056  1056
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48  1.00
+Exif.Photo.FocalPlaneXResolution             Rational    1  1322/1  1322
+Exif.Photo.FocalPlaneYResolution             Rational    1  1322/1  1322
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  3  cm
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Photo.CustomRendered                    Short       1  0  Normal process
+Exif.Photo.ExposureMode                      Short       1  0  Auto
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  42  42.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.Contrast                          Short       1  0  Normal
+Exif.Photo.Saturation                        Short       1  0  Normal
+Exif.Photo.Sharpness                         Short       1  0  Normal
+Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.Orientation                   Short       1  1  top, left
+Exif.Thumbnail.XResolution                   Rational    1  72/1  72
+Exif.Thumbnail.YResolution                   Rational    1  72/1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1204  1204
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9573  9573
+Exif.Thumbnail.YCbCrPositioning              Short       1  2  Co-sited

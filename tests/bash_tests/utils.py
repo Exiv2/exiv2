@@ -30,6 +30,7 @@ class Config:
     dyld_library_path   = os.path.join(bin_dir, '../lib')
     ld_library_path     = os.path.join(bin_dir, '../lib')
     data_dir            = os.path.join(exiv2_dir, 'test/data')
+    ref_dir             = os.path.join(data_dir, 'test_reference_files')
     tmp_dir             = os.path.join(exiv2_dir, 'test/tmp')
     system_name         = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
     exiv2_http          = 'http://127.0.0.1'
@@ -495,6 +496,7 @@ class Executer:
         # Extract stdout and stderr
         if self.compatible_output:
             output      = [i.replace(b'\r\n', b'\n')    for i in output]   # Fix dos line-endings
+            output      = [i.replace(b'\r', b'\n')      for i in output]   # we only want \n new lines
             output      = [i.replace(b'\\', rb'/')      for i in output]   # Fix dos path separators
         if self.decode_output:
             output      = [i.decode(self.encoding)      for i in output]
@@ -550,7 +552,7 @@ def reportTest(testname, output: str, encoding=None,forgive=False):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
     output               = str(output) + '\n'
     encoding             = encoding or Config.encoding
-    reference_file       = os.path.join(Config.data_dir, '{}.out'.format(testname))
+    reference_file       = os.path.join(Config.ref_dir, '{}.out'.format(testname))
     reference_output     = cat(reference_file, encoding=encoding)
     if reference_output == output:
         return
@@ -642,11 +644,11 @@ def addModTest(filename):
     stdin       = """
 a Iptc.Application2.Headline		  The headline I am
 a Iptc.Application2.Keywords		  Yet another keyword
-m Iptc.Application2.DateCreated		  2004-8-3
+m Iptc.Application2.DateCreated		  2004-08-03
 a Iptc.Application2.Urgency			  3
 m Iptc.Application2.SuppCategory	  "bla bla ba"
 a Iptc.Envelope.ModelVersion		  2
-a Iptc.Envelope.TimeSent			  14:41:0-05:00
+a Iptc.Envelope.TimeSent                  14:41:00-05:00
 a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 """.lstrip('\n').encode()
     Executer('iptctest {tmp}', vars(), stdin=stdin)

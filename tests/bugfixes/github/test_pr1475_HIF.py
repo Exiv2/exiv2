@@ -36,7 +36,10 @@ Exif.Photo.DateTimeOriginal                  Ascii      20  2021:02:18 19:55:41
 Exif.Photo.DateTimeDigitized                 Ascii      20  2021:02:18 19:55:41
 Exif.Photo.ExposureBiasValue                 SRational   1  0 EV
 Exif.Photo.Flash                             Short       1  No, compulsory
+Exif.Sony1.LongExposureNoiseReduction        Long        1  Off
 Exif.Sony1.FlashExposureComp                 SRational   1  0 EV
+Exif.Sony1.FlashAction                       Long        1  Did not fire
+Exif.Sony1.ExposureStandardAdjustment        SRational   1  0.0
 Exif.Sony1.ExposureMode                      Short       1  Manual
 Exif.Sony1.FlashLevel                        SShort      1  Normal
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
@@ -163,10 +166,17 @@ Exif.CanonCs.ExposureProgram                 Short       1  Manual (M)
 Exif.CanonCs.FlashActivity                   Short       1  Did not fire
 Exif.CanonCs.FlashDetails                    Short       1  E-TTL
 Exif.CanonCs.ManualFlashOutput               Short       1  n/a
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0
+Exif.CanonSi.ExposureCompensation            Short       1  0
 Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.FlashBias                       Short       1  0 EV
 Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.FlashOutput                     Short       1  0
 Exif.CanonFi.FlashExposureLock               SShort      1  Off
+Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  Off
+Exif.CanonMe.MultiExposure                   SLong       1  Off
+Exif.CanonMe.MultiExposureControl            SLong       1  Additive
+Exif.CanonMe.MultiExposureShots              SLong       1  Off
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ExposureMode                      Short       1  Manual
 Xmp.xmp.Rating                               XmpText     1  0

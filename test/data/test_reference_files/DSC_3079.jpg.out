@@ -1,0 +1,35 @@
+Exif.Image.Make                              Ascii       5  Sony  Sony
+Exif.Image.Model                             Ascii       6  D5803  D5803
+Exif.Image.ExifTag                           Long        1  62  62
+Exif.Photo.ExposureTime                      Rational    1  31250/1000000  1/32 s
+Exif.Photo.FNumber                           Rational    1  200000/100000  F2
+Exif.Photo.ISOSpeedRatings                   Short       1  64  64
+Exif.Photo.DateTimeOriginal                  Ascii      20  2018:01:04 11:42:41  2018:01:04 11:42:41
+Exif.Photo.ShutterSpeedValue                 SRational   1  500000/100000  1/32 s
+Exif.Photo.ExposureBiasValue                 SRational   1  0/100000  0 EV
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.LightSource                       Short       1  0  Unknown
+Exif.Photo.Flash                             Short       1  16  No, compulsory
+Exif.Photo.FocalLength                       Rational    1  4600000/1000000  4.6 mm
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Iptc.Envelope.CharacterSet                   String      3  %G  %G
+Iptc.Application2.RecordVersion              Short       1  4  4
+Iptc.Application2.Keywords                   String      7  America  America
+Xmp.MY.DateConfidence                        XmpText     4  Full  Full
+Xmp.exifEX.PhotographicSensitivity           XmpText     2  64  64
+Xmp.mwg-rs.Regions                           XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:w XmpText     3  540  540
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:h XmpText     3  960  960
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:unit XmpText     5  pixel  pixel
+Xmp.mwg-rs.Regions/mwg-rs:RegionList         XmpText     0  type="Seq"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]      XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Type XmpText     4  Face  Face
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Name XmpText     7  America  America
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:x XmpText     8  0.825794  0.825794
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:y XmpText     8  0.379665  0.379665
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:w XmpText     8  0.110064  0.110064
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:h XmpText     8  0.077389  0.077389
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:unit XmpText    10  normalized  normalized
+Xmp.dc.subject                               XmpBag      1  America  America

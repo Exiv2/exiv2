@@ -1,0 +1,20 @@
+Error: Directory Image: IFD entry 6 lies outside of the data buffer.
+Warning: Directory Image, entry 0x2020 has unknown Exif (TIFF) type 8224; setting type size 1.
+Error: Directory Image, entry 0x2020 has invalid size 553647904*1; skipping entry.
+Warning: Directory Image, entry 0x20ff has unknown Exif (TIFF) type 8224; setting type size 1.
+Error: Directory Image, entry 0x20ff has invalid size 539033599*1; skipping entry.
+Warning: Directory Image, entry 0x5441 has unknown Exif (TIFF) type 22560; setting type size 1.
+Error: Offset of directory Image, entry 0x5441 is out of bounds: Offset = 0xff20ffff; truncating the entry
+Warning: Directory Image, entry 0xc634 has unknown Exif (TIFF) type 8224; setting type size 1.
+Error: Directory PentaxDng: IFD entry 3 lies outside of the data buffer.
+Warning: Directory PentaxDng, entry 0x20ff has unknown Exif (TIFF) type 65478; setting type size 1.
+Error: Directory PentaxDng, entry 0x20ff has invalid size 874520576*1; skipping entry.
+Warning: Directory PentaxDng, entry 0x0000 has unknown Exif (TIFF) type 12320; setting type size 1.
+Error: Directory PentaxDng, entry 0x0000 has invalid size 4280295456*1; skipping entry.
+Warning: Directory Image, entry 0x20ff has unknown Exif (TIFF) type 8224; setting type size 1.
+Error: Directory Image, entry 0x20ff has invalid size 538976288*1; skipping entry.
+Exif.Image.Make                              Ascii      32  PENTAX 
+Exif.Image.DNGPrivateData                    0x2020     32  80 69 78 84 65 88 32 0 255 32 0 255 32 255 255 198 52 32 32 0 0 0 32 0 0 0 48 32 255 32 32 32
+Exif.MakerNote.Offset                        Long        1  48
+Exif.MakerNote.ByteOrder                     Ascii       3  MM
+Exif.PentaxDng.Date                          Ascii       4  16776992:32:32

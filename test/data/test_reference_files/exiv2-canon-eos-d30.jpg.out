@@ -1,0 +1,118 @@
+Exif.Image.Make                              Ascii       6  Canon  Canon
+Exif.Image.Model                             Ascii      14  Canon EOS D30  Canon EOS D30
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  180/1  180
+Exif.Image.YResolution                       Rational    1  180/1  180
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.DateTime                          Ascii      20  2000:10:04 13:55:05  2000:10:04 13:55:05
+Exif.Image.YCbCrPositioning                  Short       1  1  Centered
+Exif.Image.ExifTag                           Long        1  178  178
+Exif.Photo.ExposureTime                      Rational    1  1/350  1/350 s
+Exif.Photo.FNumber                           Rational    1  40/10  F4
+Exif.Photo.ISOSpeedRatings                   Short       1  100  100
+Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48  2.10
+Exif.Photo.DateTimeOriginal                  Ascii      20  2000:10:04 13:55:05  2000:10:04 13:55:05
+Exif.Photo.DateTimeDigitized                 Ascii      20  2000:10:04 13:55:05  2000:10:04 13:55:05
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  3/1  3
+Exif.Photo.ShutterSpeedValue                 SRational   1  553859/65536  1/350 s
+Exif.Photo.ApertureValue                     Rational    1  262144/65536  F4
+Exif.Photo.ExposureBiasValue                 SRational   1  0/2  0 EV
+Exif.Photo.MaxApertureValue                  Rational    1  194698/65536  F2.8
+Exif.Photo.SubjectDistance                   Rational    1  0/1000  Unknown
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.Flash                             Short       1  0  No flash
+Exif.Photo.FocalLength                       Rational    1  70/1  70.0 mm
+Exif.Photo.MakerNote                         Undefined 582  15 0 1 0 3 0 32 0 0 0 58 4 0 0 2 0 3 0 4 0 0 0 122 4 0 0 3 0 3 0 4 0 0 0 130 4 0 0 4 0 3 0 25 0 0 0 138 4 0 0 0 0 3 0 6 0 0 0 188 4 0 0 10 0 3 0 59 0 0 0 200 4 0 0 6 0 2 0 32 0 0 0 62 5 0 0 7 0 2 0 24 0 0 0 94 5 0 0 12 0 4 0 1 0 0 0 147 27 49 9 8 0 4 0 1 0 0 0 166 201 135 0 9 0 2 0 32 0 0 0 118 5 0 0 16 0 4 0 1 0 0 0 0 0 20 1 14 0 4 0 1 0 0 0 88 47 17 0 13 0 3 0 10 0 0 0 150 5 0 0 15 0 3 0 14 0 0 0 170 5 0 0 0 0 0 0 64 0 2 0 0 0 3 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 3 0 2 0 1 48 3 0 0 0 161 0 70 0 28 0 1 0 95 0 29 1 255 0 0 0 0 0 0 0 0 0 70 0 146 3 98 2 100 0 0 0 0 0 0 0 50 0 0 0 160 0 248 0 128 0 14 1 0 0 1 0 3 0 1 0 8 0 8 0 0 0 0 0 0 48 0 0 0 0 0 0 1 0 0 0 0 0 128 0 24 1 154 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 118 0 8 0 8 0 0 0 0 0 12 0 34 31 27 249 86 50 81 20 11 111 240 112 50 52 44 206 72 2 241 33 21 162 32 1 163 31 28 11 133 50 177 23 19 238 148 1 242 51 45 218 78 50 1 37 31 220 159 17 179 31 27 7 122 114 50 24 21 18 210 97 66 52 45 233 84 66 113 36 31 220 169 129 67 31 27 20 141 66 210 23 21 29 211 161 114 52 45 237 92 210 1 37 32 229 167 177 4 0 126 0 127 0 126 0 127 0 73 77 71 58 69 79 83 32 68 51 48 32 74 80 69 71 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 65 108 112 104 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 28 0 0 1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0 13  15 0 1 0 3 0 32 0 0 0 58 4 0 0 2 0 3 0 4 0 0 0 122 4 0 0 3 0 3 0 4 0 0 0 130 4 0 0 4 0 3 0 25 0 0 0 138 4 0 0 0 0 3 0 6 0 0 0 188 4 0 0 10 0 3 0 59 0 0 0 200 4 0 0 6 0 2 0 32 0 0 0 62 5 0 0 7 0 2 0 24 0 0 0 94 5 0 0 12 0 4 0 1 0 0 0 147 27 49 9 8 0 4 0 1 0 0 0 166 201 135 0 9 0 2 0 32 0 0 0 118 5 0 0 16 0 4 0 1 0 0 0 0 0 20 1 14 0 4 0 1 0 0 0 88 47 17 0 13 0 3 0 10 0 0 0 150 5 0 0 15 0 3 0 14 0 0 0 170 5 0 0 0 0 0 0 64 0 2 0 0 0 3 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 3 0 2 0 1 48 3 0 0 0 161 0 70 0 28 0 1 0 95 0 29 1 255 0 0 0 0 0 0 0 0 0 70 0 146 3 98 2 100 0 0 0 0 0 0 0 50 0 0 0 160 0 248 0 128 0 14 1 0 0 1 0 3 0 1 0 8 0 8 0 0 0 0 0 0 48 0 0 0 0 0 0 1 0 0 0 0 0 128 0 24 1 154 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 118 0 8 0 8 0 0 0 0 0 12 0 34 31 27 249 86 50 81 20 11 111 240 112 50 52 44 206 72 2 241 33 21 162 32 1 163 31 28 11 133 50 177 23 19 238 148 1 242 51 45 218 78 50 1 37 31 220 159 17 179 31 27 7 122 114 50 24 21 18 210 97 66 52 45 233 84 66 113 36 31 220 169 129 67 31 27 20 141 66 210 23 21 29 211 161 114 52 45 237 92 210 1 37 32 229 167 177 4 0 126 0 127 0 126 0 127 0 73 77 71 58 69 79 83 32 68 51 48 32 74 80 69 71 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 65 108 112 104 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 28 0 0 1 0 2 0 3 0 4 0 5 0 6 0 7 0 8 0 9 0 10 0 11 0 12 0 13
+Exif.MakerNote.Offset                        Long        1  896  896
+Exif.MakerNote.ByteOrder                     Ascii       3  II  II
+Exif.CanonCs.Macro                           Short       1  2  Off
+Exif.CanonCs.Selftimer                       Short       1  0  Off
+Exif.CanonCs.Quality                         Short       1  3  Fine
+Exif.CanonCs.FlashMode                       Short       1  0  Off
+Exif.CanonCs.DriveMode                       Short       1  1  Continuous
+Exif.CanonCs.FocusMode                       Short       1  1  AI servo AF
+Exif.CanonCs.RecordMode                      Short       1  1  JPEG
+Exif.CanonCs.ImageSize                       Short       1  0  Large
+Exif.CanonCs.EasyMode                        Short       1  1  Manual
+Exif.CanonCs.DigitalZoom                     Short       1  0  None
+Exif.CanonCs.Contrast                        Short       1  0  Normal
+Exif.CanonCs.Saturation                      Short       1  0  Normal
+Exif.CanonCs.Sharpness                       Short       1  0  Normal
+Exif.CanonCs.ISOSpeed                        Short       1  0  n/a
+Exif.CanonCs.MeteringMode                    Short       1  3  Evaluative
+Exif.CanonCs.FocusType                       Short       1  2  Not known
+Exif.CanonCs.AFPoint                         Short       1  12289  Auto-selected
+Exif.CanonCs.ExposureProgram                 Short       1  3  Aperture priority (Av)
+Exif.CanonCs.LensType                        Short       1  161  Canon EF 28-70mm f/2.8L USM *OR* Sigma 28-70mm f/2.8 EX
+Exif.CanonCs.Lens                            Short       3  70 28 1  28.0 - 70.0 mm
+Exif.CanonCs.MaxAperture                     Short       1  95  F2.8
+Exif.CanonCs.MinAperture                     Short       1  285  F22
+Exif.CanonCs.FlashActivity                   Short       1  255  (255)
+Exif.CanonCs.FlashDetails                    Short       1  0  
+Exif.Canon.FocalLength                       Short       4  0 70 914 610  70.0 mm
+Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0  100 0 0 0
+Exif.CanonSi.AutoISO                         Short       1  0  100
+Exif.CanonSi.ISOSpeed                        Short       1  160  100
+Exif.CanonSi.MeasuredEV                      Short       1  248  12.75
+Exif.CanonSi.TargetAperture                  Short       1  128  F4
+Exif.CanonSi.TargetShutterSpeed              Short       1  270  1/347 s
+Exif.CanonSi.ExposureCompensation            Short       1  0  0
+Exif.CanonSi.WhiteBalance                    Short       1  1  Daylight
+Exif.CanonSi.SlowShutter                     Short       1  3  None
+Exif.CanonSi.Sequence                        Short       1  1  1
+Exif.CanonSi.OpticalZoomCode                 Short       1  8  8
+Exif.CanonSi.CameraTemperature               Short       1  0  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0  0
+Exif.CanonSi.AFPointUsed                     Short       1  12288  3 focus points; none used
+Exif.CanonSi.FlashBias                       Short       1  0  0 EV
+Exif.CanonSi.AutoExposureBracketing          Short       1  0  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0  0
+Exif.CanonSi.ControlMode                     Short       1  1  1
+Exif.CanonSi.SubjectDistance                 Short       1  0  0 m
+Exif.CanonSi.ApertureValue                   Short       1  128  F4
+Exif.CanonSi.ShutterSpeedValue               Short       1  280  1/431 s
+Exif.CanonSi.MeasuredEV2                     Short       1  154  13.25
+Exif.CanonSi.BulbDuration                    Short       1  0  0
+Exif.Canon.ImageType                         Ascii      32  IMG:EOS D30 JPEG  IMG:EOS D30 JPEG
+Exif.Canon.FirmwareVersion                   Ascii      24  Firmware Version Alpha  Firmware Version Alpha
+Exif.Canon.SerialNumber                      Long        1  154213267  093107059
+Exif.Canon.FileNumber                        Long        1  8898982  889-8982
+Exif.Canon.OwnerName                         Ascii      32    
+Exif.Canon.ModelID                           Long        1  18087936  EOS D30
+Exif.Canon.FileLength                        Long        1  1126232  1126232
+Exif.Canon.CameraInfo                        Short      10  0 0 0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0 0 0
+Exif.CanonCf.NoiseReduction                  Short       1  256  256
+Exif.CanonCf.ShutterAeLock                   Short       1  512  512
+Exif.CanonCf.MirrorLockup                    Short       1  768  768
+Exif.CanonCf.ExposureLevelIncrements         Short       1  1024  1024
+Exif.CanonCf.AFAssist                        Short       1  1280  1280
+Exif.CanonCf.FlashSyncSpeedAv                Short       1  1536  1536
+Exif.CanonCf.AEBSequence                     Short       1  1792  1792
+Exif.CanonCf.ShutterCurtainSync              Short       1  2048  2048
+Exif.CanonCf.LensAFStopButton                Short       1  2304  2304
+Exif.CanonCf.FillFlashAutoReduction          Short       1  2560  2560
+Exif.CanonCf.MenuButtonReturn                Short       1  2816  2816
+Exif.CanonCf.SetButtonFunction               Short       1  3072  3072
+Exif.CanonCf.SensorCleaning                  Short       1  3328  3328
+Exif.Photo.UserComment                       Undefined 264    
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Short       1  2160  2160
+Exif.Photo.PixelYDimension                   Short       1  1440  1440
+Exif.Photo.InteroperabilityTag               Long        1  1494  1494
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48  1.00
+Exif.Iop.RelatedImageWidth                   Short       1  2160  2160
+Exif.Iop.RelatedImageLength                  Short       1  1440  1440
+Exif.Photo.FocalPlaneXResolution             Rational    1  2160000/892  2421.52
+Exif.Photo.FocalPlaneYResolution             Rational    1  1440000/595  2420.17
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  2  inch
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.XResolution                   Rational    1  180/1  180
+Exif.Thumbnail.YResolution                   Rational    1  180/1  180
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036  2036
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  13824  13824

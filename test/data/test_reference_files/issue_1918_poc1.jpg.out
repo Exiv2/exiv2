@@ -1,0 +1,129 @@
+Xmp.exif.DateTimeOriginal                    XmpText    19  2021:08:19 18:48:53  2021:08:19 18:48:53
+Xmp.xmp.Rating                               XmpText     1  1  1
+Xmp.darktable.xmp_version                    XmpText     1  4  4
+Xmp.darktable.raw_params                     XmpText     1  0  0
+Xmp.darktable.auto_presets_applied           XmpText     1  1  1
+Xmp.darktable.history_end                    XmpText     2  12  12
+Xmp.darktable.iop_order_version              XmpText     1  2  2
+Xmp.darktable.masks_history                  XmpSeq      0  
+Xmp.darktable.history                        XmpText     0  type="Seq"
+Xmp.darktable.history[1]                     XmpText     0  type="Struct"
+Xmp.darktable.history[1]/darktable:num       XmpText     1  0  0
+Xmp.darktable.history[1]/darktable:operation XmpText    10  rawprepare  rawprepare
+Xmp.darktable.history[1]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[1]/darktable:modversion XmpText     1  1  1
+Xmp.darktable.history[1]/darktable:params    XmpText    56  00000000000000001c000000000000000002000200020002ac3f0000  00000000000000001c000000000000000002000200020002ac3f0000
+Xmp.darktable.history[1]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[1]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[1]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[1]/darktable:blendop_params XmpText    48  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=
+Xmp.darktable.history[2]                     XmpText     0  type="Struct"
+Xmp.darktable.history[2]/darktable:num       XmpText     1  1  1
+Xmp.darktable.history[2]/darktable:operation XmpText     8  demosaic  demosaic
+Xmp.darktable.history[2]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[2]/darktable:modversion XmpText     1  4  4
+Xmp.darktable.history[2]/darktable:params    XmpText    48  0000000000000000000000000500000001000000cdcc4c3e  0000000000000000000000000500000001000000cdcc4c3e
+Xmp.darktable.history[2]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[2]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[2]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[2]/darktable:blendop_params XmpText    48  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=
+Xmp.darktable.history[3]                     XmpText     0  type="Struct"
+Xmp.darktable.history[3]/darktable:num       XmpText     1  2  2
+Xmp.darktable.history[3]/darktable:operation XmpText     7  colorin  colorin
+Xmp.darktable.history[3]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[3]/darktable:modversion XmpText     1  7  7
+Xmp.darktable.history[3]/darktable:params    XmpText    36  gz48eJzjZhgFowABWAbaAaNgwAEAOQAAEA==  gz48eJzjZhgFowABWAbaAaNgwAEAOQAAEA==
+Xmp.darktable.history[3]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[3]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[3]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[3]/darktable:blendop_params XmpText    48  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=
+Xmp.darktable.history[4]                     XmpText     0  type="Struct"
+Xmp.darktable.history[4]/darktable:num       XmpText     1  3  3
+Xmp.darktable.history[4]/darktable:operation XmpText     8  colorout  colorout
+Xmp.darktable.history[4]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[4]/darktable:modversion XmpText     1  5  5
+Xmp.darktable.history[4]/darktable:params    XmpText    24  gz35eJxjZBgFo4CBAQAEEAAC  gz35eJxjZBgFo4CBAQAEEAAC
+Xmp.darktable.history[4]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[4]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[4]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[4]/darktable:blendop_params XmpText    48  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=
+Xmp.darktable.history[5]                     XmpText     0  type="Struct"
+Xmp.darktable.history[5]/darktable:num       XmpText     1  4  4
+Xmp.darktable.history[5]/darktable:operation XmpText     5  gamma  gamma
+Xmp.darktable.history[5]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[5]/darktable:modversion XmpText     1  1  1
+Xmp.darktable.history[5]/darktable:params    XmpText    16  0000000000000000  0000000000000000
+Xmp.darktable.history[5]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[5]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[5]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[5]/darktable:blendop_params XmpText    48  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=
+Xmp.darktable.history[6]                     XmpText     0  type="Struct"
+Xmp.darktable.history[6]/darktable:num       XmpText     1  5  5
+Xmp.darktable.history[6]/darktable:operation XmpText    11  temperature  temperature
+Xmp.darktable.history[6]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[6]/darktable:modversion XmpText     1  3  3
+Xmp.darktable.history[6]/darktable:params    XmpText    32  027141400000803f014ec03f0000807f  027141400000803f014ec03f0000807f
+Xmp.darktable.history[6]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[6]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[6]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[6]/darktable:blendop_params XmpText    48  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=
+Xmp.darktable.history[7]                     XmpText     0  type="Struct"
+Xmp.darktable.history[7]/darktable:num       XmpText     1  6  6
+Xmp.darktable.history[7]/darktable:operation XmpText    10  highlights  highlights
+Xmp.darktable.history[7]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[7]/darktable:modversion XmpText     1  2  2
+Xmp.darktable.history[7]/darktable:params    XmpText    40  000000000000803f00000000000000000000803f  000000000000803f00000000000000000000803f
+Xmp.darktable.history[7]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[7]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[7]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[7]/darktable:blendop_params XmpText    52  gz13eJxjYGBgYARiCQYYOOHEgAZY0QVwggZ7CB6pfNoAAFDAGQk=  gz13eJxjYGBgYARiCQYYOOHEgAZY0QVwggZ7CB6pfNoAAFDAGQk=
+Xmp.darktable.history[8]                     XmpText     0  type="Struct"
+Xmp.darktable.history[8]/darktable:num       XmpText     1  7  7
+Xmp.darktable.history[8]/darktable:operation XmpText    15  channelmixerrgb  channelmixerrgb
+Xmp.darktable.history[8]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[8]/darktable:modversion XmpText     1  3  3
+Xmp.darktable.history[8]/darktable:params    XmpText    68  gz04eJxjYGiwZ8AAxIqRD9iBmAmIWYCYEYiXtp2zOzHnih3HnjRXkF2MUHkAszYJKg==  gz04eJxjYGiwZ8AAxIqRD9iBmAmIWYCYEYiXtp2zOzHnih3HnjRXkF2MUHkAszYJKg==
+Xmp.darktable.history[8]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[8]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[8]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[8]/darktable:blendop_params XmpText    64  gz10eJxjYGBgYAFiCQYYOOHEgAZY0QVwggZ7CB6pfOygYtaVAyCMi08IAAB/xiOk  gz10eJxjYGBgYAFiCQYYOOHEgAZY0QVwggZ7CB6pfOygYtaVAyCMi08IAAB/xiOk
+Xmp.darktable.history[9]                     XmpText     0  type="Struct"
+Xmp.darktable.history[9]/darktable:num       XmpText     1  8  8
+Xmp.darktable.history[9]/darktable:operation XmpText     9  filmicrgb  filmicrgb
+Xmp.darktable.history[9]/darktable:enabled   XmpText     1  1  1
+Xmp.darktable.history[9]/darktable:modversion XmpText     1  4  4
+Xmp.darktable.history[9]/darktable:params    XmpText   108  gz02eJybNXOy49kzbw4E7ZjnwMDgAMUnnCAYAmYB1egvq7ABidXcDgLKszidPbPGHiZ/9oyPHTOQZgJiRqgYIxQzQTEIPGFnYAAA0YMWsA==  gz02eJybNXOy49kzbw4E7ZjnwMDgAMUnnCAYAmYB1egvq7ABidXcDgLKszidPbPGHiZ/9oyPHTOQZgJiRqgYIxQzQTEIPGFnYAAA0YMWsA==
+Xmp.darktable.history[9]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[9]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[9]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[9]/darktable:blendop_params XmpText    64  gz10eJxjYGBgYAFiCQYYOOHEgAZY0QVwggZ7CB6pfOygYtaVAyCMi08IAAB/xiOk  gz10eJxjYGBgYAFiCQYYOOHEgAZY0QVwggZ7CB6pfOygYtaVAyCMi08IAAB/xiOk
+Xmp.darktable.history[10]                    XmpText     0  type="Struct"
+Xmp.darktable.history[10]/darktable:num      XmpText     1  9  9
+Xmp.darktable.history[10]/darktable:operation XmpText     8  exposure  exposure
+Xmp.darktable.history[10]/darktable:enabled  XmpText     1  1  1
+Xmp.darktable.history[10]/darktable:modversion XmpText     1  6  6
+Xmp.darktable.history[10]/darktable:params   XmpText    48  00000000000080b90000003f00004842000080c001000000  00000000000080b90000003f00004842000080c001000000
+Xmp.darktable.history[10]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[10]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[10]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[10]/darktable:blendop_params XmpText    64  gz10eJxjYGBgYAFiCQYYOOHEgAZY0QVwggZ7CB6pfOygYtaVAyCMi08IAAB/xiOk  gz10eJxjYGBgYAFiCQYYOOHEgAZY0QVwggZ7CB6pfOygYtaVAyCMi08IAAB/xiOk
+Xmp.darktable.history[11]                    XmpText     0  type="Struct"
+Xmp.darktable.history[11]/darktable:num      XmpText     2  10  10
+Xmp.darktable.history[11]/darktable:operation XmpText     4  flip  flip
+Xmp.darktable.history[11]/darktable:enabled  XmpText     1  1  1
+Xmp.darktable.history[11]/darktable:modversion XmpText     1  2  2
+Xmp.darktable.history[11]/darktable:params   XmpText     8  ffffffff  ffffffff
+Xmp.darktable.history[11]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[11]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[11]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[11]/darktable:blendop_params XmpText    48  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=  gz14eJxjYIAACQYYOOHEgAZY0QVwggZ7CB6pfNoAAE8gGQg=
+Xmp.darktable.history[12]                    XmpText     0  type="Struct"
+Xmp.darktable.history[12]/darktable:num      XmpText     2  11  11
+Xmp.darktable.history[12]/darktable:operation XmpText     8  clipping  clipping
+Xmp.darktable.history[12]/darktable:enabled  XmpText     1  1  1
+Xmp.darktable.history[12]/darktable:modversion XmpText     1  5  5
+Xmp.darktable.history[12]/darktable:params   XmpText   168  000000800070db3a4fef493b96917f3fab407f3f0000000000000000cdcc4c3ecdcc4c3ecdcc4c3fcdcc4c3ecdcc4c3fcdcc4c3fcdcc4c3ecdcc4c3f000000000000000000000000000000000200000003000000  000000800070db3a4fef493b96917f3fab407f3f0000000000000000cdcc4c3ecdcc4c3ecdcc4c3fcdcc4c3ecdcc4c3fcdcc4c3fcdcc4c3ecdcc4c3f000000000000000000000000000000000200000003000000
+Xmp.darktable.history[12]/darktable:multi_name XmpText     0  
+Xmp.darktable.history[12]/darktable:multi_priority XmpText     1  0  0
+Xmp.darktable.history[12]/darktable:blendop_version XmpText     2  11  11
+Xmp.darktable.history[12]/darktable:blendop_params XmpText    52  gz13eJxjYGBgYAZiCQYYOOHEgAYY0QVwggZ7CB6pfNoAAE4AGQc=  gz13eJxjYGBgYAZiCQYYOOHEgAYY0QVwggZ7CB6pfNoAAE4AGQc=

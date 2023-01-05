@@ -1,1257 +1,1021 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-// *****************************************************************************
+// SPDX-License-Identifier: GPL-2.0-or-later
+
 // included header files
 #include "value.hpp"
-#include "types.hpp"
+
+#include "convert.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
-#include "convert.hpp"
-#include "unused.h"
+#include "types.hpp"
 
 // + standard includes
-#include <iostream>
-#include <iomanip>
+#include <regex>
 #include <sstream>
-#include <cassert>
-#include <cstring>
-#include <ctime>
-#include <cstdarg>
-#include <cstdio>
-#include <cstdlib>
-#include <ctype.h>
-
-#if defined(_MSC_VER) && _MSC_VER < 1900
-
-#define snprintf c99_snprintf
-#define vsnprintf c99_vsnprintf
-
-__inline int c99_vsnprintf(char *outBuf, size_t size, const char *format, va_list ap)
-{
-    int count = -1;
-
-    if (size != 0)
-        count = _vsnprintf_s(outBuf, size, _TRUNCATE, format, ap);
-    if (count == -1)
-        count = _vscprintf(format, ap);
-
-    return count;
-}
-
-__inline int c99_snprintf(char *outBuf, size_t size, const char *format, ...)
-{
-    int count;
-    va_list ap;
-
-    va_start(ap, format);
-    count = c99_vsnprintf(outBuf, size, format, ap);
-    va_end(ap);
-
-    return count;
-}
-
-#endif
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+Value::Value(TypeId typeId) : type_(typeId) {
+}
 
-    Value::Value(TypeId typeId)
-        : ok_(true), type_(typeId)
-    {
-    }
+Value::UniquePtr Value::create(TypeId typeId) {
+  switch (typeId) {
+    case invalidTypeId:
+    case signedByte:
+    case unsignedByte:
+      return std::make_unique<DataValue>(typeId);
+    case asciiString:
+      return std::make_unique<AsciiValue>();
+    case unsignedShort:
+      return std::make_unique<ValueType<uint16_t>>();
+    case unsignedLong:
+    case tiffIfd:
+      return std::make_unique<ValueType<uint32_t>>(typeId);
+    case unsignedRational:
+      return std::make_unique<ValueType<URational>>();
+    case undefined:
+      return std::make_unique<DataValue>();
+    case signedShort:
+      return std::make_unique<ValueType<int16_t>>();
+    case signedLong:
+      return std::make_unique<ValueType<int32_t>>();
+    case signedRational:
+      return std::make_unique<ValueType<Rational>>();
+    case tiffFloat:
+      return std::make_unique<ValueType<float>>();
+    case tiffDouble:
+      return std::make_unique<ValueType<double>>();
+    case string:
+      return std::make_unique<StringValue>();
+    case date:
+      return std::make_unique<DateValue>();
+    case time:
+      return std::make_unique<TimeValue>();
+    case comment:
+      return std::make_unique<CommentValue>();
+    case xmpText:
+      return std::make_unique<XmpTextValue>();
+    case xmpBag:
+    case xmpSeq:
+    case xmpAlt:
+      return std::make_unique<XmpArrayValue>(typeId);
+    case langAlt:
+      return std::make_unique<LangAltValue>();
+    default:
+      return std::make_unique<DataValue>(typeId);
+  }
+}  // Value::create
 
-    Value::UniquePtr Value::create(TypeId typeId)
-    {
-        UniquePtr value;
-        switch (typeId) {
-        case invalidTypeId:
-        case signedByte:
-        case unsignedByte:
-            value = UniquePtr(new DataValue(typeId));
-            break;
-        case asciiString:
-            value = UniquePtr(new AsciiValue);
-            break;
-        case unsignedShort:
-            value = UniquePtr(new ValueType<uint16_t>);
-            break;
-        case unsignedLong:
-        case tiffIfd:
-            value = UniquePtr(new ValueType<uint32_t>(typeId));
-            break;
-        case unsignedRational:
-            value = UniquePtr(new ValueType<URational>);
-            break;
-        case undefined:
-            value = UniquePtr(new DataValue);
-            break;
-        case signedShort:
-            value = UniquePtr(new ValueType<int16_t>);
-            break;
-        case signedLong:
-            value = UniquePtr(new ValueType<int32_t>);
-            break;
-        case signedRational:
-            value = UniquePtr(new ValueType<Rational>);
-            break;
-        case tiffFloat:
-            value = UniquePtr(new ValueType<float>);
-            break;
-        case tiffDouble:
-            value = UniquePtr(new ValueType<double>);
-            break;
-        case string:
-            value = UniquePtr(new StringValue);
-            break;
-        case date:
-            value = UniquePtr(new DateValue);
-            break;
-        case time:
-            value = UniquePtr(new TimeValue);
-            break;
-        case comment:
-            value = UniquePtr(new CommentValue);
-            break;
-        case xmpText:
-            value = UniquePtr(new XmpTextValue);
-            break;
-        case xmpBag:
-        case xmpSeq:
-        case xmpAlt:
-            value = UniquePtr(new XmpArrayValue(typeId));
-            break;
-        case langAlt:
-            value = UniquePtr(new LangAltValue);
-            break;
-        default:
-            value = UniquePtr(new DataValue(typeId));
-            break;
-        }
-        return value;
-    } // Value::create
+int Value::setDataArea(const byte* /*buf*/, size_t /*len*/) {
+  return -1;
+}
 
-    int Value::setDataArea(const byte* /*buf*/, long /*len*/)
-    {
-        return -1;
-    }
+std::string Value::toString() const {
+  std::ostringstream os;
+  write(os);
+  ok_ = !os.fail();
+  return os.str();
+}
 
-    std::string Value::toString() const
-    {
-        std::ostringstream os;
-        write(os);
-        ok_ = !os.fail();
-        return os.str();
-    }
+std::string Value::toString(size_t /*n*/) const {
+  return toString();
+}
 
-    std::string Value::toString(long /*n*/) const
-    {
-        return toString();
-    }
+size_t Value::sizeDataArea() const {
+  return 0;
+}
 
-    long Value::sizeDataArea() const
-    {
-        return 0;
-    }
+DataBuf Value::dataArea() const {
+  return {nullptr, 0};
+}
 
-    DataBuf Value::dataArea() const
-    {
-        return DataBuf(0, 0);
-    }
+DataValue::DataValue(TypeId typeId) : Value(typeId) {
+}
 
-    DataValue::DataValue(TypeId typeId)
-        : Value(typeId)
-    {
-    }
+DataValue::DataValue(const byte* buf, size_t len, ByteOrder byteOrder, TypeId typeId) : Value(typeId) {
+  read(buf, len, byteOrder);
+}
 
-    DataValue::DataValue(const byte* buf,
-              long len, ByteOrder byteOrder,TypeId typeId)
-        : Value(typeId)
-    {
-        read(buf, len, byteOrder);
-    }
+size_t DataValue::count() const {
+  return size();
+}
 
-    DataValue::~DataValue()
-    {
-    }
+int DataValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
+  // byteOrder not needed
+  value_.assign(buf, buf + len);
+  return 0;
+}
 
-    long DataValue::count() const
-    {
-        return size();
-    }
+int DataValue::read(const std::string& buf) {
+  std::istringstream is(buf);
+  int tmp = 0;
+  ValueType val;
+  while (!(is.eof())) {
+    is >> tmp;
+    if (is.fail())
+      return 1;
+    val.push_back(static_cast<byte>(tmp));
+  }
+  value_.swap(val);
+  return 0;
+}
 
-    int DataValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
-    {
-        // byteOrder not needed
-        value_.assign(buf, buf + len);
-        return 0;
-    }
+size_t DataValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
+  // byteOrder not needed
+  return std::copy(value_.begin(), value_.end(), buf) - buf;
+}
 
-    int DataValue::read(const std::string& buf)
-    {
-        std::istringstream is(buf);
-        int tmp;
-        ValueType val;
-        while (!(is.eof())) {
-            is >> tmp;
-            if (is.fail()) return 1;
-            val.push_back(static_cast<byte>(tmp));
-        }
-        value_.swap(val);
-        return 0;
-    }
+size_t DataValue::size() const {
+  return value_.size();
+}
 
-    long DataValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
-    {
-        // byteOrder not needed
-        return std::copy(value_.begin(), value_.end(), buf) - buf;
-    }
+DataValue* DataValue::clone_() const {
+  return new DataValue(*this);
+}
 
-    long DataValue::size() const
-    {
-        return static_cast<long>(value_.size());
-    }
+std::ostream& DataValue::write(std::ostream& os) const {
+  size_t end = value_.size();
+  for (size_t i = 0; i != end; ++i) {
+    os << static_cast<int>(value_.at(i));
+    if (i < end - 1)
+      os << " ";
+  }
+  return os;
+}
 
-    DataValue* DataValue::clone_() const
-    {
-        return new DataValue(*this);
-    }
+std::string DataValue::toString(size_t n) const {
+  std::ostringstream os;
+  os << static_cast<int>(value_.at(n));
+  ok_ = !os.fail();
+  return os.str();
+}
 
-    std::ostream& DataValue::write(std::ostream& os) const
-    {
-        std::vector<byte>::size_type end = value_.size();
-        for (std::vector<byte>::size_type i = 0; i != end; ++i) {
-            os << static_cast<int>(value_[i]);
-            if (i < end - 1) os << " ";
-        }
-        return os;
-    }
+int64_t DataValue::toInt64(size_t n) const {
+  ok_ = true;
+  return value_.at(n);
+}
 
-    std::string DataValue::toString(long n) const
-    {
-        std::ostringstream os;
-        os << static_cast<int>(value_[n]);
-        ok_ = !os.fail();
-        return os.str();
-    }
+uint32_t DataValue::toUint32(size_t n) const {
+  ok_ = true;
+  return value_.at(n);
+}
 
-    long DataValue::toLong(long n) const
-    {
-        ok_ = true;
-        return value_[n];
-    }
+float DataValue::toFloat(size_t n) const {
+  ok_ = true;
+  return value_.at(n);
+}
 
-    float DataValue::toFloat(long n) const
-    {
-        ok_ = true;
-        return value_[n];
-    }
+Rational DataValue::toRational(size_t n) const {
+  ok_ = true;
+  return {value_.at(n), 1};
+}
 
-    Rational DataValue::toRational(long n) const
-    {
-        ok_ = true;
-        return Rational(value_[n], 1);
-    }
+StringValueBase::StringValueBase(TypeId typeId) : Value(typeId) {
+}
 
-    StringValueBase::StringValueBase(TypeId typeId)
-        : Value(typeId)
-    {
-    }
+StringValueBase::StringValueBase(TypeId typeId, const std::string& buf) : Value(typeId) {
+  read(buf);
+}
 
-    StringValueBase::StringValueBase(TypeId typeId, const std::string& buf)
-        : Value(typeId)
-    {
-        read(buf);
-    }
+StringValueBase& StringValueBase::operator=(const StringValueBase& rhs) {
+  if (this == &rhs)
+    return *this;
+  Value::operator=(rhs);
+  value_ = rhs.value_;
+  return *this;
+}
 
-    StringValueBase::StringValueBase(const StringValueBase& rhs)
-        : Value(rhs), value_(rhs.value_)
-    {
-    }
+int StringValueBase::read(const std::string& buf) {
+  value_ = buf;
+  return 0;
+}
 
-    StringValueBase::~StringValueBase()
-    {
-    }
+int StringValueBase::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
+  // byteOrder not needed
+  if (buf)
+    value_ = std::string(reinterpret_cast<const char*>(buf), len);
+  return 0;
+}
 
-    StringValueBase& StringValueBase::operator=(const StringValueBase& rhs)
-    {
-        if (this == &rhs) return *this;
-        Value::operator=(rhs);
-        value_ = rhs.value_;
-        return *this;
-    }
+size_t StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const {
+  if (value_.empty())
+    return 0;
+  // byteOrder not needed
+  return value_.copy(reinterpret_cast<char*>(buf), value_.size());
+}
 
-    int StringValueBase::read(const std::string& buf)
-    {
-        value_ = buf;
-        return 0;
-    }
+size_t StringValueBase::count() const {
+  return size();
+}
 
-    int StringValueBase::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
-    {
-        // byteOrder not needed
-        if (buf) value_ = std::string(reinterpret_cast<const char*>(buf), len);
-        return 0;
-    }
+size_t StringValueBase::size() const {
+  return value_.size();
+}
 
-    long StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const
-    {
-        if (value_.size() == 0) return 0;
-        // byteOrder not needed
-        assert(buf != 0);
-        return static_cast<long>(
-            value_.copy(reinterpret_cast<char*>(buf), value_.size())
-            );
-    }
+std::ostream& StringValueBase::write(std::ostream& os) const {
+  return os << value_;
+}
 
-    long StringValueBase::count() const
-    {
-        return size();
-    }
+int64_t StringValueBase::toInt64(size_t n) const {
+  ok_ = true;
+  return value_.at(n);
+}
 
-    long StringValueBase::size() const
-    {
-        return static_cast<long>(value_.size());
-    }
+uint32_t StringValueBase::toUint32(size_t n) const {
+  ok_ = true;
+  return value_.at(n);
+}
 
-    std::ostream& StringValueBase::write(std::ostream& os) const
-    {
-        return os << value_;
-    }
+float StringValueBase::toFloat(size_t n) const {
+  ok_ = true;
+  return value_.at(n);
+}
 
-    long StringValueBase::toLong(long n) const
-    {
-        ok_ = true;
-        return value_[n];
-    }
+Rational StringValueBase::toRational(size_t n) const {
+  ok_ = true;
+  return {value_.at(n), 1};
+}
 
-    float StringValueBase::toFloat(long n) const
-    {
-        ok_ = true;
-        return value_[n];
-    }
+StringValue::StringValue() : StringValueBase(string) {
+}
 
-    Rational StringValueBase::toRational(long n) const
-    {
-        ok_ = true;
-        return Rational(value_[n], 1);
-    }
+StringValue::StringValue(const std::string& buf) : StringValueBase(string, buf) {
+}
 
-    StringValue::StringValue()
-        : StringValueBase(string)
-    {
-    }
+StringValue* StringValue::clone_() const {
+  return new StringValue(*this);
+}
 
-    StringValue::StringValue(const std::string& buf)
-        : StringValueBase(string, buf)
-    {
-    }
+AsciiValue::AsciiValue() : StringValueBase(asciiString) {
+}
 
-    StringValue::~StringValue()
-    {
-    }
+AsciiValue::AsciiValue(const std::string& buf) : StringValueBase(asciiString, buf) {
+}
 
-    StringValue* StringValue::clone_() const
-    {
-        return new StringValue(*this);
-    }
+int AsciiValue::read(const std::string& buf) {
+  value_ = buf;
+  // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
+  if (value_.empty() || value_.at(value_.size() - 1) != '\0') {
+    value_ += '\0';
+  }
+  return 0;
+}
 
-    AsciiValue::AsciiValue()
-        : StringValueBase(asciiString)
-    {
-    }
+AsciiValue* AsciiValue::clone_() const {
+  return new AsciiValue(*this);
+}
 
-    AsciiValue::AsciiValue(const std::string& buf)
-        : StringValueBase(asciiString, buf)
-    {
-    }
+std::ostream& AsciiValue::write(std::ostream& os) const {
+  // Write only up to the first '\0' (if any)
+  std::string::size_type pos = value_.find_first_of('\0');
+  if (pos == std::string::npos)
+    pos = value_.size();
+  return os << value_.substr(0, pos);
+}
 
-    AsciiValue::~AsciiValue()
-    {
-    }
+constexpr CommentValue::CharsetTable::CharsetTable(CharsetId charsetId, const char* name, const char* code) :
+    charsetId_(charsetId), name_(name), code_(code) {
+}
 
-    int AsciiValue::read(const std::string& buf)
-    {
-        value_ = buf;
-        // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
-        if (value_.size() == 0 || value_[value_.size()-1] != '\0') value_ += '\0';
-        return 0;
-    }
+//! Lookup list of supported IFD type information
+constexpr CommentValue::CharsetTable CommentValue::CharsetInfo::charsetTable_[] = {
+    CharsetTable(ascii, "Ascii", "ASCII\0\0\0"),
+    CharsetTable(jis, "Jis", "JIS\0\0\0\0\0"),
+    CharsetTable(unicode, "Unicode", "UNICODE\0"),
+    CharsetTable(undefined, "Undefined", "\0\0\0\0\0\0\0\0"),
+    CharsetTable(invalidCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"),
+    CharsetTable(lastCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"),
+};
 
-    AsciiValue* AsciiValue::clone_() const
-    {
-        return new AsciiValue(*this);
-    }
+const char* CommentValue::CharsetInfo::name(CharsetId charsetId) {
+  return charsetTable_[charsetId < lastCharsetId ? charsetId : undefined].name_;
+}
 
-    std::ostream& AsciiValue::write(std::ostream& os) const
-    {
-        // Write only up to the first '\0' (if any)
-        std::string::size_type pos = value_.find_first_of('\0');
-        if (pos == std::string::npos) pos = value_.size();
-        return os << value_.substr(0, pos);
-    }
+const char* CommentValue::CharsetInfo::code(CharsetId charsetId) {
+  return charsetTable_[charsetId < lastCharsetId ? charsetId : undefined].code_;
+}
 
-    CommentValue::CharsetTable::CharsetTable(CharsetId charsetId,
-                                             const char* name,
-                                             const char* code)
-        : charsetId_(charsetId), name_(name), code_(code)
-    {
-    }
+CommentValue::CharsetId CommentValue::CharsetInfo::charsetIdByName(const std::string& name) {
+  int i = 0;
+  for (; charsetTable_[i].charsetId_ != lastCharsetId && charsetTable_[i].name_ != name; ++i) {
+  }
+  return charsetTable_[i].charsetId_ == lastCharsetId ? invalidCharsetId : charsetTable_[i].charsetId_;
+}
 
-    //! Lookup list of supported IFD type information
-    const CommentValue::CharsetTable CommentValue::CharsetInfo::charsetTable_[] = {
-        CharsetTable(ascii,            "Ascii",            "ASCII\0\0\0"),
-        CharsetTable(jis,              "Jis",              "JIS\0\0\0\0\0"),
-        CharsetTable(unicode,          "Unicode",          "UNICODE\0"),
-        CharsetTable(undefined,        "Undefined",        "\0\0\0\0\0\0\0\0"),
-        CharsetTable(invalidCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"),
-        CharsetTable(lastCharsetId,    "InvalidCharsetId", "\0\0\0\0\0\0\0\0")
-    };
+CommentValue::CharsetId CommentValue::CharsetInfo::charsetIdByCode(const std::string& code) {
+  int i = 0;
+  for (; charsetTable_[i].charsetId_ != lastCharsetId && std::string(charsetTable_[i].code_, 8) != code; ++i) {
+  }
+  return charsetTable_[i].charsetId_ == lastCharsetId ? invalidCharsetId : charsetTable_[i].charsetId_;
+}
 
-    const char* CommentValue::CharsetInfo::name(CharsetId charsetId)
-    {
-        return charsetTable_[ charsetId < lastCharsetId ? charsetId : undefined ].name_;
-    }
+CommentValue::CommentValue() : StringValueBase(Exiv2::undefined) {
+}
 
-    const char* CommentValue::CharsetInfo::code(CharsetId charsetId)
-    {
-        return charsetTable_[ charsetId < lastCharsetId ? charsetId : undefined ].code_;
-    }
+CommentValue::CommentValue(const std::string& comment) : StringValueBase(Exiv2::undefined) {
+  read(comment);
+}
 
-    CommentValue::CharsetId CommentValue::CharsetInfo::charsetIdByName(
-        const std::string& name)
-    {
-        int i = 0;
-        for (;    charsetTable_[i].charsetId_ != lastCharsetId
-               && charsetTable_[i].name_ != name; ++i) {}
-        return charsetTable_[i].charsetId_ == lastCharsetId ?
-               invalidCharsetId : charsetTable_[i].charsetId_;
-    }
-
-    CommentValue::CharsetId CommentValue::CharsetInfo::charsetIdByCode(
-        const std::string& code)
-    {
-        int i = 0;
-        for (;    charsetTable_[i].charsetId_ != lastCharsetId
-               && std::string(charsetTable_[i].code_, 8) != code; ++i) {}
-        return charsetTable_[i].charsetId_ == lastCharsetId ?
-               invalidCharsetId : charsetTable_[i].charsetId_;
-    }
-
-    CommentValue::CommentValue()
-        : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian)
-    {
-    }
-
-    CommentValue::CommentValue(const std::string& comment)
-        : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian)
-    {
-        read(comment);
-    }
-
-    CommentValue::~CommentValue()
-    {
-    }
-
-    int CommentValue::read(const std::string& comment)
-    {
-        std::string c = comment;
-        CharsetId charsetId = undefined;
-        if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
-            std::string::size_type pos = comment.find_first_of(' ');
-            std::string name = comment.substr(8, pos-8);
-            // Strip quotes (so you can also specify the charset without quotes)
-            if (name[0] == '"') name = name.substr(1);
-            if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
-            charsetId = CharsetInfo::charsetIdByName(name);
-            if (charsetId == invalidCharsetId) {
+int CommentValue::read(const std::string& comment) {
+  std::string c = comment;
+  CharsetId charsetId = undefined;
+  if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
+    const std::string::size_type pos = comment.find_first_of(' ');
+    std::string name = comment.substr(8, pos - 8);
+    // Strip quotes (so you can also specify the charset without quotes)
+    if (!name.empty() && name.front() == '"')
+      name = name.substr(1);
+    if (!name.empty() && name[name.length() - 1] == '"')
+      name = name.substr(0, name.length() - 1);
+    charsetId = CharsetInfo::charsetIdByName(name);
+    if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
-                EXV_WARNING << Error(kerInvalidCharset, name) << "\n";
+      EXV_WARNING << Error(ErrorCode::kerInvalidCharset, name) << "\n";
 #endif
-                return 1;
-            }
-            c.clear();
-            if (pos != std::string::npos) c = comment.substr(pos+1);
-        }
-        if (charsetId == unicode) {
-            const char* to = byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";
-            convertStringCharset(c, "UTF-8", to);
-        }
-        const std::string code(CharsetInfo::code(charsetId), 8);
-        return StringValueBase::read(code + c);
+      return 1;
+    }
+    c.clear();
+    if (pos != std::string::npos)
+      c = comment.substr(pos + 1);
+  }
+  if (charsetId == unicode) {
+    const char* to = byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";
+    convertStringCharset(c, "UTF-8", to);
+  }
+  const std::string code(CharsetInfo::code(charsetId), 8);
+  return StringValueBase::read(code + c);
+}
+
+int CommentValue::read(const byte* buf, size_t len, ByteOrder byteOrder) {
+  byteOrder_ = byteOrder;
+  return StringValueBase::read(buf, len, byteOrder);
+}
+
+size_t CommentValue::copy(byte* buf, ByteOrder byteOrder) const {
+  std::string c = value_;
+  if (charsetId() == unicode) {
+    c = value_.substr(8);
+    [[maybe_unused]] const size_t sz = c.size();
+    if (byteOrder_ == littleEndian && byteOrder == bigEndian) {
+      convertStringCharset(c, "UCS-2LE", "UCS-2BE");
+    } else if (byteOrder_ == bigEndian && byteOrder == littleEndian) {
+      convertStringCharset(c, "UCS-2BE", "UCS-2LE");
+    }
+    c = value_.substr(0, 8) + c;
+  }
+  if (c.empty())
+    return 0;
+  return c.copy(reinterpret_cast<char*>(buf), c.size());
+}
+
+std::ostream& CommentValue::write(std::ostream& os) const {
+  CharsetId csId = charsetId();
+  std::string text = comment();
+  if (csId != undefined) {
+    os << "charset=" << CharsetInfo::name(csId) << " ";
+  }
+  return os << text;
+}
+
+std::string CommentValue::comment(const char* encoding) const {
+  std::string c;
+  if (value_.length() < 8) {
+    return c;
+  }
+  c = value_.substr(8);
+  if (charsetId() == unicode) {
+    const char* from = !encoding || *encoding == '\0' ? detectCharset(c) : encoding;
+    if (!convertStringCharset(c, from, "UTF-8"))
+      throw Error(ErrorCode::kerInvalidIconvEncoding, encoding, "UTF-8");
+  }
+  bool bAscii = charsetId() == undefined || charsetId() == ascii;
+  // # 1266 Remove trailing nulls
+  if (bAscii && c.find('\0') != std::string::npos) {
+    c = c.substr(0, c.find('\0'));
+  }
+  return c;
+}
+
+CommentValue::CharsetId CommentValue::charsetId() const {
+  CharsetId charsetId = undefined;
+  if (value_.length() >= 8) {
+    const std::string code = value_.substr(0, 8);
+    charsetId = CharsetInfo::charsetIdByCode(code);
+  }
+  return charsetId;
+}
+
+const char* CommentValue::detectCharset(std::string& c) const {
+  // Interpret a BOM if there is one
+  if (0 == strncmp(c.data(), "\xef\xbb\xbf", 3)) {
+    c = c.substr(3);
+    return "UTF-8";
+  }
+  if (0 == strncmp(c.data(), "\xff\xfe", 2)) {
+    c = c.substr(2);
+    return "UCS-2LE";
+  }
+  if (0 == strncmp(c.data(), "\xfe\xff", 2)) {
+    c = c.substr(2);
+    return "UCS-2BE";
+  }
+
+  // Todo: Add logic to guess if the comment is encoded in UTF-8
+
+  return byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";
+}
+
+CommentValue* CommentValue::clone_() const {
+  return new CommentValue(*this);
+}
+
+XmpValue::XmpValue(TypeId typeId) : Value(typeId) {
+}
+
+void XmpValue::setXmpArrayType(XmpArrayType xmpArrayType) {
+  xmpArrayType_ = xmpArrayType;
+}
+
+void XmpValue::setXmpStruct(XmpStruct xmpStruct) {
+  xmpStruct_ = xmpStruct;
+}
+
+XmpValue::XmpArrayType XmpValue::xmpArrayType() const {
+  return xmpArrayType_;
+}
+
+XmpValue::XmpArrayType XmpValue::xmpArrayType(TypeId typeId) {
+  XmpArrayType xa = xaNone;
+  switch (typeId) {
+    case xmpAlt:
+      xa = xaAlt;
+      break;
+    case xmpBag:
+      xa = xaBag;
+      break;
+    case xmpSeq:
+      xa = xaSeq;
+      break;
+    default:
+      break;
+  }
+  return xa;
+}
+
+XmpValue::XmpStruct XmpValue::xmpStruct() const {
+  return xmpStruct_;
+}
+
+size_t XmpValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
+  std::ostringstream os;
+  write(os);
+  std::string s = os.str();
+  if (!s.empty())
+    std::memcpy(buf, s.data(), s.size());
+  return s.size();
+}
+
+int XmpValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
+  std::string s(reinterpret_cast<const char*>(buf), len);
+  return read(s);
+}
+
+size_t XmpValue::size() const {
+  std::ostringstream os;
+  write(os);
+  return os.str().size();
+}
+
+XmpTextValue::XmpTextValue() : XmpValue(xmpText) {
+}
+
+XmpTextValue::XmpTextValue(const std::string& buf) : XmpValue(xmpText) {
+  read(buf);
+}
+
+int XmpTextValue::read(const std::string& buf) {
+  // support a type=Alt,Bag,Seq,Struct indicator
+  std::string b = buf;
+  std::string type;
+  if (buf.length() > 5 && buf.substr(0, 5) == "type=") {
+    std::string::size_type pos = buf.find_first_of(' ');
+    type = buf.substr(5, pos - 5);
+    // Strip quotes (so you can also specify the type without quotes)
+    if (!type.empty() && type.front() == '"')
+      type = type.substr(1);
+    if (!type.empty() && type[type.length() - 1] == '"')
+      type = type.substr(0, type.length() - 1);
+    b.clear();
+    if (pos != std::string::npos)
+      b = buf.substr(pos + 1);
+  }
+  if (!type.empty()) {
+    if (type == "Alt") {
+      setXmpArrayType(XmpValue::xaAlt);
+    } else if (type == "Bag") {
+      setXmpArrayType(XmpValue::xaBag);
+    } else if (type == "Seq") {
+      setXmpArrayType(XmpValue::xaSeq);
+    } else if (type == "Struct") {
+      setXmpStruct();
+    } else {
+      throw Error(ErrorCode::kerInvalidXmpText, type);
+    }
+  }
+  value_ = b;
+  return 0;
+}
+
+XmpTextValue::UniquePtr XmpTextValue::clone() const {
+  return UniquePtr(clone_());
+}
+
+size_t XmpTextValue::size() const {
+  return value_.size();
+}
+
+size_t XmpTextValue::count() const {
+  return size();
+}
+
+std::ostream& XmpTextValue::write(std::ostream& os) const {
+  bool del = false;
+  if (xmpArrayType() != XmpValue::xaNone) {
+    switch (xmpArrayType()) {
+      case XmpValue::xaAlt:
+        os << "type=\"Alt\"";
+        break;
+      case XmpValue::xaBag:
+        os << "type=\"Bag\"";
+        break;
+      case XmpValue::xaSeq:
+        os << "type=\"Seq\"";
+        break;
+      case XmpValue::xaNone:
+        break;  // just to suppress the warning
+    }
+    del = true;
+  } else if (xmpStruct() != XmpValue::xsNone) {
+    switch (xmpStruct()) {
+      case XmpValue::xsStruct:
+        os << "type=\"Struct\"";
+        break;
+      case XmpValue::xsNone:
+        break;  // just to suppress the warning
+    }
+    del = true;
+  }
+  if (del && !value_.empty())
+    os << " ";
+  return os << value_;
+}
+
+int64_t XmpTextValue::toInt64(size_t /*n*/) const {
+  return parseInt64(value_, ok_);
+}
+
+uint32_t XmpTextValue::toUint32(size_t /*n*/) const {
+  return parseUint32(value_, ok_);
+}
+
+float XmpTextValue::toFloat(size_t /*n*/) const {
+  return parseFloat(value_, ok_);
+}
+
+Rational XmpTextValue::toRational(size_t /*n*/) const {
+  return parseRational(value_, ok_);
+}
+
+XmpTextValue* XmpTextValue::clone_() const {
+  return new XmpTextValue(*this);
+}
+
+XmpArrayValue::XmpArrayValue(TypeId typeId) : XmpValue(typeId) {
+  setXmpArrayType(xmpArrayType(typeId));
+}
+
+int XmpArrayValue::read(const std::string& buf) {
+  if (!buf.empty())
+    value_.push_back(buf);
+  return 0;
+}
+
+XmpArrayValue::UniquePtr XmpArrayValue::clone() const {
+  return UniquePtr(clone_());
+}
+
+size_t XmpArrayValue::count() const {
+  return value_.size();
+}
+
+std::ostream& XmpArrayValue::write(std::ostream& os) const {
+  for (auto i = value_.begin(); i != value_.end(); ++i) {
+    if (i != value_.begin())
+      os << ", ";
+    os << *i;
+  }
+  return os;
+}
+
+std::string XmpArrayValue::toString(size_t n) const {
+  ok_ = true;
+  return value_.at(n);
+}
+
+int64_t XmpArrayValue::toInt64(size_t n) const {
+  return parseInt64(value_.at(n), ok_);
+}
+
+uint32_t XmpArrayValue::toUint32(size_t n) const {
+  return parseUint32(value_.at(n), ok_);
+}
+
+float XmpArrayValue::toFloat(size_t n) const {
+  return parseFloat(value_.at(n), ok_);
+}
+
+Rational XmpArrayValue::toRational(size_t n) const {
+  return parseRational(value_.at(n), ok_);
+}
+
+XmpArrayValue* XmpArrayValue::clone_() const {
+  return new XmpArrayValue(*this);
+}
+
+LangAltValue::LangAltValue() : XmpValue(langAlt) {
+}
+
+LangAltValue::LangAltValue(const std::string& buf) : XmpValue(langAlt) {
+  read(buf);
+}
+
+int LangAltValue::read(const std::string& buf) {
+  std::string b = buf;
+  std::string lang = "x-default";
+  if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
+    static constexpr auto ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    const std::string::size_type pos = buf.find_first_of(' ');
+    if (pos == std::string::npos) {
+      lang = buf.substr(5);
+    } else {
+      lang = buf.substr(5, pos - 5);
+    }
+    if (lang.empty())
+      throw Error(ErrorCode::kerInvalidLangAltValue, buf);
+    // Strip quotes (so you can also specify the language without quotes)
+    if (lang.front() == '"') {
+      lang = lang.substr(1);
+
+      if (lang.empty() || lang.find('"') != lang.length() - 1)
+        throw Error(ErrorCode::kerInvalidLangAltValue, buf);
+
+      lang = lang.substr(0, lang.length() - 1);
     }
 
-    int CommentValue::read(const byte* buf, long len, ByteOrder byteOrder)
-    {
-        byteOrder_ = byteOrder;
-        return StringValueBase::read(buf, len, byteOrder);
+    if (lang.empty())
+      throw Error(ErrorCode::kerInvalidLangAltValue, buf);
+
+    // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
+    std::string::size_type charPos = lang.find_first_not_of(ALPHA);
+    if (charPos != std::string::npos) {
+      static constexpr auto ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos + 1) != std::string::npos)
+        throw Error(ErrorCode::kerInvalidLangAltValue, buf);
     }
 
-    long CommentValue::copy(byte* buf, ByteOrder byteOrder) const
-    {
-        std::string c = value_;
-        if (charsetId() == unicode) {
-            c = value_.substr(8);
-            const size_t sz = c.size();
-            UNUSED(sz);
-            if (byteOrder_ == littleEndian && byteOrder == bigEndian) {
-                convertStringCharset(c, "UCS-2LE", "UCS-2BE");
-                assert(c.size() == sz);
-            }
-            else if (byteOrder_ == bigEndian && byteOrder == littleEndian) {
-                convertStringCharset(c, "UCS-2BE", "UCS-2LE");
-                assert(c.size() == sz);
-            }
-            c = value_.substr(0, 8) + c;
-        }
-        if (c.size() == 0)
-            return 0;
-        assert(buf != 0);
-        return static_cast<long>(c.copy(reinterpret_cast<char*>(buf), c.size()));
+    b.clear();
+    if (pos != std::string::npos)
+      b = buf.substr(pos + 1);
+  }
+
+  value_[lang] = b;
+  return 0;
+}
+
+LangAltValue::UniquePtr LangAltValue::clone() const {
+  return UniquePtr(clone_());
+}
+
+size_t LangAltValue::count() const {
+  return value_.size();
+}
+
+std::ostream& LangAltValue::write(std::ostream& os) const {
+  bool first = true;
+
+  // Write the default entry first
+  auto i = value_.find("x-default");
+  if (i != value_.end()) {
+    os << "lang=\"" << i->first << "\" " << i->second;
+    first = false;
+  }
+
+  // Write the others
+  for (const auto& [lang, s] : value_) {
+    if (lang != "x-default") {
+      if (!first)
+        os << ", ";
+      os << "lang=\"" << lang << "\" " << s;
+      first = false;
     }
+  }
+  return os;
+}
 
-    std::ostream& CommentValue::write(std::ostream& os) const
-    {
-        CharsetId csId = charsetId();
-        if (csId != undefined) {
-            os << "charset=" << CharsetInfo::name(csId) << " ";
-        }
-        return os << comment();
-    }
+std::string LangAltValue::toString(size_t /*n*/) const {
+  return toString("x-default");
+}
 
-    std::string CommentValue::comment(const char* encoding) const
-    {
-        std::string c;
-        if (value_.length() < 8) {
-            return c;
-        }
-        c = value_.substr(8);
-        if (charsetId() == unicode) {
-            const char* from = encoding == 0 || *encoding == '\0' ? detectCharset(c) : encoding;
-            convertStringCharset(c, from, "UTF-8");
-        }
-        bool bAscii = charsetId() == undefined || charsetId() == ascii ;
-        // # 1266 Remove trailing nulls
-        if ( bAscii && c.find('\0') != c.std::string::npos) {
-            c = c.substr(0,c.find('\0'));
-        }
-        return c;
-    }
+std::string LangAltValue::toString(const std::string& qualifier) const {
+  auto i = value_.find(qualifier);
+  if (i != value_.end()) {
+    ok_ = true;
+    return i->second;
+  }
+  ok_ = false;
+  return "";
+}
 
-    CommentValue::CharsetId CommentValue::charsetId() const
-    {
-        CharsetId charsetId = undefined;
-        if (value_.length() >= 8) {
-            const std::string code = value_.substr(0, 8);
-            charsetId = CharsetInfo::charsetIdByCode(code);
-        }
-        return charsetId;
-    }
+int64_t LangAltValue::toInt64(size_t /*n*/) const {
+  ok_ = false;
+  return 0;
+}
 
-    const char* CommentValue::detectCharset(std::string& c) const
-    {
-        // Interpret a BOM if there is one
-        if (0 == strncmp(c.data(), "\xef\xbb\xbf", 3)) {
-            c = c.substr(3);
-            return "UTF-8";
-        }
-        if (0 == strncmp(c.data(), "\xff\xfe", 2)) {
-            c = c.substr(2);
-            return "UCS-2LE";
-        }
-        if (0 == strncmp(c.data(), "\xfe\xff", 2)) {
-            c = c.substr(2);
-            return "UCS-2BE";
-        }
+uint32_t LangAltValue::toUint32(size_t /*n*/) const {
+  ok_ = false;
+  return 0;
+}
 
-        // Todo: Add logic to guess if the comment is encoded in UTF-8
+float LangAltValue::toFloat(size_t /*n*/) const {
+  ok_ = false;
+  return 0.0F;
+}
 
-        return byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";
-    }
+Rational LangAltValue::toRational(size_t /*n*/) const {
+  ok_ = false;
+  return {0, 0};
+}
 
-    CommentValue* CommentValue::clone_() const
-    {
-        return new CommentValue(*this);
-    }
+LangAltValue* LangAltValue::clone_() const {
+  return new LangAltValue(*this);
+}
 
-    XmpValue::XmpValue(TypeId typeId)
-        : Value(typeId),
-          xmpArrayType_(xaNone),
-          xmpStruct_(xsNone)
-    {
-    }
+DateValue::DateValue() : Value(date) {
+}
 
-    void XmpValue::setXmpArrayType(XmpArrayType xmpArrayType)
-    {
-        xmpArrayType_ = xmpArrayType;
-    }
+DateValue::DateValue(int32_t year, int32_t month, int32_t day) : Value(date) {
+  date_.year = year;
+  date_.month = month;
+  date_.day = day;
+}
 
-    void XmpValue::setXmpStruct(XmpStruct xmpStruct)
-    {
-        xmpStruct_ = xmpStruct;
-    }
+int DateValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
+  const std::string str(reinterpret_cast<const char*>(buf), len);
+  return read(str);
+}
 
-    XmpValue::XmpArrayType XmpValue::xmpArrayType() const
-    {
-        return xmpArrayType_;
-    }
+int DateValue::read(const std::string& buf) {
+  // ISO 8601 date formats:
+  // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
+  static const std::regex reExtended(R"(^(\d{4})-(\d{2})-(\d{2}))");
+  static const std::regex reBasic(R"(^(\d{4})(\d{2})(\d{2}))");
+  std::smatch sm;
 
-    XmpValue::XmpArrayType XmpValue::xmpArrayType(TypeId typeId)
-    {
-        XmpArrayType xa = xaNone;
-        switch (typeId) {
-        case xmpAlt: xa = xaAlt; break;
-        case xmpBag: xa = xaBag; break;
-        case xmpSeq: xa = xaSeq; break;
-        default: break;
-        }
-        return xa;
-    }
-
-    XmpValue::XmpStruct XmpValue::xmpStruct() const
-    {
-        return xmpStruct_;
-    }
-
-    long XmpValue::copy(byte* buf,
-                        ByteOrder /*byteOrder*/) const
-    {
-        std::ostringstream os;
-        write(os);
-        std::string s = os.str();
-        if (s.size() > 0) std::memcpy(buf, &s[0], s.size());
-        return static_cast<long>(s.size());
-    }
-
-    int XmpValue::read(const byte* buf,
-                       long len,
-                       ByteOrder /*byteOrder*/)
-    {
-        std::string s(reinterpret_cast<const char*>(buf), len);
-        return read(s);
-    }
-
-    long XmpValue::size() const
-    {
-        std::ostringstream os;
-        write(os);
-        return static_cast<long>(os.str().size());
-    }
-
-    XmpTextValue::XmpTextValue()
-        : XmpValue(xmpText)
-    {
-    }
-
-    XmpTextValue::XmpTextValue(const std::string& buf)
-        : XmpValue(xmpText)
-    {
-        read(buf);
-    }
-
-    int XmpTextValue::read(const std::string& buf)
-    {
-        // support a type=Alt,Bag,Seq,Struct indicator
-        std::string b = buf;
-        std::string type;
-        if (buf.length() > 5 && buf.substr(0, 5) == "type=") {
-            std::string::size_type pos = buf.find_first_of(' ');
-            type = buf.substr(5, pos-5);
-            // Strip quotes (so you can also specify the type without quotes)
-            if (type[0] == '"') type = type.substr(1);
-            if (type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
-            b.clear();
-            if (pos != std::string::npos) b = buf.substr(pos+1);
-        }
-        if (!type.empty()) {
-            if (type == "Alt") {
-                setXmpArrayType(XmpValue::xaAlt);
-            }
-            else if (type == "Bag") {
-                setXmpArrayType(XmpValue::xaBag);
-            }
-            else if (type == "Seq") {
-                setXmpArrayType(XmpValue::xaSeq);
-            }
-            else if (type == "Struct") {
-                setXmpStruct();
-            }
-            else {
-                throw Error(kerInvalidXmpText, type);
-            }
-        }
-        value_ = b;
-        return 0;
-    }
-
-    XmpTextValue::UniquePtr XmpTextValue::clone() const
-    {
-        return UniquePtr(clone_());
-    }
-
-    long XmpTextValue::size() const
-    {
-        return static_cast<long>(value_.size());
-    }
-
-    long XmpTextValue::count() const
-    {
-        return size();
-    }
-
-    std::ostream& XmpTextValue::write(std::ostream& os) const
-    {
-        bool del = false;
-        if (xmpArrayType() != XmpValue::xaNone) {
-            switch (xmpArrayType()) {
-            case XmpValue::xaAlt: os << "type=\"Alt\""; break;
-            case XmpValue::xaBag: os << "type=\"Bag\""; break;
-            case XmpValue::xaSeq: os << "type=\"Seq\""; break;
-            case XmpValue::xaNone: break; // just to suppress the warning
-            }
-            del = true;
-        }
-        else if (xmpStruct() != XmpValue::xsNone) {
-            switch (xmpStruct()) {
-            case XmpValue::xsStruct: os << "type=\"Struct\""; break;
-            case XmpValue::xsNone: break; // just to suppress the warning
-            }
-            del = true;
-        }
-        if (del && !value_.empty()) os << " ";
-        return os << value_;
-    }
-
-    long XmpTextValue::toLong(long /*n*/) const
-    {
-        return parseLong(value_, ok_);
-    }
-
-    float XmpTextValue::toFloat(long /*n*/) const
-    {
-        return parseFloat(value_, ok_);
-    }
-
-    Rational XmpTextValue::toRational(long /*n*/) const
-    {
-        return parseRational(value_, ok_);
-    }
-
-    XmpTextValue* XmpTextValue::clone_() const
-    {
-        return new XmpTextValue(*this);
-    }
-
-    XmpArrayValue::XmpArrayValue(TypeId typeId)
-        : XmpValue(typeId)
-    {
-        setXmpArrayType(xmpArrayType(typeId));
-    }
-
-    int XmpArrayValue::read(const std::string& buf)
-    {
-        if (!buf.empty()) value_.push_back(buf);
-        return 0;
-    }
-
-    XmpArrayValue::UniquePtr XmpArrayValue::clone() const
-    {
-        return UniquePtr(clone_());
-    }
-
-    long XmpArrayValue::count() const
-    {
-        return static_cast<long>(value_.size());
-    }
-
-    std::ostream& XmpArrayValue::write(std::ostream& os) const
-    {
-        for (std::vector<std::string>::const_iterator i = value_.begin();
-             i != value_.end(); ++i) {
-            if (i != value_.begin()) os << ", ";
-            os << *i;
-        }
-        return os;
-    }
-
-    std::string XmpArrayValue::toString(long n) const
-    {
-        ok_ = true;
-        return value_[n];
-    }
-
-    long XmpArrayValue::toLong(long n) const
-    {
-        return parseLong(value_[n], ok_);
-    }
-
-    float XmpArrayValue::toFloat(long n) const
-    {
-        return parseFloat(value_[n], ok_);
-    }
-
-    Rational XmpArrayValue::toRational(long n) const
-    {
-        return parseRational(value_[n], ok_);
-    }
-
-    XmpArrayValue* XmpArrayValue::clone_() const
-    {
-        return new XmpArrayValue(*this);
-    }
-
-    LangAltValue::LangAltValue()
-        : XmpValue(langAlt)
-    {
-    }
-
-    LangAltValue::LangAltValue(const std::string& buf)
-        : XmpValue(langAlt)
-    {
-        read(buf);
-    }
-
-    int LangAltValue::read(const std::string& buf)
-    {        
-        std::string b = buf;
-        std::string lang = "x-default";
-        if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
-            static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            
-            std::string::size_type pos = buf.find_first_of(' ');
-            lang = buf.substr(5, pos-5);
-            // Strip quotes (so you can also specify the language without quotes)
-            if (lang[0] == '"') {
-                lang = lang.substr(1);
-
-                if (lang == "" || lang.find('"') != lang.length()-1)
-                    throw Error(kerInvalidLangAltValue, buf);
-            
-                lang = lang.substr(0, lang.length()-1);
-            }
-            
-            if (lang == "") throw Error(kerInvalidLangAltValue, buf);
-
-            // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
-            std::string::size_type charPos = lang.find_first_not_of(ALPHA);
-            if (charPos != std::string::npos) {
-                if (lang[charPos] != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
-                    throw Error(kerInvalidLangAltValue, buf);
-            }
-            
-            b.clear();
-            if (pos != std::string::npos) b = buf.substr(pos+1);
-        }
-
-        value_[lang] = b;
-        return 0;
-    }
-
-    LangAltValue::UniquePtr LangAltValue::clone() const
-    {
-        return UniquePtr(clone_());
-    }
-
-    long LangAltValue::count() const
-    {
-        return static_cast<long>(value_.size());
-    }
-
-    static const std::string x_default = "x-default";
-
-    std::ostream& LangAltValue::write(std::ostream& os) const
-    {
-        bool        first     = true;
-
-        // Write the default entry first
-        ValueType::const_iterator i = value_.find(x_default);
-        if (i != value_.end()) {
-            os << "lang=\"" << i->first << "\" " << i->second;
-            first = false;
-        }
-
-        // Write the others
-        for (i = value_.begin(); i != value_.end(); ++i) {
-            if (i->first != x_default ) {
-                if (!first) os << ", ";
-                os << "lang=\"" << i->first << "\" " << i->second;
-                first = false;
-            }
-        }
-        return os;
-    }
-
-    std::string LangAltValue::toString(long /*n*/) const
-    {
-        return toString(x_default);
-    }
-
-    std::string LangAltValue::toString(const std::string& qualifier) const
-    {
-        ValueType::const_iterator i = value_.find(qualifier);
-        if (i != value_.end()) {
-            ok_ = true;
-            return i->second;
-        }
-        ok_ = false;
-        return "";
-    }
-
-    long LangAltValue::toLong(long /*n*/) const
-    {
-        ok_ = false;
-        return 0;
-    }
-
-    float LangAltValue::toFloat(long /*n*/) const
-    {
-        ok_ = false;
-        return 0.0f;
-    }
-
-    Rational LangAltValue::toRational(long /*n*/) const
-    {
-        ok_ = false;
-        return Rational(0, 0);
-    }
-
-    LangAltValue* LangAltValue::clone_() const
-    {
-        return new LangAltValue(*this);
-    }
-
-    DateValue::DateValue()
-        : Value(date)
-    {
-    }
-
-    DateValue::DateValue(int year, int month, int day)
-        : Value(date)
-    {
-        date_.year = year;
-        date_.month = month;
-        date_.day = day;
-    }
-
-    DateValue::~DateValue()
-    {
-    }
-
-    int DateValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
-    {
-        // Hard coded to read Iptc style dates
-        if (len != 8) {
+  auto printWarning = [] {
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
+    EXV_WARNING << Error(ErrorCode::kerUnsupportedDateFormat) << "\n";
 #endif
-            return 1;
+  };
+
+  // Note: We use here regex_search instead of regex_match, because the string can be longer than expected and
+  // also contain the time
+  if (std::regex_search(buf, sm, reExtended) || std::regex_search(buf, sm, reBasic)) {
+    date_.year = std::stoi(sm[1].str());
+    date_.month = std::stoi(sm[2].str());
+    if (date_.month > 12) {
+      date_.month = 0;
+      printWarning();
+      return 1;
+    }
+    date_.day = std::stoi(sm[3].str());
+    if (date_.day > 31) {
+      date_.day = 0;
+      printWarning();
+      return 1;
+    }
+    return 0;
+  }
+  printWarning();
+  return 1;
+}
+
+void DateValue::setDate(const Date& src) {
+  date_.year = src.year;
+  date_.month = src.month;
+  date_.day = src.day;
+}
+
+size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
+  // \note Here the date is copied in the Basic format YYYYMMDD, as the IPTC key	Iptc.Application2.DateCreated
+  // wants it. Check https://exiv2.org/iptc.html
+
+  // sprintf wants to add the null terminator, so use oversized buffer
+  char temp[9];
+  auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
+  std::memcpy(buf, temp, wrote);
+  return wrote;
+}
+
+const DateValue::Date& DateValue::getDate() const {
+  return date_;
+}
+
+size_t DateValue::count() const {
+  return size();
+}
+
+size_t DateValue::size() const {
+  return 8;
+}
+
+DateValue* DateValue::clone_() const {
+  return new DateValue(*this);
+}
+
+std::ostream& DateValue::write(std::ostream& os) const {
+  // Write DateValue in ISO 8601 Extended format: YYYY-MM-DD
+  std::ios::fmtflags f(os.flags());
+  os << std::setw(4) << std::setfill('0') << date_.year << '-' << std::right << std::setw(2) << std::setfill('0')
+     << date_.month << '-' << std::setw(2) << std::setfill('0') << date_.day;
+  os.flags(f);
+  return os;
+}
+
+int64_t DateValue::toInt64(size_t /*n*/) const {
+  // Range of tm struct is limited to about 1970 to 2038
+  // This will return -1 if outside that range
+  std::tm tms = {};
+  tms.tm_mday = date_.day;
+  tms.tm_mon = date_.month - 1;
+  tms.tm_year = date_.year - 1900;
+  auto l = static_cast<int64_t>(std::mktime(&tms));
+  ok_ = (l != -1);
+  return l;
+}
+
+uint32_t DateValue::toUint32(size_t /*n*/) const {
+  const int64_t t = toInt64();
+  if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
+    return 0;
+  }
+  return static_cast<uint32_t>(t);
+}
+
+float DateValue::toFloat(size_t n) const {
+  return static_cast<float>(toInt64(n));
+}
+
+Rational DateValue::toRational(size_t n) const {
+  return {static_cast<int32_t>(toInt64(n)), 1};
+}
+
+TimeValue::TimeValue() : Value(time) {
+}
+
+TimeValue::TimeValue(int32_t hour, int32_t minute, int32_t second, int32_t tzHour, int32_t tzMinute) : Value(date) {
+  time_.hour = hour;
+  time_.minute = minute;
+  time_.second = second;
+  time_.tzHour = tzHour;
+  time_.tzMinute = tzMinute;
+}
+
+int TimeValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
+  const std::string str(reinterpret_cast<const char*>(buf), len);
+  return read(str);
+}
+
+int TimeValue::read(const std::string& buf) {
+  // ISO 8601 time formats:
+  // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
+  // Not supported formats:
+  // 4.2.2.4 Representations with decimal fraction: 232050,5
+  static const std::regex re(R"(^(2[0-3]|[01][0-9]):?([0-5][0-9])?:?([0-5][0-9])?$)");
+  static const std::regex reExt(
+      R"(^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$)");
+
+  std::smatch sm;
+  if (std::regex_match(buf, sm, re) || std::regex_match(buf, sm, reExt)) {
+    time_.hour = sm.length(1) ? std::stoi(sm[1].str()) : 0;
+    time_.minute = sm.length(2) ? std::stoi(sm[2].str()) : 0;
+    time_.second = sm.length(3) ? std::stoi(sm[3].str()) : 0;
+    if (sm.size() > 4) {
+      std::string str = sm[4].str();
+      const auto strSize = str.size();
+      auto posColon = str.find(':');
+
+      if (posColon == std::string::npos) {
+        // Extended format
+        time_.tzHour = std::stoi(str.substr(0, 3));
+        if (strSize > 3) {
+          int minute = std::stoi(str.substr(3));
+          time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
         }
-        // Make the buffer a 0 terminated C-string for sscanf
-        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
-        int scanned = sscanf(b, "%4d%2d%2d",
-                             &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) {
+      } else {
+        // Basic format
+        time_.tzHour = std::stoi(str.substr(0, posColon));
+        int minute = std::stoi(str.substr(posColon + 1));
+        time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
+      }
+    }
+    return 0;
+  }
 #ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
+  EXV_WARNING << Error(ErrorCode::kerUnsupportedTimeFormat) << "\n";
 #endif
-            return 1;
-        }
-        return 0;
-    }
+  return 1;
+}
 
-    int DateValue::read(const std::string& buf)
-    {
-        // Hard coded to read Iptc style dates
-        if (buf.length() < 8) {
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
-            return 1;
-        }
-        int scanned = sscanf(buf.c_str(), "%4d-%d-%d",
-                             &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) {
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
-#endif
-            return 1;
-        }
-        return 0;
-    }
+/// \todo not used internally. At least we should test it
+void TimeValue::setTime(const Time& src) {
+  std::memcpy(&time_, &src, sizeof(time_));
+}
 
-    void DateValue::setDate(const Date& src)
-    {
-        date_.year = src.year;
-        date_.month = src.month;
-        date_.day = src.day;
-    }
+size_t TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
+  // NOTE: Here the time is copied in the Basic format HHMMSS:HHMM, as the IPTC key
+  // Iptc.Application2.TimeCreated wants it. Check https://exiv2.org/iptc.html
+  char temp[12];
+  char plusMinus = '+';
+  if (time_.tzHour < 0 || time_.tzMinute < 0)
+    plusMinus = '-';
 
-    long DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
-    {
-        // sprintf wants to add the null terminator, so use oversized buffer
-        char temp[9];
+  const auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp),  // 11 bytes are written + \0
+                                                  "%02d%02d%02d%1c%02d%02d", time_.hour, time_.minute, time_.second,
+                                                  plusMinus, abs(time_.tzHour), abs(time_.tzMinute)));
 
-        int wrote = sprintf(temp, "%04d%02d%02d", date_.year, date_.month, date_.day);
-        assert(wrote == 8);
-        std::memcpy(buf, temp, wrote);
-        return wrote;
-    }
+  enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
+  std::memcpy(buf, temp, wrote);
+  return wrote;
+}
 
-    const DateValue::Date& DateValue::getDate() const
-    {
-        return date_;
-    }
+const TimeValue::Time& TimeValue::getTime() const {
+  return time_;
+}
 
-    long DateValue::count() const
-    {
-        return size();
-    }
+size_t TimeValue::count() const {
+  return size();
+}
 
-    long DateValue::size() const
-    {
-        return 8;
-    }
+size_t TimeValue::size() const {
+  return 11;
+}
 
-    DateValue* DateValue::clone_() const
-    {
-        return new DateValue(*this);
-    }
+TimeValue* TimeValue::clone_() const {
+  return new TimeValue(*this);
+}
 
-    std::ostream& DateValue::write(std::ostream& os) const
-    {
-        std::ios::fmtflags f( os.flags() );
-        os << date_.year << '-' << std::right
-           << std::setw(2) << std::setfill('0') << date_.month << '-'
-           << std::setw(2) << std::setfill('0') << date_.day;
-        os.flags(f);
-        return os;
-    }
+std::ostream& TimeValue::write(std::ostream& os) const {
+  // Write TimeValue in ISO 8601 Extended format: hh:mm:ss±hh:mm
+  char plusMinus = '+';
+  if (time_.tzHour < 0 || time_.tzMinute < 0)
+    plusMinus = '-';
 
-    long DateValue::toLong(long /*n*/) const
-    {
-        // Range of tm struct is limited to about 1970 to 2038
-        // This will return -1 if outside that range
-        std::tm tms;
-        std::memset(&tms, 0, sizeof(tms));
-        tms.tm_mday = date_.day;
-        tms.tm_mon = date_.month - 1;
-        tms.tm_year = date_.year - 1900;
-        auto l = std::mktime(&tms);
-        ok_ = (l != -1);
-        return l;
-    }
+  std::ios::fmtflags f(os.flags());
+  os << std::right << std::setw(2) << std::setfill('0') << time_.hour << ':' << std::setw(2) << std::setfill('0')
+     << time_.minute << ':' << std::setw(2) << std::setfill('0') << time_.second << plusMinus << std::setw(2)
+     << std::setfill('0') << abs(time_.tzHour) << ':' << std::setw(2) << std::setfill('0') << abs(time_.tzMinute);
+  os.flags(f);
 
-    float DateValue::toFloat(long n) const
-    {
-        return static_cast<float>(toLong(n));
-    }
+  return os;
+}
 
-    Rational DateValue::toRational(long n) const
-    {
-        return Rational(toLong(n), 1);
-    }
+int64_t TimeValue::toInt64(size_t /*n*/) const {
+  // Returns number of seconds in the day in UTC.
+  int64_t result = (time_.hour - time_.tzHour) * 60 * 60;
+  result += (time_.minute - time_.tzMinute) * 60;
+  result += time_.second;
+  if (result < 0) {
+    result += 86400;
+  }
+  ok_ = true;
+  return result;
+}
 
-    TimeValue::TimeValue()
-        : Value(time)
-    {
-    }
+uint32_t TimeValue::toUint32(size_t /*n*/) const {
+  const int64_t t = toInt64();
+  if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
+    return 0;
+  }
+  return static_cast<uint32_t>(t);
+}
 
-    TimeValue::TimeValue(int hour, int minute,
-                         int second, int tzHour,
-                         int tzMinute)
-        : Value(date)
-    {
-        time_.hour = hour;
-        time_.minute = minute;
-        time_.second = second;
-        time_.tzHour = tzHour;
-        time_.tzMinute = tzMinute;
-    }
+float TimeValue::toFloat(size_t n) const {
+  return static_cast<float>(toInt64(n));
+}
 
-    TimeValue::~TimeValue()
-    {
-    }
+Rational TimeValue::toRational(size_t n) const {
+  return {static_cast<int32_t>(toInt64(n)), 1};
+}
 
-    int TimeValue::read(const byte* buf, long len, ByteOrder /*byteOrder*/)
-    {
-        // Make the buffer a 0 terminated C-string for scanTime[36]
-        char b[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        std::memcpy(b, reinterpret_cast<const char*>(buf), (len < 12 ? len : 11));
-        // Hard coded to read HHMMSS or Iptc style times
-        int rc = 1;
-        if (len == 6) {
-            // Try to read (non-standard) HHMMSS format
-            rc = scanTime3(b, "%2d%2d%2d");
-        }
-        if (len == 11) {
-            rc = scanTime6(b, "%2d%2d%2d%1c%2d%2d");
-        }
-        if (rc) {
-            rc = 1;
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
-#endif
-        }
-        return rc;
-    }
-
-    int TimeValue::read(const std::string& buf)
-    {
-        // Hard coded to read H:M:S or Iptc style times
-        int rc = 1;
-        if (buf.length() < 9) {
-            // Try to read (non-standard) H:M:S format
-            rc = scanTime3(buf.c_str(), "%d:%d:%d");
-        }
-        else {
-            rc = scanTime6(buf.c_str(), "%d:%d:%d%1c%d:%d");
-        }
-        if (rc) {
-            rc = 1;
-#ifndef SUPPRESS_WARNINGS
-            EXV_WARNING << Error(kerUnsupportedTimeFormat) << "\n";
-#endif
-        }
-        return rc;
-    }
-
-    int TimeValue::scanTime3(const char* buf, const char* format)
-    {
-        int rc = 1;
-        Time t;
-        int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second);
-        if (   scanned  == 3
-            && t.hour   >= 0 && t.hour   < 24
-            && t.minute >= 0 && t.minute < 60
-            && t.second >= 0 && t.second < 60) {
-            time_ = t;
-            rc = 0;
-        }
-        return rc;
-    }
-
-    int TimeValue::scanTime6(const char* buf, const char* format)
-    {
-        int rc = 1;
-        Time t;
-        char plusMinus;
-        int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second,
-                             &plusMinus, &t.tzHour, &t.tzMinute);
-        if (   scanned    == 6
-            && t.hour     >= 0 && t.hour     < 24
-            && t.minute   >= 0 && t.minute   < 60
-            && t.second   >= 0 && t.second   < 60
-            && t.tzHour   >= 0 && t.tzHour   < 24
-            && t.tzMinute >= 0 && t.tzMinute < 60) {
-            time_ = t;
-            if (plusMinus == '-') {
-                time_.tzHour *= -1;
-                time_.tzMinute *= -1;
-            }
-            rc = 0;
-        }
-        return rc;
-    }
-
-    void TimeValue::setTime( const Time& src )
-    {
-        std::memcpy(&time_, &src, sizeof(time_));
-    }
-
-    long TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const
-    {
-        char temp[12];
-        char plusMinus = '+';
-        if (time_.tzHour < 0 || time_.tzMinute < 0)
-            plusMinus = '-';
-
-        const int wrote = snprintf(temp, sizeof(temp), // 11 bytes are written + \0
-                   "%02d%02d%02d%1c%02d%02d",
-                   time_.hour, time_.minute, time_.second,
-                   plusMinus, abs(time_.tzHour), abs(time_.tzMinute));
-
-        enforce(wrote == 11, Exiv2::kerUnsupportedTimeFormat);
-        std::memcpy(buf, temp, wrote);
-        return wrote;
-    }
-
-    const TimeValue::Time& TimeValue::getTime() const
-    {
-        return time_;
-    }
-
-    long TimeValue::count() const
-    {
-        return size();
-    }
-
-    long TimeValue::size() const
-    {
-        return 11;
-    }
-
-    TimeValue* TimeValue::clone_() const
-    {
-        return new TimeValue(*this);
-    }
-
-    std::ostream& TimeValue::write(std::ostream& os) const
-    {
-        char plusMinus = '+';
-        if (time_.tzHour < 0 || time_.tzMinute < 0) plusMinus = '-';
-
-        std::ios::fmtflags f( os.flags() );
-        os << std::right
-           << std::setw(2) << std::setfill('0') << time_.hour << ':'
-           << std::setw(2) << std::setfill('0') << time_.minute << ':'
-           << std::setw(2) << std::setfill('0') << time_.second << plusMinus
-           << std::setw(2) << std::setfill('0') << abs(time_.tzHour) << ':'
-           << std::setw(2) << std::setfill('0') << abs(time_.tzMinute);
-        os.flags(f);
-
-        return os;
-    }
-
-    long TimeValue::toLong(long /*n*/) const
-    {
-        // Returns number of seconds in the day in UTC.
-        long result = (time_.hour - time_.tzHour) * 60 * 60;
-        result += (time_.minute - time_.tzMinute) * 60;
-        result += time_.second;
-        if (result < 0) {
-            result += 86400;
-        }
-        ok_ = true;
-        return result;
-    }
-
-    float TimeValue::toFloat(long n) const
-    {
-        return static_cast<float>(toLong(n));
-    }
-
-    Rational TimeValue::toRational(long n) const
-    {
-        return Rational(toLong(n), 1);
-    }
-
-}                                       // namespace Exiv2
+}  // namespace Exiv2

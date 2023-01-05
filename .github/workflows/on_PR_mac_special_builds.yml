@@ -1,0 +1,42 @@
+name: On PRs - Mac Special Builds
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths-ignore:
+      - "*.md"
+
+jobs:
+  MacOS_releaseSanitizers:
+    name: 'MacOS - Clang - Release+Sanitizers'
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          brew install ninja
+          brew install inih
+          pushd /tmp
+          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+          tar xzf   release-1.8.0.tar.gz
+          mkdir -p  googletest-release-1.8.0/build
+          pushd     googletest-release-1.8.0/build
+          cmake .. ; make ; make install
+          popd
+          popd
+
+      - name: Build
+        run: |
+          cmake --preset base_mac -S . -B build -DEXIV2_TEAM_USE_SANITIZERS=ON -DEXIV2_ENABLE_VIDEO=ON
+          cmake --build build --parallel
+
+      - name: Tests
+        run: |
+          cd build
+          ctest --output-on-failure

@@ -1,0 +1,57 @@
+name: On PRs - Linux-Ubuntu Matrix
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths-ignore:
+      - "*.md"
+
+jobs:
+  Linux:
+    name: 'Ubuntu 22.04 - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
+    runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install ninja-build tree
+          pip3 install conan==1.54.0
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.build_type=${{matrix.build_type}} default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build-base_linux && cd build-base_linux
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_VIDEO=ON
+          cmake --build build-base_linux --parallel
+
+      - name: Install
+        run: |
+          cd build-base_linux
+          cmake --install . 
+
+      - name: Test
+        run: |
+          cd build-base_linux
+          ctest --output-on-failure

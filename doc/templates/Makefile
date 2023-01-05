@@ -50,9 +50,20 @@ TABLES = Exif \
          CanonSi \
          CanonCf \
          CanonPi \
+         CanonTi \
          CanonFi \
          CanonPa \
          CanonPr \
+         CanonMe \
+         CanonHdr \
+         CanonVigCor2 \
+         CanonLiOp \
+         CanonAfMiAdj \
+         CanonLe \
+         CanonAm \
+         CanonFil \
+         CanonAfC \
+         CanonRawB \
          Casio \
          Casio2 \
          Fujifilm \
@@ -69,12 +80,15 @@ TABLES = Exif \
          NikonIi \
          NikonAf \
          NikonAf2 \
+         NikonAf22 \
          NikonAFT \
          NikonFi \
          NikonMe \
          NikonFl1 \
          NikonFl2 \
          NikonFl3 \
+         NikonFl6 \
+         NikonFl7 \
          NikonSiD80 \
          NikonSiD40 \
          NikonSiD300a \
@@ -89,6 +103,7 @@ TABLES = Exif \
          NikonLd1 \
          NikonLd2 \
          NikonLd3 \
+         NikonLd4 \
          Olympus \
          OlympusCs \
          OlympusEq \
@@ -108,10 +123,15 @@ TABLES = Exif \
          SonyMinolta \
          Sony1Cs \
          Sony1Cs2 \
+         Sony2010e \
          Sony1MltCs7D \
          Sony1MltCsOld \
          Sony1MltCsA100 \
-         Sony2Fp
+         Sony2Fp \
+         SonyMisc1 \
+         SonyMisc2b \
+         SonyMisc3c \
+         SonySInfo1
 
 SCHEMA = xmp_dc \
          xmp_dwc \
@@ -147,7 +167,7 @@ SCHEMA = xmp_dc \
          xmp_mwg-rs \
          xmp_mwg-kw
 
-TAGLIST = ${EXIV2HOME}/build/bin/taglist
+TAGLIST = ${EXIV2_BINDIR}/taglist
 
 # **********************************************************************
 # ======================================================================

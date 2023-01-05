@@ -976,12 +976,26 @@ ProcessUTF8Portion ( XMLParserAdapter * xmlParser,
 {
 	const XMP_Uns8 * bufEnd = buffer + length;
 	
-	const XMP_Uns8 * spanStart = buffer;
 	const XMP_Uns8 * spanEnd;
-		
-	for ( spanEnd = spanStart; spanEnd < bufEnd; ++spanEnd ) {
 
-		if ( (0x20 <= *spanEnd) && (*spanEnd <= 0x7E) && (*spanEnd != '&') ) continue;	// A regular ASCII character.
+	// `buffer` is copied into this std::string. If `buffer` only
+	// contains valid UTF-8 and no escape characters, then the copy
+	// will be identical to the original, but invalid characters are
+	// replaced - usually with a space character.  This std::string was
+	// added as a performance fix for:
+	// https://github.com/Exiv2/exiv2/security/advisories/GHSA-w8mv-g8qq-36mj
+	// Previously, the code was repeatedly calling
+	// `xmlParser->ParseBuffer()`, which turned out to have quadratic
+	// complexity, because expat kept reparsing the entire string from
+	// the beginning.
+	std::string copy;
+		
+	for ( spanEnd = buffer; spanEnd < bufEnd; ++spanEnd ) {
+
+		if ( (0x20 <= *spanEnd) && (*spanEnd <= 0x7E) && (*spanEnd != '&') ) {
+			copy.push_back(*spanEnd);
+			continue;	// A regular ASCII character.
+		}
 
 		if ( *spanEnd >= 0x80 ) {
 		
@@ -992,21 +1006,20 @@ ProcessUTF8Portion ( XMLParserAdapter * xmlParser,
 			if ( uniLen > 0 ) {
 
 				// A valid UTF-8 character, keep it as-is.
+				copy.append((const char*)spanEnd, uniLen);
 				spanEnd += uniLen - 1;	// ! The loop increment will put back the +1.
 
 			} else if ( (uniLen < 0) && (! last) ) {
 
 				// Have a partial UTF-8 character at the end of the buffer and more input coming.
-				xmlParser->ParseBuffer ( spanStart, (spanEnd - spanStart), false );
+				xmlParser->ParseBuffer ( copy.c_str(), copy.size(), false );
 				return (spanEnd - buffer);
 
 			} else {
 
 				// Not a valid UTF-8 sequence. Replace the first byte with the Latin-1 equivalent.
-				xmlParser->ParseBuffer ( spanStart, (spanEnd - spanStart), false );
 				const char * replacement = kReplaceLatin1 [ *spanEnd - 0x80 ];
-				xmlParser->ParseBuffer ( replacement, strlen ( replacement ), false );
-				spanStart = spanEnd + 1;	// ! The loop increment will do "spanEnd = spanStart".
+				copy.append ( replacement );
 
 			}
 		
@@ -1014,11 +1027,12 @@ ProcessUTF8Portion ( XMLParserAdapter * xmlParser,
 
 			// Replace ASCII controls other than tab, LF, and CR with a space.
 
-			if ( (*spanEnd == kTab) || (*spanEnd == kLF) || (*spanEnd == kCR) ) continue;
+			if ( (*spanEnd == kTab) || (*spanEnd == kLF) || (*spanEnd == kCR) ) {
+				copy.push_back(*spanEnd);
+				continue;
+			}
 
-			xmlParser->ParseBuffer ( spanStart, (spanEnd - spanStart), false );
-			xmlParser->ParseBuffer ( " ", 1, false );
-			spanStart = spanEnd + 1;	// ! The loop increment will do "spanEnd = spanStart".
+			copy.push_back(' ');
 		
 		} else {
 		
@@ -1030,18 +1044,21 @@ ProcessUTF8Portion ( XMLParserAdapter * xmlParser,
 			if ( escLen < 0 ) {
 
 				// Have a partial numeric escape in this buffer, wait for more input.
-				if ( last ) continue;	// No more buffers, not an escape, absorb as normal input.
-				xmlParser->ParseBuffer ( spanStart, (spanEnd - spanStart), false );
+				if ( last ) {
+					copy.push_back('&');
+					continue;	// No more buffers, not an escape, absorb as normal input.
+				}
+				xmlParser->ParseBuffer ( copy.c_str(), copy.size(), false );
 				return (spanEnd - buffer);
 
 			} else if ( escLen > 0 ) {
 
 				// Have a complete numeric escape to replace.
-				xmlParser->ParseBuffer ( spanStart, (spanEnd - spanStart), false );
-				xmlParser->ParseBuffer ( " ", 1, false );
-				spanStart = spanEnd + escLen;
-				spanEnd = spanStart - 1;	// ! The loop continuation will increment spanEnd!
+				copy.push_back(' ');
+				spanEnd = spanEnd + escLen - 1;	// ! The loop continuation will increment spanEnd!
 
+			} else {
+				copy.push_back('&');
 			}
 
 		}
@@ -1049,10 +1066,8 @@ ProcessUTF8Portion ( XMLParserAdapter * xmlParser,
 	}
 	
 	XMP_Assert ( spanEnd == bufEnd );
-
-	if ( spanStart < bufEnd ) xmlParser->ParseBuffer ( spanStart, (spanEnd - spanStart), false );
-	if ( last ) xmlParser->ParseBuffer ( " ", 1, true );
-	
+	copy.push_back(' ');
+	xmlParser->ParseBuffer ( copy.c_str(), copy.size(), true );
 	return length;
 
 }	// ProcessUTF8Portion

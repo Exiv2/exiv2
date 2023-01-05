@@ -11,31 +11,50 @@ class FujiFilm_IFD_Tags_pr1409(metaclass=system_tests.CaseMeta):
     stdout = ["""Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FF02B4550110     593534373734180817925330110168
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-Exif.Fujifilm.Sharpness                      Short       1  Normal
+Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 Exif.Fujifilm.WhiteBalance                   Short       1  Auto
-Exif.Fujifilm.Color                          Short       1  Normal
-Exif.Fujifilm.FlashMode                      Short       1  (38976)
+Exif.Fujifilm.Color                          Short       1  0 (normal)
+Exif.Fujifilm.WhiteBalanceFineTune           SLong       2  R: 0 B: 0
+Exif.Fujifilm.NoiseReduction                 Short       1  n/a
+Exif.Fujifilm.HighIsoNoiseReduction          Short       1  0 (normal)
+Exif.Fujifilm.FlashMode                      Short       1  Manual
 Exif.Fujifilm.FlashStrength                  SRational   1  0/100
 Exif.Fujifilm.FocusMode                      Short       1  Auto
+Exif.Fujifilm.FocusArea                      Short       1  Single Point
+Exif.Fujifilm.FocusPoint                     Short       2  3598 2090
+Exif.Fujifilm.FocusPrioritySetting           Short       1  17
+Exif.Fujifilm.FocusSetting                   Long        1  16401
+Exif.Fujifilm.ContinuousFocusSetting         Long        1  258
 Exif.Fujifilm.SlowSync                       Short       1  Off
 Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
+Exif.Fujifilm.ExposureCount                  Short       1  1
 Exif.Fujifilm.ShadowTone                     SLong       1  0
 Exif.Fujifilm.HighlightTone                  SLong       1  0
+Exif.Fujifilm.LensModulationOptimizer        Long        1  On
+Exif.Fujifilm.GrainEffectRoughness           SLong       1  Off
+Exif.Fujifilm.ColorChromeEffect              SLong       1  Off
 Exif.Fujifilm.CropMode                       Short       1  None
+Exif.Fujifilm.ShutterType                    Short       1  Mechanical
 Exif.Fujifilm.Continuous                     Short       1  Off
 Exif.Fujifilm.SequenceNumber                 Short       1  0
+Exif.Fujifilm.DriveSetting                   Long        1  Single
 Exif.Fujifilm.BlurWarning                    Short       1  Off
 Exif.Fujifilm.FocusWarning                   Short       1  Off
 Exif.Fujifilm.ExposureWarning                Short       1  Off
 Exif.Fujifilm.DynamicRange                   Short       1  Standard
-Exif.Fujifilm.FilmMode                       Short       1  F0/Standard (Provia)
-Exif.Fujifilm.DynamicRangeSetting            Short       1  Raw
+Exif.Fujifilm.FilmMode                       Short       1  PROVIA (F0/Standard)
+Exif.Fujifilm.DynamicRangeSetting            Short       1  Manual
 Exif.Fujifilm.DevelopmentDynamicRange        Short       1  100
 Exif.Fujifilm.MinFocalLength                 Rational    1  1800/100
 Exif.Fujifilm.MaxFocalLength                 Rational    1  5500/100
 Exif.Fujifilm.MaxApertureAtMinFocal          Rational    1  280/100
 Exif.Fujifilm.MaxApertureAtMaxFocal          Rational    1  400/100
+Exif.Fujifilm.ImageStabilization             Short       3  1 1 0
 Exif.Fujifilm.Rating                         Long        1  0
+Exif.Fujifilm.ImageGeneration                Short       1  Original Image
+Exif.Fujifilm.ImageNumber                    Short       1  32775
+Exif.Fujifilm.FacesDetected                  Short       1  0
+Exif.Fujifilm.NumberFaceElements             Short       1  0
 Exif.Fujifilm.RawImageFullWidth              Long        1  6384
 Exif.Fujifilm.RawImageFullHeight             Long        1  4182
 Exif.Fujifilm.BitsPerSample                  Long        1  14

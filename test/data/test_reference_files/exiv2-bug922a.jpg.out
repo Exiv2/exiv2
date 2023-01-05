@@ -1,0 +1,184 @@
+Exif.Image.Make                              Ascii      18  NIKON CORPORATION  NIKON CORPORATION
+Exif.Image.Model                             Ascii      12  NIKON D5300  NIKON D5300
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  300/1  300
+Exif.Image.YResolution                       Rational    1  300/1  300
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      10  Ver.1.00   Ver.1.00 
+Exif.Image.DateTime                          Ascii      20  2015:02:13 20:46:51  2015:02:13 20:46:51
+Exif.Image.YCbCrPositioning                  Short       1  1  Centered
+Exif.Image.ExifTag                           Long        1  210  210
+Exif.Photo.ExposureTime                      Rational    1  10/1000  1/100 s
+Exif.Photo.FNumber                           Rational    1  50/10  F5
+Exif.Photo.ExposureProgram                   Short       1  0  Not defined
+Exif.Photo.ISOSpeedRatings                   Short       1  400  400
+Exif.Photo.SensitivityType                   Short       1  2  2
+Exif.Photo.ExifVersion                       Undefined   4  48 50 51 48  2.30
+Exif.Photo.DateTimeOriginal                  Ascii      20  2015:02:13 13:51:35  2015:02:13 13:51:35
+Exif.Photo.DateTimeDigitized                 Ascii      20  2015:02:13 13:51:35  2015:02:13 13:51:35
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  2/1  2
+Exif.Photo.ExposureBiasValue                 SRational   1  0/6  0 EV
+Exif.Photo.MaxApertureValue                  Rational    1  36/10  F3.5
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.LightSource                       Short       1  0  Unknown
+Exif.Photo.Flash                             Short       1  16  No, compulsory
+Exif.Photo.FocalLength                       Rational    1  180/10  18.0 mm
+Exif.Photo.MakerNote                         Undefined 3152  78 105 107 111 110 0 2 17 0 0 73 73 42 0 8 0 0 0 57 0 1 0 7 0 4 0 0 0 48 50 49 49 2 0 3 0 2 0 0 0 0 0 144 1 4 0 2 0 8 0 0 0 186 2 0 0 5 0 2 0 13 0 0 0 194 2 0 0 7 0 2 0 7 0 0 0 207 2 0 0 8 0 2 0 13 0 0 0 214 2 0 0 9 0 2 0 20 0 0 0 227 2 0 0 11 0 8 0 2 0 0 0 0 0 0 0 12 0 5 0 4 0 0 0 247 2 0 0 13 0 7 0 4 0 0 0 0 1 6 0 14 0 7 0 4 0 0 0 0 1 12 0 18 0 7 0 4 0 0 0 0 1 6 0 19 0 3 0 2 0 0 0 0 0 144 1 22 0 3 0 4 0 0 0 23 3 0 0 23 0 7 0 4 0 0 0 0 1 6 0 24 0 7 0 4 0 0 0 0 1 6 0 25 0 10 0 1 0 0 0 31 3 0 0 27 0 3 0 7 0 0 0 39 3 0 0 28 0 7 0 3 0 0 0 0 1 6 0 29 0 2 0 8 0 0 0 53 3 0 0 30 0 3 0 1 0 0 0 1 0 0 0 31 0 7 0 8 0 0 0 61 3 0 0 34 0 3 0 1 0 0 0 255 255 0 0 35 0 7 0 58 0 0 0 69 3 0 0 36 0 7 0 4 0 0 0 152 254 0 0 37 0 7 0 14 0 0 0 127 3 0 0 43 0 7 0 16 0 0 0 141 3 0 0 44 0 7 0 62 2 0 0 157 3 0 0 45 0 3 0 3 0 0 0 219 5 0 0 50 0 7 0 8 0 0 0 225 5 0 0 53 0 7 0 6 0 0 0 233 5 0 0 59 0 5 0 4 0 0 0 239 5 0 0 60 0 3 0 1 0 0 0 1 0 0 0 131 0 1 0 1 0 0 0 14 0 0 0 132 0 5 0 4 0 0 0 15 6 0 0 135 0 1 0 1 0 0 0 0 0 0 0 137 0 3 0 1 0 0 0 0 0 0 0 138 0 3 0 1 0 0 0 1 0 0 0 139 0 7 0 4 0 0 0 64 1 12 0 149 0 2 0 5 0 0 0 47 6 0 0 151 0 7 0 164 4 0 0 52 6 0 0 152 0 7 0 33 0 0 0 216 10 0 0 157 0 3 0 1 0 0 0 0 0 0 0 158 0 3 0 10 0 0 0 249 10 0 0 162 0 4 0 1 0 0 0 136 5 101 0 163 0 1 0 1 0 0 0 0 0 0 0 167 0 4 0 1 0 0 0 77 30 0 0 168 0 7 0 49 0 0 0 13 11 0 0 171 0 2 0 16 0 0 0 62 11 0 0 176 0 7 0 16 0 0 0 78 11 0 0 177 0 3 0 1 0 0 0 4 0 0 0 182 0 7 0 8 0 0 0 94 11 0 0 183 0 7 0 30 0 0 0 102 11 0 0 184 0 7 0 172 0 0 0 132 11 0 0 187 0 7 0 8 0 0 0 48 12 0 0 191 0 3 0 1 0 0 0 0 0 0 0 192 0 7 0 8 0 0 0 56 12 0 0 0 0 0 0 78 79 82 77 65 76 32 0 65 85 84 79 32 32 32 32 32 32 32 32 0 77 65 78 85 65 76 0 32 32 32 32 32 32 32 32 32 32 32 32 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 218 1 0 0 0 1 0 0 236 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 112 23 160 15 0 0 0 0 6 0 0 0 0 0 128 23 176 15 128 23 176 15 0 0 0 0 50 53 54 55 56 48 54 0 48 49 48 48 1 1 0 0 48 49 48 48 83 84 65 78 68 65 82 68 0 0 0 0 0 0 0 0 0 0 0 0 83 84 65 78 68 65 82 68 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 255 0 0 128 0 128 255 255 255 84 1 12 0 0 0 84 1 12 0 0 0 2 0 48 49 48 48 0 0 2 0 0 0 0 0 0 0 0 0 48 49 48 49 35 0 128 2 170 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 48 49 48 48 1 0 0 0 48 50 48 48 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 180 0 0 0 10 0 0 0 196 9 0 0 10 0 0 0 35 0 0 0 10 0 0 0 63 0 0 0 10 0 0 0 79 70 70 32 0 48 50 49 57 190 95 68 130 4 213 61 71 2 222 247 157 184 124 223 129 242 43 173 120 140 233 143 126 182 55 1 20 112 21 3 58 186 131 149 240 148 129 183 54 254 15 105 12 248 45 171 114 1 81 125 104 156 25 223 238 70 231 209 4 128 69 83 170 74 51 101 224 164 177 7 166 142 191 57 252 8 93 251 226 18 139 60 216 119 205 149 222 82 151 136 75 110 245 250 101 237 156 226 111 198 97 56 105 246 239 32 83 154 13 202 210 166 187 157 200 60 249 255 78 230 199 241 100 250 36 115 11 234 18 105 65 236 108 143 251 134 98 241 161 132 60 55 67 158 106 65 185 76 41 65 191 70 119 241 84 0 85 193 120 120 193 109 49 182 222 96 105 191 79 50 76 185 109 112 178 65 27 62 168 93 89 132 46 5 39 147 68 66 133 21 234 21 115 35 32 123 241 193 230 81 255 250 60 203 157 189 34 205 203 12 154 110 142 240 154 146 215 109 52 92 181 98 95 101 32 234 229 107 46 223 86 78 174 233 47 144 192 27 156 106 107 194 151 209 185 126 15 38 134 145 36 144 229 101 53 42 211 197 0 44 81 99 198 145 95 153 28 104 253 119 3 238 41 173 121 140 232 143 127 182 55 1 20 112 21 3 58 186 131 149 240 148 129 183 54 254 15 150 115 248 44 171 115 130 218 130 107 156 25 219 238 70 231 209 0 128 69 83 170 74 51 101 228 164 177 7 166 142 191 57 248 158 93 224 227 50 139 235 167 88 183 73 95 95 150 47 10 121 138 144 26 218 226 181 208 52 225 215 22 158 111 73 236 152 141 75 82 163 59 29 76 188 125 127 202 102 67 113 224 160 165 243 138 106 147 26 196 59 238 167 134 21 224 117 223 43 190 155 194 50 235 237 56 255 171 207 62 246 247 65 212 176 215 67 250 250 67 213 176 212 67 247 246 62 207 169 50 199 19 22 55 234 155 189 40 220 217 31 174 216 167 69 196 192 4 147 107 139 242 133 88 228 113 71 174 206 126 117 60 72 93 63 166 86 75 141 24 227 30 120 30 22 95 225 180 208 53 227 218 26 171 117 144 244 161 151 214 94 39 73 172 88 205 139 146 227 251 93 8 252 57 183 142 164 7 181 164 225 101 50 74 174 83 71 128 31 209 251 70 247 223 2 156 104 125 219 130 114 171 45 248 15 105 13 254 54 183 128 148 241 149 130 186 58 3 21 112 20 1 54 182 127 143 233 140 120 173 42 242 3 91 209 233 198 152 95 111 42 102 26 132 75 197 152 42 202 179 161 96 36 49 135 38 14 63 185 124 136 221 123 98 146 11 207 216 7 201 173 222 125 23 35 116 18 245 33 154 113 99 183 80 54 97 213 150 129 239 150 108 152 13 203 210 34 187 157 200 61 249 254 78 230 199 241 100 32 37 114 10 235 19 133 64 68 145 38 6 47 159 89 92 168 60 27 67 178 106 109 184 76 41 79 190 118 119 193 84 48 85 195 122 122 195 85 48 84 193 119 118 190 79 40 76 147 109 106 178 105 27 62 168 95 89 158 46 45 39 146 68 66 133 17 234 21 115 58 32 100 241 199 230 78 255 249 60 201 157 186 34 210 203 13 152 108 137 238 158 151 215 97 52 80 181 98 90 155 35 245 16 116 32 23 87 222 174 201 44 216 205 11 146 98 123 221 136 124 185 63 14 38 135 49 36 96 229 179 202 42 211 197 0 164 81 103 198 78 95 154 28 235 253 91 2 210 43 169 120 142 233 141 126 190 55 30 20 112 21 3 58 187 131 149 240 148 129 182 54 255 15 105 12 248 45 171 114 130 219 124 104 156 25 222 238 71 231 209 4 128 68 83 171 74 50 101 224 164 177 7 166 142 191 57 252 8 93 251 226 18 139 77 88 172 73 47 94 214 151 161 244 144 117 163 26 218 227 53 208 180 225 87 22 30 111 13 236 28 141 73 82 162 59 29 72 60 121 127 206 103 71 113 228 160 165 242 138 107 147 5 192 196 17 167 134 174 31 216 220 41 189 154 194 51 235 237 56 204 168 207 63 246 246 65 212 176 213 67 250 250 67 213 176 212 65 247 246 62 207 169 204 56 237 235 50 194 155 189 40 220 217 31 174 134 167 17 196 192 5 147 106 138 243 161 160 224 113 69 102 206 127 121 188 200 29 59 162 83 75 141 24 236 9 110 30 23 87 225 180 208 53 227 218 26 163 116 144 245 161 150 214 95 47 73 172 88 76 139 19 226 250 93 8 252 57 191 142 166 7 177 164 224 101 51 74 170 83 69 128 4 209 231 70 238 223 25 156 104 125 219 130 114 171 45 248 12 105 15 254 54 183 133 148 244 149 129 186 58 3 21 112 148 1 55 182 120 143 64 179 6 173 242 13 181 164 170 215 238 153 176 145 174 103 248 187 4 197 211 40 222 179 253 97 36 49 135 37 142 191 57 252 8 93 251 226 18 139 77 88 172 73 47 94 214 151 161 244 144 117 163 26 218 227 53 208 180 225 87 22 158 236 139 108 140 13 207 208 34 123 157 200 61 248 254 78 231 199 241 100 32 37 115 11 234 195 132 64 68 81 93 6 38 159 116 112 231 8 4 64 114 96 181 191 84 40 79 190 116 115 194 87 48 84 195 122 48 50 48 52 179 127 198 128 180 183 184 107 124 159 52 20 68 61 144 174 107 203 12 167 12 105 15 254 54 183 129 149 244 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 49 48 54 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 65 85 84 79 40 70 76 65 83 72 32 79 70 70 41 0 48 49 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 49 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 49 48 48 0 0 100 0 12 23 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 50 48 48 255 255 255 0 60 1 12 0 144 1 12 0 2 0 1 0 2 0  78 105 107 111 110 0 2 17 0 0 73 73 42 0 8 0 0 0 57 0 1 0 7 0 4 0 0 0 48 50 49 49 2 0 3 0 2 0 0 0 0 0 144 1 4 0 2 0 8 0 0 0 186 2 0 0 5 0 2 0 13 0 0 0 194 2 0 0 7 0 2 0 7 0 0 0 207 2 0 0 8 0 2 0 13 0 0 0 214 2 0 0 9 0 2 0 20 0 0 0 227 2 0 0 11 0 8 0 2 0 0 0 0 0 0 0 12 0 5 0 4 0 0 0 247 2 0 0 13 0 7 0 4 0 0 0 0 1 6 0 14 0 7 0 4 0 0 0 0 1 12 0 18 0 7 0 4 0 0 0 0 1 6 0 19 0 3 0 2 0 0 0 0 0 144 1 22 0 3 0 4 0 0 0 23 3 0 0 23 0 7 0 4 0 0 0 0 1 6 0 24 0 7 0 4 0 0 0 0 1 6 0 25 0 10 0 1 0 0 0 31 3 0 0 27 0 3 0 7 0 0 0 39 3 0 0 28 0 7 0 3 0 0 0 0 1 6 0 29 0 2 0 8 0 0 0 53 3 0 0 30 0 3 0 1 0 0 0 1 0 0 0 31 0 7 0 8 0 0 0 61 3 0 0 34 0 3 0 1 0 0 0 255 255 0 0 35 0 7 0 58 0 0 0 69 3 0 0 36 0 7 0 4 0 0 0 152 254 0 0 37 0 7 0 14 0 0 0 127 3 0 0 43 0 7 0 16 0 0 0 141 3 0 0 44 0 7 0 62 2 0 0 157 3 0 0 45 0 3 0 3 0 0 0 219 5 0 0 50 0 7 0 8 0 0 0 225 5 0 0 53 0 7 0 6 0 0 0 233 5 0 0 59 0 5 0 4 0 0 0 239 5 0 0 60 0 3 0 1 0 0 0 1 0 0 0 131 0 1 0 1 0 0 0 14 0 0 0 132 0 5 0 4 0 0 0 15 6 0 0 135 0 1 0 1 0 0 0 0 0 0 0 137 0 3 0 1 0 0 0 0 0 0 0 138 0 3 0 1 0 0 0 1 0 0 0 139 0 7 0 4 0 0 0 64 1 12 0 149 0 2 0 5 0 0 0 47 6 0 0 151 0 7 0 164 4 0 0 52 6 0 0 152 0 7 0 33 0 0 0 216 10 0 0 157 0 3 0 1 0 0 0 0 0 0 0 158 0 3 0 10 0 0 0 249 10 0 0 162 0 4 0 1 0 0 0 136 5 101 0 163 0 1 0 1 0 0 0 0 0 0 0 167 0 4 0 1 0 0 0 77 30 0 0 168 0 7 0 49 0 0 0 13 11 0 0 171 0 2 0 16 0 0 0 62 11 0 0 176 0 7 0 16 0 0 0 78 11 0 0 177 0 3 0 1 0 0 0 4 0 0 0 182 0 7 0 8 0 0 0 94 11 0 0 183 0 7 0 30 0 0 0 102 11 0 0 184 0 7 0 172 0 0 0 132 11 0 0 187 0 7 0 8 0 0 0 48 12 0 0 191 0 3 0 1 0 0 0 0 0 0 0 192 0 7 0 8 0 0 0 56 12 0 0 0 0 0 0 78 79 82 77 65 76 32 0 65 85 84 79 32 32 32 32 32 32 32 32 0 77 65 78 85 65 76 0 32 32 32 32 32 32 32 32 32 32 32 32 0 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 32 0 218 1 0 0 0 1 0 0 236 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 0 0 112 23 160 15 0 0 0 0 6 0 0 0 0 0 128 23 176 15 128 23 176 15 0 0 0 0 50 53 54 55 56 48 54 0 48 49 48 48 1 1 0 0 48 49 48 48 83 84 65 78 68 65 82 68 0 0 0 0 0 0 0 0 0 0 0 0 83 84 65 78 68 65 82 68 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 255 0 0 128 0 128 255 255 255 84 1 12 0 0 0 84 1 12 0 0 0 2 0 48 49 48 48 0 0 2 0 0 0 0 0 0 0 0 0 48 49 48 49 35 0 128 2 170 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 0 0 48 49 48 48 1 0 0 0 48 50 48 48 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 180 0 0 0 10 0 0 0 196 9 0 0 10 0 0 0 35 0 0 0 10 0 0 0 63 0 0 0 10 0 0 0 79 70 70 32 0 48 50 49 57 190 95 68 130 4 213 61 71 2 222 247 157 184 124 223 129 242 43 173 120 140 233 143 126 182 55 1 20 112 21 3 58 186 131 149 240 148 129 183 54 254 15 105 12 248 45 171 114 1 81 125 104 156 25 223 238 70 231 209 4 128 69 83 170 74 51 101 224 164 177 7 166 142 191 57 252 8 93 251 226 18 139 60 216 119 205 149 222 82 151 136 75 110 245 250 101 237 156 226 111 198 97 56 105 246 239 32 83 154 13 202 210 166 187 157 200 60 249 255 78 230 199 241 100 250 36 115 11 234 18 105 65 236 108 143 251 134 98 241 161 132 60 55 67 158 106 65 185 76 41 65 191 70 119 241 84 0 85 193 120 120 193 109 49 182 222 96 105 191 79 50 76 185 109 112 178 65 27 62 168 93 89 132 46 5 39 147 68 66 133 21 234 21 115 35 32 123 241 193 230 81 255 250 60 203 157 189 34 205 203 12 154 110 142 240 154 146 215 109 52 92 181 98 95 101 32 234 229 107 46 223 86 78 174 233 47 144 192 27 156 106 107 194 151 209 185 126 15 38 134 145 36 144 229 101 53 42 211 197 0 44 81 99 198 145 95 153 28 104 253 119 3 238 41 173 121 140 232 143 127 182 55 1 20 112 21 3 58 186 131 149 240 148 129 183 54 254 15 150 115 248 44 171 115 130 218 130 107 156 25 219 238 70 231 209 0 128 69 83 170 74 51 101 228 164 177 7 166 142 191 57 248 158 93 224 227 50 139 235 167 88 183 73 95 95 150 47 10 121 138 144 26 218 226 181 208 52 225 215 22 158 111 73 236 152 141 75 82 163 59 29 76 188 125 127 202 102 67 113 224 160 165 243 138 106 147 26 196 59 238 167 134 21 224 117 223 43 190 155 194 50 235 237 56 255 171 207 62 246 247 65 212 176 215 67 250 250 67 213 176 212 67 247 246 62 207 169 50 199 19 22 55 234 155 189 40 220 217 31 174 216 167 69 196 192 4 147 107 139 242 133 88 228 113 71 174 206 126 117 60 72 93 63 166 86 75 141 24 227 30 120 30 22 95 225 180 208 53 227 218 26 171 117 144 244 161 151 214 94 39 73 172 88 205 139 146 227 251 93 8 252 57 183 142 164 7 181 164 225 101 50 74 174 83 71 128 31 209 251 70 247 223 2 156 104 125 219 130 114 171 45 248 15 105 13 254 54 183 128 148 241 149 130 186 58 3 21 112 20 1 54 182 127 143 233 140 120 173 42 242 3 91 209 233 198 152 95 111 42 102 26 132 75 197 152 42 202 179 161 96 36 49 135 38 14 63 185 124 136 221 123 98 146 11 207 216 7 201 173 222 125 23 35 116 18 245 33 154 113 99 183 80 54 97 213 150 129 239 150 108 152 13 203 210 34 187 157 200 61 249 254 78 230 199 241 100 32 37 114 10 235 19 133 64 68 145 38 6 47 159 89 92 168 60 27 67 178 106 109 184 76 41 79 190 118 119 193 84 48 85 195 122 122 195 85 48 84 193 119 118 190 79 40 76 147 109 106 178 105 27 62 168 95 89 158 46 45 39 146 68 66 133 17 234 21 115 58 32 100 241 199 230 78 255 249 60 201 157 186 34 210 203 13 152 108 137 238 158 151 215 97 52 80 181 98 90 155 35 245 16 116 32 23 87 222 174 201 44 216 205 11 146 98 123 221 136 124 185 63 14 38 135 49 36 96 229 179 202 42 211 197 0 164 81 103 198 78 95 154 28 235 253 91 2 210 43 169 120 142 233 141 126 190 55 30 20 112 21 3 58 187 131 149 240 148 129 182 54 255 15 105 12 248 45 171 114 130 219 124 104 156 25 222 238 71 231 209 4 128 68 83 171 74 50 101 224 164 177 7 166 142 191 57 252 8 93 251 226 18 139 77 88 172 73 47 94 214 151 161 244 144 117 163 26 218 227 53 208 180 225 87 22 30 111 13 236 28 141 73 82 162 59 29 72 60 121 127 206 103 71 113 228 160 165 242 138 107 147 5 192 196 17 167 134 174 31 216 220 41 189 154 194 51 235 237 56 204 168 207 63 246 246 65 212 176 213 67 250 250 67 213 176 212 65 247 246 62 207 169 204 56 237 235 50 194 155 189 40 220 217 31 174 134 167 17 196 192 5 147 106 138 243 161 160 224 113 69 102 206 127 121 188 200 29 59 162 83 75 141 24 236 9 110 30 23 87 225 180 208 53 227 218 26 163 116 144 245 161 150 214 95 47 73 172 88 76 139 19 226 250 93 8 252 57 191 142 166 7 177 164 224 101 51 74 170 83 69 128 4 209 231 70 238 223 25 156 104 125 219 130 114 171 45 248 12 105 15 254 54 183 133 148 244 149 129 186 58 3 21 112 148 1 55 182 120 143 64 179 6 173 242 13 181 164 170 215 238 153 176 145 174 103 248 187 4 197 211 40 222 179 253 97 36 49 135 37 142 191 57 252 8 93 251 226 18 139 77 88 172 73 47 94 214 151 161 244 144 117 163 26 218 227 53 208 180 225 87 22 158 236 139 108 140 13 207 208 34 123 157 200 61 248 254 78 231 199 241 100 32 37 115 11 234 195 132 64 68 81 93 6 38 159 116 112 231 8 4 64 114 96 181 191 84 40 79 190 116 115 194 87 48 84 195 122 48 50 48 52 179 127 198 128 180 183 184 107 124 159 52 20 68 61 144 174 107 203 12 167 12 105 15 254 54 183 129 149 244 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 49 48 54 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 65 85 84 79 40 70 76 65 83 72 32 79 70 70 41 0 48 49 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 49 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 49 48 48 0 0 100 0 12 23 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 48 50 48 48 255 255 255 0 60 1 12 0 144 1 12 0 2 0 1 0 2 0
+Exif.MakerNote.Offset                        Long        1  902  902
+Exif.MakerNote.ByteOrder                     Ascii       3  II  II
+Exif.Nikon3.Version                          Undefined   4  48 50 49 49  2.11
+Exif.Nikon3.ISOSpeed                         Short       2  0 400  400
+Exif.Nikon3.Quality                          Ascii       8  NORMAL   NORMAL 
+Exif.Nikon3.WhiteBalance                     Ascii      13  AUTO          AUTO        
+Exif.Nikon3.Focus                            Ascii       7  MANUAL  (MANUAL)
+Exif.Nikon3.FlashSetting                     Ascii      13                            
+Exif.Nikon3.FlashDevice                      Ascii      20                                          
+Exif.Nikon3.WhiteBalanceBias                 SShort      2  0 0  0 0
+Exif.Nikon3.WB_RBLevels                      Rational    4  474/256 492/256 256/256 256/256  474/256 492/256 256/256 256/256
+Exif.Nikon3.ProgramShift                     Undefined   4  0 1 6 0  0.0 EV
+Exif.Nikon3.ExposureDiff                     Undefined   4  0 1 12 0  0.0 EV
+Exif.Nikon3.FlashComp                        Undefined   4  0 1 6 0  0.0 EV
+Exif.Nikon3.ISOSettings                      Short       2  0 400  400
+Exif.Nikon3.ImageBoundary                    Short       4  0 0 6000 4000  0 0 6000 4000
+Exif.Nikon3.FlashExposureComp                Undefined   4  0 1 6 0  0.0 EV
+Exif.Nikon3.FlashBracketComp                 Undefined   4  0 1 6 0  0.0 EV
+Exif.Nikon3.ExposureBracketComp              SRational   1  0/6  0/6
+Exif.Nikon3.CropHiSpeed                      Short       7  0 6016 4016 6016 4016 0 0  0 6016 4016 6016 4016 0 0
+Exif.Nikon3.ExposureTuning                   Undefined   3  0 1 6  0 1 6
+Exif.Nikon3.SerialNumber                     Ascii       8  2567806  2567806
+Exif.Nikon3.ColorSpace                       Short       1  1  sRGB
+Exif.NikonVr.Version                         Undefined   4  48 49 48 48  1.00
+Exif.NikonVr.VibrationReduction              Byte        3  1 1 0  On
+Exif.Nikon3.ActiveDLighting                  Short       1  65535  Auto
+Exif.NikonPc.Version                         Undefined   4  48 49 48 48  1.00
+Exif.NikonPc.Name                            Ascii      20  STANDARD  STANDARD
+Exif.NikonPc.Base                            Ascii      20  STANDARD  STANDARD
+Exif.NikonPc.Adjust                          Byte        1  0  Default Settings
+Exif.NikonPc.QuickAdjust                     Byte        1  255  n/a
+Exif.NikonPc.Sharpness                       Byte        1  0  Auto
+Exif.NikonPc.Contrast                        Byte        1  0  Auto
+Exif.NikonPc.Brightness                      Byte        1  128  Normal
+Exif.NikonPc.Saturation                      Byte        1  0  Auto
+Exif.NikonPc.HueAdjustment                   Byte        1  128  Normal
+Exif.NikonPc.FilterEffect                    Byte        1  255  n/a
+Exif.NikonPc.ToningEffect                    Byte        1  255  n/a
+Exif.NikonPc.ToningSaturation                Byte        1  255  n/a
+Exif.NikonWt.Timezone                        SShort      1  -360  UTC -06:00
+Exif.NikonWt.DaylightSavings                 Byte        1  0  No
+Exif.NikonWt.DateDisplayFormat               Byte        1  0  Y/M/D
+Exif.NikonIi.ISO                             Byte        1  84  400
+Exif.NikonIi.ISOExpansion                    Short       1  0  Off
+Exif.NikonIi.ISO2                            Byte        1  84  400
+Exif.NikonIi.ISOExpansion2                   Short       1  0  Off
+Exif.Nikon3.LensType                         Byte        1  14  D G VR
+Exif.Nikon3.Lens                             Rational    4  180/10 2500/10 35/10 63/10  18-250mm F3.5-6.3
+Exif.Nikon3.FlashMode                        Byte        1  0  Did not fire
+Exif.Nikon3.ShootingMode                     Short       1  0  Single-frame
+Exif.Nikon3.AutoBracketRelease               Short       1  1  Auto release
+Exif.Nikon3.LensFStops                       Undefined   4  64 1 12 0  5.33333
+Exif.Nikon3.NoiseReduction                   Ascii       5  OFF   OFF 
+Exif.NikonCb2b.Version                       Undefined   4  48 50 49 57  2.19
+Exif.NikonCb2b.WB_RGGBLevels                 Short       4  31972 23636 27788 64764  31972 23636 27788 64764
+Exif.NikonLd3.Version                        Undefined   4  48 50 48 52  2.04
+Exif.NikonLd3.ExitPupilPosition              Byte        1  25  81.9 mm
+Exif.NikonLd3.AFAperture                     Byte        1  44  F3.6
+Exif.NikonLd3.FocusPosition                  Byte        1  176  176
+Exif.NikonLd3.FocusDistance                  Byte        1  95  2.37 m
+Exif.NikonLd3.FocalLength                    Byte        1  45  18.3 mm
+Exif.NikonLd3.LensIDNumber                   Byte        1  146  Sigma 18-250mm F3.5-6.3 DC OS Macro HSM
+Exif.NikonLd3.LensFStops                     Byte        1  64  F5.3
+Exif.NikonLd3.MinFocalLength                 Byte        1  45  18.3 mm
+Exif.NikonLd3.MaxFocalLength                 Byte        1  136  254.0 mm
+Exif.NikonLd3.MaxApertureAtMinFocal          Byte        1  44  F3.6
+Exif.NikonLd3.MaxApertureAtMaxFocal          Byte        1  64  F6.3
+Exif.NikonLd3.MCUVersion                     Byte        1  75  75
+Exif.NikonLd3.EffectiveMaxAperture           Byte        1  44  F3.6
+Exif.Nikon3.RetouchHistory                   Short      10  0 0 0 0 0 0 0 0 0 0  None
+Exif.Nikon3.ImageDataSize                    Long        1  6620552  6620552
+Exif.Nikon3.ShutterCount                     Long        1  7757  7757
+Exif.NikonFl6.Version                        Undefined   4  48 49 48 54  1.06
+Exif.NikonFl6.FlashSource                    Byte        1  0  None
+Exif.NikonFl6.ExternalFlashFirmware          Short       1  0  n/a
+Exif.NikonFl6.ExternalFlashData1             Byte        1  0  Did not fire
+Exif.NikonFl6.ExternalFlashData2             Byte        1  0  External flash off
+Exif.NikonFl6.FlashCompensationMaster        Byte        1  0  n/a
+Exif.NikonFl6.FlashFocalLength               Byte        1  0  n/a
+Exif.NikonFl6.RepeatingFlashRate             Byte        1  0  n/a
+Exif.NikonFl6.RepeatingFlashCount            Byte        1  0  n/a
+Exif.NikonFl6.FlashGNDistance                Byte        1  0  n/a
+Exif.NikonFl6.FlashColorFilter               Byte        1  0  None
+Exif.NikonFl6.FlashGroupAControlData         Byte        1  0  Off
+Exif.NikonFl6.FlashGroupBCControlData        Byte        1  0  Off, Off
+Exif.NikonFl6.FlashCompensationGroupA        Byte        1  0  n/a
+Exif.NikonFl6.FlashCompensationGroupB        Byte        1  0  n/a
+Exif.NikonFl6.FlashCompensationGroupC        Byte        1  0  n/a
+Exif.NikonFl6.CameraExposureCompensation     Byte        1  0  0.0 EV
+Exif.NikonFl6.CameraFlashCompensation        Byte        1  0  0.0 EV
+Exif.NikonFl6.FlashMasterOutput              Byte        1  0  n/a
+Exif.NikonFl6.FlashGroupAOutput              Byte        1  0  n/a
+Exif.NikonFl6.FlashGroupBOutput              Byte        1  0  n/a
+Exif.NikonFl6.FlashGroupCOutput              Byte        1  0  n/a
+Exif.Nikon3.VariProgram                      Ascii      16  AUTO(FLASH OFF)  AUTO(FLASH OFF)
+Exif.NikonMe.Version                         Undefined   4  48 49 48 48  1.00
+Exif.NikonMe.MultiExposureMode               Long        1  0  Off
+Exif.NikonMe.MultiExposureShots              Long        1  0  0
+Exif.NikonMe.MultiExposureAutoGain           Long        1  0  Off
+Exif.Nikon3.HighISONoiseReduction            Short       1  4  Normal
+Exif.NikonAf2.Version                        Undefined   4  48 49 48 48  1.00
+Exif.NikonAf2.ContrastDetectAF               Byte        1  0  Off
+Exif.NikonAf2.AFAreaMode                     Byte        1  0  0
+Exif.NikonAf2.PhaseDetectAF                  Byte        1  0  Off
+Exif.NikonAf2.PrimaryAFPoint                 Byte        1  0  0
+Exif.NikonAf2.AFPointsUsed                   Byte        7  0 0 0 0 0 0 0  0 0 0 0 0 0 0
+Exif.NikonAf2.AFImageWidth                   Short       1  0  0
+Exif.NikonAf2.AFImageHeight                  Short       1  0  0
+Exif.NikonAf2.AFAreaXPosition                Short       1  0  0
+Exif.NikonAf2.AFAreaYPosition                Short       1  0  0
+Exif.NikonAf2.AFAreaWidth                    Short       1  0  0
+Exif.NikonAf2.AFAreaHeight                   Short       1  0  0
+Exif.NikonAf2.ContrastDetectAFInFocus        Byte        1  0  No
+Exif.NikonFi.Version                         Undefined   4  48 49 48 48  1.00
+Exif.NikonFi.DirectoryNumber                 Short       1  100  100
+Exif.NikonFi.FileNumber                      Short       1  5900  5900
+Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                       charset=Ascii                                     
+Exif.Photo.SubSecTime                        Ascii       3  60  60
+Exif.Photo.SubSecTimeOriginal                Ascii       3  60  60
+Exif.Photo.SubSecTimeDigitized               Ascii       3  60  60
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Short       1  6000  6000
+Exif.Photo.PixelYDimension                   Short       1  4000  4000
+Exif.Photo.InteroperabilityTag               Long        1  4048  4048
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48  1.00
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Photo.CFAPattern                        Undefined   8  2 0 2 0 0 1 1 2  2 0 2 0 0 1 1 2
+Exif.Photo.CustomRendered                    Short       1  0  Normal process
+Exif.Photo.ExposureMode                      Short       1  0  Auto
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.DigitalZoomRatio                  Rational    1  1/1  1.0
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  27  27.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.GainControl                       Short       1  1  Low gain up
+Exif.Photo.Contrast                          Short       1  0  Normal
+Exif.Photo.Saturation                        Short       1  0  Normal
+Exif.Photo.Sharpness                         Short       1  0  Normal
+Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
+Exif.Photo.ImageUniqueID                     Ascii      33  8a94349e19e08c439626c7ff1ed9ce30  8a94349e19e08c439626c7ff1ed9ce30
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.XResolution                   Rational    1  300/1  300
+Exif.Thumbnail.YResolution                   Rational    1  300/1  300
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  4184  4184
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  10670  10670
+Exif.Thumbnail.YCbCrPositioning              Short       1  1  Centered
+Iptc.Envelope.ModelVersion                   Short       1  4  4
+Iptc.Envelope.CharacterSet                   String      3  %G  %G
+Iptc.Application2.RecordVersion              Short       1  4  4
+Iptc.Application2.Caption                    String     27  Mrs Johnson's Austin Office  Mrs Johnson's Austin Office
+Xmp.xmp.Rating                               XmpText     1  0  0
+Xmp.xmp.ModifyDate                           XmpText    25  2015-02-13T20:46:51-06:00  2015-02-13T20:46:51-06:00
+Xmp.dc.title                                 LangAlt     3  lang="x-default" the rest drink soda, lang="en-GB" the Brits are in the bar, lang="de-DE" the Germans like beer  lang="x-default" the rest drink soda, lang="en-GB" the Brits are in the bar, lang="de-DE" the Germans like beer

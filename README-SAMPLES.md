@@ -21,9 +21,9 @@ The following programs are build and installed in /usr/local/bin.
 | _**addmoddel**_   | Demonstrates Exiv2 library APIs to add, modify or delete metadata | [addmoddel](#addmoddel) | [addmoddel.cpp](samples/addmoddel.cpp) |
 | _**exifcomment**_ | Set Exif.Photo.UserComment in an image  | [exifcomment](#exifcomment) | [exifcomment.cpp](samples/exifcomment.cpp) |
 | _**exifdata**_    | Prints _**Exif**_ metadata in different formats in an image | [exifdata](#exifdata) | [exifdata.cpp](samples/exifdata.cpp) |
-| _**exifprint**_   | Print _**Exif**_ metadata in images<br>Miscelleous other features | [exifprint](#exifprint)| [exifprint.cpp](samples/exifprint.cpp) |
+| _**exifprint**_   | Print _**Exif**_ metadata in images<br>Miscellaneous other features | [exifprint](#exifprint)| [exifprint.cpp](samples/exifprint.cpp) |
 | _**exifvalue**_   | Prints the value of a single _**Exif**_ tag in a file | [exifvalue](#exifvalue) | [exifvalue.cpp](samples/exifvalue.cpp) |
-| _**exiv2**_       | Command line utility to read, write, delete and modify Exif, IPTC, XMP and ICC image metadata.<br>This is the primary test tool used by Team Exiv2 and can exercise almost all code in the library.  Due to the extensive capability of this utility, the APIs used are usually less obvious for casual code inspection. | [https://exiv2.org/manpage.html](https://exiv2.org/manpage.html)<br>[https://exiv2.org/sample.html](https://exiv2.org/sample.html) | |
+| _**exiv2**_       | Utility to read and write image metadata, including Exif, IPTC, XMP, image comments, ICC Profile, thumbnails, image previews and many vendor makernote tags.<br>This is the primary test tool used by Team Exiv2 and can exercise almost all code in the library.  Due to the extensive capability of this utility, the APIs used are usually less obvious for casual code inspection. | [exiv2 manpage](exiv2.md)<br>[https://exiv2.org/sample.html](https://exiv2.org/sample.html) | |
 | _**exiv2json**_   | Extracts data from image in JSON format.<br>This program also contains a parser to recursively parse Xmp metadata into vectors and objects. | [exiv2json](#exiv2json) | [exiv2json.cpp](samples/exiv2json.cpp) |
 | _**geotag**_      | Reads GPX data and updates images with GPS Tags | [geotag](#geotag) | [geotag.cpp](samples/geotag.cpp) |
 | _**iptceasy**_    | Demonstrates read, set or modify IPTC metadata | [iptceasy](#iptceasy) | [iptceasy.cpp](samples/iptceasy.cpp) |
@@ -61,7 +61,6 @@ As Exiv2 is open source, we publish all our materials.  The following programs a
 | _**remotetest**_ | Tester application for testing remote i/o. | [remotetest](#remotetest) |
 | _**stringto-test**_ | Test conversions from string to long, float and Rational types. | [stringto-test](#stringto-test) |
 | _**tiff-test**_ | Simple TIFF write test | [tiff-test](#tiff-test) |
-| _**werror-test**_ | Simple tests for the wide-string error class WError | [werror-test](#werror-test) |
 | _**write-test**_ | ExifData write unit tests | [write-test](#write-test) |
 | _**write2-test**_ | ExifData write unit tests for Exif data created from scratch | [write2-test](#write2-test) |
 | _**xmpparser-test**_ | Read an XMP packet from a file, parse and re-serialize it. | [xmpparser-test](#xmpparser-test)|
@@ -112,18 +111,21 @@ This is a simple program to demonstrate dumping _**Exif**_ metadata in common fo
 #### exifprint
 
 ```
-Usage: exifprint [ path | --version | --version-test ]
+Usage: exifprint [ [--lint] path | --version | --version-test ]
 ```
 
 | Arguments | Description |
 |:--        |:---  |
 | path    | Path to image |
+| --lint path | Path to image.  Type metadata test |
 | --version     | Print version information from build |
 | --version-test   | Tests Exiv2 VERSION API |
 
 This program demonstrates how to print _**Exif**_ metadata in an image.  This program is also discussed in the platform ReadMe.txt file included in a build bundle.  The option **--version** was added to enable the user to build a test application which dumps the build information.  The option **--version-test** was added to test the macro EXIV2\_TEST\_VERSION() in **include/exiv2/version.hpp**.
 
-There is one other unique feature of this program.  It is the only test/sample program which can use the EXV\_UNICODE\_PATH build feature of Exiv2 on Windows.
+You can process the metadata in two different ways.  The default prints the metadata.  The option --lint instructs exifprint to compare the type of the metadata to the standard.
+
+There is another unique feature of this program.  It is the only test/sample program which can use the EXV\_UNICODE\_PATH build feature of Exiv2 on Windows.
 
 _Code: [exifprint.cpp](samples/exifprint.cpp)_
 
@@ -159,16 +161,20 @@ Option: all | exif | iptc | xmp | filesystem
 
 This program dumps metadata from an image in JSON format. _Code: [exiv2json.cpp](samples/exiv2json.cpp)_
 
-exiv2json has a recursive parser to encode XMP into Vectors and Objects.  XMP data is XMP and can contain XMP `Bag` and `Seq` which are converted to JSON Objects and Arrays.  Exiv2 presents data in the format:  Family.Group.Tag.  For XMP, results in "flat" output such such as:
+exiv2json has a recursive parser to encode XMP into Vectors and Objects.  XMP data is XMP and can contain XMP `Bag` and `Seq` which are converted to JSON Objects and Arrays.  Exiv2 presents data in the format:  [Family.Group.Tagname](exiv2.md#exiv2_key_syntax).  For XMP, results in "flat" output such as:
 
 ```
-$ exiv2 -px ~/Stonehenge.jpg
+$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ exiv2 --print x Stonehenge.jpg
 Xmp.xmp.Rating                               XmpText     1  0
 Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
+Xmp.cm2e.Father                              XmpText    11  Robin Mills
+Xmp.cm2e.Family                              XmpBag      0
 Xmp.dc.description                           LangAlt     1  lang="x-default" Classic View
+Xmp.dc.Family                                XmpBag      1  Robin
 ```
 
-exiv2json parses the Exiv2 'Family.Group.Tag' data and restores the structure of the original data in JSON.  _Code: [exiv2json.cpp](samples/exiv2json.cpp)_
+exiv2json parses the Exiv2 [Family.Group.Tagname](exiv2.md#exiv2_key_syntax) data and restores the structure of the original data in JSON.  _Code: [exiv2json.cpp](samples/exiv2json.cpp)_
 
 ```
 $ exiv2json -xmp http://clanmills.com/Stonehenge.jpg
@@ -204,7 +210,7 @@ $
 Usage: geotag {-help|-version|-dst|-dryrun|-ascii|-verbose|-adjust value|-tz value|-delta value}+ path+
 ```
 
-Geotag reads one or more GPX files and adds GPS Tages to images.  _Code: [geotag.cpp](samples/geotag.cpp)_
+Geotag reads one or more GPX files and adds GPS Tags to images.  _Code: [geotag.cpp](samples/geotag.cpp)_
 
 If the path is a directory, geotag will read all the files in the directory.  It constructs a time dictionary of position data, then updates every image with GPS Tags.
 
@@ -346,10 +352,16 @@ Conversion test driver
 #### easyaccess-test
 
 ```
-Usage: easyaccess-test file
+Usage: ..\build\bin\easyaccess-test.exe file [category [category ...]]
+Categories: Orientation | ISOspeed | DateTimeOriginal | FlashBias | ExposureMode | SceneMode |
+            MacroMode | ImageQuality | WhiteBalance | LensName | Saturation | Sharpness |
+            Contrast | SceneCaptureType | MeteringMode | Make | Model | ExposureTime | FNumber |
+            ShutterSpeed | Aperture | Brightness | ExposureBias | MaxAperture | SubjectDistance |
+            LightSource | Flash | SerialNumber | FocalLength | SubjectArea | FlashEnergy |
+            ExposureIndex | SensingMethod | AFpoint
 ```
 
-Sample program using high-level metadata access functions
+Sample program using high-level metadata access functions. Without specification of a category, metadata for all categories are shown.
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
@@ -471,7 +483,7 @@ Test access to preview images
 #### remotetest
 
 ```
-Usage: remotetest remotetest file {--nocurl | --curl}
+Usage: remotetest file {--nocurl | --curl}
 ```
 
 Tester application for testing remote i/o.
@@ -529,7 +541,8 @@ FlashDevice,    9,  0x0009, Nikon3, Exif.Nikon3.FlashDevice,    Ascii,  Flash de
 We can see those tags being used:
 
 ```
-$ exiv2 -pa --grep Nikon3 http://clanmills.com/Stonehenge.jpg
+$ curl --silent -O https://clanmills.com/Stonehenge.jpg
+$ exiv2 --print a --grep Nikon3 Stonehenge.jpg
 Exif.Nikon3.Version                          Undefined   4  2.11
 Exif.Nikon3.ISOSpeed                         Short       2  200
 ...
@@ -539,7 +552,7 @@ This information is formatted (search Nikon (format 3) MakerNote Tags): [https:/
 
 #### taglist all
 
-These options are provided to list every Exif tag known to Exiv2.  The option `all` prints Group.Name for every tag.  The option `ALL` print Group.Name followed by the TagInfo for that tag.  For example:
+These options are provided to list every tag known to Exiv2.  The option `all` prints the [Group.Tagnames](exiv2.md#exiv2_key_syntax) for every Exif tag.  The option `ALL` prints the [Group.Tagnames](exiv2.md#exiv2_key_syntax) for every Exif tag, followed by the TagInfo for that tag.  For example:
 
 ```bash
 $ taglist all | grep ISOSpeed$
@@ -590,18 +603,6 @@ Simple TIFF write test
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
-
-<div id="werror-test">
-
-#### werror-test
-
-```
-Usage: werror-test
-```
-
-Simple tests for the wide-string error class WError
-
-[Sample](#TOC1) Programs [Test](#TOC2) Programs
 
 <div id="write-test">
 
@@ -656,4 +657,4 @@ Read an XMP packet from a file, parse and re-serialize it.
 
 Robin Mills<br>
 robin@clanmills.com<br>
-Revised: 2020-11-20
+Revised: 2021-09-21

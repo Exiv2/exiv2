@@ -16,7 +16,7 @@ A commit message can look like this:
 - Specify concrete ubuntu and mac versions
 - Use latest conan version
 - Fix the profiles for linux and mac
-- Use new version of expat (avilable in conan-center)
+- Use new version of expat (available in conan-center)
 - Install urllib3 as suggested in python guidelines
 - Use virtualenv with python3
 ```
@@ -77,7 +77,7 @@ We can summarize this in the following guidelines:
 
 - Every commit should keep the code base in a buildable state. The test suite
   needn't pass on every commit, but must pass before being merged into
-  `master`.
+  `main`.
 
 These are however not strict rules and it always depends on the case. If in
 doubt: ask.
@@ -89,7 +89,7 @@ We prefer to keep the git log nearly linear with the individual pull requests
 still visible, since they usually form one logical unit. It should look roughly
 like this:
 ```
-*   9f74f247 Merge pull request #227 from frli8848/master
+*   9f74f247 Merge pull request #227 from frli8848/main
 |\
 | * 73ac02d7 Added test for Sigma lenses
 | * fc8b45dd Added the Sigma 120-300mm F2.8 DG OS HSM | S for Nikon mount.
@@ -141,61 +141,61 @@ rather complicated logs, like this:
 
 Instead of using the `Update Branch` button use `git pull --rebase`. For the
 following example, we'll assume that we are working in a branch called
-`feature_xyz` that should be merged into the branch `master`. Furthermore the
+`feature_xyz` that should be merged into the branch `main`. Furthermore the
 remote `origin` is a fork of exiv2 and the remote `upstream` is the "official"
 exiv2 repository.
 
-Before we start working, the `master` branch looks like this:
+Before we start working, the `main` branch looks like this:
 ```
-$ git log master --oneline --graph
-*   efee9a2b (master) Merge pull request #something
+$ git log main --oneline --graph
+*   efee9a2b (main) Merge pull request #something
 |\
-| * ead7f309 A commit on master
+| * ead7f309 A commit on main
 |/
 *   55001c8d Merge pull request #something else
 ```
 
-We create a new branch `feature_xyz` based on `master`, create two new commits
-`My commit 1` and `My commit 2` and submit a pull request into master. The log
+We create a new branch `feature_xyz` based on `main`, create two new commits
+`My commit 1` and `My commit 2` and submit a pull request into `main`. The log
 of the branch `feature_xyz` now looks like this:
 ```
 $ git log feature_xyz --oneline --graph
 * 893fffa5 (HEAD -> feature_xyz) My commit 2
 * a2a22fb9 My commit 1
-*   efee9a2b (master) Merge pull request #something
+*   efee9a2b (main) Merge pull request #something
 |\
-| * ead7f309 A commit on master
+| * ead7f309 A commit on main
 |/
 *   55001c8d Merge pull request #something else
 ```
 
-If now new commits are pushed to `master`, resulting in this log:
+If now new commits are pushed to `main`, resulting in this log:
 ```
-$ git log master --oneline --graph
-* 0d636cc9 (HEAD -> master) Hotfix for issue #something completely different
+$ git log main --oneline --graph
+* 0d636cc9 (HEAD -> main) Hotfix for issue #something completely different
 *   efee9a2b Merge pull request #something
 |\
-| * ead7f309 A commit on master
+| * ead7f309 A commit on main
 |/
 *   55001c8d Merge pull request #something else
 ```
-then the branch `feature_xyz` is out of date with `master`, because it lacks the
+then the branch `feature_xyz` is out of date with `main`, because it lacks the
 commit `0d636cc9`. We could now merge both branches (via the cli or GitHub's
 `Update Branch` button), but that will result in a messy history. Thus **don't**
 do it! If you do it, you'll have to remove the merge commits manually.
 
-Instead run: `git pull --rebase upstream master` in the `feature_xyz`
-branch. Git will pull the new commit `0d636cc9` from master into your branch
+Instead run: `git pull --rebase upstream main` in the `feature_xyz`
+branch. Git will pull the new commit `0d636cc9` from main into your branch
 `feature_xyz` and apply the two commits `My commit 1` and `My commit 2` on top
 of it:
 ```
 $ git log feature_xyz --oneline --graph
 * 22a7a8c2 (HEAD -> feature_xyz) My commit 2
 * efe2ccdc My commit 1
-* 0d636cc9 (master) Hotfix for issue #something completely different
+* 0d636cc9 (main) Hotfix for issue #something completely different
 *   efee9a2b Merge pull request #something
 |\
-| * ead7f309 A commit on master
+| * ead7f309 A commit on main
 |/
 *   55001c8d Merge pull request #something else
 ```
@@ -208,20 +208,20 @@ changes via `git push --force` next time you push your changes upstream.
 
 Most pull requests should be merged by creating a merge commit (the default on
 GitHub). Small pull requests (= only one can commit) can be rebased on top of
-master.
+`main`.
 
 
 ## Branches and tags
 
-- The `master` branch is the current "main" development branch. It is protected
+- The `main` branch is the current "main" development branch. It is protected
   so that changes can be only included via reviewed pull requests. New releases
-  are made by tagging a specific commit on `master`.
+  are made by tagging a specific commit on `main`.
 
 - Releases are tagged with a tag of the form `v$major.$minor`. The tag is not
   changed when changes are backported.
 
 - For each release a branch of the form `$major.$minor` should be created to
-  store backported changes. It should be branched of from `master` at the commit
+  store backported changes. It should be branched of from `main` at the commit
   which was tagged with `v$major.$minor`.
 
 - All other branches are development branches for pull requests, experiments,

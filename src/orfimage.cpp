@@ -1,232 +1,165 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-// *****************************************************************************
-// included header files
-#include "config.h"
+// SPDX-License-Identifier: GPL-2.0-or-later
 
+// included header files
 #include "orfimage.hpp"
-#include "orfimage_int.hpp"
-#include "tiffimage.hpp"
-#include "tiffcomposite_int.hpp"
-#include "tiffimage_int.hpp"
-#include "image.hpp"
+
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
+#include "image.hpp"
+#include "orfimage_int.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage.hpp"
+#include "tiffimage_int.hpp"
 
-// + standard includes
-#include <string>
-#include <cstring>
+#include <array>
 #include <iostream>
-#include <cassert>
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
+using namespace Internal;
 
-    using namespace Internal;
+OrfImage::OrfImage(BasicIo::UniquePtr io, bool create) :
+    TiffImage(/*ImageType::orf, mdExif | mdIptc | mdXmp,*/ std::move(io), create) {
+  setTypeSupported(ImageType::orf, mdExif | mdIptc | mdXmp);
+}  // OrfImage::OrfImage
 
-    OrfImage::OrfImage(BasicIo::UniquePtr io, bool create)
-        : TiffImage(/*ImageType::orf, mdExif | mdIptc | mdXmp,*/ std::move(io),create)
-    {
-        setTypeSupported(ImageType::orf, mdExif | mdIptc | mdXmp);
-    } // OrfImage::OrfImage
+std::string OrfImage::mimeType() const {
+  return "image/x-olympus-orf";
+}
 
-    std::string OrfImage::mimeType() const
-    {
-        return "image/x-olympus-orf";
-    }
+uint32_t OrfImage::pixelWidth() const {
+  auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+  if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
+    return imageWidth->toUint32();
+  }
+  return 0;
+}
 
-    int OrfImage::pixelWidth() const
-    {
-        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
-        if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            return imageWidth->toLong();
-        }
-        return 0;
-    }
+uint32_t OrfImage::pixelHeight() const {
+  auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
+  if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
+    return imageHeight->toUint32();
+  }
+  return 0;
+}
 
-    int OrfImage::pixelHeight() const
-    {
-        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
-        if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            return imageHeight->toLong();
-        }
-        return 0;
-    }
+void OrfImage::setComment(const std::string&) {
+  // not supported
+  throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "ORF"));
+}
 
-    void OrfImage::setComment(const std::string& /*comment*/)
-    {
-        // not supported
-        throw(Error(kerInvalidSettingForImage, "Image comment", "ORF"));
-    }
+void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
+  out << "ORF IMAGE" << std::endl;
+  if (io_->open() != 0)
+    throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
+  // Ensure that this is the correct image type
+  if (imageType() == ImageType::none && !isOrfType(*io_, false)) {
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    throw Error(ErrorCode::kerNotAJpeg);
+  }
 
-    void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
-        out << "ORF IMAGE" << std::endl;
-        if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
-        // Ensure that this is the correct image type
-        if ( imageType() == ImageType::none )
-            if (!isOrfType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-                throw Error(kerNotAJpeg);
-        }
+  io_->seek(0, BasicIo::beg);
 
-        io_->seek(0,BasicIo::beg);
+  printTiffStructure(io(), out, option, depth);
+}  // OrfImage::printStructure
 
-        printTiffStructure(io(),out,option,depth-1);
-    } // OrfImage::printStructure
-
-    void OrfImage::readMetadata()
-    {
+void OrfImage::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cerr << "Reading ORF file " << io_->path() << "\n";
+  std::cerr << "Reading ORF file " << io_->path() << "\n";
 #endif
-        if (io_->open() != 0) {
-            throw Error(kerDataSourceOpenFailed, io_->path(), strError());
-        }
-        IoCloser closer(*io_);
-        // Ensure that this is the correct image type
-        if (!isOrfType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAnImage, "ORF");
-        }
-        clearMetadata();
-        ByteOrder bo = OrfParser::decode(exifData_,
-                                         iptcData_,
-                                         xmpData_,
-                                         io_->mmap(),
-                                         (uint32_t) io_->size());
-        setByteOrder(bo);
-    } // OrfImage::readMetadata
+  if (io_->open() != 0) {
+    throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
+  }
+  IoCloser closer(*io_);
+  // Ensure that this is the correct image type
+  if (!isOrfType(*io_, false)) {
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    throw Error(ErrorCode::kerNotAnImage, "ORF");
+  }
+  clearMetadata();
+  ByteOrder bo = OrfParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
+  setByteOrder(bo);
+}
 
-    void OrfImage::writeMetadata()
-    {
+void OrfImage::writeMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cerr << "Writing ORF file " << io_->path() << "\n";
+  std::cerr << "Writing ORF file " << io_->path() << "\n";
 #endif
-        ByteOrder bo = byteOrder();
-        byte* pData = 0;
-        long size = 0;
-        IoCloser closer(*io_);
-        if (io_->open() == 0) {
-            // Ensure that this is the correct image type
-            if (isOrfType(*io_, false)) {
-                pData = io_->mmap(true);
-                size = (long) io_->size();
-                OrfHeader orfHeader;
-                if (0 == orfHeader.read(pData, 8)) {
-                    bo = orfHeader.byteOrder();
-                }
-            }
-        }
-        if (bo == invalidByteOrder) {
-            bo = littleEndian;
-        }
-        setByteOrder(bo);
-        OrfParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
-    } // OrfImage::writeMetadata
-
-    ByteOrder OrfParser::decode(
-              ExifData& exifData,
-              IptcData& iptcData,
-              XmpData&  xmpData,
-        const byte*     pData,
-              uint32_t  size
-    )
-    {
-        OrfHeader orfHeader;
-        return TiffParserWorker::decode(exifData,
-                                        iptcData,
-                                        xmpData,
-                                        pData,
-                                        size,
-                                        Tag::root,
-                                        TiffMapping::findDecoder,
-                                        &orfHeader);
+  ByteOrder bo = byteOrder();
+  byte* pData = nullptr;
+  size_t size = 0;
+  IoCloser closer(*io_);
+  // Ensure that this is the correct image type
+  if (io_->open() == 0 && isOrfType(*io_, false)) {
+    pData = io_->mmap(true);
+    size = io_->size();
+    OrfHeader orfHeader;
+    if (0 == orfHeader.read(pData, 8)) {
+      bo = orfHeader.byteOrder();
     }
+  }
+  if (bo == invalidByteOrder) {
+    bo = littleEndian;
+  }
+  setByteOrder(bo);
+  OrfParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_);  // may throw
+}  // OrfImage::writeMetadata
 
-    WriteMethod OrfParser::encode(
-              BasicIo&  io,
-        const byte*     pData,
-              uint32_t  size,
-              ByteOrder byteOrder,
-        const ExifData& exifData,
-        const IptcData& iptcData,
-        const XmpData&  xmpData
-    )
-    {
-        // Copy to be able to modify the Exif data
-        ExifData ed = exifData;
+ByteOrder OrfParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size) {
+  OrfHeader orfHeader;
+  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, Tag::root, TiffMapping::findDecoder,
+                                  &orfHeader);
+}
 
-        // Delete IFDs which do not occur in TIFF images
-        static const IfdId filteredIfds[] = {
-            panaRawId
-        };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
+WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
+                              const ExifData& exifData, const IptcData& iptcData, const XmpData& xmpData) {
+  // Copy to be able to modify the Exif data
+  ExifData ed = exifData;
+
+  // Delete IFDs which do not occur in TIFF images
+  static constexpr auto filteredIfds = {
+      IfdId::panaRawId,
+  };
+  for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
-            std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
+    std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
-            ed.erase(std::remove_if(ed.begin(),
-                                    ed.end(),
-                                    FindExifdatum(filteredIfds[i])),
-                     ed.end());
-        }
+    ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
+  }
 
-        std::unique_ptr<TiffHeaderBase> header(new OrfHeader(byteOrder));
-        return TiffParserWorker::encode(io,
-                                        pData,
-                                        size,
-                                        ed,
-                                        iptcData,
-                                        xmpData,
-                                        Tag::root,
-                                        TiffMapping::findEncoder,
-                                        header.get(),
-                                        0);
-    }
+  OrfHeader header(byteOrder);
+  return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder, &header,
+                                  nullptr);
+}
 
-    // *************************************************************************
-    // free functions
-    Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create)
-    {
-        Image::UniquePtr image(new OrfImage(std::move(io), create));
-        if (!image->good()) {
-            image.reset();
-        }
-        return image;
-    }
+// *************************************************************************
+// free functions
+Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create) {
+  auto image = std::make_unique<OrfImage>(std::move(io), create);
+  if (!image->good()) {
+    image.reset();
+  }
+  return image;
+}
 
-    bool isOrfType(BasicIo& iIo, bool advance)
-    {
-        const int32_t len = 8;
-        byte buf[len];
-        iIo.read(buf, len);
-        if (iIo.error() || iIo.eof()) {
-            return false;
-        }
-        OrfHeader orfHeader;
-        bool rc = orfHeader.read(buf, len);
-        if (!advance || !rc) {
-            iIo.seek(-len, BasicIo::cur);
-        }
-        return rc;
-    }
+bool isOrfType(BasicIo& iIo, bool advance) {
+  const int32_t len = 8;
+  byte buf[len];
+  iIo.read(buf, len);
+  if (iIo.error() || iIo.eof()) {
+    return false;
+  }
+  OrfHeader orfHeader;
+  bool rc = orfHeader.read(buf, len);
+  if (!advance || !rc) {
+    iIo.seek(-len, BasicIo::cur);
+  }
+  return rc;
+}
 
-}                                       // namespace Exiv2
+}  // namespace Exiv2

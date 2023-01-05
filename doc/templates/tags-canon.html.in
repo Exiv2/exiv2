@@ -39,14 +39,69 @@ __CanonCf__
 __CanonPi__
 <br>
 
-<h3>Canon File Info Tags</h3>
+<h3>Canon Filter Info Tags</h3>
 <p>Click on a column header to sort the table.</p>
 __CanonFi__
+<br>
+
+<h3>Canon High Dynamic Range Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonHdr__
+<br>
+
+<h3>Canon Vignetting Correction 2 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonVigCor2__
+<br>
+
+<h3>Canon Lighting Option Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonLiOp__
+<br>
+
+<h3>Canon AF Micro Adjust Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonAfMiAdj__
+<br>
+
+<h3>Canon Lens Info Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonLe__
+<br>
+
+<h3>Canon Ambience Selection Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonAm__
+<br>
+
+<h3>Canon Filter Info Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonFil__
 <br>
 
 <h3>Canon Processing Info Tags</h3>
 <p>Click on a column header to sort the table.</p>
 __CanonPr__
+<br>
+
+<h3>Canon Multi-Exposure Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonMe__
+<br>
+
+<h3>Canon AF Config Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonAfC__
+<br>
+
+<h3>Canon Raw Burst Info Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonRawB__
+<br>
+
+<h3>Canon TimeInfo Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__CanonTi__
 <br>
 
 </div>

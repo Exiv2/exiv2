@@ -25,7 +25,7 @@
 
 #ifndef lint
 #ifndef NOID
-static char	privatehid[] = "@(#)private.h	7.53";
+static char privatehid[] = "@(#)private.h	7.53";
 #endif /* !defined NOID */
 #endif /* !defined lint */
 
@@ -34,24 +34,24 @@ static char	privatehid[] = "@(#)private.h	7.53";
 /* ahu: disable warnings */
 #ifdef _MSC_VER
 // disable warning 'uses old-style declarator' C4131
-#pragma warning (disable: 4131)
+#pragma warning(disable : 4131)
 #endif
 
 /*
 ** Nested includes
 */
 
-#include "sys/types.h"	/* for time_t */
-#include "stdio.h"
 #include "errno.h"
-#include "string.h"
-#include "limits.h"	/* for CHAR_BIT */
-#include "time.h"
+#include "limits.h" /* for CHAR_BIT */
+#include "stdio.h"
 #include "stdlib.h"
+#include "string.h"
+#include "sys/types.h" /* for time_t */
+#include "time.h"
 
 /* ahu: added io.h for MSVC */
 #ifdef _MSC_VER
-# include "io.h"
+#include "io.h"
 #endif
 
 /* ahu: deleted include libintl.h */
@@ -59,15 +59,15 @@ static char	privatehid[] = "@(#)private.h	7.53";
 /* ahu: deleted include sys/wait.h and WIFEXITED, WEXITSTATUS macros */
 
 #if EXV_HAVE_UNISTD_H - 0
-#include "unistd.h"	/* for F_OK and R_OK */
-#endif /* EXV_HAVE_UNISTD_H - 0 */
+#include "unistd.h" /* for F_OK and R_OK */
+#endif              /* EXV_HAVE_UNISTD_H - 0 */
 
 #if !(EXV_HAVE_UNISTD_H - 0)
 #ifndef F_OK
-#define F_OK	0
+#define F_OK 0
 #endif /* !defined F_OK */
 #ifndef R_OK
-#define R_OK	4
+#define R_OK 4
 #endif /* !defined R_OK */
 #endif /* !(EXV_HAVE_UNISTD_H - 0) */
 
@@ -84,10 +84,10 @@ static char	privatehid[] = "@(#)private.h	7.53";
 
 #ifndef P
 #ifdef __STDC__
-#define P(x)	x
+#define P(x) x
 #endif /* defined __STDC__ */
 #ifndef __STDC__
-#define P(x)	()
+#define P(x) ()
 #endif /* !defined __STDC__ */
 #endif /* !defined P */
 
@@ -96,7 +96,7 @@ static char	privatehid[] = "@(#)private.h	7.53";
 */
 
 #ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS	0
+#define EXIT_SUCCESS 0
 #endif /* !defined EXIT_SUCCESS */
 
 /*
@@ -104,7 +104,7 @@ static char	privatehid[] = "@(#)private.h	7.53";
 */
 
 #ifndef EXIT_FAILURE
-#define EXIT_FAILURE	1
+#define EXIT_FAILURE 1
 #endif /* !defined EXIT_FAILURE */
 
 /*
@@ -120,11 +120,11 @@ static char	privatehid[] = "@(#)private.h	7.53";
 #endif /* !defined MAXPATHLEN */
 
 #ifdef MAXPATHLEN
-#define FILENAME_MAX	MAXPATHLEN
+#define FILENAME_MAX MAXPATHLEN
 #endif /* defined MAXPATHLEN */
 #ifndef MAXPATHLEN
-#define FILENAME_MAX	1024		/* Pure guesswork */
-#endif /* !defined MAXPATHLEN */
+#define FILENAME_MAX 1024 /* Pure guesswork */
+#endif                    /* !defined MAXPATHLEN */
 
 #endif /* !defined FILENAME_MAX */
 
@@ -139,19 +139,19 @@ static char	privatehid[] = "@(#)private.h	7.53";
 */
 
 #ifndef TRUE
-#define TRUE	1
+#define TRUE 1
 #endif /* !defined TRUE */
 
 #ifndef FALSE
-#define FALSE	0
+#define FALSE 0
 #endif /* !defined FALSE */
 
 #ifndef TYPE_BIT
-#define TYPE_BIT(type)	(sizeof (type) * CHAR_BIT)
+#define TYPE_BIT(type) (sizeof(type) * CHAR_BIT)
 #endif /* !defined TYPE_BIT */
 
 #ifndef TYPE_SIGNED
-#define TYPE_SIGNED(type) (((type) -1) < 0)
+#define TYPE_SIGNED(type) (((type)-1) < 0)
 #endif /* !defined TYPE_SIGNED */
 
 #ifndef INT_STRLEN_MAXIMUM
@@ -161,8 +161,7 @@ static char	privatehid[] = "@(#)private.h	7.53";
 ** add one for integer division truncation;
 ** add one more for a minus sign if the type is signed.
 */
-#define INT_STRLEN_MAXIMUM(type) \
-    ((TYPE_BIT(type) - TYPE_SIGNED(type)) * 302 / 1000 + 1 + TYPE_SIGNED(type))
+#define INT_STRLEN_MAXIMUM(type) ((TYPE_BIT(type) - TYPE_SIGNED(type)) * 302 / 1000 + 1 + TYPE_SIGNED(type))
 #endif /* !defined INT_STRLEN_MAXIMUM */
 
 /*
@@ -182,7 +181,7 @@ static char	privatehid[] = "@(#)private.h	7.53";
 
 #ifndef INITIALIZE
 #ifdef GNUC_or_lint
-#define INITIALIZE(x)	((x) = 0)
+#define INITIALIZE(x) ((x) = 0)
 #endif /* defined GNUC_or_lint */
 #ifndef GNUC_or_lint
 #define INITIALIZE(x)
@@ -198,8 +197,8 @@ static char	privatehid[] = "@(#)private.h	7.53";
 #if HAVE_INCOMPATIBLE_CTIME_R
 #undef asctime_r
 #undef ctime_r
-char *asctime_r P((struct tm const *, char *));
-char *ctime_r P((time_t const *, char *));
+char* asctime_r P((struct tm const*, char*));
+char* ctime_r P((time_t const*, char*));
 #endif /* HAVE_INCOMPATIBLE_CTIME_R */
 
 /*

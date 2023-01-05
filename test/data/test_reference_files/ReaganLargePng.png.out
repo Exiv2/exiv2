@@ -1,0 +1,186 @@
+Exif.Image.NewSubfileType                    Long        1  0  Primary image
+Exif.Image.ImageWidth                        Long        1  200  200
+Exif.Image.ImageLength                       Long        1  130  130
+Exif.Image.BitsPerSample                     Short       3  8 8 8  8 8 8
+Exif.Image.Compression                       Short       1  5  LZW
+Exif.Image.DocumentName                      Ascii      59  /media/trekstor/exiv2/exiv2-svn/test/data/ReaganLarge.tiff  /media/trekstor/exiv2/exiv2-svn/test/data/ReaganLarge.tiff
+Exif.Image.ImageDescription                  Ascii     403  040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navyís newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographerís Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                                 040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navyís newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographerís Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                               
+Exif.Image.Make                              Ascii      18  NIKON CORPORATION  NIKON CORPORATION
+Exif.Image.Model                             Ascii      10  NIKON D1X  NIKON D1X
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.SamplesPerPixel                   Short       1  3  3
+Exif.Image.XResolution                       Rational    1  300/1  300
+Exif.Image.YResolution                       Rational    1  300/1  300
+Exif.Image.PlanarConfiguration               Short       1  1  Chunky
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      11  GIMP 2.9.5  GIMP 2.9.5
+Exif.Image.DateTime                          Ascii      20  2016:09:13 12:27:38  2016:09:13 12:27:38
+Exif.Image.Artist                            Ascii      34  Photographerís Mate 3rd Class (A  Photographerís Mate 3rd Class (A
+Exif.Image.Predictor                         Short       1  2  Horizontal differencing
+Exif.Image.SampleFormat                      Short       3  1 1 1  Unsigned integer data
+Exif.Image.ExifTag                           Long        1  864  864
+Exif.Photo.ExposureTime                      Rational    1  1/125  1/125 s
+Exif.Photo.FNumber                           Rational    1  5/1  F5
+Exif.Photo.ExposureProgram                   Short       1  1  Manual
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48  2.20
+Exif.Photo.DateTimeOriginal                  Ascii      20  2004:06:21 23:37:53  2004:06:21 23:37:53
+Exif.Photo.DateTimeDigitized                 Ascii      20  2004:06:21 23:37:53  2004:06:21 23:37:53
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  4/1  4
+Exif.Photo.ExposureBiasValue                 SRational   1  1/3  +1/3 EV
+Exif.Photo.MaxApertureValue                  Rational    1  3/1  F2.8
+Exif.Photo.MeteringMode                      Short       1  2  Center weighted average
+Exif.Photo.LightSource                       Short       1  10  Cloudy weather
+Exif.Photo.Flash                             Short       1  0  No flash
+Exif.Photo.FocalLength                       Rational    1  42/1  42.0 mm
+Exif.Photo.UserComment                       Undefined 410  040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navyís newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographerís Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                                 040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navyís newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographerís Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                               
+Exif.Photo.SubSecTime                        Ascii       3  06  06
+Exif.Photo.SubSecTimeOriginal                Ascii       3  06  06
+Exif.Photo.SubSecTimeDigitized               Ascii       3  06  06
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  200  200
+Exif.Photo.PixelYDimension                   Long        1  130  130
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Photo.CustomRendered                    Short       1  0  Normal process
+Exif.Photo.ExposureMode                      Short       1  1  Manual
+Exif.Photo.WhiteBalance                      Short       1  1  Manual
+Exif.Photo.DigitalZoomRatio                  Rational    1  1/1  1.0
+Exif.Photo.FocalLengthIn35mmFilm             Short       1  63  63.0 mm
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.GainControl                       Short       1  0  None
+Exif.Photo.Contrast                          Short       1  0  Normal
+Exif.Photo.Saturation                        Short       1  0  Normal
+Exif.Photo.Sharpness                         Short       1  0  Normal
+Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
+Exif.Photo.ImageUniqueID                     Ascii      33  127c1377b054a3f65bf2754ebb24e7f2  127c1377b054a3f65bf2754ebb24e7f2
+Exif.Image.GPSTag                            Long        1  1854  1854
+Exif.GPSInfo.GPSVersionID                    Byte        4  2 2 0 0  2.2.0.0
+Exif.Thumbnail.ImageWidth                    Long        1  256  256
+Exif.Thumbnail.ImageLength                   Long        1  166  166
+Exif.Thumbnail.BitsPerSample                 Short       3  8 8 8  8 8 8
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.PhotometricInterpretation     Short       1  6  YCbCr
+Exif.Thumbnail.SamplesPerPixel               Short       1  3  3
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1980  1980
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  6427  6427
+Iptc.Envelope.CharacterSet                   String      3  %G  %G
+Iptc.Application2.Byline                     String     32  Photographerís Mate 3rd Class (  Photographerís Mate 3rd Class (
+Iptc.Application2.BylineTitle                String     21  U.S Navy Photographer  U.S Navy Photographer
+Iptc.Application2.Caption                    String    402  040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navyís newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographerís Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                                 040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navyís newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographerís Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                               
+Iptc.Application2.Category                   String      1  N  N
+Iptc.Application2.City                       String     19  Straits of Magellan  Straits of Magellan
+Iptc.Application2.CountryName                String     13  South America  South America
+Iptc.Application2.Credit                     String      8  U.S Navy  U.S Navy
+Iptc.Application2.DateCreated                Date        8  2016-09-13  2016-09-13
+Iptc.Application2.DigitizationDate           Date        8  2004-06-21  2004-06-21
+Iptc.Application2.DigitizationTime           Time       11  23:37:53-04:00  23:37:53-04:00
+Iptc.Application2.Keywords                   String     13  ronald reagan  ronald reagan
+Iptc.Application2.ObjectName                 String     18  040621-N-6536T-062  040621-N-6536T-062
+Iptc.Application2.RecordVersion              Short       1  2  2
+Iptc.Application2.Source                     String     24  Navy Visual News Service  Navy Visual News Service
+Iptc.Application2.SpecialInstructions        String     49  Credit as U.S. Navy photo by Elizabeth Thompson.   Credit as U.S. Navy photo by Elizabeth Thompson. 
+Iptc.Application2.SuppCategory               String     12  703-614-9154  703-614-9154
+Iptc.Application2.TimeCreated                Time       11  12:27:38-12:27  12:27:38-12:27
+Iptc.Application2.Urgency                    String      1  5  5
+Iptc.Application2.Writer                     String      9  Dir. NVNS  Dir. NVNS
+Xmp.dc.Format                                XmpText     9  image/png  image/png
+Xmp.dc.creator                               XmpSeq      1  Photographerís Mate 3rd Class (A  Photographerís Mate 3rd Class (A
+Xmp.dc.description                           LangAlt     1  lang="x-default" 040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navyís newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographerís Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                                 lang="x-default" 040621-N-6536T-062
+USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails through the Straits of Magellan on its way to the Pacific Ocean. The Navyís newest aircraft carrier is underway circumnavigating South America in transit to its new homeport of San Diego. U.S. Navy photo by Photographerís Mate 3rd Class (AW) Elizabeth Thompson. (RELEASE)
+                               
+Xmp.dc.subject                               XmpBag      1  ronald reagan, reagan, cvn 76, cvn-76, straights magellan, magellan, carrier, nimitz-class, ship, underway  ronald reagan, reagan, cvn 76, cvn-76, straights magellan, magellan, carrier, nimitz-class, ship, underway
+Xmp.dc.title                                 LangAlt     1  lang="x-default" 040621-N-6536T-062  lang="x-default" 040621-N-6536T-062
+Xmp.exif.ColorSpace                          XmpText     1  1  sRGB
+Xmp.exif.CompressedBitsPerPixel              XmpText     3  4/1  4/1
+Xmp.exif.Contrast                            XmpText     1  0  Normal
+Xmp.exif.CustomRendered                      XmpText     1  0  Normal process
+Xmp.exif.DateTimeDigitized                   XmpText    25  2004-06-21T23:37:53+01:00  2004-06-21T23:37:53+01:00
+Xmp.exif.DateTimeOriginal                    XmpText    25  2004-06-21T23:37:53+01:00  2004-06-21T23:37:53+01:00
+Xmp.exif.DigitalZoomRatio                    XmpText     3  1/1  1/1
+Xmp.exif.ExifVersion                         XmpText     4  0220  2.20
+Xmp.exif.ExposureBiasValue                   XmpText     3  1/3  +1/3 EV
+Xmp.exif.ExposureMode                        XmpText     1  1  Manual
+Xmp.exif.ExposureProgram                     XmpText     1  1  Manual
+Xmp.exif.ExposureTime                        XmpText     5  1/125  1/125
+Xmp.exif.FNumber                             XmpText     3  5/1  F5
+Xmp.exif.FileSource                          XmpText     1  3  Digital still camera
+Xmp.exif.FlashpixVersion                     XmpText     4  0100  1.00
+Xmp.exif.FocalLength                         XmpText     4  42/1  42.0 mm
+Xmp.exif.FocalLengthIn35mmFilm               XmpText     2  63  63
+Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.0  2.2.0.0
+Xmp.exif.GainControl                         XmpText     1  0  None
+Xmp.exif.ImageUniqueID                       XmpText    32  127c1377b054a3f65bf2754ebb24e7f2  127c1377b054a3f65bf2754ebb24e7f2
+Xmp.exif.LightSource                         XmpText     2  10  Cloudy weather
+Xmp.exif.MaxApertureValue                    XmpText     3  3/1  3/1
+Xmp.exif.MeteringMode                        XmpText     1  2  Center weighted average
+Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;1AE366A6D482AC48AF09C3363A3B2183  36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;1AE366A6D482AC48AF09C3363A3B2183
+Xmp.exif.PixelXDimension                     XmpText     3  200  200
+Xmp.exif.PixelYDimension                     XmpText     3  130  130
+Xmp.exif.Saturation                          XmpText     1  0  Normal
+Xmp.exif.SceneCaptureType                    XmpText     1  0  Standard
+Xmp.exif.SceneType                           XmpText     1  1  Directly photographed
+Xmp.exif.SensingMethod                       XmpText     1  2  One-chip color area
+Xmp.exif.Sharpness                           XmpText     1  0  Normal
+Xmp.exif.SubjectDistanceRange                XmpText     1  0  Unknown
+Xmp.exif.WhiteBalance                        XmpText     1  1  Manual
+Xmp.exif.ComponentsConfiguration             XmpSeq      1  1, 2, 3, 0  Y
+Xmp.exif.Flash                               XmpText     0  type="Struct"
+Xmp.exif.Flash/exif:Fired                    XmpText     5  False  False
+Xmp.exif.Flash/exif:Function                 XmpText     5  False  False
+Xmp.exif.Flash/exif:Mode                     XmpText     1  0  0
+Xmp.exif.Flash/exif:RedEyeMode               XmpText     5  False  False
+Xmp.exif.Flash/exif:Return                   XmpText     1  0  0
+Xmp.photoshop.AuthorsPosition                XmpText    21  U.S Navy Photographer  U.S Navy Photographer
+Xmp.photoshop.CaptionWriter                  XmpText     9  Dir. NVNS  Dir. NVNS
+Xmp.photoshop.Category                       XmpText     1  N  N
+Xmp.photoshop.City                           XmpText    19  Straits of Magellan  Straits of Magellan
+Xmp.photoshop.ColorMode                      XmpText     1  3  3
+Xmp.photoshop.Country                        XmpText    13  South America  South America
+Xmp.photoshop.Credit                         XmpText     8  U.S Navy  U.S Navy
+Xmp.photoshop.DateCreated                    XmpText    10  2004-06-21  2004-06-21
+Xmp.photoshop.ICCProfile                     XmpText    17  sRGB IEC61966-2.1  sRGB IEC61966-2.1
+Xmp.photoshop.Instructions                   XmpText    49  Credit as U.S. Navy photo by Elizabeth Thompson.   Credit as U.S. Navy photo by Elizabeth Thompson. 
+Xmp.photoshop.Source                         XmpText    24  Navy Visual News Service  Navy Visual News Service
+Xmp.photoshop.Urgency                        XmpText     1  5  5
+Xmp.photoshop.SupplementalCategories         XmpBag      1  703-614-9154, navyvisualnews@navy.mil, UNCLASSFIED  703-614-9154, navyvisualnews@navy.mil, UNCLASSFIED
+Xmp.tiff.Compression                         XmpText     1  1  1
+Xmp.tiff.DateTime                            XmpText    19  2016:09:13 12:23:27  2016:09:13 12:23:27
+Xmp.tiff.ImageLength                         XmpText     3  130  130
+Xmp.tiff.ImageWidth                          XmpText     3  200  200
+Xmp.tiff.Make                                XmpText    17  NIKON CORPORATION  NIKON CORPORATION
+Xmp.tiff.Model                               XmpText     9  NIKON D1X  NIKON D1X
+Xmp.tiff.NativeDigest                        XmpText   134  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;2C2119D37A161F76DA14FA023F3064DD  256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;2C2119D37A161F76DA14FA023F3064DD
+Xmp.tiff.Orientation                         XmpText     1  1  top, left
+Xmp.tiff.PhotometricInterpretation           XmpText     1  2  2
+Xmp.tiff.PlanarConfiguration                 XmpText     1  1  1
+Xmp.tiff.ResolutionUnit                      XmpText     1  2  inch
+Xmp.tiff.SamplesPerPixel                     XmpText     1  4  4
+Xmp.tiff.XResolution                         XmpText    13  3000000/10000  300
+Xmp.tiff.YResolution                         XmpText    13  3000000/10000  300
+Xmp.tiff.BitsPerSample                       XmpSeq      1  8, 8, 8, 8  8, 8, 8, 8
+Xmp.xmp.CreateDate                           XmpText    20  2016-03-23T13:26:36Z  2016-03-23T13:26:36Z
+Xmp.xmp.CreatorTool                          XmpText    38  Adobe Photoshop Elements 6.0 Macintosh  Adobe Photoshop Elements 6.0 Macintosh
+Xmp.xmp.MetadataDate                         XmpText    20  2016-03-23T13:26:36Z  2016-03-23T13:26:36Z
+Xmp.xmp.ModifyDate                           XmpText    20  2016-03-23T13:26:36Z  2016-03-23T13:26:36Z
+Xmp.xmpMM.DocumentID                         XmpText    37  uuid:D6CBDC1D8DF2E511BA6BFBE914561F6D  uuid:D6CBDC1D8DF2E511BA6BFBE914561F6D
+Xmp.xmpMM.InstanceID                         XmpText    37  uuid:D7CBDC1D8DF2E511BA6BFBE914561F6D  uuid:D7CBDC1D8DF2E511BA6BFBE914561F6D
+Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:1c90e091-c489-11d8-ad7d-b4c1b2598b09  adobe:docid:photoshop:1c90e091-c489-11d8-ad7d-b4c1b2598b09
+Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:ec11a6b0-cc13-11d8-9c21-fa22e28297f6  uuid:ec11a6b0-cc13-11d8-9c21-fa22e28297f6

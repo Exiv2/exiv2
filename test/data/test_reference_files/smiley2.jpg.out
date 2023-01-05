@@ -1,0 +1,117 @@
+Exif.Image.ImageDescription                  Ascii       0  
+Exif.Image.Make                              Ascii       6  Canon  Canon
+Exif.Image.Model                             Ascii      20  Canon PowerShot S40  Canon PowerShot S40
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  180/1  180
+Exif.Image.YResolution                       Rational    1  180/1  180
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      26  Adobe Photoshop Album 2.0  Adobe Photoshop Album 2.0
+Exif.Image.DateTime                          Ascii      20  2004:07:04 19:02:59  2004:07:04 19:02:59
+Exif.Image.YCbCrPositioning                  Short       1  1  Centered
+Exif.Image.ExifTag                           Long        1  234  234
+Exif.Photo.ExposureTime                      Rational    1  1/80  1/80 s
+Exif.Photo.FNumber                           Rational    1  49/10  F4.9
+Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48  2.10
+Exif.Photo.DateTimeOriginal                  Ascii      20  2002:09:19 14:17:41  2002:09:19 14:17:41
+Exif.Photo.DateTimeDigitized                 Ascii      20  2002:09:19 14:17:41  2002:09:19 14:17:41
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  5/1  5
+Exif.Photo.ShutterSpeedValue                 SRational   1  202/32  1/79 s
+Exif.Photo.ApertureValue                     Rational    1  149/32  F5
+Exif.Photo.ExposureBiasValue                 SRational   1  0/3  0 EV
+Exif.Photo.MaxApertureValue                  Rational    1  194698/65536  F2.8
+Exif.Photo.SubjectDistance                   Rational    1  7368/1000  7.37 m
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.Flash                             Short       1  0  No flash
+Exif.Photo.FocalLength                       Rational    1  682/32  21.3 mm
+Exif.Photo.MakerNote                         Undefined 450  12 0 0 0 3 0 6 0 0 0 46 3 0 0 0 0 3 0 4 0 0 0 58 3 0 0 1 0 3 0 40 0 0 0 66 3 0 0 2 0 3 0 4 0 0 0 146 3 0 0 3 0 3 0 4 0 0 0 154 3 0 0 4 0 3 0 27 0 0 0 162 3 0 0 6 0 2 0 32 0 0 0 216 3 0 0 7 0 2 0 24 0 0 0 248 3 0 0 8 0 4 0 1 0 0 0 90 47 16 0 9 0 2 0 32 0 0 0 16 4 0 0 13 0 3 0 21 0 0 0 48 4 0 0 16 0 4 0 1 0 0 0 0 0 17 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 80 0 2 0 0 0 5 0 1 0 0 0 0 0 4 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 15 0 3 0 1 0 1 48 0 0 255 255 255 255 170 2 227 0 32 0 149 0 192 0 0 0 0 0 0 0 0 0 0 0 0 0 255 255 49 0 224 8 224 8 0 0 0 0 2 0 170 2 30 1 215 0 0 0 0 0 0 0 0 0 54 0 0 0 128 0 227 0 149 0 202 0 0 0 0 0 0 0 0 0 6 0 0 0 0 0 0 0 3 48 0 0 0 0 0 0 1 0 200 28 0 0 149 0 205 0 0 0 0 0 1 0 250 0 73 77 71 58 80 111 119 101 114 83 104 111 116 32 83 52 48 32 74 80 69 71 0 0 0 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 32 32 32 49 46 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 42 0 3 0 207 0 211 0 217 0 0 0 0 0 0 0 100 1 0 0 0 0 10 0 0 0 2 0 10 0 21 0 75 1 6 0 0 0 0 0 0 0  12 0 0 0 3 0 6 0 0 0 46 3 0 0 0 0 3 0 4 0 0 0 58 3 0 0 1 0 3 0 40 0 0 0 66 3 0 0 2 0 3 0 4 0 0 0 146 3 0 0 3 0 3 0 4 0 0 0 154 3 0 0 4 0 3 0 27 0 0 0 162 3 0 0 6 0 2 0 32 0 0 0 216 3 0 0 7 0 2 0 24 0 0 0 248 3 0 0 8 0 4 0 1 0 0 0 90 47 16 0 9 0 2 0 32 0 0 0 16 4 0 0 13 0 3 0 21 0 0 0 48 4 0 0 16 0 4 0 1 0 0 0 0 0 17 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 80 0 2 0 0 0 5 0 1 0 0 0 0 0 4 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 15 0 3 0 1 0 1 48 0 0 255 255 255 255 170 2 227 0 32 0 149 0 192 0 0 0 0 0 0 0 0 0 0 0 0 0 255 255 49 0 224 8 224 8 0 0 0 0 2 0 170 2 30 1 215 0 0 0 0 0 0 0 0 0 54 0 0 0 128 0 227 0 149 0 202 0 0 0 0 0 0 0 0 0 6 0 0 0 0 0 0 0 3 48 0 0 0 0 0 0 1 0 200 28 0 0 149 0 205 0 0 0 0 0 1 0 250 0 73 77 71 58 80 111 119 101 114 83 104 111 116 32 83 52 48 32 74 80 69 71 0 0 0 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 32 32 32 49 46 48 48 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 42 0 3 0 207 0 211 0 217 0 0 0 0 0 0 0 100 1 0 0 0 0 10 0 0 0 2 0 10 0 21 0 75 1 6 0 0 0 0 0 0 0
+Exif.MakerNote.Offset                        Long        1  664  664
+Exif.MakerNote.ByteOrder                     Ascii       3  II  II
+Exif.CanonCs.Macro                           Short       1  2  Off
+Exif.CanonCs.Selftimer                       Short       1  0  Off
+Exif.CanonCs.Quality                         Short       1  5  Superfine
+Exif.CanonCs.FlashMode                       Short       1  1  Auto
+Exif.CanonCs.DriveMode                       Short       1  0  Single / timer
+Exif.CanonCs.FocusMode                       Short       1  4  Single
+Exif.CanonCs.RecordMode                      Short       1  1  JPEG
+Exif.CanonCs.ImageSize                       Short       1  0  Large
+Exif.CanonCs.EasyMode                        Short       1  0  Full auto
+Exif.CanonCs.DigitalZoom                     Short       1  0  None
+Exif.CanonCs.Contrast                        Short       1  0  Normal
+Exif.CanonCs.Saturation                      Short       1  0  Normal
+Exif.CanonCs.Sharpness                       Short       1  0  Normal
+Exif.CanonCs.ISOSpeed                        Short       1  15  Auto
+Exif.CanonCs.MeteringMode                    Short       1  3  Evaluative
+Exif.CanonCs.FocusType                       Short       1  1  Auto
+Exif.CanonCs.AFPoint                         Short       1  12289  Auto-selected
+Exif.CanonCs.ExposureProgram                 Short       1  0  Easy shooting (Auto)
+Exif.CanonCs.LensType                        Short       1  65535  n/a
+Exif.CanonCs.Lens                            Short       3  682 227 32  7.1 - 21.3 mm
+Exif.CanonCs.MaxAperture                     Short       1  149  F5
+Exif.CanonCs.MinAperture                     Short       1  192  F8
+Exif.CanonCs.FlashActivity                   Short       1  0  Did not fire
+Exif.CanonCs.FlashDetails                    Short       1  0  
+Exif.CanonCs.FocusContinuous                 Short       1  0  Single
+Exif.CanonCs.AESetting                       Short       1  0  Normal AE
+Exif.CanonCs.ImageStabilization              Short       1  65535  (65535)
+Exif.CanonCs.DisplayAperture                 Short       1  49  49
+Exif.CanonCs.ZoomSourceWidth                 Short       1  2272  2272
+Exif.CanonCs.ZoomTargetWidth                 Short       1  2272  2272
+Exif.CanonCs.SpotMeteringMode                Short       1  0  Center
+Exif.Canon.FocalLength                       Short       4  2 682 286 215  21.3 mm
+Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0  0 0 0 0
+Exif.CanonSi.AutoISO                         Short       1  0  100
+Exif.CanonSi.ISOSpeed                        Short       1  128  50
+Exif.CanonSi.MeasuredEV                      Short       1  227  12.09
+Exif.CanonSi.TargetAperture                  Short       1  149  F5
+Exif.CanonSi.TargetShutterSpeed              Short       1  202  1/79 s
+Exif.CanonSi.ExposureCompensation            Short       1  0  0
+Exif.CanonSi.WhiteBalance                    Short       1  0  Auto
+Exif.CanonSi.SlowShutter                     Short       1  0  Off
+Exif.CanonSi.Sequence                        Short       1  0  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  6  6
+Exif.CanonSi.CameraTemperature               Short       1  0  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0  0
+Exif.CanonSi.AFPointUsed                     Short       1  12291  3 focus points; center, right used
+Exif.CanonSi.FlashBias                       Short       1  0  0 EV
+Exif.CanonSi.AutoExposureBracketing          Short       1  0  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0  0
+Exif.CanonSi.ControlMode                     Short       1  1  1
+Exif.CanonSi.SubjectDistance                 Short       1  7368  73.68 m
+Exif.CanonSi.ApertureValue                   Short       1  149  F5
+Exif.CanonSi.ShutterSpeedValue               Short       1  205  1/85 s
+Exif.CanonSi.MeasuredEV2                     Short       1  0  -6.00
+Exif.CanonSi.BulbDuration                    Short       1  0  0
+Exif.CanonSi.CameraType                      Short       1  250  Compact
+Exif.Canon.ImageType                         Ascii      32  IMG:PowerShot S40 JPEG  IMG:PowerShot S40 JPEG
+Exif.Canon.FirmwareVersion                   Ascii      24  Firmware Version    1.00  Firmware Version    1.00
+Exif.Canon.FileNumber                        Long        1  1060698  106-0698
+Exif.Canon.OwnerName                         Ascii      32    
+Exif.Canon.CameraInfo                        Short      21  42 3 207 211 217 0 0 0 356 0 0 10 0 2 10 21 331 6 0 0 0  42 3 207 211 217 0 0 0 356 0 0 10 0 2 10 21 331 6 0 0 0
+Exif.Canon.ModelID                           Long        1  17891328  PowerShot S40
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Short       1  2272  2272
+Exif.Photo.PixelYDimension                   Short       1  1704  1704
+Exif.Photo.InteroperabilityTag               Long        1  1114  1114
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48  1.00
+Exif.Iop.RelatedImageWidth                   Short       1  2272  2272
+Exif.Iop.RelatedImageLength                  Short       1  1704  1704
+Exif.Photo.FocalPlaneXResolution             Rational    1  2272000/280  8114.29
+Exif.Photo.FocalPlaneYResolution             Rational    1  1704000/210  8114.29
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  2  inch
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.XResolution                   Rational    1  180/1  180
+Exif.Thumbnail.YResolution                   Rational    1  180/1  180
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1278  1278
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  7289  7289
+Iptc.Application2.RecordVersion              Short       1  2  2
+Iptc.Application2.Caption                    String     18  A bunch of squares  A bunch of squares
+Iptc.Application2.Byline                     String      4  Brad  Brad
+Iptc.Application2.ObjectName                 String     15  This is a title  This is a title
+Iptc.Application2.Keywords                   String      7  nothing  nothing
+Iptc.Application2.Keywords                   String      6  really  really

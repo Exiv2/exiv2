@@ -40,7 +40,7 @@ set Xmp.dc.creator XmpSeq "1) The first creator"
 set Xmp.dc.creator  "2) The second creator"
 set Xmp.dc.creator  "3) And another one"
 
-# A language alternative. The default entry of a langauge alternative
+# A language alternative. The default entry of a language alternative
 # doesn't need a language qualifier.
 set Xmp.dc.description LangAlt lang=de-DE Hallo, Welt
 set Xmp.dc.description LangAlt Hello, World
@@ -70,7 +70,7 @@ set Xmp.xmpDM.videoFrameSize/stDim:unit inch
 set Xmp.dc.publisher James Bond
 set Xmp.dc.publisher[1]/?ns:role secret agent
 
-# Add a qualifer to an array element of Xmp.dc.creator (added above)
+# Add a qualifier to an array element of Xmp.dc.creator (added above)
 set Xmp.dc.creator[2]/?ns:role programmer
 
 # Add an array of structures. First set a text property with just the 

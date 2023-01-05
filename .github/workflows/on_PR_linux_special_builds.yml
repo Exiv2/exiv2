@@ -1,0 +1,164 @@
+name: On PRs - Linux Special Builds
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths-ignore:
+      - "*.md"
+
+jobs:
+  special_debugRelease:
+    name: 'Ubuntu 22.04 - GCC - Debug+Coverage'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+          # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install ninja-build
+          pip3 install conan==1.54.0
+          pip3 install gcovr
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cmake --preset linux-coverage -S . -B build -DEXIV2_ENABLE_VIDEO=ON
+          cmake --build build --parallel
+
+      - name: Tests + Upload coverage
+        run: |
+          cd build
+          ctest --output-on-failure
+          # this needs to match th ecommand in on_push_ExtraJobsForMain.yml!
+          gcovr --root .. --object-dir . --exclude-unreachable-branches --exclude-throw-branches --xml -o coverage.xml
+          curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+          curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+          gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
+          shasum -a 256 -c codecov.SHA256SUM
+          chmod +x codecov
+          ls -lh
+          ./codecov -f coverage.xml
+
+  special_releaseValgrind:
+    name: 'Ubuntu 22.04 - GCC - Release+Valgrind'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install valgrind ninja-build
+          pip3 install conan==1.54.0
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cmake --preset linux-release -S . -B build
+          cmake --build build --parallel
+
+      - name: Tests with valgrind
+        run: |
+          cd build/bin
+          valgrind ./unit_tests
+
+
+  special_releaseSanitizers:
+    name: 'Ubuntu 22.04 - GCC - Release+Sanitizers'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install ninja-build
+          pip3 install conan==1.54.0
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cmake --preset linux-sanitizers -S . -B build -DEXIV2_ENABLE_VIDEO=ON
+          cmake --build build --parallel
+
+      - name: Tests
+        run: |
+          cd build
+          ctest --output-on-failure
+
+  special_allEnabled:
+    name: 'Ubuntu 22.04 - GCC - All Options Enabled + Documentation'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install valgrind doxygen graphviz gettext ninja-build
+          pip3 install conan==1.54.0
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON -DCMAKE_CXX_FLAGS="-DEXIV2_DEBUG_MESSAGES" 
+          cmake --build build --parallel
+
+      - name: Generate documentation
+        run: |
+          make doc
+

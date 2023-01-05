@@ -1,5 +1,3 @@
-# CMakeLists.txt for exiv2 library and command-line program
-
 # Note that this is a hack for testing the internals of the library. If EXIV2_BUILD_UNIT_TESTS==OFF
 # Then we only export the symbols that are explicitly exported
 if( EXIV2_BUILD_UNIT_TESTS )
@@ -19,6 +17,7 @@ add_library( exiv2lib_int OBJECT
     fujimn_int.cpp          fujimn_int.hpp
     helper_functions.cpp    helper_functions.hpp
     image_int.cpp           image_int.hpp
+    jp2image_int.cpp        jp2image_int.hpp
     makernote_int.cpp       makernote_int.hpp
     minoltamn_int.cpp       minoltamn_int.hpp
     nikonmn_int.cpp         nikonmn_int.hpp
@@ -36,50 +35,94 @@ add_library( exiv2lib_int OBJECT
     tiffimage_int.cpp       tiffimage_int.hpp
     tiffvisitor_int.cpp     tiffvisitor_int.hpp
     tifffwd_int.hpp
-    timegm.h
-    unused.h
+    utils.hpp               utils.cpp
+)
+
+set(PUBLIC_HEADERS
+    ../include/exiv2/basicio.hpp
+    ../include/exiv2/bmffimage.hpp
+    ../include/exiv2/bmpimage.hpp
+    ../include/exiv2/config.h
+    ../include/exiv2/convert.hpp
+    ../include/exiv2/cr2image.hpp
+    ../include/exiv2/crwimage.hpp
+    ../include/exiv2/datasets.hpp
+    ../include/exiv2/easyaccess.hpp
+    ../include/exiv2/epsimage.hpp
+    ../include/exiv2/error.hpp
+    ../include/exiv2/exif.hpp
+    ../include/exiv2/exiv2.hpp
+    ../include/exiv2/futils.hpp
+    ../include/exiv2/gifimage.hpp
+    ../include/exiv2/http.hpp
+    ../include/exiv2/image.hpp
+    ../include/exiv2/image_types.hpp
+    ../include/exiv2/iptc.hpp
+    ../include/exiv2/jp2image.hpp
+    ../include/exiv2/jpgimage.hpp
+    ../include/exiv2/metadatum.hpp
+    ../include/exiv2/mrwimage.hpp
+    ../include/exiv2/orfimage.hpp
+    ../include/exiv2/pgfimage.hpp
+    ../include/exiv2/photoshop.hpp
+    ../include/exiv2/preview.hpp
+    ../include/exiv2/properties.hpp
+    ../include/exiv2/psdimage.hpp
+    ../include/exiv2/rafimage.hpp
+    ../include/exiv2/rw2image.hpp
+    ../include/exiv2/slice.hpp
+    ../include/exiv2/tags.hpp
+    ../include/exiv2/tgaimage.hpp
+    ../include/exiv2/tiffimage.hpp
+    ../include/exiv2/types.hpp
+    ../include/exiv2/value.hpp
+    ../include/exiv2/version.hpp
+    ../include/exiv2/webpimage.hpp
+    ../include/exiv2/xmp_exiv2.hpp
+    ../include/exiv2/xmpsidecar.hpp
 )
 
 add_library( exiv2lib
-    ../include/exiv2/config.h
-    ../include/exiv2/exiv2.hpp
-    ../include/exiv2/rwlock.hpp
-    ../include/exiv2/slice.hpp
-    basicio.cpp             ../include/exiv2/basicio.hpp
-    bmpimage.cpp            ../include/exiv2/bmpimage.hpp
-    convert.cpp             ../include/exiv2/convert.hpp
-    cr2image.cpp            ../include/exiv2/cr2image.hpp
-    crwimage.cpp            ../include/exiv2/crwimage.hpp
-    datasets.cpp            ../include/exiv2/datasets.hpp
-    easyaccess.cpp          ../include/exiv2/easyaccess.hpp
-    error.cpp               ../include/exiv2/error.hpp
-    exif.cpp                ../include/exiv2/exif.hpp
-    futils.cpp              ../include/exiv2/futils.hpp
-    gifimage.cpp            ../include/exiv2/gifimage.hpp
-    http.cpp                ../include/exiv2/http.hpp
-    image.cpp               ../include/exiv2/image.hpp
-    ini.cpp                 ../include/exiv2/ini.hpp
-    iptc.cpp                ../include/exiv2/iptc.hpp
-    jp2image.cpp            ../include/exiv2/jp2image.hpp
-    jpgimage.cpp            ../include/exiv2/jpgimage.hpp
-    metadatum.cpp           ../include/exiv2/metadatum.hpp
-    mrwimage.cpp            ../include/exiv2/mrwimage.hpp
-    orfimage.cpp            ../include/exiv2/orfimage.hpp
-    pgfimage.cpp            ../include/exiv2/pgfimage.hpp
-    preview.cpp             ../include/exiv2/preview.hpp
-    properties.cpp          ../include/exiv2/properties.hpp
-    psdimage.cpp            ../include/exiv2/psdimage.hpp
-    rafimage.cpp            ../include/exiv2/rafimage.hpp
-    rw2image.cpp            ../include/exiv2/rw2image.hpp
-    tags.cpp                ../include/exiv2/tags.hpp
-    tgaimage.cpp            ../include/exiv2/tgaimage.hpp
-    tiffimage.cpp           ../include/exiv2/tiffimage.hpp
-    types.cpp               ../include/exiv2/types.hpp
-    value.cpp               ../include/exiv2/value.hpp
-    version.cpp             ../include/exiv2/version.hpp
-    webpimage.cpp           ../include/exiv2/webpimage.hpp
-    xmp.cpp                 ../include/exiv2/xmp_exiv2.hpp
-    xmpsidecar.cpp          ../include/exiv2/xmpsidecar.hpp
+    asfvideo.cpp
+    basicio.cpp
+    bmffimage.cpp
+    bmpimage.cpp
+    convert.cpp
+    cr2image.cpp
+    crwimage.cpp
+    datasets.cpp
+    easyaccess.cpp
+    epsimage.cpp
+    error.cpp
+    exif.cpp
+    futils.cpp
+    fff.h
+    gifimage.cpp
+    http.cpp
+    image.cpp
+    iptc.cpp
+    jp2image.cpp
+    jpgimage.cpp
+    metadatum.cpp
+    mrwimage.cpp
+    orfimage.cpp
+    pgfimage.cpp
+    photoshop.cpp
+    preview.cpp
+    properties.cpp
+    psdimage.cpp
+    rafimage.cpp
+    rw2image.cpp
+    tags.cpp
+    tgaimage.cpp
+    tiffimage.cpp
+    types.cpp
+    value.cpp
+    version.cpp
+    webpimage.cpp
+    xmp.cpp
+    xmpsidecar.cpp
+    ${PUBLIC_HEADERS}
     $<TARGET_OBJECTS:exiv2lib_int>
 )
 
@@ -92,20 +135,25 @@ generate_export_header(exiv2lib
 # Conditional addition of sources to library targets
 # ---------------------------------------------------------
 
-if( EXIV2_ENABLE_WEBREADY )
-    if( EXIV2_ENABLE_CURL)
-        target_sources(exiv2lib PRIVATE easyaccess.cpp ../include/exiv2/easyaccess.hpp)
-    endif()
-endif()
-
 if( EXIV2_ENABLE_PNG )
-    target_sources(exiv2lib_int PRIVATE pngchunk_int.cpp)
+    set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/pngimage.hpp)
+    target_sources(exiv2lib_int PRIVATE pngchunk_int.cpp pngchunk_int.hpp)
     target_sources(exiv2lib PRIVATE pngimage.cpp ../include/exiv2/pngimage.hpp)
 endif()
 
-target_sources(exiv2lib PRIVATE
-    bmffimage.cpp           ../include/exiv2/bmffimage.hpp
-)
+if( EXV_ENABLE_VIDEO )
+    set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/asfvideo.hpp)
+    target_sources(exiv2lib PRIVATE asfvideo.cpp ../include/exiv2/asfvideo.hpp)
+
+    set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/matroskavideo.hpp)
+    target_sources(exiv2lib PRIVATE matroskavideo.cpp ../include/exiv2/matroskavideo.hpp)
+
+    set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/quicktimevideo.hpp)
+    target_sources(exiv2lib PRIVATE quicktimevideo.cpp ../include/exiv2/quicktimevideo.hpp)
+
+    set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/riffvideo.hpp)
+    target_sources(exiv2lib PRIVATE riffvideo.cpp ../include/exiv2/riffvideo.hpp)
+endif()
 
 # Other library target properties
 # ---------------------------------------------------------
@@ -132,11 +180,16 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_EXPORTS
 )
 
+# NOTE: Cannot use target_link_libraries on OBJECT libraries with old versions of CMake
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
 target_include_directories(exiv2lib SYSTEM PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
-    ${ZLIB_INCLUDE_DIR}
 )
+
+if (EXIV2_ENABLE_XMP OR EXIV2_ENABLE_EXTERNAL_XMP)
+    target_include_directories(exiv2lib PRIVATE ${EXPAT_INCLUDE_DIR})
+    target_link_libraries(exiv2lib PRIVATE EXPAT::EXPAT)
+endif()
 
 if (EXIV2_ENABLE_XMP)
     target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
@@ -146,7 +199,7 @@ elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_compile_definitions(exiv2lib PUBLIC EXV_ADOBE_XMPSDK=2016)
 endif()
 
-# Use include/exiv2 to build libary code
+# Use include/exiv2 to build library code
 target_include_directories(exiv2lib PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include/exiv2>
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -162,15 +215,6 @@ if (EXIV2_ENABLE_WEBREADY)
     if( EXIV2_ENABLE_CURL )
         target_include_directories(exiv2lib SYSTEM PRIVATE ${CURL_INCLUDE_DIR} )
         target_link_libraries(exiv2lib PRIVATE ${CURL_LIBRARIES})
-        if (USING_CONAN)
-            target_compile_definitions(exiv2lib PRIVATE ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
-            target_link_libraries(exiv2lib PRIVATE ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
-            if ( MSVC ) 
-                target_link_libraries(exiv2lib PRIVATE Crypt32)
-            elseif (NOT APPLE)
-                target_link_libraries(exiv2lib PRIVATE CONAN_PKG::OpenSSL)
-            endif()
-        endif()
     endif()
 
 endif()
@@ -186,17 +230,21 @@ if (NOT MSVC)
         target_link_libraries( exiv2lib PRIVATE -lprocstat)
     endif()
 
-    if (CYGWIN OR MINGW OR MSYS)
+    if (MINGW)
         target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
     endif()
 
-    target_link_libraries( exiv2lib PRIVATE Threads::Threads)
 else()
     target_link_libraries( exiv2lib PRIVATE psapi ws2_32 shell32 )
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    target_link_libraries( exiv2lib PRIVATE $<BUILD_INTERFACE:${ZLIB_LIBRARIES}>)
+	target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
+endif()
+
+if( EXIV2_ENABLE_BMFF AND BROTLI_FOUND )
+    target_link_libraries( exiv2lib PRIVATE ${Brotli_LIBRARIES})
+    target_include_directories(exiv2lib PRIVATE ${Brotli_INCLUDE_DIRS})
 endif()
 
 if( EXIV2_ENABLE_NLS )
@@ -212,6 +260,11 @@ if( ICONV_FOUND )
     target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
 endif()
 
+target_link_libraries( exiv2lib_int PRIVATE inih::libinih )
+target_link_libraries( exiv2lib_int PRIVATE inih::inireader )
+target_link_libraries( exiv2lib PRIVATE inih::libinih )
+target_link_libraries( exiv2lib PRIVATE inih::inireader )
+
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
 install(TARGETS exiv2lib EXPORT exiv2Config
@@ -221,6 +274,7 @@ install(TARGETS exiv2lib EXPORT exiv2Config
 )
 
 install(FILES
+    ${PUBLIC_HEADERS}
     ${CMAKE_BINARY_DIR}/exv_conf.h
     ${CMAKE_BINARY_DIR}/exiv2lib_export.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
@@ -229,44 +283,3 @@ install(EXPORT exiv2Config DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
 
-# ******************************************************************************
-# exiv2 application
-
-if(EXIV2_BUILD_EXIV2_COMMAND)
-    add_executable( exiv2
-         exiv2.cpp
-         exiv2app.hpp
-         actions.cpp actions.hpp
-         getopt.cpp getopt.hpp
-         utils.cpp utils.hpp
-    )
-
-    set_target_properties( exiv2 PROPERTIES
-        COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
-        XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
-    )
-
-    target_link_libraries( exiv2 PRIVATE exiv2lib )
-
-    if( EXIV2_ENABLE_NLS )
-        target_link_libraries(exiv2 PRIVATE ${Intl_LIBRARIES})
-        target_include_directories(exiv2 PRIVATE ${Intl_INCLUDE_DIRS})
-    endif()
-
-    if (USING_CONAN AND WIN32 AND EXISTS ${PROJECT_BINARY_DIR}/conanDlls)
-        # In case of using conan recipes with their 'shared' option turned on, we will have dlls of
-        # the 3rd party dependencies in the conanDlls folder.
-
-        # Copy 3rd party DLLs the bin folder. [build step]
-        add_custom_command(TARGET exiv2 POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_BINARY_DIR}/conanDlls ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-
-        # Copy 3rd party DLLs the bin folder. [install step]
-        install(DIRECTORY ${PROJECT_BINARY_DIR}/conanDlls/ DESTINATION bin)
-    endif()
-
-    install(TARGETS exiv2 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-endif()
-
-# That's all Folks!
-##

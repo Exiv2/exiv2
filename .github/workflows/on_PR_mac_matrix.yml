@@ -1,0 +1,52 @@
+name: On PRs - Mac Matrix
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths-ignore:
+      - "*.md"
+
+jobs:
+  MacOS:
+    name: 'MacOS - clang, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
+    runs-on: macos-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          brew install ninja
+          brew install inih
+          pushd /tmp
+          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+          tar xzf   release-1.8.0.tar.gz
+          mkdir -p  googletest-release-1.8.0/build
+          pushd     googletest-release-1.8.0/build
+          cmake .. ; make ; make install
+          popd
+          popd
+
+      - name: Build
+        run: |
+          cmake --preset base_mac -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --build build --parallel
+
+      - name: Install
+        run: |
+          cd build
+          cmake --install .
+
+      - name: Test
+        run: |
+          cd build
+          ctest --output-on-failure

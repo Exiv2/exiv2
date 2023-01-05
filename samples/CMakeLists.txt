@@ -22,7 +22,6 @@ set( SAMPLES
      stringto-test.cpp
      taglist.cpp
      tiff-test.cpp
-     werror-test.cpp
      write-test.cpp
      write2-test.cpp
      xmpparse.cpp
@@ -40,7 +39,6 @@ foreach(entry ${SAMPLES})
     set_target_properties(${target} PROPERTIES
       COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
     list(APPEND APPLICATIONS ${target})
-    add_test( ${target}_test ${target} )
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
     if ( NOT ${target} MATCHES ".*test.*")                                # don't install tests
         install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
@@ -53,23 +51,29 @@ if (MSVC)
     link_directories(${CMAKE_INSTALL_PREFIX}/lib)
 endif()
 
-add_executable( getopt-test getopt-test.cpp ../src/utils.cpp ../src/getopt.cpp)
+add_executable( getopt-test getopt-test.cpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS getopt-test)
-target_include_directories(getopt-test PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
+target_include_directories(getopt-test PRIVATE 
+  ${CMAKE_SOURCE_DIR}/app
+) # To find getopt.hpp
 
-add_executable( metacopy metacopy.cpp ../src/utils.cpp ../src/getopt.cpp)
+add_executable( metacopy metacopy.cpp metacopy.hpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS metacopy)
-target_include_directories(metacopy PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
+target_include_directories(metacopy PRIVATE 
+  ${CMAKE_SOURCE_DIR}/app
+) # To find getopt.hpp
 
-add_executable(          path-test  path-test.cpp ../src/utils.cpp ../src/getopt.cpp)
+add_executable(          path-test  path-test.cpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS path-test)
 set_target_properties(   path-test  PROPERTIES OUTPUT_NAME path-test )
-target_include_directories(path-test PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find utils.hpp
+target_include_directories(path-test PRIVATE 
+  ${CMAKE_SOURCE_DIR}/app
+) # To find getopt.hpp
 
-add_executable(          exiv2json exiv2json.cpp Jzon.cpp Jzon.h)
-list(APPEND APPLICATIONS exiv2json)
+install( TARGETS metacopy RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-install( TARGETS metacopy exiv2json RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+target_link_libraries( ini-test PRIVATE inih::libinih )
+target_link_libraries( ini-test PRIVATE inih::inireader )
 
 if( EXPAT_FOUND )
     add_executable(        geotag    geotag.cpp)
@@ -79,6 +83,8 @@ if( EXPAT_FOUND )
             exiv2-xmp
             ${EXPAT_LIBRARIES}
     )
+    target_include_directories(geotag PRIVATE ${CMAKE_BINARY_DIR})          # exv_conf.h 
+    target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/include)  # <exiv2/exiv2.hpp>    
     target_include_directories(geotag PRIVATE ${EXPAT_INCLUDE_DIR})
     target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
 
@@ -102,15 +108,6 @@ if (EXIV2_ENABLE_WEBREADY)
     if( EXIV2_ENABLE_CURL )
         target_include_directories(conntest SYSTEM PRIVATE ${CURL_INCLUDE_DIR} )
         target_link_libraries(conntest PRIVATE ${CURL_LIBRARIES})
-        if (USING_CONAN)
-            target_compile_definitions(conntest PRIVATE ${CONAN_COMPILE_DEFINITIONS_LIBCURL})
-            target_link_libraries(conntest PRIVATE ${CONAN_EXE_LINKER_FLAGS_LIBCURL})
-            if ( MSVC ) 
-			    target_link_libraries(conntest PRIVATE Crypt32 Ws2_32 ${CURL_LIBRARIES})
-			elseif (NOT APPLE)
-                target_link_libraries(conntest PRIVATE CONAN_PKG::OpenSSL)
-            endif()
-        endif()
     endif()
 endif()
 
@@ -121,9 +118,21 @@ list(APPEND APPLICATIONS remotetest)
 
 # ******************************************************************************
 foreach(application ${APPLICATIONS})
-    target_link_libraries(${application} PRIVATE exiv2lib)
+    target_link_libraries(${application} PRIVATE exiv2lib std::filesystem)
+    if(MSVC)
+        target_link_libraries(${application} PRIVATE wmain)
+        target_link_options(${application} PRIVATE "/ENTRY:wWinMainCRTStartup")
+    endif()
+    if (MINGW)
+        target_link_libraries(${application} PRIVATE wmain)
+        target_compile_options(${application} PRIVATE -municode)
+        target_link_options(${application} PRIVATE -municode)
+    endif()
     if( EXIV2_ENABLE_PNG )
-        target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
+        target_link_libraries(${application} PRIVATE ${ZLIB_LIBRARIES} )
+        if (MSVC)
+            set_target_properties(${application} PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
+        endif()
     endif()
 endforeach()
 

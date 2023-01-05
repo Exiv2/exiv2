@@ -1,0 +1,24 @@
+---
+# Indentation for all files
+ColumnLimit: 120
+
+# C++ Options
+Language: Cpp
+BasedOnStyle: Google
+
+# Force pointers to the type for C++.
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# Useful for sorting the project inclusions and standard library inclusions separately 
+IncludeBlocks: Preserve
+
+# Constructor initializers better formatted in presence of preprocessor conditions (see image.cpp)
+BreakConstructorInitializers: AfterColon
+
+# Do not allow SingleLine statements (to improve coverage statistics)
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+...

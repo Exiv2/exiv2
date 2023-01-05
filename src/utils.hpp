@@ -1,82 +1,21 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-#ifndef UTILS_HPP_
-#define UTILS_HPP_
+#ifndef EXIV2_UTILS_HPP
+#define EXIV2_UTILS_HPP
 
-// *********************************************************************
-// included header files
-
-// + standard includes
 #include <string>
+#include <string_view>
 
-// *********************************************************************
-// namespace extensions
-/*!
-  @brief Contains utility classes and functions. Most of these are
-         wrappers for common C functions that do not require pointers
-         and memory considerations.
-*/
-namespace Util {
+namespace Exiv2::Internal {
 
-// *********************************************************************
-// free functions
+constexpr bool startsWith(std::string_view s, std::string_view start) {
+  return s.find(start) == 0;
+}
 
-    /*!
-      @brief Get the directory component from the \em path string.
-             See %dirname(3).
+/// @brief Returns the uppercase version of \b str
+std::string upper(const std::string& str);
 
-      This function can handle Windows paths to some extent: c:\\bar should
-      be fine, \\\\bigsrv\\foo also, but \\\\bigsrv alone doesn't work.
-     */
-    std::string dirname(const std::string& path);
+/// @brief Returns the lowercase version of \b str
+std::string lower(const std::string& a);
 
-    /*!
-      @brief Get the filename component from the \em path string.
-             See %basename(3). If the \em delsuffix parameter is true,
-             the suffix will be removed.
+}  // namespace Exiv2::Internal
 
-      This function can handle Windows paths to some extent: c:\\bar should
-      be fine, \\\\bigsrv\\foo also, but \\\\bigsrv alone doesn't work.
-     */
-    std::string basename(const std::string& path, bool delsuffix =false);
-
-    /*!
-      @brief Get the suffix from the path string. Normally, the suffix
-             is the substring of the basename of path from the last '.'
-             to the end of the string.
-     */
-    std::string suffix(const std::string& path);
-
-    /*!
-      @brief Convert a C string to a long value, which is returned in n.
-             Returns true if the conversion is successful, else false.
-             n is not modified if the conversion is unsuccessful. See strtol(2).
-     */
-    bool strtol(const char* nptr, long& n);
-
-    /*!
-      @brief Replaces all occurrences of \em searchText in the \em text string
-             by \em replaceText.
-     */
-    void replace(std::string& text, const std::string& searchText, const std::string& replaceText);
-
-}                                       // namespace Util
-
-#endif                                  // #ifndef UTILS_HPP_
+#endif  // EXIV2_UTILS_HPP

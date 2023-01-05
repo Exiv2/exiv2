@@ -12,14 +12,14 @@
 // Define if you require PNG support.
 #define EXIV2_ENABLE_PNG
 
-// Define if you have the `gmtime_r' function.
-/* #undef EXV_HAVE_GMTIME_R */
-
 // Define if you have the <libintl.h> header file.
 /* #undef EXV_HAVE_LIBINTL_H */
 
 // Define if you want translation of program messages to the user's native language
 #define EXV_ENABLE_NLS
+
+// Define if you want to support video metadata
+#define EXV_ENABLE_VIDEO
 
 // Define if you have the strerror_r function.
 /* #undef EXV_HAVE_STRERROR_R */

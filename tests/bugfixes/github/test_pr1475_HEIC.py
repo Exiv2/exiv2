@@ -38,7 +38,8 @@ Exif.Photo.Flash                             Short       1  No, compulsory
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ExposureMode                      Short       1  Auto
 Exif.GPSInfo.GPSDateStamp                    Ascii      11  2021:02:13
-""","""Exiv2::BmffImage::boxHandler: ftyp        0->36 brand: heic
+""",
+"""Exiv2::BmffImage::boxHandler: ftyp        0->36 brand: heic
 Exiv2::BmffImage::boxHandler: meta       36->3380 
   Exiv2::BmffImage::boxHandler: hdlr       48->34 
   Exiv2::BmffImage::boxHandler: dinf       82->36 
@@ -162,7 +163,9 @@ Exiv2::BmffImage::boxHandler: meta       36->3380
       3392 |       16 |   ID |   51 |  20901,  2364
 Exiv2::BMFF Exif: ID = 51 from,length = 20901,2364
 Exiv2::BmffImage::boxHandler: mdat     3416->1 
-""","","""data:AAACJGFwcGwEAAAAbW50clJHQiBYWVogB+EABwAHAA0AFgAgYWNzcEF
+""",
+"",
+"""data:AAACJGFwcGwEAAAAbW50clJHQiBYWVogB+EABwAHAA0AFgAgYWNzcEF
 QUEwAAAAAQVBQTAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1hcHBsyhq
 VgiV/EE04mRPV0eoVggAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 KZGVzYwAAAPwAAABlY3BydAAAAWQAAAAjd3RwdAAAAYgAAAAUclhZWgAAAZw

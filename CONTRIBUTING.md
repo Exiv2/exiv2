@@ -17,7 +17,7 @@ We welcome any help, for example contributing lens data (images), code contribut
 
 Code contributions can be performed via *pull requests* (PR) on GitHub (if you cannot or do not want to use GitHub, see [3. Contributing code via email](#3-contributing-code-via-email)).
 For this to work you first need to [create a user account on GitHub](https://help.github.com/articles/signing-up-for-a-new-github-account/) if you don't already have one.
-A pull request should preferable contain only one new feature or bug fix etc. Since it is not uncommon to work on several PRs at the same time
+A pull request should preferable contain only one new feature, bug fix, etc. Since it is not uncommon to work on several PRs at the same time
 it is recommended to create a new _branch_ for each PR. In this way PRs can easily be separated and the review and merge process becomes cleaner.
 As a rule-of-thumb:
 
@@ -31,7 +31,7 @@ As a rule-of-thumb:
 See the [GIT_GUIDELINES.md](git_guidelines.md) file for a more detailed description of the git workflow.
 
 Below we outline the recommended steps in the code contribution workflow. We use `your-username` to refer to your username on GitHub, `exiv2_upstream` is used when we
-set the upstream remote repository for Exiv2 (we could have picked any name by try to avoid already used names like, in particular, `origin` and `master`), and
+set the upstream remote repository for Exiv2 (we could have picked any name but try to avoid already used names like, in particular, `origin` and `main`), and
 we use the name `my-new-feature` for the branch that we create (e.g., the branch name should reflect the code change being made).
 
 **Important**: If your PR lives for a long time, then don't press the button _Update branch_ in the Pull Request view, instead follow the steps below, as
@@ -59,34 +59,39 @@ Once you have a GitHub login:
         origin  https://github.com/your-username/exiv2.git (fetch)
         origin  https://github.com/your-username/exiv2.git (push)
 
-4. Next, create a branch for your PR from `exiv2_upstream/master` (which we also need to fetch first):
+4. Next, create a branch for your PR from `exiv2_upstream/main` (which we also need to fetch first):
 
-        $ git fetch exiv2_upstream master
-        $ git checkout -b my-new-feature exiv2_upstream/master --no-track
+        $ git fetch exiv2_upstream main
+        $ git checkout -b my-new-feature exiv2_upstream/main --no-track
 
-    NB: This is an important step to avoid draging in old commits!
+    NB: This is an important step to avoid dragging in old commits!
 
 5. Configure the project and check that it builds (if not, please report a bug):
 
         $ rm -rf build
         $ mkdir build && cd build
         $ cmake -DCMAKE_BUILD_TYPE=Release ..
-        $ make
+        $ cmake --build . --parallel
 
 6. Now, make your change(s), add tests for your changes, and commit each change:
 
         ...
-
+    
         $ git commit -m "Commit message 1"
-
+    
         ...
-
+    
         $ git commit -m "Commit message 2"
+
+   Please keep in mind that the project has a Continuous Integration job to check that your new code is satisfying the
+   format defined in the file `.clang-format`. Use your preferred text editor, IDE or method to make sure your code is
+   properly formatted before creating the PR.
+
+   Note: You can use the script `contrib/scripts/clangFormatWholeProject.sh` to format the whole project.
 
 7. Make sure the tests pass:
 
-        $ make tests         # Integration tests
-        $./bin/unit_tests    # Unit tests
+        $ ctest
 
     Exiv2's (new) test system is described in more detail in the [doc.md](tests/doc.md) and [writing_tests.md](tests/writing_tests.md) files, and a description of the old
     test system can be found in the Redmine wiki: [How do I run the test suite for Exiv2](http://dev.exiv2.org/projects/exiv2/wiki/How_do_I_run_the_test_suite_for_Exiv2)
@@ -107,9 +112,9 @@ Once you have a GitHub login:
 
         $ git checkout my-new-feature
 
-    And rebase it on top of master:
+    And rebase it on top of main:
 
-        $ git pull --rebase exiv2_upstream master
+        $ git pull --rebase exiv2_upstream main
 
     When you perform a rebase the commit history is rewritten and, therefore, the next time you try to push your branch to your fork repository you will need to use
     the `--force-with-lease` option:

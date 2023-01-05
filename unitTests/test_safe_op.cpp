@@ -1,25 +1,8 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
+// SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <gtest/gtest.h>
 #include <safe_op.hpp>
-#include "gtestwrapper.h"
+
 namespace si = Safe::Internal;
 
 /*!
@@ -43,44 +26,41 @@ struct AdditionTestValues;
  * Overload for unsigned types.
  */
 template <typename T>
-struct AdditionTestValues<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type>
-{
-    static const size_t case_count = 5;
-    static const T summand[case_count];
-    static const bool overflow[case_count][case_count];
+struct AdditionTestValues<T, std::enable_if_t<!std::is_signed_v<T>>> {
+  static const size_t case_count = 5;
+  static const T summand[case_count];
+  static const bool overflow[case_count][case_count];
 };
 
 template <typename T>
-const T AdditionTestValues<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type>::summand[] = {
+const T AdditionTestValues<T, std::enable_if_t<!std::is_signed_v<T>>>::summand[] = {
     0, 1, 2, static_cast<T>(std::numeric_limits<T>::max() - 1), std::numeric_limits<T>::max()};
 
 template <typename T>
-const bool
-    AdditionTestValues<T, typename si::enable_if<!si::is_signed<T>::VALUE>::type>::overflow[case_count][case_count] = {
-        // 0
-        {false, false, false, false, false},
-        // 1
-        {false, false, false, false, true},
-        // 2
-        {false, false, false, true, true},
-        // max - 1
-        {false, false, true, true, true},
-        // max
-        {false, true, true, true, true}};
+const bool AdditionTestValues<T, std::enable_if_t<!std::is_signed_v<T>>>::overflow[case_count][case_count] = {
+    // 0
+    {false, false, false, false, false},
+    // 1
+    {false, false, false, false, true},
+    // 2
+    {false, false, false, true, true},
+    // max - 1
+    {false, false, true, true, true},
+    // max
+    {false, true, true, true, true}};
 
 /*!
  * Overload for signed integers
  */
 template <typename T>
-struct AdditionTestValues<T, typename si::enable_if<si::is_signed<T>::VALUE>::type>
-{
-    static const size_t case_count = 8;
-    static const T summand[case_count];
-    static const bool overflow[case_count][case_count];
+struct AdditionTestValues<T, std::enable_if_t<std::is_signed_v<T>>> {
+  static const size_t case_count = 8;
+  static const T summand[case_count];
+  static const bool overflow[case_count][case_count];
 };
 
 template <typename T>
-const T AdditionTestValues<T, typename si::enable_if<si::is_signed<T>::VALUE>::type>::summand[] = {
+const T AdditionTestValues<T, std::enable_if_t<std::is_signed_v<T>>>::summand[] = {
     std::numeric_limits<T>::min(),
     static_cast<T>(std::numeric_limits<T>::min() + 1),
     -1,
@@ -91,24 +71,23 @@ const T AdditionTestValues<T, typename si::enable_if<si::is_signed<T>::VALUE>::t
     std::numeric_limits<T>::max()};
 
 template <typename T>
-const bool
-    AdditionTestValues<T, typename si::enable_if<si::is_signed<T>::VALUE>::type>::overflow[case_count][case_count] = {
-        // min
-        {true, true, true, false, false, false, false, false},
-        // min + 1
-        {true, true, false, false, false, false, false, false},
-        // -1
-        {true, false, false, false, false, false, false, false},
-        // 0
-        {false, false, false, false, false, false, false, false},
-        // 1
-        {false, false, false, false, false, false, false, true},
-        // 2
-        {false, false, false, false, false, false, true, true},
-        // max - 1
-        {false, false, false, false, false, true, true, true},
-        // max
-        {false, false, false, false, true, true, true, true}};
+const bool AdditionTestValues<T, std::enable_if_t<std::is_signed_v<T>>>::overflow[case_count][case_count] = {
+    // min
+    {true, true, true, false, false, false, false, false},
+    // min + 1
+    {true, true, false, false, false, false, false, false},
+    // -1
+    {true, false, false, false, false, false, false, false},
+    // 0
+    {false, false, false, false, false, false, false, false},
+    // 1
+    {false, false, false, false, false, false, false, true},
+    // 2
+    {false, false, false, false, false, false, true, true},
+    // max - 1
+    {false, false, false, false, false, true, true, true},
+    // max
+    {false, false, false, false, true, true, true, true}};
 
 /*!
  * Test the addition of all combinations of AdditionTestValues<T>::summand[i],
@@ -118,23 +97,22 @@ const bool
  * is checked too.
  */
 template <typename T>
-void test_add()
-{
-    typedef AdditionTestValues<T> TestValues;
+void test_add() {
+  using TestValues = AdditionTestValues<T>;
 
-#define TEST_ADD(func)                                                                                        \
-    for (size_t i = 0; i < TestValues::case_count; ++i) {                                                     \
-        for (size_t j = 0; j < TestValues::case_count; ++j) {                                                 \
-            T res = 0;                                                                                        \
-            ASSERT_EQ(func(TestValues::summand[i], TestValues::summand[j], res), TestValues::overflow[i][j]); \
-            if (!TestValues::overflow[i][j]) {                                                                \
-                ASSERT_EQ(res, TestValues::summand[i] + TestValues::summand[j]);                              \
-            }                                                                                                 \
-        }                                                                                                     \
-    }
+#define TEST_ADD(func)                                                                                  \
+  for (size_t i = 0; i < TestValues::case_count; ++i) {                                                 \
+    for (size_t j = 0; j < TestValues::case_count; ++j) {                                               \
+      T res = 0;                                                                                        \
+      ASSERT_EQ(func(TestValues::summand[i], TestValues::summand[j], res), TestValues::overflow[i][j]); \
+      if (!TestValues::overflow[i][j]) {                                                                \
+        ASSERT_EQ(res, TestValues::summand[i] + TestValues::summand[j]);                                \
+      }                                                                                                 \
+    }                                                                                                   \
+  }
 
-    TEST_ADD(si::fallback_add_overflow)
-    TEST_ADD(si::builtin_add_overflow)
+  TEST_ADD(si::fallback_add_overflow)
+  TEST_ADD(si::builtin_add_overflow)
 
 #undef TEST_ADD
 }
@@ -148,63 +126,57 @@ void test_add()
  * checked.
  */
 template <typename T>
-void test_safe_add()
-{
-    typedef AdditionTestValues<T> TestValues;
+void test_safe_add() {
+  using TestValues = AdditionTestValues<T>;
 
-    for (size_t i = 0; i < TestValues::case_count; ++i) {
-        for (size_t j = 0; j < TestValues::case_count; ++j) {
-            if (TestValues::overflow[i][j]) {
-                ASSERT_THROW(Safe::add(TestValues::summand[i], TestValues::summand[j]), std::overflow_error);
-            } else {
-                ASSERT_EQ(Safe::add(TestValues::summand[i], TestValues::summand[j]),
-                          TestValues::summand[i] + TestValues::summand[j]);
-            }
-        }
+  for (size_t i = 0; i < TestValues::case_count; ++i) {
+    for (size_t j = 0; j < TestValues::case_count; ++j) {
+      if (TestValues::overflow[i][j]) {
+        ASSERT_THROW(Safe::add(TestValues::summand[i], TestValues::summand[j]), std::overflow_error);
+      } else {
+        ASSERT_EQ(Safe::add(TestValues::summand[i], TestValues::summand[j]),
+                  TestValues::summand[i] + TestValues::summand[j]);
+      }
     }
+  }
 }
 
-TEST(lowLevelAddOverflow, checkUnsignedOverflow)
-{
-    test_add<unsigned char>();
-    test_add<unsigned short>();
-    test_add<unsigned int>();
-    test_add<unsigned long>();
-    test_add<unsigned long long>();
+TEST(lowLevelAddOverflow, checkUnsignedOverflow) {
+  test_add<unsigned char>();
+  test_add<unsigned short>();
+  test_add<unsigned int>();
+  test_add<unsigned long>();
+  test_add<unsigned long long>();
 }
 
-TEST(lowLevelAddOverflow, checkSignedOverflow)
-{
-    test_add<char>();
-    test_add<short>();
-    test_add<int>();
-    test_add<long>();
-    test_add<long long>();
+TEST(lowLevelAddOverflow, checkSignedOverflow) {
+  test_add<char>();
+  test_add<short>();
+  test_add<int>();
+  test_add<long>();
+  test_add<long long>();
 }
 
-TEST(safeAdd, checkUnsignedOverflow)
-{
-    test_safe_add<unsigned char>();
-    test_safe_add<unsigned short>();
-    test_safe_add<unsigned int>();
-    test_safe_add<unsigned long>();
-    test_safe_add<unsigned long long>();
+TEST(safeAdd, checkUnsignedOverflow) {
+  test_safe_add<unsigned char>();
+  test_safe_add<unsigned short>();
+  test_safe_add<unsigned int>();
+  test_safe_add<unsigned long>();
+  test_safe_add<unsigned long long>();
 }
 
-TEST(safeAdd, checkSignedOverflow)
-{
-    test_safe_add<char>();
-    test_safe_add<short>();
-    test_safe_add<int>();
-    test_safe_add<long>();
-    test_safe_add<long long>();
+TEST(safeAdd, checkSignedOverflow) {
+  test_safe_add<char>();
+  test_safe_add<short>();
+  test_safe_add<int>();
+  test_safe_add<long>();
+  test_safe_add<long long>();
 }
 
-TEST(safeAbs, checkValues)
-{
-    static const int values[] = {-1, 1, std::numeric_limits<int>::max(), std::numeric_limits<int>::min() + 1};
-    for (size_t i = 0; i < sizeof(values) / sizeof(*values); ++i) {
-        ASSERT_EQ(Safe::abs(values[i]), abs(values[i]));
-    }
-    ASSERT_EQ(Safe::abs(std::numeric_limits<int>::min()), std::numeric_limits<int>::max());
+TEST(safeAbs, checkValues) {
+  static const int values[] = {-1, 1, std::numeric_limits<int>::max(), std::numeric_limits<int>::min() + 1};
+  for (int value : values) {
+    ASSERT_EQ(Safe::abs(value), abs(value));
+  }
+  ASSERT_EQ(Safe::abs(std::numeric_limits<int>::min()), std::numeric_limits<int>::max());
 }

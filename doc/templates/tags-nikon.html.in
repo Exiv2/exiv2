@@ -61,6 +61,11 @@ __NikonAf__
 __NikonAf2__
 <br>
 
+<h3>Nikon Auto Focus 2 V2 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__NikonAf22__
+<br>
+
 <h3>Nikon AF Fine Tune Tags</h3>
 <p>Click on a column header to sort the table.</p>
 __NikonAFT__
@@ -89,6 +94,16 @@ __NikonFl2__
 <h3>Nikon Flash Info 3 Tags</h3>
 <p>Click on a column header to sort the table.</p>
 __NikonFl3__
+<br>
+
+<h3>Nikon Flash Info 6 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__NikonFl6__
+<br>
+
+<h3>Nikon Flash Info 7 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__NikonFl7__
 <br>
 
 <h3>Nikon Shot Info D80 Tags</h3>
@@ -159,6 +174,15 @@ __NikonLd2__
 <h3>Nikon Lens Data 3 Tags</h3>
 <p>Click on a column header to sort the table.</p>
 __NikonLd3__
+<br>
+
+<h3>Nikon Lens Data 4 Tags</h3>
+<p>Click on a column header to sort the table.</p>
+__NikonLd4__
+<br>
+
+<h3>Nikon Preview Tags</h3>
+<p>These are the same as <a href="https://www.exiv2.org/tags.html">Exif.Image.*</a> but are accessed as Exif.NikonPv.*</p>
 <br>
 
 </div>

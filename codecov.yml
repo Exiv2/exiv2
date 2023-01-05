@@ -1,2 +1,25 @@
-ignore:
-  - "xmpsdk"  # Not interested about the coverage of XMKSDK
+coverage:
+  precision: 2
+  round: down
+  range: "60..100"
+
+  # we don't care about the coverage of files in these folders
+  ignore:
+    - "xmpsdk"
+    - "unitTests"
+    - "samples"
+
+  status:
+    project:
+      default:
+        threshold: 1 # decrease by up to 1% doesn't result in failure
+        branches:
+          - main
+
+    # check only the diff of the PR
+    patch:
+      default:
+        threshold: 1
+        branches:
+          - main
+        only_pulls: true

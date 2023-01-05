@@ -1,0 +1,60 @@
+Exif.Image.ImageDescription                  Ascii      39  Side picture of the glider being built  Side picture of the glider being built
+Exif.Image.Make                              Ascii       6  NIKON  NIKON
+Exif.Image.Model                             Ascii       5  E990  E990
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  300/1  300
+Exif.Image.YResolution                       Rational    1  300/1  300
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      26  Adobe Photoshop Album 2.0  Adobe Photoshop Album 2.0
+Exif.Image.DateTime                          Ascii      20  2004:07:03 02:10:54  2004:07:03 02:10:54
+Exif.Image.YCbCrPositioning                  Short       1  2  Co-sited
+Exif.Image.ExifTag                           Long        1  260  260
+Exif.Photo.ExposureTime                      Rational    1  10/600  1/60 s
+Exif.Photo.FNumber                           Rational    1  25/10  F2.5
+Exif.Photo.ExposureProgram                   Short       1  2  Auto
+Exif.Photo.ISOSpeedRatings                   Short       1  100  100
+Exif.Photo.ExifVersion                       Undefined   4  48 50 49 48  2.10
+Exif.Photo.DateTimeOriginal                  Ascii      20  2001:05:05 16:30:24  2001:05:05 16:30:24
+Exif.Photo.DateTimeDigitized                 Ascii      20  2001:05:05 16:30:24  2001:05:05 16:30:24
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  3/1  3
+Exif.Photo.ExposureBiasValue                 SRational   1  0/10  0 EV
+Exif.Photo.MaxApertureValue                  Rational    1  35/10  F3.4
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.LightSource                       Short       1  0  Unknown
+Exif.Photo.Flash                             Short       1  1  Fired
+Exif.Photo.FocalLength                       Rational    1  82/10  8.2 mm
+Exif.Photo.MakerNote                         Undefined 484  16 0 1 0 7 0 4 0 0 0 0 1 0 0 2 0 3 0 2 0 0 0 0 0 0 0 3 0 2 0 6 0 0 0 60 3 0 0 4 0 2 0 7 0 0 0 66 3 0 0 5 0 2 0 13 0 0 0 74 3 0 0 6 0 2 0 7 0 0 0 88 3 0 0 7 0 2 0 7 0 0 0 96 3 0 0 8 0 2 0 8 0 0 0 104 3 0 0 10 0 5 0 1 0 0 0 112 3 0 0 15 0 2 0 7 0 0 0 120 3 0 0 16 0 7 0 174 0 0 0 128 3 0 0 128 0 2 0 14 0 0 0 46 4 0 0 130 0 2 0 13 0 0 0 60 4 0 0 133 0 5 0 1 0 0 0 74 4 0 0 134 0 5 0 1 0 0 0 82 4 0 0 136 0 7 0 4 0 0 0 0 0 0 0 0 0 0 0 67 79 76 79 82 0 70 73 78 69 32 32 0 0 65 85 84 79 32 32 32 32 32 32 32 32 0 0 65 85 84 79 32 32 0 0 65 70 45 67 32 32 0 0 78 79 82 77 65 76 32 0 128 34 0 0 232 3 0 0 65 85 84 79 32 32 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 97 168 30 0 0 0 0 0 78 32 0 0 31 104 0 0 78 32 0 0 31 104 0 0 0 0 0 0 31 3 12 6 0 27 0 0 0 0 1 73 1 87 1 73 1 44 1 24 139 187 0 0 0 0 11 10 0 1 0 0 0 0 0 0 0 4 4 0 0 0 27 0 0 0 58 0 25 74 0 0 99 0 0 99 3 0 23 27 24 29 23 24 0 68 100 3 225 40 0 0 0 1 255 240 113 0 0 0 0 2 0 0 0 0 15 3 194 141 1 59 18 34 0 0 96 80 1 32 1 9 32 32 0 0 32 12 48 95 11 187 0 0 118 252 234 89 10 17 6 6 0 100 0 220 18 52 67 33 65 85 84 79 32 32 32 32 32 32 32 32 32 0 79 70 70 32 32 32 32 32 32 32 32 32 0 0 0 0 0 0 0 0 0 0 100 0 0 0 100 0 0 0  16 0 1 0 7 0 4 0 0 0 0 1 0 0 2 0 3 0 2 0 0 0 0 0 0 0 3 0 2 0 6 0 0 0 60 3 0 0 4 0 2 0 7 0 0 0 66 3 0 0 5 0 2 0 13 0 0 0 74 3 0 0 6 0 2 0 7 0 0 0 88 3 0 0 7 0 2 0 7 0 0 0 96 3 0 0 8 0 2 0 8 0 0 0 104 3 0 0 10 0 5 0 1 0 0 0 112 3 0 0 15 0 2 0 7 0 0 0 120 3 0 0 16 0 7 0 174 0 0 0 128 3 0 0 128 0 2 0 14 0 0 0 46 4 0 0 130 0 2 0 13 0 0 0 60 4 0 0 133 0 5 0 1 0 0 0 74 4 0 0 134 0 5 0 1 0 0 0 82 4 0 0 136 0 7 0 4 0 0 0 0 0 0 0 0 0 0 0 67 79 76 79 82 0 70 73 78 69 32 32 0 0 65 85 84 79 32 32 32 32 32 32 32 32 0 0 65 85 84 79 32 32 0 0 65 70 45 67 32 32 0 0 78 79 82 77 65 76 32 0 128 34 0 0 232 3 0 0 65 85 84 79 32 32 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 97 168 30 0 0 0 0 0 78 32 0 0 31 104 0 0 78 32 0 0 31 104 0 0 0 0 0 0 31 3 12 6 0 27 0 0 0 0 1 73 1 87 1 73 1 44 1 24 139 187 0 0 0 0 11 10 0 1 0 0 0 0 0 0 0 4 4 0 0 0 27 0 0 0 58 0 25 74 0 0 99 0 0 99 3 0 23 27 24 29 23 24 0 68 100 3 225 40 0 0 0 1 255 240 113 0 0 0 0 2 0 0 0 0 15 3 194 141 1 59 18 34 0 0 96 80 1 32 1 9 32 32 0 0 32 12 48 95 11 187 0 0 118 252 234 89 10 17 6 6 0 100 0 220 18 52 67 33 65 85 84 79 32 32 32 32 32 32 32 32 32 0 79 70 70 32 32 32 32 32 32 32 32 32 0 0 0 0 0 0 0 0 0 0 100 0 0 0 100 0 0 0
+Exif.MakerNote.Offset                        Long        1  630  630
+Exif.MakerNote.ByteOrder                     Ascii       3  II  II
+Exif.Nikon1.Version                          Undefined   4  0 1 0 0  0 1 0 0
+Exif.Nikon1.ISOSpeed                         Short       2  0 0  0
+Exif.Nikon1.ColorMode                        Ascii       6  COLOR  COLOR
+Exif.Nikon1.Quality                          Ascii       7  FINE    FINE  
+Exif.Nikon1.WhiteBalance                     Ascii      13  AUTO          AUTO        
+Exif.Nikon1.Sharpening                       Ascii       7  AUTO    AUTO  
+Exif.Nikon1.Focus                            Ascii       7  AF-C    Continuous autofocus
+Exif.Nikon1.FlashSetting                     Ascii       8  NORMAL   NORMAL 
+Exif.Nikon1.ISOSelection                     Ascii       7  AUTO    AUTO  
+Exif.Nikon1.DataDump                         Undefined 174  0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 97 168 30 0 0 0 0 0 78 32 0 0 31 104 0 0 78 32 0 0 31 104 0 0 0 0 0 0 31 3 12 6 0 27 0 0 0 0 1 73 1 87 1 73 1 44 1 24 139 187 0 0 0 0 11 10 0 1 0 0 0 0 0 0 0 4 4 0 0 0 27 0 0 0 58 0 25 74 0 0 99 0 0 99 3 0 23 27 24 29 23 24 0 68 100 3 225 40 0 0 0 1 255 240 113 0 0 0 0 2 0 0 0 0 15 3 194 141 1 59 18 34 0 0 96 80 1 32 1 9 32 32 0 0 32 12 48 95 11 187 0 0 118 252 234 89 10 17 6 6 0 100 0 220 18 52 67 33  0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 97 168 30 0 0 0 0 0 78 32 0 0 31 104 0 0 78 32 0 0 31 104 0 0 0 0 0 0 31 3 12 6 0 27 0 0 0 0 1 73 1 87 1 73 1 44 1 24 139 187 0 0 0 0 11 10 0 1 0 0 0 0 0 0 0 4 4 0 0 0 27 0 0 0 58 0 25 74 0 0 99 0 0 99 3 0 23 27 24 29 23 24 0 68 100 3 225 40 0 0 0 1 255 240 113 0 0 0 0 2 0 0 0 0 15 3 194 141 1 59 18 34 0 0 96 80 1 32 1 9 32 32 0 0 32 12 48 95 11 187 0 0 118 252 234 89 10 17 6 6 0 100 0 220 18 52 67 33
+Exif.Nikon1.ImageAdjustment                  Ascii      14  AUTO           AUTO         
+Exif.Nikon1.AuxiliaryLens                    Ascii      13  OFF           OFF         
+Exif.Nikon1.FocusDistance                    Rational    1  0/0  Unknown
+Exif.Nikon1.DigitalZoom                      Rational    1  100/100  1.0x
+Exif.Nikon1.AFFocusPos                       Undefined   4  0 0 0 0  Single area; Center
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  2048  2048
+Exif.Photo.PixelYDimension                   Long        1  1536  1536
+Exif.Photo.InteroperabilityTag               Long        1  1114  1114
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48  1.00
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Photo.SceneType                         Undefined   1  1  Directly photographed
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.XResolution                   Rational    1  300/1  300
+Exif.Thumbnail.YResolution                   Rational    1  300/1  300
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1238  1238
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5333  5333
+Iptc.Application2.Caption                    String     33  A picture of a glider being built  A picture of a glider being built

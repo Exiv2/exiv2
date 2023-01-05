@@ -1,0 +1,175 @@
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 270; setting type size 1.
+Error: Upper boundary of data for directory Image, entry 0x0000 is out of bounds: Offset = 0x00000020, size = 26411010, exceeds buffer size by 26409724 Bytes; truncating the entry
+Warning: Directory Image, entry 0x6a00 has unknown Exif (TIFF) type 12912; setting type size 1.
+Error: Offset of directory Image, entry 0x6a00 is out of bounds: Offset = 0x32706a2d; truncating the entry
+Warning: Directory Image, entry 0x0068 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Image, entry 0x0068 has invalid size 1684564246*1; skipping entry.
+Warning: Directory Image, entry 0x0082 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Upper boundary of data for directory Image, entry 0x0082 is out of bounds: Offset = 0x00000007, size = 117637320, exceeds buffer size by 117636009 Bytes; truncating the entry
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 25359; setting type size 1.
+Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x00000000; truncating the entry
+Warning: Directory Image, entry 0x1000 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Image, entry 0x1000 has invalid size 1349127168*1; skipping entry.
+Warning: Directory Image, entry 0x0a87 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Image, entry 0x0a87 has invalid size 1952846848*1; skipping entry.
+Warning: Directory Image, entry 0x2032 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Image, entry 0x2032 has invalid size 1880096768*1; skipping entry.
+Warning: Directory Image, entry 0x2d00 has unknown Exif (TIFF) type 28778; setting type size 1.
+Error: Offset of directory Image, entry 0x2d00 is out of bounds: Offset = 0x68691600; truncating the entry
+Warning: Directory Image, entry 0x7264 has unknown Exif (TIFF) type 67; setting type size 1.
+Error: Offset of directory Image, entry 0x7264 is out of bounds: Offset = 0x0300c800; truncating the entry
+Warning: Directory Image, entry 0x0707 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Offset of directory Image, entry 0x0707 is out of bounds: Offset = 0x726c6f63; truncating the entry
+Warning: Directory Image, entry 0x2001 has unknown Exif (TIFF) type 33824; setting type size 1.
+Error: Offset of directory Image, entry 0x2001 is out of bounds: Offset = 0x66140000; truncating the entry
+Warning: Directory Image, entry 0x7974 has unknown Exif (TIFF) type 27248; setting type size 1.
+Error: Offset of directory Image, entry 0x7974 is out of bounds: Offset = 0x6a000000; truncating the entry
+Warning: Directory Image, entry 0x3270 has unknown Exif (TIFF) type 32; setting type size 1.
+Error: Directory Image, entry 0x3270 has invalid size 1781334016*1; skipping entry.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 26902; setting type size 1.
+Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x00820000; truncating the entry
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 200; setting type size 1.
+Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x00000000; truncating the entry
+Warning: Directory Image, entry 0x630f has unknown Exif (TIFF) type 27759; setting type size 1.
+Error: Offset of directory Image, entry 0x630f is out of bounds: Offset = 0x10000000; truncating the entry
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 15877; setting type size 1.
+Error: Directory Image, entry 0x0000 has invalid size 1684632949*1; skipping entry.
+Warning: Directory Image, entry 0x6669 has unknown Exif (TIFF) type 17766; setting type size 1.
+Error: Directory Image, entry 0x6669 has invalid size 761686392*1; skipping entry.
+Warning: Directory Image, entry 0x4949 has unknown Exif (TIFF) type 42; setting type size 1.
+Error: Directory Image, entry 0x4949 has invalid size 2533359624*1; skipping entry.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Offset of directory Image, entry 0x010e is out of bounds: Offset = 0x007f00aa; truncating the entry
+Warning: Directory Image, entry 0x010f has unknown Exif (TIFF) type 26882; setting type size 1.
+Error: Directory Image, entry 0x010f has invalid size 1869182064*1; skipping entry.
+Warning: Directory Image, entry 0x2020 has unknown Exif (TIFF) type 25660; setting type size 1.
+Error: Directory Image, entry 0x2020 has invalid size 2440247907*1; skipping entry.
+Warning: Directory Image, entry 0x3030 has unknown Exif (TIFF) type 22064; setting type size 1.
+Error: Directory Image, entry 0x3030 has invalid size 807417936*1; skipping entry.
+Warning: Directory Image, entry 0x3030 has unknown Exif (TIFF) type 12336; setting type size 1.
+Error: Directory Image, entry 0x3030 has invalid size 808464432*1; skipping entry.
+Warning: Directory Image, entry 0x2022 has unknown Exif (TIFF) type 8224; setting type size 1.
+Error: Directory Image, entry 0x2022 has invalid size 1383363360*1; skipping entry.
+Warning: Directory Image, entry 0x636f has unknown Exif (TIFF) type 28021; setting type size 1.
+Error: Directory Image, entry 0x636f has invalid size 1232367205*1; skipping entry.
+Warning: Directory Image, entry 0x3030 has unknown Exif (TIFF) type 12336; setting type size 1.
+Error: Directory Image, entry 0x3030 has invalid size 808468784*1; skipping entry.
+Warning: Directory Image, entry 0x00fd has unknown Exif (TIFF) type 279; setting type size 1.
+Error: Directory Image, entry 0x00fd has invalid size 1145587971*1; skipping entry.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 316; setting type size 1.
+Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x04000000; truncating the entry
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 279; setting type size 1.
+Error: Directory Image, entry 0x0000 has invalid size 542113796*1; skipping entry.
+Warning: Directory Image, entry 0x000a has unknown Exif (TIFF) type 2816; setting type size 1.
+Error: Directory Image, entry 0x000a has invalid size 2037702420*1; skipping entry.
+Warning: Directory Image, entry 0x0020 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Image, entry 0x0020 has invalid size 1869615104*1; skipping entry.
+Warning: Directory Image, entry 0x6a2d has unknown Exif (TIFF) type 12912; setting type size 1.
+Error: Offset of directory Image, entry 0x6a2d is out of bounds: Offset = 0x64681416; truncating the entry
+Warning: Directory Image, entry 0x0072 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Offset of directory Image, entry 0x0072 is out of bounds: Offset = 0x070300c8; truncating the entry
+Warning: Directory Image, entry 0x0007 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Image, entry 0x0007 has invalid size 1661927424*1; skipping entry.
+Warning: Directory Image, entry 0x2020 has unknown Exif (TIFF) type 2573; setting type size 1.
+Error: Offset of directory Image, entry 0x2020 is out of bounds: Offset = 0x748c1400; truncating the entry
+Warning: Directory Image, entry 0x7579 has unknown Exif (TIFF) type 28778; setting type size 1.
+Error: Offset of directory Image, entry 0x7579 is out of bounds: Offset = 0x846a0000; truncating the entry
+Warning: Directory Image, entry 0x2032 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Image, entry 0x2032 has invalid size 1886006528*1; skipping entry.
+Warning: Directory Image, entry 0x6916 has unknown Exif (TIFF) type 25600; setting type size 1.
+Error: Offset of directory Image, entry 0x6916 is out of bounds: Offset = 0x00008200; truncating the entry
+Warning: Directory Image, entry 0xc800 has unknown Exif (TIFF) type 768; setting type size 1.
+Error: Offset of directory Image, entry 0xc800 is out of bounds: Offset = 0x0f000000; truncating the entry
+Warning: Directory Image, entry 0x6f63 has unknown Exif (TIFF) type 29292; setting type size 1.
+Error: Offset of directory Image, entry 0x6f63 is out of bounds: Offset = 0x97100000; truncating the entry
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 27148; setting type size 1.
+Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x000a870a; truncating the entry
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 26132; setting type size 1.
+Error: Directory Image, entry 0x0000 has invalid size 1785756020*1; skipping entry.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 4096; setting type size 1.
+Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x6a2d0000; truncating the entry
+Warning: Directory Image, entry 0x3270 has unknown Exif (TIFF) type 104; setting type size 1.
+Error: Directory Image, entry 0x3270 has invalid size 1763049472*1; skipping entry.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 130; setting type size 1.
+Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x00070703; truncating the entry
+Warning: Directory Thumbnail, entry 0x0008 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0008 is out of bounds: Offset = 0x00000000; truncating the entry
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Thumbnail, entry 0x0193 has unknown Exif (TIFF) type 32; setting type size 1.
+Error: Directory Thumbnail, entry 0x0193 has invalid size 1778384896*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 27181; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0000 is out of bounds: Offset = 0x69160000; truncating the entry
+Warning: Directory Thumbnail, entry 0x6468 has unknown Exif (TIFF) type 114; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x6468 is out of bounds: Offset = 0x00c80000; truncating the entry
+Warning: Directory Thumbnail, entry 0x0172 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Thumbnail, entry 0x0172 has invalid size 268435456*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x506a has unknown Exif (TIFF) type 8224; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x506a is out of bounds: Offset = 0x14000000; truncating the entry
+Warning: Directory Thumbnail, entry 0x7466 has unknown Exif (TIFF) type 28793; setting type size 1.
+Error: Directory Thumbnail, entry 0x7466 has invalid size 540176490*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x7010 has unknown Exif (TIFF) type 8242; setting type size 1.
+Error: Directory Thumbnail, entry 0x7010 has invalid size 754974720*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 5632; setting type size 1.
+Error: Directory Thumbnail, entry 0x0000 has invalid size 1919182953*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 51200; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0000 is out of bounds: Offset = 0x00000000; truncating the entry
+Warning: Directory Thumbnail, entry 0x0f00 has unknown Exif (TIFF) type 28515; setting type size 1.
+Error: Directory Thumbnail, entry 0x0f00 has invalid size 536965740*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x000a has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Thumbnail, entry 0x000a has invalid size 2037671444*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x0020 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Thumbnail, entry 0x0020 has invalid size 846227968*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x6a2d has unknown Exif (TIFF) type 12912; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x6a2d is out of bounds: Offset = 0x64686916; truncating the entry
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0000 is out of bounds: Offset = 0x070300c8; truncating the entry
+Warning: Directory Thumbnail, entry 0x0007 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Thumbnail, entry 0x0007 has invalid size 1661927424*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0000 is out of bounds: Offset = 0x75753e05; truncating the entry
+Warning: Directory Thumbnail, entry 0x6469 has unknown Exif (TIFF) type 28885; setting type size 1.
+Error: Directory Thumbnail, entry 0x6469 has invalid size 1718178919*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x2d66 has unknown Exif (TIFF) type 19006; setting type size 1.
+Error: Directory Thumbnail, entry 0x2d66 has invalid size 1229533776*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x9700 has unknown Exif (TIFF) type 51; setting type size 1.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0000 is out of bounds: Offset = 0x01930002; truncating the entry
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 170; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0000 is out of bounds: Offset = 0x74706902; truncating the entry
+Warning: Directory Thumbnail, entry 0x6f69 has unknown Exif (TIFF) type 15982; setting type size 1.
+Error: Directory Thumbnail, entry 0x6f69 has invalid size 538976266*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x9173 has unknown Exif (TIFF) type 27234; setting type size 1.
+Error: Directory Thumbnail, entry 0x9173 has invalid size 808464485*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x3020 has unknown Exif (TIFF) type 12336; setting type size 1.
+Error: Directory Thumbnail, entry 0x3020 has invalid size 808464432*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x3030 has unknown Exif (TIFF) type 15152; setting type size 1.
+Error: Directory Thumbnail, entry 0x3030 has invalid size 539111472*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x5274 has unknown Exif (TIFF) type 26213; setting type size 1.
+Error: Directory Thumbnail, entry 0x5274 has invalid size 1668244538*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x4974 has unknown Exif (TIFF) type 15662; setting type size 1.
+Error: Directory Thumbnail, entry 0x4974 has invalid size 808474402*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x3030 has unknown Exif (TIFF) type 12336; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x3030 is out of bounds: Offset = 0x49030117; truncating the entry
+Warning: Directory Thumbnail, entry 0x4448 has unknown Exif (TIFF) type 82; setting type size 1.
+Warning: Directory Thumbnail, entry 0x0001 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0001 is out of bounds: Offset = 0x00040117; truncating the entry
+Warning: Directory Thumbnail, entry 0x2050 has unknown Exif (TIFF) type 3360; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x2050 is out of bounds: Offset = 0xdf140b00; truncating the entry
+Warning: Directory Thumbnail, entry 0x7974 has unknown Exif (TIFF) type 27248; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x7974 is out of bounds: Offset = 0x10000000; truncating the entry
+Warning: Directory Thumbnail, entry 0x6f70 has unknown Exif (TIFF) type 32; setting type size 1.
+Error: Directory Thumbnail, entry 0x6f70 has invalid size 1781334016*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 5142; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0000 is out of bounds: Offset = 0x00820000; truncating the entry
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 200; setting type size 1.
+Error: Offset of directory Thumbnail, entry 0x0000 is out of bounds: Offset = 0x00000000; truncating the entry
+Warning: Directory Thumbnail, entry 0x630f has unknown Exif (TIFF) type 27759; setting type size 1.
+Error: Directory Thumbnail, entry 0x630f has invalid size 538968434*1; skipping entry.
+Warning: Directory Thumbnail, entry 0x0000 has unknown Exif (TIFF) type 5120; setting type size 1.
+Error: Directory Thumbnail, entry 0x0000 has invalid size 1970893964*1; skipping entry.
+Exif.Image.ImageDescription                  Ascii       0  

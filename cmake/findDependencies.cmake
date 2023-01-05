@@ -1,22 +1,53 @@
-# set include path for FindXXX.cmake files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+if (CONAN_AUTO_INSTALL)
+    # Download automatically the cmake-conan integration file
+    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+        message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+        file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
+                      "${CMAKE_BINARY_DIR}/conan.cmake"
+                      TLS_VERIFY ON)
+    endif()
+
+    include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+    conan_cmake_autodetect(settings)
+    conan_cmake_install(PATH_OR_REFERENCE ..
+                        BUILD missing
+                        REMOTE conancenter
+                        OPTIONS webready=True
+                        SETTINGS ${settings})
+endif()
+
+if (APPLE)
+    # On Apple, we use the conan cmake_paths generator
+    if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
+        include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+    endif()
+else()
+    # Otherwise, we rely on the conan cmake_find_package generator
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+    list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+endif()
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/")
+
+find_package (Python3 COMPONENTS Interpreter)
+if (NOT Python3_Interpreter_FOUND)
+    message(WARNING "Python3 was not found. Python tests under the 'tests' folder will not be executed")
+endif()
+
+find_package(Filesystem REQUIRED)
 
 # don't use Frameworks on the Mac (#966)
 if (APPLE)
-     set(CMAKE_FIND_FRAMEWORK NEVER)
+    set(CMAKE_FIND_FRAMEWORK NEVER)
 endif()
-
-# Check if the conan file exist to find the dependencies
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    set(USING_CONAN ON)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS TARGETS)
-endif()
-
-find_package(Threads REQUIRED)
 
 if( EXIV2_ENABLE_PNG )
     find_package( ZLIB REQUIRED )
+endif( )
+
+if( EXIV2_ENABLE_BMFF AND EXIV2_ENABLE_BROTLI )
+    find_package( Brotli REQUIRED )
 endif( )
 
 if( EXIV2_ENABLE_WEBREADY )
@@ -41,9 +72,15 @@ endif( )
 
 find_package(Iconv)
 if( ICONV_FOUND )
-    message ( "-- ICONV_INCLUDE_DIR : " ${Iconv_INCLUDE_DIR} )
-    message ( "-- ICONV_LIBRARIES : " ${Iconv_LIBRARY} )
+    message ( "-- Iconv_INCLUDE_DIRS : " ${Iconv_INCLUDE_DIRS} )
+    message ( "-- Iconv_LIBRARIES : " ${Iconv_LIBRARIES} )
 endif()
+
+find_package(inih)
+message ( "-- inih_INCLUDE_DIRS : " ${inih_INCLUDE_DIRS} )
+message ( "-- inih_LIBRARIES : " ${inih_LIBRARIES} )
+message ( "-- inih_inireader_INCLUDE_DIRS : " ${inih_inireader_INCLUDE_DIRS} )
+message ( "-- inih_inireader_LIBRARIES : " ${inih_inireader_LIBRARIES} )
 
 if( BUILD_WITH_CCACHE )
     find_program(CCACHE_FOUND ccache)
@@ -53,4 +90,3 @@ if( BUILD_WITH_CCACHE )
         set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
     endif()
 endif()
-

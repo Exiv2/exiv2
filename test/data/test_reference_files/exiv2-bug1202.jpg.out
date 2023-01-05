@@ -1,0 +1,141 @@
+Exif.Image.Make                              Ascii       6  Canon  Canon
+Exif.Image.Model                             Ascii      23  Canon EOS 300D DIGITAL  Canon EOS 300D DIGITAL
+Exif.Image.Orientation                       Short       1  6  right, top
+Exif.Image.XResolution                       Rational    1  180/1  180
+Exif.Image.YResolution                       Rational    1  180/1  180
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.DateTime                          Ascii      20  2003:09:25 20:18:50  2003:09:25 20:18:50
+Exif.Image.YCbCrPositioning                  Short       1  1  Centered
+Exif.Image.ExifTag                           Long        1  188  188
+Exif.Photo.ExposureTime                      Rational    1  1/80  1/80 s
+Exif.Photo.FNumber                           Rational    1  56/10  F5.6
+Exif.Photo.ISOSpeedRatings                   Short       1  100  100
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48  2.20
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:09:25 20:18:50  2003:09:25 20:18:50
+Exif.Photo.DateTimeDigitized                 Ascii      20  2003:09:25 20:18:50  2003:09:25 20:18:50
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.CompressedBitsPerPixel            Rational    1  3/1  3
+Exif.Photo.ShutterSpeedValue                 SRational   1  414314/65536  1/80 s
+Exif.Photo.ApertureValue                     Rational    1  325770/65536  F5.6
+Exif.Photo.ExposureBiasValue                 SRational   1  0/3  0 EV
+Exif.Photo.MaxApertureValue                  Rational    1  236894/65536  F3.5
+Exif.Photo.MeteringMode                      Short       1  5  Multi-segment
+Exif.Photo.Flash                             Short       1  0  No flash
+Exif.Photo.FocalLength                       Rational    1  18/1  18.0 mm
+Exif.Photo.MakerNote                         Undefined 1432  26 0 1 0 3 0 46 0 0 0 220 3 0 0 2 0 3 0 4 0 0 0 56 4 0 0 3 0 3 0 4 0 0 0 64 4 0 0 4 0 3 0 33 0 0 0 72 4 0 0 147 0 3 0 9 0 0 0 138 4 0 0 6 0 2 0 32 0 0 0 156 4 0 0 7 0 2 0 32 0 0 0 188 4 0 0 12 0 4 0 1 0 0 0 201 148 249 33 21 0 4 0 1 0 0 0 0 0 0 144 8 0 4 0 1 0 0 0 246 184 15 0 9 0 2 0 32 0 0 0 220 4 0 0 16 0 4 0 1 0 0 0 112 1 0 128 14 0 4 0 1 0 0 0 190 47 43 0 13 0 1 0 0 2 0 0 252 4 0 0 0 0 3 0 18 0 0 0 252 6 0 0 192 0 3 0 13 0 0 0 32 7 0 0 193 0 3 0 13 0 0 0 58 7 0 0 170 0 3 0 5 0 0 0 84 7 0 0 168 0 3 0 10 0 0 0 94 7 0 0 169 0 3 0 41 0 0 0 114 7 0 0 174 0 3 0 1 0 0 0 80 20 0 0 180 0 3 0 1 0 0 0 1 0 0 0 18 0 3 0 24 0 0 0 196 7 0 0 19 0 3 0 4 0 0 0 244 7 0 0 0 0 3 0 5 0 0 0 252 7 0 0 182 0 4 0 12 0 0 0 6 8 0 0 0 0 0 0 92 0 0 0 0 0 3 0 0 0 0 0 0 0 2 0 0 0 1 0 0 0 1 0 255 255 1 0 1 0 1 0 0 0 3 0 2 0 5 32 1 0 255 127 255 255 55 0 18 0 1 0 116 0 29 1 0 0 0 0 0 0 0 0 255 255 255 255 255 255 0 0 0 12 0 12 0 0 255 255 255 255 0 0 0 0 255 127 255 255 255 255 0 0 18 0 146 3 98 2 100 0 0 0 0 0 0 0 66 0 0 0 160 0 200 0 159 0 202 0 0 0 0 0 3 0 0 0 8 0 8 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 255 255 34 2 156 0 204 0 140 0 0 0 0 0 252 0 1 0 255 255 0 0 0 0 0 0 0 0 18 0 0 0 0 0 0 0 0 0 0 0 255 255 255 255 255 255 73 77 71 58 69 79 83 32 51 48 48 68 32 68 73 71 73 84 65 76 32 74 80 69 71 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 49 46 48 46 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 154 4 0 0 3 12 0 0 69 59 0 0 1 8 1 0 26 42 0 0 251 51 0 0 45 62 0 0 181 39 0 0 45 36 0 0 207 33 0 0 86 11 0 0 72 87 0 0 68 185 0 0 41 243 1 0 152 72 9 0 250 249 47 0 107 55 9 0 213 248 10 0 80 74 15 0 227 71 10 0 179 45 9 0 125 201 7 0 2 103 2 0 207 245 15 0 93 182 1 0 42 150 4 0 75 9 22 0 129 114 107 0 67 156 18 0 204 207 21 0 153 54 30 0 153 209 19 0 150 232 16 0 235 189 13 0 18 8 4 0 253 2 24 0 160 223 1 0 225 242 4 0 180 12 23 0 169 205 109 0 2 252 18 0 62 24 22 0 110 65 30 0 81 179 19 0 99 172 16 0 78 45 13 0 136 215 3 0 14 135 22 0 74 171 1 0 83 97 4 0 24 83 20 0 111 195 91 0 217 101 14 0 107 252 15 0 142 195 20 0 122 246 12 0 93 182 10 0 163 119 8 0 89 86 2 0 211 129 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 26 0 40 1 113 1 117 1 169 0 222 0 176 1 181 1 10 1 144 0 173 1 178 1 99 1 26 0 37 1 119 1 119 1 174 0 198 0 138 1 139 1 243 0 150 0 197 1 198 1 123 1 10 0 55 2 254 3 2 4 124 2 20 0 78 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 82 0 215 6 68 3 59 3 50 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 0 128 0 128 0 128 0 7 0 7 0 0 12 0 8 0 12 0 8 151 0 151 0 246 3 96 2 0 0 0 0 0 0 160 253 10 252 0 0 0 0 6 254 0 0 250 1 0 0 0 0 8 0 255 255 0 0 159 0 7 0 112 0 0 0 0 0 0 0 0 0 0 0 24 0 0 0 2 0 0 0 216 205 5 0 0 6 0 0 0 4 0 0 218 97 37 0 0 224 46 0 124 3 0 0 0 64 31 0 83 2 0 0 4 0 1 0 2 0 4 0  26 0 1 0 3 0 46 0 0 0 220 3 0 0 2 0 3 0 4 0 0 0 56 4 0 0 3 0 3 0 4 0 0 0 64 4 0 0 4 0 3 0 33 0 0 0 72 4 0 0 147 0 3 0 9 0 0 0 138 4 0 0 6 0 2 0 32 0 0 0 156 4 0 0 7 0 2 0 32 0 0 0 188 4 0 0 12 0 4 0 1 0 0 0 201 148 249 33 21 0 4 0 1 0 0 0 0 0 0 144 8 0 4 0 1 0 0 0 246 184 15 0 9 0 2 0 32 0 0 0 220 4 0 0 16 0 4 0 1 0 0 0 112 1 0 128 14 0 4 0 1 0 0 0 190 47 43 0 13 0 1 0 0 2 0 0 252 4 0 0 0 0 3 0 18 0 0 0 252 6 0 0 192 0 3 0 13 0 0 0 32 7 0 0 193 0 3 0 13 0 0 0 58 7 0 0 170 0 3 0 5 0 0 0 84 7 0 0 168 0 3 0 10 0 0 0 94 7 0 0 169 0 3 0 41 0 0 0 114 7 0 0 174 0 3 0 1 0 0 0 80 20 0 0 180 0 3 0 1 0 0 0 1 0 0 0 18 0 3 0 24 0 0 0 196 7 0 0 19 0 3 0 4 0 0 0 244 7 0 0 0 0 3 0 5 0 0 0 252 7 0 0 182 0 4 0 12 0 0 0 6 8 0 0 0 0 0 0 92 0 0 0 0 0 3 0 0 0 0 0 0 0 2 0 0 0 1 0 0 0 1 0 255 255 1 0 1 0 1 0 0 0 3 0 2 0 5 32 1 0 255 127 255 255 55 0 18 0 1 0 116 0 29 1 0 0 0 0 0 0 0 0 255 255 255 255 255 255 0 0 0 12 0 12 0 0 255 255 255 255 0 0 0 0 255 127 255 255 255 255 0 0 18 0 146 3 98 2 100 0 0 0 0 0 0 0 66 0 0 0 160 0 200 0 159 0 202 0 0 0 0 0 3 0 0 0 8 0 8 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 255 255 34 2 156 0 204 0 140 0 0 0 0 0 252 0 1 0 255 255 0 0 0 0 0 0 0 0 18 0 0 0 0 0 0 0 0 0 0 0 255 255 255 255 255 255 73 77 71 58 69 79 83 32 51 48 48 68 32 68 73 71 73 84 65 76 32 74 80 69 71 0 0 0 0 0 0 0 70 105 114 109 119 97 114 101 32 86 101 114 115 105 111 110 32 49 46 48 46 50 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 154 4 0 0 3 12 0 0 69 59 0 0 1 8 1 0 26 42 0 0 251 51 0 0 45 62 0 0 181 39 0 0 45 36 0 0 207 33 0 0 86 11 0 0 72 87 0 0 68 185 0 0 41 243 1 0 152 72 9 0 250 249 47 0 107 55 9 0 213 248 10 0 80 74 15 0 227 71 10 0 179 45 9 0 125 201 7 0 2 103 2 0 207 245 15 0 93 182 1 0 42 150 4 0 75 9 22 0 129 114 107 0 67 156 18 0 204 207 21 0 153 54 30 0 153 209 19 0 150 232 16 0 235 189 13 0 18 8 4 0 253 2 24 0 160 223 1 0 225 242 4 0 180 12 23 0 169 205 109 0 2 252 18 0 62 24 22 0 110 65 30 0 81 179 19 0 99 172 16 0 78 45 13 0 136 215 3 0 14 135 22 0 74 171 1 0 83 97 4 0 24 83 20 0 111 195 91 0 217 101 14 0 107 252 15 0 142 195 20 0 122 246 12 0 93 182 10 0 163 119 8 0 89 86 2 0 211 129 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 26 0 40 1 113 1 117 1 169 0 222 0 176 1 181 1 10 1 144 0 173 1 178 1 99 1 26 0 37 1 119 1 119 1 174 0 198 0 138 1 139 1 243 0 150 0 197 1 198 1 123 1 10 0 55 2 254 3 2 4 124 2 20 0 78 19 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 82 0 215 6 68 3 59 3 50 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 0 128 0 128 0 128 0 7 0 7 0 0 12 0 8 0 12 0 8 151 0 151 0 246 3 96 2 0 0 0 0 0 0 160 253 10 252 0 0 0 0 6 254 0 0 250 1 0 0 0 0 8 0 255 255 0 0 159 0 7 0 112 0 0 0 0 0 0 0 0 0 0 0 24 0 0 0 2 0 0 0 216 205 5 0 0 6 0 0 0 4 0 0 218 97 37 0 0 224 46 0 124 3 0 0 0 64 31 0 83 2 0 0 4 0 1 0 2 0 4 0
+Exif.MakerNote.Offset                        Long        1  670  670
+Exif.MakerNote.ByteOrder                     Ascii       3  II  II
+Exif.CanonCs.Macro                           Short       1  0  (0)
+Exif.CanonCs.Selftimer                       Short       1  0  Off
+Exif.CanonCs.Quality                         Short       1  3  Fine
+Exif.CanonCs.FlashMode                       Short       1  0  Off
+Exif.CanonCs.DriveMode                       Short       1  0  Single / timer
+Exif.CanonCs.FocusMode                       Short       1  2  AI focus AF
+Exif.CanonCs.RecordMode                      Short       1  1  JPEG
+Exif.CanonCs.ImageSize                       Short       1  0  Large
+Exif.CanonCs.EasyMode                        Short       1  1  Manual
+Exif.CanonCs.DigitalZoom                     Short       1  65535  (65535)
+Exif.CanonCs.Contrast                        Short       1  1  High
+Exif.CanonCs.Saturation                      Short       1  1  High
+Exif.CanonCs.Sharpness                       Short       1  1  High
+Exif.CanonCs.ISOSpeed                        Short       1  0  n/a
+Exif.CanonCs.MeteringMode                    Short       1  3  Evaluative
+Exif.CanonCs.FocusType                       Short       1  2  Not known
+Exif.CanonCs.AFPoint                         Short       1  8197  Manual AF point selection
+Exif.CanonCs.ExposureProgram                 Short       1  1  Program (P)
+Exif.CanonCs.LensType                        Short       1  65535  n/a
+Exif.CanonCs.Lens                            Short       3  55 18 1  18.0 - 55.0 mm
+Exif.CanonCs.MaxAperture                     Short       1  116  F3.5
+Exif.CanonCs.MinAperture                     Short       1  285  F22
+Exif.CanonCs.FlashActivity                   Short       1  0  Did not fire
+Exif.CanonCs.FlashDetails                    Short       1  0  
+Exif.CanonCs.FocusContinuous                 Short       1  65535  (65535)
+Exif.CanonCs.AESetting                       Short       1  65535  n/a
+Exif.CanonCs.ImageStabilization              Short       1  65535  (65535)
+Exif.CanonCs.DisplayAperture                 Short       1  0  0
+Exif.CanonCs.ZoomSourceWidth                 Short       1  3072  3072
+Exif.CanonCs.ZoomTargetWidth                 Short       1  3072  3072
+Exif.CanonCs.SpotMeteringMode                Short       1  65535  n/a
+Exif.CanonCs.PhotoEffect                     Short       1  65535  n/a
+Exif.CanonCs.ManualFlashOutput               Short       1  0  n/a
+Exif.CanonCs.ColorTone                       Short       1  0  0
+Exif.Canon.FocalLength                       Short       4  0 18 914 610  18.0 mm
+Exif.Canon.CanonFlashInfo                    Short       4  100 0 0 0  100 0 0 0
+Exif.CanonSi.AutoISO                         Short       1  0  100
+Exif.CanonSi.ISOSpeed                        Short       1  160  100
+Exif.CanonSi.MeasuredEV                      Short       1  200  11.25
+Exif.CanonSi.TargetAperture                  Short       1  159  F5.6
+Exif.CanonSi.TargetShutterSpeed              Short       1  202  1/79 s
+Exif.CanonSi.ExposureCompensation            Short       1  0  0
+Exif.CanonSi.WhiteBalance                    Short       1  0  Auto
+Exif.CanonSi.SlowShutter                     Short       1  3  None
+Exif.CanonSi.Sequence                        Short       1  0  0
+Exif.CanonSi.OpticalZoomCode                 Short       1  8  8
+Exif.CanonSi.CameraTemperature               Short       1  0  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0  0
+Exif.CanonSi.AFPointUsed                     Short       1  0  0 focus points; none used
+Exif.CanonSi.FlashBias                       Short       1  0  0 EV
+Exif.CanonSi.AutoExposureBracketing          Short       1  0  Off
+Exif.CanonSi.AEBBracketValue                 Short       1  0  0
+Exif.CanonSi.ControlMode                     Short       1  1  1
+Exif.CanonSi.SubjectDistance                 Short       1  65535  Infinite
+Exif.CanonSi.ApertureValue                   Short       1  156  F5.4
+Exif.CanonSi.ShutterSpeedValue               Short       1  204  1/81 s
+Exif.CanonSi.MeasuredEV2                     Short       1  140  11.50
+Exif.CanonSi.BulbDuration                    Short       1  0  0
+Exif.CanonSi.CameraType                      Short       1  252  EOS Mid-range
+Exif.CanonSi.AutoRotate                      Short       1  1  Rotate 90 CW
+Exif.CanonSi.NDFilter                        Short       1  65535  n/a
+Exif.CanonSi.SelfTimer2                      Short       1  0  Selftimer 2s
+Exif.CanonFi.FileNumber                      Long        1  0  (0)
+Exif.CanonFi.BracketMode                     SShort      1  0  Off
+Exif.CanonFi.BracketValue                    SShort      1  0  0
+Exif.CanonFi.BracketShotNumber               SShort      1  0  0
+Exif.CanonFi.RawJpgQuality                   SShort      1  -1  n/a
+Exif.CanonFi.RawJpgSize                      SShort      1  -1  n/a
+Exif.CanonFi.NoiseReduction                  SShort      1  -1  (-1)
+Exif.Canon.ImageType                         Ascii      32  IMG:EOS 300D DIGITAL JPEG  IMG:EOS 300D DIGITAL JPEG
+Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 1.0.2  Firmware Version 1.0.2
+Exif.Canon.SerialNumber                      Long        1  570004681  21f938089
+Exif.Canon.SerialNumberFormat                Long        1  2415919104  Format 1
+Exif.Canon.FileNumber                        Long        1  1030390  103-0390
+Exif.Canon.OwnerName                         Ascii      32    
+Exif.Canon.ModelID                           Long        1  2147484016  EOS Digital Rebel / 300D / Kiss Digital
+Exif.Canon.FileLength                        Long        1  2830270  2830270
+Exif.Canon.CameraInfo                        Byte      512  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 154 4 0 0 3 12 0 0 69 59 0 0 1 8 1 0 26 42 0 0 251 51 0 0 45 62 0 0 181 39 0 0 45 36 0 0 207 33 0 0 86 11 0 0 72 87 0 0 68 185 0 0 41 243 1 0 152 72 9 0 250 249 47 0 107 55 9 0 213 248 10 0 80 74 15 0 227 71 10 0 179 45 9 0 125 201 7 0 2 103 2 0 207 245 15 0 93 182 1 0 42 150 4 0 75 9 22 0 129 114 107 0 67 156 18 0 204 207 21 0 153 54 30 0 153 209 19 0 150 232 16 0 235 189 13 0 18 8 4 0 253 2 24 0 160 223 1 0 225 242 4 0 180 12 23 0 169 205 109 0 2 252 18 0 62 24 22 0 110 65 30 0 81 179 19 0 99 172 16 0 78 45 13 0 136 215 3 0 14 135 22 0 74 171 1 0 83 97 4 0 24 83 20 0 111 195 91 0 217 101 14 0 107 252 15 0 142 195 20 0 122 246 12 0 93 182 10 0 163 119 8 0 89 86 2 0 211 129 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 154 4 0 0 3 12 0 0 69 59 0 0 1 8 1 0 26 42 0 0 251 51 0 0 45 62 0 0 181 39 0 0 45 36 0 0 207 33 0 0 86 11 0 0 72 87 0 0 68 185 0 0 41 243 1 0 152 72 9 0 250 249 47 0 107 55 9 0 213 248 10 0 80 74 15 0 227 71 10 0 179 45 9 0 125 201 7 0 2 103 2 0 207 245 15 0 93 182 1 0 42 150 4 0 75 9 22 0 129 114 107 0 67 156 18 0 204 207 21 0 153 54 30 0 153 209 19 0 150 232 16 0 235 189 13 0 18 8 4 0 253 2 24 0 160 223 1 0 225 242 4 0 180 12 23 0 169 205 109 0 2 252 18 0 62 24 22 0 110 65 30 0 81 179 19 0 99 172 16 0 78 45 13 0 136 215 3 0 14 135 22 0 74 171 1 0 83 97 4 0 24 83 20 0 111 195 91 0 217 101 14 0 107 252 15 0 142 195 20 0 122 246 12 0 93 182 10 0 163 119 8 0 89 86 2 0 211 129 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Exif.Canon.MeasuredColor                     Short       5  10 567 1022 1026 636  10 567 1022 1026 636
+Exif.Canon.ColorBalance                      Short      41  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128  82 1751 836 827 1074 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 128 128 128 128
+Exif.Canon.ColorTemperature                  Short       1  5200  5200
+Exif.Canon.ColorSpace                        Short       1  1  sRGB
+Exif.CanonPi.ImageWidth                      Short       1  3072  3072
+Exif.CanonPi.ImageHeight                     Short       1  2048  2048
+Exif.CanonPi.ImageWidthAsShot                Short       1  3072  3072
+Exif.CanonPi.ImageHeightAsShot               Short       1  2048  2048
+Exif.CanonPi.AFPointsUsed                    Short       1  8  center
+Exif.Canon.ThumbnailImageValidArea           Short       4  0 159 7 112  0 159 7 112
+Exif.Canon.PreviewImageInfo                  Long       12  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146  24 2 380376 1536 1024 2449882 3072000 892 2048000 595 65540 262146
+Exif.Photo.UserComment                       Undefined 264    
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Short       1  3072  3072
+Exif.Photo.PixelYDimension                   Short       1  2048  2048
+Exif.Photo.InteroperabilityTag               Long        1  2382  2382
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48  1.00
+Exif.Iop.RelatedImageWidth                   Short       1  3072  3072
+Exif.Iop.RelatedImageLength                  Short       1  2048  2048
+Exif.Photo.FocalPlaneXResolution             Rational    1  3072000/892  3443.95
+Exif.Photo.FocalPlaneYResolution             Rational    1  2048000/595  3442.02
+Exif.Photo.FocalPlaneResolutionUnit          Short       1  2  inch
+Exif.Photo.SensingMethod                     Short       1  2  One-chip color area
+Exif.Photo.FileSource                        Undefined   1  3  Digital still camera
+Exif.Photo.CustomRendered                    Short       1  0  Normal process
+Exif.Photo.ExposureMode                      Short       1  0  Auto
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.XResolution                   Rational    1  180/1  180
+Exif.Thumbnail.YResolution                   Rational    1  180/1  180
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2530  2530
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  9728  9728

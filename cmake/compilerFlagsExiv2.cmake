@@ -21,10 +21,10 @@ if (COMPILER_IS_GCC OR COMPILER_IS_CLANG) # MINGW, Linux, APPLE, CYGWIN
                     " -Wlogical-op"
                     " -Wdouble-promotion"
                     " -Wshadow"
-                    " -Wuseless-cast"
                     " -Wpointer-arith" # This warning is also enabled by -Wpedantic
                     " -Wformat=2"
                     #" -Wold-style-cast"
+                    #" -Wuseless-cast" Disabled mainly because of conversion of socket types (different types on OSs)
                 )
             endif ()
 

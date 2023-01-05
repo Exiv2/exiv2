@@ -1,0 +1,216 @@
+name: On PRs - Windows Matrix
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths-ignore:
+      - "*.md"
+  workflow_dispatch:
+  push:
+    branches:
+    - main
+    tags:
+    - '!*'
+    paths-ignore:
+      - "*.md"
+
+jobs:
+  windows:
+    name: 'Win10 Arch: ${{matrix.platform}} BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
+    runs-on: windows-2022
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        platform: [ x64, x86 ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Visual Studio shell
+        uses: egor-tensin/vs-shell@v2
+        with:
+          arch: ${{matrix.platform}}
+
+      - name: Set up Ninja
+        uses: ashutoshvarma/setup-ninja@master
+        with:
+          version: 1.10.0
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.7
+
+      - name: Restore Conan cache
+        uses: actions/cache@v2
+        with:
+            path: ${{github.workspace}}/conanCache
+            key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
+
+      - name: Install Conan & Common config
+        run: |
+          pip.exe install "conan==1.54.0"
+          conan config install https://github.com/conan-io/conanclientcert.git
+          conan profile new --detect default
+          conan profile update settings.build_type=${{matrix.build_type}} default
+          conan profile update settings.compiler="Visual Studio" default
+          conan profile update settings.compiler.version=17 default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+
+      - name: Conan Arch conditional config
+        if: ${{matrix.platform == 'x86'}}
+        run: |
+          conan profile update settings.arch=x86 default
+          conan profile update settings.arch_build=x86 default
+
+      - name: Run Conan
+        run: |
+          md build
+          cd build
+          conan profile list
+          conan install .. --build missing
+
+      - name: Build
+        run: |
+          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --build build --parallel
+
+      - name: Install
+        run: |
+          cmake --install build
+
+      - name: Test
+        if: ${{matrix.platform == 'x64'}}
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  msys2:
+    runs-on: windows-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        sys: [UCRT64]
+    name: MSYS2 ${{matrix.sys}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          path-type: strict
+          msystem: ${{matrix.sys}}
+          update: true
+          install: >-
+            base-devel
+          pacboy: >-
+            cc:p
+            gcc-libs:p
+            libwinpthread:p
+            cmake:p
+            ninja:p
+            expat:p
+            gettext:p
+            gtest:p
+            libiconv:p
+            zlib:p
+            brotli:p
+            curl:p
+            meson:p
+            libinih:p
+
+      - name: Build
+        run: |
+          cmake --preset base_windows -S . -B build \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
+            -DCONAN_AUTO_INSTALL=OFF \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DEXIV2_ENABLE_VIDEO=ON \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF
+          cmake --build build --parallel
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  cygwin:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release]
+        shared_libraries: [ON]
+        platform: [x86_64]
+    name: Cygwin ${{matrix.platform}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
+    env:
+      SHELLOPTS: igncr
+    defaults:
+      run:
+        shell: C:\cygwin\bin\bash.exe -eo pipefail '{0}'
+    steps:
+      # Make sure we don't check out scripts using Windows CRLF line endings
+      - run: git config --global core.autocrlf input
+        shell: pwsh
+      - uses: actions/checkout@v3
+
+      - name: Set up Cygwin
+        uses: cygwin/cygwin-install-action@v3
+        with:
+          platform: ${{matrix.platform}}
+          packages: >-
+            gcc-g++
+            cmake
+            ninja
+            libcurl-devel
+            libexpat-devel
+            libxml2-devel
+            libxslt-devel
+            python38-lxml
+            zlib-devel
+            libbrotlicommon1
+            libbrotlidec1
+            libbrotli-devel
+            meson
+            ccache
+
+      - name: Build and install inih
+        run: |
+          git clone https://github.com/benhoyt/inih.git inih_build && \
+          cd inih_build && \
+          git checkout r56 && \
+          meson --buildtype=plain --prefix=/usr builddir && \
+          meson compile -C builddir && \
+          meson install -C builddir
+
+      - name: Build
+        run: |
+          cmake -GNinja \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
+            -DEXIV2_ENABLE_NLS=OFF \
+            -DEXIV2_ENABLE_WIN_UNICODE=OFF \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_CURL=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_ENABLE_VIDEO=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=OFF \
+            -S . -B build && \
+          cmake --build build --parallel
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure

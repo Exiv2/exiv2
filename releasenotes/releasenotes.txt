@@ -25,10 +25,10 @@ Thank You to the following who have contributed to this release.
 1) Bug and security fixes:
    - bmff read-only support (.CR3, .HEIC, .HEIF, .AVIF and JXL/bmff).
    - Security process is defined.  https://github.com/Exiv2/exiv2/security/policy
-   - 3 benign ASAN issues.  First CVE in 18 months.  Patched in 2hrs, Fixed ixed in 24hrs.
+   - 3 benign ASAN issues.  First CVE in 18 months.  Patched in 2hrs, Fixed in 24hrs.
    - DNG 1.6 and Exif 2.32 support.
    - More easyaccess APIs and documentation.
-   - Localation support on Crowdin.
+   - Localization support on Crowdin.
    - Updated Catalan localisation.
 
 2) Changes to downloadable build bundles:
@@ -248,7 +248,7 @@ Build: (11)
 	0001329	Error during cmake with gcc version parsing
 	0001310	Provide support for msys/2.0
 	0001299	exiv2-0.26-trunk.tar.gz changed on download server
-	0001270	Using libexiv2.a/.lib  in multhreaded app segfaults.
+	0001270	Using libexiv2.a/.lib  in multithreaded app segfaults.
 	0001237	Report CMake/MinGW issues to Kitware
 	0001188	Provide build support for C++11
 	0001174	Visual Studio Support Enhancements

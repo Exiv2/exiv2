@@ -1,0 +1,39 @@
+Exif.Image.Make                              Ascii       8  SAMSUNG  SAMSUNG
+Exif.Image.Model                             Ascii      10  GT-S5660  GT-S5660
+Exif.Image.Orientation                       Short       1  1  top, left
+Exif.Image.XResolution                       Rational    1  72/1  72
+Exif.Image.YResolution                       Rational    1  72/1  72
+Exif.Image.ResolutionUnit                    Short       1  2  inch
+Exif.Image.Software                          Ascii      20  S5660XXKTK  S5660XXKTK
+Exif.Image.DateTime                          Ascii      50  2020-04-24 17:44:15   2020-04-24 17:44:15 
+Exif.Image.YCbCrPositioning                  Short       1  1  Centered
+Exif.Image.ExifTag                           Long        1  238  238
+Exif.Photo.ExposureTime                      Rational    1  1/33  1/33 s
+Exif.Photo.FNumber                           Rational    1  130/50  F2.6
+Exif.Photo.ExposureProgram                   Short       1  2  Auto
+Exif.Photo.ISOSpeedRatings                   Short       1  50  50
+Exif.Photo.ExifVersion                       Undefined   4  48 50 50 48  2.20
+Exif.Photo.DateTimeOriginal                  Ascii      50  2020-04-24 17:44:15   2020-04-24 17:44:15 
+Exif.Photo.DateTimeDigitized                 Ascii      50  2020-04-24 17:44:15   2020-04-24 17:44:15 
+Exif.Photo.ComponentsConfiguration           Undefined   4  1 2 3 0  YCbCr
+Exif.Photo.MeteringMode                      Short       1  2  Center weighted average
+Exif.Photo.FocalLength                       Rational    1  278/100  2.8 mm
+Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
+Exif.Photo.ColorSpace                        Short       1  1  sRGB
+Exif.Photo.PixelXDimension                   Long        1  2048  2048
+Exif.Photo.PixelYDimension                   Long        1  1536  1536
+Exif.Photo.InteroperabilityTag               Long        1  608  608
+Exif.Iop.InteroperabilityIndex               Ascii       4  R98  R98
+Exif.Iop.InteroperabilityVersion             Undefined   4  48 49 48 48  1.00
+Exif.Photo.WhiteBalance                      Short       1  0  Auto
+Exif.Photo.SceneCaptureType                  Short       1  0  Standard
+Exif.Photo.Contrast                          Short       1  0  Normal
+Exif.Photo.Saturation                        Short       1  0  Normal
+Exif.Photo.Sharpness                         Short       1  0  Normal
+Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)
+Exif.Thumbnail.Orientation                   Short       1  1  top, left
+Exif.Thumbnail.XResolution                   Rational    1  72/1  72
+Exif.Thumbnail.YResolution                   Rational    1  72/1  72
+Exif.Thumbnail.ResolutionUnit                Short       1  2  inch
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  744  744
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  48701  48701

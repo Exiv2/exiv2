@@ -61,7 +61,7 @@ E:\Projects\libexpat. The exiv2 solution will have the exiv2 project
 exposition) and the expat-static project (from libexpat). The
 expat-static project is added as a reference to the exiv2
 project. This make Visual Studio generate the correct dependency
-heirarchy and compile correctly.
+hierarchy and compile correctly.
 
 # Folder Structure #
 

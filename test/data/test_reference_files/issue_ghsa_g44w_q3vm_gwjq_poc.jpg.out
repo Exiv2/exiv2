@@ -1,0 +1,14 @@
+Error: Directory Image: Next pointer is out of bounds; ignored.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 0; setting type size 1.
+Warning: Directory Image, entry 0x0100 has unknown Exif (TIFF) type 0; setting type size 1.
+Error: Directory Image, entry 0x0100 has invalid size 2818677659*1; skipping entry.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 5376; setting type size 1.
+Error: Offset of directory Image, entry 0x0000 is out of bounds: Offset = 0x3b000200; truncating the entry
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 55938; setting type size 1.
+Error: Directory Image, entry 0x0000 has invalid size 2550137344*1; skipping entry.
+Warning: Directory Image, entry 0x0000 has unknown Exif (TIFF) type 135; setting type size 1.
+Error: Directory Image, entry 0x0000 has invalid size 1761608704*1; skipping entry.
+Exif.Image.ImageDescription                  Ascii      45  MM  MM
+Exif.Image.IPTCNAA                           Rational    0  

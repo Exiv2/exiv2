@@ -9,7 +9,6 @@ endif()
 set(EXV_ENABLE_BMFF      ${EXIV2_ENABLE_BMFF})
 set(EXV_ENABLE_WEBREADY  ${EXIV2_ENABLE_WEBREADY})
 set(EXV_HAVE_LENSDATA    ${EXIV2_ENABLE_LENSDATA})
-set(EXV_HAVE_PRINTUCS2   ${EXIV2_ENABLE_PRINTUCS2})
 
 set(EXV_PACKAGE_NAME     ${PROJECT_NAME})
 set(EXV_PACKAGE_VERSION  ${PROJECT_VERSION})
@@ -21,9 +20,8 @@ else()
 endif()
 set(EXV_HAVE_ICONV       ${ICONV_FOUND})
 set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
-set(EXV_UNICODE_PATH     ${EXIV2_ENABLE_WIN_UNICODE})
+set(EXV_HAVE_BROTLI      ${BROTLI_FOUND})
 
-check_cxx_symbol_exists(gmtime_r    time.h         EXV_HAVE_GMTIME_R)
 check_cxx_symbol_exists(mmap        sys/mman.h     EXV_HAVE_MMAP )
 check_cxx_symbol_exists(munmap      sys/mman.h     EXV_HAVE_MUNMAP )
 check_cxx_symbol_exists(strerror_r  string.h       EXV_HAVE_STRERROR_R )
@@ -33,15 +31,15 @@ check_cxx_source_compiles( "
 int main() {
     char buff[100];
     const char* c = strerror_r(0,buff,100);
+    (void)c;  // ignore unuse-variable
     return 0;
 }" EXV_STRERROR_R_CHAR_P )
 
+check_include_file_cxx( "libproc.h"     EXV_HAVE_LIBPROC_H )
 check_include_file_cxx( "unistd.h"      EXV_HAVE_UNISTD_H )
 check_include_file_cxx( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
-if ( NOT MINGW AND NOT MSYS AND NOT MSVC )
-check_include_file_cxx( "regex.h"       EXV_HAVE_REGEX_H )
-endif()
 
 set(EXV_ENABLE_NLS ${EXIV2_ENABLE_NLS})
+set(EXV_ENABLE_VIDEO ${EXIV2_ENABLE_VIDEO})
 
 configure_file(cmake/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)

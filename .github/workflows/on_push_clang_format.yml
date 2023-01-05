@@ -1,0 +1,17 @@
+name: Clang Format Checker
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+on: [push, pull_request]
+jobs:
+  clang-format-checking:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: DoozyX/clang-format-lint-action@v0.14
+        with:
+          source: '.'
+          exclude: './xmpsdk ./contrib'
+          extensions: 'c,h,cpp,hpp'
+          clangFormatVersion: 12
+          style: file
