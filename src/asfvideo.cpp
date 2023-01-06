@@ -253,7 +253,6 @@ void AsfVideo::readMetadata() {
   height_ = width_ = 1;
 
   xmpData()["Xmp.video.FileSize"] = io_->size() / 1048576.;
-  xmpData()["Xmp.video.FileName"] = io_->path();
   xmpData()["Xmp.video.MimeType"] = mimeType();
 
   while (continueTraversing_)

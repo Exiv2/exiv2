@@ -530,7 +530,6 @@ void RiffVideo::readMetadata() {
   continueTraversing_ = true;
 
   xmpData_["Xmp.video.FileSize"] = io_->size() / 1048576.;
-  xmpData_["Xmp.video.FileName"] = io_->path();
   xmpData_["Xmp.video.MimeType"] = mimeType();
 
   DataBuf buf(RIFF_TAG_SIZE + 1);

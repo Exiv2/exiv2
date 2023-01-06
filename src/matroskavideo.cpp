@@ -600,7 +600,6 @@ void MatroskaVideo::readMetadata() {
   continueTraversing_ = true;
   height_ = width_ = 1;
 
-  xmpData_["Xmp.video.FileName"] = io_->path();
   xmpData_["Xmp.video.FileSize"] = io_->size() / bytesMB;
   xmpData_["Xmp.video.MimeType"] = mimeType();
 
