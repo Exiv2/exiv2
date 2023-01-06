@@ -488,7 +488,7 @@ template <typename T>
 T stringTo(const std::string& s, bool& ok) {
   std::istringstream is(s);
   T tmp = T();
-  ok = bool(is >> tmp);
+  ok = static_cast<bool>(is >> tmp);
   std::string rest;
   is >> std::skipws >> rest;
   if (!rest.empty())
