@@ -137,16 +137,16 @@ bool TiffMnRegistry::operator==(IfdId key) const {
 
 TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, const std::string& make, const byte* pData, size_t size,
                                      ByteOrder byteOrder) {
-  auto tmr = std::find(std::begin(registry_), std::end(registry_), make);
-  if (tmr != std::end(registry_)) {
-    return tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
+  auto tmr = Exiv2::find(registry_, make);
+  if (!tmr) {
+    return nullptr;
   }
-  return nullptr;
+  return tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
 }  // TiffMnCreator::create
 
 TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, IfdId mnGroup) {
-  auto tmr = std::find(std::begin(registry_), std::end(registry_), mnGroup);
-  if (tmr != std::end(registry_)) {
+  auto tmr = Exiv2::find(registry_, mnGroup);
+  if (tmr) {
     if (tmr->newMnFct2_) {
       return tmr->newMnFct2_(tag, group, mnGroup);
     }

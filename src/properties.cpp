@@ -5003,7 +5003,7 @@ std::string XmpProperties::prefix(const std::string& ns) {
   if (i != nsRegistry_.end()) {
     p = i->second.prefix_;
   } else {
-    const XmpNsInfo* xn = find(xmpNsInfo, XmpNsInfo::Ns(ns2));
+    auto xn = Exiv2::find(xmpNsInfo, XmpNsInfo::Ns(ns2));
     if (xn)
       p = std::string(xn->prefix_);
   }
@@ -5082,7 +5082,7 @@ const XmpNsInfo* XmpProperties::nsInfoUnsafe(const std::string& prefix) {
   const XmpNsInfo::Prefix pf(prefix);
   const XmpNsInfo* xn = lookupNsRegistryUnsafe(pf);
   if (!xn)
-    xn = find(xmpNsInfo, pf);
+    xn = Exiv2::find(xmpNsInfo, pf);
   if (!xn)
     throw Error(ErrorCode::kerNoNamespaceInfoForXmpPrefix, prefix);
   return xn;
@@ -5108,7 +5108,7 @@ void XmpProperties::printProperties(std::ostream& os, const std::string& prefix)
 std::ostream& XmpProperties::printProperty(std::ostream& os, const std::string& key, const Value& value) {
   PrintFct fct = printValue;
   if (value.count() != 0) {
-    const XmpPrintInfo* info = find(xmpPrintInfo, key);
+    auto info = Exiv2::find(xmpPrintInfo, key);
     if (info)
       fct = info->printFct_;
   }

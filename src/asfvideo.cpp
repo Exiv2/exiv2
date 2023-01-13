@@ -265,7 +265,6 @@ void AsfVideo::readMetadata() {
 void AsfVideo::decodeBlock() {
   DataBuf buf(BUFF_MIN_SIZE + 1);
   uint64_t size = 0;
-  const Internal::TagVocabulary* tv;
   uint64_t cur_pos = io_->tell();
 
   byte guidBuf[GUI_SIZE];
@@ -278,12 +277,11 @@ void AsfVideo::decodeBlock() {
 
   char GUID[GUID_SIZE] = "";  // the getGUID function write the GUID[36],
 
-  getGUID(guidBuf, GUID);
-  tv = find(GUIDReferenceTags, GUID);
-
   io_->read(buf.data(), BUFF_MIN_SIZE);
   size = Util::getUint64_t(buf);
 
+  getGUID(guidBuf, GUID);
+  auto tv = Exiv2::find(GUIDReferenceTags, GUID);
   if (tv) {
     auto tagDecoder = [&](const Internal::TagVocabulary* tv, uint64_t size) {
       uint64_t cur_pos = io_->tell();
@@ -392,7 +390,7 @@ void AsfVideo::contentDescription(uint64_t size) {
     io_->read(buf.data(), length[i]);
     if (io_->error() || io_->eof())
       throw Error(ErrorCode::kerFailedToReadImageData);
-    const TagDetails* td = find(contentDescriptionTags, i);
+    auto td = Exiv2::find(contentDescriptionTags, i);
     assert(td);
     std::string str(reinterpret_cast<const char*>(buf.data()), length[i]);
     if (convertStringCharset(str, "UCS-2LE", "UTF-8")) {
@@ -414,8 +412,7 @@ void AsfVideo::streamProperties() {
   char streamType[GUID_SIZE] = "";
 
   getGUID(guidBuf, streamType);
-  const TagVocabulary* tv;
-  tv = find(GUIDReferenceTags, streamType);
+  auto tv = Exiv2::find(GUIDReferenceTags, streamType);
   io_->read(guidBuf, GUI_SIZE);
 
   if (compareTag(exvGettext(tv->label_), "Audio_Media"))
@@ -632,7 +629,7 @@ void AsfVideo::fileProperties() {
   const TagDetails* td;
 
   while (count--) {
-    td = find(filePropertiesTags, (count + 1));
+    td = Exiv2::find(filePropertiesTags, (count + 1));
     io_->read(buf.data(), BUFF_MIN_SIZE);
 
     if (count == 0) {

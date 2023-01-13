@@ -772,7 +772,7 @@ void RiffVideo::nikonTagsHandler() {
         io_->read(buf.data(), 2);
         dataSize = Exiv2::getULong(buf.data(), littleEndian);
         temp -= (RIFF_TAG_SIZE + dataSize);
-        td = find(nikonAVITags, tagID);
+        td = Exiv2::find(nikonAVITags, tagID);
 
         if (dataSize <= 0) {
 #ifndef SUPPRESS_WARNINGS
@@ -861,7 +861,7 @@ void RiffVideo::infoTagsHandler() {
     size -= RIFF_TAG_SIZE;
     if (!Exiv2::getULong(buf.data(), littleEndian))
       break;
-    tv = find(infoTags, Exiv2::toString(buf.data()));
+    tv = Exiv2::find(infoTags, Exiv2::toString(buf.data()));
     io_->read(buf.data(), RIFF_TAG_SIZE);
     size -= RIFF_TAG_SIZE;
     infoSize = Exiv2::getULong(buf.data(), littleEndian);
@@ -1132,7 +1132,7 @@ void RiffVideo::streamFormatHandler(size_t size) {
 
       switch (tag) {
         case encoding:
-          td = find(audioEncodingValues, Exiv2::getUShort(buf.data(), littleEndian));
+          td = Exiv2::find(audioEncodingValues, Exiv2::getUShort(buf.data(), littleEndian));
           if (td) {
             xmpData_["Xmp.audio.Compressor"] = exvGettext(td->label_);
           } else {
@@ -1175,8 +1175,7 @@ double RiffVideo::returnSampleRate(Exiv2::DataBuf& buf, size_t divisor) {
 }  // RiffVideo::returnSampleRate
 
 const char* RiffVideo::printAudioEncoding(uint64_t i) {
-  const TagDetails* td;
-  td = find(audioEncodingValues, i);
+  auto td = Exiv2::find(audioEncodingValues, i);
   if (td)
     return exvGettext(td->label_);
 
