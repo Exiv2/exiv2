@@ -1553,8 +1553,8 @@ const ConvFctList convFctList[] = {
 
 [[maybe_unused]] bool convertStringCharsetWindows(std::string& str, const char* from, const char* to) {
   bool ret = false;
-  const ConvFctList* p = find(convFctList, std::pair(from, to));
   std::string tmpstr = str;
+  auto p = Exiv2::find(convFctList, std::pair(from, to));
   if (p)
     ret = p->convFct_(tmpstr);
 #ifndef SUPPRESS_WARNINGS

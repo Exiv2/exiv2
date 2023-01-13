@@ -1096,7 +1096,7 @@ std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x32c;
-      const TagDetails* td = find(pentaxLensType, lensID);
+      auto td = Exiv2::find(pentaxLensType, lensID);
       os << exvGettext(td[index].label_);
       return os;
     }
@@ -1160,7 +1160,7 @@ std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x3ff;
-      const TagDetails* td = find(pentaxLensType, lensID);
+      auto td = Exiv2::find(pentaxLensType, lensID);
       os << exvGettext(td[index].label_);
       return os;
     }
@@ -1187,7 +1187,7 @@ std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x8ff;
-      const TagDetails* td = find(pentaxLensType, lensID);
+      auto td = Exiv2::find(pentaxLensType, lensID);
       os << exvGettext(td[index].label_);
       return os;
     }
@@ -1221,7 +1221,7 @@ std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x319;
-      const TagDetails* td = find(pentaxLensType, lensID);
+      auto td = Exiv2::find(pentaxLensType, lensID);
       os << exvGettext(td[index].label_);
       return os;
     }
