@@ -1245,12 +1245,11 @@ struct LensIdFct {
 };
 
 //! List of lens ids which require special treatment using resolveLensType
-constexpr auto lensIdFct = std::array{
-    LensIdFct{0x0317, resolveLensType}, LensIdFct{0x0319, resolveLens0x319}, LensIdFct{0x031b, resolveLensType},
-    LensIdFct{0x031c, resolveLensType}, LensIdFct{0x031d, resolveLensType},  LensIdFct{0x031f, resolveLensType},
-    LensIdFct{0x0329, resolveLensType}, LensIdFct{0x032c, resolveLens0x32c}, LensIdFct{0x032e, resolveLensType},
-    LensIdFct{0x0334, resolveLensType}, LensIdFct{0x03ff, resolveLens0x3ff}, LensIdFct{0x041a, resolveLensType},
-    LensIdFct{0x042d, resolveLensType}, LensIdFct{0x08ff, resolveLens0x8ff},
+constexpr LensIdFct lensIdFct[] = {
+    {0x0317, resolveLensType}, {0x0319, resolveLens0x319}, {0x031b, resolveLensType},  {0x031c, resolveLensType},
+    {0x031d, resolveLensType}, {0x031f, resolveLensType},  {0x0329, resolveLensType},  {0x032c, resolveLens0x32c},
+    {0x032e, resolveLensType}, {0x0334, resolveLensType},  {0x03ff, resolveLens0x3ff}, {0x041a, resolveLensType},
+    {0x042d, resolveLensType}, {0x08ff, resolveLens0x8ff},
 };
 
 //! A lens id and a pretty-print function for special treatment of the id.
@@ -1265,8 +1264,8 @@ std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData
   const auto index = value.toUint32(0) * 256 + value.toUint32(1);
 
   // std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
-  auto lif = std::find(lensIdFct.begin(), lensIdFct.end(), index);
-  if (lif == lensIdFct.end())
+  auto lif = Exiv2::find(lensIdFct, index);
+  if (!lif)
     return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
   if (metadata && lif->fct_)
     return lif->fct_(os, value, metadata);

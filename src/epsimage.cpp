@@ -36,7 +36,7 @@ using namespace Exiv2::Internal;
 constexpr auto dosEpsSignature = std::string_view("\xC5\xD0\xD3\xC6");
 
 // first line of EPS
-constexpr auto epsFirstLine = std::array<std::string_view, 3>{
+constexpr std::string_view epsFirstLine[] = {
     "%!PS-Adobe-3.0 EPSF-3.0",
     "%!PS-Adobe-3.0 EPSF-3.0 ",  // OpenOffice
     "%!PS-Adobe-3.1 EPSF-3.0",   // Illustrator
@@ -317,7 +317,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #ifdef DEBUG
   EXV_DEBUG << "readWriteEpsMetadata: First line: " << firstLine << "\n";
 #endif
-  bool matched = std::find(epsFirstLine.begin(), epsFirstLine.end(), firstLine) != epsFirstLine.end();
+  auto matched = Exiv2::find(epsFirstLine, firstLine);
   if (!matched) {
     throw Error(ErrorCode::kerNotAnImage, "EPS");
   }
