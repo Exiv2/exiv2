@@ -1606,7 +1606,7 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
 
     std::string F1_8 = "434/256";
-    static constexpr auto maxApertures = std::array{
+    static constexpr const char* maxApertures[] = {
         "926/256",   // F3.5
         "1024/256",  // F4
         "1110/256",  // F4.5
@@ -1626,7 +1626,7 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
       } catch (...) {
       }
 
-    if (model == "ILCE-6000" && std::find(maxApertures.begin(), maxApertures.end(), maxAperture) != maxApertures.end())
+    if (model == "ILCE-6000" && Exiv2::find(maxApertures, maxAperture))
       try {
         long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
         if (focalLength > 0) {
