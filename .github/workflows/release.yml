@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get install ninja-build gettext doxygen graphviz
-          pip3 install conan==1.51.0
+          pip3 install conan==1.53.0
 
       - name: Conan common config
         run: |
@@ -110,7 +110,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.51.0"
+          pip.exe install "conan==1.53.0"
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.build_type=Release default
