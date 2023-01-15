@@ -62,6 +62,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew install ninja
+          brew install inih
           brew install tree
           brew install gettext
           brew install doxygen
