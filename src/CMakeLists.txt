@@ -260,10 +260,12 @@ if( ICONV_FOUND )
     target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
 endif()
 
-target_link_libraries( exiv2lib_int PRIVATE inih::libinih )
-target_link_libraries( exiv2lib_int PRIVATE inih::inireader )
-target_link_libraries( exiv2lib PRIVATE inih::libinih )
-target_link_libraries( exiv2lib PRIVATE inih::inireader )
+if( EXIV2_ENABLE_INIH )
+  target_link_libraries( exiv2lib_int PRIVATE inih::libinih )
+  target_link_libraries( exiv2lib_int PRIVATE inih::inireader )
+  target_link_libraries( exiv2lib PRIVATE inih::libinih )
+  target_link_libraries( exiv2lib PRIVATE inih::inireader )
+endif()
 
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
