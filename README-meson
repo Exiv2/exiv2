@@ -1,0 +1,10 @@
+meson build system
+
+This is a basic meson.build file intended to be used by meson projects that use
+WrapDB: https://github.com/mesonbuild/wrapdb
+
+This can also be used as a test playground to test various options not exposed
+by the CMake build, eg: iconv and intl on Windows.
+
+It is currently incomplete. Tests are not implemented yet. The library and
+executable are.

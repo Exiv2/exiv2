@@ -28,3 +28,4 @@ contrib/vms/.vagrant
 CMakeUserPresets.json
 
 *cppcheck*
+subprojects/packagecache
