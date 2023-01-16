@@ -48,9 +48,11 @@ target_link_libraries(unit_tests
         GTest::gtest
         GTest::gtest_main
         std::filesystem
-        inih::libinih
-        inih::inireader
 )
+
+if( EXIV2_ENABLE_INIH )
+  target_link_libraries(unit_tests PRIVATE inih::libinih inih::inireader)
+endif()
 
 # ZLIB is used in exiv2lib_int.
 if( EXIV2_ENABLE_PNG )
