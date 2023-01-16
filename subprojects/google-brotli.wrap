@@ -1,0 +1,14 @@
+[wrap-file]
+directory = brotli-1.0.9
+source_url = https://github.com/google/brotli/archive/v1.0.9.tar.gz
+source_filename = v1.0.9.tar.gz
+source_hash = f9e8d81d0405ba66d181529af42a3354f838c939095ff99930da6aa9cdf6fe46
+patch_filename = google-brotli_1.0.9-1_patch.zip
+patch_url = https://wrapdb.mesonbuild.com/v2/google-brotli_1.0.9-1/get_patch
+patch_hash = 11135edf60bdf155b075cb6cf80dcc743bdcbfc5b8c48c327e717b279db447a1
+
+[provide]
+libbrotlicommon = brotli_common_dep
+libbrotlidec = brotli_decoder_dep
+libbrotlienc = brotli_encoder_dep
+
