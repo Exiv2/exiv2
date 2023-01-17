@@ -80,7 +80,8 @@ std::string getExiv2ConfigPath() {
   return (currentPath / inifile).string();
 }
 
-std::string readExiv2Config(const std::string& section, const std::string& value, const std::string& def) {
+std::string readExiv2Config([[maybe_unused]] const std::string& section, [[maybe_unused]] const std::string& value,
+                            const std::string& def) {
   std::string result = def;
 
 #ifdef EXV_ENABLE_INIH
