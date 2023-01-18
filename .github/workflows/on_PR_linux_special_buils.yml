@@ -16,7 +16,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.53.0
 
       - name: Conan common config
         run: |
@@ -63,7 +63,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install valgrind ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.53.0
 
       - name: Conan common config
         run: |
@@ -100,7 +100,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build
-          pip3 install conan==1.52.0
+          pip3 install conan==1.53.0
 
       - name: Conan common config
         run: |
@@ -136,7 +136,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install valgrind doxygen graphviz gettext
-          pip3 install conan==1.52.0
+          pip3 install conan==1.53.0
 
       - name: Conan common config
         run: |

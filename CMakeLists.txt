@@ -1,14 +1,8 @@
 # Minimum version imposed by Debian:9
 cmake_minimum_required( VERSION 3.7.2 )
 
-project(exiv2          # use TWEAK to categorize the build
-    VERSION 0.27.5     # 0.27.5    = GM               (tagged and released)
-                       # 0.27.5.3  = RC3
-                       # 0.27.5.9  = 27.4.9 Development
-                       # 0.27.5.00 = GM Preview
-                       # 0.27.5.3  = RC3              (tagged and released)
-                       # 0.27.5.30 = RC2 Preview
-                       # 0.27.5.39 = RC2 Development
+project(exiv2
+    VERSION 0.27.6
     LANGUAGES CXX
 )
 
