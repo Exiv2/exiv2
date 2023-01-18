@@ -23,6 +23,7 @@
 
 #include <climits>
 #include <string>
+#include <vector>
 
 #include "preview.hpp"
 #include "futils.hpp"
@@ -936,9 +937,8 @@ namespace {
 
         // create decoding table
         unsigned long invalid = 64;
-        unsigned long decodeBase64Table[256] = {};
-        for (unsigned long i = 0; i < 256; i++)
-            decodeBase64Table[i] = invalid;
+        std::vector<unsigned long> decodeBase64Table(256, invalid);
+
         for (unsigned long i = 0; i < 64; i++)
             decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
 
