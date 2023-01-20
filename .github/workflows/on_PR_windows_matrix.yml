@@ -78,7 +78,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
       - name: Install
@@ -113,33 +113,32 @@ jobs:
           path-type: strict
           msystem: ${{matrix.sys}}
           update: true
-          install: >-
-            base-devel
           pacboy: >-
             cc:p
             gcc-libs:p
             libwinpthread:p
             cmake:p
             ninja:p
-            expat:p
-            gettext:p
+            python:p
             gtest:p
-            libiconv:p
-            zlib:p
             brotli:p
             curl:p
-            meson:p
+            expat:p
+            libiconv:p
             libinih:p
+            zlib:p
 
       - name: Build
         run: |
-          cmake --preset base_windows -S . -B build \
+          cmake --preset base_windows \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
             -DCONAN_AUTO_INSTALL=OFF \
-            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
             -DEXIV2_ENABLE_VIDEO=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF
+            -DPython3_EXECUTABLE=${MINGW_PREFIX}/bin/python.exe \
+            -S . -B build && \
           cmake --build build --parallel
 
       - name: Test
@@ -174,40 +173,26 @@ jobs:
             gcc-g++
             cmake
             ninja
+            pkg-config
+            python3
+            libbrotli-devel
             libcurl-devel
             libexpat-devel
-            libxml2-devel
-            libxslt-devel
-            python38-lxml
+            libiconv-devel
+            libinih-devel
             zlib-devel
-            libbrotlicommon1
-            libbrotlidec1
-            libbrotli-devel
-            meson
-            ccache
-
-      - name: Build and install inih
-        run: |
-          git clone https://github.com/benhoyt/inih.git inih_build && \
-          cd inih_build && \
-          git checkout r56 && \
-          meson --buildtype=plain --prefix=/usr builddir && \
-          meson compile -C builddir && \
-          meson install -C builddir
 
       - name: Build
         run: |
-          cmake -GNinja \
+          cmake --preset base_windows \
             -DCMAKE_CXX_FLAGS=-Wno-deprecated \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DEXIV2_ENABLE_NLS=OFF \
-            -DEXIV2_ENABLE_WIN_UNICODE=OFF \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_ENABLE_VIDEO=ON \
+            -DCONAN_AUTO_INSTALL=OFF \
+            -DEXIV2_BUILD_SAMPLES=OFF \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
+            -DEXIV2_ENABLE_VIDEO=ON \
             -S . -B build && \
           cmake --build build --parallel
 

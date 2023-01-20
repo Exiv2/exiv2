@@ -15,7 +15,9 @@
 #include "utils.hpp"
 
 // + standard includes
+#ifdef EXV_ENABLE_INIH
 #include <INIReader.h>
+#endif
 #include <array>
 #include <filesystem>
 #include <iostream>
@@ -78,13 +80,16 @@ std::string getExiv2ConfigPath() {
   return (currentPath / inifile).string();
 }
 
-std::string readExiv2Config(const std::string& section, const std::string& value, const std::string& def) {
+std::string readExiv2Config([[maybe_unused]] const std::string& section, [[maybe_unused]] const std::string& value,
+                            const std::string& def) {
   std::string result = def;
 
+#ifdef EXV_ENABLE_INIH
   INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
   if (reader.ParseError() == 0) {
     result = reader.Get(section, value, def);
   }
+#endif
 
   return result;
 }

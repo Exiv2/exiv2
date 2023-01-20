@@ -28,9 +28,9 @@
       "displayName": "Base preset for Windows (specially useful for CI jobs)",
       "inherits": "base_ninja",
       "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Windows"
+        "type": "matches",
+        "string": "${hostSystemName}",
+        "regex": "Windows|CYGWIN.*|MSYS.*"
       }
     },
     {
