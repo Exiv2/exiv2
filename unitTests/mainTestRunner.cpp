@@ -2,13 +2,13 @@
 
 #include <gtest/gtest.h>
 #include <iostream>
-
+using namespace std;
 int main(int argc, char** argv) {
   ::testing::InitGoogleTest(&argc, argv);
 
   int ret = RUN_ALL_TESTS();
 
-  std::cout << "Tests finished with return value: " << ret << std::endl;
+  cout << "Tests finished with return value: " << ret << endl;
 
   return ret;
 }
