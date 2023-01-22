@@ -180,6 +180,25 @@ class EXIV2API RiffVideo : public Image {
   static constexpr auto RIFF_CHUNK_HEADER_ICCP = "ICCP";
   static constexpr auto RIFF_CHUNK_HEADER_EXIF = "EXIF";
   static constexpr auto RIFF_CHUNK_HEADER_XMP = "XMP ";
+
+  /* Chunk header names */
+  static constexpr auto RIFF_CHUNK_ID_MOVI = "MOVI";
+  static constexpr auto RIFF_CHUNK_ID_DATA = "DATA";
+  static constexpr auto RIFF_CHUNK_ID_HDRL = "HDRL";
+  static constexpr auto RIFF_CHUNK_ID_STRL = "STRL";
+  static constexpr auto RIFF_CHUNK_ID_LIST = "LIST";
+  static constexpr auto RIFF_CHUNK_ID_JUNK = "JUNK";
+  static constexpr auto RIFF_CHUNK_ID_AVIH = "AVIH";
+  static constexpr auto RIFF_CHUNK_ID_STRH = "STRH";
+  static constexpr auto RIFF_CHUNK_ID_STRF = "STRF";
+  static constexpr auto RIFF_CHUNK_ID_FMT = "FMT ";
+  static constexpr auto RIFF_CHUNK_ID_STRN = "STRN";
+  static constexpr auto RIFF_CHUNK_ID_STRD = "STRD";
+  static constexpr auto RIFF_CHUNK_ID_IDIT = "IDIT";
+  static constexpr auto RIFF_CHUNK_ID_INFO = "INFO";
+  static constexpr auto RIFF_CHUNK_ID_NCDT = "NCDT";
+  static constexpr auto RIFF_CHUNK_ID_ODML = "ODML";
+
   //! Variable to check the end of metadata traversing.
   bool continueTraversing_;
   //! Variable which stores current stream being processsed.

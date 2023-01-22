@@ -441,6 +441,8 @@ std::string RiffVideo::mimeType() const {
  @return Returns true if the buffer value is equal to string.
  */
 bool RiffVideo::equalsRiffTag(Exiv2::DataBuf& buf, const char* str) {
+  if (buf.size() != RIFF_TAG_SIZE)
+    return false;
   for (size_t i = 0; i < RIFF_TAG_SIZE; i++)
     if (toupper(buf.data()[i]) != str[i])
       return false;
@@ -546,74 +548,72 @@ void RiffVideo::readMetadata() {
 }  // RiffVideo::readMetadata
 
 void RiffVideo::decodeBlock() {
-  DataBuf buf(RIFF_TAG_SIZE + 1);
-  DataBuf buf2(RIFF_TAG_SIZE + 1);
+  DataBuf chunk_size(RIFF_TAG_SIZE + 1);
+  DataBuf chunk_id(RIFF_TAG_SIZE + 1);
 
-  io_->read(buf2.data(), RIFF_TAG_SIZE);
+  io_->read(chunk_id.data(), RIFF_TAG_SIZE);
 
-  if (io_->eof() || equalsRiffTag(buf2, "MOVI") || equalsRiffTag(buf2, "DATA")) {
+  if (io_->eof() || equalsRiffTag(chunk_id, RIFF_CHUNK_ID_MOVI) || equalsRiffTag(chunk_id, RIFF_CHUNK_ID_DATA)) {
     continueTraversing_ = false;
     return;
   }
-  if (equalsRiffTag(buf2, "HDRL") || equalsRiffTag(buf2, "STRL")) {
+  if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_HDRL) || equalsRiffTag(chunk_id, RIFF_CHUNK_ID_STRL)) {
     decodeBlock();
   } else {
-    io_->read(buf.data(), RIFF_TAG_SIZE);
-    size_t size = Exiv2::getULong(buf.data(), littleEndian);
+    io_->read(chunk_size.data(), RIFF_TAG_SIZE);
+    size_t size = Exiv2::getULong(chunk_size.data(), littleEndian);
 
-    tagDecoder(buf2, size);
+    tagDecoder(chunk_id, size);
   }
 }  // RiffVideo::decodeBlock
 
-void RiffVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size) {
+void RiffVideo::tagDecoder(Exiv2::DataBuf& chunk_id, size_t size) {
   uint64_t cur_pos = io_->tell();
   static bool listFlag = false, listEnd = false;
 
-  if (equalsRiffTag(buf, "LIST")) {
+  if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_LIST)) {
     listFlag = true;
     listEnd = false;
 
-    while (static_cast<uint64_t>(io_->tell()) < cur_pos + size)
+    while (static_cast<uint64_t>(io_->tell()) < cur_pos + size && !io_->eof()) {
       decodeBlock();
-
+    }
     listEnd = true;
     io_->seek(cur_pos + size, BasicIo::beg);
-  } else if (equalsRiffTag(buf, "JUNK") && listEnd) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_JUNK) && listEnd) {
     junkHandler(size);
-  } else if (equalsRiffTag(buf, "AVIH")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_AVIH)) {
     listFlag = false;
     aviHeaderTagsHandler(size);
-  } else if (equalsRiffTag(buf, "STRH")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_STRH)) {
     listFlag = false;
     streamHandler(size);
-  } else if (equalsRiffTag(buf, "STRF") || equalsRiffTag(buf, "FMT ")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_STRF) || equalsRiffTag(chunk_id, RIFF_CHUNK_ID_FMT)) {
     listFlag = false;
-    if (equalsRiffTag(buf, "FMT "))
+    if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_FMT))
       streamType_ = Audio;
     streamFormatHandler(size);
-  } else if (equalsRiffTag(buf, "STRN")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_STRN)) {
     listFlag = false;
     dateTimeOriginal(size, 1);
-  } else if (equalsRiffTag(buf, "STRD")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_STRD)) {
     listFlag = false;
     streamDataTagHandler(size);
-  } else if (equalsRiffTag(buf, "IDIT")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_IDIT)) {
     listFlag = false;
     dateTimeOriginal(size);
-  } else if (equalsRiffTag(buf, "INFO")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_INFO)) {
     listFlag = false;
     infoTagsHandler();
-  } else if (equalsRiffTag(buf, "NCDT")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_NCDT)) {
     listFlag = false;
     nikonTagsHandler();
-  } else if (equalsRiffTag(buf, "ODML")) {
+  } else if (equalsRiffTag(chunk_id, RIFF_CHUNK_ID_ODML)) {
     listFlag = false;
     odmlTagsHandler();
   } else if (listFlag) {
-    // std::cout<<"|unprocessed|"<<buf.data();
     skipListData();
   } else {
-    // std::cout<<"|unprocessed|"<<buf.data();
     io_->seek(cur_pos + size, BasicIo::beg);
   }
 }  // RiffVideo::tagDecoder
@@ -879,7 +879,7 @@ void RiffVideo::infoTagsHandler() {
 }  // RiffVideo::infoTagsHandler
 
 void RiffVideo::junkHandler(size_t size) {
-  DataBuf buf(size + 1), buf2(RIFF_TAG_SIZE + 1);
+  DataBuf buf(size), buf2(RIFF_TAG_SIZE);
   uint64_t cur_pos = io_->tell();
 
   io_->read(buf.data(), RIFF_TAG_SIZE);

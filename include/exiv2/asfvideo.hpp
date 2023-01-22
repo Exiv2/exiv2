@@ -74,10 +74,45 @@ class EXIV2API AsfVideo : public Image {
   std::string mimeType() const override;
   //@}
  private:
-  static constexpr size_t ASF_TAG_SIZE = 0x4;
-  static constexpr size_t BUFF_MIN_SIZE = 0x8;
-  static constexpr size_t GUI_SIZE = 16;
   static constexpr size_t GUID_SIZE = 37;
+  static constexpr size_t CODEC_TYPE_VIDEO = 1;
+  static constexpr size_t CODEC_TYPE_AUDIO = 2;
+
+  static constexpr size_t BYTE = 1;
+  static constexpr size_t WCHAR = 2;
+  static constexpr size_t WORD = 2;
+  static constexpr size_t DWORD = 4;
+  static constexpr size_t QWORD = 8;
+  static constexpr size_t GUID = 16;
+
+  class AsfObject {
+    byte IdBuf_[GUID + 1];
+    uint64_t size_;
+    uint64_t remaining_size_;
+
+   public:
+    explicit AsfObject(BasicIo::UniquePtr& io) {
+      DataBuf SizeBuf(QWORD + 1);
+
+      io->read(IdBuf_, GUID);
+      io->read(SizeBuf.data(), QWORD);
+
+      size_ = Exiv2::getULongLong(SizeBuf.data(), littleEndian);
+      remaining_size_ = size_ - GUID - QWORD;
+    }
+
+    [[nodiscard]]  uint64_t getSize() const {
+      return size_;
+    }
+
+    [[nodiscard]] uint64_t getRemainingSize() const {
+      return remaining_size_;
+    }
+
+    [[nodiscard]] byte* getId() {
+      return IdBuf_;
+    }
+  };
 
  protected:
   /*!
@@ -85,15 +120,6 @@ class EXIV2API AsfVideo : public Image {
     position. Calls tagDecoder() or skips to next tag, if required.
    */
   void decodeBlock();
-  /*!
-    @brief Interpret tag information, and call the respective function
-        to save it in the respective XMP container. Decodes a Tag
-        Information and saves it in the respective XMP container, if
-        the block size is small.
-    @param tv Pointer to current tag,
-    @param size Size of the data block used to store Tag Information.
-   */
-  void tagDecoder(uint64_t size);
   /*!
     @brief Interpret File_Properties tag information, and save it in
         the respective XMP container.
@@ -114,27 +140,24 @@ class EXIV2API AsfVideo : public Image {
         in the respective XMP container.
     @param size Size of the data block used to store Tag Data.
    */
-  void contentDescription(uint64_t size);
+  void contentDescription();
   /*!
     @brief Interpret Extended_Stream_Properties tag information, and
         save it in the respective XMP container.
-    @param size Size of the data block used to store Tag Data.
    */
-  void extendedStreamProperties(uint64_t size);
+  void extendedStreamProperties();
   /*!
     @brief Interpret Header_Extension tag information, and save it in
         the respective XMP container.
-    @param size Size of the data block used to store Tag Data.
    */
-  void headerExtension(uint64_t size);
+  void headerExtension();
   /*!
     @brief Interpret Metadata, Extended_Content_Description,
         Metadata_Library tag information, and save it in the respective
         XMP container.
-    @param meta A default integer which helps to overload the function
-        for various Tags that have a similar method of decoding.
    */
-  void metadataHandler(int meta = 1);
+  void extendedContentDescription();
+
   /*!
     @brief Calculates Aspect Ratio of a video, and stores it in the
         respective XMP container.
@@ -142,14 +165,14 @@ class EXIV2API AsfVideo : public Image {
   void aspectRatio();
 
  private:
-  //! Variable to check the end of metadata traversing.
-  bool continueTraversing_;
-  //! Variable which stores current position of the read pointer.
-  uint64_t localPosition_;
-  //! Variable which stores current stream being processsed.
-  int streamNumber_;
   //! Variable to store height and width of a video frame.
   uint64_t height_, width_;
+
+  [[nodiscard]] uint64_t readQWORDTag();
+  [[nodiscard]] uint32_t readDWORDTag();
+  [[nodiscard]] uint16_t readWORDTag();
+  [[nodiscard]] std::string readStringWCHAR(uint16_t length);
+  [[nodiscard]] std::string readString(uint16_t length);
 
 };  // Class AsfVideo
 

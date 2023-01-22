@@ -24,7 +24,7 @@ std::string toString16(Exiv2::DataBuf& buf) {
   std::ostringstream os;
   char t;
 
-  for (size_t i = 0; i <= buf.size(); i += 2) {
+  for (size_t i = 0; i < buf.size(); i += 2) {
     t = buf.data()[i] + 16 * buf.data()[i + 1];
     if (t == 0) {
       if (i)
