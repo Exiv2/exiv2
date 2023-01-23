@@ -334,7 +334,7 @@ void AsfVideo::extendedStreamProperties() {
 
 void AsfVideo::streamProperties() {
   byte streamTypedBuf[GUID];
-  io_->read(streamTypedBuf,GUID);
+  io_->read(streamTypedBuf, GUID);
   char stream_type[GUID_SIZE] = "";
   getGUID(streamTypedBuf, stream_type);
 
@@ -479,13 +479,13 @@ uint16_t AsfVideo::readWORDTag() {
 }
 
 std::string AsfVideo::readStringWCHAR(uint16_t length) {
-  DataBuf FieldBuf(length);
+  DataBuf FieldBuf(length + 1);
   io_->read(FieldBuf.data(), length);
   return Util::toString16(FieldBuf);
 }
 
 std::string AsfVideo::readString(uint16_t length) {
-  DataBuf FieldBuf(length);
+  DataBuf FieldBuf(length + 1);
   io_->read(FieldBuf.data(), length);
   return Exiv2::toString(FieldBuf.data());
 }
