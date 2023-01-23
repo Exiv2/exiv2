@@ -101,7 +101,7 @@ class EXIV2API AsfVideo : public Image {
       remaining_size_ = size_ - GUID - QWORD;
     }
 
-    [[nodiscard]]  uint64_t getSize() const {
+    [[nodiscard]] uint64_t getSize() const {
       return size_;
     }
 

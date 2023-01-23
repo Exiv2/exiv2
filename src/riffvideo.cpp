@@ -441,8 +441,6 @@ std::string RiffVideo::mimeType() const {
  @return Returns true if the buffer value is equal to string.
  */
 bool RiffVideo::equalsRiffTag(Exiv2::DataBuf& buf, const char* str) {
-  if (buf.size() != RIFF_TAG_SIZE)
-    return false;
   for (size_t i = 0; i < RIFF_TAG_SIZE; i++)
     if (toupper(buf.data()[i]) != str[i])
       return false;
