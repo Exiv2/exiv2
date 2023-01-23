@@ -1,31 +1,7 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    asfvideo.hpp
-  @brief   An Image subclass to support ASF video files
-  @author  Abhinav Badola for GSoC 2012
-           <a href="mailto:mail.abu.to@gmail.com">mail.abu.to@gmail.com</a>
-  @date    08-Aug-12, AB: created
- */
-#ifndef ASFVIDEO_HPP
-#define ASFVIDEO_HPP
+// SPDX-License-Identifier: GPL-2.0-or-later
+// Spec : Advanced Systems Format (ASF) Specification : Revision 01.20.05 :
+// https://exse.eyewated.com/fls/54b3ed95bbfb1a92.pdf
+#pragma once
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -33,10 +9,13 @@
 // included header files
 #include "image.hpp"
 
+// *****************************************************************************
+// namespace extensions
 namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
+
 /*!
   @brief Class to access ASF video files.
  */
@@ -56,11 +35,14 @@ class EXIV2API AsfVideo : public Image {
         method to get a temporary reference.
    */
   explicit AsfVideo(BasicIo::UniquePtr io);
+  //@}
 
+  //! @name NOT Implemented
+  //@{
   //! Copy constructor
-  AsfVideo(const AsfVideo& rhs) = delete;
+  AsfVideo(const AsfVideo&) = delete;
   //! Assignment operator
-  AsfVideo& operator=(const AsfVideo& rhs) = delete;
+  AsfVideo& operator=(const AsfVideo&) = delete;
   //@}
 
   //! @name Manipulators
@@ -71,35 +53,19 @@ class EXIV2API AsfVideo : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
  private:
-  static constexpr size_t GUID_SIZE = 37;
   static constexpr size_t CODEC_TYPE_VIDEO = 1;
   static constexpr size_t CODEC_TYPE_AUDIO = 2;
 
-  static constexpr size_t BYTE = 1;
-  static constexpr size_t WCHAR = 2;
-  static constexpr size_t WORD = 2;
-  static constexpr size_t DWORD = 4;
-  static constexpr size_t QWORD = 8;
-  static constexpr size_t GUID = 16;
-
-  class AsfObject {
-    byte IdBuf_[GUID + 1];
+  class HeaderReader {
+    DataBuf IdBuf_;
     uint64_t size_;
     uint64_t remaining_size_;
 
    public:
-    explicit AsfObject(BasicIo::UniquePtr& io) {
-      DataBuf SizeBuf(QWORD + 1);
-
-      io->read(IdBuf_, GUID);
-      io->read(SizeBuf.data(), QWORD);
-
-      size_ = Exiv2::getULongLong(SizeBuf.data(), littleEndian);
-      remaining_size_ = size_ - GUID - QWORD;
-    }
+    explicit HeaderReader(BasicIo::UniquePtr& io);
 
     [[nodiscard]] uint64_t getSize() const {
       return size_;
@@ -109,7 +75,7 @@ class EXIV2API AsfVideo : public Image {
       return remaining_size_;
     }
 
-    [[nodiscard]] byte* getId() {
+    [[nodiscard]] DataBuf& getId() {
       return IdBuf_;
     }
   };
@@ -158,6 +124,8 @@ class EXIV2API AsfVideo : public Image {
    */
   void extendedContentDescription();
 
+  void DegradableJPEGMedia();
+
   /*!
     @brief Calculates Aspect Ratio of a video, and stores it in the
         respective XMP container.
@@ -167,12 +135,6 @@ class EXIV2API AsfVideo : public Image {
  private:
   //! Variable to store height and width of a video frame.
   uint64_t height_, width_;
-
-  [[nodiscard]] uint64_t readQWORDTag();
-  [[nodiscard]] uint32_t readDWORDTag();
-  [[nodiscard]] uint16_t readWORDTag();
-  [[nodiscard]] std::string readStringWCHAR(uint16_t length);
-  [[nodiscard]] std::string readString(uint16_t length);
 
 };  // Class AsfVideo
 
@@ -192,5 +154,3 @@ EXIV2API Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, bool create);
 EXIV2API bool isAsfType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
-
-#endif  // #ifndef ASFVIDEO_HPP_
