@@ -158,11 +158,6 @@ endif()
 # Other library target properties
 # ---------------------------------------------------------
 
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-    # Do not check format overflows on this file, to skip a false positive warning
-    set_source_files_properties(value.cpp PROPERTIES COMPILE_FLAGS -Wno-format-overflow)
-endif()
-
 set_target_properties( exiv2lib PROPERTIES
     VERSION       ${PROJECT_VERSION}
     SOVERSION     ${PROJECT_VERSION_MINOR}
