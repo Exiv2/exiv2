@@ -262,11 +262,9 @@ if( EXIV2_ENABLE_NLS )
     target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="${EXV_LOCALEDIR}")
 endif()
 
-if( ICONV_FOUND )
+if( Iconv_FOUND AND Iconv_LIBRARIES )
     target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
-    if(NOT Iconv_IS_BUILT_IN)
-        list(APPEND requires_private_list "iconv")
-    endif()
+    list(APPEND libs_private_list "iconv")
 endif()
 
 if( EXIV2_ENABLE_INIH )
