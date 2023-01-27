@@ -255,7 +255,7 @@ AsciiValue::AsciiValue(const std::string& buf) : StringValueBase(asciiString, bu
 int AsciiValue::read(const std::string& buf) {
   value_ = buf;
   // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
-  if (value_.empty() || value_.at(value_.size() - 1) != '\0') {
+  if (value_.empty() || value_.back() != '\0') {
     value_ += '\0';
   }
   return 0;
@@ -325,8 +325,8 @@ int CommentValue::read(const std::string& comment) {
     // Strip quotes (so you can also specify the charset without quotes)
     if (!name.empty() && name.front() == '"')
       name = name.substr(1);
-    if (!name.empty() && name[name.length() - 1] == '"')
-      name = name.substr(0, name.length() - 1);
+    if (!name.empty() && name.back() == '"')
+      name.pop_back();
     charsetId = CharsetInfo::charsetIdByName(name);
     if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
@@ -391,7 +391,7 @@ std::string CommentValue::comment(const char* encoding) const {
   bool bAscii = charsetId() == undefined || charsetId() == ascii;
   // # 1266 Remove trailing nulls
   if (bAscii && c.find('\0') != std::string::npos) {
-    c = c.substr(0, c.find('\0'));
+    c.resize(c.find('\0'));
   }
   return c;
 }
@@ -503,8 +503,8 @@ int XmpTextValue::read(const std::string& buf) {
     // Strip quotes (so you can also specify the type without quotes)
     if (!type.empty() && type.front() == '"')
       type = type.substr(1);
-    if (!type.empty() && type[type.length() - 1] == '"')
-      type = type.substr(0, type.length() - 1);
+    if (!type.empty() && type.back() == '"')
+      type.pop_back();
     b.clear();
     if (pos != std::string::npos)
       b = buf.substr(pos + 1);
@@ -670,7 +670,7 @@ int LangAltValue::read(const std::string& buf) {
       if (lang.empty() || lang.find('"') != lang.length() - 1)
         throw Error(ErrorCode::kerInvalidLangAltValue, buf);
 
-      lang = lang.substr(0, lang.length() - 1);
+      lang.pop_back();
     }
 
     if (lang.empty())

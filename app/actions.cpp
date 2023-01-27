@@ -631,7 +631,7 @@ int Rename::run(const std::string& path) {
       return 1;
     }
     std::string v = md->toString();
-    if (v.length() == 0 || v[0] == ' ') {
+    if (v.empty() || v.front() == ' ') {
       std::cerr << _("Image file creation timestamp not set in the file") << " " << path << "\n";
       return 1;
     }
@@ -1602,7 +1602,7 @@ int Timestamp::touch(const std::string& path) const {
 //! @endcond
 
 int str2Tm(const std::string& timeStr, struct tm* tm) {
-  if (timeStr.length() == 0 || timeStr[0] == ' ')
+  if (timeStr.empty() || timeStr.front() == ' ')
     return 1;
   if (timeStr.length() < 19)
     return 2;
