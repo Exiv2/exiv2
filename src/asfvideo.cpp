@@ -181,7 +181,7 @@ bool compareTag(const char* str1, const char* str2) {
       The Buffer contains the TagVocabulary in Binary Form. The information is then
       parsed into a character array GUID.
  */
-void getGUID(byte buf[], char GUID[]) {
+void getGUID(const byte buf[], char GUID[]) {
   int i;
   for (i = 0; i < 4; ++i) {
     GUID[(3 - i) * 2] = Util::returnHEX(buf[i] / 0x10);
@@ -213,7 +213,7 @@ void getGUID(byte buf[], char GUID[]) {
   @param buf Exiv2 byte buffer
   @return Returns true if the buffer data is equivalent to Header GUID.
  */
-bool isASFType(byte buf[]) {
+bool isASFType(const byte buf[]) {
   return buf[0] == 0x30 && buf[1] == 0x26 && buf[2] == 0xb2 && buf[3] == 0x75 && buf[4] == 0x8e && buf[5] == 0x66 &&
          buf[6] == 0xcf && buf[7] == 0x11 && buf[8] == 0xa6 && buf[9] == 0xd9 && buf[10] == 0x00 && buf[11] == 0xaa &&
          buf[12] == 0x00 && buf[13] == 0x62 && buf[14] == 0xce && buf[15] == 0x6c;
