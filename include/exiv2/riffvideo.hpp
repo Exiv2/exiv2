@@ -55,9 +55,9 @@ class EXIV2API RiffVideo : public Image {
   explicit RiffVideo(BasicIo::UniquePtr io);
 
   //! Copy constructor
-  RiffVideo(const RiffVideo& rhs) = delete;
+  RiffVideo(const RiffVideo&) = delete;
   //! Assignment operator
-  RiffVideo& operator=(const RiffVideo& rhs) = delete;
+  RiffVideo& operator=(const RiffVideo&) = delete;
 
   //@}
 

@@ -58,9 +58,9 @@ class EXIV2API AsfVideo : public Image {
   explicit AsfVideo(BasicIo::UniquePtr io);
 
   //! Copy constructor
-  AsfVideo(const AsfVideo& rhs) = delete;
+  AsfVideo(const AsfVideo&) = delete;
   //! Assignment operator
-  AsfVideo& operator=(const AsfVideo& rhs) = delete;
+  AsfVideo& operator=(const AsfVideo&) = delete;
   //@}
 
   //! @name Manipulators
