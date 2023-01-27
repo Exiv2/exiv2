@@ -4942,8 +4942,8 @@ const XmpNsInfo* XmpProperties::lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& 
 void XmpProperties::registerNs(const std::string& ns, const std::string& prefix) {
   auto scopedWriteLock = std::scoped_lock(mutex_);
   std::string ns2 = ns;
-  if (ns2.substr(ns2.size() - 1, 1) != "/" && ns2.substr(ns2.size() - 1, 1) != "#")
-    ns2 += "/";
+  if (ns2.back() != '/' && ns2.back() != '#')
+    ns2 += '/';
   // Check if there is already a registered namespace with this prefix
   const XmpNsInfo* xnp = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
   if (xnp) {
@@ -4995,8 +4995,8 @@ void XmpProperties::unregisterNs() {
 std::string XmpProperties::prefix(const std::string& ns) {
   auto scoped_read_lock = std::scoped_lock(mutex_);
   std::string ns2 = ns;
-  if (ns2.substr(ns2.size() - 1, 1) != "/" && ns2.substr(ns2.size() - 1, 1) != "#")
-    ns2 += "/";
+  if (ns2.back() != '/' && ns2.back() != '#')
+    ns2 += '/';
 
   auto i = nsRegistry_.find(ns2);
   std::string p;

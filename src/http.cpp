@@ -305,8 +305,8 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
         while (c && first_newline && c < first_newline && h < buffer + body) {
           std::string key(h);
           std::string value(c + 1);
-          key = key.substr(0, c - h);
-          value = value.substr(0, first_newline - c - 1);
+          key.resize(c - h);
+          value.resize(first_newline - c - 1);
           response[key] = value;
           h = first_newline + 1;
           c = strchr(h, C);

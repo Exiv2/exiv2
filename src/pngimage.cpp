@@ -247,7 +247,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
       }
       while (dataString.size() < iMax)
         dataString += ' ';
-      dataString = dataString.substr(0, iMax);
+      dataString.resize(iMax);
 
       if (bPrint) {
         io_->seek(dataOffset, BasicIo::cur);  // jump to checksum

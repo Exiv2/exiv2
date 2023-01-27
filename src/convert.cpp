@@ -740,7 +740,7 @@ void Converter::cnvExifDate(const char* from, const char* to) {
   }
 
   if (subsec.size() > 10)
-    subsec = subsec.substr(0, 10);
+    subsec.resize(10);
   snprintf(buf, sizeof(buf), "%4d-%02d-%02dT%02d:%02d:%02d%s", year, month, day, hour, min, sec, subsec.c_str());
   buf[sizeof(buf) - 1] = 0;
 
@@ -1141,7 +1141,7 @@ void Converter::cnvXmpGPSCoord(const char* from, const char* to) {
   double deg = 0.0;
   double min = 0.0;
   double sec = 0.0;
-  char ref = value[value.length() - 1];
+  char ref = value.back();
   char sep1 = '\0';
   char sep2 = '\0';
 
