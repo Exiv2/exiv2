@@ -1446,19 +1446,19 @@ static long getKeyLong(const std::string& key, const ExifData* metadata, int whi
 /*! http://stackoverflow.com/questions/1798112/removing-leading-and-trailing-spaces-from-a-string
     trim from left
 */
-inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v") {
   s.erase(0, s.find_first_not_of(t));
   return s;
 }
 
 //! trim from right
-inline std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v") {
   s.erase(s.find_last_not_of(t) + 1);
   return s;
 }
 
 //! trim from left & right
-inline std::string& trim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& trim(std::string& s, const char* t = " \t\n\r\f\v") {
   return ltrim(rtrim(s, t), t);
 }
 

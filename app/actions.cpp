@@ -1413,30 +1413,32 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
   }
 
   // bounds checking for yearAdjustment_
-  enforce<std::overflow_error>(yearAdjustment_ >= std::numeric_limits<decltype(tm.tm_year)>::min(),
-                               "year adjustment too low");
-  enforce<std::overflow_error>(yearAdjustment_ <= std::numeric_limits<decltype(tm.tm_year)>::max(),
-                               "year adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(yearAdjustment_ >= std::numeric_limits<decltype(tm.tm_year)>::min(),
+                                                "year adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(yearAdjustment_ <= std::numeric_limits<decltype(tm.tm_year)>::max(),
+                                                "year adjustment too high");
   const auto yearAdjustment = static_cast<decltype(tm.tm_year)>(yearAdjustment_);
 
   // bounds checking for monthAdjustment_
-  enforce<std::overflow_error>(monthAdjustment_ >= std::numeric_limits<decltype(tm.tm_mon)>::min(),
-                               "month adjustment too low");
-  enforce<std::overflow_error>(monthAdjustment_ <= std::numeric_limits<decltype(tm.tm_mon)>::max(),
-                               "month adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(monthAdjustment_ >= std::numeric_limits<decltype(tm.tm_mon)>::min(),
+                                                "month adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(monthAdjustment_ <= std::numeric_limits<decltype(tm.tm_mon)>::max(),
+                                                "month adjustment too high");
   const auto monthAdjustment = static_cast<decltype(tm.tm_mon)>(monthAdjustment_);
 
   // bounds checking for dayAdjustment_
   static constexpr time_t secondsInDay = 24 * 60 * 60;
-  enforce<std::overflow_error>(dayAdjustment_ >= std::numeric_limits<time_t>::min() / secondsInDay,
-                               "day adjustment too low");
-  enforce<std::overflow_error>(dayAdjustment_ <= std::numeric_limits<time_t>::max() / secondsInDay,
-                               "day adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(dayAdjustment_ >= std::numeric_limits<time_t>::min() / secondsInDay,
+                                                "day adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(dayAdjustment_ <= std::numeric_limits<time_t>::max() / secondsInDay,
+                                                "day adjustment too high");
   const auto dayAdjustment = static_cast<time_t>(dayAdjustment_);
 
   // bounds checking for adjustment_
-  enforce<std::overflow_error>(adjustment_ >= std::numeric_limits<time_t>::min(), "seconds adjustment too low");
-  enforce<std::overflow_error>(adjustment_ <= std::numeric_limits<time_t>::max(), "seconds adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(adjustment_ >= std::numeric_limits<time_t>::min(),
+                                                "seconds adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(adjustment_ <= std::numeric_limits<time_t>::max(),
+                                                "seconds adjustment too high");
   const auto adjustment = static_cast<time_t>(adjustment_);
 
   const auto monOverflow = Safe::add(tm.tm_mon, monthAdjustment) / 12;

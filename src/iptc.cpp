@@ -290,12 +290,12 @@ void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, size
     char buff[100];
     uint16_t record = bytes.at(i + 1);
     uint16_t dataset = bytes.at(i + 2);
-    enforce(bytes.size() - i >= 5, ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(bytes.size() - i >= 5, ErrorCode::kerCorruptedMetadata);
     uint16_t len = getUShort(bytes.subSlice(i + 3, bytes.size()), bigEndian);
     snprintf(buff, sizeof(buff), "  %6d | %7d | %-24s | %6d | ", record, dataset,
              Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
-    enforce(bytes.size() - i >= 5 + static_cast<size_t>(len), ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(bytes.size() - i >= 5 + static_cast<size_t>(len), ErrorCode::kerCorruptedMetadata);
     out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
         << (len > 40 ? "..." : "") << std::endl;
     i += 5 + len;

@@ -249,7 +249,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   byte hdrbuf[2 * sizeof(uint32_t)];
 
   size_t hdrsize = sizeof(hdrbuf);
-  enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
   if (io_->read(reinterpret_cast<byte*>(&hdrbuf), sizeof(hdrbuf)) != sizeof(hdrbuf))
     return pbox_end;
 
@@ -268,7 +268,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   if (box_length == 1) {
     // The box size is encoded as a uint64_t, so we need to read another 8 bytes.
     hdrsize += 8;
-    enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
     DataBuf data(8);
     io_->read(data.data(), data.size());
     box_length = data.read_uint64(0, endian_);
@@ -276,8 +276,8 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 
   // read data in box and restore file position
   const size_t restore = io_->tell();
-  enforce(box_length >= hdrsize, Exiv2::ErrorCode::kerCorruptedMetadata);
-  enforce(box_length - hdrsize <= pbox_end - restore, Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(box_length >= hdrsize, Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(box_length - hdrsize <= pbox_end - restore, Exiv2::ErrorCode::kerCorruptedMetadata);
 
   const auto buffer_size = box_length - hdrsize;
   if (skipBox(box_type)) {
@@ -299,7 +299,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   uint32_t flags = 0;
 
   if (fullBox(box_type)) {
-    enforce(data.size() - skip >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(data.size() - skip >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
     flags = data.read_uint32(skip, endian_);  // version/flags
     version = static_cast<uint8_t>(flags >> 24);
     flags &= 0x00ffffff;
@@ -309,7 +309,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   switch (box_type) {
     //  See notes in skipBox()
     case TAG_ftyp: {
-      enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
       fileType_ = data.read_uint32(0, endian_);
       if (bTrace) {
         out << "brand: " << toAscii(fileType_);
@@ -323,7 +323,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
         bLF = false;
       }
 
-      enforce(data.size() - skip >= 2, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(data.size() - skip >= 2, Exiv2::ErrorCode::kerCorruptedMetadata);
       uint16_t n = data.read_uint16(skip, endian_);
       skip += 2;
 
@@ -335,7 +335,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 
     // 8.11.6.2
     case TAG_infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
-      enforce(data.size() - skip >= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(data.size() - skip >= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
       /* getULong (data.pData_+skip,endian_) ; */ skip += 4;
       uint16_t ID = data.read_uint16(skip, endian_);
       skip += 2;
@@ -344,7 +344,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       // Check that the string has a '\0' terminator.
       const char* str = data.c_str(skip);
       const size_t maxlen = data.size() - skip;
-      enforce(maxlen > 0 && strnlen(str, maxlen) < maxlen, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(maxlen > 0 && strnlen(str, maxlen) < maxlen, Exiv2::ErrorCode::kerCorruptedMetadata);
       std::string name(str);
       if (name.find("Exif") != std::string::npos) {  // "Exif" or "ExifExif"
         exifID_ = ID;
@@ -393,7 +393,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 
     // 8.11.3.1
     case TAG_iloc: {
-      enforce(data.size() - skip >= 2, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(data.size() - skip >= 2, Exiv2::ErrorCode::kerCorruptedMetadata);
       uint8_t u = data.read_uint8(skip++);
       uint16_t offsetSize = u >> 4;
       uint16_t lengthSize = u & 0xF;
@@ -406,7 +406,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 #else
       skip++;
 #endif
-      enforce(data.size() - skip >= (version < 2u ? 2u : 4u), Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(data.size() - skip >= (version < 2u ? 2u : 4u), Exiv2::ErrorCode::kerCorruptedMetadata);
       uint32_t itemCount = version < 2 ? data.read_uint16(skip, endian_) : data.read_uint32(skip, endian_);
       skip += version < 2 ? 2 : 4;
       if (itemCount && itemCount < box_length / 14 && offsetSize == 4 && lengthSize == 4 &&
@@ -419,8 +419,8 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
         size_t base = skip;
         for (uint32_t i = 0; i < itemCount; i++) {
           skip = base + i * step;  // move in 14, 16 or 18 byte steps
-          enforce(data.size() - skip >= (version > 2u ? 4u : 2u), Exiv2::ErrorCode::kerCorruptedMetadata);
-          enforce(data.size() - skip >= step, Exiv2::ErrorCode::kerCorruptedMetadata);
+          Internal::enforce(data.size() - skip >= (version > 2u ? 4u : 2u), Exiv2::ErrorCode::kerCorruptedMetadata);
+          Internal::enforce(data.size() - skip >= step, Exiv2::ErrorCode::kerCorruptedMetadata);
           uint32_t ID = version > 2 ? data.read_uint32(skip, endian_) : data.read_uint16(skip, endian_);
           auto offset = [this, &data, skip, step] {
             if (step == 14 || step == 16)
@@ -445,7 +445,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     } break;
 
     case TAG_ispe: {
-      enforce(data.size() - skip >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(data.size() - skip >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
       skip += 4;
       uint32_t width = data.read_uint32(skip, endian_);
       skip += 4;
@@ -524,7 +524,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       parseXmp(buffer_size, io_->tell());
       break;
     case TAG_brob: {
-      enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
       uint32_t realType = data.read_uint32(0, endian_);
       if (bTrace) {
         out << "type: " << toAscii(realType);
@@ -534,7 +534,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       brotliUncompress(data.c_data(4), data.size() - 4, arr);
       if (realType == TAG_exif) {
         uint32_t offset = Safe::add(arr.read_uint32(0, endian_), 4u);
-        enforce(Safe::add(offset, 4u) < arr.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+        Internal::enforce(Safe::add(offset, 4u) < arr.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
         Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), arr.c_data(offset), arr.size() - offset,
                                            Internal::Tag::root, Internal::TiffMapping::findDecoder);
       } else if (realType == TAG_xml) {
@@ -580,10 +580,11 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 }
 
 void BmffImage::parseTiff(uint32_t root_tag, uint64_t length, uint64_t start) {
-  enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
-  enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
-  enforce(start <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max()), ErrorCode::kerCorruptedMetadata);
-  enforce(length <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(start <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max()),
+                    ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(length <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
 
   // read and parse exif data
   const size_t restore = io_->tell();
@@ -608,8 +609,8 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length, uint64_t start) {
 
 void BmffImage::parseTiff(uint32_t root_tag, uint64_t length) {
   if (length > 8) {
-    enforce(length - 8 <= io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
-    enforce(length - 8 <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(length - 8 <= io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(length - 8 <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
     DataBuf data(static_cast<size_t>(length - 8u));
     const size_t bufRead = io_->read(data.data(), data.size());
 
@@ -624,8 +625,8 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length) {
 }
 
 void BmffImage::parseXmp(uint64_t length, uint64_t start) {
-  enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
-  enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
 
   const size_t restore = io_->tell();
   io_->seek(static_cast<int64_t>(start), BasicIo::beg);
@@ -651,7 +652,7 @@ void BmffImage::parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, u
                                 size_t height_offset, size_t size_offset, size_t relative_position) {
   // Derived from https://github.com/lclevy/canon_cr3
   const size_t here = io_->tell();
-  enforce(here <= std::numeric_limits<size_t>::max() - relative_position, ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(here <= std::numeric_limits<size_t>::max() - relative_position, ErrorCode::kerCorruptedMetadata);
   NativePreview nativePreview;
   nativePreview.position_ = here + relative_position;
   nativePreview.width_ = data.read_uint16(width_offset, endian_);

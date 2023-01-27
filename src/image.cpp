@@ -308,7 +308,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
     io.readOrThrow(dir.data(), 2, ErrorCode::kerCorruptedMetadata);
     uint16_t dirLength = byteSwap2(dir, 0, bSwap);
     // Prevent infinite loops. (GHSA-m479-7frc-gqqg)
-    enforce(dirLength > 0, ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(dirLength > 0, ErrorCode::kerCorruptedMetadata);
 
     if (dirLength > 500)  // tooBig
       throw Error(ErrorCode::kerTiffDirectoryTooLarge);
@@ -384,7 +384,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         throw Error(ErrorCode::kerInvalidMalloc);
       }
       // Overflow check
-      enforce(allocate64 <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(allocate64 <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
       DataBuf buf(allocate64);                     // allocate a buffer
       std::copy_n(dir.c_data(8), 4, buf.begin());  // copy dir[8:11] into buffer (short strings)
 

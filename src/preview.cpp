@@ -731,7 +731,7 @@ DataBuf LoaderTiff::getData() const {
           dataValue.setDataArea(base + offset, size);
       } else {
         // FIXME: the buffer is probably copied twice, it should be optimized
-        enforce(size_ <= io.size(), ErrorCode::kerCorruptedMetadata);
+        Internal::enforce(size_ <= io.size(), ErrorCode::kerCorruptedMetadata);
         DataBuf buf(size_);
         uint32_t idxBuf = 0;
         for (size_t i = 0; i < sizes.count(); i++) {
@@ -742,7 +742,7 @@ DataBuf LoaderTiff::getData() const {
           // see the constructor of LoaderTiff
           // But e.g in malicious files some of these values could be negative
           // That's why we check again for each step here to really make sure we don't overstep
-          enforce(Safe::add(idxBuf, size) <= size_, ErrorCode::kerCorruptedMetadata);
+          Internal::enforce(Safe::add(idxBuf, size) <= size_, ErrorCode::kerCorruptedMetadata);
           if (size != 0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size())) {
             std::copy_n(base + offset, size, buf.begin() + idxBuf);
           }

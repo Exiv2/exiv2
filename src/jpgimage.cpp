@@ -31,6 +31,7 @@
 
 namespace Exiv2 {
 
+using Exiv2::Internal::enforce;
 using Exiv2::Internal::startsWith;
 namespace {
 // JPEG Segment markers (The first byte is always 0xFF, the value of these constants correspond to the 2nd byte)
@@ -61,11 +62,11 @@ constexpr auto exifId_ = "Exif\0\0";  //!< Exif identifier
 constexpr auto xmpId_ = "http://ns.adobe.com/xap/1.0/\0";  //!< XMP packet identifier
 constexpr auto iccId_ = "ICC_PROFILE\0";                   //!< ICC profile identifier
 
-inline bool inRange(int lo, int value, int hi) {
+constexpr bool inRange(int lo, int value, int hi) {
   return lo <= value && value <= hi;
 }
 
-inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
+constexpr bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
   return inRange(lo1, value, hi1) || inRange(lo2, value, hi2);
 }
 

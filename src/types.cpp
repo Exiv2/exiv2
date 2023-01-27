@@ -192,9 +192,9 @@ const char* Exiv2::DataBuf::c_str(size_t offset) const {
 // free functions
 
 static void checkDataBufBounds(const DataBuf& buf, size_t end) {
-  enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
-                                 "end of slice too large to be compared with DataBuf bounds.");
-  enforce<std::out_of_range>(end <= buf.size(), "Invalid slice bounds specified");
+  Internal::enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
+                                           "end of slice too large to be compared with DataBuf bounds.");
+  Internal::enforce<std::out_of_range>(end <= buf.size(), "Invalid slice bounds specified");
 }
 
 Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end) {
