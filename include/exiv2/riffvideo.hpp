@@ -14,11 +14,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * asize_t with this program; if not, write to the Free Software
+ * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef RIFFVIDEO_HPP
-#define RIFFVIDEO_HPP
+#ifndef RIFFVIDEO_HPP_
+#define RIFFVIDEO_HPP_
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -53,12 +53,14 @@ class EXIV2API RiffVideo : public Image {
         method to get a temporary reference.
    */
   explicit RiffVideo(BasicIo::UniquePtr io);
+  //@}
 
+  //! @name NOT Implemented
+  //@{
   //! Copy constructor
   RiffVideo(const RiffVideo&) = delete;
   //! Assignment operator
   RiffVideo& operator=(const RiffVideo&) = delete;
-
   //@}
 
   //! @name Manipulators
@@ -204,4 +206,4 @@ EXIV2API bool isRiffType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // RIFFVIDEO_HPP
+#endif  // RIFFVIDEO_HPP_
