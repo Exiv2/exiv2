@@ -131,13 +131,13 @@ static int makeNonBlocking(int sockfd) {
 }
 
 int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::string& errors) {
-  if (!request.count("verb"))
+  if (request.find("verb") == request.end())
     request["verb"] = "GET";
-  if (!request.count("header"))
+  if (request.find("header") == request.end())
     request["header"] = "";
-  if (!request.count("version"))
+  if (request.find("version") == request.end())
     request["version"] = "1.0";
-  if (!request.count("port"))
+  if (request.find("port") == request.end())
     request["port"] = "";
 
   std::string file;
