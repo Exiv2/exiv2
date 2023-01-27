@@ -954,7 +954,7 @@ size_t TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
                                                   "%02d%02d%02d%1c%02d%02d", time_.hour, time_.minute, time_.second,
                                                   plusMinus, abs(time_.tzHour), abs(time_.tzMinute)));
 
-  enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
+  Internal::enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
   std::memcpy(buf, temp, wrote);
   return wrote;
 }

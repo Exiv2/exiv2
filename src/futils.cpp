@@ -238,7 +238,7 @@ std::string strError() {
 #else
   char buf[n] = {};
   const int ret = strerror_r(error, buf, n);
-  enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
+  Internal::enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
 #endif
   os << buf;
   // Issue# 908.

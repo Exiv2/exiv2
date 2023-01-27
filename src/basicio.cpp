@@ -66,13 +66,13 @@ void ReplaceStringInPlace(std::string& subject, std::string_view search, std::st
 namespace Exiv2 {
 void BasicIo::readOrThrow(byte* buf, size_t rcount, ErrorCode err) {
   const size_t nread = read(buf, rcount);
-  enforce(nread == rcount, err);
-  enforce(!error(), err);
+  Internal::enforce(nread == rcount, err);
+  Internal::enforce(!error(), err);
 }
 
 void BasicIo::seekOrThrow(int64_t offset, Position pos, ErrorCode err) {
   const int r = seek(offset, pos);
-  enforce(r == 0, err);
+  Internal::enforce(r == 0, err);
 }
 
 //! Internal Pimpl structure of class FileIo.
@@ -470,7 +470,7 @@ int FileIo::seek(int64_t offset, Position pos) {
 
 size_t FileIo::tell() const {
   const long pos = std::ftell(p_->fp_);
-  enforce(pos >= 0, ErrorCode::kerInputDataReadFailed);
+  Internal::enforce(pos >= 0, ErrorCode::kerInputDataReadFailed);
   return static_cast<size_t>(pos);
 }
 

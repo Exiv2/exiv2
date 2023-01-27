@@ -173,7 +173,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
       has_vp8x = true;
     }
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_size) {
-      enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
       byte size_buf[WEBP_TAG_SIZE];
 
@@ -202,7 +202,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     }
 #endif
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_size) {
-      enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
       byte size_buf[2];
 
@@ -220,13 +220,13 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
 
     /* Chunk with lossless image data. */
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_alpha) {
-      enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
       if ((payload.read_uint8(4) & WEBP_VP8X_ALPHA_BIT) == WEBP_VP8X_ALPHA_BIT) {
         has_alpha = true;
       }
     }
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_size) {
-      enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
       byte size_buf_w[2];
       byte size_buf_h[3];
@@ -250,13 +250,13 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
 
     /* Chunk with animation frame. */
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_alpha) {
-      enforce(size_u32 >= 6, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 6, Exiv2::ErrorCode::kerCorruptedMetadata);
       if ((payload.read_uint8(5) & 0x2) == 0x2) {
         has_alpha = true;
       }
     }
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_size) {
-      enforce(size_u32 >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
       byte size_buf[WEBP_TAG_SIZE];
 
@@ -294,7 +294,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
       io_->seek(+1, BasicIo::cur);  // skip pad
 
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X)) {
-      enforce(size_u32 >= 1, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 1, Exiv2::ErrorCode::kerCorruptedMetadata);
       if (has_icc) {
         const uint8_t x = payload.read_uint8(0);
         payload.write_uint8(0, x | WEBP_VP8X_ICC_BIT);
@@ -477,7 +477,7 @@ void WebPImage::readMetadata() {
   io_->readOrThrow(data, WEBP_TAG_SIZE * 3, Exiv2::ErrorCode::kerCorruptedMetadata);
 
   const uint32_t filesize = Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
-  enforce(filesize <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(filesize <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
   WebPImage::decodeChunks(filesize);
 
@@ -500,15 +500,15 @@ void WebPImage::decodeChunks(uint32_t filesize) {
     const uint32_t size = Exiv2::getULong(size_buff, littleEndian);
 
     // Check that `size` is within bounds.
-    enforce(io_->tell() <= filesize, Exiv2::ErrorCode::kerCorruptedMetadata);
-    enforce(size <= (filesize - io_->tell()), Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(io_->tell() <= filesize, Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(size <= (filesize - io_->tell()), Exiv2::ErrorCode::kerCorruptedMetadata);
 
     DataBuf payload(size);
 
     if (payload.empty()) {
       io_->seek(size, BasicIo::cur);
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_canvas_data) {
-      enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       byte size_buf[WEBP_TAG_SIZE];
@@ -525,7 +525,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       size_buf[3] = 0;
       pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) + 1;
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_canvas_data) {
-      enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -543,7 +543,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       size_buf[3] = 0;
       pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_canvas_data) {
-      enforce(size >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       byte size_buf_w[2];
@@ -562,7 +562,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2);
       pixelHeight_ = Exiv2::getUShort(size_buf_h, littleEndian) + 1;
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_canvas_data) {
-      enforce(size >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       byte size_buf[WEBP_TAG_SIZE];
@@ -752,14 +752,14 @@ void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_
   }
 
   /* set width - stored in 24bits*/
-  enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
   uint32_t w = width - 1;
   data[4] = w & 0xFF;
   data[5] = (w >> 8) & 0xFF;
   data[6] = (w >> 16) & 0xFF;
 
   /* set height - stored in 24bits */
-  enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
   uint32_t h = height - 1;
   data[7] = h & 0xFF;
   data[8] = (h >> 8) & 0xFF;
