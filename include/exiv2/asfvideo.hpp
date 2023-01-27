@@ -33,10 +33,13 @@
 // included header files
 #include "image.hpp"
 
+// *****************************************************************************
+// namespace extensions
 namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
+
 /*!
   @brief Class to access ASF video files.
  */
@@ -56,7 +59,10 @@ class EXIV2API AsfVideo : public Image {
         method to get a temporary reference.
    */
   explicit AsfVideo(BasicIo::UniquePtr io);
+  //@}
 
+  //! @name NOT Implemented
+  //@{
   //! Copy constructor
   AsfVideo(const AsfVideo&) = delete;
   //! Assignment operator
@@ -71,7 +77,7 @@ class EXIV2API AsfVideo : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
  private:
   static constexpr size_t ASF_TAG_SIZE = 0x4;

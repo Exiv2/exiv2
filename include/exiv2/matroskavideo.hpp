@@ -116,7 +116,10 @@ class EXIV2API MatroskaVideo : public Image {
         method to get a temporary reference.
    */
   explicit MatroskaVideo(BasicIo::UniquePtr io);
+  //@}
 
+  //! @name NOT Implemented
+  //@{
   //! Copy constructor
   MatroskaVideo(const MatroskaVideo&) = delete;
   //! Assignment operator
@@ -184,6 +187,10 @@ class EXIV2API MatroskaVideo : public Image {
 };  // class MatroskaVideo
 
 // *****************************************************************************
+// template, inline and free functions
+
+// These could be static private functions on Image subclasses but then
+// ImageFactory needs to be made a friend.
 /*!
   @brief Create a new MatroskaVideo instance and return an auto-pointer to it.
       Caller owns the returned object and the auto-pointer ensures that
