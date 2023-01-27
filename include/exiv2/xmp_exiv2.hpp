@@ -60,7 +60,7 @@ class EXIV2API Xmpdatum : public Metadatum {
     @brief Assign a boolean \em value to the %Xmpdatum.
            Translates the value to a string "true" or "false".
    */
-  Xmpdatum& operator=(bool value);
+  inline Xmpdatum& operator=(bool value);
   /*!
     @brief Assign a \em value of any type with an output operator
            to the %Xmpdatum. Calls operator=(const std::string&).
@@ -398,7 +398,7 @@ class EXIV2API XmpParser {
 // *****************************************************************************
 // free functions, template and inline definitions
 
-inline Xmpdatum& Xmpdatum::operator=(bool value) {
+Xmpdatum& Xmpdatum::operator=(bool value) {
   return operator=(value ? "True" : "False");
 }
 
