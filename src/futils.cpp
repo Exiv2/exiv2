@@ -30,8 +30,12 @@ namespace fs = std::experimental::filesystem;
 // clang-format on
 #endif
 
-#if defined(__APPLE__) && defined(EXV_HAVE_LIBPROC_H)
+#if __has_include(<libproc.h>)
 #include <libproc.h>
+#endif
+
+#if __has_include(<unistd.h>)
+#include <unistd.h>  // for stat()
 #endif
 
 #if defined(__FreeBSD__)
@@ -43,10 +47,6 @@ namespace fs = std::experimental::filesystem;
 #include <sys/sysctl.h>
 #include <sys/types.h>
 #include <sys/un.h>
-#endif
-
-#ifdef EXV_HAVE_UNISTD_H
-#include <unistd.h>  // for stat()
 #endif
 
 #ifndef _MAX_PATH
@@ -346,14 +346,12 @@ std::string getProcessPath() {
     }
     CloseHandle(processHandle);
   }
-#elif defined(__APPLE__)
-#ifdef EXV_HAVE_LIBPROC_H
+#elif __has_include(<libproc.h>)
   const int pid = getpid();
   char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
   if (proc_pidpath(pid, pathbuf, sizeof(pathbuf)) > 0) {
     ret = pathbuf;
   }
-#endif
 #elif defined(__FreeBSD__)
   unsigned int n;
   char buffer[PATH_MAX] = {};

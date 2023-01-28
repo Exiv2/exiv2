@@ -26,7 +26,7 @@
 // + standard includes
 #include <sys/stat.h>   // for stat()
 #include <sys/types.h>  // for stat()
-#ifdef EXV_HAVE_UNISTD_H
+#if __has_include(<unistd.h>)
 #include <unistd.h>  // for stat()
 #endif
 
