@@ -19,7 +19,6 @@
 #include <cstdlib>  // for alloc, realloc, free
 #include <cstring>  // std::memcpy
 #include <ctime>    // timestamp for the name of temporary file
-#include <filesystem>
 #include <fstream>  // write the temporary file
 #include <iostream>
 
@@ -43,7 +42,13 @@
 #include <windows.h>
 #endif
 
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 // *****************************************************************************
 // class member definitions

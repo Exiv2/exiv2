@@ -17,16 +17,15 @@
 #include "types.hpp"
 #include "xmp_exiv2.hpp"
 
-// + standard includes
-#include <sys/stat.h>   // for stat()
-#include <sys/types.h>  // for stat()
-
-#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <mutex>
 #include <sstream>
+
+// + standard includes
+#include <sys/stat.h>   // for stat()
+#include <sys/types.h>  // for stat()
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>  // for stat()
 #endif
@@ -46,7 +45,13 @@
   } while (false)
 #endif
 
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 // *****************************************************************************
 // local declarations

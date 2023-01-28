@@ -15,14 +15,16 @@
 #include "utils.hpp"
 
 // + standard includes
-#ifdef EXV_ENABLE_INIH
-#include <INIReader.h>
-#endif
 #include <array>
-#include <filesystem>
 #include <iostream>
 
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 #if !defined(_WIN32)
 #include <pwd.h>
@@ -33,7 +35,10 @@ namespace fs = std::filesystem;
 #define CSIDL_PROFILE 40
 #endif
 #include <process.h>
+#endif
 
+#ifdef EXV_ENABLE_INIH
+#include <INIReader.h>
 #endif
 
 // *****************************************************************************
