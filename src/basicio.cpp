@@ -11,10 +11,6 @@
 #include "image_int.hpp"
 #include "types.hpp"
 
-// + standard includes
-#include <fcntl.h>     // _O_BINARY in FileIo::FileIo
-#include <sys/stat.h>  // for stat, chmod
-
 #include <cstdio>   // for remove, rename
 #include <cstdlib>  // for alloc, realloc, free
 #include <cstring>  // std::memcpy
@@ -22,14 +18,18 @@
 #include <fstream>  // write the temporary file
 #include <iostream>
 
-#ifdef EXV_HAVE_SYS_MMAN_H
+// + standard includes
+#include <fcntl.h>     // _O_BINARY in FileIo::FileIo
+#include <sys/stat.h>  // for stat, chmod
+
+#if __has_include(<sys/mman.h>)
 #include <sys/mman.h>  // for mmap and munmap
 #endif
-#ifdef EXV_HAVE_PROCESS_H
+#if __has_include(<process.h>)
 #include <process.h>
 #endif
-#ifdef EXV_HAVE_UNISTD_H
-#include <unistd.h>  // for getpid, stat
+#if __has_include(<unistd.h>)
+#include <unistd.h>
 #endif
 
 #ifdef EXV_USE_CURL
