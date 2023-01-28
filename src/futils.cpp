@@ -12,15 +12,16 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
-#include <filesystem>
 #include <sstream>
 #include <stdexcept>
 
-#ifdef EXV_HAVE_UNISTD_H
-#include <unistd.h>  // for stat()
-#endif
-
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 #if defined(_WIN32)
 // clang-format off
@@ -42,7 +43,10 @@ namespace fs = std::filesystem;
 #include <sys/sysctl.h>
 #include <sys/types.h>
 #include <sys/un.h>
-#include <unistd.h>
+#endif
+
+#ifdef EXV_HAVE_UNISTD_H
+#include <unistd.h>  // for stat()
 #endif
 
 #ifndef _MAX_PATH
@@ -374,7 +378,7 @@ std::string getProcessPath() {
     ret = path;
   }
 #elif defined(__unix__)
-  ret = std::filesystem::read_symlink("/proc/self/exe");
+  ret = fs::read_symlink("/proc/self/exe");
 #endif
 
   const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_CHR);
