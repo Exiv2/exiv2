@@ -660,7 +660,7 @@ void MemIo::Impl::reserve(size_t wcount) {
 
   if (!isMalloced_) {
     // Minimum size for 1st block
-    size_t size = std::max(blockSize * (1 + need / blockSize), size_);
+    auto size = std::max<size_t>(blockSize * (1 + need / blockSize), size_);
     auto data = static_cast<byte*>(std::malloc(size));
     if (!data) {
       throw Error(ErrorCode::kerMallocFailed);
@@ -828,8 +828,8 @@ DataBuf MemIo::read(size_t rcount) {
 }
 
 size_t MemIo::read(byte* buf, size_t rcount) {
-  const size_t avail = std::max(p_->size_ - p_->idx_, static_cast<size_t>(0));
-  const size_t allow = std::min(rcount, avail);
+  const auto avail = std::max<size_t>(p_->size_ - p_->idx_, 0);
+  const auto allow = std::min<size_t>(rcount, avail);
   if (allow > 0) {
     std::memcpy(buf, &p_->data_[p_->idx_], allow);
   }
@@ -1077,7 +1077,7 @@ size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
     size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
     while (remain) {
-      size_t allow = std::min(remain, blockSize_);
+      auto allow = std::min<size_t>(remain, blockSize_);
       blocksMap_[iBlock].populate(&source[totalRead], allow);
       remain -= allow;
       totalRead += allow;
@@ -1115,7 +1115,7 @@ int RemoteIo::open() {
       auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
       size_t remain = p_->size_, iBlock = 0, totalRead = 0;
       while (remain) {
-        size_t allow = std::min(remain, p_->blockSize_);
+        auto allow = std::min<size_t>(remain, p_->blockSize_);
         p_->blocksMap_[iBlock].populate(&source[totalRead], allow);
         remain -= allow;
         totalRead += allow;
@@ -1240,7 +1240,7 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
     return 0;
   p_->totalRead_ += rcount;
 
-  size_t allow = std::min(rcount, (p_->size_ - p_->idx_));
+  auto allow = std::min<size_t>(rcount, (p_->size_ - p_->idx_));
   size_t lowBlock = p_->idx_ / p_->blockSize_;
   size_t highBlock = (p_->idx_ + allow) / p_->blockSize_;
 
@@ -1258,7 +1258,7 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
     byte* data = p_->blocksMap_[iBlock++].getData();
     if (!data)
       data = fakeData;
-    size_t blockR = std::min(allow, p_->blockSize_ - startPos);
+    auto blockR = std::min<size_t>(allow, p_->blockSize_ - startPos);
     std::memcpy(&buf[totalRead], &data[startPos], blockR);
     totalRead += blockR;
     startPos = 0;

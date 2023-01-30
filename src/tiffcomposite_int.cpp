@@ -407,7 +407,7 @@ bool TiffBinaryArray::updOrigDataBuf(const byte* pData, size_t size) {
 
 size_t TiffBinaryArray::addElement(size_t idx, const ArrayDef& def) {
   auto tag = static_cast<uint16_t>(idx / cfg()->tagStep());
-  size_t sz = std::min(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
+  auto sz = std::min<size_t>(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
   auto tc = TiffCreator::create(tag, cfg()->group_);
   auto tp = dynamic_cast<TiffBinaryElement*>(tc.get());
   // The assertion typically fails if a component is not configured in
@@ -1361,7 +1361,7 @@ size_t TiffBinaryArray::doSize() const {
   if (cfg()->hasFillers_ && def()) {
     const ArrayDef* lastDef = def() + defSize() - 1;
     auto lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
-    idx = std::max(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
+    idx = std::max<size_t>(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
   }
   return idx;
 
