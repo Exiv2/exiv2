@@ -42,7 +42,7 @@ const auto nullComp = reinterpret_cast<const Exiv2::byte*>("\0\0");
 const auto typeExif = reinterpret_cast<const Exiv2::byte*>("eXIf");
 const auto typeICCP = reinterpret_cast<const Exiv2::byte*>("iCCP");
 bool compare(std::string_view str, const Exiv2::DataBuf& buf) {
-  const auto minlen = std::min(str.size(), buf.size());
+  const auto minlen = std::min<size_t>(str.size(), buf.size());
   return buf.cmpBytes(0, str.data(), minlen) == 0;
 }
 }  // namespace
