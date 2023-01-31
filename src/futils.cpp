@@ -264,7 +264,7 @@ void Uri::Decode(Uri& uri) {
 Uri Uri::Parse(const std::string& uri) {
   Uri result;
 
-  if (!uri.length())
+  if (uri.empty())
     return result;
 
   auto uriEnd = uri.end();
@@ -320,7 +320,7 @@ Uri Uri::Parse(const std::string& uri) {
     auto portEnd = (pathStart != uriEnd) ? pathStart : queryStart;
     result.Port = std::string(hostEnd, portEnd);
   }
-  if (!result.Port.length() && result.Protocol == "http")
+  if (result.Port.empty() && result.Protocol == "http")
     result.Port = "80";
 
   // path
