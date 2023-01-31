@@ -278,7 +278,7 @@ Uri Uri::Parse(const std::string& uri) {
 
   if (protocolEnd != uriEnd) {
     auto prot = std::string(protocolEnd, uriEnd);
-    if ((prot.length() > 3) && (prot.substr(0, 3) == "://")) {
+    if (Internal::startsWith(prot, "://")) {
       result.Protocol = std::string(protocolStart, protocolEnd);
       protocolEnd += 3;  //      ://
     } else

@@ -7,6 +7,7 @@
 #include "futils.hpp"
 #include "i18n.h"  // for _exvGettext
 #include "safe_op.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <array>
@@ -475,7 +476,7 @@ void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
 }
 
 bool isHex(const std::string& str, size_t size, const std::string& prefix) {
-  if (str.size() <= prefix.size() || str.substr(0, prefix.size()) != prefix)
+  if (str.size() <= prefix.size() || !Internal::startsWith(str, prefix))
     return false;
   if (size > 0 && str.size() != size + prefix.size())
     return false;

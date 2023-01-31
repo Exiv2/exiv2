@@ -15,6 +15,7 @@
 #include "futils.hpp"
 #include "iptc.hpp"
 #include "types.hpp"
+#include "utils.hpp"
 #include "xmp_exiv2.hpp"
 
 // + standard includes
@@ -1622,7 +1623,7 @@ bool getTextValue(std::string& value, const XmpData::iterator& pos) {
       // If there is no default but exactly one entry, take that
       // without the qualifier
       value = pos->toString();
-      if (pos->value().ok() && value.length() > 5 && value.substr(0, 5) == "lang=") {
+      if (pos->value().ok() && Internal::startsWith(value, "lang=")) {
         const std::string::size_type first_space_pos = value.find_first_of(' ');
         if (first_space_pos != std::string::npos) {
           value = value.substr(first_space_pos + 1);

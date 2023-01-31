@@ -128,7 +128,7 @@ void XmpSidecar::writeMetadata() {
     }
   }
   if (!xmpPacket_.empty()) {
-    if (xmpPacket_.substr(0, 5) != "<?xml") {
+    if (Internal::startsWith(xmpPacket_, "<?xml")) {
       xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
     }
     MemIo tempIo;
@@ -181,13 +181,13 @@ bool isXmpType(BasicIo& iIo, bool advance) {
   }
   bool rc = false;
   std::string head(reinterpret_cast<const char*>(buf + start), len - start);
-  if (head.substr(0, 5) == "<?xml") {
+  if (Internal::startsWith(head, "<?xml")) {
     // Forward to the next tag
     auto it = std::find(head.begin() + 5, head.end(), '<');
     if (it != head.end())
       head = head.substr(std::distance(head.begin(), it));
   }
-  if (head.size() > 9 && (head.substr(0, 9) == "<?xpacket" || head.substr(0, 10) == "<x:xmpmeta")) {
+  if (Internal::startsWith(head, "<?xpacket") || Internal::startsWith(head, "<x:xmpmeta")) {
     rc = true;
   }
   if (!advance || !rc) {

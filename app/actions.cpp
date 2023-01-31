@@ -15,6 +15,7 @@
 #include "preview.hpp"
 #include "safe_op.hpp"
 #include "types.hpp"
+#include "utils.hpp"
 #include "xmp_exiv2.hpp"
 
 #include <fstream>
@@ -450,7 +451,7 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
   if (!keyTag(md.key()))
     return false;
 
-  if (Params::instance().unknown_ && md.tagName().substr(0, 2) == "0x") {
+  if (Params::instance().unknown_ && Exiv2::Internal::startsWith(md.tagName(), "0x")) {
     return false;
   }
 
