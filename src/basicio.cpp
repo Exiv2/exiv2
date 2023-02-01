@@ -911,8 +911,7 @@ void XPathIo::ReadDataUri(const std::string& path) {
 }
 
 #else
-XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)) {
-  tempFilePath_ = path();
+XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), tempFilePath_(path()) {
 }
 
 XPathIo::~XPathIo() {
