@@ -1491,7 +1491,7 @@ class TiffBinaryElement : public TiffEntryBase {
 
  private:
   // DATA
-  ArrayDef elDef_;                           //!< The array element definition
+  ArrayDef elDef_{0, ttUndefined, 0};        //!< The array element definition
   ByteOrder elByteOrder_{invalidByteOrder};  //!< Byte order to read/write the element
 
 };  // class TiffBinaryElement

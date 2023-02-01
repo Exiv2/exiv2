@@ -93,9 +93,6 @@ TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arra
 }
 
 TiffBinaryElement::TiffBinaryElement(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
-  elDef_.idx_ = 0;
-  elDef_.tiffType_ = ttUndefined;
-  elDef_.count_ = 0;
 }
 
 TiffDirectory::~TiffDirectory() {
