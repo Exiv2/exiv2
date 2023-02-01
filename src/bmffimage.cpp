@@ -181,6 +181,9 @@ class BrotliDecoderWrapper {
     BrotliDecoderDestroyInstance(decoder_);
   }
 
+  BrotliDecoderWrapper(const BrotliDecoderWrapper&) = delete;
+  BrotliDecoderWrapper& operator=(const BrotliDecoderWrapper&) = delete;
+
   BrotliDecoderState* get() const {
     return decoder_;
   }
