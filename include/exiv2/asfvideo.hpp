@@ -152,5 +152,4 @@ EXIV2API Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, bool create);
 
 //! Check if the file iIo is a Windows Asf Video.
 EXIV2API bool isAsfType(BasicIo& iIo, bool advance);
-
 }  // namespace Exiv2

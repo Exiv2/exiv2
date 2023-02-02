@@ -87,7 +87,7 @@ void PgfImage::readMetadata() {
 
   // And now, the most interesting, the user data byte array where metadata are stored as small image.
 
-  enforce(headerSize <= std::numeric_limits<size_t>::max() - 8, ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(headerSize <= std::numeric_limits<size_t>::max() - 8, ErrorCode::kerCorruptedMetadata);
   size_t size = headerSize + 8 - io_->tell();
 
 #ifdef EXIV2_DEBUG_MESSAGES

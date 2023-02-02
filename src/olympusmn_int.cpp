@@ -1243,7 +1243,7 @@ std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, const Value& value
 
   // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
   // Only the Make, Model and Sub-model are used to determine the lens model
-  static struct {
+  static const struct {
     byte val[3];
     const char* label;
   } lensTypes[] = {
@@ -1397,7 +1397,7 @@ std::ostream& OlympusMakerNote::print0x0209(std::ostream& os, const Value& value
 std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& value, const ExifData*) {
   // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
   // Only the Make and Model are used to determine the extender model
-  static struct {
+  static const struct {
     byte val[2];
     const char* label;
   } extenderModels[] = {

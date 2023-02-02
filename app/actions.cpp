@@ -17,17 +17,16 @@
 #include "types.hpp"
 #include "xmp_exiv2.hpp"
 
-// + standard includes
-#include <sys/stat.h>   // for stat()
-#include <sys/types.h>  // for stat()
-
-#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <mutex>
 #include <sstream>
-#ifdef EXV_HAVE_UNISTD_H
+
+// + standard includes
+#include <sys/stat.h>   // for stat()
+#include <sys/types.h>  // for stat()
+#if __has_include(<unistd.h>)
 #include <unistd.h>  // for stat()
 #endif
 
@@ -46,7 +45,13 @@
   } while (false)
 #endif
 
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 // *****************************************************************************
 // local declarations
@@ -631,7 +636,7 @@ int Rename::run(const std::string& path) {
       return 1;
     }
     std::string v = md->toString();
-    if (v.length() == 0 || v[0] == ' ') {
+    if (v.empty() || v.front() == ' ') {
       std::cerr << _("Image file creation timestamp not set in the file") << " " << path << "\n";
       return 1;
     }
@@ -1408,30 +1413,32 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
   }
 
   // bounds checking for yearAdjustment_
-  enforce<std::overflow_error>(yearAdjustment_ >= std::numeric_limits<decltype(tm.tm_year)>::min(),
-                               "year adjustment too low");
-  enforce<std::overflow_error>(yearAdjustment_ <= std::numeric_limits<decltype(tm.tm_year)>::max(),
-                               "year adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(yearAdjustment_ >= std::numeric_limits<decltype(tm.tm_year)>::min(),
+                                                "year adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(yearAdjustment_ <= std::numeric_limits<decltype(tm.tm_year)>::max(),
+                                                "year adjustment too high");
   const auto yearAdjustment = static_cast<decltype(tm.tm_year)>(yearAdjustment_);
 
   // bounds checking for monthAdjustment_
-  enforce<std::overflow_error>(monthAdjustment_ >= std::numeric_limits<decltype(tm.tm_mon)>::min(),
-                               "month adjustment too low");
-  enforce<std::overflow_error>(monthAdjustment_ <= std::numeric_limits<decltype(tm.tm_mon)>::max(),
-                               "month adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(monthAdjustment_ >= std::numeric_limits<decltype(tm.tm_mon)>::min(),
+                                                "month adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(monthAdjustment_ <= std::numeric_limits<decltype(tm.tm_mon)>::max(),
+                                                "month adjustment too high");
   const auto monthAdjustment = static_cast<decltype(tm.tm_mon)>(monthAdjustment_);
 
   // bounds checking for dayAdjustment_
   static constexpr time_t secondsInDay = 24 * 60 * 60;
-  enforce<std::overflow_error>(dayAdjustment_ >= std::numeric_limits<time_t>::min() / secondsInDay,
-                               "day adjustment too low");
-  enforce<std::overflow_error>(dayAdjustment_ <= std::numeric_limits<time_t>::max() / secondsInDay,
-                               "day adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(dayAdjustment_ >= std::numeric_limits<time_t>::min() / secondsInDay,
+                                                "day adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(dayAdjustment_ <= std::numeric_limits<time_t>::max() / secondsInDay,
+                                                "day adjustment too high");
   const auto dayAdjustment = static_cast<time_t>(dayAdjustment_);
 
   // bounds checking for adjustment_
-  enforce<std::overflow_error>(adjustment_ >= std::numeric_limits<time_t>::min(), "seconds adjustment too low");
-  enforce<std::overflow_error>(adjustment_ <= std::numeric_limits<time_t>::max(), "seconds adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(adjustment_ >= std::numeric_limits<time_t>::min(),
+                                                "seconds adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(adjustment_ <= std::numeric_limits<time_t>::max(),
+                                                "seconds adjustment too high");
   const auto adjustment = static_cast<time_t>(adjustment_);
 
   const auto monOverflow = Safe::add(tm.tm_mon, monthAdjustment) / 12;
@@ -1602,7 +1609,7 @@ int Timestamp::touch(const std::string& path) const {
 //! @endcond
 
 int str2Tm(const std::string& timeStr, struct tm* tm) {
-  if (timeStr.length() == 0 || timeStr[0] == ' ')
+  if (timeStr.empty() || timeStr.front() == ' ')
     return 1;
   if (timeStr.length() < 19)
     return 2;

@@ -864,7 +864,7 @@ class TiffDirectory : public TiffComponent {
   //! @name Protected Creators
   //@{
   //! Copy constructor (used to implement clone()).
-  TiffDirectory(const TiffDirectory& rhs);
+  TiffDirectory(const TiffDirectory&) = default;
   //@}
 
   //! @name Protected Manipulators
@@ -958,7 +958,7 @@ class TiffSubIfd : public TiffEntryBase {
   //! @name Protected Creators
   //@{
   //! Copy constructor (used to implement clone()).
-  TiffSubIfd(const TiffSubIfd& rhs);
+  TiffSubIfd(const TiffSubIfd&) = default;
   TiffSubIfd& operator=(const TiffSubIfd&) = delete;
   //@}
 
@@ -1360,7 +1360,7 @@ class TiffBinaryArray : public TiffEntryBase {
   //! @name Protected Creators
   //@{
   //! Copy constructor (used to implement clone()).
-  TiffBinaryArray(const TiffBinaryArray& rhs);
+  TiffBinaryArray(const TiffBinaryArray&) = default;
   //@}
 
   //! @name Protected Manipulators

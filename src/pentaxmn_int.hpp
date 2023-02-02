@@ -70,7 +70,7 @@ std::ostream& printCombiTag(std::ostream& os, const Value& value, const ExifData
     }
     l += (value.toUint32(c) << ((count - c - 1) * 8));
   }
-  const TagDetails* td = find(array, l);
+  auto td = Exiv2::find(array, l);
   if (td) {
     os << exvGettext(td->label_);
   } else {
