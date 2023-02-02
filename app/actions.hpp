@@ -128,7 +128,6 @@ class TaskFactory {
 //! %Print the Exif (or other metadata) of a file to stdout
 class Print : public Task {
  public:
-  ~Print() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
 
@@ -174,7 +173,6 @@ class Print : public Task {
 /// @brief %Rename a file to its metadata creation timestamp, in the specified format.
 class Rename : public Task {
  public:
-  ~Rename() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
 };  // class Rename
@@ -182,7 +180,6 @@ class Rename : public Task {
 //! %Adjust the Exif (or other metadata) timestamps
 class Adjust : public Task {
  public:
-  ~Adjust() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
 
@@ -199,7 +196,6 @@ class Adjust : public Task {
 /// @brief %Erase the entire exif data or only the thumbnail section.
 class Erase : public Task {
  public:
-  ~Erase() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
 
@@ -228,7 +224,6 @@ class Erase : public Task {
 /// @brief %Extract the entire exif data or only the thumbnail section.
 class Extract : public Task {
  public:
-  ~Extract() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
 
@@ -258,7 +253,6 @@ class Extract : public Task {
 /// @brief %Insert the Exif data from corresponding *.exv files.
 class Insert : public Task {
  public:
-  ~Insert() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
 
@@ -285,8 +279,6 @@ class Insert : public Task {
 /// @brief %Modify the Exif data according to the commands in the modification table.
 class Modify : public Task {
  public:
-  Modify() = default;
-  ~Modify() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
   //! Apply modification commands to the \em pImage, return 0 if successful.
@@ -306,7 +298,6 @@ class Modify : public Task {
 /// @brief %Copy ISO settings from any of the Nikon makernotes to the regular Exif tag, Exif.Photo.ISOSpeedRatings.
 class FixIso : public Task {
  public:
-  ~FixIso() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
 
@@ -319,7 +310,6 @@ class FixIso : public Task {
 /// Decodes the comment using the auto-detected or specified character encoding and writes it back in UCS-2.
 class FixCom : public Task {
  public:
-  ~FixCom() override = default;
   int run(const std::string& path) override;
   Task::UniquePtr clone() const override;
 

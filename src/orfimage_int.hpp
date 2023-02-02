@@ -22,8 +22,6 @@ class OrfHeader : public TiffHeaderBase {
   //@{
   //! Default constructor
   explicit OrfHeader(ByteOrder byteOrder = littleEndian);
-  //! Destructor.
-  ~OrfHeader() override = default;
   //@}
 
   //! @name Manipulators

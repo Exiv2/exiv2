@@ -22,8 +22,6 @@ class Rw2Header : public TiffHeaderBase {
   //@{
   //! Default constructor
   Rw2Header();
-  //! Destructor.
-  ~Rw2Header() override = default;
   //@}
 
   //! @name Accessors

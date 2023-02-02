@@ -45,9 +45,7 @@ class DummyTiffHeader : public TiffHeaderBase {
   //! @name Creators
   //@{
   //! Default constructor
-  DummyTiffHeader(ByteOrder byteOrder);
-  //! Destructor
-  ~DummyTiffHeader() override = default;
+  explicit DummyTiffHeader(ByteOrder byteOrder);
   //@}
 
   //! @name Manipulators
