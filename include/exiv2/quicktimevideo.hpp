@@ -17,8 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef QUICKTIMEVIDEO_HPP
-#define QUICKTIMEVIDEO_HPP
+#ifndef QUICKTIMEVIDEO_HPP_
+#define QUICKTIMEVIDEO_HPP_
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -37,7 +37,7 @@ namespace Exiv2 {
 /*!
   @brief Class to access QuickTime video files.
  */
-class QuickTimeVideo : public Image {
+class EXIV2API QuickTimeVideo : public Image {
  public:
   //! @name Creators
   //@{
@@ -52,7 +52,7 @@ class QuickTimeVideo : public Image {
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
    */
-  QuickTimeVideo(BasicIo::UniquePtr io);
+  explicit QuickTimeVideo(BasicIo::UniquePtr io);
   //@}
 
   //! @name NOT Implemented
@@ -71,7 +71,7 @@ class QuickTimeVideo : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
  protected:
@@ -227,11 +227,11 @@ class QuickTimeVideo : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool create);
 
 //! Check if the file iIo is a Quick Time Video.
-bool isQTimeType(BasicIo& iIo, bool advance);
+EXIV2API bool isQTimeType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // QUICKTIMEVIDEO_HPP
+#endif  // QUICKTIMEVIDEO_HPP_

@@ -42,7 +42,6 @@ class EXIV2API RiffVideo : public Image {
 
   //! @name Manipulators
   //@{
-  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   void readMetadata() override;
   void writeMetadata() override;
   //@}

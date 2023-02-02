@@ -3791,7 +3791,7 @@ std::ostream& Nikon3MakerNote::print0x009e(std::ostream& os, const Value& value,
     if (l != 0)
       trim = false;
     std::string d = s.empty() ? "" : "; ";
-    const TagDetails* td = find(nikonRetouchHistory, l);
+    auto td = Exiv2::find(nikonRetouchHistory, l);
     if (td) {
       s = std::string(exvGettext(td->label_)).append(d).append(s);
     } else {

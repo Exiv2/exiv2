@@ -359,12 +359,6 @@ std::string RiffVideo::mimeType() const {
   return "video/riff";
 }
 
-void RiffVideo::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
-  if (io_->open() != 0) {
-    throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
-  }
-}  // RiffVideo::printStructure
-
 void RiffVideo::writeMetadata() {
 }  // RiffVideo::writeMetadata
 

@@ -118,6 +118,7 @@ const std::map<std::string, std::string> GUIDReferenceTags = {
       parsed into a character array GUID.
       https://fr.wikipedia.org/wiki/Globally_unique_identifier
  */
+
 std::string getGUID(DataBuf& buf) {
   std::string GUID(36, '-');
   if (buf.size() >= 16) {

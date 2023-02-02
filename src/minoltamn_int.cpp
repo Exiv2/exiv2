@@ -1446,19 +1446,19 @@ static long getKeyLong(const std::string& key, const ExifData* metadata, int whi
 /*! http://stackoverflow.com/questions/1798112/removing-leading-and-trailing-spaces-from-a-string
     trim from left
 */
-inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v") {
   s.erase(0, s.find_first_not_of(t));
   return s;
 }
 
 //! trim from right
-inline std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v") {
   s.erase(s.find_last_not_of(t) + 1);
   return s;
 }
 
 //! trim from left & right
-inline std::string& trim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& trim(std::string& s, const char* t = " \t\n\r\f\v") {
   return ltrim(rtrim(s, t), t);
 }
 
@@ -1483,7 +1483,7 @@ static bool inRange(long value, long min, long max) {
 }
 
 static std::ostream& resolvedLens(std::ostream& os, long lensID, long index) {
-  const TagDetails* td = find(minoltaSonyLensID, lensID);
+  auto td = Exiv2::find(minoltaSonyLensID, lensID);
   std::vector<std::string> tokens = split(td[0].label_, "|");
   return os << exvGettext(trim(tokens.at(index - 1)).c_str());
 }
@@ -1606,7 +1606,7 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
 
     std::string F1_8 = "434/256";
-    static constexpr auto maxApertures = std::array{
+    static constexpr const char* maxApertures[] = {
         "926/256",   // F3.5
         "1024/256",  // F4
         "1110/256",  // F4.5
@@ -1626,7 +1626,7 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
       } catch (...) {
       }
 
-    if (model == "ILCE-6000" && std::find(maxApertures.begin(), maxApertures.end(), maxAperture) != maxApertures.end())
+    if (model == "ILCE-6000" && Exiv2::find(maxApertures, maxAperture))
       try {
         long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
         if (focalLength > 0) {

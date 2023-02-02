@@ -2320,7 +2320,7 @@ const TagInfo* mnTagList() {
 
 bool isMakerIfd(IfdId ifdId) {
   bool rc = false;
-  const GroupInfo* ii = find(groupInfo, ifdId);
+  auto ii = Exiv2::find(groupInfo, ifdId);
   if (ii && 0 == strcmp(ii->ifdName_, "Makernote")) {
     rc = true;
   }
@@ -2364,7 +2364,7 @@ void taglist(std::ostream& os, IfdId ifdId) {
 }  // taglist
 
 const TagInfo* tagList(IfdId ifdId) {
-  const GroupInfo* ii = find(groupInfo, ifdId);
+  auto ii = Exiv2::find(groupInfo, ifdId);
   if (!ii || !ii->tagList_)
     return nullptr;
   return ii->tagList_();
@@ -2399,21 +2399,21 @@ const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
 
 IfdId groupId(const std::string& groupName) {
   IfdId ifdId = IfdId::ifdIdNotSet;
-  const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
+  auto ii = Exiv2::find(groupInfo, GroupInfo::GroupName(groupName));
   if (ii)
     ifdId = static_cast<IfdId>(ii->ifdId_);
   return ifdId;
 }
 
 const char* ifdName(IfdId ifdId) {
-  const GroupInfo* ii = find(groupInfo, ifdId);
+  auto ii = Exiv2::find(groupInfo, ifdId);
   if (!ii)
     return groupInfo[0].ifdName_;
   return ii->ifdName_;
 }
 
 const char* groupName(IfdId ifdId) {
-  const GroupInfo* ii = find(groupInfo, ifdId);
+  auto ii = Exiv2::find(groupInfo, ifdId);
   if (!ii)
     return groupInfo[0].groupName_;
   return ii->groupName_;
@@ -3047,7 +3047,7 @@ const GroupInfo* groupList() {
 }
 
 const TagInfo* tagList(const std::string& groupName) {
-  const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
+  auto ii = Exiv2::find(groupInfo, GroupInfo::GroupName(groupName));
   if (!ii || !ii->tagList_) {
     return nullptr;
   }

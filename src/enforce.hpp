@@ -22,6 +22,7 @@
 
 #include "error.hpp"
 
+namespace Exiv2::Internal {
 /*!
  * @brief Ensure that condition is true, otherwise throw an exception of the
  * type exception_t
@@ -81,3 +82,4 @@ inline void enforce(bool condition, Exiv2::ErrorCode err_code, const T& arg1, co
     throw Exiv2::Error(err_code, arg1, arg2, arg3);
   }
 }
+}  // namespace Exiv2::Internal

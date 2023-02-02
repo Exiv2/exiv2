@@ -22,7 +22,7 @@
 // *****************************************************************************
 namespace {
 //! Information pertaining to the defined %Exiv2 value type identifiers.
-struct TypeInfoTable {
+constexpr struct TypeInfoTable {
   Exiv2::TypeId typeId_;  //!< Type id
   const char* name_;      //!< Name of the type
   size_t size_;           //!< Bytes per data entry
@@ -34,34 +34,32 @@ struct TypeInfoTable {
   bool operator==(const std::string& name) const {
     return name == name_;
   }
-};  // struct TypeInfoTable
-
-//! Lookup list with information of Exiv2 types
-constexpr auto typeInfoTable = std::array{
-    TypeInfoTable{Exiv2::invalidTypeId, "Invalid", 0},
-    TypeInfoTable{Exiv2::unsignedByte, "Byte", 1},
-    TypeInfoTable{Exiv2::asciiString, "Ascii", 1},
-    TypeInfoTable{Exiv2::unsignedShort, "Short", 2},
-    TypeInfoTable{Exiv2::unsignedLong, "Long", 4},
-    TypeInfoTable{Exiv2::unsignedRational, "Rational", 8},
-    TypeInfoTable{Exiv2::signedByte, "SByte", 1},
-    TypeInfoTable{Exiv2::undefined, "Undefined", 1},
-    TypeInfoTable{Exiv2::signedShort, "SShort", 2},
-    TypeInfoTable{Exiv2::signedLong, "SLong", 4},
-    TypeInfoTable{Exiv2::signedRational, "SRational", 8},
-    TypeInfoTable{Exiv2::tiffFloat, "Float", 4},
-    TypeInfoTable{Exiv2::tiffDouble, "Double", 8},
-    TypeInfoTable{Exiv2::tiffIfd, "Ifd", 4},
-    TypeInfoTable{Exiv2::string, "String", 1},
-    TypeInfoTable{Exiv2::date, "Date", 8},
-    TypeInfoTable{Exiv2::time, "Time", 11},
-    TypeInfoTable{Exiv2::comment, "Comment", 1},
-    TypeInfoTable{Exiv2::directory, "Directory", 1},
-    TypeInfoTable{Exiv2::xmpText, "XmpText", 1},
-    TypeInfoTable{Exiv2::xmpAlt, "XmpAlt", 1},
-    TypeInfoTable{Exiv2::xmpBag, "XmpBag", 1},
-    TypeInfoTable{Exiv2::xmpSeq, "XmpSeq", 1},
-    TypeInfoTable{Exiv2::langAlt, "LangAlt", 1},
+} typeInfoTable[] = {
+    //! Lookup list with information of Exiv2 types
+    {Exiv2::invalidTypeId, "Invalid", 0},
+    {Exiv2::unsignedByte, "Byte", 1},
+    {Exiv2::asciiString, "Ascii", 1},
+    {Exiv2::unsignedShort, "Short", 2},
+    {Exiv2::unsignedLong, "Long", 4},
+    {Exiv2::unsignedRational, "Rational", 8},
+    {Exiv2::signedByte, "SByte", 1},
+    {Exiv2::undefined, "Undefined", 1},
+    {Exiv2::signedShort, "SShort", 2},
+    {Exiv2::signedLong, "SLong", 4},
+    {Exiv2::signedRational, "SRational", 8},
+    {Exiv2::tiffFloat, "Float", 4},
+    {Exiv2::tiffDouble, "Double", 8},
+    {Exiv2::tiffIfd, "Ifd", 4},
+    {Exiv2::string, "String", 1},
+    {Exiv2::date, "Date", 8},
+    {Exiv2::time, "Time", 11},
+    {Exiv2::comment, "Comment", 1},
+    {Exiv2::directory, "Directory", 1},
+    {Exiv2::xmpText, "XmpText", 1},
+    {Exiv2::xmpAlt, "XmpAlt", 1},
+    {Exiv2::xmpBag, "XmpBag", 1},
+    {Exiv2::xmpSeq, "XmpSeq", 1},
+    {Exiv2::langAlt, "LangAlt", 1},
 };
 
 }  // namespace
@@ -70,22 +68,22 @@ constexpr auto typeInfoTable = std::array{
 // class member definitions
 namespace Exiv2 {
 const char* TypeInfo::typeName(TypeId typeId) {
-  auto tit = std::find(typeInfoTable.begin(), typeInfoTable.end(), typeId);
-  if (tit == typeInfoTable.end())
+  auto tit = Exiv2::find(typeInfoTable, typeId);
+  if (!tit)
     return nullptr;
   return tit->name_;
 }
 
 TypeId TypeInfo::typeId(const std::string& typeName) {
-  auto tit = std::find(typeInfoTable.begin(), typeInfoTable.end(), typeName);
-  if (tit == typeInfoTable.end())
+  auto tit = Exiv2::find(typeInfoTable, typeName);
+  if (!tit)
     return invalidTypeId;
   return tit->typeId_;
 }
 
 size_t TypeInfo::typeSize(TypeId typeId) {
-  auto tit = std::find(typeInfoTable.begin(), typeInfoTable.end(), typeId);
-  if (tit == typeInfoTable.end())
+  auto tit = Exiv2::find(typeInfoTable, typeId);
+  if (!tit)
     return 0;
   return tit->size_;
 }
@@ -194,9 +192,9 @@ const char* Exiv2::DataBuf::c_str(size_t offset) const {
 // free functions
 
 static void checkDataBufBounds(const DataBuf& buf, size_t end) {
-  enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
-                                 "end of slice too large to be compared with DataBuf bounds.");
-  enforce<std::out_of_range>(end <= buf.size(), "Invalid slice bounds specified");
+  Internal::enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
+                                           "end of slice too large to be compared with DataBuf bounds.");
+  Internal::enforce<std::out_of_range>(end <= buf.size(), "Invalid slice bounds specified");
 }
 
 Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end) {

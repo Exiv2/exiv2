@@ -585,11 +585,8 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
   bool bNS = out.find(':') != std::string::npos && !bURI;
 
   // pop trailing ':' on a namespace
-  if (bNS && !out.empty()) {
-    std::size_t length = out.length();
-    if (out[length - 1] == ':')
-      out = out.substr(0, length - 1);
-  }
+  if (bNS && !out.empty() && out.back() == ':')
+    out.pop_back();
 
   if (bURI || bNS) {
     auto p = static_cast<std::map<std::string, std::string>*>(refCon);
@@ -706,7 +703,7 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
           bool ret = SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &prefix);
           if (!ret)
             throw Error(ErrorCode::kerSchemaNamespaceNotRegistered, schemaNs);
-          prefix = prefix.substr(0, prefix.size() - 1);
+          prefix.pop_back();
           XmpProperties::registerNs(schemaNs, prefix);
         }
         continue;

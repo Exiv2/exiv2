@@ -56,8 +56,8 @@ namespace Internal {
  * https://wiki.sei.cmu.edu/confluence/display/c/INT32-C.+Ensure+that+operations+on+signed+integers+do+not+result+in+overflow
  */
 template <typename T>
-typename std::enable_if<std::is_signed<T>::value && sizeof(T) >= sizeof(int), bool>::type fallback_add_overflow(
-    T summand_1, T summand_2, T& result) {
+std::enable_if_t<std::is_signed_v<T> && sizeof(T) >= sizeof(int), bool> fallback_add_overflow(T summand_1, T summand_2,
+                                                                                              T& result) {
   if (((summand_2 >= 0) && (summand_1 > std::numeric_limits<T>::max() - summand_2)) ||
       ((summand_2 < 0) && (summand_1 < std::numeric_limits<T>::min() - summand_2))) {
     return true;
@@ -86,8 +86,8 @@ typename std::enable_if<std::is_signed<T>::value && sizeof(T) >= sizeof(int), bo
  * https://wiki.sei.cmu.edu/confluence/display/c/INT02-C.+Understand+integer+conversion+rules
  */
 template <typename T>
-typename std::enable_if<std::is_signed<T>::value && sizeof(T) < sizeof(int), bool>::type fallback_add_overflow(
-    T summand_1, T summand_2, T& result) {
+std::enable_if_t<std::is_signed_v<T> && sizeof(T) < sizeof(int), bool> fallback_add_overflow(T summand_1, T summand_2,
+                                                                                             T& result) {
   const int res = summand_1 + summand_2;
   if ((res > std::numeric_limits<T>::max()) || (res < std::numeric_limits<T>::min())) {
     return true;
@@ -113,8 +113,7 @@ typename std::enable_if<std::is_signed<T>::value && sizeof(T) < sizeof(int), boo
  * https://wiki.sei.cmu.edu/confluence/display/c/INT30-C.+Ensure+that+unsigned+integer+operations+do+not+wrap
  */
 template <typename T>
-typename std::enable_if<!std::is_signed<T>::value, bool>::type fallback_add_overflow(T summand_1, T summand_2,
-                                                                                     T& result) {
+std::enable_if_t<!std::is_signed_v<T>, bool> fallback_add_overflow(T summand_1, T summand_2, T& result) {
   result = summand_1 + summand_2;
   return result < summand_1;
 }
@@ -224,7 +223,7 @@ T add(T summand_1, T summand_2) {
  *          when `num == std::numeric_limits<T>::min()`.
  */
 template <typename T>
-typename std::enable_if<std::is_signed<T>::value, T>::type abs(T num) throw() {
+std::enable_if_t<std::is_signed_v<T>, T> abs(T num) throw() {
   if (num == std::numeric_limits<T>::min()) {
     return std::numeric_limits<T>::max();
   }

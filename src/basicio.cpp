@@ -11,26 +11,25 @@
 #include "image_int.hpp"
 #include "types.hpp"
 
-// + standard includes
-#include <fcntl.h>     // _O_BINARY in FileIo::FileIo
-#include <sys/stat.h>  // for stat, chmod
-
 #include <cstdio>   // for remove, rename
 #include <cstdlib>  // for alloc, realloc, free
 #include <cstring>  // std::memcpy
 #include <ctime>    // timestamp for the name of temporary file
-#include <filesystem>
 #include <fstream>  // write the temporary file
 #include <iostream>
 
-#ifdef EXV_HAVE_SYS_MMAN_H
+// + standard includes
+#include <fcntl.h>     // _O_BINARY in FileIo::FileIo
+#include <sys/stat.h>  // for stat, chmod
+
+#if __has_include(<sys/mman.h>)
 #include <sys/mman.h>  // for mmap and munmap
 #endif
-#ifdef EXV_HAVE_PROCESS_H
+#if __has_include(<process.h>)
 #include <process.h>
 #endif
-#ifdef EXV_HAVE_UNISTD_H
-#include <unistd.h>  // for getpid, stat
+#if __has_include(<unistd.h>)
+#include <unistd.h>
 #endif
 
 #ifdef EXV_USE_CURL
@@ -43,7 +42,13 @@
 #include <windows.h>
 #endif
 
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -61,13 +66,13 @@ void ReplaceStringInPlace(std::string& subject, std::string_view search, std::st
 namespace Exiv2 {
 void BasicIo::readOrThrow(byte* buf, size_t rcount, ErrorCode err) {
   const size_t nread = read(buf, rcount);
-  enforce(nread == rcount, err);
-  enforce(!error(), err);
+  Internal::enforce(nread == rcount, err);
+  Internal::enforce(!error(), err);
 }
 
 void BasicIo::seekOrThrow(int64_t offset, Position pos, ErrorCode err) {
   const int r = seek(offset, pos);
-  enforce(r == 0, err);
+  Internal::enforce(r == 0, err);
 }
 
 //! Internal Pimpl structure of class FileIo.
@@ -465,7 +470,7 @@ int FileIo::seek(int64_t offset, Position pos) {
 
 size_t FileIo::tell() const {
   const long pos = std::ftell(p_->fp_);
-  enforce(pos >= 0, ErrorCode::kerInputDataReadFailed);
+  Internal::enforce(pos >= 0, ErrorCode::kerInputDataReadFailed);
   return static_cast<size_t>(pos);
 }
 

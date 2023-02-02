@@ -243,17 +243,17 @@ void RafImage::readMetadata() {
   uint32_t jpg_img_off_u32 = Exiv2::getULong(jpg_img_offset, bigEndian);
   uint32_t jpg_img_len_u32 = Exiv2::getULong(jpg_img_length, bigEndian);
 
-  enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), ErrorCode::kerCorruptedMetadata);
 
 #if LONG_MAX < UINT_MAX
-  enforce(jpg_img_off_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
-  enforce(jpg_img_len_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(jpg_img_off_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(jpg_img_len_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
 #endif
 
   auto jpg_img_off = static_cast<long>(jpg_img_off_u32);
   auto jpg_img_len = static_cast<long>(jpg_img_len_u32);
 
-  enforce(jpg_img_len >= 12, ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(jpg_img_len >= 12, ErrorCode::kerCorruptedMetadata);
 
   DataBuf buf(jpg_img_len - 12);
   if (io_->seek(jpg_img_off + 12, BasicIo::beg) != 0)
@@ -285,7 +285,7 @@ void RafImage::readMetadata() {
   uint32_t tiffLength = Exiv2::getULong(readBuff, bigEndian);
 
   // sanity check.  Does tiff lie inside the file?
-  enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), ErrorCode::kerCorruptedMetadata);
 
   if (io_->seek(tiffOffset, BasicIo::beg) != 0)
     throw Error(ErrorCode::kerFailedToReadImageData);

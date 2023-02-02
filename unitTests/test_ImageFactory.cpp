@@ -5,10 +5,16 @@
 #include <error.hpp>  // Need to include this header for the Exiv2::Error exception
 
 #include <gtest/gtest.h>
+
+#if __has_include(<filesystem>)
 #include <filesystem>
+namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 using namespace Exiv2;
-namespace fs = std::filesystem;
 
 TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory) {
   // Note that the constructor of these Image classes take an 'create' argument

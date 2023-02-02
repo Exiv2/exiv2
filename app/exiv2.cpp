@@ -41,12 +41,19 @@ constexpr auto emptyYodAdjust_ = std::array{
 };
 
 //! List of all command identifiers and corresponding strings
-constexpr auto cmdIdAndString = std::array{
-    std::pair(CmdId::add, "add"),
-    std::pair(CmdId::set, "set"),
-    std::pair(CmdId::del, "del"),
-    std::pair(CmdId::reg, "reg"),
-    std::pair(CmdId::invalid, "invalidCmd"),  // End of list marker
+constexpr struct CmdIdAndString {
+  CmdId cmdId_;
+  const char* string_;
+  //! Comparison operator for \em string
+  bool operator==(const std::string& string) const {
+    return string == string_;
+  }
+} cmdIdAndString[] = {
+    {CmdId::add, "add"},
+    {CmdId::set, "set"},
+    {CmdId::del, "del"},
+    {CmdId::reg, "reg"},
+    {CmdId::invalid, "invalidCmd"},  // End of list marker
 };
 
 // Return a command Id for a command string
@@ -1433,8 +1440,8 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 }  // parseLine
 
 CmdId commandId(const std::string& cmdString) {
-  auto it = std::find_if(cmdIdAndString.begin(), cmdIdAndString.end(), [&](auto cs) { return cs.second == cmdString; });
-  return it != cmdIdAndString.end() ? it->first : CmdId::invalid;
+  auto it = Exiv2::find(cmdIdAndString, cmdString);
+  return it ? it->cmdId_ : CmdId::invalid;
 }
 
 std::string parseEscapes(const std::string& input) {
