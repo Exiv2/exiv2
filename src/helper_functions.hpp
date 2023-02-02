@@ -4,8 +4,8 @@
 #define HELPER_FUNCTIONS_HPP
 
 #include <string>
-#include "types.hpp"
 #include "basicio.hpp"
+#include "types.hpp"
 /*!
   @brief Convert a (potentially not null terminated) array into a
   std::string.
@@ -39,26 +39,24 @@ char returnHex(int n);
   @return Returns std::string object .
  */
 
-
-static constexpr size_t BYTE  = 0x1;
+static constexpr size_t BYTE = 0x1;
 static constexpr size_t WCHAR = 0x2;
-static constexpr size_t WORD  = 0X2;
+static constexpr size_t WORD = 0X2;
 static constexpr size_t DWORD = 0x4;
 static constexpr size_t QWORD = 0x8;
-static constexpr size_t GUID  = 0x10;
+static constexpr size_t GUID = 0x10;
 
 std::string toString16(Exiv2::DataBuf& buf);
 
+[[nodiscard]] uint64_t readQWORDTag(Exiv2::BasicIo::UniquePtr& io);
 
-[[nodiscard]] uint64_t readQWORDTag(Exiv2::BasicIo::UniquePtr& io) ;
+[[nodiscard]] uint32_t readDWORDTag(Exiv2::BasicIo::UniquePtr& io);
 
-[[nodiscard]] uint32_t readDWORDTag(Exiv2::BasicIo::UniquePtr& io) ;
+[[nodiscard]] uint16_t readWORDTag(Exiv2::BasicIo::UniquePtr& io);
 
-[[nodiscard]] uint16_t readWORDTag(Exiv2::BasicIo::UniquePtr& io) ;
+[[nodiscard]] std::string readStringWcharTag(Exiv2::BasicIo::UniquePtr& io, uint16_t length);
 
-[[nodiscard]] std::string readStringWcharTag(Exiv2::BasicIo::UniquePtr& io, uint16_t length) ;
-
-[[nodiscard]] std::string readStringTag(Exiv2::BasicIo::UniquePtr& io, uint16_t length=DWORD) ;
+[[nodiscard]] std::string readStringTag(Exiv2::BasicIo::UniquePtr& io, uint16_t length = DWORD);
 
 }  // namespace Exiv2
 #endif  // HELPER_FUNCTIONS_HPP

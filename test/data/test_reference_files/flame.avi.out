@@ -5,6 +5,7 @@ Xmp.video.FileType                           XmpText     4  AVI   AVI
 Xmp.video.MicroSecPerFrame                   XmpText     5  28571  28571
 Xmp.video.MaxDataRate                        XmpText     5  95326  95326
 Xmp.video.FrameCount                         XmpText     3  110  110
+Xmp.audio.ChannelType                        XmpText     4  Mono  Mono
 Xmp.video.StreamCount                        XmpText     4  3074  3074
 Xmp.video.Width                              XmpText     3  256  256
 Xmp.video.Height                             XmpText     3  240  240
