@@ -55,13 +55,13 @@ uint16_t readWORDTag(BasicIo::UniquePtr& io) {
   return FieldBuf.read_uint16(0, littleEndian);
 }
 
-std::string readStringWcharTag(BasicIo::UniquePtr& io, uint16_t length) {
+std::string readStringWcharTag(BasicIo::UniquePtr& io, size_t length) {
   Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf = io->read(length);
   return toString16(FieldBuf);
 }
 
-std::string readStringTag(BasicIo::UniquePtr& io, uint16_t length) {
+std::string readStringTag(BasicIo::UniquePtr& io, size_t length) {
   Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf = io->read(length);
   return Exiv2::toString(FieldBuf.data());

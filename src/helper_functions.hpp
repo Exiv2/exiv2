@@ -54,9 +54,9 @@ std::string toString16(Exiv2::DataBuf& buf);
 
 [[nodiscard]] uint16_t readWORDTag(Exiv2::BasicIo::UniquePtr& io);
 
-[[nodiscard]] std::string readStringWcharTag(Exiv2::BasicIo::UniquePtr& io, uint16_t length);
+[[nodiscard]] std::string readStringWcharTag(Exiv2::BasicIo::UniquePtr& io, size_t length);
 
-[[nodiscard]] std::string readStringTag(Exiv2::BasicIo::UniquePtr& io, uint16_t length = DWORD);
+[[nodiscard]] std::string readStringTag(Exiv2::BasicIo::UniquePtr& io, size_t length = DWORD);
 
 }  // namespace Exiv2
 #endif  // HELPER_FUNCTIONS_HPP

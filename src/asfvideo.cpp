@@ -217,7 +217,7 @@ void AsfVideo::readMetadata() {
 }  // AsfVideo::readMetadata
 
 AsfVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) : IdBuf_(GUID) {
-  if (io->size() >= io->tell() + QWORD + QWORD) {
+  if (io->size() >= io->tell() + GUID + QWORD) {
     IdBuf_ = io->read(GUID);
 
     size_ = readQWORDTag(io);

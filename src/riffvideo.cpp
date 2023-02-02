@@ -390,9 +390,7 @@ void RiffVideo::readMetadata() {
 
 RiffVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) {
   if (io->size() >= io->tell() + DWORD + DWORD) {
-    DataBuf IdBuf_ = io->read(DWORD);
-    id_ = Exiv2::toString(IdBuf_.data());
-
+    id_ = readStringTag(io);
     size_ = readDWORDTag(io);
   }
 }
@@ -719,7 +717,7 @@ void RiffVideo::readIndexChunk(uint64_t size_) {
 
 void RiffVideo::readDataChunk(uint64_t size_) {
 #ifdef EXIV2_DEBUG_MESSAGES
-  EXV_DEBUG << "--> Data               = " << readStringTag(size_) << std::endl;
+  EXV_DEBUG << "--> Data               = " << readStringTag(static_size<size_t>(size_)) << std::endl;
   if (size_ % 2 != 0) {
     EXV_DEBUG << "--> pad byte          = " << readStringTag(1) << std::endl;
   }
