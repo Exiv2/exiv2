@@ -27,8 +27,6 @@ class Cr2Header : public TiffHeaderBase {
   //@{
   //! Default constructor
   explicit Cr2Header(ByteOrder byteOrder = littleEndian);
-  //! Destructor.
-  ~Cr2Header() override = default;
   //@}
 
   //! @name Manipulators

@@ -253,8 +253,6 @@ class EXIV2API DataValue : public Value {
 
   DataValue(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder, TypeId typeId = undefined);
 
-  ~DataValue() override = default;
-
   //! @name Manipulators
   //@{
   int read(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder) override;
@@ -395,8 +393,6 @@ class EXIV2API StringValue : public StringValueBase {
   StringValue();
   //! Constructor
   explicit StringValue(const std::string& buf);
-  //! Virtual destructor.
-  ~StringValue() override = default;
   //@}
 
   //! @name Accessors
@@ -429,8 +425,6 @@ class EXIV2API AsciiValue : public StringValueBase {
   AsciiValue();
   //! Constructor
   explicit AsciiValue(const std::string& buf);
-  //! Virtual destructor.
-  ~AsciiValue() override = default;
   //@}
 
   //! @name Manipulators
@@ -515,8 +509,6 @@ class EXIV2API CommentValue : public StringValueBase {
   CommentValue();
   //! Constructor, uses read(const std::string& comment)
   explicit CommentValue(const std::string& comment);
-  //! Virtual destructor.
-  ~CommentValue() override = default;
   //@}
 
   //! @name Manipulators
@@ -933,8 +925,6 @@ class EXIV2API DateValue : public Value {
   DateValue();
   //! Constructor
   DateValue(int32_t year, int32_t month, int32_t day);
-  //! Virtual destructor.
-  ~DateValue() override = default;
   //@}
 
   //! Simple Date helper structure
@@ -1026,9 +1016,6 @@ class EXIV2API TimeValue : public Value {
   TimeValue();
   //! Constructor
   TimeValue(int32_t hour, int32_t minute, int32_t second = 0, int32_t tzHour = 0, int32_t tzMinute = 0);
-
-  //! Virtual destructor.
-  ~TimeValue() override = default;
   //@}
 
   //! Simple Time helper structure

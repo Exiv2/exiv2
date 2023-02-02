@@ -97,7 +97,6 @@ class TiffThumbnail : public Thumbnail {
  public:
   //! Shortcut for a %TiffThumbnail auto pointer.
   using UniquePtr = std::unique_ptr<TiffThumbnail>;
-  ~TiffThumbnail() override = default;
 
   //! @name Accessors
   //@{
@@ -113,7 +112,6 @@ class JpegThumbnail : public Thumbnail {
  public:
   //! Shortcut for a %JpegThumbnail auto pointer.
   using UniquePtr = std::unique_ptr<JpegThumbnail>;
-  ~JpegThumbnail() override = default;
 
   //! @name Accessors
   //@{
