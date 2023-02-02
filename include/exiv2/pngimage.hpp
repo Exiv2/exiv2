@@ -60,14 +60,6 @@ class EXIV2API PngImage : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
-  ~PngImage() override = default;
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor
-  PngImage(const PngImage&) = delete;
-  //! Assignment operator
-  PngImage& operator=(const PngImage&) = delete;
-
  private:
   /*!
     @brief Provides the main implementation of writeMetadata() by

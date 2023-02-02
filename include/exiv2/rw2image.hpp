@@ -71,16 +71,6 @@ class EXIV2API Rw2Image : public Image {
   [[nodiscard]] uint32_t pixelWidth() const override;
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
-
-  ~Rw2Image() override = default;
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor
-  Rw2Image(const Rw2Image&) = delete;
-  //! Assignment operator
-  Rw2Image& operator=(const Rw2Image&) = delete;
-  //@}
-
 };  // class Rw2Image
 
 /*!

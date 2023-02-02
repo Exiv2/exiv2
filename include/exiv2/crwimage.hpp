@@ -72,16 +72,6 @@ class EXIV2API CrwImage : public Image {
   [[nodiscard]] uint32_t pixelWidth() const override;
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
-
-  ~CrwImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  CrwImage(const CrwImage&) = delete;
-  //! Assignment operator
-  CrwImage& operator=(const CrwImage&) = delete;
-  //@}
-
 };  // class CrwImage
 
 /*!

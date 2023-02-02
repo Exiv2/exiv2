@@ -55,14 +55,6 @@ class EXIV2API QuickTimeVideo : public Image {
   explicit QuickTimeVideo(BasicIo::UniquePtr io);
   //@}
 
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  QuickTimeVideo(const QuickTimeVideo&) = delete;
-  //! Assignment operator
-  QuickTimeVideo& operator=(const QuickTimeVideo&) = delete;
-  //@}
-
   //! @name Manipulators
   //@{
   void readMetadata() override;

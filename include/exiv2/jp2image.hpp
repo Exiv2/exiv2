@@ -64,14 +64,6 @@ class EXIV2API Jp2Image : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
-  ~Jp2Image() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  Jp2Image(const Jp2Image&) = delete;
-  //! Assignment operator
-  Jp2Image& operator=(const Jp2Image&) = delete;
-
  private:
   /*!
     @brief Provides the main implementation of writeMetadata() by

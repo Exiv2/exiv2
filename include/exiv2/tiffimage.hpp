@@ -68,15 +68,6 @@ class EXIV2API TiffImage : public Image {
   uint32_t pixelHeight() const override;
   //@}
 
-  ~TiffImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  TiffImage(const TiffImage&) = delete;
-  //! Assignment operator
-  TiffImage& operator=(const TiffImage&) = delete;
-  //@}
-
  private:
   //! @name Accessors
   //@{
