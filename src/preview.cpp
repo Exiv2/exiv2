@@ -52,6 +52,9 @@ class Loader {
   //! Virtual destructor.
   virtual ~Loader() = default;
 
+  Loader(const Loader&) = delete;
+  Loader& operator=(const Loader&) = delete;
+
   //! Loader auto pointer
   using UniquePtr = std::unique_ptr<Loader>;
 
@@ -206,10 +209,6 @@ class LoaderTiff : public Loader {
  public:
   //! Constructor
   LoaderTiff(PreviewId id, const Image& image, int parIdx);
-  ~LoaderTiff() override = default;
-
-  LoaderTiff(const LoaderTiff&) = delete;
-  LoaderTiff& operator=(const LoaderTiff&) = delete;
 
   //! Get properties of a preview image with given params
   [[nodiscard]] PreviewProperties getProperties() const override;
