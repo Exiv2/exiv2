@@ -527,13 +527,6 @@ struct CrwMapping {
  */
 class CrwMap {
  public:
-  ~CrwMap() = delete;
-  //! @name Not implemented
-  //@{
-  CrwMap(const CrwMap&) = delete;
-  CrwMap& operator=(const CrwMap&) = delete;
-  //@}
-
   /*!
     @brief Decode image metadata from a CRW entry, convert and add it
            to the image metadata. This function converts only one CRW

@@ -117,12 +117,6 @@ using Blob = std::vector<byte>;
 //! Type information lookup functions. Implemented as a static class.
 class EXIV2API TypeInfo {
  public:
-  //! Prevent copy-construction: not implemented.
-  TypeInfo(const TypeInfo&) = delete;
-  //! Prevent assignment: not implemented.
-  TypeInfo& operator=(const TypeInfo&) = delete;
-  ~TypeInfo() = delete;
-
   //! Return the name of the type, 0 if unknown.
   static const char* typeName(TypeId typeId);
   //! Return the type id for a type name

@@ -657,15 +657,6 @@ class EXIV2API ImageFactory {
              false if the data does not match
   */
   static bool checkType(ImageType type, BasicIo& io, bool advance);
-
-  //! @name Creators
-  //@{
-  ~ImageFactory() = delete;
-  //! Prevent copy construction: not implemented.
-  ImageFactory(const ImageFactory&) = delete;
-  ImageFactory& operator=(const ImageFactory&) = delete;
-  //@}
-
 };  // class ImageFactory
 
 // *****************************************************************************

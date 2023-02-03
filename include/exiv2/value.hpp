@@ -481,12 +481,6 @@ class EXIV2API CommentValue : public StringValueBase {
   //! Charset information lookup functions. Implemented as a static class.
   class EXIV2API CharsetInfo {
    public:
-    //! Prevent copy-construction: not implemented.
-    CharsetInfo(const CharsetInfo&) = delete;
-    //! Prevent assignment: not implemented.
-    CharsetInfo& operator=(const CharsetInfo&) = delete;
-    ~CharsetInfo() = delete;
-
     //! Return the name for a charset id
     static const char* name(CharsetId charsetId);
     //! Return the code for a charset id
