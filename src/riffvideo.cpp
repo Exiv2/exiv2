@@ -382,8 +382,7 @@ void RiffVideo::readMetadata() {
   HeaderReader header(io_);
   xmpData_["Xmp.video.Container"] = header.getId();
 
-  DataBuf FileType = io_->read(DWORD);
-  xmpData_["Xmp.video.FileType"] = FileType.data();
+  xmpData_["Xmp.video.FileType"] = readStringTag(io_);
 
   decodeBlocks();
 }  // RiffVideo::readMetadata
@@ -810,7 +809,7 @@ bool isRiffType(BasicIo& iIo, bool advance) {
   }
   bool matched = (memcmp(buf, RiffVideoId, len) == 0);
   if (!advance || !matched) {
-    iIo.seek(-1*len, BasicIo::cur);
+    iIo.seek(-1 * len, BasicIo::cur);
   }
   return matched;
 }
