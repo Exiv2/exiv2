@@ -801,15 +801,16 @@ Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/) {
 }
 
 bool isRiffType(BasicIo& iIo, bool advance) {
-  const unsigned char RiffVideoId[4] = {'R', 'I', 'F', 'F'};
-  byte buf[WORD];
-  iIo.read(buf, WORD);
+  constexpr int len = 4;
+  const unsigned char RiffVideoId[len] = {'R', 'I', 'F', 'F'};
+  byte buf[len];
+  iIo.read(buf, len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  bool matched = (memcmp(buf, RiffVideoId, WORD) == 0);
+  bool matched = (memcmp(buf, RiffVideoId, len) == 0);
   if (!advance || !matched) {
-    iIo.seek(-WORD, BasicIo::cur);
+    iIo.seek(-1*len, BasicIo::cur);
   }
   return matched;
 }
