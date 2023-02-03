@@ -53,8 +53,8 @@ class EXIV2API RiffVideo : public Image {
 
  protected:
   class HeaderReader {
-    std::string id_;
-    uint64_t size_;
+    std::string id_ = "";
+    uint64_t size_ = 0;
 
    public:
     explicit HeaderReader(BasicIo::UniquePtr& io);
