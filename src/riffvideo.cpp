@@ -8,6 +8,7 @@
 
 // included header files
 #include "riffvideo.hpp"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
@@ -388,10 +389,9 @@ void RiffVideo::readMetadata() {
 }  // RiffVideo::readMetadata
 
 RiffVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) {
-  if (io->size() >= io->tell() + DWORD + DWORD) {
-    id_ = readStringTag(io);
-    size_ = readDWORDTag(io);
-  }
+  Internal::enforce(io->size() > io->tell() + DWORD + DWORD, Exiv2::ErrorCode::kerCorruptedMetadata);
+  id_ = readStringTag(io);
+  size_ = readDWORDTag(io);
 }
 
 bool RiffVideo::equal(const std::string& str1, const std::string& str2) {

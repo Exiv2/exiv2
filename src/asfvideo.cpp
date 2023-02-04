@@ -4,6 +4,7 @@
 #include <iostream>
 #include "basicio.hpp"
 #include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
@@ -370,8 +371,9 @@ void AsfVideo::codecList() {
       xmpData()[codec + std::string(".CodecDescription")] = readStringWcharTag(io_, codec_desc_length);
 
     uint16_t codec_info_length = readWORDTag(io_);
-    if (codec_info_length && codec_info_length + io_->tell() <= io_->size())
-      xmpData()[codec + std::string(".CodecInfo")] = readStringTag(io_, codec_info_length);
+    Internal::enforce(codec_info_length && codec_info_length + io_->tell() < io_->size(),
+                      Exiv2::ErrorCode::kerCorruptedMetadata);
+    xmpData()[codec + std::string(".CodecInfo")] = readStringTag(io_, codec_info_length);
   }
 }  // AsfVideo::codecList
 
