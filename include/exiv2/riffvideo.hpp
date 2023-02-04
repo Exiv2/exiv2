@@ -52,7 +52,7 @@ class EXIV2API RiffVideo : public Image {
   //@}
 
  protected:
-  void readList(uint64_t size, const std::string& id);
+  void readList(uint64_t size);
 
   void readChunk(uint64_t size, const std::string& id);
 

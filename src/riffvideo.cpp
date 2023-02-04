@@ -398,7 +398,7 @@ bool RiffVideo::equal(const std::string& str1, const std::string& str2) {
   return true;
 }
 
-void RiffVideo::readList(uint64_t size, const std::string& id) {
+void RiffVideo::readList(uint64_t size) {
   DataBuf FormTypeBuf_ = io_->read(DWORD);
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -453,7 +453,7 @@ void RiffVideo::decodeBlocks() {
   std::string id = readStringTag(io_);
   uint64_t size = readDWORDTag(io_);
   if (equal(id, CHUNK_ID_LIST)) {
-    readList(size, id);
+    readList(size);
   } else {
     readChunk(size, id);
   }
