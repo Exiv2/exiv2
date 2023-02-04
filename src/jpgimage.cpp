@@ -200,8 +200,8 @@ void JpegBase::readMetadata() {
       // the first one (most jpegs only have one anyway). Comments
       // are simple single byte ISO-8859-1 strings.
       comment_.assign(buf.c_str(2), size - 2);
-      while (comment_.length() && comment_.at(comment_.length() - 1) == '\0') {
-        comment_.erase(comment_.length() - 1);
+      while (!comment_.empty() && comment_.back() == '\0') {
+        comment_.pop_back();
       }
       --search;
     } else if (marker == app2_ && size >= 13  // prevent out-of-bounds read in memcmp on next line
