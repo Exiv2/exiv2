@@ -380,14 +380,19 @@ void RiffVideo::readMetadata() {
   xmpData_["Xmp.video.FileSize"] = io_->size();
   xmpData_["Xmp.video.MimeType"] = mimeType();
 
-  xmpData_["Xmp.video.Container"] = readStringTag(io_);
-
-  io_->seekOrThrow(io_->tell() + DWORD, BasicIo::beg, ErrorCode::kerFailedToReadImageData);  // skeep id
+  HeaderReader header(io_);
+  xmpData_["Xmp.video.Container"] = header.getId();
 
   xmpData_["Xmp.video.FileType"] = readStringTag(io_);
 
   decodeBlocks();
 }  // RiffVideo::readMetadata
+
+RiffVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) {
+  Internal::enforce(io->size() > io->tell() + DWORD + DWORD, Exiv2::ErrorCode::kerCorruptedMetadata);
+  id_ = readStringTag(io);
+  size_ = readDWORDTag(io);
+}
 
 bool RiffVideo::equal(const std::string& str1, const std::string& str2) {
   if (str1.size() != str2.size())
@@ -398,64 +403,63 @@ bool RiffVideo::equal(const std::string& str1, const std::string& str2) {
   return true;
 }
 
-void RiffVideo::readList(uint64_t size) {
+void RiffVideo::readList(HeaderReader& header_) {
   DataBuf FormTypeBuf_ = io_->read(DWORD);
 
 #ifdef EXIV2_DEBUG_MESSAGES
-  EXV_DEBUG << "-> Reading list : id= " << id << "  type= " << Exiv2::toString(FormTypeBuf_.data()) << " size= " << size
-            << "(" << io_->tell() << "/" << io_->size() << ")" << std::endl;
+  EXV_DEBUG << "-> Reading list : id= " << header_.getId() << "  type= " << Exiv2::toString(FormTypeBuf_.data())
+            << " size= " << header_.getSize() << "(" << io_->tell() << "/" << io_->size() << ")" << std::endl;
 #endif
 
   if (equal(Exiv2::toString(FormTypeBuf_.data()), CHUNK_ID_INFO))
-    readInfoListChunk(size);
+    readInfoListChunk(header_.getSize());
   else if (equal(Exiv2::toString(FormTypeBuf_.data()), CHUNK_ID_MOVI)) {
-    readMoviList(size);
+    readMoviList(header_.getSize());
   }
 }
 
-void RiffVideo::readChunk(uint64_t size, const std::string& id) {
+void RiffVideo::readChunk(HeaderReader& header_) {
 #ifdef EXIV2_DEBUG_MESSAGES
-  EXV_DEBUG << "--> Reading Chunk : [" << id << "] size= " << size << "(" << io_->tell() << "/" << io_->size() << ")"
-            << std::endl;
+  EXV_DEBUG << "--> Reading Chunk : [" << header_.getId() << "] size= " << header_.getSize() << "(" << io_->tell()
+            << "/" << io_->size() << ")" << std::endl;
 #endif
 
-  if (equal(id, CHUNK_ID_AVIH))
+  if (equal(header_.getId(), CHUNK_ID_AVIH))
     readAviHeader();
-  else if (equal(id, CHUNK_ID_STRH))
+  else if (equal(header_.getId(), CHUNK_ID_STRH))
     readStreamHeader();
-  else if (equal(id, CHUNK_ID_STRF))
-    readStreamFormat(size);
-  else if (equal(id, CHUNK_ID_FMT)) {
+  else if (equal(header_.getId(), CHUNK_ID_STRF))
+    readStreamFormat(header_.getSize());
+  else if (equal(header_.getId(), CHUNK_ID_FMT)) {
     streamType_ = Audio;
-    readStreamFormat(size);
-  } else if (equal(id, CHUNK_ID_STRD))
-    readStreamData(size);
-  else if (equal(id, CHUNK_ID_STRN))
-    StreamName(size);
-  else if (equal(id, CHUNK_ID_VPRP))
-    readVPRPChunk(size);
-  else if (equal(id, CHUNK_ID_IDX1))
-    readIndexChunk(size);
-  else if (equal(id, CHUNK_ID_DATA))
-    readDataChunk(size);
-  else if (equal(id, CHUNK_ID_JUNK))
-    readJunk(size);
+    readStreamFormat(header_.getSize());
+  } else if (equal(header_.getId(), CHUNK_ID_STRD))
+    readStreamData(header_.getSize());
+  else if (equal(header_.getId(), CHUNK_ID_STRN))
+    StreamName(header_.getSize());
+  else if (equal(header_.getId(), CHUNK_ID_VPRP))
+    readVPRPChunk(header_.getSize());
+  else if (equal(header_.getId(), CHUNK_ID_IDX1))
+    readIndexChunk(header_.getSize());
+  else if (equal(header_.getId(), CHUNK_ID_DATA))
+    readDataChunk(header_.getSize());
+  else if (equal(header_.getId(), CHUNK_ID_JUNK))
+    readJunk(header_.getSize());
   else {
 #ifdef EXIV2_DEBUG_MESSAGES
-    EXV_DEBUG << "--> Ignoring Chunk : " << id << "] size= " << size << "(" << io_->tell() << "/" << io_->size() << ")"
-              << std::endl;
+    EXV_DEBUG << "--> Ignoring Chunk : " << header_.getId() << "] size= " << header_.getSize() << "(" << io_->tell()
+              << "/" << io_->size() << ")" << std::endl;
 #endif
-    io_->seekOrThrow(io_->tell() + size, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+    io_->seekOrThrow(io_->tell() + header_.getSize(), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
   }
 }
 
 void RiffVideo::decodeBlocks() {
-  std::string id = readStringTag(io_);
-  uint64_t size = readDWORDTag(io_);
-  if (equal(id, CHUNK_ID_LIST)) {
-    readList(size);
+  HeaderReader header(io_);
+  if (equal(header.getId(), CHUNK_ID_LIST)) {
+    readList(header);
   } else {
-    readChunk(size, id);
+    readChunk(header);
   }
 
   if (!io_->eof() && io_->tell() < io_->size()) {

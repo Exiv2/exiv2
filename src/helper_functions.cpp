@@ -63,7 +63,8 @@ std::string readStringWcharTag(BasicIo::UniquePtr& io, size_t length) {
 
 std::string readStringTag(BasicIo::UniquePtr& io, size_t length) {
   Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
-  DataBuf FieldBuf = io->read(length);
+  DataBuf FieldBuf(length + 1);
+  io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);
   return Exiv2::toString(FieldBuf.data()).substr(0, length);
 }
 
