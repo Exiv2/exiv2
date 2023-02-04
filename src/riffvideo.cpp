@@ -404,16 +404,16 @@ bool RiffVideo::equal(const std::string& str1, const std::string& str2) {
 }
 
 void RiffVideo::readList(HeaderReader& header_) {
-  DataBuf FormTypeBuf_ = io_->read(DWORD);
+  std::string chunk_type = readStringTag(io_);
 
 #ifdef EXIV2_DEBUG_MESSAGES
-  EXV_DEBUG << "-> Reading list : id= " << header_.getId() << "  type= " << Exiv2::toString(FormTypeBuf_.data())
-            << " size= " << header_.getSize() << "(" << io_->tell() << "/" << io_->size() << ")" << std::endl;
+  EXV_DEBUG << "-> Reading list : id= " << header_.getId() << "  type= " << chunk_type << " size= " << header_.getSize()
+            << "(" << io_->tell() << "/" << io_->size() << ")" << std::endl;
 #endif
 
-  if (equal(Exiv2::toString(FormTypeBuf_.data()), CHUNK_ID_INFO))
+  if (equal(chunk_type, CHUNK_ID_INFO))
     readInfoListChunk(header_.getSize());
-  else if (equal(Exiv2::toString(FormTypeBuf_.data()), CHUNK_ID_MOVI)) {
+  else if (equal(chunk_type, CHUNK_ID_MOVI)) {
     readMoviList(header_.getSize());
   }
 }
