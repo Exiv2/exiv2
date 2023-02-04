@@ -122,42 +122,42 @@ const std::map<std::string, std::string> GUIDReferenceTags = {
 std::string getGUID(DataBuf& buf) {
   std::string GUID(36, '-');
   if (buf.size() >= 16) {
-    GUID[0] = returnHex(buf.data()[3] / 0x10);
-    GUID[1] = returnHex(buf.data()[3] % 0x10);
-    GUID[2] = returnHex(buf.data()[2] / 0x10);
-    GUID[3] = returnHex(buf.data()[2] % 0x10);
-    GUID[4] = returnHex(buf.data()[1] / 0x10);
-    GUID[5] = returnHex(buf.data()[1] % 0x10);
-    GUID[6] = returnHex(buf.data()[0] / 0x10);
-    GUID[7] = returnHex(buf.data()[0] % 0x10);
+    GUID.at(0) = returnHex(buf.data()[3] / 0x10);
+    GUID.at(1) = returnHex(buf.data()[3] % 0x10);
+    GUID.at(2) = returnHex(buf.data()[2] / 0x10);
+    GUID.at(3) = returnHex(buf.data()[2] % 0x10);
+    GUID.at(4) = returnHex(buf.data()[1] / 0x10);
+    GUID.at(5) = returnHex(buf.data()[1] % 0x10);
+    GUID.at(6) = returnHex(buf.data()[0] / 0x10);
+    GUID.at(7) = returnHex(buf.data()[0] % 0x10);
 
-    GUID[9] = returnHex(buf.data()[5] / 0x10);
-    GUID[10] = returnHex(buf.data()[5] % 0x10);
-    GUID[11] = returnHex(buf.data()[4] / 0x10);
-    GUID[12] = returnHex(buf.data()[4] % 0x10);
+    GUID.at(9) = returnHex(buf.data()[5] / 0x10);
+    GUID.at(10) = returnHex(buf.data()[5] % 0x10);
+    GUID.at(11) = returnHex(buf.data()[4] / 0x10);
+    GUID.at(12) = returnHex(buf.data()[4] % 0x10);
 
-    GUID[14] = returnHex(buf.data()[7] / 0x10);
-    GUID[15] = returnHex(buf.data()[7] % 0x10);
-    GUID[16] = returnHex(buf.data()[6] / 0x10);
-    GUID[17] = returnHex(buf.data()[6] % 0x10);
+    GUID.at(14) = returnHex(buf.data()[7] / 0x10);
+    GUID.at(15) = returnHex(buf.data()[7] % 0x10);
+    GUID.at(16) = returnHex(buf.data()[6] / 0x10);
+    GUID.at(17) = returnHex(buf.data()[6] % 0x10);
 
-    GUID[19] = returnHex(buf.data()[8] / 0x10);
-    GUID[20] = returnHex(buf.data()[8] % 0x10);
-    GUID[21] = returnHex(buf.data()[9] / 0x10);
-    GUID[22] = returnHex(buf.data()[9] % 0x10);
+    GUID.at(19) = returnHex(buf.data()[8] / 0x10);
+    GUID.at(20) = returnHex(buf.data()[8] % 0x10);
+    GUID.at(21) = returnHex(buf.data()[9] / 0x10);
+    GUID.at(22) = returnHex(buf.data()[9] % 0x10);
 
-    GUID[24] = returnHex(buf.data()[10] / 0x10);
-    GUID[25] = returnHex(buf.data()[10] % 0x10);
-    GUID[26] = returnHex(buf.data()[11] / 0x10);
-    GUID[27] = returnHex(buf.data()[11] % 0x10);
-    GUID[28] = returnHex(buf.data()[12] / 0x10);
-    GUID[29] = returnHex(buf.data()[12] % 0x10);
-    GUID[30] = returnHex(buf.data()[13] / 0x10);
-    GUID[31] = returnHex(buf.data()[13] % 0x10);
-    GUID[32] = returnHex(buf.data()[14] / 0x10);
-    GUID[33] = returnHex(buf.data()[14] % 0x10);
-    GUID[34] = returnHex(buf.data()[15] / 0x10);
-    GUID[35] = returnHex(buf.data()[15] % 0x10);
+    GUID.at(24) = returnHex(buf.data()[10] / 0x10);
+    GUID.at(25) = returnHex(buf.data()[10] % 0x10);
+    GUID.at(26) = returnHex(buf.data()[11] / 0x10);
+    GUID.at(27) = returnHex(buf.data()[11] % 0x10);
+    GUID.at(28) = returnHex(buf.data()[12] / 0x10);
+    GUID.at(29) = returnHex(buf.data()[12] % 0x10);
+    GUID.at(30) = returnHex(buf.data()[13] / 0x10);
+    GUID.at(31) = returnHex(buf.data()[13] % 0x10);
+    GUID.at(32) = returnHex(buf.data()[14] / 0x10);
+    GUID.at(33) = returnHex(buf.data()[14] % 0x10);
+    GUID.at(34) = returnHex(buf.data()[15] / 0x10);
+    GUID.at(35) = returnHex(buf.data()[15] % 0x10);
   }
 
   // Example of output 399595EC-8667-4E2D-8FDB-98814CE76C1E
@@ -370,7 +370,7 @@ void AsfVideo::codecList() {
       xmpData()[codec + std::string(".CodecDescription")] = readStringWcharTag(io_, codec_desc_length);
 
     uint16_t codec_info_length = readWORDTag(io_);
-    if (codec_info_length)
+    if (codec_info_length && codec_info_length + io_->tell() <= io_->size())
       xmpData()[codec + std::string(".CodecInfo")] = readStringTag(io_, codec_info_length);
   }
 }  // AsfVideo::codecList
