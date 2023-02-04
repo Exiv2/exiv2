@@ -52,25 +52,9 @@ class EXIV2API RiffVideo : public Image {
   //@}
 
  protected:
-  class HeaderReader {
-    std::string id_ = "";
-    uint64_t size_ = 0;
+  void readList(uint64_t size, const std::string& id);
 
-   public:
-    explicit HeaderReader(BasicIo::UniquePtr& io);
-
-    [[nodiscard]] uint64_t getSize() const {
-      return size_;
-    }
-
-    [[nodiscard]] std::string& getId() {
-      return id_;
-    }
-  };
-
-  void readList(HeaderReader& header_);
-
-  void readChunk(HeaderReader& header_);
+  void readChunk(uint64_t size, const std::string& id);
 
   void decodeBlocks();
 
