@@ -94,7 +94,7 @@ struct TagVocabulary {
          by looking up a reference table.
  */
 template <size_t N, const StringTagDetails (&array)[N]>
-std::ostream& printTagString(std::ostream& os, const std::string value, const ExifData*) {
+std::ostream& printTagString(std::ostream& os, const std::string& value, const ExifData*) {
   auto td = Exiv2::find(array, value);
   if (td) {
     os << exvGettext(td->label_);
