@@ -1145,7 +1145,7 @@ void Converter::cnvXmpGPSCoord(const char* from, const char* to) {
   char sep1 = '\0';
   char sep2 = '\0';
 
-  value.erase(value.length() - 1);
+  value.pop_back();
 
   std::istringstream in(value);
 
