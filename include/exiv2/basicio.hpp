@@ -924,13 +924,6 @@ class EXIV2API HttpIo : public RemoteIo {
    */
   explicit HttpIo(const std::string& url, size_t blockSize = 1024);
 
-  ~HttpIo() override = default;
-  // NOT IMPLEMENTED
-  //! Copy constructor
-  HttpIo(const HttpIo&) = delete;
-  //! Assignment operator
-  HttpIo& operator=(const HttpIo&) = delete;
-
  private:
   // Pimpl idiom
   class HttpImpl;
@@ -968,13 +961,6 @@ class EXIV2API CurlIo : public RemoteIo {
           for the protocol. Otherwise, it throws the Error.
    */
   size_t write(BasicIo& src) override;
-
-  ~CurlIo() override = default;
-  // NOT IMPLEMENTED
-  //! Copy constructor
-  CurlIo(const CurlIo&) = delete;
-  //! Assignment operator
-  CurlIo& operator=(const CurlIo&) = delete;
 
  protected:
   // Pimpl idiom

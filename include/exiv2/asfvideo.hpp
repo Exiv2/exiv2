@@ -37,14 +37,6 @@ class EXIV2API AsfVideo : public Image {
   explicit AsfVideo(BasicIo::UniquePtr io);
   //@}
 
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  AsfVideo(const AsfVideo&) = delete;
-  //! Assignment operator
-  AsfVideo& operator=(const AsfVideo&) = delete;
-  //@}
-
   //! @name Manipulators
   //@{
   void readMetadata() override;

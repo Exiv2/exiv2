@@ -54,13 +54,6 @@ class EXIV2API WebPImage : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
-  ~WebPImage() override = default;
-  //! Copy constructor
-  WebPImage(const WebPImage&) = delete;
-  //! Assignment operator
-  WebPImage& operator=(const WebPImage&) = delete;
-  //@}
-
  private:
   void doWriteMetadata(BasicIo& outIo);
 

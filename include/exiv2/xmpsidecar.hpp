@@ -54,17 +54,7 @@ class EXIV2API XmpSidecar : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
-  //! @name NOT Implemented
-  //@{
-  ~XmpSidecar() override = default;
-  //! Copy constructor
-  XmpSidecar(const XmpSidecar&) = delete;
-  //! Assignment operator
-  XmpSidecar& operator=(const XmpSidecar&) = delete;
-  //@}
-
   Exiv2::Dictionary dates_;
-
 };  // class XmpSidecar
 
 // *****************************************************************************

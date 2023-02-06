@@ -139,8 +139,6 @@ class OlympusMnHeader : public MnHeader {
   //@{
   //! Default constructor
   OlympusMnHeader();
-  //! Virtual destructor.
-  ~OlympusMnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -168,8 +166,6 @@ class Olympus2MnHeader : public MnHeader {
   //@{
   //! Default constructor
   Olympus2MnHeader();
-  //! Virtual destructor.
-  ~Olympus2MnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -198,8 +194,6 @@ class OMSystemMnHeader : public MnHeader {
   //@{
   //! Default constructor
   OMSystemMnHeader();
-  //! Virtual destructor.
-  ~OMSystemMnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -228,8 +222,6 @@ class FujiMnHeader : public MnHeader {
   //@{
   //! Default constructor
   FujiMnHeader();
-  //! Virtual destructor.
-  ~FujiMnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -262,8 +254,6 @@ class Nikon2MnHeader : public MnHeader {
   //@{
   //! Default constructor
   Nikon2MnHeader();
-  //! Virtual destructor.
-  ~Nikon2MnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -292,8 +282,6 @@ class Nikon3MnHeader : public MnHeader {
   //@{
   //! Default constructor
   Nikon3MnHeader();
-  //! Virtual destructor.
-  ~Nikon3MnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -326,8 +314,6 @@ class PanasonicMnHeader : public MnHeader {
   //@{
   //! Default constructor
   PanasonicMnHeader();
-  //! Virtual destructor.
-  ~PanasonicMnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -356,8 +342,6 @@ class PentaxDngMnHeader : public MnHeader {
   //@{
   //! Default constructor
   PentaxDngMnHeader();
-  //! Virtual destructor.
-  ~PentaxDngMnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -386,8 +370,6 @@ class PentaxMnHeader : public MnHeader {
   //@{
   //! Default constructor
   PentaxMnHeader();
-  //! Virtual destructor.
-  ~PentaxMnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -436,8 +418,6 @@ class SigmaMnHeader : public MnHeader {
   //@{
   //! Default constructor
   SigmaMnHeader();
-  //! Virtual destructor.
-  ~SigmaMnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -467,8 +447,6 @@ class SonyMnHeader : public MnHeader {
   //@{
   //! Default constructor
   SonyMnHeader();
-  //! Virtual destructor.
-  ~SonyMnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{
@@ -497,8 +475,6 @@ class Casio2MnHeader : public MnHeader {
   //@{
   //! Default constructor
   Casio2MnHeader();
-  //! Virtual destructor.
-  ~Casio2MnHeader() override = default;
   //@}
   //! @name Manipulators
   //@{

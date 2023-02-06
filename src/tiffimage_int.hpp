@@ -117,8 +117,6 @@ class TiffHeader : public TiffHeaderBase {
   //@{
   //! Default constructor
   explicit TiffHeader(ByteOrder byteOrder = littleEndian, uint32_t offset = 0x00000008, bool hasImageTags = true);
-  //! Destructor
-  ~TiffHeader() override = default;
   //@}
   //@{
   //! @name Accessors

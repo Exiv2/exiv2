@@ -21,15 +21,6 @@ namespace Exiv2 {
  */
 class EXIV2API MrwImage : public Image {
  public:
-  ~MrwImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  MrwImage(const MrwImage&) = delete;
-  //! Assignment operator
-  MrwImage& operator=(const MrwImage&) = delete;
-  //@}
-
   //! @name Creators
   //@{
   /*!

@@ -21,15 +21,6 @@ namespace Exiv2 {
  */
 class EXIV2API OrfImage : public TiffImage {
  public:
-  ~OrfImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  OrfImage(const OrfImage&) = delete;
-  //! Assignment operator
-  OrfImage& operator=(const OrfImage&) = delete;
-  //@}
-
   //! @name Creators
   //@{
   /*!

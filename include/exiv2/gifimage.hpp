@@ -21,15 +21,6 @@ namespace Exiv2 {
  */
 class EXIV2API GifImage : public Image {
  public:
-  ~GifImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  GifImage(const GifImage&) = delete;
-  //! Assignment operator
-  GifImage& operator=(const GifImage&) = delete;
-  //@}
-
   //! @name Creators
   //@{
   /*!

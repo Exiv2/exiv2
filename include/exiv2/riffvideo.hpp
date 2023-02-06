@@ -31,15 +31,6 @@ class EXIV2API RiffVideo : public Image {
   explicit RiffVideo(BasicIo::UniquePtr io);
   //@}
 
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  RiffVideo(const RiffVideo&) = delete;
-  //! Assignment operator
-  RiffVideo& operator=(const RiffVideo&) = delete;
-
-  //@}
-
   //! @name Manipulators
   //@{
   void readMetadata() override;

@@ -449,10 +449,9 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
     pRoot_(pRoot),
     isNewImage_(isNewImage),
     pPrimaryGroups_(pPrimaryGroups),
+    byteOrder_(pHeader->byteOrder()),
+    origByteOrder_(byteOrder_),
     findEncoderFct_(findEncoderFct) {
-  byteOrder_ = pHeader->byteOrder();
-  origByteOrder_ = byteOrder_;
-
   encodeIptc();
   encodeXmp();
 

@@ -118,14 +118,6 @@ class EXIV2API MatroskaVideo : public Image {
   explicit MatroskaVideo(BasicIo::UniquePtr io);
   //@}
 
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  MatroskaVideo(const MatroskaVideo&) = delete;
-  //! Assignment operator
-  MatroskaVideo& operator=(const MatroskaVideo&) = delete;
-  //@}
-
   //! @name Manipulators
   //@{
   void readMetadata() override;

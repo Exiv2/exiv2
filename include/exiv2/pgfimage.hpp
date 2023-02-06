@@ -54,14 +54,6 @@ class EXIV2API PgfImage : public Image {
   }
   //@}
 
-  ~PgfImage() override = default;
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor
-  PgfImage(const PgfImage&) = delete;
-  //! Assignment operator
-  PgfImage& operator=(const PgfImage&) = delete;
-
  private:
   bool bSwap_;  // true for bigEndian hardware, else false
   /*!

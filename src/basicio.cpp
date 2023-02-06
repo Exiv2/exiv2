@@ -911,8 +911,7 @@ void XPathIo::ReadDataUri(const std::string& path) {
 }
 
 #else
-XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)) {
-  tempFilePath_ = path();
+XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), tempFilePath_(path()) {
 }
 
 XPathIo::~XPathIo() {
@@ -1384,8 +1383,6 @@ class HttpIo::HttpImpl : public Impl {
   HttpImpl(const std::string& url, size_t blockSize);
   Exiv2::Uri hostInfo_;  //!< the host information extracted from the path
 
-  ~HttpImpl() override = default;
-
   // METHODS
   /*!
     @brief Get the length (in bytes) of the remote file.
@@ -1416,10 +1413,6 @@ class HttpIo::HttpImpl : public Impl {
     @throw Error if it fails.
    */
   void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
-
-  // NOT IMPLEMENTED
-  HttpImpl(const HttpImpl&) = delete;             //!< Copy constructor
-  HttpImpl& operator=(const HttpImpl&) = delete;  //!< Assignment
 };
 
 HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize) {
