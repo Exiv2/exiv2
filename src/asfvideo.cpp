@@ -454,7 +454,7 @@ void AsfVideo::fileProperties() {
   xmpData()["Xmp.video.FileLength"] = readQWORDTag(io_);
   xmpData()["Xmp.video.CreationDate"] = readQWORDTag(io_);
   xmpData()["Xmp.video.DataPackets"] = readQWORDTag(io_);
-  xmpData()["Xmp.video.Duration"] = readQWORDTag(io_);
+  xmpData()["Xmp.video.duration"] = readQWORDTag(io_);
   xmpData()["Xmp.video.SendDuration"] = readQWORDTag(io_);
   xmpData()["Xmp.video.Preroll"] = readQWORDTag(io_);
 
