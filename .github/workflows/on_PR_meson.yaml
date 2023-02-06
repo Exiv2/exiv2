@@ -3,26 +3,28 @@ name: On PRs - meson
 on: pull_request
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
+  group: ${{github.workflow}}-${{github.head_ref}}
   cancel-in-progress: true
 
 jobs:
   Ubuntu:
-    runs-on: ubuntu-latest
-    name: Linux-${{matrix.deps}}
+    runs-on: ubuntu-20.04
+    name: Linux-GCC${{matrix.cxx}}-${{matrix.deps}}
     strategy:
       matrix:
+        cxx: ['7', '8', '9']
         deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v3
 
       - name: Install packages
         run: |
+          sudo apt install -y g++-${{matrix.cxx}}
           python3 -m pip install meson ninja
 
       - name: Sanity Checks
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}}
+          env CXX=g++-${{matrix.cxx}} meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}}
           meson compile -C "${{github.workspace}}/build"
 
   VisualStudio:
