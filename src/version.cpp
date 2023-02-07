@@ -352,11 +352,11 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
   have_strings = 1;
 #endif
 
-#ifdef EXV_HAVE_MMAP
+#if __has_include(<sys/mman.h>)
   have_mmap = 1;
 #endif
 
-#ifdef EXV_HAVE_MUNMAP
+#if __has_include(<sys/mman.h>)
   have_munmap = 1;
 #endif
 

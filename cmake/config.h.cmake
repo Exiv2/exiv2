@@ -35,12 +35,6 @@
 #define EXV_ICONV_CONST
 #endif
 
-// Define if you have the mmap function.
-#cmakedefine EXV_HAVE_MMAP
-
-// Define if you have the munmap function.
-#cmakedefine EXV_HAVE_MUNMAP
-
 // Define if you have the zlib library.
 #cmakedefine EXV_HAVE_LIBZ
 

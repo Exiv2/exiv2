@@ -23,8 +23,6 @@ set(EXV_HAVE_ICONV       ${ICONV_FOUND})
 set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
 set(EXV_HAVE_BROTLI      ${BROTLI_FOUND})
 
-check_cxx_symbol_exists(mmap        sys/mman.h     EXV_HAVE_MMAP )
-check_cxx_symbol_exists(munmap      sys/mman.h     EXV_HAVE_MUNMAP )
 check_cxx_symbol_exists(strerror_r  string.h       EXV_HAVE_STRERROR_R )
 
 check_cxx_source_compiles( "
