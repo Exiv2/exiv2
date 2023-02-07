@@ -28,7 +28,7 @@ std::string utf16ToUtf8(const std::wstring& wstr) {
   std::wstring_convert<convert_typeX, wchar_t> converterX;
 
   std::string str = converterX.to_bytes(wstr);
-  str.erase(std::remove(str.begin(), str.end(), NULL), str.end());
+  str.erase(std::remove(str.begin(), str.end(), '\0'), str.end());
   return str;
 }
 
