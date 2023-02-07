@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // included header files
 #include "easyaccess.hpp"
+#include "utils.hpp"
 
 // *****************************************************************************
 namespace {
@@ -97,7 +98,7 @@ ExifData::const_iterator isoSpeed(const ExifData& ed) {
     std::ostringstream os;
     md->write(os, &ed);
     bool ok = false;
-    if (os.str().find("inf") != std::string::npos)
+    if (Internal::contains(os.str(), "inf"))
       break;
     iso_val = parseInt64(os.str(), ok);
     if (ok && iso_val > 0)

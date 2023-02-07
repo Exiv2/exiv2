@@ -8,6 +8,7 @@
 #include "i18n.h"  // NLS support.
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
+#include "utils.hpp"
 #include "value.hpp"
 
 #include <array>
@@ -1586,7 +1587,7 @@ std::ostream& OlympusMakerNote::print0x0308(std::ostream& os, const Value& value
     auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
     if (pos != metadata->end() && pos->count() != 0) {
       std::string model = pos->toString();
-      if (model.find("E-3 ") != std::string::npos || model.find("E-30 ") != std::string::npos) {
+      if (Internal::contains(model, "E-3 ") || Internal::contains(model, "E-30 ")) {
         E3_E30model = true;
       }
     }

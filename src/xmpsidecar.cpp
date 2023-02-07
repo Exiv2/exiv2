@@ -71,7 +71,7 @@ void XmpSidecar::readMetadata() {
   // #1112 - store dates to deal with loss of TZ information during conversions
   for (const auto& xmp : xmpData_) {
     std::string key(xmp.key());
-    if (key.find("Date") != std::string::npos) {
+    if (Internal::contains(key, "Date")) {
       std::string value(xmp.value().toString());
       dates_[key] = value;
     }
@@ -82,7 +82,7 @@ void XmpSidecar::readMetadata() {
 }  // XmpSidecar::readMetadata
 
 static bool matchi(const std::string& key, const char* substr) {
-  return Internal::lower(key).find(substr) != std::string::npos;
+  return Internal::contains(Internal::lower(key), substr);
 }
 
 void XmpSidecar::writeMetadata() {
@@ -110,7 +110,7 @@ void XmpSidecar::writeMetadata() {
       if (xmpData_.findKey(key) != xmpData_.end()) {
         std::string value_now(xmpData_[sKey].value().toString());
         // std::cout << key << " -> " << value_now << " => " << value_orig << std::endl;
-        if (value_orig.find(value_now.substr(0, 10)) != std::string::npos) {
+        if (Internal::contains(value_orig, value_now.substr(0, 10))) {
           xmpData_[sKey] = value_orig;
         }
       }

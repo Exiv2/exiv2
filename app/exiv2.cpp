@@ -10,6 +10,7 @@
 #include "convert.hpp"
 #include "getopt.hpp"
 #include "i18n.h"  // NLS support.
+#include "utils.hpp"
 #include "xmp_exiv2.hpp"
 
 #include <algorithm>
@@ -1119,7 +1120,7 @@ bool parseTime(const std::string& ts, int64_t& time) {
     hh *= -1;
   }
   // check for the -0 special case
-  if (hh == 0 && hstr.find('-') != std::string::npos)
+  if (hh == 0 && Exiv2::Internal::contains(hstr, '-'))
     sign = -1;
   // MM part, if there is one
   if (!mstr.empty()) {

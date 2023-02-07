@@ -14,6 +14,7 @@
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "types.hpp"
+#include "utils.hpp"
 
 #ifdef EXV_HAVE_BROTLI
 #include <brotli/decode.h>  // for JXL brob
@@ -349,11 +350,10 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       const size_t maxlen = data.size() - skip;
       Internal::enforce(maxlen > 0 && strnlen(str, maxlen) < maxlen, Exiv2::ErrorCode::kerCorruptedMetadata);
       std::string name(str);
-      if (name.find("Exif") != std::string::npos) {  // "Exif" or "ExifExif"
+      if (Internal::contains(name, "Exif")) {  // "Exif" or "ExifExif"
         exifID_ = ID;
         id = " *** Exif ***";
-      } else if (name.find("mime\0xmp") != std::string::npos ||
-                 name.find("mime\0application/rdf+xml") != std::string::npos) {
+      } else if (Internal::contains(name, "mime\0xmp") || Internal::contains(name, "mime\0application/rdf+xml")) {
         xmpID_ = ID;
         id = " *** XMP ***";
       }

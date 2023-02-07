@@ -7,6 +7,7 @@
 #include "i18n.h"  // NLS support.
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
+#include "utils.hpp"
 #include "value.hpp"
 
 // + standard includes
@@ -1834,7 +1835,7 @@ std::ostream& Nikon3MakerNote::printAfPointsInFocus(std::ostream& os, const Valu
     auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
     if (pos != metadata->end() && pos->count() != 0) {
       std::string model = pos->toString();
-      if (model.find("NIKON D") != std::string::npos) {
+      if (Internal::contains(model, "NIKON D")) {
         dModel = true;
       }
     }
@@ -1867,7 +1868,7 @@ std::ostream& Nikon3MakerNote::print0x0089(std::ostream& os, const Value& value,
     auto pos = metadata->findKey(key);
     if (pos != metadata->end() && pos->count() != 0) {
       std::string model = pos->toString();
-      if (model.find("D70") != std::string::npos) {
+      if (Internal::contains(model, "D70")) {
         d70 = true;
       }
     }

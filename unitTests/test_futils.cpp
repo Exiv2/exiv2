@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "utils.hpp"
+
 #include <exiv2/exiv2.hpp>
 // File under test
 #include <exiv2/futils.hpp>
@@ -32,7 +34,7 @@ TEST(strError, returnSuccessAfterClosingFile) {
   std::ofstream auxFile(tmpFile.c_str());
   auxFile.close();
   fs::remove(tmpFile.c_str());
-  ASSERT_TRUE(strError().find("(errno = 0)") != std::string::npos);
+  ASSERT_TRUE(Internal::contains(strError(), "(errno = 0)"));
 }
 
 TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile) {
@@ -42,7 +44,7 @@ TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile) {
 
 TEST(strError, doNotRecognizeUnknownError) {
   errno = 9999;
-  ASSERT_TRUE(strError().find("(errno = 9999)") != std::string::npos);
+  ASSERT_TRUE(Internal::contains(strError(), "(errno = 9999)"));
 }
 
 TEST(getEnv, getsDefaultValueWhenExpectedEnvVariableDoesNotExist) {

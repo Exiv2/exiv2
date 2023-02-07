@@ -390,8 +390,10 @@ std::string CommentValue::comment(const char* encoding) const {
   }
   bool bAscii = charsetId() == undefined || charsetId() == ascii;
   // # 1266 Remove trailing nulls
-  if (bAscii && c.find('\0') != std::string::npos) {
-    c.resize(c.find('\0'));
+  if (bAscii) {
+    auto n = c.find('\0');
+    if (n != std::string::npos)
+      c.resize(n);
   }
   return c;
 }
