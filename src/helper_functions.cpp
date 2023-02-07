@@ -3,7 +3,9 @@
 #include "helper_functions.hpp"
 
 #include <cmath>
+#include <codecvt>
 #include <cstring>
+#include <locale>
 #include "enforce.hpp"
 
 std::string string_from_unterminated(const char* data, size_t data_length) {
@@ -21,20 +23,13 @@ char returnHex(int n) {
   return static_cast<char>(n + 55);
 }
 
-std::string toString16(Exiv2::DataBuf& buf) {
-  std::ostringstream os;
-  char t;
+std::string utf16ToUtf8(const std::wstring& wstr) {
+  using convert_typeX = std::codecvt_utf8<wchar_t>;
+  std::wstring_convert<convert_typeX, wchar_t> converterX;
 
-  for (size_t i = 0; i < buf.size(); i += 2) {
-    t = buf.data()[i] + 16 * buf.data()[i + 1];
-    if (t == 0) {
-      if (i)
-        os << '\0';
-      break;
-    }
-    os << t;
-  }
-  return os.str();
+  std::string str = converterX.to_bytes(wstr);
+  str.erase(std::remove(str.begin(), str.end(), NULL), str.end());
+  return str;
 }
 
 uint64_t readQWORDTag(BasicIo::UniquePtr& io) {
@@ -57,8 +52,10 @@ uint16_t readWORDTag(BasicIo::UniquePtr& io) {
 
 std::string readStringWcharTag(BasicIo::UniquePtr& io, size_t length) {
   Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
-  DataBuf FieldBuf = io->read(length);
-  return toString16(FieldBuf);
+  DataBuf FieldBuf(length + 1);
+  io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);
+  std::wstring wst(FieldBuf.begin(), FieldBuf.end());
+  return utf16ToUtf8(wst);
 }
 
 std::string readStringTag(BasicIo::UniquePtr& io, size_t length) {

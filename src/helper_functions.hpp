@@ -32,13 +32,6 @@ namespace Exiv2 {
  */
 char returnHex(int n);
 
-/*!
-  @brief Function used to read data from data buffer, reads 16-bit character
-      array and stores it in std::string object.
-  @param buf Exiv2 data buffer, which stores the information
-  @return Returns std::string object .
- */
-
 static constexpr size_t BYTE = 0x1;
 static constexpr size_t WCHAR = 0x2;
 static constexpr size_t WORD = 0X2;
@@ -46,7 +39,16 @@ static constexpr size_t DWORD = 0x4;
 static constexpr size_t QWORD = 0x8;
 static constexpr size_t GUID = 0x10;
 
-std::string toString16(Exiv2::DataBuf& buf);
+// @brief
+
+/*!
+    @brief The function utf16ToUtf8 takes a wide string wstr as input and converts it to a narrow string
+    The conversion is performed using the std::wstring_convert class template and a std::codecvt_utf8 facet, which
+    implements conversion between UTF-8 and wide characters.
+    @param wstr : wide string
+    @return Returns std::string object
+*/
+std::string utf16ToUtf8(const std::wstring& wstr);
 
 [[nodiscard]] uint64_t readQWORDTag(Exiv2::BasicIo::UniquePtr& io);
 
