@@ -197,7 +197,7 @@ FileIo::~FileIo() {
 int FileIo::munmap() {
   int rc = 0;
   if (p_->pMappedArea_) {
-#if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
+#if __has_include(<sys/mman.h>)
     if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
       rc = 1;
     }
@@ -238,7 +238,7 @@ byte* FileIo::mmap(bool isWriteable) {
   if (p_->isWriteable_ && p_->switchMode(Impl::opWrite) != 0) {
     throw Error(ErrorCode::kerFailedToMapFileForReadWrite, path(), strError());
   }
-#if defined EXV_HAVE_MMAP && defined EXV_HAVE_MUNMAP
+#if __has_include(<sys/mman.h>)
   int prot = PROT_READ;
   if (p_->isWriteable_) {
     prot |= PROT_WRITE;
