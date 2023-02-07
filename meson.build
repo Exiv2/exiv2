@@ -274,15 +274,28 @@ install_headers(
   subdir: 'exiv2',
 )
 
+exiv2int = static_library(
+  'exiv2int',
+  int_lib,
+  cpp_args: '-DEXIV2API=',
+  dependencies: deps,
+  include_directories: libinc,
+)
+
+depinc = include_directories('.', 'include')
+exiv2int_dep = declare_dependency(
+  include_directories: depinc,
+  link_with: exiv2int,
+)
+
 exiv2 = library(
   'exiv2',
   base_lib,
-  int_lib,
   xmp_lib,
   cpp_args: cargs,
   version: meson.project_version(),
   gnu_symbol_visibility: 'hidden',
-  dependencies: deps,
+  dependencies: [deps, exiv2int_dep],
   include_directories: libinc,
   install: true,
 )
@@ -292,7 +305,6 @@ if host_machine.system() == 'windows' and get_option('default_library') != 'stat
   dllapi = '-DEXIV2API=__declspec(dllimport)'
 endif
 
-depinc = include_directories('include')
 exiv2_dep = declare_dependency(
   compile_args: dllapi,
   dependencies: intl_dep,
