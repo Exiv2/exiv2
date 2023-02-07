@@ -111,8 +111,8 @@ const std::vector<int>& get_test_data<const std::vector<int>>(slice<const std::v
 template <typename T>
 class mutableSlice : public slice<T> {};
 
-TYPED_TEST_CASE_P(slice);
-TYPED_TEST_CASE_P(mutableSlice);
+TYPED_TEST_SUITE_P(slice);
+TYPED_TEST_SUITE_P(mutableSlice);
 
 TYPED_TEST_P(slice, atAccess) {
   // typedef Slice<TypeParam> slice_t;
@@ -355,7 +355,7 @@ struct dataBufSlice : public ::testing::Test {
 template <typename T>
 byte dataBufSlice<T>::data[4] = {0xde, 0xad, 0xbe, 0xef};
 
-TYPED_TEST_CASE_P(dataBufSlice);
+TYPED_TEST_SUITE_P(dataBufSlice);
 
 TYPED_TEST_P(dataBufSlice, successfulConstruction) {
   // just check that makeSlice appears to work
@@ -375,18 +375,18 @@ TYPED_TEST_P(dataBufSlice, failedConstruction) {
 //
 // GTest boilerplate to get the tests running for all the different types
 //
-REGISTER_TYPED_TEST_CASE_P(slice, atAccess, iteratorAccess, constructionFailsFromInvalidRange,
-                           constructionFailsWithZeroLength, subSliceSuccessfulConstruction, subSliceFunctions,
-                           subSliceFailedConstruction, subSliceConstructionOverflowResistance,
-                           constMethodsPreserveConst);
+REGISTER_TYPED_TEST_SUITE_P(slice, atAccess, iteratorAccess, constructionFailsFromInvalidRange,
+                            constructionFailsWithZeroLength, subSliceSuccessfulConstruction, subSliceFunctions,
+                            subSliceFailedConstruction, subSliceConstructionOverflowResistance,
+                            constMethodsPreserveConst);
 
 using test_types_t = ::testing::Types<const std::vector<int>, std::vector<int>, int*, const int*>;
-INSTANTIATE_TYPED_TEST_CASE_P(slice, slice, test_types_t);
+INSTANTIATE_TYPED_TEST_SUITE_P(slice, slice, test_types_t);
 
-REGISTER_TYPED_TEST_CASE_P(mutableSlice, iterators, at);
+REGISTER_TYPED_TEST_SUITE_P(mutableSlice, iterators, at);
 using mut_test_types_t = ::testing::Types<std::vector<int>, int*>;
-INSTANTIATE_TYPED_TEST_CASE_P(slice, mutableSlice, mut_test_types_t);
+INSTANTIATE_TYPED_TEST_SUITE_P(slice, mutableSlice, mut_test_types_t);
 
-REGISTER_TYPED_TEST_CASE_P(dataBufSlice, successfulConstruction, failedConstruction);
+REGISTER_TYPED_TEST_SUITE_P(dataBufSlice, successfulConstruction, failedConstruction);
 using data_buf_types_t = ::testing::Types<DataBuf&, const DataBuf&>;
-INSTANTIATE_TYPED_TEST_CASE_P(slice, dataBufSlice, data_buf_types_t);
+INSTANTIATE_TYPED_TEST_SUITE_P(slice, dataBufSlice, data_buf_types_t);

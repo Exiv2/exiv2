@@ -18,11 +18,11 @@ const std::string notRegisteredValidKey("Xmp.noregistered.prop");
 // behavior of the XmpKey class
 class AXmpKey : public testing::Test {
  public:
-  static void SetUpTestCase() {
+  static void SetUpTestSuite() {
     XmpProperties::registerNs(expectedFamily, expectedPrefix);
   }
 
-  static void TearDownTestCase() {
+  static void TearDownTestSuite() {
     XmpProperties::unregisterNs();
   }
 
