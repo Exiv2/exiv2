@@ -14,6 +14,7 @@
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
+#include "utils.hpp"
 #include "value.hpp"
 
 // + standard includes
@@ -2531,8 +2532,8 @@ std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& v
 
   // Ported from Exiftool
   std::string model = pos->toString();
-  if (model.find("20D") != std::string::npos || model.find("350D") != std::string::npos ||
-      model.substr(model.size() - 8, 8) == "REBEL XT" || model.find("Kiss Digital N") != std::string::npos) {
+  if (Internal::contains(model, "20D") || Internal::contains(model, "350D") ||
+      model.substr(model.size() - 8, 8) == "REBEL XT" || Internal::contains(model, "Kiss Digital N")) {
     uint32_t val = value.toUint32();
     uint32_t dn = (val & 0xffc0) >> 6;
     uint32_t fn = ((val >> 16) & 0xff) + ((val & 0x3f) << 8);
@@ -2540,9 +2541,8 @@ std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& v
     os.flags(f);
     return os;
   }
-  if (model.find("30D") != std::string::npos || model.find("400D") != std::string::npos ||
-      model.find("REBEL XTi") != std::string::npos || model.find("Kiss Digital X") != std::string::npos ||
-      model.find("K236") != std::string::npos) {
+  if (Internal::contains(model, "30D") || Internal::contains(model, "400D") || Internal::contains(model, "REBEL XTi") ||
+      Internal::contains(model, "Kiss Digital X") || Internal::contains(model, "K236")) {
     uint32_t val = value.toUint32();
     uint32_t dn = (val & 0xffc00) >> 10;
     while (dn < 100)

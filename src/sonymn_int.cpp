@@ -646,7 +646,7 @@ static auto getModel(const ExifData* metadata, std::string& val) {
   pos = metadata->findKey(ExifKey("Exif.Sony1.SonyModelID"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
     std::string temp = pos->print(metadata);
-    if (temp.find(' ') == std::string::npos) {
+    if (!Internal::contains(temp, ' ')) {
       val = temp;
       return true;
     }
@@ -656,7 +656,7 @@ static auto getModel(const ExifData* metadata, std::string& val) {
   pos = metadata->findKey(ExifKey("Exif.Sony2.SonyModelID"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
     std::string temp = pos->print(metadata);
-    if (temp.find(' ') == std::string::npos) {
+    if (!Internal::contains(temp, ' ')) {
       val = temp;
       return true;
     }
@@ -1969,7 +1969,7 @@ std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, c
 
   // Models that do not support this tag
   for (auto& m : {"SLT-", "HV", "ILCA-"}) {
-    if (model.find(m) != std::string::npos)
+    if (Internal::contains(model, m))
       return os << N_("n/a");
   }
 
@@ -1991,7 +1991,7 @@ std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, con
 
   // Models that do not support this tag
   for (auto& m : {"SLT-", "HV", "ILCA-"}) {
-    if (model.find(m) != std::string::npos)
+    if (Internal::contains(model, m))
       return os << N_("n/a");
   }
 

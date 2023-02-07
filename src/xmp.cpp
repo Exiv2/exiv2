@@ -580,8 +580,8 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
   // remove blanks: http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
   out.erase(std::remove_if(out.begin(), out.end(), isspace), out.end());
 
-  bool bURI = out.find("http://") != std::string::npos;
-  bool bNS = out.find(':') != std::string::npos && !bURI;
+  bool bURI = Internal::contains(out, "http://");
+  bool bNS = Internal::contains(out, ':') && !bURI;
 
   // pop trailing ':' on a namespace
   if (bNS && !out.empty() && out.back() == ':')

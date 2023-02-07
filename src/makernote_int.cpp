@@ -944,7 +944,7 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
     std::string model = getExifModel(pRoot);
     if (model.empty())
       return buf;
-    if (model.find("D50") != std::string::npos) {
+    if (Internal::contains(model, "D50")) {
       serial = 0x22;
     } else {
       serial = 0x60;
@@ -961,7 +961,7 @@ int sonyCsSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, Tif
   if (model.empty())
     return -1;
   int idx = 0;
-  if (model.find("DSLR-A330") != std::string::npos || model.find("DSLR-A380") != std::string::npos) {
+  if (Internal::contains(model, "DSLR-A330") || Internal::contains(model, "DSLR-A380")) {
     idx = 1;
   }
   return idx;

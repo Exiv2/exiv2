@@ -15,6 +15,15 @@ constexpr bool startsWith(std::string_view s, T start) {
 #endif
 }
 
+template <typename T>
+constexpr bool contains(std::string_view s, T c) {
+#ifdef __cpp_lib_string_contains
+  return s.contains(c);
+#else
+  return s.find(c) != std::string_view::npos;
+#endif
+}
+
 /// @brief Returns the uppercase version of \b str
 std::string upper(const std::string& str);
 
