@@ -339,3 +339,5 @@ executable(
   dependencies: exiv2_dep,
   install: true,
 )
+
+subdir('unitTests')

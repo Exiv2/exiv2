@@ -40,3 +40,7 @@ option('video', type : 'boolean',
 option('xmp', type : 'feature',
   description : 'Build support for XMP',
 )
+
+option('unitTests', type : 'feature',
+  description : 'Build and run unit tests',
+)
