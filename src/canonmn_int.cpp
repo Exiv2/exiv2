@@ -366,12 +366,12 @@ constexpr TagDetails canonModelId[] = {{0x00000412, "EOS M50 / Kiss M"},
                                        {0x80000417, "EOS Rebel SL2 / 200D / Kiss X9"},
                                        {0x80000421, "EOS R5"},
                                        {0x80000422, "EOS Rebel T100 / 4000D / 3000D"},
-                                       {0x80000424, "EOS R"},
+                                       {0x80000424, "EOS R / Ra"},
                                        {0x80000428, "EOS-1D X Mark III"},
                                        {0x80000432, "EOS Rebel T7 / 2000D / 1500D / Kiss X90"},
                                        {0x80000433, "EOS RP"},
                                        {0x80000435, "EOS Rebel T8i / 850D / Kiss X10i"},
-                                       {0x80000436, "EOS SL3 / 250D / Kiss X10"},
+                                       {0x80000436, "EOS Rebel SL3 / 250D / 200D Mark II / Kiss X10"},
                                        {0x80000437, "EOS 90D"},
                                        {0x80000450, "EOS R3"},
                                        {0x80000453, "EOS R6"},
@@ -379,8 +379,9 @@ constexpr TagDetails canonModelId[] = {{0x00000412, "EOS M50 / Kiss M"},
                                        {0x80000465, "EOS R10"},
                                        {0x80000467, "PowerShot ZOOM"},
                                        {0x80000468, "EOS M50 Mark II / Kiss M2"},
+                                       {0x80000480, "EOS R50"},
                                        {0x80000481, "EOS R6 Mark II"},
-                                       //{ (long int)tbd, "EOS Ra" },
+                                       {0x80000487, "EOS R8"},
                                        {0x80000520, "EOS D2000C"},
                                        {0x80000560, "EOS D6000C"}};
 
@@ -1951,6 +1952,9 @@ constexpr TagDetails canonCsLensType[] = {{1, "Canon EF 50mm f/1.8"},
                                           {61182, "Canon RF 1200mm F8L IS USM + RF1.4x"},
                                           {61182, "Canon RF 1200mm F8L IS USM + RF2x"},
                                           {61182, "Canon RF 15-30mm F4.5-6.3 IS STM"},
+                                          {61182, "Canon RF 135mm F1.8 L IS USM"},
+                                          {61182, "Canon RF 24-50mm F4.5-6.3 IS STM"},
+                                          {61182, "Canon RF-S 55-210mm F5-7.1 IS STM"},
                                           {65535, "n/a"}};
 
 //! FlashActivity, tag 0x001c
@@ -2363,7 +2367,10 @@ constexpr TagDetails canonRFLensType[] = {{0, N_("n/a")},
                                           {298, "Canon RF 1200mm F8L IS USM"},
                                           {299, "Canon RF 1200mm F8L IS USM + RF1.4x"},
                                           {300, "Canon RF 1200mm F8L IS USM + RF2x"},
-                                          {302, "Canon RF 15-30mm F4.5-6.3 IS STM"}};
+                                          {302, "Canon RF 15-30mm F4.5-6.3 IS STM"},
+                                          {303, "Canon RF 135mm F1.8 L IS USM"},
+                                          {304, "Canon RF 24-50mm F4.5-6.3 IS STM"},
+                                          {305, "Canon RF-S 55-210mm F5-7.1 IS STM"}};
 
 // Canon File Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoFi_[] = {
