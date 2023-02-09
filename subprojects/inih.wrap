@@ -1,0 +1,10 @@
+[wrap-file]
+directory = inih-r56
+source_url = https://github.com/benhoyt/inih/archive/r56.tar.gz
+source_filename = inih-r56.tar.gz
+source_hash = 4f2ba6bd122d30281a8c7a4d5723b7af90b56aa828c0e88256d7fceda03a491a
+wrapdb_version = r56-1
+
+[provide]
+inih = inih_dep
+inireader = INIReader_dep

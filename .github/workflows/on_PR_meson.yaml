@@ -1,0 +1,68 @@
+name: On PRs - meson
+
+on: pull_request
+
+concurrency:
+  group: ${{github.workflow}}-${{github.head_ref}}
+  cancel-in-progress: true
+
+jobs:
+  Ubuntu:
+    runs-on: ubuntu-20.04
+    name: Linux-GCC${{matrix.cxx}}-${{matrix.deps}}
+    strategy:
+      matrix:
+        cxx: ['7', '8', '9']
+        deps: ['forcefallback', 'default']
+        type: ['shared', 'static']
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install packages
+        run: |
+          sudo apt install -y g++-${{matrix.cxx}}
+          python3 -m pip install meson ninja
+
+      - name: Sanity Checks
+        run: |
+          env CXX=g++-${{matrix.cxx}} meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}}
+          meson compile -C "${{github.workspace}}/build"
+
+  VisualStudio:
+    runs-on: windows-latest
+    name: MSVC-${{matrix.deps}}
+    strategy:
+      matrix:
+        deps: ['forcefallback', 'default']
+        type: ['shared', 'static']
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install packages
+        run: |
+          python -m pip install meson ninja
+
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Sanity Checks
+        run: |
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}}
+          meson compile -C "${{github.workspace}}/build"
+
+  MacOS:
+    runs-on: macos-latest
+    name: macOS-${{matrix.deps}}
+    strategy:
+      matrix:
+        deps: ['forcefallback', 'default']
+        type: ['shared', 'static']
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install packages
+        run: |
+          python3 -m pip install meson ninja
+
+      - name: Compile
+        run: |
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}}
+          meson compile -C "${{github.workspace}}/build"

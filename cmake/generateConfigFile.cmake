@@ -23,8 +23,6 @@ set(EXV_HAVE_ICONV       ${ICONV_FOUND})
 set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
 set(EXV_HAVE_BROTLI      ${BROTLI_FOUND})
 
-check_cxx_symbol_exists(mmap        sys/mman.h     EXV_HAVE_MMAP )
-check_cxx_symbol_exists(munmap      sys/mman.h     EXV_HAVE_MUNMAP )
 check_cxx_symbol_exists(strerror_r  string.h       EXV_HAVE_STRERROR_R )
 
 check_cxx_source_compiles( "
@@ -35,10 +33,6 @@ int main() {
     (void)c;  // ignore unuse-variable
     return 0;
 }" EXV_STRERROR_R_CHAR_P )
-
-check_include_file_cxx( "libproc.h"     EXV_HAVE_LIBPROC_H )
-check_include_file_cxx( "unistd.h"      EXV_HAVE_UNISTD_H )
-check_include_file_cxx( "sys/mman.h"    EXV_HAVE_SYS_MMAN_H )
 
 set(EXV_ENABLE_NLS ${EXIV2_ENABLE_NLS})
 set(EXV_ENABLE_VIDEO ${EXIV2_ENABLE_VIDEO})
