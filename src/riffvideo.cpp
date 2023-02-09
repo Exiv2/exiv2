@@ -740,14 +740,13 @@ void RiffVideo::readJunk(uint64_t size_) {
 std::string RiffVideo::getStreamType(uint32_t stream) {
   if (stream == 1)
     return "Mono";
-  else if (stream == 2)
+  if (stream == 2)
     return "Stereo";
-  else if (stream == 5)
+  if (stream == 5)
     return "5.1 Surround Sound";
-  else if (stream == 7)
+  if (stream == 7)
     return "7.1 Surround Sound";
-  else
-    return "Mono";
+  return "Mono";
 }
 
 void RiffVideo::fillDuration(double frame_rate, size_t frame_count) {
