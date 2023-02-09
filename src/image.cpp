@@ -73,46 +73,46 @@ struct Registry {
 };
 
 /// \todo Use std::unordered_map for implementing the registry. Avoid to use ImageType::none
-constexpr auto registry = std::array{
+constexpr Registry registry[] = {
     // image type       creation fct     type check  Exif mode    IPTC mode    XMP mode     Comment mode
     //---------------  ---------------  ----------  -----------  -----------  -----------  ------------
-    Registry{ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
-    Registry{ImageType::exv, newExvInstance, isExvType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
-    Registry{ImageType::cr2, newCr2Instance, isCr2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
-    Registry{ImageType::crw, newCrwInstance, isCrwType, amReadWrite, amNone, amNone, amReadWrite},
-    Registry{ImageType::mrw, newMrwInstance, isMrwType, amRead, amRead, amRead, amNone},
-    Registry{ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    Registry{ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone, amReadWrite, amNone},
-    Registry{ImageType::dng, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    Registry{ImageType::nef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    Registry{ImageType::pef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    Registry{ImageType::arw, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
-    Registry{ImageType::rw2, newRw2Instance, isRw2Type, amRead, amRead, amRead, amNone},
-    Registry{ImageType::sr2, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
-    Registry{ImageType::srw, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    Registry{ImageType::orf, newOrfInstance, isOrfType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::jpeg, newJpegInstance, isJpegType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+    {ImageType::exv, newExvInstance, isExvType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+    {ImageType::cr2, newCr2Instance, isCr2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::crw, newCrwInstance, isCrwType, amReadWrite, amNone, amNone, amReadWrite},
+    {ImageType::mrw, newMrwInstance, isMrwType, amRead, amRead, amRead, amNone},
+    {ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone, amReadWrite, amNone},
+    {ImageType::dng, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::nef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::pef, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::arw, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
+    {ImageType::rw2, newRw2Instance, isRw2Type, amRead, amRead, amRead, amNone},
+    {ImageType::sr2, newTiffInstance, isTiffType, amRead, amRead, amRead, amNone},
+    {ImageType::srw, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::orf, newOrfInstance, isOrfType, amReadWrite, amReadWrite, amReadWrite, amNone},
 #ifdef EXV_HAVE_LIBZ
-    Registry{ImageType::png, newPngInstance, isPngType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+    {ImageType::png, newPngInstance, isPngType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
 #endif  // EXV_HAVE_LIBZ
-    Registry{ImageType::pgf, newPgfInstance, isPgfType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
-    Registry{ImageType::raf, newRafInstance, isRafType, amRead, amRead, amRead, amNone},
-    Registry{ImageType::eps, newEpsInstance, isEpsType, amNone, amNone, amReadWrite, amNone},
-    Registry{ImageType::xmp, newXmpInstance, isXmpType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    Registry{ImageType::gif, newGifInstance, isGifType, amNone, amNone, amNone, amNone},
-    Registry{ImageType::psd, newPsdInstance, isPsdType, amReadWrite, amReadWrite, amReadWrite, amNone},
-    Registry{ImageType::tga, newTgaInstance, isTgaType, amNone, amNone, amNone, amNone},
-    Registry{ImageType::bmp, newBmpInstance, isBmpType, amNone, amNone, amNone, amNone},
-    Registry{ImageType::jp2, newJp2Instance, isJp2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::pgf, newPgfInstance, isPgfType, amReadWrite, amReadWrite, amReadWrite, amReadWrite},
+    {ImageType::raf, newRafInstance, isRafType, amRead, amRead, amRead, amNone},
+    {ImageType::eps, newEpsInstance, isEpsType, amNone, amNone, amReadWrite, amNone},
+    {ImageType::xmp, newXmpInstance, isXmpType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::gif, newGifInstance, isGifType, amNone, amNone, amNone, amNone},
+    {ImageType::psd, newPsdInstance, isPsdType, amReadWrite, amReadWrite, amReadWrite, amNone},
+    {ImageType::tga, newTgaInstance, isTgaType, amNone, amNone, amNone, amNone},
+    {ImageType::bmp, newBmpInstance, isBmpType, amNone, amNone, amNone, amNone},
+    {ImageType::jp2, newJp2Instance, isJp2Type, amReadWrite, amReadWrite, amReadWrite, amNone},
 // needs to be before bmff because some ftyp files are handled as qt and
 // the rest should fall through to bmff
 #ifdef EXV_ENABLE_VIDEO
-    Registry{ImageType::qtime, newQTimeInstance, isQTimeType, amRead, amNone, amRead, amNone},
-    Registry{ImageType::asf, newAsfInstance, isAsfType, amRead, amNone, amRead, amNone},
-    Registry{ImageType::riff, newRiffInstance, isRiffType, amRead, amNone, amRead, amNone},
-    Registry{ImageType::mkv, newMkvInstance, isMkvType, amRead, amNone, amRead, amNone},
+    {ImageType::qtime, newQTimeInstance, isQTimeType, amRead, amNone, amRead, amNone},
+    {ImageType::asf, newAsfInstance, isAsfType, amRead, amNone, amRead, amNone},
+    {ImageType::riff, newRiffInstance, isRiffType, amRead, amNone, amRead, amNone},
+    {ImageType::mkv, newMkvInstance, isMkvType, amRead, amNone, amRead, amNone},
 #endif  // EXV_ENABLE_VIDEO
 #ifdef EXV_ENABLE_BMFF
-    Registry{ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
+    {ImageType::bmff, newBmffInstance, isBmffType, amRead, amRead, amRead, amNone},
 #endif  // EXV_ENABLE_BMFF
 };
 
@@ -730,38 +730,29 @@ const std::string& Image::tagName(uint16_t tag) {
 }
 
 AccessMode ImageFactory::checkMode(ImageType type, MetadataId metadataId) {
-  auto r = std::find(registry.begin(), registry.end(), type);
-  if (r == registry.end())
+  auto r = Exiv2::find(registry, type);
+  if (!r)
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
-  AccessMode am = amNone;
   switch (metadataId) {
-    case mdNone:
-      break;
     case mdExif:
-      am = r->exifSupport_;
-      break;
+      return r->exifSupport_;
     case mdIptc:
-      am = r->iptcSupport_;
-      break;
+      return r->iptcSupport_;
     case mdXmp:
-      am = r->xmpSupport_;
-      break;
+      return r->xmpSupport_;
     case mdComment:
-      am = r->commentSupport_;
-      break;
-    case mdIccProfile:
-      break;
-
-      // no default: let the compiler complain
+      return r->commentSupport_;
+    default:
+      return amNone;
   }
-  return am;
+  return {};
 }
 
 bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance) {
-  auto r = std::find(registry.begin(), registry.end(), type);
-  if (r != registry.end())
-    return r->isThisType_(io, advance);
-  return false;
+  auto r = Exiv2::find(registry, type);
+  if (!r)
+    return false;
+  return r->isThisType_(io, advance);
 }
 
 ImageType ImageFactory::getType(const std::string& path) {
@@ -859,8 +850,8 @@ Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io) {
   // BasicIo instance does not need to be open
   if (type == ImageType::none)
     return {};
-  auto r = std::find(registry.begin(), registry.end(), type);
-  if (r == registry.end())
+  auto r = Exiv2::find(registry, type);
+  if (!r)
     return {};
   return r->newInstance_(std::move(io), true);
 }
