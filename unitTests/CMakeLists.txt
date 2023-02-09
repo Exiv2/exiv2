@@ -6,7 +6,6 @@ if( EXV_ENABLE_VIDEO )
 endif()
 
 add_executable(unit_tests
-    mainTestRunner.cpp
     test_basicio.cpp
     test_bmpimage.cpp
     test_cr2header_int.cpp
@@ -45,7 +44,6 @@ target_compile_definitions(unit_tests
 target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
-        GTest::gtest
         GTest::gtest_main
         std::filesystem
 )
