@@ -508,9 +508,6 @@ IptcKey::IptcKey(uint16_t tag, uint16_t record) : tag_(tag), record_(record) {
   makeKey();
 }
 
-IptcKey::IptcKey(const IptcKey& rhs) : Key(), tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_) {
-}
-
 std::string IptcKey::key() const {
   return key_;
 }

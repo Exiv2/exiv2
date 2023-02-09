@@ -256,11 +256,6 @@ class EXIV2API IptcKey : public Key {
     @param record Record id
    */
   IptcKey(uint16_t tag, uint16_t record);
-  //! Copy constructor
-  IptcKey(const IptcKey& rhs);
-  IptcKey& operator=(const IptcKey&) = default;
-  //! Destructor
-  ~IptcKey() override = default;
   //@}
 
   //! @name Accessors
