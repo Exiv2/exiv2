@@ -29,6 +29,11 @@ def get_valid_files(data_dir):
         ".webp",
         ".xmp",
         ".mp4",
+        ".asf",
+        ".avi",
+        ".mkv",
+        ".wav",
+        ".mov"
     ]
 
     excludes = [

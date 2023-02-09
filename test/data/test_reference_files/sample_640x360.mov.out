@@ -1,0 +1,50 @@
+Xmp.video.FileSize                           XmpText     8  0.548162  0.548162
+Xmp.video.MimeType                           XmpText    15  video/quicktime  video/quicktime
+Xmp.video.MajorBrand                         XmpText    25  Apple QuickTime (.MOV/QT)  Apple QuickTime (.MOV/QT)
+Xmp.video.MinorVersion                       XmpText     3  512  512
+Xmp.video.CompatibleBrands                   XmpSeq      1  Apple QuickTime (.MOV/QT)  Apple QuickTime (.MOV/QT)
+Xmp.video.MovieHeaderVersion                 XmpText     1  0  0
+Xmp.video.DateUTC                            XmpText     1  0  0
+Xmp.video.ModificationDate                   XmpText     1  0  0
+Xmp.video.TimeScale                          XmpText     4  1000  1000
+Xmp.video.Duration                           XmpText     5  13347  13347
+Xmp.video.PreferredRate                      XmpText     1  1  1
+Xmp.video.PreferredVolume                    XmpText     3  100  100
+Xmp.video.PreviewTime                        XmpText     1  0  0
+Xmp.video.PreviewDuration                    XmpText     1  0  0
+Xmp.video.PosterTime                         XmpText     1  0  0
+Xmp.video.SelectionTime                      XmpText     1  0  0
+Xmp.video.SelectionDuration                  XmpText     1  0  0
+Xmp.video.CurrentTime                        XmpText     1  0  0
+Xmp.video.NextTrackID                        XmpText     1  2  2
+Xmp.video.TrackHeaderVersion                 XmpText     1  0  0
+Xmp.video.TrackCreateDate                    XmpText     1  0  0
+Xmp.video.TrackModifyDate                    XmpText     1  0  0
+Xmp.video.TrackID                            XmpText     1  1  1
+Xmp.video.TrackDuration                      XmpText     2  13  13
+Xmp.video.TrackLayer                         XmpText     1  0  0
+Xmp.video.TrackVolume                        XmpText     1  0  0
+Xmp.video.Width                              XmpText     3  640  640
+Xmp.video.Height                             XmpText     3  360  360
+Xmp.video.MediaHeaderVersion                 XmpText     1  0  0
+Xmp.video.MediaCreateDate                    XmpText     1  0  0
+Xmp.video.MediaModifyDate                    XmpText     1  0  0
+Xmp.video.MediaTimeScale                     XmpText     5  30000  30000
+Xmp.video.MediaDuration                      XmpText     2  13  13
+Xmp.video.MediaLangCode                      XmpText     1  0  0
+Xmp.video.HandlerClass                       XmpText    12  Data Handler  Data Handler
+Xmp.video.HandlerType                        XmpText     3  URL  URL
+Xmp.video.GraphicsMode                       XmpText     7  srcCopy  srcCopy
+Xmp.video.OpColor                            XmpText     1  0  0
+Xmp.video.URL                                XmpText     0  
+Xmp.video.Codec                              XmpText    39  MP4 Base w/ AVC ext [ISO 14496-12:2005]  MP4 Base w/ AVC ext [ISO 14496-12:2005]
+Xmp.video.VendorID                           XmpText     6  FFmpeg  FFmpeg
+Xmp.video.SourceImageWidth                   XmpText     3  640  640
+Xmp.video.SourceImageHeight                  XmpText     3  360  360
+Xmp.video.XResolution                        XmpText     2  72  72
+Xmp.video.YResolution                        XmpText     2  72  72
+Xmp.video.Compressor                         XmpText    22  Lavc57.107.100 libx264  Lavc57.107.100 libx264
+Xmp.video.BitDepth                           XmpText     2  24  24
+Xmp.video.FrameRate                          XmpText     8  0.999001  0.999001
+Xmp.video.SoftwareVersion                    XmpText    13  Lavf57.83.100  Lavf57.83.100
+Xmp.video.AspectRatio                        XmpText     4  16:9  16:9
