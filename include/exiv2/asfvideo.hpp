@@ -4,6 +4,7 @@
 #pragma once
 
 // *****************************************************************************
+#include <array>
 #include "exiv2lib_export.h"
 
 // included header files
