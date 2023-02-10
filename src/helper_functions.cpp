@@ -61,12 +61,12 @@ std::string readStringTag(BasicIo::UniquePtr& io, size_t length) {
   return Exiv2::toString(FieldBuf.data()).substr(0, length);
 }
 
-std::string getAspectRatio(size_t width, size_t height) {
+std::string getAspectRatio(uint64_t width, uint64_t height) {
   if (height == 0 || width == 0)
     return std::to_string(width) + ":" + std::to_string(height);
 
-  int ratioWidth = width / std::gcd(width, height);
-  int ratioHeight = height / std::gcd(width, height);
+  auto ratioWidth = width / std::gcd(width, height);
+  auto ratioHeight = height / std::gcd(width, height);
   return std::to_string(ratioWidth) + ":" + std::to_string(ratioHeight);
 }
 

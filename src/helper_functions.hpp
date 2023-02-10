@@ -56,7 +56,7 @@ std::string utf16ToUtf8(const std::wstring& wstr);
 /*!
   @brief Calculates Aspect Ratio of a video
  */
-[[nodiscard]] std::string getAspectRatio(size_t width, size_t height);
+[[nodiscard]] std::string getAspectRatio(uint64_t width, uint64_t height);
 
 }  // namespace Exiv2
 #endif  // HELPER_FUNCTIONS_HPP
