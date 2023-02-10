@@ -842,9 +842,6 @@ TiffComponent* newCasio2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
 struct NikonArrayIdx {
   //! Key for comparisons
   struct Key {
-    //! Constructor
-    Key(uint16_t tag, const char* ver, size_t size) : tag_(tag), ver_(ver), size_(size) {
-    }
     uint16_t tag_;     //!< Tag number
     const char* ver_;  //!< Version string
     size_t size_;      //!< Size of the data (not the version string)
@@ -910,7 +907,7 @@ int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* /
   if (size < 4)
     return -1;
 
-  auto ix = NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size);
+  auto ix = NikonArrayIdx::Key{tag, reinterpret_cast<const char*>(pData), size};
   auto it = Exiv2::find(nikonArrayIdx, ix);
   if (!it)
     return -1;
@@ -923,7 +920,7 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
 
   if (size < 4)
     return buf;
-  auto nci = Exiv2::find(nikonArrayIdx, NikonArrayIdx::Key(tag, reinterpret_cast<const char*>(pData), size));
+  auto nci = Exiv2::find(nikonArrayIdx, NikonArrayIdx::Key{tag, reinterpret_cast<const char*>(pData), size});
   if (!nci || nci->start_ == NA || size <= nci->start_)
     return buf;
 
