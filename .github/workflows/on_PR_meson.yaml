@@ -26,7 +26,7 @@ jobs:
       - name: Sanity Checks
         run: |
           env CXX=g++-${{matrix.cxx}} meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}}
-          meson compile -C "${{github.workspace}}/build"
+          meson compile -C "${{github.workspace}}/build" --verbose
 
   VisualStudio:
     runs-on: windows-latest
@@ -46,7 +46,7 @@ jobs:
       - name: Sanity Checks
         run: |
           meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}}
-          meson compile -C "${{github.workspace}}/build"
+          meson compile -C "${{github.workspace}}/build" --verbose
 
   MacOS:
     runs-on: macos-latest
@@ -65,4 +65,4 @@ jobs:
       - name: Compile
         run: |
           meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}}
-          meson compile -C "${{github.workspace}}/build"
+          meson compile -C "${{github.workspace}}/build" --verbose
