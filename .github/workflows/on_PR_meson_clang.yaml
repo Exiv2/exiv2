@@ -1,0 +1,29 @@
+name: On PRs - meson linux clang
+
+on: pull_request
+
+concurrency:
+  group: ${{github.workflow}}-${{github.head_ref}}
+  cancel-in-progress: true
+
+jobs:
+  Ubuntu:
+    runs-on: ubuntu-20.04
+    name: Linux-Clang${{matrix.cxx}}-${{matrix.deps}}-${{matrix.type}}
+    strategy:
+      matrix:
+        cxx: ['7', '8', '9']
+        deps: ['forcefallback', 'default']
+        type: ['shared', 'static']
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install packages
+        run: |
+          sudo apt install -y clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
+          python3 -m pip install meson ninja
+
+      - name: Sanity Checks
+        run: |
+          env CXX=clang++-${{matrix.cxx}} CXXFLAGS=-stdlib=libc++ meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}}
+          meson compile -C "${{github.workspace}}/build" --verbose
