@@ -50,9 +50,8 @@ cdata.set('EXV_ENABLE_VIDEO', get_option('video'))
 deps = []
 deps += cpp.find_library('ws2_32', required: host_machine.system() == 'windows')
 
-# This makes assumptions that the libcpp is the GNU one on Linux systems
 if cpp.get_argument_syntax() == 'gcc' and cpp.version().version_compare('<9')
-  if host_machine.system() == 'linux'
+  if host_machine.system() == 'linux' and cpp.get_define('_LIBCPP_VERSION', prefix: '#include <new>') == ''
     deps += cpp.find_library('stdc++fs')
   elif cpp.get_id() == 'clang'
     deps += cpp.find_library('c++fs')
