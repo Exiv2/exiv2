@@ -97,8 +97,7 @@ bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
   return false;
 }
 
-std::array<byte, 8> data = {0x75, 0xB2, 0x26, 0x30, 0x66, 0x8E, 0x11, 0xCF};
-const AsfVideo::GUIDTag Header(0x75B22630, 0x668E, 0x11CF, data);
+const AsfVideo::GUIDTag Header(0x75B22630, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C});
 
 const std::map<AsfVideo::GUIDTag, std::string> GUIDReferenceTags = {
     /// Top-level ASF object GUIDS
