@@ -44,7 +44,7 @@ class EXIV2API RiffVideo : public Image {
 
  protected:
   class HeaderReader {
-    std::string id_ = "";
+    std::string id_;
     uint64_t size_ = 0;
 
    public:
@@ -54,7 +54,7 @@ class EXIV2API RiffVideo : public Image {
       return size_;
     }
 
-    [[nodiscard]] std::string& getId() {
+    [[nodiscard]] const std::string& getId() const {
       return id_;
     }
   };
@@ -66,7 +66,7 @@ class EXIV2API RiffVideo : public Image {
   void decodeBlocks();
 
  private:
-  bool equal(const std::string& str1, const std::string& str2);
+  static bool equal(const std::string& str1, const std::string& str2);
 
   /*!
   @brief Interpret MainAVIHeader (avih) structure, and save it in the respective XMP container.
@@ -130,7 +130,7 @@ class EXIV2API RiffVideo : public Image {
  */
   void readJunk(uint64_t size_);
 
-  std::string getStreamType(uint32_t stream);
+  static std::string getStreamType(uint32_t stream);
   /*!
    @brief Calculates Duration of a video, and stores it in the respective XMP container.
    @param frame_rate Frame rate of the video.
