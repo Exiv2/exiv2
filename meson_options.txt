@@ -37,7 +37,6 @@ option('video', type : 'boolean',
   description : 'Build support for video formats',
 )
 
-option('xmp', type : 'boolean',
-  value: true,
+option('xmp', type : 'feature',
   description : 'Build support for XMP',
 )
