@@ -9,7 +9,7 @@ concurrency:
 jobs:
   Ubuntu:
     runs-on: ubuntu-20.04
-    name: Linux-GCC${{matrix.cxx}}-${{matrix.deps}}
+    name: Linux-GCC${{matrix.cxx}}-${{matrix.deps}}-${{matrix.type}}
     strategy:
       matrix:
         cxx: ['7', '8', '9']
@@ -30,7 +30,7 @@ jobs:
 
   VisualStudio:
     runs-on: windows-latest
-    name: MSVC-${{matrix.deps}}
+    name: MSVC-${{matrix.deps}}-${{matrix.type}}
     strategy:
       matrix:
         deps: ['forcefallback', 'default']
@@ -50,7 +50,7 @@ jobs:
 
   MacOS:
     runs-on: macos-latest
-    name: macOS-${{matrix.deps}}
+    name: macOS-${{matrix.deps}}-${{matrix.type}}
     strategy:
       matrix:
         deps: ['forcefallback', 'default']
