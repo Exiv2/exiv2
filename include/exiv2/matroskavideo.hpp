@@ -158,11 +158,6 @@ class EXIV2API MatroskaVideo : public Image {
   void decodeBooleanTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
   void decodeDateTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
   void decodeFloatTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
-  /*!Internal::
-    @brief Calculates Aspect Ratio of a video, and stores it in the
-        respective XMP container.
-   */
-  void aspectRatio();
 
  private:
   //! Variable to check the end of metadata traversing.

@@ -25,6 +25,7 @@
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "helper_functions.hpp"
 #include "quicktimevideo.hpp"
 #include "safe_op.hpp"
 #include "tags.hpp"
@@ -528,7 +529,7 @@ void QuickTimeVideo::readMetadata() {
   while (continueTraversing_)
     decodeBlock();
 
-  aspectRatio();
+  xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width_, height_);
 }  // QuickTimeVideo::readMetadata
 
 void QuickTimeVideo::decodeBlock(std::string const& entered_from) {
@@ -1535,43 +1536,6 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
   }
   io_->readOrThrow(buf.data(), size % 4);
 }  // QuickTimeVideo::movieHeaderDecoder
-
-void QuickTimeVideo::aspectRatio() {
-  // TODO - Make a better unified method to handle all cases of Aspect Ratio
-
-  double aspectRatio = static_cast<double>(width_) / static_cast<double>(height_);
-  aspectRatio = floor(aspectRatio * 10) / 10;
-  xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
-
-  auto aR = static_cast<int>((aspectRatio * 10.0) + 0.1);
-
-  switch (aR) {
-    case 13:
-      xmpData_["Xmp.video.AspectRatio"] = "4:3";
-      break;
-    case 17:
-      xmpData_["Xmp.video.AspectRatio"] = "16:9";
-      break;
-    case 10:
-      xmpData_["Xmp.video.AspectRatio"] = "1:1";
-      break;
-    case 16:
-      xmpData_["Xmp.video.AspectRatio"] = "16:10";
-      break;
-    case 22:
-      xmpData_["Xmp.video.AspectRatio"] = "2.21:1";
-      break;
-    case 23:
-      xmpData_["Xmp.video.AspectRatio"] = "2.35:1";
-      break;
-    case 12:
-      xmpData_["Xmp.video.AspectRatio"] = "5:4";
-      break;
-    default:
-      xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
-      break;
-  }
-}  // QuickTimeVideo::aspectRatio
 
 Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<QuickTimeVideo>(std::move(io));
