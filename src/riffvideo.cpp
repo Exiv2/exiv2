@@ -12,6 +12,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
+#include "utils.hpp"
 
 namespace Exiv2::Internal {
 
@@ -397,10 +398,8 @@ RiffVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) {
 bool RiffVideo::equal(const std::string& str1, const std::string& str2) {
   if (str1.size() != str2.size())
     return false;
-  for (size_t i = 0; i < str1.size(); i++)
-    if (toupper(str1[i]) != str2[i])
-      return false;
-  return true;
+
+  return Internal::upper(str1) == str2;
 }
 
 void RiffVideo::readList(HeaderReader& header_) {
