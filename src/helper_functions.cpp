@@ -6,6 +6,7 @@
 #include <codecvt>
 #include <cstring>
 #include <locale>
+#include <numeric>
 #include "enforce.hpp"
 
 std::string string_from_unterminated(const char* data, size_t data_length) {
@@ -17,11 +18,6 @@ std::string string_from_unterminated(const char* data, size_t data_length) {
 }
 
 namespace Exiv2 {
-char returnHex(int n) {
-  if (n >= 0 && n <= 9)
-    return static_cast<char>(n + 48);
-  return static_cast<char>(n + 55);
-}
 
 std::string utf16ToUtf8(const std::wstring& wstr) {
   using convert_typeX = std::codecvt_utf8<wchar_t>;
@@ -63,6 +59,15 @@ std::string readStringTag(BasicIo::UniquePtr& io, size_t length) {
   DataBuf FieldBuf(length + 1);
   io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);
   return Exiv2::toString(FieldBuf.data()).substr(0, length);
+}
+
+std::string getAspectRatio(size_t width, size_t height) {
+  if (height == 0 || width == 0)
+    return std::to_string(width) + ":" + std::to_string(height);
+
+  int ratioWidth = width / std::gcd(width, height);
+  int ratioHeight = height / std::gcd(width, height);
+  return std::to_string(ratioWidth) + ":" + std::to_string(ratioHeight);
 }
 
 }  // namespace Exiv2

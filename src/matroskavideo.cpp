@@ -24,6 +24,7 @@
 #include "basicio.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "helper_functions.hpp"
 #include "matroskavideo.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
@@ -606,7 +607,7 @@ void MatroskaVideo::readMetadata() {
   while (continueTraversing_)
     decodeBlock();
 
-  aspectRatio();
+  xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width_, height_);
 }
 
 void MatroskaVideo::decodeBlock() {
@@ -884,41 +885,6 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, siz
     } break;
     default:
       xmpData_[tag->_label] = getFloat(buf, bigEndian);
-      break;
-  }
-}
-
-void MatroskaVideo::aspectRatio() {
-  double aspectRatio = static_cast<double>(width_) / static_cast<double>(height_);
-  aspectRatio = floor(aspectRatio * 10) / 10;
-  xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
-
-  auto aR = static_cast<int>((aspectRatio * 10.0) + 0.1);
-
-  switch (aR) {
-    case 13:
-      xmpData_["Xmp.video.AspectRatio"] = "4:3";
-      break;
-    case 17:
-      xmpData_["Xmp.video.AspectRatio"] = "16:9";
-      break;
-    case 10:
-      xmpData_["Xmp.video.AspectRatio"] = "1:1";
-      break;
-    case 16:
-      xmpData_["Xmp.video.AspectRatio"] = "16:10";
-      break;
-    case 22:
-      xmpData_["Xmp.video.AspectRatio"] = "2.21:1";
-      break;
-    case 23:
-      xmpData_["Xmp.video.AspectRatio"] = "2.35:1";
-      break;
-    case 12:
-      xmpData_["Xmp.video.AspectRatio"] = "5:4";
-      break;
-    default:
-      xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
       break;
   }
 }

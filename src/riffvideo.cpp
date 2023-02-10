@@ -518,7 +518,8 @@ void RiffVideo::readAviHeader() {
   io_->seekOrThrow(io_->tell() + DWORD * 4, BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // TimeScale, DataRate, StartTime, DataLength
 
-  fillAspectRatio(width, height);
+  xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width, height);
+
   fillDuration(frame_rate, frame_count);
 }
 
@@ -759,44 +760,6 @@ void RiffVideo::fillDuration(double frame_rate, size_t frame_count) {
   xmpData_["Xmp.video.FileDataRate"] = io_->size() / (1048576. * duration);
   xmpData_["Xmp.video.Duration"] = duration;  // Duration in number of seconds
 }  // RiffVideo::fillDuration
-
-void RiffVideo::fillAspectRatio(size_t width, size_t height) {
-  if (height == 0)
-    return;
-  double aspectRatio = static_cast<double>(width) / height;
-  aspectRatio = floor(aspectRatio * 10) / 10;
-  xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
-
-  auto aR = static_cast<int>((aspectRatio * 10.0) + 0.1);
-
-  switch (aR) {
-    case 13:
-      xmpData_["Xmp.video.AspectRatio"] = "4:3";
-      break;
-    case 17:
-      xmpData_["Xmp.video.AspectRatio"] = "16:9";
-      break;
-    case 10:
-      xmpData_["Xmp.video.AspectRatio"] = "1:1";
-      break;
-    case 16:
-      xmpData_["Xmp.video.AspectRatio"] = "16:10";
-      break;
-    case 22:
-      xmpData_["Xmp.video.AspectRatio"] = "2.21:1";
-      break;
-    case 23:
-      xmpData_["Xmp.video.AspectRatio"] = "2.35:1";
-      break;
-    case 12:
-      xmpData_["Xmp.video.AspectRatio"] = "5:4";
-      break;
-    default:
-      xmpData_["Xmp.video.AspectRatio"] = aspectRatio;
-
-      break;
-  }
-}
 
 Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<RiffVideo>(std::move(io));

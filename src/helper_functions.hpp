@@ -24,13 +24,6 @@
 std::string string_from_unterminated(const char* data, size_t data_length);
 
 namespace Exiv2 {
-/*!
-  @brief Function used to convert a decimal number to its Hexadecimal
-      equivalent, then parsed into a character
-  @param n Integer which is to be parsed as Hexadecimal character
-  @return Return a Hexadecimal number, in character
- */
-char returnHex(int n);
 
 static constexpr size_t BYTE = 0x1;
 static constexpr size_t WCHAR = 0x2;
@@ -59,6 +52,11 @@ std::string utf16ToUtf8(const std::wstring& wstr);
 [[nodiscard]] std::string readStringWcharTag(Exiv2::BasicIo::UniquePtr& io, size_t length);
 
 [[nodiscard]] std::string readStringTag(Exiv2::BasicIo::UniquePtr& io, size_t length = DWORD);
+
+/*!
+  @brief Calculates Aspect Ratio of a video
+ */
+[[nodiscard]] std::string getAspectRatio(size_t width, size_t height);
 
 }  // namespace Exiv2
 #endif  // HELPER_FUNCTIONS_HPP

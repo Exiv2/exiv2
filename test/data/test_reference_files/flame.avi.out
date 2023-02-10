@@ -9,7 +9,7 @@ Xmp.audio.ChannelType                        XmpText     4  Mono  Mono
 Xmp.video.StreamCount                        XmpText     4  3074  3074
 Xmp.video.Width                              XmpText     3  256  256
 Xmp.video.Height                             XmpText     3  240  240
-Xmp.video.AspectRatio                        XmpText     3  1:1  1:1
+Xmp.video.AspectRatio                        XmpText     5  16:15  16:15
 Xmp.video.FileDataRate                       XmpText    11  8.78036e-05  8.78036e-05
 Xmp.video.Duration                           XmpText     4  3142  3142
 Xmp.video.Codec                              XmpText     4  cvid  cvid

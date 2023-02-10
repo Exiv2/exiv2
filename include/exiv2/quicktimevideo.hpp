@@ -192,11 +192,6 @@ class EXIV2API QuickTimeVideo : public Image {
     @param size Size of the data block that is to skipped.
    */
   void discard(size_t size);
-  /*!
-    @brief Calculates Aspect Ratio of a video, and stores it in the
-        respective XMP container.
-   */
-  void aspectRatio();
 
   //! Variable which stores Time Scale unit, used to calculate time.
   uint64_t timeScale_ = 0;

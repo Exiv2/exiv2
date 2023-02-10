@@ -33,7 +33,8 @@ class EXIV2API AsfVideo : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
-   */
+  */
+
   explicit AsfVideo(BasicIo::UniquePtr io);
   //@}
 
@@ -47,6 +48,41 @@ class EXIV2API AsfVideo : public Image {
   //@{
   [[nodiscard]] std::string mimeType() const override;
   //@}
+
+  /* @class GUID_struct
+   *
+   * @brief A class to represent a globally unique identifier (GUID) structure
+   *
+   * This class represents a globally unique identifier (GUID) structure which is used to identify objects in a
+   * distributed environment. A GUID is a unique identifier that is generated on a computer and can be used to
+   * identify an object across different systems. The GUID structure is comprised of four 32-bit values and an
+   * array of 8 bytes.
+   *
+   * @note The byte order of the GUID structure is in little endian.
+   *
+   * @see https://en.wikipedia.org/wiki/Globally_unique_identifier
+   *
+   */
+  class GUIDTag {
+    uint32_t data1_;
+    uint16_t data2_;
+    uint16_t data3_;
+    std::array<byte, 8> data4_;
+
+   public:
+    bool operator==(const GUIDTag& other) const;
+
+    // Constructor to create a GUID object by passing individual values for each attribute
+    GUIDTag(unsigned int data1, unsigned short data2, unsigned short data3, std::array<byte, 8> data4);
+
+    // Constructor to create a GUID object from a byte array
+    GUIDTag(const uint8_t* bytes);
+
+    std::string to_string();
+
+    bool operator<(const GUIDTag& other) const;
+  };
+
  private:
   static constexpr size_t CODEC_TYPE_VIDEO = 1;
   static constexpr size_t CODEC_TYPE_AUDIO = 2;
@@ -78,6 +114,8 @@ class EXIV2API AsfVideo : public Image {
     position. Calls tagDecoder() or skips to next tag, if required.
    */
   void decodeBlock();
+
+  void decodeHeader();
   /*!
     @brief Interpret File_Properties tag information, and save it in
         the respective XMP container.
@@ -117,12 +155,6 @@ class EXIV2API AsfVideo : public Image {
   void extendedContentDescription();
 
   void DegradableJPEGMedia();
-
-  /*!
-    @brief Calculates Aspect Ratio of a video, and stores it in the
-        respective XMP container.
-   */
-  void aspectRatio();
 
  private:
   //! Variable to store height and width of a video frame.
