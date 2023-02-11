@@ -741,7 +741,12 @@ void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* 
   ULongValue v;
   v.read(ciffComponent.pData(), 8, byteOrder);
   time_t t = v.value_.at(0);
-  auto tm = std::localtime(&t);
+  struct tm r;
+#ifdef _WIN32
+  auto tm = localtime_s(&r, &t) ? nullptr : &r;
+#else
+  auto tm = localtime_r(&t, &r);
+#endif
   if (tm) {
     const size_t m = 20;
     char s[m];
