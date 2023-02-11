@@ -2289,7 +2289,7 @@ static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size,
   byte code[256];
   for (uint32_t i = 0; i < 249; i++) {
     if (bDecipher) {
-      code[(i * i * i) % 249] = i;
+      code[(i * i * i) % 249] = static_cast<byte>(i);
     } else {
       code[i] = (i * i * i) % 249;
     }

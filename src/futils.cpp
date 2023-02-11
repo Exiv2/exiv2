@@ -81,7 +81,7 @@ char to_hex(char code) {
 
 /// @brief Convert a hex character to its integer value.
 char from_hex(char ch) {
-  return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
+  return isdigit(ch) ? ch - '0' : static_cast<char>(tolower(ch)) - 'a' + 10;
 }
 
 std::string urlencode(const std::string& str) {
