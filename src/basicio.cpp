@@ -321,9 +321,9 @@ size_t FileIo::write(BasicIo& src) {
     return 0;
 
   byte buf[4096];
-  size_t readCount = 0;
   size_t writeTotal = 0;
-  while ((readCount = src.read(buf, sizeof(buf)))) {
+  size_t readCount = src.read(buf, sizeof(buf));
+  while (readCount != 0) {
     size_t writeCount = std::fwrite(buf, 1, readCount, p_->fp_);
     writeTotal += writeCount;
     if (writeCount != readCount) {
@@ -331,6 +331,7 @@ size_t FileIo::write(BasicIo& src) {
       src.seek(writeCount - readCount, BasicIo::cur);
       break;
     }
+    readCount = src.read(buf, sizeof(buf));
   }
 
   return writeTotal;
@@ -746,11 +747,12 @@ size_t MemIo::write(BasicIo& src) {
     return 0;
 
   byte buf[4096];
-  size_t readCount = 0;
   size_t writeTotal = 0;
-  while ((readCount = src.read(buf, sizeof(buf)))) {
+  size_t readCount = src.read(buf, sizeof(buf));
+  while (readCount != 0) {
     write(buf, readCount);
     writeTotal += readCount;
+    readCount = src.read(buf, sizeof(buf));
   }
 
   return writeTotal;

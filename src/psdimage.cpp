@@ -523,10 +523,11 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
   io_->populateFakeData();
 
   // Copy remaining data
-  size_t readSize = 0;
-  while ((readSize = io_->read(lbuf.data(), lbuf.size()))) {
+  size_t readSize = io_->read(lbuf.data(), lbuf.size());
+  while (readSize != 0) {
     if (outIo.write(lbuf.c_data(), readSize) != readSize)
       throw Error(ErrorCode::kerImageWriteFailed);
+    readSize = io_->read(lbuf.data(), lbuf.size());
   }
   if (outIo.error())
     throw Error(ErrorCode::kerImageWriteFailed);

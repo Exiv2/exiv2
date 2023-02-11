@@ -203,10 +203,11 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   // Copy the rest of PGF image data.
 
   DataBuf buf(4096);
-  size_t readSize = 0;
-  while ((readSize = io_->read(buf.data(), buf.size()))) {
+  size_t readSize = io_->read(buf.data(), buf.size());
+  while (readSize != 0) {
     if (outIo.write(buf.c_data(), readSize) != readSize)
       throw Error(ErrorCode::kerImageWriteFailed);
+    readSize = io_->read(buf.data(), buf.size());
   }
   if (outIo.error())
     throw Error(ErrorCode::kerImageWriteFailed);
