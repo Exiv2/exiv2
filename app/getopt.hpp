@@ -99,6 +99,6 @@ class Getopt {
   int errcnt_{0};
 };
 
-};  // namespace Util
+}  // namespace Util
 
 #endif
