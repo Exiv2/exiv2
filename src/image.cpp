@@ -733,19 +733,15 @@ AccessMode ImageFactory::checkMode(ImageType type, MetadataId metadataId) {
   auto r = Exiv2::find(registry, type);
   if (!r)
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
-  switch (metadataId) {
-    case mdExif:
-      return r->exifSupport_;
-    case mdIptc:
-      return r->iptcSupport_;
-    case mdXmp:
-      return r->xmpSupport_;
-    case mdComment:
-      return r->commentSupport_;
-    default:
-      return amNone;
-  }
-  return {};
+  if (metadataId == mdExif)
+    return r->exifSupport_;
+  if (metadataId == mdIptc)
+    return r->iptcSupport_;
+  if (metadataId == mdXmp)
+    return r->xmpSupport_;
+  if (metadataId == mdComment)
+    return r->commentSupport_;
+  return amNone;
 }
 
 bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance) {
