@@ -215,7 +215,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
 }  // PgfImage::doWriteMetadata
 
 byte PgfImage::readPgfMagicNumber(BasicIo& iIo) {
-  byte b = iIo.getb();
+  auto b = static_cast<byte>(iIo.getb());
   if (iIo.error())
     throw Error(ErrorCode::kerFailedToReadImageData);
 
