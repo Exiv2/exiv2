@@ -873,7 +873,7 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, siz
             frame_rate = static_cast<double>(1000000000) / static_cast<double>(key);
             break;
           case 2:  // audio
-            frame_rate = static_cast<double>(key / 1000);
+            frame_rate = static_cast<double>(key) / 1000;
             break;
           default:
             break;
