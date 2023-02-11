@@ -488,7 +488,7 @@ size_t FileIo::size() const {
   int ret = p_->stat(buf);
 
   if (ret != 0)
-    return -1;
+    return std::numeric_limits<size_t>::max();
   return buf.st_size;
 }
 
