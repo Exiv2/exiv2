@@ -83,13 +83,13 @@ std::string AsfVideo::GUIDTag::to_string() {
 bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
   if (data1_ < other.data1_)
     return true;
-  else if (data1_ == other.data1_) {
+  if (data1_ == other.data1_) {
     if (data2_ < other.data2_)
       return true;
-    else if (data2_ == other.data2_) {
+    if (data2_ == other.data2_) {
       if (data3_ < other.data3_)
         return true;
-      else if (data3_ == other.data3_) {
+      if (data3_ == other.data3_) {
         return std::lexicographical_compare(data4_.begin(), data4_.end(), other.data4_.begin(), other.data4_.end());
       }
     }
