@@ -12,6 +12,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
+#include "utils.hpp"
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -71,13 +72,9 @@ std::string AsfVideo::GUIDTag::to_string() {
   }
 
   // Concatenate all strings into a single string
-  std::string strGuid = ss.str();
   // Convert the string to uppercase
-  for (auto& c : strGuid) {
-    c = toupper(c);
-  }
   // Example of output 399595EC-8667-4E2D-8FDB-98814CE76C1E
-  return strGuid;
+  return Internal::upper(ss.str());
 }
 
 bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
