@@ -556,13 +556,13 @@ void RiffVideo::readStreamHeader() {
   uint32_t divisor = readDWORDTag(io_);  // TimeScale
 
   if (divisor) {
-    double rate = static_cast<double>(readDWORDTag(io_) / divisor);
+    auto rate = static_cast<double>(readDWORDTag(io_)) / divisor;
     xmpData_[(streamType_ == Video) ? "Xmp.video.FrameRate" : "Xmp.audio.SampleRate"] = rate;
   }
   io_->seekOrThrow(io_->tell() + DWORD, BasicIo::beg, ErrorCode::kerFailedToReadImageData);  // dwStart
 
   if (divisor) {
-    double frame_count = static_cast<double>(readDWORDTag(io_) / divisor);  // DataLength
+    auto frame_count = static_cast<double>(readDWORDTag(io_)) / divisor;  // DataLength
     xmpData_[(streamType_ == Video) ? "Xmp.video.FrameCount" : "Xmp.audio.FrameCount"] = frame_count;
   }
 
