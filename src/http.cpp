@@ -215,8 +215,10 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzab6/rzab6uafinet.htm
   if (serv_addr.sin_addr.s_addr == static_cast<unsigned long>(INADDR_NONE)) {
     auto host = gethostbyname(servername_p);
-    if (!host)
+    if (!host) {
+      closesocket(sockfd);
       return error(errors, "no such host", servername_p);
+    }
     memcpy(&serv_addr.sin_addr, host->h_addr, sizeof(serv_addr.sin_addr));
   }
 
