@@ -77,7 +77,7 @@ class EXIV2API AsfVideo : public Image {
     GUIDTag(unsigned int data1, unsigned short data2, unsigned short data3, std::array<byte, 8> data4);
 
     // Constructor to create a GUID object from a byte array
-    GUIDTag(const uint8_t* bytes);
+    explicit GUIDTag(const uint8_t* bytes);
 
     std::string to_string();
 
