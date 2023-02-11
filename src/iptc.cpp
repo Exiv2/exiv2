@@ -401,8 +401,8 @@ int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size) {
       pRead += 2;
     }
     if (sizeData <= static_cast<size_t>(pEnd - pRead)) {
-      int rc = 0;
-      if ((rc = readData(iptcData, dataSet, record, pRead, sizeData)) != 0) {
+      int rc = readData(iptcData, dataSet, record, pRead, sizeData);
+      if (rc != 0) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Failed to read IPTC dataset " << IptcKey(dataSet, record) << " (rc = " << rc << "); skipped.\n";
 #endif
