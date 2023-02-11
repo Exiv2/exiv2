@@ -2295,7 +2295,7 @@ static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size,
     }
   }
   for (uint32_t i = 249; i < 256; i++) {
-    code[i] = i;
+    code[i] = static_cast<byte>(i);
   }
 
   // code byte-by-byte
