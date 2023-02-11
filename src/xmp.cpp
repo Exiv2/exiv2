@@ -386,7 +386,6 @@ const Value& Xmpdatum::value() const {
 
 size_t Xmpdatum::copy(byte* /*buf*/, ByteOrder /*byteOrder*/) const {
   throw Error(ErrorCode::kerFunctionNotSupported, "Xmpdatum::copy");
-  return 0;
 }
 
 std::ostream& Xmpdatum::write(std::ostream& os, const ExifData*) const {
