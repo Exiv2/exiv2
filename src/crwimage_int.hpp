@@ -20,7 +20,10 @@ namespace Exiv2::Internal {
 class CiffHeader;
 class CiffComponent;
 struct CrwMapping;
-using CrwSubDir = std::pair<uint16_t, uint16_t>;
+using CrwSubDir = struct {
+  uint16_t dir;
+  uint16_t parent;
+};
 
 // *****************************************************************************
 // type definitions

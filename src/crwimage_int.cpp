@@ -22,7 +22,10 @@ class RotationMap {
 
  private:
   //! Helper structure for the mapping list
-  using OmList = std::pair<uint16_t, int32_t>;
+  using OmList = struct {
+    uint16_t orientation;
+    int32_t degrees;
+  };
   // DATA
   static const OmList omList_[];
 };  // class RotationMap
@@ -540,13 +543,12 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
     auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
-    auto it =
-        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.first; });
+    auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.dir; });
     if (it != components_.end())
       cc_ = *it;
     if (!cc_) {
       // Directory doesn't exist yet, add it
-      m_ = std::make_unique<CiffDirectory>(dir.first, dir.second);
+      m_ = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
       cc_ = m_.get();
       add(std::move(m_));
     }
@@ -590,8 +592,7 @@ void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId) {
     auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
-    auto it =
-        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.first; });
+    auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.dir; });
     if (it != components_.end()) {
       // Recursive call to next lower level directory
       (*it)->remove(crwDirs, crwTagId);
