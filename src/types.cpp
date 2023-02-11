@@ -7,6 +7,7 @@
 #include "futils.hpp"
 #include "i18n.h"  // for _exvGettext
 #include "safe_op.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <array>
@@ -513,10 +514,9 @@ const char* exvGettext(const char* str) {
 
 template <>
 bool stringTo<bool>(const std::string& s, bool& ok) {
-  std::string lcs(s); /* lowercase string */
-  for (size_t i = 0; i < lcs.length(); i++) {
-    lcs[i] = std::tolower(s[i]);
-  }
+  if (s.empty())
+    return false;
+  auto lcs = Internal::lower(s); /* lowercase string */
   /* handle the same values as xmp sdk */
   if (lcs == "false" || lcs == "f" || lcs == "0") {
     ok = true;
