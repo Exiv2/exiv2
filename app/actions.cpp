@@ -1290,9 +1290,9 @@ void Modify::delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
     }
   }
   if (modifyCmd.metadataId_ == MetadataId::xmp) {
-    Exiv2::XmpData::iterator pos;
     const Exiv2::XmpKey xmpKey(modifyCmd.key_);
-    if ((pos = xmpData.findKey(xmpKey)) != xmpData.end()) {
+    auto pos = xmpData.findKey(xmpKey);
+    if (pos != xmpData.end()) {
       xmpData.eraseFamily(pos);
     }
   }
