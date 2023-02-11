@@ -469,9 +469,9 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
           if (bNikon) {
             // tag is an embedded tiff
             const long byteslen = count - jump;
-            DataBuf bytes(byteslen);                                                  // allocate a buffer
-            io.readOrThrow(bytes.data(), byteslen, ErrorCode::kerCorruptedMetadata);  // read
-            MemIo memIo(bytes.c_data(), byteslen);                                    // create a file
+            auto b = DataBuf(byteslen);                                           // allocate a buffer
+            io.readOrThrow(b.data(), byteslen, ErrorCode::kerCorruptedMetadata);  // read
+            MemIo memIo(b.c_data(), byteslen);                                    // create a file
             printTiffStructure(memIo, out, option, depth + 1);
           } else {
             // tag is an IFD

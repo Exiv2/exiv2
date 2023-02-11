@@ -127,8 +127,7 @@ static std::vector<std::string> getLoadedLibraries() {
     char szFilename[_MAX_PATH];
     for (DWORD h = 0; h < cbNeeded / sizeof(handles[0]); h++) {
       GetModuleFileNameA(handles[h], szFilename, static_cast<DWORD>(std::size(szFilename)));
-      std::string path(szFilename);
-      pushPath(path, libs, paths);
+      pushPath(szFilename, libs, paths);
     }
   }
 #elif defined(__APPLE__)

@@ -469,7 +469,7 @@ int Params::option(int opt, const std::string& optArg, int optOpt) {
 
 int Params::setLogLevel(const std::string& optArg) {
   int rc = 0;
-  const char logLevel = tolower(optArg[0]);
+  const auto logLevel = static_cast<char>(tolower(optArg[0]));
   switch (logLevel) {
     case 'd':
       Exiv2::LogMsg::setLevel(Exiv2::LogMsg::debug);
