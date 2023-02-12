@@ -860,8 +860,6 @@ DataBuf decodeHex(const byte* src, size_t srcSize) {
 const char encodeBase64Table[64 + 1] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 DataBuf decodeBase64(const std::string& src) {
-  const size_t srcSize = src.size();
-
   // create decoding table
   unsigned long invalid = 64;
   auto decodeBase64Table = std::vector<unsigned long>(256, invalid);
@@ -869,11 +867,8 @@ DataBuf decodeBase64(const std::string& src) {
     decodeBase64Table[static_cast<unsigned char>(encodeBase64Table[i])] = i;
 
   // calculate dest size
-  unsigned long validSrcSize = 0;
-  for (unsigned long srcPos = 0; srcPos < srcSize; srcPos++) {
-    if (decodeBase64Table[static_cast<unsigned char>(src[srcPos])] != invalid)
-      validSrcSize++;
-  }
+  auto validSrcSize = static_cast<unsigned long>(
+      std::count_if(src.begin(), src.end(), [=](unsigned char c) { return decodeBase64Table.at(c) != invalid; }));
   if (validSrcSize > ULONG_MAX / 3)
     return {};  // avoid integer overflow
   const unsigned long destSize = (validSrcSize * 3) / 4;
@@ -886,7 +881,7 @@ DataBuf decodeBase64(const std::string& src) {
   // decode
   for (unsigned long srcPos = 0, destPos = 0; destPos < destSize;) {
     unsigned long buffer = 0;
-    for (int bufferPos = 3; bufferPos >= 0 && srcPos < srcSize; srcPos++) {
+    for (int bufferPos = 3; bufferPos >= 0 && srcPos < src.size(); srcPos++) {
       unsigned long srcValue = decodeBase64Table[static_cast<unsigned char>(src[srcPos])];
       if (srcValue == invalid)
         continue;
