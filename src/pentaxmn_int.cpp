@@ -892,20 +892,14 @@ constexpr TagDetails pentaxHighISONoiseReduction[] = {
 
 std::ostream& PentaxMakerNote::printVersion(std::ostream& os, const Value& value, const ExifData*) {
   std::string val = value.toString();
-  size_t i = 0;
-  while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
-    val.replace(i, 1, ".");
-  }
+  std::replace(val.begin(), val.end(), ' ', '.');
   os << val;
   return os;
 }
 
 std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& value, const ExifData*) {
   std::string val = value.toString();
-  size_t i = 0;
-  while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
-    val.replace(i, 1, "x");
-  }
+  std::replace(val.begin(), val.end(), ' ', 'x');
   os << val;
   return os;
 }
