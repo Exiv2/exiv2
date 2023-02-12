@@ -823,8 +823,7 @@ bool LoaderXmpJpeg::readDimensions() {
 DataBuf decodeHex(const byte* src, size_t srcSize) {
   // create decoding table
   byte invalid = 16;
-  std::array<byte, 256> decodeHexTable;
-  decodeHexTable.fill(invalid);
+  auto decodeHexTable = std::vector<byte>(256, invalid);
   for (byte i = 0; i < 10; i++)
     decodeHexTable[static_cast<byte>('0') + i] = i;
   for (byte i = 0; i < 6; i++)
@@ -865,8 +864,7 @@ DataBuf decodeBase64(const std::string& src) {
 
   // create decoding table
   unsigned long invalid = 64;
-  std::array<unsigned long, 256> decodeBase64Table;
-  decodeBase64Table.fill(invalid);
+  auto decodeBase64Table = std::vector<unsigned long>(256, invalid);
   for (unsigned long i = 0; i < 64; i++)
     decodeBase64Table[static_cast<unsigned char>(encodeBase64Table[i])] = i;
 
