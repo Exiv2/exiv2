@@ -252,9 +252,10 @@ AsfVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) : IdBuf_(GUID) {
 }
 
 void AsfVideo::decodeBlock() {
-  Internal::enforce(GUID + io_->tell() < io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
-  HeaderReader others(io_);
-  auto tag = GUIDReferenceTags.find(GUIDTag(others.getId().data()));
+  Internal::enforce(GUID + QWORD + io_->tell() <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  HeaderReader objectHeader(io_);
+  Internal::enforce(objectHeader.getSize() + io_->tell() <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  auto tag = GUIDReferenceTags.find(GUIDTag(objectHeader.getId().data()));
 
   if (tag != GUIDReferenceTags.end()) {
     if (tag->second == "Header")
@@ -277,11 +278,12 @@ void AsfVideo::decodeBlock() {
       DegradableJPEGMedia();
     else  // tag found but not processed
     {
-      io_->seekOrThrow(io_->tell() + others.getRemainingSize(), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+      io_->seekOrThrow(io_->tell() + objectHeader.getRemainingSize(), BasicIo::beg,
+                       ErrorCode::kerFailedToReadImageData);
     }
   } else  // tag not found
   {
-    io_->seekOrThrow(io_->tell() + others.getRemainingSize(), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+    io_->seekOrThrow(io_->tell() + objectHeader.getRemainingSize(), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
   }
 
 }  // AsfVideo::decodeBlock
