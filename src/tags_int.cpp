@@ -2399,7 +2399,7 @@ const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
 
 IfdId groupId(const std::string& groupName) {
   IfdId ifdId = IfdId::ifdIdNotSet;
-  auto ii = Exiv2::find(groupInfo, GroupInfo::GroupName(groupName));
+  auto ii = Exiv2::find(groupInfo, groupName);
   if (ii)
     ifdId = static_cast<IfdId>(ii->ifdId_);
   return ifdId;
@@ -3047,7 +3047,7 @@ const GroupInfo* groupList() {
 }
 
 const TagInfo* tagList(const std::string& groupName) {
-  auto ii = Exiv2::find(groupInfo, GroupInfo::GroupName(groupName));
+  auto ii = Exiv2::find(groupInfo, groupName);
   if (!ii || !ii->tagList_) {
     return nullptr;
   }

@@ -39,7 +39,6 @@ class EXIV2API Value {
   //@{
   //! Constructor, taking a type id to initialize the base class with
   explicit Value(TypeId typeId);
-  Value(const Value&) = default;
   //! Virtual destructor.
   virtual ~Value() = default;
   //@}
@@ -223,6 +222,7 @@ class EXIV2API Value {
   static UniquePtr create(TypeId typeId);
 
  protected:
+  Value(const Value&) = default;
   /*!
     @brief Assignment operator. Protected so that it can only be used
            by subclasses but not directly.
@@ -322,10 +322,6 @@ class EXIV2API StringValueBase : public Value {
   explicit StringValueBase(TypeId typeId);
   //! Constructor for subclasses
   StringValueBase(TypeId typeId, const std::string& buf);
-  //! Copy constructor
-  StringValueBase(const StringValueBase&) = default;
-  //! Virtual destructor.
-  ~StringValueBase() override = default;
   //@}
 
   //! @name Manipulators
@@ -364,8 +360,6 @@ class EXIV2API StringValueBase : public Value {
   //@}
 
  protected:
-  //! Assignment operator.
-  StringValueBase& operator=(const StringValueBase&);
   //! Internal virtual copy constructor.
   StringValueBase* clone_() const override = 0;
 
@@ -471,8 +465,6 @@ class EXIV2API CommentValue : public StringValueBase {
   enum CharsetId { ascii, jis, unicode, undefined, invalidCharsetId, lastCharsetId };
   //! Information pertaining to the defined character sets
   struct CharsetTable {
-    //! Constructor
-    constexpr CharsetTable(CharsetId charsetId, const char* name, const char* code);
     CharsetId charsetId_;  //!< Charset id
     const char* name_;     //!< Name of the charset
     const char* code_;     //!< Code of the charset
@@ -1014,8 +1006,6 @@ class EXIV2API TimeValue : public Value {
 
   //! Simple Time helper structure
   struct Time {
-    Time() = default;
-
     int32_t hour{0};      //!< Hour
     int32_t minute{0};    //!< Minute
     int32_t second{0};    //!< Second
