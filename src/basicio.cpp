@@ -101,7 +101,6 @@ class FileIo::Impl {
   // TYPES
   //! Simple struct stat wrapper for internal use
   struct StructStat {
-    StructStat() = default;
     mode_t st_mode{0};  //!< Permissions
     off_t st_size{0};   //!< Size
   };

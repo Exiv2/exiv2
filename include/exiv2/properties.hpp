@@ -41,15 +41,11 @@ struct EXIV2API XmpPropertyInfo {
 struct EXIV2API XmpNsInfo {
   //! For comparison with prefix
   struct Prefix {
-    //! Constructor.
-    explicit Prefix(std::string prefix);
     //! The prefix string.
     std::string prefix_;
   };
   //! For comparison with namespace
   struct Ns {
-    //! Constructor.
-    explicit Ns(std::string ns);
     //! The namespace string
     std::string ns_;
   };
