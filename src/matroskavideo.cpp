@@ -254,283 +254,329 @@ enum matroskaEnum : uint64_t {
   Cluster = 0xf43b675
 };
 
-const std::array<MatroskaTag, 198> matroskaTags = {
-    MatroskaTag(ChapterDisplay, "ChapterDisplay", Master, Composite),
-    MatroskaTag(TrackType, "TrackType", Boolean, Process),
-    MatroskaTag(ChapterString, "ChapterString", String, Skip),
-    MatroskaTag(Video_Audio_CodecID, "Video.Audio.CodecID", InternalField, Skip),  // process
-    MatroskaTag(TrackDefault, "TrackDefault", Boolean, Process),
-    MatroskaTag(ChapterTrackNumber, "ChapterTrackNumber", UInteger, Skip),
-    MatroskaTag(Slices, "Slices", Master, Composite),
-    MatroskaTag(ChapterTrack, "ChapterTrack", Master, Composite),
-    MatroskaTag(ChapterTimeStart, "ChapterTimeStart", UInteger, Skip),
-    MatroskaTag(ChapterTimeEnd, "ChapterTimeEnd", UInteger, Skip),
-    MatroskaTag(CueRefTime, "CueRefTime", UInteger, Skip),
-    MatroskaTag(CueRefCluster, "CueRefCluster", UInteger, Skip),
-    MatroskaTag(ChapterFlagHidden, "ChapterFlagHidden", UInteger, Skip),
-    MatroskaTag(Xmp_video_VideoScanTpye, "Xmp.video.VideoScanTpye", InternalField, Process),
-    MatroskaTag(BlockDuration, "BlockDuration", UInteger, Skip),
-    MatroskaTag(TrackLacing, "TrackLacing", Boolean, Process),
-    MatroskaTag(Xmp_audio_ChannelType, "Xmp.audio.ChannelType", InternalField, Process),
-    MatroskaTag(BlockGroup, "BlockGroup", Master, Composite),
-    MatroskaTag(Block, "Block", Binary, Skip),
-    MatroskaTag(BlockVirtual, "BlockVirtual", Binary, Skip),
-    MatroskaTag(SimpleBlock, "SimpleBlock", Binary, Skip),
-    MatroskaTag(CodecState, "CodecState", Binary, Skip),
-    MatroskaTag(BlockAdditional, "BlockAdditional", UInteger, Skip),
-    MatroskaTag(BlockMore, "BlockMore", Master, Composite),
-    MatroskaTag(Position, "Position", UInteger, Skip),
-    MatroskaTag(CodecDecodeAll, "CodecDecodeAll", Boolean, Process),
-    MatroskaTag(PrevSize, "PrevSize", UInteger, Skip),
-    MatroskaTag(TrackEntry, "TrackEntry", Master, Composite),
-    MatroskaTag(EncryptedBlock, "EncryptedBlock", Binary, Skip),
-    MatroskaTag(Xmp_video_Width_1, "Xmp.video.Width", UInteger, Process),
-    MatroskaTag(CueTime, "CueTime", UInteger, Skip),
-    MatroskaTag(Xmp_audio_SampleRate, "Xmp.audio.SampleRate", Float, Process),
-    MatroskaTag(ChapterAtom, "ChapterAtom", Master, Composite),
-    MatroskaTag(CueTrackPositions, "CueTrackPositions", Master, Composite),
-    MatroskaTag(TrackUsed, "TrackUsed", Boolean, Process),
-    MatroskaTag(Xmp_video_Height_1, "Xmp.video.Height", Integer, Process),
-    MatroskaTag(CuePoint, "CuePoint", Master, Composite),
-    MatroskaTag(CRC_32, "CRC_32", Binary, Skip),
-    MatroskaTag(BlockAdditionalID, "BlockAdditionalID", UInteger, Skip),
-    MatroskaTag(LaceNumber, "LaceNumber", UInteger, Skip),
-    MatroskaTag(FrameNumber, "FrameNumber", UInteger, Skip),
-    MatroskaTag(Delay, "Delay", UInteger, Skip),
-    MatroskaTag(ClusterDuration, "ClusterDuration", Float, Skip),
-    MatroskaTag(TrackNumber, "Xmp.video.TotalStream", String, Process),
-    MatroskaTag(CueReference, "CueReference", Master, Composite),
-    MatroskaTag(Video, "Video", Master, Composite),
-    MatroskaTag(Audio, "Audio", Master, Composite),
-    MatroskaTag(Timecode, "Timecode", UInteger, Skip),
-    MatroskaTag(TimeSlice, "TimeSlice", Master, Composite),
-    MatroskaTag(CueCodecState, "CueCodecState", UInteger, Skip),
-    MatroskaTag(CueRefCodecState, "CueRefCodecState", UInteger, Skip),
-    MatroskaTag(Void, "Void", Binary, Skip),
-    MatroskaTag(BlockAddID, "BlockAddID", UInteger, Skip),
-    MatroskaTag(CueClusterPosition, "CueClusterPosition", UInteger, Skip),
-    MatroskaTag(CueTrack, "CueTrack", UInteger, Skip),
-    MatroskaTag(ReferencePriority, "ReferencePriority", UInteger, Skip),
-    MatroskaTag(ReferenceBlock, "ReferenceBlock", Integer, Skip),
-    MatroskaTag(ReferenceVirtual, "ReferenceVirtual", Integer, Skip),
-    MatroskaTag(Xmp_video_ContentCompressAlgo, "Xmp.video.ContentCompressAlgo", InternalField, Process),
-    MatroskaTag(ContentCompressionSettings, "ContentCompressionSettings", Binary, Skip),
-    MatroskaTag(Xmp_video_DocType, "Xmp.video.DocType", String, Process),
-    MatroskaTag(Xmp_video_DocTypeReadVersion, "Xmp.video.DocTypeReadVersion", Integer, Process),
-    MatroskaTag(Xmp_video_EBMLVersion, "Xmp.video.EBMLVersion", Integer, Process),
-    MatroskaTag(Xmp_video_DocTypeVersion, "Xmp.video.DocTypeVersion", Integer, Process),
-    MatroskaTag(EBMLMaxIDLength, "EBMLMaxIDLength", UInteger, Skip),
-    MatroskaTag(EBMLMaxSizeLength, "EBMLMaxSizeLength", UInteger, Skip),
-    MatroskaTag(Xmp_video_EBMLReadVersion, "Xmp.video.EBMLReadVersion", UInteger, Process),
-    MatroskaTag(ChapterLanguage, "ChapterLanguage", String, Skip),
-    MatroskaTag(ChapterCountry, "ChapterCountry", Utf8, Skip),
-    MatroskaTag(SegmentFamily, "SegmentFamily", Binary, Skip),
-    MatroskaTag(Xmp_video_DateUTC, "Xmp.video.DateUTC", Date, Process),
-    MatroskaTag(Xmp_video_TagLanguage, "Xmp.video.TagLanguage", String, Process),
-    MatroskaTag(Xmp_video_TagDefault, "Xmp.video.TagDefault", Boolean, Process),
-    MatroskaTag(TagBinary, "TagBinary", Binary, Skip),
-    MatroskaTag(Xmp_video_TagString, "Xmp.video.TagString", String, Process),
-    MatroskaTag(Xmp_video_Duration, "Xmp.video.Duration", Date, Process),
-    MatroskaTag(ChapterProcessPrivate, "ChapterProcessPrivate", Master, Skip),
-    MatroskaTag(ChapterFlagEnabled, "ChapterFlagEnabled", Boolean, Skip),
-    MatroskaTag(Xmp_video_TagName, "Xmp.video.TagName", String, Process),
-    MatroskaTag(EditionEntry, "EditionEntry", Master, Composite),
-    MatroskaTag(EditionUID, "EditionUID", UInteger, Skip),
-    MatroskaTag(EditionFlagHidden, "EditionFlagHidden", Boolean, Skip),
-    MatroskaTag(EditionFlagDefault, "EditionFlagDefault", Boolean, Skip),
-    MatroskaTag(EditionFlagOrdered, "EditionFlagOrdered", Boolean, Skip),
-    MatroskaTag(Xmp_video_AttachFileData, "Xmp.video.AttachFileData", String, Process),
-    MatroskaTag(Xmp_video_AttachFileMIME, "Xmp.video.AttachFileMIME", String, Process),
-    MatroskaTag(Xmp_video_AttachFileName, "Xmp.video.AttachFileName", String, Process),
-    MatroskaTag(AttachedFileReferral, "AttachedFileReferral", Binary, Skip),
-    MatroskaTag(Xmp_video_AttachFileDesc, "Xmp.video.AttachFileDesc", String, Process),
-    MatroskaTag(Xmp_video_AttachFileUID, "Xmp.video.AttachFileUID", UInteger, Process),
-    MatroskaTag(Xmp_video_ContentEncryptAlgo, "Xmp.video.ContentEncryptAlgo", InternalField, Process),
-    MatroskaTag(ContentEncryptionKeyID, "ContentEncryptionKeyID", Binary, Skip),
-    MatroskaTag(ContentSignature, "ContentSignature", Binary, Skip),
-    MatroskaTag(ContentSignatureKeyID, "ContentSignatureKeyID", Binary, Skip),
-    MatroskaTag(Xmp_video_ContentSignAlgo_1, "Xmp.video.ContentSignAlgo", InternalField, Process),
-    MatroskaTag(Xmp_video_ContentSignHashAlgo_1, "Xmp.video.ContentSignHashAlgo", InternalField, Process),
-    MatroskaTag(Xmp_video_MuxingApp, "Xmp.video.MuxingApp", String, Process),
-    MatroskaTag(Seek, "Seek", Master, Composite),
-    MatroskaTag(ContentEncodingOrder, "ContentEncodingOrder", UInteger, Skip),
-    MatroskaTag(ContentEncodingScope, "ContentEncodingScope", UInteger, Skip),
-    MatroskaTag(Xmp_video_ContentEncodingType, "Xmp.video.ContentEncodingType", InternalField, Process),
-    MatroskaTag(ContentCompression, "ContentCompression", Master, Composite),
-    MatroskaTag(ContentEncryption, "ContentEncryption", Master, Composite),
-    MatroskaTag(CueRefNumber, "CueRefNumber", UInteger, Skip),
-    MatroskaTag(Xmp_video_TrackName, "Xmp.video.TrackName", String, Process),
-    MatroskaTag(CueBlockNumber, "CueBlockNumber", UInteger, Skip),
-    MatroskaTag(TrackOffset, "TrackOffset", Integer, Skip),
-    MatroskaTag(SeekID, "SeekID", Binary, Skip),
-    MatroskaTag(SeekPosition, "SeekPosition", UInteger, Skip),
-    MatroskaTag(Stereo3DMode, "Stereo3DMode", UInteger, Skip),
-    MatroskaTag(Xmp_video_CropBottom, "Xmp.video.CropBottom", Integer, Process),
-    MatroskaTag(Xmp_video_Width_2, "Xmp.video.Width", Integer, Process),
-    MatroskaTag(Xmp_video_DisplayUnit, "Xmp.video.DisplayUnit", InternalField, Process),
-    MatroskaTag(Xmp_video_AspectRatioType, "Xmp.video.AspectRatioType", InternalField, Process),
-    MatroskaTag(Xmp_video_Height_2, "Xmp.video.Height", Integer, Process),
-    MatroskaTag(Xmp_video_CropTop, "Xmp.video.CropTop", Integer, Process),
-    MatroskaTag(Xmp_video_CropLeft, "Xmp.video.CropLeft", Integer, Process),
-    MatroskaTag(Xmp_video_CropRight, "Xmp.video.CropRight", Integer, Process),
-    MatroskaTag(TrackForced, "TrackForced", Boolean, Process),
-    MatroskaTag(MaxBlockAdditionID, "MaxBlockAdditionID", UInteger, Skip),
-    MatroskaTag(Xmp_video_WritingApp, "Xmp.video.WritingApp", String, Process),
-    MatroskaTag(SilentTracks, "SilentTracks", Master, Composite),
-    MatroskaTag(SilentTrackNumber, "SilentTrackNumber", UInteger, Skip),
-    MatroskaTag(AttachedFile, "AttachedFile", Master, Composite),
-    MatroskaTag(ContentEncoding, "ContentEncoding", Master, Composite),
-    MatroskaTag(Xmp_audio_BitsPerSample, "Xmp.audio.BitsPerSample", Integer, Process),
-    MatroskaTag(CodecPrivate, "CodecPrivate", Binary, Skip),
-    MatroskaTag(Targets, "Targets", Master, Composite),
-    MatroskaTag(Xmp_video_PhysicalEquivalent, "Xmp.video.PhysicalEquivalent", InternalField, Process),
-    MatroskaTag(TagChapterUID, "TagChapterUID", UInteger, Skip),
-    MatroskaTag(TagTrackUID, "TagTrackUID", UInteger, Skip),
-    MatroskaTag(TagAttachmentUID, "TagAttachmentUID", UInteger, Skip),
-    MatroskaTag(TagEditionUID, "TagEditionUID", UInteger, Skip),
-    MatroskaTag(Xmp_video_TargetType, "Xmp.video.TargetType", String, Process),
-    MatroskaTag(SignedElement, "SignedElement", Binary, Skip),
-    MatroskaTag(TrackTranslate, "TrackTranslate", Master, Composite),
-    MatroskaTag(TrackTranslateTrackID, "TrackTranslateTrackID", Binary, Skip),
-    MatroskaTag(TrackTranslateCodec, "TrackTranslateCodec", UInteger, Skip),
-    MatroskaTag(TrackTranslateEditionUID, "TrackTranslateEditionUID", UInteger, Skip),
-    MatroskaTag(SimpleTag, "SimpleTag", Master, Composite),
-    MatroskaTag(TargetTypeValue, "TargetTypeValue", UInteger, Skip),
-    MatroskaTag(ChapterProcessCommand, "ChapterProcessCommand", Master, Composite),
-    MatroskaTag(ChapterProcessTime, "ChapterProcessTime", UInteger, Skip),
-    MatroskaTag(ChapterTranslate, "ChapterTranslate", Master, Composite),
-    MatroskaTag(ChapterProcessData, "ChapterProcessData", Binary, Skip),
-    MatroskaTag(ChapterProcess, "ChapterProcess", Master, Composite),
-    MatroskaTag(ChapterProcessCodecID, "ChapterProcessCodecID", UInteger, Skip),
-    MatroskaTag(ChapterTranslateID, "ChapterTranslateID", Binary, Skip),
-    MatroskaTag(Xmp_video_TranslateCodec, "Xmp.video.TranslateCodec", InternalField, Process),
-    MatroskaTag(ChapterTranslateEditionUID, "ChapterTranslateEditionUID", UInteger, Skip),
-    MatroskaTag(ContentEncodings, "ContentEncodings", Master, Composite),
-    MatroskaTag(MinCache, "MinCache", UInteger, Skip),
-    MatroskaTag(MaxCache, "MaxCache", UInteger, Skip),
-    MatroskaTag(ChapterSegmentUID, "ChapterSegmentUID", Binary, Skip),
-    MatroskaTag(ChapterSegmentEditionUID, "ChapterSegmentEditionUID", UInteger, Skip),
-    MatroskaTag(TrackOverlay, "TrackOverlay", UInteger, Skip),
-    MatroskaTag(Tag, "Tag", Master, Composite),
-    MatroskaTag(SegmentFileName, "SegmentFileName", Utf8, Skip),
-    MatroskaTag(SegmentUID, "SegmentUID", Binary, Skip),
-    MatroskaTag(ChapterUID, "ChapterUID", UInteger, Skip),
-    MatroskaTag(TrackUID, "TrackUID", UInteger, Skip),
-    MatroskaTag(TrackAttachmentUID, "TrackAttachmentUID", UInteger, Skip),
-    MatroskaTag(BlockAdditions, "BlockAdditions", Master, Composite),
-    MatroskaTag(Xmp_audio_OutputSampleRate, "Xmp.audio.OutputSampleRate", Float, Process),
-    MatroskaTag(Xmp_video_Title, "Xmp.video.Title", String, Process),
-    MatroskaTag(ChannelPositions, "ChannelPositions", Binary, Skip),
-    MatroskaTag(SignatureElements, "SignatureElements", Master, Composite),
-    MatroskaTag(SignatureElementList, "SignatureElementList", Master, Composite),
-    MatroskaTag(Xmp_video_ContentSignAlgo_2, "Xmp.video.ContentSignAlgo", InternalField, Process),
-    MatroskaTag(Xmp_video_ContentSignHashAlgo_2, "Xmp.video.ContentSignHashAlgo", InternalField, Process),
-    MatroskaTag(SignaturePublicKey, "SignaturePublicKey", Binary, Skip),
-    MatroskaTag(Signature, "Signature", Binary, Skip),
-    MatroskaTag(TrackLanguage, "TrackLanguage", String,
-                Skip),  // Process :  see values here https://www.loc.gov/standards/iso639-2/php/code_list.php
-    MatroskaTag(TrackTimecodeScale, "TrackTimecodeScale", Float, Skip),
-    MatroskaTag(Xmp_video_FrameRate, "Xmp.video.FrameRate", Float, Process),
-    MatroskaTag(VideoFrameRate_DefaultDuration, "VideoFrameRate.DefaultDuration", Float, Skip),
-    MatroskaTag(Video_Audio_CodecName, "Video.Audio.CodecName", InternalField, Process),
-    MatroskaTag(CodecDownloadURL, "CodecDownloadURL", InternalField, Process),
-    MatroskaTag(TimecodeScale, "Xmp.video.TimecodeScale", Date, Process),
-    MatroskaTag(ColorSpace, "ColorSpace", String, Process),
-    MatroskaTag(Xmp_video_OpColor, "Xmp.video.OpColor", Float, Skip),
-    MatroskaTag(CodecSettings, "CodecSettings", Boolean, Process),
-    MatroskaTag(CodecInfoURL, "CodecInfoURL", InternalField, Process),
-    MatroskaTag(PrevFileName, "PrevFileName", Utf8, Skip),
-    MatroskaTag(PrevUID, "PrevUID", Binary, Skip),
-    MatroskaTag(NextFileName, "NextFileName", Utf8, Skip),
-    MatroskaTag(NextUID, "NextUID", Binary, Skip),
-    MatroskaTag(Chapters, "Chapters", Master, Skip),
-    MatroskaTag(SeekHead, "SeekHead", Master, Composite),
-    MatroskaTag(Tags, "Tags", Master, Composite),
-    MatroskaTag(Info, "Info", Master, Composite),
-    MatroskaTag(Tracks, "Tracks", Master, Composite),
-    MatroskaTag(SegmentHeader, "SegmentHeader", Master, Composite),
-    MatroskaTag(Attachments, "Attachments", Master, Composite),
-    MatroskaTag(EBMLHeader, "EBMLHeader", Master, Composite),
-    MatroskaTag(SignatureSlot, "SignatureSlot", Master, Composite),
-    MatroskaTag(Cues, "Cues", Master, Composite),
-    MatroskaTag(Cluster, "Cluster", Master, Composite)};
+const MatroskaTag matroskaTags[] = {
+    {ChapterDisplay, "ChapterDisplay", Master, Composite},
+    {TrackType, "TrackType", Boolean, Process},
+    {ChapterString, "ChapterString", String, Skip},
+    {Video_Audio_CodecID, "Video.Audio.CodecID", InternalField, Skip},  // process
+    {TrackDefault, "TrackDefault", Boolean, Process},
+    {ChapterTrackNumber, "ChapterTrackNumber", UInteger, Skip},
+    {Slices, "Slices", Master, Composite},
+    {ChapterTrack, "ChapterTrack", Master, Composite},
+    {ChapterTimeStart, "ChapterTimeStart", UInteger, Skip},
+    {ChapterTimeEnd, "ChapterTimeEnd", UInteger, Skip},
+    {CueRefTime, "CueRefTime", UInteger, Skip},
+    {CueRefCluster, "CueRefCluster", UInteger, Skip},
+    {ChapterFlagHidden, "ChapterFlagHidden", UInteger, Skip},
+    {Xmp_video_VideoScanTpye, "Xmp.video.VideoScanTpye", InternalField, Process},
+    {BlockDuration, "BlockDuration", UInteger, Skip},
+    {TrackLacing, "TrackLacing", Boolean, Process},
+    {Xmp_audio_ChannelType, "Xmp.audio.ChannelType", InternalField, Process},
+    {BlockGroup, "BlockGroup", Master, Composite},
+    {Block, "Block", Binary, Skip},
+    {BlockVirtual, "BlockVirtual", Binary, Skip},
+    {SimpleBlock, "SimpleBlock", Binary, Skip},
+    {CodecState, "CodecState", Binary, Skip},
+    {BlockAdditional, "BlockAdditional", UInteger, Skip},
+    {BlockMore, "BlockMore", Master, Composite},
+    {Position, "Position", UInteger, Skip},
+    {CodecDecodeAll, "CodecDecodeAll", Boolean, Process},
+    {PrevSize, "PrevSize", UInteger, Skip},
+    {TrackEntry, "TrackEntry", Master, Composite},
+    {EncryptedBlock, "EncryptedBlock", Binary, Skip},
+    {Xmp_video_Width_1, "Xmp.video.Width", UInteger, Process},
+    {CueTime, "CueTime", UInteger, Skip},
+    {Xmp_audio_SampleRate, "Xmp.audio.SampleRate", Float, Process},
+    {ChapterAtom, "ChapterAtom", Master, Composite},
+    {CueTrackPositions, "CueTrackPositions", Master, Composite},
+    {TrackUsed, "TrackUsed", Boolean, Process},
+    {Xmp_video_Height_1, "Xmp.video.Height", Integer, Process},
+    {CuePoint, "CuePoint", Master, Composite},
+    {CRC_32, "CRC_32", Binary, Skip},
+    {BlockAdditionalID, "BlockAdditionalID", UInteger, Skip},
+    {LaceNumber, "LaceNumber", UInteger, Skip},
+    {FrameNumber, "FrameNumber", UInteger, Skip},
+    {Delay, "Delay", UInteger, Skip},
+    {ClusterDuration, "ClusterDuration", Float, Skip},
+    {TrackNumber, "Xmp.video.TotalStream", String, Process},
+    {CueReference, "CueReference", Master, Composite},
+    {Video, "Video", Master, Composite},
+    {Audio, "Audio", Master, Composite},
+    {Timecode, "Timecode", UInteger, Skip},
+    {TimeSlice, "TimeSlice", Master, Composite},
+    {CueCodecState, "CueCodecState", UInteger, Skip},
+    {CueRefCodecState, "CueRefCodecState", UInteger, Skip},
+    {Void, "Void", Binary, Skip},
+    {BlockAddID, "BlockAddID", UInteger, Skip},
+    {CueClusterPosition, "CueClusterPosition", UInteger, Skip},
+    {CueTrack, "CueTrack", UInteger, Skip},
+    {ReferencePriority, "ReferencePriority", UInteger, Skip},
+    {ReferenceBlock, "ReferenceBlock", Integer, Skip},
+    {ReferenceVirtual, "ReferenceVirtual", Integer, Skip},
+    {Xmp_video_ContentCompressAlgo, "Xmp.video.ContentCompressAlgo", InternalField, Process},
+    {ContentCompressionSettings, "ContentCompressionSettings", Binary, Skip},
+    {Xmp_video_DocType, "Xmp.video.DocType", String, Process},
+    {Xmp_video_DocTypeReadVersion, "Xmp.video.DocTypeReadVersion", Integer, Process},
+    {Xmp_video_EBMLVersion, "Xmp.video.EBMLVersion", Integer, Process},
+    {Xmp_video_DocTypeVersion, "Xmp.video.DocTypeVersion", Integer, Process},
+    {EBMLMaxIDLength, "EBMLMaxIDLength", UInteger, Skip},
+    {EBMLMaxSizeLength, "EBMLMaxSizeLength", UInteger, Skip},
+    {Xmp_video_EBMLReadVersion, "Xmp.video.EBMLReadVersion", UInteger, Process},
+    {ChapterLanguage, "ChapterLanguage", String, Skip},
+    {ChapterCountry, "ChapterCountry", Utf8, Skip},
+    {SegmentFamily, "SegmentFamily", Binary, Skip},
+    {Xmp_video_DateUTC, "Xmp.video.DateUTC", Date, Process},
+    {Xmp_video_TagLanguage, "Xmp.video.TagLanguage", String, Process},
+    {Xmp_video_TagDefault, "Xmp.video.TagDefault", Boolean, Process},
+    {TagBinary, "TagBinary", Binary, Skip},
+    {Xmp_video_TagString, "Xmp.video.TagString", String, Process},
+    {Xmp_video_Duration, "Xmp.video.Duration", Date, Process},
+    {ChapterProcessPrivate, "ChapterProcessPrivate", Master, Skip},
+    {ChapterFlagEnabled, "ChapterFlagEnabled", Boolean, Skip},
+    {Xmp_video_TagName, "Xmp.video.TagName", String, Process},
+    {EditionEntry, "EditionEntry", Master, Composite},
+    {EditionUID, "EditionUID", UInteger, Skip},
+    {EditionFlagHidden, "EditionFlagHidden", Boolean, Skip},
+    {EditionFlagDefault, "EditionFlagDefault", Boolean, Skip},
+    {EditionFlagOrdered, "EditionFlagOrdered", Boolean, Skip},
+    {Xmp_video_AttachFileData, "Xmp.video.AttachFileData", String, Process},
+    {Xmp_video_AttachFileMIME, "Xmp.video.AttachFileMIME", String, Process},
+    {Xmp_video_AttachFileName, "Xmp.video.AttachFileName", String, Process},
+    {AttachedFileReferral, "AttachedFileReferral", Binary, Skip},
+    {Xmp_video_AttachFileDesc, "Xmp.video.AttachFileDesc", String, Process},
+    {Xmp_video_AttachFileUID, "Xmp.video.AttachFileUID", UInteger, Process},
+    {Xmp_video_ContentEncryptAlgo, "Xmp.video.ContentEncryptAlgo", InternalField, Process},
+    {ContentEncryptionKeyID, "ContentEncryptionKeyID", Binary, Skip},
+    {ContentSignature, "ContentSignature", Binary, Skip},
+    {ContentSignatureKeyID, "ContentSignatureKeyID", Binary, Skip},
+    {Xmp_video_ContentSignAlgo_1, "Xmp.video.ContentSignAlgo", InternalField, Process},
+    {Xmp_video_ContentSignHashAlgo_1, "Xmp.video.ContentSignHashAlgo", InternalField, Process},
+    {Xmp_video_MuxingApp, "Xmp.video.MuxingApp", String, Process},
+    {Seek, "Seek", Master, Composite},
+    {ContentEncodingOrder, "ContentEncodingOrder", UInteger, Skip},
+    {ContentEncodingScope, "ContentEncodingScope", UInteger, Skip},
+    {Xmp_video_ContentEncodingType, "Xmp.video.ContentEncodingType", InternalField, Process},
+    {ContentCompression, "ContentCompression", Master, Composite},
+    {ContentEncryption, "ContentEncryption", Master, Composite},
+    {CueRefNumber, "CueRefNumber", UInteger, Skip},
+    {Xmp_video_TrackName, "Xmp.video.TrackName", String, Process},
+    {CueBlockNumber, "CueBlockNumber", UInteger, Skip},
+    {TrackOffset, "TrackOffset", Integer, Skip},
+    {SeekID, "SeekID", Binary, Skip},
+    {SeekPosition, "SeekPosition", UInteger, Skip},
+    {Stereo3DMode, "Stereo3DMode", UInteger, Skip},
+    {Xmp_video_CropBottom, "Xmp.video.CropBottom", Integer, Process},
+    {Xmp_video_Width_2, "Xmp.video.Width", Integer, Process},
+    {Xmp_video_DisplayUnit, "Xmp.video.DisplayUnit", InternalField, Process},
+    {Xmp_video_AspectRatioType, "Xmp.video.AspectRatioType", InternalField, Process},
+    {Xmp_video_Height_2, "Xmp.video.Height", Integer, Process},
+    {Xmp_video_CropTop, "Xmp.video.CropTop", Integer, Process},
+    {Xmp_video_CropLeft, "Xmp.video.CropLeft", Integer, Process},
+    {Xmp_video_CropRight, "Xmp.video.CropRight", Integer, Process},
+    {TrackForced, "TrackForced", Boolean, Process},
+    {MaxBlockAdditionID, "MaxBlockAdditionID", UInteger, Skip},
+    {Xmp_video_WritingApp, "Xmp.video.WritingApp", String, Process},
+    {SilentTracks, "SilentTracks", Master, Composite},
+    {SilentTrackNumber, "SilentTrackNumber", UInteger, Skip},
+    {AttachedFile, "AttachedFile", Master, Composite},
+    {ContentEncoding, "ContentEncoding", Master, Composite},
+    {Xmp_audio_BitsPerSample, "Xmp.audio.BitsPerSample", Integer, Process},
+    {CodecPrivate, "CodecPrivate", Binary, Skip},
+    {Targets, "Targets", Master, Composite},
+    {Xmp_video_PhysicalEquivalent, "Xmp.video.PhysicalEquivalent", InternalField, Process},
+    {TagChapterUID, "TagChapterUID", UInteger, Skip},
+    {TagTrackUID, "TagTrackUID", UInteger, Skip},
+    {TagAttachmentUID, "TagAttachmentUID", UInteger, Skip},
+    {TagEditionUID, "TagEditionUID", UInteger, Skip},
+    {Xmp_video_TargetType, "Xmp.video.TargetType", String, Process},
+    {SignedElement, "SignedElement", Binary, Skip},
+    {TrackTranslate, "TrackTranslate", Master, Composite},
+    {TrackTranslateTrackID, "TrackTranslateTrackID", Binary, Skip},
+    {TrackTranslateCodec, "TrackTranslateCodec", UInteger, Skip},
+    {TrackTranslateEditionUID, "TrackTranslateEditionUID", UInteger, Skip},
+    {SimpleTag, "SimpleTag", Master, Composite},
+    {TargetTypeValue, "TargetTypeValue", UInteger, Skip},
+    {ChapterProcessCommand, "ChapterProcessCommand", Master, Composite},
+    {ChapterProcessTime, "ChapterProcessTime", UInteger, Skip},
+    {ChapterTranslate, "ChapterTranslate", Master, Composite},
+    {ChapterProcessData, "ChapterProcessData", Binary, Skip},
+    {ChapterProcess, "ChapterProcess", Master, Composite},
+    {ChapterProcessCodecID, "ChapterProcessCodecID", UInteger, Skip},
+    {ChapterTranslateID, "ChapterTranslateID", Binary, Skip},
+    {Xmp_video_TranslateCodec, "Xmp.video.TranslateCodec", InternalField, Process},
+    {ChapterTranslateEditionUID, "ChapterTranslateEditionUID", UInteger, Skip},
+    {ContentEncodings, "ContentEncodings", Master, Composite},
+    {MinCache, "MinCache", UInteger, Skip},
+    {MaxCache, "MaxCache", UInteger, Skip},
+    {ChapterSegmentUID, "ChapterSegmentUID", Binary, Skip},
+    {ChapterSegmentEditionUID, "ChapterSegmentEditionUID", UInteger, Skip},
+    {TrackOverlay, "TrackOverlay", UInteger, Skip},
+    {Tag, "Tag", Master, Composite},
+    {SegmentFileName, "SegmentFileName", Utf8, Skip},
+    {SegmentUID, "SegmentUID", Binary, Skip},
+    {ChapterUID, "ChapterUID", UInteger, Skip},
+    {TrackUID, "TrackUID", UInteger, Skip},
+    {TrackAttachmentUID, "TrackAttachmentUID", UInteger, Skip},
+    {BlockAdditions, "BlockAdditions", Master, Composite},
+    {Xmp_audio_OutputSampleRate, "Xmp.audio.OutputSampleRate", Float, Process},
+    {Xmp_video_Title, "Xmp.video.Title", String, Process},
+    {ChannelPositions, "ChannelPositions", Binary, Skip},
+    {SignatureElements, "SignatureElements", Master, Composite},
+    {SignatureElementList, "SignatureElementList", Master, Composite},
+    {Xmp_video_ContentSignAlgo_2, "Xmp.video.ContentSignAlgo", InternalField, Process},
+    {Xmp_video_ContentSignHashAlgo_2, "Xmp.video.ContentSignHashAlgo", InternalField, Process},
+    {SignaturePublicKey, "SignaturePublicKey", Binary, Skip},
+    {Signature, "Signature", Binary, Skip},
+    {TrackLanguage, "TrackLanguage", String,
+     Skip},  // Process :  see values here https://www.loc.gov/standards/iso639-2/php/code_list.php
+    {TrackTimecodeScale, "TrackTimecodeScale", Float, Skip},
+    {Xmp_video_FrameRate, "Xmp.video.FrameRate", Float, Process},
+    {VideoFrameRate_DefaultDuration, "VideoFrameRate.DefaultDuration", Float, Skip},
+    {Video_Audio_CodecName, "Video.Audio.CodecName", InternalField, Process},
+    {CodecDownloadURL, "CodecDownloadURL", InternalField, Process},
+    {TimecodeScale, "Xmp.video.TimecodeScale", Date, Process},
+    {ColorSpace, "ColorSpace", String, Process},
+    {Xmp_video_OpColor, "Xmp.video.OpColor", Float, Skip},
+    {CodecSettings, "CodecSettings", Boolean, Process},
+    {CodecInfoURL, "CodecInfoURL", InternalField, Process},
+    {PrevFileName, "PrevFileName", Utf8, Skip},
+    {PrevUID, "PrevUID", Binary, Skip},
+    {NextFileName, "NextFileName", Utf8, Skip},
+    {NextUID, "NextUID", Binary, Skip},
+    {Chapters, "Chapters", Master, Skip},
+    {SeekHead, "SeekHead", Master, Composite},
+    {Tags, "Tags", Master, Composite},
+    {Info, "Info", Master, Composite},
+    {Tracks, "Tracks", Master, Composite},
+    {SegmentHeader, "SegmentHeader", Master, Composite},
+    {Attachments, "Attachments", Master, Composite},
+    {EBMLHeader, "EBMLHeader", Master, Composite},
+    {SignatureSlot, "SignatureSlot", Master, Composite},
+    {Cues, "Cues", Master, Composite},
+    {Cluster, "Cluster", Master, Composite},
+};
 
-std::array<MatroskaTag, 7> matroskaTrackType = {
-    MatroskaTag(0x1, "Video"),     MatroskaTag(0x2, "Audio"),    MatroskaTag(0x3, "Complex"), MatroskaTag(0x10, "Logo"),
-    MatroskaTag(0x11, "Subtitle"), MatroskaTag(0x12, "Buttons"), MatroskaTag(0x20, "Control")};
+const MatroskaTag matroskaTrackType[] = {
+    {0x1, "Video"},     {0x2, "Audio"},    {0x3, "Complex"},  {0x10, "Logo"},
+    {0x11, "Subtitle"}, {0x12, "Buttons"}, {0x20, "Control"},
+};
 
-const std::array<MatroskaTag, 4> compressionAlgorithm = {MatroskaTag(0, "zlib "), MatroskaTag(1, "bzlib"),
-                                                         MatroskaTag(2, "lzo1x"), MatroskaTag(3, "Header Stripping")};
+const MatroskaTag compressionAlgorithm[] = {
+    {0, "zlib "},
+    {1, "bzlib"},
+    {2, "lzo1x"},
+    {3, "Header Stripping"},
+};
 
-const std::array<MatroskaTag, 4> audioChannels = {MatroskaTag(1, "Mono"), MatroskaTag(2, "Stereo"),
-                                                  MatroskaTag(5, "5.1 Surround Sound"),
-                                                  MatroskaTag(7, "7.1 Surround Sound")};
+const MatroskaTag audioChannels[] = {
+    {1, "Mono"},
+    {2, "Stereo"},
+    {5, "5.1 Surround Sound"},
+    {7, "7.1 Surround Sound"},
+};
 
-const std::array<MatroskaTag, 5> displayUnit = {MatroskaTag(0x0, "Pixels"), MatroskaTag(0x1, "cm"),
-                                                MatroskaTag(0x2, "inches"), MatroskaTag(0x3, "display aspect ratio"),
-                                                MatroskaTag(0x2, "unknown")};
+const MatroskaTag displayUnit[] = {
+    {0x0, "Pixels"}, {0x1, "cm"}, {0x2, "inches"}, {0x3, "display aspect ratio"}, {0x2, "unknown"},
+};
 
-const std::array<MatroskaTag, 6> encryptionAlgorithm = {MatroskaTag(0, "Not Encrypted"), MatroskaTag(1, "DES"),
-                                                        MatroskaTag(2, "3DES"),          MatroskaTag(3, "Twofish"),
-                                                        MatroskaTag(4, "Blowfish"),      MatroskaTag(5, "AES")};
+const MatroskaTag encryptionAlgorithm[] = {
+    {0, "Not Encrypted"}, {1, "DES"}, {2, "3DES"}, {3, "Twofish"}, {4, "Blowfish"}, {5, "AES"},
+};
 
-const std::array<MatroskaTag, 7> chapterPhysicalEquivalent = {
-    MatroskaTag(10, "Index"), MatroskaTag(20, "Track"),    MatroskaTag(30, "Session"),      MatroskaTag(40, "Layer"),
-    MatroskaTag(50, "Side"),  MatroskaTag(60, "CD / DVD"), MatroskaTag(70, "Set / Package")};
+const MatroskaTag chapterPhysicalEquivalent[] = {
+    {10, "Index"}, {20, "Track"}, {30, "Session"}, {40, "Layer"}, {50, "Side"}, {60, "CD / DVD"}, {70, "Set / Package"},
+};
 
-const std::array<MatroskaTag, 2> encodingType = {MatroskaTag(0, "Compression"), MatroskaTag(1, "Encryption")};
+const MatroskaTag encodingType[] = {
+    {0, "Compression"},
+    {1, "Encryption"},
+};
 
-const std::array<MatroskaTag, 2> videoScanType = {MatroskaTag(0, "Progressive"), MatroskaTag(1, "Interlaced")};
+const MatroskaTag videoScanType[] = {
+    {0, "Progressive"},
+    {1, "Interlaced"},
+};
 
-const std::array<MatroskaTag, 2> chapterTranslateCodec = {MatroskaTag(0, "Matroska Script"),
-                                                          MatroskaTag(1, "DVD Menu")};
+const MatroskaTag chapterTranslateCodec[] = {
+    {0, "Matroska Script"},
+    {1, "DVD Menu"},
+};
 
-const std::array<MatroskaTag, 3> aspectRatioType = {MatroskaTag(0, "Free Resizing"),
-                                                    MatroskaTag(1, "Keep Aspect Ratio"), MatroskaTag(2, "Fixed")};
+const MatroskaTag aspectRatioType[] = {
+    {0, "Free Resizing"},
+    {1, "Keep Aspect Ratio"},
+    {2, "Fixed"},
+};
 
-const std::array<MatroskaTag, 2> contentSignatureAlgorithm = {MatroskaTag(0, "Not Signed"), MatroskaTag(1, "RSA")};
+const MatroskaTag contentSignatureAlgorithm[] = {
+    {0, "Not Signed"},
+    {1, "RSA"},
+};
 
-const std::array<MatroskaTag, 3> contentSignatureHashAlgorithm = {MatroskaTag(0, "Not Signed"),
-                                                                  MatroskaTag(1, "SHA1-160"), MatroskaTag(2, "MD5")};
+const MatroskaTag contentSignatureHashAlgorithm[] = {
+    {0, "Not Signed"},
+    {1, "SHA1-160"},
+    {2, "MD5"},
+};
 
-const std::array<MatroskaTag, 3> trackEnable = {MatroskaTag(0x1, "Xmp.video.Enabled"),
-                                                MatroskaTag(0x2, "Xmp.audio.Enabled"),
-                                                MatroskaTag(0x11, "Xmp.video.SubTEnabled")};
+const MatroskaTag trackEnable[] = {
+    {0x1, "Xmp.video.Enabled"},
+    {0x2, "Xmp.audio.Enabled"},
+    {0x11, "Xmp.video.SubTEnabled"},
+};
 
-const std::array<MatroskaTag, 3> defaultOn = {MatroskaTag(0x1, "Xmp.video.DefaultOn"),
-                                              MatroskaTag(0x2, "Xmp.audio.DefaultOn"),
-                                              MatroskaTag(0x11, "Xmp.video.SubTDefaultOn")};
+const MatroskaTag defaultOn[] = {
+    {0x1, "Xmp.video.DefaultOn"},
+    {0x2, "Xmp.audio.DefaultOn"},
+    {0x11, "Xmp.video.SubTDefaultOn"},
+};
 
-const std::array<MatroskaTag, 3> trackForced = {MatroskaTag(0x1, "Xmp.video.TrackForced"),
-                                                MatroskaTag(0x2, "Xmp.audio.TrackForced"),
-                                                MatroskaTag(0x11, "Xmp.video.SubTTrackForced")};
+const MatroskaTag trackForced[] = {
+    {0x1, "Xmp.video.TrackForced"},
+    {0x2, "Xmp.audio.TrackForced"},
+    {0x11, "Xmp.video.SubTTrackForced"},
+};
 
-const std::array<MatroskaTag, 3> trackLacing = {MatroskaTag(0x1, "Xmp.video.TrackLacing"),
-                                                MatroskaTag(0x2, "Xmp.audio.TrackLacing"),
-                                                MatroskaTag(0x11, "Xmp.video.SubTTrackLacing")};
+const MatroskaTag trackLacing[] = {
+    {0x1, "Xmp.video.TrackLacing"},
+    {0x2, "Xmp.audio.TrackLacing"},
+    {0x11, "Xmp.video.SubTTrackLacing"},
+};
 
-const std::array<MatroskaTag, 3> codecDecodeAll = {MatroskaTag(0x1, "Xmp.video.CodecDecodeAll"),
-                                                   MatroskaTag(0x2, "Xmp.audio.CodecDecodeAll"),
-                                                   MatroskaTag(0x11, "Xmp.video.SubTCodecDecodeAll")};
+const MatroskaTag codecDecodeAll[] = {
+    {0x1, "Xmp.video.CodecDecodeAll"},
+    {0x2, "Xmp.audio.CodecDecodeAll"},
+    {0x11, "Xmp.video.SubTCodecDecodeAll"},
+};
 
-const std::array<MatroskaTag, 3> codecDownloadUrl = {MatroskaTag(0x1, "Xmp.video.CodecDownloadUrl"),
-                                                     MatroskaTag(0x2, "Xmp.audio.CodecDownloadUrl"),
-                                                     MatroskaTag(0x11, "Xmp.video.SubTCodecDownloadUrl")};
+const MatroskaTag codecDownloadUrl[] = {
+    {0x1, "Xmp.video.CodecDownloadUrl"},
+    {0x2, "Xmp.audio.CodecDownloadUrl"},
+    {0x11, "Xmp.video.SubTCodecDownloadUrl"},
+};
 
-const std::array<MatroskaTag, 3> codecSettings = {MatroskaTag(0x1, "Xmp.video.CodecSettings"),
-                                                  MatroskaTag(0x2, "Xmp.audio.CodecSettings"),
-                                                  MatroskaTag(0x11, "Xmp.video.SubTCodecSettings")};
+const MatroskaTag codecSettings[] = {
+    {0x1, "Xmp.video.CodecSettings"},
+    {0x2, "Xmp.audio.CodecSettings"},
+    {0x11, "Xmp.video.SubTCodecSettings"},
+};
 
-const std::array<MatroskaTag, 3> trackCodec = {MatroskaTag(0x1, "Xmp.video.Codec"),
-                                               MatroskaTag(0x2, "Xmp.audio.Compressor"),
-                                               MatroskaTag(0x11, "Xmp.video.SubTCodec")};
+const MatroskaTag trackCodec[] = {
+    {0x1, "Xmp.video.Codec"},
+    {0x2, "Xmp.audio.Compressor"},
+    {0x11, "Xmp.video.SubTCodec"},
+};
 
-const std::array<MatroskaTag, 3> codecInfo = {MatroskaTag(0x1, "Xmp.video.CodecInfo"),
-                                              MatroskaTag(0x2, "Xmp.audio.CodecInfo"),
-                                              MatroskaTag(0x11, "Xmp.video.SubTCodecInfo")};
+const MatroskaTag codecInfo[] = {
+    {0x1, "Xmp.video.CodecInfo"},
+    {0x2, "Xmp.audio.CodecInfo"},
+    {0x11, "Xmp.video.SubTCodecInfo"},
+};
 
-const std::array<MatroskaTag, 2> streamRate = {MatroskaTag(0x1, "Xmp.video.FrameRate"),
-                                               MatroskaTag(0x2, "Xmp.audio.DefaultDuration")};
+const MatroskaTag streamRate[] = {
+    {0x1, "Xmp.video.FrameRate"},
+    {0x2, "Xmp.audio.DefaultDuration"},
+};
 
 /*!
   @brief Function used to calculate Tags, Tags may comprise of more than
@@ -624,7 +670,7 @@ void MatroskaVideo::decodeBlock() {
     io_->read(buf + 1, block_size - 1);
 
   auto tag_id = returnTagValue(buf, block_size);
-  const MatroskaTag* tag = findTag(matroskaTags, tag_id);
+  const MatroskaTag* tag = Exiv2::find(matroskaTags, tag_id);
 
   if (!tag) {
     continueTraversing_ = false;
@@ -701,49 +747,49 @@ void MatroskaVideo::decodeInternalTags(const MatroskaTag* tag, const byte* buf, 
 
   switch (tag->_id) {
     case Xmp_video_VideoScanTpye:
-      internalMt = findTag(videoScanType, key);
+      internalMt = Exiv2::find(videoScanType, key);
       break;
     case Xmp_audio_ChannelType:
-      internalMt = findTag(audioChannels, key);
+      internalMt = Exiv2::find(audioChannels, key);
       break;
     case Xmp_video_ContentCompressAlgo:
-      internalMt = findTag(compressionAlgorithm, key);
+      internalMt = Exiv2::find(compressionAlgorithm, key);
       break;
     case Xmp_video_ContentEncryptAlgo:
-      internalMt = findTag(encryptionAlgorithm, key);
+      internalMt = Exiv2::find(encryptionAlgorithm, key);
       break;
     case Xmp_video_ContentSignAlgo_1:
     case Xmp_video_ContentSignAlgo_2:
-      internalMt = findTag(contentSignatureAlgorithm, key);
+      internalMt = Exiv2::find(contentSignatureAlgorithm, key);
       break;
     case Xmp_video_ContentSignHashAlgo_1:
     case Xmp_video_ContentSignHashAlgo_2:
-      internalMt = findTag(contentSignatureHashAlgorithm, key);
+      internalMt = Exiv2::find(contentSignatureHashAlgorithm, key);
       break;
     case Xmp_video_ContentEncodingType:
-      internalMt = findTag(encodingType, key);
+      internalMt = Exiv2::find(encodingType, key);
       break;
     case Xmp_video_DisplayUnit:
-      internalMt = findTag(displayUnit, key);
+      internalMt = Exiv2::find(displayUnit, key);
       break;
     case Xmp_video_AspectRatioType:
-      internalMt = findTag(aspectRatioType, key);
+      internalMt = Exiv2::find(aspectRatioType, key);
       break;
     case Xmp_video_PhysicalEquivalent:
-      internalMt = findTag(chapterPhysicalEquivalent, key);
+      internalMt = Exiv2::find(chapterPhysicalEquivalent, key);
       break;
     case Xmp_video_TranslateCodec:
-      internalMt = findTag(chapterTranslateCodec, key);
+      internalMt = Exiv2::find(chapterTranslateCodec, key);
       break;
     case Video_Audio_CodecID:
-      internalMt = findTag(trackCodec, key);
+      internalMt = Exiv2::find(trackCodec, key);
       break;
     case Video_Audio_CodecName:
-      internalMt = findTag(codecInfo, key);
+      internalMt = Exiv2::find(codecInfo, key);
       break;
     case CodecDownloadURL:
     case CodecInfoURL:
-      internalMt = findTag(codecDownloadUrl, key);
+      internalMt = Exiv2::find(codecDownloadUrl, key);
       break;
     default:
       break;
@@ -785,27 +831,27 @@ void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf, s
 
   switch (tag->_id) {
     case TrackType:  // this tags is used internally only to deduce the type of track (video or audio)
-      internalMt = findTag(matroskaTrackType, key);
+      internalMt = Exiv2::find(matroskaTrackType, key);
       stream_ = internalMt->_id;
       internalMt = nullptr;
       break;
     case TrackUsed:
-      internalMt = findTag(trackEnable, key);
+      internalMt = Exiv2::find(trackEnable, key);
       break;
     case TrackDefault:
-      internalMt = findTag(defaultOn, key);
+      internalMt = Exiv2::find(defaultOn, key);
       break;
     case TrackForced:
-      internalMt = findTag(trackForced, key);
+      internalMt = Exiv2::find(trackForced, key);
       break;
     case TrackLacing:
-      internalMt = findTag(trackLacing, key);
+      internalMt = Exiv2::find(trackLacing, key);
       break;
     case CodecDecodeAll:
-      internalMt = findTag(codecDecodeAll, key);
+      internalMt = Exiv2::find(codecDecodeAll, key);
       break;
     case CodecSettings:
-      internalMt = findTag(codecSettings, key);
+      internalMt = Exiv2::find(codecSettings, key);
       break;
     case Xmp_video_TagDefault:
       internalMt = tag;
@@ -866,7 +912,7 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, siz
       uint64_t key = 0;
       if (!convertToUint64(buf, size, key))
         return;
-      const MatroskaTag* internalMt = findTag(streamRate, key);
+      const MatroskaTag* internalMt = Exiv2::find(streamRate, key);
       if (internalMt) {
         switch (stream_) {
           case 1:  // video

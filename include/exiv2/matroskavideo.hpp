@@ -49,11 +49,15 @@ enum matroskaTypeEnum : char {
   Master = 'm',
   Float = 'f',
   Utf8 = '8',
-  UndefinedType = 'z'
-
+  UndefinedType = 'z',
 };
 
-enum matroskaProcessEnum : char { Process = 'p', Skip = 's', Composite = 'c', Undefined = 'u' };
+enum matroskaProcessEnum : char {
+  Process = 'p',
+  Skip = 's',
+  Composite = 'c',
+  Undefined = 'u',
+};
 
 struct MatroskaTag {
   uint64_t _id;
@@ -72,6 +76,10 @@ struct MatroskaTag {
       _process(matroskaProcessEnum::Undefined) {
   }
 
+  bool operator==(uint64_t id) const {
+    return id == _id;
+  }
+
   bool isSkipped() const {
     return _process == Skip;
   }
@@ -84,17 +92,6 @@ struct MatroskaTag {
        << "]\n";
   }
 };
-
-/// @brief  Utility function to search into std::array of pairs
-/// @return the searched pair if exist,else nullptr
-template <size_t N>
-[[nodiscard]] const MatroskaTag* findTag(const std::array<MatroskaTag, N>& src, const uint64_t& key) {
-  const auto rc = std::find_if(src.begin(), src.end(), [&key](const MatroskaTag& tag) { return tag._id == key; });
-  // the return value is of type "const MatroskaTag*", so we return the adress of the content of the input
-  // iterator return by find_if
-  return rc == std::end(src) ? nullptr : &(*rc);
-}
-
 }  // namespace Internal
 
 /*!

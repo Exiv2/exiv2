@@ -1967,7 +1967,7 @@ const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
 
 DecoderFct TiffMapping::findDecoder(const std::string& make, uint32_t extendedTag, IfdId group) {
   DecoderFct decoderFct = &TiffDecoder::decodeStdTiffEntry;
-  auto td = Exiv2::find(tiffMappingInfo_, TiffMappingInfo::Key(make, extendedTag, group));
+  auto td = Exiv2::find(tiffMappingInfo_, TiffMappingInfo::Key{make, extendedTag, group});
   if (td) {
     // This may set decoderFct to 0, meaning that the tag should not be decoded
     decoderFct = td->decoderFct_;
@@ -1977,7 +1977,7 @@ DecoderFct TiffMapping::findDecoder(const std::string& make, uint32_t extendedTa
 
 EncoderFct TiffMapping::findEncoder(const std::string& make, uint32_t extendedTag, IfdId group) {
   EncoderFct encoderFct = nullptr;
-  auto td = Exiv2::find(tiffMappingInfo_, TiffMappingInfo::Key(make, extendedTag, group));
+  auto td = Exiv2::find(tiffMappingInfo_, TiffMappingInfo::Key{make, extendedTag, group});
   if (td) {
     // Returns 0 if no special encoder function is found
     encoderFct = td->encoderFct_;

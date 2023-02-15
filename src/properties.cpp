@@ -4904,12 +4904,6 @@ const XmpPrintInfo xmpPrintInfo[] = {
     {"Xmp.plus.PropertyReleaseStatus", EXV_PRINT_VOCABULARY(plusPropertyReleaseStatus)},
     {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)}};
 
-XmpNsInfo::Ns::Ns(std::string ns) : ns_(std::move(ns)) {
-}
-
-XmpNsInfo::Prefix::Prefix(std::string prefix) : prefix_(std::move(prefix)) {
-}
-
 bool XmpNsInfo::operator==(const XmpNsInfo::Ns& ns) const {
   return ns_ == ns.ns_;
 }
@@ -4945,7 +4939,7 @@ void XmpProperties::registerNs(const std::string& ns, const std::string& prefix)
   if (ns2.back() != '/' && ns2.back() != '#')
     ns2 += '/';
   // Check if there is already a registered namespace with this prefix
-  const XmpNsInfo* xnp = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
+  const XmpNsInfo* xnp = lookupNsRegistryUnsafe(XmpNsInfo::Prefix{prefix});
   if (xnp) {
 #ifndef SUPPRESS_WARNINGS
     if (ns2 != xnp->ns_)
@@ -5003,7 +4997,7 @@ std::string XmpProperties::prefix(const std::string& ns) {
   if (i != nsRegistry_.end()) {
     p = i->second.prefix_;
   } else {
-    auto xn = Exiv2::find(xmpNsInfo, XmpNsInfo::Ns(ns2));
+    auto xn = Exiv2::find(xmpNsInfo, XmpNsInfo::Ns{ns2});
     if (xn)
       p = std::string(xn->prefix_);
   }
@@ -5012,7 +5006,7 @@ std::string XmpProperties::prefix(const std::string& ns) {
 
 std::string XmpProperties::ns(const std::string& prefix) {
   auto scoped_read_lock = std::scoped_lock(mutex_);
-  const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
+  const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix{prefix});
   if (xn)
     return xn->ns_;
   return nsInfoUnsafe(prefix)->ns_;
@@ -5079,7 +5073,7 @@ const XmpNsInfo* XmpProperties::nsInfo(const std::string& prefix) {
 }
 
 const XmpNsInfo* XmpProperties::nsInfoUnsafe(const std::string& prefix) {
-  const XmpNsInfo::Prefix pf(prefix);
+  const auto pf = XmpNsInfo::Prefix{prefix};
   const XmpNsInfo* xn = lookupNsRegistryUnsafe(pf);
   if (!xn)
     xn = Exiv2::find(xmpNsInfo, pf);

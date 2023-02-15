@@ -177,14 +177,6 @@ StringValueBase::StringValueBase(TypeId typeId, const std::string& buf) : Value(
   read(buf);
 }
 
-StringValueBase& StringValueBase::operator=(const StringValueBase& rhs) {
-  if (this == &rhs)
-    return *this;
-  Value::operator=(rhs);
-  value_ = rhs.value_;
-  return *this;
-}
-
 int StringValueBase::read(const std::string& buf) {
   value_ = buf;
   return 0;
@@ -273,18 +265,14 @@ std::ostream& AsciiValue::write(std::ostream& os) const {
   return os << value_.substr(0, pos);
 }
 
-constexpr CommentValue::CharsetTable::CharsetTable(CharsetId charsetId, const char* name, const char* code) :
-    charsetId_(charsetId), name_(name), code_(code) {
-}
-
 //! Lookup list of supported IFD type information
 constexpr CommentValue::CharsetTable CommentValue::CharsetInfo::charsetTable_[] = {
-    CharsetTable(ascii, "Ascii", "ASCII\0\0\0"),
-    CharsetTable(jis, "Jis", "JIS\0\0\0\0\0"),
-    CharsetTable(unicode, "Unicode", "UNICODE\0"),
-    CharsetTable(undefined, "Undefined", "\0\0\0\0\0\0\0\0"),
-    CharsetTable(invalidCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"),
-    CharsetTable(lastCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"),
+    {ascii, "Ascii", "ASCII\0\0\0"},
+    {jis, "Jis", "JIS\0\0\0\0\0"},
+    {unicode, "Unicode", "UNICODE\0"},
+    {undefined, "Undefined", "\0\0\0\0\0\0\0\0"},
+    {invalidCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"},
+    {lastCharsetId, "InvalidCharsetId", "\0\0\0\0\0\0\0\0"},
 };
 
 const char* CommentValue::CharsetInfo::name(CharsetId charsetId) {
