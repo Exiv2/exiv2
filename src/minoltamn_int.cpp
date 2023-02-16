@@ -1649,10 +1649,17 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
 }
 
 //! List of lens ids which require special treatment from printMinoltaSonyLensID
-constexpr auto lensIdFct = std::array{
-    std::pair(0x001cu, &resolveLens0x1c), std::pair(0x0029u, &resolveLens0x29), std::pair(0x0034u, &resolveLens0x34),
-    std::pair(0x0080u, &resolveLens0x80), std::pair(0x00ffu, &resolveLens0xff), std::pair(0xffffu, &resolveLens0xffff),
-    //     std::pair(0x00ff, resolveLensTypeUsingExiftool), // was used for debugging
+constexpr struct LensIdFct {
+  uint32_t idx;
+  PrintFct fct;
+
+  bool operator==(uint32_t i) const {
+    return i == idx;
+  }
+} lensIdFct[] = {
+    {0x001cu, &resolveLens0x1c}, {0x0029u, &resolveLens0x29}, {0x0034u, &resolveLens0x34},
+    {0x0080u, &resolveLens0x80}, {0x00ffu, &resolveLens0xff}, {0xffffu, &resolveLens0xffff},
+    //{0x00ffu, &resolveLensTypeUsingExiftool}, // was used for debugging
 };
 // #1145 end - respect lenses with shared LensID
 // ----------------------------------------------------------------------
@@ -1671,9 +1678,9 @@ std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const
 
   // #1145 - respect lenses with shared LensID
   uint32_t index = value.toUint32();
-  for (auto&& [idx, fct] : lensIdFct)
-    if (metadata && idx == index && fct)
-      return fct(os, value, metadata);
+  auto f = Exiv2::find(lensIdFct, index);
+  if (f && metadata)
+    return f->fct(os, value, metadata);
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 
