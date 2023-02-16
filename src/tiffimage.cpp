@@ -43,10 +43,17 @@ TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
 }  // TiffImage::TiffImage
 
 //! List of TIFF compression to MIME type mappings
-constexpr auto mimeTypeList = std::array{
-    std::pair(32767, "image/x-sony-arw"),    std::pair(32769, "image/x-epson-erf"),
-    std::pair(32770, "image/x-samsung-srw"), std::pair(34713, "image/x-nikon-nef"),
-    std::pair(65000, "image/x-kodak-dcr"),   std::pair(65535, "image/x-pentax-pef"),
+
+constexpr struct mimeType {
+  int comp;
+  const char* type;
+
+  bool operator==(int c) const {
+    return comp == c;
+  }
+} mimeTypeList[] = {
+    {32767, "image/x-sony-arw"},  {32769, "image/x-epson-erf"}, {32770, "image/x-samsung-srw"},
+    {34713, "image/x-nikon-nef"}, {65000, "image/x-kodak-dcr"}, {65535, "image/x-pentax-pef"},
 };
 
 std::string TiffImage::mimeType() const {
@@ -57,10 +64,9 @@ std::string TiffImage::mimeType() const {
   std::string key = "Exif." + primaryGroup() + ".Compression";
   auto md = exifData_.findKey(ExifKey(key));
   if (md != exifData_.end() && md->count() > 0) {
-    for (const auto& [comp, type] : mimeTypeList)
-      if (comp == static_cast<int>(md->toInt64())) {
-        mimeType_ = type;
-      }
+    auto mt = Exiv2::find(mimeTypeList, static_cast<int>(md->toInt64()));
+    if (mt)
+      mimeType_ = mt->type;
   }
   return mimeType_;
 }

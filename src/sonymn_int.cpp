@@ -1165,21 +1165,20 @@ std::ostream& SonyMakerNote::printColorCompensationFilter(std::ostream& os, cons
 }
 
 static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::string& flagsEnd) {
-  struct LensSpecFlags {
-    const int64_t mask;  // Contains all the bits set in the flags.val_ array values
-    const std::array<TagDetails, 4> flags;
+  static constexpr struct LensSpecFlags {
+    int64_t mask;  // Contains all the bits set in the flags.val_ array values
+    TagDetails flags[4];
     bool prepend;
+  } lSFArray[] = {
+      {0x4000, {{0x4000, "PZ"}}, true},
+      {0x0300, {{0x0100, "DT"}, {0x0200, "FE"}, {0x0300, "E"}}, true},
+      {0x00e0, {{0x0020, "STF"}, {0x0040, N_("Reflex")}, {0x0060, N_("Macro")}, {0x0080, N_("Fisheye")}}, false},
+      {0x000c, {{0x0004, "ZA"}, {0x0008, "G"}}, false},
+      {0x0003, {{0x0001, "SSM"}, {0x0002, "SAM"}}, false},
+      {0x8000, {{0x8000, "OSS"}}, false},
+      {0x2000, {{0x2000, "LE"}}, false},
+      {0x0800, {{0x0800, "II"}}, false},
   };
-  static constexpr std::array<LensSpecFlags, 8> lSFArray = {
-      LensSpecFlags{0x4000, {{{0x4000, "PZ"}}}, true},
-      LensSpecFlags{0x0300, {{{0x0100, "DT"}, {0x0200, "FE"}, {0x0300, "E"}}}, true},
-      LensSpecFlags{
-          0x00e0, {{{0x0020, "STF"}, {0x0040, N_("Reflex")}, {0x0060, N_("Macro")}, {0x0080, N_("Fisheye")}}}, false},
-      LensSpecFlags{0x000c, {{{0x0004, "ZA"}, {0x0008, "G"}}}, false},
-      LensSpecFlags{0x0003, {{{0x0001, "SSM"}, {0x0002, "SAM"}}}, false},
-      LensSpecFlags{0x8000, {{{0x8000, "OSS"}}}, false},
-      LensSpecFlags{0x2000, {{{0x2000, "LE"}}}, false},
-      LensSpecFlags{0x0800, {{{0x0800, "II"}}}, false}};
 
   // When processing, a bitwise 'AND' selects a compatible LensSpecFlags entry,
   // then search inside the 'flags' array for one match.
@@ -1192,17 +1191,17 @@ static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::
   for (const auto& i : lSFArray) {
     temp = i.mask & joinedV0V7;
     if (temp) {  // Check if a flag matches in the current LensSpecFlags
-      const auto it = std::find(i.flags.begin(), i.flags.end(), temp);
-      if (it == i.flags.end()) {
+      auto f = Exiv2::find(i.flags, temp);
+      if (!f) {
         // Should never get in here. LensSpecFlags.mask should contain all the
         // bits in all the LensSpecFlags.flags.val_ entries
         throw Error(ErrorCode::kerErrorMessage,
                     std::string("LensSpecFlags mask doesn't match the bits in the flags array"));
       }
       if (i.prepend)
-        flagsStart = (flagsStart.empty() ? it->label_ : it->label_ + std::string(" ") + flagsStart);
+        flagsStart = (flagsStart.empty() ? f->label_ : f->label_ + std::string(" ") + flagsStart);
       else
-        flagsEnd = (flagsEnd.empty() ? it->label_ : flagsEnd + std::string(" ") + it->label_);
+        flagsEnd = (flagsEnd.empty() ? f->label_ : flagsEnd + std::string(" ") + f->label_);
     }
   }
 }
