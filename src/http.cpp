@@ -227,9 +227,11 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   ////////////////////////////////////
   // and connect
   server = connect(sockfd, reinterpret_cast<const struct sockaddr*>(&serv_addr), serv_len);
-  if (server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK)
+  if (server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK) {
+    closesocket(sockfd);
     return error(errors, "error - unable to connect to server = %s port = %s wsa_error = %d", servername_p, port_p,
                  WSAGetLastError());
+  }
 
   char buffer[32 * 1024 + 1];
   size_t buff_l = sizeof buffer - 1;
@@ -248,9 +250,11 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     sleep_ -= snooze;
   }
 
-  if (sleep_ < std::chrono::milliseconds::zero())
+  if (sleep_ < std::chrono::milliseconds::zero()) {
+    closesocket(sockfd);
     return error(errors, "error - timeout connecting to server = %s port = %s wsa_error = %d", servername, port,
                  WSAGetLastError());
+  }
 
   int end = 0;             // write position in buffer
   bool bSearching = true;  // looking for headers in the response
@@ -344,6 +348,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
       //  we finished OK without finding headers, flush the buffer
       flushBuffer(buffer, 0, end, file);
     } else {
+      closesocket(sockfd);
       return error(errors, "error - no response from server = %s port = %s wsa_error = %d", servername, port,
                    WSAGetLastError());
     }
