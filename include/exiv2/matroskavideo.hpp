@@ -161,13 +161,13 @@ class EXIV2API MatroskaVideo : public Image {
 
  private:
   //! Variable to check the end of metadata traversing.
-  bool continueTraversing_;
+  bool continueTraversing_{};
   //! Variable to store height and width of a video frame.
-  uint64_t height_;
-  uint64_t width_;
-  uint32_t track_count_;
+  uint64_t height_{};
+  uint64_t width_{};
+  uint32_t track_count_{};
   double time_code_scale_ = 1.0;
-  uint64_t stream_ = 0;
+  uint64_t stream_{};
 
   static constexpr double bytesMB = 1048576;
 

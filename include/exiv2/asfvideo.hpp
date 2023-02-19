@@ -90,8 +90,8 @@ class EXIV2API AsfVideo : public Image {
 
   class HeaderReader {
     DataBuf IdBuf_;
-    uint64_t size_;
-    uint64_t remaining_size_;
+    uint64_t size_{};
+    uint64_t remaining_size_{};
 
    public:
     explicit HeaderReader(BasicIo::UniquePtr& io);
@@ -159,7 +159,8 @@ class EXIV2API AsfVideo : public Image {
 
  private:
   //! Variable to store height and width of a video frame.
-  uint64_t height_, width_;
+  uint64_t height_{};
+  uint64_t width_{};
 
 };  // Class AsfVideo
 
