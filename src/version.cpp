@@ -164,7 +164,7 @@ static std::vector<std::string> getLoadedLibraries() {
   char procsz[100];
   char pathsz[500];
   snprintf(procsz, sizeof(procsz), "/proc/%d/path/a.out", getpid());
-  int l = readlink(procsz, pathsz, sizeof(pathsz));
+  int l = readlink(procsz, pathsz, sizeof(pathsz) - 1);
   if (l > 0) {
     pathsz[l] = '\0';
     path.assign(pathsz);
