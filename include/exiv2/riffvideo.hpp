@@ -169,7 +169,7 @@ class EXIV2API RiffVideo : public Image {
   static constexpr auto CHUNK_ID_VPRP = "VPRP";
   static constexpr auto CHUNK_ID_IDX1 = "IDX1";
 
-  int streamType_;
+  int streamType_{};
 
 };  // Class RiffVideo
 
