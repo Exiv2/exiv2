@@ -23,7 +23,7 @@ jobs:
           sudo apt install -y clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
           python3 -m pip install meson ninja
 
-      - name: Sanity Checks
+      - name: Compile and Test
         run: |
           env CXX=clang++-${{matrix.cxx}} CXXFLAGS=-stdlib=libc++ meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
