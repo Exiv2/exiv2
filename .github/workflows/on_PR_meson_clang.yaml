@@ -23,7 +23,7 @@ jobs:
           sudo apt install -y clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}}
           python3 -m pip install meson ninja
 
-      - name: Sanity Checks
+      - name: Compile and Test
         env:
           CXX: clang++-${{matrix.cxx}}
           CXXFLAGS: -stdlib=libc++

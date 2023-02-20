@@ -23,7 +23,7 @@ jobs:
           sudo apt install -y g++-${{matrix.cxx}}
           python3 -m pip install meson ninja
 
-      - name: Sanity Checks
+      - name: Compile and Test
         env:
           CXX: g++-${{matrix.cxx}}
         run: |
@@ -33,10 +33,11 @@ jobs:
 
   VisualStudio:
     runs-on: windows-latest
-    name: MSVC-${{matrix.deps}}-${{matrix.type}}
+    name: MSVC-${{matrix.deps}}-${{matrix.type}}-${{matrix.platform}}
     strategy:
       matrix:
         deps: ['forcefallback', 'default']
+        platform: ['x64', 'x86']
         type: ['shared', 'static']
     steps:
       - uses: actions/checkout@v3
@@ -46,7 +47,10 @@ jobs:
           python -m pip install meson ninja
 
       - uses: ilammy/msvc-dev-cmd@v1
-      - name: Sanity Checks
+        with:
+          arch: ${{matrix.platform}}
+
+      - name: Compile and Test
         run: |
           meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
@@ -66,7 +70,7 @@ jobs:
         run: |
           python3 -m pip install meson ninja
 
-      - name: Compile
+      - name: Compile and Test
         run: |
           meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
