@@ -764,12 +764,11 @@ LangAltValue* LangAltValue::clone_() const {
 }
 
 DateValue::DateValue() : Value(date) {
+  date_ = {};
 }
 
 DateValue::DateValue(int32_t year, int32_t month, int32_t day) : Value(date) {
-  date_.year = year;
-  date_.month = month;
-  date_.day = day;
+  date_ = {year, month, day};
 }
 
 int DateValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
@@ -813,9 +812,7 @@ int DateValue::read(const std::string& buf) {
 }
 
 void DateValue::setDate(const Date& src) {
-  date_.year = src.year;
-  date_.month = src.month;
-  date_.day = src.day;
+  date_ = src;
 }
 
 size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
@@ -883,14 +880,11 @@ Rational DateValue::toRational(size_t n) const {
 }
 
 TimeValue::TimeValue() : Value(time) {
+  time_ = {};
 }
 
 TimeValue::TimeValue(int32_t hour, int32_t minute, int32_t second, int32_t tzHour, int32_t tzMinute) : Value(date) {
-  time_.hour = hour;
-  time_.minute = minute;
-  time_.second = second;
-  time_.tzHour = tzHour;
-  time_.tzMinute = tzMinute;
+  time_ = {hour, minute, second, tzHour, tzMinute};
 }
 
 int TimeValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
@@ -941,7 +935,7 @@ int TimeValue::read(const std::string& buf) {
 
 /// \todo not used internally. At least we should test it
 void TimeValue::setTime(const Time& src) {
-  std::memcpy(&time_, &src, sizeof(time_));
+  time_ = src;
 }
 
 size_t TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
