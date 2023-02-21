@@ -21,10 +21,10 @@ namespace Exiv2 {
 
 //! Native preview information. This is meant to be used only by the PreviewManager.
 struct NativePreview {
-  size_t position_;       //!< Position
-  size_t size_;           //!< Size
-  size_t width_;          //!< Width
-  size_t height_;         //!< Height
+  size_t position_{};     //!< Position
+  size_t size_{};         //!< Size
+  size_t width_{};        //!< Width
+  size_t height_{};       //!< Height
   std::string filter_;    //!< Filter
   std::string mimeType_;  //!< MIME type
 };

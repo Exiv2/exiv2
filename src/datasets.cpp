@@ -500,7 +500,7 @@ void IptcDataSets::dataSetList(std::ostream& os) {
   }
 }
 
-IptcKey::IptcKey(std::string key) : key_(std::move(key)) {
+IptcKey::IptcKey(std::string key) : tag_(0), record_(0), key_(std::move(key)) {
   decomposeKey();
 }
 

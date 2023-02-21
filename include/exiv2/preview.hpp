@@ -23,10 +23,10 @@ using PreviewId = int;
 struct EXIV2API PreviewProperties {
   std::string mimeType_;   //!< Preview image mime type.
   std::string extension_;  //!< Preview image extension.
-  size_t size_;            //!< Preview image size in bytes.
-  size_t width_;           //!< Preview image width in pixels or 0 for unknown width.
-  size_t height_;          //!< Preview image height in pixels or 0 for unknown height.
-  PreviewId id_;           //!< Identifies type of preview image.
+  size_t size_{};          //!< Preview image size in bytes.
+  size_t width_{};         //!< Preview image width in pixels or 0 for unknown width.
+  size_t height_{};        //!< Preview image height in pixels or 0 for unknown height.
+  PreviewId id_{};         //!< Identifies type of preview image.
 };
 
 //! Container type to hold all preview images metadata.

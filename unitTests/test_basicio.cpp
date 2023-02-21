@@ -43,8 +43,7 @@ TEST(MemIo_Default, seekToEndPositionAndReadTriggersEof) {
   ASSERT_EQ(0, io.seek(0, BasicIo::end));
   ASSERT_EQ(0, io.tell());
 
-  std::array<byte, 64> buf2;
-  buf2.fill(0);
+  std::array<byte, 64> buf2 = {};
   ASSERT_EQ(0, io.read(buf2.data(), 1));  // Note that we cannot even read 1 byte being at the end
   ASSERT_TRUE(io.eof());
 }
@@ -52,16 +51,14 @@ TEST(MemIo_Default, seekToEndPositionAndReadTriggersEof) {
 // -------------------------
 
 TEST(MemIo, isNotAtEofInitially) {
-  std::array<byte, 64> buf;
-  buf.fill(0);
+  std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
   ASSERT_FALSE(io.eof());
 }
 
 TEST(MemIo, seekBeyondBufferSizeReturns1AndSetsEofToTrue) {
-  std::array<byte, 64> buf;
-  buf.fill(0);
+  std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
   ASSERT_EQ(1, io.seek(65, BasicIo::beg));
@@ -69,8 +66,7 @@ TEST(MemIo, seekBeyondBufferSizeReturns1AndSetsEofToTrue) {
 }
 
 TEST(MemIo, seekBefore0Returns1ButItDoesNotSetEofToTrue) {
-  std::array<byte, 64> buf;
-  buf.fill(0);
+  std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
   ASSERT_EQ(1, io.seek(-1, BasicIo::beg));
@@ -88,8 +84,7 @@ TEST(MemIo, seekBeyondBoundsDoesNotMoveThePosition) {
 }
 
 TEST(MemIo, seekInsideBoundsMoveThePosition) {
-  std::array<byte, 64> buf;
-  buf.fill(0);
+  std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
   ASSERT_EQ(0, io.tell());
@@ -98,8 +93,7 @@ TEST(MemIo, seekInsideBoundsMoveThePosition) {
 }
 
 TEST(MemIo, seekInsideBoundsUsingBeg_resetsThePosition) {
-  std::array<byte, 64> buf;
-  buf.fill(0);
+  std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
   std::vector<std::int64_t> positions{0, 8, 16, 32, 64};
@@ -110,8 +104,7 @@ TEST(MemIo, seekInsideBoundsUsingBeg_resetsThePosition) {
 }
 
 TEST(MemIo, seekInsideBoundsUsingCur_shiftThePosition) {
-  std::array<byte, 64> buf;
-  buf.fill(0);
+  std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
   std::vector<std::int64_t> shifts{4, 4, 8, 16, 32};
@@ -123,8 +116,7 @@ TEST(MemIo, seekInsideBoundsUsingCur_shiftThePosition) {
 }
 
 TEST(MemIo, seekToEndPosition_doesNotTriggerEof) {
-  std::array<byte, 64> buf;
-  buf.fill(0);
+  std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
   ASSERT_EQ(0, io.tell());
@@ -134,15 +126,13 @@ TEST(MemIo, seekToEndPosition_doesNotTriggerEof) {
 }
 
 TEST(MemIo, seekToEndPositionAndReadTriggersEof) {
-  std::array<byte, 64> buf;
-  buf.fill(0);
+  std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
   ASSERT_EQ(0, io.seek(0, BasicIo::end));
   ASSERT_EQ(64, io.tell());
 
-  std::array<byte, 64> buf2;
-  buf2.fill(0);
+  std::array<byte, 64> buf2 = {};
   ASSERT_EQ(0, io.read(buf2.data(), 1));  // Note that we cannot even read 1 byte being at the end
   ASSERT_TRUE(io.eof());
 }

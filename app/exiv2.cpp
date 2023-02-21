@@ -195,13 +195,9 @@ int main(int argc, char* const argv[]) {
 
 Params::Params() :
     optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
-
     target_(ctExif | ctIptc | ctComment | ctXmp),
-
+    yodAdjust_(emptyYodAdjust_),
     format_("%Y%m%d_%H%M%S") {
-  yodAdjust_[yodYear] = emptyYodAdjust_[yodYear];
-  yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
-  yodAdjust_[yodDay] = emptyYodAdjust_[yodDay];
 }
 
 Params& Params::instance() {
