@@ -923,9 +923,9 @@ class EXIV2API DateValue : public Value {
 
   //! Simple Date helper structure
   struct EXIV2API Date {
-    int32_t year{0};   //!< Year
-    int32_t month{0};  //!< Month
-    int32_t day{0};    //!< Day
+    int32_t year;   //!< Year
+    int32_t month;  //!< Month
+    int32_t day;    //!< Day
   };
 
   //! @name Manipulators
@@ -1014,13 +1014,11 @@ class EXIV2API TimeValue : public Value {
 
   //! Simple Time helper structure
   struct Time {
-    Time() = default;
-
-    int32_t hour{0};      //!< Hour
-    int32_t minute{0};    //!< Minute
-    int32_t second{0};    //!< Second
-    int32_t tzHour{0};    //!< Hours ahead or behind UTC
-    int32_t tzMinute{0};  //!< Minutes ahead or behind UTC
+    int32_t hour;      //!< Hour
+    int32_t minute;    //!< Minute
+    int32_t second;    //!< Second
+    int32_t tzHour;    //!< Hours ahead or behind UTC
+    int32_t tzMinute;  //!< Minutes ahead or behind UTC
   };
 
   //! @name Manipulators
