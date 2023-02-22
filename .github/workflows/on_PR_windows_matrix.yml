@@ -55,7 +55,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip install conan==1.55.0
+          python -m pip install conan==1.55.0
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
