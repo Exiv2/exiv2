@@ -45,7 +45,7 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          pip install conan==1.55.0
+          python -m pip install conan==1.55.0
           conan profile new --detect default
           conan profile show default
           conan profile update settings.compiler="Visual Studio" default
@@ -72,8 +72,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.55.0
+          python3 -m pip install conan==1.55.0 ninja
 
       - name: Conan
         run: |
