@@ -19,14 +19,14 @@ jobs:
       matrix:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
-        
+
     steps:
       - uses: actions/checkout@v3
 
       - name: install dependencies
         run: |
           sudo apt-get install ninja-build tree
-          pip3 install conan==1.54.0
+          pip3 install conan==1.55.0
 
       - name: Conan common config
         run: |
@@ -49,7 +49,7 @@ jobs:
       - name: Install
         run: |
           cd build-base_linux
-          cmake --install . 
+          cmake --install .
 
       - name: Test
         run: |
