@@ -48,7 +48,7 @@ jobs:
           python-version: 3.7
 
       - name: Restore Conan cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
