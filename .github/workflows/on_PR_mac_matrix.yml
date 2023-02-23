@@ -19,7 +19,7 @@ jobs:
       matrix:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
-        
+
     steps:
       - uses: actions/checkout@v3
 
@@ -31,7 +31,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_mac -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_mac -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_VIDEO=ON
           cmake --build build --parallel
 
       - name: Install
