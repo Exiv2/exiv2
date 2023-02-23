@@ -80,8 +80,7 @@ jobs:
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
             -DEXIV2_BUILD_DOC=ON \
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"
+            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
           cmake --build build -t doc
           cmake --build build -t package
 

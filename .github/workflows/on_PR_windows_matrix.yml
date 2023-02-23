@@ -131,7 +131,6 @@ jobs:
       - name: Build
         run: |
           cmake --preset base_windows \
-            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
             -DCONAN_AUTO_INSTALL=OFF \
@@ -185,7 +184,6 @@ jobs:
       - name: Build
         run: |
           cmake --preset base_windows \
-            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
             -DCONAN_AUTO_INSTALL=OFF \
