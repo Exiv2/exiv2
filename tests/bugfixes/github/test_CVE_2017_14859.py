@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
-
+import ctypes
 
 class TestCvePoC(metaclass=system_tests.CaseMeta):
 
@@ -10,9 +10,9 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     filename = "$data_path/005-invalid-mem"
     commands = ["$exiv2 " + filename]
     stdout = [""]
-    stderr = ["""$exiv2_exception_message """ + filename + """:
-$kerFailedToReadImageData
-"""]
+    stderr = ["""$exiv2_exception_message """ + filename + ":\n" +
+              ("$kerFailedToReadImageData" if ctypes.sizeof(ctypes.c_voidp) > 4 else "$kerCorruptedMetadata") +
+              "\n"]
     retval = [1]
 
     def compare_stderr(self, i, command, got_stderr, expected_stderr):
