@@ -31,7 +31,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_mac -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_mac -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
           cmake --build build --parallel
 
       - name: Install

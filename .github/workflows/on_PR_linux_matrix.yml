@@ -43,7 +43,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
           cmake --build build-base_linux --parallel
 
       - name: Install
