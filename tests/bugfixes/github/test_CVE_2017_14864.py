@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
-import ctypes
+import sys
 
 class TestCvePoC(metaclass=system_tests.CaseMeta):
 
@@ -11,6 +11,6 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     commands = ["$exiv2 -q " + filename]
     stdout = [""]
     stderr = ["""$exiv2_exception_message """ + filename + ":\n" +
-              ("$kerFailedToReadImageData" if ctypes.sizeof(ctypes.c_voidp) > 4 else "$kerCorruptedMetadata") +
+              ("$kerFailedToReadImageData" if sys.maxsize > 2**32 else "$kerCorruptedMetadata") +
               "\n"]
     retval = [1]

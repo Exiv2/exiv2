@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import ctypes
+import sys
 import system_tests
 from system_tests import check_no_ASAN_UBSAN_errors
 
@@ -11,7 +11,7 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     filename = "$data_path/008-invalid-mem"
     commands = ["$exiv2 -q " + filename]
 
-    if ctypes.sizeof(ctypes.c_voidp) > 4:
+    if sys.maxsize > 2**32:
         stderr = [""]
         retval = [0]
     else:
