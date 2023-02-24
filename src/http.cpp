@@ -232,12 +232,12 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
                  WSAGetLastError());
 
   char buffer[32 * 1024 + 1];
-  size_t buff_l = sizeof buffer - 1;
+  size_t buff_l = sizeof(buffer) - 1;
 
   ////////////////////////////////////
   // format the request
   int n = snprintf(buffer, buff_l, httpTemplate, verb, page, version, servername, header);
-  buffer[n] = 0;
+  buffer[n - 1] = '\0';
   response["requestheaders"] = std::string(buffer, n);
 
   ////////////////////////////////////
