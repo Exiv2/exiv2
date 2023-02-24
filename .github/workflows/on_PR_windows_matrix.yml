@@ -78,7 +78,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
           cmake --build build --parallel
 
       - name: Install
@@ -135,7 +135,6 @@ jobs:
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
             -DCONAN_AUTO_INSTALL=OFF \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
-            -DEXIV2_ENABLE_VIDEO=ON \
             -DPython3_EXECUTABLE=${MINGW_PREFIX}/bin/python.exe \
             -S . -B build && \
           cmake --build build --parallel
@@ -190,7 +189,6 @@ jobs:
             -DEXIV2_BUILD_SAMPLES=OFF \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
-            -DEXIV2_ENABLE_VIDEO=ON \
             -S . -B build && \
           cmake --build build --parallel
 

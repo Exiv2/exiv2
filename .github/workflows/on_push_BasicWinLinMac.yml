@@ -54,7 +54,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset win-release -S . -B build  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset win-release -S . -B build
           cmake --build build --parallel
 
 
@@ -84,7 +84,7 @@ jobs:
 
       - name: build and compile
         run: |
-          cmake --preset linux-release-NoConan -S . -B build  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset linux-release-NoConan -S . -B build
           cmake --build build --parallel
 
       - name: Test
@@ -107,7 +107,7 @@ jobs:
 
       - name: build and compile
         run: |
-          cmake --preset base_mac -S . -B build -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_mac -S . -B build
           cmake --build build --parallel
 
       - name: Test
