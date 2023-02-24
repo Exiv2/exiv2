@@ -151,8 +151,10 @@ jobs:
           conan install .. -o webready=True --build missing
 
       - name: Build
+        env:
+          CXXFLAGS: -DEXIV2_DEBUG_MESSAGES
         run: |
-          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON -DCMAKE_CXX_FLAGS="-DEXIV2_DEBUG_MESSAGES"
+          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON
           cmake --build build --parallel
 
       - name: Generate documentation
