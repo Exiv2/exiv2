@@ -24,8 +24,10 @@ jobs:
           python3 -m pip install meson ninja
 
       - name: Sanity Checks
+        env:
+          CXX: g++-${{matrix.cxx}}
         run: |
-          env CXX=g++-${{matrix.cxx}} meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
 
