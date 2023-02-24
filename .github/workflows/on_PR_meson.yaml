@@ -12,7 +12,7 @@ jobs:
     name: Linux-GCC${{matrix.cxx}}-${{matrix.deps}}-${{matrix.type}}
     strategy:
       matrix:
-        cxx: ['7', '8', '9']
+        cxx: ['7', '8', '9', '10']
         deps: ['forcefallback', 'default']
         type: ['shared', 'static']
     steps:
