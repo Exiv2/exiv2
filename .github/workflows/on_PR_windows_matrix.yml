@@ -66,6 +66,11 @@ jobs:
           conan profile list
           conan install .. --build missing
 
+      - name: Platform info
+        run: |
+          python -c "import sys; print('sys.maxsize =', sys.maxsize)"
+          python -c "import ctypes; print('ctypes.sizeof(ctypes.c_voidp) =', ctypes.sizeof(ctypes.c_voidp))"
+
       - name: Build
         run: |
           cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_VIDEO=ON
