@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
-
+from system_tests import check_no_ASAN_UBSAN_errors
 
 class AdditionOverflowInLoaderExifJpeg(metaclass=system_tests.CaseMeta):
     """
@@ -11,12 +11,11 @@ class AdditionOverflowInLoaderExifJpeg(metaclass=system_tests.CaseMeta):
     https://cve.mitre.org/cgi-bin/cvename.cgi?name=2018-12265
     """
     filename = system_tests.path("$data_path/1-out-of-read-Poc")
-    commands = ["$exiv2 -ep $filename"]
-    stdout = [""]
-    stderr = [
-        """Error: Upper boundary of data for directory Image, entry 0x00fe is out of bounds: Offset = 0x0000002a, size = 64, exceeds buffer size by 22 Bytes; truncating the entry
-Warning: Directory Image, entry 0x0201: Strip 0 is outside of the data area; ignored.
-Warning: Directory Image, entry 0x0201: Strip 7 is outside of the data area; ignored.
-"""
-    ]
-    retval = [0]
+    commands = ["$exiv2 -pS $filename"]
+    retval = [1]
+
+    compare_stdout = check_no_ASAN_UBSAN_errors
+
+    def compare_stderr(self, i, command, got_stderr, expected_stderr):
+        """ Only check that an exception is thrown """
+        self.assertIn(expected_stderr, got_stderr)
