@@ -1456,7 +1456,7 @@ static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
   const TagInfo* result = nullptr;
   const TagInfo* tags = [=] {
     if (group == IfdId::gpsId)
-      return group == IfdId::exifId ? Internal::exifTagList() : Internal::gpsTagList();
+      return Internal::gpsTagList();
     return group == IfdId::exifId ? Internal::exifTagList() : nullptr;
   }();
   if (tags) {
