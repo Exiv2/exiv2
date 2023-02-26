@@ -14,6 +14,20 @@ from   http   import server
 from   urllib import request
 import system_tests
 
+# Run `exiv2 --verbose --version` to find out if the Exiv2 binary is 32-bit or 64-bit.
+def exiv2_is_64bit(bin_dir):
+    proc = subprocess.run(
+        [os.path.join(bin_dir, 'exiv2'), '--verbose', '--version'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        cwd=bin_dir
+    )
+    proc.check_returncode()
+    m = re.search(r'^bits=([0-9]+)\s*$', proc.stdout.decode('utf-8'), re.MULTILINE)
+    numbits = int(m[1])
+    assert numbits in {32, 64}
+    return numbits == 64
+
 
 """
 Part 1:
@@ -42,6 +56,8 @@ class Config:
         exiv2_http      = os.environ['EXIV2_HTTP']
     if 'VALGRIND' in os.environ:
         valgrind        = os.environ['VALGRIND']
+
+    is_64bit = exiv2_is_64bit(bin_dir)
 
     @classmethod
     def init(cls):
