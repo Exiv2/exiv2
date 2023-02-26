@@ -595,26 +595,6 @@ const MatroskaTag streamRate[] = {
 
   return tag;
 }
-
-/*!
-    @brief Function used to convert buffer data into Integeral information,
-        information stored in BigEndian format
- */
-[[nodiscard]] bool convertToUint64(const byte* buf, size_t size, uint64_t& value) {
-  uint64_t ret = 0;
-  for (size_t i = 0; i < size; ++i) {
-    ret |= static_cast<uint64_t>(buf[i]) << ((size - i - 1) * 8);
-  }
-
-  if (ret < std::numeric_limits<uint64_t>::min())
-    return false;
-  if (ret > std::numeric_limits<uint64_t>::max())
-    return false;
-
-  value = ret;
-  return true;
-}
-
 }  // namespace Exiv2::Internal
 
 namespace Exiv2 {
@@ -711,7 +691,7 @@ void MatroskaVideo::decodeBlock() {
   io_->read(buf2.data(), size);
   switch (tag->_type) {
     case InternalField:
-      decodeInternalTags(tag, buf2.data(), size);
+      decodeInternalTags(tag, buf2.data());
       break;
     case String:
     case Utf8:
@@ -719,16 +699,16 @@ void MatroskaVideo::decodeBlock() {
       break;
     case Integer:
     case UInteger:
-      decodeIntegerTags(tag, buf2.data(), size);
+      decodeIntegerTags(tag, buf2.data());
       break;
     case Boolean:
-      decodeBooleanTags(tag, buf2.data(), size);
+      decodeBooleanTags(tag, buf2.data());
       break;
     case Date:
       decodeDateTags(tag, buf2.data(), size);
       break;
     case Float:
-      decodeFloatTags(tag, buf2.data(), size);
+      decodeFloatTags(tag, buf2.data());
       break;
     case Binary:
       break;
@@ -739,10 +719,10 @@ void MatroskaVideo::decodeBlock() {
   }
 }  // MatroskaVideo::decodeBlock
 
-void MatroskaVideo::decodeInternalTags(const MatroskaTag* tag, const byte* buf, size_t size) {
+void MatroskaVideo::decodeInternalTags(const MatroskaTag* tag, const byte* buf) {
   const MatroskaTag* internalMt = nullptr;
-  uint64_t key = 0;
-  if (!convertToUint64(buf, size, key))
+  uint64_t key = getULongLong(buf, bigEndian);
+  if (!key)
     return;
 
   switch (tag->_id) {
@@ -810,9 +790,9 @@ void MatroskaVideo::decodeStringTags(const MatroskaTag* tag, const byte* buf) {
   }
 }
 
-void MatroskaVideo::decodeIntegerTags(const MatroskaTag* tag, const byte* buf, size_t size) {
-  uint64_t value = 0;
-  if (!convertToUint64(buf, size, value))
+void MatroskaVideo::decodeIntegerTags(const MatroskaTag* tag, const byte* buf) {
+  uint64_t value = getULongLong(buf, bigEndian);
+  if (!value)
     return;
 
   if (tag->_id == Xmp_video_Width_1 || tag->_id == Xmp_video_Width_2)
@@ -822,11 +802,11 @@ void MatroskaVideo::decodeIntegerTags(const MatroskaTag* tag, const byte* buf, s
   xmpData_[tag->_label] = value;
 }
 
-void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf, size_t size) {
+void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf) {
   std::string str("No");
   const MatroskaTag* internalMt = nullptr;
-  uint64_t key = 0;
-  if (!convertToUint64(buf, size, key))
+  uint64_t key = getULongLong(buf, bigEndian);
+  if (!key)
     return;
 
   switch (tag->_id) {
@@ -868,7 +848,7 @@ void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf, s
 
 void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size_t size) {
   int64_t duration_in_ms = 0;
-  uint64_t value = 0;
+  uint64_t value;
   switch (tag->_id) {
     case Xmp_video_Duration:
       if (size <= 4) {
@@ -880,15 +860,16 @@ void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size
       xmpData_[tag->_label] = duration_in_ms;
       break;
     case Xmp_video_DateUTC:
-
-      if (!convertToUint64(buf, size, value))
+      value = getULongLong(buf, bigEndian);
+      if (!value)
         return;
       duration_in_ms = value / 1000000000;
       xmpData_[tag->_label] = duration_in_ms;
       break;
 
     case TimecodeScale:
-      if (!convertToUint64(buf, size, value))
+      value = getULongLong(buf, bigEndian);
+      if (!value)
         return;
       time_code_scale_ = static_cast<double>(value) / static_cast<double>(1000000000);
       xmpData_[tag->_label] = time_code_scale_;
@@ -898,7 +879,7 @@ void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size
   }
 }
 
-void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, size_t size) {
+void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
   xmpData_[tag->_label] = getFloat(buf, bigEndian);
 
   double frame_rate = 0;
@@ -909,8 +890,8 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf, siz
       break;
     case VideoFrameRate_DefaultDuration:
     case Xmp_video_FrameRate: {
-      uint64_t key = 0;
-      if (!convertToUint64(buf, size, key))
+      uint64_t key = getULongLong(buf, bigEndian);
+      if (!key)
         return;
       const MatroskaTag* internalMt = Exiv2::find(streamRate, key);
       if (internalMt) {
