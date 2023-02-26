@@ -245,11 +245,6 @@ void RafImage::readMetadata() {
 
   Internal::enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), ErrorCode::kerCorruptedMetadata);
 
-#if LONG_MAX < UINT_MAX
-  Internal::enforce(jpg_img_off_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
-  Internal::enforce(jpg_img_len_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
-#endif
-
   auto jpg_img_off = static_cast<long>(jpg_img_off_u32);
   auto jpg_img_len = static_cast<long>(jpg_img_len_u32);
 

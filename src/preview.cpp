@@ -874,8 +874,6 @@ DataBuf decodeBase64(const std::string& src) {
   const unsigned long destSize = (validSrcSize * 3) / 4;
 
   // allocate dest buffer
-  if (destSize > LONG_MAX)
-    return {};  // avoid integer overflow
   DataBuf dest(destSize);
 
   // decode

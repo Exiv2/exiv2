@@ -520,9 +520,6 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
   while ('0' <= *sp && *sp <= '9') {
     // Compute the new length using unsigned long, so that we can check for overflow.
     const size_t newlength = (10 * length) + (*sp - '0');
-    if (newlength > std::numeric_limits<size_t>::max()) {
-      return {};  // Integer overflow.
-    }
     length = newlength;
     sp++;
     if (sp == eot) {

@@ -977,7 +977,7 @@ std::ostream& TimeValue::write(std::ostream& os) const {
 int64_t TimeValue::toInt64(size_t /*n*/) const {
   // Returns number of seconds in the day in UTC.
   auto result = static_cast<int64_t>(time_.hour - time_.tzHour) * 60 * 60;
-  result += (time_.minute - time_.tzMinute) * 60;
+  result += static_cast<int64_t>(time_.minute - time_.tzMinute) * 60;
   result += time_.second;
   if (result < 0) {
     result += 86400;
