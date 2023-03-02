@@ -1472,7 +1472,7 @@ static std::vector<std::string> split(const std::string& str, const std::string&
       pos = str.length();
     std::string token = str.substr(prev, pos - prev);
     if (!token.empty())
-      tokens.push_back(token);
+      tokens.push_back(std::move(token));
     prev = pos + delim.length();
   } while (pos < str.length() && prev < str.length());
   return tokens;
@@ -1535,9 +1535,9 @@ static std::ostream& resolveLens0x34(std::ostream& os, const Value& value, const
     std::string model = getKeyString("Exif.Image.Model", metadata);
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
-    std::string F2_8 = "760/256";
 
-    if (model == "SLT-A77V" && maxAperture == F2_8) {
+    // F2_8
+    if (model == "SLT-A77V" && maxAperture == "760/256") {
       index = 4;
     }
     if (model == "SLT-A77V" && inRange(focalLength, 70, 300)) {
@@ -1560,9 +1560,9 @@ static std::ostream& resolveLens0x80(std::ostream& os, const Value& value, const
     std::string model = getKeyString("Exif.Image.Model", metadata);
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
-    std::string F4 = "1024/256";
 
-    if (model == "SLT-A77V" && maxAperture == F4 && inRange(focalLength, 18, 200)) {
+    // F4
+    if (model == "SLT-A77V" && maxAperture == "1024/256" && inRange(focalLength, 18, 200)) {
       index = 2;
     }
 
@@ -1582,9 +1582,9 @@ static std::ostream& resolveLens0xff(std::ostream& os, const Value& value, const
     std::string model = getKeyString("Exif.Image.Model", metadata);
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
-    std::string F2_8 = "760/256";
 
-    if (model == "SLT-A77V" && maxAperture == F2_8 && inRange(focalLength, 17, 50)) {
+    // F2_8
+    if (model == "SLT-A77V" && maxAperture == "760/256" && inRange(focalLength, 17, 50)) {
       index = 1;
     }
 
@@ -1678,8 +1678,7 @@ std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const
 
   // #1145 - respect lenses with shared LensID
   uint32_t index = value.toUint32();
-  auto f = Exiv2::find(lensIdFct, index);
-  if (f && metadata)
+  if (auto f = Exiv2::find(lensIdFct, index); f && metadata)
     return f->fct(os, value, metadata);
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }

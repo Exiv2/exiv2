@@ -104,8 +104,7 @@ class XMLValidator {
     XML_SetNamespaceDeclHandler(parser_, startNamespace_cb, endNamespace_cb);
     XML_SetStartDoctypeDeclHandler(parser_, startDTD_cb);
 
-    const XML_Status result = XML_Parse(parser_, buf, static_cast<int>(buflen), true);
-    if (result == XML_STATUS_ERROR) {
+    if (XML_Parse(parser_, buf, static_cast<int>(buflen), true) == XML_STATUS_ERROR) {
       setError(XML_ErrorString(XML_GetErrorCode(parser_)));
     }
 
@@ -589,7 +588,7 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
 
   if (bURI || bNS) {
     auto p = static_cast<std::map<std::string, std::string>*>(refCon);
-    std::map<std::string, std::string>& m = *p;
+    auto& m = *p;
 
     std::string b;
     if (bNS) {  // store the NS in dict[""]
@@ -699,8 +698,7 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
         // (Namespaces are automatically registered with the XMP Toolkit)
         if (XmpProperties::prefix(schemaNs).empty()) {
           std::string prefix;
-          bool ret = SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &prefix);
-          if (!ret)
+          if (!SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &prefix))
             throw Error(ErrorCode::kerSchemaNamespaceNotRegistered, schemaNs);
           prefix.pop_back();
           XmpProperties::registerNs(schemaNs, prefix);

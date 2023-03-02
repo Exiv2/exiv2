@@ -864,8 +864,7 @@ void Converter::cnvXmpValue(const char* from, const char* to) {
   }
   // Todo: Escape non-ASCII characters in XMP text values
   ExifKey key(to);
-  Exifdatum ed(key);
-  if (0 == ed.setValue(value)) {
+  if (auto ed = Exifdatum(key); ed.setValue(value) == 0) {
     exifData_->add(ed);
   }
   if (erase_)

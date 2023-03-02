@@ -729,7 +729,7 @@ bool WebPImage::equalsWebPTag(const Exiv2::DataBuf& buf, const char* str) {
  @return Returns void
  */
 void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, uint32_t width,
-                            uint32_t height) {
+                            uint32_t height) const {
   byte size[4] = {0x0A, 0x00, 0x00, 0x00};
   byte data[10] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
   iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE);

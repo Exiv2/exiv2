@@ -418,7 +418,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
           out << std::endl;
           bLF = false;
         }
-        size_t step = (static_cast<size_t>(box_length) - 16) / itemCount;  // length of data per item.
+        auto step = (static_cast<size_t>(box_length) - 16) / itemCount;  // length of data per item.
         size_t base = skip;
         for (uint32_t i = 0; i < itemCount; i++) {
           skip = base + i * step;  // move in 14, 16 or 18 byte steps
@@ -598,9 +598,10 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length, uint64_t start) {
     const size_t eof = std::numeric_limits<size_t>::max();  // impossible value for punt
     size_t punt = eof;
     for (size_t i = 0; i < exif.size() - 9 && punt == eof; ++i) {
-      if (exif.read_uint8(i) == exif.read_uint8(i + 1))
-        if (exif.read_uint8(i) == 'I' || exif.read_uint8(i) == 'M')
-          punt = i;
+      auto charCurrent = exif.read_uint8(i);
+      auto charNext = exif.read_uint8(i + 1);
+      if (charCurrent == charNext && (charCurrent == 'I' || charCurrent == 'M'))
+        punt = i;
     }
     if (punt != eof) {
       Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), exif.c_data(punt), exif.size() - punt,
@@ -651,8 +652,9 @@ void BmffImage::parseXmp(uint64_t length, uint64_t start) {
 }
 
 /// \todo instead of passing the last 4 parameters, pass just one and build the different offsets inside
-void BmffImage::parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, uint8_t version, size_t width_offset,
-                                size_t height_offset, size_t size_offset, size_t relative_position) {
+void BmffImage::parseCr3Preview(const DataBuf& data, std::ostream& out, bool bTrace, uint8_t version,
+                                size_t width_offset, size_t height_offset, size_t size_offset,
+                                size_t relative_position) {
   // Derived from https://github.com/lclevy/canon_cr3
   const size_t here = io_->tell();
   Internal::enforce(here <= std::numeric_limits<size_t>::max() - relative_position, ErrorCode::kerCorruptedMetadata);
@@ -702,7 +704,7 @@ void BmffImage::openOrThrow() {
       throw Error(ErrorCode::kerFailedToReadImageData);
     throw Error(ErrorCode::kerNotAnImage, "BMFF");
   }
-}  // Bmff::openOrThrow();
+}
 
 void BmffImage::readMetadata() {
   openOrThrow();
