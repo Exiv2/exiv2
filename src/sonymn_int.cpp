@@ -645,8 +645,7 @@ static auto getModel(const ExifData* metadata, std::string& val) {
   // NOTE: As using the translated SonyModelID value, need to be synchronized with the array format
   pos = metadata->findKey(ExifKey("Exif.Sony1.SonyModelID"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
-    std::string temp = pos->print(metadata);
-    if (!Internal::contains(temp, ' ')) {
+    if (auto temp = pos->print(metadata); !Internal::contains(temp, ' ')) {
       val = temp;
       return true;
     }
@@ -655,8 +654,7 @@ static auto getModel(const ExifData* metadata, std::string& val) {
   }
   pos = metadata->findKey(ExifKey("Exif.Sony2.SonyModelID"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
-    std::string temp = pos->print(metadata);
-    if (!Internal::contains(temp, ' ')) {
+    if (auto temp = pos->print(metadata); !Internal::contains(temp, ' ')) {
       val = temp;
       return true;
     }
@@ -1128,19 +1126,12 @@ std::ostream& SonyMakerNote::printColorTemperature(std::ostream& os, const Value
     os << "(" << value << ")";
     return os;
   }
-  const auto v0 = value.toUint32(0);
-  switch (v0) {
-    case 0:
-      os << _("Auto");
-      break;
-    case 0xffffffff:
-      os << _("n/a");
-      break;
-    default:
-      os << v0 << " K";
-      break;
-  }
-
+  if (auto v0 = value.toUint32(0); v0 == 0)
+    os << _("Auto");
+  else if (v0 == 0xffffffff)
+    os << _("n/a");
+  else
+    os << v0 << " K";
   return os;
 }
 
@@ -1313,8 +1304,7 @@ std::ostream& SonyMakerNote::printFocusMode(std::ostream& os, const Value& value
   // Only valid for certain models of camera. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2255
 
-  std::string metaVersion;
-  if (!getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000") {
+  if (std::string metaVersion; !getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000") {
     EXV_PRINT_TAG(sonyFocusMode)(os, value.toUint32(0), metadata);
     return os;
   }
@@ -1331,14 +1321,12 @@ std::ostream& SonyMakerNote::printAFMode(std::ostream& os, const Value& value, c
 
   // Only valid for certain models of camera. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2275
-  std::string metaVersion;
-  if (!getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000") {
+  if (std::string metaVersion; !getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000") {
     EXV_PRINT_TAG(sonyAFModeSet1)(os, value.toUint32(0), metadata);
     return os;
   }
 
-  uint32_t focusMode2 = 0;
-  if (getFocusMode2(metadata, focusMode2) && focusMode2 != 0) {
+  if (uint32_t focusMode2 = 0; getFocusMode2(metadata, focusMode2) && focusMode2 != 0) {
     EXV_PRINT_TAG(sonyAFModeSet2)(os, value.toUint32(0), metadata);
     return os;
   }
@@ -1355,8 +1343,7 @@ std::ostream& SonyMakerNote::printFocusMode3(std::ostream& os, const Value& valu
 
   // Only valid for certain models of camera. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2411
-  std::string metaVersion;
-  if (getMetaVersion(metadata, metaVersion) && metaVersion == "DC7303320222000") {
+  if (std::string metaVersion; getMetaVersion(metadata, metaVersion) && metaVersion == "DC7303320222000") {
     EXV_PRINT_TAG(sonyFocusMode3)(os, value.toUint32(0), metadata);
     return os;
   }
@@ -2280,7 +2267,7 @@ const TagInfo* SonyMakerNote::tagList2010e() {
 }
 
 // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
-static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size, TiffComponent* /*object*/,
+static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size, const TiffComponent* /*object*/,
                              bool bDecipher) {
   DataBuf b(bytes, size);  // copy the data
 

@@ -260,14 +260,13 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     sizeWmf = getULong(data + 16, littleEndian);
     posTiff = getULong(data + 20, littleEndian);
     sizeTiff = getULong(data + 24, littleEndian);
-    const uint16_t checksum = getUShort(data + 28, littleEndian);
 #ifdef DEBUG
     EXV_DEBUG << "readWriteEpsMetadata: EPS section at position " << posEps << ", size " << (posEndEps - posEps)
               << "\n";
     EXV_DEBUG << "readWriteEpsMetadata: WMF section at position " << posWmf << ", size " << sizeWmf << "\n";
     EXV_DEBUG << "readWriteEpsMetadata: TIFF section at position " << posTiff << ", size " << sizeTiff << "\n";
 #endif
-    if (checksum != 0xFFFF) {
+    if (uint16_t checksum = getUShort(data + 28, littleEndian); checksum != 0xFFFF) {
 #ifdef DEBUG
       EXV_DEBUG << "readWriteEpsMetadata: DOS EPS checksum is not FFFF\n";
 #endif
@@ -317,8 +316,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #ifdef DEBUG
   EXV_DEBUG << "readWriteEpsMetadata: First line: " << firstLine << "\n";
 #endif
-  auto matched = Exiv2::find(epsFirstLine, firstLine);
-  if (!matched) {
+  if (!Exiv2::find(epsFirstLine, firstLine)) {
     throw Error(ErrorCode::kerNotAnImage, "EPS");
   }
 

@@ -164,8 +164,7 @@ static std::vector<std::string> getLoadedLibraries() {
   char procsz[100];
   char pathsz[500];
   snprintf(procsz, sizeof(procsz), "/proc/%d/path/a.out", getpid());
-  int l = readlink(procsz, pathsz, sizeof(pathsz) - 1);
-  if (l > 0) {
+  if (auto l = readlink(procsz, pathsz, sizeof(pathsz) - 1); l > 0) {
     pathsz[l] = '\0';
     path.assign(pathsz);
     libs.push_back(path);
@@ -431,7 +430,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
 
 #ifdef EXV_USE_CURL
   std::string curl_protocols;
-  curl_version_info_data* vinfo = curl_version_info(CURLVERSION_NOW);
+  auto vinfo = curl_version_info(CURLVERSION_NOW);
   for (int i = 0; vinfo->protocols[i]; i++) {
     curl_protocols += vinfo->protocols[i];
     curl_protocols += " ";

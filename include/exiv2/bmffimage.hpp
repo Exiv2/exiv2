@@ -91,7 +91,7 @@ class EXIV2API BmffImage : public Image {
   @param relative_position Location of the start of image data in the file,
       relative to the current file position indicator.
   */
-  void parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, uint8_t version, size_t width_offset,
+  void parseCr3Preview(const DataBuf& data, std::ostream& out, bool bTrace, uint8_t version, size_t width_offset,
                        size_t height_offset, size_t size_offset, size_t relative_position);
   //@}
 

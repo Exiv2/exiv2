@@ -170,9 +170,9 @@ size_t base64decode(const char* in, char* out, size_t out_size) {
   const auto buff = reinterpret_cast<const unsigned char*>(in);
 
   if (buff[input_length - 1] == '=')
-    (output_length)--;
+    output_length--;
   if (buff[input_length - 2] == '=')
-    (output_length)--;
+    output_length--;
 
   if (output_length + 1 < out_size) {
     for (size_t i = 0, j = 0; i < input_length;) {
@@ -291,8 +291,7 @@ Uri Uri::Parse(const std::string& uri) {
   auto authEnd = std::find(protocolEnd, uriEnd, '@');
   if (authEnd != uriEnd) {
     auto userStart = authStart;
-    auto userEnd = std::find(authStart, authEnd, ':');
-    if (userEnd != authEnd) {
+    if (auto userEnd = std::find(authStart, authEnd, ':'); userEnd != authEnd) {
       result.Username = std::string(userStart, userEnd);
       ++userEnd;
       result.Password = std::string(userEnd, authEnd);

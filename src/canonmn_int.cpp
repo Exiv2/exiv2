@@ -2603,8 +2603,7 @@ std::ostream& CanonMakerNote::printCs0x0002(std::ostream& os, const Value& value
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  const auto l = value.toInt64();
-  if (l == 0) {
+  if (auto l = value.toInt64(); l == 0) {
     os << "Off";
   } else {
     os << l / 10.0 << " s";
@@ -2833,8 +2832,7 @@ std::ostream& CanonMakerNote::printSi0x000e(std::ostream& os, const Value& value
   const auto l = value.toUint32();
   const auto num = (l & 0xf000U) >> 12;
   os << num << " focus points; ";
-  const auto used = l & 0x0fffU;
-  if (used == 0) {
+  if (auto used = l & 0x0fffU; used == 0) {
     os << "none";
   } else {
     EXV_PRINT_TAG_BITMASK(canonSiAFPointUsed)(os, value, pExifData);
@@ -2848,8 +2846,7 @@ std::ostream& CanonMakerNote::printSi0x0013(std::ostream& os, const Value& value
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  const auto l = value.toInt64();
-  if (l == 0xffff) {
+  if (auto l = value.toInt64(); l == 0xffff) {
     os << "Infinite";
   } else {
     os << value.toInt64() / 100.0 << " m";
@@ -2910,8 +2907,7 @@ std::ostream& CanonMakerNote::printFiFocusDistance(std::ostream& os, const Value
   oss.copyfmt(os);
   os << std::fixed << std::setprecision(2);
 
-  const auto l = value.toInt64();
-  if (l == -1) {
+  if (auto l = value.toInt64(); l == -1) {
     os << "Infinite";
   } else {
     os << value.toInt64() / 100.0 << " m";

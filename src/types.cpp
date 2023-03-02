@@ -491,8 +491,7 @@ bool isHex(const std::string& str, size_t size, const std::string& prefix) {
 int exifTime(const char* buf, struct tm* tm) {
   int rc = 1;
   int year = 0, mon = 0, mday = 0, hour = 0, min = 0, sec = 0;
-  int scanned = std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d", &year, &mon, &mday, &hour, &min, &sec);
-  if (scanned == 6) {
+  if (std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d", &year, &mon, &mday, &hour, &min, &sec) == 6) {
     tm->tm_year = year - 1900;
     tm->tm_mon = mon - 1;
     tm->tm_mday = mday;
@@ -557,8 +556,7 @@ int64_t parseInt64(const std::string& s, bool& ok) {
 }
 
 uint32_t parseUint32(const std::string& s, bool& ok) {
-  const int64_t x = parseInt64(s, ok);
-  if (ok && 0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
+  if (auto x = parseInt64(s, ok); ok && 0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
     return static_cast<uint32_t>(x);
   }
   ok = false;

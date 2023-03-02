@@ -74,6 +74,8 @@ class EXIV2API Key {
  protected:
   Key() = default;
   Key(const Key&) = default;
+  Key(Key&&) = default;
+  Key& operator=(Key&&) = default;
   //! @name Manipulators
   //@{
   /*!

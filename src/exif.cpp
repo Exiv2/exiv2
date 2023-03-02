@@ -168,9 +168,8 @@ std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) cons
     return os;
 
   PrintFct fct = printValue;
-  const TagInfo* ti = Internal::tagInfo(tag(), static_cast<IfdId>(ifdId()));
   // be careful with comments (User.Photo.UserComment, GPSAreaInfo etc).
-  if (ti) {
+  if (auto ti = Internal::tagInfo(tag(), ifdId())) {
     fct = ti->printFct_;
     if (ti->typeId_ == comment) {
       os << value().toString();
@@ -303,7 +302,7 @@ IfdId Exifdatum::ifdId() const {
 }
 
 const char* Exifdatum::ifdName() const {
-  return key_ ? Internal::ifdName(static_cast<IfdId>(key_->ifdId())) : "";
+  return key_ ? Internal::ifdName(key_->ifdId()) : "";
 }
 
 int Exifdatum::idx() const {
@@ -683,8 +682,7 @@ Thumbnail::UniquePtr Thumbnail::create(const Exiv2::ExifData& exifData) {
   if (pos != exifData.end()) {
     if (pos->count() == 0)
       return nullptr;
-    auto compression = pos->toInt64();
-    if (compression == 6)
+    if (pos->toInt64() == 6)
       return std::make_unique<JpegThumbnail>();
     return std::make_unique<TiffThumbnail>();
   }

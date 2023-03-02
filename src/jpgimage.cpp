@@ -403,7 +403,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
           }
 
           enforce(start <= size, ErrorCode::kerInvalidXmpText);
-          out.write(reinterpret_cast<const char*>(&xmp[start]), size - start);
+          out.write(&xmp[start], size - start);
           done = !bExtXMP;
         } else if (option == kpsIccProfile && signature == iccId_) {
           // extract ICCProfile
@@ -531,13 +531,13 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
     // binary copy io_ to a temporary file
     MemIo tempIo;
     size_t start = 0;
-    for (const auto& p : iptcDataSegs) {
-      const size_t length = p.first - start;
+    for (const auto& [l, s] : iptcDataSegs) {
+      const size_t length = l - start;
       io_->seekOrThrow(start, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
       DataBuf buf(length);
       io_->readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
       tempIo.write(buf.c_data(), buf.size());
-      start = p.second + 2;  // skip the 2 byte marker
+      start = s + 2;  // skip the 2 byte marker
     }
 
     io_->seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);

@@ -340,8 +340,7 @@ void FileIo::transfer(BasicIo& src) {
   const bool wasOpen = (p_->fp_ != nullptr);
   const std::string lastMode(p_->openMode_);
 
-  auto fileIo = dynamic_cast<FileIo*>(&src);
-  if (fileIo) {
+  if (auto fileIo = dynamic_cast<FileIo*>(&src)) {
     // Optimization if src is another instance of FileIo
     fileIo->close();
     // Check if the file can be written to, if it already exists
@@ -485,9 +484,7 @@ size_t FileIo::size() const {
   }
 
   Impl::StructStat buf;
-  int ret = p_->stat(buf);
-
-  if (ret != 0)
+  if (p_->stat(buf))
     return std::numeric_limits<size_t>::max();
   return buf.st_size;
 }
@@ -613,7 +610,7 @@ class EXIV2API BlockMap {
   //! @brief Populate the block.
   //! @param source The data populate to the block
   //! @param num The size of data
-  void populate(byte* source, size_t num) {
+  void populate(const byte* source, size_t num) {
     size_ = num;
     data_ = new byte[size_];
     type_ = bMemory;
@@ -712,8 +709,7 @@ size_t MemIo::write(const byte* data, size_t wcount) {
 }
 
 void MemIo::transfer(BasicIo& src) {
-  auto memIo = dynamic_cast<MemIo*>(&src);
-  if (memIo) {
+  if (auto memIo = dynamic_cast<MemIo*>(&src)) {
     // Optimization if src is another instance of MemIo
     if (p_->isMalloced_) {
       std::free(p_->data_);
@@ -1176,7 +1172,7 @@ size_t RemoteIo::write(BasicIo& src) {
     size_t blockSize = p_->blocksMap_[blockIndex].getSize();
     bool isFakeData = p_->blocksMap_[blockIndex].isKnown();  // fake data
     size_t readCount = src.read(buf.data(), blockSize);
-    byte* blockData = p_->blocksMap_[blockIndex].getData();
+    auto blockData = p_->blocksMap_[blockIndex].getData();
     for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
       if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
         findDiff = true;
@@ -1198,7 +1194,7 @@ size_t RemoteIo::write(BasicIo& src) {
     } else {
       bool isFakeData = p_->blocksMap_[blockIndex].isKnown();  // fake data
       size_t readCount = src.read(buf.data(), blockSize);
-      byte* blockData = p_->blocksMap_[blockIndex].getData();
+      auto blockData = p_->blocksMap_[blockIndex].getData();
       for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
         if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) ||
             (isFakeData && buf[readCount - i - 1] != 0)) {
@@ -1211,8 +1207,7 @@ size_t RemoteIo::write(BasicIo& src) {
   }
 
   // submit to the remote machine.
-  auto dataSize = src.size() - left - right;
-  if (dataSize > 0) {
+  if (auto dataSize = src.size() - left - right; dataSize > 0) {
     std::vector<byte> data(dataSize);
     src.seek(left, BasicIo::beg);
     src.read(data.data(), dataSize);
@@ -1255,7 +1250,7 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
   size_t startPos = p_->idx_ - lowBlock * p_->blockSize_;
   size_t totalRead = 0;
   do {
-    byte* data = p_->blocksMap_[iBlock++].getData();
+    auto data = p_->blocksMap_[iBlock++].getData();
     if (!data)
       data = fakeData;
     auto blockR = std::min<size_t>(allow, p_->blockSize_ - startPos);
@@ -1283,7 +1278,7 @@ int RemoteIo::getb() {
   // connect to the remote machine & populate the blocks just in time.
   p_->populateBlocks(expectedBlock, expectedBlock);
 
-  byte* data = p_->blocksMap_[expectedBlock].getData();
+  auto data = p_->blocksMap_[expectedBlock].getData();
   return data[p_->idx_++ - expectedBlock * p_->blockSize_];
 }
 
@@ -1600,8 +1595,7 @@ int64_t CurlIo::CurlImpl::getFileLength() {
   // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
 
   /* Perform the request, res will get the return code */
-  CURLcode res = curl_easy_perform(curl_);
-  if (res != CURLE_OK) {  // error happened
+  if (auto res = curl_easy_perform(curl_); res != CURLE_OK) {  // error happened
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
   // get status
@@ -1636,9 +1630,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
   }
 
   /* Perform the request, res will get the return code */
-  CURLcode res = curl_easy_perform(curl_);
-
-  if (res != CURLE_OK) {
+  if (auto res = curl_easy_perform(curl_); res != CURLE_OK) {
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
   int serverCode;
@@ -1687,9 +1679,7 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
 
   curl_easy_setopt(curl_, CURLOPT_POSTFIELDS, postData.c_str());
   // Perform the request, res will get the return code.
-  CURLcode res = curl_easy_perform(curl_);
-
-  if (res != CURLE_OK) {
+  if (auto res = curl_easy_perform(curl_); res != CURLE_OK) {
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
   int serverCode;
@@ -1736,8 +1726,7 @@ DataBuf readFile(const std::string& path) {
     throw Error(ErrorCode::kerCallFailed, path, strError(), "::stat");
   }
   DataBuf buf(st.st_size);
-  const size_t len = file.read(buf.data(), buf.size());
-  if (len != buf.size()) {
+  if (file.read(buf.data(), buf.size()) != buf.size()) {
     throw Error(ErrorCode::kerCallFailed, path, strError(), "FileIo::read");
   }
   return buf;

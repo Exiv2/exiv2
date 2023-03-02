@@ -376,9 +376,9 @@ std::string CommentValue::comment(const char* encoding) const {
     if (!convertStringCharset(c, from, "UTF-8"))
       throw Error(ErrorCode::kerInvalidIconvEncoding, encoding, "UTF-8");
   }
-  bool bAscii = charsetId() == undefined || charsetId() == ascii;
+
   // # 1266 Remove trailing nulls
-  if (bAscii) {
+  if (charsetId() == undefined || charsetId() == ascii) {
     auto n = c.find('\0');
     if (n != std::string::npos)
       c.resize(n);
@@ -667,8 +667,7 @@ int LangAltValue::read(const std::string& buf) {
       throw Error(ErrorCode::kerInvalidLangAltValue, buf);
 
     // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
-    std::string::size_type charPos = lang.find_first_not_of(ALPHA);
-    if (charPos != std::string::npos) {
+    if (auto charPos = lang.find_first_not_of(ALPHA); charPos != std::string::npos) {
       static constexpr auto ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos + 1) != std::string::npos)
         throw Error(ErrorCode::kerInvalidLangAltValue, buf);
@@ -695,8 +694,7 @@ std::ostream& LangAltValue::write(std::ostream& os) const {
   bool first = true;
 
   // Write the default entry first
-  auto i = value_.find("x-default");
-  if (i != value_.end()) {
+  if (auto i = value_.find("x-default"); i != value_.end()) {
     os << "lang=\"" << i->first << "\" " << i->second;
     first = false;
   }
@@ -718,8 +716,7 @@ std::string LangAltValue::toString(size_t /*n*/) const {
 }
 
 std::string LangAltValue::toString(const std::string& qualifier) const {
-  auto i = value_.find(qualifier);
-  if (i != value_.end()) {
+  if (auto i = value_.find(qualifier); i != value_.end()) {
     ok_ = true;
     return i->second;
   }
@@ -889,8 +886,7 @@ int TimeValue::read(const std::string& buf) {
   static const std::regex reExt(
       R"(^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$)");
 
-  std::smatch sm;
-  if (std::regex_match(buf, sm, re) || std::regex_match(buf, sm, reExt)) {
+  if (std::smatch sm; std::regex_match(buf, sm, re) || std::regex_match(buf, sm, reExt)) {
     time_.hour = sm.length(1) ? std::stoi(sm[1].str()) : 0;
     time_.minute = sm.length(2) ? std::stoi(sm[2].str()) : 0;
     time_.second = sm.length(3) ? std::stoi(sm[3].str()) : 0;

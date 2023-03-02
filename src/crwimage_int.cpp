@@ -929,8 +929,7 @@ void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, Ciff
 void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
   time_t t = 0;
   const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-  const auto ed = image.exifData().findKey(key);
-  if (ed != image.exifData().end()) {
+  if (auto ed = image.exifData().findKey(key); ed != image.exifData().end()) {
     struct tm tm = {};
     if (exifTime(ed->toString().c_str(), &tm) == 0) {
       t = ::mktime(&tm);
