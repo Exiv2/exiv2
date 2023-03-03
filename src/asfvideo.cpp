@@ -294,6 +294,7 @@ void AsfVideo::decodeHeader() {
   io_->read(nbHeadersBuf.data(), DWORD);
 
   uint32_t nb_headers = Exiv2::getULong(nbHeadersBuf.data(), littleEndian);
+  Internal::enforce(nb_headers < std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
   io_->seekOrThrow(io_->tell() + BYTE * 2, BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // skip two reserved tags
   for (uint32_t i = 0; i < nb_headers; i++) {
