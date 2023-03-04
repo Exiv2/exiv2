@@ -279,12 +279,19 @@ void AsfVideo::decodeBlock() {
       DegradableJPEGMedia();
     else  // tag found but not processed
     {
-      io_->seekOrThrow(io_->tell() + objectHeader.getRemainingSize(), BasicIo::beg,
-                       ErrorCode::kerFailedToReadImageData);
+      // Make sure that the remaining size is non-zero, so that we won't
+      // keep revisiting the same location in the file.
+      const uint64_t remaining_size = objectHeader.getRemainingSize();
+      Internal::enforce(remaining_size > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+      io_->seekOrThrow(io_->tell() + remaining_size, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
     }
   } else  // tag not found
   {
-    io_->seekOrThrow(io_->tell() + objectHeader.getRemainingSize(), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+    // Make sure that the remaining size is non-zero, so that we won't keep
+    // revisiting the same location in the file.
+    const uint64_t remaining_size = objectHeader.getRemainingSize();
+    Internal::enforce(remaining_size > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+    io_->seekOrThrow(io_->tell() + remaining_size, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
   }
 
 }  // AsfVideo::decodeBlock
