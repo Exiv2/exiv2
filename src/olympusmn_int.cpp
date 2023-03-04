@@ -1426,7 +1426,7 @@ std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& val
 //! OlympusCs FocusMode, tag 0x0301
 // (1 or 2 values)
 std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& value, const ExifData*) {
-  using mode = struct {
+  struct mode {
     uint16_t tag;
     const char* name;
   };
@@ -1538,20 +1538,18 @@ std::ostream& OlympusMakerNote::print0x0305(std::ostream& os, const Value& value
 
 // Olympus FocusInfo tag 0x0308 AFPoint
 std::ostream& OlympusMakerNote::print0x0308(std::ostream& os, const Value& value, const ExifData* metadata) {
-  using point = struct {
+  static constexpr struct point {
     uint16_t p;
     const char* name;
-  };
-  static constexpr point afPoints[] = {
+  } afPoints[] = {
       {0, N_("Left (or n/a)")}, {1, N_("Center (horizontal)")}, {2, N_("Right")}, {3, N_("Center (vertical)")},
       {255, N_("None")},
   };
 
-  using pointE3 = struct {
+  static constexpr struct pointE3 {
     byte p;
     const char* name;
-  };
-  static constexpr pointE3 afPointsE3[] = {
+  } afPointsE3[] = {
       {0x00, N_("None")},
       {0x01, N_("Top-left (horizontal)")},
       {0x02, N_("Top-center (horizontal)")},

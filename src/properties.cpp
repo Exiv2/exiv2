@@ -4939,8 +4939,7 @@ void XmpProperties::registerNs(const std::string& ns, const std::string& prefix)
   if (ns2.back() != '/' && ns2.back() != '#')
     ns2 += '/';
   // Check if there is already a registered namespace with this prefix
-  const XmpNsInfo* xnp = lookupNsRegistryUnsafe(XmpNsInfo::Prefix{prefix});
-  if (xnp) {
+  if (auto xnp = lookupNsRegistryUnsafe(XmpNsInfo::Prefix{prefix})) {
 #ifndef SUPPRESS_WARNINGS
     if (ns2 != xnp->ns_)
       EXV_WARNING << "Updating namespace URI for " << prefix << " from " << xnp->ns_ << " to " << ns2 << "\n";
@@ -5006,8 +5005,7 @@ std::string XmpProperties::prefix(const std::string& ns) {
 
 std::string XmpProperties::ns(const std::string& prefix) {
   auto scoped_read_lock = std::scoped_lock(mutex_);
-  const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix{prefix});
-  if (xn)
+  if (auto xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix{prefix}))
     return xn->ns_;
   return nsInfoUnsafe(prefix)->ns_;
 }
@@ -5031,8 +5029,7 @@ const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key) {
   std::string prefix = key.groupName();
   std::string property = key.tagName();
   // If property is a path for a nested property, determines the innermost element
-  std::string::size_type i = property.find_last_of('/');
-  if (i != std::string::npos) {
+  if (auto i = property.find_last_of('/'); i != std::string::npos) {
     for (; i != std::string::npos && !isalpha(property.at(i)); ++i) {
     }
     property = property.substr(i);
@@ -5212,8 +5209,7 @@ void XmpKey::Impl::decomposeKey(const std::string& key) {
   std::string::size_type pos1 = key.find('.');
   if (pos1 == std::string::npos)
     throw Error(ErrorCode::kerInvalidKey, key);
-  std::string familyName = key.substr(0, pos1);
-  if (familyName != familyName_)
+  if (key.substr(0, pos1) != familyName_)
     throw Error(ErrorCode::kerInvalidKey, key);
   std::string::size_type pos0 = pos1 + 1;
   pos1 = key.find('.', pos0);

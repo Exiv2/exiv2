@@ -137,18 +137,16 @@ std::string BmffImage::mimeType() const {
 
 uint32_t BmffImage::pixelWidth() const {
   auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-  if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-    return imageWidth->toUint32();
-  }
-  return pixelWidth_;
+  if (imageWidth == exifData_.end() || imageWidth->count() == 0)
+    return pixelWidth_;
+  return imageWidth->toUint32();
 }
 
 uint32_t BmffImage::pixelHeight() const {
   auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-  if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-    return imageHeight->toUint32();
-  }
-  return pixelHeight_;
+  if (imageHeight == exifData_.end() || imageHeight->count() == 0)
+    return pixelHeight_;
+  return imageHeight->toUint32();
 }
 
 std::string BmffImage::uuidName(const Exiv2::DataBuf& uuid) {
@@ -254,13 +252,13 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 
   size_t hdrsize = sizeof(hdrbuf);
   Internal::enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
-  if (io_->read(reinterpret_cast<byte*>(&hdrbuf), sizeof(hdrbuf)) != sizeof(hdrbuf))
+  if (io_->read(hdrbuf, sizeof(hdrbuf)) != sizeof(hdrbuf))
     return pbox_end;
 
   // The box length is encoded as a uint32_t by default, but the special value 1 means
   // that it's a uint64_t.
-  uint64_t box_length = getULong(reinterpret_cast<byte*>(&hdrbuf[0]), endian_);
-  uint32_t box_type = getULong(reinterpret_cast<byte*>(&hdrbuf[sizeof(uint32_t)]), endian_);
+  uint64_t box_length = getULong(&hdrbuf[0], endian_);
+  uint32_t box_type = getULong(&hdrbuf[sizeof(uint32_t)], endian_);
   bool bLF = true;
 
   if (bTrace) {

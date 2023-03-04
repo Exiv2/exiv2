@@ -462,7 +462,7 @@ XmpData::const_iterator XmpData::end() const {
 }
 
 bool XmpData::empty() const {
-  return count() == 0;
+  return xmpMetadata_.empty();
 }
 
 long XmpData::count() const {
@@ -685,7 +685,9 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
     XMLValidator::check(xmpPacket.data(), len);
     SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(len));
     SXMPIterator iter(meta);
-    std::string schemaNs, propPath, propValue;
+    std::string schemaNs;
+    std::string propPath;
+    std::string propValue;
     XMP_OptionBits opt = 0;
     while (iter.Next(&schemaNs, &propPath, &propValue, &opt)) {
       printNode(schemaNs, propPath, propValue, opt);
@@ -734,7 +736,9 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
         // Check if all elements are simple
         bool simpleArray = true;
         SXMPIterator aIter(meta, schemaNs.c_str(), propPath.c_str());
-        std::string aSchemaNs, aPropPath, aPropValue;
+        std::string aSchemaNs;
+        std::string aPropPath;
+        std::string aPropValue;
         XMP_OptionBits aOpt = 0;
         while (aIter.Next(&aSchemaNs, &aPropPath, &aPropValue, &aOpt)) {
           if (propPath == aPropPath)

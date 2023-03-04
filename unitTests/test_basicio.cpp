@@ -144,27 +144,27 @@ TEST(MemIo, readEmptyIoReturns0) {
 }
 
 TEST(MemIo, readLessBytesThanAvailableReturnsRequestedBytes) {
-  std::array<byte, 10> buf1, buf2;
+  std::array<byte, 10> buf1;
+  std::array<byte, 10> buf2 = {};
   buf1.fill(1);
-  buf2.fill(0);
 
   MemIo io(buf1.data(), buf1.size());
   ASSERT_EQ(5, io.read(buf2.data(), 5));
 }
 
 TEST(MemIo, readSameBytesThanAvailableReturnsRequestedBytes) {
-  std::array<byte, 10> buf1, buf2;
+  std::array<byte, 10> buf1;
+  std::array<byte, 10> buf2 = {};
   buf1.fill(1);
-  buf2.fill(0);
 
   MemIo io(buf1.data(), buf1.size());
   ASSERT_EQ(10, io.read(buf2.data(), 10));
 }
 
 TEST(MemIo, readMoreBytesThanAvailableReturnsAvailableBytes) {
-  std::array<byte, 10> buf1, buf2;
+  std::array<byte, 10> buf1;
+  std::array<byte, 10> buf2 = {};
   buf1.fill(1);
-  buf2.fill(0);
 
   MemIo io(buf1.data(), buf1.size());
   ASSERT_EQ(10, io.read(buf2.data(), 15));

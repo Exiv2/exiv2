@@ -76,9 +76,7 @@ static int forgive(int n, int& err) {
   if (n == 0)
     return FINISH;  // server hungup
 #endif
-  bool bForgive = err == WSAEWOULDBLOCK || err == WSAENOTCONN;
-  bool bError = n == SOCKET_ERROR;
-  if (bError && bForgive)
+  if (n == SOCKET_ERROR && (err == WSAEWOULDBLOCK || err == WSAENOTCONN))
     return 0;
   return n;
 }

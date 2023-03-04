@@ -599,11 +599,9 @@ void QuickTimeVideo::decodeBlock(std::string const& entered_from) {
     hdrsize += 8;
     io_->readOrThrow(data.data(), data.size());
     size = data.read_uint64(0, bigEndian);
-  } else if (size == 0) {
-    if (entered_from == "meta") {
-      size = buf.read_uint32(0, bigEndian);
-      io_->readOrThrow(buf.data(), 4, Exiv2::ErrorCode::kerCorruptedMetadata);
-    }
+  } else if (size == 0 && entered_from == "meta") {
+    size = buf.read_uint32(0, bigEndian);
+    io_->readOrThrow(buf.data(), 4, Exiv2::ErrorCode::kerCorruptedMetadata);
   }
 
   enforce(size >= hdrsize, Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -745,7 +743,8 @@ void QuickTimeVideo::keysTagDecoder(size_t size) {
 }  // QuickTimeVideo::keysTagDecoder
 
 void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
-  DataBuf buf(4), buf2(2);
+  DataBuf buf(4);
+  DataBuf buf2(2);
   size_t cur_pos = io_->tell();
   byte n = 3;
 
@@ -794,7 +793,8 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
 
 void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
   size_t cur_pos = io_->tell();
-  DataBuf buf(50), buf2(4);
+  DataBuf buf(50);
+  DataBuf buf2(4);
   const TagDetails* td;
 
   io_->readOrThrow(buf.data(), 4);
@@ -839,7 +839,8 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
 void QuickTimeVideo::userDataDecoder(size_t size_external) {
   size_t cur_pos = io_->tell();
   const TagVocabulary* td;
-  const TagVocabulary *tv, *tv_internal;
+  const TagVocabulary* tv;
+  const TagVocabulary* tv_internal;
 
   const long bufMinSize = 100;
   DataBuf buf(bufMinSize);
@@ -905,10 +906,13 @@ void QuickTimeVideo::userDataDecoder(size_t size_external) {
 
 void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
   size_t cur_pos = io_->tell();
-  DataBuf buf(200), buf2(4 + 1);
+  DataBuf buf(200);
+  DataBuf buf2(4 + 1);
   uint32_t TagID = 0;
-  uint16_t dataLength = 0, dataType = 2;
-  const TagDetails *td, *td2;
+  uint16_t dataLength = 0;
+  uint16_t dataType = 2;
+  const TagDetails* td;
+  const TagDetails* td2;
 
   for (int i = 0; i < 100; i++) {
     io_->readOrThrow(buf.data(), 4);
@@ -1140,7 +1144,8 @@ void QuickTimeVideo::timeToSampleDecoder() {
   DataBuf buf(4 + 1);
   io_->readOrThrow(buf.data(), 4);
   io_->readOrThrow(buf.data(), 4);
-  uint64_t totalframes = 0, timeOfFrames = 0;
+  uint64_t totalframes = 0;
+  uint64_t timeOfFrames = 0;
   const uint32_t noOfEntries = buf.read_uint32(0, bigEndian);
 
   for (uint32_t i = 0; i < noOfEntries; i++) {
@@ -1604,8 +1609,7 @@ bool isQTimeType(BasicIo& iIo, bool advance) {
       // we only match if we actually know the video type. This is done
       // to avoid matching just on ftyp because bmffimage also has that
       // header.
-      auto td = Exiv2::find(qTimeFileType, std::string{buf.c_str(8), 4});
-      if (td) {
+      if (Exiv2::find(qTimeFileType, std::string{buf.c_str(8), 4})) {
         matched = true;
       }
       break;

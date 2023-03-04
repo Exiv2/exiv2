@@ -48,7 +48,7 @@ class EXIV2API RiffVideo : public Image {
     uint64_t size_ = 0;
 
    public:
-    explicit HeaderReader(BasicIo::UniquePtr& io);
+    explicit HeaderReader(const BasicIo::UniquePtr& io);
 
     [[nodiscard]] uint64_t getSize() const {
       return size_;
@@ -59,9 +59,9 @@ class EXIV2API RiffVideo : public Image {
     }
   };
 
-  void readList(HeaderReader& header_);
+  void readList(const HeaderReader& header_);
 
-  void readChunk(HeaderReader& header_);
+  void readChunk(const HeaderReader& header_);
 
   void decodeBlocks();
 

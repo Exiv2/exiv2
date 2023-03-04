@@ -149,7 +149,8 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
 
   readPgfHeaderSize(*io_);
 
-  uint32_t w = 0, h = 0;
+  uint32_t w = 0;
+  uint32_t h = 0;
   DataBuf header = readPgfHeaderStructure(*io_, w, h);
 
   auto img = ImageFactory::create(ImageType::png);
@@ -268,9 +269,8 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
   byte bpp      = buffer.pData_[10];
   byte channels = buffer.pData_[11];
   */
-  byte mode = header.read_uint8(12);
 
-  if (mode == 2)  // Indexed color image. We pass color table (256 * 3 bytes).
+  if (header.read_uint8(12) == 2)  // Indexed color image. We pass color table (256 * 3 bytes).
   {
     header.alloc(16 + 256 * 3);
 

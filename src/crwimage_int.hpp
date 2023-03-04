@@ -20,7 +20,7 @@ namespace Exiv2::Internal {
 class CiffHeader;
 class CiffComponent;
 struct CrwMapping;
-using CrwSubDir = struct {
+struct CrwSubDir {
   uint16_t dir;
   uint16_t parent;
 };
@@ -287,19 +287,7 @@ class CiffComponent {
          a CRW (Canon Raw data) image.
  */
 class CiffEntry : public CiffComponent {
- public:
-  //! @name Creators
-  //@{
-  //! Default constructor
-  CiffEntry() = default;
-  //! Constructor taking a tag and directory
-  CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {
-  }
-  //@}
-
-  // Default assignment operator is fine
-
- private:
+  using CiffComponent::CiffComponent;
   //! @name Manipulators
   //@{
   using CiffComponent::doAdd;
@@ -322,15 +310,11 @@ class CiffEntry : public CiffComponent {
 
 //! This class models a CIFF directory of a CRW (Canon Raw data) image.
 class CiffDirectory : public CiffComponent {
+  using CiffComponent::CiffComponent;
+
  public:
   //! @name Creators
   //@{
-  //! Default constructor
-  CiffDirectory() = default;
-  //! Constructor taking a tag and directory
-  CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {
-  }
-
   //! Virtual destructor
   ~CiffDirectory() override;
   //@}

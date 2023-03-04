@@ -362,22 +362,22 @@ void AsfVideo::DegradableJPEGMedia() {
 void AsfVideo::streamProperties() {
   DataBuf streamTypedBuf = io_->read(GUID);
 
-  enum streamTypeInfo { Audio = 1, Video = 2 };
-  int stream = 0;
+  enum class streamTypeInfo { Audio = 1, Video = 2 };
+  auto stream = static_cast<streamTypeInfo>(0);
 
   auto tag_stream_type = GUIDReferenceTags.find(GUIDTag(streamTypedBuf.data()));
   if (tag_stream_type != GUIDReferenceTags.end()) {
     if (tag_stream_type->second == "Audio_Media")
-      stream = Audio;
+      stream = streamTypeInfo::Audio;
     else if (tag_stream_type->second == "Video_Media")
-      stream = Video;
+      stream = streamTypeInfo::Video;
 
     io_->seek(io_->tell() + GUID, BasicIo::beg);  // ignore Error Correction Type
 
     uint64_t time_offset = readQWORDTag(io_);
-    if (stream == Video)
+    if (stream == streamTypeInfo::Video)
       xmpData()["Xmp.video.TimeOffset"] = time_offset;
-    else if (stream == Audio)
+    else if (stream == streamTypeInfo::Audio)
       xmpData()["Xmp.audio.TimeOffset"] = time_offset;
 
     auto specific_data_length = readDWORDTag(io_);
@@ -396,12 +396,10 @@ void AsfVideo::codecList() {
     uint16_t codec_type = readWORDTag(io_) * 2;
     std::string codec = (codec_type == 1) ? "Xmp.video" : "Xmp.audio";
 
-    uint16_t codec_name_length = readWORDTag(io_) * 2;
-    if (codec_name_length)
+    if (uint16_t codec_name_length = readWORDTag(io_) * 2)
       xmpData()[codec + std::string(".CodecName")] = readStringWcharTag(io_, codec_name_length);
 
-    uint16_t codec_desc_length = readWORDTag(io_);
-    if (codec_desc_length)
+    if (uint16_t codec_desc_length = readWORDTag(io_))
       xmpData()[codec + std::string(".CodecDescription")] = readStringWcharTag(io_, codec_desc_length);
 
     uint16_t codec_info_length = readWORDTag(io_);
@@ -422,13 +420,11 @@ void AsfVideo::extendedContentDescription() {
   std::string value;
 
   for (uint16_t i = 0; i < content_descriptor_count; i++) {
-    uint16_t descriptor_name_length = readWORDTag(io_);
-    if (descriptor_name_length)
+    if (uint16_t descriptor_name_length = readWORDTag(io_))
       value += readStringWcharTag(io_, descriptor_name_length);  // Descriptor Name
 
     uint16_t descriptor_value_data_type = readWORDTag(io_);
-    uint16_t descriptor_value_length = readWORDTag(io_);
-    if (descriptor_value_length) {
+    if (uint16_t descriptor_value_length = readWORDTag(io_)) {
       // Descriptor Value
       switch (descriptor_value_data_type) {
         case 0 /*Unicode string */:
@@ -448,7 +444,6 @@ void AsfVideo::extendedContentDescription() {
           break;
         case 5 /*WORD*/:
           value += std::string(": ") + std::to_string(readWORDTag(io_));
-          ;
           break;
       }
     }

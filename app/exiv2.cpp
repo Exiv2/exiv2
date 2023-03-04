@@ -1092,7 +1092,9 @@ cleanup:
 // local implementations
 namespace {
 bool parseTime(const std::string& ts, int64_t& time) {
-  std::string hstr, mstr, sstr;
+  std::string hstr;
+  std::string mstr;
+  std::string sstr;
   auto cts = new char[ts.length() + 1];
   strcpy(cts, ts.c_str());
   auto tmp = ::strtok(cts, ":");
@@ -1107,7 +1109,9 @@ bool parseTime(const std::string& ts, int64_t& time) {
   delete[] cts;
 
   int sign = 1;
-  int64_t hh(0), mm(0), ss(0);
+  int64_t hh = 0;
+  int64_t mm = 0;
+  int64_t ss = 0;
   // [-]HH part
   if (!Util::strtol(hstr.c_str(), hh))
     return false;

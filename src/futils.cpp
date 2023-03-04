@@ -105,7 +105,8 @@ std::string urlencode(const std::string& str) {
 }
 
 void urldecode(std::string& str) {
-  size_t idxIn{0}, idxOut{0};
+  size_t idxIn{0};
+  size_t idxOut{0};
   size_t sizeStr = str.size();
   while (idxIn < sizeStr) {
     if (str[idxIn] == '%') {
@@ -234,9 +235,8 @@ std::string strError() {
 #ifdef EXV_HAVE_STRERROR_R
   const size_t n = 1024;
 #ifdef EXV_STRERROR_R_CHAR_P
-  char* buf = nullptr;
   char buf2[n] = {};
-  buf = strerror_r(error, buf2, n);
+  auto buf = strerror_r(error, buf2, n);
 #else
   char buf[n] = {};
   const int ret = strerror_r(error, buf, n);

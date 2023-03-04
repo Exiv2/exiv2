@@ -1036,8 +1036,8 @@ std::ostream& SonyMakerNote::printWBShiftABGMPrecise(std::ostream& os, const Val
   }
   std::ios::fmtflags f(os.flags());
 
-  const auto temp0 = static_cast<double>(value.toInt64(0)) / (1000.0);
-  const auto temp1 = static_cast<double>(value.toInt64(1)) / (1000.0);
+  const auto temp0 = static_cast<double>(value.toInt64(0)) / 1000.0;
+  const auto temp1 = static_cast<double>(value.toInt64(1)) / 1000.0;
 
   os << "A/B: ";
   if (temp0 == 0) {

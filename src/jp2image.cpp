@@ -353,8 +353,7 @@ void Jp2Image::readMetadata() {
               throw Error(ErrorCode::kerInputDataReadFailed);
             xmpPacket_.assign(rawData.c_str(), rawData.size());
 
-            std::string::size_type idx = xmpPacket_.find_first_of('<');
-            if (idx != std::string::npos && idx > 0) {
+            if (auto idx = xmpPacket_.find_first_of('<'); idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
               EXV_WARNING << "Removing " << static_cast<uint32_t>(idx)
                           << " characters from the beginning of the XMP packet" << std::endl;

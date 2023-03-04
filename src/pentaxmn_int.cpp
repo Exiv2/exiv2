@@ -964,9 +964,7 @@ std::ostream& PentaxMakerNote::printFlashCompensation(std::ostream& os, const Va
 }
 
 std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& value, const ExifData*) {
-  const auto l0 = value.toUint32(0);
-
-  if (l0 < 10) {
+  if (auto l0 = value.toUint32(0); l0 < 10) {
     os << std::setprecision(2) << static_cast<float>(l0) / 3 << " EV";
   } else {
     os << std::setprecision(2) << static_cast<float>(l0) - 9.5F << " EV";

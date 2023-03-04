@@ -342,12 +342,7 @@ Loader::Loader(PreviewId id, const Image& image) : id_(id), image_(image) {
 }
 
 PreviewProperties Loader::getProperties() const {
-  PreviewProperties prop;
-  prop.id_ = id_;
-  prop.size_ = size_;
-  prop.width_ = width_;
-  prop.height_ = height_;
-  return prop;
+  return {"", "", size_, width_, height_, id_};
 }
 
 PreviewId Loader::getNumLoaders() {
@@ -548,8 +543,7 @@ bool LoaderExifJpeg::readDimensions() {
 
 LoaderExifDataJpeg::LoaderExifDataJpeg(PreviewId id, const Image& image, int parIdx) :
     Loader(id, image), dataKey_(param_[parIdx].dataKey_) {
-  auto pos = image_.exifData().findKey(dataKey_);
-  if (pos != image_.exifData().end()) {
+  if (auto pos = image_.exifData().findKey(dataKey_); pos != image_.exifData().end()) {
     size_ = pos->sizeDataArea();  // indirect data
     if (size_ == 0 && pos->typeId() == undefined)
       size_ = pos->size();  // direct data
@@ -576,8 +570,7 @@ DataBuf LoaderExifDataJpeg::getData() const {
   if (!valid())
     return {};
 
-  auto pos = image_.exifData().findKey(dataKey_);
-  if (pos != image_.exifData().end()) {
+  if (auto pos = image_.exifData().findKey(dataKey_); pos != image_.exifData().end()) {
     DataBuf buf = pos->dataArea();  // indirect data
 
     if (buf.empty()) {  // direct data
@@ -706,7 +699,7 @@ DataBuf LoaderTiff::getData() const {
     }
   }
 
-  Value& dataValue = const_cast<Value&>(preview["Exif.Image." + offsetTag_].value());
+  auto& dataValue = const_cast<Value&>(preview["Exif.Image." + offsetTag_].value());
 
   if (dataValue.sizeDataArea() == 0) {
     // image data are not available via exifData, read them from image_.io()
@@ -868,7 +861,7 @@ DataBuf decodeBase64(const std::string& src) {
 
   // calculate dest size
   auto validSrcSize = static_cast<unsigned long>(
-      std::count_if(src.begin(), src.end(), [=](unsigned char c) { return decodeBase64Table.at(c) != invalid; }));
+      std::count_if(src.begin(), src.end(), [&](unsigned char c) { return decodeBase64Table.at(c) != invalid; }));
   if (validSrcSize > ULONG_MAX / 3)
     return {};  // avoid integer overflow
   const unsigned long destSize = (validSrcSize * 3) / 4;
@@ -936,8 +929,7 @@ DataBuf decodeAi7Thumbnail(const DataBuf& src) {
 }
 
 DataBuf makePnm(size_t width, size_t height, const DataBuf& rgb) {
-  const size_t expectedSize = width * height * 3UL;
-  if (rgb.size() != expectedSize) {
+  if (size_t expectedSize = width * height * 3UL; rgb.size() != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size()
                 << " bytes.\n";

@@ -159,7 +159,11 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   }
 
   // Reopen the file
-  long offset = std::ftell(fp_);
+#ifdef _WIN32
+  auto offset = _ftelli64(fp_);
+#else
+  auto offset = ftello(fp_);
+#endif
   if (offset == -1)
     return -1;
   // 'Manual' open("r+b") to avoid munmap()
@@ -172,7 +176,11 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   fp_ = std::fopen(path_.c_str(), openMode_.c_str());
   if (!fp_)
     return 1;
-  return std::fseek(fp_, offset, SEEK_SET);
+#ifdef _WIN32
+  return _fseeki64(fp_, offset, SEEK_SET);
+#else
+  return fseeko(fp_, offset, SEEK_SET);
+#endif
 }  // FileIo::Impl::switchMode
 
 int FileIo::Impl::stat(StructStat& buf) const {
@@ -460,15 +468,19 @@ int FileIo::seek(int64_t offset, Position pos) {
 
   if (p_->switchMode(Impl::opSeek) != 0)
     return 1;
-#ifdef _WIN64
+#ifdef _WIN32
   return _fseeki64(p_->fp_, offset, fileSeek);
 #else
-  return std::fseek(p_->fp_, static_cast<long>(offset), fileSeek);
+  return fseeko(p_->fp_, offset, fileSeek);
 #endif
 }
 
 size_t FileIo::tell() const {
-  const long pos = std::ftell(p_->fp_);
+#ifdef _WIN32
+  auto pos = _ftelli64(p_->fp_);
+#else
+  auto pos = ftello(p_->fp_);
+#endif
   Internal::enforce(pos >= 0, ErrorCode::kerInputDataReadFailed);
   return static_cast<size_t>(pos);
 }
@@ -1069,7 +1081,8 @@ size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
       throw Error(ErrorCode::kerErrorMessage, "Data By Range is empty. Please check the permission.");
     }
     auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
-    size_t remain = rcount, totalRead = 0;
+    size_t remain = rcount;
+    size_t totalRead = 0;
     size_t iBlock = (rcount == size_) ? 0 : lowBlock;
 
     while (remain) {
@@ -1109,7 +1122,9 @@ int RemoteIo::open() {
       p_->blocksMap_ = new BlockMap[nBlocks];
       p_->isMalloced_ = true;
       auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
-      size_t remain = p_->size_, iBlock = 0, totalRead = 0;
+      size_t remain = p_->size_;
+      size_t iBlock = 0;
+      size_t totalRead = 0;
       while (remain) {
         auto allow = std::min<size_t>(remain, p_->blockSize_);
         p_->blocksMap_[iBlock].populate(&source[totalRead], allow);
@@ -1465,8 +1480,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
   }
 
   // standardize the path without "/" at the beginning.
-  std::size_t protocolIndex = scriptPath.find("://");
-  if (protocolIndex == std::string::npos && scriptPath.front() != '/') {
+  if (scriptPath.find("://") == std::string::npos && scriptPath.front() != '/') {
     scriptPath = "/" + scriptPath;
   }
 
@@ -1651,8 +1665,7 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   Exiv2::Uri hostInfo = Exiv2::Uri::Parse(path_);
 
   // add the protocol and host to the path
-  std::size_t protocolIndex = scriptPath.find("://");
-  if (protocolIndex == std::string::npos) {
+  if (scriptPath.find("://") == std::string::npos) {
     if (scriptPath.front() != '/')
       scriptPath = "/" + scriptPath;
     scriptPath = hostInfo.Protocol + "://" + hostInfo.Host + scriptPath;

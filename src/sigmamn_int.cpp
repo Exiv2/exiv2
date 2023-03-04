@@ -73,8 +73,7 @@ const TagInfo* SigmaMakerNote::tagList() {
 
 std::ostream& SigmaMakerNote::printStripLabel(std::ostream& os, const Value& value, const ExifData*) {
   std::string v = value.toString();
-  std::string::size_type pos = v.find(':');
-  if (pos != std::string::npos) {
+  if (auto pos = v.find(':'); pos != std::string::npos) {
     if (v.at(pos + 1) == ' ')
       ++pos;
     v = v.substr(pos + 1);

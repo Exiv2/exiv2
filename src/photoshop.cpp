@@ -136,8 +136,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   }
 
   // Write new iptc record if we have it
-  DataBuf rawIptc = IptcParser::encode(iptcData);
-  if (!rawIptc.empty()) {
+  if (DataBuf rawIptc = IptcParser::encode(iptcData); !rawIptc.empty()) {
     std::array<byte, 12> tmpBuf;
     std::copy_n(Photoshop::irbId_.front(), 4, tmpBuf.data());
     us2Data(tmpBuf.data() + 4, iptc_, bigEndian);
