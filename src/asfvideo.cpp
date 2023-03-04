@@ -249,13 +249,13 @@ AsfVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) : IdBuf_(GUID) {
 }
 
 void AsfVideo::decodeBlock() {
-  Internal::enforce(GUID + QWORD + io_->tell() <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(GUID + QWORD <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   HeaderReader objectHeader(io_);
 #ifdef EXIV2_DEBUG_MESSAGES
   EXV_INFO << "decodeBlock = " << GUIDTag(objectHeader.getId().data()).to_string()
            << "\tsize= " << objectHeader.getSize() << "\t " << io_->tell() << "/" << io_->size() << std::endl;
 #endif
-  Internal::enforce(objectHeader.getSize() + io_->tell() <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(objectHeader.getSize() <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   auto tag = GUIDReferenceTags.find(GUIDTag(objectHeader.getId().data()));
 
   if (tag != GUIDReferenceTags.end()) {
@@ -405,7 +405,7 @@ void AsfVideo::codecList() {
       xmpData()[codec + std::string(".CodecDescription")] = readStringWcharTag(io_, codec_desc_length);
 
     uint16_t codec_info_length = readWORDTag(io_);
-    Internal::enforce(codec_info_length && codec_info_length + io_->tell() < io_->size(),
+    Internal::enforce(codec_info_length && codec_info_length < io_->size() - io_->tell(),
                       Exiv2::ErrorCode::kerCorruptedMetadata);
     xmpData()[codec + std::string(".CodecInfo")] = readStringTag(io_, codec_info_length);
   }
