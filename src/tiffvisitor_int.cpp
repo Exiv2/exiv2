@@ -134,8 +134,7 @@ void TiffCopier::copyObject(const TiffComponent* object) {
   if (pHeader_->isImageTag(object->tag(), object->group(), pPrimaryGroups_)) {
     auto clone = object->clone();
     // Assumption is that the corresponding TIFF entry doesn't exist
-    TiffPath tiffPath;
-    TiffCreator::getPath(tiffPath, object->tag(), object->group(), root_);
+    auto tiffPath = TiffCreator::getPath(object->tag(), object->group(), root_);
     pRoot_->addPath(object->tag(), tiffPath, pRoot_, std::move(clone));
 #ifdef EXIV2_DEBUG_MESSAGES
     ExifKey key(object->tag(), groupName(object->group()));
@@ -939,8 +938,7 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
       continue;
 
     // Assumption is that the corresponding TIFF entry doesn't exist
-    TiffPath tiffPath;
-    TiffCreator::getPath(tiffPath, i->tag(), group, root);
+    auto tiffPath = TiffCreator::getPath(i->tag(), group, root);
     TiffComponent* tc = pRootDir->addPath(i->tag(), tiffPath, pRootDir);
     auto object = dynamic_cast<TiffEntryBase*>(tc);
 #ifdef EXIV2_DEBUG_MESSAGES

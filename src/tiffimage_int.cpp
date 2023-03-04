@@ -2004,9 +2004,10 @@ TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag, IfdId group) 
   return nullptr;
 }  // TiffCreator::create
 
-void TiffCreator::getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group, uint32_t root) {
+TiffPath TiffCreator::getPath(uint32_t extendedTag, IfdId group, uint32_t root) {
+  TiffPath ret;
   while (true) {
-    tiffPath.emplace(extendedTag, group);
+    ret.emplace(extendedTag, group);
     const auto ts = tiffTreeTable_.find(TiffGroupKey(root, group));
     assert(ts != tiffTreeTable_.end());
     extendedTag = ts->second.second;
@@ -2015,6 +2016,7 @@ void TiffCreator::getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group,
       break;
     }
   }
+  return ret;
 }
 
 ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
@@ -2047,8 +2049,7 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
    */
   WriteMethod writeMethod = wmIntrusive;
   auto parsedTree = parse(pData, size, root, pHeader);
-  PrimaryGroups primaryGroups;
-  findPrimaryGroups(primaryGroups, parsedTree.get());
+  auto primaryGroups = findPrimaryGroups(parsedTree.get());
   if (parsedTree) {
     // Attempt to update existing TIFF components based on metadata entries
     TiffEncoder encoder(exifData, iptcData, xmpData, parsedTree.get(), false, &primaryGroups, pHeader, findEncoderFct);
@@ -2107,9 +2108,10 @@ TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size,
 
 }  // TiffParserWorker::parse
 
-void TiffParserWorker::findPrimaryGroups(PrimaryGroups& primaryGroups, TiffComponent* pSourceDir) {
+PrimaryGroups TiffParserWorker::findPrimaryGroups(TiffComponent* pSourceDir) {
+  PrimaryGroups ret;
   if (!pSourceDir)
-    return;
+    return ret;
 
   static constexpr auto imageGroups = std::array{
       IfdId::ifd0Id,      IfdId::ifd1Id,      IfdId::ifd2Id,      IfdId::ifd3Id,      IfdId::subImage1Id,
@@ -2123,10 +2125,10 @@ void TiffParserWorker::findPrimaryGroups(PrimaryGroups& primaryGroups, TiffCompo
     auto te = dynamic_cast<TiffEntryBase*>(finder.result());
     const Value* pV = te ? te->pValue() : nullptr;
     if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toInt64() & 1) == 0) {
-      primaryGroups.push_back(te->group());
+      ret.push_back(te->group());
     }
   }
-
+  return ret;
 }  // TiffParserWorker::findPrimaryGroups
 
 TiffHeaderBase::TiffHeaderBase(uint16_t tag, uint32_t size, ByteOrder byteOrder, uint32_t offset) :

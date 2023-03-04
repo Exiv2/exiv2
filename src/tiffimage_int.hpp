@@ -170,7 +170,7 @@ class TiffCreator {
            the \em root TIFF element to the TIFF entry \em extendedTag and
            \em group.
   */
-  static void getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group, uint32_t root);
+  static TiffPath getPath(uint32_t extendedTag, IfdId group, uint32_t root);
 
  private:
   static const TiffTreeTable tiffTreeTable_;    //<! TIFF tree structure
@@ -244,7 +244,7 @@ class TiffParserWorker {
     @param primaryGroups List of primary groups which is populated
     @param pSourceDir Pointer to the source composite tree to search (may be 0)
    */
-  static void findPrimaryGroups(PrimaryGroups& primaryGroups, TiffComponent* pSourceDir);
+  static PrimaryGroups findPrimaryGroups(TiffComponent* pSourceDir);
 
 };  // class TiffParserWorker
 
