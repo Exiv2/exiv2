@@ -389,7 +389,7 @@ void RiffVideo::readMetadata() {
   decodeBlocks();
 }  // RiffVideo::readMetadata
 
-RiffVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) {
+RiffVideo::HeaderReader::HeaderReader(const BasicIo::UniquePtr& io) {
   Internal::enforce(io->size() > io->tell() + DWORD + DWORD, Exiv2::ErrorCode::kerCorruptedMetadata);
   id_ = readStringTag(io);
   size_ = readDWORDTag(io);
@@ -402,7 +402,7 @@ bool RiffVideo::equal(const std::string& str1, const std::string& str2) {
   return Internal::upper(str1) == str2;
 }
 
-void RiffVideo::readList(HeaderReader& header_) {
+void RiffVideo::readList(const HeaderReader& header_) {
   std::string chunk_type = readStringTag(io_);
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -417,7 +417,7 @@ void RiffVideo::readList(HeaderReader& header_) {
   }
 }
 
-void RiffVideo::readChunk(HeaderReader& header_) {
+void RiffVideo::readChunk(const HeaderReader& header_) {
 #ifdef EXIV2_DEBUG_MESSAGES
   if (header_.getSize())
     EXV_INFO << "--> Reading Chunk : [" << header_.getId() << "] size= " << header_.getSize() << "(" << io_->tell()
@@ -457,8 +457,7 @@ void RiffVideo::readChunk(HeaderReader& header_) {
 
 void RiffVideo::decodeBlocks() {
   do {
-    HeaderReader header(io_);
-    if (equal(header.getId(), CHUNK_ID_LIST)) {
+    if (HeaderReader header(io_); equal(header.getId(), CHUNK_ID_LIST)) {
       readList(header);
     } else {
       readChunk(header);
@@ -611,24 +610,20 @@ void RiffVideo::readStreamFormat(uint64_t size_) {
     xmpData_["Xmp.video.ImageLength"] = readDWORDTag(io_);
     xmpData_["Xmp.video.PixelPerMeterX"] = readQWORDTag(io_);
     xmpData_["Xmp.video.PixelPerMeterY"] = readQWORDTag(io_);
-    uint32_t NumOfColours = readDWORDTag(io_);
-    if (NumOfColours == 0)
-      xmpData_["Xmp.video.NumOfColours"] = "Unspecified";
-    else
+    if (uint32_t NumOfColours = readDWORDTag(io_))
       xmpData_["Xmp.video.NumOfColours"] = NumOfColours;
-    uint32_t NumIfImpColours = readDWORDTag(io_);
-    if (NumIfImpColours == 0)
-      xmpData_["Xmp.video.NumIfImpColours"] = "All";
     else
+      xmpData_["Xmp.video.NumOfColours"] = "Unspecified";
+    if (uint32_t NumIfImpColours = readDWORDTag(io_))
       xmpData_["Xmp.video.NumIfImpColours"] = NumIfImpColours;
+    else
+      xmpData_["Xmp.video.NumIfImpColours"] = "All";
   } else if (streamType_ == Audio) {
     uint16_t format_tag = readWORDTag(io_);
-    auto it = Internal::audioEncodingValues.find(format_tag);
-    if (it != Internal::audioEncodingValues.end()) {
+    if (auto it = Internal::audioEncodingValues.find(format_tag); it != Internal::audioEncodingValues.end())
       xmpData_["Xmp.audio.Compressor"] = it->second;
-    } else {
+    else
       xmpData_["Xmp.audio.Compressor"] = format_tag;
-    }
 
     xmpData_["Xmp.audio.ChannelType"] = getStreamType(readDWORDTag(io_));
     xmpData_["Xmp.audio.SampleRate"] = readDWORDTag(io_);                                      // nSamplesPerSec
@@ -657,10 +652,8 @@ void RiffVideo::readInfoListChunk(uint64_t size_) {
     std::string type = readStringTag(io_);
     size_t size = readDWORDTag(io_);
     std::string content = readStringTag(io_, size);
-    auto it = Internal::infoTags.find(type);
-    if (it != Internal::infoTags.end()) {
+    if (auto it = Internal::infoTags.find(type); it != Internal::infoTags.end())
       xmpData_[it->second] = content;
-    }
     current_size += DWORD * 2 + size;
   }
 }

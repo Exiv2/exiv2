@@ -89,8 +89,7 @@ struct TagVocabulary {
  */
 template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString(std::ostream& os, const std::string& value, const ExifData*) {
-  auto td = Exiv2::find(array, value);
-  if (td) {
+  if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
     os << "(" << value << ")";
@@ -146,8 +145,7 @@ std::ostream& printTagString4(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTagNoError(std::ostream& os, const int64_t value, const ExifData*) {
-  auto td = Exiv2::find(array, value);
-  if (td) {
+  if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
     os << value;
@@ -173,8 +171,7 @@ std::ostream& printTagNoError(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*) {
-  auto td = Exiv2::find(array, value);
-  if (td) {
+  if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
     os << "(" << value << ")";
@@ -292,8 +289,7 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
  */
 template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const ExifData*) {
-  auto td = Exiv2::find(array, value.toString());
-  if (td) {
+  if (auto td = Exiv2::find(array, value.toString())) {
     os << exvGettext(td->label_);
   } else {
     os << "(" << value << ")";

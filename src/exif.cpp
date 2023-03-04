@@ -609,8 +609,7 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
     switch (ptt) {
       case pttLen: {
         delTags = false;
-        auto pos = ed.findKey(ExifKey(key));
-        if (pos != ed.end() && sumToLong(*pos) > 32768) {
+        if (auto pos = ed.findKey(ExifKey(key)); pos != ed.end() && sumToLong(*pos) > 32768) {
           delTags = true;
 #ifndef SUPPRESS_WARNINGS
           EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
@@ -621,8 +620,7 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
       }
       case pttTag: {
         if (delTags) {
-          auto pos = ed.findKey(ExifKey(key));
-          if (pos != ed.end()) {
+          if (auto pos = ed.findKey(ExifKey(key)); pos != ed.end()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
 #endif

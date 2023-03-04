@@ -1502,9 +1502,8 @@ template <typename T>
 int ValueType<T>::read(const byte* buf, size_t len, ByteOrder byteOrder) {
   value_.clear();
   size_t ts = TypeInfo::typeSize(typeId());
-  if (ts > 0)
-    if (len % ts != 0)
-      len = (len / ts) * ts;
+  if (ts > 0 && len % ts != 0)
+    len = (len / ts) * ts;
   for (size_t i = 0; i < len; i += ts) {
     value_.push_back(getValue<T>(buf + i, byteOrder));
   }

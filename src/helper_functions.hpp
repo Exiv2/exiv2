@@ -43,15 +43,15 @@ static constexpr size_t GUID = 0x10;
 */
 std::string utf16ToUtf8(const std::wstring& wstr);
 
-[[nodiscard]] uint64_t readQWORDTag(Exiv2::BasicIo::UniquePtr& io);
+[[nodiscard]] uint64_t readQWORDTag(const Exiv2::BasicIo::UniquePtr& io);
 
-[[nodiscard]] uint32_t readDWORDTag(Exiv2::BasicIo::UniquePtr& io);
+[[nodiscard]] uint32_t readDWORDTag(const Exiv2::BasicIo::UniquePtr& io);
 
-[[nodiscard]] uint16_t readWORDTag(Exiv2::BasicIo::UniquePtr& io);
+[[nodiscard]] uint16_t readWORDTag(const Exiv2::BasicIo::UniquePtr& io);
 
-[[nodiscard]] std::string readStringWcharTag(Exiv2::BasicIo::UniquePtr& io, size_t length);
+[[nodiscard]] std::string readStringWcharTag(const Exiv2::BasicIo::UniquePtr& io, size_t length);
 
-[[nodiscard]] std::string readStringTag(Exiv2::BasicIo::UniquePtr& io, size_t length = DWORD);
+[[nodiscard]] std::string readStringTag(const Exiv2::BasicIo::UniquePtr& io, size_t length = DWORD);
 
 /*!
   @brief Calculates Aspect Ratio of a video

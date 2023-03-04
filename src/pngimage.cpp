@@ -408,8 +408,7 @@ void PngImage::readMetadata() {
 
     // Decode chunk data length.
     uint32_t chunkLength = cheaderBuf.read_uint32(0, Exiv2::bigEndian);
-    const size_t pos = io_->tell();
-    if (chunkLength > imgSize - pos) {
+    if (chunkLength > imgSize - io_->tell()) {
       throw Exiv2::Error(ErrorCode::kerFailedToReadImageData);
     }
 

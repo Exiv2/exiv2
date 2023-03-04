@@ -48,7 +48,8 @@ struct SliceBase {
    * lower and upper bounds of the slice with respect to the
    * container/array stored in storage_
    */
-  const size_t begin_, end_;
+  size_t begin_;
+  size_t end_;
 };
 
 /*!
@@ -260,10 +261,13 @@ struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
 template <typename container>
 struct ContainerStorage {
   using iterator = typename container::iterator;
-
   using const_iterator = typename container::const_iterator;
 
+#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+  using value_type = std::remove_cv_t<typename container::value_type>;
+#else
   using value_type = typename std::remove_cv<typename container::value_type>::type;
+#endif
 
   /*!
    * @throw std::out_of_range when end is larger than the container's
@@ -324,7 +328,11 @@ struct ContainerStorage {
  */
 template <typename storage_type>
 struct PtrSliceStorage {
+#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+  using value_type = std::remove_cv_t<std::remove_pointer_t<storage_type>>;
+#else
   using value_type = typename std::remove_cv<typename std::remove_pointer<storage_type>::type>::type;
+#endif
   using iterator = value_type*;
   using const_iterator = const value_type*;
 
@@ -423,7 +431,11 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
 
   using const_iterator = typename container::const_iterator;
 
+#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+  using value_type = std::remove_cv_t<typename container::value_type>;
+#else
   using value_type = typename std::remove_cv<typename container::value_type>::type;
+#endif
 
   /*!
    * @brief Construct a slice of the container `cont` starting at `begin`
@@ -476,7 +488,11 @@ struct Slice<const container> : public Internal::ConstSliceBase<Internal::Contai
 
   using const_iterator = typename container::const_iterator;
 
+#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+  using value_type = std::remove_cv_t<typename container::value_type>;
+#else
   using value_type = typename std::remove_cv<typename container::value_type>::type;
+#endif
 
   Slice(const container& cont, size_t begin, size_t end) :
       Internal::ConstSliceBase<Internal::ContainerStorage, const container>(cont, begin, end) {

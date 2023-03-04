@@ -22,7 +22,7 @@ class RotationMap {
 
  private:
   //! Helper structure for the mapping list
-  using OmList = struct {
+  struct OmList {
     uint16_t orientation;
     int32_t degrees;
   };

@@ -231,7 +231,7 @@ size_t IptcData::size() const {
   return newSize;
 }
 
-int IptcData::add(const IptcKey& key, Value* value) {
+int IptcData::add(const IptcKey& key, const Value* value) {
   return add(Iptcdatum(key, value));
 }
 
@@ -439,8 +439,7 @@ DataBuf IptcParser::encode(const IptcData& iptcData) {
     *pWrite++ = static_cast<byte>(iter.tag());
 
     // extended or standard dataset?
-    size_t dataSize = iter.size();
-    if (dataSize > 32767) {
+    if (size_t dataSize = iter.size(); dataSize > 32767) {
       // always use 4 bytes for extended length
       uint16_t sizeOfSize = 4 | 0x8000;
       us2Data(pWrite, sizeOfSize, bigEndian);

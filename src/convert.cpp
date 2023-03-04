@@ -274,8 +274,8 @@ class Converter {
 
   // DATA
   static const Conversion conversion_[];  //<! Conversion rules
-  bool erase_;
-  bool overwrite_;
+  bool erase_{false};
+  bool overwrite_{true};
   ExifData* exifData_;
   IptcData* iptcData_;
   XmpData* xmpData_;
@@ -489,21 +489,11 @@ const Converter::Conversion Converter::conversion_[] = {
 };
 
 Converter::Converter(ExifData& exifData, XmpData& xmpData) :
-    erase_(false),
-    overwrite_(true),
-    exifData_(&exifData),
-    iptcData_(nullptr),
-    xmpData_(&xmpData),
-    iptcCharset_(nullptr) {
+    exifData_(&exifData), iptcData_(nullptr), xmpData_(&xmpData), iptcCharset_(nullptr) {
 }
 
 Converter::Converter(IptcData& iptcData, XmpData& xmpData, const char* iptcCharset) :
-    erase_(false),
-    overwrite_(true),
-    exifData_(nullptr),
-    iptcData_(&iptcData),
-    xmpData_(&xmpData),
-    iptcCharset_(iptcCharset) {
+    exifData_(nullptr), iptcData_(&iptcData), xmpData_(&xmpData), iptcCharset_(iptcCharset) {
 }
 
 void Converter::cnvToXmp() {
@@ -626,7 +616,12 @@ void Converter::cnvExifDate(const char* from, const char* to) {
     return;
   if (!prepareXmpTarget(to))
     return;
-  int year = 0, month = 0, day = 0, hour = 0, min = 0, sec = 0;
+  int year = 0;
+  int month = 0;
+  int day = 0;
+  int hour = 0;
+  int min = 0;
+  int sec = 0;
   std::string subsec;
   char buf[30];
 
@@ -935,9 +930,8 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
     if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
       SXMPUtils::ConvertToLocalTime(&datetime);
 
-      snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d", static_cast<int>(datetime.year),
-               static_cast<int>(datetime.month), static_cast<int>(datetime.day), static_cast<int>(datetime.hour),
-               static_cast<int>(datetime.minute), static_cast<int>(datetime.second));
+      snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d", datetime.year, datetime.month, datetime.day,
+               datetime.hour, datetime.minute, datetime.second);
       buf[sizeof(buf) - 1] = 0;
       (*exifData_)[to] = buf;
 
@@ -978,8 +972,7 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
       (*exifData_)[to] = array.str();
 
       prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
-      snprintf(buf, sizeof(buf), "%4d:%02d:%02d", static_cast<int>(datetime.year), static_cast<int>(datetime.month),
-               static_cast<int>(datetime.day));
+      snprintf(buf, sizeof(buf), "%4d:%02d:%02d", datetime.year, datetime.month, datetime.day);
       buf[sizeof(buf) - 1] = 0;
       (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
     }

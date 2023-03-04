@@ -157,8 +157,7 @@ void PsdImage::readMetadata() {
   }
 
   // skip it
-  uint32_t colorDataLength = getULong(buf, bigEndian);
-  if (io_->seek(colorDataLength, BasicIo::cur)) {
+  if (io_->seek(getULong(buf, bigEndian), BasicIo::cur)) {
     throw Error(ErrorCode::kerNotAnImage, "Photoshop");
   }
 
@@ -547,7 +546,7 @@ uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) {
   uint32_t resLength = 0;
   byte buf[8];
 
-  if (iptcData.count() > 0) {
+  if (!iptcData.empty()) {
     DataBuf rawIptc = IptcParser::encode(iptcData);
     if (!rawIptc.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES

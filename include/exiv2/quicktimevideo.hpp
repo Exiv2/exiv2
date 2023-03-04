@@ -200,7 +200,8 @@ class EXIV2API QuickTimeVideo : public Image {
   //! Variable to check the end of metadata traversing.
   bool continueTraversing_ = false;
   //! Variable to store height and width of a video frame.
-  uint64_t height_ = 0, width_ = 0;
+  uint64_t height_ = 0;
+  uint64_t width_ = 0;
 
 };  // QuickTimeVideo End
 

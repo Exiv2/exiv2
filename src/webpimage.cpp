@@ -503,9 +503,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
     Internal::enforce(io_->tell() <= filesize, Exiv2::ErrorCode::kerCorruptedMetadata);
     Internal::enforce(size <= (filesize - io_->tell()), Exiv2::ErrorCode::kerCorruptedMetadata);
 
-    DataBuf payload(size);
-
-    if (payload.empty()) {
+    if (DataBuf payload(size); payload.empty()) {
       io_->seek(size, BasicIo::cur);
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_canvas_data) {
       Internal::enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -594,22 +592,22 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       bool s_header = false;
       bool le_header = false;
       bool be_header = false;
-      size_t pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 4);
+      size_t pos = getHeaderOffset(payload.c_data(), payload.size(), exifLongHeader, 4);
 
       if (pos == std::string::npos) {
-        pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 6);
+        pos = getHeaderOffset(payload.c_data(), payload.size(), exifLongHeader, 6);
         if (pos != std::string::npos) {
           s_header = true;
         }
       }
       if (pos == std::string::npos) {
-        pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifTiffLEHeader), 3);
+        pos = getHeaderOffset(payload.c_data(), payload.size(), exifTiffLEHeader, 3);
         if (pos != std::string::npos) {
           le_header = true;
         }
       }
       if (pos == std::string::npos) {
-        pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifTiffBEHeader), 4);
+        pos = getHeaderOffset(payload.c_data(), payload.size(), exifTiffBEHeader, 4);
         if (pos != std::string::npos) {
           be_header = true;
         }

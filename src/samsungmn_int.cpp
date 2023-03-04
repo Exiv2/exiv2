@@ -54,8 +54,7 @@ static std::ostream& printFocalLength35(std::ostream& os, const Value& value, co
   if (value.count() != 1 || value.typeId() != unsignedLong) {
     return os << value;
   }
-  const auto length = value.toInt64();
-  if (length == 0) {
+  if (auto length = value.toInt64(); length == 0) {
     os << _("Unknown");
   } else {
     std::ostringstream oss;

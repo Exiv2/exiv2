@@ -719,8 +719,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         }
         const byte* pExifData = rawExif.c_data();
         size_t exifSize = rawExif.size();
-        WriteMethod wm = ExifParser::encode(blob, pExifData, exifSize, bo, exifData_);
-        if (wm == wmIntrusive) {
+        if (ExifParser::encode(blob, pExifData, exifSize, bo, exifData_) == wmIntrusive) {
           pExifData = !blob.empty() ? blob.data() : nullptr;
           exifSize = blob.size();
         }

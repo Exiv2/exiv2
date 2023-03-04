@@ -92,9 +92,6 @@ TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arra
   // We'll figure out the correct cfg later
 }
 
-TiffBinaryElement::TiffBinaryElement(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
-}
-
 TiffDirectory::~TiffDirectory() {
   for (auto&& component : components_) {
     delete component;
@@ -207,8 +204,7 @@ void TiffEntryBase::setData(byte* pData, size_t size, std::shared_ptr<DataBuf> s
 void TiffEntryBase::updateValue(Value::UniquePtr value, ByteOrder byteOrder) {
   if (!value)
     return;
-  size_t newSize = value->size();
-  if (newSize > size_) {
+  if (size_t newSize = value->size(); newSize > size_) {
     auto d = std::make_shared<DataBuf>(newSize);
     setData(std::move(d));
   }
@@ -488,19 +484,19 @@ TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCompo
   const TiffPathItem tpi2 = tiffPath.top();
   tiffPath.push(tpi1);
   auto it = std::find_if(ifds_.begin(), ifds_.end(), [&](auto&& ifd) { return ifd->group() == tpi2.group(); });
-  if (it != ifds_.end())
-    return (*it)->addPath(tag, tiffPath, pRoot, std::move(object));
-
-  auto tc = [&] {
-    if (tiffPath.size() == 1 && object) {
-      TiffComponent::UniquePtr tempObject;
-      std::swap(object, tempObject);
-      return addChild(std::move(tempObject));
-    }
-    return addChild(std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group()));
-  }();
-  setCount(ifds_.size());
-  return tc->addPath(tag, tiffPath, pRoot, std::move(object));
+  if (it == ifds_.end()) {
+    auto tc = [&] {
+      if (tiffPath.size() == 1 && object) {
+        TiffComponent::UniquePtr tempObject;
+        std::swap(object, tempObject);
+        return addChild(std::move(tempObject));
+      }
+      return addChild(std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group()));
+    }();
+    setCount(ifds_.size());
+    return tc->addPath(tag, tiffPath, pRoot, std::move(object));
+  }
+  return (*it)->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffSubIfd::doAddPath
 
 TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
@@ -844,8 +840,7 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   size_t sizeValue = 0;
   size_t sizeData = 0;
   for (auto&& component : components_) {
-    size_t sv = component->size();
-    if (sv > 4) {
+    if (size_t sv = component->size(); sv > 4) {
       sv += sv & 1;  // Align value to word boundary
       sizeValue += sv;
     }
@@ -873,8 +868,7 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   // b) Directory entries - may contain pointers to the value or data
   for (auto&& component : components_) {
     idx += writeDirEntry(ioWrapper, byteOrder, offset, component, valueIdx, dataIdx, imageIdx);
-    size_t sv = component->size();
-    if (sv > 4) {
+    if (size_t sv = component->size(); sv > 4) {
       sv += sv & 1;  // Align value to word boundary
       valueIdx += sv;
     }
@@ -896,8 +890,7 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   valueIdx = sizeDir;
   dataIdx = sizeDir + sizeValue;
   for (auto&& component : components_) {
-    size_t sv = component->size();
-    if (sv > 4) {
+    if (size_t sv = component->size(); sv > 4) {
       size_t d = component->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
       enforce(sv == d, ErrorCode::kerImageWriteFailed);
       if ((sv & 1) == 1) {
@@ -1291,8 +1284,7 @@ size_t TiffDirectory::doSize() const {
   size_t len = 2 + 12 * compCount + (hasNext_ ? 4 : 0);
   // Size of IFD values and data
   for (auto&& component : components_) {
-    size_t sv = component->size();
-    if (sv > 4) {
+    if (size_t sv = component->size(); sv > 4) {
       sv += sv & 1;  // Align value to word boundary
       len += sv;
     }
@@ -1459,11 +1451,12 @@ static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
       return Internal::gpsTagList();
     return group == IfdId::exifId ? Internal::exifTagList() : nullptr;
   }();
-  if (tags) {
-    for (size_t idx = 0; !result && tags[idx].tag_ != 0xffff; ++idx) {
-      if (tags[idx].tag_ == tag) {
-        result = tags + idx;
-      }
+  if (!tags)
+    return result;
+
+  for (size_t idx = 0; !result && tags[idx].tag_ != 0xffff; ++idx) {
+    if (tags[idx].tag_ == tag) {
+      result = tags + idx;
     }
   }
   return result;

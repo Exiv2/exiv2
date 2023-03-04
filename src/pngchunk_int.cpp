@@ -91,8 +91,7 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
     // Extract a deflate compressed Latin-1 text chunk
 
     // we get the compression method after the key
-    const byte* compressionMethod = data.c_data(keysize + 1);
-    if (*compressionMethod != 0x00) {
+    if (*data.c_data(keysize + 1) != 0x00) {
       // then it isn't zlib compressed and we are sunk
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard zTXt compression method.\n";
@@ -271,8 +270,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
     if (length > 0) {
       std::string& xmpPacket = pImage->xmpPacket();
       xmpPacket.assign(xmpBuf.c_str(), length);
-      std::string::size_type idx = xmpPacket.find_first_of('<');
-      if (idx != std::string::npos && idx > 0) {
+      if (auto idx = xmpPacket.find_first_of('<'); idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Removing " << idx << " characters from the beginning of the XMP packet\n";
 #endif
@@ -291,8 +289,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
   if (keySize >= 17 && memcmp("XML:com.adobe.xmp", key, 17) == 0 && pImage->xmpData().empty() && !arr.empty()) {
     std::string& xmpPacket = pImage->xmpPacket();
     xmpPacket.assign(arr.c_str(), arr.size());
-    std::string::size_type idx = xmpPacket.find_first_of('<');
-    if (idx != std::string::npos && idx > 0) {
+    if (auto idx = xmpPacket.find_first_of('<'); idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Removing " << idx << " characters "
                   << "from the beginning of the XMP packet\n";

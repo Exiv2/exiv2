@@ -3013,12 +3013,10 @@ std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*)
 }
 
 std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*) {
-  const auto length = value.toInt64();
-  if (length == 0) {
+  if (auto length = value.toInt64(); length == 0)
     os << _("Unknown");
-  } else {
+  else
     os << length << ".0 mm";
-  }
   return os;
 }
 

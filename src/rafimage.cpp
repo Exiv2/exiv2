@@ -28,18 +28,16 @@ std::string RafImage::mimeType() const {
 
 uint32_t RafImage::pixelWidth() const {
   auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-  if (widthIter != exifData_.end() && widthIter->count() > 0) {
-    return widthIter->toUint32();
-  }
-  return 0;
+  if (widthIter == exifData_.end() || widthIter->count() == 0)
+    return 0;
+  return widthIter->toUint32();
 }
 
 uint32_t RafImage::pixelHeight() const {
   auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-  if (heightIter != exifData_.end() && heightIter->count() > 0) {
-    return heightIter->toUint32();
-  }
-  return 0;
+  if (heightIter == exifData_.end() || heightIter->count() == 0)
+    return 0;
+  return heightIter->toUint32();
 }
 
 void RafImage::setExifData(const ExifData& /*exifData*/) {
@@ -72,7 +70,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
   if (bPrint) {
     io_->seek(0, BasicIo::beg);  // rewind
     size_t address = io_->tell();
-    const char* format = " %8d | %8d | ";
+    const auto format = " %8d | %8d | ";
 
     {
       out << Internal::indent(depth) << "STRUCTURE OF RAF FILE: " << io().path() << std::endl;

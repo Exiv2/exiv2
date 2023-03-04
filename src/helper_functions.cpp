@@ -28,25 +28,25 @@ std::string utf16ToUtf8(const std::wstring& wstr) {
   return str;
 }
 
-uint64_t readQWORDTag(BasicIo::UniquePtr& io) {
+uint64_t readQWORDTag(const BasicIo::UniquePtr& io) {
   Internal::enforce(QWORD <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf = io->read(QWORD);
   return FieldBuf.read_uint64(0, littleEndian);
 }
 
-uint32_t readDWORDTag(BasicIo::UniquePtr& io) {
+uint32_t readDWORDTag(const BasicIo::UniquePtr& io) {
   Internal::enforce(DWORD <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf = io->read(DWORD);
   return FieldBuf.read_uint32(0, littleEndian);
 }
 
-uint16_t readWORDTag(BasicIo::UniquePtr& io) {
+uint16_t readWORDTag(const BasicIo::UniquePtr& io) {
   Internal::enforce(WORD <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf = io->read(WORD);
   return FieldBuf.read_uint16(0, littleEndian);
 }
 
-std::string readStringWcharTag(BasicIo::UniquePtr& io, size_t length) {
+std::string readStringWcharTag(const BasicIo::UniquePtr& io, size_t length) {
   Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf(length + 1);
   io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);
@@ -54,7 +54,7 @@ std::string readStringWcharTag(BasicIo::UniquePtr& io, size_t length) {
   return utf16ToUtf8(wst);
 }
 
-std::string readStringTag(BasicIo::UniquePtr& io, size_t length) {
+std::string readStringTag(const BasicIo::UniquePtr& io, size_t length) {
   Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf(length + 1);
   io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);

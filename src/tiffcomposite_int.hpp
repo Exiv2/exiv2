@@ -1409,13 +1409,9 @@ class TiffBinaryArray : public TiffEntryBase {
   @brief Element of a TiffBinaryArray.
  */
 class TiffBinaryElement : public TiffEntryBase {
- public:
-  //! @name Creators
-  //@{
-  //! Constructor
-  TiffBinaryElement(uint16_t tag, IfdId group);
-  //@}
+  using TiffEntryBase::TiffEntryBase;
 
+ public:
   //! @name Manipulators
   //@{
   /*!
