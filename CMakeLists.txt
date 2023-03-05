@@ -30,7 +30,7 @@ option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"     
 option( EXIV2_ENABLE_CURL             "Use libcurl for HttpIo (WEBREADY)"                     OFF )
 option( EXIV2_ENABLE_BMFF             "Build with BMFF support"                               ON  )
 option( EXIV2_ENABLE_BROTLI           "Use Brotli for JPEG XL compressed boxes (BMFF)"        ON  )
-option( EXIV2_ENABLE_VIDEO            "Build with video support"                              OFF )
+option( EXIV2_ENABLE_VIDEO            "Build with video support"                              ON )
 option( EXIV2_ENABLE_INIH             "Use inih library"                                      ON  )
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             OFF )
