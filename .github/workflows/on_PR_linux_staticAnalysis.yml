@@ -44,7 +44,7 @@ jobs:
 
       - name: Configure
         run: |
-          cmake --preset linux-debug-NoConan -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cmake --preset linux-debug -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Static Analysis
         env:
