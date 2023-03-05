@@ -54,68 +54,28 @@ namespace Internal {
  *
  * Further information:
  * https://wiki.sei.cmu.edu/confluence/display/c/INT32-C.+Ensure+that+operations+on+signed+integers+do+not+result+in+overflow
- */
-template <typename T>
-std::enable_if_t<std::is_signed_v<T> && sizeof(T) >= sizeof(int), bool> fallback_add_overflow(T summand_1, T summand_2,
-                                                                                              T& result) {
-  if (((summand_2 >= 0) && (summand_1 > std::numeric_limits<T>::max() - summand_2)) ||
-      ((summand_2 < 0) && (summand_1 < std::numeric_limits<T>::min() - summand_2))) {
-    return true;
-  }
-  result = summand_1 + summand_2;
-  return false;
-}
-
-/*!
- * @brief Check the addition of two numbers for overflows for signed
- * integer types smaller than int.
- *
- * This function adds summand_1 and summand_2 exploiting integer
- * promotion rules, thereby not causing undefined behavior. The
- * result is checked against the limits of T and true is returned if
- * they are exceeded. Otherwise the sum is saved in result and false
- * is returned.
- *
- * @return true on overflow, false on no overflow
- *
- * @param[in] summand_1, summand_2 The summands with are added
- * @param[out] result Result of the addition, only populated when no
- * overflow occurs.
- *
- * Further information:
  * https://wiki.sei.cmu.edu/confluence/display/c/INT02-C.+Understand+integer+conversion+rules
- */
-template <typename T>
-std::enable_if_t<std::is_signed_v<T> && sizeof(T) < sizeof(int), bool> fallback_add_overflow(T summand_1, T summand_2,
-                                                                                             T& result) {
-  const int res = summand_1 + summand_2;
-  if ((res > std::numeric_limits<T>::max()) || (res < std::numeric_limits<T>::min())) {
-    return true;
-  }
-  result = static_cast<T>(res);
-  return false;
-}
-
-/*!
- * @brief Check the addition of two numbers for overflows for unsigned
- * integer types.
- *
- * This function adds summand_1 and summand_2 and checks after that if
- * the operation overflowed. Since these are unsigned integers, no
- * undefined behavior is invoked.
- *
- * @return true on overflow, false on no overflow
- *
- * @param[in] summand_1, summand_2 The summands with are added
- * @param[out] result Result of the addition
- *
- * Further information:
  * https://wiki.sei.cmu.edu/confluence/display/c/INT30-C.+Ensure+that+unsigned+integer+operations+do+not+wrap
  */
 template <typename T>
-std::enable_if_t<!std::is_signed_v<T>, bool> fallback_add_overflow(T summand_1, T summand_2, T& result) {
-  result = summand_1 + summand_2;
-  return result < summand_1;
+bool fallback_add_overflow(T summand_1, T summand_2, T& result) {
+  if constexpr (std::is_signed_v<T> && sizeof(T) >= sizeof(int)) {
+    if (((summand_2 >= 0) && (summand_1 > std::numeric_limits<T>::max() - summand_2)) ||
+        ((summand_2 < 0) && (summand_1 < std::numeric_limits<T>::min() - summand_2)))
+      return true;
+    result = summand_1 + summand_2;
+    return false;
+  } else if constexpr (std::is_signed_v<T> && sizeof(T) < sizeof(int)) {
+    const int res = summand_1 + summand_2;
+    if ((res > std::numeric_limits<T>::max()) || (res < std::numeric_limits<T>::min())) {
+      return true;
+    }
+    result = static_cast<T>(res);
+    return false;
+  } else {
+    result = summand_1 + summand_2;
+    return result < summand_1;
+  }
 }
 
 /*!
@@ -223,11 +183,13 @@ T add(T summand_1, T summand_2) {
  *          when `num == std::numeric_limits<T>::min()`.
  */
 template <typename T>
-std::enable_if_t<std::is_signed_v<T>, T> abs(T num) throw() {
-  if (num == std::numeric_limits<T>::min()) {
-    return std::numeric_limits<T>::max();
+T abs(T num) noexcept {
+  if constexpr (std::is_signed_v<T>) {
+    if (num == std::numeric_limits<T>::min())
+      return std::numeric_limits<T>::max();
+    return num < 0 ? -num : num;
   }
-  return num < 0 ? -num : num;
+  return num;
 }
 
 }  // namespace Safe
