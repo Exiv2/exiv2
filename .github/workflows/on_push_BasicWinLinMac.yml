@@ -62,7 +62,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          python3 -m pip install conan==1.55.0 ninja
+          python3 -m pip install conan==1.59.0 ninja
 
       - name: Conan
         run: |
@@ -74,7 +74,7 @@ jobs:
 
       - name: build and compile
         run: |
-          cmake --preset linux-release-NoConan -S . -B build
+          cmake --preset linux-release -S . -B build
           cmake --build build --parallel
 
       - name: Test
