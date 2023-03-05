@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y gettext doxygen graphviz
-          python -m pip install conan==1.55.0 ninja
+          python -m pip install conan==1.59.0 ninja
 
       - name: Conan common config
         run: |
