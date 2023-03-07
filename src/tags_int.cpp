@@ -2582,39 +2582,39 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
     return os;
   }
   // values numerically are ok, so they can be converted
-  // here first and second can be zero, so initialise float with 0.0
-  float focalLength1 = 0.0;
+  // here first and second can be zero, so initialise float with 0.0f
+  float focalLength1 = 0.0f;
   if (value.toRational(0).first != 0)
     focalLength1 = value.toFloat(0);
-  float focalLength2 = 0.0;
+  float focalLength2 = 0.0f;
   if (value.toRational(1).first != 0)
     focalLength2 = value.toFloat(1);
-  float fNumber1 = 0.0;
+  float fNumber1 = 0.0f;
   if (value.toRational(2).first != 0)
     fNumber1 = value.toFloat(2);
-  float fNumber2 = 0.0;
+  float fNumber2 = 0.0f;
   if (value.toRational(3).first != 0)
     fNumber2 = value.toFloat(3);
 
   // first value must not be bigger than second
-  if ((focalLength1 > focalLength2 && focalLength2 > 0.0) || (fNumber1 > fNumber2 && fNumber2 > 0.0)) {
+  if ((focalLength1 > focalLength2 && focalLength2 > 0.0f) || (fNumber1 > fNumber2 && fNumber2 > 0.0f)) {
     os << "(" << value << ")";
     return os;
   }
 
   // no lens specification available
-  if (focalLength1 == 0.0 && focalLength2 == 0.0 && fNumber1 == 0.0 && fNumber2 == 0.0) {
+  if (focalLength1 == 0.0f && focalLength2 == 0.0f && fNumber1 == 0.0f && fNumber2 == 0.0f) {
     os << "n/a";
     return os;
   }
 
   // lens specification available - at least parts
-  if (focalLength1 == 0.0)
+  if (focalLength1 == 0.0f)
     os << "n/a";
   else
     os << std::setprecision(5) << focalLength1;
   if (focalLength1 != focalLength2) {
-    if (focalLength2 == 0.0)
+    if (focalLength2 == 0.0f)
       os << "-n/a ";
     else
       os << "-" << std::setprecision(5) << focalLength2;
@@ -2623,14 +2623,14 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
   std::ostringstream oss;
   oss.copyfmt(os);
 
-  if (fNumber1 > 0.0 || fNumber2 > 0.0) {
+  if (fNumber1 > 0.0f || fNumber2 > 0.0f) {
     os << " F";
-    if (fNumber1 == 0.0)
+    if (fNumber1 == 0.0f)
       os << " n/a";
     else
       os << std::setprecision(2) << fNumber1;
     if (fNumber1 != fNumber2) {
-      if (fNumber2 == 0.0)
+      if (fNumber2 == 0.0f)
         os << "-n/a";
       else
         os << "-" << std::setprecision(2) << fNumber2;
