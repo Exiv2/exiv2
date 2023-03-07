@@ -124,7 +124,7 @@ Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  160/10 500/10 28/10 28/10  160/10 500/10 28/10 28/10
+Exif.Photo.LensSpecification                 Rational    4  160/10 500/10 28/10 28/10  16-50mm F2.8
 Exif.Photo.LensModel                         Ascii      20  DT 16-50mm F2.8 SSM  DT 16-50mm F2.8 SSM
 Exif.Image.PrintImageMatching                Undefined 106  80 114 105 110 116 73 77 0 48 51 48 48 0 0 3 0 2 0 1 0 0 0 3 0 34 0 0 0 1 1 0 0 0 0 9 17 0 0 16 39 0 0 11 15 0 0 16 39 0 0 151 5 0 0 16 39 0 0 176 8 0 0 16 39 0 0 1 28 0 0 16 39 0 0 94 2 0 0 16 39 0 0 139 0 0 0 16 39 0 0 203 3 0 0 16 39 0 0 229 27 0 0 16 39 0 0  80 114 105 110 116 73 77 0 48 51 48 48 0 0 3 0 2 0 1 0 0 0 3 0 34 0 0 0 1 1 0 0 0 0 9 17 0 0 16 39 0 0 11 15 0 0 16 39 0 0 151 5 0 0 16 39 0 0 176 8 0 0 16 39 0 0 1 28 0 0 16 39 0 0 94 2 0 0 16 39 0 0 139 0 0 0 16 39 0 0 203 3 0 0 16 39 0 0 229 27 0 0 16 39 0 0
 Exif.Thumbnail.Compression                   Short       1  6  JPEG (old-style)

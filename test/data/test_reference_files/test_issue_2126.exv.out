@@ -191,7 +191,7 @@ Exif.Photo.GainControl                       Short       1  0  None
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  12/1 100/1 40/10 40/10  12/1 100/1 40/10 40/10
+Exif.Photo.LensSpecification                 Rational    4  12/1 100/1 40/10 40/10  12-100mm F4
 Exif.Photo.LensModel                         Ascii      32  OLYMPUS M.12-100mm F4.0  OLYMPUS M.12-100mm F4.0
 Exif.Image.GPSTag                            Long        1  19878  19878
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 3 0 0  2.3.0.0

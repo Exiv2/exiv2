@@ -139,7 +139,7 @@ Exif.Photo.SceneType                         Undefined   1  1  Directly photogra
 Exif.Photo.ExposureMode                      Short       1  0  Auto
 Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.FocalLengthIn35mmFilm             Short       1  26  26.0 mm
-Exif.Photo.LensSpecification                 Rational    4  807365/524263 6/1 8/5 12/5  807365/524263 6/1 8/5 12/5
+Exif.Photo.LensSpecification                 Rational    4  807365/524263 6/1 8/5 12/5  1.54-6mm F1.6-2.4
 Exif.Photo.LensMake                          Ascii       6  Apple  Apple
 Exif.Photo.LensModel                         Ascii      45  iPhone 12 Pro back triple camera 4.2mm f/1.6  iPhone 12 Pro back triple camera 4.2mm f/1.6
 Exif.Image.GPSTag                            Long        1  4630  4630

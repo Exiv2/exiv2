@@ -98,7 +98,7 @@ Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  110/10 180/10 45/10 56/10  110/10 180/10 45/10 56/10
+Exif.Photo.LensSpecification                 Rational    4  110/10 180/10 45/10 56/10  11-18mm F4.5-5.6
 Exif.Photo.LensModel                         Ascii      20  DT 11-18mm F4.5-5.6  DT 11-18mm F4.5-5.6
 Exif.Image.GPSTag                            Long        1  21018  21018
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 3 0 0  2.3.0.0

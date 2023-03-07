@@ -230,7 +230,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
 Exif.Photo.BodySerialNumber                  Ascii      13  403022001947  403022001947
-Exif.Photo.LensSpecification                 Rational    4  24/1 105/1 0/1 0/1  24/1 105/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  24/1 105/1 0/1 0/1  24-105mm
 Exif.Photo.LensModel                         Ascii      25  RF24-105mm F4-7.1 IS STM  RF24-105mm F4-7.1 IS STM
 Exif.Photo.LensSerialNumber                  Ascii      11  000002a620  000002a620
 Exif.Image.GPSTag                            Long        1  10982  10982

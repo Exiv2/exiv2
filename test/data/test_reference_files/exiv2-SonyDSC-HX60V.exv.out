@@ -130,5 +130,5 @@ Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  430/100 12900/100 35/10 63/10  430/100 12900/100 35/10 63/10
+Exif.Photo.LensSpecification                 Rational    4  430/100 12900/100 35/10 63/10  4.3-129mm F3.5-6.3
 Exif.Image.PrintImageMatching                Undefined  28  80 114 105 110 116 73 77 0 48 51 48 48 0 0 2 0 2 0 1 0 0 0 1 1 1 0 0 0  80 114 105 110 116 73 77 0 48 51 48 48 0 0 2 0 2 0 1 0 0 0 1 1 1 0 0 0

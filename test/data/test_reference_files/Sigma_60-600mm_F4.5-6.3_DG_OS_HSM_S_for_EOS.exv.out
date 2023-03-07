@@ -216,7 +216,7 @@ Exif.Photo.ExposureMode                      Short       1  1  Manual
 Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
-Exif.Photo.LensSpecification                 Rational    4  60/1 600/1 0/1 0/1  60/1 600/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  60/1 600/1 0/1 0/1  60-600mm
 Exif.Photo.LensModel                         Ascii      41  60-600mm F4.5-6.3 DG OS HSM | Sports 018  60-600mm F4.5-6.3 DG OS HSM | Sports 018
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.GPSTag                            Long        1  42402  42402

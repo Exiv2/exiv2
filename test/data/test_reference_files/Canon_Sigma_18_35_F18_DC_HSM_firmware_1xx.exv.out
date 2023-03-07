@@ -197,7 +197,7 @@ Exif.Photo.ExposureMode                      Short       1  0  Auto
 Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii      27  Leonardo Brondani Schenkel  Leonardo Brondani Schenkel
-Exif.Photo.LensSpecification                 Rational    4  18/1 35/1 0/1 0/1  18/1 35/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  18/1 35/1 0/1 0/1  18-35mm
 Exif.Photo.LensModel                         Ascii       8  18-35mm  18-35mm
 Exif.Image.GPSTag                            Long        1  9406  9406
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 3 0 0  2.3.0.0

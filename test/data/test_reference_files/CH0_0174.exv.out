@@ -179,7 +179,7 @@ Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
 Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
 Exif.Photo.BodySerialNumber                  Ascii       8  6078248  6078248
-Exif.Photo.LensSpecification                 Rational    4  700/10 2000/10 280/100 280/100  700/10 2000/10 280/100 280/100
+Exif.Photo.LensSpecification                 Rational    4  700/10 2000/10 280/100 280/100  70-200mm F2.8
 Exif.Photo.LensMake                          Ascii       6    
 Exif.Photo.LensModel                         Ascii      65    
 Exif.Photo.LensSerialNumber                  Ascii      11    

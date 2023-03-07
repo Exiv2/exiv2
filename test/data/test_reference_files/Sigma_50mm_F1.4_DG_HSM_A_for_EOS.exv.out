@@ -218,7 +218,7 @@ Exif.Photo.ExposureMode                      Short       1  0  Auto
 Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
-Exif.Photo.LensSpecification                 Rational    4  50/1 50/1 0/1 0/1  50/1 50/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  50/1 50/1 0/1 0/1  50mm
 Exif.Photo.LensModel                         Ascii      27  50mm F1.4 DG HSM | Art 014  50mm F1.4 DG HSM | Art 014
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.GPSTag                            Long        1  43020  43020
