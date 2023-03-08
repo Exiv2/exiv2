@@ -264,9 +264,6 @@ ExifKey::ExifKey(const std::string& key) : p_(std::make_unique<Impl>()) {
 ExifKey::ExifKey(const ExifKey& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
-ExifKey::ExifKey(ExifKey&& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
-}
-
 ExifKey::~ExifKey() = default;
 
 ExifKey& ExifKey::operator=(const ExifKey& rhs) {
@@ -274,14 +271,6 @@ ExifKey& ExifKey::operator=(const ExifKey& rhs) {
     return *this;
   Key::operator=(rhs);
   *p_ = *rhs.p_;
-  return *this;
-}
-
-ExifKey& ExifKey::operator=(ExifKey&& rhs) {
-  if (this == &rhs)
-    return *this;
-  *p_ = *rhs.p_;
-  Key::operator=(std::move(rhs));
   return *this;
 }
 

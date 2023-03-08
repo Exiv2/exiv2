@@ -624,12 +624,9 @@ int Rename::run(const std::string& path) {
       std::cerr << path << ": " << _("No Exif data found in the file\n");
       return -3;
     }
-    Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
-    auto md = exifData.findKey(key);
-    if (md == exifData.end()) {
-      key = Exiv2::ExifKey("Exif.Image.DateTime");
-      md = exifData.findKey(key);
-    }
+    auto md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
+    if (md == exifData.end())
+      md = exifData.findKey(Exiv2::ExifKey("Exif.Image.DateTime"));
     if (md == exifData.end()) {
       std::cerr << _("Neither tag") << " `Exif.Photo.DateTimeOriginal' " << _("nor") << " `Exif.Image.DateTime' "
                 << _("found in the file") << " " << path << "\n";
