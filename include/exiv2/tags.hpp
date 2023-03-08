@@ -308,9 +308,6 @@ class EXIV2API ExifKey : public Key {
   ~ExifKey() override;
   //@}
 
-  ExifKey(ExifKey&& rhs);
-  ExifKey& operator=(ExifKey&& rhs);
-
   //! @name Manipulators
   //@{
   /*!
