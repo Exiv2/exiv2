@@ -24,7 +24,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          python3 -m pip install conan==1.55.0 gcovr ninja
+          python3 -m pip install conan==1.59.0 gcovr ninja
 
       - name: Conan common config
         run: |
