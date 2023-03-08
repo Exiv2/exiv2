@@ -12,7 +12,7 @@
 using namespace Exiv2;
 using ::testing::StartsWith;
 
-TEST(IptcDataSets, dataSetName_returnsValidNamesWhenRequestingNumbersAvailableInEnvelopeRecord) {
+TEST(IptcDataSets, dataSetNameReturnsValidNamesWhenRequestingNumbersAvailableInEnvelopeRecord) {
   ASSERT_EQ("ModelVersion", IptcDataSets::dataSetName(IptcDataSets::ModelVersion, IptcDataSets::envelope));
   ASSERT_EQ("Destination", IptcDataSets::dataSetName(IptcDataSets::Destination, IptcDataSets::envelope));
   ASSERT_EQ("FileFormat", IptcDataSets::dataSetName(IptcDataSets::FileFormat, IptcDataSets::envelope));
@@ -21,17 +21,17 @@ TEST(IptcDataSets, dataSetName_returnsValidNamesWhenRequestingNumbersAvailableIn
   ASSERT_EQ("EnvelopeNumber", IptcDataSets::dataSetName(IptcDataSets::EnvelopeNumber, IptcDataSets::envelope));
 }
 
-TEST(IptcDataSets, dataSetName_returnsValidNamesWhenRequestingNumbersAvailableInApplicationRecord) {
+TEST(IptcDataSets, dataSetNameReturnsValidNamesWhenRequestingNumbersAvailableInApplicationRecord) {
   ASSERT_EQ("ObjectType", IptcDataSets::dataSetName(IptcDataSets::ObjectType, IptcDataSets::application2));
   ASSERT_EQ("ObjectAttribute", IptcDataSets::dataSetName(IptcDataSets::ObjectAttribute, IptcDataSets::application2));
 }
 
-TEST(IptcDataSets, dataSetName_returnsWrongNamesWhenRequestingNumbersNotAvailableInEnvelopeRecord) {
+TEST(IptcDataSets, dataSetNameReturnsWrongNamesWhenRequestingNumbersNotAvailableInEnvelopeRecord) {
   ASSERT_EQ("0x0003", IptcDataSets::dataSetName(IptcDataSets::ObjectType, IptcDataSets::envelope));
   ASSERT_EQ("0x0004", IptcDataSets::dataSetName(IptcDataSets::ObjectAttribute, IptcDataSets::envelope));
 }
 
-TEST(IptcDataSets, dataSetTitle_returnsValidTitleWhenRequestingNumbersAvailableInRecord) {
+TEST(IptcDataSets, dataSetTitleReturnsValidTitleWhenRequestingNumbersAvailableInRecord) {
   ASSERT_STREQ("Model Version", IptcDataSets::dataSetTitle(IptcDataSets::ModelVersion, IptcDataSets::envelope));
   ASSERT_STREQ("Destination", IptcDataSets::dataSetTitle(IptcDataSets::Destination, IptcDataSets::envelope));
   ASSERT_STREQ("File Format", IptcDataSets::dataSetTitle(IptcDataSets::FileFormat, IptcDataSets::envelope));
@@ -41,7 +41,7 @@ TEST(IptcDataSets, dataSetTitle_returnsValidTitleWhenRequestingNumbersAvailableI
                IptcDataSets::dataSetTitle(IptcDataSets::ObjectAttribute, IptcDataSets::application2));
 }
 
-TEST(IptcDataSets, dataSetTitle_returnsUnknownStringWhenRequestingNumbersNotAvailableInEnvelopeRecord) {
+TEST(IptcDataSets, dataSetTitleReturnsUnknownStringWhenRequestingNumbersNotAvailableInEnvelopeRecord) {
   ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetTitle(IptcDataSets::ObjectType, IptcDataSets::envelope));
   ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetTitle(IptcDataSets::ObjectAttribute, IptcDataSets::envelope));
 }
@@ -56,14 +56,14 @@ TEST(IptcDataSets, dataSetTitle_returnsUnknownStringWhenRequestingNumbersNotAvai
 //  ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetTitle(IptcDataSets::FileFormat, IptcDataSets::application2));
 //}
 
-TEST(IptcDataSets, dataSetTitle_returnsUnknownStringWhenRequestingNumbersNotAvailableInApplicationRecord) {
+TEST(IptcDataSets, dataSetTitleReturnsUnknownStringWhenRequestingNumbersNotAvailableInApplicationRecord) {
   ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetTitle(1, IptcDataSets::envelope));
   ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetTitle(2, IptcDataSets::envelope));
 }
 
 // ----------------------
 
-TEST(IptcDataSets, dataSetDescription_returnsValidDescriptionWhenRequestingNumbersAvailableInRecord) {
+TEST(IptcDataSets, dataSetDescriptionReturnsValidDescriptionWhenRequestingNumbersAvailableInRecord) {
   ASSERT_THAT(IptcDataSets::dataSetDesc(IptcDataSets::ModelVersion, IptcDataSets::envelope),
               StartsWith("A binary number identifying the version of the Information Interchange Model"));
   ASSERT_THAT(IptcDataSets::dataSetDesc(IptcDataSets::FileFormat, IptcDataSets::envelope),
@@ -75,7 +75,7 @@ TEST(IptcDataSets, dataSetDescription_returnsValidDescriptionWhenRequestingNumbe
               StartsWith("The Object Type is used to distinguish between different types of objects within the IIM"));
 }
 
-TEST(IptcDataSets, dataSetDescription_returnsUnknownStringWhenRequestingNumbersNotAvailableInRecord) {
+TEST(IptcDataSets, dataSetDescriptionReturnsUnknownStringWhenRequestingNumbersNotAvailableInRecord) {
   ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetDesc(1, IptcDataSets::envelope));
   ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetDesc(2, IptcDataSets::envelope));
 
@@ -85,14 +85,14 @@ TEST(IptcDataSets, dataSetDescription_returnsUnknownStringWhenRequestingNumbersN
 
 // ----------------------
 
-TEST(IptcDataSets, dataSetPsName_returnsValidPsNameWhenRequestingNumbersAvailableInRecord) {
+TEST(IptcDataSets, dataSetPsNameReturnsValidPsNameWhenRequestingNumbersAvailableInRecord) {
   ASSERT_STREQ("", IptcDataSets::dataSetPsName(IptcDataSets::FileFormat, IptcDataSets::envelope));
 
   ASSERT_STREQ("Document Title", IptcDataSets::dataSetPsName(IptcDataSets::ObjectName, IptcDataSets::application2));
   ASSERT_STREQ("Urgency", IptcDataSets::dataSetPsName(IptcDataSets::Urgency, IptcDataSets::application2));
 }
 
-TEST(IptcDataSets, dataSetPsName_returnsUnknownStringWhenRequestingNumbersNotAvailableInRecord) {
+TEST(IptcDataSets, dataSetPsNameReturnsUnknownStringWhenRequestingNumbersNotAvailableInRecord) {
   ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetPsName(1, IptcDataSets::envelope));
   ASSERT_STREQ("Unknown dataset", IptcDataSets::dataSetPsName(2, IptcDataSets::envelope));
 
@@ -102,7 +102,7 @@ TEST(IptcDataSets, dataSetPsName_returnsUnknownStringWhenRequestingNumbersNotAva
 
 // ----------------------
 
-TEST(IptcDataSets, dataSetRepeatable_returnsExpectedValueNameWhenRequestingNumbersAvailableInRecord) {
+TEST(IptcDataSets, dataSetRepeatableReturnsExpectedValueNameWhenRequestingNumbersAvailableInRecord) {
   ASSERT_TRUE(IptcDataSets::dataSetRepeatable(IptcDataSets::Destination, IptcDataSets::envelope));
   ASSERT_FALSE(IptcDataSets::dataSetRepeatable(IptcDataSets::FileFormat, IptcDataSets::envelope));
 
@@ -111,7 +111,7 @@ TEST(IptcDataSets, dataSetRepeatable_returnsExpectedValueNameWhenRequestingNumbe
 }
 
 /// \todo check if we want to return true in this case or throw an exception ...
-TEST(IptcDataSets, dataSetRepeatable_returnsTrueWhenRequestingNumbersNotAvailableInRecord) {
+TEST(IptcDataSets, dataSetRepeatableReturnsTrueWhenRequestingNumbersNotAvailableInRecord) {
   ASSERT_TRUE(IptcDataSets::dataSetRepeatable(1, IptcDataSets::envelope));
   ASSERT_TRUE(IptcDataSets::dataSetRepeatable(2, IptcDataSets::envelope));
 
@@ -121,7 +121,7 @@ TEST(IptcDataSets, dataSetRepeatable_returnsTrueWhenRequestingNumbersNotAvailabl
 
 // ----------------------
 
-TEST(IptcDataSets, dataSet_returnsExpectedValueWhenRequestingValidDatasetName) {
+TEST(IptcDataSets, dataSetReturnsExpectedValueWhenRequestingValidDatasetName) {
   ASSERT_EQ(IptcDataSets::ModelVersion, IptcDataSets::dataSet("ModelVersion", IptcDataSets::envelope));
   ASSERT_EQ(IptcDataSets::FileFormat, IptcDataSets::dataSet("FileFormat", IptcDataSets::envelope));
 
@@ -129,7 +129,7 @@ TEST(IptcDataSets, dataSet_returnsExpectedValueWhenRequestingValidDatasetName) {
   ASSERT_EQ(IptcDataSets::FixtureId, IptcDataSets::dataSet("FixtureId", IptcDataSets::application2));
 }
 
-TEST(IptcDataSets, dataSet_throwWithNonExistingDatasetName) {
+TEST(IptcDataSets, dataSetThrowWithNonExistingDatasetName) {
   try {
     IptcDataSets::dataSet("NonExistingName", IptcDataSets::envelope);
     FAIL();
@@ -140,7 +140,7 @@ TEST(IptcDataSets, dataSet_throwWithNonExistingDatasetName) {
 }
 
 /// \todo Weird error reporting here. It should indicate that the record specified does not exist
-TEST(IptcDataSets, dataSet_throwWithNonExistingRecordId) {
+TEST(IptcDataSets, dataSetThrowWithNonExistingRecordId) {
   try {
     IptcDataSets::dataSet("ModelVersion", 5);
     FAIL();
@@ -152,7 +152,7 @@ TEST(IptcDataSets, dataSet_throwWithNonExistingRecordId) {
 
 // ----------------------
 
-TEST(IptcDataSets, dataSetType_returnsExpectedTypeWhenRequestingValidDataset) {
+TEST(IptcDataSets, dataSetTypeReturnsExpectedTypeWhenRequestingValidDataset) {
   ASSERT_EQ(unsignedShort, IptcDataSets::dataSetType(IptcDataSets::ModelVersion, IptcDataSets::envelope));
   ASSERT_EQ(Exiv2::string, IptcDataSets::dataSetType(IptcDataSets::Destination, IptcDataSets::envelope));
 
@@ -161,49 +161,49 @@ TEST(IptcDataSets, dataSetType_returnsExpectedTypeWhenRequestingValidDataset) {
 }
 
 /// \todo probably better to throw exception here?
-TEST(IptcDataSets, dataSetType_returnsStringTypeWhenRecordIdDoesNotExist) {
+TEST(IptcDataSets, dataSetTypeReturnsStringTypeWhenRecordIdDoesNotExist) {
   ASSERT_EQ(Exiv2::string, IptcDataSets::dataSetType(1, 5));
 }
 
 // ----------------------
 
-TEST(IptcDataSets, recordName_returnsExpectedNameWhenRequestingValidRecordId) {
+TEST(IptcDataSets, recordNameReturnsExpectedNameWhenRequestingValidRecordId) {
   ASSERT_EQ("Envelope", IptcDataSets::recordName(IptcDataSets::envelope));
   ASSERT_EQ("Application2", IptcDataSets::recordName(IptcDataSets::application2));
 }
 
-TEST(IptcDataSets, recordName_returnsHexStringWhenRecordIdDoesNotExist) {
+TEST(IptcDataSets, recordNameReturnsHexStringWhenRecordIdDoesNotExist) {
   ASSERT_EQ("0x0000", IptcDataSets::recordName(0));
   ASSERT_EQ("0x0003", IptcDataSets::recordName(3));
 }
 
 // ----------------------
 
-TEST(IptcDataSets, recordDesc_returnsExpectedDescriptionWhenRequestingValidRecordId) {
+TEST(IptcDataSets, recordDescReturnsExpectedDescriptionWhenRequestingValidRecordId) {
   ASSERT_STREQ("IIM envelope record", IptcDataSets::recordDesc(IptcDataSets::envelope));
   ASSERT_STREQ("IIM application record 2", IptcDataSets::recordDesc(IptcDataSets::application2));
 }
 
-TEST(IptcDataSets, recordDesc_) {
+TEST(IptcDataSets, recordDesc) {
   ASSERT_STREQ("Unknown dataset", IptcDataSets::recordDesc(0));
   ASSERT_STREQ("Unknown dataset", IptcDataSets::recordDesc(3));
 }
 
 // ----------------------
 
-TEST(IptcDataSets, recordId_returnsExpectedIdWithValidRecordName) {
+TEST(IptcDataSets, recordIdReturnsExpectedIdWithValidRecordName) {
   ASSERT_EQ(IptcDataSets::envelope, IptcDataSets::recordId("Envelope"));
   ASSERT_EQ(IptcDataSets::application2, IptcDataSets::recordId("Application2"));
 }
 
-TEST(IptcDataSets, recordId_throwsExceptionWithInvalidRecordName) {
+TEST(IptcDataSets, recordIdThrowsExceptionWithInvalidRecordName) {
   ASSERT_THROW(IptcDataSets::recordId("NonExistingName"), Exiv2::Error);
   ASSERT_THROW(IptcDataSets::recordId(""), Exiv2::Error);
 }
 
 // ----------------------
 
-TEST(IptcDataSets, dataSetLists_printDatasetsIntoOstream) {
+TEST(IptcDataSets, dataSetListsPrintDatasetsIntoOstream) {
   std::ostringstream stream;
   ASSERT_NO_THROW(IptcDataSets::dataSetList(stream));
   ASSERT_FALSE(stream.str().empty());
