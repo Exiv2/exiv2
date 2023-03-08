@@ -53,7 +53,7 @@ TEST(DataBuf, tryingToAccessTooFarElementThrows) {
   ASSERT_THROW([[maybe_unused]] auto d = instance.c_data(4), std::out_of_range);
 }
 
-TEST(DataBuf, read_uintFunctionsWorksOnExistingData) {
+TEST(DataBuf, readUintFunctionsWorksOnExistingData) {
   const std::array<byte, 8> data{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
   DataBuf instance(data.data(), data.size());
   ASSERT_EQ(data[0], instance.read_uint8(0));
@@ -62,7 +62,7 @@ TEST(DataBuf, read_uintFunctionsWorksOnExistingData) {
   ASSERT_EQ(0x0001020304050607, instance.read_uint64(0, bigEndian));
 }
 
-TEST(DataBuf, read_uintFunctionsThrowsOnTooFarElements) {
+TEST(DataBuf, readUintFunctionsThrowsOnTooFarElements) {
   const std::array<byte, 8> data{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
   DataBuf instance(data.data(), data.size());
   ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint8(data.size()), std::out_of_range);
@@ -71,7 +71,7 @@ TEST(DataBuf, read_uintFunctionsThrowsOnTooFarElements) {
   ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint64(data.size(), bigEndian), std::out_of_range);
 }
 
-TEST(DataBuf, write_uintFunctionsWorksWhenThereIsEnoughData) {
+TEST(DataBuf, writeUintFunctionsWorksWhenThereIsEnoughData) {
   DataBuf instance(8);
   std::uint64_t val{0x0102030405060708};
   ASSERT_NO_THROW(instance.write_uint8(0, (val >> 56)));
@@ -87,7 +87,7 @@ TEST(DataBuf, write_uintFunctionsWorksWhenThereIsEnoughData) {
   ASSERT_EQ(val, instance.read_uint64(0, bigEndian));
 }
 
-TEST(DataBuf, write_uintFunctionsThrowsIfTryingToWriteOutOfBounds) {
+TEST(DataBuf, writeUintFunctionsThrowsIfTryingToWriteOutOfBounds) {
   DataBuf instance(8);
   std::uint64_t val{0x0102030405060708};
   ASSERT_THROW(instance.write_uint8(8, (val >> 56)), std::out_of_range);
@@ -97,7 +97,7 @@ TEST(DataBuf, write_uintFunctionsThrowsIfTryingToWriteOutOfBounds) {
 }
 
 // Test methods like DataBuf::read_uint32 and DataBuf::write_uint32.
-TEST(DataBuf, read_write_endianess) {
+TEST(DataBuf, readWriteEndianess) {
   DataBuf buf(4 + 1 + 2 + 4 + 8);
 
   // Big endian.
