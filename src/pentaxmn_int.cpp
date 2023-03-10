@@ -1076,7 +1076,7 @@ static ExifData::const_iterator findLensInfo(const ExifData* metadata) {
 }
 
 //! resolveLens0x32c print lens in human format
-std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifData* metadata) {
   try {
     unsigned long index = 0;
 
@@ -1102,7 +1102,7 @@ std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifD
 
 // #816 begin
 //! resolveLens0x3ff print lens in human format
-std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1165,7 +1165,7 @@ std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifD
 
 // #1155
 //! resolveLens0x8ff print lens in human format
-std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1192,7 +1192,7 @@ std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifD
 
 // #1155
 //! resolveLens0x319 print lens in human format
-std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1225,7 +1225,7 @@ std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifD
 }
 
 //! resolveLensType print lens in human format
-std::ostream& resolveLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& resolveLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
 }
 
@@ -1247,7 +1247,7 @@ constexpr LensIdFct lensIdFct[] = {
 };
 
 //! A lens id and a pretty-print function for special treatment of the id.
-std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
   // #1034
   const std::string undefined("undefined");
   const std::string section("pentax");

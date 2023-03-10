@@ -173,7 +173,7 @@ static bool tEXtToDataBuf(const byte* bytes, size_t length, DataBuf& result) {
   return true;
 }
 
-std::string::size_type findi(const std::string& str, const std::string& substr) {
+static std::string::size_type findi(const std::string& str, const std::string& substr) {
   return str.find(substr);
 }
 
@@ -374,7 +374,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
   }
 }
 
-void readChunk(DataBuf& buffer, BasicIo& io) {
+static void readChunk(DataBuf& buffer, BasicIo& io) {
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;
 #endif

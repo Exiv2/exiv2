@@ -419,16 +419,6 @@ int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size) {
   return 0;
 }  // IptcParser::decode
 
-/*!
-  @brief Compare two iptc items by record. Return true if the record of
-         lhs is less than that of rhs.
-
-  This is a helper function for IptcParser::encode().
- */
-bool cmpIptcdataByRecord(const Iptcdatum& lhs, const Iptcdatum& rhs) {
-  return lhs.record() < rhs.record();
-}
-
 DataBuf IptcParser::encode(const IptcData& iptcData) {
   if (iptcData.empty())
     return {};
@@ -439,7 +429,8 @@ DataBuf IptcParser::encode(const IptcData& iptcData) {
   // Copy the iptc data sets and sort them by record but preserve the order of datasets
   IptcMetadata sortedIptcData;
   std::copy(iptcData.begin(), iptcData.end(), std::back_inserter(sortedIptcData));
-  std::stable_sort(sortedIptcData.begin(), sortedIptcData.end(), cmpIptcdataByRecord);
+  std::stable_sort(sortedIptcData.begin(), sortedIptcData.end(),
+                   [](const auto& l, const auto& r) { return l.record() < r.record(); });
 
   for (const auto& iter : sortedIptcData) {
     // marker, record Id, dataset num

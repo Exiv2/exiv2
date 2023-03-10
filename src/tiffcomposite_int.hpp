@@ -569,8 +569,6 @@ class TiffEntry : public TiffEntryBase {
   //! Constructor
   TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
   }
-  //! Virtual destructor.
-  ~TiffEntry() override = default;
   //@}
 
  protected:
@@ -603,8 +601,6 @@ class TiffDataEntryBase : public TiffEntryBase {
   TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup) :
       TiffEntryBase(tag, group), szTag_(szTag), szGroup_(szGroup) {
   }
-  //! Virtual destructor.
-  ~TiffDataEntryBase() override = default;
   //@}
 
   //! @name Manipulators
@@ -790,8 +786,6 @@ class TiffSizeEntry : public TiffEntryBase {
   TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
       TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
   }
-  //! Virtual destructor.
-  ~TiffSizeEntry() override = default;
   //@}
 
   //! @name Accessors
@@ -1420,8 +1414,6 @@ class TiffBinaryElement : public TiffEntryBase {
   //@{
   //! Constructor
   TiffBinaryElement(uint16_t tag, IfdId group);
-  //! Virtual destructor.
-  ~TiffBinaryElement() override = default;
   //@}
 
   //! @name Manipulators

@@ -441,7 +441,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
           }
           // save data for post-processing in meta box
           if (offset && ldata && ID != unknownID_) {
-            ilocs_[ID] = Iloc(ID, offset, ldata);
+            ilocs_[ID] = Iloc{ID, offset, ldata};
           }
         }
       }

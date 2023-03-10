@@ -447,7 +447,7 @@ enum audioDescTags { AudioFormat, AudioVendorID = 4, AudioChannels, AudioSampleR
   @param str char* Pointer to string
   @return Returns true if the buffer value is equal to string.
  */
-bool equalsQTimeTag(Exiv2::DataBuf& buf, const char* str) {
+static bool equalsQTimeTag(Exiv2::DataBuf& buf, const char* str) {
   for (int i = 0; i < 4; ++i)
     if (tolower(buf.data()[i]) != tolower(str[i]))
       return false;
@@ -460,7 +460,7 @@ bool equalsQTimeTag(Exiv2::DataBuf& buf, const char* str) {
   @param buf Data buffer that will contain Tag to compare
   @return Returns true, if Tag is found in the ignoreList[]
  */
-bool ignoreList(Exiv2::DataBuf& buf) {
+static bool ignoreList(Exiv2::DataBuf& buf) {
   const char ignoreList[13][5] = {
       "mdat", "edts", "junk", "iods", "alis", "stsc", "stsz", "stco", "ctts", "stss", "skip", "wide", "cmvd",
   };
@@ -479,7 +479,7 @@ bool ignoreList(Exiv2::DataBuf& buf) {
   @param buf Data buffer that will contain Tag to compare
   @return Returns true, if Tag is found in the ignoreList[]
  */
-bool dataIgnoreList(Exiv2::DataBuf& buf) {
+static bool dataIgnoreList(Exiv2::DataBuf& buf) {
   const char ignoreList[8][5] = {
       "moov", "mdia", "minf", "dinf", "alis", "stbl", "cmov", "meta",
   };

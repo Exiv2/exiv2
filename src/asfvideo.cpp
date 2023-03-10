@@ -200,7 +200,7 @@ const std::map<AsfVideo::GUIDTag, std::string> GUIDReferenceTags = {
   @param buf Exiv2 byte buffer
   @return Returns true if the buffer data is equivalent to Header GUID.
  */
-bool isASFType(const byte buf[]) {
+static bool isASFType(const byte buf[]) {
   return Header == AsfVideo::GUIDTag(buf);
 }
 

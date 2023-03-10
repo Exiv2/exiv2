@@ -584,7 +584,7 @@ const MatroskaTag streamRate[] = {
       bytes are used to calculate the rest of the Tag.
       Returns Tag Value.
  */
-[[nodiscard]] size_t returnTagValue(const byte* buf, size_t size) {
+[[nodiscard]] static size_t returnTagValue(const byte* buf, size_t size) {
   enforce(size > 0 && size <= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
 
   size_t b0 = buf[0] & (0xff >> size);
