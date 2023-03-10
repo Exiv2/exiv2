@@ -332,7 +332,7 @@ EXIV2API bool isHex(const std::string& str, size_t size = 0, const std::string& 
          "2007:05:24 12:31:55" to broken down time format,
          returns 0 if successful, else 1.
  */
-EXIV2API int exifTime(const char* buf, struct tm* tm);
+EXIV2API int exifTime(const char* buf, tm* tm);
 
 /*!
   @brief Translate a string using the gettext framework. This wrapper hides

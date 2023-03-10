@@ -488,7 +488,7 @@ bool isHex(const std::string& str, size_t size, const std::string& prefix) {
   return true;
 }  // isHex
 
-int exifTime(const char* buf, struct tm* tm) {
+int exifTime(const char* buf, tm* tm) {
   int rc = 1;
   int year = 0, mon = 0, mday = 0, hour = 0, min = 0, sec = 0;
   if (std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d", &year, &mon, &mday, &hour, &min, &sec) == 6) {

@@ -3104,7 +3104,7 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
      *
      * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
      */
-    const struct FMntLens* pf = fmountlens;
+    const FMntLens* pf = fmountlens;
     while (pf->lid && pf->lensname) {
       if (pf->lid == vid) {
         break;
