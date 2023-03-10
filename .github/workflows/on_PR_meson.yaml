@@ -51,10 +51,8 @@ jobs:
           arch: ${{matrix.platform}}
 
       - name: Compile and Test
-        env:
-          CXXFLAGS: '/analyze'
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=everything -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
 
