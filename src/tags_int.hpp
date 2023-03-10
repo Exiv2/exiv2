@@ -17,9 +17,6 @@ namespace Exiv2::Internal {
 
 //! The details of a section.
 struct SectionInfo {
-  constexpr SectionInfo(SectionId sectionId, const char* name, const char* desc) :
-      sectionId_(sectionId), name_(name), desc_(desc) {
-  }
   SectionId sectionId_;  //!< Section id
   const char* name_;     //!< Section name (one word)
   const char* desc_;     //!< Section description
@@ -48,10 +45,10 @@ struct StringTagDetails {
   const char* label_;  //!< Translation of the tag value
 
   //! Comparison operator for use with the find template
-  bool operator==(const char* key) const {
+  inline bool operator==(const char* key) const {
     return (strcmp(val_, key) == 0);
   }
-  bool operator==(const std::string& key) const {
+  inline bool operator==(const std::string& key) const {
     return (key == val_);
   }
 };  // struct TagDetails
