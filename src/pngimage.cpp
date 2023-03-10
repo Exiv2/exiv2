@@ -320,7 +320,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
 
           if (bExif || bIptc) {
             DataBuf parsedBuf = PngChunk::readRawProfile(dataBuf, tEXt);
-#if EXIV2_DEBUG_MESSAGES
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << Exiv2::Internal::binaryToString(
                              makeSlice(parsedBuf.c_data(), parsedBuf.size() > 50 ? 50 : parsedBuf.size(), 0))
                       << std::endl;
