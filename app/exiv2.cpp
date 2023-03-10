@@ -963,7 +963,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
     fd_set readfds;
     FD_ZERO(&readfds);
     FD_SET(STDIN_FILENO, &readfds);
-    struct timeval timeout = {1, 0};  // yes: set timeout seconds,microseconds
+    timeval timeout = {1, 0};  // yes: set timeout seconds,microseconds
 
     // if we have something in the pipe, read it
     if (select(1, &readfds, nullptr, nullptr, &timeout)) {

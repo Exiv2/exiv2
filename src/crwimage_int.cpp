@@ -741,7 +741,7 @@ void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* 
   ULongValue v;
   v.read(ciffComponent.pData(), 8, byteOrder);
   time_t t = v.value_.at(0);
-  struct tm r;
+  tm r;
 #ifdef _WIN32
   auto tm = localtime_s(&r, &t) ? nullptr : &r;
 #else
@@ -930,7 +930,7 @@ void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, Cif
   time_t t = 0;
   const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
   if (auto ed = image.exifData().findKey(key); ed != image.exifData().end()) {
-    struct tm tm = {};
+    tm tm = {};
     if (exifTime(ed->toString().c_str(), &tm) == 0) {
       t = ::mktime(&tm);
     }

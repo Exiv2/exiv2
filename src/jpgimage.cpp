@@ -866,8 +866,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
 
         if (outIo.write(tmpBuf.data(), 4) != 4)
           throw Error(ErrorCode::kerImageWriteFailed);
-        if (outIo.write(reinterpret_cast<byte*>(const_cast<char*>(comment_.data())), comment_.length()) !=
-            comment_.length())
+        if (outIo.write(reinterpret_cast<byte*>(comment_.data()), comment_.length()) != comment_.length())
           throw Error(ErrorCode::kerImageWriteFailed);
         if (outIo.putb(0) == EOF)
           throw Error(ErrorCode::kerImageWriteFailed);

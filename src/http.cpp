@@ -204,7 +204,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   int server = -1;
 
   // fill in the address
-  struct sockaddr_in serv_addr = {};
+  sockaddr_in serv_addr = {};
   int serv_len = sizeof(serv_addr);
 
   serv_addr.sin_addr.s_addr = inet_addr(servername_p);
@@ -226,7 +226,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // and connect
-  server = connect(sockfd, reinterpret_cast<const struct sockaddr*>(&serv_addr), serv_len);
+  server = connect(sockfd, reinterpret_cast<const sockaddr*>(&serv_addr), serv_len);
   if (server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK) {
     closesocket(sockfd);
     return error(errors, "error - unable to connect to server = %s port = %s wsa_error = %d", servername_p, port_p,

@@ -14,7 +14,7 @@ using namespace Exiv2;
 // More info about tm : http://www.cplusplus.com/reference/ctime/tm/
 
 TEST(ExivTime, getsTimeFromValidString) {
-  struct tm tmInstance;
+  tm tmInstance;
   ASSERT_EQ(0, exifTime("2007:05:24 12:31:55", &tmInstance));
   ASSERT_EQ(107, tmInstance.tm_year);  // Years since 1900
   ASSERT_EQ(4, tmInstance.tm_mon);
@@ -25,7 +25,7 @@ TEST(ExivTime, getsTimeFromValidString) {
 }
 
 TEST(ExivTime, doesNotGetTimeWithBadFormedString) {
-  struct tm tmInstance;
+  tm tmInstance;
   ASSERT_EQ(1, exifTime("007:a5:24 aa:bb:cc", &tmInstance));
 }
 

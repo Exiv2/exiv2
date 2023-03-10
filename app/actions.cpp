@@ -64,7 +64,7 @@ class Timestamp {
   //! C'tor
   int read(const std::string& path);
   //! Read the timestamp from a broken-down time in buffer \em tm.
-  int read(struct tm* tm);
+  int read(tm* tm);
   //! Set the timestamp of a file
   int touch(const std::string& path) const;
 
@@ -74,16 +74,16 @@ class Timestamp {
 };
 
 /*!
-  @brief Convert a string "YYYY:MM:DD HH:MI:SS" to a struct tm type,
+  @brief Convert a string "YYYY:MM:DD HH:MI:SS" to a tm type,
          returns 0 if successful
  */
-int str2Tm(const std::string& timeStr, struct tm* tm);
+int str2Tm(const std::string& timeStr, tm* tm);
 
 //! Convert a localtime to a string "YYYY:MM:DD HH:MI:SS", "" on error
 std::string time2Str(time_t time);
 
 //! Convert a tm structure to a string "YYYY:MM:DD HH:MI:SS", "" on error
-std::string tm2Str(const struct tm* tm);
+std::string tm2Str(const tm* tm);
 
 /*!
   @brief Copy metadata from source to target according to Params::copyXyz
@@ -107,7 +107,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
               the file to.
   @return 0 if successful, -1 if the file was skipped, 1 on error.
 */
-int renameFile(std::string& path, const struct tm* tm);
+int renameFile(std::string& path, const tm* tm);
 
 /*!
   @brief Make a file path from the current file path, destination
@@ -637,7 +637,7 @@ int Rename::run(const std::string& path) {
       std::cerr << _("Image file creation timestamp not set in the file") << " " << path << "\n";
       return 1;
     }
-    struct tm tm;
+    tm tm;
     if (str2Tm(v, &tm) != 0) {
       std::cerr << _("Failed to parse timestamp") << " `" << v << "' " << _("in the file") << " " << path << "\n";
       return 1;
@@ -1401,7 +1401,7 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
       std::cout << " " << adjustment_ << _("s");
     }
   }
-  struct tm tm;
+  tm tm;
   if (str2Tm(timeStr, &tm) != 0) {
     if (Params::instance().verbose_)
       std::cout << std::endl;
@@ -1584,7 +1584,7 @@ int Timestamp::read(const std::string& path) {
   return rc;
 }
 
-int Timestamp::read(struct tm* tm) {
+int Timestamp::read(tm* tm) {
   int rc = 1;
   time_t t = mktime(tm);  // interpret tm according to current timezone settings
   if (t != static_cast<time_t>(-1)) {
@@ -1598,14 +1598,14 @@ int Timestamp::read(struct tm* tm) {
 int Timestamp::touch(const std::string& path) const {
   if (0 == actime_)
     return 1;
-  struct utimbuf buf;
+  utimbuf buf;
   buf.actime = actime_;
   buf.modtime = modtime_;
   return utime(path.c_str(), &buf);
 }
 //! @endcond
 
-int str2Tm(const std::string& timeStr, struct tm* tm) {
+int str2Tm(const std::string& timeStr, tm* tm) {
   if (timeStr.empty() || timeStr.front() == ' ')
     return 1;
   if (timeStr.length() < 19)
@@ -1615,7 +1615,7 @@ int str2Tm(const std::string& timeStr, struct tm* tm) {
     return 3;
   if (!tm)
     return 4;
-  std::memset(tm, 0x0, sizeof(struct tm));
+  std::memset(tm, 0x0, sizeof(*tm));
   tm->tm_isdst = -1;
 
   int64_t tmp = 0;
@@ -1656,7 +1656,7 @@ std::string time2Str(time_t time) {
   return tm2Str(tm);
 }  // time2Str
 
-std::string tm2Str(const struct tm* tm) {
+std::string tm2Str(const tm* tm) {
   if (!tm)
     return "";
 
@@ -1831,7 +1831,7 @@ void replace(std::string& text, const std::string& searchText, const std::string
   }
 }
 
-int renameFile(std::string& newPath, const struct tm* tm) {
+int renameFile(std::string& newPath, const tm* tm) {
   auto p = fs::path(newPath);
   std::string path = newPath;
   auto oldFsPath = fs::path(path);
