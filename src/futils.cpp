@@ -76,13 +76,13 @@ std::string getEnv(int env_var) {
 }
 
 /// @brief Convert an integer value to its hex character.
-char to_hex(char code) {
+static char to_hex(char code) {
   static const char hex[] = "0123456789abcdef";
   return hex[code & 15];
 }
 
 /// @brief Convert a hex character to its integer value.
-char from_hex(char ch) {
+static char from_hex(char ch) {
   return isdigit(ch) ? ch - '0' : static_cast<char>(tolower(ch)) - 'a' + 10;
 }
 

@@ -227,7 +227,6 @@ void printNode(const std::string& schemaNs, const std::string& propPath, const s
 
 //! Make an XMP key from a schema namespace and property path
 Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs, const std::string& propPath);
-#endif  // EXV_HAVE_XMP_TOOLKIT
 
 //! Helper class used to serialize critical sections
 class AutoLock {
@@ -248,6 +247,7 @@ class AutoLock {
   Exiv2::XmpParser::XmpLockFct xmpLockFct_;
   void* pLockData_;
 };
+#endif  // EXV_HAVE_XMP_TOOLKIT
 }  // namespace
 
 // *****************************************************************************

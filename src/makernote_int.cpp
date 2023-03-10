@@ -858,7 +858,7 @@ struct NikonArrayIdx {
   uint32_t start_;   //!< Start of the encrypted data
 };
 
-#define NA ((uint32_t)-1)
+#define NA std::numeric_limits<uint32_t>::max()
 
 //! Nikon binary array version lookup table
 constexpr NikonArrayIdx nikonArrayIdx[] = {

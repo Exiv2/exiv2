@@ -76,7 +76,7 @@ constexpr TagDetails fujiTone[] = {{0, N_("Normal")},       {80, N_("Medium High
 constexpr TagDetails fujiContrast[] = {{0, N_("Normal")}, {256, N_("High")}, {768, N_("Low")}};
 
 //! WhiteBalanceFineTune, tag 0x100a
-std::ostream& printFujiWhiteBalanceFineTune(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printFujiWhiteBalanceFineTune(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() == signedLong && value.size() == 8) {
     auto longValue = dynamic_cast<const LongValue&>(value);
     if (longValue.toInt64(0) % 20 == 0 && longValue.toInt64(1) % 20 == 0) {
@@ -186,7 +186,7 @@ constexpr TagDetails fujiSHTone[] = {{-64, N_("+4")}, {-56, N_("+3.5")}, {-48, N
                                      {32, N_("-2")}};
 
 //! DigitalZoom, tag 0x1044
-std::ostream& printFujiDigitalZoom(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printFujiDigitalZoom(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() == unsignedLong && value.size() == 4) {
     os << (value.toFloat() / 8);
   }
@@ -208,7 +208,7 @@ constexpr TagDetails fujiCropMode[] = {
 };
 
 //! MonochromaticColor, tag 0x1049 and 0x104b
-std::ostream& printFujiMonochromaticColor(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printFujiMonochromaticColor(std::ostream& os, const Value& value, const ExifData*) {
   if (value.size() == 1) {
     auto v = static_cast<std::int8_t>(value.toInt64());
     os << (v > 0 ? "+" : "") << static_cast<int>(v);
@@ -235,7 +235,7 @@ constexpr TagDetails fujiDriveSettingByte1[] = {
     {0, N_("Single")}, {1, N_("Continuous Low")}, {2, N_("Continuous High")}};
 
 //! DriveSetting, tag 0x1103
-std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value, const ExifData*) {
   auto byte1 = value.toInt64() & 0xff;
   auto byte2 = (value.toInt64() >> 8) & 0xff;
   auto byte3 = (value.toInt64() >> 16) & 0xff;
@@ -331,7 +331,7 @@ constexpr TagDetails fujiDRangePriorityFixed[] = {{1, N_("Weak")}, {2, N_("Stron
 constexpr TagDetails fujiFaceElementType[] = {{1, N_("Face")}, {2, N_("Left Eye")}, {3, N_("Right Eye")}};
 
 //! FaceElementType, tag 0x4203
-std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() == asciiString || value.typeId() == unsignedShort) {
     auto elements = value.count();
 

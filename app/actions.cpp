@@ -172,7 +172,7 @@ Task::UniquePtr TaskFactory::create(TaskType type) {
   return nullptr;
 }
 
-int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path, bool binary) {
+static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path, bool binary) {
   int result = 0;
   if (binary && option == Exiv2::kpsIccProfile) {
     std::stringstream output(std::stringstream::out | std::stringstream::binary);
@@ -1814,14 +1814,6 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
 
   return rc;
 }  // metacopy
-
-// Defined outside of the function so that Exiv2::find() can see it
-struct String {
-  const char* s_;
-  bool operator==(const char* s) const {
-    return 0 == strcmp(s_, s);
-  }
-};
 
 void replace(std::string& text, const std::string& searchText, const std::string& replaceText) {
   std::string::size_type index = 0;

@@ -59,6 +59,10 @@ class Task {
   //! Virtual destructor.
   virtual ~Task() = default;
 
+  Task() = default;
+  Task(const Task&) = default;
+  Task& operator=(const Task&) = default;
+
   //! Virtual copy construction.
   virtual UniquePtr clone() const = 0;
 
