@@ -1031,7 +1031,7 @@ const TagInfo* MinoltaMakerNote::tagListCsA100() {
    25720/25721, 25790/25791, 25960/25961, 25980/25981, 26150/26151
    - No need to i18n these string.
 */
-extern TagDetails const minoltaSonyLensID[] = {
+static constexpr TagDetails minoltaSonyLensID[] = {
     {0, "Minolta AF 28-85mm F3.5-4.5 New"},
     {1, "Minolta AF 80-200mm F2.8 HS-APO G"},
     {2, "Minolta AF 28-70mm F2.8 G"},
