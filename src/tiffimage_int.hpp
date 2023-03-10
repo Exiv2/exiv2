@@ -134,7 +134,7 @@ class TiffHeader : public TiffHeaderBase {
 using TiffGroupKey = std::pair<uint32_t, IfdId>;
 
 struct TiffGroupKey_hash {
-  std::size_t operator()(const TiffGroupKey& pair) const {
+  std::size_t operator()(const TiffGroupKey& pair) const noexcept {
     return std::hash<uint64_t>{}(static_cast<uint64_t>(pair.first) << 32 | static_cast<uint64_t>(pair.second));
   }
 };
