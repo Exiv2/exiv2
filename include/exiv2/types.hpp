@@ -162,16 +162,16 @@ struct EXIV2API DataBuf {
   using iterator = std::vector<byte>::iterator;
   using const_iterator = std::vector<byte>::const_iterator;
 
-  inline iterator begin() noexcept {
+  iterator begin() noexcept {
     return pData_.begin();
   }
-  [[nodiscard]] inline const_iterator cbegin() const noexcept {
+  [[nodiscard]] const_iterator cbegin() const noexcept {
     return pData_.cbegin();
   }
-  inline iterator end() noexcept {
+  iterator end() noexcept {
     return pData_.end();
   }
-  [[nodiscard]] inline const_iterator cend() const noexcept {
+  [[nodiscard]] const_iterator cend() const noexcept {
     return pData_.end();
   }
 
