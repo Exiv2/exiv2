@@ -39,7 +39,7 @@
 // class member definitions
 namespace Exiv2::Internal {
 
-extern const TagVocabulary qTimeFileType[] = {
+static constexpr TagVocabulary qTimeFileType[] = {
     {"3g2a", "3GPP2 Media (.3G2) compliant with 3GPP2 C.S0050-0 V1.0"},
     {"3g2b", "3GPP2 Media (.3G2) compliant with 3GPP2 C.S0050-A V1.0.0"},
     {"3g2c", "3GPP2 Media (.3G2) compliant with 3GPP2 C.S0050-B v1.0"},
@@ -125,66 +125,93 @@ extern const TagVocabulary qTimeFileType[] = {
     {"qt  ", "Apple QuickTime (.MOV/QT)"},
     {"sdv ", "SD Memory Card Video"},
     {"ssc1", "Samsung stereoscopic, single stream"},
-    {"ssc2", "Samsung stereoscopic, dual stream"}};
+    {"ssc2", "Samsung stereoscopic, dual stream"},
+};
 
-extern const TagVocabulary handlerClassTags[] = {{"dhlr", "Data Handler"}, {"mhlr", "Media Handler"}};
+static constexpr TagVocabulary handlerClassTags[] = {
+    {"dhlr", "Data Handler"},
+    {"mhlr", "Media Handler"},
+};
 
-extern const TagVocabulary handlerTypeTags[] = {{"alis", "Alias Data"},
-                                                {"crsm", "Clock Reference"},
-                                                {"hint", "Hint Track"},
-                                                {"ipsm", "IPMP"},
-                                                {"m7sm", "MPEG-7 Stream"},
-                                                {"mdir", "Metadata"},
-                                                {"mdta", "Metadata Tags"},
-                                                {"mjsm", "MPEG-J"},
-                                                {"ocsm", "Object Content"},
-                                                {"odsm", "Object Descriptor"},
-                                                {"sdsm", "Scene Description"},
-                                                {"soun", "Audio Track"},
-                                                {"text", "Text"},
-                                                {"tmcd", "Time Code"},
-                                                {"url ", "URL"},
-                                                {"vide", "Video Track"}};
+static constexpr TagVocabulary handlerTypeTags[] = {
+    {"alis", "Alias Data"},
+    {"crsm", "Clock Reference"},
+    {"hint", "Hint Track"},
+    {"ipsm", "IPMP"},
+    {"m7sm", "MPEG-7 Stream"},
+    {"mdir", "Metadata"},
+    {"mdta", "Metadata Tags"},
+    {"mjsm", "MPEG-J"},
+    {"ocsm", "Object Content"},
+    {"odsm", "Object Descriptor"},
+    {"sdsm", "Scene Description"},
+    {"soun", "Audio Track"},
+    {"text", "Text"},
+    {"tmcd", "Time Code"},
+    {"url ", "URL"},
+    {"vide", "Video Track"},
+};
 
-extern const TagVocabulary vendorIDTags[] = {{"FFMP", "FFmpeg"},
-                                             {"appl", "Apple"},
-                                             {"olym", "Olympus"},
-                                             {"GIC ", "General Imaging Co."},
-                                             {"fe20", "Olympus (fe20)"},
-                                             {"pana", "Panasonic"},
-                                             {"KMPI", "Konica-Minolta"},
-                                             {"kdak", "Kodak"},
-                                             {"pent", "Pentax"},
-                                             {"NIKO", "Nikon"},
-                                             {"leic", "Leica"},
-                                             {"pr01", "Olympus (pr01)"},
-                                             {"SMI ", "Sorenson Media Inc."},
-                                             {"mino", "Minolta"},
-                                             {"sany", "Sanyo"},
-                                             {"ZORA", "Zoran Corporation"},
-                                             {"niko", "Nikon"}};
+static constexpr TagVocabulary vendorIDTags[] = {
+    {"FFMP", "FFmpeg"},
+    {"appl", "Apple"},
+    {"olym", "Olympus"},
+    {"GIC ", "General Imaging Co."},
+    {"fe20", "Olympus (fe20)"},
+    {"pana", "Panasonic"},
+    {"KMPI", "Konica-Minolta"},
+    {"kdak", "Kodak"},
+    {"pent", "Pentax"},
+    {"NIKO", "Nikon"},
+    {"leic", "Leica"},
+    {"pr01", "Olympus (pr01)"},
+    {"SMI ", "Sorenson Media Inc."},
+    {"mino", "Minolta"},
+    {"sany", "Sanyo"},
+    {"ZORA", "Zoran Corporation"},
+    {"niko", "Nikon"},
+};
 
-extern const TagVocabulary cameraByteOrderTags[] = {{"II", "Little-endian (Intel, II)"},
-                                                    {"MM", "Big-endian (Motorola, MM)"}};
+static constexpr TagVocabulary cameraByteOrderTags[] = {
+    {"II", "Little-endian (Intel, II)"},
+    {"MM", "Big-endian (Motorola, MM)"},
+};
 
-extern const TagDetails graphicsModetags[] = {{0x0, "srcCopy"},          {0x1, "srcOr"},
-                                              {0x2, "srcXor"},           {0x3, "srcBic"},
-                                              {0x4, "notSrcCopy"},       {0x5, "notSrcOr"},
-                                              {0x6, "notSrcXor"},        {0x7, "notSrcBic"},
-                                              {0x8, "patCopy"},          {0x9, "patOr"},
-                                              {0xa, "patXor"},           {0xb, "patBic"},
-                                              {0xc, "notPatCopy"},       {0xd, "notPatOr"},
-                                              {0xe, "notPatXor"},        {0xf, "notPatBic"},
-                                              {0x20, "blend"},           {0x21, "addPin"},
-                                              {0x22, "addOver"},         {0x23, "subPin"},
-                                              {0x24, "transparent"},     {0x25, "addMax"},
-                                              {0x26, "subOver"},         {0x27, "addMin"},
-                                              {0x31, "grayishTextOr"},   {0x32, "hilite"},
-                                              {0x40, "ditherCopy"},      {0x100, "Alpha"},
-                                              {0x101, "White Alpha"},    {0x102, "Pre-multiplied Black Alpha"},
-                                              {0x110, "Component Alpha"}};
+static constexpr TagDetails graphicsModetags[] = {
+    {0x0, "srcCopy"},
+    {0x1, "srcOr"},
+    {0x2, "srcXor"},
+    {0x3, "srcBic"},
+    {0x4, "notSrcCopy"},
+    {0x5, "notSrcOr"},
+    {0x6, "notSrcXor"},
+    {0x7, "notSrcBic"},
+    {0x8, "patCopy"},
+    {0x9, "patOr"},
+    {0xa, "patXor"},
+    {0xb, "patBic"},
+    {0xc, "notPatCopy"},
+    {0xd, "notPatOr"},
+    {0xe, "notPatXor"},
+    {0xf, "notPatBic"},
+    {0x20, "blend"},
+    {0x21, "addPin"},
+    {0x22, "addOver"},
+    {0x23, "subPin"},
+    {0x24, "transparent"},
+    {0x25, "addMax"},
+    {0x26, "subOver"},
+    {0x27, "addMin"},
+    {0x31, "grayishTextOr"},
+    {0x32, "hilite"},
+    {0x40, "ditherCopy"},
+    {0x100, "Alpha"},
+    {0x101, "White Alpha"},
+    {0x102, "Pre-multiplied Black Alpha"},
+    {0x110, "Component Alpha"},
+};
 
-extern const TagVocabulary userDatatags[] = {
+static constexpr TagVocabulary userDatatags[] = {
     {"AllF", "PlayAllFrames"},
     {"CNCV", "CompressorVersion"},
     {"CNFV", "FirmwareVersion"},
@@ -219,7 +246,7 @@ extern const TagVocabulary userDatatags[] = {
     {"thmb", "MakerNotePentax5a/OlympusThumbnail"},
 };
 
-extern const TagVocabulary userDataReferencetags[] = {
+static constexpr TagVocabulary userDataReferencetags[] = {
     {"CNCV", "Xmp.video.CompressorVersion"},
     {"CNFV", "Xmp.video.FirmwareVersion"},
     {"CNMN", "Xmp.video.Model"},
@@ -283,7 +310,7 @@ extern const TagVocabulary userDataReferencetags[] = {
     {"Cmbo", "Xmp.video.CameraByteOrder"},
 };
 
-extern const TagDetails NikonNCTGTags[] = {
+static constexpr TagDetails NikonNCTGTags[] = {
     {0x0001, "Xmp.video.Make"},
     {0x0002, "Xmp.video.Model"},
     {0x0003, "Xmp.video.Software"},
@@ -327,21 +354,21 @@ extern const TagDetails NikonNCTGTags[] = {
     {0x20000ab, "Xmp.video.VariProgram"},
 };
 
-extern const TagDetails NikonColorSpace[] = {
+[[maybe_unused]] static constexpr TagDetails NikonColorSpace[] = {
     {1, "sRGB"},
     {2, "Adobe RGB"},
 };
 
-extern const TagVocabulary NikonGPS_Latitude_Longitude_ImgDirection_Reference[] = {
+[[maybe_unused]] static constexpr TagVocabulary NikonGPS_Latitude_Longitude_ImgDirection_Reference[] = {
     {"N", "North"}, {"S", "South"}, {"E", "East"}, {"W", "West"}, {"M", "Magnetic North"}, {"T", "True North"},
 };
 
-extern const TagDetails NikonGPSAltitudeRef[] = {
+[[maybe_unused]] static constexpr TagDetails NikonGPSAltitudeRef[] = {
     {0, "Above Sea Level"},
     {1, "Below Sea Level"},
 };
 
-extern const TagDetails NikonExposureProgram[] = {
+[[maybe_unused]] static constexpr TagDetails NikonExposureProgram[] = {
     {0, "Not Defined"},
     {1, "Manual"},
     {2, "Program AE"},
@@ -353,41 +380,56 @@ extern const TagDetails NikonExposureProgram[] = {
     {8, "Landscape"},
 };
 
-extern const TagDetails NikonMeteringMode[] = {
+[[maybe_unused]] static constexpr TagDetails NikonMeteringMode[] = {
     {0, "Unknown"}, {1, "Average"},    {2, "Center-weighted average"},
     {3, "Spot"},    {4, "Multi-spot"}, {5, "Multi-segment"},
     {6, "Partial"}, {255, "Other"},
 };
 
-extern const TagDetails PictureControlAdjust[] = {
+static constexpr TagDetails PictureControlAdjust[] = {
     {0, "Default Settings"},
     {1, "Quick Adjust"},
     {2, "Full Control"},
 };
 
 //! Contrast and Sharpness
-extern const TagDetails NormalSoftHard[] = {{0, "Normal"}, {1, "Soft"}, {2, "Hard"}};
+static constexpr TagDetails NormalSoftHard[] = {
+    {0, "Normal"},
+    {1, "Soft"},
+    {2, "Hard"},
+};
 
 //! Saturation
-extern const TagDetails Saturation[] = {{0, "Normal"}, {1, "Low"}, {2, "High"}};
+static constexpr TagDetails Saturation[] = {
+    {0, "Normal"},
+    {1, "Low"},
+    {2, "High"},
+};
 
 //! YesNo, used for DaylightSavings
-extern const TagDetails YesNo[] = {{0, "No"}, {1, "Yes"}};
+static constexpr TagDetails YesNo[] = {
+    {0, "No"},
+    {1, "Yes"},
+};
 
 //! DateDisplayFormat
-extern const TagDetails DateDisplayFormat[] = {{0, "Y/M/D"}, {1, "M/D/Y"}, {2, "D/M/Y"}};
+static constexpr TagDetails DateDisplayFormat[] = {
+    {0, "Y/M/D"},
+    {1, "M/D/Y"},
+    {2, "D/M/Y"},
+};
 
-extern const TagDetails FilterEffect[] = {
+static constexpr TagDetails FilterEffect[] = {
     {0x80, "Off"}, {0x81, "Yellow"}, {0x82, "Orange"}, {0x83, "Red"}, {0x84, "Green"}, {0xff, "n/a"},
 };
 
-extern const TagDetails ToningEffect[] = {
+static constexpr TagDetails ToningEffect[] = {
     {0x80, "B&W"},         {0x81, "Sepia"},      {0x82, "Cyanotype"},  {0x83, "Red"},
     {0x84, "Yellow"},      {0x85, "Green"},      {0x86, "Blue-green"}, {0x87, "Blue"},
     {0x88, "Purple-blue"}, {0x89, "Red-purple"}, {0xff, "n/a"},
 };
 
-extern const TagDetails whiteBalance[] = {
+static constexpr TagDetails whiteBalance[] = {
     {0, "Auto"}, {1, "Daylight"}, {2, "Shade"}, {3, "Fluorescent"}, {4, "Tungsten"}, {5, "Manual"},
 };
 
