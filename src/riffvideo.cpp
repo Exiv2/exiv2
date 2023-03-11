@@ -456,17 +456,14 @@ void RiffVideo::readChunk(HeaderReader& header_) {
 }
 
 void RiffVideo::decodeBlocks() {
-  HeaderReader header(io_);
-  if (equal(header.getId(), CHUNK_ID_LIST)) {
-    readList(header);
-  } else {
-    readChunk(header);
-  }
-
-  if (!io_->eof() && io_->tell() < io_->size()) {
-    decodeBlocks();
-  }
-
+  do {
+    HeaderReader header(io_);
+    if (equal(header.getId(), CHUNK_ID_LIST)) {
+      readList(header);
+    } else {
+      readChunk(header);
+    }
+  } while (!io_->eof() && io_->tell() < io_->size());
 }  // RiffVideo::decodeBlock
 
 void RiffVideo::readAviHeader() {
