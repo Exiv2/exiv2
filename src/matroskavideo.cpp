@@ -22,6 +22,7 @@
 #include "config.h"
 
 #include "basicio.hpp"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
@@ -31,7 +32,6 @@
 
 // + standard includes
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -585,7 +585,7 @@ const MatroskaTag streamRate[] = {
       Returns Tag Value.
  */
 [[nodiscard]] size_t returnTagValue(const byte* buf, size_t size) {
-  assert(size > 0 && size <= 8);
+  enforce(size > 0 && size <= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
 
   size_t b0 = buf[0] & (0xff >> size);
   size_t tag = b0 << ((size - 1) * 8);
