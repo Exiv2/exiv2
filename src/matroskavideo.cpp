@@ -811,11 +811,9 @@ void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf) {
 
   switch (tag->_id) {
     case TrackType:  // this tags is used internally only to deduce the type of track (video or audio)
-      internalMt = Exiv2::find(matroskaTrackType, key);
-      if (internalMt) {
-        stream_ = internalMt->_id;
+      if (auto f = Exiv2::find(matroskaTrackType, key)) {
+        stream_ = f->_id;
       }
-      internalMt = nullptr;
       break;
     case TrackUsed:
       internalMt = Exiv2::find(trackEnable, key);
