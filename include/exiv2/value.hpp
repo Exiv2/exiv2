@@ -312,14 +312,14 @@ class EXIV2API DataValue : public Value {
   most operations.
  */
 class EXIV2API StringValueBase : public Value {
+  using Value::Value;
+
  public:
   //! Shortcut for a %StringValueBase auto pointer.
   using UniquePtr = std::unique_ptr<StringValueBase>;
 
   //! @name Creators
   //@{
-  //! Constructor for subclasses
-  explicit StringValueBase(TypeId typeId);
   //! Constructor for subclasses
   StringValueBase(TypeId typeId, const std::string& buf);
   //@}
@@ -569,6 +569,8 @@ class EXIV2API CommentValue : public StringValueBase {
   @brief Base class for all Exiv2 values used to store XMP property values.
  */
 class EXIV2API XmpValue : public Value {
+  using Value::Value;
+
  public:
   //! Shortcut for a %XmpValue auto pointer.
   using UniquePtr = std::unique_ptr<XmpValue>;
@@ -577,11 +579,6 @@ class EXIV2API XmpValue : public Value {
   enum XmpArrayType { xaNone, xaAlt, xaBag, xaSeq };
   //! XMP structure indicator.
   enum XmpStruct { xsNone, xsStruct };
-
-  //! @name Creators
-  //@{
-  explicit XmpValue(TypeId typeId);
-  //@}
 
   //! @name Accessors
   //@{
@@ -1132,6 +1129,8 @@ inline TypeId getType<double>() {
  */
 template <typename T>
 class ValueType : public Value {
+  using Value::Value;
+
  public:
   //! Shortcut for a %ValueType\<T\> auto pointer.
   using UniquePtr = std::unique_ptr<ValueType<T>>;
@@ -1140,9 +1139,6 @@ class ValueType : public Value {
   //@{
   //! Default Constructor.
   ValueType();
-  //! Constructor.
-  // The default c'tor and this one can be combined, but that causes MSVC 7.1 to fall on its nose
-  explicit ValueType(TypeId typeId);
   //! Constructor.
   ValueType(const byte* buf, size_t len, ByteOrder byteOrder, TypeId typeId = getType<T>());
   //! Constructor.
@@ -1453,10 +1449,6 @@ inline size_t toData(byte* buf, double t, ByteOrder byteOrder) {
 
 template <typename T>
 ValueType<T>::ValueType() : Value(getType<T>()) {
-}
-
-template <typename T>
-ValueType<T>::ValueType(TypeId typeId) : Value(typeId) {
 }
 
 template <typename T>
