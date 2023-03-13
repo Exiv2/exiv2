@@ -14,7 +14,7 @@
 // Shortcuts for the newTiffBinaryArray templates.
 #define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<arrayCfg, std::size(arrayDef), arrayDef>)
 #define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<arrayCfg>)
-#define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, std::size(arraySet), cfgSelFct>)
+#define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<std::size(arraySet), arraySet, cfgSelFct>)
 
 namespace Exiv2::Internal {
 //! Constant for non-encrypted binary arrays
@@ -1725,12 +1725,12 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     {{0x0024, IfdId::nikon3Id}, EXV_BINARY_ARRAY(nikonWtCfg, nikonWtDef)},
     {{0x0025, IfdId::nikon3Id}, EXV_BINARY_ARRAY(nikonIiCfg, nikonIiDef)},
     {{0x0088, IfdId::nikon3Id}, EXV_BINARY_ARRAY(nikonAfCfg, nikonAfDef)},
-    {{0x0091, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonSiSet, nikonSelector)},
-    {{0x0097, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonCbSet, nikonSelector)},
-    {{0x0098, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, nikonSelector)},
-    {{0x00a8, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonFlSet, nikonSelector)},
+    {{0x0091, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonSiSet, &nikonSelector)},
+    {{0x0097, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonCbSet, &nikonSelector)},
+    {{0x0098, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonLdSet, &nikonSelector)},
+    {{0x00a8, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonFlSet, &nikonSelector)},
     {{0x00b0, IfdId::nikon3Id}, EXV_BINARY_ARRAY(nikonMeCfg, nikonMeDef)},
-    {{0x00b7, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonAf2Set, nikonSelector)},
+    {{0x00b7, IfdId::nikon3Id}, EXV_COMPLEX_BINARY_ARRAY(nikonAf2Set, &nikonSelector)},
     {{0x00b8, IfdId::nikon3Id}, EXV_BINARY_ARRAY(nikonFiCfg, nikonFiDef)},
     {{0x00b9, IfdId::nikon3Id}, EXV_BINARY_ARRAY(nikonAFTCfg, nikonAFTDef)},
     {{Tag::all, IfdId::nikon3Id}, &newTiffEntry},
@@ -1834,19 +1834,19 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     {{Tag::all, IfdId::sigmaId}, &newTiffEntry},
 
     {{Tag::all, IfdId::sony2010eId}, &newTiffBinaryElement},
-    {{0x2010, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sony2010eSet, sony2010eSelector)},
+    {{0x2010, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sony2010eSet, &sony2010eSelector)},
 
     // Tag 0x9402 Sony2Fp Focus Position
     {{Tag::all, IfdId::sony2FpId}, &newTiffBinaryElement},
-    {{0x9402, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sony2FpSet, sony2FpSelector)},
+    {{0x9402, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sony2FpSet, &sony2FpSelector)},
 
     // Tag 0x9404 SonyMisc2b
     {{Tag::all, IfdId::sonyMisc2bId}, &newTiffBinaryElement},
-    {{0x9404, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sonyMisc2bSet, sonyMisc2bSelector)},
+    {{0x9404, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sonyMisc2bSet, &sonyMisc2bSelector)},
 
     // Tag 0x9400 SonyMisc3c
     {{Tag::all, IfdId::sonyMisc3cId}, &newTiffBinaryElement},
-    {{0x9400, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, sonyMisc3cSelector)},
+    {{0x9400, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, &sonyMisc3cSelector)},
 
     // Tag 0x9403 SonyMisc1
     {{Tag::all, IfdId::sonyMisc1Id}, &newTiffBinaryElement},
@@ -1857,7 +1857,7 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     {{0x3000, IfdId::sony1Id}, EXV_BINARY_ARRAY(sonySInfo1Cfg, sonySInfo1Def)},
 
     // Sony1 makernote
-    {{0x0114, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, sonyCsSelector)},
+    {{0x0114, IfdId::sony1Id}, EXV_COMPLEX_BINARY_ARRAY(sony1CsSet, &sonyCsSelector)},
     {{0xb028, IfdId::sony1Id}, &newTiffSubIfd<IfdId::sonyMltId>},
     {{Tag::next, IfdId::sony1Id}, ignoreTiffComponent},
     {{Tag::all, IfdId::sony1Id}, &newTiffEntry},
@@ -1867,11 +1867,11 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     {{Tag::all, IfdId::sony1Cs2Id}, &newTiffBinaryElement},
 
     {{Tag::all, IfdId::sony2010eId}, &newTiffBinaryElement},
-    {{0x2010, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sony2010eSet, sony2010eSelector)},
+    {{0x2010, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sony2010eSet, &sony2010eSelector)},
 
     // Tag 0x9402 Sony2Fp Focus Position
     {{Tag::all, IfdId::sony2FpId}, &newTiffBinaryElement},
-    {{0x9402, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sony2FpSet, sony2FpSelector)},
+    {{0x9402, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sony2FpSet, &sony2FpSelector)},
 
     // Tag 0x9403 SonyMisc1
     {{Tag::all, IfdId::sonyMisc1Id}, &newTiffBinaryElement},
@@ -1879,18 +1879,18 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
 
     // Tag 0x9404 SonyMisc2b
     {{Tag::all, IfdId::sonyMisc2bId}, &newTiffBinaryElement},
-    {{0x9404, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sonyMisc2bSet, sonyMisc2bSelector)},
+    {{0x9404, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sonyMisc2bSet, &sonyMisc2bSelector)},
 
     // Tag 0x9400 SonyMisc3c
     {{Tag::all, IfdId::sonyMisc3cId}, &newTiffBinaryElement},
-    {{0x9400, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, sonyMisc3cSelector)},
+    {{0x9400, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sonyMisc3cSet, &sonyMisc3cSelector)},
 
     // Tag 0x3000 SonySInfo1
     {{Tag::all, IfdId::sonySInfo1Id}, &newTiffBinaryElement},
     {{0x3000, IfdId::sony2Id}, EXV_BINARY_ARRAY(sonySInfo1Cfg, sonySInfo1Def)},
 
     // Sony2 makernote
-    {{0x0114, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector)},
+    {{0x0114, IfdId::sony2Id}, EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, &sonyCsSelector)},
     {{Tag::next, IfdId::sony2Id}, ignoreTiffComponent},
     {{Tag::all, IfdId::sony2Id}, &newTiffEntry},
 

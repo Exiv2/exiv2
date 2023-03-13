@@ -214,7 +214,6 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
   }
   bool sep = false;
   for (size_t i = 0; i < N; ++i) {
-    // *& acrobatics is a workaround for a MSVC 7.1 bug
     auto [mask, label] = *(array + i);
 
     if (val & mask) {
@@ -270,7 +269,6 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
 
       // Check to see if the numbered bit is found in the array
       for (size_t k = lastArrayPos; k < N; ++k) {
-        // *& acrobatics is a workaround for a MSVC 7.1 bug
         auto [bit, label] = *(array + k);
 
         if (currentVNBit == bit) {
