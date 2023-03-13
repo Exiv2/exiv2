@@ -1132,6 +1132,8 @@ inline TypeId getType<double>() {
  */
 template <typename T>
 class ValueType : public Value {
+  using Value::Value;
+
  public:
   //! Shortcut for a %ValueType\<T\> auto pointer.
   using UniquePtr = std::unique_ptr<ValueType<T>>;
@@ -1140,9 +1142,6 @@ class ValueType : public Value {
   //@{
   //! Default Constructor.
   ValueType();
-  //! Constructor.
-  // The default c'tor and this one can be combined, but that causes MSVC 7.1 to fall on its nose
-  explicit ValueType(TypeId typeId);
   //! Constructor.
   ValueType(const byte* buf, size_t len, ByteOrder byteOrder, TypeId typeId = getType<T>());
   //! Constructor.
@@ -1453,10 +1452,6 @@ inline size_t toData(byte* buf, double t, ByteOrder byteOrder) {
 
 template <typename T>
 ValueType<T>::ValueType() : Value(getType<T>()) {
-}
-
-template <typename T>
-ValueType<T>::ValueType(TypeId typeId) : Value(typeId) {
 }
 
 template <typename T>
