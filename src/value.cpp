@@ -170,9 +170,6 @@ Rational DataValue::toRational(size_t n) const {
   return {value_.at(n), 1};
 }
 
-StringValueBase::StringValueBase(TypeId typeId) : Value(typeId) {
-}
-
 StringValueBase::StringValueBase(TypeId typeId, const std::string& buf) : Value(typeId) {
   read(buf);
 }
@@ -417,9 +414,6 @@ const char* CommentValue::detectCharset(std::string& c) const {
 
 CommentValue* CommentValue::clone_() const {
   return new CommentValue(*this);
-}
-
-XmpValue::XmpValue(TypeId typeId) : Value(typeId) {
 }
 
 void XmpValue::setXmpArrayType(XmpArrayType xmpArrayType) {
