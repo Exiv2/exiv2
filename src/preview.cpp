@@ -1025,7 +1025,7 @@ PreviewPropertiesList PreviewManager::getPreviewProperties() const {
       PreviewProperties props = loader->getProperties();
       DataBuf buf = loader->getData();  // #16 getPreviewImage()
       props.size_ = buf.size();         //     update the size
-      list.push_back(props);
+      list.push_back(std::move(props));
     }
   }
   std::sort(list.begin(), list.end(), cmpPreviewProperties);

@@ -755,7 +755,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
         EXV_WARNING << "Unable to handle Illustrator thumbnail data type: " << type << "\n";
 #endif
       } else {
-        nativePreviews.push_back(nativePreview);
+        nativePreviews.push_back(std::move(nativePreview));
       }
     }
     if (posEndPhotoshop != posEndEps) {
@@ -766,7 +766,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       nativePreview.height_ = 0;
       nativePreview.filter_ = "hex-irb";
       nativePreview.mimeType_ = "image/jpeg";
-      nativePreviews.push_back(nativePreview);
+      nativePreviews.push_back(std::move(nativePreview));
     }
     if (sizeWmf != 0) {
       NativePreview nativePreview;
@@ -776,7 +776,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       nativePreview.height_ = 0;
       nativePreview.filter_ = "";
       nativePreview.mimeType_ = "image/x-wmf";
-      nativePreviews.push_back(nativePreview);
+      nativePreviews.push_back(std::move(nativePreview));
     }
     if (sizeTiff != 0) {
       NativePreview nativePreview;
@@ -786,7 +786,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       nativePreview.height_ = 0;
       nativePreview.filter_ = "";
       nativePreview.mimeType_ = "image/tiff";
-      nativePreviews.push_back(nativePreview);
+      nativePreviews.push_back(std::move(nativePreview));
     }
   } else {
     // check for Adobe Illustrator 8.0 or older
