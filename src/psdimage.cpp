@@ -296,7 +296,7 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
         if (format == 1) {
           nativePreview.filter_ = "";
           nativePreview.mimeType_ = "image/jpeg";
-          nativePreviews_.push_back(nativePreview);
+          nativePreviews_.push_back(std::move(nativePreview));
         } else {
           // unsupported format of native preview
         }

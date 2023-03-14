@@ -669,7 +669,7 @@ void BmffImage::parseCr3Preview(const DataBuf& data, std::ostream& out, bool bTr
       return "image/jpeg";
     return "application/octet-stream";
   }();
-  nativePreviews_.push_back(nativePreview);
+  nativePreviews_.push_back(std::move(nativePreview));
 
   if (bTrace) {
     out << Internal::stringFormat("width,height,size = %zu,%zu,%zu", nativePreview.width_, nativePreview.height_,
