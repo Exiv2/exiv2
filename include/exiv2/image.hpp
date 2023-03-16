@@ -192,7 +192,7 @@ class EXIV2API Image {
    */
   virtual void setIccProfile(DataBuf&& iccProfile, bool bTestValid = true);
   /*!
-    @brief Erase iccProfile. the profile is not removed from
+    @brief Erase iccProfile. The profile is not removed from
         the actual image until the writeMetadata() method is called.
    */
   virtual void clearIccProfile();
