@@ -295,7 +295,6 @@ void TiffImageEntry::setStrips(const Value* pSize, const byte* pData, size_t siz
   }
   for (size_t i = 0; i < pValue()->count(); ++i) {
     const size_t offset = pValue()->toUint32(i);
-    const byte* pStrip = pData + baseOffset + offset;
     const size_t size = pSize->toUint32(i);
 
     if (size > sizeData || offset > sizeData - size || baseOffset > sizeData - size - offset) {
@@ -304,6 +303,7 @@ void TiffImageEntry::setStrips(const Value* pSize, const byte* pData, size_t siz
                   << tag() << ": Strip " << std::dec << i << " is outside of the data area; ignored.\n";
 #endif
     } else if (size != 0) {
+      const byte* pStrip = pData + baseOffset + offset;
       strips_.emplace_back(pStrip, size);
     }
   }

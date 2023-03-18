@@ -1316,7 +1316,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
                   << size
                   << ", exceeds buffer size by "
                   // cast to make MSVC happy
-                  << static_cast<size_t>(pData + size - pLast_) << " Bytes; truncating the entry\n";
+                  << size - static_cast<size_t>(pLast_ - pData) << " Bytes; truncating the entry\n";
 #endif
         size = 0;
       }
