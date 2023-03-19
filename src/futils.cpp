@@ -336,24 +336,8 @@ Uri Uri::Parse(const std::string& uri) {
 }
 
 std::string getProcessPath() {
+#if defined(__FreeBSD__)
   std::string ret("unknown");
-#if defined(_WIN32)
-  HANDLE processHandle = nullptr;
-  processHandle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
-  if (processHandle) {
-    TCHAR filename[MAX_PATH];
-    if (GetModuleFileNameEx(processHandle, nullptr, filename, MAX_PATH) != 0) {
-      ret = filename;
-    }
-    CloseHandle(processHandle);
-  }
-#elif __has_include(<libproc.h>)
-  const int pid = getpid();
-  char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
-  if (proc_pidpath(pid, pathbuf, sizeof(pathbuf)) > 0) {
-    ret = pathbuf;
-  }
-#elif defined(__FreeBSD__)
   unsigned int n;
   char buffer[PATH_MAX] = {};
   struct procstat* procstat = procstat_open_sysctl();
@@ -367,20 +351,28 @@ std::string getProcessPath() {
     procstat_freeprocs(procstat, procs);
   if (procstat)
     procstat_close(procstat);
-#elif defined(__sun__)
-  // https://stackoverflow.com/questions/47472762/on-solaris-how-to-get-the-full-path-of-executable-of-running-process-programatic
-  const char* proc = Internal::stringFormat("/proc/%d/path/a.out", getpid()).c_str();
-  char path[500];
-  ssize_t l = readlink(proc, path, sizeof(path) - 1);
-  if (l > 0) {
-    path[l] = 0;
-    ret = path;
-  }
-#elif defined(__unix__)
-  ret = fs::read_symlink("/proc/self/exe");
-#endif
 
   const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_CHR);
   return ret.substr(0, idxLastSeparator);
+#else
+  try {
+#if defined(_WIN32)
+    TCHAR pathbuf[MAX_PATH];
+    GetModuleFileName(nullptr, pathbuf, MAX_PATH);
+    auto path = fs::path(pathbuf);
+#elif __has_include(<libproc.h>)
+    char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
+    proc_pidpath(getpid(), pathbuf, sizeof(pathbuf));
+    auto path = fs::path(pathbuf);
+#elif defined(__sun__)
+    auto path = fs::read_symlink(Internal::stringFormat("/proc/%d/path/a.out", getpid()));
+#elif defined(__unix__)
+    auto path = fs::read_symlink("/proc/self/exe");
+#endif
+    return path.parent_path().string();
+  } catch (const fs::filesystem_error&) {
+    return "unknown";
+  }
+#endif
 }
 }  // namespace Exiv2
