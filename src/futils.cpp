@@ -39,7 +39,7 @@ namespace fs = std::experimental::filesystem;
 #endif
 
 #if defined(__FreeBSD__)
-#include <libprocstat.h>
+// clang-format off
 #include <sys/mount.h>
 #include <sys/param.h>
 #include <sys/queue.h>
@@ -47,6 +47,8 @@ namespace fs = std::experimental::filesystem;
 #include <sys/sysctl.h>
 #include <sys/types.h>
 #include <sys/un.h>
+#include <libprocstat.h>
+// clang-format on
 #endif
 
 #ifndef _MAX_PATH
