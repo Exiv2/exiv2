@@ -46,12 +46,14 @@
 #elif defined(__APPLE__)
 #include <mach-o/dyld.h>
 #elif defined(__FreeBSD__)
-#include <libprocstat.h>
+// clang-format off
 #include <sys/param.h>
 #include <sys/queue.h>
 #include <sys/socket.h>
 #include <sys/sysctl.h>
 #include <unistd.h>
+#include <libprocstat.h>
+// clang-format on
 #elif defined(__sun__)
 #include <dlfcn.h>
 #include <link.h>

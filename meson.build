@@ -49,6 +49,7 @@ cdata.set('EXV_ENABLE_VIDEO', get_option('video'))
 
 deps = []
 deps += cpp.find_library('ws2_32', required: host_machine.system() == 'windows')
+deps += cpp.find_library('procstat', required: host_machine.system() == 'freebsd')
 
 if cpp.get_argument_syntax() == 'gcc' and cpp.version().version_compare('<9')
   if host_machine.system() == 'linux' and cpp.get_define('_LIBCPP_VERSION', prefix: '#include <new>') == ''
@@ -83,7 +84,7 @@ if zlib_dep.found()
   deps += zlib_dep
 endif
 
-if meson.version().version_compare('>= 0.60')
+if meson.version().version_compare('>= 0.60') and host_machine.system() != 'freebsd'
   iconv_dep = dependency('iconv', disabler: true, required: get_option('iconv'))
 else
   iconv_dep = dependency('', disabler: true, required: false)
