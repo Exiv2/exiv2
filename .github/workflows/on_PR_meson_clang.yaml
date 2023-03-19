@@ -9,12 +9,11 @@ concurrency:
 jobs:
   Ubuntu:
     runs-on: ubuntu-20.04
-    name: Linux-Clang${{matrix.cxx}}-${{matrix.deps}}-${{matrix.type}}
+    name: Linux-Clang${{matrix.cxx}}-${{matrix.deps}}
     strategy:
       matrix:
         cxx: ['7', '8', '9', '10', '12']
         deps: ['forcefallback', 'default']
-        type: ['shared', 'static']
     steps:
       - uses: actions/checkout@v3
 
@@ -29,6 +28,6 @@ jobs:
           CXXFLAGS: -stdlib=libc++
           CXX_LD: lld-${{matrix.cxx}}
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
