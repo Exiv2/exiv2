@@ -9,12 +9,11 @@ concurrency:
 jobs:
   Ubuntu:
     runs-on: ubuntu-20.04
-    name: Linux-GCC${{matrix.cxx}}-${{matrix.deps}}-${{matrix.type}}
+    name: Linux-GCC${{matrix.cxx}}-${{matrix.deps}}
     strategy:
       matrix:
         cxx: ['7', '8', '9', '10']
         deps: ['forcefallback', 'default']
-        type: ['shared', 'static']
     steps:
       - uses: actions/checkout@v3
 
@@ -27,18 +26,17 @@ jobs:
         env:
           CXX: g++-${{matrix.cxx}}
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
 
   VisualStudio:
     runs-on: windows-latest
-    name: MSVC-${{matrix.deps}}-${{matrix.type}}-${{matrix.platform}}
+    name: MSVC-${{matrix.deps}}-${{matrix.platform}}
     strategy:
       matrix:
         deps: ['forcefallback', 'default']
         platform: ['x64', 'x86']
-        type: ['shared', 'static']
     steps:
       - uses: actions/checkout@v3
 
@@ -54,17 +52,16 @@ jobs:
         env:
           CXXFLAGS: '/analyze'
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3 -Dcpp_std=c++latest
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
 
   MacOS:
     runs-on: macos-latest
-    name: macOS-${{matrix.deps}}-${{matrix.type}}
+    name: macOS-${{matrix.deps}}
     strategy:
       matrix:
         deps: ['forcefallback', 'default']
-        type: ['shared', 'static']
     steps:
       - uses: actions/checkout@v3
 
@@ -74,7 +71,7 @@ jobs:
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Ddefault_library=${{matrix.type}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   FreeBSD:
