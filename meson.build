@@ -85,9 +85,9 @@ if zlib_dep.found()
 endif
 
 if meson.version().version_compare('>= 0.60') and host_machine.system() != 'freebsd'
-  iconv_dep = dependency('iconv', disabler: true, required: get_option('iconv'))
+  iconv_dep = dependency('iconv', required: get_option('iconv'))
 else
-  iconv_dep = dependency('', disabler: true, required: false)
+  iconv_dep = dependency('', required: false)
 endif
 if iconv_dep.found()
   deps += iconv_dep
@@ -124,7 +124,6 @@ base_lib = files(
   'src/basicio.cpp',
   'src/bmffimage.cpp',
   'src/bmpimage.cpp',
-  'src/convert.cpp',
   'src/cr2image.cpp',
   'src/crwimage.cpp',
   'src/datasets.cpp',
@@ -289,6 +288,20 @@ exiv2int_dep = declare_dependency(
   link_with: exiv2int,
 )
 
+# This is compiled separately, because there are multiple sources for iconv
+# (methods "builtin" and "system") and it's possible to have the include
+# directory from one dependency leak over and force the system iconv to be used
+# instead of the builtin one. This causes miscompilation.
+convertlib = static_library(
+  '_convert',
+  'src/convert.cpp',
+  cpp_args: cargs,
+  gnu_symbol_visibility: 'hidden',
+  dependencies: iconv_dep,
+  include_directories: [depinc, libinc],
+  build_by_default: false,
+)
+
 exiv2 = library(
   'exiv2',
   base_lib,
@@ -296,6 +309,7 @@ exiv2 = library(
   cpp_args: cargs,
   version: meson.project_version(),
   gnu_symbol_visibility: 'hidden',
+  link_with: convertlib,
   dependencies: [deps, exiv2int_dep],
   include_directories: libinc,
   install: true,
