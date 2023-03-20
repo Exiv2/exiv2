@@ -16,6 +16,7 @@
 #include "tiffvisitor_int.hpp"  // see bug #487
 #include "value.hpp"
 
+#include <functional>
 #include <iostream>
 
 // *****************************************************************************
@@ -421,11 +422,9 @@ void TiffDecoder::decodeTiffEntry(const TiffEntryBase* object) {
   if (!object->pValue())
     return;
 
-  const DecoderFct decoderFct = findDecoderFct_(make_, object->tag(), object->group());
   // skip decoding if decoderFct == 0
-  if (decoderFct) {
-    EXV_CALL_MEMBER_FN(*this, decoderFct)(object);
-  }
+  if (auto decoderFct = findDecoderFct_(make_, object->tag(), object->group()))
+    std::invoke(decoderFct, *this, object);
 }  // TiffDecoder::decodeTiffEntry
 
 void TiffDecoder::decodeStdTiffEntry(const TiffEntryBase* object) {
@@ -737,10 +736,9 @@ void TiffEncoder::encodeTiffComponent(TiffEntryBase* object, const Exifdatum* da
   // Skip encoding image tags of existing TIFF image - they were copied earlier -
   // but encode image tags of new images (creation)
   if (ed && !isImageTag(object->tag(), object->group())) {
-    const EncoderFct fct = findEncoderFct_(make_, object->tag(), object->group());
-    if (fct) {
+    if (auto fct = findEncoderFct_(make_, object->tag(), object->group())) {
       // If an encoding function is registered for the tag, use it
-      EXV_CALL_MEMBER_FN(*this, fct)(object, ed);
+      std::invoke(fct, *this, object, ed);
     } else {
       // Else use the encode function at the object (results in a double-dispatch
       // to the appropriate encoding function of the encoder.

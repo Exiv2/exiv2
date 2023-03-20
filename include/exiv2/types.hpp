@@ -16,17 +16,6 @@
 #include <sstream>
 #include <vector>
 
-/*!
-  @brief Macro to make calls to member functions through a pointer more readable.
-         See the C++ FAQ LITE, item
-         <a href="http://www.parashift.com/c++-faq-lite/pointers-to-members.html#faq-33.5" title="[33.5] How can I avoid
-  syntax errors when calling a member function using a pointer-to-member-function?">[33.5] How can I avoid syntax errors
-  when calling a member function using a pointer-to-member-function?</a>.
- */
-#define EXV_CALL_MEMBER_FN(object, ptrToMember) ((object).*(ptrToMember))
-
-// *****************************************************************************
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
