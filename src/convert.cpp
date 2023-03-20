@@ -19,6 +19,7 @@
 
 // + standard includes
 #include <algorithm>
+#include <functional>
 #include <iomanip>
 
 #if defined _WIN32
@@ -499,7 +500,7 @@ Converter::Converter(IptcData& iptcData, XmpData& xmpData, const char* iptcChars
 void Converter::cnvToXmp() {
   for (auto&& c : conversion_) {
     if ((c.metadataId_ == mdExif && exifData_) || (c.metadataId_ == mdIptc && iptcData_)) {
-      EXV_CALL_MEMBER_FN(*this, c.key1ToKey2_)(c.key1_, c.key2_);
+      std::invoke(c.key1ToKey2_, *this, c.key1_, c.key2_);
     }
   }
 }
@@ -507,7 +508,7 @@ void Converter::cnvToXmp() {
 void Converter::cnvFromXmp() {
   for (auto&& c : conversion_) {
     if ((c.metadataId_ == mdExif && exifData_) || (c.metadataId_ == mdIptc && iptcData_)) {
-      EXV_CALL_MEMBER_FN(*this, c.key2ToKey1_)(c.key2_, c.key1_);
+      std::invoke(c.key2ToKey1_, *this, c.key2_, c.key1_);
     }
   }
 }
