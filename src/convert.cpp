@@ -22,13 +22,11 @@
 #include <functional>
 #include <iomanip>
 
-#if defined _WIN32
-#include <windows.h>
-#endif
-
 #ifdef EXV_HAVE_ICONV
 #include <iconv.h>
 #include <cerrno>
+#elif defined _WIN32
+#include <windows.h>
 #endif
 
 // Adobe XMP Toolkit
@@ -1412,7 +1410,51 @@ bool convertStringCharset(std::string& str, const char* from, const char* to) {
 namespace {
 using namespace Exiv2;
 
-#if defined _WIN32
+#if defined EXV_HAVE_ICONV
+bool convertStringCharsetIconv(std::string& str, const char* from, const char* to) {
+  if (strcmp(from, to) == 0)
+    return true;  // nothing to do
+
+  bool ret = true;
+  auto cd = iconv_open(to, from);
+  if (cd == iconv_t(-1)) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "iconv_open: " << strError() << "\n";
+#endif
+    return false;
+  }
+  std::string outstr;
+#ifdef WINICONV_CONST
+  auto inptr = (WINICONV_CONST char*)(str.c_str());
+#else
+  auto inptr = (EXV_ICONV_CONST char*)(str.c_str());
+#endif
+  size_t inbytesleft = str.length();
+  while (inbytesleft) {
+    char outbuf[256];
+    char* outptr = outbuf;
+    size_t outbytesleft = sizeof(outbuf);
+    size_t rc = iconv(cd, &inptr, &inbytesleft, &outptr, &outbytesleft);
+    const size_t outbytesProduced = sizeof(outbuf) - outbytesleft;
+    if (rc == std::numeric_limits<size_t>::max() && errno != E2BIG) {
+#ifndef SUPPRESS_WARNINGS
+      EXV_WARNING << "iconv: " << strError() << " inbytesleft = " << inbytesleft << "\n";
+#endif
+      ret = false;
+      break;
+    }
+    outstr.append(std::string(outbuf, outbytesProduced));
+  }
+
+  if (cd)
+    iconv_close(cd);
+
+  if (ret)
+    str = outstr;
+  return ret;
+}
+
+#elif defined(_WIN32)
 bool swapBytes(std::string& str) {
   // Naive byte-swapping, I'm sure this can be done more efficiently
   if (str.size() & 1) {
@@ -1557,52 +1599,6 @@ const ConvFctList convFctList[] = {
 #endif
   if (ret)
     str = tmpstr;
-  return ret;
-}
-
-#endif  // defined _WIN32
-#if defined EXV_HAVE_ICONV
-bool convertStringCharsetIconv(std::string& str, const char* from, const char* to) {
-  if (0 == strcmp(from, to))
-    return true;  // nothing to do
-
-  bool ret = true;
-  iconv_t cd;
-  cd = iconv_open(to, from);
-  if (cd == iconv_t(-1)) {
-#ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "iconv_open: " << strError() << "\n";
-#endif
-    return false;
-  }
-  std::string outstr;
-#ifdef WINICONV_CONST
-  auto inptr = (WINICONV_CONST char*)(str.c_str());
-#else
-  auto inptr = (EXV_ICONV_CONST char*)(str.c_str());
-#endif
-  size_t inbytesleft = str.length();
-  while (inbytesleft) {
-    char outbuf[256];
-    char* outptr = outbuf;
-    size_t outbytesleft = sizeof(outbuf);
-    size_t rc = iconv(cd, &inptr, &inbytesleft, &outptr, &outbytesleft);
-    const size_t outbytesProduced = sizeof(outbuf) - outbytesleft;
-    if (rc == static_cast<size_t>(-1) && errno != E2BIG) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "iconv: " << strError() << " inbytesleft = " << inbytesleft << "\n";
-#endif
-      ret = false;
-      break;
-    }
-    outstr.append(std::string(outbuf, outbytesProduced));
-  }
-  if (cd) {
-    iconv_close(cd);
-  }
-
-  if (ret)
-    str = outstr;
   return ret;
 }
 
