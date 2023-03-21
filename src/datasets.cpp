@@ -21,10 +21,10 @@
 
 namespace Exiv2 {
 constexpr auto familyName_ = "Iptc";
-constexpr auto recordInfo_ = std::array{
-    RecordInfo{IptcDataSets::invalidRecord, "(invalid)", N_("(invalid)")},
-    RecordInfo{IptcDataSets::envelope, "Envelope", N_("IIM envelope record")},
-    RecordInfo{IptcDataSets::application2, "Application2", N_("IIM application record 2")},
+constexpr RecordInfo recordInfo_[] = {
+    {IptcDataSets::invalidRecord, "(invalid)", N_("(invalid)")},
+    {IptcDataSets::envelope, "Envelope", N_("IIM envelope record")},
+    {IptcDataSets::application2, "Application2", N_("IIM application record 2")},
 };
 
 constexpr DataSet envelopeRecord[] = {
