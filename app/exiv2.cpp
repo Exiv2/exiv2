@@ -124,8 +124,12 @@ int main(int argc, char* const argv[]) {
 
 #ifdef EXV_ENABLE_NLS
   setlocale(LC_ALL, "");
-  const std::string localeDir =
-      EXV_LOCALEDIR[0] == '/' ? EXV_LOCALEDIR : (Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR);
+  auto localeDir = []() -> std::string {
+    if constexpr (EXV_LOCALEDIR[0] == '/')
+      return EXV_LOCALEDIR;
+    else
+      return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
+  }();
   bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
   textdomain(EXV_PACKAGE_NAME);
 #endif
@@ -580,7 +584,7 @@ int Params::evalAdjust(const std::string& optArg) {
 int Params::evalYodAdjust(const Yod& yod, const std::string& optArg) {
   int rc = 0;
   switch (action_) {
-    case Action::none:  // fall-through
+    case Action::none:
     case Action::adjust:
       if (yodAdjust_[yod].flag_) {
         std::cerr << progname() << ": " << _("Ignoring surplus option") << " " << yodAdjust_[yod].option_ << " "
@@ -759,7 +763,7 @@ int Params::evalDelete(const std::string& optArg) {
     case Action::none:
       action_ = Action::erase;
       target_ = static_cast<CommonTarget>(0);
-      // fallthrough
+      [[fallthrough]];
     case Action::erase: {
       const auto rc = parseCommonTargets(optArg, "erase");
       if (rc > 0) {
@@ -780,7 +784,7 @@ int Params::evalExtract(const std::string& optArg) {
     case Action::modify:
       action_ = Action::extract;
       target_ = static_cast<CommonTarget>(0);
-      // fallthrough
+      [[fallthrough]];
     case Action::extract: {
       const auto rc = parseCommonTargets(optArg, "extract");
       if (rc > 0) {
@@ -801,7 +805,7 @@ int Params::evalInsert(const std::string& optArg) {
     case Action::modify:
       action_ = Action::insert;
       target_ = static_cast<CommonTarget>(0);
-      // fallthrough
+      [[fallthrough]];
     case Action::insert: {
       const auto rc = parseCommonTargets(optArg, "insert");
       if (rc > 0) {
@@ -820,7 +824,7 @@ int Params::evalModify(int opt, const std::string& optArg) {
   switch (action_) {
     case Action::none:
       action_ = Action::modify;
-      // fallthrough
+      [[fallthrough]];
     case Action::modify:
     case Action::extract:
     case Action::insert:
