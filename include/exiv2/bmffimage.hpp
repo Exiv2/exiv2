@@ -60,6 +60,7 @@ class EXIV2API BmffImage : public Image {
   //@}
 
   //@{
+  void parseTiff(uint32_t root_tag, uint64_t length);
   /*!
     @brief parse embedded tiff file (Exif metadata)
     @param root_tag root of parse tree Tag::root, Tag::cmt2 etc.
@@ -67,7 +68,6 @@ class EXIV2API BmffImage : public Image {
     @param start offset in file (default, io_->tell())
    @
    */
-  void parseTiff(uint32_t root_tag, uint64_t length);
   void parseTiff(uint32_t root_tag, uint64_t length, uint64_t start);
   //@}
 

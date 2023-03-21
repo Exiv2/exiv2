@@ -70,7 +70,6 @@ class EXIV2API RiffVideo : public Image {
 
   /*!
   @brief Interpret MainAVIHeader (avih) structure, and save it in the respective XMP container.
-  @param size Size of the data block used to store Tag Information.
   */
   void readAviHeader();
 
@@ -81,52 +80,52 @@ class EXIV2API RiffVideo : public Image {
 
   /*!
   @brief Interpret stream header list element (strf), and save it in the respective XMP container.
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
   */
   void readStreamFormat(uint64_t size_);
 
   /*!
   @brief Interpret Additional header data (strd), and save it in the respective XMP container.
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
  */
   void readStreamData(uint64_t size_);
 
   /*!
   @brief Interpret stream header list element (strn) , and save it in the respective XMP container.
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
  */
   void StreamName(uint64_t size_);
   /*!
   @brief Interpret INFO List Chunk, and save it in the respective XMP container.
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
  */
   void readInfoListChunk(uint64_t size_);
 
   /*!
   @brief Interpret Riff Stream Data tag information, and save it in the respective XMP container.
   The Movi - Lists contain Video, Audio, Subtitle and (secondary) index data. Those can be grouped into rec - Lists.
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
  */
   void readMoviList(uint64_t size_);
   /*!
   @brief Interpret Video Properties Header chunk, and save it in the respective XMP container.
   The video properties header identifies video signal properties associated with a digital video stream in an AVI file
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
  */
   void readVPRPChunk(uint64_t size_);
   /*!
   @brief Interpret Riff INdex Chunk, and save it in the respective XMP container.
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
  */
   void readIndexChunk(uint64_t size_);
   /*!
   @brief Interpret Riff Stream Chunk, and save it in the respective XMP container.
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
  */
   void readDataChunk(uint64_t size_);
   /*!
   @brief Interpret Junk Chunk and save it in the respective XMP container.
-  @param size Size of the data block used to store Tag Information.
+  @param size_ Size of the data block used to store Tag Information.
  */
   void readJunk(uint64_t size_);
 

@@ -48,7 +48,8 @@ namespace Internal {
  *
  * @return true on overflow, false on no overflow
  *
- * @param[in] summand_1, summand_2 The summands with are added
+ * @param[in] summand_1 The summand with is added
+ * @param[in] summand_2 The summand with is added
  * @param[out] result Result of the addition, only populated when no
  * overflow occurs.
  *
@@ -139,7 +140,8 @@ SPECIALIZE_builtin_add_overflow(unsigned long long, __builtin_uaddll_overflow);
  * operation would not overflow, otherwise an exception of type
  * std::overflow_error is thrown.
  *
- * @param[in] summand_1, summand_2  summands to be summed up
+ * @param[in] summand_1 summand to be summed up
+ * @param[in] summand_2 summand to be summed up
  * @return  the sum of summand_1 and summand_2
  * @throws  std::overflow_error if the addition would overflow
  *

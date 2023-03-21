@@ -144,7 +144,7 @@ class EXIV2API MatroskaVideo : public Image {
   void decodeBlock();
   /*!
     @brief Interpret tag information, and save it in the respective XMP container.
-    @param mt Pointer to current tag,
+    @param tag Pointer to current tag,
     @param buf Pointer to the memory area with the tag information.
     @param size Size of \em buf.
    */

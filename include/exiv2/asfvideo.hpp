@@ -135,7 +135,6 @@ class EXIV2API AsfVideo : public Image {
   /*!
     @brief Interpret Content_Description tag information, and save it
         in the respective XMP container.
-    @param size Size of the data block used to store Tag Data.
    */
   void contentDescription();
   /*!

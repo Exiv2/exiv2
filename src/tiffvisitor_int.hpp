@@ -197,7 +197,7 @@ class TiffCopier : public TiffVisitor {
     @brief Constructor
 
     @param pRoot Pointer to the root element of the (empty) target tree.
-    @param root
+    @param root Actual root element
     @param pHeader Pointer to the TIFF header of the source image.
     @param pPrimaryGroups Pointer to the list of primary groups.
    */
