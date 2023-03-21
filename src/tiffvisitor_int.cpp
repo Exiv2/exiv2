@@ -71,9 +71,6 @@ void TiffVisitor::visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/) {
 void TiffVisitor::visitBinaryArrayEnd(TiffBinaryArray* /*object*/) {
 }
 
-TiffFinder::TiffFinder(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
-}
-
 void TiffFinder::init(uint16_t tag, IfdId group) {
   tag_ = tag;
   group_ = group;
@@ -983,9 +980,6 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
   }
 
 }  // TiffEncoder::add
-
-TiffRwState::TiffRwState(ByteOrder byteOrder, size_t baseOffset) : byteOrder_(byteOrder), baseOffset_(baseOffset) {
-}
 
 TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state) :
     pData_(pData), size_(size), pLast_(pData + size), pRoot_(pRoot), origState_(state), mnState_(state) {

@@ -130,7 +130,8 @@ class TiffFinder : public TiffVisitor {
   //! @name Creators
   //@{
   //! Constructor, taking \em tag and \em group of the component to find.
-  TiffFinder(uint16_t tag, IfdId group);
+  constexpr TiffFinder(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
+  }
   TiffFinder(const TiffFinder&) = delete;
   TiffFinder& operator=(const TiffFinder&) = delete;
   //! Virtual destructor
@@ -537,7 +538,8 @@ class TiffRwState {
   //! @name Creators
   //@{
   //! Constructor.
-  TiffRwState(ByteOrder byteOrder, size_t baseOffset);
+  constexpr TiffRwState(ByteOrder byteOrder, size_t baseOffset) : byteOrder_(byteOrder), baseOffset_(baseOffset) {
+  }
   //@}
 
   //! @name Accessors
