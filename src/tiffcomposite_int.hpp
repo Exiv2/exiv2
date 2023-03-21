@@ -64,7 +64,8 @@ class TiffPathItem {
   //! @name Creators
   //@{
   //! Constructor
-  TiffPathItem(uint32_t extendedTag, IfdId group);
+  constexpr TiffPathItem(uint32_t extendedTag, IfdId group) : extendedTag_(extendedTag), group_(group) {
+  }
   //@}
 
   //! @name Accessors
@@ -158,7 +159,8 @@ class TiffComponent {
   //! @name Creators
   //@{
   //! Constructor
-  TiffComponent(uint16_t tag, IfdId group);
+  constexpr TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
+  }
   //! Virtual destructor.
   virtual ~TiffComponent() = default;
   TiffComponent(const TiffComponent&) = default;
@@ -384,7 +386,10 @@ class TiffEntryBase : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor.
-  TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined);
+  constexpr TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined) :
+      TiffComponent(tag, group), tiffType_(tiffType) {
+  }
+
   //! Virtual destructor.
   ~TiffEntryBase() override;
   //@}
@@ -566,7 +571,8 @@ class TiffEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffEntry(uint16_t tag, IfdId group);
+  constexpr TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
+  }
   //@}
 
  protected:
@@ -779,7 +785,10 @@ class TiffSizeEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup);
+  constexpr TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
+      TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
+  }
+
   //@}
 
   //! @name Accessors
@@ -1011,7 +1020,10 @@ class TiffMnEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Default constructor
-  TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup);
+  constexpr TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
+      TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
+  }
+
   //! Virtual destructor
   ~TiffMnEntry() override;
   //@}
