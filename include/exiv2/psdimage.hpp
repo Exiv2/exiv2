@@ -70,9 +70,9 @@ class EXIV2API PsdImage : public Image {
   /*!
     @brief Provides the main implementation of writeMetadata() by
           writing all buffered metadata to the provided BasicIo.
+    @throw Error on input-output errors or when the image data is not valid.
     @param outIo BasicIo instance to write to (a temporary location).
 
-    @return 4 if opening or writing to the associated BasicIo fails
    */
   void doWriteMetadata(BasicIo& outIo);
   uint32_t writeExifData(const ExifData& exifData, BasicIo& out);

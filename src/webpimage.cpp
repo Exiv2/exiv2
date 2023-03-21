@@ -724,7 +724,6 @@ bool WebPImage::equalsWebPTag(const Exiv2::DataBuf& buf, const char* str) {
  @param  iIo get BasicIo pointer to inject data
  @param has_xmp Verify if we have xmp data and set required flag
  @param has_exif Verify if we have exif data and set required flag
- @return Returns void
  */
 void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, uint32_t width,
                             uint32_t height) const {

@@ -215,10 +215,12 @@ struct EXIV2API DataBuf {
 /*!
  * @brief Create a new Slice from a DataBuf given the bounds.
  *
- * @param[in] begin, end  Bounds of the new Slice. `begin` must be smaller
- *     than `end` and both must not be larger than LONG_MAX.
  * @param[in] buf  The DataBuf from which' data the Slice will be
  *     constructed
+ * @param[in] begin Beginning bound of the new Slice. Must be smaller
+ *     than `end` and both must not be larger than LONG_MAX.
+ * @param[in] end End bound of the new Slice. Must be smaller
+ *     than `end` and both must not be larger than LONG_MAX.
  *
  * @throw std::invalid_argument when `end` is larger than `LONG_MAX` or
  * anything that the constructor of @ref Slice throws

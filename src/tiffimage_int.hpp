@@ -173,8 +173,8 @@ class TiffCreator {
   static TiffPath getPath(uint32_t extendedTag, IfdId group, uint32_t root);
 
  private:
-  static const TiffTreeTable tiffTreeTable_;    //<! TIFF tree structure
-  static const TiffGroupTable tiffGroupTable_;  //<! TIFF group structure
+  static const TiffTreeTable tiffTreeTable_;    ///< TIFF tree structure
+  static const TiffGroupTable tiffGroupTable_;  ///< TIFF group structure
 
 };  // class TiffCreator
 
@@ -241,8 +241,8 @@ class TiffParserWorker {
     @brief Find primary groups in the source tree provided and populate
            the list of primary groups.
 
-    @param primaryGroups List of primary groups which is populated
     @param pSourceDir Pointer to the source composite tree to search (may be 0)
+    @return List of primary groups which is populated
    */
   static PrimaryGroups findPrimaryGroups(TiffComponent* pSourceDir);
 
@@ -286,7 +286,7 @@ class TiffMapping {
   static EncoderFct findEncoder(const std::string& make, uint32_t extendedTag, IfdId group);
 
  private:
-  static const TiffMappingInfo tiffMappingInfo_[];  //<! TIFF mapping table
+  static const TiffMappingInfo tiffMappingInfo_[];  ///< TIFF mapping table
 
 };  // class TiffMapping
 
