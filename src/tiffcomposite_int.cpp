@@ -975,7 +975,6 @@ size_t TiffEntryBase::writeOffset(byte* buf, size_t offset, TiffType tiffType, B
       break;
     default:
       throw Error(ErrorCode::kerUnsupportedDataAreaOffsetType);
-      break;
   }
   return rc;
 }  // TiffEntryBase::writeOffset

@@ -644,8 +644,12 @@ const char* _exvGettext(const char* str) {
 
   if (!exvGettextInitialized) {
     // bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
-    const std::string localeDir =
-        EXV_LOCALEDIR[0] == '/' ? EXV_LOCALEDIR : (Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR);
+    auto localeDir = []() -> std::string {
+      if constexpr (EXV_LOCALEDIR[0] == '/')
+        return EXV_LOCALEDIR;
+      else
+        return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
+    }();
     bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
 #ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
     bind_textdomain_codeset(EXV_PACKAGE_NAME, "UTF-8");

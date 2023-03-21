@@ -89,7 +89,7 @@ std::string tm2Str(const tm* tm);
   @brief Copy metadata from source to target according to Params::copyXyz
 
   @param source Source file path
-  @param target Target file path. An *.exv file is created if target doesn't
+  @param tgt Target file path. An *.exv file is created if target doesn't
                 exist.
   @param targetType Image type for the target image in case it needs to be
                 created.
@@ -1881,7 +1881,6 @@ int renameFile(std::string& newPath, const tm* tm) {
               break;
             default:  // skip
               return -1;
-              break;
           }
       }
     } else {

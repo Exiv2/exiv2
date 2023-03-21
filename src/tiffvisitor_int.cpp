@@ -340,6 +340,10 @@ static const TagInfo* findTag(const TagInfo* pList, uint16_t tag) {
   return pList->tag_ != 0xffff ? pList : nullptr;
 }
 
+TiffDataEntryBase::TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup) :
+    TiffEntryBase(tag, group), szTag_(szTag), szGroup_(szGroup) {
+}
+
 void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   // report Exif.Canon.AFInfo as usual
   TiffDecoder::decodeStdTiffEntry(object);
