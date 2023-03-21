@@ -2099,8 +2099,8 @@ TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size,
   auto rootDir = TiffCreator::create(root, IfdId::ifdIdNotSet);
   if (rootDir) {
     rootDir->setStart(pData + pHeader->offset());
-    TiffRwState state(pHeader->byteOrder(), 0);
-    TiffReader reader(pData, size, rootDir.get(), state);
+    auto state = TiffRwState{pHeader->byteOrder(), 0};
+    auto reader = TiffReader{pData, size, rootDir.get(), state};
     rootDir->accept(reader);
     reader.postProcess();
   }
@@ -2345,7 +2345,7 @@ bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPri
 }  // TiffHeader::isImageTag
 
 void OffsetWriter::setOrigin(OffsetId id, uint32_t origin, ByteOrder byteOrder) {
-  offsetList_[id] = OffsetData(origin, byteOrder);
+  offsetList_[id] = OffsetData{origin, 0, byteOrder};
 }
 
 void OffsetWriter::setTarget(OffsetId id, uint32_t target) {

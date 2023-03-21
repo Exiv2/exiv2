@@ -81,31 +81,31 @@ namespace Exiv2::Internal {
 const CrwMapping CrwMap::crwMapping_[] = {
     //         CrwTag  CrwDir  Size ExifTag IfdId    decodeFct     encodeFct
     //         ------  ------  ---- ------- -----    ---------     ---------
-    CrwMapping(0x0805, 0x300a, 0, 0, IfdId::canonId, decode0x0805, encode0x0805),
-    CrwMapping(0x080a, 0x2807, 0, 0, IfdId::canonId, decode0x080a, encode0x080a),
-    CrwMapping(0x080b, 0x3004, 0, 0x0007, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x0810, 0x2807, 0, 0x0009, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x0815, 0x2804, 0, 0x0006, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x1029, 0x300b, 0, 0x0002, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x102a, 0x300b, 0, 0x0004, IfdId::canonId, decodeArray, encodeArray),
-    CrwMapping(0x102d, 0x300b, 0, 0x0001, IfdId::canonId, decodeArray, encodeArray),
-    CrwMapping(0x1033, 0x300b, 0, 0x000f, IfdId::canonId, decodeArray, encodeArray),
-    CrwMapping(0x1038, 0x300b, 0, 0x0012, IfdId::canonId, decodeArray, encodeArray),
-    CrwMapping(0x10a9, 0x300b, 0, 0x00a9, IfdId::canonId, decodeBasic, encodeBasic),
+    {0x0805, 0x300a, 0, 0, IfdId::canonId, decode0x0805, encode0x0805},
+    {0x080a, 0x2807, 0, 0, IfdId::canonId, decode0x080a, encode0x080a},
+    {0x080b, 0x3004, 0, 0x0007, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x0810, 0x2807, 0, 0x0009, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x0815, 0x2804, 0, 0x0006, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x1029, 0x300b, 0, 0x0002, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x102a, 0x300b, 0, 0x0004, IfdId::canonId, decodeArray, encodeArray},
+    {0x102d, 0x300b, 0, 0x0001, IfdId::canonId, decodeArray, encodeArray},
+    {0x1033, 0x300b, 0, 0x000f, IfdId::canonId, decodeArray, encodeArray},
+    {0x1038, 0x300b, 0, 0x0012, IfdId::canonId, decodeArray, encodeArray},
+    {0x10a9, 0x300b, 0, 0x00a9, IfdId::canonId, decodeBasic, encodeBasic},
     // Mapped to Exif.Photo.ColorSpace instead (see below)
-    // CrwMapping(0x10b4, 0x300b,   0, 0x00b4, IfdId::canonId, decodeBasic,  encodeBasic),
-    CrwMapping(0x10b4, 0x300b, 0, 0xa001, IfdId::exifId, decodeBasic, encodeBasic),
-    CrwMapping(0x10b5, 0x300b, 0, 0x00b5, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x10c0, 0x300b, 0, 0x00c0, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x10c1, 0x300b, 0, 0x00c1, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x1807, 0x3002, 0, 0x9206, IfdId::exifId, decodeBasic, encodeBasic),
-    CrwMapping(0x180b, 0x3004, 0, 0x000c, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x180e, 0x300a, 0, 0x9003, IfdId::exifId, decode0x180e, encode0x180e),
-    CrwMapping(0x1810, 0x300a, 0, 0xa002, IfdId::exifId, decode0x1810, encode0x1810),
-    CrwMapping(0x1817, 0x300a, 4, 0x0008, IfdId::canonId, decodeBasic, encodeBasic),
-    // CrwMapping(0x1818, 0x3002,   0, 0x9204, IfdId::exifId, decodeBasic,  encodeBasic),
-    CrwMapping(0x183b, 0x300b, 0, 0x0015, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x2008, 0x0000, 0, 0, IfdId::ifd1Id, decode0x2008, encode0x2008),
+    // {0x10b4, 0x300b,   0, 0x00b4, IfdId::canonId, decodeBasic,  encodeBasic},
+    {0x10b4, 0x300b, 0, 0xa001, IfdId::exifId, decodeBasic, encodeBasic},
+    {0x10b5, 0x300b, 0, 0x00b5, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x10c0, 0x300b, 0, 0x00c0, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x10c1, 0x300b, 0, 0x00c1, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x1807, 0x3002, 0, 0x9206, IfdId::exifId, decodeBasic, encodeBasic},
+    {0x180b, 0x3004, 0, 0x000c, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x180e, 0x300a, 0, 0x9003, IfdId::exifId, decode0x180e, encode0x180e},
+    {0x1810, 0x300a, 0, 0xa002, IfdId::exifId, decode0x1810, encode0x1810},
+    {0x1817, 0x300a, 4, 0x0008, IfdId::canonId, decodeBasic, encodeBasic},
+    // {0x1818, 0x3002,   0, 0x9204, IfdId::exifId, decodeBasic,  encodeBasic},
+    {0x183b, 0x300b, 0, 0x0015, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x2008, 0x0000, 0, 0, IfdId::ifd1Id, decode0x2008, encode0x2008},
 };  // CrwMap::crwMapping_[]
 
 /*
@@ -129,6 +129,9 @@ const CrwSubDir CrwMap::crwSubDir_[] = {
     {0x3004, 0x2807}, {0x300b, 0x300a}, {0x3003, 0x300a}, {0x3002, 0x300a},
     {0x2807, 0x300a}, {0x2804, 0x300a}, {0x300a, 0x0000}, {0x0000, 0xffff},
 };
+
+CiffComponent::CiffComponent(uint16_t tag, uint16_t dir) : dir_(dir), tag_(tag) {
+}
 
 CiffDirectory::~CiffDirectory() {
   for (auto&& component : components_) {

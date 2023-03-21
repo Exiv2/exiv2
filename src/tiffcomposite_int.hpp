@@ -64,8 +64,7 @@ class TiffPathItem {
   //! @name Creators
   //@{
   //! Constructor
-  constexpr TiffPathItem(uint32_t extendedTag, IfdId group) : extendedTag_(extendedTag), group_(group) {
-  }
+  TiffPathItem(uint32_t extendedTag, IfdId group);
   //@}
 
   //! @name Accessors
@@ -567,8 +566,7 @@ class TiffEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
-  }
+  TiffEntry(uint16_t tag, IfdId group);
   //@}
 
  protected:
@@ -781,9 +779,7 @@ class TiffSizeEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
-      TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
-  }
+  TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup);
   //@}
 
   //! @name Accessors
@@ -829,8 +825,7 @@ class TiffDirectory : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor
-  TiffDirectory(uint16_t tag, IfdId group, bool hasNext = true) : TiffComponent(tag, group), hasNext_(hasNext) {
-  }
+  TiffDirectory(uint16_t tag, IfdId group, bool hasNext = true);
   //! Virtual destructor
   ~TiffDirectory() override;
   //@}

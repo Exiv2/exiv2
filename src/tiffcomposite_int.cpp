@@ -62,8 +62,18 @@ void IoWrapper::setTarget(int id, size_t target) {
 TiffComponent::TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
 }
 
+TiffDirectory::TiffDirectory(uint16_t tag, IfdId group, bool hasNext) : TiffComponent(tag, group), hasNext_(hasNext) {
+}
+
 TiffEntryBase::TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType) :
     TiffComponent(tag, group), tiffType_(tiffType) {
+}
+
+TiffSizeEntry::TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
+    TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
+}
+
+TiffEntry::TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
 }
 
 TiffSubIfd::TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup) :
@@ -90,6 +100,9 @@ TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arra
     arraySet_(arraySet),
     setSize_(setSize) {
   // We'll figure out the correct cfg later
+}
+
+TiffPathItem::TiffPathItem(uint32_t extendedTag, IfdId group) : extendedTag_(extendedTag), group_(group) {
 }
 
 TiffDirectory::~TiffDirectory() {
