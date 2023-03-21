@@ -327,12 +327,6 @@ class OffsetWriter {
  private:
   //! Data structure for the offset list.
   struct OffsetData {
-    //! Default constructor
-    OffsetData() = default;
-    //! Constructor
-    OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), byteOrder_(byteOrder) {
-    }
-    // DATA
     uint32_t origin_{};                  //!< Origin address
     uint32_t target_{};                  //!< Target address
     ByteOrder byteOrder_{littleEndian};  //!< Byte order to use to encode target address

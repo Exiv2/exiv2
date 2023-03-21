@@ -71,6 +71,9 @@ void TiffVisitor::visitIfdMakernoteEnd(TiffIfdMakernote* /*object*/) {
 void TiffVisitor::visitBinaryArrayEnd(TiffBinaryArray* /*object*/) {
 }
 
+TiffFinder::TiffFinder(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
+}
+
 void TiffFinder::init(uint16_t tag, IfdId group) {
   tag_ = tag;
   group_ = group;
@@ -981,6 +984,9 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
 
 }  // TiffEncoder::add
 
+TiffRwState::TiffRwState(ByteOrder byteOrder, size_t baseOffset) : byteOrder_(byteOrder), baseOffset_(baseOffset) {
+}
+
 TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state) :
     pData_(pData), size_(size), pLast_(pData + size), pRoot_(pRoot), origState_(state), mnState_(state) {
   pState_ = &origState_;
@@ -995,7 +1001,7 @@ void TiffReader::setMnState(const TiffRwState* state) {
   if (state) {
     // invalidByteOrder indicates 'no change'
     if (state->byteOrder() == invalidByteOrder) {
-      mnState_ = TiffRwState(origState_.byteOrder(), state->baseOffset());
+      mnState_ = TiffRwState{origState_.byteOrder(), state->baseOffset()};
     } else {
       mnState_ = *state;
     }
@@ -1221,7 +1227,7 @@ void TiffReader::visitIfdMakernote(TiffIfdMakernote* object) {
 
   // Modify reader for Makernote peculiarities, byte order and offset
   object->mnOffset_ = object->start() - pData_;
-  TiffRwState state(object->byteOrder(), object->baseOffset());
+  auto state = TiffRwState{object->byteOrder(), object->baseOffset()};
   setMnState(&state);
 
 }  // TiffReader::visitIfdMakernote
