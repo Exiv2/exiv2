@@ -8,7 +8,7 @@
 // Type for an Exiv2 Easy access function
 using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
 
-static constexpr struct {
+static const struct {
   const char* l;
   EasyAccessFct f;
   const char* n;
