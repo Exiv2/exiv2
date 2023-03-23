@@ -355,4 +355,53 @@ executable(
   install: true,
 )
 
+samples = {
+  'addmoddel': [],
+  'conntest': curl_dep,
+  'convert-test': [],
+  'easyaccess-test': [],
+  'exifcomment': [],
+  'exifdata-test': [],
+  'exifdata': [],
+  'exifprint': [],
+  'exifvalue': [],
+  'geotag': expat_dep,
+  'ini-test': inih_dep,
+  'iotest': [],
+  'iptceasy': [],
+  'iptcprint': [],
+  'iptctest': [],
+  'key-test': [],
+  'largeiptc-test': [],
+  'mmap-test': [],
+  'mrwthumb': [],
+  'prevtest': [],
+  'remotetest': [],
+  'stringto-test': [],
+  'taglist': [],
+  'tiff-test': [],
+  'write-test': [],
+  'write2-test': [],
+  'xmpparse': [],
+  'xmpparser-test': [],
+  'xmpprint': [],
+  'xmpsample': [],
+  'xmpdump': [],
+}
+
+foreach s, d : samples
+  executable(s, 'samples/@0@.cpp'.format(s), dependencies: [exiv2_dep, d], include_directories: exiv2inc)
+endforeach
+
+gopt = [
+ 'getopt-test',
+ 'metacopy',
+ 'path-test',
+]
+
+ginc = include_directories('app')
+foreach g : gopt
+  executable(g, 'samples/@0@.cpp'.format(g), 'app/getopt.cpp', dependencies: exiv2_dep, include_directories: [exiv2inc, ginc])
+endforeach
+
 subdir('unitTests')
