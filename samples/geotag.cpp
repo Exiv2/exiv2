@@ -8,8 +8,15 @@
 #include <sys/types.h>
 
 #include <algorithm>
-#include <filesystem>
 #include <iostream>
+
+#if __has_include(<filesystem>)
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 using namespace std;
 
@@ -795,7 +802,7 @@ int main(int argc, const char* argv[]) {
           printf("%s %s ", arg, types[type]);
         if (type == typeImage) {
           time_t t = readImageTime(std::string(arg));
-          auto p = std::filesystem::absolute(std::filesystem::path(arg));
+          auto p = fs::absolute(fs::path(arg));
           std::string path = p.string();
           if (t && !path.empty()) {
             if (options.verbose)
