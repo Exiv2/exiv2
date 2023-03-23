@@ -38,8 +38,6 @@ cdata.set('PROJECT_VERSION', '@0@.@1@'.format(meson.project_version(), cdata.get
 cdata.set('EXV_PACKAGE_VERSION', '@0@.@1@'.format(meson.project_version(), cdata.get('PROJECT_VERSION_TWEAK')))
 cdata.set('EXV_PACKAGE_STRING', '@0@ @1@'.format(meson.project_name(), cdata.get('PROJECT_VERSION')))
 
-cdata.set('EXV_HAVE_MMAP', cpp.has_function('mmap'))
-cdata.set('EXV_HAVE_MUNMAP', cpp.has_function('munmap'))
 cdata.set('EXV_HAVE_STRERROR_R', cpp.has_function('strerror_r'))
 cdata.set('EXV_STRERROR_R_CHAR_P', not cpp.compiles('#include <string.h>\nint strerror_r(int,char*,size_t);int main(){}'))
 
