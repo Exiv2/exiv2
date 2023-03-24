@@ -160,6 +160,9 @@ executable(
   install: true,
 )
 
+subdir('unitTests')
+subdir('po')
+
 samples = {
   'addmoddel': [],
   'conntest': web_dep,
@@ -176,6 +179,7 @@ samples = {
   'iptceasy': [],
   'iptcprint': [],
   'iptctest': [],
+  'jpegparsetest': [],
   'key-test': [],
   'largeiptc-test': [],
   'mmap-test': [],
@@ -209,5 +213,5 @@ foreach g : gopt
   executable(g, 'samples/@0@.cpp'.format(g), 'app/getopt.cpp', dependencies: exiv2_dep, include_directories: [exiv2inc, ginc])
 endforeach
 
-subdir('unitTests')
-subdir('po')
+bindir = 'EXIV2_BINDIR=@0@'.format(meson.current_build_dir())
+subdir('tests')
