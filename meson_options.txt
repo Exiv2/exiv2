@@ -45,6 +45,10 @@ option('unitTests', type : 'feature',
   description : 'Build and run unit tests',
 )
 
+option('tests', type : 'feature',
+  description : 'Build and run Python tests',
+)
+
 option('webready', type : 'boolean',
   value: true,
   description : 'Build with support for webready',
