@@ -82,7 +82,7 @@ if zlib_dep.found()
   deps += zlib_dep
 endif
 
-if meson.version().version_compare('>= 0.60') and host_machine.system() != 'freebsd'
+if meson.version().version_compare('>= 0.60')
   iconv_dep = dependency('iconv', required: get_option('iconv'))
 else
   iconv_dep = dependency('', required: false)
