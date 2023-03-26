@@ -4993,13 +4993,10 @@ std::string XmpProperties::prefix(const std::string& ns) {
 
   auto i = nsRegistry_.find(ns2);
   std::string p;
-  if (i != nsRegistry_.end()) {
+  if (i != nsRegistry_.end())
     p = i->second.prefix_;
-  } else {
-    auto xn = Exiv2::find(xmpNsInfo, XmpNsInfo::Ns{ns2});
-    if (xn)
-      p = std::string(xn->prefix_);
-  }
+  else if (auto xn = Exiv2::find(xmpNsInfo, XmpNsInfo::Ns{ns2}))
+    p = std::string(xn->prefix_);
   return p;
 }
 
@@ -5087,8 +5084,7 @@ void XmpProperties::registeredNamespaces(Exiv2::Dictionary& nsDict) {
 }
 
 void XmpProperties::printProperties(std::ostream& os, const std::string& prefix) {
-  const XmpPropertyInfo* pl = propertyList(prefix);
-  if (pl) {
+  if (auto pl = propertyList(prefix)) {
     for (int i = 0; pl[i].name_; ++i) {
       os << pl[i];
     }
@@ -5099,8 +5095,7 @@ void XmpProperties::printProperties(std::ostream& os, const std::string& prefix)
 std::ostream& XmpProperties::printProperty(std::ostream& os, const std::string& key, const Value& value) {
   PrintFct fct = printValue;
   if (value.count() != 0) {
-    auto info = Exiv2::find(xmpPrintInfo, key);
-    if (info)
+    if (auto info = Exiv2::find(xmpPrintInfo, key))
       fct = info->printFct_;
   }
   return fct(os, value, nullptr);

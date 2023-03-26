@@ -743,10 +743,9 @@ AccessMode ImageFactory::checkMode(ImageType type, MetadataId metadataId) {
 }
 
 bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance) {
-  auto r = Exiv2::find(registry, type);
-  if (!r)
-    return false;
-  return r->isThisType_(io, advance);
+  if (auto r = Exiv2::find(registry, type))
+    return r->isThisType_(io, advance);
+  return false;
 }
 
 ImageType ImageFactory::getType(const std::string& path) {
@@ -844,10 +843,9 @@ Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io) {
   // BasicIo instance does not need to be open
   if (type == ImageType::none)
     return {};
-  auto r = Exiv2::find(registry, type);
-  if (!r)
-    return {};
-  return r->newInstance_(std::move(io), true);
+  if (auto r = Exiv2::find(registry, type))
+    return r->newInstance_(std::move(io), true);
+  return {};
 }
 
 // *****************************************************************************

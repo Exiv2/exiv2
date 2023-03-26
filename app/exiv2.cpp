@@ -1445,8 +1445,9 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 }  // parseLine
 
 CmdId commandId(const std::string& cmdString) {
-  auto it = Exiv2::find(cmdIdAndString, cmdString);
-  return it ? it->cmdId_ : CmdId::invalid;
+  if (auto it = Exiv2::find(cmdIdAndString, cmdString))
+    return it->cmdId_;
+  return CmdId::invalid;
 }
 
 std::string parseEscapes(const std::string& input) {

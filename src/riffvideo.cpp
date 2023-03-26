@@ -637,11 +637,11 @@ void RiffVideo::readStreamFormat(uint64_t size_) {
   }
 }
 
-void RiffVideo::readStreamData(uint64_t size_) {
+void RiffVideo::readStreamData(uint64_t size_) const {
   io_->seekOrThrow(io_->tell() + size_, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
 
-void RiffVideo::StreamName(uint64_t size_) {
+void RiffVideo::StreamName(uint64_t size_) const {
   // This element contains a name for the stream. That stream name should only use plain ASCII, especially not UTF-8.
   io_->seekOrThrow(io_->tell() + size_, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
@@ -658,11 +658,11 @@ void RiffVideo::readInfoListChunk(uint64_t size_) {
   }
 }
 
-void RiffVideo::readMoviList(uint64_t size_) {
+void RiffVideo::readMoviList(uint64_t size_) const {
   io_->seekOrThrow(io_->tell() + size_ - DWORD, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
 
-void RiffVideo::readVPRPChunk(uint64_t size_) {
+void RiffVideo::readVPRPChunk(uint64_t size_) const {
 #ifdef EXIV2_DEBUG_MESSAGES
   EXV_INFO << "--> VideoFormatToken         = " << readDWORDTag(io_) << std::endl;
   EXV_INFO << "--> VideoStandard            = " << readDWORDTag(io_) << std::endl;
@@ -688,7 +688,7 @@ void RiffVideo::readVPRPChunk(uint64_t size_) {
   io_->seekOrThrow(io_->tell() + size_, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
 
-void RiffVideo::readIndexChunk(uint64_t size_) {
+void RiffVideo::readIndexChunk(uint64_t size_) const {
 #ifdef EXIV2_DEBUG_MESSAGES
   uint64_t current_size = 0;
   while (current_size < size_) {
@@ -708,7 +708,7 @@ void RiffVideo::readIndexChunk(uint64_t size_) {
   io_->seekOrThrow(io_->tell() + size_, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
 
-void RiffVideo::readDataChunk(uint64_t size_) {
+void RiffVideo::readDataChunk(uint64_t size_) const {
 #ifdef EXIV2_DEBUG_MESSAGES
   EXV_INFO << "--> Data               = " << readStringTag(io_, static_cast<size_t>(size_)) << std::endl;
   uint64_t readed_size = size_;
@@ -724,7 +724,7 @@ void RiffVideo::readDataChunk(uint64_t size_) {
     io_->seekOrThrow(io_->tell() + 1, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
 
-void RiffVideo::readJunk(uint64_t size_) {
+void RiffVideo::readJunk(uint64_t size_) const {
   io_->seekOrThrow(io_->tell() + size_, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
 

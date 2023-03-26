@@ -2319,12 +2319,8 @@ const TagInfo* mnTagList() {
 }
 
 bool isMakerIfd(IfdId ifdId) {
-  bool rc = false;
   auto ii = Exiv2::find(groupInfo, ifdId);
-  if (ii && 0 == strcmp(ii->ifdName_, "Makernote")) {
-    rc = true;
-  }
-  return rc;
+  return ii && strcmp(ii->ifdName_, "Makernote") == 0;
 }
 
 bool isExifIfd(IfdId ifdId) {
@@ -2355,8 +2351,7 @@ bool isExifIfd(IfdId ifdId) {
 }
 
 void taglist(std::ostream& os, IfdId ifdId) {
-  const TagInfo* ti = Internal::tagList(ifdId);
-  if (ti) {
+  if (auto ti = tagList(ifdId)) {
     for (int k = 0; ti[k].tag_ != 0xffff; ++k) {
       os << ti[k] << "\n";
     }
@@ -2364,59 +2359,54 @@ void taglist(std::ostream& os, IfdId ifdId) {
 }  // taglist
 
 const TagInfo* tagList(IfdId ifdId) {
-  auto ii = Exiv2::find(groupInfo, ifdId);
-  if (!ii || !ii->tagList_)
-    return nullptr;
-  return ii->tagList_();
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    if (ii->tagList_)
+      return ii->tagList_();
+  return nullptr;
 }  // tagList
 
 const TagInfo* tagInfo(uint16_t tag, IfdId ifdId) {
-  const TagInfo* ti = tagList(ifdId);
-  if (!ti)
-    return nullptr;
-  int idx = 0;
-  for (idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-    if (ti[idx].tag_ == tag)
-      break;
+  if (auto ti = tagList(ifdId)) {
+    int idx = 0;
+    for (idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
+      if (ti[idx].tag_ == tag)
+        break;
+    }
+    return &ti[idx];
   }
-  return &ti[idx];
+  return nullptr;
 }  // tagInfo
 
 const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
-  const TagInfo* ti = tagList(ifdId);
-  if (!ti)
-    return nullptr;
   if (tagName.empty())
     return nullptr;
-  const char* tn = tagName.c_str();
-  for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-    if (0 == strcmp(ti[idx].name_, tn)) {
-      return &ti[idx];
+  if (auto ti = tagList(ifdId)) {
+    const char* tn = tagName.c_str();
+    for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
+      if (0 == strcmp(ti[idx].name_, tn)) {
+        return &ti[idx];
+      }
     }
   }
   return nullptr;
 }  // tagInfo
 
 IfdId groupId(const std::string& groupName) {
-  IfdId ifdId = IfdId::ifdIdNotSet;
-  auto ii = Exiv2::find(groupInfo, groupName);
-  if (ii)
-    ifdId = static_cast<IfdId>(ii->ifdId_);
-  return ifdId;
+  if (auto ii = Exiv2::find(groupInfo, groupName))
+    return static_cast<IfdId>(ii->ifdId_);
+  return IfdId::ifdIdNotSet;
 }
 
 const char* ifdName(IfdId ifdId) {
-  auto ii = Exiv2::find(groupInfo, ifdId);
-  if (!ii)
-    return groupInfo[0].ifdName_;
-  return ii->ifdName_;
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    return ii->ifdName_;
+  return groupInfo[0].ifdName_;
 }
 
 const char* groupName(IfdId ifdId) {
-  auto ii = Exiv2::find(groupInfo, ifdId);
-  if (!ii)
-    return groupInfo[0].groupName_;
-  return ii->groupName_;
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    return ii->groupName_;
+  return groupInfo[0].groupName_;
 }
 
 std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*) {
@@ -2947,13 +2937,15 @@ std::ostream& print0xa001(std::ostream& os, const Value& value, const ExifData* 
 }
 
 //! SensingMethod, tag 0xa217
-constexpr TagDetails exifSensingMethod[] = {{1, N_("Not defined")},
-                                            {2, N_("One-chip color area")},
-                                            {3, N_("Two-chip color area")},
-                                            {4, N_("Three-chip color area")},
-                                            {5, N_("Color sequential area")},
-                                            {7, N_("Trilinear sensor")},
-                                            {8, N_("Color sequential linear")}};
+constexpr TagDetails exifSensingMethod[] = {
+    {1, N_("Not defined")},
+    {2, N_("One-chip color area")},
+    {3, N_("Two-chip color area")},
+    {4, N_("Three-chip color area")},
+    {5, N_("Color sequential area")},
+    {7, N_("Trilinear sensor")},
+    {8, N_("Color sequential linear")},
+};
 
 std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_TAG(exifSensingMethod)(os, value, metadata);
@@ -2963,7 +2955,8 @@ std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData* 
 constexpr TagDetails exifFileSource[] = {
     {1, N_("Film scanner")},             // Not defined to Exif 2.2 spec.
     {2, N_("Reflexion print scanner")},  // but used by some scanner device softwares.
-    {3, N_("Digital still camera")}};
+    {3, N_("Digital still camera")},
+};
 
 std::ostream& print0xa300(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_TAG(exifFileSource)(os, value, metadata);

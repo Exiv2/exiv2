@@ -424,7 +424,7 @@ class CiffHeader {
     @param crwTagId Tag id to be removed.
     @param crwDir   Parent directory of the tag.
    */
-  void remove(uint16_t crwTagId, uint16_t crwDir);
+  void remove(uint16_t crwTagId, uint16_t crwDir) const;
   //@}
 
   //! Return a pointer to the Canon CRW signature.

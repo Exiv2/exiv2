@@ -11,8 +11,6 @@
 #include "tags_int.hpp"
 #include "types.hpp"
 
-#include <array>
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -274,7 +272,7 @@ ExifKey& ExifKey::operator=(const ExifKey& rhs) {
   return *this;
 }
 
-void ExifKey::setIdx(int idx) {
+void ExifKey::setIdx(int idx) const {
   p_->idx_ = idx;
 }
 
@@ -344,8 +342,7 @@ std::ostream& operator<<(std::ostream& os, const TagInfo& ti) {
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
   char Q = '"';
   os << Q;
-  for (size_t i = 0; i < exifKey.tagDesc().size(); i++) {
-    char c = exifKey.tagDesc()[i];
+  for (char c : exifKey.tagDesc()) {
     if (c == Q)
       os << Q;
     os << c;

@@ -238,7 +238,7 @@ void AsfVideo::readMetadata() {
   xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width_, height_);
 }  // AsfVideo::readMetadata
 
-AsfVideo::HeaderReader::HeaderReader(BasicIo::UniquePtr& io) : IdBuf_(GUID) {
+AsfVideo::HeaderReader::HeaderReader(const BasicIo::UniquePtr& io) : IdBuf_(GUID) {
   if (io->size() >= io->tell() + GUID + QWORD) {
     IdBuf_ = io->read(GUID);
 
@@ -409,7 +409,7 @@ void AsfVideo::codecList() {
   }
 }  // AsfVideo::codecList
 
-void AsfVideo::headerExtension() {
+void AsfVideo::headerExtension() const {
   io_->seek(io_->tell() + GUID /*reserved1*/ + WORD /*Reserved2*/, BasicIo::beg);
   auto header_ext_data_length = readDWORDTag(io_);
   io_->seek(io_->tell() + header_ext_data_length, BasicIo::beg);

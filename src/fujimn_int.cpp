@@ -346,11 +346,10 @@ static std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& va
         longValue -= '0';
       }
 
-      auto td = Exiv2::find(fujiFaceElementType, longValue);
       if (n != 0) {
         os << " ";
       }
-      if (td) {
+      if (auto td = Exiv2::find(fujiFaceElementType, longValue)) {
         os << exvGettext(td->label_);
       } else {
         os << "(" << value.toInt64(n) << ")";

@@ -265,7 +265,7 @@ int Exifdatum::setValue(const std::string& value) {
   return value_->read(value);
 }
 
-int Exifdatum::setDataArea(const byte* buf, size_t len) {
+int Exifdatum::setDataArea(const byte* buf, size_t len) const {
   return value_ ? value_->setDataArea(buf, len) : -1;
 }
 

@@ -2007,7 +2007,7 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
   // Nikkor lenses by their LensID
   //------------------------------------------------------------------------------
 
-  static const struct FMntLens {
+  static constexpr struct FMntLens {
     unsigned char lid, stps, focs, focl, aps, apl, lfw, ltype, tcinfo, dblid, mid;
     const char *manuf, *lnumber, *lensname;
 
@@ -3786,8 +3786,7 @@ std::ostream& Nikon3MakerNote::print0x009e(std::ostream& os, const Value& value,
     if (l != 0)
       trim = false;
     std::string d = s.empty() ? "" : "; ";
-    auto td = Exiv2::find(nikonRetouchHistory, l);
-    if (td) {
+    if (auto td = Exiv2::find(nikonRetouchHistory, l)) {
       s = std::string(exvGettext(td->label_)).append(d).append(s);
     } else {
       s = std::string(_("Unknown")).append(" (").append(std::to_string(l)).append(")").append(d).append(s);

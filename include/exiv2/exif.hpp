@@ -129,7 +129,7 @@ class EXIV2API Exifdatum : public Metadatum {
     @return Return -1 if the %Exifdatum does not have a value yet or the
             value has no data area, else 0.
    */
-  int setDataArea(const byte* buf, size_t len);
+  int setDataArea(const byte* buf, size_t len) const;
   //@}
 
   //! @name Accessors

@@ -254,7 +254,7 @@ enum matroskaEnum : uint64_t {
   Cluster = 0xf43b675
 };
 
-const MatroskaTag matroskaTags[] = {
+const MatroskaTag matroskaTags[]{
     {ChapterDisplay, "ChapterDisplay", Master, Composite},
     {TrackType, "TrackType", Boolean, Process},
     {ChapterString, "ChapterString", String, Skip},
@@ -720,60 +720,46 @@ void MatroskaVideo::decodeBlock() {
 }  // MatroskaVideo::decodeBlock
 
 void MatroskaVideo::decodeInternalTags(const MatroskaTag* tag, const byte* buf) {
-  const MatroskaTag* internalMt = nullptr;
   uint64_t key = getULongLong(buf, bigEndian);
   if (!key)
     return;
 
-  switch (tag->_id) {
-    case Xmp_video_VideoScanTpye:
-      internalMt = Exiv2::find(videoScanType, key);
-      break;
-    case Xmp_audio_ChannelType:
-      internalMt = Exiv2::find(audioChannels, key);
-      break;
-    case Xmp_video_ContentCompressAlgo:
-      internalMt = Exiv2::find(compressionAlgorithm, key);
-      break;
-    case Xmp_video_ContentEncryptAlgo:
-      internalMt = Exiv2::find(encryptionAlgorithm, key);
-      break;
-    case Xmp_video_ContentSignAlgo_1:
-    case Xmp_video_ContentSignAlgo_2:
-      internalMt = Exiv2::find(contentSignatureAlgorithm, key);
-      break;
-    case Xmp_video_ContentSignHashAlgo_1:
-    case Xmp_video_ContentSignHashAlgo_2:
-      internalMt = Exiv2::find(contentSignatureHashAlgorithm, key);
-      break;
-    case Xmp_video_ContentEncodingType:
-      internalMt = Exiv2::find(encodingType, key);
-      break;
-    case Xmp_video_DisplayUnit:
-      internalMt = Exiv2::find(displayUnit, key);
-      break;
-    case Xmp_video_AspectRatioType:
-      internalMt = Exiv2::find(aspectRatioType, key);
-      break;
-    case Xmp_video_PhysicalEquivalent:
-      internalMt = Exiv2::find(chapterPhysicalEquivalent, key);
-      break;
-    case Xmp_video_TranslateCodec:
-      internalMt = Exiv2::find(chapterTranslateCodec, key);
-      break;
-    case Video_Audio_CodecID:
-      internalMt = Exiv2::find(trackCodec, key);
-      break;
-    case Video_Audio_CodecName:
-      internalMt = Exiv2::find(codecInfo, key);
-      break;
-    case CodecDownloadURL:
-    case CodecInfoURL:
-      internalMt = Exiv2::find(codecDownloadUrl, key);
-      break;
-    default:
-      break;
-  }
+  auto internalMt = [=]() -> const MatroskaTag* {
+    switch (tag->_id) {
+      case Xmp_video_VideoScanTpye:
+        return Exiv2::find(videoScanType, key);
+      case Xmp_audio_ChannelType:
+        return Exiv2::find(audioChannels, key);
+      case Xmp_video_ContentCompressAlgo:
+        return Exiv2::find(compressionAlgorithm, key);
+      case Xmp_video_ContentEncryptAlgo:
+        return Exiv2::find(encryptionAlgorithm, key);
+      case Xmp_video_ContentSignAlgo_1:
+      case Xmp_video_ContentSignAlgo_2:
+        return Exiv2::find(contentSignatureAlgorithm, key);
+      case Xmp_video_ContentSignHashAlgo_1:
+      case Xmp_video_ContentSignHashAlgo_2:
+        return Exiv2::find(contentSignatureHashAlgorithm, key);
+      case Xmp_video_ContentEncodingType:
+        return Exiv2::find(encodingType, key);
+      case Xmp_video_DisplayUnit:
+        return Exiv2::find(displayUnit, key);
+      case Xmp_video_AspectRatioType:
+        return Exiv2::find(aspectRatioType, key);
+      case Xmp_video_PhysicalEquivalent:
+        return Exiv2::find(chapterPhysicalEquivalent, key);
+      case Xmp_video_TranslateCodec:
+        return Exiv2::find(chapterTranslateCodec, key);
+      case Video_Audio_CodecID:
+        return Exiv2::find(trackCodec, key);
+      case Video_Audio_CodecName:
+        return Exiv2::find(codecInfo, key);
+      case CodecDownloadURL:
+      case CodecInfoURL:
+        return Exiv2::find(codecDownloadUrl, key);
+    }
+    return nullptr;
+  }();
   if (internalMt) {
     xmpData_[tag->_label] = internalMt->_label;
   } else {
@@ -803,7 +789,6 @@ void MatroskaVideo::decodeIntegerTags(const MatroskaTag* tag, const byte* buf) {
 }
 
 void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf) {
-  std::string str("No");
   const MatroskaTag* internalMt = nullptr;
   uint64_t key = getULongLong(buf, bigEndian);
   if (!key)
@@ -841,8 +826,7 @@ void MatroskaVideo::decodeBooleanTags(const MatroskaTag* tag, const byte* buf) {
   }
 
   if (internalMt) {
-    str = "Yes";
-    xmpData_[internalMt->_label] = str;
+    xmpData_[internalMt->_label] = "Yes";
   }
 }
 
@@ -893,8 +877,7 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
       uint64_t key = getULongLong(buf, bigEndian);
       if (!key)
         return;
-      const MatroskaTag* internalMt = Exiv2::find(streamRate, key);
-      if (internalMt) {
+      if (auto internalMt = Exiv2::find(streamRate, key)) {
         switch (stream_) {
           case 1:  // video
             frame_rate = static_cast<double>(1000000000) / static_cast<double>(key);

@@ -2029,7 +2029,7 @@ ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpDa
   }
 
   if (auto rootDir = parse(pData, size, root, pHeader)) {
-    TiffDecoder decoder(exifData, iptcData, xmpData, rootDir.get(), findDecoderFct);
+    auto decoder = TiffDecoder(exifData, iptcData, xmpData, rootDir.get(), findDecoderFct);
     rootDir->accept(decoder);
   }
   return pHeader->byteOrder();

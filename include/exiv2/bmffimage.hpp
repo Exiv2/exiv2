@@ -119,7 +119,7 @@ class EXIV2API BmffImage : public Image {
   static constexpr Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
  private:
-  void openOrThrow();
+  void openOrThrow() const;
   /*!
     @brief recursiveBoxHandler
     @throw Error if we visit a box more than once

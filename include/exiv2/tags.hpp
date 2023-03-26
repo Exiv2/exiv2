@@ -315,7 +315,7 @@ class EXIV2API ExifKey : public Key {
    */
   ExifKey& operator=(const ExifKey& rhs);
   //! Set the index.
-  void setIdx(int idx);
+  void setIdx(int idx) const;
   //@}
 
   //! @name Accessors

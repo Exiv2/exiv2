@@ -39,13 +39,12 @@ class FindExifdatum2 {
 };  // class FindExifdatum2
 
 Exiv2::ByteOrder stringToByteOrder(const std::string& val) {
-  Exiv2::ByteOrder bo = Exiv2::invalidByteOrder;
   if (val == "II")
-    bo = Exiv2::littleEndian;
-  else if (val == "MM")
-    bo = Exiv2::bigEndian;
+    return Exiv2::littleEndian;
+  if (val == "MM")
+    return Exiv2::bigEndian;
 
-  return bo;
+  return Exiv2::invalidByteOrder;
 }
 }  // namespace
 
@@ -500,7 +499,7 @@ void TiffEncoder::encodeIptc() {
     if (rawIptc.size() % 4 != 0) {
       // Pad the last unsignedLong value with 0s
       buf.alloc((rawIptc.size() / 4) * 4 + 4);
-      std::copy(rawIptc.begin(), rawIptc.end(), buf.begin());
+      std::move(rawIptc.begin(), rawIptc.end(), buf.begin());
     } else {
       buf = std::move(rawIptc);  // Note: This resets rawIptc
     }
@@ -1347,14 +1346,16 @@ void TiffReader::visitBinaryArray(TiffBinaryArray* object) {
   // Check duplicates
   TiffFinder finder(object->tag(), object->group());
   pRoot_->accept(finder);
-  if (auto te = dynamic_cast<TiffEntryBase*>(finder.result()); te && te->idx() != object->idx()) {
+  if (auto te = dynamic_cast<TiffEntryBase*>(finder.result())) {
+    if (te->idx() != object->idx()) {
 #ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "Not decoding duplicate binary array tag 0x" << std::setw(4) << std::setfill('0') << std::hex
-                << object->tag() << std::dec << ", group " << groupName(object->group()) << ", idx " << object->idx()
-                << "\n";
+      EXV_WARNING << "Not decoding duplicate binary array tag 0x" << std::setw(4) << std::setfill('0') << std::hex
+                  << object->tag() << std::dec << ", group " << groupName(object->group()) << ", idx " << object->idx()
+                  << "\n";
 #endif
-    object->setDecoded(false);
-    return;
+      object->setDecoded(false);
+      return;
+    }
   }
 
   if (object->TiffEntryBase::doSize() == 0)

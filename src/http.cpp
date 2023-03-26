@@ -139,7 +139,8 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   // Windows specific code
 #if defined(_WIN32)
   WSADATA wsaData;
-  WSAStartup(MAKEWORD(2, 2), &wsaData);
+  if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
+    return error(errors, "could not start WinSock");
 #endif
 
   const char* servername = request["server"].c_str();
