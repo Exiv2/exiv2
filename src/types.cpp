@@ -69,24 +69,21 @@ constexpr struct TypeInfoTable {
 // class member definitions
 namespace Exiv2 {
 const char* TypeInfo::typeName(TypeId typeId) {
-  auto tit = Exiv2::find(typeInfoTable, typeId);
-  if (!tit)
-    return nullptr;
-  return tit->name_;
+  if (auto tit = Exiv2::find(typeInfoTable, typeId))
+    return tit->name_;
+  return nullptr;
 }
 
 TypeId TypeInfo::typeId(const std::string& typeName) {
-  auto tit = Exiv2::find(typeInfoTable, typeName);
-  if (!tit)
-    return invalidTypeId;
-  return tit->typeId_;
+  if (auto tit = Exiv2::find(typeInfoTable, typeName))
+    return tit->typeId_;
+  return invalidTypeId;
 }
 
 size_t TypeInfo::typeSize(TypeId typeId) {
-  auto tit = Exiv2::find(typeInfoTable, typeId);
-  if (!tit)
-    return 0;
-  return tit->size_;
+  if (auto tit = Exiv2::find(typeInfoTable, typeId))
+    return tit->size_;
+  return 0;
 }
 
 DataBuf::DataBuf(size_t size) : pData_(size) {
@@ -481,11 +478,7 @@ bool isHex(const std::string& str, size_t size, const std::string& prefix) {
   if (size > 0 && str.size() != size + prefix.size())
     return false;
 
-  for (size_t i = prefix.size(); i < str.size(); ++i) {
-    if (!isxdigit(str[i]))
-      return false;
-  }
-  return true;
+  return std::all_of(str.begin() + prefix.size(), str.end(), ::isxdigit);
 }  // isHex
 
 int exifTime(const char* buf, tm* tm) {

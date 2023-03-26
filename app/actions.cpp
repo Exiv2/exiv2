@@ -1794,10 +1794,8 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
 
   // if we used a temporary target, copy it to stdout
   if (rc == 0 && bStdout) {
-    FILE* f = ::fopen(target.c_str(), "rb");
     _setmode(fileno(stdout), O_BINARY);
-
-    if (f) {
+    if (auto f = std::fopen(target.c_str(), "rb")) {
       char buffer[8 * 1024];
       size_t n = 1;
       while (!feof(f) && n > 0) {

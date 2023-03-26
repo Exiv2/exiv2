@@ -94,7 +94,7 @@ class EXIV2API AsfVideo : public Image {
     uint64_t remaining_size_{};
 
    public:
-    explicit HeaderReader(BasicIo::UniquePtr& io);
+    explicit HeaderReader(const BasicIo::UniquePtr& io);
 
     [[nodiscard]] uint64_t getSize() const {
       return size_;
@@ -146,7 +146,7 @@ class EXIV2API AsfVideo : public Image {
     @brief Interpret Header_Extension tag information, and save it in
         the respective XMP container.
    */
-  void headerExtension();
+  void headerExtension() const;
   /*!
     @brief Interpret Metadata, Extended_Content_Description,
         Metadata_Library tag information, and save it in the respective

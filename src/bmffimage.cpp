@@ -183,7 +183,7 @@ class BrotliDecoderWrapper {
   BrotliDecoderWrapper(const BrotliDecoderWrapper&) = delete;
   BrotliDecoderWrapper& operator=(const BrotliDecoderWrapper&) = delete;
 
-  BrotliDecoderState* get() const {
+  [[nodiscard]] BrotliDecoderState* get() const {
     return decoder_;
   }
 };
@@ -667,12 +667,11 @@ void BmffImage::parseCr3Preview(const DataBuf& data, std::ostream& out, bool bTr
       return "image/jpeg";
     return "application/octet-stream";
   }();
-  nativePreviews_.push_back(std::move(nativePreview));
-
   if (bTrace) {
     out << Internal::stringFormat("width,height,size = %zu,%zu,%zu", nativePreview.width_, nativePreview.height_,
                                   nativePreview.size_);
   }
+  nativePreviews_.push_back(std::move(nativePreview));
 }
 
 void BmffImage::setExifData(const ExifData& /*exifData*/) {
@@ -692,7 +691,7 @@ void BmffImage::setComment(const std::string&) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMFF"));
 }
 
-void BmffImage::openOrThrow() {
+void BmffImage::openOrThrow() const {
   if (io_->open() != 0) {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   }

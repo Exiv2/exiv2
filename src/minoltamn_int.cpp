@@ -1679,8 +1679,9 @@ std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const
 
   // #1145 - respect lenses with shared LensID
   uint32_t index = value.toUint32();
-  if (auto f = Exiv2::find(lensIdFct, index); f && metadata)
-    return f->fct(os, value, metadata);
+  if (metadata)
+    if (auto f = Exiv2::find(lensIdFct, index))
+      return f->fct(os, value, metadata);
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 

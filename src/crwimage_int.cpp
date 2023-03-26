@@ -573,7 +573,7 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
   return cc_;
 }  // CiffDirectory::doAdd
 
-void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) {
+void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) const {
   if (pRootDir_) {
     CrwDirs crwDirs;
     CrwMap::loadStack(crwDirs, crwDir);
@@ -859,7 +859,7 @@ void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, Cif
     if (cc && cc->size() > size)
       size = cc->size();
     DataBuf buf(size);
-    std::copy(comment.begin(), comment.end(), buf.begin());
+    std::move(comment.begin(), comment.end(), buf.begin());
     pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
   } else {
     if (cc) {
@@ -900,21 +900,19 @@ void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, Cif
 }
 
 void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  IfdId ifdId = IfdId::ifdIdNotSet;
-  switch (pCrwMapping->tag_) {
-    case 0x0001:
-      ifdId = IfdId::canonCsId;
-      break;
-    case 0x0004:
-      ifdId = IfdId::canonSiId;
-      break;
-    case 0x000f:
-      ifdId = IfdId::canonCfId;
-      break;
-    case 0x0012:
-      ifdId = IfdId::canonPiId;
-      break;
-  }
+  auto ifdId = [=] {
+    switch (pCrwMapping->tag_) {
+      case 0x0001:
+        return IfdId::canonCsId;
+      case 0x0004:
+        return IfdId::canonSiId;
+      case 0x000f:
+        return IfdId::canonCfId;
+      case 0x0012:
+        return IfdId::canonPiId;
+    }
+    return IfdId::ifdIdNotSet;
+  }();
   DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
   if (buf.empty()) {
     // Try the undecoded tag

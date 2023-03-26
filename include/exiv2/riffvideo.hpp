@@ -88,13 +88,13 @@ class EXIV2API RiffVideo : public Image {
   @brief Interpret Additional header data (strd), and save it in the respective XMP container.
   @param size_ Size of the data block used to store Tag Information.
  */
-  void readStreamData(uint64_t size_);
+  void readStreamData(uint64_t size_) const;
 
   /*!
   @brief Interpret stream header list element (strn) , and save it in the respective XMP container.
   @param size_ Size of the data block used to store Tag Information.
  */
-  void StreamName(uint64_t size_);
+  void StreamName(uint64_t size_) const;
   /*!
   @brief Interpret INFO List Chunk, and save it in the respective XMP container.
   @param size_ Size of the data block used to store Tag Information.
@@ -106,28 +106,28 @@ class EXIV2API RiffVideo : public Image {
   The Movi - Lists contain Video, Audio, Subtitle and (secondary) index data. Those can be grouped into rec - Lists.
   @param size_ Size of the data block used to store Tag Information.
  */
-  void readMoviList(uint64_t size_);
+  void readMoviList(uint64_t size_) const;
   /*!
   @brief Interpret Video Properties Header chunk, and save it in the respective XMP container.
   The video properties header identifies video signal properties associated with a digital video stream in an AVI file
   @param size_ Size of the data block used to store Tag Information.
  */
-  void readVPRPChunk(uint64_t size_);
+  void readVPRPChunk(uint64_t size_) const;
   /*!
   @brief Interpret Riff INdex Chunk, and save it in the respective XMP container.
   @param size_ Size of the data block used to store Tag Information.
  */
-  void readIndexChunk(uint64_t size_);
+  void readIndexChunk(uint64_t size_) const;
   /*!
   @brief Interpret Riff Stream Chunk, and save it in the respective XMP container.
   @param size_ Size of the data block used to store Tag Information.
  */
-  void readDataChunk(uint64_t size_);
+  void readDataChunk(uint64_t size_) const;
   /*!
   @brief Interpret Junk Chunk and save it in the respective XMP container.
   @param size_ Size of the data block used to store Tag Information.
  */
-  void readJunk(uint64_t size_);
+  void readJunk(uint64_t size_) const;
 
   static std::string getStreamType(uint32_t stream);
   /*!

@@ -184,10 +184,9 @@ int FileIo::Impl::switchMode(OpMode opMode) {
 }  // FileIo::Impl::switchMode
 
 int FileIo::Impl::stat(StructStat& buf) const {
-  int ret = 0;
   struct stat st;
-  ret = ::stat(path_.c_str(), &st);
-  if (0 == ret) {
+  auto ret = ::stat(path_.c_str(), &st);
+  if (ret == 0) {
     buf.st_size = st.st_size;
     buf.st_mode = st.st_mode;
   }
@@ -204,16 +203,16 @@ FileIo::~FileIo() {
 int FileIo::munmap() {
   int rc = 0;
   if (p_->pMappedArea_) {
-#if __has_include(<sys/mman.h>)
-    if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
-      rc = 1;
-    }
-#elif defined _WIN32
+#if defined _WIN32
     UnmapViewOfFile(p_->pMappedArea_);
     CloseHandle(p_->hMap_);
     p_->hMap_ = nullptr;
     CloseHandle(p_->hFile_);
     p_->hFile_ = nullptr;
+#elif __has_include(<sys/mman.h>)
+    if (::munmap(p_->pMappedArea_, p_->mappedLength_) != 0) {
+      rc = 1;
+    }
 #else
 #error Platforms without mmap are not supported. See https://github.com/Exiv2/exiv2/issues/2380
     if (p_->isWriteable_) {
@@ -1221,7 +1220,7 @@ size_t RemoteIo::write(BasicIo& src) {
   }
 
   // submit to the remote machine.
-  if (auto dataSize = src.size() - left - right; dataSize > 0) {
+  if (auto dataSize = src.size() - left - right) {
     std::vector<byte> data(dataSize);
     src.seek(left, BasicIo::beg);
     src.read(data.data(), dataSize);

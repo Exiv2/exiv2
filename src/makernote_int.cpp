@@ -142,11 +142,9 @@ bool TiffMnRegistry::operator==(IfdId key) const {
 
 TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, const std::string& make, const byte* pData, size_t size,
                                      ByteOrder byteOrder) {
-  auto tmr = Exiv2::find(registry_, make);
-  if (!tmr) {
-    return nullptr;
-  }
-  return tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
+  if (auto tmr = Exiv2::find(registry_, make))
+    return tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
+  return nullptr;
 }  // TiffMnCreator::create
 
 TiffComponent* TiffMnCreator::create(uint16_t tag, IfdId group, IfdId mnGroup) {
@@ -914,11 +912,9 @@ int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* /
     return -1;
 
   auto ix = NikonArrayIdx::Key{tag, reinterpret_cast<const char*>(pData), size};
-  auto it = Exiv2::find(nikonArrayIdx, ix);
-  if (!it)
-    return -1;
-
-  return it->idx_;
+  if (auto it = Exiv2::find(nikonArrayIdx, ix))
+    return it->idx_;
+  return -1;
 }
 
 DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot) {

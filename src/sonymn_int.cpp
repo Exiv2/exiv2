@@ -1180,21 +1180,19 @@ static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L10545
 
   const auto joinedV0V7 = ((value.toUint32(0) << 8) + value.toUint32(7));
-  auto temp = 0;
   for (const auto& i : lSFArray) {
-    temp = i.mask & joinedV0V7;
-    if (temp) {  // Check if a flag matches in the current LensSpecFlags
-      auto f = Exiv2::find(i.flags, temp);
-      if (!f) {
-        // Should never get in here. LensSpecFlags.mask should contain all the
-        // bits in all the LensSpecFlags.flags.val_ entries
-        throw Error(ErrorCode::kerErrorMessage,
-                    std::string("LensSpecFlags mask doesn't match the bits in the flags array"));
+    if (auto temp = i.mask & joinedV0V7) {  // Check if a flag matches in the current LensSpecFlags
+      if (auto f = Exiv2::find(i.flags, temp)) {
+        if (i.prepend)
+          flagsStart = (flagsStart.empty() ? f->label_ : f->label_ + std::string(" ") + flagsStart);
+        else
+          flagsEnd = (flagsEnd.empty() ? f->label_ : flagsEnd + std::string(" ") + f->label_);
+        continue;
       }
-      if (i.prepend)
-        flagsStart = (flagsStart.empty() ? f->label_ : f->label_ + std::string(" ") + flagsStart);
-      else
-        flagsEnd = (flagsEnd.empty() ? f->label_ : flagsEnd + std::string(" ") + f->label_);
+      // Should never get in here. LensSpecFlags.mask should contain all the
+      // bits in all the LensSpecFlags.flags.val_ entries
+      throw Error(ErrorCode::kerErrorMessage,
+                  std::string("LensSpecFlags mask doesn't match the bits in the flags array"));
     }
   }
 }

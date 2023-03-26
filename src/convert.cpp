@@ -639,7 +639,6 @@ void Converter::cnvExifDate(const char* from, const char* to) {
       return;
     }
   } else {  // "Exif.GPSInfo.GPSTimeStamp"
-
     bool ok = true;
     if (pos->count() != 3)
       ok = false;
@@ -949,7 +948,6 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
         }
       }
     } else {  // "Exif.GPSInfo.GPSTimeStamp"
-
       // Ignore the time zone, assuming the time is in UTC as it should be
 
       URational rhour(datetime.hour, 1);
@@ -1391,17 +1389,16 @@ void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData) {
 bool convertStringCharset(std::string& str, const char* from, const char* to) {
   if (0 == strcmp(from, to))
     return true;  // nothing to do
-  bool ret = false;
 #if defined EXV_HAVE_ICONV
-  ret = convertStringCharsetIconv(str, from, to);
+  return convertStringCharsetIconv(str, from, to);
 #elif defined _WIN32
-  ret = convertStringCharsetWindows(str, from, to);
+  return convertStringCharsetWindows(str, from, to);
 #else
 #ifndef SUPPRESS_WARNINGS
   EXV_WARNING << "Charset conversion required but no character mapping functionality available.\n";
 #endif
 #endif
-  return ret;
+  return false;
 }
 }  // namespace Exiv2
 
@@ -1589,8 +1586,7 @@ const ConvFctList convFctList[] = {
 [[maybe_unused]] bool convertStringCharsetWindows(std::string& str, const char* from, const char* to) {
   bool ret = false;
   std::string tmpstr = str;
-  auto p = Exiv2::find(convFctList, std::pair(from, to));
-  if (p)
+  if (auto p = Exiv2::find(convFctList, std::pair(from, to)))
     ret = p->convFct_(tmpstr);
 #ifndef SUPPRESS_WARNINGS
   else {
