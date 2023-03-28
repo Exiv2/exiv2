@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstring>
 #include <numeric>
+#include "convert.hpp"
 #include "enforce.hpp"
 
 std::string string_from_unterminated(const char* data, size_t data_length) {
@@ -14,21 +15,6 @@ std::string string_from_unterminated(const char* data, size_t data_length) {
   const size_t StringLength = strnlen(data, data_length);
   return {data, StringLength};
 }
-
-namespace {
-std::string utf16ToUtf8(const std::u16string& wstr) {
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4244)
-  auto str = std::string(wstr.begin(), wstr.end());
-#pragma warning(pop)
-#else
-  auto str = std::string(wstr.begin(), wstr.end());
-#endif
-  str.erase(std::remove(str.begin(), str.end(), '\0'), str.end());
-  return str;
-}
-}  // namespace
 
 namespace Exiv2 {
 uint64_t readQWORDTag(const BasicIo::UniquePtr& io) {
@@ -53,8 +39,11 @@ std::string readStringWcharTag(const BasicIo::UniquePtr& io, size_t length) {
   Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf(length + 1);
   io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);
-  std::u16string wst(FieldBuf.begin(), FieldBuf.end());
-  return utf16ToUtf8(wst);
+  std::string wst(FieldBuf.begin(), FieldBuf.end() - 3);
+  if (wst.size() % 2 != 0)
+    Exiv2::convertStringCharset(wst, "UCS-2LE", "UTF-8");
+  Exiv2::convertStringCharset(wst, "UCS-2LE", "UTF-8");
+  return wst;
 }
 
 std::string readStringTag(const BasicIo::UniquePtr& io, size_t length) {
