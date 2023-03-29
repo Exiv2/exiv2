@@ -3808,7 +3808,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
     return os << "(" << value << ")";
   }
 
-  // from https://github.com/exiftool/exiftool/blob/12.44/lib/Image/ExifTool/Nikon.pm#L4969
+  // from https://github.com/exiftool/exiftool/blob/12.59/lib/Image/ExifTool/Nikon.pm#L5267
   static constexpr struct lens {
     uint16_t l;
     const char* vendor;
@@ -3831,12 +3831,20 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
       {22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"},           // IB
       {23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"},           // IB
       {24, "Nikon", "Nikkor Z MC 105mm f/2.8 VR S"},       // IB
+      {25, "Nikon", "Nikkor Z 40mm f/2"},                  // 28
+      {26, "Nikon", "Nikkor Z DX 18-140mm f/3.5-6.3 VR"},  // IB
       {27, "Nikon", "Nikkor Z MC 50mm f/2.8"},             // IB
       {28, "Nikon", "Nikkor Z 100-400mm f/4.5-5.6 VR S"},  // 28
       {29, "Nikon", "Nikkor Z 28mm f/2.8"},                // IB
       {30, "Nikon", "Nikkor Z 400mm f/2.8 TC VR S"},       // 28
       {31, "Nikon", "Nikkor Z 24-120 f/4"},                // 28
       {32, "Nikon", "Nikkor Z 800mm f/6.3 VR S"},          // 28
+      {35, "Nikon", "Nikkor Z 28-75mm f/2.8"},             // IB
+      {36, "Nikon", "Nikkor Z 400mm f/4.5 VR S"},          // IB
+      {37, "Nikon", "Nikkor Z 600mm f/4 TC VR S"},         // 28
+      {38, "Nikon", "Nikkor Z 85mm f/1.2 S"},              // 28
+      {39, "Nikon", "Nikkor Z 17-28mm f/2.8"},             // IB
+      {40, "Nikon", "Nikkor Z 26mm f/2.8"},
   };
 
   auto lid = static_cast<uint16_t>(value.toInt64());
