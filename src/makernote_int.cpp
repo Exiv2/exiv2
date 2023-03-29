@@ -654,6 +654,13 @@ TiffComponent* newIfdMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
 
 TiffComponent* newOlympusMn(uint16_t tag, IfdId group, IfdId /*mnGroup*/, const byte* pData, size_t size,
                             ByteOrder /*byteOrder*/) {
+  // FIXME: workaround for overwritten OM System header in Olympus files (https://github.com/Exiv2/exiv2/issues/2542)
+  if (size >= 14 && std::string(reinterpret_cast<const char*>(pData), 14) == std::string("OM SYSTEM\0\0\0II", 14)) {
+    // Require at least the header and an IFD with 1 entry
+    if (size < OMSystemMnHeader::sizeOfSignature() + 18)
+      return nullptr;
+    return newOMSystemMn2(tag, group, IfdId::olympus2Id);
+  }
   if (size < 10 || std::string(reinterpret_cast<const char*>(pData), 10) != std::string("OLYMPUS\0II", 10)) {
     // Require at least the header and an IFD with 1 entry
     if (size < OlympusMnHeader::sizeOfSignature() + 18)
