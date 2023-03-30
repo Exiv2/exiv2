@@ -30,6 +30,11 @@ exiv_conf = configure_file(output: 'exiv2lib_export.h', configuration: exiv_api)
 cdata = configuration_data()
 cdata.set('EXV_PACKAGE_NAME', meson.project_name())
 ver = meson.project_version().split('.')
+if ver[0] == '0'
+  sover = ver[1].to_int()
+else
+  sover = 30 + (ver[0].to_int() - 1)
+endif
 cdata.set('PROJECT_VERSION_MAJOR', ver[0])
 cdata.set('PROJECT_VERSION_MINOR', ver[1])
 cdata.set('PROJECT_VERSION_PATCH', ver[2])
@@ -306,6 +311,7 @@ exiv2 = library(
   xmp_lib,
   cpp_args: cargs,
   version: meson.project_version(),
+  soversion: sover,
   gnu_symbol_visibility: 'hidden',
   link_with: convertlib,
   dependencies: [deps, exiv2int_dep],
