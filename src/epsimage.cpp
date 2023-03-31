@@ -759,33 +759,16 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       }
     }
     if (posEndPhotoshop != posEndEps) {
-      NativePreview nativePreview;
-      nativePreview.position_ = static_cast<long>(posBeginPhotoshop);
-      nativePreview.size_ = static_cast<uint32_t>(posEndPhotoshop - posBeginPhotoshop);
-      nativePreview.width_ = 0;
-      nativePreview.height_ = 0;
-      nativePreview.filter_ = "hex-irb";
-      nativePreview.mimeType_ = "image/jpeg";
+      auto sizePhotoshop = posEndPhotoshop - posBeginPhotoshop;
+      NativePreview nativePreview{posBeginPhotoshop, sizePhotoshop, 0, 0, "hex-irb", "image/jpeg"};
       nativePreviews.push_back(std::move(nativePreview));
     }
     if (sizeWmf != 0) {
-      NativePreview nativePreview;
-      nativePreview.position_ = static_cast<long>(posWmf);
-      nativePreview.size_ = sizeWmf;
-      nativePreview.width_ = 0;
-      nativePreview.height_ = 0;
-      nativePreview.filter_ = "";
-      nativePreview.mimeType_ = "image/x-wmf";
+      NativePreview nativePreview{posWmf, sizeWmf, 0, 0, "", "image/x-wmf"};
       nativePreviews.push_back(std::move(nativePreview));
     }
     if (sizeTiff != 0) {
-      NativePreview nativePreview;
-      nativePreview.position_ = static_cast<long>(posTiff);
-      nativePreview.size_ = sizeTiff;
-      nativePreview.width_ = 0;
-      nativePreview.height_ = 0;
-      nativePreview.filter_ = "";
-      nativePreview.mimeType_ = "image/tiff";
+      NativePreview nativePreview{posTiff, sizeTiff, 0, 0, "", "image/tiff"};
       nativePreviews.push_back(std::move(nativePreview));
     }
   } else {
