@@ -292,13 +292,12 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
         if (io_->error() || io_->eof())
           throw Error(ErrorCode::kerFailedToReadImageData);
 
-        if (format == 1) {
-          nativePreview.filter_ = "";
-          nativePreview.mimeType_ = "image/jpeg";
-          nativePreviews_.push_back(std::move(nativePreview));
-        } else {
-          // unsupported format of native preview
-        }
+        // unsupported format of native preview
+        if (format != 1)
+          break;
+        nativePreview.filter_ = "";
+        nativePreview.mimeType_ = "image/jpeg";
+        nativePreviews_.push_back(std::move(nativePreview));
       }
       break;
     }

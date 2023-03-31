@@ -422,7 +422,7 @@ Xmpdatum& XmpData::operator[](const std::string& key) {
   XmpKey xmpKey(key);
   auto pos = findKey(xmpKey);
   if (pos == end()) {
-    xmpMetadata_.push_back(Xmpdatum(xmpKey));
+    xmpMetadata_.emplace_back(xmpKey);
     return xmpMetadata_.back();
   }
   return *pos;
