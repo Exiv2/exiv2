@@ -668,7 +668,7 @@ class TiffReader : public TiffVisitor {
 
   // DATA
   const byte* pData_;      //!< Pointer to the memory buffer
-  const size_t size_;      //!< Size of the buffer
+  size_t size_;            //!< Size of the buffer
   const byte* pLast_;      //!< Pointer to the last byte
   TiffComponent* pRoot_;   //!< Root element of the composite
   TiffRwState* pState_;    //!< Pointer to the state in effect (origState_ or mnState_)
@@ -678,7 +678,7 @@ class TiffReader : public TiffVisitor {
   IdxSeq idxSeq_;          //!< Sequences for group, used for the entry's idx
   PostList postList_;      //!< List of components with deferred reading
   bool postProc_{false};   //!< True in postProcessList()
-};                         // class TiffReader
+};
 
 }  // namespace Internal
 }  // namespace Exiv2

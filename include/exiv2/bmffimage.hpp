@@ -116,7 +116,7 @@ class EXIV2API BmffImage : public Image {
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
-  const Exiv2::ByteOrder endian_{Exiv2::bigEndian};
+  static constexpr Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
  private:
   void openOrThrow();
