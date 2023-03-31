@@ -49,7 +49,7 @@ class Cr2Header : public TiffHeaderBase {
   // DATA
   uint32_t offset2_{0x00000000};             //!< Bytes 12-15 from the header
   static constexpr auto cr2sig_ = "CR\2\0";  //!< Signature for CR2 type TIFF
-};                                           // class Cr2Header
+};
 
 }  // namespace Exiv2::Internal
 

@@ -423,7 +423,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
           Internal::enforce(data.size() - skip >= (version > 2u ? 4u : 2u), Exiv2::ErrorCode::kerCorruptedMetadata);
           Internal::enforce(data.size() - skip >= step, Exiv2::ErrorCode::kerCorruptedMetadata);
           uint32_t ID = version > 2 ? data.read_uint32(skip, endian_) : data.read_uint16(skip, endian_);
-          auto offset = [this, &data, skip, step] {
+          auto offset = [&data, skip, step] {
             if (step == 14 || step == 16)
               return data.read_uint32(skip + step - 8, endian_);
             if (step == 18)

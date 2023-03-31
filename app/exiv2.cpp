@@ -1264,7 +1264,7 @@ bool parseCmdFiles(ModifyCmds& modifyCmds, const Params::CmdFiles& cmdFiles) {
       while (bStdin ? std::getline(std::cin, line) : std::getline(file, line)) {
         ModifyCmd modifyCmd;
         if (parseLine(modifyCmd, line, ++num)) {
-          modifyCmds.push_back(modifyCmd);
+          modifyCmds.push_back(std::move(modifyCmd));
         }
       }
     } catch (const Exiv2::Error& error) {
@@ -1281,7 +1281,7 @@ bool parseCmdLines(ModifyCmds& modifyCmds, const Params::CmdLines& cmdLines) {
     for (auto&& line : cmdLines) {
       ModifyCmd modifyCmd;
       if (parseLine(modifyCmd, line, ++num)) {
-        modifyCmds.push_back(modifyCmd);
+        modifyCmds.push_back(std::move(modifyCmd));
       }
     }
     return true;

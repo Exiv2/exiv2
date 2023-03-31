@@ -88,7 +88,7 @@ class TiffPathItem {
   // DATA
   uint32_t extendedTag_;
   IfdId group_;
-};  // class TiffPathItem
+};
 
 /*!
   @brief Simple IO wrapper to ensure that the header is only written if there is
@@ -139,7 +139,7 @@ class IoWrapper {
   size_t size_;              //! Size of the header data.
   bool wroteHeader_{false};  //! Indicates if the header has been written.
   OffsetWriter* pow_;        //! Pointer to an offset-writer, if any, or 0
-};                           // class IoWrapper
+};
 
 /*!
   @brief Interface class for components of a TIFF directory hierarchy
@@ -336,8 +336,7 @@ class TiffComponent {
     a memory buffer. The buffer is allocated and freed outside of this class.
    */
   byte* pStart_{};
-
-};  // class TiffComponent
+};
 
 //! TIFF mapping table for functions to decode special cases
 struct TiffMappingInfo {
@@ -561,7 +560,7 @@ class TiffEntryBase : public TiffComponent {
   // TiffEntryBase has a clone method, which could lead to the DataBuf
   // having multiple owners.
   std::shared_ptr<DataBuf> storage_;
-};  // class TiffEntryBase
+};
 
 /*!
   @brief A standard TIFF IFD entry.
@@ -586,8 +585,7 @@ class TiffEntry : public TiffEntryBase {
   //@{
   [[nodiscard]] TiffEntry* doClone() const override;
   //@}
-
-};  // class TiffEntry
+};
 
 /*!
   @brief Interface for a standard TIFF IFD entry consisting of a value
@@ -633,10 +631,9 @@ class TiffDataEntryBase : public TiffEntryBase {
 
  private:
   // DATA
-  const uint16_t szTag_;  //!< Tag of the entry with the size
-  const IfdId szGroup_;   //!< Group of the entry with the size
-
-};  // class TiffDataEntryBase
+  uint16_t szTag_;  //!< Tag of the entry with the size
+  IfdId szGroup_;   //!< Group of the entry with the size
+};
 
 /*!
   @brief A standard TIFF IFD entry consisting of a value which is an offset
@@ -700,8 +697,7 @@ class TiffDataEntry : public TiffDataEntryBase {
   // DATA
   byte* pDataArea_{};      //!< Pointer to the data area (never alloc'd)
   size_t sizeDataArea_{};  //!< Size of the data area
-
-};  // class TiffDataEntry
+};
 
 /*!
   @brief A standard TIFF IFD entry consisting of a value which is an array
@@ -771,8 +767,7 @@ class TiffImageEntry : public TiffDataEntryBase {
 
   // DATA
   Strips strips_;  //!< Image strips data (never alloc'd) and sizes
-
-};  // class TiffImageEntry
+};
 
 /*!
   @brief A TIFF IFD entry containing the size of a data area of a related
@@ -817,10 +812,9 @@ class TiffSizeEntry : public TiffEntryBase {
 
  private:
   // DATA
-  const uint16_t dtTag_;  //!< Tag of the entry with the data area
-  const IfdId dtGroup_;   //!< Group of the entry with the data area
-
-};  // class TiffSizeEntry
+  uint16_t dtTag_;  //!< Tag of the entry with the data area
+  IfdId dtGroup_;   //!< Group of the entry with the data area
+};
 
 /*!
   @brief This class models a TIFF directory (%Ifd). It is a composite
@@ -924,10 +918,9 @@ class TiffDirectory : public TiffComponent {
 
   // DATA
   Components components_;   //!< List of components in this directory
-  const bool hasNext_;      //!< True if the directory has a next pointer
+  bool hasNext_;            //!< True if the directory has a next pointer
   TiffComponent* pNext_{};  //!< Pointer to the next IFD
-
-};  // class TiffDirectory
+};
 
 /*!
   @brief This class models a TIFF sub-directory (sub-IFD). A sub-IFD
@@ -1001,8 +994,7 @@ class TiffSubIfd : public TiffEntryBase {
   // DATA
   IfdId newGroup_;  //!< Start of the range of group numbers for the sub-IFDs
   Ifds ifds_;       //!< The subdirectories
-
-};  // class TiffSubIfd
+};
 
 /*!
   @brief This class is the basis for Makernote support in TIFF. It contains
@@ -1073,8 +1065,7 @@ class TiffMnEntry : public TiffEntryBase {
   // DATA
   IfdId mnGroup_;        //!< New group for concrete mn
   TiffComponent* mn_{};  //!< The Makernote
-
-};  // class TiffMnEntry
+};
 
 /*!
   @brief Tiff IFD Makernote. This is a concrete class suitable for all
@@ -1224,8 +1215,7 @@ class TiffIfdMakernote : public TiffComponent {
   TiffDirectory ifd_;                           //!< Makernote IFD
   size_t mnOffset_{};                           //!< Makernote offset
   ByteOrder imageByteOrder_{invalidByteOrder};  //!< Byte order for the image
-
-};  // class TiffIfdMakernote
+};
 
 /*!
   @brief Function pointer type for a function to determine which cfg + def
@@ -1272,9 +1262,9 @@ struct ArrayCfg {
 
 //! Combination of array configuration and definition for arrays
 struct ArraySet {
-  const ArrayCfg cfg_;    //!< Binary array configuration
-  const ArrayDef* def_;   //!< Binary array definition array
-  const size_t defSize_;  //!< Size of the array definition array
+  ArrayCfg cfg_;         //!< Binary array configuration
+  const ArrayDef* def_;  //!< Binary array definition array
+  size_t defSize_;       //!< Size of the array definition array
 };
 
 /*!
@@ -1396,19 +1386,19 @@ class TiffBinaryArray : public TiffEntryBase {
 
  private:
   // DATA
-  const CfgSelFct cfgSelFct_{};  //!< Pointer to a function to determine which cfg to use (may be 0)
-  const ArraySet* arraySet_{};   //!< Pointer to the array set, if any (may be 0)
-  const ArrayCfg* arrayCfg_{};   //!< Pointer to the array configuration (must not be 0, except for
-                                 //!< unrecognized complex binary arrays)
-  const ArrayDef* arrayDef_{};   //!< Pointer to the array definition (may be 0)
-  size_t defSize_{};             //!< Size of the array definition array (may be 0)
-  size_t setSize_{};             //!< Size of the array set (may be 0)
-  Components elements_;          //!< List of elements in this composite
-  byte* origData_{};             //!< Pointer to the original data buffer (unencrypted)
-  size_t origSize_{};            //!< Size of the original data buffer
-  TiffComponent* pRoot_{};       //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
-  bool decoded_{};               //!< Flag to indicate if the array was decoded
-};                               // class TiffBinaryArray
+  CfgSelFct cfgSelFct_{};       //!< Pointer to a function to determine which cfg to use (may be 0)
+  const ArraySet* arraySet_{};  //!< Pointer to the array set, if any (may be 0)
+  const ArrayCfg* arrayCfg_{};  //!< Pointer to the array configuration (must not be 0, except for
+                                //!< unrecognized complex binary arrays)
+  const ArrayDef* arrayDef_{};  //!< Pointer to the array definition (may be 0)
+  size_t defSize_{};            //!< Size of the array definition array (may be 0)
+  size_t setSize_{};            //!< Size of the array set (may be 0)
+  Components elements_;         //!< List of elements in this composite
+  byte* origData_{};            //!< Pointer to the original data buffer (unencrypted)
+  size_t origSize_{};           //!< Size of the original data buffer
+  TiffComponent* pRoot_{};      //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
+  bool decoded_{};              //!< Flag to indicate if the array was decoded
+};
 
 /*!
   @brief Element of a TiffBinaryArray.
@@ -1483,8 +1473,7 @@ class TiffBinaryElement : public TiffEntryBase {
   // DATA
   ArrayDef elDef_{0, ttUndefined, 0};        //!< The array element definition
   ByteOrder elByteOrder_{invalidByteOrder};  //!< Byte order to read/write the element
-
-};  // class TiffBinaryElement
+};
 
 // *****************************************************************************
 // template, inline and free functions

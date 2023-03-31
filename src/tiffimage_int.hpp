@@ -98,12 +98,11 @@ class TiffHeaderBase {
 
  private:
   // DATA
-  const uint16_t tag_;   //!< Tag to identify the buffer as TIFF data
-  const uint32_t size_;  //!< Size of the header
+  uint16_t tag_;         //!< Tag to identify the buffer as TIFF data
+  uint32_t size_;        //!< Size of the header
   ByteOrder byteOrder_;  //!< Applicable byte order
   uint32_t offset_;      //!< Offset to the start of the root dir
-
-};  // class TiffHeaderBase
+};
 
 //! Convenience function to check if tag, group is in the list of TIFF image tags.
 bool isTiffImageTag(uint16_t tag, IfdId group);
@@ -126,7 +125,7 @@ class TiffHeader : public TiffHeaderBase {
  private:
   // DATA
   bool hasImageTags_;  //!< Indicates if image tags are supported
-};                     // class TiffHeader
+};
 
 /*!
   @brief Data structure used to list image tags for TIFF and TIFF-like images.
@@ -175,8 +174,7 @@ class TiffCreator {
  private:
   static const TiffTreeTable tiffTreeTable_;    ///< TIFF tree structure
   static const TiffGroupTable tiffGroupTable_;  ///< TIFF group structure
-
-};  // class TiffCreator
+};
 
 /*!
   @brief Stateless parser class for data in TIFF format. Images use this
@@ -245,8 +243,7 @@ class TiffParserWorker {
     @return List of primary groups which is populated
    */
   static PrimaryGroups findPrimaryGroups(TiffComponent* pSourceDir);
-
-};  // class TiffParserWorker
+};
 
 /*!
   @brief Table of TIFF decoding and encoding functions and find functions.
@@ -287,8 +284,7 @@ class TiffMapping {
 
  private:
   static const TiffMappingInfo tiffMappingInfo_[];  ///< TIFF mapping table
-
-};  // class TiffMapping
+};
 
 /*!
   @brief Class to insert pointers or offsets to computed addresses at

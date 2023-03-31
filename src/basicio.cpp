@@ -660,7 +660,7 @@ class EXIV2API BlockMap {
   blockType_e type_{bNone};
   byte* data_{nullptr};
   size_t size_{0};
-};  // class BlockMap
+};
 
 void MemIo::Impl::reserve(size_t wcount) {
   const size_t need = wcount + idx_;
@@ -1058,8 +1058,7 @@ class RemoteIo::Impl {
     @throw Error if it fails.
    */
   virtual size_t populateBlocks(size_t lowBlock, size_t highBlock);
-
-};  // class RemoteIo::Impl
+};
 
 RemoteIo::Impl::Impl(const std::string& url, size_t blockSize) :
     path_(url), blockSize_(blockSize), protocol_(fileProtocol(url)) {
@@ -1575,7 +1574,7 @@ class CurlIo::CurlImpl : public Impl {
   CurlImpl& operator=(const CurlImpl&) = delete;  //!< Assignment
  private:
   long timeout_;  //!< The number of seconds to wait while trying to connect.
-};                // class RemoteIo::Impl
+};
 
 CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize), curl_(curl_easy_init()) {
   if (!curl_) {

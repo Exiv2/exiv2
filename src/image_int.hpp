@@ -71,7 +71,7 @@ struct binaryToStringHelper {
   // invoke:
   // binaryToString(makeSlice(buf, 0, n));
   // <- buf_ would be now dangling, were it a reference
-  const Slice<T> buf_;
+  Slice<T> buf_;
 };
 
 /*!
