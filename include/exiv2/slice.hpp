@@ -160,18 +160,10 @@ struct ConstSliceBase : SliceBase {
  */
 template <template <typename> class storage_type, typename data_type>
 struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
+  using ConstSliceBase<storage_type, data_type>::ConstSliceBase;
   using iterator = typename ConstSliceBase<storage_type, data_type>::iterator;
   using const_iterator = typename ConstSliceBase<storage_type, data_type>::const_iterator;
   using value_type = typename ConstSliceBase<storage_type, data_type>::value_type;
-
-  /*!
-   * Forwards everything to the constructor of const_slice_base
-   *
-   * @todo use using once we have C++11
-   */
-  MutableSliceBase(data_type& data, size_t begin, size_t end) :
-      ConstSliceBase<storage_type, data_type>(data, begin, end) {
-  }
 
   /*!
    * Obtain a reference to the element with the specified index in the
@@ -427,8 +419,8 @@ struct PtrSliceStorage {
  */
 template <typename container>
 struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, container> {
+  using Internal::MutableSliceBase<Internal::ContainerStorage, container>::MutableSliceBase;
   using iterator = typename container::iterator;
-
   using const_iterator = typename container::const_iterator;
 
 #if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
@@ -436,26 +428,6 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
 #else
   using value_type = typename std::remove_cv<typename container::value_type>::type;
 #endif
-
-  /*!
-   * @brief Construct a slice of the container `cont` starting at `begin`
-   * (including) and ending before `end`.
-   *
-   * @param[in] cont Reference to the container
-   * @param[in] begin First element of the slice.
-   * @param[in] end First element beyond the slice.
-   *
-   * @throws std::out_of_range For invalid slice bounds: when end is not
-   * larger than begin or when the slice's bounds are larger than the
-   * container's size.
-   *
-   * Please note that due to the requirement that `end` must be larger
-   * than `begin` (they cannot be equal) it is impossible to construct a
-   * slice with zero length.
-   */
-  Slice(container& cont, size_t begin, size_t end) :
-      Internal::MutableSliceBase<Internal::ContainerStorage, container>(cont, begin, end) {
-  }
 
   /*!
    * Construct a sub-slice of this slice with the given bounds. The bounds
@@ -484,8 +456,8 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
  */
 template <typename container>
 struct Slice<const container> : public Internal::ConstSliceBase<Internal::ContainerStorage, const container> {
+  using Internal::ConstSliceBase<Internal::ContainerStorage, const container>::ConstSliceBase;
   using iterator = typename container::iterator;
-
   using const_iterator = typename container::const_iterator;
 
 #if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
@@ -493,10 +465,6 @@ struct Slice<const container> : public Internal::ConstSliceBase<Internal::Contai
 #else
   using value_type = typename std::remove_cv<typename container::value_type>::type;
 #endif
-
-  Slice(const container& cont, size_t begin, size_t end) :
-      Internal::ConstSliceBase<Internal::ContainerStorage, const container>(cont, begin, end) {
-  }
 
   Slice subSlice(size_t begin, size_t end) const {
     return Internal::ConstSliceBase<Internal::ContainerStorage,
