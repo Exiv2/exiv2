@@ -2010,6 +2010,10 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
   static const struct FMntLens {
     unsigned char lid, stps, focs, focl, aps, apl, lfw, ltype, tcinfo, dblid, mid;
     const char *manuf, *lnumber, *lensname;
+
+    bool operator==(unsigned char l) const {
+      return lid == l;
+    }
   } fmountlens[] = {
       {0x01, 0x58, 0x50, 0x50, 0x14, 0x14, 0x02, 0x00, 0x00, 0x00, 0x00, "Nikon", "JAA00901", "AF Nikkor 50mm f/1.8"},
       {0x01, 0x58, 0x50, 0x50, 0x14, 0x14, 0x05, 0x00, 0x00, 0x00, 0x00, "Nikon", "JAA00901", "AF Nikkor 50mm f/1.8"},
@@ -3084,8 +3088,7 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
       {0xCB, 0x3C, 0x2B, 0x44, 0x24, 0x31, 0xDF, 0x46, 0x00, 0x00, 0x00, "Tamron", "A037", "17-35mm F/2.8-4 Di OSD"},
       // https://github.com/Exiv2/exiv2/issues/1208
       {0xC8, 0x54, 0x62, 0x62, 0x0C, 0x0C, 0x4B, 0x46, 0x00, 0x00, 0x00, "Sigma", "321550", "85mm F1.4 DG HSM | A"},
-      // Always leave this at the end!
-      {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr}};
+  };
 //------------------------------------------------------------------------------
 #endif
   // 8< - - - 8< do not remove this line >8 - - - >8
@@ -3104,18 +3107,9 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
      *
      * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
      */
-    const FMntLens* pf = fmountlens;
-    while (pf->lid && pf->lensname) {
-      if (pf->lid == vid) {
-        break;
-      }
-      ++pf;
-    }
-
-    if (!pf->lensname) {
-      return os << value;
-    }
-    return os << pf->manuf << " " << pf->lensname;
+    if (auto pf = Exiv2::find(fmountlens, vid))
+      return os << pf->manuf << " " << pf->lensname;
+    return os << value;
   }
 
   byte raw[] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
@@ -3141,8 +3135,8 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
   }
   raw[7] = static_cast<byte>(md->toInt64());
 
-  for (int i = 0; fmountlens[i].lensname; ++i) {
-    if (raw[0] == fmountlens[i].lid) {
+  for (const auto& f : fmountlens) {
+    if (raw[0] == f.lid) {
       // #1034
       const std::string undefined("undefined");
       const std::string section("nikon");
@@ -3153,13 +3147,12 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
       }
     }
 
-    if (raw[0] == fmountlens[i].lid
+    if (raw[0] == f.lid
         // stps varies with focal length for some Sigma zoom lenses.
-        && (raw[1] == fmountlens[i].stps || strcmp(fmountlens[i].manuf, "Sigma") == 0) &&
-        raw[2] == fmountlens[i].focs && raw[3] == fmountlens[i].focl && raw[4] == fmountlens[i].aps &&
-        raw[5] == fmountlens[i].apl && raw[6] == fmountlens[i].lfw && raw[7] == fmountlens[i].ltype) {
+        && (raw[1] == f.stps || strcmp(f.manuf, "Sigma") == 0) && raw[2] == f.focs && raw[3] == f.focl &&
+        raw[4] == f.aps && raw[5] == f.apl && raw[6] == f.lfw && raw[7] == f.ltype) {
       // Lens found in database
-      return os << fmountlens[i].manuf << " " << fmountlens[i].lensname;
+      return os << f.manuf << " " << f.lensname;
     }
   }
   // Lens not found in database
