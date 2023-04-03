@@ -18,13 +18,10 @@ namespace fs = std::filesystem;
 namespace fs = std::experimental::filesystem;
 #endif
 
-using namespace std;
-
 #ifdef _WIN32
 #include <windows.h>
 char* realpath(const char* file, char* path);
-#define lstat _stat
-#define stat _stat
+#define lstat stat
 #if _MSC_VER < 1400
 #define strcpy_s(d, l, s) strcpy(d, s)
 #define strcat_s(d, l, s) strcat(d, s)
@@ -47,7 +44,7 @@ class Options;
 int getFileType(const char* path, Options& options);
 int getFileType(std::string& path, Options& options);
 
-string getExifTime(time_t t);
+std::string getExifTime(time_t t);
 time_t parseTime(const char*, bool bAdjust = false);
 int timeZoneAdjust();
 
@@ -412,7 +409,7 @@ int timeZoneAdjust() {
   return offset;
 }
 
-string getExifTime(const time_t t) {
+std::string getExifTime(const time_t t) {
   static char result[100];
   strftime(result, sizeof(result), "%Y-%m-%d %H:%M:%S", localtime(&t));
   return result;
@@ -727,7 +724,7 @@ int main(int argc, const char* argv[]) {
   keywords[kwTZ] = "tz";
   keywords[kwDELTA] = "delta";
 
-  map<std::string, string> shorts;
+  std::map<std::string, std::string> shorts;
   shorts["-?"] = "-help";
   shorts["-h"] = "-help";
   shorts["-v"] = "-verbose";
