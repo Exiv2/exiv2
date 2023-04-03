@@ -22,7 +22,9 @@ TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory) {
   EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg));
   EXPECT_NO_THROW(ImageFactory::create(ImageType::exv));
   EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf));
+#ifdef EXV_HAVE_LIBZ
   EXPECT_NO_THROW(ImageFactory::create(ImageType::png));
+#endif
 }
 
 TEST(TheImageFactory, cannotCreateInstancesForMostTypesInMemory) {
@@ -66,7 +68,9 @@ TEST(TheImageFactory, createsInstancesForFewSupportedTypesInFiles) {
   EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg, filePath));
   EXPECT_NO_THROW(ImageFactory::create(ImageType::exv, filePath));
   EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf, filePath));
+#ifdef EXV_HAVE_LIBZ
   EXPECT_NO_THROW(ImageFactory::create(ImageType::png, filePath));
+#endif
 
   EXPECT_TRUE(fs::remove(filePath));
 }
@@ -116,9 +120,11 @@ TEST(TheImageFactory, loadInstancesDifferentImageTypes) {
   EXPECT_EQ(ImageType::tiff, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
+#ifdef EXV_HAVE_LIBZ
   imagePath = (testData / "exiv2-bug1074.png").string();
   EXPECT_EQ(ImageType::png, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+#endif
 
   imagePath = (testData / "BlueSquare.xmp").string();
   EXPECT_EQ(ImageType::xmp, ImageFactory::getType(imagePath));

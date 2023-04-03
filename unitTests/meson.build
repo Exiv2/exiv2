@@ -23,7 +23,6 @@ test_sources = files(
   'test_image_int.cpp',
   'test_jp2image.cpp',
   'test_jp2image_int.cpp',
-  'test_pngimage.cpp',
   'test_safe_op.cpp',
   'test_slice.cpp',
   'test_tiffheader.cpp',
@@ -36,6 +35,12 @@ if get_option('video')
     'test_asfvideo.cpp',
     'test_matroskavideo.cpp',
     'test_riffVideo.cpp',
+  )
+endif
+
+if zlib_dep.found()
+  test_sources += files(
+    'test_pngimage.cpp',
   )
 endif
 
