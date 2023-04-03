@@ -55,7 +55,30 @@ jobs:
           meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
+  MSYS2:
+    runs-on: windows-latest
+    name: MSYS2-${{matrix.deps}}-${{matrix.platform}}
+    strategy:
+      matrix:
+        deps: ['forcefallback', 'default']
+        platform: ['MINGW32', 'MINGW64', 'UCRT64', 'CLANG32', 'CLANG64']
+    steps:
+      - uses: actions/checkout@v3
 
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{matrix.platform}}
+          pacboy: >-
+            cc:p
+            meson:p
+            ninja:p
+
+      - name: Compile and Test
+        shell: msys2 {0}
+        run: |
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson compile -C "${{github.workspace}}/build" --verbose
+          meson test -C "${{github.workspace}}/build" --verbose
   MacOS:
     runs-on: macos-latest
     name: macOS-${{matrix.deps}}
