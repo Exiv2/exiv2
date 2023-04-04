@@ -75,6 +75,7 @@ BMP  | -          | -          | -          | -              | -           | -
 CR2  | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Read/Write
 CR3  | Read       | Read       | Read       | -              | -           | Read
 CRW  | Read/Write | -          | -          | Read/Write     | -           | Read/Write
+DCP  | Read/Write | -          | -          | -              | -           | -
 DNG  | Read/Write | Read/Write | Read/Write | -              | Read/Write  | Read/Write
 EPS  | -          | -          | Read/Write |                | -           | -
 EXV  | Read/Write | Read/Write | Read/Write | Read/Write     | Read/Write  | Read/Write
