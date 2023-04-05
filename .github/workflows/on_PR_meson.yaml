@@ -9,39 +9,39 @@ concurrency:
 jobs:
   Ubuntu:
     runs-on: ubuntu-20.04
-    name: Linux-GCC${{matrix.cxx}}-${{matrix.deps}}
+    name: Linux-GCC${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
         cxx: ['7', '10']
-        deps: ['forcefallback', 'default']
+        deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v3
 
       - name: Install packages
         run: |
-          sudo apt install -y g++-${{matrix.cxx}}
+          sudo apt install -y g++-${{matrix.cxx}} libcurl4-gnutls-dev
           python3 -m pip install meson ninja
 
       - name: Compile and Test
         env:
           CXX: g++-${{matrix.cxx}}
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   Ubuntu-clang:
     runs-on: ubuntu-20.04
-    name: Linux-Clang${{matrix.cxx}}-${{matrix.deps}}
+    name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
         cxx: ['7', '12']
-        deps: ['forcefallback', 'default']
+        deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v3
 
       - name: Install packages
         run: |
-          sudo apt install -y clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}}
+          sudo apt install -y clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}} libcurl4-gnutls-dev
           python3 -m pip install meson ninja
 
       - name: Compile and Test
@@ -50,7 +50,7 @@ jobs:
           CXXFLAGS: -stdlib=libc++
           CXX_LD: lld-${{matrix.cxx}}
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   VisualStudio:
@@ -78,10 +78,10 @@ jobs:
           meson test -C "${{github.workspace}}/build" --verbose
   MSYS2:
     runs-on: windows-latest
-    name: MSYS2-${{matrix.deps}}-${{matrix.platform}}
+    name: MSYS2-${{matrix.platform}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        deps: ['forcefallback', 'default']
+        deps: ['enabled', 'disabled']
         platform: ['MINGW32', 'MINGW64', 'UCRT64', 'CLANG32', 'CLANG64']
     steps:
       - uses: actions/checkout@v3
@@ -89,33 +89,40 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: ${{matrix.platform}}
+          install: >-
+            dos2unix
           pacboy: >-
             cc:p
+            curl:p
+            gtest:p
+            libinih:p
             meson:p
             ninja:p
+            pkgconf:p
 
       - name: Compile and Test
         shell: msys2 {0}
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   MacOS:
     runs-on: macos-latest
-    name: macOS-${{matrix.deps}}
+    name: macOS-deps=${{matrix.deps}}
     strategy:
       matrix:
-        deps: ['forcefallback', 'default']
+        deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v3
 
       - name: Install packages
         run: |
+          brew install curl
           python3 -m pip install meson ninja
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   FreeBSD:
