@@ -18,7 +18,9 @@ endif
 
 if host_machine.system() == 'windows'
   if cpp.get_argument_syntax() == 'gcc'
-    add_project_arguments('-D__USE_MINGW_ANSI_STDIO', '-D__MINGW_USE_VC2005_COMPAT', language: 'cpp')
+    if cpp.get_define('_UCRT', prefix: '#include <new>') == ''
+      add_project_arguments('-D__USE_MINGW_ANSI_STDIO', '-D__MINGW_USE_VC2005_COMPAT', language: 'cpp')
+    endif
   else
     add_project_arguments('-DNOMINMAX', language: 'cpp')
   endif
