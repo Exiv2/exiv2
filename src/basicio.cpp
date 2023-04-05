@@ -602,7 +602,7 @@ MemIo::Impl::Impl(const byte* data, size_t size) : data_(const_cast<byte*>(data)
   @brief Utility class provides the block mapping to the part of data. This avoids allocating
         a single contiguous block of memory to the big data.
  */
-class EXIV2API BlockMap {
+class BlockMap {
  public:
   //! the status of the block.
   enum blockType_e { bNone, bKnown, bMemory };

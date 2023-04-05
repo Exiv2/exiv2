@@ -67,7 +67,7 @@
 #ifdef EXV_ENABLE_BMFF
 namespace Exiv2 {
 static bool enabled = false;
-EXIV2API bool enableBMFF(bool enable) {
+bool enableBMFF(bool enable) {
   enabled = enable;
   return true;
 }
@@ -800,7 +800,7 @@ bool isBmffType(BasicIo& iIo, bool advance) {
 }  // namespace Exiv2
 #else  // ifdef EXV_ENABLE_BMFF
 namespace Exiv2 {
-EXIV2API bool enableBMFF(bool) {
+bool enableBMFF(bool) {
   return false;
 }
 }  // namespace Exiv2
