@@ -2,11 +2,6 @@
 
 #include "config.h"
 
-#if defined(_WIN32)
-#define __USE_W32_SOCKETS
-#include <winsock2.h>
-#endif
-
 #include "futils.hpp"
 #include "http.hpp"
 
@@ -32,10 +27,6 @@
 #include <unistd.h>
 #include <cerrno>
 
-#define fopen_S(f, n, o) f = fopen(n, o)
-#define WINAPI
-using DWORD = unsigned long;
-
 #define SOCKET_ERROR (-1)
 #define WSAEWOULDBLOCK EINPROGRESS
 #define WSAENOTCONN EAGAIN
@@ -43,6 +34,8 @@ using DWORD = unsigned long;
 static int WSAGetLastError() {
   return errno;
 }
+#else
+#include <winsock2.h>
 #endif
 
 ////////////////////////////////////////

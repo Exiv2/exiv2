@@ -16,9 +16,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
-#define BYTE char
-#define USHORT uint16_t
-#define ULONG uint32_t
+using BYTE = char;
+using USHORT = uint16_t;
+using ULONG = uint32_t;
 #endif
 
 #include "fff.h"
