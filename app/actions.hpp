@@ -64,7 +64,7 @@ class Task {
   Task& operator=(const Task&) = default;
 
   //! Virtual copy construction.
-  virtual UniquePtr clone() const = 0;
+  [[nodiscard]] virtual UniquePtr clone() const = 0;
 
   /// @brief Application interface to perform a task.
   /// @param path Path of the file to process.
@@ -77,7 +77,7 @@ class Task {
     return bResult;
   }
 
-  bool binary() const {
+  [[nodiscard]] bool binary() const {
     return binary_;
   }
 
@@ -133,7 +133,7 @@ class TaskFactory {
 class Print : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
   //! Print the Jpeg comment
   int printComment();
@@ -178,14 +178,14 @@ class Print : public Task {
 class Rename : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 };  // class Rename
 
 //! %Adjust the Exif (or other metadata) timestamps
 class Adjust : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
   int adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const std::string& path) const;
@@ -201,7 +201,7 @@ class Adjust : public Task {
 class Erase : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
   /// @brief Delete the thumbnail image, incl IFD1 metadata from the file.
   static int eraseThumbnail(Exiv2::Image* image);
@@ -229,7 +229,7 @@ class Erase : public Task {
 class Extract : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
   /*!
     @brief Write the thumbnail image to a file. The filename is composed by
@@ -237,10 +237,10 @@ class Extract : public Task {
            "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending
            on the format of the Exif thumbnail image.
    */
-  int writeThumbnail() const;
+  [[nodiscard]] int writeThumbnail() const;
 
   /// @brief Write preview images to files.
-  int writePreviews() const;
+  [[nodiscard]] int writePreviews() const;
 
   /// @brief Write one preview image to a file. The filename is composed by removing the suffix from the image
   /// filename and appending "-preview<num>" and the appropriate suffix (".jpg" or ".tif"), depending on the
@@ -248,7 +248,7 @@ class Extract : public Task {
   void writePreviewFile(const Exiv2::PreviewImage& pvImg, size_t num) const;
 
   /// @brief Write embedded iccProfile files.
-  int writeIccProfile(const std::string& target) const;
+  [[nodiscard]] int writeIccProfile(const std::string& target) const;
 
  private:
   std::string path_;
@@ -258,7 +258,7 @@ class Extract : public Task {
 class Insert : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
   /*!
     @brief Insert a Jpeg thumbnail image from a file into file \em path.
@@ -284,7 +284,7 @@ class Insert : public Task {
 class Modify : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
   //! Apply modification commands to the \em pImage, return 0 if successful.
   static int applyCommands(Exiv2::Image* pImage);
 
@@ -303,7 +303,7 @@ class Modify : public Task {
 class FixIso : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
   std::string path_;
@@ -315,7 +315,7 @@ class FixIso : public Task {
 class FixCom : public Task {
  public:
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
   std::string path_;

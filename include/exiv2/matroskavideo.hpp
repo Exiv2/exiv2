@@ -80,10 +80,10 @@ struct MatroskaTag {
     return id == _id;
   }
 
-  bool isSkipped() const {
+  [[nodiscard]] bool isSkipped() const {
     return _process == Skip;
   }
-  bool isComposite() const {
+  [[nodiscard]] bool isComposite() const {
     return _process == Composite;
   }
   void dump(std::ostream& os) const {

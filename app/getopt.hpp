@@ -85,12 +85,12 @@ class Getopt {
   virtual int nonoption(const std::string& argv);
 
   //! Program name (argv[0])
-  const std::string& progname() const {
+  [[nodiscard]] const std::string& progname() const {
     return progname_;
   }
 
   //! Total number of errors returned by calls to option()
-  int errcnt() const {
+  [[nodiscard]] int errcnt() const {
     return errcnt_;
   }
 
