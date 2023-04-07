@@ -37,7 +37,7 @@
 #endif
 
 #ifdef _WIN32
-#define mode_t unsigned short
+using mode_t = unsigned short;
 #include <io.h>
 #include <windows.h>
 #endif
