@@ -18,7 +18,7 @@ endif
 
 if host_machine.system() == 'windows'
   if cpp.get_argument_syntax() == 'gcc'
-    if cpp.get_define('_UCRT', prefix: '#include <new>') == ''
+    if cpp.compiles('#include <time.h>\n#ifdef _UCRT\n#error\n#endif')
       add_project_arguments('-D__USE_MINGW_ANSI_STDIO', '-D__MINGW_USE_VC2005_COMPAT', language: 'cpp')
     endif
   else
