@@ -216,9 +216,9 @@ class TiffParserWorker {
        writing"). If there is a parsed tree, it is only used to access the
        image data in this case.
    */
-  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, const ExifData& exifData,
-                            const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
-                            FindEncoderFct findEncoderFct, TiffHeaderBase* pHeader, OffsetWriter* pOffsetWriter);
+  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ExifData& exifData, IptcData& iptcData,
+                            XmpData& xmpData, uint32_t root, FindEncoderFct findEncoderFct, TiffHeaderBase* pHeader,
+                            OffsetWriter* pOffsetWriter);
 
  private:
   /*!
