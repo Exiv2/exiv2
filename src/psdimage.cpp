@@ -579,7 +579,7 @@ uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) {
   return resLength;
 }  // PsdImage::writeIptcData
 
-uint32_t PsdImage::writeExifData(const ExifData& exifData, BasicIo& out) {
+uint32_t PsdImage::writeExifData(ExifData& exifData, BasicIo& out) {
   uint32_t resLength = 0;
   byte buf[8];
 

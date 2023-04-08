@@ -349,9 +349,8 @@ class TiffEncoder : public TiffVisitor {
            to, the image with the metadata to encode and a function to
            find special encoders.
    */
-  TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
-              bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
-              FindEncoderFct findEncoderFct);
+  TiffEncoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot, bool isNewImage,
+              const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader, FindEncoderFct findEncoderFct);
   TiffEncoder(const TiffEncoder&) = delete;
   TiffEncoder& operator=(const TiffEncoder&) = delete;
   //! Virtual destructor

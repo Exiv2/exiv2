@@ -443,10 +443,10 @@ void TiffDecoder::visitBinaryElement(TiffBinaryElement* object) {
   decodeTiffEntry(object);
 }
 
-TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
+TiffEncoder::TiffEncoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
                          const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
                          FindEncoderFct findEncoderFct) :
-    exifData_(std::move(exifData)),
+    exifData_(exifData),
     iptcData_(iptcData),
     xmpData_(xmpData),
     pHeader_(pHeader),

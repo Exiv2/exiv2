@@ -75,7 +75,7 @@ class EXIV2API PsdImage : public Image {
 
    */
   void doWriteMetadata(BasicIo& outIo);
-  uint32_t writeExifData(const ExifData& exifData, BasicIo& out);
+  uint32_t writeExifData(ExifData& exifData, BasicIo& out);
   //@}
 
   //! @name Accessors

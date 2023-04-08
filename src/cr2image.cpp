@@ -103,11 +103,8 @@ ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
                                             Internal::TiffMapping::findDecoder, &cr2Header);
 }
 
-WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
-                              const ExifData& exifData, const IptcData& iptcData, const XmpData& xmpData) {
-  // Copy to be able to modify the Exif data
-  ExifData ed = exifData;
-
+WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
+                              IptcData& iptcData, XmpData& xmpData) {
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
       IfdId::panaRawId,
@@ -116,13 +113,14 @@ WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
-    ed.erase(std::remove_if(ed.begin(), ed.end(), Internal::FindExifdatum(filteredIfd)), ed.end());
+    exifData.erase(std::remove_if(exifData.begin(), exifData.end(), Internal::FindExifdatum(filteredIfd)),
+                   exifData.end());
   }
 
   auto header = Internal::Cr2Header(byteOrder);
   Internal::OffsetWriter offsetWriter;
   offsetWriter.setOrigin(Internal::OffsetWriter::cr2RawIfdOffset, Internal::Cr2Header::offset2addr(), byteOrder);
-  return Internal::TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Internal::Tag::root,
+  return Internal::TiffParserWorker::encode(io, pData, size, exifData, iptcData, xmpData, Internal::Tag::root,
                                             Internal::TiffMapping::findEncoder, &header, &offsetWriter);
 }
 

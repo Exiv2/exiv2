@@ -78,8 +78,8 @@ class EXIV2API OrfParser {
     @brief Encode metadata from the provided metadata to ORF format.
            See TiffParser::encode().
   */
-  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, const ExifData& exifData,
-                            const IptcData& iptcData, const XmpData& xmpData);
+  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
+                            IptcData& iptcData, XmpData& xmpData);
 };  // class OrfParser
 
 // *****************************************************************************

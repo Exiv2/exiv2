@@ -216,11 +216,8 @@ ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xm
   return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, root, TiffMapping::findDecoder);
 }  // TiffParser::decode
 
-WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
-                               const ExifData& exifData, const IptcData& iptcData, const XmpData& xmpData) {
-  // Copy to be able to modify the Exif data
-  ExifData ed = exifData;
-
+WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
+                               IptcData& iptcData, XmpData& xmpData) {
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
       IfdId::panaRawId,
@@ -229,12 +226,12 @@ WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, Byte
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
-    ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
+    exifData.erase(std::remove_if(exifData.begin(), exifData.end(), FindExifdatum(filteredIfd)), exifData.end());
   }
 
   TiffHeader header(byteOrder);
-  return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder, &header,
-                                  nullptr);
+  return TiffParserWorker::encode(io, pData, size, exifData, iptcData, xmpData, Tag::root, TiffMapping::findEncoder,
+                                  &header, nullptr);
 }  // TiffParser::encode
 
 // *************************************************************************
