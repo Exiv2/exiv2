@@ -2146,8 +2146,10 @@ bool TiffHeaderBase::read(const byte* pData, size_t size) {
   } else {
     return false;
   }
-  if (uint16_t t = getUShort(pData + 2, byteOrder_); t != 444 && tag_ != t)
-    return false;  // 444 is for the JPEG-XR
+  uint16_t t = getUShort(pData + 2, byteOrder_);
+  if (t != 444 && t != 17234 && tag_ != t)
+    return false;  // 444 is for the JPEG-XR; 17234 is for DCP
+  tag_ = t;
   offset_ = getULong(pData + 4, byteOrder_);
 
   return true;

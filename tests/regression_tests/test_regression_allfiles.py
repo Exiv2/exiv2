@@ -12,6 +12,7 @@ def get_valid_files(data_dir):
         ".avif",
         ".cr3",
         ".crw",
+        ".dcp",
         ".dng",
         ".eps",
         ".exv",
