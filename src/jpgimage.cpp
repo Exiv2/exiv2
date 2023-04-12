@@ -152,9 +152,9 @@ void JpegBase::readMetadata() {
     const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
     // Read the rest of the segment.
-    DataBuf buf(size + 1);
+    DataBuf buf(size);
     /// \todo check if it makes sense to check for size
-    if (size > 0) {
+    if (size > 2) {
       io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
       std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
     }
@@ -353,7 +353,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
       const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
       // Read the rest of the segment.
-      DataBuf buf(size + 1);
+      DataBuf buf(size);
       if (size > 0) {
         io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
         std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
@@ -565,7 +565,7 @@ DataBuf JpegBase::readNextSegment(byte marker) {
   const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
   // Read the rest of the segment.
-  DataBuf buf(size + 1);
+  DataBuf buf(size);
   if (size > 0) {
     io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
     std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
