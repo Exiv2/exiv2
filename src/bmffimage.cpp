@@ -84,17 +84,16 @@ BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */) :
 
 std::string BmffImage::toAscii(uint32_t n) {
   const auto p = reinterpret_cast<const char*>(&n);
-  std::string result;
-  for (int i = 0; i < 4; i++) {
-    char c = p[isBigEndianPlatform() ? i : (3 - i)];
-    result += [c]() {
-      if (32 <= c && c < 127)
-        return c;  // only allow 7-bit printable ascii
-      if (c == 0)
-        return '_';  // show 0 as _
-      return '.';    // others .
-    }();
-  }
+  std::string result(4, '.');
+  std::transform(p, p + 4, result.begin(), [](char c) {
+    if (32 <= c && c < 127)
+      return c;  // only allow 7-bit printable ascii
+    if (c == 0)
+      return '_';  // show 0 as _
+    return '.';    // others .
+  });
+  if (!isBigEndianPlatform())
+    std::reverse(result.begin(), result.end());
   return result;
 }
 
