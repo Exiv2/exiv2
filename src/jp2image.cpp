@@ -72,26 +72,6 @@ void lf(std::ostream& out, bool& bLF) {
   }
 }
 
-bool isBigEndian() {
-  union {
-    uint32_t i;
-    char c[4];
-  } e = {0x01000000};
-
-  return e.c[0] != 0;
-}
-
-// Obtains the ascii version from the box.type
-std::string toAscii(long n) {
-  const auto p = reinterpret_cast<const char*>(&n);
-  std::string result;
-  bool bBigEndian = isBigEndian();
-  for (int i = 0; i < 4; i++) {
-    result += p[bBigEndian ? i : (3 - i)];
-  }
-  return result;
-}
-
 void boxes_check(size_t b, size_t m) {
   if (b > m) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -115,6 +95,15 @@ Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create) : Image(ImageType::jp2, m
 #endif
     }
   }
+}
+
+// Obtains the ascii version from the box.type
+std::string Jp2Image::toAscii(uint32_t n) {
+  const auto p = reinterpret_cast<const char*>(&n);
+  std::string result(p, p + 4);
+  if (!isBigEndianPlatform())
+    std::reverse(result.begin(), result.end());
+  return result;
 }
 
 std::string Jp2Image::mimeType() const {

@@ -82,6 +82,7 @@ class EXIV2API Jp2Image : public Image {
   void encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf);
   //@}
 
+  static std::string toAscii(uint32_t n);
 };  // class Jp2Image
 
 // *****************************************************************************
