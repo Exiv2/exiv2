@@ -153,7 +153,7 @@ void JpegBase::readMetadata() {
 
     // Read the rest of the segment.
     DataBuf buf(size);
-    /// check if the segment is not empty
+    // check if the segment is not empty
     if (size > 2) {
       io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
       std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
