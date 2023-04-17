@@ -12,6 +12,15 @@ project(exiv2          # use TWEAK to categorize the build
     LANGUAGES C CXX
 )
 
+# Shared Object versioning (SemVer-like: must bump major on API breakage)
+if(PROJECT_VERSION_MAJOR EQUAL 0)
+  # support legacy scheme (e.g. 0.27.x -> 27)
+  set(EXIV2LIB_SOVERSION ${PROJECT_VERSION_MINOR})
+else()
+  # restart from 30
+  math(EXPR EXIV2LIB_SOVERSION "30 + (${PROJECT_VERSION_MAJOR} - 1)")
+endif()
+
 if(NOT CMAKE_BUILD_TYPE)
   set (CMAKE_BUILD_TYPE Release)
 endif()
