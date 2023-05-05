@@ -11,11 +11,11 @@ using Exiv2::Slice;
 static const unsigned char b[10] = {'a', 'b', 'c', 1, 4, 0, 'e', 136, 0, 'a'};
 
 template <typename T>
-void checkBinaryToString(const Exiv2::Slice<T> sl, const char* expectedOutput) {
+void checkBinaryToString(Exiv2::Slice<T>&& sl, const char* expectedOutput) {
   // construct the helper manually so that we catch potential invalidation of
   // temporaries
   std::stringstream ss;
-  const binaryToStringHelper<T> helper = binaryToString(sl);
+  auto helper = binaryToString(std::move(sl));
   ss << helper;
 
   ASSERT_STREQ(ss.str().c_str(), expectedOutput);
