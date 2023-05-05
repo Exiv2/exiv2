@@ -64,7 +64,7 @@ std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& bi
 
 template <typename T>
 struct binaryToStringHelper {
-  explicit binaryToStringHelper(const Slice<T> myBuf) noexcept : buf_(myBuf) {
+  constexpr binaryToStringHelper(Slice<T>&& myBuf) noexcept : buf_(std::move(myBuf)) {
   }
 
   // the Slice is stored by value to avoid dangling references, in case we
@@ -95,8 +95,8 @@ struct binaryToStringHelper {
  *     the stream throws neither.
  */
 template <typename T>
-inline binaryToStringHelper<T> binaryToString(const Slice<T> sl) noexcept {
-  return binaryToStringHelper<T>(sl);
+constexpr binaryToStringHelper<T> binaryToString(Slice<T>&& sl) noexcept {
+  return binaryToStringHelper<T>(std::move(sl));
 }
 
 /// @brief indent output for kpsRecursive in \em printStructure() \em .
