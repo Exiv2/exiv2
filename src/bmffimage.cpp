@@ -265,7 +265,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   if (bTrace) {
     bLF = true;
     out << Internal::indent(depth) << "Exiv2::BmffImage::boxHandler: " << toAscii(box_type)
-        << Internal::stringFormat(" %8ld->%" PRIu64 " ", address, box_length);
+        << Internal::stringFormat(" %8zd->%" PRIu64 " ", address, box_length);
   }
 
   if (box_length == 1) {
@@ -435,7 +435,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
           uint32_t ldata = data.read_uint32(skip + step - 4, endian_);
           if (bTrace) {
             out << Internal::indent(depth)
-                << Internal::stringFormat("%8ld | %8ld |   ID | %4u | %6u,%6u", address + skip, step, ID, offset, ldata)
+                << Internal::stringFormat("%8zd | %8zd |   ID | %4u | %6u,%6u", address + skip, step, ID, offset, ldata)
                 << std::endl;
           }
           // save data for post-processing in meta box

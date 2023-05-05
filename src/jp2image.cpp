@@ -411,7 +411,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
       Internal::enforce(box.length <= boxHSize + io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
 
       if (bPrint) {
-        out << Internal::stringFormat("%8ld | %8ld | ", position - boxHSize, static_cast<size_t>(box.length))
+        out << Internal::stringFormat("%8zd | %8zd | ", position - boxHSize, static_cast<size_t>(box.length))
             << toAscii(box.type) << "      | ";
         bLF = true;
         if (box.type == kJp2BoxTypeClose)
