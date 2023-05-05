@@ -13,9 +13,9 @@
 #include <string>
 
 #if defined(__MINGW32__)
-#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(__MINGW_PRINTF_FORMAT, 1, 0)))
+#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(__MINGW_PRINTF_FORMAT, 1, 2)))
 #elif defined(__GNUC__)
-#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(printf, 1, 0)))
+#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(printf, 1, 2)))
 #else
 #define ATTRIBUTE_FORMAT_PRINTF
 #endif
