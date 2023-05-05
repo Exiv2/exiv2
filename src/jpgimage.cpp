@@ -294,7 +294,7 @@ void JpegBase::readMetadata() {
 
 #define REPORT_MARKER                                 \
   if ((option == kpsBasic || option == kpsRecursive)) \
-  out << Internal::stringFormat("%8ld | 0xff%02x %-5s", io_->tell() - 2, marker, nm[marker].c_str())
+  out << Internal::stringFormat("%8zd | 0xff%02x %-5s", io_->tell() - 2, marker, nm[marker].c_str())
 
 void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
