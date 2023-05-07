@@ -1,13 +1,8 @@
 # Minimum version imposed by Centos:8
 cmake_minimum_required( VERSION 3.11.0 )
 
-project(exiv2          # use TWEAK to categorize the build
-    VERSION 1.00.0.9   # 1.00.0    = GM               (tagged and released)
-                       # 1.00.0.9  = 1.00.0 Development
-                       # 1.00.0.00 = GM Preview
-                       # 1.00.0.2  = RC2              (tagged and released)
-                       # 1.00.0.20 = RC2 Preview
-                       # 1.00.0.29 = RC2 Development
+project(exiv2
+    VERSION 0.28.0
     DESCRIPTION    "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more."
     LANGUAGES C CXX
 )
