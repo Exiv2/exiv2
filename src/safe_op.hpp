@@ -110,12 +110,12 @@ bool builtin_add_overflow(T summand_1, T summand_2, T& result) {
  * The intrinsics are documented here:
  * https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html#Integer-Overflow-Builtins
  */
-#define SPECIALIZE_builtin_add_overflow(type, builtin_name)                               \
-  /* Full specialization of builtin_add_overflow for type using the */                    \
-  /* builtin_name intrinsic */                                                            \
-  template <>                                                                             \
-  inline bool builtin_add_overflow<type>(type summand_1, type summand_2, type & result) { \
-    return builtin_name(summand_1, summand_2, &result);                                   \
+#define SPECIALIZE_builtin_add_overflow(type, builtin_name)                                  \
+  /* Full specialization of builtin_add_overflow for type using the */                       \
+  /* builtin_name intrinsic */                                                               \
+  template <>                                                                                \
+  constexpr bool builtin_add_overflow<type>(type summand_1, type summand_2, type & result) { \
+    return builtin_name(summand_1, summand_2, &result);                                      \
   }
 
 SPECIALIZE_builtin_add_overflow(int, __builtin_sadd_overflow);
