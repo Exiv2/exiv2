@@ -10,6 +10,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
+#include "jpgimage.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 
@@ -248,17 +249,31 @@ void RafImage::readMetadata() {
 
   Internal::enforce(jpg_img_len >= 12, ErrorCode::kerCorruptedMetadata);
 
-  DataBuf buf(jpg_img_len - 12);
-  if (io_->seek(jpg_img_off + 12, BasicIo::beg) != 0)
+  DataBuf jpg_buf(jpg_img_len);
+  if (io_->seek(jpg_img_off, BasicIo::beg) != 0)
     throw Error(ErrorCode::kerFailedToReadImageData);
 
-  if (!buf.empty()) {
-    io_->read(buf.data(), buf.size());
+  if (!jpg_buf.empty()) {
+    io_->read(jpg_buf.data(), jpg_buf.size());
     if (io_->error() || io_->eof())
       throw Error(ErrorCode::kerFailedToReadImageData);
   }
 
-  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size());
+  // Extracting metadata from first APP1 container
+  constexpr byte tiff_offset = 12;
+  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, jpg_buf.c_data() + tiff_offset, jpg_buf.size() - tiff_offset);
+
+  // If there is no XMP data in first APP1 EXIF structure, there is maybe
+  // another APP1 container for XMP. Just use the JpegImage metadata parser for that.
+  if(xmpData_.empty()) {
+    auto jpg_io = std::make_unique<Exiv2::MemIo>(jpg_buf.data(), jpg_buf.size());
+    auto jpg_img = JpegImage(std::move(jpg_io), false);
+    jpg_img.readMetadata();
+    const auto jpg_xmp_data = jpg_img.xmpData();
+    for(auto& datum : jpg_xmp_data) {
+      xmpData_.add(datum);
+    }
+  }
 
   exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
   exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
