@@ -110,7 +110,7 @@ static bool skipBox(uint32_t box) {
   // Allows boxHandler() to optimise the reading of files by identifying
   // box types that we're not interested in. Box types listed here must
   // not appear in the cases in switch (box_type) in boxHandler().
-  return box == TAG_mdat;  // mdat is where the main image lives and can be huge
+  return box == 0 || box == TAG_mdat;  // mdat is where the main image lives and can be huge
 }
 
 std::string BmffImage::mimeType() const {
@@ -275,6 +275,11 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     DataBuf data(8);
     io_->read(data.data(), data.size());
     box_length = data.read_uint64(0, endian_);
+  }
+
+  if (box_length == 0) {
+    // Zero length is also valid and indicates box extends to the end of file.
+    box_length = pbox_end - address;
   }
 
   // read data in box and restore file position
