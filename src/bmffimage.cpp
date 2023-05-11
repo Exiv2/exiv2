@@ -134,7 +134,7 @@ namespace Exiv2
         // Allows boxHandler() to optimise the reading of files by identifying
         // box types that we're not interested in. Box types listed here must
         // not appear in the cases in switch (box_type) in boxHandler().
-        return box == TAG_mdat; // mdat is where the main image lives and can be huge
+        return box == 0 || box == TAG_mdat; // mdat is where the main image lives and can be huge
     }
 
     std::string BmffImage::mimeType() const
@@ -236,6 +236,11 @@ namespace Exiv2
             DataBuf data(8);
             io_->read(data.pData_, data.size_);
             box_length = getULongLong(data.pData_, endian_);
+        }
+
+        if (box_length == 0) {
+            // Zero length is also valid and indicates box extends to the end of file.
+            box_length = pbox_end - address;
         }
 
         // read data in box and restore file position
