@@ -2,7 +2,7 @@
 cmake_minimum_required( VERSION 3.7.2 )
 
 project(exiv2
-    VERSION 0.27.6
+    VERSION 0.27.7
     LANGUAGES CXX
 )
 
