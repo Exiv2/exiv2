@@ -360,7 +360,7 @@ std::string getProcessPath() {
     TCHAR pathbuf[MAX_PATH];
     GetModuleFileName(nullptr, pathbuf, MAX_PATH);
     auto path = fs::path(pathbuf);
-#elif __has_include(<libproc.h>)
+#elif defined(PROC_PIDPATHINFO_MAXSIZE)
     char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
     proc_pidpath(getpid(), pathbuf, sizeof(pathbuf));
     auto path = fs::path(pathbuf);
