@@ -82,7 +82,6 @@ You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, an
 
 ```bash
 $ cd ~/gnu/github/exiv2                          # Location of the project code
-$ rm -r build                                    # Remove existing build directory
 $ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release # Configure the project with CMake
 $ cmake --build build                            # Compile the project
 $ ctest --test-dir build --verbose               # Run tests

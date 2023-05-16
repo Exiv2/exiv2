@@ -68,7 +68,7 @@ Once you have a GitHub login:
 
 5. Configure the project and check that it builds (if not, please report a bug):
 
-        $ rm -r build
+        $ rm -rf build
         $ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
         $ cmake --build build --parallel
 
