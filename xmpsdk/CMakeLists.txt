@@ -26,14 +26,10 @@ add_library(exiv2-xmp OBJECT
     include/XMP_Version.h
 )
 
-target_link_libraries(exiv2-xmp
-    PRIVATE 
-    EXPAT::EXPAT
-)
-
 target_include_directories(exiv2-xmp SYSTEM
-    PRIVATE 
+    PRIVATE
         ${PROJECT_SOURCE_DIR}/xmpsdk/include
+        ${EXPAT_INCLUDE_DIRS}
 )
 
 # Prevent a denial-service-attack related to XML entity expansion
@@ -41,7 +37,7 @@ target_include_directories(exiv2-xmp SYSTEM
 # See https://bugzilla.redhat.com/show_bug.cgi?id=888769
 target_compile_definitions(exiv2-xmp PRIVATE BanAllEntityUsage=1)
 
-if (MSVC)
+if (WIN32)
     target_compile_definitions(exiv2-xmp PRIVATE XML_STATIC)
 endif()
 
@@ -53,10 +49,3 @@ endif()
 if (BUILD_SHARED_LIBS)
     set_property(TARGET exiv2-xmp PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif()
-
-# The private dependencies of a static library still need to be exported because they are needed to properly link the consumers of the static library.
-install(TARGETS exiv2-xmp EXPORT exiv2Config	
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}	
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}	
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
