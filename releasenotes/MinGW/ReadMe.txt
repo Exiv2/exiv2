@@ -13,7 +13,7 @@ COPYING                                         GPLv2.0 Software License
 Deliverable                                     Location
 -----------                                     --------
 exiv2 and sample applications                   bin/exiv2.exe
-shared library                                  bin/exiv2-@VN@.dll
+shared library                                  bin/libexiv2.dll
 import library                                  lib/libexiv2.dll.a
 CMake support/consume files                     lib/cmake/exiv2
 pkg-config file                                 lib/pkgconfig/exiv2.pc
