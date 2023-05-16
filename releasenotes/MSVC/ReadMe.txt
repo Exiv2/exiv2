@@ -13,8 +13,8 @@ COPYING                                         GPLv2.0 Software License
 Deliverable                                     Location
 -----------                                     --------
 exiv2 and sample applications                   bin/exiv2.exe
-exiv2 dll                                       bin/exiv2.dll
-link libraries                                  lib/exiv2.lib & exiv2-xmp.lib
+shared library                                  bin/exiv2.dll
+import library                                  lib/exiv2.lib
 CMake support/consume files                     lib/cmake/exiv2
 include files                                   include/exiv2/
 sample code                                     samples/exifprint.cpp
