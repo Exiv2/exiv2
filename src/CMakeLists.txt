@@ -188,7 +188,7 @@ if (EXIV2_ENABLE_XMP OR EXIV2_ENABLE_EXTERNAL_XMP)
 endif()
 
 if (EXIV2_ENABLE_XMP)
-    target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
+    target_sources(exiv2lib PRIVATE $<TARGET_OBJECTS:exiv2-xmp>)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_link_libraries(exiv2lib PUBLIC ${XMPSDK_LIBRARY})
     target_include_directories(exiv2lib PUBLIC ${XMPSDK_INCLUDE_DIR})
