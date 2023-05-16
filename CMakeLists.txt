@@ -1,5 +1,5 @@
-# Minimum version imposed by Centos:8
-cmake_minimum_required( VERSION 3.11.0 )
+# Minimum version imposed by Ubuntu:20.04
+cmake_minimum_required( VERSION 3.16.3 )
 
 project(exiv2          # use TWEAK to categorize the build
     VERSION 1.00.0.9   # 1.00.0    = GM               (tagged and released)
