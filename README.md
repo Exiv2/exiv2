@@ -113,7 +113,6 @@ I don't know why anybody would uninstall Exiv2.
 
 ```bash
 $ cd ~/gnu/github/exiv2  # location of the project code
-$ cd build
 $ cmake --build build --target uninstall
 ```
 
@@ -134,7 +133,7 @@ When you build, you may install with the following command.
 ```cmd
 > cmake --install build
 ```
-This will create and copy the exiv2 build artifacts to `%ProgramFiles%/exiv2`. To be able to run the `exiv2` command line application from any terminal you should modify your path to include `%ProgramFiles%/exiv2/bin`.
+This will create and copy the exiv2 build artefacts to `%ProgramFiles%/exiv2`. To be able to run the `exiv2` command line application from any terminal you should modify your path to include `%ProgramFiles%/exiv2/bin`.
 
 [TOC](#TOC)
 <div id="CMakePresets">
@@ -606,7 +605,7 @@ Exiv2 respects the symbol `NDEBUG` which is set only for Release builds. There a
 Those blocks of code are not compiled unless you define `EXIV2_DEBUG_MESSAGES`. They are provided for additional debugging information. For example, if you are interested in additional output from webpimage.cpp, you can update your build as follows:
 
 ```bash
-$ cd <exiv2dir> && cd build
+$ cd <exiv2dir>
 $ cmake -S . -B build -DCMAKE_CXX_FLAGS=-DEXIV2_DEBUG_MESSAGES
 $ cmake --build build
 $ bin/exiv2 ...
@@ -701,7 +700,6 @@ To build with ccache, use the CMake option **-DBUILD\_WITH\_CCACHE=ON**
 
 ```bash
 $ cd <exiv2dir>
-$ mkdir build
 $ cmake -S . -B build -G "Unix Makefiles" -DBUILD_WITH_CCACHE=ON
 $ cmake --build build
 # Build again to appreciate the performance gain
@@ -1033,7 +1031,7 @@ $
 You can run individual tests in the `test` directory.  **Caution:** If you build in a directory other than \<exiv2dir\>/build, you must set EXIV2\_BINDIR to run tests from the `test` directory.
 
 ```bash
-$ cd <exiv2dir>/build
+$ cd <exiv2dir>
 $ ctest --test-dir build -R bash --verbose
 addmoddel_test (testcases.TestCases) ... ok
 ....
@@ -1064,7 +1062,7 @@ $
 You can execute the test suite in a similar manner to that described for UNIX-like systems.  You _**must**_ provide the `-C` config option to ctest for Visual Studio builds.  
 
 ```cmd
-> cd <exiv2dir>/build
+> cd <exiv2dir>
 > ctest --test-dir build -C Release
 > ctest --test-dir build -C Release -R bugfix --verbose
 ```
@@ -1083,7 +1081,6 @@ You can build with Visual Studio using Conan.  The is described in detail in [RE
 As a summary, the procedure is:
 
 ```
-c:\...\exiv2>mkdir build
 c:\...\exiv2\build>conan install . --build missing --profile msvc2019Release
 c:\...\exiv2\build>cmake -S . B build -DEXIV2_BUILD_UNIT_TESTS=ON -G "Visual Studio 16 2019"
 c:\...\exiv2\build>cmake --build build --config Release
@@ -1127,14 +1124,14 @@ $ popd
 You can run the bugfix tests from the build directory:
 
 ```bash
-$ cd <exiv2dir>/build
+$ cd <exiv2dir>
 $ ctest --test-dir build -R bugfix  
 ```
 
 If you wish to run in verbose mode:
 
 ```bash
-$ cd <exiv2dir>/build
+$ cd <exiv2dir>
 $ ctest --test-dir build -R bugfix --verbose
 ```
 
