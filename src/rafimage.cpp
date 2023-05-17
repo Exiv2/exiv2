@@ -260,13 +260,16 @@ void RafImage::readMetadata() {
   }
 
   // Retreive metadata from embedded JPEG preview image.
-  auto jpg_io = std::make_unique<Exiv2::MemIo>(jpg_buf.data(), jpg_buf.size());
-  auto jpg_img = JpegImage(std::move(jpg_io), false);
-  jpg_img.readMetadata();
-  setByteOrder(jpg_img.byteOrder());
-  xmpData_ = jpg_img.xmpData();
-  exifData_ = jpg_img.exifData();
-  iptcData_ = jpg_img.iptcData();
+  try {
+    auto jpg_io = std::make_unique<Exiv2::MemIo>(jpg_buf.data(), jpg_buf.size());
+    auto jpg_img = JpegImage(std::move(jpg_io), false);
+    jpg_img.readMetadata();
+    setByteOrder(jpg_img.byteOrder());
+    xmpData_ = jpg_img.xmpData();
+    exifData_ = jpg_img.exifData();
+    iptcData_ = jpg_img.iptcData();
+  } catch (const Exiv2::Error&) {
+  }
 
   exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
   exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
