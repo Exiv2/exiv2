@@ -268,6 +268,7 @@ void RafImage::readMetadata() {
     xmpData_ = jpg_img.xmpData();
     exifData_ = jpg_img.exifData();
     iptcData_ = jpg_img.iptcData();
+    comment_ = jpg_img.comment();
   } catch (const Exiv2::Error&) {
   }
 
