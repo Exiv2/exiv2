@@ -95,7 +95,7 @@ enum TypeId {
   xmpSeq = 0x10008,         //!< XMP sequence type.
   langAlt = 0x10009,        //!< XMP language alternative type.
   invalidTypeId = 0x1fffe,  //!< Invalid type id.
-  lastTypeId = 0x1ffff      //!< Last type id.
+  lastTypeId = 0x1ffff,     //!< Last type id.
 };
 
 //! Container for binary data
@@ -447,16 +447,25 @@ EXIV2API Rational floatToRationalCast(float f);
 */
 template <typename T, typename K, int N>
 const T* find(T (&src)[N], const K& key) {
-  const T* rc = std::find(src, src + N, key);
+  auto rc = std::find(src, src + N, key);
   return rc == src + N ? nullptr : rc;
 }
 
 //! Utility function to convert the argument of any type to a string
 template <typename T>
-std::string toString(const T& arg) {
+std::string toStringHelper(const T& arg, std::true_type) {
+  return std::to_string(arg);
+}
+
+template <typename T>
+std::string toStringHelper(const T& arg, std::false_type) {
   std::ostringstream os;
   os << arg;
   return os.str();
+}
+template <typename T>
+std::string toString(const T& arg) {
+  return toStringHelper(arg, std::is_integral<T>());
 }
 
 /*!
