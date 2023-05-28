@@ -1,14 +1,15 @@
-add_executable(
-  exiv2
-  exiv2.cpp
-  exiv2app.hpp
-  actions.cpp
-  actions.hpp
-  getopt.cpp
-  getopt.hpp
-  app_utils.cpp
-  app_utils.hpp
+set(APP_SOURCES
+    exiv2.cpp
+    exiv2app.hpp
+    actions.cpp
+    actions.hpp
+    getopt.cpp
+    getopt.hpp
+    app_utils.cpp
+    app_utils.hpp
 )
+
+add_executable(exiv2 ${APP_SOURCES})
 
 target_include_directories(exiv2 PRIVATE ${PROJECT_SOURCE_DIR}/src) # To find i18n.hpp
 
@@ -27,7 +28,9 @@ endif()
 target_link_libraries(exiv2 PRIVATE std::filesystem)
 
 if(MSVC OR MINGW)
-  # Trick to get properly UTF-8 encoded argv More info at: https://github.com/huangqinjin/wmain
+  # Trick to get properly UTF-8 encoded argv.
+
+  # More info at: https://github.com/huangqinjin/wmain
   add_library(wmain STATIC wmain.cpp)
   target_link_libraries(exiv2 PRIVATE wmain)
 endif()

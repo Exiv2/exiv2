@@ -1,26 +1,26 @@
 find_package(Gettext REQUIRED)
 
-gettext_create_translations(
-  exiv2.pot
-  ALL
-  bs.po
-  de.po
-  ca.po
-  es.po
-  fi.po
-  fr.po
-  gl.po
-  ms.po
-  nl.po
-  pl.po
-  pt.po
-  ru.po
-  sk.po
-  sv.po
-  ug.po
-  uk.po
-  vi.po
+set(PO_SOURCES
+    bs.po
+    de.po
+    ca.po
+    es.po
+    fi.po
+    fr.po
+    gl.po
+    ms.po
+    nl.po
+    pl.po
+    pt.po
+    ru.po
+    sk.po
+    sv.po
+    ug.po
+    uk.po
+    vi.po
 )
+
+gettext_create_translations(exiv2.pot ALL ${PO_SOURCES})
 
 find_program(XGETTEXT xgettext)
 
