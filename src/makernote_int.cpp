@@ -130,10 +130,9 @@ const TiffMnRegistry TiffMnCreator::registry_[] = {
 };
 
 bool TiffMnRegistry::operator==(const std::string& key) const {
-  std::string make(make_);
   if (!key.empty() && key.front() == '-')
     return false;
-  return make == key.substr(0, make.length());
+  return key.starts_with(make_);
 }
 
 bool TiffMnRegistry::operator==(IfdId key) const {
@@ -981,7 +980,7 @@ int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, Ti
   // Not valid for models beginning
   std::string model = getExifModel(pRoot);
   const std::array strs{"SLT-", "HV", "ILCA-"};
-  return std::any_of(strs.begin(), strs.end(), [&model](auto m) { return startsWith(model, m); }) ? -1 : 0;
+  return std::any_of(strs.begin(), strs.end(), [&model](auto m) { return model.starts_with(m); }) ? -1 : 0;
 }
 
 int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {

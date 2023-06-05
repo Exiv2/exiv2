@@ -986,8 +986,8 @@ std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& valu
   const auto v0 = value.toUint32(0);
 
   constexpr std::array models{"DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
-  if (!startsWith(model, "DSC-") ||
-      std::any_of(models.begin(), models.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (!model.starts_with("DSC-") ||
+      std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); })) {
     EXV_PRINT_TAG(sonyFocusMode2)(os, v0, metadata);
     return os;
   }
@@ -1013,19 +1013,19 @@ std::ostream& SonyMakerNote::printAFAreaModeSetting(std::ostream& os, const Valu
   const auto v0 = value.toUint32(0);
 
   constexpr std::array models1{"SLT-", "HV"};
-  if (std::any_of(models1.begin(), models1.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (std::any_of(models1.begin(), models1.end(), [&model](auto m) { return model.starts_with(m); })) {
     EXV_PRINT_TAG(sonyAFAreaModeSettingSet1)(os, v0, metadata);
     return os;
   }
 
   constexpr std::array models2{"NEX-",        "ILCE-",        "ILME-",    "DSC-RX10M4", "DSC-RX100M6",
                                "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return model.starts_with(m); })) {
     EXV_PRINT_TAG(sonyAFAreaModeSettingSet2)(os, v0, metadata);
     return os;
   }
 
-  if (startsWith(model, "ILCA-")) {
+  if (model.starts_with("ILCA-")) {
     EXV_PRINT_TAG(sonyAFAreaModeSettingSet3)(os, v0, metadata);
     return os;
   }
@@ -1050,7 +1050,7 @@ std::ostream& SonyMakerNote::printFlexibleSpotPosition(std::ostream& os, const V
 
   constexpr std::array models{"NEX-",        "ILCE-",        "ILME-",    "DSC-RX10M4", "DSC-RX100M6",
                               "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
-  if (std::any_of(models.begin(), models.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); })) {
     os << value.toUint32(0) << ", " << value.toUint32(1);
     return os;
   }
@@ -1080,29 +1080,29 @@ std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value&
   constexpr std::array models3{"ILCA-68", "ILCA-77M2"};
   constexpr std::array models4{"NEX-", "ILCE-", "ILME-"};
 
-  if (std::any_of(models1.begin(), models1.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (std::any_of(models1.begin(), models1.end(), [&model](auto m) { return model.starts_with(m); })) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
     return os;
   }
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return startsWith(model, m); }) && status &&
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return model.starts_with(m); }) && status &&
       aFAreaModeSetting == 4) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
     return os;
   }
-  if (std::any_of(models3.begin(), models3.end(), [&model](auto m) { return startsWith(model, m); }) && status &&
+  if (std::any_of(models3.begin(), models3.end(), [&model](auto m) { return model.starts_with(m); }) && status &&
       aFAreaModeSetting != 8) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet2)(os, value, metadata);
     return os;
   }
-  if (startsWith(model, "ILCA-99M2") && status && aFAreaModeSetting != 8) {
+  if (model.starts_with("ILCA-99M2") && status && aFAreaModeSetting != 8) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet3)(os, value, metadata);
     return os;
   }
-  if (startsWith(model, "ILCA-") && status && aFAreaModeSetting == 8) {
+  if (model.starts_with("ILCA-") && status && aFAreaModeSetting == 8) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet4)(os, value.toUint32(0), metadata);
     return os;
   }
-  if (std::any_of(models4.begin(), models4.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (std::any_of(models4.begin(), models4.end(), [&model](auto m) { return model.starts_with(m); })) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet5)(os, value.toUint32(0), metadata);
     return os;
   }
@@ -1125,11 +1125,11 @@ std::ostream& SonyMakerNote::printAFPointsUsed(std::ostream& os, const Value& va
   constexpr std::array models1{"ILCA-", "DSC-"};
   constexpr std::array models2{"ILCA-68", "ILCA-77M2"};
 
-  if (std::none_of(models1.begin(), models1.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (std::none_of(models1.begin(), models1.end(), [&model](auto m) { return model.starts_with(m); })) {
     EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet1)(os, value, metadata);
     return os;
   }
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return model.starts_with(m); })) {
     EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet2)(os, value, metadata);
     return os;
   }
@@ -1152,8 +1152,8 @@ std::ostream& SonyMakerNote::printAFTracking(std::ostream& os, const Value& valu
   }
 
   constexpr std::array models{"DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
-  if (!startsWith(model, "DSC-") ||
-      std::any_of(models.begin(), models.end(), [&model](auto m) { return startsWith(model, m); })) {
+  if (!model.starts_with("DSC-") ||
+      std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); })) {
     EXV_PRINT_TAG(sonyAFTracking)(os, value.toUint32(0), metadata);
     return os;
   }
@@ -1507,7 +1507,7 @@ std::ostream& SonyMakerNote::printHighISONoiseReduction2(std::ostream& os, const
     return os;
   }
 
-  if (startsWith(model, "DSC-") || startsWith(model, "Stellar")) {
+  if (model.starts_with("DSC-") || model.starts_with("Stellar")) {
     EXV_PRINT_TAG(sonyHighISONoiseReduction2)(os, value.toUint32(0), metadata);
     return os;
   }
@@ -2020,8 +2020,8 @@ std::ostream& SonyMakerNote::printSony2FpFocusPosition2(std::ostream& os, const 
     }
 
     // Ranges of models that do not support this tag
-    for (auto m : {"DSC-", "Stellar"}) {
-      if (startsWith(model, m)) {
+    for (const auto& m : {"DSC-", "Stellar"}) {
+      if (model.starts_with(m)) {
         os << N_("n/a");
         return os;
       }

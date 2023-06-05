@@ -305,7 +305,7 @@ CommentValue::CommentValue(const std::string& comment) : StringValueBase(Exiv2::
 int CommentValue::read(const std::string& comment) {
   std::string c = comment;
   CharsetId charsetId = undefined;
-  if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
+  if (comment.starts_with("charset=")) {
     const std::string::size_type pos = comment.find_first_of(' ');
     std::string name = comment.substr(8, pos - 8);
     // Strip quotes (so you can also specify the charset without quotes)
@@ -482,7 +482,7 @@ int XmpTextValue::read(const std::string& buf) {
   // support a type=Alt,Bag,Seq,Struct indicator
   std::string b = buf;
   std::string type;
-  if (buf.length() > 5 && buf.substr(0, 5) == "type=") {
+  if (buf.starts_with("type=")) {
     std::string::size_type pos = buf.find_first_of(' ');
     type = buf.substr(5, pos - 5);
     // Strip quotes (so you can also specify the type without quotes)
@@ -636,7 +636,7 @@ LangAltValue::LangAltValue(const std::string& buf) : XmpValue(langAlt) {
 int LangAltValue::read(const std::string& buf) {
   std::string b = buf;
   std::string lang = "x-default";
-  if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
+  if (buf.starts_with("lang=")) {
     static constexpr auto ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     const std::string::size_type pos = buf.find_first_of(' ');

@@ -644,9 +644,7 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   }
 
   // Delete unknown tags larger than 4kB and known tags larger than 20kB.
-  auto f = [](const auto& tag) {
-    return (tag.size() > 4096 && tag.tagName().substr(0, 2) == "0x") || tag.size() > 20480;
-  };
+  auto f = [](const auto& tag) { return (tag.size() > 4096 && tag.tagName().starts_with("0x")) || tag.size() > 20480; };
   exifData.erase(std::remove_if(exifData.begin(), exifData.end(), f), exifData.end());
 
   // Encode the remaining Exif tags again, don't care if it fits this time
