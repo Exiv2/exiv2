@@ -78,20 +78,13 @@ std::string AsfVideo::GUIDTag::to_string() {
 }
 
 bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
-  if (data1_ < other.data1_)
-    return true;
-  if (data1_ == other.data1_) {
-    if (data2_ < other.data2_)
-      return true;
-    if (data2_ == other.data2_) {
-      if (data3_ < other.data3_)
-        return true;
-      if (data3_ == other.data3_) {
-        return std::lexicographical_compare(data4_.begin(), data4_.end(), other.data4_.begin(), other.data4_.end());
-      }
-    }
-  }
-  return false;
+  if (data1_ != other.data1_)
+    return data1_ < other.data1_;
+  if (data2_ != other.data2_)
+    return data2_ < other.data2_;
+  if (data3_ != other.data3_)
+    return data3_ < other.data3_;
+  return std::lexicographical_compare(data4_.begin(), data4_.end(), other.data4_.begin(), other.data4_.end());
 }
 
 const AsfVideo::GUIDTag Header(0x75B22630, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C});
