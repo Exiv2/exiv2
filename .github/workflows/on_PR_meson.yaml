@@ -12,7 +12,7 @@ jobs:
     name: Linux-GCC${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['7', '10']
+        cxx: ['9', '10']
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
         env:
           CXX: g++-${{matrix.cxx}}
         run: |
-          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++2a
           meson compile -C "${{github.workspace}}/build"
           meson test -C "${{github.workspace}}/build"
   Ubuntu-clang:
@@ -34,7 +34,7 @@ jobs:
     name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['7', '12']
+        cxx: ['8', '12']
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v4
@@ -127,7 +127,7 @@ jobs:
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++2a
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   MacOS:
