@@ -46,7 +46,7 @@ constexpr SectionInfo sectionInfo[] = {
 
 namespace Exiv2::Internal {
 bool TagVocabulary::operator==(const std::string& key) const {
-  return key.rfind(voc_) != std::string::npos;
+  return key.ends_with(voc_);
 }
 
 // Unknown Tag

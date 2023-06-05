@@ -5206,11 +5206,9 @@ std::string XmpKey::ns() const {
 //! @cond IGNORE
 void XmpKey::Impl::decomposeKey(const std::string& key) {
   // Get the family name, prefix and property name parts of the key
+  if (!key.starts_with(familyName_))
+    throw Error(ErrorCode::kerInvalidKey, key);
   std::string::size_type pos1 = key.find('.');
-  if (pos1 == std::string::npos)
-    throw Error(ErrorCode::kerInvalidKey, key);
-  if (key.substr(0, pos1) != familyName_)
-    throw Error(ErrorCode::kerInvalidKey, key);
   std::string::size_type pos0 = pos1 + 1;
   pos1 = key.find('.', pos0);
   if (pos1 == std::string::npos)

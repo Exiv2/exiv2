@@ -25,7 +25,7 @@ size_t fillGap(Exiv2::Internal::IoWrapper& ioWrapper, size_t curr, size_t tobe);
 // class member definitions
 namespace Exiv2::Internal {
 bool TiffMappingInfo::operator==(const TiffMappingInfo::Key& key) const {
-  return (0 == strcmp("*", make_) || startsWith(key.m_, make_)) &&
+  return (0 == strcmp("*", make_) || key.m_.starts_with(make_)) &&
          (Tag::all == extendedTag_ || key.e_ == extendedTag_) && key.g_ == group_;
 }
 

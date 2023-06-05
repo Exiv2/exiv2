@@ -217,7 +217,7 @@ Protocol fileProtocol(const std::string& path) {
     if (result != pFile)
       break;
 
-    if (Exiv2::Internal::startsWith(path, prot.name))
+    if (path.starts_with(prot.name))
       // URL's require data.  Stdin == "-" and no further data
       if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
         result = prot.prot;
@@ -288,7 +288,7 @@ Uri Uri::Parse(const std::string& uri) {
 
   if (protocolEnd != uriEnd) {
     auto prot = std::string(protocolEnd, uriEnd);
-    if ((prot.length() > 3) && (prot.substr(0, 3) == "://")) {
+    if (prot.starts_with("://")) {
       result.Protocol = std::string(protocolStart, protocolEnd);
       protocolEnd += 3;  //      ://
     } else
