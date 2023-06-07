@@ -456,7 +456,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
           uint32_t jump = 10;
           byte bytes[20];
-          const auto chars = reinterpret_cast<const char*>(&bytes[0]);
+          const auto chars = reinterpret_cast<const char*>(bytes);
           io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
           io.readOrThrow(bytes, jump, ErrorCode::kerCorruptedMetadata);           // read
           bytes[jump] = 0;

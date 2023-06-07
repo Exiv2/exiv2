@@ -84,7 +84,8 @@ BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */) :
 
 std::string BmffImage::toAscii(uint32_t n) {
   const auto p = reinterpret_cast<const char*>(&n);
-  std::string result(4, '.');
+  std::string result;
+  result.reserve(sizeof(uint32_t));
   std::transform(p, p + 4, result.begin(), [](char c) {
     if (32 <= c && c < 127)
       return c;  // only allow 7-bit printable ascii
