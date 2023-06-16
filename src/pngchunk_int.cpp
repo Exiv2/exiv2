@@ -100,20 +100,24 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
     }
 
     // compressed string after the compression technique spec
-    const byte* compressedText = data.c_data(keysize + nullSeparators);
     size_t compressedTextSize = data.size() - keysize - nullSeparators;
-    enforce(compressedTextSize < data.size(), ErrorCode::kerCorruptedMetadata);
+    if (compressedTextSize) {
+      const byte* compressedText = data.c_data(keysize + nullSeparators);
+      enforce(compressedTextSize < data.size(), ErrorCode::kerCorruptedMetadata);
 
-    zlibUncompress(compressedText, static_cast<uint32_t>(compressedTextSize), arr);
+      zlibUncompress(compressedText, static_cast<uint32_t>(compressedTextSize), arr);
+    }
   } else if (type == tEXt_Chunk) {
     enforce(data.size() >= Safe::add(keysize, static_cast<size_t>(1)), ErrorCode::kerCorruptedMetadata);
     // Extract a non-compressed Latin-1 text chunk
 
     // the text comes after the key, but isn't null terminated
-    const byte* text = data.c_data(keysize + 1);
     size_t textsize = data.size() - keysize - 1;
+    if (textsize) {
+      const byte* text = data.c_data(keysize + 1);
 
-    arr = DataBuf(text, textsize);
+      arr = DataBuf(text, textsize);
+    }
   } else if (type == iTXt_Chunk) {
     enforce(data.size() > Safe::add(keysize, static_cast<size_t>(3)), ErrorCode::kerCorruptedMetadata);
     const size_t nullCount = std::count(data.c_data(keysize + 3), data.c_data(data.size() - 1), '\0');
@@ -127,7 +131,8 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
     const byte compressionMethod = data.read_uint8(keysize + 2);
 
     enforce(compressionFlag == 0x00 || compressionFlag == 0x01, ErrorCode::kerCorruptedMetadata);
-    enforce(compressionMethod == 0x00, ErrorCode::kerCorruptedMetadata);
+    if (compressionFlag == 0x01)
+      enforce(compressionMethod == 0x00, ErrorCode::kerFailedToReadImageData);
 
     // language description string after the compression technique spec
     const size_t languageTextMaxSize = data.size() - keysize - 3;
@@ -141,14 +146,14 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
                                                              data.size() - (keysize + 3 + languageTextSize + 1));
     const size_t translatedKeyTextSize = translatedKeyText.size();
 
-    if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
-      enforce(Safe::add(keysize + 3 + languageTextSize + 1, Safe::add(translatedKeyTextSize, static_cast<size_t>(1))) <=
-                  data.size(),
-              ErrorCode::kerCorruptedMetadata);
+    enforce(Safe::add(keysize + 3 + languageTextSize + 1, Safe::add(translatedKeyTextSize, static_cast<size_t>(1))) <=
+                data.size(),
+            ErrorCode::kerCorruptedMetadata);
 
+    const auto textsize =
+        static_cast<long>(data.size() - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1));
+    if (textsize) {
       const byte* text = data.c_data(keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
-      const auto textsize =
-          static_cast<long>(data.size() - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1));
 
       if (compressionFlag == 0x00) {
         // then it's an uncompressed iTXt chunk
@@ -156,7 +161,7 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
         std::cout << "Exiv2::PngChunk::parseTXTChunk: We found an uncompressed iTXt field\n";
 #endif
         arr = DataBuf(text, textsize);
-      } else if (compressionFlag == 0x01 && compressionMethod == 0x00) {
+      } else {
         // then it's a zlib compressed iTXt chunk
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngChunk::parseTXTChunk: We found a zlib compressed iTXt field\n";
@@ -165,12 +170,6 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
         // the compressed text comes after the translated keyword, but isn't null terminated
         zlibUncompress(text, textsize, arr);
       }
-    } else {
-      // then it isn't zlib compressed and we are sunk
-#ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard iTXt compression method.\n";
-#endif
-      throw Error(ErrorCode::kerFailedToReadImageData);
     }
   } else {
 #ifdef DEBUG
