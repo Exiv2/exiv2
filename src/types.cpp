@@ -176,7 +176,7 @@ const byte* Exiv2::DataBuf::c_data(size_t offset) const {
   if (pData_.empty()) {
     return nullptr;
   }
-  if (offset >= pData_.size()) {
+  if (offset > pData_.size()) {
     throw std::out_of_range("Overflow in Exiv2::DataBuf::c_data");
   }
   return &pData_[offset];
