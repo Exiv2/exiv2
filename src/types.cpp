@@ -173,7 +173,7 @@ byte* Exiv2::DataBuf::data(size_t offset) {
 }
 
 const byte* Exiv2::DataBuf::c_data(size_t offset) const {
-  if (pData_.empty()) {
+  if (pData_.empty() || offset == pData_.size()) {
     return nullptr;
   }
   if (offset > pData_.size()) {
