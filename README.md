@@ -163,7 +163,7 @@ Available configure presets:
   "linux-release" - Linux Release with default architecture
 ```
 
-The project configuration with a specific preset can be choosen with the CMake `--preset` option. In the following terminal output we comment out some interesting things happening during the project configuration:
+The project configuration with a specific preset can be chosen with the CMake `--preset` option. In the following terminal output we comment out some interesting things happening during the project configuration:
 
 ```bash
 # Configuring the project using a preset
@@ -511,7 +511,7 @@ The tag webpage build files are in the `<exiv2dir>/doc/templates` directory. If 
 tag groups in the Exiv2 source code then the build files need to be updated. Any changes made 
 to individual tags in an existing tag group are automatically included.
 
-Building the tag webpages requires building the Exiv2 sample programs and using scripts which have additional dependancies on 
+Building the tag webpages requires building the Exiv2 sample programs and using scripts which have additional dependencies on 
 [BASH](https://www.gnu.org/software/bash/), [make](https://manpages.org/make), [xsltproc](https://manpages.org/xsltproc) 
 and [Python3](https://www.python.org/).
 

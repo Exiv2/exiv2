@@ -371,7 +371,7 @@ MPFImageUIDList,45059,0xb003,MpfInfo,Exif.MpfInfo.MPFImageUIDList,Long,"MPF Imag
 MPFTotalFrames,45060,0xb004,MpfInfo,Exif.MpfInfo.MPFTotalFrames,Long,"MPF Total Frames"
 MPFIndividualNum,45313,0xb101,MpfInfo,Exif.MpfInfo.MPFIndividualNum,Long,"MPF Individual Num"
 MPFPanOrientation,45569,0xb201,MpfInfo,Exif.MpfInfo.MPFPanOrientation,Long,"MPFPanOrientation"
-MPFPanOverlapH,45570,0xb202,MpfInfo,Exif.MpfInfo.MPFPanOverlapH,Long,"MPF Pan Overlap Horizonal"
+MPFPanOverlapH,45570,0xb202,MpfInfo,Exif.MpfInfo.MPFPanOverlapH,Long,"MPF Pan Overlap Horizontal"
 MPFPanOverlapV,45571,0xb203,MpfInfo,Exif.MpfInfo.MPFPanOverlapV,Long,"MPF Pan Overlap Vertical"
 MPFBaseViewpointNum,45572,0xb204,MpfInfo,Exif.MpfInfo.MPFBaseViewpointNum,Long,"MPF Base Viewpoint Number"
 MPFConvergenceAngle,45573,0xb205,MpfInfo,Exif.MpfInfo.MPFConvergenceAngle,Long,"MPF Convergence Angle"

@@ -79,7 +79,7 @@ if __name__ == '__main__':
         description="Build and test exiv2 using a matrix of build switches")
     parser.add_argument(
         "--compilers",
-        help="Compilers to be used to build exiv2 (when none ore specified, "
+        help="Compilers to be used to build exiv2 (when none are specified, "
         "then the default compiler will be used)",
         nargs='*',
         default=["gcc", "clang"],

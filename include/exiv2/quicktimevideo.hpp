@@ -77,7 +77,7 @@ class EXIV2API QuickTimeVideo : public Image {
         to save it in the respective XMP container. Decodes a Tag
         Information and saves it in the respective XMP container, if
         the block size is small.
-    @param buf Data buffer which cotains tag ID.
+    @param buf Data buffer which contains tag ID.
     @param size Size of the data block used to store Tag Information.
    */
   void tagDecoder(Exiv2::DataBuf& buf, size_t size);
@@ -195,7 +195,7 @@ class EXIV2API QuickTimeVideo : public Image {
 
   //! Variable which stores Time Scale unit, used to calculate time.
   uint64_t timeScale_ = 0;
-  //! Variable which stores current stream being processsed.
+  //! Variable which stores current stream being processed.
   int currentStream_ = 0;
   //! Variable to check the end of metadata traversing.
   bool continueTraversing_ = false;

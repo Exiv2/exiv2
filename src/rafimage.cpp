@@ -259,7 +259,7 @@ void RafImage::readMetadata() {
       throw Error(ErrorCode::kerFailedToReadImageData);
   }
 
-  // Retreive metadata from embedded JPEG preview image.
+  // Retrieve metadata from embedded JPEG preview image.
   try {
     auto jpg_io = std::make_unique<Exiv2::MemIo>(jpg_buf.data(), jpg_buf.size());
     auto jpg_img = JpegImage(std::move(jpg_io), false);
