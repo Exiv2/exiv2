@@ -173,7 +173,7 @@ constexpr ArrayCfg canonLeCfg = {
     {0, ttSignedLong, 1},
 };
 
-//! Canon Ambience Selction Info binary array - configuration
+//! Canon Ambience Selection Info binary array - configuration
 constexpr ArrayCfg canonAmCfg = {
     IfdId::canonAmId,  // Group for the elements
     invalidByteOrder,  // Use byte order from parent
@@ -185,7 +185,7 @@ constexpr ArrayCfg canonAmCfg = {
     {0, ttSignedLong, 1},
 };
 
-//! Canon MultiExposure Selction Info binary array - configuration
+//! Canon MultiExposure Selection Info binary array - configuration
 constexpr ArrayCfg canonMeCfg = {
     IfdId::canonMeId,  // Group for the elements
     invalidByteOrder,  // Use byte order from parent

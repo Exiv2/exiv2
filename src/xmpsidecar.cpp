@@ -100,7 +100,7 @@ void XmpSidecar::writeMetadata() {
       }
     }
 
-    // run the convertors
+    // run the converters
     copyExifToXmp(exifData_, xmpData_);
     copyIptcToXmp(iptcData_, xmpData_);
 
@@ -116,7 +116,7 @@ void XmpSidecar::writeMetadata() {
       }
     }
 
-    // #589 - restore tags which were modified by the convertors
+    // #589 - restore tags which were modified by the converters
     for (const auto& xmp : copy) {
       xmpData_[xmp.key()] = xmp.value();
     }

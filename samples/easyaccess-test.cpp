@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
           }
         }
         if (!categoryOk) {
-          std::cout << "Categoy >" << argv[i] << "< is invalid.\n";
+          std::cout << "Category >" << argv[i] << "< is invalid.\n";
           return EXIT_FAILURE;
         }
       }

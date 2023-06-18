@@ -729,7 +729,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out     += ''
 
         # Corner case check (ISO value indicating possible overflow,
-        # but no additional informations available)
+        # but no additional information available)
         # input:
         # - Exif.Photo.ISOSpeedRatings being set to 65535
         # - Exif.Photo.SensitivityType NOT SET

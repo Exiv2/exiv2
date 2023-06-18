@@ -20,7 +20,7 @@ namespace Exiv2 {
 /*!
   Look-up list for ASF Type Video Files
   Associates the GUID with its Name(i.e. Human Readable Form)
-  Tags have been diferentiated into Various Categories.
+  Tags have been differentiated into Various Categories.
   The categories have been listed above Groups
   see :
   - https://fr.wikipedia.org/wiki/Advanced_Systems_Format

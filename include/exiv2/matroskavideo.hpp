@@ -128,7 +128,7 @@ class EXIV2API MatroskaVideo : public Image {
 
  protected:
   /*!
-    @brief Function used to calulate the size of a block.
+    @brief Function used to calculate the size of a block.
         This information is only stored in one byte.
         The size of the block is calculated by counting
         the number of leading zeros in the binary code of the byte.
