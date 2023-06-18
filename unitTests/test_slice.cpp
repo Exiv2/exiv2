@@ -12,7 +12,7 @@ template <typename T>
 class slice;
 
 /*!
- * This namespace contains the helper-function get_test_data. It is intented
+ * This namespace contains the helper-function get_test_data. It is intended
  * to be used for test with the slice fixture: it returns the appropriate
  * data to the constructor of slice. For (const) T==std::vector it returns the
  * fixtures member vec_, for (const) T==int* it returns vec_.data()

@@ -961,13 +961,13 @@ class EXIV2API DateValue : public Value {
   size_t count() const override;
   size_t size() const override;
   std::ostream& write(std::ostream& os) const override;
-  //! Return the value as a UNIX calender time converted to int64_t.
+  //! Return the value as a UNIX calendar time converted to int64_t.
   int64_t toInt64(size_t n = 0) const override;
-  //! Return the value as a UNIX calender time converted to uint32_t.
+  //! Return the value as a UNIX calendar time converted to uint32_t.
   uint32_t toUint32(size_t n = 0) const override;
-  //! Return the value as a UNIX calender time converted to float.
+  //! Return the value as a UNIX calendar time converted to float.
   float toFloat(size_t n = 0) const override;
-  //! Return the value as a UNIX calender time  converted to Rational.
+  //! Return the value as a UNIX calendar time converted to Rational.
   Rational toRational(size_t n = 0) const override;
   //@}
 

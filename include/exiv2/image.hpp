@@ -409,7 +409,7 @@ class EXIV2API Image {
   /*!
     @brief Return a reference to the BasicIo instance being used for Io.
 
-    This refence is particularly useful to reading the results of
+    This reference is particularly useful to reading the results of
     operations on a MemIo instance. For example after metadata has
     been modified and the writeMetadata() method has been called,
     this method can be used to get access to the modified image.

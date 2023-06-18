@@ -56,7 +56,7 @@ const uint32_t cmt4 = 0x130000;  //!< Special tag: root IFD of CR3 images
 }  // namespace Tag
 
 /*!
-  @brief A tupel consisting of extended Tag and group used as an item in
+  @brief A tuple consisting of extended Tag and group used as an item in
          TIFF paths.
 */
 class TiffPathItem {
@@ -145,7 +145,7 @@ class IoWrapper {
   @brief Interface class for components of a TIFF directory hierarchy
          (Composite pattern).  Both TIFF directories as well as entries
          implement this interface.  A component can be uniquely identified
-         by a tag, group tupel.  This class is implemented as a NVI
+         by a tag, group tuple.  This class is implemented as a NVI
          (Non-Virtual Interface) and it has an interface for visitors
          (Visitor pattern) to perform operations on all components.
  */

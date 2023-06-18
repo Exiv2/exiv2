@@ -64,7 +64,7 @@ class PngChunk {
 
   /*!
     @brief Return a complete PNG chunk data compressed or not as buffer.
-           Data returned is formated accordingly with metadata \em type
+           Data returned is formatted accordingly with metadata \em type
            to host passed by \em metadata.
 
     @param metadata    metadata buffer.
