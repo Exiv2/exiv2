@@ -2243,7 +2243,7 @@ constexpr TagInfo mpfTagInfo[] = {
      unsignedLong, 1, printValue},
     {0xb201, "MPFPanOrientation", N_("MPFPanOrientation"), N_("MPFPanOrientation"), IfdId::mpfId, SectionId::mpfTags,
      unsignedLong, 1, printValue},
-    {0xb202, "MPFPanOverlapH", N_("MPFPanOverlapH"), N_("MPF Pan Overlap Horizonal"), IfdId::mpfId, SectionId::mpfTags,
+    {0xb202, "MPFPanOverlapH", N_("MPFPanOverlapH"), N_("MPF Pan Overlap Horizontal"), IfdId::mpfId, SectionId::mpfTags,
      unsignedLong, 1, printValue},
     {0xb203, "MPFPanOverlapV", N_("MPFPanOverlapV"), N_("MPF Pan Overlap Vertical"), IfdId::mpfId, SectionId::mpfTags,
      unsignedLong, 1, printValue},
@@ -2954,7 +2954,7 @@ std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData* 
 //! FileSource, tag 0xa300
 constexpr TagDetails exifFileSource[] = {
     {1, N_("Film scanner")},             // Not defined to Exif 2.2 spec.
-    {2, N_("Reflexion print scanner")},  // but used by some scanner device softwares.
+    {2, N_("Reflexion print scanner")},  // but used by some scanner device software.
     {3, N_("Digital still camera")},
 };
 

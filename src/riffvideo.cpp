@@ -165,7 +165,7 @@ const std::map<uint16_t, std::string> audioEncodingValues = {
     {0x64, "APICOM G.726 ADPCM"},
     {0x65, "APICOM G.722 ADPCM"},
     {0x66, "Microsoft DSAT"},
-    {0x67, "Micorsoft DSAT DISPLAY"},
+    {0x67, "Microsoft DSAT DISPLAY"},
     {0x69, "Voxware Byte Aligned"},
     {0x70, "Voxware AC8"},
     {0x71, "Voxware AC10"},

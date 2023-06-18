@@ -29,7 +29,7 @@
 
 /*
 
-URLs to find informations about PNG chunks :
+URLs to find information about PNG chunks :
 
 tEXt and zTXt chunks : http://www.vias.org/pngguide/chapter11_04.html
 iTXt chunk           : http://www.vias.org/pngguide/chapter11_05.html

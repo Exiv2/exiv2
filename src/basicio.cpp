@@ -1708,14 +1708,14 @@ size_t CurlIo::write(const byte* data, size_t wcount) {
   if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
     return RemoteIo::write(data, wcount);
   }
-  throw Error(ErrorCode::kerErrorMessage, "doesnt support write for this protocol.");
+  throw Error(ErrorCode::kerErrorMessage, "does not support write for this protocol.");
 }
 
 size_t CurlIo::write(BasicIo& src) {
   if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
     return RemoteIo::write(src);
   }
-  throw Error(ErrorCode::kerErrorMessage, "doesnt support write for this protocol.");
+  throw Error(ErrorCode::kerErrorMessage, "does not support write for this protocol.");
 }
 
 CurlIo::CurlIo(const std::string& url, size_t blockSize) {

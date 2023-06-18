@@ -34,9 +34,9 @@ struct EXIV2API Photoshop {
   /// @return true  if all IRBs are valid;<BR> false otherwise
   static bool valid(const byte* pPsData, size_t sizePsData);
 
-  /// @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory buffer.
+  /// @brief Locates the data for a %Photoshop tag in a %Photoshop formatted memory buffer.
   /// Operates on raw data to simplify reuse.
-  /// @param pPsData Pointer to buffer containing entire payload of %Photoshop formated data (from APP13 Jpeg segment)
+  /// @param pPsData Pointer to buffer containing entire payload of %Photoshop formatted data (from APP13 Jpeg segment)
   /// @param sizePsData Size in bytes of pPsData.
   /// @param psTag %Tag number of the block to look for.
   /// @param record Output value that is set to the start of the data block within pPsData (may not be null).
