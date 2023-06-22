@@ -2014,6 +2014,28 @@ constexpr TagInfo exifTagInfo[] = {
      N_("This tag records the serial number of the interchangeable lens "
         "that was used in photography as an ASCII string."),
      IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},
+    {0xa436, "ImageTitle", N_("Image Title"), N_("This tag records the title of the image."), IfdId::exifId,
+     SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa437, "Photographer", N_("Photographer"), N_("This tag records the name of the photographer."), IfdId::exifId,
+     SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa438, "ImageEditor", N_("Image Editor"),
+     N_("This tag records the name of the main person who edited the image. Preferably, a single name is written "
+        "(individual name, group/organization name, etc.), but multiple main editors may be entered."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa439, "CameraFirmware", N_("Camera Firmware"),
+     N_("This tag records the name and version of the software or firmware of the camera used to generate the image."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa43a, "RAWDevelopingSoftware", N_("RAW Developing Software"),
+     N_("This tag records the name and version of the software used to develop the RAW image."), IfdId::exifId,
+     SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa43b, "ImageEditingSoftware", N_("Image Editing Software"),
+     N_("This tag records the name and version of the main software used for processing and editing the image. "
+        "Preferably, a single software is written, but multiple main software may be entered."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa43c, "MetadataEditingSoftware", N_("Metadata Editing Software"),
+     N_("This tag records the name and version of one software used to edit the metadata of the image without "
+        "processing or editing of the image data itself."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
     {0xa460, "CompositeImage", N_("Composite Image"),
      N_("Indicates whether the recorded image is a composite image or not."), IfdId::exifId, SectionId::captureCond,
      unsignedShort, 1, EXV_PRINT_TAG(exifCompositeImage)},  // Exif 2.32
