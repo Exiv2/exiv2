@@ -1799,7 +1799,7 @@ const TagInfo* SonyMakerNote::tagListFp() {
 
 std::ostream& SonyMakerNote::printSony2FpAmbientTemperature(std::ostream& os, const Value& value,
                                                             const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || !metadata)
     return os << "(" << value << ")";
 
   auto pos = metadata->findKey(ExifKey("Exif.Sony2Fp.0x0002"));
@@ -1879,7 +1879,7 @@ const TagInfo* SonyMakerNote::tagListSonyMisc1() {
 
 std::ostream& SonyMakerNote::printSonyMisc1CameraTemperature(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || !metadata)
     return os << "(" << value << ")";
 
   auto pos = metadata->findKey(ExifKey("Exif.SonyMisc1.0x0004"));
