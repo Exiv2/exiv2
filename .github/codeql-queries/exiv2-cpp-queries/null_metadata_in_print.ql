@@ -24,15 +24,42 @@ class PrintFunction extends Function {
   }
 }
 
-from PrintFunction f, Parameter p, Call call, Expr qualifier
-where
-  p = f.getParameter(2) and
-  qualifier = p.getAnAccess() and
-  call.getQualifier() = qualifier and
-  // Don't complain if the access is protected by a null check.
-  not exists(GuardCondition nonNullCheck, BasicBlock block, boolean branch |
-    validCheckExpr(nonNullCheck, p) and
-    nonNullCheck.controls(block, branch) and
-    block.contains(call)
+predicate metadataDeref(Expr metadata) {
+  exists(Call call | call.getQualifier() = metadata)
+  or
+  exists(FunctionCall call, int argIndex, Function f |
+    call.getArgument(argIndex) = metadata and
+    f = call.getTarget() and
+    metadataDeref(f.getParameter(argIndex).getAnAccess())
   )
-select qualifier, "Print functions need to check that the metadata isn't null."
+}
+
+predicate unsafePointerParam(Function f, int paramIndex, Expr use) {
+  exists(Parameter p |
+    p = f.getParameter(paramIndex) and
+    use = p.getAnAccess() and
+    unsafePointerExpr(use) and
+    not exists(GuardCondition nonNullCheck, BasicBlock block, boolean branch |
+      validCheckExpr(nonNullCheck, p) and
+      nonNullCheck.controls(block, branch) and
+      block.contains(use)
+    )
+  )
+}
+
+predicate unsafePointerExpr(Expr e) {
+  exists(Call call |
+    call.getQualifier() = e and
+    e.getType().getUnspecifiedType() instanceof PointerType
+  )
+  or
+  exists(FunctionCall call, int argIndex, Function f |
+    call.getArgument(argIndex) = e and
+    f = call.getTarget() and
+    unsafePointerParam(f, argIndex, _)
+  )
+}
+
+from PrintFunction printfcn, Parameter p, Expr metadata
+where unsafePointerParam(printfcn, 2, metadata)
+select metadata, "Print functions need to check that the metadata isn't null."
