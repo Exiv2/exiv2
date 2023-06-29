@@ -827,7 +827,7 @@ std::ostream& SonyMakerNote::printWBShiftABGM(std::ostream& os, const Value& val
 }
 
 std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -854,7 +854,7 @@ std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& valu
 }
 
 std::ostream& SonyMakerNote::printAFAreaModeSetting(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -891,7 +891,7 @@ std::ostream& SonyMakerNote::printAFAreaModeSetting(std::ostream& os, const Valu
 }
 
 std::ostream& SonyMakerNote::printFlexibleSpotPosition(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 2 || value.typeId() != unsignedShort) {
+  if (value.count() != 2 || value.typeId() != unsignedShort || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -916,7 +916,7 @@ std::ostream& SonyMakerNote::printFlexibleSpotPosition(std::ostream& os, const V
 }
 
 std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -967,7 +967,7 @@ std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value&
 }
 
 std::ostream& SonyMakerNote::printAFPointsUsed(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.typeId() != unsignedByte) {
+  if (value.typeId() != unsignedByte || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -994,7 +994,7 @@ std::ostream& SonyMakerNote::printAFPointsUsed(std::ostream& os, const Value& va
 }
 
 std::ostream& SonyMakerNote::printAFTracking(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -1297,7 +1297,7 @@ std::ostream& SonyMakerNote::printImageSize(std::ostream& os, const Value& value
 }
 
 std::ostream& SonyMakerNote::printFocusMode(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort) {
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -1314,7 +1314,7 @@ std::ostream& SonyMakerNote::printFocusMode(std::ostream& os, const Value& value
 }
 
 std::ostream& SonyMakerNote::printAFMode(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort) {
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -1336,7 +1336,7 @@ std::ostream& SonyMakerNote::printAFMode(std::ostream& os, const Value& value, c
 }
 
 std::ostream& SonyMakerNote::printFocusMode3(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort) {
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -1353,7 +1353,7 @@ std::ostream& SonyMakerNote::printFocusMode3(std::ostream& os, const Value& valu
 
 std::ostream& SonyMakerNote::printHighISONoiseReduction2(std::ostream& os, const Value& value,
                                                          const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort) {
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata) {
     os << "(" << value << ")";
     return os;
   }
@@ -1799,7 +1799,7 @@ const TagInfo* SonyMakerNote::tagListFp() {
 
 std::ostream& SonyMakerNote::printSony2FpAmbientTemperature(std::ostream& os, const Value& value,
                                                             const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || !metadata)
     return os << "(" << value << ")";
 
   auto pos = metadata->findKey(ExifKey("Exif.Sony2Fp.0x0002"));
@@ -1840,7 +1840,7 @@ std::ostream& SonyMakerNote::printSony2FpFocusMode(std::ostream& os, const Value
 
 std::ostream& SonyMakerNote::printSony2FpFocusPosition2(std::ostream& os, const Value& value,
                                                         const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || !metadata)
     os << "(" << value << ")";
   else {
     std::string model;
@@ -1879,7 +1879,7 @@ const TagInfo* SonyMakerNote::tagListSonyMisc1() {
 
 std::ostream& SonyMakerNote::printSonyMisc1CameraTemperature(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || !metadata)
     return os << "(" << value << ")";
 
   auto pos = metadata->findKey(ExifKey("Exif.SonyMisc1.0x0004"));
@@ -1944,7 +1944,7 @@ const TagInfo* SonyMakerNote::tagListSonyMisc2b() {
 
 std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || !metadata)
     return os << "(" << value << ")";
 
   std::string model;
@@ -1966,7 +1966,7 @@ std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, c
 
 std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, const Value& value,
                                                            const ExifData* metadata) {
-  if (value.count() != 1)
+  if (value.count() != 1 || !metadata)
     return os << "(" << value << ")";
 
   std::string model;
@@ -2052,7 +2052,7 @@ const TagInfo* SonyMakerNote::tagListSonyMisc3c() {
 
 std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream& os, const Value& value,
                                                                    const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedLong)
+  if (value.count() != 1 || value.typeId() != unsignedLong || !metadata)
     return os << "(" << value << ")";
 
   std::string model;
@@ -2083,7 +2083,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cSequenceNumber(std::ostream& os, con
 }
 
 std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte)
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata)
     return os << "(" << value << ")";
 
   std::string model;
@@ -2108,7 +2108,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Val
 
 std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, const Value& value,
                                                             const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort)
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata)
     return os << "(" << value << ")";
 
   std::string model;
@@ -2131,7 +2131,7 @@ std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, co
 
 std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte)
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata)
     return os << "(" << value << ")";
 
   std::string model;
