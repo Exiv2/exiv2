@@ -168,12 +168,20 @@ bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) {
 }
 
 bool Image::isBigEndianPlatform() {
+#if defined(__BYTE_ORDER)
+#if __BYTE_ORDER == __BIG_ENDIAN
+  return true;
+#else
+  return false;
+#endif
+#else
   union {
     uint32_t i;
     char c[4];
   } e = {0x01000000};
 
   return e.c[0] != 0;
+#endif
 }
 bool Image::isLittleEndianPlatform() {
   return !isBigEndianPlatform();
