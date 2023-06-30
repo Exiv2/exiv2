@@ -21,12 +21,15 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 
     image->readMetadata();
     for (auto& md : image->exifData()) {
+      md.print();
       md.print(&image->exifData());
     }
     for (auto& md : image->iptcData()) {
+      md.print();
       md.print(&image->exifData());
     }
     for (auto& md : image->xmpData()) {
+      md.print();
       md.print(&image->exifData());
     }
 
