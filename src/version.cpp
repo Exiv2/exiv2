@@ -140,8 +140,7 @@ static std::vector<std::string> getLoadedLibraries() {
     pushPath(path, libs, paths);
   }
 #elif defined(__FreeBSD__)
-  // this code seg-faults when called from an SSH script! (security?)
-  if (isatty(STDIN_FILENO)) {
+  {
     unsigned int n;
     struct procstat* procstat = procstat_open_sysctl();
     struct kinfo_proc* procs = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : nullptr;
@@ -149,8 +148,10 @@ static std::vector<std::string> getLoadedLibraries() {
     if (files) {
       filestat* entry;
       STAILQ_FOREACH(entry, files, next) {
-        std::string path(entry->fs_path);
-        pushPath(path, libs, paths);
+        if (entry && PS_FST_TYPE_VNODE == entry->fs_type && entry->fs_path) {
+          std::string path(entry->fs_path);
+          pushPath(path, libs, paths);
+        }
       }
     }
     // free resources
