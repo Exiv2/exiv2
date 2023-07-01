@@ -591,6 +591,8 @@ void TiffEncoder::visitDirectoryNext(TiffDirectory* object) {
 
 uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent) {
   auto pTiffEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
+  if (!pTiffEntry)
+    return 0;
   us2Data(buf + 2, pTiffEntry->tiffType(), byteOrder);
   ul2Data(buf + 4, static_cast<uint32_t>(pTiffEntry->count()), byteOrder);
   // Move data to offset field, if it fits and is not yet there.

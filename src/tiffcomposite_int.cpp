@@ -395,6 +395,8 @@ size_t TiffBinaryArray::addElement(size_t idx, const ArrayDef& def) {
   auto sz = std::min<size_t>(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
   auto tc = TiffCreator::create(tag, cfg()->group_);
   auto tp = dynamic_cast<TiffBinaryElement*>(tc.get());
+  if (!tp)
+    return 0;
   // The assertion typically fails if a component is not configured in
   // the TIFF structure table (TiffCreator::tiffTreeStruct_)
   tp->setStart(pData() + idx);
@@ -917,6 +919,8 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
 size_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t offset,
                                     TiffComponent* pTiffComponent, size_t valueIdx, size_t dataIdx, size_t& imageIdx) {
   auto pDirEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
+  if (!pDirEntry)
+    return 0;
   byte buf[8];
   us2Data(buf, pDirEntry->tag(), byteOrder);
   us2Data(buf + 2, pDirEntry->tiffType(), byteOrder);
