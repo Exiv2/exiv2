@@ -481,10 +481,8 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
             const size_t restore = io.tell();
             io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
             std::vector<byte> bytes(count);                                         // allocate memory
-            // TODO: once we have C++11 use bytes.data()
             io.readOrThrow(bytes.data(), count, ErrorCode::kerCorruptedMetadata);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
-            // TODO: once we have C++11 use bytes.data()
             IptcData::printStructure(out, makeSliceUntil(bytes.data(), count), depth);
           }
         } else if (option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
