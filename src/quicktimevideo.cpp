@@ -1155,9 +1155,12 @@ void QuickTimeVideo::timeToSampleDecoder() {
     io_->readOrThrow(buf.data(), 4);
     timeOfFrames = Safe::add(timeOfFrames, temp * buf.read_uint32(0, bigEndian));
   }
-  if (currentStream_ == Video)
+  if (currentStream_ == Video) {
+    if (timeOfFrames == 0)
+      timeOfFrames = 1;
     xmpData_["Xmp.video.FrameRate"] =
         static_cast<double>(totalframes) * static_cast<double>(timeScale_) / static_cast<double>(timeOfFrames);
+  }
 }  // QuickTimeVideo::timeToSampleDecoder
 
 void QuickTimeVideo::sampleDesc(size_t size) {
