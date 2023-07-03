@@ -255,7 +255,7 @@ struct ContainerStorage {
   using iterator = typename container::iterator;
   using const_iterator = typename container::const_iterator;
 
-#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+#if __cplusplus >= 201402L || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
   using value_type = std::remove_cv_t<typename container::value_type>;
 #else
   using value_type = typename std::remove_cv<typename container::value_type>::type;
@@ -320,7 +320,7 @@ struct ContainerStorage {
  */
 template <typename storage_type>
 struct PtrSliceStorage {
-#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+#if __cplusplus >= 201402L || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
   using value_type = std::remove_cv_t<std::remove_pointer_t<storage_type>>;
 #else
   using value_type = typename std::remove_cv<typename std::remove_pointer<storage_type>::type>::type;
@@ -423,7 +423,7 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
   using iterator = typename container::iterator;
   using const_iterator = typename container::const_iterator;
 
-#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+#if __cplusplus >= 201402L || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
   using value_type = std::remove_cv_t<typename container::value_type>;
 #else
   using value_type = typename std::remove_cv<typename container::value_type>::type;
@@ -460,7 +460,7 @@ struct Slice<const container> : public Internal::ConstSliceBase<Internal::Contai
   using iterator = typename container::iterator;
   using const_iterator = typename container::const_iterator;
 
-#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+#if __cplusplus >= 201402L || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
   using value_type = std::remove_cv_t<typename container::value_type>;
 #else
   using value_type = typename std::remove_cv<typename container::value_type>::type;
