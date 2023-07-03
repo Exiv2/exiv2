@@ -1254,7 +1254,7 @@ class ValueType : public Value {
     } else if (std::is_signed<I>::value) {
 #endif
       // conversion is from unsigned to signed
-#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+#if __cplusplus >= 201402L || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
       const auto imax = static_cast<std::make_unsigned_t<I>>(std::numeric_limits<I>::max());
 #else
       const auto imax = static_cast<typename std::make_unsigned<I>::type>(std::numeric_limits<I>::max());
@@ -1269,7 +1269,7 @@ class ValueType : public Value {
         return 0;
       }
       // Inputs are not negative so convert them to unsigned.
-#if __cplusplus >= 201402L || _MSVC_LANG >= 201402L
+#if __cplusplus >= 201402L || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201402L))
       const auto a_u = static_cast<std::make_unsigned_t<decltype(a)>>(a);
       const auto b_u = static_cast<std::make_unsigned_t<decltype(b)>>(b);
 #else
