@@ -62,6 +62,10 @@ class EXIV2API Xmpdatum : public Metadatum {
    */
   template <typename T>
   Xmpdatum& operator=(const T& value);
+  template <typename T>
+  void setValueHelper(const T& value, std::true_type);
+  template <typename T>
+  void setValueHelper(const T& value, std::false_type);
   /*!
     @brief Assign Value \em value to the %Xmpdatum.
            Calls setValue(const Value*).
@@ -394,18 +398,19 @@ class EXIV2API XmpParser {
 // free functions, template and inline definitions
 
 template <typename T>
+void Xmpdatum::setValueHelper(const T& value, std::true_type) {
+  setValue(Exiv2::toString(value ? "True" : "False"));
+}
+
+template <typename T>
+void Xmpdatum::setValueHelper(const T& value, std::false_type) {
+  setValue(Exiv2::toString(value));
+}
+
+template <typename T>
 Xmpdatum& Xmpdatum::operator=(const T& value) {
-#ifdef __cpp_if_constexpr
-  if constexpr (std::is_same_v<T, bool>) {
-#else
-  if (std::is_same<T, bool>::value) {
-#endif
-    setValue(Exiv2::toString(value ? "True" : "False"));
-    return *this;
-  } else {
-    setValue(Exiv2::toString(value));
-    return *this;
-  }
+  setValueHelper(value, std::is_same<T, bool>());
+  return *this;
 }
 
 }  // namespace Exiv2
