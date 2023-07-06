@@ -302,9 +302,8 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
       break;
     }
 
-    default: {
+    default:
       break;
-    }
   }
 }  // PsdImage::readResourceBlock
 
