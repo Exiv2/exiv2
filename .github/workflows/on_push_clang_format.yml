@@ -13,5 +13,4 @@ jobs:
           source: '.'
           exclude: './xmpsdk ./contrib'
           extensions: 'c,h,cpp,hpp'
-          clangFormatVersion: 12
           style: file

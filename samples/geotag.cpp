@@ -62,10 +62,14 @@ class Options {
   virtual ~Options() = default;
 };
 
-enum { resultOK = 0, resultSyntaxError, resultSelectFailed };
+enum {
+  resultOK = 0,
+  resultSyntaxError,
+  resultSelectFailed,
+};
 
-enum  // keyword indices
-{
+// keyword indices
+enum {
   kwHELP = 0,
   kwVERSION,
   kwDST,
@@ -75,13 +79,10 @@ enum  // keyword indices
   kwADJUST,
   kwTZ,
   kwDELTA,
-  kwMAX  // manages keyword array
-  ,
-  kwNEEDVALUE  // bogus keywords for error reporting
-  ,
-  kwSYNTAX  // -- ditto --
-  ,
-  kwNOVALUE = -kwVERBOSE  // keywords <= kwNOVALUE are flags (no value needed)
+  kwMAX,                   // manages keyword array
+  kwNEEDVALUE,             // bogus keywords for error reporting
+  kwSYNTAX,                // -- ditto --
+  kwNOVALUE = -kwVERBOSE,  // keywords <= kwNOVALUE are flags (no value needed)
 };
 
 // file types supported
@@ -625,10 +626,13 @@ int getFileType(std::string& path, Options& options) {
   return getFileType(path.c_str(), options);
 }
 int getFileType(const char* path, Options& options) {
-  return readXML(path, options)     ? typeXML
-         : readDir(path, options)   ? typeDirectory
-         : readImage(path, options) ? typeImage
-                                    : readFile(path, options);
+  if (readXML(path, options))
+    return typeXML;
+  if (readDir(path, options))
+    return typeDirectory;
+  if (readImage(path, options))
+    return typeImage;
+  return readFile(path, options);
 }
 
 int version(const char* program) {

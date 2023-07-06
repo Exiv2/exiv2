@@ -360,9 +360,8 @@ void Jp2Image::readMetadata() {
         break;
       }
 
-      default: {
+      default:
         break;
-      }
     }
     lastBoxTypeRead = box.type;
 

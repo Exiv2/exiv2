@@ -1004,7 +1004,20 @@ void printNode(const std::string& schemaNs, const std::string& propPath, const s
     std::cout << "ashisabsals\n"
               << "lcqqtrgqlai\n";
   }
-  enum { alia = 0, sche, hasq, isqu, stru, arra, abag, aseq, aalt, lang, simp, len };
+  enum {
+    alia = 0,
+    sche,
+    hasq,
+    isqu,
+    stru,
+    arra,
+    abag,
+    aseq,
+    aalt,
+    lang,
+    simp,
+    len,
+  };
 
   std::string opts(len, '.');
   if (XMP_PropIsAlias(opt))
