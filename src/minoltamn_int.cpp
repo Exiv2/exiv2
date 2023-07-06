@@ -1649,23 +1649,23 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 
-//! List of lens ids which require special treatment from printMinoltaSonyLensID
-constexpr struct LensIdFct {
-  uint32_t idx;
-  PrintFct fct;
-
-  bool operator==(uint32_t i) const {
-    return i == idx;
-  }
-} lensIdFct[] = {
-    {0x001cu, &resolveLens0x1c}, {0x0029u, &resolveLens0x29}, {0x0034u, &resolveLens0x34},
-    {0x0080u, &resolveLens0x80}, {0x00ffu, &resolveLens0xff}, {0xffffu, &resolveLens0xffff},
-    //{0x00ffu, &resolveLensTypeUsingExiftool}, // was used for debugging
-};
-// #1145 end - respect lenses with shared LensID
-// ----------------------------------------------------------------------
-
 std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata) {
+  //! List of lens ids which require special treatment from printMinoltaSonyLensID
+  static constexpr struct LensIdFct {
+    uint32_t idx;
+    PrintFct fct;
+
+    bool operator==(uint32_t i) const {
+      return i == idx;
+    }
+  } lensIdFct[] = {
+      {0x001cu, &resolveLens0x1c}, {0x0029u, &resolveLens0x29}, {0x0034u, &resolveLens0x34},
+      {0x0080u, &resolveLens0x80}, {0x00ffu, &resolveLens0xff}, {0xffffu, &resolveLens0xffff},
+      //{0x00ffu, &resolveLensTypeUsingExiftool}, // was used for debugging
+  };
+  // #1145 end - respect lenses with shared LensID
+  // ----------------------------------------------------------------------
+
   // #1034
   const std::string undefined("undefined");
   const std::string minolta("minolta");
