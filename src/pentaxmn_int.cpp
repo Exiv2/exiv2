@@ -1231,25 +1231,22 @@ static std::ostream& resolveLensType(std::ostream& os, const Value& value, const
   return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
 }
 
-struct LensIdFct {
-  long id_;       //!< Lens id
-  PrintFct fct_;  //!< Pretty-print function
-  //! Comparison operator for find template
-  bool operator==(long id) const {
-    return id_ == id;
-  }
-};
-
-//! List of lens ids which require special treatment using resolveLensType
-constexpr LensIdFct lensIdFct[] = {
-    {0x0317, resolveLensType}, {0x0319, resolveLens0x319}, {0x031b, resolveLensType},  {0x031c, resolveLensType},
-    {0x031d, resolveLensType}, {0x031f, resolveLensType},  {0x0329, resolveLensType},  {0x032c, resolveLens0x32c},
-    {0x032e, resolveLensType}, {0x0334, resolveLensType},  {0x03ff, resolveLens0x3ff}, {0x041a, resolveLensType},
-    {0x042d, resolveLensType}, {0x08ff, resolveLens0x8ff},
-};
-
 //! A lens id and a pretty-print function for special treatment of the id.
 static std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+  //! List of lens ids which require special treatment using resolveLensType
+  static constexpr struct LensIdFct {
+    uint32_t id_;   //!< Lens id
+    PrintFct fct_;  //!< Pretty-print function
+    //! Comparison operator for find template
+    bool operator==(uint32_t id) const {
+      return id_ == id;
+    }
+  } lensIdFct[] = {
+      {0x0317, resolveLensType}, {0x0319, resolveLens0x319}, {0x031b, resolveLensType},  {0x031c, resolveLensType},
+      {0x031d, resolveLensType}, {0x031f, resolveLensType},  {0x0329, resolveLensType},  {0x032c, resolveLens0x32c},
+      {0x032e, resolveLensType}, {0x0334, resolveLensType},  {0x03ff, resolveLens0x3ff}, {0x041a, resolveLensType},
+      {0x042d, resolveLensType}, {0x08ff, resolveLens0x8ff},
+  };
   // #1034
   const std::string undefined("undefined");
   const std::string section("pentax");
