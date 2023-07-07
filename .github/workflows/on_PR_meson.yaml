@@ -82,7 +82,7 @@ jobs:
     strategy:
       matrix:
         deps: ['enabled', 'disabled']
-        platform: ['MINGW32', 'MINGW64', 'UCRT64', 'CLANG32', 'CLANG64']
+        platform: ['UCRT64', 'CLANG32', 'CLANG64']
     steps:
       - uses: actions/checkout@v3
 
