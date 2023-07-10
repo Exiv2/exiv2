@@ -94,43 +94,23 @@ bool fallback_add_overflow(T summand_1, T summand_2, T& result) {
  */
 template <typename T>
 bool builtin_add_overflow(T summand_1, T summand_2, T& result) {
-  return fallback_add_overflow(summand_1, summand_2, result);
-}
-
-#if defined(__GNUC__) || defined(__clang__)
-#if __GNUC__ >= 5 || __clang_major__ >= 3
-
-/*!
- * This macro pastes a specialization of builtin_add_overflow using gcc's &
- * clang's __builtin_(s/u)add(l)(l)_overlow()
- *
- * The add function is implemented by forwarding the parameters to the intrinsic
- * and returning its value.
- *
- * The intrinsics are documented here:
- * https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html#Integer-Overflow-Builtins
- */
-#define SPECIALIZE_builtin_add_overflow(type, builtin_name)                                  \
-  /* Full specialization of builtin_add_overflow for type using the */                       \
-  /* builtin_name intrinsic */                                                               \
-  template <>                                                                                \
-  constexpr bool builtin_add_overflow<type>(type summand_1, type summand_2, type & result) { \
-    return builtin_name(summand_1, summand_2, &result);                                      \
-  }
-
-SPECIALIZE_builtin_add_overflow(int, __builtin_sadd_overflow);
-SPECIALIZE_builtin_add_overflow(long, __builtin_saddl_overflow);
-SPECIALIZE_builtin_add_overflow(long long, __builtin_saddll_overflow);
-
-SPECIALIZE_builtin_add_overflow(unsigned int, __builtin_uadd_overflow);
-SPECIALIZE_builtin_add_overflow(unsigned long, __builtin_uaddl_overflow);
-SPECIALIZE_builtin_add_overflow(unsigned long long, __builtin_uaddll_overflow);
-
-#undef SPECIALIZE_builtin_add_overflow
-#endif  // __GNUC__ >= 5 || __clang_major >= 3
-
+#if (defined(__GNUC__) || defined(__clang__)) && (__GNUC__ >= 5 || __clang_major__ >= 3)
+  if constexpr (std::is_same_v<T, int>)
+    return __builtin_sadd_overflow(summand_1, summand_2, &result);
+  else if constexpr (std::is_same_v<T, long>)
+    return __builtin_saddl_overflow(summand_1, summand_2, &result);
+  else if constexpr (std::is_same_v<T, long long>)
+    return __builtin_saddll_overflow(summand_1, summand_2, &result);
+  else if constexpr (std::is_same_v<T, unsigned int>)
+    return __builtin_uadd_overflow(summand_1, summand_2, &result);
+  else if constexpr (std::is_same_v<T, unsigned long>)
+    return __builtin_uaddl_overflow(summand_1, summand_2, &result);
+  else if constexpr (std::is_same_v<T, unsigned long long>)
+    return __builtin_uaddll_overflow(summand_1, summand_2, &result);
+  else
 #endif
-
+    return fallback_add_overflow(summand_1, summand_2, result);
+}
 }  // namespace Internal
 
 /*!
