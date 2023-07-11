@@ -168,8 +168,12 @@ bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) {
 }
 
 bool Image::isBigEndianPlatform() {
-#if defined(__BYTE_ORDER)
-#if __BYTE_ORDER == __BIG_ENDIAN
+#ifdef __LITTLE_ENDIAN__
+  return false;
+#elif defined(__BIG_ENDIAN__)
+  return true;
+#elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__)
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
   return true;
 #else
   return false;
@@ -184,7 +188,11 @@ bool Image::isBigEndianPlatform() {
 #endif
 }
 bool Image::isLittleEndianPlatform() {
+#ifdef __LITTLE_ENDIAN__
+  return true;
+#else
   return !isBigEndianPlatform();
+#endif
 }
 
 uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
