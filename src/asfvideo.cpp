@@ -185,7 +185,8 @@ const std::map<AsfVideo::GUIDTag, std::string> GUIDReferenceTags = {
     {{0x6698B84E, 0x0AFA, 0x4330, {0xAE, 0xB2, 0x1C, 0x0A, 0x98, 0xD7, 0xA4, 0x4D}},
      "Payload_Extension_System_Encryption_Sample_ID"},
     {{0x00E1AF06, 0x7BEC, 0x11D1, {0xA5, 0x82, 0x00, 0xC0, 0x4F, 0xC2, 0x9C, 0xFB}},
-     "Payload_Extension_System_Degradable_JPEG"}};
+     "Payload_Extension_System_Degradable_JPEG"},
+};
 
 /*!
   @brief Function used to check if data stored in buf is equivalent to
