@@ -463,9 +463,10 @@ constexpr TagDetails pentaxCities[] = {
 
 //! ImageProcessing, combi-tag 0x0032 (4 bytes)
 constexpr TagDetails pentaxImageProcessing[] = {
-    {0x00000000, N_("Unprocessed")},     {0x00000004, N_("Digital Filter")}, {0x01000000, N_("Resized")},
-    {0x02000000, N_("Cropped")},         {0x04000000, N_("Color Filter")},   {0x06000000, N_("Digital Filter 6")},
-    {0x10000000, N_("Frame Synthesis?")}};
+    {0x00000000, N_("Unprocessed")},      {0x00000004, N_("Digital Filter")}, {0x01000000, N_("Resized")},
+    {0x02000000, N_("Cropped")},          {0x04000000, N_("Color Filter")},   {0x06000000, N_("Digital Filter 6")},
+    {0x10000000, N_("Frame Synthesis?")},
+};
 
 //! PictureMode, combi-tag 0x0033 (3 bytes)
 constexpr TagDetails pentaxPictureMode[] = {

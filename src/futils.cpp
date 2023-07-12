@@ -206,9 +206,10 @@ Protocol fileProtocol(const std::string& path) {
     std::string name;
     Protocol prot;
     bool isUrl;  // path.size() > name.size()
-  } prots[] = {{"http://", pHttp, true}, {"https://", pHttps, true},  {"ftp://", pFtp, true},
-               {"sftp://", pSftp, true}, {"file://", pFileUri, true}, {"data://", pDataUri, true},
-               {"-", pStdin, false}};
+  } prots[] = {
+      {"http://", pHttp, true},    {"https://", pHttps, true},  {"ftp://", pFtp, true}, {"sftp://", pSftp, true},
+      {"file://", pFileUri, true}, {"data://", pDataUri, true}, {"-", pStdin, false},
+  };
   for (const auto& prot : prots) {
     if (result != pFile)
       break;

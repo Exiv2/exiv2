@@ -54,59 +54,79 @@ constexpr auto nikonFocuspoints = std::array{
 //! Shutter Modes (credits to exiftool)
 constexpr TagDetails nikonShutterModes[] = {
     {0, "Mechanical"},          {16, "Electronic"},        {48, "Electronic Front Curtain"},
-    {64, "Electronic (Movie)"}, {80, "Auto (Mechanical)"}, {81, "Auto (Electronic Front Curtain)"}};
+    {64, "Electronic (Movie)"}, {80, "Auto (Mechanical)"}, {81, "Auto (Electronic Front Curtain)"},
+};
 
 //! FlashComp, tag 0x0012
 constexpr TagDetails nikonFlashComp[] = {
     // From the PHP JPEG Metadata Toolkit
     {0x06, "+1.0 EV"}, {0x04, "+0.7 EV"}, {0x03, "+0.5 EV"}, {0x02, "+0.3 EV"}, {0x00, "0.0 EV"},  {0xfe, "-0.3 EV"},
     {0xfd, "-0.5 EV"}, {0xfc, "-0.7 EV"}, {0xfa, "-1.0 EV"}, {0xf8, "-1.3 EV"}, {0xf7, "-1.5 EV"}, {0xf6, "-1.7 EV"},
-    {0xf4, "-2.0 EV"}, {0xf2, "-2.3 EV"}, {0xf1, "-2.5 EV"}, {0xf0, "-2.7 EV"}, {0xee, "-3.0 EV"}};
+    {0xf4, "-2.0 EV"}, {0xf2, "-2.3 EV"}, {0xf1, "-2.5 EV"}, {0xf0, "-2.7 EV"}, {0xee, "-3.0 EV"},
+};
 
 //! ColorSpace, tag 0x001e
-constexpr TagDetails nikonColorSpace[] = {{1, N_("sRGB")}, {2, N_("Adobe RGB")}};
+constexpr TagDetails nikonColorSpace[] = {
+    {1, N_("sRGB")},
+    {2, N_("Adobe RGB")},
+};
 
 //! FlashMode, tag 0x0087
 constexpr TagDetails nikonFlashMode[] = {
     {0, N_("Did not fire")},   {1, N_("Fire, manual")},         {3, N_("Not ready")},      {6, N_("Off")},
-    {7, N_("Fire, external")}, {8, N_("Fire, commander mode")}, {9, N_("Fire, TTL mode")}, {18, N_("LED Light")}};
+    {7, N_("Fire, external")}, {8, N_("Fire, commander mode")}, {9, N_("Fire, TTL mode")}, {18, N_("LED Light")},
+};
 
 //! ShootingMode, tag 0x0089
-constexpr TagDetailsBitmask nikonShootingMode[] = {{0x0001, N_("Continuous")},
-                                                   {0x0002, N_("Delay")},
-                                                   {0x0004, N_("PC Control")},
-                                                   {0x0008, N_("Self-timer")},
-                                                   {0x0010, N_("Exposure Bracketing")},
-                                                   {0x0020, N_("Auto ISO")},
-                                                   {0x0040, N_("White-Balance Bracketing")},
-                                                   {0x0080, N_("IR Control")},
-                                                   {0x0100, N_("D-Lighting Bracketing")}};
+constexpr TagDetailsBitmask nikonShootingMode[] = {
+    {0x0001, N_("Continuous")},
+    {0x0002, N_("Delay")},
+    {0x0004, N_("PC Control")},
+    {0x0008, N_("Self-timer")},
+    {0x0010, N_("Exposure Bracketing")},
+    {0x0020, N_("Auto ISO")},
+    {0x0040, N_("White-Balance Bracketing")},
+    {0x0080, N_("IR Control")},
+    {0x0100, N_("D-Lighting Bracketing")},
+};
 
 //! ShootingMode D70, tag 0x0089
-constexpr TagDetailsBitmask nikonShootingModeD70[] = {{0x0001, N_("Continuous")},
-                                                      {0x0002, N_("Delay")},
-                                                      {0x0004, N_("PC control")},
-                                                      {0x0010, N_("Exposure bracketing")},
-                                                      {0x0020, N_("Unused LE-NR slowdown")},
-                                                      {0x0040, N_("White balance bracketing")},
-                                                      {0x0080, N_("IR control")}};
+constexpr TagDetailsBitmask nikonShootingModeD70[] = {
+    {0x0001, N_("Continuous")},
+    {0x0002, N_("Delay")},
+    {0x0004, N_("PC control")},
+    {0x0010, N_("Exposure bracketing")},
+    {0x0020, N_("Unused LE-NR slowdown")},
+    {0x0040, N_("White balance bracketing")},
+    {0x0080, N_("IR control")},
+};
 
 //! AutoBracketRelease, tag 0x008a
-constexpr TagDetails nikonAutoBracketRelease[] = {{0, N_("None")}, {1, N_("Auto release")}, {2, N_("Manual release")}};
+constexpr TagDetails nikonAutoBracketRelease[] = {
+    {0, N_("None")},
+    {1, N_("Auto release")},
+    {2, N_("Manual release")},
+};
 
 //! NEFCompression, tag 0x0093
 constexpr TagDetails nikonNefCompression[] = {
-    {1, N_("Lossy (type 1)")}, {2, N_("Uncompressed")}, {3, N_("Lossless")}, {4, N_("Lossy (type 2)")}};
+    {1, N_("Lossy (type 1)")},
+    {2, N_("Uncompressed")},
+    {3, N_("Lossless")},
+    {4, N_("Lossy (type 2)")},
+};
 
 //! RetouchHistory, tag 0x009e
 constexpr TagDetails nikonRetouchHistory[] = {
     {0, N_("None")},          {3, N_("B & W")},      {4, N_("Sepia")},         {5, N_("Trim")},
     {6, N_("Small picture")}, {7, N_("D-Lighting")}, {8, N_("Red eye")},       {9, N_("Cyanotype")},
-    {10, N_("Sky light")},    {11, N_("Warm tone")}, {12, N_("Color custom")}, {13, N_("Image overlay")}};
+    {10, N_("Sky light")},    {11, N_("Warm tone")}, {12, N_("Color custom")}, {13, N_("Image overlay")},
+};
 
 //! HighISONoiseReduction, tag 0x00b1
 constexpr TagDetails nikonHighISONoiseReduction[] = {
-    {0, N_("Off")}, {1, N_("Minimal")}, {2, N_("Low")}, {4, N_("Normal")}, {6, N_("High")}};
+    {0, N_("Off")}, {1, N_("Minimal")}, {2, N_("Low")}, {4, N_("Normal")}, {6, N_("High")},
+};
 
 // Nikon1 MakerNote Tag Info
 constexpr TagInfo Nikon1MakerNote::tagInfo_[] = {
@@ -292,23 +312,35 @@ std::ostream& Nikon1MakerNote::print0x0088(std::ostream& os, const Value& value,
 }
 
 //! Quality, tag 0x0003
-constexpr TagDetails nikon2Quality[] = {{1, N_("VGA Basic")},  {2, N_("VGA Normal")},  {3, N_("VGA Fine")},
-                                        {4, N_("SXGA Basic")}, {5, N_("SXGA Normal")}, {6, N_("SXGA Fine")}};
+constexpr TagDetails nikon2Quality[] = {
+    {1, N_("VGA Basic")},  {2, N_("VGA Normal")},  {3, N_("VGA Fine")},
+    {4, N_("SXGA Basic")}, {5, N_("SXGA Normal")}, {6, N_("SXGA Fine")},
+};
 
 //! ColorMode, tag 0x0004
-constexpr TagDetails nikon2ColorMode[] = {{1, N_("Color")}, {2, N_("Monochrome")}};
+constexpr TagDetails nikon2ColorMode[] = {
+    {1, N_("Color")},
+    {2, N_("Monochrome")},
+};
 
 //! ImageAdjustment, tag 0x0005
 constexpr TagDetails nikon2ImageAdjustment[] = {
-    {0, N_("Normal")}, {1, N_("Bright+")}, {2, N_("Bright-")}, {3, N_("Contrast+")}, {4, N_("Contrast-")}};
+    {0, N_("Normal")}, {1, N_("Bright+")}, {2, N_("Bright-")}, {3, N_("Contrast+")}, {4, N_("Contrast-")},
+};
 
 //! ISOSpeed, tag 0x0006
-constexpr TagDetails nikon2IsoSpeed[] = {{0, "80"}, {2, "160"}, {4, "320"}, {5, "100"}};
+constexpr TagDetails nikon2IsoSpeed[] = {
+    {0, "80"},
+    {2, "160"},
+    {4, "320"},
+    {5, "100"},
+};
 
 //! WhiteBalance, tag 0x0007
-constexpr TagDetails nikon2WhiteBalance[] = {{0, N_("Auto")},         {1, N_("Preset")},      {2, N_("Daylight")},
-                                             {3, N_("Incandescent")}, {4, N_("Fluorescent")}, {5, N_("Cloudy")},
-                                             {6, N_("Speedlight")}};
+constexpr TagDetails nikon2WhiteBalance[] = {
+    {0, N_("Auto")},        {1, N_("Preset")}, {2, N_("Daylight")},   {3, N_("Incandescent")},
+    {4, N_("Fluorescent")}, {5, N_("Cloudy")}, {6, N_("Speedlight")},
+};
 
 // Nikon2 MakerNote Tag Info
 constexpr TagInfo Nikon2MakerNote::tagInfo_[] = {
@@ -551,13 +583,23 @@ const TagInfo* Nikon3MakerNote::tagList() {
 }
 
 //! YesNo, used for DaylightSavings, tag index 2, et al.
-constexpr TagDetails nikonYesNo[] = {{0, N_("No")}, {1, N_("Yes")}};
+constexpr TagDetails nikonYesNo[] = {
+    {0, N_("No")},
+    {1, N_("Yes")},
+};
 
 //! DateDisplayFormat, tag index 3
-constexpr TagDetails nikonDateDisplayFormat[] = {{0, N_("Y/M/D")}, {1, N_("M/D/Y")}, {2, N_("D/M/Y")}};
+constexpr TagDetails nikonDateDisplayFormat[] = {
+    {0, N_("Y/M/D")},
+    {1, N_("M/D/Y")},
+    {2, N_("D/M/Y")},
+};
 
 //! OnOff
-constexpr TagDetails nikonOnOff[] = {{1, N_("On")}, {2, N_("Off")}};
+constexpr TagDetails nikonOnOff[] = {
+    {1, N_("On")},
+    {2, N_("Off")},
+};
 
 // Nikon3 Vibration Reduction Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoVr_[] = {
@@ -575,17 +617,24 @@ const TagInfo* Nikon3MakerNote::tagListVr() {
 }
 
 //! Adjust
-constexpr TagDetails nikonAdjust[] = {{0, N_("Default Settings")}, {1, N_("Quick Adjust")}, {2, N_("Full Control")}};
+constexpr TagDetails nikonAdjust[] = {
+    {0, N_("Default Settings")},
+    {1, N_("Quick Adjust")},
+    {2, N_("Full Control")},
+};
 
 //! FilterEffect
-constexpr TagDetails nikonFilterEffect[] = {{0x80, N_("Off")}, {0x81, N_("Yellow")}, {0x82, N_("Orange")},
-                                            {0x83, N_("Red")}, {0x84, N_("Green")},  {0xff, N_("n/a")}};
+constexpr TagDetails nikonFilterEffect[] = {
+    {0x80, N_("Off")}, {0x81, N_("Yellow")}, {0x82, N_("Orange")},
+    {0x83, N_("Red")}, {0x84, N_("Green")},  {0xff, N_("n/a")},
+};
 
 //! ToningEffect
-constexpr TagDetails nikonToningEffect[] = {{0x80, N_("B&W")},        {0x81, N_("Sepia")},  {0x82, N_("Cyanotype")},
-                                            {0x83, N_("Red")},        {0x84, N_("Yellow")}, {0x85, N_("Green")},
-                                            {0x86, N_("Blue-green")}, {0x87, N_("Blue")},   {0x88, N_("Purple-blue")},
-                                            {0x89, N_("Red-purple")}, {0xff, N_("n/a")}};
+constexpr TagDetails nikonToningEffect[] = {
+    {0x80, N_("B&W")},         {0x81, N_("Sepia")},      {0x82, N_("Cyanotype")},  {0x83, N_("Red")},
+    {0x84, N_("Yellow")},      {0x85, N_("Green")},      {0x86, N_("Blue-green")}, {0x87, N_("Blue")},
+    {0x88, N_("Purple-blue")}, {0x89, N_("Red-purple")}, {0xff, N_("n/a")},
+};
 
 // Nikon3 Picture Control Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoPc_[] = {
@@ -623,7 +672,11 @@ const TagInfo* Nikon3MakerNote::tagListPc() {
 }
 
 //! OnOff
-constexpr TagDetails aftOnOff[] = {{0, N_("Off")}, {1, N_("On")}, {2, N_("On")}};
+constexpr TagDetails aftOnOff[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+    {2, N_("On")},
+};
 
 // Nikon3 AF Fine Tune
 constexpr TagInfo Nikon3MakerNote::tagInfoAFT_[] = {
@@ -665,7 +718,8 @@ constexpr TagDetails nikonIsoExpansion[] = {
     {0x105, N_("Hi 1.3")}, {0x106, N_("Hi 1.5")}, {0x107, N_("Hi 1.7")}, {0x108, N_("Hi 2.0")}, {0x109, N_("Hi 2.3")},
     {0x10a, N_("Hi 2.5")}, {0x10b, N_("Hi 2.7")}, {0x10c, N_("Hi 3.0")}, {0x10d, N_("Hi 3.3")}, {0x10e, N_("Hi 3.5")},
     {0x10f, N_("Hi 3.7")}, {0x110, N_("Hi 4.0")}, {0x111, N_("Hi 4.3")}, {0x112, N_("Hi 4.5")}, {0x113, N_("Hi 4.7")},
-    {0x114, N_("Hi 5.0")}, {0x201, N_("Lo 0.3")}, {0x202, N_("Lo 0.5")}, {0x203, N_("Lo 0.7")}, {0x204, N_("Lo 1.0")}};
+    {0x114, N_("Hi 5.0")}, {0x201, N_("Lo 0.3")}, {0x202, N_("Lo 0.5")}, {0x203, N_("Lo 0.7")}, {0x204, N_("Lo 1.0")},
+};
 
 // Nikon3 ISO Info Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoIi_[] = {
@@ -687,19 +741,22 @@ const TagInfo* Nikon3MakerNote::tagListIi() {
 //! AfAreaMode
 constexpr TagDetails nikonAfAreaMode[] = {
     {0, N_("Single Area")},   {1, N_("Dynamic Area")},       {2, N_("Dynamic Area, Closest Subject")},
-    {3, N_("Group Dynamic")}, {4, N_("Single Area (wide)")}, {5, N_("Dynamic Area (wide)")}};
+    {3, N_("Group Dynamic")}, {4, N_("Single Area (wide)")}, {5, N_("Dynamic Area (wide)")},
+};
 
 //! AfPoint
-constexpr TagDetails nikonAfPoint[] = {{0, N_("Center")},      {1, N_("Top")},        {2, N_("Bottom")},
-                                       {3, N_("Mid-left")},    {4, N_("Mid-right")},  {5, N_("Upper-left")},
-                                       {6, N_("Upper-right")}, {7, N_("Lower-left")}, {8, N_("Lower-right")},
-                                       {9, N_("Far Left")},    {10, N_("Far Right")}};
+constexpr TagDetails nikonAfPoint[] = {
+    {0, N_("Center")},      {1, N_("Top")},        {2, N_("Bottom")},      {3, N_("Mid-left")},
+    {4, N_("Mid-right")},   {5, N_("Upper-left")}, {6, N_("Upper-right")}, {7, N_("Lower-left")},
+    {8, N_("Lower-right")}, {9, N_("Far Left")},   {10, N_("Far Right")},
+};
 
 //! AfPointsInFocus
 constexpr TagDetailsBitmask nikonAfPointsInFocus[] = {
     {0x0001, N_("Center")},      {0x0002, N_("Top")},        {0x0004, N_("Bottom")},      {0x0008, N_("Mid-left")},
     {0x0010, N_("Mid-right")},   {0x0020, N_("Upper-left")}, {0x0040, N_("Upper-right")}, {0x0080, N_("Lower-left")},
-    {0x0100, N_("Lower-right")}, {0x0200, N_("Far Left")},   {0x0400, N_("Far Right")}};
+    {0x0100, N_("Lower-right")}, {0x0200, N_("Far Left")},   {0x0400, N_("Far Right")},
+};
 
 // Nikon3 Auto Focus Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoAf_[] = {
@@ -817,7 +874,10 @@ const TagInfo* Nikon3MakerNote::tagListFi() {
 
 //! MultiExposureMode
 constexpr TagDetails nikonMultiExposureMode[] = {
-    {0, N_("Off")}, {1, N_("Multiple Exposure")}, {2, N_("Image Overlay")}};
+    {0, N_("Off")},
+    {1, N_("Multiple Exposure")},
+    {2, N_("Image Overlay")},
+};
 
 // Nikon3 Multi Exposure Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoMe_[] = {
@@ -839,28 +899,34 @@ const TagInfo* Nikon3MakerNote::tagListMe() {
 }
 
 //! FlashSource
-constexpr TagDetails nikonFlashSource[] = {{0, N_("None")}, {1, N_("External")}, {2, N_("Internal")}};
+constexpr TagDetails nikonFlashSource[] = {
+    {0, N_("None")},
+    {1, N_("External")},
+    {2, N_("Internal")},
+};
 
 //! FlashFirmware
-constexpr TagDetails nikonFlashFirmware[] = {{0x0000, N_("n/a")},
-                                             {0x0101, N_("1.01 (SB-800 or Metz 58 AF-1)")},
-                                             {0x0103, "1.03 (SB-800)"},
-                                             {0x0201, "2.01 (SB-800)"},
-                                             {0x0204, "2.04 (SB-600)"},
-                                             {0x0205, "2.05 (SB-600)"},
-                                             {0x0301, "3.01 (SU-800 Remote Commander)"},
-                                             {0x0401, "4.01 (SB-400)"},
-                                             {0x0402, "4.02 (SB-400)"},
-                                             {0x0404, "4.04 (SB-400)"},
-                                             {0x0501, "5.01 (SB-900)"},
-                                             {0x0502, "5.02 (SB-900)"},
-                                             {0x0601, "6.01 (SB-700)"},
-                                             {0x0701, "7.01 (SB-910)"},
-                                             {0x0800, "8.01 (SB-N5)"},
-                                             {0x0a00, "10.00 (SB-N7)"},
-                                             {0x0b00, "11.00 (SB-300)"},
-                                             {0x0d00, "13.00 (SB-500)"},
-                                             {0x0e00, "14.00 (SB-5000)"}};
+constexpr TagDetails nikonFlashFirmware[] = {
+    {0x0000, N_("n/a")},
+    {0x0101, N_("1.01 (SB-800 or Metz 58 AF-1)")},
+    {0x0103, "1.03 (SB-800)"},
+    {0x0201, "2.01 (SB-800)"},
+    {0x0204, "2.04 (SB-600)"},
+    {0x0205, "2.05 (SB-600)"},
+    {0x0301, "3.01 (SU-800 Remote Commander)"},
+    {0x0401, "4.01 (SB-400)"},
+    {0x0402, "4.02 (SB-400)"},
+    {0x0404, "4.04 (SB-400)"},
+    {0x0501, "5.01 (SB-900)"},
+    {0x0502, "5.02 (SB-900)"},
+    {0x0601, "6.01 (SB-700)"},
+    {0x0701, "7.01 (SB-910)"},
+    {0x0800, "8.01 (SB-N5)"},
+    {0x0a00, "10.00 (SB-N7)"},
+    {0x0b00, "11.00 (SB-300)"},
+    {0x0d00, "13.00 (SB-500)"},
+    {0x0e00, "14.00 (SB-5000)"},
+};
 
 //! FlashGNDistance
 constexpr TagDetails nikonFlashGNDistance[] = {
@@ -877,7 +943,8 @@ constexpr TagDetails nikonFlashGNDistance[] = {
     {148, "10.0 ft"}, {149, "12.0 ft"}, {150, "13.0 ft"}, {151, "15.0 ft"}, {152, "17.0 ft"}, {153, "19.0 ft"},
     {154, "21.0 ft"}, {155, "23.0 ft"}, {156, "26.0 ft"}, {157, "29.0 ft"}, {158, "33.0 ft"}, {159, "37.0 ft"},
     {160, "42.0 ft"}, {161, "47.0 ft"}, {162, "52.0 ft"}, {163, "59.0 ft"}, {164, "66.0 ft"}, {165, "74.0 ft"},
-    {166, "83.0 ft"}, {167, "94.0 ft"}, {255, N_("n/a")}};
+    {166, "83.0 ft"}, {167, "94.0 ft"}, {255, N_("n/a")},
+};
 
 //! FlashControlMode
 constexpr TagDetails nikonFlashControlMode[] = {
@@ -896,36 +963,52 @@ static constexpr bool flashModeUsesManualScale(const int64_t mode) {
 
 //! ExternalFlashFlags
 constexpr TagDetails nikonExternalFlashFlags[] = {
-    {0, N_("Fired")}, {2, N_("Bounce Flash")}, {4, N_("Wide Flash Adapter")}};
+    {0, N_("Fired")},
+    {2, N_("Bounce Flash")},
+    {4, N_("Wide Flash Adapter")},
+};
 
 //! FlashColorFilter
-constexpr TagDetails nikonFlashColorFilter[] = {{0, N_("None")},
-                                                {1, N_("FL-GL1 (for fluorescent light)")},
-                                                {2, N_("FL-GL2 (for fluorescent light)")},
-                                                {9, N_("TN-A1 (for incandescent light)")},
-                                                {10, N_("TN-A2 (for incandescent light)")},
-                                                {65, N_("Red")},
-                                                {66, N_("Blue")},
-                                                {67, N_("Yellow")},
-                                                {68, N_("Amber")},
-                                                {79, N_("Other")}};
+constexpr TagDetails nikonFlashColorFilter[] = {
+    {0, N_("None")},
+    {1, N_("FL-GL1 (for fluorescent light)")},
+    {2, N_("FL-GL2 (for fluorescent light)")},
+    {9, N_("TN-A1 (for incandescent light)")},
+    {10, N_("TN-A2 (for incandescent light)")},
+    {65, N_("Red")},
+    {66, N_("Blue")},
+    {67, N_("Yellow")},
+    {68, N_("Amber")},
+    {79, N_("Other")},
+};
 
 //! FlashWirelessOptions
 constexpr TagDetails nikonFlashAWLMode[] = {
-    {0, N_("AWL Off")}, {1, N_("Optical AWL")}, {2, N_("Optical/Radio AWL")}, {3, N_("Radio AWL")}};
+    {0, N_("AWL Off")},
+    {1, N_("Optical AWL")},
+    {2, N_("Optical/Radio AWL")},
+    {3, N_("Radio AWL")},
+};
 
 //! FlashExposureComp
-constexpr TagDetails nikonFlashExposureComp[] = {{0, N_("Exposure Comp.: Entire frame")},
-                                                 {4, N_("Exposure Comp.: Background Only")}};
+constexpr TagDetails nikonFlashExposureComp[] = {
+    {0, N_("Exposure Comp.: Entire frame")},
+    {4, N_("Exposure Comp.: Background Only")},
+};
 
 //! FlashIlluminationPattern
-constexpr TagDetails nikonFlashIlluminationPat[] = {{0, N_("Illumination Pat.: Standard")},
-                                                    {1, N_("Illumination Pat.: Center-weighted")},
-                                                    {2, N_("Illumination Pat.: Even")}};
+constexpr TagDetails nikonFlashIlluminationPat[] = {
+    {0, N_("Illumination Pat.: Standard")},
+    {1, N_("Illumination Pat.: Center-weighted")},
+    {2, N_("Illumination Pat.: Even")},
+};
 
 //! FlashAdaptors
 constexpr TagDetailsBitmask nikonFlashAdaptors[] = {
-    {0x04, N_("Bounce Flash adaptor")}, {0x10, N_("Wide Flash adaptor")}, {0x20, N_("Nikon Diffusion Dome")}};
+    {0x04, N_("Bounce Flash adaptor")},
+    {0x10, N_("Wide Flash adaptor")},
+    {0x20, N_("Nikon Diffusion Dome")},
+};
 
 static void printFlashCompensationValue(std::ostream& os, const unsigned char value, const bool manualScale) {
   std::ios::fmtflags f(os.flags());
@@ -1309,7 +1392,8 @@ constexpr TagDetails nikonAfFineTuneAdj1[] = {
     {0x30c2, "-19"}, {0x403c, "+5"},  {0x403d, "+10"}, {0x403e, "+20"}, {0x40c2, "-20"}, {0x40c3, "-10"},
     {0x40c4, "-5"},  {0x603d, "+11"}, {0x60c3, "-11"}, {0x803b, "+3"},  {0x803c, "+6"},  {0x803d, "+12"},
     {0x80c3, "-12"}, {0x80c4, "-6"},  {0x80c5, "-3"},  {0xa03d, "+13"}, {0xa0c3, "-13"}, {0xc03c, "+7"},
-    {0xc03d, "+14"}, {0xc0c3, "-14"}, {0xc0c4, "-7"},  {0xe03d, "+15"}, {0xe0c3, "-15"}};
+    {0xc03d, "+14"}, {0xc0c3, "-14"}, {0xc0c4, "-7"},  {0xe03d, "+15"}, {0xe0c3, "-15"},
+};
 
 // Nikon3 Shot Info D300 (a) Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoSi3_[] = {
@@ -1337,7 +1421,8 @@ constexpr TagDetails nikonAfFineTuneAdj2[] = {
     {0x40c6, "-1"},  {0x543e, "+17"}, {0x54c2, "-17"}, {0x683d, "+9"},  {0x683e, "+18"}, {0x68c2, "-18"},
     {0x68c3, "-9"},  {0x7c3e, "+19"}, {0x7cc2, "-19"}, {0x903c, "+5"},  {0x903d, "+10"}, {0x903e, "+20"},
     {0x90c2, "-20"}, {0x90c3, "-10"}, {0x90c4, "-5"},  {0xb83d, "+11"}, {0xb8c3, "-11"}, {0xe03b, "+3"},
-    {0xe03c, "+6"},  {0xe03d, "+12"}, {0xe0c3, "-12"}, {0xe0c4, "-6"},  {0xe0c5, "-3"}};
+    {0xe03c, "+6"},  {0xe03d, "+12"}, {0xe0c3, "-12"}, {0xe0c4, "-6"},  {0xe0c5, "-3"},
+};
 
 // Nikon3 Shot Info D300 (b) Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoSi4_[] = {
@@ -1358,10 +1443,19 @@ const TagInfo* Nikon3MakerNote::tagListSi4() {
 }
 
 //! VibrationReduction
-constexpr TagDetails nikonOffOn2[] = {{0, N_("Off")}, {1, N_("On (1)")}, {2, N_("On (2)")}, {3, N_("On (3)")}};
+constexpr TagDetails nikonOffOn2[] = {
+    {0, N_("Off")},
+    {1, N_("On (1)")},
+    {2, N_("On (2)")},
+    {3, N_("On (3)")},
+};
 
 //! VibrationReduction2
-constexpr TagDetails nikonOffOn3[] = {{0x0, N_("n/a")}, {0xc, N_("Off")}, {0xf, N_("On")}};
+constexpr TagDetails nikonOffOn3[] = {
+    {0x0, N_("n/a")},
+    {0xc, N_("Off")},
+    {0xf, N_("On")},
+};
 
 // Nikon3 Shot Info Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoSi5_[] = {

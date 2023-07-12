@@ -283,7 +283,8 @@ const Loader::LoaderList Loader::loaderList_[] = {
     {nullptr, createLoaderExifJpeg, 2},      {nullptr, createLoaderExifJpeg, 3},
     {nullptr, createLoaderExifJpeg, 4},      {nullptr, createLoaderExifJpeg, 5},
     {nullptr, createLoaderExifJpeg, 6},      {"image/x-canon-cr2", createLoaderExifJpeg, 7},
-    {nullptr, createLoaderExifJpeg, 8},      {nullptr, createLoaderXmpJpeg, 0}};
+    {nullptr, createLoaderExifJpeg, 8},      {nullptr, createLoaderXmpJpeg, 0},
+};
 
 const LoaderExifJpeg::Param LoaderExifJpeg::param_[] = {
     {"Exif.Image.JPEGInterchangeFormat", "Exif.Image.JPEGInterchangeFormatLength", nullptr},            // 0

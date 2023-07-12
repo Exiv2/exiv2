@@ -15,30 +15,38 @@
 // class member definitions
 namespace Exiv2::Internal {
 //! LensType, tag 0xa003
-constexpr TagDetails samsung2LensType[] = {{0, N_("Built-in")},
-                                           {1, "Samsung NX 30mm F2 Pancake"},
-                                           {2, "Samsung NX 18-55mm F3.5-5.6 OIS"},
-                                           {3, "Samsung NX 50-200mm F4-5.6 ED OIS"},
-                                           {4, "Samsung NX 20-50mm F3.5-5.6 ED"},
-                                           {5, "Samsung NX 20mm F2.8 Pancake"},
-                                           {6, "Samsung NX 18-200mm F3.5-6.3 ED OIS"},
-                                           {7, "Samsung NX 60mm F2.8 Macro ED OIS SSA"},
-                                           {8, "Samsung NX 16mm F2.4 Pancake"},
-                                           {9, "Samsung NX 85mm F1.4 ED SSA"},
-                                           {10, "Samsung NX 45mm F1.8"},
-                                           {11, "Samsung NX 45mm F1.8 2D/3D"},
-                                           {12, "Samsung NX 12-24mm F4-5.6 ED"},
-                                           {13, "Samsung NX 16-50mm F2-2.8 S ED OIS"},
-                                           {14, "Samsung NX 10mm F3.5 Fisheye"},
-                                           {15, "Samsung NX 16-50mm F3.5-5.6 Power Zoom ED OIS"},
-                                           {20, "Samsung NX 50-150mm F2.8 S ED OIS"},
-                                           {21, "Samsung NX 300mm F2.8 ED OIS"}};
+constexpr TagDetails samsung2LensType[] = {
+    {0, N_("Built-in")},
+    {1, "Samsung NX 30mm F2 Pancake"},
+    {2, "Samsung NX 18-55mm F3.5-5.6 OIS"},
+    {3, "Samsung NX 50-200mm F4-5.6 ED OIS"},
+    {4, "Samsung NX 20-50mm F3.5-5.6 ED"},
+    {5, "Samsung NX 20mm F2.8 Pancake"},
+    {6, "Samsung NX 18-200mm F3.5-6.3 ED OIS"},
+    {7, "Samsung NX 60mm F2.8 Macro ED OIS SSA"},
+    {8, "Samsung NX 16mm F2.4 Pancake"},
+    {9, "Samsung NX 85mm F1.4 ED SSA"},
+    {10, "Samsung NX 45mm F1.8"},
+    {11, "Samsung NX 45mm F1.8 2D/3D"},
+    {12, "Samsung NX 12-24mm F4-5.6 ED"},
+    {13, "Samsung NX 16-50mm F2-2.8 S ED OIS"},
+    {14, "Samsung NX 10mm F3.5 Fisheye"},
+    {15, "Samsung NX 16-50mm F3.5-5.6 Power Zoom ED OIS"},
+    {20, "Samsung NX 50-150mm F2.8 S ED OIS"},
+    {21, "Samsung NX 300mm F2.8 ED OIS"},
+};
 
 //! ColorSpace, tag 0xa011
-constexpr TagDetails samsung2ColorSpace[] = {{0, N_("sRGB")}, {1, N_("Adobe RGB")}};
+constexpr TagDetails samsung2ColorSpace[] = {
+    {0, N_("sRGB")},
+    {1, N_("Adobe RGB")},
+};
 
 //! SmartRange, tag 0xa012
-constexpr TagDetails samsung2SmartRange[] = {{0, N_("Off")}, {1, N_("On")}};
+constexpr TagDetails samsung2SmartRange[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+};
 
 //! Print the camera temperature
 static std::ostream& printCameraTemperature(std::ostream& os, const Value& value, const ExifData*) {
@@ -138,10 +146,11 @@ const TagInfo* Samsung2MakerNote::tagList() {
 }
 
 //! PictureWizard Mode
-constexpr TagDetails samsungPwMode[] = {{0, N_("Standard")},  {1, N_("Vivid")},    {2, N_("Portrait")},
-                                        {3, N_("Landscape")}, {4, N_("Forest")},   {5, N_("Retro")},
-                                        {6, N_("Cool")},      {7, N_("Calm")},     {8, N_("Classic")},
-                                        {9, N_("Custom1")},   {10, N_("Custom2")}, {11, N_("Custom3")}};
+constexpr TagDetails samsungPwMode[] = {
+    {0, N_("Standard")}, {1, N_("Vivid")},   {2, N_("Portrait")}, {3, N_("Landscape")},
+    {4, N_("Forest")},   {5, N_("Retro")},   {6, N_("Cool")},     {7, N_("Calm")},
+    {8, N_("Classic")},  {9, N_("Custom1")}, {10, N_("Custom2")}, {11, N_("Custom3")},
+};
 
 //! Print the PictureWizard Color tag value
 static std::ostream& printPwColor(std::ostream& os, const Value& value, const ExifData*) {

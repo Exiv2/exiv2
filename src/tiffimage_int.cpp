@@ -520,14 +520,16 @@ constexpr ArrayDef nikonFl3Def[] = {
     {16, ttUnsignedByte, 1},  // FlashColorFilter
 };
 //! Nikon Flash Info 6 (0106) binary array - configuration
-constexpr ArrayCfg nikonFl6Cfg = {IfdId::nikonFl6Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonFl6Cfg = {
+    IfdId::nikonFl6Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Flash Info 6 (0106) binary array - definition
 constexpr ArrayDef nikonFl6Def[] = {
     {0, ttUndefined, 4},      // Version
@@ -554,14 +556,16 @@ constexpr ArrayDef nikonFl6Def[] = {
     {42, ttUnsignedByte, 1},  // FlashGroupCOutput
 };
 //! Nikon Flash Info 7 (0107 and 0108) binary array - configuration
-constexpr ArrayCfg nikonFl7Cfg = {IfdId::nikonFl7Id,  // Group for the elements
-                                  bigEndian,          // Use byte order from parent
-                                  ttUndefined,        // Type for array entry
-                                  notEncrypted,       // Not encrypted
-                                  false,              // No size element
-                                  true,               // Write all tags
-                                  true,               // Concatenate gaps
-                                  {0, ttUnsignedByte, 1}};
+constexpr ArrayCfg nikonFl7Cfg = {
+    IfdId::nikonFl7Id,  // Group for the elements
+    bigEndian,          // Use byte order from parent
+    ttUndefined,        // Type for array entry
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    true,               // Write all tags
+    true,               // Concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
 //! Nikon Flash Info 7 (0107 and 0108) binary array - definition
 constexpr ArrayDef nikonFl7Def[] = {
     {0, ttUndefined, 4},      // Version
@@ -1394,7 +1398,8 @@ const TiffTreeTable TiffCreator::tiffTreeTable_ = {
     {{Tag::pana, IfdId::ifdIdNotSet}, {IfdId::ifdIdNotSet, Tag::pana}},
     {{Tag::pana, IfdId::panaRawId}, {IfdId::ifdIdNotSet, Tag::pana}},
     {{Tag::pana, IfdId::exifId}, {IfdId::panaRawId, 0x8769}},
-    {{Tag::pana, IfdId::gpsId}, {IfdId::panaRawId, 0x8825}}};
+    {{Tag::pana, IfdId::gpsId}, {IfdId::panaRawId, 0x8825}},
+};
 
 /*
   This table describes the layout of each known TIFF group (including
