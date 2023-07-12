@@ -28,12 +28,16 @@ const unsigned char pgfBlank[] = {
 
 namespace Exiv2 {
 static uint32_t byteSwap_(uint32_t value, bool bSwap) {
+#ifdef __cpp_lib_byteswap
+  return bSwap ? std::byteswap(value) : value;
+#else
   uint32_t result = 0;
   result |= (value & 0x000000FF) << 24;
   result |= (value & 0x0000FF00) << 8;
   result |= (value & 0x00FF0000) >> 8;
   result |= (value & 0xFF000000) >> 24;
   return bSwap ? result : value;
+#endif
 }
 
 static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
