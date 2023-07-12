@@ -2,6 +2,7 @@
 // included header files
 #include "asfvideo.hpp"
 
+#include <bit>
 #include <cstring>
 #include <iostream>
 #include <sstream>
@@ -51,7 +52,7 @@ AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
   std::memcpy(&data2_, bytes + DWORD, WORD);
   std::memcpy(&data3_, bytes + DWORD + WORD, WORD);
   std::copy(bytes + QWORD, bytes + (2 * QWORD), data4_.begin());
-  if (isBigEndianPlatform()) {
+  if constexpr (std::endian::native == std::endian::big) {
     data1_ = byteSwap(data1_, true);
     data2_ = byteSwap(data2_, true);
     data3_ = byteSwap(data3_, true);
