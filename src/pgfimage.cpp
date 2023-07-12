@@ -10,6 +10,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 
+#include <bit>
 #include <iostream>
 
 // Signature from front of PGF file
@@ -54,7 +55,7 @@ static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
 }
 
 PgfImage::PgfImage(BasicIo::UniquePtr io, bool create) :
-    Image(ImageType::pgf, mdExif | mdIptc | mdXmp | mdComment, std::move(io)), bSwap_(isBigEndianPlatform()) {
+    Image(ImageType::pgf, mdExif | mdIptc | mdXmp | mdComment, std::move(io)) {
   if (create && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
@@ -184,7 +185,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   auto newHeaderSize = static_cast<uint32_t>(header.size() + imgSize);
   DataBuf buffer(4);
   std::copy_n(&newHeaderSize, sizeof(uint32_t), buffer.data());
-  byteSwap_(buffer, 0, bSwap_);
+  byteSwap_(buffer, 0, std::endian::native == std::endian::big);
   if (outIo.write(buffer.c_data(), 4) != 4)
     throw Error(ErrorCode::kerImageWriteFailed);
 
@@ -243,7 +244,7 @@ size_t PgfImage::readPgfHeaderSize(BasicIo& iIo) const {
   if (bufRead != buffer.size())
     throw Error(ErrorCode::kerInputDataReadFailed);
 
-  auto headerSize = static_cast<size_t>(byteSwap_(buffer, 0, bSwap_));
+  auto headerSize = static_cast<size_t>(byteSwap_(buffer, 0, std::endian::native == std::endian::big));
   if (headerSize == 0)
     throw Error(ErrorCode::kerNoImageInInputData);
 
@@ -264,8 +265,8 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
 
   DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
   std::copy_n(header.c_data(), 8, work.begin());
-  width = byteSwap_(work, 0, bSwap_);
-  height = byteSwap_(work, 4, bSwap_);
+  width = byteSwap_(work, 0, std::endian::native == std::endian::big);
+  height = byteSwap_(work, 4, std::endian::native == std::endian::big);
 
   /* NOTE: properties not yet used
   byte nLevels  = buffer.pData_[8];

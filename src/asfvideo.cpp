@@ -2,6 +2,7 @@
 // included header files
 #include "asfvideo.hpp"
 
+#include <bit>
 #include <cstring>
 #include <iostream>
 #include <sstream>
@@ -51,11 +52,9 @@ AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
   std::copy_n(bytes + DWORD, WORD, reinterpret_cast<uint8_t*>(&data2_));
   std::copy_n(bytes + DWORD + WORD, WORD, reinterpret_cast<uint8_t*>(&data3_));
   std::copy(bytes + QWORD, bytes + 2 * QWORD, data4_.begin());
-  if (isBigEndianPlatform()) {
-    data1_ = byteSwap(data1_, true);
-    data2_ = byteSwap(data2_, true);
-    data3_ = byteSwap(data3_, true);
-  }
+  data1_ = byteSwap(data1_, std::endian::native == std::endian::big);
+  data2_ = byteSwap(data2_, std::endian::native == std::endian::big);
+  data3_ = byteSwap(data3_, std::endian::native == std::endian::big);
 }
 
 std::string AsfVideo::GUIDTag::to_string() {
