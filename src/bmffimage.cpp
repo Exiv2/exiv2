@@ -88,13 +88,11 @@ std::string BmffImage::toAscii(uint32_t n) {
   std::string result(p, p + 4);
   if (!isBigEndianPlatform())
     std::reverse(result.begin(), result.end());
-  std::transform(result.begin(), result.end(), result.begin(), [](char c) {
-    if (32 <= c && c < 127)
-      return c;  // only allow 7-bit printable ascii
-    if (c == 0)
-      return '_';  // show 0 as _
-    return '.';    // others .
-  });
+  // show 0 as _
+  std::replace(result.begin(), result.end(), '\0', '_');
+  // show non 7-bit printable ascii as .
+  std::replace_if(
+      result.begin(), result.end(), [](char c) { return c < 32 || c > 126; }, '.');
   return result;
 }
 
