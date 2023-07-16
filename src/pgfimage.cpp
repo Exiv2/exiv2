@@ -179,7 +179,11 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   // Write new Header size.
   auto newHeaderSize = static_cast<uint32_t>(header.size() + imgSize);
   DataBuf buffer(4);
+<<<<<<< HEAD
   std::copy_n(&newHeaderSize, 4, buffer.data());
+=======
+  std::copy_n(&newHeaderSize, sizeof(uint32_t), buffer.data());
+>>>>>>> 640282f3 (replace reinterpret_cast with copy_n)
   byteSwap_(buffer, 0, bSwap_);
   if (outIo.write(buffer.c_data(), 4) != 4)
     throw Error(ErrorCode::kerImageWriteFailed);
