@@ -872,7 +872,7 @@ void append(Blob& blob, const byte* buf, size_t len) {
       blob.reserve(size + 65536);
     }
     blob.resize(size + len);
-    std::memcpy(&blob[size], buf, len);
+    std::copy_n(buf, len, &blob[size]);
   }
 }  // append
 
