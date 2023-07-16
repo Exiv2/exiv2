@@ -801,7 +801,7 @@ size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   // sprintf wants to add the null terminator, so use oversized buffer
   char temp[9];
   auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
-  std::memcpy(buf, temp, wrote);
+  std::copy_n(temp, wrote, buf);
   return wrote;
 }
 
@@ -929,7 +929,7 @@ size_t TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
                                                   plusMinus, abs(time_.tzHour), abs(time_.tzMinute)));
 
   Internal::enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
-  std::memcpy(buf, temp, wrote);
+  std::copy_n(temp, wrote, buf);
   return wrote;
 }
 

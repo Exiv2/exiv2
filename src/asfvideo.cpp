@@ -51,9 +51,9 @@ AsfVideo::GUIDTag::GUIDTag(unsigned int data1, unsigned short data2, unsigned sh
 }
 
 AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
-  memcpy(&data1_, bytes, DWORD);
-  memcpy(&data2_, bytes + DWORD, WORD);
-  memcpy(&data3_, bytes + DWORD + WORD, WORD);
+  std::copy_n(bytes, DWORD, reinterpret_cast<uint8_t*>(&data1_));
+  std::copy_n(bytes + DWORD, WORD, reinterpret_cast<uint8_t*>(&data2_));
+  std::copy_n(bytes + DWORD + WORD, WORD, reinterpret_cast<uint8_t*>(&data3_));
   std::copy(bytes + QWORD, bytes + 2 * QWORD, data4_.begin());
 }
 
