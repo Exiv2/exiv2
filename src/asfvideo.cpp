@@ -55,6 +55,11 @@ AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
   memcpy(&data2_, bytes + DWORD, WORD);
   memcpy(&data3_, bytes + DWORD + WORD, WORD);
   std::copy(bytes + QWORD, bytes + 2 * QWORD, data4_.begin());
+  if (isBigEndianPlatform()) {
+    data1_ = byteSwap(data1_, true);
+    data2_ = byteSwap(data2_, true);
+    data3_ = byteSwap(data3_, true);
+  }
 }
 
 std::string AsfVideo::GUIDTag::to_string() {
