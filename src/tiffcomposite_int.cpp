@@ -386,7 +386,7 @@ bool TiffBinaryArray::updOrigDataBuf(const byte* pData, size_t size) {
     return false;
   if (origData_ == pData)
     return true;
-  memcpy(origData_, pData, origSize_);
+  std::copy_n(pData, origSize_, origData_);
   return true;
 }
 

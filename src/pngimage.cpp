@@ -534,7 +534,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
       throw Error(ErrorCode::kerInputDataReadFailed);
 
     char szChunk[5];
-    memcpy(szChunk, cheaderBuf.c_data(4), 4);
+    std::copy_n(cheaderBuf.c_data(4), 4, szChunk);
     szChunk[4] = 0;
 
     if (!strcmp(szChunk, "IEND")) {
