@@ -693,7 +693,6 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
       printNode(schemaNs, propPath, propValue, opt);
       if (XMP_PropIsAlias(opt)) {
         throw Error(ErrorCode::kerAliasesNotSupported, schemaNs, propPath, propValue);
-        continue;
       }
       if (XMP_NodeIsSchema(opt)) {
         // Register unknown namespaces with Exiv2
