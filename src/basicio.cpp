@@ -167,10 +167,7 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   if (offset == -1)
     return -1;
   // 'Manual' open("r+b") to avoid munmap()
-  if (fp_) {
-    std::fclose(fp_);
-    fp_ = nullptr;
-  }
+  std::fclose(fp_);
   openMode_ = "r+b";
   opMode_ = opSeek;
   fp_ = std::fopen(path_.c_str(), openMode_.c_str());

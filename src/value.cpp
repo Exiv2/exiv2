@@ -370,7 +370,7 @@ std::string CommentValue::comment(const char* encoding) const {
   if (charsetId() == unicode) {
     const char* from = !encoding || *encoding == '\0' ? detectCharset(c) : encoding;
     if (!convertStringCharset(c, from, "UTF-8"))
-      throw Error(ErrorCode::kerInvalidIconvEncoding, encoding, "UTF-8");
+      throw Error(ErrorCode::kerInvalidIconvEncoding, from, "UTF-8");
   }
 
   // # 1266 Remove trailing nulls
