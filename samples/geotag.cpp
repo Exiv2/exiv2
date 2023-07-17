@@ -420,13 +420,6 @@ std::string makePath(const std::string& dir, const std::string& file) {
   return dir + std::string(EXV_SEPARATOR_STR) + file;
 }
 
-const char* makePath(const char* dir, const char* file) {
-  static char result[_MAX_PATH];
-  std::string r = makePath(std::string(dir), std::string(file));
-  strcpy(result, r.c_str());
-  return result;
-}
-
 // file utilities
 bool readDir(const char* path, Options& options) {
   bool bResult = false;
@@ -452,7 +445,7 @@ bool readDir(const char* path, Options& options) {
         if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
           // _tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
         } else {
-          std::string pathName = makePath(path, std::string(ffd.cFileName));
+          std::string pathName = makePath(path, ffd.cFileName);
           if (getFileType(pathName, options) == typeImage) {
             gFiles.push_back(pathName);
           }
