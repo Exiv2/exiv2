@@ -259,7 +259,7 @@ ExifKey::ExifKey(const std::string& key) : p_(std::make_unique<Impl>()) {
   p_->decomposeKey(key);
 }
 
-ExifKey::ExifKey(const ExifKey& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
+ExifKey::ExifKey(const ExifKey& rhs) : Key(rhs), p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 ExifKey::~ExifKey() = default;
