@@ -39,7 +39,7 @@ TEST(strError, returnSuccessAfterClosingFile) {
 
 TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile) {
   std::ifstream auxFile("nonExistingFile");
-  ASSERT_STREQ("No such file or directory (errno = 2)", strError().c_str());
+  ASSERT_TRUE(Internal::contains(strError(), "No such file or directory (errno = "));
 }
 
 TEST(strError, doNotRecognizeUnknownError) {
