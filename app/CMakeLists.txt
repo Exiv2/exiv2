@@ -6,7 +6,7 @@ add_executable( exiv2
      app_utils.cpp app_utils.hpp
 )
 
-target_include_directories(exiv2 PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find i18n.hpp
+target_include_directories(exiv2 PRIVATE ${PROJECT_SOURCE_DIR}/src) # To find i18n.hpp
 
 set_target_properties( exiv2 PROPERTIES
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
