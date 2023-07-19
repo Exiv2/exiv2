@@ -1,13 +1,13 @@
 if (CONAN_AUTO_INSTALL)
     # Download automatically the cmake-conan integration file
-    if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+    if(NOT EXISTS "${PROJECT_BINARY_DIR}/conan.cmake")
         message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
         file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/master/conan.cmake"
-                      "${CMAKE_BINARY_DIR}/conan.cmake"
+                      "${PROJECT_BINARY_DIR}/conan.cmake"
                       TLS_VERIFY ON)
     endif()
 
-    include(${CMAKE_BINARY_DIR}/conan.cmake)
+    include(${PROJECT_BINARY_DIR}/conan.cmake)
 
     conan_cmake_autodetect(settings)
     conan_cmake_install(PATH_OR_REFERENCE ..
@@ -19,13 +19,13 @@ endif()
 
 if (APPLE)
     # On Apple, we use the conan cmake_paths generator
-    if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
-        include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+    if (EXISTS ${PROJECT_BINARY_DIR}/conan_paths.cmake)
+        include(${PROJECT_BINARY_DIR}/conan_paths.cmake)
     endif()
 else()
     # Otherwise, we rely on the conan cmake_find_package generator
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-    list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+    list(APPEND CMAKE_MODULE_PATH ${PROJECT_BINARY_DIR})
+    list(APPEND CMAKE_PREFIX_PATH ${PROJECT_BINARY_DIR})
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
