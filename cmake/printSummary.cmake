@@ -14,7 +14,7 @@ function(printList items)
     endforeach()
 endfunction()
 
-get_property(COMPILER_OPTIONS     DIRECTORY ${CMAKE_SOURCE_DIR} PROPERTY COMPILE_OPTIONS)
+get_property(COMPILER_OPTIONS     DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY COMPILE_OPTIONS)
 
 message( STATUS "Install prefix:    ${CMAKE_INSTALL_PREFIX}")
 message( STATUS "------------------------------------------------------------------" )

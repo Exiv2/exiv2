@@ -62,8 +62,7 @@ if( EXIV2_ENABLE_PNG )
 endif()
 
 target_include_directories(unit_tests
-    PRIVATE
-        ${CMAKE_SOURCE_DIR}/src
+    PRIVATE ${PROJECT_SOURCE_DIR}/src
 )
 
 set_target_properties(unit_tests PROPERTIES
