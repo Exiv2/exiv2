@@ -1,6 +1,6 @@
 # Note that this is a hack for testing the internals of the library. If EXIV2_BUILD_UNIT_TESTS==OFF
 # Then we only export the symbols that are explicitly exported
-if( EXIV2_BUILD_UNIT_TESTS )
+if(BUILD_TESTING AND EXIV2_BUILD_UNIT_TESTS)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
 endif()
 
