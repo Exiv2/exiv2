@@ -105,7 +105,7 @@ EXIV2API ExifData::const_iterator maxApertureValue(const ExifData& ed);
 //! Return the subject distance. Please keep in mind that this accessor is provided for convenience only and will return
 //! expected/desired metadata most of the time.
 EXIV2API ExifData::const_iterator subjectDistance(const ExifData& ed);
-//! Return the kind of light. Please keep in mind that this accessor is provided for convenience only and will return
+//! Return the kind of light source. Please keep in mind that this accessor is provided for convenience only and will return
 //! expected/desired metadata most of the time.
 EXIV2API ExifData::const_iterator lightSource(const ExifData& ed);
 //! Return the status of flash. Please keep in mind that this accessor is provided for convenience only and will return
