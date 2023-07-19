@@ -66,7 +66,13 @@ enum {
 
 // *****************************************************************************
 // class member definitions
-#ifdef EXV_ENABLE_BMFF
+#ifndef EXV_ENABLE_BMFF
+namespace Exiv2 {
+bool enableBMFF(bool) {
+  return false;
+}
+}  // namespace Exiv2
+#else
 namespace Exiv2 {
 static bool enabled = false;
 bool enableBMFF(bool enable) {
@@ -799,12 +805,6 @@ bool isBmffType(BasicIo& iIo, bool advance) {
     iIo.seek(0, BasicIo::beg);
   }
   return matched;
-}
-}  // namespace Exiv2
-#else  // ifdef EXV_ENABLE_BMFF
-namespace Exiv2 {
-bool enableBMFF(bool) {
-  return false;
 }
 }  // namespace Exiv2
 #endif
