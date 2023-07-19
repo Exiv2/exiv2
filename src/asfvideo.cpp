@@ -276,16 +276,14 @@ void AsfVideo::decodeBlock() {
       extendedStreamProperties();
     else if (tag->second == "Degradable_JPEG_Media")
       DegradableJPEGMedia();
-    else  // tag found but not processed
-    {
+    else {  // tag found but not processed
       // Make sure that the remaining size is non-zero, so that we won't
       // keep revisiting the same location in the file.
       const uint64_t remaining_size = objectHeader.getRemainingSize();
       Internal::enforce(remaining_size > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
       io_->seekOrThrow(io_->tell() + remaining_size, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
     }
-  } else  // tag not found
-  {
+  } else {  // tag not found
     // Make sure that the remaining size is non-zero, so that we won't keep
     // revisiting the same location in the file.
     const uint64_t remaining_size = objectHeader.getRemainingSize();
