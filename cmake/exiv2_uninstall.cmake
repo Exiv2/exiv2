@@ -1,8 +1,8 @@
-IF(NOT EXISTS "${CMAKE_BINARY_DIR}/install_manifest.txt")
-  MESSAGE(FATAL_ERROR "Cannot find install manifest: ${CMAKE_BINARY_DIR}/install_manifest.txt")
-ENDIF(NOT EXISTS "${CMAKE_BINARY_DIR}/install_manifest.txt")
+IF(NOT EXISTS "${PROJECT_BINARY_DIR}/install_manifest.txt")
+  MESSAGE(FATAL_ERROR "Cannot find install manifest: ${PROJECT_BINARY_DIR}/install_manifest.txt")
+ENDIF(NOT EXISTS "${PROJECT_BINARY_DIR}/install_manifest.txt")
 
-FILE(READ "${CMAKE_BINARY_DIR}/install_manifest.txt" files)
+FILE(READ "${PROJECT_BINARY_DIR}/install_manifest.txt" files)
 STRING(REGEX REPLACE "\n" ";" files "${files}")
 FOREACH(file ${files})
   MESSAGE(STATUS "Uninstalling: ${file}")
