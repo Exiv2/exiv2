@@ -149,6 +149,7 @@ base_lib = files(
   'src/orfimage.cpp',
   'src/pgfimage.cpp',
   'src/photoshop.cpp',
+  'src/pngimage.cpp',
   'src/preview.cpp',
   'src/properties.cpp',
   'src/psdimage.cpp',
@@ -183,6 +184,7 @@ int_lib = files(
   'src/orfimage_int.cpp',
   'src/panasonicmn_int.cpp',
   'src/pentaxmn_int.cpp',
+  'src/pngchunk_int.cpp',
   'src/rw2image_int.cpp',
   'src/samsungmn_int.cpp',
   'src/sigmamn_int.cpp',
@@ -267,9 +269,7 @@ if expat_dep.found()
 endif
 
 if zlib_dep.found()
-  base_lib += files('src/pngimage.cpp')
-  int_lib += files('src/pngchunk_int.cpp')
-  headers += files('include/exiv2/photoshop.hpp')
+  headers += files('include/exiv2/pngimage.hpp')
 endif
 
 install_man('man/man1/exiv2.1')
