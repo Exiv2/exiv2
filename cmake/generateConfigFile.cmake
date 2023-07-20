@@ -37,4 +37,4 @@ int main() {
 set(EXV_ENABLE_NLS ${EXIV2_ENABLE_NLS})
 set(EXV_ENABLE_VIDEO ${EXIV2_ENABLE_VIDEO})
 
-configure_file(cmake/config.h.cmake ${PROJECT_BINARY_DIR}/exv_conf.h @ONLY)
+configure_file(cmake/config.h.cmake ${CMAKE_BINARY_DIR}/exv_conf.h @ONLY)

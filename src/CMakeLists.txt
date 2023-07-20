@@ -128,7 +128,7 @@ add_library( exiv2lib
 
 generate_export_header(exiv2lib
     EXPORT_MACRO_NAME EXIV2API
-    EXPORT_FILE_NAME ${PROJECT_BINARY_DIR}/exiv2lib_export.h
+    EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exiv2lib_export.h
     STATIC_DEFINE exiv2lib_STATIC
 )
 
@@ -291,11 +291,11 @@ install(TARGETS exiv2lib EXPORT exiv2Config
 
 install(FILES
     ${PUBLIC_HEADERS}
-    ${PROJECT_BINARY_DIR}/exv_conf.h
-    ${PROJECT_BINARY_DIR}/exiv2lib_export.h
+    ${CMAKE_BINARY_DIR}/exv_conf.h
+    ${CMAKE_BINARY_DIR}/exiv2lib_export.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
 install(EXPORT exiv2Config DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
 
-install(FILES ${PROJECT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
 
