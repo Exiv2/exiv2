@@ -1397,8 +1397,8 @@ bool convertStringCharset([[maybe_unused]] std::string& str, const char* from, c
 #ifndef SUPPRESS_WARNINGS
   EXV_WARNING << "Charset conversion required but no character mapping functionality available.\n";
 #endif
-#endif
   return false;
+#endif
 }
 }  // namespace Exiv2
 
@@ -1576,10 +1576,11 @@ struct ConvFctList {
   ConvFct convFct_;
 };
 
-const ConvFctList convFctList[] = {
-    {"UTF-8", "UCS-2BE", utf8ToUcs2be},      {"UTF-8", "UCS-2LE", utf8ToUcs2le}, {"UCS-2BE", "UTF-8", ucs2beToUtf8},
-    {"UCS-2BE", "UCS-2LE", ucs2beToUcs2le},  {"UCS-2LE", "UTF-8", ucs2leToUtf8}, {"UCS-2LE", "UCS-2BE", ucs2leToUcs2be},
-    {"ISO-8859-1", "UTF-8", iso88591ToUtf8}, {"ASCII", "UTF-8", asciiToUtf8}
+constexpr ConvFctList convFctList[] = {
+    {"UTF-8", "UCS-2BE", &utf8ToUcs2be},      {"UTF-8", "UCS-2LE", &utf8ToUcs2le},
+    {"UCS-2BE", "UTF-8", &ucs2beToUtf8},      {"UCS-2BE", "UCS-2LE", &ucs2beToUcs2le},
+    {"UCS-2LE", "UTF-8", &ucs2leToUtf8},      {"UCS-2LE", "UCS-2BE", &ucs2leToUcs2be},
+    {"ISO-8859-1", "UTF-8", &iso88591ToUtf8}, {"ASCII", "UTF-8", &asciiToUtf8},
     // Update the convertStringCharset() documentation if you add more here!
 };
 
