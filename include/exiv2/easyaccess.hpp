@@ -31,7 +31,10 @@ class ExifData;
 //! will return expected/desired metadata most of the time.
 EXIV2API ExifData::const_iterator orientation(const ExifData& ed);
 //! Return the ISO speed used to shoot the image. Please keep in mind that this accessor is provided for convenience
-//! only and will return expected/desired metadata most of the time.
+//! only and will return expected/desired metadata most of the time. Please note also that ISO speed function uses some
+//! computations, which might involve combining information from multiple tags and interpreting numeric codes. While the
+//! computations try to cover most cases, they can't be perfect and might fail in some circumstances, leading to
+//! imprecise results.
 EXIV2API ExifData::const_iterator isoSpeed(const ExifData& ed);
 //! Return the date and time when the original image data was generated. Please keep in mind that this accessor is
 //! provided for convenience only and will return expected/desired metadata most of the time.
@@ -56,7 +59,7 @@ EXIV2API ExifData::const_iterator imageQuality(const ExifData& ed);
 EXIV2API ExifData::const_iterator whiteBalance(const ExifData& ed);
 //! Return the name of the lens used. Please keep in mind that this accessor is provided for convenience only and will
 //! return expected/desired metadata most of the time. Please note also that lens name function uses some heuristics to
-//! reconstruct the lens name, which might involve combinig information from multiple tags and interpreting numeric
+//! reconstruct the lens name, which might involve combining information from multiple tags and interpreting numeric
 //! codes. While the heuristics try to cover most cases, they can't be perfect and might fail in some circumstances,
 //! leading to imprecise results.
 EXIV2API ExifData::const_iterator lensName(const ExifData& ed);
