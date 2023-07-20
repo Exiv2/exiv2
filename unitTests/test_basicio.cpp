@@ -10,7 +10,7 @@ using namespace Exiv2;
 TEST(MemIoDefault, readEReturns0) {
   std::array<byte, 10> buf;
   MemIo io;
-  ASSERT_EQ(0, io.read(buf.data(), buf.size()));
+  ASSERT_EQ(0u, io.read(buf.data(), buf.size()));
 }
 
 TEST(MemIoDefault, isNotAtEof) {
@@ -44,7 +44,7 @@ TEST(MemIoDefault, seekToEndPositionAndReadTriggersEof) {
   ASSERT_EQ(0, io.tell());
 
   std::array<byte, 64> buf2 = {};
-  ASSERT_EQ(0, io.read(buf2.data(), 1));  // Note that we cannot even read 1 byte being at the end
+  ASSERT_EQ(0u, io.read(buf2.data(), 1));  // Note that we cannot even read 1 byte being at the end
   ASSERT_TRUE(io.eof());
 }
 

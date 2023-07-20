@@ -76,8 +76,8 @@ TEST(PhotoshopLocateIrb, returns0withGoodIptcIrb) {
   uint32_t sizeData = 0;
 
   ASSERT_EQ(0, Photoshop::locateIrb(data.data(), data.size(), Photoshop::iptc_, &record, sizeHdr, sizeData));
-  ASSERT_EQ(12, sizeHdr);
-  ASSERT_EQ(27, sizeData);
+  ASSERT_EQ(12u, sizeHdr);
+  ASSERT_EQ(27u, sizeData);
 }
 
 TEST(PhotoshopLocateIptcIrb, returns0withGoodIptcIrb) {
