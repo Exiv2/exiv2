@@ -19,16 +19,17 @@ jobs:
 
       - name: Install packages
         run: |
-          sudo apt install -y g++-${{matrix.cxx}} libcurl4-gnutls-dev
-          python3 -m pip install meson ninja
+          sudo apt update
+          sudo apt install -y g++-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev libinih-dev libgmock-dev libgtest-dev gettext
+          python3 -m pip install meson==0.54.1 ninja
 
       - name: Compile and Test
         env:
           CXX: g++-${{matrix.cxx}}
         run: |
           meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
-          meson compile -C "${{github.workspace}}/build" --verbose
-          meson test -C "${{github.workspace}}/build" --verbose
+          meson compile -C "${{github.workspace}}/build"
+          meson test -C "${{github.workspace}}/build"
   Ubuntu-clang:
     runs-on: ubuntu-20.04
     name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
@@ -41,7 +42,8 @@ jobs:
 
       - name: Install packages
         run: |
-          sudo apt install -y clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}} libcurl4-gnutls-dev
+          sudo apt update
+          sudo apt install -y clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev gettext
           python3 -m pip install meson ninja
 
       - name: Compile and Test
@@ -83,16 +85,17 @@ jobs:
       matrix:
         deps: ['enabled', 'disabled']
         platform: ['UCRT64', 'CLANG32', 'CLANG64']
+    env:
+      MSYS: "winjitdebug"
     steps:
       - uses: actions/checkout@v3
 
       - uses: msys2/setup-msys2@v2
         with:
           msystem: ${{matrix.platform}}
-          install: >-
-            dos2unix
           pacboy: >-
             cc:p
+            cmake:p
             curl:p
             gtest:p
             libinih:p
@@ -117,14 +120,14 @@ jobs:
 
       - name: Install packages
         run: |
-          brew install curl
-          python3 -m pip install meson ninja
+          brew install curl brotli inih expat googletest
+          python3 -m pip install meson==0.54.1 ninja
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
-          meson compile -C "${{github.workspace}}/build" --verbose
-          meson test -C "${{github.workspace}}/build" --verbose
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
+          meson compile -C "${{github.workspace}}/build"
+          meson test -C "${{github.workspace}}/build"
   FreeBSD:
     runs-on: macos-latest
     name: FreeBSD
@@ -134,7 +137,7 @@ jobs:
         uses: vmactions/freebsd-vm@v0
         with:
           prepare: |
-            pkg install -y curl ninja meson gettext pkgconf googletest expat inih brotli
+            pkg install -y cmake curl ninja meson gettext pkgconf googletest expat inih brotli
           run: |
             meson setup "${{github.workspace}}/build" -Dwarning_level=3 -Dcpp_std=c++20
             meson compile -C "${{github.workspace}}/build" --verbose
