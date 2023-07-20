@@ -51,5 +51,5 @@ TEST(MatroskaVideo, readMetadata) {
   ASSERT_NO_THROW(mkv.setXmpData(xmpData));
   auto data = mkv.xmpData();
   ASSERT_FALSE(data.empty());
-  ASSERT_EQ(xmpData["Xmp.video.TotalStream"].count(), 4);
+  ASSERT_EQ(xmpData["Xmp.video.TotalStream"].count(), 4u);
 }

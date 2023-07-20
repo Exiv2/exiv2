@@ -10,7 +10,7 @@ using namespace Exiv2;
 TEST(MemIoDefault, readEReturns0) {
   std::array<byte, 10> buf;
   MemIo io;
-  ASSERT_EQ(0, io.read(buf.data(), buf.size()));
+  ASSERT_EQ(0u, io.read(buf.data(), buf.size()));
 }
 
 TEST(MemIoDefault, isNotAtEof) {
@@ -32,19 +32,19 @@ TEST(MemIoDefault, seekBefore0Returns1ButItDoesNotSetEofToTrue) {
 
 TEST(MemIoDefault, seekToEndPositionDoesNotTriggerEof) {
   MemIo io;
-  ASSERT_EQ(0, io.tell());
+  ASSERT_EQ(0u, io.tell());
   ASSERT_EQ(0, io.seek(0, BasicIo::end));
-  ASSERT_EQ(0, io.tell());
+  ASSERT_EQ(0u, io.tell());
   ASSERT_FALSE(io.eof());
 }
 
 TEST(MemIoDefault, seekToEndPositionAndReadTriggersEof) {
   MemIo io;
   ASSERT_EQ(0, io.seek(0, BasicIo::end));
-  ASSERT_EQ(0, io.tell());
+  ASSERT_EQ(0u, io.tell());
 
   std::array<byte, 64> buf2 = {};
-  ASSERT_EQ(0, io.read(buf2.data(), 1));  // Note that we cannot even read 1 byte being at the end
+  ASSERT_EQ(0u, io.read(buf2.data(), 1));  // Note that we cannot even read 1 byte being at the end
   ASSERT_TRUE(io.eof());
 }
 
@@ -78,25 +78,25 @@ TEST(MemIo, seekBeyondBoundsDoesNotMoveThePosition) {
   buf.fill(0);
 
   MemIo io(buf.data(), buf.size());
-  ASSERT_EQ(0, io.tell());
+  ASSERT_EQ(0u, io.tell());
   ASSERT_EQ(1, io.seek(65, BasicIo::beg));
-  ASSERT_EQ(0, io.tell());
+  ASSERT_EQ(0u, io.tell());
 }
 
 TEST(MemIo, seekInsideBoundsMoveThePosition) {
   std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
-  ASSERT_EQ(0, io.tell());
+  ASSERT_EQ(0u, io.tell());
   ASSERT_EQ(0, io.seek(32, BasicIo::beg));
-  ASSERT_EQ(32, io.tell());
+  ASSERT_EQ(32u, io.tell());
 }
 
 TEST(MemIo, seekInsideBoundsUsingBegResetsThePosition) {
   std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
-  std::vector<std::int64_t> positions{0, 8, 16, 32, 64};
+  std::vector<std::uint64_t> positions{0, 8, 16, 32, 64};
   for (auto pos : positions) {
     ASSERT_EQ(0, io.seek(pos, BasicIo::beg));
     ASSERT_EQ(pos, io.tell());
@@ -108,7 +108,7 @@ TEST(MemIo, seekInsideBoundsUsingCurShiftThePosition) {
 
   MemIo io(buf.data(), buf.size());
   std::vector<std::int64_t> shifts{4, 4, 8, 16, 32};
-  std::vector<std::int64_t> positions{4, 8, 16, 32, 64};
+  std::vector<std::uint64_t> positions{4, 8, 16, 32, 64};
   for (size_t i = 0; i < shifts.size(); ++i) {
     ASSERT_EQ(0, io.seek(shifts[i], BasicIo::cur));
     ASSERT_EQ(positions[i], io.tell());
@@ -119,9 +119,9 @@ TEST(MemIo, seekToEndPositionDoesNotTriggerEof) {
   std::array<byte, 64> buf = {};
 
   MemIo io(buf.data(), buf.size());
-  ASSERT_EQ(0, io.tell());
+  ASSERT_EQ(0u, io.tell());
   ASSERT_EQ(0, io.seek(0, BasicIo::end));
-  ASSERT_EQ(64, io.tell());
+  ASSERT_EQ(64u, io.tell());
   ASSERT_FALSE(io.eof());
 }
 
@@ -130,17 +130,17 @@ TEST(MemIo, seekToEndPositionAndReadTriggersEof) {
 
   MemIo io(buf.data(), buf.size());
   ASSERT_EQ(0, io.seek(0, BasicIo::end));
-  ASSERT_EQ(64, io.tell());
+  ASSERT_EQ(64u, io.tell());
 
   std::array<byte, 64> buf2 = {};
-  ASSERT_EQ(0, io.read(buf2.data(), 1));  // Note that we cannot even read 1 byte being at the end
+  ASSERT_EQ(0u, io.read(buf2.data(), 1));  // Note that we cannot even read 1 byte being at the end
   ASSERT_TRUE(io.eof());
 }
 
 TEST(MemIo, readEmptyIoReturns0) {
   std::array<byte, 10> buf;
   MemIo io;
-  ASSERT_EQ(0, io.read(buf.data(), buf.size()));
+  ASSERT_EQ(0u, io.read(buf.data(), buf.size()));
 }
 
 TEST(MemIo, readLessBytesThanAvailableReturnsRequestedBytes) {
@@ -149,7 +149,7 @@ TEST(MemIo, readLessBytesThanAvailableReturnsRequestedBytes) {
   buf1.fill(1);
 
   MemIo io(buf1.data(), buf1.size());
-  ASSERT_EQ(5, io.read(buf2.data(), 5));
+  ASSERT_EQ(5u, io.read(buf2.data(), 5));
 }
 
 TEST(MemIo, readSameBytesThanAvailableReturnsRequestedBytes) {
@@ -158,7 +158,7 @@ TEST(MemIo, readSameBytesThanAvailableReturnsRequestedBytes) {
   buf1.fill(1);
 
   MemIo io(buf1.data(), buf1.size());
-  ASSERT_EQ(10, io.read(buf2.data(), 10));
+  ASSERT_EQ(10u, io.read(buf2.data(), 10));
 }
 
 TEST(MemIo, readMoreBytesThanAvailableReturnsAvailableBytes) {
@@ -167,5 +167,5 @@ TEST(MemIo, readMoreBytesThanAvailableReturnsAvailableBytes) {
   buf1.fill(1);
 
   MemIo io(buf1.data(), buf1.size());
-  ASSERT_EQ(10, io.read(buf2.data(), 15));
+  ASSERT_EQ(10u, io.read(buf2.data(), 15));
 }
