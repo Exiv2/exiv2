@@ -51,6 +51,10 @@
 #include <limits>
 #include <set>
 
+#ifdef __cpp_lib_endian
+#include <bit>
+#endif
+
 // *****************************************************************************
 namespace {
 using namespace Exiv2;
@@ -168,7 +172,9 @@ bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) {
 }
 
 bool Image::isBigEndianPlatform() {
-#ifdef __LITTLE_ENDIAN__
+#ifdef __cpp_lib_endian
+  return std::endian::native == std::endian::big;
+#elif defined(__LITTLE_ENDIAN__)
   return false;
 #elif defined(__BIG_ENDIAN__)
   return true;
@@ -188,7 +194,9 @@ bool Image::isBigEndianPlatform() {
 #endif
 }
 bool Image::isLittleEndianPlatform() {
-#ifdef __LITTLE_ENDIAN__
+#ifdef __cpp_lib_endian
+  return std::endian::native == std::endian::little;
+#elif defined(__LITTLE_ENDIAN__)
   return true;
 #else
   return !isBigEndianPlatform();
