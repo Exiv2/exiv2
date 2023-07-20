@@ -1386,7 +1386,7 @@ void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData) {
   converter.cnvFromXmp();
 }
 
-bool convertStringCharset(std::string& str, const char* from, const char* to) {
+bool convertStringCharset([[maybe_unused]] std::string& str, const char* from, const char* to) {
   if (0 == strcmp(from, to))
     return true;  // nothing to do
 #if defined EXV_HAVE_ICONV
