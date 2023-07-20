@@ -500,8 +500,7 @@ CiffComponent* CiffComponent::doFindComponent(uint16_t crwTagId, uint16_t crwDir
 
 CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId, uint16_t crwDir) const {
   for (auto&& component : components_) {
-    auto cc = component->findComponent(crwTagId, crwDir);
-    if (cc)
+    if (auto cc = component->findComponent(crwTagId, crwDir))
       return cc;
   }
   return nullptr;
@@ -510,13 +509,11 @@ CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId, uint16_t crwDir
 void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf&& buf) {
   CrwDirs crwDirs;
   CrwMap::loadStack(crwDirs, crwDir);
-  [[maybe_unused]] auto [rootDirectory, _] = crwDirs.top();
   crwDirs.pop();
   if (!pRootDir_) {
     pRootDir_ = std::make_unique<CiffDirectory>();
   }
-  CiffComponent* child = pRootDir_->add(crwDirs, crwTagId);
-  if (child) {
+  if (auto child = pRootDir_->add(crwDirs, crwTagId)) {
     child->setValue(std::move(buf));
   }
 }  // CiffHeader::add
@@ -681,21 +678,17 @@ void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* p
   int64_t aperture = 0;
   int64_t shutterSpeed = 0;
 
-  IfdId ifdId = IfdId::ifdIdNotSet;
-  switch (pCrwMapping->tag_) {
-    case 0x0001:
-      ifdId = IfdId::canonCsId;
-      break;
-    case 0x0004:
-      ifdId = IfdId::canonSiId;
-      break;
-    case 0x000f:
-      ifdId = IfdId::canonCfId;
-      break;
-    case 0x0012:
-      ifdId = IfdId::canonPiId;
-      break;
-  }
+  auto ifdId = [pCrwMapping] {
+    if (pCrwMapping->tag_ == 0x0001)
+      return IfdId::canonCsId;
+    if (pCrwMapping->tag_ == 0x0004)
+      return IfdId::canonSiId;
+    if (pCrwMapping->tag_ == 0x000f)
+      return IfdId::canonCfId;
+    if (pCrwMapping->tag_ == 0x0012)
+      return IfdId::canonPiId;
+    return IfdId::ifdIdNotSet;
+  }();
 
   std::string groupName(Internal::groupName(ifdId));
   const size_t component_size = ciffComponent.size();
