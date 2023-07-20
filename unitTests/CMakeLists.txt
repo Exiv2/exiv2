@@ -44,7 +44,7 @@ target_compile_definitions(unit_tests
 target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
-        GTest::gtest_main
+        ${GTEST_LIBRARIES}
         std::filesystem
 )
 
@@ -60,6 +60,7 @@ endif()
 target_include_directories(unit_tests
     PRIVATE
         ${CMAKE_SOURCE_DIR}/src
+        ${GTEST_INCLUDE_DIRS}
 )
 
 set_target_properties(unit_tests PROPERTIES
