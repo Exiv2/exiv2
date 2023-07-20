@@ -53,7 +53,7 @@ TEST(AFileIO, returnsFileSizeEvenWhenFileItIsNotOpened) {
 TEST(AFileIO, isOpenedAtPosition0) {
   FileIo file(imagePath);
   file.open();
-  ASSERT_EQ(0, file.tell());
+  ASSERT_EQ(0u, file.tell());
 }
 
 TEST(AFileIO, canSeekToExistingPositions) {
