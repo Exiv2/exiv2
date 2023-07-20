@@ -50,13 +50,12 @@ endif
 
 t_args = ['-UEXIV2API', '-DEXIV2API=', '-DTESTDATA_PATH="@0@"'.format('..' / 'test' / 'data')]
 
-privinc = include_directories('../src', '../include/exiv2')
 unit_tests = executable(
   'unit_tests',
   test_sources,
   cpp_args: t_args,
   dependencies: [deps, exiv2_dep, gtest_dep],
-  include_directories: privinc,
+  include_directories: exiv2inc,
 )
 
 test('Unit Tests', unit_tests)
