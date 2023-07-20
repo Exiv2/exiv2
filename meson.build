@@ -91,8 +91,10 @@ endif
 
 if meson.version().version_compare('>= 0.60')
   iconv_dep = dependency('iconv', required: get_option('iconv'))
+elif not get_option('iconv').disabled() and not cpp.links('#include <iconv.h>\nint main(){iconv_open("", "");}')
+  iconv_dep = cpp.find_library('iconv', required: get_option('iconv'))
 else
-  iconv_dep = dependency('', required: false)
+  iconv_dep = get_option('iconv').disabled() ? dependency('', required: false) : declare_dependency()
 endif
 if iconv_dep.found()
   deps += iconv_dep
