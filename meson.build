@@ -199,3 +199,4 @@ foreach g : gopt
 endforeach
 
 subdir('unitTests')
+subdir('po')
