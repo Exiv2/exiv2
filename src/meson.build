@@ -115,6 +115,12 @@ if host_machine.system() == 'windows' and get_option('default_library') != 'stat
   dllapi = '-DEXIV2API=__declspec(dllimport)'
 endif
 
+cmake = import('cmake')
+cmake.write_basic_package_version_file(
+  name: meson.project_name(),
+  version: meson.project_version(),
+)
+
 pkg = import('pkgconfig')
 pkg.generate(
   exiv2,
