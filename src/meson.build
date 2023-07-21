@@ -1,5 +1,4 @@
 base_lib = files(
-  'asfvideo.cpp',
   'basicio.cpp',
   'bmffimage.cpp',
   'bmpimage.cpp',
@@ -17,7 +16,6 @@ base_lib = files(
   'iptc.cpp',
   'jp2image.cpp',
   'jpgimage.cpp',
-  'matroskavideo.cpp',
   'metadatum.cpp',
   'mrwimage.cpp',
   'orfimage.cpp',
@@ -27,9 +25,7 @@ base_lib = files(
   'preview.cpp',
   'properties.cpp',
   'psdimage.cpp',
-  'quicktimevideo.cpp',
   'rafimage.cpp',
-  'riffvideo.cpp',
   'rw2image.cpp',
   'tags.cpp',
   'tgaimage.cpp',
@@ -41,6 +37,10 @@ base_lib = files(
   'xmp.cpp',
   'xmpsidecar.cpp',
 )
+
+if get_option('video')
+  base_lib += files('asfvideo.cpp', 'matroskavideo.cpp', 'quicktimevideo.cpp', 'riffvideo.cpp')
+endif
 
 int_lib = files(
   'canonmn_int.cpp',

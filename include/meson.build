@@ -43,11 +43,16 @@ headers = files(
   'exiv2/xmpsidecar.hpp',
 )
 
-headers += exiv_conf
-headers += cfile
+if get_option('video')
+  headers += files('exiv2/asfvideo.hpp', 'exiv2/matroskavideo.hpp', 'exiv2/quicktimevideo.hpp', 'exiv2/riffvideo.hpp')
+endif
+
 if zlib_dep.found()
   headers += files('exiv2/pngimage.hpp')
 endif
+
+headers += exiv_conf
+headers += cfile
 
 install_headers(
   headers,
