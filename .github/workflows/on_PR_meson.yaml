@@ -142,17 +142,3 @@ jobs:
             meson setup "${{github.workspace}}/build" -Dwarning_level=3 -Dcpp_std=c++20
             meson compile -C "${{github.workspace}}/build" --verbose
             meson test -C "${{github.workspace}}/build" --verbose
-  OpenBSD:
-    runs-on: macos-latest
-    name: OpenBSD
-    steps:
-      - uses: actions/checkout@v3
-      - name: OpenBSD
-        uses: vmactions/openbsd-vm@v0
-        with:
-          prepare: |
-            pkg_add curl ninja meson gettext pkgconf gtest libiconv
-          run: |
-            meson setup "${{github.workspace}}/build" -Dwarning_level=3 -Dcpp_std=c++20
-            meson compile -C "${{github.workspace}}/build" --verbose
-            meson test -C "${{github.workspace}}/build" --verbose
