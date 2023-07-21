@@ -1,4 +1,8 @@
-find_package(GTest REQUIRED)
+# Prefer using Google supplied CMake config as built-in module is buggy before 3.23
+find_package(GTest CONFIG)
+if(NOT GTest_FOUND)
+    find_package(GTest REQUIRED)
+endif()
 
 # video support.
 if( EXV_ENABLE_VIDEO )
@@ -44,7 +48,7 @@ target_compile_definitions(unit_tests
 target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
-        GTest::gtest_main
+        GTest::gmock_main
         std::filesystem
 )
 
