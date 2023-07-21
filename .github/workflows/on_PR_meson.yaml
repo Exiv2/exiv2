@@ -16,13 +16,12 @@ jobs:
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install packages
-        run: |
-          sudo apt update
-          sudo apt install -y g++-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev libinih-dev libgmock-dev libgtest-dev gettext
-          python3 -m pip install meson==0.54.1 ninja
-
+      - uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: g++-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev libinih-dev libgmock-dev libgtest-dev gettext ninja-build
+          version: 1.0
+      - name: Install meson
+        run: python3 -m pip install meson==0.54.1
       - name: Compile and Test
         env:
           CXX: g++-${{matrix.cxx}}
@@ -39,13 +38,12 @@ jobs:
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install packages
-        run: |
-          sudo apt update
-          sudo apt install -y clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev gettext
-          python3 -m pip install meson ninja
-
+      - uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev gettext ninja-build
+          version: 1.0
+      - name: Install meson
+        run: python3 -m pip install meson
       - name: Compile and Test
         env:
           CXX: clang++-${{matrix.cxx}}
