@@ -125,6 +125,7 @@ add_library( exiv2lib
     ${PUBLIC_HEADERS}
     $<TARGET_OBJECTS:exiv2lib_int>
 )
+add_library(Exiv2::exiv2lib ALIAS exiv2lib)
 
 generate_export_header(exiv2lib
     EXPORT_MACRO_NAME EXIV2API
@@ -300,7 +301,7 @@ install(FILES
 
 install(EXPORT exiv2Export 
     DESTINATION "${CMAKE_INSTALL_DATADIR}/cmake/exiv2"
-    NAMESPACE exiv2::
+    NAMESPACE Exiv2::
 )
 
 install(
