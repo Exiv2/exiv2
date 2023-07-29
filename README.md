@@ -350,7 +350,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2/
 add_executable(exifprint ../samples/exifprint.cpp) # Create exifprint target
-target_link_libraries(exifprint PRIVATE Exiv2::exiv2lib)  # link exiv2lib
+target_link_libraries(exifprint PRIVATE exiv2lib)  # link exiv2lib
 EOF
 $ cmake .                                          # generate the makefile
 $ cmake --build .                                  # build the code
