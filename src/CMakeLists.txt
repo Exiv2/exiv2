@@ -184,7 +184,7 @@ target_include_directories(exiv2lib SYSTEM PRIVATE
 
 if (EXIV2_ENABLE_XMP OR EXIV2_ENABLE_EXTERNAL_XMP)
     target_include_directories(exiv2lib PRIVATE ${EXPAT_INCLUDE_DIR})
-    target_link_libraries(exiv2lib PRIVATE EXPAT::EXPAT)
+    target_link_libraries(exiv2lib PRIVATE $<BUILD_INTERFACE:EXPAT::EXPAT>)
     list(APPEND requires_private_list "expat")
 endif()
 
