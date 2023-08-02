@@ -30,11 +30,8 @@ namespace fs = std::experimental::filesystem;
 #include <pwd.h>
 #include <unistd.h>
 #else
-#include <shlobj.h>
-#ifndef CSIDL_PROFILE
-#define CSIDL_PROFILE 40
-#endif
 #include <process.h>
+#include <shlobj.h>
 #endif
 
 #ifdef EXV_ENABLE_INIH
@@ -74,9 +71,10 @@ std::string getExiv2ConfigPath() {
   }
 
 #ifdef _WIN32
-  char buffer[1024];
-  if (SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_PROFILE, nullptr, 0, buffer))) {
+  PWSTR buffer = nullptr;
+  if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_Profile, 0, nullptr, &buffer))) {
     currentPath = buffer;
+    CoTaskMemFree(buffer);
   }
 #else
   auto pw = getpwuid(getuid());
