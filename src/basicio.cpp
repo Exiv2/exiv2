@@ -372,28 +372,17 @@ void FileIo::transfer(BasicIo& src) {
       // that file has been opened with FILE_SHARE_DELETE by another process,
       // like a virus scanner or disk indexer
       // (see also http://stackoverflow.com/a/11023068)
-      using ReplaceFileA_t = BOOL(WINAPI*)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
-      HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
-      if (hKernel) {
-        auto pfcn_ReplaceFileA = reinterpret_cast<ReplaceFileA_t>(GetProcAddress(hKernel, "ReplaceFileA"));
-        if (pfcn_ReplaceFileA) {
-          BOOL ret =
-              pfcn_ReplaceFileA(pf, fileIo->path().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
-          if (ret == 0) {
-            if (GetLastError() == ERROR_FILE_NOT_FOUND) {
-              fs::rename(fileIo->path(), pf);
-              fs::remove(fileIo->path());
-            } else {
-              throw Error(ErrorCode::kerFileRenameFailed, fileIo->path(), pf, strError());
-            }
-          }
-        } else {
-          if (fileExists(pf) && ::remove(pf) != 0) {
-            throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
-          }
-          fs::rename(fileIo->path(), pf);
-          fs::remove(fileIo->path());
-        }
+      auto ret = ReplaceFileA(pf, fileIo->path().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
+      if (ret == 0) {
+        if (GetLastError() != ERROR_FILE_NOT_FOUND)
+          throw Error(ErrorCode::kerFileRenameFailed, fileIo->path(), pf, strError());
+        fs::rename(fileIo->path(), pf);
+        fs::remove(fileIo->path());
+      } else {
+        if (fileExists(pf) && ::remove(pf) != 0)
+          throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
+        fs::rename(fileIo->path(), pf);
+        fs::remove(fileIo->path());
       }
 #else
       if (fileExists(pf) && fs::remove(pf) != 0) {
