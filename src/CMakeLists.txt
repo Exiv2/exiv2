@@ -1,9 +1,3 @@
-# Note that this is a hack for testing the internals of the library. If EXIV2_BUILD_UNIT_TESTS==OFF
-# Then we only export the symbols that are explicitly exported
-if( EXIV2_BUILD_UNIT_TESTS )
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
-endif()
-
 include(CMakePackageConfigHelpers)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -178,7 +172,7 @@ set_target_properties( exiv2lib_int PROPERTIES
 
 # NOTE: Cannot use target_link_libraries on OBJECT libraries with old versions of CMake
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
-target_include_directories(exiv2lib SYSTEM PRIVATE 
+target_include_directories(exiv2lib SYSTEM PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
 )
 
@@ -218,7 +212,7 @@ endif()
 if (WIN32)
     target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1)    # to be compatible with <= WinVista (#905)
     # Since windows.h is included in some headers, we need to propagate this definition
-    target_compile_definitions(exiv2lib PUBLIC WIN32_LEAN_AND_MEAN) 
+    target_compile_definitions(exiv2lib PUBLIC WIN32_LEAN_AND_MEAN)
 endif()
 
 if (NOT MSVC)
@@ -299,7 +293,7 @@ install(FILES
     ${CMAKE_BINARY_DIR}/exiv2lib_export.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
-install(EXPORT exiv2Export 
+install(EXPORT exiv2Export
     DESTINATION "${CMAKE_INSTALL_DATADIR}/cmake/exiv2"
     NAMESPACE Exiv2::
 )

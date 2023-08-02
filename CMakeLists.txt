@@ -74,10 +74,6 @@ if ( EXIV2_ENABLE_EXTERNAL_XMP )
   set(EXIV2_ENABLE_XMP OFF)
 endif()
 
-if( EXIV2_BUILD_UNIT_TESTS )
-  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
-endif()
-
 include(cmake/findDependencies.cmake   REQUIRED)
 include(cmake/compilerFlags.cmake      REQUIRED)
 include(cmake/generateConfigFile.cmake REQUIRED)
