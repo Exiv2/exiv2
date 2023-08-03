@@ -35,7 +35,7 @@ namespace fs = std::experimental::filesystem;
 #endif
 
 #if __has_include(<unistd.h>)
-#include <unistd.h>  // for stat()
+#include <unistd.h>  // for getpid()
 #endif
 
 #if defined(__FreeBSD__)
