@@ -20,8 +20,6 @@ namespace fs = std::experimental::filesystem;
 
 #ifdef _WIN32
 #include <windows.h>
-char* realpath(const char* file, char* path);
-#define lstat stat
 #if _MSC_VER < 1400
 #define strcpy_s(d, l, s) strcpy(d, s)
 #define strcat_s(d, l, s) strcat(d, s)
@@ -464,8 +462,6 @@ bool readDir(const char* path, Options& options) {
     // print all the files and directories within directory
     while ((ent = readdir(dir)) != nullptr) {
       std::string pathName = makePath(path, ent->d_name);
-      struct stat buf;
-      lstat(path, &buf);
       if (ent->d_name[0] != '.') {
         // printf("reading %s => %s\n",ent->d_name,pathName.c_str());
         if (getFileType(pathName, options) == typeImage) {
