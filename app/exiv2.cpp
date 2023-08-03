@@ -23,8 +23,6 @@
 #include <regex>
 
 #if defined(_WIN32)
-#include <fcntl.h>
-#include <io.h>
 #include <windows.h>
 #else
 #include <sys/select.h>
@@ -959,8 +957,6 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
   if (stdinBuf.empty()) {
 #if defined(_WIN32)
     DWORD fdwMode;
-    _setmode(fileno(stdin), O_BINARY);
-    Sleep(300);
     if (!GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode)) {  // failed: stdin has bytes!
 #else
     // http://stackoverflow.com/questions/34479795/make-c-not-wait-for-user-input/34479916#34479916

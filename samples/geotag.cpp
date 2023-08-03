@@ -20,7 +20,6 @@ namespace fs = std::experimental::filesystem;
 
 #ifdef _WIN32
 #include <windows.h>
-char* realpath(const char* file, char* path);
 #define lstat stat
 #if _MSC_VER < 1400
 #define strcpy_s(d, l, s) strcpy(d, s)

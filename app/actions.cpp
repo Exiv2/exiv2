@@ -31,18 +31,10 @@
 #endif
 
 #if defined(_WIN32)
-#include <fcntl.h>
-#include <io.h>
 #include <sys/utime.h>
 #include <windows.h>
 #else
 #include <utime.h>
-#endif
-
-#ifndef _WIN32
-#define _setmode(a, b) \
-  do {                 \
-  } while (false)
 #endif
 
 #if __has_include(<filesystem>)
@@ -194,7 +186,6 @@ static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const st
       }
     }
   } else {
-    _setmode(fileno(stdout), O_BINARY);
     result = printStructure(std::cout, option, path);
   }
 
@@ -785,9 +776,6 @@ int Extract::run(const std::string& path) {
     int rc = 0;
 
     bool bStdout = (Params::instance().target_ & Params::ctStdInOut) != 0;
-    if (bStdout) {
-      _setmode(fileno(stdout), _O_BINARY);
-    }
 
     if (Params::instance().target_ & Params::ctThumb) {
       rc = writeThumbnail();
@@ -1794,7 +1782,6 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
 
   // if we used a temporary target, copy it to stdout
   if (rc == 0 && bStdout) {
-    _setmode(fileno(stdout), O_BINARY);
     if (auto f = std::fopen(target.c_str(), "rb")) {
       char buffer[8 * 1024];
       size_t n = 1;

@@ -883,12 +883,6 @@ void XPathIo::ReadStdin() {
   if (isatty(fileno(stdin)))
     throw Error(ErrorCode::kerInputDataReadFailed);
 
-#ifdef _O_BINARY
-  // convert stdin to binary
-  if (_setmode(_fileno(stdin), _O_BINARY) == -1)
-    throw Error(ErrorCode::kerInputDataReadFailed);
-#endif
-
   char readBuf[100 * 1024];
   std::streamsize readBufSize = 0;
   do {
@@ -953,11 +947,6 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
   if (prot == pStdin) {
     if (isatty(fileno(stdin)))
       throw Error(ErrorCode::kerInputDataReadFailed);
-#ifdef _WIN32
-    // convert stdin to binary
-    if (_setmode(_fileno(stdin), _O_BINARY) == -1)
-      throw Error(ErrorCode::kerInputDataReadFailed);
-#endif
     std::ofstream fs(path.c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
     // read stdin and write to the temp file.
     char readBuf[100 * 1024];
