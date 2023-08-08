@@ -116,7 +116,7 @@ Exif.NikonLd4.LensID                         Short       1  0  0
 Exif.NikonLd4.MaxAperture                    Short       1  0  F0.5
 Exif.NikonLd4.FNumber                        Short       1  0  F0.5
 Exif.NikonLd4.FocalLength2                   Short       1  0  0 mm
-Exif.NikonLd4.FocusDistance2                 Byte        1  0  0.01 m
+Exif.NikonLd4.FocusDistance2                 Short       1  0  0.01 m
 Exif.Nikon3.RawImageCenter                   Short       2  2274 1515  2274 1515
 Exif.Nikon3.RetouchHistory                   Short      10  0 0 0 0 0 0 0 0 0 0  None
 Exif.Nikon3.ShutterCount                     Long        1  174  174
