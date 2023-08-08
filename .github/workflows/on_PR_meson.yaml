@@ -83,8 +83,6 @@ jobs:
       matrix:
         deps: ['enabled', 'disabled']
         platform: ['UCRT64', 'CLANG32', 'CLANG64']
-    env:
-      MSYS: "winjitdebug"
     steps:
       - uses: actions/checkout@v3
 
