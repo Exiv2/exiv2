@@ -1719,8 +1719,8 @@ constexpr TagInfo Nikon3MakerNote::tagInfoLd4_[] = {
      printApertureLd4},
     {60, "FocalLength2", N_("Focal Length 2"), N_("Focal length 2"), IfdId::nikonLd4Id, SectionId::makerTags,
      unsignedShort, 1, printFocalLd4},
-    {79, "FocusDistance2", N_("Focus Distance 2"), N_("Focus distance 2"), IfdId::nikonLd4Id, SectionId::makerTags,
-     unsignedByte, 1, printFocusDistance},
+    {78, "FocusDistance2", N_("Focus Distance 2"), N_("Focus distance 2"), IfdId::nikonLd4Id, SectionId::makerTags,
+     unsignedShort, 1, printFocusDistanceLd4},
     // End of list marker
     {0xffff, "(UnknownNikonLd4Tag)", "(UnknownNikonLd4Tag)", N_("Unknown Nikon Lens Data 3 Tag"), IfdId::nikonLd4Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
@@ -3959,6 +3959,18 @@ std::ostream& Nikon3MakerNote::printFocalLd4(std::ostream& os, const Value& valu
   std::ostringstream oss;
   oss.copyfmt(os);
   os << std::fixed << std::setprecision(1) << value.toInt64() << " mm";
+  os.copyfmt(oss);
+  return os;
+}
+
+std::ostream& Nikon3MakerNote::printFocusDistanceLd4(std::ostream& os, const Value& value, const ExifData*) {
+  if (value.count() != 1 || value.typeId() != unsignedShort) {
+    return os << "(" << value << ")";
+  }
+  double dist = 0.01 * pow(10.0, (value.toInt64() / 256.0) / 40.0);
+  std::ostringstream oss;
+  oss.copyfmt(os);
+  os << std::fixed << std::setprecision(2) << dist << " m";
   os.copyfmt(oss);
   return os;
 }

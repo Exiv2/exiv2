@@ -173,6 +173,8 @@ class Nikon3MakerNote {
   static std::ostream& printLensId4ZMount(std::ostream& os, const Value& value, const ExifData*);
   //! Print focus distance
   static std::ostream& printFocusDistance(std::ostream& os, const Value& value, const ExifData*);
+  //! Print focus distance for new LensData as used for e.g. Nikon Z 6/7
+  static std::ostream& printFocusDistanceLd4(std::ostream& os, const Value& value, const ExifData*);
   //! Print lens aperture value
   static std::ostream& printAperture(std::ostream& os, const Value& value, const ExifData*);
   //! Print lens aperture value for new LensData as used for e.g. Nikon Z 6/7
