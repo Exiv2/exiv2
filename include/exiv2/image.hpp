@@ -430,9 +430,9 @@ class EXIV2API Image {
   [[nodiscard]] AccessMode checkMode(MetadataId metadataId) const;
   /*!
     @brief Check if image supports a particular type of metadata.
-       This method is deprecated. Use checkMode() instead.
+    @deprecated This method is deprecated. Use checkMode() instead.
    */
-  [[nodiscard]] bool supportsMetadata(MetadataId metadataId) const;
+  [[deprecated]] [[nodiscard]] bool supportsMetadata(MetadataId metadataId) const;
   //! Return the flag indicating the source when writing XMP metadata.
   [[nodiscard]] bool writeXmpFromPacket() const;
   //! Return list of native previews. This is meant to be used only by the PreviewManager.

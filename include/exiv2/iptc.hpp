@@ -96,10 +96,11 @@ class EXIV2API Iptcdatum : public Metadatum {
    */
   [[nodiscard]] std::string key() const override;
   /*!
-     @brief Return the name of the record (deprecated)
+     @brief Return the name of the record
      @return record name
+     @deprecated This function is deprecated.
    */
-  [[nodiscard]] std::string recordName() const;
+  [[deprecated]] [[nodiscard]] std::string recordName() const;
   /*!
      @brief Return the record id
      @return record id
