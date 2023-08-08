@@ -772,9 +772,10 @@ constexpr ArrayDef nikonLdDef[] = {
 constexpr ArrayDef nikonLd4Def[] = {
     {0, ttUndefined, 4},       // Version
     {48, ttUnsignedShort, 1},  // LensID
-    {54, ttUnsignedShort, 1},  // MacAperture
+    {54, ttUnsignedShort, 1},  // MaxAperture
     {56, ttUnsignedShort, 1},  // FNumber
     {60, ttUnsignedShort, 1},  // FocalLength
+    {78, ttUnsignedShort, 1},  // FocusDistance
 };
 //! Nikon Lens Data configurations and definitions
 constexpr ArraySet nikonLdSet[] = {
