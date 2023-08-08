@@ -36,6 +36,7 @@ static int WSAGetLastError() {
 }
 #else
 #include <winsock2.h>
+#include <ws2tcpip.h>
 #endif
 
 ////////////////////////////////////////
@@ -199,19 +200,23 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   sockaddr_in serv_addr = {};
   int serv_len = sizeof(serv_addr);
 
-  serv_addr.sin_addr.s_addr = inet_addr(servername_p);
-  serv_addr.sin_family = AF_INET;
-  serv_addr.sin_port = htons(atoi(port_p));
-
   // convert unknown servername into IP address
   // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzab6/rzab6uafinet.htm
-  if (serv_addr.sin_addr.s_addr == static_cast<unsigned long>(INADDR_NONE)) {
-    auto host = gethostbyname(servername_p);
-    if (!host) {
+  if (inet_pton(AF_INET, servername_p, &serv_addr.sin_addr) <= 0) {
+    struct addrinfo hints = {};
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    struct addrinfo* result;
+
+    int res = getaddrinfo(servername_p, port_p, &hints, &result);
+    if (res != 0) {
       closesocket(sockfd);
-      return error(errors, "no such host", servername_p);
+      return error(errors, "no such host: %s", gai_strerror(res));
     }
-    memcpy(&serv_addr.sin_addr, host->h_addr, sizeof(serv_addr.sin_addr));
+
+    serv_addr = *reinterpret_cast<sockaddr_in*>(result->ai_addr);
+
+    freeaddrinfo(result);
   }
 
   makeNonBlocking(sockfd);
