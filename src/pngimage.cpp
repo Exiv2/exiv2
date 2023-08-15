@@ -74,7 +74,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     PngImage::PngImage(BasicIo::AutoPtr io, bool create)
-            : Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, io)
+            : Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, EXV_NO_AUTO_PTR_MOVE(io))
     {
         if (create)
         {
@@ -745,7 +745,7 @@ namespace Exiv2 {
     // free functions
     Image::AutoPtr newPngInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new PngImage(io, create));
+        Image::AutoPtr image(new PngImage(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good())
         {
             image.reset();

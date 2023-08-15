@@ -84,7 +84,11 @@ namespace Exiv2 {
     class CiffComponent {
     public:
         //! CiffComponent auto_ptr type
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<CiffComponent> AutoPtr;
+#else
         typedef std::auto_ptr<CiffComponent> AutoPtr;
+#endif
         //! Container type to hold all metadata
         typedef std::vector<CiffComponent*> Components;
 
@@ -428,7 +432,11 @@ namespace Exiv2 {
     class CiffHeader {
     public:
         //! CiffHeader auto_ptr type
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<CiffHeader> AutoPtr;
+#else
         typedef std::auto_ptr<CiffHeader> AutoPtr;
+#endif
 
         //! @name Creators
         //@{

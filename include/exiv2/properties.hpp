@@ -231,7 +231,11 @@ namespace Exiv2 {
     {
     public:
         //! Shortcut for an %XmpKey auto pointer.
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<XmpKey> AutoPtr;
+#else
         typedef std::auto_ptr<XmpKey> AutoPtr;
+#endif
 
         //! @name Creators
         //@{
@@ -294,7 +298,11 @@ namespace Exiv2 {
     private:
         // Pimpl idiom
         struct Impl;
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<Impl> p_;
+#else
         std::auto_ptr<Impl> p_;
+#endif
 
     };  // class XmpKey
 

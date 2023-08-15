@@ -37,7 +37,7 @@
 namespace Exiv2 {
 
     GifImage::GifImage(BasicIo::AutoPtr io)
-        : Image(ImageType::gif, mdNone, io)
+        : Image(ImageType::gif, mdNone, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // GifImage::GifImage
 
@@ -100,7 +100,7 @@ namespace Exiv2 {
     // free functions
     Image::AutoPtr newGifInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new GifImage(io));
+        Image::AutoPtr image(new GifImage(EXV_NO_AUTO_PTR_MOVE(io)));
         if (!image->good())
         {
             image.reset();

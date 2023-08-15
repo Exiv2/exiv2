@@ -55,7 +55,11 @@ namespace Exiv2 {
     class EXIV2API BasicIo {
     public:
         //! BasicIo auto_ptr type
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<BasicIo> AutoPtr;
+#else
         typedef std::auto_ptr<BasicIo> AutoPtr;
+#endif
 
         //! Seek starting positions
         enum Position { beg, cur, end };
@@ -521,7 +525,11 @@ namespace Exiv2 {
 
         // Pimpl idiom
         class Impl;
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<Impl> p_;
+#else
         std::auto_ptr<Impl> p_;
+#endif
 
     }; // class FileIo
 
@@ -721,7 +729,11 @@ namespace Exiv2 {
 
         // Pimpl idiom
         class Impl;
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<Impl> p_;
+#else
         std::auto_ptr<Impl> p_;
+#endif
 
     }; // class MemIo
 

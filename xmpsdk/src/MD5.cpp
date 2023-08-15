@@ -153,7 +153,11 @@ MD5Final(md5byte digest[16], struct MD5_CTX *ctx)
 void
 MD5Transform(UWORD32 buf[4], UWORD32 const in[16])
 {
+#if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L)
+	UWORD32 a, b, c, d;
+#else
 	register UWORD32 a, b, c, d;
+#endif
 
 	a = buf[0];
 	b = buf[1];

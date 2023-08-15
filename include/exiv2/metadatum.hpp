@@ -44,7 +44,11 @@ namespace Exiv2 {
     class EXIV2API Key {
     public:
         //! Shortcut for a %Key auto pointer.
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Key> AutoPtr;
+#else
         typedef std::auto_ptr<Key> AutoPtr;
+#endif
 
         //! @name Creators
         //@{

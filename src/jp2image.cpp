@@ -84,7 +84,7 @@ const unsigned char Jp2Blank[] = {
 // class member definitions
 namespace Exiv2
 {
-    Jp2Image::Jp2Image(BasicIo::AutoPtr io, bool create) : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, io)
+    Jp2Image::Jp2Image(BasicIo::AutoPtr io, bool create) : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, EXV_NO_AUTO_PTR_MOVE(io))
     {
         if (create) {
             if (io_->open() == 0) {
@@ -952,7 +952,7 @@ namespace Exiv2
     // free functions
     Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new Jp2Image(io, create));
+        Image::AutoPtr image(new Jp2Image(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good()) {
             image.reset();
         }

@@ -40,7 +40,7 @@
 namespace Exiv2 {
 
     MrwImage::MrwImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, io)
+        : Image(ImageType::mrw, mdExif | mdIptc | mdXmp, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // MrwImage::MrwImage
 
@@ -155,7 +155,7 @@ namespace Exiv2 {
     // free functions
     Image::AutoPtr newMrwInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new MrwImage(io, create));
+        Image::AutoPtr image(new MrwImage(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good()) {
             image.reset();
         }

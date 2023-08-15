@@ -53,7 +53,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     CrwImage::CrwImage(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::crw, mdExif | mdComment, io)
+        : Image(ImageType::crw, mdExif | mdComment, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // CrwImage::CrwImage
 
@@ -185,7 +185,7 @@ namespace Exiv2 {
     // free functions
     Image::AutoPtr newCrwInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new CrwImage(io, create));
+        Image::AutoPtr image(new CrwImage(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good()) {
             image.reset();
         }

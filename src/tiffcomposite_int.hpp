@@ -171,7 +171,11 @@ namespace Exiv2 {
     class TiffComponent {
     public:
         //! TiffComponent auto_ptr type
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<TiffComponent> AutoPtr;
+#else
         typedef std::auto_ptr<TiffComponent> AutoPtr;
+#endif
         //! Container type to hold all metadata
         typedef std::vector<TiffComponent*> Components;
 
@@ -197,10 +201,17 @@ namespace Exiv2 {
 
           @return A pointer to the newly added TIFF entry.
          */
+#ifdef EXV_NO_AUTO_PTR
+        TiffComponent* addPath(uint16_t tag,
+                               TiffPath& tiffPath,
+                               TiffComponent* const pRoot,
+                               AutoPtr object = nullptr);
+#else
         TiffComponent* addPath(uint16_t tag,
                                TiffPath& tiffPath,
                                TiffComponent* const pRoot,
                                AutoPtr object =AutoPtr(0));
+#endif
         /*!
           @brief Add a child to the component. Default is to do nothing.
           @param tiffComponent Auto pointer to the component to add.

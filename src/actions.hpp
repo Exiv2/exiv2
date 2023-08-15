@@ -65,7 +65,11 @@ namespace Action {
     class Task {
     public:
         //! Shortcut for an auto pointer.
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Task> AutoPtr;
+#else
         typedef std::auto_ptr<Task> AutoPtr;
+#endif
         //! Contructor.
         Task() : binary_(false) {}
         //! Virtual destructor.
@@ -163,7 +167,11 @@ namespace Action {
     public:
         virtual ~Print();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Print> AutoPtr;
+#else
         typedef std::auto_ptr<Print> AutoPtr;
+#endif
         AutoPtr clone() const;
 
         //! Print the Jpeg comment
@@ -219,7 +227,11 @@ namespace Action {
     public:
         virtual ~Rename();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Rename> AutoPtr;
+#else
         typedef std::auto_ptr<Rename> AutoPtr;
+#endif
         AutoPtr clone() const;
 
     private:
@@ -231,7 +243,11 @@ namespace Action {
     public:
         virtual ~Adjust();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Adjust> AutoPtr;
+#else
         typedef std::auto_ptr<Adjust> AutoPtr;
+#endif
         AutoPtr clone() const;
 
     private:
@@ -254,7 +270,11 @@ namespace Action {
     public:
         virtual ~Erase();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Erase> AutoPtr;
+#else
         typedef std::auto_ptr<Erase> AutoPtr;
+#endif
         AutoPtr clone() const;
 
         /*!
@@ -296,7 +316,11 @@ namespace Action {
     public:
         virtual ~Extract();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Extract> AutoPtr;
+#else
         typedef std::auto_ptr<Extract> AutoPtr;
+#endif
         AutoPtr clone() const;
 
         /*!
@@ -335,7 +359,11 @@ namespace Action {
     public:
         virtual ~Insert();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Insert> AutoPtr;
+#else
         typedef std::auto_ptr<Insert> AutoPtr;
+#endif
         AutoPtr clone() const;
 
         /*!
@@ -376,7 +404,11 @@ namespace Action {
     public:
         virtual ~Modify();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Modify> AutoPtr;
+#else
         typedef std::auto_ptr<Modify> AutoPtr;
+#endif
         AutoPtr clone() const;
         Modify() {}
         //! Apply modification commands to the \em pImage, return 0 if successful.
@@ -409,7 +441,11 @@ namespace Action {
     public:
         virtual ~FixIso();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<FixIso> AutoPtr;
+#else
         typedef std::auto_ptr<FixIso> AutoPtr;
+#endif
         AutoPtr clone() const;
 
     private:
@@ -427,7 +463,11 @@ namespace Action {
     public:
         virtual ~FixCom();
         virtual int run(const std::string& path);
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<FixCom> AutoPtr;
+#else
         typedef std::auto_ptr<FixCom> AutoPtr;
+#endif
         AutoPtr clone() const;
 
     private:

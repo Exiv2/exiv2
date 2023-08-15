@@ -497,7 +497,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     RiffVideo::RiffVideo(BasicIo::AutoPtr io)
-            : Image(ImageType::riff, mdNone, io)
+            : Image(ImageType::riff, mdNone, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // RiffVideo::RiffVideo
 
@@ -1300,7 +1300,7 @@ namespace Exiv2 {
 
     Image::AutoPtr newRiffInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new RiffVideo(io));
+        Image::AutoPtr image(new RiffVideo(EXV_NO_AUTO_PTR_MOVE(io)));
         if (!image->good()) {
             image.reset();
         }

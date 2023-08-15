@@ -1675,7 +1675,11 @@ namespace Exiv2 {
     TiffComponent::AutoPtr TiffCreator::create(uint32_t extendedTag,
                                                IfdId    group)
     {
+#ifdef EXV_NO_AUTO_PTR
+        TiffComponent::AutoPtr tc(nullptr);
+#else
         TiffComponent::AutoPtr tc(0);
+#endif
         uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
         const TiffGroupStruct* ts = find(tiffGroupStruct_,
                                          TiffGroupStruct::Key(extendedTag, group));
@@ -1726,11 +1730,19 @@ namespace Exiv2 {
     )
     {
         // Create standard TIFF header if necessary
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<TiffHeaderBase> ph;
+        if (!pHeader) {
+            ph = std::unique_ptr<TiffHeaderBase>(new TiffHeader);
+            pHeader = ph.get();
+        }
+#else
         std::auto_ptr<TiffHeaderBase> ph;
         if (!pHeader) {
             ph = std::auto_ptr<TiffHeaderBase>(new TiffHeader);
             pHeader = ph.get();
         }
+#endif  
         TiffComponent::AutoPtr rootDir = parse(pData, size, root, pHeader);
         if (0 != rootDir.get()) {
             TiffDecoder decoder(exifData,
@@ -1833,7 +1845,11 @@ namespace Exiv2 {
               TiffHeaderBase*    pHeader
     )
     {
+#ifdef EXV_NO_AUTO_PTR
+        if (pData == 0 || size == 0) return TiffComponent::AutoPtr(nullptr);
+#else
         if (pData == 0 || size == 0) return TiffComponent::AutoPtr(0);
+#endif
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
             throw Error(kerNotAnImage, "TIFF");
         }

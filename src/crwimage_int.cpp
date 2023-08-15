@@ -201,7 +201,7 @@ namespace Exiv2 {
 
     void CiffComponent::add(AutoPtr component)
     {
-        doAdd(component);
+        doAdd(EXV_NO_AUTO_PTR_MOVE(component));
     }
 
     void CiffEntry::doAdd(AutoPtr /*component*/)
@@ -340,7 +340,7 @@ namespace Exiv2 {
             }
             m->setDir(this->tag());
             m->read(pData, size, o, byteOrder);
-            add(m);
+            add(EXV_NO_AUTO_PTR_MOVE(m));
             o += 10;
         }
     }  // CiffDirectory::readDirectory
@@ -712,7 +712,7 @@ namespace Exiv2 {
                 // Directory doesn't exist yet, add it
                 m_ = AutoPtr(new CiffDirectory(csd.crwDir_, csd.parent_));
                 cc_ = m_.get();
-                add(m_);
+                add(EXV_NO_AUTO_PTR_MOVE(m_));
             }
             // Recursive call to next lower level directory
             cc_ = cc_->add(crwDirs, crwTagId);
@@ -729,7 +729,7 @@ namespace Exiv2 {
                 // Tag doesn't exist yet, add it
                 m_ = AutoPtr(new CiffEntry(crwTagId, tag()));
                 cc_ = m_.get();
-                add(m_);
+                add(EXV_NO_AUTO_PTR_MOVE(m_));
             }
         }
         return cc_;

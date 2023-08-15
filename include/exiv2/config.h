@@ -105,4 +105,11 @@ typedef int pid_t;
   using auto_ptr = std::unique_ptr<T>;
 #endif
 
+#if ((defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L)
+# define EXV_NO_AUTO_PTR
+# define EXV_NO_AUTO_PTR_MOVE(x) std::move(x)
+#else
+# define EXV_NO_AUTO_PTR_MOVE(x) (x)
+#endif
+
 #endif // _CONFIG_H_

@@ -292,7 +292,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     AsfVideo::AsfVideo(BasicIo::AutoPtr io)
-        : Image(ImageType::asf, mdNone, io)
+        : Image(ImageType::asf, mdNone, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // AsfVideo::AsfVideo
 
@@ -787,7 +787,7 @@ namespace Exiv2 {
 
     Image::AutoPtr newAsfInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new AsfVideo(io));
+        Image::AutoPtr image(new AsfVideo(EXV_NO_AUTO_PTR_MOVE(io)));
         if (!image->good()) {
             image.reset();
         }

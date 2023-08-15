@@ -89,7 +89,11 @@ namespace {
         virtual ~Loader() {}
 
         //! Loader auto pointer
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Loader> AutoPtr;
+#else
         typedef std::auto_ptr<Loader> AutoPtr;
+#endif
 
         //! Create a Loader subclass for requested id
         static AutoPtr create(PreviewId id, const Image &image);

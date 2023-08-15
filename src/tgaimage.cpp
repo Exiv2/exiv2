@@ -37,7 +37,7 @@
 namespace Exiv2 {
 
     TgaImage::TgaImage(BasicIo::AutoPtr io)
-        : Image(ImageType::tga, mdNone, io)
+        : Image(ImageType::tga, mdNone, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // TgaImage::TgaImage
 
@@ -122,7 +122,7 @@ namespace Exiv2 {
     // free functions
     Image::AutoPtr newTgaInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new TgaImage(io));
+        Image::AutoPtr image(new TgaImage(EXV_NO_AUTO_PTR_MOVE(io)));
         if (!image->good())
         {
             image.reset();
