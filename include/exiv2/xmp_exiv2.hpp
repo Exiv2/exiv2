@@ -146,7 +146,11 @@ namespace Exiv2 {
     private:
         // Pimpl idiom
         struct Impl;
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<Impl> p_;
+#else
         std::auto_ptr<Impl> p_;
+#endif
 
     }; // class Xmpdatum
 

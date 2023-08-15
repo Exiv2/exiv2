@@ -42,7 +42,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     Rw2Image::Rw2Image(BasicIo::AutoPtr io)
-        : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, io)
+        : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // Rw2Image::Rw2Image
 
@@ -240,7 +240,7 @@ namespace Exiv2 {
     // free functions
     Image::AutoPtr newRw2Instance(BasicIo::AutoPtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new Rw2Image(io));
+        Image::AutoPtr image(new Rw2Image(EXV_NO_AUTO_PTR_MOVE(io)));
         if (!image->good()) {
             image.reset();
         }

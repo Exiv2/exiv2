@@ -140,7 +140,11 @@ namespace Exiv2 {
     class EXIV2API ExifKey : public Key {
     public:
         //! Shortcut for an %ExifKey auto pointer.
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<ExifKey> AutoPtr;
+#else
         typedef std::auto_ptr<ExifKey> AutoPtr;
+#endif
 
         //! @name Creators
         //@{
@@ -214,7 +218,11 @@ namespace Exiv2 {
     private:
         // Pimpl idiom
         struct Impl;
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<Impl> p_;
+#else
         std::auto_ptr<Impl> p_;
+#endif
 
     }; // class ExifKey
 

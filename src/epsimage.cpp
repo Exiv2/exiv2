@@ -1076,7 +1076,7 @@ namespace Exiv2
 {
 
     EpsImage::EpsImage(BasicIo::AutoPtr io, bool create)
-            : Image(ImageType::eps, mdXmp, io)
+            : Image(ImageType::eps, mdXmp, EXV_NO_AUTO_PTR_MOVE(io))
     {
         //LogMsg::setLevel(LogMsg::debug);
         if (create) {
@@ -1153,7 +1153,7 @@ namespace Exiv2
     // free functions
     Image::AutoPtr newEpsInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new EpsImage(io, create));
+        Image::AutoPtr image(new EpsImage(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good()) {
             image.reset();
         }

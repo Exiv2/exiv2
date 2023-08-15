@@ -318,7 +318,7 @@ namespace Exiv2 {
 
     JpegBase::JpegBase(int type, BasicIo::AutoPtr io, bool create,
                        const byte initData[], long dataSize)
-        : Image(type, mdExif | mdIptc | mdXmp | mdComment, io)
+        : Image(type, mdExif | mdIptc | mdXmp | mdComment, EXV_NO_AUTO_PTR_MOVE(io))
     {
         if (create) {
             initImage(initData, dataSize);
@@ -1321,7 +1321,7 @@ namespace Exiv2 {
         0x11,0x03,0x11,0x00,0x3F,0x00,0xA0,0x00,0x0F,0xFF,0xD9 };
 
     JpegImage::JpegImage(BasicIo::AutoPtr io, bool create)
-        : JpegBase(ImageType::jpeg, io, create, blank_, sizeof(blank_))
+        : JpegBase(ImageType::jpeg, EXV_NO_AUTO_PTR_MOVE(io), create, blank_, sizeof(blank_))
     {
     }
 
@@ -1348,7 +1348,7 @@ namespace Exiv2 {
 
     Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new JpegImage(io, create));
+        Image::AutoPtr image(new JpegImage(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good()) {
             image.reset();
         }
@@ -1373,7 +1373,7 @@ namespace Exiv2 {
     const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
 
     ExvImage::ExvImage(BasicIo::AutoPtr io, bool create)
-        : JpegBase(ImageType::exv, io, create, blank_, sizeof(blank_))
+        : JpegBase(ImageType::exv, EXV_NO_AUTO_PTR_MOVE(io), create, blank_, sizeof(blank_))
     {
     }
 
@@ -1402,7 +1402,7 @@ namespace Exiv2 {
     Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create)
     {
         Image::AutoPtr image;
-        image = Image::AutoPtr(new ExvImage(io, create));
+        image = Image::AutoPtr(new ExvImage(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good()) image.reset();
         return image;
     }

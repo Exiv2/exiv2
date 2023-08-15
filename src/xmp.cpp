@@ -421,7 +421,11 @@ namespace Exiv2 {
 
     Value::AutoPtr Xmpdatum::getValue() const
     {
+#ifdef EXV_NO_AUTO_PTR
+        return p_->value_.get() == 0 ? Value::AutoPtr(nullptr) : p_->value_->clone();
+#else
         return p_->value_.get() == 0 ? Value::AutoPtr(0) : p_->value_->clone();
+#endif
     }
 
     const Value& Xmpdatum::value() const

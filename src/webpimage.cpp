@@ -69,7 +69,7 @@ namespace Exiv2 {
     }
 
     WebPImage::WebPImage(BasicIo::AutoPtr io)
-    : Image(ImageType::webp, mdNone, io)
+    : Image(ImageType::webp, mdNone, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // WebPImage::WebPImage
 
@@ -733,7 +733,7 @@ namespace Exiv2 {
 
     Image::AutoPtr newWebPInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new WebPImage(io));
+        Image::AutoPtr image(new WebPImage(EXV_NO_AUTO_PTR_MOVE(io)));
         if (!image->good()) {
             image.reset();
         }

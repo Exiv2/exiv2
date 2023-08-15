@@ -223,7 +223,11 @@ namespace Action {
             Task* t = i->second;
             return t->clone();
         }
+#ifdef EXV_NO_AUTO_PTR
+        return Task::AutoPtr(nullptr);
+#else
         return Task::AutoPtr(0);
+#endif
     } // TaskFactory::create
 
     Print::~Print()
@@ -1987,7 +1991,7 @@ namespace {
         if ( bStdin )  Params::instance().getStdin(stdIn);
         Exiv2::BasicIo::AutoPtr ioStdin = Exiv2::BasicIo::AutoPtr(new Exiv2::MemIo(stdIn.pData_,stdIn.size_));
 
-        Exiv2::Image::AutoPtr sourceImage = bStdin ? Exiv2::ImageFactory::open(ioStdin) : Exiv2::ImageFactory::open(source);
+        Exiv2::Image::AutoPtr sourceImage = bStdin ? Exiv2::ImageFactory::open(EXV_NO_AUTO_PTR_MOVE(ioStdin)) : Exiv2::ImageFactory::open(source);
         assert(sourceImage.get() != 0);
         sourceImage->readMetadata();
 

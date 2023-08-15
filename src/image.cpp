@@ -167,7 +167,7 @@ namespace Exiv2 {
     Image::Image(int              imageType,
                  uint16_t         supportedMetadata,
                  BasicIo::AutoPtr io)
-        : io_(io),
+        : io_(EXV_NO_AUTO_PTR_MOVE(io)),
           pixelWidth_(0),
           pixelHeight_(0),
           imageType_(imageType),
@@ -940,7 +940,7 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::open(const byte* data, long size)
     {
         BasicIo::AutoPtr io(new MemIo(data, size));
-        Image::AutoPtr image = open(io); // may throw
+        Image::AutoPtr image = open(EXV_NO_AUTO_PTR_MOVE(io)); // may throw
         if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
@@ -952,7 +952,7 @@ namespace Exiv2 {
         }
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
-                return registry[i].newInstance_(io, false);
+                return registry[i].newInstance_(EXV_NO_AUTO_PTR_MOVE(io), false);
             }
         }
         return Image::AutoPtr();
@@ -961,14 +961,18 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::create(int type,
                                         const std::string& path)
     {
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<FileIo> fileIo(new FileIo(path));
+#else
         std::auto_ptr<FileIo> fileIo(new FileIo(path));
+#endif
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw Error(kerFileOpenFailed, path, "w+b", strError());
         }
         fileIo->close();
-        BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::AutoPtr io(EXV_NO_AUTO_PTR_MOVE(fileIo));
+        Image::AutoPtr image = create(type, EXV_NO_AUTO_PTR_MOVE(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
@@ -977,14 +981,18 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::create(int type,
                                         const std::wstring& wpath)
     {
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<FileIo> fileIo(new FileIo(wpath));
+#else
         std::auto_ptr<FileIo> fileIo(new FileIo(wpath));
+#endif
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw WError(kerFileOpenFailed, wpath, "w+b", strError().c_str());
         }
         fileIo->close();
-        BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::AutoPtr io(EXV_NO_AUTO_PTR_MOVE(fileIo));
+        Image::AutoPtr image = create(type, EXV_NO_AUTO_PTR_MOVE(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
@@ -993,7 +1001,7 @@ namespace Exiv2 {
     Image::AutoPtr ImageFactory::create(int type)
     {
         BasicIo::AutoPtr io(new MemIo);
-        Image::AutoPtr image = create(type, io);
+        Image::AutoPtr image = create(type, EXV_NO_AUTO_PTR_MOVE(io));
         if (image.get() == 0) throw Error(kerUnsupportedImageType, type);
         return image;
     }
@@ -1004,7 +1012,7 @@ namespace Exiv2 {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
         if (0 != r) {
-            return r->newInstance_(io, true);
+            return r->newInstance_(EXV_NO_AUTO_PTR_MOVE(io), true);
         }
         return Image::AutoPtr();
     } // ImageFactory::create

@@ -41,7 +41,7 @@
 // class member definitions
 namespace Exiv2
 {
-    BmpImage::BmpImage(BasicIo::AutoPtr io) : Image(ImageType::bmp, mdNone, io)
+    BmpImage::BmpImage(BasicIo::AutoPtr io) : Image(ImageType::bmp, mdNone, EXV_NO_AUTO_PTR_MOVE(io))
     {
     }
 
@@ -122,7 +122,7 @@ namespace Exiv2
     // free functions
     Image::AutoPtr newBmpInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new BmpImage(io));
+        Image::AutoPtr image(new BmpImage(EXV_NO_AUTO_PTR_MOVE(io)));
         if (!image->good()) {
             image.reset();
         }

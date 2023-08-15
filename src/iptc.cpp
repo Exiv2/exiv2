@@ -201,7 +201,11 @@ namespace Exiv2 {
 
     Value::AutoPtr Iptcdatum::getValue() const
     {
+#ifdef EXV_NO_AUTO_PTR
+        return value_.get() == 0 ? Value::AutoPtr(nullptr) : value_->clone();
+#else
         return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone();
+#endif
     }
 
     const Value& Iptcdatum::value() const
@@ -228,7 +232,7 @@ namespace Exiv2 {
     {
         UShortValue::AutoPtr v(new UShortValue);
         v->value_.push_back(value);
-        value_ = v;
+        value_ = EXV_NO_AUTO_PTR_MOVE(v);
         return *this;
     }
 

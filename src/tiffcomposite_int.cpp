@@ -381,7 +381,7 @@ namespace Exiv2 {
         }
         size_ = value->copy(pData_, byteOrder);
         assert(size_ == newSize);
-        setValue(value);
+        setValue(EXV_NO_AUTO_PTR_MOVE(value));
     } // TiffEntryBase::updateValue
 
     void TiffEntryBase::setValue(Value::AutoPtr value)
@@ -620,7 +620,7 @@ namespace Exiv2 {
         tp->setData(const_cast<byte*>(pData() + idx), sz);
         tp->setElDef(def);
         tp->setElByteOrder(cfg()->byteOrder_);
-        addChild(tc);
+        addChild(EXV_NO_AUTO_PTR_MOVE(tc));
         return sz;
     } // TiffBinaryArray::addElement
 
@@ -629,7 +629,7 @@ namespace Exiv2 {
                                           TiffComponent* const pRoot,
                                           TiffComponent::AutoPtr object)
     {
-        return doAddPath(tag, tiffPath, pRoot, object);
+        return doAddPath(tag, tiffPath, pRoot, EXV_NO_AUTO_PTR_MOVE(object));
     } // TiffComponent::addPath
 
     TiffComponent* TiffComponent::doAddPath(uint16_t  /*tag*/,
@@ -671,7 +671,7 @@ namespace Exiv2 {
         if (tc == 0) {
             TiffComponent::AutoPtr atc;
             if (tiffPath.size() == 1 && object.get() != 0) {
-                atc = object;
+                atc = EXV_NO_AUTO_PTR_MOVE(object);
             }
             else {
                 atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
@@ -683,13 +683,13 @@ namespace Exiv2 {
             if (tiffPath.size() == 1 && dynamic_cast<TiffSubIfd*>(atc.get()) != 0) return 0;
 
             if (tpi.extendedTag() == Tag::next) {
-                tc = this->addNext(atc);
+                tc = this->addNext(EXV_NO_AUTO_PTR_MOVE(atc));
             }
             else {
-                tc = this->addChild(atc);
+                tc = this->addChild(EXV_NO_AUTO_PTR_MOVE(atc));
             }
         }
-        return tc->addPath(tag, tiffPath, pRoot, object);
+        return tc->addPath(tag, tiffPath, pRoot, EXV_NO_AUTO_PTR_MOVE(object));
     } // TiffDirectory::doAddPath
 
     TiffComponent* TiffSubIfd::doAddPath(uint16_t tag,
@@ -716,15 +716,15 @@ namespace Exiv2 {
         }
         if (tc == 0) {
             if (tiffPath.size() == 1 && object.get() != 0) {
-                tc = addChild(object);
+                tc = addChild(EXV_NO_AUTO_PTR_MOVE(object));
             }
             else {
                 TiffComponent::AutoPtr atc(new TiffDirectory(tpi1.tag(), tpi2.group()));
-                tc = addChild(atc);
+                tc = addChild(EXV_NO_AUTO_PTR_MOVE(atc));
             }
             setCount(static_cast<uint32_t>(ifds_.size()));
         }
-        return tc->addPath(tag, tiffPath, pRoot, object);
+        return tc->addPath(tag, tiffPath, pRoot, EXV_NO_AUTO_PTR_MOVE(object));
     } // TiffSubIfd::doAddPath
 
     TiffComponent* TiffMnEntry::doAddPath(uint16_t tag,
@@ -746,7 +746,7 @@ namespace Exiv2 {
             mn_ = TiffMnCreator::create(tpi1.tag(), tpi1.group(), mnGroup_);
             assert(mn_);
         }
-        return mn_->addPath(tag, tiffPath, pRoot, object);
+        return mn_->addPath(tag, tiffPath, pRoot, EXV_NO_AUTO_PTR_MOVE(object));
     } // TiffMnEntry::doAddPath
 
     TiffComponent* TiffIfdMakernote::doAddPath(uint16_t tag,
@@ -754,7 +754,7 @@ namespace Exiv2 {
                                                TiffComponent* const pRoot,
                                                TiffComponent::AutoPtr object)
     {
-        return ifd_.addPath(tag, tiffPath, pRoot, object);
+        return ifd_.addPath(tag, tiffPath, pRoot, EXV_NO_AUTO_PTR_MOVE(object));
     }
 
     TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag,
@@ -786,22 +786,22 @@ namespace Exiv2 {
         if (tc == 0) {
             TiffComponent::AutoPtr atc;
             if (tiffPath.size() == 1 && object.get() != 0) {
-                atc = object;
+                atc = EXV_NO_AUTO_PTR_MOVE(object);
             }
             else {
                 atc = TiffCreator::create(tpi.extendedTag(), tpi.group());
             }
             assert(atc.get() != 0);
             assert(tpi.extendedTag() != Tag::next);
-            tc = addChild(atc);
+            tc = addChild(EXV_NO_AUTO_PTR_MOVE(atc));
             setCount(static_cast<uint32_t>(elements_.size()));
         }
-        return tc->addPath(tag, tiffPath, pRoot, object);
+        return tc->addPath(tag, tiffPath, pRoot, EXV_NO_AUTO_PTR_MOVE(object));
     } // TiffBinaryArray::doAddPath
 
     TiffComponent* TiffComponent::addChild(TiffComponent::AutoPtr tiffComponent)
     {
-        return doAddChild(tiffComponent);
+        return doAddChild(EXV_NO_AUTO_PTR_MOVE(tiffComponent));
     } // TiffComponent::addChild
 
     TiffComponent* TiffComponent::doAddChild(AutoPtr /*tiffComponent*/)
@@ -828,14 +828,14 @@ namespace Exiv2 {
     {
         TiffComponent* tc = 0;
         if (mn_) {
-            tc =  mn_->addChild(tiffComponent);
+            tc =  mn_->addChild(EXV_NO_AUTO_PTR_MOVE(tiffComponent));
         }
         return tc;
     } // TiffMnEntry::doAddChild
 
     TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::AutoPtr tiffComponent)
     {
-        return ifd_.addChild(tiffComponent);
+        return ifd_.addChild(EXV_NO_AUTO_PTR_MOVE(tiffComponent));
     }
 
     TiffComponent* TiffBinaryArray::doAddChild(TiffComponent::AutoPtr tiffComponent)
@@ -848,7 +848,7 @@ namespace Exiv2 {
 
     TiffComponent* TiffComponent::addNext(TiffComponent::AutoPtr tiffComponent)
     {
-        return doAddNext(tiffComponent);
+        return doAddNext(EXV_NO_AUTO_PTR_MOVE(tiffComponent));
     } // TiffComponent::addNext
 
     TiffComponent* TiffComponent::doAddNext(AutoPtr /*tiffComponent*/)
@@ -870,14 +870,14 @@ namespace Exiv2 {
     {
         TiffComponent* tc = 0;
         if (mn_) {
-            tc = mn_->addNext(tiffComponent);
+            tc = mn_->addNext(EXV_NO_AUTO_PTR_MOVE(tiffComponent));
         }
         return tc;
     } // TiffMnEntry::doAddNext
 
     TiffComponent* TiffIfdMakernote::doAddNext(TiffComponent::AutoPtr tiffComponent)
     {
-        return ifd_.addNext(tiffComponent);
+        return ifd_.addNext(EXV_NO_AUTO_PTR_MOVE(tiffComponent));
     }
 
     void TiffComponent::accept(TiffVisitor& visitor)

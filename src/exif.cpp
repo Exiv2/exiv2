@@ -81,7 +81,11 @@ namespace {
     class Thumbnail {
     public:
         //! Shortcut for a %Thumbnail auto pointer.
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<Thumbnail> AutoPtr;
+#else
         typedef std::auto_ptr<Thumbnail> AutoPtr;
+#endif
 
         //! @name Creators
         //@{
@@ -124,7 +128,11 @@ namespace {
     class TiffThumbnail : public Thumbnail {
     public:
         //! Shortcut for a %TiffThumbnail auto pointer.
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<TiffThumbnail> AutoPtr;
+#else
         typedef std::auto_ptr<TiffThumbnail> AutoPtr;
+#endif
 
         //! @name Manipulators
         //@{
@@ -148,7 +156,11 @@ namespace {
     class JpegThumbnail : public Thumbnail {
     public:
         //! Shortcut for a %JpegThumbnail auto pointer.
+#ifdef EXV_NO_AUTO_PTR
+        typedef std::unique_ptr<JpegThumbnail> AutoPtr;
+#else
         typedef std::auto_ptr<JpegThumbnail> AutoPtr;
+#endif
 
         //! @name Manipulators
         //@{
@@ -193,10 +205,15 @@ namespace Exiv2 {
     template<typename T>
     Exiv2::Exifdatum& setValue(Exiv2::Exifdatum& exifDatum, const T& value)
     {
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<Exiv2::ValueType<T> > v
+            = std::unique_ptr<Exiv2::ValueType<T> >(new Exiv2::ValueType<T>);
+#else
         std::auto_ptr<Exiv2::ValueType<T> > v
             = std::auto_ptr<Exiv2::ValueType<T> >(new Exiv2::ValueType<T>);
+#endif
         v->value_.push_back(value);
-        exifDatum.value_ = v;
+        exifDatum.value_ = EXV_NO_AUTO_PTR_MOVE(v);
         return exifDatum;
     }
 
@@ -434,7 +451,11 @@ namespace Exiv2 {
 
     Value::AutoPtr Exifdatum::getValue() const
     {
+#ifdef EXV_NO_AUTO_PTR
+        return value_.get() == 0 ? Value::AutoPtr(nullptr) : value_->clone();
+#else
         return value_.get() == 0 ? Value::AutoPtr(0) : value_->clone();
+#endif
     }
 
     long Exifdatum::sizeDataArea() const
@@ -742,7 +763,11 @@ namespace Exiv2 {
 
         // Encode and check if the result fits into a JPEG Exif APP1 segment
         MemIo mio1;
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder, 0x00000008, false));
+#else
         std::auto_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder, 0x00000008, false));
+#endif
         WriteMethod wm = TiffParserWorker::encode(mio1,
                                                   pData,
                                                   size,

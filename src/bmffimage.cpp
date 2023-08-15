@@ -97,7 +97,7 @@ namespace Exiv2
     }
 
     BmffImage::BmffImage(BasicIo::AutoPtr io, bool /* create */)
-    : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, io)
+    : Image(ImageType::bmff, mdExif | mdIptc | mdXmp, EXV_NO_AUTO_PTR_MOVE(io))
     , endian_(Exiv2::bigEndian)
     {
         pixelWidth_    = 0;
@@ -723,7 +723,7 @@ namespace Exiv2
     // free functions
     Image::AutoPtr newBmffInstance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new BmffImage(io, create));
+        Image::AutoPtr image(new BmffImage(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good()) {
             image.reset();
         }

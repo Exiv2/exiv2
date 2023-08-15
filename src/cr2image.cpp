@@ -47,7 +47,7 @@ namespace Exiv2 {
     using namespace Internal;
 
     Cr2Image::Cr2Image(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::cr2, mdExif | mdIptc | mdXmp, io)
+        : Image(ImageType::cr2, mdExif | mdIptc | mdXmp, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // Cr2Image::Cr2Image
 
@@ -183,7 +183,11 @@ namespace Exiv2 {
                      ed.end());
         }
 
+#ifdef EXV_NO_AUTO_PTR
+        std::unique_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));
+#else
         std::auto_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));
+#endif   
         OffsetWriter offsetWriter;
         offsetWriter.setOrigin(OffsetWriter::cr2RawIfdOffset, Cr2Header::offset2addr(), byteOrder);
         return TiffParserWorker::encode(io,
@@ -202,7 +206,7 @@ namespace Exiv2 {
     // free functions
     Image::AutoPtr newCr2Instance(BasicIo::AutoPtr io, bool create)
     {
-        Image::AutoPtr image(new Cr2Image(io, create));
+        Image::AutoPtr image(new Cr2Image(EXV_NO_AUTO_PTR_MOVE(io), create));
         if (!image->good()) {
             image.reset();
         }

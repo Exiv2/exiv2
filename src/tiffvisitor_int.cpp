@@ -214,7 +214,7 @@ namespace Exiv2 {
             // Assumption is that the corresponding TIFF entry doesn't exist
             TiffPath tiffPath;
             TiffCreator::getPath(tiffPath, object->tag(), object->group(), root_);
-            pRoot_->addPath(object->tag(), tiffPath, pRoot_, clone);
+            pRoot_->addPath(object->tag(), tiffPath, pRoot_, EXV_NO_AUTO_PTR_MOVE(clone));
 #ifdef EXIV2_DEBUG_MESSAGES
             ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "Copied " << key << "\n";
@@ -1371,7 +1371,7 @@ namespace Exiv2 {
             TiffComponent::AutoPtr tc = TiffCreator::create(tag, object->group());
             if (tc.get()) {
                 tc->setStart(p);
-                object->addChild(tc);
+                object->addChild(EXV_NO_AUTO_PTR_MOVE(tc));
             } else {
                EXV_WARNING << "Unable to handle tag " << tag << ".\n";
             }
@@ -1386,7 +1386,11 @@ namespace Exiv2 {
 #endif
                 return;
             }
+#ifdef EXV_NO_AUTO_PTR
+            TiffComponent::AutoPtr tc(nullptr);
+#else
             TiffComponent::AutoPtr tc(0);
+#endif
             uint32_t next = getLong(p, byteOrder());
             if (next) {
                 tc = TiffCreator::create(Tag::next, object->group());
@@ -1406,7 +1410,7 @@ namespace Exiv2 {
                     return;
                 }
                 tc->setStart(pData_ + baseOffset() + next);
-                object->addNext(tc);
+                object->addNext(EXV_NO_AUTO_PTR_MOVE(tc));
             }
         } // object->hasNext()
 
@@ -1448,7 +1452,7 @@ namespace Exiv2 {
                 TiffComponent::AutoPtr td(new TiffDirectory(object->tag(),
                                                             static_cast<IfdId>(object->newGroup_ + i)));
                 td->setStart(pData_ + baseOffset() + offset);
-                object->addChild(td);
+                object->addChild(EXV_NO_AUTO_PTR_MOVE(td));
             }
         }
 #ifndef SUPPRESS_WARNINGS
@@ -1642,7 +1646,7 @@ namespace Exiv2 {
         enforce(v.get() != NULL, kerCorruptedMetadata);
         v->read(pData, size, byteOrder());
 
-        object->setValue(v);
+        object->setValue(EXV_NO_AUTO_PTR_MOVE(v));
         object->setData(pData, size);
         object->setOffset(offset);
         object->setIdx(nextIdx(object->group()));
@@ -1740,7 +1744,7 @@ namespace Exiv2 {
         enforce(v.get() != NULL, kerCorruptedMetadata);
         v->read(pData, size, bo);
 
-        object->setValue(v);
+        object->setValue(EXV_NO_AUTO_PTR_MOVE(v));
         object->setOffset(0);
         object->setIdx(nextIdx(object->group()));
 

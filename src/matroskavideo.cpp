@@ -472,7 +472,7 @@ namespace Exiv2 {
     using namespace Exiv2::Internal;
 
     MatroskaVideo::MatroskaVideo(BasicIo::AutoPtr io)
-        : Image(ImageType::mkv, mdNone, io)
+        : Image(ImageType::mkv, mdNone, EXV_NO_AUTO_PTR_MOVE(io))
     {
     } // MatroskaVideo::MatroskaVideo
 
@@ -732,7 +732,7 @@ namespace Exiv2 {
 
     Image::AutoPtr newMkvInstance(BasicIo::AutoPtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new MatroskaVideo(io));
+        Image::AutoPtr image(new MatroskaVideo(EXV_NO_AUTO_PTR_MOVE(io)));
         if (!image->good()) {
             image.reset();
         }
