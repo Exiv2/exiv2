@@ -263,6 +263,7 @@ constexpr TagDetails exifCompression[] = {
     {34712, N_("Leadtools JPEG 2000")},
     {34713, N_("Nikon NEF Compressed")},
     {34892, N_("JPEG (lossy)")},  // DNG 1.4
+    {52546, N_("JPEG XL")},       // DNG 1.7
     {65000, N_("Kodak DCR Compressed")},
     {65535, N_("Pentax PEF Compressed")},
 };
@@ -283,8 +284,8 @@ constexpr TagDetails exifPhotometricInterpretation[] = {
     {32844, N_("Pixar LogL")},
     {32845, N_("Pixar LogLuv")},
     {34892, N_("Linear Raw")},
-    {51177, N_("Depth Map")},      // DNG 1.5
-    {52527, N_("Semantic Mask")},  // DNG 1.6
+    {51177, N_("Depth Map")},         // DNG 1.5
+    {52527, N_("Photometric Mask")},  // DNG 1.6
 };
 
 //! Thresholding, tag 0x0107
@@ -404,6 +405,7 @@ constexpr TagDetails dngMakerNoteSafety[] = {
 constexpr TagDetails dngColorimetricReference[] = {
     {0, N_("XYZ values are scene-referred")},
     {1, N_("XYZ values are output-referred")},
+    {2, N_("XYZ values are output-referred and may be HDR")},  // DNG 1.7
 };
 
 //! ProfileEmbedPolicy, DNG 1.2 tag 0xc6fd
@@ -451,6 +453,7 @@ constexpr TagDetails dngDepthMeasureType[] = {
     {2, N_("Optical ray")},
 };
 
+// clang-format off
 //! Base IFD Tags (IFD0 and IFD1)
 constexpr TagInfo ifdTagInfo[] = {
     {0x000b, "ProcessingSoftware", N_("Processing Software"),
@@ -1707,12 +1710,44 @@ constexpr TagInfo ifdTagInfo[] = {
         "combination of the color tables, weighted by their corresponding Semantic "
         "Masks."),
      IfdId::ifd0Id, SectionId::dngTags, undefined, -1, printValue},  // DNG 1.6 tag
+    {0xcd40, "ProfileGainTableMap2", N_("Profile Gain Table Map 2"),
+     N_("This tag is an extended version of ProfileGainTableMap."),
+     IfdId::ifd0Id, SectionId::dngTags, undefined, -1, printValue},  // DNG 1.7 tag
+    {0xcd43, "ColumnInterleaveFactor", N_("Column Interleave Factor"),
+     N_("This tag specifies that columns of the image are stored in interleaved "
+        "order. The value of the tag specifies the number of interleaved fields. "
+        "The use of a non-default value for this tag requires setting the "
+        "DNGBackwardVersion tag to at least 1.7.0.0."),
+     IfdId::ifd0Id, SectionId::dngTags, unsignedLong, 1, printValue},  // DNG 1.7 tag
+    {0xcd44, "ImageSequenceInfo", N_("Image Sequence Info"),
+     N_("This is an informative tag that describes how the image file relates "
+        "to other image files captured in a sequence. Applications include focus "
+        "stacking, merging multiple frames to reduce noise, time lapses, exposure "
+        "brackets, stitched images for super resolution, and so on."),
+     IfdId::ifd0Id, SectionId::dngTags, undefined, -1, printValue},  // DNG 1.7 tag
+    {0xcd46, "ImageStats", N_("Image Stats"),
+     N_("This is an informative tag that provides basic statistical information "
+        "about the pixel values of the image in this IFD. Possible applications "
+        "include normalizing brightness of images when multiple images are displayed "
+        "together (especially when mixing Standard Dynamic Range and High Dynamic "
+        "Range images), identifying underexposed or overexposed images, and so on."),
+     IfdId::ifd0Id, SectionId::dngTags, undefined, -1, printValue},  // DNG 1.7 tag
+    {0xcd47, "ProfileDynamicRange", N_("Profile Dynamic Range"),
+     N_("This tag describes the intended rendering output dynamic range for a given "
+        "camera profile."),
+     IfdId::ifd0Id, SectionId::dngTags, undefined, 8, printValue},  // DNG 1.7 tag
+    {0xcd48, "ProfileGroupName", N_("Profile Group Name"),
+     N_("A UTF-8 encoded string containing the 'group name' of the camera profile. "
+        "The purpose of this tag is to associate two or more related camera profiles "
+        "into a common group."),
+     IfdId::ifd0Id, SectionId::dngTags, asciiString, -1, printValue},  // DNG 1.7 tag
 
     ////////////////////////////////////////
     // End of list marker
     {0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"), N_("Unknown IFD tag"), IfdId::ifd0Id, SectionId::sectionIdNotSet,
      asciiString, -1, printValue},
 };
+// clang-format on
 
 const TagInfo* ifdTagList() {
   return ifdTagInfo;
