@@ -15,7 +15,7 @@ jobs:
         cxx: ['7', '10']
         deps: ['enabled', 'disabled']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: awalsh128/cache-apt-pkgs-action@v1
         with:
           packages: g++-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev libinih-dev libgmock-dev libgtest-dev gettext ninja-build
@@ -37,7 +37,7 @@ jobs:
         cxx: ['7', '12']
         deps: ['enabled', 'disabled']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: awalsh128/cache-apt-pkgs-action@v1
         with:
           packages: clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev gettext ninja-build
@@ -61,7 +61,7 @@ jobs:
         deps: ['forcefallback', 'default']
         platform: ['x64', 'x86']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install packages
         run: |
@@ -83,7 +83,7 @@ jobs:
       matrix:
         deps: ['forcefallback', 'default']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install packages
         run: |
@@ -110,7 +110,7 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: msys2/setup-msys2@v2
         with:
@@ -137,7 +137,7 @@ jobs:
       matrix:
         deps: ['enabled', 'disabled']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install packages
         run: |
@@ -153,7 +153,7 @@ jobs:
     runs-on: macos-latest
     name: FreeBSD
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: FreeBSD
         uses: vmactions/freebsd-vm@v0
         with:
