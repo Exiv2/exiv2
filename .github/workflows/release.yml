@@ -20,7 +20,7 @@ jobs:
     name: 'Build Linux Release'
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
@@ -57,7 +57,7 @@ jobs:
     name: 'Build macOS Release'
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
@@ -95,7 +95,7 @@ jobs:
     name: 'Build Windows Release'
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
