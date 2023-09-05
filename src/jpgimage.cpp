@@ -43,7 +43,7 @@ constexpr byte app13_ = 0xed;  //!< JPEG APP13 marker
 constexpr byte com_ = 0xfe;    //!< JPEG Comment marker
 
 // Markers without payload
-constexpr byte soi_ = 0xd8;   ///!< SOI marker
+constexpr byte soi_ = 0xd8;   //!< SOI marker
 constexpr byte eoi_ = 0xd9;   //!< JPEG EOI marker
 constexpr byte rst1_ = 0xd0;  //!< JPEG Restart 0 Marker (from 0xD0 to 0xD7 there might be 8 of these markers)
 

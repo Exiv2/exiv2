@@ -11,14 +11,14 @@ enum class ImageType {
   asf,
   bigtiff,
   bmff,
-  bmp,  ///< Windows bitmap
+  bmp,  //!< Windows bitmap
   cr2,
   crw,
   dng,
   eps,
   exv,
-  gif,  ///< GIF
-  jp2,  ///< JPEG-2000
+  gif,  //!< GIF
+  jp2,  //!< JPEG-2000
   jpeg,
   mrw,
   nef,
@@ -26,7 +26,7 @@ enum class ImageType {
   pef,
   png,
   pgf,
-  psd,  ///< Photoshop (PSD)
+  psd,  //!< Photoshop (PSD)
   raf,
   rw2,
   sr2,
@@ -34,7 +34,7 @@ enum class ImageType {
   tga,
   tiff,
   webp,
-  xmp,  ///< XMP sidecar files
+  xmp,  //!< XMP sidecar files
   qtime,
   riff,
   mkv,

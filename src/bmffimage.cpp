@@ -28,40 +28,40 @@
 #include <string>
 
 enum {
-  TAG_ftyp = 0x66747970U,  ///< "ftyp" File type box */
-  TAG_avif = 0x61766966U,  ///< "avif" AVIF */
-  TAG_avio = 0x6176696fU,  ///< "avio" AVIF */
-  TAG_avis = 0x61766973U,  ///< "avis" AVIF */
-  TAG_heic = 0x68656963U,  ///< "heic" HEIC */
-  TAG_heif = 0x68656966U,  ///< "heif" HEIF */
-  TAG_heim = 0x6865696dU,  ///< "heim" HEIC */
-  TAG_heis = 0x68656973U,  ///< "heis" HEIC */
-  TAG_heix = 0x68656978U,  ///< "heix" HEIC */
-  TAG_mif1 = 0x6d696631U,  ///< "mif1" HEIF */
-  TAG_crx = 0x63727820U,   ///< "crx " Canon CR3 */
-  TAG_jxl = 0x6a786c20U,   ///< "jxl " JPEG XL file type */
-  TAG_moov = 0x6d6f6f76U,  ///< "moov" Movie */
-  TAG_meta = 0x6d657461U,  ///< "meta" Metadata */
-  TAG_mdat = 0x6d646174U,  ///< "mdat" Media data */
-  TAG_uuid = 0x75756964U,  ///< "uuid" UUID */
-  TAG_dinf = 0x64696e66U,  ///< "dinf" Data information */
-  TAG_iprp = 0x69707270U,  ///< "iprp" Item properties */
-  TAG_ipco = 0x6970636fU,  ///< "ipco" Item property container */
-  TAG_iinf = 0x69696e66U,  ///< "iinf" Item info */
-  TAG_iloc = 0x696c6f63U,  ///< "iloc" Item location */
-  TAG_ispe = 0x69737065U,  ///< "ispe" Image spatial extents */
-  TAG_infe = 0x696e6665U,  ///< "infe" Item Info Extension */
-  TAG_ipma = 0x69706d61U,  ///< "ipma" Item Property Association */
-  TAG_cmt1 = 0x434d5431U,  ///< "CMT1" ifd0Id */
-  TAG_cmt2 = 0x434D5432U,  ///< "CMD2" exifID */
-  TAG_cmt3 = 0x434D5433U,  ///< "CMT3" canonID */
-  TAG_cmt4 = 0x434D5434U,  ///< "CMT4" gpsID */
-  TAG_colr = 0x636f6c72U,  ///< "colr" Colour information */
-  TAG_exif = 0x45786966U,  ///< "Exif" Used by JXL */
-  TAG_xml = 0x786d6c20U,   ///< "xml " Used by JXL */
-  TAG_brob = 0x62726f62U,  ///< "brob" Used by JXL (brotli box) */
-  TAG_thmb = 0x54484d42U,  ///< "THMB" Canon thumbnail */
-  TAG_prvw = 0x50525657U,  ///< "PRVW" Canon preview image */
+  TAG_ftyp = 0x66747970U,  //!< "ftyp" File type box */
+  TAG_avif = 0x61766966U,  //!< "avif" AVIF */
+  TAG_avio = 0x6176696fU,  //!< "avio" AVIF */
+  TAG_avis = 0x61766973U,  //!< "avis" AVIF */
+  TAG_heic = 0x68656963U,  //!< "heic" HEIC */
+  TAG_heif = 0x68656966U,  //!< "heif" HEIF */
+  TAG_heim = 0x6865696dU,  //!< "heim" HEIC */
+  TAG_heis = 0x68656973U,  //!< "heis" HEIC */
+  TAG_heix = 0x68656978U,  //!< "heix" HEIC */
+  TAG_mif1 = 0x6d696631U,  //!< "mif1" HEIF */
+  TAG_crx = 0x63727820U,   //!< "crx " Canon CR3 */
+  TAG_jxl = 0x6a786c20U,   //!< "jxl " JPEG XL file type */
+  TAG_moov = 0x6d6f6f76U,  //!< "moov" Movie */
+  TAG_meta = 0x6d657461U,  //!< "meta" Metadata */
+  TAG_mdat = 0x6d646174U,  //!< "mdat" Media data */
+  TAG_uuid = 0x75756964U,  //!< "uuid" UUID */
+  TAG_dinf = 0x64696e66U,  //!< "dinf" Data information */
+  TAG_iprp = 0x69707270U,  //!< "iprp" Item properties */
+  TAG_ipco = 0x6970636fU,  //!< "ipco" Item property container */
+  TAG_iinf = 0x69696e66U,  //!< "iinf" Item info */
+  TAG_iloc = 0x696c6f63U,  //!< "iloc" Item location */
+  TAG_ispe = 0x69737065U,  //!< "ispe" Image spatial extents */
+  TAG_infe = 0x696e6665U,  //!< "infe" Item Info Extension */
+  TAG_ipma = 0x69706d61U,  //!< "ipma" Item Property Association */
+  TAG_cmt1 = 0x434d5431U,  //!< "CMT1" ifd0Id */
+  TAG_cmt2 = 0x434D5432U,  //!< "CMD2" exifID */
+  TAG_cmt3 = 0x434D5433U,  //!< "CMT3" canonID */
+  TAG_cmt4 = 0x434D5434U,  //!< "CMT4" gpsID */
+  TAG_colr = 0x636f6c72U,  //!< "colr" Colour information */
+  TAG_exif = 0x45786966U,  //!< "Exif" Used by JXL */
+  TAG_xml = 0x786d6c20U,   //!< "xml " Used by JXL */
+  TAG_brob = 0x62726f62U,  //!< "brob" Used by JXL (brotli box) */
+  TAG_thmb = 0x54484d42U,  //!< "THMB" Canon thumbnail */
+  TAG_prvw = 0x50525657U,  //!< "PRVW" Canon preview image */
 };
 
 // *****************************************************************************

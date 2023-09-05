@@ -85,7 +85,7 @@ class TiffMnCreator {
   TiffMnCreator& operator=(const TiffComponent&) = delete;
 
  private:
-  static const TiffMnRegistry registry_[];  ///< List of makernotes
+  static const TiffMnRegistry registry_[];  //!< List of makernotes
 };
 
 //! Makernote header interface. This class is used with TIFF makernotes.
