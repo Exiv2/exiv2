@@ -59,11 +59,11 @@ namespace Exiv2 {
 constexpr std::array<const char*, 2> ENVARDEF{
     "/exiv2.php",
     "40",
-};  //!< @brief default URL for http exiv2 handler and time-out
+};  /// @brief default URL for http exiv2 handler and time-out
 constexpr std::array<const char*, 2> ENVARKEY{
     "EXIV2_HTTP_POST",
     "EXIV2_TIMEOUT",
-};  //!< @brief request keys for http exiv2 handler and time-out
+};  /// @brief request keys for http exiv2 handler and time-out
 
 // *****************************************************************************
 // free functions

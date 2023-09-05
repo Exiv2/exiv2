@@ -175,7 +175,7 @@ class EXIV2API JpegImage : public JpegBase {
 
  private:
   // Constant data
-  static const byte blank_[];  ///< Minimal Jpeg image
+  static const byte blank_[];  //!< Minimal Jpeg image
 };
 
 //! Helper class to access %Exiv2 files

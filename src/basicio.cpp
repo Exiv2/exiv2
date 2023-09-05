@@ -51,7 +51,7 @@ namespace fs = std::experimental::filesystem;
 // *****************************************************************************
 // class member definitions
 namespace {
-///< @brief replace each substring of the subject that matches the given search string with the given replacement.
+/// @brief replace each substring of the subject that matches the given search string with the given replacement.
 void ReplaceStringInPlace(std::string& subject, std::string_view search, std::string_view replace) {
   auto pos = subject.find(search);
   while (pos != std::string::npos) {

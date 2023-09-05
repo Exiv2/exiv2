@@ -272,7 +272,7 @@ class Converter {
   std::string computeExifDigest(bool tiff);
 
   // DATA
-  static const Conversion conversion_[];  ///< Conversion rules
+  static const Conversion conversion_[];  //!< Conversion rules
   bool erase_{false};
   bool overwrite_{true};
   ExifData* exifData_;

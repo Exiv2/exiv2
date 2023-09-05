@@ -172,8 +172,8 @@ class TiffCreator {
   static TiffPath getPath(uint32_t extendedTag, IfdId group, uint32_t root);
 
  private:
-  static const TiffTreeTable tiffTreeTable_;    ///< TIFF tree structure
-  static const TiffGroupTable tiffGroupTable_;  ///< TIFF group structure
+  static const TiffTreeTable tiffTreeTable_;    //!< TIFF tree structure
+  static const TiffGroupTable tiffGroupTable_;  //!< TIFF group structure
 };
 
 /*!
@@ -283,7 +283,7 @@ class TiffMapping {
   static EncoderFct findEncoder(const std::string& make, uint32_t extendedTag, IfdId group);
 
  private:
-  static const TiffMappingInfo tiffMappingInfo_[];  ///< TIFF mapping table
+  static const TiffMappingInfo tiffMappingInfo_[];  //!< TIFF mapping table
 };
 
 /*!
