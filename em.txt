@@ -1,0 +1,11 @@
+[binaries]
+c = 'emcc'
+cpp = 'em++'
+ar = 'emar'
+nm = 'emnm'
+
+[host_machine]
+system = 'emscripten'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'

@@ -163,3 +163,17 @@ jobs:
             meson setup "${{github.workspace}}/build" -Dwarning_level=3 -Dcpp_std=c++20
             meson compile -C "${{github.workspace}}/build" --verbose
             meson test -C "${{github.workspace}}/build" --verbose
+  Emscripten:
+    runs-on: ubuntu-latest
+    name: Emscripten
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install packages
+        run: |
+          python3 -m pip install meson ninja
+      - name: Emscripten
+        uses: mymindstorm/setup-emsdk@v11
+      - name: Compile
+        run: |
+          meson setup "${{github.workspace}}/build" --cross-file="${{github.workspace}}/em.txt" --wrap-mode=forcefallback -Ddefault_library=static -Dwarning_level=3 -Dcpp_std=c++20 -DunitTests=disabled
+          meson compile -C "${{github.workspace}}/build" --verbose
