@@ -434,7 +434,9 @@ constexpr TagDetails sonyModelId[] = {{0, N_("Multiple camera models")},
                                       {391, "ILME-FX30"},
                                       {393, "ZV-E1"},
                                       {394, "ILCE-6700"},
-                                      {395, "ZV-1M2"}};
+                                      {395, "ZV-1M2"},
+                                      {396, "ILCE-7CR"},
+                                      {397, "ILCE-7CM2"}};
 
 //! Lookup table to translate Sony creative style (main group) values to readable labels
 constexpr StringTagDetails sonyCreativeStyleStd[] = {{"AdobeRGB", N_("Adobe RGB")},
