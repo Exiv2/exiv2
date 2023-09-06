@@ -201,7 +201,6 @@ ExifData::const_iterator sceneMode(const ExifData& ed) {
       "Exif.Panasonic.SceneMode",
       "Exif.Pentax.PictureMode",
       "Exif.PentaxDng.PictureMode",
-      "Exif.Photo.SceneCaptureType",
   };
   return findMetadatum(ed, keys, std::size(keys));
 }
