@@ -455,7 +455,7 @@ ISO speed             (Exif.Photo.ISOSpeedRatings         ) : 12800
 Date & time original  (Exif.Photo.DateTimeOriginal        ) : 2020:12:11 19:05:49
 Flash bias            (                                   ) : 
 Exposure mode         (Exif.Photo.ExposureProgram         ) : Aperture priority
-Scene mode            (Exif.Photo.SceneCaptureType        ) : Standard
+Scene mode            (                                   ) : 
 Macro mode            (                                   ) : 
 Image quality         (Exif.Nikon3.Quality                ) : RAW    
 White balance         (Exif.Nikon3.WhiteBalance           ) : AUTO1       
