@@ -473,7 +473,7 @@ Shutter speed value   (                                   ) :
 Aperture value        (                                   ) : 
 Brightness value      (                                   ) : 
 Exposure bias         (Exif.Photo.ExposureBiasValue       ) : 0 EV
-Max aperture value    (Exif.NikonLd4.MaxAperture          ) : F0.5
+Max aperture value    (Exif.NikonLd4.MaxAperture          ) : n/a
 Subject distance      (Exif.NikonLd4.FocusDistance        ) : 2.66 m
 Light source          (Exif.Photo.LightSource             ) : Unknown
 Flash                 (Exif.Photo.Flash                   ) : No flash
