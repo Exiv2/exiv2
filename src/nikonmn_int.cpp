@@ -3944,6 +3944,9 @@ std::ostream& Nikon3MakerNote::printApertureLd4(std::ostream& os, const Value& v
   if (value.count() != 1 || value.typeId() != unsignedShort) {
     return os << "(" << value << ")";
   }
+  auto temp = value.toInt64();
+  if (temp == 0)
+    return os << _("n/a");
 
   double aperture = pow(2.0, value.toInt64() / 384.0 - 1.0);
   std::ostringstream oss;
