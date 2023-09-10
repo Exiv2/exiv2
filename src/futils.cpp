@@ -365,22 +365,17 @@ std::string getProcessPath() {
     TCHAR pathbuf[MAX_PATH];
     GetModuleFileName(nullptr, pathbuf, MAX_PATH);
     auto path = fs::path(pathbuf);
-#elif defined(PROC_PIDPATHINFO_MAXSIZE)
-    char pathbuf[PROC_PIDPATHINFO_MAXSIZE];
-    proc_pidpath(getpid(), pathbuf, sizeof(pathbuf));
-    auto path = fs::path(pathbuf);
-#elif defined(__sun__)
-    auto path = fs::read_symlink(Internal::stringFormat("/proc/%d/path/a.out", getpid()));
-#elif defined(__unix__)
-    auto path = fs::read_symlink("/proc/self/exe");
 #elif defined(__APPLE__)
-    // For apple systems other than macOS, e.g. iOS.
     char pathbuf[2048];
     uint32_t size = sizeof(pathbuf);
     const int get_exec_path_failure = _NSGetExecutablePath(pathbuf, &size);
     if (get_exec_path_failure)
       return "unknown";  // pathbuf not big enough
     auto path = fs::path(pathbuf);
+#elif defined(__sun__)
+    auto path = fs::read_symlink(Internal::stringFormat("/proc/%d/path/a.out", getpid()));
+#elif defined(__unix__)
+    auto path = fs::read_symlink("/proc/self/exe");
 #endif
     return path.parent_path().string();
   } catch (const fs::filesystem_error&) {
