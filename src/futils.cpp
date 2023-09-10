@@ -38,6 +38,10 @@ namespace fs = std::experimental::filesystem;
 #include <unistd.h>  // for getpid()
 #endif
 
+#if __has_include(<mach-o/dyld.h>)
+#include <mach-o/dyld.h>
+#endif
+
 #if defined(__FreeBSD__)
 // clang-format off
 #include <sys/mount.h>
@@ -369,6 +373,14 @@ std::string getProcessPath() {
     auto path = fs::read_symlink(Internal::stringFormat("/proc/%d/path/a.out", getpid()));
 #elif defined(__unix__)
     auto path = fs::read_symlink("/proc/self/exe");
+#elif defined(__APPLE__)
+    // For apple systems other than macOS, e.g. iOS.
+    char pathbuf[2048];
+    uint32_t size = sizeof(pathbuf);
+    const int get_exec_path_failure = _NSGetExecutablePath(pathbuf, &size);
+    if (get_exec_path_failure)
+      return "unknown";  // pathbuf not big enough
+    auto path = fs::path(pathbuf);
 #endif
     return path.parent_path().string();
   } catch (const fs::filesystem_error&) {
