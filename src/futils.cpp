@@ -39,7 +39,7 @@ namespace fs = std::experimental::filesystem;
 #endif
 
 #if __has_include(<mach-o/dyld.h>)
-#include <mach-o/dyld.h>
+#include <mach-o/dyld.h>  // for _NSGetExecutablePath()
 #endif
 
 #if defined(__FreeBSD__)
