@@ -8,6 +8,6 @@ class issue_2427_BmffImage_brotliUncompress_memleak(metaclass=CaseMeta):
     commands = ["$exiv2 $filename"]
     retval   = [1]
     stderr   = ["""$exiv2_exception_message $filename:
-CL_SPACE
+_ERROR_FORMAT_CL_SPACE
 """]
     stdout   = [""]
