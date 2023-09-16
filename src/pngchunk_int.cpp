@@ -565,9 +565,9 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
     }
 
     if (i % 2 == 0)
-      *dp = static_cast<unsigned char>(16 * unhex[static_cast<int>(*sp++)]);
+      *dp = static_cast<unsigned char>(16 * unhex[static_cast<size_t>(*sp++)]);
     else
-      (*dp++) += unhex[static_cast<int>(*sp++)];
+      (*dp++) += unhex[static_cast<size_t>(*sp++)];
   }
 
   return info;
