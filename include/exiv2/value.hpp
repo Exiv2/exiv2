@@ -1220,7 +1220,7 @@ class ValueType : public Value {
     const auto v = value_.at(n);
     if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
         v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
-      return static_cast<I>(std::round(v));
+      return static_cast<I>(std::lround(v));
     }
     return 0;
   }
