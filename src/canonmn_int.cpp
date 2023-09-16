@@ -2794,7 +2794,7 @@ std::ostream& CanonMakerNote::printSi0x0003(std::ostream& os, const Value& value
     // see also printSi0x0017
     std::ostringstream oss;
     oss.copyfmt(os);
-    auto res = static_cast<int>(100.0 * (static_cast<short>(value.toInt64()) / 32.0 + 5.0) + 0.5);
+    auto res = std::lround(100.0 * (static_cast<short>(value.toInt64()) / 32.0 + 5.0));
     os << std::fixed << std::setprecision(2) << res / 100.0;
     os.copyfmt(oss);
   }
