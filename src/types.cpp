@@ -622,7 +622,7 @@ Rational floatToRationalCast(float f) {
   } else {
     return {d > 0 ? 1 : -1, 0};
   }
-  const auto nom = static_cast<int32_t>(std::round(d * den));
+  const auto nom = static_cast<int32_t>(std::lround(d * den));
   const int32_t g = std::gcd(nom, den);
 
   return {nom / g, den / g};
