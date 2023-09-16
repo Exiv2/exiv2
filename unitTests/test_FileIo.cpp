@@ -5,9 +5,8 @@
 using namespace Exiv2;
 
 namespace {
-const std::string testData(TESTDATA_PATH);
-const std::string imagePath(testData + "/DSC_3079.jpg");
-const std::string nonExistingImagePath(testData + "/nonExisting.jpg");
+constexpr auto imagePath = TESTDATA_PATH "/DSC_3079.jpg";
+constexpr auto nonExistingImagePath = TESTDATA_PATH "/nonExisting.jpg";
 }  // namespace
 
 TEST(AFileIO, canBeInstantiatedWithFilePath) {

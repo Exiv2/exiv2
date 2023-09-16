@@ -46,10 +46,6 @@ bool AsfVideo::GUIDTag::operator==(const AsfVideo::GUIDTag& other) const {
   return data1_ == other.data1_ && data2_ == other.data2_ && data3_ == other.data3_ && data4_ == other.data4_;
 }
 
-AsfVideo::GUIDTag::GUIDTag(unsigned int data1, unsigned short data2, unsigned short data3, std::array<byte, 8> data4) :
-    data1_(data1), data2_(data2), data3_(data3), data4_(data4) {
-}
-
 AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
   std::copy_n(bytes, DWORD, reinterpret_cast<uint8_t*>(&data1_));
   std::copy_n(bytes + DWORD, WORD, reinterpret_cast<uint8_t*>(&data2_));
@@ -92,7 +88,7 @@ bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
   return std::lexicographical_compare(data4_.begin(), data4_.end(), other.data4_.begin(), other.data4_.end());
 }
 
-const AsfVideo::GUIDTag Header(0x75B22630, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C});
+constexpr AsfVideo::GUIDTag Header(0x75B22630, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C});
 
 const std::map<AsfVideo::GUIDTag, std::string> GUIDReferenceTags = {
     //!< Top-level ASF object GUIDS
