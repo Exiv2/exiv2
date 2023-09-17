@@ -4,6 +4,7 @@
 #define HELPER_FUNCTIONS_HPP
 
 #include <string>
+
 #include "basicio.hpp"
 #include "types.hpp"
 /*!
