@@ -251,6 +251,12 @@ else()
   target_link_libraries(exiv2lib PRIVATE psapi ws2_32 shell32)
 endif()
 
+if(NOT HAVE_STD_FORMAT)
+  target_link_libraries(exiv2lib PRIVATE fmt::fmt)
+  target_link_libraries(exiv2lib_int PRIVATE fmt::fmt)
+  list(APPEND requires_private_list "fmt")
+endif()
+
 if(EXIV2_ENABLE_PNG)
   target_link_libraries(exiv2lib PRIVATE ZLIB::ZLIB)
   target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
