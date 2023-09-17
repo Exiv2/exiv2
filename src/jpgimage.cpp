@@ -329,7 +329,7 @@ void JpegBase::readMetadata() {
 
 #define REPORT_MARKER                                 \
   if ((option == kpsBasic || option == kpsRecursive)) \
-  out << Internal::stringFormat("%8zd | 0xff%02x %-5s", io_->tell() - 2, marker, nm[marker].c_str())
+  out << stringFormat("{:8} | 0xff{:02x} {:<5}", io_->tell() - 2, marker, nm[marker].c_str())
 
 void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
@@ -395,7 +395,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
       }
 
       if (bPrint && markerHasLength(marker))
-        out << Internal::stringFormat(" | %7d ", size);
+        out << stringFormat(" | {:7} ", size);
 
       // print signature for APPn
       if (marker >= app0_ && marker <= (app0_ | 0x0F)) {
@@ -470,7 +470,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
             enforce<std::out_of_range>(size >= 16, "Buffer too small to extract chunk information.");
             const int chunk = buf.read_uint8(2 + 12);
             const int chunks = buf.read_uint8(2 + 13);
-            out << Internal::stringFormat(" chunk %d/%d", chunk, chunks);
+            out << stringFormat(" chunk {}/{}", chunk, chunks);
           }
         }
 

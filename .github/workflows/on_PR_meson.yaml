@@ -115,6 +115,7 @@ jobs:
             cc:p
             cmake:p
             curl:p
+            fmt:p
             gtest:p
             libinih:p
             meson:p
@@ -126,6 +127,27 @@ jobs:
           meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
+  MSYS:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: 'MSYS'
+          install: >-
+            cmake
+            gcc
+            meson
+            ninja
+            pkgconf
+      - name: Compile and Test
+        run: |
+          meson setup build -Dwarning_level=3 -Dcpp_std=gnu++20
+          meson compile -C build --verbose
+          meson test -C build --verbose
   MacOS:
     runs-on: macos-latest
     name: macOS-deps=${{matrix.deps}}
@@ -141,7 +163,7 @@ jobs:
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dnls=disabled -Db_sanitize=address,undefined
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20 -Dnls=disabled -Db_sanitize=address,undefined
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   FreeBSD:
@@ -151,7 +173,7 @@ jobs:
       - uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
-            pkg install -y cmake curl ninja meson gettext pkgconf googletest expat inih brotli
+            pkg install -y cmake curl ninja meson gettext pkgconf googletest expat inih brotli libfmt
           run: |
             meson setup "${{github.workspace}}/build" -Dwarning_level=3 -Dcpp_std=c++20
             meson compile -C "${{github.workspace}}/build" --verbose
