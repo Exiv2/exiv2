@@ -768,7 +768,7 @@ void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_
   if (has_icc) {
     byte size_buff[WEBP_TAG_SIZE];
     ul2Data(size_buff, static_cast<uint32_t>(iccProfile_.size()), littleEndian);
-    if (iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
+    if (iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_ICCP), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
       throw Error(ErrorCode::kerImageWriteFailed);
     if (iIo.write(size_buff, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
       throw Error(ErrorCode::kerImageWriteFailed);
