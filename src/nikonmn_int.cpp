@@ -1767,7 +1767,7 @@ std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os, const Value& value,
       // But when actually in "Single area, Center" this can mean
       // that focus was not found (try this in AF-C mode)
       // TODO: handle the meaningful case (interacts with other fields)
-      os << "N/A";
+      os << _("n/a");
       return os;
     }
 
@@ -3757,16 +3757,16 @@ std::ostream& Nikon3MakerNote::printPictureControl(std::ostream& os, const Value
   oss.copyfmt(os);
   switch (pcval) {
     case 0:
-      os << "Normal";
+      os << _("Normal");
       break;
     case 127:
-      os << "n/a";
+      os << _("n/a");
       break;
     case -127:
-      os << "User";
+      os << _("User");
       break;
     case -128:
-      os << "Auto";
+      os << _("Auto");
       break;
     default:
       os << pcval;
