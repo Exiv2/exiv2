@@ -67,6 +67,7 @@ jobs:
 
       - name: install dependencies
         run: |
+          sudo apt update
           sudo apt install -y valgrind
           python3 -m pip install conan==1.59.0 ninja
 
