@@ -165,6 +165,8 @@ constexpr TagDetails pentaxModel[] = {
     {0x13240, "K-1 Mark II"},
     {0x13254, "K-3 Mark III"},
     {0x13290, "WG-70"},
+    {0x1329a, "GR IIIx"},
+    {0x132d6, "K-3 Mark III Monochrome"},
 };
 
 //! Quality, tag 0x0008
@@ -664,6 +666,7 @@ constexpr TagDetails pentaxLensType[] = {
     {0x0402, "smc PENTAX-FA 80-320mm F4.5-5.6"},
     {0x0403, "smc PENTAX-FA 43mm F1.9 Limited"},
     {0x0406, "smc PENTAX-FA 35-80mm F4-5.6"},
+    {0x0407, "Irix 45mm F/1.4"},
     {0x0408, "Irix 150mm F/2.8 Macro"},
     {0x0409, "Irix 11mm F/4"},
     {0x040a, "Irix 15mm F/2.4"},

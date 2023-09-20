@@ -3943,6 +3943,10 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
       {38, "Nikon", "Nikkor Z 85mm f/1.2 S"},              // 28
       {39, "Nikon", "Nikkor Z 17-28mm f/2.8"},             // IB
       {40, "Nikon", "Nikkor Z 26mm f/2.8"},
+      {41, "Nikon", "Nikkor Z DX 12-28mm f/3.5-5.6 PZ VR"},
+      {42, "Nikon", "Nikkor Z 180-600mm f/5.6-6.3 VR"},
+      {43, "Nikon", "Nikkor Z DX 24mm f/1.7"},
+      {44, "Nikon", "Nikkor Z 70-180mm f/2.8"},
   };
 
   auto lid = static_cast<uint16_t>(value.toInt64());
