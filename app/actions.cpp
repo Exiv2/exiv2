@@ -1830,7 +1830,7 @@ int renameFile(std::string& newPath, const tm* tm) {
   std::string basesuffix = "";
   int pos = filename.find('.');
   if (pos > 0)
-   basesuffix = filename.substr(filename.find('.'));
+    basesuffix = filename.substr(filename.find('.'));
   replace(format, ":basename:", p.stem().string());
   replace(format, ":basesuffix:", basesuffix);
   replace(format, ":dirname:", p.parent_path().filename().string());
