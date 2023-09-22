@@ -925,7 +925,7 @@ All project resources are accessible from the project website.
 
 ## License
 
-Copyright (C) 2004-2021 Exiv2 authors.
+Copyright (C) 2004-2023 Exiv2 authors.
 You should have received a copy of the file [COPYING](COPYING) which details the GPLv2 license.
 
 Exiv2 is free software; you can redistribute it and/or modify
