@@ -1977,6 +1977,7 @@ constexpr TagDetails canonCsLensType[] = {
     {507, "Canon EF 16-35mm f/4L IS USM"},
     {508, "Canon EF 11-24mm f/4L USM"},
     {508, "Tamron 10-24mm f/3.5-4.5 Di II VC HLD"},  // 1
+    {624, "Sigma 50-100mm f/1.8 DC HSM Art"},
     {624, "Sigma 70-200mm f/2.8 DG OS HSM | S"},
     {747, "Canon EF 100-400mm f/4.5-5.6L IS II USM"},
     {747, "Tamron SP 150-600mm f/5-6.3 Di VC USD G2"},  // 1
