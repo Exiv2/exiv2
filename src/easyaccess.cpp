@@ -25,6 +25,29 @@ ExifData::const_iterator findMetadatum(const ExifData& ed, const char* const key
   return ed.end();
 }  // findMetadatum
 
+/*!
+  @brief Search \em ed for a Metadatum specified by the \em keys.
+         The \em keys are searched in the order of their appearance, the
+         first available Metadatum is returned, except it is in NikonLd4
+         and its value 0.
+         Example: Exif.NikonLd4.LensID and Exif.NikonLd4.LensIDNumber are
+         usually together included, one of them has value 0 (which means
+         undefined), so skip tag with value 0.
+
+  @param ed The %Exif metadata container to search
+  @param keys Array of keys to look for
+  @param count Number of elements in the array
+ */
+ExifData::const_iterator findMetadatumSkip0inNikonLd4(const ExifData& ed, const char* const keys[], size_t count) {
+  for (size_t i = 0; i < count; ++i) {
+    auto pos = ed.findKey(ExifKey(keys[i]));
+    if (pos != ed.end()) {
+      if (strncmp(keys[i], "Exif.NikonLd4", 13) != 0 || pos->getValue()->toInt64(0) > 0)
+        return pos;
+    }
+  }
+  return ed.end();
+}  // findMetadatumSkip0inNikonLd4
 }  // anonymous namespace
 
 // *****************************************************************************
@@ -201,7 +224,6 @@ ExifData::const_iterator sceneMode(const ExifData& ed) {
       "Exif.Panasonic.SceneMode",
       "Exif.Pentax.PictureMode",
       "Exif.PentaxDng.PictureMode",
-      "Exif.Photo.SceneCaptureType",
   };
   return findMetadatum(ed, keys, std::size(keys));
 }
@@ -263,26 +285,18 @@ ExifData::const_iterator lensName(const ExifData& ed) {
       "Exif.Nikon3.Lens",
   };
 
-  for (const auto& key : keys) {
-    auto pos = ed.findKey(ExifKey(key));
-    if (pos != ed.end()) {
-      // Exif.NikonLd4.LensID and Exif.NikonLd4.LensIDNumber are usually together included,
-      // one of them has value 0 (which means undefined), so skip tag with value 0
-      if (strncmp(key, "Exif.NikonLd4", 13) != 0 || pos->getValue()->toInt64(0) > 0)
-        return pos;
-    }
-  }
-  return ed.end();
+  return findMetadatumSkip0inNikonLd4(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator saturation(const ExifData& ed) {
   static constexpr const char* keys[] = {
       "Exif.Photo.Saturation",        "Exif.CanonCs.Saturation",     "Exif.MinoltaCsNew.Saturation",
       "Exif.MinoltaCsOld.Saturation", "Exif.MinoltaCs7D.Saturation", "Exif.MinoltaCs5D.Saturation",
-      "Exif.Fujifilm.Color",          "Exif.Nikon3.Saturation",      "Exif.NikonPc.Saturation",
-      "Exif.Panasonic.Saturation",    "Exif.Pentax.Saturation",      "Exif.PentaxDng.Saturation",
-      "Exif.Sigma.Saturation",        "Exif.Sony1.Saturation",       "Exif.Sony2.Saturation",
-      "Exif.Casio.Saturation",        "Exif.Casio2.Saturation",      "Exif.Casio2.Saturation2",
+      "Exif.Fujifilm.Color",          "Exif.Nikon3.Saturation",      "Exif.Nikon3.Saturation2",
+      "Exif.NikonPc.Saturation",      "Exif.Panasonic.Saturation",   "Exif.Pentax.Saturation",
+      "Exif.PentaxDng.Saturation",    "Exif.Sigma.Saturation",       "Exif.Sony1.Saturation",
+      "Exif.Sony2.Saturation",        "Exif.Casio.Saturation",       "Exif.Casio2.Saturation",
+      "Exif.Casio2.Saturation2",
   };
   return findMetadatum(ed, keys, std::size(keys));
 }
@@ -418,10 +432,11 @@ ExifData::const_iterator subjectDistance(const ExifData& ed) {
       "Exif.Photo.SubjectDistance",      "Exif.Image.SubjectDistance",      "Exif.CanonSi.SubjectDistance",
       "Exif.CanonFi.FocusDistanceUpper", "Exif.CanonFi.FocusDistanceLower", "Exif.MinoltaCsNew.FocusDistance",
       "Exif.Nikon1.FocusDistance",       "Exif.Nikon3.FocusDistance",       "Exif.NikonLd2.FocusDistance",
-      "Exif.NikonLd3.FocusDistance",     "Exif.NikonLd4.FocusDistance",     "Exif.Olympus.FocusDistance",
-      "Exif.OlympusFi.FocusDistance",    "Exif.Casio.ObjectDistance",       "Exif.Casio2.ObjectDistance",
+      "Exif.NikonLd3.FocusDistance",     "Exif.NikonLd4.FocusDistance",     "Exif.NikonLd4.FocusDistance2",
+      "Exif.Olympus.FocusDistance",      "Exif.OlympusFi.FocusDistance",    "Exif.Casio.ObjectDistance",
+      "Exif.Casio2.ObjectDistance",
   };
-  return findMetadatum(ed, keys, std::size(keys));
+  return findMetadatumSkip0inNikonLd4(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator lightSource(const ExifData& ed) {
@@ -453,11 +468,12 @@ ExifData::const_iterator serialNumber(const ExifData& ed) {
 
 ExifData::const_iterator focalLength(const ExifData& ed) {
   static constexpr const char* keys[] = {
-      "Exif.Photo.FocalLength",    "Exif.Image.FocalLength",     "Exif.Canon.FocalLength",
-      "Exif.NikonLd2.FocalLength", "Exif.NikonLd3.FocalLength",  "Exif.MinoltaCsNew.FocalLength",
-      "Exif.Pentax.FocalLength",   "Exif.PentaxDng.FocalLength", "Exif.Casio2.FocalLength",
+      "Exif.Photo.FocalLength",        "Exif.Image.FocalLength",    "Exif.Canon.FocalLength",
+      "Exif.NikonLd2.FocalLength",     "Exif.NikonLd3.FocalLength", "Exif.NikonLd4.FocalLength2",
+      "Exif.MinoltaCsNew.FocalLength", "Exif.Pentax.FocalLength",   "Exif.PentaxDng.FocalLength",
+      "Exif.Casio2.FocalLength",
   };
-  return findMetadatum(ed, keys, std::size(keys));
+  return findMetadatumSkip0inNikonLd4(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator subjectArea(const ExifData& ed) {

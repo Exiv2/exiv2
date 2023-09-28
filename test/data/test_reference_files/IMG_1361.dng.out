@@ -103,7 +103,7 @@ Exif.SubImage2.ImageWidth                    Long        1  2016  2016
 Exif.SubImage2.ImageLength                   Long        1  1512  1512
 Exif.SubImage2.BitsPerSample                 Short       1  8  8
 Exif.SubImage2.Compression                   Short       1  34892  JPEG (lossy)
-Exif.SubImage2.PhotometricInterpretation     Short       1  52527  Semantic Mask
+Exif.SubImage2.PhotometricInterpretation     Short       1  52527  Photometric Mask
 Exif.SubImage2.StripOffsets                  Long        1  5428540  5428540
 Exif.SubImage2.SamplesPerPixel               Short       1  1  1
 Exif.SubImage2.RowsPerStrip                  Long        1  1512  1512
