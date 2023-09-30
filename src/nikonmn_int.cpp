@@ -2003,6 +2003,10 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
   // -g NikonLd3.MaxApertureAtMinFocal -g NikonLd3.MaxApertureAtMaxFocal
   // -g NikonLd3.MCUVersion -g Nikon3.LensType test.NEF
   //
+  // Please consider, that sequence of output is sligthly different from sequence in
+  // data structure: LensType (ltype) is printed first, but has to be entered after
+  // MCUVersion (lfw).
+  //
   //------------------------------------------------------------------------------
   // Nikkor lenses by their LensID
   //------------------------------------------------------------------------------
@@ -2715,6 +2719,9 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
       {0xA7, 0x49, 0x80, 0xA0, 0x24, 0x24, 0x4B, 0x06, 0x03, 0x00, 0x00, "Sigma", "", "APO 200-500mm F2.8 EX DG"},
       {0x48, 0x3C, 0x8E, 0xB0, 0x3C, 0x3C, 0x4B, 0x02, 0x03, 0x00, 0x00, "Sigma", "595555",
        "APO 300-800mm F5.6 EX DG HSM"},
+      {0xBF, 0x38, 0x56, 0xA6, 0x34, 0x40, 0x4B, 0x4E, 0x00, 0x00, 0x00, "Sigma", "",
+       "60-600mm F4.5-6.3 DG OS HSM | Sports"},
+      {0xC1, 0x48, 0x24, 0x37, 0x24, 0x24, 0x4B, 0x46, 0x00, 0x00, 0x00, "Sigma", "", "14-24mm f/2.8 DG HSM Art Lens"},
       //
       //------------------------------------------------------------------------------
       // Tamron lenses by focal length, first fixed then zoom lenses
