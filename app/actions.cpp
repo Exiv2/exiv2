@@ -1830,6 +1830,53 @@ int renameFile(std::string& newPath, const tm* tm) {
   replace(format, ":dirname:", p.parent_path().filename().string());
   replace(format, ":parentname:", p.parent_path().parent_path().filename().string());
 
+  // rename using exiv2 tags
+  Exiv2::Image::UniquePtr image;
+  std::regex format_regex(
+      // anything at the start
+      ".*?"
+      // start of tag name after colon
+      "(:("
+      // tag name
+      ".*?"
+      // end of tag name before colon
+      "):)"
+      // anything at the end
+      ".*?");
+  std::string illegalChars = "\\/:*?\"<>|";
+
+  std::smatch base_match;
+  while (std::regex_search(format, base_match, format_regex)) {
+    if (image == 0) {
+      image = Exiv2::ImageFactory::open(path);
+      image->readMetadata();
+      if (image->exifData().empty()) {
+        std::string error("No Exif data found in file");
+        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
+      }
+    }
+    Exiv2::ExifData& exifData = image->exifData();
+    const auto key = exifData.findKey(Exiv2::ExifKey::ExifKey(base_match[2]));
+    std::string val = "";
+    if (key != exifData.end()) {
+      val = key->print(&exifData);
+      if (val.length() == 0) {
+        std::cerr << _("Warning: ") << base_match[2] << _(" is empty.") << std::endl;
+      } else {
+        // replace characters invalid in file name
+            for (std::string::iterator it = val.begin(); it < val.end(); ++it) {
+          bool found = illegalChars.find(*it) != std::string::npos;
+          if (found) {
+            *it = '_';
+          }
+        }
+      }
+    } else {
+      std::cerr << _("Warning: ") << base_match[2] << _(" is not included.") << std::endl;
+    }
+    replace(format, base_match[1], val);
+  }
+
   const size_t max = 1024;
   char basename[max] = {};
   if (strftime(basename, max, format.c_str(), tm) == 0) {
