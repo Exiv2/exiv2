@@ -216,7 +216,7 @@ void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBuf
       uncompressedLen *= 2;
       // DoS protection - can't be bigger than 128k
       if (uncompressedLen > 131072) {
-        if (++dos > 1)
+        if (++dos > 1 || total_out > 131072)
           break;
         uncompressedLen = 131072;
       }
