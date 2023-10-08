@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyFiles, CopyTmpFiles, DeleteFiles, path, FileDecoratorBase
+from system_tests import CaseMeta, CopyFiles, CopyTmpFiles, DeleteFiles, path
 
 ###########################################################
 # rename with different formats
@@ -178,10 +178,4 @@ class Rename_NoExifData(metaclass=CaseMeta):
     """$infilename: No Exif data found in the file
 """]
     retval = [0, 253]
-
-# ###########################################################
-# # rename error: unbalanced colon
-# ###########################################################
-
-
 
