@@ -1821,23 +1821,31 @@ int renameFile(std::string& newPath, const tm* tm) {
   replace(format, ":dirname:", p.parent_path().filename().string());
   replace(format, ":parentname:", p.parent_path().parent_path().filename().string());
 
-  // rename using exiv2 tags
-  Exiv2::Image::UniquePtr image;
-  std::regex format_regex(
-      // anything at the start
-      ".*?"
-      // start of tag name after colon
-      "(:("
-      // tag name
-      ".*?"
-      // end of tag name before colon
-      "):)"
-      // anything at the end
-      ".*?");
-  std::string illegalChars = "\\/:*?\"<>|";
+  const size_t max = 1024;
+  char basename[max] = {};
+  if (strftime(basename, max, format.c_str(), tm) == 0) {
+    std::cerr << _("Filename format yields empty filename for the file") << " " << path << "\n";
+    return 1;
+  }
 
-  std::smatch base_match;
-  while (std::regex_search(format, base_match, format_regex)) {
+  newPath = (p.parent_path() / (basename + p.extension().string())).string();
+
+  // rename using exiv2 tags
+  // is done after calling setting date/time: the value retrieved from tag might include something like %Y, which then
+  // should not be replaced by year
+  Exiv2::Image::UniquePtr image;
+  std::regex format_regex(":{1}?(Exif\\..*?):{1}?");
+#if defined(_WIN32)
+  std::string illegalChars = "\\/:*?\"<>|";
+#elif defined(__APPLE__)
+  std::string illegalChars = "/:";
+#else
+  std::string illegalChars = "/";
+#endif
+  std::regex_token_iterator<std::string::iterator> rend;
+  std::regex_token_iterator<std::string::iterator> token(format.begin(), format.end(), format_regex);
+  while (token != rend) {
+    std::string tag = token->str().substr(1, token->str().length() - 2);
     if (image == 0) {
       image = Exiv2::ImageFactory::open(path);
       image->readMetadata();
@@ -1847,15 +1855,15 @@ int renameFile(std::string& newPath, const tm* tm) {
       }
     }
     Exiv2::ExifData& exifData = image->exifData();
-    const auto key = exifData.findKey(Exiv2::ExifKey::ExifKey(base_match[2]));
+    const auto key = exifData.findKey(Exiv2::ExifKey::ExifKey(tag));
     std::string val = "";
     if (key != exifData.end()) {
       val = key->print(&exifData);
       if (val.length() == 0) {
-        std::cerr << _("Warning: ") << base_match[2] << _(" is empty.") << std::endl;
+        std::cerr << _("Warning: ") << tag << _(" is empty.") << std::endl;
       } else {
-        // replace characters invalid in file name
-            for (std::string::iterator it = val.begin(); it < val.end(); ++it) {
+        //  replace characters invalid in file name
+        for (std::string::iterator it = val.begin(); it < val.end(); ++it) {
           bool found = illegalChars.find(*it) != std::string::npos;
           if (found) {
             *it = '_';
@@ -1863,19 +1871,11 @@ int renameFile(std::string& newPath, const tm* tm) {
         }
       }
     } else {
-      std::cerr << _("Warning: ") << base_match[2] << _(" is not included.") << std::endl;
+      std::cerr << _("Warning: ") << tag << _(" is not included.") << std::endl;
     }
-    replace(format, base_match[1], val);
+    replace(newPath, *token++, val);
   }
 
-  const size_t max = 1024;
-  char basename[max] = {};
-  if (strftime(basename, max, format.c_str(), tm) == 0) {
-    std::cerr << _("Filename format yields empty filename for the file") << " " << path << "\n";
-    return 1;
-  }
-
-  newPath = (p.parent_path() / (basename + p.extension().string())).string();
   p = fs::path(newPath);
 
   if (p.parent_path() == oldFsPath.parent_path() && p.filename() == oldFsPath.filename()) {
