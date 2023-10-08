@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyTmpFiles, DeleteFiles, path, FileDecoratorBase
+from system_tests import CaseMeta, CopyFiles, CopyTmpFiles, DeleteFiles, path, FileDecoratorBase
 
 ###########################################################
 # rename with different formats
@@ -12,7 +12,7 @@ renformat = ":basename:_%d_%b_%Y"
 
 @CopyTmpFiles("$data_path/" + infile)
 @DeleteFiles("$tmp_path/" + outfile)
-class Rename1(metaclass=CaseMeta):
+class Rename_dbY(metaclass=CaseMeta):
     infilename = path("$tmp_path/" + infile)
     outfilename = path("$tmp_path/" + outfile)
     commands = [
@@ -34,7 +34,7 @@ renformat = ":basename:_%Y-%m-%d-%H-%M"
 
 @CopyTmpFiles("$data_path/" + infile)
 @DeleteFiles("$tmp_path/" + outfile)
-class Rename2(metaclass=CaseMeta):
+class Rename_YmdHM(metaclass=CaseMeta):
     infilename = path("$tmp_path/" + infile)
     outfilename = path("$tmp_path/" + outfile)
     commands = [
@@ -56,7 +56,7 @@ renformat = ":basename:_:Exif.Image.Model:_:Exif.Photo.FocalLengthIn35mmFilm:"
 
 @CopyTmpFiles("$data_path/" + infile)
 @DeleteFiles("$tmp_path/" + outfile)
-class Rename3(metaclass=CaseMeta):
+class Rename_ExifTags(metaclass=CaseMeta):
     infilename = path("$tmp_path/" + infile)
     outfilename = path("$tmp_path/" + outfile)
     commands = [
@@ -78,7 +78,7 @@ renformat = ":basename:_:Exif.Image.ImageDescription:"
 
 @CopyTmpFiles("$data_path/" + infile)
 @DeleteFiles("$tmp_path/" + outfile)
-class Rename4(metaclass=CaseMeta):
+class Rename_ExifTagsInvalidChar(metaclass=CaseMeta):
     infilename = path("$tmp_path/" + infile)
     outfilename = path("$tmp_path/" + outfile)
     commands = [
@@ -98,6 +98,36 @@ Renaming file to $outfilename
     retval = [0] * len(commands)
 
 ###########################################################
+# rename with keeping suffix
+###########################################################
+
+basename ="_DSC8437"
+outfile = "02_Sep_2018.PANO.exv"
+renformat = "%d_%b_%Y:basesuffix:"
+
+@CopyTmpFiles("$data_path/_DSC8437.exv")
+@DeleteFiles("$tmp_path/" + outfile)
+class Rename_basesuffix(metaclass=CaseMeta):
+    infilename1 = path("$tmp_path/" + basename + ".exv")
+    infilename2 = path("$tmp_path/" + basename + ".PANO.exv")
+    outfilename = path("$tmp_path/" + outfile)
+    commands = [
+        # first command to prepare a file name with suffix
+        "$exiv2 --verbose --rename :basename:.PANO "  + infilename1,
+        "$exiv2 --verbose --rename " + renformat + " " + infilename2
+    ]
+    stdout = [
+	"""File 1/1: $infilename1
+Renaming file to $infilename2
+""",
+	"""File 1/1: $infilename2
+Renaming file to $outfilename
+"""
+    ]
+    stderr = [""] * len(commands)
+    retval = [0] * len(commands)
+
+###########################################################
 # rename error: tag is not included
 ###########################################################
 
@@ -107,7 +137,7 @@ renformat = ":basename:_:Exif.Image.ImageDescription:"
 
 @CopyTmpFiles("$data_path/" + infile)
 @DeleteFiles("$tmp_path/" + outfile)
-class RenameError1(metaclass=CaseMeta):
+class Rename_TagNotIncluded(metaclass=CaseMeta):
     infilename = path("$tmp_path/" + infile)
     outfilename = path("$tmp_path/" + outfile)
     commands = [
@@ -123,27 +153,35 @@ Renaming file to $outfilename
     retval = [0] * len(commands)
 
 ###########################################################
-# rename error: unbalanced colon
+# rename error: file contains no Exif data
 ###########################################################
 
 infile ="_DSC8437.exv"
 outfile = "_DSC8437_.exv"
-renformat = ":basename:_Exif.Image.ImageDescription:"
+renformat = ":basename:_:Exif.Image.ImageDescription:"
 
 @CopyTmpFiles("$data_path/" + infile)
-@DeleteFiles("$tmp_path/" + outfile)
-class RenameError2(metaclass=CaseMeta):
+#@DeleteFiles("$tmp_path/" + outfile)
+class Rename_NoExifData(metaclass=CaseMeta):
     infilename = path("$tmp_path/" + infile)
     outfilename = path("$tmp_path/" + outfile)
     commands = [
+        "$exiv2 --delete a " + infilename,
         "$exiv2 --verbose --rename " + renformat + " " + infilename
     ]
     stdout = [
+    "",
 	"""File 1/1: $infilename
-Renaming file to $outfilename
 """
     ]
-    stderr = ["""Warning: Exif.Image.ImageDescription is not included.
+    stderr = ["",
+    """$infilename: No Exif data found in the file
 """]
-    retval = [0] * len(commands)
+    retval = [0, 253]
+
+# ###########################################################
+# # rename error: unbalanced colon
+# ###########################################################
+
+
 
