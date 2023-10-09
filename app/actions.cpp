@@ -1836,12 +1836,8 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   std::regex format_regex(":{1}?(Exif\\..*?):{1}?");
 #if defined(_WIN32)
   std::string illegalChars = "\\/:*?\"<>|";
-/* Todo: How to correctly recognize a Mac platform? */
-#elif defined macintosh || defined MACOS_CLASSIC || defined MACOS_X_UNIX || defined MACOS_X || defined MACOS || \
-    defined(__APPLE__)
-  std::string illegalChars = "/:";
 #else
-  std::string illegalChars = "/";
+  std::string illegalChars = "/:";
 #endif
   std::regex_token_iterator<std::string::iterator> rend;
   std::regex_token_iterator<std::string::iterator> token(format.begin(), format.end(), format_regex);

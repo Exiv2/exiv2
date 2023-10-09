@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import sys
 from system_tests import CaseMeta, CopyFiles, CopyTmpFiles, DeleteFiles, path
 
 ###########################################################
@@ -73,7 +74,11 @@ Renaming file to $outfilename
 ###########################################################
 
 infile ="_DSC8437.exv"
-outfile = "_DSC8437_a_b_c_d_e_f_g_h_i.exv"
+if sys.platform == 'win32':
+    outfile = "_DSC8437_a_b_c_d_e_f_g_h_i.exv"
+else:
+    outfile = "_DSC8437_a\\b_c_d*e?f<g>h|i.exv"
+
 renformat = ":basename:_:Exif.Image.ImageDescription:"
 
 @CopyTmpFiles("$data_path/" + infile)
@@ -151,6 +156,28 @@ Renaming file to $outfilename
     stderr = ["""$infilename: Warning: Exif.Image.ImageDescription is not included.
 """]
     retval = [0] * len(commands)
+
+###########################################################
+# rename error: invalid tag name
+###########################################################
+
+infile ="_DSC8437.exv"
+renformat = ":basename:_:Exif.Image.ImageDescript:"
+
+@CopyTmpFiles("$data_path/" + infile)
+class Rename_InvalidTagName(metaclass=CaseMeta):
+    infilename = path("$tmp_path/" + infile)
+    commands = [
+        "$exiv2 --verbose --rename " + renformat + " " + infilename
+    ]
+    stdout = [
+	"""File 1/1: $infilename
+"""
+    ]
+    stderr = ["""Exiv2 exception in rename action for file $infilename:
+Invalid tag name or ifdId `ImageDescript', ifdId 1
+"""]
+    retval = [1] * len(commands)
 
 ###########################################################
 # rename error: file contains no Exif data
