@@ -98,7 +98,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
               the file to.
   @return 0 if successful, -1 if the file was skipped, 1 on error.
 */
-int renameFile(std::string& path, const tm* tm);
+int renameFile(std::string& path, const tm* tm, Exiv2::ExifData& exifData);
 
 /*!
   @brief Make a file path from the current file path, destination
@@ -643,7 +643,7 @@ int Rename::run(const std::string& path) {
         std::cout << _("Updating timestamp to") << " " << v << '\n';
       }
     } else {
-      rc = renameFile(newPath, &tm);
+      rc = renameFile(newPath, &tm, exifData);
       if (rc == -1)
         return 0;  // skip
     }
@@ -1806,7 +1806,7 @@ void replace(std::string& text, const std::string& searchText, const std::string
   }
 }
 
-int renameFile(std::string& newPath, const tm* tm) {
+int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   auto p = fs::path(newPath);
   std::string path = newPath;
   auto oldFsPath = fs::path(path);
@@ -1833,8 +1833,7 @@ int renameFile(std::string& newPath, const tm* tm) {
   // rename using exiv2 tags
   // is done after calling setting date/time: the value retrieved from tag might include something like %Y, which then
   // should not be replaced by year
-  Exiv2::Image::UniquePtr image;
-  std::regex format_regex(":{1}?(Exif\\..*?):{1}?");
+  std::regex format_regex(":{1}?(.*?):{1}?");
 #if defined(_WIN32)
   std::string illegalChars = "\\/:*?\"<>|";
 #elif defined(__APPLE__)
@@ -1846,21 +1845,12 @@ int renameFile(std::string& newPath, const tm* tm) {
   std::regex_token_iterator<std::string::iterator> token(format.begin(), format.end(), format_regex);
   while (token != rend) {
     std::string tag = token->str().substr(1, token->str().length() - 2);
-    if (image == 0) {
-      image = Exiv2::ImageFactory::open(path);
-      image->readMetadata();
-      if (image->exifData().empty()) {
-        std::string error("No Exif data found in file");
-        throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
-      }
-    }
-    Exiv2::ExifData& exifData = image->exifData();
-    const auto key = exifData.findKey(Exiv2::ExifKey::ExifKey(tag));
+    const auto key = exifData.findKey(Exiv2::ExifKey(tag));
     std::string val = "";
     if (key != exifData.end()) {
       val = key->print(&exifData);
       if (val.length() == 0) {
-        std::cerr << _("Warning: ") << tag << _(" is empty.") << std::endl;
+        std::cerr << path << ": " << _("Warning: ") << tag << _(" is empty.") << std::endl;
       } else {
         //  replace characters invalid in file name
         for (std::string::iterator it = val.begin(); it < val.end(); ++it) {
@@ -1871,7 +1861,7 @@ int renameFile(std::string& newPath, const tm* tm) {
         }
       }
     } else {
-      std::cerr << _("Warning: ") << tag << _(" is not included.") << std::endl;
+      std::cerr << path << ": " << _("Warning: ") << tag << _(" is not included.") << std::endl;
     }
     replace(newPath, *token++, val);
   }
