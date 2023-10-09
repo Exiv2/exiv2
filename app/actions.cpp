@@ -1833,10 +1833,12 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   // rename using exiv2 tags
   // is done after calling setting date/time: the value retrieved from tag might include something like %Y, which then
   // should not be replaced by year
-  std::regex format_regex(":{1}?(.*?):{1}?");
+  std::regex format_regex(":{1}?(Exif\\..*?):{1}?");
 #if defined(_WIN32)
   std::string illegalChars = "\\/:*?\"<>|";
-#elif defined(__APPLE__)
+/* Todo: How to correctly recognize a Mac platform? */
+#elif defined macintosh || defined MACOS_CLASSIC || defined MACOS_X_UNIX || defined MACOS_X || defined MACOS || \
+    defined(__APPLE__)
   std::string illegalChars = "/:";
 #else
   std::string illegalChars = "/";
