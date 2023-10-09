@@ -148,7 +148,7 @@ class Rename_TagNotIncluded(metaclass=CaseMeta):
 Renaming file to $outfilename
 """
     ]
-    stderr = ["""Warning: Exif.Image.ImageDescription is not included.
+    stderr = ["""$infilename: Warning: Exif.Image.ImageDescription is not included.
 """]
     retval = [0] * len(commands)
 
