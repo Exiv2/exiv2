@@ -455,11 +455,13 @@ environment variable). The *fmt* string follows the definitions in
 date and time. In addition, the following special character sequences are 
 also provided:
 
-| Variable       | Description                                     |
-|:------         |:----                                            |
-| :basename:     | Original filename without extension             |
-| :dirname:      | Name of the directory holding the original file |
-| :parentname:   | Name of parent directory                        |
+| Variable        | Description                                                                                                                   |
+|:------          |:----                                                                                                                          |
+| :basename:      | Original filename without extension                                                                                           |
+| :basesuffix:    | Suffix in original filename, starts with first dot and ends before extension, e.g. PANO, MP, NIGHT added by Google Camera app |
+| :dirname:       | Name of the directory holding the original file                                                                               |
+| :parentname:    | Name of parent directory                                                                                                      |
+| :*ExifTagName*: | Placeholder will be replaced by translated value of tag, characters not allowed in file name are replaced by underscore       |
 
 The default *fmt* is %Y%m%d_%H%M%S
 
