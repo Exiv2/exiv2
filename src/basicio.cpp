@@ -1440,7 +1440,7 @@ int64_t HttpIo::HttpImpl::getFileLength() {
   request["verb"] = "HEAD";
   int serverCode = http(request, response, errors);
   if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
-    throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), hostInfo_.Path);
+    throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, hostInfo_.Path);
   }
 
   auto lengthIter = response.find("Content-Length");
@@ -1464,7 +1464,7 @@ void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
 
   int serverCode = http(request, responseDic, errors);
   if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
-    throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), hostInfo_.Path);
+    throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, hostInfo_.Path);
   }
   response = responseDic["body"];
 }
@@ -1517,7 +1517,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
 
   int serverCode = http(request, response, errors);
   if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
-    throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), hostInfo_.Path);
+    throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, hostInfo_.Path);
   }
 }
 
@@ -1614,7 +1614,7 @@ int64_t CurlIo::CurlImpl::getFileLength() {
   int serverCode;
   curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
   if (serverCode >= 400 || serverCode < 0) {
-    throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
+    throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
   }
   // get length
   curl_off_t temp;
@@ -1648,7 +1648,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
   int serverCode;
   curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
   if (serverCode >= 400 || serverCode < 0) {
-    throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
+    throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
   }
 }
 
@@ -1696,7 +1696,7 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   int serverCode;
   curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);
   if (serverCode >= 400 || serverCode < 0) {
-    throw Error(ErrorCode::kerFileOpenFailed, "http", Exiv2::Internal::stringFormat("%d", serverCode), path_);
+    throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
   }
 }
 
