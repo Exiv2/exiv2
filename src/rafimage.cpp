@@ -71,11 +71,11 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
   if (bPrint) {
     io_->seek(0, BasicIo::beg);  // rewind
     size_t address = io_->tell();
-    const auto format = " %8zu | %8ld | ";
+    constexpr auto format = " %8zu | %8ld | ";
 
     {
       out << Internal::indent(depth) << "STRUCTURE OF RAF FILE: " << io().path() << std::endl;
-      out << Internal::indent(depth) << Internal::stringFormat("  Address |   Length | Payload") << std::endl;
+      out << Internal::indent(depth) << "  Address |   Length | Payload" << std::endl;
     }
 
     byte magicdata[17];
