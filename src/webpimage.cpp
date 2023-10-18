@@ -419,7 +419,7 @@ void WebPImage::printStructure(std::ostream& out, PrintStructureOption option, s
 
     if (bPrint) {
       out << Internal::indent(depth) << "STRUCTURE OF WEBP FILE: " << io().path() << std::endl;
-      out << Internal::indent(depth) << Internal::stringFormat(" Chunk |   Length |   Offset | Payload") << std::endl;
+      out << Internal::indent(depth) << " Chunk |   Length |   Offset | Payload" << std::endl;
     }
 
     io_->seek(0, BasicIo::beg);  // rewind
