@@ -12,21 +12,18 @@ jobs:
     name: Linux-GCC${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['7', '10']
-        deps: ['enabled', 'disabled']
+        cxx: ['7', '11']
+        deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v4
-      - uses: awalsh128/cache-apt-pkgs-action@v1
+      - uses: egor-tensin/setup-gcc@v1
         with:
-          packages: g++-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev libinih-dev libgmock-dev libgtest-dev gettext ninja-build
-          version: 1.0
+          version: ${{matrix.cxx}}
       - name: Install meson
-        run: python3 -m pip install meson==0.54.1
+        run: python3 -m pip install meson ninja
       - name: Compile and Test
-        env:
-          CXX: g++-${{matrix.cxx}}
         run: |
-          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3
           meson compile -C "${{github.workspace}}/build"
           meson test -C "${{github.workspace}}/build"
   Ubuntu-clang:
@@ -34,23 +31,22 @@ jobs:
     name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['7', '12']
-        deps: ['enabled', 'disabled']
+        cxx: ['7', '17']
+        deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v4
-      - uses: awalsh128/cache-apt-pkgs-action@v1
+      - uses: egor-tensin/setup-clang@v1
         with:
-          packages: clang-${{matrix.cxx}} libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev lld-${{matrix.cxx}} libcurl4-gnutls-dev libbrotli-dev gettext ninja-build
-          version: 1.0
+          version: ${{matrix.cxx}}
       - name: Install meson
-        run: python3 -m pip install meson
+        run: |
+          python3 -m pip install meson ninja
+          sudo apt install -y libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
       - name: Compile and Test
         env:
-          CXX: clang++-${{matrix.cxx}}
           CXXFLAGS: -stdlib=libc++
-          CXX_LD: lld-${{matrix.cxx}}
         run: |
-          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   VisualStudio:
@@ -175,5 +171,5 @@ jobs:
         uses: mymindstorm/setup-emsdk@v12
       - name: Compile
         run: |
-          meson setup "${{github.workspace}}/build" --cross-file="${{github.workspace}}/em.txt" --wrap-mode=forcefallback -Ddefault_library=static -Dwarning_level=3 -Dcpp_std=c++20 -DunitTests=disabled
+          meson setup "${{github.workspace}}/build" --cross-file="${{github.workspace}}/em.txt" --wrap-mode=forcefallback -Ddefault_library=static -Dwarning_level=3 -Dcpp_std=c++20 -DunitTests=disabled -Dcurl=disabled
           meson compile -C "${{github.workspace}}/build" --verbose
