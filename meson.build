@@ -17,6 +17,7 @@ else
 endif
 
 if host_machine.system() == 'windows'
+  add_project_arguments('-D_WIN32_WINNT=0x0600', language: 'cpp')
   if cpp.get_argument_syntax() == 'msvc'
     add_project_arguments('-DNOMINMAX', language: 'cpp')
   elif cpp.compiles('#include <time.h>\n#ifdef _UCRT\n#error\n#endif')
@@ -53,6 +54,7 @@ cdata.set('EXV_ENABLE_VIDEO', get_option('video'))
 
 deps = []
 deps += cpp.find_library('ws2_32', required: host_machine.system() == 'windows')
+deps += cpp.find_library('psapi', required: host_machine.system() == 'windows')
 deps += cpp.find_library('procstat', required: host_machine.system() == 'freebsd')
 
 fmt_dep = []
