@@ -202,7 +202,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   // convert unknown servername into IP address
   // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzab6/rzab6uafinet.htm
-  if (inet_pton(AF_INET, servername_p, &serv_addr.sin_addr) <= 0) {
+  if (inet_pton(AF_INET, servername_p, &serv_addr.sin_addr) != 0) {
     struct addrinfo hints = {};
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
@@ -226,8 +226,8 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   server = connect(sockfd, reinterpret_cast<const sockaddr*>(&serv_addr), serv_len);
   if (server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK) {
     closesocket(sockfd);
-    return error(errors, "error - unable to connect to server = %s port = %s wsa_error = %d", servername_p, port_p,
-                 WSAGetLastError());
+    return error(errors, "error - unable to connect to server = %s port = %s wsa_error = %d", servername_p,
+                 std::to_string(serv_addr.sin_port).c_str(), WSAGetLastError());
   }
 
   char buffer[32 * 1024 + 1];
