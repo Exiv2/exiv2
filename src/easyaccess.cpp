@@ -272,15 +272,17 @@ ExifData::const_iterator whiteBalance(const ExifData& ed) {
 ExifData::const_iterator lensName(const ExifData& ed) {
   static constexpr const char* keys[] = {
       // Try Exif.CanonCs.LensType first.
-      "Exif.CanonCs.LensType",      "Exif.Photo.LensModel",
-      "Exif.Canon.LensModel",       "Exif.NikonLd1.LensIDNumber",
-      "Exif.NikonLd2.LensIDNumber", "Exif.NikonLd3.LensIDNumber",
-      "Exif.NikonLd4.LensID",       "Exif.NikonLd4.LensIDNumber",
+      // Exif.OlympusEq.LensType and Exif.Pentax.LensType in most cases give better information than
+      // Exif.Photo.LensModel
+      "Exif.CanonCs.LensType",      "Exif.OlympusEq.LensType",
       "Exif.Pentax.LensType",       "Exif.PentaxDng.LensType",
-      "Exif.Minolta.LensID",        "Exif.SonyMinolta.LensID",
-      "Exif.Sony1.LensID",          "Exif.Sony2.LensID",
-      "Exif.Sony1.LensSpec",        "Exif.Sony2.LensSpec",
-      "Exif.OlympusEq.LensType",    "Exif.Panasonic.LensType",
+      "Exif.Photo.LensModel",       "Exif.Canon.LensModel",
+      "Exif.NikonLd1.LensIDNumber", "Exif.NikonLd2.LensIDNumber",
+      "Exif.NikonLd3.LensIDNumber", "Exif.NikonLd4.LensID",
+      "Exif.NikonLd4.LensIDNumber", "Exif.Minolta.LensID",
+      "Exif.SonyMinolta.LensID",    "Exif.Sony1.LensID",
+      "Exif.Sony2.LensID",          "Exif.Sony1.LensSpec",
+      "Exif.Sony2.LensSpec",        "Exif.Panasonic.LensType",
       "Exif.Samsung2.LensType",     "Exif.Photo.LensSpecification",
       "Exif.Nikon3.Lens",
   };
@@ -457,10 +459,12 @@ ExifData::const_iterator flash(const ExifData& ed) {
 
 ExifData::const_iterator serialNumber(const ExifData& ed) {
   static constexpr const char* keys[] = {
-      "Exif.Image.CameraSerialNumber", "Exif.Photo.BodySerialNumber", "Exif.Canon.SerialNumber",
-      "Exif.Nikon3.SerialNumber",      "Exif.Nikon3.SerialNO",        "Exif.Fujifilm.SerialNumber",
-      "Exif.Olympus.SerialNumber2",    "Exif.OlympusEq.SerialNumber", "Exif.Pentax.SerialNumber",
-      "Exif.PentaxDng.SerialNumber",   "Exif.Sigma.SerialNumber",     "Exif.Sony1.SerialNumber",
+      // first check Exif.Canon.SerialNumber, because some Canon images contain a wrong value in
+      // Exif.Photo.BodySerialNumber
+      "Exif.Canon.SerialNumber",     "Exif.Image.CameraSerialNumber", "Exif.Photo.BodySerialNumber",
+      "Exif.Nikon3.SerialNumber",    "Exif.Nikon3.SerialNO",          "Exif.Fujifilm.SerialNumber",
+      "Exif.Olympus.SerialNumber2",  "Exif.OlympusEq.SerialNumber",   "Exif.Pentax.SerialNumber",
+      "Exif.PentaxDng.SerialNumber", "Exif.Sigma.SerialNumber",       "Exif.Sony1.SerialNumber",
       "Exif.Sony2.SerialNumber",
   };
   return findMetadatum(ed, keys, std::size(keys));
