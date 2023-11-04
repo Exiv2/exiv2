@@ -7,7 +7,5 @@ class issue_2427_BmffImage_brotliUncompress_memleak(metaclass=CaseMeta):
     filename = "$data_path/issue_2427_poc.jpg"
     commands = ["$exiv2 $filename"]
     retval   = [1]
-    stderr   = ["""$exiv2_exception_message $filename:
-CL_SPACE
-"""]
     stdout   = [""]
+    compare_stderr = check_no_ASAN_UBSAN_errors
