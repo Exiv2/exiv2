@@ -310,17 +310,17 @@ install(TARGETS exiv2lib EXPORT exiv2Export)
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-  ../cmake/exiv2Config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/exiv2Config.cmake INSTALL_DESTINATION "${CMAKE_INSTALL_DATADIR}/cmake/exiv2"
+  ../cmake/exiv2Config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/exiv2Config.cmake INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
 )
 
 install(FILES ${PUBLIC_HEADERS} ${CMAKE_BINARY_DIR}/exv_conf.h ${CMAKE_BINARY_DIR}/exiv2lib_export.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
 install(
   EXPORT exiv2Export
-  DESTINATION "${CMAKE_INSTALL_DATADIR}/cmake/exiv2"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
   NAMESPACE Exiv2::
 )
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake ${CMAKE_CURRENT_BINARY_DIR}/exiv2Config.cmake
-        DESTINATION "${CMAKE_INSTALL_DATADIR}/cmake/exiv2"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
 )
