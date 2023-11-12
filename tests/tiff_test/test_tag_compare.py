@@ -98,9 +98,9 @@ class OutputTagExtract(metaclass=system_tests.CaseMeta):
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
         super().compare_stdout(i, command, got_stdout, expected_stdout)
 
-        if '-pa' in command:
+        if ' -pa ' in command:
             self.pa_data = self.parse_pa(got_stdout.splitlines())
-        if '-pS' in command:
+        if ' -pS ' in command:
             self.pS_data = self.parse_pS(got_stdout.splitlines())
 
         if i == 1:
