@@ -29,14 +29,20 @@ std::string RafImage::mimeType() const {
 }
 
 uint32_t RafImage::pixelWidth() const {
-  auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+  if (pixelWidth_ != 0)
+    return pixelWidth_;
+
+  auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Fujifilm.RawImageFullWidth"));
   if (widthIter == exifData_.end() || widthIter->count() == 0)
     return 0;
   return widthIter->toUint32();
 }
 
 uint32_t RafImage::pixelHeight() const {
-  auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+  if (pixelHeight_ != 0)
+    return pixelHeight_;
+
+  auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Fujifilm.RawImageFullHeight"));
   if (heightIter == exifData_.end() || heightIter->count() == 0)
     return 0;
   return heightIter->toUint32();
@@ -318,6 +324,11 @@ void RafImage::readMetadata() {
 
   exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
   exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
+
+  // Todo: parse the proprietary metadata structure
+  //       at offset 92 for pixelWidth_ & pixelHeight_
+  // See https://libopenraw.freedesktop.org/formats/raf/
+  // and https://exiftool.org/TagNames/FujiFilm.html#RAF
 
   // parse the tiff
   byte readBuff[4];
