@@ -3863,6 +3863,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
       {45, "Nikon", "Nikkor Z 600mm f/6.3 VR S"},
       {46, "Nikon", "Nikkor Z 135mm f/1.8 S Plena"},
       {53251, "Sigma", "56mm F1.4 DC DN | C"},
+      {57346, "Tamron", "35-150mm F/2-2.8 Di III VXD"},
   };
 
   auto lid = static_cast<uint16_t>(value.toInt64());
