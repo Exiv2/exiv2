@@ -14,3 +14,6 @@ endif()
 include("${CMAKE_CURRENT_LIST_DIR}/exiv2Export.cmake")
 
 check_required_components(exiv2)
+
+# compatibility with non-aliased users
+add_library(exiv2lib ALIAS Exiv2::exiv2lib)
