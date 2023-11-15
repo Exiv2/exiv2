@@ -146,7 +146,7 @@ jobs:
           meson compile -C "${{github.workspace}}/build"
           meson test -C "${{github.workspace}}/build"
   FreeBSD:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     name: FreeBSD
     steps:
       - uses: actions/checkout@v4
