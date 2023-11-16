@@ -744,6 +744,28 @@ constexpr TagDetails nikonAfAreaMode[] = {
     {3, N_("Group Dynamic")}, {4, N_("Single Area (wide)")}, {5, N_("Dynamic Area (wide)")},
 };
 
+//! AF2 Area Mode
+constexpr TagDetails nikonAf2AreaMode[] = {
+    {0, N_("Single-point AF")},
+    {1, N_("Dynamic-area AF")},
+    {2, N_("Closest Subject")},
+    {3, N_("Group Dynamic AF")},
+    {4, N_("Dynamic-area AF (9 points)")},
+    {5, N_("Dynamic-area AF (21 points)")},
+    {6, N_("Dynamic-area AF (51 points)")},
+    {7, N_("Dynamic-area AF (51 points), 3D-tracking")},
+    {8, N_("Auto-area AF")},
+    {9, N_("3D-tracking")},
+    {10, N_("Single Area AF, Wide")},
+    {11, N_("Dynamic-area AF, Wide")},
+    {12, N_("3D-tracking/Wide")},
+    {13, N_("Group-area AF")},
+    {14, N_("Dynamic-area AF (25 points)")},
+    {15, N_("Dynamic-area AF (72 points)")},
+    {16, N_("Group-area AF (HL)")},
+    {17, N_("Group-area AF (VL)")},
+};
+
 //! AfPoint
 constexpr TagDetails nikonAfPoint[] = {
     {0, N_("Center")},      {1, N_("Top")},        {2, N_("Bottom")},      {3, N_("Mid-left")},
@@ -788,7 +810,7 @@ constexpr TagInfo Nikon3MakerNote::tagInfoAf21_[] = {
     {4, "ContrastDetectAF", N_("Contrast Detect AF"), N_("Contrast detect AF"), IfdId::nikonAf21Id,
      SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(nikonOffOn)},
     {5, "AFAreaMode", N_("AF Area Mode"), N_("AF area mode"), IfdId::nikonAf21Id, SectionId::makerTags, unsignedByte, 1,
-     printValue},
+     EXV_PRINT_TAG(nikonAf2AreaMode)},
     {6, "PhaseDetectAF", N_("Phase Detect AF"), N_("Phase detect AF"), IfdId::nikonAf21Id, SectionId::makerTags,
      unsignedByte, 1, EXV_PRINT_TAG(nikonPhaseDetectAF)},
     {7, "PrimaryAFPoint", N_("Primary AF Point"), N_("Primary AF point"), IfdId::nikonAf21Id, SectionId::makerTags,
