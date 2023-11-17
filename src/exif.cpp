@@ -375,6 +375,7 @@ DataBuf ExifThumbC::copy() const {
   return thumbnail->copy(exifData_);
 }
 
+#ifdef EXV_ENABLE_FILESYSTEM
 size_t ExifThumbC::writeFile(const std::string& path) const {
   auto thumbnail = Thumbnail::create(exifData_);
   if (!thumbnail)
@@ -387,6 +388,7 @@ size_t ExifThumbC::writeFile(const std::string& path) const {
 
   return Exiv2::writeFile(buf, name);
 }
+#endif
 
 const char* ExifThumbC::mimeType() const {
   auto thumbnail = Thumbnail::create(exifData_);
@@ -405,10 +407,12 @@ const char* ExifThumbC::extension() const {
 ExifThumb::ExifThumb(ExifData& exifData) : ExifThumbC(exifData), exifData_(exifData) {
 }
 
+#ifdef EXV_ENABLE_FILESYSTEM
 void ExifThumb::setJpegThumbnail(const std::string& path, URational xres, URational yres, uint16_t unit) {
   DataBuf thumb = readFile(path);  // may throw
   setJpegThumbnail(thumb.c_data(), thumb.size(), xres, yres, unit);
 }
+#endif
 
 void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit) {
   setJpegThumbnail(buf, size);
@@ -417,10 +421,12 @@ void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, U
   exifData_["Exif.Thumbnail.ResolutionUnit"] = unit;
 }
 
+#ifdef EXV_ENABLE_FILESYSTEM
 void ExifThumb::setJpegThumbnail(const std::string& path) {
   DataBuf thumb = readFile(path);  // may throw
   setJpegThumbnail(thumb.c_data(), thumb.size());
 }
+#endif
 
 void ExifThumb::setJpegThumbnail(const byte* buf, size_t size) {
   exifData_["Exif.Thumbnail.Compression"] = static_cast<uint16_t>(6);

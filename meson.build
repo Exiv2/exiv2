@@ -120,6 +120,7 @@ cdata.set('EXV_HAVE_LIBZ', zlib_dep.found())
 cdata.set('EXV_ENABLE_WEBREADY', web_dep.found())
 cdata.set('EXV_USE_CURL', curl_dep.found())
 cdata.set('EXV_ENABLE_NLS', intl_dep.found())
+cdata.set('EXV_ENABLE_FILESYSTEM', true)
 
 cfile = configure_file(
   input: 'cmake/config.h.cmake',

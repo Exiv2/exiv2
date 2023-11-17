@@ -35,7 +35,9 @@ if (NOT Python3_Interpreter_FOUND)
     message(WARNING "Python3 was not found. Python tests under the 'tests' folder will not be executed")
 endif()
 
-find_package(Filesystem COMPONENTS Experimental Final REQUIRED)
+if(EXIV2_ENABLE_FILESYSTEM_ACCESS)
+  find_package(Filesystem COMPONENTS Experimental Final REQUIRED)
+endif()
 
 # don't use Frameworks on the Mac (#966)
 if (APPLE)

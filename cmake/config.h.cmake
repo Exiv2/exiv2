@@ -6,6 +6,9 @@
 // Define to 1 if you want to use libcurl in httpIO.
 #cmakedefine EXV_USE_CURL
 
+// Define to 1 if you want to enable filesystem access
+#cmakedefine EXV_ENABLE_FILESYSTEM
+
 // Define if you require webready support.
 #cmakedefine EXV_ENABLE_WEBREADY
 

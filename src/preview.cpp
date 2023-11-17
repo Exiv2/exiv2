@@ -966,12 +966,14 @@ PreviewImage& PreviewImage::operator=(const PreviewImage& rhs) {
   return *this;
 }
 
+#ifdef EXV_ENABLE_FILESYSTEM
 size_t PreviewImage::writeFile(const std::string& path) const {
   std::string name = path + extension();
   // Todo: Creating a DataBuf here unnecessarily copies the memory
   DataBuf buf(pData(), size());
   return Exiv2::writeFile(buf, name);
 }
+#endif
 
 DataBuf PreviewImage::copy() const {
   return {pData(), size()};
