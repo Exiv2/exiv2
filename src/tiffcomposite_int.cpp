@@ -1099,7 +1099,7 @@ size_t TiffBinaryArray::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_
     }
     DataBuf buf = cryptFct(tag(), mio.mmap(), mio.size(), pRoot_);
     if (!buf.empty()) {
-      mio.seek(0, Exiv2::FileIo::beg);
+      mio.seek(0, Exiv2::BasicIo::beg);
       mio.write(buf.c_data(), buf.size());
     }
   }

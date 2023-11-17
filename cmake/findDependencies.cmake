@@ -37,7 +37,9 @@ if(BUILD_TESTING)
     endif()
 endif()
 
-find_package(Filesystem COMPONENTS Experimental Final REQUIRED)
+if(EXIV2_ENABLE_FILESYSTEM_ACCESS)
+  find_package(Filesystem COMPONENTS Experimental Final REQUIRED)
+endif()
 
 # don't use Frameworks on the Mac (#966)
 if (APPLE)

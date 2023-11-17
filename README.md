@@ -252,6 +252,7 @@ option( EXIV2_ENABLE_PNG           "Build with png support (requires libz)"     
 ...
 option( EXIV2_ENABLE_BMFF          "Build with BMFF support (brotli recommended)"    ON  )
 option( EXIV2_ENABLE_BROTLI        "Use Brotli for JPEG XL compressed boxes (BMFF)"  ON  )
+option( EXIV2_ENABLE_FILESYSTEM_ACCESS     "Build with filesystem access"            ON  )
 577 rmills@rmillsmm:~/gnu/github/exiv2/exiv2 $
 ```
 
