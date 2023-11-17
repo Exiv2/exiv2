@@ -15,12 +15,14 @@
 #include <sstream>
 #include <stdexcept>
 
+#ifdef EXV_ENABLE_FILESYSTEM
 #if __has_include(<filesystem>)
 #include <filesystem>
 namespace fs = std::filesystem;
 #else
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
+#endif
 #endif
 
 #if defined(_WIN32)
@@ -231,7 +233,11 @@ bool fileExists(const std::string& path) {
   if (fileProtocol(path) != pFile) {
     return true;
   }
+#ifdef EXV_ENABLE_FILESYSTEM
   return fs::exists(path);
+#else
+  return false;
+#endif
 }
 
 std::string strError() {
@@ -341,6 +347,7 @@ Uri Uri::Parse(const std::string& uri) {
 }
 
 std::string getProcessPath() {
+#ifdef EXV_ENABLE_FILESYSTEM
 #if defined(__FreeBSD__)
   std::string ret("unknown");
   unsigned int n;
@@ -381,6 +388,9 @@ std::string getProcessPath() {
   } catch (const fs::filesystem_error&) {
     return "unknown";
   }
+#endif
+#else
+  return "unknown";
 #endif
 }
 }  // namespace Exiv2

@@ -18,12 +18,14 @@
 #include <array>
 #include <iostream>
 
+#ifdef EXV_ENABLE_FILESYSTEM
 #if __has_include(<filesystem>)
 #include <filesystem>
 namespace fs = std::filesystem;
 #else
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
+#endif
 #endif
 
 #if !defined(_WIN32)
@@ -59,6 +61,7 @@ namespace Exiv2::Internal {
 // If not found in cwd, we return the default path
 // which is the user profile path on win and the home dir on linux
 std::string getExiv2ConfigPath() {
+#ifdef EXV_ENABLE_FILESYSTEM
 #ifdef _WIN32
   std::string inifile("exiv2.ini");
 #else
@@ -81,13 +84,16 @@ std::string getExiv2ConfigPath() {
   currentPath = std::string(pw ? pw->pw_dir : "");
 #endif
   return (currentPath / inifile).string();
+#else
+  return "";
+#endif
 }
 
 std::string readExiv2Config([[maybe_unused]] const std::string& section, [[maybe_unused]] const std::string& value,
                             const std::string& def) {
   std::string result = def;
 
-#ifdef EXV_ENABLE_INIH
+#if defined(EXV_ENABLE_INIH) && defined(EXV_ENABLE_FILESYSTEM)
   INIReader reader(Exiv2::Internal::getExiv2ConfigPath());
   if (reader.ParseError() == 0) {
     result = reader.Get(section, value, def);
