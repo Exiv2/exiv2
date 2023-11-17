@@ -69,4 +69,5 @@ OptionOutput( "Building unit tests:                " EXIV2_BUILD_UNIT_TESTS     
 OptionOutput( "Building fuzz tests:                " EXIV2_BUILD_FUZZ_TESTS             )
 OptionOutput( "Building doc:                       " EXIV2_BUILD_DOC                    )
 OptionOutput( "Building with coverage flags:       " BUILD_WITH_COVERAGE                )
+OptionOutput( "Building with filesystem access     " EXIV2_ENABLE_FILESYSTEM_ACCESS     )
 OptionOutput( "Using ccache:                       " BUILD_WITH_CCACHE                  )
