@@ -144,6 +144,8 @@ class Nikon3MakerNote {
   //@{
   //! Print ISO setting
   static std::ostream& print0x0002(std::ostream& os, const Value& value, const ExifData*);
+  //! Print AF2 Area Mode
+  static std::ostream& printAf2AreaMode(std::ostream& os, const Value& value, const ExifData* metadata);
   //! Print autofocus mode
   static std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*);
   //! Print lens type
