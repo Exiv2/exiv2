@@ -2073,6 +2073,7 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 1200mm F8L IS USM"},
     {61182, "Canon RF 1200mm F8L IS USM + RF1.4x"},
     {61182, "Canon RF 1200mm F8L IS USM + RF2x"},
+    {61182, "Canon RF 5.2mm F2.8L Dual Fisheye 3D VR"},
     {61182, "Canon RF 15-30mm F4.5-6.3 IS STM"},
     {61182, "Canon RF 135mm F1.8 L IS USM"},
     {61182, "Canon RF 24-50mm F4.5-6.3 IS STM"},
@@ -2080,6 +2081,7 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 100-300mm F2.8L IS USM"},
     {61182, "Canon RF 100-300mm F2.8L IS USM + RF1.4x"},
     {61182, "Canon RF 100-300mm F2.8L IS USM + RF2x"},
+    {61182, "Canon RF 10-20mm F4 L IS STM"},
     {61182, "Canon RF 28mm F2.8 STM"},
     {65535, N_("n/a")},
 };
@@ -2499,7 +2501,7 @@ constexpr TagDetails canonToningEffect[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/12.67/lib/Image/ExifTool/Canon.pm#L6833
+// from https://github.com/exiftool/exiftool/blob/12.70/lib/Image/ExifTool/Canon.pm#L6896
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
     {257, "Canon RF 50mm F1.2L USM"},
@@ -2546,6 +2548,7 @@ constexpr TagDetails canonRFLensType[] = {
     {298, "Canon RF 1200mm F8L IS USM"},
     {299, "Canon RF 1200mm F8L IS USM + RF1.4x"},
     {300, "Canon RF 1200mm F8L IS USM + RF2x"},
+    {301, "Canon RF 5.2mm F2.8L Dual Fisheye 3D VR"},
     {302, "Canon RF 15-30mm F4.5-6.3 IS STM"},
     {303, "Canon RF 135mm F1.8 L IS USM"},
     {304, "Canon RF 24-50mm F4.5-6.3 IS STM"},
@@ -2553,6 +2556,7 @@ constexpr TagDetails canonRFLensType[] = {
     {306, "Canon RF 100-300mm F2.8L IS USM"},
     {307, "Canon RF 100-300mm F2.8L IS USM + RF1.4x"},
     {308, "Canon RF 100-300mm F2.8L IS USM + RF2x"},
+    {312, "Canon RF 10-20mm F4 L IS STM"},
     {313, "Canon RF 28mm F2.8 STM"},
 };
 
