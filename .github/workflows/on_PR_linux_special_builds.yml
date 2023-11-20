@@ -126,6 +126,27 @@ jobs:
           cd build
           ctest --output-on-failure
 
+  special_noFilesystemAccess:
+    name: 'Ubuntu 22.04 - GCC - No filesystem access build'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install dependencies
+        run: |
+          python3 -m pip install conan==1.59.0 ninja
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Build
+        run: |
+          cmake --preset linux-release -S . -B build -DEXIV2_ENABLE_FILESYSTEM_ACCESS=OFF -DEXIV2_BUILD_SAMPLES=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_EXIV2_COMMAND=OFF
+          cmake --build build --parallel
+
   special_allEnabled:
     name: 'Ubuntu 22.04 - GCC - All Options Enabled + Documentation'
     runs-on: ubuntu-22.04
