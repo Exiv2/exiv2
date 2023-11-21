@@ -83,6 +83,8 @@ class EXIV2API Jp2Image : public Image {
   //@}
 
   static std::string toAscii(uint32_t n);
+
+  uint32_t brand_{0};
 };  // class Jp2Image
 
 // *****************************************************************************

@@ -28,6 +28,7 @@ struct Jp2UuidBox {
 };
 
 constexpr uint32_t brandJp2{0x6a703220};
+constexpr uint32_t brandJph{0x6a706820};
 
 /// @brief Determines if the File Type box is valid
 bool isValidBoxFileType(const std::vector<std::uint8_t>& boxData);
