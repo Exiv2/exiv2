@@ -37,6 +37,8 @@ enum {
   TAG_heim = 0x6865696dU,  //!< "heim" HEIC */
   TAG_heis = 0x68656973U,  //!< "heis" HEIC */
   TAG_heix = 0x68656978U,  //!< "heix" HEIC */
+  TAG_j2is = 0x6a326973U,  //!< "j2is" HEJ2K */
+  TAG_j2ki = 0x6a326b69U,  //!< "j2ki" HEJ2K */
   TAG_mif1 = 0x6d696631U,  //!< "mif1" HEIF */
   TAG_crx = 0x63727820U,   //!< "crx " Canon CR3 */
   TAG_jxl = 0x6a786c20U,   //!< "jxl " JPEG XL file type */
@@ -131,6 +133,10 @@ std::string BmffImage::mimeType() const {
     case TAG_heif:
     case TAG_mif1:
       return "image/heif";
+    case TAG_j2is:
+      return "image/j2is";
+    case TAG_j2ki:
+      return "image/hej2k";
     case TAG_crx:
       return "image/x-canon-cr3";
     case TAG_jxl:
