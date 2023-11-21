@@ -211,7 +211,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     int res = getaddrinfo(servername_p, port_p, &hints, &result);
     if (res != 0) {
       closesocket(sockfd);
-      return error(errors, "no such host: %s", gai_strerror(res));
+      return error(errors, "no such host: %s", reinterpret_cast<const char*>(gai_strerror(res)));
     }
 
     serv_addr = *reinterpret_cast<sockaddr_in*>(result->ai_addr);
