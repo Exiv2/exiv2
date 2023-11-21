@@ -108,6 +108,8 @@ std::string Jp2Image::toAscii(uint32_t n) {
 }
 
 std::string Jp2Image::mimeType() const {
+  if (brand_ == Internal::brandJph)
+    return "image/jph";
   return "image/jp2";
 }
 
@@ -173,6 +175,7 @@ void Jp2Image::readMetadata() {
         io_->readOrThrow(boxData.data(), boxData.size(), ErrorCode::kerCorruptedMetadata);
         if (!Internal::isValidBoxFileType(boxData))
           throw Error(ErrorCode::kerCorruptedMetadata);
+        brand_ = getULong(boxData.data(), bigEndian);
         break;
       }
       case kJp2BoxTypeHeader: {
