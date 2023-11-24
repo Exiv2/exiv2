@@ -67,7 +67,12 @@ if brotli_dep.found()
   deps += brotli_dep
 endif
 
-curl_dep = dependency('libcurl', disabler: true, required: get_option('curl'))
+if get_option('webready')
+  curl_dep = dependency('libcurl', disabler: true, required: get_option('curl'))
+else
+  curl_dep = dependency('', disabler: true, required: false)
+endif
+
 if curl_dep.found()
   deps += curl_dep
 endif
@@ -113,9 +118,9 @@ cdata.set('EXV_HAVE_XMP_TOOLKIT', expat_dep.found())
 cdata.set('EXV_HAVE_BROTLI', brotli_dep.found())
 cdata.set('EXV_HAVE_ICONV', iconv_dep.found())
 cdata.set('EXV_HAVE_LIBZ', zlib_dep.found())
+cdata.set('EXV_ENABLE_WEBREADY', get_option('webready'))
 cdata.set('EXV_USE_CURL', curl_dep.found())
 cdata.set('EXV_ENABLE_NLS', intl_dep.found())
-cdata.set('EXV_ENABLE_WEBREADY', curl_dep.found())
 
 cfile = configure_file(
   input: 'cmake/config.h.cmake',

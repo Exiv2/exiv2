@@ -72,7 +72,6 @@ set(PUBLIC_HEADERS
     ../include/exiv2/exiv2.hpp
     ../include/exiv2/futils.hpp
     ../include/exiv2/gifimage.hpp
-    ../include/exiv2/http.hpp
     ../include/exiv2/image.hpp
     ../include/exiv2/image_types.hpp
     ../include/exiv2/iptc.hpp
@@ -117,7 +116,6 @@ add_library(
   futils.cpp
   fff.h
   gifimage.cpp
-  http.cpp
   image.cpp
   iptc.cpp
   jp2image.cpp
@@ -158,6 +156,10 @@ generate_export_header(
 
 # Conditional addition of sources to library targets
 # ---------------------------------------------------------
+if(EXIV2_ENABLE_WEBREADY)
+  set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/http.hpp)
+  target_sources(exiv2lib PRIVATE http.cpp ../include/exiv2/http.hpp)
+endif()
 
 if(EXIV2_ENABLE_PNG)
   set(PUBLIC_HEADERS ${PUBLIC_HEADERS} ../include/exiv2/pngimage.hpp)

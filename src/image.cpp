@@ -813,8 +813,10 @@ BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, [[maybe_unuse
   }
 #endif
 
+#ifdef EXV_ENABLE_WEBREADY
   if (fProt == pHttp)
     return std::make_unique<HttpIo>(path);  // may throw
+#endif
   if (fProt == pFileUri)
     return std::make_unique<FileIo>(pathOfFileUrl(path));
   if (fProt == pStdin || fProt == pDataUri)
