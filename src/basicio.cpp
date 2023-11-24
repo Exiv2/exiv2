@@ -1364,6 +1364,7 @@ void RemoteIo::populateFakeData() {
   }
 }
 
+#ifdef EXV_ENABLE_WEBREADY
 //! Internal Pimpl structure of class HttpIo.
 class HttpIo::HttpImpl : public Impl {
  public:
@@ -1503,6 +1504,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
 HttpIo::HttpIo(const std::string& url, size_t blockSize) {
   p_ = std::make_unique<HttpImpl>(url, blockSize);
 }
+#endif
 
 #ifdef EXV_USE_CURL
 //! Internal Pimpl structure of class RemoteIo.
