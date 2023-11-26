@@ -12,6 +12,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
+#include "image_int.hpp"
 #include "utils.hpp"
 // *****************************************************************************
 // class member definitions
@@ -58,24 +59,12 @@ AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
   }
 }
 
-std::string AsfVideo::GUIDTag::to_string() {
-  // Convert each field of the GUID structure to a string
-  std::stringstream ss;
-  ss << std::hex << std::setw(8) << std::setfill('0') << data1_ << "-";
-  ss << std::hex << std::setw(4) << std::setfill('0') << data2_ << "-";
-  ss << std::hex << std::setw(4) << std::setfill('0') << data3_ << "-";
-
-  for (size_t i = 0; i < 8; i++) {
-    if (i == 2) {
-      ss << "-";
-    }
-    ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data4_[i]);
-  }
-
+std::string AsfVideo::GUIDTag::to_string() const {
   // Concatenate all strings into a single string
   // Convert the string to uppercase
   // Example of output 399595EC-8667-4E2D-8FDB-98814CE76C1E
-  return Internal::upper(ss.str());
+  return stringFormat("{:08X}-{:04X}-{:04X}-{:02X}{:02X}-{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}", data1_, data2_, data3_,
+                      data4_[0], data4_[1], data4_[2], data4_[3], data4_[4], data4_[5], data4_[6], data4_[7]);
 }
 
 bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
