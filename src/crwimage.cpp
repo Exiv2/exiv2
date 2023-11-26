@@ -106,8 +106,7 @@ void CrwParser::decode(CrwImage* pCrwImage, const byte* pData, size_t size) {
   header.decode(*pCrwImage);
 
   // a hack to get absolute offset of preview image inside CRW structure
-  auto preview = header.findComponent(0x2007, 0x0000);
-  if (preview) {
+  if (auto preview = header.findComponent(0x2007, 0x0000)) {
     (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormat"] = static_cast<uint32_t>(preview->pData() - pData);
     (pCrwImage->exifData())["Exif.Image2.JPEGInterchangeFormatLength"] = static_cast<uint32_t>(preview->size());
   }

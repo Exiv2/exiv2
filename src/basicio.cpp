@@ -1314,8 +1314,7 @@ byte* RemoteIo::mmap(bool /*isWriteable*/) {
     size_t blocks = (p_->size_ + blockSize - 1) / blockSize;
     bigBlock_ = new byte[blocks * blockSize];
     for (size_t block = 0; block < blocks; block++) {
-      auto p = p_->blocksMap_[block].getData();
-      if (p) {
+      if (auto p = p_->blocksMap_[block].getData()) {
         size_t nRead = block == (blocks - 1) ? p_->size_ - nRealData : blockSize;
         memcpy(bigBlock_ + (block * blockSize), p, nRead);
         nRealData += nRead;

@@ -586,8 +586,8 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       // 4 meaningful bytes + 2 padding bytes
       byte exifLongHeader[] = {0xFF, 0x01, 0xFF, 0xE1, 0x00, 0x00};
       byte exifShortHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
-      byte exifTiffLEHeader[] = {0x49, 0x49, 0x2A};        // "MM*"
-      byte exifTiffBEHeader[] = {0x4D, 0x4D, 0x00, 0x2A};  // "II\0*"
+      const byte exifTiffLEHeader[] = {0x49, 0x49, 0x2A};        // "MM*"
+      const byte exifTiffBEHeader[] = {0x4D, 0x4D, 0x00, 0x2A};  // "II\0*"
       size_t offset = 0;
       bool s_header = false;
       bool le_header = false;
@@ -727,7 +727,7 @@ bool WebPImage::equalsWebPTag(const Exiv2::DataBuf& buf, const char* str) {
  */
 void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, uint32_t width,
                             uint32_t height) const {
-  byte size[4] = {0x0A, 0x00, 0x00, 0x00};
+  const byte size[4] = {0x0A, 0x00, 0x00, 0x00};
   byte data[10] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
   iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE);
   iIo.write(size, WEBP_TAG_SIZE);
