@@ -208,7 +208,7 @@ uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
   return bSwap ? std::byteswap(value) : value;
 #else
   uint64_t result = 0;
-  auto source_value = reinterpret_cast<byte*>(&value);
+  auto source_value = reinterpret_cast<const byte*>(&value);
   auto destination_value = reinterpret_cast<byte*>(&result);
 
   for (int i = 0; i < 8; i++)

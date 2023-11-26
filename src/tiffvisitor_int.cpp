@@ -195,7 +195,7 @@ TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpDat
     // Find camera make by looking for tag 0x010f in IFD0
     TiffFinder finder(0x010f, IfdId::ifd0Id);
     pRoot_->accept(finder);
-    auto te = dynamic_cast<TiffEntryBase*>(finder.result());
+    auto te = dynamic_cast<const TiffEntryBase*>(finder.result());
     if (te && te->pValue()) {
       make_ = te->pValue()->toString();
     }
@@ -253,8 +253,7 @@ void TiffDecoder::getObjData(const byte*& pData, size_t& size, uint16_t tag, Ifd
   }
   TiffFinder finder(tag, group);
   pRoot_->accept(finder);
-  auto te = dynamic_cast<TiffEntryBase*>(finder.result());
-  if (te) {
+  if (auto te = dynamic_cast<const TiffEntryBase*>(finder.result())) {
     pData = te->pData();
     size = te->size();
     return;
@@ -467,7 +466,7 @@ TiffEncoder::TiffEncoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpDat
   if (make_.empty() && pRoot_) {
     TiffFinder finder(0x010f, IfdId::ifd0Id);
     pRoot_->accept(finder);
-    auto te = dynamic_cast<TiffEntryBase*>(finder.result());
+    auto te = dynamic_cast<const TiffEntryBase*>(finder.result());
     if (te && te->pValue()) {
       make_ = te->pValue()->toString();
     }
@@ -590,7 +589,7 @@ void TiffEncoder::visitDirectoryNext(TiffDirectory* object) {
 }
 
 uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent) {
-  auto pTiffEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
+  auto pTiffEntry = dynamic_cast<const TiffEntryBase*>(pTiffComponent);
   if (!pTiffEntry)
     return 0;
   us2Data(buf + 2, pTiffEntry->tiffType(), byteOrder);
@@ -847,8 +846,7 @@ void TiffEncoder::encodeImageEntry(TiffImageEntry* object, const Exifdatum* datu
     if (pSourceTree_) {
       TiffFinder finder(object->tag(), object->group());
       pSourceTree_->accept(finder);
-      auto ti = dynamic_cast<TiffImageEntry*>(finder.result());
-      if (ti) {
+      if (auto ti = dynamic_cast<const TiffImageEntry*>(finder.result())) {
         object->strips_ = ti->strips_;
       }
     }
@@ -1014,7 +1012,7 @@ void TiffReader::readDataEntryBase(TiffDataEntryBase* object) {
   readTiffEntry(object);
   TiffFinder finder(object->szTag(), object->szGroup());
   pRoot_->accept(finder);
-  auto te = dynamic_cast<TiffEntryBase*>(finder.result());
+  auto te = dynamic_cast<const TiffEntryBase*>(finder.result());
   if (te && te->pValue()) {
     object->setStrips(te->pValue(), pData_, size_, baseOffset());
   }
@@ -1187,7 +1185,7 @@ void TiffReader::visitMnEntry(TiffMnEntry* object) {
   // Find camera make
   TiffFinder finder(0x010f, IfdId::ifd0Id);
   pRoot_->accept(finder);
-  auto te = dynamic_cast<TiffEntryBase*>(finder.result());
+  auto te = dynamic_cast<const TiffEntryBase*>(finder.result());
   std::string make;
   if (te && te->pValue()) {
     make = te->pValue()->toString();
@@ -1348,7 +1346,7 @@ void TiffReader::visitBinaryArray(TiffBinaryArray* object) {
   // Check duplicates
   TiffFinder finder(object->tag(), object->group());
   pRoot_->accept(finder);
-  if (auto te = dynamic_cast<TiffEntryBase*>(finder.result())) {
+  if (auto te = dynamic_cast<const TiffEntryBase*>(finder.result())) {
     if (te->idx() != object->idx()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Not decoding duplicate binary array tag 0x" << std::setw(4) << std::setfill('0') << std::hex

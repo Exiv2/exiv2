@@ -1048,7 +1048,7 @@ const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const ui
   if (!pRoot)
     return nullptr;
   pRoot->accept(finder);
-  auto te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
+  auto te = dynamic_cast<const Exiv2::Internal::TiffEntryBase*>(finder.result());
   return (!te || !te->pValue()) ? nullptr : te->pValue();
 }
 
