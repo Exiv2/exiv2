@@ -82,7 +82,7 @@ class EXIV2API AsfVideo : public Image {
     // Constructor to create a GUID object from a byte array
     explicit GUIDTag(const uint8_t* bytes);
 
-    std::string to_string();
+    std::string to_string() const;
 
     bool operator<(const GUIDTag& other) const;
   };

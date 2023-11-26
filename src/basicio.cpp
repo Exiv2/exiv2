@@ -930,9 +930,7 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
 
   // generating the name for temp file.
   std::time_t timestamp = std::time(nullptr);
-  std::stringstream ss;
-  ss << timestamp << XPathIo::TEMP_FILE_EXT;
-  std::string path = ss.str();
+  auto path = stringFormat("{}{}", timestamp, XPathIo::TEMP_FILE_EXT);
 
   if (prot == pStdin) {
     if (isatty(fileno(stdin)))
@@ -1437,9 +1435,7 @@ void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
   request["verb"] = "GET";
   std::string errors;
   if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
-    std::stringstream ss;
-    ss << "Range: bytes=" << lowBlock * blockSize_ << "-" << (((highBlock + 1) * blockSize_) - 1) << "\r\n";
-    request["header"] = ss.str();
+    request["header"] = stringFormat("Range: bytes={}-{}", lowBlock * blockSize_, (highBlock + 1) * (blockSize_ - 1));
   }
 
   int serverCode = http(request, responseDic, errors);
@@ -1480,20 +1476,15 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
   // url encode
   const std::string urlencodeData = urlencode(encodeData.data());
 
-  std::stringstream ss;
-  ss << "path=" << hostInfo_.Path << "&"
-     << "from=" << from << "&"
-     << "to=" << to << "&"
-     << "data=" << urlencodeData;
-  std::string postData = ss.str();
+  auto postData = stringFormat("path={}&from={}&to={}&data={}", hostInfo_.Path, from, to, urlencodeData);
 
   // create the header
-  ss.str("");
-  ss << "Content-Length: " << postData.length() << "\n"
-     << "Content-Type: application/x-www-form-urlencoded\n"
-     << "\n"
-     << postData << "\r\n";
-  request["header"] = ss.str();
+  auto header = stringFormat(
+      "Content-Length: {}\n"
+      "Content-Type: application/x-www-form-urlencoded\n"
+      "\n{}\r\n",
+      postData.length(), postData);
+  request["header"] = header;
 
   int serverCode = http(request, response, errors);
   if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
@@ -1616,9 +1607,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
   // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
 
   if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
-    std::stringstream ss;
-    ss << lowBlock * blockSize_ << "-" << (((highBlock + 1) * blockSize_) - 1);
-    std::string range = ss.str();
+    auto range = stringFormat("{}-{}", lowBlock * blockSize_, (highBlock + 1) * (blockSize_ - 1));
     curl_easy_setopt(curl_, CURLOPT_RANGE, range.c_str());
   }
 
@@ -1662,12 +1651,7 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   base64encode(data, size, encodeData.data(), encodeLength);
   // url encode
   const std::string urlencodeData = urlencode(encodeData.data());
-  std::stringstream ss;
-  ss << "path=" << hostInfo.Path << "&"
-     << "from=" << from << "&"
-     << "to=" << to << "&"
-     << "data=" << urlencodeData;
-  std::string postData = ss.str();
+  auto postData = stringFormat("path={}&from={}&to={}&data={}", hostInfo.Path, from, to, urlencodeData);
 
   curl_easy_setopt(curl_, CURLOPT_POSTFIELDS, postData.c_str());
   // Perform the request, res will get the return code.

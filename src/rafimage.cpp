@@ -150,12 +150,8 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     uint32_t jpg_img_off = Exiv2::getULong(jpg_img_offset, bigEndian);
     uint32_t jpg_img_len = Exiv2::getULong(jpg_img_length, bigEndian);
     {
-      std::stringstream j_off;
-      std::stringstream j_len;
-      j_off << jpg_img_off;
-      j_len << jpg_img_len;
-      out << Internal::indent(depth) << stringFormat(format, address, 4) << " JPEG offset : " << j_off.str() << '\n';
-      out << Internal::indent(depth) << stringFormat(format, address2, 4) << " JPEG length : " << j_len.str() << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address, 4) << " JPEG offset : " << jpg_img_off << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address2, 4) << " JPEG length : " << jpg_img_len << '\n';
     }
 
     // RAFs can carry the payload in one or two parts
@@ -170,14 +166,10 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
       io_->readOrThrow(data, 4);
       meta_len[i] = Exiv2::getULong(data, bigEndian);
       {
-        std::stringstream c_off;
-        std::stringstream c_len;
-        c_off << meta_off[i];
-        c_len << meta_len[i];
-        out << Internal::indent(depth) << stringFormat(format, address, 4) << "meta offset" << i + 1 << " : "
-            << c_off.str() << '\n';
-        out << Internal::indent(depth) << stringFormat(format, address2, 4) << "meta length" << i + 1 << " : "
-            << c_len.str() << '\n';
+        out << Internal::indent(depth) << stringFormat(format, address, 4)
+            << stringFormat("meta offset{} : {}\n", i + 1, meta_off[i]);
+        out << Internal::indent(depth) << stringFormat(format, address2, 4)
+            << stringFormat("meta length{} : {}\n", i + 1, meta_len[i]);
       }
 
       address = io_->tell();
@@ -196,26 +188,16 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
       io_->readOrThrow(data, 4);
       cfa_data[i] = Exiv2::getULong(data, bigEndian);
       {
-        std::stringstream c_off;
-        std::stringstream c_len;
-        std::stringstream c_comp;
-        std::stringstream c_size;
-        std::stringstream c_data;
-        c_off << cfa_off[i];
-        c_len << cfa_len[i];
-        c_comp << comp[i];
-        c_size << cfa_size[i];
-        c_data << cfa_data[i];
-        out << Internal::indent(depth) << stringFormat(format, address, 4U) << " CFA offset" << i + 1 << " : "
-            << c_off.str() << '\n';
-        out << Internal::indent(depth) << stringFormat(format, address2, 4U) << " CFA length" << i + 1 << " : "
-            << c_len.str() << '\n';
-        out << Internal::indent(depth) << stringFormat(format, address3, 4U) << "compression" << i + 1 << " : "
-            << c_comp.str() << '\n';
-        out << Internal::indent(depth) << stringFormat(format, address4, 4U) << "  CFA chunk" << i + 1 << " : "
-            << c_size.str() << '\n';
-        out << Internal::indent(depth) << stringFormat(format, address5, 4U) << "    unknown" << i + 1 << " : "
-            << c_data.str() << '\n';
+        out << Internal::indent(depth) << stringFormat(format, address, 4U)
+            << stringFormat(" CFA offset{} : {}\n", i + 1, cfa_off[i]);
+        out << Internal::indent(depth) << stringFormat(format, address2, 4U)
+            << stringFormat(" CFA length{} : {}\n", i + 1, cfa_len[i]);
+        out << Internal::indent(depth) << stringFormat(format, address3, 4U)
+            << stringFormat("compression{} : {}\n", i + 1, comp[i]);
+        out << Internal::indent(depth) << stringFormat(format, address4, 4U)
+            << stringFormat("  CFA chunk{} : {}\n", i + 1, cfa_size[i]);
+        out << Internal::indent(depth) << stringFormat(format, address5, 4U)
+            << stringFormat("    unknown{} : {}\n", i + 1, cfa_data[i]);
       }
     }
 
