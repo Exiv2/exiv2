@@ -546,9 +546,11 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
     auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
-    auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.dir; });
-    if (it != components_.end())
-      cc_ = *it;
+    for (const auto& c : components_)
+      if (c->tag() == dir.dir) {
+        cc_ = c;
+        break;
+      }
     if (!cc_) {
       // Directory doesn't exist yet, add it
       m_ = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
@@ -559,10 +561,11 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
     cc_ = cc_->add(crwDirs, crwTagId);
   } else {
     // Find the tag
-    auto it =
-        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tagId() == crwTagId; });
-    if (it != components_.end())
-      cc_ = *it;
+    for (const auto& c : components_)
+      if (c->tagId() == crwTagId) {
+        cc_ = c;
+        break;
+      }
     if (!cc_) {
       // Tag doesn't exist yet, add it
       m_ = std::make_unique<CiffEntry>(crwTagId, tag());
