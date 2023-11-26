@@ -13,7 +13,6 @@
 
 #include <array>
 #include <iomanip>
-#include <regex>
 #include <sstream>
 
 // *****************************************************************************
@@ -552,15 +551,14 @@ IptcKey* IptcKey::clone_() const {
 
 void IptcKey::decomposeKey() {
   // Check that the key has the expected format with RE
-  static const std::regex re(R"((\w+)(\.\w+){2})");
-  if (std::smatch sm; !std::regex_match(key_, sm, re)) {
+  auto posDot1 = key_.find('.');
+  auto posDot2 = key_.find('.', posDot1 + 1);
+
+  if (posDot1 == std::string::npos || posDot2 == std::string::npos) {
     throw Error(ErrorCode::kerInvalidKey, key_);
   }
 
   // Get the family name, record name and dataSet name parts of the key
-  auto posDot1 = key_.find('.');
-  auto posDot2 = key_.find('.', posDot1 + 1);
-
   const std::string familyName = key_.substr(0, posDot1);
   if (familyName != familyName_)
     throw Error(ErrorCode::kerInvalidKey, key_);
