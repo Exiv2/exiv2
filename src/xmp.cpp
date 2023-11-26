@@ -622,12 +622,12 @@ void XmpParser::registeredNamespaces(Exiv2::Dictionary&) {
 
 void XmpParser::terminate() {
   XmpProperties::unregisterNs();
-  if (initialized_) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
+  if (initialized_)
     SXMPMeta::Terminate();
+#else
+  initialized_ = false;
 #endif
-    initialized_ = false;
-  }
 }
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
