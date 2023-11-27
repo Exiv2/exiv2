@@ -168,7 +168,7 @@ jobs:
         run: |
           python3 -m pip install meson ninja
       - name: Emscripten
-        uses: mymindstorm/setup-emsdk@v12
+        uses: mymindstorm/setup-emsdk@v13
       - name: Compile
         run: |
           meson setup "${{github.workspace}}/build" --cross-file="${{github.workspace}}/em.txt" --wrap-mode=forcefallback -Ddefault_library=static -Dwarning_level=3 -Dcpp_std=c++20 -DunitTests=disabled -Dcurl=disabled
