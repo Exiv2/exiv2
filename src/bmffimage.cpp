@@ -28,45 +28,53 @@
 #include <string>
 
 enum {
-  TAG_ftyp = 0x66747970U,  ///< "ftyp" File type box */
-  TAG_avif = 0x61766966U,  ///< "avif" AVIF */
-  TAG_avio = 0x6176696fU,  ///< "avio" AVIF */
-  TAG_avis = 0x61766973U,  ///< "avis" AVIF */
-  TAG_heic = 0x68656963U,  ///< "heic" HEIC */
-  TAG_heif = 0x68656966U,  ///< "heif" HEIF */
-  TAG_heim = 0x6865696dU,  ///< "heim" HEIC */
-  TAG_heis = 0x68656973U,  ///< "heis" HEIC */
-  TAG_heix = 0x68656978U,  ///< "heix" HEIC */
-  TAG_mif1 = 0x6d696631U,  ///< "mif1" HEIF */
-  TAG_crx = 0x63727820U,   ///< "crx " Canon CR3 */
-  TAG_jxl = 0x6a786c20U,   ///< "jxl " JPEG XL file type */
-  TAG_moov = 0x6d6f6f76U,  ///< "moov" Movie */
-  TAG_meta = 0x6d657461U,  ///< "meta" Metadata */
-  TAG_mdat = 0x6d646174U,  ///< "mdat" Media data */
-  TAG_uuid = 0x75756964U,  ///< "uuid" UUID */
-  TAG_dinf = 0x64696e66U,  ///< "dinf" Data information */
-  TAG_iprp = 0x69707270U,  ///< "iprp" Item properties */
-  TAG_ipco = 0x6970636fU,  ///< "ipco" Item property container */
-  TAG_iinf = 0x69696e66U,  ///< "iinf" Item info */
-  TAG_iloc = 0x696c6f63U,  ///< "iloc" Item location */
-  TAG_ispe = 0x69737065U,  ///< "ispe" Image spatial extents */
-  TAG_infe = 0x696e6665U,  ///< "infe" Item Info Extension */
-  TAG_ipma = 0x69706d61U,  ///< "ipma" Item Property Association */
-  TAG_cmt1 = 0x434d5431U,  ///< "CMT1" ifd0Id */
-  TAG_cmt2 = 0x434D5432U,  ///< "CMD2" exifID */
-  TAG_cmt3 = 0x434D5433U,  ///< "CMT3" canonID */
-  TAG_cmt4 = 0x434D5434U,  ///< "CMT4" gpsID */
-  TAG_colr = 0x636f6c72U,  ///< "colr" Colour information */
-  TAG_exif = 0x45786966U,  ///< "Exif" Used by JXL */
-  TAG_xml = 0x786d6c20U,   ///< "xml " Used by JXL */
-  TAG_brob = 0x62726f62U,  ///< "brob" Used by JXL (brotli box) */
-  TAG_thmb = 0x54484d42U,  ///< "THMB" Canon thumbnail */
-  TAG_prvw = 0x50525657U,  ///< "PRVW" Canon preview image */
+  TAG_ftyp = 0x66747970U,  //!< "ftyp" File type box */
+  TAG_avif = 0x61766966U,  //!< "avif" AVIF */
+  TAG_avio = 0x6176696fU,  //!< "avio" AVIF */
+  TAG_avis = 0x61766973U,  //!< "avis" AVIF */
+  TAG_heic = 0x68656963U,  //!< "heic" HEIC */
+  TAG_heif = 0x68656966U,  //!< "heif" HEIF */
+  TAG_heim = 0x6865696dU,  //!< "heim" HEIC */
+  TAG_heis = 0x68656973U,  //!< "heis" HEIC */
+  TAG_heix = 0x68656978U,  //!< "heix" HEIC */
+  TAG_j2is = 0x6a326973U,  //!< "j2is" HEJ2K */
+  TAG_j2ki = 0x6a326b69U,  //!< "j2ki" HEJ2K */
+  TAG_mif1 = 0x6d696631U,  //!< "mif1" HEIF */
+  TAG_crx = 0x63727820U,   //!< "crx " Canon CR3 */
+  TAG_jxl = 0x6a786c20U,   //!< "jxl " JPEG XL file type */
+  TAG_moov = 0x6d6f6f76U,  //!< "moov" Movie */
+  TAG_meta = 0x6d657461U,  //!< "meta" Metadata */
+  TAG_mdat = 0x6d646174U,  //!< "mdat" Media data */
+  TAG_uuid = 0x75756964U,  //!< "uuid" UUID */
+  TAG_dinf = 0x64696e66U,  //!< "dinf" Data information */
+  TAG_iprp = 0x69707270U,  //!< "iprp" Item properties */
+  TAG_ipco = 0x6970636fU,  //!< "ipco" Item property container */
+  TAG_iinf = 0x69696e66U,  //!< "iinf" Item info */
+  TAG_iloc = 0x696c6f63U,  //!< "iloc" Item location */
+  TAG_ispe = 0x69737065U,  //!< "ispe" Image spatial extents */
+  TAG_infe = 0x696e6665U,  //!< "infe" Item Info Extension */
+  TAG_ipma = 0x69706d61U,  //!< "ipma" Item Property Association */
+  TAG_cmt1 = 0x434d5431U,  //!< "CMT1" ifd0Id */
+  TAG_cmt2 = 0x434D5432U,  //!< "CMD2" exifID */
+  TAG_cmt3 = 0x434D5433U,  //!< "CMT3" canonID */
+  TAG_cmt4 = 0x434D5434U,  //!< "CMT4" gpsID */
+  TAG_colr = 0x636f6c72U,  //!< "colr" Colour information */
+  TAG_exif = 0x45786966U,  //!< "Exif" Used by JXL */
+  TAG_xml = 0x786d6c20U,   //!< "xml " Used by JXL */
+  TAG_brob = 0x62726f62U,  //!< "brob" Used by JXL (brotli box) */
+  TAG_thmb = 0x54484d42U,  //!< "THMB" Canon thumbnail */
+  TAG_prvw = 0x50525657U,  //!< "PRVW" Canon preview image */
 };
 
 // *****************************************************************************
 // class member definitions
-#ifdef EXV_ENABLE_BMFF
+#ifndef EXV_ENABLE_BMFF
+namespace Exiv2 {
+bool enableBMFF(bool) {
+  return false;
+}
+}  // namespace Exiv2
+#else
 namespace Exiv2 {
 static bool enabled = false;
 bool enableBMFF(bool enable) {
@@ -84,16 +92,14 @@ BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */) :
 
 std::string BmffImage::toAscii(uint32_t n) {
   const auto p = reinterpret_cast<const char*>(&n);
-  std::string result(4, '.');
-  std::transform(p, p + 4, result.begin(), [](char c) {
-    if (32 <= c && c < 127)
-      return c;  // only allow 7-bit printable ascii
-    if (c == 0)
-      return '_';  // show 0 as _
-    return '.';    // others .
-  });
+  std::string result(p, p + 4);
   if (!isBigEndianPlatform())
     std::reverse(result.begin(), result.end());
+  // show 0 as _
+  std::replace(result.begin(), result.end(), '\0', '_');
+  // show non 7-bit printable ascii as .
+  std::replace_if(
+      result.begin(), result.end(), [](char c) { return c < 32 || c > 126; }, '.');
   return result;
 }
 
@@ -127,6 +133,10 @@ std::string BmffImage::mimeType() const {
     case TAG_heif:
     case TAG_mif1:
       return "image/heif";
+    case TAG_j2is:
+      return "image/j2is";
+    case TAG_j2ki:
+      return "image/hej2k";
     case TAG_crx:
       return "image/x-canon-cr3";
     case TAG_jxl:
@@ -801,12 +811,6 @@ bool isBmffType(BasicIo& iIo, bool advance) {
     iIo.seek(0, BasicIo::beg);
   }
   return matched;
-}
-}  // namespace Exiv2
-#else  // ifdef EXV_ENABLE_BMFF
-namespace Exiv2 {
-bool enableBMFF(bool) {
-  return false;
 }
 }  // namespace Exiv2
 #endif

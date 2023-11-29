@@ -47,6 +47,10 @@ if get_option('video')
   headers += files('exiv2/asfvideo.hpp', 'exiv2/matroskavideo.hpp', 'exiv2/quicktimevideo.hpp', 'exiv2/riffvideo.hpp')
 endif
 
+if get_option('webready')
+  headers += files('exiv2/http.hpp')
+endif
+
 if zlib_dep.found()
   headers += files('exiv2/pngimage.hpp')
 endif

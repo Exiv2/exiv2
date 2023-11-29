@@ -28,12 +28,16 @@ const unsigned char pgfBlank[] = {
 
 namespace Exiv2 {
 static uint32_t byteSwap_(uint32_t value, bool bSwap) {
+#ifdef __cpp_lib_byteswap
+  return bSwap ? std::byteswap(value) : value;
+#else
   uint32_t result = 0;
   result |= (value & 0x000000FF) << 24;
   result |= (value & 0x0000FF00) << 8;
   result |= (value & 0x00FF0000) >> 8;
   result |= (value & 0xFF000000) >> 24;
   return bSwap ? result : value;
+#endif
 }
 
 static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
@@ -179,7 +183,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   // Write new Header size.
   auto newHeaderSize = static_cast<uint32_t>(header.size() + imgSize);
   DataBuf buffer(4);
-  std::copy_n(&newHeaderSize, 4, buffer.data());
+  std::copy_n(&newHeaderSize, sizeof(uint32_t), buffer.data());
   byteSwap_(buffer, 0, bSwap_);
   if (outIo.write(buffer.c_data(), 4) != 4)
     throw Error(ErrorCode::kerImageWriteFailed);

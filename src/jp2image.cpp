@@ -100,13 +100,16 @@ Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create) : Image(ImageType::jp2, m
 // Obtains the ascii version from the box.type
 std::string Jp2Image::toAscii(uint32_t n) {
   const auto p = reinterpret_cast<const char*>(&n);
+  if (isBigEndianPlatform())
+    return std::string(p, p + 4);
   std::string result(p, p + 4);
-  if (!isBigEndianPlatform())
-    std::reverse(result.begin(), result.end());
+  std::reverse(result.begin(), result.end());
   return result;
 }
 
 std::string Jp2Image::mimeType() const {
+  if (brand_ == Internal::brandJph)
+    return "image/jph";
   return "image/jp2";
 }
 
@@ -172,6 +175,7 @@ void Jp2Image::readMetadata() {
         io_->readOrThrow(boxData.data(), boxData.size(), ErrorCode::kerCorruptedMetadata);
         if (!Internal::isValidBoxFileType(boxData))
           throw Error(ErrorCode::kerCorruptedMetadata);
+        brand_ = getULong(boxData.data(), bigEndian);
         break;
       }
       case kJp2BoxTypeHeader: {
@@ -360,9 +364,8 @@ void Jp2Image::readMetadata() {
         break;
       }
 
-      default: {
+      default:
         break;
-      }
     }
     lastBoxTypeRead = box.type;
 
@@ -598,7 +601,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
   while (count < length && !bWroteColor) {
     Internal::enforce(boxHSize <= length - count, ErrorCode::kerCorruptedMetadata);
     Internal::Jp2BoxHeader subBox;
-    memcpy(&subBox, boxBuf.c_data(count), boxHSize);
+    std::copy_n(boxBuf.c_data(count), boxHSize, reinterpret_cast<byte*>(&subBox));
     Internal::Jp2BoxHeader newBox = subBox;
 
     if (count < length) {

@@ -17,7 +17,7 @@ namespace Internal {
  * knowledge about the stored data.
  */
 struct SliceBase {
-  inline SliceBase(size_t begin, size_t end) : begin_(begin), end_(end) {
+  SliceBase(size_t begin, size_t end) : begin_(begin), end_(end) {
     if (begin >= end) {
       throw std::out_of_range("Begin must be smaller than end");
     }
@@ -26,7 +26,7 @@ struct SliceBase {
   /*!
    * Return the number of elements in the slice.
    */
-  [[nodiscard]] inline size_t size() const noexcept {
+  [[nodiscard]] size_t size() const noexcept {
     // cannot underflow, as we know that begin < end
     return end_ - begin_;
   }
@@ -38,7 +38,7 @@ struct SliceBase {
    * @throw std::out_of_range when `index` will access an element
    * outside of the slice
    */
-  inline void rangeCheck(size_t index) const {
+  void rangeCheck(size_t index) const {
     if (index >= size()) {
       throw std::out_of_range("Index outside of the slice");
     }
@@ -530,24 +530,24 @@ struct Slice<T*> : public Internal::MutableSliceBase<Internal::PtrSliceStorage, 
  * parameter deduction.
  */
 template <typename T>
-inline Slice<T> makeSlice(T& cont, size_t begin, size_t end) {
-  return Slice<T>(cont, begin, end);
+Slice<T> makeSlice(T& cont, size_t begin, size_t end) {
+  return {cont, begin, end};
 }
 
 /*!
  * Overload of makeSlice for slices of C-arrays.
  */
 template <typename T>
-inline Slice<T*> makeSlice(T* ptr, size_t begin, size_t end) {
-  return Slice<T*>(ptr, begin, end);
+Slice<T*> makeSlice(T* ptr, size_t begin, size_t end) {
+  return {ptr, begin, end};
 }
 
 /*!
  * @brief Return a new slice spanning the whole container.
  */
 template <typename container>
-inline Slice<container> makeSlice(container& cont) {
-  return Slice<container>(cont, 0, cont.size());
+Slice<container> makeSlice(container& cont) {
+  return {cont, 0, cont.size()};
 }
 
 /*!
@@ -555,24 +555,24 @@ inline Slice<container> makeSlice(container& cont) {
  * container.
  */
 template <typename container>
-inline Slice<container> makeSliceFrom(container& cont, size_t begin) {
-  return Slice<container>(cont, begin, cont.size());
+Slice<container> makeSliceFrom(container& cont, size_t begin) {
+  return {cont, begin, cont.size()};
 }
 
 /*!
  * @brief Return a new slice spanning until `end`.
  */
 template <typename container>
-inline Slice<container> makeSliceUntil(container& cont, size_t end) {
-  return Slice<container>(cont, 0, end);
+Slice<container> makeSliceUntil(container& cont, size_t end) {
+  return {cont, 0, end};
 }
 
 /*!
  * Overload of makeSliceUntil for pointer based slices.
  */
 template <typename T>
-inline Slice<T*> makeSliceUntil(T* ptr, size_t end) {
-  return Slice<T*>(ptr, 0, end);
+Slice<T*> makeSliceUntil(T* ptr, size_t end) {
+  return {ptr, 0, end};
 }
 
 }  // namespace Exiv2

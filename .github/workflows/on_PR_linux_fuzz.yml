@@ -20,14 +20,14 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v3
-    - name: install dependencies
+    - uses: actions/checkout@v4
+    - name: Install dependencies
       run: |
         sudo ./ci/install_dependencies.sh
-        sudo apt-get install ninja-build
 
-    - name: build and compile
+    - name: Build
       env:
+        CC: clang
         CXX: clang++
       run: |
         cmake --preset linux-sanitizers -S . -B build -DCMAKE_BUILD_TYPE=Release -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_BUILD_UNIT_TESTS=OFF

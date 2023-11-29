@@ -52,15 +52,17 @@ bool TagVocabulary::operator==(const std::string& key) const {
 }
 
 // Unknown Tag
-static const TagInfo unknownTag{0xffff,
-                                "Unknown tag",
-                                N_("Unknown tag"),
-                                N_("Unknown tag"),
-                                IfdId::ifdIdNotSet,
-                                SectionId::sectionIdNotSet,
-                                asciiString,
-                                -1,
-                                printValue};
+static constexpr TagInfo unknownTag{
+    0xffff,
+    "Unknown tag",
+    N_("Unknown tag"),
+    N_("Unknown tag"),
+    IfdId::ifdIdNotSet,
+    SectionId::sectionIdNotSet,
+    asciiString,
+    -1,
+    printValue,
+};
 
 }  // namespace Exiv2::Internal
 
@@ -259,7 +261,7 @@ ExifKey::ExifKey(const std::string& key) : p_(std::make_unique<Impl>()) {
   p_->decomposeKey(key);
 }
 
-ExifKey::ExifKey(const ExifKey& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
+ExifKey::ExifKey(const ExifKey& rhs) : Key(rhs), p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 ExifKey::~ExifKey() = default;

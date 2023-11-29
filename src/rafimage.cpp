@@ -14,6 +14,7 @@
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 
+#include <cinttypes>
 #include <iostream>
 
 // *****************************************************************************
@@ -77,15 +78,17 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
   if (bPrint) {
     io_->seek(0, BasicIo::beg);  // rewind
     size_t address = io_->tell();
+
     constexpr auto format = " %8zu | %8ld | ";
 
     {
       out << Internal::indent(depth) << "STRUCTURE OF RAF FILE: " << io().path() << std::endl;
       out << Internal::indent(depth) << "  Address |   Length | Payload" << std::endl;
+      out << Internal::indent(depth) << "   Address |    Length | Payload" << std::endl;
     }
 
     byte magicdata[17];
-    io_->read(magicdata, 16);
+    io_->readOrThrow(magicdata, 16);
     magicdata[16] = 0;
     {
       out << Internal::indent(depth) << Internal::stringFormat(format, address, 16L)  // 0
@@ -97,6 +100,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(data1, 4);
     data1[4] = 0;
     {
+
       out << Internal::indent(depth) << Internal::stringFormat(format, address, 4L)  // 16
           << "      data1 : " << std::string(reinterpret_cast<char*>(&data1)) << std::endl;
     }
@@ -130,10 +134,11 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
 
     address = io_->tell();
     DataBuf unknown(20);
-    io_->read(unknown.data(), unknown.size());
+    io_->readOrThrow(unknown.data(), unknown.size());
     {
       out << Internal::indent(depth) << Internal::stringFormat(format, address, 20L)
           << "    unknown : " << Internal::binaryToString(makeSlice(unknown, 0, unknown.size())) << std::endl;
+
     }
 
     address = io_->tell();
@@ -143,12 +148,8 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     size_t address2 = io_->tell();
     io_->read(jpg_img_length, 4);
 
-    long jpg_img_off = Exiv2::getULong(jpg_img_offset, bigEndian);
-    long jpg_img_len = Exiv2::getULong(jpg_img_length, bigEndian);
-    std::stringstream j_off;
-    std::stringstream j_len;
-    j_off << jpg_img_off;
-    j_len << jpg_img_len;
+    uint32_t jpg_img_off = Exiv2::getULong(jpg_img_offset, bigEndian);
+    uint32_t jpg_img_len = Exiv2::getULong(jpg_img_length, bigEndian);
     {
       out << Internal::indent(depth) << Internal::stringFormat(format, address, 4L) << "JPEG Offset : " << j_off.str()
           << std::endl;
@@ -197,23 +198,23 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->seek(jpg_img_off, BasicIo::beg);  // rewind
     address = io_->tell();
     DataBuf payload(16);  // header is different from chunks
-    io_->read(payload.data(), payload.size());
+    io_->readOrThrow(payload.data(), payload.size());
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, jpg_img_len)  // , jpg_img_off)
-          << "       JPEG : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << std::endl;
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, jpg_img_len)
+          << "   JPEG data : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << std::endl;
     }
 
-    io_->seek(cfa_hdr_off, BasicIo::beg);  // rewind
+    io_->seek(meta_off[0], BasicIo::beg);  // rewind
     address = io_->tell();
-    io_->read(payload.data(), payload.size());
+    io_->readOrThrow(payload.data(), payload.size());
     {
       out << Internal::indent(depth) << Internal::stringFormat(format, address, cfa_hdr_len)  // cfa_hdr_off
           << "        CFA : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << std::endl;
     }
 
-    io_->seek(cfa_off, BasicIo::beg);  // rewind
+    io_->seek(cfa_off[0], BasicIo::beg);  // rewind
     address = io_->tell();
-    io_->read(payload.data(), payload.size());
+    io_->readOrThrow(payload.data(), payload.size());
     {
       out << Internal::indent(depth) << Internal::stringFormat(format, address, cfa_len)  // cfa_off
           << "       TIFF : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << std::endl;

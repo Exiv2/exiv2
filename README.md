@@ -81,12 +81,11 @@ You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, an
 ## Build, Install, Use Exiv2 on a UNIX-like system
 
 ```bash
-$ cd ~/gnu/github/exiv2                     # Location of the project code
-$ mkdir build && cd build                   # Create a build directory
-$ cmake -DCMAKE_BUILD_TYPE=Release ..       # Configure the project with CMake
-$ cmake --build .                           # Compile the project
-$ ctest --verbose                           # Run tests
-$ cmake --install .                         # Run the install target (install library, public headers, application and CMake files)
+$ cd ~/gnu/github/exiv2                          # Location of the project code
+$ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release # Configure the project with CMake
+$ cmake --build build                            # Compile the project
+$ ctest --test-dir build --verbose               # Run tests
+$ sudo cmake --install build                     # Run the install target (install library, public headers, application and CMake files)
 ```
 
 This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`. The target directory for the installation can be modified by using the CMake option `-DCMAKE_INSTALL_PREFIX`. 
@@ -114,8 +113,7 @@ I don't know why anybody would uninstall Exiv2.
 
 ```bash
 $ cd ~/gnu/github/exiv2  # location of the project code
-$ cd build
-$ cmake --build . --target uninstall
+$ cmake --build build --target uninstall
 ```
 
 These commands will run the `uninstall` target and remove all the files which were installed by the `install` target.
@@ -133,7 +131,7 @@ See [README-CONAN](README-CONAN.md) for more information about Conan.
 When you build, you may install with the following command.
 
 ```cmd
-> cmake --install .
+> cmake --install build
 ```
 This will create and copy the exiv2 build artefacts to `%ProgramFiles%/exiv2`. To be able to run the `exiv2` command line application from any terminal you should modify your path to include `%ProgramFiles%/exiv2/bin`.
 
@@ -489,7 +487,7 @@ Additionally, you will require an additional build step to actually build the do
 
 ```bash
 $ cmake ..options.. -DEXIV2_BUILD_DOC=ON
-$ cmake --build . --target doc
+$ cmake --build build --target doc
 ```
 
 To build the documentation, you must install the following products:
@@ -547,15 +545,14 @@ Create and build exiv2 for your platform.
 
 ```bash
 $ git clone https://github.com/exiv2/exiv2
-$ mkdir -p exiv2/build
-$ cd       exiv2/build
-$ cmake .. -G "Unix Makefiles" -DEXIV2_TEAM_PACKAGING=ON
+$ cd exiv2
+$ cmake -S . -B build -G "Unix Makefiles" -DEXIV2_TEAM_PACKAGING=ON
 ...
 -- Build files have been written to: .../build
-$ cmake --build . --config Release
+$ cmake --build build --config Release
 ...
 [100%] Built target addmoddel
-$ cmake --build . --target package
+$ cmake --build build --target package
 ...
 CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Linux.tar.gz generated.
 ```
@@ -563,7 +560,7 @@ CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Linux.tar.gz generated.
 2) Source Package
 
 ```bash
-$ cmake --build . --target package_source
+$ cmake --build build --target package_source
 Run CPack packaging tool for source...
 ...
 CPack: - package: /path/to/exiv2/build/exiv2-0.27.1-Source.tar.gz generated.
@@ -580,10 +577,8 @@ In general to generate a debug library, you should use the *CMake* option `-DCMA
 
 ```bash
 $ cd <exiv2dir>
-$ mkdir build
-$ cd build
-$ cmake .. -G "Unix Makefiles" "-DCMAKE_BUILD_TYPE=Debug"
-$ cmake --build .
+$ cmake -S . -B build -G "Unix Makefiles" "-DCMAKE_BUILD_TYPE=Debug"
+$ cmake --build build
 
 ```
 
@@ -610,12 +605,12 @@ Exiv2 respects the symbol `NDEBUG` which is set only for Release builds. There a
 Those blocks of code are not compiled unless you define `EXIV2_DEBUG_MESSAGES`. They are provided for additional debugging information. For example, if you are interested in additional output from webpimage.cpp, you can update your build as follows:
 
 ```bash
-$ cd <exiv2dir> && cd build
-$ cmake -DCMAKE_CXX_FLAGS=-DEXIV2_DEBUG_MESSAGES ..
-$ cmake --build .
+$ cd <exiv2dir>
+$ cmake -S . -B build -DCMAKE_CXX_FLAGS=-DEXIV2_DEBUG_MESSAGES
+$ cmake --build build
 $ bin/exiv2 ...
 -- or --
-$ cmake --install .
+$ cmake --install build
 $ exiv2     ...
 ```
 
@@ -639,14 +634,14 @@ and runs on Windows, Mac and Linux.  It has excellent integration with CMake and
 add **`-DCMAKE_BUILD_TYPE=Debug`** to the CMake command.  It keeps build types in separate directories
 such as **`<exiv2dir>/cmake-build-debug`**.
 
-5) cmake --build . options **`--config Release|Debug`** and **`--target install`**
+5) cmake --build build options **`--config Release|Debug`** and **`--target install`**
 
 Visual Studio and Xcode can build debug or release builds without using the option **`-DCMAKE_BUILD_TYPE`** because the generated project files can build multiple types.  The option **`--config Debug`** can be specified on the CMake command-line to specify the build type.  Alternatively, if you prefer to build in the IDE, the UI provides options to select the configuration and target.
 
 With the Unix Makefile generator, the targets can be listed:
 
 ```bash
-$ cmake --build . --target help
+$ cmake --build build --target help
 The following are some of the valid targets for this Makefile:
 ... all (the default if no target is provided)
 ... clean
@@ -664,9 +659,9 @@ The following are some of the valid targets for this Makefile:
 
 ```bash
 $ cd <exiv2dir>
-$ rm -rf build ; mkdir build ; cd build
-$ cmake .. -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++)
-$ cmake --build .
+$ rm -rf build
+$ cmake -S . -B build -DCMAKE_C_COMPILER=$(which clang) -DCMAKE_CXX_COMPILER=$(which clang++)
+$ cmake --build build
 ```
 
 **_OR_**
@@ -675,9 +670,9 @@ $ cmake --build .
 $ export CC=$(which clang)
 $ export CXX=$(which clang++)
 $ cd <exiv2dir>
-$ rm -rf build ; mkdir build ; cd build
-$ cmake ..
-$ cmake --build .
+$ rm -rf build
+$ cmake -S . -B build
+$ cmake --build build
 ```
 
 2) On macOS
@@ -705,12 +700,11 @@ To build with ccache, use the CMake option **-DBUILD\_WITH\_CCACHE=ON**
 
 ```bash
 $ cd <exiv2dir>
-$ mkdir build ; cd build ; cd build
-$ cmake .. -G "Unix Makefiles" -DBUILD_WITH_CCACHE=ON
-$ cmake --build .
+$ cmake -S . -B build -G "Unix Makefiles" -DBUILD_WITH_CCACHE=ON
+$ cmake --build build
 # Build again to appreciate the performance gain
-$ cmake --build . --target clean
-$ cmake --build .
+$ cmake --build build --target clean
+$ cmake --build build
 ```
 
 Due to the way in which ccache is installed in Fedora (and other Linux distros), ccache effectively replaces the compiler.  A default build or **-DBUILD\_WITH\_CCACHE=OFF** is not effective and the environment variable CCACHE_DISABLE is required to disable ccache. [https://github.com/Exiv2/exiv2/issues/361](https://github.com/Exiv2/exiv2/issues/361)
@@ -955,13 +949,13 @@ For new bug reports, feature requests and support:  Please open an issue in Gith
 
 # Test Suite
 
-You execute the Test Suite using CTest with the command `$ ctest`.
+You execute the Test Suite using CTest with the command `$ ctest --test-dir build`.
 
 The build creates 6 tests: bashTests, bugfixTests, lensTests, tiffTests, unitTests and versionTests.  You can run all tests or a subset. To list all available tests, execute ctest with the `-N` or `--show-only` option, which disables execution:
 
 ```bash
-.../main/build $ ctest -N
-Test project ...main/build
+.../exiv2/ $ ctest --test-dir build --show-only
+Test project ...main/exiv2
   Test #1: bashTests
   Test #2: bugfixTests
   Test #3: lensTests
@@ -970,16 +964,16 @@ Test project ...main/build
   Test #6: unitTests
 
 Total Tests: 6
-.../main/build $
+.../exiv2 $
 ```
 
 ctest provides many option and the following show common use-case scenarios:
 
 ```bash
-$ ctest                              # run all tests and display summary
-$ ctest --output-on-failure          # run all tests and output failures
-$ ctest -R bugfix                    # run only bugfixTests and display summary
-$ ctest -R bugfix --verbose          # run only bugfixTests and display all output
+$ ctest --test-dir build                             # run all tests and display summary
+$ ctest --test-dir build --output-on-failure         # run all tests and output failures
+$ ctest --test-dir build-R bugfix                    # run only bugfixTests and display summary
+$ ctest --test-dir build -R bugfix --verbose         # run only bugfixTests and display all output
 ```
 
 Except for the `unitTests`,  CMake needs to find a python3 interpreter in the system to be able to run the rest of the test targets with CTest:
@@ -1025,11 +1019,11 @@ The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  
 You can run tests directly from the build:
 
 ```bash
-$ cmake .. -G "Unix Makefiles" -DEXIV2_BUILD_UNIT_TESTS=ON 
+$ cmake -S . -B build -G "Unix Makefiles" -DEXIV2_BUILD_UNIT_TESTS=ON 
 ... lots of output and build summary ...
-$ cmake --build .
+$ cmake --build build
 ... lots of output ...
-$ ctest
+$ ctest --test-dir build
 ... test summary ...
 $
 ```
@@ -1037,14 +1031,14 @@ $
 You can run individual tests in the `test` directory.  **Caution:** If you build in a directory other than \<exiv2dir\>/build, you must set EXIV2\_BINDIR to run tests from the `test` directory.
 
 ```bash
-$ cd <exiv2dir>/build
-$ ctest -R bash --verbose
+$ cd <exiv2dir>
+$ ctest --test-dir build -R bash --verbose
 addmoddel_test (testcases.TestCases) ... ok
 ....
 Ran 176 tests in 9.526s
 OK (skipped=6)
 
-$ ctest -R bugfix --verbose
+$ ctest --test-dir build -R bugfix --verbose
 ... lots of output ...
 test_run (tiff_test.test_tiff_test_program.TestTiffTestProg) ... ok
 ----------------------------------------------------------------------
@@ -1068,15 +1062,15 @@ $
 You can execute the test suite in a similar manner to that described for UNIX-like systems.  You _**must**_ provide the `-C` config option to ctest for Visual Studio builds.  
 
 ```cmd
-> cd <exiv2dir>/build
-> ctest -C Release
-> ctest -C Release -R bugfix --verbose
+> cd <exiv2dir>
+> ctest --test-dir build -C Release
+> ctest --test-dir build -C Release -R bugfix --verbose
 ```
 Visual Studio can build different configs as follows:
 
 ```cmd
-> cmake --build . --config Release        # or Debug or MinSizeRel or RelWithDebInfo
-> ctest -C Release
+> cmake --build build --config Release        # or Debug or MinSizeRel or RelWithDebInfo
+> ctest --test-dir build -C Release
 ```
 The default for **CMake** config option `--config` is `Release`.  **ctest** does not have a default for config option `-C`.
 
@@ -1087,20 +1081,18 @@ You can build with Visual Studio using Conan.  The is described in detail in [RE
 As a summary, the procedure is:
 
 ```
-c:\...\exiv2>mkdir build
-c:\...\exiv2>cd build
-c:\...\exiv2\build>conan install .. --build missing --profile msvc2019Release
-c:\...\exiv2\build>cmake .. -DEXIV2_BUILD_UNIT_TESTS=ON -G "Visual Studio 16 2019"
-c:\...\exiv2\build>cmake --build . --config Release
+c:\...\exiv2\build>conan install . --build missing --profile msvc2019Release
+c:\...\exiv2\build>cmake -S . B build -DEXIV2_BUILD_UNIT_TESTS=ON -G "Visual Studio 16 2019"
+c:\...\exiv2\build>cmake --build build --config Release
 ... lots of output from compiler and linker ...
-c:\...\exiv2\build>ctest -C Release
+c:\...\exiv2\build>ctest --test-dir build -C Release
 ```
 
 If you wish to use an environment variables, use set:
 
 ```
 set EXIV2_PORT=54321
-ctest -C Release --verbose -R bash
+ctest --test-dir build -C Release --verbose -R bash
 set EXIV2_PORT=
 ```
 
@@ -1132,15 +1124,15 @@ $ popd
 You can run the bugfix tests from the build directory:
 
 ```bash
-$ cd <exiv2dir>/build
-$ ctest -R bugfix  
+$ cd <exiv2dir>
+$ ctest --test-dir build -R bugfix  
 ```
 
 If you wish to run in verbose mode:
 
 ```bash
-$ cd <exiv2dir>/build
-$ ctest -R bugfix --verbose
+$ cd <exiv2dir>
+$ ctest --test-dir build -R bugfix --verbose
 ```
 
 The bugfix tests are stored in directory tests/ and you can run them all with the command:
@@ -1161,8 +1153,8 @@ $ python3 runner.py --verbose bugfixes/redmine/test_issue_841.py  # or $(find . 
 You may wish to get a brief summary of failures with commands such as:
 
 ```bash
-$ cd <exiv2dir>/build
-$ ctest -R bugfix --verbose 2>&1 | grep FAIL
+$ cd <exiv2dir>
+$ ctest --test-dir build -R bugfix --verbose 2>&1 | grep FAIL
 ```
 
 [TOC](#TOC)
@@ -1179,9 +1171,9 @@ To build the fuzzers:
 
 ```bash
 $ cd <exiv2dir>
-$ rm -rf build-fuzz ; mkdir build-fuzz ; cd build-fuzz
-$ cmake .. -DCMAKE_CXX_COMPILER=$(which clang++) -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_TEAM_USE_SANITIZERS=ON
-$ cmake --build .
+$ rm -rf build-fuzz
+$ cmake -S . -B build-fuzz -DCMAKE_CXX_COMPILER=$(which clang++) -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_TEAM_USE_SANITIZERS=ON
+$ cmake --build build-fuzz
 ```
 
 To execute a fuzzer:
@@ -1218,7 +1210,7 @@ Update your system and install the build tools and dependencies (zlib, expat, gt
 
 ```bash
 $ sudo apt --yes update
-$ sudo apt install --yes build-essential git clang ccache python3 libxml2-utils cmake python3 libexpat1-dev libz-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgtest-dev google-mock libinih-dev
+$ sudo apt install --yes build-essential ccache clang cmake git google-mock libbrotli-dev libcurl4-openssl-dev libexpat1-dev libgtest-dev libinih-dev libssh-dev libxml2-utils libz-dev python3 zlib1g-dev
 ```
 
 For users of other platforms, the script <exiv2dir>/ci/install_dependencies.sh has code used to configure many platforms.  The code in that file is a useful guide to configuring your platform.
@@ -1230,9 +1222,8 @@ $ mkdir -p ~/gnu/github/exiv2
 $ cd ~/gnu/github/exiv2
 $ git clone https://github.com/exiv2/exiv2
 $ cd exiv2
-$ mkdir build ; cd build ;
-$ cmake .. -G "Unix Makefiles"
-$ make
+$ cmake -S . -B build -G "Unix Makefiles"
+$ cmake --build build
 ```
 
 [TOC](#TOC)
@@ -1274,8 +1265,8 @@ mkdir -p ~/gnu/github/exiv2
 cd       ~/gnu/github/exiv2
 git clone https://github.com/exiv2/exiv2
 cd exiv2
-mkdir build && cd build
-cmake -G Ninja
+cmake -S . -B build
+      -G Ninja
       -DCMAKE_CXX_FLAGS=-Wno-deprecated
       -DCMAKE_BUILD_TYPE=Release
       -DBUILD_SHARED_LIBS=ON
@@ -1286,7 +1277,7 @@ cmake -G Ninja
       -DEXIV2_BUILD_UNIT_TESTS=ON
       ..
 
-cmake --build .
+cmake --build build
 ```
 
 The binaries generated at this point can be executed from the MSYS2 UCRT64 terminal, but they will not run from a Windows Command Prompt or PowerShell. The reason is that the MSYS2 UCRT64 terminal is properly configured to find some needed DLLs. In case you want to be able to run the generated **exiv2** binary from any Windows terminal, you'll need to deploy the needed DLLs with the application.

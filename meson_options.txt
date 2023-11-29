@@ -44,3 +44,8 @@ option('xmp', type : 'feature',
 option('unitTests', type : 'feature',
   description : 'Build and run unit tests',
 )
+
+option('webready', type : 'boolean',
+  value: true,
+  description : 'Build with support for webready',
+)

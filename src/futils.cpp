@@ -35,7 +35,11 @@ namespace fs = std::experimental::filesystem;
 #endif
 
 #if __has_include(<unistd.h>)
-#include <unistd.h>  // for stat()
+#include <unistd.h>  // for getpid()
+#endif
+
+#if __has_include(<mach-o/dyld.h>)
+#include <mach-o/dyld.h>  // for _NSGetExecutablePath()
 #endif
 
 #if __has_include(<mach-o/dyld.h>)
@@ -63,11 +67,11 @@ namespace Exiv2 {
 constexpr std::array<const char*, 2> ENVARDEF{
     "/exiv2.php",
     "40",
-};  //!< @brief default URL for http exiv2 handler and time-out
+};  /// @brief default URL for http exiv2 handler and time-out
 constexpr std::array<const char*, 2> ENVARKEY{
     "EXIV2_HTTP_POST",
     "EXIV2_TIMEOUT",
-};  //!< @brief request keys for http exiv2 handler and time-out
+};  /// @brief request keys for http exiv2 handler and time-out
 
 // *****************************************************************************
 // free functions
@@ -210,9 +214,10 @@ Protocol fileProtocol(const std::string& path) {
     std::string name;
     Protocol prot;
     bool isUrl;  // path.size() > name.size()
-  } prots[] = {{"http://", pHttp, true}, {"https://", pHttps, true},  {"ftp://", pFtp, true},
-               {"sftp://", pSftp, true}, {"file://", pFileUri, true}, {"data://", pDataUri, true},
-               {"-", pStdin, false}};
+  } prots[] = {
+      {"http://", pHttp, true},    {"https://", pHttps, true},  {"ftp://", pFtp, true}, {"sftp://", pSftp, true},
+      {"file://", pFileUri, true}, {"data://", pDataUri, true}, {"-", pStdin, false},
+  };
   for (const auto& prot : prots) {
     if (result != pFile)
       break;

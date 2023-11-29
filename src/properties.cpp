@@ -3969,7 +3969,8 @@ const XmpPropertyInfo xmpVideoInfo[] = {
     {"Year", N_("Year"), "Integer", xmpText, xmpExternal, N_("Year in which the video was made.")},
     {"YResolution", N_("Y Resolution"), "Rational", xmpText, xmpInternal,
      N_("Vertical resolution in pixels per unit.")},
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
 const XmpPropertyInfo xmpAudioInfo[] = {
     {"AvgBytePerSec", N_("Average Bytes Per Second"), "Integer", xmpText, xmpExternal,
@@ -4821,7 +4822,8 @@ const XmpPropertyInfo xmpDwCInfo[] = {
     {"measurementRemarks", N_("Measurement Remarks"), "Text", xmpText, xmpExternal,
      N_("Comments or notes accompanying the MeasurementOrFact.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
 const XmpPropertyInfo xmpAcdseeInfo[] = {
     {"caption", N_("Caption"), "Text", xmpText, xmpExternal, N_("A brief description of the file")},
@@ -4834,7 +4836,8 @@ const XmpPropertyInfo xmpAcdseeInfo[] = {
     {"categories", N_("Categories"), "Text", xmpText, xmpExternal, N_("Catalog of hierarchical keywords and groups")},
 
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
 const XmpPrintInfo xmpPrintInfo[] = {
     {"Xmp.crs.CropUnits", EXV_PRINT_TAG(crsCropUnits)},
@@ -4902,7 +4905,8 @@ const XmpPrintInfo xmpPrintInfo[] = {
     {"Xmp.plus.MinorModelAgeDisclosure", EXV_PRINT_VOCABULARY(plusMinorModelAgeDisclosure)},
     {"Xmp.plus.ModelReleaseStatus", EXV_PRINT_VOCABULARY(plusModelReleaseStatus)},
     {"Xmp.plus.PropertyReleaseStatus", EXV_PRINT_VOCABULARY(plusPropertyReleaseStatus)},
-    {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)}};
+    {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)},
+};
 
 bool XmpNsInfo::operator==(const XmpNsInfo::Ns& ns) const {
   return ns_ == ns.ns_;

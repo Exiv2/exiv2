@@ -20,8 +20,6 @@ namespace fs = std::experimental::filesystem;
 
 #ifdef _WIN32
 #include <windows.h>
-char* realpath(const char* file, char* path);
-#define lstat stat
 #if _MSC_VER < 1400
 #define strcpy_s(d, l, s) strcpy(d, s)
 #define strcat_s(d, l, s) strcat(d, s)
@@ -62,10 +60,14 @@ class Options {
   virtual ~Options() = default;
 };
 
-enum { resultOK = 0, resultSyntaxError, resultSelectFailed };
+enum {
+  resultOK = 0,
+  resultSyntaxError,
+  resultSelectFailed,
+};
 
-enum  // keyword indices
-{
+// keyword indices
+enum {
   kwHELP = 0,
   kwVERSION,
   kwDST,
@@ -75,13 +77,10 @@ enum  // keyword indices
   kwADJUST,
   kwTZ,
   kwDELTA,
-  kwMAX  // manages keyword array
-  ,
-  kwNEEDVALUE  // bogus keywords for error reporting
-  ,
-  kwSYNTAX  // -- ditto --
-  ,
-  kwNOVALUE = -kwVERBOSE  // keywords <= kwNOVALUE are flags (no value needed)
+  kwMAX,                   // manages keyword array
+  kwNEEDVALUE,             // bogus keywords for error reporting
+  kwSYNTAX,                // -- ditto --
+  kwNOVALUE = -kwVERBOSE,  // keywords <= kwNOVALUE are flags (no value needed)
 };
 
 // file types supported
@@ -419,13 +418,6 @@ std::string makePath(const std::string& dir, const std::string& file) {
   return dir + std::string(EXV_SEPARATOR_STR) + file;
 }
 
-const char* makePath(const char* dir, const char* file) {
-  static char result[_MAX_PATH];
-  std::string r = makePath(std::string(dir), std::string(file));
-  strcpy(result, r.c_str());
-  return result;
-}
-
 // file utilities
 bool readDir(const char* path, Options& options) {
   bool bResult = false;
@@ -451,7 +443,7 @@ bool readDir(const char* path, Options& options) {
         if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
           // _tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
         } else {
-          std::string pathName = makePath(path, std::string(ffd.cFileName));
+          std::string pathName = makePath(path, ffd.cFileName);
           if (getFileType(pathName, options) == typeImage) {
             gFiles.push_back(pathName);
           }
@@ -470,8 +462,6 @@ bool readDir(const char* path, Options& options) {
     // print all the files and directories within directory
     while ((ent = readdir(dir)) != nullptr) {
       std::string pathName = makePath(path, ent->d_name);
-      struct stat buf;
-      lstat(path, &buf);
       if (ent->d_name[0] != '.') {
         // printf("reading %s => %s\n",ent->d_name,pathName.c_str());
         if (getFileType(pathName, options) == typeImage) {
@@ -625,10 +615,13 @@ int getFileType(std::string& path, Options& options) {
   return getFileType(path.c_str(), options);
 }
 int getFileType(const char* path, Options& options) {
-  return readXML(path, options)     ? typeXML
-         : readDir(path, options)   ? typeDirectory
-         : readImage(path, options) ? typeImage
-                                    : readFile(path, options);
+  if (readXML(path, options))
+    return typeXML;
+  if (readDir(path, options))
+    return typeDirectory;
+  if (readImage(path, options))
+    return typeImage;
+  return readFile(path, options);
 }
 
 int version(const char* program) {

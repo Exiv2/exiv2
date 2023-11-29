@@ -19,8 +19,7 @@
 #include <iostream>
 
 // + standard includes
-#include <fcntl.h>     // _O_BINARY in FileIo::FileIo
-#include <sys/stat.h>  // for stat, chmod
+#include <fcntl.h>  // _O_BINARY in FileIo::FileIo
 
 #if __has_include(<sys/mman.h>)
 #include <sys/mman.h>  // for mmap and munmap
@@ -37,7 +36,6 @@
 #endif
 
 #ifdef _WIN32
-using mode_t = unsigned short;
 #include <io.h>
 #include <windows.h>
 #endif
@@ -101,8 +99,8 @@ class FileIo::Impl {
   // TYPES
   //! Simple struct stat wrapper for internal use
   struct StructStat {
-    mode_t st_mode{0};  //!< Permissions
-    off_t st_size{0};   //!< Size
+    fs::perms st_mode{};       //!< Permissions
+    std::uintmax_t st_size{};  //!< Size
   };
   // #endif
   // METHODS
@@ -167,10 +165,7 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   if (offset == -1)
     return -1;
   // 'Manual' open("r+b") to avoid munmap()
-  if (fp_) {
-    std::fclose(fp_);
-    fp_ = nullptr;
-  }
+  std::fclose(fp_);
   openMode_ = "r+b";
   opMode_ = opSeek;
   fp_ = std::fopen(path_.c_str(), openMode_.c_str());
@@ -184,13 +179,13 @@ int FileIo::Impl::switchMode(OpMode opMode) {
 }  // FileIo::Impl::switchMode
 
 int FileIo::Impl::stat(StructStat& buf) const {
-  struct stat st;
-  auto ret = ::stat(path_.c_str(), &st);
-  if (ret == 0) {
-    buf.st_size = st.st_size;
-    buf.st_mode = st.st_mode;
+  try {
+    buf.st_size = fs::file_size(path_);
+    buf.st_mode = fs::status(path_).permissions();
+    return 0;
+  } catch (const fs::filesystem_error&) {
+    return -1;
   }
-  return ret;
 }  // FileIo::Impl::stat
 
 FileIo::FileIo(const std::string& path) : p_(std::make_unique<Impl>(path)) {
@@ -359,8 +354,8 @@ void FileIo::transfer(BasicIo& src) {
     close();
 
     bool statOk = true;
-    mode_t origStMode = 0;
-    auto pf = path().c_str();
+    fs::perms origStMode;
+    auto pf = path();
 
     Impl::StructStat buf1;
     if (p_->stat(buf1) == -1) {
@@ -375,28 +370,18 @@ void FileIo::transfer(BasicIo& src) {
       // that file has been opened with FILE_SHARE_DELETE by another process,
       // like a virus scanner or disk indexer
       // (see also http://stackoverflow.com/a/11023068)
-      using ReplaceFileA_t = BOOL(WINAPI*)(LPCSTR, LPCSTR, LPCSTR, DWORD, LPVOID, LPVOID);
-      HMODULE hKernel = ::GetModuleHandleA("kernel32.dll");
-      if (hKernel) {
-        auto pfcn_ReplaceFileA = reinterpret_cast<ReplaceFileA_t>(GetProcAddress(hKernel, "ReplaceFileA"));
-        if (pfcn_ReplaceFileA) {
-          BOOL ret =
-              pfcn_ReplaceFileA(pf, fileIo->path().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
-          if (ret == 0) {
-            if (GetLastError() == ERROR_FILE_NOT_FOUND) {
-              fs::rename(fileIo->path(), pf);
-              fs::remove(fileIo->path());
-            } else {
-              throw Error(ErrorCode::kerFileRenameFailed, fileIo->path(), pf, strError());
-            }
-          }
-        } else {
-          if (fileExists(pf) && ::remove(pf) != 0) {
-            throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
-          }
-          fs::rename(fileIo->path(), pf);
-          fs::remove(fileIo->path());
-        }
+      auto ret =
+          ReplaceFileA(pf.c_str(), fileIo->path().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
+      if (ret == 0) {
+        if (GetLastError() != ERROR_FILE_NOT_FOUND)
+          throw Error(ErrorCode::kerFileRenameFailed, fileIo->path(), pf, strError());
+        fs::rename(fileIo->path(), pf);
+        fs::remove(fileIo->path());
+      } else {
+        if (fileExists(pf) && fs::remove(pf) != 0)
+          throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
+        fs::rename(fileIo->path(), pf);
+        fs::remove(fileIo->path());
       }
 #else
       if (fileExists(pf) && fs::remove(pf) != 0) {
@@ -406,15 +391,10 @@ void FileIo::transfer(BasicIo& src) {
       fs::remove(fileIo->path());
 #endif
       // Check permissions of new file
-      struct stat buf2;
-      if (statOk && ::stat(pf, &buf2) == -1) {
-        statOk = false;
-#ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::stat") << "\n";
-#endif
-      }
+      auto newStMode = fs::status(pf).permissions();
       // Set original file permissions
-      if (statOk && origStMode != buf2.st_mode && ::chmod(pf, origStMode) == -1) {
+      if (statOk && origStMode != newStMode) {
+        fs::permissions(pf, origStMode);
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::chmod") << "\n";
 #endif
@@ -1334,8 +1314,7 @@ byte* RemoteIo::mmap(bool /*isWriteable*/) {
     size_t blocks = (p_->size_ + blockSize - 1) / blockSize;
     bigBlock_ = new byte[blocks * blockSize];
     for (size_t block = 0; block < blocks; block++) {
-      auto p = p_->blocksMap_[block].getData();
-      if (p) {
+      if (auto p = p_->blocksMap_[block].getData()) {
         size_t nRead = block == (blocks - 1) ? p_->size_ - nRealData : blockSize;
         memcpy(bigBlock_ + (block * blockSize), p, nRead);
         nRealData += nRead;
@@ -1385,6 +1364,7 @@ void RemoteIo::populateFakeData() {
   }
 }
 
+#ifdef EXV_ENABLE_WEBREADY
 //! Internal Pimpl structure of class HttpIo.
 class HttpIo::HttpImpl : public Impl {
  public:
@@ -1524,6 +1504,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
 HttpIo::HttpIo(const std::string& url, size_t blockSize) {
   p_ = std::make_unique<HttpImpl>(url, blockSize);
 }
+#endif
 
 #ifdef EXV_USE_CURL
 //! Internal Pimpl structure of class RemoteIo.
@@ -1732,11 +1713,7 @@ DataBuf readFile(const std::string& path) {
   if (file.open("rb") != 0) {
     throw Error(ErrorCode::kerFileOpenFailed, path, "rb", strError());
   }
-  struct stat st;
-  if (0 != ::stat(path.c_str(), &st)) {
-    throw Error(ErrorCode::kerCallFailed, path, strError(), "::stat");
-  }
-  DataBuf buf(st.st_size);
+  DataBuf buf(fs::file_size(path));
   if (file.read(buf.data(), buf.size()) != buf.size()) {
     throw Error(ErrorCode::kerCallFailed, path, strError(), "FileIo::read");
   }

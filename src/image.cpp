@@ -51,6 +51,10 @@
 #include <limits>
 #include <set>
 
+#ifdef __cpp_lib_endian
+#include <bit>
+#endif
+
 // *****************************************************************************
 namespace {
 using namespace Exiv2;
@@ -168,42 +172,74 @@ bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) {
 }
 
 bool Image::isBigEndianPlatform() {
+#ifdef __cpp_lib_endian
+  return std::endian::native == std::endian::big;
+#elif defined(__LITTLE_ENDIAN__)
+  return false;
+#elif defined(__BIG_ENDIAN__)
+  return true;
+#elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__)
+#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+  return true;
+#else
+  return false;
+#endif
+#else
   union {
     uint32_t i;
     char c[4];
   } e = {0x01000000};
 
   return e.c[0] != 0;
+#endif
 }
 bool Image::isLittleEndianPlatform() {
+#ifdef __cpp_lib_endian
+  return std::endian::native == std::endian::little;
+#elif defined(__LITTLE_ENDIAN__)
+  return true;
+#else
   return !isBigEndianPlatform();
+#endif
 }
 
 uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
+#ifdef __cpp_lib_byteswap
+  return bSwap ? std::byteswap(value) : value;
+#else
   uint64_t result = 0;
-  auto source_value = reinterpret_cast<byte*>(&value);
+  auto source_value = reinterpret_cast<const byte*>(&value);
   auto destination_value = reinterpret_cast<byte*>(&result);
 
   for (int i = 0; i < 8; i++)
     destination_value[i] = source_value[8 - i - 1];
 
   return bSwap ? result : value;
+#endif
 }
 
 uint32_t Image::byteSwap(uint32_t value, bool bSwap) {
+#ifdef __cpp_lib_byteswap
+  return bSwap ? std::byteswap(value) : value;
+#else
   uint32_t result = 0;
   result |= (value & 0x000000FFU) << 24;
   result |= (value & 0x0000FF00U) << 8;
   result |= (value & 0x00FF0000U) >> 8;
   result |= (value & 0xFF000000U) >> 24;
   return bSwap ? result : value;
+#endif
 }
 
 uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
+#ifdef __cpp_lib_byteswap
+  return bSwap ? std::byteswap(value) : value;
+#else
   uint16_t result = 0;
   result |= (value & 0x00FFU) << 8;
   result |= (value & 0xFF00U) >> 8;
   return bSwap ? result : value;
+#endif
 }
 
 uint16_t Image::byteSwap2(const DataBuf& buf, size_t offset, bool bSwap) {
@@ -445,10 +481,8 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
             const size_t restore = io.tell();
             io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
             std::vector<byte> bytes(count);                                         // allocate memory
-            // TODO: once we have C++11 use bytes.data()
             io.readOrThrow(bytes.data(), count, ErrorCode::kerCorruptedMetadata);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
-            // TODO: once we have C++11 use bytes.data()
             IptcData::printStructure(out, makeSliceUntil(bytes.data(), count), depth);
           }
         } else if (option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
@@ -770,7 +804,7 @@ ImageType ImageFactory::getType(BasicIo& io) {
   return ImageType::none;
 }
 
-BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, bool useCurl) {
+BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, [[maybe_unused]] bool useCurl) {
   Protocol fProt = fileProtocol(path);
 
 #ifdef EXV_USE_CURL
@@ -779,16 +813,16 @@ BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, bool useCurl)
   }
 #endif
 
+#ifdef EXV_ENABLE_WEBREADY
   if (fProt == pHttp)
     return std::make_unique<HttpIo>(path);  // may throw
+#endif
   if (fProt == pFileUri)
     return std::make_unique<FileIo>(pathOfFileUrl(path));
   if (fProt == pStdin || fProt == pDataUri)
     return std::make_unique<XPathIo>(path);  // may throw
 
   return std::make_unique<FileIo>(path);
-
-  (void)(useCurl);
 }  // ImageFactory::createIo
 
 Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl) {
@@ -858,7 +892,7 @@ void append(Blob& blob, const byte* buf, size_t len) {
       blob.reserve(size + 65536);
     }
     blob.resize(size + len);
-    std::memcpy(&blob[size], buf, len);
+    std::copy_n(buf, len, &blob[size]);
   }
 }  // append
 

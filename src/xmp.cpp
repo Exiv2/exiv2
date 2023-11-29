@@ -622,12 +622,12 @@ void XmpParser::registeredNamespaces(Exiv2::Dictionary&) {
 
 void XmpParser::terminate() {
   XmpProperties::unregisterNs();
-  if (initialized_) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
+  if (initialized_)
     SXMPMeta::Terminate();
+#else
+  initialized_ = false;
 #endif
-    initialized_ = false;
-  }
 }
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -693,7 +693,6 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
       printNode(schemaNs, propPath, propValue, opt);
       if (XMP_PropIsAlias(opt)) {
         throw Error(ErrorCode::kerAliasesNotSupported, schemaNs, propPath, propValue);
-        continue;
       }
       if (XMP_NodeIsSchema(opt)) {
         // Register unknown namespaces with Exiv2
@@ -1004,7 +1003,20 @@ void printNode(const std::string& schemaNs, const std::string& propPath, const s
     std::cout << "ashisabsals\n"
               << "lcqqtrgqlai\n";
   }
-  enum { alia = 0, sche, hasq, isqu, stru, arra, abag, aseq, aalt, lang, simp, len };
+  enum {
+    alia = 0,
+    sche,
+    hasq,
+    isqu,
+    stru,
+    arra,
+    abag,
+    aseq,
+    aalt,
+    lang,
+    simp,
+    len,
+  };
 
   std::string opts(len, '.');
   if (XMP_PropIsAlias(opt))

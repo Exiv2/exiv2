@@ -74,7 +74,9 @@ class EXIV2API AsfVideo : public Image {
     bool operator==(const GUIDTag& other) const;
 
     // Constructor to create a GUID object by passing individual values for each attribute
-    GUIDTag(unsigned int data1, unsigned short data2, unsigned short data3, std::array<byte, 8> data4);
+    constexpr GUIDTag(unsigned int data1, unsigned short data2, unsigned short data3, std::array<byte, 8> data4) :
+        data1_(data1), data2_(data2), data3_(data3), data4_(data4) {
+    }
 
     // Constructor to create a GUID object from a byte array
     explicit GUIDTag(const uint8_t* bytes);

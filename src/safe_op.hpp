@@ -128,9 +128,9 @@ SPECIALIZE_builtin_add_overflow(unsigned long long, __builtin_uaddll_overflow);
 
 #undef SPECIALIZE_builtin_add_overflow
 #endif  // __GNUC__ >= 5 || __clang_major >= 3
-
 #endif
-
+    return fallback_add_overflow(summand_1, summand_2, result);
+}
 }  // namespace Internal
 
 /*!

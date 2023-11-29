@@ -43,7 +43,7 @@ constexpr byte app13_ = 0xed;  //!< JPEG APP13 marker
 constexpr byte com_ = 0xfe;    //!< JPEG Comment marker
 
 // Markers without payload
-constexpr byte soi_ = 0xd8;   ///!< SOI marker
+constexpr byte soi_ = 0xd8;   //!< SOI marker
 constexpr byte eoi_ = 0xd9;   //!< JPEG EOI marker
 constexpr byte rst1_ = 0xd0;  //!< JPEG Restart 0 Marker (from 0xD0 to 0xD7 there might be 8 of these markers)
 
@@ -732,7 +732,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           if (exifSize > 0xffff - 8)
             throw Error(ErrorCode::kerTooLargeJpegSegment, "Exif");
           us2Data(tmpBuf.data() + 2, static_cast<uint16_t>(exifSize + 8), bigEndian);
-          std::memcpy(tmpBuf.data() + 4, exifId_, 6);
+          std::copy_n(exifId_, 6, tmpBuf.data() + 4);
           if (outIo.write(tmpBuf.data(), 10) != 10)
             throw Error(ErrorCode::kerImageWriteFailed);
 
@@ -759,7 +759,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         if (xmpPacket_.size() > 0xffff - 31)
           throw Error(ErrorCode::kerTooLargeJpegSegment, "XMP");
         us2Data(tmpBuf.data() + 2, static_cast<uint16_t>(xmpPacket_.size() + 31), bigEndian);
-        std::memcpy(tmpBuf.data() + 4, xmpId_, 29);
+        std::copy_n(xmpId_, 29, tmpBuf.data() + 4);
         if (outIo.write(tmpBuf.data(), 33) != 33)
           throw Error(ErrorCode::kerImageWriteFailed);
 
@@ -835,7 +835,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           tmpBuf[0] = 0xff;
           tmpBuf[1] = app13_;
           us2Data(tmpBuf.data() + 2, static_cast<uint16_t>(chunkSize + 16), bigEndian);
-          std::memcpy(tmpBuf.data() + 4, Photoshop::ps3Id_, 14);
+          std::copy_n(Photoshop::ps3Id_, 14, tmpBuf.data() + 4);
           if (outIo.write(tmpBuf.data(), 18) != 18)
             throw Error(ErrorCode::kerImageWriteFailed);
           if (outIo.error())

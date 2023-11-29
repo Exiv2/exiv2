@@ -371,7 +371,7 @@ std::string CommentValue::comment(const char* encoding) const {
   if (charsetId() == unicode) {
     const char* from = !encoding || *encoding == '\0' ? detectCharset(c) : encoding;
     if (!convertStringCharset(c, from, "UTF-8"))
-      throw Error(ErrorCode::kerInvalidIconvEncoding, encoding, "UTF-8");
+      throw Error(ErrorCode::kerInvalidIconvEncoding, from, "UTF-8");
   }
 
   // # 1266 Remove trailing nulls
@@ -801,7 +801,7 @@ size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   // sprintf wants to add the null terminator, so use oversized buffer
   char temp[9];
   auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
-  std::memcpy(buf, temp, wrote);
+  std::copy_n(temp, wrote, buf);
   return wrote;
 }
 
@@ -929,7 +929,7 @@ size_t TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
                                                   plusMinus, abs(time_.tzHour), abs(time_.tzMinute)));
 
   Internal::enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
-  std::memcpy(buf, temp, wrote);
+  std::copy_n(temp, wrote, buf);
   return wrote;
 }
 

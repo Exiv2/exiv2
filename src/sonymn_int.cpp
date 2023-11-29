@@ -20,122 +20,161 @@ namespace Exiv2::Internal {
 // -- Standard Sony Makernotes tags ---------------------------------------------------------------
 
 //! Lookup table to translate Sony image quality values to readable labels
-constexpr TagDetails sonyImageQuality[] = {{0, N_("RAW")},
-                                           {1, N_("Super Fine")},
-                                           {2, N_("Fine")},
-                                           {3, N_("Standard")},
-                                           {4, N_("Economy")},
-                                           {5, N_("Extra Fine")},
-                                           {6, N_("RAW + JPEG/HEIF")},
-                                           {7, N_("Compressed RAW")},
-                                           {8, N_("Compressed RAW + JPEG")},
-                                           {9, N_("Light")},
-                                           {0xffffffff, N_("n/a")}};
+constexpr TagDetails sonyImageQuality[] = {
+    {0, N_("RAW")},
+    {1, N_("Super Fine")},
+    {2, N_("Fine")},
+    {3, N_("Standard")},
+    {4, N_("Economy")},
+    {5, N_("Extra Fine")},
+    {6, N_("RAW + JPEG/HEIF")},
+    {7, N_("Compressed RAW")},
+    {8, N_("Compressed RAW + JPEG")},
+    {9, N_("Light")},
+    {0xffffffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony white balance (main group) values to readable labels
-constexpr TagDetails sonyWhiteBalanceStd[] = {{0x00, N_("Auto")},     {0x01, N_("Color Temperature/Color Filter")},
-                                              {0x10, N_("Daylight")}, {0x20, N_("Cloudy")},
-                                              {0x30, N_("Shade")},    {0x40, N_("Tungsten")},
-                                              {0x50, N_("Flash")},    {0x60, N_("Fluorescent")},
-                                              {0x70, N_("Custom")},   {0x80, N_("Underwater")}};
+constexpr TagDetails sonyWhiteBalanceStd[] = {
+    {0x00, N_("Auto")},     {0x01, N_("Color Temperature/Color Filter")},
+    {0x10, N_("Daylight")}, {0x20, N_("Cloudy")},
+    {0x30, N_("Shade")},    {0x40, N_("Tungsten")},
+    {0x50, N_("Flash")},    {0x60, N_("Fluorescent")},
+    {0x70, N_("Custom")},   {0x80, N_("Underwater")},
+};
 
 //! Lookup table to translate Sony auto HDR (part 1) values to readable labels
-constexpr TagDetails sonyHDRStdPart1[] = {{0x00, N_("Off")}, {0x01, N_("Auto")}, {0x10, "1.0 EV"}, {0x11, "1.5 EV"},
-                                          {0x12, "2.0 EV"},  {0x13, "2.5 EV"},   {0x14, "3.0 EV"}, {0x15, "3.5 EV"},
-                                          {0x16, "4.0 EV"},  {0x17, "4.5 EV"},   {0x18, "5.0 EV"}, {0x19, "5.5 EV"},
-                                          {0x1a, "6.0 EV"}};
+constexpr TagDetails sonyHDRStdPart1[] = {
+    {0x00, N_("Off")}, {0x01, N_("Auto")}, {0x10, "1.0 EV"}, {0x11, "1.5 EV"}, {0x12, "2.0 EV"},
+    {0x13, "2.5 EV"},  {0x14, "3.0 EV"},   {0x15, "3.5 EV"}, {0x16, "4.0 EV"}, {0x17, "4.5 EV"},
+    {0x18, "5.0 EV"},  {0x19, "5.5 EV"},   {0x1a, "6.0 EV"},
+};
 
 //! Lookup table to translate Sony auto HDR (part 2) values to readable labels
 constexpr TagDetails sonyHDRStdPart2[] = {
-    {0, N_("Uncorrected image")}, {1, N_("HDR image (good)")}, {2, N_("HDR (fail 1)")}, {3, N_("HDR (fail 2)")}};
+    {0, N_("Uncorrected image")},
+    {1, N_("HDR image (good)")},
+    {2, N_("HDR (fail 1)")},
+    {3, N_("HDR (fail 2)")},
+};
 
 //! Lookup table to translate Sony off/on/(n/a) (1) values to readable labels
-constexpr TagDetails sonyOffOnNA1[] = {{0, N_("Off")}, {1, N_("On")}, {256, N_("n/a")}};
+constexpr TagDetails sonyOffOnNA1[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+    {256, N_("n/a")},
+};
 
 //! Lookup table to translate Sony off/on/(n/a) (2) values to readable labels
-constexpr TagDetails sonyOffOnNA2[] = {{0, N_("Off")}, {1, N_("On")}, {0xffffffff, N_("n/a")}};
+constexpr TagDetails sonyOffOnNA2[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+    {0xffffffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony no/yes values to readable labels
-constexpr TagDetails sonyNoYes[] = {{0, N_("No")}, {1, N_("Yes")}};
+constexpr TagDetails sonyNoYes[] = {
+    {0, N_("No")},
+    {1, N_("Yes")},
+};
 
 //! Lookup table to translate Sony picture effect values to readable labels
-constexpr TagDetails sonyPictureEffect[] = {{0, N_("Off")},
-                                            {1, N_("Toy Camera")},
-                                            {2, N_("Pop Color")},
-                                            {3, N_("Posterization")},
-                                            {4, N_("Posterization B/W")},
-                                            {5, N_("Retro Photo")},
-                                            {6, N_("Soft High Key")},
-                                            {7, N_("Partial Color (red)")},
-                                            {8, N_("Partial Color (green)")},
-                                            {9, N_("Partial Color (blue)")},
-                                            {10, N_("Partial Color (yellow)")},
-                                            {13, N_("High Contrast Monochrome")},
-                                            {16, N_("Toy Camera (normal)")},
-                                            {17, N_("Toy Camera (cool)")},
-                                            {18, N_("Toy Camera (warm)")},
-                                            {19, N_("Toy Camera (green)")},
-                                            {20, N_("Toy Camera (magenta)")},
-                                            {32, N_("Soft Focus (low)")},
-                                            {33, N_("Soft Focus")},
-                                            {34, N_("Soft Focus (high)")},
-                                            {48, N_("Miniature (auto)")},
-                                            {49, N_("Miniature (top)")},
-                                            {50, N_("Miniature (middle horizontal)")},
-                                            {51, N_("Miniature (bottom)")},
-                                            {52, N_("Miniature (left)")},
-                                            {53, N_("Miniature (middle vertical)")},
-                                            {54, N_("Miniature (right)")},
-                                            {64, N_("HDR Painting (low)")},
-                                            {65, N_("HDR Painting")},
-                                            {66, N_("HDR Painting (high)")},
-                                            {80, N_("Rich-tone Monochrome")},
-                                            {97, N_("Watercolor")},
-                                            {98, N_("Watercolor 2")},
-                                            {112, N_("Illustration (low)")},
-                                            {113, N_("Illustration")},
-                                            {114, N_("Illustration (high)")}};
+constexpr TagDetails sonyPictureEffect[] = {
+    {0, N_("Off")},
+    {1, N_("Toy Camera")},
+    {2, N_("Pop Color")},
+    {3, N_("Posterization")},
+    {4, N_("Posterization B/W")},
+    {5, N_("Retro Photo")},
+    {6, N_("Soft High Key")},
+    {7, N_("Partial Color (red)")},
+    {8, N_("Partial Color (green)")},
+    {9, N_("Partial Color (blue)")},
+    {10, N_("Partial Color (yellow)")},
+    {13, N_("High Contrast Monochrome")},
+    {16, N_("Toy Camera (normal)")},
+    {17, N_("Toy Camera (cool)")},
+    {18, N_("Toy Camera (warm)")},
+    {19, N_("Toy Camera (green)")},
+    {20, N_("Toy Camera (magenta)")},
+    {32, N_("Soft Focus (low)")},
+    {33, N_("Soft Focus")},
+    {34, N_("Soft Focus (high)")},
+    {48, N_("Miniature (auto)")},
+    {49, N_("Miniature (top)")},
+    {50, N_("Miniature (middle horizontal)")},
+    {51, N_("Miniature (bottom)")},
+    {52, N_("Miniature (left)")},
+    {53, N_("Miniature (middle vertical)")},
+    {54, N_("Miniature (right)")},
+    {64, N_("HDR Painting (low)")},
+    {65, N_("HDR Painting")},
+    {66, N_("HDR Painting (high)")},
+    {80, N_("Rich-tone Monochrome")},
+    {97, N_("Watercolor")},
+    {98, N_("Watercolor 2")},
+    {112, N_("Illustration (low)")},
+    {113, N_("Illustration")},
+    {114, N_("Illustration (high)")},
+};
 
 //! Lookup table to translate Sony soft skin effect values to readable labels
 constexpr TagDetails sonySoftSkinEffect[] = {
-    {0, N_("Off")}, {1, N_("Low")}, {2, N_("Mid")}, {3, N_("High")}, {0xffffffff, N_("n/a")}};
+    {0, N_("Off")}, {1, N_("Low")}, {2, N_("Mid")}, {3, N_("High")}, {0xffffffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony vignetting correction values to readable labels
-constexpr TagDetails sonyVignettingCorrection[] = {{0, N_("Off")}, {2, N_("Auto")}, {0xffffffff, N_("n/a")}};
+constexpr TagDetails sonyVignettingCorrection[] = {
+    {0, N_("Off")},
+    {2, N_("Auto")},
+    {0xffffffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony lateral chromatic aberration values to readable labels
-constexpr TagDetails sonyLateralChromaticAberration[] = {{0, N_("Off")}, {2, N_("Auto")}, {0xffffffff, N_("n/a")}};
+constexpr TagDetails sonyLateralChromaticAberration[] = {
+    {0, N_("Off")},
+    {2, N_("Auto")},
+    {0xffffffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony distortion correction settings values to readable labels
-constexpr TagDetails sonyDistortionCorrectionSettings[] = {{0, N_("Off")}, {2, N_("Auto")}, {0xffffffff, N_("n/a")}};
+constexpr TagDetails sonyDistortionCorrectionSettings[] = {
+    {0, N_("Off")},
+    {2, N_("Auto")},
+    {0xffffffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony flash action values to readable labels
-constexpr TagDetails sonyFlashAction[] = {{0, N_("Did not fire")},
-                                          {1, N_("Flash fired")},
-                                          {2, N_("External flash fired")},
-                                          {3, N_("Wireless controlled flash fired")}};
+constexpr TagDetails sonyFlashAction[] = {
+    {0, N_("Did not fire")},
+    {1, N_("Flash fired")},
+    {2, N_("External flash fired")},
+    {3, N_("Wireless controlled flash fired")},
+};
 
 //! Lookup table to translate Sony auto focus point selected (set 1) values to readable labels
-constexpr TagDetails sonyAFPointSelectedSet1[] = {{0, N_("Auto")},
-                                                  {1, N_("Center")},
-                                                  {2, N_("Top")},
-                                                  {3, N_("Upper-right")},
-                                                  {4, N_("Right")},
-                                                  {5, N_("Lower-right")},
-                                                  {6, N_("Bottom")},
-                                                  {7, N_("Lower-left")},
-                                                  {8, N_("Left")},
-                                                  {9, N_("Upper-left")},
-                                                  {10, N_("Far Right")},
-                                                  {11, N_("Far Left")},
-                                                  {12, N_("Upper-middle")},
-                                                  {13, N_("Near Right")},
-                                                  {14, N_("Lower-middle")},
-                                                  {15, N_("Near Left")},
-                                                  {16, N_("Upper Far Right")},
-                                                  {17, N_("Lower Far Right")},
-                                                  {18, N_("Lower Far Left")},
-                                                  {19, N_("Upper Far Left")}};
+constexpr TagDetails sonyAFPointSelectedSet1[] = {
+    {0, N_("Auto")},
+    {1, N_("Center")},
+    {2, N_("Top")},
+    {3, N_("Upper-right")},
+    {4, N_("Right")},
+    {5, N_("Lower-right")},
+    {6, N_("Bottom")},
+    {7, N_("Lower-left")},
+    {8, N_("Left")},
+    {9, N_("Upper-left")},
+    {10, N_("Far Right")},
+    {11, N_("Far Left")},
+    {12, N_("Upper-middle")},
+    {13, N_("Near Right")},
+    {14, N_("Lower-middle")},
+    {15, N_("Near Left")},
+    {16, N_("Upper Far Right")},
+    {17, N_("Lower Far Right")},
+    {18, N_("Lower Far Left")},
+    {19, N_("Upper Far Left")},
+};
 
 //! Lookup table to translate Sony auto focus point selected (set 2) values to readable labels
 constexpr TagDetails sonyAFPointSelectedSet2[] = {
@@ -154,113 +193,120 @@ constexpr TagDetails sonyAFPointSelectedSet2[] = {
     {60, "G5"},      {61, "G6"},  {62, "G7"},  {63, "G8"},  {64, "G9"},
     {65, "G10"},     {66, "G11"}, {67, "H2"},  {68, "H3"},  {69, "H4"},
     {70, "H5"},      {71, "H6"},  {72, "H7"},  {73, "H8"},  {74, "H9"},
-    {75, "H10"},     {76, "I5"},  {77, "I6"},  {78, "I7"},  {128, N_("Auto")}};
+    {75, "H10"},     {76, "I5"},  {77, "I6"},  {78, "I7"},  {128, N_("Auto")},
+};
 
 //! Lookup table to translate Sony auto focus point selected (set 3) values to readable labels
-constexpr TagDetails sonyAFPointSelectedSet3[] = {{0, N_("Auto")},
-                                                  {93, "A5"},
-                                                  {94, "A6"},
-                                                  {95, "A7"},
-                                                  {106, "B2"},
-                                                  {107, "B3"},
-                                                  {108, "B4"},
-                                                  {110, "B5"},
-                                                  {111, "B6"},
-                                                  {112, "B7"},
-                                                  {114, "B8"},
-                                                  {115, "B9"},
-                                                  {116, "B10"},
-                                                  {122, "C1"},
-                                                  {123, "C2"},
-                                                  {124, "C3"},
-                                                  {215, "C4"},
-                                                  {127, "C5"},
-                                                  {128, "C6"},
-                                                  {129, "C7"},
-                                                  {131, "C8"},
-                                                  {132, "C9"},
-                                                  {133, "C10"},
-                                                  {134, "C11"},
-                                                  {139, "D1"},
-                                                  {140, "D2"},
-                                                  {141, "D3"},
-                                                  {142, "D4"},
-                                                  {144, "D5"},
-                                                  {145, "D6"},
-                                                  {146, "D7"},
-                                                  {148, "D8"},
-                                                  {149, "D9"},
-                                                  {150, "D10"},
-                                                  {151, "D11"},
-                                                  {156, "E1"},
-                                                  {157, "E2"},
-                                                  {158, "E3"},
-                                                  {159, "E4"},
-                                                  {161, "E5"},
-                                                  {162, N_("E6 (Center")},
-                                                  {163, "E7"},
-                                                  {165, "E8"},
-                                                  {166, "E9"},
-                                                  {167, "E10"},
-                                                  {168, "E11"},
-                                                  {173, "F1"},
-                                                  {174, "F2"},
-                                                  {175, "F3"},
-                                                  {176, "F4"},
-                                                  {178, "F5"},
-                                                  {179, "F6"},
-                                                  {180, "F7"},
-                                                  {182, "F8"},
-                                                  {183, "F9"},
-                                                  {184, "F10"},
-                                                  {185, "F11"},
-                                                  {190, "G1"},
-                                                  {191, "G2"},
-                                                  {192, "G3"},
-                                                  {193, "G4"},
-                                                  {195, "G5"},
-                                                  {196, "G6"},
-                                                  {197, "G7"},
-                                                  {199, "G8"},
-                                                  {200, "G9"},
-                                                  {201, "G10"},
-                                                  {202, "G11"},
-                                                  {208, "H2"},
-                                                  {209, "H3"},
-                                                  {210, "H4"},
-                                                  {212, "H5"},
-                                                  {213, "H6"},
-                                                  {214, "H7"},
-                                                  {216, "H8"},
-                                                  {217, "H9"},
-                                                  {218, "H10"},
-                                                  {229, "I5"},
-                                                  {230, "I6"},
-                                                  {231, "I7"}};
+constexpr TagDetails sonyAFPointSelectedSet3[] = {
+    {0, N_("Auto")},
+    {93, "A5"},
+    {94, "A6"},
+    {95, "A7"},
+    {106, "B2"},
+    {107, "B3"},
+    {108, "B4"},
+    {110, "B5"},
+    {111, "B6"},
+    {112, "B7"},
+    {114, "B8"},
+    {115, "B9"},
+    {116, "B10"},
+    {122, "C1"},
+    {123, "C2"},
+    {124, "C3"},
+    {215, "C4"},
+    {127, "C5"},
+    {128, "C6"},
+    {129, "C7"},
+    {131, "C8"},
+    {132, "C9"},
+    {133, "C10"},
+    {134, "C11"},
+    {139, "D1"},
+    {140, "D2"},
+    {141, "D3"},
+    {142, "D4"},
+    {144, "D5"},
+    {145, "D6"},
+    {146, "D7"},
+    {148, "D8"},
+    {149, "D9"},
+    {150, "D10"},
+    {151, "D11"},
+    {156, "E1"},
+    {157, "E2"},
+    {158, "E3"},
+    {159, "E4"},
+    {161, "E5"},
+    {162, N_("E6 (Center")},
+    {163, "E7"},
+    {165, "E8"},
+    {166, "E9"},
+    {167, "E10"},
+    {168, "E11"},
+    {173, "F1"},
+    {174, "F2"},
+    {175, "F3"},
+    {176, "F4"},
+    {178, "F5"},
+    {179, "F6"},
+    {180, "F7"},
+    {182, "F8"},
+    {183, "F9"},
+    {184, "F10"},
+    {185, "F11"},
+    {190, "G1"},
+    {191, "G2"},
+    {192, "G3"},
+    {193, "G4"},
+    {195, "G5"},
+    {196, "G6"},
+    {197, "G7"},
+    {199, "G8"},
+    {200, "G9"},
+    {201, "G10"},
+    {202, "G11"},
+    {208, "H2"},
+    {209, "H3"},
+    {210, "H4"},
+    {212, "H5"},
+    {213, "H6"},
+    {214, "H7"},
+    {216, "H8"},
+    {217, "H9"},
+    {218, "H10"},
+    {229, "I5"},
+    {230, "I6"},
+    {231, "I7"},
+};
 
 //! Lookup table to translate Sony auto focus point selected (set 4) values to readable labels
 constexpr TagDetails sonyAFPointSelectedSet4[] = {
-    {0, N_("n/a")},         {1, N_("Top Left Zone")},    {2, N_("Top Zone")},   {3, N_("Top Right Zone")},
-    {4, N_("Left Zone")},   {5, N_("Center Zone")},      {6, N_("Right Zone")}, {7, N_("Bottom Left Zone")},
-    {8, N_("Bottom Zone")}, {9, N_("Bottom Right Zone")}};
+    {0, N_("n/a")},         {1, N_("Top Left Zone")},     {2, N_("Top Zone")},   {3, N_("Top Right Zone")},
+    {4, N_("Left Zone")},   {5, N_("Center Zone")},       {6, N_("Right Zone")}, {7, N_("Bottom Left Zone")},
+    {8, N_("Bottom Zone")}, {9, N_("Bottom Right Zone")},
+};
 
 //! Lookup table to translate Sony auto focus point selected (set 5) values to readable labels
 constexpr TagDetails sonyAFPointSelectedSet5[] = {
-    {0, N_("n/a")},           {1, N_("Center Zone")},   {2, N_("Top Zone")},          {3, N_("Right Zone")},
-    {4, N_("Left Zone")},     {5, N_("Bottom Zone")},   {6, N_("Bottom Right Zone")}, {7, N_("Bottom Left Zone")},
-    {8, N_("Top Left Zone")}, {9, N_("Top Right Zone")}};
+    {0, N_("n/a")},           {1, N_("Center Zone")},    {2, N_("Top Zone")},          {3, N_("Right Zone")},
+    {4, N_("Left Zone")},     {5, N_("Bottom Zone")},    {6, N_("Bottom Right Zone")}, {7, N_("Bottom Left Zone")},
+    {8, N_("Top Left Zone")}, {9, N_("Top Right Zone")},
+};
 
 //! Lookup table to translate Sony auto focus points used (set 1) values to readable labels
-constexpr TagDetailsBitlistSorted sonyAFPointsUsedSet1[] = {{0, N_("Center")},           {1, N_("Top")},
-                                                            {2, N_("Upper-right")},      {3, N_("Right")},
-                                                            {4, N_("Lower-right")},      {5, N_("Bottom")},
-                                                            {6, N_("Lower-left")},       {7, N_("Left")},
-                                                            {8, N_("Upper-left")},       {9, N_("Far right")},
-                                                            {10, N_("Far left")},        {11, N_("Upper-middle")},
-                                                            {12, N_("Near right")},      {13, N_("Lower-middle")},
-                                                            {14, N_("Near left")},       {15, N_("Upper far right")},
-                                                            {16, N_("Lower far right")}, {17, N_("Lower far left")},
-                                                            {18, N_("Upper far left")}};
+constexpr TagDetailsBitlistSorted sonyAFPointsUsedSet1[] = {
+    {0, N_("Center")},           {1, N_("Top")},
+    {2, N_("Upper-right")},      {3, N_("Right")},
+    {4, N_("Lower-right")},      {5, N_("Bottom")},
+    {6, N_("Lower-left")},       {7, N_("Left")},
+    {8, N_("Upper-left")},       {9, N_("Far right")},
+    {10, N_("Far left")},        {11, N_("Upper-middle")},
+    {12, N_("Near right")},      {13, N_("Lower-middle")},
+    {14, N_("Near left")},       {15, N_("Upper far right")},
+    {16, N_("Lower far right")}, {17, N_("Lower far left")},
+    {18, N_("Upper far left")},
+};
 
 //! Lookup table to translate Sony auto focus points used (set 2) values to readable labels
 constexpr TagDetailsBitlistSorted sonyAFPointsUsedSet2[] = {
@@ -273,65 +319,98 @@ constexpr TagDetailsBitlistSorted sonyAFPointsUsedSet2[] = {
     {48, "F4"},  {49, "F5"},  {50, "F6"},  {51, "F7"},  {52, "F8"},  {53, "F9"},  {54, "F10"}, {55, "F11"},
     {56, "G1"},  {57, "G2"},  {58, "G3"},  {59, "G4"},  {60, "G5"},  {61, "G6"},  {62, "G7"},  {63, "G8"},
     {64, "G9"},  {65, "G10"}, {66, "G11"}, {67, "H2"},  {68, "H3"},  {69, "H4"},  {70, "H5"},  {71, "H6"},
-    {72, "H7"},  {73, "H8"},  {74, "H9"},  {75, "H10"}, {76, "I5"},  {77, "I6"},  {78, "I7"},  {128, N_("Auto")}};
+    {72, "H7"},  {73, "H8"},  {74, "H9"},  {75, "H10"}, {76, "I5"},  {77, "I6"},  {78, "I7"},  {128, N_("Auto")},
+};
 
 //! Lookup table to translate Sony focus mode 2 values to readable labels
-constexpr TagDetails sonyFocusMode2[] = {{0, N_("Manual")}, {2, N_("AF-S")}, {3, N_("AF-C")},
-                                         {4, N_("AF-A")},   {6, N_("DMF")},  {7, N_("AF-D")}};
+constexpr TagDetails sonyFocusMode2[] = {
+    {0, N_("Manual")}, {2, N_("AF-S")}, {3, N_("AF-C")}, {4, N_("AF-A")}, {6, N_("DMF")}, {7, N_("AF-D")},
+};
 
 //! Lookup table to translate Sony auto focus area mode setting (set 1) values to readable labels
 constexpr TagDetails sonyAFAreaModeSettingSet1[] = {
-    {0, N_("Wide")}, {4, N_("Local")}, {8, N_("Zone")}, {9, N_("Spot")}};
+    {0, N_("Wide")},
+    {4, N_("Local")},
+    {8, N_("Zone")},
+    {9, N_("Spot")},
+};
 
 //! Lookup table to translate Sony auto focus area mode setting (set 2) values to readable labels
-constexpr TagDetails sonyAFAreaModeSettingSet2[] = {{0, N_("Wide")},
-                                                    {1, N_("Center")},
-                                                    {3, N_("Flexible Spot")},
-                                                    {4, N_("Flexible Spot (LA-EA4)")},
-                                                    {9, N_("Center (LA-EA4)")},
-                                                    {11, N_("Zone")},
-                                                    {12, N_("Expanded flexible spot")}};
+constexpr TagDetails sonyAFAreaModeSettingSet2[] = {
+    {0, N_("Wide")},
+    {1, N_("Center")},
+    {3, N_("Flexible Spot")},
+    {4, N_("Flexible Spot (LA-EA4)")},
+    {9, N_("Center (LA-EA4)")},
+    {11, N_("Zone")},
+    {12, N_("Expanded flexible spot")},
+};
 
 //! Lookup table to translate Sony auto focus area mode setting (set 3) values to readable labels
 constexpr TagDetails sonyAFAreaModeSettingSet3[] = {
-    {0, N_("Wide")}, {4, N_("Flexible spot")}, {8, N_("Zone")}, {9, N_("Center")}, {12, N_("Expanded flexible spot")}};
+    {0, N_("Wide")}, {4, N_("Flexible spot")}, {8, N_("Zone")}, {9, N_("Center")}, {12, N_("Expanded flexible spot")},
+};
 
 //! Lookup table to translate Sony auto focus tracking values to readable labels
-constexpr TagDetails sonyAFTracking[] = {{0, N_("Off")}, {1, N_("Face tracking")}, {2, N_("Lock on AF")}};
+constexpr TagDetails sonyAFTracking[] = {
+    {0, N_("Off")},
+    {1, N_("Face tracking")},
+    {2, N_("Lock on AF")},
+};
 
 //! Lookup table to translate Sony multi-frame noise reduction effect values to readable labels
-constexpr TagDetails sonyMultiFrameNREffect[] = {{0, N_("Normal")}, {1, N_("High")}};
+constexpr TagDetails sonyMultiFrameNREffect[] = {
+    {0, N_("Normal")},
+    {1, N_("High")},
+};
 
 //! Lookup table to translate Sony variable low pass filter values to readable labels
 constexpr StringTagDetails sonyVariableLowPassFilter[] = {
-    {"0 0", N_("n/a")}, {"1 0", N_("Off")}, {"1 1", N_("Standard")}, {"1 2", N_("High")}, {"65535 65535", N_("n/a")}};
+    {"0 0", N_("n/a")}, {"1 0", N_("Off")}, {"1 1", N_("Standard")}, {"1 2", N_("High")}, {"65535 65535", N_("n/a")},
+};
 
 //! Lookup table to translate Sony RAW file type values to readable labels
 constexpr TagDetails sonyRAWFileType[] = {
-    {0, N_("Compressed RAW")}, {1, N_("Uncompressed RAW")}, {2, N_("Lossless Compressed RAW")}, {0xffff, N_("n/a")}};
+    {0, N_("Compressed RAW")},
+    {1, N_("Uncompressed RAW")},
+    {2, N_("Lossless Compressed RAW")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony metering mode 2 values to readable labels
-constexpr TagDetails sonyMeteringMode2[] = {{0x100, N_("Multi-segment")},   {0x200, N_("Center-weighted average")},
-                                            {0x301, N_("Spot (Standard)")}, {0x302, N_("Spot (Large)")},
-                                            {0x400, N_("Average")},         {0x500, N_("Highlight")}};
+constexpr TagDetails sonyMeteringMode2[] = {
+    {0x100, N_("Multi-segment")},   {0x200, N_("Center-weighted average")},
+    {0x301, N_("Spot (Standard)")}, {0x302, N_("Spot (Large)")},
+    {0x400, N_("Average")},         {0x500, N_("Highlight")},
+};
 
 //! Lookup table to translate Sony priority set in automatic white balance values to readable labels
-constexpr TagDetails sonyPrioritySetInAWB[] = {{0, N_("Standard")}, {1, N_("Ambience")}, {2, N_("White")}};
+constexpr TagDetails sonyPrioritySetInAWB[] = {
+    {0, N_("Standard")},
+    {1, N_("Ambience")},
+    {2, N_("White")},
+};
 
 //! Lookup table to translate Sony quality 2 (main group) values to readable labels
-constexpr StringTagDetails sonyQuality2Std[] = {{"0 0", N_("n/a")},
-                                                {"0 1", N_("Standard")},
-                                                {"0 2", N_("Fine")},
-                                                {"0 3", N_("Extra fine")},
-                                                {"0 4", N_("Light")},
-                                                {"1 0", N_("RAW")},
-                                                {"1 1", N_("RAW + standard")},
-                                                {"1 2", N_("RAW + fine")},
-                                                {"1 3", N_("RAW + extra fine")},
-                                                {"1 4", N_("RAW + light")}};
+constexpr StringTagDetails sonyQuality2Std[] = {
+    {"0 0", N_("n/a")},
+    {"0 1", N_("Standard")},
+    {"0 2", N_("Fine")},
+    {"0 3", N_("Extra fine")},
+    {"0 4", N_("Light")},
+    {"1 0", N_("RAW")},
+    {"1 1", N_("RAW + standard")},
+    {"1 2", N_("RAW + fine")},
+    {"1 3", N_("RAW + extra fine")},
+    {"1 4", N_("RAW + light")},
+};
 
 //! Lookup table to translate Sony JPEG/HEIF switch values to readable labels
-constexpr TagDetails sonyJPEGHEIFSwitch[] = {{0, "JPEG"}, {1, "HEIF"}, {0xffff, N_("n/a")}};
+constexpr TagDetails sonyJPEGHEIFSwitch[] = {
+    {0, "JPEG"},
+    {1, "HEIF"},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony model ID values to readable labels
 //  FORMAT: Uses a space before alternative models and caveats
@@ -440,48 +519,53 @@ constexpr TagDetails sonyModelId[] = {{0, N_("Multiple camera models")},
                                       {397, "ILCE-7CM2"}};
 
 //! Lookup table to translate Sony creative style (main group) values to readable labels
-constexpr StringTagDetails sonyCreativeStyleStd[] = {{"AdobeRGB", N_("Adobe RGB")},
-                                                     {"Autumnleaves", N_("Autumn leaves")},
-                                                     {"BW", N_("Black and White")},
-                                                     {"Clear", N_("Clear")},
-                                                     {"Deep", N_("Deep")},
-                                                     {"FL", N_("FL")},
-                                                     {"IN", "IN"},
-                                                     {"Landscape", N_("Landscape")},
-                                                     {"Light", N_("Light")},
-                                                     {"Neutral", N_("Neutral")},
-                                                     {"None", N_("None")},
-                                                     {"Portrait", N_("Portrait")},
-                                                     {"Real", N_("Real")},
-                                                     {"SH", N_("SH")},
-                                                     {"Sepia", N_("Sepia")},
-                                                     {"Standard", N_("Standard")},
-                                                     {"Sunset", N_("Sunset")},
-                                                     {"Vivid", N_("Vivid")},
-                                                     {"VV2", N_("VV2")}};
+constexpr StringTagDetails sonyCreativeStyleStd[] = {
+    {"AdobeRGB", N_("Adobe RGB")},
+    {"Autumnleaves", N_("Autumn leaves")},
+    {"BW", N_("Black and White")},
+    {"Clear", N_("Clear")},
+    {"Deep", N_("Deep")},
+    {"FL", N_("FL")},
+    {"IN", "IN"},
+    {"Landscape", N_("Landscape")},
+    {"Light", N_("Light")},
+    {"Neutral", N_("Neutral")},
+    {"None", N_("None")},
+    {"Portrait", N_("Portrait")},
+    {"Real", N_("Real")},
+    {"SH", N_("SH")},
+    {"Sepia", N_("Sepia")},
+    {"Standard", N_("Standard")},
+    {"Sunset", N_("Sunset")},
+    {"Vivid", N_("Vivid")},
+    {"VV2", N_("VV2")},
+};
 
 //! Lookup table to translate Sony file format values to readable labels
 constexpr StringTagDetails sonyFileFormat[] = {
     {"0 0 0 2", "JPEG"},      {"1 0 0 0", "SR2 1.0"},   {"2 0 0 0", "ARW 1.0"},   {"3 0 0 0", "ARW 2.0"},
     {"3 1 0 0", "ARW 2.1"},   {"3 2 0 0", "ARW 2.2"},   {"3 3 0 0", "ARW 2.3"},   {"3 3 1 0", "ARW 2.3.1"},
     {"3 3 2 0", "ARW 2.3.2"}, {"3 3 3 0", "ARW 2.3.3"}, {"3 3 5 0", "ARW 2.3.5"}, {"4 0 0 0", "ARW 4.0"},
+
     {"4 0 1 0", "ARW 4.0.1"}, {"5 0 0 0", "ARW 5.0.0"}};
 
 //! Lookup table to translate Sony dynamic range optimizer values to readable labels
-constexpr TagDetails print0xb025[] = {{0, N_("Off")},
-                                      {1, N_("Standard")},
-                                      {2, N_("Advanced Auto")},
-                                      {3, N_("Auto")},
-                                      {8, N_("Advanced Lv1")},
-                                      {9, N_("Advanced Lv2")},
-                                      {10, N_("Advanced Lv3")},
-                                      {11, N_("Advanced Lv4")},
-                                      {12, N_("Advanced Lv5")},
-                                      {16, "Lv1"},
-                                      {17, "Lv2"},
-                                      {18, "Lv3"},
-                                      {19, "Lv4"},
-                                      {20, "Lv5"}};
+constexpr TagDetails print0xb025[] = {
+    {0, N_("Off")},
+    {1, N_("Standard")},
+    {2, N_("Advanced Auto")},
+    {3, N_("Auto")},
+    {8, N_("Advanced Lv1")},
+    {9, N_("Advanced Lv2")},
+    {10, N_("Advanced Lv3")},
+    {11, N_("Advanced Lv4")},
+    {12, N_("Advanced Lv5")},
+    {16, "Lv1"},
+    {17, "Lv2"},
+    {18, "Lv3"},
+    {19, "Lv4"},
+    {20, "Lv5"},
+};
 
 //! Lookup table to translate Sony color mode values to readable labels
 constexpr TagDetails sonyColorMode[] = {
@@ -493,154 +577,204 @@ constexpr TagDetails sonyColorMode[] = {
     {19, N_("Vivid 2")},       {20, N_("IN")},          {21, N_("SH")},
     {100, N_("Neutral")},      {101, N_("Clear")},      {102, N_("Deep")},
     {103, N_("Light")},        {104, N_("Night view")}, {105, N_("Autumn leaves")},
-    {255, N_("Off")},          {0xffffffff, N_("n/a")}};
+    {255, N_("Off")},          {0xffffffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony exposure mode values to readable labels
-constexpr TagDetails sonyExposureMode[] = {{0, N_("Program AE")},
-                                           {1, N_("Portrait")},
-                                           {2, N_("Beach")},
-                                           {3, N_("Sports")},
-                                           {4, N_("Snow")},
-                                           {5, N_("Landscape")},
-                                           {6, N_("Auto")},
-                                           {7, N_("Aperture-priority AE")},
-                                           {8, N_("Shutter speed priority AE")},
-                                           {9, N_("Night Scene/Twilight")},
-                                           {10, N_("Hi-Speed Shutter")},
-                                           {11, N_("Twilight Portrait")},
-                                           {12, N_("Soft Snap/Portrait")},
-                                           {13, N_("Fireworks")},
-                                           {14, N_("Smile Shutter")},
-                                           {15, N_("Manual")},
-                                           {18, N_("High Sensitivity")},
-                                           {19, N_("Macro")},
-                                           {20, N_("Advanced Sports Shooting")},
-                                           {29, N_("Underwater")},
-                                           {33, N_("Food")},
-                                           {34, N_("Sweep Panorama")},
-                                           {35, N_("Handheld Night Shot")},
-                                           {36, N_("Anti Motion Blur")},
-                                           {37, N_("Pet")},
-                                           {38, N_("Backlight Correction HDR")},
-                                           {39, N_("Superior Auto")},
-                                           {40, N_("Background Defocus")},
-                                           {41, N_("Soft Skin")},
-                                           {42, N_("3D Image")},
-                                           {0xffff, N_("n/a")}};
+constexpr TagDetails sonyExposureMode[] = {
+    {0, N_("Program AE")},
+    {1, N_("Portrait")},
+    {2, N_("Beach")},
+    {3, N_("Sports")},
+    {4, N_("Snow")},
+    {5, N_("Landscape")},
+    {6, N_("Auto")},
+    {7, N_("Aperture-priority AE")},
+    {8, N_("Shutter speed priority AE")},
+    {9, N_("Night Scene/Twilight")},
+    {10, N_("Hi-Speed Shutter")},
+    {11, N_("Twilight Portrait")},
+    {12, N_("Soft Snap/Portrait")},
+    {13, N_("Fireworks")},
+    {14, N_("Smile Shutter")},
+    {15, N_("Manual")},
+    {18, N_("High Sensitivity")},
+    {19, N_("Macro")},
+    {20, N_("Advanced Sports Shooting")},
+    {29, N_("Underwater")},
+    {33, N_("Food")},
+    {34, N_("Sweep Panorama")},
+    {35, N_("Handheld Night Shot")},
+    {36, N_("Anti Motion Blur")},
+    {37, N_("Pet")},
+    {38, N_("Backlight Correction HDR")},
+    {39, N_("Superior Auto")},
+    {40, N_("Background Defocus")},
+    {41, N_("Soft Skin")},
+    {42, N_("3D Image")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony JPEG quality values to readable labels
 constexpr TagDetails sonyJPEGQuality[] = {
-    {0, N_("Standard")}, {1, N_("Fine")}, {2, N_("Extra Fine")}, {0xffff, N_("n/a")}};
+    {0, N_("Standard")},
+    {1, N_("Fine")},
+    {2, N_("Extra Fine")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony anti-blur values to readable labels
 constexpr TagDetails sonyAntiBlur[] = {
-    {0, N_("Off")}, {1, N_("On (Continuous)")}, {2, N_("On (Shooting)")}, {0xffff, N_("n/a")}};
+    {0, N_("Off")},
+    {1, N_("On (Continuous)")},
+    {2, N_("On (Shooting)")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony dynamic range optimizer 2 values to readable labels
-constexpr TagDetails print0xb04f[] = {{0, N_("Off")}, {1, N_("Standard")}, {2, N_("Plus")}};
+constexpr TagDetails print0xb04f[] = {
+    {0, N_("Off")},
+    {1, N_("Standard")},
+    {2, N_("Plus")},
+};
 
 //! Lookup table to translate Sony intelligent auto values to readable labels
-constexpr TagDetails sonyIntelligentAuto[] = {{0, N_("Off")}, {1, N_("On")}, {2, N_("Advanced")}};
+constexpr TagDetails sonyIntelligentAuto[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+    {2, N_("Advanced")},
+};
 
 //! Lookup table to translate Sony white balance 2 values to readable labels
-constexpr TagDetails sonyWhiteBalance2[] = {{0, N_("Auto")},
-                                            {4, N_("Manual")},
-                                            {5, N_("Daylight")},
-                                            {6, N_("Cloudy")},
-                                            {7, N_("Cool White Fluorescent")},
-                                            {8, N_("Day White Fluorescent")},
-                                            {9, N_("Daylight Fluorescent")},
-                                            {10, N_("Incandescent2")},
-                                            {11, N_("Warm White Fluorescent")},
-                                            {14, N_("Incandescent")},
-                                            {15, N_("Flash")},
-                                            {17, N_("Underwater 1 (Blue Water)")},
-                                            {18, N_("Underwater 2 (Green Water)")},
-                                            {19, N_("Underwater Auto")}};
+constexpr TagDetails sonyWhiteBalance2[] = {
+    {0, N_("Auto")},
+    {4, N_("Manual")},
+    {5, N_("Daylight")},
+    {6, N_("Cloudy")},
+    {7, N_("Cool White Fluorescent")},
+    {8, N_("Day White Fluorescent")},
+    {9, N_("Daylight Fluorescent")},
+    {10, N_("Incandescent2")},
+    {11, N_("Warm White Fluorescent")},
+    {14, N_("Incandescent")},
+    {15, N_("Flash")},
+    {17, N_("Underwater 1 (Blue Water)")},
+    {18, N_("Underwater 2 (Green Water)")},
+    {19, N_("Underwater Auto")},
+};
 
 //! Lookup table to translate Sony focus mode values to readable labels
-constexpr TagDetails sonyFocusMode[] = {{1, "AF-S"}, {2, "AF-C"}, {4, N_("Permanent-AF")}, {0xffff, N_("n/a")}};
+constexpr TagDetails sonyFocusMode[] = {
+    {1, "AF-S"},
+    {2, "AF-C"},
+    {4, N_("Permanent-AF")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony auto focus mode (set 1) values to readable labels
-constexpr TagDetails sonyAFModeSet1[] = {{0, N_("Default")},   {1, N_("Multi")},          {2, N_("Center")},
-                                         {3, N_("Spot")},      {4, N_("Flexible Spot")},  {6, N_("Touch")},
-                                         {14, N_("Tracking")}, {15, N_("Face Detected")}, {0xffff, N_("n/a")}};
+constexpr TagDetails sonyAFModeSet1[] = {
+    {0, N_("Default")}, {1, N_("Multi")},     {2, N_("Center")},         {3, N_("Spot")},     {4, N_("Flexible Spot")},
+    {6, N_("Touch")},   {14, N_("Tracking")}, {15, N_("Face Detected")}, {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony auto focus mode (set 2) values to readable labels
-constexpr TagDetails sonyAFModeSet2[] = {{0, N_("Multi")},
-                                         {1, N_("Center")},
-                                         {2, N_("Spot")},
-                                         {3, N_("Flexible spot")},
-                                         {10, N_("Selective (for miniature effect)")},
-                                         {14, N_("Tracking")},
-                                         {15, N_("Face tracking")},
-                                         {255, N_("Manual")}};
+constexpr TagDetails sonyAFModeSet2[] = {
+    {0, N_("Multi")},
+    {1, N_("Center")},
+    {2, N_("Spot")},
+    {3, N_("Flexible spot")},
+    {10, N_("Selective (for miniature effect)")},
+    {14, N_("Tracking")},
+    {15, N_("Face tracking")},
+    {255, N_("Manual")},
+};
 
 //! Lookup table to translate Sony auto focus illuminator values to readable labels
-constexpr TagDetails sonyAFIlluminator[] = {{0, N_("Off")}, {1, N_("Auto")}, {0xffff, N_("n/a")}};
+constexpr TagDetails sonyAFIlluminator[] = {
+    {0, N_("Off")},
+    {1, N_("Auto")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony macro values to readable labels
-constexpr TagDetails sonyMacro[] = {{0, N_("Off")}, {1, N_("On")}, {2, N_("Close Focus")}, {0xffff, N_("n/a")}};
+constexpr TagDetails sonyMacro[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+    {2, N_("Close Focus")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony flash level values to readable labels
 constexpr TagDetails sonyFlashLevel[] = {
-    {-32768, N_("Low")}, {-9, "-3.0 EV"}, {-8, "-2.7 EV"},  {-7, "-2.3 EV"},    {-6, "-2.0 EV"},   {-5, "-1.7 EV"},
-    {-4, "-1.3 EV"},     {-3, "-1.0 EV"}, {-2, "-0.7 EV"},  {-1, "-0.3 EV"},    {0, N_("Normal")}, {1, "+0.3 EV"},
-    {2, "+0.7 EV"},      {3, "+1.0 EV"},  {4, "+1.3 EV"},   {5, "+1.7 EV"},     {6, "+2.0 EV"},    {7, "+2.3 EV"},
-    {8, "+2.7 EV"},      {9, "+3.0 EV"},  {128, N_("n/a")}, {32767, N_("High")}};
+    {-32768, N_("Low")}, {-9, "-3.0 EV"}, {-8, "-2.7 EV"},  {-7, "-2.3 EV"},     {-6, "-2.0 EV"},   {-5, "-1.7 EV"},
+    {-4, "-1.3 EV"},     {-3, "-1.0 EV"}, {-2, "-0.7 EV"},  {-1, "-0.3 EV"},     {0, N_("Normal")}, {1, "+0.3 EV"},
+    {2, "+0.7 EV"},      {3, "+1.0 EV"},  {4, "+1.3 EV"},   {5, "+1.7 EV"},      {6, "+2.0 EV"},    {7, "+2.3 EV"},
+    {8, "+2.7 EV"},      {9, "+3.0 EV"},  {128, N_("n/a")}, {32767, N_("High")},
+};
 
 //! Lookup table to translate Sony release mode values to readable labels
-constexpr TagDetails sonyReleaseMode[] = {{0, N_("Normal")},
-                                          {2, N_("Continuous")},
-                                          {5, N_("Exposure Bracketing")},
-                                          {6, N_("White Balance Bracketing")},
-                                          {8, N_("DRO Bracketing")},
-                                          {0xffff, N_("n/a")}};
+constexpr TagDetails sonyReleaseMode[] = {
+    {0, N_("Normal")},
+    {2, N_("Continuous")},
+    {5, N_("Exposure Bracketing")},
+    {6, N_("White Balance Bracketing")},
+    {8, N_("DRO Bracketing")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony sequence number values to readable labels
-constexpr TagDetails sonySequenceNumber[] = {{0, N_("Single")}, {0xffff, N_("n/a")}};
+constexpr TagDetails sonySequenceNumber[] = {
+    {0, N_("Single")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony focus mode 3 values to readable labels
 constexpr TagDetails sonyFocusMode3[] = {
-    {0, N_("Manual")}, {2, N_("AF-S")}, {3, N_("AF-C")}, {5, N_("Semi-manual")}, {6, N_("DMF")}};
+    {0, N_("Manual")}, {2, N_("AF-S")}, {3, N_("AF-C")}, {5, N_("Semi-manual")}, {6, N_("DMF")},
+};
 
 //! Lookup table to translate Sony high ISO noise reduction 2 values to readable labels
 constexpr TagDetails sonyHighISONoiseReduction2[] = {
-    {0, N_("Normal")}, {1, N_("High")}, {2, N_("Low")}, {3, N_("Off")}, {0xffff, N_("n/a")}};
+    {0, N_("Normal")}, {1, N_("High")}, {2, N_("Low")}, {3, N_("Off")}, {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony release mode 2 values to readable labels
-constexpr TagDetails sonyReleaseMode2[] = {{0, N_("Normal")},
-                                           {1, N_("Continuous")},
-                                           {2, N_("Continuous - Exposure Bracketing")},
-                                           {3, N_("DRO or White Balance Bracketing")},
-                                           {5, N_("Continuous - Burst")},
-                                           {6, N_("Single Frame - Capture During Movie")},
-                                           {7, N_("Continuous - Sweep Panorama")},
-                                           {8, N_("Continuous - Anti-Motion Blur, Hand-held Twilight")},
-                                           {9, N_("Continuous - HDR")},
-                                           {10, N_("Continuous - Background defocus")},
-                                           {13, N_("Continuous - 3D Sweep Panorama")},
-                                           {15, N_("Continuous - High Resolution Sweep Panorama")},
-                                           {16, N_("Continuous - 3D Image")},
-                                           {17, N_("Continuous - Burst 2")},
-                                           {18, N_("Normal - iAuto+")},
-                                           {19, N_("Continuous - Speed/Advance Priority")},
-                                           {20, N_("Continuous - Multi-Frame NR")},
-                                           {23, N_("Single-frame - Exposure Bracketing")},
-                                           {26, N_("Continuous Low")},
-                                           {27, N_("Continuous - High Sensitivity")},
-                                           {28, N_("Smile Shutter")},
-                                           {29, N_("Continuous - Tele-zoom Advance Priority")},
-                                           {146, N_("Single Frame - Movie Capture")}};
+constexpr TagDetails sonyReleaseMode2[] = {
+    {0, N_("Normal")},
+    {1, N_("Continuous")},
+    {2, N_("Continuous - Exposure Bracketing")},
+    {3, N_("DRO or White Balance Bracketing")},
+    {5, N_("Continuous - Burst")},
+    {6, N_("Single Frame - Capture During Movie")},
+    {7, N_("Continuous - Sweep Panorama")},
+    {8, N_("Continuous - Anti-Motion Blur, Hand-held Twilight")},
+    {9, N_("Continuous - HDR")},
+    {10, N_("Continuous - Background defocus")},
+    {13, N_("Continuous - 3D Sweep Panorama")},
+    {15, N_("Continuous - High Resolution Sweep Panorama")},
+    {16, N_("Continuous - 3D Image")},
+    {17, N_("Continuous - Burst 2")},
+    {18, N_("Normal - iAuto+")},
+    {19, N_("Continuous - Speed/Advance Priority")},
+    {20, N_("Continuous - Multi-Frame NR")},
+    {23, N_("Single-frame - Exposure Bracketing")},
+    {26, N_("Continuous Low")},
+    {27, N_("Continuous - High Sensitivity")},
+    {28, N_("Smile Shutter")},
+    {29, N_("Continuous - Tele-zoom Advance Priority")},
+    {146, N_("Single Frame - Movie Capture")},
+};
 
 //! Lookup table to translate Sony long exposure noise reduction values to readable labels
 constexpr TagDetails sonyLongExposureNoiseReduction[] = {
     {0x00000000, N_("Off")},         {0x00000001, N_("On (unused)")}, {0x00010001, N_("On (dark subtracted)")},
-    {0xffff0000, N_("Off (65535)")}, {0xffff0001, N_("On (65535)")},  {0xffffffff, N_("n/a")}};
+    {0xffff0000, N_("Off (65535)")}, {0xffff0001, N_("On (65535)")},  {0xffffffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony high ISO Noise reduction values to readable labels
-constexpr TagDetails sonyHighISONoiseReductionStd[] = {{0, N_("Off")},  {1, N_("Low")},    {2, N_("Normal")},
-                                                       {3, N_("High")}, {256, N_("Auto")}, {0xffff, N_("n/a")}};
+constexpr TagDetails sonyHighISONoiseReductionStd[] = {
+    {0, N_("Off")}, {1, N_("Low")}, {2, N_("Normal")}, {3, N_("High")}, {256, N_("Auto")}, {0xffff, N_("n/a")},
+};
 
 static auto getModel(const ExifData* metadata, std::string& val) {
   auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
@@ -848,7 +982,7 @@ std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& valu
 
   constexpr std::array models{"DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
   if (!startsWith(model, "DSC-") ||
-      std::any_of(models.begin(), models.end(), [&model](auto& m) { return startsWith(model, m); })) {
+      std::any_of(models.begin(), models.end(), [&model](auto m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG(sonyFocusMode2)(os, v0, metadata);
     return os;
   }
@@ -874,14 +1008,14 @@ std::ostream& SonyMakerNote::printAFAreaModeSetting(std::ostream& os, const Valu
   const auto v0 = value.toUint32(0);
 
   constexpr std::array models1{"SLT-", "HV"};
-  if (std::any_of(models1.begin(), models1.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  if (std::any_of(models1.begin(), models1.end(), [&model](auto m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG(sonyAFAreaModeSettingSet1)(os, v0, metadata);
     return os;
   }
 
   constexpr std::array models2{"NEX-",        "ILCE-",        "ILME-",    "DSC-RX10M4", "DSC-RX100M6",
                                "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG(sonyAFAreaModeSettingSet2)(os, v0, metadata);
     return os;
   }
@@ -911,7 +1045,7 @@ std::ostream& SonyMakerNote::printFlexibleSpotPosition(std::ostream& os, const V
 
   constexpr std::array models{"NEX-",        "ILCE-",        "ILME-",    "DSC-RX10M4", "DSC-RX100M6",
                               "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
-  if (std::any_of(models.begin(), models.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  if (std::any_of(models.begin(), models.end(), [&model](auto m) { return startsWith(model, m); })) {
     os << value.toUint32(0) << ", " << value.toUint32(1);
     return os;
   }
@@ -941,16 +1075,16 @@ std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value&
   constexpr std::array models3{"ILCA-68", "ILCA-77M2"};
   constexpr std::array models4{"NEX-", "ILCE-", "ILME-"};
 
-  if (std::any_of(models1.begin(), models1.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  if (std::any_of(models1.begin(), models1.end(), [&model](auto m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
     return os;
   }
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return startsWith(model, m); }) && status &&
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return startsWith(model, m); }) && status &&
       aFAreaModeSetting == 4) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
     return os;
   }
-  if (std::any_of(models3.begin(), models3.end(), [&model](auto& m) { return startsWith(model, m); }) && status &&
+  if (std::any_of(models3.begin(), models3.end(), [&model](auto m) { return startsWith(model, m); }) && status &&
       aFAreaModeSetting != 8) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet2)(os, value, metadata);
     return os;
@@ -963,7 +1097,7 @@ std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value&
     EXV_PRINT_TAG(sonyAFPointSelectedSet4)(os, value.toUint32(0), metadata);
     return os;
   }
-  if (std::any_of(models4.begin(), models4.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  if (std::any_of(models4.begin(), models4.end(), [&model](auto m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG(sonyAFPointSelectedSet5)(os, value.toUint32(0), metadata);
     return os;
   }
@@ -986,11 +1120,11 @@ std::ostream& SonyMakerNote::printAFPointsUsed(std::ostream& os, const Value& va
   constexpr std::array models1{"ILCA-", "DSC-"};
   constexpr std::array models2{"ILCA-68", "ILCA-77M2"};
 
-  if (std::none_of(models1.begin(), models1.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  if (std::none_of(models1.begin(), models1.end(), [&model](auto m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet1)(os, value, metadata);
     return os;
   }
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return startsWith(model, m); })) {
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet2)(os, value, metadata);
     return os;
   }
@@ -1014,7 +1148,7 @@ std::ostream& SonyMakerNote::printAFTracking(std::ostream& os, const Value& valu
 
   constexpr std::array models{"DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
   if (!startsWith(model, "DSC-") ||
-      std::any_of(models.begin(), models.end(), [&model](auto& m) { return startsWith(model, m); })) {
+      std::any_of(models.begin(), models.end(), [&model](auto m) { return startsWith(model, m); })) {
     EXV_PRINT_TAG(sonyAFTracking)(os, value.toUint32(0), metadata);
     return os;
   }
@@ -1586,11 +1720,19 @@ constexpr TagDetails sonyDriveModeStd[] = {
 };
 
 //! Lookup table to translate Sony camera settings focus mode values to readable labels
-constexpr TagDetails sonyCSFocusMode[] = {{0, N_("Manual")}, {1, "AF-S"}, {2, "AF-C"}, {3, "AF-A"}};
+constexpr TagDetails sonyCSFocusMode[] = {
+    {0, N_("Manual")},
+    {1, "AF-S"},
+    {2, "AF-C"},
+    {3, "AF-A"},
+};
 
 //! Lookup table to translate Sony camera settings metering mode values to readable labels
 constexpr TagDetails sonyMeteringMode[] = {
-    {1, N_("Multi-segment")}, {2, N_("Center weighted average")}, {4, N_("Spot")}};
+    {1, N_("Multi-segment")},
+    {2, N_("Center weighted average")},
+    {4, N_("Spot")},
+};
 
 //! Lookup table to translate Sony camera settings creative style values to readable labels
 constexpr TagDetails sonyCreativeStyle[] = {
@@ -1598,7 +1740,8 @@ constexpr TagDetails sonyCreativeStyle[] = {
     {4, N_("Landscape")},     {5, N_("Sunset")},    {6, N_("Night View/Portrait")},
     {8, N_("Black & White")}, {9, N_("Adobe RGB")}, {11, N_("Neutral")},
     {12, N_("Clear")},        {13, N_("Deep")},     {14, N_("Light")},
-    {15, N_("Autumn")},       {16, N_("Sepia")}};
+    {15, N_("Autumn")},       {16, N_("Sepia")},
+};
 
 //! Lookup table to translate Sony camera settings flash mode values to readable labels
 constexpr TagDetails sonyFlashMode[] = {
@@ -1607,39 +1750,57 @@ constexpr TagDetails sonyFlashMode[] = {
 };
 
 //! Lookup table to translate Sony AF illuminator values to readable labels
-constexpr TagDetails sonyAFIlluminatorCS[] = {{0, N_("Auto")}, {1, N_("Off")}, {0xffff, N_("n/a")}};
+constexpr TagDetails sonyAFIlluminatorCS[] = {
+    {0, N_("Auto")},
+    {1, N_("Off")},
+    {0xffff, N_("n/a")},
+};
 
 //! Lookup table to translate Sony camera settings image style values to readable labels
-constexpr TagDetails sonyImageStyle[] = {{1, N_("Standard")},    {2, N_("Vivid")},       {3, N_("Portrait")},
-                                         {4, N_("Landscape")},   {5, N_("Sunset")},      {7, N_("Night View/Portrait")},
-                                         {8, N_("B&W")},         {9, N_("Adobe RGB")},   {11, N_("Neutral")},
-                                         {129, N_("StyleBox1")}, {130, N_("StyleBox2")}, {131, N_("StyleBox3")},
-                                         {132, N_("StyleBox4")}, {133, N_("StyleBox5")}, {134, N_("StyleBox6")}};
+constexpr TagDetails sonyImageStyle[] = {
+    {1, N_("Standard")},    {2, N_("Vivid")},       {3, N_("Portrait")},
+    {4, N_("Landscape")},   {5, N_("Sunset")},      {7, N_("Night View/Portrait")},
+    {8, N_("B&W")},         {9, N_("Adobe RGB")},   {11, N_("Neutral")},
+    {129, N_("StyleBox1")}, {130, N_("StyleBox2")}, {131, N_("StyleBox3")},
+    {132, N_("StyleBox4")}, {133, N_("StyleBox5")}, {134, N_("StyleBox6")},
+};
 
 //! Lookup table to translate Sony camera settings exposure program values to readable labels
-constexpr TagDetails sonyExposureProgram[] = {{0, N_("Auto")},
-                                              {1, N_("Manual")},
-                                              {2, N_("Program AE")},
-                                              {3, N_("Aperture-priority AE")},
-                                              {4, N_("Shutter speed priority AE")},
-                                              {8, N_("Program Shift A")},
-                                              {9, N_("Program Shift S")},
-                                              {16, N_("Portrait")},
-                                              {17, N_("Sports")},
-                                              {18, N_("Sunset")},
-                                              {19, N_("Night Portrait")},
-                                              {20, N_("Landscape")},
-                                              {21, N_("Macro")},
-                                              {35, N_("Auto No Flash")}};
+constexpr TagDetails sonyExposureProgram[] = {
+    {0, N_("Auto")},
+    {1, N_("Manual")},
+    {2, N_("Program AE")},
+    {3, N_("Aperture-priority AE")},
+    {4, N_("Shutter speed priority AE")},
+    {8, N_("Program Shift A")},
+    {9, N_("Program Shift S")},
+    {16, N_("Portrait")},
+    {17, N_("Sports")},
+    {18, N_("Sunset")},
+    {19, N_("Night Portrait")},
+    {20, N_("Landscape")},
+    {21, N_("Macro")},
+    {35, N_("Auto No Flash")},
+};
 
 //! Lookup table to translate Sony camera settings image size values to readable labels
-constexpr TagDetails sonyImageSize[] = {{1, N_("Large")}, {2, N_("Medium")}, {3, N_("Small")}};
+constexpr TagDetails sonyImageSize[] = {
+    {1, N_("Large")},
+    {2, N_("Medium")},
+    {3, N_("Small")},
+};
 
 //! Lookup table to translate Sony aspect ratio values to readable labels
-constexpr TagDetails sonyAspectRatio[] = {{1, "3:2"}, {2, "16:9"}};
+constexpr TagDetails sonyAspectRatio[] = {
+    {1, "3:2"},
+    {2, "16:9"},
+};
 
 //! Lookup table to translate Sony exposure level increments values to readable labels
-constexpr TagDetails sonyExposureLevelIncrements[] = {{33, "1/3 EV"}, {50, "1/2 EV"}};
+constexpr TagDetails sonyExposureLevelIncrements[] = {
+    {33, "1/3 EV"},
+    {50, "1/2 EV"},
+};
 
 // Sony Camera Settings Tag Info
 // NOTE: all are for A200, A230, A300, A350, A700, A850 and A900 Sony model excepted
@@ -1771,17 +1932,19 @@ const TagInfo* SonyMakerNote::tagListCs2() {
 }
 
 //! Lookup table to translate Sony2Fp AF Area Mode values to readable labels
-constexpr TagDetails sony2FpAFAreaMode[] = {{0, N_("Multi")},
-                                            {1, N_("Center")},
-                                            {2, N_("Spot")},
-                                            {3, N_("Flexible Spot")},
-                                            {10, N_("Selective (for Miniature effect)")},
-                                            {11, N_("Zone")},
-                                            {12, N_("Expanded Flexible Spot")},
-                                            {14, N_("Tracking")},
-                                            {15, N_("Face Tracking")},
-                                            {20, N_("Animal Eye Tracking")},
-                                            {255, N_("Manual")}};
+constexpr TagDetails sony2FpAFAreaMode[] = {
+    {0, N_("Multi")},
+    {1, N_("Center")},
+    {2, N_("Spot")},
+    {3, N_("Flexible Spot")},
+    {10, N_("Selective (for Miniature effect)")},
+    {11, N_("Zone")},
+    {12, N_("Expanded Flexible Spot")},
+    {14, N_("Tracking")},
+    {15, N_("Face Tracking")},
+    {20, N_("Animal Eye Tracking")},
+    {255, N_("Manual")},
+};
 
 //! Sony Tag 9402 Sony2Fp (FocusPosition)
 constexpr TagInfo SonyMakerNote::tagInfoFp_[] = {
@@ -1855,7 +2018,7 @@ std::ostream& SonyMakerNote::printSony2FpFocusPosition2(std::ostream& os, const 
     }
 
     // Ranges of models that do not support this tag
-    for (const auto& m : {"DSC-", "Stellar"}) {
+    for (auto m : {"DSC-", "Stellar"}) {
       if (startsWith(model, m)) {
         os << N_("n/a");
         return os;
@@ -1876,7 +2039,8 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc1_[] = {
      IfdId::sonyMisc1Id, SectionId::makerTags, signedByte, -1, printSonyMisc1CameraTemperature},
     // End of list marker
     {0xffff, "(UnknownSonyMisc1Tag)", "(UnknownSonyMisc1Tag)", "(UnknownSonyMisc1Tag)", IfdId::sonyMisc1Id,
-     SectionId::makerTags, unsignedByte, -1, printValue}};
+     SectionId::makerTags, unsignedByte, -1, printValue},
+};
 
 const TagInfo* SonyMakerNote::tagListSonyMisc1() {
   return tagInfoSonyMisc1_;
@@ -1895,39 +2059,41 @@ std::ostream& SonyMakerNote::printSonyMisc1CameraTemperature(std::ostream& os, c
 }
 
 //! Lookup table to translate Sony Exposure Program 3 values to readable labels
-constexpr TagDetails sonyExposureProgram3[] = {{0, N_("Program AE")},
-                                               {1, N_("Aperture-priority AE")},
-                                               {2, N_("Shutter speed priority AE")},
-                                               {3, N_("Manual")},
-                                               {4, N_("Auto")},
-                                               {5, N_("iAuto")},
-                                               {6, N_("Superior Auto")},
-                                               {7, N_("iAuto+")},
-                                               {8, N_("Portrait")},
-                                               {9, N_("Landscape")},
-                                               {10, N_("Twilight")},
-                                               {11, N_("Twilight Portrait")},
-                                               {12, N_("Sunset")},
-                                               {14, N_("Action (High speed)")},
-                                               {16, N_("Sports")},
-                                               {17, N_("Handheld Night Shot")},
-                                               {18, N_("Anti Motion Blur")},
-                                               {19, N_("High Sensitivity")},
-                                               {21, N_("Beach")},
-                                               {22, N_("Snow")},
-                                               {23, N_("Fireworks")},
-                                               {26, N_("Underwater")},
-                                               {27, N_("Gourmet")},
-                                               {28, N_("Pet")},
-                                               {29, N_("Macro")},
-                                               {30, N_("Backlight Correction HDR")},
-                                               {33, N_("Sweep Panorama")},
-                                               {36, N_("Background Defocus")},
-                                               {37, N_("Soft Skin")},
-                                               {42, N_("3D Image")},
-                                               {43, N_("Cont. Priority AE")},
-                                               {45, N_("Document")},
-                                               {46, N_("Party")}};
+constexpr TagDetails sonyExposureProgram3[] = {
+    {0, N_("Program AE")},
+    {1, N_("Aperture-priority AE")},
+    {2, N_("Shutter speed priority AE")},
+    {3, N_("Manual")},
+    {4, N_("Auto")},
+    {5, N_("iAuto")},
+    {6, N_("Superior Auto")},
+    {7, N_("iAuto+")},
+    {8, N_("Portrait")},
+    {9, N_("Landscape")},
+    {10, N_("Twilight")},
+    {11, N_("Twilight Portrait")},
+    {12, N_("Sunset")},
+    {14, N_("Action (High speed)")},
+    {16, N_("Sports")},
+    {17, N_("Handheld Night Shot")},
+    {18, N_("Anti Motion Blur")},
+    {19, N_("High Sensitivity")},
+    {21, N_("Beach")},
+    {22, N_("Snow")},
+    {23, N_("Fireworks")},
+    {26, N_("Underwater")},
+    {27, N_("Gourmet")},
+    {28, N_("Pet")},
+    {29, N_("Macro")},
+    {30, N_("Backlight Correction HDR")},
+    {33, N_("Sweep Panorama")},
+    {36, N_("Background Defocus")},
+    {37, N_("Soft Skin")},
+    {42, N_("3D Image")},
+    {43, N_("Cont. Priority AE")},
+    {45, N_("Document")},
+    {46, N_("Party")},
+};
 
 //! Sony Tag 9404b SonyMisc2b tags
 constexpr TagInfo SonyMakerNote::tagInfoSonyMisc2b_[] = {
@@ -1941,7 +2107,8 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc2b_[] = {
      unsignedByte, -1, printSonyMisc2bFocusPosition2},
     // End of list marker
     {0xffff, "(UnknownSonyMisc2bTag)", "(Unknown SonyMisc2b tag)", "(Unknown SonyMisc2b tag)", IfdId::sonyMisc2bId,
-     SectionId::makerTags, unsignedByte, -1, printValue}};
+     SectionId::makerTags, unsignedByte, -1, printValue},
+};
 
 const TagInfo* SonyMakerNote::tagListSonyMisc2b() {
   return tagInfoSonyMisc2b_;
@@ -1959,7 +2126,7 @@ std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, c
   }
 
   // Models that do not support this tag
-  for (auto& m : {"SLT-", "HV", "ILCA-"}) {
+  for (auto m : {"SLT-", "HV", "ILCA-"}) {
     if (Internal::contains(model, m))
       return os << N_("n/a");
   }
@@ -1981,7 +2148,7 @@ std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, con
   }
 
   // Models that do not support this tag
-  for (auto& m : {"SLT-", "HV", "ILCA-"}) {
+  for (auto m : {"SLT-", "HV", "ILCA-"}) {
     if (Internal::contains(model, m))
       return os << N_("n/a");
   }
@@ -1990,36 +2157,49 @@ std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, con
 }
 
 //! Lookup table to translate Sony camera SonyMisc3c sequence length 1 values to readable labels
-constexpr TagDetails sonyMisc3cSequenceLength1[] = {{0, N_("Continuous")},
-                                                    {1, N_("1 shot")},
-                                                    {2, N_("2 shots")},
-                                                    {3, N_("3 shots")},
-                                                    {4, N_("4 shots")},
-                                                    {5, N_("5 shots")},
-                                                    {6, N_("6 shots")},
-                                                    {7, N_("7 shots")},
-                                                    {9, N_("9 shots")},
-                                                    {10, N_("10 shots")},
-                                                    {12, N_("12 shots")},
-                                                    {16, N_("16 shots")},
-                                                    {100, N_("Continuous - iSweep Panorama")},
-                                                    {200, N_("Continuous - Sweep Panorama")}};
+constexpr TagDetails sonyMisc3cSequenceLength1[] = {
+    {0, N_("Continuous")},
+    {1, N_("1 shot")},
+    {2, N_("2 shots")},
+    {3, N_("3 shots")},
+    {4, N_("4 shots")},
+    {5, N_("5 shots")},
+    {6, N_("6 shots")},
+    {7, N_("7 shots")},
+    {9, N_("9 shots")},
+    {10, N_("10 shots")},
+    {12, N_("12 shots")},
+    {16, N_("16 shots")},
+    {100, N_("Continuous - iSweep Panorama")},
+    {200, N_("Continuous - Sweep Panorama")},
+};
 
 //! Lookup table to translate Sony camera SonyMisc3c sequence length 2 values to readable labels
-constexpr TagDetails sonyMisc3cSequenceLength2[] = {{0, N_("Continuous")}, {1, N_("1 file")},   {2, N_("2 files")},
-                                                    {3, N_("3 files")},    {5, N_("5 files")},  {7, N_("7 files")},
-                                                    {9, N_("9 files")},    {10, N_("10 files")}};
+constexpr TagDetails sonyMisc3cSequenceLength2[] = {
+    {0, N_("Continuous")}, {1, N_("1 file")},  {2, N_("2 files")}, {3, N_("3 files")},
+    {5, N_("5 files")},    {7, N_("7 files")}, {9, N_("9 files")}, {10, N_("10 files")},
+};
 
 //! Lookup table to translate Sony camera SonyMisc3c, camera orientation values to readable labels
 constexpr TagDetails sonyMisc3cCameraOrientation[] = {
-    {1, N_("Horizontal (normal)")}, {3, N_("Rotate 180°")}, {6, N_("Rotate 90° CW")}, {8, N_("Rotate 270° CW")}};
+    {1, N_("Horizontal (normal)")},
+    {3, N_("Rotate 180°")},
+    {6, N_("Rotate 90° CW")},
+    {8, N_("Rotate 270° CW")},
+};
 
 //! Lookup table to translate SonyMisc3c Quality2 (a) values to readable labels
 constexpr TagDetails sonyMisc3cQuality2a[] = {
-    {1, "JPEG"}, {2, "Raw"}, {3, "Raw + JPEG"}, {4, "HEIF"}, {6, "Raw + HEIF"}};
+    {1, "JPEG"}, {2, "Raw"}, {3, "Raw + JPEG"}, {4, "HEIF"}, {6, "Raw + HEIF"},
+};
 
 //! Lookup table to translate SonyMisc3c Quality2 (b) values to readable labels
-constexpr TagDetails sonyMisc3cQuality2b[] = {{0, "JPEG"}, {1, "Raw"}, {2, "Raw + JPEG"}, {3, "Raw + MPO"}};
+constexpr TagDetails sonyMisc3cQuality2b[] = {
+    {0, "JPEG"},
+    {1, "Raw"},
+    {2, "Raw + JPEG"},
+    {3, "Raw + MPO"},
+};
 
 //! SonyMisc3c tags (Tag 9400c)
 constexpr TagInfo SonyMakerNote::tagInfoSonyMisc3c_[] = {
@@ -2182,7 +2362,8 @@ constexpr TagInfo SonyMakerNote::tagInfoSonySInfo1_[] = {
     // TODO: Add FaceInfo1 (72) and FaceInfo2 (94) which are sub-groups of tags.
     // End of list marker
     {0xffff, "(UnknownsonySInfo1Tag)", "(Unknown SonySInfo1 Tag)", "(Unknown SonySInfo1 Tag)", IfdId::sonySInfo1Id,
-     SectionId::makerTags, unsignedByte, -1, printValue}};
+     SectionId::makerTags, unsignedByte, -1, printValue},
+};
 
 const TagInfo* SonyMakerNote::tagListSonySInfo1() {
   return tagInfoSonySInfo1_;

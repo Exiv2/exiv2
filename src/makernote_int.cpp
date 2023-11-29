@@ -30,11 +30,8 @@ namespace fs = std::experimental::filesystem;
 #include <pwd.h>
 #include <unistd.h>
 #else
-#include <shlobj.h>
-#ifndef CSIDL_PROFILE
-#define CSIDL_PROFILE 40
-#endif
 #include <process.h>
+#include <shlobj.h>
 #endif
 
 #ifdef EXV_ENABLE_INIH
@@ -74,9 +71,10 @@ std::string getExiv2ConfigPath() {
   }
 
 #ifdef _WIN32
-  char buffer[1024];
-  if (SUCCEEDED(SHGetFolderPathA(nullptr, CSIDL_PROFILE, nullptr, 0, buffer))) {
+  PWSTR buffer = nullptr;
+  if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_Profile, 0, nullptr, &buffer))) {
     currentPath = buffer;
+    CoTaskMemFree(buffer);
   }
 #else
   auto pw = getpwuid(getuid());
@@ -1050,7 +1048,7 @@ const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const ui
   if (!pRoot)
     return nullptr;
   pRoot->accept(finder);
-  auto te = dynamic_cast<Exiv2::Internal::TiffEntryBase*>(finder.result());
+  auto te = dynamic_cast<const Exiv2::Internal::TiffEntryBase*>(finder.result());
   return (!te || !te->pValue()) ? nullptr : te->pValue();
 }
 
@@ -1089,7 +1087,8 @@ void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial) 
        0xbb, 0xd6, 0x59, 0x4d, 0xbf, 0x6a, 0x2e, 0xaa, 0x2b, 0xef, 0xe6, 0x78, 0xb6, 0x4e, 0xe0, 0x2f, 0xdc, 0x7c, 0xbe,
        0x57, 0x19, 0x32, 0x7e, 0x2a, 0xd0, 0xb8, 0xba, 0x29, 0x00, 0x3c, 0x52, 0x7d, 0xa8, 0x49, 0x3b, 0x2d, 0xeb, 0x25,
        0x49, 0xfa, 0xa3, 0xaa, 0x39, 0xa7, 0xc5, 0xa7, 0x50, 0x11, 0x36, 0xfb, 0xc6, 0x67, 0x4a, 0xf5, 0xa5, 0x12, 0x65,
-       0x7e, 0xb0, 0xdf, 0xaf, 0x4e, 0xb3, 0x61, 0x7f, 0x2f}};
+       0x7e, 0xb0, 0xdf, 0xaf, 0x4e, 0xb3, 0x61, 0x7f, 0x2f},
+  };
   Exiv2::byte key = 0;
   for (int i = 0; i < 4; ++i) {
     key ^= (count >> (i * 8)) & 0xff;

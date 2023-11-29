@@ -334,6 +334,7 @@ void Params::help(std::ostream& os) const {
      << _("   -r fmt  Filename format for the 'rename' action. The format string\n")
      << _("           follows strftime(3). The following keywords are also supported:\n")
      << _("             :basename:   - original filename without extension\n")
+     << _("             :basesuffix: - suffix in original filename, starts with first dot and ends before extension\n")
      << _("             :dirname:    - name of the directory holding the original file\n")
      << _("             :parentname: - name of parent directory\n") << _("           Default 'fmt' is %Y%m%d_%H%M%S\n")
      << _("   -c txt  JPEG comment string to set in the image.\n")
@@ -1096,52 +1097,32 @@ cleanup:
 // local implementations
 namespace {
 bool parseTime(const std::string& ts, int64_t& time) {
-  std::string hstr;
-  std::string mstr;
-  std::string sstr;
-  auto cts = new char[ts.length() + 1];
-  strcpy(cts, ts.c_str());
-  auto tmp = ::strtok(cts, ":");
-  if (tmp)
-    hstr = tmp;
-  tmp = ::strtok(nullptr, ":");
-  if (tmp)
-    mstr = tmp;
-  tmp = ::strtok(nullptr, ":");
-  if (tmp)
-    sstr = tmp;
-  delete[] cts;
-
+  std::istringstream sts(ts);
   int sign = 1;
   int64_t hh = 0;
   int64_t mm = 0;
   int64_t ss = 0;
+
   // [-]HH part
-  if (!Util::strtol(hstr.c_str(), hh))
+  if (!(sts >> hh))
     return false;
   if (hh < 0) {
     sign = -1;
     hh *= -1;
   }
   // check for the -0 special case
-  if (hh == 0 && Exiv2::Internal::contains(hstr, '-'))
+  if (hh == 0 && Exiv2::Internal::contains(ts, '-'))
     sign = -1;
   // MM part, if there is one
-  if (!mstr.empty()) {
-    if (!Util::strtol(mstr.c_str(), mm))
-      return false;
-    if (mm > 59)
-      return false;
-    if (mm < 0)
+  if (sts.peek() == ':') {
+    sts.ignore();
+    if (!(sts >> mm) || mm > 59 || mm < 0)
       return false;
   }
   // SS part, if there is one
-  if (!sstr.empty()) {
-    if (!Util::strtol(sstr.c_str(), ss))
-      return false;
-    if (ss > 59)
-      return false;
-    if (ss < 0)
+  if (sts.peek() == ':') {
+    sts.ignore();
+    if (!(sts >> ss) || ss > 59 || ss < 0)
       return false;
   }
 

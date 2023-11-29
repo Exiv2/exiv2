@@ -39,96 +39,111 @@ constexpr TagDetails panasonicImageStabilizer[] = {
 
 //! Macro, tag 0x001c
 constexpr TagDetails panasonicMacro[] = {
-    {1, N_("On")}, {2, N_("Off")}, {257, N_("Tele-macro")}, {513, N_("Macro-zoom")}};
+    {1, N_("On")},
+    {2, N_("Off")},
+    {257, N_("Tele-macro")},
+    {513, N_("Macro-zoom")},
+};
 
 //! ShootingMode, tag 0x001f and SceneMode, tag 0x8001
-constexpr TagDetails panasonicShootingMode[] = {{0, N_("Off")},  // only SceneMode
-                                                {1, N_("Normal")},
-                                                {2, N_("Portrait")},
-                                                {3, N_("Scenery")},
-                                                {4, N_("Sports")},
-                                                {5, N_("Night portrait")},
-                                                {6, N_("Program")},
-                                                {7, N_("Aperture priority")},
-                                                {8, N_("Shutter-speed priority")},
-                                                {9, N_("Macro")},
-                                                {10, N_("Spot")},
-                                                {11, N_("Manual")},
-                                                {12, N_("Movie preview")},
-                                                {13, N_("Panning")},
-                                                {14, N_("Simple")},
-                                                {15, N_("Color effects")},
-                                                {16, N_("Self Portrait")},
-                                                {17, N_("Economy")},
-                                                {18, N_("Fireworks")},
-                                                {19, N_("Party")},
-                                                {20, N_("Snow")},
-                                                {21, N_("Night scenery")},
-                                                {22, N_("Food")},
-                                                {23, N_("Baby")},
-                                                {24, N_("Soft skin")},
-                                                {25, N_("Candlelight")},
-                                                {26, N_("Starry night")},
-                                                {27, N_("High sensitivity")},
-                                                {28, N_("Panorama assist")},
-                                                {29, N_("Underwater")},
-                                                {30, N_("Beach")},
-                                                {31, N_("Aerial photo")},
-                                                {32, N_("Sunset")},
-                                                {33, N_("Pet")},
-                                                {34, N_("Intelligent ISO")},
-                                                {35, N_("Clipboard")},
-                                                {36, N_("High speed continuous shooting")},
-                                                {37, N_("Intelligent auto")},
-                                                {39, N_("Multi-aspect")},
-                                                {41, N_("Transform")},
-                                                {42, N_("Flash Burst")},
-                                                {43, N_("Pin Hole")},
-                                                {44, N_("Film Grain")},
-                                                {45, N_("My Color")},
-                                                {46, N_("Photo Frame")},
-                                                {51, N_("HDR")},
-                                                {55, N_("Handheld Night Shot")},
-                                                {57, N_("3D")},
-                                                {59, N_("Creative Control")},
-                                                {62, N_("Panorama")},
-                                                {63, N_("Glass Through")},
-                                                {64, N_("HDR")},
-                                                {66, N_("Digital Filter")},
-                                                {67, N_("Clear Portrait")},
-                                                {68, N_("Silky Skin")},
-                                                {69, N_("Backlit Softness")},
-                                                {70, N_("Clear in Backlight")},
-                                                {71, N_("Relaxing Tone")},
-                                                {72, N_("Sweet Child's Face")},
-                                                {73, N_("Distinct Scenery")},
-                                                {74, N_("Bright Blue Sky")},
-                                                {75, N_("Romantic Sunset Glow")},
-                                                {76, N_("Vivid Sunset Glow")},
-                                                {77, N_("Glistening Water")},
-                                                {78, N_("Clear Nightscape")},
-                                                {79, N_("Cool Night Sky")},
-                                                {80, N_("Warm Glowing Nightscape")},
-                                                {81, N_("Artistic Nightscape")},
-                                                {82, N_("Glittering Illuminations")},
-                                                {83, N_("Clear Night Portrait")},
-                                                {84, N_("Soft Image of a Flower")},
-                                                {85, N_("Appetizing Food")},
-                                                {86, N_("Cute Desert")},
-                                                {87, N_("Freeze Animal Motion")},
-                                                {88, N_("Clear Sports Shot")},
-                                                {89, N_("Monochrome")},
-                                                {90, N_("Creative Control")}};
+constexpr TagDetails panasonicShootingMode[] = {
+    {0, N_("Off")},  // only SceneMode
+    {1, N_("Normal")},
+    {2, N_("Portrait")},
+    {3, N_("Scenery")},
+    {4, N_("Sports")},
+    {5, N_("Night portrait")},
+    {6, N_("Program")},
+    {7, N_("Aperture priority")},
+    {8, N_("Shutter-speed priority")},
+    {9, N_("Macro")},
+    {10, N_("Spot")},
+    {11, N_("Manual")},
+    {12, N_("Movie preview")},
+    {13, N_("Panning")},
+    {14, N_("Simple")},
+    {15, N_("Color effects")},
+    {16, N_("Self Portrait")},
+    {17, N_("Economy")},
+    {18, N_("Fireworks")},
+    {19, N_("Party")},
+    {20, N_("Snow")},
+    {21, N_("Night scenery")},
+    {22, N_("Food")},
+    {23, N_("Baby")},
+    {24, N_("Soft skin")},
+    {25, N_("Candlelight")},
+    {26, N_("Starry night")},
+    {27, N_("High sensitivity")},
+    {28, N_("Panorama assist")},
+    {29, N_("Underwater")},
+    {30, N_("Beach")},
+    {31, N_("Aerial photo")},
+    {32, N_("Sunset")},
+    {33, N_("Pet")},
+    {34, N_("Intelligent ISO")},
+    {35, N_("Clipboard")},
+    {36, N_("High speed continuous shooting")},
+    {37, N_("Intelligent auto")},
+    {39, N_("Multi-aspect")},
+    {41, N_("Transform")},
+    {42, N_("Flash Burst")},
+    {43, N_("Pin Hole")},
+    {44, N_("Film Grain")},
+    {45, N_("My Color")},
+    {46, N_("Photo Frame")},
+    {51, N_("HDR")},
+    {55, N_("Handheld Night Shot")},
+    {57, N_("3D")},
+    {59, N_("Creative Control")},
+    {62, N_("Panorama")},
+    {63, N_("Glass Through")},
+    {64, N_("HDR")},
+    {66, N_("Digital Filter")},
+    {67, N_("Clear Portrait")},
+    {68, N_("Silky Skin")},
+    {69, N_("Backlit Softness")},
+    {70, N_("Clear in Backlight")},
+    {71, N_("Relaxing Tone")},
+    {72, N_("Sweet Child's Face")},
+    {73, N_("Distinct Scenery")},
+    {74, N_("Bright Blue Sky")},
+    {75, N_("Romantic Sunset Glow")},
+    {76, N_("Vivid Sunset Glow")},
+    {77, N_("Glistening Water")},
+    {78, N_("Clear Nightscape")},
+    {79, N_("Cool Night Sky")},
+    {80, N_("Warm Glowing Nightscape")},
+    {81, N_("Artistic Nightscape")},
+    {82, N_("Glittering Illuminations")},
+    {83, N_("Clear Night Portrait")},
+    {84, N_("Soft Image of a Flower")},
+    {85, N_("Appetizing Food")},
+    {86, N_("Cute Desert")},
+    {87, N_("Freeze Animal Motion")},
+    {88, N_("Clear Sports Shot")},
+    {89, N_("Monochrome")},
+    {90, N_("Creative Control")},
+};
 
 //! Audio, tag 0x0020
-constexpr TagDetails panasonicAudio[] = {{1, N_("Yes")}, {2, N_("No")}, {3, N_("Stereo")}};
+constexpr TagDetails panasonicAudio[] = {
+    {1, N_("Yes")},
+    {2, N_("No")},
+    {3, N_("Stereo")},
+};
 
 //! ColorEffect, tag 0x0028
 constexpr TagDetails panasonicColorEffect[] = {
-    {1, N_("Off")}, {2, N_("Warm")}, {3, N_("Cool")}, {4, N_("Black and white")}, {5, N_("Sepia")}, {6, N_("Happy")}};
+    {1, N_("Off")}, {2, N_("Warm")}, {3, N_("Cool")}, {4, N_("Black and white")}, {5, N_("Sepia")}, {6, N_("Happy")},
+};
 
 //! BustMode, tag 0x002a
-constexpr TagDetails panasonicBurstMode[] = {{0, N_("Off")}, {1, N_("Low/High quality")}, {2, N_("Infinite")}};
+constexpr TagDetails panasonicBurstMode[] = {
+    {0, N_("Off")},
+    {1, N_("Low/High quality")},
+    {2, N_("Infinite")},
+};
 
 //! Contrast, tag 0x002c
 constexpr TagDetails panasonicContrast[] = {
@@ -138,26 +153,45 @@ constexpr TagDetails panasonicContrast[] = {
 
 //! NoiseReduction, tag 0x002d
 constexpr TagDetails panasonicNoiseReduction[] = {
-    {0, N_("Standard")}, {1, N_("Low (-1)")}, {2, N_("High (+1)")}, {3, N_("Lowest (-2)")}, {4, N_("Highest (+2)")}};
+    {0, N_("Standard")}, {1, N_("Low (-1)")}, {2, N_("High (+1)")}, {3, N_("Lowest (-2)")}, {4, N_("Highest (+2)")},
+};
 
 //! SelfTimer, tag 0x002e
-constexpr TagDetails panasonicSelfTimer[] = {{1, N_("Off")}, {2, "10 s"}, {3, "2 s"}, {4, "10 s / 3 pictures"}};
+constexpr TagDetails panasonicSelfTimer[] = {
+    {1, N_("Off")},
+    {2, "10 s"},
+    {3, "2 s"},
+    {4, "10 s / 3 pictures"},
+};
 
 //! Rotation, tag 0x0030
 constexpr TagDetails panasonicRotation[] = {
-    {1, N_("Horizontal (normal)")}, {3, N_("Rotate 180")}, {6, N_("Rotate 90 CW")}, {8, N_("Rotate 270 CW")}};
+    {1, N_("Horizontal (normal)")},
+    {3, N_("Rotate 180")},
+    {6, N_("Rotate 90 CW")},
+    {8, N_("Rotate 270 CW")},
+};
 
 //! AFAssistLamp, tag 0x0031
-constexpr TagDetails panasonicAFAssistLamp[] = {{1, N_("Fired")},
-                                                {2, N_("Enabled but Not Used")},
-                                                {3, N_("Disabled but Required")},
-                                                {4, N_("Disabled and Not Required")}};
+constexpr TagDetails panasonicAFAssistLamp[] = {
+    {1, N_("Fired")},
+    {2, N_("Enabled but Not Used")},
+    {3, N_("Disabled but Required")},
+    {4, N_("Disabled and Not Required")},
+};
 
 //! ColorMode, tag 0x0032
-constexpr TagDetails panasonicColorMode[] = {{0, N_("Normal")}, {1, N_("Natural")}, {2, N_("Vivid")}};
+constexpr TagDetails panasonicColorMode[] = {
+    {0, N_("Normal")},
+    {1, N_("Natural")},
+    {2, N_("Vivid")},
+};
 
 //! OpticalZoomMode, tag 0x0034
-constexpr TagDetails panasonicOpticalZoomMode[] = {{1, N_("Standard")}, {2, N_("EX optics")}};
+constexpr TagDetails panasonicOpticalZoomMode[] = {
+    {1, N_("Standard")},
+    {2, N_("EX optics")},
+};
 
 //! ConversionLens, tag 0x0035
 constexpr TagDetails panasonicConversionLens[] = {
@@ -169,91 +203,141 @@ constexpr TagDetails panasonicConversionLens[] = {
 };
 
 //! WorldTimeLocation, tag 0x003a
-constexpr TagDetails panasonicWorldTimeLocation[] = {{1, N_("Home")}, {2, N_("Destination")}};
+constexpr TagDetails panasonicWorldTimeLocation[] = {
+    {1, N_("Home")},
+    {2, N_("Destination")},
+};
 
 //! TextStamp, tag 0x003b, 0x003e, 000x8008 and 0x8009
-constexpr TagDetails panasonicTextStamp[] = {{1, N_("Off")}, {2, N_("On")}};
+constexpr TagDetails panasonicTextStamp[] = {
+    {1, N_("Off")},
+    {2, N_("On")},
+};
 
 //! FilmMode, tag 0x0042
 constexpr TagDetails panasonicFilmMode[] = {
     {1, N_("Standard (color)")}, {2, N_("Dynamic (color)")}, {3, N_("Nature (color)")},
     {4, N_("Smooth (color)")},   {5, N_("Standard (B&W)")},  {6, N_("Dynamic (B&W)")},
-    {7, N_("Smooth (B&W)")},     {10, N_("Nostalgic")},      {11, N_("Vibrant")}};
+    {7, N_("Smooth (B&W)")},     {10, N_("Nostalgic")},      {11, N_("Vibrant")},
+};
 
 //! Bracket Settings, tag 0x0045
-constexpr TagDetails panasonicBracketSettings[] = {{0, N_("No Bracket")},
-                                                   {1, N_("3 images, Sequence 0/-/+")},
-                                                   {2, N_("3 images, Sequence -/0/+")},
-                                                   {3, N_("5 images, Sequence 0/-/+")},
-                                                   {4, N_("5 images, Sequence -/0/+")},
-                                                   {5, N_("7 images, Sequence 0/-/+")},
-                                                   {6, N_("7 images, Sequence -/0/+")}};
+constexpr TagDetails panasonicBracketSettings[] = {
+    {0, N_("No Bracket")},
+    {1, N_("3 images, Sequence 0/-/+")},
+    {2, N_("3 images, Sequence -/0/+")},
+    {3, N_("5 images, Sequence 0/-/+")},
+    {4, N_("5 images, Sequence -/0/+")},
+    {5, N_("7 images, Sequence 0/-/+")},
+    {6, N_("7 images, Sequence -/0/+")},
+};
 
 //! Flash curtain, tag 0x0048
-constexpr TagDetails panasonicFlashCurtain[] = {{0, N_("n/a")}, {1, N_("1st")}, {2, N_("2nd")}};
+constexpr TagDetails panasonicFlashCurtain[] = {
+    {0, N_("n/a")},
+    {1, N_("1st")},
+    {2, N_("2nd")},
+};
 
 //! Long Shutter Noise Reduction, tag 0x0049
-constexpr TagDetails panasonicLongShutterNoiseReduction[] = {{1, N_("Off")}, {2, N_("On")}};
+constexpr TagDetails panasonicLongShutterNoiseReduction[] = {
+    {1, N_("Off")},
+    {2, N_("On")},
+};
 
 //! Intelligent exposure, tag 0x005d
 constexpr TagDetails panasonicIntelligentExposure[] = {
-    {0, N_("Off")}, {1, N_("Low")}, {2, N_("Standard")}, {3, N_("High")}};
+    {0, N_("Off")},
+    {1, N_("Low")},
+    {2, N_("Standard")},
+    {3, N_("High")},
+};
 
 //! Flash warning, tag 0x0062
-constexpr TagDetails panasonicFlashWarning[] = {{0, N_("No")}, {1, N_("Yes (flash required but disabled")}};
+constexpr TagDetails panasonicFlashWarning[] = {
+    {0, N_("No")},
+    {1, N_("Yes (flash required but disabled")},
+};
 
 //! Intelligent resolution, tag 0x0070
 constexpr TagDetails panasonicIntelligentResolution[] = {
-    {0, N_("Off")}, {1, N_("Low")}, {2, N_("Standard")}, {3, N_("High")}, {4, N_("Extended")}};
+    {0, N_("Off")}, {1, N_("Low")}, {2, N_("Standard")}, {3, N_("High")}, {4, N_("Extended")},
+};
 
 //! Intelligent D-Range, tag 0x0079
 constexpr TagDetails panasonicIntelligentDRange[] = {
-    {0, N_("Off")}, {1, N_("Low")}, {2, N_("Standard")}, {3, N_("High")}};
+    {0, N_("Off")},
+    {1, N_("Low")},
+    {2, N_("Standard")},
+    {3, N_("High")},
+};
 
 //! Clear Retouch, tag 0x007c
-constexpr TagDetails panasonicClearRetouch[] = {{0, N_("Off")}, {1, N_("On")}};
+constexpr TagDetails panasonicClearRetouch[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+};
 
 //! Photo Style, tag 0x0089
-constexpr TagDetails panasonicPhotoStyle[] = {{0, N_("NoAuto")},  {1, N_("Standard or Custom")}, {2, N_("Vivid")},
-                                              {3, N_("Natural")}, {4, N_("Monochrome")},         {5, N_("Scenery")},
-                                              {6, N_("Portrait")}};
+constexpr TagDetails panasonicPhotoStyle[] = {
+    {0, N_("NoAuto")},  {1, N_("Standard or Custom")}, {2, N_("Vivid")}, {3, N_("Natural")}, {4, N_("Monochrome")},
+    {5, N_("Scenery")}, {6, N_("Portrait")},
+};
 
 //! Shading compensation, tag 0x008a
-constexpr TagDetails panasonicShadingCompensation[] = {{0, N_("Off")}, {1, N_("On")}};
+constexpr TagDetails panasonicShadingCompensation[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+};
 
 //! Camera orientation, tag 0x008f
-constexpr TagDetails panasonicCameraOrientation[] = {{0, N_("Normal")},       {1, N_("Rotate CW")},
-                                                     {2, N_("Rotate 180")},   {3, N_("Rotate CCW")},
-                                                     {4, N_("Tilt upwards")}, {5, N_("Tilt downwards")}};
+constexpr TagDetails panasonicCameraOrientation[] = {
+    {0, N_("Normal")},     {1, N_("Rotate CW")},    {2, N_("Rotate 180")},
+    {3, N_("Rotate CCW")}, {4, N_("Tilt upwards")}, {5, N_("Tilt downwards")},
+};
 
 //! Sweep panorama direction, tag 0x0093
-constexpr TagDetails panasonicSweepPanoramaDirection[] = {{0, N_("Off")},
-                                                          {1, N_("Left to Right")},
-                                                          {2, N_("Right to Left")},
-                                                          {3, N_("Top to Bottom")},
-                                                          {4, N_("Bottom to Top")}};
+constexpr TagDetails panasonicSweepPanoramaDirection[] = {
+    {0, N_("Off")},           {1, N_("Left to Right")}, {2, N_("Right to Left")},
+    {3, N_("Top to Bottom")}, {4, N_("Bottom to Top")},
+};
 
 //! Timer recording, tag 0x0096
 constexpr TagDetails panasonicTimerRecording[] = {
-    {0, N_("Off")}, {1, N_("Time Lapse")}, {2, N_("Stop-Motion Animation")}};
+    {0, N_("Off")},
+    {1, N_("Time Lapse")},
+    {2, N_("Stop-Motion Animation")},
+};
 
 //! HDR, tag 0x009e
-constexpr TagDetails panasonicHDR[] = {{0, N_("Off")},
-                                       {100, N_("1 EV")},
-                                       {200, N_("2 EV")},
-                                       {300, N_("3 EV")},
-                                       {32868, N_("1 EV (Auto)")},
-                                       {32968, N_("2 EV (Auto)")},
-                                       {33068, N_("3 EV (Auto)")}};
+constexpr TagDetails panasonicHDR[] = {
+    {0, N_("Off")},
+    {100, N_("1 EV")},
+    {200, N_("2 EV")},
+    {300, N_("3 EV")},
+    {32868, N_("1 EV (Auto)")},
+    {32968, N_("2 EV (Auto)")},
+    {33068, N_("3 EV (Auto)")},
+};
 
 //! Shutter Type, tag 0x009f
-constexpr TagDetails panasonicShutterType[] = {{0, N_("Mechanical")}, {1, N_("Electronic")}, {2, N_("Hybrid")}};
+constexpr TagDetails panasonicShutterType[] = {
+    {0, N_("Mechanical")},
+    {1, N_("Electronic")},
+    {2, N_("Hybrid")},
+};
 
 //! Touch AE, tag 0x00ab
-constexpr TagDetails panasonicTouchAE[] = {{0, N_("Off")}, {1, N_("On")}};
+constexpr TagDetails panasonicTouchAE[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+};
 
 //! Flash Fired, tag 0x8007
-constexpr TagDetails panasonicFlashFired[] = {{1, N_("No")}, {2, N_("Yes")}};
+constexpr TagDetails panasonicFlashFired[] = {
+    {1, N_("No")},
+    {2, N_("Yes")},
+};
 
 // Panasonic MakerNote Tag Info
 constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {

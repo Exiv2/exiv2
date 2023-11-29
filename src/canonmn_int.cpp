@@ -28,7 +28,10 @@
 // class member definitions
 namespace Exiv2::Internal {
 //! OffOn, multiple tags
-constexpr TagDetails canonOffOn[] = {{0, N_("Off")}, {1, N_("On")}};
+constexpr TagDetails canonOffOn[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+};
 
 std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, const ExifData* metadata);
 
@@ -395,15 +398,24 @@ constexpr TagDetails canonSerialNumberFormat[] = {
 };
 
 //! SuperMacro, tag 0x001a
-constexpr TagDetails canonSuperMacro[] = {{0, N_("Off")}, {1, N_("On (1)")}, {2, N_("On (2)")}};
+constexpr TagDetails canonSuperMacro[] = {
+    {0, N_("Off")},
+    {1, N_("On (1)")},
+    {2, N_("On (2)")},
+};
 
 // DateStampMode, tag 0x001c
-constexpr TagDetails canonDateStampMode[] = {{0, N_("Off")}, {1, N_("Date")}, {2, N_("Date & Time")}};
+constexpr TagDetails canonDateStampMode[] = {
+    {0, N_("Off")},
+    {1, N_("Date")},
+    {2, N_("Date & Time")},
+};
 
 // Categories, tag 0x0023
 [[maybe_unused]] constexpr TagDetails canonCategories[] = {
     {0x0001, N_("People")}, {0x0002, N_("Scenery")}, {0x0004, N_("Events")}, {0x0008, N_("User 1")},
-    {0x0016, N_("User 2")}, {0x0032, N_("User 3")},  {0x0064, N_("To Do")}};
+    {0x0016, N_("User 2")}, {0x0032, N_("User 3")},  {0x0064, N_("To Do")},
+};
 
 //! PictureStyle Values
 constexpr TagDetails canonPictureStyle[] = {
@@ -412,23 +424,30 @@ constexpr TagDetails canonPictureStyle[] = {
     {0x21, N_("User Def. 1")}, {0x22, N_("User Def. 2")},    {0x23, N_("User Def. 3")}, {0x41, N_("PC 1")},
     {0x42, N_("PC 2")},        {0x43, N_("PC 3")},           {0x81, N_("Standard")},    {0x82, N_("Portrait")},
     {0x83, N_("Landscape")},   {0x84, N_("Neutral")},        {0x85, N_("Faithful")},    {0x86, N_("Monochrome")},
-    {0x87, N_("Auto")},        {0x88, N_("Fine Detail")}};
+    {0x87, N_("Auto")},        {0x88, N_("Fine Detail")},
+};
 
 //! WhiteBalance, multiple tags
-constexpr TagDetails canonSiWhiteBalance[] = {{0, N_("Auto")},        {1, N_("Daylight")},
-                                              {2, N_("Cloudy")},      {3, N_("Tungsten")},
-                                              {4, N_("Fluorescent")}, {5, N_("Flash")},
-                                              {6, N_("Custom")},      {7, N_("Black & White")},
-                                              {8, N_("Shade")},       {9, N_("Manual Temperature (Kelvin)")},
-                                              {10, N_("PC Set 1")},   {11, N_("PC Set 2")},
-                                              {12, N_("PC Set 3")},   {14, N_("Daylight Fluorescent")},
-                                              {15, N_("Custom 1")},   {16, N_("Custom 2")},
-                                              {17, N_("Underwater")}, {18, N_("Custom 3")},
-                                              {19, N_("Custom 3")},   {20, N_("PC Set 4")},
-                                              {21, N_("PC Set 5")},   {23, N_("Auto (ambience priority)")}};
+constexpr TagDetails canonSiWhiteBalance[] = {
+    {0, N_("Auto")},        {1, N_("Daylight")},
+    {2, N_("Cloudy")},      {3, N_("Tungsten")},
+    {4, N_("Fluorescent")}, {5, N_("Flash")},
+    {6, N_("Custom")},      {7, N_("Black & White")},
+    {8, N_("Shade")},       {9, N_("Manual Temperature (Kelvin)")},
+    {10, N_("PC Set 1")},   {11, N_("PC Set 2")},
+    {12, N_("PC Set 3")},   {14, N_("Daylight Fluorescent")},
+    {15, N_("Custom 1")},   {16, N_("Custom 2")},
+    {17, N_("Underwater")}, {18, N_("Custom 3")},
+    {19, N_("Custom 3")},   {20, N_("PC Set 4")},
+    {21, N_("PC Set 5")},   {23, N_("Auto (ambience priority)")},
+};
 
 //! ColorSpace, tag 0x00b4
-constexpr TagDetails canonColorSpace[] = {{1, N_("sRGB")}, {2, N_("Adobe RGB")}, {65535, N_("n/a")}};
+constexpr TagDetails canonColorSpace[] = {
+    {1, N_("sRGB")},
+    {2, N_("Adobe RGB")},
+    {65535, N_("n/a")},
+};
 
 //! Canon AF Area Mode, tag 0x2601
 constexpr TagDetails canonAFAreaMode[] = {
@@ -689,7 +708,8 @@ constexpr TagDetails canonMyColors[] = {
     {0, N_("Off")},        {1, N_("Positive Film")}, {2, N_("Light Skin Tone")}, {3, N_("Dark Skin Tone")},
     {4, N_("Vivid Blue")}, {5, N_("Vivid Green")},   {6, N_("Vivid Red")},       {7, N_("Color Accent")},
     {8, N_("Color Swap")}, {9, N_("Custom")},        {12, N_("Vivid")},          {13, N_("Neutral")},
-    {14, N_("Sepia")},     {15, N_("B&W")}};
+    {14, N_("Sepia")},     {15, N_("B&W")},
+};
 
 // Canon My Colors Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoMc_[] = {
@@ -744,7 +764,11 @@ const TagInfo* CanonMakerNote::tagListFcd2() {
 }
 
 // Canon ContrastInfo, tag 0x001d
-constexpr TagDetails canonContrastInfo[] = {{0x0, N_("Off")}, {0x8, N_("On")}, {0xfff, N_("n/a")}};
+constexpr TagDetails canonContrastInfo[] = {
+    {0x0, N_("Off")},
+    {0x8, N_("On")},
+    {0xfff, N_("n/a")},
+};
 
 // Canon Contrast Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoCo_[] = {
@@ -864,11 +888,16 @@ const TagInfo* CanonMakerNote::tagListFl() {
 }
 
 // Canon Modified ToneCurve Info, tag 0x0001
-constexpr TagDetails canonModifiedToneCurve[] = {{0, N_("Standard")}, {1, N_("Manual")}, {2, N_("Custom")}};
+constexpr TagDetails canonModifiedToneCurve[] = {
+    {0, N_("Standard")},
+    {1, N_("Manual")},
+    {2, N_("Custom")},
+};
 
 // Canon Modified Sharpness Freq Info, tag 0x0002
-constexpr TagDetails canonModifiedSharpnessFreq[] = {{0, N_("n/a")},      {1, N_("Lowest")}, {2, N_("Low")},
-                                                     {3, N_("Standard")}, {4, N_("High")},   {5, N_("Highest")}};
+constexpr TagDetails canonModifiedSharpnessFreq[] = {
+    {0, N_("n/a")}, {1, N_("Lowest")}, {2, N_("Low")}, {3, N_("Standard")}, {4, N_("High")}, {5, N_("Highest")},
+};
 
 // Canon ModifiedInfo Tag
 constexpr TagInfo CanonMakerNote::tagInfoMo_[] = {
@@ -902,8 +931,9 @@ const TagInfo* CanonMakerNote::tagListMo() {
 
 // Canon Preview Quality Info, tag 0x0001
 constexpr TagDetails canonPreviewQuality[] = {
-    {-1, N_("n/a")},      {1, N_("Economy")}, {2, N_("Normal")},         {3, N_("Fine")},       {4, N_("RAW")},
-    {5, N_("Superfine")}, {7, N_("CRAW")},    {130, N_("Normal Movie")}, {131, N_("Movie (2)")}};
+    {-1, N_("n/a")},      {1, N_("Economy")}, {2, N_("Normal")},         {3, N_("Fine")},        {4, N_("RAW")},
+    {5, N_("Superfine")}, {7, N_("CRAW")},    {130, N_("Normal Movie")}, {131, N_("Movie (2)")},
+};
 
 // Canon Preview Image Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoPreI_[] = {
@@ -939,7 +969,10 @@ const TagInfo* CanonMakerNote::tagListCi() {
 
 // Canon AFMicroAdjMode Quality Info, tag 0x0001
 constexpr TagDetails canonAFMicroAdjMode[] = {
-    {0, N_("Disable")}, {1, N_("Adjust all by the same amount")}, {2, N_("Adjust by lens")}};
+    {0, N_("Disable")},
+    {1, N_("Adjust all by the same amount")},
+    {2, N_("Adjust by lens")},
+};
 
 // Canon AFMicroAdj Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoAfMiAdj_[] = {
@@ -948,7 +981,8 @@ constexpr TagInfo CanonMakerNote::tagInfoAfMiAdj_[] = {
     {0x0002, "AFMicroAdjValue", N_("AF Micro Adj Value"), N_("AF Micro Adj Value"), IfdId::canonAfMiAdjId,
      SectionId::makerTags, signedRational, -1, printValue},
     {0xffff, "(UnknownCanonAFMicroAdjTag)", "(UnknownCanonAFMicroAdjTag)", N_("Unknown Canon AFMicroAdj tag"),
-     IfdId::canonAfMiAdjId, SectionId::makerTags, signedShort, 1, printValue}};
+     IfdId::canonAfMiAdjId, SectionId::makerTags, signedShort, 1, printValue},
+};
 
 const TagInfo* CanonMakerNote::tagListAfMiAdj() {
   return tagInfoAfMiAdj_;
@@ -998,14 +1032,26 @@ const TagInfo* CanonMakerNote::tagListVigCor2() {
 
 // Canon AutoLightingOptimizer, tag 0x0002
 constexpr TagDetails canonAutoLightingOptimizer[] = {
-    {0, N_("Standard")}, {1, N_("Low")}, {2, N_("Strong")}, {3, N_("Off")}};
+    {0, N_("Standard")},
+    {1, N_("Low")},
+    {2, N_("Strong")},
+    {3, N_("Off")},
+};
 
 // Canon HighISONoiseReduction, tag 0x0004
-constexpr TagDetails canonLongExposureNoiseReduction[] = {{0, N_("Off")}, {1, N_("Auto")}, {2, N_("On")}};
+constexpr TagDetails canonLongExposureNoiseReduction[] = {
+    {0, N_("Off")},
+    {1, N_("Auto")},
+    {2, N_("On")},
+};
 
 // Canon HighISONoiseReduction, tag 0x0005
 constexpr TagDetails canonHighISONoiseReduction[] = {
-    {0, N_("Standard")}, {1, N_("Low")}, {2, N_("Strong")}, {3, N_("off")}};
+    {0, N_("Standard")},
+    {1, N_("Low")},
+    {2, N_("Strong")},
+    {3, N_("off")},
+};
 
 // Canon LightingOpt Tag
 constexpr TagInfo CanonMakerNote::tagInfoLiOp_[] = {
@@ -1041,9 +1087,10 @@ const TagInfo* CanonMakerNote::tagListLe() {
 }
 
 // Canon AmbienceSelection, tag 0x0001
-constexpr TagDetails canonAmbienceSelection[] = {{0, N_("Standard")}, {1, N_("Vivid")},  {2, N_("Warm")},
-                                                 {3, N_("Soft")},     {4, N_("Cool")},   {5, N_("Intense")},
-                                                 {6, N_("Brighter")}, {7, N_("Darker")}, {8, N_("Monochrome")}};
+constexpr TagDetails canonAmbienceSelection[] = {
+    {0, N_("Standard")}, {1, N_("Vivid")},    {2, N_("Warm")},   {3, N_("Soft")},       {4, N_("Cool")},
+    {5, N_("Intense")},  {6, N_("Brighter")}, {7, N_("Darker")}, {8, N_("Monochrome")},
+};
 
 // Canon Ambience Tag
 constexpr TagInfo CanonMakerNote::tagInfoAm_[] = {
@@ -1058,11 +1105,19 @@ const TagInfo* CanonMakerNote::tagListAm() {
 }
 
 // Canon MultiExposure, tag 0x0001
-constexpr TagDetails canonMultiExposure[] = {{0, N_("Off")}, {1, N_("On")}, {2, N_("On (RAW)")}};
+constexpr TagDetails canonMultiExposure[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+    {2, N_("On (RAW)")},
+};
 
 // Canon MultiExposureControl, tag 0x0001
 constexpr TagDetails canonMultiExposureControl[] = {
-    {0, N_("Additive")}, {1, N_("Average")}, {2, N_("Bright (comparative)")}, {3, N_("Dark (comparative)")}};
+    {0, N_("Additive")},
+    {1, N_("Average")},
+    {2, N_("Bright (comparative)")},
+    {3, N_("Dark (comparative)")},
+};
 
 // Canon MultiExp Tag
 constexpr TagInfo CanonMakerNote::tagInfoMe_[] = {
@@ -1081,10 +1136,15 @@ const TagInfo* CanonMakerNote::tagListMe() {
 }
 
 // Canon FilterInfo, tag 0x0001
-constexpr TagDetails canonFilterInfo[] = {{-1, N_("Off")}};
+constexpr TagDetails canonFilterInfo[] = {
+    {-1, N_("Off")},
+};
 
 // Canon MiniatureFilterOrientation, tag 0x0001
-constexpr TagDetails canonMiniatureFilterOrientation[] = {{0, N_("Horizontal")}, {1, N_("Vertical")}};
+constexpr TagDetails canonMiniatureFilterOrientation[] = {
+    {0, N_("Horizontal")},
+    {1, N_("Vertical")},
+};
 
 //  Canon Filter Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoFil_[] = {
@@ -1117,14 +1177,17 @@ const TagInfo* CanonMakerNote::tagListFil() {
 }
 
 // Canon HDR, tag 0x0001
-constexpr TagDetails canonHdr[] = {{0, N_("Off")}, {1, N_("On")}, {2, N_("On (RAW")}};
+constexpr TagDetails canonHdr[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+    {2, N_("On (RAW")},
+};
 
 // Canon HDREffect, tag 0x0001
-constexpr TagDetails canonHdrEffect[] = {{0, N_("Natural")},
-                                         {1, N_("Art (standard)")},
-                                         {2, N_("Art (vivid)")},
-                                         {3, N_("Art (bold)")},
-                                         {4, N_("Art (embossed)")}};
+constexpr TagDetails canonHdrEffect[] = {
+    {0, N_("Natural")},    {1, N_("Art (standard)")}, {2, N_("Art (vivid)")},
+    {3, N_("Art (bold)")}, {4, N_("Art (embossed)")},
+};
 
 // Canon HDR Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoHdr_[] = {
@@ -1133,7 +1196,8 @@ constexpr TagInfo CanonMakerNote::tagInfoHdr_[] = {
     {0x0002, "HDREffect", N_("HDR Effect"), N_("HDR Effect"), IfdId::canonHdrId, SectionId::makerTags, signedLong, -1,
      EXV_PRINT_TAG(canonHdrEffect)},
     {0xffff, "(UnknownHDRTag)", "(UnknownHDRTag)", N_("Unknown Canon HDR Tag"), IfdId::canonHdrId, SectionId::makerTags,
-     signedLong, 1, printValue}};
+     signedLong, 1, printValue},
+};
 
 const TagInfo* CanonMakerNote::tagListHdr() {
   return tagInfoHdr_;
@@ -1141,7 +1205,10 @@ const TagInfo* CanonMakerNote::tagListHdr() {
 
 // Canon AIServoFirstImage, tag 0x0001
 constexpr TagDetails canonAIServoFirstImage[] = {
-    {0, N_("Equal Priority")}, {1, N_("Release Priority")}, {2, N_("Focus Priority")}};
+    {0, N_("Equal Priority")},
+    {1, N_("Release Priority")},
+    {2, N_("Focus Priority")},
+};
 
 // Canon AIServoSecondImage, tag 0x0001
 constexpr TagDetails canonAIServoSecondImage[] = {
@@ -1151,43 +1218,67 @@ constexpr TagDetails canonAIServoSecondImage[] = {
 
 // Canon USMLensElectronicMF, tag 0x0001
 constexpr TagDetails canonUSMLensElectronicMF[] = {
-    {0, N_("Enable After AF")}, {1, N_("Disable After AF")}, {2, N_("Disable in AF Mode")}};
+    {0, N_("Enable After AF")},
+    {1, N_("Disable After AF")},
+    {2, N_("Disable in AF Mode")},
+};
 
 // Canon AFAssistBeam, tag 0x0001
-constexpr TagDetails canonAFAssistBeam[] = {{0, N_("Enable")}, {1, N_("Disable")}, {2, N_("IR AF Assist Beam Mode")}};
+constexpr TagDetails canonAFAssistBeam[] = {
+    {0, N_("Enable")},
+    {1, N_("Disable")},
+    {2, N_("IR AF Assist Beam Mode")},
+};
 
 // Canon OneShotAFRelease, tag 0x0001
-constexpr TagDetails canonOneShotAFRelease[] = {{0, N_("Focus Priority")}, {1, N_("Release Priority")}};
+constexpr TagDetails canonOneShotAFRelease[] = {
+    {0, N_("Focus Priority")},
+    {1, N_("Release Priority")},
+};
 
 // Canon AutoAFPointSelEOSiTRAF, tag 0x0001
-constexpr TagDetails canonAutoAFPointSelEOSiTRAF[] = {{0, N_("Enable")}, {1, N_("Disable")}};
+constexpr TagDetails canonAutoAFPointSelEOSiTRAF[] = {
+    {0, N_("Enable")},
+    {1, N_("Disable")},
+};
 
 // Canon LensDriveWhenAFImpossible, tag 0x0001
-constexpr TagDetails canonLensDriveWhenAFImpossible[] = {{0, N_("Continue Focus Search")},
-                                                         {1, N_("Stop Focus Search")}};
+constexpr TagDetails canonLensDriveWhenAFImpossible[] = {
+    {0, N_("Continue Focus Search")},
+    {1, N_("Stop Focus Search")},
+};
 
 // Canon SelectAFAreaSelectionMode, tag 0x0001
 constexpr TagDetails canonSelectAFAreaSelectionMode[] = {
     {0, N_("Single-Point-AF")}, {1, N_("Auto")},
     {2, N_("Zone AF")},         {3, N_("AF Point Expansion (4 point)")},
-    {4, N_("Spot AF")},         {5, N_("AF Point Expansion (8 point)")}};
+    {4, N_("Spot AF")},         {5, N_("AF Point Expansion (8 point)")},
+};
 
 // Canon AFAreaSelectionMethod, tag 0x0001
-constexpr TagDetails canonAFAreaSelectionMethod[] = {{0, N_("M-Fn Button")}, {1, N_("Main Dial")}};
+constexpr TagDetails canonAFAreaSelectionMethod[] = {
+    {0, N_("M-Fn Button")},
+    {1, N_("Main Dial")},
+};
 
 // Canon OrientationLinkedAF, tag 0x0001
 constexpr TagDetails canonOrientationLinkedAF[] = {
-    {0, N_("Same for Vert/Horiz Points")}, {1, N_("Separate for Vert/Horiz Points")}, {2, N_("Separate Area+Points")}};
+    {0, N_("Same for Vert/Horiz Points")},
+    {1, N_("Separate for Vert/Horiz Points")},
+    {2, N_("Separate Area+Points")},
+};
 
 // Canon ManualAFPointSelPattern, tag 0x0001
-constexpr TagDetails canonManualAFPointSelPattern[] = {{0, N_("Stops at AF Area Edges")}, {1, N_("Continuous")}};
+constexpr TagDetails canonManualAFPointSelPattern[] = {
+    {0, N_("Stops at AF Area Edges")},
+    {1, N_("Continuous")},
+};
 
 // Canon AFPointDisplayDuringFocus, tag 0x0001
-constexpr TagDetails canonAFPointDisplayDuringFocus[] = {{0, N_("Selected (constant)")},
-                                                         {1, N_("All (constant)")},
-                                                         {1, N_("Selected (pre-AF, focused)")},
-                                                         {1, N_("Selected (focused)")},
-                                                         {1, N_("Disabled")}};
+constexpr TagDetails canonAFPointDisplayDuringFocus[] = {
+    {0, N_("Selected (constant)")}, {1, N_("All (constant)")}, {1, N_("Selected (pre-AF, focused)")},
+    {1, N_("Selected (focused)")},  {1, N_("Disabled")},
+};
 
 // Canon VFDisplayIllumination, tag 0x0001
 constexpr TagDetails canonAVFDisplayIllumination[] = {
@@ -1273,12 +1364,16 @@ const TagInfo* CanonMakerNote::tagListRawB() {
 }
 
 //! Macro, tag 0x0001
-constexpr TagDetails canonCsMacro[] = {{1, N_("On")}, {2, N_("Off")}};
+constexpr TagDetails canonCsMacro[] = {
+    {1, N_("On")},
+    {2, N_("Off")},
+};
 
 //! Quality, tag 0x0003
 constexpr TagDetails canonCsQuality[] = {
     {-1, N_("n/a")}, {0, N_("unkown")},    {1, N_("Economy")}, {2, N_("Normal")},         {3, N_("Fine")},
-    {4, N_("RAW")},  {5, N_("Superfine")}, {7, N_("CRAW")},    {130, N_("Normal Movie")}, {131, N_("Movie (2)")}};
+    {4, N_("RAW")},  {5, N_("Superfine")}, {7, N_("CRAW")},    {130, N_("Normal Movie")}, {131, N_("Movie (2)")},
+};
 
 //! FlashMode, tag 0x0004
 constexpr TagDetails canonCsFlashMode[] = {
@@ -1288,16 +1383,18 @@ constexpr TagDetails canonCsFlashMode[] = {
 };
 
 //! DriveMode, tag 0x0005
-constexpr TagDetails canonCsDriveMode[] = {{0, N_("Single / timer")},
-                                           {1, N_("Continuous")},
-                                           {2, N_("Movie")},
-                                           {3, N_("Continuous, speed priority")},
-                                           {3, N_("Continuous, tracking priority")},
-                                           {4, N_("Continuous, low")},
-                                           {5, N_("Continuous, high")},
-                                           {6, N_("Silent Single")},
-                                           {9, N_("Single, Silent")},
-                                           {10, N_("Continuous, Silent")}};
+constexpr TagDetails canonCsDriveMode[] = {
+    {0, N_("Single / timer")},
+    {1, N_("Continuous")},
+    {2, N_("Movie")},
+    {3, N_("Continuous, speed priority")},
+    {3, N_("Continuous, tracking priority")},
+    {4, N_("Continuous, low")},
+    {5, N_("Continuous, high")},
+    {6, N_("Silent Single")},
+    {9, N_("Single, Silent")},
+    {10, N_("Continuous, Silent")},
+};
 
 //! FocusMode, tag 0x0007
 constexpr TagDetails canonCsFocusMode[] = {
@@ -1311,102 +1408,107 @@ constexpr TagDetails canonCsFocusMode[] = {
 
 //! RecordMode, tag 0x0009
 constexpr TagDetails canonCsRecordMode[] = {
-    {1, N_("JPEG")}, {2, N_("CRW+THM")},   {3, N_("AVI+THM")}, {4, N_("TIF")},     {5, N_("TIF+JPEG")},
-    {6, N_("CR2")},  {7, N_("CR2+JPEG")},  {9, N_("MOV")},     {10, N_("MP4")},    {11, N_("CRM")},
-    {12, N_("CR3")}, {13, N_("CR3+JPEG")}, {14, N_("HIF")},    {15, N_("CR3+HIF")}};
+    {1, N_("JPEG")}, {2, N_("CRW+THM")},   {3, N_("AVI+THM")}, {4, N_("TIF")},      {5, N_("TIF+JPEG")},
+    {6, N_("CR2")},  {7, N_("CR2+JPEG")},  {9, N_("MOV")},     {10, N_("MP4")},     {11, N_("CRM")},
+    {12, N_("CR3")}, {13, N_("CR3+JPEG")}, {14, N_("HIF")},    {15, N_("CR3+HIF")},
+};
 
 //! ImageSize, tag 0x000a
-constexpr TagDetails canonCsImageSize[] = {{0, N_("Large")},
-                                           {1, N_("Medium")},
-                                           {2, N_("Small")},
-                                           {5, N_("Medium 1")},
-                                           {6, N_("Medium 2")},
-                                           {7, N_("Medium 3")},
-                                           {8, N_("Postcard")},
-                                           {9, N_("Widescreen")},
-                                           {10, N_("Medium Widescreen")},
-                                           {14, N_("Small 1")},
-                                           {15, N_("Small 2")},
-                                           {16, N_("Small 3")},
-                                           {128, N_("640x480 Movie")},
-                                           {129, N_("Medium Movie")},
-                                           {130, N_("Small Movie")},
-                                           {137, N_("1280x720 Movie")},
-                                           {142, N_("1920x1080 Movie")},
-                                           {143, N_("4096x2160 Movie")}};
+constexpr TagDetails canonCsImageSize[] = {
+    {0, N_("Large")},
+    {1, N_("Medium")},
+    {2, N_("Small")},
+    {5, N_("Medium 1")},
+    {6, N_("Medium 2")},
+    {7, N_("Medium 3")},
+    {8, N_("Postcard")},
+    {9, N_("Widescreen")},
+    {10, N_("Medium Widescreen")},
+    {14, N_("Small 1")},
+    {15, N_("Small 2")},
+    {16, N_("Small 3")},
+    {128, N_("640x480 Movie")},
+    {129, N_("Medium Movie")},
+    {130, N_("Small Movie")},
+    {137, N_("1280x720 Movie")},
+    {142, N_("1920x1080 Movie")},
+    {143, N_("4096x2160 Movie")},
+};
 
 //! EasyMode, tag 0x000b
-constexpr TagDetails canonCsEasyMode[] = {{0, N_("Full auto")},
-                                          {1, N_("Manual")},
-                                          {2, N_("Landscape")},
-                                          {3, N_("Fast shutter")},
-                                          {4, N_("Slow shutter")},
-                                          {5, N_("Night")},
-                                          {6, N_("Gray Scale")},
-                                          {7, N_("Sepia")},
-                                          {8, N_("Portrait")},
-                                          {9, N_("Sports")},
-                                          {10, N_("Macro")},
-                                          {11, N_("Black & White")},
-                                          {12, N_("Pan focus")},
-                                          {13, N_("Vivid")},
-                                          {14, N_("Neutral")},
-                                          {15, N_("Flash Off")},
-                                          {16, N_("Long Shutter")},
-                                          {17, N_("Super Macro")},
-                                          {18, N_("Foliage")},
-                                          {19, N_("Indoor")},
-                                          {20, N_("Fireworks")},
-                                          {21, N_("Beach")},
-                                          {22, N_("Underwater")},
-                                          {23, N_("Snow")},
-                                          {24, N_("Kids & Pets")},
-                                          {25, N_("Night Snapshot")},
-                                          {26, N_("Digital Macro")},
-                                          {27, N_("My Colors")},
-                                          {28, N_("Movie Snap")},
-                                          {29, N_("Super Macro 2")},
-                                          {30, N_("Color Accent")},
-                                          {31, N_("Color Swap")},
-                                          {32, N_("Aquarium")},
-                                          {33, N_("ISO 3200")},
-                                          {34, N_("ISO 6400")},
-                                          {35, N_("Creative Light Effect")},
-                                          {36, N_("Easy")},
-                                          {37, N_("Quick Shot")},
-                                          {38, N_("Creative Auto")},
-                                          {39, N_("Zoom Blur")},
-                                          {40, N_("Low Light")},
-                                          {41, N_("Nostalgic")},
-                                          {42, N_("Super Vivid")},
-                                          {43, N_("Poster Effect")},
-                                          {44, N_("Face Self-timer")},
-                                          {45, N_("Smile")},
-                                          {46, N_("Wink Self-timer")},
-                                          {47, N_("Fisheye Effect")},
-                                          {48, N_("Miniature Effect")},
-                                          {49, N_("High-speed Burst")},
-                                          {50, N_("Best Image Selection")},
-                                          {51, N_("High Dynamic Range")},
-                                          {52, N_("Handheld Night Scene")},
-                                          {53, N_("Movie Digest")},
-                                          {54, N_("Live View Control")},
-                                          {55, N_("Discreet")},
-                                          {56, N_("Blur Reduction")},
-                                          {57, N_("Monochrome")},
-                                          {58, N_("Toy Camera Effect")},
-                                          {59, N_("Scene Intelligent Auto")},
-                                          {60, N_("High-speed Burst HQ")},
-                                          {61, N_("Smooth Skin")},
-                                          {62, N_("Soft Focus")},
-                                          {257, N_("Spotlight")},
-                                          {258, N_("Night 2")},
-                                          {259, N_("Night+")},
-                                          {260, N_("Super Night")},
-                                          {261, N_("Sunset")},
-                                          {263, N_("Night Scene")},
-                                          {264, N_("Surface")},
-                                          {265, N_("Low Light 2")}};
+constexpr TagDetails canonCsEasyMode[] = {
+    {0, N_("Full auto")},
+    {1, N_("Manual")},
+    {2, N_("Landscape")},
+    {3, N_("Fast shutter")},
+    {4, N_("Slow shutter")},
+    {5, N_("Night")},
+    {6, N_("Gray Scale")},
+    {7, N_("Sepia")},
+    {8, N_("Portrait")},
+    {9, N_("Sports")},
+    {10, N_("Macro")},
+    {11, N_("Black & White")},
+    {12, N_("Pan focus")},
+    {13, N_("Vivid")},
+    {14, N_("Neutral")},
+    {15, N_("Flash Off")},
+    {16, N_("Long Shutter")},
+    {17, N_("Super Macro")},
+    {18, N_("Foliage")},
+    {19, N_("Indoor")},
+    {20, N_("Fireworks")},
+    {21, N_("Beach")},
+    {22, N_("Underwater")},
+    {23, N_("Snow")},
+    {24, N_("Kids & Pets")},
+    {25, N_("Night Snapshot")},
+    {26, N_("Digital Macro")},
+    {27, N_("My Colors")},
+    {28, N_("Movie Snap")},
+    {29, N_("Super Macro 2")},
+    {30, N_("Color Accent")},
+    {31, N_("Color Swap")},
+    {32, N_("Aquarium")},
+    {33, N_("ISO 3200")},
+    {34, N_("ISO 6400")},
+    {35, N_("Creative Light Effect")},
+    {36, N_("Easy")},
+    {37, N_("Quick Shot")},
+    {38, N_("Creative Auto")},
+    {39, N_("Zoom Blur")},
+    {40, N_("Low Light")},
+    {41, N_("Nostalgic")},
+    {42, N_("Super Vivid")},
+    {43, N_("Poster Effect")},
+    {44, N_("Face Self-timer")},
+    {45, N_("Smile")},
+    {46, N_("Wink Self-timer")},
+    {47, N_("Fisheye Effect")},
+    {48, N_("Miniature Effect")},
+    {49, N_("High-speed Burst")},
+    {50, N_("Best Image Selection")},
+    {51, N_("High Dynamic Range")},
+    {52, N_("Handheld Night Scene")},
+    {53, N_("Movie Digest")},
+    {54, N_("Live View Control")},
+    {55, N_("Discreet")},
+    {56, N_("Blur Reduction")},
+    {57, N_("Monochrome")},
+    {58, N_("Toy Camera Effect")},
+    {59, N_("Scene Intelligent Auto")},
+    {60, N_("High-speed Burst HQ")},
+    {61, N_("Smooth Skin")},
+    {62, N_("Soft Focus")},
+    {257, N_("Spotlight")},
+    {258, N_("Night 2")},
+    {259, N_("Night+")},
+    {260, N_("Super Night")},
+    {261, N_("Sunset")},
+    {263, N_("Night Scene")},
+    {264, N_("Surface")},
+    {265, N_("Low Light 2")},
+};
 
 //! DigitalZoom, tag 0x000c
 constexpr TagDetails canonCsDigitalZoom[] = {
@@ -1414,7 +1516,11 @@ constexpr TagDetails canonCsDigitalZoom[] = {
 };
 
 //! Contrast, Saturation Sharpness, tags 0x000d, 0x000e, 0x000f
-constexpr TagDetails canonCsLnh[] = {{0xffff, N_("Low")}, {0x0000, N_("Normal")}, {0x0001, N_("High")}};
+constexpr TagDetails canonCsLnh[] = {
+    {0xffff, N_("Low")},
+    {0x0000, N_("Normal")},
+    {0x0001, N_("High")},
+};
 
 //! ISOSpeeds, tag 0x0010
 constexpr TagDetails canonCsISOSpeed[] = {
@@ -1424,38 +1530,45 @@ constexpr TagDetails canonCsISOSpeed[] = {
     {17184, "800"},       {17384, "1000"},       {17634, "1250"},  {17984, "1600"},  {18384, "2000"},  {18884, "2500"},
     {19584, "3200"},      {20384, "4000"},       {21384, "5000"},  {22784, "6400"},  {24384, "8000"},  {26384, "10000"},
     {29184, "12800"},     {29184, "16000"},      {29184, "20000"}, {29184, "25600"}, {29184, "32000"}, {29184, "40000"},
-    {29184, "H1(51200)"}, {29184, "H2(102400)"}};
+    {29184, "H1(51200)"}, {29184, "H2(102400)"},
+};
 
 //! MeteringMode, tag 0x0011
-constexpr TagDetails canonCsMeteringMode[] = {{0, N_("Default")}, {1, N_("Spot")},
-                                              {2, N_("Average")}, {3, N_("Evaluative")},
-                                              {4, N_("Partial")}, {5, N_("Center-weighted average")}};
+constexpr TagDetails canonCsMeteringMode[] = {
+    {0, N_("Default")},    {1, N_("Spot")},    {2, N_("Average")},
+    {3, N_("Evaluative")}, {4, N_("Partial")}, {5, N_("Center-weighted average")},
+};
 
 //! FocusType, tag 0x0012
-constexpr TagDetails canonCsFocusType[] = {{0, N_("Manual")},       {1, N_("Auto")},       {2, N_("Not known")},
-                                           {3, N_("Macro")},        {4, N_("Very close")}, {5, N_("Close")},
-                                           {6, N_("Middle range")}, {7, N_("Far range")},  {8, N_("Pan focus")},
-                                           {9, N_("Super macro")},  {10, N_("Infinity")}};
+constexpr TagDetails canonCsFocusType[] = {
+    {0, N_("Manual")},     {1, N_("Auto")},        {2, N_("Not known")},    {3, N_("Macro")},
+    {4, N_("Very close")}, {5, N_("Close")},       {6, N_("Middle range")}, {7, N_("Far range")},
+    {8, N_("Pan focus")},  {9, N_("Super macro")}, {10, N_("Infinity")},
+};
 
 //! AFPoint, tag 0x0013
-constexpr TagDetails canonCsAfPoint[] = {{0x2005, N_("Manual AF point selection")},
-                                         {0x3000, N_("None (MF)")},
-                                         {0x3001, N_("Auto-selected")},
-                                         {0x3002, N_("Right")},
-                                         {0x3003, N_("Center")},
-                                         {0x3004, N_("Left")},
-                                         {0x4001, N_("Auto AF point selection")},
-                                         {0x4006, N_("Face Detect")}};
+constexpr TagDetails canonCsAfPoint[] = {
+    {0x2005, N_("Manual AF point selection")},
+    {0x3000, N_("None (MF)")},
+    {0x3001, N_("Auto-selected")},
+    {0x3002, N_("Right")},
+    {0x3003, N_("Center")},
+    {0x3004, N_("Left")},
+    {0x4001, N_("Auto AF point selection")},
+    {0x4006, N_("Face Detect")},
+};
 
 //! ExposureProgram, tag 0x0014
-constexpr TagDetails canonCsExposureProgram[] = {{0, N_("Easy shooting (Auto)")},
-                                                 {1, N_("Program (P)")},
-                                                 {2, N_("Shutter priority (Tv)")},
-                                                 {3, N_("Aperture priority (Av)")},
-                                                 {4, N_("Manual (M)")},
-                                                 {5, N_("A-DEP")},
-                                                 {6, N_("M-DEP")},
-                                                 {7, N_("Bulb")}};
+constexpr TagDetails canonCsExposureProgram[] = {
+    {0, N_("Easy shooting (Auto)")},
+    {1, N_("Program (P)")},
+    {2, N_("Shutter priority (Tv)")},
+    {3, N_("Aperture priority (Av)")},
+    {4, N_("Manual (M)")},
+    {5, N_("A-DEP")},
+    {6, N_("M-DEP")},
+    {7, N_("Bulb")},
+};
 
 //! LensType, tag 0x0016
 constexpr TagDetails canonCsLensType[] = {{1, "Canon EF 50mm f/1.8"},
@@ -1969,7 +2082,10 @@ constexpr TagDetails canonCsLensType[] = {{1, "Canon EF 50mm f/1.8"},
                                           {65535, N_("n/a")}};
 
 //! FlashActivity, tag 0x001c
-constexpr TagDetails canonCsFlashActivity[] = {{0, N_("Did not fire")}, {1, N_("Fired")}};
+constexpr TagDetails canonCsFlashActivity[] = {
+    {0, N_("Did not fire")},
+    {1, N_("Fired")},
+};
 
 //! FlashDetails, tag 0x001d
 constexpr TagDetailsBitmask canonCsFlashDetails[] = {
@@ -1977,36 +2093,56 @@ constexpr TagDetailsBitmask canonCsFlashDetails[] = {
     {0x0001, N_("Manual")},          {0x0002, N_("TTL")},
     {0x0004, N_("A-TTL")},           {0x0008, N_("E-TTL")},
     {0x0010, N_("FP sync enabled")}, {0x0080, N_("2nd-curtain sync used")},
-    {0x0800, N_("FP sync used")}};
+    {0x0800, N_("FP sync used")},
+};
 
 //! FocusContinuous, tag 0x0020
-constexpr TagDetails canonCsFocusContinuous[] = {{0, N_("Single")}, {1, N_("Continuous")}, {8, N_("Manual")}};
+constexpr TagDetails canonCsFocusContinuous[] = {
+    {0, N_("Single")},
+    {1, N_("Continuous")},
+    {8, N_("Manual")},
+};
 
 //! AESetting, tag 0x0021
-constexpr TagDetails canonCsAESetting[] = {{0, N_("Normal AE")}, {1, N_("Exposure compensation")},
-                                           {2, N_("AE lock")},   {3, N_("AE lock + exposure compensation")},
-                                           {4, N_("No AE")},     {65535, N_("n/a")}};
+constexpr TagDetails canonCsAESetting[] = {
+    {0, N_("Normal AE")}, {1, N_("Exposure compensation")},
+    {2, N_("AE lock")},   {3, N_("AE lock + exposure compensation")},
+    {4, N_("No AE")},     {65535, N_("n/a")},
+};
 
 //! ImageStabilization, tag 0x0022
 constexpr TagDetails canonCsImageStabilization[] = {
-    {0, N_("Off")},           {1, N_("On")},           {2, N_("Shoot Only")}, {3, N_("Panning")},
-    {4, N_("Dynamic")},       {256, N_("Off (2)")},    {257, N_("On (2)")},   {258, N_("Shoot Only (2)")},
-    {259, N_("Panning (2)")}, {260, N_("Dynamic (2)")}};
+    {0, N_("Off")},           {1, N_("On")},
+    {2, N_("Shoot Only")},    {3, N_("Panning")},
+    {4, N_("Dynamic")},       {256, N_("Off (2)")},
+    {257, N_("On (2)")},      {258, N_("Shoot Only (2)")},
+    {259, N_("Panning (2)")}, {260, N_("Dynamic (2)")},
+};
 
 //! SpotMeteringMode, tag 0x0027
-constexpr TagDetails canonCsSpotMeteringMode[] = {{0, N_("Center")}, {1, N_("AF Point")}, {65535, N_("n/a")}};
+constexpr TagDetails canonCsSpotMeteringMode[] = {
+    {0, N_("Center")},
+    {1, N_("AF Point")},
+    {65535, N_("n/a")},
+};
 
 //! PhotoEffect, tag 0x0028
-constexpr TagDetails canonCsPhotoEffect[] = {{0, N_("Off")},    {1, N_("Vivid")},           {2, N_("Neutral")},
-                                             {3, N_("Smooth")}, {4, N_("Sepia")},           {5, N_("B&W")},
-                                             {6, N_("Custom")}, {100, N_("My color data")}, {65535, N_("n/a")}};
+constexpr TagDetails canonCsPhotoEffect[] = {
+    {0, N_("Off")}, {1, N_("Vivid")},  {2, N_("Neutral")},         {3, N_("Smooth")},  {4, N_("Sepia")},
+    {5, N_("B&W")}, {6, N_("Custom")}, {100, N_("My color data")}, {65535, N_("n/a")},
+};
 
 //! ManualFlashOutput, tag 0x0029
 [[maybe_unused]] constexpr TagDetails canonCsManualFlashOutput[] = {
-    {0x0000, N_("n/a")}, {0x0500, N_("Full")}, {0x0502, N_("Medium")}, {0x0504, N_("Low")}, {0x7fff, N_("n/a")}};
+    {0x0000, N_("n/a")}, {0x0500, N_("Full")}, {0x0502, N_("Medium")}, {0x0504, N_("Low")}, {0x7fff, N_("n/a")},
+};
 
 //! SRAWQuality, tag 0x002e
-constexpr TagDetails canonCsSRAWQuality[] = {{0, N_("n/a")}, {1, N_("sRAW1 (mRAW)")}, {2, N_("sRAW2 (sRAW)")}};
+constexpr TagDetails canonCsSRAWQuality[] = {
+    {0, N_("n/a")},
+    {1, N_("sRAW1 (mRAW)")},
+    {2, N_("sRAW2 (sRAW)")},
+};
 
 // Canon Camera Settings Tag Info
 constexpr TagInfo CanonMakerNote::tagInfoCs_[] = {
@@ -2102,14 +2238,18 @@ const TagInfo* CanonMakerNote::tagListCs() {
 
 //! AFPointUsed, tag 0x000e
 constexpr TagDetailsBitmask canonSiAFPointUsed[] = {
-    {0x0004, N_("left")}, {0x0002, N_("center")}, {0x0001, N_("right")}};
+    {0x0004, N_("left")},
+    {0x0002, N_("center")},
+    {0x0001, N_("right")},
+};
 
 //! FlashBias, tag 0x000f
 constexpr TagDetails canonSiFlashBias[] = {
     {0xffc0, "-2 EV"},    {0xffcc, "-1.67 EV"}, {0xffd0, "-1.50 EV"}, {0xffd4, "-1.33 EV"}, {0xffe0, "-1 EV"},
     {0xffec, "-0.67 EV"}, {0xfff0, "-0.50 EV"}, {0xfff4, "-0.33 EV"}, {0x0000, "0 EV"},     {0x000c, "0.33 EV"},
     {0x0010, "0.50 EV"},  {0x0014, "0.67 EV"},  {0x0020, "1 EV"},     {0x002c, "1.33 EV"},  {0x0030, "1.50 EV"},
-    {0x0034, "1.67 EV"},  {0x0040, "2 EV"}};
+    {0x0034, "1.67 EV"},  {0x0040, "2 EV"},
+};
 
 constexpr TagDetails cameraType[] = {
     {0, "n/a"}, {248, "EOS High-end"}, {250, "Compact"}, {252, "EOS Mid-range"}, {255, "DV Camera"},
@@ -2119,14 +2259,25 @@ constexpr TagDetails autoExposureBracketing[] = {
     {65535, "On"}, {0, "Off"}, {1, "On (shot 1)"}, {2, "On (shot 2)"}, {3, "On (shot 3)"},
 };
 
-constexpr TagDetails slowShutter[] = {{65535, "n/a"}, {0, "Off"}, {1, "Night Scene"}, {2, "On"}, {3, "None"}};
+constexpr TagDetails slowShutter[] = {
+    {65535, "n/a"}, {0, "Off"}, {1, "Night Scene"}, {2, "On"}, {3, "None"},
+};
 
 constexpr TagDetails autoRotate[] = {
-    {-1, "n/a"}, {0, "None"}, {1, "Rotate 90 CW"}, {2, "Rotate 180"}, {3, "Rotate 270 CW"}};
+    {-1, "n/a"}, {0, "None"}, {1, "Rotate 90 CW"}, {2, "Rotate 180"}, {3, "Rotate 270 CW"},
+};
 
-constexpr TagDetails ndRotate[] = {{65535, "n/a"}, {0, "Off"}, {1, "On"}};
+constexpr TagDetails ndRotate[] = {
+    {65535, "n/a"},
+    {0, "Off"},
+    {1, "On"},
+};
 
-constexpr TagDetails selfTimer2[] = {{65535, "n/a"}, {0, "Selftimer 2s"}, {1, "Selftimer 10s"}};
+constexpr TagDetails selfTimer2[] = {
+    {65535, "n/a"},
+    {0, "Selftimer 2s"},
+    {1, "Selftimer 10s"},
+};
 
 // Canon Shot Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoSi_[] = {
@@ -2197,11 +2348,10 @@ const TagInfo* CanonMakerNote::tagListSi() {
 }
 
 //! PanoramaDirection, tag 0x0005
-constexpr TagDetails canonPaDirection[] = {{0, N_("Left to right")},
-                                           {1, N_("Right to left")},
-                                           {2, N_("Bottom to top")},
-                                           {3, N_("Top to bottom")},
-                                           {4, N_("2x2 matrix (Clockwise)")}};
+constexpr TagDetails canonPaDirection[] = {
+    {0, N_("Left to right")}, {1, N_("Right to left")},          {2, N_("Bottom to top")},
+    {3, N_("Top to bottom")}, {4, N_("2x2 matrix (Clockwise)")},
+};
 
 // Canon Panorama Info
 constexpr TagInfo CanonMakerNote::tagInfoPa_[] = {
@@ -2262,13 +2412,15 @@ const TagInfo* CanonMakerNote::tagListCf() {
 //! AFPointsUsed, tag 0x0016
 constexpr TagDetailsBitmask canonPiAFPointsUsed[] = {
     {0x01, N_("right")}, {0x02, N_("mid-right")}, {0x04, N_("bottom")}, {0x08, N_("center")},
-    {0x10, N_("top")},   {0x20, N_("mid-left")},  {0x40, N_("left")}};
+    {0x10, N_("top")},   {0x20, N_("mid-left")},  {0x40, N_("left")},
+};
 
 //! AFPointsUsed20D, tag 0x001a
 constexpr TagDetailsBitmask canonPiAFPointsUsed20D[] = {
     {0x001, N_("top")},        {0x002, N_("upper-left")},  {0x004, N_("upper-right")},
     {0x008, N_("left")},       {0x010, N_("center")},      {0x020, N_("right")},
-    {0x040, N_("lower-left")}, {0x080, N_("lower-right")}, {0x100, N_("bottom")}};
+    {0x040, N_("lower-left")}, {0x080, N_("lower-right")}, {0x100, N_("bottom")},
+};
 
 // Canon Picture Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoPi_[] = {
@@ -2295,43 +2447,53 @@ const TagInfo* CanonMakerNote::tagListPi() {
 
 //! BracketMode, tag 0x0003
 constexpr TagDetails canonBracketMode[] = {
-    {0, N_("Off")}, {1, N_("AEB")}, {2, N_("FEB")}, {3, N_("ISO")}, {4, N_("WB")}};
+    {0, N_("Off")}, {1, N_("AEB")}, {2, N_("FEB")}, {3, N_("ISO")}, {4, N_("WB")},
+};
 
 //! RawJpgSize, tag 0x0007
-constexpr TagDetails canonRawJpgSize[] = {{-1, N_("n/a")},
-                                          {0, N_("Large")},
-                                          {1, N_("Medium")},
-                                          {2, N_("Small")},
-                                          {5, N_("Medium 1")},
-                                          {6, N_("Medium 2")},
-                                          {7, N_("Medium 3")},
-                                          {8, N_("Postcard")},
-                                          {9, N_("Widescreen")},
-                                          {10, N_("Medium Widescreen")},
-                                          {14, N_("Small 1")},
-                                          {15, N_("Small 2")},
-                                          {16, N_("Small 3")},
-                                          {128, N_("640x480 Movie")},
-                                          {129, N_("Medium Movie")},
-                                          {130, N_("Small Movie")},
-                                          {137, N_("1280x720 Movie")},
-                                          {142, N_("1920x1080 Movie")},
-                                          {143, N_("4096x2160 Movie")}};
+constexpr TagDetails canonRawJpgSize[] = {
+    {-1, N_("n/a")},
+    {0, N_("Large")},
+    {1, N_("Medium")},
+    {2, N_("Small")},
+    {5, N_("Medium 1")},
+    {6, N_("Medium 2")},
+    {7, N_("Medium 3")},
+    {8, N_("Postcard")},
+    {9, N_("Widescreen")},
+    {10, N_("Medium Widescreen")},
+    {14, N_("Small 1")},
+    {15, N_("Small 2")},
+    {16, N_("Small 3")},
+    {128, N_("640x480 Movie")},
+    {129, N_("Medium Movie")},
+    {130, N_("Small Movie")},
+    {137, N_("1280x720 Movie")},
+    {142, N_("1920x1080 Movie")},
+    {143, N_("4096x2160 Movie")},
+};
 
 //! NoiseReduction, tag 0x0008
 constexpr TagDetails canonNoiseReduction[] = {
-    {0, N_("Off")}, {1, N_("On 1")}, {2, N_("On 2")}, {3, N_("On")}, {4, N_("Auto")}};
+    {0, N_("Off")}, {1, N_("On 1")}, {2, N_("On 2")}, {3, N_("On")}, {4, N_("Auto")},
+};
 
 //! WBBracketMode, tag 0x0009
-constexpr TagDetails canonWBBracketMode[] = {{0, N_("Off")}, {1, N_("On (shift AB)")}, {2, N_("On (shift GM)")}};
+constexpr TagDetails canonWBBracketMode[] = {
+    {0, N_("Off")},
+    {1, N_("On (shift AB)")},
+    {2, N_("On (shift GM)")},
+};
 
 //! FilterEffect, tag 0x000e
 constexpr TagDetails canonFilterEffect[] = {
-    {0, N_("None")}, {1, N_("Yellow")}, {2, N_("Orange")}, {3, N_("Red")}, {4, N_("Green")}};
+    {0, N_("None")}, {1, N_("Yellow")}, {2, N_("Orange")}, {3, N_("Red")}, {4, N_("Green")},
+};
 
 //! ToningEffect, tag 0x000e
 constexpr TagDetails canonToningEffect[] = {
-    {0, N_("None")}, {1, N_("Sepia")}, {2, N_("Blue")}, {3, N_("Purple")}, {4, N_("Green")}};
+    {0, N_("None")}, {1, N_("Sepia")}, {2, N_("Blue")}, {3, N_("Purple")}, {4, N_("Green")},
+};
 
 //! RFLensType, tag 0x003D
 // from https://github.com/exiftool/exiftool/blob/12.70/lib/Image/ExifTool/Canon.pm#L6896
@@ -2439,11 +2601,16 @@ const TagInfo* CanonMakerNote::tagListFi() {
 }
 
 //! Tone Curve Values
-constexpr TagDetails canonToneCurve[] = {{0, N_("Standard")}, {1, N_("Manual")}, {2, N_("Custom")}};
+constexpr TagDetails canonToneCurve[] = {
+    {0, N_("Standard")},
+    {1, N_("Manual")},
+    {2, N_("Custom")},
+};
 
 //! Sharpness Frequency Values
-constexpr TagDetails canonSharpnessFrequency[] = {{0, N_("n/a")},      {1, N_("Lowest")}, {2, N_("Low")},
-                                                  {3, N_("Standard")}, {4, N_("High")},   {5, N_("Highest")}};
+constexpr TagDetails canonSharpnessFrequency[] = {
+    {0, N_("n/a")}, {1, N_("Lowest")}, {2, N_("Low")}, {3, N_("Standard")}, {4, N_("High")}, {5, N_("Highest")},
+};
 
 // Canon Processing Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoPr_[] = {
