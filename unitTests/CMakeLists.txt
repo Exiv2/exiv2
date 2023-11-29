@@ -1,4 +1,8 @@
-find_package(GTest REQUIRED)
+# Prefer using Google supplied CMake config as built-in module is buggy before 3.23
+find_package(GTest CONFIG)
+if(NOT GTest_FOUND)
+    find_package(GTest REQUIRED)
+endif()
 
 # video support.
 if( EXV_ENABLE_VIDEO )
@@ -6,7 +10,6 @@ if( EXV_ENABLE_VIDEO )
 endif()
 
 add_executable(unit_tests
-    mainTestRunner.cpp
     test_basicio.cpp
     test_bmpimage.cpp
     test_cr2header_int.cpp
@@ -45,12 +48,13 @@ target_compile_definitions(unit_tests
 target_link_libraries(unit_tests
     PRIVATE
         exiv2lib
-        GTest::gtest
-        GTest::gtest_main
+        GTest::gmock_main
         std::filesystem
-        inih::libinih
-        inih::inireader
 )
+
+if( EXIV2_ENABLE_INIH )
+  target_link_libraries(unit_tests PRIVATE inih::libinih inih::inireader)
+endif()
 
 # ZLIB is used in exiv2lib_int.
 if( EXIV2_ENABLE_PNG )
@@ -58,8 +62,7 @@ if( EXIV2_ENABLE_PNG )
 endif()
 
 target_include_directories(unit_tests
-    PRIVATE
-        ${CMAKE_SOURCE_DIR}/src
+    PRIVATE ${PROJECT_SOURCE_DIR}/src
 )
 
 set_target_properties(unit_tests PROPERTIES

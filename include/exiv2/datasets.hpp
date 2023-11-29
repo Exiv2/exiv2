@@ -132,12 +132,6 @@ class EXIV2API IptcDataSets {
   static constexpr uint16_t Preview = 202;
   //@}
 
-  ~IptcDataSets() = delete;
-  //! Prevent copy-construction: not implemented.
-  IptcDataSets(const IptcDataSets&) = delete;
-  //! Prevent assignment: not implemented.
-  IptcDataSets& operator=(const IptcDataSets&) = delete;
-
   /*!
     @brief Return the name of the dataset.
     @param number The dataset number
@@ -262,11 +256,6 @@ class EXIV2API IptcKey : public Key {
     @param record Record id
    */
   IptcKey(uint16_t tag, uint16_t record);
-  //! Copy constructor
-  IptcKey(const IptcKey& rhs);
-  IptcKey& operator=(const IptcKey&) = default;
-  //! Destructor
-  ~IptcKey() override = default;
   //@}
 
   //! @name Accessors

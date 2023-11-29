@@ -165,6 +165,8 @@ constexpr TagDetails pentaxModel[] = {
     {0x13240, "K-1 Mark II"},
     {0x13254, "K-3 Mark III"},
     {0x13290, "WG-70"},
+    {0x1329a, "GR IIIx"},
+    {0x132d6, "K-3 Mark III Monochrome"},
 };
 
 //! Quality, tag 0x0008
@@ -663,6 +665,7 @@ constexpr TagDetails pentaxLensType[] = {
     {0x0402, "smc PENTAX-FA 80-320mm F4.5-5.6"},
     {0x0403, "smc PENTAX-FA 43mm F1.9 Limited"},
     {0x0406, "smc PENTAX-FA 35-80mm F4-5.6"},
+    {0x0407, "Irix 45mm F/1.4"},
     {0x0408, "Irix 150mm F/2.8 Macro"},
     {0x0409, "Irix 11mm F/4"},
     {0x040a, "Irix 15mm F/2.4"},
@@ -816,6 +819,10 @@ constexpr TagDetails pentaxLensType[] = {
     {0x083d, "HD PENTAX-D FA 28-105mm F3.5-5.6 ED DC WR"},
     {0x083e, "HD PENTAX-D FA 24-70mm F2.8 ED SDM WR"},
     {0x083f, "HD PENTAX-D FA 15-30mm F2.8 ED SDM WR"},
+    {0x0840, "HD PENTAX-D FA* 50mm F1.4 SDM AW"},
+    {0x0841, "HD PENTAX-D FA 70-210mm F4 ED SDM WR"},
+    {0x0842, "HD PENTAX-D FA* 85mm F1.4 SDM AW"},
+    {0x0843, "HD PENTAX-D FA 21mm F2.4 ED Limited DC WR"},
     {0x08c4, "HD PENTAX-DA* 11-18mm F2.8 ED DC AW"},
     {0x08c5, "HD PENTAX-DA 55-300mm F4.5-6.3 ED PLM WR RE"},
     {0x08c6, "smc PENTAX-DA L 18-50mm F4-5.6 DC WR RE"},
@@ -892,20 +899,14 @@ constexpr TagDetails pentaxHighISONoiseReduction[] = {
 
 std::ostream& PentaxMakerNote::printVersion(std::ostream& os, const Value& value, const ExifData*) {
   std::string val = value.toString();
-  size_t i = 0;
-  while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
-    val.replace(i, 1, ".");
-  }
+  std::replace(val.begin(), val.end(), ' ', '.');
   os << val;
   return os;
 }
 
 std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& value, const ExifData*) {
   std::string val = value.toString();
-  size_t i = 0;
-  while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
-    val.replace(i, 1, "x");
-  }
+  std::replace(val.begin(), val.end(), ' ', 'x');
   os << val;
   return os;
 }
@@ -970,9 +971,7 @@ std::ostream& PentaxMakerNote::printFlashCompensation(std::ostream& os, const Va
 }
 
 std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& value, const ExifData*) {
-  const auto l0 = value.toUint32(0);
-
-  if (l0 < 10) {
+  if (auto l0 = value.toUint32(0); l0 < 10) {
     os << std::setprecision(2) << static_cast<float>(l0) / 3 << " EV";
   } else {
     os << std::setprecision(2) << static_cast<float>(l0) - 9.5F << " EV";
@@ -1082,7 +1081,7 @@ static ExifData::const_iterator findLensInfo(const ExifData* metadata) {
 }
 
 //! resolveLens0x32c print lens in human format
-std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifData* metadata) {
   try {
     unsigned long index = 0;
 
@@ -1096,7 +1095,7 @@ std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x32c;
-      const TagDetails* td = find(pentaxLensType, lensID);
+      auto td = Exiv2::find(pentaxLensType, lensID);
       os << exvGettext(td[index].label_);
       return os;
     }
@@ -1108,7 +1107,7 @@ std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifD
 
 // #816 begin
 //! resolveLens0x3ff print lens in human format
-std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1160,7 +1159,7 @@ std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x3ff;
-      const TagDetails* td = find(pentaxLensType, lensID);
+      auto td = Exiv2::find(pentaxLensType, lensID);
       os << exvGettext(td[index].label_);
       return os;
     }
@@ -1171,7 +1170,7 @@ std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifD
 
 // #1155
 //! resolveLens0x8ff print lens in human format
-std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1187,7 +1186,7 @@ std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x8ff;
-      const TagDetails* td = find(pentaxLensType, lensID);
+      auto td = Exiv2::find(pentaxLensType, lensID);
       os << exvGettext(td[index].label_);
       return os;
     }
@@ -1198,7 +1197,7 @@ std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifD
 
 // #1155
 //! resolveLens0x319 print lens in human format
-std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1221,7 +1220,7 @@ std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x319;
-      const TagDetails* td = find(pentaxLensType, lensID);
+      auto td = Exiv2::find(pentaxLensType, lensID);
       os << exvGettext(td[index].label_);
       return os;
     }
@@ -1231,30 +1230,26 @@ std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifD
 }
 
 //! resolveLensType print lens in human format
-std::ostream& resolveLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& resolveLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
 }
 
-struct LensIdFct {
-  long id_;       //!< Lens id
-  PrintFct fct_;  //!< Pretty-print function
-  //! Comparison operator for find template
-  bool operator==(long id) const {
-    return id_ == id;
-  }
-};
-
-//! List of lens ids which require special treatment using resolveLensType
-constexpr auto lensIdFct = std::array{
-    LensIdFct{0x0317, resolveLensType}, LensIdFct{0x0319, resolveLens0x319}, LensIdFct{0x031b, resolveLensType},
-    LensIdFct{0x031c, resolveLensType}, LensIdFct{0x031d, resolveLensType},  LensIdFct{0x031f, resolveLensType},
-    LensIdFct{0x0329, resolveLensType}, LensIdFct{0x032c, resolveLens0x32c}, LensIdFct{0x032e, resolveLensType},
-    LensIdFct{0x0334, resolveLensType}, LensIdFct{0x03ff, resolveLens0x3ff}, LensIdFct{0x041a, resolveLensType},
-    LensIdFct{0x042d, resolveLensType}, LensIdFct{0x08ff, resolveLens0x8ff},
-};
-
 //! A lens id and a pretty-print function for special treatment of the id.
-std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+  //! List of lens ids which require special treatment using resolveLensType
+  static constexpr struct LensIdFct {
+    uint32_t id_;   //!< Lens id
+    PrintFct fct_;  //!< Pretty-print function
+    //! Comparison operator for find template
+    bool operator==(uint32_t id) const {
+      return id_ == id;
+    }
+  } lensIdFct[] = {
+      {0x0317, resolveLensType}, {0x0319, resolveLens0x319}, {0x031b, resolveLensType},  {0x031c, resolveLensType},
+      {0x031d, resolveLensType}, {0x031f, resolveLensType},  {0x0329, resolveLensType},  {0x032c, resolveLens0x32c},
+      {0x032e, resolveLensType}, {0x0334, resolveLensType},  {0x03ff, resolveLens0x3ff}, {0x041a, resolveLensType},
+      {0x042d, resolveLensType}, {0x08ff, resolveLens0x8ff},
+  };
   // #1034
   const std::string undefined("undefined");
   const std::string section("pentax");
@@ -1265,8 +1260,8 @@ std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData
   const auto index = value.toUint32(0) * 256 + value.toUint32(1);
 
   // std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
-  auto lif = std::find(lensIdFct.begin(), lensIdFct.end(), index);
-  if (lif == lensIdFct.end())
+  auto lif = Exiv2::find(lensIdFct, index);
+  if (!lif)
     return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
   if (metadata && lif->fct_)
     return lif->fct_(os, value, metadata);

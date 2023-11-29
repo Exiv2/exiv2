@@ -163,7 +163,7 @@ Available configure presets:
   "linux-release" - Linux Release with default architecture
 ```
 
-The project configuration with a specific preset can be choosen with the CMake `--preset` option. In the following terminal output we comment out some interesting things happening during the project configuration:
+The project configuration with a specific preset can be chosen with the CMake `--preset` option. In the following terminal output we comment out some interesting things happening during the project configuration:
 
 ```bash
 # Configuring the project using a preset
@@ -181,7 +181,7 @@ Preset CMake variables:
   EXIV2_ENABLE_BMFF:BOOL="TRUE"
   EXIV2_ENABLE_CURL:BOOL="TRUE"
   EXIV2_ENABLE_NLS:BOOL="FALSE"
-  EXIV2_ENABLE_VIDEO:BOOL="FALSE"
+  EXIV2_ENABLE_VIDEO:BOOL="TRUE"
   EXIV2_ENABLE_PNG:BOOL="TRUE"
   EXIV2_ENABLE_WEBREADY:BOOL="TRUE"
   EXIV2_TEAM_WARNINGS_AS_ERRORS:BOOL="TRUE"
@@ -352,7 +352,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2/
 add_executable(exifprint ../samples/exifprint.cpp) # Create exifprint target
-target_link_libraries(exifprint PRIVATE exiv2lib)  # link exiv2lib
+target_link_libraries(exifprint PRIVATE Exiv2::exiv2lib)  # link exiv2lib
 EOF
 $ cmake .                                          # generate the makefile
 $ cmake --build .                                  # build the code
@@ -511,7 +511,7 @@ The tag webpage build files are in the `<exiv2dir>/doc/templates` directory. If 
 tag groups in the Exiv2 source code then the build files need to be updated. Any changes made 
 to individual tags in an existing tag group are automatically included.
 
-Building the tag webpages requires building the Exiv2 sample programs and using scripts which have additional dependancies on 
+Building the tag webpages requires building the Exiv2 sample programs and using scripts which have additional dependencies on 
 [BASH](https://www.gnu.org/software/bash/), [make](https://manpages.org/make), [xsltproc](https://manpages.org/xsltproc) 
 and [Python3](https://www.python.org/).
 
@@ -925,7 +925,7 @@ All project resources are accessible from the project website.
 
 ## License
 
-Copyright (C) 2004-2021 Exiv2 authors.
+Copyright (C) 2004-2023 Exiv2 authors.
 You should have received a copy of the file [COPYING](COPYING) which details the GPLv2 license.
 
 Exiv2 is free software; you can redistribute it and/or modify

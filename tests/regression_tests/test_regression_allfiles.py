@@ -12,6 +12,7 @@ def get_valid_files(data_dir):
         ".avif",
         ".cr3",
         ".crw",
+        ".dcp",
         ".dng",
         ".eps",
         ".exv",
@@ -29,6 +30,11 @@ def get_valid_files(data_dir):
         ".webp",
         ".xmp",
         ".mp4",
+        ".asf",
+        ".avi",
+        ".mkv",
+        ".wav",
+        ".mov"
     ]
 
     excludes = [
@@ -110,6 +116,7 @@ def get_valid_files(data_dir):
         "issue_ghsa_583f_w9pm_99r2_poc.jp2",
         "issue_ghsa_7569_phvm_vwc2_poc.jp2",
         "issue_ghsa_mxw9_qx4c_6m8v_poc.jp2",
+        "issue_ghsa_hrw9_ggg3_3r4r_poc.jpg",
         "pocIssue283.jpg",
         "poc_1522.jp2",
         "xmpsdk.xmp",

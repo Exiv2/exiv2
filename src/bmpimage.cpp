@@ -92,7 +92,7 @@ void BmpImage::writeMetadata() {
 Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<BmpImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

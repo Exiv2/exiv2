@@ -16,9 +16,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
-#define BYTE char
-#define USHORT uint16_t
-#define ULONG uint32_t
+using BYTE = char;
+using USHORT = uint16_t;
+using ULONG = uint32_t;
 #endif
 
 #include "fff.h"
@@ -31,6 +31,7 @@
 
 namespace Exiv2 {
 
+using Exiv2::Internal::enforce;
 using Exiv2::Internal::startsWith;
 namespace {
 // JPEG Segment markers (The first byte is always 0xFF, the value of these constants correspond to the 2nd byte)
@@ -61,11 +62,11 @@ constexpr auto exifId_ = "Exif\0\0";  //!< Exif identifier
 constexpr auto xmpId_ = "http://ns.adobe.com/xap/1.0/\0";  //!< XMP packet identifier
 constexpr auto iccId_ = "ICC_PROFILE\0";                   //!< ICC profile identifier
 
-inline bool inRange(int lo, int value, int hi) {
+constexpr bool inRange(int lo, int value, int hi) {
   return lo <= value && value <= hi;
 }
 
-inline bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
+constexpr bool inRange2(int value, int lo1, int hi1, int lo2, int hi2) {
   return inRange(lo1, value, hi1) || inRange(lo2, value, hi2);
 }
 
@@ -152,8 +153,8 @@ void JpegBase::readMetadata() {
 
     // Read the rest of the segment.
     DataBuf buf(size);
-    /// \todo check if it makes sense to check for size
-    if (size > 0) {
+    // check if the segment is not empty
+    if (size > 2) {
       io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
       std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
     }
@@ -199,8 +200,8 @@ void JpegBase::readMetadata() {
       // the first one (most jpegs only have one anyway). Comments
       // are simple single byte ISO-8859-1 strings.
       comment_.assign(buf.c_str(2), size - 2);
-      while (comment_.length() && comment_.at(comment_.length() - 1) == '\0') {
-        comment_.erase(comment_.length() - 1);
+      while (!comment_.empty() && comment_.back() == '\0') {
+        comment_.pop_back();
       }
       --search;
     } else if (marker == app2_ && size >= 13  // prevent out-of-bounds read in memcmp on next line
@@ -293,7 +294,7 @@ void JpegBase::readMetadata() {
 
 #define REPORT_MARKER                                 \
   if ((option == kpsBasic || option == kpsRecursive)) \
-  out << Internal::stringFormat("%8ld | 0xff%02x %-5s", io_->tell() - 2, marker, nm[marker].c_str())
+  out << Internal::stringFormat("%8zd | 0xff%02x %-5s", io_->tell() - 2, marker, nm[marker].c_str())
 
 void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
@@ -351,9 +352,9 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
 
       const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
-      // Read the rest of the segment.
+      // Read the rest of the segment if not empty.
       DataBuf buf(size);
-      if (size > 0) {
+      if (size > 2) {
         io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
         std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
       }
@@ -402,7 +403,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
           }
 
           enforce(start <= size, ErrorCode::kerInvalidXmpText);
-          out.write(reinterpret_cast<const char*>(&xmp[start]), size - start);
+          out.write(&xmp[start], size - start);
           done = !bExtXMP;
         } else if (option == kpsIccProfile && signature == iccId_) {
           // extract ICCProfile
@@ -530,13 +531,13 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
     // binary copy io_ to a temporary file
     MemIo tempIo;
     size_t start = 0;
-    for (const auto& p : iptcDataSegs) {
-      const size_t length = p.first - start;
+    for (const auto& [l, s] : iptcDataSegs) {
+      const size_t length = l - start;
       io_->seekOrThrow(start, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
       DataBuf buf(length);
       io_->readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
       tempIo.write(buf.c_data(), buf.size());
-      start = p.second + 2;  // skip the 2 byte marker
+      start = s + 2;  // skip the 2 byte marker
     }
 
     io_->seekOrThrow(0, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
@@ -563,9 +564,9 @@ void JpegBase::writeMetadata() {
 DataBuf JpegBase::readNextSegment(byte marker) {
   const auto [sizebuf, size] = readSegmentSize(marker, *io_);
 
-  // Read the rest of the segment.
+  // Read the rest of the segment if not empty.
   DataBuf buf(size);
-  if (size > 0) {
+  if (size > 2) {
     io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
     std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
   }
@@ -718,8 +719,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         }
         const byte* pExifData = rawExif.c_data();
         size_t exifSize = rawExif.size();
-        WriteMethod wm = ExifParser::encode(blob, pExifData, exifSize, bo, exifData_);
-        if (wm == wmIntrusive) {
+        if (ExifParser::encode(blob, pExifData, exifSize, bo, exifData_) == wmIntrusive) {
           pExifData = !blob.empty() ? blob.data() : nullptr;
           exifSize = blob.size();
         }
@@ -865,8 +865,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
 
         if (outIo.write(tmpBuf.data(), 4) != 4)
           throw Error(ErrorCode::kerImageWriteFailed);
-        if (outIo.write(reinterpret_cast<byte*>(const_cast<char*>(comment_.data())), comment_.length()) !=
-            comment_.length())
+        if (outIo.write(reinterpret_cast<byte*>(comment_.data()), comment_.length()) != comment_.length())
           throw Error(ErrorCode::kerImageWriteFailed);
         if (outIo.putb(0) == EOF)
           throw Error(ErrorCode::kerImageWriteFailed);
@@ -913,10 +912,11 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
     throw Error(ErrorCode::kerImageWriteFailed);
 
   DataBuf buf(4096);
-  size_t readSize = 0;
-  while ((readSize = io_->read(buf.data(), buf.size()))) {
+  size_t readSize = io_->read(buf.data(), buf.size());
+  while (readSize != 0) {
     if (outIo.write(buf.c_data(), readSize) != readSize)
       throw Error(ErrorCode::kerImageWriteFailed);
+    readSize = io_->read(buf.data(), buf.size());
   }
   if (outIo.error())
     throw Error(ErrorCode::kerImageWriteFailed);
@@ -966,7 +966,7 @@ bool JpegImage::isThisType(BasicIo& iIo, bool advance) const {
 Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<JpegImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
@@ -999,7 +999,7 @@ int ExvImage::writeHeader(BasicIo& outIo) const {
   byte tmpBuf[7];
   tmpBuf[0] = 0xff;
   tmpBuf[1] = 0x01;
-  std::memcpy(tmpBuf + 2, exiv2Id_, 5);
+  std::copy_n(exiv2Id_, 5, tmpBuf + 2);
   if (outIo.write(tmpBuf, 7) != 7)
     return 4;
   if (outIo.error())
@@ -1014,7 +1014,7 @@ bool ExvImage::isThisType(BasicIo& iIo, bool advance) const {
 Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<ExvImage>(std::move(io), create);
   if (!image->good())
-    image.reset();
+    return nullptr;
   return image;
 }
 

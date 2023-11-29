@@ -1,3 +1,45 @@
+Changes from version 0.28.0 to 0.28.1
+-------------------------------------
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/2813
+
+This release also fixes [CVE-2023-44398](https://github.com/Exiv2/exiv2/security/advisories/GHSA-hrw9-ggg3-3r4r), an out-of-bounds write in `BmffImage::brotliUncompress`. The vulnerability is in new code that was added in version 0.28.0, so earlier versions of Exiv2 are not affected.
+
+Changes from version 0.27.6 to 0.28.0
+-------------------------------------
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/2406#issuecomment-1529139799
+
+Changes from version 0.27.5 to 0.27.6
+-------------------------------------
+
+Closed:
+https://github.com/Exiv2/exiv2/milestone/10?closed=1
+
+Open:
+https://github.com/Exiv2/exiv2/milestone/10?open=1
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/2406#issuecomment-1383302378
+
+Changes from version 0.27.4 to 0.27.5
+-------------------------------------
+
+Closed:
+https://github.com/Exiv2/exiv2/milestone/9?closed=1
+
+Open:
+https://github.com/Exiv2/exiv2/milestone/9?open=1
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/1018#issuecomment-948573657
+
++++++++++++++++++++++++++++++++++++++
+------------- History ---------------
++++++++++++++++++++++++++++++++++++++
+
 Changes from version 0.27.3 to 0.27.4
 -------------------------------------
 

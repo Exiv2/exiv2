@@ -10,6 +10,7 @@
 #include "convert.hpp"
 #include "getopt.hpp"
 #include "i18n.h"  // NLS support.
+#include "utils.hpp"
 #include "xmp_exiv2.hpp"
 
 #include <algorithm>
@@ -41,12 +42,19 @@ constexpr auto emptyYodAdjust_ = std::array{
 };
 
 //! List of all command identifiers and corresponding strings
-constexpr auto cmdIdAndString = std::array{
-    std::pair(CmdId::add, "add"),
-    std::pair(CmdId::set, "set"),
-    std::pair(CmdId::del, "del"),
-    std::pair(CmdId::reg, "reg"),
-    std::pair(CmdId::invalid, "invalidCmd"),  // End of list marker
+constexpr struct CmdIdAndString {
+  CmdId cmdId_;
+  const char* string_;
+  //! Comparison operator for \em string
+  bool operator==(const std::string& string) const {
+    return string == string_;
+  }
+} cmdIdAndString[] = {
+    {CmdId::add, "add"},
+    {CmdId::set, "set"},
+    {CmdId::del, "del"},
+    {CmdId::reg, "reg"},
+    {CmdId::invalid, "invalidCmd"},  // End of list marker
 };
 
 // Return a command Id for a command string
@@ -116,8 +124,12 @@ int main(int argc, char* const argv[]) {
 
 #ifdef EXV_ENABLE_NLS
   setlocale(LC_ALL, "");
-  const std::string localeDir =
-      EXV_LOCALEDIR[0] == '/' ? EXV_LOCALEDIR : (Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR);
+  auto localeDir = []() -> std::string {
+    if constexpr (EXV_LOCALEDIR[0] == '/')
+      return EXV_LOCALEDIR;
+    else
+      return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
+  }();
   bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
   textdomain(EXV_PACKAGE_NAME);
 #endif
@@ -187,13 +199,9 @@ int main(int argc, char* const argv[]) {
 
 Params::Params() :
     optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
-
     target_(ctExif | ctIptc | ctComment | ctXmp),
-
+    yodAdjust_(emptyYodAdjust_),
     format_("%Y%m%d_%H%M%S") {
-  yodAdjust_[yodYear] = emptyYodAdjust_[yodYear];
-  yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
-  yodAdjust_[yodDay] = emptyYodAdjust_[yodDay];
 }
 
 Params& Params::instance() {
@@ -462,7 +470,7 @@ int Params::option(int opt, const std::string& optArg, int optOpt) {
 
 int Params::setLogLevel(const std::string& optArg) {
   int rc = 0;
-  const char logLevel = tolower(optArg[0]);
+  const auto logLevel = static_cast<char>(tolower(optArg[0]));
   switch (logLevel) {
     case 'd':
       Exiv2::LogMsg::setLevel(Exiv2::LogMsg::debug);
@@ -576,7 +584,7 @@ int Params::evalAdjust(const std::string& optArg) {
 int Params::evalYodAdjust(const Yod& yod, const std::string& optArg) {
   int rc = 0;
   switch (action_) {
-    case Action::none:  // fall-through
+    case Action::none:
     case Action::adjust:
       if (yodAdjust_[yod].flag_) {
         std::cerr << progname() << ": " << _("Ignoring surplus option") << " " << yodAdjust_[yod].option_ << " "
@@ -755,7 +763,7 @@ int Params::evalDelete(const std::string& optArg) {
     case Action::none:
       action_ = Action::erase;
       target_ = static_cast<CommonTarget>(0);
-      // fallthrough
+      [[fallthrough]];
     case Action::erase: {
       const auto rc = parseCommonTargets(optArg, "erase");
       if (rc > 0) {
@@ -776,7 +784,7 @@ int Params::evalExtract(const std::string& optArg) {
     case Action::modify:
       action_ = Action::extract;
       target_ = static_cast<CommonTarget>(0);
-      // fallthrough
+      [[fallthrough]];
     case Action::extract: {
       const auto rc = parseCommonTargets(optArg, "extract");
       if (rc > 0) {
@@ -797,7 +805,7 @@ int Params::evalInsert(const std::string& optArg) {
     case Action::modify:
       action_ = Action::insert;
       target_ = static_cast<CommonTarget>(0);
-      // fallthrough
+      [[fallthrough]];
     case Action::insert: {
       const auto rc = parseCommonTargets(optArg, "insert");
       if (rc > 0) {
@@ -816,7 +824,7 @@ int Params::evalModify(int opt, const std::string& optArg) {
   switch (action_) {
     case Action::none:
       action_ = Action::modify;
-      // fallthrough
+      [[fallthrough]];
     case Action::modify:
     case Action::extract:
     case Action::insert:
@@ -959,7 +967,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
     fd_set readfds;
     FD_ZERO(&readfds);
     FD_SET(STDIN_FILENO, &readfds);
-    struct timeval timeout = {1, 0};  // yes: set timeout seconds,microseconds
+    timeval timeout = {1, 0};  // yes: set timeout seconds,microseconds
 
     // if we have something in the pipe, read it
     if (select(1, &readfds, nullptr, nullptr, &timeout)) {
@@ -1088,7 +1096,9 @@ cleanup:
 // local implementations
 namespace {
 bool parseTime(const std::string& ts, int64_t& time) {
-  std::string hstr, mstr, sstr;
+  std::string hstr;
+  std::string mstr;
+  std::string sstr;
   auto cts = new char[ts.length() + 1];
   strcpy(cts, ts.c_str());
   auto tmp = ::strtok(cts, ":");
@@ -1103,7 +1113,9 @@ bool parseTime(const std::string& ts, int64_t& time) {
   delete[] cts;
 
   int sign = 1;
-  int64_t hh(0), mm(0), ss(0);
+  int64_t hh = 0;
+  int64_t mm = 0;
+  int64_t ss = 0;
   // [-]HH part
   if (!Util::strtol(hstr.c_str(), hh))
     return false;
@@ -1112,7 +1124,7 @@ bool parseTime(const std::string& ts, int64_t& time) {
     hh *= -1;
   }
   // check for the -0 special case
-  if (hh == 0 && hstr.find('-') != std::string::npos)
+  if (hh == 0 && Exiv2::Internal::contains(hstr, '-'))
     sign = -1;
   // MM part, if there is one
   if (!mstr.empty()) {
@@ -1252,7 +1264,7 @@ bool parseCmdFiles(ModifyCmds& modifyCmds, const Params::CmdFiles& cmdFiles) {
       while (bStdin ? std::getline(std::cin, line) : std::getline(file, line)) {
         ModifyCmd modifyCmd;
         if (parseLine(modifyCmd, line, ++num)) {
-          modifyCmds.push_back(modifyCmd);
+          modifyCmds.push_back(std::move(modifyCmd));
         }
       }
     } catch (const Exiv2::Error& error) {
@@ -1269,7 +1281,7 @@ bool parseCmdLines(ModifyCmds& modifyCmds, const Params::CmdLines& cmdLines) {
     for (auto&& line : cmdLines) {
       ModifyCmd modifyCmd;
       if (parseLine(modifyCmd, line, ++num)) {
-        modifyCmds.push_back(modifyCmd);
+        modifyCmds.push_back(std::move(modifyCmd));
       }
     }
     return true;
@@ -1433,8 +1445,9 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 }  // parseLine
 
 CmdId commandId(const std::string& cmdString) {
-  auto it = std::find_if(cmdIdAndString.begin(), cmdIdAndString.end(), [&](auto cs) { return cs.second == cmdString; });
-  return it != cmdIdAndString.end() ? it->first : CmdId::invalid;
+  if (auto it = Exiv2::find(cmdIdAndString, cmdString))
+    return it->cmdId_;
+  return CmdId::invalid;
 }
 
 std::string parseEscapes(const std::string& input) {

@@ -20,7 +20,10 @@ namespace Exiv2::Internal {
 class CiffHeader;
 class CiffComponent;
 struct CrwMapping;
-using CrwSubDir = std::pair<uint16_t, uint16_t>;
+struct CrwSubDir {
+  uint16_t dir;
+  uint16_t parent;
+};
 
 // *****************************************************************************
 // type definitions
@@ -58,8 +61,7 @@ class CiffComponent {
   //! Default constructor
   CiffComponent() = default;
   //! Constructor taking a tag and directory
-  CiffComponent(uint16_t tag, uint16_t dir) : dir_(dir), tag_(tag) {
-  }
+  CiffComponent(uint16_t tag, uint16_t dir);
   CiffComponent(const CiffComponent&) = delete;
   CiffComponent& operator=(const CiffComponent&) = delete;
   //! Virtual destructor.
@@ -284,19 +286,7 @@ class CiffComponent {
          a CRW (Canon Raw data) image.
  */
 class CiffEntry : public CiffComponent {
- public:
-  //! @name Creators
-  //@{
-  //! Default constructor
-  CiffEntry() = default;
-  //! Constructor taking a tag and directory
-  CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {
-  }
-  //@}
-
-  // Default assignment operator is fine
-
- private:
+  using CiffComponent::CiffComponent;
   //! @name Manipulators
   //@{
   using CiffComponent::doAdd;
@@ -319,15 +309,11 @@ class CiffEntry : public CiffComponent {
 
 //! This class models a CIFF directory of a CRW (Canon Raw data) image.
 class CiffDirectory : public CiffComponent {
+  using CiffComponent::CiffComponent;
+
  public:
   //! @name Creators
   //@{
-  //! Default constructor
-  CiffDirectory() = default;
-  //! Constructor taking a tag and directory
-  CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {
-  }
-
   //! Virtual destructor
   ~CiffDirectory() override;
   //@}
@@ -438,7 +424,7 @@ class CiffHeader {
     @param crwTagId Tag id to be removed.
     @param crwDir   Parent directory of the tag.
    */
-  void remove(uint16_t crwTagId, uint16_t crwDir);
+  void remove(uint16_t crwTagId, uint16_t crwDir) const;
   //@}
 
   //! Return a pointer to the Canon CRW signature.
@@ -495,22 +481,6 @@ class CiffHeader {
          image metadata and vice versa.
  */
 struct CrwMapping {
-  //! @name Creators
-  //@{
-  //! Default constructor
-  CrwMapping(uint16_t crwTagId, uint16_t crwDir, uint32_t size, uint16_t tag, IfdId ifdId, CrwDecodeFct toExif,
-             CrwEncodeFct fromExif) :
-      crwTagId_(crwTagId),
-      crwDir_(crwDir),
-      size_(size),
-      tag_(tag),
-      ifdId_(ifdId),
-      toExif_(toExif),
-      fromExif_(fromExif) {
-  }
-  //@}
-
-  // DATA
   uint16_t crwTagId_;      //!< CRW tag id
   uint16_t crwDir_;        //!< CRW directory tag
   uint32_t size_;          //!< Data size (overwrites the size from the entry)
@@ -518,8 +488,7 @@ struct CrwMapping {
   IfdId ifdId_;            //!< Exif Ifd id to map to
   CrwDecodeFct toExif_;    //!< Conversion function
   CrwEncodeFct fromExif_;  //!< Reverse conversion function
-
-};  // struct CrwMapping
+};
 
 /*!
   @brief Static class providing mapping functionality from CRW entries
@@ -527,13 +496,6 @@ struct CrwMapping {
  */
 class CrwMap {
  public:
-  ~CrwMap() = delete;
-  //! @name Not implemented
-  //@{
-  CrwMap(const CrwMap&) = delete;
-  CrwMap& operator=(const CrwMap&) = delete;
-  //@}
-
   /*!
     @brief Decode image metadata from a CRW entry, convert and add it
            to the image metadata. This function converts only one CRW

@@ -14,7 +14,7 @@ class CheckSigma35mm(metaclass=system_tests.CaseMeta):
 Exif.CanonCs.Lens                            Short       3  35.0 mm
 Exif.Canon.LensModel                         Ascii      74  35mm
 Exif.CanonLe.LensSerialNumber                SLong       1  0
-Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  35mm
 Exif.Photo.LensModel                         Ascii       5  35mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000
 """,

@@ -157,8 +157,7 @@ void PsdImage::readMetadata() {
   }
 
   // skip it
-  uint32_t colorDataLength = getULong(buf, bigEndian);
-  if (io_->seek(colorDataLength, BasicIo::cur)) {
+  if (io_->seek(getULong(buf, bigEndian), BasicIo::cur)) {
     throw Error(ErrorCode::kerNotAnImage, "Photoshop");
   }
 
@@ -167,10 +166,10 @@ void PsdImage::readMetadata() {
     throw Error(ErrorCode::kerNotAnImage, "Photoshop");
   }
   uint32_t resourcesLength = getULong(buf, bigEndian);
-  enforce(resourcesLength < io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(resourcesLength < io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
   while (resourcesLength > 0) {
-    enforce(resourcesLength >= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(resourcesLength >= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
     resourcesLength -= 8;
     if (io_->read(buf, 8) != 8) {
       throw Error(ErrorCode::kerNotAnImage, "Photoshop");
@@ -183,12 +182,12 @@ void PsdImage::readMetadata() {
     uint32_t resourceNameLength = buf[6] & ~1;
 
     // skip the resource name, plus any padding
-    enforce(resourceNameLength <= resourcesLength, Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(resourceNameLength <= resourcesLength, Exiv2::ErrorCode::kerCorruptedMetadata);
     resourcesLength -= resourceNameLength;
     io_->seek(resourceNameLength, BasicIo::cur);
 
     // read resource size
-    enforce(resourcesLength >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(resourcesLength >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
     resourcesLength -= 4;
     if (io_->read(buf, 4) != 4) {
       throw Error(ErrorCode::kerNotAnImage, "Photoshop");
@@ -201,10 +200,10 @@ void PsdImage::readMetadata() {
               << "\n";
 #endif
 
-    enforce(resourceSize <= resourcesLength, Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(resourceSize <= resourcesLength, Exiv2::ErrorCode::kerCorruptedMetadata);
     readResourceBlock(resourceId, resourceSize);
     resourceSize = (resourceSize + 1) & ~1;  // pad to even
-    enforce(resourceSize <= resourcesLength, Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(resourceSize <= resourcesLength, Exiv2::ErrorCode::kerCorruptedMetadata);
     resourcesLength -= resourceSize;
     io_->seek(curOffset + resourceSize, BasicIo::beg);
   }
@@ -293,13 +292,12 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
         if (io_->error() || io_->eof())
           throw Error(ErrorCode::kerFailedToReadImageData);
 
-        if (format == 1) {
-          nativePreview.filter_ = "";
-          nativePreview.mimeType_ = "image/jpeg";
-          nativePreviews_.push_back(nativePreview);
-        } else {
-          // unsupported format of native preview
-        }
+        // unsupported format of native preview
+        if (format != 1)
+          break;
+        nativePreview.filter_ = "";
+        nativePreview.mimeType_ = "image/jpeg";
+        nativePreviews_.push_back(std::move(nativePreview));
       }
       break;
     }
@@ -523,10 +521,11 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
   io_->populateFakeData();
 
   // Copy remaining data
-  size_t readSize = 0;
-  while ((readSize = io_->read(lbuf.data(), lbuf.size()))) {
+  size_t readSize = io_->read(lbuf.data(), lbuf.size());
+  while (readSize != 0) {
     if (outIo.write(lbuf.c_data(), readSize) != readSize)
       throw Error(ErrorCode::kerImageWriteFailed);
+    readSize = io_->read(lbuf.data(), lbuf.size());
   }
   if (outIo.error())
     throw Error(ErrorCode::kerImageWriteFailed);
@@ -546,7 +545,7 @@ uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) {
   uint32_t resLength = 0;
   byte buf[8];
 
-  if (iptcData.count() > 0) {
+  if (!iptcData.empty()) {
     DataBuf rawIptc = IptcParser::encode(iptcData);
     if (!rawIptc.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -580,7 +579,7 @@ uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) {
   return resLength;
 }  // PsdImage::writeIptcData
 
-uint32_t PsdImage::writeExifData(const ExifData& exifData, BasicIo& out) {
+uint32_t PsdImage::writeExifData(ExifData& exifData, BasicIo& out) {
   uint32_t resLength = 0;
   byte buf[8];
 
@@ -678,7 +677,7 @@ uint32_t PsdImage::writeXmpData(const XmpData& xmpData, BasicIo& out) const {
 Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<PsdImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

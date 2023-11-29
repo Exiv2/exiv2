@@ -1,42 +1,22 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    asfvideo.hpp
-  @brief   An Image subclass to support ASF video files
-  @author  Abhinav Badola for GSoC 2012
-           <a href="mailto:mail.abu.to@gmail.com">mail.abu.to@gmail.com</a>
-  @date    08-Aug-12, AB: created
- */
-#ifndef ASFVIDEO_HPP
-#define ASFVIDEO_HPP
+// SPDX-License-Identifier: GPL-2.0-or-later
+// Spec : Advanced Systems Format (ASF) Specification : Revision 01.20.05 :
+// https://exse.eyewated.com/fls/54b3ed95bbfb1a92.pdf
+#pragma once
 
 // *****************************************************************************
+#include <array>
 #include "exiv2lib_export.h"
 
 // included header files
 #include "image.hpp"
 
+// *****************************************************************************
+// namespace extensions
 namespace Exiv2 {
 
 // *****************************************************************************
 // class definitions
+
 /*!
   @brief Class to access ASF video files.
  */
@@ -54,13 +34,9 @@ class EXIV2API AsfVideo : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
-   */
-  explicit AsfVideo(BasicIo::UniquePtr io);
+  */
 
-  //! Copy constructor
-  AsfVideo(const AsfVideo& rhs) = delete;
-  //! Assignment operator
-  AsfVideo& operator=(const AsfVideo& rhs) = delete;
+  explicit AsfVideo(BasicIo::UniquePtr io);
   //@}
 
   //! @name Manipulators
@@ -71,13 +47,67 @@ class EXIV2API AsfVideo : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
+
+  /* @class GUID_struct
+   *
+   * @brief A class to represent a globally unique identifier (GUID) structure
+   *
+   * This class represents a globally unique identifier (GUID) structure which is used to identify objects in a
+   * distributed environment. A GUID is a unique identifier that is generated on a computer and can be used to
+   * identify an object across different systems. The GUID structure is comprised of four 32-bit values and an
+   * array of 8 bytes.
+   *
+   * @note The byte order of the GUID structure is in little endian.
+   *
+   * @see https://en.wikipedia.org/wiki/Globally_unique_identifier
+   *
+   */
+  class GUIDTag {
+    uint32_t data1_;
+    uint16_t data2_;
+    uint16_t data3_;
+    std::array<byte, 8> data4_;
+
+   public:
+    bool operator==(const GUIDTag& other) const;
+
+    // Constructor to create a GUID object by passing individual values for each attribute
+    GUIDTag(unsigned int data1, unsigned short data2, unsigned short data3, std::array<byte, 8> data4);
+
+    // Constructor to create a GUID object from a byte array
+    explicit GUIDTag(const uint8_t* bytes);
+
+    std::string to_string();
+
+    bool operator<(const GUIDTag& other) const;
+  };
+
  private:
-  static constexpr size_t ASF_TAG_SIZE = 0x4;
-  static constexpr size_t BUFF_MIN_SIZE = 0x8;
-  static constexpr size_t GUI_SIZE = 16;
-  static constexpr size_t GUID_SIZE = 37;
+  static constexpr size_t CODEC_TYPE_VIDEO = 1;
+  static constexpr size_t CODEC_TYPE_AUDIO = 2;
+
+  class HeaderReader {
+    DataBuf IdBuf_;
+    uint64_t size_{};
+    uint64_t remaining_size_{};
+
+   public:
+    explicit HeaderReader(const BasicIo::UniquePtr& io);
+
+    [[nodiscard]] uint64_t getSize() const {
+      return size_;
+    }
+
+    [[nodiscard]] uint64_t getRemainingSize() const {
+      return remaining_size_;
+    }
+
+    [[nodiscard]] DataBuf& getId() {
+      return IdBuf_;
+    }
+  };
 
  protected:
   /*!
@@ -85,15 +115,8 @@ class EXIV2API AsfVideo : public Image {
     position. Calls tagDecoder() or skips to next tag, if required.
    */
   void decodeBlock();
-  /*!
-    @brief Interpret tag information, and call the respective function
-        to save it in the respective XMP container. Decodes a Tag
-        Information and saves it in the respective XMP container, if
-        the block size is small.
-    @param tv Pointer to current tag,
-    @param size Size of the data block used to store Tag Information.
-   */
-  void tagDecoder(uint64_t size);
+
+  void decodeHeader();
   /*!
     @brief Interpret File_Properties tag information, and save it in
         the respective XMP container.
@@ -112,44 +135,31 @@ class EXIV2API AsfVideo : public Image {
   /*!
     @brief Interpret Content_Description tag information, and save it
         in the respective XMP container.
-    @param size Size of the data block used to store Tag Data.
    */
-  void contentDescription(uint64_t size);
+  void contentDescription();
   /*!
     @brief Interpret Extended_Stream_Properties tag information, and
         save it in the respective XMP container.
-    @param size Size of the data block used to store Tag Data.
    */
-  void extendedStreamProperties(uint64_t size);
+  void extendedStreamProperties();
   /*!
     @brief Interpret Header_Extension tag information, and save it in
         the respective XMP container.
-    @param size Size of the data block used to store Tag Data.
    */
-  void headerExtension(uint64_t size);
+  void headerExtension() const;
   /*!
     @brief Interpret Metadata, Extended_Content_Description,
         Metadata_Library tag information, and save it in the respective
         XMP container.
-    @param meta A default integer which helps to overload the function
-        for various Tags that have a similar method of decoding.
    */
-  void metadataHandler(int meta = 1);
-  /*!
-    @brief Calculates Aspect Ratio of a video, and stores it in the
-        respective XMP container.
-   */
-  void aspectRatio();
+  void extendedContentDescription();
+
+  void DegradableJPEGMedia();
 
  private:
-  //! Variable to check the end of metadata traversing.
-  bool continueTraversing_;
-  //! Variable which stores current position of the read pointer.
-  uint64_t localPosition_;
-  //! Variable which stores current stream being processsed.
-  int streamNumber_;
   //! Variable to store height and width of a video frame.
-  uint64_t height_, width_;
+  uint64_t height_{};
+  uint64_t width_{};
 
 };  // Class AsfVideo
 
@@ -167,7 +177,4 @@ EXIV2API Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, bool create);
 
 //! Check if the file iIo is a Windows Asf Video.
 EXIV2API bool isAsfType(BasicIo& iIo, bool advance);
-
 }  // namespace Exiv2
-
-#endif  // #ifndef ASFVIDEO_HPP_

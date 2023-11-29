@@ -59,19 +59,11 @@ void IoWrapper::setTarget(int id, size_t target) {
     pow_->setTarget(static_cast<OffsetWriter::OffsetId>(id), static_cast<uint32_t>(target));
 }
 
-TiffComponent::TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
-}
-
-TiffEntryBase::TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType) :
-    TiffComponent(tag, group), tiffType_(tiffType) {
+TiffDirectory::TiffDirectory(uint16_t tag, IfdId group, bool hasNext) : TiffComponent(tag, group), hasNext_(hasNext) {
 }
 
 TiffSubIfd::TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup) :
     TiffEntryBase(tag, group, ttUnsignedLong), newGroup_(newGroup) {
-}
-
-TiffMnEntry::TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
-    TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
 }
 
 TiffIfdMakernote::TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, MnHeader* pHeader, bool hasNext) :
@@ -90,12 +82,6 @@ TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arra
     arraySet_(arraySet),
     setSize_(setSize) {
   // We'll figure out the correct cfg later
-}
-
-TiffBinaryElement::TiffBinaryElement(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
-  elDef_.idx_ = 0;
-  elDef_.tiffType_ = ttUndefined;
-  elDef_.count_ = 0;
 }
 
 TiffDirectory::~TiffDirectory() {
@@ -139,25 +125,6 @@ TiffEntryBase::TiffEntryBase(const TiffEntryBase& rhs) :
     idx_(rhs.idx_),
     pValue_(rhs.pValue_ ? rhs.pValue_->clone().release() : nullptr),
     storage_(rhs.storage_) {
-}
-
-TiffDirectory::TiffDirectory(const TiffDirectory& rhs) : TiffComponent(rhs), hasNext_(rhs.hasNext_) {
-}
-
-TiffSubIfd::TiffSubIfd(const TiffSubIfd& rhs) : TiffEntryBase(rhs), newGroup_(rhs.newGroup_) {
-}
-
-TiffBinaryArray::TiffBinaryArray(const TiffBinaryArray& rhs) :
-    TiffEntryBase(rhs),
-    cfgSelFct_(rhs.cfgSelFct_),
-    arraySet_(rhs.arraySet_),
-    arrayCfg_(rhs.arrayCfg_),
-    arrayDef_(rhs.arrayDef_),
-    defSize_(rhs.defSize_),
-    setSize_(rhs.setSize_),
-    origData_(rhs.origData_),
-    origSize_(rhs.origSize_),
-    pRoot_(rhs.pRoot_) {
 }
 
 TiffComponent::UniquePtr TiffComponent::clone() const {
@@ -229,8 +196,7 @@ void TiffEntryBase::setData(byte* pData, size_t size, std::shared_ptr<DataBuf> s
 void TiffEntryBase::updateValue(Value::UniquePtr value, ByteOrder byteOrder) {
   if (!value)
     return;
-  size_t newSize = value->size();
-  if (newSize > size_) {
+  if (size_t newSize = value->size(); newSize > size_) {
     auto d = std::make_shared<DataBuf>(newSize);
     setData(std::move(d));
   }
@@ -317,7 +283,6 @@ void TiffImageEntry::setStrips(const Value* pSize, const byte* pData, size_t siz
   }
   for (size_t i = 0; i < pValue()->count(); ++i) {
     const size_t offset = pValue()->toUint32(i);
-    const byte* pStrip = pData + baseOffset + offset;
     const size_t size = pSize->toUint32(i);
 
     if (size > sizeData || offset > sizeData - size || baseOffset > sizeData - size - offset) {
@@ -326,6 +291,7 @@ void TiffImageEntry::setStrips(const Value* pSize, const byte* pData, size_t siz
                   << tag() << ": Strip " << std::dec << i << " is outside of the data area; ignored.\n";
 #endif
     } else if (size != 0) {
+      const byte* pStrip = pData + baseOffset + offset;
       strips_.emplace_back(pStrip, size);
     }
   }
@@ -426,7 +392,7 @@ bool TiffBinaryArray::updOrigDataBuf(const byte* pData, size_t size) {
 
 size_t TiffBinaryArray::addElement(size_t idx, const ArrayDef& def) {
   auto tag = static_cast<uint16_t>(idx / cfg()->tagStep());
-  size_t sz = std::min(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
+  auto sz = std::min<size_t>(def.size(tag, cfg()->group_), TiffEntryBase::doSize() - idx);
   auto tc = TiffCreator::create(tag, cfg()->group_);
   auto tp = dynamic_cast<TiffBinaryElement*>(tc.get());
   // The assertion typically fails if a component is not configured in
@@ -510,19 +476,19 @@ TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCompo
   const TiffPathItem tpi2 = tiffPath.top();
   tiffPath.push(tpi1);
   auto it = std::find_if(ifds_.begin(), ifds_.end(), [&](auto&& ifd) { return ifd->group() == tpi2.group(); });
-  if (it != ifds_.end())
-    return (*it)->addPath(tag, tiffPath, pRoot, std::move(object));
-
-  auto tc = [&] {
-    if (tiffPath.size() == 1 && object) {
-      TiffComponent::UniquePtr tempObject;
-      std::swap(object, tempObject);
-      return addChild(std::move(tempObject));
-    }
-    return addChild(std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group()));
-  }();
-  setCount(ifds_.size());
-  return tc->addPath(tag, tiffPath, pRoot, std::move(object));
+  if (it == ifds_.end()) {
+    auto tc = [&] {
+      if (tiffPath.size() == 1 && object) {
+        TiffComponent::UniquePtr tempObject;
+        std::swap(object, tempObject);
+        return addChild(std::move(tempObject));
+      }
+      return addChild(std::make_unique<TiffDirectory>(tpi1.tag(), tpi2.group()));
+    }();
+    setCount(ifds_.size());
+    return tc->addPath(tag, tiffPath, pRoot, std::move(object));
+  }
+  return (*it)->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffSubIfd::doAddPath
 
 TiffComponent* TiffMnEntry::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
@@ -816,7 +782,7 @@ size_t TiffBinaryArray::doCount() const {
     typeSize = 1;
   }
 
-  return static_cast<size_t>(static_cast<double>(size()) / typeSize + 0.5);
+  return std::lround(static_cast<double>(size()) / typeSize);
 }
 
 size_t TiffBinaryElement::doCount() const {
@@ -866,8 +832,7 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   size_t sizeValue = 0;
   size_t sizeData = 0;
   for (auto&& component : components_) {
-    size_t sv = component->size();
-    if (sv > 4) {
+    if (size_t sv = component->size(); sv > 4) {
       sv += sv & 1;  // Align value to word boundary
       sizeValue += sv;
     }
@@ -895,8 +860,7 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   // b) Directory entries - may contain pointers to the value or data
   for (auto&& component : components_) {
     idx += writeDirEntry(ioWrapper, byteOrder, offset, component, valueIdx, dataIdx, imageIdx);
-    size_t sv = component->size();
-    if (sv > 4) {
+    if (size_t sv = component->size(); sv > 4) {
       sv += sv & 1;  // Align value to word boundary
       valueIdx += sv;
     }
@@ -918,8 +882,7 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   valueIdx = sizeDir;
   dataIdx = sizeDir + sizeValue;
   for (auto&& component : components_) {
-    size_t sv = component->size();
-    if (sv > 4) {
+    if (size_t sv = component->size(); sv > 4) {
       size_t d = component->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
       enforce(sv == d, ErrorCode::kerImageWriteFailed);
       if ((sv & 1) == 1) {
@@ -1004,7 +967,6 @@ size_t TiffEntryBase::writeOffset(byte* buf, size_t offset, TiffType tiffType, B
       break;
     default:
       throw Error(ErrorCode::kerUnsupportedDataAreaOffsetType);
-      break;
   }
   return rc;
 }  // TiffEntryBase::writeOffset
@@ -1313,8 +1275,7 @@ size_t TiffDirectory::doSize() const {
   size_t len = 2 + 12 * compCount + (hasNext_ ? 4 : 0);
   // Size of IFD values and data
   for (auto&& component : components_) {
-    size_t sv = component->size();
-    if (sv > 4) {
+    if (size_t sv = component->size(); sv > 4) {
       sv += sv & 1;  // Align value to word boundary
       len += sv;
     }
@@ -1380,7 +1341,7 @@ size_t TiffBinaryArray::doSize() const {
   if (cfg()->hasFillers_ && def()) {
     const ArrayDef* lastDef = def() + defSize() - 1;
     auto lastTag = static_cast<uint16_t>(lastDef->idx_ / cfg()->tagStep());
-    idx = std::max(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
+    idx = std::max<size_t>(idx, lastDef->idx_ + lastDef->size(lastTag, cfg()->group_));
   }
   return idx;
 
@@ -1478,14 +1439,15 @@ static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
   const TagInfo* result = nullptr;
   const TagInfo* tags = [=] {
     if (group == IfdId::gpsId)
-      return group == IfdId::exifId ? Internal::exifTagList() : Internal::gpsTagList();
+      return Internal::gpsTagList();
     return group == IfdId::exifId ? Internal::exifTagList() : nullptr;
   }();
-  if (tags) {
-    for (size_t idx = 0; !result && tags[idx].tag_ != 0xffff; ++idx) {
-      if (tags[idx].tag_ == tag) {
-        result = tags + idx;
-      }
+  if (!tags)
+    return result;
+
+  for (size_t idx = 0; !result && tags[idx].tag_ != 0xffff; ++idx) {
+    if (tags[idx].tag_ == tag) {
+      result = tags + idx;
     }
   }
   return result;

@@ -223,7 +223,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii      16  Martin Straeten  Martin Straeten
 Exif.Photo.BodySerialNumber                  Ascii      13  143055002120  143055002120
-Exif.Photo.LensSpecification                 Rational    4  200/1 800/1 0/1 0/1  200/1 800/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  200/1 800/1 0/1 0/1  200-800mm
 Exif.Photo.LensModel                         Ascii      37  EF100-400mm f/4.5-5.6L IS II USM +2x  EF100-400mm f/4.5-5.6L IS II USM +2x
 Exif.Photo.LensSerialNumber                  Ascii      11  3490009075  3490009075
 Exif.Image.GPSTag                            Long        1  43202  43202

@@ -1,9 +1,3 @@
-# Note that this is a hack for testing the internals of the library. If EXIV2_BUILD_UNIT_TESTS==OFF
-# Then we only export the symbols that are explicitly exported
-if( EXIV2_BUILD_UNIT_TESTS )
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
-endif()
-
 include(CMakePackageConfigHelpers)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -125,6 +119,7 @@ add_library( exiv2lib
     ${PUBLIC_HEADERS}
     $<TARGET_OBJECTS:exiv2lib_int>
 )
+add_library(Exiv2::exiv2lib ALIAS exiv2lib)
 
 generate_export_header(exiv2lib
     EXPORT_MACRO_NAME EXIV2API
@@ -158,14 +153,9 @@ endif()
 # Other library target properties
 # ---------------------------------------------------------
 
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-    # Do not check format overflows on this file, to skip a false positive warning
-    set_source_files_properties(value.cpp PROPERTIES COMPILE_FLAGS -Wno-format-overflow)
-endif()
-
 set_target_properties( exiv2lib PROPERTIES
     VERSION       ${PROJECT_VERSION}
-    SOVERSION     ${PROJECT_VERSION_MINOR}
+    SOVERSION     ${EXIV2LIB_SOVERSION}
     OUTPUT_NAME   exiv2
     PDB_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
@@ -182,17 +172,18 @@ set_target_properties( exiv2lib_int PROPERTIES
 
 # NOTE: Cannot use target_link_libraries on OBJECT libraries with old versions of CMake
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
-target_include_directories(exiv2lib SYSTEM PRIVATE 
+target_include_directories(exiv2lib SYSTEM PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
 )
 
 if (EXIV2_ENABLE_XMP OR EXIV2_ENABLE_EXTERNAL_XMP)
     target_include_directories(exiv2lib PRIVATE ${EXPAT_INCLUDE_DIR})
     target_link_libraries(exiv2lib PRIVATE EXPAT::EXPAT)
+    list(APPEND requires_private_list "expat")
 endif()
 
 if (EXIV2_ENABLE_XMP)
-    target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
+    target_sources(exiv2lib PRIVATE $<TARGET_OBJECTS:exiv2-xmp>)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
     target_link_libraries(exiv2lib PUBLIC ${XMPSDK_LIBRARY})
     target_include_directories(exiv2lib PUBLIC ${XMPSDK_INCLUDE_DIR})
@@ -211,18 +202,17 @@ target_include_directories(exiv2lib_int PUBLIC
 )
 
 if (EXIV2_ENABLE_WEBREADY)
-
     if( EXIV2_ENABLE_CURL )
         target_include_directories(exiv2lib SYSTEM PRIVATE ${CURL_INCLUDE_DIR} )
         target_link_libraries(exiv2lib PRIVATE ${CURL_LIBRARIES})
+        list(APPEND requires_private_list "libcurl")
     endif()
-
 endif()
 
 if (WIN32)
     target_compile_definitions(exiv2lib PRIVATE PSAPI_VERSION=1)    # to be compatible with <= WinVista (#905)
     # Since windows.h is included in some headers, we need to propagate this definition
-    target_compile_definitions(exiv2lib PUBLIC WIN32_LEAN_AND_MEAN) 
+    target_compile_definitions(exiv2lib PUBLIC WIN32_LEAN_AND_MEAN)
 endif()
 
 if (NOT MSVC)
@@ -239,38 +229,62 @@ else()
 endif()
 
 if( EXIV2_ENABLE_PNG )
-	target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
+    target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
+    list(APPEND requires_private_list "zlib")
 endif()
 
 if( EXIV2_ENABLE_BMFF AND BROTLI_FOUND )
     target_link_libraries( exiv2lib PRIVATE ${Brotli_LIBRARIES})
     target_include_directories(exiv2lib PRIVATE ${Brotli_INCLUDE_DIRS})
+    list(APPEND requires_private_list "libbrotlidec")
 endif()
 
 if( EXIV2_ENABLE_NLS )
     target_link_libraries(exiv2lib PRIVATE ${Intl_LIBRARIES})
     target_include_directories(exiv2lib PRIVATE ${Intl_INCLUDE_DIRS})
     target_include_directories(exiv2lib_int PRIVATE ${Intl_INCLUDE_DIRS})
+    if( Intl_LIBRARIES )
+        list(APPEND libs_private_list "intl")
+    endif()
     # Definition needed for translations
     join_paths(EXV_LOCALEDIR ".." "${CMAKE_INSTALL_LOCALEDIR}")
     target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="${EXV_LOCALEDIR}")
 endif()
 
-if( ICONV_FOUND )
+if( Iconv_FOUND AND Iconv_LIBRARIES )
     target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
+    list(APPEND libs_private_list "iconv")
 endif()
 
-target_link_libraries( exiv2lib_int PRIVATE inih::libinih )
-target_link_libraries( exiv2lib_int PRIVATE inih::inireader )
-target_link_libraries( exiv2lib PRIVATE inih::libinih )
-target_link_libraries( exiv2lib PRIVATE inih::inireader )
+if( EXIV2_ENABLE_INIH )
+  target_link_libraries( exiv2lib_int PRIVATE inih::libinih )
+  target_link_libraries( exiv2lib_int PRIVATE inih::inireader )
+  target_link_libraries( exiv2lib PRIVATE inih::libinih )
+  target_link_libraries( exiv2lib PRIVATE inih::inireader )
+  list(APPEND requires_private_list "INIReader")
+endif()
+
+# Convert private lists to delimited strings
+list(SORT libs_private_list)
+string(REPLACE ";" " -l" libs_private_string "${libs_private_list}")
+if(libs_private_string)
+    string(PREPEND libs_private_string "-l")
+endif()
+list(SORT requires_private_list)
+string(REPLACE ";" ", " requires_private_string "${requires_private_list}")
+
+set(libs_private_for_pc_file "${libs_private_string}" PARENT_SCOPE)
+set(requires_private_for_pc_file "${requires_private_string}" PARENT_SCOPE)
 
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
-install(TARGETS exiv2lib EXPORT exiv2Config
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+install(TARGETS exiv2lib EXPORT exiv2Export)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+  ../cmake/exiv2Config.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/exiv2Config.cmake
+  INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
 )
 
 install(FILES
@@ -279,7 +293,14 @@ install(FILES
     ${CMAKE_BINARY_DIR}/exiv2lib_export.h
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
-install(EXPORT exiv2Config DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
+install(EXPORT exiv2Export
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
+    NAMESPACE Exiv2::
+)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/exiv2ConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/exiv2Config.cmake
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2")
 

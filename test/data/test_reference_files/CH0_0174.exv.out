@@ -113,10 +113,10 @@ Exif.NikonLd4.MaxApertureAtMaxFocal          Byte        1  36  F2.8
 Exif.NikonLd4.MCUVersion                     Byte        1  123  123
 Exif.NikonLd4.EffectiveMaxAperture           Byte        1  36  F2.8
 Exif.NikonLd4.LensID                         Short       1  0  0
-Exif.NikonLd4.MaxAperture                    Short       1  0  F0.5
-Exif.NikonLd4.FNumber                        Short       1  0  F0.5
-Exif.NikonLd4.FocalLength2                   Short       1  0  0 mm
-Exif.NikonLd4.FocusDistance2                 Byte        1  0  0.01 m
+Exif.NikonLd4.MaxAperture                    Short       1  0  n/a
+Exif.NikonLd4.FNumber                        Short       1  0  n/a
+Exif.NikonLd4.FocalLength2                   Short       1  0  n/a
+Exif.NikonLd4.FocusDistance2                 Short       1  0  n/a
 Exif.Nikon3.RawImageCenter                   Short       2  2274 1515  2274 1515
 Exif.Nikon3.RetouchHistory                   Short      10  0 0 0 0 0 0 0 0 0 0  None
 Exif.Nikon3.ShutterCount                     Long        1  174  174
@@ -179,7 +179,7 @@ Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
 Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
 Exif.Photo.BodySerialNumber                  Ascii       8  6078248  6078248
-Exif.Photo.LensSpecification                 Rational    4  700/10 2000/10 280/100 280/100  700/10 2000/10 280/100 280/100
+Exif.Photo.LensSpecification                 Rational    4  700/10 2000/10 280/100 280/100  70-200mm F2.8
 Exif.Photo.LensMake                          Ascii       6    
 Exif.Photo.LensModel                         Ascii      65    
 Exif.Photo.LensSerialNumber                  Ascii      11    

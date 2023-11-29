@@ -1,0 +1,46 @@
+option('curl', type : 'feature',
+  description : 'USE Libcurl for HttpIo (WEBREADY)',
+)
+
+option('brotli', type : 'feature',
+  description : 'Build with brotli support (requires libbrotlidec)',
+)
+
+option('nls', type : 'feature',
+  description : 'Build native language support (requires gettext)',
+)
+
+option('png', type : 'feature',
+  description : 'Build with png support (requires libz)',
+)
+
+option('iconv', type : 'feature',
+  description : 'Build with iconv support',
+)
+
+option('inih', type : 'feature',
+  description : 'Build with INIReader support',
+)
+
+option('bmff', type : 'boolean',
+  value: true,
+  description : 'Build with BMFF support',
+)
+
+option('lensdata', type : 'boolean',
+  value: true,
+  description : 'Build including lens data',
+)
+
+option('video', type : 'boolean',
+  value: true,
+  description : 'Build support for video formats',
+)
+
+option('xmp', type : 'feature',
+  description : 'Build support for XMP',
+)
+
+option('unitTests', type : 'feature',
+  description : 'Build and run unit tests',
+)

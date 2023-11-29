@@ -64,4 +64,4 @@ Xmp.audio.ChannelType                        XmpText     1  2  2
 Xmp.audio.BitsPerSample                      XmpText     2  16  16
 Xmp.audio.SampleRate                         XmpText     5  44100  44100
 Xmp.audio.HandlerVendorID                    XmpText     5  Apple  Apple
-Xmp.video.AspectRatio                        XmpText     3  0.5  0.5
+Xmp.video.AspectRatio                        XmpText     4  9:16  9:16

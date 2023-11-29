@@ -23,9 +23,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.54.0
-          pip3 install gcovr
+          python3 -m pip install conan==1.59.0 gcovr ninja
 
       - name: Conan common config
         run: |
@@ -41,7 +39,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-coverage -S . -B build -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset linux-coverage -S . -B build
           cmake --build build --parallel
 
       - name: Tests + Upload coverage
@@ -69,8 +67,8 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install valgrind ninja-build
-          pip3 install conan==1.54.0
+          sudo apt install -y valgrind
+          python3 -m pip install conan==1.59.0 ninja
 
       - name: Conan common config
         run: |
@@ -104,8 +102,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.54.0
+          python3 -m pip install conan==1.59.0 ninja
 
       - name: Conan common config
         run: |
@@ -121,7 +118,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-sanitizers -S . -B build -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset linux-sanitizers -S . -B build
           cmake --build build --parallel
 
       - name: Tests
@@ -138,8 +135,8 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install valgrind doxygen graphviz gettext ninja-build
-          pip3 install conan==1.54.0
+          sudo apt install -y valgrind doxygen graphviz gettext
+          python3 -m pip install conan==1.59.0 ninja
 
       - name: Conan common config
         run: |
@@ -154,8 +151,10 @@ jobs:
           conan install .. -o webready=True --build missing
 
       - name: Build
+        env:
+          CXXFLAGS: -DEXIV2_DEBUG_MESSAGES
         run: |
-          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON -DCMAKE_CXX_FLAGS="-DEXIV2_DEBUG_MESSAGES" 
+          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON
           cmake --build build --parallel
 
       - name: Generate documentation

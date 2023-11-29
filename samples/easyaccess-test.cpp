@@ -8,41 +8,45 @@
 // Type for an Exiv2 Easy access function
 using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
 
-static constexpr auto easyAccess = std::array{
-    std::make_tuple("Orientation", &Exiv2::orientation, "Orientation"),
-    std::make_tuple("ISO speed", &Exiv2::isoSpeed, "ISOspeed"),
-    std::make_tuple("Date & time original", &Exiv2::dateTimeOriginal, "DateTimeOriginal"),
-    std::make_tuple("Flash bias", &Exiv2::flashBias, "FlashBias"),
-    std::make_tuple("Exposure mode", &Exiv2::exposureMode, "ExposureMode"),
-    std::make_tuple("Scene mode", &Exiv2::sceneMode, "SceneMode"),
-    std::make_tuple("Macro mode", &Exiv2::macroMode, "MacroMode"),
-    std::make_tuple("Image quality", &Exiv2::imageQuality, "ImageQuality"),
-    std::make_tuple("White balance", &Exiv2::whiteBalance, "WhiteBalance"),
-    std::make_tuple("Lens name", &Exiv2::lensName, "LensName"),
-    std::make_tuple("Saturation", &Exiv2::saturation, "Saturation"),
-    std::make_tuple("Sharpness", &Exiv2::sharpness, "Sharpness"),
-    std::make_tuple("Contrast", &Exiv2::contrast, "Contrast"),
-    std::make_tuple("Scene capture type", &Exiv2::sceneCaptureType, "SceneCaptureType"),
-    std::make_tuple("Metering mode", &Exiv2::meteringMode, "MeteringMode"),
-    std::make_tuple("Camera make", &Exiv2::make, "Make"),
-    std::make_tuple("Camera model", &Exiv2::model, "Model"),
-    std::make_tuple("Exposure time", &Exiv2::exposureTime, "ExposureTime"),
-    std::make_tuple("FNumber", &Exiv2::fNumber, "FNumber"),
-    std::make_tuple("Shutter speed value", &Exiv2::shutterSpeedValue, "ShutterSpeed"),
-    std::make_tuple("Aperture value", &Exiv2::apertureValue, "Aperture"),
-    std::make_tuple("Brightness value", &Exiv2::brightnessValue, "Brightness"),
-    std::make_tuple("Exposure bias", &Exiv2::exposureBiasValue, "ExposureBias"),
-    std::make_tuple("Max aperture value", &Exiv2::maxApertureValue, "MaxAperture"),
-    std::make_tuple("Subject distance", &Exiv2::subjectDistance, "SubjectDistance"),
-    std::make_tuple("Light source", &Exiv2::lightSource, "LightSource"),
-    std::make_tuple("Flash", &Exiv2::flash, "Flash"),
-    std::make_tuple("Camera serial number", &Exiv2::serialNumber, "SerialNumber"),
-    std::make_tuple("Focal length", &Exiv2::focalLength, "FocalLength"),
-    std::make_tuple("Subject location/area", &Exiv2::subjectArea, "SubjectArea"),
-    std::make_tuple("Flash energy", &Exiv2::flashEnergy, "FlashEnergy"),
-    std::make_tuple("Exposure index", &Exiv2::exposureIndex, "ExposureIndex"),
-    std::make_tuple("Sensing method", &Exiv2::sensingMethod, "SensingMethod"),
-    std::make_tuple("AF point", &Exiv2::afPoint, "AFpoint"),
+static const struct {
+  const char* l;
+  EasyAccessFct f;
+  const char* n;
+} easyAccess[] = {
+    {"Orientation", &Exiv2::orientation, "Orientation"},
+    {"ISO speed", &Exiv2::isoSpeed, "ISOspeed"},
+    {"Date & time original", &Exiv2::dateTimeOriginal, "DateTimeOriginal"},
+    {"Flash bias", &Exiv2::flashBias, "FlashBias"},
+    {"Exposure mode", &Exiv2::exposureMode, "ExposureMode"},
+    {"Scene mode", &Exiv2::sceneMode, "SceneMode"},
+    {"Macro mode", &Exiv2::macroMode, "MacroMode"},
+    {"Image quality", &Exiv2::imageQuality, "ImageQuality"},
+    {"White balance", &Exiv2::whiteBalance, "WhiteBalance"},
+    {"Lens name", &Exiv2::lensName, "LensName"},
+    {"Saturation", &Exiv2::saturation, "Saturation"},
+    {"Sharpness", &Exiv2::sharpness, "Sharpness"},
+    {"Contrast", &Exiv2::contrast, "Contrast"},
+    {"Scene capture type", &Exiv2::sceneCaptureType, "SceneCaptureType"},
+    {"Metering mode", &Exiv2::meteringMode, "MeteringMode"},
+    {"Camera make", &Exiv2::make, "Make"},
+    {"Camera model", &Exiv2::model, "Model"},
+    {"Exposure time", &Exiv2::exposureTime, "ExposureTime"},
+    {"FNumber", &Exiv2::fNumber, "FNumber"},
+    {"Shutter speed value", &Exiv2::shutterSpeedValue, "ShutterSpeed"},
+    {"Aperture value", &Exiv2::apertureValue, "Aperture"},
+    {"Brightness value", &Exiv2::brightnessValue, "Brightness"},
+    {"Exposure bias", &Exiv2::exposureBiasValue, "ExposureBias"},
+    {"Max aperture value", &Exiv2::maxApertureValue, "MaxAperture"},
+    {"Subject distance", &Exiv2::subjectDistance, "SubjectDistance"},
+    {"Light source", &Exiv2::lightSource, "LightSource"},
+    {"Flash", &Exiv2::flash, "Flash"},
+    {"Camera serial number", &Exiv2::serialNumber, "SerialNumber"},
+    {"Focal length", &Exiv2::focalLength, "FocalLength"},
+    {"Subject location/area", &Exiv2::subjectArea, "SubjectArea"},
+    {"Flash energy", &Exiv2::flashEnergy, "FlashEnergy"},
+    {"Exposure index", &Exiv2::exposureIndex, "ExposureIndex"},
+    {"Sensing method", &Exiv2::sensingMethod, "SensingMethod"},
+    {"AF point", &Exiv2::afPoint, "AFpoint"},
 };
 
 static void printFct(EasyAccessFct fct, Exiv2::ExifData ed, const char* label) {
@@ -95,7 +99,7 @@ int main(int argc, char** argv) {
           }
         }
         if (!categoryOk) {
-          std::cout << "Categoy >" << argv[i] << "< is invalid.\n";
+          std::cout << "Category >" << argv[i] << "< is invalid.\n";
           return EXIT_FAILURE;
         }
       }

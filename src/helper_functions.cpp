@@ -4,6 +4,9 @@
 
 #include <cmath>
 #include <cstring>
+#include <numeric>
+#include "convert.hpp"
+#include "enforce.hpp"
 
 std::string string_from_unterminated(const char* data, size_t data_length) {
   if (data_length == 0) {
@@ -13,35 +16,50 @@ std::string string_from_unterminated(const char* data, size_t data_length) {
   return {data, StringLength};
 }
 
-namespace Util {
-char returnHEX(int n) {
-  if (n >= 0 && n <= 9)
-    return static_cast<char>(n + 48);
-  return static_cast<char>(n + 55);
+namespace Exiv2 {
+uint64_t readQWORDTag(const BasicIo::UniquePtr& io) {
+  Internal::enforce(QWORD <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  DataBuf FieldBuf = io->read(QWORD);
+  return FieldBuf.read_uint64(0, littleEndian);
 }
 
-std::string toString16(Exiv2::DataBuf& buf) {
-  std::ostringstream os;
-  char t;
-
-  for (size_t i = 0; i <= buf.size(); i += 2) {
-    t = buf.data()[i] + 16 * buf.data()[i + 1];
-    if (t == 0) {
-      if (i)
-        os << '\0';
-      break;
-    }
-    os << t;
-  }
-  return os.str();
+uint32_t readDWORDTag(const BasicIo::UniquePtr& io) {
+  Internal::enforce(DWORD <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  DataBuf FieldBuf = io->read(DWORD);
+  return FieldBuf.read_uint32(0, littleEndian);
 }
 
-uint64_t getUint64_t(Exiv2::DataBuf& buf) {
-  uint64_t temp = 0;
-
-  for (int i = 0; i < 8; ++i) {
-    temp = temp + static_cast<uint64_t>(buf.data()[i] * (pow(static_cast<float>(256), i)));
-  }
-  return temp;
+uint16_t readWORDTag(const BasicIo::UniquePtr& io) {
+  Internal::enforce(WORD <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  DataBuf FieldBuf = io->read(WORD);
+  return FieldBuf.read_uint16(0, littleEndian);
 }
-}  // namespace Util
+
+std::string readStringWcharTag(const BasicIo::UniquePtr& io, size_t length) {
+  Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  DataBuf FieldBuf(length + 1);
+  io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);
+  std::string wst(FieldBuf.begin(), FieldBuf.end() - 3);
+  if (wst.size() % 2 != 0)
+    Exiv2::convertStringCharset(wst, "UCS-2LE", "UTF-8");
+  Exiv2::convertStringCharset(wst, "UCS-2LE", "UTF-8");
+  return wst;
+}
+
+std::string readStringTag(const BasicIo::UniquePtr& io, size_t length) {
+  Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  DataBuf FieldBuf(length + 1);
+  io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);
+  return Exiv2::toString(FieldBuf.data()).substr(0, length);
+}
+
+std::string getAspectRatio(uint64_t width, uint64_t height) {
+  if (height == 0 || width == 0)
+    return std::to_string(width) + ":" + std::to_string(height);
+
+  auto ratioWidth = width / std::gcd(width, height);
+  auto ratioHeight = height / std::gcd(width, height);
+  return std::to_string(ratioWidth) + ":" + std::to_string(ratioHeight);
+}
+
+}  // namespace Exiv2

@@ -10,8 +10,14 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     filename = "$data_path/008-invalid-mem"
     commands = ["$exiv2 -q " + filename]
 
-    stderr = [""]
-    retval = [0]
+    if system_tests.BT.Config.is_64bit:
+        stderr = [""]
+        retval = [0]
+    else:
+        stderr = ["""$exiv2_exception_message """ + filename + """:
+$kerCorruptedMetadata
+"""]
+        retval = [1]
 
     compare_stdout = check_no_ASAN_UBSAN_errors
 

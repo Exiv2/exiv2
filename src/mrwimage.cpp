@@ -77,22 +77,22 @@ void MrwImage::readMetadata() {
   uint32_t const end = getULong(tmp + 4, bigEndian);
 
   pos += len;
-  enforce(pos <= end, ErrorCode::kerFailedToReadImageData);
+  Internal::enforce(pos <= end, ErrorCode::kerFailedToReadImageData);
   io_->read(tmp, len);
   if (io_->error() || io_->eof())
     throw Error(ErrorCode::kerFailedToReadImageData);
 
   while (memcmp(tmp + 1, "TTW", 3) != 0) {
     uint32_t const siz = getULong(tmp + 4, bigEndian);
-    enforce(siz <= end - pos, ErrorCode::kerFailedToReadImageData);
+    Internal::enforce(siz <= end - pos, ErrorCode::kerFailedToReadImageData);
     pos += siz;
     io_->seek(siz, BasicIo::cur);
-    enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
+    Internal::enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
-    enforce(len <= end - pos, ErrorCode::kerFailedToReadImageData);
+    Internal::enforce(len <= end - pos, ErrorCode::kerFailedToReadImageData);
     pos += len;
     io_->read(tmp, len);
-    enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
+    Internal::enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
   }
 
   const uint32_t siz = getULong(tmp + 4, bigEndian);
@@ -101,10 +101,10 @@ void MrwImage::readMetadata() {
   // greater than io_->size() then it is definitely invalid. But the
   // exact bounds checking is done by the call to io_->read, which
   // will fail if there are fewer than siz bytes left to read.
-  enforce(siz <= io_->size(), ErrorCode::kerFailedToReadImageData);
+  Internal::enforce(siz <= io_->size(), ErrorCode::kerFailedToReadImageData);
   DataBuf buf(siz);
   io_->read(buf.data(), buf.size());
-  enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
+  Internal::enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
   ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size());
   setByteOrder(bo);
@@ -120,7 +120,7 @@ void MrwImage::writeMetadata() {
 Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<MrwImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

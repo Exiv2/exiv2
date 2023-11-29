@@ -41,7 +41,7 @@ constexpr TagDetails samsung2ColorSpace[] = {{0, N_("sRGB")}, {1, N_("Adobe RGB"
 constexpr TagDetails samsung2SmartRange[] = {{0, N_("Off")}, {1, N_("On")}};
 
 //! Print the camera temperature
-std::ostream& printCameraTemperature(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printCameraTemperature(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1 || value.typeId() != signedRational) {
     return os << value;
   }
@@ -49,13 +49,12 @@ std::ostream& printCameraTemperature(std::ostream& os, const Value& value, const
 }
 
 //! Print the 35mm focal length
-std::ostream& printFocalLength35(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printFocalLength35(std::ostream& os, const Value& value, const ExifData*) {
   std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedLong) {
     return os << value;
   }
-  const auto length = value.toInt64();
-  if (length == 0) {
+  if (auto length = value.toInt64(); length == 0) {
     os << _("Unknown");
   } else {
     std::ostringstream oss;
@@ -145,7 +144,7 @@ constexpr TagDetails samsungPwMode[] = {{0, N_("Standard")},  {1, N_("Vivid")}, 
                                         {9, N_("Custom1")},   {10, N_("Custom2")}, {11, N_("Custom3")}};
 
 //! Print the PictureWizard Color tag value
-std::ostream& printPwColor(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printPwColor(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1 || value.typeId() != unsignedShort) {
     return os << value;
   }
@@ -158,7 +157,7 @@ std::ostream& printPwColor(std::ostream& os, const Value& value, const ExifData*
 }
 
 //! Print the tag value minus 4
-std::ostream& printValueMinus4(std::ostream& os, const Value& value, const ExifData*) {
+static std::ostream& printValueMinus4(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1 || value.typeId() != unsignedShort) {
     return os << value;
   }

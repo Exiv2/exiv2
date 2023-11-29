@@ -1,0 +1,15 @@
+Xmp.video.FileSize                           XmpText     8  0.553182  0.553182
+Xmp.video.MimeType                           XmpText     9  video/asf  video/asf
+Xmp.video.FileID                             XmpText    36  00000000-0000-0000-0000-000000000000  00000000-0000-0000-0000-000000000000
+Xmp.video.FileLength                         XmpText     6  580053  580053
+Xmp.video.CreationDate                       XmpText    18  116444736000000000  116444736000000000
+Xmp.video.DataPackets                        XmpText     3  181  181
+Xmp.video.duration                           XmpText     9  164460000  164460000
+Xmp.video.SendDuration                       XmpText     9  133460000  133460000
+Xmp.video.Preroll                            XmpText     4  3100  3100
+Xmp.video.MaxBitRate                         XmpText     6  200000  200000
+Xmp.video.ExtendedContentDescription         XmpSeq      1  major_brand: mp42, minor_version: 0, compatible_brands: mp42mp41isomavc1, WM/EncodingSettings: Lavf57.83.100,   major_brand: mp42, minor_version: 0, compatible_brands: mp42mp41isomavc1, WM/EncodingSettings: Lavf57.83.100, 
+Xmp.video.TimeOffset                         XmpText     1  0  0
+Xmp.audio.CodecName                          XmpText     9  msmpeg4v3  msmpeg4v3
+Xmp.audio.CodecInfo                          XmpText     4  MP43  MP43
+Xmp.video.AspectRatio                        XmpText     3  1:1  1:1

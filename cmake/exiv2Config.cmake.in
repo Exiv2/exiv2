@@ -1,0 +1,16 @@
+@PACKAGE_INIT@
+
+cmake_minimum_required(VERSION 3.5)
+include(CMakeFindDependencyMacro)
+
+if(@EXIV2_ENABLE_PNG@) # if(EXIV2_ENABLE_PNG)
+  find_dependency(ZLIB REQUIRED)
+endif()
+
+if(@EXIV2_ENABLE_XMP@) # if(EXIV2_ENABLE_XMP)
+  find_dependency(EXPAT REQUIRED)
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/exiv2Export.cmake")
+
+check_required_components(exiv2)

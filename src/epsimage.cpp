@@ -36,7 +36,7 @@ using namespace Exiv2::Internal;
 constexpr auto dosEpsSignature = std::string_view("\xC5\xD0\xD3\xC6");
 
 // first line of EPS
-constexpr auto epsFirstLine = std::array<std::string_view, 3>{
+constexpr std::string_view epsFirstLine[] = {
     "%!PS-Adobe-3.0 EPSF-3.0",
     "%!PS-Adobe-3.0 EPSF-3.0 ",  // OpenOffice
     "%!PS-Adobe-3.1 EPSF-3.0",   // Illustrator
@@ -260,14 +260,13 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     sizeWmf = getULong(data + 16, littleEndian);
     posTiff = getULong(data + 20, littleEndian);
     sizeTiff = getULong(data + 24, littleEndian);
-    const uint16_t checksum = getUShort(data + 28, littleEndian);
 #ifdef DEBUG
     EXV_DEBUG << "readWriteEpsMetadata: EPS section at position " << posEps << ", size " << (posEndEps - posEps)
               << "\n";
     EXV_DEBUG << "readWriteEpsMetadata: WMF section at position " << posWmf << ", size " << sizeWmf << "\n";
     EXV_DEBUG << "readWriteEpsMetadata: TIFF section at position " << posTiff << ", size " << sizeTiff << "\n";
 #endif
-    if (checksum != 0xFFFF) {
+    if (uint16_t checksum = getUShort(data + 28, littleEndian); checksum != 0xFFFF) {
 #ifdef DEBUG
       EXV_DEBUG << "readWriteEpsMetadata: DOS EPS checksum is not FFFF\n";
 #endif
@@ -317,8 +316,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #ifdef DEBUG
   EXV_DEBUG << "readWriteEpsMetadata: First line: " << firstLine << "\n";
 #endif
-  bool matched = std::find(epsFirstLine.begin(), epsFirstLine.end(), firstLine) != epsFirstLine.end();
-  if (!matched) {
+  if (!Exiv2::find(epsFirstLine, firstLine)) {
     throw Error(ErrorCode::kerNotAnImage, "EPS");
   }
 
@@ -757,38 +755,21 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
         EXV_WARNING << "Unable to handle Illustrator thumbnail data type: " << type << "\n";
 #endif
       } else {
-        nativePreviews.push_back(nativePreview);
+        nativePreviews.push_back(std::move(nativePreview));
       }
     }
     if (posEndPhotoshop != posEndEps) {
-      NativePreview nativePreview;
-      nativePreview.position_ = static_cast<long>(posBeginPhotoshop);
-      nativePreview.size_ = static_cast<uint32_t>(posEndPhotoshop - posBeginPhotoshop);
-      nativePreview.width_ = 0;
-      nativePreview.height_ = 0;
-      nativePreview.filter_ = "hex-irb";
-      nativePreview.mimeType_ = "image/jpeg";
-      nativePreviews.push_back(nativePreview);
+      auto sizePhotoshop = posEndPhotoshop - posBeginPhotoshop;
+      NativePreview nativePreview{posBeginPhotoshop, sizePhotoshop, 0, 0, "hex-irb", "image/jpeg"};
+      nativePreviews.push_back(std::move(nativePreview));
     }
     if (sizeWmf != 0) {
-      NativePreview nativePreview;
-      nativePreview.position_ = static_cast<long>(posWmf);
-      nativePreview.size_ = sizeWmf;
-      nativePreview.width_ = 0;
-      nativePreview.height_ = 0;
-      nativePreview.filter_ = "";
-      nativePreview.mimeType_ = "image/x-wmf";
-      nativePreviews.push_back(nativePreview);
+      NativePreview nativePreview{posWmf, sizeWmf, 0, 0, "", "image/x-wmf"};
+      nativePreviews.push_back(std::move(nativePreview));
     }
     if (sizeTiff != 0) {
-      NativePreview nativePreview;
-      nativePreview.position_ = static_cast<long>(posTiff);
-      nativePreview.size_ = sizeTiff;
-      nativePreview.width_ = 0;
-      nativePreview.height_ = 0;
-      nativePreview.filter_ = "";
-      nativePreview.mimeType_ = "image/tiff";
-      nativePreviews.push_back(nativePreview);
+      NativePreview nativePreview{posTiff, sizeTiff, 0, 0, "", "image/tiff"};
+      nativePreviews.push_back(std::move(nativePreview));
     }
   } else {
     // check for Adobe Illustrator 8.0 or older
@@ -1131,7 +1112,7 @@ void EpsImage::writeMetadata() {
 Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<EpsImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

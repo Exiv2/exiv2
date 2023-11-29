@@ -56,7 +56,7 @@ const uint32_t cmt4 = 0x130000;  //!< Special tag: root IFD of CR3 images
 }  // namespace Tag
 
 /*!
-  @brief A tupel consisting of extended Tag and group used as an item in
+  @brief A tuple consisting of extended Tag and group used as an item in
          TIFF paths.
 */
 class TiffPathItem {
@@ -64,7 +64,7 @@ class TiffPathItem {
   //! @name Creators
   //@{
   //! Constructor
-  TiffPathItem(uint32_t extendedTag, IfdId group) : extendedTag_(extendedTag), group_(group) {
+  constexpr TiffPathItem(uint32_t extendedTag, IfdId group) : extendedTag_(extendedTag), group_(group) {
   }
   //@}
 
@@ -88,7 +88,7 @@ class TiffPathItem {
   // DATA
   uint32_t extendedTag_;
   IfdId group_;
-};  // class TiffPathItem
+};
 
 /*!
   @brief Simple IO wrapper to ensure that the header is only written if there is
@@ -139,13 +139,13 @@ class IoWrapper {
   size_t size_;              //! Size of the header data.
   bool wroteHeader_{false};  //! Indicates if the header has been written.
   OffsetWriter* pow_;        //! Pointer to an offset-writer, if any, or 0
-};                           // class IoWrapper
+};
 
 /*!
   @brief Interface class for components of a TIFF directory hierarchy
          (Composite pattern).  Both TIFF directories as well as entries
          implement this interface.  A component can be uniquely identified
-         by a tag, group tupel.  This class is implemented as a NVI
+         by a tag, group tuple.  This class is implemented as a NVI
          (Non-Virtual Interface) and it has an interface for visitors
          (Visitor pattern) to perform operations on all components.
  */
@@ -159,7 +159,8 @@ class TiffComponent {
   //! @name Creators
   //@{
   //! Constructor
-  TiffComponent(uint16_t tag, IfdId group);
+  constexpr TiffComponent(uint16_t tag, IfdId group) : tag_(tag), group_(group) {
+  }
   //! Virtual destructor.
   virtual ~TiffComponent() = default;
   TiffComponent(const TiffComponent&) = default;
@@ -335,8 +336,7 @@ class TiffComponent {
     a memory buffer. The buffer is allocated and freed outside of this class.
    */
   byte* pStart_{};
-
-};  // class TiffComponent
+};
 
 //! TIFF mapping table for functions to decode special cases
 struct TiffMappingInfo {
@@ -366,9 +366,6 @@ struct TiffMappingInfo {
 
 //! Search key for TIFF mapping structures.
 struct TiffMappingInfo::Key {
-  //! Constructor
-  Key(std::string m, uint32_t e, IfdId g) : m_(std::move(m)), e_(e), g_(g) {
-  }
   std::string m_;  //!< Camera make
   uint32_t e_;     //!< Extended tag
   IfdId g_;        //!< %Group
@@ -388,7 +385,10 @@ class TiffEntryBase : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor.
-  TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined);
+  constexpr TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined) :
+      TiffComponent(tag, group), tiffType_(tiffType) {
+  }
+
   //! Virtual destructor.
   ~TiffEntryBase() override;
   //@}
@@ -560,7 +560,7 @@ class TiffEntryBase : public TiffComponent {
   // TiffEntryBase has a clone method, which could lead to the DataBuf
   // having multiple owners.
   std::shared_ptr<DataBuf> storage_;
-};  // class TiffEntryBase
+};
 
 /*!
   @brief A standard TIFF IFD entry.
@@ -570,10 +570,8 @@ class TiffEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
+  constexpr TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
   }
-  //! Virtual destructor.
-  ~TiffEntry() override = default;
   //@}
 
  protected:
@@ -587,8 +585,7 @@ class TiffEntry : public TiffEntryBase {
   //@{
   [[nodiscard]] TiffEntry* doClone() const override;
   //@}
-
-};  // class TiffEntry
+};
 
 /*!
   @brief Interface for a standard TIFF IFD entry consisting of a value
@@ -603,11 +600,7 @@ class TiffDataEntryBase : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup) :
-      TiffEntryBase(tag, group), szTag_(szTag), szGroup_(szGroup) {
-  }
-  //! Virtual destructor.
-  ~TiffDataEntryBase() override = default;
+  TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup);
   //@}
 
   //! @name Manipulators
@@ -638,10 +631,9 @@ class TiffDataEntryBase : public TiffEntryBase {
 
  private:
   // DATA
-  const uint16_t szTag_;  //!< Tag of the entry with the size
-  const IfdId szGroup_;   //!< Group of the entry with the size
-
-};  // class TiffDataEntryBase
+  uint16_t szTag_;  //!< Tag of the entry with the size
+  IfdId szGroup_;   //!< Group of the entry with the size
+};
 
 /*!
   @brief A standard TIFF IFD entry consisting of a value which is an offset
@@ -705,8 +697,7 @@ class TiffDataEntry : public TiffDataEntryBase {
   // DATA
   byte* pDataArea_{};      //!< Pointer to the data area (never alloc'd)
   size_t sizeDataArea_{};  //!< Size of the data area
-
-};  // class TiffDataEntry
+};
 
 /*!
   @brief A standard TIFF IFD entry consisting of a value which is an array
@@ -776,8 +767,7 @@ class TiffImageEntry : public TiffDataEntryBase {
 
   // DATA
   Strips strips_;  //!< Image strips data (never alloc'd) and sizes
-
-};  // class TiffImageEntry
+};
 
 /*!
   @brief A TIFF IFD entry containing the size of a data area of a related
@@ -790,11 +780,10 @@ class TiffSizeEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
+  constexpr TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
       TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
   }
-  //! Virtual destructor.
-  ~TiffSizeEntry() override = default;
+
   //@}
 
   //! @name Accessors
@@ -823,10 +812,9 @@ class TiffSizeEntry : public TiffEntryBase {
 
  private:
   // DATA
-  const uint16_t dtTag_;  //!< Tag of the entry with the data area
-  const IfdId dtGroup_;   //!< Group of the entry with the data area
-
-};  // class TiffSizeEntry
+  uint16_t dtTag_;  //!< Tag of the entry with the data area
+  IfdId dtGroup_;   //!< Group of the entry with the data area
+};
 
 /*!
   @brief This class models a TIFF directory (%Ifd). It is a composite
@@ -840,8 +828,7 @@ class TiffDirectory : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor
-  TiffDirectory(uint16_t tag, IfdId group, bool hasNext = true) : TiffComponent(tag, group), hasNext_(hasNext) {
-  }
+  TiffDirectory(uint16_t tag, IfdId group, bool hasNext = true);
   //! Virtual destructor
   ~TiffDirectory() override;
   //@}
@@ -864,7 +851,7 @@ class TiffDirectory : public TiffComponent {
   //! @name Protected Creators
   //@{
   //! Copy constructor (used to implement clone()).
-  TiffDirectory(const TiffDirectory& rhs);
+  TiffDirectory(const TiffDirectory&) = default;
   //@}
 
   //! @name Protected Manipulators
@@ -931,10 +918,9 @@ class TiffDirectory : public TiffComponent {
 
   // DATA
   Components components_;   //!< List of components in this directory
-  const bool hasNext_;      //!< True if the directory has a next pointer
+  bool hasNext_;            //!< True if the directory has a next pointer
   TiffComponent* pNext_{};  //!< Pointer to the next IFD
-
-};  // class TiffDirectory
+};
 
 /*!
   @brief This class models a TIFF sub-directory (sub-IFD). A sub-IFD
@@ -958,7 +944,7 @@ class TiffSubIfd : public TiffEntryBase {
   //! @name Protected Creators
   //@{
   //! Copy constructor (used to implement clone()).
-  TiffSubIfd(const TiffSubIfd& rhs);
+  TiffSubIfd(const TiffSubIfd&) = default;
   TiffSubIfd& operator=(const TiffSubIfd&) = delete;
   //@}
 
@@ -1008,8 +994,7 @@ class TiffSubIfd : public TiffEntryBase {
   // DATA
   IfdId newGroup_;  //!< Start of the range of group numbers for the sub-IFDs
   Ifds ifds_;       //!< The subdirectories
-
-};  // class TiffSubIfd
+};
 
 /*!
   @brief This class is the basis for Makernote support in TIFF. It contains
@@ -1027,7 +1012,10 @@ class TiffMnEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Default constructor
-  TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup);
+  constexpr TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
+      TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
+  }
+
   //! Virtual destructor
   ~TiffMnEntry() override;
   //@}
@@ -1077,8 +1065,7 @@ class TiffMnEntry : public TiffEntryBase {
   // DATA
   IfdId mnGroup_;        //!< New group for concrete mn
   TiffComponent* mn_{};  //!< The Makernote
-
-};  // class TiffMnEntry
+};
 
 /*!
   @brief Tiff IFD Makernote. This is a concrete class suitable for all
@@ -1228,8 +1215,7 @@ class TiffIfdMakernote : public TiffComponent {
   TiffDirectory ifd_;                           //!< Makernote IFD
   size_t mnOffset_{};                           //!< Makernote offset
   ByteOrder imageByteOrder_{invalidByteOrder};  //!< Byte order for the image
-
-};  // class TiffIfdMakernote
+};
 
 /*!
   @brief Function pointer type for a function to determine which cfg + def
@@ -1276,9 +1262,9 @@ struct ArrayCfg {
 
 //! Combination of array configuration and definition for arrays
 struct ArraySet {
-  const ArrayCfg cfg_;    //!< Binary array configuration
-  const ArrayDef* def_;   //!< Binary array definition array
-  const size_t defSize_;  //!< Size of the array definition array
+  ArrayCfg cfg_;         //!< Binary array configuration
+  const ArrayDef* def_;  //!< Binary array definition array
+  size_t defSize_;       //!< Size of the array definition array
 };
 
 /*!
@@ -1360,7 +1346,7 @@ class TiffBinaryArray : public TiffEntryBase {
   //! @name Protected Creators
   //@{
   //! Copy constructor (used to implement clone()).
-  TiffBinaryArray(const TiffBinaryArray& rhs);
+  TiffBinaryArray(const TiffBinaryArray&) = default;
   //@}
 
   //! @name Protected Manipulators
@@ -1400,33 +1386,27 @@ class TiffBinaryArray : public TiffEntryBase {
 
  private:
   // DATA
-  const CfgSelFct cfgSelFct_{};  //!< Pointer to a function to determine which cfg to use (may be 0)
-  const ArraySet* arraySet_{};   //!< Pointer to the array set, if any (may be 0)
-  const ArrayCfg* arrayCfg_{};   //!< Pointer to the array configuration (must not be 0, except for
-                                 //!< unrecognized complex binary arrays)
-  const ArrayDef* arrayDef_{};   //!< Pointer to the array definition (may be 0)
-  size_t defSize_{};             //!< Size of the array definition array (may be 0)
-  size_t setSize_{};             //!< Size of the array set (may be 0)
-  Components elements_;          //!< List of elements in this composite
-  byte* origData_{};             //!< Pointer to the original data buffer (unencrypted)
-  size_t origSize_{};            //!< Size of the original data buffer
-  TiffComponent* pRoot_{};       //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
-  bool decoded_{};               //!< Flag to indicate if the array was decoded
-};                               // class TiffBinaryArray
+  CfgSelFct cfgSelFct_{};       //!< Pointer to a function to determine which cfg to use (may be 0)
+  const ArraySet* arraySet_{};  //!< Pointer to the array set, if any (may be 0)
+  const ArrayCfg* arrayCfg_{};  //!< Pointer to the array configuration (must not be 0, except for
+                                //!< unrecognized complex binary arrays)
+  const ArrayDef* arrayDef_{};  //!< Pointer to the array definition (may be 0)
+  size_t defSize_{};            //!< Size of the array definition array (may be 0)
+  size_t setSize_{};            //!< Size of the array set (may be 0)
+  Components elements_;         //!< List of elements in this composite
+  byte* origData_{};            //!< Pointer to the original data buffer (unencrypted)
+  size_t origSize_{};           //!< Size of the original data buffer
+  TiffComponent* pRoot_{};      //!< Pointer to the root component of the TIFF tree. (Only used for intrusive writing.)
+  bool decoded_{};              //!< Flag to indicate if the array was decoded
+};
 
 /*!
   @brief Element of a TiffBinaryArray.
  */
 class TiffBinaryElement : public TiffEntryBase {
- public:
-  //! @name Creators
-  //@{
-  //! Constructor
-  TiffBinaryElement(uint16_t tag, IfdId group);
-  //! Virtual destructor.
-  ~TiffBinaryElement() override = default;
-  //@}
+  using TiffEntryBase::TiffEntryBase;
 
+ public:
   //! @name Manipulators
   //@{
   /*!
@@ -1491,10 +1471,9 @@ class TiffBinaryElement : public TiffEntryBase {
 
  private:
   // DATA
-  ArrayDef elDef_;                           //!< The array element definition
+  ArrayDef elDef_{0, ttUndefined, 0};        //!< The array element definition
   ByteOrder elByteOrder_{invalidByteOrder};  //!< Byte order to read/write the element
-
-};  // class TiffBinaryElement
+};
 
 // *****************************************************************************
 // template, inline and free functions
@@ -1533,9 +1512,9 @@ TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group) {
 }
 
 //! Function to create and initialize a new binary array entry
-template <const ArrayCfg& arrayCfg, size_t N, const ArrayDef arrayDef[N]>
+template <const ArrayCfg& arrayCfg, size_t N, const ArrayDef (&arrayDef)[N]>
 TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
-  return std::make_unique<TiffBinaryArray>(tag, group, arrayCfg, &(*arrayDef), N);
+  return std::make_unique<TiffBinaryArray>(tag, group, arrayCfg, arrayDef, N);
 }
 
 //! Function to create and initialize a new simple binary array entry
@@ -1545,9 +1524,9 @@ TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group) {
 }
 
 //! Function to create and initialize a new complex binary array entry
-template <const ArraySet* arraySet, size_t N, CfgSelFct cfgSelFct>
+template <size_t N, const ArraySet (&arraySet)[N], CfgSelFct cfgSelFct>
 TiffComponent::UniquePtr newTiffBinaryArray2(uint16_t tag, IfdId group) {
-  return std::make_unique<TiffBinaryArray>(tag, group, &(*arraySet), N, cfgSelFct);
+  return std::make_unique<TiffBinaryArray>(tag, group, arraySet, N, cfgSelFct);
 }
 
 //! Function to create and initialize a new TIFF entry for a thumbnail (data)

@@ -73,16 +73,6 @@ class EXIV2API RafImage : public Image {
   [[nodiscard]] uint32_t pixelWidth() const override;
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
-
-  ~RafImage() override = default;
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor
-  RafImage(const RafImage&) = delete;
-  //! Assignment operator
-  RafImage& operator=(const RafImage&) = delete;
-  //@}
-
 };  // class RafImage
 
 // *****************************************************************************

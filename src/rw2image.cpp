@@ -32,18 +32,16 @@ std::string Rw2Image::mimeType() const {
 
 uint32_t Rw2Image::pixelWidth() const {
   auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorWidth"));
-  if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-    return imageWidth->toUint32();
-  }
-  return 0;
+  if (imageWidth == exifData_.end() || imageWidth->count() == 0)
+    return 0;
+  return imageWidth->toUint32();
 }
 
 uint32_t Rw2Image::pixelHeight() const {
   auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorHeight"));
-  if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-    return imageHeight->toUint32();
-  }
-  return 0;
+  if (imageHeight == exifData_.end() || imageHeight->count() == 0)
+    return 0;
+  return imageHeight->toUint32();
 }
 
 void Rw2Image::setExifData(const ExifData& /*exifData*/) {
@@ -197,7 +195,7 @@ ByteOrder Rw2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
 Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<Rw2Image>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

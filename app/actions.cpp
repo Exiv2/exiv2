@@ -17,17 +17,16 @@
 #include "types.hpp"
 #include "xmp_exiv2.hpp"
 
-// + standard includes
-#include <sys/stat.h>   // for stat()
-#include <sys/types.h>  // for stat()
-
-#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <mutex>
 #include <sstream>
-#ifdef EXV_HAVE_UNISTD_H
+
+// + standard includes
+#include <sys/stat.h>   // for stat()
+#include <sys/types.h>  // for stat()
+#if __has_include(<unistd.h>)
 #include <unistd.h>  // for stat()
 #endif
 
@@ -46,7 +45,13 @@
   } while (false)
 #endif
 
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 // *****************************************************************************
 // local declarations
@@ -59,7 +64,7 @@ class Timestamp {
   //! C'tor
   int read(const std::string& path);
   //! Read the timestamp from a broken-down time in buffer \em tm.
-  int read(struct tm* tm);
+  int read(tm* tm);
   //! Set the timestamp of a file
   int touch(const std::string& path) const;
 
@@ -69,22 +74,22 @@ class Timestamp {
 };
 
 /*!
-  @brief Convert a string "YYYY:MM:DD HH:MI:SS" to a struct tm type,
+  @brief Convert a string "YYYY:MM:DD HH:MI:SS" to a tm type,
          returns 0 if successful
  */
-int str2Tm(const std::string& timeStr, struct tm* tm);
+int str2Tm(const std::string& timeStr, tm* tm);
 
 //! Convert a localtime to a string "YYYY:MM:DD HH:MI:SS", "" on error
 std::string time2Str(time_t time);
 
 //! Convert a tm structure to a string "YYYY:MM:DD HH:MI:SS", "" on error
-std::string tm2Str(const struct tm* tm);
+std::string tm2Str(const tm* tm);
 
 /*!
   @brief Copy metadata from source to target according to Params::copyXyz
 
   @param source Source file path
-  @param target Target file path. An *.exv file is created if target doesn't
+  @param tgt Target file path. An *.exv file is created if target doesn't
                 exist.
   @param targetType Image type for the target image in case it needs to be
                 created.
@@ -102,7 +107,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
               the file to.
   @return 0 if successful, -1 if the file was skipped, 1 on error.
 */
-int renameFile(std::string& path, const struct tm* tm);
+int renameFile(std::string& path, const tm* tm);
 
 /*!
   @brief Make a file path from the current file path, destination
@@ -167,7 +172,7 @@ Task::UniquePtr TaskFactory::create(TaskType type) {
   return nullptr;
 }
 
-int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path, bool binary) {
+static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path, bool binary) {
   int result = 0;
   if (binary && option == Exiv2::kpsIccProfile) {
     std::stringstream output(std::stringstream::out | std::stringstream::binary);
@@ -619,23 +624,20 @@ int Rename::run(const std::string& path) {
       std::cerr << path << ": " << _("No Exif data found in the file\n");
       return -3;
     }
-    Exiv2::ExifKey key("Exif.Photo.DateTimeOriginal");
-    auto md = exifData.findKey(key);
-    if (md == exifData.end()) {
-      key = Exiv2::ExifKey("Exif.Image.DateTime");
-      md = exifData.findKey(key);
-    }
+    auto md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
+    if (md == exifData.end())
+      md = exifData.findKey(Exiv2::ExifKey("Exif.Image.DateTime"));
     if (md == exifData.end()) {
       std::cerr << _("Neither tag") << " `Exif.Photo.DateTimeOriginal' " << _("nor") << " `Exif.Image.DateTime' "
                 << _("found in the file") << " " << path << "\n";
       return 1;
     }
     std::string v = md->toString();
-    if (v.length() == 0 || v[0] == ' ') {
+    if (v.empty() || v.front() == ' ') {
       std::cerr << _("Image file creation timestamp not set in the file") << " " << path << "\n";
       return 1;
     }
-    struct tm tm;
+    tm tm;
     if (str2Tm(v, &tm) != 0) {
       std::cerr << _("Failed to parse timestamp") << " `" << v << "' " << _("in the file") << " " << path << "\n";
       return 1;
@@ -1285,9 +1287,9 @@ void Modify::delMetadatum(Exiv2::Image* pImage, const ModifyCmd& modifyCmd) {
     }
   }
   if (modifyCmd.metadataId_ == MetadataId::xmp) {
-    Exiv2::XmpData::iterator pos;
     const Exiv2::XmpKey xmpKey(modifyCmd.key_);
-    if ((pos = xmpData.findKey(xmpKey)) != xmpData.end()) {
+    auto pos = xmpData.findKey(xmpKey);
+    if (pos != xmpData.end()) {
       xmpData.eraseFamily(pos);
     }
   }
@@ -1399,7 +1401,7 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
       std::cout << " " << adjustment_ << _("s");
     }
   }
-  struct tm tm;
+  tm tm;
   if (str2Tm(timeStr, &tm) != 0) {
     if (Params::instance().verbose_)
       std::cout << std::endl;
@@ -1408,30 +1410,32 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
   }
 
   // bounds checking for yearAdjustment_
-  enforce<std::overflow_error>(yearAdjustment_ >= std::numeric_limits<decltype(tm.tm_year)>::min(),
-                               "year adjustment too low");
-  enforce<std::overflow_error>(yearAdjustment_ <= std::numeric_limits<decltype(tm.tm_year)>::max(),
-                               "year adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(yearAdjustment_ >= std::numeric_limits<decltype(tm.tm_year)>::min(),
+                                                "year adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(yearAdjustment_ <= std::numeric_limits<decltype(tm.tm_year)>::max(),
+                                                "year adjustment too high");
   const auto yearAdjustment = static_cast<decltype(tm.tm_year)>(yearAdjustment_);
 
   // bounds checking for monthAdjustment_
-  enforce<std::overflow_error>(monthAdjustment_ >= std::numeric_limits<decltype(tm.tm_mon)>::min(),
-                               "month adjustment too low");
-  enforce<std::overflow_error>(monthAdjustment_ <= std::numeric_limits<decltype(tm.tm_mon)>::max(),
-                               "month adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(monthAdjustment_ >= std::numeric_limits<decltype(tm.tm_mon)>::min(),
+                                                "month adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(monthAdjustment_ <= std::numeric_limits<decltype(tm.tm_mon)>::max(),
+                                                "month adjustment too high");
   const auto monthAdjustment = static_cast<decltype(tm.tm_mon)>(monthAdjustment_);
 
   // bounds checking for dayAdjustment_
   static constexpr time_t secondsInDay = 24 * 60 * 60;
-  enforce<std::overflow_error>(dayAdjustment_ >= std::numeric_limits<time_t>::min() / secondsInDay,
-                               "day adjustment too low");
-  enforce<std::overflow_error>(dayAdjustment_ <= std::numeric_limits<time_t>::max() / secondsInDay,
-                               "day adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(dayAdjustment_ >= std::numeric_limits<time_t>::min() / secondsInDay,
+                                                "day adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(dayAdjustment_ <= std::numeric_limits<time_t>::max() / secondsInDay,
+                                                "day adjustment too high");
   const auto dayAdjustment = static_cast<time_t>(dayAdjustment_);
 
   // bounds checking for adjustment_
-  enforce<std::overflow_error>(adjustment_ >= std::numeric_limits<time_t>::min(), "seconds adjustment too low");
-  enforce<std::overflow_error>(adjustment_ <= std::numeric_limits<time_t>::max(), "seconds adjustment too high");
+  Exiv2::Internal::enforce<std::overflow_error>(adjustment_ >= std::numeric_limits<time_t>::min(),
+                                                "seconds adjustment too low");
+  Exiv2::Internal::enforce<std::overflow_error>(adjustment_ <= std::numeric_limits<time_t>::max(),
+                                                "seconds adjustment too high");
   const auto adjustment = static_cast<time_t>(adjustment_);
 
   const auto monOverflow = Safe::add(tm.tm_mon, monthAdjustment) / 12;
@@ -1580,7 +1584,7 @@ int Timestamp::read(const std::string& path) {
   return rc;
 }
 
-int Timestamp::read(struct tm* tm) {
+int Timestamp::read(tm* tm) {
   int rc = 1;
   time_t t = mktime(tm);  // interpret tm according to current timezone settings
   if (t != static_cast<time_t>(-1)) {
@@ -1594,15 +1598,15 @@ int Timestamp::read(struct tm* tm) {
 int Timestamp::touch(const std::string& path) const {
   if (0 == actime_)
     return 1;
-  struct utimbuf buf;
+  utimbuf buf;
   buf.actime = actime_;
   buf.modtime = modtime_;
   return utime(path.c_str(), &buf);
 }
 //! @endcond
 
-int str2Tm(const std::string& timeStr, struct tm* tm) {
-  if (timeStr.length() == 0 || timeStr[0] == ' ')
+int str2Tm(const std::string& timeStr, tm* tm) {
+  if (timeStr.empty() || timeStr.front() == ' ')
     return 1;
   if (timeStr.length() < 19)
     return 2;
@@ -1611,7 +1615,7 @@ int str2Tm(const std::string& timeStr, struct tm* tm) {
     return 3;
   if (!tm)
     return 4;
-  std::memset(tm, 0x0, sizeof(struct tm));
+  std::memset(tm, 0x0, sizeof(*tm));
   tm->tm_isdst = -1;
 
   int64_t tmp = 0;
@@ -1652,7 +1656,7 @@ std::string time2Str(time_t time) {
   return tm2Str(tm);
 }  // time2Str
 
-std::string tm2Str(const struct tm* tm) {
+std::string tm2Str(const tm* tm) {
   if (!tm)
     return "";
 
@@ -1669,8 +1673,7 @@ std::string temporaryPath() {
   auto guard = std::scoped_lock(cs);
 
 #if defined(_WIN32)
-  HANDLE process = nullptr;
-  DWORD pid = ::GetProcessId(process);
+  DWORD pid = ::GetCurrentProcessId();
 #else
   pid_t pid = ::getpid();
 #endif
@@ -1791,10 +1794,8 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
 
   // if we used a temporary target, copy it to stdout
   if (rc == 0 && bStdout) {
-    FILE* f = ::fopen(target.c_str(), "rb");
     _setmode(fileno(stdout), O_BINARY);
-
-    if (f) {
+    if (auto f = std::fopen(target.c_str(), "rb")) {
       char buffer[8 * 1024];
       size_t n = 1;
       while (!feof(f) && n > 0) {
@@ -1812,14 +1813,6 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
   return rc;
 }  // metacopy
 
-// Defined outside of the function so that Exiv2::find() can see it
-struct String {
-  const char* s_;
-  bool operator==(const char* s) const {
-    return 0 == strcmp(s_, s);
-  }
-};
-
 void replace(std::string& text, const std::string& searchText, const std::string& replaceText) {
   std::string::size_type index = 0;
   while ((index = text.find(searchText, index)) != std::string::npos) {
@@ -1828,7 +1821,7 @@ void replace(std::string& text, const std::string& searchText, const std::string
   }
 }
 
-int renameFile(std::string& newPath, const struct tm* tm) {
+int renameFile(std::string& newPath, const tm* tm) {
   auto p = fs::path(newPath);
   std::string path = newPath;
   auto oldFsPath = fs::path(path);
@@ -1886,7 +1879,6 @@ int renameFile(std::string& newPath, const struct tm* tm) {
               break;
             default:  // skip
               return -1;
-              break;
           }
       }
     } else {

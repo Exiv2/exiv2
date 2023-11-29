@@ -1,0 +1,175 @@
+name: On PRs - meson
+
+on: pull_request
+
+concurrency:
+  group: ${{github.workflow}}-${{github.head_ref}}
+  cancel-in-progress: true
+
+jobs:
+  Ubuntu:
+    runs-on: ubuntu-20.04
+    name: Linux-GCC${{matrix.cxx}}-deps=${{matrix.deps}}
+    strategy:
+      matrix:
+        cxx: ['7', '13']
+        deps: ['forcefallback', 'default']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: egor-tensin/setup-gcc@v1
+        with:
+          version: ${{matrix.cxx}}
+      - name: Install meson
+        run: python3 -m pip install meson ninja
+      - name: Compile and Test
+        run: |
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3
+          meson compile -C "${{github.workspace}}/build"
+          meson test -C "${{github.workspace}}/build"
+  Ubuntu-clang:
+    runs-on: ubuntu-20.04
+    name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
+    strategy:
+      matrix:
+        cxx: ['7', '17']
+        deps: ['forcefallback', 'default']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: egor-tensin/setup-clang@v1
+        with:
+          version: ${{matrix.cxx}}
+      - name: Install meson
+        run: |
+          python3 -m pip install meson ninja
+          sudo apt install -y libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
+      - name: Compile and Test
+        env:
+          CXXFLAGS: -stdlib=libc++
+        run: |
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson compile -C "${{github.workspace}}/build" --verbose
+          meson test -C "${{github.workspace}}/build" --verbose
+  VisualStudio:
+    runs-on: windows-latest
+    name: MSVC-${{matrix.deps}}-${{matrix.platform}}
+    strategy:
+      matrix:
+        deps: ['forcefallback', 'default']
+        platform: ['x64', 'x86']
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install packages
+        run: |
+          python -m pip install meson ninja
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.platform}}
+
+      - name: Compile and Test
+        run: |
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest
+          meson compile -C "${{github.workspace}}/build" --verbose
+          meson test -C "${{github.workspace}}/build" --verbose
+  VisualStudio-clang-cl:
+    runs-on: windows-latest
+    name: clang-cl-${{matrix.deps}}
+    strategy:
+      matrix:
+        deps: ['forcefallback', 'default']
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install packages
+        run: |
+          python -m pip install meson ninja
+
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Compile and Test
+        env:
+          CC: clang-cl
+          CXX: clang-cl
+        run: |
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest
+          meson compile -C "${{github.workspace}}/build" --verbose
+          meson test -C "${{github.workspace}}/build" --verbose
+  MSYS2:
+    runs-on: windows-latest
+    name: MSYS2-${{matrix.platform}}-deps=${{matrix.deps}}
+    strategy:
+      matrix:
+        deps: ['enabled', 'disabled']
+        platform: ['UCRT64', 'CLANG32', 'CLANG64']
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{matrix.platform}}
+          pacboy: >-
+            cc:p
+            cmake:p
+            curl:p
+            gtest:p
+            libinih:p
+            meson:p
+            ninja:p
+            pkgconf:p
+
+      - name: Compile and Test
+        run: |
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++20
+          meson compile -C "${{github.workspace}}/build" --verbose
+          meson test -C "${{github.workspace}}/build" --verbose
+  MacOS:
+    runs-on: macos-latest
+    name: macOS-deps=${{matrix.deps}}
+    strategy:
+      matrix:
+        deps: ['enabled', 'disabled']
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install packages
+        run: |
+          brew install curl brotli inih expat googletest
+          python3 -m pip install meson==0.54.1 ninja
+
+      - name: Compile and Test
+        run: |
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
+          meson compile -C "${{github.workspace}}/build"
+          meson test -C "${{github.workspace}}/build"
+  FreeBSD:
+    runs-on: macos-latest
+    name: FreeBSD
+    steps:
+      - uses: actions/checkout@v3
+      - name: FreeBSD
+        uses: vmactions/freebsd-vm@v0
+        with:
+          prepare: |
+            pkg install -y cmake curl ninja meson gettext pkgconf googletest expat inih brotli
+          run: |
+            meson setup "${{github.workspace}}/build" -Dwarning_level=3 -Dcpp_std=c++20
+            meson compile -C "${{github.workspace}}/build" --verbose
+            meson test -C "${{github.workspace}}/build" --verbose
+  Emscripten:
+    runs-on: ubuntu-latest
+    name: Emscripten
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install packages
+        run: |
+          python3 -m pip install meson ninja
+      - name: Emscripten
+        uses: mymindstorm/setup-emsdk@v12
+      - name: Compile
+        run: |
+          meson setup "${{github.workspace}}/build" --cross-file="${{github.workspace}}/em.txt" --wrap-mode=forcefallback -Ddefault_library=static -Dwarning_level=3 -Dcpp_std=c++20 -DunitTests=disabled -Dcurl=disabled
+          meson compile -C "${{github.workspace}}/build" --verbose

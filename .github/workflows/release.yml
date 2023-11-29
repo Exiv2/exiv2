@@ -24,8 +24,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get install ninja-build gettext doxygen graphviz
-          pip3 install conan==1.54.0
+          sudo apt install -y gettext doxygen graphviz
+          python -m pip install conan==1.59.0 ninja
 
       - name: Conan common config
         run: |
@@ -62,6 +62,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew install ninja
+          brew install inih
           brew install tree
           brew install gettext
           brew install doxygen
@@ -79,8 +80,7 @@ jobs:
             -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
             -DEXIV2_BUILD_DOC=ON \
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"
+            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
           cmake --build build -t doc
           cmake --build build -t package
 
@@ -98,17 +98,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up Visual Studio shell
-        uses: egor-tensin/vs-shell@v2
-
-      - name: Setup Ninja
-        uses: ashutoshvarma/setup-ninja@master
-        with:
-          version: 1.10.0
-
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: 3.7
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Install doxygen
         run: |
@@ -116,14 +106,14 @@ jobs:
           choco install graphviz
 
       - name: Restore conan cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-release-win-${{ hashFiles('conanfile.py') }}
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.54.0"
+          python -m pip install conan==1.59.0
           conan profile new --detect default
           conan profile show default
           conan profile update settings.build_type=Release default

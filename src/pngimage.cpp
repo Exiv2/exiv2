@@ -41,8 +41,8 @@ constexpr unsigned char pngBlank[] = {
 const auto nullComp = reinterpret_cast<const Exiv2::byte*>("\0\0");
 const auto typeExif = reinterpret_cast<const Exiv2::byte*>("eXIf");
 const auto typeICCP = reinterpret_cast<const Exiv2::byte*>("iCCP");
-inline bool compare(std::string_view str, const Exiv2::DataBuf& buf) {
-  const auto minlen = std::min(str.size(), buf.size());
+bool compare(std::string_view str, const Exiv2::DataBuf& buf) {
+  const auto minlen = std::min<size_t>(str.size(), buf.size());
   return buf.cmpBytes(0, str.data(), minlen) == 0;
 }
 }  // namespace
@@ -173,7 +173,7 @@ static bool tEXtToDataBuf(const byte* bytes, size_t length, DataBuf& result) {
   return true;
 }
 
-std::string::size_type findi(const std::string& str, const std::string& substr) {
+static std::string::size_type findi(const std::string& str, const std::string& substr) {
   return str.find(substr);
 }
 
@@ -247,7 +247,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
       }
       while (dataString.size() < iMax)
         dataString += ' ';
-      dataString = dataString.substr(0, iMax);
+      dataString.resize(iMax);
 
       if (bPrint) {
         io_->seek(dataOffset, BasicIo::cur);  // jump to checksum
@@ -320,7 +320,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
 
           if (bExif || bIptc) {
             DataBuf parsedBuf = PngChunk::readRawProfile(dataBuf, tEXt);
-#if EXIV2_DEBUG_MESSAGES
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << Exiv2::Internal::binaryToString(
                              makeSlice(parsedBuf.c_data(), parsedBuf.size() > 50 ? 50 : parsedBuf.size(), 0))
                       << std::endl;
@@ -374,7 +374,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
   }
 }
 
-void readChunk(DataBuf& buffer, BasicIo& io) {
+static void readChunk(DataBuf& buffer, BasicIo& io) {
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;
 #endif
@@ -408,8 +408,7 @@ void PngImage::readMetadata() {
 
     // Decode chunk data length.
     uint32_t chunkLength = cheaderBuf.read_uint32(0, Exiv2::bigEndian);
-    const size_t pos = io_->tell();
-    if (chunkLength > imgSize - pos) {
+    if (chunkLength > imgSize - io_->tell()) {
       throw Exiv2::Error(ErrorCode::kerFailedToReadImageData);
     }
 
@@ -686,7 +685,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
 Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<PngImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

@@ -129,7 +129,7 @@ class EXIV2API Exifdatum : public Metadatum {
     @return Return -1 if the %Exifdatum does not have a value yet or the
             value has no data area, else 0.
    */
-  int setDataArea(const byte* buf, size_t len);
+  int setDataArea(const byte* buf, size_t len) const;
   //@}
 
   //! @name Accessors
@@ -530,7 +530,7 @@ class EXIV2API ExifParser {
 
     @return Write method used.
   */
-  static WriteMethod encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder, const ExifData& exifData);
+  static WriteMethod encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData);
   /*!
     @brief Encode metadata from the provided metadata to Exif format.
 
@@ -551,7 +551,7 @@ class EXIV2API ExifParser {
     @param byteOrder Byte order to use.
     @param exifData  Exif metadata container.
   */
-  static void encode(Blob& blob, ByteOrder byteOrder, const ExifData& exifData) {
+  static void encode(Blob& blob, ByteOrder byteOrder, ExifData& exifData) {
     encode(blob, nullptr, 0, byteOrder, exifData);
   }
 

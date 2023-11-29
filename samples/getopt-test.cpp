@@ -26,7 +26,7 @@
 // getopt.{cpp|hpp} is not part of libexiv2
 #include "getopt.hpp"
 
-#ifdef EXV_HAVE_UNISTD_H
+#if __has_include(<unistd.h>)
 #include <unistd.h>
 #endif
 #include <iostream>
@@ -79,7 +79,7 @@ int main(int argc, char** const argv) {
 
   int n;
 
-#ifdef EXV_HAVE_UNISTD_H
+#if __has_include(<unistd.h>)
   std::cout << "standard getopt()" << std::endl;
   do {
     n = ::getopt(argc, argv, ::optstring);

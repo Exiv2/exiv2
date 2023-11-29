@@ -38,7 +38,7 @@
 # define _WIN64 1
 #endif
 
-#if defined WIN32
+#if defined _WIN32
 # define WIN_ENV 1
 /* Todo: How to correctly recognize a Mac platform? */
 #elif defined macintosh || defined MACOS_CLASSIC || defined MACOS_X_UNIX || defined MACOS_X || defined MACOS || defined(__APPLE__)

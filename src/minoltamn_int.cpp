@@ -1031,7 +1031,7 @@ const TagInfo* MinoltaMakerNote::tagListCsA100() {
    25720/25721, 25790/25791, 25960/25961, 25980/25981, 26150/26151
    - No need to i18n these string.
 */
-extern TagDetails const minoltaSonyLensID[] = {
+static constexpr TagDetails minoltaSonyLensID[] = {
     {0, "Minolta AF 28-85mm F3.5-4.5 New"},
     {1, "Minolta AF 80-200mm F2.8 HS-APO G"},
     {2, "Minolta AF 28-70mm F2.8 G"},
@@ -1446,33 +1446,34 @@ static long getKeyLong(const std::string& key, const ExifData* metadata, int whi
 /*! http://stackoverflow.com/questions/1798112/removing-leading-and-trailing-spaces-from-a-string
     trim from left
 */
-inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v") {
   s.erase(0, s.find_first_not_of(t));
   return s;
 }
 
 //! trim from right
-inline std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v") {
   s.erase(s.find_last_not_of(t) + 1);
   return s;
 }
 
 //! trim from left & right
-inline std::string& trim(std::string& s, const char* t = " \t\n\r\f\v") {
+static std::string& trim(std::string& s, const char* t = " \t\n\r\f\v") {
   return ltrim(rtrim(s, t), t);
 }
 
 // https://stackoverflow.com/questions/14265581/parse-split-a-string-in-c-using-string-delimiter-standard-c
 static std::vector<std::string> split(const std::string& str, const std::string& delim) {
   std::vector<std::string> tokens;
-  size_t prev = 0, pos = 0;
+  size_t prev = 0;
+  size_t pos = 0;
   do {
     pos = str.find(delim, prev);
     if (pos == std::string::npos)
       pos = str.length();
     std::string token = str.substr(prev, pos - prev);
     if (!token.empty())
-      tokens.push_back(token);
+      tokens.push_back(std::move(token));
     prev = pos + delim.length();
   } while (pos < str.length() && prev < str.length());
   return tokens;
@@ -1483,7 +1484,7 @@ static bool inRange(long value, long min, long max) {
 }
 
 static std::ostream& resolvedLens(std::ostream& os, long lensID, long index) {
-  const TagDetails* td = find(minoltaSonyLensID, lensID);
+  auto td = Exiv2::find(minoltaSonyLensID, lensID);
   std::vector<std::string> tokens = split(td[0].label_, "|");
   return os << exvGettext(trim(tokens.at(index - 1)).c_str());
 }
@@ -1535,9 +1536,9 @@ static std::ostream& resolveLens0x34(std::ostream& os, const Value& value, const
     std::string model = getKeyString("Exif.Image.Model", metadata);
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
-    std::string F2_8 = "760/256";
 
-    if (model == "SLT-A77V" && maxAperture == F2_8) {
+    // F2_8
+    if (model == "SLT-A77V" && maxAperture == "760/256") {
       index = 4;
     }
     if (model == "SLT-A77V" && inRange(focalLength, 70, 300)) {
@@ -1560,9 +1561,9 @@ static std::ostream& resolveLens0x80(std::ostream& os, const Value& value, const
     std::string model = getKeyString("Exif.Image.Model", metadata);
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
-    std::string F4 = "1024/256";
 
-    if (model == "SLT-A77V" && maxAperture == F4 && inRange(focalLength, 18, 200)) {
+    // F4
+    if (model == "SLT-A77V" && maxAperture == "1024/256" && inRange(focalLength, 18, 200)) {
       index = 2;
     }
 
@@ -1582,9 +1583,9 @@ static std::ostream& resolveLens0xff(std::ostream& os, const Value& value, const
     std::string model = getKeyString("Exif.Image.Model", metadata);
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
-    std::string F2_8 = "760/256";
 
-    if (model == "SLT-A77V" && maxAperture == F2_8 && inRange(focalLength, 17, 50)) {
+    // F2_8
+    if (model == "SLT-A77V" && maxAperture == "760/256" && inRange(focalLength, 17, 50)) {
       index = 1;
     }
 
@@ -1606,7 +1607,7 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
     std::string maxAperture = getKeyString("Exif.Photo.MaxApertureValue", metadata);
 
     std::string F1_8 = "434/256";
-    static constexpr auto maxApertures = std::array{
+    static constexpr const char* maxApertures[] = {
         "926/256",   // F3.5
         "1024/256",  // F4
         "1110/256",  // F4.5
@@ -1626,7 +1627,7 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
       } catch (...) {
       }
 
-    if (model == "ILCE-6000" && std::find(maxApertures.begin(), maxApertures.end(), maxAperture) != maxApertures.end())
+    if (model == "ILCE-6000" && Exiv2::find(maxApertures, maxAperture))
       try {
         long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
         if (focalLength > 0) {
@@ -1648,16 +1649,23 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 
-//! List of lens ids which require special treatment from printMinoltaSonyLensID
-constexpr auto lensIdFct = std::array{
-    std::pair(0x001cu, &resolveLens0x1c), std::pair(0x0029u, &resolveLens0x29), std::pair(0x0034u, &resolveLens0x34),
-    std::pair(0x0080u, &resolveLens0x80), std::pair(0x00ffu, &resolveLens0xff), std::pair(0xffffu, &resolveLens0xffff),
-    //     std::pair(0x00ff, resolveLensTypeUsingExiftool), // was used for debugging
-};
-// #1145 end - respect lenses with shared LensID
-// ----------------------------------------------------------------------
-
 std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata) {
+  //! List of lens ids which require special treatment from printMinoltaSonyLensID
+  static constexpr struct LensIdFct {
+    uint32_t idx;
+    PrintFct fct;
+
+    bool operator==(uint32_t i) const {
+      return i == idx;
+    }
+  } lensIdFct[] = {
+      {0x001cu, &resolveLens0x1c}, {0x0029u, &resolveLens0x29}, {0x0034u, &resolveLens0x34},
+      {0x0080u, &resolveLens0x80}, {0x00ffu, &resolveLens0xff}, {0xffffu, &resolveLens0xffff},
+      //{0x00ffu, &resolveLensTypeUsingExiftool}, // was used for debugging
+  };
+  // #1145 end - respect lenses with shared LensID
+  // ----------------------------------------------------------------------
+
   // #1034
   const std::string undefined("undefined");
   const std::string minolta("minolta");
@@ -1671,9 +1679,9 @@ std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const
 
   // #1145 - respect lenses with shared LensID
   uint32_t index = value.toUint32();
-  for (auto&& [idx, fct] : lensIdFct)
-    if (metadata && idx == index && fct)
-      return fct(os, value, metadata);
+  if (metadata)
+    if (auto f = Exiv2::find(lensIdFct, index))
+      return f->fct(os, value, metadata);
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 

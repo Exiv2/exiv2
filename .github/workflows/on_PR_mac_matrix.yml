@@ -19,7 +19,7 @@ jobs:
       matrix:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
-        
+
     steps:
       - uses: actions/checkout@v3
 
@@ -27,18 +27,11 @@ jobs:
         run: |
           brew install ninja
           brew install inih
-          pushd /tmp
-          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
-          tar xzf   release-1.8.0.tar.gz
-          mkdir -p  googletest-release-1.8.0/build
-          pushd     googletest-release-1.8.0/build
-          cmake .. ; make ; make install
-          popd
-          popd
+          brew install googletest
 
       - name: Build
         run: |
-          cmake --preset base_mac -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_mac -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
           cmake --build build --parallel
 
       - name: Install

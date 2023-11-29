@@ -39,7 +39,7 @@ foreach(entry ${SAMPLES})
     set_target_properties(${target} PROPERTIES
       COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
     list(APPEND APPLICATIONS ${target})
-    target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
+    target_include_directories(${target} PRIVATE ${PROJECT_SOURCE_DIR}/src) # To find enforce.hpp
     if ( NOT ${target} MATCHES ".*test.*")                                # don't install tests
         install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
     endif()
@@ -54,26 +54,28 @@ endif()
 add_executable( getopt-test getopt-test.cpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS getopt-test)
 target_include_directories(getopt-test PRIVATE 
-  ${CMAKE_SOURCE_DIR}/app
+  ${PROJECT_SOURCE_DIR}/app
 ) # To find getopt.hpp
 
 add_executable( metacopy metacopy.cpp metacopy.hpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS metacopy)
 target_include_directories(metacopy PRIVATE 
-  ${CMAKE_SOURCE_DIR}/app
+  ${PROJECT_SOURCE_DIR}/app
 ) # To find getopt.hpp
 
 add_executable(          path-test  path-test.cpp ../app/getopt.cpp)
 list(APPEND APPLICATIONS path-test)
 set_target_properties(   path-test  PROPERTIES OUTPUT_NAME path-test )
 target_include_directories(path-test PRIVATE 
-  ${CMAKE_SOURCE_DIR}/app
+  ${PROJECT_SOURCE_DIR}/app
 ) # To find getopt.hpp
 
 install( TARGETS metacopy RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-target_link_libraries( ini-test PRIVATE inih::libinih )
-target_link_libraries( ini-test PRIVATE inih::inireader )
+if( EXIV2_ENABLE_INIH )
+  target_link_libraries( ini-test PRIVATE inih::libinih )
+  target_link_libraries( ini-test PRIVATE inih::inireader )
+endif()
 
 if( EXPAT_FOUND )
     add_executable(        geotag    geotag.cpp)
@@ -84,9 +86,8 @@ if( EXPAT_FOUND )
             ${EXPAT_LIBRARIES}
     )
     target_include_directories(geotag PRIVATE ${CMAKE_BINARY_DIR})          # exv_conf.h 
-    target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/include)  # <exiv2/exiv2.hpp>    
+    target_include_directories(geotag PRIVATE ${PROJECT_SOURCE_DIR}/include)  # <exiv2/exiv2.hpp>
     target_include_directories(geotag PRIVATE ${EXPAT_INCLUDE_DIR})
-    target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
 
     if (WIN32)
         target_compile_definitions(geotag PRIVATE XML_STATIC)

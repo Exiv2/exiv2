@@ -19,14 +19,14 @@ jobs:
       matrix:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
-        
+
     steps:
       - uses: actions/checkout@v3
 
       - name: install dependencies
         run: |
-          sudo apt-get install ninja-build tree
-          pip3 install conan==1.54.0
+          sudo apt install -y tree
+          python3 -m pip install conan==1.59.0 ninja
 
       - name: Conan common config
         run: |
@@ -43,13 +43,13 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
           cmake --build build-base_linux --parallel
 
       - name: Install
         run: |
           cd build-base_linux
-          cmake --install . 
+          cmake --install .
 
       - name: Test
         run: |

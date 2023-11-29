@@ -19,8 +19,11 @@ EXIV2API bool enableBMFF(bool enable = true);
 #ifdef EXV_ENABLE_BMFF
 namespace Exiv2 {
 struct Iloc {
-  explicit Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length){};
+  explicit Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length) {
+  }
   virtual ~Iloc() = default;
+  Iloc(const Iloc&) = default;
+  Iloc& operator=(const Iloc&) = default;
 
   uint32_t ID_;
   uint32_t start_;
@@ -57,6 +60,7 @@ class EXIV2API BmffImage : public Image {
   //@}
 
   //@{
+  void parseTiff(uint32_t root_tag, uint64_t length);
   /*!
     @brief parse embedded tiff file (Exif metadata)
     @param root_tag root of parse tree Tag::root, Tag::cmt2 etc.
@@ -64,7 +68,6 @@ class EXIV2API BmffImage : public Image {
     @param start offset in file (default, io_->tell())
    @
    */
-  void parseTiff(uint32_t root_tag, uint64_t length);
   void parseTiff(uint32_t root_tag, uint64_t length, uint64_t start);
   //@}
 
@@ -91,7 +94,7 @@ class EXIV2API BmffImage : public Image {
   @param relative_position Location of the start of image data in the file,
       relative to the current file position indicator.
   */
-  void parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, uint8_t version, size_t width_offset,
+  void parseCr3Preview(const DataBuf& data, std::ostream& out, bool bTrace, uint8_t version, size_t width_offset,
                        size_t height_offset, size_t size_offset, size_t relative_position);
   //@}
 
@@ -113,10 +116,10 @@ class EXIV2API BmffImage : public Image {
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
-  const Exiv2::ByteOrder endian_{Exiv2::bigEndian};
+  static constexpr Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
  private:
-  void openOrThrow();
+  void openOrThrow() const;
   /*!
     @brief recursiveBoxHandler
     @throw Error if we visit a box more than once

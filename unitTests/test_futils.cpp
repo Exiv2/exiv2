@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "utils.hpp"
+
 #include <exiv2/exiv2.hpp>
 // File under test
 #include <exiv2/futils.hpp>
@@ -7,13 +9,18 @@
 // Auxiliary headers
 #include <cerrno>
 #include <cstdio>
-#include <filesystem>
 #include <fstream>
 #include <stdexcept>
 
 #include <gtest/gtest.h>
 
+#if __has_include(<filesystem>)
+#include <filesystem>
 namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
 using namespace Exiv2;
 
@@ -27,17 +34,17 @@ TEST(strError, returnSuccessAfterClosingFile) {
   std::ofstream auxFile(tmpFile.c_str());
   auxFile.close();
   fs::remove(tmpFile.c_str());
-  ASSERT_TRUE(strError().find("(errno = 0)") != std::string::npos);
+  ASSERT_TRUE(Internal::contains(strError(), "(errno = 0)"));
 }
 
 TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile) {
   std::ifstream auxFile("nonExistingFile");
-  ASSERT_STREQ("No such file or directory (errno = 2)", strError().c_str());
+  ASSERT_TRUE(Internal::contains(strError(), "No such file or directory (errno = "));
 }
 
 TEST(strError, doNotRecognizeUnknownError) {
   errno = 9999;
-  ASSERT_TRUE(strError().find("(errno = 9999)") != std::string::npos);
+  ASSERT_TRUE(Internal::contains(strError(), "(errno = 9999)"));
 }
 
 TEST(getEnv, getsDefaultValueWhenExpectedEnvVariableDoesNotExist) {

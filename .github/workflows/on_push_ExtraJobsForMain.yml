@@ -24,9 +24,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.54.0
-          pip3 install gcovr
+          python3 -m pip install conan==1.59.0 gcovr ninja
 
       - name: Conan common config
         run: |
@@ -42,7 +40,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-coverage -S . -B build -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset linux-coverage -S . -B build
           cmake --build build
 
       - name: Tests + Upload coverage

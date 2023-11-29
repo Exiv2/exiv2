@@ -22,30 +22,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Ninja
-        uses: ashutoshvarma/setup-ninja@master
-        with:
-          version: 1.10.0
-
       - name: Set up Visual Studio shell
-        uses: egor-tensin/vs-shell@v2
+        uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: 3.7
-
       - name: Restore conan cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.54.0"
+          python -m pip install conan==1.59.0
           conan profile new --detect default
           conan profile show default
           conan profile update settings.compiler="Visual Studio" default
@@ -54,7 +44,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset win-release -S . -B build  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset win-release -S . -B build
           cmake --build build --parallel
 
 
@@ -72,8 +62,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.54.0
+          python3 -m pip install conan==1.59.0 ninja
 
       - name: Conan
         run: |
@@ -85,7 +74,7 @@ jobs:
 
       - name: build and compile
         run: |
-          cmake --preset linux-release-NoConan -S . -B build  -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset linux-release -S . -B build
           cmake --build build --parallel
 
       - name: Test
@@ -104,18 +93,11 @@ jobs:
         run: |
           brew install ninja
           brew install inih
-          pushd /tmp
-          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
-          tar xzf   release-1.8.0.tar.gz
-          mkdir -p  googletest-release-1.8.0/build
-          pushd     googletest-release-1.8.0/build
-          cmake .. ; make ; make install
-          popd
-          popd
+          brew install googletest
 
       - name: build and compile
         run: |
-          cmake --preset base_mac -S . -B build -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" -DEXIV2_ENABLE_VIDEO=ON
+          cmake --preset base_mac -S . -B build
           cmake --build build --parallel
 
       - name: Test

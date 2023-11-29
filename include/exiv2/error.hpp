@@ -120,7 +120,7 @@ class EXIV2API LogMsg {
   // The log handler in use
   static Handler handler_;
   // The type of this log message
-  const Level msgType_;
+  Level msgType_;
   // Holds the log message until it is passed to the message handler
   std::ostringstream os_;
 
@@ -284,12 +284,12 @@ class EXIV2API Error : public std::exception {
   //@}
 
   // DATA
-  const ErrorCode code_;    //!< Error code
-  const std::string arg1_;  //!< First argument
-  const std::string arg2_;  //!< Second argument
-  const std::string arg3_;  //!< Third argument
-  std::string msg_;         //!< Complete error message
-};                          // class BasicError
+  ErrorCode code_;    //!< Error code
+  std::string arg1_;  //!< First argument
+  std::string arg2_;  //!< Second argument
+  std::string arg3_;  //!< Third argument
+  std::string msg_;   //!< Complete error message
+};
 
 //! %Error output operator
 inline std::ostream& operator<<(std::ostream& os, const Error& error) {

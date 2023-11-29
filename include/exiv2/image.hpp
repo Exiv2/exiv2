@@ -21,10 +21,10 @@ namespace Exiv2 {
 
 //! Native preview information. This is meant to be used only by the PreviewManager.
 struct NativePreview {
-  size_t position_;       //!< Position
-  size_t size_;           //!< Size
-  size_t width_;          //!< Width
-  size_t height_;         //!< Height
+  size_t position_{};     //!< Position
+  size_t size_{};         //!< Size
+  size_t width_{};        //!< Width
+  size_t height_{};       //!< Height
   std::string filter_;    //!< Filter
   std::string mimeType_;  //!< MIME type
 };
@@ -409,7 +409,7 @@ class EXIV2API Image {
   /*!
     @brief Return a reference to the BasicIo instance being used for Io.
 
-    This refence is particularly useful to reading the results of
+    This reference is particularly useful to reading the results of
     operations on a MemIo instance. For example after metadata has
     been modified and the writeMetadata() method has been called,
     this method can be used to get access to the modified image.
@@ -479,9 +479,13 @@ class EXIV2API Image {
 
  private:
   // DATA
-  ImageType imageType_;                    //!< Image type
-  uint16_t supportedMetadata_;             //!< Bitmap with all supported metadata types
-  bool writeXmpFromPacket_;                //!< Determines the source when writing XMP
+  ImageType imageType_;         //!< Image type
+  uint16_t supportedMetadata_;  //!< Bitmap with all supported metadata types
+#ifdef EXV_HAVE_XMP_TOOLKIT
+  bool writeXmpFromPacket_{false};  //!< Determines the source when writing XMP
+#else
+  bool writeXmpFromPacket_{true};  //!< Determines the source when writing XMP
+#endif
   ByteOrder byteOrder_{invalidByteOrder};  //!< Byte order
 
   std::map<int, std::string> tags_;  //!< Map of tags
@@ -653,15 +657,6 @@ class EXIV2API ImageFactory {
              false if the data does not match
   */
   static bool checkType(ImageType type, BasicIo& io, bool advance);
-
-  //! @name Creators
-  //@{
-  ~ImageFactory() = delete;
-  //! Prevent copy construction: not implemented.
-  ImageFactory(const ImageFactory&) = delete;
-  ImageFactory& operator=(const ImageFactory&) = delete;
-  //@}
-
 };  // class ImageFactory
 
 // *****************************************************************************

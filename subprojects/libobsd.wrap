@@ -1,0 +1,10 @@
+[wrap-file]
+directory = libobsd-1.1.0
+source_url = https://github.com/guijan/libobsd/releases/download/v1.1.0/libobsd-1.1.0.tar.xz
+source_filename = libobsd-1.1.0.tar.xz
+source_hash = 64343ccdd3b7c479954d9806a4531091195d410cc54d0172018d959a61693c2c
+
+[provide]
+libbsd-overlay = libobsd_dep
+libobsd = libobsd_dep
+

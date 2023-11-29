@@ -17,8 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef QUICKTIMEVIDEO_HPP
-#define QUICKTIMEVIDEO_HPP
+#ifndef QUICKTIMEVIDEO_HPP_
+#define QUICKTIMEVIDEO_HPP_
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -37,7 +37,7 @@ namespace Exiv2 {
 /*!
   @brief Class to access QuickTime video files.
  */
-class QuickTimeVideo : public Image {
+class EXIV2API QuickTimeVideo : public Image {
  public:
   //! @name Creators
   //@{
@@ -52,15 +52,7 @@ class QuickTimeVideo : public Image {
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
    */
-  QuickTimeVideo(BasicIo::UniquePtr io);
-  //@}
-
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  QuickTimeVideo(const QuickTimeVideo&) = delete;
-  //! Assignment operator
-  QuickTimeVideo& operator=(const QuickTimeVideo&) = delete;
+  explicit QuickTimeVideo(BasicIo::UniquePtr io);
   //@}
 
   //! @name Manipulators
@@ -71,7 +63,7 @@ class QuickTimeVideo : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
+  [[nodiscard]] std::string mimeType() const override;
   //@}
 
  protected:
@@ -85,7 +77,7 @@ class QuickTimeVideo : public Image {
         to save it in the respective XMP container. Decodes a Tag
         Information and saves it in the respective XMP container, if
         the block size is small.
-    @param buf Data buffer which cotains tag ID.
+    @param buf Data buffer which contains tag ID.
     @param size Size of the data block used to store Tag Information.
    */
   void tagDecoder(Exiv2::DataBuf& buf, size_t size);
@@ -200,20 +192,16 @@ class QuickTimeVideo : public Image {
     @param size Size of the data block that is to skipped.
    */
   void discard(size_t size);
-  /*!
-    @brief Calculates Aspect Ratio of a video, and stores it in the
-        respective XMP container.
-   */
-  void aspectRatio();
 
   //! Variable which stores Time Scale unit, used to calculate time.
   uint64_t timeScale_ = 0;
-  //! Variable which stores current stream being processsed.
+  //! Variable which stores current stream being processed.
   int currentStream_ = 0;
   //! Variable to check the end of metadata traversing.
   bool continueTraversing_ = false;
   //! Variable to store height and width of a video frame.
-  uint64_t height_ = 0, width_ = 0;
+  uint64_t height_ = 0;
+  uint64_t width_ = 0;
 
 };  // QuickTimeVideo End
 
@@ -227,11 +215,11 @@ class QuickTimeVideo : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool create);
 
 //! Check if the file iIo is a Quick Time Video.
-bool isQTimeType(BasicIo& iIo, bool advance);
+EXIV2API bool isQTimeType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // QUICKTIMEVIDEO_HPP
+#endif  // QUICKTIMEVIDEO_HPP_

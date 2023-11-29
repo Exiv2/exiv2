@@ -68,15 +68,6 @@ class EXIV2API TiffImage : public Image {
   uint32_t pixelHeight() const override;
   //@}
 
-  ~TiffImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  TiffImage(const TiffImage&) = delete;
-  //! Assignment operator
-  TiffImage& operator=(const TiffImage&) = delete;
-  //@}
-
  private:
   //! @name Accessors
   //@{
@@ -146,8 +137,8 @@ class EXIV2API TiffParser {
 
     @return Write method used.
   */
-  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, const ExifData& exifData,
-                            const IptcData& iptcData, const XmpData& xmpData);
+  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
+                            IptcData& iptcData, XmpData& xmpData);
 
 };  // class TiffParser
 

@@ -60,20 +60,12 @@ class EXIV2API PngImage : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
-  ~PngImage() override = default;
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor
-  PngImage(const PngImage&) = delete;
-  //! Assignment operator
-  PngImage& operator=(const PngImage&) = delete;
-
  private:
   /*!
     @brief Provides the main implementation of writeMetadata() by
           writing all buffered metadata to the provided BasicIo.
     @throw Error on input-output errors or when the image data is not valid.
-    @param oIo BasicIo instance to write to (a temporary location).
+    @param outIo BasicIo instance to write to (a temporary location).
 
    */
   void doWriteMetadata(BasicIo& outIo);

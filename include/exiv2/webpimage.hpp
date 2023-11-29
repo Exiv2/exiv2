@@ -54,13 +54,6 @@ class EXIV2API WebPImage : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
-  ~WebPImage() override = default;
-  //! Copy constructor
-  WebPImage(const WebPImage&) = delete;
-  //! Assignment operator
-  WebPImage& operator=(const WebPImage&) = delete;
-  //@}
-
  private:
   void doWriteMetadata(BasicIo& outIo);
 
@@ -71,7 +64,7 @@ class EXIV2API WebPImage : public Image {
   void debugPrintHex(byte* data, size_t size);
   void decodeChunks(uint32_t filesize);
   void inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, uint32_t width,
-                   uint32_t height);
+                   uint32_t height) const;
   /* Misc. */
   static constexpr byte WEBP_PAD_ODD = 0;
   static constexpr int WEBP_TAG_SIZE = 0x4;

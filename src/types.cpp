@@ -7,6 +7,7 @@
 #include "futils.hpp"
 #include "i18n.h"  // for _exvGettext
 #include "safe_op.hpp"
+#include "utils.hpp"
 
 // + standard includes
 #include <array>
@@ -22,7 +23,7 @@
 // *****************************************************************************
 namespace {
 //! Information pertaining to the defined %Exiv2 value type identifiers.
-struct TypeInfoTable {
+constexpr struct TypeInfoTable {
   Exiv2::TypeId typeId_;  //!< Type id
   const char* name_;      //!< Name of the type
   size_t size_;           //!< Bytes per data entry
@@ -34,34 +35,32 @@ struct TypeInfoTable {
   bool operator==(const std::string& name) const {
     return name == name_;
   }
-};  // struct TypeInfoTable
-
-//! Lookup list with information of Exiv2 types
-constexpr auto typeInfoTable = std::array{
-    TypeInfoTable{Exiv2::invalidTypeId, "Invalid", 0},
-    TypeInfoTable{Exiv2::unsignedByte, "Byte", 1},
-    TypeInfoTable{Exiv2::asciiString, "Ascii", 1},
-    TypeInfoTable{Exiv2::unsignedShort, "Short", 2},
-    TypeInfoTable{Exiv2::unsignedLong, "Long", 4},
-    TypeInfoTable{Exiv2::unsignedRational, "Rational", 8},
-    TypeInfoTable{Exiv2::signedByte, "SByte", 1},
-    TypeInfoTable{Exiv2::undefined, "Undefined", 1},
-    TypeInfoTable{Exiv2::signedShort, "SShort", 2},
-    TypeInfoTable{Exiv2::signedLong, "SLong", 4},
-    TypeInfoTable{Exiv2::signedRational, "SRational", 8},
-    TypeInfoTable{Exiv2::tiffFloat, "Float", 4},
-    TypeInfoTable{Exiv2::tiffDouble, "Double", 8},
-    TypeInfoTable{Exiv2::tiffIfd, "Ifd", 4},
-    TypeInfoTable{Exiv2::string, "String", 1},
-    TypeInfoTable{Exiv2::date, "Date", 8},
-    TypeInfoTable{Exiv2::time, "Time", 11},
-    TypeInfoTable{Exiv2::comment, "Comment", 1},
-    TypeInfoTable{Exiv2::directory, "Directory", 1},
-    TypeInfoTable{Exiv2::xmpText, "XmpText", 1},
-    TypeInfoTable{Exiv2::xmpAlt, "XmpAlt", 1},
-    TypeInfoTable{Exiv2::xmpBag, "XmpBag", 1},
-    TypeInfoTable{Exiv2::xmpSeq, "XmpSeq", 1},
-    TypeInfoTable{Exiv2::langAlt, "LangAlt", 1},
+} typeInfoTable[] = {
+    //! Lookup list with information of Exiv2 types
+    {Exiv2::invalidTypeId, "Invalid", 0},
+    {Exiv2::unsignedByte, "Byte", 1},
+    {Exiv2::asciiString, "Ascii", 1},
+    {Exiv2::unsignedShort, "Short", 2},
+    {Exiv2::unsignedLong, "Long", 4},
+    {Exiv2::unsignedRational, "Rational", 8},
+    {Exiv2::signedByte, "SByte", 1},
+    {Exiv2::undefined, "Undefined", 1},
+    {Exiv2::signedShort, "SShort", 2},
+    {Exiv2::signedLong, "SLong", 4},
+    {Exiv2::signedRational, "SRational", 8},
+    {Exiv2::tiffFloat, "Float", 4},
+    {Exiv2::tiffDouble, "Double", 8},
+    {Exiv2::tiffIfd, "Ifd", 4},
+    {Exiv2::string, "String", 1},
+    {Exiv2::date, "Date", 8},
+    {Exiv2::time, "Time", 11},
+    {Exiv2::comment, "Comment", 1},
+    {Exiv2::directory, "Directory", 1},
+    {Exiv2::xmpText, "XmpText", 1},
+    {Exiv2::xmpAlt, "XmpAlt", 1},
+    {Exiv2::xmpBag, "XmpBag", 1},
+    {Exiv2::xmpSeq, "XmpSeq", 1},
+    {Exiv2::langAlt, "LangAlt", 1},
 };
 
 }  // namespace
@@ -70,24 +69,21 @@ constexpr auto typeInfoTable = std::array{
 // class member definitions
 namespace Exiv2 {
 const char* TypeInfo::typeName(TypeId typeId) {
-  auto tit = std::find(typeInfoTable.begin(), typeInfoTable.end(), typeId);
-  if (tit == typeInfoTable.end())
-    return nullptr;
-  return tit->name_;
+  if (auto tit = Exiv2::find(typeInfoTable, typeId))
+    return tit->name_;
+  return nullptr;
 }
 
 TypeId TypeInfo::typeId(const std::string& typeName) {
-  auto tit = std::find(typeInfoTable.begin(), typeInfoTable.end(), typeName);
-  if (tit == typeInfoTable.end())
-    return invalidTypeId;
-  return tit->typeId_;
+  if (auto tit = Exiv2::find(typeInfoTable, typeName))
+    return tit->typeId_;
+  return invalidTypeId;
 }
 
 size_t TypeInfo::typeSize(TypeId typeId) {
-  auto tit = std::find(typeInfoTable.begin(), typeInfoTable.end(), typeId);
-  if (tit == typeInfoTable.end())
-    return 0;
-  return tit->size_;
+  if (auto tit = Exiv2::find(typeInfoTable, typeId))
+    return tit->size_;
+  return 0;
 }
 
 DataBuf::DataBuf(size_t size) : pData_(size) {
@@ -177,10 +173,10 @@ byte* Exiv2::DataBuf::data(size_t offset) {
 }
 
 const byte* Exiv2::DataBuf::c_data(size_t offset) const {
-  if (pData_.empty()) {
+  if (pData_.empty() || offset == pData_.size()) {
     return nullptr;
   }
-  if (offset >= pData_.size()) {
+  if (offset > pData_.size()) {
     throw std::out_of_range("Overflow in Exiv2::DataBuf::c_data");
   }
   return &pData_[offset];
@@ -194,9 +190,9 @@ const char* Exiv2::DataBuf::c_str(size_t offset) const {
 // free functions
 
 static void checkDataBufBounds(const DataBuf& buf, size_t end) {
-  enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
-                                 "end of slice too large to be compared with DataBuf bounds.");
-  enforce<std::out_of_range>(end <= buf.size(), "Invalid slice bounds specified");
+  Internal::enforce<std::invalid_argument>(end <= static_cast<size_t>(std::numeric_limits<long>::max()),
+                                           "end of slice too large to be compared with DataBuf bounds.");
+  Internal::enforce<std::out_of_range>(end <= buf.size(), "Invalid slice bounds specified");
 }
 
 Slice<byte*> makeSlice(DataBuf& buf, size_t begin, size_t end) {
@@ -482,18 +478,18 @@ bool isHex(const std::string& str, size_t size, const std::string& prefix) {
   if (size > 0 && str.size() != size + prefix.size())
     return false;
 
-  for (size_t i = prefix.size(); i < str.size(); ++i) {
-    if (!isxdigit(str[i]))
-      return false;
-  }
-  return true;
+  return std::all_of(str.begin() + prefix.size(), str.end(), ::isxdigit);
 }  // isHex
 
-int exifTime(const char* buf, struct tm* tm) {
+int exifTime(const char* buf, tm* tm) {
   int rc = 1;
-  int year = 0, mon = 0, mday = 0, hour = 0, min = 0, sec = 0;
-  int scanned = std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d", &year, &mon, &mday, &hour, &min, &sec);
-  if (scanned == 6) {
+  int year = 0;
+  int mon = 0;
+  int mday = 0;
+  int hour = 0;
+  int min = 0;
+  int sec = 0;
+  if (std::sscanf(buf, "%4d:%2d:%2d %2d:%2d:%2d", &year, &mon, &mday, &hour, &min, &sec) == 6) {
     tm->tm_year = year - 1900;
     tm->tm_mon = mon - 1;
     tm->tm_mday = mday;
@@ -515,10 +511,9 @@ const char* exvGettext(const char* str) {
 
 template <>
 bool stringTo<bool>(const std::string& s, bool& ok) {
-  std::string lcs(s); /* lowercase string */
-  for (size_t i = 0; i < lcs.length(); i++) {
-    lcs[i] = std::tolower(s[i]);
-  }
+  if (s.empty())
+    return false;
+  auto lcs = Internal::lower(s); /* lowercase string */
   /* handle the same values as xmp sdk */
   if (lcs == "false" || lcs == "f" || lcs == "0") {
     ok = true;
@@ -559,8 +554,7 @@ int64_t parseInt64(const std::string& s, bool& ok) {
 }
 
 uint32_t parseUint32(const std::string& s, bool& ok) {
-  const int64_t x = parseInt64(s, ok);
-  if (ok && 0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
+  if (auto x = parseInt64(s, ok); ok && 0 <= x && x <= std::numeric_limits<uint32_t>::max()) {
     return static_cast<uint32_t>(x);
   }
   ok = false;
@@ -628,7 +622,7 @@ Rational floatToRationalCast(float f) {
   } else {
     return {d > 0 ? 1 : -1, 0};
   }
-  const auto nom = static_cast<int32_t>(std::round(d * den));
+  const auto nom = static_cast<int32_t>(std::lround(d * den));
   const int32_t g = std::gcd(nom, den);
 
   return {nom / g, den / g};
@@ -643,8 +637,12 @@ const char* _exvGettext(const char* str) {
 
   if (!exvGettextInitialized) {
     // bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
-    const std::string localeDir =
-        EXV_LOCALEDIR[0] == '/' ? EXV_LOCALEDIR : (Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR);
+    auto localeDir = []() -> std::string {
+      if constexpr (EXV_LOCALEDIR[0] == '/')
+        return EXV_LOCALEDIR;
+      else
+        return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
+    }();
     bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
 #ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
     bind_textdomain_codeset(EXV_PACKAGE_NAME, "UTF-8");

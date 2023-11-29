@@ -98,12 +98,11 @@ class TiffHeaderBase {
 
  private:
   // DATA
-  const uint16_t tag_;   //!< Tag to identify the buffer as TIFF data
-  const uint32_t size_;  //!< Size of the header
+  uint16_t tag_;         //!< Tag to identify the buffer as TIFF data
+  uint32_t size_;        //!< Size of the header
   ByteOrder byteOrder_;  //!< Applicable byte order
   uint32_t offset_;      //!< Offset to the start of the root dir
-
-};  // class TiffHeaderBase
+};
 
 //! Convenience function to check if tag, group is in the list of TIFF image tags.
 bool isTiffImageTag(uint16_t tag, IfdId group);
@@ -117,8 +116,6 @@ class TiffHeader : public TiffHeaderBase {
   //@{
   //! Default constructor
   explicit TiffHeader(ByteOrder byteOrder = littleEndian, uint32_t offset = 0x00000008, bool hasImageTags = true);
-  //! Destructor
-  ~TiffHeader() override = default;
   //@}
   //@{
   //! @name Accessors
@@ -128,7 +125,7 @@ class TiffHeader : public TiffHeaderBase {
  private:
   // DATA
   bool hasImageTags_;  //!< Indicates if image tags are supported
-};                     // class TiffHeader
+};
 
 /*!
   @brief Data structure used to list image tags for TIFF and TIFF-like images.
@@ -136,7 +133,7 @@ class TiffHeader : public TiffHeaderBase {
 using TiffGroupKey = std::pair<uint32_t, IfdId>;
 
 struct TiffGroupKey_hash {
-  std::size_t operator()(const TiffGroupKey& pair) const {
+  std::size_t operator()(const TiffGroupKey& pair) const noexcept {
     return std::hash<uint64_t>{}(static_cast<uint64_t>(pair.first) << 32 | static_cast<uint64_t>(pair.second));
   }
 };
@@ -172,13 +169,12 @@ class TiffCreator {
            the \em root TIFF element to the TIFF entry \em extendedTag and
            \em group.
   */
-  static void getPath(TiffPath& tiffPath, uint32_t extendedTag, IfdId group, uint32_t root);
+  static TiffPath getPath(uint32_t extendedTag, IfdId group, uint32_t root);
 
  private:
-  static const TiffTreeTable tiffTreeTable_;    //<! TIFF tree structure
-  static const TiffGroupTable tiffGroupTable_;  //<! TIFF group structure
-
-};  // class TiffCreator
+  static const TiffTreeTable tiffTreeTable_;    ///< TIFF tree structure
+  static const TiffGroupTable tiffGroupTable_;  ///< TIFF group structure
+};
 
 /*!
   @brief Stateless parser class for data in TIFF format. Images use this
@@ -220,9 +216,9 @@ class TiffParserWorker {
        writing"). If there is a parsed tree, it is only used to access the
        image data in this case.
    */
-  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, const ExifData& exifData,
-                            const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
-                            FindEncoderFct findEncoderFct, TiffHeaderBase* pHeader, OffsetWriter* pOffsetWriter);
+  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ExifData& exifData, IptcData& iptcData,
+                            XmpData& xmpData, uint32_t root, FindEncoderFct findEncoderFct, TiffHeaderBase* pHeader,
+                            OffsetWriter* pOffsetWriter);
 
  private:
   /*!
@@ -243,12 +239,11 @@ class TiffParserWorker {
     @brief Find primary groups in the source tree provided and populate
            the list of primary groups.
 
-    @param primaryGroups List of primary groups which is populated
     @param pSourceDir Pointer to the source composite tree to search (may be 0)
+    @return List of primary groups which is populated
    */
-  static void findPrimaryGroups(PrimaryGroups& primaryGroups, TiffComponent* pSourceDir);
-
-};  // class TiffParserWorker
+  static PrimaryGroups findPrimaryGroups(TiffComponent* pSourceDir);
+};
 
 /*!
   @brief Table of TIFF decoding and encoding functions and find functions.
@@ -288,9 +283,8 @@ class TiffMapping {
   static EncoderFct findEncoder(const std::string& make, uint32_t extendedTag, IfdId group);
 
  private:
-  static const TiffMappingInfo tiffMappingInfo_[];  //<! TIFF mapping table
-
-};  // class TiffMapping
+  static const TiffMappingInfo tiffMappingInfo_[];  ///< TIFF mapping table
+};
 
 /*!
   @brief Class to insert pointers or offsets to computed addresses at
@@ -329,12 +323,6 @@ class OffsetWriter {
  private:
   //! Data structure for the offset list.
   struct OffsetData {
-    //! Default constructor
-    OffsetData() = default;
-    //! Constructor
-    OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), byteOrder_(byteOrder) {
-    }
-    // DATA
     uint32_t origin_{};                  //!< Origin address
     uint32_t target_{};                  //!< Target address
     ByteOrder byteOrder_{littleEndian};  //!< Byte order to use to encode target address

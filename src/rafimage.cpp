@@ -10,6 +10,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
+#include "jpgimage.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 
@@ -27,19 +28,23 @@ std::string RafImage::mimeType() const {
 }
 
 uint32_t RafImage::pixelWidth() const {
-  auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-  if (widthIter != exifData_.end() && widthIter->count() > 0) {
-    return widthIter->toUint32();
-  }
-  return 0;
+  if (pixelWidth_ != 0)
+    return pixelWidth_;
+
+  auto widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Fujifilm.RawImageFullWidth"));
+  if (widthIter == exifData_.end() || widthIter->count() == 0)
+    return 0;
+  return widthIter->toUint32();
 }
 
 uint32_t RafImage::pixelHeight() const {
-  auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-  if (heightIter != exifData_.end() && heightIter->count() > 0) {
-    return heightIter->toUint32();
-  }
-  return 0;
+  if (pixelHeight_ != 0)
+    return pixelHeight_;
+
+  auto heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Fujifilm.RawImageFullHeight"));
+  if (heightIter == exifData_.end() || heightIter->count() == 0)
+    return 0;
+  return heightIter->toUint32();
 }
 
 void RafImage::setExifData(const ExifData& /*exifData*/) {
@@ -72,18 +77,18 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
   if (bPrint) {
     io_->seek(0, BasicIo::beg);  // rewind
     size_t address = io_->tell();
-    const char* format = " %8d | %8d | ";
+    constexpr auto format = " %8zu | %8ld | ";
 
     {
       out << Internal::indent(depth) << "STRUCTURE OF RAF FILE: " << io().path() << std::endl;
-      out << Internal::indent(depth) << Internal::stringFormat("  Address |   Length | Payload") << std::endl;
+      out << Internal::indent(depth) << "  Address |   Length | Payload" << std::endl;
     }
 
     byte magicdata[17];
     io_->read(magicdata, 16);
     magicdata[16] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 16, 0)
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 16L)  // 0
           << "      magic : " << reinterpret_cast<char*>(magicdata) << std::endl;
     }
 
@@ -92,7 +97,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(data1, 4);
     data1[4] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4, 16)
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4L)  // 16
           << "      data1 : " << std::string(reinterpret_cast<char*>(&data1)) << std::endl;
     }
 
@@ -101,7 +106,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(data2, 8);
     data2[8] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 8, 20)
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 8L)  // 20
           << "      data2 : " << std::string(reinterpret_cast<char*>(&data2)) << std::endl;
     }
 
@@ -110,7 +115,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(camdata, 32);
     camdata[32] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 32, 28)
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 32L)  // 28
           << "     camera : " << std::string(reinterpret_cast<char*>(&camdata)) << std::endl;
     }
 
@@ -119,7 +124,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(dir_version, 4);
     dir_version[4] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4, 60)
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4L)  // 60
           << "    version : " << std::string(reinterpret_cast<char*>(&dir_version)) << std::endl;
     }
 
@@ -127,7 +132,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     DataBuf unknown(20);
     io_->read(unknown.data(), unknown.size());
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 20)
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 20L)
           << "    unknown : " << Internal::binaryToString(makeSlice(unknown, 0, unknown.size())) << std::endl;
     }
 
@@ -145,9 +150,9 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     j_off << jpg_img_off;
     j_len << jpg_img_len;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4) << "JPEG Offset : " << j_off.str()
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4L) << "JPEG Offset : " << j_off.str()
           << std::endl;
-      out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4) << "JPEG Length : " << j_len.str()
+      out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4L) << "JPEG Length : " << j_len.str()
           << std::endl;
     }
 
@@ -164,9 +169,9 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     ch_off << cfa_hdr_off;
     ch_len << cfa_hdr_len;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4) << " CFA Offset : " << ch_off.str()
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4L) << " CFA Offset : " << ch_off.str()
           << std::endl;
-      out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4) << " CFA Length : " << ch_len.str()
+      out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4L) << " CFA Length : " << ch_len.str()
           << std::endl;
     }
 
@@ -183,9 +188,9 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     c_off << cfa_off;
     c_len << cfa_len;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4) << "TIFF Offset : " << c_off.str()
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4L) << "TIFF Offset : " << c_off.str()
           << std::endl;
-      out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4) << "TIFF Length : " << c_len.str()
+      out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4L) << "TIFF Length : " << c_len.str()
           << std::endl;
     }
 
@@ -202,7 +207,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     address = io_->tell();
     io_->read(payload.data(), payload.size());
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, cfa_hdr_len, cfa_hdr_off)
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, cfa_hdr_len)  // cfa_hdr_off
           << "        CFA : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << std::endl;
     }
 
@@ -210,7 +215,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     address = io_->tell();
     io_->read(payload.data(), payload.size());
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, cfa_len, cfa_off)
+      out << Internal::indent(depth) << Internal::stringFormat(format, address, cfa_len)  // cfa_off
           << "       TIFF : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << std::endl;
     }
   }
@@ -243,34 +248,43 @@ void RafImage::readMetadata() {
   uint32_t jpg_img_off_u32 = Exiv2::getULong(jpg_img_offset, bigEndian);
   uint32_t jpg_img_len_u32 = Exiv2::getULong(jpg_img_length, bigEndian);
 
-  enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), ErrorCode::kerCorruptedMetadata);
-
-#if LONG_MAX < UINT_MAX
-  enforce(jpg_img_off_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
-  enforce(jpg_img_len_u32 <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
-#endif
+  Internal::enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), ErrorCode::kerCorruptedMetadata);
 
   auto jpg_img_off = static_cast<long>(jpg_img_off_u32);
   auto jpg_img_len = static_cast<long>(jpg_img_len_u32);
 
-  enforce(jpg_img_len >= 12, ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(jpg_img_len >= 12, ErrorCode::kerCorruptedMetadata);
 
-  DataBuf buf(jpg_img_len - 12);
-  if (io_->seek(jpg_img_off + 12, BasicIo::beg) != 0)
+  DataBuf jpg_buf(jpg_img_len);
+  if (io_->seek(jpg_img_off, BasicIo::beg) != 0)
     throw Error(ErrorCode::kerFailedToReadImageData);
 
-  if (!buf.empty()) {
-    io_->read(buf.data(), buf.size());
+  if (!jpg_buf.empty()) {
+    io_->read(jpg_buf.data(), jpg_buf.size());
     if (io_->error() || io_->eof())
       throw Error(ErrorCode::kerFailedToReadImageData);
   }
 
-  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size());
+  // Retrieve metadata from embedded JPEG preview image.
+  try {
+    auto jpg_io = std::make_unique<Exiv2::MemIo>(jpg_buf.data(), jpg_buf.size());
+    auto jpg_img = JpegImage(std::move(jpg_io), false);
+    jpg_img.readMetadata();
+    setByteOrder(jpg_img.byteOrder());
+    xmpData_ = jpg_img.xmpData();
+    exifData_ = jpg_img.exifData();
+    iptcData_ = jpg_img.iptcData();
+    comment_ = jpg_img.comment();
+  } catch (const Exiv2::Error&) {
+  }
 
   exifData_["Exif.Image2.JPEGInterchangeFormat"] = getULong(jpg_img_offset, bigEndian);
   exifData_["Exif.Image2.JPEGInterchangeFormatLength"] = getULong(jpg_img_length, bigEndian);
 
-  setByteOrder(bo);
+  // Todo: parse the proprietary metadata structure
+  //       at offset 92 for pixelWidth_ & pixelHeight_
+  // See https://libopenraw.freedesktop.org/formats/raf/
+  // and https://exiftool.org/TagNames/FujiFilm.html#RAF
 
   // parse the tiff
   byte readBuff[4];
@@ -285,7 +299,7 @@ void RafImage::readMetadata() {
   uint32_t tiffLength = Exiv2::getULong(readBuff, bigEndian);
 
   // sanity check.  Does tiff lie inside the file?
-  enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), ErrorCode::kerCorruptedMetadata);
 
   if (io_->seek(tiffOffset, BasicIo::beg) != 0)
     throw Error(ErrorCode::kerFailedToReadImageData);
@@ -317,7 +331,7 @@ void RafImage::writeMetadata() {
 Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<RafImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

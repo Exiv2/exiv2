@@ -249,6 +249,7 @@ constexpr TagDetails exifCompression[] = {{1, N_("Uncompressed")},
                                           {34712, N_("Leadtools JPEG 2000")},
                                           {34713, N_("Nikon NEF Compressed")},
                                           {34892, N_("JPEG (lossy)")},  // DNG 1.4
+                                          {52546, N_("JPEG XL")},       // DNG 1.7
                                           {65000, N_("Kodak DCR Compressed")},
                                           {65535, N_("Pentax PEF Compressed")}};
 
@@ -268,8 +269,8 @@ constexpr TagDetails exifPhotometricInterpretation[] = {
     {32844, N_("Pixar LogL")},
     {32845, N_("Pixar LogLuv")},
     {34892, N_("Linear Raw")},
-    {51177, N_("Depth Map")},     // DNG 1.5
-    {52527, N_("Semantic Mask")}  // DNG 1.6
+    {51177, N_("Depth Map")},         // DNG 1.5
+    {52527, N_("Photometric Mask")},  // DNG 1.6
 };
 
 //! Thresholding, tag 0x0107
@@ -373,8 +374,10 @@ constexpr TagDetails dngCfaLayout[] = {
 constexpr TagDetails dngMakerNoteSafety[] = {{0, N_("Unsafe")}, {1, N_("Safe")}};
 
 //! ColorimetricReference, DNG 1.2 tag 0xc6bf
-constexpr TagDetails dngColorimetricReference[] = {{0, N_("XYZ values are scene-referred")},
-                                                   {1, N_("XYZ values are output-referred")}};
+constexpr TagDetails dngColorimetricReference[] = {
+    {0, N_("XYZ values are scene-referred")},
+    {1, N_("XYZ values are output-referred")},
+    {2, N_("XYZ values are output-referred and may be HDR")}};  // DNG 1.7
 
 //! ProfileEmbedPolicy, DNG 1.2 tag 0xc6fd
 constexpr TagDetails dngProfileEmbedPolicy[] = {
@@ -399,6 +402,7 @@ constexpr TagDetails dngDepthUnits[] = {{0, N_("Unknown")}, {1, N_("meters")}};
 //! DepthMeasureType, DNG 1.5 tag 0xc7ed
 constexpr TagDetails dngDepthMeasureType[] = {{0, N_("Unknown")}, {1, N_("Optical axis")}, {2, N_("Optical ray")}};
 
+// clang-format off
 //! Base IFD Tags (IFD0 and IFD1)
 constexpr TagInfo ifdTagInfo[] = {
     {0x000b, "ProcessingSoftware", N_("Processing Software"),
@@ -1655,12 +1659,44 @@ constexpr TagInfo ifdTagInfo[] = {
         "combination of the color tables, weighted by their corresponding Semantic "
         "Masks."),
      IfdId::ifd0Id, SectionId::dngTags, undefined, -1, printValue},  // DNG 1.6 tag
+    {0xcd40, "ProfileGainTableMap2", N_("Profile Gain Table Map 2"),
+     N_("This tag is an extended version of ProfileGainTableMap."),
+     IfdId::ifd0Id, SectionId::dngTags, undefined, -1, printValue},  // DNG 1.7 tag
+    {0xcd43, "ColumnInterleaveFactor", N_("Column Interleave Factor"),
+     N_("This tag specifies that columns of the image are stored in interleaved "
+        "order. The value of the tag specifies the number of interleaved fields. "
+        "The use of a non-default value for this tag requires setting the "
+        "DNGBackwardVersion tag to at least 1.7.0.0."),
+     IfdId::ifd0Id, SectionId::dngTags, unsignedLong, 1, printValue},  // DNG 1.7 tag
+    {0xcd44, "ImageSequenceInfo", N_("Image Sequence Info"),
+     N_("This is an informative tag that describes how the image file relates "
+        "to other image files captured in a sequence. Applications include focus "
+        "stacking, merging multiple frames to reduce noise, time lapses, exposure "
+        "brackets, stitched images for super resolution, and so on."),
+     IfdId::ifd0Id, SectionId::dngTags, undefined, -1, printValue},  // DNG 1.7 tag
+    {0xcd46, "ImageStats", N_("Image Stats"),
+     N_("This is an informative tag that provides basic statistical information "
+        "about the pixel values of the image in this IFD. Possible applications "
+        "include normalizing brightness of images when multiple images are displayed "
+        "together (especially when mixing Standard Dynamic Range and High Dynamic "
+        "Range images), identifying underexposed or overexposed images, and so on."),
+     IfdId::ifd0Id, SectionId::dngTags, undefined, -1, printValue},  // DNG 1.7 tag
+    {0xcd47, "ProfileDynamicRange", N_("Profile Dynamic Range"),
+     N_("This tag describes the intended rendering output dynamic range for a given "
+        "camera profile."),
+     IfdId::ifd0Id, SectionId::dngTags, undefined, 8, printValue},  // DNG 1.7 tag
+    {0xcd48, "ProfileGroupName", N_("Profile Group Name"),
+     N_("A UTF-8 encoded string containing the 'group name' of the camera profile. "
+        "The purpose of this tag is to associate two or more related camera profiles "
+        "into a common group."),
+     IfdId::ifd0Id, SectionId::dngTags, asciiString, -1, printValue},  // DNG 1.7 tag
 
     ////////////////////////////////////////
     // End of list marker
     {0xffff, "(UnknownIfdTag)", N_("Unknown IFD tag"), N_("Unknown IFD tag"), IfdId::ifd0Id, SectionId::sectionIdNotSet,
      asciiString, -1, printValue},
 };
+// clang-format on
 
 const TagInfo* ifdTagList() {
   return ifdTagInfo;
@@ -2003,7 +2039,7 @@ constexpr TagInfo exifTagInfo[] = {
         "in the maximum focal length, which are specification information "
         "for the lens that was used in photography. When the minimum F "
         "number is unknown, the notation is 0/0"),
-     IfdId::exifId, SectionId::otherTags, unsignedRational, 4, printValue},
+     IfdId::exifId, SectionId::otherTags, unsignedRational, 4, printLensSpecification},
     {0xa433, "LensMake", N_("Lens Make"), N_("This tag records the lens manufactor as an ASCII string."), IfdId::exifId,
      SectionId::otherTags, asciiString, 0, printValue},
     {0xa434, "LensModel", N_("Lens Model"),
@@ -2014,6 +2050,28 @@ constexpr TagInfo exifTagInfo[] = {
      N_("This tag records the serial number of the interchangeable lens "
         "that was used in photography as an ASCII string."),
      IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},
+    {0xa436, "ImageTitle", N_("Image Title"), N_("This tag records the title of the image."), IfdId::exifId,
+     SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa437, "Photographer", N_("Photographer"), N_("This tag records the name of the photographer."), IfdId::exifId,
+     SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa438, "ImageEditor", N_("Image Editor"),
+     N_("This tag records the name of the main person who edited the image. Preferably, a single name is written "
+        "(individual name, group/organization name, etc.), but multiple main editors may be entered."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa439, "CameraFirmware", N_("Camera Firmware"),
+     N_("This tag records the name and version of the software or firmware of the camera used to generate the image."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa43a, "RAWDevelopingSoftware", N_("RAW Developing Software"),
+     N_("This tag records the name and version of the software used to develop the RAW image."), IfdId::exifId,
+     SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa43b, "ImageEditingSoftware", N_("Image Editing Software"),
+     N_("This tag records the name and version of the main software used for processing and editing the image. "
+        "Preferably, a single software is written, but multiple main software may be entered."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
+    {0xa43c, "MetadataEditingSoftware", N_("Metadata Editing Software"),
+     N_("This tag records the name and version of one software used to edit the metadata of the image without "
+        "processing or editing of the image data itself."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},  // Exif 3.0
     {0xa460, "CompositeImage", N_("Composite Image"),
      N_("Indicates whether the recorded image is a composite image or not."), IfdId::exifId, SectionId::captureCond,
      unsignedShort, 1, EXV_PRINT_TAG(exifCompositeImage)},  // Exif 2.32
@@ -2243,7 +2301,7 @@ constexpr TagInfo mpfTagInfo[] = {
      unsignedLong, 1, printValue},
     {0xb201, "MPFPanOrientation", N_("MPFPanOrientation"), N_("MPFPanOrientation"), IfdId::mpfId, SectionId::mpfTags,
      unsignedLong, 1, printValue},
-    {0xb202, "MPFPanOverlapH", N_("MPFPanOverlapH"), N_("MPF Pan Overlap Horizonal"), IfdId::mpfId, SectionId::mpfTags,
+    {0xb202, "MPFPanOverlapH", N_("MPFPanOverlapH"), N_("MPF Pan Overlap Horizontal"), IfdId::mpfId, SectionId::mpfTags,
      unsignedLong, 1, printValue},
     {0xb203, "MPFPanOverlapV", N_("MPFPanOverlapV"), N_("MPF Pan Overlap Vertical"), IfdId::mpfId, SectionId::mpfTags,
      unsignedLong, 1, printValue},
@@ -2319,12 +2377,8 @@ const TagInfo* mnTagList() {
 }
 
 bool isMakerIfd(IfdId ifdId) {
-  bool rc = false;
-  const GroupInfo* ii = find(groupInfo, ifdId);
-  if (ii && 0 == strcmp(ii->ifdName_, "Makernote")) {
-    rc = true;
-  }
-  return rc;
+  auto ii = Exiv2::find(groupInfo, ifdId);
+  return ii && strcmp(ii->ifdName_, "Makernote") == 0;
 }
 
 bool isExifIfd(IfdId ifdId) {
@@ -2355,8 +2409,7 @@ bool isExifIfd(IfdId ifdId) {
 }
 
 void taglist(std::ostream& os, IfdId ifdId) {
-  const TagInfo* ti = Internal::tagList(ifdId);
-  if (ti) {
+  if (auto ti = tagList(ifdId)) {
     for (int k = 0; ti[k].tag_ != 0xffff; ++k) {
       os << ti[k] << "\n";
     }
@@ -2364,59 +2417,54 @@ void taglist(std::ostream& os, IfdId ifdId) {
 }  // taglist
 
 const TagInfo* tagList(IfdId ifdId) {
-  const GroupInfo* ii = find(groupInfo, ifdId);
-  if (!ii || !ii->tagList_)
-    return nullptr;
-  return ii->tagList_();
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    if (ii->tagList_)
+      return ii->tagList_();
+  return nullptr;
 }  // tagList
 
 const TagInfo* tagInfo(uint16_t tag, IfdId ifdId) {
-  const TagInfo* ti = tagList(ifdId);
-  if (!ti)
-    return nullptr;
-  int idx = 0;
-  for (idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-    if (ti[idx].tag_ == tag)
-      break;
+  if (auto ti = tagList(ifdId)) {
+    int idx = 0;
+    for (idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
+      if (ti[idx].tag_ == tag)
+        break;
+    }
+    return &ti[idx];
   }
-  return &ti[idx];
+  return nullptr;
 }  // tagInfo
 
 const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
-  const TagInfo* ti = tagList(ifdId);
-  if (!ti)
-    return nullptr;
   if (tagName.empty())
     return nullptr;
-  const char* tn = tagName.c_str();
-  for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-    if (0 == strcmp(ti[idx].name_, tn)) {
-      return &ti[idx];
+  if (auto ti = tagList(ifdId)) {
+    const char* tn = tagName.c_str();
+    for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
+      if (0 == strcmp(ti[idx].name_, tn)) {
+        return &ti[idx];
+      }
     }
   }
   return nullptr;
 }  // tagInfo
 
 IfdId groupId(const std::string& groupName) {
-  IfdId ifdId = IfdId::ifdIdNotSet;
-  const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
-  if (ii)
-    ifdId = static_cast<IfdId>(ii->ifdId_);
-  return ifdId;
+  if (auto ii = Exiv2::find(groupInfo, groupName))
+    return static_cast<IfdId>(ii->ifdId_);
+  return IfdId::ifdIdNotSet;
 }
 
 const char* ifdName(IfdId ifdId) {
-  const GroupInfo* ii = find(groupInfo, ifdId);
-  if (!ii)
-    return groupInfo[0].ifdName_;
-  return ii->ifdName_;
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    return ii->ifdName_;
+  return groupInfo[0].ifdName_;
 }
 
 const char* groupName(IfdId ifdId) {
-  const GroupInfo* ii = find(groupInfo, ifdId);
-  if (!ii)
-    return groupInfo[0].groupName_;
-  return ii->groupName_;
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    return ii->groupName_;
+  return groupInfo[0].groupName_;
 }
 
 std::ostream& printValue(std::ostream& os, const Value& value, const ExifData*) {
@@ -2569,6 +2617,78 @@ std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData
   return EXV_PRINT_TAG(exifUnit)(os, value, metadata);
 }
 
+std::ostream& printLensSpecification(std::ostream& os, const Value& value, const ExifData*) {
+  std::ios::fmtflags f(os.flags());
+  // check type and count of values
+  if (value.typeId() != unsignedRational || value.count() != 4 ||
+      // divisor may be zero only if dividend is not zero
+      (value.toRational(0).first != 0 && value.toRational(0).second == 0) ||
+      (value.toRational(1).first != 0 && value.toRational(1).second == 0) ||
+      (value.toRational(2).first != 0 && value.toRational(2).second == 0) ||
+      (value.toRational(3).first != 0 && value.toRational(3).second == 0)) {
+    os << "(" << value << ")";
+    return os;
+  }
+  // values numerically are ok, so they can be converted
+  // here first and second can be zero, so initialise float with 0.0f
+  float focalLength1 = 0.0f;
+  if (value.toRational(0).first != 0)
+    focalLength1 = value.toFloat(0);
+  float focalLength2 = 0.0f;
+  if (value.toRational(1).first != 0)
+    focalLength2 = value.toFloat(1);
+  float fNumber1 = 0.0f;
+  if (value.toRational(2).first != 0)
+    fNumber1 = value.toFloat(2);
+  float fNumber2 = 0.0f;
+  if (value.toRational(3).first != 0)
+    fNumber2 = value.toFloat(3);
+
+  // first value must not be bigger than second
+  if ((focalLength1 > focalLength2 && focalLength2 > 0.0f) || (fNumber1 > fNumber2 && fNumber2 > 0.0f)) {
+    os << "(" << value << ")";
+    return os;
+  }
+
+  // no lens specification available
+  if (focalLength1 == 0.0f && focalLength2 == 0.0f && fNumber1 == 0.0f && fNumber2 == 0.0f) {
+    os << "n/a";
+    return os;
+  }
+
+  // lens specification available - at least parts
+  if (focalLength1 == 0.0f)
+    os << "n/a";
+  else
+    os << std::setprecision(5) << focalLength1;
+  if (focalLength1 != focalLength2) {
+    if (focalLength2 == 0.0f)
+      os << "-n/a ";
+    else
+      os << "-" << std::setprecision(5) << focalLength2;
+  }
+  os << "mm";
+  std::ostringstream oss;
+  oss.copyfmt(os);
+
+  if (fNumber1 > 0.0f || fNumber2 > 0.0f) {
+    os << " F";
+    if (fNumber1 == 0.0f)
+      os << " n/a";
+    else
+      os << std::setprecision(2) << fNumber1;
+    if (fNumber1 != fNumber2) {
+      if (fNumber2 == 0.0f)
+        os << "-n/a";
+      else
+        os << "-" << std::setprecision(2) << fNumber2;
+    }
+  }
+  os.copyfmt(oss);
+  os.flags(f);
+  return os;
+}
+
 std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*) {
   if (value.size() != 4 || value.typeId() != unsignedByte) {
     return os << value;
@@ -2612,7 +2732,7 @@ std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*)
     }
     std::ostringstream oss;
     oss.copyfmt(os);
-    const double t = 3600 * value.toFloat(0) + 60 * value.toFloat(1) + value.toFloat(2);
+    const double t = 3600.0 * value.toInt64(0) + 60.0 * value.toInt64(1) + value.toFloat(2);
     enforce<std::overflow_error>(std::isfinite(t), "Non-finite time value");
     int p = 0;
     const double fraction = std::fmod(t, 1);
@@ -2875,13 +2995,15 @@ std::ostream& print0xa001(std::ostream& os, const Value& value, const ExifData* 
 }
 
 //! SensingMethod, tag 0xa217
-constexpr TagDetails exifSensingMethod[] = {{1, N_("Not defined")},
-                                            {2, N_("One-chip color area")},
-                                            {3, N_("Two-chip color area")},
-                                            {4, N_("Three-chip color area")},
-                                            {5, N_("Color sequential area")},
-                                            {7, N_("Trilinear sensor")},
-                                            {8, N_("Color sequential linear")}};
+constexpr TagDetails exifSensingMethod[] = {
+    {1, N_("Not defined")},
+    {2, N_("One-chip color area")},
+    {3, N_("Two-chip color area")},
+    {4, N_("Three-chip color area")},
+    {5, N_("Color sequential area")},
+    {7, N_("Trilinear sensor")},
+    {8, N_("Color sequential linear")},
+};
 
 std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_TAG(exifSensingMethod)(os, value, metadata);
@@ -2890,8 +3012,9 @@ std::ostream& print0xa217(std::ostream& os, const Value& value, const ExifData* 
 //! FileSource, tag 0xa300
 constexpr TagDetails exifFileSource[] = {
     {1, N_("Film scanner")},             // Not defined to Exif 2.2 spec.
-    {2, N_("Reflexion print scanner")},  // but used by some scanner device softwares.
-    {3, N_("Digital still camera")}};
+    {2, N_("Reflexion print scanner")},  // but used by some scanner device software.
+    {3, N_("Digital still camera")},
+};
 
 std::ostream& print0xa300(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_TAG(exifFileSource)(os, value, metadata);
@@ -2941,12 +3064,10 @@ std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*)
 }
 
 std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*) {
-  const auto length = value.toInt64();
-  if (length == 0) {
+  if (auto length = value.toInt64(); length == 0)
     os << _("Unknown");
-  } else {
+  else
     os << length << ".0 mm";
-  }
   return os;
 }
 
@@ -3047,7 +3168,7 @@ const GroupInfo* groupList() {
 }
 
 const TagInfo* tagList(const std::string& groupName) {
-  const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
+  auto ii = Exiv2::find(groupInfo, groupName);
   if (!ii || !ii->tagList_) {
     return nullptr;
   }

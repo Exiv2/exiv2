@@ -22,7 +22,10 @@ class RotationMap {
 
  private:
   //! Helper structure for the mapping list
-  using OmList = std::pair<uint16_t, int32_t>;
+  struct OmList {
+    uint16_t orientation;
+    int32_t degrees;
+  };
   // DATA
   static const OmList omList_[];
 };  // class RotationMap
@@ -37,7 +40,7 @@ constexpr RotationMap::OmList RotationMap::omList_[] = {
 
 uint16_t RotationMap::orientation(int32_t degrees) {
   uint16_t o = 1;
-  for (auto&& [deg, orient] : omList_) {
+  for (auto&& [orient, deg] : omList_) {
     if (deg == degrees) {
       o = orient;
       break;
@@ -48,7 +51,7 @@ uint16_t RotationMap::orientation(int32_t degrees) {
 
 int32_t RotationMap::degrees(uint16_t orientation) {
   int32_t d = 0;
-  for (auto&& [deg, orient] : omList_) {
+  for (auto&& [orient, deg] : omList_) {
     if (orient == orientation) {
       d = deg;
       break;
@@ -78,31 +81,31 @@ namespace Exiv2::Internal {
 const CrwMapping CrwMap::crwMapping_[] = {
     //         CrwTag  CrwDir  Size ExifTag IfdId    decodeFct     encodeFct
     //         ------  ------  ---- ------- -----    ---------     ---------
-    CrwMapping(0x0805, 0x300a, 0, 0, IfdId::canonId, decode0x0805, encode0x0805),
-    CrwMapping(0x080a, 0x2807, 0, 0, IfdId::canonId, decode0x080a, encode0x080a),
-    CrwMapping(0x080b, 0x3004, 0, 0x0007, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x0810, 0x2807, 0, 0x0009, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x0815, 0x2804, 0, 0x0006, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x1029, 0x300b, 0, 0x0002, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x102a, 0x300b, 0, 0x0004, IfdId::canonId, decodeArray, encodeArray),
-    CrwMapping(0x102d, 0x300b, 0, 0x0001, IfdId::canonId, decodeArray, encodeArray),
-    CrwMapping(0x1033, 0x300b, 0, 0x000f, IfdId::canonId, decodeArray, encodeArray),
-    CrwMapping(0x1038, 0x300b, 0, 0x0012, IfdId::canonId, decodeArray, encodeArray),
-    CrwMapping(0x10a9, 0x300b, 0, 0x00a9, IfdId::canonId, decodeBasic, encodeBasic),
+    {0x0805, 0x300a, 0, 0, IfdId::canonId, decode0x0805, encode0x0805},
+    {0x080a, 0x2807, 0, 0, IfdId::canonId, decode0x080a, encode0x080a},
+    {0x080b, 0x3004, 0, 0x0007, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x0810, 0x2807, 0, 0x0009, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x0815, 0x2804, 0, 0x0006, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x1029, 0x300b, 0, 0x0002, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x102a, 0x300b, 0, 0x0004, IfdId::canonId, decodeArray, encodeArray},
+    {0x102d, 0x300b, 0, 0x0001, IfdId::canonId, decodeArray, encodeArray},
+    {0x1033, 0x300b, 0, 0x000f, IfdId::canonId, decodeArray, encodeArray},
+    {0x1038, 0x300b, 0, 0x0012, IfdId::canonId, decodeArray, encodeArray},
+    {0x10a9, 0x300b, 0, 0x00a9, IfdId::canonId, decodeBasic, encodeBasic},
     // Mapped to Exif.Photo.ColorSpace instead (see below)
-    // CrwMapping(0x10b4, 0x300b,   0, 0x00b4, IfdId::canonId, decodeBasic,  encodeBasic),
-    CrwMapping(0x10b4, 0x300b, 0, 0xa001, IfdId::exifId, decodeBasic, encodeBasic),
-    CrwMapping(0x10b5, 0x300b, 0, 0x00b5, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x10c0, 0x300b, 0, 0x00c0, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x10c1, 0x300b, 0, 0x00c1, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x1807, 0x3002, 0, 0x9206, IfdId::exifId, decodeBasic, encodeBasic),
-    CrwMapping(0x180b, 0x3004, 0, 0x000c, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x180e, 0x300a, 0, 0x9003, IfdId::exifId, decode0x180e, encode0x180e),
-    CrwMapping(0x1810, 0x300a, 0, 0xa002, IfdId::exifId, decode0x1810, encode0x1810),
-    CrwMapping(0x1817, 0x300a, 4, 0x0008, IfdId::canonId, decodeBasic, encodeBasic),
-    // CrwMapping(0x1818, 0x3002,   0, 0x9204, IfdId::exifId, decodeBasic,  encodeBasic),
-    CrwMapping(0x183b, 0x300b, 0, 0x0015, IfdId::canonId, decodeBasic, encodeBasic),
-    CrwMapping(0x2008, 0x0000, 0, 0, IfdId::ifd1Id, decode0x2008, encode0x2008),
+    // {0x10b4, 0x300b,   0, 0x00b4, IfdId::canonId, decodeBasic,  encodeBasic},
+    {0x10b4, 0x300b, 0, 0xa001, IfdId::exifId, decodeBasic, encodeBasic},
+    {0x10b5, 0x300b, 0, 0x00b5, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x10c0, 0x300b, 0, 0x00c0, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x10c1, 0x300b, 0, 0x00c1, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x1807, 0x3002, 0, 0x9206, IfdId::exifId, decodeBasic, encodeBasic},
+    {0x180b, 0x3004, 0, 0x000c, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x180e, 0x300a, 0, 0x9003, IfdId::exifId, decode0x180e, encode0x180e},
+    {0x1810, 0x300a, 0, 0xa002, IfdId::exifId, decode0x1810, encode0x1810},
+    {0x1817, 0x300a, 4, 0x0008, IfdId::canonId, decodeBasic, encodeBasic},
+    // {0x1818, 0x3002,   0, 0x9204, IfdId::exifId, decodeBasic,  encodeBasic},
+    {0x183b, 0x300b, 0, 0x0015, IfdId::canonId, decodeBasic, encodeBasic},
+    {0x2008, 0x0000, 0, 0, IfdId::ifd1Id, decode0x2008, encode0x2008},
 };  // CrwMap::crwMapping_[]
 
 /*
@@ -126,6 +129,9 @@ const CrwSubDir CrwMap::crwSubDir_[] = {
     {0x3004, 0x2807}, {0x300b, 0x300a}, {0x3003, 0x300a}, {0x3002, 0x300a},
     {0x2807, 0x300a}, {0x2804, 0x300a}, {0x300a, 0x0000}, {0x0000, 0xffff},
 };
+
+CiffComponent::CiffComponent(uint16_t tag, uint16_t dir) : dir_(dir), tag_(tag) {
+}
 
 CiffDirectory::~CiffDirectory() {
   for (auto&& component : components_) {
@@ -540,13 +546,12 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
     auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
-    auto it =
-        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.first; });
+    auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.dir; });
     if (it != components_.end())
       cc_ = *it;
     if (!cc_) {
       // Directory doesn't exist yet, add it
-      m_ = std::make_unique<CiffDirectory>(dir.first, dir.second);
+      m_ = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
       cc_ = m_.get();
       add(std::move(m_));
     }
@@ -568,7 +573,7 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
   return cc_;
 }  // CiffDirectory::doAdd
 
-void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) {
+void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) const {
   if (pRootDir_) {
     CrwDirs crwDirs;
     CrwMap::loadStack(crwDirs, crwDir);
@@ -590,8 +595,7 @@ void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId) {
     auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
-    auto it =
-        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.first; });
+    auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.dir; });
     if (it != components_.end()) {
       // Recursive call to next lower level directory
       (*it)->remove(crwDirs, crwTagId);
@@ -740,7 +744,12 @@ void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* 
   ULongValue v;
   v.read(ciffComponent.pData(), 8, byteOrder);
   time_t t = v.value_.at(0);
-  auto tm = std::localtime(&t);
+  tm r;
+#ifdef _WIN32
+  auto tm = localtime_s(&r, &t) ? nullptr : &r;
+#else
+  auto tm = localtime_r(&t, &r);
+#endif
   if (tm) {
     const size_t m = 20;
     char s[m];
@@ -850,7 +859,7 @@ void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, Cif
     if (cc && cc->size() > size)
       size = cc->size();
     DataBuf buf(size);
-    std::copy(comment.begin(), comment.end(), buf.begin());
+    std::move(comment.begin(), comment.end(), buf.begin());
     pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
   } else {
     if (cc) {
@@ -891,21 +900,19 @@ void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, Cif
 }
 
 void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
-  IfdId ifdId = IfdId::ifdIdNotSet;
-  switch (pCrwMapping->tag_) {
-    case 0x0001:
-      ifdId = IfdId::canonCsId;
-      break;
-    case 0x0004:
-      ifdId = IfdId::canonSiId;
-      break;
-    case 0x000f:
-      ifdId = IfdId::canonCfId;
-      break;
-    case 0x0012:
-      ifdId = IfdId::canonPiId;
-      break;
-  }
+  auto ifdId = [=] {
+    switch (pCrwMapping->tag_) {
+      case 0x0001:
+        return IfdId::canonCsId;
+      case 0x0004:
+        return IfdId::canonSiId;
+      case 0x000f:
+        return IfdId::canonCfId;
+      case 0x0012:
+        return IfdId::canonPiId;
+    }
+    return IfdId::ifdIdNotSet;
+  }();
   DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
   if (buf.empty()) {
     // Try the undecoded tag
@@ -923,9 +930,8 @@ void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, Ciff
 void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
   time_t t = 0;
   const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-  const auto ed = image.exifData().findKey(key);
-  if (ed != image.exifData().end()) {
-    struct tm tm = {};
+  if (auto ed = image.exifData().findKey(key); ed != image.exifData().end()) {
+    tm tm = {};
     if (exifTime(ed->toString().c_str(), &tm) == 0) {
       t = ::mktime(&tm);
     }

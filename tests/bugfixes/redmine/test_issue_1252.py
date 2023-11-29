@@ -22,7 +22,7 @@ Exif.Canon.LensModel                         Ascii      74  120-300mm
 Exif.CanonLe.LensSerialNumber                SLong       1  0
 Exif.CanonAfC.USMLensElectronicMF            SLong       1  Enable After AF
 Exif.CanonAfC.LensDriveWhenAFImpossible      SLong       1  Continue Focus Search
-Exif.Photo.LensSpecification                 Rational    4  120/1 300/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  120-300mm
 Exif.Photo.LensModel                         Ascii      10  120-300mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000
 """,
@@ -32,7 +32,7 @@ Exif.Canon.LensModel                         Ascii      74  150-500mm
 Exif.CanonLe.LensSerialNumber                SLong       1  0
 Exif.CanonAfC.USMLensElectronicMF            SLong       1  Enable After AF
 Exif.CanonAfC.LensDriveWhenAFImpossible      SLong       1  Continue Focus Search
-Exif.Photo.LensSpecification                 Rational    4  150/1 500/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  150-500mm
 Exif.Photo.LensModel                         Ascii      10  150-500mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000
 """

@@ -1,16 +1,20 @@
 # Minimum version imposed by Centos:8
 cmake_minimum_required( VERSION 3.11.0 )
 
-project(exiv2          # use TWEAK to categorize the build
-    VERSION 1.00.0.9   # 1.00.0    = GM               (tagged and released)
-                       # 1.00.0.9  = 1.00.0 Development
-                       # 1.00.0.00 = GM Preview
-                       # 1.00.0.2  = RC2              (tagged and released)
-                       # 1.00.0.20 = RC2 Preview
-                       # 1.00.0.29 = RC2 Development
+project(exiv2
+    VERSION 0.28.1
     DESCRIPTION    "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more."
     LANGUAGES C CXX
 )
+
+# Shared Object versioning (SemVer-like: must bump major on API breakage)
+if(PROJECT_VERSION_MAJOR EQUAL 0)
+  # support legacy scheme (e.g. 0.27.x -> 27)
+  set(EXIV2LIB_SOVERSION ${PROJECT_VERSION_MINOR})
+else()
+  # restart from 30
+  math(EXPR EXIV2LIB_SOVERSION "30 + (${PROJECT_VERSION_MAJOR} - 1)")
+endif()
 
 if(NOT CMAKE_BUILD_TYPE)
   set (CMAKE_BUILD_TYPE Release)
@@ -30,7 +34,8 @@ option( EXIV2_ENABLE_WEBREADY         "Build webready support into library"     
 option( EXIV2_ENABLE_CURL             "Use libcurl for HttpIo (WEBREADY)"                     OFF )
 option( EXIV2_ENABLE_BMFF             "Build with BMFF support"                               ON  )
 option( EXIV2_ENABLE_BROTLI           "Use Brotli for JPEG XL compressed boxes (BMFF)"        ON  )
-option( EXIV2_ENABLE_VIDEO            "Build with video support"                              OFF )
+option( EXIV2_ENABLE_VIDEO            "Build with video support"                              ON )
+option( EXIV2_ENABLE_INIH             "Use inih library"                                      ON  )
 
 option( EXIV2_BUILD_SAMPLES           "Build sample applications"                             OFF )
 option( EXIV2_BUILD_EXIV2_COMMAND     "Build exiv2 command-line executable"                   ON  )
@@ -67,10 +72,6 @@ set( PACKAGE_URL                      "https://exiv2.org")
 
 if ( EXIV2_ENABLE_EXTERNAL_XMP )
   set(EXIV2_ENABLE_XMP OFF)
-endif()
-
-if( EXIV2_BUILD_UNIT_TESTS )
-  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # Requires CMake 3.3.3
 endif()
 
 include(cmake/findDependencies.cmake   REQUIRED)
@@ -142,8 +143,17 @@ if (EXIV2_TEAM_PACKAGING)
   include(cmake/packaging.cmake)
 endif()
 
-join_paths(libdir_for_pc_file "\${prefix}" "${CMAKE_INSTALL_LIBDIR}")
-join_paths(includedir_for_pc_file "\${prefix}" "${CMAKE_INSTALL_INCLUDEDIR}")
+# Handle both relative and absolute paths (e.g. NixOS) for a relocatable package
+if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
+    set(libdir_for_pc_file "${CMAKE_INSTALL_LIBDIR}")
+else()
+    join_paths(libdir_for_pc_file "\${exec_prefix}" "${CMAKE_INSTALL_LIBDIR}")
+endif()
+if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
+    set(includedir_for_pc_file "${CMAKE_INSTALL_INCLUDEDIR}")
+else()
+    join_paths(includedir_for_pc_file "\${prefix}" "${CMAKE_INSTALL_INCLUDEDIR}")
+endif()
 configure_file(cmake/exiv2.pc.in exiv2.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/exiv2.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 

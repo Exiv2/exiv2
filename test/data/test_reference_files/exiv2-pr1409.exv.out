@@ -113,7 +113,7 @@ Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.Sharpness                         Short       1  0  Normal
 Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
 Exif.Photo.BodySerialNumber                  Ascii      11  8CQ00434  8CQ00434
-Exif.Photo.LensSpecification                 Rational    4  1800/100 5500/100 280/100 400/100  1800/100 5500/100 280/100 400/100
+Exif.Photo.LensSpecification                 Rational    4  1800/100 5500/100 280/100 400/100  18-55mm F2.8-4
 Exif.Photo.LensMake                          Ascii      13  FUJIFILM  FUJIFILM
 Exif.Photo.LensModel                         Ascii      64  XF18-55mmF2.8-4 R LM OIS  XF18-55mmF2.8-4 R LM OIS
 Exif.Photo.LensSerialNumber                  Ascii      11  8BA23023  8BA23023

@@ -72,26 +72,6 @@ void lf(std::ostream& out, bool& bLF) {
   }
 }
 
-bool isBigEndian() {
-  union {
-    uint32_t i;
-    char c[4];
-  } e = {0x01000000};
-
-  return e.c[0] != 0;
-}
-
-// Obtains the ascii version from the box.type
-std::string toAscii(long n) {
-  const auto p = reinterpret_cast<const char*>(&n);
-  std::string result;
-  bool bBigEndian = isBigEndian();
-  for (int i = 0; i < 4; i++) {
-    result += p[bBigEndian ? i : (3 - i)];
-  }
-  return result;
-}
-
 void boxes_check(size_t b, size_t m) {
   if (b > m) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -115,6 +95,15 @@ Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create) : Image(ImageType::jp2, m
 #endif
     }
   }
+}
+
+// Obtains the ascii version from the box.type
+std::string Jp2Image::toAscii(uint32_t n) {
+  const auto p = reinterpret_cast<const char*>(&n);
+  std::string result(p, p + 4);
+  if (!isBigEndianPlatform())
+    std::reverse(result.begin(), result.end());
+  return result;
 }
 
 std::string Jp2Image::mimeType() const {
@@ -157,7 +146,7 @@ void Jp2Image::readMetadata() {
               << "Position: " << position << " box type: " << toAscii(box.type) << " length: " << box.length
               << std::endl;
 #endif
-    enforce(box.length <= boxHSize + io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(box.length <= boxHSize + io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
 
     if (box.length == 0)
       return;
@@ -245,7 +234,7 @@ void Jp2Image::readMetadata() {
             ihdr.imageHeight = getULong(reinterpret_cast<byte*>(&ihdr.imageHeight), bigEndian);
             ihdr.imageWidth = getULong(reinterpret_cast<byte*>(&ihdr.imageWidth), bigEndian);
             ihdr.componentCount = getShort(reinterpret_cast<byte*>(&ihdr.componentCount), bigEndian);
-            enforce(ihdr.c == 7, ErrorCode::kerCorruptedMetadata);
+            Internal::enforce(ihdr.c == 7, ErrorCode::kerCorruptedMetadata);
 
             pixelWidth_ = ihdr.imageWidth;
             pixelHeight_ = ihdr.imageHeight;
@@ -276,7 +265,7 @@ void Jp2Image::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::Jp2Image::readMetadata: Exif data found" << std::endl;
 #endif
-            enforce(box.length >= boxHSize + sizeof(uuid), ErrorCode::kerCorruptedMetadata);
+            Internal::enforce(box.length >= boxHSize + sizeof(uuid), ErrorCode::kerCorruptedMetadata);
             rawData.alloc(box.length - (boxHSize + sizeof(uuid)));
             bufRead = io_->read(rawData.data(), rawData.size());
             if (io_->error())
@@ -324,7 +313,7 @@ void Jp2Image::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::Jp2Image::readMetadata: Iptc data found" << std::endl;
 #endif
-            enforce(box.length >= boxHSize + sizeof(uuid), ErrorCode::kerCorruptedMetadata);
+            Internal::enforce(box.length >= boxHSize + sizeof(uuid), ErrorCode::kerCorruptedMetadata);
             rawData.alloc(box.length - (boxHSize + sizeof(uuid)));
             bufRead = io_->read(rawData.data(), rawData.size());
             if (io_->error())
@@ -344,7 +333,7 @@ void Jp2Image::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::Jp2Image::readMetadata: Xmp data found" << std::endl;
 #endif
-            enforce(box.length >= boxHSize + sizeof(uuid), ErrorCode::kerCorruptedMetadata);
+            Internal::enforce(box.length >= boxHSize + sizeof(uuid), ErrorCode::kerCorruptedMetadata);
             rawData.alloc(box.length - (boxHSize + sizeof(uuid)));
             bufRead = io_->read(rawData.data(), rawData.size());
             if (io_->error())
@@ -353,8 +342,7 @@ void Jp2Image::readMetadata() {
               throw Error(ErrorCode::kerInputDataReadFailed);
             xmpPacket_.assign(rawData.c_str(), rawData.size());
 
-            std::string::size_type idx = xmpPacket_.find_first_of('<');
-            if (idx != std::string::npos && idx > 0) {
+            if (auto idx = xmpPacket_.find_first_of('<'); idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
               EXV_WARNING << "Removing " << static_cast<uint32_t>(idx)
                           << " characters from the beginning of the XMP packet" << std::endl;
@@ -420,10 +408,10 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
       const size_t position = io_->tell();
       box.length = getULong(reinterpret_cast<byte*>(&box.length), bigEndian);
       box.type = getULong(reinterpret_cast<byte*>(&box.type), bigEndian);
-      enforce(box.length <= boxHSize + io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(box.length <= boxHSize + io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
 
       if (bPrint) {
-        out << Internal::stringFormat("%8ld | %8ld | ", position - boxHSize, static_cast<size_t>(box.length))
+        out << Internal::stringFormat("%8zd | %8zd | ", position - boxHSize, static_cast<size_t>(box.length))
             << toAscii(box.type) << "      | ";
         bLF = true;
         if (box.type == kJp2BoxTypeClose)
@@ -467,13 +455,12 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
             io_->read(data.data(), data.size());
             if (bPrint) {
               out << Internal::stringFormat("%8zu | %8u |  sub:", address, subBox.length) << toAscii(subBox.type)
-                  << " | "
-                  << Internal::binaryToString(makeSlice(data, 0, std::min(static_cast<size_t>(30), data.size())));
+                  << " | " << Internal::binaryToString(makeSlice(data, 0, std::min<size_t>(30, data.size())));
               bLF = true;
             }
 
             if (subBox.type == kJp2BoxTypeImageHeader) {
-              enforce(subBox.length == 22, ErrorCode::kerCorruptedMetadata);
+              Internal::enforce(subBox.length == 22, ErrorCode::kerCorruptedMetadata);
               // height (4), width (4), componentsCount (2), bpc (1)
               auto compressionType = data.read_uint8(11);
               auto unkC = data.read_uint8(12);
@@ -485,7 +472,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
               const size_t pad = 3;  // don't know why there are 3 padding bytes
 
               // Bounds-check for the `getULong()` below, which reads 4 bytes, starting at `pad`.
-              enforce(data.size() >= pad + 4, ErrorCode::kerCorruptedMetadata);
+              Internal::enforce(data.size() >= pad + 4, ErrorCode::kerCorruptedMetadata);
 
               /// \todo A conforming JP2 reader shall ignore all Colour Specification boxes after the first.
               auto METH = data.read_uint8(0);
@@ -502,7 +489,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
                 if (bPrint) {
                   out << " | iccLength:" << iccLength;
                 }
-                enforce(iccLength <= data.size() - pad, ErrorCode::kerCorruptedMetadata);
+                Internal::enforce(iccLength <= data.size() - pad, ErrorCode::kerCorruptedMetadata);
                 if (bICC) {
                   out.write(data.c_str(pad), iccLength);
                 }
@@ -532,7 +519,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
             }
 
             DataBuf rawData;
-            enforce(box.length >= sizeof(uuid) + boxHSize, ErrorCode::kerCorruptedMetadata);
+            Internal::enforce(box.length >= sizeof(uuid) + boxHSize, ErrorCode::kerCorruptedMetadata);
             rawData.alloc(box.length - sizeof(uuid) - boxHSize);
             const size_t bufRead = io_->read(rawData.data(), rawData.size());
             if (io_->error())
@@ -602,14 +589,14 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
   DataBuf output(boxBuf.size() + iccProfile_.size() + 100);  // allocate sufficient space
   size_t outlen = boxHSize;                                  // now many bytes have we written to output?
   size_t inlen = boxHSize;                                   // how many bytes have we read from boxBuf?
-  enforce(boxHSize <= output.size(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(boxHSize <= output.size(), ErrorCode::kerCorruptedMetadata);
   uint32_t length = getULong(boxBuf.c_data(0), bigEndian);
-  enforce(length <= output.size(), ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(length <= output.size(), ErrorCode::kerCorruptedMetadata);
   uint32_t count = boxHSize;
   bool bWroteColor = false;
 
   while (count < length && !bWroteColor) {
-    enforce(boxHSize <= length - count, ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(boxHSize <= length - count, ErrorCode::kerCorruptedMetadata);
     Internal::Jp2BoxHeader subBox;
     memcpy(&subBox, boxBuf.c_data(count), boxHSize);
     Internal::Jp2BoxHeader newBox = subBox;
@@ -621,8 +608,8 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
       std::cout << "Jp2Image::encodeJp2Header subbox: " << toAscii(subBox.type) << " length = " << subBox.length
                 << std::endl;
 #endif
-      enforce(subBox.length > 0, ErrorCode::kerCorruptedMetadata);
-      enforce(subBox.length <= length - count, ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(subBox.length > 0, ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(subBox.length <= length - count, ErrorCode::kerCorruptedMetadata);
       count += subBox.length;
       newBox.type = subBox.type;
     } else {
@@ -637,7 +624,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
       if (!iccProfileDefined()) {
         const char* pad = "\x01\x00\x00\x00\x00\x00\x10\x00\x00\x05\x1cuuid";
         uint32_t psize = 15;
-        enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
+        Internal::enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
         ul2Data(reinterpret_cast<byte*>(&newBox.length), psize, bigEndian);
         ul2Data(reinterpret_cast<byte*>(&newBox.type), newBox.type, bigEndian);
         std::copy_n(reinterpret_cast<char*>(&newBox), sizeof(newBox), output.begin() + outlen);
@@ -646,7 +633,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
         const char* pad = "\x02\x00\x00";
         uint32_t psize = 3;
         newlen = sizeof(newBox) + psize + iccProfile_.size();
-        enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
+        Internal::enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
         ul2Data(reinterpret_cast<byte*>(&newBox.length), static_cast<uint32_t>(newlen), bigEndian);
         ul2Data(reinterpret_cast<byte*>(&newBox.type), newBox.type, bigEndian);
         std::copy_n(reinterpret_cast<char*>(&newBox), sizeof(newBox), output.begin() + outlen);
@@ -654,7 +641,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
         std::copy(iccProfile_.begin(), iccProfile_.end(), output.begin() + outlen + sizeof(newBox) + psize);
       }
     } else {
-      enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
       std::copy_n(boxBuf.c_data(inlen), subBox.length, output.begin() + outlen);
     }
 
@@ -734,7 +721,8 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
     }
 
     // Prevent a malicious file from causing a large memory allocation.
-    enforce(box.length - 8 <= static_cast<size_t>(io_->size() - io_->tell()), ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(box.length - 8 <= static_cast<size_t>(io_->size() - io_->tell()),
+                      ErrorCode::kerCorruptedMetadata);
 
     // Read whole box : Box header + Box data (not fixed size - can be null).
     DataBuf boxBuf(box.length);                          // Box header (8 bytes) + box data.
@@ -831,7 +819,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
       }
 
       case kJp2BoxTypeUuid: {
-        enforce(boxBuf.size() >= 24, ErrorCode::kerCorruptedMetadata);
+        Internal::enforce(boxBuf.size() >= 24, ErrorCode::kerCorruptedMetadata);
         if (boxBuf.cmpBytes(8, kJp2UuidExif, 16) == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
           std::cout << "Exiv2::Jp2Image::doWriteMetadata: strip Exif Uuid box" << std::endl;
@@ -877,7 +865,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
 Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<Jp2Image>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

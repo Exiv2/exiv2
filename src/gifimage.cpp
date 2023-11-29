@@ -67,7 +67,7 @@ void GifImage::writeMetadata() {
 Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<GifImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

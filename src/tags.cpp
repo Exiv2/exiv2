@@ -11,37 +11,35 @@
 #include "tags_int.hpp"
 #include "types.hpp"
 
-#include <array>
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 using namespace Internal;
 
 //! List of all defined Exif sections.
-constexpr auto sectionInfo = std::array{
-    SectionInfo(SectionId::sectionIdNotSet, "(UnknownSection)", N_("Unknown section")),
-    SectionInfo(SectionId::imgStruct, "ImageStructure", N_("Image data structure")),
-    SectionInfo(SectionId::recOffset, "RecordingOffset", N_("Recording offset")),
-    SectionInfo(SectionId::imgCharacter, "ImageCharacteristics", N_("Image data characteristics")),
-    SectionInfo(SectionId::otherTags, "OtherTags", N_("Other data")),
-    SectionInfo(SectionId::exifFormat, "ExifFormat", N_("Exif data structure")),
-    SectionInfo(SectionId::exifVersion, "ExifVersion", N_("Exif version")),
-    SectionInfo(SectionId::imgConfig, "ImageConfig", N_("Image configuration")),
-    SectionInfo(SectionId::userInfo, "UserInfo", N_("User information")),
-    SectionInfo(SectionId::relatedFile, "RelatedFile", N_("Related file")),
-    SectionInfo(SectionId::dateTime, "DateTime", N_("Date and time")),
-    SectionInfo(SectionId::captureCond, "CaptureConditions", N_("Picture taking conditions")),
-    SectionInfo(SectionId::gpsTags, "GPS", N_("GPS information")),
-    SectionInfo(SectionId::iopTags, "Interoperability", N_("Interoperability information")),
-    SectionInfo(SectionId::mpfTags, "MPF", N_("CIPA Multi-Picture Format")),
-    SectionInfo(SectionId::makerTags, "Makernote", N_("Vendor specific information")),
-    SectionInfo(SectionId::dngTags, "DngTags", N_("Adobe DNG tags")),
-    SectionInfo(SectionId::panaRaw, "PanasonicRaw", N_("Panasonic RAW tags")),
-    SectionInfo(SectionId::tiffEp, "TIFF/EP", N_("TIFF/EP tags")),
-    SectionInfo(SectionId::tiffPm6, "TIFF&PM6", N_("TIFF PageMaker 6.0 tags")),
-    SectionInfo(SectionId::adobeOpi, "AdobeOPI", N_("Adobe OPI tags")),
-    SectionInfo(SectionId::lastSectionId, "(LastSection)", N_("Last section")),
+constexpr SectionInfo sectionInfo[] = {
+    {SectionId::sectionIdNotSet, "(UnknownSection)", N_("Unknown section")},
+    {SectionId::imgStruct, "ImageStructure", N_("Image data structure")},
+    {SectionId::recOffset, "RecordingOffset", N_("Recording offset")},
+    {SectionId::imgCharacter, "ImageCharacteristics", N_("Image data characteristics")},
+    {SectionId::otherTags, "OtherTags", N_("Other data")},
+    {SectionId::exifFormat, "ExifFormat", N_("Exif data structure")},
+    {SectionId::exifVersion, "ExifVersion", N_("Exif version")},
+    {SectionId::imgConfig, "ImageConfig", N_("Image configuration")},
+    {SectionId::userInfo, "UserInfo", N_("User information")},
+    {SectionId::relatedFile, "RelatedFile", N_("Related file")},
+    {SectionId::dateTime, "DateTime", N_("Date and time")},
+    {SectionId::captureCond, "CaptureConditions", N_("Picture taking conditions")},
+    {SectionId::gpsTags, "GPS", N_("GPS information")},
+    {SectionId::iopTags, "Interoperability", N_("Interoperability information")},
+    {SectionId::mpfTags, "MPF", N_("CIPA Multi-Picture Format")},
+    {SectionId::makerTags, "Makernote", N_("Vendor specific information")},
+    {SectionId::dngTags, "DngTags", N_("Adobe DNG tags")},
+    {SectionId::panaRaw, "PanasonicRaw", N_("Panasonic RAW tags")},
+    {SectionId::tiffEp, "TIFF/EP", N_("TIFF/EP tags")},
+    {SectionId::tiffPm6, "TIFF&PM6", N_("TIFF PageMaker 6.0 tags")},
+    {SectionId::adobeOpi, "AdobeOPI", N_("Adobe OPI tags")},
+    {SectionId::lastSectionId, "(LastSection)", N_("Last section")},
 };
 
 }  // namespace Exiv2
@@ -76,7 +74,7 @@ bool GroupInfo::operator==(const GroupName& groupName) const {
 }
 
 const char* ExifTags::sectionName(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), static_cast<IfdId>(key.ifdId()));
+  const TagInfo* ti = tagInfo(key.tag(), key.ifdId());
   if (!ti)
     return sectionInfo[static_cast<int>(unknownTag.sectionId_)].name_;
   return sectionInfo[static_cast<int>(ti->sectionId_)].name_;
@@ -84,7 +82,7 @@ const char* ExifTags::sectionName(const ExifKey& key) {
 
 /// \todo not used internally. At least we should test it
 uint16_t ExifTags::defaultCount(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), static_cast<IfdId>(key.ifdId()));
+  const TagInfo* ti = tagInfo(key.tag(), key.ifdId());
   if (!ti)
     return unknownTag.count_;
   return ti->count_;
@@ -249,7 +247,7 @@ ExifKey::ExifKey(uint16_t tag, const std::string& groupName) : p_(std::make_uniq
 }
 
 ExifKey::ExifKey(const TagInfo& ti) : p_(std::make_unique<Impl>()) {
-  auto ifdId = static_cast<IfdId>(ti.ifdId_);
+  auto ifdId = ti.ifdId_;
   if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
     throw Error(ErrorCode::kerInvalidIfdId, ifdId);
   }
@@ -261,7 +259,7 @@ ExifKey::ExifKey(const std::string& key) : p_(std::make_unique<Impl>()) {
   p_->decomposeKey(key);
 }
 
-ExifKey::ExifKey(const ExifKey& rhs) : Key(), p_(std::make_unique<Impl>(*rhs.p_)) {
+ExifKey::ExifKey(const ExifKey& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 ExifKey::~ExifKey() = default;
@@ -274,7 +272,7 @@ ExifKey& ExifKey::operator=(const ExifKey& rhs) {
   return *this;
 }
 
-void ExifKey::setIdx(int idx) {
+void ExifKey::setIdx(int idx) const {
   p_->idx_ = idx;
 }
 
@@ -344,8 +342,7 @@ std::ostream& operator<<(std::ostream& os, const TagInfo& ti) {
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
   char Q = '"';
   os << Q;
-  for (size_t i = 0; i < exifKey.tagDesc().size(); i++) {
-    char c = exifKey.tagDesc()[i];
+  for (char c : exifKey.tagDesc()) {
     if (c == Q)
       os << Q;
     os << c;

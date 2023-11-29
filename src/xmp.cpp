@@ -104,8 +104,7 @@ class XMLValidator {
     XML_SetNamespaceDeclHandler(parser_, startNamespace_cb, endNamespace_cb);
     XML_SetStartDoctypeDeclHandler(parser_, startDTD_cb);
 
-    const XML_Status result = XML_Parse(parser_, buf, static_cast<int>(buflen), true);
-    if (result == XML_STATUS_ERROR) {
+    if (XML_Parse(parser_, buf, static_cast<int>(buflen), true) == XML_STATUS_ERROR) {
       setError(XML_ErrorString(XML_GetErrorCode(parser_)));
     }
 
@@ -228,7 +227,6 @@ void printNode(const std::string& schemaNs, const std::string& propPath, const s
 
 //! Make an XMP key from a schema namespace and property path
 Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs, const std::string& propPath);
-#endif  // EXV_HAVE_XMP_TOOLKIT
 
 //! Helper class used to serialize critical sections
 class AutoLock {
@@ -249,6 +247,7 @@ class AutoLock {
   Exiv2::XmpParser::XmpLockFct xmpLockFct_;
   void* pLockData_;
 };
+#endif  // EXV_HAVE_XMP_TOOLKIT
 }  // namespace
 
 // *****************************************************************************
@@ -386,7 +385,6 @@ const Value& Xmpdatum::value() const {
 
 size_t Xmpdatum::copy(byte* /*buf*/, ByteOrder /*byteOrder*/) const {
   throw Error(ErrorCode::kerFunctionNotSupported, "Xmpdatum::copy");
-  return 0;
 }
 
 std::ostream& Xmpdatum::write(std::ostream& os, const ExifData*) const {
@@ -424,7 +422,7 @@ Xmpdatum& XmpData::operator[](const std::string& key) {
   XmpKey xmpKey(key);
   auto pos = findKey(xmpKey);
   if (pos == end()) {
-    xmpMetadata_.push_back(Xmpdatum(xmpKey));
+    xmpMetadata_.emplace_back(xmpKey);
     return xmpMetadata_.back();
   }
   return *pos;
@@ -464,7 +462,7 @@ XmpData::const_iterator XmpData::end() const {
 }
 
 bool XmpData::empty() const {
-  return count() == 0;
+  return xmpMetadata_.empty();
 }
 
 long XmpData::count() const {
@@ -581,19 +579,16 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
   // remove blanks: http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
   out.erase(std::remove_if(out.begin(), out.end(), isspace), out.end());
 
-  bool bURI = out.find("http://") != std::string::npos;
-  bool bNS = out.find(':') != std::string::npos && !bURI;
+  bool bURI = Internal::contains(out, "http://");
+  bool bNS = Internal::contains(out, ':') && !bURI;
 
   // pop trailing ':' on a namespace
-  if (bNS && !out.empty()) {
-    std::size_t length = out.length();
-    if (out[length - 1] == ':')
-      out = out.substr(0, length - 1);
-  }
+  if (bNS && !out.empty() && out.back() == ':')
+    out.pop_back();
 
   if (bURI || bNS) {
     auto p = static_cast<std::map<std::string, std::string>*>(refCon);
-    std::map<std::string, std::string>& m = *p;
+    auto& m = *p;
 
     std::string b;
     if (bNS) {  // store the NS in dict[""]
@@ -690,7 +685,9 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
     XMLValidator::check(xmpPacket.data(), len);
     SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(len));
     SXMPIterator iter(meta);
-    std::string schemaNs, propPath, propValue;
+    std::string schemaNs;
+    std::string propPath;
+    std::string propValue;
     XMP_OptionBits opt = 0;
     while (iter.Next(&schemaNs, &propPath, &propValue, &opt)) {
       printNode(schemaNs, propPath, propValue, opt);
@@ -703,10 +700,9 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
         // (Namespaces are automatically registered with the XMP Toolkit)
         if (XmpProperties::prefix(schemaNs).empty()) {
           std::string prefix;
-          bool ret = SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &prefix);
-          if (!ret)
+          if (!SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &prefix))
             throw Error(ErrorCode::kerSchemaNamespaceNotRegistered, schemaNs);
-          prefix = prefix.substr(0, prefix.size() - 1);
+          prefix.pop_back();
           XmpProperties::registerNs(schemaNs, prefix);
         }
         continue;
@@ -740,7 +736,9 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
         // Check if all elements are simple
         bool simpleArray = true;
         SXMPIterator aIter(meta, schemaNs.c_str(), propPath.c_str());
-        std::string aSchemaNs, aPropPath, aPropValue;
+        std::string aSchemaNs;
+        std::string aPropPath;
+        std::string aPropValue;
         XMP_OptionBits aOpt = 0;
         while (aIter.Next(&aSchemaNs, &aPropPath, &aPropValue, &aOpt)) {
           if (propPath == aPropPath)

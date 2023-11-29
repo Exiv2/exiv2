@@ -30,11 +30,11 @@ class EXIV2API Key {
 
   //! @name Creators
   //@{
-  Key() = default;
   //! Destructor
   virtual ~Key() = default;
   //@}
-  Key(const Key&) = default;
+  Key(Key&&) = delete;
+  Key& operator=(Key&&) = delete;
   //! @name Accessors
   //@{
   /*!
@@ -74,6 +74,8 @@ class EXIV2API Key {
   //@}
 
  protected:
+  Key() = default;
+  Key(const Key&) = default;
   //! @name Manipulators
   //@{
   /*!
@@ -102,10 +104,6 @@ class EXIV2API Metadatum {
  public:
   //! @name Creators
   //@{
-  //! Default Constructor
-  Metadatum() = default;
-  //! Copy constructor
-  Metadatum(const Metadatum&) = default;
   //! Destructor
   virtual ~Metadatum() = default;
   //@}
@@ -258,6 +256,8 @@ class EXIV2API Metadatum {
   //@}
 
  protected:
+  Metadatum() = default;
+  Metadatum(const Metadatum&) = default;
   //! @name Manipulators
   //@{
   /*!

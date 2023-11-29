@@ -19,15 +19,14 @@
 
 // + standard includes
 #include <algorithm>
+#include <functional>
 #include <iomanip>
-
-#if defined _WIN32
-#include <windows.h>
-#endif
 
 #ifdef EXV_HAVE_ICONV
 #include <iconv.h>
 #include <cerrno>
+#elif defined _WIN32
+#include <windows.h>
 #endif
 
 // Adobe XMP Toolkit
@@ -273,9 +272,9 @@ class Converter {
   std::string computeExifDigest(bool tiff);
 
   // DATA
-  static const Conversion conversion_[];  //<! Conversion rules
-  bool erase_;
-  bool overwrite_;
+  static const Conversion conversion_[];  ///< Conversion rules
+  bool erase_{false};
+  bool overwrite_{true};
   ExifData* exifData_;
   IptcData* iptcData_;
   XmpData* xmpData_;
@@ -489,27 +488,17 @@ const Converter::Conversion Converter::conversion_[] = {
 };
 
 Converter::Converter(ExifData& exifData, XmpData& xmpData) :
-    erase_(false),
-    overwrite_(true),
-    exifData_(&exifData),
-    iptcData_(nullptr),
-    xmpData_(&xmpData),
-    iptcCharset_(nullptr) {
+    exifData_(&exifData), iptcData_(nullptr), xmpData_(&xmpData), iptcCharset_(nullptr) {
 }
 
 Converter::Converter(IptcData& iptcData, XmpData& xmpData, const char* iptcCharset) :
-    erase_(false),
-    overwrite_(true),
-    exifData_(nullptr),
-    iptcData_(&iptcData),
-    xmpData_(&xmpData),
-    iptcCharset_(iptcCharset) {
+    exifData_(nullptr), iptcData_(&iptcData), xmpData_(&xmpData), iptcCharset_(iptcCharset) {
 }
 
 void Converter::cnvToXmp() {
   for (auto&& c : conversion_) {
     if ((c.metadataId_ == mdExif && exifData_) || (c.metadataId_ == mdIptc && iptcData_)) {
-      EXV_CALL_MEMBER_FN(*this, c.key1ToKey2_)(c.key1_, c.key2_);
+      std::invoke(c.key1ToKey2_, *this, c.key1_, c.key2_);
     }
   }
 }
@@ -517,7 +506,7 @@ void Converter::cnvToXmp() {
 void Converter::cnvFromXmp() {
   for (auto&& c : conversion_) {
     if ((c.metadataId_ == mdExif && exifData_) || (c.metadataId_ == mdIptc && iptcData_)) {
-      EXV_CALL_MEMBER_FN(*this, c.key2ToKey1_)(c.key2_, c.key1_);
+      std::invoke(c.key2ToKey1_, *this, c.key2_, c.key1_);
     }
   }
 }
@@ -626,7 +615,12 @@ void Converter::cnvExifDate(const char* from, const char* to) {
     return;
   if (!prepareXmpTarget(to))
     return;
-  int year = 0, month = 0, day = 0, hour = 0, min = 0, sec = 0;
+  int year = 0;
+  int month = 0;
+  int day = 0;
+  int hour = 0;
+  int min = 0;
+  int sec = 0;
   std::string subsec;
   char buf[30];
 
@@ -645,7 +639,6 @@ void Converter::cnvExifDate(const char* from, const char* to) {
       return;
     }
   } else {  // "Exif.GPSInfo.GPSTimeStamp"
-
     bool ok = true;
     if (pos->count() != 3)
       ok = false;
@@ -740,7 +733,7 @@ void Converter::cnvExifDate(const char* from, const char* to) {
   }
 
   if (subsec.size() > 10)
-    subsec = subsec.substr(0, 10);
+    subsec.resize(10);
   snprintf(buf, sizeof(buf), "%4d-%02d-%02dT%02d:%02d:%02d%s", year, month, day, hour, min, sec, subsec.c_str());
   buf[sizeof(buf) - 1] = 0;
 
@@ -864,8 +857,7 @@ void Converter::cnvXmpValue(const char* from, const char* to) {
   }
   // Todo: Escape non-ASCII characters in XMP text values
   ExifKey key(to);
-  Exifdatum ed(key);
-  if (0 == ed.setValue(value)) {
+  if (auto ed = Exifdatum(key); ed.setValue(value) == 0) {
     exifData_->add(ed);
   }
   if (erase_)
@@ -936,9 +928,8 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
     if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
       SXMPUtils::ConvertToLocalTime(&datetime);
 
-      snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d", static_cast<int>(datetime.year),
-               static_cast<int>(datetime.month), static_cast<int>(datetime.day), static_cast<int>(datetime.hour),
-               static_cast<int>(datetime.minute), static_cast<int>(datetime.second));
+      snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d", datetime.year, datetime.month, datetime.day,
+               datetime.hour, datetime.minute, datetime.second);
       buf[sizeof(buf) - 1] = 0;
       (*exifData_)[to] = buf;
 
@@ -957,7 +948,6 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
         }
       }
     } else {  // "Exif.GPSInfo.GPSTimeStamp"
-
       // Ignore the time zone, assuming the time is in UTC as it should be
 
       URational rhour(datetime.hour, 1);
@@ -979,8 +969,7 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
       (*exifData_)[to] = array.str();
 
       prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
-      snprintf(buf, sizeof(buf), "%4d:%02d:%02d", static_cast<int>(datetime.year), static_cast<int>(datetime.month),
-               static_cast<int>(datetime.day));
+      snprintf(buf, sizeof(buf), "%4d:%02d:%02d", datetime.year, datetime.month, datetime.day);
       buf[sizeof(buf) - 1] = 0;
       (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
     }
@@ -1141,11 +1130,11 @@ void Converter::cnvXmpGPSCoord(const char* from, const char* to) {
   double deg = 0.0;
   double min = 0.0;
   double sec = 0.0;
-  char ref = value[value.length() - 1];
+  char ref = value.back();
   char sep1 = '\0';
   char sep2 = '\0';
 
-  value.erase(value.length() - 1);
+  value.pop_back();
 
   std::istringstream in(value);
 
@@ -1397,20 +1386,19 @@ void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData) {
   converter.cnvFromXmp();
 }
 
-bool convertStringCharset(std::string& str, const char* from, const char* to) {
+bool convertStringCharset([[maybe_unused]] std::string& str, const char* from, const char* to) {
   if (0 == strcmp(from, to))
     return true;  // nothing to do
-  bool ret = false;
 #if defined EXV_HAVE_ICONV
-  ret = convertStringCharsetIconv(str, from, to);
+  return convertStringCharsetIconv(str, from, to);
 #elif defined _WIN32
-  ret = convertStringCharsetWindows(str, from, to);
+  return convertStringCharsetWindows(str, from, to);
 #else
 #ifndef SUPPRESS_WARNINGS
   EXV_WARNING << "Charset conversion required but no character mapping functionality available.\n";
 #endif
 #endif
-  return ret;
+  return false;
 }
 }  // namespace Exiv2
 
@@ -1419,7 +1407,51 @@ bool convertStringCharset(std::string& str, const char* from, const char* to) {
 namespace {
 using namespace Exiv2;
 
-#if defined _WIN32
+#if defined EXV_HAVE_ICONV
+bool convertStringCharsetIconv(std::string& str, const char* from, const char* to) {
+  if (strcmp(from, to) == 0)
+    return true;  // nothing to do
+
+  bool ret = true;
+  auto cd = iconv_open(to, from);
+  if (cd == iconv_t(-1)) {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << "iconv_open: " << strError() << "\n";
+#endif
+    return false;
+  }
+  std::string outstr;
+#ifdef WINICONV_CONST
+  auto inptr = (WINICONV_CONST char*)(str.c_str());
+#else
+  auto inptr = (EXV_ICONV_CONST char*)(str.c_str());
+#endif
+  size_t inbytesleft = str.length();
+  while (inbytesleft) {
+    char outbuf[256];
+    char* outptr = outbuf;
+    size_t outbytesleft = sizeof(outbuf);
+    size_t rc = iconv(cd, &inptr, &inbytesleft, &outptr, &outbytesleft);
+    const size_t outbytesProduced = sizeof(outbuf) - outbytesleft;
+    if (rc == std::numeric_limits<size_t>::max() && errno != E2BIG) {
+#ifndef SUPPRESS_WARNINGS
+      EXV_WARNING << "iconv: " << strError() << " inbytesleft = " << inbytesleft << "\n";
+#endif
+      ret = false;
+      break;
+    }
+    outstr.append(std::string(outbuf, outbytesProduced));
+  }
+
+  if (cd)
+    iconv_close(cd);
+
+  if (ret)
+    str = outstr;
+  return ret;
+}
+
+#elif defined(_WIN32)
 bool swapBytes(std::string& str) {
   // Naive byte-swapping, I'm sure this can be done more efficiently
   if (str.size() & 1) {
@@ -1553,9 +1585,8 @@ const ConvFctList convFctList[] = {
 
 [[maybe_unused]] bool convertStringCharsetWindows(std::string& str, const char* from, const char* to) {
   bool ret = false;
-  const ConvFctList* p = find(convFctList, std::pair(from, to));
   std::string tmpstr = str;
-  if (p)
+  if (auto p = Exiv2::find(convFctList, std::pair(from, to)))
     ret = p->convFct_(tmpstr);
 #ifndef SUPPRESS_WARNINGS
   else {
@@ -1564,52 +1595,6 @@ const ConvFctList convFctList[] = {
 #endif
   if (ret)
     str = tmpstr;
-  return ret;
-}
-
-#endif  // defined _WIN32
-#if defined EXV_HAVE_ICONV
-bool convertStringCharsetIconv(std::string& str, const char* from, const char* to) {
-  if (0 == strcmp(from, to))
-    return true;  // nothing to do
-
-  bool ret = true;
-  iconv_t cd;
-  cd = iconv_open(to, from);
-  if (cd == iconv_t(-1)) {
-#ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "iconv_open: " << strError() << "\n";
-#endif
-    return false;
-  }
-  std::string outstr;
-#ifdef WINICONV_CONST
-  auto inptr = (WINICONV_CONST char*)(str.c_str());
-#else
-  auto inptr = const_cast<char*>(str.c_str());
-#endif
-  size_t inbytesleft = str.length();
-  while (inbytesleft) {
-    char outbuf[256];
-    char* outptr = outbuf;
-    size_t outbytesleft = sizeof(outbuf);
-    size_t rc = iconv(cd, &inptr, &inbytesleft, &outptr, &outbytesleft);
-    const size_t outbytesProduced = sizeof(outbuf) - outbytesleft;
-    if (rc == static_cast<size_t>(-1) && errno != E2BIG) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "iconv: " << strError() << " inbytesleft = " << inbytesleft << "\n";
-#endif
-      ret = false;
-      break;
-    }
-    outstr.append(std::string(outbuf, outbytesProduced));
-  }
-  if (cd) {
-    iconv_close(cd);
-  }
-
-  if (ret)
-    str = outstr;
   return ret;
 }
 

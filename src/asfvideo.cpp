@@ -1,211 +1,196 @@
-// ***************************************************************** -*- C++ -*-
-/*
- * Copyright (C) 2004-2021 Exiv2 authors
- * This program is part of the Exiv2 distribution.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      asfvideo.cpp
-  Author(s): Abhinav Badola for GSoC 2012 (AB) <mail.abu.to@gmail.com>
-  History:   08-Aug-12, AB: created
-  Credits:   See header file
- */
-// *****************************************************************************
+// SPDX-License-Identifier: GPL-2.0-or-later
 // included header files
-#include <iostream>
-#include "config.h"
-
 #include "asfvideo.hpp"
+
+#include <cstring>
+#include <iostream>
+#include <sstream>
+
 #include "basicio.hpp"
-#include "convert.hpp"
+#include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
-#include "tags.hpp"
-#include "tags_int.hpp"
-#include "types.hpp"
-
-// + standard includes
-#include <cassert>
-#include <cctype>
-#include <cstring>
-
+#include "utils.hpp"
 // *****************************************************************************
 // class member definitions
-namespace Exiv2::Internal {
+namespace Exiv2 {
 
 /*!
-  TagVocabulary Look-up list for ASF Type Video Files
-  Associates the GUID of a TagVocabulary with its TagVocabulary Name(i.e. Human Readable Form)
-  Tags have been diferentiated into Various Categories.
-  The categories have been listed above the TagVocabulary Groups
+  Look-up list for ASF Type Video Files
+  Associates the GUID with its Name(i.e. Human Readable Form)
+  Tags have been differentiated into Various Categories.
+  The categories have been listed above Groups
   see :
   - https://fr.wikipedia.org/wiki/Advanced_Systems_Format
   - https://exse.eyewated.com/fls/54b3ed95bbfb1a92.pdf
  */
-constexpr const TagVocabulary GUIDReferenceTags[] = {
+/*
+ * @class GUID_struct
+ *
+ * @brief A class to represent a globally unique identifier (GUID) structure
+ *
+ * This class represents a globally unique identifier (GUID) structure which is used to identify objects in a
+ * distributed environment. A GUID is a unique identifier that is generated on a computer and can be used to
+ * identify an object across different systems. The GUID structure is comprised of four 32-bit values and an
+ * array of 8 bytes.
+ *
+ * @note The byte order of the GUID structure is in little endian.
+ *
+ * @see https://en.wikipedia.org/wiki/Globally_unique_identifier
+ *
+ */
+
+bool AsfVideo::GUIDTag::operator==(const AsfVideo::GUIDTag& other) const {
+  return data1_ == other.data1_ && data2_ == other.data2_ && data3_ == other.data3_ && data4_ == other.data4_;
+}
+
+AsfVideo::GUIDTag::GUIDTag(unsigned int data1, unsigned short data2, unsigned short data3, std::array<byte, 8> data4) :
+    data1_(data1), data2_(data2), data3_(data3), data4_(data4) {
+}
+
+AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
+  memcpy(&data1_, bytes, DWORD);
+  memcpy(&data2_, bytes + DWORD, WORD);
+  memcpy(&data3_, bytes + DWORD + WORD, WORD);
+  std::copy(bytes + QWORD, bytes + 2 * QWORD, data4_.begin());
+  if (isBigEndianPlatform()) {
+    data1_ = byteSwap(data1_, true);
+    data2_ = byteSwap(data2_, true);
+    data3_ = byteSwap(data3_, true);
+  }
+}
+
+std::string AsfVideo::GUIDTag::to_string() {
+  // Convert each field of the GUID structure to a string
+  std::stringstream ss;
+  ss << std::hex << std::setw(8) << std::setfill('0') << data1_ << "-";
+  ss << std::hex << std::setw(4) << std::setfill('0') << data2_ << "-";
+  ss << std::hex << std::setw(4) << std::setfill('0') << data3_ << "-";
+
+  for (size_t i = 0; i < 8; i++) {
+    if (i == 2) {
+      ss << "-";
+    }
+    ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data4_[i]);
+  }
+
+  // Concatenate all strings into a single string
+  // Convert the string to uppercase
+  // Example of output 399595EC-8667-4E2D-8FDB-98814CE76C1E
+  return Internal::upper(ss.str());
+}
+
+bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
+  if (data1_ != other.data1_)
+    return data1_ < other.data1_;
+  if (data2_ != other.data2_)
+    return data2_ < other.data2_;
+  if (data3_ != other.data3_)
+    return data3_ < other.data3_;
+  return std::lexicographical_compare(data4_.begin(), data4_.end(), other.data4_.begin(), other.data4_.end());
+}
+
+const AsfVideo::GUIDTag Header(0x75B22630, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C});
+
+const std::map<AsfVideo::GUIDTag, std::string> GUIDReferenceTags = {
     /// Top-level ASF object GUIDS
-    {"75B22630-668E-11CF-A6D9-00AA0062CE6C", "Header"},
-    {"75B22636-668E-11CF-A6D9-00AA0062CE6C", "Data"},
-    {"33000890-E5B1-11CF-89F4-00A0C90349CB", "Simple_Index"},
-    {"D6E229D3-35DA-11D1-9034-00A0C90349BE", "Index"},
-    {"FEB103F8-12AD-4C64-840F-2A1D2F7AD48C", "Media_Index"},
-    {"3CB73FD0-0C4A-4803-953D-EDF7B6228F0C", "Timecode_Index"},
+    {Header, "Header"},
+    {{0x75B22636, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C}}, "Data"},
+    {{0x33000890, 0xE5B1, 0x11CF, {0x89, 0xF4, 0x00, 0xA0, 0xC9, 0x03, 0x49, 0xCB}}, "Simple_Index"},
+    {{0xD6E229D3, 0x35DA, 0x11D1, {0x90, 0x34, 0x00, 0xA0, 0xC9, 0x03, 0x49, 0xBE}}, "Index"},
+    {{0xFEB103F8, 0x12AD, 0x4C64, {0x84, 0x0F, 0x2A, 0x1D, 0x2F, 0x7A, 0xD4, 0x8C}}, "Media_Index"},
+    {{0x3CB73FD0, 0x0C4A, 0x4803, {0x95, 0x3D, 0xED, 0xF7, 0xB6, 0x22, 0x8F, 0x0C}}, "Timecode_Index"},
 
     /// Header Object GUIDs
-    {"8CABDCA1-A947-11CF-8EE4-00C00C205365", "File_Properties"},
-    {"B7DC0791-A9B7-11CF-8EE6-00C00C205365", "Stream_Properties"},
-    {"5FBF03B5-A92E-11CF-8EE3-00C00C205365", "Header_Extension"},
-    {"86D15240-311D-11D0-A3A4-00A0C90348F6", "Codec_List"},
-    {"1EFB1A30-0B62-11D0-A39B-00A0C90348F6", "Script_Command"},
-    {"F487CD01-A951-11CF-8EE6-00C00C205365", "Marker"},
-    {"D6E229DC-35DA-11D1-9034-00A0C90349BE", "Bitrate_Mutual_Exclusion"},
-    {"75B22635-668E-11CF-A6D9-00AA0062CE6C", "Error_Correction"},
-    {"75B22633-668E-11CF-A6D9-00AA0062CE6C", "Content_Description"},
-    {"D2D0A440-E307-11D2-97F0-00A0C95EA850", "Extended_Content_Description"},
-    {"2211B3FA-BD23-11D2-B4B7-00A0C955FC6E", "Content_Branding"},
-    {"7BF875CE-468D-11D1-8D82-006097C9A2B2", "Stream_Bitrate_Properties"},
-    {"2211B3FB-BD23-11D2-B4B7-00A0C955FC6E", "Content_Encryption"},
-    {"298AE614-2622-4C17-B935-DAE07EE9289C", "Extended_Content_Encryption"},
-    {"2211B3FC-BD23-11D2-B4B7-00A0C955FC6E", "Digital_Signature"},
-    {"1806D474-CADF-4509-A4BA-9AABCB96AAE8", "Padding"},
+    {{0x8CABDCA1, 0xA947, 0x11CF, {0x8E, 0xE4, 0x00, 0xC0, 0x0C, 0x20, 0x53, 0x65}}, "File_Properties"},
+    {{0xB7DC0791, 0xA9B7, 0x11CF, {0x8E, 0xE6, 0x00, 0xC0, 0x0C, 0x20, 0x53, 0x65}}, "Stream_Properties"},
+    {{0x5FBF03B5, 0xA92E, 0x11CF, {0x8E, 0xE3, 0x00, 0xC0, 0x0C, 0x20, 0x53, 0x65}}, "Header_Extension"},
+    {{0x86D15240, 0x311D, 0x11D0, {0xA3, 0xA4, 0x00, 0xA0, 0xC9, 0x03, 0x48, 0xF6}}, "Codec_List"},
+    {{0x1EFB1A30, 0x0B62, 0x11D0, {0xA3, 0x9B, 0x00, 0xA0, 0xC9, 0x03, 0x48, 0xF6}}, "Script_Command"},
+    {{0xF487CD01, 0xA951, 0x11CF, {0x8E, 0xE6, 0x00, 0xC0, 0x00, 0xC2, 0x05, 0x36}}, "Marker"},
+    {{0xD6E229DC, 0x35DA, 0x11D1, {0x90, 0x34, 0x00, 0xA0, 0xC9, 0x03, 0x49, 0xBE}}, "Bitrate_Mutual_Exclusion"},
+    {{0x75B22635, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C}}, "Error_Correction"},
+    {{0x75B22633, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C}}, "Content_Description"},
+    {{0xD2D0A440, 0xE307, 0x11D2, {0x97, 0xF0, 0x00, 0xA0, 0xC9, 0x5E, 0xA8, 0x50}}, "Extended_Content_Description"},
+    {{0x2211B3FA, 0xBD23, 0x11D2, {0xB4, 0xB7, 0x00, 0xA0, 0xC9, 0x55, 0xFC, 0x6E}}, "Content_Branding"},
+    {{0x7BF875CE, 0x468D, 0x11D1, {0x8D, 0x82, 0x00, 0x60, 0x97, 0xC9, 0xA2, 0xB2}}, "Stream_Bitrate_Properties"},
+    {{0x2211B3FB, 0xBD23, 0x11D2, {0xB4, 0xB7, 0x00, 0xA0, 0xC9, 0x55, 0xFC, 0x6E}}, "Content_Encryption"},
+    {{0x298AE614, 0x2622, 0x4C17, {0xB9, 0x35, 0xDA, 0xE0, 0x7E, 0xE9, 0x28, 0x9C}}, "Extended_Content_Encryption"},
+    {{0x2211B3FC, 0xBD23, 0x11D2, {0xB4, 0xB7, 0x00, 0xA0, 0xC9, 0x55, 0xFC, 0x6E}}, "Digital_Signature"},
+    {{0x1806D474, 0xCADF, 0x4509, {0xA4, 0xBA, 0x9A, 0xAB, 0xCB, 0x96, 0xAA, 0xE8}}, "Padding"},
 
     /// Header Extension Object GUIDs
-    {"14E6A5CB-C672-4332-8399-A96952065B5A", "Extended_Stream_Properties"},
-    {"A08649CF-4775-4670-8A16-6E35357566CD", "Advanced_Mutual_Exclusion"},
-    {"D1465A40-5A79-4338-B71B-E36B8FD6C249", "Group_Mutual_Exclusion"},
-    {"D4FED15B-88D3-454F-81F0-ED5C45999E24", "Stream_Prioritization"},
-    {"A69609E6-517B-11D2-B6AF-00C04FD908E9", "Bandwidth_Sharing"},
-    {"7C4346A9-EFE0-4BFC-B229-393EDE415C85", "Language_List"},
-    {"C5F8CBEA-5BAF-4877-8467-AA8C44FA4CCA", "Metadata"},
-    {"44231C94-9498-49D1-A141-1D134E457054", "Metadata_Library"},
-    {"D6E229DF-35DA-11D1-9034-00A0C90349BE", "Index_Parameters"},
-    {"6B203BAD-3F11-48E4-ACA8-D7613DE2CFA7", "Media_Index_Parameters"},
-    {"F55E496D-9797-4B5D-8C8B-604DFE9BFB24", "Timecode_Index_Parameters"},
-    {"26F18B5D-4584-47EC-9F5F-0E651F0452C9", "Compatibility"},
-    {"43058533-6981-49E6-9B74-AD12CB86D58C", "Advanced_Content_Encryption"},
+    {{0x14E6A5CB, 0xC672, 0x4332, {0x83, 0x99, 0xA9, 0x69, 0x52, 0x06, 0x5B, 0x5A}}, "Extended_Stream_Properties"},
+    {{0xA08649CF, 0x4775, 0x4670, {0x8A, 0x16, 0x6E, 0x35, 0x35, 0x75, 0x66, 0xCD}}, "Advanced_Mutual_Exclusion"},
+    {{0xD1465A40, 0x5A79, 0x4338, {0xB7, 0x1B, 0xE3, 0x6B, 0x8F, 0xD6, 0xC2, 0x49}}, "Group_Mutual_Exclusion"},
+    {{0xD4FED15B, 0x88D3, 0x454F, {0x81, 0xF0, 0xED, 0x5C, 0x45, 0x99, 0x9E, 0x24}}, "Stream_Prioritization"},
+    {{0xA69609E6, 0x517B, 0x11D2, {0xB6, 0xAF, 0x00, 0xC0, 0x4F, 0xD9, 0x08, 0xE9}}, "Bandwidth_Sharing"},
+    {{0x7C4346A9, 0xEFE0, 0x4BFC, {0xB2, 0x29, 0x39, 0x3E, 0xDE, 0x41, 0x5C, 0x85}}, "Language_List"},
+    {{0xC5F8CBEA, 0x5BAF, 0x4877, {0x84, 0x67, 0xAA, 0x8C, 0x44, 0xFA, 0x4C, 0xCA}}, "Metadata"},
+    {{0x44231C94, 0x9498, 0x49D1, {0xA1, 0x41, 0x1D, 0x13, 0x4E, 0x45, 0x70, 0x54}}, "Metadata_Library"},
+    {{0xD6E229DF, 0x35DA, 0x11D1, {0x90, 0x34, 0x00, 0xA0, 0xC9, 0x03, 0x49, 0xBE}}, "Index_Parameters"},
+    {{0x6B203BAD, 0x3F11, 0x48E4, {0xAC, 0xA8, 0xD7, 0x61, 0x3D, 0xE2, 0xCF, 0xA7}}, "Media_Index_Parameters"},
+    {{0xF55E496D, 0x9797, 0x4B5D, {0x8C, 0x8B, 0x60, 0x4D, 0xFE, 0x9B, 0xFB, 0x24}}, "Timecode_Index_Parameters"},
+    {{0x26F18B5D, 0x4584, 0x47EC, {0x9F, 0x5F, 0x0E, 0x65, 0x1F, 0x04, 0x52, 0xC9}}, "Compatibility"},
+    {{0x43058533, 0x6981, 0x49E6, {0x9B, 0x74, 0xAD, 0x12, 0xCB, 0x86, 0xD5, 0x8C}}, "Advanced_Content_Encryption"},
 
     /// Stream Properties Object Stream Type GUIDs
-    {"F8699E40-5B4D-11CF-A8FD-00805F5C442B", "Audio_Media"},
-    {"BC19EFC0-5B4D-11CF-A8FD-00805F5C442B", "Video_Media"},
-    {"59DACFC0-59E6-11D0-A3AC-00A0C90348F6", "Command_Media"},
-    {"B61BE100-5B4E-11CF-A8FD-00805F5C442B", "JFIF_Media"},
-    {"35907DE0-E415-11CF-A917-00805F5C442B", "Degradable_JPEG_Media"},
-    {"91BD222C-F21C-497A-8B6D-5AA86BFC0185", "File_Transfer_Media"},
-    {"3AFB65E2-47EF-40F2-AC2C-70A90D71D343", "Binary_Media"},
+    {{0xF8699E40, 0x5B4D, 0x11CF, {0xA8, 0xFD, 0x00, 0x80, 0x5F, 0x5C, 0x44, 0x2B}}, "Audio_Media"},
+    {{0xBC19EFC0, 0x5B4D, 0x11CF, {0xA8, 0xFD, 0x00, 0x80, 0x5F, 0x5C, 0x44, 0x2B}}, "Video_Media"},
+    {{0x59DACFC0, 0x59E6, 0x11D0, {0xA3, 0xAC, 0x00, 0xA0, 0xC9, 0x03, 0x48, 0xF6}}, "Command_Media"},
+    {{0xB61BE100, 0x5B4E, 0x11CF, {0xA8, 0xFD, 0x00, 0x80, 0x5F, 0x5C, 0x44, 0x2B}}, "JFIF_Media"},
+    {{0x35907DE0, 0xE415, 0x11CF, {0xA9, 0x17, 0x00, 0x80, 0x5F, 0x5C, 0x44, 0x2B}}, "Degradable_JPEG_Media"},
+    {{0x91BD222C, 0xF21C, 0x497A, {0x8B, 0x6D, 0x5A, 0xA8, 0x6B, 0xFC, 0x01, 0x85}}, "File_Transfer_Media"},
+    {{0x3AFB65E2, 0x47EF, 0x40F2, {0xAC, 0x2C, 0x70, 0xA9, 0x0D, 0x71, 0xD3, 0x43}}, "Binary_Media"},
 
     /// Web stream Type-Specific Data GUIDs
-    {"776257D4-C627-41CB-8F81-7AC7FF1C40CC", "Web_Stream_Media_Subtype"},
-    {"DA1E6B13-8359-4050-B398-388E965BF00C", "Web_Stream_Format"},
+    {{0x776257D4, 0xC627, 0x41CB, {0x8F, 0x81, 0x7A, 0xC7, 0xFF, 0x1C, 0x40, 0xCC}}, "Web_Stream_Media_Subtype"},
+    {{0xDA1E6B13, 0x8359, 0x4050, {0xB3, 0x98, 0x38, 0x8E, 0x96, 0x5B, 0xF0, 0x0C}}, "Web_Stream_Format"},
 
     /// Stream Properties Object Error Correction Type GUIDs
-    {"20FB5700-5B55-11CF-A8FD-00805F5C442B", "No_Error_Correction"},
-    {"BFC3CD50-618F-11CF-8BB2-00AA00B4E220", "Audio_Spread"},
-
+    {{0x20FB5700, 0x5B55, 0x11CF, {0xA8, 0xFD, 0x00, 0x80, 0x5F, 0x5C, 0x44, 0x2B}}, "No_Error_Correction"},
+    {{0xBFC3CD50, 0x618F, 0x11CF, {0x8B, 0xB2, 0x00, 0xAA, 0x00, 0xB4, 0xE2, 0x20}}, "Audio_Spread"},
     /// Header Extension Object GUIDs
-    {"ABD3D211-A9BA-11cf-8EE6-00C00C205365", "Reserved_1"},
+    {{0xABD3D211, 0xA9BA, 0x11CF, {0x8E, 0xE6, 0x00, 0xC0, 0x0C, 0x20, 0x53, 0x65}}, "Reserved_1"},
 
     /// Advanced Content Encryption Object System ID GUIDs
-    {"7A079BB6-DAA4-4e12-A5CA-91D38DC11A8D", "Content_Encryption_System_Windows_Media_DRM_Network_Devices"},
+    {{0x7A079BB6, 0xDAA4, 0x4E12, {0xA5, 0xCA, 0x91, 0xD3, 0x8D, 0xC1, 0x1A, 0x8D}},
+     "Content_Encryption_System_Windows_Media_DRM_Network_Devices"},
 
     /// Codec List Object GUIDs
-    {"86D15241-311D-11D0-A3A4-00A0C90348F6", "Reserved_2"},
+    {{0x86D15241, 0x311D, 0x11D0, {0xA3, 0xA4, 0x00, 0xA0, 0xC9, 0x03, 0x48, 0xF6}}, "Reserved_2"},
 
     /// Script Command Object GUIDs
-    {"4B1ACBE3-100B-11D0-A39B-00A0C90348F6", "Reserved_3"},
+    {{0x4B1ACBE3, 0x100B, 0x11D0, {0xA3, 0x9B, 0x00, 0xA0, 0xC9, 0x03, 0x48, 0xF6}}, "Reserved_3"},
 
     /// Marker Object GUIDs
-    {"4CFEDB20-75F6-11CF-9C0F-00A0C90349CB", "Reserved_4"},
+    {{0x4CFEDB20, 0x75F6, 0x11CF, {0x9C, 0x0F, 0x00, 0xA0, 0xC9, 0x03, 0x49, 0xCB}}, "Reserved_4"},
 
     /// Mutual Exclusion Object Exclusion Type GUIDs
-    {"D6E22A00-35DA-11D1-9034-00A0C90349BE", "Mutex_Language"},
-    {"D6E22A01-35DA-11D1-9034-00A0C90349BE", "Mutex_Bitrate"},
-    {"D6E22A02-35DA-11D1-9034-00A0C90349BE", "Mutex_Unknown"},
-
-    /// Bandwidth Sharing Object GUIDs
-    {"AF6060AA-5197-11D2-B6AF-00C04FD908E9", "Bandwidth_Sharing_Exclusive"},
-    {"AF6060AB-5197-11D2-B6AF-00C04FD908E9", "Bandwidth_Sharing_Partial"},
+    {{0xD6E22A00, 0x35DA, 0x11D1, {0x90, 0x34, 0x00, 0xA0, 0xC9, 0x03, 0x49, 0xBE}}, "Mutex_Language"},
+    {{0xD6E22A01, 0x35DA, 0x11D1, {0x90, 0x34, 0x00, 0xA0, 0xC9, 0x03, 0x49, 0xBE}}, "Mutex_Bitrate"},
+    {{0xD6E22A02, 0x35DA, 0x11D1, {0x90, 0x34, 0x00, 0xA0, 0xC9, 0x03, 0x49, 0xBE}}, "Mutex_Unknown"},
+    /// Bandwidth Sharing Object GUID
+    {{0xAF6060AA, 0x5197, 0x11D2, {0xB6, 0xAF, 0x00, 0xC0, 0x4F, 0xD9, 0x08, 0xE9}}, "Bandwidth_Sharing_Exclusive"},
+    {{0xAF6060AB, 0x5197, 0x11D2, {0xB6, 0xAF, 0x00, 0xC0, 0x4F, 0xD9, 0x08, 0xE9}}, "Bandwidth_Sharing_Partial"},
 
     /// Standard Payload Extension System GUIDs
-    {"399595EC-8667-4E2D-8FDB-98814CE76C1E", "Payload_Extension_System_Timecode"},
-    {"E165EC0E-19ED-45D7-B4A7-25CBD1E28E9B", "Payload_Extension_System_File_Name"},
-    {"D590DC20-07BC-436C-9CF7-F3BBFBF1A4DC", "Payload_Extension_System_Content_Type"},
-    {"1B1EE554-F9EA-4BC8-821A-376B74E4C4B8", "Payload_Extension_System_Pixel_Aspect_Ratio"},
-    {"C6BD9450-867F-4907-83A3-C77921B733AD", "Payload_Extension_System_Sample_Duration"},
-    {"6698B84E-0AFA-4330-AEB2-1C0A98D7A44D", "Payload_Extension_System_Encryption_Sample_ID"},
-    {"00E1AF06-7BEC-11D1-A582-00C04FC29CFB", "Payload_Extension_System_Degradable_JPEG"}};
-
-constexpr const TagDetails filePropertiesTags[] = {{7, "Xmp.video.FileLength"},   {6, "Xmp.video.CreationDate"},
-                                                   {5, "Xmp.video.DataPackets"},  {4, "Xmp.video.Duration"},
-                                                   {3, "Xmp.video.SendDuration"}, {2, "Xmp.video.Preroll"},
-                                                   {1, "Xmp.video.MaxBitRate"}};
-
-constexpr const TagDetails contentDescriptionTags[] = {{0, "Xmp.video.Title"},
-                                                       {1, "Xmp.video.Author"},
-                                                       {2, "Xmp.video.Copyright"},
-                                                       {3, "Xmp.video.Description"},
-                                                       {4, "Xmp.video.Rating"}};
-
-/*!
-  @brief Function used to check equality of two Tags (ignores case).
-  @param str1 char* Pointer to First TagVocabulary
-  @param str2 char* Pointer to Second TagVocabulary
-  @return Returns true if both are equal.
- */
-bool compareTag(const char* str1, const char* str2) {
-  if (strlen(str1) != strlen(str2))
-    return false;
-
-  for (uint64_t i = 0; i < strlen(str1); ++i)
-    if (tolower(str1[i]) != tolower(str2[i]))
-      return false;
-
-  return true;
-}
-
-/*!
-  @brief Function used to calculate GUID, Tags comprises of 16 bytes.
-      The Buffer contains the TagVocabulary in Binary Form. The information is then
-      parsed into a character array GUID.
- */
-void getGUID(byte buf[], char GUID[]) {
-  int i;
-  for (i = 0; i < 4; ++i) {
-    GUID[(3 - i) * 2] = Util::returnHEX(buf[i] / 0x10);
-    GUID[(3 - i) * 2 + 1] = Util::returnHEX(buf[i] % 0x10);
-  }
-  for (i = 4; i < 6; ++i) {
-    GUID[(9 - i) * 2 + 1] = Util::returnHEX(buf[i] / 0x10);
-    GUID[(9 - i) * 2 + 2] = Util::returnHEX(buf[i] % 0x10);
-  }
-  for (i = 6; i < 8; ++i) {
-    GUID[(14 - i) * 2] = Util::returnHEX(buf[i] / 0x10);
-    GUID[(14 - i) * 2 + 1] = Util::returnHEX(buf[i] % 0x10);
-  }
-  for (i = 8; i < 10; ++i) {
-    GUID[i * 2 + 3] = Util::returnHEX(buf[i] / 0x10);
-    GUID[i * 2 + 4] = Util::returnHEX(buf[i] % 0x10);
-  }
-  for (i = 10; i < 16; ++i) {
-    GUID[i * 2 + 4] = Util::returnHEX(buf[i] / 0x10);
-    GUID[i * 2 + 5] = Util::returnHEX(buf[i] % 0x10);
-  }
-  GUID[36] = '\0';
-  GUID[8] = GUID[13] = GUID[18] = GUID[23] = '-';
-}
+    {{0x399595EC, 0x8667, 0x4E2D, {0x8F, 0xDB, 0x98, 0x81, 0x4C, 0xE7, 0x6C, 0x1E}},
+     "Payload_Extension_System_Timecode"},
+    {{0xE165EC0E, 0x19ED, 0x45D7, {0xB4, 0xA7, 0x25, 0xCB, 0xD1, 0xE2, 0x8E, 0x9B}},
+     "Payload_Extension_System_File_Name"},
+    {{0xD590DC20, 0x07BC, 0x436C, {0x9C, 0xF7, 0xF3, 0xBB, 0xFB, 0xF1, 0xA4, 0xDC}},
+     "Payload_Extension_System_Content_Type"},
+    {{0x1B1EE554, 0xF9EA, 0x4BC8, {0x82, 0x1A, 0x37, 0x6B, 0x74, 0xE4, 0xC4, 0xB8}},
+     "Payload_Extension_System_Pixel_Aspect_Ratio"},
+    {{0xC6BD9450, 0x867F, 0x4907, {0x83, 0xA3, 0xC7, 0x79, 0x21, 0xB7, 0x33, 0xAD}},
+     "Payload_Extension_System_Sample_Duration"},
+    {{0x6698B84E, 0x0AFA, 0x4330, {0xAE, 0xB2, 0x1C, 0x0A, 0x98, 0xD7, 0xA4, 0x4D}},
+     "Payload_Extension_System_Encryption_Sample_ID"},
+    {{0x00E1AF06, 0x7BEC, 0x11D1, {0xA5, 0x82, 0x00, 0xC0, 0x4F, 0xC2, 0x9C, 0xFB}},
+     "Payload_Extension_System_Degradable_JPEG"}};
 
 /*!
   @brief Function used to check if data stored in buf is equivalent to
@@ -213,17 +198,9 @@ void getGUID(byte buf[], char GUID[]) {
   @param buf Exiv2 byte buffer
   @return Returns true if the buffer data is equivalent to Header GUID.
  */
-bool isASFType(byte buf[]) {
-  return buf[0] == 0x30 && buf[1] == 0x26 && buf[2] == 0xb2 && buf[3] == 0x75 && buf[4] == 0x8e && buf[5] == 0x66 &&
-         buf[6] == 0xcf && buf[7] == 0x11 && buf[8] == 0xa6 && buf[9] == 0xd9 && buf[10] == 0x00 && buf[11] == 0xaa &&
-         buf[12] == 0x00 && buf[13] == 0x62 && buf[14] == 0xce && buf[15] == 0x6c;
+static bool isASFType(const byte buf[]) {
+  return Header == AsfVideo::GUIDTag(buf);
 }
-
-}  // namespace Exiv2::Internal
-
-namespace Exiv2 {
-
-using namespace Exiv2::Internal;
 
 AsfVideo::AsfVideo(BasicIo::UniquePtr io) : Image(ImageType::asf, mdNone, std::move(io)) {
 }  // AsfVideo::AsfVideo
@@ -248,456 +225,282 @@ void AsfVideo::readMetadata() {
 
   IoCloser closer(*io_);
   clearMetadata();
-  continueTraversing_ = true;
   io_->seek(0, BasicIo::beg);
   height_ = width_ = 1;
 
   xmpData()["Xmp.video.FileSize"] = io_->size() / 1048576.;
-  xmpData()["Xmp.video.FileName"] = io_->path();
   xmpData()["Xmp.video.MimeType"] = mimeType();
 
-  while (continueTraversing_)
-    decodeBlock();
+  decodeBlock();
 
-  aspectRatio();
+  xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width_, height_);
 }  // AsfVideo::readMetadata
 
+AsfVideo::HeaderReader::HeaderReader(const BasicIo::UniquePtr& io) : IdBuf_(GUID) {
+  if (io->size() >= io->tell() + GUID + QWORD) {
+    IdBuf_ = io->read(GUID);
+
+    size_ = readQWORDTag(io);
+    if (size_ >= GUID + QWORD)
+      remaining_size_ = size_ - GUID - QWORD;
+  }
+}
+
 void AsfVideo::decodeBlock() {
-  DataBuf buf(BUFF_MIN_SIZE + 1);
-  uint64_t size = 0;
-  const Internal::TagVocabulary* tv;
-  uint64_t cur_pos = io_->tell();
+  Internal::enforce(GUID + QWORD <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  HeaderReader objectHeader(io_);
+#ifdef EXIV2_DEBUG_MESSAGES
+  EXV_INFO << "decodeBlock = " << GUIDTag(objectHeader.getId().data()).to_string()
+           << "\tsize= " << objectHeader.getSize() << "\t " << io_->tell() << "/" << io_->size() << std::endl;
+#endif
+  Internal::enforce(objectHeader.getSize() <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  auto tag = GUIDReferenceTags.find(GUIDTag(objectHeader.getId().data()));
 
-  byte guidBuf[GUI_SIZE];
-  io_->read(guidBuf, GUI_SIZE);
-
-  if (io_->eof()) {
-    continueTraversing_ = false;
-    return;
+  if (tag != GUIDReferenceTags.end()) {
+    if (tag->second == "Header")
+      decodeHeader();
+    else if (tag->second == "File_Properties")
+      fileProperties();
+    else if (tag->second == "Stream_Properties")
+      streamProperties();
+    else if (tag->second == "Header_Extension")
+      headerExtension();
+    else if (tag->second == "Codec_List")
+      codecList();
+    else if (tag->second == "Extended_Content_Description")
+      extendedContentDescription();
+    else if (tag->second == "Content_Description")
+      contentDescription();
+    else if (tag->second == "Extended_Stream_Properties")
+      extendedStreamProperties();
+    else if (tag->second == "Degradable_JPEG_Media")
+      DegradableJPEGMedia();
+    else  // tag found but not processed
+    {
+      // Make sure that the remaining size is non-zero, so that we won't
+      // keep revisiting the same location in the file.
+      const uint64_t remaining_size = objectHeader.getRemainingSize();
+      Internal::enforce(remaining_size > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+      io_->seekOrThrow(io_->tell() + remaining_size, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+    }
+  } else  // tag not found
+  {
+    // Make sure that the remaining size is non-zero, so that we won't keep
+    // revisiting the same location in the file.
+    const uint64_t remaining_size = objectHeader.getRemainingSize();
+    Internal::enforce(remaining_size > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+    io_->seekOrThrow(io_->tell() + remaining_size, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
   }
 
-  char GUID[GUID_SIZE] = "";  // the getGUID function write the GUID[36],
-
-  getGUID(guidBuf, GUID);
-  tv = find(GUIDReferenceTags, GUID);
-
-  io_->read(buf.data(), BUFF_MIN_SIZE);
-  size = Util::getUint64_t(buf);
-
-  if (tv) {
-    auto tagDecoder = [&](const Internal::TagVocabulary* tv, uint64_t size) {
-      uint64_t cur_pos = io_->tell();
-      DataBuf buf(1000);
-      unsigned long count = 0, tempLength = 0;
-      Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::xmpSeq);
-
-      if (compareTag(exvGettext(tv->label_), "Header")) {
-        localPosition_ = 0;
-        io_->read(buf.data(), 4);
-        io_->read(buf.data(), 2);
-
-        while (localPosition_ < cur_pos + size)
-          decodeBlock();
-      }
-
-      else if (compareTag(exvGettext(tv->label_), "File_Properties"))
-        fileProperties();
-
-      else if (compareTag(exvGettext(tv->label_), "Stream_Properties"))
-        streamProperties();
-
-      else if (compareTag(exvGettext(tv->label_), "Metadata"))
-        metadataHandler(1);
-
-      else if (compareTag(exvGettext(tv->label_), "Extended_Content_Description"))
-        metadataHandler(2);
-
-      else if (compareTag(exvGettext(tv->label_), "Metadata_Library"))
-        metadataHandler(3);
-
-      else if (compareTag(exvGettext(tv->label_), "Codec_List"))
-        codecList();
-
-      else if (compareTag(exvGettext(tv->label_), "Content_Description"))
-        contentDescription(size);
-
-      else if (compareTag(exvGettext(tv->label_), "Extended_Stream_Properties"))
-        extendedStreamProperties(size);
-
-      else if (compareTag(exvGettext(tv->label_), "Header_Extension")) {
-        localPosition_ = 0;
-        headerExtension(size);
-      }
-
-      else if (compareTag(exvGettext(tv->label_), "Language_List")) {
-        std::memset(buf.data(), 0x0, buf.size());
-        io_->read(buf.data(), 2);
-        count = Exiv2::getUShort(buf.data(), littleEndian);
-
-        while (count--) {
-          std::memset(buf.data(), 0x0, buf.size());
-          io_->read(buf.data(), 1);
-          tempLength = static_cast<int>(buf.data()[0]);
-
-          io_->read(buf.data(), tempLength);
-          v->read(Util::toString16(buf));
-        }
-        xmpData().add(Exiv2::XmpKey("Xmp.video.TrackLang"), v.get());
-      }
-
-      io_->seek(cur_pos + size, BasicIo::beg);
-      localPosition_ = io_->tell();
-    };  // AsfVideo::tagDecoder
-
-    tagDecoder(tv, size - 24);
-  } else
-    io_->seek(cur_pos + size, BasicIo::beg);
-
-  localPosition_ = io_->tell();
 }  // AsfVideo::decodeBlock
 
-void AsfVideo::extendedStreamProperties(uint64_t size) {
-  uint64_t cur_pos = io_->tell(), avgTimePerFrame = 0;
-  DataBuf buf(BUFF_MIN_SIZE);
-  static int previousStream;
-  io_->seek(cur_pos + 48, BasicIo::beg);
+void AsfVideo::decodeHeader() {
+  DataBuf nbHeadersBuf(DWORD + 1);
+  io_->read(nbHeadersBuf.data(), DWORD);
 
-  io_->read(buf.data(), 2);
-  streamNumber_ = Exiv2::getUShort(buf.data(), littleEndian);
+  uint32_t nb_headers = Exiv2::getULong(nbHeadersBuf.data(), littleEndian);
+  Internal::enforce(nb_headers < std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  io_->seekOrThrow(io_->tell() + BYTE * 2, BasicIo::beg,
+                   ErrorCode::kerFailedToReadImageData);  // skip two reserved tags
+  for (uint32_t i = 0; i < nb_headers; i++) {
+    decodeBlock();
+  }
+}
 
-  io_->read(buf.data(), 2);
-  io_->read(buf.data(), BUFF_MIN_SIZE);
-  avgTimePerFrame = Util::getUint64_t(buf);
+void AsfVideo::extendedStreamProperties() {
+  xmpData()["Xmp.video.StartTimecode"] = readQWORDTag(io_);  // Start Time
+  xmpData()["Xmp.video.EndTimecode"] = readWORDTag(io_);     // End Time
 
-  if (previousStream < streamNumber_ && avgTimePerFrame != 0)
-    xmpData()["Xmp.video.FrameRate"] = 10000000. / avgTimePerFrame;
+  io_->seek(io_->tell() + DWORD, BasicIo::beg);  // ignore Data Bitrate
+  io_->seek(io_->tell() + DWORD, BasicIo::beg);  // ignore Buffer Size
+  io_->seek(io_->tell() + DWORD, BasicIo::beg);  // ignore Initial Buffer Fullness
+  io_->seek(io_->tell() + DWORD, BasicIo::beg);  // ignore Alternate Data Bitrate
+  io_->seek(io_->tell() + DWORD, BasicIo::beg);  // ignore Alternate Buffer Size
+  io_->seek(io_->tell() + DWORD, BasicIo::beg);  // ignore Alternate Initial Buffer Fullness
+  io_->seek(io_->tell() + DWORD, BasicIo::beg);  // ignore Maximum Object Size
+  io_->seek(io_->tell() + DWORD, BasicIo::beg);  // ignore Flags Buffer Size
+  io_->seek(io_->tell() + WORD, BasicIo::beg);   // ignore Flags Stream Number
+  io_->seek(io_->tell() + WORD, BasicIo::beg);   // ignore Stream Language ID Index
 
-  previousStream = streamNumber_;
-  io_->seek(cur_pos + size, BasicIo::beg);
+  xmpData()["Xmp.video.FrameRate"] = readWORDTag(io_);  // Average Time Per Frame
+  uint16_t stream_name_count = readWORDTag(io_);
+  uint16_t payload_ext_sys_count = readWORDTag(io_);
+
+  for (uint16_t i = 0; i < stream_name_count; i++) {
+    io_->seek(io_->tell() + WORD, BasicIo::beg);  // ignore Language ID Index
+    uint16_t stream_length = readWORDTag(io_);
+    if (stream_length)
+      io_->seek(io_->tell() + stream_length, BasicIo::beg);  // ignore Stream name
+  }
+
+  for (uint16_t i = 0; i < payload_ext_sys_count; i++) {
+    io_->seek(io_->tell() + GUID, BasicIo::beg);  // ignore Extension System ID
+    io_->seek(io_->tell() + WORD, BasicIo::beg);  // ignore Extension Data Size
+    uint16_t ext_sys_info_length = readWORDTag(io_);
+    if (ext_sys_info_length)
+      io_->seek(io_->tell() + ext_sys_info_length, BasicIo::beg);  // ignore Extension System Info
+  }
 }  // AsfVideo::extendedStreamProperties
 
-void AsfVideo::contentDescription(uint64_t size) {
-  const size_t pos = io_->tell();
-  size_t length[5];
-  for (size_t& i : length) {
-    byte buf[2];
-    io_->read(buf, 2);
-    if (io_->error() || io_->eof())
-      throw Error(ErrorCode::kerFailedToReadImageData);
-    i = getUShort(buf, littleEndian);
-  }
-  for (int i = 0; i < 5; ++i) {
-    DataBuf buf(length[i]);
-    std::memset(buf.data(), 0x0, buf.size());
-    io_->read(buf.data(), length[i]);
-    if (io_->error() || io_->eof())
-      throw Error(ErrorCode::kerFailedToReadImageData);
-    const TagDetails* td = find(contentDescriptionTags, i);
-    assert(td);
-    std::string str(reinterpret_cast<const char*>(buf.data()), length[i]);
-    if (convertStringCharset(str, "UCS-2LE", "UTF-8")) {
-      xmpData()[td->label_] = str;
-    } else {
-      xmpData()[td->label_] = Util::toString16(buf);
-    }
-  }
-  if (io_->seek(pos + size, BasicIo::beg))
-    throw Error(ErrorCode::kerFailedToReadImageData);
-}  // AsfVideo::contentDescription
+void AsfVideo::DegradableJPEGMedia() {
+  uint32_t width = readDWORDTag(io_);
+  width_ = width;
+  xmpData_["Xmp.video.Width"] = width;
+
+  uint32_t height = readDWORDTag(io_);
+  height_ = height;
+  xmpData_["Xmp.video.Height"] = height;
+
+  io_->seek(io_->tell() + WORD * 3 /*3 Reserved*/, BasicIo::beg);
+
+  uint32_t interchange_data_length = readWORDTag(io_);
+  io_->seek(io_->tell() + interchange_data_length /*Interchange data*/, BasicIo::beg);
+}
 
 void AsfVideo::streamProperties() {
-  DataBuf buf(20);
-  byte guidBuf[GUI_SIZE];
-  int stream = 0;
-  enum streamTypeInfo { Audio = 1, Video = 2 };
-  io_->read(guidBuf, GUI_SIZE);
-  char streamType[GUID_SIZE] = "";
+  DataBuf streamTypedBuf = io_->read(GUID);
 
-  getGUID(guidBuf, streamType);
-  const TagVocabulary* tv;
-  tv = find(GUIDReferenceTags, streamType);
-  io_->read(guidBuf, GUI_SIZE);
+  enum class streamTypeInfo { Audio = 1, Video = 2 };
+  auto stream = static_cast<streamTypeInfo>(0);
 
-  if (compareTag(exvGettext(tv->label_), "Audio_Media"))
-    stream = Audio;
-  else if (compareTag(exvGettext(tv->label_), "Video_Media"))
-    stream = Video;
+  auto tag_stream_type = GUIDReferenceTags.find(GUIDTag(streamTypedBuf.data()));
+  if (tag_stream_type != GUIDReferenceTags.end()) {
+    if (tag_stream_type->second == "Audio_Media")
+      stream = streamTypeInfo::Audio;
+    else if (tag_stream_type->second == "Video_Media")
+      stream = streamTypeInfo::Video;
 
-  io_->read(buf.data(), BUFF_MIN_SIZE);
-  if (stream == Video)
-    xmpData()["Xmp.video.TimeOffset"] = Util::getUint64_t(buf);
-  else if (stream == Audio)
-    xmpData()["Xmp.audio.TimeOffset"] = Util::getUint64_t(buf);
+    io_->seek(io_->tell() + GUID, BasicIo::beg);  // ignore Error Correction Type
 
-  io_->read(buf.data(), BUFF_MIN_SIZE);
-  std::memset(buf.data(), 0x0, buf.size());
-  io_->read(buf.data(), 1);
-  streamNumber_ = static_cast<int>(buf.data()[0]) & 127;
+    uint64_t time_offset = readQWORDTag(io_);
+    if (stream == streamTypeInfo::Video)
+      xmpData()["Xmp.video.TimeOffset"] = time_offset;
+    else if (stream == streamTypeInfo::Audio)
+      xmpData()["Xmp.audio.TimeOffset"] = time_offset;
 
-  io_->read(buf.data(), 5);
-  std::memset(buf.data(), 0x0, buf.size());
-  io_->read(buf.data(), 2);
-  size_t temp = Exiv2::getUShort(buf.data(), littleEndian);
+    auto specific_data_length = readDWORDTag(io_);
+    auto correction_data_length = readDWORDTag(io_);
 
-  if (stream == 2) {
-    xmpData()["Xmp.video.Width"] = temp;
-    width_ = temp;
-  } else if (stream == Audio) {
-    // todo xmpData()["Xmp.audio.Codec"]
+    io_->seek(io_->tell() + WORD /*Flags*/ + DWORD /*Reserved*/ + specific_data_length + correction_data_length,
+              BasicIo::beg);
   }
 
-  io_->read(buf.data(), 2);
-  temp = Exiv2::getUShort(buf.data(), littleEndian);
-  if (stream == Audio)
-    xmpData()["Xmp.audio.ChannelType"] = temp;
-
-  io_->read(buf.data(), 4);
-  temp = Exiv2::getULong(buf.data(), littleEndian);
-
-  if (stream == Video) {
-    xmpData()["Xmp.video.Height"] = temp;
-    height_ = temp;
-  } else if (stream == Audio) {
-    xmpData()["Xmp.audio.SampleRate"] = temp;
-  }
 }  // AsfVideo::streamProperties
 
 void AsfVideo::codecList() {
-  DataBuf buf(200);
-  io_->read(buf.data(), GUI_SIZE);
-  std::memset(buf.data(), 0x0, buf.size());
-  io_->read(buf.data(), 4);
-  int codecCount = Exiv2::getULong(buf.data(), littleEndian), descLength = 0, codecType = 0;
+  io_->seek(io_->tell() + GUID /*reserved*/, BasicIo::beg);
+  auto entries_count = readDWORDTag(io_);
+  for (uint32_t i = 0; i < entries_count; i++) {
+    uint16_t codec_type = readWORDTag(io_) * 2;
+    std::string codec = (codec_type == 1) ? "Xmp.video" : "Xmp.audio";
 
-  while (codecCount--) {
-    std::memset(buf.data(), 0x0, buf.size());
-    io_->read(buf.data(), 2);
-    codecType = Exiv2::getUShort(buf.data(), littleEndian);
+    if (uint16_t codec_name_length = readWORDTag(io_) * 2)
+      xmpData()[codec + std::string(".CodecName")] = readStringWcharTag(io_, codec_name_length);
 
-    io_->read(buf.data(), 2);
-    descLength = Exiv2::getUShort(buf.data(), littleEndian) * 2;
+    if (uint16_t codec_desc_length = readWORDTag(io_))
+      xmpData()[codec + std::string(".CodecDescription")] = readStringWcharTag(io_, codec_desc_length);
 
-    io_->read(buf.data(), descLength);
-    if (codecType == 1)
-      xmpData()["Xmp.video.Codec"] = Util::toString16(buf);
-    else if (codecType == 2)
-      xmpData()["Xmp.audio.Compressor"] = Util::toString16(buf);
-
-    std::memset(buf.data(), 0x0, buf.size());
-    io_->read(buf.data(), 2);
-    descLength = Exiv2::getUShort(buf.data(), littleEndian) * 2;
-
-    io_->read(buf.data(), descLength);
-
-    if (codecType == 1)
-      xmpData()["Xmp.video.CodecDescription"] = Util::toString16(buf);
-    else if (codecType == 2)
-      xmpData()["Xmp.audio.CodecDescription"] = Util::toString16(buf);
-
-    std::memset(buf.data(), 0x0, buf.size());
-    io_->read(buf.data(), 2);
-    descLength = Exiv2::getUShort(buf.data(), littleEndian);
-
-    io_->read(buf.data(), descLength);
+    uint16_t codec_info_length = readWORDTag(io_);
+    Internal::enforce(codec_info_length && codec_info_length < io_->size() - io_->tell(),
+                      Exiv2::ErrorCode::kerCorruptedMetadata);
+    xmpData()[codec + std::string(".CodecInfo")] = readStringTag(io_, codec_info_length);
   }
 }  // AsfVideo::codecList
 
-void AsfVideo::headerExtension(uint64_t size) {
-  uint64_t cur_pos = io_->tell();
-  DataBuf buf(20);
-  io_->read(buf.data(), 18);
-  buf.data()[4] = '\0';
-  io_->read(buf.data(), 4);
-
-  while (localPosition_ < cur_pos + size)
-    decodeBlock();
-
-  io_->seek(cur_pos + size, BasicIo::beg);
+void AsfVideo::headerExtension() const {
+  io_->seek(io_->tell() + GUID /*reserved1*/ + WORD /*Reserved2*/, BasicIo::beg);
+  auto header_ext_data_length = readDWORDTag(io_);
+  io_->seek(io_->tell() + header_ext_data_length, BasicIo::beg);
 }  // AsfVideo::headerExtension
 
-void AsfVideo::metadataHandler(int meta) {
-  DataBuf buf(5000);
-  io_->read(buf.data(), 2);
-  uint16_t recordCount = Exiv2::getUShort(buf.data(), littleEndian), nameLength = 0, dataLength = 0, dataType = 0;
-  Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::xmpSeq);
-  byte guidBuf[GUI_SIZE];
-  char fileID[GUID_SIZE] = "";
+void AsfVideo::extendedContentDescription() {
+  uint16_t content_descriptor_count = readWORDTag(io_);
+  std::string value;
 
-  while (recordCount--) {
-    std::memset(buf.data(), 0x0, buf.size());
+  for (uint16_t i = 0; i < content_descriptor_count; i++) {
+    if (uint16_t descriptor_name_length = readWORDTag(io_))
+      value += readStringWcharTag(io_, descriptor_name_length);  // Descriptor Name
 
-    if (meta == 1 || meta == 3) {
-      io_->read(buf.data(), 4);
-      io_->read(buf.data(), 2);
-      nameLength = Exiv2::getUShort(buf.data(), littleEndian);
-      io_->read(buf.data(), 2);
-      dataType = Exiv2::getUShort(buf.data(), littleEndian);
-      io_->read(buf.data(), 4);
-      dataLength = Exiv2::getULong(buf.data(), littleEndian);
-
-      if (nameLength > 5000) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video.Metadata nameLength was found to be larger than 5000 "
-                  << " entries considered invalid; not read.\n";
-#endif
-        io_->seek(io_->tell() + nameLength, BasicIo::beg);
-      } else {
-        io_->read(buf.data(), nameLength);
-      }
-
-      v->read(Util::toString16(buf));
-      if (dataType == 6) {
-        io_->read(guidBuf, GUI_SIZE);
-        getGUID(guidBuf, fileID);
-      } else {
-        // Sanity check with an "unreasonably" large number
-        if (dataLength > 5000) {
-#ifndef SUPPRESS_WARNINGS
-          EXV_ERROR << "Xmp.video.Metadata dataLength was found to be larger than 5000 "
-                    << " entries considered invalid; not read.\n";
-#endif
-          io_->seek(io_->tell() + dataLength, BasicIo::beg);
-        } else
-          io_->read(buf.data(), dataLength);
+    uint16_t descriptor_value_data_type = readWORDTag(io_);
+    if (uint16_t descriptor_value_length = readWORDTag(io_)) {
+      // Descriptor Value
+      switch (descriptor_value_data_type) {
+        case 0 /*Unicode string */:
+          value += std::string(": ") + readStringWcharTag(io_, descriptor_value_length);
+          break;
+        case 1 /*BYTE array  */:
+          value += std::string(": ") + readStringTag(io_, descriptor_value_length);
+          break;
+        case 2 /*BOOL*/:
+          value += std::string(": ") + std::to_string(readWORDTag(io_));
+          break;
+        case 3 /*DWORD */:
+          value += std::string(": ") + std::to_string(readDWORDTag(io_));
+          break;
+        case 4 /*QWORD */:
+          value += std::string(": ") + std::to_string(readQWORDTag(io_));
+          break;
+        case 5 /*WORD*/:
+          value += std::string(": ") + std::to_string(readWORDTag(io_));
+          break;
       }
     }
-
-    else if (meta == 2) {
-      io_->read(buf.data(), 2);
-      nameLength = Exiv2::getUShort(buf.data(), littleEndian);
-
-      if (nameLength > 5000) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video.Metadata nameLength was found to be larger than 5000 "
-                  << " entries considered invalid; not read.\n";
-#endif
-        io_->seek(io_->tell() + nameLength, BasicIo::beg);
-      } else {
-        io_->read(buf.data(), nameLength);
-      }
-
-      v->read(Util::toString16(buf));
-
-      io_->read(buf.data(), 2);
-      dataType = Exiv2::getUShort(buf.data(), littleEndian);
-
-      io_->read(buf.data(), 2);
-      dataLength = Exiv2::getUShort(buf.data(), littleEndian);
-
-      // Sanity check with an "unreasonably" large number
-      if (dataLength > 5000) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Xmp.video.Metadata dataLength was found to be larger than 5000 "
-                  << " entries considered invalid; not read.\n";
-#endif
-        io_->seek(io_->tell() + dataLength, BasicIo::beg);
-      } else
-        io_->read(buf.data(), dataLength);
-    }
-
-    if (dataType == 0) {  // Unicode String
-      v->read(Util::toString16(buf));
-    } else if (dataType == 2 || dataType == 5) {  // 16-bit Unsigned Integer
-      v->read(Exiv2::toString(Exiv2::getUShort(buf.data(), littleEndian)));
-    } else if (dataType == 3) {  // 32-bit Unsigned Integer
-      v->read(Exiv2::toString(Exiv2::getULong(buf.data(), littleEndian)));
-    } else if (dataType == 4) {  // 64-bit Unsigned Integer
-      v->read(Exiv2::toString(Util::getUint64_t(buf)));
-    } else if (dataType == 6) {  // 128-bit GUID
-      v->read(Exiv2::toString(fileID));
-    } else {  // Byte array
-      v->read(Exiv2::toString(buf.data()));
-    }
+    value += std::string(", ");
   }
 
-  if (meta == 1) {
-    xmpData().add(Exiv2::XmpKey("Xmp.video.Metadata"), v.get());
-  } else if (meta == 2) {
-    xmpData().add(Exiv2::XmpKey("Xmp.video.ExtendedContentDescription"), v.get());
-  } else {
-    xmpData().add(Exiv2::XmpKey("Xmp.video.MetadataLibrary"), v.get());
-  }
-}  // AsfVideo::metadataHandler
+  xmpData()["Xmp.video.ExtendedContentDescription"] = value;
+}  // AsfVideo::extendedContentDescription
+
+void AsfVideo::contentDescription() {
+  uint16_t title_length = readWORDTag(io_);
+  uint16_t author_length = readWORDTag(io_);
+  uint16_t copyright_length = readWORDTag(io_);
+  uint16_t desc_length = readWORDTag(io_);
+  uint16_t rating_length = readWORDTag(io_);
+
+  if (title_length)
+    xmpData()["Xmp.video.Title"] = readStringWcharTag(io_, title_length);
+
+  if (author_length)
+    xmpData()["Xmp.video.Author"] = readStringWcharTag(io_, author_length);
+
+  if (copyright_length)
+    xmpData()["Xmp.video.Copyright"] = readStringWcharTag(io_, copyright_length);
+
+  if (desc_length)
+    xmpData()["Xmp.video.Description"] = readStringWcharTag(io_, desc_length);
+
+  if (rating_length)
+    xmpData()["Xmp.video.Rating"] = readStringWcharTag(io_, rating_length);
+
+}  // AsfVideo::extendedContentDescription
 
 void AsfVideo::fileProperties() {
-  DataBuf buf(BUFF_MIN_SIZE);
+  DataBuf FileIddBuf = io_->read(GUID);
+  xmpData()["Xmp.video.FileID"] = GUIDTag(FileIddBuf.data()).to_string();
+  xmpData()["Xmp.video.FileLength"] = readQWORDTag(io_);
+  xmpData()["Xmp.video.CreationDate"] = readQWORDTag(io_);
+  xmpData()["Xmp.video.DataPackets"] = readQWORDTag(io_);
+  xmpData()["Xmp.video.duration"] = readQWORDTag(io_);
+  xmpData()["Xmp.video.SendDuration"] = readQWORDTag(io_);
+  xmpData()["Xmp.video.Preroll"] = readQWORDTag(io_);
 
-  byte guidBuf[GUI_SIZE];
-  io_->read(guidBuf, GUI_SIZE);
-  char fileID[GUID_SIZE] = "";
-  int count = 7;
-  getGUID(guidBuf, fileID);
-  xmpData()["Xmp.video.FileID"] = fileID;
-
-  const TagDetails* td;
-
-  while (count--) {
-    td = find(filePropertiesTags, (count + 1));
-    io_->read(buf.data(), BUFF_MIN_SIZE);
-
-    if (count == 0) {
-      buf.data()[4] = '\0';
-      io_->read(buf.data(), 4);
-      io_->read(buf.data(), 4);
-    }
-
-    if (count == 3 || count == 2) {
-      xmpData()[exvGettext(td->label_)] = Util::getUint64_t(buf) / 10000;
-    } else {
-      xmpData()[exvGettext(td->label_)] = Util::getUint64_t(buf);
-    }
-  }
+  io_->seek(io_->tell() + DWORD + DWORD + DWORD,
+            BasicIo::beg);  // ignore Flags, Minimum Data Packet Size and Maximum Data Packet Size
+  xmpData()["Xmp.video.MaxBitRate"] = readDWORDTag(io_);
 }  // AsfVideo::fileProperties
-
-void AsfVideo::aspectRatio() {
-  // TODO - Make a better unified method to handle all cases of Aspect Ratio
-
-  double aspectRatio = static_cast<double>(width_) / height_;
-  aspectRatio = floor(aspectRatio * 10) / 10;
-  xmpData()["Xmp.video.AspectRatio"] = aspectRatio;
-
-  auto aR = static_cast<int>((aspectRatio * 10.0) + 0.1);
-
-  switch (aR) {
-    case 13:
-      xmpData()["Xmp.video.AspectRatio"] = "4:3";
-      break;
-    case 17:
-      xmpData()["Xmp.video.AspectRatio"] = "16:9";
-      break;
-    case 10:
-      xmpData()["Xmp.video.AspectRatio"] = "1:1";
-      break;
-    case 16:
-      xmpData()["Xmp.video.AspectRatio"] = "16:10";
-      break;
-    case 22:
-      xmpData()["Xmp.video.AspectRatio"] = "2.21:1";
-      break;
-    case 23:
-      xmpData()["Xmp.video.AspectRatio"] = "2.35:1";
-      break;
-    case 12:
-      xmpData()["Xmp.video.AspectRatio"] = "5:4";
-      break;
-    default:
-      xmpData()["Xmp.video.AspectRatio"] = aspectRatio;
-      break;
-  }
-}  // AsfVideo::aspectRatio
 
 Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<AsfVideo>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
 
 bool isAsfType(BasicIo& iIo, bool advance) {
-  const int32_t len = 16;
-  byte buf[len];
-  iIo.read(buf, len);
+  byte buf[GUID];
+  iIo.read(buf, GUID);
 
   if (iIo.error() || iIo.eof()) {
     return false;

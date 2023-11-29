@@ -173,7 +173,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
       has_vp8x = true;
     }
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_size) {
-      enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
       byte size_buf[WEBP_TAG_SIZE];
 
@@ -202,7 +202,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     }
 #endif
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_size) {
-      enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
       byte size_buf[2];
 
@@ -220,13 +220,13 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
 
     /* Chunk with lossless image data. */
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_alpha) {
-      enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
       if ((payload.read_uint8(4) & WEBP_VP8X_ALPHA_BIT) == WEBP_VP8X_ALPHA_BIT) {
         has_alpha = true;
       }
     }
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_size) {
-      enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
       byte size_buf_w[2];
       byte size_buf_h[3];
@@ -250,13 +250,13 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
 
     /* Chunk with animation frame. */
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_alpha) {
-      enforce(size_u32 >= 6, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 6, Exiv2::ErrorCode::kerCorruptedMetadata);
       if ((payload.read_uint8(5) & 0x2) == 0x2) {
         has_alpha = true;
       }
     }
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_size) {
-      enforce(size_u32 >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
       byte size_buf[WEBP_TAG_SIZE];
 
@@ -294,7 +294,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
       io_->seek(+1, BasicIo::cur);  // skip pad
 
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X)) {
-      enforce(size_u32 >= 1, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size_u32 >= 1, Exiv2::ErrorCode::kerCorruptedMetadata);
       if (has_icc) {
         const uint8_t x = payload.read_uint8(0);
         payload.write_uint8(0, x | WEBP_VP8X_ICC_BIT);
@@ -419,7 +419,7 @@ void WebPImage::printStructure(std::ostream& out, PrintStructureOption option, s
 
     if (bPrint) {
       out << Internal::indent(depth) << "STRUCTURE OF WEBP FILE: " << io().path() << std::endl;
-      out << Internal::indent(depth) << Internal::stringFormat(" Chunk |   Length |   Offset | Payload") << std::endl;
+      out << Internal::indent(depth) << " Chunk |   Length |   Offset | Payload" << std::endl;
     }
 
     io_->seek(0, BasicIo::beg);  // rewind
@@ -477,7 +477,7 @@ void WebPImage::readMetadata() {
   io_->readOrThrow(data, WEBP_TAG_SIZE * 3, Exiv2::ErrorCode::kerCorruptedMetadata);
 
   const uint32_t filesize = Safe::add(Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian), 8U);
-  enforce(filesize <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(filesize <= io_->size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
   WebPImage::decodeChunks(filesize);
 
@@ -500,15 +500,13 @@ void WebPImage::decodeChunks(uint32_t filesize) {
     const uint32_t size = Exiv2::getULong(size_buff, littleEndian);
 
     // Check that `size` is within bounds.
-    enforce(io_->tell() <= filesize, Exiv2::ErrorCode::kerCorruptedMetadata);
-    enforce(size <= (filesize - io_->tell()), Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(io_->tell() <= filesize, Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(size <= (filesize - io_->tell()), Exiv2::ErrorCode::kerCorruptedMetadata);
 
-    DataBuf payload(size);
-
-    if (payload.empty()) {
+    if (DataBuf payload(size); payload.empty()) {
       io_->seek(size, BasicIo::cur);
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_canvas_data) {
-      enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       byte size_buf[WEBP_TAG_SIZE];
@@ -525,7 +523,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       size_buf[3] = 0;
       pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) + 1;
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_canvas_data) {
-      enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -543,7 +541,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       size_buf[3] = 0;
       pixelHeight_ = Exiv2::getULong(size_buf, littleEndian) & 0x3fff;
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_canvas_data) {
-      enforce(size >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       byte size_buf_w[2];
@@ -562,7 +560,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2);
       pixelHeight_ = Exiv2::getUShort(size_buf_h, littleEndian) + 1;
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_canvas_data) {
-      enforce(size >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
+      Internal::enforce(size >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       byte size_buf[WEBP_TAG_SIZE];
@@ -594,22 +592,22 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       bool s_header = false;
       bool le_header = false;
       bool be_header = false;
-      size_t pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 4);
+      size_t pos = getHeaderOffset(payload.c_data(), payload.size(), exifLongHeader, 4);
 
       if (pos == std::string::npos) {
-        pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifLongHeader), 6);
+        pos = getHeaderOffset(payload.c_data(), payload.size(), exifLongHeader, 6);
         if (pos != std::string::npos) {
           s_header = true;
         }
       }
       if (pos == std::string::npos) {
-        pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifTiffLEHeader), 3);
+        pos = getHeaderOffset(payload.c_data(), payload.size(), exifTiffLEHeader, 3);
         if (pos != std::string::npos) {
           le_header = true;
         }
       }
       if (pos == std::string::npos) {
-        pos = getHeaderOffset(payload.c_data(), payload.size(), reinterpret_cast<byte*>(&exifTiffBEHeader), 4);
+        pos = getHeaderOffset(payload.c_data(), payload.size(), exifTiffBEHeader, 4);
         if (pos != std::string::npos) {
           be_header = true;
         }
@@ -682,7 +680,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
 Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<WebPImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
@@ -726,10 +724,9 @@ bool WebPImage::equalsWebPTag(const Exiv2::DataBuf& buf, const char* str) {
  @param  iIo get BasicIo pointer to inject data
  @param has_xmp Verify if we have xmp data and set required flag
  @param has_exif Verify if we have exif data and set required flag
- @return Returns void
  */
 void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_alpha, bool has_icc, uint32_t width,
-                            uint32_t height) {
+                            uint32_t height) const {
   byte size[4] = {0x0A, 0x00, 0x00, 0x00};
   byte data[10] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
   iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE);
@@ -752,14 +749,14 @@ void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_
   }
 
   /* set width - stored in 24bits*/
-  enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
   uint32_t w = width - 1;
   data[4] = w & 0xFF;
   data[5] = (w >> 8) & 0xFF;
   data[6] = (w >> 16) & 0xFF;
 
   /* set height - stored in 24bits */
-  enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
   uint32_t h = height - 1;
   data[7] = h & 0xFF;
   data[8] = (h >> 8) & 0xFF;
@@ -771,7 +768,7 @@ void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_
   if (has_icc) {
     byte size_buff[WEBP_TAG_SIZE];
     ul2Data(size_buff, static_cast<uint32_t>(iccProfile_.size()), littleEndian);
-    if (iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
+    if (iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_ICCP), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
       throw Error(ErrorCode::kerImageWriteFailed);
     if (iIo.write(size_buff, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
       throw Error(ErrorCode::kerImageWriteFailed);

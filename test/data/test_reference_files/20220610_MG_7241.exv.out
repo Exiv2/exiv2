@@ -200,7 +200,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii      14  Peter Wemmert  Peter Wemmert
 Exif.Photo.BodySerialNumber                  Ascii      13  113053000536  113053000536
-Exif.Photo.LensSpecification                 Rational    4  35/1 80/1 0/1 0/1  35/1 80/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  35/1 80/1 0/1 0/1  35-80mm
 Exif.Photo.LensModel                         Ascii      22  EF35-80mm f/4-5.6 USM  EF35-80mm f/4-5.6 USM
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.GPSTag                            Long        1  25802  25802

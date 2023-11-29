@@ -20,15 +20,6 @@ namespace Exiv2 {
  */
 class EXIV2API PsdImage : public Image {
  public:
-  ~PsdImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  PsdImage(const PsdImage&) = delete;
-  //! Assignment operator
-  PsdImage& operator=(const PsdImage&) = delete;
-  //@}
-
   //! @name Creators
   //@{
   /*!
@@ -79,12 +70,12 @@ class EXIV2API PsdImage : public Image {
   /*!
     @brief Provides the main implementation of writeMetadata() by
           writing all buffered metadata to the provided BasicIo.
-    @param oIo BasicIo instance to write to (a temporary location).
+    @throw Error on input-output errors or when the image data is not valid.
+    @param outIo BasicIo instance to write to (a temporary location).
 
-    @return 4 if opening or writing to the associated BasicIo fails
    */
   void doWriteMetadata(BasicIo& outIo);
-  uint32_t writeExifData(const ExifData& exifData, BasicIo& out);
+  uint32_t writeExifData(ExifData& exifData, BasicIo& out);
   //@}
 
   //! @name Accessors

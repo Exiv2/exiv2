@@ -17,9 +17,6 @@ namespace Exiv2::Internal {
 
 //! The details of a section.
 struct SectionInfo {
-  constexpr SectionInfo(SectionId sectionId, const char* name, const char* desc) :
-      sectionId_(sectionId), name_(name), desc_(desc) {
-  }
   SectionId sectionId_;  //!< Section id
   const char* name_;     //!< Section name (one word)
   const char* desc_;     //!< Section description
@@ -48,9 +45,6 @@ struct StringTagDetails {
   const char* label_;  //!< Translation of the tag value
 
   //! Comparison operator for use with the find template
-  bool operator==(const char* key) const {
-    return (strcmp(val_, key) == 0);
-  }
   bool operator==(const std::string& key) const {
     return (key == val_);
   }
@@ -94,9 +88,8 @@ struct TagVocabulary {
          by looking up a reference table.
  */
 template <size_t N, const StringTagDetails (&array)[N]>
-std::ostream& printTagString(std::ostream& os, const std::string value, const ExifData*) {
-  const StringTagDetails* td = find(array, value);
-  if (td) {
+std::ostream& printTagString(std::ostream& os, const std::string& value, const ExifData*) {
+  if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
     os << "(" << value << ")";
@@ -152,8 +145,7 @@ std::ostream& printTagString4(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTagNoError(std::ostream& os, const int64_t value, const ExifData*) {
-  const TagDetails* td = find(array, value);
-  if (td) {
+  if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
     os << value;
@@ -179,8 +171,7 @@ std::ostream& printTagNoError(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*) {
-  const TagDetails* td = find(array, value);
-  if (td) {
+  if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
     os << "(" << value << ")";
@@ -214,7 +205,6 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
   }
   bool sep = false;
   for (size_t i = 0; i < N; ++i) {
-    // *& acrobatics is a workaround for a MSVC 7.1 bug
     auto [mask, label] = *(array + i);
 
     if (val & mask) {
@@ -240,7 +230,7 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetailsBitlistSorted (&array)[N]>
 std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const ExifData*) {
-  if (N == 0)
+  if constexpr (N == 0)
     throw Error(ErrorCode::kerErrorMessage, std::string("Passed zero length TagDetailsBitlistSorted"));
 
   uint32_t vN = 0;
@@ -270,7 +260,6 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
 
       // Check to see if the numbered bit is found in the array
       for (size_t k = lastArrayPos; k < N; ++k) {
-        // *& acrobatics is a workaround for a MSVC 7.1 bug
         auto [bit, label] = *(array + k);
 
         if (currentVNBit == bit) {
@@ -300,8 +289,7 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
  */
 template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const ExifData*) {
-  const TagVocabulary* td = find(array, value.toString());
-  if (td) {
+  if (auto td = Exiv2::find(array, value.toString())) {
     os << exvGettext(td->label_);
   } else {
     os << "(" << value << ")";
@@ -322,7 +310,7 @@ std::ostream& printTagVocabularyMulti(std::ostream& os, const Value& value, cons
   for (size_t i = 0; i < value.count(); i++) {
     if (i != 0)
       os << ", ";
-    const TagVocabulary* td = find(array, value.toString(i));
+    auto td = Exiv2::find(array, value.toString(i));
     if (td) {
       os << exvGettext(td->label_);
     } else {
@@ -398,6 +386,8 @@ std::ostream& printDegrees(std::ostream& os, const Value& value, const ExifData*
 std::ostream& printUcs2(std::ostream& os, const Value& value, const ExifData*);
 //! Print function for Exif units
 std::ostream& printExifUnit(std::ostream& os, const Value& value, const ExifData*);
+//! Print function for lens specification
+std::ostream& printLensSpecification(std::ostream& os, const Value& value, const ExifData*);
 //! Print GPS version
 std::ostream& print0x0000(std::ostream& os, const Value& value, const ExifData*);
 //! Print GPS altitude ref

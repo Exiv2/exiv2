@@ -199,7 +199,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
 Exif.Photo.BodySerialNumber                  Ascii      13  153026000424  153026000424
-Exif.Photo.LensSpecification                 Rational    4  17/1 70/1 0/1 0/1  17/1 70/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  17/1 70/1 0/1 0/1  17-70mm
 Exif.Photo.LensModel                         Ascii       8  17-70mm  17-70mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.GPSTag                            Long        1  9400  9400

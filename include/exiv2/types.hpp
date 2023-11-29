@@ -11,20 +11,10 @@
 
 // standard includes
 #include <algorithm>
+#include <cstdint>
 #include <limits>
 #include <sstream>
 #include <vector>
-
-/*!
-  @brief Macro to make calls to member functions through a pointer more readable.
-         See the C++ FAQ LITE, item
-         <a href="http://www.parashift.com/c++-faq-lite/pointers-to-members.html#faq-33.5" title="[33.5] How can I avoid
-  syntax errors when calling a member function using a pointer-to-member-function?">[33.5] How can I avoid syntax errors
-  when calling a member function using a pointer-to-member-function?</a>.
- */
-#define EXV_CALL_MEMBER_FN(object, ptrToMember) ((object).*(ptrToMember))
-
-// *****************************************************************************
 
 // *****************************************************************************
 // namespace extensions
@@ -105,7 +95,7 @@ enum TypeId {
   xmpSeq = 0x10008,         //!< XMP sequence type.
   langAlt = 0x10009,        //!< XMP language alternative type.
   invalidTypeId = 0x1fffe,  //!< Invalid type id.
-  lastTypeId = 0x1ffff      //!< Last type id.
+  lastTypeId = 0x1ffff,     //!< Last type id.
 };
 
 //! Container for binary data
@@ -117,12 +107,6 @@ using Blob = std::vector<byte>;
 //! Type information lookup functions. Implemented as a static class.
 class EXIV2API TypeInfo {
  public:
-  //! Prevent copy-construction: not implemented.
-  TypeInfo(const TypeInfo&) = delete;
-  //! Prevent assignment: not implemented.
-  TypeInfo& operator=(const TypeInfo&) = delete;
-  ~TypeInfo() = delete;
-
   //! Return the name of the type, 0 if unknown.
   static const char* typeName(TypeId typeId);
   //! Return the type id for a type name
@@ -168,16 +152,16 @@ struct EXIV2API DataBuf {
   using iterator = std::vector<byte>::iterator;
   using const_iterator = std::vector<byte>::const_iterator;
 
-  inline iterator begin() noexcept {
+  iterator begin() noexcept {
     return pData_.begin();
   }
-  [[nodiscard]] inline const_iterator cbegin() const noexcept {
+  [[nodiscard]] const_iterator cbegin() const noexcept {
     return pData_.cbegin();
   }
-  inline iterator end() noexcept {
+  iterator end() noexcept {
     return pData_.end();
   }
-  [[nodiscard]] inline const_iterator cend() const noexcept {
+  [[nodiscard]] const_iterator cend() const noexcept {
     return pData_.end();
   }
 
@@ -220,10 +204,12 @@ struct EXIV2API DataBuf {
 /*!
  * @brief Create a new Slice from a DataBuf given the bounds.
  *
- * @param[in] begin, end  Bounds of the new Slice. `begin` must be smaller
- *     than `end` and both must not be larger than LONG_MAX.
  * @param[in] buf  The DataBuf from which' data the Slice will be
  *     constructed
+ * @param[in] begin Beginning bound of the new Slice. Must be smaller
+ *     than `end` and both must not be larger than LONG_MAX.
+ * @param[in] end End bound of the new Slice. Must be smaller
+ *     than `end` and both must not be larger than LONG_MAX.
  *
  * @throw std::invalid_argument when `end` is larger than `LONG_MAX` or
  * anything that the constructor of @ref Slice throws
@@ -338,7 +324,7 @@ EXIV2API bool isHex(const std::string& str, size_t size = 0, const std::string& 
          "2007:05:24 12:31:55" to broken down time format,
          returns 0 if successful, else 1.
  */
-EXIV2API int exifTime(const char* buf, struct tm* tm);
+EXIV2API int exifTime(const char* buf, tm* tm);
 
 /*!
   @brief Translate a string using the gettext framework. This wrapper hides
@@ -461,16 +447,25 @@ EXIV2API Rational floatToRationalCast(float f);
 */
 template <typename T, typename K, int N>
 const T* find(T (&src)[N], const K& key) {
-  const T* rc = std::find(src, src + N, key);
+  auto rc = std::find(src, src + N, key);
   return rc == src + N ? nullptr : rc;
 }
 
 //! Utility function to convert the argument of any type to a string
 template <typename T>
-std::string toString(const T& arg) {
+std::string toStringHelper(const T& arg, std::true_type) {
+  return std::to_string(arg);
+}
+
+template <typename T>
+std::string toStringHelper(const T& arg, std::false_type) {
   std::ostringstream os;
   os << arg;
   return os.str();
+}
+template <typename T>
+std::string toString(const T& arg) {
+  return toStringHelper(arg, std::is_integral<T>());
 }
 
 /*!
@@ -488,7 +483,7 @@ template <typename T>
 T stringTo(const std::string& s, bool& ok) {
   std::istringstream is(s);
   T tmp = T();
-  ok = bool(is >> tmp);
+  ok = static_cast<bool>(is >> tmp);
   std::string rest;
   is >> std::skipws >> rest;
   if (!rest.empty())

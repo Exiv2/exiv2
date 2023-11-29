@@ -22,7 +22,7 @@ mark_as_advanced(inih_LIBRARY)
 mark_as_advanced(inih_inireader_INCLUDE_DIR)
 mark_as_advanced(inih_inireader_LIBRARY)
 
-find_package_handle_standard_args(inih REQUIRED_VARS inih_LIBRARY inih_INCLUDE_DIR)
+find_package_handle_standard_args(inih REQUIRED_VARS inih_LIBRARY inih_INCLUDE_DIR inih_inireader_INCLUDE_DIR inih_inireader_LIBRARY)
 
 if(NOT inih_FOUND)
   message(FATAL_ERROR "inih library not found")

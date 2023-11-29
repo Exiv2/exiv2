@@ -49,11 +49,15 @@ enum matroskaTypeEnum : char {
   Master = 'm',
   Float = 'f',
   Utf8 = '8',
-  UndefinedType = 'z'
-
+  UndefinedType = 'z',
 };
 
-enum matroskaProcessEnum : char { Process = 'p', Skip = 's', Composite = 'c', Undefined = 'u' };
+enum matroskaProcessEnum : char {
+  Process = 'p',
+  Skip = 's',
+  Composite = 'c',
+  Undefined = 'u',
+};
 
 struct MatroskaTag {
   uint64_t _id;
@@ -72,10 +76,14 @@ struct MatroskaTag {
       _process(matroskaProcessEnum::Undefined) {
   }
 
-  bool isSkipped() const {
+  bool operator==(uint64_t id) const {
+    return id == _id;
+  }
+
+  [[nodiscard]] bool isSkipped() const {
     return _process == Skip;
   }
-  bool isComposite() const {
+  [[nodiscard]] bool isComposite() const {
     return _process == Composite;
   }
   void dump(std::ostream& os) const {
@@ -84,17 +92,6 @@ struct MatroskaTag {
        << "]\n";
   }
 };
-
-/// @brief  Utility function to search into std::array of pairs
-/// @return the searched pair if exist,else nullptr
-template <size_t N>
-[[nodiscard]] const MatroskaTag* findTag(const std::array<MatroskaTag, N>& src, const uint64_t& key) {
-  const auto rc = std::find_if(src.begin(), src.end(), [&key](const MatroskaTag& tag) { return tag._id == key; });
-  // the return value is of type "const MatroskaTag*", so we return the adress of the content of the input
-  // iterator return by find_if
-  return rc == std::end(src) ? nullptr : &(*rc);
-}
-
 }  // namespace Internal
 
 /*!
@@ -116,11 +113,6 @@ class EXIV2API MatroskaVideo : public Image {
         method to get a temporary reference.
    */
   explicit MatroskaVideo(BasicIo::UniquePtr io);
-
-  //! Copy constructor
-  MatroskaVideo(const MatroskaVideo&) = delete;
-  //! Assignment operator
-  MatroskaVideo& operator=(const MatroskaVideo&) = delete;
   //@}
 
   //! @name Manipulators
@@ -136,7 +128,7 @@ class EXIV2API MatroskaVideo : public Image {
 
  protected:
   /*!
-    @brief Function used to calulate the size of a block.
+    @brief Function used to calculate the size of a block.
         This information is only stored in one byte.
         The size of the block is calculated by counting
         the number of leading zeros in the binary code of the byte.
@@ -152,38 +144,37 @@ class EXIV2API MatroskaVideo : public Image {
   void decodeBlock();
   /*!
     @brief Interpret tag information, and save it in the respective XMP container.
-    @param mt Pointer to current tag,
+    @param tag Pointer to current tag,
     @param buf Pointer to the memory area with the tag information.
     @param size Size of \em buf.
    */
 
-  void decodeInternalTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
+  void decodeInternalTags(const Internal::MatroskaTag* tag, const byte* buf);
   void decodeStringTags(const Internal::MatroskaTag* tag, const byte* buf);
-  void decodeIntegerTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
-  void decodeBooleanTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
+  void decodeIntegerTags(const Internal::MatroskaTag* tag, const byte* buf);
+  void decodeBooleanTags(const Internal::MatroskaTag* tag, const byte* buf);
   void decodeDateTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
-  void decodeFloatTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
-  /*!Internal::
-    @brief Calculates Aspect Ratio of a video, and stores it in the
-        respective XMP container.
-   */
-  void aspectRatio();
+  void decodeFloatTags(const Internal::MatroskaTag* tag, const byte* buf);
 
  private:
   //! Variable to check the end of metadata traversing.
-  bool continueTraversing_;
+  bool continueTraversing_{};
   //! Variable to store height and width of a video frame.
-  uint64_t height_;
-  uint64_t width_;
-  uint32_t track_count_;
+  uint64_t height_{};
+  uint64_t width_{};
+  uint32_t track_count_{};
   double time_code_scale_ = 1.0;
-  uint64_t stream_ = 0;
+  uint64_t stream_{};
 
   static constexpr double bytesMB = 1048576;
 
 };  // class MatroskaVideo
 
 // *****************************************************************************
+// template, inline and free functions
+
+// These could be static private functions on Image subclasses but then
+// ImageFactory needs to be made a friend.
 /*!
   @brief Create a new MatroskaVideo instance and return an auto-pointer to it.
       Caller owns the returned object and the auto-pointer ensures that
