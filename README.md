@@ -4,9 +4,9 @@
 
 
 
-| **CI Status:**    |      |      |
-|:--                |:--   |:--   |
-| [![Basic jobs for all platforms](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml) |  [![Nightly jobs for Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml) | [![On PUSH - Linux Special Builds for main branch](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml) |
+| **CI Status:**    |      |      |     |
+|:--                |:--   |:--   |:--  |
+| [![Release](https://github.com/Exiv2/exiv2/actions/workflows/release.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/release.yml) | [![Basic jobs for all platforms](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml) |  [![Nightly jobs for Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml) | [![On PUSH - Linux Special Builds for main branch](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml) | 
 
 <div id="Welcome">
 
