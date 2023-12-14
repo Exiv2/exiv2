@@ -165,12 +165,17 @@ constexpr ArrayCfg canonLiOpCfg = {
 constexpr ArrayCfg canonLeCfg = {
     IfdId::canonLeId,  // Group for the elements
     invalidByteOrder,  // Use byte order from parent
-    ttSignedLong,      // Type for array entry and size element
+    ttUndefined,       // Type for array entry and size element
     notEncrypted,      // Not encrypted
     true,              // Has a size element
     false,             // No fillers
     false,             // Don't concatenate gaps
-    {0, ttSignedLong, 1},
+    {0, ttUnsignedByte, 1},
+};
+//! Canon LensInfo binary array - definition
+constexpr ArrayDef canonLeDef[] = {
+    {0, ttUnsignedByte, 5},  // Serial number
+    {5, ttUndefined, 25},    // The array contains 30 bytes
 };
 
 //! Canon Ambience Selection Info binary array - configuration
@@ -1684,7 +1689,7 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     //  {{    0x4015, IfdId::canonId,          EXV_SIMPLE_BINARY_ARRAY(canonVigCorCfg)   },
     {{0x4016, IfdId::canonId}, EXV_SIMPLE_BINARY_ARRAY(canonVigCor2Cfg)},
     {{0x4018, IfdId::canonId}, EXV_SIMPLE_BINARY_ARRAY(canonLiOpCfg)},
-    {{0x4019, IfdId::canonId}, EXV_SIMPLE_BINARY_ARRAY(canonLeCfg)},
+    {{0x4019, IfdId::canonId}, EXV_BINARY_ARRAY(canonLeCfg, canonLeDef)},
     {{0x4020, IfdId::canonId}, EXV_SIMPLE_BINARY_ARRAY(canonAmCfg)},
     {{0x4021, IfdId::canonId}, EXV_SIMPLE_BINARY_ARRAY(canonMeCfg)},
     {{0x4024, IfdId::canonId}, EXV_SIMPLE_BINARY_ARRAY(canonFilCfg)},
