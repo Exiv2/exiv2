@@ -111,6 +111,8 @@ class CanonMakerNote {
   static std::ostream& printCsLensType(std::ostream& os, const Value& value, const ExifData* metadata);
   //! Camera lens information
   static std::ostream& printCsLens(std::ostream& os, const Value& value, const ExifData*);
+  //! CanonLe lens serial number
+  static std::ostream& printLe0x0000(std::ostream& os, const Value& value, const ExifData*);
   //! AutoISO speed used
   static std::ostream& printSi0x0001(std::ostream& os, const Value& value, const ExifData*);
   //! ISO speed used
