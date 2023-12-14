@@ -167,7 +167,7 @@ constexpr ArrayCfg canonLeCfg = {
     invalidByteOrder,  // Use byte order from parent
     ttUndefined,       // Type for array entry and size element
     notEncrypted,      // Not encrypted
-    true,              // Has a size element
+    false,             // No size element
     false,             // No fillers
     false,             // Don't concatenate gaps
     {0, ttUnsignedByte, 1},
