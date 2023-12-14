@@ -164,7 +164,7 @@ Exif.Canon.VignettingCorr                    Undefined 116  0 16 116 0 0 0 0 0 0
 Exif.CanonVigCor2.PeripheralLightingSetting  SLong       1  0  Off
 Exif.CanonLiOp.PeripheralIlluminationCorr    SLong       1  0  Off
 Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  1  Low
-Exif.CanonLe.LensSerialNumber                SLong       1  0  0
+Exif.CanonLe.LensSerialNumber                Byte        5  0 0 0 0 0  0000000000
 Exif.CanonAm.AmbienceSelection               SLong       1  0  Standard
 Exif.Photo.UserComment                       Undefined 264    
 Exif.Photo.SubSecTime                        Ascii       3  40  40

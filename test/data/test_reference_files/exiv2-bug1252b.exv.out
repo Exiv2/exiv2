@@ -169,7 +169,7 @@ Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  0  Standard
 Exif.CanonLiOp.HighlightTonePriority         SLong       1  0  Off
 Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  0  Off
 Exif.CanonLiOp.HighISONoiseReduction         SLong       1  0  Standard
-Exif.CanonLe.LensSerialNumber                SLong       1  0  0
+Exif.CanonLe.LensSerialNumber                Byte        5  0 0 0 0 0  0000000000
 Exif.CanonMe.MultiExposure                   SLong       1  0  Off
 Exif.CanonMe.MultiExposureControl            SLong       1  0  Additive
 Exif.CanonMe.MultiExposureShots              SLong       1  0  Off
