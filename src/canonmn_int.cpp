@@ -1030,8 +1030,11 @@ const TagInfo* CanonMakerNote::tagListLiOp() {
 
 // Canon LensInfo Tag
 constexpr TagInfo CanonMakerNote::tagInfoLe_[] = {
-    {0x0000, "LensSerialNumber", N_("Lens Seria lNumber"), N_("Lens Serial Number"), IfdId::canonLeId,
-     SectionId::makerTags, asciiString, -1, printValue},
+    {0x0000, "LensSerialNumber", N_("Lens Serial Number"),
+    N_("Lens Serial Number. Convert each byte to hexadecimal to get two "
+       "digits of the lens serial number."),
+     IfdId::canonLeId, SectionId::makerTags, unsignedByte, -1,
+     printLe0x0000},
     {0xffff, "(UnkownCanonLensInfoTag)", "(UnkownCanonLensInfoTag)", N_("UnkownCanonLensInfoTag"), IfdId::canonLeId,
      SectionId::makerTags, undefined, 1, printValue}  // important to add end of tag
 };
@@ -2779,6 +2782,20 @@ std::ostream& CanonMakerNote::printCsLens(std::ostream& os, const Value& value, 
     os << len1 << " mm";
   } else {
     os << len2 << " - " << len1 << " mm";
+  }
+  os.copyfmt(oss);
+  os.flags(f);
+  return os;
+}
+
+std::ostream& CanonMakerNote::printLe0x0000(std::ostream& os, const Value& value, const ExifData*) {
+  if (value.typeId() != unsignedByte || value.size() != 5)
+    return os << "(" << value << ")";
+  std::ios::fmtflags f(os.flags());
+  std::ostringstream oss;
+  oss.copyfmt(os);
+  for (size_t i = 0; i < value.size(); ++i) {
+    os << std::setw(2) << std::setfill('0') << std::hex << value.toInt64(i);
   }
   os.copyfmt(oss);
   os.flags(f);
