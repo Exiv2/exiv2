@@ -495,7 +495,7 @@ To build the documentation, you must install the following products:
 
 | Product      | Availability |
 |:------------ |:------------ |
-| doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [http://www.doxygen.org/](http://www.doxygen.org/)<br/>[http://www.graphviz.org/](http://www.graphviz.org/)<br/>[http://www.python.org/](http://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
+| doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [https://www.doxygen.nl/](https://www.doxygen.nl/)<br/>[http://www.graphviz.org/](http://www.graphviz.org/)<br/>[http://www.python.org/](http://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
 
 [TOC](#TOC)
 <div id="BuildTagWebpages">
