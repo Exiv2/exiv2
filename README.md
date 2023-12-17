@@ -272,7 +272,7 @@ The following Exiv2 features require external libraries:
 | Feature                  | Package  | Default | To change default           | Availability |
 |:------------------------ |:-------- |:-------:|:--------------------------- |:------------ |
 | PNG image support        | zlib     | ON      | -DEXIV2\_ENABLE\_PNG=OFF    | [http://zlib.net/](http://zlib.net/) |
-| XMP support              | expat    | ON      | -DEXIV2\_ENABLE\_XMP=OFF    | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
+| XMP support              | expat    | ON      | -DEXIV2\_ENABLE\_XMP=OFF    | [https://libexpat.github.io/](https://libexpat.github.io/)<br/>Use _**Expat 2.2.6**_ and later |
 | Natural language system  | gettext  | OFF     | -DEXIV2\_ENABLE\_NLS=ON     | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
 | JPEG XL brob support     | brotli   | ON      | -DEXIV2\_ENABLE\_BROTLI=OFF | [https://github.com/google/brotli](https://github.com/google/brotli) |
 | Character set conversion | libiconv |         | Disabled for Visual Studio.<br>Linked when installed on UNIX like platforms. | [https://www.gnu.org/software/libiconv/](https://www.gnu.org/software/libiconv/) |
