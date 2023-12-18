@@ -208,7 +208,7 @@ jobs:
               console.log( "Failed with error\n", error);
             }
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
       - name: List downloaded files
         run: tree -L 3
 
