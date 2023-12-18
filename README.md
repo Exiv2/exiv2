@@ -271,9 +271,9 @@ The following Exiv2 features require external libraries:
 
 | Feature                  | Package  | Default | To change default           | Availability |
 |:------------------------ |:-------- |:-------:|:--------------------------- |:------------ |
-| PNG image support        | zlib     | ON      | -DEXIV2\_ENABLE\_PNG=OFF    | [http://zlib.net/](http://zlib.net/) |
+| PNG image support        | zlib     | ON      | -DEXIV2\_ENABLE\_PNG=OFF    | [https://zlib.net/](https://zlib.net/) |
 | XMP support              | expat    | ON      | -DEXIV2\_ENABLE\_XMP=OFF    | [https://libexpat.github.io/](https://libexpat.github.io/)<br/>Use _**Expat 2.2.6**_ and later |
-| Natural language system  | gettext  | OFF     | -DEXIV2\_ENABLE\_NLS=ON     | [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) |
+| Natural language system  | gettext  | OFF     | -DEXIV2\_ENABLE\_NLS=ON     | [https://www.gnu.org/software/gettext/](https://www.gnu.org/software/gettext/) |
 | JPEG XL brob support     | brotli   | ON      | -DEXIV2\_ENABLE\_BROTLI=OFF | [https://github.com/google/brotli](https://github.com/google/brotli) |
 | Character set conversion | libiconv |         | Disabled for Visual Studio.<br>Linked when installed on UNIX like platforms. | [https://www.gnu.org/software/libiconv/](https://www.gnu.org/software/libiconv/) |
 
@@ -394,7 +394,7 @@ Localisation is supported on a UNIX-like platform:  Linux, macOS, Cygwin and Min
 
 Crowdin have provided Exiv2 with a free open-source license to use their services.  The Exiv2 localisation project is located at [https://crowdin.com/project/exiv2](https://crowdin.com/project/exiv2).  You will also need to register to have a free user account on Crowdin.  The Crowdin setup is discussed here: [https://github.com/Exiv2/exiv2/issues/1510](https://github.com/Exiv2/exiv2/issues/1510).  It is recommended that you coordinate with Leonardo before contributing localisation changes on Crowdin.  You can contact Leonardo by via GitHub.
 
-To build localisation support, use the CMake option `-DEXIV2_ENABLE_NLS=ON`.  You must install the `gettext` package with your package manager or from source.  The `gettext` package is available from [http://www.gnu.org/software/gettext/](http://www.gnu.org/software/gettext/) and includes the library `libintl` and utilities to build localisation files.  If CMake produces error messages which mention libintl or gettext, you should verify that the package `gettext` has been correctly built and installed.
+To build localisation support, use the CMake option `-DEXIV2_ENABLE_NLS=ON`.  You must install the `gettext` package with your package manager or from source.  The `gettext` package is available from [https://www.gnu.org/software/gettext/](https://www.gnu.org/software/gettext/) and includes the library `libintl` and utilities to build localisation files.  If CMake produces error messages which mention libintl or gettext, you should verify that the package `gettext` has been correctly built and installed.
 
 You must install the build to test localisation.  This ensures that the localisation message files can be found at run-time.  You cannot test localisation in the directory `build\bin`.
 
@@ -495,7 +495,7 @@ To build the documentation, you must install the following products:
 
 | Product      | Availability |
 |:------------ |:------------ |
-| doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [https://www.doxygen.nl/](https://www.doxygen.nl/)<br/>[http://www.graphviz.org/](http://www.graphviz.org/)<br/>[http://www.python.org/](http://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
+| doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [https://www.doxygen.nl/](https://www.doxygen.nl/)<br/>[https://www.graphviz.org/](https://www.graphviz.org/)<br/>[https://www.python.org/](https://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
 
 [TOC](#TOC)
 <div id="BuildTagWebpages">
