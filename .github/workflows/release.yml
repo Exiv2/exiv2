@@ -46,7 +46,7 @@ jobs:
           cmake --build build -t doc
           cmake --build build -t package
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: exiv2-linux64
           path: ./build/exiv2-*.tar.gz
@@ -84,7 +84,7 @@ jobs:
           cmake --build build -t doc
           cmake --build build -t package
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: exiv2-macos
           path: ./build/exiv2-*.tar.gz
@@ -133,7 +133,7 @@ jobs:
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: exiv2-win
           path: ./build/exiv2-*.zip
