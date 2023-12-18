@@ -272,7 +272,7 @@ The following Exiv2 features require external libraries:
 | Feature                  | Package  | Default | To change default           | Availability |
 |:------------------------ |:-------- |:-------:|:--------------------------- |:------------ |
 | PNG image support        | zlib     | ON      | -DEXIV2\_ENABLE\_PNG=OFF    | [https://zlib.net/](https://zlib.net/) |
-| XMP support              | expat    | ON      | -DEXIV2\_ENABLE\_XMP=OFF    | [http://expat.sourceforge.net](http://expat.sourceforge.net)/<br/>Use _**Expat 2.2.6**_ and later |
+| XMP support              | expat    | ON      | -DEXIV2\_ENABLE\_XMP=OFF    | [https://libexpat.github.io/](https://libexpat.github.io/)/<br/>Use _**Expat 2.2.6**_ and later |
 | Natural language system  | gettext  | OFF     | -DEXIV2\_ENABLE\_NLS=ON     | [https://www.gnu.org/software/gettext/](https://www.gnu.org/software/gettext/) |
 | JPEG XL brob support     | brotli   | ON      | -DEXIV2\_ENABLE\_BROTLI=OFF | [https://github.com/google/brotli](https://github.com/google/brotli) |
 | Character set conversion | libiconv |         | Disabled for Visual Studio.<br>Linked when installed on UNIX like platforms. | [https://www.gnu.org/software/libiconv/](https://www.gnu.org/software/libiconv/) |
@@ -495,7 +495,7 @@ To build the documentation, you must install the following products:
 
 | Product      | Availability |
 |:------------ |:------------ |
-| doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [http://www.doxygen.org/](http://www.doxygen.org/)<br/>[https://www.graphviz.org/](https://www.graphviz.org/)<br/>[https://www.python.org/](https://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
+| doxygen<br/>graphviz<br/>python<br/>xsltproc<br/>md5sum  | [https://www.doxygen.nl/](https://www.doxygen.nl/)<br/>[https://www.graphviz.org/](https://www.graphviz.org/)<br/>[https://www.python.org/](https://www.python.org/)<br/>[http://xmlsoft.org/XSLT/](http://xmlsoft.org/XSLT/)<br/>[http://www.microbrew.org/tools/md5sha1sum/](http://www.microbrew.org/tools/md5sha1sum/) |
 
 [TOC](#TOC)
 <div id="BuildTagWebpages">
