@@ -7,10 +7,12 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
+#include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "jpgimage.hpp"
 #include "photoshop.hpp"
 #include "safe_op.hpp"
+#include "tags_int.hpp"
 #include "utils.hpp"
 
 #ifdef _WIN32
@@ -49,13 +51,39 @@ constexpr byte rst1_ = 0xd0;  //!< JPEG Restart 0 Marker (from 0xD0 to 0xD7 ther
 
 // Start of Frame markers, nondifferential Huffman-coding frames
 constexpr byte sof0_ = 0xc0;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof1_ = 0xc1;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof2_ = 0xc2;  //!< JPEG Start-Of-Frame marker
 constexpr byte sof3_ = 0xc3;  //!< JPEG Start-Of-Frame marker
 
 // Start of Frame markers, differential Huffman-coding frames
 constexpr byte sof5_ = 0xc5;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof6_ = 0xc6;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof7_ = 0xc6;  //!< JPEG Start-Of-Frame marker
 
 // Start of Frame markers, differential arithmetic-coding frames
+constexpr byte sof9_ = 0xc9;   //!< JPEG Start-Of-Frame marker
+constexpr byte sof10_ = 0xca;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof11_ = 0xcb;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof13_ = 0xcd;  //!< JPEG Start-Of-Frame marker
+constexpr byte sof14_ = 0xce;  //!< JPEG Start-Of-Frame marker
 constexpr byte sof15_ = 0xcf;  //!< JPEG Start-Of-Frame marker
+
+// JPEG process SOF markers
+constexpr Internal::TagDetails jpegProcessMarkerTags[] = {
+    {sof0_, N_("Baseline DCT, Huffman coding")},
+    {sof1_, N_("Extended sequential DCT, Huffman coding")},
+    {sof2_, N_("Progressive DCT, Huffman coding")},
+    {sof3_, N_("Lossless, Huffman coding")},
+    {sof5_, N_("Sequential DCT, differential Huffman coding")},
+    {sof6_, N_("Progressive DCT, differential Huffman coding")},
+    {sof7_, N_("Lossless, Differential Huffman coding")},
+    {sof9_, N_("Extended sequential DCT, arithmetic coding")},
+    {sof10_, N_("Progressive DCT, arithmetic coding")},
+    {sof11_, N_("Lossless, arithmetic coding")},
+    {sof13_, N_("Sequential DCT, differential arithmetic coding")},
+    {sof14_, N_("Progressive DCT, differential arithmetic coding")},
+    {sof15_, N_("Lossless, differential arithmetic coding")},
+};
 
 constexpr auto exifId_ = "Exif\0\0";  //!< Exif identifier
 // constexpr auto jfifId_ = "JFIF\0";                         //!< JFIF identifier
@@ -157,6 +185,13 @@ void JpegBase::readMetadata() {
     if (size > 2) {
       io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
       std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
+    }
+
+    if (auto itSofMarker = Exiv2::find(jpegProcessMarkerTags, marker)) {
+      sof_encoding_process_ = itSofMarker->label_;
+      if (size >= 7 && buf.c_data(7)) {
+        num_color_components_ = *buf.c_data(7);
+      }
     }
 
     if (!foundExifData && marker == app1_ && size >= 8  // prevent out-of-bounds read in memcmp on next line
