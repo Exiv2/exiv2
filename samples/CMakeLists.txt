@@ -14,6 +14,7 @@ set(SAMPLES
     iptceasy.cpp
     iptcprint.cpp
     iptctest.cpp
+    jpegparsetest.cpp
     key-test.cpp
     largeiptc-test.cpp
     mmap-test.cpp
