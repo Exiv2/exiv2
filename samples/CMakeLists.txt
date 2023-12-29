@@ -1,5 +1,6 @@
 # CMakeLists.txt for exiv2 library sample applications
 
+<<<<<<< HEAD
 set( SAMPLES
      addmoddel.cpp
      convert-test.cpp
@@ -29,6 +30,38 @@ set( SAMPLES
      xmpprint.cpp
      xmpsample.cpp
      xmpdump.cpp
+=======
+set(SAMPLES
+    addmoddel.cpp
+    convert-test.cpp
+    easyaccess-test.cpp
+    exifcomment.cpp
+    exifdata-test.cpp
+    exifdata.cpp
+    exifprint.cpp
+    exifvalue.cpp
+    ini-test.cpp
+    iotest.cpp
+    iptceasy.cpp
+    iptcprint.cpp
+    iptctest.cpp
+    jpegparsetest.cpp
+    key-test.cpp
+    largeiptc-test.cpp
+    mmap-test.cpp
+    mrwthumb.cpp
+    prevtest.cpp
+    stringto-test.cpp
+    taglist.cpp
+    tiff-test.cpp
+    write-test.cpp
+    write2-test.cpp
+    xmpparse.cpp
+    xmpparser-test.cpp
+    xmpprint.cpp
+    xmpsample.cpp
+    xmpdump.cpp
+>>>>>>> 6b5cb9841 (Add test to validate jpeg parse)
 )
 
 ##
