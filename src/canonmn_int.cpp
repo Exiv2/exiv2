@@ -1052,7 +1052,20 @@ constexpr TagDetails canonHighISONoiseReduction[] = {
     {0, N_("Standard")},
     {1, N_("Low")},
     {2, N_("Strong")},
-    {3, N_("off")},
+    {3, N_("Off")},
+};
+
+// Canon DigitalLensOptimizer, tag 0x000a
+constexpr TagDetails canonDigitalLensOptimizer[] = {
+    {0, N_("Off")},
+    {1, N_("Standard")},
+    {2, N_("High")},
+};
+
+// Canon DualPixelRaw, tag 0x000b
+constexpr TagDetails canonDualPixelRaw[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
 };
 
 // Canon LightingOpt Tag
@@ -1067,6 +1080,10 @@ constexpr TagInfo CanonMakerNote::tagInfoLiOp_[] = {
      IfdId::canonLiOpId, SectionId::makerTags, signedLong, -1, EXV_PRINT_TAG(canonLongExposureNoiseReduction)},
     {0x0005, "HighISONoiseReduction", N_("High ISO Noise Reduction"), N_("High ISO Noise Reduction"),
      IfdId::canonLiOpId, SectionId::makerTags, signedLong, -1, EXV_PRINT_TAG(canonHighISONoiseReduction)},
+    {0x000a, "DigitalLensOptimizer", N_("Digital Lens Optimizer"), N_("Digital Lens Optimizer"), IfdId::canonLiOpId,
+     SectionId::makerTags, signedLong, -1, EXV_PRINT_TAG(canonDigitalLensOptimizer)},
+    {0x000b, "DualPixelRaw", N_("Dual Pixel Raw"), N_("Dual Pixel Raw"), IfdId::canonLiOpId, SectionId::makerTags,
+     signedLong, -1, EXV_PRINT_TAG(canonDualPixelRaw)},
     {0xffff, "(UnknownLightingOptimizationTag)", "(UnknownLightingOptimizationTag)",
      N_("UnknownLightingOptimizationTag Selection Tag"), IfdId::canonLiOpId, SectionId::makerTags, signedLong, 1,
      printValue}  // important to add end of tag
