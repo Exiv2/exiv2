@@ -1966,8 +1966,13 @@ constexpr TagDetails canonCsLensType[] = {{1, "Canon EF 50mm f/1.8"},
                                           {61182, "Canon RF 100-300mm F2.8L IS USM"},
                                           {61182, "Canon RF 100-300mm F2.8L IS USM + RF1.4x"},
                                           {61182, "Canon RF 100-300mm F2.8L IS USM + RF2x"},
+                                          {61182, "Canon RF 200-800mm F6.3-9 IS USM"},
+                                          {61182, "Canon RF 200-800mm F6.3-9 IS USM + RF1.4x"},
+                                          {61182, "Canon RF 200-800mm F6.3-9 IS USM + RF2x"},
                                           {61182, "Canon RF 10-20mm F4 L IS STM"},
                                           {61182, "Canon RF 28mm F2.8 STM"},
+                                          {61182, "Canon RF 24-105mm F2.8 L IS USM Z"},
+                                          {61182, "Canon RF-S 10-18mm F4.5-6.3 IS STM"},
                                           {65535, N_("n/a")}};
 
 //! FlashActivity, tag 0x001c
@@ -2390,8 +2395,13 @@ constexpr TagDetails canonRFLensType[] = {{0, N_("n/a")},
                                           {306, "Canon RF 100-300mm F2.8L IS USM"},
                                           {307, "Canon RF 100-300mm F2.8L IS USM + RF1.4x"},
                                           {308, "Canon RF 100-300mm F2.8L IS USM + RF2x"},
+                                          {309, "Canon RF 200-800mm F6.3-9 IS USM"},
+                                          {310, "Canon RF 200-800mm F6.3-9 IS USM + RF1.4x"},
+                                          {311, "Canon RF 200-800mm F6.3-9 IS USM + RF2x"},
                                           {312, "Canon RF 10-20mm F4 L IS STM"},
-                                          {313, "Canon RF 28mm F2.8 STM"}};
+                                          {313, "Canon RF 28mm F2.8 STM"},
+                                          {314, "Canon RF 24-105mm F2.8 L IS USM Z"},
+                                          {315, "Canon RF-S 10-18mm F4.5-6.3 IS STM"}};
 
 // Canon File Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoFi_[] = {
