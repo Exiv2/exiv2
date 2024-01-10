@@ -781,7 +781,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
             ul2Data(boxUUIDtype, kJp2BoxTypeUuid, bigEndian);
             std::copy_n(boxDataSize, 4, boxData.begin());
             std::copy_n(boxUUIDtype, 4, boxData.begin() + 4);
-            std::copy_n(kJp2UuidExif, 16, boxData.begin() + 8);
+            std::copy_n(kJp2UuidIptc, 16, boxData.begin() + 8);
             std::copy(rawIptc.begin(), rawIptc.end(), boxData.begin() + 8 + 16);
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -807,7 +807,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
           ul2Data(boxUUIDtype, kJp2BoxTypeUuid, bigEndian);
           std::copy_n(boxDataSize, 4, boxData.begin());
           std::copy_n(boxUUIDtype, 4, boxData.begin() + 4);
-          std::copy_n(kJp2UuidExif, 16, boxData.begin() + 8);
+          std::copy_n(kJp2UuidXmp, 16, boxData.begin() + 8);
           std::copy(xmp.begin(), xmp.end(), boxData.begin() + 8 + 16);
 
 #ifdef EXIV2_DEBUG_MESSAGES
