@@ -105,7 +105,7 @@ Exif.NikonLd3.AFAperture                     Byte        1  49  F4.1
 Exif.NikonLd3.FocusPosition                  Byte        1  5  5
 Exif.NikonLd3.FocusDistance                  Byte        1  104  3.98 m
 Exif.NikonLd3.FocalLength                    Byte        1  41  16.3 mm
-Exif.NikonLd3.LensIDNumber                   Byte        1  202  Sigma 12-24mm F4 DG HSM Art
+Exif.NikonLd3.LensIDNumber                   Byte        1  202  Sigma 12-24mm F4 DG HSM | A
 Exif.NikonLd3.LensFStops                     Byte        1  60  F5.0
 Exif.NikonLd3.MinFocalLength                 Byte        1  31  12.2 mm
 Exif.NikonLd3.MaxFocalLength                 Byte        1  55  24.5 mm
