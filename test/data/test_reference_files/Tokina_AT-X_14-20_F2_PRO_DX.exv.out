@@ -104,7 +104,7 @@ Exif.NikonLd3.AFAperture                     Byte        1  24  F2.0
 Exif.NikonLd3.FocusPosition                  Byte        1  2  2
 Exif.NikonLd3.FocusDistance                  Byte        1  100  3.16 m
 Exif.NikonLd3.FocalLength                    Byte        1  48  20.0 mm
-Exif.NikonLd3.LensIDNumber                   Byte        1  148  Tokina AT-X 14-20 F2 PRO DX
+Exif.NikonLd3.LensIDNumber                   Byte        1  148  Tokina AT-X 14-20 F2 PRO DX (AF 14-20mm f/2)
 Exif.NikonLd3.LensFStops                     Byte        1  84  F7.0
 Exif.NikonLd3.MinFocalLength                 Byte        1  36  14.1 mm
 Exif.NikonLd3.MaxFocalLength                 Byte        1  48  20.0 mm
