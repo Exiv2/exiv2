@@ -210,7 +210,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
       return error(errors, "no such host: %s", gai_strerror(res));
     }
 
-    serv_addr = *reinterpret_cast<sockaddr_in*>(result->ai_addr);
+    std::memcpy(&serv_addr, result->ai_addr, serv_len);
 
     freeaddrinfo(result);
   }
