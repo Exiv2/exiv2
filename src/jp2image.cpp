@@ -601,7 +601,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
   while (count < length && !bWroteColor) {
     Internal::enforce(boxHSize <= length - count, ErrorCode::kerCorruptedMetadata);
     Internal::Jp2BoxHeader subBox;
-    std::copy_n(boxBuf.c_data(count), boxHSize, reinterpret_cast<byte*>(&subBox));
+    std::memcpy(&subBox, boxBuf.c_data(count), boxHSize);
     Internal::Jp2BoxHeader newBox = subBox;
 
     if (count < length) {
