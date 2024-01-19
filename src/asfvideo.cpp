@@ -47,9 +47,9 @@ bool AsfVideo::GUIDTag::operator==(const AsfVideo::GUIDTag& other) const {
 }
 
 AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
-  std::copy_n(bytes, DWORD, reinterpret_cast<uint8_t*>(&data1_));
-  std::copy_n(bytes + DWORD, WORD, reinterpret_cast<uint8_t*>(&data2_));
-  std::copy_n(bytes + DWORD + WORD, WORD, reinterpret_cast<uint8_t*>(&data3_));
+  std::memcpy(&data1_, bytes, DWORD);
+  std::memcpy(&data2_, bytes + DWORD, WORD);
+  std::memcpy(&data3_, bytes + DWORD + WORD, WORD);
   std::copy(bytes + QWORD, bytes + 2 * QWORD, data4_.begin());
   if (isBigEndianPlatform()) {
     data1_ = byteSwap(data1_, true);
