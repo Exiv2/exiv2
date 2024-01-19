@@ -601,7 +601,7 @@ uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, TiffCompone
 #endif
     memset(buf + 8, 0x0, 4);
     if (pTiffEntry->size() > 0) {
-      memmove(buf + 8, pTiffEntry->pData(), pTiffEntry->size());
+      std::copy_n(pTiffEntry->pData(), pTiffEntry->size(), buf + 8);
       memset(const_cast<byte*>(pTiffEntry->pData()), 0x0, pTiffEntry->size());
     }
   }
