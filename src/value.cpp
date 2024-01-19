@@ -758,9 +758,8 @@ int DateValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
 int DateValue::read(const std::string& buf) {
   // ISO 8601 date formats:
   // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
-  static const std::regex reExtended(R"(^(\d{4})-(\d{2})-(\d{2}))");
-  static const std::regex reBasic(R"(^(\d{4})(\d{2})(\d{2}))");
-  std::smatch sm;
+  size_t monthPos = 0;
+  size_t dayPos = 0;
 
   auto printWarning = [] {
 #ifndef SUPPRESS_WARNINGS
@@ -768,18 +767,38 @@ int DateValue::read(const std::string& buf) {
 #endif
   };
 
-  // Note: We use here regex_search instead of regex_match, because the string can be longer than expected and
-  // also contain the time
-  if (std::regex_search(buf, sm, reExtended) || std::regex_search(buf, sm, reBasic)) {
-    date_.year = std::stoi(sm[1].str());
-    date_.month = std::stoi(sm[2].str());
-    if (date_.month > 12) {
-      date_.month = 0;
+  if (buf.size() < 8) {
+    printWarning();
+    return 1;
+  }
+
+  if ((buf.size() >= 10 && buf[4] == '-' && buf[7] == '-') || (buf.size() == 8)) {
+    if (buf.size() >= 10) {
+      monthPos = 5;
+      dayPos = 8;
+    } else {
+      monthPos = 4;
+      dayPos = 6;
+    }
+
+    auto checkDigits = [&buf, &printWarning](size_t start, size_t count, int32_t& dest) {
+      for (size_t i = start; i < start + count; ++i) {
+        if (!std::isdigit(buf[i])) {
+          printWarning();
+          return 1;
+        }
+      }
+      dest = std::stoul(buf.substr(start, count));
+      return 0;
+    };
+
+    if (checkDigits(0, 4, date_.year) || checkDigits(monthPos, 2, date_.month) || checkDigits(dayPos, 2, date_.day)) {
       printWarning();
       return 1;
     }
-    date_.day = std::stoi(sm[3].str());
-    if (date_.day > 31) {
+
+    if (date_.month > 12 || date_.day > 31) {
+      date_.month = 0;
       date_.day = 0;
       printWarning();
       return 1;
