@@ -106,7 +106,7 @@ jobs:
           choco install graphviz
 
       - name: Restore conan cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-release-win-${{ hashFiles('conanfile.py') }}
