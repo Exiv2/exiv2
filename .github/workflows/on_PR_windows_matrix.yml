@@ -38,7 +38,7 @@ jobs:
           arch: ${{matrix.platform}}
 
       - name: Restore Conan cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}

@@ -28,7 +28,7 @@ jobs:
           arch: x64
 
       - name: Restore conan cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
