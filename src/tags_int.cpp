@@ -1717,7 +1717,7 @@ constexpr TagInfo ifdTagInfo[] = {
      N_("This tag specifies that columns of the image are stored in interleaved "
         "order. The value of the tag specifies the number of interleaved fields. "
         "The use of a non-default value for this tag requires setting the "
-        "DNGBackwardVersion tag to at least 1.7.0.0."),
+        "DNGBackwardVersion tag to at least 1.7.1.0."),
      IfdId::ifd0Id, SectionId::dngTags, unsignedLong, 1, printValue},  // DNG 1.7 tag
     {0xcd44, "ImageSequenceInfo", N_("Image Sequence Info"),
      N_("This is an informative tag that describes how the image file relates "
@@ -1741,6 +1741,19 @@ constexpr TagInfo ifdTagInfo[] = {
         "The purpose of this tag is to associate two or more related camera profiles "
         "into a common group."),
      IfdId::ifd0Id, SectionId::dngTags, asciiString, -1, printValue},  // DNG 1.7 tag
+    {0xcd49, "JXLDistance", N_("JXL Distance"),
+     N_("This optional tag specifies the distance parameter used to encode the JPEG "
+        "XL data in this IFD. A value of 0.0 means lossless compression, while values "
+        "greater than 0.0 means lossy compression."),
+     IfdId::ifd0Id, SectionId::dngTags, tiffFloat, -1, printValue},  // DNG 1.7 tag
+    {0xcd4a, "JXLEffort", N_("JXL Effort"),
+     N_("This optional tag specifies the effort parameter used to encode the JPEG XL "
+        "data in this IFD. Values range from 1 (low) to 9 (high)."),
+     IfdId::ifd0Id, SectionId::dngTags, unsignedLong, -1, printValue},  // DNG 1.7 tag
+    {0xcd4b, "JXLDecodeSpeed", N_("JXL Decode Speed"),
+     N_("This optional tag specifies the decode speed parameter used to encode the "
+        "JPEG XL data in this IFD. Values range from 1 (slow) to 4 (fast)."),
+     IfdId::ifd0Id, SectionId::dngTags, unsignedLong, -1, printValue},  // DNG 1.7 tag
 
     ////////////////////////////////////////
     // End of list marker
