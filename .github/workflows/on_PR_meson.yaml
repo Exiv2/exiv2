@@ -101,7 +101,7 @@ jobs:
     strategy:
       matrix:
         deps: ['enabled', 'disabled']
-        platform: ['UCRT64', 'CLANG32', 'CLANG64']
+        platform: ['UCRT64', 'CLANG64']
     defaults:
       run:
         shell: msys2 {0}
