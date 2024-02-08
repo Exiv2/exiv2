@@ -113,6 +113,8 @@ def get_valid_files(data_dir):
         "issue_2339_poc.tiff",
         "issue_2352_poc.jpg",
         "issue_2385_poc.tiff",
+        "issue_ghsa_crmj_qh74_2r36_poc.mov",
+        "issue_ghsa_g9xm_7538_mq8w_poc.mov",
         "issue_ghsa_583f_w9pm_99r2_poc.jp2",
         "issue_ghsa_7569_phvm_vwc2_poc.jp2",
         "issue_ghsa_mxw9_qx4c_6m8v_poc.jp2",
