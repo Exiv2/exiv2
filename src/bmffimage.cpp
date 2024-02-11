@@ -86,8 +86,8 @@ std::string Iloc::toString() const {
   return Internal::stringFormat("ID = %u from,length = %u,%u", ID_, start_, length_);
 }
 
-BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */) :
-    Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io)) {
+BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */, size_t max_box_depth) :
+    Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io)), max_box_depth_(max_box_depth) {
 }  // BmffImage::BmffImage
 
 std::string BmffImage::toAscii(uint32_t n) {
@@ -247,7 +247,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   // never visit a box twice!
   if (depth == 0)
     visits_.clear();
-  if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_) {
+  if (visits_.find(address) != visits_.end() || visits_.size() > visits_max_ || depth >= max_box_depth_) {
     throw Error(ErrorCode::kerCorruptedMetadata);
   }
   visits_.insert(address);
