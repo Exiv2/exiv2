@@ -24,8 +24,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y gettext doxygen graphviz
-          python -m pip install conan==1.* ninja
+          sudo apt install -y gettext doxygen graphviz ninja-build
+          python -m pip install conan==1.*
 
       - name: Conan common config
         run: |
@@ -129,7 +129,7 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
+          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
