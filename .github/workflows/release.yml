@@ -129,7 +129,7 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF
+          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
