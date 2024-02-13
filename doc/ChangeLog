@@ -1,3 +1,18 @@
+Changes from version 0.28.1 to 0.28.2
+-------------------------------------
+
+Release Notes:
+
+* https://github.com/Exiv2/exiv2/issues/2914
+* https://github.com/Exiv2/exiv2/milestone/13?closed=1
+
+This release also fixes two low-severity security issues in quicktimevideo.cpp:
+
+* [CVE-2024-24826](https://github.com/Exiv2/exiv2/security/advisories/GHSA-g9xm-7538-mq8w): out-of-bounds read in QuickTimeVideo::NikonTagsDecoder.
+* [CVE-2024-25112](https://github.com/Exiv2/exiv2/security/advisories/GHSA-crmj-qh74-2r36): denial of service due to unbounded recursion in QuickTimeVideo::multipleEntriesDecoder.
+
+These vulnerabilities are in a new feature (quicktime video) that was added in version 0.28.0, so earlier versions of Exiv2 are not affected.
+
 Changes from version 0.28.0 to 0.28.1
 -------------------------------------
 
