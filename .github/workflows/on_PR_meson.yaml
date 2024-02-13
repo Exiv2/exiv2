@@ -57,7 +57,7 @@ jobs:
         deps: ['forcefallback', 'default']
         platform: ['x64', 'x86']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install packages
         run: |
@@ -79,7 +79,7 @@ jobs:
       matrix:
         deps: ['forcefallback', 'default']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install packages
         run: |
@@ -101,12 +101,12 @@ jobs:
     strategy:
       matrix:
         deps: ['enabled', 'disabled']
-        platform: ['UCRT64', 'CLANG32', 'CLANG64']
+        platform: ['UCRT64', 'CLANG64']
     defaults:
       run:
         shell: msys2 {0}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: msys2/setup-msys2@v2
         with:
@@ -133,7 +133,7 @@ jobs:
       matrix:
         deps: ['enabled', 'disabled']
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install packages
         run: |
@@ -146,12 +146,12 @@ jobs:
           meson compile -C "${{github.workspace}}/build"
           meson test -C "${{github.workspace}}/build"
   FreeBSD:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     name: FreeBSD
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: FreeBSD
-        uses: vmactions/freebsd-vm@v0
+        uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
             pkg install -y cmake curl ninja meson gettext pkgconf googletest expat inih brotli
@@ -168,7 +168,7 @@ jobs:
         run: |
           python3 -m pip install meson ninja
       - name: Emscripten
-        uses: mymindstorm/setup-emsdk@v12
+        uses: mymindstorm/setup-emsdk@v14
       - name: Compile
         run: |
           meson setup "${{github.workspace}}/build" --cross-file="${{github.workspace}}/em.txt" --wrap-mode=forcefallback -Ddefault_library=static -Dwarning_level=3 -Dcpp_std=c++20 -DunitTests=disabled -Dcurl=disabled

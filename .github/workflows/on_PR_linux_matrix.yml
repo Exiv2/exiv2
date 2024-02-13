@@ -21,12 +21,12 @@ jobs:
         shared_libraries: [ON, OFF]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt install -y tree
-          python3 -m pip install conan==1.59.0 ninja
+          sudo apt install -y tree ninja-build
+          python3 -m pip install conan==1.*
 
       - name: Conan common config
         run: |

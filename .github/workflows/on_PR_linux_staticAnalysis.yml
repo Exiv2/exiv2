@@ -16,14 +16,14 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 2
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          python3 -m pip install conan==1.59.0
+          python3 -m pip install conan==1.*
           sudo add-apt-repository ppa:ubuntu-lxc/daily -y
           wget -q -O - https://files.pvs-studio.com/etc/pubkey.txt |sudo apt-key add -
           sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.pvs-studio.com/etc/viva64.list
@@ -56,7 +56,7 @@ jobs:
           pvs-studio-analyzer analyze -l PVS_license.lic -o pvsStudio.log -j4 --disableLicenseExpirationCheck
           plog-converter -a GA:1,2 -d V1042 -t fullhtml pvsStudio.log -o pvsReportHtml
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: static_analysis
           path: build/pvsReportHtml

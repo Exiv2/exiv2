@@ -16,15 +16,15 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 2
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get install -y libxml2-dev libxslt-dev python3-dev
-          python3 -m pip install conan==1.59.0 gcovr ninja
+          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build gcovr
+          python3 -m pip install conan==1.*
 
       - name: Conan common config
         run: |
@@ -64,12 +64,12 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt install -y valgrind
-          python3 -m pip install conan==1.59.0 ninja
+          sudo apt install -y valgrind ninja-build
+          python3 -m pip install conan==1.*
 
       - name: Conan common config
         run: |
@@ -99,11 +99,12 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          python3 -m pip install conan==1.59.0 ninja
+          sudo apt install -y ninja-build
+          python3 -m pip install conan==1.*
 
       - name: Conan common config
         run: |
@@ -132,12 +133,12 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt install -y valgrind doxygen graphviz gettext
-          python3 -m pip install conan==1.59.0 ninja
+          sudo apt install -y valgrind doxygen graphviz gettext ninja-build
+          python3 -m pip install conan==1.*
 
       - name: Conan common config
         run: |

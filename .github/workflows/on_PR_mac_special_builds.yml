@@ -12,24 +12,21 @@ on:
 
 jobs:
   MacOS_releaseSanitizers:
-    name: 'MacOS - Clang - Release+Sanitizers'
+    name: 'macOS - XCode - Release+Sanitizers'
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          brew install ninja
-          brew install inih
-          brew install googletest
+          brew install ninja inih googletest
 
       - name: Build
         run: |
           cmake --preset base_mac -S . -B build -DEXIV2_TEAM_USE_SANITIZERS=ON
           cmake --build build --parallel
 
-      - name: Tests
+      - name: Test
         run: |
-          cd build
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure
