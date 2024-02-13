@@ -42,7 +42,7 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF
+          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
           cmake --build build -t doc
           cmake --build build -t package
 
