@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 2
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           python3 -m pip install conan==1.*
           sudo add-apt-repository ppa:ubuntu-lxc/daily -y
