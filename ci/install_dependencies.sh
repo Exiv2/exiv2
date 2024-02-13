@@ -24,7 +24,7 @@ debian_build_gtest() {
 centos_build_inih() {
     [-d inih_build ] || git clone https://github.com/benhoyt/inih.git inih_build
     cd inih_build
-    git checkout r57
+    git checkout r58
     meson --buildtype=plain builddir
     meson compile -C builddir
     meson install -C builddir
