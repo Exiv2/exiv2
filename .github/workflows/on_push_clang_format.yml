@@ -7,11 +7,10 @@ jobs:
   clang-format-checking:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: DoozyX/clang-format-lint-action@v0.16
+      - uses: actions/checkout@v4
+      - uses: DoozyX/clang-format-lint-action@v0.17
         with:
           source: '.'
           exclude: './xmpsdk ./contrib'
           extensions: 'c,h,cpp,hpp'
-          clangFormatVersion: 12
           style: file

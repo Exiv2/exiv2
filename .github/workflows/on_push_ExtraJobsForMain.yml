@@ -20,11 +20,11 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: install dependencies
         run: |
-          python3 -m pip install conan==1.59.0 gcovr ninja
+          python3 -m pip install conan==1.* gcovr ninja
 
       - name: Conan common config
         run: |
