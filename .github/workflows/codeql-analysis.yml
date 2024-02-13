@@ -11,12 +11,12 @@ concurrency:
 
 on:
   push:
-    branches: [0.27-maintenance, main]
+    branches: [0.28.x, main]
     paths-ignore:
       - "*.md"
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [0.27-maintenance, main]
+    branches: [0.28.x, main]
     paths-ignore:
       - "*.md"
   workflow_dispatch:
@@ -40,8 +40,7 @@ jobs:
       
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y libexpat1-dev zlib1g-dev libbrotli-dev libinih-dev
+        sudo eatmydata apt-get -y install libexpat1-dev zlib1g-dev libbrotli-dev libinih-dev
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL

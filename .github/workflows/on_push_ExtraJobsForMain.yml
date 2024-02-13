@@ -24,8 +24,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get install ninja-build
-          python3 -m pip install conan==1.* gcovr
+          sudo eatmydata apt-get -y install ninja-build gcovr
+          python3 -m pip install conan==1.*
 
       - name: Conan common config
         run: |
