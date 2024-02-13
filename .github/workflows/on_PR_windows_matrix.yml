@@ -10,8 +10,7 @@ on:
       - "*.md"
   workflow_dispatch:
   push:
-    branches:
-    - main
+    branches: [0.28.x, main]
     tags:
     - '!*'
     paths-ignore:

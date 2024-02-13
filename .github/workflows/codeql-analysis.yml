@@ -11,12 +11,12 @@ concurrency:
 
 on:
   push:
-    branches: [0.27-maintenance, main]
+    branches: [0.28.x, main]
     paths-ignore:
       - "*.md"
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [0.27-maintenance, main]
+    branches: [0.28.x, main]
     paths-ignore:
       - "*.md"
   workflow_dispatch:
