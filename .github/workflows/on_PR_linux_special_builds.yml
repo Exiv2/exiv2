@@ -23,8 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get install -y libxml2-dev libxslt-dev python3-dev ninja-build
-          python3 -m pip install conan==1.* gcovr
+          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build gcovr
+          python3 -m pip install conan==1.*
 
       - name: Conan common config
         run: |
