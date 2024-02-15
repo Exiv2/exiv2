@@ -163,7 +163,7 @@ const char* Error::what() const noexcept {
 }
 
 void Error::setMsg(int count) {
-  std::string msg{errList.at(static_cast<size_t>(code_))};
+  std::string msg{_(errList.at(static_cast<size_t>(code_)))};
   auto pos = msg.find("%0");
   if (pos != std::string::npos) {
     msg.replace(pos, 2, std::to_string(static_cast<int>(code_)));
