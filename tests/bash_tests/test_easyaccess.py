@@ -98,7 +98,7 @@ Max aperture value    (Exif.Photo.MaxApertureValue        ) : F3.5
 Subject distance      (Exif.CanonSi.SubjectDistance       ) : Infinite
 Light source          (                                   ) : 
 Flash                 (Exif.Photo.Flash                   ) : No flash
-Camera serial number  (Exif.Canon.SerialNumber            ) : 21f938089
+Camera serial number  (Exif.Canon.SerialNumber            ) : 570004681
 Focal length          (Exif.Photo.FocalLength             ) : 18.0 mm
 Subject location/area (                                   ) : 
 Flash energy          (                                   ) : 

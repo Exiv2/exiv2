@@ -91,7 +91,7 @@ Exif.Canon.ImageType                         Ascii      32  Canon EOS 5D Mark II
 Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 2.0.8  Firmware Version 2.0.8
 Exif.Canon.FileNumber                        Long        1  0  (0)
 Exif.Canon.OwnerName                         Ascii      32    
-Exif.Canon.SerialNumber                      Long        1  210104331  0c8561451
+Exif.Canon.SerialNumber                      Long        1  210104331  210104331
 Exif.Canon.ModelID                           Long        1  2147484184  EOS 5D Mark II
 Exif.Canon.SerialNumberFormat                Long        1  2684354560  Format 2
 Exif.Canon.AFInfo                            Short      50  100 0 9 9 5616 3744 5616 3744 84 84 101 84 84 84 101 84 123 101 101 74 101 101 101 74 101 131 64363 64975 0 561 1173 561 0 64975 0 0 280 501 280 0 65256 65035 65256 0 256 0 0 65535 0 36000  100 0 9 9 5616 3744 5616 3744 84 84 101 84 84 84 101 84 123 101 101 74 101 101 101 74 101 131 64363 64975 0 561 1173 561 0 64975 0 0 280 501 280 0 65256 65035 65256 0 256 0 0 65535 0 36000
