@@ -985,7 +985,7 @@ int sony2FpSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, Ti
   // Not valid for models beginning
   std::string model = getExifModel(pRoot);
   const std::array strs{"SLT-", "HV", "ILCA-"};
-  return std::any_of(strs.begin(), strs.end(), [&model](auto& m) { return startsWith(model, m); }) ? -1 : 0;
+  return std::any_of(strs.begin(), strs.end(), [&model](auto m) { return startsWith(model, m); }) ? -1 : 0;
 }
 
 int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
