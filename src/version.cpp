@@ -18,7 +18,6 @@
 // + standard includes
 #include <array>
 #include <fstream>
-#include <regex>
 #include <set>
 
 // #1147
