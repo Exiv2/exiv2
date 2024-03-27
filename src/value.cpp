@@ -9,7 +9,6 @@
 #include "types.hpp"
 
 // + standard includes
-#include <regex>
 #include <sstream>
 
 // *****************************************************************************
@@ -895,39 +894,83 @@ int TimeValue::read(const std::string& buf) {
   // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
   // Not supported formats:
   // 4.2.2.4 Representations with decimal fraction: 232050,5
-  static const std::regex re(R"(^(2[0-3]|[01][0-9]):?([0-5][0-9])?:?([0-5][0-9])?$)");
-  static const std::regex reExt(
-      R"(^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$)");
+  auto printWarning = [] {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << Error(ErrorCode::kerUnsupportedTimeFormat) << "\n";
+#endif
+    return 1;
+  };
 
-  if (std::smatch sm; std::regex_match(buf, sm, re) || std::regex_match(buf, sm, reExt)) {
-    time_.hour = sm.length(1) ? std::stoi(sm[1].str()) : 0;
-    time_.minute = sm.length(2) ? std::stoi(sm[2].str()) : 0;
-    time_.second = sm.length(3) ? std::stoi(sm[3].str()) : 0;
-    if (sm.size() > 4) {
-      std::string str = sm[4].str();
-      const auto strSize = str.size();
-      auto posColon = str.find(':');
+  if (buf.size() < 2)
+    return printWarning();
 
-      if (posColon == std::string::npos) {
-        // Extended format
-        time_.tzHour = std::stoi(str.substr(0, 3));
-        if (strSize > 3) {
-          int minute = std::stoi(str.substr(3));
-          time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
-        }
-      } else {
-        // Basic format
-        time_.tzHour = std::stoi(str.substr(0, posColon));
-        int minute = std::stoi(str.substr(posColon + 1));
+  for (auto c : buf)
+    if (c != ':' && c != '+' && c != '-' && c != 'Z' && !std::isdigit(c))
+      return printWarning();
+
+  size_t mpos;
+  size_t spos;
+  if (buf.find(':') != std::string::npos) {
+    mpos = 3;
+    spos = 6;
+  } else {
+    mpos = 2;
+    spos = 4;
+  }
+
+  auto hi = std::stoi(buf.substr(0, 2));
+  if (hi > 23)
+    return printWarning();
+  time_.hour = hi;
+  if (buf.size() > 3) {
+    auto mi = std::stoi(buf.substr(mpos, 2));
+    if (mi > 59)
+      return printWarning();
+    time_.minute = std::stoi(buf.substr(mpos, 2));
+  } else {
+    time_.minute = 0;
+  }
+  if (buf.size() > 5) {
+    auto si = std::stoi(buf.substr(spos, 2));
+    if (si > 60)
+      return printWarning();
+    time_.second = std::stoi(buf.substr(spos, 2));
+  } else {
+    time_.second = 0;
+  }
+
+  auto fpos = buf.find('+');
+  if (fpos == std::string::npos)
+    fpos = buf.find('-');
+
+  if (fpos != std::string::npos) {
+    auto format = buf.substr(fpos, buf.size());
+    auto posColon = format.find(':');
+    if (posColon == std::string::npos) {
+      // Extended format
+      auto tzhi = std::stoi(format.substr(0, 3));
+      if (tzhi > 23)
+        return printWarning();
+      time_.tzHour = tzhi;
+      if (format.size() > 3) {
+        int minute = std::stoi(format.substr(3));
+        if (minute > 59)
+          return printWarning();
         time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
       }
+    } else {
+      // Basic format
+      auto tzhi = std::stoi(format.substr(0, posColon));
+      if (tzhi > 23)
+        return printWarning();
+      time_.tzHour = tzhi;
+      int minute = std::stoi(format.substr(posColon + 1));
+      if (minute > 59)
+        return printWarning();
+      time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
     }
-    return 0;
   }
-#ifndef SUPPRESS_WARNINGS
-  EXV_WARNING << Error(ErrorCode::kerUnsupportedTimeFormat) << "\n";
-#endif
-  return 1;
+  return 0;
 }
 
 /// \todo not used internally. At least we should test it
