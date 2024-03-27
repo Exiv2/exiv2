@@ -143,7 +143,7 @@ struct ConstSliceBase : SliceBase {
     if (new_end > this->end_) {
       throw std::out_of_range("Invalid input parameters to slice");
     }
-    return slice_type(storage_.data_, new_begin, new_end);
+    return {storage_.data_, new_begin, new_end};
   }
 
  protected:
@@ -227,7 +227,7 @@ struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
    * mutable_slice_base.
    */
   template <typename slice_type>
-  slice_type subSlice(size_t begin, size_t end) {
+  [[nodiscard]] slice_type subSlice(size_t begin, size_t end) {
     this->rangeCheck(begin);
     // end == size() is a legal value, since end is the first
     // element beyond the slice
@@ -241,7 +241,7 @@ struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
     if (new_end > this->end_) {
       throw std::out_of_range("Invalid input parameters to slice");
     }
-    return slice_type(this->storage_.data_, new_begin, new_end);
+    return {this->storage_.data_, new_begin, new_end};
   }
 };
 
@@ -430,23 +430,10 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
 #endif
 
   /*!
-   * Construct a sub-slice of this slice with the given bounds. The bounds
-   * are evaluated with respect to the current slice.
-   *
-   * @param[in] begin  First element in the new slice.
-   * @param[in] end  First element beyond the new slice.
-   *
-   * @throw std::out_of_range when begin or end are invalid
-   */
-  Slice subSlice(size_t begin, size_t end) {
-    return Internal::MutableSliceBase<Internal::ContainerStorage, container>::template subSlice<Slice>(begin, end);
-  }
-
-  /*!
    * Constructs a new constant subSlice. Behaves otherwise exactly like
    * the non-const version.
    */
-  [[nodiscard]] Slice<const container> subSlice(size_t begin, size_t end) const {
+  Slice<const container> subSlice(size_t begin, size_t end) const {
     return this->to_const_base().template subSlice<Slice<const container>>(begin, end);
   }
 };

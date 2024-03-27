@@ -110,7 +110,7 @@ TYPED_TEST_P(slice, subSliceSuccessfulConstruction) {
 }
 
 TYPED_TEST_P(slice, subSliceFunctions) {
-  Slice<TypeParam> middle = this->getTestSlice(3, 7).subSlice(1, 3);
+  auto middle = this->getTestSlice(3, 7).subSlice(1, 3);
 
   ASSERT_EQ(middle.size(), static_cast<size_t>(2));
   ASSERT_EQ(middle.at(1), static_cast<typename Slice<TypeParam>::value_type>(5));
