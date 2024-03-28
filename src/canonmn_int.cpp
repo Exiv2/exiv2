@@ -2911,7 +2911,7 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
     if (!std::regex_search(label, base_match, lens_regex)) {
       // this should never happen, as it would indicate the lens is specified incorrectly
       // in the CanonCsLensType array
-      throw Error(ErrorCode::kerErrorMessage, std::string("Lens regex didn't match for: ") + std::string(label));
+      throw Error(ErrorCode::kerErrorMessage, "Lens regex didn't match for: ", label);
     }
 
     auto tc = base_match[5].length() > 0 ? std::stof(base_match[5].str()) : 1.f;
