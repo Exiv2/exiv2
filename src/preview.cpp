@@ -425,7 +425,7 @@ DataBuf LoaderNative::getData() const {
     }
     return {record + sizeHdr + 28, sizeData - 28};
   }
-  throw Error(ErrorCode::kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
+  throw Error(ErrorCode::kerErrorMessage, "Invalid native preview filter: ", nativePreview_.filter_);
 }
 
 bool LoaderNative::readDimensions() {

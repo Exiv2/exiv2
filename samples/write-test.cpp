@@ -128,7 +128,7 @@ void testCase(const std::string& file1, const std::string& file2, const std::str
   std::cerr << "---> Modifying Exif data\n";
   auto pos = ed1.findKey(ek);
   if (pos == ed1.end()) {
-    throw Error(ErrorCode::kerErrorMessage, "Metadatum with key = " + ek.key() + " not found");
+    throw Error(ErrorCode::kerErrorMessage, "Metadatum with key = ", ek.key(), " not found");
   }
   pos->setValue(value);
 
