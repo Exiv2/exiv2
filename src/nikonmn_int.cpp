@@ -3969,7 +3969,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
     return os << "(" << value << ")";
   }
 
-  // from https://github.com/exiftool/exiftool/blob/12.59/lib/Image/ExifTool/Nikon.pm#L5267
+  // cf. https://github.com/exiftool/exiftool/blob/12.83/lib/Image/ExifTool/Nikon.pm#L5473
   static constexpr struct lens {
     uint16_t l;
     const char* vendor;
@@ -3998,7 +3998,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
       {28, "Nikon", "Nikkor Z 100-400mm f/4.5-5.6 VR S"},  // 28
       {29, "Nikon", "Nikkor Z 28mm f/2.8"},                // IB
       {30, "Nikon", "Nikkor Z 400mm f/2.8 TC VR S"},       // 28
-      {31, "Nikon", "Nikkor Z 24-120 f/4"},                // 28
+      {31, "Nikon", "Nikkor Z 24-120mm f/4 S"},            // 28
       {32, "Nikon", "Nikkor Z 800mm f/6.3 VR S"},          // 28
       {35, "Nikon", "Nikkor Z 28-75mm f/2.8"},             // IB
       {36, "Nikon", "Nikkor Z 400mm f/4.5 VR S"},          // IB
@@ -4012,6 +4012,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
       {44, "Nikon", "Nikkor Z 70-180mm f/2.8"},
       {45, "Nikon", "Nikkor Z 600mm f/6.3 VR S"},
       {46, "Nikon", "Nikkor Z 135mm f/1.8 S Plena"},
+      {48, "Nikon", "Nikkor Z 28-400mm f/4-8 VR"},
       {53251, "Sigma", "56mm F1.4 DC DN | C"},
       {57346, "Tamron", "35-150mm F/2-2.8 Di III VXD"},
   };
