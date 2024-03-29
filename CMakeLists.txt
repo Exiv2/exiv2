@@ -139,6 +139,14 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
       COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
     )
+    # Repeat lens test with a DE locale that uses "," as float delimiter
+    # to check that all float conversions are done independently of locale
+    # See GitHub issue #2746
+    add_test(
+      NAME lensTestsLocaleDE
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+      COMMAND cmake -E env LC_ALL=de_DE.UTF-8 EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
+    )
     add_test(
       NAME tiffTests
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
