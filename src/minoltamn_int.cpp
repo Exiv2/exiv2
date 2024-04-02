@@ -1130,7 +1130,7 @@ constexpr TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
      SectionId::makerTags, unsignedShort, 1, printValue},
     {0x0035, "CustomWBGreenLevel", N_("Custom WB Green Level"), N_("Custom WB green level"), IfdId::sony1MltCsA100Id,
      SectionId::makerTags, unsignedShort, 1, printValue},
-    {0x0036, "CustomWBBlueLevel", N_("Custom WB Blue Level"), N_("CustomWB blue level"), IfdId::sony1MltCsA100Id,
+    {0x0036, "CustomWBBlueLevel", N_("Custom WB Blue Level"), N_("Custom WB blue level"), IfdId::sony1MltCsA100Id,
      SectionId::makerTags, unsignedShort, 1, printValue},
     {0x0037, "CustomWBError", N_("Custom WB Error"), N_("Custom WB Error"), IfdId::sony1MltCsA100Id,
      SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(sonyCustomWBErrorA100)},

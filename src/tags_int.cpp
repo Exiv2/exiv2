@@ -2108,8 +2108,8 @@ constexpr TagInfo exifTagInfo[] = {
         "for the lens that was used in photography. When the minimum F "
         "number is unknown, the notation is 0/0"),
      IfdId::exifId, SectionId::otherTags, unsignedRational, 4, printLensSpecification},
-    {0xa433, "LensMake", N_("Lens Make"), N_("This tag records the lens manufactor as an ASCII string."), IfdId::exifId,
-     SectionId::otherTags, asciiString, 0, printValue},
+    {0xa433, "LensMake", N_("Lens Make"), N_("This tag records the lens manufacturer as an ASCII string."),
+     IfdId::exifId, SectionId::otherTags, asciiString, 0, printValue},
     {0xa434, "LensModel", N_("Lens Model"),
      N_("This tag records the lens's model name and model number as an "
         "ASCII string."),

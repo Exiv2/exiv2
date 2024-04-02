@@ -511,11 +511,11 @@ constexpr TagInfo CanonMakerNote::tagInfo_[] = {
      SectionId::makerTags, unsignedLong, -1, EXV_PRINT_TAG(canonSerialNumberFormat)},
     {0x001a, "SuperMacro", N_("Super Macro"), N_("Super macro"), IfdId::canonId, SectionId::makerTags, signedShort, -1,
      EXV_PRINT_TAG(canonSuperMacro)},
-    {0x001c, "DateStampMode", N_("DateStampMode"), N_("Data_Stamp_Mode"), IfdId::canonId, SectionId::makerTags,
+    {0x001c, "DateStampMode", N_("DateStampMode"), N_("Date stamp mode"), IfdId::canonId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(canonDateStampMode)},
     {0x001d, "MyColors", N_("MyColors"), N_("My_Colors"), IfdId::canonId, SectionId::makerTags, unsignedShort, -1,
      printValue},
-    {0x001e, "FirmwareRevision", N_("FirmwareRevision"), N_("Firmware_Revision"), IfdId::canonId, SectionId::makerTags,
+    {0x001e, "FirmwareRevision", N_("FirmwareRevision"), N_("Firmware revision"), IfdId::canonId, SectionId::makerTags,
      unsignedLong, -1, printValue},
     // {0x0023, "Categories", N_("Categories"), N_("Categories"), IfdId::canonId, SectionId::makerTags, unsignedLong -1,
     // EXV_PRINT_TAG(canonCategories)},
@@ -1098,7 +1098,7 @@ constexpr TagInfo CanonMakerNote::tagInfoLe_[] = {
      N_("Lens Serial Number. Convert each byte to hexadecimal to get two "
         "digits of the lens serial number."),
      IfdId::canonLeId, SectionId::makerTags, unsignedByte, -1, printLe0x0000},
-    {0xffff, "(UnkownCanonLensInfoTag)", "(UnkownCanonLensInfoTag)", N_("UnkownCanonLensInfoTag"), IfdId::canonLeId,
+    {0xffff, "(UnknownCanonLensInfoTag)", "(UnknownCanonLensInfoTag)", N_("UnknownCanonLensInfoTag"), IfdId::canonLeId,
      SectionId::makerTags, undefined, 1, printValue}  // important to add end of tag
 };
 
@@ -1325,11 +1325,11 @@ constexpr TagDetails canonInitialAFPointInServo[] = {
 constexpr TagInfo CanonMakerNote::tagInfoAfC_[] = {
     {0x0001, "AFConfigTool", N_("AF Config Tool"), N_("AF Config Tool"), IfdId::canonAfCId, SectionId::makerTags,
      signedLong, -1, printValue},
-    {0x0002, "AFTrackingSensitivity", N_("AF Tracking Sensitivity"), N_("AFTrackingSensitivity"), IfdId::canonAfCId,
+    {0x0002, "AFTrackingSensitivity", N_("AF Tracking Sensitivity"), N_("AF Tracking Sensitivity"), IfdId::canonAfCId,
      SectionId::makerTags, signedLong, -1, printValue},
     {0x0003, "AFAccelDecelTracking", N_("AF Accel Decel Tracking"), N_("AF Accel Decel Tracking"), IfdId::canonAfCId,
      SectionId::makerTags, signedLong, -1, printValue},
-    {0x0004, "AFPointSwitching", N_("AF PointS witching"), N_("AF Point Switching"), IfdId::canonAfCId,
+    {0x0004, "AFPointSwitching", N_("AF Point Switching"), N_("AF Point Switching"), IfdId::canonAfCId,
      SectionId::makerTags, signedLong, -1, printValue},
     {0x0005, "AIServoFirstImage", N_("AI Servo First Image"), N_("AI Servo First Image"), IfdId::canonAfCId,
      SectionId::makerTags, signedLong, -1, EXV_PRINT_TAG(canonAIServoFirstImage)},
@@ -1391,7 +1391,7 @@ constexpr TagDetails canonCsMacro[] = {
 
 //! Quality, tag 0x0003
 constexpr TagDetails canonCsQuality[] = {
-    {-1, N_("n/a")}, {0, N_("unkown")},    {1, N_("Economy")}, {2, N_("Normal")},         {3, N_("Fine")},
+    {-1, N_("n/a")}, {0, N_("unknown")},   {1, N_("Economy")}, {2, N_("Normal")},         {3, N_("Fine")},
     {4, N_("RAW")},  {5, N_("Superfine")}, {7, N_("CRAW")},    {130, N_("Normal Movie")}, {131, N_("Movie (2)")},
 };
 
