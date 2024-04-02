@@ -618,9 +618,9 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #ifdef DEBUG
     auto [r, s] = removableEmbeddings.back();
     EXV_DEBUG << "readWriteEpsMetadata: Recognized unmarked trailer of removable XMP embedding at [" << r << "," << s
-              << ")\n"
+              << ")\n";
 #endif
-        posXmpTrailerEnd = posXmpTrailer;
+    posXmpTrailerEnd = posXmpTrailer;
   }
 
   // interpret comment "%ADO_ContainsXMP:"
@@ -789,7 +789,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       throw Error(ErrorCode::kerImageWriteFailed);
     }
 #ifdef DEBUG
-    EXV_DEBUG << "readWriteEpsMetadata: Created temporary file " << tempIo->path() << "\n";
+    EXV_DEBUG << "readWriteEpsMetadata: Created temporary file " << tempIo.path() << "\n";
 #endif
 
     // sort all positions
