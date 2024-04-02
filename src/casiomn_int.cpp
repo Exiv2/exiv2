@@ -102,7 +102,7 @@ constexpr TagDetails casioCCDSensitivity[] = {
 
 // Casio MakerNote Tag Info
 constexpr TagInfo CasioMakerNote::tagInfo_[] = {
-    {0x0001, "RecodingMode", N_("RecodingMode"), N_("Recording Mode"), IfdId::casioId, SectionId::makerTags,
+    {0x0001, "RecordingMode", N_("Recording Mode"), N_("Recording Mode"), IfdId::casioId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(casioRecordingMode)},
     {0x0002, "Quality", N_("Quality"), N_("Quality"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casioQuality)},

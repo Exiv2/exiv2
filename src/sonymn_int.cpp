@@ -1858,7 +1858,7 @@ constexpr TagInfo SonyMakerNote::tagInfoCs_[] = {
     {0x002B, "LongExposureNoiseReduction", N_("Long Exposure Noise Reduction"), N_("Long Exposure Noise Reduction"),
      IfdId::sony1CsId, SectionId::makerTags, unsignedShort, 1, printMinoltaSonyBoolValue},
     // NOTE: A700 only
-    {0x002C, "HighISONoiseReduction", N_("High ISO NoiseReduction"), N_("High ISO NoiseReduction"), IfdId::sony1CsId,
+    {0x002C, "HighISONoiseReduction", N_("High ISO Noise Reduction"), N_("High ISO Noise Reduction"), IfdId::sony1CsId,
      SectionId::makerTags, unsignedShort, 1, printValue},
     // NOTE: A700 only
     {0x002D, "ImageStyle", N_("Image Style"), N_("Image Style"), IfdId::sony1CsId, SectionId::makerTags, unsignedShort,

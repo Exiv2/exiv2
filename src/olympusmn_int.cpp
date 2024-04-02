@@ -701,7 +701,7 @@ constexpr TagInfo OlympusMakerNote::tagInfoEq_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
     {0x0303, "ExtenderModel", N_("Extender Model"), N_("Extender model"), IfdId::olympusEqId, SectionId::makerTags,
      asciiString, -1, printValue},
-    {0x0304, "ExtenderFirmwareVersion", N_("Extender Firmware Version"), N_("Extender firmwareversion"),
+    {0x0304, "ExtenderFirmwareVersion", N_("Extender Firmware Version"), N_("Extender firmware version"),
      IfdId::olympusEqId, SectionId::makerTags, unsignedLong, -1, printValue},
     {0x0403, "ConversionLens", N_("Conversion Lens"), N_("Conversion lens"), IfdId::olympusEqId, SectionId::makerTags,
      asciiString, -1, printValue},

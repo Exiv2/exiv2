@@ -329,7 +329,7 @@ ImageUniqueID,42016,0xa420,Photo,Exif.Photo.ImageUniqueID,Ascii,"This tag indica
 CameraOwnerName,42032,0xa430,Photo,Exif.Photo.CameraOwnerName,Ascii,"This tag records the owner of a camera used in photography as an ASCII string."
 BodySerialNumber,42033,0xa431,Photo,Exif.Photo.BodySerialNumber,Ascii,"This tag records the serial number of the body of the camera that was used in photography as an ASCII string."
 LensSpecification,42034,0xa432,Photo,Exif.Photo.LensSpecification,Rational,"This tag notes minimum focal length, maximum focal length, minimum F number in the minimum focal length, and minimum F number in the maximum focal length, which are specification information for the lens that was used in photography. When the minimum F number is unknown, the notation is 0/0"
-LensMake,42035,0xa433,Photo,Exif.Photo.LensMake,Ascii,"This tag records the lens manufactor as an ASCII string."
+LensMake,42035,0xa433,Photo,Exif.Photo.LensMake,Ascii,"This tag records the lens manufacturer as an ASCII string."
 LensModel,42036,0xa434,Photo,Exif.Photo.LensModel,Ascii,"This tag records the lens's model name and model number as an ASCII string."
 LensSerialNumber,42037,0xa435,Photo,Exif.Photo.LensSerialNumber,Ascii,"This tag records the serial number of the interchangeable lens that was used in photography as an ASCII string."
 ImageTitle,42038,0xa436,Photo,Exif.Photo.ImageTitle,Ascii,"This tag records the title of the image."

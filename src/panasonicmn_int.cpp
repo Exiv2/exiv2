@@ -575,7 +575,7 @@ std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, const Value& val
   else if (l0 == 0 && l1 == 225)
     os << _("225-area");
   else if (l0 == 1 && l1 == 0)
-    os << _("Spot focussing");
+    os << _("Spot focusing");
   else if (l0 == 1 && l1 == 1)
     os << _("5-area");
   else if (l0 == 16 && l1 == 0)
