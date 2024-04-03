@@ -234,7 +234,7 @@ int Print::run(const std::string& path) {
 
 int Print::printSummary() {
   if (!Exiv2::fileExists(path_)) {
-    std::cerr << path_ << ": " << _("Failed to open the file\n");
+    std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
 
@@ -260,7 +260,7 @@ int Print::printSummary() {
   std::cout << image->pixelWidth() << " x " << image->pixelHeight() << std::endl;
 
   if (exifData.empty()) {
-    std::cerr << path_ << ": " << _("No Exif data found in the file\n");
+    std::cerr << path_ << ": " << _("No Exif data found in the file") << "\n";
     return -3;
   }
 
@@ -353,7 +353,7 @@ int Print::printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct
 
 int Print::printList() {
   if (!Exiv2::fileExists(path_)) {
-    std::cerr << path_ << ": " << _("Failed to open the file\n");
+    std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
 
@@ -404,11 +404,11 @@ int Print::printMetadata(const Exiv2::Image* image) {
   // With -v, inform about the absence of any (requested) type of metadata
   if (Params::instance().verbose_) {
     if (noExif)
-      std::cerr << path_ << ": " << _("No Exif data found in the file\n");
+      std::cerr << path_ << ": " << _("No Exif data found in the file") << "\n";
     if (noIptc)
-      std::cerr << path_ << ": " << _("No IPTC data found in the file\n");
+      std::cerr << path_ << ": " << _("No IPTC data found in the file") << "\n";
     if (noXmp)
-      std::cerr << path_ << ": " << _("No XMP data found in the file\n");
+      std::cerr << path_ << ": " << _("No XMP data found in the file") << "\n";
   }
 
   // With -g or -K, return -3 if no matching tags were found
@@ -565,7 +565,7 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
 
 int Print::printComment() {
   if (!Exiv2::fileExists(path_)) {
-    std::cerr << path_ << ": " << _("Failed to open the file\n");
+    std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
 
@@ -580,7 +580,7 @@ int Print::printComment() {
 
 int Print::printPreviewList() {
   if (!Exiv2::fileExists(path_)) {
-    std::cerr << path_ << ": " << _("Failed to open the file\n");
+    std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
 
@@ -610,7 +610,7 @@ Task::UniquePtr Print::clone() const {
 int Rename::run(const std::string& path) {
   try {
     if (!Exiv2::fileExists(path)) {
-      std::cerr << path << ": " << _("Failed to open the file\n");
+      std::cerr << path << ": " << _("Failed to open the file") << "\n";
       return -1;
     }
     Timestamp ts;
@@ -621,7 +621,7 @@ int Rename::run(const std::string& path) {
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
-      std::cerr << path << ": " << _("No Exif data found in the file\n");
+      std::cerr << path << ": " << _("No Exif data found in the file") << "\n";
       return -3;
     }
     auto md = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeOriginal"));
@@ -676,7 +676,7 @@ int Erase::run(const std::string& path) {
     path_ = path;
 
     if (!Exiv2::fileExists(path_)) {
-      std::cerr << path_ << ": " << _("Failed to open the file\n");
+      std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
       return -1;
     }
     Timestamp ts;
@@ -822,21 +822,21 @@ int Extract::run(const std::string& path) {
 
 int Extract::writeThumbnail() const {
   if (!Exiv2::fileExists(path_)) {
-    std::cerr << path_ << ": " << _("Failed to open the file\n");
+    std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
   auto image = Exiv2::ImageFactory::open(path_);
   image->readMetadata();
   Exiv2::ExifData& exifData = image->exifData();
   if (exifData.empty()) {
-    std::cerr << path_ << ": " << _("No Exif data found in the file\n");
+    std::cerr << path_ << ": " << _("No Exif data found in the file") << "\n";
     return -3;
   }
   int rc = 0;
   Exiv2::ExifThumb exifThumb(exifData);
   std::string thumbExt = exifThumb.extension();
   if (thumbExt.empty()) {
-    std::cerr << path_ << ": " << _("Image does not contain an Exif thumbnail\n");
+    std::cerr << path_ << ": " << _("Image does not contain an Exif thumbnail") << "\n";
   } else {
     if ((Params::instance().target_ & Params::ctStdInOut) != 0) {
       Exiv2::DataBuf buf = exifThumb.copy();
@@ -857,7 +857,7 @@ int Extract::writeThumbnail() const {
     }
     rc = static_cast<int>(exifThumb.writeFile(thumb));
     if (rc == 0) {
-      std::cerr << path_ << ": " << _("Exif data doesn't contain a thumbnail\n");
+      std::cerr << path_ << ": " << _("Exif data doesn't contain a thumbnail") << "\n";
     }
   }
   return rc;
@@ -865,7 +865,7 @@ int Extract::writeThumbnail() const {
 
 int Extract::writePreviews() const {
   if (!Exiv2::fileExists(path_)) {
-    std::cerr << path_ << ": " << _("Failed to open the file\n");
+    std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
 
@@ -898,7 +898,7 @@ int Extract::writePreviews() const {
 int Extract::writeIccProfile(const std::string& target) const {
   int rc = 0;
   if (!Exiv2::fileExists(path_)) {
-    std::cerr << path_ << ": " << _("Failed to open the file\n");
+    std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
     rc = -1;
   }
 
@@ -954,7 +954,7 @@ int Insert::run(const std::string& path) try {
   bool bStdin = (Params::instance().target_ & Params::ctStdInOut) != 0;
 
   if (!Exiv2::fileExists(path)) {
-    std::cerr << path << ": " << _("Failed to open the file\n");
+    std::cerr << path << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
 
@@ -1006,11 +1006,11 @@ int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath)
     rc = insertXmpPacket(path, xmpBlob, true);
   } else {
     if (!Exiv2::fileExists(xmpPath)) {
-      std::cerr << xmpPath << ": " << _("Failed to open the file\n");
+      std::cerr << xmpPath << ": " << _("Failed to open the file") << "\n";
       rc = -1;
     }
     if (rc == 0 && !Exiv2::fileExists(path)) {
-      std::cerr << path << ": " << _("Failed to open the file\n");
+      std::cerr << path << ": " << _("Failed to open the file") << "\n";
       rc = -1;
     }
     if (rc == 0) {
@@ -1047,7 +1047,7 @@ int Insert::insertIccProfile(const std::string& path, const std::string& iccPath
     rc = insertIccProfile(path, std::move(iccProfile));
   } else {
     if (!Exiv2::fileExists(iccProfilePath)) {
-      std::cerr << iccProfilePath << ": " << _("Failed to open the file\n");
+      std::cerr << iccProfilePath << ": " << _("Failed to open the file") << "\n";
       rc = -1;
     } else {
       Exiv2::DataBuf iccProfile = Exiv2::readFile(iccPath);
@@ -1061,7 +1061,7 @@ int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfil
   int rc = 0;
   // test path exists
   if (!Exiv2::fileExists(path)) {
-    std::cerr << path << ": " << _("Failed to open the file\n");
+    std::cerr << path << ": " << _("Failed to open the file") << "\n";
     rc = -1;
   }
 
@@ -1083,11 +1083,11 @@ int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfil
 int Insert::insertThumbnail(const std::string& path) {
   std::string thumbPath = newFilePath(path, "-thumb.jpg");
   if (!Exiv2::fileExists(thumbPath)) {
-    std::cerr << thumbPath << ": " << _("Failed to open the file\n");
+    std::cerr << thumbPath << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
   if (!Exiv2::fileExists(path)) {
-    std::cerr << path << ": " << _("Failed to open the file\n");
+    std::cerr << path << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
   auto image = Exiv2::ImageFactory::open(path);
@@ -1106,7 +1106,7 @@ Task::UniquePtr Insert::clone() const {
 int Modify::run(const std::string& path) {
   try {
     if (!Exiv2::fileExists(path)) {
-      std::cerr << path << ": " << _("Failed to open the file\n");
+      std::cerr << path << ": " << _("Failed to open the file") << "\n";
       return -1;
     }
     Timestamp ts;
@@ -1315,7 +1315,7 @@ int Adjust::run(const std::string& path) try {
   dayAdjustment_ = Params::instance().yodAdjust_[Params::yodDay].adjustment_;
 
   if (!Exiv2::fileExists(path)) {
-    std::cerr << path << ": " << _("Failed to open the file\n");
+    std::cerr << path << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
   Timestamp ts;
@@ -1326,7 +1326,7 @@ int Adjust::run(const std::string& path) try {
   image->readMetadata();
   Exiv2::ExifData& exifData = image->exifData();
   if (exifData.empty()) {
-    std::cerr << path << ": " << _("No Exif data found in the file\n");
+    std::cerr << path << ": " << _("No Exif data found in the file") << "\n";
     return -3;
   }
   int rc = adjustDateTime(exifData, "Exif.Image.DateTime", path);
@@ -1358,7 +1358,7 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
   }
   std::string timeStr = md->toString();
   if (timeStr.empty() || timeStr[0] == ' ') {
-    std::cerr << path << ": " << _("Timestamp of metadatum with key") << " `" << ek << "' " << _("not set\n");
+    std::cerr << path << ": " << _("Timestamp of metadatum with key") << " `" << ek << "' " << _("not set") << "\n";
     return 1;
   }
   if (Params::instance().verbose_) {
@@ -1462,7 +1462,7 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
 int FixIso::run(const std::string& path) {
   try {
     if (!Exiv2::fileExists(path)) {
-      std::cerr << path << ": " << _("Failed to open the file\n");
+      std::cerr << path << ": " << _("Failed to open the file") << "\n";
       return -1;
     }
     Timestamp ts;
@@ -1473,14 +1473,14 @@ int FixIso::run(const std::string& path) {
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
-      std::cerr << path << ": " << _("No Exif data found in the file\n");
+      std::cerr << path << ": " << _("No Exif data found in the file") << "\n";
       return -3;
     }
     auto md = Exiv2::isoSpeed(exifData);
     if (md != exifData.end()) {
       if (md->key() == "Exif.Photo.ISOSpeedRatings") {
         if (Params::instance().verbose_) {
-          std::cout << _("Standard Exif ISO tag exists; not modified\n");
+          std::cout << _("Standard Exif ISO tag exists; not modified") << "\n";
         }
         return 0;
       }
@@ -1510,7 +1510,7 @@ Task::UniquePtr FixIso::clone() const {
 int FixCom::run(const std::string& path) {
   try {
     if (!Exiv2::fileExists(path)) {
-      std::cerr << path << ": " << _("Failed to open the file\n");
+      std::cerr << path << ": " << _("Failed to open the file") << "\n";
       return -1;
     }
     Timestamp ts;
@@ -1521,7 +1521,7 @@ int FixCom::run(const std::string& path) {
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
-      std::cerr << path << ": " << _("No Exif data found in the file\n");
+      std::cerr << path << ": " << _("No Exif data found in the file") << "\n";
       return -3;
     }
     auto pos = exifData.findKey(Exiv2::ExifKey("Exif.Photo.UserComment"));
@@ -1695,7 +1695,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
   // read the source metadata
   int rc = -1;
   if (!Exiv2::fileExists(source)) {
-    std::cerr << source << ": " << _("Failed to open the file\n");
+    std::cerr << source << ": " << _("Failed to open the file") << "\n";
     return rc;
   }
 
@@ -1934,7 +1934,7 @@ std::ostream& operator<<(std::ostream& os, const std::pair<std::string, int>& st
 
 int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string& path) {
   if (!Exiv2::fileExists(path)) {
-    std::cerr << path << ": " << _("Failed to open the file\n");
+    std::cerr << path << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
   Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
