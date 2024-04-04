@@ -2,8 +2,9 @@ find_package(Gettext REQUIRED)
 
 set(PO_SOURCES
     bs.po
-    de.po
     ca.po
+    da.po
+    de.po
     es.po
     fi.po
     fr.po
