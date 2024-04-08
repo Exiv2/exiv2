@@ -60,8 +60,8 @@ jobs:
       fail-fast: false
       matrix:
         runner:
-          - { os: macos-12, arch: X64   }
-          - { os: macos-14, arch: ARM64 }
+          - { os: macos-12, arch: x64   }
+          - { os: macos-14, arch: arm64 }
     steps:
       - uses: actions/checkout@v4
 
