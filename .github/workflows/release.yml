@@ -92,7 +92,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: exiv2-${{ matrix.runner.os }}
+          name: exiv2-${{ matrix.runner.os }}-${{ matrix.runner.arch }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
@@ -229,5 +229,5 @@ jobs:
           tag_name: ${{ env.TAG_NAME }}
           files: |
             ./exiv2-linux64/exiv2-*
-            ./exiv2-macos/exiv2-*
+            ./exiv2-macos-*/exiv2-*
             ./exiv2-win/exiv2-*
