@@ -1,12 +1,13 @@
+if(WIN32)
+  set(UTF8_RESOURCE_OBJECT utf8.rc)
+endif(WIN32)
+
 set(APP_SOURCES
     exiv2.cpp
-    exiv2app.hpp
     actions.cpp
-    actions.hpp
     getopt.cpp
-    getopt.hpp
     app_utils.cpp
-    app_utils.hpp
+    ${UTF8_RESOURCE_OBJECT}
 )
 
 add_executable(exiv2 ${APP_SOURCES})
@@ -16,6 +17,7 @@ target_include_directories(exiv2 PRIVATE ${PROJECT_SOURCE_DIR}/src) # To find i1
 set_target_properties(exiv2 PROPERTIES COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS} XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES")
 if(MSVC)
   set_target_properties(exiv2 PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
+  target_link_options(exiv2 PRIVATE /MANIFEST:NO) # Avoid linker fatal error CVT1100: duplicate resource
 endif()
 
 target_link_libraries(exiv2 PRIVATE exiv2lib)

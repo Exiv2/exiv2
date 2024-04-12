@@ -32,11 +32,15 @@ set(SAMPLES
     xmpdump.cpp
 )
 
+if(WIN32)
+  set(UTF8_RESOURCE_OBJECT ${PROJECT_SOURCE_DIR}/app/utf8.rc)
+endif(WIN32)
+
 #
 # build samples AND add them to the APPLICATIONS list
 foreach(entry ${SAMPLES})
   string(REPLACE ".cpp" "" target ${entry})
-  add_executable(${target} ${target}.cpp)
+  add_executable(${target} ${target}.cpp ${UTF8_RESOURCE_OBJECT})
   set_target_properties(${target} PROPERTIES COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
   list(APPEND APPLICATIONS ${target})
   target_include_directories(${target} PRIVATE ${PROJECT_SOURCE_DIR}/src) # To find enforce.hpp
@@ -115,6 +119,9 @@ foreach(application ${APPLICATIONS})
     if(MSVC)
       set_target_properties(${application} PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
     endif()
+  endif()
+  if(MSVC)
+    target_link_options(${application} PRIVATE /MANIFEST:NO) # Avoid linker fatal error CVT1100: duplicate resource
   endif()
 endforeach()
 
