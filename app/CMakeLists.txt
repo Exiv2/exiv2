@@ -27,24 +27,6 @@ endif()
 
 target_link_libraries(exiv2 PRIVATE std::filesystem)
 
-if(MSVC OR MINGW)
-  # Trick to get properly UTF-8 encoded argv.
-
-  # More info at: https://github.com/huangqinjin/wmain
-  add_library(wmain STATIC wmain.cpp)
-  target_link_libraries(exiv2 PRIVATE wmain)
-endif()
-
-if(MSVC)
-  target_link_options(wmain INTERFACE /WHOLEARCHIVE:$<TARGET_FILE:wmain>)
-  target_link_options(exiv2 PRIVATE "/ENTRY:wWinMainCRTStartup")
-endif()
-
-if(MINGW)
-  target_compile_options(exiv2 PRIVATE -municode)
-  target_link_options(exiv2 PRIVATE -municode)
-endif()
-
 if(USING_CONAN
    AND WIN32
    AND EXISTS ${PROJECT_BINARY_DIR}/conanDlls

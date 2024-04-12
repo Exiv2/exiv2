@@ -14,7 +14,7 @@ project(
   exiv2
   VERSION 1.00.0.9
   DESCRIPTION "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more."
-  LANGUAGES C CXX
+  LANGUAGES CXX
 )
 
 # Shared Object versioning (SemVer-like: must bump major on API breakage)
