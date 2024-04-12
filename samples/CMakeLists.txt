@@ -107,6 +107,15 @@ list(APPEND APPLICATIONS remotetest)
 
 # ******************************************************************************
 foreach(application ${APPLICATIONS})
+  # Make app use UTF-8 code page in Windows
+  if(WIN32)
+    if(MSVC)
+      target_sources(${application} PRIVATE ${PROJECT_SOURCE_DIR}/app/utf8.manifest)
+    else()
+      # Must wrap manifest in .rc w/ other toolchains
+      target_sources(${application} PRIVATE ${PROJECT_SOURCE_DIR}/app/utf8.rc)
+    endif()
+  endif()
   target_link_libraries(${application} PRIVATE exiv2lib std::filesystem)
   if(EXIV2_ENABLE_PNG)
     target_link_libraries(${application} PRIVATE ${ZLIB_LIBRARIES})
