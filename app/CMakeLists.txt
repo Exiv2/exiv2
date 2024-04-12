@@ -1,15 +1,21 @@
 set(APP_SOURCES
     exiv2.cpp
-    exiv2app.hpp
     actions.cpp
-    actions.hpp
     getopt.cpp
-    getopt.hpp
     app_utils.cpp
-    app_utils.hpp
 )
 
 add_executable(exiv2 ${APP_SOURCES})
+
+# Make app use UTF-8 code page in Windows
+if(WIN32)
+  if(MSVC)
+    target_sources(exiv2 PRIVATE utf8.manifest)
+  else()
+    # Must wrap manifest in .rc w/ other toolchains
+    target_sources(exiv2 PRIVATE utf8.rc)
+  endif()
+endif()
 
 target_include_directories(exiv2 PRIVATE ${PROJECT_SOURCE_DIR}/src) # To find i18n.hpp
 
