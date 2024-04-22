@@ -1651,7 +1651,7 @@ constexpr TagInfo ifdTagInfo[] = {
         "used if ColorPlanes is greater than 3. The matrix is stored in row "
         "scan order."),
      IfdId::ifd0Id, SectionId::dngTags, signedRational, -1, printValue},  // DNG 1.6 tag
-    {0xcd3b, "RGBTables", N_("RGB Tables"),
+    {0xcd3f, "RGBTables", N_("RGB Tables"),
      N_("This tag specifies color transforms that can be applied to masked image "
         "regions. Color transforms are specified using RGB-to-RGB color lookup tables. "
         "These tables are associated with Semantic Masks to limit the color transform "
