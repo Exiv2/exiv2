@@ -137,8 +137,7 @@ jobs:
 
       - name: Install packages
         run: |
-          brew install curl brotli inih expat googletest
-          python3 -m pip install meson==0.54.1 ninja
+          brew install inih meson
 
       - name: Compile and Test
         run: |
