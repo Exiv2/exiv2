@@ -69,7 +69,7 @@ jobs:
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest -Db_sanitize=address
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   VisualStudio-clang-cl:
@@ -92,7 +92,7 @@ jobs:
           CC: clang-cl
           CXX: clang-cl
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest -Db_sanitize=address
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   MSYS2:
@@ -141,7 +141,7 @@ jobs:
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dnls=disabled
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Dnls=disabled -Db_sanitize=address,undefined
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   FreeBSD:
