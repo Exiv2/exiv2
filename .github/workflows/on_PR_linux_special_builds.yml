@@ -12,8 +12,8 @@ on:
 
 jobs:
   special_debugRelease:
-    name: 'Ubuntu 22.04 - GCC - Debug+Coverage'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu 24.04 - GCC - Debug+Coverage'
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -60,8 +60,8 @@ jobs:
           ./codecov -f coverage.xml
 
   special_releaseValgrind:
-    name: 'Ubuntu 22.04 - GCC - Release+Valgrind'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu 24.04 - GCC - Release+Valgrind'
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -95,8 +95,8 @@ jobs:
 
 
   special_releaseSanitizers:
-    name: 'Ubuntu 22.04 - GCC - Release+Sanitizers'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu 24.04 - GCC - Release+Sanitizers'
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -129,8 +129,8 @@ jobs:
           ctest --output-on-failure
 
   special_noFilesystemAccess:
-    name: 'Ubuntu 22.04 - GCC - No filesystem access build'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu 24.04 - GCC - No filesystem access build'
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -151,8 +151,8 @@ jobs:
           cmake --build build --parallel
 
   special_allEnabled:
-    name: 'Ubuntu 22.04 - GCC - All Options Enabled + Documentation'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu 24.04 - GCC - All Options Enabled + Documentation'
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
