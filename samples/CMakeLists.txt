@@ -92,10 +92,9 @@ endif()
 
 # ******************************************************************************
 # connection test application
-add_executable(conntest conntest.cpp)
-list(APPEND APPLICATIONS conntest)
-
 if(EXIV2_ENABLE_WEBREADY)
+  add_executable(conntest conntest.cpp)
+  list(APPEND APPLICATIONS conntest)
   if(EXIV2_ENABLE_CURL)
     target_include_directories(conntest SYSTEM PRIVATE ${CURL_INCLUDE_DIR})
     target_link_libraries(conntest PRIVATE ${CURL_LIBRARIES})
