@@ -48,7 +48,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: exiv2-linux64
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
@@ -57,7 +57,6 @@ jobs:
     name: 'Build macOS Release'
     runs-on: ${{ matrix.runner.os }}
     strategy:
-      fail-fast: false
       matrix:
         runner:
           - { os: macos-12, arch: x64   }
@@ -92,7 +91,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: exiv2-${{ matrix.runner.os }}-${{ matrix.runner.arch }}
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
@@ -141,7 +140,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: exiv2-win
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.zip
           if-no-files-found: error
           retention-days: 1
@@ -228,6 +227,5 @@ jobs:
           prerelease: ${{ env.TAG_NAME == 'nightly' }}
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            ./exiv2-linux64/exiv2-*
-            ./exiv2-macos-*/exiv2-*
-            ./exiv2-win/exiv2-*
+            ./exiv2-*/exiv2-*
+
