@@ -18,7 +18,11 @@ on:
 jobs:
   Linux:
     name: 'Build Linux Release'
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: ubuntu-22.04, arch: x64   }
     steps:
       - uses: actions/checkout@v4
 
@@ -98,7 +102,11 @@ jobs:
 
   Windows:
     name: 'Build Windows Release'
-    runs-on: windows-2022
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: windows-2022, arch: x64   }
     steps:
       - uses: actions/checkout@v4
 
