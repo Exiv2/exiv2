@@ -12,16 +12,10 @@ else()
     set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin/Linux/macOS etc use .tar.gz
 endif()
 
-set (BARCH "") # Target architecture
-if ( MSVC OR MSYS OR CYGWIN OR MINGW )
-  if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-    set (BARCH 64bit)
-  else()
-    set (BARCH 32bit)
-  endif()
-else()
-  # Will be "arm64", "x86_64" / "amd64", etc.
-  set (BARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
+set (BARCH ${CMAKE_HOST_SYSTEM_PROCESSOR}) # Target architecture
+if ( CMAKE_SIZEOF_VOID_P EQUAL 4 )
+  # 32-bit build, force architecture
+  set (BARCH "i686")
 endif()
 
 set (LT "") # Library Type
