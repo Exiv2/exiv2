@@ -2794,6 +2794,10 @@ std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, 
 std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, const ExifData* exifData) {
   std::istringstream is(value.toString());
 
+  if (!exifData) {
+    return os << value;
+  }
+
   ExifKey key("Exif.Canon.ModelID");
   auto pos = exifData->findKey(key);
   // if model is EOS D30
