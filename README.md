@@ -736,13 +736,9 @@ int main(int argc, const char* argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF(true);
-#endif
     ...
 }
 ```
-The use of the _**thread unsafe function**_ Exiv2::enableBMFF(true) is discussed in [Support for BMFF files (e.g., CR3, HEIF, HEIC, AVIF, and JPEG XL)](#BMFF)
 
 [TOC](#TOC)
 <div id="InitAndCleanup">
@@ -758,9 +754,6 @@ The exiv2 command-line program and sample applications call the following at the
 ```cpp
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF(true);
-#endif
 ```
 
 [TOC](#TOC)
@@ -904,15 +897,7 @@ This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.c
 
 **Attention is drawn to the possibility that BMFF support may be the subject of patent rights. _Exiv2 shall not be held responsible for identifying any or all such patent rights.  Exiv2 shall not be held responsible for the legal consequences of the use of this code_.**
 
-Access to the BMFF code is guarded in two ways.  Firstly, you have to build the library with the CMake option: `-DEXIV2_ENABLE_BMFF=ON`.  Secondly, the application must enable BMFF support at run-time by calling the following function.
-
-```cpp
-EXIV2API bool enableBMFF(bool enable);
-```
-
-The return value from `enableBMFF()` is true if the library has been build with BMFF support (CMake option -DEXIV2_ENABLE_BMFF=ON).
-
-Applications may wish to provide a preference setting to enable BMFF support and thereby place the responsibility for the use of this code with the user of the application.
+Access to the BMFF code is guarded by the CMake option: `-DEXIV2_ENABLE_BMFF=ON` (enabled by default).
 
 [TOC](#TOC)
 <div id="LicenseSupport">

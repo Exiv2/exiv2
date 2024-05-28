@@ -66,11 +66,12 @@ enum {
 
 // *****************************************************************************
 // class member definitions
-#ifdef EXV_ENABLE_BMFF
 namespace Exiv2 {
-static bool enabled = false;
-bool enableBMFF(bool enable) {
-  enabled = enable;
+bool enableBMFF(bool) {
+#ifndef EXV_ENABLE_BMFF
+  return false;
+}
+#else
   return true;
 }
 
@@ -781,9 +782,6 @@ Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create) {
 }
 
 bool isBmffType(BasicIo& iIo, bool advance) {
-  if (!enabled) {
-    return false;
-  }
   const int32_t len = 12;
   byte buf[len];
   iIo.read(buf, len);
@@ -802,11 +800,5 @@ bool isBmffType(BasicIo& iIo, bool advance) {
   }
   return matched;
 }
+#endif  // EXV_ENABLE_BMFF
 }  // namespace Exiv2
-#else  // ifdef EXV_ENABLE_BMFF
-namespace Exiv2 {
-bool enableBMFF(bool) {
-  return false;
-}
-}  // namespace Exiv2
-#endif
