@@ -39,9 +39,6 @@ static constexpr const char* testcases[] = {
 int main() {
   Exiv2::XmpParser::initialize();
   ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
 
   std::cout << std::setfill(' ');
 

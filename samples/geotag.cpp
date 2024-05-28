@@ -690,9 +690,6 @@ bool mySort(const std::string& a, const std::string& b) {
 int main(int argc, const char* argv[]) {
   Exiv2::XmpParser::initialize();
   ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
 
   int result = 0;
   const char* program = argv[0];
