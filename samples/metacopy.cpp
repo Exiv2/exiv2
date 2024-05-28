@@ -11,9 +11,6 @@ int main(int argc, char* const argv[]) {
   try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
-#endif
 
     // Handle command line arguments
     Params params;
