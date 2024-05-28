@@ -10,9 +10,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 
   Exiv2::XmpParser::initialize();
   ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
 
   try {
     Exiv2::DataBuf data_copy(data, size);

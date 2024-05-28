@@ -15,9 +15,6 @@ bool isEqual(float a, float b) {
 int main() try {
   Exiv2::XmpParser::initialize();
   ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
 
   // The XMP property container
   Exiv2::XmpData xmpData;

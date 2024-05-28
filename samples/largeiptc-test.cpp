@@ -10,9 +10,6 @@ int main(int argc, char* const argv[]) {
   try {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
-#endif
 
     if (argc != 3) {
       std::cout << "Usage: " << argv[0] << " image datafile\n";
