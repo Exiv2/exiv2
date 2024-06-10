@@ -13,7 +13,7 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-EXIV2API bool enableBMFF(bool enable = true);
+[[deprecated]] EXIV2API bool enableBMFF(bool enable = true);
 }  // namespace Exiv2
 
 #ifdef EXV_ENABLE_BMFF
