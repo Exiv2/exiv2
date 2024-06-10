@@ -227,8 +227,7 @@ target_include_directories(exiv2lib_int PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURC
 
 if(EXIV2_ENABLE_WEBREADY)
   if(EXIV2_ENABLE_CURL)
-    target_include_directories(exiv2lib SYSTEM PRIVATE ${CURL_INCLUDE_DIR})
-    target_link_libraries(exiv2lib PRIVATE ${CURL_LIBRARIES})
+    target_link_libraries(exiv2lib PRIVATE CURL::libcurl)
     list(APPEND requires_private_list "libcurl")
   endif()
 endif()
