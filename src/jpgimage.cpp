@@ -34,7 +34,6 @@ using ULONG = uint32_t;
 namespace Exiv2 {
 
 using Exiv2::Internal::enforce;
-using Exiv2::Internal::startsWith;
 namespace {
 // JPEG Segment markers (The first byte is always 0xFF, the value of these constants correspond to the 2nd byte)
 constexpr byte sos_ = 0xda;    //!< JPEG SOS marker
@@ -409,7 +408,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
         //       2 | 0xe1 APP1  |     911 | Exif..MM.*.......%.........#....
         //     915 | 0xe1 APP1  |     870 | http://ns.adobe.com/xap/1.0/.<x:
         //    1787 | 0xe1 APP1  |   65460 | http://ns.adobe.com/xmp/extensio
-        if (option == kpsXMP && startsWith(signature, "http://ns.adobe.com/x")) {
+        if (option == kpsXMP && signature.starts_with("http://ns.adobe.com/x")) {
           // extract XMP
           const char* xmp = buf.c_str();
           size_t start = 2;
