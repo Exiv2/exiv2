@@ -590,7 +590,7 @@ FixupQualifiedNode ( XMP_Node * xmpParent )
 	// value node's children to be the parent's children. Delete the now useless value node.
 	
 	XMP_Assert ( xmpParent->options & (kXMP_PropValueIsStruct | kRDF_HasValueElem) );
-	xmpParent->options &= ~ (kXMP_PropValueIsStruct | kRDF_HasValueElem);
+	xmpParent->options &= ~ (static_cast<unsigned long>(kXMP_PropValueIsStruct) | static_cast<unsigned long>(kRDF_HasValueElem));
 	xmpParent->options |= valueNode->options;
 	
 	xmpParent->value.swap ( valueNode->value );
