@@ -97,12 +97,11 @@ TYPED_TEST_P(slice, constructionFailsWithZeroLength) {
  * Test the construction of subSlices and their behavior.
  */
 TYPED_TEST_P(slice, subSliceSuccessfulConstruction) {
-  using slice_t = Slice<TypeParam>;
 
   // 0 1 2 3 4 5 6 7 8 9
   //       |     |       center_vals
   //         | |         middle
-  slice_t center_vals = this->getTestSlice(3, 7);
+  auto center_vals = this->getTestSlice(3, 7);
   ASSERT_EQ(center_vals.size(), static_cast<size_t>(4));
   ASSERT_NO_THROW(center_vals.subSlice(1, 3));
 
@@ -110,7 +109,7 @@ TYPED_TEST_P(slice, subSliceSuccessfulConstruction) {
 }
 
 TYPED_TEST_P(slice, subSliceFunctions) {
-  Slice<TypeParam> middle = this->getTestSlice(3, 7).subSlice(1, 3);
+  auto middle = this->getTestSlice(3, 7).subSlice(1, 3);
 
   ASSERT_EQ(middle.size(), static_cast<size_t>(2));
   ASSERT_EQ(middle.at(1), static_cast<typename Slice<TypeParam>::value_type>(5));
@@ -163,11 +162,9 @@ void checkSubSlice(const Slice<T>& sl) {
  * Test that all slices can be also passed as const references and still work
  */
 TYPED_TEST_P(slice, constMethodsPreserveConst) {
-  using slice_t = Slice<TypeParam>;
-
   // 0 1 2 3 4 5 6 7 8 9
   //       |     |       center_vals
-  slice_t center_vals = this->getTestSlice(3, 7);
+  auto center_vals = this->getTestSlice(3, 7);
 
   // check at() const works
   checkConstSliceValueAt(center_vals, 4, 1);
