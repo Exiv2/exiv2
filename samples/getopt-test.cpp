@@ -73,9 +73,6 @@ class Params : public Util::Getopt {
 int main(int argc, char** const argv) {
   Exiv2::XmpParser::initialize();
   ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
 
   int n;
 
