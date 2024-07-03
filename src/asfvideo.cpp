@@ -238,7 +238,7 @@ void AsfVideo::readMetadata() {
 
 AsfVideo::HeaderReader::HeaderReader(const BasicIo::UniquePtr& io) : IdBuf_(GUID) {
   if (io->size() >= io->tell() + GUID + QWORD) {
-    IdBuf_ = io->read(GUID);
+    io->readOrThrow(IdBuf_.data(), IdBuf_.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
     size_ = readQWORDTag(io);
     if (size_ >= GUID + QWORD)
@@ -296,7 +296,7 @@ void AsfVideo::decodeBlock() {
 
 void AsfVideo::decodeHeader() {
   DataBuf nbHeadersBuf(DWORD + 1);
-  io_->read(nbHeadersBuf.data(), DWORD);
+  io_->readOrThrow(nbHeadersBuf.data(), DWORD, Exiv2::ErrorCode::kerCorruptedMetadata);
 
   uint32_t nb_headers = Exiv2::getULong(nbHeadersBuf.data(), littleEndian);
   Internal::enforce(nb_headers < std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -358,7 +358,8 @@ void AsfVideo::DegradableJPEGMedia() {
 }
 
 void AsfVideo::streamProperties() {
-  DataBuf streamTypedBuf = io_->read(GUID);
+  DataBuf streamTypedBuf(GUID);
+  io_->readOrThrow(streamTypedBuf.data(), streamTypedBuf.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
   enum class streamTypeInfo { Audio = 1, Video = 2 };
   auto stream = static_cast<streamTypeInfo>(0);
@@ -476,7 +477,8 @@ void AsfVideo::contentDescription() {
 }  // AsfVideo::extendedContentDescription
 
 void AsfVideo::fileProperties() {
-  DataBuf FileIddBuf = io_->read(GUID);
+  DataBuf FileIddBuf(GUID);
+  io_->readOrThrow(FileIddBuf.data(), FileIddBuf.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
   xmpData()["Xmp.video.FileID"] = GUIDTag(FileIddBuf.data()).to_string();
   xmpData()["Xmp.video.FileLength"] = readQWORDTag(io_);
   xmpData()["Xmp.video.CreationDate"] = readQWORDTag(io_);
