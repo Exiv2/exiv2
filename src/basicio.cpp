@@ -158,7 +158,13 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   std::fclose(fp_);
   openMode_ = "r+b";
   opMode_ = opSeek;
-  fp_ = std::fopen(path_.c_str(), openMode_.c_str());
+#ifdef _WIN32
+  wchar_t  wszDest[10];
+  MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, openMode_.c_str(), -1, wszDest, 10);
+  fp_ = _wfopen(path_.c_str(), wszDest);
+#else
+  fp_ = std::fopen(path_.string().c_str(), openMode_.c_str());
+#endif
   if (!fp_)
     return 1;
 #ifdef _WIN32
