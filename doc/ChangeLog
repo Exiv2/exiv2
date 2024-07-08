@@ -1,3 +1,17 @@
+Changes from version 0.28.2 to 0.28.3
+-------------------------------------
+
+Release Notes:
+
+* https://github.com/Exiv2/exiv2/issues/3008
+* https://github.com/Exiv2/exiv2/milestone/14?closed=1
+
+This release also fixes a low-severity security issue in asfvideo.cpp:
+
+* [CVE-2024-39695](https://github.com/Exiv2/exiv2/security/advisories/GHSA-38rv-8x93-pvrh): out-of-bounds read in AsfVideo::streamProperties.
+
+This vulnerability is in a new feature (ASF video) that was added in version 0.28.0, so earlier versions of Exiv2 are not affected.
+
 Changes from version 0.28.1 to 0.28.2
 -------------------------------------
 
