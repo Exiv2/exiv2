@@ -75,9 +75,6 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
 int main(int argc, const char** argv) {
   Exiv2::XmpParser::initialize();
   ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
 
   if (argc < 2) {
     std::cout << "Usage: " << argv[0] << " url {-http1_0}" << std::endl;

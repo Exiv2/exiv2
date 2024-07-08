@@ -103,6 +103,8 @@ class CanonMakerNote {
   static std::ostream& printFocalLength(std::ostream& os, const Value& value, const ExifData*);
   //! Print the image number
   static std::ostream& print0x0008(std::ostream& os, const Value& value, const ExifData*);
+  //! Print 0x000a
+  static std::ostream& print0x000a(std::ostream& os, const Value& value, const ExifData*);
   //! Print the serial number of the camera
   static std::ostream& print0x000c(std::ostream& os, const Value& value, const ExifData*);
   //! Self timer

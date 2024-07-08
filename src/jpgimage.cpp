@@ -454,7 +454,9 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
         } else if (bPrint) {
           const size_t start = 2;
           const size_t end = size > 34 ? 34 : size;
-          out << "| " << Internal::binaryToString(makeSlice(buf, start, end));
+          out << "| ";
+          if (start < end)
+            out << Internal::binaryToString(makeSlice(buf, start, end));
           if (signature == iccId_) {
             // extract the chunk information from the buffer
             //
@@ -601,9 +603,11 @@ DataBuf JpegBase::readNextSegment(byte marker) {
 
   // Read the rest of the segment if not empty.
   DataBuf buf(size);
-  if (size > 2) {
-    io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
+  if (size > 0) {
     std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
+    if (size > 2) {
+      io_->readOrThrow(buf.data(2), size - 2, ErrorCode::kerFailedToReadImageData);
+    }
   }
   return buf;
 }

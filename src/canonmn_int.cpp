@@ -490,7 +490,7 @@ constexpr TagInfo CanonMakerNote::tagInfo_[] = {
     {0x0009, "OwnerName", N_("Owner Name"), N_("Owner Name"), IfdId::canonId, SectionId::makerTags, asciiString, -1,
      printValue},
     {0x000a, "0x000a", N_("0x000a"), N_("Unknown"), IfdId::canonId, SectionId::makerTags, unsignedLong, -1,
-     print0x000c},
+     print0x000a},
     {0x000c, "SerialNumber", N_("Serial Number"), N_("Camera serial number"), IfdId::canonId, SectionId::makerTags,
      unsignedLong, -1, print0x000c},
     {0x000d, "CameraInfo", N_("Camera Info"), N_("Camera info"), IfdId::canonId, SectionId::makerTags, unsignedShort,
@@ -2811,12 +2811,32 @@ std::ostream& CanonMakerNote::print0x0008(std::ostream& os, const Value& value, 
   return os << n.substr(0, n.length() - 4) << "-" << n.substr(n.length() - 4);
 }
 
-std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, const ExifData*) {
+std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
   std::istringstream is(value.toString());
   uint32_t l = 0;
   is >> l;
   return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
             << std::setfill('0') << std::dec << (l & 0x0000ffff);
+}
+
+std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, const ExifData* exifData) {
+  std::istringstream is(value.toString());
+
+  if (!exifData) {
+    return os << value;
+  }
+
+  ExifKey key("Exif.Canon.ModelID");
+  auto pos = exifData->findKey(key);
+  // if model is EOS D30
+  if (pos != exifData->end() && pos->value().count() == 1 && pos->value().toInt64() == 0x01140000) {
+    uint32_t l = 0;
+    is >> l;
+    return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
+              << std::setfill('0') << std::dec << (l & 0x0000ffff);
+  } else {
+    return os << value;
+  }
 }
 
 std::ostream& CanonMakerNote::printCs0x0002(std::ostream& os, const Value& value, const ExifData*) {

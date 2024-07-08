@@ -48,7 +48,7 @@ if host_machine.system() == 'windows' and get_option('default_library') != 'stat
   test_sources += int_lib
 endif
 
-t_args = ['-UEXIV2API', '-DEXIV2API=', '-DTESTDATA_PATH="@0@"'.format('..' / 'test' / 'data')]
+t_args = ['-UEXIV2API', '-DEXIV2API=', '-DTESTDATA_PATH="@0@"'.format(meson.current_source_dir() / '..' / 'test' / 'data')]
 
 unit_tests = executable(
   'unit_tests',

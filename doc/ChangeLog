@@ -1,3 +1,86 @@
+Changes from version 0.28.2 to 0.28.3
+-------------------------------------
+
+Release Notes:
+
+* https://github.com/Exiv2/exiv2/issues/3008
+* https://github.com/Exiv2/exiv2/milestone/14?closed=1
+
+This release also fixes a low-severity security issue in asfvideo.cpp:
+
+* [CVE-2024-39695](https://github.com/Exiv2/exiv2/security/advisories/GHSA-38rv-8x93-pvrh): out-of-bounds read in AsfVideo::streamProperties.
+
+This vulnerability is in a new feature (ASF video) that was added in version 0.28.0, so earlier versions of Exiv2 are not affected.
+
+Changes from version 0.28.1 to 0.28.2
+-------------------------------------
+
+Release Notes:
+
+* https://github.com/Exiv2/exiv2/issues/2914
+* https://github.com/Exiv2/exiv2/milestone/13?closed=1
+
+This release also fixes two low-severity security issues in quicktimevideo.cpp:
+
+* [CVE-2024-24826](https://github.com/Exiv2/exiv2/security/advisories/GHSA-g9xm-7538-mq8w): out-of-bounds read in QuickTimeVideo::NikonTagsDecoder.
+* [CVE-2024-25112](https://github.com/Exiv2/exiv2/security/advisories/GHSA-crmj-qh74-2r36): denial of service due to unbounded recursion in QuickTimeVideo::multipleEntriesDecoder.
+
+These vulnerabilities are in a new feature (quicktime video) that was added in version 0.28.0, so earlier versions of Exiv2 are not affected.
+
+Changes from version 0.28.0 to 0.28.1
+-------------------------------------
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/2813
+
+This release also fixes [CVE-2023-44398](https://github.com/Exiv2/exiv2/security/advisories/GHSA-hrw9-ggg3-3r4r), an out-of-bounds write in `BmffImage::brotliUncompress`. The vulnerability is in new code that was added in version 0.28.0, so earlier versions of Exiv2 are not affected.
+
+Changes from version 0.27.6 to 0.28.0
+-------------------------------------
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/2406#issuecomment-1529139799
+
+Changes from version 0.27.6 to 0.27.7 
+------------------------------------- 
+ 
+Closed: 
+https://github.com/Exiv2/exiv2/milestone/11?closed=1 
+ 
+Open: 
+https://github.com/Exiv2/exiv2/milestone/11?open=1 
+ 
+Release Notes: 
+https://github.com/Exiv2/exiv2/pull/2567#issuecomment-1546701495 
+
+Changes from version 0.27.5 to 0.27.6
+-------------------------------------
+
+Closed:
+https://github.com/Exiv2/exiv2/milestone/10?closed=1
+
+Open:
+https://github.com/Exiv2/exiv2/milestone/10?open=1
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/2406#issuecomment-1383302378
+
+Changes from version 0.27.4 to 0.27.5
+-------------------------------------
+
+Closed:
+https://github.com/Exiv2/exiv2/milestone/9?closed=1
+
+Open:
+https://github.com/Exiv2/exiv2/milestone/9?open=1
+
+Release Notes:
+https://github.com/Exiv2/exiv2/issues/1018#issuecomment-948573657
+
++++++++++++++++++++++++++++++++++++++
+------------- History ---------------
++++++++++++++++++++++++++++++++++++++
+
 Changes from version 0.27.3 to 0.27.4
 -------------------------------------
 
