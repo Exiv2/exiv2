@@ -12,13 +12,10 @@ else()
     set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin/Linux/macOS etc use .tar.gz
 endif()
 
-set (BS "") # Bit Size
-if ( NOT APPLE )
-  if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-    set (BS 64)
-  else()
-    set (BS 32)
-  endif()
+set (BARCH ${CMAKE_HOST_SYSTEM_PROCESSOR}) # Target architecture
+if ( CMAKE_SIZEOF_VOID_P EQUAL 4 )
+  # 32-bit build, force architecture
+  set (BARCH "i686")
 endif()
 
 set (LT "") # Library Type
@@ -113,7 +110,7 @@ endif()
 # Set RV = Release Version
 set(RV "Exiv2 v${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VS}${BUNDLE_NAME}${BS}${CC}${LT}${BT}${WR})
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${BARCH}-${VS}${BUNDLE_NAME}${CC}${LT}${BT}${WR})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
 install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
