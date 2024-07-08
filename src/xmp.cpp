@@ -504,15 +504,12 @@ void XmpData::eraseFamily(XmpData::iterator& pos) {
   }
 }
 
-bool XmpParser::initialized_ = false;
-XmpParser::XmpLockFct XmpParser::xmpLockFct_ = nullptr;
-void* XmpParser::pLockData_ = nullptr;
+std::atomic_bool XmpParser::initialized_ = false;
+std::mutex XmpParser::global_mutex_;
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
-bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
+bool XmpParser::initialize_unsafe() {
   if (!initialized_) {
-    xmpLockFct_ = xmpLockFct;
-    pLockData_ = pLockData;
     initialized_ = SXMPMeta::Initialize();
 #ifdef EXV_ADOBE_XMPSDK
     SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr", nullptr);
@@ -565,11 +562,20 @@ bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
   return initialized_;
 }
 #else
-bool XmpParser::initialize(XmpParser::XmpLockFct, void*) {
+bool XmpParser::initialize_unsafe(XmpParser::XmpLockFct, void*) {
   initialized_ = true;
   return initialized_;
 }
 #endif
+
+bool XmpParser::initialize([[maybe_unused]] XmpParser::XmpLockFct xmpLockFct, [[maybe_unused]] void* pLockData) {
+  return initialize();
+}
+
+bool XmpParser::initialize() {
+  auto scopedWriteLock = std::scoped_lock(XmpParser::global_mutex_);
+  return initialize_unsafe();
+}
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen bufferSize) {
@@ -607,7 +613,8 @@ void XmpParser::registeredNamespaces(Exiv2::Dictionary& dict) {
   bool bInit = !initialized_;
   try {
     if (bInit)
-      initialize();
+      bInit = initialize_unsafe();
+    auto scopedWriteLock = std::scoped_lock(XmpParser::global_mutex_);
     SXMPMeta::DumpNamespaces(nsDumper, &dict);
     if (bInit)
       terminate();
@@ -633,8 +640,7 @@ void XmpParser::terminate() {
 #ifdef EXV_HAVE_XMP_TOOLKIT
 void XmpParser::registerNs(const std::string& ns, const std::string& prefix) {
   try {
-    initialize();
-    AutoLock autoLock(xmpLockFct_, pLockData_);
+    initialize_unsafe();
     SXMPMeta::DeleteNamespace(ns.c_str());
 #ifdef EXV_ADOBE_XMPSDK
     SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), nullptr);
@@ -665,12 +671,14 @@ void XmpParser::unregisterNs(const std::string& /*ns*/) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
 int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
   try {
+    auto scopedWriteLock = std::scoped_lock(XmpParser::global_mutex_);
+
     xmpData.clear();
     xmpData.setPacket(xmpPacket);
     if (xmpPacket.empty())
       return 0;
 
-    if (!initialize()) {
+    if (!initialize_unsafe()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "XMP toolkit initialization failed.\n";
 #endif
@@ -809,12 +817,14 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
 int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t formatFlags, uint32_t padding) {
   try {
+    auto scopedWriteLock = std::scoped_lock(XmpParser::global_mutex_);
+
     if (xmpData.empty()) {
       xmpPacket.clear();
       return 0;
     }
 
-    if (!initialize()) {
+    if (!initialize_unsafe()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "XMP toolkit initialization failed.\n";
 #endif

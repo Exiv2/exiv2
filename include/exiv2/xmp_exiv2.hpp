@@ -4,6 +4,7 @@
 #define XMP_HPP_
 
 // *****************************************************************************
+#include <atomic>
 #include "exiv2lib_export.h"
 
 // included header files
@@ -355,7 +356,9 @@ class EXIV2API XmpParser {
 
     @return True if the initialization was successful, else false.
    */
-  static bool initialize(XmpParser::XmpLockFct xmpLockFct = nullptr, void* pLockData = nullptr);
+  [[deprecated("xmpLockFct is no longer required")]] static bool initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData);
+
+  static bool initialize();
   /*!
     @brief Terminate the XMP Toolkit and unregister custom namespaces.
 
@@ -365,6 +368,9 @@ class EXIV2API XmpParser {
   static void terminate();
 
  private:
+
+  static bool initialize_unsafe();
+
   /*!
     @brief Register a namespace with the XMP Toolkit.
    */
@@ -382,9 +388,8 @@ class EXIV2API XmpParser {
   static void registeredNamespaces(Exiv2::Dictionary&);
 
   // DATA
-  static bool initialized_;  //! Indicates if the XMP Toolkit has been initialized
-  static XmpLockFct xmpLockFct_;
-  static void* pLockData_;
+  static std::atomic_bool initialized_;  //! Indicates if the XMP Toolkit has been initialized
+  static std::mutex global_mutex_; // meant to synchronize all xmp actions across all threads
 
   friend class XmpProperties;  // permit XmpProperties -> registerNs() and registeredNamespaces()
 
