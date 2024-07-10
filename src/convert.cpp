@@ -1257,7 +1257,7 @@ std::string Converter::computeExifDigest(bool tiff) {
         continue;
       DataBuf data(pos->size());
       pos->copy(data.data(), littleEndian /* FIXME ? */);
-      MD5Update(&context, data.c_data(), static_cast<uint32_t>(data.size()));
+      MD5Update(&context, const_cast<XMP_Uns8*>(data.c_data()), static_cast<uint32_t>(data.size()));
     }
   }
   MD5Final(digest, &context);
