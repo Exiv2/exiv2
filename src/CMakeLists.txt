@@ -210,7 +210,9 @@ if(EXIV2_ENABLE_XMP OR EXIV2_ENABLE_EXTERNAL_XMP)
 endif()
 
 if(EXIV2_ENABLE_XMP)
-  target_sources(exiv2lib PRIVATE $<TARGET_OBJECTS:exiv2-xmp>)
+#  target_sources(exiv2lib PRIVATE $<TARGET_OBJECTS:exiv2-xmp>)
+  target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
+  target_compile_definitions(exiv2lib PUBLIC EXV_ADOBE_XMPSDK=2016)
 elseif(EXIV2_ENABLE_EXTERNAL_XMP)
   target_link_libraries(exiv2lib PUBLIC ${XMPSDK_LIBRARY})
   target_include_directories(exiv2lib PUBLIC ${XMPSDK_INCLUDE_DIR})
@@ -307,7 +309,7 @@ set(requires_private_for_pc_file
 
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
-install(TARGETS exiv2lib EXPORT exiv2Export)
+install(TARGETS exiv2lib exiv2-xmp EXPORT exiv2Export)
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
