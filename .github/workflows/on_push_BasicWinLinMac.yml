@@ -23,6 +23,8 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      - name: Checkout submodules
+        run: git submodule update --init --depth=1
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
@@ -61,6 +63,8 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      - name: Checkout submodules
+        run: git submodule update --init --depth=1
 
       - name: Install dependencies
         run: |
@@ -97,6 +101,8 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      - name: Checkout submodules
+        run: git submodule update --init --depth=1
 
       - name: Install dependencies
         run: |
