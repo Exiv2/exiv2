@@ -839,13 +839,36 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
         if (!la)
           throw Error(ErrorCode::kerEncodeLangAltPropertyFailed, xmp.key());
 
-        int idx = 1;
         for (const auto& [lang, specs] : la->value_) {
           if (!specs.empty()) {  // remove lang specs with no value
             printNode(ns, xmp.tagName(), specs, 0);
-            meta.AppendArrayItem(ns.c_str(), xmp.tagName().c_str(), kXMP_PropArrayIsAlternate, specs.c_str());
-            const std::string item = xmp.tagName() + "[" + toString(idx++) + "]";
-            meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", lang.c_str());
+
+            // check if there is an item in the array with given lang
+            // I am sure this can be rewritten in a more optimal fashion
+            std::size_t item_cnt = meta.CountArrayItems(ns.c_str(), xmp.tagName().c_str());
+            std::size_t existing_item_idx = 0;  // 0 means it does not exist
+            for (std::size_t i = 1; i <= item_cnt; ++i) {
+              std::string qualifier_value;
+              XMP_OptionBits qualifier_options;
+
+              const std::string item = xmp.tagName() + "[" + toString(i) + "]";
+
+              auto found = meta.GetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", &qualifier_value,
+                                             &qualifier_options);
+              if (found and qualifier_value == lang) {
+                existing_item_idx = i;
+                break;
+              }
+            }
+
+            if (existing_item_idx) {
+              meta.SetArrayItem(ns.c_str(), xmp.tagName().c_str(), existing_item_idx, specs.c_str());
+            } else {
+              meta.AppendArrayItem(ns.c_str(), xmp.tagName().c_str(), kXMP_PropArrayIsAlternate, specs.c_str());
+              auto index = meta.CountArrayItems(ns.c_str(), xmp.tagName().c_str());
+              const std::string item = xmp.tagName() + "[" + toString(index) + "]";
+              meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", lang.c_str());
+            }
           }
         }
         continue;
