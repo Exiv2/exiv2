@@ -493,7 +493,7 @@ void XmpData::eraseFamily(XmpData::iterator& pos) {
   std::string key(pos->key());
   std::vector<std::string> keys;
   while (pos != xmpMetadata_.end()) {
-    if (!Exiv2::Internal::startsWith(pos->key(), key))
+    if (!pos->key().starts_with(key))
       break;
     keys.push_back(pos->key());
     pos++;

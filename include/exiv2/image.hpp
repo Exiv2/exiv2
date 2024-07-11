@@ -301,16 +301,6 @@ class EXIV2API Image {
   void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start, bool bSwap,
                          char c, size_t depth);
 
-  /*!
-    @brief is the host platform bigEndian
-   */
-  static bool isBigEndianPlatform();
-
-  /*!
-    @brief is the host platform littleEndian
-   */
-  static bool isLittleEndianPlatform();
-
   static bool isStringType(uint16_t type);
   static bool isShortType(uint16_t type);
   static bool isLongType(uint16_t type);
