@@ -12,12 +12,14 @@
 #include <ostream>  // for ostream, basic_ostream::put
 #include <string>
 
-#if defined(__MINGW32__)
-#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(__MINGW_PRINTF_FORMAT, 1, 2)))
-#elif defined(__GNUC__)
-#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(printf, 1, 2)))
+#if __has_include(<format>)
+#include <format>
+#endif
+#ifndef __cpp_lib_format
+#include <fmt/core.h>
+#define stringFormat fmt::format
 #else
-#define ATTRIBUTE_FORMAT_PRINTF
+#define stringFormat std::format
 #endif
 
 // *****************************************************************************
@@ -25,11 +27,6 @@
 namespace Exiv2::Internal {
 // *****************************************************************************
 // class definitions
-
-/*!
-  @brief format a string in the pattern of \em sprintf \em .
- */
-std::string stringFormat(const char* format, ...) ATTRIBUTE_FORMAT_PRINTF;
 
 /*!
  * @brief Helper struct for binary data output via @ref binaryToString.
