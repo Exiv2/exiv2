@@ -831,7 +831,7 @@ BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, [[maybe_unuse
 
   return std::make_unique<FileIo>(path);
 #else
-  return nullptr;
+  throw Error(ErrorCode::kerFileOpenFailed, path, "", "file access disabled");
 #endif
 }  // ImageFactory::createIo
 
