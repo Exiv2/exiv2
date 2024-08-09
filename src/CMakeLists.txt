@@ -280,10 +280,10 @@ if(Iconv_FOUND AND Iconv_LIBRARIES)
 endif()
 
 if(EXIV2_ENABLE_INIH)
-  target_link_libraries(exiv2lib_int PRIVATE inih::libinih)
   target_link_libraries(exiv2lib_int PRIVATE inih::inireader)
-  target_link_libraries(exiv2lib PRIVATE inih::libinih)
+  target_link_libraries(exiv2lib_int PRIVATE inih::libinih)
   target_link_libraries(exiv2lib PRIVATE inih::inireader)
+  target_link_libraries(exiv2lib PRIVATE inih::libinih)
   list(APPEND requires_private_list "INIReader")
 endif()
 
