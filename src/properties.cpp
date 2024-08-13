@@ -5247,7 +5247,7 @@ std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& property) {
       os << Q;
     os << c;
   }
-  os << Q << std::endl;
+  os << Q << '\n';
   return os;
 }
 //! @endcond

@@ -1089,7 +1089,7 @@ static std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, cons
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
     bool bFL10_20 = 10 <= focalLength && focalLength <= 20;
 
-    // std::cout << "model,focalLength = " << model << "," << focalLength << std::endl;
+    // std::cout << "model,focalLength = " << model << "," << focalLength << '\n';
     if (bFL10_20) {
       index = 1;
     }
@@ -1260,7 +1260,7 @@ static std::ostream& printLensType(std::ostream& os, const Value& value, const E
 
   const auto index = value.toUint32(0) * 256 + value.toUint32(1);
 
-  // std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
+  // std::cout << '\n' << "printLensType value =" << value.toLong() << " index = " << index << '\n';
   auto lif = Exiv2::find(lensIdFct, index);
   if (!lif)
     return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);

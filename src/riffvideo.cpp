@@ -410,7 +410,7 @@ void RiffVideo::readList(const HeaderReader& header_) {
 
 #ifdef EXIV2_DEBUG_MESSAGES
   EXV_INFO << "-> Reading list : id= " << header_.getId() << "  type= " << chunk_type << " size= " << header_.getSize()
-           << "(" << io_->tell() << "/" << io_->size() << ")" << std::endl;
+           << "(" << io_->tell() << "/" << io_->size() << ")" << '\n';
 #endif
 
   if (equal(chunk_type, CHUNK_ID_INFO))
@@ -424,7 +424,7 @@ void RiffVideo::readChunk(const HeaderReader& header_) {
 #ifdef EXIV2_DEBUG_MESSAGES
   if (header_.getSize())
     EXV_INFO << "--> Reading Chunk : [" << header_.getId() << "] size= " << header_.getSize() << "(" << io_->tell()
-             << "/" << io_->size() << ")" << std::endl;
+             << "/" << io_->size() << ")" << '\n';
 #endif
 
   if (equal(header_.getId(), CHUNK_ID_AVIH))
@@ -452,7 +452,7 @@ void RiffVideo::readChunk(const HeaderReader& header_) {
 #ifdef EXIV2_DEBUG_MESSAGES
     if (header_.getSize())
       EXV_WARNING << "--> Ignoring Chunk : " << header_.getId() << "] size= " << header_.getSize() << "(" << io_->tell()
-                  << "/" << io_->size() << ")" << std::endl;
+                  << "/" << io_->size() << ")" << '\n';
 #endif
     io_->seekOrThrow(io_->tell() + header_.getSize(), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
   }
@@ -470,20 +470,20 @@ void RiffVideo::decodeBlocks() {
 
 void RiffVideo::readAviHeader() {
 #ifdef EXIV2_DEBUG_MESSAGES
-  EXV_INFO << "--> dwMicroSecPerFrame    = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwMaxBytesPerSec      = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwPaddingGranularity  = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwFlags               = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwTotalFrames         = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwInitialFrames       = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwStreams             = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwSuggestedBufferSize = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwWidth               = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwHeight              = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwReserved1           = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwReserved2           = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwReserved3           = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwReserved4           = " << readDWORDTag(io_) << std::endl;
+  EXV_INFO << "--> dwMicroSecPerFrame    = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwMaxBytesPerSec      = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwPaddingGranularity  = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwFlags               = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwTotalFrames         = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwInitialFrames       = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwStreams             = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwSuggestedBufferSize = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwWidth               = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwHeight              = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwReserved1           = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwReserved2           = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwReserved3           = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwReserved4           = " << readDWORDTag(io_) << '\n';
   if (LogMsg::info >= LogMsg::level() && LogMsg::handler())
     io_->seekOrThrow(io_->tell() - DWORD * 14, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 #endif
@@ -526,23 +526,23 @@ void RiffVideo::readStreamHeader() {
   streamType_ = (equal(stream, "VIDS")) ? Video : Audio;
 
 #ifdef EXIV2_DEBUG_MESSAGES
-  EXV_INFO << "--> fccType                = " << stream << std::endl;
-  EXV_INFO << "--> fccHandler             = " << readStringTag(io_) << std::endl;
-  EXV_INFO << "--> dwFlags                = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> wPriority              = " << readWORDTag(io_) << std::endl;
-  EXV_INFO << "--> wLanguage              = " << readWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwInitialFrames        = " << readDWORDTag(io_) << std::endl;  // 20
-  EXV_INFO << "--> dwScale                = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwRate                 = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwStart                = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwLength               = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> dwSuggestedBufferSize  = " << readDWORDTag(io_) << std::endl;  // 40
-  EXV_INFO << "--> dwSampleSize           = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> Left                   = " << readWORDTag(io_) << std::endl;
-  EXV_INFO << "--> top                    = " << readWORDTag(io_) << std::endl;
-  EXV_INFO << "--> right                  = " << readWORDTag(io_) << std::endl;
-  EXV_INFO << "--> bottom                 = " << readWORDTag(io_) << std::endl;
-  EXV_INFO << "--> XXXXXX                 = " << readDWORDTag(io_) << std::endl;  // 56
+  EXV_INFO << "--> fccType                = " << stream << '\n';
+  EXV_INFO << "--> fccHandler             = " << readStringTag(io_) << '\n';
+  EXV_INFO << "--> dwFlags                = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> wPriority              = " << readWORDTag(io_) << '\n';
+  EXV_INFO << "--> wLanguage              = " << readWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwInitialFrames        = " << readDWORDTag(io_) << '\n';  // 20
+  EXV_INFO << "--> dwScale                = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwRate                 = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwStart                = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwLength               = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> dwSuggestedBufferSize  = " << readDWORDTag(io_) << '\n';  // 40
+  EXV_INFO << "--> dwSampleSize           = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> Left                   = " << readWORDTag(io_) << '\n';
+  EXV_INFO << "--> top                    = " << readWORDTag(io_) << '\n';
+  EXV_INFO << "--> right                  = " << readWORDTag(io_) << '\n';
+  EXV_INFO << "--> bottom                 = " << readWORDTag(io_) << '\n';
+  EXV_INFO << "--> XXXXXX                 = " << readDWORDTag(io_) << '\n';  // 56
   if (LogMsg::info >= LogMsg::level() && LogMsg::handler())
     io_->seekOrThrow(io_->tell() - DWORD * 13, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 #endif
@@ -579,26 +579,26 @@ void RiffVideo::readStreamFormat(uint64_t size_) {
 
 #ifdef EXIV2_DEBUG_MESSAGES
   if (streamType_ == Audio) {
-    EXV_INFO << "--> wFormatTag      = " << readWORDTag(io_) << std::endl;
-    EXV_INFO << "--> nChannels       = " << readWORDTag(io_) << std::endl;
-    EXV_INFO << "--> nSamplesPerSec  = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> nAvgBytesPerSec = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> nBlockAlign     = " << readWORDTag(io_) << std::endl;
-    EXV_INFO << "--> wBitsPerSample  = " << readWORDTag(io_) << std::endl;
+    EXV_INFO << "--> wFormatTag      = " << readWORDTag(io_) << '\n';
+    EXV_INFO << "--> nChannels       = " << readWORDTag(io_) << '\n';
+    EXV_INFO << "--> nSamplesPerSec  = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> nAvgBytesPerSec = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> nBlockAlign     = " << readWORDTag(io_) << '\n';
+    EXV_INFO << "--> wBitsPerSample  = " << readWORDTag(io_) << '\n';
     if (LogMsg::info >= LogMsg::level() && LogMsg::handler())
       io_->seekOrThrow(io_->tell() - DWORD * 4, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
   } else if (streamType_ == Video) {
-    EXV_INFO << "--> biSize            = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biWidth           = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biHeight          = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biPlanes          = " << readWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biBitCount        = " << readWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biCompression     = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biSizeImage       = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biXPelsPerMeter   = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biYPelsPerMeter   = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biClrUsed         = " << readDWORDTag(io_) << std::endl;
-    EXV_INFO << "--> biClrImportant    = " << readDWORDTag(io_) << std::endl;
+    EXV_INFO << "--> biSize            = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> biWidth           = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> biHeight          = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> biPlanes          = " << readWORDTag(io_) << '\n';
+    EXV_INFO << "--> biBitCount        = " << readWORDTag(io_) << '\n';
+    EXV_INFO << "--> biCompression     = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> biSizeImage       = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> biXPelsPerMeter   = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> biYPelsPerMeter   = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> biClrUsed         = " << readDWORDTag(io_) << '\n';
+    EXV_INFO << "--> biClrImportant    = " << readDWORDTag(io_) << '\n';
     if (LogMsg::info >= LogMsg::level() && LogMsg::handler())
       io_->seekOrThrow(io_->tell() - DWORD * 10, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
   }
@@ -667,24 +667,24 @@ void RiffVideo::readMoviList(uint64_t size_) const {
 
 void RiffVideo::readVPRPChunk(uint64_t size_) const {
 #ifdef EXIV2_DEBUG_MESSAGES
-  EXV_INFO << "--> VideoFormatToken         = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> VideoStandard            = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> VerticalRefreshRate      = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> HTotalInT                = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> VTotalInLines            = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> FrameAspectRatio Height  = " << readWORDTag(io_) << std::endl;
-  EXV_INFO << "--> FrameAspectRatio Width   = " << readWORDTag(io_) << std::endl;
-  EXV_INFO << "--> FrameWidthInPixels       = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> FrameHeightInLines       = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> CompressedBMHeight       = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> FieldPerFrame            = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> CompressedBMWidth        = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> ValidBMHeight            = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> ValidBMWidth             = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> ValidBMXOffset           = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> ValidBMYOffset           = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> VideoXOffsetInT          = " << readDWORDTag(io_) << std::endl;
-  EXV_INFO << "--> VideoYValidStartLine     = " << readDWORDTag(io_) << std::endl;
+  EXV_INFO << "--> VideoFormatToken         = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> VideoStandard            = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> VerticalRefreshRate      = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> HTotalInT                = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> VTotalInLines            = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> FrameAspectRatio Height  = " << readWORDTag(io_) << '\n';
+  EXV_INFO << "--> FrameAspectRatio Width   = " << readWORDTag(io_) << '\n';
+  EXV_INFO << "--> FrameWidthInPixels       = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> FrameHeightInLines       = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> CompressedBMHeight       = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> FieldPerFrame            = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> CompressedBMWidth        = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> ValidBMHeight            = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> ValidBMWidth             = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> ValidBMXOffset           = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> ValidBMYOffset           = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> VideoXOffsetInT          = " << readDWORDTag(io_) << '\n';
+  EXV_INFO << "--> VideoYValidStartLine     = " << readDWORDTag(io_) << '\n';
   if (LogMsg::info >= LogMsg::level() && LogMsg::handler())
     io_->seekOrThrow(io_->tell() - DWORD * 17, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 #endif
@@ -696,13 +696,13 @@ void RiffVideo::readIndexChunk(uint64_t size_) const {
   uint64_t current_size = 0;
   while (current_size < size_) {
     EXV_DEBUG << "--> Identifier               = " << readStringTag(io_) << "\t(" << current_size << "/" << size_ << ")"
-              << std::endl;
+              << '\n';
     EXV_DEBUG << "--> Flags                    = " << readDWORDTag(io_) << "\t(" << current_size << "/" << size_ << ")"
-              << std::endl;
+              << '\n';
     EXV_DEBUG << "--> Offset                   = " << readDWORDTag(io_) << "\t(" << current_size << "/" << size_ << ")"
-              << std::endl;
+              << '\n';
     EXV_DEBUG << "--> Length                   = " << readDWORDTag(io_) << "\t(" << current_size << "/" << size_ << ")"
-              << std::endl;
+              << '\n';
     current_size += DWORD * 4;
   }
   if (LogMsg::debug >= LogMsg::level() && LogMsg::handler())
@@ -713,10 +713,10 @@ void RiffVideo::readIndexChunk(uint64_t size_) const {
 
 void RiffVideo::readDataChunk(uint64_t size_) const {
 #ifdef EXIV2_DEBUG_MESSAGES
-  EXV_INFO << "--> Data               = " << readStringTag(io_, static_cast<size_t>(size_)) << std::endl;
+  EXV_INFO << "--> Data               = " << readStringTag(io_, static_cast<size_t>(size_)) << '\n';
   uint64_t readed_size = size_;
   if (size_ % 2 != 0) {
-    EXV_INFO << "--> pad byte          = " << readStringTag(io_, 1) << std::endl;
+    EXV_INFO << "--> pad byte          = " << readStringTag(io_, 1) << '\n';
     readed_size += 1;
   }
   if (LogMsg::info >= LogMsg::level() && LogMsg::handler())

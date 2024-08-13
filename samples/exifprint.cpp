@@ -19,7 +19,7 @@ int main(int argc, char* const argv[]) {
 
     const char* prog = argv[0];
     if (argc == 1) {
-      std::cout << "Usage: " << prog << " [ [--lint] path | --version | --version-test ]" << std::endl;
+      std::cout << "Usage: " << prog << " [ [--lint] path | --version | --version-test ]" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -37,12 +37,12 @@ int main(int argc, char* const argv[]) {
     if (strcmp(file, "--version-test") == 0) {
       // verifies/test macro EXIV2_TEST_VERSION
       // described in include/exiv2/version.hpp
-      std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION << std::endl
-                << "Exiv2::version()                " << Exiv2::version() << std::endl
-                << "strlen(Exiv2::version())        " << ::strlen(Exiv2::version()) << std::endl
-                << "Exiv2::versionNumber()          " << Exiv2::versionNumber() << std::endl
-                << "Exiv2::versionString()          " << Exiv2::versionString() << std::endl
-                << "Exiv2::versionNumberHexString() " << Exiv2::versionNumberHexString() << std::endl;
+      std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION << '\n'
+                << "Exiv2::version()                " << Exiv2::version() << '\n'
+                << "strlen(Exiv2::version())        " << ::strlen(Exiv2::version()) << '\n'
+                << "Exiv2::versionNumber()          " << Exiv2::versionNumber() << '\n'
+                << "Exiv2::versionString()          " << Exiv2::versionString() << '\n'
+                << "Exiv2::versionNumberHexString() " << Exiv2::versionNumberHexString() << '\n';
 
 // Test the Exiv2 version available at runtime but compile the if-clause only if
 // the compile-time version is at least 0.15. Earlier versions didn't have a
@@ -97,7 +97,7 @@ int main(int argc, char* const argv[]) {
           ) {
             std::cerr << i->key() << " type " << i->typeName() << " (" << type << ")"
                       << " expected " << Exiv2::TypeInfo::typeName(tagInfo->typeId_) << " (" << tagInfo->typeId_ << ")"
-                      << std::endl;
+                      << '\n';
             rc = 2;
           }
         }

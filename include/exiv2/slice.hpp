@@ -410,7 +410,7 @@ struct PtrSliceStorage {
  * // 3
  * // 4
  * for (const auto & elem : three_four) {
- *     std::cout << elem << std::endl;
+ *     std::cout << elem << '\n';
  * }
  * ~~~~~~~~~~~~~~~~~~~~~~~~~
  *

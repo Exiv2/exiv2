@@ -100,7 +100,7 @@ static bool shouldOutput(const std::vector<std::regex>& greps, const char* key, 
 
 static void output(std::ostream& os, const std::vector<std::regex>& greps, const char* name, const std::string& value) {
   if (shouldOutput(greps, name, value))
-    os << name << "=" << value << std::endl;
+    os << name << "=" << value << '\n';
 }
 
 static void output(std::ostream& os, const std::vector<std::regex>& greps, const char* name, int value) {

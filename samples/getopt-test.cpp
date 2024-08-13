@@ -51,21 +51,21 @@ class Params : public Util::Getopt {
   int getopt(int argc, char** const argv) {
     int rc = Util::Getopt::getopt(argc, argv, ::optstring);
     std::cout << "Params::getopt()"
-              << " rc = " << rc << std::endl;
+              << " rc = " << rc << '\n';
     return rc;
   }
 
   //! Handle options and their arguments.
   int option(int opt, const std::string& optarg, int optopt) override {
     std::cout << "Params::option()"
-              << " opt = " << opt << " optarg = " << optarg << " optopt = " << optopt << std::endl;
+              << " opt = " << opt << " optarg = " << optarg << " optopt = " << optopt << '\n';
     return 0;
   }
 
   //! Handle non-option parameters.
   int nonoption(const std::string& argv) override {
     std::cout << "Params::nonoption()"
-              << " " << argv << std::endl;
+              << " " << argv << '\n';
     return 0;
   }
 };  // class Params
@@ -77,7 +77,7 @@ int main(int argc, char** const argv) {
   int n;
 
 #if __has_include(<unistd.h>)
-  std::cout << "standard getopt()" << std::endl;
+  std::cout << "standard getopt()" << '\n';
   do {
     n = ::getopt(argc, argv, ::optstring);
     if (n >= 0) {
@@ -87,12 +87,12 @@ int main(int argc, char** const argv) {
       std::cout << n;
     }
     std::cout << " optind = " << ::optind << " opterr = " << ::opterr << " optopt = " << ::optopt
-              << " optarg = " << Safe(::optarg) << std::endl;
+              << " optarg = " << Safe(::optarg) << '\n';
   } while (n >= 0);
-  std::cout << std::endl;
+  std::cout << '\n';
 #endif
 
-  std::cout << "homemade getopt()" << std::endl;
+  std::cout << "homemade getopt()" << '\n';
   do {
     n = Util::getopt(argc, argv, ::optstring);
     if (n >= 0) {
@@ -102,10 +102,10 @@ int main(int argc, char** const argv) {
       std::cout << n;
     }
     std::cout << " optind = " << Util::optind << " opterr = " << Util::opterr << " optopt = " << Util::optopt
-              << " optarg = " << Safe(Util::optarg) << std::endl;
+              << " optarg = " << Safe(Util::optarg) << '\n';
 
   } while (n >= 0);
-  std::cout << std::endl;
+  std::cout << '\n';
 
   // Handle command line arguments
   Params params;
