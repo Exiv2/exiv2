@@ -282,7 +282,7 @@ void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, size
   size_t i = 0;
   while (i < bytes.size() - 3 && bytes.at(i) != 0x1c)
     i++;
-  out << Internal::indent(++depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
+  out << Internal::indent(++depth) << "Record | DataSet | Name                     | Length | Data" << '\n';
   while (i < bytes.size() - 3) {
     if (bytes.at(i) != 0x1c) {
       break;
@@ -297,7 +297,7 @@ void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, size
 
     Internal::enforce(bytes.size() - i >= 5 + static_cast<size_t>(len), ErrorCode::kerCorruptedMetadata);
     out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
-        << (len > 40 ? "..." : "") << std::endl;
+        << (len > 40 ? "..." : "") << '\n';
     i += 5 + len;
   }
 }

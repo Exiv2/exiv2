@@ -1129,7 +1129,7 @@ int RemoteIo::close() {
     p_->idx_ = 0;
   }
 #ifdef EXIV2_DEBUG_MESSAGES
-  std::cerr << "RemoteIo::close totalRead_ = " << p_->totalRead_ << std::endl;
+  std::cerr << "RemoteIo::close totalRead_ = " << p_->totalRead_ << '\n';
 #endif
   if (bigBlock_) {
     delete[] bigBlock_;
@@ -1322,7 +1322,7 @@ byte* RemoteIo::mmap(bool /*isWriteable*/) {
       }
     }
 #ifdef EXIV2_DEBUG_MESSAGES
-    std::cerr << "RemoteIo::mmap nRealData = " << nRealData << std::endl;
+    std::cerr << "RemoteIo::mmap nRealData = " << nRealData << '\n';
 #endif
   }
 

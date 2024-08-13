@@ -29,7 +29,7 @@ int main(int argc, char* const argv[]) try {
     std::cout << std::setw(44) << std::setfill(' ') << std::left << md->key() << " "
               << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << md->tag() << " " << std::setw(9)
               << std::setfill(' ') << std::left << md->typeName() << " " << std::dec << std::setw(3)
-              << std::setfill(' ') << std::right << md->count() << "  " << std::dec << md->value() << std::endl;
+              << std::setfill(' ') << std::right << md->count() << "  " << std::dec << md->value() << '\n';
   }
 
   return EXIT_SUCCESS;

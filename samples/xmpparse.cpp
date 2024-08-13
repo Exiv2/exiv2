@@ -30,7 +30,7 @@ int main(int argc, char* const argv[]) try {
   for (auto&& md : xmpData) {
     std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9) << std::setfill(' ')
               << std::left << md.typeName() << " " << std::dec << std::setw(3) << std::setfill(' ') << std::right
-              << md.count() << "  " << std::dec << md.toString() << std::endl;
+              << md.count() << "  " << std::dec << md.toString() << '\n';
   }
   Exiv2::XmpParser::terminate();
   return EXIT_SUCCESS;

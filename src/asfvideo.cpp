@@ -248,7 +248,7 @@ void AsfVideo::decodeBlock() {
   HeaderReader objectHeader(io_);
 #ifdef EXIV2_DEBUG_MESSAGES
   EXV_INFO << "decodeBlock = " << GUIDTag(objectHeader.getId().data()).to_string()
-           << "\tsize= " << objectHeader.getSize() << "\t " << io_->tell() << "/" << io_->size() << std::endl;
+           << "\tsize= " << objectHeader.getSize() << "\t " << io_->tell() << "/" << io_->size() << '\n';
 #endif
   Internal::enforce(objectHeader.getSize() <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   auto tag = GUIDReferenceTags.find(GUIDTag(objectHeader.getId().data()));

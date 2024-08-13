@@ -353,7 +353,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
     if (bFirst && bPrint) {
       out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ", c, c) << io.path()
-          << std::endl;
+          << '\n';
     }
 
     // Read the dictionary
@@ -377,7 +377,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
       // Break for unknown tag types else we may segfault.
       if (!typeValid(type)) {
-        EXV_ERROR << "invalid type in tiff structure" << type << std::endl;
+        EXV_ERROR << "invalid type in tiff structure" << type << '\n';
         throw Error(ErrorCode::kerInvalidTypeValue);
       }
 
@@ -465,7 +465,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         }
 
         sp = kount == count ? "" : " ...";
-        out << sp << std::endl;
+        out << sp << '\n';
 
         if (option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a /*SubIFDs*/ || type == tiffIfd)) {
           for (size_t k = 0; k < count; k++) {
@@ -533,7 +533,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
   } while (start);
 
   if (bPrint) {
-    out << Internal::indent(depth) << "END " << io.path() << std::endl;
+    out << Internal::indent(depth) << "END " << io.path() << '\n';
   }
   out.flush();
 }
