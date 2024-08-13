@@ -50,22 +50,19 @@ class Params : public Util::Getopt {
    */
   int getopt(int argc, char** const argv) {
     int rc = Util::Getopt::getopt(argc, argv, ::optstring);
-    std::cout << "Params::getopt()"
-              << " rc = " << rc << '\n';
+    std::cout << "Params::getopt() rc = " << rc << '\n';
     return rc;
   }
 
   //! Handle options and their arguments.
   int option(int opt, const std::string& optarg, int optopt) override {
-    std::cout << "Params::option()"
-              << " opt = " << opt << " optarg = " << optarg << " optopt = " << optopt << '\n';
+    std::cout << "Params::option() opt = " << opt << " optarg = " << optarg << " optopt = " << optopt << '\n';
     return 0;
   }
 
   //! Handle non-option parameters.
   int nonoption(const std::string& argv) override {
-    std::cout << "Params::nonoption()"
-              << " " << argv << '\n';
+    std::cout << "Params::nonoption() " << argv << '\n';
     return 0;
   }
 };  // class Params

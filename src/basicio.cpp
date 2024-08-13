@@ -1482,10 +1482,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
   const std::string urlencodeData = urlencode(encodeData.data());
 
   std::stringstream ss;
-  ss << "path=" << hostInfo_.Path << "&"
-     << "from=" << from << "&"
-     << "to=" << to << "&"
-     << "data=" << urlencodeData;
+  ss << "path=" << hostInfo_.Path << "&from=" << from << "&to=" << to << "&data=" << urlencodeData;
   std::string postData = ss.str();
 
   // create the header
@@ -1664,10 +1661,7 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   // url encode
   const std::string urlencodeData = urlencode(encodeData.data());
   std::stringstream ss;
-  ss << "path=" << hostInfo.Path << "&"
-     << "from=" << from << "&"
-     << "to=" << to << "&"
-     << "data=" << urlencodeData;
+  ss << "path=" << hostInfo.Path << "&from=" << from << "&to=" << to << "&data=" << urlencodeData;
   std::string postData = ss.str();
 
   curl_easy_setopt(curl_, CURLOPT_POSTFIELDS, postData.c_str());

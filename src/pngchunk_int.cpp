@@ -290,8 +290,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
     xmpPacket.assign(arr.c_str(), arr.size());
     if (auto idx = xmpPacket.find_first_of('<'); idx != std::string::npos && idx > 0) {
 #ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "Removing " << idx << " characters "
-                  << "from the beginning of the XMP packet\n";
+      EXV_WARNING << "Removing " << idx << " characters from the beginning of the XMP packet\n";
 #endif
       xmpPacket = xmpPacket.substr(idx);
     }

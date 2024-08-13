@@ -24,8 +24,7 @@ int main() {
     std::cerr << "Can't load '" << ini << "'" << '\n';
     return EXIT_FAILURE;
   }
-  std::cout << "Config loaded from : '" << ini << "' "
-            << "version=" << reader.GetInteger("protocol", "version", -1)
+  std::cout << "Config loaded from : '" << ini << "' version=" << reader.GetInteger("protocol", "version", -1)
             << ", name=" << reader.Get("user", "name", "UNKNOWN")
             << ", email=" << reader.Get("user", "email", "UNKNOWN") << ", pi=" << reader.GetReal("user", "pi", -1)
             << ", active=" << reader.GetBoolean("user", "active", true) << '\n';

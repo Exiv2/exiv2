@@ -93,8 +93,8 @@ std::string BmffImage::toAscii(uint32_t n) {
   // show 0 as _
   std::replace(result.begin(), result.end(), '\0', '_');
   // show non 7-bit printable ascii as .
-  std::replace_if(
-      result.begin(), result.end(), [](char c) { return c < 32 || c > 126; }, '.');
+  auto f = [](char c) { return c < 32 || c > 126; };
+  std::replace_if(result.begin(), result.end(), f, '.');
   return result;
 }
 

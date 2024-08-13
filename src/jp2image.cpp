@@ -191,13 +191,12 @@ void Jp2Image::readMetadata() {
             throw Error(ErrorCode::kerCorruptedMetadata);
           }
 #ifdef EXIV2_DEBUG_MESSAGES
-          std::cout << "Exiv2::Jp2Image::readMetadata: "
-                    << "subBox = " << toAscii(subBox.type) << " length = " << subBox.length << '\n';
+          std::cout << "Exiv2::Jp2Image::readMetadata: subBox = " << toAscii(subBox.type)
+                    << " length = " << subBox.length << '\n';
 #endif
           if (subBox.type == kJp2BoxTypeColorSpec && subBox.length != 15) {
 #ifdef EXIV2_DEBUG_MESSAGES
-            std::cout << "Exiv2::Jp2Image::readMetadata: "
-                      << "Color data found" << '\n';
+            std::cout << "Exiv2::Jp2Image::readMetadata: Color data found\n";
 #endif
 
             const size_t pad = 3;  // 3 padding bytes 2 0 0

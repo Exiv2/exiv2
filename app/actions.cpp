@@ -1688,8 +1688,7 @@ std::string temporaryPath() {
 
 int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType targetType, bool preserve) {
 #ifdef EXIV2_DEBUG_MESSAGES
-  std::cerr << "actions.cpp::metacopy"
-            << " source = " << source << " target = " << tgt << '\n';
+  std::cerr << "actions.cpp::metacopy source = " << source << " target = " << tgt << '\n';
 #endif
 
   // read the source metadata

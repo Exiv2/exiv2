@@ -21,8 +21,7 @@ int main(int argc, char* const argv[]) try {
   Exiv2::PreviewManager loader(*image);
   for (const auto& pos : loader.getPreviewProperties()) {
     std::cout << pos.mimeType_ << " preview, type " << pos.id_ << ", " << pos.size_ << " bytes, " << pos.width_ << 'x'
-              << pos.height_ << " pixels"
-              << "\n";
+              << pos.height_ << " pixels\n";
 
     Exiv2::PreviewImage preview = loader.getPreviewImage(pos);
     auto s = preview.writeFile(filename + "_" + std::to_string(pos.width_) + "x" + std::to_string(pos.height_));

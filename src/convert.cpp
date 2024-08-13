@@ -1051,8 +1051,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
       value |= fired & 1;
 #ifndef SUPPRESS_WARNINGS
     else
-      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Fired"
-                  << " to " << to << "\n";
+      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Fired to " << to << '\n';
 #endif
   }
   pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Return"));
@@ -1062,8 +1061,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
       value |= (ret & 3) << 1;
 #ifndef SUPPRESS_WARNINGS
     else
-      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Return"
-                  << " to " << to << "\n";
+      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Return to " << to << '\n';
 #endif
   }
   pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Mode"));
@@ -1073,8 +1071,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
       value |= (mode & 3) << 3;
 #ifndef SUPPRESS_WARNINGS
     else
-      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Mode"
-                  << " to " << to << "\n";
+      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Mode to " << to << '\n';
 #endif
   }
   pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Function"));
@@ -1084,8 +1081,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
       value |= (function & 1) << 5;
 #ifndef SUPPRESS_WARNINGS
     else
-      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Function"
-                  << " to " << to << "\n";
+      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Function to " << to << '\n';
 #endif
   }
   pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
@@ -1096,8 +1092,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
         value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
       else
-        EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:RedEyeMode"
-                    << " to " << to << "\n";
+        EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:RedEyeMode to " << to << '\n';
 #endif
     }
     if (erase_)

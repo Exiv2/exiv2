@@ -156,7 +156,8 @@ be considered as real pixels */
   unsigned char stripeFields;    //!< Number of striped fields this image consists of
   unsigned char reserved;        //!< For future use - should be set to 0
   unsigned short reserved1;      //!< For future use - should be set to 0
-} GEOMETRIC_INFO_T;              //!< sizeof struct == 32 bytes
+
+} GEOMETRIC_INFO_T;  //!< sizeof struct == 32 bytes
 
 struct IMAGEINFO_T {
   unsigned long imageTime;       //!< Time in seconds since 1970-01-01 00:00 (UTC)
@@ -233,6 +234,7 @@ struct DISTR_DATA_T {
 
   short reserved;  //!< For future use
   long reserved2[3];
+
 };  //!< sizeof struct == 64 bytes
 
 typedef struct _pres_par_t {
@@ -240,6 +242,7 @@ typedef struct _pres_par_t {
                         span (in pixel units) */
   signed long span;  /* Span as normalized pixel value (apix) */
   BYTE reserved[40];
+
 } PRES_PAR_T; /* sizeof struct == 48 bytes */
 
 /**
@@ -282,7 +285,8 @@ struct OBJECT_PAR_T {
 
   float relHum;      //!< relative humidity
   long reserved[4];  //!< For future use - should be set to 0
-};                   //!< sizeof struct == 48 bytes
+
+};  //!< sizeof struct == 48 bytes
 
 struct TEMP_CALIB_T {
   long Reserved1[2];
@@ -344,7 +348,8 @@ struct TEMPSENSOR_DATA_T {
   char pzTSName[SYSIMG_NAMELEN + 1];
   ULONG captureTime;       //!< TS updated; time in seconds since 1970-01-01 00:00
   ULONG captureMilliTime;  //!< TS updated; Milliseconds since last second
-};                         //!< sizeof struct == 28 bytes
+
+};  //!< sizeof struct == 28 bytes
 
 /** Detector parameter struct */
 struct DETECTOR_PARAM_T {
@@ -360,7 +365,8 @@ struct EXTENDED_IMAGEINFO_T {
   DETECTOR_PARAM_T detectorPars[20];  //!< Currently used detector parameters like
                                       //!     used bias, offsets. Usage is camera
                                       //!     dependent
-};                                    //!< sizeof struct == 960 bytes
+
+};  //!< sizeof struct == 960 bytes
 
 struct _bidata_t {
   GEOMETRIC_INFO_T GeometricInfo;  // 32 bytes

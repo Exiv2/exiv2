@@ -87,9 +87,8 @@ struct MatroskaTag {
     return _process == Composite;
   }
   void dump(std::ostream& os) const {
-    os << " MatroskaTag "
-       << " id: [0x" << std::hex << _id << "] label:[" << _label << "] type:[" << _type << "] process :[" << _process
-       << "]\n";
+    os << " MatroskaTag id: [0x" << std::hex << _id << "] label:[" << _label << "] type:[" << _type << "] process :["
+       << _process << "]\n";
   }
 };
 }  // namespace Internal

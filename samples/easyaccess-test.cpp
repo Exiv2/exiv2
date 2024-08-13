@@ -56,7 +56,8 @@ static void printFct(EasyAccessFct fct, Exiv2::ExifData ed, const char* label) {
     std::cout << " (" << std::setw(35) << pos->key() << ") : " << pos->print(&ed) << "\n";
   } else {
     std::cout << " (" << std::setw(35) << " "
-              << ") : \n";
+              << ") : "
+              << "\n";
   }
 }
 

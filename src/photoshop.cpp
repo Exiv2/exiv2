@@ -57,8 +57,7 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
     position += psSize;
     if (position + 4 > sizePsData) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Warning: "
-                << "Invalid or extended Photoshop IRB\n";
+      std::cerr << "Warning: Invalid or extended Photoshop IRB\n";
 #endif
       return -2;
     }
@@ -66,15 +65,13 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
     position += 4;
     if (dataSize > (sizePsData - position)) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Warning: "
-                << "Invalid Photoshop IRB data size " << dataSize << " or extended Photoshop IRB\n";
+      std::cerr << "Warning: Invalid Photoshop IRB data size " << dataSize << " or extended Photoshop IRB\n";
 #endif
       return -2;
     }
 #ifdef EXIV2_DEBUG_MESSAGES
     if ((dataSize & 1) && position + dataSize == sizePsData) {
-      std::cerr << "Warning: "
-                << "Photoshop IRB data is not padded to even size\n";
+      std::cerr << "Warning: Photoshop IRB data is not padded to even size\n";
     }
 #endif
     if (type == psTag) {
@@ -94,8 +91,7 @@ int Photoshop::locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag,
 #endif
   if (position < sizePsData) {
 #ifdef EXIV2_DEBUG_MESSAGES
-    std::cerr << "Warning: "
-              << "Invalid or extended Photoshop IRB\n";
+    std::cerr << "Warning: Invalid or extended Photoshop IRB\n";
 #endif
     return -2;
   }

@@ -588,8 +588,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
             throw Error(ErrorCode::kerImageWriteFailed);
           }
 #ifdef EXIV2_DEBUG_MESSAGES
-          std::cout << "Exiv2::PngImage::doWriteMetadata: build eXIf"
-                    << " chunk (length: " << blob.size() << ")" << '\n';
+          std::cout << "Exiv2::PngImage::doWriteMetadata: build eXIf chunk (length: " << blob.size() << ")\n";
 #endif
         }
       }
@@ -631,8 +630,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
             throw Error(ErrorCode::kerImageWriteFailed);
           }
 #ifdef EXIV2_DEBUG_MESSAGES
-          std::cout << "Exiv2::PngImage::doWriteMetadata: build iCCP"
-                    << " chunk (length: " << chunkLength << ")" << '\n';
+          std::cout << "Exiv2::PngImage::doWriteMetadata: build iCCP chunk (length: " << chunkLength << ")\n";
 #endif
         }
       }
