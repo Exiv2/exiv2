@@ -77,25 +77,24 @@ int main(int argc, char* const argv[]) {
     shortLong.insert("Exif.Photo.StripOffsets");
     shortLong.insert("Exif.Photo.StripByteCounts");
 
-    auto end = exifData.end();
-    for (auto i = exifData.begin(); i != end; ++i) {
+    for (const auto& i : exifData) {
       if (!bLint) {
-        const char* tn = i->typeName();
-        std::cout << std::setw(44) << std::setfill(' ') << std::left << i->key() << " "
-                  << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i->tag() << " "
+        const char* tn = i.typeName();
+        std::cout << std::setw(44) << std::setfill(' ') << std::left << i.key() << " "
+                  << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i.tag() << " "
                   << std::setw(9) << std::setfill(' ') << std::left << (tn ? tn : "Unknown") << " " << std::dec
-                  << std::setw(3) << std::setfill(' ') << std::right << i->count() << "  " << std::dec << i->toString()
+                  << std::setw(3) << std::setfill(' ') << std::right << i.count() << "  " << std::dec << i.toString()
                   << "\n";
       } else {
-        const Exiv2::TagInfo* tagInfo = findTag(Exiv2::ExifTags::tagList(i->groupName()), i->tag());
+        const Exiv2::TagInfo* tagInfo = findTag(Exiv2::ExifTags::tagList(i.groupName()), i.tag());
         if (tagInfo) {
-          Exiv2::TypeId type = i->typeId();
+          Exiv2::TypeId type = i.typeId();
           if (type != tagInfo->typeId_ &&
               (tagInfo->typeId_ != Exiv2::comment || type != Exiv2::undefined)  // comment is stored as undefined
-              && (shortLong.find(i->key()) == shortLong.end() ||
+              && (shortLong.find(i.key()) == shortLong.end() ||
                   (type != Exiv2::unsignedShort && type != Exiv2::unsignedLong))  // can be short or long!
           ) {
-            std::cerr << i->key() << " type " << i->typeName() << " (" << type << ")"
+            std::cerr << i.key() << " type " << i.typeName() << " (" << type << ")"
                       << " expected " << Exiv2::TypeInfo::typeName(tagInfo->typeId_) << " (" << tagInfo->typeId_ << ")"
                       << '\n';
             rc = 2;
