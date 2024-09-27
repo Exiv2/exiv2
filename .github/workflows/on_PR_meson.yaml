@@ -16,6 +16,8 @@ jobs:
         deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - uses: egor-tensin/setup-gcc@v1
         with:
           version: ${{matrix.cxx}}
@@ -35,6 +37,8 @@ jobs:
         deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - uses: egor-tensin/setup-clang@v1
         with:
           version: ${{matrix.cxx}}
@@ -58,6 +62,8 @@ jobs:
         platform: ['x64', 'x86']
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Install packages
         run: |
@@ -80,6 +86,8 @@ jobs:
         deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Install packages
         run: |
@@ -107,6 +115,8 @@ jobs:
         shell: msys2 {0}
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - uses: msys2/setup-msys2@v2
         with:
@@ -134,6 +144,8 @@ jobs:
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Install packages
         run: |
@@ -148,6 +160,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
@@ -160,6 +174,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - name: Install packages
         run: |
           python3 -m pip install meson ninja

@@ -1,0 +1,3 @@
+[submodule "xmpsdk/XMP-Toolkit-SDK"]
+	path = xmpsdk/XMP-Toolkit-SDK
+	url = https://github.com/adobe/XMP-Toolkit-SDK.git
