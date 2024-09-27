@@ -830,7 +830,6 @@ EXCLUDE                = @ROOTDIR@/samples/Jzon.h \
                          @ROOTDIR@/src/getopt.hpp \
                          @ROOTDIR@/src/localtime.c \
                          @ROOTDIR@/src/fff.h \
-                         @ROOTDIR@/src/private.h \
                          @ROOTDIR@/src/timegm.h \
                          @ROOTDIR@/src/tzfile.h \
                          @ROOTDIR@/src/unused.h \
