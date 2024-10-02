@@ -2108,6 +2108,8 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 28mm F2.8 STM"},
     {61182, "Canon RF 24-105mm F2.8 L IS USM Z"},
     {61182, "Canon RF-S 10-18mm F4.5-6.3 IS STM"},
+    {61182, "Canon RF 35mm F1.4 L VCM"},
+    {61182, "Canon RF 28-70mm F2.8 IS STM"},
     {65535, N_("n/a")},
 };
 
@@ -2526,7 +2528,7 @@ constexpr TagDetails canonToningEffect[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/12.72/lib/Image/ExifTool/Canon.pm#L6897
+// from https://github.com/exiftool/exiftool/blob/12.97/lib/Image/ExifTool/Canon.pm#L6937
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
     {257, "Canon RF 50mm F1.2L USM"},
@@ -2588,6 +2590,8 @@ constexpr TagDetails canonRFLensType[] = {
     {313, "Canon RF 28mm F2.8 STM"},
     {314, "Canon RF 24-105mm F2.8 L IS USM Z"},
     {315, "Canon RF-S 10-18mm F4.5-6.3 IS STM"},
+    {316, "Canon RF 35mm F1.4 L VCM"},
+    {318, "Canon RF 28-70mm F2.8 IS STM"},
 };
 
 // Canon File Info Tag
