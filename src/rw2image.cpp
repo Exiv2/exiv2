@@ -60,7 +60,7 @@ void Rw2Image::setComment(const std::string&) {
 }
 
 void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
-  out << "RW2 IMAGE" << std::endl;
+  out << "RW2 IMAGE" << '\n';
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type

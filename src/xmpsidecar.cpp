@@ -109,7 +109,7 @@ void XmpSidecar::writeMetadata() {
       Exiv2::XmpKey key(sKey);
       if (xmpData_.findKey(key) != xmpData_.end()) {
         std::string value_now(xmpData_[sKey].value().toString());
-        // std::cout << key << " -> " << value_now << " => " << value_orig << std::endl;
+        // std::cout << key << " -> " << value_now << " => " << value_orig << '\n';
         if (Internal::contains(value_orig, value_now.substr(0, 10))) {
           xmpData_[sKey] = value_orig;
         }

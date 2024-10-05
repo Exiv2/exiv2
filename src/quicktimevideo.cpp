@@ -613,7 +613,7 @@ void QuickTimeVideo::decodeBlock(size_t recursion_depth, std::string const& ente
   enforce(size - hdrsize <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   enforce(size - hdrsize <= std::numeric_limits<size_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
-  // std::cerr<<"Tag=>"<<buf.data()<<"     size=>"<<size-hdrsize << std::endl;
+  // std::cerr<<"Tag=>"<<buf.data()<<"     size=>"<<size-hdrsize << '\n';
   const auto newsize = static_cast<size_t>(size - hdrsize);
   if (newsize > buf.size()) {
     buf.resize(newsize);

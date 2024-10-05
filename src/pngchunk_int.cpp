@@ -54,7 +54,7 @@ void PngChunk::decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType t
   DataBuf arr = parseTXTChunk(data, key.size(), type);
 
 #ifdef EXIV2_DEBUG_MESSAGES
-  std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: " << std::string(arr.c_str(), arr.size()) << std::endl;
+  std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: " << std::string(arr.c_str(), arr.size()) << '\n';
 #endif
   if (!key.empty())
     parseChunkContent(pImage, key.c_data(), key.size(), arr);
@@ -64,7 +64,7 @@ DataBuf PngChunk::decodeTXTChunk(const DataBuf& data, TxtChunkType type) {
   DataBuf key = keyTXTChunk(data);
 
 #ifdef EXIV2_DEBUG_MESSAGES
-  std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: " << std::string(key.c_str(), key.size()) << std::endl;
+  std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: " << std::string(key.c_str(), key.size()) << '\n';
 #endif
   return parseTXTChunk(data, key.size(), type);
 }

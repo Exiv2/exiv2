@@ -7,17 +7,16 @@
 #include <string>
 
 using format_t = std::map<std::string, int>;
-using format_i = format_t::const_iterator;
 enum format_e { wolf, csv, json, xml };
 
 void syntax(const char* argv[], format_t& formats) {
-  std::cout << "Usage: " << argv[0] << " file format" << std::endl;
+  std::cout << "Usage: " << argv[0] << " file format" << '\n';
   int count = 0;
   std::cout << "formats: ";
   for (auto&& format : formats) {
     std::cout << (count++ ? " | " : "") << format.first;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 }
 
 size_t formatInit(Exiv2::ExifData& exifData) {
@@ -52,7 +51,7 @@ std::string formatCSV(Exiv2::ExifData& exifData) {
   for (auto i = exifData.begin(); count++ < length; ++i) {
     result << escapeCSV(i, false) << (count != length ? ", " : "");
   }
-  result << std::endl;
+  result << '\n';
 
   count = 0;
   for (auto i = exifData.begin(); count++ < length; ++i) {
@@ -67,9 +66,9 @@ std::string formatWolf(Exiv2::ExifData& exifData) {
   size_t length = formatInit(exifData);
   std::ostringstream result;
 
-  result << "{ " << std::endl;
+  result << "{ " << '\n';
   for (auto i = exifData.begin(); count++ < length; ++i) {
-    result << "  " << i->key() << " -> " << i->value() << (count != length ? "," : "") << std::endl;
+    result << "  " << i->key() << " -> " << i->value() << (count != length ? "," : "") << '\n';
   }
   result << "}";
   return result.str();
@@ -101,9 +100,9 @@ std::string formatJSON(Exiv2::ExifData& exifData) {
   size_t length = formatInit(exifData);
   std::ostringstream result;
 
-  result << "{" << std::endl;
+  result << "{" << '\n';
   for (auto i = exifData.begin(); count++ < length; ++i) {
-    result << "  " << escapeJSON(i, false) << ":" << escapeJSON(i, true) << (count != length ? "," : "") << std::endl;
+    result << "  " << escapeJSON(i, false) << ":" << escapeJSON(i, true) << (count != length ? "," : "") << '\n';
   }
   result << "}";
   return result.str();
@@ -136,13 +135,13 @@ std::string formatXML(Exiv2::ExifData& exifData) {
   size_t length = formatInit(exifData);
   std::ostringstream result;
 
-  result << "<exif>" << std::endl;
+  result << "<exif>" << '\n';
   for (auto i = exifData.begin(); count++ < length; ++i) {
     std::string key = escapeXML(i, false);
     std::string value = escapeXML(i, true);
-    result << "  <" << key << ">" << value << "<" << key << "/>" << std::endl;
+    result << "  <" << key << ">" << value << "<" << key << "/>" << '\n';
   }
-  result << "</exif>" << std::endl;
+  result << "</exif>" << '\n';
   return result.str();
 }
 
@@ -167,7 +166,7 @@ int main(int argc, const char* argv[]) {
   const char* format = argv[2];
 
   if (!result && formats.find(format) == formats.end()) {
-    std::cout << "Unrecognised format " << format << std::endl;
+    std::cout << "Unrecognised format " << format << '\n';
     syntax(argv, formats);
     result = 2;
   }
@@ -180,28 +179,28 @@ int main(int argc, const char* argv[]) {
 
       switch (formats.find(format)->second) {
         case wolf:
-          std::cout << formatWolf(exifData) << std::endl;
+          std::cout << formatWolf(exifData) << '\n';
           break;
         case csv:
-          std::cout << formatCSV(exifData) << std::endl;
+          std::cout << formatCSV(exifData) << '\n';
           break;
         case json:
-          std::cout << formatJSON(exifData) << std::endl;
+          std::cout << formatJSON(exifData) << '\n';
           break;
         case xml:
-          std::cout << formatXML(exifData) << std::endl;
+          std::cout << formatXML(exifData) << '\n';
           break;
 
         default:
-          std::cout << "*** error: format not implemented yet: " << format << " ***" << std::endl;
+          std::cout << "*** error: format not implemented yet: " << format << " ***" << '\n';
           result = 3;
           break;
       }
     } catch (Exiv2::Error& e) {
-      std::cerr << "*** error exiv2 exception '" << e << "' ***" << std::endl;
+      std::cerr << "*** error exiv2 exception '" << e << "' ***" << '\n';
       result = 4;
     } catch (...) {
-      std::cerr << "*** error exception" << std::endl;
+      std::cerr << "*** error exception" << '\n';
       result = 5;
     }
 

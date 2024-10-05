@@ -19,8 +19,7 @@ int main(int argc, char* const argv[]) try {
   image->readMetadata();
 
   Exiv2::PreviewManager loader(*image);
-  Exiv2::PreviewPropertiesList list = loader.getPreviewProperties();
-  for (auto&& pos : list) {
+  for (const auto& pos : loader.getPreviewProperties()) {
     std::cout << pos.mimeType_ << " preview, type " << pos.id_ << ", " << pos.size_ << " bytes, " << pos.width_ << 'x'
               << pos.height_ << " pixels"
               << "\n";

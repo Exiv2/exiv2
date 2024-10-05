@@ -22,17 +22,17 @@ int main(int argc, char* const argv[]) {
   Exiv2::ExifData& exifData = image->exifData();
 
   if (exifData.empty()) {
-    std::cerr << "no metadata found in file " << file << std::endl;
+    std::cerr << "no metadata found in file " << file << '\n';
     return EXIT_FAILURE;
   }
 
   try {
-    std::cout << exifData[key] << std::endl;
+    std::cout << exifData[key] << '\n';
   } catch (Exiv2::Error& e) {
-    std::cerr << "Caught Exiv2 exception '" << e << "'" << std::endl;
+    std::cerr << "Caught Exiv2 exception '" << e << "'" << '\n';
     return EXIT_FAILURE;
   } catch (...) {
-    std::cerr << "Caught a cold!" << std::endl;
+    std::cerr << "Caught a cold!" << '\n';
     return EXIT_FAILURE;
   }
 

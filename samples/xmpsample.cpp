@@ -185,7 +185,7 @@ int main() try {
   for (auto&& md : xmpData) {
     std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9) << std::setfill(' ')
               << std::left << md.typeName() << " " << std::dec << std::setw(3) << std::setfill(' ') << std::right
-              << md.count() << "  " << std::dec << md.value() << std::endl;
+              << md.count() << "  " << std::dec << md.value() << '\n';
   }
 
   // -------------------------------------------------------------------------

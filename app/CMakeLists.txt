@@ -1,15 +1,21 @@
 set(APP_SOURCES
     exiv2.cpp
-    exiv2app.hpp
     actions.cpp
-    actions.hpp
     getopt.cpp
-    getopt.hpp
     app_utils.cpp
-    app_utils.hpp
 )
 
 add_executable(exiv2 ${APP_SOURCES})
+
+# Make app use UTF-8 code page in Windows
+if(WIN32)
+  if(MSVC)
+    target_sources(exiv2 PRIVATE utf8.manifest)
+  else()
+    # Must wrap manifest in .rc w/ other toolchains
+    target_sources(exiv2 PRIVATE utf8.rc)
+  endif()
+endif()
 
 target_include_directories(exiv2 PRIVATE ${PROJECT_SOURCE_DIR}/src) # To find i18n.hpp
 
@@ -26,24 +32,6 @@ if(EXIV2_ENABLE_NLS)
 endif()
 
 target_link_libraries(exiv2 PRIVATE std::filesystem)
-
-if(MSVC OR MINGW)
-  # Trick to get properly UTF-8 encoded argv.
-
-  # More info at: https://github.com/huangqinjin/wmain
-  add_library(wmain STATIC wmain.cpp)
-  target_link_libraries(exiv2 PRIVATE wmain)
-endif()
-
-if(MSVC)
-  target_link_options(wmain INTERFACE /WHOLEARCHIVE:$<TARGET_FILE:wmain>)
-  target_link_options(exiv2 PRIVATE "/ENTRY:wWinMainCRTStartup")
-endif()
-
-if(MINGW)
-  target_compile_options(exiv2 PRIVATE -municode)
-  target_link_options(exiv2 PRIVATE -municode)
-endif()
 
 if(USING_CONAN
    AND WIN32

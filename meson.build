@@ -142,8 +142,12 @@ exiv2_sources = files(
   'app/app_utils.cpp',
   'app/exiv2.cpp',
   'app/getopt.cpp',
-  host_machine.system() == 'windows' ? 'app/wmain.cpp' : [],
 )
+
+if host_machine.system() == 'windows'
+  windows = import('windows')
+  exiv2_sources += windows.compile_resources('app/utf8.rc', depend_files: 'app/utf8.manifest') 
+endif
 
 exiv2inc = include_directories('src', 'include/exiv2')
 executable(

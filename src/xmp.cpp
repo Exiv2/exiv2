@@ -1048,7 +1048,7 @@ void printNode(const std::string& schemaNs, const std::string& propPath, const s
   } else {
     std::cout << propPath << " = " << propValue;
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 }
 #else
 void printNode(const std::string&, const std::string&, const std::string&, const XMP_OptionBits&) {

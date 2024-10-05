@@ -56,11 +56,11 @@ namespace {
         }
         hexOutput << static_cast<char>(c);
       }
-      hexOutput << std::endl;
+      hexOutput << '\n';
     }
   }
 
-  hexOutput << std::endl << std::endl << std::endl;
+  hexOutput << '\n' << '\n' << '\n';
 
   return hexOutput.str();
 }
@@ -109,7 +109,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     throw Error(ErrorCode::kerImageWriteFailed);
 
 #ifdef EXIV2_DEBUG_MESSAGES
-  std::cout << "Writing metadata" << std::endl;
+  std::cout << "Writing metadata" << '\n';
 #endif
 
   byte data[WEBP_TAG_SIZE * 3];
@@ -418,8 +418,8 @@ void WebPImage::printStructure(std::ostream& out, PrintStructureOption option, s
     chunkId.write_uint8(4, '\0');
 
     if (bPrint) {
-      out << Internal::indent(depth) << "STRUCTURE OF WEBP FILE: " << io().path() << std::endl;
-      out << Internal::indent(depth) << " Chunk |   Length |   Offset | Payload" << std::endl;
+      out << Internal::indent(depth) << "STRUCTURE OF WEBP FILE: " << io().path() << '\n';
+      out << Internal::indent(depth) << " Chunk |   Length |   Offset | Payload" << '\n';
     }
 
     io_->seek(0, BasicIo::beg);  // rewind
@@ -435,7 +435,7 @@ void WebPImage::printStructure(std::ostream& out, PrintStructureOption option, s
       if (bPrint) {
         out << Internal::indent(depth)
             << Internal::stringFormat("  %s | %8u | %8u | ", chunkId.c_str(), size, static_cast<uint32_t>(offset))
-            << Internal::binaryToString(makeSlice(payload, 0, payload.size() > 32 ? 32 : payload.size())) << std::endl;
+            << Internal::binaryToString(makeSlice(payload, 0, payload.size() > 32 ? 32 : payload.size())) << '\n';
       }
 
       if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF) && option == kpsRecursive) {
@@ -489,7 +489,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
   bool has_canvas_data = false;
 
 #ifdef EXIV2_DEBUG_MESSAGES
-  std::cout << "Reading metadata" << std::endl;
+  std::cout << "Reading metadata" << '\n';
 #endif
 
   chunkId.write_uint8(4, '\0');
@@ -639,7 +639,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       std::copy(payload.begin(), payload.end(), rawExifData.begin() + offset);
 
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cout << "Display Hex Dump [size:" << sizePayload << "]" << std::endl;
+      std::cout << "Display Hex Dump [size:" << sizePayload << "]" << '\n';
       std::cout << binaryToHex(rawExifData.c_data(), sizePayload);
 #endif
 
@@ -649,7 +649,7 @@ void WebPImage::decodeChunks(uint32_t filesize) {
         setByteOrder(bo);
       } else {
 #ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << "Failed to decode Exif metadata." << std::endl;
+        EXV_WARNING << "Failed to decode Exif metadata." << '\n';
 #endif
         exifData_.clear();
       }
@@ -658,11 +658,11 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       xmpPacket_.assign(payload.c_str(), payload.size());
       if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << "Failed to decode XMP metadata." << std::endl;
+        EXV_WARNING << "Failed to decode XMP metadata." << '\n';
 #endif
       } else {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cout << "Display Hex Dump [size:" << payload.size() << "]" << std::endl;
+        std::cout << "Display Hex Dump [size:" << payload.size() << "]" << '\n';
         std::cout << binaryToHex(payload.c_data(), payload.size());
 #endif
       }
