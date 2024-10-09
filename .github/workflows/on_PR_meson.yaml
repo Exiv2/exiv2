@@ -162,7 +162,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install packages
         run: |
-          python3 -m pip install meson ninja
+          sudo apt install -y meson
       - name: Emscripten
         uses: mymindstorm/setup-emsdk@v14
       - name: Compile
