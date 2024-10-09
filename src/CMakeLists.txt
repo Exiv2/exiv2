@@ -173,7 +173,6 @@ set_target_properties( exiv2lib_int PROPERTIES
 )
 
 # NOTE: Cannot use target_link_libraries on OBJECT libraries with old versions of CMake
-target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
 target_include_directories(exiv2lib SYSTEM PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
 )
@@ -231,6 +230,7 @@ endif()
 
 if( EXIV2_ENABLE_PNG )
     target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
+    target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
     list(APPEND requires_private_list "zlib")
 endif()
 
