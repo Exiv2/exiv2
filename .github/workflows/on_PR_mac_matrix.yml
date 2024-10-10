@@ -25,7 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install ninja inih googletest
+          brew install ninja fmt inih googletest
 
       - name: Build
         run: |
