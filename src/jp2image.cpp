@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <array>
+#include <bit>
 #include <iostream>
 
 namespace Exiv2 {
@@ -100,7 +101,7 @@ Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create) : Image(ImageType::jp2, m
 // Obtains the ascii version from the box.type
 std::string Jp2Image::toAscii(uint32_t n) {
   const auto p = reinterpret_cast<const char*>(&n);
-  if (isBigEndianPlatform())
+  if constexpr (std::endian::native == std::endian::big)
     return std::string(p, p + 4);
   std::string result(p, p + 4);
   std::reverse(result.begin(), result.end());
