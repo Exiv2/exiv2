@@ -67,13 +67,13 @@ void BasicIo::seekOrThrow(int64_t offset, Position pos, ErrorCode err) {
 class FileIo::Impl {
  public:
   //! Constructor
-  explicit Impl(std::string path);
+  explicit Impl(fs::path path);
   ~Impl() = default;
   // Enumerations
   //! Mode of operation
   enum OpMode { opRead, opWrite, opSeek };
   // DATA
-  std::string path_;       //!< (Standard) path
+  fs::path path_;          //!< (Standard) path
   std::string openMode_;   //!< File open mode
   FILE* fp_{};             //!< File stream pointer
   OpMode opMode_{opSeek};  //!< File open mode
@@ -108,7 +108,7 @@ class FileIo::Impl {
   Impl& operator=(const Impl&) = delete;  //!< Assignment
 };
 
-FileIo::Impl::Impl(std::string path) : path_(std::move(path)) {
+FileIo::Impl::Impl(fs::path path) : path_(std::move(path)) {
 }
 
 int FileIo::Impl::switchMode(OpMode opMode) {
@@ -158,7 +158,7 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   std::fclose(fp_);
   openMode_ = "r+b";
   opMode_ = opSeek;
-  fp_ = std::fopen(path_.c_str(), openMode_.c_str());
+  fp_ = std::fopen(path_.string().c_str(), openMode_.c_str());
   if (!fp_)
     return 1;
 #ifdef _WIN32
@@ -534,8 +534,8 @@ bool FileIo::eof() const {
   return std::feof(p_->fp_) != 0;
 }
 
-const std::string& FileIo::path() const noexcept {
-  return p_->path_;
+std::string FileIo::path() const noexcept {
+  return p_->path_.string();
 }
 
 void FileIo::populateFakeData() {
@@ -835,7 +835,7 @@ bool MemIo::eof() const {
   return p_->eof_;
 }
 
-const std::string& MemIo::path() const noexcept {
+std::string MemIo::path() const noexcept {
   static std::string _path{"MemIo"};
   return _path;
 }
@@ -1353,7 +1353,7 @@ bool RemoteIo::eof() const {
   return p_->eof_;
 }
 
-const std::string& RemoteIo::path() const noexcept {
+std::string RemoteIo::path() const noexcept {
   return p_->path_;
 }
 
