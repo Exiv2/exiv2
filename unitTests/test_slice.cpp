@@ -97,12 +97,10 @@ TYPED_TEST_P(slice, constructionFailsWithZeroLength) {
  * Test the construction of subSlices and their behavior.
  */
 TYPED_TEST_P(slice, subSliceSuccessfulConstruction) {
-  using slice_t = Slice<TypeParam>;
-
   // 0 1 2 3 4 5 6 7 8 9
   //       |     |       center_vals
   //         | |         middle
-  slice_t center_vals = this->getTestSlice(3, 7);
+  auto center_vals = this->getTestSlice(3, 7);
   ASSERT_EQ(center_vals.size(), static_cast<size_t>(4));
   ASSERT_NO_THROW(center_vals.subSlice(1, 3));
 
@@ -110,7 +108,7 @@ TYPED_TEST_P(slice, subSliceSuccessfulConstruction) {
 }
 
 TYPED_TEST_P(slice, subSliceFunctions) {
-  Slice<TypeParam> middle = this->getTestSlice(3, 7).subSlice(1, 3);
+  auto middle = this->getTestSlice(3, 7).subSlice(1, 3);
 
   ASSERT_EQ(middle.size(), static_cast<size_t>(2));
   ASSERT_EQ(middle.at(1), static_cast<typename Slice<TypeParam>::value_type>(5));
@@ -163,11 +161,9 @@ void checkSubSlice(const Slice<T>& sl) {
  * Test that all slices can be also passed as const references and still work
  */
 TYPED_TEST_P(slice, constMethodsPreserveConst) {
-  using slice_t = Slice<TypeParam>;
-
   // 0 1 2 3 4 5 6 7 8 9
   //       |     |       center_vals
-  slice_t center_vals = this->getTestSlice(3, 7);
+  auto center_vals = this->getTestSlice(3, 7);
 
   // check at() const works
   checkConstSliceValueAt(center_vals, 4, 1);
@@ -181,30 +177,28 @@ TYPED_TEST_P(slice, constMethodsPreserveConst) {
  * Test the non-const iterators
  */
 TYPED_TEST_P(mutableSlice, iterators) {
-  using slice_t = Slice<TypeParam>;
-  slice_t sl = this->getTestSlice();
+  auto sl = this->getTestSlice();
 
-  ASSERT_EQ(*sl.begin(), static_cast<typename slice_t::value_type>(1));
-  ASSERT_EQ(*sl.end(), static_cast<typename slice_t::value_type>(this->vec_size - 1));
+  ASSERT_EQ(*sl.begin(), static_cast<typename decltype(sl)::value_type>(1));
+  ASSERT_EQ(*sl.end(), static_cast<typename decltype(sl)::value_type>(this->vec_size - 1));
 
   for (auto it = sl.begin(); it < sl.end(); ++it) {
-    *it = 2 * (*it);
+    *it *= 2;
   }
 
   ASSERT_EQ(this->vec_.at(0), 0);
   for (size_t j = 1; j < this->vec_size - 1; ++j) {
-    ASSERT_EQ(this->vec_.at(j), static_cast<typename slice_t::value_type>(2 * j));
+    ASSERT_EQ(this->vec_.at(j), static_cast<typename decltype(sl)::value_type>(2 * j));
     ASSERT_EQ(this->vec_.at(j), sl.at(j - 1));
   }
-  ASSERT_EQ(this->vec_.at(this->vec_size - 1), static_cast<typename slice_t::value_type>(this->vec_size - 1));
+  ASSERT_EQ(this->vec_.at(this->vec_size - 1), static_cast<typename decltype(sl)::value_type>(this->vec_size - 1));
 }
 
 /*!
  * Test the non-const version of at()
  */
 TYPED_TEST_P(mutableSlice, at) {
-  using slice_t = Slice<TypeParam>;
-  slice_t sl = this->getTestSlice(2, 4);
+  auto sl = this->getTestSlice(2, 4);
 
   sl.at(0) = 6;
   sl.at(1) = 12;
@@ -215,7 +209,7 @@ TYPED_TEST_P(mutableSlice, at) {
     if (j == 2 || j == 3) {
       continue;
     }
-    ASSERT_EQ(this->vec_.at(j), static_cast<typename slice_t::value_type>(j));
+    ASSERT_EQ(this->vec_.at(j), static_cast<typename decltype(sl)::value_type>(j));
   }
 }
 
