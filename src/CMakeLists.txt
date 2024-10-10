@@ -288,23 +288,25 @@ if(EXIV2_ENABLE_INIH)
   list(APPEND requires_private_list "INIReader")
 endif()
 
-# Convert private lists to delimited strings
-list(SORT libs_private_list)
-string(REPLACE ";" " -l" libs_private_string "${libs_private_list}")
-if(libs_private_string)
-  string(PREPEND libs_private_string "-l")
-endif()
-list(SORT requires_private_list)
-string(REPLACE ";" ", " requires_private_string "${requires_private_list}")
+if(NOT BUILD_SHARED_LIBS)
+  # Convert private lists to delimited strings
+  list(SORT libs_private_list)
+  string(REPLACE ";" " -l" libs_private_string "${libs_private_list}")
+  if(libs_private_string)
+    string(PREPEND libs_private_string "-l")
+  endif()
+  list(SORT requires_private_list)
+  string(REPLACE ";" ", " requires_private_string "${requires_private_list}")
 
-set(libs_private_for_pc_file
-    "${libs_private_string}"
-    PARENT_SCOPE
-)
-set(requires_private_for_pc_file
-    "${requires_private_string}"
-    PARENT_SCOPE
-)
+  set(libs_private_for_pc_file
+      "${libs_private_string}"
+      PARENT_SCOPE
+  )
+  set(requires_private_for_pc_file
+      "${requires_private_string}"
+      PARENT_SCOPE
+  )
+endif()
 
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
