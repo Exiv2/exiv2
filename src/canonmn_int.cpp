@@ -2096,7 +2096,7 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 1200mm F8L IS USM + RF2x"},
     {61182, "Canon RF 5.2mm F2.8L Dual Fisheye 3D VR"},
     {61182, "Canon RF 15-30mm F4.5-6.3 IS STM"},
-    {61182, "Canon RF 135mm F1.8 L IS USM"},
+    {61182, "Canon RF 135mm F1.8L IS USM"},
     {61182, "Canon RF 24-50mm F4.5-6.3 IS STM"},
     {61182, "Canon RF-S 55-210mm F5-7.1 IS STM"},
     {61182, "Canon RF 100-300mm F2.8L IS USM"},
@@ -2105,10 +2105,16 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 200-800mm F6.3-9 IS USM"},
     {61182, "Canon RF 200-800mm F6.3-9 IS USM + RF1.4x"},
     {61182, "Canon RF 200-800mm F6.3-9 IS USM + RF2x"},
-    {61182, "Canon RF 10-20mm F4 L IS STM"},
+    {61182, "Canon RF 10-20mm F4L IS STM"},
     {61182, "Canon RF 28mm F2.8 STM"},
-    {61182, "Canon RF 24-105mm F2.8 L IS USM Z"},
+    {61182, "Canon RF 24-105mm F2.8L IS USM Z"},
     {61182, "Canon RF-S 10-18mm F4.5-6.3 IS STM"},
+    {61182, "Canon RF 35mm F1.4L VCM"},
+    {61182, "Canon RF-S 3.9mm F3.5 STM Dual Fisheye"},
+    {61182, "Canon RF 28-70mm F2.8 IS STM"},
+    {61182, "Canon RF 70-200mm F2.8L IS USM Z"},
+    {61182, "Canon RF 50mm F1.4L VCM"},
+    {61182, "Canon RF 24mm F1.4L VCM"},
     {65535, N_("n/a")},
 };
 
@@ -2527,7 +2533,7 @@ constexpr TagDetails canonToningEffect[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/12.72/lib/Image/ExifTool/Canon.pm#L6897
+// from https://github.com/exiftool/exiftool/blob/13.04/lib/Image/ExifTool/Canon.pm#L6940
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
     {257, "Canon RF 50mm F1.2L USM"},
@@ -2576,7 +2582,7 @@ constexpr TagDetails canonRFLensType[] = {
     {300, "Canon RF 1200mm F8L IS USM + RF2x"},
     {301, "Canon RF 5.2mm F2.8L Dual Fisheye 3D VR"},
     {302, "Canon RF 15-30mm F4.5-6.3 IS STM"},
-    {303, "Canon RF 135mm F1.8 L IS USM"},
+    {303, "Canon RF 135mm F1.8L IS USM"},
     {304, "Canon RF 24-50mm F4.5-6.3 IS STM"},
     {305, "Canon RF-S 55-210mm F5-7.1 IS STM"},
     {306, "Canon RF 100-300mm F2.8L IS USM"},
@@ -2585,10 +2591,16 @@ constexpr TagDetails canonRFLensType[] = {
     {309, "Canon RF 200-800mm F6.3-9 IS USM"},
     {310, "Canon RF 200-800mm F6.3-9 IS USM + RF1.4x"},
     {311, "Canon RF 200-800mm F6.3-9 IS USM + RF2x"},
-    {312, "Canon RF 10-20mm F4 L IS STM"},
+    {312, "Canon RF 10-20mm F4L IS STM"},
     {313, "Canon RF 28mm F2.8 STM"},
-    {314, "Canon RF 24-105mm F2.8 L IS USM Z"},
+    {314, "Canon RF 24-105mm F2.8L IS USM Z"},
     {315, "Canon RF-S 10-18mm F4.5-6.3 IS STM"},
+    {316, "Canon RF 35mm F1.4L VCM"},
+    {317, "Canon RF-S 3.9mm F3.5 STM Dual Fisheye"},
+    {318, "Canon RF 28-70mm F2.8 IS STM"},
+    {319, "Canon RF 70-200mm F2.8L IS USM Z"},
+    {325, "Canon RF 50mm F1.4L VCM"},
+    {326, "Canon RF 24mm F1.4L VCM"},
 };
 
 // Canon File Info Tag
