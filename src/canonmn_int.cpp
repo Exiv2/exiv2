@@ -1583,6 +1583,7 @@ constexpr TagDetails canonCsLensType[] = {{1, "Canon EF 50mm f/1.8"},
                                           {112, "Sigma 40mm f/1.5 FF High-speed Prime"},   // 1
                                           {112, "Sigma 105mm f/1.5 FF High-speed Prime"},  // 2
                                           {117, "Tamron 35-150mm f/2.8-4.0 Di VC OSD"},
+                                          {117, "Tamron SP 15-30mm f/2.8 Di VC USD G2"},
                                           {117, "Tamron SP 35mm f/1.4 Di USD"},  // 1
                                           {124, "Canon MP-E 65mm f/2.8 1-5x Macro Photo"},
                                           {125, "Canon TS-E 24mm f/3.5L"},
