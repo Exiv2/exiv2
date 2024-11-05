@@ -433,7 +433,7 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
    * Constructs a new constant subSlice. Behaves otherwise exactly like
    * the non-const version.
    */
-  Slice<const container> subSlice(size_t begin, size_t end) const {
+  [[nodiscard]] Slice<const container> subSlice(size_t begin, size_t end) const {
     return this->to_const_base().template subSlice<Slice<const container>>(begin, end);
   }
 };
@@ -453,7 +453,7 @@ struct Slice<const container> : public Internal::ConstSliceBase<Internal::Contai
   using value_type = typename std::remove_cv<typename container::value_type>::type;
 #endif
 
-  Slice subSlice(size_t begin, size_t end) const {
+  [[nodiscard]] Slice subSlice(size_t begin, size_t end) const {
     return Internal::ConstSliceBase<Internal::ContainerStorage,
                                     const container>::template subSlice<Slice<const container>>(begin, end);
   }
@@ -486,7 +486,7 @@ struct Slice<const T*> : public Internal::ConstSliceBase<Internal::PtrSliceStora
     // TODO: use using in C++11
   }
 
-  Slice<const T*> subSlice(size_t begin, size_t end) const {
+  [[nodiscard]] Slice<const T*> subSlice(size_t begin, size_t end) const {
     return Internal::ConstSliceBase<Internal::PtrSliceStorage, const T*>::template subSlice<Slice<const T*>>(begin,
                                                                                                              end);
   }
@@ -501,7 +501,7 @@ struct Slice<T*> : public Internal::MutableSliceBase<Internal::PtrSliceStorage, 
     // TODO: use using in C++11
   }
 
-  Slice<T*> subSlice(size_t begin, size_t end) {
+  [[nodiscard]] Slice<T*> subSlice(size_t begin, size_t end) {
     return Internal::MutableSliceBase<Internal::PtrSliceStorage, T*>::template subSlice<Slice<T*>>(begin, end);
   }
 
