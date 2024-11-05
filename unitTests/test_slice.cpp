@@ -102,9 +102,9 @@ TYPED_TEST_P(slice, subSliceSuccessfulConstruction) {
   //         | |         middle
   auto center_vals = this->getTestSlice(3, 7);
   ASSERT_EQ(center_vals.size(), static_cast<size_t>(4));
-  ASSERT_NO_THROW(center_vals.subSlice(1, 3));
+  ASSERT_NO_THROW(static_cast<void>(center_vals.subSlice(1, 3)));
 
-  ASSERT_NO_THROW(center_vals.subSlice(1, center_vals.size()));
+  ASSERT_NO_THROW(static_cast<void>(center_vals.subSlice(1, center_vals.size())));
 }
 
 TYPED_TEST_P(slice, subSliceFunctions) {
@@ -119,17 +119,17 @@ TYPED_TEST_P(slice, subSliceFailedConstruction) {
   //         | |         middle
   auto middle = this->getTestSlice(4, 6);
 
-  ASSERT_THROW(middle.subSlice(1, 5), std::out_of_range);
-  ASSERT_THROW(middle.subSlice(2, 1), std::out_of_range);
-  ASSERT_THROW(middle.subSlice(2, 2), std::out_of_range);
+  ASSERT_THROW(static_cast<void>(middle.subSlice(1, 5)), std::out_of_range);
+  ASSERT_THROW(static_cast<void>(middle.subSlice(2, 1)), std::out_of_range);
+  ASSERT_THROW(static_cast<void>(middle.subSlice(2, 2)), std::out_of_range);
 }
 
 /*! try to cause integer overflows in a sub-optimal implementation */
 TYPED_TEST_P(slice, subSliceConstructionOverflowResistance) {
   auto center_vals = this->getTestSlice(3, 7);
 
-  ASSERT_THROW(center_vals.subSlice(std::numeric_limits<size_t>::max() - 2, 3), std::out_of_range);
-  ASSERT_THROW(center_vals.subSlice(2, std::numeric_limits<size_t>::max() - 1), std::out_of_range);
+  ASSERT_THROW(static_cast<void>(center_vals.subSlice(std::numeric_limits<size_t>::max() - 2, 3)), std::out_of_range);
+  ASSERT_THROW(static_cast<void>(center_vals.subSlice(2, std::numeric_limits<size_t>::max() - 1)), std::out_of_range);
 }
 
 /*!
