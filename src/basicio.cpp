@@ -1422,7 +1422,7 @@ int64_t HttpIo::HttpImpl::getFileLength() {
   }
 
   auto lengthIter = response.find("Content-Length");
-  return (lengthIter == response.end()) ? -1 : atol((lengthIter->second).c_str());
+  return (lengthIter == response.end()) ? -1 : std::stoll(lengthIter->second);
 }
 
 void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) {
@@ -1560,7 +1560,7 @@ CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url,
   }
 
   std::string timeout = getEnv(envTIMEOUT);
-  timeout_ = atol(timeout.c_str());
+  timeout_ = std::stol(timeout);
   if (timeout_ == 0) {
     throw Error(ErrorCode::kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
   }

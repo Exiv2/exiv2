@@ -37,7 +37,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
 
   // get the timeout value
   std::string timeoutStr = Exiv2::getEnv(Exiv2::envTIMEOUT);
-  long timeout = atol(timeoutStr.c_str());
+  long timeout = std::stol(timeoutStr);
   if (timeout == 0) {
     throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
   }
