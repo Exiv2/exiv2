@@ -31,20 +31,6 @@
 #endif
 #endif
 
-#ifndef __LITTLE_ENDIAN__
-#if defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__)
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-#define __LITTLE_ENDIAN__ 1
-#endif
-#endif
-#endif
-
-#ifndef __LITTLE_ENDIAN__
-#if defined(_WIN32) || defined(__CYGWIN__)
-#define __LITTLE_ENDIAN__ 1
-#endif
-#endif
-
 /*
   If you're using Solaris and the Solaris Studio compiler
   you must -library=stdcxx4 along with these inclusions below

@@ -55,7 +55,6 @@ class EXIV2API PgfImage : public Image {
   //@}
 
  private:
-  bool bSwap_;  // true for bigEndian hardware, else false
   /*!
     @brief Provides the main implementation of writeMetadata() by
           writing all buffered metadata to the provided BasicIo.
@@ -71,7 +70,6 @@ class EXIV2API PgfImage : public Image {
   //! Read header structure.
   DataBuf readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t& height) const;
   //@}
-
 };  // class PgfImage
 
 // *****************************************************************************
