@@ -216,7 +216,7 @@ std::istream& fromStreamToRational(std::istream& is, T& r) {
     char F = 0;
     float f = 0.F;
     is >> F >> f;
-    f = 2.0F * std::log(f) / std::log(2.0F);
+    f = 2.0F * std::log2(f);
     r = Exiv2::floatToRationalCast(f);
   } else {
     int32_t nominator = 0;
