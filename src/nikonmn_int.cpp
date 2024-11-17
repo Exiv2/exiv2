@@ -1759,7 +1759,7 @@ const TagInfo* Nikon3MakerNote::tagListLd4() {
 }
 
 std::ostream& Nikon3MakerNote::printIiIso(std::ostream& os, const Value& value, const ExifData*) {
-  auto v = std::lround(100.0 * std::exp((value.toInt64() / 12.0 - 5) * std::log(2.0)));
+  auto v = std::lround(100.0 * std::pow(2.0, value.toInt64() / 12.0 - 5));
   return os << v;
 }
 
