@@ -2893,7 +2893,7 @@ float string_to_float(std::string const& str) {
   ss >> val;
 
   if (ss.fail()) {
-    throw Error(ErrorCode::kerErrorMessage, std::string("canonmn_int.cpp:string_to_float failed for: ") + str);
+    throw Error(ErrorCode::kerErrorMessage, "canonmn_int.cpp:string_to_float failed for: ", str);
   }
 
   return val;

@@ -1332,8 +1332,7 @@ static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::
       }
       // Should never get in here. LensSpecFlags.mask should contain all the
       // bits in all the LensSpecFlags.flags.val_ entries
-      throw Error(ErrorCode::kerErrorMessage,
-                  std::string("LensSpecFlags mask doesn't match the bits in the flags array"));
+      throw Error(ErrorCode::kerErrorMessage, "LensSpecFlags mask doesn't match the bits in the flags array");
     }
   }
 }
