@@ -942,7 +942,7 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
     if (_setmode(_fileno(stdin), _O_BINARY) == -1)
       throw Error(ErrorCode::kerInputDataReadFailed);
 #endif
-    std::ofstream fs(path.c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
+    std::ofstream fs(path, std::ios::out | std::ios::binary | std::ios::trunc);
     // read stdin and write to the temp file.
     char readBuf[100 * 1024];
     std::streamsize readBufSize = 0;
@@ -955,7 +955,7 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
     } while (readBufSize);
     fs.close();
   } else if (prot == pDataUri) {
-    std::ofstream fs(path.c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
+    std::ofstream fs(path, std::ios::out | std::ios::binary | std::ios::trunc);
     // read data uri and write to the temp file.
     size_t base64Pos = orgPath.find("base64,");
     if (base64Pos == std::string::npos) {
