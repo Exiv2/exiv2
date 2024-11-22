@@ -413,8 +413,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
       Internal::enforce(box.length <= boxHSize + io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
 
       if (bPrint) {
-        out << Internal::stringFormat("%8zd | %8zd | ", position - boxHSize, static_cast<size_t>(box.length))
-            << toAscii(box.type) << "      | ";
+        out << stringFormat("{:8} | {:8} | {}      | ", position - boxHSize, box.length, toAscii(box.type));
         bLF = true;
         if (box.type == kJp2BoxTypeClose)
           lf(out, bLF);
@@ -456,8 +455,8 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
             DataBuf data(subBox.length - boxHSize);
             io_->read(data.data(), data.size());
             if (bPrint) {
-              out << Internal::stringFormat("%8zu | %8u |  sub:", address, subBox.length) << toAscii(subBox.type)
-                  << " | " << Internal::binaryToString(makeSlice(data, 0, std::min<size_t>(30, data.size())));
+              out << stringFormat("{:8} | {:8} |  sub:{} | ", address, subBox.length, toAscii(subBox.type))
+                  << Internal::binaryToString(makeSlice(data, 0, std::min<size_t>(30, data.size())));
               bLF = true;
             }
 
