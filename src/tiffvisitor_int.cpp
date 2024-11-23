@@ -497,7 +497,7 @@ void TiffEncoder::encodeIptc() {
     DataBuf buf;
     if (rawIptc.size() % 4 != 0) {
       // Pad the last unsignedLong value with 0s
-      buf.alloc((rawIptc.size() / 4) * 4 + 4);
+      buf.alloc(((rawIptc.size() / 4) * 4) + 4);
       std::move(rawIptc.begin(), rawIptc.end(), buf.begin());
     } else {
       buf = std::move(rawIptc);  // Note: This resets rawIptc
@@ -1149,7 +1149,7 @@ void TiffReader::visitSubIfd(TiffSubIfd* object) {
     if (object->group() == IfdId::ifd1Id)
       maxi = 1;
     for (uint32_t i = 0; i < object->count(); ++i) {
-      uint32_t offset = getULong(object->pData() + 4 * i, byteOrder());
+      uint32_t offset = getULong(object->pData() + (4 * i), byteOrder());
       if (baseOffset() + offset > size_) {
 #ifndef SUPPRESS_WARNINGS
         EXV_ERROR << "Directory " << groupName(object->group()) << ", entry 0x" << std::setw(4) << std::setfill('0')

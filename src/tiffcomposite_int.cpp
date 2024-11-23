@@ -823,7 +823,7 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
     ioWrapper.setTarget(OffsetWriter::cr2RawIfdOffset, offset);
   }
   // Size of all directory entries, without values and additional data
-  const size_t sizeDir = 2 + 12 * compCount + (hasNext_ ? 4 : 0);
+  const size_t sizeDir = 2 + (12 * compCount) + (hasNext_ ? 4 : 0);
 
   // TIFF standard requires IFD entries to be sorted in ascending order by tag.
   // Not sorting makernote directories sometimes preserves them better.
@@ -1276,7 +1276,7 @@ size_t TiffComponent::size() const {
 size_t TiffDirectory::doSize() const {
   size_t compCount = count();
   // Size of the directory, without values and additional data
-  size_t len = 2 + 12 * compCount + (hasNext_ ? 4 : 0);
+  size_t len = 2 + (12 * compCount) + (hasNext_ ? 4 : 0);
   // Size of IFD values and data
   for (auto&& component : components_) {
     if (size_t sv = component->size(); sv > 4) {

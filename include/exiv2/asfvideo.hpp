@@ -4,11 +4,12 @@
 #pragma once
 
 // *****************************************************************************
-#include <array>
 #include "exiv2lib_export.h"
 
 // included header files
 #include "image.hpp"
+
+#include <array>
 
 // *****************************************************************************
 // namespace extensions

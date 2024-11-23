@@ -1216,7 +1216,7 @@ void QuickTimeVideo::audioDescDecoder() {
         break;
       case AudioChannels:
         xmpData_["Xmp.audio.ChannelType"] = buf.read_uint16(0, bigEndian);
-        xmpData_["Xmp.audio.BitsPerSample"] = (buf.data()[2] * 256 + buf.data()[3]);
+        xmpData_["Xmp.audio.BitsPerSample"] = ((buf.data()[2] * 256) + buf.data()[3]);
         break;
       case AudioSampleRate:
         xmpData_["Xmp.audio.SampleRate"] =
@@ -1256,7 +1256,7 @@ void QuickTimeVideo::imageDescDecoder() {
         break;
       case SourceImageWidth_Height:
         xmpData_["Xmp.video.SourceImageWidth"] = buf.read_uint16(0, bigEndian);
-        xmpData_["Xmp.video.SourceImageHeight"] = (buf.data()[2] * 256 + buf.data()[3]);
+        xmpData_["Xmp.video.SourceImageHeight"] = ((buf.data()[2] * 256) + buf.data()[3]);
         break;
       case XResolution:
         xmpData_["Xmp.video.XResolution"] =

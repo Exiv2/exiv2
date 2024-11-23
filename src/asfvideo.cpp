@@ -50,7 +50,7 @@ AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
   std::memcpy(&data1_, bytes, DWORD);
   std::memcpy(&data2_, bytes + DWORD, WORD);
   std::memcpy(&data3_, bytes + DWORD + WORD, WORD);
-  std::copy(bytes + QWORD, bytes + 2 * QWORD, data4_.begin());
+  std::copy(bytes + QWORD, bytes + (2 * QWORD), data4_.begin());
   if (isBigEndianPlatform()) {
     data1_ = byteSwap(data1_, true);
     data2_ = byteSwap(data2_, true);
@@ -295,7 +295,7 @@ void AsfVideo::decodeHeader() {
 
   uint32_t nb_headers = Exiv2::getULong(nbHeadersBuf.data(), littleEndian);
   Internal::enforce(nb_headers < std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
-  io_->seekOrThrow(io_->tell() + BYTE * 2, BasicIo::beg,
+  io_->seekOrThrow(io_->tell() + (BYTE * 2), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // skip two reserved tags
   for (uint32_t i = 0; i < nb_headers; i++) {
     decodeBlock();
@@ -346,7 +346,7 @@ void AsfVideo::DegradableJPEGMedia() {
   height_ = height;
   xmpData_["Xmp.video.Height"] = height;
 
-  io_->seek(io_->tell() + WORD * 3 /*3 Reserved*/, BasicIo::beg);
+  io_->seek(io_->tell() + (WORD * 3) /*3 Reserved*/, BasicIo::beg);
 
   uint32_t interchange_data_length = readWORDTag(io_);
   io_->seek(io_->tell() + interchange_data_length /*Interchange data*/, BasicIo::beg);

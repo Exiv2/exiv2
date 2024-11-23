@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Sample program to read gpx files and update images with GPS tags
 
-#include <expat.h>
 #include <exiv2/exiv2.hpp>
 
+#include <expat.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 

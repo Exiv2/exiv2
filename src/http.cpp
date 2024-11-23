@@ -6,6 +6,7 @@
 #include "http.hpp"
 
 #include <array>
+#include <cerrno>
 #include <chrono>
 #include <cinttypes>
 #include <thread>
@@ -25,7 +26,6 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <cerrno>
 
 #define SOCKET_ERROR (-1)
 #define WSAEWOULDBLOCK EINPROGRESS
@@ -226,7 +226,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
                  std::to_string(serv_addr.sin_port).c_str(), WSAGetLastError());
   }
 
-  char buffer[32 * 1024 + 1];
+  char buffer[(32 * 1024) + 1];
   size_t buff_l = sizeof buffer - 1;
 
   ////////////////////////////////////

@@ -3,9 +3,11 @@
 #ifndef HELPER_FUNCTIONS_HPP
 #define HELPER_FUNCTIONS_HPP
 
-#include <string>
 #include "basicio.hpp"
 #include "types.hpp"
+
+#include <string>
+
 /*!
   @brief Convert a (potentially not null terminated) array into a
   std::string.

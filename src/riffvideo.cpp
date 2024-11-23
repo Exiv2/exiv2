@@ -494,7 +494,7 @@ void RiffVideo::readAviHeader() {
 
   xmpData_["Xmp.video.MaxDataRate"] = readDWORDTag(io_);  // MaximumDataRate
 
-  io_->seekOrThrow(io_->tell() + DWORD * 2, BasicIo::beg,
+  io_->seekOrThrow(io_->tell() + (DWORD * 2), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // ignore PaddingGranularity and Flags
 
   uint32_t frame_count = readDWORDTag(io_);  // TotalNumberOfFrames
@@ -513,7 +513,7 @@ void RiffVideo::readAviHeader() {
   uint32_t height = readDWORDTag(io_);
   xmpData_["Xmp.video.Height"] = height;
 
-  io_->seekOrThrow(io_->tell() + DWORD * 4, BasicIo::beg,
+  io_->seekOrThrow(io_->tell() + (DWORD * 4), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // TimeScale, DataRate, StartTime, DataLength
 
   xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width, height);
@@ -549,7 +549,7 @@ void RiffVideo::readStreamHeader() {
 
   xmpData_["Xmp.video.Codec"] = readStringTag(io_);  // DataHandler
 
-  io_->seekOrThrow(io_->tell() + DWORD * 2 + WORD * 2, BasicIo::beg,
+  io_->seekOrThrow(io_->tell() + (DWORD * 2) + (WORD * 2), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // dwFlags, wPriority, wLanguage, dwInitialFrames
 
   uint32_t divisor = readDWORDTag(io_);  // TimeScale
@@ -570,7 +570,7 @@ void RiffVideo::readStreamHeader() {
   xmpData_[(streamType_ == Video) ? "Xmp.video.VideoQuality" : "Xmp.video.StreamQuality"] = readDWORDTag(io_);
 
   xmpData_[(streamType_ == Video) ? "Xmp.video.VideoSampleSize" : "Xmp.video.StreamSampleSize"] = readDWORDTag(io_);
-  io_->seekOrThrow(io_->tell() + DWORD * 2, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+  io_->seekOrThrow(io_->tell() + (DWORD * 2), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
 
 void RiffVideo::readStreamFormat(uint64_t size_) {
@@ -605,7 +605,7 @@ void RiffVideo::readStreamFormat(uint64_t size_) {
 #endif
 
   if (streamType_ == Video) {
-    io_->seekOrThrow(io_->tell() + DWORD * 3, BasicIo::beg,
+    io_->seekOrThrow(io_->tell() + (DWORD * 3), BasicIo::beg,
                      ErrorCode::kerFailedToReadImageData);  // ignore biSize, biWidth, biHeight
     xmpData_["Xmp.video.Planes"] = readWORDTag(io_);
     xmpData_["Xmp.video.PixelDepth"] = readWORDTag(io_);

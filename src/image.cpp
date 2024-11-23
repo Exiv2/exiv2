@@ -417,7 +417,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       // if ( offset > io.size() ) offset = 0; // Denial of service?
 
       // #55 and #56 memory allocation crash test/data/POC8
-      const size_t allocate64 = size * count + pad + 20;
+      const size_t allocate64 = (size * count) + pad + 20;
       if (allocate64 > io.size()) {
         throw Error(ErrorCode::kerInvalidMalloc);
       }
@@ -436,7 +436,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       }
 
       if (bPrint) {
-        const size_t address = start + 2 + i * 12;
+        const size_t address = start + 2 + (i * 12);
         const std::string offsetString = bOffsetIsPointer ? Internal::stringFormat("%10u", offset) : "";
 
         out << Internal::indent(depth)
@@ -455,8 +455,8 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
         } else if (isRationalType(type)) {
           for (size_t k = 0; k < kount; k++) {
-            uint32_t a = byteSwap4(buf, k * size + 0, bSwap);
-            uint32_t b = byteSwap4(buf, k * size + 4, bSwap);
+            uint32_t a = byteSwap4(buf, (k * size) + 0, bSwap);
+            uint32_t b = byteSwap4(buf, (k * size) + 4, bSwap);
             out << sp << a << "/" << b;
             sp = " ";
           }

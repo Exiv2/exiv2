@@ -276,7 +276,7 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
 
   if (header.read_uint8(12) == 2)  // Indexed color image. We pass color table (256 * 3 bytes).
   {
-    header.alloc(16 + 256 * 3);
+    header.alloc(16 + (256 * 3));
 
     bufRead = iIo.read(header.data(16), 256 * 3);
     if (iIo.error())

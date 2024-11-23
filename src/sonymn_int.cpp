@@ -844,7 +844,7 @@ static auto getMetaVersion(const ExifData* metadata, std::string& val) {
 
   if (pos != metadata->end() && pos->typeId() == asciiString) {
     std::string temp = pos->toString();
-    if (temp.length() != 0) {
+    if (!temp.empty()) {
       val = temp;
       return true;
     }

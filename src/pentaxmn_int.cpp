@@ -1258,7 +1258,7 @@ static std::ostream& printLensType(std::ostream& os, const Value& value, const E
     return os << Internal::readExiv2Config(section, value.toString(), undefined);
   }
 
-  const auto index = value.toUint32(0) * 256 + value.toUint32(1);
+  const auto index = (value.toUint32(0) * 256) + value.toUint32(1);
 
   // std::cout << '\n' << "printLensType value =" << value.toLong() << " index = " << index << '\n';
   auto lif = Exiv2::find(lensIdFct, index);
