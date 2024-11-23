@@ -12,8 +12,9 @@
 #define ACTIONS_HPP_
 
 // *****************************************************************************
-#include <unordered_map>
 #include "exiv2app.hpp"
+
+#include <unordered_map>
 
 // *****************************************************************************
 // class declarations

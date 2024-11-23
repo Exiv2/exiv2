@@ -713,8 +713,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
     }
 
     // Prevent a malicious file from causing a large memory allocation.
-    Internal::enforce(box.length - 8 <= static_cast<size_t>(io_->size() - io_->tell()),
-                      ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(box.length - 8 <= io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
 
     // Read whole box : Box header + Box data (not fixed size - can be null).
     DataBuf boxBuf(box.length);                          // Box header (8 bytes) + box data.

@@ -1121,9 +1121,7 @@ bool isEpsType(BasicIo& iIo, bool advance) {
   // read as many bytes as needed for the longest (DOS) EPS signature
   size_t bufSize = dosEpsSignature.size();
   for (auto&& i : epsFirstLine) {
-    if (bufSize < i.size()) {
-      bufSize = i.size();
-    }
+    bufSize = std::max(bufSize, i.size());
   }
   const size_t restore = iIo.tell();  // save
   DataBuf buf = iIo.read(bufSize);

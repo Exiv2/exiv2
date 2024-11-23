@@ -11,6 +11,7 @@
 #include "image_int.hpp"
 #include "types.hpp"
 
+#include <algorithm>
 #include <cstdio>   // for remove, rename
 #include <cstdlib>  // for alloc, realloc, free
 #include <cstring>  // std::memcpy
@@ -655,8 +656,7 @@ void MemIo::Impl::reserve(size_t wcount) {
   if (need > size_) {
     if (need > sizeAlloced_) {
       blockSize = 2 * sizeAlloced_;
-      if (blockSize > maxBlockSize)
-        blockSize = maxBlockSize;
+      blockSize = std::min(blockSize, maxBlockSize);
       // Allocate in blocks
       size_t want = blockSize * (1 + need / blockSize);
       data_ = static_cast<byte*>(std::realloc(data_, want));
@@ -1241,7 +1241,7 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
   }
 
   size_t iBlock = lowBlock;
-  size_t startPos = p_->idx_ - lowBlock * p_->blockSize_;
+  size_t startPos = p_->idx_ - (lowBlock * p_->blockSize_);
   size_t totalRead = 0;
   do {
     auto data = p_->blocksMap_[iBlock++].getData();
@@ -1273,7 +1273,7 @@ int RemoteIo::getb() {
   p_->populateBlocks(expectedBlock, expectedBlock);
 
   auto data = p_->blocksMap_[expectedBlock].getData();
-  return data[p_->idx_++ - expectedBlock * p_->blockSize_];
+  return data[p_->idx_++ - (expectedBlock * p_->blockSize_)];
 }
 
 void RemoteIo::transfer(BasicIo& src) {
@@ -1303,8 +1303,7 @@ int RemoteIo::seek(int64_t offset, Position pos) {
   // if (newIdx < 0 || newIdx > (long) p_->size_) return 1;
   p_->idx_ = static_cast<size_t>(newIdx);
   p_->eof_ = newIdx > static_cast<int64_t>(p_->size_);
-  if (p_->idx_ > p_->size_)
-    p_->idx_ = p_->size_;
+  p_->idx_ = std::min(p_->idx_, p_->size_);
   return 0;
 }
 
@@ -1439,7 +1438,7 @@ void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
   std::string errors;
   if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
     std::stringstream ss;
-    ss << "Range: bytes=" << lowBlock * blockSize_ << "-" << ((highBlock + 1) * blockSize_ - 1) << "\r\n";
+    ss << "Range: bytes=" << lowBlock * blockSize_ << "-" << (((highBlock + 1) * blockSize_) - 1) << "\r\n";
     request["header"] = ss.str();
   }
 
@@ -1475,7 +1474,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
   request["verb"] = "POST";
 
   // encode base64
-  size_t encodeLength = ((size + 2) / 3) * 4 + 1;
+  size_t encodeLength = (((size + 2) / 3) * 4) + 1;
   std::vector<char> encodeData(encodeLength);
   base64encode(data, size, encodeData.data(), encodeLength);
   // url encode
@@ -1618,7 +1617,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
 
   if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
     std::stringstream ss;
-    ss << lowBlock * blockSize_ << "-" << ((highBlock + 1) * blockSize_ - 1);
+    ss << lowBlock * blockSize_ << "-" << (((highBlock + 1) * blockSize_) - 1);
     std::string range = ss.str();
     curl_easy_setopt(curl_, CURLOPT_RANGE, range.c_str());
   }
@@ -1658,7 +1657,7 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
 
   // encode base64
-  size_t encodeLength = ((size + 2) / 3) * 4 + 1;
+  size_t encodeLength = (((size + 2) / 3) * 4) + 1;
   std::vector<char> encodeData(encodeLength);
   base64encode(data, size, encodeData.data(), encodeLength);
   // url encode

@@ -5,10 +5,11 @@
 
 // *****************************************************************************
 // included header files
-#include <unordered_map>
 #include "image.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tifffwd_int.hpp"
+
+#include <unordered_map>
 
 // *****************************************************************************
 // namespace extensions

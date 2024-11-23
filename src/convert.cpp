@@ -24,7 +24,6 @@
 
 #ifdef EXV_HAVE_ICONV
 #include <iconv.h>
-#include <cerrno>
 #elif defined _WIN32
 #include <windows.h>
 #endif
@@ -829,7 +828,7 @@ void Converter::cnvExifGPSCoord(const char* from, const char* to) {
     // Hack: Need Value::toDouble
     deg[i] = static_cast<double>(z) / d;
   }
-  double min = deg[0] * 60.0 + deg[1] + deg[2] / 60.0;
+  double min = (deg[0] * 60.0) + deg[1] + (deg[2] / 60.0);
   auto ideg = static_cast<int>(min / 60.0);
   min -= ideg * 60;
   std::ostringstream oss;

@@ -169,7 +169,7 @@ std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, 
 
   if (numbers.size() >= 10) {
     // year
-    long l = (numbers[0] - 48) * 10 + (numbers[1] - 48);
+    long l = ((numbers[0] - 48) * 10) + (numbers[1] - 48);
     if (l < 70)
       l += 2000;
     else
@@ -470,7 +470,7 @@ std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value,
 
   if (numbers.size() >= 10) {
     // year
-    long l = (numbers[0] - 48) * 10 + (numbers[1] - 48);
+    long l = ((numbers[0] - 48) * 10) + (numbers[1] - 48);
     if (l < 70)
       l += 2000;
     else

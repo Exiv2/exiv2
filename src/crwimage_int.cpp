@@ -6,6 +6,7 @@
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 
+#include <algorithm>
 #include <ctime>
 #include <iostream>
 
@@ -580,7 +581,7 @@ void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) const {
 }  // CiffHeader::remove
 
 void CiffComponent::remove(CrwDirs& crwDirs, uint16_t crwTagId) {
-  return doRemove(crwDirs, crwTagId);
+  doRemove(crwDirs, crwTagId);
 }  // CiffComponent::remove
 
 void CiffComponent::doRemove(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/) {
@@ -672,7 +673,8 @@ void CrwMap::decode0x080a(const CiffComponent& ciffComponent, const CrwMapping* 
 void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* pCrwMapping, Image& image,
                          ByteOrder byteOrder) {
   if (ciffComponent.typeId() != unsignedShort) {
-    return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    return;
   }
 
   int64_t aperture = 0;
@@ -703,7 +705,7 @@ void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* p
     UShortValue value;
     if (ifdId == IfdId::canonCsId && c == 23 && component_size >= 52)
       n = 3;
-    value.read(ciffComponent.pData() + c * 2, n * 2, byteOrder);
+    value.read(ciffComponent.pData() + (c * 2), n * 2, byteOrder);
     image.exifData().add(key, &value);
     if (ifdId == IfdId::canonSiId && c == 21)
       aperture = value.toInt64();
@@ -732,7 +734,8 @@ void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* p
 void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* pCrwMapping, Image& image,
                           ByteOrder byteOrder) {
   if (ciffComponent.size() < 8 || ciffComponent.typeId() != unsignedLong) {
-    return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    return;
   }
   ULongValue v;
   v.read(ciffComponent.pData(), 8, byteOrder);
@@ -758,7 +761,8 @@ void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* 
 void CrwMap::decode0x1810(const CiffComponent& ciffComponent, const CrwMapping* pCrwMapping, Image& image,
                           ByteOrder byteOrder) {
   if (ciffComponent.typeId() != unsignedLong || ciffComponent.size() < 28) {
-    return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    return;
   }
 
   ExifKey key1("Exif.Photo.PixelXDimension");
@@ -997,17 +1001,16 @@ DataBuf packIfdId(const ExifData& exifData, IfdId ifdId, ByteOrder byteOrder) {
   for (auto&& exif : exifData) {
     if (exif.ifdId() != ifdId)
       continue;
-    const uint16_t s = exif.tag() * 2 + static_cast<uint16_t>(exif.size());
+    const uint16_t s = (exif.tag() * 2) + static_cast<uint16_t>(exif.size());
     if (s <= size) {
-      if (len < s)
-        len = s;
+      len = std::max(len, s);
       exif.copy(buf.data(exif.tag() * 2), byteOrder);
     } else {
       EXV_ERROR << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
     }
   }
   // Round the size to make it even.
-  buf.resize(len + len % 2);
+  buf.resize(len + (len % 2));
   return buf;
 }
 

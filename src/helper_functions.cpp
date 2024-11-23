@@ -2,11 +2,12 @@
 
 #include "helper_functions.hpp"
 
+#include "convert.hpp"
+#include "enforce.hpp"
+
 #include <cmath>
 #include <cstring>
 #include <numeric>
-#include "convert.hpp"
-#include "enforce.hpp"
 
 std::string string_from_unterminated(const char* data, size_t data_length) {
   if (data_length == 0) {

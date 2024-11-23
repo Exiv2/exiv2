@@ -2828,7 +2828,7 @@ std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*)
     }
     std::ostringstream oss;
     oss.copyfmt(os);
-    const double t = 3600.0 * value.toInt64(0) + 60.0 * value.toInt64(1) + value.toFloat(2);
+    const double t = (3600.0 * value.toInt64(0)) + (60.0 * value.toInt64(1)) + value.toFloat(2);
     enforce<std::overflow_error>(std::isfinite(t), "Non-finite time value");
     int p = 0;
     const double fraction = std::fmod(t, 1);
@@ -2841,7 +2841,7 @@ std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*)
     const auto hh = static_cast<int>(std::fmod(hours, 24));
 
     os << std::setw(2) << std::setfill('0') << std::right << hh << ":" << std::setw(2) << std::setfill('0')
-       << std::right << mm << ":" << std::setw(2 + p * 2) << std::setfill('0') << std::right << std::fixed
+       << std::right << mm << ":" << std::setw(2 + (p * 2)) << std::setfill('0') << std::right << std::fixed
        << std::setprecision(p) << ss;
 
     os.copyfmt(oss);

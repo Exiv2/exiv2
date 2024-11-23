@@ -817,11 +817,11 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         tmpBuf[0] = 0xff;
         tmpBuf[1] = app2_;
 
-        const size_t chunk_size = 256 * 256 - 40;  // leave bytes for marker, header and padding
+        const size_t chunk_size = (256 * 256) - 40;  // leave bytes for marker, header and padding
         size_t size = iccProfile_.size();
         if (size >= 255 * chunk_size)
           throw Error(ErrorCode::kerTooLargeJpegSegment, "IccProfile");
-        const size_t chunks = 1 + (size - 1) / chunk_size;
+        const size_t chunks = 1 + ((size - 1) / chunk_size);
         for (size_t chunk = 0; chunk < chunks; chunk++) {
           size_t bytes = size > chunk_size ? chunk_size : size;  // bytes to write
           size -= bytes;

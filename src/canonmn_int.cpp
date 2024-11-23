@@ -2836,9 +2836,8 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
     is >> l;
     return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
               << std::setfill('0') << std::dec << (l & 0x0000ffff);
-  } else {
-    return os << value;
   }
+  return os << value;
 }
 
 std::ostream& CanonMakerNote::printCs0x0002(std::ostream& os, const Value& value, const ExifData*) {
@@ -3172,7 +3171,7 @@ std::ostream& CanonMakerNote::printSi0x0017(std::ostream& os, const Value& value
 
   std::ostringstream oss;
   oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << value.toInt64() / 8.0 - 6.0;
+  os << std::fixed << std::setprecision(2) << (value.toInt64() / 8.0) - 6.0;
   os.copyfmt(oss);
   return os;
 }
