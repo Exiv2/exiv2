@@ -1216,7 +1216,7 @@ class ValueType : public Value {
  private:
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
-  inline I float_to_integer_helper(size_t n) const {
+  I float_to_integer_helper(size_t n) const {
     const auto v = value_.at(n);
     if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
         v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
@@ -1227,7 +1227,7 @@ class ValueType : public Value {
 
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
-  inline I rational_to_integer_helper(size_t n) const {
+  I rational_to_integer_helper(size_t n) const {
     auto a = value_.at(n).first;
     auto b = value_.at(n).second;
 
