@@ -792,13 +792,11 @@ class EXIV2API XmpArrayValue : public XmpValue {
 struct LangAltValueComparator {
   //! LangAltValueComparator comparison case insensitive function
   bool operator()(const std::string& str1, const std::string& str2) const {
-    int result = str1.size() < str2.size() ? 1 : str1.size() > str2.size() ? -1 : 0;
-    if (result == 0) {
-      for (auto c1 = str1.begin(), c2 = str2.begin(); result == 0 && c1 != str1.end(); ++c1, ++c2) {
-        result = tolower(*c1) < tolower(*c2) ? 1 : tolower(*c1) > tolower(*c2) ? -1 : 0;
-      }
-    }
-    return result < 0;
+    if (str1.size() != str2.size())
+      return str1.size() > str2.size();
+
+    auto f = [](unsigned char a, unsigned char b) { return std::tolower(a) > std::tolower(b); };
+    return std::lexicographical_compare(str1.begin(), str1.end(), str2.begin(), str2.end(), f);
   }
 };
 
