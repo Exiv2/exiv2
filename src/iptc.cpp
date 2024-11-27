@@ -420,10 +420,11 @@ int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size) {
 }  // IptcParser::decode
 
 DataBuf IptcParser::encode(const IptcData& iptcData) {
+  DataBuf buf;
   if (iptcData.empty())
-    return {};
+    return buf;
 
-  DataBuf buf(iptcData.size());
+  buf = DataBuf(iptcData.size());
   byte* pWrite = buf.data();
 
   // Copy the iptc data sets and sort them by record but preserve the order of datasets
