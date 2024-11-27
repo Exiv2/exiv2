@@ -325,16 +325,16 @@ const LoaderTiff::Param LoaderTiff::param_[] = {
 };
 
 Loader::UniquePtr Loader::create(PreviewId id, const Image& image) {
+  Loader::UniquePtr loader;
   if (id < 0 || id >= Loader::getNumLoaders())
-    return nullptr;
+    return loader;
 
   if (loaderList_[id].imageMimeType_ && std::string(loaderList_[id].imageMimeType_) != image.mimeType())
-    return nullptr;
+    return loader;
 
-  auto loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
-
-  if (loader && !loader->valid())
-    return nullptr;
+  loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
+  if (!loader->valid())
+    loader = nullptr;
 
   return loader;
 }
@@ -568,11 +568,13 @@ PreviewProperties LoaderExifDataJpeg::getProperties() const {
 }
 
 DataBuf LoaderExifDataJpeg::getData() const {
+  DataBuf buf;
+
   if (!valid())
-    return {};
+    return buf;
 
   if (auto pos = image_.exifData().findKey(dataKey_); pos != image_.exifData().end()) {
-    DataBuf buf = pos->dataArea();  // indirect data
+    buf = pos->dataArea();  // indirect data
 
     if (buf.empty()) {  // direct data
       buf = DataBuf(pos->size());
@@ -583,7 +585,7 @@ DataBuf LoaderExifDataJpeg::getData() const {
     return buf;
   }
 
-  return {};
+  return buf;
 }
 
 bool LoaderExifDataJpeg::readDimensions() {
@@ -854,6 +856,7 @@ DataBuf decodeHex(const byte* src, size_t srcSize) {
 const char encodeBase64Table[64 + 1] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 DataBuf decodeBase64(const std::string& src) {
+  DataBuf dest;
   // create decoding table
   unsigned long invalid = 64;
   auto decodeBase64Table = std::vector<unsigned long>(256, invalid);
@@ -864,11 +867,11 @@ DataBuf decodeBase64(const std::string& src) {
   auto validSrcSize = static_cast<unsigned long>(
       std::count_if(src.begin(), src.end(), [&](unsigned char c) { return decodeBase64Table.at(c) != invalid; }));
   if (validSrcSize > ULONG_MAX / 3)
-    return {};  // avoid integer overflow
+    return dest;  // avoid integer overflow
   const unsigned long destSize = (validSrcSize * 3) / 4;
 
   // allocate dest buffer
-  DataBuf dest(destSize);
+  dest = DataBuf(destSize);
 
   // decode
   for (unsigned long srcPos = 0, destPos = 0; destPos < destSize;) {
@@ -930,18 +933,19 @@ DataBuf decodeAi7Thumbnail(const DataBuf& src) {
 }
 
 DataBuf makePnm(size_t width, size_t height, const DataBuf& rgb) {
+  DataBuf dest;
   if (size_t expectedSize = width * height * 3UL; rgb.size() != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size()
                 << " bytes.\n";
 #endif
-    return {};
+    return dest;
   }
 
   const std::string header = "P6\n" + std::to_string(width) + " " + std::to_string(height) + "\n255\n";
   const auto headerBytes = reinterpret_cast<const byte*>(header.data());
 
-  DataBuf dest(header.size() + rgb.size());
+  dest = DataBuf(header.size() + rgb.size());
   std::copy_n(headerBytes, header.size(), dest.begin());
   std::copy_n(rgb.c_data(), rgb.size(), dest.begin() + header.size());
   return dest;

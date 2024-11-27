@@ -2101,12 +2101,13 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
 
 TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size, uint32_t root,
                                                  TiffHeaderBase* pHeader) {
+  TiffComponent::UniquePtr rootDir;
   if (!pData || size == 0)
-    return nullptr;
+    return rootDir;
   if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
     throw Error(ErrorCode::kerNotAnImage, "TIFF");
   }
-  auto rootDir = TiffCreator::create(root, IfdId::ifdIdNotSet);
+  rootDir = TiffCreator::create(root, IfdId::ifdIdNotSet);
   if (rootDir) {
     rootDir->setStart(pData + pHeader->offset());
     auto state = TiffRwState{pHeader->byteOrder(), 0};

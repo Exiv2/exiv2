@@ -467,11 +467,11 @@ std::string PngChunk::makeUtf8TxtChunk(const std::string& keyword, const std::st
 }  // PngChunk::makeUtf8TxtChunk
 
 DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
+  DataBuf info;
   if (text.size() <= 1) {
-    return {};
+    return info;
   }
 
-  DataBuf info;
   const unsigned char unhex[103] = {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0,
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0, 0,  0,  0,  0,  0,  0,  0, 0,
@@ -488,26 +488,26 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
   const char* eot = text.c_str(text.size() - 1);  // end of text
 
   if (sp >= eot) {
-    return {};
+    return info;
   }
 
   // Look for newline
   while (*sp != '\n') {
     sp++;
     if (sp == eot) {
-      return {};
+      return info;
     }
   }
   sp++;  // step over '\n'
   if (sp == eot) {
-    return {};
+    return info;
   }
 
   // Look for length
   while (*sp == '\0' || *sp == ' ' || *sp == '\n') {
     sp++;
     if (sp == eot) {
-      return {};
+      return info;
     }
   }
 
@@ -519,12 +519,12 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
     length = newlength;
     sp++;
     if (sp == eot) {
-      return {};
+      return info;
     }
   }
   sp++;  // step over '\n'
   if (sp == eot) {
-    return {};
+    return info;
   }
 
   enforce(length <= static_cast<size_t>(eot - sp) / 2, Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -540,7 +540,7 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
 #endif
-    return {};
+    return info;
   }
 
   if (info.empty())  // Early return
