@@ -873,7 +873,11 @@ float DateValue::toFloat(size_t n) const {
 }
 
 Rational DateValue::toRational(size_t n) const {
-  return {static_cast<int32_t>(toInt64(n)), 1};
+  const int64_t t = toInt64(n);
+  if (t < std::numeric_limits<int32_t>::min() || t > std::numeric_limits<int32_t>::max()) {
+    return {0, 1};
+  }
+  return {static_cast<int32_t>(t), 1};
 }
 
 TimeValue::TimeValue() : Value(time) {
