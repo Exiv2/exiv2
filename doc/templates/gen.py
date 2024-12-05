@@ -1,4 +1,9 @@
 #! /usr/bin/env python
+import sys
+import os
+import re
+import time
+
 # ----------------------------------------------------------------------
 # Settings
 vardir = "."
@@ -28,11 +33,6 @@ def last_modified(text):
 
 # ----------------------------------------------------------------------
 # main
-import sys
-import os
-import re
-import time
-
 # Check command line arguments
 if len(sys.argv) == 1:
    usage()
@@ -44,7 +44,8 @@ input = sys.argv[1:]
 # Get a list of all variables (files in the form __*__) from vardir 
 vars = os.listdir(vardir)
 for i in range(len(vars)-1, -1, -1):
-   if re.match("^__.*__$", vars[i]): continue
+   if re.match("^__.*__$", vars[i]):
+       continue
    del vars[i]
 vars.sort()
 

@@ -364,8 +364,8 @@ class HttpServer:
             with request.urlopen('http://127.0.0.1:{}'.format(self.port), timeout=3) as f:
                 if f.status != 200:
                     raise RuntimeError()
-        except:
-            raise RuntimeError('Failed to run the HTTP server')
+        except Exception as e:
+            raise RuntimeError('Failed to run the HTTP server: {}'.format(e))
         log.info('The HTTP server started')
 
     def stop(self):
@@ -504,8 +504,8 @@ class Executer:
                 except subprocess.TimeoutExpired:
                     self.subprocess.kill()
                     output  = self.subprocess.communicate()
-        except:
-            raise RuntimeError('Failed to execute: {}'.format(self.args))
+        except Exception as e:
+            raise RuntimeError('Failed to execute {}: {}'.format(self.args, e))
         output          = [i or b'' for i in output]
         output          = [i.rstrip(b'\r\n').rstrip(b'\n') for i in output] # Remove the last line break of the output
 
@@ -556,7 +556,7 @@ class Output:
     def __add__(self, other):
         if isinstance(other, Executer):
             other = other.stdout
-        if other != None:
+        if other is not None:
             self.lines.append(str(other))
         return self
 
@@ -605,7 +605,7 @@ def copyTest(num, src, good):
     src_file    = os.path.join(Config.data_dir, src)
     good_file   = os.path.join(Config.data_dir, '{}.c{}gd'.format(good, num))
     copyTestFile(good, test_file)
-    Executer('metacopy -a {src_file} {test_file}', vars())
+    Executer('metacopy -a {} {}'.format(src_file, test_file), vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -614,7 +614,7 @@ def iptcTest(num, src, good):
     src_file    = os.path.join(Config.data_dir, src)
     good_file   = os.path.join(Config.data_dir, '{}.i{}gd'.format(good, num))
     copyTestFile(good, test_file)
-    Executer('metacopy -ip {src_file} {test_file}', vars())
+    Executer('metacopy -ip {} {}'.format(src_file, test_file), vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
@@ -624,7 +624,7 @@ def printTest(filename):
     good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
     copyTestFile(filename, test_file)
 
-    e           = Executer('iptcprint {src_file}', vars(), assert_returncode=None, decode_output=False)
+    e           = Executer('iptcprint {}'.format(src_file), vars(), assert_returncode=None, decode_output=False)
     stdout      = e.stdout.replace(Config.data_dir.replace(os.path.sep, '/').encode(), b'../data') # Ignore the difference of data_dir on Windows
     save(stdout + b'\n', test_file)
 
@@ -743,8 +743,8 @@ def runTest(cmd,raw=False):
                 print('{} returncode = {}'.format(cmd, p.returncode))
             # Split the output by newline
             out = stdout.decode('utf-8').replace('\r', '').rstrip('\n').split('\n')
-        except:
-            print('** {} died **'.format(cmd))
+        except Exception as e:
+            print('** {} died: {} **'.format(cmd, e))
 
     return out
 

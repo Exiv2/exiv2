@@ -152,7 +152,7 @@ def make_test_cases(lenses):
                 **lens["meta"],
                 "id": lens["id"],
                 "desc": lens["desc"],
-                "target": " *OR* ".join([l["desc"] for l in lens_group if lens_is_match(lens["meta"], l["meta"])]),
+                "target": " *OR* ".join([lg["desc"] for lg in lens_group if lens_is_match(lens["meta"], lg["meta"])]),
             }
             for lens in lens_group
         ]

@@ -2,8 +2,8 @@ import os
 import re
 import unittest
 
+from importlib.util import find_spec
 from system_tests import BT
-
 
 class TestCases(unittest.TestCase):
 
@@ -368,25 +368,25 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         out += BT.Executer('exiv2 -u -h')
 
         out += '\n\nAdjust -------------------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -v -a-12:01:01 adjust  {images_1_str}', vars(), assert_returncode=[253])
+        out += BT.Executer('exiv2 -u -v -a-12:01:01 adjust  {}'.format(images_1_str), vars(), assert_returncode=[253])
 
         out += '\nRename -------------------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -vf rename             {images_1_str}', vars(), assert_returncode=[253])
+        out += BT.Executer('exiv2 -u -vf rename             {}'.format(images_1_str), vars(), assert_returncode=[253])
 
         out += '\nPrint --------------------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -v print               {images_2_str}', vars(), assert_returncode=[253])
+        out += BT.Executer('exiv2 -u -v print               {}'.format(images_2_str), vars(), assert_returncode=[253])
         out += ''
-        out += BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars())
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_2_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+        out += BT.Executer('exiv2 -u -v -b -pt print        {}'.format(images_2_str), vars())
+        e    = BT.Executer('exiv2 -u -v -b -pt print        {}'.format(images_2_str), vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'iii')
         out += e.stderr.decode()
 
         out += '\nExtract Exif data --------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -vf extract            {images_2_str}', vars())
+        out += BT.Executer('exiv2 -u -vf extract            {}'.format(images_2_str), vars())
 
         out += '\nExtract Thumbnail --------------------------------------------------------'
-        out += BT.Executer('exiv2 -u -vf -et extract        {images_2_str}', vars(), assert_returncode=[253])
-        e    = BT.Executer('exiv2 -u -v -b -pt print        {images_3_str}', vars(), redirect_stderr_to_stdout=False, decode_output=False)
+        out += BT.Executer('exiv2 -u -vf -et extract        {}'.format(images_2_str), vars(), assert_returncode=[253])
+        e    = BT.Executer('exiv2 -u -v -b -pt print        {}'.format(images_3_str), vars(), redirect_stderr_to_stdout=False, decode_output=False)
         BT.save(e.stdout, 'jjj')
         out += e.stderr.decode()
 
@@ -1013,9 +1013,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
     def stdin_test(self):
         return # temporarily disable
         # Test driver for stdin
-        try:
-            import lxml
-        except ModuleNotFoundError:
+        if find_spec('lxml') is None:
             print('Skipped. Because it misses module lxml. Please install: `pip install lxml`')
             return
 
@@ -1334,8 +1332,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             out += BT.diff(img, img + '-new')
 
         xmp = 'xmpsdk.xmp'
-        BT.save(BT.Executer('xmpparse {xmp}'    , vars()).stdout, 't1')
-        BT.save(BT.Executer('xmpparse {xmp}-new', vars()).stdout, 't2')
+        BT.save(BT.Executer('xmpparse {}'.format(xmp), vars()).stdout, 't1')
+        BT.save(BT.Executer('xmpparse {}-new'.format(xmp), vars()).stdout, 't2')
         out += BT.diff('t1', 't2')
 
         out += BT.Executer('xmpsample')
