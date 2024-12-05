@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
-from system_tests import CaseMeta, CopyTmpFiles, path
+from system_tests import CaseMeta
 
 class TestNikonFl7GroupWithFlash(metaclass=CaseMeta):
 

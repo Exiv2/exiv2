@@ -2,7 +2,7 @@
 
 import unittest
 import system_tests
-from system_tests import CaseMeta, path, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta, check_no_ASAN_UBSAN_errors
 
 # Check that `exiv2 -pr` works for different file types.
 # ExifTool has a list of markers that appear in the headers:

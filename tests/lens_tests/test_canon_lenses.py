@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 import os
 import system_tests
 from lens_tests.utils import extract_lenses_from_cpp, make_test_cases, aperture_to_raw_exif

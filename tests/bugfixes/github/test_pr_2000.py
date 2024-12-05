@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import system_tests
 from system_tests import CaseMeta, path, check_no_ASAN_UBSAN_errors
 
 class TestVerboseExtractXmpSidecarToStdout(metaclass=CaseMeta):

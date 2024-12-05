@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyTmpFiles, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta, CopyTmpFiles
 @CopyTmpFiles("$data_path/issue_2403_poc.exv")
 
 class checkIconvSegFault(metaclass=CaseMeta):

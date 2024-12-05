@@ -1,6 +1,5 @@
 from conans import ConanFile
 from conans.tools import os_info
-from conans.model.version import Version
 
 class Exiv2Conan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
