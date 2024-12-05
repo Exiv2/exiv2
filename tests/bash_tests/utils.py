@@ -758,7 +758,7 @@ def verbose_version(verbose=False):
         kv = line.rstrip().split('=')
         if len(kv)  == 2:
             key, val = kv
-            if not key in vv:
+            if key not in vv:
                 vv[key] = val
             elif isinstance(vv[key], list):
                 vv[key].append(val)

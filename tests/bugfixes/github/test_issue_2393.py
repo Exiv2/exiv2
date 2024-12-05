@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta
 
 class issue_2393_QuickTimeVideo_multipleEntriesDecoder_long_running(metaclass=CaseMeta):
     url      = "https://github.com/Exiv2/exiv2/issues/2393"

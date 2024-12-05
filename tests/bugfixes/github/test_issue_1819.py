@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyTmpFiles, path, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta, path
 
 class EmptyStringXmpTextValueRead(metaclass=CaseMeta):
     """

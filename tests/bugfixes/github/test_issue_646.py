@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, path
+from system_tests import CaseMeta
 
 class Fix646_NikonAF22(metaclass=CaseMeta):
 

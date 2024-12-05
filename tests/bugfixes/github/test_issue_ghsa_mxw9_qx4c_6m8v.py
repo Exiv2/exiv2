@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyTmpFiles, path, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta, CopyTmpFiles, path
 @CopyTmpFiles("$data_path/issue_ghsa_mxw9_qx4c_6m8v_poc.jp2")
 
 class Jp2ImageEncodeJp2HeaderOutOfBoundsRead2(metaclass=CaseMeta):

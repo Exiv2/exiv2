@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import system_tests
-from system_tests import CaseMeta, path, CopyTmpFiles, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta, path
 
 class TestExiv2ExtractThumbnailToStdout(metaclass=CaseMeta):
     """
