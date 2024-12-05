@@ -724,7 +724,7 @@ class Case(unittest.TestCase):
         """
         result = None
         for encoding in self.encodings:
-            if encoding == bytes:
+            if encoding is bytes:
                 return data_in
             try:
                 result = encode_action(data_in, encoding)
