@@ -1828,7 +1828,16 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
     return 1;
   }
 
-  newPath = (p.parent_path() / (basename + p.extension().string())).string();
+  // get parent path with separator
+  // for concatenation of new file name, concatenation operator of std::filesystem::path is not used:
+  // On MSYS2 UCRT64 the path separator to be used in terminal is slash, but as concatenation operator
+  // a back slash will be added. Rename works but with verbose a path with different operators will be shown.
+  int len = p.parent_path().string().length();
+  std::string parent_path_sep = "";
+  if (len > 0)
+    parent_path_sep = newPath.substr(0, ++len);
+
+  newPath = parent_path_sep + std::string(basename) + p.extension().string();
 
   // rename using exiv2 tags
   // is done after calling setting date/time: the value retrieved from tag might include something like %Y, which then
@@ -1884,8 +1893,7 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
           go = false;
           break;
         case Params::renamePolicy:
-          newPath = (p.parent_path() / (std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string()))
-                        .string();
+          newPath = parent_path_sep + std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string();
           break;
         case Params::askPolicy:
           std::cout << Params::instance().progname() << ": " << _("File") << " `" << newPath << "' "
@@ -1899,9 +1907,7 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
             case 'r':
             case 'R':
               fileExistsPolicy = Params::renamePolicy;
-              newPath =
-                  (p.parent_path() / (std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string()))
-                      .string();
+              newPath = parent_path_sep + std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string();
               break;
             default:  // skip
               return -1;
