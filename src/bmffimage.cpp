@@ -29,6 +29,8 @@
 
 enum {
   TAG_ftyp = 0x66747970U,  //!< "ftyp" File type box */
+  TAG_avci = 0x61766369U,  //!< "avci" AVC */
+  TAG_avcs = 0x61766373U,  //!< "avcs" AVC */
   TAG_avif = 0x61766966U,  //!< "avif" AVIF */
   TAG_avio = 0x6176696fU,  //!< "avio" AVIF */
   TAG_avis = 0x61766973U,  //!< "avis" AVIF */
@@ -116,6 +118,10 @@ static bool skipBox(uint32_t box) {
 
 std::string BmffImage::mimeType() const {
   switch (fileType_) {
+    case TAG_avci:
+      return "image/avci";
+    case TAG_avcs:
+      return "image/avcs";
     case TAG_avif:
     case TAG_avio:
     case TAG_avis:
