@@ -30,15 +30,15 @@ class WriteMetadataDestroysResourceForkOnMacOSXForBigFiles(
     def setUp(self):
         """ Copy the rsrc file into the the resource fork """
         shutil.copyfile(
-            self.filename_orig + ".rsrc", self.filename + "/..namedfork/rsrc"
+            f"{self.filename_orig}.rsrc", f"{self.filename}/..namedfork/rsrc"
         )
 
     def post_tests_hook(self):
         """ Check that the resource fork didn't change """
-        with open(self.filename_orig + ".rsrc", "rb") as rsrc_orig:
+        with open(f"{self.filename_orig}.rsrc", "rb") as rsrc_orig:
             expected_resource_fork = rsrc_orig.read(-1)
 
-        with open(self.filename + "/..namedfork/rsrc", "rb") as rsrc_f:
+        with open(f"{self.filename}/..namedfork/rsrc", "rb") as rsrc_f:
             got_resource_fork = rsrc_f.read(-1)
 
         self.assertEqual(expected_resource_fork, got_resource_fork)

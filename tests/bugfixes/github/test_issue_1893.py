@@ -24,7 +24,7 @@ class issue_1893_cr3_preview(metaclass=system_tests.CaseMeta):
     Check that THMB and PRVW images are extracted from Canon CR3 files
     """
     url = "https://github.com/Exiv2/exiv2/issues/1893"
-    filename = "$data_path/" + file_basename
+    filename = f"$data_path/{file_basename}"
     commands=[] # see setUp()
 
     if bSkip:

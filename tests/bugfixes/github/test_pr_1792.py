@@ -7,7 +7,7 @@ class SonyMisc2bTestSupported(metaclass=CaseMeta):
 # Check that JPEG and TIFF based formats work
     filenames = [path("$data_path/test_issue_1464.exv"),  # JPEG
                  path("$data_path/exiv2-bug1153Aa.exv")]  # TIFF
-    commands = ["$exiv2 -pa --grep SonyMisc2b {!s}".format(fname) for fname in filenames]
+    commands = [f"$exiv2 -pa --grep SonyMisc2b {fname!s}" for fname in filenames]
 
     stdout = ["""Exif.SonyMisc2b.ExposureProgram              Byte        1  Shutter speed priority AE
 Exif.SonyMisc2b.IntelligentAuto              Byte        1  Off

@@ -17,15 +17,15 @@ class CheckPentaxK3(metaclass=system_tests.CaseMeta):
                  "$data_path/exiv2-bug1155i.exv",
     ]
 
-    commands = [ "$exiv2 -pa -b -g Lens " + filenames[0],
-                 "$exiv2 -pa -b -g Lens " + filenames[1],
-                 "$exiv2 -pa -b -g Lens " + filenames[2],
-                 "$exiv2 -pa -b -g Lens " + filenames[3],
-                 "$exiv2 -pa -b -g Lens " + filenames[4],
-                 "$exiv2 -pa -b -g Lens " + filenames[5],
-                 "$exiv2 -pa -b -g Lens " + filenames[6],
-                 "$exiv2 -pa -b -g Lens " + filenames[7],
-                 "$exiv2 -pa -b -g Lens " + filenames[8],
+    commands = [ f"$exiv2 -pa -b -g Lens {filenames[0]}",
+                 f"$exiv2 -pa -b -g Lens {filenames[1]}",
+                 f"$exiv2 -pa -b -g Lens {filenames[2]}",
+                 f"$exiv2 -pa -b -g Lens {filenames[3]}",
+                 f"$exiv2 -pa -b -g Lens {filenames[4]}",
+                 f"$exiv2 -pa -b -g Lens {filenames[5]}",
+                 f"$exiv2 -pa -b -g Lens {filenames[6]}",
+                 f"$exiv2 -pa -b -g Lens {filenames[7]}",
+                 f"$exiv2 -pa -b -g Lens {filenames[8]}",
     ]
 
     stdout = [ """Exif.PentaxDng.LensType                      Byte        4  Sigma 70-300mm F4-5.6 Macro

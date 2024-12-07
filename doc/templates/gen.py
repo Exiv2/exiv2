@@ -20,7 +20,7 @@ def gen_html(file):
    """Replace variables in the file with their content"""
    text = open(file).read()
    for var in vars:
-      vartext = open(vardir + "/" + var).read()
+      vartext = open(f"{vardir}/{var}").read()
       text = text.replace(var, vartext)
    text = last_modified(text)
    return text
@@ -50,9 +50,9 @@ for i in range(len(vars)-1, -1, -1):
 vars.sort()
 
 # Substitute variables in all input files
-print("Substituting variables {0}".format(vars))
+print(f"Substituting variables {vars}")
 for file in input:
-   print("Processing {0}...".format(file))
+   print(f"Processing {file}...")
    text = gen_html(file)
    file = file.replace(".in", "")
    open(file, 'w').write(text)

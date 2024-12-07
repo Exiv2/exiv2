@@ -57,8 +57,8 @@ Exif.Fujifilm.Rating                         Long        1  0
             "Exif.Fujifilm.DRangePriorityAuto",
             "Exif.Fujifilm.DRangePriorityFixed"]
 
-    tagcmd = "$exiv2 -K " + " -K ".join(tags)
-    commands = ["$tagcmd $data_path/" + f for f, _ in filesAndExpectedOutput]
+    tagcmd = f"$exiv2 -K {' -K '.join(tags)}"
+    commands = [f"$tagcmd $data_path/{f}" for f, _ in filesAndExpectedOutput]
     stdout = [e for _, e in filesAndExpectedOutput]
     stderr = [""] * len(filesAndExpectedOutput)
     retval = [0] * len(filesAndExpectedOutput)

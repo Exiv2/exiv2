@@ -16,7 +16,7 @@ def escapeChar(c):
     elif c.isascii() and c.isprintable():
         return c
     else:
-        return '\\x{:02X}'.format(ord(c))
+        return f'\\x{ord(c):02X}'
 
 def escapeString(str):
     return ''.join(map(lambda c: escapeChar(chr(c)), bytes(str, 'utf-8')))
@@ -29,4 +29,4 @@ f = open(sys.argv[1], 'r')
 dict_json = json.loads(f.read())
 tuples = dict_json["#select"]["tuples"]
 for r in tuples:
-    print('"' + escapeString(r[0]) + '"')
+    print(f"\"{escapeString(r[0])}\"")
