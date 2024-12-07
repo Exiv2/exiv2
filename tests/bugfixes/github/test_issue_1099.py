@@ -24,4 +24,3 @@ exiv2: Error parsing -m option arguments
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
         """ We don't care about the stdout, just don't crash """
-        pass
