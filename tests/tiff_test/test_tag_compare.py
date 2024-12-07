@@ -107,7 +107,7 @@ class OutputTagExtract(metaclass=system_tests.CaseMeta):
             self.compare_pS_pa()
 
     commands = [
-        "$exiv2 %s $data_path/mini9.tif" % (opt) for opt in ["-pa", "-pS"]
+        f"$exiv2 {opt} $data_path/mini9.tif" for opt in ["-pa", "-pS"]
     ]
 
     stderr = [""] * 2

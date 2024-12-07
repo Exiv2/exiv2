@@ -15,7 +15,7 @@ class FailureOnCifsShares(metaclass=system_tests.CaseMeta):
     original_file = system_tests.path("$data_path/exiv2-bug884c.jpg")
 
     files = [
-        system_tests.path("$data_path/bug$num-" + char + ".jpg")
+        system_tests.path(f"$data_path/bug$num-{char}.jpg")
         for char in string.ascii_uppercase
     ]
 
@@ -33,7 +33,7 @@ class FailureOnCifsShares(metaclass=system_tests.CaseMeta):
         for fname in files
     ] + [
         # workaround for * wildcard in bash:
-        """$exiv2 -PE -g UserComment {!s}""".format(" ".join(files))
+        f"""$exiv2 -PE -g UserComment {' '.join(files)!s}"""
     ]
 
     retval = [0] * (len(files) + 1)

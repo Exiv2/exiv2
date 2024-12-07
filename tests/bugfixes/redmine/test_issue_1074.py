@@ -13,14 +13,14 @@ class IccProfileInApp2Segment(metaclass=system_tests.CaseMeta):
     encodings = [bytes]
 
     filenames = [
-        system_tests.path("$data_path/" + fname)
+        system_tests.path(f"$data_path/{fname}")
         for fname in (
             "exiv2-bug$num.png", "imagemagick.png", "Reagan.tiff", "Reagan.jpg"
         )
     ]
 
     commands = [
-        "$exiv2 -pC " + fname for fname in filenames
+        f"$exiv2 -pC {fname}" for fname in filenames
     ]
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):

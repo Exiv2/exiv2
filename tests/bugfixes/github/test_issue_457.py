@@ -9,6 +9,6 @@ class ThrowsWhenColorProfileInTiffMetadataIsCorrupted(metaclass=system_tests.Cas
 
     filename = "$data_path/issue_457_poc"
 
-    commands = ["$exiv2 " + filename]
+    commands = [f"$exiv2 {filename}"]
     compare_stderr = system_tests.check_no_ASAN_UBSAN_errors
     retval = [1]

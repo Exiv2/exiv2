@@ -8,7 +8,7 @@ class SonyMisc3cSupportedTest(metaclass=CaseMeta):
 # Check that JPEG and TIFF based formats work
     filenames = [path("$data_path/exiv2-SonyDSC-HX60V.exv"),  # JPEG
                  path("$data_path/exiv2-bug1153Aa.exv")]      # TIFF
-    commands = ["$exiv2 -pa --grep SonyMisc3c {!s}".format(fname) for fname in filenames]
+    commands = [f"$exiv2 -pa --grep SonyMisc3c {fname!s}" for fname in filenames]
 
     stdout = ["""Exif.SonyMisc3c.ReleaseMode2                 Byte        1  Normal
 Exif.SonyMisc3c.ShotNumberSincePowerUp       Long        1  4
