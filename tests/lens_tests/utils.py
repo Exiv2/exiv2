@@ -6,7 +6,7 @@ from itertools import groupby
 log = logging.getLogger(__name__)
 
 
-LENS_ENTRY_DEFAULT_RE = re.compile('^\{\s*(?P<lens_id>[0-9]+),\s*"(?P<lens_description>.*)"')
+LENS_ENTRY_DEFAULT_RE = re.compile(r'^\{\s*(?P<lens_id>\d+),\s*"(?P<lens_description>.*)"')
 
 LENS_META_DEFAULT_RE = re.compile(
     (
@@ -18,9 +18,9 @@ LENS_META_DEFAULT_RE = re.compile(
         ".*?"
         # maybe short focal length max aperture and hyphen, surely at least single max aperture e.g.: f/4.5-5.6
         # short and tele indicate apertures at the short (focal_length_min) and tele (focal_length_max) position of the lens
-        "(?:(?:f\/)|T|F)(?:(?P<aperture_max_short>[0-9]+(?:\.[0-9]+)?)-)?(?P<aperture_max_tele>[0-9]+(?:\.[0-9])?)"
+        r"(?:(?:f\/)|T|F)(?:(?P<aperture_max_short>[0-9]+(?:\.[0-9]+)?)-)?(?P<aperture_max_tele>[0-9]+(?:\.[0-9])?)"
         # check if there is a teleconverter pattern e.g. + 1.4x
-        "(?:.*?\+.*?(?P<tc>[0-9.]+)x)?"
+        r"(?:.*?\+.*?(?P<tc>[0-9.]+)x)?"
     )
 )
 
@@ -170,7 +170,7 @@ def extract_lenses_from_cpp(filename, start_pattern):
              for content of metadata see extract_meta() function.
     """
     lenses = []
-    with open(filename, "r") as f:
+    with open(filename, "r", encoding=None) as f:
         in_lens_array = False
 
         for line in f.readlines():
@@ -187,7 +187,7 @@ def extract_lenses_from_cpp(filename, start_pattern):
             if in_lens_array:
                 lens_entry = parse_lens_entry(stripped)
                 if not lens_entry:
-                    log.error(f"Failure parsing lens entry: {stripped}.")
+                    log.error("Failure parsing lens entry: %s.", stripped)
                     continue
 
                 if lens_entry[1] == "n/a":
@@ -195,7 +195,7 @@ def extract_lenses_from_cpp(filename, start_pattern):
 
                 meta = extract_meta(lens_entry[1])
                 if not meta:
-                    log.error(f"Failure extracting metadata from lens description:  {lens_entry[0]}: {lens_entry[1]}.")
+                    log.error("Failure extracting metadata from lens description: %s: %s.", lens_entry[0], lens_entry[1])
                     continue
 
                 lenses.append({"id": lens_entry[0], "desc": lens_entry[1], "meta": meta})

@@ -34,7 +34,7 @@ def matrix_build(shared_libs, ccs, build_types, cmake_bin, cmake_options,
             os.path.join(
                 "build",
                 "_".join(
-                    map(lambda p: str(p) if p is not None else "", params)
+                    map(str, filter(None, params))
                 )
             )
         )

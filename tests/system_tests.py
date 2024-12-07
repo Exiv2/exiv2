@@ -183,7 +183,7 @@ def configure_suite(config_file):
             _parameters["timeout"] *= config.getfloat(
                 "General", "memcheck_timeout_penalty", fallback=20.0
             )
-    
+
     # Configure the parameters for bash tests
     BT.Config.bin_dir           = os.path.abspath(config['ENV']['exiv2_path'])
     BT.Config.dyld_library_path = os.path.abspath(config['ENV']['dyld_library_path'])
@@ -316,7 +316,7 @@ class FileDecoratorBase(object):
         """
         if len(files) == 0:
             raise ValueError("No files supplied.")
-        elif len(files) == 1:
+        if len(files) == 1:
             if isinstance(files[0], type):
                 raise UserWarning(
                     "Decorator used wrongly, must be called with "
@@ -370,7 +370,6 @@ class FileDecoratorBase(object):
 
         The default implementation does nothing.
         """
-        pass
 
     def new_tearDown(self, old_tearDown):
         """
@@ -460,7 +459,7 @@ class CopyFiles(FileDecoratorBase):
         fname, ext = os.path.splitext(expanded_file_name)
         new_name = f"{fname}_copy{ext}"
         return shutil.copyfile(expanded_file_name, new_name)
-   
+
 class CopyTmpFiles(FileDecoratorBase):
     """
     This class copies files from test/data to test/tmp
@@ -804,7 +803,6 @@ class Case(unittest.TestCase):
 
         The default implementation does nothing.
         """
-        pass
 
     def post_tests_hook(self):
         """
@@ -816,7 +814,6 @@ class Case(unittest.TestCase):
 
         The default implementation does nothing.
         """
-        pass
 
 
 class CaseMeta(type):

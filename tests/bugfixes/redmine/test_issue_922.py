@@ -7,7 +7,7 @@ from system_tests import CaseMeta, path
 
 
 def read_file(filename):
-    with open(filename, 'r') as f:
+    with open(filename, 'r', encoding=None) as f:
         return f.read()
 
 
