@@ -4,7 +4,6 @@ import system_tests
 
 
 class ThrowsWhenColorProfileInTiffMetadataIsCorrupted(metaclass=system_tests.CaseMeta):
-
     url = "https://github.com/Exiv2/exiv2/issues/457"
 
     filename = "$data_path/issue_457_poc"

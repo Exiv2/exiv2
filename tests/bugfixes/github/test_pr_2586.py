@@ -2,13 +2,14 @@
 
 from system_tests import CaseMeta, path
 
-#Current master fails with image
-class FailToReadJpgImageTest(metaclass=CaseMeta):
 
+# Current master fails with image
+class FailToReadJpgImageTest(metaclass=CaseMeta):
     filename = path("$data_path/exiv2-bug2565.jpg")
     commands = ["$exiv2 -Pkycvt  $filename"]
 
-    stdout = ["""Exif.Image.ImageWidth                        Long        1  4032  4032
+    stdout = [
+        """Exif.Image.ImageWidth                        Long        1  4032  4032
 Exif.Image.ImageLength                       Long        1  3024  3024
 Exif.Image.Make                              Ascii       8  samsung  samsung
 Exif.Image.Model                             Ascii       9  SM-G930V  SM-G930V
