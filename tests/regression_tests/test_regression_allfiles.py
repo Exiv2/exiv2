@@ -192,7 +192,7 @@ def make_test_function(filename):
 
     def test_func(self):
         out = BT.Output()
-        out += BT.Executer("exiv2 -Pkycvt " + filename)
+        out += BT.Executer(f"exiv2 -Pkycvt {filename}")
         BT.reportTest(os.path.basename(filename), out)
 
     return test_func
@@ -202,4 +202,4 @@ def make_test_function(filename):
 # assign it as a member function to our TestCase
 for f in all_files:
     testname = os.path.basename(f)
-    setattr(TestAllFiles, testname + "_test", make_test_function(f))
+    setattr(TestAllFiles, f"{testname}_test", make_test_function(f))

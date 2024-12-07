@@ -2,11 +2,13 @@
 
 from system_tests import CaseMeta, path
 
+
 class CanonPrintCsLensTypeByMetadataNullIteratorDeref(metaclass=CaseMeta):
     """
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/issues/1763
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/1763"
 
     filename = path("$data_path/issue_1763_poc.exv")

@@ -20,14 +20,14 @@ row=0
 data = sys.stdin.readlines()
 for line in csv.reader(data,quotechar='"',skipinitialspace=True):
     row=row+1
-    print("   <ROW num=\"%d\">" % row)
-    print("      <tagname>" + line[0] + "</tagname>")
-    print("      <tagdec>"  + line[1] + "</tagdec>")
-    print("      <taghex>"  + line[2] + "</taghex>")
-    print("      <ifd>"     + line[3] + "</ifd>")
-    print("      <key>"     + line[4] + "</key>")
-    print("      <type>"    + line[5] + "</type>")
-    print("      <tagdesc>" + line[6] + "</tagdesc>")
+    print(f"   <ROW num=\"{int(row)}\">")
+    print(f"      <tagname>{line[0]}</tagname>")
+    print(f"      <tagdec>{line[1]}</tagdec>")
+    print(f"      <taghex>{line[2]}</taghex>")
+    print(f"      <ifd>{line[3]}</ifd>")
+    print(f"      <key>{line[4]}</key>")
+    print(f"      <type>{line[5]}</type>")
+    print(f"      <tagdesc>{line[6]}</tagdesc>")
     print("   </ROW>")
 
 print("</ROWSET>")

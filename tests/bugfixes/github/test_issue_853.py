@@ -14,6 +14,7 @@ class DenialOfServiceInAdjustTimeOverflow(metaclass=CaseMeta):
     out-of-bounds days in a loop that subtracts one month per
     iteration.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/853"
 
     filename = path("$data_path/issue_853_poc.jpg")
@@ -22,5 +23,6 @@ class DenialOfServiceInAdjustTimeOverflow(metaclass=CaseMeta):
     stderr = [
         """Exiv2 exception in print action for file $filename:
 Not a valid ICC Profile
-"""]
+"""
+    ]
     retval = [1]

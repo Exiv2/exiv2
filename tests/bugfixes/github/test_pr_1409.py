@@ -2,13 +2,15 @@
 
 import system_tests
 
+
 class FujiFilm_IFD_Tags_pr1409(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1409"
-    
+
     filename = "$data_path/exiv2-pr1409.exv"
-    commands  = ["$exiv2 -g Fujifilm $filename"]
+    commands = ["$exiv2 -g Fujifilm $filename"]
     stderr = [""]
-    stdout = ["""Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
+    stdout = [
+        """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 Exif.Fujifilm.SerialNumber                   Ascii      48  FF02B4550110     593534373734180817925330110168
 Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
 Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
@@ -67,5 +69,6 @@ Exif.Fujifilm.WB_GRBLevelsAuto               Long        3  302 561 552
 Exif.Fujifilm.WB_GRBLevels                   Long        3  302 561 552
 Exif.Fujifilm.ChromaticAberrationParams      SRational  29  3749/9 502/1420 710/1420 870/1420 1004/1420 1123/1420 1230/1420 1328/1420 1420/1420 1506/1420 4/65536 2/65536 -2/65536 -6/65536 -8/65536 -12/65536 -14/65536 -18/65536 -18/65536 -58/65536 -54/65536 -50/65536 -46/65536 -40/65536 -32/65536 -24/65536 -16/65536 -16/65536 3749/9
 Exif.Fujifilm.VignettingParams               SRational  19  3749/9 502/1420 710/1420 870/1420 1004/1420 1123/1420 1230/1420 1328/1420 1420/1420 1506/1420 192752/2048 183960/2048 176751/2048 171126/2048 158275/2048 138976/2048 119700/2048 101213/2048 87673/2048
-"""]
+"""
+    ]
     retval = [0]
