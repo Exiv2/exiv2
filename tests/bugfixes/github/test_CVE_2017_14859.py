@@ -7,7 +7,7 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issues/74"
 
     filename = "$data_path/005-invalid-mem"
-    commands = ["$exiv2 " + filename]
+    commands = [f"$exiv2 {filename}"]
     stdout = [""]
     stderr = ["""$exiv2_exception_message """ + filename + ":\n" +
               ("$kerFailedToReadImageData" if system_tests.BT.Config.is_64bit else "$kerCorruptedMetadata") +

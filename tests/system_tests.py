@@ -113,8 +113,7 @@ def configure_suite(config_file):
 
     if not os.path.exists(config_file):
         raise ValueError(
-            "Test suite config file {:s} does not exist"
-            .format(os.path.abspath(config_file))
+            f"Test suite config file {os.path.abspath(config_file):s} does not exist"
         )
 
     config = CasePreservingConfigParser(
@@ -459,7 +458,7 @@ class CopyFiles(FileDecoratorBase):
 
     def setUp_file_action(self, expanded_file_name):
         fname, ext = os.path.splitext(expanded_file_name)
-        new_name = fname + '_copy' + ext
+        new_name = f"{fname}_copy{ext}"
         return shutil.copyfile(expanded_file_name, new_name)
    
 class CopyTmpFiles(FileDecoratorBase):
@@ -560,13 +559,13 @@ def test_run(self):
         retval = int(retval)
 
         if "memcheck" in _parameters:
-            command = _parameters["memcheck"] + " " + command
+            command = f"{_parameters['memcheck']} {command}"
 
         if _debug_mode:
             print(
-                '', "="*80, "will run: " + command, "expected stdout:", stdout,
+                '', "="*80, f"will run: {command}", "expected stdout:", stdout,
                 "expected stderr:", stderr,
-                "expected return value: {:d}".format(retval),
+                f"expected return value: {retval:d}",
                 sep='\n'
             )
 
@@ -643,8 +642,7 @@ def test_run(self):
         if _debug_mode:
             print(
                 "got stdout:", processed_stdout, "got stderr:",
-                processed_stderr, "got return value: {:d}"
-                .format(proc.returncode),
+                processed_stderr, f"got return value: {proc.returncode:d}",
                 sep='\n'
             )
 
@@ -894,7 +892,7 @@ class CaseMeta(type):
     def add_default_values(clsname, dct):
         if 'commands' not in dct:
             raise ValueError(
-                "No member 'commands' in class {!s}.".format(clsname)
+                f"No member 'commands' in class {clsname!s}."
             )
 
         cmd_length = len(dct['commands'])

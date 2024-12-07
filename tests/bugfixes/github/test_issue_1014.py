@@ -6,7 +6,7 @@ import system_tests
 class NikonLens(metaclass=system_tests.CaseMeta):
 
     filenames = ["$data_path/exiv2-bug1014.exv", "$data_path/exiv2-bug1014_2.exv"]
-    commands = ["$exiv2 -pa --grep lens/i %s" % filenames[0], "$exiv2 -pa --grep lens/i %s" % filenames[1]]
+    commands = [f"$exiv2 -pa --grep lens/i {filenames[0]}", f"$exiv2 -pa --grep lens/i {filenames[1]}"]
 
     stdout = ["""Exif.Nikon3.LensType                         Byte        1  D G VR
 Exif.Nikon3.Lens                             Rational    4  24-70mm F2.8

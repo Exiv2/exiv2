@@ -8,12 +8,12 @@ class NewTamronAndPentaxLenses(metaclass=CaseMeta):
     url = "http://dev.exiv2.org/issues/884"
 
     filenames = [
-        path("$data_path/exiv2-bug884{:s}.jpg".format(char))
+        path(f"$data_path/exiv2-bug884{char:s}.jpg")
         for char in ["a", "b", "c"]
     ]
 
     commands = [
-        "$exiv2 -pt --grep LensType " + fname for fname in filenames
+        f"$exiv2 -pt --grep LensType {fname}" for fname in filenames
     ]
 
     stdout = [
