@@ -32,8 +32,8 @@ int main(int argc, char* const argv[]) {
     std::istringstream is(line);
     is >> path >> dir >> base;
     auto p = fs::path(path);
-    std::string d = p.parent_path().string();
-    std::string b = p.filename().string();
+    auto d = p.parent_path();
+    auto b = p.filename();
 
     if (d != dir || b != base) {
       std::cout << path << "\t'" << d << "'\t '" << b << "'\t ==> Testcase failed\n";

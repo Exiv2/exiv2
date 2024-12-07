@@ -179,7 +179,7 @@ static std::vector<std::string> getLoadedLibraries() {
 
   // read file /proc/self/maps which has a list of files in memory
   // (this doesn't yield anything on __sun__)
-  std::ifstream maps("/proc/self/maps", std::ifstream::in);
+  std::ifstream maps("/proc/self/maps");
   std::string string;
   while (std::getline(maps, string)) {
     std::size_t pos = string.find_last_of(' ');

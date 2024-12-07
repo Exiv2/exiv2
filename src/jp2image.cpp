@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <array>
+#include <fstream>
 #include <iostream>
 
 namespace Exiv2 {
@@ -218,13 +219,12 @@ void Jp2Image::readMetadata() {
             std::copy_n(data.c_data(pad), icc.size(), icc.begin());
 #ifdef EXIV2_DEBUG_MESSAGES
             const char* iccPath = "/tmp/libexiv2_jp2.icc";
-            FILE* f = fopen(iccPath, "wb");
-            if (f) {
-              fwrite(icc.c_data(), icc.size(), 1, f);
-              fclose(f);
+            if (auto f = std::ofstream(iccPath, std::ios::binary)) {
+              f.write(reinterpret_cast<const char*>(icc.c_data()), static_cast<std::streamsize>(icc.size()));
+              f.close();
+              std::cout << "Exiv2::Jp2Image::readMetadata: wrote iccProfile " << icc.size() << " bytes to " << iccPath
+                        << '\n';
             }
-            std::cout << "Exiv2::Jp2Image::readMetadata: wrote iccProfile " << icc.size() << " bytes to " << iccPath
-                      << '\n';
 #endif
             setIccProfile(std::move(icc));
           }

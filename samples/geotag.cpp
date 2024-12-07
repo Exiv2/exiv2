@@ -8,6 +8,7 @@
 #include <sys/types.h>
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 
 #if __has_include(<filesystem>)
@@ -475,48 +476,55 @@ bool readDir(const char* path, Options& options) {
   return bResult;
 }
 
-inline size_t sip(FILE* f, char* buffer, size_t max_len, size_t len) {
-  while (!feof(f) && len < max_len && buffer[len - 1] != '>')
-    buffer[len++] = fgetc(f);
+inline size_t sip(std::ifstream& f, char* buffer, size_t max_len, size_t len) {
+  while (f && len < max_len && buffer[len - 1] != '>') {
+    char c;
+    f.get(c);
+    buffer[len++] = c;
+  }
   return len;
 }
 
 bool readXML(const char* path, Options& options) {
-  FILE* f = fopen(path, "r");
-  XML_Parser parser = XML_ParserCreate(nullptr);
-  bool bResult = f && parser;
-  if (bResult) {
-    char buffer[8 * 1024];
-    UserData me(options);
-
-    XML_SetUserData(parser, &me);
-    XML_SetElementHandler(parser, startElement, endElement);
-    XML_SetCharacterDataHandler(parser, charHandler);
-
-    // a little sip at the data
-    size_t len = fread(buffer, 1, sizeof(buffer) - 100, f);
-    const char* lead = "<?xml";
-    bResult = strncmp(lead, buffer, strlen(lead)) == 0;
-
-    // swallow it
-    if (bResult) {
-      len = sip(f, buffer, sizeof buffer, len);
-      bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
-    }
-
-    // drink the rest of the file
-    while (bResult && len != 0) {
-      len = fread(buffer, 1, sizeof(buffer) - 100, f);
-      len = sip(f, buffer, sizeof buffer, len);
-      bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
-    };
+  std::ifstream file(path);
+  if (!file) {
+    return false;
   }
 
-  if (f)
-    fclose(f);
-  if (parser)
-    XML_ParserFree(parser);
+  XML_Parser parser = XML_ParserCreate(nullptr);
+  if (!parser) {
+    return false;
+  }
 
+  bool bResult = true;
+  std::vector<char> buffer(8 * 1024);
+  UserData me(options);
+
+  XML_SetUserData(parser, &me);
+  XML_SetElementHandler(parser, startElement, endElement);
+  XML_SetCharacterDataHandler(parser, charHandler);
+
+  // A little sip at the data
+  file.read(buffer.data(), buffer.size() - 100);
+  std::streamsize len = file.gcount();
+  const char* lead = "<?xml";
+  bResult = len > 0 && strncmp(lead, buffer.data(), strlen(lead)) == 0;
+
+  // Swallow it
+  if (bResult) {
+    len = sip(file, buffer.data(), buffer.size(), len);
+    bResult = XML_Parse(parser, buffer.data(), static_cast<int>(len), len == 0) == XML_STATUS_OK;
+  }
+
+  // Drink the rest of the file
+  while (bResult && len > 0) {
+    file.read(buffer.data(), buffer.size() - 100);
+    len = file.gcount();
+    len = sip(file, buffer.data(), buffer.size(), len);
+    bResult = XML_Parse(parser, buffer.data(), static_cast<int>(len), len == 0) == XML_STATUS_OK;
+  }
+
+  XML_ParserFree(parser);
   return bResult;
 }
 
@@ -547,8 +555,7 @@ time_t readImageTime(const std::string& path, std::string* pS = nullptr) {
   for (size_t i = 0; !result && dateStrings[i]; i++) {
     const char* dateString = dateStrings[i];
     try {
-      Image::UniquePtr image = ImageFactory::open(path);
-      if (image.get()) {
+      if (auto image = ImageFactory::open(path)) {
         image->readMetadata();
         ExifData& exifData = image->exifData();
         //  printf("%s => %s\n",dateString, exifData[dateString].toString().c_str());
@@ -579,22 +586,21 @@ bool sina(const char* s, const char** a) {
 }
 
 int readFile(const char* path, const Options& /* options */) {
-  FILE* f = fopen(path, "r");
-  int nResult = f ? typeFile : typeUnknown;
-  if (f) {
-    const char* ext = strstr(path, ".");
-    if (ext) {
-      const char* docs[] = {".doc", ".txt", nullptr};
-      const char* code[] = {".cpp", ".h", ".pl", ".py", ".pyc", nullptr};
-      if (sina(ext, docs))
-        nResult = typeDoc;
-      if (sina(ext, code))
-        nResult = typeCode;
-    }
-    fclose(f);
+  if (!fs::exists(path)) {
+    return typeUnknown;
   }
 
-  return nResult;
+  const char* ext = strstr(path, ".");
+  if (ext) {
+    const char* docs[] = {".doc", ".txt", nullptr};
+    const char* code[] = {".cpp", ".h", ".pl", ".py", ".pyc", nullptr};
+    if (sina(ext, docs))
+      return typeDoc;
+    if (sina(ext, code))
+      return typeCode;
+  }
+
+  return typeFile;
 }
 
 Position* searchTimeDict(TimeDict_t& td, const time_t& time, long long delta) {
