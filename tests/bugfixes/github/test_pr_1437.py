@@ -2,13 +2,15 @@
 
 import system_tests
 
+
 # extended to also test include shutter mode and mechanical shutter count (pr 1444)
 class Nikon_LensData8(metaclass=system_tests.CaseMeta):
-    url      = "https://github.com/Exiv2/exiv2/pull/1437"
+    url = "https://github.com/Exiv2/exiv2/pull/1437"
     filename = "$data_path/CH0_0174.exv"
     commands = ["$exiv2 -g lens/i -g aperture/i -g shutter/i $filename"]
-    stderr   = [""]
-    stdout   = ["""Exif.Nikon3.ShutterMode                      Short       1  Auto (Electronic Front Curtain)
+    stderr = [""]
+    stdout = [
+        """Exif.Nikon3.ShutterMode                      Short       1  Auto (Electronic Front Curtain)
 Exif.Nikon3.MechanicalShutterCount           Long        1  174
 Exif.Nikon3.LensType                         Byte        1  D G VR
 Exif.Nikon3.Lens                             Rational    4  70-200mm F2.8
@@ -26,5 +28,6 @@ Exif.Photo.LensSpecification                 Rational    4  70-200mm F2.8
 Exif.Photo.LensMake                          Ascii       6  
 Exif.Photo.LensModel                         Ascii      65  
 Exif.Photo.LensSerialNumber                  Ascii      11  
-"""]
+"""
+    ]
     retval = [0]

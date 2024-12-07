@@ -9,6 +9,10 @@ class ThrowsWhenCRWImageIsMalformed(metaclass=system_tests.CaseMeta):
     filename = system_tests.path("$data_path/issue_460")
     commands = ["$exiv2 " + filename]
     retval = [1]
-    stderr = ["""$exiv2_exception_message """ + filename + """:
+    stderr = [
+        """$exiv2_exception_message """
+        + filename
+        + """:
 $kerCorruptedMetadata
-"""]
+"""
+    ]
