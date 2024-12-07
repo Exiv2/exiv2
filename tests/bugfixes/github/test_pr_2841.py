@@ -4,20 +4,20 @@ import system_tests
 import unittest
 
 # test needs system_tests.BT.vv['enable_bmff']=1
-bSkip=system_tests.BT.verbose_version().get('enable_bmff')!='1'
+bSkip = system_tests.BT.verbose_version().get("enable_bmff") != "1"
 if bSkip:
-    raise unittest.SkipTest('*** requires enable_bmff=1 ***')
+    raise unittest.SkipTest("*** requires enable_bmff=1 ***")
+
 
 class pull_2841_hej2_bmff(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/2841"
     filename = "$data_path/Reagan.hej2"
-    commands = ["$exiv2  -pS       $filename"
-               ,"$exiv2            $filename"
-               ]
-    retval = [ 0  ] * len(commands)
-    stderr = [ "" ] * len(commands)
-    stdin  = [ "" ] * len(commands)
-    stdout = ["""Exiv2::BmffImage::boxHandler: ftyp        0->28 brand: j2ki
+    commands = ["$exiv2  -pS       $filename", "$exiv2            $filename"]
+    retval = [0] * len(commands)
+    stderr = [""] * len(commands)
+    stdin = [""] * len(commands)
+    stdout = [
+        """Exiv2::BmffImage::boxHandler: ftyp        0->28 brand: j2ki
 Exiv2::BmffImage::boxHandler: meta       28->397 
   Exiv2::BmffImage::boxHandler: hdlr       40->33 
   Exiv2::BmffImage::boxHandler: pitm       73->14 
@@ -40,7 +40,8 @@ Exiv2::BmffImage::boxHandler: meta       28->397
 Exiv2::BMFF Exif: ID = 2 from,length = 3266,5714
 Exiv2::BMFF XMP: ID = 3 from,length = 8980,5298
 Exiv2::BmffImage::boxHandler: mdat      425->13853 
-""","""File name       : $filename
+""",
+        """File name       : $filename
 File size       : 14278 Bytes
 MIME type       : image/hej2k
 Image size      : 200 x 130
@@ -65,5 +66,5 @@ White balance   : Manual
 Copyright       : 
 Exif comment    : 
 
-"""
-]
+""",
+    ]

@@ -10,6 +10,7 @@ class InvalidDataLocationInCiffComponentDoRead(metaclass=CaseMeta):
 
     An invalid data location causes an assertion failure.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/841"
 
     filename = path("$data_path/issue_841_poc.crw")
@@ -18,5 +19,6 @@ class InvalidDataLocationInCiffComponentDoRead(metaclass=CaseMeta):
     stderr = [
         """$exiv2_exception_message $filename:
 $kerCorruptedMetadata
-"""]
+"""
+    ]
     retval = [1]

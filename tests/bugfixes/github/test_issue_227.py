@@ -4,11 +4,10 @@ import system_tests
 
 
 class SigmaLenses(metaclass=system_tests.CaseMeta):
-
     files = [
         "Sigma_120-300_DG_OS_HSM_Sport_lens.exv",
         "Sigma_20mm_F1.4_DG_HSM_A.exv",
-        "Sigma_50mm_F1.4_DG_HSM_A.exv"
+        "Sigma_50mm_F1.4_DG_HSM_A.exv",
     ]
 
     commands = list(
@@ -35,5 +34,5 @@ Exif.Nikon3.Lens                             Rational    4  50mm F1.4
 Exif.Nikon3.LensFStops                       Undefined   4  7
 Exif.NikonLd3.LensIDNumber                   Byte        1  Sigma 50mm F1.4 DG HSM | A
 Exif.NikonLd3.LensFStops                     Byte        1  F7.0
-"""
+""",
     ]

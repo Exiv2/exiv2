@@ -8,6 +8,7 @@ class OutOfBoundsReadInCrwMapDecode0x080a(metaclass=CaseMeta):
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/issues/1887
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/1887"
 
     filename = path("$data_path/issue_1887_poc.crw")

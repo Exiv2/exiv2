@@ -10,6 +10,7 @@ class AdditionOverflowInLoaderTiffGetData(metaclass=system_tests.CaseMeta):
     aka CVE-2018-12264
     https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-12264
     """
+
     filename = system_tests.path("$data_path/2-out-of-read-Poc")
     commands = ["$exiv2 -ep $filename"]
     stdout = [""]

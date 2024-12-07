@@ -2,6 +2,7 @@
 
 import system_tests
 
+
 class ShouldNotThrowsWithSpecificIsoSpeedValue(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issues/561"
 
