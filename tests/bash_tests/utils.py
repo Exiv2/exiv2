@@ -297,8 +297,7 @@ def diff_bytes(file1, file2, return_str=False):
 
     if return_str:
         return '\n'.join([repr(line)[2:-1] for line in output])
-    else:
-        return b'\n'.join(output)
+    return b'\n'.join(output)
 
 
 def md5sum(filename):
@@ -365,7 +364,7 @@ class HttpServer:
                 if f.status != 200:
                     raise RuntimeError()
         except Exception as e:
-            raise RuntimeError(f'Failed to run the HTTP server: {e}')
+            raise RuntimeError(f'Failed to run the HTTP server: {e}') from e
         log.info('The HTTP server started')
 
     def stop(self):
@@ -438,15 +437,21 @@ class Executer:
     """
 
     def __init__(self, cmd: str,
-                 vars_dict=dict(),
+                 vars_dict=None,
                  cwd=None,
-                 extra_env=dict(),
+                 extra_env=None,
                  encoding=None,
                  stdin: (str, bytes) = None,
                  redirect_stderr_to_stdout=True,
                  assert_returncode=[0],
                  compatible_output=True,
                  decode_output=True):
+
+        if vars_dict is None:
+            vars_dict = {}
+        if extra_env is None:
+            extra_env = {}
+
         self.cmd            = cmd.format(**vars_dict)
         self.cwd            = cwd or Config.tmp_dir
 
@@ -476,9 +481,9 @@ class Executer:
             self.args   = args.replace('\'', '\"')
         else:
             self.args   = shlex.split(args, posix=os.name == 'posix')
-            
+
         if len(Config.valgrind)>0:
-            self.args = [ Config.valgrind ] + self.args 
+            self.args = [ Config.valgrind ] + self.args
 
         # Check stdin
         if self.stdin:
@@ -505,7 +510,7 @@ class Executer:
                     self.subprocess.kill()
                     output  = self.subprocess.communicate()
         except Exception as e:
-            raise RuntimeError(f'Failed to execute {self.args}: {e}')
+            raise RuntimeError(f'Failed to execute {self.args}: {e}') from e
         output          = [i or b'' for i in output]
         output          = [i.rstrip(b'\r\n').rstrip(b'\n') for i in output] # Remove the last line break of the output
 
@@ -765,8 +770,7 @@ def verbose_version(verbose=False):
             else:
                 vv[key] = [vv[key]]
     if verbose:
-        for key in vv:
-            val = vv[key]
+        for key, val in vv.items():
             if isinstance(val, list):
                 val = f'[ {val[0]}   +{len(val) - 1} ]'
             print(key.ljust(20), val)

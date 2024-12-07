@@ -601,11 +601,10 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
         except Exception as e:
             BT.log.error(e)
-            raise RuntimeError(f"\n{BT.log.to_str()}")
+            raise RuntimeError(f"\n{BT.log.to_str()}") from e
 
         finally:
             server.stop()   # While you're debugging, you can comment this line to keep the server running
-            pass
 
         BT.reportTest('iotest', out)
 
@@ -921,8 +920,8 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             for i in [1,2]:
                 out  += BT.Executer('exiv2 -pS    {file}', vars())
                 out  += BT.Executer('exiv2 -pc    {file}', vars())
-                if i ==1:
-                  out+= ''
+                if i == 1:
+                    out+= ''
                 out  += BT.Executer('exiv2 -pa    {file}', vars())
                 out  += BT.Executer('exiv2 -c "changed comment" {file}', vars())
 

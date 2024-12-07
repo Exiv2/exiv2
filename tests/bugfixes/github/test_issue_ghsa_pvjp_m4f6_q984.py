@@ -31,4 +31,3 @@ Error: Offset of directory Thumbnail, entry 0x0132 is out of bounds: Offset = 0x
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
         """ We don't care about the stdout, just don't crash """
-        pass
