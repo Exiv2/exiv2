@@ -8,11 +8,11 @@ def char_range(c1, c2):
     for c in range(ord(c1), ord(c2)+1):
         yield chr(c)
 
-ORIGINAL_FILES = ["$data_path/exiv2-bug1179" + case + ".exv"
+ORIGINAL_FILES = [f"$data_path/exiv2-bug1179{case}.exv"
     for case in char_range('a', 'j')]
 
 def make_command(filename):
-    return ["$exiv2 -pa --grep fuji/i " + filename]
+    return [f"$exiv2 -pa --grep fuji/i {filename}"]
 
 
 class CheckFilmMode(metaclass=system_tests.CaseMeta):

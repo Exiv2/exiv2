@@ -9,6 +9,10 @@ class DetectsWrongLengthOfImageResourceInPSDFile(metaclass=system_tests.CaseMeta
     filename = system_tests.path("$data_path/h02.psd")
     commands = ["$exiv2 " + filename]
     retval = [1]
-    stderr = ["""$exiv2_exception_message """ + filename + """:
+    stderr = [
+        """$exiv2_exception_message """
+        + filename
+        + """:
 $kerCorruptedMetadata
-"""]
+"""
+    ]

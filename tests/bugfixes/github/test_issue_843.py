@@ -10,6 +10,7 @@ class IntegerOverflowInCiffDirectoryReadDirectory(metaclass=CaseMeta):
 
     An integer overflow causes an out-of-bounds read.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/843"
 
     filename = path("$data_path/issue_843_poc.crw")
@@ -18,5 +19,6 @@ class IntegerOverflowInCiffDirectoryReadDirectory(metaclass=CaseMeta):
     stderr = [
         """$exiv2_exception_message $filename:
 $kerCorruptedMetadata
-"""]
+"""
+    ]
     retval = [1]

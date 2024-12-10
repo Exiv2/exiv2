@@ -23,10 +23,10 @@ test_cases = make_test_cases(lenses)
 
 for lens_tc in test_cases:
 
-    testname = lens_tc["id"] + "_" + lens_tc["desc"]
+    testname = f"{lens_tc['id']}_{lens_tc['desc']}"
 
     globals()[testname] = system_tests.CaseMeta(
-        "canon_lenses." + testname,
+        f"canon_lenses.{testname}",
         tuple(),
         {
             "filename": "$data_path/template.exv",

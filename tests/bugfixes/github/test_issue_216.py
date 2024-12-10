@@ -3,13 +3,13 @@
 import system_tests
 import unittest
 
+
 @unittest.skip("Skipping test using option -pR (only for Debug mode)")
 class UncontrolledRecursion(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issues/216"
 
     filename = system_tests.path(
-        "$data_path/"
-        "exiv2_0-26_exiv2_uncontrolled-recursion_printIFDStructure.tif"
+        "$data_path/" "exiv2_0-26_exiv2_uncontrolled-recursion_printIFDStructure.tif"
     )
 
     commands = ["$exiv2 -pR $filename"]

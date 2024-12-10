@@ -146,7 +146,7 @@ Xmp.xmpRights.Marked                         XmpText     5  False
         for i, (got_line, expected_line) in \
             enumerate(zip(got_stdout.splitlines(), expected_stdout.splitlines())):
             self.assertEqual(
-                got_line, expected_line, msg="error in line {:d}".format(i)
+                got_line, expected_line, msg=f"error in line {i:d}"
             )
 
     stderr = [""]

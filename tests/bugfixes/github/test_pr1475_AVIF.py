@@ -4,33 +4,37 @@ import system_tests
 import unittest
 
 # test needs system_tests.BT.vv['enable_bmff']=1
-bSkip=system_tests.BT.verbose_version().get('enable_bmff')!='1'
+bSkip = system_tests.BT.verbose_version().get("enable_bmff") != "1"
 if bSkip:
-    raise unittest.SkipTest('*** requires enable_bmff=1 ***')
+    raise unittest.SkipTest("*** requires enable_bmff=1 ***")
+
 
 class pr_1475_avif_avif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/avif.avif"
     if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
+        commands = []
+        retval = []
+        stdin = []
+        stderr = []
+        stdout = []
         print("*** test skipped.  requires enable_bmff=1***")
     else:
-        commands = ["$exiv2 -pa $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
-                   ,"$exiv2 -pC $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.ExifTag                           Long        1  26
+        commands = [
+            "$exiv2 -pa $filename",
+            "$exiv2 -pS $filename",
+            "$exiv2 -pX $filename",
+            "$exiv2 -pC $filename",
+        ]
+        retval = [0] * len(commands)
+        stderr = [""] * len(commands)
+        stdin = [""] * len(commands)
+        stdout = [
+            """Exif.Image.ExifTag                           Long        1  26
 Exif.Photo.DateTimeOriginal                  Ascii      20  2018:08:15 11:37:35
 Exif.Photo.SubSecTimeOriginal                Ascii       3  59
-""","""Exiv2::BmffImage::boxHandler: ftyp        0->32 brand: avif
+""",
+            """Exiv2::BmffImage::boxHandler: ftyp        0->32 brand: avif
 Exiv2::BmffImage::boxHandler: meta       32->304 
   Exiv2::BmffImage::boxHandler: hdlr       44->33 
   Exiv2::BmffImage::boxHandler: pitm       77->14 
@@ -51,28 +55,34 @@ Exiv2::BmffImage::boxHandler: meta       32->304
 Exiv2::BMFF Exif: ID = 2 from,length = 219134,82
 Exiv2::BmffImage::boxHandler: free      336->64 
 Exiv2::BmffImage::boxHandler: mdat      400->218816 
-""","",""]
+""",
+            "",
+            "",
+        ]
+
 
 class pr_1475_exif_xmp_avif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/avif_exif_xmp.avif"
     if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
+        commands = []
+        retval = []
+        stdin = []
+        stderr = []
+        stdout = []
         print("*** test skipped.  requires enable_bmff=1***")
     else:
-        commands = ["$exiv2 -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
-                   ,"$exiv2 -pC $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.DateTime                          Ascii      20  2021:02:13 21:19:50
+        commands = [
+            "$exiv2 -g Image.Make -g Date -g Xm -g Expo -g Flash $filename",
+            "$exiv2 -pS $filename",
+            "$exiv2 -pX $filename",
+            "$exiv2 -pC $filename",
+        ]
+        retval = [0] * len(commands)
+        stderr = [""] * len(commands)
+        stdin = [""] * len(commands)
+        stdout = [
+            """Exif.Image.DateTime                          Ascii      20  2021:02:13 21:19:50
 Xmp.iptcExt.DigitalSourceType                XmpText    61  Digital capture
 Xmp.iptcExt.LocationCreated                  XmpBag      0  
 Xmp.iptcExt.LocationShown                    XmpBag      0  
@@ -112,7 +122,8 @@ Xmp.photoshop.AuthorsPosition                XmpText    18  Computer Scientist
 Xmp.xmp.CreatorTool                          XmpText     4  GIMP
 Xmp.xmp.Rating                               XmpText     1  5
 Xmp.xmpRights.Marked                         XmpText     4  True
-""","""Exiv2::BmffImage::boxHandler: ftyp        0->32 brand: avif
+""",
+            """Exiv2::BmffImage::boxHandler: ftyp        0->32 brand: avif
 Exiv2::BmffImage::boxHandler: meta       32->379 
   Exiv2::BmffImage::boxHandler: hdlr       44->40 
   Exiv2::BmffImage::boxHandler: pitm       84->14 
@@ -135,7 +146,8 @@ Exiv2::BmffImage::boxHandler: meta       32->379
 Exiv2::BMFF Exif: ID = 2 from,length = 419,316
 Exiv2::BMFF XMP: ID = 3 from,length = 735,4683
 Exiv2::BmffImage::boxHandler: mdat      411->10452 
-""","""<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+""",
+            """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
@@ -246,28 +258,33 @@ Exiv2::BmffImage::boxHandler: mdat      411->10452
                                                                                                     
                                                                                                     
                            
-<?xpacket end="w"?>""",""]
+<?xpacket end="w"?>""",
+            "",
+        ]
+
 
 class pr_1475_metadata2_avif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/avif_metadata2.avif"
     if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
+        commands = []
+        retval = []
+        stdin = []
+        stderr = []
+        stdout = []
         print("*** test skipped.  requires enable_bmff=1***")
     else:
-        commands = ["$exiv2 -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
-                   ,"$exiv2 -pC $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.DateTime                          Ascii      20  2021:02:13 21:25:32
+        commands = [
+            "$exiv2 -g Image.Make -g Date -g Xm -g Expo -g Flash $filename",
+            "$exiv2 -pS $filename",
+            "$exiv2 -pX $filename",
+            "$exiv2 -pC $filename",
+        ]
+        retval = [0] * len(commands)
+        stderr = [""] * len(commands)
+        stdin = [""] * len(commands)
+        stdout = [
+            """Exif.Image.DateTime                          Ascii      20  2021:02:13 21:25:32
 Xmp.iptcExt.DigitalSourceType                XmpText    61  Digital capture
 Xmp.iptcExt.LocationCreated                  XmpBag      0  
 Xmp.iptcExt.LocationShown                    XmpBag      0  
@@ -302,7 +319,8 @@ Xmp.dc.Format                                XmpText    10  image/avif
 Xmp.dc.creator                               XmpSeq      1  type="Seq" me
 Xmp.dc.description                           LangAlt     1  lang="x-default" bla bla bla
 Xmp.xmp.CreatorTool                          XmpText     4  GIMP
-""","""Exiv2::BmffImage::boxHandler: ftyp        0->24 brand: avif
+""",
+            """Exiv2::BmffImage::boxHandler: ftyp        0->24 brand: avif
 Exiv2::BmffImage::boxHandler: meta       24->356 
   Exiv2::BmffImage::boxHandler: hdlr       36->33 
   Exiv2::BmffImage::boxHandler: pitm       69->14 
@@ -324,7 +342,8 @@ Exiv2::BmffImage::boxHandler: meta       24->356
 Exiv2::BMFF Exif: ID = 2 from,length = 5118,412
 Exiv2::BMFF XMP: ID = 3 from,length = 5530,4254
 Exiv2::BmffImage::boxHandler: mdat      380->9404 
-""","""<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+""",
+            """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
@@ -420,5 +439,6 @@ Exiv2::BmffImage::boxHandler: mdat      380->9404
                                                                                                     
                                                                                                     
                            
-<?xpacket end="w"?>""",""]
-
+<?xpacket end="w"?>""",
+            "",
+        ]
