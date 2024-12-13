@@ -846,7 +846,7 @@ class CaseMeta(type):
         # expand all non-private variables by brute force
         # => try all expanding all elements defined in the current class until
         # there is no change in them any more
-        keys = [key for key in list(dct.keys()) if not key.startswith('_')]
+        keys = [key for key in dct if not key.startswith('_')]
         while changed:
             changed = False
 

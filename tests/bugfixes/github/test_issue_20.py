@@ -13,12 +13,10 @@ class TamronSupport(metaclass=system_tests.CaseMeta):
         "TamronSP90mmF2.8DiVCUSDMacroF004.exv",
         "TamronSP90mmF2.8DiVCUSDMacroF017.exv",
     ]
-    commands = [f"$exiv2 -pa --grep lens/i ../../../test/data/{files[0]}"] + list(
-        map(
-            lambda fname: f"$exiv2 -pa --grep lenstype/i ../../../test/data/{fname}",
-            files[1:],
-        )
-    )
+    commands = [f"$exiv2 -pa --grep lens/i ../../../test/data/{files[0]}"] + [
+        f"$exiv2 -pa --grep lenstype/i ../../../test/data/{fname}"
+        for fname in files[1:]
+    ]
     retval = [0] * len(files)
 
     stdout = [

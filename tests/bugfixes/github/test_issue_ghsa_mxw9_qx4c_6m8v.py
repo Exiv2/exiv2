@@ -16,9 +16,7 @@ class Jp2ImageEncodeJp2HeaderOutOfBoundsRead2(metaclass=CaseMeta):
     commands = ["$exiv2 rm $filename"]
     stdout = [""]
     stderr = [
-        """$exception_in_erase """
-        + filename
-        + """:
+        f"""$exception_in_erase {filename}:
 $kerCorruptedMetadata
 """
     ]

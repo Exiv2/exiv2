@@ -15,9 +15,7 @@ class TiffDirectoryWriteDirEntryAssert(metaclass=CaseMeta):
     filename = path("$tmp_path/issue_1845_poc.jp2")
     commands = ["$exiv2 -q -D +1 ad $filename"]
     stderr = [
-        """$exception_in_adjust """
-        + filename
-        + """:
+        f"""$exception_in_adjust {filename}:
 $kerCorruptedMetadata
 """
     ]

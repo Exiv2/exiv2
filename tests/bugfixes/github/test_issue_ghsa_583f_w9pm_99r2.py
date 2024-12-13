@@ -15,9 +15,7 @@ class Jp2ImagePrintStructureICC(metaclass=CaseMeta):
     commands = ["$exiv2 -p C $filename"]
     stdout = [""]
     stderr = [
-        """$exiv2_exception_message """
-        + filename
-        + """:
+        f"""$exiv2_exception_message {filename}:
 $kerCorruptedMetadata
 """
     ]

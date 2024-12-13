@@ -9,12 +9,10 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     found_by = ["afl", "topsecLab", "xcainiao"]
 
     filename = "$data_path/exiv2-memorymmap-error"
-    commands = ["$exiv2 " + filename]
+    commands = [f"$exiv2 {filename}"]
     stdout = [""]
     stderr = [
-        """$exiv2_exception_message """
-        + filename
-        + """:
+        f"""$exiv2_exception_message {filename}:
 $kerCorruptedMetadata
 """
     ]

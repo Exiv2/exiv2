@@ -23,9 +23,7 @@ class BigTiffImageRecursionStackExhaustion(metaclass=system_tests.CaseMeta):
     commands = ["$exiv2 -b -u -k pr $filename"]
     stdout = [""]
     stderr = [
-        """$exiv2_exception_message """
-        + filename
-        + """:
+        f"""$exiv2_exception_message {filename}:
 $filename: $kerFileContainsUnknownImageType
 """
     ]

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import itertools
 import os.path
 
 from system_tests import CaseMeta, path
@@ -31,12 +30,9 @@ class AddMinusPSOption(metaclass=CaseMeta):
     commands = [
         "$exiv2 -pX $bug_jpg_file",
         "$exiv2 -pX $IPTC_file",
-    ] + list(
-        itertools.chain.from_iterable([
-            f"$exiv2 -pX {fname}",
-            f"$exiv2 -pS {fname}"
-        ] for fname in files)
-    )
+    ] + [
+        cmd for fname in files for cmd in [f"$exiv2 -pX {fname}", f"$exiv2 -pS {fname}"]
+    ]
 
     stdout = [
         read_file(

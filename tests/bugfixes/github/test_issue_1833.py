@@ -12,11 +12,9 @@ class TiffMnEntryDoCountInvalidTiffType(metaclass=CaseMeta):
     url = "https://github.com/Exiv2/exiv2/issues/1833"
 
     filename = path("$data_path/issue_1833_poc.jpg")
-    commands = ["$exiv2 -pS $filename"]
+    commands = [f"$exiv2 -pS {filename}"]
     stderr = [
-        """$exiv2_exception_message """
-        + filename
-        + """:
+        f"""$exiv2_exception_message {filename}:
 $kerFailedToReadImageData
 """
     ]

@@ -10,9 +10,7 @@ class SigmaLenses(metaclass=system_tests.CaseMeta):
         "Sigma_50mm_F1.4_DG_HSM_A.exv",
     ]
 
-    commands = list(
-        map(lambda fname: f"$exiv2 -pa --grep lens/i $data_path/{fname}", files)
-    )
+    commands = [f"$exiv2 -pa --grep lens/i $data_path/{fname}" for fname in files]
 
     retval = 3 * [0]
     stderr = 3 * [""]
