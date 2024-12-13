@@ -10,15 +10,13 @@ class TestCvePoC(metaclass=system_tests.CaseMeta):
     commands = [f"$exiv2 {filename}"]
     stdout = [""]
     stderr = [
-        """$exiv2_exception_message """
-        + filename
-        + ":\n"
-        + (
-            "$kerFailedToReadImageData"
-            if system_tests.BT.Config.is_64bit
-            else "$kerCorruptedMetadata"
-        )
-        + "\n"
+        f"""$exiv2_exception_message {filename}:
+{(
+    "$kerFailedToReadImageData"
+    if system_tests.BT.Config.is_64bit
+    else "$kerCorruptedMetadata"
+)}
+"""
     ]
     retval = [1]
 

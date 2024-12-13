@@ -20,9 +20,7 @@ Error: Offset of directory Image, entry 0x0117 is out of bounds: Offset = 0x3030
     commands = [f"$exiv2 -vPEIXxgklnycsvth -b {filename}"]
 
     stdout = [
-        """File 1/1: """
-        + filename
-        + """
+        f"""File 1/1: {filename}
 0x0117 Image        Exif.Image.StripByteCounts                   StripByteCounts             Strip Byte Count               SByte       0   0  
 
 """

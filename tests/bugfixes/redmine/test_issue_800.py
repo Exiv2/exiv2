@@ -111,11 +111,7 @@ class MissingPhotoshopIrbTypes(metaclass=system_tests.CaseMeta):
     types = ["8BIM", "AgHg", "DCSR", "PHUT"]
     formats = ["jpg", "psd"]
 
-    commands = list(
-        itertools.chain.from_iterable(
-            make_commands(fname) for fname in FILES
-        )
-    )
+    commands = [cmd for fname in FILES for cmd in make_commands(fname)]
 
     stdout = list(
         itertools.chain.from_iterable(

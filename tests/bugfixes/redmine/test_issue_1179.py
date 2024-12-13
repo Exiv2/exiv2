@@ -19,8 +19,7 @@ class CheckFilmMode(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1179"
 
-    commands = list(itertools.chain.from_iterable(
-            make_command(fname) for fname in ORIGINAL_FILES))
+    commands = [cmd for fname in ORIGINAL_FILES for cmd in make_command(fname)]
 
     stdout = [
         """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48

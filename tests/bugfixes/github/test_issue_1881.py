@@ -16,9 +16,7 @@ class SonyPreviewImageLargeAllocation(metaclass=CaseMeta):
     filename2 = path("$tmp_path/issue_1881_coverage.jpg")
     commands = ["$exiv2 -q -d I rm $filename1", "$exiv2 -q -d I rm $filename2"]
     stderr = [
-        """$exception_in_erase """
-        + filename1
-        + """:
+        f"""$exception_in_erase {filename1}:
 $kerFailedToReadImageData
 """,
         "",

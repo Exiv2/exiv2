@@ -7,9 +7,7 @@ class BufferOverReadInNikon1MakerNotePrint0x0088(metaclass=system_tests.CaseMeta
     filename = system_tests.path("$data_path/NikonMakerNotePrint0x088_overread")
     commands = ["$exiv2 -q -pt --grep AFFocusPos $filename"]
     stderr = [
-        """$exiv2_exception_message """
-        + filename
-        + """:
+        f"""$exiv2_exception_message {filename}:
 $kerFailedToReadImageData
 """
     ]

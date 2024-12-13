@@ -16,9 +16,7 @@ class WebPImage_inject_VP8X_integer_overflow(metaclass=CaseMeta):
     commands = ["$exiv2 rm $filename"]
     stdout = [""]
     stderr = [
-        """$exception_in_erase """
-        + filename
-        + """:
+        f"""$exception_in_erase {filename}:
 $kerCorruptedMetadata
 """
     ]

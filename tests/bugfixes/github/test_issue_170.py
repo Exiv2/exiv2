@@ -8,12 +8,10 @@ class DecodeIHDRChunkOutOfBoundsRead(metaclass=system_tests.CaseMeta):
 
     filename = "$data_path/issue_170_poc"
 
-    commands = ["$exiv2 " + filename]
+    commands = [f"$exiv2 {filename}"]
     stdout = [""]
     stderr = [
-        """$exiv2_exception_message """
-        + filename
-        + """:
+        f"""$exiv2_exception_message {filename}:
 $kerFailedToReadImageData
 """
     ]

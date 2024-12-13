@@ -4,13 +4,9 @@ import system_tests
 
 
 def stderr_exception(fname):
-    return (
-        """$exiv2_exception_message """
-        + fname
-        + """:
+    return f"""$exiv2_exception_message {fname}:
 $kerFailedToReadImageData
 """
-    )
 
 
 class PngReadRawProfile(metaclass=system_tests.CaseMeta):
@@ -27,14 +23,12 @@ class PngReadRawProfile(metaclass=system_tests.CaseMeta):
         system_tests.path("$data_path/issue_428_poc6.png"),
     ]
 
-    commands = ["$exiv2 " + fname for fname in filenames]
+    commands = [f"$exiv2 {fname}" for fname in filenames]
     stdout = [""] * len(filenames)
     stderr = [stderr_exception(fname) for fname in filenames[0:6]]
 
     stderr.append(
-        """$exiv2_exception_message """
-        + filenames[6]
-        + """:
+        f"""$exiv2_exception_message {filenames[6]}:
 $kerInputDataReadFailed
 """
     )
