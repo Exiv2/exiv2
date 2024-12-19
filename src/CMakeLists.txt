@@ -252,9 +252,18 @@ if( EXIV2_ENABLE_NLS )
     target_compile_definitions(exiv2lib PUBLIC EXV_LOCALEDIR="${EXV_LOCALEDIR}")
 endif()
 
+<<<<<<< HEAD
 if( Iconv_FOUND AND Iconv_LIBRARIES )
     target_link_libraries( exiv2lib PRIVATE Iconv::Iconv )
     list(APPEND libs_private_list "iconv")
+=======
+if(Iconv_FOUND AND Iconv_LIBRARIES)
+  target_link_libraries(exiv2lib PRIVATE Iconv::Iconv)
+  list(APPEND libs_private_list "iconv")
+  set(EXV_HAVE_LIBICONV TRUE PARENT_SCOPE)
+else()
+  set(EXV_HAVE_LIBICONV FALSE PARENT_SCOPE)
+>>>>>>> f043d0c1 (Export more dependencies in CMake config)
 endif()
 
 if( EXIV2_ENABLE_INIH )
