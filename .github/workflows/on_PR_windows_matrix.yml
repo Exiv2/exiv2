@@ -156,7 +156,6 @@ jobs:
         with:
           platform: ${{matrix.platform}}
           packages: >-
-            gcc-g++=13.3.1+20241129-0.1
             cmake
             ninja
             pkg-config
@@ -167,6 +166,10 @@ jobs:
             libiconv-devel
             libinih-devel
             zlib-devel
+
+      - name: Install GCC 13
+        run: C:\setup.exe -qnO -P gcc-g++=13.3.1+20241129-0.1 -l C:\cygwin-packages -R C:\cygwin -s http://mirrors.kernel.org/sourceware/cygwin/
+        shell: pwsh
 
       - name: Build
         run: |
