@@ -167,8 +167,8 @@ jobs:
             libinih-devel
             zlib-devel
 
-      - name: Install GCC 13
-        run: C:\setup.exe -qnO -P gcc-g++=13.3.1+20241129-0.1,libatomic1=13.3.1+20241129-0.1,libquadmath0=13.3.1+20241129-0.1 -l C:\cygwin-packages -R C:\cygwin -s http://mirrors.kernel.org/sourceware/cygwin/
+      - name: Install GCC 13 from test
+        run: & C:\setup.exe -qnOt -P gcc-g++=13.3.1+20241129-0.1,libatomic1=13.3.1+20241129-0.1,libquadmath0=13.3.1+20241129-0.1 -l C:\cygwin-packages -R C:\cygwin -s http://mirrors.kernel.org/sourceware/cygwin/ | Out-Default
         shell: pwsh
 
       - name: Build
