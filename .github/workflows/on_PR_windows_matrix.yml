@@ -156,7 +156,7 @@ jobs:
         with:
           platform: ${{matrix.platform}}
           packages: >-
-            gcc-13.3.1+20241129-0.1
+            gcc-g++-13.3.1+20241129-0.1
             cmake
             ninja
             pkg-config
