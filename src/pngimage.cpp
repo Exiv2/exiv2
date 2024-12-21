@@ -256,10 +256,8 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
         enforce(bufRead == 4, ErrorCode::kerFailedToReadImageData);
         io_->seek(restore, BasicIo::beg);  // restore file pointer
 
-        out << Internal::stringFormat("%8d | %-5s |%8d | ", static_cast<uint32_t>(address), chType, dataOffset)
-            << dataString
-            << Internal::stringFormat(" | 0x%02x%02x%02x%02x", checksum[0], checksum[1], checksum[2], checksum[3])
-            << '\n';
+        out << stringFormat("{:8} | {:<5} |{:8} | {}", address, chType, dataOffset, dataString)
+            << stringFormat(" | 0x{:02x}{:02x}{:02x}{:02x}\n", checksum[0], checksum[1], checksum[2], checksum[3]);
       }
 
       // chunk type
