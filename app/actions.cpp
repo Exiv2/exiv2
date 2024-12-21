@@ -107,7 +107,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
               the file to.
   @return 0 if successful, -1 if the file was skipped, 1 on error.
 */
-int renameFile(std::string& path, const tm* tm);
+int renameFile(std::string& path, const tm* tm, Exiv2::ExifData& exifData);
 
 /*!
   @brief Make a file path from the current file path, destination
@@ -652,7 +652,7 @@ int Rename::run(const std::string& path) {
         std::cout << _("Updating timestamp to") << " " << v << '\n';
       }
     } else {
-      rc = renameFile(newPath, &tm);
+      rc = renameFile(newPath, &tm, exifData);
       if (rc == -1)
         return 0;  // skip
     }
@@ -1819,7 +1819,7 @@ void replace(std::string& text, const std::string& searchText, const std::string
   }
 }
 
-int renameFile(std::string& newPath, const tm* tm) {
+int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   auto p = fs::path(newPath);
   std::string path = newPath;
   auto oldFsPath = fs::path(path);
@@ -1841,7 +1841,51 @@ int renameFile(std::string& newPath, const tm* tm) {
     return 1;
   }
 
-  newPath = (p.parent_path() / (basename + p.extension().string())).string();
+  // get parent path with separator
+  // for concatenation of new file name, concatenation operator of std::filesystem::path is not used:
+  // On MSYS2 UCRT64 the path separator to be used in terminal is slash, but as concatenation operator
+  // a back slash will be added. Rename works but with verbose a path with different operators will be shown.
+  int len = p.parent_path().string().length();
+  std::string parent_path_sep = "";
+  if (len > 0)
+    parent_path_sep = newPath.substr(0, ++len);
+
+  newPath = parent_path_sep + std::string(basename) + p.extension().string();
+
+  // rename using exiv2 tags
+  // is done after calling setting date/time: the value retrieved from tag might include something like %Y, which then
+  // should not be replaced by year
+  std::regex format_regex(":{1}?(Exif\\..*?):{1}?");
+#if defined(_WIN32)
+  std::string illegalChars = "\\/:*?\"<>|";
+#else
+  std::string illegalChars = "/:";
+#endif
+  std::regex_token_iterator<std::string::iterator> rend;
+  std::regex_token_iterator<std::string::iterator> token(format.begin(), format.end(), format_regex);
+  while (token != rend) {
+    std::string tag = token->str().substr(1, token->str().length() - 2);
+    const auto key = exifData.findKey(Exiv2::ExifKey(tag));
+    std::string val = "";
+    if (key != exifData.end()) {
+      val = key->print(&exifData);
+      if (val.length() == 0) {
+        std::cerr << path << ": " << _("Warning: ") << tag << _(" is empty.") << std::endl;
+      } else {
+        //  replace characters invalid in file name
+        for (std::string::iterator it = val.begin(); it < val.end(); ++it) {
+          bool found = illegalChars.find(*it) != std::string::npos;
+          if (found) {
+            *it = '_';
+          }
+        }
+      }
+    } else {
+      std::cerr << path << ": " << _("Warning: ") << tag << _(" is not included.") << std::endl;
+    }
+    replace(newPath, *token++, val);
+  }
+
   p = fs::path(newPath);
 
   if (p.parent_path() == oldFsPath.parent_path() && p.filename() == oldFsPath.filename()) {
@@ -1862,8 +1906,7 @@ int renameFile(std::string& newPath, const tm* tm) {
           go = false;
           break;
         case Params::renamePolicy:
-          newPath = (p.parent_path() / (std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string()))
-                        .string();
+          newPath = parent_path_sep + std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string();
           break;
         case Params::askPolicy:
           std::cout << Params::instance().progname() << ": " << _("File") << " `" << newPath << "' "
@@ -1877,9 +1920,7 @@ int renameFile(std::string& newPath, const tm* tm) {
             case 'r':
             case 'R':
               fileExistsPolicy = Params::renamePolicy;
-              newPath =
-                  (p.parent_path() / (std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string()))
-                      .string();
+              newPath = parent_path_sep + std::string(basename) + "_" + Exiv2::toString(seq++) + p.extension().string();
               break;
             default:  // skip
               return -1;
