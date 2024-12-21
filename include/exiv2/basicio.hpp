@@ -218,7 +218,7 @@ class EXIV2API BasicIo {
         comprehensive error messages where only a BasicIo instance is
         available.
    */
-  [[nodiscard]] virtual const std::string& path() const noexcept = 0;
+  [[nodiscard]] virtual std::string path() const noexcept = 0;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -456,7 +456,7 @@ class EXIV2API FileIo : public BasicIo {
   //! Returns true if the file position has reached the end, otherwise false.
   [[nodiscard]] bool eof() const override;
   //! Returns the path of the file
-  [[nodiscard]] const std::string& path() const noexcept override;
+  [[nodiscard]] std::string path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -638,7 +638,7 @@ class EXIV2API MemIo : public BasicIo {
   //! Returns true if the IO position has reached the end, otherwise false.
   [[nodiscard]] bool eof() const override;
   //! Returns a dummy path, indicating that memory access is used
-  [[nodiscard]] const std::string& path() const noexcept override;
+  [[nodiscard]] std::string path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
@@ -888,7 +888,7 @@ class EXIV2API RemoteIo : public BasicIo {
   //! Returns true if the IO position has reached the end, otherwise false.
   [[nodiscard]] bool eof() const override;
   //! Returns the URL of the file.
-  [[nodiscard]] const std::string& path() const noexcept override;
+  [[nodiscard]] std::string path() const noexcept override;
 
   /*!
     @brief Mark all the bNone blocks to bKnow. This avoids allocating memory
