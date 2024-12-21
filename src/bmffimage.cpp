@@ -21,6 +21,7 @@
 #endif
 
 // + standard includes
+#include <bit>
 #include <cinttypes>
 #include <cstdio>
 #include <cstring>
@@ -90,7 +91,7 @@ BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */, size_t max_box_de
 std::string BmffImage::toAscii(uint32_t n) {
   const auto p = reinterpret_cast<const char*>(&n);
   std::string result(p, p + 4);
-  if (!isBigEndianPlatform())
+  if constexpr (std::endian::native == std::endian::little)
     std::reverse(result.begin(), result.end());
   // show 0 as _
   std::replace(result.begin(), result.end(), '\0', '_');
