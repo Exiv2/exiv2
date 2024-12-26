@@ -203,7 +203,7 @@ class BrotliDecoderWrapper {
 void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBufSize, DataBuf& arr) {
   BrotliDecoderWrapper decoder;
   size_t uncompressedLen = compressedBufSize * 2;  // just a starting point
-  BrotliDecoderResult result;
+  BrotliDecoderResult result = BROTLI_DECODER_RESULT_NEEDS_MORE_INPUT;
   int dos = 0;
   size_t available_in = compressedBufSize;
   const byte* next_in = compressedBuf;
@@ -211,7 +211,7 @@ void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBuf
   byte* next_out;
   size_t total_out = 0;
 
-  do {
+  while (result != BROTLI_DECODER_RESULT_SUCCESS) {
     arr.alloc(uncompressedLen);
     available_out = uncompressedLen - total_out;
     next_out = arr.data() + total_out;
@@ -234,7 +234,7 @@ void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBuf
       // something bad happened
       throw Error(ErrorCode::kerErrorMessage, BrotliDecoderErrorString(BrotliDecoderGetErrorCode(decoder.get())));
     }
-  } while (result != BROTLI_DECODER_RESULT_SUCCESS);
+  };
 
   if (result != BROTLI_DECODER_RESULT_SUCCESS) {
     throw Error(ErrorCode::kerFailedToReadImageData);
