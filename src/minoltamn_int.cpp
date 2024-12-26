@@ -1674,7 +1674,7 @@ static std::vector<std::string> split(const std::string& str, const std::string&
   std::vector<std::string> tokens;
   size_t prev = 0;
   size_t pos = 0;
-  do {
+  while (pos < str.length() && prev < str.length()) {
     pos = str.find(delim, prev);
     if (pos == std::string::npos)
       pos = str.length();
@@ -1682,7 +1682,7 @@ static std::vector<std::string> split(const std::string& str, const std::string&
     if (!token.empty())
       tokens.push_back(std::move(token));
     prev = pos + delim.length();
-  } while (pos < str.length() && prev < str.length());
+  };
   return tokens;
 }
 

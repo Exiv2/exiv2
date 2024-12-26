@@ -334,10 +334,10 @@ std::string PngChunk::makeMetadataChunk(const std::string& metadata, MetadataId 
 
 void PngChunk::zlibUncompress(const byte* compressedText, unsigned int compressedTextSize, DataBuf& arr) {
   uLongf uncompressedLen = compressedTextSize * 2;  // just a starting point
-  int zlibResult;
+  int zlibResult = Z_BUF_ERROR;
   int dos = 0;
 
-  do {
+  while (zlibResult == Z_BUF_ERROR) {
     arr.alloc(uncompressedLen);
     zlibResult = uncompress(arr.data(), &uncompressedLen, compressedText, compressedTextSize);
     if (zlibResult == Z_OK) {
@@ -355,7 +355,7 @@ void PngChunk::zlibUncompress(const byte* compressedText, unsigned int compresse
       // something bad happened
       throw Error(ErrorCode::kerFailedToReadImageData);
     }
-  } while (zlibResult == Z_BUF_ERROR);
+  };
 
   if (zlibResult != Z_OK) {
     throw Error(ErrorCode::kerFailedToReadImageData);
@@ -364,10 +364,10 @@ void PngChunk::zlibUncompress(const byte* compressedText, unsigned int compresse
 
 std::string PngChunk::zlibCompress(const std::string& text) {
   auto compressedLen = static_cast<uLongf>(text.size() * 2);  // just a starting point
-  int zlibResult;
+  int zlibResult = Z_BUF_ERROR;
 
   DataBuf arr;
-  do {
+  while (zlibResult == Z_BUF_ERROR) {
     arr.resize(compressedLen);
     zlibResult = compress2(arr.data(), &compressedLen, reinterpret_cast<const Bytef*>(text.data()),
                            static_cast<uLong>(text.size()), Z_BEST_COMPRESSION);
@@ -390,7 +390,7 @@ std::string PngChunk::zlibCompress(const std::string& text) {
         // Something bad happened
         throw Error(ErrorCode::kerFailedToReadImageData);
     }
-  } while (zlibResult == Z_BUF_ERROR);
+  };
 
   return {arr.c_str(), arr.size()};
 
