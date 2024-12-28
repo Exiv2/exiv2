@@ -296,7 +296,8 @@ constexpr TagDetails fujiFilmMode[] = {{0, N_("PROVIA (F0/Standard)")},
                                        {1792, N_("ETERNA")},
                                        {2048, N_("CLASSIC Neg.")},
                                        {2304, N_("ETERNA Bleach Bypass")},
-                                       {2560, N_("Nostalgic Neg.")}};
+                                       {2560, N_("Nostalgic Neg.")},
+                                       {2816, N_("REALA ACE")}};
 
 //! DynamicRange, tag 0x1402
 constexpr TagDetails fujiDynamicRangeSetting[] = {{0, N_("Auto")},
