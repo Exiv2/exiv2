@@ -358,6 +358,7 @@ constexpr TagDetails fujiFilmMode[] = {
     {2048, N_("CLASSIC Neg.")},
     {2304, N_("ETERNA Bleach Bypass")},
     {2560, N_("Nostalgic Neg.")},
+    {2816, N_("REALA ACE")},
 };
 
 //! DynamicRange, tag 0x1402
