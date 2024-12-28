@@ -282,6 +282,7 @@ constexpr TagDetails fujiFinePixColor[] = {{0, N_("Standard")}, {16, N_("Chrome"
 constexpr TagDetails fujiDynamicRange[] = {{1, N_("Standard")}, {3, N_("Wide")}};
 
 //! FilmMode, tag 0x1401
+<<<<<<< HEAD
 constexpr TagDetails fujiFilmMode[] = {{0, N_("PROVIA (F0/Standard)")},
                                        {256, N_("F1/Studio Portrait")},
                                        {272, N_("F1a/Studio Portrait Enhanced Saturation")},
@@ -297,6 +298,26 @@ constexpr TagDetails fujiFilmMode[] = {{0, N_("PROVIA (F0/Standard)")},
                                        {2048, N_("CLASSIC Neg.")},
                                        {2304, N_("ETERNA Bleach Bypass")},
                                        {2560, N_("Nostalgic Neg.")}};
+=======
+constexpr TagDetails fujiFilmMode[] = {
+    {0, N_("PROVIA (F0/Standard)")},
+    {256, N_("F1/Studio Portrait")},
+    {272, N_("F1a/Studio Portrait Enhanced Saturation")},
+    {288, N_("ASTIA (F1b/Studio Portrait Smooth Skin Tone)")},
+    {304, N_("F1c/Studio Portrait Increased Sharpness")},
+    {512, N_("Velvia (F2/Fujichrome)")},
+    {768, N_("F3/Studio Portrait Ex")},
+    {1024, N_("F4/Velvia")},
+    {1280, N_("PRO Neg. Std")},
+    {1281, N_("PRO Neg. Hi")},
+    {1536, N_("CLASSIC CHROME")},
+    {1792, N_("ETERNA")},
+    {2048, N_("CLASSIC Neg.")},
+    {2304, N_("ETERNA Bleach Bypass")},
+    {2560, N_("Nostalgic Neg.")},
+    {2816, N_("REALA ACE")},
+};
+>>>>>>> 2816d034 (Add REALA ACE film simulation value to Fuji MakerNote values)
 
 //! DynamicRange, tag 0x1402
 constexpr TagDetails fujiDynamicRangeSetting[] = {{0, N_("Auto")},
