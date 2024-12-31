@@ -393,13 +393,9 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
           return count;
         // restrict long arrays
         if (isStringType(type)) {
-          if (count > 32u)
-            return 32u;
-          return count;
+          return std::min(count, 32u);
         }
-        if (count > 5u)
-          return 5u;
-        return count;
+        return std::min(count, 5u);
       }();
       uint32_t pad = isStringType(type) ? 1 : 0;
       size_t size = [=] {
