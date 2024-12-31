@@ -173,38 +173,6 @@ bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) {
   return type == 0x8773 && option == kpsIccProfile;
 }
 
-bool Image::isBigEndianPlatform() {
-#ifdef __cpp_lib_endian
-  return std::endian::native == std::endian::big;
-#elif defined(__LITTLE_ENDIAN__)
-  return false;
-#elif defined(__BIG_ENDIAN__)
-  return true;
-#elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__)
-#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-  return true;
-#else
-  return false;
-#endif
-#else
-  union {
-    uint32_t i;
-    char c[4];
-  } e = {0x01000000};
-
-  return e.c[0] != 0;
-#endif
-}
-bool Image::isLittleEndianPlatform() {
-#ifdef __cpp_lib_endian
-  return std::endian::native == std::endian::little;
-#elif defined(__LITTLE_ENDIAN__)
-  return true;
-#else
-  return !isBigEndianPlatform();
-#endif
-}
-
 uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
 #ifdef __cpp_lib_byteswap
   return bSwap ? std::byteswap(value) : value;
@@ -544,7 +512,8 @@ void Image::printTiffStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruc
     // read header (we already know for certain that we have a Tiff file)
     io.readOrThrow(dir.data(), 8, ErrorCode::kerCorruptedMetadata);
     auto c = dir.read_uint8(0);
-    bool bSwap = (c == 'M' && isLittleEndianPlatform()) || (c == 'I' && isBigEndianPlatform());
+    bool bSwap = (c == 'M' && std::endian::native == std::endian::little) ||
+                 (c == 'I' && std::endian::native == std::endian::big);
     size_t start = byteSwap4(dir, 4, bSwap);
     printIFDStructure(io, out, option, start + offset, bSwap, c, depth);
   }
