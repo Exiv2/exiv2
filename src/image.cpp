@@ -352,8 +352,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       throw Error(ErrorCode::kerTiffDirectoryTooLarge);
 
     if (bFirst && bPrint) {
-      out << Internal::indent(depth) << Internal::stringFormat("STRUCTURE OF TIFF FILE (%c%c): ", c, c) << io.path()
-          << '\n';
+      out << Internal::indent(depth) << stringFormat("STRUCTURE OF TIFF FILE ({}{}): {}\n", c, c, io.path());
     }
 
     // Read the dictionary
@@ -433,11 +432,11 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
       if (bPrint) {
         const size_t address = start + 2 + (i * 12);
-        const std::string offsetString = bOffsetIsPointer ? Internal::stringFormat("%10u", offset) : "";
+        const std::string offsetString = bOffsetIsPointer ? stringFormat("{:9}", offset) : "";
 
         out << Internal::indent(depth)
-            << Internal::stringFormat("%8zu | %#06x %-28s |%10s |%9u |%10s | ", address, tag, tagName(tag).c_str(),
-                                      typeName(type), count, offsetString.c_str());
+            << stringFormat("{:8} | {:#06x} {:<28} | {:>9} | {:>8} | {:9} | ", address, tag, tagName(tag).c_str(),
+                            typeName(type), count, offsetString);
         if (isShortType(type)) {
           for (size_t k = 0; k < kount; k++) {
             out << sp << byteSwap2(buf, k * size, bSwap);
