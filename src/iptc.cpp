@@ -313,9 +313,9 @@ const char* IptcData::detectCharset() const {
   bool ascii = true;
   bool utf8 = true;
 
-  for (pos = begin(); pos != end(); ++pos) {
-    std::string value = pos->toString();
-    if (pos->value().ok()) {
+  for (const auto& key : *this) {
+    std::string value = key.toString();
+    if (key.value().ok()) {
       int seqCount = 0;
       for (auto c : value) {
         if (seqCount) {
