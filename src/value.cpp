@@ -592,10 +592,9 @@ size_t XmpArrayValue::count() const {
 }
 
 std::ostream& XmpArrayValue::write(std::ostream& os) const {
-  for (auto i = value_.begin(); i != value_.end(); ++i) {
-    if (i != value_.begin())
-      os << ", ";
-    os << *i;
+  if (!value_.empty()) {
+    std::copy(value_.begin(), value_.end() - 1, std::ostream_iterator<std::string>(os, ", "));
+    os << value_.back();
   }
   return os;
 }
