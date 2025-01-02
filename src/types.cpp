@@ -452,7 +452,8 @@ size_t d2Data(byte* buf, double d, ByteOrder byteOrder) {
 }
 
 void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
-  const std::string::size_type pos = 8 + (16 * 3) + 2;
+  const size_t hexbase = 16;
+  const std::string::size_type pos = 8 + (hexbase * 3) + 2;
   const std::string align(pos, ' ');
   std::ios::fmtflags f(os.flags());
 
@@ -460,14 +461,17 @@ void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
   while (i < len) {
     os << "  " << std::setw(4) << std::setfill('0') << std::hex << i + offset << "  ";
     std::string ss;
-    do {
-      byte c = buf[i];
-      os << std::setw(2) << std::setfill('0') << std::right << std::hex << static_cast<int>(c) << " ";
-      ss += (std::isprint(static_cast<int>(c)) ? static_cast<char>(buf[i]) : '.');
-    } while (++i < len && i % 16 != 0);
-    std::string::size_type width = 9 + (((i - 1) % 16 + 1) * 3);
+
+    for (size_t j = 0; j < hexbase && i < len; ++j, ++i) {
+      auto c = static_cast<int>(buf[i]);
+      os << std::setw(2) << std::setfill('0') << std::right << std::hex << c << " ";
+      ss += std::isprint(c) ? static_cast<char>(c) : '.';
+    }
+
+    std::string::size_type width = 9 + (((i - 1) % hexbase + 1) * 3);
     os << (width > pos ? "" : align.substr(width)) << ss << "\n";
   }
+
   os << std::dec << std::setfill(' ');
   os.flags(f);
 }
