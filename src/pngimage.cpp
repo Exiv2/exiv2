@@ -75,7 +75,7 @@ static bool zlibToDataBuf(const byte* bytes, uLongf length, DataBuf& result) {
   uLongf uncompressedLen = length;  // just a starting point
   int zlibResult = Z_BUF_ERROR;
 
-  do {
+  while (zlibResult == Z_BUF_ERROR) {
     result.alloc(uncompressedLen);
     zlibResult = uncompress(result.data(), &uncompressedLen, bytes, length);
     // if result buffer is large than necessary, redo to fit perfectly.
@@ -95,7 +95,7 @@ static bool zlibToDataBuf(const byte* bytes, uLongf length, DataBuf& result) {
       else
         uncompressedLen *= 2;
     }
-  } while (zlibResult == Z_BUF_ERROR);
+  };
 
   return zlibResult == Z_OK;
 }
@@ -104,7 +104,7 @@ static bool zlibToCompressed(const byte* bytes, uLongf length, DataBuf& result) 
   uLongf compressedLen = length;  // just a starting point
   int zlibResult = Z_BUF_ERROR;
 
-  do {
+  while (zlibResult == Z_BUF_ERROR) {
     result.alloc(compressedLen);
     zlibResult = compress(result.data(), &compressedLen, bytes, length);
     if (zlibResult == Z_BUF_ERROR) {
@@ -116,7 +116,7 @@ static bool zlibToCompressed(const byte* bytes, uLongf length, DataBuf& result) 
       result.alloc(compressedLen);
       zlibResult = compress(result.data(), &compressedLen, bytes, length);
     }
-  } while (zlibResult == Z_BUF_ERROR);
+  };
 
   return zlibResult == Z_OK;
 }
