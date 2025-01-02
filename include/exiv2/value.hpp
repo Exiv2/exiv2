@@ -1526,8 +1526,8 @@ int ValueType<T>::read(const std::string& buf) {
 template <typename T>
 size_t ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const {
   size_t offset = 0;
-  for (auto i = value_.begin(); i != value_.end(); ++i) {
-    offset += toData(buf + offset, *i, byteOrder);
+  for (const auto& val : value_) {
+    offset += toData(buf + offset, val, byteOrder);
   }
   return offset;
 }
