@@ -51,9 +51,8 @@ template <typename T>
 std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr) {
   for (size_t i = 0; i < binToStr.buf_.size(); ++i) {
     auto c = static_cast<int>(binToStr.buf_.at(i));
-    const bool bTrailingNull = c == 0 && i == binToStr.buf_.size() - 1;
-    if (!bTrailingNull) {
-      if (c < ' ' || c >= 127) {
+    if (c != 0 || i != binToStr.buf_.size() - 1) {
+      if (!std::isprint(static_cast<unsigned char>(c))) {
         c = '.';
       }
       stream.put(static_cast<char>(c));
