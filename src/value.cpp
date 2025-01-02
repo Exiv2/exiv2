@@ -1045,11 +1045,7 @@ int64_t TimeValue::toInt64(size_t /*n*/) const {
 }
 
 uint32_t TimeValue::toUint32(size_t /*n*/) const {
-  const int64_t t = toInt64();
-  if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
-    return 0;
-  }
-  return static_cast<uint32_t>(t);
+  return std::clamp<int64_t>(toInt64(), 0, std::numeric_limits<uint32_t>::max());
 }
 
 float TimeValue::toFloat(size_t n) const {
