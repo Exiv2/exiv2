@@ -703,8 +703,7 @@ void MemIo::Impl::reserve(size_t wcount) {
 
   if (need > size_) {
     if (need > sizeAlloced_) {
-      blockSize = 2 * sizeAlloced_;
-      blockSize = std::min(blockSize, maxBlockSize);
+      blockSize = std::min(2 * sizeAlloced_, maxBlockSize);
       // Allocate in blocks
       size_t want = blockSize * (1 + need / blockSize);
       data_ = static_cast<byte*>(std::realloc(data_, want));
