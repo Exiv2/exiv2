@@ -230,8 +230,7 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetailsBitlistSorted (&array)[N]>
 std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const ExifData*) {
-  if constexpr (N == 0)
-    throw Error(ErrorCode::kerErrorMessage, "Passed zero length TagDetailsBitlistSorted");
+  static_assert(N > 0, "Passed zero length TagDetailsBitlistSorted");
 
   uint32_t vN = 0;
   uint32_t currentVNBit = 0;
