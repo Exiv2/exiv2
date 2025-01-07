@@ -13,8 +13,8 @@
 #include <iostream>
 
 namespace {
-constexpr auto xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
-const auto xmlHdrCnt = static_cast<long>(std::strlen(xmlHeader));  // without the trailing 0-character
+constexpr char xmlHeader[] = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
+constexpr auto xmlHdrCnt = std::size(xmlHeader) - 1;  // without the trailing 0-character
 constexpr auto xmlFooter = "<?xpacket end=\"w\"?>";
 }  // namespace
 
