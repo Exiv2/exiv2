@@ -3,6 +3,7 @@
 // included header files
 #include "panasonicmn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
@@ -619,9 +620,7 @@ std::ostream& PanasonicMakerNote::print0x0029(std::ostream& os, const Value& val
   std::ostringstream oss;
   oss.copyfmt(os);
   const auto time = value.toInt64();
-  os << std::setw(2) << std::setfill('0') << time / 360000 << ":" << std::setw(2) << std::setfill('0')
-     << (time % 360000) / 6000 << ":" << std::setw(2) << std::setfill('0') << (time % 6000) / 100 << "." << std::setw(2)
-     << std::setfill('0') << time % 100;
+  os << stringFormat("{:02}:{:02}:{:02}.{:02}", time / 360000, (time % 360000) / 6000, (time % 6000) / 100, time % 100);
   os.copyfmt(oss);
 
   return os;

@@ -5,6 +5,7 @@
 
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "utils.hpp"
@@ -3299,10 +3300,9 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
       // #1034
       const std::string undefined("undefined");
       const std::string section("nikon");
-      std::ostringstream lensIDStream;
-      lensIDStream << static_cast<int>(raw[7]);
-      if (Internal::readExiv2Config(section, lensIDStream.str(), undefined) != undefined) {
-        return os << Internal::readExiv2Config(section, lensIDStream.str(), undefined);
+      auto lensIDStream = std::to_string(raw[7]);
+      if (Internal::readExiv2Config(section, lensIDStream, undefined) != undefined) {
+        return os << Internal::readExiv2Config(section, lensIDStream, undefined);
       }
     }
 
@@ -3898,10 +3898,9 @@ std::ostream& Nikon3MakerNote::printTimeZone(std::ostream& os, const Value& valu
   std::ostringstream oss;
   oss.copyfmt(os);
   char sign = value.toInt64() < 0 ? '-' : '+';
-  long h = static_cast<long>(std::abs(static_cast<int>(value.toFloat() / 60.0F))) % 24;
-  long min = static_cast<long>(std::abs(static_cast<int>(value.toFloat() - (h * 60)))) % 60;
-  os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":" << std::setw(2)
-     << std::setfill('0') << min;
+  long h = static_cast<long>(std::fabs<int>(value.toFloat() / 60.0F)) % 24;
+  long min = static_cast<long>(std::fabs<int>(value.toFloat() - (h * 60))) % 60;
+  os << stringFormat("UTC {}{:02}:{:02}", sign, h, min);
   os.copyfmt(oss);
   os.flags(f);
   return os;

@@ -11,6 +11,8 @@
 #include "i18n.h"  // NLS support.
 #include "types.hpp"
 
+#include "image_int.hpp"
+
 #include <array>
 #include <iomanip>
 #include <sstream>
@@ -410,9 +412,7 @@ std::string IptcDataSets::dataSetName(uint16_t number, uint16_t recordId) {
   if (int idx = dataSetIdx(number, recordId); idx != -1)
     return records_[recordId][idx].name_;
 
-  std::ostringstream os;
-  os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << number;
-  return os.str();
+  return stringFormat("0x{:04x}", number);
 }
 
 const char* IptcDataSets::dataSetTitle(uint16_t number, uint16_t recordId) {
@@ -462,9 +462,7 @@ std::string IptcDataSets::recordName(uint16_t recordId) {
     return recordInfo_[recordId].name_;
   }
 
-  std::ostringstream os;
-  os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << recordId;
-  return os.str();
+  return stringFormat("0x{:04x}", recordId);
 }
 
 const char* IptcDataSets::recordDesc(uint16_t recordId) {
