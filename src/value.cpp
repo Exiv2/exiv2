@@ -8,6 +8,8 @@
 #include "error.hpp"
 #include "types.hpp"
 
+#include "image_int.hpp"
+
 // + standard includes
 #include <sstream>
 
@@ -841,8 +843,7 @@ DateValue* DateValue::clone_() const {
 std::ostream& DateValue::write(std::ostream& os) const {
   // Write DateValue in ISO 8601 Extended format: YYYY-MM-DD
   std::ios::fmtflags f(os.flags());
-  os << std::setw(4) << std::setfill('0') << date_.year << '-' << std::right << std::setw(2) << std::setfill('0')
-     << date_.month << '-' << std::setw(2) << std::setfill('0') << date_.day;
+  os << stringFormat("{:04}-{:02}-{:02}", date_.year, date_.month, date_.day);
   os.flags(f);
   return os;
 }
@@ -1023,9 +1024,8 @@ std::ostream& TimeValue::write(std::ostream& os) const {
     plusMinus = '-';
 
   std::ios::fmtflags f(os.flags());
-  os << std::right << std::setw(2) << std::setfill('0') << time_.hour << ':' << std::setw(2) << std::setfill('0')
-     << time_.minute << ':' << std::setw(2) << std::setfill('0') << time_.second << plusMinus << std::setw(2)
-     << std::setfill('0') << abs(time_.tzHour) << ':' << std::setw(2) << std::setfill('0') << abs(time_.tzMinute);
+  os << stringFormat("{:02}:{:02}:{:02}{}{:02}:{:02}", time_.hour, time_.minute, time_.second, plusMinus,
+                     std::abs(time_.tzHour), std::abs(time_.tzMinute));
   os.flags(f);
 
   return os;

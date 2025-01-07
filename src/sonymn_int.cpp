@@ -6,6 +6,7 @@
 #include "error.hpp"
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "minoltamn_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "utils.hpp"
@@ -1239,10 +1240,8 @@ std::ostream& SonyMakerNote::printPixelShiftInfo(std::ostream& os, const Value& 
 
   std::ios::fmtflags f(os.flags());
 
-  os << "Group " << std::setw(2) << std::setfill('0') << ((groupID >> 17) & 0x1f) << std::setw(2) << std::setfill('0')
-     << ((groupID >> 12) & 0x1f) << std::setw(2) << std::setfill('0') << ((groupID >> 6) & 0x3f) << std::setw(2)
-     << std::setfill('0') << (groupID & 0x3f);
-
+  os << stringFormat("Group {:02}{:02}{:02}{:02}", (groupID >> 17) & 0x1f, (groupID >> 12) & 0x1f,
+                     (groupID >> 6) & 0x3f, groupID & 0x3f);
   os << ", Shot " << value.toUint32(4) << "/" << value.toUint32(5) << " (0x" << std::hex << (groupID >> 22) << ")";
   os.flags(f);
   return os;

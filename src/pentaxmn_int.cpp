@@ -4,6 +4,7 @@
 #include "pentaxmn_int.hpp"
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags.hpp"
 #include "types.hpp"
@@ -915,21 +916,14 @@ std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& va
 
 std::ostream& PentaxMakerNote::printDate(std::ostream& os, const Value& value, const ExifData*) {
   /* I choose same format as is used inside EXIF itself */
-  os << ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1));
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(2);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(3);
+  os << stringFormat("{}:{:02}:{:02}", ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1)),
+                     value.toInt64(2), value.toInt64(3));
   return os;
 }
 
 std::ostream& PentaxMakerNote::printTime(std::ostream& os, const Value& value, const ExifData*) {
   std::ios::fmtflags f(os.flags());
-  os << std::setw(2) << std::setfill('0') << value.toInt64(0);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(1);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(2);
+  os << stringFormat("{:02}:{:02}:{:02}", value.toInt64(0), value.toInt64(1), value.toInt64(2));
   os.flags(f);
   return os;
 }

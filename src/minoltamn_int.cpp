@@ -4,6 +4,7 @@
 #include "minoltamn_int.hpp"
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "value.hpp"
@@ -331,17 +332,15 @@ std::ostream& MinoltaMakerNote::printMinoltaFocalLengthStd(std::ostream& os, con
 
 std::ostream& MinoltaMakerNote::printMinoltaDateStd(std::ostream& os, const Value& value, const ExifData*) {
   // From the PHP JPEG Metadata Toolkit
-  os << value.toInt64() / 65536 << ":" << std::right << std::setw(2) << std::setfill('0')
-     << (value.toInt64() - value.toInt64() / 65536 * 65536) / 256 << ":" << std::right << std::setw(2)
-     << std::setfill('0') << value.toInt64() % 256;
+  auto val = value.toInt64();
+  os << stringFormat("{}:{:02}:{:02}", val / 65536, (val % 65536) / 256, val % 256);
   return os;
 }
 
 std::ostream& MinoltaMakerNote::printMinoltaTimeStd(std::ostream& os, const Value& value, const ExifData*) {
   // From the PHP JPEG Metadata Toolkit
-  os << std::right << std::setw(2) << std::setfill('0') << value.toInt64() / 65536 << ":" << std::right << std::setw(2)
-     << std::setfill('0') << (value.toInt64() - value.toInt64() / 65536 * 65536) / 256 << ":" << std::right
-     << std::setw(2) << std::setfill('0') << value.toInt64() % 256;
+  auto val = value.toInt64();
+  os << stringFormat("{:02}:{:02}:{:02}", val / 65536, (val % 65536) / 256, val % 256);
   return os;
 }
 
