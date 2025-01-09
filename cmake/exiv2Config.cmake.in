@@ -25,6 +25,10 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
   if(@EXV_HAVE_LIBICONV@) # if(EXV_HAVE_LIBICONV)
     find_dependency(Iconv REQUIRED)
   endif()
+
+  if(NOT "@HAVE_STD_FORMAT@") # if(NOT HAVE_STD_FORMAT)
+    find_dependency(fmt REQUIRED)
+  endif()
 endif()
 
 include("${CMAKE_CURRENT_LIST_DIR}/exiv2Export.cmake")
