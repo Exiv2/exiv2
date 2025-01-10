@@ -8,11 +8,11 @@ concurrency:
 
 jobs:
   Ubuntu:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Linux-GCC${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['7', '13']
+        cxx: ['9', '13']
         deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v4
@@ -27,11 +27,11 @@ jobs:
           meson compile -C "${{github.workspace}}/build"
           meson test -C "${{github.workspace}}/build"
   Ubuntu-clang:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['7', '19']
+        cxx: ['11', '19']
         deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v4
