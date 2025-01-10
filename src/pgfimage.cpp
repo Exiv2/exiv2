@@ -12,6 +12,10 @@
 
 #include <iostream>
 
+#ifdef __cpp_lib_endian
+#include <bit>
+#endif
+
 // Signature from front of PGF file
 const unsigned char pgfSignature[3] = {0x50, 0x47, 0x46};
 
