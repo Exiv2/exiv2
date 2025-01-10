@@ -13,7 +13,10 @@ std::string string_from_unterminated(const char* data, size_t data_length) {
   if (data_length == 0) {
     return {};
   }
-  const size_t StringLength = strnlen(data, data_length);
+  size_t StringLength = 0;
+  while (StringLength < data_length && data[StringLength] != '\0') {
+    StringLength++;
+  }
   return {data, StringLength};
 }
 

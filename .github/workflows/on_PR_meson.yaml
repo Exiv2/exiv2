@@ -145,7 +145,7 @@ jobs:
             pkgconf
       - name: Compile and Test
         run: |
-          meson setup build -Dwarning_level=3 -Dcpp_std=gnu++20
+          meson setup build -Dwarning_level=3
           meson compile -C build --verbose
           meson test -C build --verbose
   MacOS:
