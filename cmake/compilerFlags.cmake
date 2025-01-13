@@ -48,10 +48,10 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
             endif()
         endif()
 
-        add_compile_options(-Wp,-D_GLIBCXX_ASSERTIONS)
+        add_compile_options(-D_GLIBCXX_ASSERTIONS)
 
         if (CMAKE_BUILD_TYPE STREQUAL Release AND NOT (APPLE OR MINGW OR MSYS))
-            add_compile_options(-Wp,-D_FORTIFY_SOURCE=2) # Requires to compile with -O2
+            add_compile_options(-D_FORTIFY_SOURCE=2) # Requires to compile with -O2
         endif()
 
         if(BUILD_WITH_COVERAGE)
