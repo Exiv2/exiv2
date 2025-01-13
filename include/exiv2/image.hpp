@@ -522,7 +522,9 @@ class EXIV2API ImageFactory {
           read the remote file.
    */
   static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
-
+#ifdef _WIN32
+  static BasicIo::UniquePtr createIo(const std::wstring& path);
+#endif
   /*!
     @brief Create an Image subclass of the appropriate type by reading
         the specified file. %Image type is derived from the file
@@ -537,7 +539,9 @@ class EXIV2API ImageFactory {
         unknown image type.
    */
   static Image::UniquePtr open(const std::string& path, bool useCurl = true);
-
+#ifdef _WIN32
+  static Image::UniquePtr open(const std::wstring& path);
+#endif
   /*!
     @brief Create an Image subclass of the appropriate type by reading
         the provided memory. %Image type is derived from the memory

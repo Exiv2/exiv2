@@ -69,12 +69,18 @@ class FileIo::Impl {
  public:
   //! Constructor
   explicit Impl(std::string path);
+#ifdef _WIN32
+  explicit Impl(std::wstring path);
+#endif
   ~Impl() = default;
   // Enumerations
   //! Mode of operation
   enum OpMode { opRead, opWrite, opSeek };
   // DATA
   std::string path_;       //!< (Standard) path
+#ifdef _WIN32
+  std::wstring wpath_;     //!< UCS2 path
+#endif
   std::string openMode_;   //!< File open mode
   FILE* fp_{};             //!< File stream pointer
   OpMode opMode_{opSeek};  //!< File open mode
@@ -110,7 +116,19 @@ class FileIo::Impl {
 };
 
 FileIo::Impl::Impl(std::string path) : path_(std::move(path)) {
+#ifdef _WIN32
+  wchar_t t[512];
+  const auto nw = MultiByteToWideChar(CP_UTF8, 0, path_.data(), (int)path_.size(), t, 512);
+  wpath_.assign(t, nw);
+#endif
 }
+#ifdef _WIN32
+FileIo::Impl::Impl(std::wstring path) : wpath_(std::move(path)) {
+  char t[1024];
+  const auto nc = WideCharToMultiByte(CP_UTF8, 0, wpath_.data(), (int)wpath_.size(), t, 1024, nullptr, nullptr);
+  path_.assign(t, nc);
+}
+#endif
 
 int FileIo::Impl::switchMode(OpMode opMode) {
   if (opMode_ == opMode)
@@ -159,7 +177,11 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   std::fclose(fp_);
   openMode_ = "r+b";
   opMode_ = opSeek;
+#ifdef _WIN32
+  fp_ = _wfopen(wpath_.c_str(), L"r+b");
+#else
   fp_ = std::fopen(path_.c_str(), openMode_.c_str());
+#endif
   if (!fp_)
     return 1;
 #ifdef _WIN32
@@ -170,6 +192,15 @@ int FileIo::Impl::switchMode(OpMode opMode) {
 }  // FileIo::Impl::switchMode
 
 int FileIo::Impl::stat(StructStat& buf) const {
+#ifdef _WIN32
+  struct _stat64 st;
+  auto ret = _wstat64(wpath_.c_str(), &st);
+  if (ret == 0) {
+    buf.st_size = st.st_size;
+    buf.st_mode = st.st_mode;
+  }
+  return ret;
+#else
   try {
     buf.st_size = fs::file_size(path_);
     buf.st_mode = fs::status(path_).permissions();
@@ -177,9 +208,12 @@ int FileIo::Impl::stat(StructStat& buf) const {
   } catch (const fs::filesystem_error&) {
     return -1;
   }
+#endif
 }  // FileIo::Impl::stat
 
 FileIo::FileIo(const std::string& path) : p_(std::make_unique<Impl>(path)) {
+}
+FileIo::FileIo(const std::wstring& path) : p_(std::make_unique<Impl>(path)) {
 }
 
 FileIo::~FileIo() {
@@ -296,7 +330,22 @@ byte* FileIo::mmap(bool isWriteable) {
 void FileIo::setPath(const std::string& path) {
   close();
   p_->path_ = path;
+#ifdef _WIN32
+  wchar_t t[512];
+  const auto nw = MultiByteToWideChar(CP_UTF8, 0, p_->path_.data(), (int)p_->path_.size(), t, 512);
+  p_->wpath_.assign(t, nw);
+#endif
 }
+
+#ifdef _WIN32
+void FileIo::setPath(const std::wstring& path) {
+  close();
+  p_->wpath_ = path;
+  char t[1024];
+  const auto nc = WideCharToMultiByte(CP_UTF8, 0, p_->wpath_.data(), (int)p_->wpath_.size(), t, 1024, nullptr, nullptr);
+  p_->path_.assign(t, nc);
+}
+#endif
 
 size_t FileIo::write(const byte* data, size_t wcount) {
   if (p_->switchMode(Impl::opWrite) != 0)
@@ -480,7 +529,13 @@ int FileIo::open(const std::string& mode) {
   close();
   p_->openMode_ = mode;
   p_->opMode_ = Impl::opSeek;
+#ifdef _WIN32
+  wchar_t wmode[10];
+  MultiByteToWideChar(CP_UTF8, 0, mode.c_str(), -1, wmode, 10);
+  p_->fp_ = _wfopen(p_->wpath_.c_str(), wmode);
+#else
   p_->fp_ = ::fopen(path().c_str(), mode.c_str());
+#endif
   if (!p_->fp_)
     return 1;
   return 0;
