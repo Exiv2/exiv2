@@ -26,7 +26,7 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
     find_dependency(Iconv REQUIRED)
   endif()
 
-  if(NOT "@HAVE_STD_FORMAT@") # if(NOT HAVE_STD_FORMAT)
+  if(NOT "@EXV_HAVE_STD_FORMAT@") # if(NOT EXV_HAVE_STD_FORMAT)
     find_dependency(fmt REQUIRED)
   endif()
 endif()

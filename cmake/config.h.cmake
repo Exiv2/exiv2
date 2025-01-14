@@ -24,6 +24,9 @@
 // Define if you want to use the inih library.
 #cmakedefine EXV_ENABLE_INIH
 
+// Define if you have the std::format function.
+#cmakedefine EXV_HAVE_STD_FORMAT
+
 // Define if you have the strerror_r function.
 #cmakedefine EXV_HAVE_STRERROR_R
 

@@ -44,7 +44,7 @@ target_compile_definitions(unit_tests PRIVATE exiv2lib_STATIC TESTDATA_PATH="${P
 
 target_link_libraries(unit_tests PRIVATE exiv2lib GTest::gmock_main std::filesystem)
 
-if(NOT HAVE_STD_FORMAT)
+if(NOT EXV_HAVE_STD_FORMAT)
   target_link_libraries(unit_tests PRIVATE fmt::fmt)
 endif()
 
