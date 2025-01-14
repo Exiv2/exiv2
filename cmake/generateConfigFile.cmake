@@ -24,6 +24,7 @@ set(EXV_HAVE_ICONV       ${ICONV_FOUND})
 set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
 set(EXV_HAVE_BROTLI      ${BROTLI_FOUND})
 
+check_cxx_source_compiles("#include <format>\nint main(){std::format(\"t\");}" EXV_HAVE_STD_FORMAT)
 check_cxx_symbol_exists(strerror_r  string.h       EXV_HAVE_STRERROR_R )
 
 check_cxx_source_compiles( "

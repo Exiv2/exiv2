@@ -15,7 +15,7 @@
 #if __has_include(<format>)
 #include <format>
 #endif
-#ifndef __cpp_lib_format
+#ifndef EXV_HAVE_STD_FORMAT
 #include <fmt/core.h>
 #define stringFormat fmt::format
 #else

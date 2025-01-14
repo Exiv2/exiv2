@@ -1,12 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "image_int.hpp"
+#include "config.h"
 
-#include <cstdarg>
-#include <cstddef>
-#include <cstdio>
-#include <cstring>
-#include <vector>
+#include "image_int.hpp"
 
 namespace Exiv2::Internal {
 [[nodiscard]] std::string indent(size_t i) {
