@@ -15,7 +15,7 @@
 #if __has_include(<format>)
 #include <format>
 #endif
-#ifndef __cpp_lib_format
+#if !defined(__cpp_lib_format) && ((__cplusplus < 202002L) || !defined(__clang__) || defined(__APPLE__) || (__clang_major__ < 17)) // workaround for OSS-Fuzz LLVM 18
 #include <fmt/core.h>
 #define stringFormat fmt::format
 #else
