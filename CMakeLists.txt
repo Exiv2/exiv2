@@ -92,6 +92,11 @@ endif()
 
 include_directories(${CMAKE_BINARY_DIR}) # Make the exv_conf.h file visible for the full project
 
+# Workaround for OSS-Fuzz (LLVM 18 implements std::format, but has no feature test macro)
+if(CMAKE_CXX_STANDARD GREATER_EQUAL 20 AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 17)
+  set(HAVE_STD_FORMAT 1 CACHE INTERNAL "Have symbol __cpp_lib_format")
+endif()
+
 check_cxx_symbol_exists(__cpp_lib_format "format" HAVE_STD_FORMAT)
 if(NOT HAVE_STD_FORMAT)
   find_package(fmt REQUIRED)
