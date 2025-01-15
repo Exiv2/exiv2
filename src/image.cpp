@@ -55,6 +55,10 @@
 #include <bit>
 #endif
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 // *****************************************************************************
 namespace {
 using namespace Exiv2;
@@ -830,12 +834,34 @@ BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, [[maybe_unuse
 #endif
 }  // ImageFactory::createIo
 
+#ifdef _WIN32
+BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& path) {
+#ifdef EXV_ENABLE_FILESYSTEM
+  return std::make_unique<FileIo>(path);
+#else
+  return nullptr;
+#endif
+}
+#endif
+
 Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl) {
   auto image = open(ImageFactory::createIo(path, useCurl));  // may throw
   if (!image)
     throw Error(ErrorCode::kerFileContainsUnknownImageType, path);
   return image;
 }
+
+#ifdef _WIN32
+Image::UniquePtr ImageFactory::open(const std::wstring& path) {
+  auto image = open(ImageFactory::createIo(path));  // may throw
+  if (!image) {
+    char t[1024];
+    WideCharToMultiByte(CP_UTF8, 0, path.c_str(), -1, t, 1024, nullptr, nullptr);
+    throw Error(ErrorCode::kerFileContainsUnknownImageType, t);
+  }
+  return image;
+}
+#endif
 
 Image::UniquePtr ImageFactory::open(const byte* data, size_t size) {
   auto image = open(std::make_unique<MemIo>(data, size));  // may throw
