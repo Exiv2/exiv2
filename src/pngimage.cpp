@@ -12,7 +12,6 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
-#include "jpgimage.hpp"
 #include "photoshop.hpp"
 #include "pngchunk_int.hpp"
 #include "pngimage.hpp"

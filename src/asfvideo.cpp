@@ -2,10 +2,6 @@
 // included header files
 #include "asfvideo.hpp"
 
-#include <cstring>
-#include <iostream>
-#include <sstream>
-
 #include "basicio.hpp"
 #include "config.h"
 #include "enforce.hpp"
@@ -13,7 +9,9 @@
 #include "futils.hpp"
 #include "helper_functions.hpp"
 #include "image_int.hpp"
-#include "utils.hpp"
+
+#include <cstring>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {

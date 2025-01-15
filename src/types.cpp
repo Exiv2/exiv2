@@ -6,19 +6,15 @@
 #include "enforce.hpp"
 #include "futils.hpp"
 #include "i18n.h"  // for _exvGettext
-#include "safe_op.hpp"
 #include "utils.hpp"
 
 // + standard includes
-#include <array>
 #include <cctype>
 #include <climits>
 #include <cmath>
 #include <cstring>
 #include <iomanip>
 #include <numeric>
-#include <sstream>
-#include <utility>
 
 // *****************************************************************************
 namespace {

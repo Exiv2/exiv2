@@ -9,10 +9,8 @@
 #include "tags_int.hpp"
 #include "value.hpp"
 
-#include <array>
-#include <sstream>
-
 #include <cstdio>  // popen to call exiftool
+#include <sstream>
 
 // *****************************************************************************
 // class member definitions

@@ -5,7 +5,6 @@
 #include "i18n.h"  // NLS support.
 #include "makernote_int.hpp"
 #include "sonymn_int.hpp"
-#include "tags_int.hpp"
 #include "tiffvisitor_int.hpp"
 
 #include <array>

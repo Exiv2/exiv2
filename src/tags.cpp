@@ -3,9 +3,6 @@
 // included header files
 #include "tags.hpp"
 
-#include "canonmn_int.hpp"
-#include "casiomn_int.hpp"
-#include "convert.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 #include "tags_int.hpp"

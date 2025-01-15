@@ -8,7 +8,6 @@
 #include "value.hpp"
 
 // + standard includes
-#include <sstream>
 #include <string>
 
 // *****************************************************************************

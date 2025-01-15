@@ -6,7 +6,6 @@
 #include <exiv2/datasets.hpp>
 #include <exiv2/error.hpp>
 
-#include <array>
 #include <sstream>
 
 using namespace Exiv2;

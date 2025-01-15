@@ -4,7 +4,9 @@
 #include "image.hpp"
 #include "safe_op.hpp"
 
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 namespace Exiv2 {
 

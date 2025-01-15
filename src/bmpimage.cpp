@@ -13,8 +13,11 @@
 
 // + standard includes
 #include <cstring>
-#include <iostream>
 #include <string>
+
+#ifdef EXIV2_DEBUG_MESSAGES
+#include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions

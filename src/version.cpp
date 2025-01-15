@@ -16,7 +16,6 @@
 #endif
 
 // + standard includes
-#include <array>
 #include <fstream>
 #include <set>
 
@@ -44,6 +43,9 @@
 #undef _WIN64
 #endif
 #define _WIN64 1
+#endif
+#ifdef _MSC_VER
+#include <array>
 #endif
 #elif defined(__APPLE__)
 #include <mach-o/dyld.h>

@@ -9,10 +9,11 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
-#include "jpgimage.hpp"
 #include "photoshop.hpp"
 
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // Todo: Consolidate with existing code in struct Photoshop (jpgimage.hpp):
 //       Extend this helper to a proper class with all required functionality,

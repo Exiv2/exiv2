@@ -7,7 +7,6 @@
 #include "enforce.hpp"
 #include "futils.hpp"
 #include "image.hpp"
-#include "jpgimage.hpp"
 #include "photoshop.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"

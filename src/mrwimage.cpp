@@ -11,7 +11,9 @@
 #include "image.hpp"
 #include "tiffimage.hpp"
 
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 namespace Exiv2 {
 MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/) :

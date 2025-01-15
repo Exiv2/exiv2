@@ -2,7 +2,6 @@
 
 #include <gtest/gtest.h>
 
-#include <array>
 #include <exiv2/matroskavideo.hpp>
 
 using namespace Exiv2;

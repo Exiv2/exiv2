@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <gtest/gtest.h>
-#include <cstdint>
 #include <exiv2/exiv2.hpp>
 #include "slice.hpp"
 #include "types.hpp"

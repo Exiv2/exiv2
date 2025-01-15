@@ -13,7 +13,6 @@
 
 #include "image_int.hpp"
 
-#include <array>
 #include <iomanip>
 #include <sstream>
 
