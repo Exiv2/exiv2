@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <string>
 
 namespace Exiv2::Internal {
 

@@ -4,12 +4,17 @@
 #include "panasonicmn_int.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
 
 // + standard includes
+#include <cstddef>
+#include <cstdint>
 #include <iomanip>
+#include <ios>
+#include <ostream>
 #include <sstream>
 
 // *****************************************************************************

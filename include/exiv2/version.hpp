@@ -9,6 +9,7 @@
 // *****************************************************************************
 // included header files
 // + standard includes
+#include <cstdint>
 #include <regex>
 #include <vector>
 

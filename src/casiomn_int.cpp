@@ -7,6 +7,7 @@
 // included header files
 #include "casiomn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
@@ -14,6 +15,8 @@
 // + standard includes
 #include <cstring>
 #include <iomanip>
+#include <ios>
+#include <ostream>
 #include <sstream>
 #include <vector>
 
