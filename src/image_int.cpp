@@ -4,6 +4,9 @@
 
 #include "image_int.hpp"
 
+#include <cstddef>
+#include <string>
+
 namespace Exiv2::Internal {
 [[nodiscard]] std::string indent(size_t i) {
   return std::string(2 * i, ' ');

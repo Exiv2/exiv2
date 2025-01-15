@@ -8,6 +8,8 @@
 #include "tags_int.hpp"
 #include "types.hpp"
 
+#include <memory>
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {

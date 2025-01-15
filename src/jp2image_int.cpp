@@ -5,6 +5,8 @@
 #include "types.hpp"
 
 #include <cassert>
+#include <cstdint>
+#include <vector>
 
 namespace Exiv2::Internal {
 

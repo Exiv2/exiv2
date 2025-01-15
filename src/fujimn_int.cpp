@@ -13,6 +13,9 @@
 #include "tags_int.hpp"
 #include "types.hpp"
 
+#include <cstddef>
+#include <ostream>
+
 // + standard includes
 
 // *****************************************************************************

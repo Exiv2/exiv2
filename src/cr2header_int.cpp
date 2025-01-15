@@ -2,6 +2,12 @@
 
 #include "cr2header_int.hpp"
 
+#include "tiffimage_int.hpp"
+#include "types.hpp"
+
+#include <algorithm>
+#include <cstdint>
+
 namespace Exiv2::Internal {
 Cr2Header::Cr2Header(ByteOrder byteOrder) : TiffHeaderBase(42, 16, byteOrder, 0x00000010) {
 }
