@@ -1,19 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
-#include "config.h"
+#include "tiffvisitor_int.hpp"  // see bug #487
 
+#include "config.h"
 #include "enforce.hpp"
 #include "exif.hpp"
 #include "iptc.hpp"
-#include "jpgimage.hpp"
 #include "makernote_int.hpp"
 #include "photoshop.hpp"
 #include "safe_op.hpp"
 #include "sonymn_int.hpp"
-#include "tiffcomposite_int.hpp"  // Do not change the order of these 2 includes,
-#include "tiffimage_int.hpp"
-#include "tiffvisitor_int.hpp"  // see bug #487
 #include "value.hpp"
 
 #include <functional>

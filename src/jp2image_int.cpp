@@ -2,7 +2,6 @@
 
 #include "jp2image_int.hpp"
 
-#include "error.hpp"
 #include "types.hpp"
 
 #include <cassert>

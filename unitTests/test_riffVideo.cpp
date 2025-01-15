@@ -2,7 +2,6 @@
 
 #include <gtest/gtest.h>
 
-#include <array>
 #include <exiv2/riffvideo.hpp>
 
 using namespace Exiv2;

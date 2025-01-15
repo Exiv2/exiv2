@@ -13,7 +13,9 @@
 #include "futils.hpp"
 #include "tags.hpp"
 
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions

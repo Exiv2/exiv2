@@ -13,7 +13,6 @@
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 
-#include <array>
 #include <iostream>
 
 // *****************************************************************************

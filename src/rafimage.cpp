@@ -14,7 +14,6 @@
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 
-#include <cinttypes>
 #include <iostream>
 
 // *****************************************************************************

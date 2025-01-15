@@ -11,7 +11,6 @@
 #include "image.hpp"
 #include "image_int.hpp"
 #include "safe_op.hpp"
-#include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "types.hpp"
 #include "utils.hpp"
@@ -21,7 +20,6 @@
 #endif
 
 // + standard includes
-#include <cinttypes>
 #include <cstdio>
 #include <cstring>
 #include <iostream>

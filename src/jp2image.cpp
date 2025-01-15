@@ -18,8 +18,11 @@
 
 #include <algorithm>
 #include <array>
-#include <fstream>
 #include <iostream>
+
+#ifdef EXIV2_DEBUG_MESSAGES
+#include <fstream>
+#endif
 
 namespace Exiv2 {
 namespace {

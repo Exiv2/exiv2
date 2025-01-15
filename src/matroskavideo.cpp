@@ -27,15 +27,11 @@
 #include "futils.hpp"
 #include "helper_functions.hpp"
 #include "matroskavideo.hpp"
-#include "tags.hpp"
-#include "tags_int.hpp"
 
 // + standard includes
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include <limits>
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {

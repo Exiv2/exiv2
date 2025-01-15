@@ -12,7 +12,6 @@
 #include "helper_functions.hpp"
 #include "image.hpp"
 #include "iptc.hpp"
-#include "jpgimage.hpp"
 #include "photoshop.hpp"
 #include "pngchunk_int.hpp"
 #include "safe_op.hpp"

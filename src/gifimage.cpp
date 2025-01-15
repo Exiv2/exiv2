@@ -7,7 +7,9 @@
 #include "error.hpp"
 #include "futils.hpp"
 
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions

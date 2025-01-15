@@ -33,7 +33,6 @@
 // + standard includes
 #include <array>
 #include <cmath>
-#include <iostream>
 #include <string>
 // *****************************************************************************
 // class member definitions

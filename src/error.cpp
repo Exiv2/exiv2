@@ -3,7 +3,6 @@
 // included header files
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
-#include "types.hpp"
 
 // + standard includes
 #include <array>

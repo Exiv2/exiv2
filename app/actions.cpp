@@ -14,7 +14,6 @@
 #include "iptc.hpp"
 #include "preview.hpp"
 #include "safe_op.hpp"
-#include "types.hpp"
 #include "xmp_exiv2.hpp"
 
 #include <filesystem>
