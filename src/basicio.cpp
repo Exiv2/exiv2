@@ -342,7 +342,7 @@ void FileIo::setPath(const std::wstring& path) {
   close();
   p_->wpath_ = path;
   char t[1024];
-  const auto nc = WideCharToMultiByte(CP_UTF8, 0, p_->wpath_.data(), static_cast<int>(p_->wpath_.size()(, t, 1024, nullptr, nullptr);
+  const auto nc = WideCharToMultiByte(CP_UTF8, 0, p_->wpath_.data(), static_cast<int>(p_->wpath_.size()), t, 1024, nullptr, nullptr);
   p_->path_.assign(t, nc);
 }
 #endif
