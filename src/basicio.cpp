@@ -118,14 +118,14 @@ class FileIo::Impl {
 FileIo::Impl::Impl(std::string path) : path_(std::move(path)) {
 #ifdef _WIN32
   wchar_t t[512];
-  const auto nw = MultiByteToWideChar(CP_UTF8, 0, path_.data(), (int)path_.size(), t, 512);
+  const auto nw = MultiByteToWideChar(CP_UTF8, 0, path_.data(), static_cast<int>(path_.size()), t, 512);
   wpath_.assign(t, nw);
 #endif
 }
 #ifdef _WIN32
 FileIo::Impl::Impl(std::wstring path) : wpath_(std::move(path)) {
   char t[1024];
-  const auto nc = WideCharToMultiByte(CP_UTF8, 0, wpath_.data(), (int)wpath_.size(), t, 1024, nullptr, nullptr);
+  const auto nc = WideCharToMultiByte(CP_UTF8, 0, wpath_.data(), static_cast<int>(wpath_.size()), t, 1024, nullptr, nullptr);
   path_.assign(t, nc);
 }
 #endif
@@ -332,7 +332,7 @@ void FileIo::setPath(const std::string& path) {
   p_->path_ = path;
 #ifdef _WIN32
   wchar_t t[512];
-  const auto nw = MultiByteToWideChar(CP_UTF8, 0, p_->path_.data(), (int)p_->path_.size(), t, 512);
+  const auto nw = MultiByteToWideChar(CP_UTF8, 0, p_->path_.data(), static_cast<int>(p_->path_.size()), t, 512);
   p_->wpath_.assign(t, nw);
 #endif
 }
@@ -342,7 +342,7 @@ void FileIo::setPath(const std::wstring& path) {
   close();
   p_->wpath_ = path;
   char t[1024];
-  const auto nc = WideCharToMultiByte(CP_UTF8, 0, p_->wpath_.data(), (int)p_->wpath_.size(), t, 1024, nullptr, nullptr);
+  const auto nc = WideCharToMultiByte(CP_UTF8, 0, p_->wpath_.data(), static_cast<int>(p_->wpath_.size()(, t, 1024, nullptr, nullptr);
   p_->path_.assign(t, nc);
 }
 #endif
