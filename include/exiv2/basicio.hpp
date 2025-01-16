@@ -286,8 +286,14 @@ class EXIV2API FileIo : public BasicIo {
     @param path The full path of a file
    */
   explicit FileIo(const std::string& path);
+
 #ifdef _WIN32
-  explicit FileIo(const std::wstring& path);
+  /*!
+    @brief Like FileIo(const std::string& path) but accepts a
+        unicode path in an std::wstring.
+    @note This constructor is only available on Windows.
+   */
+  explicit FileIo(const std::wstring& wpath);
 #endif
 
   //! Destructor. Flushes and closes an open file.
@@ -686,6 +692,15 @@ class EXIV2API XPathIo : public FileIo {
   //! Default constructor that reads data from stdin/data uri path and writes them to the temp file.
   explicit XPathIo(const std::string& orgPath);
 
+#ifdef _WIN32
+  /*!
+    @brief Like XPathIo(const std::string& path) but accepts a
+        unicode url in an std::wstring.
+    @note This constructor is only available on Windows.
+   */
+  explicit XPathIo(const std::wstring& wpath);
+#endif
+
   //! Destructor. Releases all managed memory and removes the temp file.
   ~XPathIo() override;
   //@}
@@ -712,6 +727,14 @@ class EXIV2API XPathIo : public FileIo {
       @throw Error if it fails.
    */
   static std::string writeDataToFile(const std::string& orgPath);
+#ifdef _WIN32
+  /*!
+    @brief Like writeDataToFile(const std::string& orgPath) but accepts a
+        unicode url in an std::wstring.
+    @note This constructor is only available on Windows.
+   */
+  static std::string writeDataToFile(const std::wstring& wOrgPath);
+#endif
   //@}
 
  private:
@@ -905,6 +928,15 @@ class EXIV2API HttpIo : public RemoteIo {
    */
   explicit HttpIo(const std::string& url, size_t blockSize = 1024);
 
+#ifdef _WIN32
+  /*!
+    @brief Like HttpIo(const std::string& url, size_t blockSize = 1024) but accepts a
+        unicode url in an std::wstring.
+    @note This constructor is only available on Windows.
+   */
+  explicit HttpIo(const std::wstring& wurl, size_t blockSize = 1024);
+#endif
+
  private:
   // Pimpl idiom
   class HttpImpl;
@@ -929,6 +961,14 @@ class EXIV2API CurlIo : public RemoteIo {
     @throw Error if it is unable to init curl pointer.
    */
   explicit CurlIo(const std::string& url, size_t blockSize = 0);
+#ifdef _WIN32
+  /*!
+    @brief Like CurlIo(const std::string&  url,  size_t blockSize = 0) but accepts a
+        unicode url in an std::wstring.
+    @note This constructor is only available on Windows.
+   */
+  explicit CurlIo(const std::wstring& wurl, size_t blockSize = 0);
+#endif
 
   /*!
     @brief Write access is only available for some protocols. This method

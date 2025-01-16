@@ -522,9 +522,15 @@ class EXIV2API ImageFactory {
           read the remote file.
    */
   static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
+
 #ifdef _WIN32
-  static BasicIo::UniquePtr createIo(const std::wstring& path);
+  /*!
+    @brief Like createIo() but accepts a unicode path in an std::wstring.
+    @note This function is only available on Windows.
+   */
+  static BasicIo::UniquePtr createIo(const std::wstring& wpath, bool useCurl = true);
 #endif
+
   /*!
     @brief Create an Image subclass of the appropriate type by reading
         the specified file. %Image type is derived from the file
@@ -539,9 +545,15 @@ class EXIV2API ImageFactory {
         unknown image type.
    */
   static Image::UniquePtr open(const std::string& path, bool useCurl = true);
+
 #ifdef _WIN32
-  static Image::UniquePtr open(const std::wstring& path);
+  /*!
+    @brief Like open() but accepts a unicode path in an std::wstring.
+    @note This function is only available on Windows.
+   */
+  static Image::UniquePtr open(const std::wstring& wpath, bool useCurl = true);
 #endif
+
   /*!
     @brief Create an Image subclass of the appropriate type by reading
         the provided memory. %Image type is derived from the memory
@@ -582,6 +594,13 @@ class EXIV2API ImageFactory {
     @throw Error If the image type is not supported.
    */
   static Image::UniquePtr create(ImageType type, const std::string& path);
+#ifdef _WIN32
+  /*!
+    @brief Like create() but accepts a unicode path in an std::wstring.
+    @note This function is only available on Windows.
+   */
+  static Image::UniquePtr create(ImageType type, const std::wstring& wpath);
+#endif
   /*!
     @brief Create an Image subclass of the requested type by creating a
         new image in memory.

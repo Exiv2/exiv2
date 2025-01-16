@@ -16,6 +16,14 @@
 
 #include <unordered_map>
 
+#if __has_include(<filesystem>)
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
+
 // *****************************************************************************
 // class declarations
 
@@ -70,7 +78,7 @@ class Task {
   /// @brief Application interface to perform a task.
   /// @param path Path of the file to process.
   /// @return 0 if successful.
-  virtual int run(const std::string& path) = 0;
+  virtual int run(const fs::path& path) = 0;
 
   bool setBinary(bool b) {
     bool bResult = binary_;
@@ -133,7 +141,7 @@ class TaskFactory {
 //! %Print the Exif (or other metadata) of a file to stdout
 class Print : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
 
   //! Print the Jpeg comment
@@ -171,25 +179,25 @@ class Print : public Task {
                EasyAccessFct easyAccessFctFallback = nullptr) const;
 
  private:
-  std::string path_;
+  fs::path path_;
   int align_{0};  // for the alignment of the summary output
 };
 
 /// @brief %Rename a file to its metadata creation timestamp, in the specified format.
 class Rename : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
 };  // class Rename
 
 //! %Adjust the Exif (or other metadata) timestamps
 class Adjust : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
-  int adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const std::string& path) const;
+  int adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const fs::path& path) const;
 
   int64_t adjustment_{0};
   int64_t yearAdjustment_{0};
@@ -201,7 +209,7 @@ class Adjust : public Task {
 /// @brief %Erase the entire exif data or only the thumbnail section.
 class Erase : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
 
   /// @brief Delete the thumbnail image, incl IFD1 metadata from the file.
@@ -223,13 +231,13 @@ class Erase : public Task {
   static int eraseIccProfile(Exiv2::Image* image);
 
  private:
-  std::string path_;
+  fs::path path_;
 };
 
 /// @brief %Extract the entire exif data or only the thumbnail section.
 class Extract : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
 
   /*!
@@ -252,13 +260,13 @@ class Extract : public Task {
   [[nodiscard]] int writeIccProfile(const std::string& target) const;
 
  private:
-  std::string path_;
+  fs::path path_;
 };
 
 /// @brief %Insert the Exif data from corresponding *.exv files.
 class Insert : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
 
   /*!
@@ -266,25 +274,25 @@ class Insert : public Task {
            The filename of the thumbnail is expected to be the image
            filename (\em path) minus its suffix plus "-thumb.jpg".
    */
-  static int insertThumbnail(const std::string& path);
+  static int insertThumbnail(const fs::path& path);
 
   /// @brief Insert an XMP packet from a xmpPath into file \em path.
-  static int insertXmpPacket(const std::string& path, const std::string& xmpPath);
+  static int insertXmpPacket(const fs::path& path, const std::string& xmpPath);
 
   /// @brief Insert xmp from a DataBuf into file \em path.
-  static int insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false);
+  static int insertXmpPacket(const fs::path& path, const Exiv2::DataBuf& xmpBlob, bool usePacket = false);
 
   /// @brief Insert an ICC profile from iccPath into file \em path.
-  static int insertIccProfile(const std::string& path, const std::string& iccPath);
+  static int insertIccProfile(const fs::path& path, const std::string& iccPath);
 
   /// @brief Insert an ICC profile from binary DataBuf into file \em path.
-  static int insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfileBlob);
+  static int insertIccProfile(const fs::path& path, Exiv2::DataBuf&& iccProfileBlob);
 };
 
 /// @brief %Modify the Exif data according to the commands in the modification table.
 class Modify : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
   //! Apply modification commands to the \em pImage, return 0 if successful.
   static int applyCommands(Exiv2::Image* pImage);
@@ -303,11 +311,11 @@ class Modify : public Task {
 /// @brief %Copy ISO settings from any of the Nikon makernotes to the regular Exif tag, Exif.Photo.ISOSpeedRatings.
 class FixIso : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
-  std::string path_;
+  fs::path path_;
 };
 
 /// @brief Fix the character encoding of Exif UNICODE user comments.
@@ -315,11 +323,11 @@ class FixIso : public Task {
 /// Decodes the comment using the auto-detected or specified character encoding and writes it back in UCS-2.
 class FixCom : public Task {
  public:
-  int run(const std::string& path) override;
+  int run(const fs::path& path) override;
   [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
-  std::string path_;
+  fs::path path_;
 };
 
 }  // namespace Action

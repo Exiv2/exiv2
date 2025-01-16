@@ -230,6 +230,30 @@ Protocol fileProtocol(const std::string& path) {
   return result;
 }  // fileProtocol
 
+#ifdef _WIN32
+Protocol fileProtocol(const std::wstring& path) {
+  Protocol result = pFile;
+  struct {
+    std::wstring name;
+    Protocol prot;
+    bool isUrl;  // path.size() > name.size()
+  } prots[] = {
+      {L"http://", pHttp, true},    {L"https://", pHttps, true},  {L"ftp://", pFtp, true}, {L"sftp://", pSftp, true},
+      {L"file://", pFileUri, true}, {L"data://", pDataUri, true}, {L"-", pStdin, false},
+  };
+  for (const auto& prot : prots) {
+    if (result != pFile)
+      break;
+
+    if (path.rfind(prot.name, 0) == 0)
+      // URL's require data.  Stdin == "-" and no further data
+      if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
+        result = prot.prot;
+  }
+  return result;
+}
+#endif
+
 bool fileExists(const std::string& path) {
   if (fileProtocol(path) != pFile) {
     return true;
@@ -240,6 +264,19 @@ bool fileExists(const std::string& path) {
   return false;
 #endif
 }
+
+#ifdef _WIN32
+bool fileExists(const std::wstring& wpath) {
+  if (fileProtocol(wpath) != pFile) {
+    return true;
+  }
+#ifdef EXV_ENABLE_FILESYSTEM
+  return fs::exists(wpath);
+#else
+  return false;
+#endif
+}
+#endif
 
 std::string strError() {
   int error = errno;

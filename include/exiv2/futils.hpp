@@ -70,6 +70,14 @@ EXIV2API size_t base64decode(const char* in, char* out, size_t out_size);
  */
 EXIV2API Protocol fileProtocol(const std::string& path);
 
+#ifdef _WIN32
+/*!
+  @brief Like fileProtocol() but accepts a unicode path in an std::wstring.
+  @note This function is only available on Windows.
+*/
+EXIV2API Protocol fileProtocol(const std::wstring& path);
+#endif
+
 /*!
   @brief Test if a file exists.
 
@@ -82,6 +90,15 @@ EXIV2API Protocol fileProtocol(const std::string& path);
   in case of an error.
  */
 EXIV2API bool fileExists(const std::string& path);
+
+#ifdef _WIN32
+/*!
+  @brief Like fileExists(const std::string& path) but
+        accepts a unicode path in an std::wstring.
+  @note This function is only available on Windows.
+*/
+EXIV2API bool fileExists(const std::wstring& path);
+#endif
 
 /*!
   @brief Return a system error message and the error code (errno).
