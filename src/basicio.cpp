@@ -213,8 +213,10 @@ int FileIo::Impl::stat(StructStat& buf) const {
 
 FileIo::FileIo(const std::string& path) : p_(std::make_unique<Impl>(path)) {
 }
+#ifdef _WIN32
 FileIo::FileIo(const std::wstring& path) : p_(std::make_unique<Impl>(path)) {
 }
+#endif
 
 FileIo::~FileIo() {
   close();
