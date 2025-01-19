@@ -77,9 +77,9 @@ class FileIo::Impl {
   //! Mode of operation
   enum OpMode { opRead, opWrite, opSeek };
   // DATA
-  std::string path_;       //!< (Standard) path
+  std::string path_;  //!< (Standard) path
 #ifdef _WIN32
-  std::wstring wpath_;     //!< UCS2 path
+  std::wstring wpath_;  //!< UCS2 path
 #endif
   std::string openMode_;   //!< File open mode
   FILE* fp_{};             //!< File stream pointer
@@ -125,7 +125,8 @@ FileIo::Impl::Impl(std::string path) : path_(std::move(path)) {
 #ifdef _WIN32
 FileIo::Impl::Impl(std::wstring path) : wpath_(std::move(path)) {
   char t[1024];
-  const auto nc = WideCharToMultiByte(CP_UTF8, 0, wpath_.data(), static_cast<int>(wpath_.size()), t, 1024, nullptr, nullptr);
+  const auto nc =
+      WideCharToMultiByte(CP_UTF8, 0, wpath_.data(), static_cast<int>(wpath_.size()), t, 1024, nullptr, nullptr);
   path_.assign(t, nc);
 }
 #endif
@@ -344,7 +345,8 @@ void FileIo::setPath(const std::wstring& path) {
   close();
   p_->wpath_ = path;
   char t[1024];
-  const auto nc = WideCharToMultiByte(CP_UTF8, 0, p_->wpath_.data(), static_cast<int>(p_->wpath_.size()), t, 1024, nullptr, nullptr);
+  const auto nc = WideCharToMultiByte(CP_UTF8, 0, p_->wpath_.data(), static_cast<int>(p_->wpath_.size()), t, 1024,
+                                      nullptr, nullptr);
   p_->path_.assign(t, nc);
 }
 #endif
