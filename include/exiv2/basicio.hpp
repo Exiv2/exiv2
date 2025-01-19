@@ -292,6 +292,9 @@ class EXIV2API FileIo : public BasicIo {
     @param path The full path of a file
    */
   explicit FileIo(const std::string& path);
+#ifdef _WIN32
+  explicit FileIo(const std::wstring& path);
+#endif
 
   //! Destructor. Flushes and closes an open file.
   ~FileIo() override;
@@ -433,6 +436,9 @@ class EXIV2API FileIo : public BasicIo {
     @brief close the file source and set a new path.
    */
   virtual void setPath(const std::string& path);
+#ifdef _WIN32
+  virtual void setPath(const std::wstring& path);
+#endif
 
   //@}
   //! @name Accessors
