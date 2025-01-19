@@ -194,22 +194,17 @@ int FileIo::Impl::switchMode(OpMode opMode) {
 
 int FileIo::Impl::stat(StructStat& buf) const {
 #ifdef _WIN32
-  struct _stat64 st;
-  auto ret = _wstat64(wpath_.c_str(), &st);
-  if (ret == 0) {
-    buf.st_size = st.st_size;
-    buf.st_mode = st.st_mode;
-  }
-  return ret;
+  const auto& file = wpath_;
 #else
+  const auto& file = path_;
+#endif
   try {
-    buf.st_size = fs::file_size(path_);
-    buf.st_mode = fs::status(path_).permissions();
+    buf.st_size = fs::file_size(file);
+    buf.st_mode = fs::status(file).permissions();
     return 0;
   } catch (const fs::filesystem_error&) {
     return -1;
   }
-#endif
 }  // FileIo::Impl::stat
 
 FileIo::FileIo(const std::string& path) : p_(std::make_unique<Impl>(path)) {
