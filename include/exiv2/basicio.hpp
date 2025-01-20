@@ -13,12 +13,6 @@
 // + standard includes
 #include <memory>
 
-// The way to handle data from stdin or data uri path. If EXV_XPATH_MEMIO = 1,
-// it uses MemIo. Otherwises, it uses FileIo.
-#ifndef EXV_XPATH_MEMIO
-#define EXV_XPATH_MEMIO 0
-#endif
-
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -673,28 +667,7 @@ class EXIV2API MemIo : public BasicIo {
 /*!
   @brief Provides binary IO for the data from stdin and data uri path.
  */
-#if EXV_XPATH_MEMIO
-class EXIV2API XPathIo : public MemIo {
- public:
-  //! @name Creators
-  //@{
-  //! Default constructor
-  XPathIo(const std::string& path);
-  //@}
- private:
-  /*!
-      @brief Read data from stdin and write the data to memory.
-      @throw Error if it can't convert stdin to binary.
-   */
-  void ReadStdin();
-  /*!
-      @brief Read the data from data uri path and write the data to memory.
-      @param path The data uri.
-      @throw Error if no base64 data in path.
-   */
-  void ReadDataUri(const std::string& path);
-};  // class XPathIo
-#elif defined(EXV_ENABLE_FILESYSTEM)
+#if defined(EXV_ENABLE_FILESYSTEM)
 class EXIV2API XPathIo : public FileIo {
  public:
   /*!
