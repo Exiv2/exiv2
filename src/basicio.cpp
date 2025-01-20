@@ -986,21 +986,21 @@ class RemoteIo::Impl {
   //! Constructor
   Impl(const std::string& url, size_t blockSize);
   //! Destructor. Releases all managed memory.
-  virtual ~Impl();
+  virtual ~Impl() = default;
 
   Impl(const Impl&) = delete;
   Impl& operator=(const Impl&) = delete;
 
   // DATA
-  std::string path_;              //!< (Standard) path
-  size_t blockSize_;              //!< Size of the block memory.
-  BlockMap* blocksMap_{nullptr};  //!< An array contains all blocksMap
-  size_t size_{0};                //!< The file size
-  size_t idx_{0};                 //!< Index into the memory area
-  bool isMalloced_{false};        //!< Was the blocksMap_ allocated?
-  bool eof_{false};               //!< EOF indicator
-  Protocol protocol_;             //!< the protocol of url
-  size_t totalRead_{0};           //!< bytes requested from host
+  std::string path_;                       //!< (Standard) path
+  size_t blockSize_;                       //!< Size of the block memory.
+  std::unique_ptr<BlockMap[]> blocksMap_;  //!< An array contains all blocksMap
+  size_t size_{0};                         //!< The file size
+  size_t idx_{0};                          //!< Index into the memory area
+  bool isMalloced_{false};                 //!< Was the blocksMap_ allocated?
+  bool eof_{false};                        //!< EOF indicator
+  Protocol protocol_;                      //!< the protocol of url
+  size_t totalRead_{0};                    //!< bytes requested from host
 
   // METHODS
   /*!
@@ -1076,10 +1076,6 @@ size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
   return rcount;
 }
 
-RemoteIo::Impl::~Impl() {
-  delete[] blocksMap_;
-}
-
 RemoteIo::RemoteIo() = default;
 
 RemoteIo::~RemoteIo() {
@@ -1098,7 +1094,7 @@ int RemoteIo::open() {
       p_->getDataByRange(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::max(), data);
       p_->size_ = data.length();
       size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
-      p_->blocksMap_ = new BlockMap[nBlocks];
+      p_->blocksMap_ = std::make_unique<BlockMap[]>(nBlocks);
       p_->isMalloced_ = true;
       auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
       size_t remain = p_->size_;
@@ -1116,7 +1112,7 @@ int RemoteIo::open() {
     } else {
       p_->size_ = static_cast<size_t>(length);
       size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
-      p_->blocksMap_ = new BlockMap[nBlocks];
+      p_->blocksMap_ = std::make_unique<BlockMap[]>(nBlocks);
       p_->isMalloced_ = true;
     }
   }
