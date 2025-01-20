@@ -900,53 +900,7 @@ const std::string& MemIo::path() const noexcept {
 void MemIo::populateFakeData() {
 }
 
-#if EXV_XPATH_MEMIO
-XPathIo::XPathIo(const std::string& path) {
-  Protocol prot = fileProtocol(path);
-
-  if (prot == pStdin)
-    ReadStdin();
-  else if (prot == pDataUri)
-    ReadDataUri(path);
-}
-
-void XPathIo::ReadStdin() {
-  if (isatty(fileno(stdin)))
-    throw Error(ErrorCode::kerInputDataReadFailed);
-
-#ifdef _O_BINARY
-  // convert stdin to binary
-  if (_setmode(_fileno(stdin), _O_BINARY) == -1)
-    throw Error(ErrorCode::kerInputDataReadFailed);
-#endif
-
-  char readBuf[100 * 1024];
-  std::streamsize readBufSize = 0;
-  do {
-    std::cin.read(readBuf, sizeof(readBuf));
-    readBufSize = std::cin.gcount();
-    if (readBufSize > 0) {
-      write((byte*)readBuf, (long)readBufSize);
-    }
-  } while (readBufSize);
-}
-
-void XPathIo::ReadDataUri(const std::string& path) {
-  size_t base64Pos = path.find("base64,");
-  if (base64Pos == std::string::npos)
-    throw Error(ErrorCode::kerErrorMessage, "No base64 data");
-
-  std::string data = path.substr(base64Pos + 7);
-  auto decodeData = new char[data.length()];
-  auto size = base64decode(data.c_str(), decodeData, data.length());
-  if (size > 0)
-    write((byte*)decodeData, size);
-  else
-    throw Error(ErrorCode::kerErrorMessage, "Unable to decode base 64.");
-  delete[] decodeData;
-}
-
-#elif defined(EXV_ENABLE_FILESYSTEM)
+#if defined(EXV_ENABLE_FILESYSTEM)
 XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), tempFilePath_(path()) {
 }
 
