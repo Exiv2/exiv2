@@ -17,28 +17,22 @@
 #include <stdexcept>
 
 #ifdef EXV_ENABLE_FILESYSTEM
-#if __has_include(<filesystem>)
 #include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
-#endif
 
 #if defined(_WIN32)
 // clang-format off
 #include <windows.h>
-#include <psapi.h>  // For access to GetModuleFileNameEx
+#include <psapi.h>  // For access to GetModuleFileName
 // clang-format on
-#endif
-
-#if __has_include(<libproc.h>)
-#include <libproc.h>
 #endif
 
 #if __has_include(<unistd.h>)
 #include <unistd.h>  // for getpid()
+#endif
+
+#if __has_include(<libproc.h>)
+#include <libproc.h>
 #endif
 
 #if __has_include(<mach-o/dyld.h>)
@@ -60,6 +54,8 @@ namespace fs = std::experimental::filesystem;
 
 #ifndef _MAX_PATH
 #define _MAX_PATH 1024
+#endif
+
 #endif
 
 namespace Exiv2 {

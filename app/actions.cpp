@@ -17,6 +17,7 @@
 #include "types.hpp"
 #include "xmp_exiv2.hpp"
 
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -45,13 +46,7 @@
   } while (false)
 #endif
 
-#if __has_include(<filesystem>)
-#include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
 
 // *****************************************************************************
 // local declarations
