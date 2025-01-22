@@ -32,10 +32,12 @@ constexpr TagDetails canonOffOn[] = {
     {1, N_("On")},
 };
 
-std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, const ExifData* metadata);
+static std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, const ExifData* metadata);
 
 //! Special treatment pretty-print function for non-unique lens ids.
-std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifData* metadata);
+static std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifData* metadata);
+
+static float string_to_float(const std::string& str);
 
 //! ModelId, tag 0x0010
 constexpr TagDetails canonModelId[] = {
