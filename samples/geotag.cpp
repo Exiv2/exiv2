@@ -603,7 +603,7 @@ Position* searchTimeDict(TimeDict_t& td, const time_t& time, long long delta) {
   for (int t = 0; !result && t < delta; t++) {
     for (int x = 0; !result && x < 2; x++) {
       int T = t * ((x == 0) ? -1 : 1);
-      if (td.count(time + T)) {
+      if (td.contains(time + T)) {
         result = &td[time + T];
         result->delta(T);
       }
@@ -738,7 +738,7 @@ int main(int argc, const char* argv[]) {
 
   for (int i = 1; !result && i < argc; i++) {
     const char* arg = argv[i++];
-    if (shorts.count(arg))
+    if (shorts.contains(arg))
       arg = shorts[arg].c_str();
 
     const char* value = argv[i];

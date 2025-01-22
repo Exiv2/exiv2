@@ -165,7 +165,7 @@ int main(int argc, const char* argv[]) {
   const char* file = argv[1];
   const char* format = argv[2];
 
-  if (!result && formats.find(format) == formats.end()) {
+  if (!result && !formats.contains(format)) {
     std::cout << "Unrecognised format " << format << '\n';
     syntax(argv, formats);
     result = 2;

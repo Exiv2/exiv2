@@ -170,7 +170,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   Exiv2::Dictionary noProxy = stringToDict(no_prox + ",localhost,127.0.0.1");
 
   // if the server is on the no_proxy list ... ignore the proxy!
-  if (noProxy.count(servername))
+  if (noProxy.contains(servername))
     bProx = false;
 
   if (bProx) {
