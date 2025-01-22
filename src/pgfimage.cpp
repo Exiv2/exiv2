@@ -10,11 +10,8 @@
 #include "futils.hpp"
 #include "image.hpp"
 
-#include <iostream>
-
-#ifdef __cpp_lib_endian
 #include <bit>
-#endif
+#include <iostream>
 
 // Signature from front of PGF file
 const unsigned char pgfSignature[3] = {0x50, 0x47, 0x46};
