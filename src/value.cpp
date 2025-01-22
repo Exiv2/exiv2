@@ -651,7 +651,7 @@ int LangAltValue::read(const std::string& buf) {
     if (lang.front() == '"') {
       lang = lang.substr(1);
 
-      if (lang.empty() || lang.find('"') != lang.length() - 1)
+      if (lang.empty() || lang.back() != '"')
         throw Error(ErrorCode::kerInvalidLangAltValue, buf);
 
       lang.pop_back();
