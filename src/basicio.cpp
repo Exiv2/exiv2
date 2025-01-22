@@ -37,18 +37,12 @@
 #endif
 
 #ifdef EXV_ENABLE_FILESYSTEM
+#include <filesystem>
 #ifdef _WIN32
 #include <io.h>
 #include <windows.h>
 #endif
-
-#if __has_include(<filesystem>)
-#include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
 #endif
 
 namespace Exiv2 {

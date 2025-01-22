@@ -19,14 +19,8 @@
 #include <iostream>
 
 #ifdef EXV_ENABLE_FILESYSTEM
-#if __has_include(<filesystem>)
 #include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
-#endif
 
 #if !defined(_WIN32)
 #include <pwd.h>
@@ -38,6 +32,8 @@ namespace fs = std::experimental::filesystem;
 
 #ifdef EXV_ENABLE_INIH
 #include <INIReader.h>
+#endif
+
 #endif
 
 // *****************************************************************************

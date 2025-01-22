@@ -9,18 +9,13 @@
 // Auxiliary headers
 #include <cerrno>
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 #include <stdexcept>
 
 #include <gtest/gtest.h>
 
-#if __has_include(<filesystem>)
-#include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
 
 using namespace Exiv2;
 
