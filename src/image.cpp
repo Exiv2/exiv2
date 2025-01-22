@@ -439,7 +439,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         const std::string offsetString = bOffsetIsPointer ? stringFormat("{:9}", offset) : "";
 
         out << Internal::indent(depth)
-            << stringFormat("{:8} | {:#06x} {:<28} | {:>9} | {:>8} | {:9} | ", address, tag, tagName(tag).c_str(),
+            << stringFormat("{:8} | {:#06x} {:<28} | {:>9} | {:>8} | {:9} | ", address, tag, tagName(tag),
                             typeName(type), count, offsetString);
         if (isShortType(type)) {
           for (size_t k = 0; k < kount; k++) {
