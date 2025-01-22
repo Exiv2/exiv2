@@ -46,14 +46,11 @@
 
 // + standard includes
 #include <array>
+#include <bit>
 #include <cstdio>
 #include <cstring>
 #include <limits>
 #include <set>
-
-#ifdef __cpp_lib_endian
-#include <bit>
-#endif
 
 #ifdef _WIN32
 #include <windows.h>
@@ -178,35 +175,10 @@ bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option) {
 }
 
 bool Image::isBigEndianPlatform() {
-#ifdef __cpp_lib_endian
   return std::endian::native == std::endian::big;
-#elif defined(__LITTLE_ENDIAN__)
-  return false;
-#elif defined(__BIG_ENDIAN__)
-  return true;
-#elif defined(__BYTE_ORDER__) && defined(__ORDER_BIG_ENDIAN__)
-#if __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-  return true;
-#else
-  return false;
-#endif
-#else
-  union {
-    uint32_t i;
-    char c[4];
-  } e = {0x01000000};
-
-  return e.c[0] != 0;
-#endif
 }
 bool Image::isLittleEndianPlatform() {
-#ifdef __cpp_lib_endian
   return std::endian::native == std::endian::little;
-#elif defined(__LITTLE_ENDIAN__)
-  return true;
-#else
-  return !isBigEndianPlatform();
-#endif
 }
 
 uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
