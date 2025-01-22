@@ -1019,7 +1019,7 @@ int Params::getopt(int argc, char* const Argv[]) {
 
   for (int i = 0; i < argc; i++) {
     std::string arg(Argv[i]);
-    if (longs.find(arg) != longs.end()) {
+    if (longs.contains(arg)) {
       argv[i] = ::strdup(longs.at(arg).c_str());
     } else {
       argv[i] = ::strdup(Argv[i]);
