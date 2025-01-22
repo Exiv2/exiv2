@@ -210,7 +210,7 @@ std::ostream& operator<<(std::ostream& os, const Rational& r) {
 }
 
 template <typename T>
-std::istream& fromStreamToRational(std::istream& is, T& r) {
+static std::istream& fromStreamToRational(std::istream& is, T& r) {
   // http://dev.exiv2.org/boards/3/topics/1912?r=1915
   if (std::tolower(is.peek()) == 'f') {
     char F = 0;
