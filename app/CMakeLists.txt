@@ -31,8 +31,6 @@ if(EXIV2_ENABLE_NLS)
   target_include_directories(exiv2 PRIVATE ${Intl_INCLUDE_DIRS})
 endif()
 
-target_link_libraries(exiv2 PRIVATE std::filesystem)
-
 if(USING_CONAN
    AND WIN32
    AND EXISTS ${PROJECT_BINARY_DIR}/conanDlls

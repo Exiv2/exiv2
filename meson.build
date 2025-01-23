@@ -59,14 +59,6 @@ if not cpp.has_header_symbol('format', 'std::format')
   deps += dependency('fmt')
 endif
 
-if cpp.get_argument_syntax() == 'gcc' and cpp.version().version_compare('<9')
-  if host_machine.system() == 'linux' and cpp.get_define('_LIBCPP_VERSION', prefix: '#include <new>') == ''
-    deps += cpp.find_library('stdc++fs')
-  elif cpp.get_id() == 'clang'
-    deps += cpp.find_library('c++fs')
-  endif
-endif
-
 brotli_dep = dependency('libbrotlidec', disabler: true, required: false)
 if brotli_dep.found()
   deps += brotli_dep
