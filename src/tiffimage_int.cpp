@@ -2059,7 +2059,7 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
    */
   WriteMethod writeMethod = wmIntrusive;
   auto parsedTree = parse(pData, size, root, pHeader);
-  auto primaryGroups = findPrimaryGroups(parsedTree.get());
+  auto primaryGroups = findPrimaryGroups(parsedTree);
   if (parsedTree) {
     // Attempt to update existing TIFF components based on metadata entries
     TiffEncoder encoder(exifData, iptcData, xmpData, parsedTree.get(), false, &primaryGroups, pHeader, findEncoderFct);
@@ -2119,7 +2119,7 @@ TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size,
 
 }  // TiffParserWorker::parse
 
-PrimaryGroups TiffParserWorker::findPrimaryGroups(TiffComponent* pSourceDir) {
+PrimaryGroups TiffParserWorker::findPrimaryGroups(const std::unique_ptr<TiffComponent>& pSourceDir) {
   PrimaryGroups ret;
   if (!pSourceDir)
     return ret;

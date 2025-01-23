@@ -243,7 +243,7 @@ class TiffParserWorker {
     @param pSourceDir Pointer to the source composite tree to search (may be 0)
     @return List of primary groups which is populated
    */
-  static PrimaryGroups findPrimaryGroups(TiffComponent* pSourceDir);
+  static PrimaryGroups findPrimaryGroups(const std::unique_ptr<TiffComponent>& pSourceDir);
 };
 
 /*!
