@@ -577,7 +577,7 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
   std::string out(buffer, bufferSize);
 
   // remove blanks: http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
-  out.erase(std::remove_if(out.begin(), out.end(), isspace), out.end());
+  std::erase_if(out, [](unsigned char c) { return std::isspace(c); });
 
   bool bURI = Internal::contains(out, "http://");
   bool bNS = Internal::contains(out, ':') && !bURI;
