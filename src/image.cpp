@@ -782,7 +782,7 @@ ImageType ImageFactory::getType(BasicIo& io) {
 }
 
 BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, [[maybe_unused]] bool useCurl) {
-  Protocol fProt = fileProtocol(path);
+  [[maybe_unused]] Protocol fProt = fileProtocol(path);
 
 #ifdef EXV_USE_CURL
   if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {

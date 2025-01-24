@@ -2061,7 +2061,7 @@ std::ostream& Nikon3MakerNote::printLensId4(std::ostream& os, const Value& value
 }
 
 std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value, const ExifData* metadata,
-                                           const std::string& group) {
+                                           [[maybe_unused]] const std::string& group) {
 #ifdef EXV_HAVE_LENSDATA
 // 8< - - - 8< do not remove this line >8 - - - >8
 //------------------------------------------------------------------------------
