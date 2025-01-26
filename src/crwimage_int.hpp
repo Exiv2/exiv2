@@ -386,14 +386,6 @@ class CiffHeader {
   //! CiffHeader auto_ptr type
   using UniquePtr = std::unique_ptr<CiffHeader>;
 
-  //! @name Creators
-  //@{
-  //! Default constructor
-  CiffHeader() = default;
-  //! Virtual destructor
-  virtual ~CiffHeader() = default;
-  //@}
-
   //! @name Manipulators
   //@{
   /*!
