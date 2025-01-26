@@ -827,40 +827,40 @@ void CrwMap::loadStack(CrwDirs& crwDirs, uint16_t crwDir) {
   }
 }  // CrwMap::loadStack
 
-void CrwMap::encode(CiffHeader* pHead, const Image& image) {
+void CrwMap::encode(CiffHeader& pHead, const Image& image) {
   for (auto&& crw : crwMapping_) {
     if (crw.fromExif_) {
-      crw.fromExif_(image, &crw, pHead);
+      crw.fromExif_(image, crw, pHead);
     }
   }
 }  // CrwMap::encode
 
-void CrwMap::encodeBasic(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encodeBasic(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   // Determine the source Exif metadatum
-  ExifKey ek(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
+  ExifKey ek(pCrwMapping.tag_, Internal::groupName(pCrwMapping.ifdId_));
   auto ed = image.exifData().findKey(ek);
 
   // Set the new value or remove the entry
   if (ed != image.exifData().end() && ed->size() > 0) {
     DataBuf buf(ed->size());
-    ed->copy(buf.data(), pHead->byteOrder());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    ed->copy(buf.data(), pHead.byteOrder());
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encodeBasic
 
-void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x0805(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   std::string comment = image.comment();
 
-  CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+  CiffComponent* cc = pHead.findComponent(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   if (!comment.empty()) {
     auto size = comment.size();
     if (cc && cc->size() > size)
       size = cc->size();
     DataBuf buf(size);
     std::move(comment.begin(), comment.end(), buf.begin());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
     if (cc) {
       // Just delete the value, do not remove the tag
@@ -870,7 +870,7 @@ void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, Cif
   }
 }  // CrwMap::encode0x0805
 
-void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x080a(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   const ExifKey k1("Exif.Image.Make");
   const ExifKey k2("Exif.Image.Model");
   const auto ed1 = image.exifData().findKey(k1);
@@ -886,22 +886,22 @@ void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, Cif
     DataBuf buf(size);
     size_t pos{0};
     if (ed1 != edEnd) {
-      ed1->copy(buf.data(), pHead->byteOrder());
+      ed1->copy(buf.data(), pHead.byteOrder());
       pos += ed1->size();
     }
     if (ed2 != edEnd) {
-      ed2->copy(buf.data(pos), pHead->byteOrder());
+      ed2->copy(buf.data(pos), pHead.byteOrder());
       pos += ed2->size();
     }
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }
 
-void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encodeArray(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   auto ifdId = [=] {
-    switch (pCrwMapping->tag_) {
+    switch (pCrwMapping.tag_) {
       case 0x0001:
         return IfdId::canonCsId;
       case 0x0004:
@@ -913,23 +913,23 @@ void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, Ciff
     }
     return IfdId::ifdIdNotSet;
   }();
-  DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
+  DataBuf buf = packIfdId(image.exifData(), ifdId, pHead.byteOrder());
   if (buf.empty()) {
     // Try the undecoded tag
     encodeBasic(image, pCrwMapping, pHead);
   }
   if (!buf.empty()) {
     // Write the number of shorts to the beginning of buf
-    buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead->byteOrder());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead.byteOrder());
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encodeArray
 
-void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x180e(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   time_t t = 0;
-  const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
+  const ExifKey key(pCrwMapping.tag_, Internal::groupName(pCrwMapping.ifdId_));
   if (auto ed = image.exifData().findKey(key); ed != image.exifData().end()) {
     tm tm = {};
     if (exifTime(ed->toString().c_str(), &tm) == 0) {
@@ -938,14 +938,14 @@ void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, Cif
   }
   if (t != 0) {
     DataBuf buf(12);
-    buf.write_uint32(0, static_cast<uint32_t>(t), pHead->byteOrder());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    buf.write_uint32(0, static_cast<uint32_t>(t), pHead.byteOrder());
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encode0x180e
 
-void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x1810(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   const ExifKey kX("Exif.Photo.PixelXDimension");
   const ExifKey kY("Exif.Photo.PixelYDimension");
   const ExifKey kO("Exif.Image.Orientation");
@@ -955,7 +955,7 @@ void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, Cif
   const auto edO = exivData.findKey(kO);
   const auto edEnd = exivData.end();
 
-  auto cc = pHead->findComponent(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+  auto cc = pHead.findComponent(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   if (edX != edEnd || edY != edEnd || edO != edEnd) {
     size_t size = 28;
     if (cc) {
@@ -967,29 +967,29 @@ void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, Cif
     if (cc)
       std::copy_n(cc->pData() + 8, cc->size() - 8, buf.begin() + 8);
     if (edX != edEnd && edX->size() == 4) {
-      edX->copy(buf.data(), pHead->byteOrder());
+      edX->copy(buf.data(), pHead.byteOrder());
     }
     if (edY != edEnd && edY->size() == 4) {
-      edY->copy(buf.data(4), pHead->byteOrder());
+      edY->copy(buf.data(4), pHead.byteOrder());
     }
     int32_t d = 0;
     if (edO != edEnd && edO->count() > 0 && edO->typeId() == unsignedShort) {
       d = RotationMap::degrees(static_cast<uint16_t>(edO->toInt64()));
     }
-    buf.write_uint32(12, d, pHead->byteOrder());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    buf.write_uint32(12, d, pHead.byteOrder());
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encode0x1810
 
-void CrwMap::encode0x2008(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x2008(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   ExifThumbC exifThumb(image.exifData());
   DataBuf buf = exifThumb.copy();
   if (!buf.empty()) {
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encode0x2008
 

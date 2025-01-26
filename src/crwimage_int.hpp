@@ -32,7 +32,7 @@ struct CrwSubDir {
 using CrwDecodeFct = void (*)(const CiffComponent&, const CrwMapping*, Image&, ByteOrder);
 
 //! Function pointer for functions to encode CRW entries from Exif tags
-using CrwEncodeFct = void (*)(const Image&, const CrwMapping*, CiffHeader*);
+using CrwEncodeFct = void (*)(const Image&, const CrwMapping&, CiffHeader&);
 
 //! Stack to hold a path of CRW directories
 using CrwDirs = std::stack<CrwSubDir>;
@@ -508,7 +508,7 @@ class CrwMap {
     @param pHead         Destination parse tree.
     @param image         Source image containing the metadata.
    */
-  static void encode(CiffHeader* pHead, const Image& image);
+  static void encode(CiffHeader& pHead, const Image& image);
 
   /*!
     @brief Load the stack: loop through the CRW subdirs hierarchy and push
@@ -572,25 +572,25 @@ class CrwMap {
     @param pHead Pointer to the head of the CIFF parse tree into which
                  the metadata from \em image is encoded.
    */
-  static void encodeBasic(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encodeBasic(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode the user comment
-  static void encode0x0805(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x0805(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode camera Make and Model information
-  static void encode0x080a(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x080a(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode Canon Camera Settings 1, 2 and Custom Function arrays
-  static void encodeArray(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encodeArray(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode the date when the picture was taken
-  static void encode0x180e(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x180e(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode image width and height
-  static void encode0x1810(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x1810(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode the thumbnail image
-  static void encode0x2008(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x2008(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   // DATA
   static const CrwMapping crwMapping_[];  //!< Metadata conversion table
