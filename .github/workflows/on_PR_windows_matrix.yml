@@ -115,7 +115,6 @@ jobs:
             libiconv:p
             libinih:p
             zlib:p
-            fmt:p
 
       - name: Build
         run: |
@@ -180,7 +179,6 @@ jobs:
           cmake --preset base_windows \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DCMAKE_CXX_STANDARD=20 \
             -DCONAN_AUTO_INSTALL=OFF \
             -DEXIV2_BUILD_SAMPLES=OFF \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \

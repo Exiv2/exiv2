@@ -77,6 +77,11 @@ jobs:
           brew install doxygen
           brew install graphviz
 
+      - name: Install fmt on macOS 13
+        if: ${{ matrix.runner.os == 'macos-13' }}
+        run: |
+          brew install fmt
+
       - name: Build packaged release
         run: |
           mkdir build

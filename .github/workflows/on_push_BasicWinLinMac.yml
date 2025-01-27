@@ -94,7 +94,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install ninja fmt inih googletest
+          brew install ninja inih googletest
+
+      - name: Install fmt on macOS 13
+        if: ${{ matrix.runner.os == 'macos-13' }}
+        run: |
+          brew install fmt
 
       - name: Build
         run: |
