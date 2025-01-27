@@ -283,10 +283,11 @@ constexpr TagDetails fujiDriveSettingByte1[] = {
 
 //! DriveSetting, tag 0x1103
 static std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value, const ExifData*) {
-  auto byte1 = value.toInt64() & 0xff;
-  auto byte2 = (value.toInt64() >> 8) & 0xff;
-  auto byte3 = (value.toInt64() >> 16) & 0xff;
-  auto fps = value.toInt64() >> 24;
+  auto valint = value.toUint32();
+  auto byte1 = valint & 0xff;
+  auto byte2 = (valint >> 8) & 0xff;
+  auto byte3 = (valint >> 16) & 0xff;
+  auto fps = valint >> 24;
 
   if (auto setting = Exiv2::find(fujiDriveSettingByte1, byte1)) {
     os << exvGettext(setting->label_);

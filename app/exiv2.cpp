@@ -1005,7 +1005,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
 
 int Params::getopt(int argc, char* const Argv[]) {
   std::vector<char*> argv(argc + 1);
-  argv[argc] = nullptr;
+  argv.back() = nullptr;
 
   const std::unordered_map<std::string, std::string> longs{
       {"--adjust", "-a"},    {"--binary", "-b"},  {"--comment", "-c"}, {"--delete", "-d"},   {"--days", "-D"},
