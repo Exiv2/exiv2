@@ -943,7 +943,7 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
     TiffComponent* tc = pRootDir->addPath(i->tag(), tiffPath, pRootDir);
     auto object = dynamic_cast<TiffEntryBase*>(tc);
 #ifdef EXIV2_DEBUG_MESSAGES
-    if (object == 0) {
+    if (!object) {
       std::cerr << "Warning: addPath() didn't add an entry for " << i->groupName() << " tag 0x" << std::setw(4)
                 << std::setfill('0') << std::hex << i->tag() << "\n";
     }
@@ -965,10 +965,8 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
 
   TiffFinder finder(0x927c, IfdId::exifId);
   pRootDir->accept(finder);
-  auto te = dynamic_cast<TiffMnEntry*>(finder.result());
-  if (te) {
-    auto tim = dynamic_cast<TiffIfdMakernote*>(te->mn_);
-    if (tim) {
+  if (auto te = dynamic_cast<TiffMnEntry*>(finder.result())) {
+    if (auto tim = dynamic_cast<TiffIfdMakernote*>(te->mn_)) {
       // Set Makernote byte order
       ByteOrder bo = stringToByteOrder(posBo->toString());
       if (bo != invalidByteOrder)
@@ -1186,9 +1184,8 @@ void TiffReader::visitMnEntry(TiffMnEntry* object) {
   TiffFinder finder(0x010f, IfdId::ifd0Id);
   pRoot_->accept(finder);
   auto te = dynamic_cast<const TiffEntryBase*>(finder.result());
-  std::string make;
   if (te && te->pValue()) {
-    make = te->pValue()->toString();
+    auto make = te->pValue()->toString();
     // create concrete makernote, based on make and makernote contents
     object->mn_ =
         TiffMnCreator::create(object->tag(), object->mnGroup_, make, object->pData_, object->size_, byteOrder());

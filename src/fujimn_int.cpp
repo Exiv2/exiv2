@@ -92,12 +92,13 @@ constexpr TagDetails fujiContrast[] = {
 //! WhiteBalanceFineTune, tag 0x100a
 static std::ostream& printFujiWhiteBalanceFineTune(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() == signedLong && value.size() == 8) {
-    auto longValue = dynamic_cast<const LongValue&>(value);
-    if (longValue.toInt64(0) % 20 == 0 && longValue.toInt64(1) % 20 == 0) {
-      auto redShift = longValue.toInt64(0) / 20;
-      auto blueShift = longValue.toInt64(1) / 20;
-      os << "R: " << redShift << " B: " << blueShift;
-      return os;
+    if (auto longValue = dynamic_cast<const LongValue*>(&value)) {
+      if (longValue->toInt64(0) % 20 == 0 && longValue->toInt64(1) % 20 == 0) {
+        auto redShift = longValue->toInt64(0) / 20;
+        auto blueShift = longValue->toInt64(1) / 20;
+        os << "R: " << redShift << " B: " << blueShift;
+        return os;
+      }
     }
   }
   os << "(" << value << ")";
