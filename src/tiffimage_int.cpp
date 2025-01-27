@@ -2134,7 +2134,9 @@ PrimaryGroups TiffParserWorker::findPrimaryGroups(const std::unique_ptr<TiffComp
     TiffFinder finder(0x00fe, imageGroup);
     pSourceDir->accept(finder);
     auto te = dynamic_cast<const TiffEntryBase*>(finder.result());
-    const Value* pV = te ? te->pValue() : nullptr;
+    if (!te)
+      continue;
+    const Value* pV = te->pValue();
     if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toInt64() & 1) == 0) {
       ret.push_back(te->group());
     }
