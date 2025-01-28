@@ -962,7 +962,7 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32
 
   TiffFinder finder(0x927c, IfdId::exifId);
   pRootDir->accept(finder);
-  if (auto te = dynamic_cast<TiffMnEntry*>(finder.result())) {
+  if (auto te = dynamic_cast<const TiffMnEntry*>(finder.result())) {
     if (auto tim = dynamic_cast<TiffIfdMakernote*>(te->mn_)) {
       // Set Makernote byte order
       ByteOrder bo = stringToByteOrder(posBo->toString());

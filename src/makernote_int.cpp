@@ -928,7 +928,7 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
   // Find Exif.Nikon3.ShutterCount
   TiffFinder finder(0x00a7, IfdId::nikon3Id);
   pRoot->accept(finder);
-  auto te = dynamic_cast<TiffEntryBase*>(finder.result());
+  auto te = dynamic_cast<const TiffEntryBase*>(finder.result());
   if (!te || !te->pValue() || te->pValue()->count() == 0)
     return buf;
   auto count = te->pValue()->toUint32();
@@ -936,7 +936,7 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
   // Find Exif.Nikon3.SerialNumber
   finder.init(0x001d, IfdId::nikon3Id);
   pRoot->accept(finder);
-  te = dynamic_cast<TiffEntryBase*>(finder.result());
+  te = dynamic_cast<const TiffEntryBase*>(finder.result());
   if (!te || !te->pValue() || te->pValue()->count() == 0)
     return buf;
   bool ok(false);
