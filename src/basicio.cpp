@@ -136,12 +136,12 @@ int FileIo::Impl::switchMode(OpMode opMode) {
     case opRead:
       // Flush if current mode allows reading, else reopen (in mode "r+b"
       // as in this case we know that we can write to the file)
-      if (openMode_.at(0) == 'r' || openMode_.at(1) == '+')
+      if (openMode_.front() == 'r' || openMode_.at(1) == '+')
         reopen = false;
       break;
     case opWrite:
       // Flush if current mode allows writing, else reopen
-      if (openMode_.at(0) != 'r' || openMode_.at(1) == '+')
+      if (openMode_.front() != 'r' || openMode_.at(1) == '+')
         reopen = false;
       break;
     case opSeek:
@@ -499,7 +499,7 @@ size_t FileIo::tell() const {
 
 size_t FileIo::size() const {
   // Flush and commit only if the file is open for writing
-  if (p_->fp_ && (p_->openMode_.at(0) != 'r' || p_->openMode_.at(1) == '+')) {
+  if (p_->fp_ && (p_->openMode_.front() != 'r' || p_->openMode_.at(1) == '+')) {
     std::fflush(p_->fp_);
 #ifdef _MSC_VER
     // This is required on msvcrt before stat after writing to a file

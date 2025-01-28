@@ -1864,7 +1864,7 @@ int renameFile(std::string& newPath, const tm* tm) {
           std::cout << Params::instance().progname() << ": " << _("File") << " `" << newPath << "' "
                     << _("exists. [O]verwrite, [r]ename or [s]kip?") << " ";
           std::cin >> s;
-          switch (s.at(0)) {
+          switch (s.front()) {
             case 'o':
             case 'O':
               go = false;
@@ -1915,7 +1915,7 @@ int dontOverwrite(const std::string& path) {
     std::cout << Params::instance().progname() << ": " << _("Overwrite") << " `" << path << "'? ";
     std::string s;
     std::cin >> s;
-    if (s.at(0) != 'y' && s.at(0) != 'Y')
+    if (s.front() != 'y' && s.front() != 'Y')
       return 1;
   }
   return 0;

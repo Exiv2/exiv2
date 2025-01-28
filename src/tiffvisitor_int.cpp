@@ -357,7 +357,7 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
     uint.push_back(static_cast<uint16_t>(object->pValue()->toInt64(i)));
   }
   // Check this is AFInfo2 (ints[0] = bytes in object)
-  if (ints.at(0) != static_cast<int16_t>(object->pValue()->count()) * 2)
+  if (ints.front() != static_cast<int16_t>(object->pValue()->count()) * 2)
     return;
 
   std::string familyGroup(std::string("Exif.") + groupName(object->group()) + ".");
