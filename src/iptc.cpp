@@ -162,7 +162,6 @@ const Value& Iptcdatum::value() const {
 Iptcdatum& Iptcdatum::operator=(const Iptcdatum& rhs) {
   if (this == &rhs)
     return *this;
-  Metadatum::operator=(rhs);
 
   key_.reset();
   if (rhs.key_)
