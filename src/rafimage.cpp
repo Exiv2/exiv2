@@ -92,7 +92,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     magicdata[16] = 0;
     {
       out << Internal::indent(depth) << stringFormat(format, address, 16)  // 0
-          << "       magic : " << reinterpret_cast<char*>(magicdata) << '\n';
+          << "       magic : " << reinterpret_cast<const char*>(magicdata) << '\n';
     }
 
     address = io_->tell();
@@ -101,7 +101,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     data1[4] = 0;
     {
       out << Internal::indent(depth) << stringFormat(format, address, 4)  // 16
-          << "       data1 : " << std::string(reinterpret_cast<char*>(&data1)) << '\n';
+          << "       data1 : " << reinterpret_cast<const char*>(&data1) << '\n';
     }
 
     address = io_->tell();
@@ -110,7 +110,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     data2[8] = 0;
     {
       out << Internal::indent(depth) << stringFormat(format, address, 8)  // 20
-          << "       data2 : " << std::string(reinterpret_cast<char*>(&data2)) << '\n';
+          << "       data2 : " << reinterpret_cast<const char*>(&data2) << '\n';
     }
 
     address = io_->tell();
@@ -119,7 +119,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     camdata[32] = 0;
     {
       out << Internal::indent(depth) << stringFormat(format, address, 32)  // 28
-          << "      camera : " << std::string(reinterpret_cast<char*>(&camdata)) << '\n';
+          << "      camera : " << reinterpret_cast<const char*>(&camdata) << '\n';
     }
 
     address = io_->tell();
@@ -128,7 +128,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     dir_version[4] = 0;
     {
       out << Internal::indent(depth) << stringFormat(format, address, 4)  // 60
-          << "     version : " << std::string(reinterpret_cast<char*>(&dir_version)) << '\n';
+          << "     version : " << reinterpret_cast<const char*>(&dir_version) << '\n';
     }
 
     address = io_->tell();

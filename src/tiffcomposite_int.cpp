@@ -459,7 +459,7 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
 
   // Prevent dangling sub-IFD tags: Do not add a sub-IFD component without children.
   // Todo: How to check before creating the component?
-  if (tiffPath.size() == 1 && dynamic_cast<TiffSubIfd*>(atc.get()))
+  if (tiffPath.size() == 1 && dynamic_cast<const TiffSubIfd*>(atc.get()))
     return nullptr;
 
   tc = [&] {
