@@ -5146,13 +5146,12 @@ XmpKey::XmpKey(const std::string& prefix, const std::string& property) : p_(std:
 
 XmpKey::~XmpKey() = default;
 
-XmpKey::XmpKey(const XmpKey& rhs) : Key(rhs), p_(std::make_unique<Impl>(*rhs.p_)) {
+XmpKey::XmpKey(const XmpKey& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 XmpKey& XmpKey::operator=(const XmpKey& rhs) {
   if (this == &rhs)
     return *this;
-  Key::operator=(rhs);
   *p_ = *rhs.p_;
   return *this;
 }

@@ -204,7 +204,6 @@ const Value& Exifdatum::value() const {
 Exifdatum& Exifdatum::operator=(const Exifdatum& rhs) {
   if (this == &rhs)
     return *this;
-  Metadatum::operator=(rhs);
 
   key_.reset();
   if (rhs.key_)

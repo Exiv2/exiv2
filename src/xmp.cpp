@@ -292,13 +292,12 @@ Xmpdatum::Impl& Xmpdatum::Impl::operator=(const Impl& rhs) {
 Xmpdatum::Xmpdatum(const XmpKey& key, const Value* pValue) : p_(std::make_unique<Impl>(key, pValue)) {
 }
 
-Xmpdatum::Xmpdatum(const Xmpdatum& rhs) : Metadatum(rhs), p_(std::make_unique<Impl>(*rhs.p_)) {
+Xmpdatum::Xmpdatum(const Xmpdatum& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 Xmpdatum& Xmpdatum::operator=(const Xmpdatum& rhs) {
   if (this == &rhs)
     return *this;
-  Metadatum::operator=(rhs);
   *p_ = *rhs.p_;
   return *this;
 }
