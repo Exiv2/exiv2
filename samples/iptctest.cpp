@@ -46,7 +46,7 @@ int main(int argc, char* const argv[]) {
 }
 
 bool processLine(const std::string& line, int num, IptcData& iptcData) {
-  switch (line.at(0)) {
+  switch (line.front()) {
     case 'a':
     case 'A':
       processAdd(line, num, iptcData);
@@ -64,7 +64,7 @@ bool processLine(const std::string& line, int num, IptcData& iptcData) {
       return false;
     default:
       std::ostringstream os;
-      os << "Unknown command (" << line.at(0) << ") at line " << num;
+      os << "Unknown command (" << line.front() << ") at line " << num;
       throw Error(ErrorCode::kerErrorMessage, os.str());
   }
   return true;
@@ -86,7 +86,7 @@ void processAdd(const std::string& line, int num, IptcData& iptcData) {
 
   std::string data(line.substr(dataStart));
   // if data starts and ends with quotes, remove them
-  if (data.at(0) == '\"' && data.at(data.size() - 1) == '\"') {
+  if (data.front() == '\"' && data.back() == '\"') {
     data = data.substr(1, data.size() - 2);
   }
   TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
@@ -133,7 +133,7 @@ void processModify(const std::string& line, int num, IptcData& iptcData) {
 
   std::string data(line.substr(dataStart));
   // if data starts and ends with quotes, remove them
-  if (data.at(0) == '\"' && data.at(data.size() - 1) == '\"') {
+  if (data.front() == '\"' && data.back() == '\"') {
     data = data.substr(1, data.size() - 2);
   }
   TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
