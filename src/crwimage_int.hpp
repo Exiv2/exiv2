@@ -371,7 +371,6 @@ class CiffDirectory : public CiffComponent {
   // DATA
   Components components_;  //!< List of components in this dir
   UniquePtr m_;            // used by recursive doAdd
-  CiffComponent* cc_ = nullptr;
 
 };  // class CiffDirectory
 

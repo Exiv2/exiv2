@@ -540,38 +540,39 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
         if not found, create it
         set value
   */
+  CiffComponent* cc = nullptr;
   if (!crwDirs.empty()) {
     auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
     for (const auto& c : components_)
       if (c->tag() == dir.dir) {
-        cc_ = c;
+        cc = c;
         break;
       }
-    if (!cc_) {
+    if (!cc) {
       // Directory doesn't exist yet, add it
       m_ = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
-      cc_ = m_.get();
+      cc = m_.get();
       add(std::move(m_));
     }
     // Recursive call to next lower level directory
-    cc_ = cc_->add(crwDirs, crwTagId);
+    cc = cc->add(crwDirs, crwTagId);
   } else {
     // Find the tag
     for (const auto& c : components_)
       if (c->tagId() == crwTagId) {
-        cc_ = c;
+        cc = c;
         break;
       }
-    if (!cc_) {
+    if (!cc) {
       // Tag doesn't exist yet, add it
       m_ = std::make_unique<CiffEntry>(crwTagId, tag());
-      cc_ = m_.get();
+      cc = m_.get();
       add(std::move(m_));
     }
   }
-  return cc_;
+  return cc;
 }  // CiffDirectory::doAdd
 
 void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) const {
