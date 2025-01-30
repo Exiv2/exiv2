@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import itertools
 import system_tests
 
 def char_range(c1, c2):
