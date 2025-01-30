@@ -966,10 +966,10 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
     }
 
     std::string data = orgPath.substr(base64Pos + 7);
-    std::vector<char> decodeData(data.length());
-    auto size = base64decode(data.c_str(), decodeData.data(), data.length());
+    auto decodeData = std::make_unique<char[]>(data.length());
+    auto size = base64decode(data.c_str(), decodeData.get(), data.length());
     if (size > 0) {
-      fs.write(decodeData.data(), size);
+      fs.write(decodeData.get(), size);
       fs.close();
     } else {
       fs.close();
@@ -1154,7 +1154,7 @@ size_t RemoteIo::write(BasicIo& src) {
   size_t left = 0;
   size_t right = 0;
   size_t blockIndex = 0;
-  std::vector<byte> buf(p_->blockSize_);
+  auto buf = std::make_unique<byte[]>(p_->blockSize_);
   size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
 
   // find $left
@@ -1163,7 +1163,7 @@ size_t RemoteIo::write(BasicIo& src) {
   while (blockIndex < nBlocks && !src.eof() && !findDiff) {
     size_t blockSize = p_->blocksMap_[blockIndex].getSize();
     bool isFakeData = p_->blocksMap_[blockIndex].isKnown();  // fake data
-    size_t readCount = src.read(buf.data(), blockSize);
+    size_t readCount = src.read(buf.get(), blockSize);
     auto blockData = p_->blocksMap_[blockIndex].getData();
     for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
       if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
@@ -1185,7 +1185,7 @@ size_t RemoteIo::write(BasicIo& src) {
       findDiff = true;
     } else {
       bool isFakeData = p_->blocksMap_[blockIndex].isKnown();  // fake data
-      size_t readCount = src.read(buf.data(), blockSize);
+      size_t readCount = src.read(buf.get(), blockSize);
       auto blockData = p_->blocksMap_[blockIndex].getData();
       for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
         if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) ||
@@ -1200,10 +1200,10 @@ size_t RemoteIo::write(BasicIo& src) {
 
   // submit to the remote machine.
   if (auto dataSize = src.size() - left - right) {
-    std::vector<byte> data(dataSize);
+    auto data = std::make_unique<byte[]>(dataSize);
     src.seek(left, BasicIo::beg);
-    src.read(data.data(), dataSize);
-    p_->writeRemote(data.data(), dataSize, left, p_->size_ - right);
+    src.read(data.get(), dataSize);
+    p_->writeRemote(data.get(), dataSize, left, p_->size_ - right);
   }
   return src.size();
 }
@@ -1471,10 +1471,10 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
 
   // encode base64
   size_t encodeLength = (((size + 2) / 3) * 4) + 1;
-  std::vector<char> encodeData(encodeLength);
-  base64encode(data, size, encodeData.data(), encodeLength);
+  auto encodeData = std::make_unique<char[]>(encodeLength);
+  base64encode(data, size, encodeData.get(), encodeLength);
   // url encode
-  const std::string urlencodeData = urlencode(encodeData.data());
+  const std::string urlencodeData = urlencode(encodeData.get());
 
   auto postData = stringFormat("path={}&from={}&to={}&data={}", hostInfo_.Path, from, to, urlencodeData);
 
@@ -1647,10 +1647,10 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
 
   // encode base64
   size_t encodeLength = (((size + 2) / 3) * 4) + 1;
-  std::vector<char> encodeData(encodeLength);
-  base64encode(data, size, encodeData.data(), encodeLength);
+  auto encodeData = std::make_unique<char[]>(encodeLength);
+  base64encode(data, size, encodeData.get(), encodeLength);
   // url encode
-  const std::string urlencodeData = urlencode(encodeData.data());
+  const std::string urlencodeData = urlencode(encodeData.get());
   auto postData = stringFormat("path={}&from={}&to={}&data={}", hostInfo.Path, from, to, urlencodeData);
 
   curl_easy_setopt(curl_, CURLOPT_POSTFIELDS, postData.c_str());
