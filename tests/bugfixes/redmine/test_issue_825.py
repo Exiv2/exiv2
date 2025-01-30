@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import itertools
-
 import system_tests
 
 
@@ -14,12 +12,10 @@ class PanasonicManometerTag(metaclass=system_tests.CaseMeta):
         for char in ["a", "b"]
     ]
 
-    commands = list(itertools.chain(
-        *([
-            f"$exiv2 -pv --grep mano/i {filename}",
-            f"$exiv2 -pa --grep mano/i {filename}"
-        ] for filename in filenames)
-    ))
+    commands = []
+    for filename in filenames:
+        commands.append(f"$exiv2 -pv --grep mano/i {filename}")
+        commands.append(f"$exiv2 -pa --grep mano/i {filename}")
 
     stdout = [
         """0x0086 Panasonic    ManometerPressure           Short       1  65535

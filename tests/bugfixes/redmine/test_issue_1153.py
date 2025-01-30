@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
-import itertools
 
 class CheckSony6000WithoutLensModels(metaclass=system_tests.CaseMeta):
 
@@ -9,10 +8,8 @@ class CheckSony6000WithoutLensModels(metaclass=system_tests.CaseMeta):
 
     filenames = [
         f"$data_path/exiv2-bug1153{E}{i}.exv"
-        for E, i in itertools.product(
-                ['A', 'J'],
-                "a b c d e f g h i j k".split()
-        )
+        for E in ['A', 'J']
+        for i in "a b c d e f g h i j k".split()
     ]
 
     commands = [
