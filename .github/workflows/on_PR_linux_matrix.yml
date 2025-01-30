@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y tree ninja-build
-          python3 -m pip install conan==1.*
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
