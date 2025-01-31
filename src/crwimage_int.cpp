@@ -171,9 +171,11 @@ void CiffHeader::read(const byte* pData, size_t size) {
   }
 
   pPadding_.clear();
-  pPadding_.resize(offset_ - 14);
-  padded_ = offset_ - 14;
-  std::copy_n(pData + 14, padded_, pPadding_.begin());
+  if (offset_ > 14) {
+    pPadding_.resize(offset_ - 14);
+    padded_ = offset_ - 14;
+    std::copy_n(pData + 14, padded_, pPadding_.begin());
+  }
 
   pRootDir_ = std::make_unique<CiffDirectory>();
   pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
