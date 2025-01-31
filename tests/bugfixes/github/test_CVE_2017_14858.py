@@ -14,7 +14,7 @@ File size       : 331696 Bytes
 MIME type       : image/tiff
 Image size      : 0 x 12336
 Thumbnail       : None
-Camera make     : 0000
+Camera make     : 000\x1B0
 Camera model    : 0000000000000
 Image timestamp : 
 File number     : 
