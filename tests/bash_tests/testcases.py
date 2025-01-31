@@ -1010,7 +1010,6 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
 
     def stdin_test(self):
-        return # temporarily disable
         # Test driver for stdin
         if find_spec('lxml') is None:
             print('Skipped. Because it misses module lxml. Please install: `pip install lxml`')
