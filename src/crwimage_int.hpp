@@ -381,9 +381,6 @@ class CiffDirectory : public CiffComponent {
  */
 class CiffHeader {
  public:
-  //! CiffHeader auto_ptr type
-  using UniquePtr = std::unique_ptr<CiffHeader>;
-
   //! @name Manipulators
   //@{
   /*!
