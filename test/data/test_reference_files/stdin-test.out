@@ -1,7 +1,7 @@
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffdb DQT   |      67 
       89 | 0xffdb DQT   |      67 
      158 | 0xffc0 SOF0  |      17 
@@ -15,7 +15,7 @@ STRUCTURE OF JPEG FILE: girl.jpg
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffdb DQT   |      67 
       89 | 0xffdb DQT   |      67 
      158 | 0xffc0 SOF0  |      17 
@@ -28,7 +28,7 @@ STRUCTURE OF JPEG FILE: girl.jpg
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
     4635 | 0xffdb DQT   |      67 
     4704 | 0xffdb DQT   |      67 
@@ -41,7 +41,7 @@ STRUCTURE OF JPEG FILE: girl.jpg
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffdb DQT   |      67 
       89 | 0xffdb DQT   |      67 
      158 | 0xffc0 SOF0  |      17 
@@ -53,7 +53,7 @@ STRUCTURE OF JPEG FILE: girl.jpg
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffe1 APP1  |    4613 | http://ns.adobe.com/xap/1.0/.<?x
     4635 | 0xffdb DQT   |      67 
     4704 | 0xffdb DQT   |      67 
@@ -108,7 +108,7 @@ STRUCTURE OF JPEG FILE: girl.jpg
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffdb DQT   |      67 
       89 | 0xffdb DQT   |      67 
      158 | 0xffc0 SOF0  |      17 
@@ -122,23 +122,23 @@ STRUCTURE OF JPEG FILE: girl.jpg
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffe1 APP1  |    5704 | Exif..II*......................
     5726 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   11015 | 0xffed APP13 |     788 | Photoshop 3.0.8BIM..........Z...
-   11805 | 0xffdb DQT   |      67 
-   11874 | 0xffdb DQT   |      67 
-   11943 | 0xffc0 SOF0  |      17 
-   11962 | 0xffc4 DHT   |      28 
-   11992 | 0xffc4 DHT   |      74 
-   12068 | 0xffc4 DHT   |      28 
-   12098 | 0xffc4 DHT   |      57 
-   12157 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
-   16761 | 0xffda SOS  
+   11015 | 0xffed APP13 |     784 | Photoshop 3.0.8BIM..........Z...
+   11801 | 0xffdb DQT   |      67 
+   11870 | 0xffdb DQT   |      67 
+   11939 | 0xffc0 SOF0  |      17 
+   11958 | 0xffc4 DHT   |      28 
+   11988 | 0xffc4 DHT   |      74 
+   12064 | 0xffc4 DHT   |      28 
+   12094 | 0xffc4 DHT   |      57 
+   12153 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   16757 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffdb DQT   |      67 
       89 | 0xffdb DQT   |      67 
      158 | 0xffc0 SOF0  |      17 
@@ -152,19 +152,19 @@ STRUCTURE OF JPEG FILE: girl.jpg
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF............
+       2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffe1 APP1  |    8528 | Exif..II*......................
     8550 | 0xffe1 APP1  |    6730 | http://ns.adobe.com/xap/1.0/.<?x
-   15282 | 0xffed APP13 |     794 | Photoshop 3.0.8BIM..........Z...
-   16078 | 0xffdb DQT   |      67 
-   16147 | 0xffdb DQT   |      67 
-   16216 | 0xffc0 SOF0  |      17 
-   16235 | 0xffc4 DHT   |      28 
-   16265 | 0xffc4 DHT   |      74 
-   16341 | 0xffc4 DHT   |      28 
-   16371 | 0xffc4 DHT   |      57 
-   16430 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
-   21034 | 0xffda SOS  
+   15282 | 0xffed APP13 |     788 | Photoshop 3.0.8BIM..........Z...
+   16072 | 0xffdb DQT   |      67 
+   16141 | 0xffdb DQT   |      67 
+   16210 | 0xffc0 SOF0  |      17 
+   16229 | 0xffc4 DHT   |      28 
+   16259 | 0xffc4 DHT   |      74 
+   16335 | 0xffc4 DHT   |      28 
+   16365 | 0xffc4 DHT   |      57 
+   16424 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   21028 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
@@ -172,7 +172,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |    3160 | ICC_PROFILE......HLino....mntrRG chunk 1/1
    14159 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   17191 | 0xffee APP14 |      14 | Adobe.d@......
+   17191 | 0xffee APP14 |      14 | Adobe.d@....
    17207 | 0xffdb DQT   |     132 
    17341 | 0xffc0 SOF0  |      17 
    17360 | 0xffdd DRI   |       4 
@@ -181,21 +181,21 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
 STRUCTURE OF PNG FILE: ReaganSmallPng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
-      33 | zTXt  |    8648 | Raw profile type exif..x...Wv$ | 0xca41f34d
-    8693 | zTXt  |     632 | Raw profile type iptc..x..T[.. | 0xa2860459
-    9337 | iCCP  |    2598 | ..x...wTS.....7.P.....khR.H..H | 0x915a222e
-   11947 | iTXt  |    7117 | XML:com.adobe.xmp.....<?xpacke | 0x2ff025b8
-   19076 | gAMA  |       4 | ....                           | 0x0bfc6105
-   19092 | bKGD  |       6 | ......                         | 0xa0bda793
-   19110 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   19131 | tIME  |       7 | ......#                        | 0xdf7f5bbd
-   19150 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   19440 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
-   27644 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
-   35848 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
-   44052 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
-   52256 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
-   59334 | IEND  |       0 |                                | 0xae426082
+      33 | eXIf  |    8520 | II*..........................  | 0x479a6662
+    8565 | zTXt  |     630 | Raw profile type iptc..x..T... | 0xa492403c
+    9207 | iCCP  |    2593 | ..x...wTS.....7.&....!...@.... | 0x56151192
+   11812 | iTXt  |    7117 | XML:com.adobe.xmp.....<?xpacke | 0x2ff025b8
+   18941 | gAMA  |       4 | ....                           | 0x0bfc6105
+   18957 | bKGD  |       6 | ......                         | 0xa0bda793
+   18975 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   18996 | tIME  |       7 | ......#                        | 0xdf7f5bbd
+   19015 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   19305 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
+   27509 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
+   35713 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
+   43917 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
+   52121 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
+   59199 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   190110 |        0 | WEBP
