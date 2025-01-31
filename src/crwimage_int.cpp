@@ -557,20 +557,20 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
       add(std::move(m_));
     }
     // Recursive call to next lower level directory
-    cc = cc->add(crwDirs, crwTagId);
-  } else {
-    // Find the tag
-    for (const auto& c : components_)
-      if (c->tagId() == crwTagId) {
-        cc = c;
-        break;
-      }
-    if (!cc) {
-      // Tag doesn't exist yet, add it
-      m_ = std::make_unique<CiffEntry>(crwTagId, tag());
-      cc = m_.get();
-      add(std::move(m_));
+    return cc->add(crwDirs, crwTagId);
+  }
+
+  // Find the tag
+  for (const auto& c : components_)
+    if (c->tagId() == crwTagId) {
+      cc = c;
+      break;
     }
+  if (!cc) {
+    // Tag doesn't exist yet, add it
+    m_ = std::make_unique<CiffEntry>(crwTagId, tag());
+    cc = m_.get();
+    add(std::move(m_));
   }
   return cc;
 }  // CiffDirectory::doAdd
