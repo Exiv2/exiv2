@@ -232,7 +232,7 @@ void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBuf
       // something bad happened
       throw Error(ErrorCode::kerErrorMessage, BrotliDecoderErrorString(BrotliDecoderGetErrorCode(decoder.get())));
     }
-  };
+  }
 
   if (result != BROTLI_DECODER_RESULT_SUCCESS) {
     throw Error(ErrorCode::kerFailedToReadImageData);

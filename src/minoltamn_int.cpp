@@ -1679,7 +1679,7 @@ static std::vector<std::string> split(const std::string& str, const std::string&
     if (!token.empty())
       tokens.push_back(std::move(token));
     prev = pos + delim.length();
-  };
+  }
   return tokens;
 }
 

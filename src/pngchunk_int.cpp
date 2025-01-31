@@ -354,7 +354,7 @@ void PngChunk::zlibUncompress(const byte* compressedText, unsigned int compresse
       // something bad happened
       throw Error(ErrorCode::kerFailedToReadImageData);
     }
-  };
+  }
 
   if (zlibResult != Z_OK) {
     throw Error(ErrorCode::kerFailedToReadImageData);
@@ -389,7 +389,7 @@ std::string PngChunk::zlibCompress(const std::string& text) {
         // Something bad happened
         throw Error(ErrorCode::kerFailedToReadImageData);
     }
-  };
+  }
 
   return {arr.c_str(), arr.size()};
 

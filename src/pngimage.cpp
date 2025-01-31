@@ -94,7 +94,7 @@ static bool zlibToDataBuf(const byte* bytes, uLongf length, DataBuf& result) {
       else
         uncompressedLen *= 2;
     }
-  };
+  }
 
   return zlibResult == Z_OK;
 }
@@ -115,7 +115,7 @@ static bool zlibToCompressed(const byte* bytes, uLongf length, DataBuf& result) 
       result.alloc(compressedLen);
       zlibResult = compress(result.data(), &compressedLen, bytes, length);
     }
-  };
+  }
 
   return zlibResult == Z_OK;
 }
