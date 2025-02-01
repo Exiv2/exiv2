@@ -1991,6 +1991,7 @@ constexpr TagDetails canonCsLensType[] = {{1, "Canon EF 50mm f/1.8"},
                                           {61182, "Canon RF 70-200mm F2.8 L IS USM Z"},
                                           {61182, "Canon RF 70-200mm F2.8 L IS USM Z + RF1.4x"},
                                           {61182, "Canon RF 70-200mm F2.8 L IS USM Z + RF2x"},
+                                          {61182, "Canon RF 16-28mm F2.8 IS STM"},
                                           {61182, "Canon RF 50mm F1.4 L VCM"},
                                           {61182, "Canon RF 24mm F1.4 L VCM"},
                                           {65535, N_("n/a")}};
@@ -2361,7 +2362,7 @@ constexpr TagDetails canonToningEffect[] = {
     {0, N_("None")}, {1, N_("Sepia")}, {2, N_("Blue")}, {3, N_("Purple")}, {4, N_("Green")}};
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/13.12/lib/Image/ExifTool/Canon.pm#L6942
+// from https://github.com/exiftool/exiftool/blob/13.16/lib/Image/ExifTool/Canon.pm#L6961
 constexpr TagDetails canonRFLensType[] = {{0, N_("n/a")},
                                           {257, "Canon RF 50mm F1.2 L USM"},
                                           {258, "Canon RF 24-105mm F4 L IS USM"},
@@ -2428,6 +2429,7 @@ constexpr TagDetails canonRFLensType[] = {{0, N_("n/a")},
                                           {319, "Canon RF 70-200mm F2.8 L IS USM Z"},
                                           {320, "Canon RF 70-200mm F2.8 L IS USM Z + RF1.4x"},
                                           {321, "Canon RF 70-200mm F2.8 L IS USM Z + RF2x"},
+                                          {323, "Canon RF 16-28mm F2.8 IS STM"},
                                           {325, "Canon RF 50mm F1.4 L VCM"},
                                           {326, "Canon RF 24mm F1.4 L VCM"}};
 
