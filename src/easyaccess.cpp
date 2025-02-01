@@ -7,15 +7,6 @@
 namespace {
 using namespace Exiv2;
 
-/*!
-  @brief Search \em ed for a Metadatum specified by the \em keys.
-         The \em keys are searched in the order of their appearance, the
-         first available Metadatum is returned.
-
-  @param ed The %Exif metadata container to search
-  @param keys Array of keys to look for
-  @param count Number of elements in the array
- */
 template <size_t N, const char* const (&keys)[N]>
 ExifData::const_iterator findMetadatum(const ExifData& ed) {
   for (const auto& k : keys) {
@@ -26,6 +17,15 @@ ExifData::const_iterator findMetadatum(const ExifData& ed) {
   return ed.end();
 }  // findMetadatum
 
+/*!
+  @brief Search \em ed for a Metadatum specified by the \em keys.
+         The \em keys are searched in the order of their appearance, the
+         first available Metadatum is returned.
+
+  @param ed The %Exif metadata container to search
+  @param keys Array of keys to look for
+  @param count Number of elements in the array
+ */
 ExifData::const_iterator findMetadatum(const ExifData& ed, const char* const keys[], size_t count) {
   for (size_t i = 0; i < count; ++i) {
     auto pos = ed.findKey(ExifKey(keys[i]));

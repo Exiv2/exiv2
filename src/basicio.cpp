@@ -46,6 +46,9 @@ namespace fs = std::filesystem;
 #endif
 
 namespace Exiv2 {
+
+BasicIo::~BasicIo() = default;
+
 void BasicIo::readOrThrow(byte* buf, size_t rcount, ErrorCode err) {
   const size_t nread = read(buf, rcount);
   Internal::enforce(nread == rcount, err);

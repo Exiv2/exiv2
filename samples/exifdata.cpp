@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 
+namespace {
 using format_t = std::map<std::string, int>;
 enum format_e { wolf, csv, json, xml };
 
@@ -144,6 +145,7 @@ std::string formatXML(Exiv2::ExifData& exifData) {
   result << "</exif>" << '\n';
   return result.str();
 }
+}  // namespace
 
 ///////////////////////////////////////////////////////////////////////
 int main(int argc, const char* argv[]) {
