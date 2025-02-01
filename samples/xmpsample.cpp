@@ -7,10 +7,12 @@
 #include <cmath>
 #include <iostream>
 
-bool isEqual(float a, float b) {
+namespace {
+[[maybe_unused]] bool isEqual(float a, float b) {
   double d = std::fabs(a - b);
   return d < 0.00001;
 }
+}  // namespace
 
 int main() try {
   Exiv2::XmpParser::initialize();

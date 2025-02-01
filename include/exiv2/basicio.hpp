@@ -37,7 +37,7 @@ class EXIV2API BasicIo {
   //! @name Creators
   //@{
   //! Destructor
-  virtual ~BasicIo() = default;
+  virtual ~BasicIo();
   //@}
 
   //! @name Manipulators

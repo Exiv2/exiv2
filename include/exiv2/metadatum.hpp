@@ -31,7 +31,7 @@ class EXIV2API Key {
   //! @name Creators
   //@{
   //! Destructor
-  virtual ~Key() = default;
+  virtual ~Key();
   //@}
   Key(Key&&) = delete;
   Key& operator=(Key&&) = delete;
@@ -105,7 +105,7 @@ class EXIV2API Metadatum {
   //! @name Creators
   //@{
   //! Destructor
-  virtual ~Metadatum() = default;
+  virtual ~Metadatum();
   //@}
 
   //! @name Manipulators

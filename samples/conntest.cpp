@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iostream>
 
+namespace {
 void httpcon(const std::string& url, bool useHttp1_0 = false) {
   Exiv2::Dictionary response;
   Exiv2::Dictionary request;
@@ -71,6 +72,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
   }
 }
 #endif
+}  // namespace
 
 int main(int argc, const char** argv) {
   Exiv2::XmpParser::initialize();

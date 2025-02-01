@@ -3,9 +3,14 @@
 #include "metadatum.hpp"
 
 namespace Exiv2 {
+
+Key::~Key() = default;
+
 Key::UniquePtr Key::clone() const {
   return UniquePtr(clone_());
 }
+
+Metadatum::~Metadatum() = default;
 
 std::string Metadatum::print(const ExifData* pMetadata) const {
   std::ostringstream os;
