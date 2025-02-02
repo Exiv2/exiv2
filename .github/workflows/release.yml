@@ -23,6 +23,7 @@ jobs:
       matrix:
         runner:
           - { os: ubuntu-22.04, arch: x64   }
+          - { os: ubuntu-22.04-arm, arch: arm64 }
     steps:
       - uses: actions/checkout@v4
 
