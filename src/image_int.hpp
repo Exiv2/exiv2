@@ -16,10 +16,12 @@
 #include <format>
 #endif
 #ifndef EXV_HAVE_STD_FORMAT
-#include <fmt/core.h>
+#include <fmt/format.h>
 #define stringFormat fmt::format
+#define stringFormatTo fmt::format_to
 #else
 #define stringFormat std::format
+#define stringFormatTo std::format_to
 #endif
 
 // *****************************************************************************

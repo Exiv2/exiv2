@@ -286,17 +286,16 @@ void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, size
     if (bytes.at(i) != 0x1c) {
       break;
     }
-    char buff[100];
     uint16_t record = bytes.at(i + 1);
     uint16_t dataset = bytes.at(i + 2);
     Internal::enforce(bytes.size() - i >= 5, ErrorCode::kerCorruptedMetadata);
     uint16_t len = getUShort(bytes.subSlice(i + 3, bytes.size()), bigEndian);
-    snprintf(buff, sizeof(buff), "  %6hu | %7hu | %-24s | %6hu | ", record, dataset,
-             Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
     Internal::enforce(bytes.size() - i >= 5 + static_cast<size_t>(len), ErrorCode::kerCorruptedMetadata);
-    out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
-        << (len > 40 ? "..." : "") << '\n';
+    out << stringFormat("  {:6} | {:7} | {:<24} | {:6} | ", record, dataset,
+                        Exiv2::IptcDataSets::dataSetName(dataset, record), len);
+    out << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + std::min<uint16_t>(40, len)))
+        << (len > 40 ? "...\n" : "\n");
     i += 5 + len;
   }
 }
