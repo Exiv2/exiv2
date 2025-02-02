@@ -92,7 +92,7 @@ convertlib = static_library(
   'convert.cpp',
   cpp_args: cargs,
   gnu_symbol_visibility: 'hidden',
-  dependencies: iconv_dep,
+  dependencies: [fmt_dep, iconv_dep],
   include_directories: libinc,
   build_by_default: false,
 )

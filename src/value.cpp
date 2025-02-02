@@ -817,11 +817,10 @@ size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   // \note Here the date is copied in the Basic format YYYYMMDD, as the IPTC key	Iptc.Application2.DateCreated
   // wants it. Check https://exiv2.org/iptc.html
 
-  // sprintf wants to add the null terminator, so use oversized buffer
-  char temp[9];
-  auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
-  std::copy_n(temp, wrote, buf);
-  return wrote;
+  auto out = reinterpret_cast<char*>(buf);
+  auto it = stringFormatTo(out, "{:04}{:02}{:02}", date_.year, date_.month, date_.day);
+
+  return it - out;
 }
 
 const DateValue::Date& DateValue::getDate() const {
@@ -987,17 +986,16 @@ void TimeValue::setTime(const Time& src) {
 size_t TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   // NOTE: Here the time is copied in the Basic format HHMMSS:HHMM, as the IPTC key
   // Iptc.Application2.TimeCreated wants it. Check https://exiv2.org/iptc.html
-  char temp[12];
   char plusMinus = '+';
   if (time_.tzHour < 0 || time_.tzMinute < 0)
     plusMinus = '-';
 
-  const auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp),  // 11 bytes are written + \0
-                                                  "%02d%02d%02d%1c%02d%02d", time_.hour, time_.minute, time_.second,
-                                                  plusMinus, abs(time_.tzHour), abs(time_.tzMinute)));
+  auto out = reinterpret_cast<char*>(buf);
+  auto it = stringFormatTo(out, "{:02}{:02}{:02}{}{:02}{:02}", time_.hour, time_.minute, time_.second, plusMinus,
+                           std::abs(time_.tzHour), std::abs(time_.tzMinute));
 
+  auto wrote = static_cast<size_t>(it - out);
   Internal::enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
-  std::copy_n(temp, wrote, buf);
   return wrote;
 }
 

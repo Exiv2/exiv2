@@ -357,12 +357,9 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
     // 0xc0 .. 0xcf are SOFn (except 4)
     nm[0xc4] = "DHT";
     for (int i = 0; i <= 15; i++) {
-      char MN[16];
-      snprintf(MN, sizeof(MN), "APP%d", i);
-      nm[0xe0 + i] = MN;
+      nm[0xe0 + i] = stringFormat("APP{}", i);
       if (i != 4) {
-        snprintf(MN, sizeof(MN), "SOF%d", i);
-        nm[0xc0 + i] = MN;
+        nm[0xc0 + i] = stringFormat("SOF{}", i);
       }
     }
 

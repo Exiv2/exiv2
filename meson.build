@@ -55,8 +55,10 @@ deps = []
 deps += cpp.find_library('ws2_32', required: host_machine.system() == 'windows')
 deps += cpp.find_library('procstat', required: host_machine.system() == 'freebsd')
 
+fmt_dep = []
 if not cpp.has_header_symbol('format', 'std::format')
-  deps += dependency('fmt')
+  fmt_dep = dependency('fmt')
+  deps += fmt_dep
 endif
 
 brotli_dep = dependency('libbrotlidec', disabler: true, required: false)
