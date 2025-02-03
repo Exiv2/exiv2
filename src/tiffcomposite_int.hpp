@@ -366,9 +366,9 @@ struct TiffMappingInfo {
 
 //! Search key for TIFF mapping structures.
 struct TiffMappingInfo::Key {
-  std::string m_;  //!< Camera make
-  uint32_t e_;     //!< Extended tag
-  IfdId g_;        //!< %Group
+  std::string_view m_;  //!< Camera make
+  uint32_t e_;          //!< Extended tag
+  IfdId g_;             //!< %Group
 };
 
 /*!

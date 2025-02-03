@@ -35,7 +35,7 @@ class FindExifdatum2 {
 
 };  // class FindExifdatum2
 
-Exiv2::ByteOrder stringToByteOrder(const std::string& val) {
+Exiv2::ByteOrder stringToByteOrder(std::string_view val) {
   if (val == "II")
     return Exiv2::littleEndian;
   if (val == "MM")

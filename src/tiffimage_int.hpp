@@ -71,7 +71,7 @@ class TiffHeaderBase {
     @param os Output stream to write to.
     @param prefix Prefix to be written before each line of output.
    */
-  virtual void print(std::ostream& os, const std::string& prefix = "") const;
+  virtual void print(std::ostream& os, std::string_view prefix = "") const;
   //! Return the byte order (little or big endian).
   [[nodiscard]] virtual ByteOrder byteOrder() const;
   //! Return the offset to the start of the root directory.
@@ -267,7 +267,7 @@ class TiffMapping {
 
     @return Pointer to the decoder function
    */
-  static DecoderFct findDecoder(const std::string& make, uint32_t extendedTag, IfdId group);
+  static DecoderFct findDecoder(std::string_view make, uint32_t extendedTag, IfdId group);
   /*!
     @brief Find special encoder function for a key.
 
@@ -281,7 +281,7 @@ class TiffMapping {
 
     @return Pointer to the encoder function
    */
-  static EncoderFct findEncoder(const std::string& make, uint32_t extendedTag, IfdId group);
+  static EncoderFct findEncoder(std::string_view make, uint32_t extendedTag, IfdId group);
 
  private:
   static const TiffMappingInfo tiffMappingInfo_[];  //!< TIFF mapping table
