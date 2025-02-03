@@ -28,7 +28,7 @@
 // local declarations
 namespace {
 // Print version string from an intermediate string
-std::ostream& printVersion(std::ostream& os, const std::string& str) {
+std::ostream& printVersion(std::ostream& os, std::string_view str) {
   if (str.size() != 4) {
     return os << "(" << str << ")";
   }

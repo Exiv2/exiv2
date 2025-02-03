@@ -311,7 +311,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 
 }  // PngChunk::parseChunkContent
 
-std::string PngChunk::makeMetadataChunk(const std::string& metadata, MetadataId type) {
+std::string PngChunk::makeMetadataChunk(std::string_view metadata, MetadataId type) {
   std::string rawProfile;
 
   switch (type) {
@@ -362,7 +362,7 @@ void PngChunk::zlibUncompress(const byte* compressedText, unsigned int compresse
   }
 }  // PngChunk::zlibUncompress
 
-std::string PngChunk::zlibCompress(const std::string& text) {
+std::string PngChunk::zlibCompress(std::string_view text) {
   auto compressedLen = static_cast<uLongf>(text.size() * 2);  // just a starting point
   int zlibResult = Z_BUF_ERROR;
 
@@ -396,7 +396,7 @@ std::string PngChunk::zlibCompress(const std::string& text) {
 
 }  // PngChunk::zlibCompress
 
-std::string PngChunk::makeAsciiTxtChunk(const std::string& keyword, const std::string& text, bool compress) {
+std::string PngChunk::makeAsciiTxtChunk(std::string_view keyword, std::string_view text, bool compress) {
   // Chunk structure: length (4 bytes) + chunk type + chunk data + CRC (4 bytes)
   // Length is the size of the chunk data
   // CRC is calculated on chunk type + chunk data
@@ -408,7 +408,7 @@ std::string PngChunk::makeAsciiTxtChunk(const std::string& keyword, const std::s
   // Chunk data format : keyword + 0x00 + text
 
   // Build chunk data, determine chunk type
-  std::string chunkData = keyword + '\0';
+  auto chunkData = std::string(keyword) + '\0';
   std::string chunkType;
   if (compress) {
     chunkData += '\0' + zlibCompress(text);
@@ -432,7 +432,7 @@ std::string PngChunk::makeAsciiTxtChunk(const std::string& keyword, const std::s
 
 }  // PngChunk::makeAsciiTxtChunk
 
-std::string PngChunk::makeUtf8TxtChunk(const std::string& keyword, const std::string& text, bool compress) {
+std::string PngChunk::makeUtf8TxtChunk(std::string_view keyword, std::string_view text, bool compress) {
   // Chunk structure: length (4 bytes) + chunk type + chunk data + CRC (4 bytes)
   // Length is the size of the chunk data
   // CRC is calculated on chunk type + chunk data
@@ -442,13 +442,13 @@ std::string PngChunk::makeUtf8TxtChunk(const std::string& keyword, const std::st
   //                     + translated keyword (null) + 0x00 + text (compressed or not)
 
   // Build chunk data, determine chunk type
-  std::string chunkData = keyword;
+  auto chunkData = std::string(keyword);
   if (compress) {
     static const char flags[] = {0x00, 0x01, 0x00, 0x00, 0x00};
     chunkData += std::string(flags, 5) + zlibCompress(text);
   } else {
     static const char flags[] = {0x00, 0x00, 0x00, 0x00, 0x00};
-    chunkData += std::string(flags, 5) + text;
+    chunkData += std::string(flags, 5) + text.data();
   }
   // Determine length of the chunk data
   byte length[4];
@@ -574,7 +574,7 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
 
 }  // PngChunk::readRawProfile
 
-std::string PngChunk::writeRawProfile(const std::string& profileData, const char* profileType) {
+std::string PngChunk::writeRawProfile(std::string_view profileData, const char* profileType) {
   static const byte hex[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
   auto ss = stringFormat("\n{}\n{:08}", profileType, profileData.size());

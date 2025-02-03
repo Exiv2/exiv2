@@ -38,7 +38,7 @@ static std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& va
 //! Special treatment pretty-print function for non-unique lens ids.
 static std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifData* metadata);
 
-static float string_to_float(const std::string& str);
+static float string_to_float(std::string_view str);
 
 //! ModelId, tag 0x0010
 constexpr TagDetails canonModelId[] = {
@@ -2877,7 +2877,7 @@ std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifDa
  * @param str string to convert
  * @return float value of string
  */
-float string_to_float(std::string const& str) {
+float string_to_float(std::string_view str) {
   float val{};
   std::stringstream ss;
   std::locale c_locale("C");
