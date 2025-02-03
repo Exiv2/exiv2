@@ -569,11 +569,10 @@ TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
 }  // TiffSubIfd::doAddChild
 
 TiffComponent* TiffMnEntry::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = nullptr;
   if (mn_) {
-    tc = mn_->addChild(std::move(tiffComponent));
+    return mn_->addChild(std::move(tiffComponent));
   }
-  return tc;
+  return nullptr;
 }  // TiffMnEntry::doAddChild
 
 TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::UniquePtr tiffComponent) {
@@ -603,11 +602,10 @@ TiffComponent* TiffDirectory::doAddNext(TiffComponent::UniquePtr tiffComponent) 
 }  // TiffDirectory::doAddNext
 
 TiffComponent* TiffMnEntry::doAddNext(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = nullptr;
   if (mn_) {
-    tc = mn_->addNext(std::move(tiffComponent));
+    return mn_->addNext(std::move(tiffComponent));
   }
-  return tc;
+  return nullptr;
 }  // TiffMnEntry::doAddNext
 
 TiffComponent* TiffIfdMakernote::doAddNext(TiffComponent::UniquePtr tiffComponent) {
@@ -1434,21 +1432,20 @@ size_t TiffImageEntry::doSizeImage() const {
 }  // TiffImageEntry::doSizeImage
 
 static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
-  const TagInfo* result = nullptr;
   const TagInfo* tags = [=] {
     if (group == IfdId::gpsId)
       return Internal::gpsTagList();
     return group == IfdId::exifId ? Internal::exifTagList() : nullptr;
   }();
   if (!tags)
-    return result;
+    return nullptr;
 
-  for (size_t idx = 0; !result && tags[idx].tag_ != 0xffff; ++idx) {
+  for (size_t idx = 0; tags[idx].tag_ != 0xffff; ++idx) {
     if (tags[idx].tag_ == tag) {
-      result = tags + idx;
+      return tags + idx;
     }
   }
-  return result;
+  return nullptr;
 }
 
 // *************************************************************************
