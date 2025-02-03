@@ -45,7 +45,7 @@ constexpr SectionInfo sectionInfo[] = {
 }  // namespace Exiv2
 
 namespace Exiv2::Internal {
-bool TagVocabulary::operator==(const std::string& key) const {
+bool TagVocabulary::operator==(std::string_view key) const {
   return key.ends_with(voc_);
 }
 

@@ -207,8 +207,8 @@ size_t base64decode(const char* in, char* out, size_t out_size) {
 
 Protocol fileProtocol(const std::string& path) {
   Protocol result = pFile;
-  const struct {
-    std::string name;
+  constexpr struct {
+    std::string_view name;
     Protocol prot;
     bool isUrl;  // path.size() > name.size()
   } prots[] = {

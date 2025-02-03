@@ -43,7 +43,7 @@ struct TiffMnRegistry {
            same size. E.g., registry = "OLYMPUS",
            key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match.
    */
-  bool operator==(const std::string& key) const;
+  bool operator==(std::string_view key) const;
 
   //! Compare a TiffMnRegistry structure with a makernote group
   bool operator==(IfdId key) const;
@@ -71,7 +71,7 @@ class TiffMnCreator {
            is used to indicate this transfer here in order to reduce
            file dependencies.
   */
-  static std::unique_ptr<TiffComponent> create(uint16_t tag, IfdId group, const std::string& make, const byte* pData,
+  static std::unique_ptr<TiffComponent> create(uint16_t tag, IfdId group, std::string_view make, const byte* pData,
                                                size_t size, ByteOrder byteOrder);
   /*!
     @brief Create the Makernote for a given group. This method is used
