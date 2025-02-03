@@ -31,8 +31,10 @@ if ( NOT ${CMAKE_BUILD_TYPE} STREQUAL Release )
 	set (BT ${CMAKE_BUILD_TYPE})
 endif()
 
-if ( MINGW OR MSYS )
+if ( MINGW )
     set (PACKDIR MinGW)
+elseif ( MSYS )
+    set (PACKDIR MSYS)
 elseif ( MSVC )
     set (PACKDIR msvc)
 elseif ( CYGWIN )
@@ -66,8 +68,10 @@ endif()
 
 set (VS "") # VisualStudio
 if ( MSVC )
-    # VS2015 >= 1900, VS2017 >= 1910, VS2019 >= 1920
-    if     ( MSVC_VERSION GREATER  1919 )
+    # VS2015 >= 1900, VS2017 >= 1910, VS2019 >= 1920, VS2022 >= 1930
+    if     ( MSVC_VERSION GREATER  1929 )
+       set(VS 2022)
+    elseif ( MSVC_VERSION GREATER  1919 )
        set(VS 2019)
     elseif ( MSVC_VERSION GREATER  1909 )
        set(VS 2017)
