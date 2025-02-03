@@ -140,16 +140,17 @@ CiffDirectory::~CiffDirectory() {
   }
 }
 
-void CiffComponent::add(UniquePtr component) {
-  doAdd(std::move(component));
+CiffComponent* CiffComponent::add(UniquePtr component) {
+  return doAdd(std::move(component));
 }
 
-void CiffEntry::doAdd(UniquePtr /*component*/) {
+CiffComponent* CiffEntry::doAdd(UniquePtr /*component*/) {
   throw Error(ErrorCode::kerFunctionNotSupported, "CiffEntry::add");
 }  // CiffEntry::doAdd
 
-void CiffDirectory::doAdd(UniquePtr component) {
+CiffComponent* CiffDirectory::doAdd(UniquePtr component) {
   components_.push_back(component.release());
+  return components_.back();
 }  // CiffDirectory::doAdd
 
 void CiffHeader::read(const byte* pData, size_t size) {
@@ -542,39 +543,30 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
         if not found, create it
         set value
   */
-  CiffComponent* cc = nullptr;
   if (!crwDirs.empty()) {
     auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
     for (const auto& c : components_)
       if (c->tag() == dir.dir) {
-        cc = c;
-        break;
+        // Recursive call to next lower level directory
+        return c->add(crwDirs, crwTagId);
       }
-    if (!cc) {
-      // Directory doesn't exist yet, add it
-      auto m = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
-      add(std::move(m));
-      cc = components_.back();
-    }
-    // Recursive call to next lower level directory
-    return cc->add(crwDirs, crwTagId);
+
+    // Directory doesn't exist yet, add it
+    auto m = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
+    return add(std::move(m))->add(crwDirs, crwTagId);
   }
 
   // Find the tag
   for (const auto& c : components_)
     if (c->tagId() == crwTagId) {
-      cc = c;
-      break;
+      return c;
     }
-  if (!cc) {
-    // Tag doesn't exist yet, add it
-    auto m = std::make_unique<CiffEntry>(crwTagId, tag());
-    add(std::move(m));
-    cc = components_.back();
-  }
-  return cc;
+
+  // Tag doesn't exist yet, add it
+  auto m = std::make_unique<CiffEntry>(crwTagId, tag());
+  return add(std::move(m));
 }  // CiffDirectory::doAdd
 
 void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) const {
