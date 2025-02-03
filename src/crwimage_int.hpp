@@ -73,7 +73,7 @@ class CiffComponent {
   // Default assignment operator is fine
 
   //! Add a component to the composition
-  void add(UniquePtr component);
+  CiffComponent* add(UniquePtr component);
   /*!
     @brief Add \em crwTagId to the parse tree, if it doesn't exist
            yet. \em crwDirs contains the path of subdirectories, starting
@@ -231,7 +231,7 @@ class CiffComponent {
   //! @name Manipulators
   //@{
   //! Implements add()
-  virtual void doAdd(UniquePtr component) = 0;
+  virtual CiffComponent* doAdd(UniquePtr component) = 0;
   //! Implements add(). The default implementation does nothing.
   virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
   //! Implements remove(). The default implementation does nothing.
@@ -291,7 +291,7 @@ class CiffEntry : public CiffComponent {
   //@{
   using CiffComponent::doAdd;
   // See base class comment
-  void doAdd(UniquePtr component) override;
+  CiffComponent* doAdd(UniquePtr component) override;
   /*!
     @brief Implements write(). Writes only the value data of the entry,
            using writeValueData().
@@ -339,7 +339,7 @@ class CiffDirectory : public CiffComponent {
   //! @name Manipulators
   //@{
   // See base class comment
-  void doAdd(UniquePtr component) override;
+  CiffComponent* doAdd(UniquePtr component) override;
   // See base class comment
   CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId) override;
   // See base class comment
