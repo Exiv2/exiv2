@@ -532,7 +532,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
               throw Error(ErrorCode::kerInputDataReadFailed);
 
             if (bPrint) {
-              out << Internal::binaryToString(makeSlice(rawData, 0, rawData.size() > 40 ? 40 : rawData.size()));
+              out << Internal::binaryToString(makeSlice(rawData, 0, std::min<size_t>(40, rawData.size())));
               out.flush();
             }
             lf(out, bLF);

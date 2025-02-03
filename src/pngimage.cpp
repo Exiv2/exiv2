@@ -236,7 +236,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
 
       // format output
       const int iMax = 30;
-      const uint32_t blen = dataOffset > iMax ? iMax : dataOffset;
+      const auto blen = std::min<uint32_t>(iMax, dataOffset);
       std::string dataString;
       // if blen == 0 => slice construction fails
       if (blen > 0) {
@@ -319,7 +319,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
             DataBuf parsedBuf = PngChunk::readRawProfile(dataBuf, tEXt);
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << Exiv2::Internal::binaryToString(
-                             makeSlice(parsedBuf.c_data(), parsedBuf.size() > 50 ? 50 : parsedBuf.size(), 0))
+                             makeSlice(parsedBuf.c_data(), std::min<size_t>(50, parsedBuf.size()), 0))
                       << '\n';
 #endif
             if (!parsedBuf.empty()) {

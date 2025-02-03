@@ -369,8 +369,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
   // Copy colorData
   size_t readTotal = 0;
   while (readTotal < colorDataLength) {
-    size_t toRead =
-        (colorDataLength - readTotal) < lbuf.size() ? static_cast<size_t>(colorDataLength) - readTotal : lbuf.size();
+    auto toRead = std::min<size_t>(colorDataLength - readTotal, lbuf.size());
     if (io_->read(lbuf.data(), toRead) != toRead)
       throw Error(ErrorCode::kerNotAnImage, "Photoshop");
     readTotal += toRead;
@@ -483,7 +482,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
       readTotal = 0;
       while (readTotal < pResourceSize) {
         /// \todo almost same code as in lines 403-410. Factor out & reuse!
-        size_t toRead = (pResourceSize - readTotal) < lbuf.size() ? pResourceSize - readTotal : lbuf.size();
+        auto toRead = std::min<size_t>(pResourceSize - readTotal, lbuf.size());
         if (io_->read(lbuf.data(), toRead) != toRead) {
           throw Error(ErrorCode::kerNotAnImage, "Photoshop");
         }
