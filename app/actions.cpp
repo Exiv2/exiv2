@@ -182,7 +182,7 @@ static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const st
         std::string code = std::string("data:") + ascii.c_str();
         size_t length = code.size();
         for (size_t start = 0; start < length; start += chunk) {
-          size_t count = (start + chunk) < length ? chunk : length - start;
+          auto count = std::min<size_t>(chunk, length - start);
           std::cout << code.substr(start, count) << '\n';
         }
       }

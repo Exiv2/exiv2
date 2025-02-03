@@ -449,7 +449,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
           iptcDataSegs.emplace_back(io_->tell() - size, io_->tell());
         } else if (bPrint) {
           const size_t start = 2;
-          const size_t end = size > 34 ? 34 : size;
+          const auto end = std::min<size_t>(34, size);
           out << "| ";
           if (start < end)
             out << Internal::binaryToString(makeSlice(buf, start, end));
@@ -533,7 +533,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
       // print COM marker
       if (bPrint && marker == com_) {
         // size includes 2 for the two bytes for size!
-        const size_t n = (size - 2) > 32 ? 32 : size - 2;
+        const auto n = std::min<size_t>(32, size - 2);
         // start after the two bytes
         out << "| "
             << Internal::binaryToString(makeSlice(buf, 2, n + 2 /* cannot overflow as n is at most size - 2 */));
@@ -819,7 +819,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           throw Error(ErrorCode::kerTooLargeJpegSegment, "IccProfile");
         const size_t chunks = 1 + ((size - 1) / chunk_size);
         for (size_t chunk = 0; chunk < chunks; chunk++) {
-          size_t bytes = size > chunk_size ? chunk_size : size;  // bytes to write
+          auto bytes = std::min<size_t>(size, chunk_size);  // bytes to write
           size -= bytes;
 
           // write JPEG marker (2 bytes)
