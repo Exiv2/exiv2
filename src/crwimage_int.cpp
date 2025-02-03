@@ -555,8 +555,8 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
     if (!cc) {
       // Directory doesn't exist yet, add it
       auto m = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
-      cc = m.get();
       add(std::move(m));
+      cc = components_.back();
     }
     // Recursive call to next lower level directory
     return cc->add(crwDirs, crwTagId);
@@ -571,8 +571,8 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
   if (!cc) {
     // Tag doesn't exist yet, add it
     auto m = std::make_unique<CiffEntry>(crwTagId, tag());
-    cc = m.get();
     add(std::move(m));
+    cc = components_.back();
   }
   return cc;
 }  // CiffDirectory::doAdd
