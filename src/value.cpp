@@ -925,12 +925,12 @@ int TimeValue::read(const std::string& buf) {
   }
 
   auto hi = std::stoi(buf.substr(0, 2));
-  if (hi > 23)
+  if (hi < 0 || hi > 23)
     return printWarning();
   time_.hour = hi;
   if (buf.size() > 3) {
     auto mi = std::stoi(buf.substr(mpos, 2));
-    if (mi > 59)
+    if (mi < 0 || mi > 59)
       return printWarning();
     time_.minute = std::stoi(buf.substr(mpos, 2));
   } else {
@@ -938,7 +938,7 @@ int TimeValue::read(const std::string& buf) {
   }
   if (buf.size() > 5) {
     auto si = std::stoi(buf.substr(spos, 2));
-    if (si > 60)
+    if (si < 0 || si > 60)
       return printWarning();
     time_.second = std::stoi(buf.substr(spos, 2));
   } else {
@@ -955,23 +955,23 @@ int TimeValue::read(const std::string& buf) {
     if (posColon == std::string::npos) {
       // Extended format
       auto tzhi = std::stoi(format.substr(0, 3));
-      if (tzhi > 23)
+      if (tzhi < -23 || tzhi > 23)
         return printWarning();
       time_.tzHour = tzhi;
       if (format.size() > 3) {
         int minute = std::stoi(format.substr(3));
-        if (minute > 59)
+        if (minute < 0 || minute > 59)
           return printWarning();
         time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
       }
     } else {
       // Basic format
       auto tzhi = std::stoi(format.substr(0, posColon));
-      if (tzhi > 23)
+      if (tzhi < -23 || tzhi > 23)
         return printWarning();
       time_.tzHour = tzhi;
       int minute = std::stoi(format.substr(posColon + 1));
-      if (minute > 59)
+      if (minute < 0 || minute > 59)
         return printWarning();
       time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
     }
