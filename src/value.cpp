@@ -938,7 +938,7 @@ int TimeValue::read(const std::string& buf) {
   }
   if (buf.size() > 5) {
     auto si = std::stoi(buf.substr(spos, 2));
-    if (si < 0 || si > 59)
+    if (si < 0 || si > 60)
       return printWarning();
     time_.second = std::stoi(buf.substr(spos, 2));
   } else {
