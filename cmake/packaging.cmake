@@ -12,7 +12,7 @@ else()
     set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin/Linux/macOS etc use .tar.gz
 endif()
 
-set (BARCH ${CMAKE_HOST_SYSTEM_PROCESSOR}) # Target architecture
+set (BARCH ${CMAKE_SYSTEM_PROCESSOR}) # Target architecture
 if ( CMAKE_SIZEOF_VOID_P EQUAL 4 )
   # 32-bit build, force architecture
   set (BARCH "i686")
@@ -20,12 +20,12 @@ endif()
 
 set (LT "") # Library Type
 if ( NOT BUILD_SHARED_LIBS )
-	set (LT Static)
+	set (LT -Static)
 endif()
 
 set (BT "") # Build Type
 if ( NOT ${CMAKE_BUILD_TYPE} STREQUAL Release )
-	set (BT ${CMAKE_BUILD_TYPE})
+	set (BT -${CMAKE_BUILD_TYPE})
 endif()
 
 if ( MINGW )
@@ -54,13 +54,13 @@ endif()
 set (CC "") # Compiler
 if ( NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
   if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-    set (CC Clang)
+    set (CC -Clang)
   endif()
 endif()
 
 set (WR "") # WebReady
 if ( EXIV2_ENABLE_WEBREADY )
-    set (WR Webready)
+    set (WR -Webready)
 endif()
 
 set (VS "") # VisualStudio
@@ -114,7 +114,7 @@ endif()
 # Set RV = Release Version
 set(RV "Exiv2 v${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${BARCH}-${VS}${BUNDLE_NAME}${CC}${LT}${BT}${WR})
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VS}${BUNDLE_NAME}-${BARCH}${CC}${LT}${BT}${WR})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
 install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")
