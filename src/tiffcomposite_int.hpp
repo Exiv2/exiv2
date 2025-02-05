@@ -1016,18 +1016,6 @@ class TiffMnEntry : public TiffEntryBase {
       TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
   }
 
-  //! Virtual destructor
-  ~TiffMnEntry() override;
-  //@}
-
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor.
-  TiffMnEntry(const TiffMnEntry&) = delete;
-  //! Assignment operator.
-  TiffMnEntry& operator=(const TiffMnEntry&) = delete;
-  //@}
-
  protected:
   //! @name Protected Manipulators
   //@{
@@ -1063,8 +1051,8 @@ class TiffMnEntry : public TiffEntryBase {
 
  private:
   // DATA
-  IfdId mnGroup_;        //!< New group for concrete mn
-  TiffComponent* mn_{};  //!< The Makernote
+  IfdId mnGroup_;                      //!< New group for concrete mn
+  std::unique_ptr<TiffComponent> mn_;  //!< The Makernote
 };
 
 /*!
@@ -1083,9 +1071,9 @@ class TiffIfdMakernote : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor
-  TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, MnHeader* pHeader, bool hasNext = true);
+  TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, std::unique_ptr<MnHeader> pHeader, bool hasNext = true);
   //! Virtual destructor
-  ~TiffIfdMakernote() override;
+  ~TiffIfdMakernote() override = default;
   //@}
 
   /*!
@@ -1211,7 +1199,7 @@ class TiffIfdMakernote : public TiffComponent {
 
  private:
   // DATA
-  MnHeader* pHeader_;                           //!< Makernote header
+  std::unique_ptr<MnHeader> pHeader_;           //!< Makernote header
   TiffDirectory ifd_;                           //!< Makernote IFD
   size_t mnOffset_{};                           //!< Makernote offset
   ByteOrder imageByteOrder_{invalidByteOrder};  //!< Byte order for the image
