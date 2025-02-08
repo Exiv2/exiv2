@@ -56,7 +56,7 @@ DataBuf Cr2Header::write() const {
   return buf;
 }  // Cr2Header::write
 
-bool Cr2Header::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* /*pPrimaryGroups*/) const {
+bool Cr2Header::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& /*pPrimaryGroups*/) const {
   // CR2 image tags are all IFD2 and IFD3 tags
   if (group == IfdId::ifd2Id || group == IfdId::ifd3Id)
     return true;

@@ -123,7 +123,7 @@ void TiffFinder::visitBinaryElement(TiffBinaryElement* object) {
 }
 
 TiffCopier::TiffCopier(TiffComponent* pRoot, uint32_t root, const TiffHeaderBase* pHeader,
-                       const PrimaryGroups* pPrimaryGroups) :
+                       const PrimaryGroups& pPrimaryGroups) :
     pRoot_(pRoot), root_(root), pHeader_(pHeader), pPrimaryGroups_(pPrimaryGroups) {
 }
 
@@ -440,7 +440,7 @@ void TiffDecoder::visitBinaryElement(TiffBinaryElement* object) {
 }
 
 TiffEncoder::TiffEncoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
-                         const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+                         const bool isNewImage, const PrimaryGroups& pPrimaryGroups, const TiffHeaderBase* pHeader,
                          FindEncoderFct findEncoderFct) :
     exifData_(exifData),
     iptcData_(iptcData),

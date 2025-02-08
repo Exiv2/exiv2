@@ -2061,7 +2061,7 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
   auto primaryGroups = findPrimaryGroups(parsedTree);
   if (parsedTree) {
     // Attempt to update existing TIFF components based on metadata entries
-    TiffEncoder encoder(exifData, iptcData, xmpData, parsedTree.get(), false, &primaryGroups, pHeader, findEncoderFct);
+    TiffEncoder encoder(exifData, iptcData, xmpData, parsedTree.get(), false, primaryGroups, pHeader, findEncoderFct);
     parsedTree->accept(encoder);
     if (!encoder.dirty())
       writeMethod = wmNonIntrusive;
@@ -2070,11 +2070,11 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
     auto createdTree = TiffCreator::create(root, IfdId::ifdIdNotSet);
     if (parsedTree) {
       // Copy image tags from the original image to the composite
-      TiffCopier copier(createdTree.get(), root, pHeader, &primaryGroups);
+      TiffCopier copier(createdTree.get(), root, pHeader, primaryGroups);
       parsedTree->accept(copier);
     }
     // Add entries from metadata to composite
-    TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, &primaryGroups, pHeader,
+    TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, primaryGroups, pHeader,
                         findEncoderFct);
     encoder.add(createdTree.get(), parsedTree.get(), root);
     // Write binary representation from the composite tree
@@ -2228,7 +2228,7 @@ uint16_t TiffHeaderBase::tag() const {
   return tag_;
 }
 
-bool TiffHeaderBase::isImageTag(uint16_t /*tag*/, IfdId /*group*/, const PrimaryGroups* /*primaryGroups*/) const {
+bool TiffHeaderBase::isImageTag(uint16_t /*tag*/, IfdId /*group*/, const PrimaryGroups& /*primaryGroups*/) const {
   return false;
 }
 
@@ -2327,7 +2327,7 @@ TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags) 
     TiffHeaderBase(42, 8, byteOrder, offset), hasImageTags_(hasImageTags) {
 }
 
-bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const {
+bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& pPrimaryGroups) const {
   if (!hasImageTags_) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "No image tags in this image\n";
@@ -2338,8 +2338,8 @@ bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPri
   ExifKey key(tag, groupName(group));
 #endif
   // If there are primary groups and none matches group, we're done
-  if (pPrimaryGroups && !pPrimaryGroups->empty() &&
-      std::find(pPrimaryGroups->begin(), pPrimaryGroups->end(), group) == pPrimaryGroups->end()) {
+  if (!pPrimaryGroups.empty() &&
+      std::find(pPrimaryGroups.begin(), pPrimaryGroups.end(), group) == pPrimaryGroups.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Not an image tag: " << key << " (1)\n";
 #endif
@@ -2347,7 +2347,7 @@ bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPri
   }
   // All tags of marked primary groups other than IFD0 are considered
   // image tags. That should take care of NEFs until we know better.
-  if (pPrimaryGroups && !pPrimaryGroups->empty() && group != IfdId::ifd0Id) {
+  if (!pPrimaryGroups.empty() && group != IfdId::ifd0Id) {
 #ifdef EXIV2_DEBUG_MESSAGES
     ExifKey key(tag, groupName(group));
     std::cerr << "Image tag: " << key << " (2)\n";
