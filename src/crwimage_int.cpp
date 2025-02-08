@@ -134,22 +134,16 @@ const CrwSubDir CrwMap::crwSubDir_[] = {
 CiffComponent::CiffComponent(uint16_t tag, uint16_t dir) : dir_(dir), tag_(tag) {
 }
 
-CiffDirectory::~CiffDirectory() {
-  for (auto&& component : components_) {
-    delete component;
-  }
-}
-
-CiffComponent* CiffComponent::add(UniquePtr component) {
+const CiffComponent::UniquePtr& CiffComponent::add(UniquePtr component) {
   return doAdd(std::move(component));
 }
 
-CiffComponent* CiffEntry::doAdd(UniquePtr /*component*/) {
+const CiffComponent::UniquePtr& CiffEntry::doAdd(UniquePtr /*component*/) {
   throw Error(ErrorCode::kerFunctionNotSupported, "CiffEntry::add");
 }  // CiffEntry::doAdd
 
-CiffComponent* CiffDirectory::doAdd(UniquePtr component) {
-  components_.push_back(component.release());
+const CiffComponent::UniquePtr& CiffDirectory::doAdd(UniquePtr component) {
+  components_.push_back(std::move(component));
   return components_.back();
 }  // CiffDirectory::doAdd
 
@@ -517,20 +511,20 @@ void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf&& buf) {
   if (!pRootDir_) {
     pRootDir_ = std::make_unique<CiffDirectory>();
   }
-  if (auto child = pRootDir_->add(crwDirs, crwTagId)) {
+  if (const auto& child = pRootDir_->add(crwDirs, crwTagId)) {
     child->setValue(std::move(buf));
   }
 }  // CiffHeader::add
 
-CiffComponent* CiffComponent::add(CrwDirs& crwDirs, uint16_t crwTagId) {
+const CiffComponent::UniquePtr& CiffComponent::add(CrwDirs& crwDirs, uint16_t crwTagId) {
   return doAdd(crwDirs, crwTagId);
 }  // CiffComponent::add
 
-CiffComponent* CiffComponent::doAdd(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/) {
-  return nullptr;
+const CiffComponent::UniquePtr& CiffComponent::doAdd(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/) {
+  throw Error(ErrorCode::kerFunctionNotSupported, "CiffEntry::doAdd");
 }  // CiffComponent::doAdd
 
-CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
+const CiffComponent::UniquePtr& CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
   /*
     add()
       if stack not empty
@@ -602,7 +596,6 @@ void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId) {
     // Find the tag
     auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == crwTagId; });
     if (it != components_.end()) {
-      delete *it;
       components_.erase(it);
     }
   }

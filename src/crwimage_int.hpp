@@ -54,7 +54,7 @@ class CiffComponent {
   //! CiffComponent auto_ptr type
   using UniquePtr = std::unique_ptr<CiffComponent>;
   //! Container type to hold all metadata
-  using Components = std::vector<CiffComponent*>;
+  using Components = std::vector<UniquePtr>;
 
   //! @name Creators
   //@{
@@ -62,8 +62,6 @@ class CiffComponent {
   CiffComponent() = default;
   //! Constructor taking a tag and directory
   CiffComponent(uint16_t tag, uint16_t dir);
-  CiffComponent(const CiffComponent&) = delete;
-  CiffComponent& operator=(const CiffComponent&) = delete;
   //! Virtual destructor.
   virtual ~CiffComponent() = default;
   //@}
@@ -73,7 +71,7 @@ class CiffComponent {
   // Default assignment operator is fine
 
   //! Add a component to the composition
-  CiffComponent* add(UniquePtr component);
+  const UniquePtr& add(UniquePtr component);
   /*!
     @brief Add \em crwTagId to the parse tree, if it doesn't exist
            yet. \em crwDirs contains the path of subdirectories, starting
@@ -87,7 +85,7 @@ class CiffComponent {
 
     @return A pointer to the newly added component.
    */
-  CiffComponent* add(CrwDirs& crwDirs, uint16_t crwTagId);
+  const UniquePtr& add(CrwDirs& crwDirs, uint16_t crwTagId);
   /*!
     @brief Remove \em crwTagId from the parse tree, if it exists yet. \em
            crwDirs contains the path of subdirectories, starting with the
@@ -231,9 +229,9 @@ class CiffComponent {
   //! @name Manipulators
   //@{
   //! Implements add()
-  virtual CiffComponent* doAdd(UniquePtr component) = 0;
+  virtual const UniquePtr& doAdd(UniquePtr component) = 0;
   //! Implements add(). The default implementation does nothing.
-  virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
+  virtual const UniquePtr& doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
   //! Implements remove(). The default implementation does nothing.
   virtual void doRemove(CrwDirs& crwDirs, uint16_t crwTagId);
   //! Implements read(). The default implementation reads a directory entry.
@@ -291,7 +289,7 @@ class CiffEntry : public CiffComponent {
   //@{
   using CiffComponent::doAdd;
   // See base class comment
-  CiffComponent* doAdd(UniquePtr component) override;
+  const UniquePtr& doAdd(UniquePtr component) override;
   /*!
     @brief Implements write(). Writes only the value data of the entry,
            using writeValueData().
@@ -312,15 +310,6 @@ class CiffDirectory : public CiffComponent {
   using CiffComponent::CiffComponent;
 
  public:
-  //! @name Creators
-  //@{
-  //! Virtual destructor
-  ~CiffDirectory() override;
-  //@}
-
-  CiffDirectory(const CiffDirectory&) = delete;
-  CiffDirectory& operator=(const CiffDirectory&) = delete;
-
   //! @name Manipulators
   //@{
   // Default assignment operator is fine
@@ -339,9 +328,9 @@ class CiffDirectory : public CiffComponent {
   //! @name Manipulators
   //@{
   // See base class comment
-  CiffComponent* doAdd(UniquePtr component) override;
+  const UniquePtr& doAdd(UniquePtr component) override;
   // See base class comment
-  CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId) override;
+  const UniquePtr& doAdd(CrwDirs& crwDirs, uint16_t crwTagId) override;
   // See base class comment
   void doRemove(CrwDirs& crwDirs, uint16_t crwTagId) override;
   /*!
