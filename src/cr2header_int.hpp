@@ -37,7 +37,7 @@ class Cr2Header : public TiffHeaderBase {
   //! @name Accessors
   //@{
   [[nodiscard]] DataBuf write() const override;
-  bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
+  bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& pPrimaryGroups) const override;
   //@}
 
   //! Return the address of offset2 from the start of the header

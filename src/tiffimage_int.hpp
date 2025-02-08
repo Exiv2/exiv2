@@ -94,7 +94,7 @@ class TiffHeaderBase {
 
     @return The default implementation returns \c false.
    */
-  virtual bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const;
+  virtual bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& pPrimaryGroups) const;
   //@}
 
  private:
@@ -120,7 +120,7 @@ class TiffHeader : public TiffHeaderBase {
   //@}
   //@{
   //! @name Accessors
-  bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
+  bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& pPrimaryGroups) const override;
   //@}
 
  private:
