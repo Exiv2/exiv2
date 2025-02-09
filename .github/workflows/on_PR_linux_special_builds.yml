@@ -68,7 +68,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y valgrind ninja-build
+          sudo eatmydata apt-get -y update
+          sudo eatmydata apt-get -y install valgrind ninja-build
           python3 -m pip install conan==1.*
 
       - name: Conan common config
@@ -159,7 +160,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y valgrind doxygen graphviz gettext ninja-build
+          sudo eatmydata apt-get -y update
+          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build
           python3 -m pip install conan==1.*
 
       - name: Conan common config
