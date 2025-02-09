@@ -5,6 +5,7 @@
 
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 
@@ -179,9 +180,7 @@ std::string ExifKey::Impl::tagName() const {
   if (tagInfo_ && tagInfo_->tag_ != 0xffff) {
     return tagInfo_->name_;
   }
-  std::ostringstream os;
-  os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << tag_;
-  return os.str();
+  return stringFormat("0x{:04x}", tag_);
 }
 
 void ExifKey::Impl::decomposeKey(const std::string& key) {
@@ -332,22 +331,22 @@ int ExifKey::idx() const {
 // free functions
 
 std::ostream& operator<<(std::ostream& os, const TagInfo& ti) {
-  std::ios::fmtflags f(os.flags());
   ExifKey exifKey(ti);
-  os << exifKey.tagName() << "," << std::dec << exifKey.tag() << ","
-     << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << exifKey.tag() << ","
-     << exifKey.groupName() << "," << exifKey.key() << "," << TypeInfo::typeName(exifKey.defaultTypeId()) << ",";
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
-  char Q = '"';
-  os << Q;
+  std::string escapedDesc;
+  escapedDesc.push_back('"');
   for (char c : exifKey.tagDesc()) {
-    if (c == Q)
-      os << Q;
-    os << c;
+    if (c == '"') {
+      escapedDesc += "\"\"";
+    } else {
+      escapedDesc += c;
+    }
   }
-  os << Q;
-  os.flags(f);
-  return os;
+  escapedDesc.push_back('"');
+
+  return os << stringFormat("{},{},0x{:04x},{},{},{},{}", exifKey.tagName(), exifKey.tag(), exifKey.tag(),
+                            exifKey.groupName(), exifKey.key(), TypeInfo::typeName(exifKey.defaultTypeId()),
+                            escapedDesc);
 }
 
 }  // namespace Exiv2
