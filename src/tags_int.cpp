@@ -2625,10 +2625,7 @@ uint16_t tagNumber(const std::string& tagName, IfdId ifdId) {
     return ti->tag_;
   if (!isHex(tagName, 4, "0x"))
     throw Error(ErrorCode::kerInvalidTag, tagName, ifdId);
-  std::istringstream is(tagName);
-  uint16_t tag = 0;
-  is >> std::hex >> tag;
-  return tag;
+  return std::stoi(tagName, nullptr, 16);
 }  // tagNumber
 
 std::ostream& printInt64(std::ostream& os, const Value& value, const ExifData*) {

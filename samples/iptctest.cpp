@@ -86,7 +86,7 @@ void processAdd(const std::string& line, int num, IptcData& iptcData) {
 
   std::string data(line.substr(dataStart));
   // if data starts and ends with quotes, remove them
-  if (data.front() == '\"' && data.back() == '\"') {
+  if (data.front() == '"' && data.back() == '"') {
     data = data.substr(1, data.size() - 2);
   }
   TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
@@ -133,7 +133,7 @@ void processModify(const std::string& line, int num, IptcData& iptcData) {
 
   std::string data(line.substr(dataStart));
   // if data starts and ends with quotes, remove them
-  if (data.front() == '\"' && data.back() == '\"') {
+  if (data.front() == '"' && data.back() == '"') {
     data = data.substr(1, data.size() - 2);
   }
   TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());

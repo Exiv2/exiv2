@@ -7,6 +7,7 @@
 // included header files
 #include "casiomn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
@@ -151,13 +152,7 @@ const TagInfo* CasioMakerNote::tagList() {
 }
 
 std::ostream& CasioMakerNote::print0x0006(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << value.toInt64() / 1000.0 << _(" m");
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", value.toInt64() / 1000.0);
 }
 
 std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, const ExifData*) {
@@ -488,18 +483,10 @@ std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value,
 }
 
 std::ostream& Casio2MakerNote::print0x2022(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.toInt64() >= 0x20000000) {
-    os << N_("Inf");
-    os.flags(f);
-    return os;
+    return os << N_("Inf");
   }
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << value.toInt64() / 1000.0 << _(" m");
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", value.toInt64() / 1000.0);
 }
 
 }  // namespace Exiv2::Internal

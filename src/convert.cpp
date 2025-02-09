@@ -742,11 +742,13 @@ void Converter::cnvExifVersion(const char* from, const char* to) {
     return;
   if (!prepareXmpTarget(to))
     return;
-  std::ostringstream value;
-  for (size_t i = 0; i < pos->count(); ++i) {
-    value << static_cast<char>(pos->toInt64(i));
+  auto count = pos->count();
+  std::string value;
+  value.reserve(count);
+  for (size_t i = 0; i < count; ++i) {
+    value += static_cast<char>(pos->toInt64(i));
   }
-  (*xmpData_)[to] = value.str();
+  (*xmpData_)[to] = value;
   if (erase_)
     exifData_->erase(pos);
 }
@@ -757,13 +759,13 @@ void Converter::cnvExifGPSVersion(const char* from, const char* to) {
     return;
   if (!prepareXmpTarget(to))
     return;
-  std::ostringstream value;
+  std::string value;
   for (size_t i = 0; i < pos->count(); ++i) {
     if (i > 0)
-      value << '.';
-    value << pos->toInt64(i);
+      value += '.';
+    value += std::to_string(pos->toInt64(i));
   }
-  (*xmpData_)[to] = value.str();
+  (*xmpData_)[to] = value;
   if (erase_)
     exifData_->erase(pos);
 }
@@ -826,9 +828,7 @@ void Converter::cnvExifGPSCoord(const char* from, const char* to) {
   double min = (deg[0] * 60.0) + deg[1] + (deg[2] / 60.0);
   auto ideg = static_cast<int>(min / 60.0);
   min -= ideg * 60;
-  std::ostringstream oss;
-  oss << ideg << "," << std::fixed << std::setprecision(7) << min << refPos->toString().c_str()[0];
-  (*xmpData_)[to] = oss.str();
+  (*xmpData_)[to] = stringFormat("{},{:.7f}{}", ideg, min, refPos->toString().front());
 
   if (erase_)
     exifData_->erase(pos);
@@ -883,7 +883,7 @@ void Converter::cnvXmpArray(const char* from, const char* to) {
   auto pos = xmpData_->findKey(XmpKey(from));
   if (pos == xmpData_->end())
     return;
-  std::ostringstream array;
+  std::string array;
   for (size_t i = 0; i < pos->count(); ++i) {
     std::string value = pos->toString(i);
     if (!pos->value().ok()) {
@@ -892,11 +892,11 @@ void Converter::cnvXmpArray(const char* from, const char* to) {
 #endif
       return;
     }
-    array << value;
+    array += value;
     if (i != pos->count() - 1)
-      array << " ";
+      array += " ";
   }
-  (*exifData_)[to] = array.str();
+  (*exifData_)[to] = array;
   if (erase_)
     xmpData_->erase(pos);
 }
@@ -997,12 +997,9 @@ void Converter::cnvXmpVersion(const char* from, const char* to) {
 #endif
     return;
   }
-  std::ostringstream array;
 
-  array << static_cast<int>(value[0]) << " " << static_cast<int>(value[1]) << " " << static_cast<int>(value[2]) << " "
-        << static_cast<int>(value[3]);
-
-  (*exifData_)[to] = array.str();
+  (*exifData_)[to] = stringFormat("{} {} {} {}", static_cast<int>(value[0]), static_cast<int>(value[1]),
+                                  static_cast<int>(value[2]), static_cast<int>(value[3]));
   if (erase_)
     xmpData_->erase(pos);
 }
@@ -1234,7 +1231,7 @@ void Converter::cnvXmpValueToIptc(const char* from, const char* to) {
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 std::string Converter::computeExifDigest(bool tiff) {
-  std::ostringstream res;
+  std::string res;
   MD5_CTX context;
   unsigned char digest[16];
 
@@ -1247,9 +1244,9 @@ std::string Converter::computeExifDigest(bool tiff) {
       if (!tiff && key.groupName() == "Image")
         continue;
 
-      if (!res.str().empty())
-        res << ',';
-      res << key.tag();
+      if (!res.empty())
+        res += ',';
+      res += key.tag();
       auto pos = exifData_->findKey(key);
       if (pos == exifData_->end())
         continue;
@@ -1259,12 +1256,11 @@ std::string Converter::computeExifDigest(bool tiff) {
     }
   }
   MD5Final(digest, &context);
-  res << ';';
-  res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
+  res += ';';
   for (const auto& i : digest) {
-    res << static_cast<int>(i);
+    res += stringFormat("{:02X}", i);
   }
-  return res.str();
+  return res;
 }
 #else
 std::string Converter::computeExifDigest(bool) {

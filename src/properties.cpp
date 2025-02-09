@@ -5,6 +5,7 @@
 
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "metadatum.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
@@ -5232,19 +5233,21 @@ void XmpKey::Impl::decomposeKey(const std::string& key) {
 // *************************************************************************
 // free functions
 std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& property) {
-  os << property.name_ << "," << property.title_ << "," << property.xmpValueType_ << ","
-     << TypeInfo::typeName(property.typeId_) << "," << (property.xmpCategory_ == xmpExternal ? "External" : "Internal")
-     << ",";
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
-  char Q = '"';
-  os << Q;
-  for (size_t i = 0; i < ::strlen(property.desc_); i++) {
-    char c = property.desc_[i];
-    if (c == Q)
-      os << Q;
-    os << c;
+  std::string escapedDesc;
+  escapedDesc.push_back('"');
+  for (char c : std::string_view(property.desc_)) {
+    if (c == '"')
+      escapedDesc += "\"\"";
+    else
+      escapedDesc.push_back(c);
   }
-  os << Q << '\n';
+  escapedDesc.push_back('"');
+
+  os << stringFormat("{},{},{},{},{},{}\n", property.name_, property.title_, property.xmpValueType_,
+                     TypeInfo::typeName(property.typeId_),
+                     (property.xmpCategory_ == xmpExternal ? "External" : "Internal"), escapedDesc);
+
   return os;
 }
 //! @endcond
