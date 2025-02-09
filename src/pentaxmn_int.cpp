@@ -914,54 +914,36 @@ std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& va
 
 std::ostream& PentaxMakerNote::printDate(std::ostream& os, const Value& value, const ExifData*) {
   /* I choose same format as is used inside EXIF itself */
-  os << stringFormat("{}:{:02}:{:02}", ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1)),
-                     value.toInt64(2), value.toInt64(3));
-  return os;
+  return os << stringFormat("{}:{:02}:{:02}", ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1)),
+                            value.toInt64(2), value.toInt64(3));
 }
 
 std::ostream& PentaxMakerNote::printTime(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << stringFormat("{:02}:{:02}:{:02}", value.toInt64(0), value.toInt64(1), value.toInt64(2));
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:02}:{:02}:{:02}", value.toInt64(0), value.toInt64(1), value.toInt64(2));
 }
 
 std::ostream& PentaxMakerNote::printExposure(std::ostream& os, const Value& value, const ExifData*) {
-  os << static_cast<float>(value.toInt64()) / 100 << " ms";
-  return os;
+  return os << stringFormat("{} ms", static_cast<float>(value.toInt64()) / 100);
 }
 
 std::ostream& PentaxMakerNote::printFValue(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << "F" << std::setprecision(2) << static_cast<float>(value.toInt64()) / 10;
-  os.flags(f);
-  return os;
+  return os << stringFormat("F{:.2}", static_cast<float>(value.toInt64()) / 10);
 }
 
 std::ostream& PentaxMakerNote::printFocalLength(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::fixed << std::setprecision(1) << static_cast<float>(value.toInt64()) / 100 << " mm";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.1f} mm", static_cast<float>(value.toInt64()) / 100);
 }
 
 std::ostream& PentaxMakerNote::printCompensation(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::setprecision(2) << (static_cast<float>(value.toInt64()) - 50) / 10 << " EV";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2} EV", (static_cast<float>(value.toInt64()) - 50) / 10);
 }
 
 std::ostream& PentaxMakerNote::printTemperature(std::ostream& os, const Value& value, const ExifData*) {
-  os << value.toInt64() << " C";
-  return os;
+  return os << stringFormat("{} C", value.toInt64());
 }
 
 std::ostream& PentaxMakerNote::printFlashCompensation(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::setprecision(2) << static_cast<float>(value.toInt64()) / 256 << " EV";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2} EV", static_cast<float>(value.toInt64()) / 256);
 }
 
 std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& value, const ExifData*) {

@@ -6,6 +6,7 @@
 #include "config.h"
 #include "enforce.hpp"
 #include "exif.hpp"
+#include "image_int.hpp"
 #include "iptc.hpp"
 #include "makernote_int.hpp"
 #include "photoshop.hpp"
@@ -394,19 +395,18 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
 
   for (const auto& [tag, size, bSigned] : records) {
     const TagInfo* pTags = ExifTags::tagList("Canon");
-    const TagInfo* pTag = findTag(pTags, tag);
-    if (pTag) {
+    if (auto pTag = findTag(pTags, tag)) {
       auto v = Exiv2::Value::create(bSigned ? Exiv2::signedShort : Exiv2::unsignedShort);
-      std::ostringstream s;
+      std::string s;
       if (bSigned) {
         for (uint16_t k = 0; k < size; k++)
-          s << " " << ints.at(nStart++);
+          s += stringFormat(" {}", ints.at(nStart++));
       } else {
         for (uint16_t k = 0; k < size; k++)
-          s << " " << uint.at(nStart++);
+          s += stringFormat(" {}", uint.at(nStart++));
       }
 
-      v->read(s.str());
+      v->read(s);
       exifData_[familyGroup + pTag->name_] = *v;
     }
   }

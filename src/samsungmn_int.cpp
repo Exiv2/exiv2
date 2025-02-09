@@ -3,6 +3,7 @@
 // included header files
 #include "samsungmn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
@@ -61,20 +62,14 @@ static std::ostream& printCameraTemperature(std::ostream& os, const Value& value
 
 //! Print the 35mm focal length
 static std::ostream& printFocalLength35(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedLong) {
     return os << value;
   }
-  if (auto length = value.toInt64(); length == 0) {
-    os << _("Unknown");
-  } else {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << length / 10.0 << " mm";
-    os.copyfmt(oss);
+  auto length = value.toInt64();
+  if (length == 0) {
+    return os << _("Unknown");
   }
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.1f} mm", length / 10.0);
 }
 
 // Samsung MakerNote Tag Info

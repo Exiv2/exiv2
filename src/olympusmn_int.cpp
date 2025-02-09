@@ -6,6 +6,7 @@
 
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "utils.hpp"
@@ -1275,19 +1276,13 @@ std::ostream& OlympusMakerNote::print0x0200(std::ostream& os, const Value& value
 }  // OlympusMakerNote::print0x0200
 
 std::ostream& OlympusMakerNote::print0x0204(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags of(os.flags());
   if (value.count() == 0 || value.toRational().second == 0) {
     return os << "(" << value << ")";
   }
   float f = value.toFloat();
   if (f == 0.0F || f == 1.0F)
     return os << _("None");
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << f << "x";
-  os.copyfmt(oss);
-  os.flags(of);
-  return os;
+  return os << stringFormat("{:.1f}x", f);
 }  // OlympusMakerNote::print0x0204
 
 std::ostream& OlympusMakerNote::print0x1015(std::ostream& os, const Value& value, const ExifData*) {
@@ -1632,24 +1627,15 @@ std::ostream& OlympusMakerNote::print0x1209(std::ostream& os, const Value& value
 
 // Olympus FocusDistance 0x0305
 std::ostream& OlympusMakerNote::print0x0305(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedRational) {
-    os.flags(f);
     return os << value;
   }
 
   auto [r, s] = value.toRational();
   if (static_cast<uint32_t>(r) == 0xffffffff) {
-    os << _("Infinity");
-  } else {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2);
-    os << static_cast<float>(r) / 1000 << " m";
-    os.copyfmt(oss);
+    return os << _("Infinity");
   }
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", static_cast<float>(r) / 1000);
 }
 
 // Olympus FocusInfo tag 0x0308 AFPoint
