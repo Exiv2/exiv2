@@ -5,6 +5,7 @@
 
 #include "config.h"
 #include "enforce.hpp"
+#include "image_int.hpp"
 #include "utils.hpp"
 
 // + standard includes
@@ -240,7 +241,7 @@ bool fileExists(const std::string& path) {
 
 std::string strError() {
   int error = errno;
-  std::ostringstream os;
+  std::string os;
 #ifdef EXV_HAVE_STRERROR_R
   const size_t n = 1024;
 #ifdef EXV_STRERROR_R_CHAR_P
@@ -251,17 +252,16 @@ std::string strError() {
   const int ret = strerror_r(error, buf, n);
   Internal::enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
 #endif
-  os << buf;
+  os = buf;
   // Issue# 908.
   // report strerror() if strerror_r() returns empty
-  if (!buf[0]) {
-    os << strerror(error);
+  if (os.empty()) {
+    os = std::strerror(error);
   }
 #else
-  os << std::strerror(error);
+  os = std::strerror(error);
 #endif
-  os << " (errno = " << error << ")";
-  return os.str();
+  return stringFormat("{} (errno = {})", os, error);
 }  // strError
 
 void Uri::Decode(Uri& uri) {

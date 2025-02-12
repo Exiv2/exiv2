@@ -622,13 +622,9 @@ std::ostream& PanasonicMakerNote::print0x0023(std::ostream& os, const Value& val
 
 // Time since power on
 std::ostream& PanasonicMakerNote::print0x0029(std::ostream& os, const Value& value, const ExifData*) {
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  const auto time = value.toInt64();
-  os << stringFormat("{:02}:{:02}:{:02}.{:02}", time / 360000, (time % 360000) / 6000, (time % 6000) / 100, time % 100);
-  os.copyfmt(oss);
-
-  return os;
+  auto time = value.toInt64();
+  return os << stringFormat("{:02}:{:02}:{:02}.{:02}", time / 360000, (time % 360000) / 6000, (time % 6000) / 100,
+                            time % 100);
 
 }  // PanasonicMakerNote::print0x0029
 
