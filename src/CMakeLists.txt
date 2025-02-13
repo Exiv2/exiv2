@@ -317,7 +317,7 @@ set(requires_private_for_pc_file
 
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
-install(TARGETS exiv2lib EXPORT exiv2Export)
+install(TARGETS exiv2lib EXPORT exiv2Targets)
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
@@ -327,7 +327,7 @@ configure_package_config_file(
 install(FILES ${PUBLIC_HEADERS} ${CMAKE_BINARY_DIR}/exv_conf.h ${CMAKE_BINARY_DIR}/exiv2lib_export.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
 install(
-  EXPORT exiv2Export
+  EXPORT exiv2Targets
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
   NAMESPACE Exiv2::
 )
