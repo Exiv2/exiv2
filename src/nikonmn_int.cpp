@@ -2857,6 +2857,7 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
        "SP 70-200mm F/2.8 Di VC USD"},
       {0xE2, 0x47, 0x5C, 0x80, 0x24, 0x24, 0xDF, 0x4E, 0x00, 0x00, 0x00, "Tamron", "A025",
        "SP 70-200mm F/2.8 Di VC USD G2"},
+      {0xCD, 0x47, 0x5C, 0x82, 0x31, 0x31, 0xDF, 0x4E, 0x00, 0x00, 0x00, "Tamron", "A034", "70-210mm F/4 Di VC USD"},
       // M                                         "Tamron" "67D"    "SP AF 70-210mm f/2.8 LD";
       // M                                         "Tamron" ""       "AF 70-210mm F/3.5-4.5";
       // M                                         "Tamron" "158D"   "AF 70-210mm F/4-5.6";
