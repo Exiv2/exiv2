@@ -70,8 +70,9 @@ TiffSubIfd::TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup) :
     TiffEntryBase(tag, group, ttUnsignedLong), newGroup_(newGroup) {
 }
 
-TiffIfdMakernote::TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, MnHeader* pHeader, bool hasNext) :
-    TiffComponent(tag, group), pHeader_(pHeader), ifd_(tag, mnGroup, hasNext) {
+TiffIfdMakernote::TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, std::unique_ptr<MnHeader> pHeader,
+                                   bool hasNext) :
+    TiffComponent(tag, group), pHeader_(std::move(pHeader)), ifd_(tag, mnGroup, hasNext) {
 }
 
 TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg& arrayCfg, const ArrayDef* arrayDef,
@@ -103,14 +104,6 @@ TiffSubIfd::~TiffSubIfd() {
 
 TiffEntryBase::~TiffEntryBase() {
   delete pValue_;
-}
-
-TiffMnEntry::~TiffMnEntry() {
-  delete mn_;
-}
-
-TiffIfdMakernote::~TiffIfdMakernote() {
-  delete pHeader_;
 }
 
 TiffBinaryArray::~TiffBinaryArray() {
@@ -673,7 +666,6 @@ void TiffMnEntry::doAccept(TiffVisitor& visitor) {
   if (mn_)
     mn_->accept(visitor);
   if (!visitor.go(TiffVisitor::geKnownMakernote)) {
-    delete mn_;
     mn_ = nullptr;
   }
 

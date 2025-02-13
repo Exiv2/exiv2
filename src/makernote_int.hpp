@@ -28,10 +28,10 @@ std::string readExiv2Config(const std::string& section, const std::string& value
 // class definitions
 
 //! Type for a pointer to a function creating a makernote (image)
-using NewMnFct = TiffComponent* (*)(uint16_t, IfdId, IfdId, const byte*, size_t, ByteOrder);
+using NewMnFct = std::unique_ptr<TiffComponent> (*)(uint16_t, IfdId, IfdId, const byte*, size_t, ByteOrder);
 
 //! Type for a pointer to a function creating a makernote (group)
-using NewMnFct2 = TiffComponent* (*)(uint16_t tag, IfdId group, IfdId mnGroup);
+using NewMnFct2 = std::unique_ptr<TiffComponent> (*)(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Makernote registry structure
 struct TiffMnRegistry {
@@ -71,13 +71,13 @@ class TiffMnCreator {
            is used to indicate this transfer here in order to reduce
            file dependencies.
   */
-  static TiffComponent* create(uint16_t tag, IfdId group, const std::string& make, const byte* pData, size_t size,
-                               ByteOrder byteOrder);
+  static std::unique_ptr<TiffComponent> create(uint16_t tag, IfdId group, const std::string& make, const byte* pData,
+                                               size_t size, ByteOrder byteOrder);
   /*!
     @brief Create the Makernote for a given group. This method is used
            when a makernote is written back from Exif tags.
    */
-  static TiffComponent* create(uint16_t tag, IfdId group, IfdId mnGroup);
+  static std::unique_ptr<TiffComponent> create(uint16_t tag, IfdId group, IfdId mnGroup);
 
   ~TiffMnCreator() = default;
   //! Prevent destruction (needed if used as a policy class)
@@ -502,93 +502,96 @@ class Casio2MnHeader : public MnHeader {
 // template, inline and free functions
 
 //! Function to create a simple IFD makernote (Canon, Minolta, Nikon1)
-TiffComponent* newIfdMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size, ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newIfdMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                        ByteOrder byteOrder);
 
 //! Function to create a simple IFD makernote (Canon, Minolta, Nikon1)
-TiffComponent* newIfdMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newIfdMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create an Olympus makernote
-TiffComponent* newOlympusMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                            ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newOlympusMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                            ByteOrder byteOrder);
 
 //! Function to create an Olympus makernote
-TiffComponent* newOlympusMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newOlympusMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create an Olympus II makernote
-TiffComponent* newOlympus2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newOlympus2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create an OM Digital Solutions makernote
-TiffComponent* newOMSystemMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                             ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newOMSystemMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                             ByteOrder byteOrder);
 
 //! Function to create an OM Digital Solutions makernote
-TiffComponent* newOMSystemMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newOMSystemMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Fujifilm makernote
-TiffComponent* newFujiMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size, ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newFujiMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                         ByteOrder byteOrder);
 
 //! Function to create a Fujifilm makernote
-TiffComponent* newFujiMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newFujiMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 /*!
   @brief Function to create a Nikon makernote. This will create the
          appropriate Nikon 1, 2 or 3 makernote, based on the arguments.
  */
-TiffComponent* newNikonMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                          ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newNikonMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                          ByteOrder byteOrder);
 
 //! Function to create a Nikon2 makernote
-TiffComponent* newNikon2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newNikon2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Nikon3 makernote
-TiffComponent* newNikon3Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newNikon3Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Panasonic makernote
-TiffComponent* newPanasonicMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                              ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newPanasonicMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                              ByteOrder byteOrder);
 
 //! Function to create a Panasonic makernote
-TiffComponent* newPanasonicMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newPanasonicMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create an Pentax makernote
-TiffComponent* newPentaxMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                           ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newPentaxMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                           ByteOrder byteOrder);
 
 //! Function to create an Pentax makernote
-TiffComponent* newPentaxMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newPentaxMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create an Pentax DNG makernote
-TiffComponent* newPentaxDngMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newPentaxDngMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Samsung makernote
-TiffComponent* newSamsungMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                            ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newSamsungMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                            ByteOrder byteOrder);
 
 //! Function to create a Samsung makernote
-TiffComponent* newSamsungMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newSamsungMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Sigma makernote
-TiffComponent* newSigmaMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                          ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newSigmaMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                          ByteOrder byteOrder);
 
 //! Function to create a Sigma makernote
-TiffComponent* newSigmaMn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newSigmaMn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Sony makernote
-TiffComponent* newSonyMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size, ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newSonyMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                         ByteOrder byteOrder);
 
 //! Function to create a Sony1 makernote
-TiffComponent* newSony1Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newSony1Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Sony2 makernote
-TiffComponent* newSony2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newSony2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 //! Function to create a Casio2 makernote
-TiffComponent* newCasioMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                          ByteOrder byteOrder);
+std::unique_ptr<TiffComponent> newCasioMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                          ByteOrder byteOrder);
 
 //! Function to create a Casio2 makernote
-TiffComponent* newCasio2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
+std::unique_ptr<TiffComponent> newCasio2Mn2(uint16_t tag, IfdId group, IfdId mnGroup);
 
 /*!
   @brief Function to select cfg + def of the Sony Camera Settings complex binary array.
