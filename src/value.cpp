@@ -111,12 +111,10 @@ int DataValue::read(const std::string& buf) {
   std::istringstream is(buf);
   int tmp = 0;
   ValueType val;
-  while (!(is.eof())) {
-    is >> tmp;
-    if (is.fail())
-      return 1;
+  while (is >> tmp)
     val.push_back(static_cast<byte>(tmp));
-  }
+  if (!is.eof())
+    return 1;
   value_.swap(val);
   return 0;
 }
