@@ -3271,7 +3271,7 @@ std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*
   }
 
   std::string stringValue = value.toString();
-  if (stringValue.size() == 20 && stringValue.at(19) == 'Z') {
+  if (stringValue.size() == 20 && stringValue.back() == 'Z') {
     stringValue.pop_back();
   }
   std::replace(stringValue.begin(), stringValue.end(), 'T', ' ');
