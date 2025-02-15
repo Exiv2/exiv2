@@ -133,11 +133,9 @@ DataValue* DataValue::clone_() const {
 }
 
 std::ostream& DataValue::write(std::ostream& os) const {
-  size_t end = value_.size();
-  for (size_t i = 0; i != end; ++i) {
-    os << static_cast<int>(value_.at(i));
-    if (i < end - 1)
-      os << " ";
+  if (!value_.empty()) {
+    std::copy(value_.begin(), value_.end() - 1, std::ostream_iterator<int>(os, " "));
+    os << static_cast<int>(value_.back());
   }
   return os;
 }
