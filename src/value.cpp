@@ -141,10 +141,8 @@ std::ostream& DataValue::write(std::ostream& os) const {
 }
 
 std::string DataValue::toString(size_t n) const {
-  std::ostringstream os;
-  os << static_cast<int>(value_.at(n));
-  ok_ = !os.fail();
-  return os.str();
+  ok_ = true;
+  return std::to_string(value_.at(n));
 }
 
 int64_t DataValue::toInt64(size_t n) const {
