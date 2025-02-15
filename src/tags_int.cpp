@@ -2526,7 +2526,7 @@ const TagInfo* tagInfo(uint16_t tag, IfdId ifdId) {
       if (ti[idx].tag_ == tag)
         break;
     }
-    return &ti[idx];
+    return ti + idx;
   }
   return nullptr;
 }  // tagInfo
@@ -2535,10 +2535,9 @@ const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
   if (tagName.empty())
     return nullptr;
   if (auto ti = tagList(ifdId)) {
-    const char* tn = tagName.c_str();
     for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-      if (0 == strcmp(ti[idx].name_, tn)) {
-        return &ti[idx];
+      if (tagName == ti[idx].name_) {
+        return ti + idx;
       }
     }
   }
