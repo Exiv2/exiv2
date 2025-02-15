@@ -5032,8 +5032,8 @@ const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key) {
   std::string property = key.tagName();
   // If property is a path for a nested property, determines the innermost element
   if (auto i = property.find_last_of('/'); i != std::string::npos) {
-    for (; i != std::string::npos && !isalpha(property.at(i)); ++i) {
-    }
+    while (!std::isalpha(property.at(i)))
+      ++i;
     property = property.substr(i);
     i = property.find_first_of(':');
     if (i != std::string::npos) {
@@ -5046,15 +5046,13 @@ const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key) {
   }
   const XmpPropertyInfo* pl = propertyList(prefix);
   if (!pl)
-    return nullptr;
-  const XmpPropertyInfo* pi = nullptr;
-  for (int j = 0; pl[j].name_; ++j) {
+    return pl;
+  for (size_t j = 0; pl[j].name_; ++j) {
     if (property == pl[j].name_) {
-      pi = pl + j;
-      break;
+      return pl + j;
     }
   }
-  return pi;
+  return nullptr;
 }
 
 /// \todo not used internally. At least we should test it
