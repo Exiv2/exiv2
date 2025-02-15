@@ -5044,17 +5044,14 @@ const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key) {
     std::cout << "Nested key: " << key.key() << ", prefix: " << prefix << ", property: " << property << "\n";
 #endif
   }
-  const XmpPropertyInfo* pl = propertyList(prefix);
-  if (!pl)
-    return nullptr;
-  const XmpPropertyInfo* pi = nullptr;
-  for (int j = 0; pl[j].name_; ++j) {
-    if (property == pl[j].name_) {
-      pi = pl + j;
-      break;
+  if (auto pl = propertyList(prefix)) {
+    for (size_t j = 0; pl[j].name_; ++j) {
+      if (property == pl[j].name_) {
+        return pl + j;
+      }
     }
   }
-  return pi;
+  return nullptr;
 }
 
 /// \todo not used internally. At least we should test it
