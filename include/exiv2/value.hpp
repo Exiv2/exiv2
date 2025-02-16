@@ -1481,7 +1481,6 @@ template <typename T>
 ValueType<T>& ValueType<T>::operator=(const ValueType<T>& rhs) {
   if (this == &rhs)
     return *this;
-  Value::operator=(rhs);
   value_ = rhs.value_;
 
   byte* tmp = nullptr;
