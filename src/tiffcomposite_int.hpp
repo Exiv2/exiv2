@@ -19,21 +19,21 @@ namespace Internal {
 // class definitions
 
 //! TIFF value type.
-using TiffType = uint16_t;
-
-const TiffType ttUnsignedByte = 1;      //!< Exif BYTE type
-const TiffType ttAsciiString = 2;       //!< Exif ASCII type
-const TiffType ttUnsignedShort = 3;     //!< Exif SHORT type
-const TiffType ttUnsignedLong = 4;      //!< Exif LONG type
-const TiffType ttUnsignedRational = 5;  //!< Exif RATIONAL type
-const TiffType ttSignedByte = 6;        //!< Exif SBYTE type
-const TiffType ttUndefined = 7;         //!< Exif UNDEFINED type
-const TiffType ttSignedShort = 8;       //!< Exif SSHORT type
-const TiffType ttSignedLong = 9;        //!< Exif SLONG type
-const TiffType ttSignedRational = 10;   //!< Exif SRATIONAL type
-const TiffType ttTiffFloat = 11;        //!< TIFF FLOAT type
-const TiffType ttTiffDouble = 12;       //!< TIFF DOUBLE type
-const TiffType ttTiffIfd = 13;          //!< TIFF IFD type
+enum TiffType : uint16_t {
+  ttUnsignedByte = 1,      //!< Exif BYTE type
+  ttAsciiString = 2,       //!< Exif ASCII type
+  ttUnsignedShort = 3,     //!< Exif SHORT type
+  ttUnsignedLong = 4,      //!< Exif LONG type
+  ttUnsignedRational = 5,  //!< Exif RATIONAL type
+  ttSignedByte = 6,        //!< Exif SBYTE type
+  ttUndefined = 7,         //!< Exif UNDEFINED type
+  ttSignedShort = 8,       //!< Exif SSHORT type
+  ttSignedLong = 9,        //!< Exif SLONG type
+  ttSignedRational = 10,   //!< Exif SRATIONAL type
+  ttTiffFloat = 11,        //!< TIFF FLOAT type
+  ttTiffDouble = 12,       //!< TIFF DOUBLE type
+  ttTiffIfd = 13,          //!< TIFF IFD type
+};
 
 //! Convert the \em tiffType of a \em tag and \em group to an Exiv2 \em typeId.
 TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group);
