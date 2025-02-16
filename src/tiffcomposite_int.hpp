@@ -385,7 +385,7 @@ class TiffEntryBase : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor.
-  constexpr TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined) :
+  TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined) :
       TiffComponent(tag, group), tiffType_(tiffType) {
   }
 
@@ -428,13 +428,13 @@ class TiffEntryBase : public TiffComponent {
                    you should pass std::shared_ptr<DataBuf>(), which is essentially
                    a nullptr.
    */
-  void setData(byte* pData, size_t size, std::shared_ptr<DataBuf> storage);
+  void setData(byte* pData, size_t size, const DataBuf& storage);
   /*!
     @brief Set the entry's data buffer. A shared_ptr is used to manage the DataBuf
            because TiffEntryBase has a clone method so it is possible (in theory) for
            the DataBuf to have multiple owners.
    */
-  void setData(std::shared_ptr<DataBuf> buf);
+  void setData(const DataBuf& buf);
   /*!
    @brief Update the value. Takes ownership of the pointer passed in.
 
@@ -534,7 +534,7 @@ class TiffEntryBase : public TiffComponent {
   static size_t writeOffset(byte* buf, size_t offset, TiffType tiffType, ByteOrder byteOrder);
 
   //! Used (internally) to create another reference to the DataBuf reference by storage_.
-  [[nodiscard]] std::shared_ptr<DataBuf> storage() const {
+  [[nodiscard]] const DataBuf& storage() const {
     return storage_;
   }
 
@@ -559,7 +559,7 @@ class TiffEntryBase : public TiffComponent {
   // Otherwise, it remains empty. It is wrapped in a shared_ptr because
   // TiffEntryBase has a clone method, which could lead to the DataBuf
   // having multiple owners.
-  std::shared_ptr<DataBuf> storage_;
+  DataBuf storage_;
 };
 
 /*!
@@ -567,12 +567,7 @@ class TiffEntryBase : public TiffComponent {
  */
 class TiffEntry : public TiffEntryBase {
  public:
-  //! @name Creators
-  //@{
-  //! Constructor
-  constexpr TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
-  }
-  //@}
+  using TiffEntryBase::TiffEntryBase;
 
  protected:
   //! @name Manipulators
@@ -780,7 +775,7 @@ class TiffSizeEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  constexpr TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
+  TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
       TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
   }
 
@@ -1012,8 +1007,7 @@ class TiffMnEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Default constructor
-  constexpr TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
-      TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
+  TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) : TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
   }
 
  protected:

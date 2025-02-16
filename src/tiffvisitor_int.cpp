@@ -1319,7 +1319,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     v->read(pData, size, byteOrder());
 
     object->setValue(std::move(v));
-    auto d = std::make_shared<DataBuf>();
+    DataBuf d;
     object->setData(pData, size, std::move(d));
     object->setOffset(offset);
     object->setIdx(nextIdx(object->group()));
@@ -1363,8 +1363,8 @@ void TiffReader::visitBinaryArray(TiffBinaryArray* object) {
   if (auto cryptFct = cfg->cryptFct_) {
     const byte* pData = object->pData();
     size_t size = object->TiffEntryBase::doSize();
-    auto buf = std::make_shared<DataBuf>(cryptFct(object->tag(), pData, size, pRoot_));
-    if (!buf->empty())
+    auto buf = DataBuf(cryptFct(object->tag(), pData, size, pRoot_));
+    if (!buf.empty())
       object->setData(std::move(buf));
   }
 
