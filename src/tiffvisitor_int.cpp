@@ -1233,7 +1233,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     }
     // Component already has tag
     p += 2;
-    TiffType tiffType = getUShort(p, byteOrder());
+    auto tiffType = static_cast<TiffType>(getUShort(p, byteOrder()));
     TypeId typeId = toTypeId(tiffType, object->tag(), object->group());
     size_t typeSize = TypeInfo::typeSize(typeId);
     if (0 == typeSize) {

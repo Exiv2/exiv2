@@ -1473,9 +1473,9 @@ TiffType toTiffType(TypeId typeId) {
     EXV_ERROR << "'" << TypeInfo::typeName(typeId) << "' is not a valid Exif (TIFF) type; using type '"
               << TypeInfo::typeName(undefined) << "'.\n";
 #endif
-    return undefined;
+    return ttUndefined;
   }
-  return static_cast<uint16_t>(typeId);
+  return static_cast<TiffType>(typeId);
 }
 
 bool cmpTagLt(const std::unique_ptr<TiffComponent>& lhs, const std::unique_ptr<TiffComponent>& rhs) {
