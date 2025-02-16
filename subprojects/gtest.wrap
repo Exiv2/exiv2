@@ -1,13 +1,13 @@
 [wrap-file]
-directory = googletest-1.15.0
-source_url = https://github.com/google/googletest/archive/refs/tags/v1.15.0.tar.gz
-source_filename = gtest-1.15.0.tar.gz
-source_hash = 7315acb6bf10e99f332c8a43f00d5fbb1ee6ca48c52f6b936991b216c586aaad
-patch_filename = gtest_1.15.0-1_patch.zip
-patch_url = https://wrapdb.mesonbuild.com/v2/gtest_1.15.0-1/get_patch
-patch_hash = 5f8e484c48fdc1029c7fd08807bd2615f8c9d16f90df6d81984f4f292752c925
-source_fallback_url = https://github.com/mesonbuild/wrapdb/releases/download/gtest_1.15.0-1/gtest-1.15.0.tar.gz
-wrapdb_version = 1.15.0-1
+directory = googletest-1.15.2
+source_url = https://github.com/google/googletest/archive/refs/tags/v1.15.2.tar.gz
+source_filename = gtest-1.15.2.tar.gz
+source_hash = 7b42b4d6ed48810c5362c265a17faebe90dc2373c885e5216439d37927f02926
+patch_filename = gtest_1.15.2-1_patch.zip
+patch_url = https://wrapdb.mesonbuild.com/v2/gtest_1.15.2-1/get_patch
+patch_hash = b41cba05fc61d47b2ba5bf95732eb86ce2b67303f291b68a9587b7563c318141
+source_fallback_url = https://github.com/mesonbuild/wrapdb/releases/download/gtest_1.15.2-1/gtest-1.15.2.tar.gz
+wrapdb_version = 1.15.2-1
 
 [provide]
 gtest = gtest_dep
