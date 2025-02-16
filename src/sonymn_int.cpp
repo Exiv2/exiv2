@@ -1208,17 +1208,11 @@ std::ostream& SonyMakerNote::printWBShiftABGMPrecise(std::ostream& os, const Val
 
 std::ostream& SonyMakerNote::printExposureStandardAdjustment(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1 || value.typeId() != signedRational) {
-    os << "(" << value << ")";
-    return os;
+    return os << "(" << value << ")";
   }
 
-  std::ios::fmtflags f(os.flags());
-
   const auto [r, s] = value.toRational();
-  os << std::fixed << std::setprecision(1) << (static_cast<double>(r) / static_cast<double>(s));
-  os.flags(f);
-
-  return os;
+  return os << stringFormat("{:.1f}", static_cast<double>(r) / static_cast<double>(s));
 }
 
 std::ostream& SonyMakerNote::printPixelShiftInfo(std::ostream& os, const Value& value, const ExifData*) {

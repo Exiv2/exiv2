@@ -622,13 +622,9 @@ std::ostream& PanasonicMakerNote::print0x0023(std::ostream& os, const Value& val
 
 // Time since power on
 std::ostream& PanasonicMakerNote::print0x0029(std::ostream& os, const Value& value, const ExifData*) {
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  const auto time = value.toInt64();
-  os << stringFormat("{:02}:{:02}:{:02}.{:02}", time / 360000, (time % 360000) / 6000, (time % 6000) / 100, time % 100);
-  os.copyfmt(oss);
-
-  return os;
+  auto time = value.toInt64();
+  return os << stringFormat("{:02}:{:02}:{:02}.{:02}", time / 360000, (time % 360000) / 6000, (time % 6000) / 100,
+                            time % 100);
 
 }  // PanasonicMakerNote::print0x0029
 
@@ -699,23 +695,13 @@ std::ostream& PanasonicMakerNote::printAccelerometer(std::ostream& os, const Val
 std::ostream& PanasonicMakerNote::printRollAngle(std::ostream& os, const Value& value, const ExifData*) {
   // value is stored as unsigned int, but should be read as int16_t.
   const auto i = static_cast<int16_t>(value.toInt64());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << i / 10.0;
-  os.copyfmt(oss);
-
-  return os;
+  return os << stringFormat("{:.1f}", i / 10.0);
 }  // PanasonicMakerNote::printRollAngle
 
 std::ostream& PanasonicMakerNote::printPitchAngle(std::ostream& os, const Value& value, const ExifData*) {
   // value is stored as unsigned int, but should be read as int16_t.
   const auto i = static_cast<int16_t>(value.toInt64());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << -i / 10.0;
-  os.copyfmt(oss);
-
-  return os;
+  return os << stringFormat("{:.1f}", -i / 10.0);
 }  // PanasonicMakerNote::printPitchAngle
 
 // Panasonic MakerNote Tag Info

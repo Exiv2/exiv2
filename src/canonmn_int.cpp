@@ -11,6 +11,7 @@
 #include "error.hpp"
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
@@ -2760,11 +2761,8 @@ const TagInfo* CanonMakerNote::tagListTi() {
 }
 
 std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& value, const ExifData* metadata) {
-  std::ios::fmtflags f(os.flags());
   if (!metadata || value.typeId() != unsignedLong || value.count() == 0) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
+    return os << "(" << value << ")";
   }
 
   auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
@@ -2776,11 +2774,7 @@ std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& v
   if (Internal::contains(model, "20D") || Internal::contains(model, "350D") ||
       model.substr(model.size() - 8, 8) == "REBEL XT" || Internal::contains(model, "Kiss Digital N")) {
     uint32_t val = value.toUint32();
-    uint32_t dn = (val & 0xffc0) >> 6;
-    uint32_t fn = ((val >> 16) & 0xff) + ((val & 0x3f) << 8);
-    os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
-    os.flags(f);
-    return os;
+    return os << stringFormat("{}-{:04}", (val & 0xffc0) >> 6, ((val >> 16) & 0xff) + ((val & 0x3f) << 8));
   }
   if (Internal::contains(model, "30D") || Internal::contains(model, "400D") || Internal::contains(model, "REBEL XTi") ||
       Internal::contains(model, "Kiss Digital X") || Internal::contains(model, "K236")) {
@@ -2788,20 +2782,14 @@ std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& v
     uint32_t dn = (val & 0xffc00) >> 10;
     while (dn < 100)
       dn += 0x40;
-    uint32_t fn = ((val & 0x3ff) << 4) + ((val >> 20) & 0x0f);
-    os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
-    os.flags(f);
-    return os;
+    return os << stringFormat("{}-{:04}", dn, ((val & 0x3ff) << 4) + ((val >> 20) & 0x0f));
   }
 
-  os.flags(f);
   return os << "(" << value << ")";
 }
 
 std::ostream& CanonMakerNote::printFocalLength(std::ostream& os, const Value& value, const ExifData* metadata) {
-  std::ios::fmtflags f(os.flags());
   if (!metadata || value.count() < 4 || value.typeId() != unsignedShort) {
-    os.flags(f);
     return os << value;
   }
 
@@ -2810,18 +2798,10 @@ std::ostream& CanonMakerNote::printFocalLength(std::ostream& os, const Value& va
   if (pos != metadata->end() && pos->value().count() >= 3 && pos->value().typeId() == unsignedShort) {
     float fu = pos->value().toFloat(2);
     if (fu != 0.0F) {
-      float fl = value.toFloat(1) / fu;
-      std::ostringstream oss;
-      oss.copyfmt(os);
-      os << std::fixed << std::setprecision(1);
-      os << fl << " mm";
-      os.copyfmt(oss);
-      os.flags(f);
-      return os;
+      return os << stringFormat("{:.1f} mm", value.toFloat(1) / fu);
     }
   }
 
-  os.flags(f);
   return os << value;
 }
 
@@ -2833,16 +2813,11 @@ std::ostream& CanonMakerNote::print0x0008(std::ostream& os, const Value& value, 
 }
 
 std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
-  std::istringstream is(value.toString());
-  uint32_t l = 0;
-  is >> l;
-  return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
-            << std::setfill('0') << std::dec << (l & 0x0000ffff);
+  uint32_t l = std::stoul(value.toString());
+  return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
 }
 
 std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, const ExifData* exifData) {
-  std::istringstream is(value.toString());
-
   if (!exifData) {
     return os << value;
   }
@@ -2851,10 +2826,8 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
   auto pos = exifData->findKey(key);
   // if model is EOS D30
   if (pos != exifData->end() && pos->value().count() == 1 && pos->value().toInt64() == 0x01140000) {
-    uint32_t l = 0;
-    is >> l;
-    return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
-              << std::setfill('0') << std::dec << (l & 0x0000ffff);
+    uint32_t l = std::stoul(value.toString());
+    return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
   }
   return os << value;
 }
@@ -3028,12 +3001,8 @@ std::ostream& CanonMakerNote::printCsLensType(std::ostream& os, const Value& val
 }
 
 std::ostream& CanonMakerNote::printCsLens(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-
   if (value.count() < 3 || value.typeId() != unsignedShort) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
+    return os << "(" << value << ")";
   }
 
   float fu = value.toFloat(2);
@@ -3041,49 +3010,33 @@ std::ostream& CanonMakerNote::printCsLens(std::ostream& os, const Value& value, 
     return os << value;
   float len1 = value.toInt64(0) / fu;
   float len2 = value.toInt64(1) / fu;
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1);
   if (len1 == len2) {
-    os << len1 << " mm";
-  } else {
-    os << len2 << " - " << len1 << " mm";
+    return os << stringFormat("{:.1f} mm", len1);
   }
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.1f} - {:.1f} mm", len2, len1);
 }
 
 std::ostream& CanonMakerNote::printLe0x0000(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() != unsignedByte || value.size() != 5)
     return os << "(" << value << ")";
-  std::ios::fmtflags f(os.flags());
-  std::ostringstream oss;
-  oss.copyfmt(os);
   for (size_t i = 0; i < value.size(); ++i) {
-    os << std::setw(2) << std::setfill('0') << std::hex << value.toInt64(i);
+    os << stringFormat("{:02x}", value.toInt64(i));
   }
-  os.copyfmt(oss);
-  os.flags(f);
   return os;
 }
 
 std::ostream& CanonMakerNote::printSi0x0001(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() == unsignedShort && value.count() > 0) {
     os << std::pow(2.0F, canonEv(value.toInt64()) / 32) * 100.0F;
   }
-  os.flags(f);
   return os;
 }
 
 std::ostream& CanonMakerNote::printSi0x0002(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() == unsignedShort && value.count() > 0) {
     // Ported from Exiftool by Will Stokes
     os << std::pow(2.0F, canonEv(value.toInt64())) * 100.0F / 32.0F;
   }
-  os.flags(f);
   return os;
 }
 
@@ -3093,11 +3046,8 @@ std::ostream& CanonMakerNote::printSi0x0003(std::ostream& os, const Value& value
     // It might be explained by the fact, that most Canons have a longest
     // exposure of 30s which is 5 EV below 1s
     // see also printSi0x0017
-    std::ostringstream oss;
-    oss.copyfmt(os);
     auto res = std::lround(100.0 * (static_cast<short>(value.toInt64()) / 32.0 + 5.0));
-    os << std::fixed << std::setprecision(2) << res / 100.0;
-    os.copyfmt(oss);
+    os << stringFormat("{:.2f}", res / 100.0);
   }
   return os;
 }
@@ -3143,35 +3093,26 @@ std::ostream& CanonMakerNote::printSi0x000e(std::ostream& os, const Value& value
 }
 
 std::ostream& CanonMakerNote::printSi0x0013(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
   if (auto l = value.toInt64(); l == 0xffff) {
-    os << "Infinite";
-  } else {
-    os << value.toInt64() / 100.0 << " m";
+    return os << "Infinite";
   }
-  os.flags(f);
-  return os;
+  return os << value.toInt64() / 100.0 << " m";
 }
 
 std::ostream& CanonMakerNote::printSi0x0015(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
   const auto val = static_cast<int16_t>(value.toInt64());
   if (val < 0)
     return os << value;
-  os << std::setprecision(2) << "F" << fnumber(canonEv(val));
-  os.copyfmt(oss);
-  return os;
+  return os << stringFormat("F{:.2}", fnumber(canonEv(val)));
 }
 
 std::ostream& CanonMakerNote::printSi0x0016(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
@@ -3180,19 +3121,13 @@ std::ostream& CanonMakerNote::printSi0x0016(std::ostream& os, const Value& value
   if (r > 1) {
     os << "/" << r;
   }
-  os.flags(f);
   return os << " s";
 }
 
 std::ostream& CanonMakerNote::printSi0x0017(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
-
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << (value.toInt64() / 8.0) - 6.0;
-  os.copyfmt(oss);
-  return os;
+  return os << stringFormat("{:.2f}", (value.toInt64() / 8.0) - 6.0);
 }
 
 std::ostream& CanonMakerNote::printSi0x0018(std::ostream& os, const Value& value, const ExifData*) {
@@ -3200,23 +3135,13 @@ std::ostream& CanonMakerNote::printSi0x0018(std::ostream& os, const Value& value
 }
 
 std::ostream& CanonMakerNote::printFiFocusDistance(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() != signedShort || value.count() == 0)
     return os << value;
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2);
-
   if (auto l = value.toInt64(); l == -1) {
-    os << "Infinite";
-  } else {
-    os << value.toInt64() / 100.0 << " m";
+    return os << "Infinite";
   }
-
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", value.toInt64() / 100.0);
 }
 
 // *****************************************************************************

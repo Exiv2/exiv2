@@ -1511,14 +1511,12 @@ int ValueType<T>::read(const byte* buf, size_t len, ByteOrder byteOrder) {
 template <typename T>
 int ValueType<T>::read(const std::string& buf) {
   std::istringstream is(buf);
-  T tmp = T();
+  T tmp;
   ValueList val;
-  while (!(is.eof())) {
-    is >> tmp;
-    if (is.fail())
-      return 1;
+  while (is >> tmp)
     val.push_back(tmp);
-  }
+  if (!is.eof())
+    return 1;
   value_.swap(val);
   return 0;
 }

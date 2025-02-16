@@ -5,6 +5,7 @@
 #include "enforce.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 
 #include <algorithm>
 #include <ctime>
@@ -414,10 +415,8 @@ void CiffComponent::print(std::ostream& os, ByteOrder byteOrder, const std::stri
 }
 
 void CiffComponent::doPrint(std::ostream& os, ByteOrder byteOrder, const std::string& prefix) const {
-  os << prefix << _("tag") << " = 0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << tagId() << ", "
-     << _("dir") << " = 0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << dir() << ", " << _("type")
-     << " = " << TypeInfo::typeName(typeId()) << ", " << _("size") << " = " << std::dec << size_ << ", " << _("offset")
-     << " = " << offset_ << "\n";
+  os << stringFormat("{}{} = 0x{:04x}, {} = 0x{:04x}, {} = {}, {} = {}, {} = {}\n", prefix, _("tag"), tagId(), _("dir"),
+                     dir(), _("type"), TypeInfo::typeName(typeId()), _("size"), size_, _("offset"), offset_);
 
   if (typeId() != directory) {
     auto value = Value::create(typeId());
