@@ -488,11 +488,9 @@ enum audioDescTags { AudioFormat, AudioVendorID = 4, AudioChannels, AudioSampleR
   @param str char* Pointer to string
   @return Returns true if the buffer value is equal to string.
  */
-static bool equalsQTimeTag(Exiv2::DataBuf& buf, const char* str) {
-  for (int i = 0; i < 4; ++i)
-    if (tolower(buf.data()[i]) != tolower(str[i]))
-      return false;
-  return true;
+static bool equalsQTimeTag(Exiv2::DataBuf& buf, const char str[5]) {
+  return std::equal(buf.begin(), buf.begin() + 4, str,
+                    [](auto b, auto s) { return std::tolower(b) == std::tolower(s); });
 }
 
 /*!
