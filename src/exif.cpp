@@ -156,7 +156,7 @@ Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue) : key_(key.clone()
     value_ = pValue->clone();
 }
 
-Exifdatum::Exifdatum(const Exifdatum& rhs) : Metadatum(rhs) {
+Exifdatum::Exifdatum(const Exifdatum& rhs) {
   if (rhs.key_)
     key_ = rhs.key_->clone();  // deep copy
   if (rhs.value_)
