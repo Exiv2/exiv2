@@ -9,7 +9,7 @@
 
 class Params : public Util::Getopt {
  private:
-  std::string optstring_;
+  std::string optstring_{":iecxaph"};
   bool first_{true};
 
  public:
@@ -21,12 +21,6 @@ class Params : public Util::Getopt {
   bool preserve_{false};  //!< Preserve existing metadata option flag.
   std::string read_;      //!< Source file
   std::string write_;     //!< Destination file
-
-  /*!
-    @brief Default constructor. Note that optstring_ is initialized here.
-   */
-  Params() : optstring_(":iecxaph") {
-  }
 
   /*!
     @brief Call Getopt::getopt() with optstring, to initiate command line
