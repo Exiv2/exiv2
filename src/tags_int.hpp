@@ -45,8 +45,8 @@ struct StringTagDetails {
   const char* label_;  //!< Translation of the tag value
 
   //! Comparison operator for use with the find template
-  bool operator==(const std::string& key) const {
-    return (key == val_);
+  bool operator==(std::string_view key) const {
+    return key == val_;
   }
 };  // struct TagDetails
 
@@ -80,7 +80,7 @@ struct TagVocabulary {
     "http://ns.useplus.org/ldf/vocab/PR-NON" and return true if the vocabulary
     string matches the end of the key.
    */
-  bool operator==(const std::string& key) const;
+  bool operator==(std::string_view key) const;
 };  // struct TagDetails
 
 /*!

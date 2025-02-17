@@ -129,7 +129,7 @@ const TiffMnRegistry TiffMnCreator::registry_[] = {
     {"-", IfdId::casio2Id, nullptr, newCasio2Mn2},
 };
 
-bool TiffMnRegistry::operator==(const std::string& key) const {
+bool TiffMnRegistry::operator==(std::string_view key) const {
   if (!key.empty() && key.front() == '-')
     return false;
   return key.starts_with(make_);
@@ -139,7 +139,7 @@ bool TiffMnRegistry::operator==(IfdId key) const {
   return mnGroup_ == key;
 }
 
-std::unique_ptr<TiffComponent> TiffMnCreator::create(uint16_t tag, IfdId group, const std::string& make,
+std::unique_ptr<TiffComponent> TiffMnCreator::create(uint16_t tag, IfdId group, std::string_view make,
                                                      const byte* pData, size_t size, ByteOrder byteOrder) {
   if (auto tmr = Exiv2::find(registry_, make))
     return tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);

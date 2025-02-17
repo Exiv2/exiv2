@@ -35,7 +35,7 @@ class FindExifdatum2 {
 
 };  // class FindExifdatum2
 
-Exiv2::ByteOrder stringToByteOrder(const std::string& val) {
+Exiv2::ByteOrder stringToByteOrder(std::string_view val) {
   if (val == "II")
     return Exiv2::littleEndian;
   if (val == "MM")
@@ -1236,7 +1236,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     }
     // Component already has tag
     p += 2;
-    TiffType tiffType = getUShort(p, byteOrder());
+    auto tiffType = static_cast<TiffType>(getUShort(p, byteOrder()));
     TypeId typeId = toTypeId(tiffType, object->tag(), object->group());
     size_t typeSize = TypeInfo::typeSize(typeId);
     if (0 == typeSize) {

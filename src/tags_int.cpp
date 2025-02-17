@@ -28,7 +28,7 @@
 // local declarations
 namespace {
 // Print version string from an intermediate string
-std::ostream& printVersion(std::ostream& os, const std::string& str) {
+std::ostream& printVersion(std::ostream& os, std::string_view str) {
   if (str.size() != 4) {
     return os << "(" << str << ")";
   }
@@ -2526,7 +2526,7 @@ const TagInfo* tagInfo(uint16_t tag, IfdId ifdId) {
       if (ti[idx].tag_ == tag)
         break;
     }
-    return &ti[idx];
+    return ti + idx;
   }
   return nullptr;
 }  // tagInfo
@@ -2535,10 +2535,9 @@ const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
   if (tagName.empty())
     return nullptr;
   if (auto ti = tagList(ifdId)) {
-    const char* tn = tagName.c_str();
     for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-      if (0 == strcmp(ti[idx].name_, tn)) {
-        return &ti[idx];
+      if (tagName == ti[idx].name_) {
+        return ti + idx;
       }
     }
   }
@@ -3274,7 +3273,7 @@ std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*
   }
 
   std::string stringValue = value.toString();
-  if (stringValue.size() == 20 && stringValue.at(19) == 'Z') {
+  if (stringValue.size() == 20 && stringValue.back() == 'Z') {
     stringValue.pop_back();
   }
   std::replace(stringValue.begin(), stringValue.end(), 'T', ' ');

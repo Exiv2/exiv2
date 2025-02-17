@@ -557,23 +557,20 @@ TiffComponent* TiffComponent::doAddChild(UniquePtr /*tiffComponent*/) {
 }  // TiffComponent::doAddChild
 
 TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = tiffComponent.release();
-  components_.push_back(tc);
-  return tc;
+  components_.push_back(tiffComponent.release());
+  return components_.back();
 }  // TiffDirectory::doAddChild
 
 TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  auto d = dynamic_cast<TiffDirectory*>(tiffComponent.release());
-  ifds_.push_back(d);
-  return d;
+  ifds_.push_back(dynamic_cast<TiffDirectory*>(tiffComponent.release()));
+  return ifds_.back();
 }  // TiffSubIfd::doAddChild
 
 TiffComponent* TiffMnEntry::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = nullptr;
   if (mn_) {
-    tc = mn_->addChild(std::move(tiffComponent));
+    return mn_->addChild(std::move(tiffComponent));
   }
-  return tc;
+  return nullptr;
 }  // TiffMnEntry::doAddChild
 
 TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::UniquePtr tiffComponent) {
@@ -581,10 +578,9 @@ TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::UniquePtr tiffCompone
 }
 
 TiffComponent* TiffBinaryArray::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = tiffComponent.release();
-  elements_.push_back(tc);
+  elements_.push_back(tiffComponent.release());
   setDecoded(true);
-  return tc;
+  return elements_.back();
 }  // TiffBinaryArray::doAddChild
 
 TiffComponent* TiffComponent::addNext(TiffComponent::UniquePtr tiffComponent) {
@@ -596,20 +592,18 @@ TiffComponent* TiffComponent::doAddNext(UniquePtr /*tiffComponent*/) {
 }  // TiffComponent::doAddNext
 
 TiffComponent* TiffDirectory::doAddNext(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = nullptr;
   if (hasNext_) {
-    tc = tiffComponent.release();
-    pNext_ = tc;
+    pNext_ = tiffComponent.release();
+    return pNext_;
   }
-  return tc;
+  return nullptr;
 }  // TiffDirectory::doAddNext
 
 TiffComponent* TiffMnEntry::doAddNext(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = nullptr;
   if (mn_) {
-    tc = mn_->addNext(std::move(tiffComponent));
+    return mn_->addNext(std::move(tiffComponent));
   }
-  return tc;
+  return nullptr;
 }  // TiffMnEntry::doAddNext
 
 TiffComponent* TiffIfdMakernote::doAddNext(TiffComponent::UniquePtr tiffComponent) {
@@ -1436,21 +1430,20 @@ size_t TiffImageEntry::doSizeImage() const {
 }  // TiffImageEntry::doSizeImage
 
 static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
-  const TagInfo* result = nullptr;
   const TagInfo* tags = [=] {
     if (group == IfdId::gpsId)
       return Internal::gpsTagList();
     return group == IfdId::exifId ? Internal::exifTagList() : nullptr;
   }();
   if (!tags)
-    return result;
+    return nullptr;
 
-  for (size_t idx = 0; !result && tags[idx].tag_ != 0xffff; ++idx) {
+  for (size_t idx = 0; tags[idx].tag_ != 0xffff; ++idx) {
     if (tags[idx].tag_ == tag) {
-      result = tags + idx;
+      return tags + idx;
     }
   }
-  return result;
+  return nullptr;
 }
 
 // *************************************************************************
@@ -1478,9 +1471,9 @@ TiffType toTiffType(TypeId typeId) {
     EXV_ERROR << "'" << TypeInfo::typeName(typeId) << "' is not a valid Exif (TIFF) type; using type '"
               << TypeInfo::typeName(undefined) << "'.\n";
 #endif
-    return undefined;
+    return ttUndefined;
   }
-  return static_cast<uint16_t>(typeId);
+  return static_cast<TiffType>(typeId);
 }
 
 bool cmpTagLt(const TiffComponent* lhs, const TiffComponent* rhs) {

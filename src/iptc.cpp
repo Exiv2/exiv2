@@ -58,7 +58,7 @@ Iptcdatum::Iptcdatum(const IptcKey& key, const Value* pValue) : key_(key.clone()
     value_ = pValue->clone();
 }
 
-Iptcdatum::Iptcdatum(const Iptcdatum& rhs) : Metadatum(rhs) {
+Iptcdatum::Iptcdatum(const Iptcdatum& rhs) {
   if (rhs.key_)
     key_ = rhs.key_->clone();  // deep copy
   if (rhs.value_)

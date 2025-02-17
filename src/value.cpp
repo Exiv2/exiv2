@@ -135,20 +135,16 @@ DataValue* DataValue::clone_() const {
 }
 
 std::ostream& DataValue::write(std::ostream& os) const {
-  size_t end = value_.size();
-  for (size_t i = 0; i != end; ++i) {
-    os << static_cast<int>(value_.at(i));
-    if (i < end - 1)
-      os << " ";
+  if (!value_.empty()) {
+    std::copy(value_.begin(), value_.end() - 1, std::ostream_iterator<int>(os, " "));
+    os << static_cast<int>(value_.back());
   }
   return os;
 }
 
 std::string DataValue::toString(size_t n) const {
-  std::ostringstream os;
-  os << static_cast<int>(value_.at(n));
-  ok_ = !os.fail();
-  return os.str();
+  ok_ = true;
+  return std::to_string(value_.at(n));
 }
 
 int64_t DataValue::toInt64(size_t n) const {
@@ -395,15 +391,15 @@ CommentValue::CharsetId CommentValue::charsetId() const {
 
 const char* CommentValue::detectCharset(std::string& c) const {
   // Interpret a BOM if there is one
-  if (0 == strncmp(c.data(), "\xef\xbb\xbf", 3)) {
+  if (c.front() == '\xef' && c[1] == '\xbb' && c[2] == '\xbf') {
     c = c.substr(3);
     return "UTF-8";
   }
-  if (0 == strncmp(c.data(), "\xff\xfe", 2)) {
+  if (c.front() == '\xff' && c[1] == '\xfe') {
     c = c.substr(2);
     return "UCS-2LE";
   }
-  if (0 == strncmp(c.data(), "\xfe\xff", 2)) {
+  if (c.front() == '\xfe' && c[1] == '\xff') {
     c = c.substr(2);
     return "UCS-2BE";
   }

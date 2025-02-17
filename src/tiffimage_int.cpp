@@ -1975,7 +1975,7 @@ const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
     {"*", 0x0026, IfdId::canonId, &TiffDecoder::decodeCanonAFInfo, nullptr /* Exiv2.Canon.AFInfo is read-only */},
 };
 
-DecoderFct TiffMapping::findDecoder(const std::string& make, uint32_t extendedTag, IfdId group) {
+DecoderFct TiffMapping::findDecoder(std::string_view make, uint32_t extendedTag, IfdId group) {
   DecoderFct decoderFct = &TiffDecoder::decodeStdTiffEntry;
   if (auto td = Exiv2::find(tiffMappingInfo_, TiffMappingInfo::Key{make, extendedTag, group})) {
     // This may set decoderFct to 0, meaning that the tag should not be decoded
@@ -1984,7 +1984,7 @@ DecoderFct TiffMapping::findDecoder(const std::string& make, uint32_t extendedTa
   return decoderFct;
 }
 
-EncoderFct TiffMapping::findEncoder(const std::string& make, uint32_t extendedTag, IfdId group) {
+EncoderFct TiffMapping::findEncoder(std::string_view make, uint32_t extendedTag, IfdId group) {
   EncoderFct encoderFct = nullptr;
   if (auto td = Exiv2::find(tiffMappingInfo_, TiffMappingInfo::Key{make, extendedTag, group})) {
     // Returns 0 if no special encoder function is found
@@ -2185,7 +2185,7 @@ DataBuf TiffHeaderBase::write() const {
   return buf;
 }
 
-void TiffHeaderBase::print(std::ostream& os, const std::string& prefix) const {
+void TiffHeaderBase::print(std::ostream& os, std::string_view prefix) const {
   std::ios::fmtflags f(os.flags());
   os << prefix << _("TIFF header, offset") << " = 0x" << std::setw(8) << std::setfill('0') << std::hex << std::right
      << offset_;
