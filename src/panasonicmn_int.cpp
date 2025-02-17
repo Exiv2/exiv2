@@ -609,15 +609,7 @@ std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, const Value& val
 
 // tag White balance bias
 std::ostream& PanasonicMakerNote::print0x0023(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << value.toInt64() / 3 << _(" EV");
-  os.copyfmt(oss);
-
-  os.flags(f);
-  return os;
-
+  return os << stringFormat("{:1}{}", value.toInt64() / 3, _(" EV"));
 }  // PanasonicMakerNote::print0x0023
 
 // Time since power on
