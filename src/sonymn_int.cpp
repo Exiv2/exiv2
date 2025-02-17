@@ -1230,16 +1230,11 @@ std::ostream& SonyMakerNote::printPixelShiftInfo(std::ostream& os, const Value& 
   }
 
   // Convert from little endian format
-  const auto groupID =
-      (value.toUint32(3) << 24) + (value.toUint32(2) << 16) + (value.toUint32(1) << 8) + value.toUint32(0);
+  auto groupID = (value.toUint32(3) << 24) + (value.toUint32(2) << 16) + (value.toUint32(1) << 8) + value.toUint32(0);
 
-  std::ios::fmtflags f(os.flags());
-
-  os << stringFormat("Group {:02}{:02}{:02}{:02}", (groupID >> 17) & 0x1f, (groupID >> 12) & 0x1f,
-                     (groupID >> 6) & 0x3f, groupID & 0x3f);
-  os << ", Shot " << value.toUint32(4) << "/" << value.toUint32(5) << " (0x" << std::hex << (groupID >> 22) << ")";
-  os.flags(f);
-  return os;
+  return os << stringFormat("Group {:02}{:02}{:02}{:02}, Shot {}/{} (0x{:x})", (groupID >> 17) & 0x1f,
+                            (groupID >> 12) & 0x1f, (groupID >> 6) & 0x3f, groupID & 0x3f, value.toUint32(4),
+                            value.toUint32(5), (groupID >> 22));
 }
 
 std::ostream& SonyMakerNote::printFocusFrameSize(std::ostream& os, const Value& value, const ExifData*) {

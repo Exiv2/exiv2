@@ -3140,10 +3140,11 @@ std::ostream& CanonMakerNote::printFiFocusDistance(std::ostream& os, const Value
   if (value.typeId() != signedShort || value.count() == 0)
     return os << value;
 
-  if (auto l = value.toInt64(); l == -1) {
+  auto l = value.toInt64();
+  if (l == -1) {
     return os << "Infinite";
   }
-  return os << stringFormat("{:.2f} m", value.toInt64() / 100.0);
+  return os << stringFormat("{:.2f} m", l / 100.0);
 }
 
 // *****************************************************************************
