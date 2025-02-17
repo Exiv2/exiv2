@@ -33,6 +33,7 @@ namespace fs = std::filesystem;
 #define _MAX_PATH 1024
 #endif
 
+namespace {
 // prototypes
 class Options;
 int getFileType(const char* path, Options& options);
@@ -109,7 +110,9 @@ class Position final {
   }
 
   Position() = default;
-  virtual ~Position() = default;
+  ~Position() = default;
+  Position(const Position&) = default;
+  Position& operator=(const Position&) = default;
 
   //  instance methods
   [[nodiscard]] bool good() const {
@@ -260,7 +263,7 @@ struct UserData final {
 };
 
 // XML Parser Callbacks
-static void startElement(void* userData, const char* name, const char** atts) {
+void startElement(void* userData, const char* name, const char** atts) {
   auto me = static_cast<UserData*>(userData);
   // for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
   // printf("begin %s\n",name);
@@ -283,7 +286,7 @@ static void startElement(void* userData, const char* name, const char** atts) {
   me->indent++;
 }
 
-static void endElement(void* userData, const char* name) {
+void endElement(void* userData, const char* name) {
   auto me = static_cast<UserData*>(userData);
   me->indent--;
   if (strcmp(name, "trkpt") == 0) {
@@ -368,7 +371,7 @@ time_t parseTime(const char* arg, bool bAdjust) {
       result = mktime(&T);
     }
   } catch (...) {
-  };
+  }
   return result;
 }
 
@@ -380,21 +383,21 @@ int timeZoneAdjust() {
 #if defined(_WIN32)
   TIME_ZONE_INFORMATION TimeZoneInfo;
   GetTimeZoneInformation(&TimeZoneInfo);
-  offset = -(((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
+  offset = -(TimeZoneInfo.Bias + TimeZoneInfo.DaylightBias * 60);
 #elif defined(__CYGWIN__)
   struct tm lcopy = *localtime(&now);
   time_t gmt = timegm(&lcopy);  // timegm modifies lcopy
   offset = (int)(((long signed int)gmt) - ((long signed int)now));
 #elif defined(OS_SOLARIS) || defined(__sun__)
   struct tm local = *localtime(&now);
-  time_t local_tt = (int)mktime(&local);
-  time_t time_gmt = (int)mktime(gmtime(&now));
+  time_t local_tt = mktime(&local);
+  time_t time_gmt = mktime(gmtime(&now));
   offset = time_gmt - local_tt;
 #else
   struct tm local = *localtime(&now);
   offset = local.tm_gmtoff;
 
-#if EXIV2_DEBUG_MESSAGES
+#ifdef EXIV2_DEBUG_MESSAGES
   struct tm utc = *gmtime(&now);
   printf("utc  :  offset = %6d dst = %d time = %s", 0, utc.tm_isdst, asctime(&utc));
   printf("local:  offset = %6d dst = %d time = %s", offset, local.tm_isdst, asctime(&local));
@@ -534,7 +537,7 @@ bool readImage(const char* path, Options& /* options */) {
       bResult = !exifData.empty();
     }
   } catch (...) {
-  };
+  }
   return bResult;
 }
 
@@ -558,7 +561,7 @@ time_t readImageTime(const std::string& path, std::string* pS = nullptr) {
           *pS = exifData[dateString].toString();
       }
     } catch (...) {
-    };
+    }
   }
 
   return result;
@@ -676,7 +679,7 @@ int parseTZ(const char* adjust) {
   try {
     sscanf(adjust, "%d%c%d", &h, &c, &m);
   } catch (...) {
-  };
+  }
 
   return (3600 * h) + (60 * m);
 }
@@ -686,6 +689,7 @@ bool mySort(const std::string& a, const std::string& b) {
   time_t B = readImageTime(b);
   return (A < B);
 }
+}  // namespace
 
 int main(int argc, const char* argv[]) {
   Exiv2::XmpParser::initialize();
@@ -875,7 +879,7 @@ int main(int argc, const char* argv[]) {
             image->writeMetadata();
         }
       } catch (...) {
-      };
+      }
     }
   }
 

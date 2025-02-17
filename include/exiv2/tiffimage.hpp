@@ -63,16 +63,16 @@ class EXIV2API TiffImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
  private:
   //! @name Accessors
   //@{
   //! Return the group name of the group with the primary image.
-  std::string primaryGroup() const;
+  [[nodiscard]] std::string primaryGroup() const;
   //@}
 
   // DATA

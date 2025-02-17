@@ -203,7 +203,7 @@ class TiffCopier : public TiffVisitor {
     @param pHeader Pointer to the TIFF header of the source image.
     @param pPrimaryGroups Pointer to the list of primary groups.
    */
-  TiffCopier(TiffComponent* pRoot, uint32_t root, const TiffHeaderBase* pHeader, const PrimaryGroups& pPrimaryGroups);
+  TiffCopier(TiffComponent* pRoot, uint32_t root, const TiffHeaderBase* pHeader, PrimaryGroups pPrimaryGroups);
   TiffCopier(const TiffCopier&) = delete;
   TiffCopier& operator=(const TiffCopier&) = delete;
   //! Virtual destructor
@@ -352,7 +352,7 @@ class TiffEncoder : public TiffVisitor {
            find special encoders.
    */
   TiffEncoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot, bool isNewImage,
-              const PrimaryGroups& pPrimaryGroups, const TiffHeaderBase* pHeader, FindEncoderFct findEncoderFct);
+              PrimaryGroups pPrimaryGroups, const TiffHeaderBase* pHeader, FindEncoderFct findEncoderFct);
   TiffEncoder(const TiffEncoder&) = delete;
   TiffEncoder& operator=(const TiffEncoder&) = delete;
   //! Virtual destructor
