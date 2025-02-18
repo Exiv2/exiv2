@@ -124,6 +124,25 @@ TiffEntryBase::TiffEntryBase(const TiffEntryBase& rhs) :
     storage_(rhs.storage_) {
 }
 
+TiffDirectory::TiffDirectory(const TiffDirectory& rhs) : TiffComponent(rhs), hasNext_(rhs.hasNext_) {
+}
+
+TiffSubIfd::TiffSubIfd(const TiffSubIfd& rhs) : TiffEntryBase(rhs), newGroup_(rhs.newGroup_) {
+}
+
+TiffBinaryArray::TiffBinaryArray(const TiffBinaryArray& rhs) :
+    TiffEntryBase(rhs),
+    cfgSelFct_(rhs.cfgSelFct_),
+    arraySet_(rhs.arraySet_),
+    arrayCfg_(rhs.arrayCfg_),
+    arrayDef_(rhs.arrayDef_),
+    defSize_(rhs.defSize_),
+    setSize_(rhs.setSize_),
+    origData_(rhs.origData_),
+    origSize_(rhs.origSize_),
+    pRoot_(rhs.pRoot_) {
+}
+
 TiffComponent::UniquePtr TiffComponent::clone() const {
   return UniquePtr(doClone());
 }
