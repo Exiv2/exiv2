@@ -580,7 +580,7 @@ void TiffEncoder::visitDirectory(TiffDirectory* /*object*/) {
 void TiffEncoder::visitDirectoryNext(TiffDirectory* object) {
   // Update type and count in IFD entries, in case they changed
   byte* p = object->start() + 2;
-  for (auto& component : object->components_) {
+  for (const auto& component : object->components_) {
     p += updateDirEntry(p, byteOrder(), component.get());
   }
 }

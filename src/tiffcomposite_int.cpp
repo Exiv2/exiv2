@@ -89,14 +89,6 @@ TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arra
   // We'll figure out the correct cfg later
 }
 
-TiffDirectory::~TiffDirectory() {}
-
-TiffSubIfd::~TiffSubIfd() {}
-
-TiffEntryBase::~TiffEntryBase() {}
-
-TiffBinaryArray::~TiffBinaryArray() {}
-
 TiffEntryBase::TiffEntryBase(const TiffEntryBase& rhs) :
     TiffComponent(rhs),
     tiffType_(rhs.tiffType_),
@@ -213,7 +205,7 @@ void TiffEntryBase::setValue(Value::UniquePtr value) {
     return;
   tiffType_ = toTiffType(value->typeId());
   count_ = value->count();
-  std::swap(pValue_, value);
+  pValue_ = std::move(value);
 }
 
 void TiffDataEntry::setStrips(const Value* pSize, const byte* pData, size_t sizeData, size_t baseOffset) {
@@ -560,9 +552,8 @@ TiffComponent* TiffComponent::doAddChild(UniquePtr /*tiffComponent*/) {
 }  // TiffComponent::doAddChild
 
 TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = tiffComponent.get();
   components_.push_back(std::move(tiffComponent));
-  return tc;
+  return components_.back().get();
 }  // TiffDirectory::doAddChild
 
 TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
@@ -588,10 +579,9 @@ TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::UniquePtr tiffCompone
 }
 
 TiffComponent* TiffBinaryArray::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  TiffComponent* tc = tiffComponent.get();
   elements_.push_back(std::move(tiffComponent));
   setDecoded(true);
-  return tc;
+  return elements_.back().get();
 }  // TiffBinaryArray::doAddChild
 
 TiffComponent* TiffComponent::addNext(TiffComponent::UniquePtr tiffComponent) {
@@ -604,7 +594,7 @@ TiffComponent* TiffComponent::doAddNext(UniquePtr /*tiffComponent*/) {
 
 TiffComponent* TiffDirectory::doAddNext(TiffComponent::UniquePtr tiffComponent) {
   if (hasNext_) {
-    std::swap(pNext_, tiffComponent);
+    pNext_ = std::move(tiffComponent);
     return pNext_.get();
   }
   return nullptr;
@@ -1192,7 +1182,7 @@ size_t TiffComponent::writeImage(IoWrapper& ioWrapper, ByteOrder byteOrder) cons
 size_t TiffDirectory::doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
   size_t len = 0;
   TiffComponent* pSubIfd = nullptr;
-  for (auto& component : components_) {
+  for (const auto& component : components_) {
     if (component->tag() == 0x014a) {
       // Hack: delay writing of sub-IFD image data to get the order correct
 #ifndef SUPPRESS_WARNINGS
