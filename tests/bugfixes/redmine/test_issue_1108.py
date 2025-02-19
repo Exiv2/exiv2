@@ -159,7 +159,7 @@ class CheckDumpSubFiles(metaclass=system_tests.CaseMeta):
        2 |     120 | Caption                  |     12 | Classic View
    17987 | 0xffd9 EOI  
 """,
-    """STRUCTURE OF PNG FILE: """ + filenames[1] + """
+    """STRUCTURE OF PNG FILE: """ + filenames[1] + r"""
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ...@........                   | 0x7f775da4
       33 | iCCP  |    1404 | icc..x...i8........af\...w_3.. | 0x363e2409

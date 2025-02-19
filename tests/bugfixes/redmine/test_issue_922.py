@@ -127,7 +127,7 @@ class AddMinusPSOption(metaclass=CaseMeta):
                                                                                                     
                            
 <?xpacket end="w"?>""",
-        """STRUCTURE OF PNG FILE: $png_bug_file
+        r"""STRUCTURE OF PNG FILE: $png_bug_file
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ...@........                   | 0x7f775da4
       33 | zTXt  |    8769 | Raw profile type exif..x...[r. | 0x4a89d860
