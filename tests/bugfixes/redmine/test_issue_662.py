@@ -100,7 +100,7 @@ UserComment
 
 """,
         "",
-        """ExifTag                    
+        r"""ExifTag                    
   0000  1a 00 00 00                                      ....
 
 UserComment                
