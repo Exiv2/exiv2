@@ -154,7 +154,7 @@ class TiffComponent {
   //! TiffComponent auto_ptr type
   using UniquePtr = std::unique_ptr<TiffComponent>;
   //! Container type to hold all metadata
-  using Components = std::vector<TiffComponent*>;
+  using Components = std::vector<std::unique_ptr<TiffComponent>>;
 
   //! @name Creators
   //@{
@@ -475,7 +475,7 @@ class TiffEntryBase : public TiffComponent {
   }
   //! Return a const pointer to the converted value of this component
   [[nodiscard]] const Value* pValue() const {
-    return pValue_;
+    return pValue_.get();
   }
   //@}
 
@@ -553,7 +553,7 @@ class TiffEntryBase : public TiffComponent {
   byte* pData_{};  //!< Pointer to the data area
 
   int idx_{};        //!< Unique id of the entry in the image
-  Value* pValue_{};  //!< Converted data value
+  std::unique_ptr<Value> pValue_{};  //!< Converted data value
 
   // This DataBuf is only used when TiffEntryBase::setData is called.
   // Otherwise, it remains empty. It is wrapped in a shared_ptr because
@@ -919,7 +919,7 @@ class TiffDirectory : public TiffComponent {
   // DATA
   Components components_;   //!< List of components in this directory
   bool hasNext_;            //!< True if the directory has a next pointer
-  TiffComponent* pNext_{};  //!< Pointer to the next IFD
+  UniquePtr pNext_{};       //!< Pointer to the next IFD
 };
 
 /*!
@@ -989,7 +989,7 @@ class TiffSubIfd : public TiffEntryBase {
 
  private:
   //! A collection of TIFF directories (IFDs)
-  using Ifds = std::vector<TiffDirectory*>;
+  using Ifds = std::vector<std::unique_ptr<TiffDirectory>>;
 
   // DATA
   IfdId newGroup_;  //!< Start of the range of group numbers for the sub-IFDs
@@ -1470,13 +1470,13 @@ class TiffBinaryElement : public TiffEntryBase {
   @brief Compare two TIFF component pointers by tag. Return true if the tag
          of component lhs is less than that of rhs.
  */
-bool cmpTagLt(const TiffComponent* lhs, const TiffComponent* rhs);
+bool cmpTagLt(const std::unique_ptr<TiffComponent>& lhs, const std::unique_ptr<TiffComponent>& rhs);
 
 /*!
   @brief Compare two TIFF component pointers by group. Return true if the
          group of component lhs is less than that of rhs.
  */
-bool cmpGroupLt(const TiffComponent* lhs, const TiffComponent* rhs);
+bool cmpGroupLt(const std::unique_ptr<TiffDirectory>& lhs, const std::unique_ptr<TiffDirectory>& rhs);
 
 //! Function to create and initialize a new TIFF entry
 TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group);
