@@ -154,7 +154,7 @@ class TiffComponent {
   //! TiffComponent auto_ptr type
   using UniquePtr = std::unique_ptr<TiffComponent>;
   //! Container type to hold all metadata
-  using Components = std::vector<std::unique_ptr<TiffComponent>>;
+  using Components = std::vector<UniquePtr>;
 
   //! @name Creators
   //@{
@@ -390,7 +390,7 @@ class TiffEntryBase : public TiffComponent {
   }
 
   //! Virtual destructor.
-  ~TiffEntryBase() override;
+  ~TiffEntryBase() override {};
   //@}
 
   //! @name NOT implemented
@@ -830,7 +830,7 @@ class TiffDirectory : public TiffComponent {
   //! Default constructor
   TiffDirectory(uint16_t tag, IfdId group, bool hasNext = true);
   //! Virtual destructor
-  ~TiffDirectory() override;
+  ~TiffDirectory() override {};
   //@}
 
   //! @name NOT implemented
@@ -919,7 +919,7 @@ class TiffDirectory : public TiffComponent {
   // DATA
   Components components_;   //!< List of components in this directory
   bool hasNext_;            //!< True if the directory has a next pointer
-  UniquePtr pNext_{};       //!< Pointer to the next IFD
+  UniquePtr pNext_;         //!< Pointer to the next IFD
 };
 
 /*!
@@ -938,7 +938,7 @@ class TiffSubIfd : public TiffEntryBase {
   //! Default constructor
   TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup);
   //! Virtual destructor
-  ~TiffSubIfd() override;
+  ~TiffSubIfd() override {};
   //@}
 
   //! @name Protected Creators
@@ -1269,7 +1269,7 @@ class TiffBinaryArray : public TiffEntryBase {
   //! Constructor for a complex binary array
   TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, size_t setSize, CfgSelFct cfgSelFct);
   //! Virtual destructor
-  ~TiffBinaryArray() override;
+  ~TiffBinaryArray() override {};
   TiffBinaryArray& operator=(const TiffBinaryArray&) = delete;
   //@}
 
@@ -1470,7 +1470,7 @@ class TiffBinaryElement : public TiffEntryBase {
   @brief Compare two TIFF component pointers by tag. Return true if the tag
          of component lhs is less than that of rhs.
  */
-bool cmpTagLt(const std::unique_ptr<TiffComponent>& lhs, const std::unique_ptr<TiffComponent>& rhs);
+bool cmpTagLt(const TiffComponent::UniquePtr& lhs, const TiffComponent::UniquePtr& rhs);
 
 /*!
   @brief Compare two TIFF component pointers by group. Return true if the
