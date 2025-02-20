@@ -49,12 +49,12 @@ struct binaryToStringHelper;
 template <typename T>
 std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr) {
   for (size_t i = 0; i < binToStr.buf_.size(); ++i) {
-    auto c = static_cast<int>(binToStr.buf_.at(i));
+    auto c = static_cast<unsigned char>(binToStr.buf_.at(i));
     if (c != 0 || i != binToStr.buf_.size() - 1) {
-      if (!std::isprint(static_cast<unsigned char>(c))) {
-        c = '.';
-      }
-      stream.put(static_cast<char>(c));
+      if (c < 32 || c > 126)
+        stream.put('.');
+      else
+        stream.put(static_cast<char>(c));
     }
   }
   return stream;
