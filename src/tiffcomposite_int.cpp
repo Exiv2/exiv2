@@ -556,7 +556,7 @@ TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
     throw Error(ErrorCode::kerErrorMessage, "dynamic_cast to TiffDirectory failed");
   }
   tiffComponent.release();
-  ifds_.push_back(std::unique_ptr<TiffDirectory>(d));
+  ifds_.emplace_back(d);
   return d;
 }  // TiffSubIfd::doAddChild
 
