@@ -390,7 +390,7 @@ class TiffEntryBase : public TiffComponent {
   }
 
   //! Virtual destructor.
-  ~TiffEntryBase() override {};
+  ~TiffEntryBase() override = default;
   //@}
 
   //! @name NOT implemented
@@ -553,7 +553,7 @@ class TiffEntryBase : public TiffComponent {
   byte* pData_{};  //!< Pointer to the data area
 
   int idx_{};        //!< Unique id of the entry in the image
-  std::unique_ptr<Value> pValue_{};  //!< Converted data value
+  std::unique_ptr<Value> pValue_;  //!< Converted data value
 
   // This DataBuf is only used when TiffEntryBase::setData is called.
   // Otherwise, it remains empty. It is wrapped in a shared_ptr because
@@ -830,7 +830,7 @@ class TiffDirectory : public TiffComponent {
   //! Default constructor
   TiffDirectory(uint16_t tag, IfdId group, bool hasNext = true);
   //! Virtual destructor
-  ~TiffDirectory() override {};
+  ~TiffDirectory() override = default;
   //@}
 
   //! @name NOT implemented
@@ -938,7 +938,7 @@ class TiffSubIfd : public TiffEntryBase {
   //! Default constructor
   TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup);
   //! Virtual destructor
-  ~TiffSubIfd() override {};
+  ~TiffSubIfd() override = default;
   //@}
 
   //! @name Protected Creators
@@ -1269,7 +1269,7 @@ class TiffBinaryArray : public TiffEntryBase {
   //! Constructor for a complex binary array
   TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, size_t setSize, CfgSelFct cfgSelFct);
   //! Virtual destructor
-  ~TiffBinaryArray() override {};
+  ~TiffBinaryArray() override = default;
   TiffBinaryArray& operator=(const TiffBinaryArray&) = delete;
   //@}
 
