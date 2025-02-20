@@ -1073,7 +1073,7 @@ class TiffIfdMakernote : public TiffComponent {
   //! Default constructor
   TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, std::unique_ptr<MnHeader> pHeader, bool hasNext = true);
   //! Virtual destructor
-  ~TiffIfdMakernote() override = default;
+  ~TiffIfdMakernote() override;
   //@}
 
   /*!
