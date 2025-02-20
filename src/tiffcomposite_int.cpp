@@ -75,8 +75,7 @@ TiffIfdMakernote::TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, std
     TiffComponent(tag, group), pHeader_(std::move(pHeader)), ifd_(tag, mnGroup, hasNext) {
 }
 
-TiffIfdMakernote::~TiffIfdMakernote() {
-}
+TiffIfdMakernote::~TiffIfdMakernote() = default;
 
 TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArrayCfg& arrayCfg, const ArrayDef* arrayDef,
                                  size_t defSize) :
