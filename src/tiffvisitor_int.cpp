@@ -302,8 +302,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
       return;
     }
 #ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "Failed to decode IPTC block found in "
-                << "Directory Image, entry 0x83bb\n";
+    EXV_WARNING << "Failed to decode IPTC block found in " << "Directory Image, entry 0x83bb\n";
 
 #endif
   }
@@ -324,8 +323,7 @@ void TiffDecoder::decodeIptc(const TiffEntryBase* object) {
       return;
     }
 #ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "Failed to decode IPTC block found in "
-                << "Directory Image, entry 0x8649\n";
+    EXV_WARNING << "Failed to decode IPTC block found in " << "Directory Image, entry 0x8649\n";
 
 #endif
   }
@@ -1229,8 +1227,7 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     if (p + 12 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "Entry in directory " << groupName(object->group())
-                << "requests access to memory beyond the data buffer. "
-                << "Skipping entry.\n";
+                << "requests access to memory beyond the data buffer. " << "Skipping entry.\n";
 #endif
       return;
     }
@@ -1284,9 +1281,8 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
       } else {
 #ifndef SUPPRESS_WARNINGS
         EXV_ERROR << "Offset of directory " << groupName(object->group()) << ", entry 0x" << std::setw(4)
-                  << std::setfill('0') << std::hex << object->tag() << " is out of bounds: "
-                  << "Offset = 0x" << std::setw(8) << std::setfill('0') << std::hex << offset
-                  << "; truncating the entry\n";
+                  << std::setfill('0') << std::hex << object->tag() << " is out of bounds: " << "Offset = 0x"
+                  << std::setw(8) << std::setfill('0') << std::hex << offset << "; truncating the entry\n";
 #endif
       }
       size = 0;
@@ -1302,11 +1298,10 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
       // check for size being invalid
       if (size > static_cast<size_t>(pLast_ - pData)) {
 #ifndef SUPPRESS_WARNINGS
-        EXV_ERROR << "Upper boundary of data for "
-                  << "directory " << groupName(object->group()) << ", entry 0x" << std::setw(4) << std::setfill('0')
-                  << std::hex << object->tag() << " is out of bounds: "
-                  << "Offset = 0x" << std::setw(8) << std::setfill('0') << std::hex << offset << ", size = " << std::dec
-                  << size
+        EXV_ERROR << "Upper boundary of data for " << "directory " << groupName(object->group()) << ", entry 0x"
+                  << std::setw(4) << std::setfill('0') << std::hex << object->tag()
+                  << " is out of bounds: " << "Offset = 0x" << std::setw(8) << std::setfill('0') << std::hex << offset
+                  << ", size = " << std::dec << size
                   << ", exceeds buffer size by "
                   // cast to make MSVC happy
                   << size - static_cast<size_t>(pLast_ - pData) << " Bytes; truncating the entry\n";
