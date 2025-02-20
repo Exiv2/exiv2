@@ -453,6 +453,8 @@ void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
   const std::string align(pos, ' ');
   std::ios::fmtflags f(os.flags());
 
+  auto space = [](unsigned char c) { return (c < 32 || c > 126) ? '.' : static_cast<char>(c); };
+
   size_t i = 0;
   while (i < len) {
     os << "  " << std::setw(4) << std::setfill('0') << std::hex << i + offset << "  ";
@@ -461,7 +463,7 @@ void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
     for (size_t j = 0; j < hexbase && i < len; ++j, ++i) {
       auto c = static_cast<int>(buf[i]);
       os << std::setw(2) << std::setfill('0') << std::right << std::hex << c << " ";
-      ss += std::isprint(c) ? static_cast<char>(c) : '.';
+      ss += space(c);
     }
 
     std::string::size_type width = 9 + (((i - 1) % hexbase + 1) * 3);
