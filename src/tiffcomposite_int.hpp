@@ -552,7 +552,7 @@ class TiffEntryBase : public TiffComponent {
   // storage_ DataBuf below.
   byte* pData_{};  //!< Pointer to the data area
 
-  int idx_{};        //!< Unique id of the entry in the image
+  int idx_{};                      //!< Unique id of the entry in the image
   std::unique_ptr<Value> pValue_;  //!< Converted data value
 
   // This DataBuf is only used when TiffEntryBase::setData is called.
@@ -917,9 +917,9 @@ class TiffDirectory : public TiffComponent {
   //@}
 
   // DATA
-  Components components_;   //!< List of components in this directory
-  bool hasNext_;            //!< True if the directory has a next pointer
-  UniquePtr pNext_;         //!< Pointer to the next IFD
+  Components components_;  //!< List of components in this directory
+  bool hasNext_;           //!< True if the directory has a next pointer
+  UniquePtr pNext_;        //!< Pointer to the next IFD
 };
 
 /*!
