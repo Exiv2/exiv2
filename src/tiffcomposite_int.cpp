@@ -440,9 +440,7 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
 
   auto atc = [&] {
     if (tiffPath.size() == 1 && object) {
-      TiffComponent::UniquePtr tempObject;
-      std::swap(object, tempObject);
-      return tempObject;
+      return std::move(object);
     }
     return TiffCreator::create(tpi.extendedTag(), tpi.group());
   }();
@@ -457,7 +455,7 @@ TiffComponent* TiffDirectory::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffCo
       return this->addNext(std::move(atc));
     return this->addChild(std::move(atc));
   }();
-  return tc->addPath(tag, tiffPath, pRoot, std::move(object));
+  return tc->addPath(tag, tiffPath, pRoot, nullptr);
 }  // TiffDirectory::doAddPath
 
 TiffComponent* TiffSubIfd::doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
