@@ -103,7 +103,7 @@ TimeDict_t gTimeDict;
 strings_t gFiles;
 
 // Position (from gpx file)
-class Position {
+class Position final {
  public:
   Position(time_t time, double lat, double lon, double ele) : time_(time), lon_(lon), lat_(lat), ele_(ele) {
   }
