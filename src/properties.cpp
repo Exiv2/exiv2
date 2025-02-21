@@ -5033,8 +5033,7 @@ const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key) {
   std::string property = key.tagName();
   // If property is a path for a nested property, determines the innermost element
   if (auto i = property.find_last_of('/'); i != std::string::npos) {
-    for (; i != std::string::npos && !isalpha(property.at(i)); ++i) {
-    }
+    i = std::distance(property.begin(), std::find_if(property.begin() + i, property.end(), isalpha));
     property = property.substr(i);
     i = property.find_first_of(':');
     if (i != std::string::npos) {
