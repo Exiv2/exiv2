@@ -1,3 +1,17 @@
+Changes from version 0.28.4 to 0.28.5
+-------------------------------------
+
+Release Notes:
+
+* https://github.com/Exiv2/exiv2/issues/3181
+* https://github.com/Exiv2/exiv2/milestone/16?closed=1
+
+This release fixes a use-after-free vulnerability in `tiffcomposite_int.cpp`:
+
+* [CVE-2025-26623](https://github.com/Exiv2/exiv2/security/advisories/GHSA-38h4-fx85-qcx7)
+
+Versions prior to v0.28.0, such as v0.27.7, are not affected by CVE-2025-26623.
+
 Changes from version 0.28.3 to 0.28.4
 -------------------------------------
 
