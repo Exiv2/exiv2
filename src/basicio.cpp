@@ -1568,11 +1568,9 @@ CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url,
 
 int64_t CurlIo::CurlImpl::getFileLength() {
   curl_easy_reset(curl_);  // reset all options
-  std::string response;
   curl_easy_setopt(curl_, CURLOPT_URL, path_.c_str());
   curl_easy_setopt(curl_, CURLOPT_NOBODY, 1);  // HEAD
   curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curlWriter);
-  curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &response);
   curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
   curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYHOST, 0L);
   curl_easy_setopt(curl_, CURLOPT_CONNECTTIMEOUT, timeout_);
