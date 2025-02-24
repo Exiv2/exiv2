@@ -3111,7 +3111,7 @@ std::ostream& CanonMakerNote::printSi0x0015(std::ostream& os, const Value& value
   const auto val = static_cast<int16_t>(value.toInt64());
   if (val < 0)
     return os << value;
-  return os << stringFormat("F{:.2}", fnumber(canonEv(val)));
+  return os << stringFormat("F{:.2g}", fnumber(canonEv(val)));
 }
 
 std::ostream& CanonMakerNote::printSi0x0016(std::ostream& os, const Value& value, const ExifData*) {
