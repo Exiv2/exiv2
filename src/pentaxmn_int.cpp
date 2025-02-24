@@ -923,11 +923,11 @@ std::ostream& PentaxMakerNote::printTime(std::ostream& os, const Value& value, c
 }
 
 std::ostream& PentaxMakerNote::printExposure(std::ostream& os, const Value& value, const ExifData*) {
-  return os << stringFormat("{} ms", static_cast<float>(value.toInt64()) / 100);
+  return os << stringFormat("{:g} ms", static_cast<float>(value.toInt64()) / 100);
 }
 
 std::ostream& PentaxMakerNote::printFValue(std::ostream& os, const Value& value, const ExifData*) {
-  return os << stringFormat("F{:.2}", static_cast<float>(value.toInt64()) / 10);
+  return os << stringFormat("F{:.2g}", static_cast<float>(value.toInt64()) / 10);
 }
 
 std::ostream& PentaxMakerNote::printFocalLength(std::ostream& os, const Value& value, const ExifData*) {
@@ -935,7 +935,7 @@ std::ostream& PentaxMakerNote::printFocalLength(std::ostream& os, const Value& v
 }
 
 std::ostream& PentaxMakerNote::printCompensation(std::ostream& os, const Value& value, const ExifData*) {
-  return os << stringFormat("{:.2} EV", (static_cast<float>(value.toInt64()) - 50) / 10);
+  return os << stringFormat("{:.2g} EV", (static_cast<float>(value.toInt64()) - 50) / 10);
 }
 
 std::ostream& PentaxMakerNote::printTemperature(std::ostream& os, const Value& value, const ExifData*) {
@@ -943,7 +943,7 @@ std::ostream& PentaxMakerNote::printTemperature(std::ostream& os, const Value& v
 }
 
 std::ostream& PentaxMakerNote::printFlashCompensation(std::ostream& os, const Value& value, const ExifData*) {
-  return os << stringFormat("{:.2} EV", static_cast<float>(value.toInt64()) / 256);
+  return os << stringFormat("{:.2g} EV", static_cast<float>(value.toInt64()) / 256);
 }
 
 std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& value, const ExifData*) {
