@@ -17,9 +17,9 @@ namespace Exiv2::Internal {
 
 //! The details of a section.
 struct SectionInfo {
-  SectionId sectionId_;  //!< Section id
-  const char* name_;     //!< Section name (one word)
-  const char* desc_;     //!< Section description
+  SectionId sectionId_;    //!< Section id
+  const char* name_;       //!< Section name (one word)
+  std::string_view desc_;  //!< Section description
 };
 
 /*!
@@ -41,8 +41,8 @@ struct TagDetails {
          tag values to human readable labels.
  */
 struct StringTagDetails {
-  const char* val_;    //!< Tag value
-  const char* label_;  //!< Translation of the tag value
+  std::string_view val_;  //!< Tag value
+  const char* label_;     //!< Translation of the tag value
 
   //! Comparison operator for use with the find template
   bool operator==(std::string_view key) const {
@@ -70,8 +70,8 @@ using TagDetailsBitlistSorted = std::pair<uint32_t, const char*>;
          vocabulary strings to their descriptions.
  */
 struct TagVocabulary {
-  const char* voc_;    //!< Vocabulary string
-  const char* label_;  //!< Description of the vocabulary string
+  std::string_view voc_;  //!< Vocabulary string
+  const char* label_;     //!< Description of the vocabulary string
 
   /*!
     @brief Comparison operator for use with the find template
@@ -88,7 +88,7 @@ struct TagVocabulary {
          by looking up a reference table.
  */
 template <size_t N, const StringTagDetails (&array)[N]>
-std::ostream& printTagString(std::ostream& os, const std::string& value, const ExifData*) {
+std::ostream& printTagString(std::ostream& os, std::string_view value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTagString");
   if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
