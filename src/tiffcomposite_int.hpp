@@ -1502,6 +1502,7 @@ TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group) {
 //! Function to create and initialize a new binary array entry
 template <const ArrayCfg& arrayCfg, size_t N, const ArrayDef (&arrayDef)[N]>
 TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
+  static_assert(N > 0, "Passed zero length newTiffBinaryArray0");
   return std::make_unique<TiffBinaryArray>(tag, group, arrayCfg, arrayDef, N);
 }
 
@@ -1514,6 +1515,7 @@ TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group) {
 //! Function to create and initialize a new complex binary array entry
 template <size_t N, const ArraySet (&arraySet)[N], CfgSelFct cfgSelFct>
 TiffComponent::UniquePtr newTiffBinaryArray2(uint16_t tag, IfdId group) {
+  static_assert(N > 0, "Passed zero length newTiffBinaryArray2");
   return std::make_unique<TiffBinaryArray>(tag, group, arraySet, N, cfgSelFct);
 }
 

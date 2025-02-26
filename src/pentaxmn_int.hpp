@@ -55,8 +55,9 @@ class PentaxMakerNote {
   @brief Print function to translate Pentax "combi-values" to a description
          by looking up a reference table.
  */
-template <int N, const TagDetails (&array)[N], int count, int ignoredcount, int ignoredcountmax>
+template <size_t N, const TagDetails (&array)[N], int count, int ignoredcount, int ignoredcountmax>
 std::ostream& printCombiTag(std::ostream& os, const Value& value, const ExifData* metadata) {
+  static_assert(N > 0, "Passed zero length printCombiTag");
   std::ios::fmtflags f(os.flags());
   if ((value.count() != count &&
        (value.count() < (count + ignoredcount) || value.count() > (count + ignoredcountmax))) ||
