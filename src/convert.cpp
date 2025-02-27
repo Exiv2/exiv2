@@ -21,7 +21,6 @@
 // + standard includes
 #include <algorithm>
 #include <functional>
-#include <iomanip>
 
 #ifdef EXV_HAVE_ICONV
 #include <iconv.h>
