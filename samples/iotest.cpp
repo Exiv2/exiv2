@@ -11,7 +11,7 @@ using Exiv2::IoCloser;
 using Exiv2::MemIo;
 using Exiv2::strError;
 
-int WriteReadSeek(BasicIo& io);
+static int WriteReadSeek(BasicIo& io);
 
 // *****************************************************************************
 // Main

@@ -6,10 +6,10 @@
 
 using namespace Exiv2;
 
-bool processLine(const std::string& line, int num, IptcData& iptcData);
-void processAdd(const std::string& line, int num, IptcData& iptcData);
-void processRemove(const std::string& line, int num, IptcData& iptcData);
-void processModify(const std::string& line, int num, IptcData& iptcData);
+static bool processLine(const std::string& line, int num, IptcData& iptcData);
+static void processAdd(const std::string& line, int num, IptcData& iptcData);
+static void processRemove(const std::string& line, int num, IptcData& iptcData);
+static void processModify(const std::string& line, int num, IptcData& iptcData);
 
 // *****************************************************************************
 // Main
