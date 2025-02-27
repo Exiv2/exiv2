@@ -3293,7 +3293,7 @@ std::ostream& Nikon3MakerNote::printFocusDistance(std::ostream& os, const Value&
   if (val == 0)
     return os << _("n/a");
 
-  return os << stringFormat("{:.2f} m", std::pow(10.0, val / 40.0 - 2.0));
+  return os << stringFormat("{:.2f} m", std::pow(10.0, (val / 40.0) - 2.0));
 }
 
 std::ostream& Nikon3MakerNote::printAperture(std::ostream& os, const Value& value, const ExifData*) {
@@ -3940,7 +3940,7 @@ std::ostream& Nikon3MakerNote::printFocusDistanceLd4(std::ostream& os, const Val
   if (temp == 0)
     return os << _("n/a");
 
-  return os << stringFormat("{:.2f} m", std::pow(10.0, (temp / 256.0) / 40.0 - 2.0));
+  return os << stringFormat("{:.2f} m", std::pow(10.0, (temp / 10240.0) - 2.0));
 }
 
 }  // namespace Exiv2::Internal
