@@ -11,7 +11,10 @@
 #include "image.hpp"
 
 #include <bit>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // Signature from front of PGF file
 const unsigned char pgfSignature[3] = {0x50, 0x47, 0x46};

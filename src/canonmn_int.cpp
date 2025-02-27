@@ -20,7 +20,6 @@
 
 // + standard includes
 #include <cmath>
-#include <iomanip>
 #include <regex>
 #include <sstream>
 #include <string>
