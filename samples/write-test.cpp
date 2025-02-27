@@ -9,9 +9,9 @@
 
 using namespace Exiv2;
 
-void testCase(const std::string& file1, const std::string& file2, const std::string& thumb, const std::string& key,
-              const std::string& value);
-void exifPrint(const ExifData& exifData);
+static void testCase(const std::string& file1, const std::string& file2, const std::string& thumb,
+                     const std::string& key, const std::string& value);
+static void exifPrint(const ExifData& exifData);
 
 // *****************************************************************************
 // Main
