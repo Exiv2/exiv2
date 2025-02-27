@@ -6,7 +6,6 @@
 #include "config.h"
 #include "enforce.hpp"
 #include "image_int.hpp"
-#include "utils.hpp"
 
 // + standard includes
 #include <algorithm>
@@ -14,7 +13,6 @@
 #include <cctype>
 #include <cstdint>
 #include <cstring>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 

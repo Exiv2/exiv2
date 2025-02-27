@@ -10,7 +10,6 @@
 #include "value.hpp"
 
 #include <cstdio>  // popen to call exiftool
-#include <sstream>
 
 // *****************************************************************************
 // class member definitions

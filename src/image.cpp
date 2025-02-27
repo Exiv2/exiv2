@@ -45,7 +45,6 @@
 #endif  // EXV_ENABLE_VIDEO
 
 // + standard includes
-#include <array>
 #include <bit>
 #include <cstdio>
 #include <cstring>

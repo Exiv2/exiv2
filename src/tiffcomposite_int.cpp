@@ -12,7 +12,6 @@
 #include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "types.hpp"
-#include "utils.hpp"
 #include "value.hpp"
 
 #include <algorithm>
