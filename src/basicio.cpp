@@ -19,9 +19,6 @@
 #include <fstream>  // write the temporary file
 #include <iostream>
 
-// + standard includes
-#include <fcntl.h>  // _O_BINARY in FileIo::FileIo
-
 #if __has_include(<sys/mman.h>)
 #include <sys/mman.h>  // for mmap and munmap
 #endif
@@ -39,6 +36,7 @@
 #ifdef EXV_ENABLE_FILESYSTEM
 #include <filesystem>
 #ifdef _WIN32
+#include <fcntl.h>  // _O_BINARY in FileIo::FileIo
 #include <io.h>
 #include <windows.h>
 #endif

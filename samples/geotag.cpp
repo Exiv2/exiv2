@@ -4,8 +4,6 @@
 #include <exiv2/exiv2.hpp>
 
 #include <expat.h>
-#include <sys/stat.h>
-#include <sys/types.h>
 
 #include <algorithm>
 #include <filesystem>
@@ -22,10 +20,8 @@ namespace fs = std::filesystem;
 #endif
 #endif
 
-#if !defined(_MSC_VER)
+#ifndef _MSC_VER
 #include <dirent.h>
-#include <sys/param.h>
-#include <unistd.h>
 #define stricmp strcasecmp
 #endif
 

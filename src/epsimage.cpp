@@ -16,7 +16,6 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
-#include "utils.hpp"
 #include "version.hpp"
 
 // + standard includes

@@ -10,10 +10,7 @@
 #include "value.hpp"
 
 // + standard includes
-#include <iomanip>
-#include <ios>
 #include <ostream>
-#include <sstream>
 
 // *****************************************************************************
 // class member definitions
