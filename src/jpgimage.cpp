@@ -13,17 +13,6 @@
 #include "photoshop.hpp"
 #include "safe_op.hpp"
 #include "tags_int.hpp"
-#include "utils.hpp"
-
-#ifdef _WIN32
-#include <windows.h>
-#else
-using BYTE = char;
-using USHORT = uint16_t;
-using ULONG = uint32_t;
-#endif
-
-#include "fff.h"
 
 #include <array>
 #include <iostream>

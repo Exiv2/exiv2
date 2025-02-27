@@ -8,7 +8,6 @@
 #include "makernote_int.hpp"
 #include "tags.hpp"
 #include "types.hpp"
-#include "utils.hpp"
 #include "value.hpp"
 
 // *****************************************************************************

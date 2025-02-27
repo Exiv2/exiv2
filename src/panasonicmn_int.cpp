@@ -12,10 +12,7 @@
 // + standard includes
 #include <cstddef>
 #include <cstdint>
-#include <iomanip>
-#include <ios>
 #include <ostream>
-#include <sstream>
 
 // *****************************************************************************
 // class member definitions
