@@ -10,10 +10,10 @@
 
 using namespace Exiv2;
 
-void print(const ExifData& exifData);
+static void print(const ExifData& exifData);
 
-void mini1(const char* path);
-void mini9(const char* path);
+static void mini1(const char* path);
+static void mini9(const char* path);
 
 int main(int argc, char* const argv[]) {
   try {
