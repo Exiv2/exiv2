@@ -172,7 +172,7 @@ jobs:
       - uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
-            pkg install -y cmake curl ninja meson gettext pkgconf googletest expat inih brotli libfmt
+            pkg install -y cmake curl ninja meson gettext pkgconf googletest expat inih brotli
           run: |
             meson setup "${{github.workspace}}/build" -Dwarning_level=3
             meson compile -C "${{github.workspace}}/build" --verbose
