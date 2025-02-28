@@ -25,45 +25,45 @@
 #include <iostream>
 #include <string>
 
-enum {
-  TAG_ftyp = 0x66747970U,  //!< "ftyp" File type box */
-  TAG_avci = 0x61766369U,  //!< "avci" AVC */
-  TAG_avcs = 0x61766373U,  //!< "avcs" AVC */
-  TAG_avif = 0x61766966U,  //!< "avif" AVIF */
-  TAG_avio = 0x6176696fU,  //!< "avio" AVIF */
-  TAG_avis = 0x61766973U,  //!< "avis" AVIF */
-  TAG_heic = 0x68656963U,  //!< "heic" HEIC */
-  TAG_heif = 0x68656966U,  //!< "heif" HEIF */
-  TAG_heim = 0x6865696dU,  //!< "heim" HEIC */
-  TAG_heis = 0x68656973U,  //!< "heis" HEIC */
-  TAG_heix = 0x68656978U,  //!< "heix" HEIC */
-  TAG_j2is = 0x6a326973U,  //!< "j2is" HEJ2K */
-  TAG_j2ki = 0x6a326b69U,  //!< "j2ki" HEJ2K */
-  TAG_mif1 = 0x6d696631U,  //!< "mif1" HEIF */
-  TAG_crx = 0x63727820U,   //!< "crx " Canon CR3 */
-  TAG_jxl = 0x6a786c20U,   //!< "jxl " JPEG XL file type */
-  TAG_moov = 0x6d6f6f76U,  //!< "moov" Movie */
-  TAG_meta = 0x6d657461U,  //!< "meta" Metadata */
-  TAG_mdat = 0x6d646174U,  //!< "mdat" Media data */
-  TAG_uuid = 0x75756964U,  //!< "uuid" UUID */
-  TAG_dinf = 0x64696e66U,  //!< "dinf" Data information */
-  TAG_iprp = 0x69707270U,  //!< "iprp" Item properties */
-  TAG_ipco = 0x6970636fU,  //!< "ipco" Item property container */
-  TAG_iinf = 0x69696e66U,  //!< "iinf" Item info */
-  TAG_iloc = 0x696c6f63U,  //!< "iloc" Item location */
-  TAG_ispe = 0x69737065U,  //!< "ispe" Image spatial extents */
-  TAG_infe = 0x696e6665U,  //!< "infe" Item Info Extension */
-  TAG_ipma = 0x69706d61U,  //!< "ipma" Item Property Association */
-  TAG_cmt1 = 0x434d5431U,  //!< "CMT1" ifd0Id */
-  TAG_cmt2 = 0x434D5432U,  //!< "CMD2" exifID */
-  TAG_cmt3 = 0x434D5433U,  //!< "CMT3" canonID */
-  TAG_cmt4 = 0x434D5434U,  //!< "CMT4" gpsID */
-  TAG_colr = 0x636f6c72U,  //!< "colr" Colour information */
-  TAG_exif = 0x45786966U,  //!< "Exif" Used by JXL */
-  TAG_xml = 0x786d6c20U,   //!< "xml " Used by JXL */
-  TAG_brob = 0x62726f62U,  //!< "brob" Used by JXL (brotli box) */
-  TAG_thmb = 0x54484d42U,  //!< "THMB" Canon thumbnail */
-  TAG_prvw = 0x50525657U,  //!< "PRVW" Canon preview image */
+enum TAG {
+  ftyp = 0x66747970U,  //!< "ftyp" File type box */
+  avci = 0x61766369U,  //!< "avci" AVC */
+  avcs = 0x61766373U,  //!< "avcs" AVC */
+  avif = 0x61766966U,  //!< "avif" AVIF */
+  avio = 0x6176696fU,  //!< "avio" AVIF */
+  avis = 0x61766973U,  //!< "avis" AVIF */
+  heic = 0x68656963U,  //!< "heic" HEIC */
+  heif = 0x68656966U,  //!< "heif" HEIF */
+  heim = 0x6865696dU,  //!< "heim" HEIC */
+  heis = 0x68656973U,  //!< "heis" HEIC */
+  heix = 0x68656978U,  //!< "heix" HEIC */
+  j2is = 0x6a326973U,  //!< "j2is" HEJ2K */
+  j2ki = 0x6a326b69U,  //!< "j2ki" HEJ2K */
+  mif1 = 0x6d696631U,  //!< "mif1" HEIF */
+  crx = 0x63727820U,   //!< "crx " Canon CR3 */
+  jxl = 0x6a786c20U,   //!< "jxl " JPEG XL file type */
+  moov = 0x6d6f6f76U,  //!< "moov" Movie */
+  meta = 0x6d657461U,  //!< "meta" Metadata */
+  mdat = 0x6d646174U,  //!< "mdat" Media data */
+  uuid = 0x75756964U,  //!< "uuid" UUID */
+  dinf = 0x64696e66U,  //!< "dinf" Data information */
+  iprp = 0x69707270U,  //!< "iprp" Item properties */
+  ipco = 0x6970636fU,  //!< "ipco" Item property container */
+  iinf = 0x69696e66U,  //!< "iinf" Item info */
+  iloc = 0x696c6f63U,  //!< "iloc" Item location */
+  ispe = 0x69737065U,  //!< "ispe" Image spatial extents */
+  infe = 0x696e6665U,  //!< "infe" Item Info Extension */
+  ipma = 0x69706d61U,  //!< "ipma" Item Property Association */
+  cmt1 = 0x434d5431U,  //!< "CMT1" ifd0Id */
+  cmt2 = 0x434D5432U,  //!< "CMD2" exifID */
+  cmt3 = 0x434D5433U,  //!< "CMT3" canonID */
+  cmt4 = 0x434D5434U,  //!< "CMT4" gpsID */
+  colr = 0x636f6c72U,  //!< "colr" Colour information */
+  exif = 0x45786966U,  //!< "Exif" Used by JXL */
+  xml = 0x786d6c20U,   //!< "xml " Used by JXL */
+  brob = 0x62726f62U,  //!< "brob" Used by JXL (brotli box) */
+  thmb = 0x54484d42U,  //!< "THMB" Canon thumbnail */
+  prvw = 0x50525657U,  //!< "PRVW" Canon preview image */
 };
 
 // *****************************************************************************
@@ -99,46 +99,46 @@ std::string BmffImage::toAscii(uint32_t n) {
 }
 
 bool BmffImage::superBox(uint32_t box) {
-  return box == TAG_moov || box == TAG_dinf || box == TAG_iprp || box == TAG_ipco || box == TAG_meta ||
-         box == TAG_iinf || box == TAG_iloc;
+  return box == TAG::moov || box == TAG::dinf || box == TAG::iprp || box == TAG::ipco || box == TAG::meta ||
+         box == TAG::iinf || box == TAG::iloc;
 }
 
 bool BmffImage::fullBox(uint32_t box) {
-  return box == TAG_meta || box == TAG_iinf || box == TAG_iloc || box == TAG_thmb || box == TAG_prvw;
+  return box == TAG::meta || box == TAG::iinf || box == TAG::iloc || box == TAG::thmb || box == TAG::prvw;
 }
 
 static bool skipBox(uint32_t box) {
   // Allows boxHandler() to optimise the reading of files by identifying
   // box types that we're not interested in. Box types listed here must
   // not appear in the cases in switch (box_type) in boxHandler().
-  return box == 0 || box == TAG_mdat;  // mdat is where the main image lives and can be huge
+  return box == 0 || box == TAG::mdat;  // mdat is where the main image lives and can be huge
 }
 
 std::string BmffImage::mimeType() const {
   switch (fileType_) {
-    case TAG_avci:
+    case TAG::avci:
       return "image/avci";
-    case TAG_avcs:
+    case TAG::avcs:
       return "image/avcs";
-    case TAG_avif:
-    case TAG_avio:
-    case TAG_avis:
+    case TAG::avif:
+    case TAG::avio:
+    case TAG::avis:
       return "image/avif";
-    case TAG_heic:
-    case TAG_heim:
-    case TAG_heis:
-    case TAG_heix:
+    case TAG::heic:
+    case TAG::heim:
+    case TAG::heis:
+    case TAG::heix:
       return "image/heic";
-    case TAG_heif:
-    case TAG_mif1:
+    case TAG::heif:
+    case TAG::mif1:
       return "image/heif";
-    case TAG_j2is:
+    case TAG::j2is:
       return "image/j2is";
-    case TAG_j2ki:
+    case TAG::j2ki:
       return "image/hej2k";
-    case TAG_crx:
+    case TAG::crx:
       return "image/x-canon-cr3";
-    case TAG_jxl:
+    case TAG::jxl:
       return "image/jxl";  // https://github.com/novomesk/qt-jpegxl-image-plugin/issues/1
     default:
       return "image/generic";
@@ -325,7 +325,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 
   switch (box_type) {
     //  See notes in skipBox()
-    case TAG_ftyp: {
+    case TAG::ftyp: {
       Internal::enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
       fileType_ = data.read_uint32(0, endian_);
       if (bTrace) {
@@ -334,7 +334,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     } break;
 
     // 8.11.6.1
-    case TAG_iinf: {
+    case TAG::iinf: {
       if (bTrace) {
         out << '\n';
         bLF = false;
@@ -351,7 +351,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     } break;
 
     // 8.11.6.2
-    case TAG_infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
+    case TAG::infe: {  // .__._.__hvc1_ 2 0 0 1 0 1 0 0 104 118 99 49 0
       Internal::enforce(data.size() - skip >= 8, Exiv2::ErrorCode::kerCorruptedMetadata);
       /* getULong (data.pData_+skip,endian_) ; */ skip += 4;
       uint16_t ID = data.read_uint16(skip, endian_);
@@ -375,10 +375,10 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       }
     } break;
 
-    case TAG_moov:
-    case TAG_iprp:
-    case TAG_ipco:
-    case TAG_meta: {
+    case TAG::moov:
+    case TAG::iprp:
+    case TAG::ipco:
+    case TAG::meta: {
       if (bTrace) {
         out << '\n';
         bLF = false;
@@ -388,7 +388,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
         io_->seek(boxHandler(out, option, box_end, depth + 1), BasicIo::beg);
       }
       // post-process meta box to recover Exif and XMP
-      if (box_type == TAG_meta) {
+      if (box_type == TAG::meta) {
         if (ilocs_.contains(exifID_)) {
           const Iloc& iloc = ilocs_.find(exifID_)->second;
           if (bTrace) {
@@ -408,7 +408,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     } break;
 
     // 8.11.3.1
-    case TAG_iloc: {
+    case TAG::iloc: {
       Internal::enforce(data.size() - skip >= 2, Exiv2::ErrorCode::kerCorruptedMetadata);
       uint8_t u = data.read_uint8(skip++);
       uint16_t offsetSize = u >> 4;
@@ -459,7 +459,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       }
     } break;
 
-    case TAG_ispe: {
+    case TAG::ispe: {
       Internal::enforce(data.size() - skip >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
       skip += 4;
       uint32_t width = data.read_uint32(skip, endian_);
@@ -478,7 +478,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     } break;
 
     // 12.1.5.2
-    case TAG_colr: {
+    case TAG::colr: {
       if (data.size() >= (skip + 4 + 8)) {  // .____.HLino..__mntrR 2 0 0 0 0 12 72 76 105 110 111 2 16 ...
         // https://www.ics.uci.edu/~dan/class/267/papers/jpeg2000.pdf
         uint8_t meth = data.read_uint8(skip + 0);
@@ -498,7 +498,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       }
     } break;
 
-    case TAG_uuid: {
+    case TAG::uuid: {
       DataBuf uuid(16);
       io_->read(uuid.data(), uuid.size());
       std::string name = uuidName(uuid);
@@ -520,25 +520,25 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       }
     } break;
 
-    case TAG_cmt1:
+    case TAG::cmt1:
       parseTiff(Internal::Tag::root, box_length);
       break;
-    case TAG_cmt2:
+    case TAG::cmt2:
       parseTiff(Internal::Tag::cmt2, box_length);
       break;
-    case TAG_cmt3:
+    case TAG::cmt3:
       parseTiff(Internal::Tag::cmt3, box_length);
       break;
-    case TAG_cmt4:
+    case TAG::cmt4:
       parseTiff(Internal::Tag::cmt4, box_length);
       break;
-    case TAG_exif:
+    case TAG::exif:
       parseTiff(Internal::Tag::root, buffer_size, io_->tell());
       break;
-    case TAG_xml:
+    case TAG::xml:
       parseXmp(buffer_size, io_->tell());
       break;
-    case TAG_brob: {
+    case TAG::brob: {
       Internal::enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
       uint32_t realType = data.read_uint32(0, endian_);
       if (bTrace) {
@@ -547,12 +547,12 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 #ifdef EXV_HAVE_BROTLI
       DataBuf arr;
       brotliUncompress(data.c_data(4), data.size() - 4, arr);
-      if (realType == TAG_exif) {
+      if (realType == TAG::exif) {
         uint32_t offset = Safe::add(arr.read_uint32(0, endian_), 4u);
         Internal::enforce(Safe::add(offset, 4u) < arr.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
         Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), arr.c_data(offset), arr.size() - offset,
                                            Internal::Tag::root, Internal::TiffMapping::findDecoder);
-      } else if (realType == TAG_xml) {
+      } else if (realType == TAG::xml) {
         try {
           Exiv2::XmpParser::decode(xmpData(), std::string(arr.c_str(), arr.size()));
         } catch (...) {
@@ -561,7 +561,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       }
 #endif
     } break;
-    case TAG_thmb:
+    case TAG::thmb:
       switch (version) {
         case 0:  // JPEG
           parseCr3Preview(data, out, bTrace, version, skip, skip + 2, skip + 4, skip + 12);
@@ -573,7 +573,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
           break;
       }
       break;
-    case TAG_prvw:
+    case TAG::prvw:
       switch (version) {
         case 0:  // JPEG
         case 1:  // HDR
