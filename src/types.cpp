@@ -16,6 +16,9 @@
 #include <iomanip>
 #include <numeric>
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 // *****************************************************************************
 namespace {
 //! Information pertaining to the defined %Exiv2 value type identifiers.
@@ -640,10 +643,10 @@ const char* _exvGettext(const char* str) {
   if (!exvGettextInitialized) {
     // bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
     auto localeDir = []() -> std::string {
-      if constexpr (EXV_LOCALEDIR[0] == '/')
-        return EXV_LOCALEDIR;
-      else
-        return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
+      fs::path ret = EXV_LOCALEDIR;
+      if constexpr (EXV_LOCALEDIR[0] != '/')
+        ret = fs::path(Exiv2::getProcessPath()) / EXV_LOCALEDIR;
+      return ret.string();
     }();
     bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
 #ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
