@@ -365,7 +365,7 @@ std::string getProcessPath() {
   if (procstat)
     procstat_close(procstat);
 
-  const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_CHR);
+  const size_t idxLastSeparator = ret.find_last_of('/');
   return ret.substr(0, idxLastSeparator);
 #else
   try {
