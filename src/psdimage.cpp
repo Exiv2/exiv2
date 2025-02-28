@@ -31,71 +31,67 @@ struct PhotoshopResourceBlock {
 
 // Photoshop resource IDs (Cf.
 // <http://search.cpan.org/~bettelli/Image-MetaData-JPEG-0.15/lib/Image/MetaData/JPEG/TagLists.pod>)
-enum {
-  kPhotoshopResourceID_Photoshop2Info =
-      0x03e8,  // [obsolete -- Photoshop 2.0 only] General information -- contains five 2-byte values: number of
-               // channels, rows, columns, depth and mode
-  kPhotoshopResourceID_MacintoshClassicPrintInfo = 0x03e9,  // [optional] Macintosh classic print record (120 bytes)
-  kPhotoshopResourceID_MacintoshCarbonPrintInfo =
-      0x03ea,  // [optional] Macintosh carbon print info (variable-length XML format)
-  kPhotoshopResourceID_Photoshop2ColorTable = 0x03eb,   // [obsolete -- Photoshop 2.0 only] Indexed color table
-  kPhotoshopResourceID_ResolutionInfo = 0x03ed,         // PhotoshopResolutionInfo structure (see below)
-  kPhotoshopResourceID_AlphaChannelsNames = 0x03ee,     // as a series of Pstrings
-  kPhotoshopResourceID_DisplayInfo = 0x03ef,            // see appendix A in Photoshop SDK
-  kPhotoshopResourceID_PStringCaption = 0x03f0,         // [optional] the caption, as a Pstring
-  kPhotoshopResourceID_BorderInformation = 0x03f1,      // border width and units
-  kPhotoshopResourceID_BackgroundColor = 0x03f2,        // see additional Adobe information
-  kPhotoshopResourceID_PrintFlags = 0x03f3,             // labels, crop marks, colour bars, ecc...
-  kPhotoshopResourceID_BWHalftoningInfo = 0x03f4,       // Gray-scale and multich. half-toning info
-  kPhotoshopResourceID_ColorHalftoningInfo = 0x03f5,    // Colour half-toning information
-  kPhotoshopResourceID_DuotoneHalftoningInfo = 0x03f6,  // Duo-tone half-toning information
-  kPhotoshopResourceID_BWTransferFunc = 0x03f7,         // Gray-scale and multich. transfer function
-  kPhotoshopResourceID_ColorTransferFuncs = 0x03f8,     // Colour transfer function
-  kPhotoshopResourceID_DuotoneTransferFuncs = 0x03f9,   // Duo-tone transfer function
-  kPhotoshopResourceID_DuotoneImageInfo = 0x03fa,       // Duo-tone image information
-  kPhotoshopResourceID_EffectiveBW = 0x03fb,            // two bytes for the effective black and white values
-  kPhotoshopResourceID_ObsoletePhotoshopTag1 = 0x03fc,  // [obsolete]
-  kPhotoshopResourceID_EPSOptions = 0x03fd,             // Encapsulated Postscript options
-  kPhotoshopResourceID_QuickMaskInfo = 0x03fe,  // Quick Mask information. 2 bytes containing Quick Mask channel ID,
-                                                // 1 byte boolean indicating whether the mask was initially empty.
-  kPhotoshopResourceID_ObsoletePhotoshopTag2 = 0x03ff,    // [obsolete]
-  kPhotoshopResourceID_LayerStateInfo = 0x0400,           // index of target layer (0 means bottom)
-  kPhotoshopResourceID_WorkingPathInfo = 0x0401,          // should not be saved to the file
-  kPhotoshopResourceID_LayersGroupInfo = 0x0402,          // for grouping layers together
-  kPhotoshopResourceID_ObsoletePhotoshopTag3 = 0x0403,    // [obsolete] ??
-  kPhotoshopResourceID_IPTC_NAA = 0x0404,                 // IPTC/NAA data
-  kPhotoshopResourceID_RawImageMode = 0x0405,             // image mode for raw format files
-  kPhotoshopResourceID_JPEGQuality = 0x0406,              // [private]
-  kPhotoshopResourceID_GridGuidesInfo = 0x0408,           // see additional Adobe information
-  kPhotoshopResourceID_ThumbnailResource = 0x0409,        // see additional Adobe information
-  kPhotoshopResourceID_CopyrightFlag = 0x040a,            // true if image is copyrighted
-  kPhotoshopResourceID_URL = 0x040b,                      // text string with a resource locator
-  kPhotoshopResourceID_ThumbnailResource2 = 0x040c,       // see additional Adobe information
-  kPhotoshopResourceID_GlobalAngle = 0x040d,              // global lighting angle for effects layer
-  kPhotoshopResourceID_ColorSamplersResource = 0x040e,    // see additional Adobe information
-  kPhotoshopResourceID_ICCProfile = 0x040f,               // see notes from Internat. Color Consortium
-  kPhotoshopResourceID_Watermark = 0x0410,                // one byte
-  kPhotoshopResourceID_ICCUntagged = 0x0411,              // 1 means intentionally untagged
-  kPhotoshopResourceID_EffectsVisible = 0x0412,           // 1 byte to show/hide all effects layers
-  kPhotoshopResourceID_SpotHalftone = 0x0413,             // version, length and data
-  kPhotoshopResourceID_IDsBaseValue = 0x0414,             // base value for new layers ID's
-  kPhotoshopResourceID_UnicodeAlphaNames = 0x0415,        // length plus Unicode string
-  kPhotoshopResourceID_IndexedColourTableCount = 0x0416,  // [Photoshop 6.0 and later] 2 bytes
-  kPhotoshopResourceID_TransparentIndex = 0x0417,         // [Photoshop 6.0 and later] 2 bytes
-  kPhotoshopResourceID_GlobalAltitude = 0x0419,           // [Photoshop 6.0 and later] 4 bytes
-  kPhotoshopResourceID_Slices = 0x041a,                   // [Photoshop 6.0 and later] see additional Adobe info
-  kPhotoshopResourceID_WorkflowURL = 0x041b,              // [Photoshop 6.0 and later] 4 bytes length + Unicode string
-  kPhotoshopResourceID_JumpToXPEP = 0x041c,               // [Photoshop 6.0 and later] see additional Adobe info
-  kPhotoshopResourceID_AlphaIdentifiers = 0x041d,         // [Photoshop 6.0 and later] 4*(n+1) bytes
-  kPhotoshopResourceID_URLList = 0x041e,                  // [Photoshop 6.0 and later] structured Unicode URL's
-  kPhotoshopResourceID_VersionInfo = 0x0421,              // [Photoshop 6.0 and later] see additional Adobe info
-  kPhotoshopResourceID_ExifInfo = 0x0422,                 // [Photoshop 7.0?] Exif metadata
-  kPhotoshopResourceID_XMPPacket =
-      0x0424,  // [Photoshop 7.0?] XMP packet -- see  http://www.adobe.com/devnet/xmp/pdfs/xmp_specification.pdf
-  kPhotoshopResourceID_ClippingPathName = 0x0bb7,  // [Photoshop 6.0 and later] name of clipping path
-  kPhotoshopResourceID_MorePrintFlags =
-      0x2710  // [Photoshop 6.0 and later] Print flags information. 2 bytes version (=1), 1 byte center crop  marks, 1
-              // byte (=0), 4 bytes bleed width value, 2 bytes bleed width  scale.
+enum kPhotoshopResourceID {
+  Photoshop2Info = 0x03e8,  // [obsolete -- Photoshop 2.0 only] General information -- contains five 2-byte values:
+                            // number of channels, rows, columns, depth and mode
+  MacintoshClassicPrintInfo = 0x03e9,  // [optional] Macintosh classic print record (120 bytes)
+  MacintoshCarbonPrintInfo = 0x03ea,   // [optional] Macintosh carbon print info (variable-length XML format)
+  Photoshop2ColorTable = 0x03eb,       // [obsolete -- Photoshop 2.0 only] Indexed color table
+  ResolutionInfo = 0x03ed,             // PhotoshopResolutionInfo structure (see below)
+  AlphaChannelsNames = 0x03ee,         // as a series of Pstrings
+  DisplayInfo = 0x03ef,                // see appendix A in Photoshop SDK
+  PStringCaption = 0x03f0,             // [optional] the caption, as a Pstring
+  BorderInformation = 0x03f1,          // border width and units
+  BackgroundColor = 0x03f2,            // see additional Adobe information
+  PrintFlags = 0x03f3,                 // labels, crop marks, colour bars, ecc...
+  BWHalftoningInfo = 0x03f4,           // Gray-scale and multich. half-toning info
+  ColorHalftoningInfo = 0x03f5,        // Colour half-toning information
+  DuotoneHalftoningInfo = 0x03f6,      // Duo-tone half-toning information
+  BWTransferFunc = 0x03f7,             // Gray-scale and multich. transfer function
+  ColorTransferFuncs = 0x03f8,         // Colour transfer function
+  DuotoneTransferFuncs = 0x03f9,       // Duo-tone transfer function
+  DuotoneImageInfo = 0x03fa,           // Duo-tone image information
+  EffectiveBW = 0x03fb,                // two bytes for the effective black and white values
+  ObsoletePhotoshopTag1 = 0x03fc,      // [obsolete]
+  EPSOptions = 0x03fd,                 // Encapsulated Postscript options
+  QuickMaskInfo = 0x03fe,              // Quick Mask information. 2 bytes containing Quick Mask channel ID,
+                                       // 1 byte boolean indicating whether the mask was initially empty.
+  ObsoletePhotoshopTag2 = 0x03ff,      // [obsolete]
+  LayerStateInfo = 0x0400,             // index of target layer (0 means bottom)
+  WorkingPathInfo = 0x0401,            // should not be saved to the file
+  LayersGroupInfo = 0x0402,            // for grouping layers together
+  ObsoletePhotoshopTag3 = 0x0403,      // [obsolete] ??
+  IPTC_NAA = 0x0404,                   // IPTC/NAA data
+  RawImageMode = 0x0405,               // image mode for raw format files
+  JPEGQuality = 0x0406,                // [private]
+  GridGuidesInfo = 0x0408,             // see additional Adobe information
+  ThumbnailResource = 0x0409,          // see additional Adobe information
+  CopyrightFlag = 0x040a,              // true if image is copyrighted
+  URL = 0x040b,                        // text string with a resource locator
+  ThumbnailResource2 = 0x040c,         // see additional Adobe information
+  GlobalAngle = 0x040d,                // global lighting angle for effects layer
+  ColorSamplersResource = 0x040e,      // see additional Adobe information
+  ICCProfile = 0x040f,                 // see notes from Internat. Color Consortium
+  Watermark = 0x0410,                  // one byte
+  ICCUntagged = 0x0411,                // 1 means intentionally untagged
+  EffectsVisible = 0x0412,             // 1 byte to show/hide all effects layers
+  SpotHalftone = 0x0413,               // version, length and data
+  IDsBaseValue = 0x0414,               // base value for new layers ID's
+  UnicodeAlphaNames = 0x0415,          // length plus Unicode string
+  IndexedColourTableCount = 0x0416,    // [Photoshop 6.0 and later] 2 bytes
+  TransparentIndex = 0x0417,           // [Photoshop 6.0 and later] 2 bytes
+  GlobalAltitude = 0x0419,             // [Photoshop 6.0 and later] 4 bytes
+  Slices = 0x041a,                     // [Photoshop 6.0 and later] see additional Adobe info
+  WorkflowURL = 0x041b,                // [Photoshop 6.0 and later] 4 bytes length + Unicode string
+  JumpToXPEP = 0x041c,                 // [Photoshop 6.0 and later] see additional Adobe info
+  AlphaIdentifiers = 0x041d,           // [Photoshop 6.0 and later] 4*(n+1) bytes
+  URLList = 0x041e,                    // [Photoshop 6.0 and later] structured Unicode URL's
+  VersionInfo = 0x0421,                // [Photoshop 6.0 and later] see additional Adobe info
+  ExifInfo = 0x0422,                   // [Photoshop 7.0?] Exif metadata
+  XMPPacket = 0x0424,  // [Photoshop 7.0?] XMP packet -- see  http://www.adobe.com/devnet/xmp/pdfs/xmp_specification.pdf
+  ClippingPathName = 0x0bb7,  // [Photoshop 6.0 and later] name of clipping path
+  MorePrintFlags = 0x2710     // [Photoshop 6.0 and later] Print flags information. 2 bytes version (=1), 1 byte center
+                              // crop  marks, 1 byte (=0), 4 bytes bleed width value, 2 bytes bleed width  scale.
 };
 
 // *****************************************************************************
@@ -213,7 +209,7 @@ void PsdImage::readMetadata() {
 
 void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
   switch (resourceId) {
-    case kPhotoshopResourceID_IPTC_NAA: {
+    case kPhotoshopResourceID::IPTC_NAA: {
       DataBuf rawIPTC(resourceSize);
       io_->read(rawIPTC.data(), rawIPTC.size());
       if (io_->error() || io_->eof())
@@ -227,7 +223,7 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
       break;
     }
 
-    case kPhotoshopResourceID_ExifInfo: {
+    case kPhotoshopResourceID::ExifInfo: {
       DataBuf rawExif(resourceSize);
       io_->read(rawExif.data(), rawExif.size());
       if (io_->error() || io_->eof())
@@ -243,7 +239,7 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
       break;
     }
 
-    case kPhotoshopResourceID_XMPPacket: {
+    case kPhotoshopResourceID::XMPPacket: {
       DataBuf xmpPacket(resourceSize);
       io_->read(xmpPacket.data(), xmpPacket.size());
       if (io_->error() || io_->eof())
@@ -259,8 +255,8 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
 
     // - PS 4.0 preview data is fetched from ThumbnailResource
     // - PS >= 5.0 preview data is fetched from ThumbnailResource2
-    case kPhotoshopResourceID_ThumbnailResource:
-    case kPhotoshopResourceID_ThumbnailResource2: {
+    case kPhotoshopResourceID::ThumbnailResource:
+    case kPhotoshopResourceID::ThumbnailResource2: {
       /*
         Photoshop thumbnail resource header
 
@@ -433,27 +429,26 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
     const size_t curOffset = io_->tell();
 
     // Write IPTC_NAA resource block
-    if ((resourceId == kPhotoshopResourceID_IPTC_NAA || resourceId > kPhotoshopResourceID_IPTC_NAA) && !iptcDone) {
+    if (resourceId >= kPhotoshopResourceID::IPTC_NAA && !iptcDone) {
       newResLength += writeIptcData(iptcData_, outIo);
       iptcDone = true;
     }
 
     // Write ExifInfo resource block
-    else if ((resourceId == kPhotoshopResourceID_ExifInfo || resourceId > kPhotoshopResourceID_ExifInfo) && !exifDone) {
+    else if (resourceId >= kPhotoshopResourceID::ExifInfo && !exifDone) {
       newResLength += writeExifData(exifData_, outIo);
       exifDone = true;
     }
 
     // Write XMPpacket resource block
-    else if ((resourceId == kPhotoshopResourceID_XMPPacket || resourceId > kPhotoshopResourceID_XMPPacket) &&
-             !xmpDone) {
+    else if (resourceId >= kPhotoshopResourceID::XMPPacket && !xmpDone) {
       newResLength += writeXmpData(xmpData_, outIo);
       xmpDone = true;
     }
 
     // Copy all other resource blocks
-    if (resourceId != kPhotoshopResourceID_IPTC_NAA && resourceId != kPhotoshopResourceID_ExifInfo &&
-        resourceId != kPhotoshopResourceID_XMPPacket) {
+    if (resourceId != kPhotoshopResourceID::IPTC_NAA && resourceId != kPhotoshopResourceID::ExifInfo &&
+        resourceId != kPhotoshopResourceID::XMPPacket) {
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << std::hex << "copy : resourceType: " << resourceType << "\n";
       std::cerr << std::hex << "copy : resourceId: " << resourceId << "\n";
@@ -548,12 +543,12 @@ uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) {
     DataBuf rawIptc = IptcParser::encode(iptcData);
     if (!rawIptc.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_IPTC_NAA << "\n";
+      std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID::IPTC_NAA << "\n";
       std::cerr << std::dec << "Writing IPTC_NAA: size: " << rawIptc.size() << "\n";
 #endif
       if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_.front()), 4) != 4)
         throw Error(ErrorCode::kerImageWriteFailed);
-      us2Data(buf, kPhotoshopResourceID_IPTC_NAA, bigEndian);
+      us2Data(buf, kPhotoshopResourceID::IPTC_NAA, bigEndian);
       if (out.write(buf, 2) != 2)
         throw Error(ErrorCode::kerImageWriteFailed);
       us2Data(buf, 0, bigEndian);  // NULL resource name
@@ -593,12 +588,12 @@ uint32_t PsdImage::writeExifData(ExifData& exifData, BasicIo& out) {
 
     if (!blob.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_ExifInfo << "\n";
+      std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID::ExifInfo << "\n";
       std::cerr << std::dec << "Writing ExifInfo: size: " << blob.size() << "\n";
 #endif
       if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_.front()), 4) != 4)
         throw Error(ErrorCode::kerImageWriteFailed);
-      us2Data(buf, kPhotoshopResourceID_ExifInfo, bigEndian);
+      us2Data(buf, kPhotoshopResourceID::ExifInfo, bigEndian);
       if (out.write(buf, 2) != 2)
         throw Error(ErrorCode::kerImageWriteFailed);
       us2Data(buf, 0, bigEndian);  // NULL resource name
@@ -640,12 +635,12 @@ uint32_t PsdImage::writeXmpData(const XmpData& xmpData, BasicIo& out) const {
 
   if (!xmpPacket.empty()) {
 #ifdef EXIV2_DEBUG_MESSAGES
-    std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID_XMPPacket << "\n";
+    std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID::XMPPacket << "\n";
     std::cerr << std::dec << "Writing XMPPacket: size: " << xmpPacket.size() << "\n";
 #endif
     if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_.front()), 4) != 4)
       throw Error(ErrorCode::kerImageWriteFailed);
-    us2Data(buf, kPhotoshopResourceID_XMPPacket, bigEndian);
+    us2Data(buf, kPhotoshopResourceID::XMPPacket, bigEndian);
     if (out.write(buf, 2) != 2)
       throw Error(ErrorCode::kerImageWriteFailed);
     us2Data(buf, 0, bigEndian);  // NULL resource name
