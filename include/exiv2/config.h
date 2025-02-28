@@ -7,7 +7,6 @@
 #ifdef _MSC_VER
 
 #pragma warning(disable : 4996)  // Disable warnings about 'deprecated' standard functions
-#pragma warning(disable : 4251)  // Disable warnings from std templates about exporting interfaces
 
 #endif  // _MSC_VER
 ///// End of Visual Studio Support /////
