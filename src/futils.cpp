@@ -6,7 +6,6 @@
 #include "config.h"
 #include "enforce.hpp"
 #include "image_int.hpp"
-#include "utils.hpp"
 
 // + standard includes
 #include <algorithm>
@@ -14,7 +13,6 @@
 #include <cctype>
 #include <cstdint>
 #include <cstring>
-#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -367,7 +365,7 @@ std::string getProcessPath() {
   if (procstat)
     procstat_close(procstat);
 
-  const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_CHR);
+  const size_t idxLastSeparator = ret.find_last_of('/');
   return ret.substr(0, idxLastSeparator);
 #else
   try {

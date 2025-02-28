@@ -6,7 +6,6 @@
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
-#include "metadatum.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
@@ -22,7 +21,7 @@ struct XmpPrintInfo {
     return key == key_;
   }
 
-  const char* key_;           //!< XMP key
+  std::string_view key_;      //!< XMP key
   Exiv2::PrintFct printFct_;  //!< Print function
 };
 
@@ -4841,7 +4840,7 @@ const XmpPropertyInfo xmpAcdseeInfo[] = {
     {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
 };
 
-const XmpPrintInfo xmpPrintInfo[] = {
+constexpr XmpPrintInfo xmpPrintInfo[] = {
     {"Xmp.crs.CropUnits", EXV_PRINT_TAG(crsCropUnits)},
     {"Xmp.exif.ApertureValue", print0x9202},
     {"Xmp.exif.BrightnessValue", printFloat},

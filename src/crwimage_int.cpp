@@ -643,8 +643,12 @@ void CrwMap::decode0x080a(const CiffComponent& ciffComponent, const CrwMapping* 
   ExifKey key1("Exif.Image.Make");
   auto value1 = Value::create(ciffComponent.typeId());
   uint32_t i = 0;
-  while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-    // empty
+  while (i < ciffComponent.size()) {
+    if (ciffComponent.pData()[i] == '\0') {
+      ++i;
+      break;
+    }
+    ++i;
   }
   value1->read(ciffComponent.pData(), i, byteOrder);
   image.exifData().add(key1, value1.get());
@@ -653,8 +657,12 @@ void CrwMap::decode0x080a(const CiffComponent& ciffComponent, const CrwMapping* 
   ExifKey key2("Exif.Image.Model");
   auto value2 = Value::create(ciffComponent.typeId());
   uint32_t j = i;
-  while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-    // empty
+  while (i < ciffComponent.size()) {
+    if (ciffComponent.pData()[i] == '\0') {
+      ++i;
+      break;
+    }
+    ++i;
   }
   value2->read(ciffComponent.pData() + j, i - j, byteOrder);
   image.exifData().add(key2, value2.get());
@@ -790,8 +798,12 @@ void CrwMap::decodeBasic(const CiffComponent& ciffComponent, const CrwMapping* p
     } else if (ciffComponent.typeId() == asciiString) {
       // determine size from the data, by looking for the first 0
       uint32_t i = 0;
-      while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-        // empty
+      while (i < ciffComponent.size()) {
+        if (ciffComponent.pData()[i] == '\0') {
+          ++i;
+          break;
+        }
+        ++i;
       }
       size = i;
     } else {

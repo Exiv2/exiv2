@@ -12,7 +12,6 @@
 #include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "types.hpp"
-#include "utils.hpp"
 #include "value.hpp"
 
 #include <algorithm>
@@ -557,11 +556,10 @@ TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent)
 }  // TiffDirectory::doAddChild
 
 TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  auto d = dynamic_cast<TiffDirectory*>(tiffComponent.get());
+  auto d = dynamic_cast<TiffDirectory*>(tiffComponent.release());
   if (!d) {
     throw Error(ErrorCode::kerErrorMessage, "dynamic_cast to TiffDirectory failed");
   }
-  tiffComponent.release();
   ifds_.emplace_back(d);
   return d;
 }  // TiffSubIfd::doAddChild
