@@ -236,19 +236,15 @@ if(WIN32)
   # Since windows.h is included in some headers, we need to propagate this definition
   target_compile_definitions(exiv2lib PUBLIC WIN32_LEAN_AND_MEAN)
   set_target_properties(exiv2lib PROPERTIES DEBUG_POSTFIX d)
-endif()
-
-if(NOT MSVC)
-  if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
-    target_link_libraries(exiv2lib PRIVATE -lprocstat)
-  endif()
-
-  if(MINGW)
-    target_link_libraries(exiv2lib PRIVATE psapi ws2_32 shell32)
-  endif()
-
-else()
   target_link_libraries(exiv2lib PRIVATE psapi ws2_32 shell32)
+else()
+  if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+    target_link_libraries(exiv2lib PRIVATE procstat)
+  endif()
+
+  if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+    target_link_libraries(exiv2lib PRIVATE socket)
+  endif()
 endif()
 
 if(NOT EXV_HAVE_STD_FORMAT)
