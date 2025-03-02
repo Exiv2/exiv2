@@ -31,35 +31,25 @@ class RotationMap {
   // DATA
   static const OmList omList_[];
 };  // class RotationMap
-}  // namespace
 
 // *****************************************************************************
 // local definitions
-namespace {
 constexpr RotationMap::OmList RotationMap::omList_[] = {
     {1, 0}, {3, 180}, {3, -180}, {6, 90}, {6, -270}, {8, 270}, {8, -90},
 };
 
 uint16_t RotationMap::orientation(int32_t degrees) {
-  uint16_t o = 1;
-  for (auto&& [orient, deg] : omList_) {
-    if (deg == degrees) {
-      o = orient;
-      break;
-    }
-  }
-  return o;
+  for (auto&& [orient, deg] : omList_)
+    if (deg == degrees)
+      return orient;
+  return 1;
 }
 
 int32_t RotationMap::degrees(uint16_t orientation) {
-  int32_t d = 0;
-  for (auto&& [orient, deg] : omList_) {
-    if (orient == orientation) {
-      d = deg;
-      break;
-    }
-  }
-  return d;
+  for (auto&& [orient, deg] : omList_)
+    if (orient == orientation)
+      return deg;
+  return 0;
 }
 }  // namespace
 
