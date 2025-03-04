@@ -2592,7 +2592,7 @@ std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData*
 }
 
 float fnumber(float apertureValue) {
-  float result = std::pow(2.0F, apertureValue / 2.F);
+  float result = std::exp2(apertureValue / 2.F);
   if (std::abs(result - 3.5) < 0.1) {
     result = 3.5;
   }
@@ -2601,7 +2601,7 @@ float fnumber(float apertureValue) {
 
 URational exposureTime(float shutterSpeedValue) {
   URational ur(1, 1);
-  const double tmp = std::pow(2.0, shutterSpeedValue);
+  const double tmp = std::exp2(shutterSpeedValue);
   if (tmp > 1) {
     const double x = std::round(tmp);
     // Check that x is within the range of a uint32_t before casting.

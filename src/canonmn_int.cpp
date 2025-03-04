@@ -3028,7 +3028,7 @@ std::ostream& CanonMakerNote::printLe0x0000(std::ostream& os, const Value& value
 
 std::ostream& CanonMakerNote::printSi0x0001(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() == unsignedShort && value.count() > 0) {
-    os << std::pow(2.0F, canonEv(value.toInt64()) / 32) * 100.0F;
+    os << std::exp2(canonEv(value.toInt64()) / 32) * 100.0F;
   }
   return os;
 }
@@ -3036,7 +3036,7 @@ std::ostream& CanonMakerNote::printSi0x0001(std::ostream& os, const Value& value
 std::ostream& CanonMakerNote::printSi0x0002(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() == unsignedShort && value.count() > 0) {
     // Ported from Exiftool by Will Stokes
-    os << std::pow(2.0F, canonEv(value.toInt64())) * 100.0F / 32.0F;
+    os << std::exp2(canonEv(value.toInt64())) * (100.0F / 32.0F);
   }
   return os;
 }
