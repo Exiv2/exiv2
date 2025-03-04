@@ -11,6 +11,10 @@
 #include <ctime>
 #include <iostream>
 
+#ifndef EXV_HAVE_STD_FORMAT
+#include <fmt/chrono.h>
+#endif
+
 // *****************************************************************************
 // local declarations
 namespace {
@@ -31,35 +35,25 @@ class RotationMap {
   // DATA
   static const OmList omList_[];
 };  // class RotationMap
-}  // namespace
 
 // *****************************************************************************
 // local definitions
-namespace {
 constexpr RotationMap::OmList RotationMap::omList_[] = {
     {1, 0}, {3, 180}, {3, -180}, {6, 90}, {6, -270}, {8, 270}, {8, -90},
 };
 
 uint16_t RotationMap::orientation(int32_t degrees) {
-  uint16_t o = 1;
-  for (auto&& [orient, deg] : omList_) {
-    if (deg == degrees) {
-      o = orient;
-      break;
-    }
-  }
-  return o;
+  for (auto&& [orient, deg] : omList_)
+    if (deg == degrees)
+      return orient;
+  return 1;
 }
 
 int32_t RotationMap::degrees(uint16_t orientation) {
-  int32_t d = 0;
-  for (auto&& [orient, deg] : omList_) {
-    if (orient == orientation) {
-      d = deg;
-      break;
-    }
-  }
-  return d;
+  for (auto&& [orient, deg] : omList_)
+    if (orient == orientation)
+      return deg;
+  return 0;
 }
 }  // namespace
 
@@ -643,8 +637,12 @@ void CrwMap::decode0x080a(const CiffComponent& ciffComponent, const CrwMapping* 
   ExifKey key1("Exif.Image.Make");
   auto value1 = Value::create(ciffComponent.typeId());
   uint32_t i = 0;
-  while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-    // empty
+  while (i < ciffComponent.size()) {
+    if (ciffComponent.pData()[i] == '\0') {
+      ++i;
+      break;
+    }
+    ++i;
   }
   value1->read(ciffComponent.pData(), i, byteOrder);
   image.exifData().add(key1, value1.get());
@@ -653,8 +651,12 @@ void CrwMap::decode0x080a(const CiffComponent& ciffComponent, const CrwMapping* 
   ExifKey key2("Exif.Image.Model");
   auto value2 = Value::create(ciffComponent.typeId());
   uint32_t j = i;
-  while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-    // empty
+  while (i < ciffComponent.size()) {
+    if (ciffComponent.pData()[i] == '\0') {
+      ++i;
+      break;
+    }
+    ++i;
   }
   value2->read(ciffComponent.pData() + j, i - j, byteOrder);
   image.exifData().add(key2, value2.get());
@@ -730,22 +732,26 @@ void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* 
   ULongValue v;
   v.read(ciffComponent.pData(), 8, byteOrder);
   time_t t = v.value_.at(0);
-  tm r;
+#ifndef EXV_HAVE_STD_FORMAT
+  auto s = fmt::format("{:%Y:%m:%d %T}", fmt::localtime(t));
+#else
+  std::tm r;
 #ifdef _WIN32
   auto tm = localtime_s(&r, &t) ? nullptr : &r;
 #else
   auto tm = localtime_r(&t, &r);
 #endif
-  if (tm) {
-    const size_t m = 20;
-    char s[m];
-    std::strftime(s, m, "%Y:%m:%d %H:%M:%S", tm);
+  if (!tm)
+    return;
+  const size_t m = 20;
+  char s[m];
+  std::strftime(s, m, "%Y:%m:%d %T", tm);
+#endif
 
-    ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-    AsciiValue value;
-    value.read(std::string(s));
-    image.exifData().add(key, &value);
-  }
+  ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
+  AsciiValue value;
+  value.read(s);
+  image.exifData().add(key, &value);
 }  // CrwMap::decode0x180e
 
 void CrwMap::decode0x1810(const CiffComponent& ciffComponent, const CrwMapping* pCrwMapping, Image& image,
@@ -790,8 +796,12 @@ void CrwMap::decodeBasic(const CiffComponent& ciffComponent, const CrwMapping* p
     } else if (ciffComponent.typeId() == asciiString) {
       // determine size from the data, by looking for the first 0
       uint32_t i = 0;
-      while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-        // empty
+      while (i < ciffComponent.size()) {
+        if (ciffComponent.pData()[i] == '\0') {
+          ++i;
+          break;
+        }
+        ++i;
       }
       size = i;
     } else {
@@ -918,7 +928,7 @@ void CrwMap::encode0x180e(const Image& image, const CrwMapping& pCrwMapping, Cif
   time_t t = 0;
   const ExifKey key(pCrwMapping.tag_, Internal::groupName(pCrwMapping.ifdId_));
   if (auto ed = image.exifData().findKey(key); ed != image.exifData().end()) {
-    tm tm = {};
+    std::tm tm = {};
     if (exifTime(ed->toString().c_str(), &tm) == 0) {
       t = ::mktime(&tm);
     }

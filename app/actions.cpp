@@ -24,8 +24,7 @@
 #include <sstream>
 
 // + standard includes
-#include <sys/stat.h>   // for stat()
-#include <sys/types.h>  // for stat()
+#include <sys/stat.h>  // for stat()
 #if __has_include(<unistd.h>)
 #include <unistd.h>  // for stat()
 #endif
@@ -631,7 +630,7 @@ int Rename::run(const std::string& path) {
       std::cerr << _("Image file creation timestamp not set in the file") << " " << path << "\n";
       return 1;
     }
-    tm tm;
+    std::tm tm;
     if (str2Tm(v, &tm) != 0) {
       std::cerr << _("Failed to parse timestamp") << " `" << v << "' " << _("in the file") << " " << path << "\n";
       return 1;
@@ -1395,7 +1394,7 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
       std::cout << " " << adjustment_ << _("s");
     }
   }
-  tm tm;
+  std::tm tm;
   if (str2Tm(timeStr, &tm) != 0) {
     if (Params::instance().verbose_)
       std::cout << '\n';

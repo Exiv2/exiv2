@@ -3,8 +3,8 @@
 #include <exiv2/exiv2.hpp>
 #include <iostream>
 
-void write(const std::string& file, Exiv2::ExifData& ed);
-void print(const std::string& file);
+static void write(const std::string& file, Exiv2::ExifData& ed);
+static void print(const std::string& file);
 
 // *****************************************************************************
 // Main
