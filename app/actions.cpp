@@ -75,9 +75,6 @@ int str2Tm(const std::string& timeStr, tm* tm);
 //! Convert a localtime to a string "YYYY:MM:DD HH:MI:SS", "" on error
 std::string time2Str(time_t time);
 
-//! Convert a tm structure to a string "YYYY:MM:DD HH:MI:SS", "" on error
-std::string tm2Str(const tm* tm);
-
 /*!
   @brief Copy metadata from source to target according to Params::copyXyz
 
@@ -630,7 +627,7 @@ int Rename::run(const std::string& path) {
       std::cerr << _("Image file creation timestamp not set in the file") << " " << path << "\n";
       return 1;
     }
-    tm tm;
+    std::tm tm;
     if (str2Tm(v, &tm) != 0) {
       std::cerr << _("Failed to parse timestamp") << " `" << v << "' " << _("in the file") << " " << path << "\n";
       return 1;
@@ -1394,7 +1391,7 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
       std::cout << " " << adjustment_ << _("s");
     }
   }
-  tm tm;
+  std::tm tm;
   if (str2Tm(timeStr, &tm) != 0) {
     if (Params::instance().verbose_)
       std::cout << '\n';
@@ -1645,21 +1642,20 @@ int str2Tm(const std::string& timeStr, tm* tm) {
 }  // str2Tm
 
 std::string time2Str(time_t time) {
-  auto tm = localtime(&time);
-  return tm2Str(tm);
-}  // time2Str
-
-std::string tm2Str(const tm* tm) {
+  std::tm r;
+#ifdef _WIN32
+  auto tm = localtime_s(&r, &time) ? nullptr : &r;
+#else
+  auto tm = localtime_r(&time, &r);
+#endif
   if (!tm)
     return "";
 
-  std::ostringstream os;
-  os << std::setfill('0') << tm->tm_year + 1900 << ":" << std::setw(2) << tm->tm_mon + 1 << ":" << std::setw(2)
-     << tm->tm_mday << " " << std::setw(2) << tm->tm_hour << ":" << std::setw(2) << tm->tm_min << ":" << std::setw(2)
-     << tm->tm_sec;
-
-  return os.str();
-}  // tm2Str
+  const size_t m = 20;
+  char s[m];
+  std::strftime(s, m, "%Y:%m:%d %T", tm);
+  return s;
+}  // time2Str
 
 std::string temporaryPath() {
   static int count = 0;
