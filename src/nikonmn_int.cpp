@@ -1045,7 +1045,7 @@ static void printFlashCompensationValue(std::ostream& os, const unsigned char va
     }
     const auto mod = value % 6;
     auto temp = (value < 6) ? 0 : (value - mod) / 6;
-    os << "1/" << std::pow(2, temp);
+    os << "1/" << std::exp2(temp);
     if (mod != 0) {
       os << " (-";
       switch (mod) {
@@ -1740,7 +1740,7 @@ const TagInfo* Nikon3MakerNote::tagListLd4() {
 }
 
 std::ostream& Nikon3MakerNote::printIiIso(std::ostream& os, const Value& value, const ExifData*) {
-  auto v = std::lround(100.0 * std::pow(2.0, (value.toInt64() / 12.0) - 5));
+  auto v = std::lround(100.0 * std::exp2((value.toInt64() / 12.0) - 5));
   return os << v;
 }
 
@@ -3304,7 +3304,7 @@ std::ostream& Nikon3MakerNote::printAperture(std::ostream& os, const Value& valu
   if (val == 0)
     return os << _("n/a");
 
-  return os << stringFormat("F{:.1f}", std::pow(2.0, val / 24.0));
+  return os << stringFormat("F{:.1f}", std::exp2(val / 24.0));
 }
 
 std::ostream& Nikon3MakerNote::printFocal(std::ostream& os, const Value& value, const ExifData*) {
@@ -3315,7 +3315,7 @@ std::ostream& Nikon3MakerNote::printFocal(std::ostream& os, const Value& value, 
   if (val == 0)
     return os << _("n/a");
 
-  return os << stringFormat("{:.1f} mm", 5.0 * std::pow(2.0, val / 24.0));
+  return os << stringFormat("{:.1f} mm", 5.0 * std::exp2(val / 24.0));
 }
 
 std::ostream& Nikon3MakerNote::printFStops(std::ostream& os, const Value& value, const ExifData*) {
@@ -3919,7 +3919,7 @@ std::ostream& Nikon3MakerNote::printApertureLd4(std::ostream& os, const Value& v
   if (temp == 0)
     return os << _("n/a");
 
-  return os << stringFormat("F{:.1f}", std::pow(2.0, (temp / 384.0) - 1.0));
+  return os << stringFormat("F{:.1f}", std::exp2((temp / 384.0) - 1.0));
 }
 std::ostream& Nikon3MakerNote::printFocalLd4(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1 || value.typeId() != unsignedShort) {
