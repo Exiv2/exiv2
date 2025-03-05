@@ -14,7 +14,6 @@
 #include "image_int.hpp"
 
 #include <iomanip>
-#include <sstream>
 
 // *****************************************************************************
 // class member definitions

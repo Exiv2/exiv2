@@ -98,7 +98,7 @@ struct ConstSliceBase : SliceBase {
    *
    * @throw std::out_of_range when index is out of bounds of the slice
    */
-  const value_type& at(size_t index) const {
+  [[nodiscard]] const value_type& at(size_t index) const {
     rangeCheck(index);
     // we know: begin_ < end <= size() <= SIZE_T_MAX
     // and: index < end - begin

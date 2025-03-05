@@ -22,13 +22,15 @@
 #include <iostream>
 #include <regex>
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 #if defined(_WIN32)
 #include <fcntl.h>
 #include <io.h>
 #include <windows.h>
 #else
 #include <sys/select.h>
-#include <sys/time.h>
 #include <unistd.h>
 #endif
 
@@ -120,10 +122,10 @@ int main(int argc, char* const argv[]) {
 #ifdef EXV_ENABLE_NLS
   setlocale(LC_ALL, "");
   auto localeDir = []() -> std::string {
-    if constexpr (EXV_LOCALEDIR[0] == '/')
-      return EXV_LOCALEDIR;
-    else
-      return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
+    fs::path ret = EXV_LOCALEDIR;
+    if constexpr (EXV_LOCALEDIR[0] != '/')
+      ret = fs::path(Exiv2::getProcessPath()) / EXV_LOCALEDIR;
+    return ret.string();
   }();
   bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
   textdomain(EXV_PACKAGE_NAME);

@@ -80,7 +80,7 @@ TYPED_TEST_P(slice, iteratorAccess) {
     ASSERT_EQ(*it, *vec_it);
   }
 
-  ASSERT_THROW(sl.at(sl.size()), std::out_of_range);
+  ASSERT_THROW(static_cast<void>(sl.at(sl.size())), std::out_of_range);
 }
 
 TYPED_TEST_P(slice, constructionFailsFromInvalidRange) {
@@ -262,7 +262,7 @@ TEST_F(stringSlice, at) {
 
 TEST_F(stringSlice, atFailure) {
   auto is_a = makeSlice(static_cast<const std::string&>(this->sentence), 5, 10);
-  ASSERT_THROW(is_a.at(5), std::out_of_range);
+  ASSERT_THROW(static_cast<void>(is_a.at(5)), std::out_of_range);
 }
 
 TEST_F(stringSlice, size) {
