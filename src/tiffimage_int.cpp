@@ -3,6 +3,7 @@
 #include "tiffimage_int.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "sonymn_int.hpp"
 #include "tiffvisitor_int.hpp"
@@ -2186,9 +2187,7 @@ DataBuf TiffHeaderBase::write() const {
 }
 
 void TiffHeaderBase::print(std::ostream& os, std::string_view prefix) const {
-  std::ios::fmtflags f(os.flags());
-  os << prefix << _("TIFF header, offset") << " = 0x" << std::setw(8) << std::setfill('0') << std::hex << std::right
-     << offset_;
+  os << stringFormat("{}{} = 0x{:08x}", prefix, _("TIFF header, offset"), offset_);
 
   switch (byteOrder_) {
     case littleEndian:
@@ -2201,7 +2200,6 @@ void TiffHeaderBase::print(std::ostream& os, std::string_view prefix) const {
       break;
   }
   os << "\n";
-  os.flags(f);
 }  // TiffHeaderBase::print
 
 ByteOrder TiffHeaderBase::byteOrder() const {

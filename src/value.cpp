@@ -835,10 +835,7 @@ DateValue* DateValue::clone_() const {
 
 std::ostream& DateValue::write(std::ostream& os) const {
   // Write DateValue in ISO 8601 Extended format: YYYY-MM-DD
-  std::ios::fmtflags f(os.flags());
-  os << stringFormat("{:04}-{:02}-{:02}", date_.year, date_.month, date_.day);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:04}-{:02}-{:02}", date_.year, date_.month, date_.day);
 }
 
 int64_t DateValue::toInt64(size_t /*n*/) const {
@@ -1015,12 +1012,8 @@ std::ostream& TimeValue::write(std::ostream& os) const {
   if (time_.tzHour < 0 || time_.tzMinute < 0)
     plusMinus = '-';
 
-  std::ios::fmtflags f(os.flags());
-  os << stringFormat("{:02}:{:02}:{:02}{}{:02}:{:02}", time_.hour, time_.minute, time_.second, plusMinus,
-                     std::abs(time_.tzHour), std::abs(time_.tzMinute));
-  os.flags(f);
-
-  return os;
+  return os << stringFormat("{:02}:{:02}:{:02}{}{:02}:{:02}", time_.hour, time_.minute, time_.second, plusMinus,
+                            std::abs(time_.tzHour), std::abs(time_.tzMinute));
 }
 
 int64_t TimeValue::toInt64(size_t /*n*/) const {
