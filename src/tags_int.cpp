@@ -2738,7 +2738,8 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
     fNumber2 = value.toFloat(3);
 
   // first value must not be bigger than second
-  if ((focalLength1 > focalLength2 && focalLength2 > 0.0f) || (fNumber1 > fNumber2 && fNumber2 > 0.0f)) {
+  if ((std::isgreater(focalLength1, focalLength2) && std::isgreater(focalLength2, 0.0f)) ||
+      (std::isgreater(fNumber1, fNumber2) && std::isgreater(fNumber2, 0.0f))) {
     os << "(" << value << ")";
     return os;
   }
@@ -2764,7 +2765,7 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
   std::ostringstream oss;
   oss.copyfmt(os);
 
-  if (fNumber1 > 0.0f || fNumber2 > 0.0f) {
+  if (std::isgreater(fNumber1, 0.0f) || std::isgreater(fNumber2, 0.0f)) {
     os << " F";
     if (fNumber1 == 0.0f)
       os << " n/a";
