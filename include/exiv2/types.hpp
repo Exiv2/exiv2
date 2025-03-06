@@ -121,11 +121,10 @@ class EXIV2API TypeInfo {
          be as a stack variable in functions that need a temporary data
          buffer.
  */
-struct EXIV2API DataBuf {
+struct EXIV2API DataBuf : public Blob {
+  using Blob::Blob;
   //! @name Creators
   //@{
-  //! Default constructor
-  DataBuf() = default;
   //! Constructor with an initial buffer size
   explicit DataBuf(size_t size);
   //! Constructor, copies an existing buffer
@@ -148,26 +147,6 @@ struct EXIV2API DataBuf {
   //! Reset value
   void reset();
   //@}
-
-  using iterator = std::vector<byte>::iterator;
-  using const_iterator = std::vector<byte>::const_iterator;
-
-  iterator begin() noexcept {
-    return pData_.begin();
-  }
-  [[nodiscard]] const_iterator cbegin() const noexcept {
-    return pData_.cbegin();
-  }
-  iterator end() noexcept {
-    return pData_.end();
-  }
-  [[nodiscard]] const_iterator cend() const noexcept {
-    return pData_.end();
-  }
-
-  [[nodiscard]] size_t size() const {
-    return pData_.size();
-  }
 
   [[nodiscard]] uint8_t read_uint8(size_t offset) const;
   void write_uint8(size_t offset, uint8_t x);

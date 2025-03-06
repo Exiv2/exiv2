@@ -376,12 +376,9 @@ using ExifMetadata = std::list<Exifdatum>;
   - extract Exif metadata to files, insert from these files
   - extract and delete Exif thumbnail (JPEG and TIFF thumbnails)
 */
-class EXIV2API ExifData {
+class EXIV2API ExifData : public ExifMetadata {
  public:
-  //! ExifMetadata iterator type
-  using iterator = ExifMetadata::iterator;
-  //! ExifMetadata const iterator type
-  using const_iterator = ExifMetadata::const_iterator;
+  using ExifMetadata::ExifMetadata;
 
   //! @name Manipulators
   //@{
@@ -431,14 +428,6 @@ class EXIV2API ExifData {
   void sortByKey();
   //! Sort metadata by tag
   void sortByTag();
-  //! Begin of the metadata
-  iterator begin() {
-    return exifMetadata_.begin();
-  }
-  //! End of the metadata
-  iterator end() {
-    return exifMetadata_.end();
-  }
   /*!
     @brief Find the first Exifdatum with the given \em key, return an
            iterator to it.
@@ -446,29 +435,11 @@ class EXIV2API ExifData {
   iterator findKey(const ExifKey& key);
   //@}
 
-  //! @name Accessors
-  //@{
-  //! Begin of the metadata
-  [[nodiscard]] const_iterator begin() const {
-    return exifMetadata_.begin();
-  }
-  //! End of the metadata
-  [[nodiscard]] const_iterator end() const {
-    return exifMetadata_.end();
-  }
   /*!
     @brief Find the first Exifdatum with the given \em key, return a const
            iterator to it.
    */
   [[nodiscard]] const_iterator findKey(const ExifKey& key) const;
-  //! Return true if there is no Exif metadata
-  [[nodiscard]] bool empty() const {
-    return exifMetadata_.empty();
-  }
-  //! Get the number of metadata entries
-  [[nodiscard]] size_t count() const {
-    return exifMetadata_.size();
-  }
   //@}
 
  private:
