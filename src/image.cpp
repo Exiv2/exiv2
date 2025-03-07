@@ -451,10 +451,10 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
             const size_t restore = io.tell();
             io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
-            std::vector<byte> bytes(count);                                         // allocate memory
-            io.readOrThrow(bytes.data(), count, ErrorCode::kerCorruptedMetadata);
+            auto bytes = std::make_unique<byte[]>(count);                           // allocate memory
+            io.readOrThrow(bytes.get(), count, ErrorCode::kerCorruptedMetadata);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
-            IptcData::printStructure(out, makeSliceUntil(bytes.data(), count), depth);
+            IptcData::printStructure(out, makeSliceUntil(bytes.get(), count), depth);
           }
         } else if (option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
           const size_t restore = io.tell();  // save
