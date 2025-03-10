@@ -962,10 +962,17 @@ Total Tests: 6
 ctest provides many option and the following show common use-case scenarios:
 
 ```bash
+<<<<<<< HEAD
 $ ctest                              # run all tests and display summary
 $ ctest --output-on-failure          # run all tests and output failures
 $ ctest -R bugfix                    # run only bugfixTests and display summary
 $ ctest -R bugfix --verbose          # run only bugfixTests and display all output
+=======
+$ ctest --test-dir build                             # run all tests and display summary
+$ ctest --test-dir build --output-on-failure         # run all tests and output failures
+$ ctest --test-dir build -R bugfix                   # run only bugfixTests and display summary
+$ ctest --test-dir build -R bugfix --verbose         # run only bugfixTests and display all output
+>>>>>>> 02bb0eeb (Fix typo in README.md)
 ```
 
 Except for the `unitTests`,  CMake needs to find a python3 interpreter in the system to be able to run the rest of the test targets with CTest:
