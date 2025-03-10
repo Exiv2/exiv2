@@ -511,7 +511,7 @@ size_t FileIo::size() const {
   Impl::StructStat buf;
   if (p_->stat(buf))
     return std::numeric_limits<size_t>::max();
-  return buf.st_size;
+  return static_cast<size_t>(buf.st_size);
 }
 
 int FileIo::open() {
@@ -1693,7 +1693,7 @@ DataBuf readFile(const std::string& path) {
   if (file.open("rb") != 0) {
     throw Error(ErrorCode::kerFileOpenFailed, path, "rb", strError());
   }
-  DataBuf buf(fs::file_size(path));
+  DataBuf buf(static_cast<size_t>(fs::file_size(path)));
   if (file.read(buf.data(), buf.size()) != buf.size()) {
     throw Error(ErrorCode::kerCallFailed, path, strError(), "FileIo::read");
   }

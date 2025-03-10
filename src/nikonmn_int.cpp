@@ -3783,8 +3783,8 @@ std::ostream& Nikon3MakerNote::printTimeZone(std::ostream& os, const Value& valu
     return os << "(" << value << ")";
   }
   char sign = value.toInt64() < 0 ? '-' : '+';
-  long h = static_cast<long>(std::fabs<int>(value.toFloat() / 60.0F)) % 24;
-  long min = static_cast<long>(std::fabs<int>(value.toFloat() - (h * 60))) % 60;
+  long h = static_cast<long>(std::fabs(value.toFloat() / 60.0F)) % 24;
+  long min = static_cast<long>(std::fabs(value.toFloat() - (h * 60))) % 60;
   return os << stringFormat("UTC {}{:02}:{:02}", sign, h, min);
 }
 

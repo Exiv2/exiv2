@@ -1792,7 +1792,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
       std::vector<char> buffer(8 * 1024);
 
       while (f.read(buffer.data(), buffer.size()) || f.gcount() > 0) {
-        std::fwrite(buffer.data(), 1, f.gcount(), stdout);
+        std::fwrite(buffer.data(), 1, static_cast<size_t>(f.gcount()), stdout);
       }
     }
   }
