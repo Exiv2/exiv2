@@ -958,7 +958,7 @@ ctest provides many option and the following show common use-case scenarios:
 ```bash
 $ ctest --test-dir build                             # run all tests and display summary
 $ ctest --test-dir build --output-on-failure         # run all tests and output failures
-$ ctest --test-dir build-R bugfix                    # run only bugfixTests and display summary
+$ ctest --test-dir build -R bugfix                   # run only bugfixTests and display summary
 $ ctest --test-dir build -R bugfix --verbose         # run only bugfixTests and display all output
 ```
 
