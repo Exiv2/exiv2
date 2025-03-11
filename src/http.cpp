@@ -305,7 +305,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
           std::string value(c + 1);
           key.resize(c - h);
           value.resize(first_newline - c - 1);
-          response[key] = value;
+          response[key] = std::move(value);
           h = first_newline + 1;
           c = strchr(h, C);
           first_newline = strchr(h, N);
@@ -350,7 +350,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   // close sockets
   closesocket(server);
   closesocket(sockfd);
-  response["body"] = file;
+  response["body"] = std::move(file);
   return result;
 }
 

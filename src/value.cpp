@@ -501,7 +501,7 @@ int XmpTextValue::read(const std::string& buf) {
       throw Error(ErrorCode::kerInvalidXmpText, type);
     }
   }
-  value_ = b;
+  value_ = std::move(b);
   return 0;
 }
 
@@ -666,7 +666,7 @@ int LangAltValue::read(const std::string& buf) {
       b = buf.substr(pos + 1);
   }
 
-  value_[lang] = b;
+  value_[lang] = std::move(b);
   return 0;
 }
 

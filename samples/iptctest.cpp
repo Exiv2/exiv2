@@ -81,8 +81,7 @@ void processAdd(const std::string& line, int num, IptcData& iptcData) {
     throw Error(ErrorCode::kerErrorMessage, os.str());
   }
 
-  std::string key(line.substr(keyStart, keyEnd - keyStart));
-  IptcKey iptcKey(key);
+  auto iptcKey = IptcKey(line.substr(keyStart, keyEnd - keyStart));
 
   std::string data(line.substr(dataStart));
   // if data starts and ends with quotes, remove them
@@ -108,8 +107,7 @@ void processRemove(const std::string& line, int num, IptcData& iptcData) {
     throw Error(ErrorCode::kerErrorMessage, os.str());
   }
 
-  const std::string key(line.substr(keyStart));
-  IptcKey iptcKey(key);
+  auto iptcKey = IptcKey(line.substr(keyStart));
 
   auto iter = iptcData.findKey(iptcKey);
   if (iter != iptcData.end()) {
@@ -128,8 +126,7 @@ void processModify(const std::string& line, int num, IptcData& iptcData) {
     throw Error(ErrorCode::kerErrorMessage, os.str());
   }
 
-  std::string key(line.substr(keyStart, keyEnd - keyStart));
-  IptcKey iptcKey(key);
+  auto iptcKey = IptcKey(line.substr(keyStart, keyEnd - keyStart));
 
   std::string data(line.substr(dataStart));
   // if data starts and ends with quotes, remove them

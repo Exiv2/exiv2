@@ -591,9 +591,9 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
 
     std::string b;
     if (bNS) {  // store the NS in dict[""]
-      m[b] = out;
+      m[b] = std::move(out);
     } else if (m.contains(b)) {  // store dict[uri] = dict[""]
-      m[m[b]] = out;
+      m[m[b]] = std::move(out);
       m.erase(b);
     }
   }
@@ -717,7 +717,7 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
           if (!haveNext || !XMP_PropIsSimple(opt) || !XMP_PropHasLang(opt)) {
             throw Error(ErrorCode::kerDecodeLangAltPropertyFailed, propPath, opt);
           }
-          const std::string text = propValue;
+          std::string text = propValue;
           // Get the language qualifier
           haveNext = iter.Next(&schemaNs, &propPath, &propValue, &opt);
           printNode(schemaNs, propPath, propValue, opt);
@@ -725,7 +725,7 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
               propPath.substr(propPath.size() - 8, 8) != "xml:lang") {
             throw Error(ErrorCode::kerDecodeLangAltQualifierFailed, propPath, opt);
           }
-          val->value_[propValue] = text;
+          val->value_[propValue] = std::move(text);
         }
         xmpData.add(*key, val.get());
         continue;
@@ -880,7 +880,7 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
     std::string tmpPacket;
     meta.SerializeToBuffer(&tmpPacket, xmpFormatOptionBits(static_cast<XmpFormatFlags>(formatFlags)),
                            padding);  // throws
-    xmpPacket = tmpPacket;
+    xmpPacket = std::move(tmpPacket);
 
     return 0;
   }

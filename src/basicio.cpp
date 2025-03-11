@@ -1482,7 +1482,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
       "Content-Type: application/x-www-form-urlencoded\n"
       "\n{}\r\n",
       postData.length(), postData);
-  request["header"] = header;
+  request["header"] = std::move(header);
 
   int serverCode = http(request, response, errors);
   if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {

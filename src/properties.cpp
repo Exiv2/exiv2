@@ -5000,7 +5000,7 @@ std::string XmpProperties::prefix(const std::string& ns) {
   std::string p;
   if (i != nsRegistry_.end())
     p = i->second.prefix_;
-  else if (auto xn = Exiv2::find(xmpNsInfo, XmpNsInfo::Ns{ns2}))
+  else if (auto xn = Exiv2::find(xmpNsInfo, XmpNsInfo::Ns{std::move(ns2)}))
     p = std::string(xn->prefix_);
   return p;
 }
@@ -5219,8 +5219,8 @@ void XmpKey::Impl::decomposeKey(const std::string& key) {
   if (XmpProperties::ns(prefix).empty())
     throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
 
-  property_ = property;
-  prefix_ = prefix;
+  property_ = std::move(property);
+  prefix_ = std::move(prefix);
 }  // XmpKey::Impl::decomposeKey
 
 // *************************************************************************

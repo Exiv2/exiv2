@@ -793,7 +793,7 @@ static auto getModel(const ExifData* metadata, std::string& val) {
   pos = metadata->findKey(ExifKey("Exif.Sony1.SonyModelID"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
     if (auto temp = pos->print(metadata); !Internal::contains(temp, ' ')) {
-      val = temp;
+      val = std::move(temp);
       return true;
     }
     val = "";
@@ -802,7 +802,7 @@ static auto getModel(const ExifData* metadata, std::string& val) {
   pos = metadata->findKey(ExifKey("Exif.Sony2.SonyModelID"));
   if (pos != metadata->end() && pos->size() != 0 && pos->typeId() == unsignedShort) {
     if (auto temp = pos->print(metadata); !Internal::contains(temp, ' ')) {
-      val = temp;
+      val = std::move(temp);
       return true;
     }
     val = "";
@@ -849,7 +849,7 @@ static auto getMetaVersion(const ExifData* metadata, std::string& val) {
   if (pos != metadata->end() && pos->typeId() == asciiString) {
     std::string temp = pos->toString();
     if (!temp.empty()) {
-      val = temp;
+      val = std::move(temp);
       return true;
     }
   }

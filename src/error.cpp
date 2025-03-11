@@ -186,7 +186,7 @@ void Error::setMsg(int count) {
       msg.replace(pos, 2, arg3_);
     }
   }
-  msg_ = msg;
+  msg_ = std::move(msg);
 }
 
 }  // namespace Exiv2
