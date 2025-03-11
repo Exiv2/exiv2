@@ -170,8 +170,9 @@ T abs(T num) noexcept {
     if (num == std::numeric_limits<T>::min())
       return std::numeric_limits<T>::max();
     return num < 0 ? -num : num;
+  } else {
+    return num;
   }
-  return num;
 }
 
 }  // namespace Safe

@@ -373,34 +373,17 @@ time_t parseTime(const char* arg, bool bAdjust) {
 
 // West of GMT is negative (PDT = Pacific Daylight = -07:00 == -25200 seconds
 int timeZoneAdjust() {
-  [[maybe_unused]] time_t now = time(nullptr);
-  int offset;
+  std::tm r;
 
+  auto now = std::time(nullptr);
 #if defined(_WIN32)
-  TIME_ZONE_INFORMATION TimeZoneInfo;
-  GetTimeZoneInformation(&TimeZoneInfo);
-  offset = -(TimeZoneInfo.Bias + TimeZoneInfo.DaylightBias * 60);
-#elif defined(__CYGWIN__)
-  struct tm lcopy = *localtime(&now);
-  time_t gmt = timegm(&lcopy);  // timegm modifies lcopy
-  offset = (int)(((long signed int)gmt) - ((long signed int)now));
-#elif defined(OS_SOLARIS) || defined(__sun__)
-  struct tm local = *localtime(&now);
-  time_t local_tt = mktime(&local);
-  time_t time_gmt = mktime(gmtime(&now));
-  offset = time_gmt - local_tt;
+  auto local = std::mktime(localtime_s(&r, &now) ? nullptr : &r);
+  auto gmt = std::mktime(gmtime_s(&r, &now) ? nullptr : &r);
 #else
-  struct tm local = *localtime(&now);
-  offset = local.tm_gmtoff;
-
-#ifdef EXIV2_DEBUG_MESSAGES
-  struct tm utc = *gmtime(&now);
-  printf("utc  :  offset = %6d dst = %d time = %s", 0, utc.tm_isdst, asctime(&utc));
-  printf("local:  offset = %6d dst = %d time = %s", offset, local.tm_isdst, asctime(&local));
-  printf("timeZoneAdjust = %6d\n", offset);
+  auto local = std::mktime(localtime_r(&now, &r));
+  auto gmt = std::mktime(gmtime_r(&now, &r));
 #endif
-#endif
-  return offset;
+  return gmt - local;
 }
 
 std::string getExifTime(const time_t t) {
@@ -409,8 +392,9 @@ std::string getExifTime(const time_t t) {
   return result;
 }
 
-std::string makePath(const std::string& dir, const std::string& file) {
-  return dir + std::string(EXV_SEPARATOR_STR) + file;
+std::string makePath(const std::string& dir, const fs::path& file) {
+  auto ret = fs::path(dir) / file;
+  return ret.string();
 }
 
 // file utilities
@@ -438,7 +422,7 @@ bool readDir(const char* path, Options& options) {
         if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
           // _tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
         } else {
-          std::string pathName = makePath(path, ffd.cFileName);
+          auto pathName = makePath(path, ffd.cFileName);
           if (getFileType(pathName, options) == typeImage) {
             gFiles.push_back(pathName);
           }
@@ -469,8 +453,8 @@ bool readDir(const char* path, Options& options) {
   return bResult;
 }
 
-inline size_t sip(std::ifstream& f, char* buffer, size_t max_len, size_t len) {
-  while (f && len < max_len && buffer[len - 1] != '>') {
+inline size_t sip(std::ifstream& f, std::vector<char>& buffer, size_t len) {
+  while (f && len < buffer.size() && buffer[len - 1] != '>') {
     char c;
     f.get(c);
     buffer[len++] = c;
@@ -505,7 +489,7 @@ bool readXML(const char* path, Options& options) {
 
   // Swallow it
   if (bResult) {
-    len = sip(file, buffer.data(), buffer.size(), len);
+    len = sip(file, buffer, len);
     bResult = XML_Parse(parser, buffer.data(), static_cast<int>(len), len == 0) == XML_STATUS_OK;
   }
 
@@ -513,7 +497,7 @@ bool readXML(const char* path, Options& options) {
   while (bResult && len > 0) {
     file.read(buffer.data(), buffer.size() - 100);
     len = file.gcount();
-    len = sip(file, buffer.data(), buffer.size(), len);
+    len = sip(file, buffer, len);
     bResult = XML_Parse(parser, buffer.data(), static_cast<int>(len), len == 0) == XML_STATUS_OK;
   }
 
