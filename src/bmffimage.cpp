@@ -389,15 +389,17 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
       }
       // post-process meta box to recover Exif and XMP
       if (box_type == TAG_meta) {
-        if (ilocs_.contains(exifID_)) {
-          const Iloc& iloc = ilocs_.find(exifID_)->second;
+        auto ilo = ilocs_.find(exifID_);
+        if (ilo != ilocs_.end()) {
+          const Iloc& iloc = ilo->second;
           if (bTrace) {
             out << Internal::indent(depth) << "Exiv2::BMFF Exif: " << iloc.toString() << '\n';
           }
           parseTiff(Internal::Tag::root, iloc.length_, iloc.start_);
         }
-        if (ilocs_.contains(xmpID_)) {
-          const Iloc& iloc = ilocs_.find(xmpID_)->second;
+        ilo = ilocs_.find(xmpID_);
+        if (ilo != ilocs_.end()) {
+          const Iloc& iloc = ilo->second;
           if (bTrace) {
             out << Internal::indent(depth) << "Exiv2::BMFF XMP: " << iloc.toString() << '\n';
           }

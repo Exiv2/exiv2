@@ -178,8 +178,13 @@ int main(int argc, const char* argv[]) {
       auto image = Exiv2::ImageFactory::open(file);
       image->readMetadata();
       Exiv2::ExifData& exifData = image->exifData();
+      auto it = formats.find(format);
+      if (it == formats.end()) {
+        std::cout << "*** error: format not implemented yet: " << format << " ***" << '\n';
+        return 3;
+      }
 
-      switch (formats.find(format)->second) {
+      switch (it->second) {
         case wolf:
           std::cout << formatWolf(exifData) << '\n';
           break;
