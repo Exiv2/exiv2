@@ -452,10 +452,9 @@ bool readDir(const char* path, Options& options) {
   DIR* dir = opendir(path);
   if (dir != nullptr) {
     bResult = true;
-    struct dirent* ent;
 
     // print all the files and directories within directory
-    while ((ent = readdir(dir)) != nullptr) {
+    while (auto ent = readdir(dir)) {
       std::string pathName = makePath(path, ent->d_name);
       if (ent->d_name[0] != '.') {
         // printf("reading %s => %s\n",ent->d_name,pathName.c_str());

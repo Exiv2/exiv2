@@ -56,8 +56,7 @@ void XmpSidecar::readMetadata() {
   std::string xmpPacket;
   const long len = 64 * 1024;
   byte buf[len];
-  size_t l;
-  while ((l = io_->read(buf, len)) > 0) {
+  while (auto l = io_->read(buf, len)) {
     xmpPacket.append(reinterpret_cast<char*>(buf), l);
   }
   if (io_->error())
