@@ -389,7 +389,7 @@ void FileIo::transfer(BasicIo& src) {
 
     bool statOk = true;
     fs::perms origStMode;
-    auto pf = path();
+    const auto& pf = path();
 
     Impl::StructStat buf1;
     if (p_->stat(buf1) == -1) {
