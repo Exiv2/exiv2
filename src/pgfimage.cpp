@@ -10,6 +10,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 
+#include <array>
 #include <bit>
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -17,7 +18,7 @@
 #endif
 
 // Signature from front of PGF file
-const unsigned char pgfSignature[3] = {0x50, 0x47, 0x46};
+const std::array<unsigned char, 3> pgfSignature{0x50, 0x47, 0x46};
 
 const unsigned char pgfBlank[] = {
     0x50, 0x47, 0x46, 0x36, 0x10, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -177,7 +178,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   //---------------------------------------------------------------
 
   // Write PGF Signature.
-  if (outIo.write(pgfSignature, 3) != 3)
+  if (outIo.write(pgfSignature.data(), 3) != 3)
     throw Error(ErrorCode::kerImageWriteFailed);
 
   // Write Magic number.
@@ -187,7 +188,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   // Write new Header size.
   auto newHeaderSize = static_cast<uint32_t>(header.size() + imgSize);
   DataBuf buffer(4);
-  std::copy_n(&newHeaderSize, sizeof(uint32_t), buffer.data());
+  std::memcpy(buffer.data(), &newHeaderSize, sizeof(uint32_t));
   byteSwap_(buffer, 0, bSwap_);
   if (outIo.write(buffer.c_data(), 4) != 4)
     throw Error(ErrorCode::kerImageWriteFailed);
@@ -267,7 +268,7 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
     throw Error(ErrorCode::kerInputDataReadFailed);
 
   DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
-  std::copy_n(header.c_data(), 8, work.begin());
+  std::copy_n(header.begin(), work.size(), work.begin());
   width = byteSwap_(work, 0, bSwap_);
   height = byteSwap_(work, 4, bSwap_);
 
@@ -304,16 +305,16 @@ Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create) {
 
 bool isPgfType(BasicIo& iIo, bool advance) {
   const int32_t len = 3;
-  byte buf[len];
-  iIo.read(buf, len);
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  int rc = memcmp(buf, pgfSignature, 3);
-  if (!advance || rc != 0) {
+  bool rc = buf == pgfSignature;
+  if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);
   }
 
-  return rc == 0;
+  return rc;
 }
 }  // namespace Exiv2

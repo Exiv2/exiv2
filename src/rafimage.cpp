@@ -14,6 +14,7 @@
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 
+#include <array>
 #include <iostream>
 
 // *****************************************************************************
@@ -313,16 +314,16 @@ void RafImage::readMetadata() {
   // and https://exiftool.org/TagNames/FujiFilm.html#RAF
 
   // parse the tiff
-  byte readBuff[4];
+  std::array<byte, 4> readBuff;
   if (io_->seek(100, BasicIo::beg) != 0)
     throw Error(ErrorCode::kerFailedToReadImageData);
-  if (io_->read(readBuff, 4) != 4)
+  if (io_->read(readBuff.data(), 4) != 4)
     throw Error(ErrorCode::kerFailedToReadImageData);
-  uint32_t tiffOffset = Exiv2::getULong(readBuff, bigEndian);
+  uint32_t tiffOffset = Exiv2::getULong(readBuff.data(), bigEndian);
 
-  if (io_->read(readBuff, 4) != 4)
+  if (io_->read(readBuff.data(), 4) != 4)
     throw Error(ErrorCode::kerFailedToReadImageData);
-  uint32_t tiffLength = Exiv2::getULong(readBuff, bigEndian);
+  uint32_t tiffLength = Exiv2::getULong(readBuff.data(), bigEndian);
 
   // sanity check.  Does tiff lie inside the file?
   Internal::enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), ErrorCode::kerCorruptedMetadata);
@@ -333,11 +334,13 @@ void RafImage::readMetadata() {
   // Check if this really is a tiff and then call the tiff parser.
   // Check is needed because some older models just embed a raw bitstream.
   // For those files we skip the parsing step.
-  if (io_->read(readBuff, 4) != 4) {
+  if (io_->read(readBuff.data(), 4) != 4) {
     throw Error(ErrorCode::kerFailedToReadImageData);
   }
   io_->seek(-4, BasicIo::cur);
-  if (memcmp(readBuff, "\x49\x49\x2A\x00", 4) == 0 || memcmp(readBuff, "\x4D\x4D\x00\x2A", 4) == 0) {
+  const std::array<byte, 4> Id1{0x49, 0x49, 0x2A, 0x00};
+  const std::array<byte, 4> Id2{0x4D, 0x4D, 0x00, 0x2A};
+  if (readBuff == Id1 || readBuff == Id2) {
     DataBuf tiff(tiffLength);
     io_->read(tiff.data(), tiff.size());
 
@@ -364,16 +367,17 @@ Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create) {
 
 bool isRafType(BasicIo& iIo, bool advance) {
   const int32_t len = 8;
-  byte buf[len];
-  iIo.read(buf, len);
+  constexpr std::array<byte, len> RafId{'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M'};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  int rc = memcmp(buf, "FUJIFILM", 8);
-  if (!advance || rc != 0) {
+  bool rc = buf == RafId;
+  if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);
   }
-  return rc == 0;
+  return rc;
 }
 
 }  // namespace Exiv2

@@ -260,7 +260,7 @@ void JpegBase::readMetadata() {
       if (!iccProfile_.empty()) {
         std::copy(iccProfile_.begin(), iccProfile_.end(), profile.begin());
       }
-      std::copy_n(buf.c_data(2 + 14), icc_size, profile.data() + iccProfile_.size());
+      std::copy_n(buf.begin() + 2 + 14, icc_size, profile.begin() + iccProfile_.size());
       setIccProfile(std::move(profile), chunk == chunks);
     } else if (pixelHeight_ == 0 && inRange2(marker, sof0_, sof3_, sof5_, sof15_)) {
       // We hit a SOFn (start-of-frame) marker
@@ -651,7 +651,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
       ++search;
       if (buf.size() > 8) {
         rawExif.alloc(buf.size() - 8);
-        std::copy_n(buf.c_data(8), rawExif.size(), rawExif.begin());
+        std::copy_n(buf.begin() + 8, rawExif.size(), rawExif.begin());
       }
     } else if (skipApp1Xmp == notfound && marker == app1_ &&
                buf.size() >= 31 &&  // prevent out-of-bounds read in memcmp on next line
@@ -756,7 +756,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           if (exifSize > 0xffff - 8)
             throw Error(ErrorCode::kerTooLargeJpegSegment, "Exif");
           us2Data(tmpBuf.data() + 2, static_cast<uint16_t>(exifSize + 8), bigEndian);
-          std::copy_n(exifId_, 6, tmpBuf.data() + 4);
+          std::copy_n(exifId_, 6, tmpBuf.begin() + 4);
           if (outIo.write(tmpBuf.data(), 10) != 10)
             throw Error(ErrorCode::kerImageWriteFailed);
 
@@ -783,7 +783,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
         if (xmpPacket_.size() > 0xffff - 31)
           throw Error(ErrorCode::kerTooLargeJpegSegment, "XMP");
         us2Data(tmpBuf.data() + 2, static_cast<uint16_t>(xmpPacket_.size() + 31), bigEndian);
-        std::copy_n(xmpId_, 29, tmpBuf.data() + 4);
+        std::copy_n(xmpId_, 29, tmpBuf.begin() + 4);
         if (outIo.write(tmpBuf.data(), 33) != 33)
           throw Error(ErrorCode::kerImageWriteFailed);
 
@@ -859,7 +859,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
           tmpBuf[0] = 0xff;
           tmpBuf[1] = app13_;
           us2Data(tmpBuf.data() + 2, static_cast<uint16_t>(chunkSize + 16), bigEndian);
-          std::copy_n(Photoshop::ps3Id_, 14, tmpBuf.data() + 4);
+          std::copy_n(Photoshop::ps3Id_, 14, tmpBuf.begin() + 4);
           if (outIo.write(tmpBuf.data(), 18) != 18)
             throw Error(ErrorCode::kerImageWriteFailed);
           if (outIo.error())
@@ -1020,11 +1020,9 @@ std::string ExvImage::mimeType() const {
 
 int ExvImage::writeHeader(BasicIo& outIo) const {
   // Exv header
-  byte tmpBuf[7];
-  tmpBuf[0] = 0xff;
-  tmpBuf[1] = 0x01;
-  std::copy_n(exiv2Id_, 5, tmpBuf + 2);
-  if (outIo.write(tmpBuf, 7) != 7)
+  auto tmpBuf = std::array<byte, 7>{0xff, 0x01};
+  std::copy_n(exiv2Id_, 5, tmpBuf.begin() + 2);
+  if (outIo.write(tmpBuf.data(), 7) != 7)
     return 4;
   if (outIo.error())
     return 4;

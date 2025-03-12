@@ -3,6 +3,7 @@
 #ifndef JP2IMAGE_INT_HPP
 #define JP2IMAGE_INT_HPP
 
+#include <array>
 #include <cstdint>
 #include <vector>
 
@@ -24,7 +25,7 @@ struct Jp2ImageHeaderBox {
 };
 
 struct Jp2UuidBox {
-  uint8_t uuid[16];
+  std::array<uint8_t, 16> uuid;
 };
 
 constexpr uint32_t brandJp2{0x6a703220};

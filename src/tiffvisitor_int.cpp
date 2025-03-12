@@ -774,7 +774,7 @@ void TiffEncoder::encodeDataEntry(TiffDataEntry* object, const Exifdatum* datum)
 #endif
       DataBuf buf = object->pValue()->dataArea();
       if (!buf.empty()) {
-        std::copy_n(buf.c_data(), buf.size(), object->pDataArea_);
+        std::copy(buf.begin(), buf.end(), object->pDataArea_);
         if (object->sizeDataArea_ > buf.size()) {
           memset(object->pDataArea_ + buf.size(), 0x0, object->sizeDataArea_ - buf.size());
         }

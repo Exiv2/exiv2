@@ -683,13 +683,13 @@ Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool /*create*/) {
 
 bool isPsdType(BasicIo& iIo, bool advance) {
   const int32_t len = 6;
-  const unsigned char PsdHeader[6] = {'8', 'B', 'P', 'S', 0, 1};
-  byte buf[len];
-  iIo.read(buf, len);
+  const std::array<byte, len> PsdHeader{'8', 'B', 'P', 'S', 0, 1};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  bool matched = (memcmp(buf, PsdHeader, len) == 0);
+  bool matched = buf == PsdHeader;
   if (!advance || !matched) {
     iIo.seek(-len, BasicIo::cur);
   }
