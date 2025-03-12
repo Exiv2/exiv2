@@ -943,10 +943,9 @@ DataBuf makePnm(size_t width, size_t height, const DataBuf& rgb) {
   }
 
   const std::string header = "P6\n" + std::to_string(width) + " " + std::to_string(height) + "\n255\n";
-  const auto headerBytes = reinterpret_cast<const byte*>(header.data());
 
   dest = DataBuf(header.size() + rgb.size());
-  std::copy_n(headerBytes, header.size(), dest.begin());
+  std::copy(header.begin(), header.end(), dest.begin());
   std::copy(rgb.cbegin(), rgb.cend(), dest.begin() + header.size());
   return dest;
 }
