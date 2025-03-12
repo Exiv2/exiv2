@@ -529,11 +529,9 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
     if (bufRead != dataOffset + 4)
       throw Error(ErrorCode::kerInputDataReadFailed);
 
-    char szChunk[5];
-    std::copy(cheaderBuf.begin() + 4, cheaderBuf.end(), szChunk);
-    szChunk[4] = 0;
+    const std::string szChunk(cheaderBuf.begin() + 4, cheaderBuf.end());
 
-    if (!strcmp(szChunk, "IEND")) {
+    if (szChunk == "IEND") {
       // Last chunk found: we write it and done.
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata: Write IEND chunk (length: " << dataOffset << ")\n";
@@ -542,14 +540,14 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
         throw Error(ErrorCode::kerImageWriteFailed);
       return;
     }
-    if (!strcmp(szChunk, "eXIf") || !strcmp(szChunk, "iCCP")) {
+    if (szChunk == "eXIf" || szChunk == "iCCP") {
       // do nothing (strip): Exif metadata is written following IHDR
       // together with the ICC profile as fresh eXIf and iCCP chunks
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk << " chunk (length: " << dataOffset << ")"
                 << '\n';
 #endif
-    } else if (!strcmp(szChunk, "IHDR")) {
+    } else if (szChunk == "IHDR") {
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
 #endif
@@ -646,7 +644,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
           throw Error(ErrorCode::kerImageWriteFailed);
         }
       }
-    } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt")) {
+    } else if (szChunk == "tEXt" || szChunk == "zTXt" || szChunk == "iTXt") {
       DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
       if (!key.empty() && (compare("Raw profile type exif", key) || compare("Raw profile type APP1", key) ||
                            compare("Raw profile type iptc", key) || compare("Raw profile type xmp", key) ||
