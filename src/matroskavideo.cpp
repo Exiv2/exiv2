@@ -862,7 +862,6 @@ void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size
 void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
   xmpData_[tag->_label] = getFloat(buf, bigEndian);
 
-  double frame_rate = 0;
   switch (tag->_id) {
     case Xmp_audio_SampleRate:
     case Xmp_audio_OutputSampleRate:
@@ -874,6 +873,7 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
       if (!key)
         return;
       if (auto internalMt = Exiv2::find(streamRate, key)) {
+        double frame_rate = 0;
         switch (stream_) {
           case 1:  // video
             frame_rate = static_cast<double>(1000000000) / static_cast<double>(key);
