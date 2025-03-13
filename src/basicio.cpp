@@ -389,7 +389,7 @@ void FileIo::transfer(BasicIo& src) {
 
     bool statOk = true;
     fs::perms origStMode;
-    auto pf = path();
+    const auto& pf = path();
 
     Impl::StructStat buf1;
     if (p_->stat(buf1) == -1) {
@@ -511,7 +511,7 @@ size_t FileIo::size() const {
   Impl::StructStat buf;
   if (p_->stat(buf))
     return std::numeric_limits<size_t>::max();
-  return buf.st_size;
+  return static_cast<size_t>(buf.st_size);
 }
 
 int FileIo::open() {
@@ -1482,7 +1482,7 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
       "Content-Type: application/x-www-form-urlencoded\n"
       "\n{}\r\n",
       postData.length(), postData);
-  request["header"] = header;
+  request["header"] = std::move(header);
 
   int serverCode = http(request, response, errors);
   if (serverCode < 0 || serverCode >= 400 || !errors.empty()) {
@@ -1693,7 +1693,7 @@ DataBuf readFile(const std::string& path) {
   if (file.open("rb") != 0) {
     throw Error(ErrorCode::kerFileOpenFailed, path, "rb", strError());
   }
-  DataBuf buf(fs::file_size(path));
+  DataBuf buf(static_cast<size_t>(fs::file_size(path)));
   if (file.read(buf.data(), buf.size()) != buf.size()) {
     throw Error(ErrorCode::kerCallFailed, path, strError(), "FileIo::read");
   }

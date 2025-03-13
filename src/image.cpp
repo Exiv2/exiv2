@@ -123,7 +123,9 @@ constexpr Registry registry[] = {
 std::string pathOfFileUrl(const std::string& url) {
   std::string path = url.substr(7);
   size_t found = path.find('/');
-  return (found == std::string::npos) ? path : path.substr(found);
+  if (found == std::string::npos)
+    return path;
+  return path.substr(found);
 }
 #endif
 

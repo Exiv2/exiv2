@@ -115,7 +115,7 @@ int DataValue::read(const std::string& buf) {
     val.push_back(static_cast<byte>(tmp));
   if (!is.eof())
     return 1;
-  value_.swap(val);
+  value_ = std::move(val);
   return 0;
 }
 
@@ -501,7 +501,7 @@ int XmpTextValue::read(const std::string& buf) {
       throw Error(ErrorCode::kerInvalidXmpText, type);
     }
   }
-  value_ = b;
+  value_ = std::move(b);
   return 0;
 }
 
@@ -666,7 +666,7 @@ int LangAltValue::read(const std::string& buf) {
       b = buf.substr(pos + 1);
   }
 
-  value_[lang] = b;
+  value_[lang] = std::move(b);
   return 0;
 }
 
@@ -1036,7 +1036,7 @@ int64_t TimeValue::toInt64(size_t /*n*/) const {
 }
 
 uint32_t TimeValue::toUint32(size_t /*n*/) const {
-  return std::clamp<int64_t>(toInt64(), 0, std::numeric_limits<uint32_t>::max());
+  return static_cast<uint32_t>(std::clamp<int64_t>(toInt64(), 0, std::numeric_limits<uint32_t>::max()));
 }
 
 float TimeValue::toFloat(size_t n) const {

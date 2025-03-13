@@ -440,7 +440,7 @@ bool readDir(const char* path, Options& options) {
         } else {
           std::string pathName = makePath(path, ffd.cFileName);
           if (getFileType(pathName, options) == typeImage) {
-            gFiles.push_back(pathName);
+            gFiles.push_back(std::move(pathName));
           }
         }
         bGo = FindNextFile(hFind, &ffd) != 0;
@@ -459,7 +459,7 @@ bool readDir(const char* path, Options& options) {
       if (ent->d_name[0] != '.') {
         // printf("reading %s => %s\n",ent->d_name,pathName.c_str());
         if (getFileType(pathName, options) == typeImage) {
-          gFiles.push_back(pathName);
+          gFiles.push_back(std::move(pathName));
         }
       }
     }
@@ -793,7 +793,7 @@ int main(int argc, const char* argv[]) {
           if (t && !path.empty()) {
             if (options.verbose)
               printf("%s %ld %s", path.c_str(), static_cast<long int>(t), asctime(localtime(&t)));
-            gFiles.push_back(path);
+            gFiles.push_back(std::move(path));
           }
         }
         if (type == typeUnknown) {

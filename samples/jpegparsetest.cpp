@@ -15,6 +15,8 @@ int main(int argc, char* const argv[]) {
     auto image = Exiv2::ImageFactory::open(argv[1]);
     if (image->imageType() == Exiv2::ImageType::jpeg) {
       auto jpegImage = dynamic_cast<Exiv2::JpegImage*>(image.get());
+      if (!jpegImage)
+        return EXIT_FAILURE;
       jpegImage->readMetadata();
       std::cout << "Number of color components: " << jpegImage->numColorComponents() << "\n";
       std::cout << "Encoding process: " << jpegImage->encodingProcess() << "\n";

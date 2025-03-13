@@ -1516,7 +1516,7 @@ int ValueType<T>::read(const std::string& buf) {
     val.push_back(tmp);
   if (!is.eof())
     return 1;
-  value_.swap(val);
+  value_ = std::move(val);
   return 0;
 }
 

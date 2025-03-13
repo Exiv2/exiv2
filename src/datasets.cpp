@@ -448,7 +448,7 @@ uint16_t IptcDataSets::dataSet(const std::string& dataSetName, uint16_t recordId
   }
   if (!isHex(dataSetName, 4, "0x"))
     throw Error(ErrorCode::kerInvalidDataset, dataSetName);
-  return std::stoi(dataSetName, nullptr, 16);
+  return static_cast<uint16_t>(std::stoi(dataSetName, nullptr, 16));
 }
 
 std::string IptcDataSets::recordName(uint16_t recordId) {
@@ -475,7 +475,7 @@ uint16_t IptcDataSets::recordId(const std::string& recordName) {
   if (i == 0) {
     if (!isHex(recordName, 4, "0x"))
       throw Error(ErrorCode::kerInvalidRecord, recordName);
-    i = std::stoi(recordName, nullptr, 16);
+    i = static_cast<uint16_t>(std::stoi(recordName, nullptr, 16));
   }
   return i;
 }
