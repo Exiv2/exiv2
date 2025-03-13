@@ -356,8 +356,6 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         throw Error(ErrorCode::kerInvalidTypeValue);
       }
 
-      std::string sp;  // output spacer
-
       // prepare to print the value
       uint32_t kount = [=] {
         // haul in all the data
@@ -409,6 +407,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       if (bPrint) {
         const size_t address = start + 2 + (i * 12);
         const std::string offsetString = bOffsetIsPointer ? stringFormat("{:9}", offset) : "";
+        std::string sp;  // output spacer
 
         out << Internal::indent(depth)
             << stringFormat("{:8} | {:#06x} {:<28} | {:>9} | {:>8} | {:9} | ", address, tag, tagName(tag),

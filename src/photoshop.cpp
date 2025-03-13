@@ -10,11 +10,11 @@
 
 namespace Exiv2 {
 
-bool Photoshop::isIrb(const byte* data) {
-  if (data == nullptr) {
+bool Photoshop::isIrb(const byte* pPsData) {
+  if (pPsData == nullptr) {
     return false;
   }
-  return std::any_of(irbId_.begin(), irbId_.end(), [data](auto id) { return memcmp(data, id, 4) == 0; });
+  return std::any_of(irbId_.begin(), irbId_.end(), [pPsData](auto id) { return memcmp(pPsData, id, 4) == 0; });
 }
 
 bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {

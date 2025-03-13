@@ -23,18 +23,13 @@ class RotationMap {
   static int32_t degrees(uint16_t orientation);
 
  private:
-  //! Helper structure for the mapping list
-  struct OmList {
-    uint16_t orientation;
-    int32_t degrees;
-  };
   // DATA
-  static const OmList omList_[];
+  static const std::pair<uint16_t, int32_t> omList_[];
 };  // class RotationMap
 
 // *****************************************************************************
 // local definitions
-constexpr RotationMap::OmList RotationMap::omList_[] = {
+constexpr std::pair<uint16_t, int32_t> RotationMap::omList_[] = {
     {1, 0}, {3, 180}, {3, -180}, {6, 90}, {6, -270}, {8, 270}, {8, -90},
 };
 
