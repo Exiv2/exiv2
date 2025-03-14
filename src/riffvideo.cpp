@@ -14,6 +14,8 @@
 #include "helper_functions.hpp"
 #include "utils.hpp"
 
+#include <array>
+
 namespace Exiv2::Internal {
 
 const std::map<std::string, std::string> infoTags = {
@@ -762,13 +764,13 @@ Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/) {
 
 bool isRiffType(BasicIo& iIo, bool advance) {
   constexpr int len = 4;
-  const unsigned char RiffVideoId[len] = {'R', 'I', 'F', 'F'};
-  byte buf[len];
-  iIo.read(buf, len);
+  const std::array<byte, len> RiffVideoId{'R', 'I', 'F', 'F'};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  bool matched = (memcmp(buf, RiffVideoId, len) == 0);
+  bool matched = buf == RiffVideoId;
   if (!advance || !matched) {
     iIo.seek(-1 * len, BasicIo::cur);
   }

@@ -24,7 +24,7 @@
 
 namespace {
 // Signature from front of PNG file
-constexpr unsigned char pngSignature[] = {
+constexpr std::array<unsigned char, 8> pngSignature{
     0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
 };
 
@@ -500,7 +500,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
   }
 
   // Write PNG Signature.
-  if (outIo.write(pngSignature, 8) != 8)
+  if (outIo.write(pngSignature.data(), 8) != 8)
     throw Error(ErrorCode::kerImageWriteFailed);
 
   DataBuf cheaderBuf(8);  // Chunk header : 4 bytes (data size) + 4 bytes (chunk type).
@@ -521,16 +521,16 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
 
     // Read whole chunk : Chunk header + Chunk data (not fixed size - can be null) + CRC (4 bytes).
 
-    DataBuf chunkBuf(8 + dataOffset + 4);                   // Chunk header (8 bytes) + Chunk data + CRC (4 bytes).
-    std::copy_n(cheaderBuf.begin(), 8, chunkBuf.begin());   // Copy header.
-    bufRead = io_->read(chunkBuf.data(8), dataOffset + 4);  // Extract chunk data + CRC
+    DataBuf chunkBuf(8 + dataOffset + 4);  // Chunk header (8 bytes) + Chunk data + CRC (4 bytes).
+    std::copy(cheaderBuf.begin(), cheaderBuf.end(), chunkBuf.begin());  // Copy header.
+    bufRead = io_->read(chunkBuf.data(8), dataOffset + 4);              // Extract chunk data + CRC
     if (io_->error())
       throw Error(ErrorCode::kerFailedToReadImageData);
     if (bufRead != dataOffset + 4)
       throw Error(ErrorCode::kerInputDataReadFailed);
 
     char szChunk[5];
-    std::copy_n(cheaderBuf.c_data(4), 4, szChunk);
+    std::copy(cheaderBuf.begin() + 4, cheaderBuf.end(), szChunk);
     szChunk[4] = 0;
 
     if (!strcmp(szChunk, "IEND")) {
@@ -691,17 +691,17 @@ bool isPngType(BasicIo& iIo, bool advance) {
     throw Error(ErrorCode::kerInputDataReadFailed);
   }
   const int32_t len = 8;
-  byte buf[len];
-  iIo.read(buf, len);
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  int rc = memcmp(buf, pngSignature, 8);
-  if (!advance || rc != 0) {
+  bool rc = buf == pngSignature;
+  if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);
   }
 
-  return rc == 0;
+  return rc;
 }
 }  // namespace Exiv2
 #endif

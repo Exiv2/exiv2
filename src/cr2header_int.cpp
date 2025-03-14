@@ -27,7 +27,7 @@ bool Cr2Header::read(const byte* pData, size_t size) {
   if (tag() != getUShort(pData + 2, byteOrder()))
     return false;
   setOffset(getULong(pData + 4, byteOrder()));
-  if (0 != memcmp(pData + 8, cr2sig_, 4))
+  if (0 != memcmp(pData + 8, cr2sig_.data(), 4))
     return false;
   offset2_ = getULong(pData + 12, byteOrder());
 
@@ -50,7 +50,7 @@ DataBuf Cr2Header::write() const {
 
   buf.write_uint16(2, tag(), byteOrder());
   buf.write_uint32(4, 0x00000010, byteOrder());
-  std::copy_n(cr2sig_, 4, buf.begin() + 8);
+  std::copy(cr2sig_.begin(), cr2sig_.end(), buf.begin() + 8);
   // Write a dummy value for the RAW IFD offset. The offset-writer is used to set this offset in a second pass.
   buf.write_uint32(12, 0x00000000, byteOrder());
   return buf;

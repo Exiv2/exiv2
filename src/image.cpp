@@ -392,8 +392,8 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       if (allocate64 > io.size()) {
         throw Error(ErrorCode::kerInvalidMalloc);
       }
-      DataBuf buf(allocate64);                     // allocate a buffer
-      std::copy_n(dir.c_data(8), 4, buf.begin());  // copy dir[8:11] into buffer (short strings)
+      DataBuf buf(allocate64);                       // allocate a buffer
+      std::copy_n(dir.begin() + 8, 4, buf.begin());  // copy dir[8:11] into buffer (short strings)
 
       // We have already checked that this multiplication cannot overflow.
       const size_t count_x_size = count * size;
@@ -897,7 +897,7 @@ void append(Blob& blob, const byte* buf, size_t len) {
       blob.reserve(size + 65536);
     }
     blob.resize(size + len);
-    std::copy_n(buf, len, &blob[size]);
+    std::copy_n(buf, len, blob.begin() + size);
   }
 }  // append
 

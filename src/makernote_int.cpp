@@ -193,7 +193,7 @@ bool OlympusMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  std::copy_n(pData, header_.size(), header_.data());
+  std::copy_n(pData, header_.size(), header_.begin());
   return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 6);
 }
 
@@ -228,7 +228,7 @@ bool Olympus2MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrde
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  std::copy_n(pData, header_.size(), header_.data());
+  std::copy_n(pData, header_.size(), header_.begin());
   return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 10);
 }
 
@@ -264,7 +264,7 @@ bool OMSystemMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrde
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  std::copy_n(pData, header_.size(), header_.data());
+  std::copy_n(pData, header_.size(), header_.begin());
   return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, sizeOfSignature() - 2);
 }
 
@@ -304,7 +304,7 @@ bool FujiMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  std::copy_n(pData, header_.size(), header_.data());
+  std::copy_n(pData, header_.size(), header_.begin());
   // Read offset to the IFD relative to the start of the makernote
   // from the header. Note that we ignore the byteOrder argument
   start_ = header_.read_uint32(8, byteOrder_);
@@ -340,7 +340,7 @@ bool Nikon2MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
   if (0 != memcmp(pData, signature_, 6))
     return false;
   buf_.alloc(sizeOfSignature());
-  std::copy_n(pData, buf_.size(), buf_.data());
+  std::copy_n(pData, buf_.size(), buf_.begin());
   start_ = sizeOfSignature();
   return true;
 }  // Nikon2MnHeader::read
@@ -359,7 +359,7 @@ size_t Nikon3MnHeader::sizeOfSignature() {
 
 Nikon3MnHeader::Nikon3MnHeader() : start_(sizeOfSignature()) {
   buf_.alloc(sizeOfSignature());
-  std::copy_n(signature_, buf_.size(), buf_.data());
+  std::copy_n(signature_, buf_.size(), buf_.begin());
 }
 
 size_t Nikon3MnHeader::size() const {
@@ -384,7 +384,7 @@ bool Nikon3MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
   if (0 != memcmp(pData, signature_, 6))
     return false;
   buf_.alloc(sizeOfSignature());
-  std::copy_n(pData, buf_.size(), buf_.data());
+  std::copy_n(pData, buf_.size(), buf_.begin());
   TiffHeader th;
   if (!th.read(buf_.data(10), 8))
     return false;
@@ -430,7 +430,7 @@ bool PanasonicMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrd
   if (0 != memcmp(pData, signature_, 9))
     return false;
   buf_.alloc(sizeOfSignature());
-  std::copy_n(pData, buf_.size(), buf_.data());
+  std::copy_n(pData, buf_.size(), buf_.begin());
   start_ = sizeOfSignature();
   return true;
 }  // PanasonicMnHeader::read
@@ -466,7 +466,7 @@ bool PentaxDngMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrd
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  std::copy_n(pData, header_.size(), header_.data());
+  std::copy_n(pData, header_.size(), header_.begin());
   return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 7);
 }
 
@@ -497,7 +497,7 @@ bool PentaxMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
   if (!pData || size < sizeOfSignature())
     return false;
   header_.alloc(sizeOfSignature());
-  std::copy_n(pData, header_.size(), header_.data());
+  std::copy_n(pData, header_.size(), header_.begin());
   return header_.size() >= sizeOfSignature() && 0 == header_.cmpBytes(0, signature_, 3);
 }
 
@@ -551,7 +551,7 @@ bool SigmaMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/
   if (0 != memcmp(pData, signature1_, 8) && 0 != memcmp(pData, signature2_, 8))
     return false;
   buf_.alloc(sizeOfSignature());
-  std::copy_n(pData, buf_.size(), buf_.data());
+  std::copy_n(pData, buf_.size(), buf_.begin());
   start_ = sizeOfSignature();
   return true;
 }  // SigmaMnHeader::read
@@ -585,7 +585,7 @@ bool SonyMnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*/)
   if (0 != memcmp(pData, signature_, sizeOfSignature()))
     return false;
   buf_.alloc(sizeOfSignature());
-  std::copy_n(pData, buf_.size(), buf_.data());
+  std::copy_n(pData, buf_.size(), buf_.begin());
   start_ = sizeOfSignature();
   return true;
 }  // SonyMnHeader::read
@@ -624,7 +624,7 @@ bool Casio2MnHeader::read(const byte* pData, size_t size, ByteOrder /*byteOrder*
   if (0 != memcmp(pData, signature_, sizeOfSignature()))
     return false;
   buf_.alloc(sizeOfSignature());
-  std::copy_n(pData, buf_.size(), buf_.data());
+  std::copy_n(pData, buf_.size(), buf_.begin());
   start_ = sizeOfSignature();
   return true;
 }  // Casio2MnHeader::read
@@ -952,7 +952,7 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
     }
   }
   buf.alloc(size);
-  std::copy_n(pData, buf.size(), buf.data());
+  std::copy_n(pData, buf.size(), buf.begin());
   ncrypt(buf.data(nci->start_), static_cast<uint32_t>(buf.size()) - nci->start_, count, serial);
   return buf;
 }
