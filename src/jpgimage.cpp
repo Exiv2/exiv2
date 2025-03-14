@@ -22,40 +22,42 @@
 
 namespace Exiv2 {
 
+enum markers : byte {
+  // JPEG Segment markers (The first byte is always 0xFF, the value of these constants correspond to the 2nd byte)
+  sos_ = 0xda,    //!< JPEG SOS marker
+  app0_ = 0xe0,   //!< JPEG APP0 marker
+  app1_ = 0xe1,   //!< JPEG APP1 marker
+  app2_ = 0xe2,   //!< JPEG APP2 marker
+  app13_ = 0xed,  //!< JPEG APP13 marker
+  com_ = 0xfe,    //!< JPEG Comment marker
+
+  // Markers without payload
+  soi_ = 0xd8,   //!< SOI marker
+  eoi_ = 0xd9,   //!< JPEG EOI marker
+  rst1_ = 0xd0,  //!< JPEG Restart 0 Marker (from 0xD0 to 0xD7 there might be 8 of these markers)
+
+  // Start of Frame markers, nondifferential Huffman-coding frames
+  sof0_ = 0xc0,  //!< JPEG Start-Of-Frame marker
+  sof1_ = 0xc1,  //!< JPEG Start-Of-Frame marker
+  sof2_ = 0xc2,  //!< JPEG Start-Of-Frame marker
+  sof3_ = 0xc3,  //!< JPEG Start-Of-Frame marker
+
+  // Start of Frame markers, differential Huffman-coding frames
+  sof5_ = 0xc5,  //!< JPEG Start-Of-Frame marker
+  sof6_ = 0xc6,  //!< JPEG Start-Of-Frame marker
+  sof7_ = 0xc6,  //!< JPEG Start-Of-Frame marker
+
+  // Start of Frame markers, differential arithmetic-coding frames
+  sof9_ = 0xc9,   //!< JPEG Start-Of-Frame marker
+  sof10_ = 0xca,  //!< JPEG Start-Of-Frame marker
+  sof11_ = 0xcb,  //!< JPEG Start-Of-Frame marker
+  sof13_ = 0xcd,  //!< JPEG Start-Of-Frame marker
+  sof14_ = 0xce,  //!< JPEG Start-Of-Frame marker
+  sof15_ = 0xcf,  //!< JPEG Start-Of-Frame marker
+};
+
 using Exiv2::Internal::enforce;
 namespace {
-// JPEG Segment markers (The first byte is always 0xFF, the value of these constants correspond to the 2nd byte)
-constexpr byte sos_ = 0xda;    //!< JPEG SOS marker
-constexpr byte app0_ = 0xe0;   //!< JPEG APP0 marker
-constexpr byte app1_ = 0xe1;   //!< JPEG APP1 marker
-constexpr byte app2_ = 0xe2;   //!< JPEG APP2 marker
-constexpr byte app13_ = 0xed;  //!< JPEG APP13 marker
-constexpr byte com_ = 0xfe;    //!< JPEG Comment marker
-
-// Markers without payload
-constexpr byte soi_ = 0xd8;   //!< SOI marker
-constexpr byte eoi_ = 0xd9;   //!< JPEG EOI marker
-constexpr byte rst1_ = 0xd0;  //!< JPEG Restart 0 Marker (from 0xD0 to 0xD7 there might be 8 of these markers)
-
-// Start of Frame markers, nondifferential Huffman-coding frames
-constexpr byte sof0_ = 0xc0;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof1_ = 0xc1;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof2_ = 0xc2;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof3_ = 0xc3;  //!< JPEG Start-Of-Frame marker
-
-// Start of Frame markers, differential Huffman-coding frames
-constexpr byte sof5_ = 0xc5;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof6_ = 0xc6;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof7_ = 0xc6;  //!< JPEG Start-Of-Frame marker
-
-// Start of Frame markers, differential arithmetic-coding frames
-constexpr byte sof9_ = 0xc9;   //!< JPEG Start-Of-Frame marker
-constexpr byte sof10_ = 0xca;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof11_ = 0xcb;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof13_ = 0xcd;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof14_ = 0xce;  //!< JPEG Start-Of-Frame marker
-constexpr byte sof15_ = 0xcf;  //!< JPEG Start-Of-Frame marker
-
 // JPEG process SOF markers
 constexpr Internal::TagDetails jpegProcessMarkerTags[] = {
     {sof0_, N_("Baseline DCT, Huffman coding")},
