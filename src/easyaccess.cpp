@@ -9,6 +9,7 @@ using namespace Exiv2;
 
 template <size_t N, const char* const (&keys)[N]>
 ExifData::const_iterator findMetadatum(const ExifData& ed) {
+  static_assert(N > 0, "Passed zero length findMetadatum");
   for (const auto& k : keys) {
     auto pos = ed.findKey(ExifKey(k));
     if (pos != ed.end())

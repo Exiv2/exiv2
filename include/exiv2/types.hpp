@@ -445,8 +445,9 @@ EXIV2API Rational floatToRationalCast(float f);
   }
   @endcode
 */
-template <typename T, typename K, int N>
+template <typename T, typename K, size_t N>
 const T* find(T (&src)[N], const K& key) {
+  static_assert(N > 0, "Passed zero length find");
   auto rc = std::find(src, src + N, key);
   return rc == src + N ? nullptr : rc;
 }
