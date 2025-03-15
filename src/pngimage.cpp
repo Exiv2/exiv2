@@ -184,9 +184,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
     throw Error(ErrorCode::kerNotAnImage, "PNG");
   }
 
-  char chType[5];
-  chType[0] = 0;
-  chType[4] = 0;
+  std::string chType(4, 0);
 
   if (option == kpsBasic || option == kpsXMP || option == kpsIccProfile || option == kpsRecursive) {
     const auto xmpKey = upper("XML:com.adobe.xmp");
@@ -206,7 +204,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
     const size_t imgSize = io_->size();
     DataBuf cheaderBuf(8);
 
-    while (!io_->eof() && ::strcmp(chType, "IEND") != 0) {
+    while (!io_->eof() && chType != "IEND") {
       const size_t address = io_->tell();
 
       size_t bufRead = io_->read(cheaderBuf.data(), cheaderBuf.size());
@@ -260,11 +258,11 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
       }
 
       // chunk type
-      bool tEXt = std::strcmp(chType, "tEXt") == 0;
-      bool zTXt = std::strcmp(chType, "zTXt") == 0;
-      bool iCCP = std::strcmp(chType, "iCCP") == 0;
-      bool iTXt = std::strcmp(chType, "iTXt") == 0;
-      bool eXIf = std::strcmp(chType, "eXIf") == 0;
+      bool tEXt = chType == "tEXt";
+      bool zTXt = chType == "zTXt";
+      bool iCCP = chType == "iCCP";
+      bool iTXt = chType == "iTXt";
+      bool eXIf = chType == "eXIf";
 
       // for XMP, ICC etc: read and format data
       const auto dataStringU = upper(dataString);

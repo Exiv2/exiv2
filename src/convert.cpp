@@ -44,10 +44,10 @@
 namespace {
 #if defined EXV_HAVE_ICONV
 // Convert string charset with iconv.
-bool convertStringCharsetIconv(std::string& str, const char* from, const char* to);
+bool convertStringCharsetIconv(std::string& str, std::string_view from, std::string_view to);
 #elif defined _WIN32
 // Convert string charset with Windows functions.
-bool convertStringCharsetWindows(std::string& str, const char* from, const char* to);
+bool convertStringCharsetWindows(std::string& str, std::string_view from, std::string_view to);
 #endif
 /*!
   @brief Get the text value of an XmpDatum \em pos.
@@ -1393,12 +1393,12 @@ namespace {
 using namespace Exiv2;
 
 #if defined EXV_HAVE_ICONV
-bool convertStringCharsetIconv(std::string& str, const char* from, const char* to) {
-  if (strcmp(from, to) == 0)
+bool convertStringCharsetIconv(std::string& str, std::string_view from, std::string_view to) {
+  if (from == to)
     return true;  // nothing to do
 
   bool ret = true;
-  auto cd = iconv_open(to, from);
+  auto cd = iconv_open(to.data(), from.data());
   if (cd == iconv_t(-1)) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "iconv_open: " << strError() << "\n";
@@ -1553,11 +1553,11 @@ bool asciiToUtf8(std::string& /*str*/) {
 using ConvFct = bool (*)(std::string&);
 
 struct ConvFctList {
-  bool operator==(const std::pair<const char*, const char*>& fromTo) const {
-    return 0 == strcmp(from_, fromTo.first) && 0 == strcmp(to_, fromTo.second);
+  bool operator==(const std::pair<std::string_view, std::string_view>& fromTo) const {
+    return from_ == fromTo.first && to_ == fromTo.second;
   }
-  const char* from_;
-  const char* to_;
+  std::string_view from_;
+  std::string_view to_;
   ConvFct convFct_;
 };
 
@@ -1569,18 +1569,19 @@ constexpr ConvFctList convFctList[] = {
     // Update the convertStringCharset() documentation if you add more here!
 };
 
-[[maybe_unused]] bool convertStringCharsetWindows(std::string& str, const char* from, const char* to) {
+bool convertStringCharsetWindows(std::string& str, std::string_view from, std::string_view to) {
   bool ret = false;
   std::string tmpstr = str;
   if (auto p = Exiv2::find(convFctList, std::pair(from, to)))
     ret = p->convFct_(tmpstr);
 #ifndef SUPPRESS_WARNINGS
   else {
-    EXV_WARNING << "No Windows function to map character string from " << from << " to " << to << " available.\n";
+    EXV_WARNING << "No Windows function to map character string from " << from.data() << " to " << to.data()
+                << " available.\n";
   }
 #endif
   if (ret)
-    str = tmpstr;
+    str = std::move(tmpstr);
   return ret;
 }
 
