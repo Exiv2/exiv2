@@ -393,8 +393,9 @@ std::string getExifTime(const time_t t) {
   return result;
 }
 
-std::string makePath(const std::string& dir, const std::string& file) {
-  return dir + std::string(EXV_SEPARATOR_STR) + file;
+std::string makePath(const std::string& dir, const fs::path& file) {
+  auto ret = fs::path(dir) / file;
+  return ret.string();
 }
 
 // file utilities
@@ -422,7 +423,7 @@ bool readDir(const char* path, Options& options) {
         if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
           // _tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
         } else {
-          std::string pathName = makePath(path, ffd.cFileName);
+          auto pathName = makePath(path, ffd.cFileName);
           if (getFileType(pathName, options) == typeImage) {
             gFiles.push_back(std::move(pathName));
           }
