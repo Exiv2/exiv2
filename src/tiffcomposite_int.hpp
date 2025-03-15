@@ -356,7 +356,7 @@ struct TiffMappingInfo {
   }
 
   // DATA
-  const char* make_;       //!< Camera make for which these mapping functions apply
+  std::string_view make_;  //!< Camera make for which these mapping functions apply
   uint32_t extendedTag_;   //!< Tag (32 bit so that it can contain special tags)
   IfdId group_;            //!< Group that contains the tag
   DecoderFct decoderFct_;  //!< Decoder function for matching tags
