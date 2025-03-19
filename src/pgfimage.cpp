@@ -35,6 +35,8 @@ namespace Exiv2 {
 static uint32_t byteSwap_(uint32_t value, bool bSwap) {
 #ifdef __cpp_lib_byteswap
   return bSwap ? std::byteswap(value) : value;
+#elif defined(_MSC_VER)
+  return bSwap ? _byteswap_ulong(value) : value;
 #else
   uint32_t result = 0;
   result |= (value & 0x000000FF) << 24;

@@ -184,6 +184,8 @@ bool Image::isLittleEndianPlatform() {
 uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
 #ifdef __cpp_lib_byteswap
   return bSwap ? std::byteswap(value) : value;
+#elif defined(_MSC_VER)
+  return bSwap ? _byteswap_uint64(value) : value;
 #else
   uint64_t result = 0;
   auto source_value = reinterpret_cast<const byte*>(&value);
@@ -199,6 +201,8 @@ uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
 uint32_t Image::byteSwap(uint32_t value, bool bSwap) {
 #ifdef __cpp_lib_byteswap
   return bSwap ? std::byteswap(value) : value;
+#elif defined(_MSC_VER)
+  return bSwap ? _byteswap_ulong(value) : value;
 #else
   uint32_t result = 0;
   result |= (value & 0x000000FFU) << 24;
@@ -212,6 +216,8 @@ uint32_t Image::byteSwap(uint32_t value, bool bSwap) {
 uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
 #ifdef __cpp_lib_byteswap
   return bSwap ? std::byteswap(value) : value;
+#elif defined(_MSC_VER)
+  return bSwap ? _byteswap_ushort(value) : value;
 #else
   uint16_t result = 0;
   result |= (value & 0x00FFU) << 8;
