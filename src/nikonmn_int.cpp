@@ -2114,7 +2114,9 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
 
   static constexpr struct FMntLens {
     unsigned char lid, stps, focs, focl, aps, apl, lfw, ltype, tcinfo, dblid, mid;
-    const char *manuf, *lnumber, *lensname;
+    std::string_view manuf;
+    std::string_view lnumber;
+    std::string_view lensname;
 
     bool operator==(unsigned char l) const {
       return lid == l;
@@ -3273,8 +3275,8 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
 
     if (raw[0] == f.lid
         // stps varies with focal length for some Sigma zoom lenses.
-        && (raw[1] == f.stps || strcmp(f.manuf, "Sigma") == 0) && raw[2] == f.focs && raw[3] == f.focl &&
-        raw[4] == f.aps && raw[5] == f.apl && raw[6] == f.lfw && raw[7] == f.ltype) {
+        && (raw[1] == f.stps || f.manuf == "Sigma") && raw[2] == f.focs && raw[3] == f.focl && raw[4] == f.aps &&
+        raw[5] == f.apl && raw[6] == f.lfw && raw[7] == f.ltype) {
       // Lens found in database
       return os << f.manuf << " " << f.lensname;
     }
