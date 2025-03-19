@@ -1445,10 +1445,8 @@ bool swapBytes(std::string& str) {
 #endif
     return false;
   }
-  for (unsigned int i = 0; i < str.size() / 2; ++i) {
-    char t = str[2 * i];
-    str[2 * i] = str[2 * i + 1];
-    str[2 * i + 1] = t;
+  for (auto it = str.begin(); it != str.end(); it += 2) {
+    std::swap(*it, *std::next(it));
   }
   return true;
 }
