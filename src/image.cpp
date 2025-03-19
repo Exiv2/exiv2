@@ -227,31 +227,21 @@ uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
 }
 
 uint16_t Image::byteSwap2(const DataBuf& buf, size_t offset, bool bSwap) {
-  uint16_t v = 0;
-  auto p = reinterpret_cast<char*>(&v);
-  p[0] = buf.read_uint8(offset);
-  p[1] = buf.read_uint8(offset + 1);
+  uint16_t v;
+  std::memcpy(&v, buf.c_data(offset), sizeof(uint16_t));
   return Image::byteSwap(v, bSwap);
 }
 
 uint32_t Image::byteSwap4(const DataBuf& buf, size_t offset, bool bSwap) {
-  uint32_t v = 0;
-  auto p = reinterpret_cast<char*>(&v);
-  p[0] = buf.read_uint8(offset);
-  p[1] = buf.read_uint8(offset + 1);
-  p[2] = buf.read_uint8(offset + 2);
-  p[3] = buf.read_uint8(offset + 3);
+  uint32_t v;
+  std::memcpy(&v, buf.c_data(offset), sizeof(uint32_t));
   return Image::byteSwap(v, bSwap);
 }
 
 /// \todo not used internally. At least we should test it
 uint64_t Image::byteSwap8(const DataBuf& buf, size_t offset, bool bSwap) {
-  uint64_t v = 0;
-  auto p = reinterpret_cast<byte*>(&v);
-
-  for (int i = 0; i < 8; i++)
-    p[i] = buf.read_uint8(offset + i);
-
+  uint64_t v;
+  std::memcpy(&v, buf.c_data(offset), sizeof(uint64_t));
   return Image::byteSwap(v, bSwap);
 }
 
