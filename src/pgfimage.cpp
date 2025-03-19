@@ -32,28 +32,13 @@ const unsigned char pgfBlank[] = {
 // class member definitions
 
 namespace Exiv2 {
-static uint32_t byteSwap_(uint32_t value, bool bSwap) {
-#ifdef __cpp_lib_byteswap
-  return bSwap ? std::byteswap(value) : value;
-#elif defined(_MSC_VER)
-  return bSwap ? _byteswap_ulong(value) : value;
-#else
-  uint32_t result = 0;
-  result |= (value & 0x000000FF) << 24;
-  result |= (value & 0x0000FF00) << 8;
-  result |= (value & 0x00FF0000) >> 8;
-  result |= (value & 0xFF000000) >> 24;
-  return bSwap ? result : value;
-#endif
-}
-
 static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
   uint32_t v = 0;
   auto p = reinterpret_cast<byte*>(&v);
   int i;
   for (i = 0; i < 4; i++)
     p[i] = buf.read_uint8(offset + i);
-  uint32_t result = byteSwap_(v, bSwap);
+  uint32_t result = Image::byteSwap(v, bSwap);
   p = reinterpret_cast<byte*>(&result);
   for (i = 0; i < 4; i++)
     buf.write_uint8(offset + i, p[i]);
