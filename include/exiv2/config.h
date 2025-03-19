@@ -60,16 +60,6 @@
 #endif
 ///// End of platform macros /////////
 
-///// Path separator macros      /////
-#ifndef EXV_SEPARATOR_STR
-#if defined(_WIN32)
-#define EXV_SEPARATOR_STR "\\"
-#define EXV_SEPARATOR_CHR '\\'
-#else
-#define EXV_SEPARATOR_STR "/"
-#define EXV_SEPARATOR_CHR '/'
-#endif
-#endif
 //////////////////////////////////////
 
 #endif  // _CONFIG_H_
