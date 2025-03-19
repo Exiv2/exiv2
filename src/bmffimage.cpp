@@ -20,6 +20,7 @@
 #endif
 
 // + standard includes
+#include <array>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -86,8 +87,9 @@ BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */, size_t max_box_de
 }  // BmffImage::BmffImage
 
 std::string BmffImage::toAscii(uint32_t n) {
-  const auto p = reinterpret_cast<const char*>(&n);
-  std::string result(p, p + 4);
+  std::array<char, sizeof(uint32_t)> p;
+  std::memcpy(p.data(), &n, sizeof(uint32_t));
+  std::string result(p.begin(), p.end());
   if (!isBigEndianPlatform())
     std::reverse(result.begin(), result.end());
   // show 0 as _
