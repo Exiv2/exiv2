@@ -213,9 +213,7 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
       return os << exvGettext(label);
   }
   bool sep = false;
-  for (size_t i = 0; i < N; ++i) {
-    auto [mask, label] = *(array + i);
-
+  for (auto [mask, label] : array) {
     if (val & mask) {
       if (sep) {
         os << ", " << exvGettext(label);
