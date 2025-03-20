@@ -150,8 +150,8 @@ constexpr TagDetails panasonicBurstMode[] = {
 
 //! Contrast, tag 0x002c
 constexpr TagDetails panasonicContrast[] = {
-    {0, N_("Normal")}, {1, N_("Low")},        {2, N_("High")},   {6, N_("Medium low")}, {7, N_("Medium high")},
-    {256, N_("Low")},  {272, N_("Standard")}, {288, N_("High")}, {288, N_("High")}  // To silence compiler warning
+    {0, N_("Normal")},      {1, N_("Low")},   {2, N_("High")},       {6, N_("Medium low")},
+    {7, N_("Medium high")}, {256, N_("Low")}, {272, N_("Standard")}, {288, N_("High")},
 };
 
 //! NoiseReduction, tag 0x002d
@@ -202,7 +202,6 @@ constexpr TagDetails panasonicConversionLens[] = {
     {2, N_("Wide")},
     {3, N_("Telephoto")},
     {4, N_("Macro")},
-    {4, N_("Macro")}  // To silence compiler warning
 };
 
 //! WorldTimeLocation, tag 0x003a
