@@ -314,6 +314,12 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the double
   // type is the 8-byte IEEE 754 binary64 format, which is common but not
   // required by the C++ standard.
+#ifdef __cpp_lib_bit_cast
+  uint64_t u;
+  std::memcpy(&u, buf, sizeof(uint64_t));
+  u = Image::byteSwap(u, byteOrder == bigEndian);
+  return std::bit_cast<double>(u);
+#else
   union {
     uint64_t ull_;
     double d_;
@@ -331,6 +337,7 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
              static_cast<uint64_t>(buf[6]) << 8 | static_cast<uint64_t>(buf[7]);
   }
   return u.d_;
+#endif
 }
 
 size_t us2Data(byte* buf, uint16_t s, ByteOrder byteOrder) {
@@ -395,6 +402,11 @@ size_t d2Data(byte* buf, double d, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the double
   // type is the 8-byte IEEE 754 binary64 format, which is common but not
   // required by the C++ standard.
+#ifdef __cpp_lib_bit_cast
+  auto u = Image::byteSwap(std::bit_cast<uint64_t>(d), byteOrder == bigEndian);
+  std::memcpy(buf, &u, sizeof(u));
+  return sizeof(u);
+#else
   union {
     uint64_t ull_;
     double d_;
@@ -421,6 +433,7 @@ size_t d2Data(byte* buf, double d, ByteOrder byteOrder) {
     buf[7] = static_cast<byte>(u.ull_ & m);
   }
   return 8;
+#endif
 }
 
 void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
