@@ -6,14 +6,13 @@ project(
   default_options: ['warning_level=0', 'cpp_std=c++20'],
 )
 
-cargs = ['-D_GNU_SOURCE']
 cpp = meson.get_compiler('cpp')
 if host_machine.system() == 'windows' and get_option('default_library') != 'static'
-  cargs += '-DEXIV2API=__declspec(dllexport)'
+  cargs = '-DEXIV2API=__declspec(dllexport)'
 elif cpp.has_function_attribute('visibility:default')
-  cargs += '-DEXIV2API=__attribute__((visibility("default")))'
+  cargs = '-DEXIV2API=__attribute__((visibility("default")))'
 else
-  cargs += '-DEXIV2API='
+  cargs = '-DEXIV2API='
 endif
 
 if host_machine.system() == 'windows'
