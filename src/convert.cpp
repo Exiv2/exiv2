@@ -1245,7 +1245,7 @@ std::string Converter::computeExifDigest(bool tiff) {
 
       if (!res.empty())
         res += ',';
-      res += key.tag();
+      res += std::to_string(key.tag());
       auto pos = exifData_->findKey(key);
       if (pos == exifData_->end())
         continue;
