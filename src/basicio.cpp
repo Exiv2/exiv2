@@ -232,10 +232,7 @@ int FileIo::munmap() {
       seek(0, BasicIo::beg);
       write(p_->pMappedArea_, p_->mappedLength_);
     }
-    if (p_->isMalloced_) {
-      delete[] p_->pMappedArea_;
-      p_->isMalloced_ = false;
-    }
+    delete[] p_->pMappedArea_;
 #endif
   }
   if (p_->isWriteable_) {
@@ -315,7 +312,6 @@ byte* FileIo::mmap(bool isWriteable) {
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "FileIo::mmap");
   }
   p_->pMappedArea_ = buf;
-  p_->isMalloced_ = true;
 #endif
   return p_->pMappedArea_;
 }
@@ -997,7 +993,6 @@ class RemoteIo::Impl {
   std::unique_ptr<BlockMap[]> blocksMap_;  //!< An array contains all blocksMap
   size_t size_{0};                         //!< The file size
   size_t idx_{0};                          //!< Index into the memory area
-  bool isMalloced_{false};                 //!< Was the blocksMap_ allocated?
   bool eof_{false};                        //!< EOF indicator
   Protocol protocol_;                      //!< the protocol of url
   size_t totalRead_{0};                    //!< bytes requested from host
@@ -1087,7 +1082,7 @@ RemoteIo::~RemoteIo() {
 int RemoteIo::open() {
   close();  // reset the IO position
   bigBlock_ = nullptr;
-  if (!p_->isMalloced_) {
+  if (!p_->blocksMap_) {
     const auto length = p_->getFileLength();
     if (length < 0) {  // unable to get the length of remote file, get the whole file content.
       std::string data;
@@ -1095,7 +1090,6 @@ int RemoteIo::open() {
       p_->size_ = data.length();
       size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
       p_->blocksMap_ = std::make_unique<BlockMap[]>(nBlocks);
-      p_->isMalloced_ = true;
       auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
       size_t remain = p_->size_;
       size_t iBlock = 0;
@@ -1113,14 +1107,13 @@ int RemoteIo::open() {
       p_->size_ = static_cast<size_t>(length);
       size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
       p_->blocksMap_ = std::make_unique<BlockMap[]>(nBlocks);
-      p_->isMalloced_ = true;
     }
   }
   return 0;  // means OK
 }
 
 int RemoteIo::close() {
-  if (p_->isMalloced_) {
+  if (p_->blocksMap_) {
     p_->eof_ = false;
     p_->idx_ = 0;
   }
@@ -1337,7 +1330,7 @@ size_t RemoteIo::size() const {
 }
 
 bool RemoteIo::isopen() const {
-  return p_->isMalloced_;
+  return p_->blocksMap_ != nullptr;
 }
 
 int RemoteIo::error() const {
