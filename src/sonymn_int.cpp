@@ -2112,20 +2112,15 @@ std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, c
     return os << "(" << value << ")";
 
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   // Models that do not support this tag
-  for (auto m : {"SLT-", "HV", "ILCA-"}) {
+  for (auto m : {"SLT-", "HV", "ILCA-"})
     if (Internal::contains(model, m))
       return os << N_("n/a");
-  }
 
-  os << std::round(value.toInt64() / 10.24) << "%";
-
-  return os;
+  return os << stringFormat("{}%", std::lround(value.toInt64() / 10.24));
 }
 
 std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, const Value& value,
@@ -2134,16 +2129,13 @@ std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, con
     return os << "(" << value << ")";
 
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   // Models that do not support this tag
-  for (auto m : {"SLT-", "HV", "ILCA-"}) {
+  for (auto m : {"SLT-", "HV", "ILCA-"})
     if (Internal::contains(model, m))
       return os << N_("n/a");
-  }
 
   return os << value;
 }
