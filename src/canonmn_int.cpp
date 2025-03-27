@@ -391,7 +391,9 @@ constexpr TagDetails canonModelId[] = {
     {0x80000491, "PowerShot V10"},
     {0x80000495, "EOS R1"},
     {0x80000496, "EOS R5 Mark II"},
+    {0x80000497, "PowerShot V1"},
     {0x80000498, "EOS R100"},
+    {0x80000516, "EOS R50 V"},
     {0x80000520, "EOS D2000C"},
     {0x80000560, "EOS D6000C"},
 };
@@ -2117,8 +2119,10 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 70-200mm F2.8 L IS USM Z + RF1.4x"},
     {61182, "Canon RF 70-200mm F2.8 L IS USM Z + RF2x"},
     {61182, "Canon RF 16-28mm F2.8 IS STM"},
+    {61182, "Canon RF-S 14-30mm F4-6.3 IS STM PZ"},
     {61182, "Canon RF 50mm F1.4 L VCM"},
     {61182, "Canon RF 24mm F1.4 L VCM"},
+    {61182, "Canon RF 20mm F1.4 L VCM"},
     {65535, N_("n/a")},
 };
 
@@ -2606,8 +2610,10 @@ constexpr TagDetails canonRFLensType[] = {
     {320, "Canon RF 70-200mm F2.8 L IS USM Z + RF1.4x"},
     {321, "Canon RF 70-200mm F2.8 L IS USM Z + RF2x"},
     {323, "Canon RF 16-28mm F2.8 IS STM"},
+    {324, "Canon RF-S 14-30mm F4-6.3 IS STM PZ"},
     {325, "Canon RF 50mm F1.4 L VCM"},
     {326, "Canon RF 24mm F1.4 L VCM"},
+    {327, "Canon RF 20mm F1.4 L VCM"},
 };
 
 // Canon File Info Tag
