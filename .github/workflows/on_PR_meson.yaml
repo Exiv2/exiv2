@@ -49,6 +49,22 @@ jobs:
           meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
+  MinGW:
+    runs-on: ubuntu-22.04
+    name: Linux-MinGW-deps=${{matrix.deps}}
+    strategy:
+      matrix:
+        deps: ['forcefallback', 'default']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: e-t-l/setup-mingw@patch-1
+      - name: Install meson
+        run: python3 -m pip install meson ninja
+      - name: Compile and Test
+        run: |
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3
+          meson compile -C "${{github.workspace}}/build"
+          meson test -C "${{github.workspace}}/build"
   VisualStudio:
     runs-on: windows-latest
     name: MSVC-${{matrix.deps}}-${{matrix.platform}}
