@@ -134,8 +134,7 @@ const CiffComponent::UniquePtr& CiffEntry::doAdd(UniquePtr /*component*/) {
 }  // CiffEntry::doAdd
 
 const CiffComponent::UniquePtr& CiffDirectory::doAdd(UniquePtr component) {
-  components_.push_back(std::move(component));
-  return components_.back();
+  return components_.emplace_back(std::move(component));
 }  // CiffDirectory::doAdd
 
 void CiffHeader::read(const byte* pData, size_t size) {

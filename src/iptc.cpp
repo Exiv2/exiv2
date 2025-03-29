@@ -209,8 +209,7 @@ Iptcdatum& IptcData::operator[](const std::string& key) {
   IptcKey iptcKey(key);
   auto pos = findKey(iptcKey);
   if (pos == end()) {
-    iptcMetadata_.emplace_back(iptcKey);
-    return iptcMetadata_.back();
+    return iptcMetadata_.emplace_back(iptcKey);
   }
   return *pos;
 }
