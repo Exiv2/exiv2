@@ -551,8 +551,7 @@ TiffComponent* TiffComponent::doAddChild(UniquePtr /*tiffComponent*/) {
 }  // TiffComponent::doAddChild
 
 TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  components_.push_back(std::move(tiffComponent));
-  return components_.back().get();
+  return components_.emplace_back(std::move(tiffComponent)).get();
 }  // TiffDirectory::doAddChild
 
 TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
@@ -560,8 +559,7 @@ TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
   if (!d) {
     throw Error(ErrorCode::kerErrorMessage, "dynamic_cast to TiffDirectory failed");
   }
-  ifds_.emplace_back(d);
-  return d;
+  return ifds_.emplace_back(d).get();
 }  // TiffSubIfd::doAddChild
 
 TiffComponent* TiffMnEntry::doAddChild(TiffComponent::UniquePtr tiffComponent) {
@@ -576,9 +574,8 @@ TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::UniquePtr tiffCompone
 }
 
 TiffComponent* TiffBinaryArray::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  elements_.push_back(std::move(tiffComponent));
   setDecoded(true);
-  return elements_.back().get();
+  return elements_.emplace_back(std::move(tiffComponent)).get();
 }  // TiffBinaryArray::doAddChild
 
 TiffComponent* TiffComponent::addNext(TiffComponent::UniquePtr tiffComponent) {

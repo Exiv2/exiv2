@@ -443,8 +443,7 @@ Exifdatum& ExifData::operator[](const std::string& key) {
   ExifKey exifKey(key);
   auto pos = findKey(exifKey);
   if (pos == end()) {
-    exifMetadata_.emplace_back(exifKey);
-    return exifMetadata_.back();
+    return exifMetadata_.emplace_back(exifKey);
   }
   return *pos;
 }
