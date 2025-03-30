@@ -199,17 +199,17 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     struct addrinfo hints = {};
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
-    struct addrinfo* result;
+    struct addrinfo* r;
 
-    int res = getaddrinfo(servername_p, port_p, &hints, &result);
+    int res = getaddrinfo(servername_p, port_p, &hints, &r);
     if (res != 0) {
       closesocket(sockfd);
       return error(errors, "no such host: %s", gai_strerror(res));
     }
 
-    std::memcpy(&serv_addr, result->ai_addr, serv_len);
+    std::memcpy(&serv_addr, r->ai_addr, serv_len);
 
-    freeaddrinfo(result);
+    freeaddrinfo(r);
   }
 
   makeNonBlocking(sockfd);
