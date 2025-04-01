@@ -33,8 +33,6 @@ class EXIV2API Key {
   //! Destructor
   virtual ~Key();
   //@}
-  Key(Key&&) = delete;
-  Key& operator=(Key&&) = delete;
   //! @name Accessors
   //@{
   /*!
