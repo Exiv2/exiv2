@@ -1197,11 +1197,8 @@ size_t TiffEntryBase::doWriteImage(IoWrapper& /*ioWrapper*/, ByteOrder /*byteOrd
 }  // TiffEntryBase::doWriteImage
 
 size_t TiffSubIfd::doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
-  size_t len = 0;
-  for (auto&& ifd : ifds_) {
-    len += ifd->writeImage(ioWrapper, byteOrder);
-  }
-  return len;
+  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{0}, std::plus<>(),
+                               [&](const auto& ifd) { return ifd->writeImage(ioWrapper, byteOrder); });
 }  // TiffSubIfd::doWriteImage
 
 size_t TiffIfdMakernote::doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
