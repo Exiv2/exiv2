@@ -35,10 +35,10 @@ using namespace Exiv2::Internal;
 constexpr auto dosEpsSignature = std::string_view("\xC5\xD0\xD3\xC6");
 
 // first line of EPS
-constexpr std::string_view epsFirstLine[] = {
-    "%!PS-Adobe-3.0 EPSF-3.0",
-    "%!PS-Adobe-3.0 EPSF-3.0 ",  // OpenOffice
-    "%!PS-Adobe-3.1 EPSF-3.0",   // Illustrator
+constexpr std::array epsFirstLine{
+    std::string_view("%!PS-Adobe-3.0 EPSF-3.0"),
+    std::string_view("%!PS-Adobe-3.0 EPSF-3.0 "),  // OpenOffice
+    std::string_view("%!PS-Adobe-3.1 EPSF-3.0"),   // Illustrator
 };
 
 // blank EPS file
@@ -315,7 +315,8 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #ifdef DEBUG
   EXV_DEBUG << "readWriteEpsMetadata: First line: " << firstLine << "\n";
 #endif
-  if (!Exiv2::find(epsFirstLine, firstLine)) {
+  auto it = std::find(epsFirstLine.begin(), epsFirstLine.end(), firstLine);
+  if (it == epsFirstLine.end()) {
     throw Error(ErrorCode::kerNotAnImage, "EPS");
   }
 
@@ -1118,10 +1119,10 @@ Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create) {
 
 bool isEpsType(BasicIo& iIo, bool advance) {
   // read as many bytes as needed for the longest (DOS) EPS signature
-  size_t bufSize = dosEpsSignature.size();
-  for (auto&& i : epsFirstLine) {
-    bufSize = std::max(bufSize, i.size());
-  }
+  constexpr auto bufSize = [] {
+    auto f = [](const auto& a, const auto& b) { return a.size() < b.size(); };
+    return std::max_element(epsFirstLine.begin(), epsFirstLine.end(), f)->size();
+  }();
   const size_t restore = iIo.tell();  // save
   DataBuf buf = iIo.read(bufSize);
   if (iIo.error() || buf.size() != bufSize) {
