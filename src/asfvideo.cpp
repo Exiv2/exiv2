@@ -344,7 +344,7 @@ void AsfVideo::streamProperties() {
   io_->readOrThrow(streamTypedBuf.data(), streamTypedBuf.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
   enum class streamTypeInfo { Audio = 1, Video = 2 };
-  auto stream = static_cast<streamTypeInfo>(0);
+  auto stream = streamTypeInfo{0};
 
   auto tag_stream_type = GUIDReferenceTags.find(GUIDTag(streamTypedBuf.data()));
   if (tag_stream_type != GUIDReferenceTags.end()) {

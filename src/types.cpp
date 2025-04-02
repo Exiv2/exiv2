@@ -361,12 +361,12 @@ size_t ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder) {
 size_t ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
     for (size_t i = 0; i < 8; i++) {
-      buf[i] = static_cast<byte>(l & 0xff);
+      buf[i] = static_cast<byte>(l);
       l >>= 8;
     }
   } else {
     for (size_t i = 0; i < 8; i++) {
-      buf[8 - i - 1] = static_cast<byte>(l & 0xff);
+      buf[8 - i - 1] = static_cast<byte>(l);
       l >>= 8;
     }
   }

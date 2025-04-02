@@ -28,10 +28,10 @@ int main(int argc, char* const argv[]) {
     // This is the quickest way to add (simple) Exif data. If a metadatum for
     // a given key already exists, its value is overwritten. Otherwise a new
     // tag is added.
-    exifData["Exif.Image.Model"] = "Test 1";                              // AsciiValue
-    exifData["Exif.Image.SamplesPerPixel"] = static_cast<uint16_t>(162);  // UShortValue
-    exifData["Exif.Image.XResolution"] = -2;                              // LongValue
-    exifData["Exif.Image.YResolution"] = Exiv2::Rational(-2, 3);          // RationalValue
+    exifData["Exif.Image.Model"] = "Test 1";                      // AsciiValue
+    exifData["Exif.Image.SamplesPerPixel"] = std::uint16_t{162};  // UShortValue
+    exifData["Exif.Image.XResolution"] = -2;                      // LongValue
+    exifData["Exif.Image.YResolution"] = Exiv2::Rational(-2, 3);  // RationalValue
     std::cout << "Added a few tags the quick way.\n";
 
     // Create a ASCII string value (note the use of create)

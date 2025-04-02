@@ -1995,7 +1995,7 @@ EncoderFct TiffMapping::findEncoder(std::string_view make, uint32_t extendedTag,
 }
 
 TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag, IfdId group) {
-  auto tag = static_cast<uint16_t>(extendedTag & 0xffff);
+  auto tag = static_cast<uint16_t>(extendedTag);
   auto i = tiffGroupTable_.find(TiffGroupKey(extendedTag, group));
   // If the lookup failed then try again with Tag::all.
   if (i == tiffGroupTable_.end()) {
