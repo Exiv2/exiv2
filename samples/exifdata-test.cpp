@@ -31,9 +31,9 @@ int main(int argc, char* const argv[]) {
     std::cout << "Copy construction, non-intrusive changes\n";
     Exiv2::ExifData ed1(ed);
     ed1["Exif.Image.DateTime"] = "Sunday, 11am";
-    ed1["Exif.Image.Orientation"] = static_cast<uint16_t>(2);
+    ed1["Exif.Image.Orientation"] = std::uint16_t{2};
     ed1["Exif.Photo.DateTimeOriginal"] = "Sunday, 11am";
-    ed1["Exif.Photo.MeteringMode"] = static_cast<uint16_t>(1);
+    ed1["Exif.Photo.MeteringMode"] = std::uint16_t{1};
     ed1["Exif.Iop.InteroperabilityIndex"] = "123";
     //    ed1["Exif.Thumbnail.Orientation"] = uint16_t(2);
     write(file, ed1);
@@ -58,11 +58,11 @@ int main(int argc, char* const argv[]) {
     ed3["Exif.Thumbnail.Artist"] = "Test 6 Ifd1 tag";
     ed3 = ed;
     ed3["Exif.Image.DateTime"] = "Sunday, 11am";
-    ed3["Exif.Image.Orientation"] = static_cast<uint16_t>(2);
+    ed3["Exif.Image.Orientation"] = std::uint16_t{2};
     ed3["Exif.Photo.DateTimeOriginal"] = "Sunday, 11am";
-    ed3["Exif.Photo.MeteringMode"] = static_cast<uint16_t>(1);
+    ed3["Exif.Photo.MeteringMode"] = std::uint16_t{1};
     ed3["Exif.Iop.InteroperabilityIndex"] = "123";
-    ed3["Exif.Thumbnail.Orientation"] = static_cast<uint16_t>(2);
+    ed3["Exif.Thumbnail.Orientation"] = std::uint16_t{2};
     write(file, ed3);
     print(file);
     std::cout << "----------------------------------------------\n";
@@ -75,9 +75,9 @@ int main(int argc, char* const argv[]) {
     ed4["Exif.Image.DateTime"] = "Sunday, 11am and ten minutes";
     ed4["Exif.Image.Orientation"] = "2 3 4 5";
     ed4["Exif.Photo.DateTimeOriginal"] = "Sunday, 11am and ten minutes";
-    ed4["Exif.Photo.MeteringMode"] = static_cast<uint16_t>(1);
+    ed4["Exif.Photo.MeteringMode"] = std::uint16_t{1};
     ed4["Exif.Iop.InteroperabilityIndex"] = "123";
-    ed4["Exif.Thumbnail.Orientation"] = static_cast<uint16_t>(2);
+    ed4["Exif.Thumbnail.Orientation"] = std::uint16_t{2};
     write(file, ed4);
     print(file);
 

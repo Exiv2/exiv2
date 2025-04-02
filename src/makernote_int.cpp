@@ -1092,7 +1092,7 @@ void ncrypt(Exiv2::byte* pData, uint32_t size, uint32_t count, uint32_t serial) 
   };
   Exiv2::byte key = 0;
   for (int i = 0; i < 4; ++i) {
-    key ^= (count >> (i * 8)) & 0xff;
+    key ^= static_cast<Exiv2::byte>(count >> (i * 8));
   }
   Exiv2::byte ci = xlat[0][serial & 0xff];
   Exiv2::byte cj = xlat[1][key];

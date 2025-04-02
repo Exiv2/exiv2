@@ -958,7 +958,7 @@ std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& va
       os << _("No extended bracketing");
     } else {
       auto type = l1 >> 8;
-      auto range = l1 & 0xff;
+      auto range = static_cast<byte>(l1);
       switch (type) {
         case 1:
           os << _("WB-BA");
