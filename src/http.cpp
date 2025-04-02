@@ -54,7 +54,7 @@ static constexpr auto httpTemplate =
 #define FINISH (-999)
 #define OK(s) (200 <= (s) && (s) < 300)
 
-static constexpr std::array<const char*, 2> blankLines{
+static constexpr std::array blankLines{
     "\r\n\r\n",  // this is the standard
     "\n\n",      // this is commonly sent by CGI scripts
 };
