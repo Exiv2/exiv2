@@ -2546,7 +2546,7 @@ const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
 
 IfdId groupId(const std::string& groupName) {
   if (auto ii = Exiv2::find(groupInfo, groupName))
-    return static_cast<IfdId>(ii->ifdId_);
+    return IfdId{ii->ifdId_};
   return IfdId::ifdIdNotSet;
 }
 
@@ -3014,7 +3014,7 @@ std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*)
 std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*) {
   Rational bias = value.toRational();
 
-  if (bias.first == 0 || bias.first == static_cast<int32_t>(0x80000000)) {
+  if (bias.first == 0 || bias.first == std::numeric_limits<std::int32_t>::min()) {
     os << "0 EV";
   } else if (bias.second <= 0) {
     os << "(" << bias.first << "/" << bias.second << ")";

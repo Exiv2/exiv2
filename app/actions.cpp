@@ -1577,7 +1577,7 @@ int Timestamp::read(const std::string& path) {
 int Timestamp::read(tm* tm) {
   int rc = 1;
   time_t t = mktime(tm);  // interpret tm according to current timezone settings
-  if (t != static_cast<time_t>(-1)) {
+  if (t != time_t{-1}) {
     rc = 0;
     actime_ = t;
     modtime_ = t;
@@ -1635,7 +1635,7 @@ int str2Tm(const std::string& timeStr, tm* tm) {
   tm->tm_sec = static_cast<decltype(tm->tm_sec)>(tmp);
 
   // Conversions to set remaining fields of the tm structure
-  if (mktime(tm) == static_cast<time_t>(-1))
+  if (mktime(tm) == time_t{-1})
     return 11;
 
   return 0;

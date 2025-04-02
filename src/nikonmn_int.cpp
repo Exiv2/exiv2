@@ -1085,12 +1085,12 @@ static void printFlashCompensationValue(std::ostream& os, const unsigned char va
     ...
     255 = "+0.2"
      */
-    float output = 0.0;
+    auto output = 0.0f;
     if (value < 128) {
       if (value != 0)
-        output = static_cast<float>(value) * static_cast<float>(-1.0);
+        output = static_cast<float>(value) * -1.0f;
     } else {
-      output = static_cast<float>(256.0) - static_cast<float>(value);
+      output = 256.0f - static_cast<float>(value);
     }
     os.precision(1);
     if (value != 0)

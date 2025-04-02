@@ -107,7 +107,7 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
       zlibUncompress(compressedText, static_cast<uint32_t>(compressedTextSize), arr);
     }
   } else if (type == tEXt_Chunk) {
-    enforce(data.size() >= Safe::add(keysize, static_cast<size_t>(1)), ErrorCode::kerCorruptedMetadata);
+    enforce(data.size() >= Safe::add(keysize, std::size_t{1}), ErrorCode::kerCorruptedMetadata);
     // Extract a non-compressed Latin-1 text chunk
 
     // the text comes after the key, but isn't null terminated
@@ -118,7 +118,7 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
       arr = DataBuf(text, textsize);
     }
   } else if (type == iTXt_Chunk) {
-    enforce(data.size() > Safe::add(keysize, static_cast<size_t>(3)), ErrorCode::kerCorruptedMetadata);
+    enforce(data.size() > Safe::add(keysize, std::size_t{3}), ErrorCode::kerCorruptedMetadata);
     const size_t nullCount = std::count(data.c_data(keysize + 3), data.c_data(data.size() - 1), '\0');
     enforce(nullCount >= nullSeparators, ErrorCode::kerCorruptedMetadata);
 
@@ -138,15 +138,14 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
     std::string languageText = string_from_unterminated(data.c_str(keysize + 3), languageTextMaxSize);
     const size_t languageTextSize = languageText.size();
 
-    enforce(data.size() >= Safe::add(Safe::add(keysize, static_cast<size_t>(4)), languageTextSize),
+    enforce(data.size() >= Safe::add(Safe::add(keysize, std::size_t{4}), languageTextSize),
             ErrorCode::kerCorruptedMetadata);
     // translated keyword string after the language description
     std::string translatedKeyText = string_from_unterminated(data.c_str(keysize + 3 + languageTextSize + 1),
                                                              data.size() - (keysize + 3 + languageTextSize + 1));
     const size_t translatedKeyTextSize = translatedKeyText.size();
 
-    enforce(Safe::add(keysize + 3 + languageTextSize + 1, Safe::add(translatedKeyTextSize, static_cast<size_t>(1))) <=
-                data.size(),
+    enforce(Safe::add(keysize + 3 + languageTextSize + 1, Safe::add(translatedKeyTextSize, size_t{1})) <= data.size(),
             ErrorCode::kerCorruptedMetadata);
 
     const auto textsize =
