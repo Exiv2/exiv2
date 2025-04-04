@@ -876,7 +876,7 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
       if (auto internalMt = Exiv2::find(streamRate, key)) {
         switch (stream_) {
           case 1:  // video
-            frame_rate = static_cast<double>(1000000000) / static_cast<double>(key);
+            frame_rate = 1000000000.0 / static_cast<double>(key);
             break;
           case 2:  // audio
             frame_rate = static_cast<double>(key) / 1000;

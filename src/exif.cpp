@@ -428,9 +428,9 @@ void ExifThumb::setJpegThumbnail(const std::string& path) {
 #endif
 
 void ExifThumb::setJpegThumbnail(const byte* buf, size_t size) {
-  exifData_["Exif.Thumbnail.Compression"] = static_cast<uint16_t>(6);
+  exifData_["Exif.Thumbnail.Compression"] = std::uint16_t{6};
   Exifdatum& format = exifData_["Exif.Thumbnail.JPEGInterchangeFormat"];
-  format = static_cast<uint32_t>(0);
+  format = 0U;
   format.setDataArea(buf, size);
   exifData_["Exif.Thumbnail.JPEGInterchangeFormatLength"] = static_cast<uint32_t>(size);
 }

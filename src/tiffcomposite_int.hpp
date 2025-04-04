@@ -72,7 +72,7 @@ class TiffPathItem {
   //@{
   //! Return the tag corresponding to the extended tag
   [[nodiscard]] uint16_t tag() const {
-    return static_cast<uint16_t>(extendedTag_ & 0xffff);
+    return static_cast<uint16_t>(extendedTag_);
   }
   //! Return the extended tag (32 bit so that it can contain special tags)
   [[nodiscard]] uint32_t extendedTag() const {
@@ -352,7 +352,7 @@ struct TiffMappingInfo {
   bool operator==(const Key& key) const;
   //! Return the tag corresponding to the extended tag
   [[nodiscard]] uint16_t tag() const {
-    return static_cast<uint16_t>(extendedTag_ & 0xffff);
+    return static_cast<uint16_t>(extendedTag_);
   }
 
   // DATA
