@@ -174,15 +174,13 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   openMode_ = "r+b";
   opMode_ = opSeek;
 #ifdef _WIN32
-  fp_ = _wfopen(wpath_.c_str(), L"r+b");
-#else
-  fp_ = std::fopen(path_.c_str(), openMode_.c_str());
-#endif
-  if (!fp_)
+  if (_wfopen_s(&fp_, wpath_.c_str(), L"r+b"))
     return 1;
-#ifdef _WIN32
   return _fseeki64(fp_, offset, SEEK_SET);
 #else
+  fp_ = std::fopen(path_.c_str(), openMode_.c_str());
+  if (!fp_)
+    return 1;
   return fseeko(fp_, offset, SEEK_SET);
 #endif
 }  // FileIo::Impl::switchMode
@@ -526,12 +524,13 @@ int FileIo::open(const std::string& mode) {
 #ifdef _WIN32
   wchar_t wmode[10];
   MultiByteToWideChar(CP_UTF8, 0, mode.c_str(), -1, wmode, 10);
-  p_->fp_ = _wfopen(p_->wpath_.c_str(), wmode);
+  if (_wfopen_s(&p_->fp_, p_->wpath_.c_str(), wmode))
+    return 1;
 #else
   p_->fp_ = ::fopen(path().c_str(), mode.c_str());
-#endif
   if (!p_->fp_)
     return 1;
+#endif
   return 0;
 }
 
