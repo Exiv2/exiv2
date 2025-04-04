@@ -5227,11 +5227,11 @@ void XmpKey::Impl::decomposeKey(const std::string& key) {
 // free functions
 // *************************************************************************
 // free functions
-std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& property) {
+std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& propertyInfo) {
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
   std::string escapedDesc;
   escapedDesc.push_back('"');
-  for (char c : std::string_view(property.desc_)) {
+  for (char c : std::string_view(propertyInfo.desc_)) {
     if (c == '"')
       escapedDesc += "\"\"";
     else
@@ -5239,11 +5239,9 @@ std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& property) {
   }
   escapedDesc.push_back('"');
 
-  os << stringFormat("{},{},{},{},{},{}\n", property.name_, property.title_, property.xmpValueType_,
-                     TypeInfo::typeName(property.typeId_),
-                     (property.xmpCategory_ == xmpExternal ? "External" : "Internal"), escapedDesc);
-
-  return os;
+  return os << stringFormat("{},{},{},{},{},{}\n", propertyInfo.name_, propertyInfo.title_, propertyInfo.xmpValueType_,
+                            TypeInfo::typeName(propertyInfo.typeId_),
+                            (propertyInfo.xmpCategory_ == xmpExternal ? "External" : "Internal"), escapedDesc);
 }
 //! @endcond
 

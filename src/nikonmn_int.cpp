@@ -3855,11 +3855,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
   }
 
   // cf. https://github.com/exiftool/exiftool/blob/13.16/lib/Image/ExifTool/Nikon.pm#L5668
-  static constexpr struct lens {
-    uint16_t l;
-    const char* vendor;
-    const char* name;
-  } zmountlens[] = {
+  static constexpr std::tuple<uint16_t, const char*, const char*> zmountlens[] = {
       {1, "Nikon", "Nikkor Z 24-70mm f/4 S"},
       {2, "Nikon", "Nikkor Z 14-30mm f/4 S"},
       {4, "Nikon", "Nikkor Z 35mm f/1.8 S"},

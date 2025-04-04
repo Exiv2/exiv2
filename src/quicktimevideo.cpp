@@ -794,11 +794,10 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
   io_->seek(static_cast<long>(cur_pos + size), BasicIo::beg);
 }  // QuickTimeVideo::trackApertureTagDecoder
 
-void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
+void QuickTimeVideo::CameraTagsDecoder(size_t size) {
   size_t cur_pos = io_->tell();
   DataBuf buf(50);
   DataBuf buf2(4);
-  const TagDetails* td;
 
   io_->readOrThrow(buf.data(), 4);
   if (equalsQTimeTag(buf, "NIKO")) {
@@ -821,8 +820,7 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
         buf.read_uint32(0, littleEndian) / static_cast<double>(buf2.read_uint32(0, littleEndian));
     io_->readOrThrow(buf.data(), 10);
     io_->readOrThrow(buf.data(), 4);
-    td = Exiv2::find(whiteBalance, buf.read_uint32(0, littleEndian));
-    if (td)
+    if (auto td = Exiv2::find(whiteBalance, buf.read_uint32(0, littleEndian)))
       xmpData_["Xmp.video.WhiteBalance"] = exvGettext(td->label_);
     io_->readOrThrow(buf.data(), 4);
     io_->readOrThrow(buf2.data(), 4);
@@ -836,10 +834,10 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
     xmpData_["Xmp.video.ISO"] = buf.read_uint32(0, littleEndian);
   }
 
-  io_->seek(cur_pos + size_external, BasicIo::beg);
+  io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::CameraTagsDecoder
 
-void QuickTimeVideo::userDataDecoder(size_t size_external, size_t recursion_depth) {
+void QuickTimeVideo::userDataDecoder(size_t size, size_t recursion_depth) {
   enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
   size_t cur_pos = io_->tell();
   const TagVocabulary* td;
@@ -848,7 +846,7 @@ void QuickTimeVideo::userDataDecoder(size_t size_external, size_t recursion_dept
 
   const long bufMinSize = 100;
   DataBuf buf(bufMinSize);
-  size_t size_internal = size_external;
+  size_t size_internal = size;
   std::memset(buf.data(), 0x0, buf.size());
 
   while ((size_internal / 4 != 0) && (size_internal > 0)) {
@@ -905,10 +903,10 @@ void QuickTimeVideo::userDataDecoder(size_t size_external, size_t recursion_dept
       tagDecoder(buf, size - 8, recursion_depth + 1);
   }
 
-  io_->seek(cur_pos + size_external, BasicIo::beg);
+  io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::userDataDecoder
 
-void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
+void QuickTimeVideo::NikonTagsDecoder(size_t size) {
   size_t cur_pos = io_->tell();
   DataBuf buf(201);
   DataBuf buf2(4 + 1);
@@ -1117,7 +1115,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
     }
   }
 
-  io_->seek(cur_pos + size_external, BasicIo::beg);
+  io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::NikonTagsDecoder
 
 void QuickTimeVideo::setMediaStream() {

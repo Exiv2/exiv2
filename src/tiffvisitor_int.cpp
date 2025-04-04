@@ -362,11 +362,7 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   const uint16_t nMasks = (nPoints + 15) / (sizeof(uint16_t) * 8);
   int nStart = 0;
 
-  const struct record {
-    uint16_t tag;
-    uint16_t size;
-    bool bSigned;
-  } records[] = {
+  const std::tuple<uint16_t, uint16_t, bool> records[] = {
       {0x2600, 1, true},        // AFInfoSize
       {0x2601, 1, true},        // AFAreaMode
       {0x2602, 1, true},        // AFNumPoints

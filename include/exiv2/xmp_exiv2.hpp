@@ -166,7 +166,7 @@ class EXIV2API XmpData {
     @brief Add a copy of the Xmpdatum to the XMP metadata.
     @return 0 if successful.
    */
-  int add(const Xmpdatum& xmpdatum);
+  int add(const Xmpdatum& xmpDatum);
   /*
   @brief Delete the Xmpdatum at iterator position pos, return the
           position of the next Xmpdatum.

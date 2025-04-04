@@ -185,7 +185,7 @@ class EXIV2API IptcData {
     @return 0 if successful;<BR>
            6 if the dataset already exists and is not repeatable;<BR>
    */
-  int add(const Iptcdatum& iptcdatum);
+  int add(const Iptcdatum& iptcDatum);
   /*!
     @brief Delete the Iptcdatum at iterator position pos, return the
            position of the next Iptcdatum. Note that iterators into

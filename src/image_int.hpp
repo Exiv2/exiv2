@@ -62,7 +62,7 @@ std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& bi
 
 template <typename T>
 struct binaryToStringHelper {
-  constexpr binaryToStringHelper(Slice<T>&& myBuf) noexcept : buf_(std::move(myBuf)) {
+  explicit constexpr binaryToStringHelper(Slice<T>&& myBuf) noexcept : buf_(std::move(myBuf)) {
   }
 
   // the Slice is stored by value to avoid dangling references, in case we

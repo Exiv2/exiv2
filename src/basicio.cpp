@@ -86,7 +86,6 @@ class FileIo::Impl {
 #endif
   byte* pMappedArea_{};    //!< Pointer to the memory-mapped area
   size_t mappedLength_{};  //!< Size of the memory-mapped area
-  bool isMalloced_{};      //!< Is the mapped area allocated?
   bool isWriteable_{};     //!< Can the mapped area be written to?
   // TYPES
   //! Simple struct stat wrapper for internal use
