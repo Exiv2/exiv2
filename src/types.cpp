@@ -6,6 +6,7 @@
 #include "enforce.hpp"
 #include "futils.hpp"
 #include "i18n.h"  // for _exvGettext
+#include "image.hpp"
 #include "utils.hpp"
 
 // + standard includes
@@ -313,6 +314,12 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the double
   // type is the 8-byte IEEE 754 binary64 format, which is common but not
   // required by the C++ standard.
+#ifdef __cpp_lib_bit_cast
+  uint64_t u;
+  std::memcpy(&u, buf, sizeof(uint64_t));
+  u = Image::byteSwap(u, byteOrder == bigEndian);
+  return std::bit_cast<double>(u);
+#else
   union {
     uint64_t ull_;
     double d_;
@@ -330,47 +337,25 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
              static_cast<uint64_t>(buf[6]) << 8 | static_cast<uint64_t>(buf[7]);
   }
   return u.d_;
+#endif
 }
 
 size_t us2Data(byte* buf, uint16_t s, ByteOrder byteOrder) {
-  if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(s & 0x00ffU);
-    buf[1] = static_cast<byte>((s & 0xff00U) >> 8);
-  } else {
-    buf[0] = static_cast<byte>((s & 0xff00U) >> 8);
-    buf[1] = static_cast<byte>(s & 0x00ffU);
-  }
-  return 2;
+  s = Image::byteSwap(s, byteOrder == bigEndian);
+  std::memcpy(buf, &s, sizeof(s));
+  return sizeof(s);
 }
 
 size_t ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder) {
-  if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(l & 0x000000ffU);
-    buf[1] = static_cast<byte>((l & 0x0000ff00U) >> 8);
-    buf[2] = static_cast<byte>((l & 0x00ff0000U) >> 16);
-    buf[3] = static_cast<byte>((l & 0xff000000U) >> 24);
-  } else {
-    buf[0] = static_cast<byte>((l & 0xff000000U) >> 24);
-    buf[1] = static_cast<byte>((l & 0x00ff0000U) >> 16);
-    buf[2] = static_cast<byte>((l & 0x0000ff00U) >> 8);
-    buf[3] = static_cast<byte>(l & 0x000000ffU);
-  }
-  return 4;
+  l = Image::byteSwap(l, byteOrder == bigEndian);
+  std::memcpy(buf, &l, sizeof(l));
+  return sizeof(l);
 }
 
 size_t ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder) {
-  if (byteOrder == littleEndian) {
-    for (size_t i = 0; i < 8; i++) {
-      buf[i] = static_cast<byte>(l & 0xff);
-      l >>= 8;
-    }
-  } else {
-    for (size_t i = 0; i < 8; i++) {
-      buf[8 - i - 1] = static_cast<byte>(l & 0xff);
-      l >>= 8;
-    }
-  }
-  return 8;
+  l = Image::byteSwap(l, byteOrder == bigEndian);
+  std::memcpy(buf, &l, sizeof(l));
+  return sizeof(l);
 }
 
 size_t ur2Data(byte* buf, URational l, ByteOrder byteOrder) {
@@ -380,29 +365,15 @@ size_t ur2Data(byte* buf, URational l, ByteOrder byteOrder) {
 }
 
 size_t s2Data(byte* buf, int16_t s, ByteOrder byteOrder) {
-  if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(s & 0x00ffU);
-    buf[1] = static_cast<byte>((s & 0xff00U) >> 8);
-  } else {
-    buf[0] = static_cast<byte>((s & 0xff00U) >> 8);
-    buf[1] = static_cast<byte>(s & 0x00ffU);
-  }
-  return 2;
+  s = Image::byteSwap(static_cast<uint16_t>(s), byteOrder == bigEndian);
+  std::memcpy(buf, &s, sizeof(s));
+  return sizeof(s);
 }
 
 size_t l2Data(byte* buf, int32_t l, ByteOrder byteOrder) {
-  if (byteOrder == littleEndian) {
-    buf[0] = static_cast<byte>(l & 0x000000ffU);
-    buf[1] = static_cast<byte>((l & 0x0000ff00U) >> 8);
-    buf[2] = static_cast<byte>((l & 0x00ff0000U) >> 16);
-    buf[3] = static_cast<byte>((l & 0xff000000U) >> 24);
-  } else {
-    buf[0] = static_cast<byte>((l & 0xff000000U) >> 24);
-    buf[1] = static_cast<byte>((l & 0x00ff0000U) >> 16);
-    buf[2] = static_cast<byte>((l & 0x0000ff00U) >> 8);
-    buf[3] = static_cast<byte>(l & 0x000000ffU);
-  }
-  return 4;
+  l = Image::byteSwap(static_cast<uint32_t>(l), byteOrder == bigEndian);
+  std::memcpy(buf, &l, sizeof(l));
+  return sizeof(l);
 }
 
 size_t r2Data(byte* buf, Rational l, ByteOrder byteOrder) {
@@ -431,6 +402,11 @@ size_t d2Data(byte* buf, double d, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the double
   // type is the 8-byte IEEE 754 binary64 format, which is common but not
   // required by the C++ standard.
+#ifdef __cpp_lib_bit_cast
+  auto u = Image::byteSwap(std::bit_cast<uint64_t>(d), byteOrder == bigEndian);
+  std::memcpy(buf, &u, sizeof(u));
+  return sizeof(u);
+#else
   union {
     uint64_t ull_;
     double d_;
@@ -457,6 +433,7 @@ size_t d2Data(byte* buf, double d, ByteOrder byteOrder) {
     buf[7] = static_cast<byte>(u.ull_ & m);
   }
   return 8;
+#endif
 }
 
 void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
