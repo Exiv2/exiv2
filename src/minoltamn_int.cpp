@@ -228,7 +228,6 @@ constexpr TagDetails minoltaModelStd[] = {
     {5, "DiMAGE 7Hi"},
     {6, "DiMAGE A1"},
     {7, "DiMAGE A2 | S414"},
-    {7, "DiMAGE A2 | S414"}  // To silence compiler warning
 };
 
 //! Lookup table to translate Minolta Std camera settings interval mode values to readable labels
@@ -493,9 +492,8 @@ constexpr TagDetails minoltaImageQuality7D[] = {
 
 //! Lookup table to translate Minolta Dynax 7D camera settings white balance values to readable labels
 constexpr TagDetails minoltaWhiteBalance7D[] = {
-    {0, N_("Auto")},        {1, N_("Daylight")}, {2, N_("Shade")},    {3, N_("Cloudy")},  {4, N_("Tungsten")},
-    {5, N_("Fluorescent")}, {256, N_("Kelvin")}, {512, N_("Manual")}, {512, N_("Manual")}  // To silence compiler
-                                                                                           // warning
+    {0, N_("Auto")},     {1, N_("Daylight")},    {2, N_("Shade")},    {3, N_("Cloudy")},
+    {4, N_("Tungsten")}, {5, N_("Fluorescent")}, {256, N_("Kelvin")}, {512, N_("Manual")},
 };
 
 //! Lookup table to translate Minolta Dynax 7D camera settings focus mode values to readable labels

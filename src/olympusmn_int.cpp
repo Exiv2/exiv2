@@ -659,8 +659,8 @@ constexpr TagDetails olympusEqFlashType[] = {
 
 //! OlympusEq FlashModel, tag 0x1001
 constexpr TagDetails olympusEqFlashModel[] = {
-    {0, N_("None")}, {1, "FL-20"},  {2, "FL-50"}, {3, "RF-11"},    {4, "TF-22"},   {5, "FL-36"},
-    {6, "FL-50R"},   {7, "FL-36R"}, {9, "FL-14"}, {11, "FL-600R"}, {11, "FL-600R"}  // To silence compiler warning
+    {0, N_("None")}, {1, "FL-20"},  {2, "FL-50"},  {3, "RF-11"}, {4, "TF-22"},
+    {5, "FL-36"},    {6, "FL-50R"}, {7, "FL-36R"}, {9, "FL-14"}, {11, "FL-600R"},
 };
 
 constexpr TagInfo OlympusMakerNote::tagInfoEq_[] = {
