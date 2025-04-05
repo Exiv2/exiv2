@@ -1280,9 +1280,9 @@ std::ostream& OlympusMakerNote::print0x0204(std::ostream& os, const Value& value
     return os << "(" << value << ")";
   }
   float f = value.toFloat();
-  if (f == 0.0F || f == 1.0F)
-    return os << _("None");
-  return os << stringFormat("{:.1f}x", f);
+  if (std::isgreater(f, 1.0F))
+    return os << stringFormat("{:.1f}x", f);
+  return os << _("None");
 }  // OlympusMakerNote::print0x0204
 
 std::ostream& OlympusMakerNote::print0x1015(std::ostream& os, const Value& value, const ExifData*) {
