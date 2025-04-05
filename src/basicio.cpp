@@ -621,27 +621,15 @@ class BlockMap {
  public:
   //! the status of the block.
   enum blockType_e { bNone, bKnown, bMemory };
-  //! @name Creators
-  //@{
-  //! Default constructor. the init status of the block is bNone.
-  BlockMap() = default;
-
-  //! Destructor. Releases all managed memory.
-  ~BlockMap() {
-    delete[] data_;
-  }
-
-  BlockMap(const BlockMap&) = delete;
-  BlockMap& operator=(const BlockMap&) = delete;
 
   //! @brief Populate the block.
   //! @param source The data populate to the block
   //! @param num The size of data
   void populate(const byte* source, size_t num) {
     size_ = num;
-    data_ = new byte[size_];
+    data_ = std::make_unique<byte[]>(size_);
     type_ = bMemory;
-    std::memcpy(data_, source, size_);
+    std::memcpy(data_.get(), source, size_);
   }
 
   /*!
@@ -664,7 +652,7 @@ class BlockMap {
   }
 
   [[nodiscard]] byte* getData() const {
-    return data_;
+    return data_.get();
   }
 
   [[nodiscard]] size_t getSize() const {
@@ -673,7 +661,7 @@ class BlockMap {
 
  private:
   blockType_e type_{bNone};
-  byte* data_{nullptr};
+  std::unique_ptr<byte[]> data_;
   size_t size_{0};
 };
 
