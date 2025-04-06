@@ -32,6 +32,7 @@ namespace fs = std::filesystem;
 #else
 #include <sys/select.h>
 #include <unistd.h>
+#define _strdup strdup
 #endif
 
 // *****************************************************************************
@@ -957,7 +958,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
   if (stdinBuf.empty()) {
 #if defined(_WIN32)
     DWORD fdwMode;
-    _setmode(fileno(stdin), O_BINARY);
+    _setmode(_fileno(stdin), O_BINARY);
     Sleep(300);
     if (!GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode)) {  // failed: stdin has bytes!
 #else
@@ -1022,9 +1023,9 @@ int Params::getopt(int argc, char* const Argv[]) {
   for (int i = 0; i < argc; i++) {
     std::string arg(Argv[i]);
     if (longs.contains(arg)) {
-      argv[i] = ::strdup(longs.at(arg).c_str());
+      argv[i] = _strdup(longs.at(arg).c_str());
     } else {
-      argv[i] = ::strdup(Argv[i]);
+      argv[i] = _strdup(Argv[i]);
     }
   }
 
