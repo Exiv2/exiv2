@@ -42,6 +42,7 @@
 #define _setmode(a, b) \
   do {                 \
   } while (false)
+#define _fileno fileno
 #endif
 
 namespace fs = std::filesystem;
@@ -184,7 +185,7 @@ static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const st
       }
     }
   } else {
-    _setmode(fileno(stdout), O_BINARY);
+    _setmode(_fileno(stdout), O_BINARY);
     result = printStructure(std::cout, option, path);
   }
 
@@ -776,7 +777,7 @@ int Extract::run(const std::string& path) {
 
     bool bStdout = (Params::instance().target_ & Params::ctStdInOut) != 0;
     if (bStdout) {
-      _setmode(fileno(stdout), _O_BINARY);
+      _setmode(_fileno(stdout), _O_BINARY);
     }
 
     if (Params::instance().target_ & Params::ctThumb) {
@@ -1783,7 +1784,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
 
   // if we used a temporary target, copy it to stdout
   if (rc == 0 && bStdout) {
-    _setmode(fileno(stdout), O_BINARY);
+    _setmode(_fileno(stdout), O_BINARY);
     if (auto f = std::ifstream(target, std::ios::binary)) {
       std::vector<char> buffer(8 * 1024);
 

@@ -43,6 +43,10 @@
 namespace fs = std::filesystem;
 #endif
 
+#ifndef _WIN32
+#define _fileno fileno
+#endif
+
 namespace Exiv2 {
 
 BasicIo::~BasicIo() = default;
@@ -257,7 +261,7 @@ byte* FileIo::mmap(bool isWriteable) {
   if (p_->isWriteable_) {
     prot |= PROT_WRITE;
   }
-  void* rc = ::mmap(nullptr, p_->mappedLength_, prot, MAP_SHARED, fileno(p_->fp_), 0);
+  void* rc = ::mmap(nullptr, p_->mappedLength_, prot, MAP_SHARED, _fileno(p_->fp_), 0);
   if (MAP_FAILED == rc) {
     throw Error(ErrorCode::kerCallFailed, path(), strError(), "mmap");
   }
@@ -278,7 +282,7 @@ byte* FileIo::mmap(bool isWriteable) {
     flProtect = PAGE_READWRITE;
   }
   HANDLE hPh = GetCurrentProcess();
-  auto hFd = reinterpret_cast<HANDLE>(_get_osfhandle(fileno(p_->fp_)));
+  auto hFd = reinterpret_cast<HANDLE>(_get_osfhandle(_fileno(p_->fp_)));
   if (hFd == INVALID_HANDLE_VALUE) {
     throw Error(ErrorCode::kerCallFailed, path(), "MSG1", "_get_osfhandle");
   }
@@ -918,7 +922,7 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
   auto path = stringFormat("{}{}", timestamp, XPathIo::TEMP_FILE_EXT);
 
   if (prot == pStdin) {
-    if (isatty(fileno(stdin)))
+    if (isatty(_fileno(stdin)))
       throw Error(ErrorCode::kerInputDataReadFailed);
 #ifdef _WIN32
     // convert stdin to binary
