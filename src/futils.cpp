@@ -256,6 +256,12 @@ std::string strError() {
   if (os.empty()) {
     os = std::strerror(error);
   }
+#elif defined(_WIN32)
+  const size_t n = 1024;
+  char buf[n] = {};
+  const auto ret = strerror_s(buf, n, error);
+  Internal::enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
+  os = buf;
 #else
   os = std::strerror(error);
 #endif
