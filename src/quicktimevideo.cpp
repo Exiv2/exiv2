@@ -612,6 +612,10 @@ void QuickTimeVideo::decodeBlock(size_t recursion_depth, std::string const& ente
 
   // std::cerr<<"Tag=>"<<buf.data()<<"     size=>"<<size-hdrsize << '\n';
   const auto newsize = static_cast<size_t>(size - hdrsize);
+  if (ignoreList(buf)) {
+    discard(newsize);
+    return;
+  }
   if (newsize > buf.size()) {
     buf.resize(newsize);
   }
