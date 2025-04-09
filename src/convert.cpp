@@ -745,7 +745,7 @@ void Converter::cnvExifVersion(const char* from, const char* to) {
   std::string value;
   value.reserve(count);
   for (size_t i = 0; i < count; ++i) {
-    value += static_cast<char>(pos->toInt64(i));
+    value.push_back(pos->toInt64(i));
   }
   (*xmpData_)[to] = value;
   if (erase_)
