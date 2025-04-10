@@ -165,14 +165,6 @@ struct EXIV2API DataBuf {
     return pData_.end();
   }
 
-  [[nodiscard]] auto cbegin() const noexcept {
-    return pData_.cbegin();
-  }
-
-  [[nodiscard]] auto cend() const noexcept {
-    return pData_.cend();
-  }
-
   [[nodiscard]] size_t size() const {
     return pData_.size();
   }

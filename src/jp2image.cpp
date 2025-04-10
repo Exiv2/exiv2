@@ -649,7 +649,7 @@ void Jp2Image::encodeJp2Header(const DataBuf& boxBuf, DataBuf& outBuf) {
       }
     } else {
       Internal::enforce(newlen <= output.size() - outlen, ErrorCode::kerCorruptedMetadata);
-      std::copy_n(boxBuf.cbegin() + inlen, subBox.length, output.begin() + outlen);
+      std::copy_n(boxBuf.begin() + inlen, subBox.length, output.begin() + outlen);
     }
 
     outlen += newlen;
