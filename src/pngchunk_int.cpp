@@ -74,11 +74,11 @@ DataBuf PngChunk::keyTXTChunk(const DataBuf& data, bool stripHeader) {
   if (data.size() <= offset)
     throw Error(ErrorCode::kerFailedToReadImageData);
 
-  auto it = std::find(data.cbegin() + offset, data.cend(), 0);
-  if (it == data.cend())
+  auto it = std::find(data.begin() + offset, data.end(), 0);
+  if (it == data.end())
     throw Error(ErrorCode::kerFailedToReadImageData);
 
-  return {data.c_data() + offset, std::distance(data.cbegin(), it) - offset};
+  return {data.c_data() + offset, std::distance(data.begin(), it) - offset};
 }
 
 DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkType type) {
@@ -478,7 +478,7 @@ DataBuf PngChunk::readRawProfile(const DataBuf& text, bool iTXt) {
 
   if (iTXt) {
     info.alloc(text.size());
-    std::copy(text.cbegin(), text.cend(), info.begin());
+    std::copy(text.begin(), text.end(), info.begin());
     return info;
   }
 
