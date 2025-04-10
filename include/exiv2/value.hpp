@@ -1197,10 +1197,6 @@ class ValueType : public Value {
 
   //! Container for values
   using ValueList = std::vector<T>;
-  //! Iterator type defined for convenience.
-  using iterator = typename std::vector<T>::iterator;
-  //! Const iterator type defined for convenience.
-  using const_iterator = typename std::vector<T>::const_iterator;
 
   // DATA
   /*!
