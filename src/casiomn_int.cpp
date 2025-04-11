@@ -158,7 +158,7 @@ std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, 
   for (size_t i = 0; i < value.size(); i++) {
     const auto l = value.toInt64(i);
     if (l != 0) {
-      numbers.push_back(static_cast<char>(l));
+      numbers.push_back(l);
     }
   }
 
@@ -457,7 +457,7 @@ std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value,
   // format is:  "YYMM#00#00DDHH#00#00MM#00#00#00#00"
   std::vector<char> numbers;
   for (size_t i = 0; i < value.size(); i++) {
-    const auto l = static_cast<char>(value.toInt64(i));
+    const auto l = value.toInt64(i);
     if (l != 0) {
       numbers.push_back(l);
     }
