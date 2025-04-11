@@ -855,7 +855,7 @@ void QuickTimeVideo::userDataDecoder(size_t size, size_t recursion_depth) {
   while ((size_internal / 4 != 0) && (size_internal > 0)) {
     buf.data()[4] = '\0';
     io_->readOrThrow(buf.data(), 4);
-    const size_t size = buf.read_uint32(0, bigEndian);
+    size = buf.read_uint32(0, bigEndian);
     if (size > size_internal)
       break;
     size_internal -= size;
