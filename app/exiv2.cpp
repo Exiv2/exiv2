@@ -1479,8 +1479,8 @@ std::string parseEscapes(const std::string& input) {
           }
 
           std::string ucs2toUtf8;
-          ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00U) >> 8));
-          ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ffU));
+          ucs2toUtf8.push_back((acc & 0xff00U) >> 8);
+          ucs2toUtf8.push_back(acc & 0x00ffU);
 
           if (Exiv2::convertStringCharset(ucs2toUtf8, "UCS-2BE", "UTF-8")) {
             result.append(ucs2toUtf8);

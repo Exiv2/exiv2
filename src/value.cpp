@@ -112,7 +112,7 @@ int DataValue::read(const std::string& buf) {
   int tmp = 0;
   ValueType val;
   while (is >> tmp)
-    val.push_back(static_cast<byte>(tmp));
+    val.push_back(tmp);
   if (!is.eof())
     return 1;
   value_ = std::move(val);

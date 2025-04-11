@@ -349,8 +349,8 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   std::vector<int16_t> ints;
   std::vector<uint16_t> uint;
   for (size_t i = 0; i < object->pValue()->count(); i++) {
-    ints.push_back(static_cast<int16_t>(object->pValue()->toInt64(i)));
-    uint.push_back(static_cast<uint16_t>(object->pValue()->toInt64(i)));
+    ints.push_back(object->pValue()->toInt64(i));
+    uint.push_back(object->pValue()->toInt64(i));
   }
   // Check this is AFInfo2 (ints[0] = bytes in object)
   if (ints.front() != static_cast<int16_t>(object->pValue()->count()) * 2)
