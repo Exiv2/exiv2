@@ -184,6 +184,8 @@ bool Image::isLittleEndianPlatform() {
 uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
 #ifdef __cpp_lib_byteswap
   return bSwap ? std::byteswap(value) : value;
+#elif defined(_MSC_VER)
+  return bSwap ? _byteswap_uint64(value) : value;
 #else
   uint64_t result = 0;
   auto source_value = reinterpret_cast<const byte*>(&value);
@@ -199,6 +201,8 @@ uint64_t Image::byteSwap(uint64_t value, bool bSwap) {
 uint32_t Image::byteSwap(uint32_t value, bool bSwap) {
 #ifdef __cpp_lib_byteswap
   return bSwap ? std::byteswap(value) : value;
+#elif defined(_MSC_VER)
+  return bSwap ? _byteswap_ulong(value) : value;
 #else
   uint32_t result = 0;
   result |= (value & 0x000000FFU) << 24;
@@ -212,6 +216,8 @@ uint32_t Image::byteSwap(uint32_t value, bool bSwap) {
 uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
 #ifdef __cpp_lib_byteswap
   return bSwap ? std::byteswap(value) : value;
+#elif defined(_MSC_VER)
+  return bSwap ? _byteswap_ushort(value) : value;
 #else
   uint16_t result = 0;
   result |= (value & 0x00FFU) << 8;
@@ -221,31 +227,21 @@ uint16_t Image::byteSwap(uint16_t value, bool bSwap) {
 }
 
 uint16_t Image::byteSwap2(const DataBuf& buf, size_t offset, bool bSwap) {
-  uint16_t v = 0;
-  auto p = reinterpret_cast<char*>(&v);
-  p[0] = buf.read_uint8(offset);
-  p[1] = buf.read_uint8(offset + 1);
+  uint16_t v;
+  std::memcpy(&v, buf.c_data(offset), sizeof(uint16_t));
   return Image::byteSwap(v, bSwap);
 }
 
 uint32_t Image::byteSwap4(const DataBuf& buf, size_t offset, bool bSwap) {
-  uint32_t v = 0;
-  auto p = reinterpret_cast<char*>(&v);
-  p[0] = buf.read_uint8(offset);
-  p[1] = buf.read_uint8(offset + 1);
-  p[2] = buf.read_uint8(offset + 2);
-  p[3] = buf.read_uint8(offset + 3);
+  uint32_t v;
+  std::memcpy(&v, buf.c_data(offset), sizeof(uint32_t));
   return Image::byteSwap(v, bSwap);
 }
 
 /// \todo not used internally. At least we should test it
 uint64_t Image::byteSwap8(const DataBuf& buf, size_t offset, bool bSwap) {
-  uint64_t v = 0;
-  auto p = reinterpret_cast<byte*>(&v);
-
-  for (int i = 0; i < 8; i++)
-    p[i] = buf.read_uint8(offset + i);
-
+  uint64_t v;
+  std::memcpy(&v, buf.c_data(offset), sizeof(uint64_t));
   return Image::byteSwap(v, bSwap);
 }
 

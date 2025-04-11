@@ -112,8 +112,9 @@ Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create) : Image(ImageType::jp2, m
 
 // Obtains the ascii version from the box.type
 std::string Jp2Image::toAscii(uint32_t n) {
-  const auto p = reinterpret_cast<const char*>(&n);
-  std::string result(p, p + 4);
+  std::array<char, sizeof(uint32_t)> p;
+  std::memcpy(p.data(), &n, sizeof(uint32_t));
+  std::string result(p.begin(), p.end());
   if (isBigEndianPlatform())
     return result;
   std::reverse(result.begin(), result.end());
