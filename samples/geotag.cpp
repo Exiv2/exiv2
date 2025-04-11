@@ -12,28 +12,14 @@
 
 namespace fs = std::filesystem;
 
-#ifdef _WIN32
-#include <windows.h>
-#if _MSC_VER < 1400
-#define strcpy_s(d, l, s) strcpy(d, s)
-#define strcat_s(d, l, s) strcat(d, s)
-#endif
-#endif
-
-#ifndef _MSC_VER
-#include <dirent.h>
-#define stricmp strcasecmp
-#endif
-
-#ifndef _MAX_PATH
-#define _MAX_PATH 1024
+#ifndef _WIN32
+#define _stricmp strcasecmp
 #endif
 
 namespace {
 // prototypes
 class Options;
-int getFileType(const char* path, Options& options);
-int getFileType(std::string& path, Options& options);
+int getFileType(const fs::path& path, Options& options);
 
 std::string getExifTime(time_t t);
 time_t parseTime(const char*, bool bAdjust = false);
@@ -94,7 +80,7 @@ class Position;
 // globals
 using TimeDict_t = std::map<time_t, Position>;
 using TimeDict_i = std::map<time_t, Position>::iterator;
-using strings_t = std::vector<std::string>;
+using strings_t = std::vector<fs::path>;
 const char* gDeg = nullptr;  // string "°" or "deg"
 TimeDict_t gTimeDict;
 strings_t gFiles;
@@ -393,65 +379,19 @@ std::string getExifTime(const time_t t) {
   return result;
 }
 
-std::string makePath(const std::string& dir, const fs::path& file) {
-  auto ret = fs::path(dir) / file;
-  return ret.string();
-}
-
 // file utilities
-bool readDir(const char* path, Options& options) {
-  bool bResult = false;
-
-#ifdef _MSC_VER
-  DWORD attrs = GetFileAttributes(path);
-  bool bOKAttrs = attrs != INVALID_FILE_ATTRIBUTES;
-  bool bIsDir = (attrs & FILE_ATTRIBUTE_DIRECTORY) ? true : false;
-
-  if (bOKAttrs && bIsDir) {
-    bResult = true;
-
-    char search[_MAX_PATH + 10];
-    strcpy_s(search, _MAX_PATH, path);
-    strcat_s(search, _MAX_PATH, "\\*");
-
-    WIN32_FIND_DATA ffd;
-    HANDLE hFind = FindFirstFile(search, &ffd);
-    BOOL bGo = hFind != INVALID_HANDLE_VALUE;
-
-    if (bGo) {
-      while (bGo) {
-        if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-          // _tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
-        } else {
-          auto pathName = makePath(path, ffd.cFileName);
-          if (getFileType(pathName, options) == typeImage) {
-            gFiles.push_back(std::move(pathName));
-          }
-        }
-        bGo = FindNextFile(hFind, &ffd) != 0;
-      }
-      // CloseHandle(hFind);
-    }
-  }
-#else
-  DIR* dir = opendir(path);
-  if (dir != nullptr) {
-    bResult = true;
-
-    // print all the files and directories within directory
-    while (auto ent = readdir(dir)) {
-      std::string pathName = makePath(path, ent->d_name);
-      if (ent->d_name[0] != '.') {
-        // printf("reading %s => %s\n",ent->d_name,pathName.c_str());
-        if (getFileType(pathName, options) == typeImage) {
-          gFiles.push_back(std::move(pathName));
-        }
+bool readDir(const fs::path& path, Options& options) {
+  try {
+    for (const auto& entry : fs::directory_iterator(path)) {
+      auto pathName = entry.path();
+      if (entry.is_regular_file() && getFileType(pathName, options) == typeImage) {
+        gFiles.push_back(std::move(pathName));
       }
     }
-    closedir(dir);
+    return true;
+  } catch (const fs::filesystem_error&) {
+    return false;
   }
-#endif
-  return bResult;
 }
 
 inline size_t sip(std::ifstream& f, std::vector<char>& buffer, size_t len) {
@@ -463,7 +403,7 @@ inline size_t sip(std::ifstream& f, std::vector<char>& buffer, size_t len) {
   return len;
 }
 
-bool readXML(const char* path, Options& options) {
+bool readXML(const fs::path& path, Options& options) {
   std::ifstream file(path);
   if (!file) {
     return false;
@@ -506,7 +446,7 @@ bool readXML(const char* path, Options& options) {
   return bResult;
 }
 
-bool readImage(const char* path, Options& /* options */) {
+bool readImage(const fs::path& path, Options& /* options */) {
   using namespace Exiv2;
   bool bResult = false;
 
@@ -521,7 +461,7 @@ bool readImage(const char* path, Options& /* options */) {
   return bResult;
 }
 
-time_t readImageTime(const std::string& path, std::string* pS = nullptr) {
+time_t readImageTime(const fs::path& path, std::string* pS = nullptr) {
   using namespace Exiv2;
 
   time_t result = 0;
@@ -556,26 +496,24 @@ bool sina(const char* s, const char** a) {
     const char* A = a[i];
     while (*A == '-')
       A++;
-    bResult = stricmp(s, A) == 0;
+    bResult = _stricmp(s, A) == 0;
     i++;
   }
   return bResult;
 }
 
-int readFile(const char* path, const Options& /* options */) {
+int readFile(const fs::path& path, const Options& /* options */) {
   if (!fs::exists(path)) {
     return typeUnknown;
   }
 
-  const char* ext = strstr(path, ".");
-  if (ext) {
-    const char* docs[] = {".doc", ".txt", nullptr};
-    const char* code[] = {".cpp", ".h", ".pl", ".py", ".pyc", nullptr};
-    if (sina(ext, docs))
+  for (auto doc : {".doc", ".txt"})
+    if (path.extension() == doc)
       return typeDoc;
-    if (sina(ext, code))
+
+  for (auto code : {".cpp", ".h", ".pl", ".py", ".pyc"})
+    if (path.extension() == code)
       return typeCode;
-  }
 
   return typeFile;
 }
@@ -594,10 +532,7 @@ Position* searchTimeDict(TimeDict_t& td, const time_t& time, long long delta) {
   return result;
 }
 
-int getFileType(std::string& path, Options& options) {
-  return getFileType(path.c_str(), options);
-}
-int getFileType(const char* path, Options& options) {
+int getFileType(const fs::path& path, Options& options) {
   if (readXML(path, options))
     return typeXML;
   if (readDir(path, options))
@@ -664,7 +599,7 @@ int parseTZ(const char* adjust) {
   return (3600 * h) + (60 * m);
 }
 
-bool mySort(const std::string& a, const std::string& b) {
+bool mySort(const fs::path& a, const fs::path& b) {
   time_t A = readImageTime(a);
   time_t B = readImageTime(b);
   return (A < B);
@@ -851,9 +786,17 @@ int main(int argc, const char* argv[]) {
             exifData["Exif.GPSInfo.GPSTimeStamp"] = Position::toExifTimeStamp(stamp);
             exifData["Exif.Image.GPSTag"] = 4908;
 
+#ifdef _WIN32
+            printf("%ls %s % 2d\n", path.c_str(), pPos->toString().c_str(), pPos->delta());
+#else
             printf("%s %s % 2d\n", path.c_str(), pPos->toString().c_str(), pPos->delta());
+#endif
           } else {
+#ifdef _WIN32
+            printf("%ls *** not in time dict ***\n", path.c_str());
+#else
             printf("%s *** not in time dict ***\n", path.c_str());
+#endif
           }
           if (!options.dryrun)
             image->writeMetadata();
