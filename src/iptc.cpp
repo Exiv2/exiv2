@@ -425,8 +425,7 @@ DataBuf IptcParser::encode(const IptcData& iptcData) {
   byte* pWrite = buf.data();
 
   // Copy the iptc data sets and sort them by record but preserve the order of datasets
-  IptcMetadata sortedIptcData;
-  std::copy(iptcData.begin(), iptcData.end(), std::back_inserter(sortedIptcData));
+  IptcMetadata sortedIptcData(iptcData.begin(), iptcData.end());
   std::stable_sort(sortedIptcData.begin(), sortedIptcData.end(),
                    [](const auto& l, const auto& r) { return l.record() < r.record(); });
 
