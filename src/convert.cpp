@@ -1445,9 +1445,8 @@ bool swapBytes(std::string& str) {
 #endif
     return false;
   }
-  for (auto it = str.begin(); it != str.end(); it += 2) {
-    std::swap(*it, *std::next(it));
-  }
+  for (auto it = str.begin(); it != str.end(); it += 2)
+    std::iter_swap(it, std::next(it));
   return true;
 }
 
