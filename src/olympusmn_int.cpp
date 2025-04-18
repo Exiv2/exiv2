@@ -1359,7 +1359,7 @@ std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, const Value& value
     byte val[3];
     const char* label;
   } lensTypes[] = {
-      {{0, 0, 0}, N_("None")},
+      {{0, 0, 0}, N_("None")}, // part of API, not localized
       {{0, 1, 0}, "Olympus Zuiko Digital ED 50mm F2.0 Macro"},
       {{0, 1, 1}, "Olympus Zuiko Digital 40-150mm F3.5-4.5"},
       {{0, 1, 16}, "Olympus M.Zuiko Digital ED 14-42mm F3.5-5.6"},
