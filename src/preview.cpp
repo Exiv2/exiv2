@@ -946,7 +946,7 @@ DataBuf makePnm(size_t width, size_t height, const DataBuf& rgb) {
 
   dest = DataBuf(header.size() + rgb.size());
   std::copy(header.begin(), header.end(), dest.begin());
-  std::copy(rgb.cbegin(), rgb.cend(), dest.begin() + header.size());
+  std::copy(rgb.begin(), rgb.end(), dest.begin() + header.size());
   return dest;
 }
 

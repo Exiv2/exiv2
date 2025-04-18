@@ -1014,7 +1014,7 @@ int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath)
 }  // Insert::insertXmpPacket
 
 int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket) {
-  std::string xmpPacket(xmpBlob.cbegin(), xmpBlob.cend());
+  std::string xmpPacket(xmpBlob.begin(), xmpBlob.end());
   auto image = Exiv2::ImageFactory::open(path);
   image->readMetadata();
   image->clearXmpData();
