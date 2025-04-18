@@ -2797,7 +2797,7 @@ std::ostream& CanonMakerNote::printFocalLength(std::ostream& os, const Value& va
   auto pos = metadata->findKey(key);
   if (pos != metadata->end() && pos->value().count() >= 3 && pos->value().typeId() == unsignedShort) {
     float fu = pos->value().toFloat(2);
-    if (fu != 0.0F) {
+    if (std::isgreater(fu, 0.0F)) {
       return os << stringFormat("{:.1f} mm", value.toFloat(1) / fu);
     }
   }
@@ -3006,14 +3006,15 @@ std::ostream& CanonMakerNote::printCsLens(std::ostream& os, const Value& value, 
   }
 
   float fu = value.toFloat(2);
-  if (fu == 0.0F)
-    return os << value;
-  float len1 = value.toInt64(0) / fu;
-  float len2 = value.toInt64(1) / fu;
-  if (len1 == len2) {
-    return os << stringFormat("{:.1f} mm", len1);
+  if (std::isgreater(fu, 0.0F)) {
+    float len1 = value.toInt64(0) / fu;
+    float len2 = value.toInt64(1) / fu;
+    if (len1 == len2) {
+      return os << stringFormat("{:.1f} mm", len1);
+    }
+    return os << stringFormat("{:.1f} - {:.1f} mm", len2, len1);
   }
-  return os << stringFormat("{:.1f} - {:.1f} mm", len2, len1);
+  return os << value;
 }
 
 std::ostream& CanonMakerNote::printLe0x0000(std::ostream& os, const Value& value, const ExifData*) {
