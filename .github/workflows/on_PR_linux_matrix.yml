@@ -55,3 +55,34 @@ jobs:
         run: |
           cd build-base_linux
           ctest --output-on-failure
+  Alpine:
+    name: 'Alpine Edge - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}} ARCH:${{matrix.arch}}'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ['riscv64', 's390x']
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+
+    defaults:
+      run:
+        shell: alpine.sh {0}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jirutka/setup-alpine@v1
+        with:
+          arch: ${{matrix.arch}}
+          branch: edge
+          packages: >
+            build-base cmake samurai brotli-dev curl-dev expat-dev inih-inireader-dev gtest-dev python3-dev zlib-dev
+      - name: Build
+        run: |
+          cmake -B build-base_linux -G Ninja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_BUILD_SAMPLES=TRUE -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_BUILD_SAMPLES=ON -DEXIV2_BUILD_UNIT_TESTS=ON
+          cmake --build build-base_linux --parallel
+      - name: Test
+        run: |
+          cd build-base_linux
+          ctest --output-on-failure
