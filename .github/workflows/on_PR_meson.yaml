@@ -96,12 +96,17 @@ jobs:
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   MSYS2:
-    runs-on: windows-latest
+    runs-on: ${{matrix.runner}}
     name: MSYS2-${{matrix.platform}}-deps=${{matrix.deps}}
     strategy:
       matrix:
         deps: ['enabled', 'disabled']
-        platform: ['UCRT64', 'CLANG64']
+        platform: ['UCRT64', 'CLANGARM64']
+        include:
+          - platform: UCRT64
+            runner: windows-latest
+          - platform: CLANGARM64
+            runner: windows-11-arm
     defaults:
       run:
         shell: msys2 {0}
