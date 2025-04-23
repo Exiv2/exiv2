@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         cxx: ['9', '13']
-        deps: ['forcefallback', 'default']
+        deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v4
       - uses: egor-tensin/setup-gcc@v1
@@ -21,18 +21,20 @@ jobs:
           version: ${{matrix.cxx}}
       - name: Install meson
         run: python3 -m pip install meson ninja
+      - name: Install dependencies
+        run: sudo apt install -y libcurl4-openssl-dev libbrotli-dev libz-dev gettext
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3
-          meson compile -C "${{github.workspace}}/build"
-          meson test -C "${{github.workspace}}/build"
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
+          meson compile -C "${{github.workspace}}/build" --verbose
+          meson test -C "${{github.workspace}}/build" --verbose
   Ubuntu-clang:
     runs-on: ubuntu-22.04
     name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
         cxx: ['11', '20']
-        deps: ['forcefallback', 'default']
+        deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v4
       - uses: egor-tensin/setup-clang@v1
@@ -41,12 +43,15 @@ jobs:
       - name: Install meson
         run: |
           python3 -m pip install meson ninja
+      - name: Install dependencies
+        run: |
+          sudo apt install -y libcurl4-openssl-dev libbrotli-dev libz-dev gettext
           sudo apt install -y libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
       - name: Compile and Test
         env:
           CXXFLAGS: -stdlib=libc++
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   VisualStudio:
