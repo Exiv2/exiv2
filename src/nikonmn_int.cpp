@@ -3236,7 +3236,7 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
      */
     if (auto pf = Exiv2::find(fmountlens, vid))
       return os << pf->manuf << " " << pf->lensname;
-    return os << value;
+    return os << "(" << value << ")";
   }
 
   byte raw[] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
@@ -3251,14 +3251,14 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
     ExifKey key(pre + std::string(tags[i]));
     auto md = metadata->findKey(key);
     if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
-      return os << value;
+      return os << "(" << value << ")";
     }
     raw[i] = static_cast<byte>(md->toInt64());
   }
 
   auto md = metadata->findKey(ExifKey("Exif.Nikon3.LensType"));
   if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
-    return os << value;
+    return os << "(" << value << ")";
   }
   raw[7] = static_cast<byte>(md->toInt64());
 
@@ -3282,9 +3282,9 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
     }
   }
   // Lens not found in database
-  return os << value;
+  return os << "(" << value << ")";
 #else
-  return os << value;
+  return os << "(" << value << ")";
 #endif  // EXV_HAVE_LENSDATA
 }
 
@@ -3907,7 +3907,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
   for (auto&& [l, manuf, lensname] : zmountlens)
     if (l == lid)
       return os << manuf << " " << lensname;
-  return os << lid;
+  return os << "(" << value << ")";
 }
 
 std::ostream& Nikon3MakerNote::printApertureLd4(std::ostream& os, const Value& value, const ExifData*) {
