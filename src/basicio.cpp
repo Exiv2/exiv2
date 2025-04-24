@@ -1484,10 +1484,8 @@ class CurlIo::CurlImpl : public Impl {
  public:
   //! Constructor
   CurlImpl(const std::string& url, size_t blockSize);
-  //! Destructor. Cleans up the curl pointer and releases all managed memory.
-  ~CurlImpl() override;
 
-  CURL* curl_;  //!< libcurl pointer
+  std::unique_ptr<CURL, decltype(&curl_easy_cleanup)> curl_;  //!< libcurl pointer
 
   // METHODS
   /*!
@@ -1521,18 +1519,12 @@ class CurlIo::CurlImpl : public Impl {
    */
   void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
 
-  // NOT IMPLEMENTED
-  CurlImpl(const CurlImpl&) = delete;             //!< Copy constructor
-  CurlImpl& operator=(const CurlImpl&) = delete;  //!< Assignment
  private:
   long timeout_;  //!< The number of seconds to wait while trying to connect.
 };
 
-CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url, blockSize), curl_(curl_easy_init()) {
-  if (!curl_) {
-    throw Error(ErrorCode::kerErrorMessage, "Unable to init libcurl.");
-  }
-
+CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) :
+    Impl(url, blockSize), curl_(curl_easy_init(), curl_easy_cleanup) {
   // The default block size for FTP is much larger than other protocols
   // the reason is that getDataByRange() in FTP always creates the new connection,
   // so we need the large block size to reduce the overhead of creating the connection.
@@ -1548,54 +1540,54 @@ CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) : Impl(url,
 }
 
 int64_t CurlIo::CurlImpl::getFileLength() {
-  curl_easy_reset(curl_);  // reset all options
-  curl_easy_setopt(curl_, CURLOPT_URL, path_.c_str());
-  curl_easy_setopt(curl_, CURLOPT_NOBODY, 1);  // HEAD
-  curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curlWriter);
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYHOST, 0L);
-  curl_easy_setopt(curl_, CURLOPT_CONNECTTIMEOUT, timeout_);
-  // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
+  curl_easy_reset(curl_.get());  // reset all options
+  curl_easy_setopt(curl_.get(), CURLOPT_URL, path_.c_str());
+  curl_easy_setopt(curl_.get(), CURLOPT_NOBODY, 1);  // HEAD
+  curl_easy_setopt(curl_.get(), CURLOPT_WRITEFUNCTION, curlWriter);
+  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
+  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYHOST, 0L);
+  curl_easy_setopt(curl_.get(), CURLOPT_CONNECTTIMEOUT, timeout_);
+  // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
 
   /* Perform the request, res will get the return code */
-  if (auto res = curl_easy_perform(curl_); res != CURLE_OK) {  // error happened
+  if (auto res = curl_easy_perform(curl_.get()); res != CURLE_OK) {  // error happened
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
   // get status
   int serverCode;
-  curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
+  curl_easy_getinfo(curl_.get(), CURLINFO_RESPONSE_CODE, &serverCode);  // get code
   if (serverCode >= 400 || serverCode < 0) {
     throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
   }
   // get length
   curl_off_t temp;
-  curl_easy_getinfo(curl_, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &temp);  // return -1 if unknown
+  curl_easy_getinfo(curl_.get(), CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &temp);  // return -1 if unknown
   return temp;
 }
 
 void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) {
-  curl_easy_reset(curl_);  // reset all options
-  curl_easy_setopt(curl_, CURLOPT_URL, path_.c_str());
-  curl_easy_setopt(curl_, CURLOPT_NOPROGRESS, 1L);  // no progress meter please
-  curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curlWriter);
-  curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &response);
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
-  curl_easy_setopt(curl_, CURLOPT_CONNECTTIMEOUT, timeout_);
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYHOST, 0L);
+  curl_easy_reset(curl_.get());  // reset all options
+  curl_easy_setopt(curl_.get(), CURLOPT_URL, path_.c_str());
+  curl_easy_setopt(curl_.get(), CURLOPT_NOPROGRESS, 1L);  // no progress meter please
+  curl_easy_setopt(curl_.get(), CURLOPT_WRITEFUNCTION, curlWriter);
+  curl_easy_setopt(curl_.get(), CURLOPT_WRITEDATA, &response);
+  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
+  curl_easy_setopt(curl_.get(), CURLOPT_CONNECTTIMEOUT, timeout_);
+  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYHOST, 0L);
 
-  // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
+  // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
 
   if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
     auto range = stringFormat("{}-{}", lowBlock * blockSize_, (highBlock + 1) * (blockSize_ - 1));
-    curl_easy_setopt(curl_, CURLOPT_RANGE, range.c_str());
+    curl_easy_setopt(curl_.get(), CURLOPT_RANGE, range.c_str());
   }
 
   /* Perform the request, res will get the return code */
-  if (auto res = curl_easy_perform(curl_); res != CURLE_OK) {
+  if (auto res = curl_easy_perform(curl_.get()); res != CURLE_OK) {
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
   int serverCode;
-  curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
+  curl_easy_getinfo(curl_.get(), CURLINFO_RESPONSE_CODE, &serverCode);  // get code
   if (serverCode >= 400 || serverCode < 0) {
     throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
   }
@@ -1618,11 +1610,11 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
     scriptPath = hostInfo.Protocol + "://" + hostInfo.Host + scriptPath;
   }
 
-  curl_easy_reset(curl_);                           // reset all options
-  curl_easy_setopt(curl_, CURLOPT_NOPROGRESS, 1L);  // no progress meter please
-  // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
-  curl_easy_setopt(curl_, CURLOPT_URL, scriptPath.c_str());
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
+  curl_easy_reset(curl_.get());                           // reset all options
+  curl_easy_setopt(curl_.get(), CURLOPT_NOPROGRESS, 1L);  // no progress meter please
+  // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
+  curl_easy_setopt(curl_.get(), CURLOPT_URL, scriptPath.c_str());
+  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
 
   // encode base64
   size_t encodeLength = (((size + 2) / 3) * 4) + 1;
@@ -1632,20 +1624,16 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   const std::string urlencodeData = urlencode(encodeData.get());
   auto postData = stringFormat("path={}&from={}&to={}&data={}", hostInfo.Path, from, to, urlencodeData);
 
-  curl_easy_setopt(curl_, CURLOPT_POSTFIELDS, postData.c_str());
+  curl_easy_setopt(curl_.get(), CURLOPT_POSTFIELDS, postData.c_str());
   // Perform the request, res will get the return code.
-  if (auto res = curl_easy_perform(curl_); res != CURLE_OK) {
+  if (auto res = curl_easy_perform(curl_.get()); res != CURLE_OK) {
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
   int serverCode;
-  curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);
+  curl_easy_getinfo(curl_.get(), CURLINFO_RESPONSE_CODE, &serverCode);
   if (serverCode >= 400 || serverCode < 0) {
     throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
   }
-}
-
-CurlIo::CurlImpl::~CurlImpl() {
-  curl_easy_cleanup(curl_);
 }
 
 size_t CurlIo::write(const byte* data, size_t wcount) {
