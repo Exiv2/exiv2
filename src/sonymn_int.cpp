@@ -416,6 +416,7 @@ constexpr TagDetails sonyModelId[] = {
     {369, "DSC-RX100M5A"},
     {371, "ILCE-6400"},
     {372, "DSC-RX0M2"},
+    {373, "DSC-HX95"},
     {374, "DSC-RX100M7"},
     {375, "ILCE-7RM4"},
     {376, "ILCE-9M2"},
@@ -441,7 +442,12 @@ constexpr TagDetails sonyModelId[] = {
     {397, "ILCE-7CM2"},
     {398, "ILX-LR1"},
     {399, "ZV-E10M2"},
-    {400, "ILCE-1M2"}};
+    {400, "ILCE-1M2"},
+    {402, "ILCE-6400A"},
+    {403, "ILCE-6100A"},
+    {404, "DSC-RX100M7A"},
+    {408, "ZV-1A"},
+};
 
 //! Lookup table to translate Sony creative style (main group) values to readable labels
 constexpr StringTagDetails sonyCreativeStyleStd[] = {{"AdobeRGB", N_("Adobe RGB")},
