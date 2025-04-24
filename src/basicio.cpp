@@ -974,9 +974,6 @@ class RemoteIo::Impl {
   //! Destructor. Releases all managed memory.
   virtual ~Impl() = default;
 
-  Impl(const Impl&) = delete;
-  Impl& operator=(const Impl&) = delete;
-
   // DATA
   std::string path_;                       //!< (Standard) path
   size_t blockSize_;                       //!< Size of the block memory.
