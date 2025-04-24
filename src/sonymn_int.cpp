@@ -522,6 +522,8 @@ constexpr TagDetails sonyModelId[] = {
     {398, "ILX-LR1"},
     {399, "ZV-E10M2"},
     {400, "ILCE-1M2"},
+    {404, "DSC-RX100M7A"},
+    {408, "ZV-1A"},
 };
 
 //! Lookup table to translate Sony creative style (main group) values to readable labels
