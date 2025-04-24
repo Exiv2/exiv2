@@ -941,14 +941,19 @@ class TiffSubIfd : public TiffEntryBase {
   ~TiffSubIfd() override = default;
   //@}
 
-  //! @name Protected Creators
+  //! @name NOT implemented
   //@{
-  //! Copy constructor (used to implement clone()).
-  TiffSubIfd(const TiffSubIfd& rhs);
+  //! Assignment operator.
   TiffSubIfd& operator=(const TiffSubIfd&) = delete;
   //@}
 
  protected:
+  //! @name Protected Creators
+  //@{
+  //! Copy constructor (used to implement clone()).
+  TiffSubIfd(const TiffSubIfd& rhs);
+  //@}
+
   //! @name Protected Manipulators
   //@{
   TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
@@ -1270,6 +1275,11 @@ class TiffBinaryArray : public TiffEntryBase {
   TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, size_t setSize, CfgSelFct cfgSelFct);
   //! Virtual destructor
   ~TiffBinaryArray() override = default;
+  //@}
+
+  //! @name NOT implemented
+  //@{
+  //! Assignment operator.
   TiffBinaryArray& operator=(const TiffBinaryArray&) = delete;
   //@}
 
