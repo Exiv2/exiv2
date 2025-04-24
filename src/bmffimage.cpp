@@ -176,30 +176,10 @@ std::string BmffImage::uuidName(const Exiv2::DataBuf& uuid) {
 
 // Wrapper class for BrotliDecoderState that automatically calls
 // BrotliDecoderDestroyInstance in its destructor.
-class BrotliDecoderWrapper {
-  BrotliDecoderState* decoder_;
-
- public:
-  BrotliDecoderWrapper() : decoder_(BrotliDecoderCreateInstance(nullptr, nullptr, nullptr)) {
-    if (!decoder_) {
-      throw Error(ErrorCode::kerMallocFailed);
-    }
-  }
-
-  ~BrotliDecoderWrapper() {
-    BrotliDecoderDestroyInstance(decoder_);
-  }
-
-  BrotliDecoderWrapper(const BrotliDecoderWrapper&) = delete;
-  BrotliDecoderWrapper& operator=(const BrotliDecoderWrapper&) = delete;
-
-  [[nodiscard]] BrotliDecoderState* get() const {
-    return decoder_;
-  }
-};
+using BrotliDecoder = std::unique_ptr<BrotliDecoderState, decltype(&BrotliDecoderDestroyInstance)>;
 
 void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBufSize, DataBuf& arr) {
-  BrotliDecoderWrapper decoder;
+  auto decoder = BrotliDecoder(BrotliDecoderCreateInstance(nullptr, nullptr, nullptr), BrotliDecoderDestroyInstance);
   size_t uncompressedLen = compressedBufSize * 2;  // just a starting point
   BrotliDecoderResult result = BROTLI_DECODER_RESULT_NEEDS_MORE_INPUT;
   int dos = 0;
