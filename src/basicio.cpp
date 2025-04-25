@@ -1578,7 +1578,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
   // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
 
   if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
-    auto range = stringFormat("{}-{}", lowBlock * blockSize_, (highBlock + 1) * (blockSize_ - 1));
+    auto range = stringFormat("{}-{}", lowBlock * blockSize_, ((highBlock + 1) * blockSize_) - 1);
     curl_easy_setopt(curl_.get(), CURLOPT_RANGE, range.c_str());
   }
 
