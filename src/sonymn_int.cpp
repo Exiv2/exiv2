@@ -1316,9 +1316,9 @@ static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::
     if (auto temp = i.mask & joinedV0V7) {  // Check if a flag matches in the current LensSpecFlags
       if (auto f = Exiv2::find(i.flags, temp)) {
         if (i.prepend)
-          flagsStart = (flagsStart.empty() ? f->label_ : f->label_ + std::string(" ") + flagsStart);
+          flagsStart = flagsStart.empty() ? f->label_ : stringFormat("{} {}", f->label_, flagsStart);
         else
-          flagsEnd = (flagsEnd.empty() ? f->label_ : flagsEnd + std::string(" ") + f->label_);
+          flagsEnd = flagsEnd.empty() ? f->label_ : stringFormat("{} {}", flagsEnd, f->label_);
         continue;
       }
       // Should never get in here. LensSpecFlags.mask should contain all the
