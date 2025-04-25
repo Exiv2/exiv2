@@ -17,10 +17,17 @@
 #include "value.hpp"
 
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
+#include <cstring>
 #include <functional>
+#include <iomanip>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <numeric>
+#include <string>
+#include <utility>
 
 // *****************************************************************************
 namespace {
