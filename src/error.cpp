@@ -7,6 +7,8 @@
 // + standard includes
 #include <array>
 #include <iostream>
+#include <string>
+#include <utility>
 
 namespace {
 //! Complete list of Exiv2 exception error messages
