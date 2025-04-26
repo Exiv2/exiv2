@@ -302,6 +302,9 @@ class EXIV2API ExifThumb : public ExifThumbC {
            application that comes with OS X for one.) - David Harvey.
    */
   void setJpegThumbnail(const std::string& path, URational xres, URational yres, uint16_t unit);
+#ifdef _WIN32
+  void setJpegThumbnail(const std::wstring& path, URational xres, URational yres, uint16_t unit);
+#endif
 #endif
   /*!
     @brief Set the Exif thumbnail to the JPEG image pointed to by \em buf,
