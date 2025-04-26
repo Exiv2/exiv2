@@ -100,45 +100,45 @@ TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles) {
 TEST(TheImageFactory, loadInstancesDifferentImageTypes) {
   fs::path testData(TESTDATA_PATH);
 
-  std::string imagePath = (testData / "DSC_3079.jpg").string();
+  fs::path imagePath = testData / "DSC_3079.jpg";
   EXPECT_EQ(ImageType::jpeg, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
-  imagePath = (testData / "exiv2-bug1108.exv").string();
+  imagePath = testData / "exiv2-bug1108.exv";
   EXPECT_EQ(ImageType::exv, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
-  imagePath = (testData / "exiv2-canon-powershot-s40.crw").string();
+  imagePath = testData / "exiv2-canon-powershot-s40.crw";
   EXPECT_EQ(ImageType::crw, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
-  imagePath = (testData / "exiv2-bug1044.tif").string();
+  imagePath = testData / "exiv2-bug1044.tif";
   EXPECT_EQ(ImageType::tiff, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
 #ifdef EXV_HAVE_LIBZ
-  imagePath = (testData / "exiv2-bug1074.png").string();
+  imagePath = testData / "exiv2-bug1074.png";
   EXPECT_EQ(ImageType::png, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 #endif
 
-  imagePath = (testData / "BlueSquare.xmp").string();
+  imagePath = testData / "BlueSquare.xmp";
   EXPECT_EQ(ImageType::xmp, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
-  imagePath = (testData / "exiv2-photoshop.psd").string();
+  imagePath = testData / "exiv2-photoshop.psd";
   EXPECT_EQ(ImageType::psd, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
-  imagePath = (testData / "cve_2017_1000126_stack-oob-read.webp").string();
+  imagePath = testData / "cve_2017_1000126_stack-oob-read.webp";
   EXPECT_EQ(ImageType::webp, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
-  imagePath = (testData / "imagemagick.pgf").string();
+  imagePath = testData / "imagemagick.pgf";
   EXPECT_EQ(ImageType::pgf, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
-  imagePath = (testData / "Reagan.jp2").string();
+  imagePath = testData / "Reagan.jp2";
   EXPECT_EQ(ImageType::jp2, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 }
