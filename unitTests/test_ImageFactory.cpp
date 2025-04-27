@@ -141,6 +141,10 @@ TEST(TheImageFactory, loadInstancesDifferentImageTypes) {
   imagePath = testData / "Reagan.jp2";
   EXPECT_EQ(ImageType::jp2, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+
+  imagePath = testData / "Реган.jp2";
+  EXPECT_EQ(ImageType::jp2, ImageFactory::getType(imagePath));
+  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 }
 
 TEST(TheImageFactory, getsExpectedModesForJp2Images) {
