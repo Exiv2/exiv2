@@ -73,10 +73,11 @@ class FileIo::Impl {
   //! Mode of operation
   enum OpMode { opRead, opWrite, opSeek };
   // DATA
-  fs::path path_;          //!< (Standard) path
-  std::string openMode_;   //!< File open mode
-  FILE* fp_{};             //!< File stream pointer
-  OpMode opMode_{opSeek};  //!< File open mode
+  fs::path path_;           //!< (Standard) path
+  std::string openMode_;    //!< File open mode
+  std::wstring wOpenMode_;  //!< File open mode (wide)
+  FILE* fp_{};              //!< File stream pointer
+  OpMode opMode_{opSeek};   //!< File open mode
 
 #if defined _WIN32
   HANDLE hFile_{};  //!< Duplicated fd
@@ -118,6 +119,19 @@ int FileIo::Impl::switchMode(OpMode opMode) {
 
   bool reopen = true;
   switch (opMode) {
+#ifdef _WIN32
+    case opRead:
+      // Flush if current mode allows reading, else reopen (in mode "r+b"
+      // as in this case we know that we can write to the file)
+      if (wOpenMode_.front() == L'r' || wOpenMode_.at(1) == L'+')
+        reopen = false;
+      break;
+    case opWrite:
+      // Flush if current mode allows writing, else reopen
+      if (wOpenMode_.front() != L'r' || wOpenMode_.at(1) == L'+')
+        reopen = false;
+      break;
+#else
     case opRead:
       // Flush if current mode allows reading, else reopen (in mode "r+b"
       // as in this case we know that we can write to the file)
@@ -129,6 +143,7 @@ int FileIo::Impl::switchMode(OpMode opMode) {
       if (openMode_.front() != 'r' || openMode_.at(1) == '+')
         reopen = false;
       break;
+#endif
     case opSeek:
       reopen = false;
       break;
@@ -339,7 +354,11 @@ size_t FileIo::write(BasicIo& src) {
 
 void FileIo::transfer(BasicIo& src) {
   const bool wasOpen = (p_->fp_ != nullptr);
+#ifdef _WIN32
+  const std::wstring lastMode(p_->wOpenMode_);
+#else
   const std::string lastMode(p_->openMode_);
+#endif
 
   if (auto fileIo = dynamic_cast<FileIo*>(&src)) {
     // Optimization if src is another instance of FileIo
@@ -414,7 +433,7 @@ void FileIo::transfer(BasicIo& src) {
 
   if (wasOpen) {
     if (open(lastMode) != 0) {
-      throw Error(ErrorCode::kerFileOpenFailed, path(), lastMode, strError());
+      throw Error(ErrorCode::kerFileOpenFailed, path(), strError());
     }
   } else
     close();
@@ -465,7 +484,11 @@ size_t FileIo::tell() const {
 
 size_t FileIo::size() const {
   // Flush and commit only if the file is open for writing
+#ifdef _WIN32
+  if (p_->fp_ && (p_->wOpenMode_.front() != L'r' || p_->wOpenMode_.at(1) == L'+')) {
+#else
   if (p_->fp_ && (p_->openMode_.front() != 'r' || p_->openMode_.at(1) == '+')) {
+#endif
     std::fflush(p_->fp_);
 #ifdef _MSC_VER
     // This is required on msvcrt before stat after writing to a file
@@ -481,25 +504,33 @@ size_t FileIo::size() const {
 
 int FileIo::open() {
   // Default open is in read-only binary mode
+#ifdef _WIN32
+  return open(L"rb");
+#else
   return open("rb");
+#endif
 }
 
 int FileIo::open(const std::string& mode) {
   close();
   p_->openMode_ = mode;
   p_->opMode_ = Impl::opSeek;
-#ifdef _WIN32
-  wchar_t wmode[10];
-  MultiByteToWideChar(CP_UTF8, 0, mode.c_str(), -1, wmode, 10);
-  if (_wfopen_s(&p_->fp_, p_->path_.c_str(), wmode))
-    return 1;
-#else
   p_->fp_ = ::fopen(path().c_str(), mode.c_str());
   if (!p_->fp_)
     return 1;
-#endif
   return 0;
 }
+
+#ifdef _WIN32
+int FileIo::open(const std::wstring& mode) {
+  close();
+  p_->wOpenMode_ = mode;
+  p_->opMode_ = Impl::opSeek;
+  if (_wfopen_s(&p_->fp_, p_->path_.c_str(), mode.c_str()))
+    return 1;
+  return 0;
+}
+#endif
 
 bool FileIo::isopen() const {
   return p_->fp_ != nullptr;
@@ -1647,6 +1678,17 @@ size_t writeFile(const DataBuf& buf, const std::string& path) {
   }
   return file.write(buf.c_data(), buf.size());
 }
+
+#ifdef _WIN32
+DataBuf readFile(const std::wstring& path) {
+  FileIo file(path);
+  if (file.open(L"rb") != 0)
+    throw Error(ErrorCode::kerFileOpenFailed, "wb", strError());
+  DataBuf buf(static_cast<size_t>(fs::file_size(path)));
+  file.read(buf.data(), buf.size());
+  return buf;
+}
+#endif
 #endif
 
 #ifdef EXV_USE_CURL

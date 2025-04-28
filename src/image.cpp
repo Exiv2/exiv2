@@ -879,6 +879,22 @@ Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path) {
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
   return image;
 }
+
+#ifdef _WIN32
+Image::UniquePtr ImageFactory::create(ImageType type, const std::wstring& path) {
+  auto fileIo = std::make_unique<FileIo>(path);
+  // Create or overwrite the file, then close it
+  if (fileIo->open(L"w+b") != 0)
+    throw Error(ErrorCode::kerFileOpenFailed, "w+b", strError());
+  fileIo->close();
+
+  BasicIo::UniquePtr io(std::move(fileIo));
+  auto image = create(type, std::move(io));
+  if (!image)
+    throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
+  return image;
+}
+#endif
 #endif
 
 Image::UniquePtr ImageFactory::create(ImageType type) {

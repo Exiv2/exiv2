@@ -586,6 +586,9 @@ class EXIV2API ImageFactory {
     @throw Error If the image type is not supported.
    */
   static Image::UniquePtr create(ImageType type, const std::string& path);
+#ifdef _WIN32
+  static Image::UniquePtr create(ImageType type, const std::wstring& path);
+#endif
   /*!
     @brief Create an Image subclass of the requested type by creating a
         new image in memory.
