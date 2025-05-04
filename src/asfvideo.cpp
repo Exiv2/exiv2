@@ -46,15 +46,11 @@ bool AsfVideo::GUIDTag::operator==(const AsfVideo::GUIDTag& other) const {
 }
 
 AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
-  std::memcpy(&data1_, bytes, DWORD);
-  std::memcpy(&data2_, bytes + DWORD, WORD);
-  std::memcpy(&data3_, bytes + DWORD + WORD, WORD);
+  data1_ = (static_cast<uint32_t>(bytes[3]) << 24) | (static_cast<uint32_t>(bytes[2]) << 16) |
+           (static_cast<uint32_t>(bytes[1]) << 8) | (static_cast<uint32_t>(bytes[0]));
+  data2_ = (static_cast<uint16_t>(bytes[5]) << 8) | (static_cast<uint16_t>(bytes[4]));
+  data3_ = (static_cast<uint16_t>(bytes[7]) << 8) | (static_cast<uint16_t>(bytes[6]));
   std::copy(bytes + QWORD, bytes + (2 * QWORD), data4_.begin());
-  if (isBigEndianPlatform()) {
-    data1_ = byteSwap(data1_, true);
-    data2_ = byteSwap(data2_, true);
-    data3_ = byteSwap(data3_, true);
-  }
 }
 
 std::string AsfVideo::GUIDTag::to_string() const {
