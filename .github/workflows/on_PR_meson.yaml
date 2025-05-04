@@ -74,7 +74,7 @@ jobs:
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest -Db_sanitize=address
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest -Ddefault_library=static
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   VisualStudio-clang-cl:
@@ -97,7 +97,7 @@ jobs:
           CC: clang-cl
           CXX: clang-cl
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest -Db_sanitize=address
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest -Db_sanitize=address -Ddefault_library=static
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   MSYS2:
@@ -133,7 +133,7 @@ jobs:
 
       - name: Compile and Test
         run: |
-          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
+          meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3 -Ddefault_library=static
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   MSYS:
@@ -182,7 +182,7 @@ jobs:
       - uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
-            pkg install -y cmake curl ninja meson gettext pkgconf googletest expat inih brotli libfmt
+            pkg install -y cmake curl ninja meson gettext python pkgconf googletest expat inih brotli
           run: |
             meson setup "${{github.workspace}}/build" -Dwarning_level=3
             meson compile -C "${{github.workspace}}/build" --verbose
