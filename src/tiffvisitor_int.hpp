@@ -8,7 +8,6 @@
 #include "exif.hpp"
 #include "tiffcomposite_int.hpp"  // Do not change the order of these 2 includes,
 #include "tifffwd_int.hpp"
-#include "tiffimage_int.hpp"
 #include "types.hpp"
 
 #include <array>

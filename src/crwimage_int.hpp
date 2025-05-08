@@ -6,7 +6,6 @@
 // *****************************************************************************
 // included header files
 #include "image.hpp"
-#include "tags_int.hpp"
 
 // + standard includes
 #include <stack>

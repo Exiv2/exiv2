@@ -5,8 +5,10 @@
 
 // *****************************************************************************
 // included header files
-#include "tags_int.hpp"
+#include "tags.hpp"
 #include "types.hpp"
+
+#include <memory>
 
 // namespace extensions
 namespace Exiv2::Internal {

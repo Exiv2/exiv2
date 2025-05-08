@@ -43,17 +43,17 @@ TiffType toTiffType(TypeId typeId);
 /*!
   Special TIFF tags for the use in TIFF structures only
 */
-namespace Tag {
-const uint32_t none = 0x10000;   //!< Dummy tag
-const uint32_t root = 0x20000;   //!< Special tag: root IFD
-const uint32_t next = 0x30000;   //!< Special tag: next IFD
-const uint32_t all = 0x40000;    //!< Special tag: all tags in a group
-const uint32_t pana = 0x80000;   //!< Special tag: root IFD of Panasonic RAW images
-const uint32_t fuji = 0x100000;  //!< Special tag: root IFD of Fujifilm RAF images
-const uint32_t cmt2 = 0x110000;  //!< Special tag: root IFD of CR3 images
-const uint32_t cmt3 = 0x120000;  //!< Special tag: root IFD of CR3 images
-const uint32_t cmt4 = 0x130000;  //!< Special tag: root IFD of CR3 images
-}  // namespace Tag
+enum Tag : uint32_t {
+  none = 0x10000,   //!< Dummy tag
+  root = 0x20000,   //!< Special tag: root IFD
+  next = 0x30000,   //!< Special tag: next IFD
+  all = 0x40000,    //!< Special tag: all tags in a group
+  pana = 0x80000,   //!< Special tag: root IFD of Panasonic RAW images
+  fuji = 0x100000,  //!< Special tag: root IFD of Fujifilm RAF images
+  cmt2 = 0x110000,  //!< Special tag: root IFD of CR3 images
+  cmt3 = 0x120000,  //!< Special tag: root IFD of CR3 images
+  cmt4 = 0x130000,  //!< Special tag: root IFD of CR3 images
+};
 
 /*!
   @brief A tuple consisting of extended Tag and group used as an item in
@@ -163,8 +163,6 @@ class TiffComponent {
   }
   //! Virtual destructor.
   virtual ~TiffComponent() = default;
-  TiffComponent(const TiffComponent&) = default;
-  TiffComponent& operator=(const TiffComponent&) = default;
   //@}
 
   //! @name Manipulators
@@ -567,12 +565,7 @@ class TiffEntryBase : public TiffComponent {
  */
 class TiffEntry : public TiffEntryBase {
  public:
-  //! @name Creators
-  //@{
-  //! Constructor
-  constexpr TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
-  }
-  //@}
+  using TiffEntryBase::TiffEntryBase;
 
  protected:
   //! @name Manipulators
@@ -941,14 +934,19 @@ class TiffSubIfd : public TiffEntryBase {
   ~TiffSubIfd() override = default;
   //@}
 
-  //! @name Protected Creators
+  //! @name NOT implemented
   //@{
-  //! Copy constructor (used to implement clone()).
-  TiffSubIfd(const TiffSubIfd& rhs);
+  //! Assignment operator.
   TiffSubIfd& operator=(const TiffSubIfd&) = delete;
   //@}
 
  protected:
+  //! @name Protected Creators
+  //@{
+  //! Copy constructor (used to implement clone()).
+  TiffSubIfd(const TiffSubIfd& rhs);
+  //@}
+
   //! @name Protected Manipulators
   //@{
   TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
@@ -1270,6 +1268,11 @@ class TiffBinaryArray : public TiffEntryBase {
   TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, size_t setSize, CfgSelFct cfgSelFct);
   //! Virtual destructor
   ~TiffBinaryArray() override = default;
+  //@}
+
+  //! @name NOT implemented
+  //@{
+  //! Assignment operator.
   TiffBinaryArray& operator=(const TiffBinaryArray&) = delete;
   //@}
 

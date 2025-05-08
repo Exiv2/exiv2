@@ -12,6 +12,7 @@
 #include "photoshop.hpp"
 #include "safe_op.hpp"
 #include "sonymn_int.hpp"
+#include "tiffimage_int.hpp"
 #include "value.hpp"
 
 #include <functional>
