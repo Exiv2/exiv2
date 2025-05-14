@@ -1218,9 +1218,9 @@ XMPUtils::ConvertToInt64 ( XMP_StringPtr strValue )
 	XMP_Int64 result;
 
 	if ( ! XMP_LitNMatch ( strValue, "0x", 2 ) ) {
-		count = sscanf ( strValue, "%lld%c", &result, &nextCh );
+		count = sscanf ( strValue, "%ld%c", &result, &nextCh );
 	} else {
-		count = sscanf ( strValue, "%llx%c", &result, &nextCh );
+		count = sscanf ( strValue, "%lx%c", &result, &nextCh );
 	}
 
 	if ( count != 1 ) XMP_Throw ( "Invalid integer string", kXMPErr_BadParam );
