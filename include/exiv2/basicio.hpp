@@ -310,6 +310,9 @@ class EXIV2API FileIo : public BasicIo {
         Nonzero if failure.
    */
   int open(const std::string& mode);
+#ifdef _WIN32
+  int open(const std::wstring& mode);
+#endif
   /*!
     @brief Open the file using the default access mode of "rb".
         This method can also be used to "reopen" a file which will flush
