@@ -6,6 +6,7 @@
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
+#include "tags_int.hpp"
 
 #include <algorithm>
 #include <ctime>
