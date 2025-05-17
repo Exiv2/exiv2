@@ -26,6 +26,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
+#include "image_int.hpp"
 #include "quicktimevideo.hpp"
 #include "safe_op.hpp"
 #include "tags.hpp"
@@ -627,7 +628,7 @@ static std::string readString(BasicIo& io, size_t size) {
   Exiv2::DataBuf str(size + 1);
   io.readOrThrow(str.data(), size);
   str.write_uint8(size, 0);  // nul-terminate string
-  return Exiv2::toString(str.data());
+  return reinterpret_cast<const char*>(str.data());
 }
 
 void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursion_depth) {
@@ -638,7 +639,7 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursi
     discard(size);
 
   else if (dataIgnoreList(buf)) {
-    decodeBlock(recursion_depth + 1, Exiv2::toString(buf.data()));
+    decodeBlock(recursion_depth + 1, reinterpret_cast<const char*>(buf.data()));
   } else if (equalsQTimeTag(buf, "ftyp"))
     fileTypeDecoder(size);
 
@@ -764,11 +765,11 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.CleanApertureWidth"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.CleanApertureHeight"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
     }
 
     else if (equalsQTimeTag(buf, "prof")) {
@@ -776,11 +777,11 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.ProductionApertureWidth"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.ProductionApertureHeight"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
     }
 
     else if (equalsQTimeTag(buf, "enof")) {
@@ -788,11 +789,11 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.EncodedPixelsWidth"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.EncodedPixelsHeight"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
     }
   }
   io_->seek(cur_pos + size, BasicIo::beg);
@@ -808,11 +809,11 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
     io_->seek(cur_pos, BasicIo::beg);
 
     io_->readOrThrow(buf.data(), 24);
-    xmpData_["Xmp.video.Make"] = Exiv2::toString(buf.data());
+    xmpData_["Xmp.video.Make"] = buf.data();
     io_->readOrThrow(buf.data(), 14);
-    xmpData_["Xmp.video.Model"] = Exiv2::toString(buf.data());
+    xmpData_["Xmp.video.Model"] = buf.data();
     io_->readOrThrow(buf.data(), 4);
-    xmpData_["Xmp.video.ExposureTime"] = "1/" + Exiv2::toString(ceil(buf.read_uint32(0, littleEndian) / 10.0));
+    xmpData_["Xmp.video.ExposureTime"] = stringFormat("1/{}", std::ceil(buf.read_uint32(0, littleEndian) / 10.0));
     io_->readOrThrow(buf.data(), 4);
     io_->readOrThrow(buf2.data(), 4);
     xmpData_["Xmp.video.FNumber"] =
@@ -832,7 +833,7 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
     io_->seek(95L, BasicIo::cur);
     io_->readOrThrow(buf.data(), 48);
     buf.write_uint8(48, 0);
-    xmpData_["Xmp.video.Software"] = Exiv2::toString(buf.data());
+    xmpData_["Xmp.video.Software"] = buf.data();
     io_->readOrThrow(buf.data(), 4);
     xmpData_["Xmp.video.ISO"] = buf.read_uint32(0, littleEndian);
   }
@@ -863,9 +864,9 @@ void QuickTimeVideo::userDataDecoder(size_t size, size_t recursion_depth) {
 
     if (buf.data()[0] == 169)
       buf.data()[0] = ' ';
-    td = Exiv2::find(userDatatags, Exiv2::toString(buf.data()));
+    td = Exiv2::find(userDatatags, buf.data());
 
-    tv = Exiv2::find(userDataReferencetags, Exiv2::toString(buf.data()));
+    tv = Exiv2::find(userDataReferencetags, buf.data());
 
     if (size <= 12)
       break;
@@ -889,12 +890,12 @@ void QuickTimeVideo::userDataDecoder(size_t size, size_t recursion_depth) {
       enforce(tv, Exiv2::ErrorCode::kerCorruptedMetadata);
       io_->readOrThrow(buf.data(), 2);
       buf.data()[2] = '\0';
-      tv_internal = Exiv2::find(cameraByteOrderTags, Exiv2::toString(buf.data()));
+      tv_internal = Exiv2::find(cameraByteOrderTags, buf.data());
 
       if (tv_internal)
         xmpData_[exvGettext(tv->label_)] = exvGettext(tv_internal->label_);
       else
-        xmpData_[exvGettext(tv->label_)] = Exiv2::toString(buf.data());
+        xmpData_[exvGettext(tv->label_)] = buf.data();
     }
 
     else if (tv) {
@@ -936,11 +937,11 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       std::memset(buf.data(), 0x0, buf.size());
 
       io_->readOrThrow(buf.data(), 4);
-      xmpData_["Xmp.video.PictureControlVersion"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.video.PictureControlVersion"] = buf.data();
       io_->readOrThrow(buf.data(), 20);
-      xmpData_["Xmp.video.PictureControlName"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.video.PictureControlName"] = buf.data();
       io_->readOrThrow(buf.data(), 20);
-      xmpData_["Xmp.video.PictureControlBase"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.video.PictureControlBase"] = buf.data();
       io_->readOrThrow(buf.data(), 4);
       std::memset(buf.data(), 0x0, buf.size());
 
@@ -1045,14 +1046,14 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       }
 
       if (td) {
-        xmpData_[exvGettext(td->label_)] = Exiv2::toString(buf.data());
+        xmpData_[exvGettext(td->label_)] = buf.data();
       }
     } else if (dataType == 4) {
       dataLength = buf.read_uint16(0, bigEndian) * 4;
       std::memset(buf.data(), 0x0, buf.size());
       io_->readOrThrow(buf.data(), 4);
       if (td)
-        xmpData_[exvGettext(td->label_)] = Exiv2::toString(buf.read_uint32(0, bigEndian));
+        xmpData_[exvGettext(td->label_)] = buf.read_uint32(0, bigEndian);
 
       // Sanity check with an "unreasonably" large number
       if (dataLength > 200 || dataLength < 4) {
@@ -1068,7 +1069,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       std::memset(buf.data(), 0x0, buf.size());
       io_->readOrThrow(buf.data(), 2);
       if (td)
-        xmpData_[exvGettext(td->label_)] = Exiv2::toString(buf.read_uint16(0, bigEndian));
+        xmpData_[exvGettext(td->label_)] = buf.read_uint16(0, bigEndian);
 
       // Sanity check with an "unreasonably" large number
       if (dataLength > 200 || dataLength < 2) {
@@ -1085,8 +1086,8 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       io_->readOrThrow(buf.data(), 4);
       io_->readOrThrow(buf2.data(), 4);
       if (td)
-        xmpData_[exvGettext(td->label_)] = Exiv2::toString(static_cast<double>(buf.read_uint32(0, bigEndian)) /
-                                                           static_cast<double>(buf2.read_uint32(0, bigEndian)));
+        xmpData_[exvGettext(td->label_)] =
+            static_cast<double>(buf.read_uint32(0, bigEndian)) / static_cast<double>(buf2.read_uint32(0, bigEndian));
 
       // Sanity check with an "unreasonably" large number
       if (dataLength > 200 || dataLength < 8) {
@@ -1104,7 +1105,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       io_->readOrThrow(buf2.data(), 2);
       if (td)
         xmpData_[exvGettext(td->label_)] =
-            Exiv2::toString(buf.read_uint16(0, bigEndian)) + " " + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+            stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
 
       // Sanity check with an "unreasonably" large number
       if (dataLength > 200 || dataLength < 4) {
@@ -1201,14 +1202,14 @@ void QuickTimeVideo::audioDescDecoder() {
     io_->readOrThrow(buf.data(), 4);
     switch (i) {
       case AudioFormat:
-        td = Exiv2::find(qTimeFileType, Exiv2::toString(buf.data()));
+        td = Exiv2::find(qTimeFileType, buf.data());
         if (td)
           xmpData_["Xmp.audio.Compressor"] = exvGettext(td->label_);
         else
-          xmpData_["Xmp.audio.Compressor"] = Exiv2::toString(buf.data());
+          xmpData_["Xmp.audio.Compressor"] = buf.data();
         break;
       case AudioVendorID:
-        td = Exiv2::find(vendorIDTags, Exiv2::toString(buf.data()));
+        td = Exiv2::find(vendorIDTags, buf.data());
         if (td)
           xmpData_["Xmp.audio.VendorID"] = exvGettext(td->label_);
         break;
@@ -1241,14 +1242,14 @@ void QuickTimeVideo::imageDescDecoder() {
 
     switch (i) {
       case codec:
-        td = Exiv2::find(qTimeFileType, Exiv2::toString(buf.data()));
+        td = Exiv2::find(qTimeFileType, buf.data());
         if (td)
           xmpData_["Xmp.video.Codec"] = exvGettext(td->label_);
         else
-          xmpData_["Xmp.video.Codec"] = Exiv2::toString(buf.data());
+          xmpData_["Xmp.video.Codec"] = buf.data();
         break;
       case VendorID:
-        td = Exiv2::find(vendorIDTags, Exiv2::toString(buf.data()));
+        td = Exiv2::find(vendorIDTags, buf.data());
         if (td)
           xmpData_["Xmp.video.VendorID"] = exvGettext(td->label_);
         break;
@@ -1269,7 +1270,7 @@ void QuickTimeVideo::imageDescDecoder() {
       case CompressorName:
         io_->readOrThrow(buf.data(), 32);
         size -= 32;
-        xmpData_["Xmp.video.Compressor"] = Exiv2::toString(buf.data());
+        xmpData_["Xmp.video.Compressor"] = buf.data();
         break;
       default:
         break;
@@ -1333,7 +1334,7 @@ void QuickTimeVideo::handlerDecoder(size_t size) {
 
     switch (i) {
       case HandlerClass:
-        tv = Exiv2::find(handlerClassTags, Exiv2::toString(buf.data()));
+        tv = Exiv2::find(handlerClassTags, buf.data());
         if (tv) {
           if (currentStream_ == Video)
             xmpData_["Xmp.video.HandlerClass"] = exvGettext(tv->label_);
@@ -1342,7 +1343,7 @@ void QuickTimeVideo::handlerDecoder(size_t size) {
         }
         break;
       case HandlerType:
-        tv = Exiv2::find(handlerTypeTags, Exiv2::toString(buf.data()));
+        tv = Exiv2::find(handlerTypeTags, buf.data());
         if (tv) {
           if (currentStream_ == Video)
             xmpData_["Xmp.video.HandlerType"] = exvGettext(tv->label_);
@@ -1351,7 +1352,7 @@ void QuickTimeVideo::handlerDecoder(size_t size) {
         }
         break;
       case HandlerVendorID:
-        tv = Exiv2::find(vendorIDTags, Exiv2::toString(buf.data()));
+        tv = Exiv2::find(vendorIDTags, buf.data());
         if (tv) {
           if (currentStream_ == Video)
             xmpData_["Xmp.video.HandlerVendorID"] = exvGettext(tv->label_);
@@ -1373,7 +1374,7 @@ void QuickTimeVideo::fileTypeDecoder(size_t size) {
 
   for (int i = 0; size / 4 != 0; size -= 4, i++) {
     io_->readOrThrow(buf.data(), 4);
-    td = Exiv2::find(qTimeFileType, Exiv2::toString(buf.data()));
+    td = Exiv2::find(qTimeFileType, buf.data());
 
     switch (i) {
       case 0:
@@ -1387,7 +1388,7 @@ void QuickTimeVideo::fileTypeDecoder(size_t size) {
         if (td)
           v->read(exvGettext(td->label_));
         else
-          v->read(Exiv2::toString(buf.data()));
+          v->read(reinterpret_cast<const char*>(buf.data()));
         break;
     }
   }
