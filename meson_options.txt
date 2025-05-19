@@ -1,3 +1,8 @@
+option('app', type : 'boolean',
+  value: true,
+  description : 'Build exiv2 executable',
+)
+
 option('curl', type : 'feature',
   description : 'USE Libcurl for HttpIo (WEBREADY)',
 )
@@ -43,6 +48,11 @@ option('xmp', type : 'feature',
 
 option('unitTests', type : 'feature',
   description : 'Build and run unit tests',
+)
+
+option('tests', type : 'boolean',
+  value: false,
+  description : 'Build and run Python tests',
 )
 
 option('webready', type : 'boolean',
