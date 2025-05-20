@@ -112,7 +112,7 @@ Exif.NikonLd4.MaxApertureAtMinFocal          Byte        1  36  F2.8
 Exif.NikonLd4.MaxApertureAtMaxFocal          Byte        1  36  F2.8
 Exif.NikonLd4.MCUVersion                     Byte        1  123  123
 Exif.NikonLd4.EffectiveMaxAperture           Byte        1  36  F2.8
-Exif.NikonLd4.LensID                         Short       1  0  0
+Exif.NikonLd4.LensID                         Short       1  0  n/a
 Exif.NikonLd4.MaxAperture                    Short       1  0  n/a
 Exif.NikonLd4.FNumber                        Short       1  0  n/a
 Exif.NikonLd4.FocalLength2                   Short       1  0  n/a
