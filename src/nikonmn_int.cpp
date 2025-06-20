@@ -3881,6 +3881,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
       {46, "Nikon", "Nikkor Z 135mm f/1.8 S Plena"},
       {47, "Nikon", "Nikkor Z 35mm f/1.2 S"},
       {48, "Nikon", "Nikkor Z 28-400mm f/4-8 VR"},
+      {49, "Nikon", "Nikkor Z 28-135mm f/4 PZ"},
       {51, "Nikon", "Nikkor Z 35mm f/1.4"},
       {52, "Nikon", "Nikkor Z 50mm f/1.4"},
       {2305, "Laowa", "FFII 10mm F2.8 C&D Dreamer"},
