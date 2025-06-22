@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "config.h"
+
 // included header files
 #include "sonymn_int.hpp"
 
@@ -8,6 +10,7 @@
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "minoltamn_int.hpp"
+#include "tags_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "utils.hpp"
 #include "value.hpp"

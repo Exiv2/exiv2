@@ -1,12 +1,20 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "tiffimage_int.hpp"
+#include "config.h"
+
+#include "basicio.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "sonymn_int.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
+
+#ifdef EXIV2_DEBUG_MESSAGES
+#include "tags_int.hpp"
+#endif
 
 #include <array>
 #include <iostream>

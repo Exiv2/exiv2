@@ -5,13 +5,19 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
-#include "tags_int.hpp"
 #include "types.hpp"
+#include "value.hpp"
+
+#include "tags_int.hpp"
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+struct TagInfo;
+
+namespace Internal {
+struct TagDetails;
 // *****************************************************************************
 // class definitions
 
@@ -89,6 +95,7 @@ std::ostream& printCombiTag(std::ostream& os, const Value& value, const ExifData
 #define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) \
   printCombiTag<std::size(array), array, count, ignoredcount, ignoredcountmax>
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef PENTAXMN_INT_HPP_

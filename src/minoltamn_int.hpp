@@ -5,11 +5,16 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -115,6 +120,7 @@ std::ostream& printMinoltaSonyZoneMatching(std::ostream&, const Value&, const Ex
 
 // TODO: Added shared methods here.
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef MINOLTAMN_INT_HPP_

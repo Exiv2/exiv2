@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-// included header files
+#include "config.h"
+
 #include "pentaxmn_int.hpp"
+
+// included header files
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"

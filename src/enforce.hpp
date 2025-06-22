@@ -18,9 +18,9 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <string>
-
 #include "error.hpp"
+
+#include <string>
 
 namespace Exiv2::Internal {
 /*!

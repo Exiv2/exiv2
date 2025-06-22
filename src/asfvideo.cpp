@@ -10,8 +10,6 @@
 #include "helper_functions.hpp"
 #include "image_int.hpp"
 
-#include <cstring>
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {

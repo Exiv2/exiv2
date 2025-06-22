@@ -17,11 +17,17 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include <cstdint>
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -203,6 +209,7 @@ class CanonMakerNote {
  */
 float canonEv(int64_t val);
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // EXIV2_CANONMN_INT_HPP

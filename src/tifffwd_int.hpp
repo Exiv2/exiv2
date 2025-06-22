@@ -5,8 +5,7 @@
 
 // *****************************************************************************
 // included header files
-#include "tags_int.hpp"
-#include "types.hpp"
+#include "tags.hpp"
 
 // + standard includes
 #include <stack>
@@ -22,6 +21,8 @@ class TiffComponent;
 class TiffEntryBase;
 class TiffEntry;
 class TiffDataEntry;
+class TiffDataEntryBase;
+class TiffImageEntry;
 class TiffSizeEntry;
 class TiffDirectory;
 class TiffSubIfd;

@@ -11,6 +11,7 @@
 #include "image.hpp"
 #include "image_int.hpp"
 #include "safe_op.hpp"
+#include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "types.hpp"
 #include "utils.hpp"
