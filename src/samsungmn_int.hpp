@@ -4,12 +4,11 @@
 #define SAMSUNGMN_INT_HPP_
 
 // *****************************************************************************
-// included header files
-#include "tags.hpp"
-
-// *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -29,6 +28,7 @@ class Samsung2MakerNote {
 
 };  // class Samsung2MakerNote
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef SAMSUNGMN_INT_HPP_

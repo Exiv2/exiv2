@@ -4,11 +4,13 @@
 
 #include "tiffcomposite_int.hpp"
 
+#include "basicio.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "makernote_int.hpp"
 #include "safe_op.hpp"
 #include "sonymn_int.hpp"
+#include "tags_int.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "types.hpp"

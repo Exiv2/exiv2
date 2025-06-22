@@ -11,7 +11,6 @@
 // + standard includes
 #include <bit>
 #include <cctype>
-#include <climits>
 #include <cmath>
 #include <cstring>
 #include <iomanip>

@@ -13,7 +13,6 @@
 
 // + standard includes
 #include <array>
-#include <cstring>
 #include <string>
 
 #ifdef EXIV2_DEBUG_MESSAGES

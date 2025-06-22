@@ -21,7 +21,6 @@
 // + standard includes
 #include <algorithm>
 #include <array>
-#include <climits>
 #include <cstring>
 #include <sstream>
 #include <string>

@@ -12,15 +12,17 @@
 #define OLYMPUSMN_INT_HPP_
 
 // *****************************************************************************
-// included header files
-#include "tags.hpp"
-
-// + standard includes
+// standard includes
 #include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -92,6 +94,7 @@ class OlympusMakerNote {
 
 };  // class OlympusMakerNote
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef OLYMPUSMN_INT_HPP_

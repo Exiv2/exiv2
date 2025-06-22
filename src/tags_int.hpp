@@ -7,11 +7,18 @@
 // included header files
 #include "error.hpp"
 #include "tags.hpp"
+#include "types.hpp"
+
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
 
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -491,6 +498,7 @@ float fnumber(float apertureValue);
 //! Calculate the exposure time from an APEX shutter speed value
 URational exposureTime(float shutterSpeedValue);
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef TAGS_INT_HPP_

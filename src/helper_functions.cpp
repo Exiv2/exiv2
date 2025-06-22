@@ -5,7 +5,6 @@
 #include "convert.hpp"
 #include "enforce.hpp"
 
-#include <cmath>
 #include <cstring>
 #include <numeric>
 

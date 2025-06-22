@@ -5,16 +5,23 @@
 
 // *****************************************************************************
 // included header files
-#include "image.hpp"
-#include "tags_int.hpp"
+#include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
+#include <cstdint>
+#include <iosfwd>
+#include <memory>
 #include <stack>
 #include <vector>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class Image;
+struct DataBuf;
+
+namespace Internal {
 // *****************************************************************************
 // class declarations
 class CiffHeader;
@@ -592,6 +599,7 @@ class CrwMap {
  */
 DataBuf packIfdId(const ExifData& exifData, IfdId ifdId, ByteOrder byteOrder);
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // EXIV2_CRWIMAGE_INT_HPP

@@ -5,7 +5,7 @@
 
 // *****************************************************************************
 // included header files
-#include "tiffcomposite_int.hpp"
+#include "tifffwd_int.hpp"
 
 // *****************************************************************************
 // namespace extensions

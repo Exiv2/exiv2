@@ -5,15 +5,19 @@
 
 // *****************************************************************************
 // included header files
-#include "image.hpp"
-#include "tiffcomposite_int.hpp"
+#include "exif.hpp"
 #include "tifffwd_int.hpp"
 
 #include <unordered_map>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class BasicIo;
+class IptcData;
+class XmpData;
+
+namespace Internal {
 /*!
   @brief Contains internal objects which are not published and are not part
          of the <b>libexiv2</b> API.
@@ -353,6 +357,7 @@ class FindExifdatum {
 
 };  // class FindExifdatum
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef TIFFIMAGE_INT_HPP_
