@@ -5,7 +5,6 @@
 // included header files
 #include "tiffvisitor_int.hpp"  // see bug #487
 
-#include "config.h"
 #include "enforce.hpp"
 #include "exif.hpp"
 #include "image_int.hpp"
@@ -21,7 +20,11 @@
 #include "xmp_exiv2.hpp"
 
 #include <functional>
+#include <iomanip>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // *****************************************************************************
 namespace {

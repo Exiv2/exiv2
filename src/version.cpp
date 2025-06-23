@@ -12,11 +12,13 @@
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
+#include "properties.hpp"
 #include "xmp_exiv2.hpp"
 #endif
 
 // + standard includes
 #include <fstream>
+#include <iomanip>
 #include <set>
 
 // #1147

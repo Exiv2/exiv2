@@ -3,6 +3,8 @@
 #ifndef IMAGE_INT_HPP_
 #define IMAGE_INT_HPP_
 
+#include "config.h"
+
 // *****************************************************************************
 // included header files
 #include "slice.hpp"  // for Slice

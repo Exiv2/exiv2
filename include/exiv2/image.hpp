@@ -3,6 +3,8 @@
 #ifndef IMAGE_HPP_
 #define IMAGE_HPP_
 
+#include "config.h"
+
 // *****************************************************************************
 #include "exiv2lib_export.h"
 

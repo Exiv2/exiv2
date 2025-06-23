@@ -4,7 +4,6 @@
 #define VERSION_HPP_
 
 #include "exiv2lib_export.h"
-#include "exv_conf.h"
 
 // *****************************************************************************
 // included header files

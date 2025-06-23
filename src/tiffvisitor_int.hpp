@@ -6,7 +6,14 @@
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
-#include "tiffcomposite_int.hpp"  // Do not change the order of these 2 includes,
+
+// MSVC compiles but errors at runtime with just forward declarations
+// Maybe a bug with template instantiation.
+#ifdef _MSC_VER
+#include "tiffcomposite_int.hpp"
+#else
+#include "tifffwd_int.hpp"
+#endif
 
 #include <array>
 
