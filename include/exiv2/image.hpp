@@ -199,7 +199,7 @@ class EXIV2API Image {
   /*!
     @brief Returns the status of the ICC profile in the image instance
    */
-  virtual bool iccProfileDefined() {
+  [[nodiscard]] virtual bool iccProfileDefined() const {
     return !iccProfile_.empty();
   }
 
