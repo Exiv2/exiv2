@@ -7,6 +7,7 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "properties.hpp"
 #include "utils.hpp"
 #include "xmp_exiv2.hpp"
 

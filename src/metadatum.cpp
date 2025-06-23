@@ -2,6 +2,8 @@
 
 #include "metadatum.hpp"
 
+#include <sstream>
+
 namespace Exiv2 {
 
 Key::~Key() = default;

@@ -7,8 +7,8 @@
 #include "exiv2lib_export.h"
 
 // included header files
+#include "datasets.hpp"
 #include "metadatum.hpp"
-#include "properties.hpp"
 
 // *****************************************************************************
 // namespace extensions
@@ -16,6 +16,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 class ExifData;
+class XmpKey;
 
 // *****************************************************************************
 // class definitions
