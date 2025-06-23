@@ -23,10 +23,6 @@
 #include "exif.hpp"
 
 namespace Exiv2 {
-// *****************************************************************************
-// class declarations
-class ExifData;
-
 //! Return the orientation of the image. Please keep in mind that this accessor is provided for convenience only and
 //! will return expected/desired metadata most of the time.
 EXIV2API ExifData::const_iterator orientation(const ExifData& ed);

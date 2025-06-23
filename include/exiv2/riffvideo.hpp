@@ -2,8 +2,8 @@
 #ifndef EXIV2_RIFFVIDEO_HPP
 #define EXIV2_RIFFVIDEO_HPP
 
-#include "exif.hpp"
 #include "exiv2lib_export.h"
+
 #include "image.hpp"
 
 namespace Exiv2 {

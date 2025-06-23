@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
 #include "pentaxmn_int.hpp"
 
 // included header files
@@ -25,6 +23,44 @@ class LensInfoNotFound : public std::exception {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {
+/*!
+  @brief Print function to translate Pentax "combi-values" to a description
+         by looking up a reference table.
+ */
+template <size_t N, const TagDetails (&array)[N], int count, int ignoredcount, int ignoredcountmax>
+std::ostream& printCombiTag(std::ostream& os, const Value& value, const ExifData* metadata) {
+  static_assert(N > 0, "Passed zero length printCombiTag");
+  std::ios::fmtflags f(os.flags());
+  if ((value.count() != count &&
+       (value.count() < (count + ignoredcount) || value.count() > (count + ignoredcountmax))) ||
+      count > 4) {
+    return printValue(os, value, metadata);
+  }
+  uint32_t l = 0;
+  for (int c = 0; c < count; ++c) {
+    if (value.toInt64(c) < 0 || value.toInt64(c) > 255) {
+      return printValue(os, value, metadata);
+    }
+    l += (value.toUint32(c) << ((count - c - 1) * 8));
+  }
+  if (auto td = Exiv2::find(array, l)) {
+    os << exvGettext(td->label_);
+  } else {
+    os << exvGettext("Unknown") << " (0x" << std::setw(2 * count) << std::setfill('0') << std::hex << l << std::dec
+       << ")";
+  }
+
+  os.flags(f);
+  return os;
+}
+
+//! Shortcut for the printCombiTag template which requires typing the array name only once.
+#define EXV_PRINT_COMBITAG(array, count, ignoredcount) \
+  printCombiTag<std::size(array), array, count, ignoredcount, ignoredcount>
+//! Shortcut for the printCombiTag template which requires typing the array name only once.
+#define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) \
+  printCombiTag<std::size(array), array, count, ignoredcount, ignoredcountmax>
+
 //! ShootingMode, tag 0x0001
 constexpr TagDetails pentaxShootingMode[] = {
     {0, N_("Auto")},

@@ -13,6 +13,8 @@
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
+#include "config.h"
+
 // included header files
 #include "config.h"
 #include "metadatum.hpp"

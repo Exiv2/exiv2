@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "config.h"
+
 // included header files
 #include "nikonmn_int.hpp"
 
@@ -14,6 +16,7 @@
 // + standard includes
 #include <array>
 #include <cmath>
+#include <iomanip>
 
 // *****************************************************************************
 // class member definitions

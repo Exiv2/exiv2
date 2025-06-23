@@ -3,6 +3,8 @@
 #include "easyaccess.hpp"
 #include "utils.hpp"
 
+#include <sstream>
+
 // *****************************************************************************
 namespace {
 using namespace Exiv2;
