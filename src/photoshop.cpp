@@ -1,3 +1,5 @@
+#include "config.h"
+
 #include "photoshop.hpp"
 
 #include "enforce.hpp"

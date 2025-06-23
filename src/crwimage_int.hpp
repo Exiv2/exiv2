@@ -19,7 +19,6 @@
 // namespace extensions
 namespace Exiv2 {
 class Image;
-struct DataBuf;
 
 namespace Internal {
 // *****************************************************************************

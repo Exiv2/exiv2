@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <exiv2/exiv2.hpp>
+#include <iomanip>
 #include <iostream>
 #include <regex>
 
