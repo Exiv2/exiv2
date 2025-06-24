@@ -990,7 +990,7 @@ class RemoteIo::Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  virtual int64_t getFileLength() = 0;
+  virtual int64_t getFileLength() const = 0;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -999,7 +999,7 @@ class RemoteIo::Impl {
     @throw Error if the server returns the error code.
     @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
    */
-  virtual void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) = 0;
+  virtual void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const = 0;
   /*!
     @brief Submit the data to the remote machine. The data replace a part of the remote file.
           The replaced part of remote file is indicated by from and to parameters.
@@ -1354,7 +1354,7 @@ class HttpIo::HttpImpl : public Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  int64_t getFileLength() override;
+  int64_t getFileLength() const override;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1363,7 +1363,7 @@ class HttpIo::HttpImpl : public Impl {
     @throw Error if the server returns the error code.
     @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
    */
-  void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) override;
+  void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const override;
   /*!
     @brief Submit the data to the remote machine. The data replace a part of the remote file.
           The replaced part of remote file is indicated by from and to parameters.
@@ -1385,7 +1385,7 @@ HttpIo::HttpImpl::HttpImpl(const std::string& url, size_t blockSize) : Impl(url,
   Exiv2::Uri::Decode(hostInfo_);
 }
 
-int64_t HttpIo::HttpImpl::getFileLength() {
+int64_t HttpIo::HttpImpl::getFileLength() const {
   Exiv2::Dictionary response;
   Exiv2::Dictionary request;
   std::string errors;
@@ -1403,7 +1403,7 @@ int64_t HttpIo::HttpImpl::getFileLength() {
   return (lengthIter == response.end()) ? -1 : std::stoll(lengthIter->second);
 }
 
-void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) {
+void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const {
   Exiv2::Dictionary responseDic;
   Exiv2::Dictionary request;
   request["server"] = hostInfo_.Host;
@@ -1490,7 +1490,7 @@ class CurlIo::CurlImpl : public Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  int64_t getFileLength() override;
+  int64_t getFileLength() const override;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1499,7 +1499,7 @@ class CurlIo::CurlImpl : public Impl {
     @throw Error if the server returns the error code.
     @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
    */
-  void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) override;
+  void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const override;
   /*!
     @brief Submit the data to the remote machine. The data replace a part of the remote file.
           The replaced part of remote file is indicated by from and to parameters.
@@ -1536,7 +1536,7 @@ CurlIo::CurlImpl::CurlImpl(const std::string& url, size_t blockSize) :
   }
 }
 
-int64_t CurlIo::CurlImpl::getFileLength() {
+int64_t CurlIo::CurlImpl::getFileLength() const {
   curl_easy_reset(curl_.get());  // reset all options
   curl_easy_setopt(curl_.get(), CURLOPT_URL, path_.c_str());
   curl_easy_setopt(curl_.get(), CURLOPT_NOBODY, 1);  // HEAD
@@ -1562,7 +1562,7 @@ int64_t CurlIo::CurlImpl::getFileLength() {
   return temp;
 }
 
-void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) {
+void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const {
   curl_easy_reset(curl_.get());  // reset all options
   curl_easy_setopt(curl_.get(), CURLOPT_URL, path_.c_str());
   curl_easy_setopt(curl_.get(), CURLOPT_NOPROGRESS, 1L);  // no progress meter please
