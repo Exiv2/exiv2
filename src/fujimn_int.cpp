@@ -295,7 +295,7 @@ static std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value,
   if (auto setting = Exiv2::find(fujiDriveSettingByte1, byte1)) {
     os << exvGettext(setting->label_);
   } else {
-    os << "(" << byte1 << ")";
+    os << "(" << +byte1 << ")";
   }
 
   if (fps != 0) {
@@ -303,7 +303,7 @@ static std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value,
   }
 
   if (byte1 != 0) {
-    os << ", (" << byte2 << ", " << byte3 << ")";  // unknown values
+    os << ", (" << +byte2 << ", " << +byte3 << ")";  // unknown values
   }
   return os;
 }
