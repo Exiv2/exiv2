@@ -983,7 +983,7 @@ std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& va
           os << _("Unknown ") << type;
           break;
       }
-      os << " " << range;
+      os << " " << +range;
     }
     os << ")";
   }
