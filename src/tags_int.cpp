@@ -2593,8 +2593,8 @@ std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData*
 
 float fnumber(float apertureValue) {
   float result = std::exp2(apertureValue / 2.F);
-  if (std::abs(result - 3.5) < 0.1) {
-    result = 3.5;
+  if (std::abs(result - 3.5F) < 0.1F) {
+    result = 3.5F;
   }
   return result;
 }
