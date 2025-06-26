@@ -832,7 +832,7 @@ void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size
   switch (tag->_id) {
     case Xmp_video_Duration:
       if (size <= 4) {
-        duration_in_ms = std::llround(getFloat(buf, bigEndian) * time_code_scale_ * 1000.0f);
+        duration_in_ms = std::llround(getFloat(buf, bigEndian) * time_code_scale_ * 1000.0);
       } else {
         duration_in_ms = std::llround(getDouble(buf, bigEndian) * time_code_scale_ * 1000);
       }
