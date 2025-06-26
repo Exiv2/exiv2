@@ -11,6 +11,7 @@
 #include "canonmn_int.hpp"
 #include "casiomn_int.hpp"
 #include "fujimn_int.hpp"
+#include "image_int.hpp"
 #include "minoltamn_int.hpp"
 #include "nikonmn_int.hpp"
 #include "olympusmn_int.hpp"
@@ -2907,6 +2908,7 @@ std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*)
   if (value.typeId() != unsignedRational)
     return os << "(" << value << ")";
 
+  using Exiv2::operator<<;
   URational t = value.toRational();
   if (t.first == 0 || t.second == 0) {
     os << "(" << t << ")";
@@ -2923,18 +2925,10 @@ std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*)
 }
 
 std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   Rational fnumber = value.toRational();
-  if (fnumber.second != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << "F" << std::setprecision(2) << static_cast<float>(fnumber.first) / fnumber.second;
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (fnumber.second != 0)
+    return os << stringFormat("F{:.2g}", static_cast<float>(fnumber.first) / fnumber.second);
+  return os << "(" << value << ")";
 }
 
 //! ExposureProgram, tag 0x8822
@@ -2998,16 +2992,9 @@ std::ostream& print0x9201(std::ostream& os, const Value& value, const ExifData*)
 }
 
 std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() == 0 || value.toRational().second == 0) {
+  if (value.count() == 0 || value.toRational().second == 0)
     return os << "(" << value << ")";
-  }
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << "F" << std::setprecision(2) << fnumber(value.toFloat());
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("F{:.2g}", fnumber(value.toFloat()));
 }
 
 std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*) {
@@ -3031,22 +3018,14 @@ std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*)
 }
 
 std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   Rational distance = value.toRational();
-  if (distance.first == 0) {
-    os << _("Unknown");
-  } else if (static_cast<uint32_t>(distance.first) == 0xffffffff) {
-    os << _("Infinity");
-  } else if (distance.second != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (distance.first == 0)
+    return os << _("Unknown");
+  if (static_cast<uint32_t>(distance.first) == std::numeric_limits<uint32_t>::max())
+    return os << _("Infinity");
+  if (distance.second != 0)
+    return os << stringFormat("{:.2f} m", static_cast<float>(distance.first) / distance.second);
+  return os << "(" << value << ")";
 }
 
 //! MeteringMode, tag 0x9207
@@ -3065,18 +3044,10 @@ std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData* 
 }
 
 std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   Rational length = value.toRational();
-  if (length.second != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(length.first) / length.second << " mm";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (length.second != 0)
+    return os << stringFormat("{:.1f} mm", static_cast<float>(length.first) / length.second);
+  return os << "(" << value << ")";
 }
 
 //! ColorSpace, tag 0xa001
@@ -3157,26 +3128,16 @@ std::ostream& print0xa403(std::ostream& os, const Value& value, const ExifData* 
 }
 
 std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   Rational zoom = value.toRational();
-  if (zoom.second == 0) {
-    os << _("Digital zoom not used");
-  } else {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second;
-    os.copyfmt(oss);
-  }
-  os.flags(f);
-  return os;
+  if (zoom.second == 0)
+    return os << _("Digital zoom not used");
+  return os << stringFormat("{:.1f}", static_cast<float>(zoom.first) / zoom.second);
 }
 
 std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*) {
-  if (auto length = value.toInt64(); length == 0)
-    os << _("Unknown");
-  else
-    os << length << ".0 mm";
-  return os;
+  if (auto length = value.toInt64(); length != 0)
+    return os << length << ".0 mm";
+  return os << _("Unknown");
 }
 
 //! SceneCaptureType, tag 0xa406
