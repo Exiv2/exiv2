@@ -2150,7 +2150,9 @@ std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, co
     return os << N_("n/a");
 
   const auto val = value.toInt64();
-  return val > 0 ? os << (8 * val) : os << N_("n/a");
+  if (val > 0)
+    return os << (8 * val);
+  return os << N_("n/a");
 }
 
 std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, const Value& value,
