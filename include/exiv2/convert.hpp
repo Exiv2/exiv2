@@ -10,8 +10,8 @@
   @date    17-Mar-08, ahu: created basic converter framework<BR>
            20-May-08, vn:  added actual conversion logic
  */
-#ifndef CONVERT_HPP_
-#define CONVERT_HPP_
+#ifndef EXIV2_CONVERT_HPP
+#define EXIV2_CONVERT_HPP
 
 #include "exiv2lib_export.h"
 
@@ -94,4 +94,4 @@ EXIV2API bool convertStringCharset(std::string& str, const char* from, const cha
 
 }  // namespace Exiv2
 
-#endif  // #ifndef CONVERT_HPP_
+#endif  // EXIV2_CONVERT_HPP
