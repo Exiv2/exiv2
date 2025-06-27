@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef XMP_HPP_
-#define XMP_HPP_
+#ifndef EXIV2_XMP_EXIV2_HPP
+#define EXIV2_XMP_EXIV2_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -410,4 +410,4 @@ Xmpdatum& Xmpdatum::operator=(const T& value) {
 
 }  // namespace Exiv2
 
-#endif  // #ifndef XMP_HPP_
+#endif  // EXIV2_XMP_EXIV2_HPP

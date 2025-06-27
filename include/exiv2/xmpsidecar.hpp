@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef XMPSIDECAR_HPP_
-#define XMPSIDECAR_HPP_
+#ifndef EXIV2_XMPSIDECAR_HPP
+#define EXIV2_XMPSIDECAR_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -74,4 +74,4 @@ EXIV2API bool isXmpType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef XMPSIDECAR_HPP_
+#endif  // EXIV2_XMPSIDECAR_HPP

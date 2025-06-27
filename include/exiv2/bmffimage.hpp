@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#pragma once
+#ifndef EXIV2_BMFFIMAGE_HPP
+#define EXIV2_BMFFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
+#include "config.h"
 #include "image.hpp"
 
 #include <set>
@@ -172,3 +174,5 @@ EXIV2API Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create);
 EXIV2API bool isBmffType(BasicIo& iIo, bool advance);
 }  // namespace Exiv2
 #endif  // EXV_ENABLE_BMFF
+
+#endif  // EXIV2_BMFFIMAGE_HPP

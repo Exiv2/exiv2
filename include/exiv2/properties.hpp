@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef PROPERTIES_HPP_
-#define PROPERTIES_HPP_
+#ifndef EXIV2_PROPERTIES_HPP
+#define EXIV2_PROPERTIES_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
-#include <mutex>
-
 #include "datasets.hpp"
+
+#include <mutex>
 
 // *****************************************************************************
 // namespace extensions
@@ -282,4 +282,4 @@ EXIV2API std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& prope
 
 }  // namespace Exiv2
 
-#endif  // #ifndef PROPERTIES_HPP_
+#endif  // EXIV2_PROPERTIES_HPP

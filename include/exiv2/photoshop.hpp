@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef PHOTOSHOP_INT_HPP
-#define PHOTOSHOP_INT_HPP
+#ifndef EXIV2_PHOTOSHOP_HPP
+#define EXIV2_PHOTOSHOP_HPP
 
 #include "exiv2lib_export.h"
 
@@ -67,4 +67,4 @@ struct EXIV2API Photoshop {
 };
 }  // namespace Exiv2
 
-#endif  // PHOTOSHOP_INT_HPP
+#endif  // EXIV2_PHOTOSHOP_HPP

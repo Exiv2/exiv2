@@ -1,7 +1,7 @@
 // config.h
 
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
+#ifndef EXIV2_CONFIG_H
+#define EXIV2_CONFIG_H
 
 ///// Start of Visual Studio Support /////
 #ifdef _MSC_VER
@@ -13,4 +13,4 @@
 
 #include "exv_conf.h"
 
-#endif  // _CONFIG_H_
+#endif  // EXIV2_CONFIG_H

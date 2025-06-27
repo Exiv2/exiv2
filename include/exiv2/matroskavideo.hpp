@@ -17,8 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef MATROSKAVIDEO_HPP_
-#define MATROSKAVIDEO_HPP_
+#ifndef EXIV2_MATROSKAVIDEO_HPP
+#define EXIV2_MATROSKAVIDEO_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -187,4 +187,4 @@ EXIV2API bool isMkvType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef MATROSKAVIDEO_HPP_
+#endif  // EXIV2_MATROSKAVIDEO_HPP
