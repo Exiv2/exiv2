@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-#ifndef TGAIMAGE_HPP_
-#define TGAIMAGE_HPP_
+#ifndef EXIV2_TGAIMAGE_HPP
+#define EXIV2_TGAIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -86,4 +86,4 @@ EXIV2API bool isTgaType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef TGAIMAGE_HPP_
+#endif  // EXIV2_TGAIMAGE_HPP
