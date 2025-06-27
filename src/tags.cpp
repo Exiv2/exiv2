@@ -49,6 +49,10 @@ bool TagVocabulary::operator==(std::string_view key) const {
   return key.ends_with(voc_);
 }
 
+bool TagVocabulary::operator==(const byte* key) const {
+  return std::string_view(reinterpret_cast<const char*>(key)).ends_with(voc_);
+}
+
 // Unknown Tag
 static constexpr TagInfo unknownTag{
     0xffff,
