@@ -2,6 +2,7 @@
 
 #include "helper_functions.hpp"
 
+#include "basicio.hpp"
 #include "convert.hpp"
 #include "enforce.hpp"
 
