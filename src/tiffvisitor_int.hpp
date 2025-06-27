@@ -6,6 +6,7 @@
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
+
 #include "tiffcomposite_int.hpp"  // Do not change the order of these 2 includes,
 
 #include <array>
@@ -445,7 +446,7 @@ class TiffEncoder : public TiffVisitor {
     tree is then traversed and metadata from the image is used to encode
     each existing component.
   */
-  void add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32_t root);
+  void add(TiffComponent* pRootDir, TiffComponent::UniquePtr pSourceDir, uint32_t root);
   //! Set the dirty flag and end of traversing signal.
   void setDirty(bool flag = true);
   //@}
@@ -515,7 +516,7 @@ class TiffEncoder : public TiffVisitor {
   TiffComponent* pRoot_;                     //!< Root element of the composite
   bool isNewImage_;                          //!< True if the TIFF image is created from scratch
   PrimaryGroups pPrimaryGroups_;             //!< List of primary image groups
-  TiffComponent* pSourceTree_{nullptr};      //!< Parsed source tree for reference
+  TiffComponent::UniquePtr pSourceTree_;     //!< Parsed source tree for reference
   ByteOrder byteOrder_;                      //!< Byteorder for encoding
   ByteOrder origByteOrder_;                  //!< Byteorder as set in the c'tor
   FindEncoderFct findEncoderFct_;            //!< Ptr to the function to find special encoding functions
