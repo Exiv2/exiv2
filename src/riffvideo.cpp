@@ -659,7 +659,8 @@ void RiffVideo::readInfoListChunk(uint64_t size_) {
     std::string content = readStringTag(io_, size);
     if (auto it = Internal::infoTags.find(type); it != Internal::infoTags.end())
       xmpData_[it->second] = content;
-    current_size += DWORD * 2 + size;
+    current_size += DWORD * 2;
+    current_size += size;
   }
 }
 

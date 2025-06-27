@@ -668,7 +668,8 @@ void Converter::cnvExifDate(const char* from, const char* to) {
       return;
     }
 
-    dsec = dhour * 3600.0 + dmin * 60.0 + dsec;
+    dsec += dhour * 3600.0;
+    dsec += dmin * 60.0;
 
     hour = static_cast<int>(dsec / 3600.0);
     dsec -= hour * 3600;
