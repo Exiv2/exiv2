@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef EXIV2_INCLUDE_SLICE_HPP
-#define EXIV2_INCLUDE_SLICE_HPP
+#ifndef EXIV2_SLICE_HPP
+#define EXIV2_SLICE_HPP
 
 #include <cassert>
 #include <cstddef>
@@ -564,4 +564,4 @@ template <typename T>
 
 }  // namespace Exiv2
 
-#endif /* EXIV2_INCLUDE_SLICE_HPP */
+#endif  // EXIV2_SLICE_HPP

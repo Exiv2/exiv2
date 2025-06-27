@@ -5,8 +5,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    22-Apr-06, ahu: created
  */
-#ifndef CR2IMAGE_HPP_
-#define CR2IMAGE_HPP_
+#ifndef EXIV2_CR2IMAGE_HPP
+#define EXIV2_CR2IMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -111,4 +111,4 @@ EXIV2API bool isCr2Type(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef CR2IMAGE_HPP_
+#endif  // EXIV2_CR2IMAGE_HPP

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef PREVIEW_HPP_
-#define PREVIEW_HPP_
+#ifndef EXIV2_PREVIEW_HPP
+#define EXIV2_PREVIEW_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -145,4 +145,4 @@ class EXIV2API PreviewManager {
 };  // class PreviewManager
 }  // namespace Exiv2
 
-#endif  // #ifndef PREVIEW_HPP_
+#endif  // EXIV2_PREVIEW_HPP

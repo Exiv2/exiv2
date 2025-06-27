@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef ORFIMAGE_HPP_
-#define ORFIMAGE_HPP_
+#ifndef EXIV2_ORFIMAGE_HPP
+#define EXIV2_ORFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -99,4 +99,4 @@ EXIV2API bool isOrfType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef ORFIMAGE_HPP_
+#endif  // EXIV2_ORFIMAGE_HPP
