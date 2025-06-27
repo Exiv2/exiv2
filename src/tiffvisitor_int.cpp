@@ -913,9 +913,9 @@ void TiffEncoder::encodeOffsetEntry(TiffEntryBase* object, const Exifdatum* datu
   }
 }
 
-void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32_t root) {
+void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent::UniquePtr pSourceDir, uint32_t root) {
   writeMethod_ = wmIntrusive;
-  pSourceTree_ = pSourceDir;
+  pSourceTree_ = std::move(pSourceDir);
 
   // Ensure that the exifData_ entries are not deleted, to be able to
   // iterate over all remaining entries.
