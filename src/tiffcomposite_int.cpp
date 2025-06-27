@@ -1319,7 +1319,8 @@ size_t TiffBinaryArray::doSize() const {
       sz = element->size();
     }
   }
-  idx = idx * cfg()->tagStep() + sz;
+  idx *= cfg()->tagStep();
+  idx += sz;
 
   if (cfg()->hasFillers_ && def()) {
     const ArrayDef* lastDef = def() + defSize() - 1;
