@@ -4,8 +4,8 @@
   @file    iptc.hpp
   @brief   Encoding and decoding of IPTC data
  */
-#ifndef IPTC_HPP_
-#define IPTC_HPP_
+#ifndef EXIV2_IPTC_HPP
+#define EXIV2_IPTC_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -305,4 +305,4 @@ class EXIV2API IptcParser {
 
 }  // namespace Exiv2
 
-#endif  // #ifndef IPTC_HPP_
+#endif  // EXIV2_IPTC_HPP

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef RAFIMAGE_HPP_
-#define RAFIMAGE_HPP_
+#ifndef EXIV2_RAFIMAGE_HPP
+#define EXIV2_RAFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -92,4 +92,4 @@ EXIV2API bool isRafType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef RAFIMAGE_HPP_
+#endif  // EXIV2_RAFIMAGE_HPP

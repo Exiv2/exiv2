@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef TYPES_HPP_
-#define TYPES_HPP_
+#ifndef EXIV2_TYPES_HPP
+#define EXIV2_TYPES_HPP
 
 #include "exiv2lib_export.h"
 
@@ -504,4 +504,4 @@ bool stringTo<bool>(const std::string& s, bool& ok);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef TYPES_HPP_
+#endif  // EXIV2_TYPES_HPP

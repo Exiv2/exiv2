@@ -4,8 +4,8 @@
   @author  Brad Schick (brad) <brad@robotbattle.com>
   @date    24-Jul-04, brad: created
  */
-#ifndef DATASETS_HPP_
-#define DATASETS_HPP_
+#ifndef EXIV2_DATASETS_HPP
+#define EXIV2_DATASETS_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -319,4 +319,4 @@ EXIV2API std::ostream& operator<<(std::ostream& os, const DataSet& dataSet);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef DATASETS_HPP_
+#endif  // EXIV2_DATASETS_HPP

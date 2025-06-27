@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef BASICIO_HPP_
-#define BASICIO_HPP_
+#ifndef EXIV2_BASICIO_HPP
+#define EXIV2_BASICIO_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
+#include "config.h"
 #include "error.hpp"
 #include "types.hpp"
 
@@ -951,4 +952,4 @@ EXIV2API size_t writeFile(const DataBuf& buf, const std::string& path);
 EXIV2API size_t curlWriter(char* data, size_t size, size_t nmemb, std::string* writerData);
 #endif
 }  // namespace Exiv2
-#endif  // #ifndef BASICIO_HPP_
+#endif  // EXIV2_BASICIO_HPP

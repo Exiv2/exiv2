@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef TAGS_HPP_
-#define TAGS_HPP_
+#ifndef EXIV2_TAGS_HPP
+#define EXIV2_TAGS_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -355,4 +355,4 @@ EXIV2API std::ostream& operator<<(std::ostream& os, const TagInfo& ti);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef TAGS_HPP_
+#endif  // EXIV2_TAGS_HPP

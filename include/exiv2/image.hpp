@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef IMAGE_HPP_
-#define IMAGE_HPP_
+#ifndef EXIV2_IMAGE_HPP
+#define EXIV2_IMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
+#include "config.h"
+
 #include "basicio.hpp"
 #include "exif.hpp"
 #include "image_types.hpp"
@@ -671,4 +673,4 @@ EXIV2API void append(Exiv2::Blob& blob, const byte* buf, size_t len);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef IMAGE_HPP_
+#endif  // EXIV2_IMAGE_HPP
