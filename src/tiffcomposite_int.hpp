@@ -1051,8 +1051,8 @@ class TiffMnEntry : public TiffEntryBase {
 
  private:
   // DATA
-  IfdId mnGroup_;                      //!< New group for concrete mn
-  std::unique_ptr<TiffComponent> mn_;  //!< The Makernote
+  IfdId mnGroup_;                //!< New group for concrete mn
+  TiffComponent::UniquePtr mn_;  //!< The Makernote
 };
 
 /*!
