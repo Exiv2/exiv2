@@ -26,6 +26,8 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
+#include "image_int.hpp"
+#include "properties.hpp"
 #include "quicktimevideo.hpp"
 #include "safe_op.hpp"
 #include "tags.hpp"
