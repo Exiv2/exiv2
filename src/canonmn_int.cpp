@@ -2967,8 +2967,8 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
     auto aperMaxTele = string_to_float(base_match[4].str()) * tc;
     auto aperMaxShort = base_match[3].length() > 0 ? string_to_float(base_match[3].str()) * tc : aperMaxTele;
 
-    if (flMin != exifFlMin || flMax != exifFlMax || exifAperMax < (aperMaxShort - .1 * tc) ||
-        exifAperMax > (aperMaxTele + .1 * tc)) {
+    if (flMin != exifFlMin || flMax != exifFlMax || exifAperMax < (aperMaxShort - (.1 * tc)) ||
+        exifAperMax > (aperMaxTele + (.1 * tc))) {
       continue;
     }
 
