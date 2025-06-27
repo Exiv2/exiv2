@@ -33,7 +33,7 @@ jobs:
     name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['11', '20']
+        cxx: ['11', '21']
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v4
