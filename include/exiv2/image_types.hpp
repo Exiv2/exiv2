@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef IMAGE_TYPES_H
-#define IMAGE_TYPES_H
+#ifndef EXIV2_IMAGE_TYPES_HPP
+#define EXIV2_IMAGE_TYPES_HPP
 
 namespace Exiv2 {
 /// Supported Image Formats
@@ -41,4 +41,4 @@ enum class ImageType {
 };
 }  // namespace Exiv2
 
-#endif  // IMAGE_TYPES_H
+#endif  // EXIV2_IMAGE_TYPES_HPP

@@ -2085,7 +2085,7 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
     // Add entries from metadata to composite
     TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, std::move(primaryGroups), pHeader,
                         findEncoderFct);
-    encoder.add(createdTree.get(), parsedTree.get(), root);
+    encoder.add(createdTree.get(), std::move(parsedTree), root);
     // Write binary representation from the composite tree
     DataBuf header = pHeader->write();
     auto tempIo = MemIo();
