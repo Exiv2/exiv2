@@ -565,7 +565,7 @@ void QuickTimeVideo::readMetadata() {
   continueTraversing_ = true;
   height_ = width_ = 1;
 
-  xmpData_["Xmp.video.FileSize"] = static_cast<double>(io_->size()) / 1048576.0;
+  xmpData_["Xmp.video.FileSize"] = static_cast<float>(io_->size()) / 1048576.0f;
   xmpData_["Xmp.video.MimeType"] = mimeType();
 
   while (continueTraversing_)
@@ -1214,11 +1214,10 @@ void QuickTimeVideo::audioDescDecoder() {
         break;
       case AudioChannels:
         xmpData_["Xmp.audio.ChannelType"] = buf.read_uint16(0, bigEndian);
-        xmpData_["Xmp.audio.BitsPerSample"] = ((buf.data()[2] * 256) + buf.data()[3]);
+        xmpData_["Xmp.audio.BitsPerSample"] = (buf.read_uint8(2) << 8) + buf.read_uint8(3);
         break;
       case AudioSampleRate:
-        xmpData_["Xmp.audio.SampleRate"] =
-            buf.read_uint16(0, bigEndian) + ((buf.data()[2] * 256 + buf.data()[3]) * 0.01);
+        xmpData_["Xmp.audio.SampleRate"] = buf.read_uint16(0, bigEndian) + buf.read_uint16(2, bigEndian);
         break;
       default:
         break;
@@ -1254,15 +1253,13 @@ void QuickTimeVideo::imageDescDecoder() {
         break;
       case SourceImageWidth_Height:
         xmpData_["Xmp.video.SourceImageWidth"] = buf.read_uint16(0, bigEndian);
-        xmpData_["Xmp.video.SourceImageHeight"] = ((buf.data()[2] * 256) + buf.data()[3]);
+        xmpData_["Xmp.video.SourceImageHeight"] = (buf.read_uint8(2) << 8) + buf.read_uint8(3);
         break;
       case XResolution:
-        xmpData_["Xmp.video.XResolution"] =
-            buf.read_uint16(0, bigEndian) + ((buf.data()[2] * 256 + buf.data()[3]) * 0.01);
+        xmpData_["Xmp.video.XResolution"] = buf.read_uint16(0, bigEndian) + buf.read_uint16(2, bigEndian);
         break;
       case YResolution:
-        xmpData_["Xmp.video.YResolution"] =
-            buf.read_uint16(0, bigEndian) + ((buf.data()[2] * 256 + buf.data()[3]) * 0.01);
+        xmpData_["Xmp.video.YResolution"] = buf.read_uint16(0, bigEndian) + buf.read_uint16(2, bigEndian);
         io_->readOrThrow(buf.data(), 3);
         size -= 3;
         break;
@@ -1276,7 +1273,7 @@ void QuickTimeVideo::imageDescDecoder() {
     }
   }
   io_->readOrThrow(buf.data(), static_cast<long>(size % 4));
-  xmpData_["Xmp.video.BitDepth"] = static_cast<int>(buf.read_uint8(0));
+  xmpData_["Xmp.video.BitDepth"] = buf.read_uint8(0);
 }  // QuickTimeVideo::imageDescDecoder
 
 void QuickTimeVideo::multipleEntriesDecoder(size_t recursion_depth) {
@@ -1407,9 +1404,9 @@ void QuickTimeVideo::mediaHeaderDecoder(size_t size) {
     switch (i) {
       case MediaHeaderVersion:
         if (currentStream_ == Video)
-          xmpData_["Xmp.video.MediaHeaderVersion"] = static_cast<int>(buf.read_uint8(0));
+          xmpData_["Xmp.video.MediaHeaderVersion"] = buf.read_uint8(0);
         else if (currentStream_ == Audio)
-          xmpData_["Xmp.audio.MediaHeaderVersion"] = static_cast<int>(buf.read_uint8(0));
+          xmpData_["Xmp.audio.MediaHeaderVersion"] = buf.read_uint8(0);
         break;
       case MediaCreateDate:
         // A 32-bit integer that specifies (in seconds since midnight, January 1, 1904) when the movie atom was created.
@@ -1466,9 +1463,9 @@ void QuickTimeVideo::trackHeaderDecoder(size_t size) {
     switch (i) {
       case TrackHeaderVersion:
         if (currentStream_ == Video)
-          xmpData_["Xmp.video.TrackHeaderVersion"] = static_cast<int>(buf.read_uint8(0));
+          xmpData_["Xmp.video.TrackHeaderVersion"] = buf.read_uint8(0);
         else if (currentStream_ == Audio)
-          xmpData_["Xmp.audio.TrackHeaderVersion"] = static_cast<int>(buf.read_uint8(0));
+          xmpData_["Xmp.audio.TrackHeaderVersion"] = buf.read_uint8(0);
         break;
       case TrackCreateDate:
         // A 32-bit integer that specifies (in seconds since midnight, January 1, 1904) when the movie atom was created.
@@ -1504,20 +1501,20 @@ void QuickTimeVideo::trackHeaderDecoder(size_t size) {
         break;
       case TrackVolume:
         if (currentStream_ == Video)
-          xmpData_["Xmp.video.TrackVolume"] = (static_cast<int>(buf.read_uint8(0)) + (buf.data()[2] * 0.1)) * 100;
+          xmpData_["Xmp.video.TrackVolume"] = (buf.read_uint8(0) * 100) + (buf.read_uint8(2) * 10);
         else if (currentStream_ == Audio)
-          xmpData_["Xmp.video.TrackVolume"] = (static_cast<int>(buf.read_uint8(0)) + (buf.data()[2] * 0.1)) * 100;
+          xmpData_["Xmp.video.TrackVolume"] = (buf.read_uint8(0) * 100) + (buf.read_uint8(2) * 10);
         break;
       case ImageWidth:
         if (currentStream_ == Video) {
-          temp = buf.read_uint16(0, bigEndian) + static_cast<int64_t>((buf.data()[2] * 256 + buf.data()[3]) * 0.01);
+          temp = buf.read_uint16(0, bigEndian);
           xmpData_["Xmp.video.Width"] = temp;
           width_ = temp;
         }
         break;
       case ImageHeight:
         if (currentStream_ == Video) {
-          temp = buf.read_uint16(0, bigEndian) + static_cast<int64_t>((buf.data()[2] * 256 + buf.data()[3]) * 0.01);
+          temp = buf.read_uint16(0, bigEndian);
           xmpData_["Xmp.video.Height"] = temp;
           height_ = temp;
         }
@@ -1539,7 +1536,7 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
 
     switch (i) {
       case MovieHeaderVersion:
-        xmpData_["Xmp.video.MovieHeaderVersion"] = static_cast<int>(buf.read_uint8(0));
+        xmpData_["Xmp.video.MovieHeaderVersion"] = buf.read_uint8(0);
         break;
       case CreateDate:
         // A 32-bit integer that specifies (in seconds since midnight, January 1, 1904) when the movie atom was created.
@@ -1561,11 +1558,10 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
         }
         break;
       case PreferredRate:
-        xmpData_["Xmp.video.PreferredRate"] =
-            buf.read_uint16(0, bigEndian) + ((buf.data()[2] * 256 + buf.data()[3]) * 0.01);
+        xmpData_["Xmp.video.PreferredRate"] = buf.read_uint16(0, bigEndian);
         break;
       case PreferredVolume:
-        xmpData_["Xmp.video.PreferredVolume"] = (static_cast<int>(buf.read_uint8(0)) + (buf.data()[2] * 0.1)) * 100;
+        xmpData_["Xmp.video.PreferredVolume"] = (buf.read_uint8(0) * 100) + (buf.read_uint8(2) * 10);
         break;
       case PreviewTime:
         xmpData_["Xmp.video.PreviewTime"] = buf.read_uint32(0, bigEndian);

@@ -563,7 +563,7 @@ void RiffVideo::readStreamHeader() {
   io_->seekOrThrow(io_->tell() + DWORD, BasicIo::beg, ErrorCode::kerFailedToReadImageData);  // dwStart
 
   if (divisor) {
-    auto frame_count = static_cast<double>(readDWORDTag(io_)) / divisor;  // DataLength
+    auto frame_count = std::lround(readDWORDTag(io_) / divisor);  // DataLength
     xmpData_[(streamType_ == Video) ? "Xmp.video.FrameCount" : "Xmp.audio.FrameCount"] = frame_count;
   }
 
