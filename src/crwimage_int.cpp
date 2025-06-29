@@ -775,7 +775,7 @@ void CrwMap::decodeBasic(const CiffComponent& ciffComponent, const CrwMapping* p
                          ByteOrder byteOrder) {
   // create a key and value pair
   ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-  std::unique_ptr<Value> value;
+  Value::UniquePtr value;
   if (ciffComponent.typeId() != directory) {
     value = Value::create(ciffComponent.typeId());
     size_t size = 0;

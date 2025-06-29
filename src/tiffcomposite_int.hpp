@@ -293,8 +293,7 @@ class TiffComponent {
   //! @name Protected Manipulators
   //@{
   //! Implements addPath(). The default implementation does nothing.
-  virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                                   TiffComponent::UniquePtr object);
+  virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object);
   //! Implements addChild(). The default implementation does nothing.
   virtual TiffComponent* doAddChild(UniquePtr tiffComponent);
   //! Implements addNext(). The default implementation does nothing.
@@ -438,13 +437,13 @@ class TiffEntryBase : public TiffComponent {
 
    Update binary value data and call setValue().
  */
-  void updateValue(Value::UniquePtr value, ByteOrder byteOrder);
+  void updateValue(std::unique_ptr<Value> value, ByteOrder byteOrder);
   /*!
     @brief Set tag value. Takes ownership of the pointer passed in.
 
     Update type, count and the pointer to the value.
   */
-  void setValue(Value::UniquePtr value);
+  void setValue(std::unique_ptr<Value> value);
   //@}
 
   //! @name Accessors
@@ -851,10 +850,9 @@ class TiffDirectory : public TiffComponent {
 
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
-  TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
+  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
+  TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   /*!
     @brief Implements write(). Write the TIFF directory, values and
@@ -951,9 +949,8 @@ class TiffSubIfd : public TiffEntryBase {
 
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
+  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
   /*!
@@ -1019,10 +1016,9 @@ class TiffMnEntry : public TiffEntryBase {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
-  TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
+  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
+  TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
   /*!
@@ -1051,8 +1047,8 @@ class TiffMnEntry : public TiffEntryBase {
 
  private:
   // DATA
-  IfdId mnGroup_;                //!< New group for concrete mn
-  TiffComponent::UniquePtr mn_;  //!< The Makernote
+  IfdId mnGroup_;  //!< New group for concrete mn
+  UniquePtr mn_;   //!< The Makernote
 };
 
 /*!
@@ -1146,10 +1142,9 @@ class TiffIfdMakernote : public TiffComponent {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
-  TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
+  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
+  TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   /*!
     @brief Implements write(). Write the Makernote header, TIFF directory,
@@ -1347,12 +1342,11 @@ class TiffBinaryArray : public TiffEntryBase {
   /*!
     @brief Implements addPath(). Todo: Document it!
    */
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
   /*!
     @brief Implements addChild(). Todo: Document it!
    */
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
   /*!
