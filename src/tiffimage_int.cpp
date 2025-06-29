@@ -2127,7 +2127,7 @@ TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size,
 
 }  // TiffParserWorker::parse
 
-PrimaryGroups TiffParserWorker::findPrimaryGroups(const std::unique_ptr<TiffComponent>& pSourceDir) {
+PrimaryGroups TiffParserWorker::findPrimaryGroups(const TiffComponent::UniquePtr& pSourceDir) {
   PrimaryGroups ret;
   if (!pSourceDir)
     return ret;
