@@ -1004,7 +1004,7 @@ size_t TiffSubIfd::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t off
   DataBuf buf(ifds_.size() * 4);
   size_t idx = 0;
   // Sort IFDs by group, needed if image data tags were copied first
-  std::sort(ifds_.begin(), ifds_.end(), cmpGroupLt);
+  std::sort(ifds_.begin(), ifds_.end(), [](const auto& lhs, const auto& rhs) { return lhs->group() < rhs->group(); });
   for (auto&& ifd : ifds_) {
     idx += writeOffset(buf.data(idx), offset + dataIdx, tiffType(), byteOrder);
     dataIdx += ifd->size();
@@ -1456,10 +1456,6 @@ bool cmpTagLt(const std::unique_ptr<TiffComponent>& lhs, const std::unique_ptr<T
   if (lhs->tag() != rhs->tag())
     return lhs->tag() < rhs->tag();
   return lhs->idx() < rhs->idx();
-}
-
-bool cmpGroupLt(const std::unique_ptr<TiffDirectory>& lhs, const std::unique_ptr<TiffDirectory>& rhs) {
-  return lhs->group() < rhs->group();
 }
 
 TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group) {
