@@ -11,6 +11,7 @@
 #include "image_int.hpp"
 
 // + standard includes
+#include <iterator>
 #include <sstream>
 
 // *****************************************************************************
