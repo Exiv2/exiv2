@@ -19,17 +19,6 @@ namespace {
 using namespace Exiv2;
 using Exiv2::byte;
 
-/*!
-  @brief Compare two preview images by number of pixels, if width and height
-         of both lhs and rhs are available or else by size.
-         Return true if lhs is smaller than rhs.
- */
-bool cmpPreviewProperties(const PreviewProperties& lhs, const PreviewProperties& rhs) {
-  auto l = lhs.width_ * lhs.height_;
-  auto r = rhs.width_ * rhs.height_;
-  return l < r;
-}
-
 /// @brief Decode a Hex string.
 DataBuf decodeHex(const byte* src, size_t srcSize);
 
@@ -1026,7 +1015,9 @@ PreviewPropertiesList PreviewManager::getPreviewProperties() const {
       list.push_back(std::move(props));
     }
   }
-  std::sort(list.begin(), list.end(), cmpPreviewProperties);
+  std::sort(list.begin(), list.end(),
+            [](const auto& lhs, const auto& rhs) { return lhs.width_ * lhs.height_ < rhs.width_ * rhs.height_; });
+
   return list;
 }
 

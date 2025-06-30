@@ -1477,12 +1477,6 @@ class TiffBinaryElement : public TiffEntryBase {
  */
 bool cmpTagLt(const TiffComponent::UniquePtr& lhs, const TiffComponent::UniquePtr& rhs);
 
-/*!
-  @brief Compare two TIFF component pointers by group. Return true if the
-         group of component lhs is less than that of rhs.
- */
-bool cmpGroupLt(const std::unique_ptr<TiffDirectory>& lhs, const std::unique_ptr<TiffDirectory>& rhs);
-
 //! Function to create and initialize a new TIFF entry
 TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group);
 
