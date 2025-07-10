@@ -596,6 +596,8 @@ class TiffDataEntryBase : public TiffEntryBase {
   TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup);
   //@}
 
+  ~TiffDataEntryBase() override;
+
   //! @name Manipulators
   //@{
   /*!

@@ -13,6 +13,15 @@
 #include "types.hpp"
 #include "value.hpp"
 
+#include <iomanip>
+
+namespace {
+// Exception thrown by findLensInfo when the lens info can't be found.
+class LensInfoNotFound : public std::exception {
+  using std::exception::exception;
+};
+}  // namespace
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {
@@ -1039,11 +1048,6 @@ static long getKeyLong(const std::string& key, const ExifData* metadata) {
   }
   return result;
 }
-
-// Exception thrown by findLensInfo when the lens info can't be found.
-class LensInfoNotFound : public std::exception {
-  using std::exception::exception;
-};
 
 // Throws std::exception if the LensInfo can't be found.
 static ExifData::const_iterator findLensInfo(const ExifData* metadata) {

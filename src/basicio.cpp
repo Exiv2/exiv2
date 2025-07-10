@@ -1473,6 +1473,8 @@ void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, size_t from, s
 HttpIo::HttpIo(const std::string& url, size_t blockSize) {
   p_ = std::make_unique<HttpImpl>(url, blockSize);
 }
+
+HttpIo::~HttpIo() = default;
 #endif
 
 #ifdef EXV_USE_CURL
