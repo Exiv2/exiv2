@@ -345,6 +345,8 @@ TiffDataEntryBase::TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, 
     TiffEntryBase(tag, group), szTag_(szTag), szGroup_(szGroup) {
 }
 
+TiffDataEntryBase::~TiffDataEntryBase() = default;
+
 void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   // report Exif.Canon.AFInfo as usual
   TiffDecoder::decodeStdTiffEntry(object);

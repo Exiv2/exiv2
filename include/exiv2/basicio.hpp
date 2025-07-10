@@ -883,6 +883,7 @@ class EXIV2API HttpIo : public RemoteIo {
           on demand from the server, so it avoids copying the complete file.
    */
   explicit HttpIo(const std::string& url, size_t blockSize = 1024);
+  ~HttpIo() override;
 
  private:
   // Pimpl idiom
