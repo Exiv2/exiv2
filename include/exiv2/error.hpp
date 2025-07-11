@@ -263,10 +263,6 @@ class EXIV2API Error : public std::exception {
     setMsg(3);
   }
 
-  //! Virtual destructor. (Needed because of throw())
-  ~Error() noexcept override = default;
-  //@}
-
   //! @name Accessors
   //@{
   [[nodiscard]] ErrorCode code() const noexcept;
