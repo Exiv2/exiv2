@@ -8,7 +8,10 @@
 #include "tags.hpp"
 
 // + standard includes
+#include <memory>
 #include <stack>
+#include <string_view>
+#include <vector>
 
 // *****************************************************************************
 // Exiv2 namespace extensions

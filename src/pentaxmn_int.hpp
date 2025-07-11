@@ -3,16 +3,16 @@
 #ifndef PENTAXMN_INT_HPP_
 #define PENTAXMN_INT_HPP_
 
-// *****************************************************************************
-// included header files
-#include "types.hpp"
-#include "value.hpp"
-
-#include "tags_int.hpp"
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+struct TagInfo;
+class ExifData;
+class Value;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -52,6 +52,7 @@ class PentaxMakerNote {
   static const TagInfo tagInfo_[];
 };  // class PentaxMakerNote
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef PENTAXMN_INT_HPP_
