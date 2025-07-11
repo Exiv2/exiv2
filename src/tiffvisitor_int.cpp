@@ -438,9 +438,9 @@ void TiffDecoder::visitBinaryElement(TiffBinaryElement* object) {
   decodeTiffEntry(object);
 }
 
-TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
-                         bool isNewImage, PrimaryGroups pPrimaryGroups, const TiffHeaderBase* pHeader,
-                         FindEncoderFct findEncoderFct) :
+TiffEncoder::TiffEncoder(std::unique_ptr<ExifData> exifData, const IptcData& iptcData, const XmpData& xmpData,
+                         TiffComponent* pRoot, bool isNewImage, PrimaryGroups pPrimaryGroups,
+                         const TiffHeaderBase* pHeader, FindEncoderFct findEncoderFct) :
     exifData_(std::move(exifData)),
     iptcData_(iptcData),
     xmpData_(xmpData),
@@ -456,7 +456,7 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
 
   // Find camera make
   ExifKey key("Exif.Image.Make");
-  if (auto pos = exifData_.findKey(key); pos != exifData_.end()) {
+  if (auto pos = exifData_->findKey(key); pos != exifData_->end()) {
     make_ = pos->toString();
   }
   if (make_.empty() && pRoot_) {
@@ -469,6 +469,8 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
   }
 }
 
+TiffEncoder::~TiffEncoder() = default;
+
 void TiffEncoder::encodeIptc() {
   // Update IPTCNAA Exif tag, if it exists. Delete the tag if there
   // is no IPTC data anymore.
@@ -476,19 +478,19 @@ void TiffEncoder::encodeIptc() {
   // not exist, create a new IPTCNAA Exif tag.
   bool del = false;
   ExifKey iptcNaaKey("Exif.Image.IPTCNAA");
-  auto pos = exifData_.findKey(iptcNaaKey);
-  if (pos != exifData_.end()) {
+  auto pos = exifData_->findKey(iptcNaaKey);
+  if (pos != exifData_->end()) {
     iptcNaaKey.setIdx(pos->idx());
-    exifData_.erase(pos);
+    exifData_->erase(pos);
     del = true;
   }
   DataBuf rawIptc = IptcParser::encode(iptcData_);
   ExifKey irbKey("Exif.Image.ImageResources");
-  pos = exifData_.findKey(irbKey);
-  if (pos != exifData_.end()) {
+  pos = exifData_->findKey(irbKey);
+  if (pos != exifData_->end()) {
     irbKey.setIdx(pos->idx());
   }
-  if (!rawIptc.empty() && (del || pos == exifData_.end())) {
+  if (!rawIptc.empty() && (del || pos == exifData_->end())) {
     auto value = Value::create(unsignedLong);
     DataBuf buf;
     if (rawIptc.size() % 4 != 0) {
@@ -500,21 +502,21 @@ void TiffEncoder::encodeIptc() {
     }
     value->read(buf.data(), buf.size(), byteOrder_);
     Exifdatum iptcDatum(iptcNaaKey, value.get());
-    exifData_.add(iptcDatum);
-    pos = exifData_.findKey(irbKey);  // needed after add()
+    exifData_->add(iptcDatum);
+    pos = exifData_->findKey(irbKey);  // needed after add()
   }
   // Also update IPTC IRB in Exif.Image.ImageResources if it exists,
   // but don't create it if not.
-  if (pos != exifData_.end()) {
+  if (pos != exifData_->end()) {
     DataBuf irbBuf(pos->value().size());
     pos->value().copy(irbBuf.data(), invalidByteOrder);
     irbBuf = Photoshop::setIptcIrb(irbBuf.c_data(), irbBuf.size(), iptcData_);
-    exifData_.erase(pos);
+    exifData_->erase(pos);
     if (!irbBuf.empty()) {
       auto value = Value::create(unsignedByte);
       value->read(irbBuf.data(), irbBuf.size(), invalidByteOrder);
       Exifdatum iptcDatum(irbKey, value.get());
-      exifData_.add(iptcDatum);
+      exifData_->add(iptcDatum);
     }
   }
 }  // TiffEncoder::encodeIptc
@@ -523,9 +525,9 @@ void TiffEncoder::encodeXmp() {
 #ifdef EXV_HAVE_XMP_TOOLKIT
   ExifKey xmpKey("Exif.Image.XMLPacket");
   // Remove any existing XMP Exif tag
-  if (auto pos = exifData_.findKey(xmpKey); pos != exifData_.end()) {
+  if (auto pos = exifData_->findKey(xmpKey); pos != exifData_->end()) {
     xmpKey.setIdx(pos->idx());
-    exifData_.erase(pos);
+    exifData_->erase(pos);
   }
   std::string xmpPacket;
   if (xmpData_.usePacket()) {
@@ -542,7 +544,7 @@ void TiffEncoder::encodeXmp() {
     auto value = Value::create(unsignedByte);
     value->read(reinterpret_cast<const byte*>(xmpPacket.data()), xmpPacket.size(), invalidByteOrder);
     Exifdatum xmpDatum(xmpKey, value.get());
-    exifData_.add(xmpDatum);
+    exifData_->add(xmpDatum);
   }
 #endif
 }  // TiffEncoder::encodeXmp
@@ -553,7 +555,7 @@ void TiffEncoder::setDirty(bool flag) {
 }
 
 bool TiffEncoder::dirty() const {
-  return dirty_ || !exifData_.empty();
+  return dirty_ || !exifData_->empty();
 }
 
 void TiffEncoder::visitEntry(TiffEntry* object) {
@@ -615,15 +617,15 @@ void TiffEncoder::visitMnEntry(TiffMnEntry* object) {
   } else if (del_) {
     // The makernote is made up of decoded tags, delete binary tag
     ExifKey key(object->tag(), groupName(object->group()));
-    auto pos = exifData_.findKey(key);
-    if (pos != exifData_.end())
-      exifData_.erase(pos);
+    auto pos = exifData_->findKey(key);
+    if (pos != exifData_->end())
+      exifData_->erase(pos);
   }
 }
 
 void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object) {
-  auto pos = exifData_.findKey(ExifKey("Exif.MakerNote.ByteOrder"));
-  if (pos != exifData_.end()) {
+  auto pos = exifData_->findKey(ExifKey("Exif.MakerNote.ByteOrder"));
+  if (pos != exifData_->end()) {
     // Set Makernote byte order
     ByteOrder bo = stringToByteOrder(pos->toString());
     if (bo != invalidByteOrder && bo != object->byteOrder()) {
@@ -631,7 +633,7 @@ void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object) {
       setDirty();
     }
     if (del_)
-      exifData_.erase(pos);
+      exifData_->erase(pos);
   }
   if (del_) {
     // Remove remaining synthesized tags
@@ -639,9 +641,9 @@ void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object) {
         "Exif.MakerNote.Offset",
     };
     for (auto synthesizedTag : synthesizedTags) {
-      pos = exifData_.findKey(ExifKey(synthesizedTag));
-      if (pos != exifData_.end())
-        exifData_.erase(pos);
+      pos = exifData_->findKey(ExifKey(synthesizedTag));
+      if (pos != exifData_->end())
+        exifData_->erase(pos);
     }
   }
   // Modify encoder for Makernote peculiarities, byte order
@@ -702,18 +704,18 @@ bool TiffEncoder::isImageTag(uint16_t tag, IfdId group) const {
 }
 
 void TiffEncoder::encodeTiffComponent(TiffEntryBase* object, const Exifdatum* datum) {
-  auto pos = exifData_.end();
+  auto pos = exifData_->end();
   const Exifdatum* ed = datum;
   if (!ed) {
     // Non-intrusive writing: find matching tag
     ExifKey key(object->tag(), groupName(object->group()));
-    pos = exifData_.findKey(key);
-    if (pos != exifData_.end()) {
+    pos = exifData_->findKey(key);
+    if (pos != exifData_->end()) {
       ed = &(*pos);
       if (object->idx() != pos->idx()) {
         // Try to find exact match (in case of duplicate tags)
-        auto pos2 = std::find_if(exifData_.begin(), exifData_.end(), FindExifdatum2(object->group(), object->idx()));
-        if (pos2 != exifData_.end() && pos2->key() == key.key()) {
+        auto pos2 = std::find_if(exifData_->begin(), exifData_->end(), FindExifdatum2(object->group(), object->idx()));
+        if (pos2 != exifData_->end() && pos2->key() == key.key()) {
           ed = &(*pos2);
           pos = pos2;  // make sure we delete the correct tag below
         }
@@ -741,8 +743,8 @@ void TiffEncoder::encodeTiffComponent(TiffEntryBase* object, const Exifdatum* da
       object->encode(*this, ed);
     }
   }
-  if (del_ && pos != exifData_.end()) {
-    exifData_.erase(pos);
+  if (del_ && pos != exifData_->end()) {
+    exifData_->erase(pos);
   }
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "\n";
@@ -807,9 +809,9 @@ void TiffEncoder::encodeImageEntry(TiffImageEntry* object, const Exifdatum* datu
 #endif
     // Set pseudo strips (without a data pointer) from the size tag
     ExifKey key(object->szTag(), groupName(object->szGroup()));
-    auto pos = exifData_.findKey(key);
+    auto pos = exifData_->findKey(key);
     const byte* zero = nullptr;
-    if (pos == exifData_.end()) {
+    if (pos == exifData_->end()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "Size tag " << key << " not found. Writing only one strip.\n";
 #endif
@@ -918,8 +920,8 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent::UniquePtr pSourceD
   // iterate over all remaining entries.
   del_ = false;
 
-  auto posBo = exifData_.end();
-  for (auto i = exifData_.begin(); i != exifData_.end(); ++i) {
+  auto posBo = exifData_->end();
+  for (auto i = exifData_->begin(); i != exifData_->end(); ++i) {
     IfdId group = groupId(i->groupName());
     // Skip synthesized info tags
     if (group == IfdId::mnId) {
@@ -956,7 +958,7 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent::UniquePtr pSourceD
     visit/encodeIfdMakernote is not called in this case and there
     can't be an Exif tag which corresponds to this component.
    */
-  if (posBo == exifData_.end())
+  if (posBo == exifData_->end())
     return;
 
   TiffFinder finder(0x927c, IfdId::exifId);
