@@ -883,7 +883,7 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
           default:
             break;
         }
-        if (frame_rate > 0.0)
+        if (std::isgreater(frame_rate, 0.0))
           xmpData_[internalMt->_label] = frame_rate;
       } else
         xmpData_[tag->_label] = "Variable Bit Rate";
