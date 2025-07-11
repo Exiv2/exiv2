@@ -990,7 +990,7 @@ class RemoteIo::Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  virtual int64_t getFileLength() const = 0;
+  [[nodiscard]] virtual int64_t getFileLength() const = 0;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1354,7 +1354,7 @@ class HttpIo::HttpImpl : public Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  int64_t getFileLength() const override;
+  [[nodiscard]] int64_t getFileLength() const override;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.
@@ -1492,7 +1492,7 @@ class CurlIo::CurlImpl : public Impl {
     @return Return -1 if the size is unknown. Otherwise it returns the length of remote file (in bytes).
     @throw Error if the server returns the error code.
    */
-  int64_t getFileLength() const override;
+  [[nodiscard]] int64_t getFileLength() const override;
   /*!
     @brief Get the data by range.
     @param lowBlock The start block index.

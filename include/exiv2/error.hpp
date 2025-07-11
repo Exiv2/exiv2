@@ -8,8 +8,8 @@
   @date    15-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
-#ifndef ERROR_HPP_
-#define ERROR_HPP_
+#ifndef EXIV2_ERROR_HPP
+#define EXIV2_ERROR_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -298,4 +298,4 @@ inline std::ostream& operator<<(std::ostream& os, const Error& error) {
 #endif
 
 }  // namespace Exiv2
-#endif  // #ifndef ERROR_HPP_
+#endif  // EXIV2_ERROR_HPP
