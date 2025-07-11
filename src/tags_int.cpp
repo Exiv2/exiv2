@@ -5,7 +5,6 @@
 
 #include "convert.hpp"
 #include "enforce.hpp"
-#include "error.hpp"
 #include "i18n.h"  // NLS support.
 
 #include "canonmn_int.hpp"

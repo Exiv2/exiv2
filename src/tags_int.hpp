@@ -5,11 +5,7 @@
 
 // *****************************************************************************
 // included header files
-#include "error.hpp"
 #include "tags.hpp"
-#include "types.hpp"
-
-#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions

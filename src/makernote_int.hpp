@@ -7,6 +7,8 @@
 // included header files
 #include "tags.hpp"
 
+#include <memory>
+
 // namespace extensions
 namespace Exiv2::Internal {
 class IoWrapper;
