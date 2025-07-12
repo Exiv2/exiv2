@@ -80,8 +80,6 @@ struct SliceBase {
  */
 template <template <typename data_type> class storage_type, typename data_type>
 struct ConstSliceBase : SliceBase {
-  using iterator = typename storage_type<data_type>::iterator;
-  using const_iterator = typename storage_type<data_type>::const_iterator;
   using value_type = typename storage_type<data_type>::value_type;
 
   /*!
@@ -110,14 +108,14 @@ struct ConstSliceBase : SliceBase {
   /*!
    * Obtain a constant iterator to the first element in the slice.
    */
-  [[nodiscard]] const_iterator cbegin() const noexcept {
+  [[nodiscard]] auto cbegin() const noexcept {
     return storage_.unsafeGetIteratorAt(begin_);
   }
 
   /*!
    * Obtain a constant iterator to the first beyond the slice.
    */
-  [[nodiscard]] const_iterator cend() const noexcept {
+  [[nodiscard]] auto cend() const noexcept {
     return storage_.unsafeGetIteratorAt(end_);
   }
 
@@ -161,9 +159,6 @@ struct ConstSliceBase : SliceBase {
 template <template <typename> class storage_type, typename data_type>
 struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
   using ConstSliceBase<storage_type, data_type>::ConstSliceBase;
-  using iterator = typename ConstSliceBase<storage_type, data_type>::iterator;
-  using const_iterator = typename ConstSliceBase<storage_type, data_type>::const_iterator;
-  using value_type = typename ConstSliceBase<storage_type, data_type>::value_type;
 
   /*!
    * Obtain a reference to the element with the specified index in the
@@ -171,26 +166,26 @@ struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
    *
    * @throw std::out_of_range when index is out of bounds of the slice
    */
-  value_type& at(size_t index) {
+  auto& at(size_t index) {
     this->rangeCheck(index);
     return this->storage_.unsafeAt(this->begin_ + index);
   }
 
-  [[nodiscard]] const value_type& at(size_t index) const {
+  [[nodiscard]] const auto& at(size_t index) const {
     return base_type::at(index);
   }
 
   /*!
    * Obtain an iterator to the first element in the slice.
    */
-  [[nodiscard]] iterator begin() noexcept {
+  [[nodiscard]] auto begin() noexcept {
     return this->storage_.unsafeGetIteratorAt(this->begin_);
   }
 
   /*!
    * Obtain an iterator to the first element beyond the slice.
    */
-  [[nodiscard]] iterator end() noexcept {
+  [[nodiscard]] auto end() noexcept {
     return this->storage_.unsafeGetIteratorAt(this->end_);
   }
 
@@ -252,9 +247,6 @@ struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
  */
 template <typename container>
 struct ContainerStorage {
-  using iterator = typename container::iterator;
-  using const_iterator = typename container::const_iterator;
-
 #ifdef __cpp_lib_type_trait_variable_templates
   using value_type = std::remove_cv_t<typename container::value_type>;
 #else
@@ -291,7 +283,7 @@ struct ContainerStorage {
    *
    * @throw whatever container::begin() and std::advance() throw
    */
-  [[nodiscard]] iterator unsafeGetIteratorAt(size_t index) {
+  [[nodiscard]] auto unsafeGetIteratorAt(size_t index) {
     // we are screwed if the container got changed => try to catch it
     assert(index <= data_.size());
 
@@ -300,7 +292,7 @@ struct ContainerStorage {
     return it;
   }
 
-  [[nodiscard]] const_iterator unsafeGetIteratorAt(size_t index) const {
+  [[nodiscard]] auto unsafeGetIteratorAt(size_t index) const {
     assert(index <= data_.size());
 
     auto it = data_.begin();
@@ -325,8 +317,6 @@ struct PtrSliceStorage {
 #else
   using value_type = typename std::remove_cv<typename std::remove_pointer<storage_type>::type>::type;
 #endif
-  using iterator = value_type*;
-  using const_iterator = const value_type*;
 
   /*!
    * Stores ptr and checks that it is not `NULL`. The slice's bounds
@@ -346,11 +336,11 @@ struct PtrSliceStorage {
    *
    * @throw nothing
    */
-  [[nodiscard]] value_type& unsafeAt(size_t index) noexcept {
+  [[nodiscard]] auto& unsafeAt(size_t index) noexcept {
     return data_[index];
   }
 
-  [[nodiscard]] const value_type& unsafeAt(size_t index) const noexcept {
+  [[nodiscard]] const auto& unsafeAt(size_t index) const noexcept {
     return data_[index];
   }
 
@@ -360,11 +350,11 @@ struct PtrSliceStorage {
    *
    * @throw nothing
    */
-  [[nodiscard]] iterator unsafeGetIteratorAt(size_t index) noexcept {
+  [[nodiscard]] auto unsafeGetIteratorAt(size_t index) noexcept {
     return data_ + index;
   }
 
-  [[nodiscard]] const_iterator unsafeGetIteratorAt(size_t index) const noexcept {
+  [[nodiscard]] auto unsafeGetIteratorAt(size_t index) const noexcept {
     return data_ + index;
   }
 
@@ -420,14 +410,6 @@ struct PtrSliceStorage {
 template <typename container>
 struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, container> {
   using Internal::MutableSliceBase<Internal::ContainerStorage, container>::MutableSliceBase;
-  using iterator = typename container::iterator;
-  using const_iterator = typename container::const_iterator;
-
-#ifdef __cpp_lib_type_trait_variable_templates
-  using value_type = std::remove_cv_t<typename container::value_type>;
-#else
-  using value_type = typename std::remove_cv<typename container::value_type>::type;
-#endif
 
   /*!
    * Constructs a new constant subSlice. Behaves otherwise exactly like
@@ -444,14 +426,6 @@ struct Slice : public Internal::MutableSliceBase<Internal::ContainerStorage, con
 template <typename container>
 struct Slice<const container> : public Internal::ConstSliceBase<Internal::ContainerStorage, const container> {
   using Internal::ConstSliceBase<Internal::ContainerStorage, const container>::ConstSliceBase;
-  using iterator = typename container::iterator;
-  using const_iterator = typename container::const_iterator;
-
-#ifdef __cpp_lib_type_trait_variable_templates
-  using value_type = std::remove_cv_t<typename container::value_type>;
-#else
-  using value_type = typename std::remove_cv<typename container::value_type>::type;
-#endif
 
   [[nodiscard]] Slice subSlice(size_t begin, size_t end) const {
     return Internal::ConstSliceBase<Internal::ContainerStorage,
