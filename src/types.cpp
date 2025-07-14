@@ -20,6 +20,10 @@
 #include <sstream>
 #include <utility>
 
+#ifdef EXV_ENABLE_NLS
+#include <libintl.h>
+#endif
+
 // *****************************************************************************
 namespace {
 //! Information pertaining to the defined %Exiv2 value type identifiers.
