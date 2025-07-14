@@ -32,6 +32,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef EXV_ENABLE_NLS
+#include <libintl.h>
+#endif
+
 // *****************************************************************************
 // local declarations
 namespace {
