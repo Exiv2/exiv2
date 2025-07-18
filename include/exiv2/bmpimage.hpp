@@ -5,8 +5,8 @@
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
   @date    05-Mar-2007, marco: created
  */
-#ifndef BMPIMAGE_HPP_
-#define BMPIMAGE_HPP_
+#ifndef EXIV2_BMPIMAGE_HPP
+#define EXIV2_BMPIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -83,4 +83,4 @@ EXIV2API bool isBmpType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef BMPIMAGE_HPP_
+#endif  // EXIV2_BMPIMAGE_HPP

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef PGFIMAGE_HPP_
-#define PGFIMAGE_HPP_
+#ifndef EXIV2_PGFIMAGE_HPP
+#define EXIV2_PGFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -91,4 +91,4 @@ EXIV2API bool isPgfType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef PGFIMAGE_HPP_
+#endif  // EXIV2_PGFIMAGE_HPP

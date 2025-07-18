@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef VALUE_HPP_
-#define VALUE_HPP_
+#ifndef EXIV2_VALUE_HPP
+#define EXIV2_VALUE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -1687,4 +1687,4 @@ int ValueType<T>::setDataArea(const byte* buf, size_t len) {
 }
 }  // namespace Exiv2
 
-#endif  // #ifndef VALUE_HPP_
+#endif  // EXIV2_VALUE_HPP

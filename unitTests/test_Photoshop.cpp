@@ -9,12 +9,8 @@
 
 using namespace Exiv2;
 
-namespace {
-constexpr std::array validMarkers{"8BIM", "AgHg", "DCSR", "PHUT"};
-}  // namespace
-
 TEST(PhotoshopIsIrb, returnsTrueWithValidMarkers) {
-  for (const auto& marker : validMarkers) {
+  for (const auto& marker : {"8BIM", "AgHg", "DCSR", "PHUT"}) {
     ASSERT_TRUE(Photoshop::isIrb(reinterpret_cast<const byte*>(marker)));
   }
 }

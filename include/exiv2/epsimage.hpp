@@ -18,8 +18,8 @@
            <a href="mailto:vog@notjusthosting.com">vog@notjusthosting.com</a>
   @date    7-Mar-2011, vog: created
  */
-#ifndef EPSIMAGE_HPP_
-#define EPSIMAGE_HPP_
+#ifndef EXIV2_EPSIMAGE_HPP
+#define EXIV2_EPSIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -91,4 +91,4 @@ EXIV2API bool isEpsType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef EPSIMAGE_HPP_
+#endif  // EXIV2_EPSIMAGE_HPP
