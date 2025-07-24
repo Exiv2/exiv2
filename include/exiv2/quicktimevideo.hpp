@@ -17,8 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef QUICKTIMEVIDEO_HPP_
-#define QUICKTIMEVIDEO_HPP_
+#ifndef EXIV2_QUICKTIMEVIDEO_HPP
+#define EXIV2_QUICKTIMEVIDEO_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -224,4 +224,4 @@ EXIV2API bool isQTimeType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // QUICKTIMEVIDEO_HPP_
+#endif  // EXIV2_QUICKTIMEVIDEO_HPP

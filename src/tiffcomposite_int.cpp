@@ -1004,7 +1004,7 @@ size_t TiffSubIfd::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t off
   DataBuf buf(ifds_.size() * 4);
   size_t idx = 0;
   // Sort IFDs by group, needed if image data tags were copied first
-  std::sort(ifds_.begin(), ifds_.end(), cmpGroupLt);
+  std::sort(ifds_.begin(), ifds_.end(), [](const auto& lhs, const auto& rhs) { return lhs->group() < rhs->group(); });
   for (auto&& ifd : ifds_) {
     idx += writeOffset(buf.data(idx), offset + dataIdx, tiffType(), byteOrder);
     dataIdx += ifd->size();
@@ -1319,7 +1319,8 @@ size_t TiffBinaryArray::doSize() const {
       sz = element->size();
     }
   }
-  idx = idx * cfg()->tagStep() + sz;
+  idx *= cfg()->tagStep();
+  idx += sz;
 
   if (cfg()->hasFillers_ && def()) {
     const ArrayDef* lastDef = def() + defSize() - 1;
@@ -1451,14 +1452,10 @@ TiffType toTiffType(TypeId typeId) {
   return static_cast<TiffType>(typeId);
 }
 
-bool cmpTagLt(const std::unique_ptr<TiffComponent>& lhs, const std::unique_ptr<TiffComponent>& rhs) {
+bool cmpTagLt(const TiffComponent::UniquePtr& lhs, const TiffComponent::UniquePtr& rhs) {
   if (lhs->tag() != rhs->tag())
     return lhs->tag() < rhs->tag();
   return lhs->idx() < rhs->idx();
-}
-
-bool cmpGroupLt(const std::unique_ptr<TiffDirectory>& lhs, const std::unique_ptr<TiffDirectory>& rhs) {
-  return lhs->group() < rhs->group();
 }
 
 TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group) {
