@@ -155,14 +155,8 @@ jobs:
         uses: cygwin/cygwin-install-action@v6
         with:
           platform: ${{matrix.platform}}
-          allow-test-packages: true
           packages: >-
-            gcc-g++=13.3.1+20250424-0.1
-            libatomic1=13.3.1+20250424-0.1
-            libquadmath0=13.3.1+20250424-0.1
-            libgcc1=13.3.1+20250424-0.1
-            libstdc++6=13.3.1+20250424-0.1
-            libgomp1=13.3.1+20250424-0.1
+            gcc-g++
             cmake
             ninja
             pkg-config
