@@ -2,6 +2,7 @@
 
 #include <exiv2/exiv2.hpp>
 
+#include <iomanip>
 #include <iostream>
 
 // *****************************************************************************

@@ -2,6 +2,7 @@
 // Read an XMP packet from a file, parse it and print all (known) properties.
 
 #include <exiv2/exiv2.hpp>
+#include <iomanip>
 #include <iostream>
 
 int main(int argc, char* const argv[]) try {
