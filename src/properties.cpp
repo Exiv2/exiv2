@@ -3067,6 +3067,8 @@ const XmpPropertyInfo xmpPlusInfo[] = {
         "in the photograph.")},
     {"PropertyReleaseID", N_("Property Release ID"), "bag Text", xmpBag, xmpExternal,
      N_("Optional identifier associated with each Property Release.")},
+    {"DataMining", N_("Data Mining"), "URL", xmpText, xmpExternal,
+     N_("Data mining prohibition or permission, optionally with constraints.")},
     {"OtherConstraints", N_("Other Constraints"), "Lang Alt", langAlt, xmpExternal,
      N_("Additional constraints on the license.")},
     {"CreditLineRequired", N_("Credit Line Required"), "URL", xmpText, xmpExternal,
@@ -3180,6 +3182,19 @@ constexpr TagVocabulary plusCreditLineRequired[] = {
     {"CR-CCA", N_("Credit in Credits Area")},
     {"CR-COI", N_("Credit on Image")},
     {"CR-NRQ", N_("Not Require")},
+};
+
+//! XMP plus:DataMining
+constexpr TagVocabulary plusDataMining[] = {
+    {"DMI-UNSPECIFIED", N_("Unspecified - no prohibition defined")},
+    {"DMI-ALLOWED", N_("Allowed")},
+    {"DMI-PROHIBITED-AIMLTRAINING", N_("Prohibited for AI/ML training")},
+    {"DMI-PROHIBITED-GENAIMLTRAINING", N_("Prohibited for Generative AI/ML training")},
+    {"DMI-PROHIBITED-EXCEPTSEARCHENGINEINDEXING", N_("Prohibited except for search engine indexing")},
+    {"DMI-PROHIBITED", N_("Prohibited")},
+    {"DMI-PROHIBITED-SEECONSTRAINT", N_("Prohibited, see Other Constraints property")},
+    {"DMI-PROHIBITED-SEEEMBEDDEDRIGHTSEXPR", N_("Prohibited, see Embedded Encoded Rights Expression property")},
+    {"DMI-PROHIBITED-SEELINKEDRIGHTSEXPR", N_("Prohibited, see Linked Encoded Rights Expression property")},
 };
 
 //! XMP plus:ImageAlterationConstraints
