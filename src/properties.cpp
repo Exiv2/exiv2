@@ -2997,7 +2997,9 @@ constexpr TagVocabulary iptcExtDigitalSourceType[] = {
 };
 
 const XmpPropertyInfo xmpPlusInfo[] = {
-    // PLUS Version 1.2.0
+    // PLUS Version 2.0.1
+    // https://ns.useplus.org/LDF/ldf-XMPSpecification
+    // Header
     {"Version", N_("PLUS Version"), "Text", xmpText, xmpExternal,
      N_("The version number of the PLUS standards in place at the time of the transaction.")},
     {"Licensee", N_("Licensee"), "seq LicenseeDetail", xmpSeq, xmpExternal,
@@ -3030,11 +3032,14 @@ const XmpPropertyInfo xmpPlusInfo[] = {
     {"LicensorTelephone2", N_("Licensor Telephone 2"), "Text", xmpText, xmpExternal,
      N_("Licensor Telephone number 2.")},
     {"LicensorEmail", N_("Licensor Email"), "Text", xmpText, xmpExternal, N_("Licensor Email address.")},
-    {"LicensorURL", N_("Licensor URL"), "URL", xmpText, xmpExternal, N_("Licensor world wide web address.")},
+    {"LicensorURL", N_("Licensor URL"), "URL", xmpText, xmpExternal, 
+     N_("URL for a Licensor web page. May facilitate licensing of the image.")},
     {"LicensorNotes", N_("Licensor Notes"), "Lang Alt", langAlt, xmpExternal,
      N_("Supplemental information for use in identifying and contacting the Licensor/s.")},
+    // Media Permissions
     {"MediaSummaryCode", N_("PLUS Media Summary Code"), "Text", xmpText, xmpExternal,
      N_("A PLUS-standardized alphanumeric code string summarizing the media usages included in the license.")},
+    // Constraints
     {"LicenseStartDate", N_("License Start Date"), "Date", xmpText, xmpExternal,
      N_("The date on which the license takes effect.")},
     {"LicenseEndDate", N_("License End Date"), "Date", xmpText, xmpExternal,
@@ -3068,19 +3073,22 @@ const XmpPropertyInfo xmpPlusInfo[] = {
     {"PropertyReleaseID", N_("Property Release ID"), "bag Text", xmpBag, xmpExternal,
      N_("Optional identifier associated with each Property Release.")},
     {"OtherConstraints", N_("Other Constraints"), "Lang Alt", langAlt, xmpExternal,
-     N_("Additional constraints on the license.")},
+     N_("Additional constraints on the use of the asset.")},
+    // Requirements
     {"CreditLineRequired", N_("Credit Line Required"), "URL", xmpText, xmpExternal,
      N_("Attribution requirements, if any.")},
     {"AdultContentWarning", N_("Adult Content Warning"), "URL", xmpText, xmpExternal,
      N_("Warning indicating the presence of content not suitable for minors.")},
     {"OtherLicenseRequirements", N_("Other License Requirements"), "Lang Alt", langAlt, xmpExternal,
      N_("Additional license requirements.")},
+    // Conditions
     {"TermsAndConditionsText", N_("Terms and Conditions Text"), "Lang Alt", langAlt, xmpExternal,
      N_("Terms and Conditions applying to the license.")},
     {"TermsAndConditionsURL", N_("Terms and Conditions URL"), "URL", xmpText, xmpExternal,
      N_("URL for Terms and Conditions applying to the license.")},
     {"OtherConditions", N_("Other License Conditions"), "Lang Alt", langAlt, xmpExternal,
      N_("Additional license conditions.")},
+    // Image Info
     {"ImageType", N_("Image Type"), "URL", xmpText, xmpExternal, N_("Identifies the type of image delivered.")},
     {"LicensorImageID", N_("Licensor Image ID"), "Text", xmpText, xmpExternal,
      N_("Optional identifier assigned by the Licensor to the image.")},
@@ -3119,6 +3127,7 @@ const XmpPropertyInfo xmpPlusInfo[] = {
     {"LicenseeImageNotes", N_("Licensee Image Notes"), "Lang Alt", langAlt, xmpExternal,
      N_("Notes added by Licensee.")},
     {"OtherImageInfo", N_("Other Image Info"), "Lang Alt", langAlt, xmpExternal, N_("Additional image information.")},
+    // License Info
     {"LicenseID", N_("License ID"), "Text", xmpText, xmpExternal,
      N_("Optional PLUS-ID assigned by the Licensor to the License.")},
     {"LicensorTransactionID", N_("Licensor Transaction ID"), "bag Text", xmpBag, xmpExternal,
@@ -3132,10 +3141,13 @@ const XmpPropertyInfo xmpPlusInfo[] = {
     {"Reuse", N_("Reuse"), "URL", xmpText, xmpExternal,
      N_("Indicates whether a license is a repeat or an initial license.  Reuse may require that licenses stored in "
         "files previously delivered to the customer be updated.")},
+    {"DataMining", N_("Data Mining"), "URL", xmpText, xmpExternal,
+      N_("Data mining prohibition or permission, optionally with constraints.")},
     {"OtherLicenseDocuments", N_("Other License Documents"), "bag Text", xmpBag, xmpExternal,
      N_("Reference information for additional documents associated with the license.")},
     {"OtherLicenseInfo", N_("Other License Info"), "Lang Alt", langAlt, xmpExternal,
      N_("Additional license information.")},
+    // Custom Fields
     {"Custom1", N_("Custom 1"), "bag Lang Alt", xmpBag, xmpExternal,
      N_("Optional field for use at Licensor's discretion.")},
     {"Custom2", N_("Custom 2"), "bag Lang Alt", xmpBag, xmpExternal,
@@ -3268,6 +3280,19 @@ constexpr TagVocabulary plusPropertyReleaseStatus[] = {
 constexpr TagVocabulary plusReuse[] = {
     {"RE-NAP", N_("Not Applicable")},
     {"RE-REU", N_("Repeat Use")},
+};
+
+//! XMP plus:DataMining
+constexpr TagVocabulary plusDataMining[] = {
+    {"DMI-UNSPECIFIED", N_("Unspecified - no prohibition defined")},
+    {"DMI-ALLOWED", N_("Allowed")},
+    {"DMI-PROHIBITED-AIMLTRAINING", N_("Prohibited for AI/ML training")},
+    {"DMI-PROHIBITED-GENAIMLTRAINING", N_("Prohibited for Generative AI/ML training")},
+    {"DMI-PROHIBITED-EXCEPTSEARCHENGINEINDEXING", N_("Prohibited except for search engine indexing")},
+    {"DMI-PROHIBITED", N_("Prohibited")},
+    {"DMI-PROHIBITED-SEECONSTRAINT", N_("Prohibited, see Other Constraints property")},
+    {"DMI-PROHIBITED-SEEEMBEDDEDRIGHTSEXPR", N_("Prohibited, see Embedded Encoded Rights Expression property")},
+    {"DMI-PROHIBITED-SEELINKEDRIGHTSEXPR", N_("Prohibited, see Linked Encoded Rights Expression property")},
 };
 
 const XmpPropertyInfo xmpMediaProInfo[] = {
