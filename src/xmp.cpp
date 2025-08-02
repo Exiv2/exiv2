@@ -295,6 +295,10 @@ Xmpdatum::Xmpdatum(const XmpKey& key, const Value* pValue) : p_(std::make_unique
 Xmpdatum::Xmpdatum(const Xmpdatum& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
+Xmpdatum& Xmpdatum::operator=(bool value) {
+  return operator=(value ? "True" : "False");
+}
+
 Xmpdatum& Xmpdatum::operator=(const Xmpdatum& rhs) {
   if (this == &rhs)
     return *this;

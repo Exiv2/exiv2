@@ -57,6 +57,11 @@ class EXIV2API Xmpdatum : public Metadatum {
    */
   Xmpdatum& operator=(const std::string& value);
   /*!
+    @brief Assign a boolean \em value to the %Xmpdatum.
+           Translates the value to a string "true" or "false".
+   */
+  Xmpdatum& operator=(bool value);
+  /*!
     @brief Assign a \em value of any type with an output operator
            to the %Xmpdatum. Calls operator=(const std::string&).
    */
@@ -392,20 +397,10 @@ class EXIV2API XmpParser {
 
 // *****************************************************************************
 // free functions, template and inline definitions
-
 template <typename T>
 Xmpdatum& Xmpdatum::operator=(const T& value) {
-#ifdef __cpp_if_constexpr
-  if constexpr (std::is_same_v<T, bool>) {
-#else
-  if (std::is_same<T, bool>::value) {
-#endif
-    setValue(Exiv2::toString(value ? "True" : "False"));
-    return *this;
-  } else {
-    setValue(Exiv2::toString(value));
-    return *this;
-  }
+  setValue(Exiv2::toString(value));
+  return *this;
 }
 
 }  // namespace Exiv2
