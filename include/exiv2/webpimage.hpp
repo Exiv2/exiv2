@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef WEBPIMAGE_HPP
-#define WEBPIMAGE_HPP
+#ifndef EXIV2_WEBPIMAGE_HPP
+#define EXIV2_WEBPIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -101,4 +101,4 @@ EXIV2API bool isWebPType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // WEBPIMAGE_HPP
+#endif  // EXIV2_WEBPIMAGE_HPP
