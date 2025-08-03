@@ -297,10 +297,6 @@ Xmpdatum::Xmpdatum(const XmpKey& key, const Value* pValue) : p_(std::make_unique
 Xmpdatum::Xmpdatum(const Xmpdatum& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
-Xmpdatum& Xmpdatum::operator=(bool value) {
-  return operator=(value ? "True" : "False");
-}
-
 Xmpdatum& Xmpdatum::operator=(const Xmpdatum& rhs) {
   if (this == &rhs)
     return *this;
@@ -394,16 +390,6 @@ size_t Xmpdatum::copy(byte* /*buf*/, ByteOrder /*byteOrder*/) const {
 
 std::ostream& Xmpdatum::write(std::ostream& os, const ExifData*) const {
   return XmpProperties::printProperty(os, key(), value());
-}
-
-Xmpdatum& Xmpdatum::operator=(const std::string& value) {
-  setValue(value);
-  return *this;
-}
-
-Xmpdatum& Xmpdatum::operator=(const Value& value) {
-  setValue(&value);
-  return *this;
 }
 
 void Xmpdatum::setValue(const Value* pValue) {
