@@ -56,23 +56,12 @@ class EXIV2API Xmpdatum : public Metadatum {
     @brief Assign std::string \em value to the %Xmpdatum.
            Calls setValue(const std::string&).
    */
-  Xmpdatum& operator=(const std::string& value);
-  /*!
-    @brief Assign a boolean \em value to the %Xmpdatum.
-           Translates the value to a string "true" or "false".
-   */
-  Xmpdatum& operator=(bool value);
-  /*!
-    @brief Assign a \em value of any type with an output operator
-           to the %Xmpdatum. Calls operator=(const std::string&).
-   */
   template <typename T>
   Xmpdatum& operator=(const T& value);
   /*!
     @brief Assign Value \em value to the %Xmpdatum.
            Calls setValue(const Value*).
    */
-  Xmpdatum& operator=(const Value& value);
   void setValue(const Value* pValue) override;
   /*!
     @brief Set the value to the string \em value. Uses Value::read(const
@@ -398,12 +387,49 @@ class EXIV2API XmpParser {
 
 // *****************************************************************************
 // free functions, template and inline definitions
+
+#if __cpp_if_constexpr
 template <typename T>
 Xmpdatum& Xmpdatum::operator=(const T& value) {
-  setValue(Exiv2::toString(value));
+  if constexpr (std::is_same_v<T, bool>)
+    setValue(value ? "True" : "False");
+  else if constexpr (std::is_convertible_v<T, std::string>)
+    setValue(value);
+  else if constexpr (std::is_base_of_v<Value, T>)
+    setValue(&value);
+  else
+    setValue(Exiv2::toString(value));
   return *this;
 }
+#else
+template <typename T>
+std::enable_if_t<std::is_convertible<T, std::string>::value> operatorHelper(Xmpdatum* xmp, const T& value) {
+  xmp->setValue(value);
+}
 
+template <typename T>
+std::enable_if_t<std::is_base_of<Value, T>::value> operatorHelper(Xmpdatum* xmp, const T& value) {
+  xmp->setValue(&value);
+}
+
+template <typename T>
+std::enable_if_t<std::is_same<T, bool>::value> operatorHelper(Xmpdatum* xmp, const T& value) {
+  xmp->setValue(value ? "True" : "False");
+}
+
+template <typename T>
+std::enable_if_t<!(std::is_convertible<T, std::string>::value || std::is_base_of<Value, T>::value ||
+                   std::is_same<T, bool>::value)>
+operatorHelper(Xmpdatum* xmp, const T& value) {
+  xmp->setValue(Exiv2::toString(value));
+}
+
+template <typename T>
+Xmpdatum& Xmpdatum::operator=(const T& value) {
+  operatorHelper(this, value);
+  return *this;
+}
+#endif
 }  // namespace Exiv2
 
 #endif  // EXIV2_XMP_EXIV2_HPP
