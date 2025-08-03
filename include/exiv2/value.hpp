@@ -1248,11 +1248,7 @@ class ValueType : public Value {
     } else if (std::is_signed<I>::value) {
 #endif
       // conversion is from unsigned to signed
-#ifdef __cpp_lib_type_trait_variable_templates
       const auto imax = static_cast<std::make_unsigned_t<I>>(std::numeric_limits<I>::max());
-#else
-      const auto imax = static_cast<typename std::make_unsigned<I>::type>(std::numeric_limits<I>::max());
-#endif
       if (imax < b || imax < a) {
         return 0;
       }
@@ -1263,13 +1259,8 @@ class ValueType : public Value {
         return 0;
       }
       // Inputs are not negative so convert them to unsigned.
-#ifdef __cpp_lib_type_trait_variable_templates
       const auto a_u = static_cast<std::make_unsigned_t<decltype(a)>>(a);
       const auto b_u = static_cast<std::make_unsigned_t<decltype(b)>>(b);
-#else
-      const auto a_u = static_cast<typename std::make_unsigned<decltype(a)>::type>(a);
-      const auto b_u = static_cast<typename std::make_unsigned<decltype(b)>::type>(b);
-#endif
       if (imax < b_u || imax < a_u) {
         return 0;
       }

@@ -96,7 +96,7 @@ struct ConstSliceBase : SliceBase {
    *
    * @throw std::out_of_range when index is out of bounds of the slice
    */
-  [[nodiscard]] const value_type& at(size_t index) const {
+  [[nodiscard]] const auto& at(size_t index) const {
     rangeCheck(index);
     // we know: begin_ < end <= size() <= SIZE_T_MAX
     // and: index < end - begin
@@ -247,11 +247,7 @@ struct MutableSliceBase : public ConstSliceBase<storage_type, data_type> {
  */
 template <typename container>
 struct ContainerStorage {
-#ifdef __cpp_lib_type_trait_variable_templates
   using value_type = std::remove_cv_t<typename container::value_type>;
-#else
-  using value_type = typename std::remove_cv<typename container::value_type>::type;
-#endif
 
   /*!
    * @throw std::out_of_range when end is larger than the container's
@@ -269,11 +265,11 @@ struct ContainerStorage {
    *
    * @throw whatever container::at() throws
    */
-  [[nodiscard]] const value_type& unsafeAt(size_t index) const {
+  [[nodiscard]] const auto& unsafeAt(size_t index) const {
     return data_.at(index);
   }
 
-  [[nodiscard]] value_type& unsafeAt(size_t index) {
+  [[nodiscard]] auto& unsafeAt(size_t index) {
     return data_.at(index);
   }
 
@@ -312,11 +308,7 @@ struct ContainerStorage {
  */
 template <typename storage_type>
 struct PtrSliceStorage {
-#ifdef __cpp_lib_type_trait_variable_templates
   using value_type = std::remove_cv_t<std::remove_pointer_t<storage_type>>;
-#else
-  using value_type = typename std::remove_cv<typename std::remove_pointer<storage_type>::type>::type;
-#endif
 
   /*!
    * Stores ptr and checks that it is not `NULL`. The slice's bounds
