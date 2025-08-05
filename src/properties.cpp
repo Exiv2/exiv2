@@ -4927,7 +4927,9 @@ const XmpPrintInfo xmpPrintInfo[] = {
     {"Xmp.plus.MinorModelAgeDisclosure", EXV_PRINT_VOCABULARY(plusMinorModelAgeDisclosure)},
     {"Xmp.plus.ModelReleaseStatus", EXV_PRINT_VOCABULARY(plusModelReleaseStatus)},
     {"Xmp.plus.PropertyReleaseStatus", EXV_PRINT_VOCABULARY(plusPropertyReleaseStatus)},
-    {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)}};
+    {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)},
+    {"Xmp.plus.DataMining", EXV_PRINT_VOCABULARY(plusDataMining)},
+};
 
 bool XmpNsInfo::operator==(const XmpNsInfo::Ns& ns) const {
   return ns_ == ns.ns_;
