@@ -1739,6 +1739,8 @@ constexpr TagDetails nikonZMountLensId[] = {
     {51, "Nikon Nikkor Z 35mm f/1.4"},
     {52, "Nikon Nikkor Z 50mm f/1.4"},
     {2305, "Laowa FFII 10mm F2.8 C&D Dreamer"},
+    {2820, "Viltrox AF 16mm F1.8"},
+    {2822, "Viltrox AF 20mm F2.8"},
     {53251, "Sigma 56mm F1.4 DC DN | C"},
     {57346, "Tamron 35-150mm F/2-2.8 Di III VXD"},
 };
