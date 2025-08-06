@@ -3032,7 +3032,7 @@ const XmpPropertyInfo xmpPlusInfo[] = {
     {"LicensorTelephone2", N_("Licensor Telephone 2"), "Text", xmpText, xmpExternal,
      N_("Licensor Telephone number 2.")},
     {"LicensorEmail", N_("Licensor Email"), "Text", xmpText, xmpExternal, N_("Licensor Email address.")},
-    {"LicensorURL", N_("Licensor URL"), "URL", xmpText, xmpExternal, 
+    {"LicensorURL", N_("Licensor URL"), "URL", xmpText, xmpExternal,
      N_("URL for a Licensor web page. May facilitate licensing of the image.")},
     {"LicensorNotes", N_("Licensor Notes"), "Lang Alt", langAlt, xmpExternal,
      N_("Supplemental information for use in identifying and contacting the Licensor/s.")},
@@ -3142,7 +3142,7 @@ const XmpPropertyInfo xmpPlusInfo[] = {
      N_("Indicates whether a license is a repeat or an initial license.  Reuse may require that licenses stored in "
         "files previously delivered to the customer be updated.")},
     {"DataMining", N_("Data Mining"), "URL", xmpText, xmpExternal,
-      N_("Data mining prohibition or permission, optionally with constraints.")},
+     N_("Data mining prohibition or permission, optionally with constraints.")},
     {"OtherLicenseDocuments", N_("Other License Documents"), "bag Text", xmpBag, xmpExternal,
      N_("Reference information for additional documents associated with the license.")},
     {"OtherLicenseInfo", N_("Other License Info"), "Lang Alt", langAlt, xmpExternal,
