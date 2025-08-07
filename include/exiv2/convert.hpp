@@ -15,10 +15,7 @@
 
 #include "exiv2lib_export.h"
 
-// included header files
-#include "config.h"
-
-// + standard includes
+// standard includes
 #include <string>
 
 // *****************************************************************************

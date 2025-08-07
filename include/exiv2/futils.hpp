@@ -3,7 +3,6 @@
 #ifndef EXIV2_FUTILS_HPP
 #define EXIV2_FUTILS_HPP
 
-#include "config.h"
 #include "exiv2lib_export.h"
 
 #include <string>

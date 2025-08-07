@@ -7,7 +7,7 @@
 // included header files
 #include "exif.hpp"
 
-#include "tiffcomposite_int.hpp"  // Do not change the order of these 2 includes,
+#include "tiffcomposite_int.hpp"
 
 #include <array>
 

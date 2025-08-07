@@ -6,13 +6,11 @@
 #include "exiv2lib_export.h"
 
 // included header files
-#include "config.h"
 #include "slice.hpp"
 
 // standard includes
 #include <algorithm>
 #include <cstdint>
-#include <limits>
 #include <sstream>
 #include <vector>
 

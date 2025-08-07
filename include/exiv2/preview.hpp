@@ -3,6 +3,8 @@
 #ifndef EXIV2_PREVIEW_HPP
 #define EXIV2_PREVIEW_HPP
 
+#include "config.h"
+
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
