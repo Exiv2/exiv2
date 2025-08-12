@@ -29,7 +29,7 @@ jobs:
         platform: [ x64, x86 ]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
@@ -93,7 +93,7 @@ jobs:
         shell: msys2 {0}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
@@ -149,7 +149,7 @@ jobs:
       # Make sure we don't check out scripts using Windows CRLF line endings
       - run: git config --global core.autocrlf input
         shell: pwsh
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Cygwin
         uses: cygwin/cygwin-install-action@v6

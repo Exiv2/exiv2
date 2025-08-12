@@ -21,7 +21,7 @@ jobs:
         shared_libraries: [ON, OFF]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
@@ -71,7 +71,7 @@ jobs:
         shell: alpine.sh {0}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: jirutka/setup-alpine@v1
         with:
           arch: ${{matrix.arch}}
