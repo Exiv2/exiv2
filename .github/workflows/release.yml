@@ -25,7 +25,7 @@ jobs:
           - { os: ubuntu-22.04, arch: x64   }
           - { os: ubuntu-22.04-arm, arch: arm64 }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
@@ -67,7 +67,7 @@ jobs:
           - { os: macos-13, arch: x64   }
           - { os: macos-14, arch: arm64 }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
@@ -114,7 +114,7 @@ jobs:
         runner:
           - { os: windows-2022, arch: x64   }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1

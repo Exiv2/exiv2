@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 2
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
