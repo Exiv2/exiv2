@@ -325,7 +325,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
                 // check for Exif\0 APP1 prefix
                 size_t offset = 0;
                 std::array<byte, 5> exifHeader{0x45, 0x78, 0x69, 0x66, 0x00};
-                if (0 == parsedBuf.cmpBytes(0, exifHeader.c_data(), exifHeader.size())) {
+                if (0 == parsedBuf.cmpBytes(0, exifHeader.data(), exifHeader.size())) {
                   offset = 6;
                 }
                 // create memio object with the data, then print the structure
