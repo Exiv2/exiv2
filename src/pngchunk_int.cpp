@@ -191,8 +191,8 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
     if (length >= 4) {  // length should have at least the size of TIFF header
       // Find the position of TIFF header in bytes array.
       // Forgives the absence of the expected Exif\0 APP1 prefix.
-      const std::array<byte, 4> tiffHeaderLE{0x49, 0x49, 0x2A, 0x00}; // "II*\0"
-      const std::array<byte, 4> tiffHeaderBE{0x4D, 0x4D, 0x00, 0x2A}; // "MM\0*"
+      const std::array<byte, 4> tiffHeaderLE{0x49, 0x49, 0x2A, 0x00};  // "II*\0"
+      const std::array<byte, 4> tiffHeaderBE{0x4D, 0x4D, 0x00, 0x2A};  // "MM\0*"
       size_t pos = std::numeric_limits<size_t>::max();
 
       /// \todo Find substring inside an string
