@@ -197,7 +197,8 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 
       /// \todo Find substring inside an string
       for (size_t i = 0; i < length - tiffHeaderLE.size(); i++) {
-        if (0 == exifData.cmpBytes(i, tiffHeaderLE.data(), tiffHeaderLE.size()) || 0 == exifData.cmpBytes(i, tiffHeaderBE.data(), tiffHeaderBE.size())) {
+        if (0 == exifData.cmpBytes(i, tiffHeaderLE.data(), tiffHeaderLE.size()) ||
+            0 == exifData.cmpBytes(i, tiffHeaderBE.data(), tiffHeaderBE.size())) {
           pos = i;
           break;
         }
