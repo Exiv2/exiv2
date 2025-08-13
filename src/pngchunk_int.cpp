@@ -190,14 +190,17 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
     DataBuf exifData = readRawProfile(arr, false);
     size_t length = exifData.size();
 
-    if (length >= 6) {  // length should have at least the size of exifHeader
-      // Find the position of Exif header in bytes array.
-      const std::array<byte, 6> exifHeader{0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
+    if (length >= 4) {  // length should have at least the size of TIFF header
+      // Find the position of TIFF header in bytes array.
+      // Forgives the absence of the expected Exif\0 APP1 prefix.
+      const std::array<byte, 4> tiffHeaderLE{0x49, 0x49, 0x2A, 0x00};  // "II*\0"
+      const std::array<byte, 4> tiffHeaderBE{0x4D, 0x4D, 0x00, 0x2A};  // "MM\0*"
       size_t pos = std::numeric_limits<size_t>::max();
 
       /// \todo Find substring inside an string
-      for (size_t i = 0; i < length - exifHeader.size(); i++) {
-        if (exifData.cmpBytes(i, exifHeader.data(), exifHeader.size()) == 0) {
+      for (size_t i = 0; i < length - tiffHeaderLE.size(); i++) {
+        if (0 == exifData.cmpBytes(i, tiffHeaderLE.data(), tiffHeaderLE.size()) ||
+            0 == exifData.cmpBytes(i, tiffHeaderBE.data(), tiffHeaderBE.size())) {
           pos = i;
           break;
         }
@@ -207,9 +210,8 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 
       if (pos != std::numeric_limits<size_t>::max()) {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cout << "Exiv2::PngChunk::parseChunkContent: Exif header found at position " << pos << "\n";
+        std::cout << "Exiv2::PngChunk::parseChunkContent: TIFF header found at position " << pos << "\n";
 #endif
-        pos = pos + sizeof(exifHeader);
         ByteOrder bo = TiffParser::decode(pImage->exifData(), pImage->iptcData(), pImage->xmpData(),
                                           exifData.c_data(pos), length - pos);
         pImage->setByteOrder(bo);
