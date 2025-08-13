@@ -322,10 +322,10 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
 #endif
             if (!parsedBuf.empty()) {
               if (bExif) {
-                // check for Exif\0 APP1 prefix
+                // check for expected "Exif\0\0" APP1 identifier, punt otherwise
                 size_t offset = 0;
-                std::array<byte, 5> exifHeader{0x45, 0x78, 0x69, 0x66, 0x00}; // "Exif"
-                if (0 == parsedBuf.cmpBytes(0, exifHeader.data(), exifHeader.size())) {
+                std::array<byte, 6> exifId{0x45, 0x78, 0x69, 0x66, 0x00, 0x00};  // "Exif\0\0"
+                if (0 == parsedBuf.cmpBytes(0, exifId.data(), exifId.size())) {
                   offset = 6;
                 }
                 // create memio object with the data, then print the structure
