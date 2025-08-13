@@ -88,6 +88,7 @@ struct TagVocabulary {
     string matches the end of the key.
    */
   bool operator==(std::string_view key) const;
+  bool operator==(const byte* key) const;
 };  // struct TagDetails
 
 /*!
