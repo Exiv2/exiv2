@@ -4,8 +4,6 @@
 #define TIFFVISITOR_INT_HPP_
 
 // *****************************************************************************
-// included header files
-#include "exif.hpp"
 
 #include "tiffcomposite_int.hpp"
 
@@ -354,7 +352,7 @@ class TiffEncoder : public TiffVisitor {
   TiffEncoder(const TiffEncoder&) = delete;
   TiffEncoder& operator=(const TiffEncoder&) = delete;
   //! Virtual destructor
-  ~TiffEncoder() override = default;
+  ~TiffEncoder() override;
   //@}
 
   //! @name Manipulators
@@ -508,7 +506,7 @@ class TiffEncoder : public TiffVisitor {
   //@}
 
   // DATA
-  ExifData exifData_;                        //!< Copy of the Exif data to encode
+  std::unique_ptr<ExifData> exifData_;       //!< Copy of the Exif data to encode
   const IptcData& iptcData_;                 //!< IPTC data to encode, just a reference
   const XmpData& xmpData_;                   //!< XMP data to encode, just a reference
   bool del_{true};                           //!< Indicates if Exif data entries should be deleted after encoding
