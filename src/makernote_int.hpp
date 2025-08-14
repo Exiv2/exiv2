@@ -82,8 +82,8 @@ class TiffMnCreator {
 
   ~TiffMnCreator() = default;
   //! Prevent destruction (needed if used as a policy class)
-  TiffMnCreator(const TiffComponent&) = delete;
-  TiffMnCreator& operator=(const TiffComponent&) = delete;
+  TiffMnCreator(const TiffMnCreator&) = delete;
+  TiffMnCreator& operator=(const TiffMnCreator&) = delete;
 
  private:
   static const TiffMnRegistry registry_[];  //!< List of makernotes
