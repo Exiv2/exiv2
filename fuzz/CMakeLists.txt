@@ -20,3 +20,4 @@ macro(fuzzer name)
 endmacro()
 
 fuzzer(fuzz-read-print-write)
+fuzzer(fuzz-read-write)
