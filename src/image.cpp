@@ -625,16 +625,29 @@ void Image::setComment(const std::string& comment) {
 }
 
 void Image::setIccProfile(Exiv2::DataBuf&& iccProfile, bool bTestValid) {
-  if (bTestValid) {
-    if (iccProfile.size() < sizeof(long)) {
-      throw Error(ErrorCode::kerInvalidIccProfile);
-    }
-    const size_t size = iccProfile.read_uint32(0, bigEndian);
-    if (size != iccProfile.size()) {
-      throw Error(ErrorCode::kerInvalidIccProfile);
-    }
-  }
   iccProfile_ = std::move(iccProfile);
+  if (bTestValid) {
+    checkIccProfile();
+  }
+}
+
+void Image::appendIccProfile(const uint8_t* bytes, size_t size, bool bTestValid) {
+  const size_t start = iccProfile_.size();
+  iccProfile_.resize(Safe::add(start, size));
+  memcpy(iccProfile_.data(start), bytes, size);
+  if (bTestValid) {
+    checkIccProfile();
+  }
+}
+
+void Image::checkIccProfile() {
+  if (iccProfile_.size() < sizeof(long)) {
+    throw Error(ErrorCode::kerInvalidIccProfile);
+  }
+  const size_t size = iccProfile_.read_uint32(0, bigEndian);
+  if (size != iccProfile_.size()) {
+    throw Error(ErrorCode::kerInvalidIccProfile);
+  }
 }
 
 void Image::clearIccProfile() {

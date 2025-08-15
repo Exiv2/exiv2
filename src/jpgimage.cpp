@@ -268,12 +268,7 @@ void JpegBase::readMetadata() {
         icc_size = s;
       }
 
-      DataBuf profile(Safe::add(iccProfile_.size(), icc_size));
-      if (!iccProfile_.empty()) {
-        std::copy(iccProfile_.begin(), iccProfile_.end(), profile.begin());
-      }
-      std::copy_n(buf.c_data(2 + 14), icc_size, profile.data() + iccProfile_.size());
-      setIccProfile(std::move(profile), chunk == chunks);
+      appendIccProfile(buf.c_data(2 + 14), icc_size, chunk == chunks);
     } else if (pixelHeight_ == 0 && inRange2(marker, sof0_, sof3_, sof5_, sof15_)) {
       // We hit a SOFn (start-of-frame) marker
       if (size < 8) {
