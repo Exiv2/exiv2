@@ -8,6 +8,10 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
     find_dependency(ZLIB REQUIRED)
   endif()
 
+  if(@EXIV2_ENABLE_BMFF@ AND @EXIV2_ENABLE_BROTLI@) # if(EXIV2_ENABLE_BMFF AND EXIV2_ENABLE_BROTLI)
+    find_dependency(Brotli REQUIRED)
+  endif()
+
   if(@EXIV2_ENABLE_WEBREADY@) # if(EXIV2_ENABLE_WEBREADY)
     if(@EXIV2_ENABLE_CURL@) # if(EXIV2_ENABLE_CURL)
       find_dependency(CURL REQUIRED)
@@ -16,6 +20,8 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
 
   if(@EXIV2_ENABLE_XMP@) # if(EXIV2_ENABLE_XMP)
     find_dependency(EXPAT REQUIRED)
+  elseif(@EXIV2_ENABLE_EXTERNAL_XMP@) # elseif(EXIV2_ENABLE_EXTERNAL_XMP)
+    find_dependency(XmpSdk REQUIRED)
   endif()
 
   if(@EXIV2_ENABLE_NLS@) # if(EXIV2_ENABLE_NLS)
@@ -24,6 +30,10 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
 
   if(@EXV_HAVE_LIBICONV@) # if(EXV_HAVE_LIBICONV)
     find_dependency(Iconv REQUIRED)
+  endif()
+
+  if(@EXIV2_ENABLE_INIH@) # if(EXIV2_ENABLE_INIH)
+    find_dependency(inih REQUIRED)
   endif()
 
   if(NOT "@EXV_HAVE_STD_FORMAT@") # if(NOT EXV_HAVE_STD_FORMAT)
