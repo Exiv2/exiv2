@@ -197,7 +197,8 @@ class EXIV2API Image {
   virtual void setIccProfile(DataBuf&& iccProfile, bool bTestValid = true);
   /*!
     @brief Append more bytes to the iccProfile.
-    @param iccProfile DataBuf containing profile (binary)
+    @param bytes array of bytes to append
+    @param size number of bytes to append
     @param bTestValid - tests that iccProfile contains credible data
    */
   virtual void appendIccProfile(const uint8_t* bytes, size_t size, bool bTestValid);
