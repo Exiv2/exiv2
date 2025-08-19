@@ -194,11 +194,11 @@ jobs:
       - uses: vmactions/omnios-vm@v1
         with:
           prepare: |
-            pkg install brotli cmake curl expat gcc14 meson-312 ninja pkg-config python-312
+            pkg install brotli cmake curl expat gcc14 meson-313 ninja pkg-config python-313
           run: |
-            /usr/lib/python3.12/bin/meson setup "${{github.workspace}}/build" -Dwarning_level=3 -DunitTests=enabled -Dinih=enabled
-            /usr/lib/python3.12/bin/meson compile -C "${{github.workspace}}/build" --verbose
-            /usr/lib/python3.12/bin/meson test -C "${{github.workspace}}/build" --verbose
+            /usr/lib/python3.13/bin/meson setup "${{github.workspace}}/build" -Dwarning_level=3 -DunitTests=enabled -Dinih=enabled
+            /usr/lib/python3.13/bin/meson compile -C "${{github.workspace}}/build" --verbose
+            /usr/lib/python3.13/bin/meson test -C "${{github.workspace}}/build" --verbose
   Emscripten:
     runs-on: ubuntu-latest
     steps:
