@@ -529,6 +529,7 @@ constexpr TagDetails sonyModelId[] = {
     {402, "ILCE-6400A"},
     {403, "ILCE-6100A"},
     {404, "DSC-RX100M7A"},
+    {406, "ILME-FX2"},
     {408, "ZV-1A"},
 };
 
