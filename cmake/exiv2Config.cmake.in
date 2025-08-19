@@ -9,7 +9,13 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
   endif()
 
   if(@EXIV2_ENABLE_BMFF@ AND @EXIV2_ENABLE_BROTLI@) # if(EXIV2_ENABLE_BMFF AND EXIV2_ENABLE_BROTLI)
-    find_dependency(Brotli REQUIRED)
+    find_package(Brotli QUIET)
+    if (NOT Brotli_FOUND)
+      message(FATAL_ERROR
+        "Static builds of exiv2 require Brotli. "
+        "Please provide FindBrotli.cmake on CMAKE_MODULE_PATH "
+        "or point to the cmake/ dir in the exiv2 source tree.")
+    endif()
   endif()
 
   if(@EXIV2_ENABLE_WEBREADY@) # if(EXIV2_ENABLE_WEBREADY)
@@ -33,7 +39,13 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
   endif()
 
   if(@EXIV2_ENABLE_INIH@) # if(EXIV2_ENABLE_INIH)
-    find_dependency(inih REQUIRED)
+    find_package(inih QUIET)
+    if (NOT inih_FOUND)
+      message(FATAL_ERROR
+        "Static builds of exiv2 require inih. "
+        "Please provide FindInih.cmake on CMAKE_MODULE_PATH "
+        "or point to the cmake/ dir in the exiv2 source tree.")
+    endif()
   endif()
 
   if(NOT "@EXV_HAVE_STD_FORMAT@") # if(NOT EXV_HAVE_STD_FORMAT)
