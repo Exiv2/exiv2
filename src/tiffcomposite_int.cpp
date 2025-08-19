@@ -1199,7 +1199,7 @@ size_t TiffEntryBase::doWriteImage(IoWrapper& /*ioWrapper*/, ByteOrder /*byteOrd
 }  // TiffEntryBase::doWriteImage
 
 size_t TiffSubIfd::doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
-  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{0}, std::plus<>(),
+  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{}, std::plus(),
                                [&](const auto& ifd) { return ifd->writeImage(ioWrapper, byteOrder); });
 }  // TiffSubIfd::doWriteImage
 
@@ -1365,7 +1365,7 @@ size_t TiffDataEntry::doSizeData() const {
 }
 
 size_t TiffSubIfd::doSizeData() const {
-  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{0}, std::plus<>(), std::mem_fn(&TiffSubIfd::size));
+  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{}, std::plus(), std::mem_fn(&TiffSubIfd::size));
 }
 
 size_t TiffIfdMakernote::doSizeData() const {
@@ -1378,13 +1378,12 @@ size_t TiffComponent::sizeImage() const {
 
 size_t TiffDirectory::doSizeImage() const {
   size_t len = pNext_ ? pNext_->sizeImage() : 0;
-  return std::transform_reduce(components_.begin(), components_.end(), len, std::plus<>(),
+  return std::transform_reduce(components_.begin(), components_.end(), len, std::plus(),
                                std::mem_fn(&TiffDirectory::sizeImage));
 }
 
 size_t TiffSubIfd::doSizeImage() const {
-  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{0}, std::plus<>(),
-                               std::mem_fn(&TiffSubIfd::sizeImage));
+  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{}, std::plus(), std::mem_fn(&TiffSubIfd::sizeImage));
 }  // TiffSubIfd::doSizeImage
 
 size_t TiffIfdMakernote::doSizeImage() const {
@@ -1399,10 +1398,11 @@ size_t TiffImageEntry::doSizeImage() const {
   if (!pValue())
     return 0;
   auto len = pValue()->sizeDataArea();
-  if (len == 0)
-    return std::transform_reduce(strips_.begin(), strips_.end(), len, std::plus<>(),
-                                 [](const auto& s) { return s.second; });
-  return len;
+  if (len != 0)
+    return len;
+
+  return std::transform_reduce(strips_.begin(), strips_.end(), len, std::plus(),
+                               [](const auto& s) { return s.second; });
 }  // TiffImageEntry::doSizeImage
 
 static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
