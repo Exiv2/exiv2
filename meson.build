@@ -58,8 +58,8 @@ foreach d, os : {'procstat': 'freebsd', 'socket': 'sunos', 'ws2_32': 'windows'}
 endforeach
 
 fmt_dep = []
-if not cpp.has_header_symbol('format', 'std::format')
-  fmt_dep = dependency('fmt')
+if not cdata.get('EXV_HAVE_STD_FORMAT')
+  fmt_dep = dependency('fmt', version: '>=5.0.0')
   deps += fmt_dep
 endif
 
