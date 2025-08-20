@@ -2195,7 +2195,7 @@ DataBuf TiffHeaderBase::write() const {
   return buf;
 }
 
-void TiffHeaderBase::print(std::ostream& os, std::string_view prefix) const {
+void TiffHeaderBase::print(std::ostream& os, const char* prefix) const {
   os << stringFormat("{}{} = 0x{:08x}", prefix, _("TIFF header, offset"), offset_);
 
   switch (byteOrder_) {
