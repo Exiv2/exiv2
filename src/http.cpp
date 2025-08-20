@@ -112,16 +112,6 @@ static Exiv2::Dictionary stringToDict(const std::string& s) {
   return result;
 }
 
-static int makeNonBlocking(auto sockfd) {
-#if defined(_WIN32)
-  ULONG ioctl_opt = 1;
-  return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
-#else
-  int result = fcntl(sockfd, F_SETFL, O_NONBLOCK);
-  return result >= 0 ? result : SOCKET_ERROR;
-#endif
-}
-
 int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::string& errors) {
   request.try_emplace("verb", "GET");
   request.try_emplace("header");
@@ -212,7 +202,15 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     freeaddrinfo(result);
   }
 
-  makeNonBlocking(sockfd);
+  [](auto sockfd) {
+#if defined(_WIN32)
+    ULONG ioctl_opt = 1;
+    return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
+#else
+    int result = fcntl(sockfd, F_SETFL, O_NONBLOCK);
+    return result >= 0 ? result : SOCKET_ERROR;
+#endif
+  }(sockfd);
 
   ////////////////////////////////////
   // and connect

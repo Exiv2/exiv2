@@ -1245,9 +1245,9 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     size_t typeSize = TypeInfo::typeSize(typeId);
     if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "Directory " << groupName(object->group()) << ", entry 0x" << std::setw(4) << std::setfill('0')
-                  << std::hex << object->tag() << " has unknown Exif (TIFF) type " << std::dec << tiffType
-                  << "; setting type size 1.\n";
+      EXV_WARNING << stringFormat(
+          "Directory {}, entry 0x{:04x} has unknown Exif (TIFF) type {}; setting type size 1.\n",
+          groupName(object->group()), object->tag(), static_cast<uint16_t>(tiffType));
 #endif
       typeSize = 1;
     }
@@ -1255,9 +1255,8 @@ void TiffReader::readTiffEntry(TiffEntryBase* object) {
     uint32_t count = getULong(p, byteOrder());
     if (count >= 0x10000000) {
 #ifndef SUPPRESS_WARNINGS
-      EXV_ERROR << "Directory " << groupName(object->group()) << ", entry 0x" << std::setw(4) << std::setfill('0')
-                << std::hex << object->tag() << " has invalid size " << std::dec << count << "*" << typeSize
-                << "; skipping entry.\n";
+      EXV_ERROR << stringFormat("Directory {}, entry 0x{:04x} has invalid size {}*{}; skipping entry.\n",
+                                groupName(object->group()), object->tag(), count, typeSize);
 #endif
       return;
     }
