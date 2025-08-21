@@ -43,7 +43,7 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
     if (NOT inih_FOUND)
       message(FATAL_ERROR
         "Static builds of exiv2 require inih. "
-        "Please provide FindInih.cmake on CMAKE_MODULE_PATH "
+        "Please provide Findinih.cmake on CMAKE_MODULE_PATH "
         "or point to the cmake/ dir in the exiv2 source tree.")
     endif()
   endif()
