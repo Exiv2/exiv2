@@ -31,17 +31,10 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
   if(@EXV_HAVE_LIBICONV@) # if(EXV_HAVE_LIBICONV)
     find_dependency(Iconv REQUIRED)
   endif()
-<<<<<<< HEAD
-=======
 
   if(@EXIV2_ENABLE_INIH@) # if(EXIV2_ENABLE_INIH)
     find_dependency(inih REQUIRED)
   endif()
-
-  if(NOT "@EXV_HAVE_STD_FORMAT@") # if(NOT EXV_HAVE_STD_FORMAT)
-    find_dependency(fmt REQUIRED)
-  endif()
->>>>>>> a2f8eb33 (Add missing find_dependency() calls to exiv2Config.cmake.in)
 endif()
 
 include("${CMAKE_CURRENT_LIST_DIR}/exiv2Targets.cmake")
