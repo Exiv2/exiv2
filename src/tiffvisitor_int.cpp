@@ -444,10 +444,10 @@ void TiffDecoder::visitBinaryElement(TiffBinaryElement* object) {
   decodeTiffEntry(object);
 }
 
-TiffEncoder::TiffEncoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
+TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
                          bool isNewImage, PrimaryGroups pPrimaryGroups, const TiffHeaderBase* pHeader,
                          FindEncoderFct findEncoderFct) :
-    exifData_(exifData),
+    exifData_(std::move(exifData)),
     iptcData_(iptcData),
     xmpData_(xmpData),
     pHeader_(pHeader),
