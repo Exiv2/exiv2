@@ -16,13 +16,11 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
-#include "utils.hpp"
 #include "version.hpp"
 
 // + standard includes
 #include <algorithm>
 #include <array>
-#include <climits>
 #include <cstring>
 #include <sstream>
 #include <string>
@@ -36,10 +34,10 @@ using namespace Exiv2::Internal;
 constexpr auto dosEpsSignature = std::string_view("\xC5\xD0\xD3\xC6");
 
 // first line of EPS
-constexpr std::string_view epsFirstLine[] = {
-    "%!PS-Adobe-3.0 EPSF-3.0",
-    "%!PS-Adobe-3.0 EPSF-3.0 ",  // OpenOffice
-    "%!PS-Adobe-3.1 EPSF-3.0",   // Illustrator
+constexpr std::array epsFirstLine{
+    std::string_view("%!PS-Adobe-3.0 EPSF-3.0"),
+    std::string_view("%!PS-Adobe-3.0 EPSF-3.0 "),  // OpenOffice
+    std::string_view("%!PS-Adobe-3.1 EPSF-3.0"),   // Illustrator
 };
 
 // blank EPS file
@@ -316,7 +314,8 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #ifdef DEBUG
   EXV_DEBUG << "readWriteEpsMetadata: First line: " << firstLine << "\n";
 #endif
-  if (!Exiv2::find(epsFirstLine, firstLine)) {
+  auto it = std::find(epsFirstLine.begin(), epsFirstLine.end(), firstLine);
+  if (it == epsFirstLine.end()) {
     throw Error(ErrorCode::kerNotAnImage, "EPS");
   }
 
@@ -377,13 +376,13 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     bool significantLine = true;
 #endif
     // nested documents
-    if (posPage == posEndEps && (startsWith(line, "%%IncludeDocument:") || startsWith(line, "%%BeginDocument:"))) {
+    if (posPage == posEndEps && (line.starts_with("%%IncludeDocument:") || line.starts_with("%%BeginDocument:"))) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Nested document at invalid position: " << startPos << "\n";
 #endif
       throw Error(write ? ErrorCode::kerImageWriteFailed : ErrorCode::kerFailedToReadImageData);
     }
-    if (startsWith(line, "%%BeginDocument:")) {
+    if (line.starts_with("%%BeginDocument:")) {
       if (depth == maxDepth) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Document too deeply nested at position: " << startPos << "\n";
@@ -391,7 +390,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
         throw Error(write ? ErrorCode::kerImageWriteFailed : ErrorCode::kerFailedToReadImageData);
       }
       depth++;
-    } else if (startsWith(line, "%%EndDocument")) {
+    } else if (line.starts_with("%%EndDocument")) {
       if (depth == 0) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Unmatched EndDocument at position: " << startPos << "\n";
@@ -413,7 +412,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     if (depth != 0)
       continue;
     // explicit "Begin" comments
-    if (startsWith(line, "%%BeginPreview:")) {
+    if (line.starts_with("%%BeginPreview:")) {
       inDefaultsPreviewPrologSetup = true;
     } else if (line == "%%BeginDefaults") {
       inDefaultsPreviewPrologSetup = true;
@@ -421,9 +420,9 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       inDefaultsPreviewPrologSetup = true;
     } else if (line == "%%BeginSetup") {
       inDefaultsPreviewPrologSetup = true;
-    } else if (posPage == posEndEps && startsWith(line, "%%Page:")) {
+    } else if (posPage == posEndEps && line.starts_with("%%Page:")) {
       posPage = startPos;
-    } else if (posPage != posEndEps && startsWith(line, "%%Page:")) {
+    } else if (posPage != posEndEps && line.starts_with("%%Page:")) {
       if (implicitPage) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Page at position " << startPos << " conflicts with implicit page at position: " << posPage
@@ -528,27 +527,27 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #endif
     }
     // remaining explicit comments
-    if (posEndComments == posEndEps && posLanguageLevel == posEndEps && startsWith(line, "%%LanguageLevel:")) {
+    if (posEndComments == posEndEps && posLanguageLevel == posEndEps && line.starts_with("%%LanguageLevel:")) {
       posLanguageLevel = startPos;
-    } else if (posEndComments == posEndEps && posContainsXmp == posEndEps && startsWith(line, "%ADO_ContainsXMP:")) {
+    } else if (posEndComments == posEndEps && posContainsXmp == posEndEps && line.starts_with("%ADO_ContainsXMP:")) {
       posContainsXmp = startPos;
-    } else if (posEndComments == posEndEps && posPages == posEndEps && startsWith(line, "%%Pages:")) {
+    } else if (posEndComments == posEndEps && posPages == posEndEps && line.starts_with("%%Pages:")) {
       posPages = startPos;
-    } else if (posEndComments == posEndEps && posExiv2Version == posEndEps && startsWith(line, "%Exiv2Version:")) {
+    } else if (posEndComments == posEndEps && posExiv2Version == posEndEps && line.starts_with("%Exiv2Version:")) {
       posExiv2Version = startPos;
-    } else if (posEndComments == posEndEps && posExiv2Website == posEndEps && startsWith(line, "%Exiv2Website:")) {
+    } else if (posEndComments == posEndEps && posExiv2Website == posEndEps && line.starts_with("%Exiv2Website:")) {
       posExiv2Website = startPos;
-    } else if (posEndComments == posEndEps && startsWith(line, "%%Creator: Adobe Illustrator") &&
+    } else if (posEndComments == posEndEps && line.starts_with("%%Creator: Adobe Illustrator") &&
                firstLine == "%!PS-Adobe-3.0 EPSF-3.0") {
       illustrator8 = true;
-    } else if (posEndComments == posEndEps && startsWith(line, "%AI7_Thumbnail:")) {
+    } else if (posEndComments == posEndEps && line.starts_with("%AI7_Thumbnail:")) {
       posAi7Thumbnail = startPos;
     } else if (posEndComments == posEndEps && posAi7Thumbnail != posEndEps && posAi7ThumbnailEndData == posEndEps &&
                line == "%%EndData") {
       posAi7ThumbnailEndData = startPos;
     } else if (posEndComments == posEndEps && line == "%%EndComments") {
       posEndComments = startPos;
-    } else if (inDefaultsPreviewPrologSetup && startsWith(line, "%%BeginResource: procset wCorel")) {
+    } else if (inDefaultsPreviewPrologSetup && line.starts_with("%%BeginResource: procset wCorel")) {
       corelDraw = true;
     } else if (line == "%%EndPreview") {
       inDefaultsPreviewPrologSetup = false;
@@ -562,7 +561,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       posEndPageSetup = startPos;
     } else if (posPageTrailer == posEndEps && line == "%%PageTrailer") {
       posPageTrailer = startPos;
-    } else if (posBeginPhotoshop == posEndEps && startsWith(line, "%BeginPhotoshop:")) {
+    } else if (posBeginPhotoshop == posEndEps && line.starts_with("%BeginPhotoshop:")) {
       posBeginPhotoshop = pos;
     } else if (posBeginPhotoshop != posEndEps && posEndPhotoshop == posEndEps && line == "%EndPhotoshop") {
       posEndPhotoshop = startPos;
@@ -670,7 +669,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     EXV_DEBUG << "readWriteEpsMetadata: Using flexible XMP embedding\n";
 #endif
     const size_t posBeginXmlPacket = readPrevLine(line, data, xmpPos, posEndEps);
-    if (startsWith(line, "%begin_xml_packet:")) {
+    if (line.starts_with("%begin_xml_packet:")) {
 #ifdef DEBUG
       EXV_DEBUG << "readWriteEpsMetadata: XMP embedding contains %begin_xml_packet\n";
 #endif
@@ -898,7 +897,7 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
           writeTemp(tempIo, "%%EndComments" + lineEnding);
         }
       }
-      if (pos == posPage && !startsWith(line, "%%Page:")) {
+      if (pos == posPage && !line.starts_with("%%Page:")) {
         writeTemp(tempIo, "%%Page: 1 1" + lineEnding);
         writeTemp(tempIo, "%%EndPageComments" + lineEnding);
       }
@@ -1119,12 +1118,10 @@ Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create) {
 
 bool isEpsType(BasicIo& iIo, bool advance) {
   // read as many bytes as needed for the longest (DOS) EPS signature
-  size_t bufSize = dosEpsSignature.size();
-  for (auto&& i : epsFirstLine) {
-    if (bufSize < i.size()) {
-      bufSize = i.size();
-    }
-  }
+  constexpr auto bufSize = [] {
+    auto f = [](const auto& a, const auto& b) { return a.size() < b.size(); };
+    return std::max_element(epsFirstLine.begin(), epsFirstLine.end(), f)->size();
+  }();
   const size_t restore = iIo.tell();  // save
   DataBuf buf = iIo.read(bufSize);
   if (iIo.error() || buf.size() != bufSize) {

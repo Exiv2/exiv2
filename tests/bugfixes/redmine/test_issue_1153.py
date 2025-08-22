@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
 
 import system_tests
-import itertools
 
 class CheckSony6000WithoutLensModels(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1153"
 
     filenames = [
-        "$data_path/exiv2-bug1153{E}{i}.exv".format(E=E, i=i)
-        for E, i in itertools.product(
-                ['A', 'J'],
-                "a b c d e f g h i j k".split()
-        )
+        f"$data_path/exiv2-bug1153{E}{i}.exv"
+        for E in ['A', 'J']
+        for i in "a b c d e f g h i j k".split()
     ]
 
     commands = [
-        "$exiv2 -pa -g LensSpecification -g LensModel -g LensID {!s}".format(fname) for fname in filenames
+        f"$exiv2 -pa -g LensSpecification -g LensModel -g LensID {fname!s}" for fname in filenames
     ]
 
     stdout = [

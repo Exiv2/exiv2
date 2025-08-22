@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef METADATUM_HPP_
-#define METADATUM_HPP_
+#ifndef EXIV2_METADATUM_HPP
+#define EXIV2_METADATUM_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -31,10 +31,8 @@ class EXIV2API Key {
   //! @name Creators
   //@{
   //! Destructor
-  virtual ~Key() = default;
+  virtual ~Key();
   //@}
-  Key(Key&&) = delete;
-  Key& operator=(Key&&) = delete;
   //! @name Accessors
   //@{
   /*!
@@ -105,7 +103,7 @@ class EXIV2API Metadatum {
   //! @name Creators
   //@{
   //! Destructor
-  virtual ~Metadatum() = default;
+  virtual ~Metadatum();
   //@}
 
   //! @name Manipulators
@@ -290,4 +288,4 @@ EXIV2API bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef METADATUM_HPP_
+#endif  // EXIV2_METADATUM_HPP

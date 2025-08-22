@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 
+namespace {
 using format_t = std::map<std::string, int>;
 enum format_e { wolf, csv, json, xml };
 
@@ -144,6 +145,7 @@ std::string formatXML(Exiv2::ExifData& exifData) {
   result << "</exif>" << '\n';
   return result.str();
 }
+}  // namespace
 
 ///////////////////////////////////////////////////////////////////////
 int main(int argc, const char* argv[]) {
@@ -165,7 +167,7 @@ int main(int argc, const char* argv[]) {
   const char* file = argv[1];
   const char* format = argv[2];
 
-  if (!result && formats.find(format) == formats.end()) {
+  if (!result && !formats.contains(format)) {
     std::cout << "Unrecognised format " << format << '\n';
     syntax(argv, formats);
     result = 2;
@@ -176,8 +178,13 @@ int main(int argc, const char* argv[]) {
       auto image = Exiv2::ImageFactory::open(file);
       image->readMetadata();
       Exiv2::ExifData& exifData = image->exifData();
+      auto it = formats.find(format);
+      if (it == formats.end()) {
+        std::cout << "*** error: format not implemented yet: " << format << " ***" << '\n';
+        return 3;
+      }
 
-      switch (formats.find(format)->second) {
+      switch (it->second) {
         case wolf:
           std::cout << formatWolf(exifData) << '\n';
           break;

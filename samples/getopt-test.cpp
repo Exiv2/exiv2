@@ -32,7 +32,7 @@
 #include <iostream>
 
 #define Safe(x) ((x) ? (x) : "unknown")
-const char* optstring = ":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:";
+const auto optstring = ":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:";
 
 // *****************************************************************************
 // class Params

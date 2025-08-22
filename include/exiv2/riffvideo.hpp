@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-#pragma once
+#ifndef EXIV2_RIFFVIDEO_HPP
+#define EXIV2_RIFFVIDEO_HPP
 
-#include "exif.hpp"
 #include "exiv2lib_export.h"
+
 #include "image.hpp"
 
 namespace Exiv2 {
@@ -183,3 +184,5 @@ EXIV2API Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool create);
 EXIV2API bool isRiffType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
+
+#endif  // EXIV2_RIFFVIDEO_HPP

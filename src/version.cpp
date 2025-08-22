@@ -12,12 +12,13 @@
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
+#include "properties.hpp"
 #include "xmp_exiv2.hpp"
 #endif
 
 // + standard includes
-#include <array>
 #include <fstream>
+#include <iomanip>
 #include <set>
 
 // #1147
@@ -44,6 +45,9 @@
 #undef _WIN64
 #endif
 #define _WIN64 1
+#endif
+#ifdef _MSC_VER
+#include <array>
 #endif
 #elif defined(__APPLE__)
 #include <mach-o/dyld.h>
@@ -110,7 +114,7 @@ static void output(std::ostream& os, const std::vector<std::regex>& greps, const
 }
 
 static bool pushPath(const std::string& path, std::vector<std::string>& libs, std::set<std::string>& paths) {
-  bool result = Exiv2::fileExists(path) && paths.find(path) == paths.end() && path != "/";
+  bool result = Exiv2::fileExists(path) && !paths.contains(path) && path != "/";
   if (result) {
     paths.insert(path);
     libs.push_back(path);
@@ -179,7 +183,7 @@ static std::vector<std::string> getLoadedLibraries() {
 
   // read file /proc/self/maps which has a list of files in memory
   // (this doesn't yield anything on __sun__)
-  std::ifstream maps("/proc/self/maps", std::ifstream::in);
+  std::ifstream maps("/proc/self/maps");
   std::string string;
   while (std::getline(maps, string)) {
     std::size_t pos = string.find_last_of(' ');

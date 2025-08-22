@@ -14,6 +14,8 @@
 #include "helper_functions.hpp"
 #include "utils.hpp"
 
+#include <array>
+
 namespace Exiv2::Internal {
 
 const std::map<std::string, std::string> infoTags = {
@@ -494,7 +496,7 @@ void RiffVideo::readAviHeader() {
 
   xmpData_["Xmp.video.MaxDataRate"] = readDWORDTag(io_);  // MaximumDataRate
 
-  io_->seekOrThrow(io_->tell() + DWORD * 2, BasicIo::beg,
+  io_->seekOrThrow(io_->tell() + (DWORD * 2), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // ignore PaddingGranularity and Flags
 
   uint32_t frame_count = readDWORDTag(io_);  // TotalNumberOfFrames
@@ -513,7 +515,7 @@ void RiffVideo::readAviHeader() {
   uint32_t height = readDWORDTag(io_);
   xmpData_["Xmp.video.Height"] = height;
 
-  io_->seekOrThrow(io_->tell() + DWORD * 4, BasicIo::beg,
+  io_->seekOrThrow(io_->tell() + (DWORD * 4), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // TimeScale, DataRate, StartTime, DataLength
 
   xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width, height);
@@ -549,7 +551,7 @@ void RiffVideo::readStreamHeader() {
 
   xmpData_["Xmp.video.Codec"] = readStringTag(io_);  // DataHandler
 
-  io_->seekOrThrow(io_->tell() + DWORD * 2 + WORD * 2, BasicIo::beg,
+  io_->seekOrThrow(io_->tell() + (DWORD * 2) + (WORD * 2), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // dwFlags, wPriority, wLanguage, dwInitialFrames
 
   uint32_t divisor = readDWORDTag(io_);  // TimeScale
@@ -570,7 +572,7 @@ void RiffVideo::readStreamHeader() {
   xmpData_[(streamType_ == Video) ? "Xmp.video.VideoQuality" : "Xmp.video.StreamQuality"] = readDWORDTag(io_);
 
   xmpData_[(streamType_ == Video) ? "Xmp.video.VideoSampleSize" : "Xmp.video.StreamSampleSize"] = readDWORDTag(io_);
-  io_->seekOrThrow(io_->tell() + DWORD * 2, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+  io_->seekOrThrow(io_->tell() + (DWORD * 2), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
 }
 
 void RiffVideo::readStreamFormat(uint64_t size_) {
@@ -605,7 +607,7 @@ void RiffVideo::readStreamFormat(uint64_t size_) {
 #endif
 
   if (streamType_ == Video) {
-    io_->seekOrThrow(io_->tell() + DWORD * 3, BasicIo::beg,
+    io_->seekOrThrow(io_->tell() + (DWORD * 3), BasicIo::beg,
                      ErrorCode::kerFailedToReadImageData);  // ignore biSize, biWidth, biHeight
     xmpData_["Xmp.video.Planes"] = readWORDTag(io_);
     xmpData_["Xmp.video.PixelDepth"] = readWORDTag(io_);
@@ -657,7 +659,8 @@ void RiffVideo::readInfoListChunk(uint64_t size_) {
     std::string content = readStringTag(io_, size);
     if (auto it = Internal::infoTags.find(type); it != Internal::infoTags.end())
       xmpData_[it->second] = content;
-    current_size += DWORD * 2 + size;
+    current_size += DWORD * 2;
+    current_size += size;
   }
 }
 
@@ -762,13 +765,13 @@ Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/) {
 
 bool isRiffType(BasicIo& iIo, bool advance) {
   constexpr int len = 4;
-  const unsigned char RiffVideoId[len] = {'R', 'I', 'F', 'F'};
-  byte buf[len];
-  iIo.read(buf, len);
+  const std::array<byte, len> RiffVideoId{'R', 'I', 'F', 'F'};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  bool matched = (memcmp(buf, RiffVideoId, len) == 0);
+  bool matched = buf == RiffVideoId;
   if (!advance || !matched) {
     iIo.seek(-1 * len, BasicIo::cur);
   }

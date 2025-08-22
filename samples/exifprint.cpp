@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <exiv2/exiv2.hpp>
+#include <iomanip>
 #include <iostream>
 #include <regex>
 
@@ -90,7 +91,7 @@ int main(int argc, char* const argv[]) {
           Exiv2::TypeId type = i.typeId();
           if (type != tagInfo->typeId_ &&
               (tagInfo->typeId_ != Exiv2::comment || type != Exiv2::undefined)  // comment is stored as undefined
-              && (shortLong.find(i.key()) == shortLong.end() ||
+              && (!shortLong.contains(i.key()) ||
                   (type != Exiv2::unsignedShort && type != Exiv2::unsignedLong))  // can be short or long!
           ) {
             std::cerr << i.key() << " type " << i.typeName() << " (" << type << ")"

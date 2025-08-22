@@ -14,7 +14,7 @@
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 
-#include <cinttypes>
+#include <array>
 #include <iostream>
 
 // *****************************************************************************
@@ -81,7 +81,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
   if (bPrint) {
     io_->seek(0, BasicIo::beg);  // rewind
     size_t address = io_->tell();
-    constexpr auto format = " %9zu | %9" PRIu32 " | ";
+    constexpr auto format = " {:9} | {:9} | ";
 
     {
       out << Internal::indent(depth) << "STRUCTURE OF RAF FILE: " << io().path() << '\n';
@@ -92,8 +92,8 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->readOrThrow(magicdata, 16);
     magicdata[16] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 16U)  // 0
-          << "       magic : " << reinterpret_cast<char*>(magicdata) << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address, 16)  // 0
+          << "       magic : " << reinterpret_cast<const char*>(magicdata) << '\n';
     }
 
     address = io_->tell();
@@ -101,8 +101,8 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(data1, 4);
     data1[4] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4U)  // 16
-          << "       data1 : " << std::string(reinterpret_cast<char*>(&data1)) << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address, 4)  // 16
+          << "       data1 : " << reinterpret_cast<const char*>(&data1) << '\n';
     }
 
     address = io_->tell();
@@ -110,8 +110,8 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(data2, 8);
     data2[8] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 8U)  // 20
-          << "       data2 : " << std::string(reinterpret_cast<char*>(&data2)) << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address, 8)  // 20
+          << "       data2 : " << reinterpret_cast<const char*>(&data2) << '\n';
     }
 
     address = io_->tell();
@@ -119,8 +119,8 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(camdata, 32);
     camdata[32] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 32U)  // 28
-          << "      camera : " << std::string(reinterpret_cast<char*>(&camdata)) << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address, 32)  // 28
+          << "      camera : " << reinterpret_cast<const char*>(&camdata) << '\n';
     }
 
     address = io_->tell();
@@ -128,15 +128,15 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     io_->read(dir_version, 4);
     dir_version[4] = 0;
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4U)  // 60
-          << "     version : " << std::string(reinterpret_cast<char*>(&dir_version)) << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address, 4)  // 60
+          << "     version : " << reinterpret_cast<const char*>(&dir_version) << '\n';
     }
 
     address = io_->tell();
     DataBuf unknown(20);
     io_->readOrThrow(unknown.data(), unknown.size());
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 20U)
+      out << Internal::indent(depth) << stringFormat(format, address, 20)
           << "     unknown : " << Internal::binaryToString(makeSlice(unknown, 0, unknown.size())) << '\n';
     }
 
@@ -150,14 +150,8 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     uint32_t jpg_img_off = Exiv2::getULong(jpg_img_offset, bigEndian);
     uint32_t jpg_img_len = Exiv2::getULong(jpg_img_length, bigEndian);
     {
-      std::stringstream j_off;
-      std::stringstream j_len;
-      j_off << jpg_img_off;
-      j_len << jpg_img_len;
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, 4U) << " JPEG offset : " << j_off.str()
-          << '\n';
-      out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4U) << " JPEG length : " << j_len.str()
-          << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address, 4) << " JPEG offset : " << jpg_img_off << '\n';
+      out << Internal::indent(depth) << stringFormat(format, address2, 4) << " JPEG length : " << jpg_img_len << '\n';
     }
 
     // RAFs can carry the payload in one or two parts
@@ -172,14 +166,10 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
       io_->readOrThrow(data, 4);
       meta_len[i] = Exiv2::getULong(data, bigEndian);
       {
-        std::stringstream c_off;
-        std::stringstream c_len;
-        c_off << meta_off[i];
-        c_len << meta_len[i];
-        out << Internal::indent(depth) << Internal::stringFormat(format, address, 4U) << "meta offset" << i + 1 << " : "
-            << c_off.str() << '\n';
-        out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4U) << "meta length" << i + 1
-            << " : " << c_len.str() << '\n';
+        out << Internal::indent(depth) << stringFormat(format, address, 4)
+            << stringFormat("meta offset{} : {}\n", i + 1, meta_off[i]);
+        out << Internal::indent(depth) << stringFormat(format, address2, 4)
+            << stringFormat("meta length{} : {}\n", i + 1, meta_len[i]);
       }
 
       address = io_->tell();
@@ -198,26 +188,16 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
       io_->readOrThrow(data, 4);
       cfa_data[i] = Exiv2::getULong(data, bigEndian);
       {
-        std::stringstream c_off;
-        std::stringstream c_len;
-        std::stringstream c_comp;
-        std::stringstream c_size;
-        std::stringstream c_data;
-        c_off << cfa_off[i];
-        c_len << cfa_len[i];
-        c_comp << comp[i];
-        c_size << cfa_size[i];
-        c_data << cfa_data[i];
-        out << Internal::indent(depth) << Internal::stringFormat(format, address, 4U) << " CFA offset" << i + 1 << " : "
-            << c_off.str() << '\n';
-        out << Internal::indent(depth) << Internal::stringFormat(format, address2, 4U) << " CFA length" << i + 1
-            << " : " << c_len.str() << '\n';
-        out << Internal::indent(depth) << Internal::stringFormat(format, address3, 4U) << "compression" << i + 1
-            << " : " << c_comp.str() << '\n';
-        out << Internal::indent(depth) << Internal::stringFormat(format, address4, 4U) << "  CFA chunk" << i + 1
-            << " : " << c_size.str() << '\n';
-        out << Internal::indent(depth) << Internal::stringFormat(format, address5, 4U) << "    unknown" << i + 1
-            << " : " << c_data.str() << '\n';
+        out << Internal::indent(depth) << stringFormat(format, address, 4U)
+            << stringFormat(" CFA offset{} : {}\n", i + 1, cfa_off[i]);
+        out << Internal::indent(depth) << stringFormat(format, address2, 4U)
+            << stringFormat(" CFA length{} : {}\n", i + 1, cfa_len[i]);
+        out << Internal::indent(depth) << stringFormat(format, address3, 4U)
+            << stringFormat("compression{} : {}\n", i + 1, comp[i]);
+        out << Internal::indent(depth) << stringFormat(format, address4, 4U)
+            << stringFormat("  CFA chunk{} : {}\n", i + 1, cfa_size[i]);
+        out << Internal::indent(depth) << stringFormat(format, address5, 4U)
+            << stringFormat("    unknown{} : {}\n", i + 1, cfa_data[i]);
       }
     }
 
@@ -226,7 +206,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     DataBuf payload(16);  // header is different from chunks
     io_->readOrThrow(payload.data(), payload.size());
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, jpg_img_len)
+      out << Internal::indent(depth) << stringFormat(format, address, jpg_img_len)
           << "   JPEG data : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << '\n';
     }
 
@@ -234,7 +214,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     address = io_->tell();
     io_->readOrThrow(payload.data(), payload.size());
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, meta_len[0])
+      out << Internal::indent(depth) << stringFormat(format, address, meta_len[0])
           << "  meta data1 : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << '\n';
     }
 
@@ -243,7 +223,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
       address = io_->tell();
       io_->readOrThrow(payload.data(), payload.size());
       {
-        out << Internal::indent(depth) << Internal::stringFormat(format, address, meta_len[1])
+        out << Internal::indent(depth) << stringFormat(format, address, meta_len[1])
             << "  meta data2 : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << '\n';
       }
     }
@@ -252,7 +232,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
     address = io_->tell();
     io_->readOrThrow(payload.data(), payload.size());
     {
-      out << Internal::indent(depth) << Internal::stringFormat(format, address, cfa_len[0])
+      out << Internal::indent(depth) << stringFormat(format, address, cfa_len[0])
           << "   CFA data1 : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << '\n';
     }
 
@@ -261,7 +241,7 @@ void RafImage::printStructure(std::ostream& out, PrintStructureOption option, si
       address = io_->tell();
       io_->readOrThrow(payload.data(), payload.size());
       {
-        out << Internal::indent(depth) << Internal::stringFormat(format, address, cfa_len[1])  // cfa_off
+        out << Internal::indent(depth) << stringFormat(format, address, cfa_len[1])  // cfa_off
             << "   CFA data2 : " << Internal::binaryToString(makeSlice(payload, 0, payload.size())) << '\n';
       }
     }
@@ -334,16 +314,16 @@ void RafImage::readMetadata() {
   // and https://exiftool.org/TagNames/FujiFilm.html#RAF
 
   // parse the tiff
-  byte readBuff[4];
+  std::array<byte, 4> readBuff;
   if (io_->seek(100, BasicIo::beg) != 0)
     throw Error(ErrorCode::kerFailedToReadImageData);
-  if (io_->read(readBuff, 4) != 4)
+  if (io_->read(readBuff.data(), 4) != 4)
     throw Error(ErrorCode::kerFailedToReadImageData);
-  uint32_t tiffOffset = Exiv2::getULong(readBuff, bigEndian);
+  uint32_t tiffOffset = Exiv2::getULong(readBuff.data(), bigEndian);
 
-  if (io_->read(readBuff, 4) != 4)
+  if (io_->read(readBuff.data(), 4) != 4)
     throw Error(ErrorCode::kerFailedToReadImageData);
-  uint32_t tiffLength = Exiv2::getULong(readBuff, bigEndian);
+  uint32_t tiffLength = Exiv2::getULong(readBuff.data(), bigEndian);
 
   // sanity check.  Does tiff lie inside the file?
   Internal::enforce(Safe::add(tiffOffset, tiffLength) <= io_->size(), ErrorCode::kerCorruptedMetadata);
@@ -354,11 +334,13 @@ void RafImage::readMetadata() {
   // Check if this really is a tiff and then call the tiff parser.
   // Check is needed because some older models just embed a raw bitstream.
   // For those files we skip the parsing step.
-  if (io_->read(readBuff, 4) != 4) {
+  if (io_->read(readBuff.data(), 4) != 4) {
     throw Error(ErrorCode::kerFailedToReadImageData);
   }
   io_->seek(-4, BasicIo::cur);
-  if (memcmp(readBuff, "\x49\x49\x2A\x00", 4) == 0 || memcmp(readBuff, "\x4D\x4D\x00\x2A", 4) == 0) {
+  const std::array<byte, 4> Id1{0x49, 0x49, 0x2A, 0x00};
+  const std::array<byte, 4> Id2{0x4D, 0x4D, 0x00, 0x2A};
+  if (readBuff == Id1 || readBuff == Id2) {
     DataBuf tiff(tiffLength);
     io_->read(tiff.data(), tiff.size());
 
@@ -385,16 +367,17 @@ Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create) {
 
 bool isRafType(BasicIo& iIo, bool advance) {
   const int32_t len = 8;
-  byte buf[len];
-  iIo.read(buf, len);
+  constexpr std::array<byte, len> RafId{'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M'};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  int rc = memcmp(buf, "FUJIFILM", 8);
-  if (!advance || rc != 0) {
+  bool rc = buf == RafId;
+  if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);
   }
-  return rc == 0;
+  return rc;
 }
 
 }  // namespace Exiv2

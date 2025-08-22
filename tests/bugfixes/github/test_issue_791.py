@@ -1,8 +1,7 @@
 import system_tests
 
 
-class IntegerOverflowInWebpImageReadMetadata(
-        metaclass=system_tests.CaseMeta):
+class IntegerOverflowInWebpImageReadMetadata(metaclass=system_tests.CaseMeta):
     """
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/issues/791
@@ -13,15 +12,15 @@ class IntegerOverflowInWebpImageReadMetadata(
     `ulimit -v 4000000` to reduce the available memory to slightly
     less than 4GB.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/791"
 
-    filename = system_tests.path(
-        "$data_path/issue_791_poc1.webp"
-    )
+    filename = system_tests.path("$data_path/issue_791_poc1.webp")
     commands = ["$exiv2 $filename"]
     stdout = [""]
-    stderr = ["""Exiv2 exception in print action for file $filename:
+    stderr = [
+        """Exiv2 exception in print action for file $filename:
 $kerCorruptedMetadata
 """
-]
+    ]
     retval = [1]

@@ -22,14 +22,21 @@
 #include <iostream>
 #include <regex>
 
+#include <filesystem>
+namespace fs = std::filesystem;
+
 #if defined(_WIN32)
 #include <fcntl.h>
 #include <io.h>
 #include <windows.h>
 #else
 #include <sys/select.h>
-#include <sys/time.h>
 #include <unistd.h>
+#define _strdup strdup
+#endif
+
+#ifdef EXV_ENABLE_NLS
+#include <libintl.h>
 #endif
 
 // *****************************************************************************
@@ -120,10 +127,10 @@ int main(int argc, char* const argv[]) {
 #ifdef EXV_ENABLE_NLS
   setlocale(LC_ALL, "");
   auto localeDir = []() -> std::string {
-    if constexpr (EXV_LOCALEDIR[0] == '/')
-      return EXV_LOCALEDIR;
-    else
-      return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
+    fs::path ret = EXV_LOCALEDIR;
+    if constexpr (EXV_LOCALEDIR[0] != '/')
+      ret = fs::path(Exiv2::getProcessPath()) / EXV_LOCALEDIR;
+    return ret.string();
   }();
   bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
   textdomain(EXV_PACKAGE_NAME);
@@ -758,7 +765,7 @@ int Params::evalDelete(const std::string& optArg) {
   switch (action_) {
     case Action::none:
       action_ = Action::erase;
-      target_ = static_cast<CommonTarget>(0);
+      target_ = CommonTarget{0};
       [[fallthrough]];
     case Action::erase: {
       const auto rc = parseCommonTargets(optArg, "erase");
@@ -779,7 +786,7 @@ int Params::evalExtract(const std::string& optArg) {
     case Action::none:
     case Action::modify:
       action_ = Action::extract;
-      target_ = static_cast<CommonTarget>(0);
+      target_ = CommonTarget{0};
       [[fallthrough]];
     case Action::extract: {
       const auto rc = parseCommonTargets(optArg, "extract");
@@ -800,7 +807,7 @@ int Params::evalInsert(const std::string& optArg) {
     case Action::none:
     case Action::modify:
       action_ = Action::insert;
-      target_ = static_cast<CommonTarget>(0);
+      target_ = CommonTarget{0};
       [[fallthrough]];
     case Action::insert: {
       const auto rc = parseCommonTargets(optArg, "insert");
@@ -955,7 +962,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
   if (stdinBuf.empty()) {
 #if defined(_WIN32)
     DWORD fdwMode;
-    _setmode(fileno(stdin), O_BINARY);
+    _setmode(_fileno(stdin), O_BINARY);
     Sleep(300);
     if (!GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode)) {  // failed: stdin has bytes!
 #else
@@ -1005,7 +1012,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
 
 int Params::getopt(int argc, char* const Argv[]) {
   std::vector<char*> argv(argc + 1);
-  argv[argc] = nullptr;
+  argv.back() = nullptr;
 
   const std::unordered_map<std::string, std::string> longs{
       {"--adjust", "-a"},    {"--binary", "-b"},  {"--comment", "-c"}, {"--delete", "-d"},   {"--days", "-D"},
@@ -1019,10 +1026,10 @@ int Params::getopt(int argc, char* const Argv[]) {
 
   for (int i = 0; i < argc; i++) {
     std::string arg(Argv[i]);
-    if (longs.find(arg) != longs.end()) {
-      argv[i] = ::strdup(longs.at(arg).c_str());
+    if (longs.contains(arg)) {
+      argv[i] = _strdup(longs.at(arg).c_str());
     } else {
-      argv[i] = ::strdup(Argv[i]);
+      argv[i] = _strdup(Argv[i]);
     }
   }
 
@@ -1132,7 +1139,7 @@ void printUnrecognizedArgument(const char argc, const std::string& action) {
 
 int64_t parseCommonTargets(const std::string& optArg, const std::string& action) {
   int64_t rc = 0;
-  auto target = static_cast<Params::CommonTarget>(0);
+  auto target = Params::CommonTarget{0};
   Params::CommonTarget all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
   Params::CommonTarget extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
   for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
@@ -1392,8 +1399,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 
     if (valStart != std::string::npos) {
       value = parseEscapes(line.substr(valStart, valEnd + 1 - valStart));
-      std::string::size_type last = value.length() - 1;
-      if ((value.at(0) == '"' && value.at(last) == '"') || (value.at(0) == '\'' && value.at(last) == '\'')) {
+      if ((value.front() == '"' && value.back() == '"') || (value.front() == '\'' && value.back() == '\'')) {
         value = value.substr(1, value.length() - 2);
       }
     }
@@ -1478,8 +1484,8 @@ std::string parseEscapes(const std::string& input) {
           }
 
           std::string ucs2toUtf8;
-          ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00U) >> 8));
-          ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ffU));
+          ucs2toUtf8.push_back((acc & 0xff00U) >> 8);
+          ucs2toUtf8.push_back(acc & 0x00ffU);
 
           if (Exiv2::convertStringCharset(ucs2toUtf8, "UCS-2BE", "UTF-8")) {
             result.append(ucs2toUtf8);

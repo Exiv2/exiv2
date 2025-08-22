@@ -5,21 +5,24 @@
 
 // *****************************************************************************
 // included header files
-#include "error.hpp"
 #include "tags.hpp"
 
 // *****************************************************************************
 // namespace extensions
 
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
 //! The details of a section.
 struct SectionInfo {
-  SectionId sectionId_;  //!< Section id
-  const char* name_;     //!< Section name (one word)
-  const char* desc_;     //!< Section description
+  SectionId sectionId_;    //!< Section id
+  const char* name_;       //!< Section name (one word)
+  std::string_view desc_;  //!< Section description
 };
 
 /*!
@@ -32,7 +35,7 @@ struct TagDetails {
 
   //! Comparison operator for use with the find template
   bool operator==(int64_t key) const {
-    return val_ == key;
+    return key == val_;
   }
 };  // struct TagDetails
 
@@ -41,12 +44,12 @@ struct TagDetails {
          tag values to human readable labels.
  */
 struct StringTagDetails {
-  const char* val_;    //!< Tag value
-  const char* label_;  //!< Translation of the tag value
+  std::string_view val_;  //!< Tag value
+  const char* label_;     //!< Translation of the tag value
 
   //! Comparison operator for use with the find template
-  bool operator==(const std::string& key) const {
-    return (key == val_);
+  bool operator==(std::string_view key) const {
+    return key == val_;
   }
 };  // struct TagDetails
 
@@ -70,8 +73,8 @@ using TagDetailsBitlistSorted = std::pair<uint32_t, const char*>;
          vocabulary strings to their descriptions.
  */
 struct TagVocabulary {
-  const char* voc_;    //!< Vocabulary string
-  const char* label_;  //!< Description of the vocabulary string
+  std::string_view voc_;  //!< Vocabulary string
+  const char* label_;     //!< Description of the vocabulary string
 
   /*!
     @brief Comparison operator for use with the find template
@@ -80,7 +83,7 @@ struct TagVocabulary {
     "http://ns.useplus.org/ldf/vocab/PR-NON" and return true if the vocabulary
     string matches the end of the key.
    */
-  bool operator==(const std::string& key) const;
+  bool operator==(std::string_view key) const;
 };  // struct TagDetails
 
 /*!
@@ -88,7 +91,8 @@ struct TagVocabulary {
          by looking up a reference table.
  */
 template <size_t N, const StringTagDetails (&array)[N]>
-std::ostream& printTagString(std::ostream& os, const std::string& value, const ExifData*) {
+std::ostream& printTagString(std::ostream& os, std::string_view value, const ExifData*) {
+  static_assert(N > 0, "Passed zero length printTagString");
   if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
@@ -103,6 +107,7 @@ std::ostream& printTagString(std::ostream& os, const std::string& value, const E
  */
 template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString(std::ostream& os, const Value& value, const ExifData* data) {
+  static_assert(N > 0, "Passed zero length printTagString");
   return printTagString<N, array>(os, value.toString(0), data);
 }
 
@@ -115,6 +120,7 @@ std::ostream& printTagString(std::ostream& os, const Value& value, const ExifDat
  */
 template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString2(std::ostream& os, const Value& value, const ExifData* data) {
+  static_assert(N > 0, "Passed zero length printTagString2");
   if (value.count() < 2)
     return os << "(" << value << ")";
   std::string temp = value.toString(0) + " " + value.toString(1);
@@ -130,6 +136,7 @@ std::ostream& printTagString2(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString4(std::ostream& os, const Value& value, const ExifData* data) {
+  static_assert(N > 0, "Passed zero length printTagString4");
   if (value.count() < 4)
     return os << "(" << value << ")";
   std::string temp = value.toString(0) + " " + value.toString(1) + " " + value.toString(2) + " " + value.toString(3);
@@ -145,6 +152,7 @@ std::ostream& printTagString4(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTagNoError(std::ostream& os, const int64_t value, const ExifData*) {
+  static_assert(N > 0, "Passed zero length printTagNoError");
   if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
@@ -159,6 +167,7 @@ std::ostream& printTagNoError(std::ostream& os, const int64_t value, const ExifD
  */
 template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTagNoError(std::ostream& os, const Value& value, const ExifData* data) {
+  static_assert(N > 0, "Passed zero length printTagNoError");
   return printTagNoError<N, array>(os, value.toInt64(), data);
 }
 
@@ -171,6 +180,7 @@ std::ostream& printTagNoError(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*) {
+  static_assert(N > 0, "Passed zero length printTag");
   if (auto td = Exiv2::find(array, value)) {
     os << exvGettext(td->label_);
   } else {
@@ -185,6 +195,7 @@ std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*) {
  */
 template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTag(std::ostream& os, const Value& value, const ExifData* data) {
+  static_assert(N > 0, "Passed zero length printTag");
   return printTag<N, array>(os, value.toInt64(), data);
 }
 
@@ -197,16 +208,15 @@ std::ostream& printTag(std::ostream& os, const Value& value, const ExifData* dat
  */
 template <size_t N, const TagDetailsBitmask (&array)[N]>
 std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifData*) {
+  static_assert(N > 0, "Passed zero length printTag");
   const auto val = value.toUint32();
-  if (val == 0 && N > 0) {
+  if (val == 0) {
     auto [mask, label] = *array;
     if (mask == 0)
       return os << exvGettext(label);
   }
   bool sep = false;
-  for (size_t i = 0; i < N; ++i) {
-    auto [mask, label] = *(array + i);
-
+  for (auto [mask, label] : array) {
     if (val & mask) {
       if (sep) {
         os << ", " << exvGettext(label);
@@ -230,8 +240,7 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
  */
 template <size_t N, const TagDetailsBitlistSorted (&array)[N]>
 std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const ExifData*) {
-  if constexpr (N == 0)
-    throw Error(ErrorCode::kerErrorMessage, "Passed zero length TagDetailsBitlistSorted");
+  static_assert(N > 0, "Passed zero length TagDetailsBitlistSorted");
 
   uint32_t vN = 0;
   uint32_t currentVNBit = 0;
@@ -289,6 +298,7 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
  */
 template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const ExifData*) {
+  static_assert(N > 0, "Passed zero length printTagVocabulary");
   if (auto td = Exiv2::find(array, value.toString())) {
     os << exvGettext(td->label_);
   } else {
@@ -302,6 +312,7 @@ std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const Exi
 
 template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabularyMulti(std::ostream& os, const Value& value, const ExifData*) {
+  static_assert(N > 0, "Passed zero length printTagVocabularyMulti");
   if (value.count() == 0) {
     os << "(" << value << ")";
     return os;
@@ -483,6 +494,7 @@ float fnumber(float apertureValue);
 //! Calculate the exposure time from an APEX shutter speed value
 URational exposureTime(float shutterSpeedValue);
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef TAGS_INT_HPP_

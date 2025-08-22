@@ -1,12 +1,20 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "tiffimage_int.hpp"
+#include "config.h"
+
+#include "basicio.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "sonymn_int.hpp"
-#include "tags_int.hpp"
+#include "tiffcomposite_int.hpp"
+#include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
+
+#ifdef EXIV2_DEBUG_MESSAGES
+#include "tags_int.hpp"
+#endif
 
 #include <array>
 #include <iostream>
@@ -1976,7 +1984,7 @@ const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
     {"*", 0x0026, IfdId::canonId, &TiffDecoder::decodeCanonAFInfo, nullptr /* Exiv2.Canon.AFInfo is read-only */},
 };
 
-DecoderFct TiffMapping::findDecoder(const std::string& make, uint32_t extendedTag, IfdId group) {
+DecoderFct TiffMapping::findDecoder(std::string_view make, uint32_t extendedTag, IfdId group) {
   DecoderFct decoderFct = &TiffDecoder::decodeStdTiffEntry;
   if (auto td = Exiv2::find(tiffMappingInfo_, TiffMappingInfo::Key{make, extendedTag, group})) {
     // This may set decoderFct to 0, meaning that the tag should not be decoded
@@ -1985,7 +1993,7 @@ DecoderFct TiffMapping::findDecoder(const std::string& make, uint32_t extendedTa
   return decoderFct;
 }
 
-EncoderFct TiffMapping::findEncoder(const std::string& make, uint32_t extendedTag, IfdId group) {
+EncoderFct TiffMapping::findEncoder(std::string_view make, uint32_t extendedTag, IfdId group) {
   EncoderFct encoderFct = nullptr;
   if (auto td = Exiv2::find(tiffMappingInfo_, TiffMappingInfo::Key{make, extendedTag, group})) {
     // Returns 0 if no special encoder function is found
@@ -1995,7 +2003,7 @@ EncoderFct TiffMapping::findEncoder(const std::string& make, uint32_t extendedTa
 }
 
 TiffComponent::UniquePtr TiffCreator::create(uint32_t extendedTag, IfdId group) {
-  auto tag = static_cast<uint16_t>(extendedTag & 0xffff);
+  auto tag = static_cast<uint16_t>(extendedTag);
   auto i = tiffGroupTable_.find(TiffGroupKey(extendedTag, group));
   // If the lookup failed then try again with Tag::all.
   if (i == tiffGroupTable_.end()) {
@@ -2059,10 +2067,10 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
    */
   WriteMethod writeMethod = wmIntrusive;
   auto parsedTree = parse(pData, size, root, pHeader);
-  auto primaryGroups = findPrimaryGroups(parsedTree.get());
+  auto primaryGroups = findPrimaryGroups(parsedTree);
   if (parsedTree) {
     // Attempt to update existing TIFF components based on metadata entries
-    TiffEncoder encoder(exifData, iptcData, xmpData, parsedTree.get(), false, &primaryGroups, pHeader, findEncoderFct);
+    TiffEncoder encoder(exifData, iptcData, xmpData, parsedTree.get(), false, primaryGroups, pHeader, findEncoderFct);
     parsedTree->accept(encoder);
     if (!encoder.dirty())
       writeMethod = wmNonIntrusive;
@@ -2071,13 +2079,13 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
     auto createdTree = TiffCreator::create(root, IfdId::ifdIdNotSet);
     if (parsedTree) {
       // Copy image tags from the original image to the composite
-      TiffCopier copier(createdTree.get(), root, pHeader, &primaryGroups);
+      TiffCopier copier(createdTree.get(), root, pHeader, primaryGroups);
       parsedTree->accept(copier);
     }
     // Add entries from metadata to composite
-    TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, &primaryGroups, pHeader,
+    TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, std::move(primaryGroups), pHeader,
                         findEncoderFct);
-    encoder.add(createdTree.get(), parsedTree.get(), root);
+    encoder.add(createdTree.get(), std::move(parsedTree), root);
     // Write binary representation from the composite tree
     DataBuf header = pHeader->write();
     auto tempIo = MemIo();
@@ -2101,12 +2109,13 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
 
 TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size, uint32_t root,
                                                  TiffHeaderBase* pHeader) {
+  TiffComponent::UniquePtr rootDir;
   if (!pData || size == 0)
-    return nullptr;
+    return rootDir;
   if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
     throw Error(ErrorCode::kerNotAnImage, "TIFF");
   }
-  auto rootDir = TiffCreator::create(root, IfdId::ifdIdNotSet);
+  rootDir = TiffCreator::create(root, IfdId::ifdIdNotSet);
   if (rootDir) {
     rootDir->setStart(pData + pHeader->offset());
     auto state = TiffRwState{pHeader->byteOrder(), 0};
@@ -2118,7 +2127,7 @@ TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size,
 
 }  // TiffParserWorker::parse
 
-PrimaryGroups TiffParserWorker::findPrimaryGroups(TiffComponent* pSourceDir) {
+PrimaryGroups TiffParserWorker::findPrimaryGroups(const TiffComponent::UniquePtr& pSourceDir) {
   PrimaryGroups ret;
   if (!pSourceDir)
     return ret;
@@ -2133,7 +2142,9 @@ PrimaryGroups TiffParserWorker::findPrimaryGroups(TiffComponent* pSourceDir) {
     TiffFinder finder(0x00fe, imageGroup);
     pSourceDir->accept(finder);
     auto te = dynamic_cast<const TiffEntryBase*>(finder.result());
-    const Value* pV = te ? te->pValue() : nullptr;
+    if (!te)
+      continue;
+    const Value* pV = te->pValue();
     if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toInt64() & 1) == 0) {
       ret.push_back(te->group());
     }
@@ -2183,10 +2194,8 @@ DataBuf TiffHeaderBase::write() const {
   return buf;
 }
 
-void TiffHeaderBase::print(std::ostream& os, const std::string& prefix) const {
-  std::ios::fmtflags f(os.flags());
-  os << prefix << _("TIFF header, offset") << " = 0x" << std::setw(8) << std::setfill('0') << std::hex << std::right
-     << offset_;
+void TiffHeaderBase::print(std::ostream& os, std::string_view prefix) const {
+  os << stringFormat("{}{} = 0x{:08x}", prefix, _("TIFF header, offset"), offset_);
 
   switch (byteOrder_) {
     case littleEndian:
@@ -2199,7 +2208,6 @@ void TiffHeaderBase::print(std::ostream& os, const std::string& prefix) const {
       break;
   }
   os << "\n";
-  os.flags(f);
 }  // TiffHeaderBase::print
 
 ByteOrder TiffHeaderBase::byteOrder() const {
@@ -2226,7 +2234,7 @@ uint16_t TiffHeaderBase::tag() const {
   return tag_;
 }
 
-bool TiffHeaderBase::isImageTag(uint16_t /*tag*/, IfdId /*group*/, const PrimaryGroups* /*primaryGroups*/) const {
+bool TiffHeaderBase::isImageTag(uint16_t /*tag*/, IfdId /*group*/, const PrimaryGroups& /*primaryGroups*/) const {
   return false;
 }
 
@@ -2325,7 +2333,7 @@ TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags) 
     TiffHeaderBase(42, 8, byteOrder, offset), hasImageTags_(hasImageTags) {
 }
 
-bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const {
+bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& pPrimaryGroups) const {
   if (!hasImageTags_) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "No image tags in this image\n";
@@ -2336,8 +2344,8 @@ bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPri
   ExifKey key(tag, groupName(group));
 #endif
   // If there are primary groups and none matches group, we're done
-  if (pPrimaryGroups && !pPrimaryGroups->empty() &&
-      std::find(pPrimaryGroups->begin(), pPrimaryGroups->end(), group) == pPrimaryGroups->end()) {
+  if (!pPrimaryGroups.empty() &&
+      std::find(pPrimaryGroups.begin(), pPrimaryGroups.end(), group) == pPrimaryGroups.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Not an image tag: " << key << " (1)\n";
 #endif
@@ -2345,7 +2353,7 @@ bool TiffHeader::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPri
   }
   // All tags of marked primary groups other than IFD0 are considered
   // image tags. That should take care of NEFs until we know better.
-  if (pPrimaryGroups && !pPrimaryGroups->empty() && group != IfdId::ifd0Id) {
+  if (!pPrimaryGroups.empty() && group != IfdId::ifd0Id) {
 #ifdef EXIV2_DEBUG_MESSAGES
     ExifKey key(tag, groupName(group));
     std::cerr << "Image tag: " << key << " (2)\n";

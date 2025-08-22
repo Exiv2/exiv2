@@ -5,40 +5,34 @@
 
 #include "config.h"
 #include "enforce.hpp"
-#include "error.hpp"
-#include "utils.hpp"
+#include "image_int.hpp"
 
 // + standard includes
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <cstdint>
 #include <cstring>
-#include <sstream>
 #include <stdexcept>
+#include <string>
 
 #ifdef EXV_ENABLE_FILESYSTEM
-#if __has_include(<filesystem>)
 #include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
-#endif
 
 #if defined(_WIN32)
 // clang-format off
 #include <windows.h>
-#include <psapi.h>  // For access to GetModuleFileNameEx
+#include <psapi.h>  // For access to GetModuleFileName
 // clang-format on
-#endif
-
-#if __has_include(<libproc.h>)
-#include <libproc.h>
 #endif
 
 #if __has_include(<unistd.h>)
 #include <unistd.h>  // for getpid()
+#endif
+
+#if __has_include(<libproc.h>)
+#include <libproc.h>
 #endif
 
 #if __has_include(<mach-o/dyld.h>)
@@ -62,12 +56,14 @@ namespace fs = std::experimental::filesystem;
 #define _MAX_PATH 1024
 #endif
 
+#endif
+
 namespace Exiv2 {
-constexpr std::array<const char*, 2> ENVARDEF{
+constexpr std::array ENVARDEF{
     "/exiv2.php",
     "40",
 };  /// @brief default URL for http exiv2 handler and time-out
-constexpr std::array<const char*, 2> ENVARKEY{
+constexpr std::array ENVARKEY{
     "EXIV2_HTTP_POST",
     "EXIV2_TIMEOUT",
 };  /// @brief request keys for http exiv2 handler and time-out
@@ -90,7 +86,7 @@ static char to_hex(char code) {
 
 /// @brief Convert a hex character to its integer value.
 static char from_hex(char ch) {
-  return isdigit(ch) ? ch - '0' : static_cast<char>(tolower(ch)) - 'a' + 10;
+  return 0xF & (isdigit(ch) ? ch - '0' : static_cast<char>(tolower(ch)) - 'a' + 10);
 }
 
 std::string urlencode(const std::string& str) {
@@ -168,7 +164,7 @@ int base64encode(const void* data_buf, size_t dataLength, char* result, size_t r
 size_t base64decode(const char* in, char* out, size_t out_size) {
   size_t result = 0;
   size_t input_length = in ? ::strlen(in) : 0;
-  if (!in || input_length % 4 != 0)
+  if (!in || input_length % 4 != 0 || input_length == 0)
     return result;
 
   auto encoding_table = reinterpret_cast<const unsigned char*>(base64_encode);
@@ -209,8 +205,8 @@ size_t base64decode(const char* in, char* out, size_t out_size) {
 
 Protocol fileProtocol(const std::string& path) {
   Protocol result = pFile;
-  const struct {
-    std::string name;
+  constexpr struct {
+    std::string_view name;
     Protocol prot;
     bool isUrl;  // path.size() > name.size()
   } prots[] = {
@@ -221,7 +217,7 @@ Protocol fileProtocol(const std::string& path) {
     if (result != pFile)
       break;
 
-    if (Exiv2::Internal::startsWith(path, prot.name))
+    if (path.starts_with(prot.name))
       // URL's require data.  Stdin == "-" and no further data
       if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
         result = prot.prot;
@@ -243,7 +239,7 @@ bool fileExists(const std::string& path) {
 
 std::string strError() {
   int error = errno;
-  std::ostringstream os;
+  std::string os;
 #ifdef EXV_HAVE_STRERROR_R
   const size_t n = 1024;
 #ifdef EXV_STRERROR_R_CHAR_P
@@ -254,17 +250,22 @@ std::string strError() {
   const int ret = strerror_r(error, buf, n);
   Internal::enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
 #endif
-  os << buf;
+  os = buf;
   // Issue# 908.
   // report strerror() if strerror_r() returns empty
-  if (!buf[0]) {
-    os << strerror(error);
+  if (os.empty()) {
+    os = std::strerror(error);
   }
+#elif defined(_WIN32)
+  const size_t n = 1024;
+  char buf[n] = {};
+  const auto ret = strerror_s(buf, n, error);
+  Internal::enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
+  os = buf;
 #else
-  os << std::strerror(error);
+  os = std::strerror(error);
 #endif
-  os << " (errno = " << error << ")";
-  return os.str();
+  return stringFormat("{} (errno = {})", os, error);
 }  // strError
 
 void Uri::Decode(Uri& uri) {
@@ -292,7 +293,7 @@ Uri Uri::Parse(const std::string& uri) {
 
   if (protocolEnd != uriEnd) {
     auto prot = std::string(protocolEnd, uriEnd);
-    if ((prot.length() > 3) && (prot.substr(0, 3) == "://")) {
+    if (prot.starts_with("://")) {
       result.Protocol = std::string(protocolStart, protocolEnd);
       protocolEnd += 3;  //      ://
     } else
@@ -324,21 +325,26 @@ Uri Uri::Parse(const std::string& uri) {
   auto hostEnd = std::find(authEnd, (pathStart != uriEnd) ? pathStart : queryStart,
                            ':');  // check for port
 
-  result.Host = std::string(hostStart, hostEnd);
+  if (hostStart < hostEnd) {
+    result.Host = std::string(hostStart, hostEnd);
+  }
 
   // port
   if ((hostEnd != uriEnd) && (*hostEnd == ':'))  // we have a port
   {
     ++hostEnd;
     auto portEnd = (pathStart != uriEnd) ? pathStart : queryStart;
-    result.Port = std::string(hostEnd, portEnd);
+    if (hostEnd < portEnd) {
+      result.Port = std::string(hostEnd, portEnd);
+    }
   }
   if (result.Port.empty() && result.Protocol == "http")
     result.Port = "80";
 
   // path
-  if (pathStart != uriEnd)
+  if (pathStart < queryStart) {
     result.Path = std::string(pathStart, queryStart);
+  }
 
   // query
   if (queryStart != uriEnd)
@@ -365,7 +371,7 @@ std::string getProcessPath() {
   if (procstat)
     procstat_close(procstat);
 
-  const size_t idxLastSeparator = ret.find_last_of(EXV_SEPARATOR_CHR);
+  const size_t idxLastSeparator = ret.find_last_of('/');
   return ret.substr(0, idxLastSeparator);
 #else
   try {
@@ -381,7 +387,7 @@ std::string getProcessPath() {
       return "unknown";  // pathbuf not big enough
     auto path = fs::path(pathbuf);
 #elif defined(__sun__)
-    auto path = fs::read_symlink(Internal::stringFormat("/proc/%d/path/a.out", getpid()));
+    auto path = fs::read_symlink(stringFormat("/proc/{}/path/a.out", getpid()));
 #elif defined(__unix__)
     auto path = fs::read_symlink("/proc/self/exe");
 #endif

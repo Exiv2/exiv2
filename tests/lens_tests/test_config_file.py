@@ -1,8 +1,6 @@
-import unittest
 import system_tests
 import os
 import shutil
-import sys
 
 
 # copy the example config file into current working directory

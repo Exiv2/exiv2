@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef VERSION_HPP_
-#define VERSION_HPP_
+#ifndef EXIV2_VERSION_HPP
+#define EXIV2_VERSION_HPP
 
 #include "exiv2lib_export.h"
-#include "exv_conf.h"
 
 // *****************************************************************************
 // included header files
 // + standard includes
+#include <cstdint>
 #include <regex>
 #include <vector>
 
@@ -104,4 +104,4 @@ EXIV2API bool testVersion(uint32_t major, uint32_t minor, uint32_t patch);
 EXIV2API void dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& keys);
 }  // namespace Exiv2
 
-#endif  // VERSION_HPP_
+#endif  // EXIV2_VERSION_HPP

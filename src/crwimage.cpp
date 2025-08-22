@@ -13,7 +13,9 @@
 #include "futils.hpp"
 #include "tags.hpp"
 
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -121,7 +123,7 @@ void CrwParser::encode(Blob& blob, const byte* pData, size_t size, const CrwImag
 
   // Encode Exif tags from image into the CRW parse tree and write the
   // structure to the binary image blob
-  Internal::CrwMap::encode(&header, *pCrwImage);
+  Internal::CrwMap::encode(header, *pCrwImage);
   header.write(blob);
 }
 

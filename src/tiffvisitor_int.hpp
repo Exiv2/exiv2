@@ -6,8 +6,8 @@
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
-#include "tifffwd_int.hpp"
-#include "types.hpp"
+
+#include "tiffcomposite_int.hpp"
 
 #include <array>
 
@@ -201,7 +201,7 @@ class TiffCopier : public TiffVisitor {
     @param pHeader Pointer to the TIFF header of the source image.
     @param pPrimaryGroups Pointer to the list of primary groups.
    */
-  TiffCopier(TiffComponent* pRoot, uint32_t root, const TiffHeaderBase* pHeader, const PrimaryGroups* pPrimaryGroups);
+  TiffCopier(TiffComponent* pRoot, uint32_t root, const TiffHeaderBase* pHeader, PrimaryGroups pPrimaryGroups);
   TiffCopier(const TiffCopier&) = delete;
   TiffCopier& operator=(const TiffCopier&) = delete;
   //! Virtual destructor
@@ -239,7 +239,7 @@ class TiffCopier : public TiffVisitor {
   TiffComponent* pRoot_;
   uint32_t root_;
   const TiffHeaderBase* pHeader_;
-  const PrimaryGroups* pPrimaryGroups_;
+  PrimaryGroups pPrimaryGroups_;
 };  // class TiffCopier
 
 /*!
@@ -350,7 +350,7 @@ class TiffEncoder : public TiffVisitor {
            find special encoders.
    */
   TiffEncoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot, bool isNewImage,
-              const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader, FindEncoderFct findEncoderFct);
+              PrimaryGroups pPrimaryGroups, const TiffHeaderBase* pHeader, FindEncoderFct findEncoderFct);
   TiffEncoder(const TiffEncoder&) = delete;
   TiffEncoder& operator=(const TiffEncoder&) = delete;
   //! Virtual destructor
@@ -446,7 +446,7 @@ class TiffEncoder : public TiffVisitor {
     tree is then traversed and metadata from the image is used to encode
     each existing component.
   */
-  void add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32_t root);
+  void add(TiffComponent* pRootDir, TiffComponent::UniquePtr pSourceDir, uint32_t root);
   //! Set the dirty flag and end of traversing signal.
   void setDirty(bool flag = true);
   //@}
@@ -515,8 +515,8 @@ class TiffEncoder : public TiffVisitor {
   const TiffHeaderBase* pHeader_;            //!< TIFF image header
   TiffComponent* pRoot_;                     //!< Root element of the composite
   bool isNewImage_;                          //!< True if the TIFF image is created from scratch
-  const PrimaryGroups* pPrimaryGroups_;      //!< List of primary image groups
-  TiffComponent* pSourceTree_{nullptr};      //!< Parsed source tree for reference
+  PrimaryGroups pPrimaryGroups_;             //!< List of primary image groups
+  TiffComponent::UniquePtr pSourceTree_;     //!< Parsed source tree for reference
   ByteOrder byteOrder_;                      //!< Byteorder for encoding
   ByteOrder origByteOrder_;                  //!< Byteorder as set in the c'tor
   FindEncoderFct findEncoderFct_;            //!< Ptr to the function to find special encoding functions

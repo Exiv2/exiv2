@@ -3,13 +3,16 @@
 // included header files
 #include "panasonicmn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
 
 // + standard includes
-#include <iomanip>
-#include <sstream>
+#include <cstddef>
+#include <cstdint>
+#include <ostream>
 
 // *****************************************************************************
 // class member definitions
@@ -147,8 +150,8 @@ constexpr TagDetails panasonicBurstMode[] = {
 
 //! Contrast, tag 0x002c
 constexpr TagDetails panasonicContrast[] = {
-    {0, N_("Normal")}, {1, N_("Low")},        {2, N_("High")},   {6, N_("Medium low")}, {7, N_("Medium high")},
-    {256, N_("Low")},  {272, N_("Standard")}, {288, N_("High")}, {288, N_("High")}  // To silence compiler warning
+    {0, N_("Normal")},      {1, N_("Low")},   {2, N_("High")},       {6, N_("Medium low")},
+    {7, N_("Medium high")}, {256, N_("Low")}, {272, N_("Standard")}, {288, N_("High")},
 };
 
 //! NoiseReduction, tag 0x002d
@@ -199,7 +202,6 @@ constexpr TagDetails panasonicConversionLens[] = {
     {2, N_("Wide")},
     {3, N_("Telephoto")},
     {4, N_("Macro")},
-    {4, N_("Macro")}  // To silence compiler warning
 };
 
 //! WorldTimeLocation, tag 0x003a
@@ -603,28 +605,14 @@ std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, const Value& val
 
 // tag White balance bias
 std::ostream& PanasonicMakerNote::print0x0023(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << value.toInt64() / 3 << _(" EV");
-  os.copyfmt(oss);
-
-  os.flags(f);
-  return os;
-
+  return os << stringFormat("{:1}{}", value.toInt64() / 3, _(" EV"));
 }  // PanasonicMakerNote::print0x0023
 
 // Time since power on
 std::ostream& PanasonicMakerNote::print0x0029(std::ostream& os, const Value& value, const ExifData*) {
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  const auto time = value.toInt64();
-  os << std::setw(2) << std::setfill('0') << time / 360000 << ":" << std::setw(2) << std::setfill('0')
-     << (time % 360000) / 6000 << ":" << std::setw(2) << std::setfill('0') << (time % 6000) / 100 << "." << std::setw(2)
-     << std::setfill('0') << time % 100;
-  os.copyfmt(oss);
-
-  return os;
+  auto time = value.toInt64();
+  return os << stringFormat("{:02}:{:02}:{:02}.{:02}", time / 360000, (time % 360000) / 6000, (time % 6000) / 100,
+                            time % 100);
 
 }  // PanasonicMakerNote::print0x0029
 
@@ -695,23 +683,13 @@ std::ostream& PanasonicMakerNote::printAccelerometer(std::ostream& os, const Val
 std::ostream& PanasonicMakerNote::printRollAngle(std::ostream& os, const Value& value, const ExifData*) {
   // value is stored as unsigned int, but should be read as int16_t.
   const auto i = static_cast<int16_t>(value.toInt64());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << i / 10.0;
-  os.copyfmt(oss);
-
-  return os;
+  return os << stringFormat("{:.1f}", i / 10.0);
 }  // PanasonicMakerNote::printRollAngle
 
 std::ostream& PanasonicMakerNote::printPitchAngle(std::ostream& os, const Value& value, const ExifData*) {
   // value is stored as unsigned int, but should be read as int16_t.
   const auto i = static_cast<int16_t>(value.toInt64());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << -i / 10.0;
-  os.copyfmt(oss);
-
-  return os;
+  return os << stringFormat("{:.1f}", -i / 10.0);
 }  // PanasonicMakerNote::printPitchAngle
 
 // Panasonic MakerNote Tag Info

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef MRWIMAGE_HPP_
-#define MRWIMAGE_HPP_
+#ifndef EXIV2_MRWIMAGE_HPP
+#define EXIV2_MRWIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -91,4 +91,4 @@ EXIV2API bool isMrwType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef MRWIMAGE_HPP_
+#endif  // EXIV2_MRWIMAGE_HPP

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef ORFIMAGE_HPP_
-#define ORFIMAGE_HPP_
+#ifndef EXIV2_ORFIMAGE_HPP
+#define EXIV2_ORFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -55,9 +55,9 @@ class EXIV2API OrfImage : public TiffImage {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 };  // class OrfImage
 
@@ -99,4 +99,4 @@ EXIV2API bool isOrfType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef ORFIMAGE_HPP_
+#endif  // EXIV2_ORFIMAGE_HPP

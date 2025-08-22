@@ -3,17 +3,16 @@ project(
   'cpp',
   version: '1.0.0',
   meson_version: '>=0.54.1',
-  default_options: ['warning_level=0', 'cpp_std=c++17'],
+  default_options: ['warning_level=0', 'cpp_std=c++20'],
 )
 
-cargs = []
 cpp = meson.get_compiler('cpp')
 if host_machine.system() == 'windows' and get_option('default_library') != 'static'
-  cargs += '-DEXIV2API=__declspec(dllexport)'
-elif cpp.has_function_attribute('visibility')
-  cargs += '-DEXIV2API=__attribute__((visibility("default")))'
+  cargs = '-DEXIV2API=__declspec(dllexport)'
+elif cpp.has_function_attribute('visibility:default')
+  cargs = '-DEXIV2API=__attribute__((visibility("default")))'
 else
-  cargs += '-DEXIV2API='
+  cargs = '-DEXIV2API='
 endif
 
 if host_machine.system() == 'windows'
@@ -44,22 +43,24 @@ cdata.set('EXV_PACKAGE_VERSION', '@0@.@1@'.format(meson.project_version(), cdata
 cdata.set('EXV_PACKAGE_STRING', '@0@ @1@'.format(meson.project_name(), cdata.get('PROJECT_VERSION')))
 
 cdata.set('EXV_HAVE_STRERROR_R', cpp.has_function('strerror_r'))
-cdata.set('EXV_STRERROR_R_CHAR_P', not cpp.compiles('#include <string.h>\nint strerror_r(int,char*,size_t);int main(){}'))
+cdata.set('EXV_STRERROR_R_CHAR_P', not cpp.compiles('#define _GNU_SOURCE\n#include <string.h>\nint strerror_r(int,char*,size_t);int main(){}'))
+cdata.set('EXV_HAVE_STD_FORMAT', cpp.has_header_symbol('format', 'std::format'))
 
 cdata.set('EXV_ENABLE_BMFF', get_option('bmff'))
 cdata.set('EXV_HAVE_LENSDATA', get_option('lensdata'))
 cdata.set('EXV_ENABLE_VIDEO', get_option('video'))
 
 deps = []
-deps += cpp.find_library('ws2_32', required: host_machine.system() == 'windows')
-deps += cpp.find_library('procstat', required: host_machine.system() == 'freebsd')
-
-if cpp.get_argument_syntax() == 'gcc' and cpp.version().version_compare('<9')
-  if host_machine.system() == 'linux' and cpp.get_define('_LIBCPP_VERSION', prefix: '#include <new>') == ''
-    deps += cpp.find_library('stdc++fs')
-  elif cpp.get_id() == 'clang'
-    deps += cpp.find_library('c++fs')
+foreach d, os : {'procstat': 'freebsd', 'socket': 'sunos', 'ws2_32': 'windows'}
+  if host_machine.system() == os
+    deps += cpp.find_library(d)
   endif
+endforeach
+
+fmt_dep = []
+if not cpp.has_header_symbol('format', 'std::format')
+  fmt_dep = dependency('fmt')
+  deps += fmt_dep
 endif
 
 brotli_dep = dependency('libbrotlidec', disabler: true, required: false)
@@ -137,75 +138,84 @@ subdir('include')
 
 install_man('man/man1/exiv2.1')
 
-exiv2_sources = files(
-  'app/actions.cpp',
-  'app/app_utils.cpp',
-  'app/exiv2.cpp',
-  'app/getopt.cpp',
-)
-
-if host_machine.system() == 'windows'
-  windows = import('windows')
-  exiv2_sources += windows.compile_resources('app/utf8.rc', depend_files: 'app/utf8.manifest') 
-endif
-
 exiv2inc = include_directories('src', 'include/exiv2')
-executable(
-  'exiv2',
-  exiv2_sources,
-  include_directories: exiv2inc,
-  dependencies: exiv2_dep,
-  install: true,
-)
-
-samples = {
-  'addmoddel': [],
-  'conntest': web_dep,
-  'convert-test': [],
-  'easyaccess-test': [],
-  'exifcomment': [],
-  'exifdata-test': [],
-  'exifdata': [],
-  'exifprint': [],
-  'exifvalue': [],
-  'geotag': expat_dep,
-  'ini-test': inih_dep,
-  'iotest': [],
-  'iptceasy': [],
-  'iptcprint': [],
-  'iptctest': [],
-  'key-test': [],
-  'largeiptc-test': [],
-  'mmap-test': [],
-  'mrwthumb': [],
-  'prevtest': [],
-  'remotetest': [],
-  'stringto-test': [],
-  'taglist': [],
-  'tiff-test': [],
-  'write-test': [],
-  'write2-test': [],
-  'xmpparse': [],
-  'xmpparser-test': [],
-  'xmpprint': [],
-  'xmpsample': [],
-  'xmpdump': [],
-}
-
-foreach s, d : samples
-  executable(s, 'samples/@0@.cpp'.format(s), dependencies: [exiv2_dep, d], include_directories: exiv2inc)
-endforeach
-
-gopt = [
- 'getopt-test',
- 'metacopy',
- 'path-test',
-]
-
-ginc = include_directories('app')
-foreach g : gopt
-  executable(g, 'samples/@0@.cpp'.format(g), 'app/getopt.cpp', dependencies: exiv2_dep, include_directories: [exiv2inc, ginc])
-endforeach
 
 subdir('unitTests')
 subdir('po')
+
+if get_option('app')
+  exiv2_sources = files(
+    'app/actions.cpp',
+    'app/app_utils.cpp',
+    'app/exiv2.cpp',
+    'app/getopt.cpp',
+  )
+
+  if host_machine.system() == 'windows'
+    windows = import('windows')
+    exiv2_sources += windows.compile_resources('app/utf8.rc', depend_files: 'app/utf8.manifest')
+  endif
+
+  executable(
+    'exiv2',
+    exiv2_sources,
+    include_directories: exiv2inc,
+    dependencies: exiv2_dep,
+    install: true,
+  )
+endif
+
+if get_option('app')
+  samples = {
+    'addmoddel': [],
+    'conntest': web_dep,
+    'convert-test': [],
+    'easyaccess-test': [],
+    'exifcomment': [],
+    'exifdata-test': [],
+    'exifdata': [],
+    'exifprint': [],
+    'exifvalue': [],
+    'geotag': expat_dep,
+    'ini-test': inih_dep,
+    'iotest': [],
+    'iptceasy': [],
+    'iptcprint': [],
+    'iptctest': [],
+    'jpegparsetest': [],
+    'key-test': [],
+    'largeiptc-test': [],
+    'mmap-test': [],
+    'mrwthumb': [],
+    'prevtest': [],
+    'remotetest': [],
+    'stringto-test': [],
+    'taglist': [],
+    'tiff-test': [],
+    'write-test': [],
+    'write2-test': [],
+    'xmpparse': [],
+    'xmpparser-test': [],
+    'xmpprint': [],
+    'xmpsample': [],
+    'xmpdump': [],
+  }
+
+  foreach s, d : samples
+    executable(s, 'samples/@0@.cpp'.format(s), dependencies: [exiv2_dep, d], include_directories: exiv2inc)
+  endforeach
+
+  gopt = [
+   'getopt-test',
+   'metacopy',
+   'path-test',
+  ]
+
+  ginc = include_directories('app')
+  foreach g : gopt
+    executable(g, 'samples/@0@.cpp'.format(g), 'app/getopt.cpp', dependencies: exiv2_dep, include_directories: [exiv2inc, ginc])
+  endforeach
+
+  bindir = 'EXIV2_BINDIR=@0@'.format(meson.current_build_dir())
+  subdir('tests')
+endif

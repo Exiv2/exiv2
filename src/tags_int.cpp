@@ -5,7 +5,6 @@
 
 #include "convert.hpp"
 #include "enforce.hpp"
-#include "error.hpp"
 #include "i18n.h"  // NLS support.
 
 #include "canonmn_int.hpp"
@@ -22,13 +21,14 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iomanip>
 #include <numeric>
 
 // *****************************************************************************
 // local declarations
 namespace {
 // Print version string from an intermediate string
-std::ostream& printVersion(std::ostream& os, const std::string& str) {
+std::ostream& printVersion(std::ostream& os, std::string_view str) {
   if (str.size() != 4) {
     return os << "(" << str << ")";
   }
@@ -178,9 +178,8 @@ constexpr TagDetails exifUnit[] = {
 
 //! Orientation, tag 0x0112
 constexpr TagDetails exifOrientation[] = {
-    {1, N_("top, left")},     {2, N_("top, right")},   {3, N_("bottom, right")},
-    {4, N_("bottom, left")},  {5, N_("left, top")},    {6, N_("right, top")},
-    {7, N_("right, bottom")}, {8, N_("left, bottom")}, {8, N_("left, bottom")}  // To silence compiler warning
+    {1, N_("top, left")}, {2, N_("top, right")}, {3, N_("bottom, right")}, {4, N_("bottom, left")},
+    {5, N_("left, top")}, {6, N_("right, top")}, {7, N_("right, bottom")}, {8, N_("left, bottom")},
 };
 
 //! PlanarConfiguration, tag 0x011c
@@ -297,9 +296,10 @@ constexpr TagDetails exifThresholding[] = {
 
 //! SampleFormat, tag 0x0153
 constexpr TagDetails exifSampleFormat[] = {
-    {1, N_("Unsigned integer data")},    {2, N_("Two's complement signed integer data")},
-    {3, N_("IEEE floating point data")}, {4, N_("Undefined data format")},
-    {4, N_("Undefined data format")},  // To silence compiler warning
+    {1, N_("Unsigned integer data")},
+    {2, N_("Two's complement signed integer data")},
+    {3, N_("IEEE floating point data")},
+    {4, N_("Undefined data format")},
 };
 
 //! Indexed, tag 0x015a
@@ -2526,7 +2526,7 @@ const TagInfo* tagInfo(uint16_t tag, IfdId ifdId) {
       if (ti[idx].tag_ == tag)
         break;
     }
-    return &ti[idx];
+    return ti + idx;
   }
   return nullptr;
 }  // tagInfo
@@ -2535,10 +2535,9 @@ const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
   if (tagName.empty())
     return nullptr;
   if (auto ti = tagList(ifdId)) {
-    const char* tn = tagName.c_str();
     for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
-      if (0 == strcmp(ti[idx].name_, tn)) {
-        return &ti[idx];
+      if (tagName == ti[idx].name_) {
+        return ti + idx;
       }
     }
   }
@@ -2547,7 +2546,7 @@ const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId) {
 
 IfdId groupId(const std::string& groupName) {
   if (auto ii = Exiv2::find(groupInfo, groupName))
-    return static_cast<IfdId>(ii->ifdId_);
+    return IfdId{ii->ifdId_};
   return IfdId::ifdIdNotSet;
 }
 
@@ -2593,16 +2592,16 @@ std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData*
 }
 
 float fnumber(float apertureValue) {
-  float result = std::exp(std::log(2.0F) * apertureValue / 2.F);
-  if (std::abs(result - 3.5) < 0.1) {
-    result = 3.5;
+  float result = std::exp2(apertureValue / 2.F);
+  if (std::abs(result - 3.5F) < 0.1F) {
+    result = 3.5F;
   }
   return result;
 }
 
 URational exposureTime(float shutterSpeedValue) {
   URational ur(1, 1);
-  const double tmp = std::exp(std::log(2.0) * static_cast<double>(shutterSpeedValue));
+  const double tmp = std::exp2(shutterSpeedValue);
   if (tmp > 1) {
     const double x = std::round(tmp);
     // Check that x is within the range of a uint32_t before casting.
@@ -2625,10 +2624,7 @@ uint16_t tagNumber(const std::string& tagName, IfdId ifdId) {
     return ti->tag_;
   if (!isHex(tagName, 4, "0x"))
     throw Error(ErrorCode::kerInvalidTag, tagName, ifdId);
-  std::istringstream is(tagName);
-  uint16_t tag = 0;
-  is >> std::hex >> tag;
-  return tag;
+  return static_cast<uint16_t>(std::stoi(tagName, nullptr, 16));
 }  // tagNumber
 
 std::ostream& printInt64(std::ostream& os, const Value& value, const ExifData*) {
@@ -2741,7 +2737,8 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
     fNumber2 = value.toFloat(3);
 
   // first value must not be bigger than second
-  if ((focalLength1 > focalLength2 && focalLength2 > 0.0f) || (fNumber1 > fNumber2 && fNumber2 > 0.0f)) {
+  if ((std::isgreater(focalLength1, focalLength2) && std::isgreater(focalLength2, 0.0f)) ||
+      (std::isgreater(fNumber1, fNumber2) && std::isgreater(fNumber2, 0.0f))) {
     os << "(" << value << ")";
     return os;
   }
@@ -2767,7 +2764,7 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
   std::ostringstream oss;
   oss.copyfmt(os);
 
-  if (fNumber1 > 0.0f || fNumber2 > 0.0f) {
+  if (std::isgreater(fNumber1, 0.0f) || std::isgreater(fNumber2, 0.0f)) {
     os << " F";
     if (fNumber1 == 0.0f)
       os << " n/a";
@@ -2828,7 +2825,7 @@ std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*)
     }
     std::ostringstream oss;
     oss.copyfmt(os);
-    const double t = 3600.0 * value.toInt64(0) + 60.0 * value.toInt64(1) + value.toFloat(2);
+    const double t = (3600.0 * value.toInt64(0)) + (60.0 * value.toInt64(1)) + value.toFloat(2);
     enforce<std::overflow_error>(std::isfinite(t), "Non-finite time value");
     int p = 0;
     const double fraction = std::fmod(t, 1);
@@ -2841,7 +2838,7 @@ std::ostream& print0x0007(std::ostream& os, const Value& value, const ExifData*)
     const auto hh = static_cast<int>(std::fmod(hours, 24));
 
     os << std::setw(2) << std::setfill('0') << std::right << hh << ":" << std::setw(2) << std::setfill('0')
-       << std::right << mm << ":" << std::setw(2 + p * 2) << std::setfill('0') << std::right << std::fixed
+       << std::right << mm << ":" << std::setw(2 + (p * 2)) << std::setfill('0') << std::right << std::fixed
        << std::setprecision(p) << ss;
 
     os.copyfmt(oss);
@@ -3018,7 +3015,7 @@ std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*)
 std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*) {
   Rational bias = value.toRational();
 
-  if (bias.first == 0 || bias.first == static_cast<int32_t>(0x80000000)) {
+  if (bias.first == 0 || bias.first == std::numeric_limits<std::int32_t>::min()) {
     os << "0 EV";
   } else if (bias.second <= 0) {
     os << "(" << bias.first << "/" << bias.second << ")";
@@ -3058,7 +3055,7 @@ std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*)
 constexpr TagDetails exifMeteringMode[] = {
     {0, N_("Unknown")}, {1, N_("Average")},    {2, N_("Center weighted average")},
     {3, N_("Spot")},    {4, N_("Multi-spot")}, {5, N_("Multi-segment")},
-    {6, N_("Partial")}, {255, N_("Other")},    {255, N_("Other")}  // To silence compiler warning
+    {6, N_("Partial")}, {255, N_("Other")},
 };
 
 std::ostream& print0x9207(std::ostream& os, const Value& value, const ExifData* metadata) {
@@ -3190,7 +3187,6 @@ constexpr TagDetails exifSceneCaptureType[] = {
     {1, N_("Landscape")},
     {2, N_("Portrait")},
     {3, N_("Night scene")},
-    {3, N_("Night scene")}  // To silence compiler warning
 };
 
 std::ostream& print0xa406(std::ostream& os, const Value& value, const ExifData* metadata) {
@@ -3224,7 +3220,6 @@ constexpr TagDetails exifSubjectDistanceRange[] = {
     {1, N_("Macro")},
     {2, N_("Close view")},
     {3, N_("Distant view")},
-    {3, N_("Distant view")}  // To silence compiler warning
 };
 
 std::ostream& print0xa40c(std::ostream& os, const Value& value, const ExifData* metadata) {
@@ -3274,7 +3269,7 @@ std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*
   }
 
   std::string stringValue = value.toString();
-  if (stringValue.size() == 20 && stringValue.at(19) == 'Z') {
+  if (stringValue.size() == 20 && stringValue.back() == 'Z') {
     stringValue.pop_back();
   }
   std::replace(stringValue.begin(), stringValue.end(), 'T', ' ');

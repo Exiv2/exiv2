@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "config.h"
+
 // included header files
 #include "error.hpp"
 #include "properties.hpp"
@@ -292,13 +294,12 @@ Xmpdatum::Impl& Xmpdatum::Impl::operator=(const Impl& rhs) {
 Xmpdatum::Xmpdatum(const XmpKey& key, const Value* pValue) : p_(std::make_unique<Impl>(key, pValue)) {
 }
 
-Xmpdatum::Xmpdatum(const Xmpdatum& rhs) : Metadatum(rhs), p_(std::make_unique<Impl>(*rhs.p_)) {
+Xmpdatum::Xmpdatum(const Xmpdatum& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 Xmpdatum& Xmpdatum::operator=(const Xmpdatum& rhs) {
   if (this == &rhs)
     return *this;
-  Metadatum::operator=(rhs);
   *p_ = *rhs.p_;
   return *this;
 }
@@ -391,16 +392,6 @@ std::ostream& Xmpdatum::write(std::ostream& os, const ExifData*) const {
   return XmpProperties::printProperty(os, key(), value());
 }
 
-Xmpdatum& Xmpdatum::operator=(const std::string& value) {
-  setValue(value);
-  return *this;
-}
-
-Xmpdatum& Xmpdatum::operator=(const Value& value) {
-  setValue(&value);
-  return *this;
-}
-
 void Xmpdatum::setValue(const Value* pValue) {
   p_->value_.reset();
   if (pValue)
@@ -422,8 +413,7 @@ Xmpdatum& XmpData::operator[](const std::string& key) {
   XmpKey xmpKey(key);
   auto pos = findKey(xmpKey);
   if (pos == end()) {
-    xmpMetadata_.emplace_back(xmpKey);
-    return xmpMetadata_.back();
+    return xmpMetadata_.emplace_back(xmpKey);
   }
   return *pos;
 }
@@ -493,7 +483,7 @@ void XmpData::eraseFamily(XmpData::iterator& pos) {
   std::string key(pos->key());
   std::vector<std::string> keys;
   while (pos != xmpMetadata_.end()) {
-    if (!Exiv2::Internal::startsWith(pos->key(), key))
+    if (!pos->key().starts_with(key))
       break;
     keys.push_back(pos->key());
     pos++;
@@ -577,7 +567,7 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
   std::string out(buffer, bufferSize);
 
   // remove blanks: http://stackoverflow.com/questions/83439/remove-spaces-from-stdstring-in-c
-  out.erase(std::remove_if(out.begin(), out.end(), isspace), out.end());
+  std::erase_if(out, [](unsigned char c) { return c < 32 || c > 126; });
 
   bool bURI = Internal::contains(out, "http://");
   bool bNS = Internal::contains(out, ':') && !bURI;
@@ -592,9 +582,9 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
 
     std::string b;
     if (bNS) {  // store the NS in dict[""]
-      m[b] = out;
-    } else if (m.find(b) != m.end()) {  // store dict[uri] = dict[""]
-      m[m[b]] = out;
+      m[b] = std::move(out);
+    } else if (m.contains(b)) {  // store dict[uri] = dict[""]
+      m[m[b]] = std::move(out);
       m.erase(b);
     }
   }
@@ -718,7 +708,7 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
           if (!haveNext || !XMP_PropIsSimple(opt) || !XMP_PropHasLang(opt)) {
             throw Error(ErrorCode::kerDecodeLangAltPropertyFailed, propPath, opt);
           }
-          const std::string text = propValue;
+          std::string text = propValue;
           // Get the language qualifier
           haveNext = iter.Next(&schemaNs, &propPath, &propValue, &opt);
           printNode(schemaNs, propPath, propValue, opt);
@@ -726,7 +716,7 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
               propPath.substr(propPath.size() - 8, 8) != "xml:lang") {
             throw Error(ErrorCode::kerDecodeLangAltQualifierFailed, propPath, opt);
           }
-          val->value_[propValue] = text;
+          val->value_[propValue] = std::move(text);
         }
         xmpData.add(*key, val.get());
         continue;
@@ -881,7 +871,7 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
     std::string tmpPacket;
     meta.SerializeToBuffer(&tmpPacket, xmpFormatOptionBits(static_cast<XmpFormatFlags>(formatFlags)),
                            padding);  // throws
-    xmpPacket = tmpPacket;
+    xmpPacket = std::move(tmpPacket);
 
     return 0;
   }

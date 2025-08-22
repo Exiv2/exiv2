@@ -156,7 +156,7 @@ Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue) : key_(key.clone()
     value_ = pValue->clone();
 }
 
-Exifdatum::Exifdatum(const Exifdatum& rhs) : Metadatum(rhs) {
+Exifdatum::Exifdatum(const Exifdatum& rhs) {
   if (rhs.key_)
     key_ = rhs.key_->clone();  // deep copy
   if (rhs.value_)
@@ -204,7 +204,6 @@ const Value& Exifdatum::value() const {
 Exifdatum& Exifdatum::operator=(const Exifdatum& rhs) {
   if (this == &rhs)
     return *this;
-  Metadatum::operator=(rhs);
 
   key_.reset();
   if (rhs.key_)
@@ -429,9 +428,9 @@ void ExifThumb::setJpegThumbnail(const std::string& path) {
 #endif
 
 void ExifThumb::setJpegThumbnail(const byte* buf, size_t size) {
-  exifData_["Exif.Thumbnail.Compression"] = static_cast<uint16_t>(6);
+  exifData_["Exif.Thumbnail.Compression"] = std::uint16_t{6};
   Exifdatum& format = exifData_["Exif.Thumbnail.JPEGInterchangeFormat"];
-  format = static_cast<uint32_t>(0);
+  format = 0U;
   format.setDataArea(buf, size);
   exifData_["Exif.Thumbnail.JPEGInterchangeFormatLength"] = static_cast<uint32_t>(size);
 }
@@ -444,8 +443,7 @@ Exifdatum& ExifData::operator[](const std::string& key) {
   ExifKey exifKey(key);
   auto pos = findKey(exifKey);
   if (pos == end()) {
-    exifMetadata_.emplace_back(exifKey);
-    return exifMetadata_.back();
+    return exifMetadata_.emplace_back(exifKey);
   }
   return *pos;
 }
@@ -644,16 +642,8 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   }
 
   // Delete unknown tags larger than 4kB and known tags larger than 20kB.
-  for (auto tag_iter = exifData.begin(); tag_iter != exifData.end();) {
-    if ((tag_iter->size() > 4096 && tag_iter->tagName().substr(0, 2) == "0x") || tag_iter->size() > 20480) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "Exif tag " << tag_iter->key() << " not encoded\n";
-#endif
-      tag_iter = exifData.erase(tag_iter);
-    } else {
-      ++tag_iter;
-    }
-  }
+  auto f = [](const auto& tag) { return (tag.size() > 4096 && tag.tagName().starts_with("0x")) || tag.size() > 20480; };
+  exifData.erase(std::remove_if(exifData.begin(), exifData.end(), f), exifData.end());
 
   // Encode the remaining Exif tags again, don't care if it fits this time
   MemIo mio2;

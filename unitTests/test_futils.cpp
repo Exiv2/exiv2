@@ -9,18 +9,13 @@
 // Auxiliary headers
 #include <cerrno>
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 #include <stdexcept>
 
 #include <gtest/gtest.h>
 
-#if __has_include(<filesystem>)
-#include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
 
 using namespace Exiv2;
 
@@ -30,10 +25,10 @@ TEST(strError, returnSuccessAfterClosingFile) {
   // -> reset errno so that a real failure is only detected here
   errno = 0;
 
-  std::string tmpFile("tmp.dat");
-  std::ofstream auxFile(tmpFile.c_str());
+  fs::path tmpFile("tmp.dat");
+  std::ofstream auxFile(tmpFile);
   auxFile.close();
-  fs::remove(tmpFile.c_str());
+  fs::remove(tmpFile);
   ASSERT_TRUE(Internal::contains(strError(), "(errno = 0)"));
 }
 

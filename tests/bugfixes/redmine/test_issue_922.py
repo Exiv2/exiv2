@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import itertools
 import os.path
 
 from system_tests import CaseMeta, path
 
 
 def read_file(filename):
-    with open(filename, 'r') as f:
+    with open(filename, 'r', encoding=None) as f:
         return f.read()
 
 
@@ -20,7 +19,7 @@ class AddMinusPSOption(metaclass=CaseMeta):
     bug_jpg_file = path("$data_path/exiv2-bug922.jpg")
     IPTC_file = path("$data_path/iptc-psAPP13-wIPTCempty-psAPP13-wIPTC.jpg")
     files = [
-        path("$data_path/{!s}".format(img))
+        path(f"$data_path/{img!s}")
         for img in "exiv2-bug922.png exiv2-bug922.tif exiv2-bug922a.jpg".split()
     ]
 
@@ -31,12 +30,9 @@ class AddMinusPSOption(metaclass=CaseMeta):
     commands = [
         "$exiv2 -pX $bug_jpg_file",
         "$exiv2 -pX $IPTC_file",
-    ] + list(
-        itertools.chain.from_iterable([
-            "$exiv2 -pX " + fname,
-            "$exiv2 -pS " + fname
-        ] for fname in files)
-    )
+    ] + [
+        cmd for fname in files for cmd in [f"$exiv2 -pX {fname}", f"$exiv2 -pS {fname}"]
+    ]
 
     stdout = [
         read_file(
@@ -131,7 +127,7 @@ class AddMinusPSOption(metaclass=CaseMeta):
                                                                                                     
                            
 <?xpacket end="w"?>""",
-        """STRUCTURE OF PNG FILE: $png_bug_file
+        r"""STRUCTURE OF PNG FILE: $png_bug_file
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ...@........                   | 0x7f775da4
       33 | zTXt  |    8769 | Raw profile type exif..x...[r. | 0x4a89d860

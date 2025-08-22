@@ -3,7 +3,6 @@
 // included header files
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
-#include "types.hpp"
 
 // + standard includes
 #include <array>
@@ -90,7 +89,7 @@ constexpr std::array errList{
     N_("Arithmetic operation overflow"),                         // kerArithmeticOverflow
     N_("Memory allocation failed"),                              // kerMallocFailed
     N_("Cannot convert text encoding from '%1' to '%2'"),        // kerInvalidIconvEncoding
-    N_("%1: File access disabled in exiv2 build options"),       // kerFileOpenFailed %1=path
+    N_("%1: File access disabled in exiv2 build options"),       // kerFileAccessDisabled %1=path
 };
 static_assert(errList.size() == static_cast<size_t>(Exiv2::ErrorCode::kerErrorCount),
               "errList needs to contain a error msg for every ErrorCode defined in error.hpp");
@@ -187,7 +186,7 @@ void Error::setMsg(int count) {
       msg.replace(pos, 2, arg3_);
     }
   }
-  msg_ = msg;
+  msg_ = std::move(msg);
 }
 
 }  // namespace Exiv2

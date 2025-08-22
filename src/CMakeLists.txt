@@ -236,19 +236,21 @@ if(WIN32)
   # Since windows.h is included in some headers, we need to propagate this definition
   target_compile_definitions(exiv2lib PUBLIC WIN32_LEAN_AND_MEAN)
   set_target_properties(exiv2lib PROPERTIES DEBUG_POSTFIX d)
+  target_link_libraries(exiv2lib PRIVATE psapi ws2_32 shell32)
+else()
+  if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+    target_link_libraries(exiv2lib PRIVATE procstat)
+  endif()
+
+  if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
+    target_link_libraries(exiv2lib PRIVATE socket)
+  endif()
 endif()
 
-if(NOT MSVC)
-  if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
-    target_link_libraries(exiv2lib PRIVATE -lprocstat)
-  endif()
-
-  if(MINGW)
-    target_link_libraries(exiv2lib PRIVATE psapi ws2_32 shell32)
-  endif()
-
-else()
-  target_link_libraries(exiv2lib PRIVATE psapi ws2_32 shell32)
+if(NOT EXV_HAVE_STD_FORMAT)
+  target_link_libraries(exiv2lib PRIVATE fmt::fmt)
+  target_link_libraries(exiv2lib_int PRIVATE fmt::fmt)
+  list(APPEND requires_private_list "fmt")
 endif()
 
 if(EXIV2_ENABLE_PNG)
@@ -278,6 +280,9 @@ endif()
 if(Iconv_FOUND AND Iconv_LIBRARIES)
   target_link_libraries(exiv2lib PRIVATE Iconv::Iconv)
   list(APPEND libs_private_list "iconv")
+  set(EXV_HAVE_LIBICONV TRUE)
+else()
+  set(EXV_HAVE_LIBICONV FALSE)
 endif()
 
 if(EXIV2_ENABLE_INIH)
@@ -308,7 +313,7 @@ set(requires_private_for_pc_file
 
 write_basic_package_version_file(exiv2ConfigVersion.cmake COMPATIBILITY ExactVersion)
 
-install(TARGETS exiv2lib EXPORT exiv2Export)
+install(TARGETS exiv2lib EXPORT exiv2Targets)
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
@@ -318,7 +323,7 @@ configure_package_config_file(
 install(FILES ${PUBLIC_HEADERS} ${CMAKE_BINARY_DIR}/exv_conf.h ${CMAKE_BINARY_DIR}/exiv2lib_export.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/exiv2)
 
 install(
-  EXPORT exiv2Export
+  EXPORT exiv2Targets
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/exiv2"
   NAMESPACE Exiv2::
 )

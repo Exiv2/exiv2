@@ -2,12 +2,16 @@
 
 import system_tests
 
+
 class DNG_1_6_Tags_pr1436(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1436"
     filename = "$data_path/IMG_1361.dng"
-    commands  = ["$exiv2 --quiet -g NewSubfile -g Photometric -g ProfileGainTableMap -g Semantic $filename"]
+    commands = [
+        "$exiv2 --quiet -g NewSubfile -g Photometric -g ProfileGainTableMap -g Semantic $filename"
+    ]
     stderr = [""]
-    stdout = ["""Exif.Image.NewSubfileType                    Long        1  Thumbnail/Preview image
+    stdout = [
+        """Exif.Image.NewSubfileType                    Long        1  Thumbnail/Preview image
 Exif.Image.PhotometricInterpretation         Short       1  YCbCr
 Exif.SubImage1.NewSubfileType                Long        1  Primary image
 Exif.SubImage1.PhotometricInterpretation     Short       1  Linear Raw
@@ -15,5 +19,6 @@ Exif.SubImage1.ProfileGainTableMap           Undefined 49408  0 0 0 6 0 0 0 8 63
 Exif.SubImage2.NewSubfileType                Long        1  Primary image, Semantic mask
 Exif.SubImage2.PhotometricInterpretation     Short       1  Photometric Mask
 Exif.SubImage2.SemanticName                  Ascii      46  urn:com:apple:photo:2020:aux:semanticskymatte
-"""]
+"""
+    ]
     retval = [0]

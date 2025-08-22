@@ -6,10 +6,10 @@
 
 using namespace Exiv2;
 
-bool processLine(const std::string& line, int num, IptcData& iptcData);
-void processAdd(const std::string& line, int num, IptcData& iptcData);
-void processRemove(const std::string& line, int num, IptcData& iptcData);
-void processModify(const std::string& line, int num, IptcData& iptcData);
+static bool processLine(const std::string& line, int num, IptcData& iptcData);
+static void processAdd(const std::string& line, int num, IptcData& iptcData);
+static void processRemove(const std::string& line, int num, IptcData& iptcData);
+static void processModify(const std::string& line, int num, IptcData& iptcData);
 
 // *****************************************************************************
 // Main
@@ -31,7 +31,7 @@ int main(int argc, char* const argv[]) {
     std::string line;
     int num = 0;
     std::getline(std::cin, line);
-    while (line.length() && processLine(line, ++num, image->iptcData())) {
+    while (!line.empty() && processLine(line, ++num, image->iptcData())) {
       std::getline(std::cin, line);
     }
 
@@ -46,7 +46,7 @@ int main(int argc, char* const argv[]) {
 }
 
 bool processLine(const std::string& line, int num, IptcData& iptcData) {
-  switch (line.at(0)) {
+  switch (line.front()) {
     case 'a':
     case 'A':
       processAdd(line, num, iptcData);
@@ -64,7 +64,7 @@ bool processLine(const std::string& line, int num, IptcData& iptcData) {
       return false;
     default:
       std::ostringstream os;
-      os << "Unknown command (" << line.at(0) << ") at line " << num;
+      os << "Unknown command (" << line.front() << ") at line " << num;
       throw Error(ErrorCode::kerErrorMessage, os.str());
   }
   return true;
@@ -81,12 +81,11 @@ void processAdd(const std::string& line, int num, IptcData& iptcData) {
     throw Error(ErrorCode::kerErrorMessage, os.str());
   }
 
-  std::string key(line.substr(keyStart, keyEnd - keyStart));
-  IptcKey iptcKey(key);
+  auto iptcKey = IptcKey(line.substr(keyStart, keyEnd - keyStart));
 
   std::string data(line.substr(dataStart));
   // if data starts and ends with quotes, remove them
-  if (data.at(0) == '\"' && data.at(data.size() - 1) == '\"') {
+  if (data.front() == '"' && data.back() == '"') {
     data = data.substr(1, data.size() - 2);
   }
   TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
@@ -108,8 +107,7 @@ void processRemove(const std::string& line, int num, IptcData& iptcData) {
     throw Error(ErrorCode::kerErrorMessage, os.str());
   }
 
-  const std::string key(line.substr(keyStart));
-  IptcKey iptcKey(key);
+  auto iptcKey = IptcKey(line.substr(keyStart));
 
   auto iter = iptcData.findKey(iptcKey);
   if (iter != iptcData.end()) {
@@ -128,12 +126,11 @@ void processModify(const std::string& line, int num, IptcData& iptcData) {
     throw Error(ErrorCode::kerErrorMessage, os.str());
   }
 
-  std::string key(line.substr(keyStart, keyEnd - keyStart));
-  IptcKey iptcKey(key);
+  auto iptcKey = IptcKey(line.substr(keyStart, keyEnd - keyStart));
 
   std::string data(line.substr(dataStart));
   // if data starts and ends with quotes, remove them
-  if (data.at(0) == '\"' && data.at(data.size() - 1) == '\"') {
+  if (data.front() == '"' && data.back() == '"') {
     data = data.substr(1, data.size() - 2);
   }
   TypeId type = IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());

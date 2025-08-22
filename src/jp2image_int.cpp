@@ -2,10 +2,11 @@
 
 #include "jp2image_int.hpp"
 
-#include "error.hpp"
 #include "types.hpp"
 
 #include <cassert>
+#include <cstdint>
+#include <vector>
 
 namespace Exiv2::Internal {
 
@@ -21,7 +22,7 @@ bool isValidBoxFileType(const std::vector<uint8_t>& boxData) {
 
   bool clWithRightBrand = false;
   for (size_t i = 0; i < N; i++) {
-    uint32_t compatibilityList = getULong(boxData.data() + 8 + i * 4, bigEndian);
+    uint32_t compatibilityList = getULong(boxData.data() + 8 + (i * 4), bigEndian);
     if ((brand == brandJp2 && compatibilityList == brandJp2) || (brand == brandJph && compatibilityList == brandJph)) {
       clWithRightBrand = true;
       break;

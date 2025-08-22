@@ -497,7 +497,8 @@ If the filename contains a suffix, which shall be included in new filename:
 ```
 $ exiv2 --verbose --rename '%d_%b_%Y:basesuffix:' Stonehenge.PANO.jpg
 File 1/1: Stonehenge.PANO.jpg
-Renaming file to '16_Jul_2015.PANO'.jpg```
+Renaming file to '16_Jul_2015.PANO'.jpg
+```
 
 <div id="adjust_time">
 

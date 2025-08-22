@@ -14,12 +14,16 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
-#include "types.hpp"
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -55,6 +59,7 @@ class Casio2MakerNote {
 
 };  // class Casio2MakerNote
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // EXIV2_CASIOMN_INT_HPP

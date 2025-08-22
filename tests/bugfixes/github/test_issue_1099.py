@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, path, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta, path
 
 
 class EmptyValueInCommandFile(metaclass=CaseMeta):
@@ -10,6 +10,7 @@ class EmptyValueInCommandFile(metaclass=CaseMeta):
 
     An empty value in the command file causes a std::out_of_range exception.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/1099"
 
     filename1 = path("$data_path/issue_1099_poc.txt")
@@ -19,9 +20,9 @@ class EmptyValueInCommandFile(metaclass=CaseMeta):
     stderr = [
         """$filename1, line 1: Empty value for key `Exiff.LfkInfo.GPSDa'
 exiv2: Error parsing -m option arguments
-"""]
+"""
+    ]
     retval = [1]
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
-        """ We don't care about the stdout, just don't crash """
-        pass
+        """We don't care about the stdout, just don't crash"""

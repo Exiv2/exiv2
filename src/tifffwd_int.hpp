@@ -5,11 +5,13 @@
 
 // *****************************************************************************
 // included header files
-#include "tags_int.hpp"
-#include "types.hpp"
+#include "tags.hpp"
 
 // + standard includes
+#include <memory>
 #include <stack>
+#include <string_view>
+#include <vector>
 
 // *****************************************************************************
 // Exiv2 namespace extensions
@@ -22,6 +24,8 @@ class TiffComponent;
 class TiffEntryBase;
 class TiffEntry;
 class TiffDataEntry;
+class TiffDataEntryBase;
+class TiffImageEntry;
 class TiffSizeEntry;
 class TiffDirectory;
 class TiffSubIfd;
@@ -61,11 +65,11 @@ using EncoderFct = void (TiffEncoder::*)(TiffEntryBase*, const Exifdatum*);
 /*!
   @brief Type for a function pointer for a function to decode a TIFF component.
  */
-using FindDecoderFct = DecoderFct (*)(const std::string& make, uint32_t extendedTag, IfdId group);
+using FindDecoderFct = DecoderFct (*)(std::string_view make, uint32_t extendedTag, IfdId group);
 /*!
   @brief Type for a function pointer for a function to encode a TIFF component.
  */
-using FindEncoderFct = EncoderFct (*)(const std::string& make, uint32_t extendedTag, IfdId group);
+using FindEncoderFct = EncoderFct (*)(std::string_view make, uint32_t extendedTag, IfdId group);
 /*!
   @brief Type for a function pointer for a function to create a TIFF component.
          Use TiffComponent::UniquePtr, it is not used in this declaration only

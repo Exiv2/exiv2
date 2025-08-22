@@ -90,12 +90,12 @@ def find(directory='.', pattern=None, re_pattern=None, depth=-1, onerror=print) 
     >>> find(re_pattern='.*.py')
     """
     if not os.path.isdir(directory):
-        raise ValueError("{} is not an existing directory.".format(directory))
+        raise ValueError(f"{directory} is not an existing directory.")
 
     try:
         file_list = os.listdir(directory)
     except PermissionError as e:    # Sometimes it does not have access to the directory
-        onerror("PermissionError: {}".format(e))
+        onerror(f"PermissionError: {e}")
         return []
 
     def match(name, pattern=None, re_pattern=None):
@@ -178,7 +178,7 @@ def cat(*files, encoding=None, return_bytes=False):
 
 def grep(pattern, *files, encoding=None):
     result  = ''
-    pattern = '.*{}.*'.format(pattern)
+    pattern = f'.*{pattern}.*'
     for i in files:
         content = cat(i, encoding=encoding or Config.encoding)
         result += '\n'.join(re.findall(pattern, content))
@@ -196,7 +196,7 @@ def save(content: (bytes, str, tuple, list), filename, encoding=None):
         with open(filename, 'w', encoding=encoding or Config.encoding) as f:
             f.write(content)
     else:
-        raise ValueError('Expect content of type (bytes, str, tuple, list), but get {}'.format(type(content).__name__))
+        raise ValueError(f'Expect content of type (bytes, str, tuple, list), but get {type(content).__name__}')
 
 
 def diff(file1, file2, encoding=None):
@@ -297,8 +297,7 @@ def diff_bytes(file1, file2, return_str=False):
 
     if return_str:
         return '\n'.join([repr(line)[2:-1] for line in output])
-    else:
-        return b'\n'.join(output)
+    return b'\n'.join(output)
 
 
 def md5sum(filename):
@@ -330,13 +329,13 @@ class Log:
         self.buffer.append(str(msg))
 
     def info(self, msg, index=None):
-        self.add('[INFO] {}'.format(msg))
+        self.add(f'[INFO] {msg}')
 
     def warn(self, msg):
-        self.add('[WARN] {}'.format(msg))
+        self.add(f'[WARN] {msg}')
 
     def error(self, msg):
-        self.add('[ERROR] {}'.format(msg))
+        self.add(f'[ERROR] {msg}')
 
 
 log = Log()
@@ -361,11 +360,11 @@ class HttpServer:
         self.proc.start()
         time.sleep(2)
         try:
-            with request.urlopen('http://127.0.0.1:{}'.format(self.port), timeout=3) as f:
+            with request.urlopen(f'http://127.0.0.1:{self.port}', timeout=3) as f:
                 if f.status != 200:
                     raise RuntimeError()
-        except:
-            raise RuntimeError('Failed to run the HTTP server')
+        except Exception as e:
+            raise RuntimeError(f'Failed to run the HTTP server: {e}') from e
         log.info('The HTTP server started')
 
     def stop(self):
@@ -390,11 +389,11 @@ def diffCheck(file1, file2, in_bytes=False, encoding=None):
     if in_bytes:
         d = diff_bytes(file1, file2, return_str=True)
         if d:
-            log.info('diff_bytes:\n' + d)
+            log.info(f"diff_bytes:\n{d}")
     else:
         d = diff(file1, file2, encoding=encoding or Config.encoding)
         if d:
-            log.info('diff:\n' + d)
+            log.info(f"diff:\n{d}")
     return d == ''
 
 
@@ -407,8 +406,8 @@ def simply_diff(file1, file2, encoding=None):
         return
 
     report      = []
-    report     += ['{}: {} lines'.format(file1, len(list1))]
-    report     += ['{}: {} lines'.format(file2, len(list2))]
+    report     += [f'{file1}: {len(list1)} lines']
+    report     += [f'{file2}: {len(list2)} lines']
 
     # Make them have the same number of lines
     max_lines   = max(len(list1), len(list2))
@@ -418,9 +417,9 @@ def simply_diff(file1, file2, encoding=None):
     # Compare each line
     for i in range(max_lines):
         if list1[i] != list2[i]:
-            report  += ['The first mismatch is in line {}:'.format(i + 1)]
-            report  += ['< {}'.format(list1[i])]
-            report  += ['> {}'.format(list2[i])]
+            report  += [f'The first mismatch is in line {i + 1}:']
+            report  += [f'< {list1[i]}']
+            report  += [f'> {list2[i]}']
             break
     return '\n'.join(report)
 
@@ -438,15 +437,21 @@ class Executer:
     """
 
     def __init__(self, cmd: str,
-                 vars_dict=dict(),
+                 vars_dict=None,
                  cwd=None,
-                 extra_env=dict(),
+                 extra_env=None,
                  encoding=None,
                  stdin: (str, bytes) = None,
                  redirect_stderr_to_stdout=True,
                  assert_returncode=[0],
                  compatible_output=True,
                  decode_output=True):
+
+        if vars_dict is None:
+            vars_dict = {}
+        if extra_env is None:
+            extra_env = {}
+
         self.cmd            = cmd.format(**vars_dict)
         self.cwd            = cwd or Config.tmp_dir
 
@@ -476,9 +481,9 @@ class Executer:
             self.args   = args.replace('\'', '\"')
         else:
             self.args   = shlex.split(args, posix=os.name == 'posix')
-            
+
         if len(Config.valgrind)>0:
-            self.args = [ Config.valgrind ] + self.args 
+            self.args = [ Config.valgrind ] + self.args
 
         # Check stdin
         if self.stdin:
@@ -504,8 +509,8 @@ class Executer:
                 except subprocess.TimeoutExpired:
                     self.subprocess.kill()
                     output  = self.subprocess.communicate()
-        except:
-            raise RuntimeError('Failed to execute: {}'.format(self.args))
+        except Exception as e:
+            raise RuntimeError(f'Failed to execute {self.args}: {e}') from e
         output          = [i or b'' for i in output]
         output          = [i.rstrip(b'\r\n').rstrip(b'\n') for i in output] # Remove the last line break of the output
 
@@ -521,10 +526,10 @@ class Executer:
         # Check return code
         self.returncode = self.subprocess.returncode
         if self.assert_returncode and self.returncode not in self.assert_returncode:
-            log.error('Failed to execute: {}'.format(self.args))
-            log.error('The asserted return code is {}, but got {}'.format(str(self.assert_returncode), self.subprocess.returncode))
-            log.info('OUTPUT:\n{}'.format(output[0] + output[1]))
-            raise RuntimeError('\n' + log.to_str())
+            log.error(f'Failed to execute: {self.args}')
+            log.error(f'The asserted return code is {str(self.assert_returncode)}, but got {self.subprocess.returncode}')
+            log.info(f'OUTPUT:\n{output[0] + output[1]}')
+            raise RuntimeError(f"\n{log.to_str()}")
 
 
 class Output:
@@ -556,7 +561,7 @@ class Output:
     def __add__(self, other):
         if isinstance(other, Executer):
             other = other.stdout
-        if other != None:
+        if other is not None:
             self.lines.append(str(other))
         return self
 
@@ -566,65 +571,65 @@ class Output:
 
 def reportTest(testname, output: str, encoding=None,forgive=False):
     """ If the output of the test case is correct, this function returns None. Otherwise print its error. """
-    output               = str(output) + '\n'
+    output               = f"{str(output)}\n"
     encoding             = encoding or Config.encoding
-    reference_file       = os.path.join(Config.ref_dir, '{}.out'.format(testname))
+    reference_file       = os.path.join(Config.ref_dir, f'{testname}.out')
     reference_output     = cat(reference_file, encoding=encoding)
     if reference_output == output:
         return
     log.error('The output of the testcase mismatch the reference')
-    output_file = os.path.join(Config.tmp_dir, '{}.out'.format(testname))
+    output_file = os.path.join(Config.tmp_dir, f'{testname}.out')
     save(output, output_file, encoding=encoding)
-    log.info('The output has been saved to file {}'.format(output_file))
-    log.info('simply_diff:\n' + str(simply_diff(reference_file, output_file, encoding=encoding)))
+    log.info(f'The output has been saved to file {output_file}')
+    log.info(f"simply_diff:\n{str(simply_diff(reference_file, output_file, encoding=encoding))}")
     if forgive:
-        print('Forgive: simply_diff:\n' + str(simply_diff(reference_file, output_file, encoding=encoding)))
+        print(f"Forgive: simply_diff:\n{str(simply_diff(reference_file, output_file, encoding=encoding))}")
     else:
-        raise RuntimeError('\n' + log.to_str())
+        raise RuntimeError(f"\n{log.to_str()}")
 
 
 def ioTest(filename):
     src     = os.path.join(Config.data_dir, filename)
-    out1    = os.path.join(Config.tmp_dir, '{}.1'.format(filename))
-    out2    = os.path.join(Config.tmp_dir, '{}.2'.format(filename))
+    out1    = os.path.join(Config.tmp_dir, f'{filename}.1')
+    out2    = os.path.join(Config.tmp_dir, f'{filename}.2')
     Executer('iotest {src} {out1} {out2}', vars())
     assert md5sum(src) == md5sum(out1), 'The output file is different'
     assert md5sum(src) == md5sum(out2), 'The output file is different'
 
 
 def eraseTest(filename):
-    test_file   = filename + '.etst'
-    good_file   = os.path.join(Config.data_dir, filename + '.egd')
+    test_file   = f"{filename}.etst"
+    good_file   = os.path.join(Config.data_dir, f"{filename}.egd")
     copyTestFile(filename, test_file)
     Executer('metacopy {test_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
 def copyTest(num, src, good):
-    test_file   = '{}.c{}tst'.format(good, num)
+    test_file   = f'{good}.c{num}tst'
     src_file    = os.path.join(Config.data_dir, src)
-    good_file   = os.path.join(Config.data_dir, '{}.c{}gd'.format(good, num))
+    good_file   = os.path.join(Config.data_dir, f'{good}.c{num}gd')
     copyTestFile(good, test_file)
-    Executer('metacopy -a {src_file} {test_file}', vars())
+    Executer(f'metacopy -a {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
 def iptcTest(num, src, good):
-    test_file   = '{}.i{}tst'.format(good, num)
+    test_file   = f'{good}.i{num}tst'
     src_file    = os.path.join(Config.data_dir, src)
-    good_file   = os.path.join(Config.data_dir, '{}.i{}gd'.format(good, num))
+    good_file   = os.path.join(Config.data_dir, f'{good}.i{num}gd')
     copyTestFile(good, test_file)
-    Executer('metacopy -ip {src_file} {test_file}', vars())
+    Executer(f'metacopy -ip {src_file} {test_file}', vars())
     return diffCheck(good_file, test_file, in_bytes=True)
 
 
 def printTest(filename):
-    test_file   = filename + '.iptst'
+    test_file   = f"{filename}.iptst"
     src_file    = os.path.join(Config.data_dir, filename)
-    good_file   = os.path.join(Config.data_dir, filename + '.ipgd')
+    good_file   = os.path.join(Config.data_dir, f"{filename}.ipgd")
     copyTestFile(filename, test_file)
 
-    e           = Executer('iptcprint {src_file}', vars(), assert_returncode=None, decode_output=False)
+    e           = Executer(f'iptcprint {src_file}', vars(), assert_returncode=None, decode_output=False)
     stdout      = e.stdout.replace(Config.data_dir.replace(os.path.sep, '/').encode(), b'../data') # Ignore the difference of data_dir on Windows
     save(stdout + b'\n', test_file)
 
@@ -633,9 +638,9 @@ def printTest(filename):
 
 def removeTest(filename):
     tmp         = 'temp'
-    test_file   = filename + '.irtst'
+    test_file   = f"{filename}.irtst"
     src_file    = os.path.join(Config.data_dir, filename)
-    good_file   = os.path.join(Config.data_dir, filename + '.irgd')
+    good_file   = os.path.join(Config.data_dir, f"{filename}.irgd")
     copyTestFile(filename, tmp)
     stdin       = """
 r Iptc.Application2.Byline
@@ -653,9 +658,9 @@ r Iptc.Application2.CountryName
 
 def addModTest(filename):
     tmp         = 'temp'
-    test_file   = filename + '.iatst'
+    test_file   = f"{filename}.iatst"
     src_file    = os.path.join(Config.data_dir, filename)
-    good_file   = os.path.join(Config.data_dir, filename + '.iagd')
+    good_file   = os.path.join(Config.data_dir, f"{filename}.iagd")
     copyTestFile(filename, tmp)
     stdin       = """
 a Iptc.Application2.Headline		  The headline I am
@@ -675,9 +680,9 @@ a Iptc.Application2.RasterizedCaption 230 42 34 2 90 84 23 146
 
 def extendedTest(filename):
     tmp         = 'temp'
-    test_file   = filename + '.ixtst'
+    test_file   = f"{filename}.ixtst"
     src_file    = os.path.join(Config.data_dir, filename)
-    good_file   = os.path.join(Config.data_dir, filename + '.ixgd')
+    good_file   = os.path.join(Config.data_dir, f"{filename}.ixgd")
     copyTestFile(filename, tmp)
     stdin       = cat(os.path.join(Config.data_dir, 'ext.dat'))
     Executer('iptctest {tmp}', vars(), stdin=stdin)
@@ -688,9 +693,9 @@ def extendedTest(filename):
 
 def runTestCase(num, img):
     """ Run the requested test case number with the given image """
-    out_img     = 'test{}.jpg'.format(num)
-    thumb_jpg   = 'thumb{}.jpg'.format(num)
-    thumb_tif   = 'thumb{}.tif'.format(num)
+    out_img     = f'test{num}.jpg'
+    thumb_jpg   = f'thumb{num}.jpg'
+    thumb_tif   = f'thumb{num}.tif'
     rm(out_img, thumb_jpg, thumb_tif)
     rm('iii', 'ttt')
     cp(img, out_img)
@@ -740,11 +745,11 @@ def runTest(cmd,raw=False):
             p = subprocess.Popen(args, stdout=subprocess.PIPE, shell=False)
             stdout, stderr   = p.communicate()
             if p.returncode != 0:
-                print('{} returncode = {}'.format(cmd, p.returncode))
+                print(f'{cmd} returncode = {p.returncode}')
             # Split the output by newline
             out = stdout.decode('utf-8').replace('\r', '').rstrip('\n').split('\n')
-        except:
-            print('** {} died **'.format(cmd))
+        except Exception as e:
+            print(f'** {cmd} died: {e} **')
 
     return out
 
@@ -753,21 +758,20 @@ def verbose_version(verbose=False):
     """ Get the key-value pairs of Exiv2 verbose version  """
     vv    = {}
     exiv2=system_tests.exiv2
-    lines = runTest(exiv2 + ' --verbose --version')
+    lines = runTest(f"{exiv2} --verbose --version")
     for line in lines:
         kv = line.rstrip().split('=')
         if len(kv)  == 2:
             key, val = kv
-            if not key in vv:
+            if key not in vv:
                 vv[key] = val
             elif isinstance(vv[key], list):
                 vv[key].append(val)
             else:
                 vv[key] = [vv[key]]
     if verbose:
-        for key in vv:
-            val = vv[key]
+        for key, val in vv.items():
             if isinstance(val, list):
-                val = '[ {}   +{} ]'.format(val[0], len(val) - 1)
+                val = f'[ {val[0]}   +{len(val) - 1} ]'
             print(key.ljust(20), val)
     return vv

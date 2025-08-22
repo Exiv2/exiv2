@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "config.h"
+
 // included header files
 #include "nikonmn_int.hpp"
 
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "utils.hpp"
@@ -13,6 +16,7 @@
 // + standard includes
 #include <array>
 #include <cmath>
+#include <iomanip>
 
 // *****************************************************************************
 // class member definitions
@@ -217,37 +221,25 @@ std::ostream& Nikon1MakerNote::print0x0007(std::ostream& os, const Value& value,
 }
 
 std::ostream& Nikon1MakerNote::print0x0085(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   auto [r, s] = value.toRational();
   if (r == 0) {
-    os << _("Unknown");
-  } else if (s != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2) << static_cast<float>(r) / s << " m";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
+    return os << _("Unknown");
   }
-  os.flags(f);
-  return os;
+  if (s != 0) {
+    return os << stringFormat("{:.2f} m", static_cast<float>(r) / s);
+  }
+  return os << "(" << value << ")";
 }
 
 std::ostream& Nikon1MakerNote::print0x0086(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   auto [r, s] = value.toRational();
   if (r == 0) {
-    os << _("Not used");
-  } else if (s != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(r) / s << "x";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
+    return os << _("Not used");
   }
-  os.flags(f);
-  return os;
+  if (s == 0) {
+    return os << "(" << value << ")";
+  }
+  return os << stringFormat("{:.1f}x", static_cast<float>(r) / s);
 }
 
 std::ostream& Nikon1MakerNote::print0x0088(std::ostream& os, const Value& value, const ExifData*) {
@@ -373,20 +365,12 @@ const TagInfo* Nikon2MakerNote::tagList() {
 }
 
 std::ostream& Nikon2MakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   auto [r, s] = value.toRational();
-  if (r == 0) {
-    os << _("Not used");
-  } else if (s != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(r) / s << "x";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (r == 0)
+    return os << _("Not used");
+  if (s == 0)
+    return os << "(" << value << ")";
+  return os << stringFormat("{:.1f}x", static_cast<float>(r) / s);
 }
 
 // Nikon3 MakerNote Tag Info
@@ -1064,7 +1048,7 @@ static void printFlashCompensationValue(std::ostream& os, const unsigned char va
     }
     const auto mod = value % 6;
     auto temp = (value < 6) ? 0 : (value - mod) / 6;
-    os << "1/" << std::pow(2, temp);
+    os << "1/" << std::exp2(temp);
     if (mod != 0) {
       os << " (-";
       switch (mod) {
@@ -1104,12 +1088,12 @@ static void printFlashCompensationValue(std::ostream& os, const unsigned char va
     ...
     255 = "+0.2"
      */
-    float output = 0.0;
+    auto output = 0.0f;
     if (value < 128) {
       if (value != 0)
-        output = static_cast<float>(value) * static_cast<float>(-1.0);
+        output = static_cast<float>(value) * -1.0f;
     } else {
-      output = static_cast<float>(256.0) - static_cast<float>(value);
+      output = 256.0f - static_cast<float>(value);
     }
     os.precision(1);
     if (value != 0)
@@ -1708,6 +1692,59 @@ const TagInfo* Nikon3MakerNote::tagListLd3() {
   return tagInfoLd3_;
 }
 
+//! LensID, tag index 48
+// see https://github.com/exiftool/exiftool/blob/13.16/lib/Image/ExifTool/Nikon.pm#L5668
+constexpr TagDetails nikonZMountLensId[] = {
+    {0, N_("n/a")},
+    {1, "Nikon Nikkor Z 24-70mm f/4 S"},
+    {2, "Nikon Nikkor Z 14-30mm f/4 S"},
+    {4, "Nikon Nikkor Z 35mm f/1.8 S"},
+    {8, "Nikon Nikkor Z 58mm f/0.95 S Noct"},  // IB
+    {9, "Nikon Nikkor Z 50mm f/1.8 S"},
+    {11, "Nikon Nikkor Z DX 16-50mm f/3.5-6.3 VR"},
+    {12, "Nikon Nikkor Z DX 50-250mm f/4.5-6.3 VR"},
+    {13, "Nikon Nikkor Z 24-70mm f/2.8 S"},
+    {14, "Nikon Nikkor Z 85mm f/1.8 S"},
+    {15, "Nikon Nikkor Z 24mm f/1.8 S"},              // IB
+    {16, "Nikon Nikkor Z 70-200mm f/2.8 VR S"},       // IB
+    {17, "Nikon Nikkor Z 20mm f/1.8 S"},              // IB
+    {18, "Nikon Nikkor Z 24-200mm f/4-6.3 VR"},       // IB
+    {21, "Nikon Nikkor Z 50mm f/1.2 S"},              // IB
+    {22, "Nikon Nikkor Z 24-50mm f/4-6.3"},           // IB
+    {23, "Nikon Nikkor Z 14-24mm f/2.8 S"},           // IB
+    {24, "Nikon Nikkor Z MC 105mm f/2.8 VR S"},       // IB
+    {25, "Nikon Nikkor Z 40mm f/2"},                  // 28
+    {26, "Nikon Nikkor Z DX 18-140mm f/3.5-6.3 VR"},  // IB
+    {27, "Nikon Nikkor Z MC 50mm f/2.8"},             // IB
+    {28, "Nikon Nikkor Z 100-400mm f/4.5-5.6 VR S"},  // 28
+    {29, "Nikon Nikkor Z 28mm f/2.8"},                // IB
+    {30, "Nikon Nikkor Z 400mm f/2.8 TC VR S"},       // 28
+    {31, "Nikon Nikkor Z 24-120mm f/4 S"},            // 28
+    {32, "Nikon Nikkor Z 800mm f/6.3 VR S"},          // 28
+    {35, "Nikon Nikkor Z 28-75mm f/2.8"},             // IB
+    {36, "Nikon Nikkor Z 400mm f/4.5 VR S"},          // IB
+    {37, "Nikon Nikkor Z 600mm f/4 TC VR S"},         // 28
+    {38, "Nikon Nikkor Z 85mm f/1.2 S"},              // 28
+    {39, "Nikon Nikkor Z 17-28mm f/2.8"},             // IB
+    {40, "Nikon Nikkor Z 26mm f/2.8"},
+    {41, "Nikon Nikkor Z DX 12-28mm f/3.5-5.6 PZ VR"},
+    {42, "Nikon Nikkor Z 180-600mm f/5.6-6.3 VR"},
+    {43, "Nikon Nikkor Z DX 24mm f/1.7"},
+    {44, "Nikon Nikkor Z 70-180mm f/2.8"},
+    {45, "Nikon Nikkor Z 600mm f/6.3 VR S"},
+    {46, "Nikon Nikkor Z 135mm f/1.8 S Plena"},
+    {47, "Nikon Nikkor Z 35mm f/1.2 S"},
+    {48, "Nikon Nikkor Z 28-400mm f/4-8 VR"},
+    {49, "Nikon Nikkor Z 28-135mm f/4 PZ"},
+    {51, "Nikon Nikkor Z 35mm f/1.4"},
+    {52, "Nikon Nikkor Z 50mm f/1.4"},
+    {2305, "Laowa FFII 10mm F2.8 C&D Dreamer"},
+    {2820, "Viltrox AF 16mm F1.8"},
+    {2822, "Viltrox AF 20mm F2.8"},
+    {53251, "Sigma 56mm F1.4 DC DN | C"},
+    {57346, "Tamron 35-150mm F/2-2.8 Di III VXD"},
+};
+
 // Nikon3 Lens Data 4 Tag Info
 // based on https://exiftool.org/TagNames/Nikon.html#LensData0800
 constexpr TagInfo Nikon3MakerNote::tagInfoLd4_[] = {
@@ -1740,7 +1777,7 @@ constexpr TagInfo Nikon3MakerNote::tagInfoLd4_[] = {
     {20, "EffectiveMaxAperture", N_("Effective Max Aperture"), N_("Effective max aperture"), IfdId::nikonLd4Id,
      SectionId::makerTags, unsignedByte, 1, printAperture},
     {48, "LensID", N_("LensID"), N_("Lens ID"), IfdId::nikonLd4Id, SectionId::makerTags, unsignedShort, 1,
-     printLensId4ZMount},
+     EXV_PRINT_TAG(nikonZMountLensId)},
     {54, "MaxAperture", N_("Max Aperture"), N_("Max aperture"), IfdId::nikonLd4Id, SectionId::makerTags, unsignedShort,
      1, printApertureLd4},
     {56, "FNumber", N_("F-Number"), N_("F-Number"), IfdId::nikonLd4Id, SectionId::makerTags, unsignedShort, 1,
@@ -1759,7 +1796,7 @@ const TagInfo* Nikon3MakerNote::tagListLd4() {
 }
 
 std::ostream& Nikon3MakerNote::printIiIso(std::ostream& os, const Value& value, const ExifData*) {
-  auto v = std::lround(100.0 * std::exp((value.toInt64() / 12.0 - 5) * std::log(2.0)));
+  auto v = std::lround(100.0 * std::exp2((value.toInt64() / 12.0) - 5));
   return os << v;
 }
 
@@ -1783,8 +1820,7 @@ std::ostream& Nikon3MakerNote::printAf2AreaMode(std::ostream& os, const Value& v
 
   if (contrastDetectAF == 0)
     return EXV_PRINT_TAG(nikonAf2AreaModeContrastDetectAfOff)(os, value, nullptr);
-  else
-    return EXV_PRINT_TAG(nikonAf2AreaModeContrastDetectAfOn)(os, value, nullptr);
+  return EXV_PRINT_TAG(nikonAf2AreaModeContrastDetectAfOn)(os, value, nullptr);
 }
 
 std::ostream& Nikon3MakerNote::print0x0007(std::ostream& os, const Value& value, const ExifData*) {
@@ -1855,37 +1891,21 @@ std::ostream& Nikon3MakerNote::print0x0084(std::ostream& os, const Value& value,
 }
 
 std::ostream& Nikon3MakerNote::print0x0085(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   auto [r, s] = value.toRational();
-  if (r == 0) {
-    os << _("Unknown");
-  } else if (s != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2) << static_cast<float>(r) / s << " m";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (r == 0)
+    return os << _("Unknown");
+  if (s == 0)
+    return os << "(" << value << ")";
+  return os << stringFormat("{:.2f} m", static_cast<float>(r) / s);
 }
 
 std::ostream& Nikon3MakerNote::print0x0086(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   auto [r, s] = value.toRational();
-  if (r == 0) {
-    os << _("Not used");
-  } else if (s != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(r) / s << "x";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (r == 0)
+    return os << _("Not used");
+  if (s == 0)
+    return os << "(" << value << ")";
+  return os << stringFormat("{:.1f}x", static_cast<float>(r) / s);
 }
 
 std::ostream& Nikon3MakerNote::print0x0088(std::ostream& os, const Value& value, const ExifData*) {
@@ -2061,7 +2081,7 @@ std::ostream& Nikon3MakerNote::printLensId4(std::ostream& os, const Value& value
 }
 
 std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value, const ExifData* metadata,
-                                           const std::string& group) {
+                                           [[maybe_unused]] const std::string& group) {
 #ifdef EXV_HAVE_LENSDATA
 // 8< - - - 8< do not remove this line >8 - - - >8
 //------------------------------------------------------------------------------
@@ -2150,7 +2170,9 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
 
   static constexpr struct FMntLens {
     unsigned char lid, stps, focs, focl, aps, apl, lfw, ltype, tcinfo, dblid, mid;
-    const char *manuf, *lnumber, *lensname;
+    std::string_view manuf;
+    std::string_view lnumber;
+    std::string_view lensname;
 
     bool operator==(unsigned char l) const {
       return lid == l;
@@ -2895,6 +2917,8 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
        "SP AF 10-24mm F/3.5-4.5 Di II LD Aspherical (IF)"},
       {0x00, 0x36, 0x1C, 0x2D, 0x34, 0x3C, 0x00, 0x06, 0x00, 0x00, 0x00, "Tamron", "A13",
        "SP AF 11-18mm F/4.5-5.6 Di II LD Aspherical (IF)"},
+      {0xCA, 0x48, 0x27, 0x3E, 0x24, 0x24, 0xDF, 0x4E, 0x00, 0x00, 0x00, "Tamron", "A041",
+       "SP 15-30mm F/2.8 Di VC USD G2"},
       {0xE9, 0x48, 0x27, 0x3E, 0x24, 0x24, 0xDF, 0x0E, 0x00, 0x00, 0x00, "Tamron", "A012",
        "SP 15-30mm F/2.8 Di VC USD"},
       {0xEA, 0x40, 0x29, 0x8E, 0x2C, 0x40, 0xDF, 0x0E, 0x00, 0x00, 0x00, "Tamron", "B016",
@@ -2992,6 +3016,7 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
        "SP 70-200mm F/2.8 Di VC USD"},
       {0xE2, 0x47, 0x5C, 0x80, 0x24, 0x24, 0xDF, 0x4E, 0x00, 0x00, 0x00, "Tamron", "A025",
        "SP 70-200mm F/2.8 Di VC USD G2"},
+      {0xCD, 0x47, 0x5C, 0x82, 0x31, 0x31, 0xDF, 0x4E, 0x00, 0x00, 0x00, "Tamron", "A034", "70-210mm F/4 Di VC USD"},
       // M                                         "Tamron" "67D"    "SP AF 70-210mm f/2.8 LD";
       // M                                         "Tamron" ""       "AF 70-210mm F/3.5-4.5";
       // M                                         "Tamron" "158D"   "AF 70-210mm F/4-5.6";
@@ -3200,6 +3225,7 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
       {0x9F, 0x4C, 0x44, 0x44, 0x18, 0x18, 0xA1, 0x06, 0x00, 0x00, 0x00, "Yongnuo", "", "YN35mm F2N"},
       {0x9F, 0x48, 0x48, 0x48, 0x24, 0x24, 0xA1, 0x06, 0x00, 0x00, 0x00, "Yongnuo", "", "YN40mm F2.8N"},
       {0x9A, 0x4C, 0x50, 0x50, 0x14, 0x14, 0x9C, 0x06, 0x00, 0x00, 0x00, "Yongnuo", "", "YN50mm F1.8N"},
+      {0x9F, 0x4D, 0x50, 0x50, 0x14, 0x14, 0xA0, 0x06, 0x00, 0x00, 0x00, "Yongnuo", "", "YN50mm F1.8N"},
       {0x9F, 0x54, 0x68, 0x68, 0x18, 0x18, 0xA2, 0x06, 0x00, 0x00, 0x00, "Yongnuo", "", "YN100mm F2N"},
       //
       {0x02, 0x40, 0x44, 0x5C, 0x2C, 0x34, 0x02, 0x00, 0x00, 0x00, 0x00, "Exakta", "", "AF 35-70mm 1:3.5-4.5 MC"},
@@ -3267,7 +3293,7 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
      */
     if (auto pf = Exiv2::find(fmountlens, vid))
       return os << pf->manuf << " " << pf->lensname;
-    return os << value;
+    return os << "(" << value << ")";
   }
 
   byte raw[] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
@@ -3282,14 +3308,14 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
     ExifKey key(pre + std::string(tags[i]));
     auto md = metadata->findKey(key);
     if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
-      return os << value;
+      return os << "(" << value << ")";
     }
     raw[i] = static_cast<byte>(md->toInt64());
   }
 
   auto md = metadata->findKey(ExifKey("Exif.Nikon3.LensType"));
   if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
-    return os << value;
+    return os << "(" << value << ")";
   }
   raw[7] = static_cast<byte>(md->toInt64());
 
@@ -3298,137 +3324,84 @@ std::ostream& Nikon3MakerNote::printLensId(std::ostream& os, const Value& value,
       // #1034
       const std::string undefined("undefined");
       const std::string section("nikon");
-      std::ostringstream lensIDStream;
-      lensIDStream << static_cast<int>(raw[7]);
-      if (Internal::readExiv2Config(section, lensIDStream.str(), undefined) != undefined) {
-        return os << Internal::readExiv2Config(section, lensIDStream.str(), undefined);
+      auto lensIDStream = std::to_string(raw[7]);
+      if (Internal::readExiv2Config(section, lensIDStream, undefined) != undefined) {
+        return os << Internal::readExiv2Config(section, lensIDStream, undefined);
       }
     }
 
     if (raw[0] == f.lid
         // stps varies with focal length for some Sigma zoom lenses.
-        && (raw[1] == f.stps || strcmp(f.manuf, "Sigma") == 0) && raw[2] == f.focs && raw[3] == f.focl &&
-        raw[4] == f.aps && raw[5] == f.apl && raw[6] == f.lfw && raw[7] == f.ltype) {
+        && (raw[1] == f.stps || f.manuf == "Sigma") && raw[2] == f.focs && raw[3] == f.focl && raw[4] == f.aps &&
+        raw[5] == f.apl && raw[6] == f.lfw && raw[7] == f.ltype) {
       // Lens found in database
       return os << f.manuf << " " << f.lensname;
     }
   }
   // Lens not found in database
-  return os << value;
+  return os << "(" << value << ")";
 #else
-  return os << value;
+  return os << "(" << value << ")";
 #endif  // EXV_HAVE_LENSDATA
 }
 
 std::ostream& Nikon3MakerNote::printFocusDistance(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
-  }
-  auto temp = value.toInt64();
-  if (temp == 0)
+  if (value.count() != 1 || value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
+  auto val = value.toInt64();
+  if (val == 0)
     return os << _("n/a");
 
-  double dist = 0.01 * pow(10.0, value.toInt64() / 40.0);
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << dist << " m";
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", std::pow(10.0, (val / 40.0) - 2.0));
 }
 
 std::ostream& Nikon3MakerNote::printAperture(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
-  }
-  auto temp = value.toInt64();
-  if (temp == 0)
+  if (value.count() != 1 || value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
+
+  auto val = value.toInt64();
+  if (val == 0)
     return os << _("n/a");
 
-  double aperture = pow(2.0, value.toInt64() / 24.0);
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << "F" << aperture;
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("F{:.1f}", std::exp2(val / 24.0));
 }
 
 std::ostream& Nikon3MakerNote::printFocal(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     return os << "(" << value << ")";
   }
-  auto temp = value.toInt64();
-  if (temp == 0)
+  auto val = value.toInt64();
+  if (val == 0)
     return os << _("n/a");
 
-  double focal = 5.0 * pow(2.0, value.toInt64() / 24.0);
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << focal << " mm";
-  os.copyfmt(oss);
-  return os;
+  return os << stringFormat("{:.1f} mm", 5.0 * std::exp2(val / 24.0));
 }
 
 std::ostream& Nikon3MakerNote::printFStops(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
-  }
-  double fstops = value.toInt64() / 12.0;
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << "F" << fstops;
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  if (value.count() != 1 || value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
+  return os << stringFormat("F{:.1f}", value.toInt64() / 12.0);
 }
 
 std::ostream& Nikon3MakerNote::printExitPupilPosition(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != unsignedByte || value.toInt64() == 0) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
-  }
-  double epp = 2048.0 / value.toInt64();
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << epp << " mm";
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  if (value.count() != 1 || value.typeId() != unsignedByte || value.toInt64() == 0)
+    return os << "(" << value << ")";
+  return os << stringFormat("{:.1f} mm", 2048.0 / value.toInt64());
 }
 
 std::ostream& Nikon3MakerNote::printFlashFocalLength(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     os << "(" << value << ")";
-    os.flags(f);
     return os;
   }
   auto temp = value.toInt64();
   if (temp == 0 || temp == 255)
     return os << _("n/a");
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << temp << " mm";
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:1} mm", temp);
 }
 
 std::ostream& Nikon3MakerNote::printRepeatingFlashRate(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     return os << "(" << value << ")";
   }
@@ -3436,16 +3409,10 @@ std::ostream& Nikon3MakerNote::printRepeatingFlashRate(std::ostream& os, const V
   if (temp == 0 || temp == 255)
     return os << _("n/a");
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << temp << " Hz";
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:2} Hz", temp);
 }
 
 std::ostream& Nikon3MakerNote::printRepeatingFlashCount(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
     return os << "(" << value << ")";
   }
@@ -3453,12 +3420,7 @@ std::ostream& Nikon3MakerNote::printRepeatingFlashCount(std::ostream& os, const 
   if (temp == 0 || temp == 255)
     return os << _("n/a");
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << temp;
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:1}", temp);
 }
 
 std::ostream& Nikon3MakerNote::printExternalFlashData1Fl6(std::ostream& os, const Value& value,
@@ -3863,47 +3825,26 @@ std::ostream& Nikon3MakerNote::printExternalFlashData4(std::ostream& os, const V
 }
 
 std::ostream& Nikon3MakerNote::printFlashZoomHeadPosition(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
+    return os << "(" << value << ")";
   }
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  const auto v0 = value.toUint32(0);
 
+  auto v0 = value.toUint32(0);
   if (v0 == 0) {
-    os << _("n/a");
-    os.flags(f);
-    return os;
+    return os << _("n/a");
   }
 
-  os << v0 << " mm";
-
-  os.copyfmt(oss);
-  os.flags(f);
-
-  return os;
+  return os << stringFormat("{} mm", v0);
 }
 
 std::ostream& Nikon3MakerNote::printTimeZone(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != signedShort) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
+    return os << "(" << value << ")";
   }
-  std::ostringstream oss;
-  oss.copyfmt(os);
   char sign = value.toInt64() < 0 ? '-' : '+';
-  long h = static_cast<long>(std::abs(static_cast<int>(value.toFloat() / 60.0F))) % 24;
-  long min = static_cast<long>(std::abs(static_cast<int>(value.toFloat() - h * 60))) % 60;
-  os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":" << std::setw(2)
-     << std::setfill('0') << min;
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  long h = static_cast<long>(std::fabs(value.toFloat() / 60.0F)) % 24;
+  long min = static_cast<long>(std::fabs(value.toFloat() - (h * 60))) % 60;
+  return os << stringFormat("UTC {}{:02}:{:02}", sign, h, min);
 }
 
 std::ostream& Nikon3MakerNote::printPictureControl(std::ostream& os, const Value& value, const ExifData*) {
@@ -3965,66 +3906,6 @@ std::ostream& Nikon3MakerNote::print0x009e(std::ostream& os, const Value& value,
   return os << s;
 }
 
-std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 1 || value.typeId() != unsignedShort) {
-    return os << "(" << value << ")";
-  }
-
-  // cf. https://github.com/exiftool/exiftool/blob/12.83/lib/Image/ExifTool/Nikon.pm#L5473
-  static constexpr struct lens {
-    uint16_t l;
-    const char* vendor;
-    const char* name;
-  } zmountlens[] = {
-      {1, "Nikon", "Nikkor Z 24-70mm f/4 S"},
-      {2, "Nikon", "Nikkor Z 14-30mm f/4 S"},
-      {4, "Nikon", "Nikkor Z 35mm f/1.8 S"},
-      {8, "Nikon", "Nikkor Z 58mm f/0.95 S Noct"},  // IB
-      {9, "Nikon", "Nikkor Z 50mm f/1.8 S"},
-      {11, "Nikon", "Nikkor Z DX 16-50mm f/3.5-6.3 VR"},
-      {12, "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"},
-      {13, "Nikon", "Nikkor Z 24-70mm f/2.8 S"},
-      {14, "Nikon", "Nikkor Z 85mm f/1.8 S"},
-      {15, "Nikon", "Nikkor Z 24mm f/1.8 S"},              // IB
-      {16, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"},       // IB
-      {17, "Nikon", "Nikkor Z 20mm f/1.8 S"},              // IB
-      {18, "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"},       // IB
-      {21, "Nikon", "Nikkor Z 50mm f/1.2 S"},              // IB
-      {22, "Nikon", "Nikkor Z 24-50mm f/4-6.3"},           // IB
-      {23, "Nikon", "Nikkor Z 14-24mm f/2.8 S"},           // IB
-      {24, "Nikon", "Nikkor Z MC 105mm f/2.8 VR S"},       // IB
-      {25, "Nikon", "Nikkor Z 40mm f/2"},                  // 28
-      {26, "Nikon", "Nikkor Z DX 18-140mm f/3.5-6.3 VR"},  // IB
-      {27, "Nikon", "Nikkor Z MC 50mm f/2.8"},             // IB
-      {28, "Nikon", "Nikkor Z 100-400mm f/4.5-5.6 VR S"},  // 28
-      {29, "Nikon", "Nikkor Z 28mm f/2.8"},                // IB
-      {30, "Nikon", "Nikkor Z 400mm f/2.8 TC VR S"},       // 28
-      {31, "Nikon", "Nikkor Z 24-120mm f/4 S"},            // 28
-      {32, "Nikon", "Nikkor Z 800mm f/6.3 VR S"},          // 28
-      {35, "Nikon", "Nikkor Z 28-75mm f/2.8"},             // IB
-      {36, "Nikon", "Nikkor Z 400mm f/4.5 VR S"},          // IB
-      {37, "Nikon", "Nikkor Z 600mm f/4 TC VR S"},         // 28
-      {38, "Nikon", "Nikkor Z 85mm f/1.2 S"},              // 28
-      {39, "Nikon", "Nikkor Z 17-28mm f/2.8"},             // IB
-      {40, "Nikon", "Nikkor Z 26mm f/2.8"},
-      {41, "Nikon", "Nikkor Z DX 12-28mm f/3.5-5.6 PZ VR"},
-      {42, "Nikon", "Nikkor Z 180-600mm f/5.6-6.3 VR"},
-      {43, "Nikon", "Nikkor Z DX 24mm f/1.7"},
-      {44, "Nikon", "Nikkor Z 70-180mm f/2.8"},
-      {45, "Nikon", "Nikkor Z 600mm f/6.3 VR S"},
-      {46, "Nikon", "Nikkor Z 135mm f/1.8 S Plena"},
-      {48, "Nikon", "Nikkor Z 28-400mm f/4-8 VR"},
-      {53251, "Sigma", "56mm F1.4 DC DN | C"},
-      {57346, "Tamron", "35-150mm F/2-2.8 Di III VXD"},
-  };
-
-  auto lid = static_cast<uint16_t>(value.toInt64());
-  for (auto&& [l, manuf, lensname] : zmountlens)
-    if (l == lid)
-      return os << manuf << " " << lensname;
-  return os << lid;
-}
-
 std::ostream& Nikon3MakerNote::printApertureLd4(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1 || value.typeId() != unsignedShort) {
     return os << "(" << value << ")";
@@ -4033,12 +3914,7 @@ std::ostream& Nikon3MakerNote::printApertureLd4(std::ostream& os, const Value& v
   if (temp == 0)
     return os << _("n/a");
 
-  double aperture = pow(2.0, value.toInt64() / 384.0 - 1.0);
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << "F" << aperture;
-  os.copyfmt(oss);
-  return os;
+  return os << stringFormat("F{:.1f}", std::exp2((temp / 384.0) - 1.0));
 }
 std::ostream& Nikon3MakerNote::printFocalLd4(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1 || value.typeId() != unsignedShort) {
@@ -4048,11 +3924,7 @@ std::ostream& Nikon3MakerNote::printFocalLd4(std::ostream& os, const Value& valu
   if (temp == 0)
     return os << _("n/a");
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << value.toInt64() << " mm";
-  os.copyfmt(oss);
-  return os;
+  return os << stringFormat("{} mm", temp);
 }
 
 std::ostream& Nikon3MakerNote::printFocusDistanceLd4(std::ostream& os, const Value& value, const ExifData*) {
@@ -4063,12 +3935,7 @@ std::ostream& Nikon3MakerNote::printFocusDistanceLd4(std::ostream& os, const Val
   if (temp == 0)
     return os << _("n/a");
 
-  double dist = 0.01 * pow(10.0, (value.toInt64() / 256.0) / 40.0);
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << dist << " m";
-  os.copyfmt(oss);
-  return os;
+  return os << stringFormat("{:.2f} m", std::pow(10.0, (temp / (256.0 * 40.0)) - 2.0));
 }
 
 }  // namespace Exiv2::Internal

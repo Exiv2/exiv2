@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef XMP_HPP_
-#define XMP_HPP_
+#ifndef EXIV2_XMP_EXIV2_HPP
+#define EXIV2_XMP_EXIV2_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
+#include "datasets.hpp"
 #include "metadatum.hpp"
-#include "properties.hpp"
 
 // *****************************************************************************
 // namespace extensions
@@ -16,6 +16,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 class ExifData;
+class XmpKey;
 
 // *****************************************************************************
 // class definitions
@@ -55,18 +56,12 @@ class EXIV2API Xmpdatum : public Metadatum {
     @brief Assign std::string \em value to the %Xmpdatum.
            Calls setValue(const std::string&).
    */
-  Xmpdatum& operator=(const std::string& value);
-  /*!
-    @brief Assign a \em value of any type with an output operator
-           to the %Xmpdatum. Calls operator=(const std::string&).
-   */
   template <typename T>
   Xmpdatum& operator=(const T& value);
   /*!
     @brief Assign Value \em value to the %Xmpdatum.
            Calls setValue(const Value*).
    */
-  Xmpdatum& operator=(const Value& value);
   void setValue(const Value* pValue) override;
   /*!
     @brief Set the value to the string \em value. Uses Value::read(const
@@ -166,7 +161,7 @@ class EXIV2API XmpData {
     @brief Add a copy of the Xmpdatum to the XMP metadata.
     @return 0 if successful.
    */
-  int add(const Xmpdatum& xmpdatum);
+  int add(const Xmpdatum& xmpDatum);
   /*
   @brief Delete the Xmpdatum at iterator position pos, return the
           position of the next Xmpdatum.
@@ -393,21 +388,48 @@ class EXIV2API XmpParser {
 // *****************************************************************************
 // free functions, template and inline definitions
 
+#if __cpp_if_constexpr
 template <typename T>
 Xmpdatum& Xmpdatum::operator=(const T& value) {
-#ifdef __cpp_if_constexpr
-  if constexpr (std::is_same_v<T, bool>) {
-#else
-  if (std::is_same<T, bool>::value) {
-#endif
-    setValue(Exiv2::toString(value ? "True" : "False"));
-    return *this;
-  } else {
+  if constexpr (std::is_same_v<T, bool>)
+    setValue(value ? "True" : "False");
+  else if constexpr (std::is_convertible_v<T, std::string>)
+    setValue(value);
+  else if constexpr (std::is_base_of_v<Value, T>)
+    setValue(&value);
+  else
     setValue(Exiv2::toString(value));
-    return *this;
-  }
+  return *this;
+}
+#else
+template <typename T>
+std::enable_if_t<std::is_convertible<T, std::string>::value> operatorHelper(Xmpdatum* xmp, const T& value) {
+  xmp->setValue(value);
 }
 
+template <typename T>
+std::enable_if_t<std::is_base_of<Value, T>::value> operatorHelper(Xmpdatum* xmp, const T& value) {
+  xmp->setValue(&value);
+}
+
+template <typename T>
+std::enable_if_t<std::is_same<T, bool>::value> operatorHelper(Xmpdatum* xmp, const T& value) {
+  xmp->setValue(value ? "True" : "False");
+}
+
+template <typename T>
+std::enable_if_t<!(std::is_convertible<T, std::string>::value || std::is_base_of<Value, T>::value ||
+                   std::is_same<T, bool>::value)>
+operatorHelper(Xmpdatum* xmp, const T& value) {
+  xmp->setValue(Exiv2::toString(value));
+}
+
+template <typename T>
+Xmpdatum& Xmpdatum::operator=(const T& value) {
+  operatorHelper(this, value);
+  return *this;
+}
+#endif
 }  // namespace Exiv2
 
-#endif  // #ifndef XMP_HPP_
+#endif  // EXIV2_XMP_EXIV2_HPP

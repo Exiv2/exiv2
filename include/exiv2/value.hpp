@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef VALUE_HPP_
-#define VALUE_HPP_
+#ifndef EXIV2_VALUE_HPP
+#define EXIV2_VALUE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -792,13 +792,11 @@ class EXIV2API XmpArrayValue : public XmpValue {
 struct LangAltValueComparator {
   //! LangAltValueComparator comparison case insensitive function
   bool operator()(const std::string& str1, const std::string& str2) const {
-    int result = str1.size() < str2.size() ? 1 : str1.size() > str2.size() ? -1 : 0;
-    if (result == 0) {
-      for (auto c1 = str1.begin(), c2 = str2.begin(); result == 0 && c1 != str1.end(); ++c1, ++c2) {
-        result = tolower(*c1) < tolower(*c2) ? 1 : tolower(*c1) > tolower(*c2) ? -1 : 0;
-      }
-    }
-    return result < 0;
+    if (str1.size() != str2.size())
+      return str1.size() > str2.size();
+
+    auto f = [](unsigned char a, unsigned char b) { return std::tolower(a) > std::tolower(b); };
+    return std::lexicographical_compare(str1.begin(), str1.end(), str2.begin(), str2.end(), f);
   }
 };
 
@@ -1199,10 +1197,6 @@ class ValueType : public Value {
 
   //! Container for values
   using ValueList = std::vector<T>;
-  //! Iterator type defined for convenience.
-  using iterator = typename std::vector<T>::iterator;
-  //! Const iterator type defined for convenience.
-  using const_iterator = typename std::vector<T>::const_iterator;
 
   // DATA
   /*!
@@ -1216,7 +1210,7 @@ class ValueType : public Value {
  private:
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
-  inline I float_to_integer_helper(size_t n) const {
+  I float_to_integer_helper(size_t n) const {
     const auto v = value_.at(n);
     if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
         v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
@@ -1227,7 +1221,7 @@ class ValueType : public Value {
 
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
-  inline I rational_to_integer_helper(size_t n) const {
+  I rational_to_integer_helper(size_t n) const {
     auto a = value_.at(n).first;
     auto b = value_.at(n).second;
 
@@ -1254,11 +1248,7 @@ class ValueType : public Value {
     } else if (std::is_signed<I>::value) {
 #endif
       // conversion is from unsigned to signed
-#ifdef __cpp_lib_type_trait_variable_templates
       const auto imax = static_cast<std::make_unsigned_t<I>>(std::numeric_limits<I>::max());
-#else
-      const auto imax = static_cast<typename std::make_unsigned<I>::type>(std::numeric_limits<I>::max());
-#endif
       if (imax < b || imax < a) {
         return 0;
       }
@@ -1269,13 +1259,8 @@ class ValueType : public Value {
         return 0;
       }
       // Inputs are not negative so convert them to unsigned.
-#ifdef __cpp_lib_type_trait_variable_templates
       const auto a_u = static_cast<std::make_unsigned_t<decltype(a)>>(a);
       const auto b_u = static_cast<std::make_unsigned_t<decltype(b)>>(b);
-#else
-      const auto a_u = static_cast<typename std::make_unsigned<decltype(a)>::type>(a);
-      const auto b_u = static_cast<typename std::make_unsigned<decltype(b)>::type>(b);
-#endif
       if (imax < b_u || imax < a_u) {
         return 0;
       }
@@ -1483,7 +1468,6 @@ template <typename T>
 ValueType<T>& ValueType<T>::operator=(const ValueType<T>& rhs) {
   if (this == &rhs)
     return *this;
-  Value::operator=(rhs);
   value_ = rhs.value_;
 
   byte* tmp = nullptr;
@@ -1513,23 +1497,21 @@ int ValueType<T>::read(const byte* buf, size_t len, ByteOrder byteOrder) {
 template <typename T>
 int ValueType<T>::read(const std::string& buf) {
   std::istringstream is(buf);
-  T tmp = T();
+  T tmp;
   ValueList val;
-  while (!(is.eof())) {
-    is >> tmp;
-    if (is.fail())
-      return 1;
+  while (is >> tmp)
     val.push_back(tmp);
-  }
-  value_.swap(val);
+  if (!is.eof())
+    return 1;
+  value_ = std::move(val);
   return 0;
 }
 
 template <typename T>
 size_t ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const {
   size_t offset = 0;
-  for (auto i = value_.begin(); i != value_.end(); ++i) {
-    offset += toData(buf + offset, *i, byteOrder);
+  for (const auto& val : value_) {
+    offset += toData(buf + offset, val, byteOrder);
   }
   return offset;
 }
@@ -1696,4 +1678,4 @@ int ValueType<T>::setDataArea(const byte* buf, size_t len) {
 }
 }  // namespace Exiv2
 
-#endif  // #ifndef VALUE_HPP_
+#endif  // EXIV2_VALUE_HPP

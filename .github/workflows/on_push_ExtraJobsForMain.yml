@@ -20,12 +20,12 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y install ninja-build gcovr
-          python3 -m pip install conan==1.*
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |

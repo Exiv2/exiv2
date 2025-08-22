@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef IMAGE_HPP_
-#define IMAGE_HPP_
+#ifndef EXIV2_IMAGE_HPP
+#define EXIV2_IMAGE_HPP
+
+#include "config.h"
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
+#include "config.h"
+
 #include "basicio.hpp"
 #include "exif.hpp"
 #include "image_types.hpp"
@@ -192,6 +196,17 @@ class EXIV2API Image {
    */
   virtual void setIccProfile(DataBuf&& iccProfile, bool bTestValid = true);
   /*!
+    @brief Append more bytes to the iccProfile.
+    @param bytes array of bytes to append
+    @param size number of bytes to append
+    @param bTestValid - tests that iccProfile contains credible data
+   */
+  virtual void appendIccProfile(const uint8_t* bytes, size_t size, bool bTestValid);
+  /*!
+    @brief Throw an exception if the size at the beginning of the iccProfile isn't correct.
+   */
+  virtual void checkIccProfile();
+  /*!
     @brief Erase iccProfile. the profile is not removed from
         the actual image until the writeMetadata() method is called.
    */
@@ -199,7 +214,7 @@ class EXIV2API Image {
   /*!
     @brief Returns the status of the ICC profile in the image instance
    */
-  virtual bool iccProfileDefined() {
+  [[nodiscard]] virtual bool iccProfileDefined() const {
     return !iccProfile_.empty();
   }
 
@@ -522,7 +537,9 @@ class EXIV2API ImageFactory {
           read the remote file.
    */
   static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
-
+#ifdef _WIN32
+  static BasicIo::UniquePtr createIo(const std::wstring& path);
+#endif
   /*!
     @brief Create an Image subclass of the appropriate type by reading
         the specified file. %Image type is derived from the file
@@ -537,7 +554,9 @@ class EXIV2API ImageFactory {
         unknown image type.
    */
   static Image::UniquePtr open(const std::string& path, bool useCurl = true);
-
+#ifdef _WIN32
+  static Image::UniquePtr open(const std::wstring& path);
+#endif
   /*!
     @brief Create an Image subclass of the appropriate type by reading
         the provided memory. %Image type is derived from the memory
@@ -667,4 +686,4 @@ EXIV2API void append(Exiv2::Blob& blob, const byte* buf, size_t len);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef IMAGE_HPP_
+#endif  // EXIV2_IMAGE_HPP

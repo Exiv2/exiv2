@@ -26,6 +26,8 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
+#include "image_int.hpp"
+#include "properties.hpp"
 #include "quicktimevideo.hpp"
 #include "safe_op.hpp"
 #include "tags.hpp"
@@ -33,7 +35,6 @@
 // + standard includes
 #include <array>
 #include <cmath>
-#include <iostream>
 #include <string>
 // *****************************************************************************
 // class member definitions
@@ -489,11 +490,9 @@ enum audioDescTags { AudioFormat, AudioVendorID = 4, AudioChannels, AudioSampleR
   @param str char* Pointer to string
   @return Returns true if the buffer value is equal to string.
  */
-static bool equalsQTimeTag(Exiv2::DataBuf& buf, const char* str) {
-  for (int i = 0; i < 4; ++i)
-    if (tolower(buf.data()[i]) != tolower(str[i]))
-      return false;
-  return true;
+static bool equalsQTimeTag(Exiv2::DataBuf& buf, const char str[5]) {
+  return std::equal(buf.begin(), buf.begin() + 4, str,
+                    [](auto b, auto s) { return std::tolower(b) == std::tolower(s); });
 }
 
 /*!
@@ -568,7 +567,7 @@ void QuickTimeVideo::readMetadata() {
   continueTraversing_ = true;
   height_ = width_ = 1;
 
-  xmpData_["Xmp.video.FileSize"] = static_cast<double>(io_->size()) / static_cast<double>(1048576);
+  xmpData_["Xmp.video.FileSize"] = static_cast<double>(io_->size()) / 1048576.0;
   xmpData_["Xmp.video.MimeType"] = mimeType();
 
   while (continueTraversing_)
@@ -615,6 +614,10 @@ void QuickTimeVideo::decodeBlock(size_t recursion_depth, std::string const& ente
 
   // std::cerr<<"Tag=>"<<buf.data()<<"     size=>"<<size-hdrsize << '\n';
   const auto newsize = static_cast<size_t>(size - hdrsize);
+  if (ignoreList(buf)) {
+    discard(newsize);
+    return;
+  }
   if (newsize > buf.size()) {
     buf.resize(newsize);
   }
@@ -755,11 +758,11 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
   byte n = 3;
 
   while (n--) {
-    io_->seek(static_cast<long>(4), BasicIo::cur);
+    io_->seek(4L, BasicIo::cur);
     io_->readOrThrow(buf.data(), 4);
 
     if (equalsQTimeTag(buf, "clef")) {
-      io_->seek(static_cast<long>(4), BasicIo::cur);
+      io_->seek(4L, BasicIo::cur);
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.CleanApertureWidth"] =
@@ -771,7 +774,7 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
     }
 
     else if (equalsQTimeTag(buf, "prof")) {
-      io_->seek(static_cast<long>(4), BasicIo::cur);
+      io_->seek(4L, BasicIo::cur);
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.ProductionApertureWidth"] =
@@ -783,7 +786,7 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
     }
 
     else if (equalsQTimeTag(buf, "enof")) {
-      io_->seek(static_cast<long>(4), BasicIo::cur);
+      io_->seek(4L, BasicIo::cur);
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.EncodedPixelsWidth"] =
@@ -794,14 +797,13 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
           Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
     }
   }
-  io_->seek(static_cast<long>(cur_pos + size), BasicIo::beg);
+  io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::trackApertureTagDecoder
 
-void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
+void QuickTimeVideo::CameraTagsDecoder(size_t size) {
   size_t cur_pos = io_->tell();
   DataBuf buf(50);
   DataBuf buf2(4);
-  const TagDetails* td;
 
   io_->readOrThrow(buf.data(), 4);
   if (equalsQTimeTag(buf, "NIKO")) {
@@ -812,8 +814,7 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
     io_->readOrThrow(buf.data(), 14);
     xmpData_["Xmp.video.Model"] = Exiv2::toString(buf.data());
     io_->readOrThrow(buf.data(), 4);
-    xmpData_["Xmp.video.ExposureTime"] =
-        "1/" + Exiv2::toString(ceil(buf.read_uint32(0, littleEndian) / static_cast<double>(10)));
+    xmpData_["Xmp.video.ExposureTime"] = "1/" + Exiv2::toString(ceil(buf.read_uint32(0, littleEndian) / 10.0));
     io_->readOrThrow(buf.data(), 4);
     io_->readOrThrow(buf2.data(), 4);
     xmpData_["Xmp.video.FNumber"] =
@@ -824,14 +825,13 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
         buf.read_uint32(0, littleEndian) / static_cast<double>(buf2.read_uint32(0, littleEndian));
     io_->readOrThrow(buf.data(), 10);
     io_->readOrThrow(buf.data(), 4);
-    td = Exiv2::find(whiteBalance, buf.read_uint32(0, littleEndian));
-    if (td)
+    if (auto td = Exiv2::find(whiteBalance, buf.read_uint32(0, littleEndian)))
       xmpData_["Xmp.video.WhiteBalance"] = exvGettext(td->label_);
     io_->readOrThrow(buf.data(), 4);
     io_->readOrThrow(buf2.data(), 4);
     xmpData_["Xmp.video.FocalLength"] =
         buf.read_uint32(0, littleEndian) / static_cast<double>(buf2.read_uint32(0, littleEndian));
-    io_->seek(static_cast<long>(95), BasicIo::cur);
+    io_->seek(95L, BasicIo::cur);
     io_->readOrThrow(buf.data(), 48);
     buf.write_uint8(48, 0);
     xmpData_["Xmp.video.Software"] = Exiv2::toString(buf.data());
@@ -839,10 +839,10 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size_external) {
     xmpData_["Xmp.video.ISO"] = buf.read_uint32(0, littleEndian);
   }
 
-  io_->seek(cur_pos + size_external, BasicIo::beg);
+  io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::CameraTagsDecoder
 
-void QuickTimeVideo::userDataDecoder(size_t size_external, size_t recursion_depth) {
+void QuickTimeVideo::userDataDecoder(size_t size, size_t recursion_depth) {
   enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
   size_t cur_pos = io_->tell();
   const TagVocabulary* td;
@@ -851,7 +851,7 @@ void QuickTimeVideo::userDataDecoder(size_t size_external, size_t recursion_dept
 
   const long bufMinSize = 100;
   DataBuf buf(bufMinSize);
-  size_t size_internal = size_external;
+  size_t size_internal = size;
   std::memset(buf.data(), 0x0, buf.size());
 
   while ((size_internal / 4 != 0) && (size_internal > 0)) {
@@ -908,10 +908,10 @@ void QuickTimeVideo::userDataDecoder(size_t size_external, size_t recursion_dept
       tagDecoder(buf, size - 8, recursion_depth + 1);
   }
 
-  io_->seek(cur_pos + size_external, BasicIo::beg);
+  io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::userDataDecoder
 
-void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
+void QuickTimeVideo::NikonTagsDecoder(size_t size) {
   size_t cur_pos = io_->tell();
   DataBuf buf(201);
   DataBuf buf2(4 + 1);
@@ -1120,7 +1120,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size_external) {
     }
   }
 
-  io_->seek(cur_pos + size_external, BasicIo::beg);
+  io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::NikonTagsDecoder
 
 void QuickTimeVideo::setMediaStream() {
@@ -1216,7 +1216,7 @@ void QuickTimeVideo::audioDescDecoder() {
         break;
       case AudioChannels:
         xmpData_["Xmp.audio.ChannelType"] = buf.read_uint16(0, bigEndian);
-        xmpData_["Xmp.audio.BitsPerSample"] = (buf.data()[2] * 256 + buf.data()[3]);
+        xmpData_["Xmp.audio.BitsPerSample"] = ((buf.data()[2] * 256) + buf.data()[3]);
         break;
       case AudioSampleRate:
         xmpData_["Xmp.audio.SampleRate"] =
@@ -1256,7 +1256,7 @@ void QuickTimeVideo::imageDescDecoder() {
         break;
       case SourceImageWidth_Height:
         xmpData_["Xmp.video.SourceImageWidth"] = buf.read_uint16(0, bigEndian);
-        xmpData_["Xmp.video.SourceImageHeight"] = (buf.data()[2] * 256 + buf.data()[3]);
+        xmpData_["Xmp.video.SourceImageHeight"] = ((buf.data()[2] * 256) + buf.data()[3]);
         break;
       case XResolution:
         xmpData_["Xmp.video.XResolution"] =
@@ -1630,7 +1630,7 @@ bool isQTimeType(BasicIo& iIo, bool advance) {
   }
 
   if (!advance || !matched) {
-    iIo.seek(static_cast<long>(0), BasicIo::beg);
+    iIo.seek(0L, BasicIo::beg);
   }
 
   return matched;

@@ -5,14 +5,19 @@
 
 // *****************************************************************************
 // included header files
-#include <unordered_map>
-#include "image.hpp"
-#include "tiffcomposite_int.hpp"
+#include "exif.hpp"
 #include "tifffwd_int.hpp"
+
+#include <unordered_map>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class BasicIo;
+class IptcData;
+class XmpData;
+
+namespace Internal {
 /*!
   @brief Contains internal objects which are not published and are not part
          of the <b>libexiv2</b> API.
@@ -70,7 +75,7 @@ class TiffHeaderBase {
     @param os Output stream to write to.
     @param prefix Prefix to be written before each line of output.
    */
-  virtual void print(std::ostream& os, const std::string& prefix = "") const;
+  virtual void print(std::ostream& os, std::string_view prefix = "") const;
   //! Return the byte order (little or big endian).
   [[nodiscard]] virtual ByteOrder byteOrder() const;
   //! Return the offset to the start of the root directory.
@@ -93,7 +98,7 @@ class TiffHeaderBase {
 
     @return The default implementation returns \c false.
    */
-  virtual bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const;
+  [[nodiscard]] virtual bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& pPrimaryGroups) const;
   //@}
 
  private:
@@ -119,7 +124,7 @@ class TiffHeader : public TiffHeaderBase {
   //@}
   //@{
   //! @name Accessors
-  bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
+  [[nodiscard]] bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& pPrimaryGroups) const override;
   //@}
 
  private:
@@ -242,7 +247,7 @@ class TiffParserWorker {
     @param pSourceDir Pointer to the source composite tree to search (may be 0)
     @return List of primary groups which is populated
    */
-  static PrimaryGroups findPrimaryGroups(TiffComponent* pSourceDir);
+  static PrimaryGroups findPrimaryGroups(const std::unique_ptr<TiffComponent>& pSourceDir);
 };
 
 /*!
@@ -266,7 +271,7 @@ class TiffMapping {
 
     @return Pointer to the decoder function
    */
-  static DecoderFct findDecoder(const std::string& make, uint32_t extendedTag, IfdId group);
+  static DecoderFct findDecoder(std::string_view make, uint32_t extendedTag, IfdId group);
   /*!
     @brief Find special encoder function for a key.
 
@@ -280,7 +285,7 @@ class TiffMapping {
 
     @return Pointer to the encoder function
    */
-  static EncoderFct findEncoder(const std::string& make, uint32_t extendedTag, IfdId group);
+  static EncoderFct findEncoder(std::string_view make, uint32_t extendedTag, IfdId group);
 
  private:
   static const TiffMappingInfo tiffMappingInfo_[];  //!< TIFF mapping table
@@ -352,6 +357,7 @@ class FindExifdatum {
 
 };  // class FindExifdatum
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef TIFFIMAGE_INT_HPP_

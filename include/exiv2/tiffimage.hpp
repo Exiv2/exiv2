@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef TIFFIMAGE_HPP_
-#define TIFFIMAGE_HPP_
+#ifndef EXIV2_TIFFIMAGE_HPP
+#define EXIV2_TIFFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -63,16 +63,16 @@ class EXIV2API TiffImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
  private:
   //! @name Accessors
   //@{
   //! Return the group name of the group with the primary image.
-  std::string primaryGroup() const;
+  [[nodiscard]] std::string primaryGroup() const;
   //@}
 
   // DATA
@@ -159,4 +159,4 @@ EXIV2API bool isTiffType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef TIFFIMAGE_HPP_
+#endif  // EXIV2_TIFFIMAGE_HPP

@@ -7,13 +7,16 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
  */
-#ifndef EXIF_HPP_
-#define EXIF_HPP_
+#ifndef EXIV2_EXIF_HPP
+#define EXIV2_EXIF_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
+#include "config.h"
+
 // included header files
+#include "config.h"
 #include "metadatum.hpp"
 #include "tags.hpp"
 
@@ -565,4 +568,4 @@ class EXIV2API ExifParser {
 
 }  // namespace Exiv2
 
-#endif  // #ifndef EXIF_HPP_
+#endif  // EXIV2_EXIF_HPP

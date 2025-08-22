@@ -6,7 +6,7 @@
 
 | **CI Status:**    |      |      |     |
 |:--                |:--   |:--   |:--  |
-| [![Release](https://github.com/Exiv2/exiv2/actions/workflows/release.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/release.yml) | [![Basic jobs for all platforms](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml) |  [![Nightly jobs for Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml) | [![On PUSH - Linux Special Builds for main branch](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml) | 
+| [![Release](https://github.com/Exiv2/exiv2/actions/workflows/release.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/release.yml) | [![Basic jobs for all platforms](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml) |  [![Nightly jobs for Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml) | [![On PUSH - Linux Special Builds for main branch](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml) |
 
 <div id="Welcome">
 
@@ -74,7 +74,7 @@ The file ReadMe.txt in a build bundle describes how to install the library on th
 
 # Building, Installing, Using and Uninstalling Exiv2
 
-You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, any C++ compiler implementing the C++ 17 standard and the associated tool chain.
+You need [CMake](https://cmake.org/download/) to configure the Exiv2 project, any C++ compiler implementing the C++ 20 standard and the associated tool chain.
 
 <div id="B_I_U_Unix">
 
@@ -88,7 +88,7 @@ $ ctest --test-dir build --verbose               # Run tests
 $ sudo cmake --install build                     # Run the install target (install library, public headers, application and CMake files)
 ```
 
-This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`. The target directory for the installation can be modified by using the CMake option `-DCMAKE_INSTALL_PREFIX`. 
+This will install the library into the "standard locations".  The library will be installed in `/usr/local/lib`, executables (including the exiv2 command-line program) in `/usr/local/bin/` and header files in `/usr/local/include/exiv2`. The target directory for the installation can be modified by using the CMake option `-DCMAKE_INSTALL_PREFIX`.
 
 CMake analyzes the project configuration from the source code directory and generates files into the build directory. It generates the project/solution/makefiles required to build the exiv2 library and command line application (and optionally sample applications and test runners). CMake also creates the files `exv_conf.h` and `exiv2lib_export.h` which contain compiler directives about the build options you have chosen and the availability of libraries on your machine.
 
@@ -190,7 +190,7 @@ Preset CMake variables:
 -- Conan: checking conan executable
 -- Conan: Found program C:/dev/envs/conan/Scripts/conan.exe
 -- Conan: Version found Conan version 1.47.0
--- Conan executing: C:/dev/envs/conan/Scripts/conan.exe install .. --remote conancenter --build missing --options webready=True --settings arch=x86_64 --settings build_type=Release --settings compiler=Visual Studio --settings compiler.version=17 --settings compiler.runtime=MD
+-- Conan executing: C:/dev/envs/conan/Scripts/conan.exe install .. --remote conancenter --build missing --options webready=True --settings arch=x86_64 --settings build_type=Release --settings compiler=Visual Studio --settings compiler.version=20 --settings compiler.runtime=MD
 ...
 
 # CMake finds the project dependencies which were automatically handled by conan
@@ -206,7 +206,7 @@ Preset CMake variables:
 -- CMake Generator:   Ninja
 -- CMAKE_BUILD_TYPE:  Release
 -- Compiler info: MSVC (C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.30.30705/bin/Hostx64/x64/cl.exe) ; version: 19.30.30705.0
--- CMAKE_CXX_STANDARD:17
+-- CMAKE_CXX_STANDARD:20
 --  --- Compiler flags ---
 -- General:           /DWIN32 /D_WINDOWS /W3 /GR /EHsc
          /MP
@@ -296,12 +296,6 @@ CMake will detect libiconv of all UNIX like systems including Linux, macOS, UNIX
 
 The library libiconv is a GNU library and we do not recommend using libiconv with Exiv2 when building with Visual Studio.
 
-Exiv2 includes the file cmake/FindIconv.cmake which contains a guard to prevent CMake from finding libiconv when you build with Visual Studio.  This was added because of issues reported when Visual Studio attempted to link libiconv libraries installed by Cygwin, or MinGW or gnuwin32. [https://github.com/Exiv2/exiv2/issues/1250](https://github.com/Exiv2/exiv2/issues/1250)
-
-There are build instructions about Visual Studio in libiconv-1.16/INSTALL.window require you to install Cygwin.  There is an article here about building libiconv with Visual Studio. [https://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio](https://www.codeproject.com/Articles/302012/How-to-Build-libiconv-with-Microsoft-Visual-Studio).  
-
-If you wish to use libiconv with Visual Studio you will have to build libiconv and remove the "guard" in cmake/FindIconv.cmake.  Team Exiv2 will not provide support concerning libiconv and Visual Studio.
-
 [TOC](#TOC)
 <div id="BuildAndLinkYourCode">
 
@@ -313,7 +307,7 @@ where `platform: { CYGWIN | Darwin | Linux | MinGW | msvc | Unix }`
 
 In general you need to do the following:
 
-1) Application code should be written in C++98 and include exiv2 headers:
+1) Application code should be written in at least C++14 and include exiv2 headers:
 
 ```cpp
 #include <exiv2/exiv2.hpp>
@@ -326,7 +320,7 @@ In general you need to do the following:
 The following is a typical command to build and link with libexiv2:
 
 ```bash
-$ g++ -std=c++17 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lexiv2
+$ g++ -std=c++20 myprog.cpp -o myprog -I/usr/local/include -L/usr/local/lib -lexiv2
 ```
 
 [TOC](#TOC)
@@ -346,7 +340,7 @@ $ cat - > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 3.11)
 project(exifprint VERSION 0.0.1 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(exiv2 REQUIRED CONFIG NAMES exiv2)    # search ${CMAKE_INSTALL_PREFIX}/lib/cmake/exiv2/
@@ -382,7 +376,7 @@ LDFLAGS := `pkg-config exiv2 --libs`
 If you are not using make, you can use pkg-config as follows:
 
 ```bash
-g++ -std=c++17 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
+g++ -std=c++20 myprogram.cpp -o myprogram $(pkg-config exiv2 --libs --cflags)
 ```
 
 [TOC](#TOC)
@@ -502,19 +496,19 @@ To build the documentation, you must install the following products:
 
 ## Building Exiv2 Tag Webpages
 
-Exiv2 provides many built-in metadata tags which are listed in the sub-pages of https://exiv2.org/metadata.html 
-and https://pre-release.exiv2.org/metadata.html. Those tag webpages are generated using tag information 
+Exiv2 provides many built-in metadata tags which are listed in the sub-pages of https://exiv2.org/metadata.html
+and https://pre-release.exiv2.org/metadata.html. Those tag webpages are generated using tag information
 extracted from the Exiv2 source code.
 
-The tag webpage build files are in the `<exiv2dir>/doc/templates` directory. If changes are made to 
-tag groups in the Exiv2 source code then the build files need to be updated. Any changes made 
+The tag webpage build files are in the `<exiv2dir>/doc/templates` directory. If changes are made to
+tag groups in the Exiv2 source code then the build files need to be updated. Any changes made
 to individual tags in an existing tag group are automatically included.
 
-Building the tag webpages requires building the Exiv2 sample programs and using scripts which have additional dependencies on 
-[BASH](https://www.gnu.org/software/bash/), [make](https://manpages.org/make), [xsltproc](https://manpages.org/xsltproc) 
+Building the tag webpages requires building the Exiv2 sample programs and using scripts which have additional dependencies on
+[BASH](https://www.gnu.org/software/bash/), [make](https://manpages.org/make), [xsltproc](https://manpages.org/xsltproc)
 and [Python3](https://www.python.org/).
 
-To build the tag webpages, first [build Exiv2 from source](#TOC) with the `-DEXIV2_BUILD_SAMPLES=ON` 
+To build the tag webpages, first [build Exiv2 from source](#TOC) with the `-DEXIV2_BUILD_SAMPLES=ON`
 option enabled. This is required as the [taglist](README-SAMPLES.md#taglist) sample program is used by one of the scripts.
 
 Next, set the `EXIV2_BINDIR` environment variable (see [Exiv2 environment variables](#EnvironmentVariables)).
@@ -526,7 +520,7 @@ $ cd <exiv2dir>/doc/templates
 $ make
 ```
 
-After processing, the generated webpages are stored in the `<exiv2dir>/doc/templates` directory. 
+After processing, the generated webpages are stored in the `<exiv2dir>/doc/templates` directory.
 When the Exiv2 websites are updated, the generated tag webpages are reformatted before use.
 
 [TOC](#TOC)
@@ -858,7 +852,7 @@ You will find that 3 tests fail at the end of the test suite.  It is safe to ign
 
 ## Static and Shared Libraries
 
-You can build either static or shared libraries.  Both can be linked with either static or shared run-time libraries.  You specify the shared/static with the option `-BUILD_SHARED_LIBS=ON|OFF` You specify the run-time with the option `-DEXIV2_ENABLE_DYNAMIC_RUNTIME=ON|OFF`.  The default for both options default is ON.  So you build shared and use the shared libraries which are `.dll` on Windows (msvc, Cygwin and MinGW/msys), `.dylib` on macOS and `.so` on Linux and UNIX.  
+You can build either static or shared libraries.  Both can be linked with either static or shared run-time libraries.  You specify the shared/static with the option `-BUILD_SHARED_LIBS=ON|OFF` You specify the run-time with the option `-DEXIV2_ENABLE_DYNAMIC_RUNTIME=ON|OFF`.  The default for both options default is ON.  So you build shared and use the shared libraries which are `.dll` on Windows (msvc, Cygwin and MinGW/msys), `.dylib` on macOS and `.so` on Linux and UNIX.
 
 CMake creates your build artefacts in the directories `bin` and `lib`.  The `bin` directory contains your executables and .DLLs.  The `lib` directory contains your static libraries.  When you install exiv2, the build artefacts are copied to your system's prefix directory which by default is `/usr/local/`.  If you wish to test and use your build without installing, you will have to set you PATH appropriately.  Linux/Unix users should also set `LD_LIBRARY_PATH` and macOS users should set `DYLD_LIBRARY_PATH`.
 
@@ -958,7 +952,7 @@ ctest provides many option and the following show common use-case scenarios:
 ```bash
 $ ctest --test-dir build                             # run all tests and display summary
 $ ctest --test-dir build --output-on-failure         # run all tests and output failures
-$ ctest --test-dir build-R bugfix                    # run only bugfixTests and display summary
+$ ctest --test-dir build -R bugfix                   # run only bugfixTests and display summary
 $ ctest --test-dir build -R bugfix --verbose         # run only bugfixTests and display all output
 ```
 
@@ -1005,7 +999,7 @@ The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  
 You can run tests directly from the build:
 
 ```bash
-$ cmake -S . -B build -G "Unix Makefiles" -DEXIV2_BUILD_UNIT_TESTS=ON 
+$ cmake -S . -B build -G "Unix Makefiles" -DEXIV2_BUILD_UNIT_TESTS=ON
 ... lots of output and build summary ...
 $ cmake --build build
 ... lots of output ...
@@ -1045,7 +1039,7 @@ $
 > set PATH=c:\Python37;%PATH%
 ```
 
-You can execute the test suite in a similar manner to that described for UNIX-like systems.  You _**must**_ provide the `-C` config option to ctest for Visual Studio builds.  
+You can execute the test suite in a similar manner to that described for UNIX-like systems.  You _**must**_ provide the `-C` config option to ctest for Visual Studio builds.
 
 ```cmd
 > cd <exiv2dir>
@@ -1111,7 +1105,7 @@ You can run the bugfix tests from the build directory:
 
 ```bash
 $ cd <exiv2dir>
-$ ctest --test-dir build -R bugfix  
+$ ctest --test-dir build -R bugfix
 ```
 
 If you wish to run in verbose mode:

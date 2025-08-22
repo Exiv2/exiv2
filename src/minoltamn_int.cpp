@@ -4,12 +4,10 @@
 #include "minoltamn_int.hpp"
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "value.hpp"
-
-#include <array>
-#include <sstream>
 
 #include <cstdio>  // popen to call exiftool
 
@@ -230,7 +228,6 @@ constexpr TagDetails minoltaModelStd[] = {
     {5, "DiMAGE 7Hi"},
     {6, "DiMAGE A1"},
     {7, "DiMAGE A2 | S414"},
-    {7, "DiMAGE A2 | S414"}  // To silence compiler warning
 };
 
 //! Lookup table to translate Minolta Std camera settings interval mode values to readable labels
@@ -331,17 +328,15 @@ std::ostream& MinoltaMakerNote::printMinoltaFocalLengthStd(std::ostream& os, con
 
 std::ostream& MinoltaMakerNote::printMinoltaDateStd(std::ostream& os, const Value& value, const ExifData*) {
   // From the PHP JPEG Metadata Toolkit
-  os << value.toInt64() / 65536 << ":" << std::right << std::setw(2) << std::setfill('0')
-     << (value.toInt64() - value.toInt64() / 65536 * 65536) / 256 << ":" << std::right << std::setw(2)
-     << std::setfill('0') << value.toInt64() % 256;
+  auto val = value.toInt64();
+  os << stringFormat("{}:{:02}:{:02}", val / 65536, (val % 65536) / 256, val % 256);
   return os;
 }
 
 std::ostream& MinoltaMakerNote::printMinoltaTimeStd(std::ostream& os, const Value& value, const ExifData*) {
   // From the PHP JPEG Metadata Toolkit
-  os << std::right << std::setw(2) << std::setfill('0') << value.toInt64() / 65536 << ":" << std::right << std::setw(2)
-     << std::setfill('0') << (value.toInt64() - value.toInt64() / 65536 * 65536) / 256 << ":" << std::right
-     << std::setw(2) << std::setfill('0') << value.toInt64() % 256;
+  auto val = value.toInt64();
+  os << stringFormat("{:02}:{:02}:{:02}", val / 65536, (val % 65536) / 256, val % 256);
   return os;
 }
 
@@ -497,9 +492,8 @@ constexpr TagDetails minoltaImageQuality7D[] = {
 
 //! Lookup table to translate Minolta Dynax 7D camera settings white balance values to readable labels
 constexpr TagDetails minoltaWhiteBalance7D[] = {
-    {0, N_("Auto")},        {1, N_("Daylight")}, {2, N_("Shade")},    {3, N_("Cloudy")},  {4, N_("Tungsten")},
-    {5, N_("Fluorescent")}, {256, N_("Kelvin")}, {512, N_("Manual")}, {512, N_("Manual")}  // To silence compiler
-                                                                                           // warning
+    {0, N_("Auto")},     {1, N_("Daylight")},    {2, N_("Shade")},    {3, N_("Cloudy")},
+    {4, N_("Tungsten")}, {5, N_("Fluorescent")}, {256, N_("Kelvin")}, {512, N_("Manual")},
 };
 
 //! Lookup table to translate Minolta Dynax 7D camera settings focus mode values to readable labels
@@ -701,26 +695,13 @@ constexpr TagDetails minoltaPictureFinish5D[] = {
 std::ostream& MinoltaMakerNote::printMinoltaExposureManualBias5D(std::ostream& os, const Value& value,
                                                                  const ExifData*) {
   // From Xavier Raynaud: the value is converted from 0:256 to -5.33:5.33
-
-  std::ios::fmtflags f(os.flags());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << (static_cast<float>(value.toInt64() - 128) / 24);
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f}", static_cast<float>(value.toInt64() - 128) / 24);
 }
 
 //! Method to convert Minolta Dynax 5D exposure compensation values.
 std::ostream& MinoltaMakerNote::printMinoltaExposureCompensation5D(std::ostream& os, const Value& value,
                                                                    const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << (static_cast<float>(value.toInt64() - 300) / 100);
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f}", static_cast<float>(value.toInt64() - 300) / 100);
 }
 
 // Minolta Dynax 5D Camera Settings Tag Info
@@ -1674,7 +1655,7 @@ static std::vector<std::string> split(const std::string& str, const std::string&
   std::vector<std::string> tokens;
   size_t prev = 0;
   size_t pos = 0;
-  do {
+  while (pos < str.length() && prev < str.length()) {
     pos = str.find(delim, prev);
     if (pos == std::string::npos)
       pos = str.length();
@@ -1682,7 +1663,7 @@ static std::vector<std::string> split(const std::string& str, const std::string&
     if (!token.empty())
       tokens.push_back(std::move(token));
     prev = pos + delim.length();
-  } while (pos < str.length() && prev < str.length());
+  }
   return tokens;
 }
 

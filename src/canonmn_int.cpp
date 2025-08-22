@@ -11,6 +11,7 @@
 #include "error.hpp"
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
@@ -19,7 +20,6 @@
 
 // + standard includes
 #include <cmath>
-#include <iomanip>
 #include <regex>
 #include <sstream>
 #include <string>
@@ -32,10 +32,12 @@ constexpr TagDetails canonOffOn[] = {
     {1, N_("On")},
 };
 
-std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, const ExifData* metadata);
+static std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, const ExifData* metadata);
 
 //! Special treatment pretty-print function for non-unique lens ids.
-std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifData* metadata);
+static std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifData* metadata);
+
+static float string_to_float(std::string_view str);
 
 //! ModelId, tag 0x0010
 constexpr TagDetails canonModelId[] = {
@@ -389,7 +391,9 @@ constexpr TagDetails canonModelId[] = {
     {0x80000491, "PowerShot V10"},
     {0x80000495, "EOS R1"},
     {0x80000496, "EOS R5 Mark II"},
+    {0x80000497, "PowerShot V1"},
     {0x80000498, "EOS R100"},
+    {0x80000516, "EOS R50 V"},
     {0x80000520, "EOS D2000C"},
     {0x80000560, "EOS D6000C"},
 };
@@ -1399,9 +1403,8 @@ constexpr TagDetails canonCsQuality[] = {
 
 //! FlashMode, tag 0x0004
 constexpr TagDetails canonCsFlashMode[] = {
-    {0, N_("Off")},          {1, N_("Auto")},      {2, N_("On")},
-    {3, N_("Red-eye")},      {4, N_("Slow sync")}, {5, N_("Auto + red-eye")},
-    {6, N_("On + red-eye")}, {16, N_("External")}, {16, N_("External")}  // To silence compiler warning
+    {0, N_("Off")},       {1, N_("Auto")},           {2, N_("On")},           {3, N_("Red-eye")},
+    {4, N_("Slow sync")}, {5, N_("Auto + red-eye")}, {6, N_("On + red-eye")}, {16, N_("External")},
 };
 
 //! DriveMode, tag 0x0005
@@ -1420,12 +1423,9 @@ constexpr TagDetails canonCsDriveMode[] = {
 
 //! FocusMode, tag 0x0007
 constexpr TagDetails canonCsFocusMode[] = {
-    {0, N_("One shot AF")},      {1, N_("AI servo AF")},
-    {2, N_("AI focus AF")},      {3, N_("Manual focus (3)")},
-    {4, N_("Single")},           {5, N_("Continuous")},
-    {6, N_("Manual focus (6)")}, {16, N_("Pan focus")},
-    {256, N_("AF + MF")},        {512, N_("Movie Snap Focus")},
-    {519, N_("Movie Servo AF")}, {519, N_("Movie Servo AF")}  // To silence compiler warning
+    {0, N_("One shot AF")}, {1, N_("AI servo AF")},        {2, N_("AI focus AF")},      {3, N_("Manual focus (3)")},
+    {4, N_("Single")},      {5, N_("Continuous")},         {6, N_("Manual focus (6)")}, {16, N_("Pan focus")},
+    {256, N_("AF + MF")},   {512, N_("Movie Snap Focus")}, {519, N_("Movie Servo AF")},
 };
 
 //! RecordMode, tag 0x0009
@@ -1534,7 +1534,10 @@ constexpr TagDetails canonCsEasyMode[] = {
 
 //! DigitalZoom, tag 0x000c
 constexpr TagDetails canonCsDigitalZoom[] = {
-    {0, N_("None")}, {1, "2x"}, {2, "4x"}, {3, N_("Other")}, {3, N_("Other")}  // To silence compiler warning
+    {0, N_("None")},
+    {1, "2x"},
+    {2, "4x"},
+    {3, N_("Other")},
 };
 
 //! Contrast, Saturation Sharpness, tags 0x000d, 0x000e, 0x000f
@@ -1706,6 +1709,7 @@ constexpr TagDetails canonCsLensType[] = {
     {112, "Sigma 40mm f/1.5 FF High-speed Prime"},   // 1
     {112, "Sigma 105mm f/1.5 FF High-speed Prime"},  // 2
     {117, "Tamron 35-150mm f/2.8-4.0 Di VC OSD"},
+    {117, "Tamron SP 15-30mm f/2.8 Di VC USD G2"},
     {117, "Tamron SP 35mm f/1.4 Di USD"},  // 1
     {124, "Canon MP-E 65mm f/2.8 1-5x Macro Photo"},
     {125, "Canon TS-E 24mm f/3.5L"},
@@ -2001,6 +2005,7 @@ constexpr TagDetails canonCsLensType[] = {
     {508, "Tamron 10-24mm f/3.5-4.5 Di II VC HLD"},  // 1
     {624, "Sigma 50-100mm f/1.8 DC HSM Art"},
     {624, "Sigma 70-200mm f/2.8 DG OS HSM | S"},
+    {624, "Sigma 150-600mm f/5-6.3 DG OS HSM | C"},
     {747, "Canon EF 100-400mm f/4.5-5.6L IS II USM"},
     {747, "Tamron SP 150-600mm f/5-6.3 Di VC USD G2"},  // 1
     {748, "Canon EF 100-400mm f/4.5-5.6L IS II USM + 1.4x"},
@@ -2049,16 +2054,16 @@ constexpr TagDetails canonCsLensType[] = {
     // All RF lenses seem to share the LensType value 61182;
     // unique RFLensType tag below is to be preferred instead.
     // Please keep this list in sync w/ RFLensType list
-    {61182, "Canon RF 50mm F1.2L USM"},
-    {61182, "Canon RF 24-105mm F4L IS USM"},
-    {61182, "Canon RF 28-70mm F2L USM"},
+    {61182, "Canon RF 50mm F1.2 L USM"},
+    {61182, "Canon RF 24-105mm F4 L IS USM"},
+    {61182, "Canon RF 28-70mm F2 L USM"},
     {61182, "Canon RF 35mm F1.8 MACRO IS STM"},
-    {61182, "Canon RF 85mm F1.2L USM"},
-    {61182, "Canon RF 85mm F1.2L USM DS"},
-    {61182, "Canon RF 24-70mm F2.8L IS USM"},
-    {61182, "Canon RF 15-35mm F2.8L IS USM"},
+    {61182, "Canon RF 85mm F1.2 L USM"},
+    {61182, "Canon RF 85mm F1.2 L USM DS"},
+    {61182, "Canon RF 24-70mm F2.8 L IS USM"},
+    {61182, "Canon RF 15-35mm F2.8 L IS USM"},
     {61182, "Canon RF 24-240mm F4-6.3 IS USM"},
-    {61182, "Canon RF 70-200mm F2.8L IS USM"},
+    {61182, "Canon RF 70-200mm F2.8 L IS USM"},
     {61182, "Canon RF 85mm F2 MACRO IS STM"},
     {61182, "Canon RF 600mm F11 IS STM"},
     {61182, "Canon RF 600mm F11 IS STM + RF1.4x"},
@@ -2067,13 +2072,13 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 800mm F11 IS STM + RF1.4x"},
     {61182, "Canon RF 800mm F11 IS STM + RF2x"},
     {61182, "Canon RF 24-105mm F4-7.1 IS STM"},
-    {61182, "Canon RF 100-500mm F4.5-7.1L IS USM"},
-    {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF1.4x"},
-    {61182, "Canon RF 100-500mm F4.5-7.1L IS USM + RF2x"},
-    {61182, "Canon RF 70-200mm F4L IS USM"},
-    {61182, "Canon RF 100mm F2.8L MACRO IS USM"},
+    {61182, "Canon RF 100-500mm F4.5-7.1 L IS USM"},
+    {61182, "Canon RF 100-500mm F4.5-7.1 L IS USM + RF1.4x"},
+    {61182, "Canon RF 100-500mm F4.5-7.1 L IS USM + RF2x"},
+    {61182, "Canon RF 70-200mm F4 L IS USM"},
+    {61182, "Canon RF 100mm F2.8 L MACRO IS USM"},
     {61182, "Canon RF 50mm F1.8 STM"},
-    {61182, "Canon RF 14-35mm F4L IS USM"},
+    {61182, "Canon RF 14-35mm F4 L IS USM"},
     {61182, "Canon RF-S 18-45mm F4.5-6.3 IS STM"},
     {61182, "Canon RF 100-400mm F5.6-8 IS USM"},
     {61182, "Canon RF 100-400mm F5.6-8 IS USM + RF1.4x"},
@@ -2081,26 +2086,26 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF-S 18-150mm F3.5-6.3 IS STM"},
     {61182, "Canon RF 24mm F1.8 MACRO IS STM"},
     {61182, "Canon RF 16mm F2.8 STM"},
-    {61182, "Canon RF 400mm F2.8L IS USM"},
-    {61182, "Canon RF 400mm F2.8L IS USM + RF1.4x"},
-    {61182, "Canon RF 400mm F2.8L IS USM + RF2x"},
-    {61182, "Canon RF 600mm F4L IS USM"},
-    {61182, "Canon RF 600mm F4L IS USM + RF1.4x"},
-    {61182, "Canon RF 600mm F4L IS USM + RF2x"},
-    {61182, "Canon RF 800mm F5.6L IS USM"},
-    {61182, "Canon RF 800mm F5.6L IS USM + RF1.4x"},
-    {61182, "Canon RF 800mm F5.6L IS USM + RF2x"},
-    {61182, "Canon RF 1200mm F8L IS USM"},
-    {61182, "Canon RF 1200mm F8L IS USM + RF1.4x"},
-    {61182, "Canon RF 1200mm F8L IS USM + RF2x"},
-    {61182, "Canon RF 5.2mm F2.8L Dual Fisheye 3D VR"},
+    {61182, "Canon RF 400mm F2.8 L IS USM"},
+    {61182, "Canon RF 400mm F2.8 L IS USM + RF1.4x"},
+    {61182, "Canon RF 400mm F2.8 L IS USM + RF2x"},
+    {61182, "Canon RF 600mm F4 L IS USM"},
+    {61182, "Canon RF 600mm F4 L IS USM + RF1.4x"},
+    {61182, "Canon RF 600mm F4 L IS USM + RF2x"},
+    {61182, "Canon RF 800mm F5.6 L IS USM"},
+    {61182, "Canon RF 800mm F5.6 L IS USM + RF1.4x"},
+    {61182, "Canon RF 800mm F5.6 L IS USM + RF2x"},
+    {61182, "Canon RF 1200mm F8 L IS USM"},
+    {61182, "Canon RF 1200mm F8 L IS USM + RF1.4x"},
+    {61182, "Canon RF 1200mm F8 L IS USM + RF2x"},
+    {61182, "Canon RF 5.2mm F2.8 L Dual Fisheye 3D VR"},
     {61182, "Canon RF 15-30mm F4.5-6.3 IS STM"},
     {61182, "Canon RF 135mm F1.8 L IS USM"},
     {61182, "Canon RF 24-50mm F4.5-6.3 IS STM"},
     {61182, "Canon RF-S 55-210mm F5-7.1 IS STM"},
-    {61182, "Canon RF 100-300mm F2.8L IS USM"},
-    {61182, "Canon RF 100-300mm F2.8L IS USM + RF1.4x"},
-    {61182, "Canon RF 100-300mm F2.8L IS USM + RF2x"},
+    {61182, "Canon RF 100-300mm F2.8 L IS USM"},
+    {61182, "Canon RF 100-300mm F2.8 L IS USM + RF1.4x"},
+    {61182, "Canon RF 100-300mm F2.8 L IS USM + RF2x"},
     {61182, "Canon RF 200-800mm F6.3-9 IS USM"},
     {61182, "Canon RF 200-800mm F6.3-9 IS USM + RF1.4x"},
     {61182, "Canon RF 200-800mm F6.3-9 IS USM + RF2x"},
@@ -2108,6 +2113,17 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 28mm F2.8 STM"},
     {61182, "Canon RF 24-105mm F2.8 L IS USM Z"},
     {61182, "Canon RF-S 10-18mm F4.5-6.3 IS STM"},
+    {61182, "Canon RF 35mm F1.4 L VCM"},
+    {61182, "Canon RF-S 3.9mm F3.5 STM Dual Fisheye"},
+    {61182, "Canon RF 28-70mm F2.8 IS STM"},
+    {61182, "Canon RF 70-200mm F2.8 L IS USM Z"},
+    {61182, "Canon RF 70-200mm F2.8 L IS USM Z + RF1.4x"},
+    {61182, "Canon RF 70-200mm F2.8 L IS USM Z + RF2x"},
+    {61182, "Canon RF 16-28mm F2.8 IS STM"},
+    {61182, "Canon RF-S 14-30mm F4-6.3 IS STM PZ"},
+    {61182, "Canon RF 50mm F1.4 L VCM"},
+    {61182, "Canon RF 24mm F1.4 L VCM"},
+    {61182, "Canon RF 20mm F1.4 L VCM"},
     {65535, N_("n/a")},
 };
 
@@ -2526,19 +2542,19 @@ constexpr TagDetails canonToningEffect[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/12.72/lib/Image/ExifTool/Canon.pm#L6897
+// from https://github.com/exiftool/exiftool/blob/13.16/lib/Image/ExifTool/Canon.pm#L6961
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
-    {257, "Canon RF 50mm F1.2L USM"},
-    {258, "Canon RF 24-105mm F4L IS USM"},
-    {259, "Canon RF 28-70mm F2L USM"},
+    {257, "Canon RF 50mm F1.2 L USM"},
+    {258, "Canon RF 24-105mm F4 L IS USM"},
+    {259, "Canon RF 28-70mm F2 L USM"},
     {260, "Canon RF 35mm F1.8 MACRO IS STM"},
-    {261, "Canon RF 85mm F1.2L USM"},
-    {262, "Canon RF 85mm F1.2L USM DS"},
-    {263, "Canon RF 24-70mm F2.8L IS USM"},
-    {264, "Canon RF 15-35mm F2.8L IS USM"},
+    {261, "Canon RF 85mm F1.2 L USM"},
+    {262, "Canon RF 85mm F1.2 L USM DS"},
+    {263, "Canon RF 24-70mm F2.8 L IS USM"},
+    {264, "Canon RF 15-35mm F2.8 L IS USM"},
     {265, "Canon RF 24-240mm F4-6.3 IS USM"},
-    {266, "Canon RF 70-200mm F2.8L IS USM"},
+    {266, "Canon RF 70-200mm F2.8 L IS USM"},
     {267, "Canon RF 85mm F2 MACRO IS STM"},
     {268, "Canon RF 600mm F11 IS STM"},
     {269, "Canon RF 600mm F11 IS STM + RF1.4x"},
@@ -2547,13 +2563,13 @@ constexpr TagDetails canonRFLensType[] = {
     {272, "Canon RF 800mm F11 IS STM + RF1.4x"},
     {273, "Canon RF 800mm F11 IS STM + RF2x"},
     {274, "Canon RF 24-105mm F4-7.1 IS STM"},
-    {275, "Canon RF 100-500mm F4.5-7.1L IS USM"},
-    {276, "Canon RF 100-500mm F4.5-7.1L IS USM + RF1.4x"},
-    {277, "Canon RF 100-500mm F4.5-7.1L IS USM + RF2x"},
-    {278, "Canon RF 70-200mm F4L IS USM"},
-    {279, "Canon RF 100mm F2.8L MACRO IS USM"},
+    {275, "Canon RF 100-500mm F4.5-7.1 L IS USM"},
+    {276, "Canon RF 100-500mm F4.5-7.1 L IS USM + RF1.4x"},
+    {277, "Canon RF 100-500mm F4.5-7.1 L IS USM + RF2x"},
+    {278, "Canon RF 70-200mm F4 L IS USM"},
+    {279, "Canon RF 100mm F2.8 L MACRO IS USM"},
     {280, "Canon RF 50mm F1.8 STM"},
-    {281, "Canon RF 14-35mm F4L IS USM"},
+    {281, "Canon RF 14-35mm F4 L IS USM"},
     {282, "Canon RF-S 18-45mm F4.5-6.3 IS STM"},
     {283, "Canon RF 100-400mm F5.6-8 IS USM"},
     {284, "Canon RF 100-400mm F5.6-8 IS USM + RF1.4x"},
@@ -2561,26 +2577,26 @@ constexpr TagDetails canonRFLensType[] = {
     {286, "Canon RF-S 18-150mm F3.5-6.3 IS STM"},
     {287, "Canon RF 24mm F1.8 MACRO IS STM"},
     {288, "Canon RF 16mm F2.8 STM"},
-    {289, "Canon RF 400mm F2.8L IS USM"},
-    {290, "Canon RF 400mm F2.8L IS USM + RF1.4x"},
-    {291, "Canon RF 400mm F2.8L IS USM + RF2x"},
-    {292, "Canon RF 600mm F4L IS USM"},
-    {293, "Canon RF 600mm F4L IS USM + RF1.4x"},
-    {294, "Canon RF 600mm F4L IS USM + RF2x"},
-    {295, "Canon RF 800mm F5.6L IS USM"},
-    {296, "Canon RF 800mm F5.6L IS USM + RF1.4x"},
-    {297, "Canon RF 800mm F5.6L IS USM + RF2x"},
-    {298, "Canon RF 1200mm F8L IS USM"},
-    {299, "Canon RF 1200mm F8L IS USM + RF1.4x"},
-    {300, "Canon RF 1200mm F8L IS USM + RF2x"},
-    {301, "Canon RF 5.2mm F2.8L Dual Fisheye 3D VR"},
+    {289, "Canon RF 400mm F2.8 L IS USM"},
+    {290, "Canon RF 400mm F2.8 L IS USM + RF1.4x"},
+    {291, "Canon RF 400mm F2.8 L IS USM + RF2x"},
+    {292, "Canon RF 600mm F4 L IS USM"},
+    {293, "Canon RF 600mm F4 L IS USM + RF1.4x"},
+    {294, "Canon RF 600mm F4 L IS USM + RF2x"},
+    {295, "Canon RF 800mm F5.6 L IS USM"},
+    {296, "Canon RF 800mm F5.6 L IS USM + RF1.4x"},
+    {297, "Canon RF 800mm F5.6 L IS USM + RF2x"},
+    {298, "Canon RF 1200mm F8 L IS USM"},
+    {299, "Canon RF 1200mm F8 L IS USM + RF1.4x"},
+    {300, "Canon RF 1200mm F8 L IS USM + RF2x"},
+    {301, "Canon RF 5.2mm F2.8 L Dual Fisheye 3D VR"},
     {302, "Canon RF 15-30mm F4.5-6.3 IS STM"},
     {303, "Canon RF 135mm F1.8 L IS USM"},
     {304, "Canon RF 24-50mm F4.5-6.3 IS STM"},
     {305, "Canon RF-S 55-210mm F5-7.1 IS STM"},
-    {306, "Canon RF 100-300mm F2.8L IS USM"},
-    {307, "Canon RF 100-300mm F2.8L IS USM + RF1.4x"},
-    {308, "Canon RF 100-300mm F2.8L IS USM + RF2x"},
+    {306, "Canon RF 100-300mm F2.8 L IS USM"},
+    {307, "Canon RF 100-300mm F2.8 L IS USM + RF1.4x"},
+    {308, "Canon RF 100-300mm F2.8 L IS USM + RF2x"},
     {309, "Canon RF 200-800mm F6.3-9 IS USM"},
     {310, "Canon RF 200-800mm F6.3-9 IS USM + RF1.4x"},
     {311, "Canon RF 200-800mm F6.3-9 IS USM + RF2x"},
@@ -2588,6 +2604,17 @@ constexpr TagDetails canonRFLensType[] = {
     {313, "Canon RF 28mm F2.8 STM"},
     {314, "Canon RF 24-105mm F2.8 L IS USM Z"},
     {315, "Canon RF-S 10-18mm F4.5-6.3 IS STM"},
+    {316, "Canon RF 35mm F1.4 L VCM"},
+    {317, "Canon RF-S 3.9mm F3.5 STM Dual Fisheye"},
+    {318, "Canon RF 28-70mm F2.8 IS STM"},
+    {319, "Canon RF 70-200mm F2.8 L IS USM Z"},
+    {320, "Canon RF 70-200mm F2.8 L IS USM Z + RF1.4x"},
+    {321, "Canon RF 70-200mm F2.8 L IS USM Z + RF2x"},
+    {323, "Canon RF 16-28mm F2.8 IS STM"},
+    {324, "Canon RF-S 14-30mm F4-6.3 IS STM PZ"},
+    {325, "Canon RF 50mm F1.4 L VCM"},
+    {326, "Canon RF 24mm F1.4 L VCM"},
+    {327, "Canon RF 20mm F1.4 L VCM"},
 };
 
 // Canon File Info Tag
@@ -2741,11 +2768,8 @@ const TagInfo* CanonMakerNote::tagListTi() {
 }
 
 std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& value, const ExifData* metadata) {
-  std::ios::fmtflags f(os.flags());
   if (!metadata || value.typeId() != unsignedLong || value.count() == 0) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
+    return os << "(" << value << ")";
   }
 
   auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
@@ -2757,11 +2781,7 @@ std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& v
   if (Internal::contains(model, "20D") || Internal::contains(model, "350D") ||
       model.substr(model.size() - 8, 8) == "REBEL XT" || Internal::contains(model, "Kiss Digital N")) {
     uint32_t val = value.toUint32();
-    uint32_t dn = (val & 0xffc0) >> 6;
-    uint32_t fn = ((val >> 16) & 0xff) + ((val & 0x3f) << 8);
-    os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
-    os.flags(f);
-    return os;
+    return os << stringFormat("{}-{:04}", (val & 0xffc0) >> 6, ((val >> 16) & 0xff) + ((val & 0x3f) << 8));
   }
   if (Internal::contains(model, "30D") || Internal::contains(model, "400D") || Internal::contains(model, "REBEL XTi") ||
       Internal::contains(model, "Kiss Digital X") || Internal::contains(model, "K236")) {
@@ -2769,20 +2789,14 @@ std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& v
     uint32_t dn = (val & 0xffc00) >> 10;
     while (dn < 100)
       dn += 0x40;
-    uint32_t fn = ((val & 0x3ff) << 4) + ((val >> 20) & 0x0f);
-    os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
-    os.flags(f);
-    return os;
+    return os << stringFormat("{}-{:04}", dn, ((val & 0x3ff) << 4) + ((val >> 20) & 0x0f));
   }
 
-  os.flags(f);
   return os << "(" << value << ")";
 }
 
 std::ostream& CanonMakerNote::printFocalLength(std::ostream& os, const Value& value, const ExifData* metadata) {
-  std::ios::fmtflags f(os.flags());
   if (!metadata || value.count() < 4 || value.typeId() != unsignedShort) {
-    os.flags(f);
     return os << value;
   }
 
@@ -2791,18 +2805,10 @@ std::ostream& CanonMakerNote::printFocalLength(std::ostream& os, const Value& va
   if (pos != metadata->end() && pos->value().count() >= 3 && pos->value().typeId() == unsignedShort) {
     float fu = pos->value().toFloat(2);
     if (fu != 0.0F) {
-      float fl = value.toFloat(1) / fu;
-      std::ostringstream oss;
-      oss.copyfmt(os);
-      os << std::fixed << std::setprecision(1);
-      os << fl << " mm";
-      os.copyfmt(oss);
-      os.flags(f);
-      return os;
+      return os << stringFormat("{:.1f} mm", value.toFloat(1) / fu);
     }
   }
 
-  os.flags(f);
   return os << value;
 }
 
@@ -2814,16 +2820,11 @@ std::ostream& CanonMakerNote::print0x0008(std::ostream& os, const Value& value, 
 }
 
 std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
-  std::istringstream is(value.toString());
-  uint32_t l = 0;
-  is >> l;
-  return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
-            << std::setfill('0') << std::dec << (l & 0x0000ffff);
+  uint32_t l = std::stoul(value.toString());
+  return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
 }
 
 std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, const ExifData* exifData) {
-  std::istringstream is(value.toString());
-
   if (!exifData) {
     return os << value;
   }
@@ -2832,13 +2833,10 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
   auto pos = exifData->findKey(key);
   // if model is EOS D30
   if (pos != exifData->end() && pos->value().count() == 1 && pos->value().toInt64() == 0x01140000) {
-    uint32_t l = 0;
-    is >> l;
-    return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
-              << std::setfill('0') << std::dec << (l & 0x0000ffff);
-  } else {
-    return os << value;
+    uint32_t l = std::stoul(value.toString());
+    return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
   }
+  return os << value;
 }
 
 std::ostream& CanonMakerNote::printCs0x0002(std::ostream& os, const Value& value, const ExifData*) {
@@ -2884,7 +2882,7 @@ std::ostream& printCsLensFFFF(std::ostream& os, const Value& value, const ExifDa
  * @param str string to convert
  * @return float value of string
  */
-float string_to_float(std::string const& str) {
+float string_to_float(std::string_view str) {
   float val{};
   std::stringstream ss;
   std::locale c_locale("C");
@@ -2893,7 +2891,7 @@ float string_to_float(std::string const& str) {
   ss >> val;
 
   if (ss.fail()) {
-    throw Error(ErrorCode::kerErrorMessage, std::string("canonmn_int.cpp:string_to_float failed for: ") + str);
+    throw Error(ErrorCode::kerErrorMessage, "canonmn_int.cpp:string_to_float failed for: ", str);
   }
 
   return val;
@@ -2937,15 +2935,15 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
       // anything at the start
       ".*?"
       // maybe min focal length and hyphen, surely max focal length e.g.: 24-70mm
-      "(?:([0-9]+)-)?([0-9]+)mm"
+      R"((?:(\d+)-)?(\d+)mm)"
       // anything in-between
       ".*?"
       // maybe short focal length max aperture and hyphen, surely at least single max aperture e.g.: f/4.5-5.6
       // short and tele indicate apertures at the short (focal_length_min) and tele (focal_length_max)
       // position of the lens
-      "(?:(?:f\\/)|T|F)(?:([0-9]+(?:\\.[0-9]+)?)-)?([0-9]+(?:\\.[0-9])?)"
+      R"((?:(?:f/)|T|F)(?:(\d+(?:\.\d+)?)-)?(\d+(?:\.\d)?))"
       // check if there is a teleconverter pattern e.g. + 1.4x
-      "(?:.*?\\+.*?([0-9.]+)x)?");
+      R"((?:.*?\+.*?(\d+(?:\.\d+)?)x)?)");
 
   bool unmatched = true;
   // we loop over all our lenses to print out all matching lenses
@@ -2970,8 +2968,8 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
     auto aperMaxTele = string_to_float(base_match[4].str()) * tc;
     auto aperMaxShort = base_match[3].length() > 0 ? string_to_float(base_match[3].str()) * tc : aperMaxTele;
 
-    if (flMin != exifFlMin || flMax != exifFlMax || exifAperMax < (aperMaxShort - .1 * tc) ||
-        exifAperMax > (aperMaxTele + .1 * tc)) {
+    if (flMin != exifFlMin || flMax != exifFlMax || exifAperMax < (aperMaxShort - (.1 * tc)) ||
+        exifAperMax > (aperMaxTele + (.1 * tc))) {
       continue;
     }
 
@@ -3010,12 +3008,8 @@ std::ostream& CanonMakerNote::printCsLensType(std::ostream& os, const Value& val
 }
 
 std::ostream& CanonMakerNote::printCsLens(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-
   if (value.count() < 3 || value.typeId() != unsignedShort) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
+    return os << "(" << value << ")";
   }
 
   float fu = value.toFloat(2);
@@ -3023,49 +3017,33 @@ std::ostream& CanonMakerNote::printCsLens(std::ostream& os, const Value& value, 
     return os << value;
   float len1 = value.toInt64(0) / fu;
   float len2 = value.toInt64(1) / fu;
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1);
   if (len1 == len2) {
-    os << len1 << " mm";
-  } else {
-    os << len2 << " - " << len1 << " mm";
+    return os << stringFormat("{:.1f} mm", len1);
   }
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.1f} - {:.1f} mm", len2, len1);
 }
 
 std::ostream& CanonMakerNote::printLe0x0000(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() != unsignedByte || value.size() != 5)
     return os << "(" << value << ")";
-  std::ios::fmtflags f(os.flags());
-  std::ostringstream oss;
-  oss.copyfmt(os);
   for (size_t i = 0; i < value.size(); ++i) {
-    os << std::setw(2) << std::setfill('0') << std::hex << value.toInt64(i);
+    os << stringFormat("{:02x}", value.toInt64(i));
   }
-  os.copyfmt(oss);
-  os.flags(f);
   return os;
 }
 
 std::ostream& CanonMakerNote::printSi0x0001(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() == unsignedShort && value.count() > 0) {
-    os << std::exp(canonEv(value.toInt64()) / 32 * std::log(2.0F)) * 100.0F;
+    os << std::exp2(canonEv(value.toInt64()) / 32) * 100.0F;
   }
-  os.flags(f);
   return os;
 }
 
 std::ostream& CanonMakerNote::printSi0x0002(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() == unsignedShort && value.count() > 0) {
     // Ported from Exiftool by Will Stokes
-    os << std::exp(canonEv(value.toInt64()) * std::log(2.0F)) * 100.0F / 32.0F;
+    os << std::exp2(canonEv(value.toInt64())) * (100.0F / 32.0F);
   }
-  os.flags(f);
   return os;
 }
 
@@ -3075,11 +3053,8 @@ std::ostream& CanonMakerNote::printSi0x0003(std::ostream& os, const Value& value
     // It might be explained by the fact, that most Canons have a longest
     // exposure of 30s which is 5 EV below 1s
     // see also printSi0x0017
-    std::ostringstream oss;
-    oss.copyfmt(os);
     auto res = std::lround(100.0 * (static_cast<short>(value.toInt64()) / 32.0 + 5.0));
-    os << std::fixed << std::setprecision(2) << res / 100.0;
-    os.copyfmt(oss);
+    os << stringFormat("{:.2f}", res / 100.0);
   }
   return os;
 }
@@ -3125,35 +3100,26 @@ std::ostream& CanonMakerNote::printSi0x000e(std::ostream& os, const Value& value
 }
 
 std::ostream& CanonMakerNote::printSi0x0013(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
   if (auto l = value.toInt64(); l == 0xffff) {
-    os << "Infinite";
-  } else {
-    os << value.toInt64() / 100.0 << " m";
+    return os << "Infinite";
   }
-  os.flags(f);
-  return os;
+  return os << value.toInt64() / 100.0 << " m";
 }
 
 std::ostream& CanonMakerNote::printSi0x0015(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
   const auto val = static_cast<int16_t>(value.toInt64());
   if (val < 0)
     return os << value;
-  os << std::setprecision(2) << "F" << fnumber(canonEv(val));
-  os.copyfmt(oss);
-  return os;
+  return os << stringFormat("F{:.2g}", fnumber(canonEv(val)));
 }
 
 std::ostream& CanonMakerNote::printSi0x0016(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
 
@@ -3162,19 +3128,13 @@ std::ostream& CanonMakerNote::printSi0x0016(std::ostream& os, const Value& value
   if (r > 1) {
     os << "/" << r;
   }
-  os.flags(f);
   return os << " s";
 }
 
 std::ostream& CanonMakerNote::printSi0x0017(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() != unsignedShort || value.count() == 0)
     return os << value;
-
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << value.toInt64() / 8.0 - 6.0;
-  os.copyfmt(oss);
-  return os;
+  return os << stringFormat("{:.2f}", (value.toInt64() / 8.0) - 6.0);
 }
 
 std::ostream& CanonMakerNote::printSi0x0018(std::ostream& os, const Value& value, const ExifData*) {
@@ -3182,23 +3142,14 @@ std::ostream& CanonMakerNote::printSi0x0018(std::ostream& os, const Value& value
 }
 
 std::ostream& CanonMakerNote::printFiFocusDistance(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.typeId() != signedShort || value.count() == 0)
     return os << value;
 
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2);
-
-  if (auto l = value.toInt64(); l == -1) {
-    os << "Infinite";
-  } else {
-    os << value.toInt64() / 100.0 << " m";
+  auto l = value.toInt64();
+  if (l == -1) {
+    return os << "Infinite";
   }
-
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", l / 100.0);
 }
 
 // *****************************************************************************

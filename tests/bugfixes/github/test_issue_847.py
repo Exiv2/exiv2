@@ -11,6 +11,7 @@ class LargeAllocationInPgfReadMetadata(metaclass=CaseMeta):
     An unchecked allocation size causes a std::bad_alloc to
     be thrown.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/847"
 
     filename = path("$data_path/issue_847_poc.pgf")
@@ -19,5 +20,6 @@ class LargeAllocationInPgfReadMetadata(metaclass=CaseMeta):
     stderr = [
         """$exiv2_exception_message $filename:
 Failed to read input data
-"""]
+"""
+    ]
     retval = [1]

@@ -14,9 +14,9 @@
 #include "iptc.hpp"
 #include "preview.hpp"
 #include "safe_op.hpp"
-#include "types.hpp"
 #include "xmp_exiv2.hpp"
 
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -24,8 +24,7 @@
 #include <sstream>
 
 // + standard includes
-#include <sys/stat.h>   // for stat()
-#include <sys/types.h>  // for stat()
+#include <sys/stat.h>  // for stat()
 #if __has_include(<unistd.h>)
 #include <unistd.h>  // for stat()
 #endif
@@ -43,15 +42,10 @@
 #define _setmode(a, b) \
   do {                 \
   } while (false)
+#define _fileno fileno
 #endif
 
-#if __has_include(<filesystem>)
-#include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
 
 // *****************************************************************************
 // local declarations
@@ -81,9 +75,6 @@ int str2Tm(const std::string& timeStr, tm* tm);
 
 //! Convert a localtime to a string "YYYY:MM:DD HH:MI:SS", "" on error
 std::string time2Str(time_t time);
-
-//! Convert a tm structure to a string "YYYY:MM:DD HH:MI:SS", "" on error
-std::string tm2Str(const tm* tm);
 
 /*!
   @brief Copy metadata from source to target according to Params::copyXyz
@@ -180,7 +171,7 @@ static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const st
     std::string str = output.str();
     if (result == 0 && !str.empty()) {
       Exiv2::DataBuf iccProfile(str.size());
-      Exiv2::DataBuf ascii(str.size() * 3 + 1);
+      Exiv2::DataBuf ascii((str.size() * 3) + 1);
       ascii.write_uint8(str.size() * 3, 0);
       std::copy(str.begin(), str.end(), iccProfile.begin());
       if (Exiv2::base64encode(iccProfile.c_data(), str.size(), reinterpret_cast<char*>(ascii.data()), str.size() * 3)) {
@@ -188,13 +179,13 @@ static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const st
         std::string code = std::string("data:") + ascii.c_str();
         size_t length = code.size();
         for (size_t start = 0; start < length; start += chunk) {
-          size_t count = (start + chunk) < length ? chunk : length - start;
+          auto count = std::min<size_t>(chunk, length - start);
           std::cout << code.substr(start, count) << '\n';
         }
       }
     }
   } else {
-    _setmode(fileno(stdout), O_BINARY);
+    _setmode(_fileno(stdout), O_BINARY);
     result = printStructure(std::cout, option, path);
   }
 
@@ -450,7 +441,7 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
   if (!keyTag(md.key()))
     return false;
 
-  if (Params::instance().unknown_ && md.tagName().substr(0, 2) == "0x") {
+  if (Params::instance().unknown_ && md.tagName().starts_with("0x")) {
     return false;
   }
 
@@ -637,7 +628,7 @@ int Rename::run(const std::string& path) {
       std::cerr << _("Image file creation timestamp not set in the file") << " " << path << "\n";
       return 1;
     }
-    tm tm;
+    std::tm tm;
     if (str2Tm(v, &tm) != 0) {
       std::cerr << _("Failed to parse timestamp") << " `" << v << "' " << _("in the file") << " " << path << "\n";
       return 1;
@@ -786,7 +777,7 @@ int Extract::run(const std::string& path) {
 
     bool bStdout = (Params::instance().target_ & Params::ctStdInOut) != 0;
     if (bStdout) {
-      _setmode(fileno(stdout), _O_BINARY);
+      _setmode(_fileno(stdout), _O_BINARY);
     }
 
     if (Params::instance().target_ & Params::ctThumb) {
@@ -1023,10 +1014,7 @@ int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath)
 }  // Insert::insertXmpPacket
 
 int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket) {
-  std::string xmpPacket;
-  for (size_t i = 0; i < xmpBlob.size(); i++) {
-    xmpPacket += static_cast<char>(xmpBlob.read_uint8(i));
-  }
+  std::string xmpPacket(xmpBlob.begin(), xmpBlob.end());
   auto image = Exiv2::ImageFactory::open(path);
   image->readMetadata();
   image->clearXmpData();
@@ -1401,7 +1389,7 @@ int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, co
       std::cout << " " << adjustment_ << _("s");
     }
   }
-  tm tm;
+  std::tm tm;
   if (str2Tm(timeStr, &tm) != 0) {
     if (Params::instance().verbose_)
       std::cout << '\n';
@@ -1587,7 +1575,7 @@ int Timestamp::read(const std::string& path) {
 int Timestamp::read(tm* tm) {
   int rc = 1;
   time_t t = mktime(tm);  // interpret tm according to current timezone settings
-  if (t != static_cast<time_t>(-1)) {
+  if (t != time_t{-1}) {
     rc = 0;
     actime_ = t;
     modtime_ = t;
@@ -1645,28 +1633,27 @@ int str2Tm(const std::string& timeStr, tm* tm) {
   tm->tm_sec = static_cast<decltype(tm->tm_sec)>(tmp);
 
   // Conversions to set remaining fields of the tm structure
-  if (mktime(tm) == static_cast<time_t>(-1))
+  if (mktime(tm) == time_t{-1})
     return 11;
 
   return 0;
 }  // str2Tm
 
 std::string time2Str(time_t time) {
-  auto tm = localtime(&time);
-  return tm2Str(tm);
-}  // time2Str
-
-std::string tm2Str(const tm* tm) {
+  std::tm r;
+#ifdef _WIN32
+  auto tm = localtime_s(&r, &time) ? nullptr : &r;
+#else
+  auto tm = localtime_r(&time, &r);
+#endif
   if (!tm)
     return "";
 
-  std::ostringstream os;
-  os << std::setfill('0') << tm->tm_year + 1900 << ":" << std::setw(2) << tm->tm_mon + 1 << ":" << std::setw(2)
-     << tm->tm_mday << " " << std::setw(2) << tm->tm_hour << ":" << std::setw(2) << tm->tm_min << ":" << std::setw(2)
-     << tm->tm_sec;
-
-  return os.str();
-}  // tm2Str
+  const size_t m = 20;
+  char s[m];
+  std::strftime(s, m, "%Y:%m:%d %T", tm);
+  return s;
+}  // time2Str
 
 std::string temporaryPath() {
   static int count = 0;
@@ -1794,15 +1781,13 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
 
   // if we used a temporary target, copy it to stdout
   if (rc == 0 && bStdout) {
-    _setmode(fileno(stdout), O_BINARY);
-    if (auto f = std::fopen(target.c_str(), "rb")) {
-      char buffer[8 * 1024];
-      size_t n = 1;
-      while (!feof(f) && n > 0) {
-        n = fread(buffer, 1, sizeof buffer, f);
-        fwrite(buffer, 1, n, stdout);
+    _setmode(_fileno(stdout), O_BINARY);
+    if (auto f = std::ifstream(target, std::ios::binary)) {
+      std::vector<char> buffer(8 * 1024);
+
+      while (f.read(buffer.data(), buffer.size()) || f.gcount() > 0) {
+        std::fwrite(buffer.data(), 1, static_cast<size_t>(f.gcount()), stdout);
       }
-      fclose(f);
     }
   }
 
@@ -1827,7 +1812,7 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   auto oldFsPath = fs::path(path);
   std::string format = Params::instance().format_;
   std::string filename = p.stem().string();
-  std::string basesuffix = "";
+  std::string basesuffix;
   int pos = filename.find('.');
   if (pos > 0)
     basesuffix = filename.substr(filename.find('.'));
@@ -1914,7 +1899,7 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
           std::cout << Params::instance().progname() << ": " << _("File") << " `" << newPath << "' "
                     << _("exists. [O]verwrite, [r]ename or [s]kip?") << " ";
           std::cin >> s;
-          switch (s.at(0)) {
+          switch (s.front()) {
             case 'o':
             case 'O':
               go = false;
@@ -1963,7 +1948,7 @@ int dontOverwrite(const std::string& path) {
     std::cout << Params::instance().progname() << ": " << _("Overwrite") << " `" << path << "'? ";
     std::string s;
     std::cin >> s;
-    if (s.at(0) != 'y' && s.at(0) != 'Y')
+    if (s.front() != 'y' && s.front() != 'Y')
       return 1;
   }
   return 0;

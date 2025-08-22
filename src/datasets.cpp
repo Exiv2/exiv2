@@ -11,9 +11,9 @@
 #include "i18n.h"  // NLS support.
 #include "types.hpp"
 
-#include <array>
+#include "image_int.hpp"
+
 #include <iomanip>
-#include <sstream>
 
 // *****************************************************************************
 // class member definitions
@@ -410,9 +410,7 @@ std::string IptcDataSets::dataSetName(uint16_t number, uint16_t recordId) {
   if (int idx = dataSetIdx(number, recordId); idx != -1)
     return records_[recordId][idx].name_;
 
-  std::ostringstream os;
-  os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << number;
-  return os.str();
+  return stringFormat("0x{:04x}", number);
 }
 
 const char* IptcDataSets::dataSetTitle(uint16_t number, uint16_t recordId) {
@@ -444,17 +442,13 @@ bool IptcDataSets::dataSetRepeatable(uint16_t number, uint16_t recordId) {
 }
 
 uint16_t IptcDataSets::dataSet(const std::string& dataSetName, uint16_t recordId) {
-  uint16_t dataSet = 0;
   if (int idx = dataSetIdx(dataSetName, recordId); idx != -1) {
     // dataSetIdx checks the range of recordId
-    dataSet = records_[recordId][idx].number_;
-  } else {
-    if (!isHex(dataSetName, 4, "0x"))
-      throw Error(ErrorCode::kerInvalidDataset, dataSetName);
-    std::istringstream is(dataSetName);
-    is >> std::hex >> dataSet;
+    return records_[recordId][idx].number_;
   }
-  return dataSet;
+  if (!isHex(dataSetName, 4, "0x"))
+    throw Error(ErrorCode::kerInvalidDataset, dataSetName);
+  return static_cast<uint16_t>(std::stoi(dataSetName, nullptr, 16));
 }
 
 std::string IptcDataSets::recordName(uint16_t recordId) {
@@ -462,9 +456,7 @@ std::string IptcDataSets::recordName(uint16_t recordId) {
     return recordInfo_[recordId].name_;
   }
 
-  std::ostringstream os;
-  os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << recordId;
-  return os.str();
+  return stringFormat("0x{:04x}", recordId);
 }
 
 const char* IptcDataSets::recordDesc(uint16_t recordId) {
@@ -483,8 +475,7 @@ uint16_t IptcDataSets::recordId(const std::string& recordName) {
   if (i == 0) {
     if (!isHex(recordName, 4, "0x"))
       throw Error(ErrorCode::kerInvalidRecord, recordName);
-    std::istringstream is(recordName);
-    is >> std::hex >> i;
+    i = static_cast<uint16_t>(std::stoi(recordName, nullptr, 16));
   }
   return i;
 }
@@ -597,15 +588,16 @@ std::ostream& operator<<(std::ostream& os, const DataSet& dataSet) {
      << iptcKey.key() << ", " << TypeInfo::typeName(IptcDataSets::dataSetType(dataSet.number_, dataSet.recordId_))
      << ", ";
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
-  char Q = '"';
-  os << Q;
-  for (size_t i = 0; i < ::strlen(dataSet.desc_); i++) {
-    char c = dataSet.desc_[i];
-    if (c == Q)
-      os << Q;
-    os << c;
+  std::string escapedDesc;
+  escapedDesc.push_back('"');
+  for (char c : std::string_view(dataSet.desc_)) {
+    if (c == '"')
+      escapedDesc += "\"\"";
+    else
+      escapedDesc.push_back(c);
   }
-  os << Q;
+  escapedDesc.push_back('"');
+  os << escapedDesc;
   os.flags(f);
   return os;
 }

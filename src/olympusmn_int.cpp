@@ -6,6 +6,7 @@
 
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags_int.hpp"
 #include "utils.hpp"
@@ -658,8 +659,8 @@ constexpr TagDetails olympusEqFlashType[] = {
 
 //! OlympusEq FlashModel, tag 0x1001
 constexpr TagDetails olympusEqFlashModel[] = {
-    {0, N_("None")}, {1, "FL-20"},  {2, "FL-50"}, {3, "RF-11"},    {4, "TF-22"},   {5, "FL-36"},
-    {6, "FL-50R"},   {7, "FL-36R"}, {9, "FL-14"}, {11, "FL-600R"}, {11, "FL-600R"}  // To silence compiler warning
+    {0, N_("None")}, {1, "FL-20"},  {2, "FL-50"},  {3, "RF-11"}, {4, "TF-22"},
+    {5, "FL-36"},    {6, "FL-50R"}, {7, "FL-36R"}, {9, "FL-14"}, {11, "FL-600R"},
 };
 
 constexpr TagInfo OlympusMakerNote::tagInfoEq_[] = {
@@ -1275,19 +1276,13 @@ std::ostream& OlympusMakerNote::print0x0200(std::ostream& os, const Value& value
 }  // OlympusMakerNote::print0x0200
 
 std::ostream& OlympusMakerNote::print0x0204(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags of(os.flags());
   if (value.count() == 0 || value.toRational().second == 0) {
     return os << "(" << value << ")";
   }
   float f = value.toFloat();
   if (f == 0.0F || f == 1.0F)
     return os << _("None");
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << f << "x";
-  os.copyfmt(oss);
-  os.flags(of);
-  return os;
+  return os << stringFormat("{:.1f}x", f);
 }  // OlympusMakerNote::print0x0204
 
 std::ostream& OlympusMakerNote::print0x1015(std::ostream& os, const Value& value, const ExifData*) {
@@ -1360,7 +1355,7 @@ std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, const Value& value
 
   // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
   // Only the Make, Model and Sub-model are used to determine the lens model
-  static const struct {
+  static constexpr struct {
     byte val[3];
     const char* label;
   } lensTypes[] = {
@@ -1514,7 +1509,7 @@ std::ostream& OlympusMakerNote::print0x0209(std::ostream& os, const Value& value
 std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& value, const ExifData*) {
   // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
   // Only the Make and Model are used to determine the extender model
-  static const struct {
+  static constexpr struct {
     byte val[2];
     const char* label;
   } extenderModels[] = {
@@ -1542,10 +1537,7 @@ std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& val
 //! OlympusCs FocusMode, tag 0x0301
 // (1 or 2 values)
 std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& value, const ExifData*) {
-  struct mode {
-    uint16_t tag;
-    const char* name;
-  };
+  using mode = std::pair<uint16_t, const char*>;
   static constexpr mode focusModes0[] = {
       {0, N_("Single AF")},     {1, N_("Sequential shooting AF")},
       {2, N_("Continuous AF")}, {3, N_("Multi AF")},
@@ -1632,40 +1624,25 @@ std::ostream& OlympusMakerNote::print0x1209(std::ostream& os, const Value& value
 
 // Olympus FocusDistance 0x0305
 std::ostream& OlympusMakerNote::print0x0305(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedRational) {
-    os.flags(f);
     return os << value;
   }
 
   auto [r, s] = value.toRational();
   if (static_cast<uint32_t>(r) == 0xffffffff) {
-    os << _("Infinity");
-  } else {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2);
-    os << static_cast<float>(r) / 1000 << " m";
-    os.copyfmt(oss);
+    return os << _("Infinity");
   }
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", static_cast<float>(r) / 1000);
 }
 
 // Olympus FocusInfo tag 0x0308 AFPoint
 std::ostream& OlympusMakerNote::print0x0308(std::ostream& os, const Value& value, const ExifData* metadata) {
-  static constexpr struct point {
-    uint16_t p;
-    const char* name;
-  } afPoints[] = {
+  static constexpr std::pair<uint16_t, const char*> afPoints[] = {
       {0, N_("Left (or n/a)")}, {1, N_("Center (horizontal)")}, {2, N_("Right")}, {3, N_("Center (vertical)")},
       {255, N_("None")},
   };
 
-  static constexpr struct pointE3 {
-    byte p;
-    const char* name;
-  } afPointsE3[] = {
+  static constexpr std::pair<byte, const char*> afPointsE3[] = {
       {0x00, N_("None")},
       {0x01, N_("Top-left (horizontal)")},
       {0x02, N_("Top-center (horizontal)")},

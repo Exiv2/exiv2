@@ -7,11 +7,13 @@
 using namespace Exiv2::Internal;
 
 TEST(stringUtils, startsWithReturnsTrue) {
-  ASSERT_TRUE(startsWith("Exiv2 rocks", "Exiv2"));
+  std::string_view s = "Exiv2 rocks";
+  ASSERT_TRUE(s.starts_with("Exiv2"));
 }
 
 TEST(stringUtils, startsWithReturnsFlase) {
-  ASSERT_FALSE(startsWith("Exiv2 rocks", "exiv2"));
+  std::string_view s = "Exiv2 rocks";
+  ASSERT_FALSE(s.starts_with("exiv2"));
 }
 
 TEST(stringUtils, upperTransformStringToUpperCase) {

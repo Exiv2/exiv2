@@ -18,9 +18,14 @@ on:
 jobs:
   Linux:
     name: 'Build Linux Release'
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: ubuntu-22.04, arch: x64   }
+          - { os: ubuntu-22.04-arm, arch: arm64 }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
@@ -48,16 +53,21 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: exiv2-linux64
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
 
   macOS:
     name: 'Build macOS Release'
-    runs-on: macos-latest
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: macos-13, arch: x64   }
+          - { os: macos-14, arch: arm64 }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
@@ -67,6 +77,11 @@ jobs:
           brew install gettext
           brew install doxygen
           brew install graphviz
+
+      - name: Install fmt on macOS 13
+        if: ${{ matrix.runner.os == 'macos-13' }}
+        run: |
+          brew install fmt
 
       - name: Build packaged release
         run: |
@@ -86,16 +101,20 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: exiv2-macos
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
 
   Windows:
     name: 'Build Windows Release'
-    runs-on: windows-2022
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: windows-2022, arch: x64   }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
@@ -135,7 +154,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: exiv2-win
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.zip
           if-no-files-found: error
           retention-days: 1
@@ -208,7 +227,7 @@ jobs:
               console.log( "Failed with error\n", error);
             }
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
       - name: List downloaded files
         run: tree -L 3
 
@@ -222,6 +241,5 @@ jobs:
           prerelease: ${{ env.TAG_NAME == 'nightly' }}
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            ./exiv2-linux64/exiv2-*
-            ./exiv2-macos/exiv2-*
-            ./exiv2-win/exiv2-*
+            ./exiv2-*/exiv2-*
+

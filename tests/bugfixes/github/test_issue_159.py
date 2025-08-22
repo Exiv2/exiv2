@@ -11,15 +11,16 @@ class TestFirstPoC(metaclass=system_tests.CaseMeta):
     We do not actually check the output of these files, we only check that we
     don't get a crash (the metadata are bogus anyway, so no point in checking).
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/159"
 
     filename = [
         system_tests.path("$data_path/printStructure"),
-        system_tests.path("$data_path/printStructure2")
+        system_tests.path("$data_path/printStructure2"),
     ]
     commands = [
-        "$exiv2 " + filename[0],
-        "$exiv2 -pS " + filename[1],
+        f"$exiv2 {filename[0]}",
+        f"$exiv2 -pS {filename[1]}",
     ]
     retval = [0, 1]
 

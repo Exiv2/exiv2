@@ -92,6 +92,10 @@ endif()
 
 include_directories(${CMAKE_BINARY_DIR}) # Make the exv_conf.h file visible for the full project
 
+if(NOT EXV_HAVE_STD_FORMAT)
+  find_package(fmt REQUIRED)
+endif()
+
 if(EXIV2_ENABLE_XMP)
   add_subdirectory(xmpsdk)
 endif()

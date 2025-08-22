@@ -24,14 +24,14 @@
 // Define if you want to use the inih library.
 #cmakedefine EXV_ENABLE_INIH
 
+// Define if you have the std::format function.
+#cmakedefine EXV_HAVE_STD_FORMAT
+
 // Define if you have the strerror_r function.
 #cmakedefine EXV_HAVE_STRERROR_R
 
 // Define if the strerror_r function returns char*.
 #cmakedefine EXV_STRERROR_R_CHAR_P
-
-/* Define to `const' or to empty, depending on the second argument of `iconv'. */
-#cmakedefine ICONV_ACCEPTS_CONST_INPUT
 
 #if defined(__NetBSD__)
 #include <sys/param.h>
@@ -42,7 +42,7 @@
 #endif
 #endif
 
-#if defined(ICONV_ACCEPTS_CONST_INPUT) || (defined(__NetBSD__) && !NETBSD_POSIX_ICONV)
+#if (defined(__NetBSD__) && !NETBSD_POSIX_ICONV)
 #define EXV_ICONV_CONST const
 #else
 #define EXV_ICONV_CONST

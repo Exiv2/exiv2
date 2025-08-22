@@ -4,8 +4,8 @@
   @file    iptc.hpp
   @brief   Encoding and decoding of IPTC data
  */
-#ifndef IPTC_HPP_
-#define IPTC_HPP_
+#ifndef EXIV2_IPTC_HPP
+#define EXIV2_IPTC_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -185,7 +185,7 @@ class EXIV2API IptcData {
     @return 0 if successful;<BR>
            6 if the dataset already exists and is not repeatable;<BR>
    */
-  int add(const Iptcdatum& iptcdatum);
+  int add(const Iptcdatum& iptcDatum);
   /*!
     @brief Delete the Iptcdatum at iterator position pos, return the
            position of the next Iptcdatum. Note that iterators into
@@ -305,4 +305,4 @@ class EXIV2API IptcParser {
 
 }  // namespace Exiv2
 
-#endif  // #ifndef IPTC_HPP_
+#endif  // EXIV2_IPTC_HPP

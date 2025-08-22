@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 2
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build gcovr
-          python3 -m pip install conan==1.*
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -64,12 +64,13 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
-          sudo apt install -y valgrind ninja-build
-          python3 -m pip install conan==1.*
+          sudo eatmydata apt-get -y update
+          sudo eatmydata apt-get -y install valgrind ninja-build
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -99,12 +100,12 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
           sudo apt install -y ninja-build
-          python3 -m pip install conan==1.*
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -133,12 +134,12 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
           sudo apt install -y ninja-build
-          python3 -m pip install conan==1.*
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -155,12 +156,13 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install dependencies
         run: |
-          sudo apt install -y valgrind doxygen graphviz gettext ninja-build
-          python3 -m pip install conan==1.*
+          sudo eatmydata apt-get -y update
+          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |

@@ -4,12 +4,11 @@
 #define FUJIMN_INT_HPP_
 
 // *****************************************************************************
-// included header files
-#include "tags.hpp"
-
-// *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -24,6 +23,7 @@ class FujiMakerNote {
   static const TagInfo tagInfo_[];
 };  // class FujiMakerNote
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef FUJIMN_INT_HPP_
