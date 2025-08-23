@@ -1835,7 +1835,7 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   const size_t len = p.parent_path().string().length();
   std::string parent_path_sep = "";
   if (len > 0)
-    parent_path_sep = newPath.substr(0, len+1);
+    parent_path_sep = newPath.substr(0, len + 1);
 
   newPath = parent_path_sep + std::string(basename) + p.extension().string();
 
