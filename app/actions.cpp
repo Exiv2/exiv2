@@ -1812,10 +1812,10 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   auto oldFsPath = fs::path(path);
   std::string format = Params::instance().format_;
   std::string filename = p.stem().string();
-  std::string basesuffix;
-  int pos = filename.find('.');
-  if (pos > 0)
-    basesuffix = filename.substr(filename.find('.'));
+  std::string basesuffix = "";
+  const size_t pos = filename.find('.');
+  if (pos != std::string::npos)
+    basesuffix = filename.substr(pos);
   replace(format, ":basename:", p.stem().string());
   replace(format, ":basesuffix:", basesuffix);
   replace(format, ":dirname:", p.parent_path().filename().string());
@@ -1832,10 +1832,10 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   // for concatenation of new file name, concatenation operator of std::filesystem::path is not used:
   // On MSYS2 UCRT64 the path separator to be used in terminal is slash, but as concatenation operator
   // a back slash will be added. Rename works but with verbose a path with different operators will be shown.
-  int len = p.parent_path().string().length();
+  const size_t len = p.parent_path().string().length();
   std::string parent_path_sep = "";
   if (len > 0)
-    parent_path_sep = newPath.substr(0, ++len);
+    parent_path_sep = newPath.substr(0, len+1);
 
   newPath = parent_path_sep + std::string(basename) + p.extension().string();
 
@@ -1851,6 +1851,7 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   std::regex_token_iterator<std::string::iterator> rend;
   std::regex_token_iterator<std::string::iterator> token(format.begin(), format.end(), format_regex);
   while (token != rend) {
+    Exiv2::Internal::enforce<std::overflow_error>(token->str().length() >= 2, "token too short");
     std::string tag = token->str().substr(1, token->str().length() - 2);
     const auto key = exifData.findKey(Exiv2::ExifKey(tag));
     std::string val = "";
