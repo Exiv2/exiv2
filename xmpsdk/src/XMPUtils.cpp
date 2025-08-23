@@ -1239,18 +1239,22 @@ XMPUtils::ConvertToFloat ( XMP_StringPtr strValue )
 {
 	if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
 
+#ifndef _WIN32
 	XMP_VarString oldLocale;	// Try to make sure number conversion uses '.' as the decimal point.
 	XMP_StringPtr oldLocalePtr = setlocale ( LC_ALL, 0 );
 	if ( oldLocalePtr != 0 ) {
 		oldLocale.assign ( oldLocalePtr );
 		setlocale ( LC_ALL, "C" );
 	}
+#endif
 
 	errno = 0;
 	char * numEnd;
 	double result = strtod ( strValue, &numEnd );
 
+#ifndef _WIN32
 	if ( oldLocalePtr != 0 ) setlocale ( LC_ALL, oldLocalePtr );	// ! Reset locale before possible throw!
+#endif
 	if ( (errno != 0) || (*numEnd != 0) ) XMP_Throw ( "Invalid float string", kXMPErr_BadParam );
 
 	return result;
