@@ -49,7 +49,7 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
   endif()
 
   if(NOT "@EXV_HAVE_STD_FORMAT@") # if(NOT EXV_HAVE_STD_FORMAT)
-    find_dependency(fmt REQUIRED)
+    find_dependency(fmt "5.0.0" REQUIRED)
   endif()
 endif()
 
