@@ -7,6 +7,7 @@
 #include "basicio.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "safe_op.hpp"
 #include "sonymn_int.hpp"
@@ -737,9 +738,9 @@ size_t TiffMnEntry::doCount() const {
   // Count of IFD makernote in tag Exif.Photo.MakerNote is the size of the
   // Makernote in bytes
   if (tiffType() != ttUndefined && tiffType() != ttUnsignedByte && tiffType() != ttSignedByte) {
-    EXV_ERROR << "Makernote entry 0x" << std::setw(4) << std::setfill('0') << std::hex << tag()
-              << " has incorrect Exif (TIFF) type " << std::dec << tiffType()
-              << ". (Expected signed or unsigned byte.)\n";
+    EXV_ERROR << stringFormat(
+        "Makernote entry 0x{:04x} has incorrect Exif (TIFF) type {}. (Expected signed or unsigned byte.)\n", tag(),
+        static_cast<uint16_t>(tiffType()));
   }
 #endif
   return mn_->size();
@@ -760,8 +761,8 @@ size_t TiffBinaryArray::doCount() const {
   size_t typeSize = TypeInfo::typeSize(typeId);
   if (0 == typeSize) {
 #ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "Directory " << groupName(group()) << ", entry 0x" << std::setw(4) << std::setfill('0') << std::hex
-                << tag() << " has unknown Exif (TIFF) type " << std::dec << tiffType() << "; setting type size 1.\n";
+    EXV_WARNING << stringFormat("Directory {}, entry 0x{:04x} has unknown Exif (TIFF) type {}; setting type size 1.\n",
+                                groupName(group()), tag(), static_cast<uint16_t>(tiffType()));
 #endif
     typeSize = 1;
   }
