@@ -1535,11 +1535,13 @@ template <typename T>
 std::ostream& ValueType<T>::write(std::ostream& os) const {
   auto end = value_.end();
   auto i = value_.begin();
+  auto oldlocale = std::locale::global(std::locale::classic());
   while (i != end) {
     os << std::setprecision(15) << *i;
     if (++i != end)
       os << " ";
   }
+  std::locale::global(oldlocale);
   return os;
 }
 
