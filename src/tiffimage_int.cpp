@@ -2055,9 +2055,10 @@ ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpDa
 
 }  // TiffParserWorker::decode
 
-WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size, ExifData& exifData,
-                                     IptcData& iptcData, XmpData& xmpData, uint32_t root, FindEncoderFct findEncoderFct,
-                                     TiffHeaderBase* pHeader, OffsetWriter* pOffsetWriter) {
+WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size, const ExifData& exifData,
+                                     const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
+                                     FindEncoderFct findEncoderFct, TiffHeaderBase* pHeader,
+                                     OffsetWriter* pOffsetWriter) {
   /*
      1) parse the binary image, if one is provided, and
      2) attempt updating the parsed tree in-place ("non-intrusive writing")
