@@ -80,11 +80,6 @@ class TiffMnCreator {
    */
   static std::unique_ptr<TiffComponent> create(uint16_t tag, IfdId group, IfdId mnGroup);
 
-  ~TiffMnCreator() = default;
-  //! Prevent destruction (needed if used as a policy class)
-  TiffMnCreator(const TiffMnCreator&) = delete;
-  TiffMnCreator& operator=(const TiffMnCreator&) = delete;
-
  private:
   static const TiffMnRegistry registry_[];  //!< List of makernotes
 };
