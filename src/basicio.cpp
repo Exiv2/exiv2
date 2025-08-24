@@ -45,6 +45,7 @@ namespace fs = std::filesystem;
 
 #ifndef _WIN32
 #define _fileno fileno
+#define _isatty isatty
 #endif
 
 namespace Exiv2 {
@@ -921,7 +922,7 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
   auto path = stringFormat("{}{}", timestamp, XPathIo::TEMP_FILE_EXT);
 
   if (prot == pStdin) {
-    if (isatty(_fileno(stdin)))
+    if (_isatty(_fileno(stdin)))
       throw Error(ErrorCode::kerInputDataReadFailed);
 #ifdef _WIN32
     // convert stdin to binary
