@@ -1,7 +1,11 @@
 project(
   'exiv2',
   'cpp',
+<<<<<<< HEAD
   version: '1.0.0',
+=======
+  version: '0.28.6',
+>>>>>>> 48c410a5 (Release Exiv2 version 0.28.6)
   meson_version: '>=0.54.1',
   default_options: ['warning_level=0', 'cpp_std=c++20'],
 )

@@ -1,3 +1,16 @@
+Changes from version 0.28.5 to 0.28.6
+-------------------------------------
+
+Release Notes:
+
+* https://github.com/Exiv2/exiv2/issues/3323
+* https://github.com/Exiv2/exiv2/milestone/17?closed=1
+
+This release fixes two low-severity vulnerabilities:
+
+* [CVE-2025-54080](https://github.com/Exiv2/exiv2/security/advisories/GHSA-496f-x7cq-cq39)
+* [CVE-2025-55304](https://github.com/Exiv2/exiv2/security/advisories/GHSA-m54q-mm9w-fp6g)
+
 Changes from version 0.28.4 to 0.28.5
 -------------------------------------
 
