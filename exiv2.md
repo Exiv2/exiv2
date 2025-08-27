@@ -493,6 +493,13 @@ exiv2.exe: File `./Stonehenge_16_Jul_2015.jpg' exists. [O]verwrite, [r]ename or 
 Renaming file to ./Stonehenge_16_Jul_2015_1.jpg
 ```
 
+If the filename contains a suffix, which shall be included in new filename:
+```
+$ exiv2 --verbose --rename '%d_%b_%Y:basesuffix:' Stonehenge.PANO.jpg
+File 1/1: Stonehenge.PANO.jpg
+Renaming file to '16_Jul_2015.PANO'.jpg
+```
+
 <div id="adjust_time">
 
 ### **-a** *time*, **--adjust** *time*
@@ -1863,3 +1870,4 @@ Exiv2 github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
 | Exiv2 GitHub contributors      | https://github.com/Exiv2/exiv2/graphs/contributors           |
 
 [TOC](#TOC)
+
