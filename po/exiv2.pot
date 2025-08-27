@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2025 Exiv2 authors
-# This file is distributed under the same license as the exiv2 package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: exiv2\n"
-"Report-Msgid-Bugs-To: https://github.com/Exiv2/exiv2/issues\n"
-"POT-Creation-Date: 2025-08-27 09:43+0200\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-27 14:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: app/actions.cpp:1050 app/actions.cpp:1064 app/actions.cpp:1086
 #: app/actions.cpp:1090 app/actions.cpp:1109 app/actions.cpp:1318
 #: app/actions.cpp:1465 app/actions.cpp:1513 app/actions.cpp:1698
-#: app/actions.cpp:1984
+#: app/actions.cpp:1985
 msgid "Failed to open the file"
 msgstr ""
 
@@ -409,43 +409,43 @@ msgstr ""
 msgid "Could not write metadata to file"
 msgstr ""
 
-#: app/actions.cpp:1841
+#: app/actions.cpp:1842
 msgid "Filename format yields empty filename for the file"
 msgstr ""
 
-#: app/actions.cpp:1875 app/actions.cpp:1886
+#: app/actions.cpp:1876 app/actions.cpp:1887
 msgid "Warning: "
 msgstr ""
 
-#: app/actions.cpp:1875
+#: app/actions.cpp:1876
 msgid " is empty."
 msgstr ""
 
-#: app/actions.cpp:1886
+#: app/actions.cpp:1887
 msgid " is not included."
 msgstr ""
 
-#: app/actions.cpp:1895
+#: app/actions.cpp:1896
 msgid "This file already has the correct name"
 msgstr ""
 
-#: app/actions.cpp:1914 app/exiv2.cpp:177
+#: app/actions.cpp:1915 app/exiv2.cpp:177
 msgid "File"
 msgstr ""
 
-#: app/actions.cpp:1915
+#: app/actions.cpp:1916
 msgid "exists. [O]verwrite, [r]ename or [s]kip?"
 msgstr ""
 
-#: app/actions.cpp:1937
+#: app/actions.cpp:1938
 msgid "Renaming file to"
 msgstr ""
 
-#: app/actions.cpp:1939
+#: app/actions.cpp:1940
 msgid "updating timestamp"
 msgstr ""
 
-#: app/actions.cpp:1963
+#: app/actions.cpp:1964
 msgid "Overwrite"
 msgstr ""
 
@@ -892,289 +892,295 @@ msgstr ""
 
 #: app/exiv2.cpp:338
 msgid ""
+"             :basesuffix: - suffix in original filename, starts with first "
+"dot and ends before extension\n"
+msgstr ""
+
+#: app/exiv2.cpp:339
+msgid ""
 "             :dirname:    - name of the directory holding the original file\n"
 msgstr ""
 
-#: app/exiv2.cpp:339
+#: app/exiv2.cpp:340
 msgid "             :parentname: - name of parent directory\n"
 msgstr ""
 
-#: app/exiv2.cpp:339
+#: app/exiv2.cpp:340
 msgid "           Default 'fmt' is %Y%m%d_%H%M%S\n"
 msgstr ""
 
-#: app/exiv2.cpp:340
+#: app/exiv2.cpp:341
 msgid "   -c txt  JPEG comment string to set in the image.\n"
 msgstr ""
 
-#: app/exiv2.cpp:341
+#: app/exiv2.cpp:342
 msgid ""
 "   -m cmdf Applies commands in 'cmdf' file, for the modify action (see -M "
 "for format).\n"
 msgstr ""
 
-#: app/exiv2.cpp:342
+#: app/exiv2.cpp:343
 msgid "   -M cmd  Command line for the modify action. The format is:\n"
 msgstr ""
 
-#: app/exiv2.cpp:343
+#: app/exiv2.cpp:344
 msgid "           ( (set | add) <key> [[<type>] <value>] |\n"
 msgstr ""
 
-#: app/exiv2.cpp:343
+#: app/exiv2.cpp:344
 msgid "             del <key> [<type>] |\n"
 msgstr ""
 
-#: app/exiv2.cpp:344
+#: app/exiv2.cpp:345
 msgid "             reg prefix namespace )\n"
 msgstr ""
 
-#: app/exiv2.cpp:345
+#: app/exiv2.cpp:346
 msgid ""
 "   -l dir  Location (directory) for files to be inserted from or extracted "
 "to.\n"
 msgstr ""
 
-#: app/exiv2.cpp:346
+#: app/exiv2.cpp:347
 msgid "   -S suf Use suffix 'suf' for source files for insert action.\n"
 msgstr ""
 
-#: app/exiv2.cpp:346
+#: app/exiv2.cpp:347
 msgid ""
 "\n"
 "Examples:\n"
 msgstr ""
 
-#: app/exiv2.cpp:347
+#: app/exiv2.cpp:348
 msgid ""
 "   exiv2 -pe image.dng *.jp2\n"
 "           Print all Exif tags in image.dng and all .jp2 files\n"
 msgstr ""
 
-#: app/exiv2.cpp:349
+#: app/exiv2.cpp:350
 msgid ""
 "   exiv2 -g date/i https://clanmills.com/Stonehenge.jpg\n"
 "           Print all tags in file, where key contains 'date' (case "
 "insensitive)\n"
 msgstr ""
 
-#: app/exiv2.cpp:351
+#: app/exiv2.cpp:352
 msgid ""
 "   exiv2 -M\"set Xmp.dc.subject XmpBag Sky\" image.tiff\n"
 "           Set (or add if missing) value to tag in file\n"
 "\n"
 msgstr ""
 
-#: app/exiv2.cpp:455 app/exiv2.cpp:492 app/exiv2.cpp:513 app/exiv2.cpp:553
-#: app/exiv2.cpp:604 app/exiv2.cpp:840
+#: app/exiv2.cpp:456 app/exiv2.cpp:493 app/exiv2.cpp:514 app/exiv2.cpp:554
+#: app/exiv2.cpp:605 app/exiv2.cpp:841
 msgid "Option"
 msgstr ""
 
-#: app/exiv2.cpp:456
+#: app/exiv2.cpp:457
 msgid "requires an argument\n"
 msgstr ""
 
-#: app/exiv2.cpp:460
+#: app/exiv2.cpp:461
 msgid "Unrecognized option"
 msgstr ""
 
-#: app/exiv2.cpp:464
+#: app/exiv2.cpp:465
 msgid "getopt returned unexpected character code"
 msgstr ""
 
-#: app/exiv2.cpp:492
+#: app/exiv2.cpp:493
 msgid "Invalid argument"
 msgstr ""
 
-#: app/exiv2.cpp:513
+#: app/exiv2.cpp:514
 msgid "Invalid regexp"
 msgstr ""
 
-#: app/exiv2.cpp:546 app/exiv2.cpp:591
+#: app/exiv2.cpp:547 app/exiv2.cpp:592
 msgid "Ignoring surplus option"
 msgstr ""
 
-#: app/exiv2.cpp:554 app/exiv2.cpp:605 app/exiv2.cpp:841
+#: app/exiv2.cpp:555 app/exiv2.cpp:606 app/exiv2.cpp:842
 msgid "is not compatible with a previous option\n"
 msgstr ""
 
-#: app/exiv2.cpp:567
+#: app/exiv2.cpp:568
 msgid "Ignoring surplus option -a"
 msgstr ""
 
-#: app/exiv2.cpp:573
+#: app/exiv2.cpp:574
 msgid "Error parsing -a option argument"
 msgstr ""
 
-#: app/exiv2.cpp:578
+#: app/exiv2.cpp:579
 msgid "Option -a is not compatible with a previous option\n"
 msgstr ""
 
-#: app/exiv2.cpp:598
+#: app/exiv2.cpp:599
 msgid "Error parsing"
 msgstr ""
 
-#: app/exiv2.cpp:599
+#: app/exiv2.cpp:600
 msgid "option argument"
 msgstr ""
 
-#: app/exiv2.cpp:656
+#: app/exiv2.cpp:657
 msgid "Action not available in Release mode"
 msgstr ""
 
-#: app/exiv2.cpp:672
+#: app/exiv2.cpp:673
 msgid "Unrecognized print mode"
 msgstr ""
 
-#: app/exiv2.cpp:678
+#: app/exiv2.cpp:679
 msgid "Ignoring surplus option -p"
 msgstr ""
 
-#: app/exiv2.cpp:681
+#: app/exiv2.cpp:682
 msgid "Option -p is not compatible with a previous option\n"
 msgstr ""
 
-#: app/exiv2.cpp:745
+#: app/exiv2.cpp:746
 msgid "Unrecognized print item"
 msgstr ""
 
-#: app/exiv2.cpp:752
+#: app/exiv2.cpp:753
 msgid "Ignoring surplus option -P"
 msgstr ""
 
-#: app/exiv2.cpp:755
+#: app/exiv2.cpp:756
 msgid "Option -P is not compatible with a previous option\n"
 msgstr ""
 
-#: app/exiv2.cpp:777
+#: app/exiv2.cpp:778
 msgid "Option -d is not compatible with a previous option\n"
 msgstr ""
 
-#: app/exiv2.cpp:798
+#: app/exiv2.cpp:799
 msgid "Option -e is not compatible with a previous option\n"
 msgstr ""
 
-#: app/exiv2.cpp:819
+#: app/exiv2.cpp:820
 msgid "Option -i is not compatible with a previous option\n"
 msgstr ""
 
-#: app/exiv2.cpp:854
+#: app/exiv2.cpp:855
 msgid "Action adjust is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:862
+#: app/exiv2.cpp:863
 msgid "Action print is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:870
+#: app/exiv2.cpp:871
 msgid "Action delete is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:878
+#: app/exiv2.cpp:879
 msgid "Action extract is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:886
+#: app/exiv2.cpp:887
 msgid "Action insert is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:894
+#: app/exiv2.cpp:895
 msgid "Action rename is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:902
+#: app/exiv2.cpp:903
 msgid "Action modify is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:910
+#: app/exiv2.cpp:911
 msgid "Action fixiso is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:918
+#: app/exiv2.cpp:919
 msgid "Action fixcom is not compatible with the given options\n"
 msgstr ""
 
-#: app/exiv2.cpp:1041
+#: app/exiv2.cpp:1042
 msgid "An action must be specified\n"
 msgstr ""
 
-#: app/exiv2.cpp:1046
+#: app/exiv2.cpp:1047
 msgid "Adjust action requires at least one -a, -Y, -O or -D option\n"
 msgstr ""
 
-#: app/exiv2.cpp:1050
+#: app/exiv2.cpp:1051
 msgid "Modify action requires at least one -c, -m or -M option\n"
 msgstr ""
 
-#: app/exiv2.cpp:1054
+#: app/exiv2.cpp:1055
 msgid "At least one file is required\n"
 msgstr ""
 
-#: app/exiv2.cpp:1059
+#: app/exiv2.cpp:1060
 msgid "Error parsing -m option arguments\n"
 msgstr ""
 
-#: app/exiv2.cpp:1064
+#: app/exiv2.cpp:1065
 msgid "Error parsing -M option arguments\n"
 msgstr ""
 
-#: app/exiv2.cpp:1072
+#: app/exiv2.cpp:1073
 msgid "-l option can only be used with extract or insert actions\n"
 msgstr ""
 
-#: app/exiv2.cpp:1076
+#: app/exiv2.cpp:1077
 msgid "-S option can only be used with insert action\n"
 msgstr ""
 
-#: app/exiv2.cpp:1080
+#: app/exiv2.cpp:1081
 msgid "-t option can only be used with rename action\n"
 msgstr ""
 
-#: app/exiv2.cpp:1084
+#: app/exiv2.cpp:1085
 msgid "-T option can only be used with rename action\n"
 msgstr ""
 
-#: app/exiv2.cpp:1154
+#: app/exiv2.cpp:1155
 msgid "Unrecognized "
 msgstr ""
 
-#: app/exiv2.cpp:1154
+#: app/exiv2.cpp:1155
 msgid "target"
 msgstr ""
 
-#: app/exiv2.cpp:1233
+#: app/exiv2.cpp:1234
 msgid "Invalid preview number"
 msgstr ""
 
-#: app/exiv2.cpp:1260
+#: app/exiv2.cpp:1261
 msgid "Failed to open command file for reading\n"
 msgstr ""
 
-#: app/exiv2.cpp:1272
+#: app/exiv2.cpp:1273
 msgid "line"
 msgstr ""
 
-#: app/exiv2.cpp:1290
+#: app/exiv2.cpp:1291
 msgid "-M option"
 msgstr ""
 
-#: app/exiv2.cpp:1342
+#: app/exiv2.cpp:1343
 msgid "Invalid command line:"
 msgstr ""
 
-#: app/exiv2.cpp:1349
+#: app/exiv2.cpp:1350
 msgid "Invalid command"
 msgstr ""
 
-#: app/exiv2.cpp:1380
+#: app/exiv2.cpp:1381
 msgid "Invalid key"
 msgstr ""
 
-#: app/exiv2.cpp:1401 app/exiv2.cpp:1411
+#: app/exiv2.cpp:1402 app/exiv2.cpp:1412
 msgid "Invalid command line"
 msgstr ""
 
-#: app/exiv2.cpp:1437
+#: app/exiv2.cpp:1438
 msgid "Empty value for key"
 msgstr ""
 
