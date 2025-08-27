@@ -1832,6 +1832,7 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   if (pos != std::string::npos)
     basesuffix = filename.substr(pos);
   replace(format, ":basename:", p.stem().string());
+  replace(format, ":basesuffix:", basesuffix);
   replace(format, ":dirname:", p.parent_path().filename().string());
   replace(format, ":parentname:", p.parent_path().parent_path().filename().string());
 
