@@ -335,6 +335,7 @@ void Params::help(std::ostream& os) const {
      << _("   -r fmt  Filename format for the 'rename' action. The format string\n")
      << _("           follows strftime(3). The following keywords are also supported:\n")
      << _("             :basename:   - original filename without extension\n")
+     << _("             :basesuffix: - suffix in original filename, starts with first dot and ends before extension\n")
      << _("             :dirname:    - name of the directory holding the original file\n")
      << _("             :parentname: - name of parent directory\n") << _("           Default 'fmt' is %Y%m%d_%H%M%S\n")
      << _("   -c txt  JPEG comment string to set in the image.\n")
