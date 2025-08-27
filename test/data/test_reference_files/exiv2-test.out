@@ -140,6 +140,7 @@ Options:
    -r fmt  Filename format for the 'rename' action. The format string
            follows strftime(3). The following keywords are also supported:
              :basename:   - original filename without extension
+             :basesuffix: - suffix in original filename, starts with first dot and ends before extension
              :dirname:    - name of the directory holding the original file
              :parentname: - name of parent directory
            Default 'fmt' is %Y%m%d_%H%M%S
