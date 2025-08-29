@@ -892,7 +892,7 @@ any array having the same type. Available types for the different
 | XmpAlt  | A string of text | Multi   | An ordered array, any default value is first |
 | XmpBag  | A string of text | Multi   | An unordered array (e.g., 3 values, "Red, Yellow, Green"). See [Multiple elements](#multi_elements) and ['Modify' command format](#mod_cmd_format) |
 | XmpSeq  | A string of text | Multi   | An ordered array (e.g., 3 values, "Gold, Silver, Bronze"). See [Multiple elements](#multi_elements) and ['Modify' command format](#mod_cmd_format) |
-| XmpText | A string of text | Single  | -                                            |
+| XmpText | A string of text | Single  | Value type suitable for simple XMP properties and XMP nodes of complex types which are not parsed into specific values. |
 
 [TOC](#TOC)
 
