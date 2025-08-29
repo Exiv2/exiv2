@@ -241,6 +241,8 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
   uint32_t posTiff = 0;
   uint32_t sizeTiff = 0;
 
+  ErrorCode errcode = write ? ErrorCode::kerImageWriteFailed : ErrorCode::kerFailedToReadImageData;
+
   // check for DOS EPS
   const bool dosEps =
       (size >= dosEpsSignature.size() && memcmp(data, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
@@ -248,12 +250,8 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 #ifdef DEBUG
     EXV_DEBUG << "readWriteEpsMetadata: Found DOS EPS signature\n";
 #endif
-    if (size < 30) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "Premature end of file after DOS EPS signature.\n";
-#endif
-      throw Error(write ? ErrorCode::kerImageWriteFailed : ErrorCode::kerFailedToReadImageData);
-    }
+
+    enforce(size >= 30, errcode);
     posEps = getULong(data + 4, littleEndian);
     posEndEps = getULong(data + 8, littleEndian) + posEps;
     posWmf = getULong(data + 12, littleEndian);
@@ -285,29 +283,13 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
       if (write)
         throw Error(ErrorCode::kerImageWriteFailed);
     }
-    if (posEps < 30 || posEndEps > size) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "DOS EPS file has invalid position (" << posEps << ") or size (" << (posEndEps - posEps)
-                  << ") for EPS section.\n";
-#endif
-      throw Error(write ? ErrorCode::kerImageWriteFailed : ErrorCode::kerFailedToReadImageData);
-    }
-    if (sizeWmf != 0 && (posWmf < 30 || posWmf + sizeWmf > size)) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "DOS EPS file has invalid position (" << posWmf << ") or size (" << sizeWmf
-                  << ") for WMF section.\n";
-#endif
-      if (write)
-        throw Error(ErrorCode::kerImageWriteFailed);
-    }
-    if (sizeTiff != 0 && (posTiff < 30 || posTiff + sizeTiff > size)) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "DOS EPS file has invalid position (" << posTiff << ") or size (" << sizeTiff
-                  << ") for TIFF section.\n";
-#endif
-      if (write)
-        throw Error(ErrorCode::kerImageWriteFailed);
-    }
+    enforce(30 <= posEps, errcode);
+    enforce(sizeWmf == 0 || 30 <= posWmf, errcode);
+    enforce(sizeTiff == 0 || 30 <= posTiff, errcode);
+
+    enforce(posEps <= posEndEps && posEndEps <= size, errcode);
+    enforce(posWmf <= size && sizeWmf <= size - posWmf, errcode);
+    enforce(posTiff <= size && sizeTiff <= size - posTiff, errcode);
   }
 
   // check first line
