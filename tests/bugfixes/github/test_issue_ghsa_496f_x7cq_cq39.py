@@ -15,6 +15,6 @@ class EpsImageDeleteSegV(metaclass=CaseMeta):
     stdout = [""]
     stderr = [
         """$exception_in_erase """ + filename + """:
-$kerCorruptedMetadata
+$kerFailedToReadImageData
 """]
     retval = [1]
