@@ -4,22 +4,7 @@
 
 | Exiv2 Version    | Date       | Tag     |  Branch          | _Dot/Security_ Release | Date       | Tag |
 |:--               |:--         |:-       |:--               |:--                     |:-          |:-   |
-| v0.28            | 2023-05-08 | v0.28.0 | 0.28.x           | v0.28.0                | 2023-05-08 | v0.28.0 |
-|                  |            |         |                  | v0.28.1                | 2023-11-06 | v0.28.1 |
-|                  |            |         |                  | v0.28.2                | 2024-02-13 | v0.28.2 |
-|                  |            |         |                  | v0.28.3                | 2024-07-08 | v0.28.3 |
-|                  |            |         |                  | v0.28.4                | 2025-02-10 | v0.28.4 |
-|                  |            |         |                  | v0.28.5                | 2025-02-21 | v0.28.5 |
-| v0.27            | 2018-12-20 | 0.27    | 0.27-maintenance | v0.27.0                | 2018-12-20 | v0.27.0 |
-|                  |            |         |                  | v0.27.1                | 2019-04-18 | v0.27.1 |
-|                  |            |         |                  | v0.27.2                | 2019-07-29 | v0.27.2 |
-|                  |            |         |                  | v0.27.3                | 2020-06-30 | v0.27.3 |
-|                  |            |         |                  | v0.27.4                | 2021-06-15 | v0.27.4 |
-|                  |            |         |                  | v0.27.5                | 2021-09-30 | v0.27.5 |
-|                  |            |         |                  | v0.27.6                | 2023-01-18 | v0.27.6 |
-|                  |            |         |                  | v0.27.7                | 2023-05-14 | v0.27.7 |
-| v0.26            | 2017-04-28 | v0.26   | 0.26             | None | | |
-| v0.25            | 2015-06-21 | _None_  | 0.25             | None | | |
+| v0.28            | 2023-05-08 | v0.28.0 | 0.28.x           | v0.28.6                | 2025-08-29 | v0.28.6 |
 
 ## Security Process
 
@@ -59,3 +44,7 @@ Users can register on GitHub.com to receive release notices for RC and GM Releas
 | v0.27.3.29 | Exiv2 v0.27.3.29 | Development  | Should never be installed for production. |
 | v0.27.4.9  | Exiv2 v0.27.4.9  | Development  | Should never be installed for production. |
 | v0.27.99   | Exiv2 v0.28      | Development  | Should never be installed for production. |
+
+## Fixed CVEs
+
+The list of Exiv2 vulnerabilities that were previously found and fixed can be found at https://github.com/Exiv2/exiv2/security/advisories.
