@@ -75,7 +75,7 @@ class TiffHeaderBase {
     @param os Output stream to write to.
     @param prefix Prefix to be written before each line of output.
    */
-  virtual void print(std::ostream& os, std::string_view prefix = "") const;
+  virtual void print(std::ostream& os, const char* prefix = "") const;
   //! Return the byte order (little or big endian).
   [[nodiscard]] virtual ByteOrder byteOrder() const;
   //! Return the offset to the start of the root directory.
