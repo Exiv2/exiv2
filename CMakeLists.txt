@@ -1,6 +1,7 @@
 # Minimum version imposed by Ubuntu:20.04
 cmake_minimum_required(VERSION 3.16.3)
 
+<<<<<<< HEAD
 # use TWEAK to categorize the build:
 #
 # * 1.00.0    = GM               (tagged and released)
@@ -15,6 +16,12 @@ project(
   VERSION 1.00.0.9
   DESCRIPTION "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more."
   LANGUAGES C CXX
+=======
+project(exiv2
+    VERSION 0.28.6
+    DESCRIPTION    "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more."
+    LANGUAGES C CXX
+>>>>>>> 48c410a5 (Release Exiv2 version 0.28.6)
 )
 
 # Shared Object versioning (SemVer-like: must bump major on API breakage)
