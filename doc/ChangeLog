@@ -1,3 +1,15 @@
+Changes from version 0.28.6 to 0.28.7
+-------------------------------------
+
+Release Notes:
+
+* https://github.com/Exiv2/exiv2/issues/3379
+* https://github.com/Exiv2/exiv2/milestone/18?closed=1
+
+This release reverts an ABI incompatibility that was accidentally introduced in v0.28.6:
+
+* https://github.com/Exiv2/exiv2/issues/3376
+
 Changes from version 0.28.5 to 0.28.6
 -------------------------------------
 
