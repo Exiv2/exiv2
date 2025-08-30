@@ -592,7 +592,9 @@ class TiffDataEntryBase : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup);
+  constexpr TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup) :
+      TiffEntryBase(tag, group), szTag_(szTag), szGroup_(szGroup) {
+  }
   //@}
 
   ~TiffDataEntryBase() override;
