@@ -1,7 +1,7 @@
 project(
   'exiv2',
   'cpp',
-  version: '0.28.6',
+  version: '0.28.7',
   meson_version: '>=0.54.1',
   default_options: ['warning_level=0', 'cpp_std=c++17'],
 )

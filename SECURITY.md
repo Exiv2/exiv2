@@ -4,7 +4,7 @@
 
 | Exiv2 Version    | Date       | Tag     |  Branch          | _Dot/Security_ Release | Date       | Tag |
 |:--               |:--         |:-       |:--               |:--                     |:-          |:-   |
-| v0.28            | 2023-05-08 | v0.28.0 | 0.28.x           | v0.28.6                | 2025-08-29 | v0.28.6 |
+| v0.28            | 2023-05-08 | v0.28.0 | 0.28.x           | v0.28.7                | 2025-08-31 | v0.28.7 |
 
 ## Security Process
 
