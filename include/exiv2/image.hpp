@@ -197,11 +197,11 @@ class EXIV2API Image {
     @param size number of bytes to append
     @param bTestValid - tests that iccProfile contains credible data
    */
-  virtual void appendIccProfile(const uint8_t* bytes, size_t size, bool bTestValid);
+  void appendIccProfile(const uint8_t* bytes, size_t size, bool bTestValid);
   /*!
     @brief Throw an exception if the size at the beginning of the iccProfile isn't correct.
    */
-  virtual void checkIccProfile();
+  void checkIccProfile();
   /*!
     @brief Erase iccProfile. the profile is not removed from
         the actual image until the writeMetadata() method is called.
