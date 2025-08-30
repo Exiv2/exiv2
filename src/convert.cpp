@@ -44,7 +44,7 @@
 // *****************************************************************************
 // local declarations
 namespace {
-#if defined EXV_HAVE_ICONV
+#ifdef EXV_HAVE_ICONV
 // Convert string charset with iconv.
 bool convertStringCharsetIconv(std::string& str, std::string_view from, std::string_view to);
 #elif defined _WIN32
@@ -1377,7 +1377,7 @@ void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData) {
 bool convertStringCharset([[maybe_unused]] std::string& str, const char* from, const char* to) {
   if (0 == strcmp(from, to))
     return true;  // nothing to do
-#if defined EXV_HAVE_ICONV
+#ifdef EXV_HAVE_ICONV
   return convertStringCharsetIconv(str, from, to);
 #elif defined _WIN32
   return convertStringCharsetWindows(str, from, to);
@@ -1395,7 +1395,7 @@ bool convertStringCharset([[maybe_unused]] std::string& str, const char* from, c
 namespace {
 using namespace Exiv2;
 
-#if defined EXV_HAVE_ICONV
+#ifdef EXV_HAVE_ICONV
 bool convertStringCharsetIconv(std::string& str, std::string_view from, std::string_view to) {
   if (from == to)
     return true;  // nothing to do

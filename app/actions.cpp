@@ -29,7 +29,7 @@
 #include <unistd.h>  // for stat()
 #endif
 
-#if defined(_WIN32)
+#ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
 #include <sys/utime.h>
@@ -1659,7 +1659,7 @@ std::string temporaryPath() {
   static int count = 0;
   auto guard = std::scoped_lock(cs);
 
-#if defined(_WIN32)
+#ifdef _WIN32
   DWORD pid = ::GetCurrentProcessId();
 #else
   pid_t pid = ::getpid();
@@ -1843,7 +1843,7 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
   // is done after calling setting date/time: the value retrieved from tag might include something like %Y, which then
   // should not be replaced by year
   std::regex format_regex(":{1}?(Exif\\..*?):{1}?");
-#if defined(_WIN32)
+#ifdef _WIN32
   std::string illegalChars = "\\/:*?\"<>|";
 #else
   std::string illegalChars = "/:";

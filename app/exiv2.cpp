@@ -25,7 +25,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-#if defined(_WIN32)
+#ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
 #include <windows.h>
@@ -960,7 +960,7 @@ static size_t readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
 void Params::getStdin(Exiv2::DataBuf& buf) {
   // copy stdin to stdinBuf
   if (stdinBuf.empty()) {
-#if defined(_WIN32)
+#ifdef _WIN32
     DWORD fdwMode;
     _setmode(_fileno(stdin), O_BINARY);
     Sleep(300);

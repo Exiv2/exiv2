@@ -85,7 +85,7 @@ class FileIo::Impl {
   FILE* fp_{};             //!< File stream pointer
   OpMode opMode_{opSeek};  //!< File open mode
 
-#if defined _WIN32
+#ifdef _WIN32
   HANDLE hFile_{};  //!< Duplicated fd
   HANDLE hMap_{};   //!< Handle from CreateFileMapping
 #endif
@@ -218,7 +218,7 @@ FileIo::~FileIo() {
 int FileIo::munmap() {
   int rc = 0;
   if (p_->pMappedArea_) {
-#if defined _WIN32
+#ifdef _WIN32
     UnmapViewOfFile(p_->pMappedArea_);
     CloseHandle(p_->hMap_);
     p_->hMap_ = nullptr;
@@ -878,7 +878,7 @@ const std::string& MemIo::path() const noexcept {
 void MemIo::populateFakeData() {
 }
 
-#if defined(EXV_ENABLE_FILESYSTEM)
+#ifdef EXV_ENABLE_FILESYSTEM
 XPathIo::XPathIo(const std::string& orgPath) : FileIo(XPathIo::writeDataToFile(orgPath)), tempFilePath_(path()) {
 }
 

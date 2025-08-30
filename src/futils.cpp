@@ -20,7 +20,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-#if defined(_WIN32)
+#ifdef _WIN32
 // clang-format off
 #include <windows.h>
 #include <psapi.h>  // For access to GetModuleFileName
@@ -39,7 +39,7 @@ namespace fs = std::filesystem;
 #include <mach-o/dyld.h>  // for _NSGetExecutablePath()
 #endif
 
-#if defined(__FreeBSD__)
+#ifdef __FreeBSD__
 // clang-format off
 #include <sys/mount.h>
 #include <sys/param.h>
@@ -355,7 +355,7 @@ Uri Uri::Parse(const std::string& uri) {
 
 std::string getProcessPath() {
 #ifdef EXV_ENABLE_FILESYSTEM
-#if defined(__FreeBSD__)
+#ifdef __FreeBSD__
   std::string ret("unknown");
   unsigned int n;
   char buffer[PATH_MAX] = {};
@@ -375,7 +375,7 @@ std::string getProcessPath() {
   return ret.substr(0, idxLastSeparator);
 #else
   try {
-#if defined(_WIN32)
+#ifdef _WIN32
     TCHAR pathbuf[MAX_PATH];
     GetModuleFileName(nullptr, pathbuf, MAX_PATH);
     auto path = fs::path(pathbuf);

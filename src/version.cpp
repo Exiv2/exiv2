@@ -214,7 +214,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
 #endif
 
   const char* compiler =
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
       "MSVC";
 
 #ifndef __VERSION__
@@ -266,7 +266,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
 #endif
 
   const char* platform =
-#if defined(__MSYS__)
+#ifdef __MSYS__
       "msys";
 #elif defined(__CYGWIN__)
       "cygwin";
