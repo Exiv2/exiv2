@@ -94,8 +94,7 @@ size_t TypeInfo::typeSize(TypeId typeId) {
 DataBuf::DataBuf(size_t size) : pData_(size) {
 }
 
-DataBuf::DataBuf(const byte* pData, size_t size) : pData_(size) {
-  std::copy_n(pData, size, pData_.begin());
+DataBuf::DataBuf(const byte* pData, size_t size) : pData_(pData, pData + size) {
 }
 
 void DataBuf::alloc(size_t size) {
