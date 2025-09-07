@@ -1042,7 +1042,7 @@ size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
     if (rcount == 0) {
       throw Error(ErrorCode::kerErrorMessage, "Data By Range is empty. Please check the permission.");
     }
-    auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
+    auto source = reinterpret_cast<const byte*>(data.c_str());
     size_t remain = rcount;
     size_t totalRead = 0;
     size_t iBlock = (rcount == size_) ? 0 : lowBlock;
@@ -1078,7 +1078,7 @@ int RemoteIo::open() {
       p_->size_ = data.length();
       size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
       p_->blocksMap_ = std::make_unique<BlockMap[]>(nBlocks);
-      auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
+      auto source = reinterpret_cast<const byte*>(data.c_str());
       size_t remain = p_->size_;
       size_t iBlock = 0;
       size_t totalRead = 0;
