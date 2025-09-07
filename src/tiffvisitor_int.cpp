@@ -582,12 +582,12 @@ void TiffEncoder::visitDirectoryNext(TiffDirectory* object) {
   // Update type and count in IFD entries, in case they changed
   byte* p = object->start() + 2;
   for (const auto& component : object->components_) {
-    p += updateDirEntry(p, byteOrder(), component.get());
+    p += updateDirEntry(p, byteOrder(), component);
   }
 }
 
-uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent) {
-  auto pTiffEntry = dynamic_cast<const TiffEntryBase*>(pTiffComponent);
+uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, const TiffComponent::UniquePtr& tiffComponent) {
+  auto pTiffEntry = dynamic_cast<const TiffEntryBase*>(tiffComponent.get());
   if (!pTiffEntry)
     return 0;
   us2Data(buf + 2, pTiffEntry->tiffType(), byteOrder);
