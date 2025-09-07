@@ -472,18 +472,18 @@ CiffComponent* CiffHeader::findComponent(uint16_t crwTagId, uint16_t crwDir) con
   return pRootDir_->findComponent(crwTagId, crwDir);
 }  // CiffHeader::findComponent
 
-CiffComponent* CiffComponent::findComponent(uint16_t crwTagId, uint16_t crwDir) const {
+CiffComponent* CiffComponent::findComponent(uint16_t crwTagId, uint16_t crwDir) {
   return doFindComponent(crwTagId, crwDir);
 }  // CiffComponent::findComponent
 
-CiffComponent* CiffComponent::doFindComponent(uint16_t crwTagId, uint16_t crwDir) const {
+CiffComponent* CiffComponent::doFindComponent(uint16_t crwTagId, uint16_t crwDir) {
   if (tagId() == crwTagId && dir() == crwDir) {
-    return const_cast<CiffComponent*>(this);
+    return this;
   }
   return nullptr;
 }  // CiffComponent::doFindComponent
 
-CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId, uint16_t crwDir) const {
+CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId, uint16_t crwDir) {
   for (auto&& component : components_) {
     if (auto cc = component->findComponent(crwTagId, crwDir))
       return cc;
