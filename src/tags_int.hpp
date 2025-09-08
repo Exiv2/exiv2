@@ -7,6 +7,8 @@
 // included header files
 #include "tags.hpp"
 
+#include "i18n.h"
+
 // *****************************************************************************
 // namespace extensions
 
@@ -94,7 +96,7 @@ template <size_t N, const StringTagDetails (&array)[N]>
 std::ostream& printTagString(std::ostream& os, std::string_view value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTagString");
   if (auto td = Exiv2::find(array, value)) {
-    os << exvGettext(td->label_);
+    os << _(td->label_);
   } else {
     os << "(" << value << ")";
   }
@@ -154,7 +156,7 @@ template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTagNoError(std::ostream& os, const int64_t value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTagNoError");
   if (auto td = Exiv2::find(array, value)) {
-    os << exvGettext(td->label_);
+    os << _(td->label_);
   } else {
     os << value;
   }
@@ -182,7 +184,7 @@ template <size_t N, const TagDetails (&array)[N]>
 std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTag");
   if (auto td = Exiv2::find(array, value)) {
-    os << exvGettext(td->label_);
+    os << _(td->label_);
   } else {
     os << "(" << value << ")";
   }
@@ -213,15 +215,15 @@ std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifDa
   if (val == 0) {
     auto [mask, label] = *array;
     if (mask == 0)
-      return os << exvGettext(label);
+      return os << _(label);
   }
   bool sep = false;
   for (auto [mask, label] : array) {
     if (val & mask) {
       if (sep) {
-        os << ", " << exvGettext(label);
+        os << ", " << _(label);
       } else {
-        os << exvGettext(label);
+        os << _(label);
         sep = true;
       }
     }
@@ -274,9 +276,9 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
         if (currentVNBit == bit) {
           lastArrayPos = k;
           if (useSep) {
-            os << ", " << exvGettext(label);
+            os << ", " << _(label);
           } else {
-            os << exvGettext(label);
+            os << _(label);
             useSep = true;
           }
           break;
@@ -285,7 +287,7 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
     }
   }
   if (allVNZero)
-    os << exvGettext("None");
+    os << _("None");
   return os;
 }
 
@@ -300,7 +302,7 @@ template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTagVocabulary");
   if (auto td = Exiv2::find(array, value.toString())) {
-    os << exvGettext(td->label_);
+    os << _(td->label_);
   } else {
     os << "(" << value << ")";
   }
@@ -323,7 +325,7 @@ std::ostream& printTagVocabularyMulti(std::ostream& os, const Value& value, cons
       os << ", ";
     auto td = Exiv2::find(array, value.toString(i));
     if (td) {
-      os << exvGettext(td->label_);
+      os << _(td->label_);
     } else {
       os << "(" << value.toString(i) << ")";
     }
