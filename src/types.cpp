@@ -534,7 +534,24 @@ int exifTime(const char* buf, tm* tm) {
 
 const char* exvGettext(const char* str) {
 #ifdef EXV_ENABLE_NLS
-  return _exvGettext(str);
+  static bool exvGettextInitialized = false;
+
+  if (!exvGettextInitialized) {
+    // bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
+    auto localeDir = []() -> std::string {
+      fs::path ret = EXV_LOCALEDIR;
+      if constexpr (EXV_LOCALEDIR[0] != '/')
+        ret = fs::path(Exiv2::getProcessPath()) / EXV_LOCALEDIR;
+      return ret.string();
+    }();
+    bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
+#ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
+    bind_textdomain_codeset(EXV_PACKAGE_NAME, "UTF-8");
+#endif
+    exvGettextInitialized = true;
+  }
+
+  return dgettext(EXV_PACKAGE_NAME, str);
 #else
   return str;
 #endif
@@ -660,27 +677,3 @@ Rational floatToRationalCast(float f) {
 }
 
 }  // namespace Exiv2
-
-#ifdef EXV_ENABLE_NLS
-// Declaration is in i18n.h
-const char* _exvGettext(const char* str) {
-  static bool exvGettextInitialized = false;
-
-  if (!exvGettextInitialized) {
-    // bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
-    auto localeDir = []() -> std::string {
-      fs::path ret = EXV_LOCALEDIR;
-      if constexpr (EXV_LOCALEDIR[0] != '/')
-        ret = fs::path(Exiv2::getProcessPath()) / EXV_LOCALEDIR;
-      return ret.string();
-    }();
-    bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
-#ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
-    bind_textdomain_codeset(EXV_PACKAGE_NAME, "UTF-8");
-#endif
-    exvGettextInitialized = true;
-  }
-
-  return dgettext(EXV_PACKAGE_NAME, str);
-}
-#endif  // EXV_ENABLE_NLS
