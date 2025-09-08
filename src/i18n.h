@@ -32,9 +32,6 @@
 #ifdef EXV_ENABLE_NLS
 #include "types.hpp"
 
-// Definition is in types.cpp
-const char* _exvGettext(const char* str);
-
 #define _(String) Exiv2::exvGettext(String)
 #define N_(String) String
 
