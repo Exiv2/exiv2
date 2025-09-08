@@ -293,7 +293,7 @@ static std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value,
   auto fps = valint >> 24;
 
   if (auto setting = Exiv2::find(fujiDriveSettingByte1, byte1)) {
-    os << exvGettext(setting->label_);
+    os << _(setting->label_);
   } else {
     os << "(" << +byte1 << ")";
   }
@@ -435,7 +435,7 @@ static std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& va
         os << " ";
       }
       if (auto td = Exiv2::find(fujiFaceElementType, longValue)) {
-        os << exvGettext(td->label_);
+        os << _(td->label_);
       } else {
         os << "(" << value.toInt64(n) << ")";
       }

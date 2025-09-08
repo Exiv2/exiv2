@@ -3896,11 +3896,16 @@ std::ostream& Nikon3MakerNote::print0x009e(std::ostream& os, const Value& value,
       continue;
     if (l != 0)
       trim = false;
-    std::string d = s.empty() ? "" : "; ";
-    if (auto td = Exiv2::find(nikonRetouchHistory, l)) {
-      s = std::string(exvGettext(td->label_)).append(d).append(s);
+    if (s.empty()) {
+      if (auto td = Exiv2::find(nikonRetouchHistory, l))
+        s = stringFormat("{}{}", _(td->label_), s);
+      else
+        s = stringFormat("{} ({}) {}", _("Unknown"), l, s);
     } else {
-      s = std::string(_("Unknown")).append(" (").append(std::to_string(l)).append(")").append(d).append(s);
+      if (auto td = Exiv2::find(nikonRetouchHistory, l))
+        s = stringFormat("{}; {}", _(td->label_), s);
+      else
+        s = stringFormat("{} ({}) ; {}", _("Unknown"), l, s);
     }
   }
   return os << s;

@@ -1674,7 +1674,7 @@ static bool inRange(long value, long min, long max) {
 static std::ostream& resolvedLens(std::ostream& os, long lensID, long index) {
   auto td = Exiv2::find(minoltaSonyLensID, lensID);
   std::vector<std::string> tokens = split(td[0].label_, "|");
-  return os << exvGettext(trim(tokens.at(index - 1)).c_str());
+  return os << _(trim(tokens.at(index - 1)).c_str());
 }
 
 static std::ostream& resolveLens0x1c(std::ostream& os, const Value& value, const ExifData* metadata) {
