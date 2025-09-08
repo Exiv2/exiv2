@@ -21,8 +21,9 @@
 #include <cstring>
 #include <iostream>
 
+#ifdef EXIV2_DEBUG_MESSAGES
 namespace {
-[[maybe_unused]] std::string binaryToHex(const uint8_t* data, size_t size) {
+std::string binaryToHex(const uint8_t* data, size_t size) {
   std::stringstream hexOutput;
 
   auto tl = size / 16 * 16;
@@ -67,6 +68,7 @@ namespace {
   return hexOutput.str();
 }
 }  // namespace
+#endif
 
 // *****************************************************************************
 // class member definitions
