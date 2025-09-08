@@ -22,7 +22,7 @@ jobs:
       - name: Install meson
         run: python3 -m pip install meson ninja
       - name: Install dependencies
-        run: sudo apt install -y libcurl4-openssl-dev libbrotli-dev libz-dev gettext
+        run: sudo apt install -y cmake libcurl4-openssl-dev libbrotli-dev libexpat-dev libfmt-dev libinih-dev libz-dev gettext
       - name: Compile and Test
         run: |
           meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
@@ -33,7 +33,7 @@ jobs:
     name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['11', '20']
+        cxx: ['11', '21']
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v5
