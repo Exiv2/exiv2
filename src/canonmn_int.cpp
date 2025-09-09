@@ -2124,6 +2124,7 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 50mm F1.4 L VCM"},
     {61182, "Canon RF 24mm F1.4 L VCM"},
     {61182, "Canon RF 20mm F1.4 L VCM"},
+    {61182, "Canon RF 85mm F1.4 L VCM"},
     {65535, N_("n/a")},
 };
 
@@ -2615,6 +2616,7 @@ constexpr TagDetails canonRFLensType[] = {
     {325, "Canon RF 50mm F1.4 L VCM"},
     {326, "Canon RF 24mm F1.4 L VCM"},
     {327, "Canon RF 20mm F1.4 L VCM"},
+    {328, "Canon RF 85mm F1.4 L VCM"},
 };
 
 // Canon File Info Tag
