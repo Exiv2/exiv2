@@ -586,8 +586,8 @@ void TiffEncoder::visitDirectoryNext(TiffDirectory* object) {
   }
 }
 
-uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, const TiffComponent::UniquePtr& tiffComponent) {
-  auto pTiffEntry = dynamic_cast<const TiffEntryBase*>(tiffComponent.get());
+uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, const TiffComponent::SharedPtr& tiffComponent) {
+  auto pTiffEntry = std::dynamic_pointer_cast<TiffEntryBase>(tiffComponent);
   if (!pTiffEntry)
     return 0;
   us2Data(buf + 2, pTiffEntry->tiffType(), byteOrder);
