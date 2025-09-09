@@ -267,6 +267,7 @@ constexpr TagDetails canonModelId[] = {
     {0x03970000, "PowerShot G7 X Mark II"},
     {0x03980000, "EOS M100"},
     {0x03990000, "PowerShot ELPH 360 HS / IXUS 285 HS / IXY 650"},
+    {0x40000227, "EOS C50"},
     {0x04010000, "PowerShot SX540 HS"},
     {0x04020000, "PowerShot SX420 IS"},
     {0x04030000, "PowerShot ELPH 190 IS / IXUS 180 / IXY 190"},
