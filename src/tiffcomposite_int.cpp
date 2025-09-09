@@ -540,39 +540,38 @@ TiffComponent* TiffBinaryArray::doAddPath(uint16_t tag, TiffPath& tiffPath, Tiff
   return tc->addPath(tag, tiffPath, pRoot, std::move(object));
 }  // TiffBinaryArray::doAddPath
 
-TiffComponent* TiffComponent::addChild(TiffComponent::UniquePtr tiffComponent) {
+TiffComponent* TiffComponent::addChild(TiffComponent::SharedPtr tiffComponent) {
   return doAddChild(std::move(tiffComponent));
 }  // TiffComponent::addChild
 
-TiffComponent* TiffComponent::doAddChild(UniquePtr /*tiffComponent*/) {
+TiffComponent* TiffComponent::doAddChild(SharedPtr /*tiffComponent*/) {
   return nullptr;
 }  // TiffComponent::doAddChild
 
-TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent) {
+TiffComponent* TiffDirectory::doAddChild(TiffComponent::SharedPtr tiffComponent) {
   return components_.emplace_back(std::move(tiffComponent)).get();
 }  // TiffDirectory::doAddChild
 
-TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  auto d = dynamic_cast<TiffDirectory*>(tiffComponent.get());
-  if (!d) {
-    throw Error(ErrorCode::kerErrorMessage, "dynamic_cast to TiffDirectory failed");
-  }
-  tiffComponent.release();  // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
-  return ifds_.emplace_back(d).get();
+TiffComponent* TiffSubIfd::doAddChild(TiffComponent::SharedPtr tiffComponent) {
+  auto d = std::dynamic_pointer_cast<TiffDirectory>(std::move(tiffComponent));
+  if (!d)
+    throw Error(ErrorCode::kerErrorMessage, "dynamic_pointer_cast to TiffDirectory failed");
+
+  return ifds_.emplace_back(std::move(d)).get();
 }  // TiffSubIfd::doAddChild
 
-TiffComponent* TiffMnEntry::doAddChild(TiffComponent::UniquePtr tiffComponent) {
+TiffComponent* TiffMnEntry::doAddChild(TiffComponent::SharedPtr tiffComponent) {
   if (mn_) {
     return mn_->addChild(std::move(tiffComponent));
   }
   return nullptr;
 }  // TiffMnEntry::doAddChild
 
-TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::UniquePtr tiffComponent) {
+TiffComponent* TiffIfdMakernote::doAddChild(TiffComponent::SharedPtr tiffComponent) {
   return ifd_.addChild(std::move(tiffComponent));
 }
 
-TiffComponent* TiffBinaryArray::doAddChild(TiffComponent::UniquePtr tiffComponent) {
+TiffComponent* TiffBinaryArray::doAddChild(TiffComponent::SharedPtr tiffComponent) {
   setDecoded(true);
   return elements_.emplace_back(std::move(tiffComponent)).get();
 }  // TiffBinaryArray::doAddChild
@@ -1454,7 +1453,7 @@ TiffType toTiffType(TypeId typeId) {
   return static_cast<TiffType>(typeId);
 }
 
-bool cmpTagLt(const TiffComponent::UniquePtr& lhs, const TiffComponent::UniquePtr& rhs) {
+bool cmpTagLt(const TiffComponent::SharedPtr& lhs, const TiffComponent::SharedPtr& rhs) {
   if (lhs->tag() != rhs->tag())
     return lhs->tag() < rhs->tag();
   return lhs->idx() < rhs->idx();

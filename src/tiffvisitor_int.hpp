@@ -483,7 +483,7 @@ class TiffEncoder : public TiffVisitor {
            entries are encoded. It takes care of type and count changes
            and size shrinkage for non-intrusive writing.
    */
-  static uint32_t updateDirEntry(byte* buf, ByteOrder byteOrder, const TiffComponent::UniquePtr& tiffComponent);
+  static uint32_t updateDirEntry(byte* buf, ByteOrder byteOrder, const TiffComponent::SharedPtr& tiffComponent);
   /*!
     @brief Check if the tag is an image tag of an existing image. Such
            tags are copied from the original image and can't be modified.
