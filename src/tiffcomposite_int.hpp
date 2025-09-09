@@ -153,8 +153,9 @@ class TiffComponent {
  public:
   //! TiffComponent auto_ptr type
   using UniquePtr = std::unique_ptr<TiffComponent>;
+  using SharedPtr = std::shared_ptr<TiffComponent>;
   //! Container type to hold all metadata
-  using Components = std::vector<UniquePtr>;
+  using Components = std::vector<SharedPtr>;
 
   //! @name Creators
   //@{
@@ -185,7 +186,7 @@ class TiffComponent {
     @param tiffComponent Auto pointer to the component to add.
     @return Return a pointer to the newly added child element or 0.
    */
-  TiffComponent* addChild(UniquePtr tiffComponent);
+  TiffComponent* addChild(SharedPtr tiffComponent);
   /*!
       @brief Add a "next" component to the component. Default is to do
              nothing.
@@ -295,7 +296,7 @@ class TiffComponent {
   //! Implements addPath(). The default implementation does nothing.
   virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object);
   //! Implements addChild(). The default implementation does nothing.
-  virtual TiffComponent* doAddChild(UniquePtr tiffComponent);
+  virtual TiffComponent* doAddChild(SharedPtr tiffComponent);
   //! Implements addNext(). The default implementation does nothing.
   virtual TiffComponent* doAddNext(UniquePtr tiffComponent);
   //! Implements accept().
@@ -853,7 +854,7 @@ class TiffDirectory : public TiffComponent {
   //! @name Protected Manipulators
   //@{
   TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
-  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
   TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   /*!
@@ -952,7 +953,7 @@ class TiffSubIfd : public TiffEntryBase {
   //! @name Protected Manipulators
   //@{
   TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
-  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
   /*!
@@ -988,7 +989,7 @@ class TiffSubIfd : public TiffEntryBase {
 
  private:
   //! A collection of TIFF directories (IFDs)
-  using Ifds = std::vector<std::unique_ptr<TiffDirectory>>;
+  using Ifds = std::vector<std::shared_ptr<TiffDirectory>>;
 
   // DATA
   IfdId newGroup_;  //!< Start of the range of group numbers for the sub-IFDs
@@ -1019,7 +1020,7 @@ class TiffMnEntry : public TiffEntryBase {
   //! @name Protected Manipulators
   //@{
   TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
-  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
   TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
@@ -1145,7 +1146,7 @@ class TiffIfdMakernote : public TiffComponent {
   //! @name Protected Manipulators
   //@{
   TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
-  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
   TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   /*!
@@ -1348,7 +1349,7 @@ class TiffBinaryArray : public TiffEntryBase {
   /*!
     @brief Implements addChild(). Todo: Document it!
    */
-  TiffComponent* doAddChild(UniquePtr tiffComponent) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
   /*!
@@ -1471,7 +1472,7 @@ class TiffBinaryElement : public TiffEntryBase {
   @brief Compare two TIFF component pointers by tag. Return true if the tag
          of component lhs is less than that of rhs.
  */
-bool cmpTagLt(const TiffComponent::UniquePtr& lhs, const TiffComponent::UniquePtr& rhs);
+bool cmpTagLt(const TiffComponent::SharedPtr& lhs, const TiffComponent::SharedPtr& rhs);
 
 //! Function to create and initialize a new TIFF entry
 TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group);
