@@ -553,10 +553,11 @@ TiffComponent* TiffDirectory::doAddChild(TiffComponent::UniquePtr tiffComponent)
 }  // TiffDirectory::doAddChild
 
 TiffComponent* TiffSubIfd::doAddChild(TiffComponent::UniquePtr tiffComponent) {
-  auto d = dynamic_cast<TiffDirectory*>(tiffComponent.release());
+  auto d = dynamic_cast<TiffDirectory*>(tiffComponent.get());
   if (!d) {
     throw Error(ErrorCode::kerErrorMessage, "dynamic_cast to TiffDirectory failed");
   }
+  tiffComponent.release();  // NOLINT(clang-analyzer-cplusplus.NewDeleteLeaks)
   return ifds_.emplace_back(d).get();
 }  // TiffSubIfd::doAddChild
 
