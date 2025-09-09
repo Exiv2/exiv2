@@ -228,7 +228,7 @@ class CiffComponent {
     @brief Finds \em crwTagId in directory \em crwDir, returning a pointer to
            the component or 0 if not found.
    */
-  [[nodiscard]] CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir) const;
+  [[nodiscard]] CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir);
   //@}
 
  protected:
@@ -263,7 +263,7 @@ class CiffComponent {
   //! Implements empty(). Default implementation returns true if size is 0.
   [[nodiscard]] virtual bool doEmpty() const;
   //! Implements findComponent(). The default implementation checks the entry.
-  [[nodiscard]] virtual CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const;
+  [[nodiscard]] virtual CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir);
   //@}
 
  private:
@@ -360,7 +360,7 @@ class CiffDirectory : public CiffComponent {
   [[nodiscard]] bool doEmpty() const override;
 
   // See base class comment
-  [[nodiscard]] CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const override;
+  [[nodiscard]] CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) override;
   //@}
 
   // DATA

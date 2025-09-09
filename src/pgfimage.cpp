@@ -254,8 +254,7 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
   if (bufRead != header.size())
     throw Error(ErrorCode::kerInputDataReadFailed);
 
-  DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
-  std::copy_n(header.begin(), work.size(), work.begin());
+  DataBuf work(header.data(), 8);  // don't disturb the binary data - doWriteMetadata reuses it
   width = byteSwap_(work, 0, bSwap_);
   height = byteSwap_(work, 4, bSwap_);
 

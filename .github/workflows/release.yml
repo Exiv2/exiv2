@@ -194,7 +194,7 @@ jobs:
 
       - name: Cleanup old nightly
         if: env.TAG_NAME == 'nightly'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             try{

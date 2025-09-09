@@ -655,7 +655,7 @@ class EXIV2API MemIo : public BasicIo {
 /*!
   @brief Provides binary IO for the data from stdin and data uri path.
  */
-#if defined(EXV_ENABLE_FILESYSTEM)
+#ifdef EXV_ENABLE_FILESYSTEM
 class EXIV2API XPathIo : public FileIo {
  public:
   /*!

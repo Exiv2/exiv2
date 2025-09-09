@@ -63,7 +63,7 @@ if not cdata.get('EXV_HAVE_STD_FORMAT')
   deps += fmt_dep
 endif
 
-brotli_dep = dependency('libbrotlidec', disabler: true, required: false)
+brotli_dep = dependency('libbrotlidec', disabler: true, required: get_option('brotli'))
 if brotli_dep.found()
   deps += brotli_dep
 endif

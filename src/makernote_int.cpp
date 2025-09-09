@@ -21,7 +21,7 @@
 #include <filesystem>
 namespace fs = std::filesystem;
 
-#if !defined(_WIN32)
+#ifndef _WIN32
 #include <pwd.h>
 #include <unistd.h>
 #else
