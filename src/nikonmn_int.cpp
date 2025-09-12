@@ -3885,30 +3885,31 @@ std::ostream& Nikon3MakerNote::print0x009a(std::ostream& os, const Value& value,
 }
 
 std::ostream& Nikon3MakerNote::print0x009e(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 10 || value.typeId() != unsignedShort) {
+  if (value.count() != 10 || value.typeId() != unsignedShort)
     return os << value;
-  }
-  std::string s;
+
+  std::vector<std::string> sv;
   bool trim = true;
+
   for (int i = 9; i >= 0; --i) {
     const auto l = value.toInt64(i);
     if (i > 0 && l == 0 && trim)
       continue;
     if (l != 0)
       trim = false;
-    if (s.empty()) {
-      if (auto td = Exiv2::find(nikonRetouchHistory, l))
-        s = stringFormat("{}{}", _(td->label_), s);
-      else
-        s = stringFormat("{} ({}) {}", _("Unknown"), l, s);
-    } else {
-      if (auto td = Exiv2::find(nikonRetouchHistory, l))
-        s = stringFormat("{}; {}", _(td->label_), s);
-      else
-        s = stringFormat("{} ({}) ; {}", _("Unknown"), l, s);
-    }
+
+    if (auto td = Exiv2::find(nikonRetouchHistory, l))
+      sv.emplace_back(_(td->label_));
+    else
+      sv.emplace_back(stringFormat("{} ({})", _("Unknown"), l));
   }
-  return os << s;
+
+  if (!sv.empty()) {
+    std::copy(sv.begin(), sv.end() - 1, std::ostream_iterator<std::string>(os, "; "));
+    os << sv.back();
+  }
+
+  return os;
 }
 
 std::ostream& Nikon3MakerNote::printApertureLd4(std::ostream& os, const Value& value, const ExifData*) {
