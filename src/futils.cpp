@@ -93,8 +93,18 @@ std::string getEnv(int env_var) {
   // this check is relying on undefined behavior and might not be effective
   if (env_var < envHTTPPOST || env_var > envTIMEOUT)
     throw std::out_of_range("Unexpected env variable");
+#ifdef _WIN32
+  char* buf = nullptr;
+  size_t len;
+  if (_dupenv_s(&buf, &len, ENVARKEY[env_var]) == 0 && buf) {
+    auto ret = std::string(buf);
+    free(buf);
+    return ret;
+  }
+#else
   if (auto val = std::getenv(ENVARKEY[env_var]))
     return val;
+#endif
   return ENVARDEF[env_var];
 }
 
