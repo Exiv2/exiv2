@@ -58,7 +58,7 @@ namespace fs = std::filesystem;
 
 #endif
 
-namespace Exiv2 {
+namespace {
 constexpr std::array ENVARDEF{
     "/exiv2.php",
     "40",
@@ -68,6 +68,25 @@ constexpr std::array ENVARKEY{
     "EXIV2_TIMEOUT",
 };  /// @brief request keys for http exiv2 handler and time-out
 
+/// @brief Convert an integer value to its hex character.
+char to_hex(char code) {
+  static const char hex[] = "0123456789abcdef";
+  return hex[code & 15];
+}
+
+/// @brief Convert a hex character to its integer value.
+char from_hex(char ch) {
+  return 0xF & (isdigit(ch) ? ch - '0' : static_cast<char>(tolower(ch)) - 'a' + 10);
+}
+
+constexpr char base64_encode[] = {
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+    'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/',
+};
+}  // namespace
+
+namespace Exiv2 {
 // *****************************************************************************
 // free functions
 std::string getEnv(int env_var) {
@@ -76,17 +95,6 @@ std::string getEnv(int env_var) {
     throw std::out_of_range("Unexpected env variable");
   }
   return getenv(ENVARKEY[env_var]) ? getenv(ENVARKEY[env_var]) : ENVARDEF[env_var];
-}
-
-/// @brief Convert an integer value to its hex character.
-static char to_hex(char code) {
-  static const char hex[] = "0123456789abcdef";
-  return hex[code & 15];
-}
-
-/// @brief Convert a hex character to its integer value.
-static char from_hex(char ch) {
-  return 0xF & (isdigit(ch) ? ch - '0' : static_cast<char>(tolower(ch)) - 'a' + 10);
 }
 
 std::string urlencode(const std::string& str) {
@@ -128,11 +136,6 @@ void urldecode(std::string& str) {
 }
 
 // https://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c
-static constexpr char base64_encode[] = {
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-    'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'};
-
 int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
   auto encoding_table = base64_encode;
 
