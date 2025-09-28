@@ -91,10 +91,11 @@ namespace Exiv2 {
 // free functions
 std::string getEnv(int env_var) {
   // this check is relying on undefined behavior and might not be effective
-  if (env_var < envHTTPPOST || env_var > envTIMEOUT) {
+  if (env_var < envHTTPPOST || env_var > envTIMEOUT)
     throw std::out_of_range("Unexpected env variable");
-  }
-  return getenv(ENVARKEY[env_var]) ? getenv(ENVARKEY[env_var]) : ENVARDEF[env_var];
+  if (auto val = std::getenv(ENVARKEY[env_var]))
+    return val;
+  return ENVARDEF[env_var];
 }
 
 std::string urlencode(const std::string& str) {
