@@ -86,8 +86,8 @@ jobs:
     strategy:
       matrix:
         runner:
-          - { os: macos-13,     arch: X64   }
-          - { os: macos-latest, arch: ARM64 }
+          - { os: macos-15-intel, arch: X64   }
+          - { os: macos-latest,   arch: ARM64 }
 
     steps:
       - uses: actions/checkout@v5
@@ -95,11 +95,6 @@ jobs:
       - name: Install dependencies
         run: |
           brew install ninja inih googletest
-
-      - name: Install fmt on macOS 13
-        if: ${{ matrix.runner.os == 'macos-13' }}
-        run: |
-          brew install fmt
 
       - name: Build
         run: |
