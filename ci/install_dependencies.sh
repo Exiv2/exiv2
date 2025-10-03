@@ -30,7 +30,7 @@ distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
     'fedora')
-        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel gmock-devel glibc-langpack-en inih-devel fmt-devel
+        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel gmock-devel glibc-langpack-en
         ;;
 
     'debian')
