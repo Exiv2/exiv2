@@ -20,17 +20,6 @@ debian_build_gtest() {
     cd ..
 }
 
-# Centos doesn't have a working version of the inih library, so we need to build it ourselves.
-centos_build_inih() {
-    [-d inih_build ] || git clone https://github.com/benhoyt/inih.git inih_build
-    cd inih_build
-    git checkout r58
-    meson --buildtype=plain builddir
-    meson compile -C builddir
-    meson install -C builddir
-    cd ..
-}
-
 # workaround for really bare-bones Archlinux containers:
 if [ -x "$(command -v pacman)" ]; then
     pacman --noconfirm -Sy
@@ -68,14 +57,13 @@ case "$distro_id" in
 
     'rhel')
         dnf clean all
-        dnf -y install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel fmt-devel
+        dnf -y install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
         ;;
 
     'centos')
         dnf clean all
-        dnf -y install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel git fmt-devel
-        dnf -y --enablerepo=crb install ninja-build meson
-        centos_build_inih
+        dnf -y install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
+        dnf -y --enablerepo=crb install ninja-build
         ;;
 
     'opensuse-tumbleweed')
