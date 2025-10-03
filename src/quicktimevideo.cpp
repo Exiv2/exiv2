@@ -766,11 +766,11 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.CleanApertureWidth"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.CleanApertureHeight"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
     }
 
     else if (equalsQTimeTag(buf, "prof")) {
@@ -778,11 +778,11 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.ProductionApertureWidth"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.ProductionApertureHeight"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
     }
 
     else if (equalsQTimeTag(buf, "enof")) {
@@ -790,11 +790,11 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.EncodedPixelsWidth"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       xmpData_["Xmp.video.EncodedPixelsHeight"] =
-          Exiv2::toString(buf.read_uint16(0, bigEndian)) + "." + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+          stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
     }
   }
   io_->seek(cur_pos + size, BasicIo::beg);
@@ -810,11 +810,11 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
     io_->seek(cur_pos, BasicIo::beg);
 
     io_->readOrThrow(buf.data(), 24);
-    xmpData_["Xmp.video.Make"] = Exiv2::toString(buf.data());
+    xmpData_["Xmp.video.Make"] = buf.data();
     io_->readOrThrow(buf.data(), 14);
-    xmpData_["Xmp.video.Model"] = Exiv2::toString(buf.data());
+    xmpData_["Xmp.video.Model"] = buf.data();
     io_->readOrThrow(buf.data(), 4);
-    xmpData_["Xmp.video.ExposureTime"] = "1/" + Exiv2::toString(ceil(buf.read_uint32(0, littleEndian) / 10.0));
+    xmpData_["Xmp.video.ExposureTime"] = stringFormat("1/{}", std::ceil(buf.read_uint32(0, littleEndian) / 10.0));
     io_->readOrThrow(buf.data(), 4);
     io_->readOrThrow(buf2.data(), 4);
     xmpData_["Xmp.video.FNumber"] =
@@ -834,7 +834,7 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
     io_->seek(95L, BasicIo::cur);
     io_->readOrThrow(buf.data(), 48);
     buf.write_uint8(48, 0);
-    xmpData_["Xmp.video.Software"] = Exiv2::toString(buf.data());
+    xmpData_["Xmp.video.Software"] = buf.data();
     io_->readOrThrow(buf.data(), 4);
     xmpData_["Xmp.video.ISO"] = buf.read_uint32(0, littleEndian);
   }
@@ -896,7 +896,7 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
       if (tv_internal)
         xmpData_[_(tv->label_)] = _(tv_internal->label_);
       else
-        xmpData_[_(tv->label_)] = Exiv2::toString(buf.data());
+        xmpData_[_(tv->label_)] = buf.data();
     }
 
     else if (tv) {
@@ -938,11 +938,11 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       std::memset(buf.data(), 0x0, buf.size());
 
       io_->readOrThrow(buf.data(), 4);
-      xmpData_["Xmp.video.PictureControlVersion"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.video.PictureControlVersion"] = buf.data();
       io_->readOrThrow(buf.data(), 20);
-      xmpData_["Xmp.video.PictureControlName"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.video.PictureControlName"] = buf.data();
       io_->readOrThrow(buf.data(), 20);
-      xmpData_["Xmp.video.PictureControlBase"] = Exiv2::toString(buf.data());
+      xmpData_["Xmp.video.PictureControlBase"] = buf.data();
       io_->readOrThrow(buf.data(), 4);
       std::memset(buf.data(), 0x0, buf.size());
 
@@ -1047,14 +1047,14 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       }
 
       if (td) {
-        xmpData_[_(td->label_)] = Exiv2::toString(buf.data());
+        xmpData_[_(td->label_)] = buf.data();
       }
     } else if (dataType == 4) {
       dataLength = buf.read_uint16(0, bigEndian) * 4;
       std::memset(buf.data(), 0x0, buf.size());
       io_->readOrThrow(buf.data(), 4);
       if (td)
-        xmpData_[_(td->label_)] = Exiv2::toString(buf.read_uint32(0, bigEndian));
+        xmpData_[_(td->label_)] = buf.read_uint32(0, bigEndian);
 
       // Sanity check with an "unreasonably" large number
       if (dataLength > 200 || dataLength < 4) {
@@ -1070,7 +1070,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       std::memset(buf.data(), 0x0, buf.size());
       io_->readOrThrow(buf.data(), 2);
       if (td)
-        xmpData_[_(td->label_)] = Exiv2::toString(buf.read_uint16(0, bigEndian));
+        xmpData_[_(td->label_)] = buf.read_uint16(0, bigEndian);
 
       // Sanity check with an "unreasonably" large number
       if (dataLength > 200 || dataLength < 2) {
@@ -1105,8 +1105,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
       io_->readOrThrow(buf.data(), 2);
       io_->readOrThrow(buf2.data(), 2);
       if (td)
-        xmpData_[_(td->label_)] =
-            Exiv2::toString(buf.read_uint16(0, bigEndian)) + " " + Exiv2::toString(buf2.read_uint16(0, bigEndian));
+        xmpData_[_(td->label_)] = stringFormat("{}.{}", buf.read_uint16(0, bigEndian), buf2.read_uint16(0, bigEndian));
 
       // Sanity check with an "unreasonably" large number
       if (dataLength > 200 || dataLength < 4) {
@@ -1207,7 +1206,7 @@ void QuickTimeVideo::audioDescDecoder() {
         if (td)
           xmpData_["Xmp.audio.Compressor"] = _(td->label_);
         else
-          xmpData_["Xmp.audio.Compressor"] = Exiv2::toString(buf.data());
+          xmpData_["Xmp.audio.Compressor"] = buf.data();
         break;
       case AudioVendorID:
         td = Exiv2::find(vendorIDTags, Exiv2::toString(buf.data()));
@@ -1247,7 +1246,7 @@ void QuickTimeVideo::imageDescDecoder() {
         if (td)
           xmpData_["Xmp.video.Codec"] = _(td->label_);
         else
-          xmpData_["Xmp.video.Codec"] = Exiv2::toString(buf.data());
+          xmpData_["Xmp.video.Codec"] = buf.data();
         break;
       case VendorID:
         td = Exiv2::find(vendorIDTags, Exiv2::toString(buf.data()));
@@ -1271,7 +1270,7 @@ void QuickTimeVideo::imageDescDecoder() {
       case CompressorName:
         io_->readOrThrow(buf.data(), 32);
         size -= 32;
-        xmpData_["Xmp.video.Compressor"] = Exiv2::toString(buf.data());
+        xmpData_["Xmp.video.Compressor"] = buf.data();
         break;
       default:
         break;
