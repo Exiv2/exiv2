@@ -8,6 +8,8 @@
 
 // included header files
 #include "riffvideo.hpp"
+#include "basicio.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"

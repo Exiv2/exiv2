@@ -19,14 +19,13 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
+#include "matroskavideo.hpp"
 #include "basicio.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
-#include "matroskavideo.hpp"
 
 // + standard includes
 #include <cmath>

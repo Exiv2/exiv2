@@ -7,7 +7,10 @@
 #include "exiv2lib_export.h"
 
 // included header files
-#include "value.hpp"
+#include "types.hpp"
+
+#include <cstdint>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -15,6 +18,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 class ExifData;
+class Value;
 
 // *****************************************************************************
 // class definitions
@@ -236,7 +240,7 @@ class EXIV2API Metadatum {
     @return An auto-pointer containing a pointer to a copy (clone) of the
             value, 0 if the value is not set.
    */
-  [[nodiscard]] virtual Value::UniquePtr getValue() const = 0;
+  [[nodiscard]] virtual std::unique_ptr<Value> getValue() const = 0;
   /*!
     @brief Return a constant reference to the value.
 

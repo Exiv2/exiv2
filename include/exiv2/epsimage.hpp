@@ -54,7 +54,7 @@ class EXIV2API EpsImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  EpsImage(BasicIo::UniquePtr io, bool create);
+  EpsImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -84,7 +84,7 @@ class EXIV2API EpsImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newEpsInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a EPS image.
 EXIV2API bool isEpsType(BasicIo& iIo, bool advance);

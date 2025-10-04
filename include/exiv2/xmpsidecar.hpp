@@ -35,7 +35,7 @@ class EXIV2API XmpSidecar : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new image should be created (true).
    */
-  XmpSidecar(BasicIo::UniquePtr io, bool create);
+  XmpSidecar(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -67,7 +67,7 @@ class EXIV2API XmpSidecar : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newXmpInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newXmpInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is an XMP sidecar file.
 EXIV2API bool isXmpType(BasicIo& iIo, bool advance);

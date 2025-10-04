@@ -5,16 +5,18 @@
   History:   11-Apr-06, ahu: created
  */
 // included header files
-#include "config.h"
-
 #include "makernote_int.hpp"
+#include "config.h"
 #include "safe_op.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "utils.hpp"
+#include "value.hpp"
 
 // + standard includes
+#include <cstring>
 #include <iostream>
 
 #ifdef EXV_ENABLE_FILESYSTEM

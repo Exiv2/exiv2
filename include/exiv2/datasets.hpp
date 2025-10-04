@@ -13,6 +13,8 @@
 // included header files
 #include "metadatum.hpp"
 
+#include <map>
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {

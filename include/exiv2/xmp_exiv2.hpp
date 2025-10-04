@@ -106,7 +106,7 @@ class EXIV2API Xmpdatum : public Metadatum {
   [[nodiscard]] int64_t toInt64(size_t n = 0) const override;
   [[nodiscard]] float toFloat(size_t n = 0) const override;
   [[nodiscard]] Rational toRational(size_t n = 0) const override;
-  [[nodiscard]] Value::UniquePtr getValue() const override;
+  [[nodiscard]] std::unique_ptr<Value> getValue() const override;
   [[nodiscard]] const Value& value() const override;
   //@}
 

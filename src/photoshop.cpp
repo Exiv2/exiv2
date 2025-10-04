@@ -6,6 +6,8 @@
 #include "image.hpp"
 #include "safe_op.hpp"
 
+#include <cstring>
+
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
 #endif

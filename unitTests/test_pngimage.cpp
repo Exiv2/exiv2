@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <exiv2/basicio.hpp>
 #include <exiv2/pngimage.hpp>
 #include "pngchunk_int.hpp"  // This is not part of the public API
 

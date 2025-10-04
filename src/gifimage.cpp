@@ -2,7 +2,7 @@
 
 // included header files
 #include "gifimage.hpp"
-
+#include "basicio.hpp"
 #include "config.h"
 #include "error.hpp"
 #include "futils.hpp"

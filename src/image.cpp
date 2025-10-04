@@ -3,6 +3,7 @@
 // included header files
 #include "image.hpp"
 
+#include "basicio.hpp"
 #include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
@@ -32,6 +33,7 @@
 #include "psdimage.hpp"
 #include "rafimage.hpp"
 #include "rw2image.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "tgaimage.hpp"
 #include "tiffimage.hpp"
@@ -137,6 +139,8 @@ namespace Exiv2 {
 Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io) :
     io_(std::move(io)), imageType_(type), supportedMetadata_(supportedMetadata) {
 }
+
+Image::~Image() = default;
 
 void Image::printStructure(std::ostream&, PrintStructureOption, size_t /*depth*/) {
   throw Error(ErrorCode::kerUnsupportedImageType, io_->path());
