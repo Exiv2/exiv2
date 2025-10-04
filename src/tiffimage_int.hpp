@@ -5,15 +5,16 @@
 
 // *****************************************************************************
 // included header files
-#include "exif.hpp"
 #include "tifffwd_int.hpp"
 
+#include <map>
 #include <unordered_map>
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
 class BasicIo;
+class ExifData;
 class IptcData;
 class XmpData;
 
@@ -348,9 +349,7 @@ class FindExifdatum {
   explicit FindExifdatum(Exiv2::IfdId ifdId) : ifdId_(ifdId) {
   }
   //! Returns true if IFD id matches.
-  bool operator()(const Exiv2::Exifdatum& md) const {
-    return ifdId_ == md.ifdId();
-  }
+  bool operator()(const Exiv2::Exifdatum& md) const;
 
  private:
   Exiv2::IfdId ifdId_;

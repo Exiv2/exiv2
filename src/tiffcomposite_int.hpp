@@ -13,6 +13,7 @@
 // namespace extensions
 namespace Exiv2 {
 class BasicIo;
+class Value;
 
 namespace Internal {
 // *****************************************************************************

@@ -12,8 +12,6 @@
 #include "utils.hpp"
 #include "value.hpp"
 
-#include <array>
-
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {

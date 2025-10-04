@@ -7,7 +7,6 @@
 
 #include "enforce.hpp"
 #include "futils.hpp"
-#include "i18n.h"  // for _exvGettext
 #include "utils.hpp"
 
 // + standard includes
