@@ -10,6 +10,7 @@
 // included header files
 #include "fujimn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 

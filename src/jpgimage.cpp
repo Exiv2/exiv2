@@ -11,7 +11,6 @@
 #include "image_int.hpp"
 #include "jpgimage.hpp"
 #include "photoshop.hpp"
-#include "safe_op.hpp"
 #include "tags_int.hpp"
 
 #include <array>
