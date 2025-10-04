@@ -3,8 +3,6 @@
 #ifndef EXIV2_BASICIO_HPP
 #define EXIV2_BASICIO_HPP
 
-#include "config.h"
-
 // *****************************************************************************
 #include "exiv2lib_export.h"
 

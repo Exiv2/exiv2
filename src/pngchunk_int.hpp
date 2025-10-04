@@ -5,11 +5,15 @@
 
 // *****************************************************************************
 // included header files
-#include "pngimage.hpp"
+#include "types.hpp"
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+struct DataBuf;
+class Image;
+class PngImage;
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -136,6 +140,7 @@ class PngChunk {
 
 };  // class PngChunk
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef PNGCHUNK_INT_HPP_

@@ -50,7 +50,7 @@ class EXIV2API Iptcdatum : public Metadatum {
   //! Copy constructor
   Iptcdatum(const Iptcdatum& rhs);
   //! Destructor
-  ~Iptcdatum() override = default;
+  ~Iptcdatum() override;
   //@}
 
   //! @name Manipulators
@@ -127,14 +127,14 @@ class EXIV2API Iptcdatum : public Metadatum {
   [[nodiscard]] int64_t toInt64(size_t n = 0) const override;
   [[nodiscard]] float toFloat(size_t n = 0) const override;
   [[nodiscard]] Rational toRational(size_t n = 0) const override;
-  [[nodiscard]] Value::UniquePtr getValue() const override;
+  [[nodiscard]] std::unique_ptr<Value> getValue() const override;
   [[nodiscard]] const Value& value() const override;
   //@}
 
  private:
   // DATA
-  IptcKey::UniquePtr key_;  //!< Key
-  Value::UniquePtr value_;  //!< Value
+  IptcKey::UniquePtr key_;        //!< Key
+  std::unique_ptr<Value> value_;  //!< Value
 
 };  // class Iptcdatum
 

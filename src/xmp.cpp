@@ -6,7 +6,6 @@
 #include "error.hpp"
 #include "properties.hpp"
 #include "types.hpp"
-#include "utils.hpp"
 #include "value.hpp"
 #include "xmp_exiv2.hpp"
 
@@ -17,6 +16,7 @@
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
 #include <expat.h>
+#include "utils.hpp"
 #define TXMP_STRING_TYPE std::string
 #ifdef EXV_ADOBE_XMPSDK
 #include <XMP.hpp>

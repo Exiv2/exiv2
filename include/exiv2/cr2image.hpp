@@ -43,7 +43,7 @@ class EXIV2API Cr2Image : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  Cr2Image(BasicIo::UniquePtr io, bool create);
+  Cr2Image(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -104,7 +104,7 @@ class EXIV2API Cr2Parser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newCr2Instance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a CR2 image.
 EXIV2API bool isCr2Type(BasicIo& iIo, bool advance);

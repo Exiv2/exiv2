@@ -9,7 +9,11 @@
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -125,6 +129,7 @@ class SonyMakerNote {
 DataBuf sonyTagDecipher(uint16_t, const byte*, size_t, TiffComponent*);
 DataBuf sonyTagEncipher(uint16_t, const byte*, size_t, TiffComponent*);
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef SONYMN_INT_HPP_

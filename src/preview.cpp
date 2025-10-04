@@ -2,7 +2,7 @@
 
 // included header files
 #include "preview.hpp"
-
+#include "basicio.hpp"
 #include "config.h"
 #include "enforce.hpp"
 #include "futils.hpp"
@@ -10,11 +10,14 @@
 #include "photoshop.hpp"
 #include "properties.hpp"
 #include "safe_op.hpp"
+#include "tags.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
+#include "value.hpp"
 
 #include <algorithm>
 #include <climits>
+#include <cstring>
 
 namespace {
 using namespace Exiv2;

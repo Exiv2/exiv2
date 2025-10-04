@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
+#include "tiffimage_int.hpp"
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "sonymn_int.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
-#include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
+#include "value.hpp"
 
 #ifdef EXIV2_DEBUG_MESSAGES
 #include "tags_int.hpp"
@@ -25,6 +26,9 @@
 #define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) &newTiffBinaryArray2<std::size(arraySet), arraySet, cfgSelFct>
 
 namespace Exiv2::Internal {
+bool FindExifdatum::operator()(const Exiv2::Exifdatum& md) const {
+  return ifdId_ == md.ifdId();
+}
 //! Constant for non-encrypted binary arrays
 constexpr CryptFct notEncrypted = nullptr;
 

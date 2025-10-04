@@ -19,16 +19,15 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
+#include "quicktimevideo.hpp"
 #include "basicio.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
 #include "image_int.hpp"
 #include "properties.hpp"
-#include "quicktimevideo.hpp"
 #include "safe_op.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"

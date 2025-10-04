@@ -8,11 +8,16 @@
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
-#include "image.hpp"
+#include "types.hpp"
+
+#include <string>
+#include <vector>
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+class Image;
+struct DataBuf;
 // *****************************************************************************
 // class definitions
 

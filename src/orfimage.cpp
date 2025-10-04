@@ -9,6 +9,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "orfimage_int.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"

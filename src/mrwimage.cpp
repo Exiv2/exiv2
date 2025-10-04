@@ -9,9 +9,11 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "tags.hpp"
 #include "tiffimage.hpp"
 
 #include <array>
+#include <cstring>
 
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>

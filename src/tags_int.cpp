@@ -6,6 +6,7 @@
 #include "convert.hpp"
 #include "enforce.hpp"
 #include "i18n.h"  // NLS support.
+#include "tags.hpp"
 
 #include "canonmn_int.hpp"
 #include "casiomn_int.hpp"

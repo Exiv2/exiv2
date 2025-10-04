@@ -10,7 +10,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
-#include "safe_op.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "types.hpp"
@@ -18,6 +18,7 @@
 
 #ifdef EXV_HAVE_BROTLI
 #include <brotli/decode.h>  // for JXL brob
+#include "safe_op.hpp"
 #endif
 
 // + standard includes

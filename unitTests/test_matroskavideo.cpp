@@ -2,6 +2,7 @@
 
 #include <gtest/gtest.h>
 
+#include <exiv2/basicio.hpp>
 #include <exiv2/matroskavideo.hpp>
 
 using namespace Exiv2;

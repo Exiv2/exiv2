@@ -163,6 +163,8 @@ Exifdatum::Exifdatum(const Exifdatum& rhs) {
     value_ = rhs.value_->clone();  // deep copy
 }
 
+Exifdatum::~Exifdatum() = default;
+
 std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) const {
   if (value().count() == 0)
     return os;

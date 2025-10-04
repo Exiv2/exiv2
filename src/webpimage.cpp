@@ -18,6 +18,7 @@
 #include "types.hpp"
 
 #include <array>
+#include <cstring>
 #include <iostream>
 
 namespace {
