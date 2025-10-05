@@ -12,7 +12,7 @@ on:
 jobs:
   MacOS:
     name: 'macOS - XCode - ${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
-    runs-on: macos-latest
+    runs-on: macos-14
 
     strategy:
       fail-fast: false

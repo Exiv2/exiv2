@@ -158,7 +158,7 @@ jobs:
           meson compile -C build --verbose
           meson test -C build --verbose
   MacOS:
-    runs-on: macos-latest
+    runs-on: macos-14
     name: macOS-deps=${{matrix.deps}}
     strategy:
       matrix:
