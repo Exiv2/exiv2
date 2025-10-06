@@ -62,8 +62,8 @@ case "$distro_id" in
 
     'centos')
         dnf clean all
-        dnf -y install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
-        dnf -y --enablerepo=crb install ninja-build
+        dnf -y install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel
+        dnf -y --enablerepo=crb install ninja-build inih-devel
         ;;
 
     'opensuse-tumbleweed')
