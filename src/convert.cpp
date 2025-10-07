@@ -7,10 +7,9 @@
              20-May-08, vn:  added actual conversion logic
  */
 // *****************************************************************************
-#include "config.h"
-
 // included header files
 #include "convert.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "exif.hpp"
 #include "futils.hpp"

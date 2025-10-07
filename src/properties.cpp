@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
 // included header files
 #include "properties.hpp"
-
+#include "config.h"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"

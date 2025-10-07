@@ -1,24 +1,23 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "version.hpp"
 #include "config.h"
-
-#ifdef EXV_USE_CURL
-#include <curl/curl.h>
-#endif
-
 #include "futils.hpp"
 #include "makernote_int.hpp"
-#include "version.hpp"
+
+// + standard includes
+#include <fstream>
+#include <iomanip>
+#include <set>
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
 #include "properties.hpp"
 #endif
 
-// + standard includes
-#include <fstream>
-#include <iomanip>
-#include <set>
+#ifdef EXV_USE_CURL
+#include <curl/curl.h>
+#endif
 
 // #1147
 #ifndef _WIN32
