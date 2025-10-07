@@ -8,11 +8,11 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
+#include "epsimage.hpp"
 
 #include "basicio.hpp"
+#include "config.h"
 #include "enforce.hpp"
-#include "epsimage.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"

@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // included header files
-#include "config.h"
-
 #include "tiffcomposite_int.hpp"
-
 #include "basicio.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "image_int.hpp"

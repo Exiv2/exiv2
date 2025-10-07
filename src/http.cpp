@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
-#include "futils.hpp"
 #include "http.hpp"
+#include "config.h"
+#include "futils.hpp"
 
 #include <array>
 #include <cerrno>

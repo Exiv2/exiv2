@@ -9,9 +9,8 @@
 #include "datasets.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
-#include "types.hpp"
-
 #include "image_int.hpp"
+#include "types.hpp"
 
 #include <iomanip>
 
