@@ -1,12 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
 // included header files
 #include "types.hpp"
-
+#include "config.h"
 #include "enforce.hpp"
-#include "futils.hpp"
 #include "utils.hpp"
 
 // + standard includes
@@ -17,10 +14,12 @@
 #include <iomanip>
 #include <numeric>
 
+#ifdef EXV_ENABLE_NLS
+#include "futils.hpp"
+
 #include <filesystem>
 namespace fs = std::filesystem;
 
-#ifdef EXV_ENABLE_NLS
 #include <libintl.h>
 #endif
 
