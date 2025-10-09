@@ -206,16 +206,16 @@ class FindXmpdatum {
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 //! Convert XMP Toolkit struct option bit to Value::XmpStruct
-Exiv2::XmpValue::XmpStruct xmpStruct(const XMP_OptionBits& opt);
+Exiv2::XmpValue::XmpStruct xmpStruct(XMP_OptionBits opt);
 
 //! Convert Value::XmpStruct to XMP Toolkit array option bits
 XMP_OptionBits xmpArrayOptionBits(Exiv2::XmpValue::XmpStruct xs);
 
 //! Convert XMP Toolkit array option bits to array TypeId
-Exiv2::TypeId arrayValueTypeId(const XMP_OptionBits& opt);
+Exiv2::TypeId arrayValueTypeId(XMP_OptionBits opt);
 
 //! Convert XMP Toolkit array option bits to Value::XmpArrayType
-Exiv2::XmpValue::XmpArrayType xmpArrayType(const XMP_OptionBits& opt);
+Exiv2::XmpValue::XmpArrayType xmpArrayType(XMP_OptionBits opt);
 
 //! Convert Value::XmpArrayType to XMP Toolkit array option bits
 XMP_OptionBits xmpArrayOptionBits(Exiv2::XmpValue::XmpArrayType xat);
@@ -225,7 +225,7 @@ XMP_OptionBits xmpFormatOptionBits(Exiv2::XmpParser::XmpFormatFlags flags);
 
 //! Print information about a parsed XMP node
 void printNode(const std::string& schemaNs, const std::string& propPath, const std::string& propValue,
-               const XMP_OptionBits& opt);
+               XMP_OptionBits opt);
 
 //! Make an XMP key from a schema namespace and property path
 Exiv2::XmpKey::UniquePtr makeXmpKey(const std::string& schemaNs, const std::string& propPath);
@@ -904,7 +904,7 @@ int XmpParser::encode(std::string& /*xmpPacket*/, const XmpData& xmpData, uint16
 // local definitions
 namespace {
 #ifdef EXV_HAVE_XMP_TOOLKIT
-Exiv2::XmpValue::XmpStruct xmpStruct(const XMP_OptionBits& opt) {
+Exiv2::XmpValue::XmpStruct xmpStruct(XMP_OptionBits opt) {
   Exiv2::XmpValue::XmpStruct var(Exiv2::XmpValue::xsNone);
   if (XMP_PropIsStruct(opt)) {
     var = Exiv2::XmpValue::xsStruct;
@@ -924,7 +924,7 @@ XMP_OptionBits xmpArrayOptionBits(Exiv2::XmpValue::XmpStruct xs) {
   return var;
 }
 
-Exiv2::TypeId arrayValueTypeId(const XMP_OptionBits& opt) {
+Exiv2::TypeId arrayValueTypeId(XMP_OptionBits opt) {
   Exiv2::TypeId typeId(Exiv2::invalidTypeId);
   if (XMP_PropIsArray(opt)) {
     if (XMP_ArrayIsAlternate(opt))
@@ -937,7 +937,7 @@ Exiv2::TypeId arrayValueTypeId(const XMP_OptionBits& opt) {
   return typeId;
 }
 
-Exiv2::XmpValue::XmpArrayType xmpArrayType(const XMP_OptionBits& opt) {
+Exiv2::XmpValue::XmpArrayType xmpArrayType(XMP_OptionBits opt) {
   return Exiv2::XmpValue::xmpArrayType(arrayValueTypeId(opt));
 }
 
@@ -986,7 +986,7 @@ XMP_OptionBits xmpFormatOptionBits(Exiv2::XmpParser::XmpFormatFlags flags) {
 
 #ifdef EXIV2_DEBUG_MESSAGES
 void printNode(const std::string& schemaNs, const std::string& propPath, const std::string& propValue,
-               const XMP_OptionBits& opt) {
+               XMP_OptionBits opt) {
   static bool first = true;
   if (first) {
     first = false;
@@ -1041,7 +1041,7 @@ void printNode(const std::string& schemaNs, const std::string& propPath, const s
   std::cout << '\n';
 }
 #else
-void printNode(const std::string&, const std::string&, const std::string&, const XMP_OptionBits&) {
+void printNode(const std::string&, const std::string&, const std::string&, XMP_OptionBits) {
 }
 #endif  // EXIV2_DEBUG_MESSAGES
 
