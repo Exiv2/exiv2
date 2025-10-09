@@ -64,8 +64,11 @@ class Thumbnail {
 
   //! @name Creators
   //@{
+  Thumbnail() = default;
   //! Virtual destructor
   virtual ~Thumbnail() = default;
+  Thumbnail(const Thumbnail&) = delete;
+  Thumbnail& operator=(const Thumbnail&) = delete;
   //@}
 
   //! Factory function to create a thumbnail for the Exif metadata provided.

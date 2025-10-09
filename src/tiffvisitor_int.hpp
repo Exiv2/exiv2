@@ -55,8 +55,11 @@ class TiffVisitor {
  public:
   //! @name Creators
   //@{
+  TiffVisitor() = default;
   //! Virtual destructor
   virtual ~TiffVisitor() = default;
+  TiffVisitor(const TiffVisitor&) = delete;
+  TiffVisitor& operator=(const TiffVisitor&) = delete;
   //@}
 
   //! @name Manipulators

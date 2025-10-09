@@ -91,8 +91,11 @@ class MnHeader {
  public:
   //! @name Creators
   //@{
+  MnHeader() = default;
   //! Virtual destructor.
   virtual ~MnHeader() = default;
+  MnHeader(const MnHeader&) = delete;
+  MnHeader& operator=(const MnHeader&) = delete;
   //@}
   //! @name Manipulators
   //@{
