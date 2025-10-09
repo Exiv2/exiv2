@@ -40,6 +40,8 @@ class TiffHeaderBase {
   TiffHeaderBase(uint16_t tag, uint32_t size, ByteOrder byteOrder, uint32_t offset);
   //! Virtual destructor.
   virtual ~TiffHeaderBase() = default;
+  TiffHeaderBase(const TiffHeaderBase&) = delete;
+  TiffHeaderBase& operator=(const TiffHeaderBase&) = delete;
   //@}
 
   //! @name Manipulators

@@ -71,6 +71,8 @@ class CiffComponent {
   CiffComponent(uint16_t tag, uint16_t dir);
   //! Virtual destructor.
   virtual ~CiffComponent() = default;
+  CiffComponent(const CiffComponent&) = delete;
+  CiffComponent& operator=(const CiffComponent&) = delete;
   //@}
 
   //! @name Manipulators
