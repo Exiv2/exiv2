@@ -16,6 +16,8 @@ jobs:
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: egor-tensin/setup-gcc@v1
         with:
           version: ${{matrix.cxx}}
@@ -37,6 +39,8 @@ jobs:
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: egor-tensin/setup-clang@v1
         with:
           version: ${{matrix.cxx}}
@@ -63,6 +67,8 @@ jobs:
         platform: ['x64', 'x86']
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Install packages
         run: |
@@ -85,6 +91,8 @@ jobs:
         deps: ['forcefallback', 'default']
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Install packages
         run: |
@@ -117,6 +125,8 @@ jobs:
         shell: msys2 {0}
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - uses: msys2/setup-msys2@v2
         with:
@@ -143,6 +153,8 @@ jobs:
         shell: msys2 {0}
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: msys2/setup-msys2@v2
         with:
           msystem: 'MSYS'
@@ -165,6 +177,8 @@ jobs:
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Install packages
         run: |
@@ -179,6 +193,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
@@ -191,6 +207,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: vmactions/omnios-vm@v1
         with:
           prepare: |
@@ -203,6 +221,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - name: Install packages
         run: |
           sudo apt install -y meson
