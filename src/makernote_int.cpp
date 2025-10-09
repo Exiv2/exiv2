@@ -41,7 +41,7 @@ namespace fs = std::filesystem;
 namespace {
 // Todo: Can be generalized further - get any tag as a string/long/...
 //! Get the Value for a tag within a particular group
-const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const uint16_t& tag, const Exiv2::IfdId& group);
+const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, uint16_t tag, Exiv2::IfdId group);
 //! Get the model name from tag Exif.Image.Model
 std::string getExifModel(Exiv2::Internal::TiffComponent* pRoot);
 
@@ -1036,8 +1036,7 @@ int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
 // *****************************************************************************
 // local definitions
 namespace {
-const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, const uint16_t& tag,
-                                 const Exiv2::IfdId& group) {
+const Exiv2::Value* getExifValue(Exiv2::Internal::TiffComponent* pRoot, uint16_t tag, Exiv2::IfdId group) {
   Exiv2::Internal::TiffFinder finder(tag, group);
   if (!pRoot)
     return nullptr;

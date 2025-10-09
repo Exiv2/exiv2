@@ -62,7 +62,7 @@ bool convertStringCharsetWindows(std::string& str, std::string_view from, std::s
   exactly one entry, \em value is set to this entry, without the qualifier.
   The return code indicates if the operation was successful.
  */
-bool getTextValue(std::string& value, const Exiv2::XmpData::iterator& pos);
+bool getTextValue(std::string& value, Exiv2::XmpData::iterator pos);
 }  // namespace
 
 // *****************************************************************************
@@ -1589,7 +1589,7 @@ bool convertStringCharsetWindows(std::string& str, std::string_view from, std::s
 }
 
 #endif  // EXV_HAVE_ICONV
-bool getTextValue(std::string& value, const XmpData::iterator& pos) {
+bool getTextValue(std::string& value, XmpData::iterator pos) {
   if (pos->typeId() == langAlt) {
     // get the default language entry without x-default qualifier
     value = pos->toString(0);
