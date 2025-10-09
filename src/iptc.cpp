@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
 // included header files
 #include "iptc.hpp"
-
+#include "config.h"
 #include "datasets.hpp"
 #include "enforce.hpp"
 #include "error.hpp"

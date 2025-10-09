@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
+#include "pngchunk_int.hpp"
 #include "config.h"
 
 #ifdef EXV_HAVE_LIBZ
@@ -14,7 +15,6 @@
 #include "image_int.hpp"
 #include "iptc.hpp"
 #include "photoshop.hpp"
-#include "pngchunk_int.hpp"
 #include "safe_op.hpp"
 #include "tiffimage.hpp"
 

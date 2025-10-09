@@ -5,9 +5,8 @@
   History:   28-Aug-05, ahu: created
  */
 // included header files
-#include "config.h"
-
 #include "crwimage.hpp"
+#include "config.h"
 #include "crwimage_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"

@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
 // included header files
 #include "types.hpp"
-
+#include "config.h"
 #include "enforce.hpp"
 #include "futils.hpp"
-#include "i18n.h"  // for _exvGettext
 #include "utils.hpp"
 
 // + standard includes

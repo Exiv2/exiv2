@@ -11,7 +11,6 @@
 #include "image.hpp"
 
 #include <array>
-#include <bit>
 
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
