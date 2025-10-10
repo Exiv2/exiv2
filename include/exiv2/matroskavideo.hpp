@@ -149,11 +149,11 @@ class EXIV2API MatroskaVideo : public Image {
     @param size Size of \em buf.
    */
 
+  void decodeDateTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
   void decodeInternalTags(const Internal::MatroskaTag* tag, const byte* buf);
   void decodeStringTags(const Internal::MatroskaTag* tag, const byte* buf);
   void decodeIntegerTags(const Internal::MatroskaTag* tag, const byte* buf);
   void decodeBooleanTags(const Internal::MatroskaTag* tag, const byte* buf);
-  void decodeDateTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
   void decodeFloatTags(const Internal::MatroskaTag* tag, const byte* buf);
 
  private:
