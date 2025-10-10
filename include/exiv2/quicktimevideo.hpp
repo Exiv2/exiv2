@@ -137,7 +137,7 @@ class EXIV2API QuickTimeVideo : public Image {
   /*!
     @brief Interpret User Data Tag, and save it
         in the respective XMP container.
-    @param size Size of the data block used to store Tag Information.
+    @param outer_size Size of the data block used to store Tag Information.
    */
   void userDataDecoder(size_t outer_size, size_t recursion_depth);
   /*!
