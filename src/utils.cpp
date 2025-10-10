@@ -1,20 +1,23 @@
 #include "utils.hpp"
 
-#include <algorithm>
 #include <cctype>
 #include <string>
 
 namespace Exiv2::Internal {
 
-std::string upper(const std::string& str) {
-  std::string result = str;
-  std::transform(str.begin(), str.end(), result.begin(), [](int c) { return static_cast<char>(toupper(c)); });
+std::string upper(std::string_view str) {
+  std::string result;
+  result.reserve(str.size());
+  for (auto c : str)
+    result.push_back(std::toupper(static_cast<unsigned char>(c)));
   return result;
 }
 
-std::string lower(const std::string& a) {
-  std::string b = a;
-  std::transform(a.begin(), a.end(), b.begin(), [](int c) { return static_cast<char>(tolower(c)); });
+std::string lower(std::string_view a) {
+  std::string b;
+  b.reserve(a.size());
+  for (auto c : a)
+    b.push_back(std::tolower(static_cast<unsigned char>(c)));
   return b;
 }
 
