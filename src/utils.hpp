@@ -16,10 +16,10 @@ constexpr bool contains(std::string_view s, T c) {
 }
 
 /// @brief Returns the uppercase version of \b str
-std::string upper(const std::string& str);
+std::string upper(std::string_view str);
 
 /// @brief Returns the lowercase version of \b str
-std::string lower(const std::string& a);
+std::string lower(std::string_view a);
 
 }  // namespace Exiv2::Internal
 
