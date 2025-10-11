@@ -95,7 +95,7 @@ struct binaryToStringHelper {
  *     the stream throws neither.
  */
 template <typename T>
-constexpr binaryToStringHelper<T> binaryToString(Slice<T>&& sl) noexcept {
+constexpr auto binaryToString(Slice<T>&& sl) noexcept {
   return binaryToStringHelper<T>(std::move(sl));
 }
 
