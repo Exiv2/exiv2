@@ -10,67 +10,17 @@
 #include "helper_functions.hpp"
 #include "image_int.hpp"
 
-// *****************************************************************************
-// class member definitions
-namespace Exiv2 {
+namespace {
+constexpr Exiv2::AsfVideo::GUIDTag Header(0x75B22630, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C});
 
-/*!
-  Look-up list for ASF Type Video Files
-  Associates the GUID with its Name(i.e. Human Readable Form)
-  Tags have been differentiated into Various Categories.
-  The categories have been listed above Groups
-  see :
-  - https://fr.wikipedia.org/wiki/Advanced_Systems_Format
-  - https://exse.eyewated.com/fls/54b3ed95bbfb1a92.pdf
- */
-/*
- * @class GUID_struct
- *
- * @brief A class to represent a globally unique identifier (GUID) structure
- *
- * This class represents a globally unique identifier (GUID) structure which is used to identify objects in a
- * distributed environment. A GUID is a unique identifier that is generated on a computer and can be used to
- * identify an object across different systems. The GUID structure is comprised of four 32-bit values and an
- * array of 8 bytes.
- *
- * @note The byte order of the GUID structure is in little endian.
- *
- * @see https://en.wikipedia.org/wiki/Globally_unique_identifier
- *
- */
+constexpr struct tags {
+  Exiv2::AsfVideo::GUIDTag first;
+  std::string_view second;
 
-bool AsfVideo::GUIDTag::operator==(const AsfVideo::GUIDTag& other) const {
-  return data1_ == other.data1_ && data2_ == other.data2_ && data3_ == other.data3_ && data4_ == other.data4_;
-}
-
-AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
-  data1_ = Exiv2::getULong(bytes, ByteOrder::littleEndian);
-  data2_ = Exiv2::getUShort(bytes + DWORD, ByteOrder::littleEndian);
-  data3_ = Exiv2::getUShort(bytes + DWORD + WORD, ByteOrder::littleEndian);
-  std::copy(bytes + QWORD, bytes + (2 * QWORD), data4_.begin());
-}
-
-std::string AsfVideo::GUIDTag::to_string() const {
-  // Concatenate all strings into a single string
-  // Convert the string to uppercase
-  // Example of output 399595EC-8667-4E2D-8FDB-98814CE76C1E
-  return stringFormat("{:08X}-{:04X}-{:04X}-{:02X}{:02X}-{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}", data1_, data2_, data3_,
-                      data4_[0], data4_[1], data4_[2], data4_[3], data4_[4], data4_[5], data4_[6], data4_[7]);
-}
-
-bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
-  if (data1_ != other.data1_)
-    return data1_ < other.data1_;
-  if (data2_ != other.data2_)
-    return data2_ < other.data2_;
-  if (data3_ != other.data3_)
-    return data3_ < other.data3_;
-  return std::lexicographical_compare(data4_.begin(), data4_.end(), other.data4_.begin(), other.data4_.end());
-}
-
-constexpr AsfVideo::GUIDTag Header(0x75B22630, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C});
-
-const std::map<AsfVideo::GUIDTag, std::string> GUIDReferenceTags = {
+  bool operator==(const Exiv2::DataBuf& tag) const {
+    return Exiv2::AsfVideo::GUIDTag(tag.c_data()) == first;
+  };
+} GUIDReferenceTags[] = {
     //!< Top-level ASF object GUIDS
     {Header, "Header"},
     {{0x75B22636, 0x668E, 0x11CF, {0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C}}, "Data"},
@@ -175,8 +125,68 @@ const std::map<AsfVideo::GUIDTag, std::string> GUIDReferenceTags = {
   @param buf Exiv2 byte buffer
   @return Returns true if the buffer data is equivalent to Header GUID.
  */
-static bool isASFType(const byte buf[]) {
-  return Header == AsfVideo::GUIDTag(buf);
+bool isASFType(const Exiv2::byte buf[]) {
+  return Header == Exiv2::AsfVideo::GUIDTag(buf);
+}
+
+}  // namespace
+
+// *****************************************************************************
+// class member definitions
+namespace Exiv2 {
+
+/*!
+  Look-up list for ASF Type Video Files
+  Associates the GUID with its Name(i.e. Human Readable Form)
+  Tags have been differentiated into Various Categories.
+  The categories have been listed above Groups
+  see :
+  - https://fr.wikipedia.org/wiki/Advanced_Systems_Format
+  - https://exse.eyewated.com/fls/54b3ed95bbfb1a92.pdf
+ */
+/*
+ * @class GUID_struct
+ *
+ * @brief A class to represent a globally unique identifier (GUID) structure
+ *
+ * This class represents a globally unique identifier (GUID) structure which is used to identify objects in a
+ * distributed environment. A GUID is a unique identifier that is generated on a computer and can be used to
+ * identify an object across different systems. The GUID structure is comprised of four 32-bit values and an
+ * array of 8 bytes.
+ *
+ * @note The byte order of the GUID structure is in little endian.
+ *
+ * @see https://en.wikipedia.org/wiki/Globally_unique_identifier
+ *
+ */
+
+bool AsfVideo::GUIDTag::operator==(const AsfVideo::GUIDTag& other) const {
+  return data1_ == other.data1_ && data2_ == other.data2_ && data3_ == other.data3_ && data4_ == other.data4_;
+}
+
+AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
+  data1_ = Exiv2::getULong(bytes, ByteOrder::littleEndian);
+  data2_ = Exiv2::getUShort(bytes + DWORD, ByteOrder::littleEndian);
+  data3_ = Exiv2::getUShort(bytes + DWORD + WORD, ByteOrder::littleEndian);
+  std::copy(bytes + QWORD, bytes + (2 * QWORD), data4_.begin());
+}
+
+std::string AsfVideo::GUIDTag::to_string() const {
+  // Concatenate all strings into a single string
+  // Convert the string to uppercase
+  // Example of output 399595EC-8667-4E2D-8FDB-98814CE76C1E
+  return stringFormat("{:08X}-{:04X}-{:04X}-{:02X}{:02X}-{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}", data1_, data2_, data3_,
+                      data4_[0], data4_[1], data4_[2], data4_[3], data4_[4], data4_[5], data4_[6], data4_[7]);
+}
+
+bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
+  if (data1_ != other.data1_)
+    return data1_ < other.data1_;
+  if (data2_ != other.data2_)
+    return data2_ < other.data2_;
+  if (data3_ != other.data3_)
+    return data3_ < other.data3_;
+  return std::lexicographical_compare(data4_.begin(), data4_.end(), other.data4_.begin(), other.data4_.end());
 }
 
 AsfVideo::AsfVideo(BasicIo::UniquePtr io) : Image(ImageType::asf, mdNone, std::move(io)) {
@@ -231,9 +241,8 @@ void AsfVideo::decodeBlock() {
            << "\tsize= " << objectHeader.getSize() << "\t " << io_->tell() << "/" << io_->size() << '\n';
 #endif
   Internal::enforce(objectHeader.getSize() <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
-  auto tag = GUIDReferenceTags.find(GUIDTag(objectHeader.getId().data()));
 
-  if (tag != GUIDReferenceTags.end()) {
+  if (auto tag = Exiv2::find(GUIDReferenceTags, objectHeader.getId())) {
     if (tag->second == "Header")
       decodeHeader();
     else if (tag->second == "File_Properties")
@@ -339,8 +348,7 @@ void AsfVideo::streamProperties() {
   enum class streamTypeInfo { Audio = 1, Video = 2 };
   auto stream = streamTypeInfo{0};
 
-  auto tag_stream_type = GUIDReferenceTags.find(GUIDTag(streamTypedBuf.data()));
-  if (tag_stream_type != GUIDReferenceTags.end()) {
+  if (auto tag_stream_type = Exiv2::find(GUIDReferenceTags, streamTypedBuf)) {
     if (tag_stream_type->second == "Audio_Media")
       stream = streamTypeInfo::Audio;
     else if (tag_stream_type->second == "Video_Media")

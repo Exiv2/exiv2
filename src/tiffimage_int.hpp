@@ -39,6 +39,8 @@ class TiffHeaderBase {
   TiffHeaderBase(uint16_t tag, uint32_t size, ByteOrder byteOrder, uint32_t offset);
   //! Virtual destructor.
   virtual ~TiffHeaderBase() = default;
+  TiffHeaderBase(const TiffHeaderBase&) = delete;
+  TiffHeaderBase& operator=(const TiffHeaderBase&) = delete;
   //@}
 
   //! @name Manipulators
@@ -138,7 +140,7 @@ class TiffHeader : public TiffHeaderBase {
 using TiffGroupKey = std::pair<uint32_t, IfdId>;
 
 struct TiffGroupKey_hash {
-  std::size_t operator()(const TiffGroupKey& pair) const noexcept {
+  std::size_t operator()(TiffGroupKey pair) const noexcept {
     return std::hash<uint64_t>{}(static_cast<uint64_t>(pair.first) << 32 | static_cast<uint64_t>(pair.second));
   }
 };
