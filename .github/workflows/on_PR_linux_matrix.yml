@@ -22,6 +22,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Install dependencies
         run: |
@@ -72,6 +74,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: jirutka/setup-alpine@v1
         with:
           arch: ${{matrix.arch}}
