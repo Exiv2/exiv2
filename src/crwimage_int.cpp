@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-
-#include "config.h"
-
-#include "canonmn_int.hpp"
 #include "crwimage_int.hpp"
+#include "canonmn_int.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.

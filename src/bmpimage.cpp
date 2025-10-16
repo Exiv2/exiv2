@@ -7,6 +7,7 @@
 
 #include "bmpimage.hpp"
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"

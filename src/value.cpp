@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
 // included header files
 #include "value.hpp"
-
+#include "config.h"
 #include "convert.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
-#include "types.hpp"
-
 #include "image_int.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <iterator>
