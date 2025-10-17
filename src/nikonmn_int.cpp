@@ -1736,6 +1736,7 @@ constexpr TagDetails nikonZMountLensId[] = {
     {47, "Nikon Nikkor Z 35mm f/1.2 S"},
     {48, "Nikon Nikkor Z 28-400mm f/4-8 VR"},
     {49, "Nikon Nikkor Z 28-135mm f/4 PZ"},
+    {50, "Nikon Nikkor Z 24-70mm f/2.8 S II"},
     {51, "Nikon Nikkor Z 35mm f/1.4"},
     {52, "Nikon Nikkor Z 50mm f/1.4"},
     {2305, "Laowa FFII 10mm F2.8 C&D Dreamer"},
