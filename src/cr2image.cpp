@@ -80,7 +80,7 @@ void Cr2Image::writeMetadata() {
   std::cerr << "Writing CR2 file " << io_->path() << "\n";
 #endif
   ByteOrder bo = byteOrder();
-  byte* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
   // Ensure that this is the correct image type
@@ -106,7 +106,7 @@ ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
 }
 
 WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
-                              IptcData& iptcData, XmpData& xmpData) {
+                              const IptcData& iptcData, const XmpData& xmpData) {
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
       IfdId::panaRawId,

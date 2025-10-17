@@ -1191,7 +1191,7 @@ size_t TiffComponent::writeImage(IoWrapper& ioWrapper, ByteOrder byteOrder) cons
 
 size_t TiffDirectory::doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
   size_t len = 0;
-  TiffComponent* pSubIfd = nullptr;
+  const TiffComponent* pSubIfd = nullptr;
   for (const auto& component : components_) {
     if (component->tag() == 0x014a) {
       // Hack: delay writing of sub-IFD image data to get the order correct

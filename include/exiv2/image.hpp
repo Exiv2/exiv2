@@ -203,7 +203,7 @@ class EXIV2API Image {
   /*!
     @brief Throw an exception if the size at the beginning of the iccProfile isn't correct.
    */
-  void checkIccProfile();
+  void checkIccProfile() const;
   /*!
     @brief Erase iccProfile. the profile is not removed from
         the actual image until the writeMetadata() method is called.

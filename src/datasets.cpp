@@ -480,7 +480,7 @@ uint16_t IptcDataSets::recordId(const std::string& recordName) {
 }
 
 void IptcDataSets::dataSetList(std::ostream& os) {
-  for (auto&& record : records_) {
+  for (const auto& record : records_) {
     for (int j = 0; record && record[j].number_ != 0xffff; ++j) {
       os << record[j] << "\n";
     }

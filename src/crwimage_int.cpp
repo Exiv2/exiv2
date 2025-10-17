@@ -836,7 +836,7 @@ void CrwMap::encodeBasic(const Image& image, const CrwMapping& pCrwMapping, Ciff
 void CrwMap::encode0x0805(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   std::string comment = image.comment();
 
-  CiffComponent* cc = pHead.findComponent(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
+  auto cc = pHead.findComponent(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   if (!comment.empty()) {
     auto size = comment.size();
     if (cc && cc->size() > size)

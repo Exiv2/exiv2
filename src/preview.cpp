@@ -984,11 +984,11 @@ uint32_t PreviewImage::size() const {
   return static_cast<uint32_t>(preview_.size());
 }
 
-std::string PreviewImage::mimeType() const {
+const std::string& PreviewImage::mimeType() const {
   return properties_.mimeType_;
 }
 
-std::string PreviewImage::extension() const {
+const std::string& PreviewImage::extension() const {
   return properties_.extension_;
 }
 

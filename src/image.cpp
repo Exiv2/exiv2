@@ -654,7 +654,7 @@ void Image::appendIccProfile(const uint8_t* bytes, size_t size, bool bTestValid)
   }
 }
 
-void Image::checkIccProfile() {
+void Image::checkIccProfile() const {
   if (iccProfile_.size() < sizeof(long)) {
     throw Error(ErrorCode::kerInvalidIccProfile);
   }

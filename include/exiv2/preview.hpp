@@ -92,12 +92,12 @@ class EXIV2API PreviewImage {
     @brief Return the MIME type of the preview image, usually either
            \c "image/tiff" or \c "image/jpeg".
    */
-  [[nodiscard]] std::string mimeType() const;
+  [[nodiscard]] const std::string& mimeType() const;
   /*!
     @brief Return the file extension for the format of the preview image
            (".tif" or ".jpg").
    */
-  [[nodiscard]] std::string extension() const;
+  [[nodiscard]] const std::string& extension() const;
   /*!
     @brief Return the width of the preview image in pixels.
   */
