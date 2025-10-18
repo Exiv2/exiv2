@@ -46,10 +46,10 @@ struct binaryToStringHelper;
  * @brief Actual implementation of the output algorithm described in @ref
  * binaryToString
  *
- * @throws nothing
+ * @note Does not throw
  */
 template <typename T>
-std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr) {
+std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr) noexcept {
   for (size_t i = 0; i < binToStr.buf_.size(); ++i) {
     auto c = static_cast<unsigned char>(binToStr.buf_.at(i));
     if (c != 0 || i != binToStr.buf_.size() - 1) {
@@ -95,7 +95,7 @@ struct binaryToStringHelper {
  *     the stream throws neither.
  */
 template <typename T>
-constexpr binaryToStringHelper<T> binaryToString(Slice<T>&& sl) noexcept {
+constexpr auto binaryToString(Slice<T>&& sl) noexcept {
   return binaryToStringHelper<T>(std::move(sl));
 }
 
