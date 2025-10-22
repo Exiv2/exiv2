@@ -211,8 +211,7 @@ std::ostream& operator<<(std::ostream& os, const Rational& r) {
   return os << r.first << "/" << r.second;
 }
 
-template <typename T>
-static std::istream& fromStreamToRational(std::istream& is, T& r) {
+static std::istream& fromStreamToRational(std::istream& is, auto& r) {
   // http://dev.exiv2.org/boards/3/topics/1912?r=1915
   if (std::tolower(is.peek()) == 'f') {
     char F = 0;
