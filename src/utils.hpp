@@ -6,8 +6,7 @@
 
 namespace Exiv2::Internal {
 
-template <typename T>
-constexpr bool contains(std::string_view s, T c) {
+constexpr bool contains(std::string_view s, auto c) {
 #ifdef __cpp_lib_string_contains
   return s.contains(c);
 #else
