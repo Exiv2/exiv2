@@ -13,6 +13,7 @@
 // namespace extensions
 namespace Exiv2 {
 class BasicIo;
+class Value;
 
 namespace Internal {
 // *****************************************************************************
@@ -383,12 +384,10 @@ class TiffEntryBase : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor.
-  constexpr TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined) :
-      TiffComponent(tag, group), tiffType_(tiffType) {
-  }
+  TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined);
 
   //! Virtual destructor.
-  ~TiffEntryBase() override = default;
+  ~TiffEntryBase() override;
   //@}
 
   //! @name NOT implemented
@@ -593,9 +592,7 @@ class TiffDataEntryBase : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  constexpr TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup) :
-      TiffEntryBase(tag, group), szTag_(szTag), szGroup_(szGroup) {
-  }
+  TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup);
   //@}
 
   ~TiffDataEntryBase() override;
@@ -777,10 +774,7 @@ class TiffSizeEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  constexpr TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
-      TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
-  }
-
+  TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup);
   //@}
 
   //! @name Accessors
@@ -1012,9 +1006,7 @@ class TiffMnEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Default constructor
-  constexpr TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
-      TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
-  }
+  TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup);
 
  protected:
   //! @name Protected Manipulators
