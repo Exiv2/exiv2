@@ -92,25 +92,18 @@ struct TagVocabulary {
   @brief Generic pretty-print function to translate a full string value to a description
          by looking up a reference table.
  */
-template <size_t N, const StringTagDetails (&array)[N]>
-std::ostream& printTagString(std::ostream& os, std::string_view value, const ExifData*) {
+template <size_t N, const StringTagDetails (&array)[N], typename T>
+std::ostream& printTagString(std::ostream& os, const T& value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTagString");
-  if (auto td = Exiv2::find(array, value)) {
-    os << _(td->label_);
+  if constexpr (std::is_same_v<T, Value>) {
+    if (auto td = Exiv2::find(array, value.toString(0)))
+      return os << _(td->label_);
+    return os << "(" << value << ")";
   } else {
-    os << "(" << value << ")";
+    if (auto td = Exiv2::find(array, value))
+      return os << _(td->label_);
+    return os << "(" << value << ")";
   }
-  return os;
-}
-
-/*!
-  @brief Generic pretty-print function to translate the full string value in Value, to a description
-         by looking up a reference table.
- */
-template <size_t N, const StringTagDetails (&array)[N]>
-std::ostream& printTagString(std::ostream& os, const Value& value, const ExifData* data) {
-  static_assert(N > 0, "Passed zero length printTagString");
-  return printTagString<N, array>(os, value.toString(0), data);
 }
 
 //! Shortcut for the printStringTag template which requires typing the array name only once.
@@ -152,25 +145,18 @@ std::ostream& printTagString4(std::ostream& os, const Value& value, const ExifDa
   @brief Generic pretty-print function to translate a long value to a description
          by looking up a reference table. Unknown values are passed through without error.
  */
-template <size_t N, const TagDetails (&array)[N]>
-std::ostream& printTagNoError(std::ostream& os, const int64_t value, const ExifData*) {
+template <size_t N, const TagDetails (&array)[N], typename T>
+std::ostream& printTagNoError(std::ostream& os, const T& value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTagNoError");
-  if (auto td = Exiv2::find(array, value)) {
-    os << _(td->label_);
+  if constexpr (std::is_same_v<T, Value>) {
+    if (auto td = Exiv2::find(array, value.toInt64()))
+      return os << _(td->label_);
+    return os << value;
   } else {
-    os << value;
+    if (auto td = Exiv2::find(array, value))
+      return os << _(td->label_);
+    return os << value;
   }
-  return os;
-}
-
-/*!
-  @brief Generic pretty-print function to translate the full string value in Value, to a description
-         by looking up a reference table.
- */
-template <size_t N, const TagDetails (&array)[N]>
-std::ostream& printTagNoError(std::ostream& os, const Value& value, const ExifData* data) {
-  static_assert(N > 0, "Passed zero length printTagNoError");
-  return printTagNoError<N, array>(os, value.toInt64(), data);
 }
 
 //! Shortcut for the printStringTag template which requires typing the array name only once.
@@ -181,14 +167,11 @@ std::ostream& printTagNoError(std::ostream& os, const Value& value, const ExifDa
          by looking up a reference table.
  */
 template <size_t N, const TagDetails (&array)[N]>
-std::ostream& printTag(std::ostream& os, const int64_t value, const ExifData*) {
+std::ostream& printTag(std::ostream& os, int64_t value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTag");
-  if (auto td = Exiv2::find(array, value)) {
-    os << _(td->label_);
-  } else {
-    os << "(" << value << ")";
-  }
-  return os;
+  if (auto td = Exiv2::find(array, value))
+    return os << _(td->label_);
+  return os << "(" << value << ")";
 }
 
 /*!
@@ -301,12 +284,9 @@ std::ostream& printTagBitlistAllLE(std::ostream& os, const Value& value, const E
 template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTagVocabulary");
-  if (auto td = Exiv2::find(array, value.toString())) {
-    os << _(td->label_);
-  } else {
-    os << "(" << value << ")";
-  }
-  return os;
+  if (auto td = Exiv2::find(array, value.toString()))
+    return os << _(td->label_);
+  return os << "(" << value << ")";
 }
 
 //! Shortcut for the printTagVocabulary template which requires typing the array name only once.
@@ -315,10 +295,8 @@ std::ostream& printTagVocabulary(std::ostream& os, const Value& value, const Exi
 template <size_t N, const TagVocabulary (&array)[N]>
 std::ostream& printTagVocabularyMulti(std::ostream& os, const Value& value, const ExifData*) {
   static_assert(N > 0, "Passed zero length printTagVocabularyMulti");
-  if (value.count() == 0) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() == 0)
+    return os << "(" << value << ")";
 
   for (size_t i = 0; i < value.count(); i++) {
     if (i != 0)
