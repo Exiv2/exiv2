@@ -55,12 +55,19 @@ jobs:
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   VisualStudio:
-    runs-on: windows-latest
+    runs-on: ${{matrix.runner}}
     name: MSVC-${{matrix.deps}}-${{matrix.platform}}
     strategy:
       matrix:
         deps: ['forcefallback', 'default']
-        platform: ['x64', 'x86']
+        platform: ['arm64', 'x64', 'x86']
+        include:
+          - platform: arm64
+            runner: windows-11-arm
+          - platform: x64
+            runner: windows-latest
+          - platform: x86
+            runner: windows-latest
     steps:
       - uses: actions/checkout@v5
 
@@ -78,11 +85,17 @@ jobs:
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   VisualStudio-clang-cl:
-    runs-on: windows-latest
-    name: clang-cl-${{matrix.deps}}
+    runs-on: ${{matrix.runner}}
+    name: clang-cl-${{matrix.deps}}-${{matrix.platform}}
     strategy:
       matrix:
         deps: ['forcefallback', 'default']
+        platform: ['arm64', 'x64']
+        include:
+          - platform: arm64
+            runner: windows-11-arm
+          - platform: x64
+            runner: windows-latest
     steps:
       - uses: actions/checkout@v5
 
