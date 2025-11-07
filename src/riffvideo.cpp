@@ -16,9 +16,16 @@
 
 #include <array>
 
-namespace Exiv2::Internal {
+namespace {
 
-const std::map<std::string, std::string> infoTags = {
+constexpr struct tags {
+  std::string_view first;
+  const char* second;
+
+  bool operator==(std::string_view tag) const {
+    return tag == first;
+  };
+} infoTags[] = {
     {"AGES", "Xmp.video.Rated"},
     {"CMNT", "Xmp.video.Comment"},
     {"CODE", "Xmp.video.EncodedBy"},
@@ -105,7 +112,14 @@ const std::map<std::string, std::string> infoTags = {
     {"YEAR", "Xmp.video.Year"},
 };
 
-const std::map<uint16_t, std::string> audioEncodingValues = {
+constexpr struct encoding {
+  uint16_t first;
+  std::string_view second;
+
+  bool operator==(uint16_t tag) const {
+    return tag == first;
+  };
+} audioEncodingValues[] = {
     {0x1, "Microsoft PCM"},
     {0x2, "Microsoft ADPCM"},
     {0x3, "Microsoft IEEE float"},
@@ -351,7 +365,7 @@ const std::map<uint16_t, std::string> audioEncodingValues = {
     {0xffff, "Development"},
 };
 
-}  // namespace Exiv2::Internal
+}  // namespace
 // *****************************************************************************
 // class member definitions
 
@@ -625,7 +639,7 @@ void RiffVideo::readStreamFormat(uint64_t size_) {
       xmpData_["Xmp.video.NumIfImpColours"] = "All";
   } else if (streamType_ == Audio) {
     uint16_t format_tag = readWORDTag(io_);
-    if (auto it = Internal::audioEncodingValues.find(format_tag); it != Internal::audioEncodingValues.end())
+    if (auto it = Exiv2::find(audioEncodingValues, format_tag))
       xmpData_["Xmp.audio.Compressor"] = it->second;
     else
       xmpData_["Xmp.audio.Compressor"] = format_tag;
@@ -657,7 +671,7 @@ void RiffVideo::readInfoListChunk(uint64_t size_) {
     std::string type = readStringTag(io_);
     size_t size = readDWORDTag(io_);
     std::string content = readStringTag(io_, size);
-    if (auto it = Internal::infoTags.find(type); it != Internal::infoTags.end())
+    if (auto it = Exiv2::find(infoTags, type))
       xmpData_[it->second] = content;
     current_size += DWORD * 2;
     current_size += size;

@@ -129,6 +129,12 @@ std::string pathOfFileUrl(const std::string& url) {
 }
 #endif
 
+bool typeValid(uint16_t type) {
+  return type >= 1 && type <= 13;
+}
+
+std::set<size_t> visits;  // #547
+
 }  // namespace
 
 // *****************************************************************************
@@ -304,12 +310,6 @@ const char* Image::typeName(uint16_t tag) {
   }
   return result;
 }
-
-static bool typeValid(uint16_t type) {
-  return type >= 1 && type <= 13;
-}
-
-static std::set<size_t> visits;  // #547
 
 void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start,
                               bool bSwap, char c, size_t depth) {
