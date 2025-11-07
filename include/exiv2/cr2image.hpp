@@ -90,7 +90,7 @@ class EXIV2API Cr2Parser {
            See TiffParser::encode().
   */
   static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
-                            IptcData& iptcData, XmpData& xmpData);
+                            const IptcData& iptcData, const XmpData& xmpData);
 
 };  // class Cr2Parser
 

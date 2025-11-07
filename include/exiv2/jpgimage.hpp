@@ -165,7 +165,7 @@ class EXIV2API JpegImage : public JpegBase {
   /*!
     @brief Get the encoding process of the JPEG Image derived from the Start of Frame (SOF) markers
   */
-  [[nodiscard]] std::string encodingProcess() const {
+  [[nodiscard]] const std::string& encodingProcess() const {
     return sof_encoding_process_;
   }
   //@}
