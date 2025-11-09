@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
 // included header files
 #include "iptc.hpp"
-
+#include "config.h"
 #include "datasets.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
@@ -66,6 +64,8 @@ Iptcdatum::Iptcdatum(const Iptcdatum& rhs) {
   if (rhs.value_)
     value_ = rhs.value_->clone();  // deep copy
 }
+
+Iptcdatum::~Iptcdatum() = default;
 
 size_t Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const {
   return value_ ? value_->copy(buf, byteOrder) : 0;

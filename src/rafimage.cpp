@@ -12,6 +12,7 @@
 #include "image_int.hpp"
 #include "jpgimage.hpp"
 #include "safe_op.hpp"
+#include "tags.hpp"
 #include "tiffimage.hpp"
 
 #include <array>

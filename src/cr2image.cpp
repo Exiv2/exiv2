@@ -3,11 +3,13 @@
 // included header files
 #include "cr2image.hpp"
 
+#include "basicio.hpp"
 #include "config.h"
 #include "cr2header_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 

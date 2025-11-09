@@ -9,7 +9,10 @@
 #include "image.hpp"
 #include "properties.hpp"
 #include "utils.hpp"
+#include "value.hpp"
 #include "xmp_exiv2.hpp"
+
+#include <cstring>
 
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>

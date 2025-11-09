@@ -8,6 +8,7 @@
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "minoltamn_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "utils.hpp"

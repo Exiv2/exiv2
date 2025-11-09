@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cstring>
 #include <iostream>
 
 #ifdef EXIV2_DEBUG_MESSAGES

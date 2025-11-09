@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 
 #include <array>
+#include <exiv2/basicio.hpp>
 #include <exiv2/bmpimage.hpp>
 
 using namespace Exiv2;

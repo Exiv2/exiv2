@@ -5,7 +5,7 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include "types.hpp"
 
 // + standard includes
 #include <memory>
@@ -16,6 +16,7 @@
 // *****************************************************************************
 // Exiv2 namespace extensions
 namespace Exiv2 {
+enum class IfdId : uint32_t;
 class Exifdatum;
 
 namespace Internal {

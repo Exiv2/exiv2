@@ -5,12 +5,14 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include "types.hpp"
 
 #include <memory>
 
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+enum class IfdId : uint32_t;
+namespace Internal {
 class IoWrapper;
 class TiffComponent;
 // *****************************************************************************
@@ -673,6 +675,7 @@ int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* p
  */
 DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* pRoot);
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // EXIV2_MAKERNOTE_INT_HPP

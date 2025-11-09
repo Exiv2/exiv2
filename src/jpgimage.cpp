@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 // included header files
+#include "jpgimage.hpp"
+#include "basicio.hpp"
 #include "config.h"
-
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
-#include "jpgimage.hpp"
 #include "photoshop.hpp"
-#include "safe_op.hpp"
 #include "tags_int.hpp"
 
 #include <array>

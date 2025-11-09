@@ -39,7 +39,7 @@ class EXIV2API AsfVideo : public Image {
         method to get a temporary reference.
   */
 
-  explicit AsfVideo(BasicIo::UniquePtr io);
+  explicit AsfVideo(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -99,7 +99,7 @@ class EXIV2API AsfVideo : public Image {
     uint64_t remaining_size_{};
 
    public:
-    explicit HeaderReader(const BasicIo::UniquePtr& io);
+    explicit HeaderReader(const std::unique_ptr<BasicIo>& io);
 
     [[nodiscard]] uint64_t getSize() const {
       return size_;
@@ -178,7 +178,7 @@ class EXIV2API AsfVideo : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-EXIV2API Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newAsfInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a Windows Asf Video.
 EXIV2API bool isAsfType(BasicIo& iIo, bool advance);

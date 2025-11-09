@@ -13,12 +13,9 @@
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
-#include "config.h"
-
 // included header files
 #include "config.h"
 #include "metadatum.hpp"
-#include "tags.hpp"
 
 // + standard includes
 #include <list>
@@ -33,6 +30,8 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 class ExifData;
+class ExifKey;
+enum class IfdId : uint32_t;
 
 // *****************************************************************************
 // class definitions
@@ -63,7 +62,7 @@ class EXIV2API Exifdatum : public Metadatum {
   //! Copy constructor
   Exifdatum(const Exifdatum& rhs);
   //! Destructor
-  ~Exifdatum() override = default;
+  ~Exifdatum() override;
   //@}
 
   //! @name Manipulators
@@ -180,7 +179,7 @@ class EXIV2API Exifdatum : public Metadatum {
   [[nodiscard]] int64_t toInt64(size_t n = 0) const override;
   [[nodiscard]] float toFloat(size_t n = 0) const override;
   [[nodiscard]] Rational toRational(size_t n = 0) const override;
-  [[nodiscard]] Value::UniquePtr getValue() const override;
+  [[nodiscard]] std::unique_ptr<Value> getValue() const override;
   [[nodiscard]] const Value& value() const override;
   //! Return the size of the data area.
   [[nodiscard]] size_t sizeDataArea() const;
@@ -201,8 +200,8 @@ class EXIV2API Exifdatum : public Metadatum {
 
  private:
   // DATA
-  ExifKey::UniquePtr key_;  //!< Key
-  Value::UniquePtr value_;  //!< Value
+  std::unique_ptr<ExifKey> key_;  //!< Key
+  std::unique_ptr<Value> value_;  //!< Value
 
 };  // class Exifdatum
 

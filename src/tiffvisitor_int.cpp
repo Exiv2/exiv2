@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
 // included header files
 #include "tiffvisitor_int.hpp"  // see bug #487
 
+#include "config.h"
 #include "enforce.hpp"
 #include "exif.hpp"
 #include "image_int.hpp"
@@ -13,6 +12,7 @@
 #include "photoshop.hpp"
 #include "safe_op.hpp"
 #include "sonymn_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
@@ -343,8 +343,6 @@ static const TagInfo* findTag(const TagInfo* pList, uint16_t tag) {
     pList++;
   return pList->tag_ != 0xffff ? pList : nullptr;
 }
-
-TiffDataEntryBase::~TiffDataEntryBase() = default;
 
 void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   // report Exif.Canon.AFInfo as usual

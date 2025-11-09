@@ -2,20 +2,23 @@
 
 // included header files
 #include "rw2image.hpp"
-
+#include "basicio.hpp"
 #include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 #include "preview.hpp"
 #include "rw2image_int.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 
 // + standard includes
 #include <array>
+
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#include "value.hpp"
 #endif
 
 // *****************************************************************************

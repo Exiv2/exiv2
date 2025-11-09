@@ -3,8 +3,6 @@
 #ifndef EXIV2_BMFFIMAGE_HPP
 #define EXIV2_BMFFIMAGE_HPP
 
-#include "config.h"
-
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
@@ -57,7 +55,7 @@ class EXIV2API BmffImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  BmffImage(BasicIo::UniquePtr io, bool create, size_t max_box_depth = 1000);
+  BmffImage(std::unique_ptr<BasicIo> io, bool create, size_t max_box_depth = 1000);
   //@}
 
   //@{
@@ -170,7 +168,7 @@ class EXIV2API BmffImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newBmffInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a BMFF image.
 EXIV2API bool isBmffType(BasicIo& iIo, bool advance);

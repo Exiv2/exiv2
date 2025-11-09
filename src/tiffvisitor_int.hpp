@@ -10,6 +10,7 @@
 #include "tiffcomposite_int.hpp"
 
 #include <array>
+#include <map>
 
 // *****************************************************************************
 // namespace extensions

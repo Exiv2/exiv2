@@ -8,9 +8,11 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "types.hpp"
+#include "value.hpp"
 
 #include <array>
 #include <iostream>

@@ -20,6 +20,7 @@
 #include "utils.hpp"
 
 #include <array>
+#include <cstring>
 #include <iostream>
 
 namespace {

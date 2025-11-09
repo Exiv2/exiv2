@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // included header files
 #include "easyaccess.hpp"
-#include "utils.hpp"
 
+#include "tags.hpp"
+#include "utils.hpp"
+#include "value.hpp"
+
+#include <cstring>
 #include <sstream>
 
 // *****************************************************************************

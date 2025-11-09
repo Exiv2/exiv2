@@ -38,7 +38,7 @@ class EXIV2API PgfImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  PgfImage(BasicIo::UniquePtr io, bool create);
+  PgfImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -84,7 +84,7 @@ class EXIV2API PgfImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newPgfInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a PGF image.
 EXIV2API bool isPgfType(BasicIo& iIo, bool advance);

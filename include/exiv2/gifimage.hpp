@@ -35,7 +35,7 @@ class EXIV2API GifImage : public Image {
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
    */
-  explicit GifImage(BasicIo::UniquePtr io);
+  explicit GifImage(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -80,7 +80,7 @@ class EXIV2API GifImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newGifInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a GIF image.
 EXIV2API bool isGifType(BasicIo& iIo, bool advance);

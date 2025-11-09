@@ -7,17 +7,17 @@
              20-May-08, vn:  added actual conversion logic
  */
 // *****************************************************************************
-#include "config.h"
-
 // included header files
 #include "convert.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "exif.hpp"
-#include "futils.hpp"
 #include "image_int.hpp"
 #include "iptc.hpp"
 #include "properties.hpp"
+#include "tags.hpp"
 #include "types.hpp"
+#include "value.hpp"
 #include "xmp_exiv2.hpp"
 
 // + standard includes
@@ -25,6 +25,9 @@
 #include <functional>
 
 #ifdef EXV_HAVE_ICONV
+#ifndef SUPPRESS_WARNINGS
+#include "futils.hpp"
+#endif
 #include <iconv.h>
 #elif defined _WIN32
 #include <windows.h>

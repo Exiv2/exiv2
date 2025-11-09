@@ -51,7 +51,7 @@ class EXIV2API QuickTimeVideo : public Image {
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
    */
-  explicit QuickTimeVideo(BasicIo::UniquePtr io, size_t max_recursion_depth = 1000);
+  explicit QuickTimeVideo(std::unique_ptr<BasicIo> io, size_t max_recursion_depth = 1000);
   //@}
 
   //! @name Manipulators
@@ -216,7 +216,7 @@ class EXIV2API QuickTimeVideo : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-EXIV2API Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newQTimeInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a Quick Time Video.
 EXIV2API bool isQTimeType(BasicIo& iIo, bool advance);

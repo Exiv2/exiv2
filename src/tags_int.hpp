@@ -5,7 +5,8 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include "types.hpp"
+#include "value.hpp"
 
 #include "i18n.h"
 
@@ -13,8 +14,11 @@
 // namespace extensions
 
 namespace Exiv2 {
+enum class IfdId : uint32_t;
+enum class SectionId;
 class ExifData;
-class Value;
+struct GroupInfo;
+struct TagInfo;
 
 namespace Internal {
 // *****************************************************************************

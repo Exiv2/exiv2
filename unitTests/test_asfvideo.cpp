@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 
 #include <exiv2/asfvideo.hpp>
+#include <exiv2/basicio.hpp>
 
 using namespace Exiv2;
 

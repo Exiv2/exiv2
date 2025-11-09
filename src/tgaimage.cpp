@@ -9,6 +9,8 @@
 #include "futils.hpp"
 #include "image.hpp"
 
+#include <cstring>
+
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
 #endif

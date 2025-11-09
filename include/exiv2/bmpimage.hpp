@@ -40,7 +40,7 @@ class EXIV2API BmpImage : public Image {
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
    */
-  explicit BmpImage(BasicIo::UniquePtr io);
+  explicit BmpImage(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -76,7 +76,7 @@ class EXIV2API BmpImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newBmpInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a Windows Bitmap image.
 EXIV2API bool isBmpType(BasicIo& iIo, bool advance);

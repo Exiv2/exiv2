@@ -3,15 +3,12 @@
 #ifndef EXIV2_IMAGE_HPP
 #define EXIV2_IMAGE_HPP
 
-#include "config.h"
-
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
 #include "config.h"
 
-#include "basicio.hpp"
 #include "exif.hpp"
 #include "image_types.hpp"
 #include "iptc.hpp"
@@ -20,6 +17,7 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+class BasicIo;
 // *****************************************************************************
 // class definitions
 
@@ -63,9 +61,9 @@ class EXIV2API Image {
         metadata types and an auto-pointer that owns an IO instance.
         See subclass constructor doc.
    */
-  Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io);
+  Image(ImageType type, uint16_t supportedMetadata, std::unique_ptr<BasicIo> io);
   //! Virtual Destructor
-  virtual ~Image() = default;
+  virtual ~Image();
   //@}
 
   //! @name Manipulators
@@ -475,7 +473,7 @@ class EXIV2API Image {
 
  protected:
   // DATA
-  BasicIo::UniquePtr io_;             //!< Image data IO pointer
+  std::unique_ptr<BasicIo> io_;       //!< Image data IO pointer
   ExifData exifData_;                 //!< Exif data container
   IptcData iptcData_;                 //!< IPTC data container
   XmpData xmpData_;                   //!< XMP data container
@@ -509,7 +507,7 @@ class EXIV2API Image {
 };  // class Image
 
 //! Type for function pointer that creates new Image instances
-using NewInstanceFct = Image::UniquePtr (*)(BasicIo::UniquePtr io, bool create);
+using NewInstanceFct = Image::UniquePtr (*)(std::unique_ptr<BasicIo> io, bool create);
 //! Type for function pointer that checks image types
 using IsThisTypeFct = bool (*)(BasicIo& iIo, bool advance);
 
@@ -536,9 +534,9 @@ class EXIV2API ImageFactory {
     @throw Error If the file is not found or it is unable to connect to the server to
           read the remote file.
    */
-  static BasicIo::UniquePtr createIo(const std::string& path, bool useCurl = true);
+  static std::unique_ptr<BasicIo> createIo(const std::string& path, bool useCurl = true);
 #ifdef _WIN32
-  static BasicIo::UniquePtr createIo(const std::wstring& path);
+  static std::unique_ptr<BasicIo> createIo(const std::wstring& path);
 #endif
   /*!
     @brief Create an Image subclass of the appropriate type by reading
@@ -586,7 +584,7 @@ class EXIV2API ImageFactory {
         determined, the pointer is 0.
     @throw Error If opening the BasicIo fails
    */
-  static Image::UniquePtr open(BasicIo::UniquePtr io);
+  static Image::UniquePtr open(std::unique_ptr<BasicIo> io);
   /*!
     @brief Create an Image subclass of the requested type by creating a
         new image file. If the file already exists, it will be overwritten.
@@ -622,7 +620,7 @@ class EXIV2API ImageFactory {
         type. If the image type is not supported, the pointer is 0.
    */
 
-  static Image::UniquePtr create(ImageType type, BasicIo::UniquePtr io);
+  static Image::UniquePtr create(ImageType type, std::unique_ptr<BasicIo> io);
   /*!
     @brief Returns the image type of the provided file.
     @param path %Image file. The contents of the file are tested to

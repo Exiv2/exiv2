@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // included header files
-#include "config.h"
-
 #include "tiffcomposite_int.hpp"
-
 #include "basicio.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "safe_op.hpp"
 #include "sonymn_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffvisitor_int.hpp"
@@ -95,6 +94,25 @@ TiffBinaryArray::TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arra
   // We'll figure out the correct cfg later
 }
 
+TiffBinaryArray::TiffBinaryArray(const TiffBinaryArray& rhs) :
+    TiffEntryBase(rhs),
+    cfgSelFct_(rhs.cfgSelFct_),
+    arraySet_(rhs.arraySet_),
+    arrayCfg_(rhs.arrayCfg_),
+    arrayDef_(rhs.arrayDef_),
+    defSize_(rhs.defSize_),
+    setSize_(rhs.setSize_),
+    origData_(rhs.origData_),
+    origSize_(rhs.origSize_),
+    pRoot_(rhs.pRoot_) {
+}
+
+TiffEntryBase::TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType) :
+    TiffComponent(tag, group), tiffType_(tiffType) {
+}
+
+TiffEntryBase::~TiffEntryBase() = default;
+
 TiffEntryBase::TiffEntryBase(const TiffEntryBase& rhs) :
     TiffComponent(rhs),
     tiffType_(rhs.tiffType_),
@@ -113,17 +131,18 @@ TiffDirectory::TiffDirectory(const TiffDirectory& rhs) : TiffComponent(rhs), has
 TiffSubIfd::TiffSubIfd(const TiffSubIfd& rhs) : TiffEntryBase(rhs), newGroup_(rhs.newGroup_) {
 }
 
-TiffBinaryArray::TiffBinaryArray(const TiffBinaryArray& rhs) :
-    TiffEntryBase(rhs),
-    cfgSelFct_(rhs.cfgSelFct_),
-    arraySet_(rhs.arraySet_),
-    arrayCfg_(rhs.arrayCfg_),
-    arrayDef_(rhs.arrayDef_),
-    defSize_(rhs.defSize_),
-    setSize_(rhs.setSize_),
-    origData_(rhs.origData_),
-    origSize_(rhs.origSize_),
-    pRoot_(rhs.pRoot_) {
+TiffDataEntryBase::TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup) :
+    TiffEntryBase(tag, group), szTag_(szTag), szGroup_(szGroup) {
+}
+
+TiffDataEntryBase::~TiffDataEntryBase() = default;
+
+TiffSizeEntry::TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
+    TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
+}
+
+TiffMnEntry::TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
+    TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
 }
 
 TiffComponent::UniquePtr TiffComponent::clone() const {

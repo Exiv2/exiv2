@@ -6,6 +6,7 @@
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "makernote_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "value.hpp"
 
