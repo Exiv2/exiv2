@@ -930,13 +930,13 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
 #endif
     std::ofstream fs(path, std::ios::out | std::ios::binary | std::ios::trunc);
     // read stdin and write to the temp file.
-    char readBuf[100 * 1024];
+    auto readBuf = std::make_unique<char[]>(100 * 1024);
     std::streamsize readBufSize = 0;
     do {
-      std::cin.read(readBuf, sizeof(readBuf));
+      std::cin.read(readBuf.get(), 100 * 1024);
       readBufSize = std::cin.gcount();
       if (readBufSize > 0) {
-        fs.write(readBuf, readBufSize);
+        fs.write(readBuf.get(), readBufSize);
       }
     } while (readBufSize);
     fs.close();
