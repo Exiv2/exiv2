@@ -7,6 +7,11 @@
 // included header files
 #include "types.hpp"
 
+#include <cstddef>
+#include <cstdint>
+#include <string>
+#include <string_view>
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
