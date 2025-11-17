@@ -5,7 +5,6 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 #include "value.hpp"
 
 #include "i18n.h"
