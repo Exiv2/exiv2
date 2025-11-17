@@ -5,12 +5,13 @@
 
 #include "exiv2lib_export.h"
 
-#include "types.hpp"
-
 #include <array>
+#include <cstddef>
+#include <cstdint>
 
 namespace Exiv2 {
 // Forward declarations
+struct DataBuf;
 class IptcData;
 
 /// @brief Helper class, has methods to deal with %Photoshop "Information Resource Blocks" (IRBs).
@@ -26,13 +27,13 @@ struct EXIV2API Photoshop {
   /// @return true  if the IRB marker is known
   /// @todo This should be an implementation detail and not exposed in the API. An attacker could try to pass
   ///   a smaller buffer or null pointer.
-  static bool isIrb(const byte* pPsData);
+  static bool isIrb(const unsigned char* pPsData);
 
   /// @brief Validates all IRBs
   /// @param pPsData        Existing IRB buffer
   /// @param sizePsData     Size of the IRB buffer, may be 0
   /// @return true  if all IRBs are valid;<BR> false otherwise
-  static bool valid(const byte* pPsData, size_t sizePsData);
+  static bool valid(const unsigned char* pPsData, size_t sizePsData);
 
   /// @brief Locates the data for a %Photoshop tag in a %Photoshop formatted memory buffer.
   /// Operates on raw data to simplify reuse.
@@ -47,23 +48,23 @@ struct EXIV2API Photoshop {
   /// @return 0 if successful;<BR>
   ///   3 if no data for psTag was found in pPsData;<BR>
   ///  -2 if the pPsData buffer does not contain valid data.
-  static int locateIrb(const byte* pPsData, size_t sizePsData, uint16_t psTag, const byte** record, uint32_t& sizeHdr,
-                       uint32_t& sizeData);
+  static int locateIrb(const unsigned char* pPsData, size_t sizePsData, uint16_t psTag, const unsigned char** record,
+                       uint32_t& sizeHdr, uint32_t& sizeData);
 
   /// @brief Forwards to locateIrb() with \em psTag = \em iptc_
-  static int locateIptcIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t& sizeHdr,
-                           uint32_t& sizeData);
+  static int locateIptcIrb(const unsigned char* pPsData, size_t sizePsData, const unsigned char** record,
+                           uint32_t& sizeHdr, uint32_t& sizeData);
 
   /// @brief Forwards to locatePreviewIrb() with \em psTag = \em preview_
-  static int locatePreviewIrb(const byte* pPsData, size_t sizePsData, const byte** record, uint32_t& sizeHdr,
-                              uint32_t& sizeData);
+  static int locatePreviewIrb(const unsigned char* pPsData, size_t sizePsData, const unsigned char** record,
+                              uint32_t& sizeHdr, uint32_t& sizeData);
 
   /// @brief Set the new IPTC IRB, keeps existing IRBs but removes the IPTC block if there is no new IPTC data to write.
   /// @param pPsData    Existing IRB buffer
   /// @param sizePsData Size of the IRB buffer, may be 0
   /// @param iptcData   Iptc data to embed, may be empty
   /// @return A data buffer containing the new IRB buffer, may have 0 size
-  static DataBuf setIptcIrb(const byte* pPsData, size_t sizePsData, const IptcData& iptcData);
+  static DataBuf setIptcIrb(const unsigned char* pPsData, size_t sizePsData, const IptcData& iptcData);
 };
 }  // namespace Exiv2
 
