@@ -10,6 +10,13 @@
 
 #include "i18n.h"
 
+#include <cstddef>
+#include <cstdint>
+#include <ostream>
+#include <string>
+#include <string_view>
+#include <utility>
+
 // *****************************************************************************
 // namespace extensions
 

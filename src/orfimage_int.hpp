@@ -5,7 +5,12 @@
 
 // *****************************************************************************
 // included header files
+#include "types.hpp"
+
 #include "tiffimage_int.hpp"
+
+#include <cstddef>
+#include <cstdint>
 
 // *****************************************************************************
 // namespace extensions

@@ -23,8 +23,6 @@
 
 #include "error.hpp"
 
-#include <string>
-
 namespace Exiv2::Internal {
 /*!
  * @brief Ensure that condition is true, otherwise throw an exception of the

@@ -13,7 +13,6 @@
 #include <exiv2/exiv2.hpp>
 
 #include "getopt.hpp"
-#include "types.hpp"
 
 // + standard includes
 #include <iostream>

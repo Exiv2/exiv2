@@ -10,7 +10,6 @@
 #include "slice.hpp"  // for Slice
 
 #include <cstddef>  // for size_t
-#include <cstdint>  // for int32_t
 #include <ostream>  // for ostream, basic_ostream::put
 #include <string>
 

@@ -6,8 +6,14 @@
 // *****************************************************************************
 // included header files
 #include "tifffwd_int.hpp"
+#include "types.hpp"
 
+#include <cstddef>
+#include <cstdint>
 #include <memory>
+#include <string_view>
+#include <utility>
+#include <vector>
 
 // *****************************************************************************
 // namespace extensions

@@ -6,9 +6,16 @@
 // *****************************************************************************
 // included header files
 #include "tifffwd_int.hpp"
+#include "types.hpp"
 
+#include <cstddef>
+#include <cstdint>
+#include <iosfwd>
 #include <map>
+#include <memory>
+#include <string_view>
 #include <unordered_map>
+#include <utility>
 
 // *****************************************************************************
 // namespace extensions
