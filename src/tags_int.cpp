@@ -2474,8 +2474,9 @@ const TagInfo* mnTagList() {
 }
 
 bool isMakerIfd(IfdId ifdId) {
-  auto ii = Exiv2::find(groupInfo, ifdId);
-  return ii && strcmp(ii->ifdName_, "Makernote") == 0;
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    return std::string_view("Makernote") == ii->ifdName_;
+  return false;
 }
 
 bool isExifIfd(IfdId ifdId) {
