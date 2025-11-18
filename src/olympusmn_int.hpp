@@ -30,23 +30,41 @@ namespace Internal {
 class OlympusMakerNote {
  public:
   //! Return read-only list of built-in Olympus tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in Olympus Camera Settings tags
-  static const TagInfo* tagListCs();
+  static constexpr auto tagListCs() {
+    return tagInfoCs_;
+  }
   //! Return read-only list of built-in Olympus Equipment tags
-  static const TagInfo* tagListEq();
+  static constexpr auto tagListEq() {
+    return tagInfoEq_;
+  }
   //! Return read-only list of built-in Olympus Raw Development tags
-  static const TagInfo* tagListRd();
+  static constexpr auto tagListRd() {
+    return tagInfoRd_;
+  }
   //! Return read-only list of built-in Olympus Raw Development 2 tags
-  static const TagInfo* tagListRd2();
+  static constexpr auto tagListRd2() {
+    return tagInfoRd2_;
+  }
   //! Return read-only list of built-in Olympus Image Processing tags
-  static const TagInfo* tagListIp();
+  static constexpr auto tagListIp() {
+    return tagInfoIp_;
+  }
   //! Return read-only list of built-in Olympus Focus Info tags
-  static const TagInfo* tagListFi();
+  static constexpr auto tagListFi() {
+    return tagInfoFi_;
+  }
   //! Return read-only list of built-in Olympus FE tags
-  static const TagInfo* tagListFe();
+  static constexpr auto tagListFe() {
+    return tagInfoFe_;
+  }
   //! Return read-only list of built-in Olympus Raw Info tags
-  static const TagInfo* tagListRi();
+  static constexpr auto tagListRi() {
+    return tagInfoRi_;
+  }
 
   //! @name Print functions for Olympus %MakerNote tags
   //@{

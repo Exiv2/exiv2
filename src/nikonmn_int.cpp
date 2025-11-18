@@ -170,10 +170,6 @@ constexpr TagInfo Nikon1MakerNote::tagInfo_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* Nikon1MakerNote::tagList() {
-  return tagInfo_;
-}
-
 std::ostream& Nikon1MakerNote::print0x0002(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() > 1) {
     os << value.toInt64(1);
@@ -358,10 +354,6 @@ constexpr TagInfo Nikon2MakerNote::tagInfo_[] = {
     {0xffff, "(UnknownNikon2MnTag)", "(UnknownNikon2MnTag)", N_("Unknown Nikon2MakerNote tag"), IfdId::nikon2Id,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* Nikon2MakerNote::tagList() {
-  return tagInfo_;
-}
 
 std::ostream& Nikon2MakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
   auto [r, s] = value.toRational();
@@ -561,10 +553,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfo_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagList() {
-  return tagInfo_;
-}
-
 //! YesNo, used for DaylightSavings, tag index 2, et al.
 constexpr TagDetails nikonYesNo[] = {
     {0, N_("No")},
@@ -594,10 +582,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoVr_[] = {
     {0xffff, "(UnknownNikonVrTag)", "(UnknownNikonVrTag)", N_("Unknown Nikon Vibration Reduction Tag"),
      IfdId::nikonVrId, SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListVr() {
-  return tagInfoVr_;
-}
 
 //! Adjust
 constexpr TagDetails nikonAdjust[] = {
@@ -650,10 +634,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoPc_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListPc() {
-  return tagInfoPc_;
-}
-
 //! OnOff
 constexpr TagDetails aftOnOff[] = {
     {0, N_("Off")},
@@ -674,10 +654,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoAFT_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListAFT() {
-  return tagInfoAFT_;
-}
-
 // Nikon3 World Time Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoWt_[] = {
     {0, "Timezone", N_("Timezone"), N_("Timezone"), IfdId::nikonWtId, SectionId::makerTags, signedShort, 1,
@@ -690,10 +666,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoWt_[] = {
     {0xffff, "(UnknownNikonWtTag)", "(UnknownNikonWtTag)", N_("Unknown Nikon World Time Tag"), IfdId::nikonWtId,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListWt() {
-  return tagInfoWt_;
-}
 
 //! ISOExpansion, tag index 4 and 10
 constexpr TagDetails nikonIsoExpansion[] = {
@@ -716,10 +688,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoIi_[] = {
     {0xffff, "(UnknownNikonIiTag)", "(UnknownNikonIiTag)", N_("Unknown Nikon Iso Info Tag"), IfdId::nikonIiId,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListIi() {
-  return tagInfoIi_;
-}
 
 //! AfAreaMode
 constexpr TagDetails nikonAfAreaMode[] = {
@@ -782,10 +750,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoAf_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListAf() {
-  return tagInfoAf_;
-}
-
 //! PhaseDetectAF
 constexpr TagDetails nikonPhaseDetectAF[] = {
     {0, N_("Off")},           {1, N_("On (51-point)")},      {2, N_("On (11-point)")},  {3, N_("On (39-point)")},
@@ -825,10 +789,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoAf21_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListAf21() {
-  return tagInfoAf21_;
-}
-
 // Nikon3 Auto Focus Tag Info Version 1.01 https://github.com/Exiv2/exiv2/pull/900
 constexpr TagInfo Nikon3MakerNote::tagInfoAf22_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonAf22Id, SectionId::makerTags, undefined, 4,
@@ -862,10 +822,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoAf22_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListAf22() {
-  return tagInfoAf22_;
-}
-
 // Nikon3 File Info Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoFi_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonFiId, SectionId::makerTags, undefined, 4,
@@ -878,10 +834,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoFi_[] = {
     {0xffff, "(UnknownNikonFiTag)", "(UnknownNikonFiTag)", N_("Unknown Nikon File Info Tag"), IfdId::nikonFiId,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListFi() {
-  return tagInfoFi_;
-}
 
 //! MultiExposureMode
 constexpr TagDetails nikonMultiExposureMode[] = {
@@ -904,10 +856,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoMe_[] = {
     {0xffff, "(UnknownNikonMeTag)", "(UnknownNikonMeTag)", N_("Unknown Nikon Multi Exposure Tag"), IfdId::nikonMeId,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListMe() {
-  return tagInfoMe_;
-}
 
 //! FlashSource
 constexpr TagDetails nikonFlashSource[] = {
@@ -1131,10 +1079,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoFl1_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListFl1() {
-  return tagInfoFl1_;
-}
-
 // Nikon3 Flash Info 2 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoFl2_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonFl2Id, SectionId::makerTags, undefined, 4,
@@ -1158,10 +1102,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoFl2_[] = {
     {0xffff, "(UnknownNikonMeTag)", "(UnknownNikonMeTag)", N_("Unknown Nikon Multi Exposure Tag"), IfdId::nikonFl2Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListFl2() {
-  return tagInfoFl2_;
-}
 
 // Nikon3 Flash Info 3 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoFl3_[] = {
@@ -1187,10 +1127,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoFl3_[] = {
     {0xffff, "(UnknownNikonMeTag)", "(UnknownNikonMeTag)", N_("Unknown Nikon Multi Exposure Tag"), IfdId::nikonFl3Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListFl3() {
-  return tagInfoFl3_;
-}
 
 // Nikon3 Flash Info 6 (0106) Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoFl6_[] = {
@@ -1264,10 +1200,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoFl6_[] = {
     {0xffff, "(UnknownNikonFl6Tag)", "(UnknownNikonFl6Tag)", N_("Unknown Nikon Flash Info 6 Tag"), IfdId::nikonFl6Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListFl6() {
-  return tagInfoFl6_;
-}
 
 // Nikon3 Flash Info 7 (0107 and 0108) Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoFl7_[] = {
@@ -1359,10 +1291,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoFl7_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListFl7() {
-  return tagInfoFl7_;
-}
-
 // Nikon3 Shot Info D80 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoSi1_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonSi1Id, SectionId::makerTags, unsignedByte, 4,
@@ -1373,10 +1301,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoSi1_[] = {
     {0xffff, "(UnknownNikonSi1Tag)", "(UnknownNikonSi1Tag)", N_("Unknown Nikon Shot Info D80 Tag"), IfdId::nikonSi1Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListSi1() {
-  return tagInfoSi1_;
-}
 
 // Nikon3 Shot Info D40 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoSi2_[] = {
@@ -1390,10 +1314,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoSi2_[] = {
     {0xffff, "(UnknownNikonSi2Tag)", "(UnknownNikonSi2Tag)", N_("Unknown Nikon Shot Info D40 Tag"), IfdId::nikonSi2Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListSi2() {
-  return tagInfoSi2_;
-}
 
 //! AfFineTuneAdj D300 (a)
 constexpr TagDetails nikonAfFineTuneAdj1[] = {
@@ -1420,10 +1340,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoSi3_[] = {
      IfdId::nikonSi3Id, SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListSi3() {
-  return tagInfoSi3_;
-}
-
 //! AfFineTuneAdj D300 (b)
 constexpr TagDetails nikonAfFineTuneAdj2[] = {
     {0x0000, "0"},   {0x043e, "+13"}, {0x04c2, "-13"}, {0x183d, "+7"},  {0x183e, "+14"}, {0x18c2, "-14"},
@@ -1448,10 +1364,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoSi4_[] = {
     {0xffff, "(UnknownNikonSi4Tag)", "(UnknownNikonSi4Tag)", N_("Unknown Nikon Shot Info D300 (b) Tag"),
      IfdId::nikonSi4Id, SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListSi4() {
-  return tagInfoSi4_;
-}
 
 //! VibrationReduction
 constexpr TagDetails nikonOffOn2[] = {
@@ -1492,10 +1404,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoSi5_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListSi5() {
-  return tagInfoSi5_;
-}
-
 // Nikon3 Color Balance 1 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoCb1_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonCb1Id, SectionId::makerTags, undefined, 4,
@@ -1506,10 +1414,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoCb1_[] = {
     {0xffff, "(UnknownNikonCb1Tag)", "(UnknownNikonCb1Tag)", N_("Unknown Nikon Color Balance 1 Tag"), IfdId::nikonCb1Id,
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListCb1() {
-  return tagInfoCb1_;
-}
 
 // Nikon3 Color Balance 2 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoCb2_[] = {
@@ -1522,10 +1426,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoCb2_[] = {
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListCb2() {
-  return tagInfoCb2_;
-}
-
 // Nikon3 Color Balance 2a Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoCb2a_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonCb2aId, SectionId::makerTags, undefined, 4,
@@ -1536,10 +1436,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoCb2a_[] = {
     {0xffff, "(UnknownNikonCb2aTag)", "(UnknownNikonCb2aTag)", N_("Unknown Nikon Color Balance 2a Tag"),
      IfdId::nikonCb2aId, SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListCb2a() {
-  return tagInfoCb2a_;
-}
 
 // Nikon3 Color Balance 2b Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoCb2b_[] = {
@@ -1552,10 +1448,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoCb2b_[] = {
      IfdId::nikonCb2bId, SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListCb2b() {
-  return tagInfoCb2b_;
-}
-
 // Nikon3 Color Balance 3 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoCb3_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonCb3Id, SectionId::makerTags, undefined, 4,
@@ -1567,10 +1459,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoCb3_[] = {
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListCb3() {
-  return tagInfoCb3_;
-}
-
 // Nikon3 Color Balance 4 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoCb4_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonCb4Id, SectionId::makerTags, undefined, 4,
@@ -1581,10 +1469,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoCb4_[] = {
     {0xffff, "(UnknownNikonCb4Tag)", "(UnknownNikonCb4Tag)", N_("Unknown Nikon Color Balance 4 Tag"), IfdId::nikonCb4Id,
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListCb4() {
-  return tagInfoCb4_;
-}
 
 // Nikon3 Lens Data 1 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoLd1_[] = {
@@ -1608,10 +1492,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoLd1_[] = {
     {0xffff, "(UnknownNikonLd1Tag)", "(UnknownNikonLd1Tag)", N_("Unknown Nikon Lens Data 1 Tag"), IfdId::nikonLd1Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListLd1() {
-  return tagInfoLd1_;
-}
 
 // Nikon3 Lens Data 2 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoLd2_[] = {
@@ -1648,10 +1528,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoLd2_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* Nikon3MakerNote::tagListLd2() {
-  return tagInfoLd2_;
-}
-
 // Nikon3 Lens Data 3 Tag Info
 constexpr TagInfo Nikon3MakerNote::tagInfoLd3_[] = {
     {0, "Version", N_("Version"), N_("Version"), IfdId::nikonLd3Id, SectionId::makerTags, undefined, 4,
@@ -1686,10 +1562,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoLd3_[] = {
     {0xffff, "(UnknownNikonLd3Tag)", "(UnknownNikonLd3Tag)", N_("Unknown Nikon Lens Data 3 Tag"), IfdId::nikonLd3Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListLd3() {
-  return tagInfoLd3_;
-}
 
 //! LensID, tag index 48
 // see https://github.com/exiftool/exiftool/blob/13.16/lib/Image/ExifTool/Nikon.pm#L5668
@@ -1789,10 +1661,6 @@ constexpr TagInfo Nikon3MakerNote::tagInfoLd4_[] = {
     {0xffff, "(UnknownNikonLd4Tag)", "(UnknownNikonLd4Tag)", N_("Unknown Nikon Lens Data 3 Tag"), IfdId::nikonLd4Id,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* Nikon3MakerNote::tagListLd4() {
-  return tagInfoLd4_;
-}
 
 std::ostream& Nikon3MakerNote::printIiIso(std::ostream& os, const Value& value, const ExifData*) {
   auto v = std::lround(100.0 * std::exp2((value.toInt64() / 12.0) - 5));

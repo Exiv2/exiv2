@@ -21,23 +21,41 @@ namespace Internal {
 class SonyMakerNote {
  public:
   //! Return read-only list of built-in Sony tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in Sony Standard Camera Settings tags
-  static const TagInfo* tagListCs();
+  static constexpr auto tagListCs() {
+    return tagInfoCs_;
+  }
   //! Return read-only list of built-in Sony Standard Camera Settings version 2 tags
-  static const TagInfo* tagListCs2();
+  static constexpr auto tagListCs2() {
+    return tagInfoCs2_;
+  }
   //! Return read-only list of built-in Sony FocusPosition tags
-  static const TagInfo* tagListFp();
+  static constexpr auto tagListFp() {
+    return tagInfoFp_;
+  }
   //! Return read-only list of built-in Sony Misc1 tags (Tag 9403)
-  static const TagInfo* tagListSonyMisc1();
+  static constexpr auto tagListSonyMisc1() {
+    return tagInfoSonyMisc1_;
+  }
   //! Return read-only list of built-in Sony Misc2b tags (Tag 9404)
-  static const TagInfo* tagListSonyMisc2b();
+  static constexpr auto tagListSonyMisc2b() {
+    return tagInfoSonyMisc2b_;
+  }
   //! Return read-only list of built-in Sony Misc3c tags (Tag 9400)
-  static const TagInfo* tagListSonyMisc3c();
+  static constexpr auto tagListSonyMisc3c() {
+    return tagInfoSonyMisc3c_;
+  }
   //! Return read-only list of built-in Sony SInfo1 tags (Tag 3000)
-  static const TagInfo* tagListSonySInfo1();
+  static constexpr auto tagListSonySInfo1() {
+    return tagInfoSonySInfo1_;
+  }
   //! Return read-only list of built-in Sony 2010e tags (Tag 2010)
-  static const TagInfo* tagList2010e();
+  static constexpr auto tagList2010e() {
+    return tagInfo2010e_;
+  }
 
   //! @name Print functions for Sony %MakerNote tags
   //@{

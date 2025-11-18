@@ -22,7 +22,9 @@ namespace Internal {
 class SigmaMakerNote {
  public:
   //! Return read-only list of built-in Sigma tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
 
   //! @name Print functions for Sigma (Foveon) %MakerNote tags
   //@{
