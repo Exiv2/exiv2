@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install ninja inih googletest
+          brew install inih googletest
 
       - name: Build
         run: |
