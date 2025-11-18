@@ -1438,14 +1438,10 @@ static const TagInfo* findTagInfo(uint16_t tag, IfdId group) {
       return Internal::gpsTagList();
     return group == IfdId::exifId ? Internal::exifTagList() : nullptr;
   }();
-  if (!tags)
-    return nullptr;
-
-  for (size_t idx = 0; tags[idx].tag_ != 0xffff; ++idx) {
-    if (tags[idx].tag_ == tag) {
-      return tags + idx;
-    }
-  }
+  if (tags)
+    for (size_t idx = 0; tags[idx].tag_ != 0xffff; ++idx)
+      if (tags[idx].tag_ == tag)
+        return tags + idx;
   return nullptr;
 }
 

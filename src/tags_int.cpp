@@ -2621,7 +2621,7 @@ URational exposureTime(float shutterSpeedValue) {
 }
 
 uint16_t tagNumber(const std::string& tagName, IfdId ifdId) {
-  const TagInfo* ti = tagInfo(tagName, ifdId);
+  auto ti = tagInfo(tagName, ifdId);
   if (ti && ti->tag_ != 0xffff)
     return ti->tag_;
   if (!isHex(tagName, 4, "0x"))
