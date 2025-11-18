@@ -74,18 +74,16 @@ bool GroupInfo::operator==(const GroupName& groupName) const {
 }
 
 const char* ExifTags::sectionName(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), key.ifdId());
-  if (!ti)
-    return sectionInfo[static_cast<int>(unknownTag.sectionId_)].name_;
-  return sectionInfo[static_cast<int>(ti->sectionId_)].name_;
+  if (auto ti = tagInfo(key.tag(), key.ifdId()))
+    return sectionInfo[static_cast<int>(ti->sectionId_)].name_;
+  return sectionInfo[static_cast<int>(unknownTag.sectionId_)].name_;
 }
 
 /// \todo not used internally. At least we should test it
 uint16_t ExifTags::defaultCount(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), key.ifdId());
-  if (!ti)
-    return unknownTag.count_;
-  return ti->count_;
+  if (auto ti = tagInfo(key.tag(), key.ifdId()))
+    return ti->count_;
+  return unknownTag.count_;
 }
 
 const char* ExifTags::ifdName(const std::string& groupName) {
@@ -236,12 +234,12 @@ ExifKey::ExifKey(uint16_t tag, const std::string& groupName) : p_(std::make_uniq
   if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
     throw Error(ErrorCode::kerInvalidIfdId, ifdId);
   }
-  const TagInfo* ti = tagInfo(tag, ifdId);
-  if (!ti) {
-    throw Error(ErrorCode::kerInvalidIfdId, ifdId);
+  if (auto ti = tagInfo(tag, ifdId)) {
+    p_->groupName_ = groupName;
+    p_->makeKey(tag, ifdId, ti);
+    return;
   }
-  p_->groupName_ = groupName;
-  p_->makeKey(tag, ifdId, ti);
+  throw Error(ErrorCode::kerInvalidIfdId, ifdId);
 }
 
 ExifKey::ExifKey(const TagInfo& ti) : p_(std::make_unique<Impl>()) {
