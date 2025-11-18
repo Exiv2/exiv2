@@ -68,10 +68,6 @@ constexpr TagInfo SigmaMakerNote::tagInfo_[] = {
      IfdId::sigmaId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* SigmaMakerNote::tagList() {
-  return tagInfo_;
-}
-
 std::ostream& SigmaMakerNote::printStripLabel(std::ostream& os, const Value& value, const ExifData*) {
   std::string v = value.toString();
   if (auto pos = v.find(':'); pos != std::string::npos) {

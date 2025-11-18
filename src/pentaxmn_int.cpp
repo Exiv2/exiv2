@@ -1471,8 +1471,4 @@ constexpr TagInfo PentaxMakerNote::tagInfo_[] = {
      IfdId::pentaxId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* PentaxMakerNote::tagList() {
-  return tagInfo_;
-}
-
 }  // namespace Exiv2::Internal

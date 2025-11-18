@@ -1697,10 +1697,6 @@ constexpr TagInfo SonyMakerNote::tagInfo_[] = {
      IfdId::sony1Id, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagList() {
-  return tagInfo_;
-}
-
 // -- Sony camera settings ---------------------------------------------------------------
 
 //! Lookup table to translate Sony camera settings drive mode values to readable labels
@@ -1881,10 +1877,6 @@ constexpr TagInfo SonyMakerNote::tagInfoCs_[] = {
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagListCs() {
-  return tagInfoCs_;
-}
-
 // -- Sony camera settings 2 ---------------------------------------------------------------
 
 // Sony Camera Settings Tag Version 2 Info
@@ -1928,10 +1920,6 @@ constexpr TagInfo SonyMakerNote::tagInfoCs2_[] = {
      IfdId::sony1Cs2Id, SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagListCs2() {
-  return tagInfoCs2_;
-}
-
 //! Lookup table to translate Sony2Fp AF Area Mode values to readable labels
 constexpr TagDetails sony2FpAFAreaMode[] = {
     {0, N_("Multi")},
@@ -1961,10 +1949,6 @@ constexpr TagInfo SonyMakerNote::tagInfoFp_[] = {
     {0xffff, "(UnknownSony2FpTag)", "(Unknown Sony2Fp tag)", "(Unknown Sony2Fp tag)", IfdId::sony2FpId,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* SonyMakerNote::tagListFp() {
-  return tagInfoFp_;
-}
 
 std::ostream& SonyMakerNote::printSony2FpAmbientTemperature(std::ostream& os, const Value& value,
                                                             const ExifData* metadata) {
@@ -2043,10 +2027,6 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc1_[] = {
      SectionId::makerTags, unsignedByte, -1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagListSonyMisc1() {
-  return tagInfoSonyMisc1_;
-}
-
 std::ostream& SonyMakerNote::printSonyMisc1CameraTemperature(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
   if (value.count() != 1 || !metadata)
@@ -2110,10 +2090,6 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc2b_[] = {
     {0xffff, "(UnknownSonyMisc2bTag)", "(Unknown SonyMisc2b tag)", "(Unknown SonyMisc2b tag)", IfdId::sonyMisc2bId,
      SectionId::makerTags, unsignedByte, -1, printValue},
 };
-
-const TagInfo* SonyMakerNote::tagListSonyMisc2b() {
-  return tagInfoSonyMisc2b_;
-}
 
 std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
@@ -2223,10 +2199,6 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc3c_[] = {
     {0xffff, "(UnknownSonyMisc3c)", "(Unknown SonyMisc3c Tag)", N_("Unknown SonyMisc23 tag"), IfdId::sonyMisc3cId,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* SonyMakerNote::tagListSonyMisc3c() {
-  return tagInfoSonyMisc3c_;
-}
 
 std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream& os, const Value& value,
                                                                    const ExifData* metadata) {
@@ -2358,10 +2330,6 @@ constexpr TagInfo SonyMakerNote::tagInfoSonySInfo1_[] = {
      SectionId::makerTags, unsignedByte, -1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagListSonySInfo1() {
-  return tagInfoSonySInfo1_;
-}
-
 //! Sony Tag 2010 Sony2010 (Miscellaneous)
 constexpr TagInfo SonyMakerNote::tagInfo2010e_[] = {
     {0, "SequenceImageNumber", N_("Sequence Image Number"), N_("Sequence Image Number"), IfdId::sony2010eId,
@@ -2440,10 +2408,6 @@ constexpr TagInfo SonyMakerNote::tagInfo2010e_[] = {
     {0xffff, "(UnknownSony2010eTag)", "(UnknownSony2010eTag)", "(UnknownSony2010eTag)", IfdId::sony2010eId,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* SonyMakerNote::tagList2010e() {
-  return tagInfo2010e_;
-}
 
 // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
 static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size, const TiffComponent* /*object*/,

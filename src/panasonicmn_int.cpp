@@ -555,10 +555,6 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
      IfdId::panasonicId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* PanasonicMakerNote::tagList() {
-  return tagInfo_;
-}
-
 // tag Focus Mode
 std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() < 2 || value.typeId() != unsignedByte) {
@@ -750,9 +746,5 @@ constexpr TagInfo PanasonicMakerNote::tagInfoRaw_[] = {
     {0xffff, "(UnknownPanasonicRawTag)", "(UnknownPanasonicRawTag)", N_("Unknown PanasonicRaw tag"), IfdId::panaRawId,
      SectionId::panaRaw, asciiString, -1, printValue},
 };
-
-const TagInfo* PanasonicMakerNote::tagListRaw() {
-  return tagInfoRaw_;
-}
 
 }  // namespace Exiv2::Internal

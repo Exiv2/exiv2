@@ -31,7 +31,9 @@ namespace Internal {
 class CasioMakerNote {
  public:
   //! Return read-only list of built-in Casio tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Print ObjectDistance
   static std::ostream& print0x0006(std::ostream& os, const Value& value, const ExifData*);
   //! Print FirmwareDate
@@ -47,7 +49,9 @@ class CasioMakerNote {
 class Casio2MakerNote {
  public:
   //! Return read-only list of built-in Casio2 tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Print FirmwareDate
   static std::ostream& print0x2001(std::ostream& os, const Value& value, const ExifData*);
   //! Print ObjectDistance

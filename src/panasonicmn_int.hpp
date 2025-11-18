@@ -22,9 +22,13 @@ namespace Internal {
 class PanasonicMakerNote {
  public:
   //! Return read-only list of built-in Panasonic tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in Panasonic RAW image tags (IFD0)
-  static const TagInfo* tagListRaw();
+  static constexpr auto tagListRaw() {
+    return tagInfoRaw_;
+  }
 
   //! @name Print functions for Panasonic %MakerNote tags
   //@{
