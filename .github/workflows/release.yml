@@ -71,23 +71,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install ninja
-          brew install inih
-          brew install tree
-          brew install gettext
-          brew install doxygen
-          brew install graphviz
+          brew install inih tree doxygen graphviz
 
       - name: Build packaged release
         run: |
-          mkdir build
           cmake -GNinja -S . -B build \
             -DEXIV2_TEAM_PACKAGING=ON \
             -DBUILD_SHARED_LIBS=ON \
             -DEXIV2_ENABLE_WEBREADY=OFF \
             -DEXIV2_ENABLE_NLS=ON \
             -DCMAKE_BUILD_TYPE=Release \
-            -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
             -DEXIV2_BUILD_DOC=ON \
             -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
