@@ -1545,18 +1545,15 @@ std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& val
 
 //! OlympusCs ArtFilter, tag 0x0529, OlympusCs MagicFilter, tag 0x052c
 std::ostream& OlympusMakerNote::print0x0529(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 4 || value.typeId() != unsignedShort) {
+  if (value.count() != 4 || value.typeId() != unsignedShort)
     return os << "(" << value << ")";
-  }
 
   const auto v0 = value.toInt64(0);
-
-  printTag<std::size(artFilters), artFilters>(os, v0, metadata);
+  EXV_PRINT_TAG(artFilters)(os, v0, metadata);
 
   if (v0 == 39) {  // The "Partial color" option also has a color choice
     const auto v3 = value.toInt64(3);
-    os << " (" << _("position") << " " << (v3 + 1) << ")";
-    return os;
+    return os << " (" << _("position") << " " << (v3 + 1) << ")";
   }
 
   return os;
