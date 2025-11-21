@@ -13,17 +13,6 @@
 namespace {
 using namespace Exiv2;
 
-template <size_t N, const char* const (&keys)[N]>
-ExifData::const_iterator findMetadatum(const ExifData& ed) {
-  static_assert(N > 0, "Passed zero length findMetadatum");
-  for (const auto& k : keys) {
-    auto pos = ed.findKey(ExifKey(k));
-    if (pos != ed.end())
-      return pos;
-  }
-  return ed.end();
-}  // findMetadatum
-
 /*!
   @brief Search \em ed for a Metadatum specified by the \em keys.
          The \em keys are searched in the order of their appearance, the
@@ -77,7 +66,7 @@ ExifData::const_iterator orientation(const ExifData& ed) {
       "Exif.Sony1MltCsA100.Rotation", "Exif.Sony1Cs.Rotation",      "Exif.Sony2Cs.Rotation",
       "Exif.Sony1Cs2.Rotation",       "Exif.Sony2Cs2.Rotation",     "Exif.Sony1MltCsA100.Rotation",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator isoSpeed(const ExifData& ed) {
@@ -159,7 +148,7 @@ ExifData::const_iterator isoSpeed(const ExifData& ed) {
   // ISO value (see EXIF 2.3 Annex G)
   int64_t iso_tmp_val = -1;
   while (iso_tmp_val == -1 && (iso_val == 65535 || md == ed.end())) {
-    auto md_st = findMetadatum<std::size(sensitivityType), sensitivityType>(ed);
+    auto md_st = findMetadatum(ed, sensitivityType, std::size(sensitivityType));
     // no SensitivityType? exit with existing data
     if (md_st == ed.end())
       break;
@@ -202,7 +191,7 @@ ExifData::const_iterator dateTimeOriginal(const ExifData& ed) {
       "Exif.Photo.DateTimeOriginal",
       "Exif.Image.DateTimeOriginal",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator flashBias(const ExifData& ed) {
@@ -211,7 +200,7 @@ ExifData::const_iterator flashBias(const ExifData& ed) {
       "Exif.OlympusCs.FlashExposureComp", "Exif.Minolta.FlashExposureComp", "Exif.SonyMinolta.FlashExposureComp",
       "Exif.Sony1.FlashExposureComp",     "Exif.Sony2.FlashExposureComp",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator exposureMode(const ExifData& ed) {
@@ -223,7 +212,7 @@ ExifData::const_iterator exposureMode(const ExifData& ed) {
       "Exif.Sony2Cs.ExposureProgram",   "Exif.Sony1MltCsA100.ExposureMode", "Exif.SonyMisc2b.ExposureProgram",
       "Exif.Sigma.ExposureMode",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator sceneMode(const ExifData& ed) {
@@ -242,7 +231,7 @@ ExifData::const_iterator sceneMode(const ExifData& ed) {
       "Exif.Pentax.PictureMode",
       "Exif.PentaxDng.PictureMode",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator macroMode(const ExifData& ed) {
@@ -251,7 +240,7 @@ ExifData::const_iterator macroMode(const ExifData& ed) {
       "Exif.OlympusCs.MacroMode", "Exif.Panasonic.Macro", "Exif.MinoltaCsNew.MacroMode", "Exif.MinoltaCsOld.MacroMode",
       "Exif.Sony1.Macro",         "Exif.Sony2.Macro",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator imageQuality(const ExifData& ed) {
@@ -268,7 +257,7 @@ ExifData::const_iterator imageQuality(const ExifData& ed) {
       "Exif.Sony1MltCsA100.Quality", "Exif.Casio.Quality",       "Exif.Casio2.QualityMode",
       "Exif.Casio2.Quality",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator whiteBalance(const ExifData& ed) {
@@ -283,7 +272,7 @@ ExifData::const_iterator whiteBalance(const ExifData& ed) {
       "Exif.SonyMinolta.WhiteBalance",  "Exif.Casio.WhiteBalance",       "Exif.Casio2.WhiteBalance",
       "Exif.Casio2.WhiteBalance2",      "Exif.Photo.WhiteBalance",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator lensName(const ExifData& ed) {
@@ -317,7 +306,7 @@ ExifData::const_iterator saturation(const ExifData& ed) {
       "Exif.Sony2.Saturation",        "Exif.Casio.Saturation",       "Exif.Casio2.Saturation",
       "Exif.Casio2.Saturation2",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator sharpness(const ExifData& ed) {
@@ -329,7 +318,7 @@ ExifData::const_iterator sharpness(const ExifData& ed) {
       "Exif.Sony1.Sharpness",        "Exif.Sony2.Sharpness",         "Exif.Casio.Sharpness",
       "Exif.Casio2.Sharpness",       "Exif.Casio2.Sharpness2",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator contrast(const ExifData& ed) {
@@ -341,7 +330,7 @@ ExifData::const_iterator contrast(const ExifData& ed) {
       "Exif.Sony1.Contrast",        "Exif.Sony2.Contrast",        "Exif.Casio.Contrast",
       "Exif.Casio2.Contrast",       "Exif.Casio2.Contrast2",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator sceneCaptureType(const ExifData& ed) {
@@ -349,7 +338,7 @@ ExifData::const_iterator sceneCaptureType(const ExifData& ed) {
       "Exif.Photo.SceneCaptureType",
       "Exif.Olympus.SpecialMode",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator meteringMode(const ExifData& ed) {
@@ -360,7 +349,7 @@ ExifData::const_iterator meteringMode(const ExifData& ed) {
       "Exif.Sony1.MeteringMode2",      "Exif.Sony1Cs.MeteringMode",      "Exif.Sony1Cs2.MeteringMode",
       "Exif.Sony2.MeteringMode2",      "Exif.Sony2Cs.MeteringMode",      "Exif.Sony1MltCsA100.MeteringMode",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator make(const ExifData& ed) {
@@ -368,7 +357,7 @@ ExifData::const_iterator make(const ExifData& ed) {
       "Exif.Image.Make",
       "Exif.PanasonicRaw.Make",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator model(const ExifData& ed) {
@@ -382,7 +371,7 @@ ExifData::const_iterator model(const ExifData& ed) {
       "Exif.Sony1.SonyModelID",
       "Exif.Sony2.SonyModelID",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator exposureTime(const ExifData& ed) {
@@ -390,7 +379,7 @@ ExifData::const_iterator exposureTime(const ExifData& ed) {
       "Exif.Photo.ExposureTime",     "Exif.Image.ExposureTime",    "Exif.Pentax.ExposureTime",
       "Exif.PentaxDng.ExposureTime", "Exif.Samsung2.ExposureTime",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator fNumber(const ExifData& ed) {
@@ -398,7 +387,7 @@ ExifData::const_iterator fNumber(const ExifData& ed) {
       "Exif.Photo.FNumber",     "Exif.Image.FNumber",    "Exif.Pentax.FNumber",
       "Exif.PentaxDng.FNumber", "Exif.Samsung2.FNumber",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator shutterSpeedValue(const ExifData& ed) {
@@ -406,7 +395,7 @@ ExifData::const_iterator shutterSpeedValue(const ExifData& ed) {
       "Exif.Photo.ShutterSpeedValue",
       "Exif.Image.ShutterSpeedValue",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator apertureValue(const ExifData& ed) {
@@ -415,7 +404,7 @@ ExifData::const_iterator apertureValue(const ExifData& ed) {
       "Exif.Image.ApertureValue",
       "Exif.CanonSi.ApertureValue",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator brightnessValue(const ExifData& ed) {
@@ -425,7 +414,7 @@ ExifData::const_iterator brightnessValue(const ExifData& ed) {
       "Exif.Sony1.Brightness",
       "Exif.Sony2.Brightness",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator exposureBiasValue(const ExifData& ed) {
@@ -433,7 +422,7 @@ ExifData::const_iterator exposureBiasValue(const ExifData& ed) {
       "Exif.Photo.ExposureBiasValue",     "Exif.Image.ExposureBiasValue",      "Exif.MinoltaCs5D.ExposureManualBias",
       "Exif.OlympusRd.ExposureBiasValue", "Exif.OlympusRd2.ExposureBiasValue",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator maxApertureValue(const ExifData& ed) {
@@ -443,7 +432,7 @@ ExifData::const_iterator maxApertureValue(const ExifData& ed) {
       "Exif.CanonCs.MaxAperture",
       "Exif.NikonLd4.MaxAperture",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator subjectDistance(const ExifData& ed) {
@@ -463,7 +452,7 @@ ExifData::const_iterator lightSource(const ExifData& ed) {
       "Exif.Photo.LightSource",
       "Exif.Image.LightSource",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator flash(const ExifData& ed) {
@@ -471,7 +460,7 @@ ExifData::const_iterator flash(const ExifData& ed) {
       "Exif.Photo.Flash",     "Exif.Image.Flash",       "Exif.Pentax.Flash",
       "Exif.PentaxDng.Flash", "Exif.Sony1.FlashAction", "Exif.Sony2.FlashAction",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator serialNumber(const ExifData& ed) {
@@ -484,7 +473,7 @@ ExifData::const_iterator serialNumber(const ExifData& ed) {
       "Exif.PentaxDng.SerialNumber", "Exif.Sigma.SerialNumber",       "Exif.Sony1.SerialNumber",
       "Exif.Sony2.SerialNumber",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator focalLength(const ExifData& ed) {
@@ -502,7 +491,7 @@ ExifData::const_iterator subjectArea(const ExifData& ed) {
       "Exif.Photo.SubjectArea",
       "Exif.Image.SubjectLocation",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator flashEnergy(const ExifData& ed) {
@@ -510,7 +499,7 @@ ExifData::const_iterator flashEnergy(const ExifData& ed) {
       "Exif.Photo.FlashEnergy",
       "Exif.Image.FlashEnergy",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator exposureIndex(const ExifData& ed) {
@@ -518,7 +507,7 @@ ExifData::const_iterator exposureIndex(const ExifData& ed) {
       "Exif.Photo.ExposureIndex",
       "Exif.Image.ExposureIndex",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator sensingMethod(const ExifData& ed) {
@@ -526,7 +515,7 @@ ExifData::const_iterator sensingMethod(const ExifData& ed) {
       "Exif.Photo.SensingMethod",
       "Exif.Image.SensingMethod",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 ExifData::const_iterator afPoint(const ExifData& ed) {
@@ -556,7 +545,7 @@ ExifData::const_iterator afPoint(const ExifData& ed) {
       "Exif.Casio.AFPoint",
       "Exif.Casio2.AFPointPosition",
   };
-  return findMetadatum<std::size(keys), keys>(ed);
+  return findMetadatum(ed, keys, std::size(keys));
 }
 
 }  // namespace Exiv2
