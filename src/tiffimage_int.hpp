@@ -6,6 +6,7 @@
 // *****************************************************************************
 // included header files
 #include "tifffwd_int.hpp"
+#include "types.hpp"
 
 #include <map>
 #include <unordered_map>
@@ -17,6 +18,7 @@ class BasicIo;
 class ExifData;
 class IptcData;
 class XmpData;
+struct DataBuf;
 
 namespace Internal {
 /*!
