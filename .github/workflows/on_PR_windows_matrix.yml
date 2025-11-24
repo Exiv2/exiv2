@@ -29,7 +29,7 @@ jobs:
         platform: [ x64, x86 ]
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
@@ -96,7 +96,7 @@ jobs:
         shell: msys2 {0}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
@@ -154,7 +154,7 @@ jobs:
       # Make sure we don't check out scripts using Windows CRLF line endings
       - run: git config --global core.autocrlf input
         shell: pwsh
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 

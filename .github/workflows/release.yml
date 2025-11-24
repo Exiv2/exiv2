@@ -25,7 +25,7 @@ jobs:
           - { os: ubuntu-22.04, arch: x64   }
           - { os: ubuntu-22.04-arm, arch: arm64 }
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
@@ -69,7 +69,7 @@ jobs:
           - { os: macos-15-intel, arch: x64   }
           - { os: macos-14,       arch: arm64 }
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
@@ -106,7 +106,7 @@ jobs:
         runner:
           - { os: windows-2022, arch: x64   }
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
