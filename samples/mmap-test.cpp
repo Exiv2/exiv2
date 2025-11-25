@@ -25,7 +25,7 @@ int main(int argc, char* const argv[]) {
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();
-    std::vector<byte> buf(file.size());
+    Blob buf(file.size());
 
     // Read from the memory mapped region
     std::copy_n(pData, buf.size(), buf.begin());

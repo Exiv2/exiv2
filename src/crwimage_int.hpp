@@ -456,7 +456,7 @@ class CiffHeader {
   std::unique_ptr<CiffDirectory> pRootDir_;  //!< Pointer to the root directory
   ByteOrder byteOrder_ = littleEndian;       //!< Applicable byte order
   uint32_t offset_ = 0;                      //!< Offset to the start of the root dir
-  std::vector<byte> pPadding_;               //!< the (unknown) remainder
+  Blob pPadding_;                            //!< the (unknown) remainder
   uint32_t padded_ = 0;                      //!< Number of padding-bytes
 
 };  // class CiffHeader
