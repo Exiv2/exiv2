@@ -611,9 +611,8 @@ class BlockMap {
   //! @param num The size of data
   void populate(const byte* source, size_t num) {
     size_ = num;
-    data_ = new byte[size_];
+    data_ = Blob(source, source + num);
     type_ = bMemory;
-    std::memcpy(data_, source, size_);
   }
 
   /*!
@@ -635,8 +634,8 @@ class BlockMap {
     return type_ == bKnown;
   }
 
-  [[nodiscard]] byte* getData() const {
-    return data_;
+  [[nodiscard]] auto getData() const {
+    return data_.data();
   }
 
   [[nodiscard]] size_t getSize() const {
@@ -645,8 +644,8 @@ class BlockMap {
 
  private:
   blockType_e type_{bNone};
-  byte* data_{nullptr};
-  size_t size_{0};
+  Blob data_;
+  size_t size_{};
 };
 
 void MemIo::Impl::reserve(size_t wcount) {
