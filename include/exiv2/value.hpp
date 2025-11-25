@@ -1273,9 +1273,7 @@ class ValueType : public Value {
 
   // DATA
   //! Pointer to the buffer, nullptr if none has been allocated
-  std::unique_ptr<byte[]> pDataArea_;
-  //! The current size of the buffer
-  size_t sizeDataArea_{0};
+  Blob pDataArea_;
 };  // class ValueType
 
 //! Unsigned short value type
@@ -1447,11 +1445,8 @@ ValueType<T>::ValueType(const T& val, TypeId typeId) : Value(typeId) {
 
 template <typename T>
 ValueType<T>::ValueType(const ValueType<T>& rhs) : Value(rhs.typeId()), value_(rhs.value_) {
-  if (rhs.sizeDataArea_ > 0) {
-    pDataArea_ = std::unique_ptr<byte[]>(new byte[rhs.sizeDataArea_]);
-    std::copy_n(rhs.pDataArea_.get(), rhs.sizeDataArea_, pDataArea_.get());
-    sizeDataArea_ = rhs.sizeDataArea_;
-  }
+  if (!rhs.pDataArea_.empty())
+    pDataArea_ = rhs.pDataArea_;
 }
 
 template <typename T>
@@ -1460,14 +1455,10 @@ ValueType<T>& ValueType<T>::operator=(const ValueType<T>& rhs) {
     return *this;
   value_ = rhs.value_;
 
-  if (rhs.sizeDataArea_ > 0) {
-    pDataArea_ = std::unique_ptr<byte[]>(new byte[rhs.sizeDataArea_]);
-    std::copy_n(rhs.pDataArea_.get(), rhs.sizeDataArea_, pDataArea_.get());
-    sizeDataArea_ = rhs.sizeDataArea_;
-  } else {
-    pDataArea_ = nullptr;
-    sizeDataArea_ = 0;
-  }
+  if (!rhs.pDataArea_.empty())
+    pDataArea_ = rhs.pDataArea_;
+  else
+    pDataArea_.clear();
 
   return *this;
 }
@@ -1646,23 +1637,20 @@ inline Rational ValueType<double>::toRational(size_t n) const {
 
 template <typename T>
 size_t ValueType<T>::sizeDataArea() const {
-  return sizeDataArea_;
+  return pDataArea_.size();
 }
 
 template <typename T>
 DataBuf ValueType<T>::dataArea() const {
-  return {pDataArea_.get(), sizeDataArea_};
+  return {pDataArea_.data(), pDataArea_.size()};
 }
 
 template <typename T>
 int ValueType<T>::setDataArea(const byte* buf, size_t len) {
-  std::unique_ptr<byte[]> tmp;
-  if (len > 0) {
-    tmp = std::unique_ptr<byte[]>(new byte[len]);
-    std::copy_n(buf, len, tmp.get());
-  }
-  pDataArea_ = std::move(tmp);
-  sizeDataArea_ = len;
+  if (len > 0)
+    pDataArea_ = Blob(buf, buf + len);
+  else
+    pDataArea_.clear();
   return 0;
 }
 }  // namespace Exiv2
