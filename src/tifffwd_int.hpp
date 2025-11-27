@@ -5,7 +5,6 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
 
 // + standard includes
 #include <memory>
