@@ -416,6 +416,13 @@ void ExifThumb::setJpegThumbnail(const std::string& path, URational xres, URatio
   DataBuf thumb = readFile(path);  // may throw
   setJpegThumbnail(thumb.c_data(), thumb.size(), xres, yres, unit);
 }
+
+#ifdef _WIN32
+void ExifThumb::setJpegThumbnail(const std::wstring& path, URational xres, URational yres, uint16_t unit) {
+  DataBuf thumb = readFile(path);  // may throw
+  setJpegThumbnail(thumb.c_data(), thumb.size(), xres, yres, unit);
+}
+#endif
 #endif
 
 void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit) {
