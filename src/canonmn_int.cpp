@@ -282,6 +282,7 @@ constexpr TagDetails canonModelId[] = {
     {0x04170000, "PowerShot SX730 HS"},
     {0x04180000, "PowerShot G1 X Mark III"},
     {0x06040000, "PowerShot S100 / Digital IXUS / IXY Digital"},
+    {0x40000227, "EOS C50"},
     {0x4007d673, "DC19/DC21/DC22"},
     {0x4007d674, "XH A1"},
     {0x4007d675, "HV10"},
@@ -395,6 +396,7 @@ constexpr TagDetails canonModelId[] = {
     {0x80000497, "PowerShot V1"},
     {0x80000498, "EOS R100"},
     {0x80000516, "EOS R50 V"},
+    {0x80000518, "EOS R6 Mark III"},
     {0x80000520, "EOS D2000C"},
     {0x80000560, "EOS D6000C"},
 };
@@ -2025,6 +2027,8 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 50mm F1.4 L VCM"},
     {61182, "Canon RF 24mm F1.4 L VCM"},
     {61182, "Canon RF 20mm F1.4 L VCM"},
+    {61182, "Canon RF 85mm F1.4 L VCM"},
+    {61182, "Canon RF 45mm F1.2 STM"},
     {65535, N_("n/a")},
 };
 
@@ -2423,7 +2427,7 @@ constexpr TagDetails canonToningEffect[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/13.16/lib/Image/ExifTool/Canon.pm#L6961
+// from https://github.com/exiftool/exiftool/blob/13.42/lib/Image/ExifTool/Canon.pm#L6982
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
     {257, "Canon RF 50mm F1.2 L USM"},
@@ -2496,6 +2500,8 @@ constexpr TagDetails canonRFLensType[] = {
     {325, "Canon RF 50mm F1.4 L VCM"},
     {326, "Canon RF 24mm F1.4 L VCM"},
     {327, "Canon RF 20mm F1.4 L VCM"},
+    {328, "Canon RF 85mm F1.4 L VCM"},
+    {330, "Canon RF 45mm F1.2 STM"},
 };
 
 // Canon File Info Tag
