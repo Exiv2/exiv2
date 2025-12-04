@@ -375,10 +375,8 @@ constexpr StringTagDetails sonyVariableLowPassFilter[] = {
 
 //! Lookup table to translate Sony RAW file type values to readable labels
 constexpr TagDetails sonyRAWFileType[] = {
-    {0, N_("Compressed RAW")},
-    {1, N_("Uncompressed RAW")},
-    {2, N_("Lossless Compressed RAW")},
-    {0xffff, N_("n/a")},
+    {0, N_("Compressed RAW")},   {1, N_("Uncompressed RAW")}, {2, N_("Lossless Compressed RAW")},
+    {3, N_("Compressed RAW 2")}, {0xffff, N_("n/a")},
 };
 
 //! Lookup table to translate Sony metering mode 2 values to readable labels
@@ -407,6 +405,26 @@ constexpr StringTagDetails sonyQuality2Std[] = {
     {"1 2", N_("RAW + fine")},
     {"1 3", N_("RAW + extra fine")},
     {"1 4", N_("RAW + light")},
+    {"2 0", N_("S-size RAW")},
+    {"2 1", N_("S-size RAW + standard")},
+    {"2 2", N_("S-size RAW + fine")},
+    {"2 3", N_("S-size RAW + extra fine")},
+    {"2 4", N_("S-size RAW + light")},
+    {"3 0", N_("M-size RAW")},
+    {"3 1", N_("M-size RAW + standard")},
+    {"3 2", N_("M-size RAW + fine")},
+    {"3 3", N_("M-size RAW + extra fine")},
+    {"3 4", N_("M-size RAW + light")},
+    {"4 0", N_("Compressed RAW")},
+    {"4 1", N_("Compressed RAW + standard")},
+    {"4 2", N_("Compressed RAW + fine")},
+    {"4 3", N_("Compressed RAW + extra fine")},
+    {"4 4", N_("Compressed RAW + light")},
+    {"5 0", N_("Compressed (HQ) RAW")},
+    {"5 1", N_("Compressed (HQ) RAW + standard")},
+    {"5 2", N_("Compressed (HQ) RAW + fine")},
+    {"5 3", N_("Compressed (HQ) RAW + extra fine")},
+    {"5 4", N_("Compressed (HQ) RAW + light")},
 };
 
 //! Lookup table to translate Sony JPEG/HEIF switch values to readable labels
@@ -531,6 +549,7 @@ constexpr TagDetails sonyModelId[] = {
     {403, "ILCE-6100A"},
     {404, "DSC-RX100M7A"},
     {406, "ILME-FX2"},
+    {407, "ILCE-7M5"},
     {408, "ZV-1A"},
 };
 
@@ -562,7 +581,7 @@ constexpr StringTagDetails sonyFileFormat[] = {
     {"0 0 0 2", "JPEG"},      {"1 0 0 0", "SR2 1.0"},   {"2 0 0 0", "ARW 1.0"},   {"3 0 0 0", "ARW 2.0"},
     {"3 1 0 0", "ARW 2.1"},   {"3 2 0 0", "ARW 2.2"},   {"3 3 0 0", "ARW 2.3"},   {"3 3 1 0", "ARW 2.3.1"},
     {"3 3 2 0", "ARW 2.3.2"}, {"3 3 3 0", "ARW 2.3.3"}, {"3 3 5 0", "ARW 2.3.5"}, {"4 0 0 0", "ARW 4.0"},
-    {"4 0 1 0", "ARW 4.0.1"}, {"5 0 0 0", "ARW 5.0.0"}, {"5 0 1 0", "ARW 5.0.1"},
+    {"4 0 1 0", "ARW 4.0.1"}, {"5 0 0 0", "ARW 5.0.0"}, {"5 0 1 0", "ARW 5.0.1"}, {"6 0 0 0", "ARW 6.0.0"},
 };
 
 //! Lookup table to translate Sony dynamic range optimizer values to readable labels
