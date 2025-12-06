@@ -64,7 +64,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: ['riscv64', 's390x']
+        arch: ['loongarch64', 'riscv64', 's390x']
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
 
