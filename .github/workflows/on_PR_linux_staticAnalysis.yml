@@ -57,7 +57,7 @@ jobs:
           pvs-studio-analyzer analyze -l PVS_license.lic -o pvsStudio.log -j4 --disableLicenseExpirationCheck
           plog-converter -a GA:1,2 -d V1042 -t fullhtml pvsStudio.log -o pvsReportHtml
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: static_analysis
           path: build/pvsReportHtml

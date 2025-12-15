@@ -53,7 +53,7 @@ jobs:
           cmake --build build -t doc
           cmake --build build -t package
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
@@ -91,7 +91,7 @@ jobs:
           cmake --build build -t doc
           cmake --build build -t package
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
@@ -147,7 +147,7 @@ jobs:
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.zip
