@@ -12,6 +12,7 @@
 #include "types.hpp"
 
 // + standard includes
+#include <map>
 #include <memory>
 
 // *****************************************************************************
@@ -923,6 +924,11 @@ class EXIV2API CurlIo : public RemoteIo {
           for the protocol. Otherwise, it throws the Error.
    */
   size_t write(BasicIo& src) override;
+
+  /*!
+    @brief Add HTTP headers to subsequent requests. Only relevant for HTTP urls
+   */
+  void addHttpHeaders(const std::map<std::string, std::string>& headers);
 
  protected:
   // Pimpl idiom
