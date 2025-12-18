@@ -192,8 +192,10 @@ class EXIV2API QuickTimeVideo : public Image {
    */
   void discard(size_t size);
 
-  //! Variable which stores Time Scale unit, used to calculate time.
-  uint64_t timeScale_ = 0;
+  //! Variable which stores Time Scale unit retrieved from mvhd box, used to calculate time.
+  uint64_t mvhdTimeScale_ = 0;
+  //! Variable which stores Time Scale unit retrieved from mdhd box, used to calculate time.
+  uint64_t mdhdTimeScale_ = 0;
   //! Variable which stores current stream being processed.
   int currentStream_ = 0;
   //! Variable to check the end of metadata traversing.
