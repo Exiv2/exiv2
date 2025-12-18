@@ -43,7 +43,7 @@ Xmp.video.XResolution                        XmpText     2  72  72
 Xmp.video.YResolution                        XmpText     2  72  72
 Xmp.video.Compressor                         XmpText    21  Lavc59.37.100 libx265  Lavc59.37.100 libx265
 Xmp.video.BitDepth                           XmpText     2  24  24
-Xmp.video.FrameRate                          XmpText     7  1.95312  1.95312
+Xmp.video.FrameRate                          XmpText     2  30  30
 Xmp.audio.TrackHeaderVersion                 XmpText     1  0  0
 Xmp.audio.TrackCreateDate                    XmpText     1  0  0
 Xmp.audio.TrackModifyDate                    XmpText     1  0  0
