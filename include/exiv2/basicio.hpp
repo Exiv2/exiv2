@@ -9,7 +9,6 @@
 // included header files
 #include "config.h"
 #include "error.hpp"
-#include "types.hpp"
 
 // + standard includes
 #include <memory>
@@ -17,6 +16,7 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+struct DataBuf;
 // *****************************************************************************
 // class definitions
 
@@ -77,7 +77,7 @@ class EXIV2API BasicIo {
     @return Number of bytes written to IO source successfully;<BR>
         0 if failure;
    */
-  virtual size_t write(const byte* data, size_t wcount) = 0;
+  virtual size_t write(const unsigned char* data, size_t wcount) = 0;
   /*!
     @brief Write data that is read from another BasicIo instance to
         the IO source. Current IO position is advanced by the number
@@ -95,7 +95,7 @@ class EXIV2API BasicIo {
     @return The value of the byte written if successful;<BR>
         EOF if failure;
    */
-  virtual int putb(byte data) = 0;
+  virtual int putb(unsigned char data) = 0;
   /*!
     @brief Read data from the IO source. Reading starts at the current
         IO position and the position is advanced by the number of bytes
@@ -119,7 +119,7 @@ class EXIV2API BasicIo {
     @return Number of bytes read from IO source successfully;<BR>
         0 if failure;
    */
-  virtual size_t read(byte* buf, size_t rcount) = 0;
+  virtual size_t read(unsigned char* buf, size_t rcount) = 0;
   /*!
     @brief Safe version of `read()` that checks for errors and throws
         an exception if the read was unsuccessful.
@@ -130,7 +130,7 @@ class EXIV2API BasicIo {
         read if \em rcount bytes are not available.
     @param err Error code to use if an exception is thrown.
    */
-  void readOrThrow(byte* buf, size_t rcount, ErrorCode err = ErrorCode::kerCorruptedMetadata);
+  void readOrThrow(unsigned char* buf, size_t rcount, ErrorCode err = ErrorCode::kerCorruptedMetadata);
   /*!
     @brief Read one byte from the IO source. Current IO position is
         advanced by one byte.
@@ -181,7 +181,7 @@ class EXIV2API BasicIo {
     @return A pointer to the mapped area.
     @throw Error In case of failure.
    */
-  virtual byte* mmap(bool isWriteable = false) = 0;
+  virtual unsigned char* mmap(bool isWriteable = false) = 0;
   /*!
     @brief Remove a mapping established with mmap(). If the mapped area
            is writeable, this ensures that changes are written back.
@@ -230,7 +230,7 @@ class EXIV2API BasicIo {
   /*!
     @brief this is allocated and populated by mmap()
    */
-  byte* bigBlock_{};
+  unsigned char* bigBlock_{};
 
   //@}
 };  // class BasicIo
@@ -332,7 +332,7 @@ class EXIV2API FileIo : public BasicIo {
     @return Number of bytes written to the file successfully;<BR>
            0 if failure;
    */
-  size_t write(const byte* data, size_t wcount) override;
+  size_t write(const unsigned char* data, size_t wcount) override;
   /*!
     @brief Write data that is read from another BasicIo instance to
         the file. The file position is advanced by the number
@@ -350,7 +350,7 @@ class EXIV2API FileIo : public BasicIo {
     @return The value of the byte written if successful;<BR>
            EOF if failure;
    */
-  int putb(byte data) override;
+  int putb(unsigned char data) override;
   /*!
     @brief Read data from the file. Reading starts at the current
         file position and the position is advanced by the number of
@@ -374,7 +374,7 @@ class EXIV2API FileIo : public BasicIo {
     @return Number of bytes read from the file successfully;<BR>
            0 if failure;
    */
-  size_t read(byte* buf, size_t rcount) override;
+  size_t read(unsigned char* buf, size_t rcount) override;
   /*!
     @brief Read one byte from the file. The file position is
         advanced by one byte.
@@ -415,7 +415,7 @@ class EXIV2API FileIo : public BasicIo {
     @return A pointer to the mapped area.
     @throw Error In case of failure.
    */
-  byte* mmap(bool isWriteable = false) override;
+  unsigned char* mmap(bool isWriteable = false) override;
   /*!
     @brief Remove a mapping established with mmap(). If the mapped area is
            writeable, this ensures that changes are written back to the
@@ -499,7 +499,7 @@ class EXIV2API MemIo : public BasicIo {
     @param data Pointer to data. Data must be at least \em size bytes long
     @param size Number of bytes to copy.
    */
-  MemIo(const byte* data, size_t size);
+  MemIo(const unsigned char* data, size_t size);
   //! Destructor. Releases all managed memory
   ~MemIo() override;
   //@}
@@ -528,7 +528,7 @@ class EXIV2API MemIo : public BasicIo {
     @return Number of bytes written to the memory block successfully;<BR>
            0 if failure;
    */
-  size_t write(const byte* data, size_t wcount) override;
+  size_t write(const unsigned char* data, size_t wcount) override;
   /*!
     @brief Write data that is read from another BasicIo instance to
         the memory block. If needed, the size of the internal memory
@@ -547,7 +547,7 @@ class EXIV2API MemIo : public BasicIo {
     @return The value of the byte written if successful;<BR>
            EOF if failure;
    */
-  int putb(byte data) override;
+  int putb(unsigned char data) override;
   /*!
     @brief Read data from the memory block. Reading starts at the current
         IO position and the position is advanced by the number of
@@ -571,7 +571,7 @@ class EXIV2API MemIo : public BasicIo {
     @return Number of bytes read from the memory block successfully;<BR>
            0 if failure;
    */
-  size_t read(byte* buf, size_t rcount) override;
+  size_t read(unsigned char* buf, size_t rcount) override;
   /*!
     @brief Read one byte from the memory block. The IO position is
         advanced by one byte.
@@ -606,7 +606,7 @@ class EXIV2API MemIo : public BasicIo {
            returned pointer remains valid and allocated as long as the
            MemIo object exists.
    */
-  byte* mmap(bool /*isWriteable*/ = false) override;
+  unsigned char* mmap(bool /*isWriteable*/ = false) override;
   int munmap() override;
   //@}
 
@@ -739,7 +739,7 @@ class EXIV2API RemoteIo : public BasicIo {
     @brief Not support this method.
     @return 0 means failure
    */
-  size_t write(const byte* data, size_t wcount) override;
+  size_t write(const unsigned char* data, size_t wcount) override;
   /*!
     @brief Write data that is read from another BasicIo instance to the remote file.
 
@@ -760,7 +760,7 @@ class EXIV2API RemoteIo : public BasicIo {
    @brief Not support
    @return 0 means failure
   */
-  int putb(byte data) override;
+  int putb(unsigned char data) override;
   /*!
     @brief Read data from the memory blocks. Reading starts at the current
         IO position and the position is advanced by the number of
@@ -788,7 +788,7 @@ class EXIV2API RemoteIo : public BasicIo {
     @return Number of bytes read from the memory block successfully;<BR>
            0 if failure;
    */
-  size_t read(byte* buf, size_t rcount) override;
+  size_t read(unsigned char* buf, size_t rcount) override;
   /*!
     @brief Read one byte from the memory blocks. The IO position is
         advanced by one byte.
@@ -820,7 +820,7 @@ class EXIV2API RemoteIo : public BasicIo {
     @brief Not support
     @return NULL
    */
-  byte* mmap(bool /*isWriteable*/ = false) override;
+  unsigned char* mmap(bool /*isWriteable*/ = false) override;
   /*!
     @brief Not support
     @return 0
@@ -913,10 +913,10 @@ class EXIV2API CurlIo : public RemoteIo {
 
   /*!
     @brief Write access is only available for some protocols. This method
-          will call RemoteIo::write(const byte* data, long wcount) if the write
+          will call RemoteIo::write(const unsigned char* data, long wcount) if the write
           access is available for the protocol. Otherwise, it throws the Error.
    */
-  size_t write(const byte* data, size_t wcount) override;
+  size_t write(const unsigned char* data, size_t wcount) override;
   /*!
     @brief Write access is only available for some protocols. This method
           will call RemoteIo::write(BasicIo& src) if the write access is available

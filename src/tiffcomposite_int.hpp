@@ -6,6 +6,7 @@
 // *****************************************************************************
 // included header files
 #include "tifffwd_int.hpp"
+#include "types.hpp"
 
 #include <memory>
 

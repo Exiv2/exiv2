@@ -12,6 +12,7 @@
 namespace Exiv2 {
 class ExifData;
 class Value;
+struct DataBuf;
 struct TagInfo;
 namespace Internal {
 // *****************************************************************************
@@ -144,8 +145,8 @@ class SonyMakerNote {
 
 };  // class SonyMakerNote
 
-DataBuf sonyTagDecipher(uint16_t, const byte*, size_t, TiffComponent*);
-DataBuf sonyTagEncipher(uint16_t, const byte*, size_t, TiffComponent*);
+DataBuf sonyTagDecipher(uint16_t, const unsigned char*, size_t, TiffComponent*);
+DataBuf sonyTagEncipher(uint16_t, const unsigned char*, size_t, TiffComponent*);
 
 }  // namespace Internal
 }  // namespace Exiv2

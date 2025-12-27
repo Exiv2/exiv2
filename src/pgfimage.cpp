@@ -9,10 +9,13 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "types.hpp"
 
 #include <array>
+#include <cstdint>
 #include <cstring>
 #include <limits>
+#include <utility>
 
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>

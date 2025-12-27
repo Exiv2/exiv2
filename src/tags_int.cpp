@@ -2474,8 +2474,9 @@ const TagInfo* mnTagList() {
 }
 
 bool isMakerIfd(IfdId ifdId) {
-  auto ii = Exiv2::find(groupInfo, ifdId);
-  return ii && strcmp(ii->ifdName_, "Makernote") == 0;
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    return std::string_view("Makernote") == ii->ifdName_;
+  return false;
 }
 
 bool isExifIfd(IfdId ifdId) {
@@ -2620,7 +2621,7 @@ URational exposureTime(float shutterSpeedValue) {
 }
 
 uint16_t tagNumber(const std::string& tagName, IfdId ifdId) {
-  const TagInfo* ti = tagInfo(tagName, ifdId);
+  auto ti = tagInfo(tagName, ifdId);
   if (ti && ti->tag_ != 0xffff)
     return ti->tag_;
   if (!isHex(tagName, 4, "0x"))
