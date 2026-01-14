@@ -1007,6 +1007,7 @@ class TiffMnEntry : public TiffEntryBase {
   //@{
   //! Default constructor
   TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup);
+  ~TiffMnEntry() override;
 
  protected:
   //! @name Protected Manipulators
@@ -1042,8 +1043,8 @@ class TiffMnEntry : public TiffEntryBase {
 
  private:
   // DATA
-  IfdId mnGroup_;  //!< New group for concrete mn
-  UniquePtr mn_;   //!< The Makernote
+  IfdId mnGroup_;                         //!< New group for concrete mn
+  std::unique_ptr<TiffIfdMakernote> mn_;  //!< The Makernote
 };
 
 /*!

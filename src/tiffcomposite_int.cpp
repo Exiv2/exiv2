@@ -145,6 +145,8 @@ TiffMnEntry::TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
     TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
 }
 
+TiffMnEntry::~TiffMnEntry() = default;
+
 TiffComponent::UniquePtr TiffComponent::clone() const {
   return UniquePtr(doClone());
 }
