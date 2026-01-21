@@ -2720,8 +2720,7 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
       (value.toRational(1).first != 0 && value.toRational(1).second == 0) ||
       (value.toRational(2).first != 0 && value.toRational(2).second == 0) ||
       (value.toRational(3).first != 0 && value.toRational(3).second == 0)) {
-    os << "(" << value << ")";
-    return os;
+    return os << "(" << value << ")";
   }
   // values numerically are ok, so they can be converted
   // here first and second can be zero, so initialise float with 0.0f
@@ -2741,19 +2740,16 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
   // first value must not be bigger than second
   if ((std::isgreater(focalLength1, focalLength2) && std::isgreater(focalLength2, 0.0f)) ||
       (std::isgreater(fNumber1, fNumber2) && std::isgreater(fNumber2, 0.0f))) {
-    os << "(" << value << ")";
-    return os;
+    return os << "(" << value << ")";
   }
 
   // no lens specification available
-  if (focalLength1 == 0.0f && focalLength2 == 0.0f && fNumber1 == 0.0f && fNumber2 == 0.0f) {
-    os << "n/a";
-    return os;
-  }
+  if (focalLength1 == 0.0f && focalLength2 == 0.0f && fNumber1 == 0.0f && fNumber2 == 0.0f)
+    return os << _("n/a");
 
   // lens specification available - at least parts
   if (focalLength1 == 0.0f)
-    os << "n/a";
+    os << _("n/a");
   else
     os << std::setprecision(5) << focalLength1;
   if (focalLength1 != focalLength2) {
