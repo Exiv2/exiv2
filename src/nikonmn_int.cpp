@@ -3292,78 +3292,56 @@ std::ostream& Nikon3MakerNote::printRepeatingFlashCount(std::ostream& os, const 
 
 std::ostream& Nikon3MakerNote::printExternalFlashData1Fl6(std::ostream& os, const Value& value,
                                                           const ExifData* metadata) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
-  }
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  const auto v0 = value.toUint32(0);
-  os << (v0 & 0x01 ? _("Fired") : _("Did not fire"));
+  if (value.count() != 1 || value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
 
-  if (v0 & 0x01) {
-    std::ostringstream ossTemp;
-    printTagBitmask<std::size(nikonFlashAdaptors), nikonFlashAdaptors>(ossTemp, value, metadata);
-    std::string tempStr = ossTemp.str();
-    if (!tempStr.empty()) {
-      os << ", " << tempStr;
-    }
-  }
-  os.copyfmt(oss);
-  os.flags(f);
+  const auto v0 = value.toUint32(0);
+  if (!(v0 & 0x01))
+    return os << _("Did not fire");
+
+  os << _("Fired");
+
+  std::ostringstream ossTemp;
+  EXV_PRINT_TAG_BITMASK(nikonFlashAdaptors)(ossTemp, value, metadata);
+  std::string tempStr = ossTemp.str();
+  if (!tempStr.empty())
+    return os << ", " << tempStr;
   return os;
 }
 
 std::ostream& Nikon3MakerNote::printExternalFlashData2Fl6(std::ostream& os, const Value& value,
                                                           const ExifData* metadata) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
-  }
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  const auto v0 = value.toUint32(0);
-  os << (v0 & 0x80 ? _("External flash on") : _("External flash off"));
+  if (value.count() != 1 || value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
 
-  if (v0 & 0x80) {
-    os << ", ";
-    printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (value.toUint32() & 0x0F), metadata);
-  }
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  const auto v0 = value.toUint32(0);
+  if (!(v0 & 0x80))
+    return os << _("External flash off");
+
+  os << _("External flash on") << ", ";
+  return EXV_PRINT_TAG(nikonFlashControlMode)(os, (v0 & 0x0F), metadata);
 }
 
 std::ostream& Nikon3MakerNote::printExternalFlashData1Fl7(std::ostream& os, const Value& value,
                                                           const ExifData* metadata) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
-  }
-  std::ostringstream oss;
-  oss.copyfmt(os);
+  if (value.count() != 1 || value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
+
   const auto v0 = value.toUint32();
-  os << (v0 & 0x01 ? _("External flash on") : _("External flash off"));
+  if (!(v0 & 0x01))
+    return os << _("External flash off");
 
-  if (v0 & 0x01) {
-    os << ", ";
-    os << (v0 & 0x80 ? _("External flash zoom override") : _("No external flash zoom override"));
+  os << _("External flash on") << ", ";
+  if (v0 & 0x80)
+    os << _("External flash zoom override");
+  else
+    os << _("No external flash zoom override");
 
-    std::ostringstream ossTemp;
-    printTagBitmask<std::size(nikonFlashAdaptors), nikonFlashAdaptors>(ossTemp, value, metadata);
-    std::string tempStr = ossTemp.str();
-    if (!tempStr.empty()) {
-      os << ", " << tempStr;
-    }
-  }
-  os.copyfmt(oss);
-  os.flags(f);
+  std::ostringstream ossTemp;
+  EXV_PRINT_TAG_BITMASK(nikonFlashAdaptors)(ossTemp, value, metadata);
+  std::string tempStr = ossTemp.str();
+  if (!tempStr.empty())
+    return os << ", " << tempStr;
   return os;
 }
 
@@ -3458,23 +3436,13 @@ std::ostream& Nikon3MakerNote::printFlashGroupAControlData(std::ostream& os, con
 
 std::ostream& Nikon3MakerNote::printFlashGroupBCControlData(std::ostream& os, const Value& value,
                                                             const ExifData* data) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() != 1 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    os.flags(f);
-    return os;
-  }
-  std::ostringstream oss;
-  oss.copyfmt(os);
+  if (value.count() != 1 || value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
+
   const auto temp = value.toUint32();
-
-  printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (temp >> 4), data);
+  EXV_PRINT_TAG(nikonFlashControlMode)(os, (temp >> 4), data);
   os << ", ";
-  printTag<std::size(nikonFlashControlMode), nikonFlashControlMode>(os, (temp & 0x0f), data);
-
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return EXV_PRINT_TAG(nikonFlashControlMode)(os, (temp & 0x0f), data);
 }
 
 std::ostream& Nikon3MakerNote::printFlashGroupADataFl6(std::ostream& os, const Value& value, const ExifData* metadata) {
