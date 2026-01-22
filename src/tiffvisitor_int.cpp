@@ -635,10 +635,7 @@ void TiffEncoder::visitIfdMakernote(TiffIfdMakernote* object) {
   }
   if (del_) {
     // Remove remaining synthesized tags
-    static constexpr auto synthesizedTags = std::array{
-        "Exif.MakerNote.Offset",
-    };
-    for (auto synthesizedTag : synthesizedTags) {
+    for (auto synthesizedTag : {"Exif.MakerNote.Offset"}) {
       pos = exifData_.findKey(ExifKey(synthesizedTag));
       if (pos != exifData_.end())
         exifData_.erase(pos);
