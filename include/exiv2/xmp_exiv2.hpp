@@ -10,6 +10,8 @@
 #include "datasets.hpp"
 #include "metadatum.hpp"
 
+#include <atomic>
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -377,7 +379,7 @@ class EXIV2API XmpParser {
   static void registeredNamespaces(Exiv2::Dictionary&);
 
   // DATA
-  static bool initialized_;  //! Indicates if the XMP Toolkit has been initialized
+  static std::atomic<bool> initialized_;  //! Indicates if the XMP Toolkit has been initialized
   static XmpLockFct xmpLockFct_;
   static void* pLockData_;
 

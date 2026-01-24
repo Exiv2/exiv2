@@ -12,6 +12,8 @@
 // + standard includes
 #include <algorithm>
 #include <iostream>
+#include <mutex>
+#include <shared_mutex>
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -494,16 +496,44 @@ void XmpData::eraseFamily(XmpData::iterator& pos) {
   }
 }
 
-bool XmpParser::initialized_ = false;
+std::atomic<bool> XmpParser::initialized_ = false;
 XmpParser::XmpLockFct XmpParser::xmpLockFct_ = nullptr;
 void* XmpParser::pLockData_ = nullptr;
 
+// Synchronization for XMP Toolkit lifecycle (initialize/terminate vs. usage)
+static std::shared_mutex xmpLifecycleMutex;
+
+// Lock Hierarchy (always acquire in this order to prevent deadlocks):
+// 1. xmpLifecycleMutex (shared for encode/decode, exclusive for initialize/terminate)
+//    - encode() and decode() acquire shared_lock to ensure SDK remains initialized
+//    - initialize() and terminate() acquire unique_lock for exclusive access
+// 2. XmpProperties::mutex_ (for nsRegistry_ access in properties.cpp)
+//    - Used when iterating or modifying the namespace registry
+// 3. AutoLock (for XMP SDK operations via user-provided or default lock)
+//    - Serializes calls to XMP SDK functions (RegisterNamespace, DeleteNamespace, etc.)
+//
+// Important: initialize() must be called BEFORE acquiring xmpLifecycleMutex shared_lock
+// in encode()/decode() to avoid deadlock (cannot upgrade shared->exclusive lock).
+
 #ifdef EXV_HAVE_XMP_TOOLKIT
 bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
-  if (!initialized_) {
+  // Fast check to avoid locking if already initialized
+  if (initialized_.load(std::memory_order_acquire))
+    return true;
+
+  // Acquire exclusive lock for initialization
+  auto lock = std::unique_lock(xmpLifecycleMutex);
+
+  // Double-check after acquiring lock
+  if (initialized_.load(std::memory_order_relaxed))
+    return true;
+
+  if (xmpLockFct) {
     xmpLockFct_ = xmpLockFct;
     pLockData_ = pLockData;
-    initialized_ = SXMPMeta::Initialize();
+  }
+
+  if (SXMPMeta::Initialize()) {
 #ifdef EXV_ADOBE_XMPSDK
     SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr", nullptr);
     SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc", nullptr);
@@ -551,8 +581,9 @@ bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
     SXMPMeta::RegisterNamespace("http://www.audio/", "audio");
     SXMPMeta::RegisterNamespace("http://www.video/", "video");
 #endif
+    initialized_.store(true, std::memory_order_release);
   }
-  return initialized_;
+  return initialized_.load(std::memory_order_relaxed);
 }
 #else
 bool XmpParser::initialize(XmpParser::XmpLockFct, void*) {
@@ -611,12 +642,15 @@ void XmpParser::registeredNamespaces(Exiv2::Dictionary&) {
 #endif
 
 void XmpParser::terminate() {
+  auto lock = std::unique_lock(xmpLifecycleMutex);
   XmpProperties::unregisterNs();
 #ifdef EXV_HAVE_XMP_TOOLKIT
-  if (initialized_)
+  if (initialized_.load(std::memory_order_relaxed)) {
     SXMPMeta::Terminate();
+    initialized_.store(false, std::memory_order_release);
+  }
 #else
-  initialized_ = false;
+  initialized_.store(false, std::memory_order_release);
 #endif
 }
 
@@ -660,10 +694,19 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
     if (xmpPacket.empty())
       return 0;
 
+    // Initialize first to avoid mutex upgrade deadlock (Shared -> Exclusive)
     if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "XMP toolkit initialization failed.\n";
 #endif
+      return 2;
+    }
+
+    // Shared lock to ensure SDK remains initialized during decode
+    auto lock = std::shared_lock(xmpLifecycleMutex);
+
+    // Double check initialization under lock in case of race with terminate()
+    if (!initialized_.load(std::memory_order_relaxed)) {
       return 2;
     }
 
@@ -804,18 +847,35 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
       return 0;
     }
 
+    // Initialize first to avoid mutex upgrade deadlock (Shared -> Exclusive)
     if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "XMP toolkit initialization failed.\n";
 #endif
       return 2;
     }
+
+    // Shared lock to ensure SDK remains initialized during encode
+    auto lifecycleLock = std::shared_lock(xmpLifecycleMutex);
+
+    // Double check initialization under lock
+    if (!initialized_.load(std::memory_order_relaxed)) {
+      return 2;
+    }
     // Register custom namespaces with XMP-SDK
-    for (const auto& [xmp, uri] : XmpProperties::nsRegistry_) {
+    //
+    // Concurrent access to the namespace registry (e.g. from registerNs()) can invalidate
+    // the iterator or cause data races. We must acquire the mutex while iterating.
+    {
+      auto registryLock = std::scoped_lock(XmpProperties::mutex_);
+      for (const auto& [xmp, uri] : XmpProperties::nsRegistry_) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Registering " << uri.prefix_ << " : " << xmp << "\n";
+        std::cerr << "Registering " << uri.prefix_ << " : " << xmp << "\n";
 #endif
-      registerNs(xmp, uri.prefix_);
+        // registerNs calls initialize() internally (safe as we are already initialized).
+        // It also uses AutoLock to protect the SDK's internal state.
+        registerNs(xmp, uri.prefix_);
+      }
     }
     SXMPMeta meta;
     for (const auto& xmp : xmpData) {
