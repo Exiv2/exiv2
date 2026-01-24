@@ -503,17 +503,28 @@ void* XmpParser::pLockData_ = nullptr;
 // Synchronization for XMP Toolkit lifecycle (initialize/terminate vs. usage)
 static std::shared_mutex xmpLifecycleMutex;
 
+// Internal mutex for XMP SDK access if user doesn't provide one
+static std::mutex xmpSdkMutex;
+
 // Lock Hierarchy (always acquire in this order to prevent deadlocks):
 // 1. xmpLifecycleMutex (shared for encode/decode, exclusive for initialize/terminate)
 //    - encode() and decode() acquire shared_lock to ensure SDK remains initialized
 //    - initialize() and terminate() acquire unique_lock for exclusive access
 // 2. XmpProperties::mutex_ (for nsRegistry_ access in properties.cpp)
 //    - Used when iterating or modifying the namespace registry
-// 3. AutoLock (for XMP SDK operations via user-provided or default lock)
+// 3. xmpSdkMutex via AutoLock (for XMP SDK operations)
 //    - Serializes calls to XMP SDK functions (RegisterNamespace, DeleteNamespace, etc.)
 //
 // Important: initialize() must be called BEFORE acquiring xmpLifecycleMutex shared_lock
 // in encode()/decode() to avoid deadlock (cannot upgrade shared->exclusive lock).
+
+// Default locking implementation using internal mutex
+static void defaultXmpLockFct(void*, bool lock) {
+  if (lock)
+    xmpSdkMutex.lock();
+  else
+    xmpSdkMutex.unlock();
+}
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
@@ -531,6 +542,10 @@ bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
   if (xmpLockFct) {
     xmpLockFct_ = xmpLockFct;
     pLockData_ = pLockData;
+  } else {
+    // Use default internal mutex if no user lock provided
+    xmpLockFct_ = defaultXmpLockFct;
+    pLockData_ = nullptr;
   }
 
   if (SXMPMeta::Initialize()) {
@@ -658,7 +673,7 @@ void XmpParser::terminate() {
 void XmpParser::registerNs(const std::string& ns, const std::string& prefix) {
   try {
     initialize();
-    AutoLock autoLock(xmpLockFct_, pLockData_);
+    auto autoLock = AutoLock(xmpLockFct_, pLockData_);
     SXMPMeta::DeleteNamespace(ns.c_str());
 #ifdef EXV_ADOBE_XMPSDK
     SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), nullptr);
