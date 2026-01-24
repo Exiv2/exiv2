@@ -640,13 +640,13 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 void XmpParser::registeredNamespaces(Exiv2::Dictionary& dict) {
-  bool bInit = !initialized_;
   try {
-    if (bInit)
-      initialize();
-    SXMPMeta::DumpNamespaces(nsDumper, &dict);
-    if (bInit)
-      terminate();
+    if (!initialize())
+      return;
+    auto lock = std::shared_lock(xmpLifecycleMutex);
+    if (initialized_.load(std::memory_order_relaxed)) {
+      SXMPMeta::DumpNamespaces(nsDumper, &dict);
+    }
   } catch (const XMP_Error& e) {
     throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
   }
@@ -672,7 +672,13 @@ void XmpParser::terminate() {
 #ifdef EXV_HAVE_XMP_TOOLKIT
 void XmpParser::registerNs(const std::string& ns, const std::string& prefix) {
   try {
-    initialize();
+    if (!initialize())
+      return;
+    // Acquire shared lock to ensure SDK remains initialized during registration
+    auto lifecycleLock = std::shared_lock(xmpLifecycleMutex);
+    if (!initialized_.load(std::memory_order_relaxed))
+      return;
+
     auto autoLock = AutoLock(xmpLockFct_, pLockData_);
     SXMPMeta::DeleteNamespace(ns.c_str());
 #ifdef EXV_ADOBE_XMPSDK
@@ -1062,12 +1068,11 @@ XMP_OptionBits xmpFormatOptionBits(Exiv2::XmpParser::XmpFormatFlags flags) {
 #ifdef EXIV2_DEBUG_MESSAGES
 void printNode(const std::string& schemaNs, const std::string& propPath, const std::string& propValue,
                XMP_OptionBits opt) {
-  static bool first = true;
-  if (first) {
-    first = false;
+  static std::once_flag flag;
+  std::call_once(flag, []() {
     std::cout << "ashisabsals\n"
               << "lcqqtrgqlai\n";
-  }
+  });
   enum {
     alia = 0,
     sche,
