@@ -600,6 +600,21 @@ bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
   }
   return initialized_.load(std::memory_order_relaxed);
 }
+
+// Internal version of registerNs that assumes the lifecycle lock is already held
+void XmpParser::registerNsUnlocked(const std::string& ns, const std::string& prefix) {
+  try {
+    auto autoLock = AutoLock(xmpLockFct_, pLockData_);
+    SXMPMeta::DeleteNamespace(ns.c_str());
+#ifdef EXV_ADOBE_XMPSDK
+    SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), nullptr);
+#else
+    SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
+#endif
+  } catch (const XMP_Error& /* e */) {
+    // throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
+  }
+}
 #else
 bool XmpParser::initialize(XmpParser::XmpLockFct, void*) {
   initialized_ = true;
@@ -679,13 +694,7 @@ void XmpParser::registerNs(const std::string& ns, const std::string& prefix) {
     if (!initialized_.load(std::memory_order_relaxed))
       return;
 
-    auto autoLock = AutoLock(xmpLockFct_, pLockData_);
-    SXMPMeta::DeleteNamespace(ns.c_str());
-#ifdef EXV_ADOBE_XMPSDK
-    SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), nullptr);
-#else
-    SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
-#endif
+    registerNsUnlocked(ns, prefix);
   } catch (const XMP_Error& /* e */) {
     // throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
   }
@@ -694,6 +703,9 @@ void XmpParser::registerNs(const std::string& ns, const std::string& prefix) {
 void XmpParser::registerNs(const std::string& /*ns*/, const std::string& /*prefix*/) {
   initialize();
 }  // XmpParser::registerNs
+
+void XmpParser::registerNsUnlocked(const std::string& /*ns*/, const std::string& /*prefix*/) {
+}
 #endif
 
 void XmpParser::unregisterNs(const std::string& /*ns*/) {
@@ -895,7 +907,7 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
 #endif
         // registerNs calls initialize() internally (safe as we are already initialized).
         // It also uses AutoLock to protect the SDK's internal state.
-        registerNs(xmp, uri.prefix_);
+        registerNsUnlocked(xmp, uri.prefix_);
       }
     }
     SXMPMeta meta;

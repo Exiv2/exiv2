@@ -374,6 +374,12 @@ class EXIV2API XmpParser {
   static void unregisterNs(const std::string& ns);
 
   /*!
+    @brief Register a namespace with the XMP Toolkit without locking.
+           Assumes xmpLifecycleMutex is already held by caller.
+   */
+  static void registerNsUnlocked(const std::string& ns, const std::string& prefix);
+
+  /*!
     @brief Get namespaces registered with XMPsdk
    */
   static void registeredNamespaces(Exiv2::Dictionary&);
