@@ -2,8 +2,8 @@ project(
   'exiv2',
   'cpp',
   version: '1.0.0',
-  meson_version: '>=0.54.1',
-  default_options: ['warning_level=0', 'cpp_std=c++20'],
+  meson_version: '>=0.63.0',
+  default_options: 'cpp_std=c++20',
 )
 
 cpp = meson.get_compiler('cpp')
@@ -112,6 +112,11 @@ cfile = configure_file(
   output: 'exv_conf.h',
   format: 'cmake@',
   configuration: cdata,
+)
+
+add_project_dependencies(
+  intl_dep,
+  language: 'cpp',
 )
 
 libinc = include_directories('.', 'include/exiv2')
