@@ -142,7 +142,7 @@ TEST(XmpRace, ConcurrentInitialization) {
 
   // At least one should have succeeded
   EXPECT_GT(init_count.load(), 0);
-  
+
   Exiv2::XmpParser::terminate();
 }
 
