@@ -45,6 +45,6 @@ Xmp.video.XResolution                        XmpText     2  72  72
 Xmp.video.YResolution                        XmpText     2  72  72
 Xmp.video.Compressor                         XmpText    22  Lavc57.107.100 libx264  Lavc57.107.100 libx264
 Xmp.video.BitDepth                           XmpText     2  24  24
-Xmp.video.FrameRate                          XmpText     8  0.999001  0.999001
+Xmp.video.FrameRate                          XmpText     5  29.97  29.97
 Xmp.video.SoftwareVersion                    XmpText    13  Lavf57.83.100  Lavf57.83.100
 Xmp.video.AspectRatio                        XmpText     4  16:9  16:9
