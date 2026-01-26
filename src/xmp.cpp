@@ -501,22 +501,24 @@ XmpParser::XmpLockFct XmpParser::xmpLockFct_ = nullptr;
 void* XmpParser::pLockData_ = nullptr;
 
 // Synchronization for XMP Toolkit lifecycle (initialize/terminate vs. usage)
-static std::shared_mutex xmpLifecycleMutex;
+static std::mutex xmpLifecycleMutex;
 
 // Internal mutex for XMP SDK access if user doesn't provide one
 static std::mutex xmpSdkMutex;
 
 // Lock Hierarchy (always acquire in this order to prevent deadlocks):
-// 1. xmpLifecycleMutex (shared for encode/decode, exclusive for initialize/terminate)
-//    - encode() and decode() acquire shared_lock to ensure SDK remains initialized
-//    - initialize() and terminate() acquire unique_lock for exclusive access
+// 1. xmpLifecycleMutex
+//    - Serializes access to XMP Toolkit lifecycle (initialize/terminate) and usage (encode/decode)
+//    - initialize() and terminate() acquire lock for exclusive access
+//    - encode/decode are essentially serialized by the toolkit anyway, so this exclusive lock
+//      should not significantly hinder performance vs a shared lock.
 // 2. XmpProperties::mutex_ (for nsRegistry_ access in properties.cpp)
 //    - Used when iterating or modifying the namespace registry
 // 3. xmpSdkMutex via AutoLock (for XMP SDK operations)
 //    - Serializes calls to XMP SDK functions (RegisterNamespace, DeleteNamespace, etc.)
 //
-// Important: initialize() must be called BEFORE acquiring xmpLifecycleMutex shared_lock
-// in encode()/decode() to avoid deadlock (cannot upgrade shared->exclusive lock).
+// Important: initialize() must be called BEFORE acquiring xmpLifecycleMutex
+// in encode()/decode() to avoid deadlock.
 
 // Default locking implementation using internal mutex
 static void defaultXmpLockFct(void*, bool lock) {
@@ -597,8 +599,9 @@ bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
     SXMPMeta::RegisterNamespace("http://www.video/", "video");
 #endif
     initialized_.store(true, std::memory_order_release);
+    return true;
   }
-  return initialized_.load(std::memory_order_relaxed);
+  return false;
 }
 
 // Internal version of registerNs that assumes the lifecycle lock is already held
@@ -658,7 +661,7 @@ void XmpParser::registeredNamespaces(Exiv2::Dictionary& dict) {
   try {
     if (!initialize())
       return;
-    auto lock = std::shared_lock(xmpLifecycleMutex);
+    auto lock = std::unique_lock(xmpLifecycleMutex);
     if (initialized_.load(std::memory_order_relaxed)) {
       SXMPMeta::DumpNamespaces(nsDumper, &dict);
     }
@@ -689,8 +692,8 @@ void XmpParser::registerNs(const std::string& ns, const std::string& prefix) {
   try {
     if (!initialize())
       return;
-    // Acquire shared lock to ensure SDK remains initialized during registration
-    auto lifecycleLock = std::shared_lock(xmpLifecycleMutex);
+    // Acquire lock to ensure SDK remains initialized during registration
+    auto lifecycleLock = std::unique_lock(xmpLifecycleMutex);
     if (!initialized_.load(std::memory_order_relaxed))
       return;
 
@@ -735,8 +738,8 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
       return 2;
     }
 
-    // Shared lock to ensure SDK remains initialized during decode
-    auto lock = std::shared_lock(xmpLifecycleMutex);
+    // Acquire lock to ensure SDK remains initialized during decode
+    auto lock = std::unique_lock(xmpLifecycleMutex);
 
     // Double check initialization under lock in case of race with terminate()
     if (!initialized_.load(std::memory_order_relaxed)) {
@@ -888,8 +891,8 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
       return 2;
     }
 
-    // Shared lock to ensure SDK remains initialized during encode
-    auto lifecycleLock = std::shared_lock(xmpLifecycleMutex);
+    // Acquire lock to ensure SDK remains initialized during encode
+    auto lifecycleLock = std::unique_lock(xmpLifecycleMutex);
 
     // Double check initialization under lock
     if (!initialized_.load(std::memory_order_relaxed)) {
