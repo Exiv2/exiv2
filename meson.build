@@ -2,8 +2,7 @@ project(
   'exiv2',
   'cpp',
   version: '1.0.0',
-  meson_version: '>=0.54.1',
-  default_options: ['warning_level=0', 'cpp_std=c++20'],
+  meson_version: '>=0.56.0',
 )
 
 cpp = meson.get_compiler('cpp')
@@ -114,6 +113,12 @@ cfile = configure_file(
   configuration: cdata,
 )
 
+if host_machine.system() == 'cygwin'
+  oopts = ['cpp_std=gnu++20']
+else
+  oopts = ['cpp_std=c++20']
+endif
+
 libinc = include_directories('.', 'include/exiv2')
 depinc = include_directories('.', 'include')
 subdir('xmpsdk')
@@ -145,6 +150,7 @@ if get_option('app')
     exiv2_sources,
     include_directories: exiv2inc,
     dependencies: exiv2_dep,
+    override_options: oopts,
     install: true,
   )
 endif
@@ -187,7 +193,7 @@ if get_option('app')
 
   foreach s, d : samples
     if d.found()
-      executable(s, 'samples/@0@.cpp'.format(s), dependencies: [exiv2_dep, d], include_directories: exiv2inc)
+      executable(s, 'samples/@0@.cpp'.format(s), dependencies: [exiv2_dep, d], include_directories: exiv2inc, override_options: oopts)
     endif
   endforeach
 
@@ -199,7 +205,7 @@ if get_option('app')
 
   ginc = include_directories('app')
   foreach g : gopt
-    executable(g, 'samples/@0@.cpp'.format(g), 'app/getopt.cpp', dependencies: exiv2_dep, include_directories: [exiv2inc, ginc])
+    executable(g, 'samples/@0@.cpp'.format(g), 'app/getopt.cpp', dependencies: exiv2_dep, include_directories: [exiv2inc, ginc], override_opts: oopts)
   endforeach
 
   bindir = 'EXIV2_BINDIR=@0@'.format(meson.current_build_dir())

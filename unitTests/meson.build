@@ -56,6 +56,7 @@ unit_tests = executable(
   cpp_args: t_args,
   dependencies: [exiv2_dep, gtest_dep],
   include_directories: exiv2inc,
+  override_options: oopts,
 )
 
 test('Unit Tests', unit_tests)
