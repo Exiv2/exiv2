@@ -4967,10 +4967,19 @@ const XmpNsInfo* XmpProperties::lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& 
 
 void XmpProperties::registerNs(const std::string& ns, const std::string& prefix) {
   auto scopedWriteLock = std::scoped_lock(mutex_);
+  if (ns.empty())
+    return;
   std::string ns2 = ns;
   if (ns2.back() != '/' && ns2.back() != '#')
     ns2 += '/';
-  // Check if there is already a registered namespace with this prefix
+
+  // 1. Check if this URI is already registered with this exact prefix
+  auto it = nsRegistry_.find(ns2);
+  if (it != nsRegistry_.end() && std::strcmp(it->second.prefix_, prefix.c_str()) == 0) {
+    return;  // Already registered with this prefix
+  }
+
+  // 2. Check if this prefix is already registered with a DIFFERENT URI
   if (auto xnp = lookupNsRegistryUnsafe(XmpNsInfo::Prefix{prefix})) {
 #ifndef SUPPRESS_WARNINGS
     if (ns2 != xnp->ns_)
@@ -4978,6 +4987,10 @@ void XmpProperties::registerNs(const std::string& ns, const std::string& prefix)
 #endif
     unregisterNsUnsafe(xnp->ns_);
   }
+
+  // 3. Ensure the URI is unregistered if it's currently used with a different prefix
+  // (This handles the case where prefix changed for the same URI, preventing memory leak)
+  unregisterNsUnsafe(ns2);
   // Allocated memory is freed when the namespace is unregistered.
   // Using malloc/free for better system compatibility in case
   // users don't unregister their namespaces explicitly.

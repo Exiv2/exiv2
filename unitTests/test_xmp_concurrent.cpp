@@ -43,18 +43,21 @@ TEST(XmpProperties, IdempotencyTest) {
   auto prefix3 = std::string("ex3");
 
   Exiv2::XmpProperties::registerNs(ns3, prefix3);
-  const auto* info3 = Exiv2::XmpProperties::nsInfo(prefix3);
+  const auto* info1 = Exiv2::XmpProperties::nsInfo(prefix3);
+  ASSERT_NE(info1, nullptr);
+  EXPECT_EQ(std::string(info1->ns_), ns3);
 
-  // Check stability
+  // Call again with same arguments
   Exiv2::XmpProperties::registerNs(ns3, prefix3);
-  const auto* info3_new = Exiv2::XmpProperties::nsInfo(prefix3);
+  const auto* info2 = Exiv2::XmpProperties::nsInfo(prefix3);
 
-  // The exact address might or might not be same depending on implementation,
-  // but the object at info3 MUST be valid and correct.
-  EXPECT_EQ(std::string(info3->ns_), ns3);
+  ASSERT_NE(info2, nullptr);
+  EXPECT_EQ(std::string(info2->ns_), ns3);
+  EXPECT_EQ(std::string(info2->prefix_), prefix3);
 
-  // In our implementation, we return EARLY, so the pointer should be identical.
-  EXPECT_EQ(info3, info3_new);
+  // In our implementation, we return EARLY, so the pointer must remain stable.
+  // This is important because users might hold these pointers.
+  EXPECT_EQ(info1, info2);
 }
 
 TEST(XmpParser, TortureTest) {
@@ -103,4 +106,7 @@ TEST(XmpParser, TortureTest) {
     if (t.joinable())
       t.join();
   }
+
+  // Cleanup to prevent memory leaks in test
+  Exiv2::XmpParser::terminate();
 }

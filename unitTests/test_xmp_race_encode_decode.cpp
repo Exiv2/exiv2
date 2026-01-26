@@ -102,6 +102,8 @@ TEST(XmpRace, ConcurrentEncodeDecode) {
   // But Valgrind/ThreadSanitizer should detect the races
   EXPECT_GT(encode_count.load(), 0);
   EXPECT_GT(decode_count.load(), 0);
+
+  Exiv2::XmpParser::terminate();
 }
 
 // Test concurrent initialization - race condition #2:
@@ -140,6 +142,8 @@ TEST(XmpRace, ConcurrentInitialization) {
 
   // At least one should have succeeded
   EXPECT_GT(init_count.load(), 0);
+  
+  Exiv2::XmpParser::terminate();
 }
 
 // Test terminate() racing with active encode/decode - race condition #4:
