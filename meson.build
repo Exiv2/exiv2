@@ -77,7 +77,10 @@ expat_dep = dependency('expat', required: get_option('xmp'))
 inih_dep = dependency('INIReader', required: get_option('inih'))
 zlib_dep = dependency('zlib', required: get_option('png'))
 
-if meson.version().version_compare('>= 0.60')
+#hack for FreeBSD which includes external libiconv for libcurl
+if curl_dep.found() and host_machine.system() == 'freebsd'
+  iconv_dep = cpp.find_library('iconv', dirs: '/usr/local/lib')
+elif meson.version().version_compare('>= 0.60')
   iconv_dep = dependency('iconv', required: get_option('iconv'))
 elif not get_option('iconv').disabled() and not cpp.links('#include <iconv.h>\nint main(){iconv_open("", "");}')
   iconv_dep = cpp.find_library('iconv', required: get_option('iconv'))
