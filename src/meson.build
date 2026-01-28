@@ -77,7 +77,6 @@ exiv2int = static_library(
   cpp_args: '-DEXIV2API=',
   dependencies: [fmt_dep, inih_dep, zlib_dep],
   include_directories: libinc,
-  override_options: oopts,
 )
 
 exiv2int_dep = declare_dependency(
@@ -94,8 +93,7 @@ exiv2 = library(
   version: meson.project_version(),
   soversion: sover,
   gnu_symbol_visibility: 'hidden',
-  dependencies: [exiv2int_dep, brotli_dep, curl_dep, expat_dep, intl_dep, net_dep],
-  override_options: oopts,
+  dependencies: [exiv2int_dep, brotli_dep, curl_dep, expat_dep, iconv_dep, net_dep],
   install: true,
 )
 
@@ -114,7 +112,7 @@ pkg.generate(
 
 exiv2_dep = declare_dependency(
   compile_args: dllapi,
-  dependencies: [fmt_dep, iconv_dep, intl_dep],
+  dependencies: [fmt_dep],
   include_directories: depinc,
   link_with: exiv2,
 )
