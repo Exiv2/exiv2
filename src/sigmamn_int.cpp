@@ -79,40 +79,46 @@ std::ostream& SigmaMakerNote::printStripLabel(std::ostream& os, const Value& val
 }
 
 std::ostream& SigmaMakerNote::print0x0008(std::ostream& os, const Value& value, const ExifData*) {
-  switch (value.toString().front()) {
-    case 'P':
-      os << _("Program");
-      break;
-    case 'A':
-      os << _("Aperture priority");
-      break;
-    case 'S':
-      os << _("Shutter priority");
-      break;
-    case 'M':
-      os << _("Manual");
-      break;
-    default:
-      os << "(" << value << ")";
-      break;
+  std::string v = value.toString();
+  if (!v.empty()) {
+    switch (v.front()) {
+      case 'P':
+        os << _("Program");
+        break;
+      case 'A':
+        os << _("Aperture priority");
+        break;
+      case 'S':
+        os << _("Shutter priority");
+        break;
+      case 'M':
+        os << _("Manual");
+        break;
+      default:
+        os << "(" << value << ")";
+        break;
+    }
   }
   return os;
 }
 
 std::ostream& SigmaMakerNote::print0x0009(std::ostream& os, const Value& value, const ExifData*) {
-  switch (value.toString().front()) {
-    case 'A':
-      os << _("Average");
-      break;
-    case 'C':
-      os << _("Center");
-      break;
-    case '8':
-      os << _("8-Segment");
-      break;
-    default:
-      os << "(" << value << ")";
-      break;
+  std::string v = value.toString();
+  if (!v.empty()) {
+    switch (v.front()) {
+      case 'A':
+        os << _("Average");
+        break;
+      case 'C':
+        os << _("Center");
+        break;
+      case '8':
+        os << _("8-Segment");
+        break;
+      default:
+        os << "(" << value << ")";
+        break;
+    }
   }
   return os;
 }
