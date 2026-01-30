@@ -149,6 +149,7 @@ jobs:
             cmake:p
             curl:p
             gtest:p
+            libiconv:p
             libinih:p
             meson:p
             ninja:p
