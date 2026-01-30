@@ -85,20 +85,15 @@ std::ostream& SigmaMakerNote::print0x0008(std::ostream& os, const Value& value, 
   }
   switch (v.front()) {
     case 'P':
-      os << _("Program");
-      return os;
+      return os << _("Program");
     case 'A':
-      os << _("Aperture priority");
-      return os;
+      return os << _("Aperture priority");
     case 'S':
-      os << _("Shutter priority");
-      return os;
+      return os << _("Shutter priority");
     case 'M':
-      os << _("Manual");
-      return os;
+      return os << _("Manual");
     default:
-      os << "(" << value << ")";
-      return os;
+      return os << "(" << value << ")";
   }
 }
 
@@ -109,17 +104,13 @@ std::ostream& SigmaMakerNote::print0x0009(std::ostream& os, const Value& value, 
   }
   switch (v.front()) {
     case 'A':
-      os << _("Average");
-      return os;
+      return os << _("Average");
     case 'C':
-      os << _("Center");
-      return os;
+      return os << _("Center");
     case '8':
-      os << _("8-Segment");
-      return os;
+      return os << _("8-Segment");
     default:
-      os << "(" << value << ")";
-      return os;
+      return os << "(" << value << ")";
   }
 }
 
