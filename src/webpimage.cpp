@@ -162,6 +162,9 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     io_->readOrThrow(size_buff.data(), WEBP_TAG_SIZE, Exiv2::ErrorCode::kerCorruptedMetadata);
     const uint32_t size_u32 = Exiv2::getULong(size_buff.data(), littleEndian);
 
+    // Check that `size_u32` is within bounds.
+    Internal::enforce(size_u32 <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+
     DataBuf payload(size_u32);
     if (!payload.empty()) {
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -292,6 +295,10 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     io_->readOrThrow(size_buff.data(), 4, Exiv2::ErrorCode::kerCorruptedMetadata);
 
     const uint32_t size_u32 = Exiv2::getULong(size_buff.data(), littleEndian);
+
+    // Check that `size_u32` is within bounds.
+    Internal::enforce(size_u32 <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+
     DataBuf payload(size_u32);
     io_->readOrThrow(payload.data(), size_u32, Exiv2::ErrorCode::kerCorruptedMetadata);
     if (io_->tell() % 2)
@@ -433,6 +440,10 @@ void WebPImage::printStructure(std::ostream& out, PrintStructureOption option, s
       io_->read(chunkId.data(), WEBP_TAG_SIZE);
       io_->read(size_buff, WEBP_TAG_SIZE);
       const uint32_t size = Exiv2::getULong(size_buff, littleEndian);
+
+      // Check that `size` is within bounds.
+      Internal::enforce(!offset || size <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+
       DataBuf payload(offset ? size : WEBP_TAG_SIZE);  // header is different from chunks
       io_->read(payload.data(), payload.size());
 
