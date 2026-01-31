@@ -2,8 +2,8 @@ project(
   'exiv2',
   'cpp',
   version: '1.0.0',
-  meson_version: '>=0.54.1',
-  default_options: ['warning_level=0', 'cpp_std=c++20'],
+  meson_version: '>=0.63.0',
+  default_options: 'cpp_std=c++20',
 )
 
 cpp = meson.get_compiler('cpp')
@@ -50,57 +50,42 @@ cdata.set('EXV_ENABLE_BMFF', get_option('bmff'))
 cdata.set('EXV_HAVE_LENSDATA', get_option('lensdata'))
 cdata.set('EXV_ENABLE_VIDEO', get_option('video'))
 
-deps = []
+net_dep = []
 foreach d, os : {'procstat': 'freebsd', 'socket': 'sunos', 'ws2_32': 'windows'}
   if host_machine.system() == os
-    deps += cpp.find_library(d)
+    net_dep += cpp.find_library(d)
+    break
   endif
 endforeach
 
 fmt_dep = []
 if not cdata.get('EXV_HAVE_STD_FORMAT')
   fmt_dep = dependency('fmt', version: '>=5.0.0')
-  deps += fmt_dep
 endif
 
-brotli_dep = dependency('libbrotlidec', disabler: true, required: get_option('brotli'))
-if brotli_dep.found()
-  deps += brotli_dep
-endif
+brotli_dep = dependency('libbrotlidec', required: get_option('brotli'))
 
 if get_option('webready')
   curl_dep = dependency('libcurl', required: get_option('curl'))
   web_dep = declare_dependency(dependencies: [curl_dep])
-  deps += web_dep
 else
-  web_dep = dependency('', disabler: true, required: false)
+  web_dep = dependency('', required: false)
   curl_dep = web_dep
 endif
 
-expat_dep = dependency('expat', disabler: true, required: get_option('xmp'))
-if expat_dep.found()
-  deps += expat_dep
-endif
+expat_dep = dependency('expat', required: get_option('xmp'))
+inih_dep = dependency('INIReader', required: get_option('inih'))
+zlib_dep = dependency('zlib', required: get_option('png'))
 
-inih_dep = dependency('INIReader', disabler: true, required: get_option('inih'))
-if inih_dep.found()
-  deps += inih_dep
-endif
-
-zlib_dep = dependency('zlib', disabler: true, required: get_option('png'))
-if zlib_dep.found()
-  deps += zlib_dep
-endif
-
-if meson.version().version_compare('>= 0.60')
+#hack for FreeBSD which includes external libiconv for libcurl
+if curl_dep.found() and host_machine.system() == 'freebsd'
+  iconv_dep = cpp.find_library('iconv', dirs: '/usr/local/lib')
+elif meson.version().version_compare('>= 0.60')
   iconv_dep = dependency('iconv', required: get_option('iconv'))
 elif not get_option('iconv').disabled() and not cpp.links('#include <iconv.h>\nint main(){iconv_open("", "");}')
   iconv_dep = cpp.find_library('iconv', required: get_option('iconv'))
 else
   iconv_dep = get_option('iconv').disabled() ? dependency('', required: false) : declare_dependency()
-endif
-if iconv_dep.found()
-  deps += iconv_dep
 endif
 
 if meson.version().version_compare('>= 0.60')
@@ -110,7 +95,6 @@ else
 endif
 if intl_dep.found()
   add_project_arguments('-DEXV_LOCALEDIR="@0@"'.format(get_option('prefix') / get_option('localedir')), language: 'cpp')
-  deps += intl_dep
 endif
 
 cdata.set('EXV_ENABLE_INIH', inih_dep.found())
@@ -128,6 +112,11 @@ cfile = configure_file(
   output: 'exv_conf.h',
   format: 'cmake@',
   configuration: cdata,
+)
+
+add_project_dependencies(
+  intl_dep,
+  language: 'cpp',
 )
 
 libinc = include_directories('.', 'include/exiv2')
@@ -167,42 +156,44 @@ endif
 
 if get_option('app')
   samples = {
-    'addmoddel': [],
+    'addmoddel': declare_dependency(),
     'conntest': web_dep,
-    'convert-test': [],
-    'easyaccess-test': [],
-    'exifcomment': [],
-    'exifdata-test': [],
-    'exifdata': [],
-    'exifprint': [],
-    'exifvalue': [],
+    'convert-test': declare_dependency(),
+    'easyaccess-test': declare_dependency(),
+    'exifcomment': declare_dependency(),
+    'exifdata-test': declare_dependency(),
+    'exifdata': declare_dependency(),
+    'exifprint': declare_dependency(),
+    'exifvalue': declare_dependency(),
     'geotag': expat_dep,
     'ini-test': inih_dep,
-    'iotest': [],
-    'iptceasy': [],
-    'iptcprint': [],
-    'iptctest': [],
-    'jpegparsetest': [],
-    'key-test': [],
-    'largeiptc-test': [],
-    'mmap-test': [],
-    'mrwthumb': [],
-    'prevtest': [],
-    'remotetest': [],
-    'stringto-test': [],
-    'taglist': [],
-    'tiff-test': [],
-    'write-test': [],
-    'write2-test': [],
-    'xmpparse': [],
-    'xmpparser-test': [],
-    'xmpprint': [],
-    'xmpsample': [],
-    'xmpdump': [],
+    'iotest': declare_dependency(),
+    'iptceasy': declare_dependency(),
+    'iptcprint': declare_dependency(),
+    'iptctest': declare_dependency(),
+    'jpegparsetest': declare_dependency(),
+    'key-test': declare_dependency(),
+    'largeiptc-test': declare_dependency(),
+    'mmap-test': declare_dependency(),
+    'mrwthumb': declare_dependency(),
+    'prevtest': declare_dependency(),
+    'remotetest': declare_dependency(),
+    'stringto-test': declare_dependency(),
+    'taglist': declare_dependency(),
+    'tiff-test': declare_dependency(),
+    'write-test': declare_dependency(),
+    'write2-test': declare_dependency(),
+    'xmpparse': declare_dependency(),
+    'xmpparser-test': declare_dependency(),
+    'xmpprint': declare_dependency(),
+    'xmpsample': declare_dependency(),
+    'xmpdump': declare_dependency(),
   }
 
   foreach s, d : samples
-    executable(s, 'samples/@0@.cpp'.format(s), dependencies: [exiv2_dep, d], include_directories: exiv2inc)
+    if d.found()
+      executable(s, 'samples/@0@.cpp'.format(s), dependencies: [exiv2_dep, d], include_directories: exiv2inc)
+    endif
   endforeach
 
   gopt = [

@@ -2,6 +2,7 @@ base_lib = files(
   'basicio.cpp',
   'bmffimage.cpp',
   'bmpimage.cpp',
+  'convert.cpp',
   'cr2image.cpp',
   'crwimage.cpp',
   'datasets.cpp',
@@ -74,28 +75,14 @@ exiv2int = static_library(
   'exiv2int',
   int_lib,
   cpp_args: '-DEXIV2API=',
-  dependencies: deps,
+  dependencies: [fmt_dep, inih_dep, zlib_dep],
   include_directories: libinc,
 )
 
 exiv2int_dep = declare_dependency(
   include_directories: libinc,
   link_with: exiv2int,
-)
-
-# This is compiled separately, because there are multiple sources for iconv
-# (methods "builtin" and "system") and it's possible to have the include
-# directory from one dependency leak over and force the system iconv to be used
-# instead of the builtin one. This causes miscompilation.
-convertlib = static_library(
-  '_convert',
-  'convert.cpp',
-  cpp_args: cargs,
-  gnu_symbol_visibility: 'hidden',
-  pic: true,
-  dependencies: [fmt_dep, iconv_dep],
-  include_directories: libinc,
-  build_by_default: false,
+  dependencies: [fmt_dep, inih_dep, zlib_dep],
 )
 
 exiv2 = library(
@@ -106,8 +93,7 @@ exiv2 = library(
   version: meson.project_version(),
   soversion: sover,
   gnu_symbol_visibility: 'hidden',
-  link_with: convertlib,
-  dependencies: [deps, exiv2int_dep],
+  dependencies: [exiv2int_dep, brotli_dep, curl_dep, expat_dep, iconv_dep, net_dep],
   install: true,
 )
 
@@ -126,7 +112,9 @@ pkg.generate(
 
 exiv2_dep = declare_dependency(
   compile_args: dllapi,
-  dependencies: intl_dep,
+  dependencies: [fmt_dep],
   include_directories: depinc,
   link_with: exiv2,
 )
+
+meson.override_dependency('exiv2', exiv2_dep)
