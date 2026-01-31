@@ -619,7 +619,7 @@ const CrwMapping* CrwMap::crwMapping(uint16_t crwDir, uint16_t crwTagId) {
 
 void CrwMap::decode0x0805(const CiffComponent& ciffComponent, const CrwMapping* /*pCrwMapping*/, Image& image,
                           ByteOrder /*byteOrder*/) {
-  auto s = Exiv2::toString(ciffComponent.pData());
+  auto s = std::string(reinterpret_cast<const char*>(ciffComponent.pData()), ciffComponent.size());
   image.setComment(s);
 }  // CrwMap::decode0x0805
 
