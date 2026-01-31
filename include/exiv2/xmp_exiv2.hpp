@@ -10,6 +10,8 @@
 #include "datasets.hpp"
 #include "metadatum.hpp"
 
+#include <atomic>
+
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
@@ -372,12 +374,18 @@ class EXIV2API XmpParser {
   static void unregisterNs(const std::string& ns);
 
   /*!
+    @brief Register a namespace with the XMP Toolkit without locking.
+           Assumes xmpLifecycleMutex is already held by caller.
+   */
+  static void registerNsUnlocked(const std::string& ns, const std::string& prefix);
+
+  /*!
     @brief Get namespaces registered with XMPsdk
    */
   static void registeredNamespaces(Exiv2::Dictionary&);
 
   // DATA
-  static bool initialized_;  //! Indicates if the XMP Toolkit has been initialized
+  static std::atomic<bool> initialized_;  //! Indicates if the XMP Toolkit has been initialized
   static XmpLockFct xmpLockFct_;
   static void* pLockData_;
 

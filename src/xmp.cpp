@@ -12,6 +12,8 @@
 // + standard includes
 #include <algorithm>
 #include <iostream>
+#include <mutex>
+#include <shared_mutex>
 
 // Adobe XMP Toolkit
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -494,16 +496,61 @@ void XmpData::eraseFamily(XmpData::iterator& pos) {
   }
 }
 
-bool XmpParser::initialized_ = false;
+std::atomic<bool> XmpParser::initialized_ = false;
 XmpParser::XmpLockFct XmpParser::xmpLockFct_ = nullptr;
 void* XmpParser::pLockData_ = nullptr;
 
+// Synchronization for XMP Toolkit lifecycle (initialize/terminate vs. usage)
+static std::mutex xmpLifecycleMutex;
+
+// Internal mutex for XMP SDK access if user doesn't provide one
+static std::mutex xmpSdkMutex;
+
+// Lock Hierarchy (always acquire in this order to prevent deadlocks):
+// 1. xmpLifecycleMutex
+//    - Serializes access to XMP Toolkit lifecycle (initialize/terminate) and usage (encode/decode)
+//    - initialize() and terminate() acquire lock for exclusive access
+//    - encode/decode are essentially serialized by the toolkit anyway, so this exclusive lock
+//      should not significantly hinder performance vs a shared lock.
+// 2. XmpProperties::mutex_ (for nsRegistry_ access in properties.cpp)
+//    - Used when iterating or modifying the namespace registry
+// 3. xmpSdkMutex via AutoLock (for XMP SDK operations)
+//    - Serializes calls to XMP SDK functions (RegisterNamespace, DeleteNamespace, etc.)
+//
+// Important: initialize() must be called BEFORE acquiring xmpLifecycleMutex
+// in encode()/decode() to avoid deadlock.
+
+// Default locking implementation using internal mutex
+static void defaultXmpLockFct(void*, bool lock) {
+  if (lock)
+    xmpSdkMutex.lock();
+  else
+    xmpSdkMutex.unlock();
+}
+
 #ifdef EXV_HAVE_XMP_TOOLKIT
 bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
-  if (!initialized_) {
+  // Fast check to avoid locking if already initialized
+  if (initialized_.load(std::memory_order_acquire))
+    return true;
+
+  // Acquire exclusive lock for initialization
+  auto lock = std::unique_lock(xmpLifecycleMutex);
+
+  // Double-check after acquiring lock
+  if (initialized_.load(std::memory_order_relaxed))
+    return true;
+
+  if (xmpLockFct) {
     xmpLockFct_ = xmpLockFct;
     pLockData_ = pLockData;
-    initialized_ = SXMPMeta::Initialize();
+  } else {
+    // Use default internal mutex if no user lock provided
+    xmpLockFct_ = defaultXmpLockFct;
+    pLockData_ = nullptr;
+  }
+
+  if (SXMPMeta::Initialize()) {
 #ifdef EXV_ADOBE_XMPSDK
     SXMPMeta::RegisterNamespace("http://ns.adobe.com/lightroom/1.0/", "lr", nullptr);
     SXMPMeta::RegisterNamespace("http://rs.tdwg.org/dwc/index.htm", "dwc", nullptr);
@@ -551,8 +598,25 @@ bool XmpParser::initialize(XmpParser::XmpLockFct xmpLockFct, void* pLockData) {
     SXMPMeta::RegisterNamespace("http://www.audio/", "audio");
     SXMPMeta::RegisterNamespace("http://www.video/", "video");
 #endif
+    initialized_.store(true, std::memory_order_release);
+    return true;
   }
-  return initialized_;
+  return false;
+}
+
+// Internal version of registerNs that assumes the lifecycle lock is already held
+void XmpParser::registerNsUnlocked(const std::string& ns, const std::string& prefix) {
+  try {
+    auto autoLock = AutoLock(xmpLockFct_, pLockData_);
+    SXMPMeta::DeleteNamespace(ns.c_str());
+#ifdef EXV_ADOBE_XMPSDK
+    SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), nullptr);
+#else
+    SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
+#endif
+  } catch (const XMP_Error& /* e */) {
+    // throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
+  }
 }
 #else
 bool XmpParser::initialize(XmpParser::XmpLockFct, void*) {
@@ -594,13 +658,13 @@ static XMP_Status nsDumper(void* refCon, XMP_StringPtr buffer, XMP_StringLen buf
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 void XmpParser::registeredNamespaces(Exiv2::Dictionary& dict) {
-  bool bInit = !initialized_;
   try {
-    if (bInit)
-      initialize();
-    SXMPMeta::DumpNamespaces(nsDumper, &dict);
-    if (bInit)
-      terminate();
+    if (!initialize())
+      return;
+    auto lock = std::unique_lock(xmpLifecycleMutex);
+    if (initialized_.load(std::memory_order_relaxed)) {
+      SXMPMeta::DumpNamespaces(nsDumper, &dict);
+    }
   } catch (const XMP_Error& e) {
     throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
   }
@@ -611,26 +675,29 @@ void XmpParser::registeredNamespaces(Exiv2::Dictionary&) {
 #endif
 
 void XmpParser::terminate() {
+  auto lock = std::unique_lock(xmpLifecycleMutex);
   XmpProperties::unregisterNs();
 #ifdef EXV_HAVE_XMP_TOOLKIT
-  if (initialized_)
+  if (initialized_.load(std::memory_order_relaxed)) {
     SXMPMeta::Terminate();
+    initialized_.store(false, std::memory_order_release);
+  }
 #else
-  initialized_ = false;
+  initialized_.store(false, std::memory_order_release);
 #endif
 }
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 void XmpParser::registerNs(const std::string& ns, const std::string& prefix) {
   try {
-    initialize();
-    AutoLock autoLock(xmpLockFct_, pLockData_);
-    SXMPMeta::DeleteNamespace(ns.c_str());
-#ifdef EXV_ADOBE_XMPSDK
-    SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), nullptr);
-#else
-    SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str());
-#endif
+    if (!initialize())
+      return;
+    // Acquire lock to ensure SDK remains initialized during registration
+    auto lifecycleLock = std::unique_lock(xmpLifecycleMutex);
+    if (!initialized_.load(std::memory_order_relaxed))
+      return;
+
+    registerNsUnlocked(ns, prefix);
   } catch (const XMP_Error& /* e */) {
     // throw Error(ErrorCode::kerXMPToolkitError, e.GetID(), e.GetErrMsg());
   }
@@ -639,6 +706,9 @@ void XmpParser::registerNs(const std::string& ns, const std::string& prefix) {
 void XmpParser::registerNs(const std::string& /*ns*/, const std::string& /*prefix*/) {
   initialize();
 }  // XmpParser::registerNs
+
+void XmpParser::registerNsUnlocked(const std::string& /*ns*/, const std::string& /*prefix*/) {
+}
 #endif
 
 void XmpParser::unregisterNs(const std::string& /*ns*/) {
@@ -660,10 +730,19 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
     if (xmpPacket.empty())
       return 0;
 
+    // Initialize first to avoid mutex upgrade deadlock (Shared -> Exclusive)
     if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "XMP toolkit initialization failed.\n";
 #endif
+      return 2;
+    }
+
+    // Acquire lock to ensure SDK remains initialized during decode
+    auto lock = std::unique_lock(xmpLifecycleMutex);
+
+    // Double check initialization under lock in case of race with terminate()
+    if (!initialized_.load(std::memory_order_relaxed)) {
       return 2;
     }
 
@@ -804,18 +883,35 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
       return 0;
     }
 
+    // Initialize first to avoid mutex upgrade deadlock (Shared -> Exclusive)
     if (!initialize()) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "XMP toolkit initialization failed.\n";
 #endif
       return 2;
     }
+
+    // Acquire lock to ensure SDK remains initialized during encode
+    auto lifecycleLock = std::unique_lock(xmpLifecycleMutex);
+
+    // Double check initialization under lock
+    if (!initialized_.load(std::memory_order_relaxed)) {
+      return 2;
+    }
     // Register custom namespaces with XMP-SDK
-    for (const auto& [xmp, uri] : XmpProperties::nsRegistry_) {
+    //
+    // Concurrent access to the namespace registry (e.g. from registerNs()) can invalidate
+    // the iterator or cause data races. We must acquire the mutex while iterating.
+    {
+      auto registryLock = std::scoped_lock(XmpProperties::mutex_);
+      for (const auto& [xmp, uri] : XmpProperties::nsRegistry_) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Registering " << uri.prefix_ << " : " << xmp << "\n";
+        std::cerr << "Registering " << uri.prefix_ << " : " << xmp << "\n";
 #endif
-      registerNs(xmp, uri.prefix_);
+        // registerNs calls initialize() internally (safe as we are already initialized).
+        // It also uses AutoLock to protect the SDK's internal state.
+        registerNsUnlocked(xmp, uri.prefix_);
+      }
     }
     SXMPMeta meta;
     for (const auto& xmp : xmpData) {
@@ -987,12 +1083,11 @@ XMP_OptionBits xmpFormatOptionBits(Exiv2::XmpParser::XmpFormatFlags flags) {
 #ifdef EXIV2_DEBUG_MESSAGES
 void printNode(const std::string& schemaNs, const std::string& propPath, const std::string& propValue,
                XMP_OptionBits opt) {
-  static bool first = true;
-  if (first) {
-    first = false;
+  static std::once_flag flag;
+  std::call_once(flag, []() {
     std::cout << "ashisabsals\n"
               << "lcqqtrgqlai\n";
-  }
+  });
   enum {
     alia = 0,
     sche,
