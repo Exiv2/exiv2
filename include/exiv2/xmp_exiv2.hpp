@@ -288,21 +288,28 @@ class EXIV2API XmpParser {
   */
   static int encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t formatFlags = useCompactFormat,
                     uint32_t padding = 0);
+
   /*!
-    @brief Lock/unlock function type
+    @deprecated This function is no longer needed and does absolutely nothing.
+                XMP Toolkit initialization is handled automatically.
+                Arguments are ignored.
 
-    A function of this type can be passed to initialize() to
-    make subsequent registration of XMP namespaces thread-safe.
-    See the initialize() function for more information.
-
-    @param pLockData Pointer to the pLockData passed to initialize()
-    @param lockUnlock Indicates whether to lock (true) or unlock (false)
+    @return Always returns true.
    */
-  using XmpLockFct = void (*)(void* pLockData, bool lockUnlock);
+  [[deprecated(
+      "XmpParser::initialize is deprecated and does nothing. The XMP Toolkit is initialized "
+      "automatically.")]] static bool
+  initialize(void (*)(void*, bool) = nullptr, void* = nullptr);
 
   /*!
-    @brief Initialize the XMP Toolkit.
-
+    @deprecated This function is no longer needed and does absolutely nothing.
+                XMP Toolkit termination is handled automatically.
+   */
+  [[deprecated(
+      "XmpParser::terminate is deprecated and does nothing. The XMP Toolkit termination is handled "
+      "automatically.")]] static void
+  terminate();
+  /*!
     Calling this method is usually not needed, as encode() and
     decode() will initialize the XMP Toolkit if necessary.
 

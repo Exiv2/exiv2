@@ -7,9 +7,6 @@
 #include <string>
 
 int main(int argc, char** argv) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   try {
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " file\n";
@@ -36,8 +33,6 @@ int main(int argc, char** argv) {
                 << std::setfill(' ') << std::left << md.typeName() << " " << std::dec << std::setw(3)
                 << std::setfill(' ') << std::right << md.count() << "  " << std::dec << md.toString() << '\n';
     }
-
-    Exiv2::XmpParser::terminate();
 
     return EXIT_SUCCESS;
   } catch (Exiv2::Error& e) {

@@ -9,9 +9,6 @@
 // Main
 int main(int argc, char* const argv[]) {
   try {
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
-
     // Handle command line arguments
     Params params;
     if (params.getopt(argc, argv)) {

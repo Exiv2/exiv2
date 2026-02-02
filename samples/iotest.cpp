@@ -16,9 +16,6 @@ static int WriteReadSeek(BasicIo& io);
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[]) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   try {
     if (argc < 4 || argc > 6) {
       std::cout << "Usage: " << argv[0]
