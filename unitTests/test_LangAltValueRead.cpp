@@ -10,9 +10,6 @@ using namespace Exiv2;
 
 // 1. No language value
 TEST(LangAltValueReadTest, noLanguageValBeforeSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang= test1-1";
@@ -24,9 +21,6 @@ TEST(LangAltValueReadTest, noLanguageValBeforeSpace) {
 }
 
 TEST(LangAltValueReadTest, quoteThenNoLanguageValBeforeSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=\" test1-2";
@@ -39,9 +33,6 @@ TEST(LangAltValueReadTest, quoteThenNoLanguageValBeforeSpace) {
 
 // 2. Empty language value
 TEST(LangAltValueReadTest, emptyDoubleQuotesLanguageValBeforeSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=\"\" test2";
@@ -54,9 +45,6 @@ TEST(LangAltValueReadTest, emptyDoubleQuotesLanguageValBeforeSpace) {
 
 // 3. Mismatched and/or incorrect positioning of quotation marks
 TEST(LangAltValueReadTest, emptyDoubleQuotesLanguageValNoSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=\"\"test3-1";
@@ -68,9 +56,6 @@ TEST(LangAltValueReadTest, emptyDoubleQuotesLanguageValNoSpace) {
 }
 
 TEST(LangAltValueReadTest, oneDoubleQuotesLanguageValNoSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=\"test3-2";
@@ -82,9 +67,6 @@ TEST(LangAltValueReadTest, oneDoubleQuotesLanguageValNoSpace) {
 }
 
 TEST(LangAltValueReadTest, oneDoubleQuotesLanguageValBeforeSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=\"en-UK test3-3";
@@ -96,9 +78,6 @@ TEST(LangAltValueReadTest, oneDoubleQuotesLanguageValBeforeSpace) {
 }
 
 TEST(LangAltValueReadTest, languageValOneDoubleQuotesBeforeSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=en-US\" test3-4";
@@ -110,9 +89,6 @@ TEST(LangAltValueReadTest, languageValOneDoubleQuotesBeforeSpace) {
 }
 
 TEST(LangAltValueReadTest, languageValOneDoubleQuotesNoSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=test3-5\"";
@@ -124,9 +100,6 @@ TEST(LangAltValueReadTest, languageValOneDoubleQuotesNoSpace) {
 }
 
 TEST(LangAltValueReadTest, languageValTwoDoubleQuotesNoSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=test3-6\"\"";
@@ -139,9 +112,6 @@ TEST(LangAltValueReadTest, languageValTwoDoubleQuotesNoSpace) {
 
 // 4. Invalid characters in language part
 TEST(LangAltValueReadTest, languageValExtraHyphenBeforeSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=en-UK- test4-1";
@@ -153,9 +123,6 @@ TEST(LangAltValueReadTest, languageValExtraHyphenBeforeSpace) {
 }
 
 TEST(LangAltValueReadTest, languageValWithInvalidCharBeforeSpace) {
-  XmpParser::initialize();
-  ::atexit(XmpParser::terminate);
-
   Exiv2::XmpData xmpData;
   try {
     xmpData["Xmp.dc.title"] = "lang=en=UK test4-2";

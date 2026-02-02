@@ -36,6 +36,10 @@ add_executable(
   test_TimeValue.cpp
   test_utils.cpp
   test_XmpKey.cpp
+  test_xmp_concurrent.cpp
+  test_xmp_lifecycle.cpp
+  test_xmp_race_encode_decode.cpp
+  test_xmp_concurrent_registry.cpp
   ${VIDEO_SUPPORT}
   $<TARGET_OBJECTS:exiv2lib_int>
 )

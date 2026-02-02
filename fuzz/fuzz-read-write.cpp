@@ -8,9 +8,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   // Invalid files generate a lot of warnings, so switch off logging.
   Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   try {
     Exiv2::DataBuf data_copy(data, size);
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(data_copy.c_data(), size);
