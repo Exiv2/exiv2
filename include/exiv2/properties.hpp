@@ -62,10 +62,64 @@ struct EXIV2API XmpNsInfo {
 
 //! XMP property reference, implemented as a static class.
 class EXIV2API XmpProperties {
+  /*!
+    @brief Lock to be used interacting with xmp toolkit.
+   */
+  struct EXIV2API XmpLock {
+   private:
+    friend class XmpProperties;
+    friend class XmpData;
+    friend class XmpKey;
+    friend class XmpParser;
+    friend class Xmpdatum;
+
+    XmpLock() : lock_(getMutex()) {
+    }
+    std::scoped_lock<std::mutex> lock_;
+  };
+
  private:
-  static const XmpNsInfo* nsInfoUnsafe(const std::string& prefix);
-  static void unregisterNsUnsafe(const std::string& ns);
-  static const XmpNsInfo* lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix);
+  /*!
+    @brief Key used to authorize access to no-lock methods during static destruction.
+           Only XmpToolkitLifetimeManager can create this key.
+   */
+  struct LifetimeKey {
+   private:
+    friend class XmpProperties;
+    friend class XmpToolkitLifetimeManager;
+    LifetimeKey() = default;
+  };
+
+  friend class XmpToolkitLifetimeManager;
+  static const XmpNsInfo* lookupNsRegistryUnlocked(const XmpNsInfo::Prefix& prefix, const XmpLock&);
+  static void unregisterNsUnlocked(const std::string& ns, const XmpLock&);
+  // Internal versions that do NOT check for lock (only for use by XmpToolkitLifetimeManager or internal helpers)
+  static void unregisterNsNoLock(const std::string& ns, LifetimeKey);
+  static void unregisterAllNsNoLock(LifetimeKey);
+
+  // Unlocked versions of public methods (Caller MUST hold the lock obtained via XmpProperties::XmpLock)
+  static std::string nsUnlocked(const std::string& prefix, const XmpLock&);
+  static std::string prefixUnlocked(const std::string& ns, const XmpLock&);
+  static void registerNsUnlocked(const std::string& ns, const std::string& prefix, const XmpLock&);
+  static void unregisterNsUnlocked(const XmpLock&);
+  static void registeredNamespacesUnlocked(Exiv2::Dictionary& nsDict, const XmpLock&);
+
+  static const char* propertyTitleUnlocked(const XmpKey& key, const XmpLock&);
+  static const char* propertyDescUnlocked(const XmpKey& key, const XmpLock&);
+  static TypeId propertyTypeUnlocked(const XmpKey& key, const XmpLock&);
+  static const XmpPropertyInfo* propertyInfoUnlocked(const XmpKey& key, const XmpLock&);
+  static const char* nsDescUnlocked(const std::string& prefix, const XmpLock&);
+  static const XmpPropertyInfo* propertyListUnlocked(const std::string& prefix, const XmpLock&);
+  static const XmpNsInfo* nsInfoUnlocked(const std::string& prefix, const XmpLock&);
+  static void printPropertiesUnlocked(std::ostream& os, const std::string& prefix, const XmpLock&);
+  static std::ostream& printPropertyUnlocked(std::ostream& os, const std::string& key, const Value& value,
+                                             const XmpLock&);
+
+  friend class XmpParser;  // Allow XmpParser to call Unlocked methods while holding the lock
+  friend class XmpKey;     // Allow XmpKey to call Unlocked methods for tagging
+  friend class XmpData;
+  friend class Xmpdatum;
+  friend class XmpToolkitLifetimeManager;  // Allow access to unregisterNsUnlocked() during cleanup
 
  public:
   /*!
@@ -166,14 +220,10 @@ class EXIV2API XmpProperties {
   static void unregisterNs(const std::string& ns);
 
   /*!
-    @brief Lock to be used while modifying properties.
-
-    @todo For a proper read-write lock, this shall be improved by a
-    \em std::shared_timed_mutex (once C++14 is allowed) or
-    \em std::shared_mutex (once C++17 is allowed). The
-    read-access locks shall be updated to \em std::shared_lock then.
+    @brief Get reference to the global XMP lock.
+           Replaces direct mutex access for better Windows DLL support.
    */
-  static std::mutex mutex_;
+  static std::mutex& getMutex();
 
   /*!
     @brief Unregister all custom namespaces.
@@ -271,6 +321,13 @@ class EXIV2API XmpKey : public Key {
   // Pimpl idiom
   struct Impl;
   std::unique_ptr<Impl> p_;
+
+  // Internal "unlocked" constructor (Caller MUST hold the lock obtained via XmpProperties::XmpLock)
+  XmpKey(const std::string& prefix, const std::string& property, const XmpProperties::XmpLock&);
+  XmpKey(const std::string& key, const XmpProperties::XmpLock&);
+  friend class XmpParser;
+  friend class XmpData;
+  friend class Xmpdatum;
 
 };  // class XmpKey
 

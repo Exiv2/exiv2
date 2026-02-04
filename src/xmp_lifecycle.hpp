@@ -85,7 +85,9 @@ class XmpToolkitLifetimeManager {
   }
 
   ~XmpToolkitLifetimeManager() {
-    XmpProperties::unregisterNs();
+    // Use Unsafe version to avoid acquiring mutex during static destruction.
+    // This is safe because static destruction is single-threaded per C++ standard.
+    XmpProperties::unregisterAllNsNoLock(XmpProperties::LifetimeKey{});
     SXMPMeta::Terminate();
   }
 };
