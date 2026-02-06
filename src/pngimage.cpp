@@ -358,8 +358,14 @@ namespace Exiv2 {
 #endif
                             if ( parsedBuf.size_ ) {
                                 if ( bExif ) {
+                                    // check for expected "Exif\0\0" APP1 identifier, punt otherwise
+                                    long offset = 0;
+                                    const byte exifId[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };  // "Exif\0\0"
+                                    if (memcmp(exifId, parsedBuf.pData_, sizeof(exifId)) == 0) {
+                                        offset = 6;
+                                    }
                                     // create memio object with the data, then print the structure
-                                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(parsedBuf.pData_+6,parsedBuf.size_-6));
+                                    BasicIo::AutoPtr p = BasicIo::AutoPtr(new MemIo(parsedBuf.pData_ + offset, parsedBuf.size_ - offset));
                                     printTiffStructure(*p,out,option,depth);
                                 }
                                 if ( bIptc ) {

@@ -255,16 +255,18 @@ namespace Exiv2 {
             DataBuf exifData = readRawProfile(arr,false);
             long length      = exifData.size_;
 
-            if (length > 0)
+            if (length >= 4) // length should have at least the size of TIFF header
             {
-                // Find the position of Exif header in bytes array.
-
-                const byte exifHeader[] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
+                // Find the position of TIFF header in bytes array.
+                // Forgives the absence of the expected Exif\0 APP1 prefix.
+                const byte tiffHeaderLE[] = { 0x49, 0x49, 0x2A, 0x00 };  // "II*\0"
+                const byte tiffHeaderBE[] = { 0x4D, 0x4D, 0x00, 0x2A };  // "MM\0*"
                 long pos = -1;
 
-                for (long i=0 ; i < length-(long)sizeof(exifHeader) ; i++)
+                for (long i=0 ; i < length-(long)sizeof(tiffHeaderLE) ; i++)
                 {
-                    if (memcmp(exifHeader, &exifData.pData_[i], sizeof(exifHeader)) == 0)
+                    if ((memcmp(tiffHeaderLE, &exifData.pData_[i], sizeof(tiffHeaderLE)) == 0) ||
+                        (memcmp(tiffHeaderBE, &exifData.pData_[i], sizeof(tiffHeaderBE)) == 0))
                     {
                         pos = i;
                         break;
@@ -276,9 +278,8 @@ namespace Exiv2 {
                 if (pos !=-1)
                 {
 #ifdef EXIV2_DEBUG_MESSAGES
-                    std::cout << "Exiv2::PngChunk::parseChunkContent: Exif header found at position " << pos << "\n";
+                    std::cout << "Exiv2::PngChunk::parseChunkContent: TIFF header found at position " << pos << "\n";
 #endif
-                    pos = pos + sizeof(exifHeader);
                     ByteOrder bo = TiffParser::decode(pImage->exifData(),
                                                       pImage->iptcData(),
                                                       pImage->xmpData(),
