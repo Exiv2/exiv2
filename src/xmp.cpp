@@ -856,7 +856,8 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
         continue;
       }
       if (xmp.typeId() == xmpText) {
-        if (xmp.count() == 0) {
+        const auto xt = dynamic_cast<const XmpTextValue*>(&xmp.value());
+        if (xmp.count() == 0 || xt->xmpStruct() != XmpValue::xsNone || xt->xmpArrayType() != XmpValue::xaNone) {
           printNode(ns, xmp.tagName(), "", options);
           meta.SetProperty(ns.c_str(), xmp.tagName().c_str(), nullptr, options);
         } else {
