@@ -203,7 +203,7 @@ Xmp.exif.ImageUniqueID                       XmpText     0
 Xmp.exif.ComponentsConfiguration             XmpSeq      4  1, 2, 3, 0  YCbCr
 Xmp.exif.UserComment                         LangAlt     1  lang="x-default" binary comment  lang="x-default" binary comment
 Xmp.exif.ISOSpeedRatings                     XmpSeq      1  200  200
-Xmp.exif.Flash                               XmpText     0  type="Struct"
+Xmp.exif.Flash                               XmpText    13  type="Struct"  type="Struct"
 Xmp.exif.Flash/exif:Fired                    XmpText     5  False  False
 Xmp.exif.Flash/exif:Return                   XmpText     1  0  0
 Xmp.exif.Flash/exif:Mode                     XmpText     1  2  2

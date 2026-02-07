@@ -1,5 +1,5 @@
-Xmp.xmp.Thumbnails                           XmpText     0  type="Alt"
-Xmp.xmp.Thumbnails[1]                        XmpText     0  type="Struct"
+Xmp.xmp.Thumbnails                           XmpText    10  type="Alt"  type="Alt"
+Xmp.xmp.Thumbnails[1]                        XmpText    13  type="Struct"  type="Struct"
 Xmp.xmp.Thumbnails[1]/xmpGImg:width          XmpText     3  150  150
 Xmp.xmp.Thumbnails[1]/xmpGImg:height         XmpText     2  91  91
 Xmp.xmp.Thumbnails[1]/xmpGImg:format         XmpText     4  JPEG  JPEG
