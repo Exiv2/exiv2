@@ -127,6 +127,6 @@ USS Ronald Reagan (CVN 76), June 21, 2004 -  USS Ronald Reagan (CVN 76) sails th
 Xmp.dc.title                                 LangAlt     1  lang="x-default" 040621-N-6536T-062  lang="x-default" 040621-N-6536T-062
 Xmp.dc.creator                               XmpSeq      1  Photographerís Mate 3rd Class (A  Photographerís Mate 3rd Class (A
 Xmp.dc.subject                               XmpBag     10  ronald reagan, reagan, cvn 76, cvn-76, straights magellan, magellan, carrier, nimitz-class, ship, underway  ronald reagan, reagan, cvn 76, cvn-76, straights magellan, magellan, carrier, nimitz-class, ship, underway
-Xmp.xmpBJ.JobRef                             XmpText     0  type="Bag"
-Xmp.xmpBJ.JobRef[1]                          XmpText     0  type="Struct"
+Xmp.xmpBJ.JobRef                             XmpText    10  type="Bag"  type="Bag"
+Xmp.xmpBJ.JobRef[1]                          XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpBJ.JobRef[1]/stJob:name               XmpText    18  040621-N-6536T-062  040621-N-6536T-062
