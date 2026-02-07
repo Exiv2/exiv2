@@ -122,6 +122,7 @@ def get_valid_files(data_dir):
         "issue_ghsa_g9xm_7538_mq8w_poc.mov",
         "issue_ghsa_38h4_fx85_qcx7_poc.tiff",
         "issue_ghsa_496f_x7cq_cq39_poc.jpg",
+        "issue_ghsa_9mxq_4j5g_5wrp.crw",
         "pocIssue283.jpg",
         "poc_1522.jp2",
         "xmpsdk.xmp",
