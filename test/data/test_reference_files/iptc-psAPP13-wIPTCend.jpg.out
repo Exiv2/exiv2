@@ -25,7 +25,7 @@ Xmp.photoshop.ColorMode                      XmpText     1  3  3
 Xmp.photoshop.History                        XmpText     0  
 Xmp.xmpMM.InstanceID                         XmpText    37  uuid:6E0DE597F251DE119368FCA8AE42D1CE  uuid:6E0DE597F251DE119368FCA8AE42D1CE
 Xmp.xmpMM.DocumentID                         XmpText    37  uuid:6D0DE597F251DE119368FCA8AE42D1CE  uuid:6D0DE597F251DE119368FCA8AE42D1CE
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"  type="Struct"
 Xmp.tiff.Orientation                         XmpText     1  1  top, left
 Xmp.tiff.XResolution                         XmpText    12  720000/10000  72
 Xmp.tiff.YResolution                         XmpText    12  720000/10000  72
