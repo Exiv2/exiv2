@@ -296,14 +296,13 @@ Uri Uri::Parse(const std::string& uri) {
   if (uri.empty())
     return result;
 
-  auto uriEnd = uri.end();
-
-  // get query start
-  auto queryStart = std::find(uri.begin(), uriEnd, '?');
+  const auto uriEnd = uri.end();
 
   // protocol
-  auto protocolStart = uri.begin();
+  const auto protocolStart = uri.begin();
   auto protocolEnd = std::find(protocolStart, uriEnd, ':');  //"://");
+
+  assert(protocolStart <= protocolEnd);
 
   if (protocolEnd != uriEnd) {
     auto prot = std::string(protocolEnd, uriEnd);
@@ -311,18 +310,25 @@ Uri Uri::Parse(const std::string& uri) {
       result.Protocol = std::string(protocolStart, protocolEnd);
       protocolEnd += 3;  //      ://
     } else
-      protocolEnd = uri.begin();  // no protocol
+      protocolEnd = protocolStart;  // no protocol
   } else
-    protocolEnd = uri.begin();  // no protocol
+    protocolEnd = protocolStart;  // no protocol
+
+  assert(protocolStart <= protocolEnd);
 
   // username & password
-  auto authStart = protocolEnd;
-  auto authEnd = std::find(protocolEnd, uriEnd, '@');
+  const auto authStart = protocolEnd;
+
+  auto authEnd = std::find(authStart, uriEnd, '@');
+  assert(authStart <= authEnd);
   if (authEnd != uriEnd) {
-    auto userStart = authStart;
+    const auto userStart = authStart;
     if (auto userEnd = std::find(authStart, authEnd, ':'); userEnd != authEnd) {
+      assert(authStart <= userEnd);
+      assert(userEnd < authEnd);
       result.Username = std::string(userStart, userEnd);
       ++userEnd;
+      assert(userEnd <= authEnd);
       result.Password = std::string(userEnd, authEnd);
     } else {
       result.Username = std::string(authStart, authEnd);
@@ -332,22 +338,30 @@ Uri Uri::Parse(const std::string& uri) {
     authEnd = protocolEnd;
   }
 
-  // host
-  auto hostStart = authEnd;
-  auto pathStart = std::find(hostStart, uriEnd, '/');  // get pathStart
+  assert(authStart <= authEnd);
 
-  auto hostEnd = std::find(authEnd, (pathStart != uriEnd) ? pathStart : queryStart,
-                           ':');  // check for port
+  // host
+  const auto hostStart = authEnd;
+  const auto pathStart = std::find(hostStart, uriEnd, '/');   // get pathStart
+  const auto queryStart = std::find(hostStart, uriEnd, '?');  // get query start
+
+  assert(hostStart <= pathStart);
+  assert(hostStart <= queryStart);
+
+  const auto portEnd = (pathStart < uriEnd) ? pathStart : queryStart;
+  auto hostEnd = std::find(hostStart, portEnd, ':');  // check for port
+
+  assert(hostStart <= hostEnd);
+  assert(hostEnd <= portEnd);
 
   if (hostStart < hostEnd) {
     result.Host = std::string(hostStart, hostEnd);
   }
 
   // port
-  if ((hostEnd != uriEnd) && (*hostEnd == ':'))  // we have a port
+  if ((hostEnd < uriEnd) && (*hostEnd == ':'))  // we have a port
   {
     ++hostEnd;
-    auto portEnd = (pathStart != uriEnd) ? pathStart : queryStart;
     if (hostEnd < portEnd) {
       result.Port = std::string(hostEnd, portEnd);
     }
@@ -361,8 +375,8 @@ Uri Uri::Parse(const std::string& uri) {
   }
 
   // query
-  if (queryStart != uriEnd)
-    result.QueryString = std::string(queryStart, uri.end());
+  if (queryStart < uriEnd)
+    result.QueryString = std::string(queryStart, uriEnd);
 
   return result;
 }
