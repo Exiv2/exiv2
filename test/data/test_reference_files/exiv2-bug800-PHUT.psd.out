@@ -31,26 +31,26 @@ Xmp.dc.format                                XmpText    31  application/vnd.adob
 Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:02801174072068119A95CE0AAC0F98BE  xmp.iid:02801174072068119A95CE0AAC0F98BE
 Xmp.xmpMM.DocumentID                         XmpText    40  xmp.did:01801174072068119A95CE0AAC0F98BE  xmp.did:01801174072068119A95CE0AAC0F98BE
 Xmp.xmpMM.OriginalDocumentID                 XmpText    40  xmp.did:01801174072068119A95CE0AAC0F98BE  xmp.did:01801174072068119A95CE0AAC0F98BE
-Xmp.xmpMM.History                            XmpText     0  type="Seq"
-Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History                            XmpText    10  type="Seq"  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved  saved
 Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:01801174072068119A95CE0AAC0F98BE  xmp.iid:01801174072068119A95CE0AAC0F98BE
 Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2011-06-27T21:41:02+02:00  2011-06-27T21:41:02+02:00
 Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh  Adobe Photoshop CS5 Macintosh
 Xmp.xmpMM.History[1]/stEvt:changed           XmpText     1  /  /
-Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]                         XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.History[2]/stEvt:action            XmpText     9  converted  converted
 Xmp.xmpMM.History[2]/stEvt:parameters        XmpText    50  from image/jpeg to application/vnd.adobe.photoshop  from image/jpeg to application/vnd.adobe.photoshop
-Xmp.xmpMM.History[3]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[3]                         XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.History[3]/stEvt:action            XmpText     7  derived  derived
 Xmp.xmpMM.History[3]/stEvt:parameters        XmpText    60  converted from image/jpeg to application/vnd.adobe.photoshop  converted from image/jpeg to application/vnd.adobe.photoshop
-Xmp.xmpMM.History[4]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[4]                         XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.History[4]/stEvt:action            XmpText     5  saved  saved
 Xmp.xmpMM.History[4]/stEvt:instanceID        XmpText    40  xmp.iid:02801174072068119A95CE0AAC0F98BE  xmp.iid:02801174072068119A95CE0AAC0F98BE
 Xmp.xmpMM.History[4]/stEvt:when              XmpText    25  2011-06-27T21:41:02+02:00  2011-06-27T21:41:02+02:00
 Xmp.xmpMM.History[4]/stEvt:softwareAgent     XmpText    29  Adobe Photoshop CS5 Macintosh  Adobe Photoshop CS5 Macintosh
 Xmp.xmpMM.History[4]/stEvt:changed           XmpText     1  /  /
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    40  xmp.iid:01801174072068119A95CE0AAC0F98BE  xmp.iid:01801174072068119A95CE0AAC0F98BE
 Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    40  xmp.did:01801174072068119A95CE0AAC0F98BE  xmp.did:01801174072068119A95CE0AAC0F98BE
 Xmp.xmpMM.DerivedFrom/stRef:originalDocumentID XmpText    40  xmp.did:01801174072068119A95CE0AAC0F98BE  xmp.did:01801174072068119A95CE0AAC0F98BE

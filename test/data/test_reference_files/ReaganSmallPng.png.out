@@ -137,7 +137,7 @@ Xmp.exif.Sharpness                           XmpText     1  0  Normal
 Xmp.exif.SubjectDistanceRange                XmpText     1  0  Unknown
 Xmp.exif.WhiteBalance                        XmpText     1  1  Manual
 Xmp.exif.ComponentsConfiguration             XmpSeq      1  1, 2, 3, 0  Y
-Xmp.exif.Flash                               XmpText     0  type="Struct"
+Xmp.exif.Flash                               XmpText    13  type="Struct"  type="Struct"
 Xmp.exif.Flash/exif:Fired                    XmpText     5  False  False
 Xmp.exif.Flash/exif:Function                 XmpText     5  False  False
 Xmp.exif.Flash/exif:Mode                     XmpText     1  0  0
@@ -176,6 +176,6 @@ Xmp.xmp.MetadataDate                         XmpText    20  2016-03-23T13:26:36Z
 Xmp.xmp.ModifyDate                           XmpText    20  2016-03-23T13:26:36Z  2016-03-23T13:26:36Z
 Xmp.xmpMM.DocumentID                         XmpText    37  uuid:D6CBDC1D8DF2E511BA6BFBE914561F6D  uuid:D6CBDC1D8DF2E511BA6BFBE914561F6D
 Xmp.xmpMM.InstanceID                         XmpText    37  uuid:D7CBDC1D8DF2E511BA6BFBE914561F6D  uuid:D7CBDC1D8DF2E511BA6BFBE914561F6D
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:1c90e091-c489-11d8-ad7d-b4c1b2598b09  adobe:docid:photoshop:1c90e091-c489-11d8-ad7d-b4c1b2598b09
 Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:ec11a6b0-cc13-11d8-9c21-fa22e28297f6  uuid:ec11a6b0-cc13-11d8-9c21-fa22e28297f6
