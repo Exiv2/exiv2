@@ -603,8 +603,10 @@ void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId) {
     if (it != components_.end()) {
       // Recursive call to next lower level directory
       (*it)->remove(crwDirs, crwTagId);
-      if ((*it)->empty())
+      if ((*it)->empty()) {
+        delete *it;
         components_.erase(it);
+      }
     }
   } else {
     // Find the tag
