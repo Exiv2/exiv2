@@ -107,7 +107,7 @@ TEST(base64decode, decodesValidString) {
   ASSERT_STREQ(expected.c_str(), result.data());
 }
 
-TEST(AUri, parsesAndDecodeUrl1) {
+TEST(AUri, parseAndDecodeUrl1) {
   const std::string url("http://www.geekhideout.com/urlcode.shtml");
   Uri uri = Uri::Parse(url);
 
@@ -122,7 +122,7 @@ TEST(AUri, parsesAndDecodeUrl1) {
   Uri::Decode(uri);
 }
 
-TEST(AUri, parsesAndDecodeUrl2) {
+TEST(AUri, parseAndDecodeUrl2) {
   const std::string url("http://username:password@example.com:8000/path/to/page?name=ferret&color=purple");
   Uri uri = Uri::Parse(url);
 
@@ -137,7 +137,7 @@ TEST(AUri, parsesAndDecodeUrl2) {
   Uri::Decode(uri);
 }
 
-TEST(AUri, parsesAndDecodeUrl3) {
+TEST(AUri, parseAndDecodeUrl3) {
   const std::string url("http://host?query@");  // bogus uri
   Uri uri = Uri::Parse(url);
 
