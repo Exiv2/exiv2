@@ -51,5 +51,5 @@ TEST(AsfVideo, readMetadata) {
   ASSERT_NO_THROW(asf.setXmpData(xmpData));
   auto data = asf.xmpData();
   ASSERT_FALSE(data.empty());
-  ASSERT_EQ(xmpData["Xmp.video.TotalStream"].count(), 4);
+  ASSERT_EQ(xmpData["Xmp.video.TotalStream"].count(), 4u);
 }

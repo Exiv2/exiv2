@@ -151,7 +151,7 @@ TEST(ADateValue, copiesToByteBufferWithBasicFormat) {
   std::array<byte, 8> buf = {};
 
   const byte expectedDate[10] = {'2', '0', '2', '1', '1', '2', '0', '1'};
-  ASSERT_EQ(8, dateValue.copy(buf.data()));
+  ASSERT_EQ(8u, dateValue.copy(buf.data()));
   ASSERT_TRUE(std::equal(buf.begin(), buf.end(), expectedDate));
 }
 
