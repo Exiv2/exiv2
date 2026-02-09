@@ -86,15 +86,15 @@ jobs:
     strategy:
       matrix:
         runner:
-          - { os: macos-13,     arch: X64   }
-          - { os: macos-latest, arch: ARM64 }
+          - { os: macos-15-intel, arch: X64   }
+          - { os: macos-latest,   arch: ARM64 }
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
-          brew install ninja inih googletest
+          brew install inih googletest
 
       - name: Build
         run: |
