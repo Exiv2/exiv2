@@ -64,19 +64,14 @@ jobs:
     strategy:
       matrix:
         runner:
-          - { os: macos-13, arch: x64   }
-          - { os: macos-14, arch: arm64 }
+          - { os: macos-15-intel, arch: x64   }
+          - { os: macos-14,       arch: arm64 }
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
-          brew install ninja
-          brew install inih
-          brew install tree
-          brew install gettext
-          brew install doxygen
-          brew install graphviz
+          brew install inih tree doxygen graphviz
 
       - name: Build packaged release
         run: |
