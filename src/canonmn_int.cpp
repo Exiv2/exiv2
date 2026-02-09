@@ -2029,6 +2029,8 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 20mm F1.4 L VCM"},
     {61182, "Canon RF 85mm F1.4 L VCM"},
     {61182, "Canon RF 45mm F1.2 STM"},
+    {61182, "Canon RF 7-14mm F2.8-3.5 L Fisheye STM"},
+    {61182, "Canon RF 14mm F1.4 L VCM"},
     {65535, N_("n/a")},
 };
 
@@ -2427,7 +2429,7 @@ constexpr TagDetails canonToningEffect[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/13.42/lib/Image/ExifTool/Canon.pm#L6982
+// from https://github.com/exiftool/exiftool/blob/13.50/lib/Image/ExifTool/Canon.pm#L7009
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
     {257, "Canon RF 50mm F1.2 L USM"},
@@ -2502,6 +2504,8 @@ constexpr TagDetails canonRFLensType[] = {
     {327, "Canon RF 20mm F1.4 L VCM"},
     {328, "Canon RF 85mm F1.4 L VCM"},
     {330, "Canon RF 45mm F1.2 STM"},
+    {331, "Canon RF 7-14mm F2.8-3.5 L Fisheye STM"},
+    {332, "Canon RF 14mm F1.4 L VCM"},
 };
 
 // Canon File Info Tag
