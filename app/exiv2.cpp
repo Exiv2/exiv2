@@ -121,9 +121,6 @@ std::string parseEscapes(const std::string& input);
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[]) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
 #ifdef EXV_ENABLE_NLS
   setlocale(LC_ALL, "");
   auto localeDir = []() -> std::string {
@@ -185,7 +182,6 @@ int main(int argc, char* const argv[]) {
       }
 
       Action::TaskFactory::instance().cleanup();
-      Exiv2::XmpParser::terminate();
     }
   } catch (const std::exception& exc) {
     std::cerr << "Uncaught exception: " << exc.what() << '\n';

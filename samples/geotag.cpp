@@ -606,9 +606,6 @@ bool mySort(const fs::path& a, const fs::path& b) {
 }  // namespace
 
 int main(int argc, const char* argv[]) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   int result = 0;
   const char* program = argv[0];
 

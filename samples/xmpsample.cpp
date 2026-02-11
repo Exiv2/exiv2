@@ -16,9 +16,6 @@ namespace {
 }  // namespace
 
 int main() try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   // The XMP property container
   Exiv2::XmpData xmpData;
 
@@ -200,7 +197,6 @@ int main() try {
   std::cout << xmpPacket << "\n";
 
   // Cleanup
-  Exiv2::XmpParser::terminate();
 
   return EXIT_SUCCESS;
 } catch (Exiv2::Error& e) {

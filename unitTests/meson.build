@@ -28,6 +28,9 @@ test_sources = files(
   'test_tiffheader.cpp',
   'test_types.cpp',
   'test_utils.cpp',
+  'test_xmp_concurrent.cpp',
+  'test_xmp_concurrent_registry.cpp',
+  'test_xmp_race_encode_decode.cpp',
 )
 
 if get_option('video')
