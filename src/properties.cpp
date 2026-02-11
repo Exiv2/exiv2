@@ -5238,13 +5238,8 @@ struct XmpKey::Impl {
 };
 
 //! @brief Constructor for Internal Pimpl structure XmpKey::Impl::Impl
-XmpKey::Impl::Impl(const std::string& prefix, const std::string& property) {
-  // Validate prefix
-  if (XmpProperties::ns(prefix).empty())
-    throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
-
-  property_ = property;
-  prefix_ = prefix;
+XmpKey::Impl::Impl(const std::string& prefix, const std::string& property) :
+    Impl(prefix, property, XmpProperties::XmpLock()) {
 }
 
 XmpKey::Impl::Impl(const std::string& prefix, const std::string& property, const XmpProperties::XmpLock& lock) {
@@ -5334,27 +5329,8 @@ std::string XmpKey::ns() const {
 
 //! @cond IGNORE
 void XmpKey::Impl::decomposeKey(const std::string& key) {
-  // Get the family name, prefix and property name parts of the key
-  if (!key.starts_with(familyName_))
-    throw Error(ErrorCode::kerInvalidKey, key);
-  std::string::size_type pos1 = key.find('.');
-  std::string::size_type pos0 = pos1 + 1;
-  pos1 = key.find('.', pos0);
-  if (pos1 == std::string::npos)
-    throw Error(ErrorCode::kerInvalidKey, key);
-  std::string prefix = key.substr(pos0, pos1 - pos0);
-  if (prefix.empty())
-    throw Error(ErrorCode::kerInvalidKey, key);
-  std::string property = key.substr(pos1 + 1);
-  if (property.empty())
-    throw Error(ErrorCode::kerInvalidKey, key);
-
-  // Validate prefix
-  if (XmpProperties::ns(prefix).empty())
-    throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
-
-  property_ = std::move(property);
-  prefix_ = std::move(prefix);
+  XmpProperties::XmpLock lock;
+  decomposeKeyUnlocked(key, lock);
 }  // XmpKey::Impl::decomposeKey
 
 void XmpKey::Impl::decomposeKeyUnlocked(const std::string& key, const XmpProperties::XmpLock& lock) {
