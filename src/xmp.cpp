@@ -882,6 +882,33 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
             }
           }
         }
+
+        // XMP-Toolkit-SDK's NormalizeLangArray (called during serialization) overwrites
+        // the second item's value with x-default's when there are exactly 2 items.
+        // To preserve language-specific values, update x-default to match the sole
+        // language entry so the normalization becomes a no-op.
+        auto item_cnt = meta.CountArrayItems(ns.c_str(), xmp.tagName().c_str());
+        if (item_cnt == 2) {
+          std::size_t xd_idx = 0;
+          std::size_t lang_idx = 0;
+          for (std::size_t i = 1; i <= 2; ++i) {
+            std::string qualifier_value;
+            const std::string item = xmp.tagName() + "[" + toString(i) + "]";
+            if (meta.GetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", &qualifier_value, nullptr)) {
+              if (qualifier_value == "x-default")
+                xd_idx = i;
+              else
+                lang_idx = i;
+            }
+          }
+          if (xd_idx && lang_idx) {
+            std::string lang_value;
+            meta.GetArrayItem(ns.c_str(), xmp.tagName().c_str(), static_cast<XMP_Index>(lang_idx), &lang_value,
+                              nullptr);
+            meta.SetArrayItem(ns.c_str(), xmp.tagName().c_str(), static_cast<XMP_Index>(xd_idx), lang_value.c_str());
+          }
+        }
+
         continue;
       }
 
