@@ -549,9 +549,12 @@ void XmpParser::registerNsImpl(const std::string& ns, const std::string& prefix)
         // Already registered correctly, skip overhead
         return;
       }
+      // DeleteNamespace is not implemented in XMP-Toolkit-SDK, so we cannot
+      // re-register a namespace URI with a different prefix.
+      EXV_WARNING << "Cannot re-register namespace " << ns << " with prefix " << prefix
+                  << " (already registered with prefix " << existingPrefix << ").\n";
     }
 
-    SXMPMeta::DeleteNamespace(ns.c_str());
 #ifdef EXV_ADOBE_XMPSDK
     SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), nullptr);
 #else
