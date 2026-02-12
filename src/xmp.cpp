@@ -854,6 +854,36 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
         if (!la)
           throw Error(ErrorCode::kerEncodeLangAltPropertyFailed, xmp.key());
 
+        // XMP-Toolkit-SDK registers standard aliases (e.g. tiff:ImageDescription →
+        // dc:description[?xml:lang="x-default"]) that resolve to a specific array item
+        // rather than the array itself.  Array operations like CountArrayItems and
+        // AppendArrayItem fail on such aliases because the SDK finds a simple value node
+        // instead of an array node.  Detect this situation and fall back to SetProperty,
+        // which correctly handles alias resolution for the x-default value.
+        bool isArrayItemAlias = false;
+        try {
+          meta.CountArrayItems(ns.c_str(), xmp.tagName().c_str());
+        } catch (const XMP_Error& e) {
+          if (e.GetID() == kXMPErr_BadXPath)
+            isArrayItemAlias = true;
+          else
+            throw;
+        }
+
+        if (isArrayItemAlias) {
+          // Set only the x-default value through the alias (the SDK resolves it to
+          // the correct array item).  Other language variants are not representable
+          // through a single-value alias; they belong on the canonical property.
+          auto it = la->value_.find("x-default");
+          if (it == la->value_.end())
+            it = la->value_.begin();
+          if (it != la->value_.end() && !it->second.empty()) {
+            printNode(ns, xmp.tagName(), it->second, 0);
+            meta.SetProperty(ns.c_str(), xmp.tagName().c_str(), it->second.c_str());
+          }
+          continue;
+        }
+
         for (const auto& [lang, specs] : la->value_) {
           if (!specs.empty()) {  // remove lang specs with no value
             printNode(ns, xmp.tagName(), specs, 0);
