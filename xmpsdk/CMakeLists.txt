@@ -1,3 +1,9 @@
+if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/XMP-Toolkit-SDK/public/include/XMP_Const.h")
+    message(FATAL_ERROR
+        "XMP-Toolkit-SDK submodule not found. Please run:\n"
+        "  git submodule update --init --recursive")
+endif()
+
 add_library(
         exiv2-xmp OBJECT
         XMP-Toolkit-SDK/public/include/XMP_Const.h

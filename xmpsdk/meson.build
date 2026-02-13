@@ -6,6 +6,12 @@ endif
 
 sdk = 'XMP-Toolkit-SDK'
 
+fs = import('fs')
+if not fs.is_file(sdk / 'public' / 'include' / 'XMP_Const.h')
+    error('XMP-Toolkit-SDK submodule not found. Please run:\n' +
+          '  git submodule update --init --recursive')
+endif
+
 # The SDK includes expat as "third-party/expat/lib/expat.h".
 # A wrapper header at xmpsdk/third-party/expat/lib/expat.h redirects
 # this to the system expat via #include_next.
