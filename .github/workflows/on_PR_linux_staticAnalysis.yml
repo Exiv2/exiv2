@@ -16,9 +16,10 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
+          persist-credentials: false
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
 
       - name: Install dependencies
@@ -56,7 +57,7 @@ jobs:
           pvs-studio-analyzer analyze -l PVS_license.lic -o pvsStudio.log -j4 --disableLicenseExpirationCheck
           plog-converter -a GA:1,2 -d V1042 -t fullhtml pvsStudio.log -o pvsReportHtml
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: static_analysis
           path: build/pvsReportHtml
