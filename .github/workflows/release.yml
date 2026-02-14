@@ -24,6 +24,8 @@ jobs:
         runner:
           - { os: ubuntu-22.04, arch: x64   }
           - { os: ubuntu-22.04-arm, arch: arm64 }
+    permissions:
+      id-token: write  # For sigstore
     steps:
       - uses: actions/checkout@v6
         with:
@@ -53,10 +55,16 @@ jobs:
           cmake --build build -t doc
           cmake --build build -t package
 
+      - name: Sign with sigstore
+        uses: sigstore/gh-action-sigstore-python@a5caf349bc536fbef3668a10ed7f5cd309a4b53d # v3.2.0
+        with:
+          inputs: >-
+            ./build/exiv2-*.tar.gz
+
       - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
-          path: ./build/exiv2-*.tar.gz
+          path: ./build/exiv2-*.tar.gz*
           if-no-files-found: error
           retention-days: 1
 
@@ -68,6 +76,8 @@ jobs:
         runner:
           - { os: macos-15-intel, arch: x64   }
           - { os: macos-14,       arch: arm64 }
+    permissions:
+      id-token: write  # For sigstore
     steps:
       - uses: actions/checkout@v6
         with:
@@ -91,10 +101,16 @@ jobs:
           cmake --build build -t doc
           cmake --build build -t package
 
+      - name: Sign with sigstore
+        uses: sigstore/gh-action-sigstore-python@a5caf349bc536fbef3668a10ed7f5cd309a4b53d # v3.2.0
+        with:
+          inputs: >-
+            ./build/exiv2-*.tar.gz
+
       - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
-          path: ./build/exiv2-*.tar.gz
+          path: ./build/exiv2-*.tar.gz*
           if-no-files-found: error
           retention-days: 1
 
@@ -105,6 +121,8 @@ jobs:
       matrix:
         runner:
           - { os: windows-2022, arch: x64   }
+    permissions:
+      id-token: write  # For sigstore
     steps:
       - uses: actions/checkout@v6
         with:
@@ -147,10 +165,16 @@ jobs:
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
+      - name: Sign with sigstore
+        uses: sigstore/gh-action-sigstore-python@a5caf349bc536fbef3668a10ed7f5cd309a4b53d # v3.2.0
+        with:
+          inputs: >-
+            ./build/exiv2-*.zip
+
       - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
-          path: ./build/exiv2-*.zip
+          path: ./build/exiv2-*.zip*
           if-no-files-found: error
           retention-days: 1
 
@@ -159,84 +183,14 @@ jobs:
     runs-on: ubuntu-22.04
     permissions:
       contents: write
+    if: github.event_name == 'push'  # only publish when a new version tag is pushed
     steps:
-
-      - if: github.event_name == 'workflow_dispatch'
-        run: echo "TAG_NAME=${GITHUB_EVENT_INPUTS_TAG_NAME}" >> $GITHUB_ENV
-        env:
-          GITHUB_EVENT_INPUTS_TAG_NAME: ${{ github.event.inputs.tag_name }}
-
-      - if: github.event_name == 'schedule'
-        run: echo 'TAG_NAME=nightly' >> $GITHUB_ENV
-
-      - if: github.event_name == 'push'
-        run: |
-          TAG_NAME=${GITHUB_REF}
-          echo "TAG_NAME=${TAG_NAME#refs/tags/}" >> $GITHUB_ENV
-
-      - if: env.TAG_NAME == 'nightly'
-        run: |
-          echo 'BODY<<EOF' >> $GITHUB_ENV
-          echo '## Exiv2 nightly prerelease build.' >> $GITHUB_ENV
-          echo 'Please help us improve exiv2 by reporting any issues you encounter :wink:' >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-
-
-      - if: env.TAG_NAME != 'nightly'
-        run: |
-          echo 'BODY<<EOF' >> $GITHUB_ENV
-          echo '## Exiv2 Release ${TAG_NAME}' >> $GITHUB_ENV
-          echo 'See [ChangeLog](doc/ChangeLog) for more information about the changes in this release.' >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
-
-      - name: Cleanup old nightly
-        if: env.TAG_NAME == 'nightly'
-        uses: actions/github-script@v8
-        with:
-          script: |
-            try{
-              const rel_id = await github.rest.repos.getReleaseByTag({
-                ...context.repo,
-                tag: "nightly"
-              }).then(result => result.data.id);
-
-              console.log( "Found existing nightly release with id: ", rel_id);
-
-              await github.rest.repos.deleteRelease({
-                ...context.repo,
-                release_id: rel_id
-              });
-              console.log( "Deletion of release successful")
-
-            }catch(error){
-              console.log( "Deletion of release failed");
-              console.log( "Failed with error\n", error);
-            }
-
-            try{
-              await github.rest.git.deleteRef({
-                ...context.repo,
-                ref: "tags/nightly"
-              });
-              console.log( "Deletion of tag successful")
-            }catch(error){
-              console.log( "Deletion of tag failed");
-              console.log( "Failed with error\n", error);
-            }
-
       - uses: actions/download-artifact@v7
       - name: List downloaded files
         run: tree -L 3
-
-      - uses: softprops/action-gh-release@v2
+      - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # needs newer relase, but add it once available
-          #fail_on_unmatched_files: true
-          body: ${{ env.BODY }}
-          prerelease: ${{ env.TAG_NAME == 'nightly' }}
-          tag_name: ${{ env.TAG_NAME }}
-          files: |
-            ./exiv2-*/exiv2-*
-
+          GITHUB_REPO: ${{ github.repository }}
+          RELEASE_NAME: ${{ github.ref_name }}
+        run: gh release create $RELEASE_NAME ./exiv2-*/exiv2-* --repo $GITHUB_REPO --generate-notes
