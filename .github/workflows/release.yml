@@ -193,4 +193,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
           RELEASE_NAME: ${{ github.ref_name }}
-        run: gh release create $RELEASE_NAME ./exiv2-*/exiv2-* --repo $GITHUB_REPO --generate-notes
+        run: gh release create "$RELEASE_NAME" ./exiv2-*/exiv2-* --repo "$GITHUB_REPO" --generate-notes
