@@ -21,21 +21,12 @@ THE SOFTWARE.
 */
 #pragma once
 
-#ifndef   JzonAPI
-# ifdef   _WINDLL
-#  define JzonAPI __declspec(dllimport)
-# elif defined(__GNUC__) && (__GNUC__ >= 4)
-#  define JzonAPI __attribute__ ((visibility("default")))
-# else
-#  define JzonAPI
-# endif
-#endif
-
-#include <string>
-#include <vector>
-#include <queue>
 #include <iterator>
+#include <queue>
 #include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace Jzon
 {
@@ -43,37 +34,12 @@ namespace Jzon
     # pragma warning(disable : 4251)
     #endif
 
-    template<typename T1, typename T2>
-    struct Pair
-    {
-        Pair(T1 first, T2 second) : first(first), second(second)
-        {}
-
-        Pair &operator=(const Pair &rhs)
-        {
-            if (this != &rhs)
-            {
-                this->first  = rhs.first;
-                this->second = rhs.second;
-            }
-            return *this;
-        }
-
-        T1 first;
-        T2 second;
-    };
-    template<typename T1, typename T2>
-    static Pair<T1, T2> MakePair(T1 first, T2 second)
-    {
-        return Pair<T1, T2>(first, second);
-    }
-
     class Node;
     class Value;
     class Object;
     class Array;
-    typedef Pair<std::string, Node&> NamedNode;
-    typedef Pair<std::string, Node*> NamedNodePtr;
+    using NamedNode = std::pair<std::string, Node &>;
+    using NamedNodePtr = std::pair<std::string, Node *>;
 
     class TypeException : public std::logic_error
     {
@@ -98,7 +64,7 @@ namespace Jzon
     static const Format StandardFormat = { true, true, true, 1 };
     static const Format NoFormat = { false, false, false, 0 };
 
-    class JzonAPI Node
+    class Node
     {
         friend class Object;
         friend class Array;
@@ -149,7 +115,7 @@ namespace Jzon
         virtual Node *GetCopy() const = 0;
     };
 
-    class JzonAPI Value : public Node
+    class Value : public Node
     {
     public:
         enum ValueType
@@ -162,29 +128,29 @@ namespace Jzon
 
         Value();
         Value(const Value &rhs);
-        Value(const Node &rhs);
+        explicit Value(const Node &rhs);
         Value(ValueType type, const std::string &value);
         Value(const std::string &value);
-        Value(const char *value);
+        explicit Value(const char *value);
         Value(const int value);
-        Value(const float value);
+        explicit Value(const float value);
         Value(const double value);
         Value(const bool value);
-        virtual ~Value();
+        ~Value() override;
 
-        virtual Type GetType() const;
+        Type GetType() const override;
         ValueType GetValueType() const;
 
-        virtual inline bool IsNull() const { return (type == VT_NULL); }
-        virtual inline bool IsString() const { return (type == VT_STRING); }
-        virtual inline bool IsNumber() const { return (type == VT_NUMBER); }
-        virtual inline bool IsBool() const { return (type == VT_BOOL); }
+        inline bool IsNull() const override { return (type == VT_NULL); }
+        inline bool IsString() const override { return (type == VT_STRING); }
+        inline bool IsNumber() const override { return (type == VT_NUMBER); }
+        inline bool IsBool() const override { return (type == VT_BOOL); }
 
-        virtual std::string ToString() const;
-        virtual int ToInt() const;
-        virtual float ToFloat() const;
-        virtual double ToDouble() const;
-        virtual bool ToBool() const;
+        std::string ToString() const override;
+        int ToInt() const override;
+        float ToFloat() const override;
+        double ToDouble() const override;
+        bool ToBool() const override;
 
         void SetNull();
         void Set(const Value &value);
@@ -212,7 +178,7 @@ namespace Jzon
         static std::string UnescapeString(const std::string &value);
 
     protected:
-        virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
     private:
         std::string valueStr;
@@ -221,14 +187,18 @@ namespace Jzon
 
     static const Value null;
 
-    class JzonAPI Object : public Node
+    class Object : public Node
     {
     public:
         class iterator : public std::iterator<std::input_iterator_tag, NamedNode>
         {
         public:
-            iterator(NamedNodePtr *o) : p(o) {}
+            explicit iterator(NamedNodePtr *o)
+                : p(o)
+            {
+            }
             iterator(const iterator &it) : p(it.p) {}
+            iterator &operator=(const iterator &it) = delete;
 
             iterator &operator++() { ++p; return *this; }
             iterator operator++(int) { iterator tmp(*this); operator++(); return tmp; }
@@ -244,8 +214,12 @@ namespace Jzon
         class const_iterator : public std::iterator<std::input_iterator_tag, const NamedNode>
         {
         public:
-            const_iterator(const NamedNodePtr *o) : p(o) {}
+            explicit const_iterator(const NamedNodePtr *o)
+                : p(o)
+            {
+            }
             const_iterator(const const_iterator &it) : p(it.p) {}
+            const_iterator &operator=(const const_iterator &it) = delete;
 
             const_iterator &operator++() { ++p; return *this; }
             const_iterator operator++(int) { const_iterator tmp(*this); operator++(); return tmp; }
@@ -253,7 +227,7 @@ namespace Jzon
             bool operator==(const const_iterator &rhs) { return p == rhs.p; }
             bool operator!=(const const_iterator &rhs) { return p != rhs.p; }
 
-            const NamedNode operator*() { return NamedNode(p->first, *p->second); }
+            NamedNode operator*() const { return NamedNode(p->first, *p->second); }
 
         private:
             const NamedNodePtr *p;
@@ -261,13 +235,16 @@ namespace Jzon
 
         Object();
         Object(const Object &other);
-        Object(const Node &other);
-        virtual ~Object();
+        explicit Object(const Node &other);
+        ~Object() override;
 
-        virtual Type GetType() const;
+        Object &operator=(const Object &rhs) = delete;
+        Object &operator=(const Object &&rhs) = delete;
+
+        Type GetType() const override;
 
         void Add(const std::string &name, Node &node);
-        void Add(const std::string &name, Value node);
+        void Add(const std::string &name, const Value &node);
         void Remove(const std::string &name);
         void Clear();
 
@@ -276,27 +253,31 @@ namespace Jzon
         iterator end();
         const_iterator end() const;
 
-        virtual bool Has(const std::string &name) const;
-        virtual size_t GetCount() const;
-        virtual Node &Get(const std::string &name) const;
+        bool Has(const std::string &name) const override;
+        size_t GetCount() const override;
+        Node &Get(const std::string &name) const override;
         using Node::Get;
 
     protected:
-        virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
     private:
-        typedef std::vector<NamedNodePtr> ChildList;
+        using ChildList = std::vector<NamedNodePtr>;
         ChildList children;
     };
 
-    class JzonAPI Array : public Node
+    class Array : public Node
     {
     public:
         class iterator : public std::iterator<std::input_iterator_tag, Node>
         {
         public:
-            iterator(Node **o) : p(o) {}
+            explicit iterator(Node **o)
+                : p(o)
+            {
+            }
             iterator(const iterator &it) : p(it.p) {}
+            iterator &operator=(const iterator &it) = delete;
 
             iterator &operator++() { ++p; return *this; }
             iterator operator++(int) { iterator tmp(*this); operator++(); return tmp; }
@@ -312,8 +293,12 @@ namespace Jzon
         class const_iterator : public std::iterator<std::input_iterator_tag, const Node>
         {
         public:
-            const_iterator(const Node *const *o) : p(o) {}
+            explicit const_iterator(const Node *const *o)
+                : p(o)
+            {
+            }
             const_iterator(const const_iterator &it) : p(it.p) {}
+            const_iterator &operator=(const const_iterator &it) = delete;
 
             const_iterator &operator++() { ++p; return *this; }
             const_iterator operator++(int) { const_iterator tmp(*this); operator++(); return tmp; }
@@ -329,13 +314,16 @@ namespace Jzon
 
         Array();
         Array(const Array &other);
-        Array(const Node &other);
-        virtual ~Array();
+        explicit Array(const Node &other);
+        ~Array() override;
 
-        virtual Type GetType() const;
+        Array &operator=(const Array &rhs) = delete;
+        Array &operator=(const Array &&rhs) = delete;
+
+        Type GetType() const override;
 
         void Add(Node &node);
-        void Add(Value node);
+        void Add(const Value &node);
         void Remove(size_t index);
         void Clear();
 
@@ -344,22 +332,22 @@ namespace Jzon
         iterator end();
         const_iterator end() const;
 
-        virtual size_t GetCount() const;
-        virtual Node &Get(size_t index) const;
+        size_t GetCount() const override;
+        Node &Get(size_t index) const override;
         using Node::Get;
 
     protected:
-        virtual Node *GetCopy() const;
+        Node *GetCopy() const override;
 
     private:
-        typedef std::vector<Node*> ChildList;
+        using ChildList = std::vector<Node *>;
         ChildList children;
     };
 
-    class JzonAPI FileWriter
+    class FileWriter
     {
     public:
-        FileWriter(const std::string &filename);
+        explicit FileWriter(std::string filename);
         ~FileWriter();
 
         static void WriteFile(const std::string &filename, const Node &root, const Format &format = NoFormat);
@@ -370,10 +358,10 @@ namespace Jzon
         std::string filename;
     };
 
-    class JzonAPI FileReader
+    class FileReader
     {
     public:
-        FileReader(const std::string &filename);
+        explicit FileReader(const std::string &filename);
         ~FileReader();
 
         static bool ReadFile(const std::string &filename, Node &node);
@@ -385,15 +373,15 @@ namespace Jzon
         const std::string &GetError() const;
 
     private:
-        bool loadFile(const std::string &filename, std::string &json);
+        static bool loadFile(const std::string &filename, std::string &json);
         std::string json;
         std::string error;
     };
 
-    class JzonAPI Writer
+    class Writer
     {
     public:
-        Writer(const Node &root, const Format &format = NoFormat);
+        explicit Writer(const Node &root, const Format &format = NoFormat);
         ~Writer();
 
         void SetFormat(const Format &format);
@@ -401,6 +389,9 @@ namespace Jzon
 
         // Return result from last call to Write()
         const std::string &GetResult() const;
+
+        // Disable assignment operator
+        Writer &operator=(const Writer &) = delete;
 
     private:
         void writeNode(const Node &node, unsigned int level);
@@ -413,15 +404,12 @@ namespace Jzon
         class FormatInterpreter *fi;
 
         const Node &root;
-
-        // Disable assignment operator
-        Writer &operator=(const Writer&);
     };
 
-    class JzonAPI Parser
+    class Parser
     {
     public:
-        Parser(Node &root);
+        explicit Parser(Node &root);
         Parser(Node &root, const std::string &json);
         ~Parser();
 
@@ -429,6 +417,9 @@ namespace Jzon
         bool Parse();
 
         const std::string &GetError() const;
+
+        // Disable assignment operator
+        Parser &operator=(const Parser &) = delete;
 
     private:
         enum Token
@@ -457,15 +448,12 @@ namespace Jzon
         std::size_t jsonSize;
 
         std::queue<Token> tokens;
-        std::queue<Pair<Value::ValueType, std::string> > data;
+        std::queue<std::pair<Value::ValueType, std::string>> data;
 
         std::size_t cursor;
 
         Node &root;
 
         std::string error;
-
-        // Disable assignment operator
-        Parser &operator=(const Parser&);
     };
-}
+}  // namespace Jzon

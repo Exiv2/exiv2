@@ -153,6 +153,7 @@ namespace Exiv2 {
         sony1Cs2Id,
         sony2CsId,
         sony2Cs2Id,
+        sony2FpId,
         sony1MltCs7DId,
         sony1MltCsOldId,
         sony1MltCsNewId,
@@ -245,7 +246,7 @@ namespace Exiv2 {
     template <int N, const TagDetailsBitmask (&array)[N]>
     std::ostream& printTagBitmask(std::ostream& os, const Value& value, const ExifData*)
     {
-        const uint32_t val = static_cast<uint32_t>(value.toLong());
+        const auto val = static_cast<uint32_t>(value.toLong());
         if (val == 0 && N > 0) {
             const TagDetailsBitmask* td = *(&array);
             if (td->mask_ == 0) return os << exvGettext(td->label_);
@@ -439,6 +440,8 @@ namespace Exiv2 {
     std::ostream& printXmpVersion(std::ostream& os, const Value& value, const ExifData*);
     //! Print a date following the format YYYY-MM-DDTHH:MM:SSZ
     std::ostream& printXmpDate(std::ostream& os, const Value& value, const ExifData*);
+    //! Print a bitmask as (none) | n | n,m... where: (none) = no bits set | n = bit n from left (0=left-most) | n,m.. = multiple bits "
+    std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData*);
     //@}
 
     //! Calculate F number from an APEX aperture value
@@ -447,4 +450,5 @@ namespace Exiv2 {
     //! Calculate the exposure time from an APEX shutter speed value
     URational exposureTime(float shutterSpeedValue);
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

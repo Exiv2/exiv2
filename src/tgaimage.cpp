@@ -71,7 +71,7 @@ namespace Exiv2 {
 
     void TgaImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Exiv2::TgaImage::readMetadata: Reading TARGA file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0)
@@ -153,6 +153,10 @@ namespace Exiv2 {
 #endif
         byte buf[26];
         int64 curPos = iIo.tell();
+        if ( curPos < 26 ) {
+          return false;
+        }
+
         iIo.seek(-26, BasicIo::end);
         if (iIo.error() || iIo.eof())
         {

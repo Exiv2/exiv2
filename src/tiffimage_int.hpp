@@ -150,11 +150,9 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        TiffHeader(ByteOrder byteOrder    =littleEndian,
-                   uint32_t  offset       =0x00000008,
-                   bool      hasImageTags =true);
+        explicit TiffHeader(ByteOrder byteOrder = littleEndian, uint32_t offset = 0x00000008, bool hasImageTags = true);
         //! Destructor
-        ~TiffHeader();
+        ~TiffHeader() override;
         //@}
         //@{
         //! @name Accessors
@@ -306,7 +304,7 @@ namespace Exiv2 {
                   size_t size,
                   uint32_t           root,
                   FindDecoderFct     findDecoderFct,
-                  TiffHeaderBase*    pHeader =0
+                  TiffHeaderBase*    pHeader =nullptr
         );
         /*!
           @brief Encode TIFF metadata from the metadata containers into a
@@ -451,16 +449,17 @@ namespace Exiv2 {
         //! Data structure for the offset list.
         struct OffsetData {
             //! Default constructor
-            OffsetData() : origin_(0), target_(0), byteOrder_(littleEndian) {}
+            OffsetData() = default;
             //! Constructor
             OffsetData(uint32_t origin, ByteOrder byteOrder) : origin_(origin), target_(0), byteOrder_(byteOrder) {}
             // DATA
-            uint32_t origin_;     //!< Origin address
-            uint32_t target_;     //!< Target address
-            ByteOrder byteOrder_; //!< Byte order to use to encode target address
+            uint32_t origin_{0}; //!< Origin address
+            uint32_t target_{0}; //!< Target address
+            ByteOrder byteOrder_{
+                littleEndian}; //!< Byte order to use to encode target address
         };
         //! Type of the list containing an identifier and an address pair.
-        typedef std::map<OffsetId, OffsetData> OffsetList;
+        using OffsetList = std::map<OffsetId, OffsetData>;
 
         // DATA
         OffsetList offsetList_; //!< List of the offsets to replace
@@ -481,4 +480,5 @@ namespace Exiv2 {
 
     }; // class FindExifdatum
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

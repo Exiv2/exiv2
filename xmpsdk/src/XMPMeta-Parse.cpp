@@ -129,10 +129,10 @@ static const XML_Node * PickBestRoot ( const XML_Node & xmlParent, XMP_OptionBit
 	// Recurse into the content.
 	for ( size_t childNum = 0, childLim = xmlParent.content.size(); childNum < childLim; ++childNum ) {
 		const XML_Node * foundRoot = PickBestRoot ( *xmlParent.content[childNum], options );
-		if ( foundRoot != 0 ) return foundRoot;
+		if ( foundRoot != nullptr ) return foundRoot;
 	}
 	
-	return 0;
+	return nullptr;
 
 }	// PickBestRoot
 
@@ -152,7 +152,7 @@ static const XML_Node * FindRootNode ( XMPMeta * thiz, const XMLParserAdapter & 
 	const XML_Node * rootNode = xmlParser.rootNode;
 	
 	if ( xmlParser.rootCount > 1 ) rootNode = PickBestRoot ( xmlParser.tree, options );
-	if ( rootNode == 0 ) return 0;
+	if ( rootNode == nullptr ) return nullptr;
 	
 	// We have a root node. Try to extract previous toolkit version number.
 	
@@ -161,8 +161,8 @@ static const XML_Node * FindRootNode ( XMPMeta * thiz, const XMLParserAdapter & 
 		XMP_Assert ( rootNode->name == "rdf:RDF" );
 	
 		if ( (options & kXMP_RequireXMPMeta) &&
-		     ((rootNode->parent == 0) ||
-		      ((rootNode->parent->name != "x:xmpmeta") && (rootNode->parent->name != "x:xapmeta"))) ) return 0;
+		     ((rootNode->parent == nullptr) ||
+		      ((rootNode->parent->name != "x:xmpmeta") && (rootNode->parent->name != "x:xapmeta"))) ) return nullptr;
 
 		for ( size_t attrNum = 0, attrLim = rootNode->parent->attrs.size(); attrNum < attrLim; ++attrNum ) {
 			const XML_Node * currAttr =rootNode->parent->attrs[attrNum];
@@ -230,7 +230,7 @@ static void
 NormalizeDCArrays ( XMP_Node * xmpTree )
 {
 	XMP_Node * dcSchema = FindSchemaNode ( xmpTree, kXMP_NS_DC, kXMP_ExistingOnly );
-	if ( dcSchema == 0 ) return;
+	if ( dcSchema == nullptr ) return;
 	
 	for ( size_t propNum = 0, propLimit = dcSchema->children.size(); propNum < propLimit; ++propNum ) {
 		XMP_Node *     currProp  = dcSchema->children[propNum];
@@ -257,7 +257,7 @@ NormalizeDCArrays ( XMP_Node * xmpTree )
 		}
 		if ( arrayForm == 0 ) continue;	// Nothing to do if it isn't supposed to be an array.
 		
-		arrayForm = VerifySetOptions ( arrayForm, 0 );	// Set the implicit array bits.
+		arrayForm = VerifySetOptions ( arrayForm, nullptr );	// Set the implicit array bits.
 		XMP_Node * newArray = new XMP_Node ( dcSchema, currProp->name.c_str(), arrayForm );
 		dcSchema->children[propNum] = newArray;
 		newArray->children.push_back ( currProp );
@@ -410,7 +410,7 @@ MoveExplicitAliases ( XMP_Node * tree, XMP_OptionBits parseOptions )
 			if ( baseSchema->options & kXMP_NewImplicitNode ) baseSchema->options ^= kXMP_NewImplicitNode;
 			XMP_Node * baseNode = FindChildNode ( baseSchema, basePath[kRootPropStep].step.c_str(), kXMP_ExistingOnly );
 
-			if ( baseNode == 0 ) {
+			if ( baseNode == nullptr ) {
 			
 				if ( basePath.size() == 2 ) {
 					// A top-to-top alias, transplant the property.
@@ -435,7 +435,7 @@ MoveExplicitAliases ( XMP_Node * tree, XMP_OptionBits parseOptions )
 				// This is an alias to an array item and the array exists. Look for the aliased item.
 				// Then transplant or check & delete as appropriate.
 				
-				XMP_Node * itemNode = 0;
+				XMP_Node * itemNode = nullptr;
 				if ( arrayOptions & kXMP_PropArrayIsAltText ) {
 					XMP_Index xdIndex = LookupLangItem ( baseNode, *xdefaultName );
 					if ( xdIndex != -1 ) itemNode = baseNode->children[xdIndex];
@@ -443,7 +443,7 @@ MoveExplicitAliases ( XMP_Node * tree, XMP_OptionBits parseOptions )
 					itemNode = baseNode->children[0];
 				}
 				
-				if ( itemNode == 0 ) {
+				if ( itemNode == nullptr ) {
 					TransplantArrayItemAlias ( currSchema, propNum, baseNode );
 				} else {
 					if ( strictAliasing ) CompareAliasedSubtrees ( currProp, itemNode );
@@ -484,8 +484,8 @@ FixGPSTimeStamp ( XMP_Node * exifSchema, XMP_Node * gpsDateTime )
 	if ( (binGPSStamp.year != 0) || (binGPSStamp.month != 0) || (binGPSStamp.day != 0) ) return;
 	
 	XMP_Node * otherDate = FindChildNode ( exifSchema, "exif:DateTimeOriginal", kXMP_ExistingOnly );
-	if ( otherDate == 0 ) otherDate = FindChildNode ( exifSchema, "exif:DateTimeDigitized", kXMP_ExistingOnly );
-	if ( otherDate == 0 ) return;
+	if ( otherDate == nullptr ) otherDate = FindChildNode ( exifSchema, "exif:DateTimeDigitized", kXMP_ExistingOnly );
+	if ( otherDate == nullptr ) return;
 
 	XMP_DateTime binOtherDate;
 	try {
@@ -542,7 +542,7 @@ MigrateAudioCopyright ( XMPMeta * xmp, XMP_Node * dmCopyright )
 		XMP_Node * dcSchema = FindSchemaNode ( &xmp->tree, kXMP_NS_DC, kXMP_CreateNodes );
 		XMP_Node * dcRightsArray = FindChildNode ( dcSchema, "dc:rights", kXMP_ExistingOnly );
 		
-		if ( (dcRightsArray == 0) || dcRightsArray->children.empty() ) {
+		if ( (dcRightsArray == nullptr) || dcRightsArray->children.empty() ) {
 		
 			// 1. No dc:rights array, create from double linefeed and xmpDM:copyright.
 			dmValue.insert ( 0, kDoubleLF );
@@ -608,10 +608,10 @@ static void
 RepairAltText ( XMP_Node & tree, XMP_StringPtr schemaNS, XMP_StringPtr arrayName )
 {
 	XMP_Node * schemaNode = FindSchemaNode ( &tree, schemaNS, kXMP_ExistingOnly );
-	if ( schemaNode == 0 ) return;
+	if ( schemaNode == nullptr ) return;
 	
 	XMP_Node * arrayNode = FindChildNode ( schemaNode, arrayName, kXMP_ExistingOnly );
-	if ( (arrayNode == 0) || XMP_ArrayIsAltText ( arrayNode->options ) ) return;	// Already OK.
+	if ( (arrayNode == nullptr) || XMP_ArrayIsAltText ( arrayNode->options ) ) return;	// Already OK.
 	
 	if ( ! XMP_PropIsArray ( arrayNode->options ) ) return;	// ! Not even an array, leave it alone.
 	// *** Should probably change simple values to LangAlt with 'x-default' item.
@@ -667,19 +667,19 @@ TouchUpDataModel ( XMPMeta * xmp )
 	
 	// Do special case touch ups for certain schema.
 
-	XMP_Node * currSchema = 0;
+	XMP_Node * currSchema = nullptr;
 
 	currSchema = FindSchemaNode ( &tree, kXMP_NS_EXIF, kXMP_ExistingOnly );
-	if ( currSchema != 0 ) {
+	if ( currSchema != nullptr ) {
 
 		// Do a special case fix for exif:GPSTimeStamp.
 		XMP_Node * gpsDateTime = FindChildNode ( currSchema, "exif:GPSTimeStamp", kXMP_ExistingOnly );
-		if ( gpsDateTime != 0 ) FixGPSTimeStamp ( currSchema, gpsDateTime );
+		if ( gpsDateTime != nullptr ) FixGPSTimeStamp ( currSchema, gpsDateTime );
 	
 		// *** Should probably have RepairAltText change simple values to LangAlt with 'x-default' item.
 		// *** For now just do this for exif:UserComment, the one case we know about, late in cycle fix.
 		XMP_Node * userComment = FindChildNode ( currSchema, "exif:UserComment", kXMP_ExistingOnly );
-		if ( (userComment != 0) && XMP_PropIsSimple ( userComment->options ) ) {
+		if ( (userComment != nullptr) && XMP_PropIsSimple ( userComment->options ) ) {
 			XMP_Node * newChild = new XMP_Node ( userComment, kXMP_ArrayItemName,
 												 userComment->value.c_str(), userComment->options );
 			newChild->qualifiers.swap ( userComment->qualifiers );
@@ -696,18 +696,18 @@ TouchUpDataModel ( XMPMeta * xmp )
 	}
 
 	currSchema = FindSchemaNode ( &tree, kXMP_NS_DM, kXMP_ExistingOnly );
-	if ( currSchema != 0 ) {
+	if ( currSchema != nullptr ) {
 		// Do a special case migration of xmpDM:copyright to dc:rights['x-default']. Do this before
 		// the dc: touch up since it can affect the dc: schema.
 		XMP_Node * dmCopyright = FindChildNode ( currSchema, "xmpDM:copyright", kXMP_ExistingOnly );
-		if ( dmCopyright != 0 ) MigrateAudioCopyright ( xmp, dmCopyright );
+		if ( dmCopyright != nullptr ) MigrateAudioCopyright ( xmp, dmCopyright );
 	}
 
 	currSchema = FindSchemaNode ( &tree, kXMP_NS_DC, kXMP_ExistingOnly );
-	if ( currSchema != 0 ) {
+	if ( currSchema != nullptr ) {
 		// Do a special case fix for dc:subject, make sure it is an unordered array.
 		XMP_Node * dcSubject = FindChildNode ( currSchema, "dc:subject", kXMP_ExistingOnly );
-		if ( dcSubject != 0 ) {
+		if ( dcSubject != nullptr ) {
                         XMP_OptionBits keepMask = static_cast<XMP_OptionBits>(~(kXMP_PropArrayIsOrdered | kXMP_PropArrayIsAlternate | kXMP_PropArrayIsAltText));
 			dcSubject->options &= keepMask;	// Make sure any ordered array bits are clear.
 		}
@@ -760,7 +760,7 @@ TouchUpDataModel ( XMPMeta * xmp )
 			XMP_ExpandedXPath expPath;
 			ExpandXPath ( kXMP_NS_XMP_MM, "InstanceID", &expPath );
 			XMP_Node * idNode = FindNode ( &tree, expPath, kXMP_CreateNodes, 0 );
-			if ( idNode == 0 ) XMP_Throw ( "Failure creating xmpMM:InstanceID", kXMPErr_InternalFailure );
+			if ( idNode == nullptr ) XMP_Throw ( "Failure creating xmpMM:InstanceID", kXMPErr_InternalFailure );
 
 			idNode->options = 0;	// Clobber any existing xmpMM:InstanceID.
 			idNode->value = tree.name;
@@ -1079,14 +1079,14 @@ XMPMeta::ParseFromBuffer ( XMP_StringPtr  buffer,
 						   XMP_StringLen  xmpSize,
 						   XMP_OptionBits options )
 {
-	if ( (buffer == 0) && (xmpSize != 0) ) XMP_Throw ( "Null parse buffer", kXMPErr_BadParam );
+	if ( (buffer == nullptr) && (xmpSize != 0) ) XMP_Throw ( "Null parse buffer", kXMPErr_BadParam );
 	if ( xmpSize == kXMP_UseNullTermination ) xmpSize = strlen ( buffer );
 	
 	const bool lastClientCall = ((options & kXMP_ParseMoreBuffers) == 0);	// *** Could use FlagIsSet & FlagIsClear macros.
 	
 	this->tree.ClearNode();	// Make sure the target XMP object is totally empty.
 
-	if ( this->xmlParser == 0 ) {
+	if ( this->xmlParser == nullptr ) {
 		if ( (xmpSize == 0) && lastClientCall ) return;	// Tolerate empty parse. Expat complains if there are no XML elements.
 		this->xmlParser = XMP_NewExpatAdapter();
 	}
@@ -1250,7 +1250,7 @@ XMPMeta::ParseFromBuffer ( XMP_StringPtr  buffer,
 
 			const XML_Node * xmlRoot = FindRootNode ( this, *this->xmlParser, options );
 
-			if ( xmlRoot != 0 ) {
+			if ( xmlRoot != nullptr ) {
 
 				ProcessRDF ( &this->tree, *xmlRoot, options );
 				NormalizeDCArrays ( &this->tree );
@@ -1272,14 +1272,14 @@ XMPMeta::ParseFromBuffer ( XMP_StringPtr  buffer,
 			}
 
 			delete this->xmlParser;
-			this->xmlParser = 0;
+			this->xmlParser = nullptr;
 
 		}
 		
 	} catch ( ... ) {
 
 		delete this->xmlParser;
-		this->xmlParser = 0;
+		this->xmlParser = nullptr;
 		prevTkVer = 0;
 		this->tree.ClearNode();
 		throw;

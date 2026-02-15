@@ -24,28 +24,11 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
 #include "utils.hpp"
 
-#if defined(_MSC_VER)
-# define S_ISREG(m)      (((m) & S_IFMT) == S_IFREG)
-#endif
+#include "config.h"
 
-// + standard includes
-#ifdef EXV_HAVE_UNISTD_H
-# include <unistd.h>                     // for stat()
-#endif
-
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <climits>
-#include <cerrno>
-#include <cstdlib>
-#include <cstring>
-#include <string>
-#include <iostream>
-#include <sstream>
 
 namespace Util {
 
@@ -54,7 +37,8 @@ namespace Util {
 
     std::string dirname(const std::string& path)
     {
-        if (path == "") return ".";
+        if (path.empty())
+            return ".";
         // Strip trailing slashes or backslashes
         std::string p = path;
         while (   p.length() > 1
@@ -76,7 +60,8 @@ namespace Util {
 
     std::string basename(const std::string& path, bool delsuffix)
     {
-        if (path == "") return ".";
+        if (path.empty())
+            return ".";
         // Strip trailing slashes or backslashes
         std::string p = path;
         while (   p.length() > 1
@@ -104,7 +89,7 @@ namespace Util {
     bool strtol(const char* nptr, long& n)
     {
         if (!nptr || *nptr == '\0') return false;
-        char* endptr = 0;
+        char* endptr = nullptr;
         long tmp = std::strtol(nptr, &endptr, 10);
         if (*endptr != '\0') return false;
         if (tmp == LONG_MAX || tmp == LONG_MIN) return false;

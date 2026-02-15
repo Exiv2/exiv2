@@ -41,13 +41,13 @@ static const char * sBase64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqr
 // Static Variables
 // ================
 
-XMP_VarString * sComposedPath = 0;		// *** Only really need 1 string. Shrink periodically?
-XMP_VarString * sConvertedValue = 0;
-XMP_VarString * sBase64Str = 0;
-XMP_VarString * sCatenatedItems = 0;
-XMP_VarString * sStandardXMP = 0;
-XMP_VarString * sExtendedXMP = 0;
-XMP_VarString * sExtendedDigest = 0;
+XMP_VarString * sComposedPath = nullptr;		// *** Only really need 1 string. Shrink periodically?
+XMP_VarString * sConvertedValue = nullptr;
+XMP_VarString * sBase64Str = nullptr;
+XMP_VarString * sCatenatedItems = nullptr;
+XMP_VarString * sStandardXMP = nullptr;
+XMP_VarString * sExtendedXMP = nullptr;
+XMP_VarString * sExtendedDigest = nullptr;
 
 // =================================================================================================
 // Local Utilities
@@ -522,14 +522,14 @@ static bool MoveOneProperty ( XMPMeta & stdXMP, XMPMeta * extXMP,
 							  XMP_StringPtr schemaURI, XMP_StringPtr propName )
 {
 
-	XMP_Node * propNode = 0;
+	XMP_Node * propNode = nullptr;
 	XMP_NodePtrPos stdPropPos;
 
-	XMP_Node * stdSchema = FindSchemaNode ( &stdXMP.tree, schemaURI, kXMP_ExistingOnly, 0 );
-	if ( stdSchema != 0 ) {
+	XMP_Node * stdSchema = FindSchemaNode ( &stdXMP.tree, schemaURI, kXMP_ExistingOnly, nullptr );
+	if ( stdSchema != nullptr ) {
 		propNode = FindChildNode ( stdSchema, propName, kXMP_ExistingOnly, &stdPropPos );
 	}
-	if ( propNode == 0 ) return false;
+	if ( propNode == nullptr ) return false;
 
 	XMP_Node * extSchema = FindSchemaNode ( &extXMP->tree, schemaURI, kXMP_CreateNodes );
 
@@ -1153,7 +1153,7 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 /* class static */ bool
 XMPUtils::ConvertToBool ( XMP_StringPtr strValue )
 {
-	if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
+	if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
 
 	bool result = false;
 	XMP_VarString strObj ( strValue );
@@ -1182,7 +1182,7 @@ XMPUtils::ConvertToBool ( XMP_StringPtr strValue )
 /* class static */ XMP_Int32
 XMPUtils::ConvertToInt ( XMP_StringPtr strValue )
 {
-	if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
+	if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
 
 	int count;
 	char nextCh;
@@ -1211,7 +1211,7 @@ XMPUtils::ConvertToInt64 ( XMP_StringPtr strValue )
 #if defined(__MINGW32__)// || defined(__MINGW64__)
     return ConvertToInt(strValue);
 #else
-	if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
+	if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
 
 	int count;
 	char nextCh;
@@ -1237,11 +1237,11 @@ XMPUtils::ConvertToInt64 ( XMP_StringPtr strValue )
 /* class static */ double
 XMPUtils::ConvertToFloat ( XMP_StringPtr strValue )
 {
-	if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
+	if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue );
 
 	XMP_VarString oldLocale;	// Try to make sure number conversion uses '.' as the decimal point.
-	XMP_StringPtr oldLocalePtr = setlocale ( LC_ALL, 0 );
-	if ( oldLocalePtr != 0 ) {
+	XMP_StringPtr oldLocalePtr = setlocale ( LC_ALL, nullptr );
+	if ( oldLocalePtr != nullptr ) {
 		oldLocale.assign ( oldLocalePtr );
 		setlocale ( LC_ALL, "C" );
 	}
@@ -1250,7 +1250,7 @@ XMPUtils::ConvertToFloat ( XMP_StringPtr strValue )
 	char * numEnd;
 	double result = strtod ( strValue, &numEnd );
 
-	if ( oldLocalePtr != 0 ) setlocale ( LC_ALL, oldLocalePtr );	// ! Reset locale before possible throw!
+	if ( oldLocalePtr != nullptr ) setlocale ( LC_ALL, oldLocalePtr );	// ! Reset locale before possible throw!
 	if ( (errno != 0) || (*numEnd != 0) ) XMP_Throw ( "Invalid float string", kXMPErr_BadParam );
 
 	return result;
@@ -1291,7 +1291,7 @@ XMPUtils::ConvertToFloat ( XMP_StringPtr strValue )
 XMPUtils::ConvertToDate ( XMP_StringPtr	 strValue,
 						  XMP_DateTime * binValue )
 {
-	if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue);
+	if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty convert-from string", kXMPErr_BadValue);
 
 	size_t	 pos = 0;
 	XMP_Int32 temp;
@@ -1444,9 +1444,9 @@ XMPUtils::EncodeToBase64 ( XMP_StringPtr   rawStr,
 						   XMP_StringPtr * encodedStr,
 						   XMP_StringLen * encodedLen )
 {
-	if ( (rawStr == 0) && (rawLen != 0) ) XMP_Throw ( "Null raw data buffer", kXMPErr_BadParam );
+	if ( (rawStr == nullptr) && (rawLen != 0) ) XMP_Throw ( "Null raw data buffer", kXMPErr_BadParam );
 	if ( rawLen == 0 ) {
-		*encodedStr = 0;
+		*encodedStr = nullptr;
 		*encodedLen = 0;
 		return;
 	}
@@ -1552,9 +1552,9 @@ XMPUtils::DecodeFromBase64 ( XMP_StringPtr	 encodedStr,
 							 XMP_StringPtr * rawStr,
 							 XMP_StringLen * rawLen )
 {
-	if ( (encodedStr == 0) && (encodedLen != 0) ) XMP_Throw ( "Null encoded data buffer", kXMPErr_BadParam );
+	if ( (encodedStr == nullptr) && (encodedLen != 0) ) XMP_Throw ( "Null encoded data buffer", kXMPErr_BadParam );
 	if ( encodedLen == 0 ) {
-		*rawStr = 0;
+		*rawStr = nullptr;
 		*rawLen = 0;
 		return;
 	}
@@ -1727,7 +1727,7 @@ XMPUtils::PackageForJPEG ( const XMPMeta & origXMP,
 		XMP_NodePtrPos crSchemaPos;
 		XMP_Node * crSchema = FindSchemaNode ( &stdXMP.tree, kXMP_NS_CameraRaw, kXMP_ExistingOnly, &crSchemaPos );
 
-		if ( crSchema != 0 ) {
+		if ( crSchema != nullptr ) {
 			crSchema->parent = &extXMP.tree;
 			extXMP.tree.children.push_back ( crSchema );
 			stdXMP.tree.children.erase ( crSchemaPos );
@@ -1861,7 +1861,7 @@ XMPUtils::PackageForJPEG ( const XMPMeta & origXMP,
 	// Adjust the standard XMP padding to be up to 2KB.
 
 	XMP_Assert ( (sStandardXMP->size() > kTrailerLen) && (sStandardXMP->size() <= kStdXMPLimit) );
-	const char * packetEnd = 0;
+	const char * packetEnd = nullptr;
     packetEnd = sStandardXMP->c_str() + sStandardXMP->size() - kTrailerLen;
 	XMP_Assert ( XMP_LitMatch ( packetEnd, kPacketTrailer ) );
 	UNUSED(packetEnd);
@@ -1911,7 +1911,7 @@ XMPUtils::CurrentDateTime ( XMP_DateTime * xmpTime )
 {
 	XMP_Assert ( xmpTime != 0 );	// ! Enforced by wrapper.
 
-	ansi_tt binTime = ansi_time(0);
+	ansi_tt binTime = ansi_time(nullptr);
 	if ( binTime == -1 ) XMP_Throw ( "Failure from ANSI C time function", kXMPErr_ExternalFailure );
 	ansi_tm currTime;
 	ansi_localtime ( &binTime, &currTime );
@@ -1956,7 +1956,7 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 	ansi_tm tmLocal, tmUTC;
 
 	if ( (xmpTime->year == 0) && (xmpTime->month == 0) && (xmpTime->day == 0) ) {
-		ansi_tt now = ansi_time(0);
+		ansi_tt now = ansi_time(nullptr);
 		if ( now == -1 ) XMP_Throw ( "Failure from ANSI C time function", kXMPErr_ExternalFailure );
 		ansi_localtime ( &now, &tmLocal );
 	} else {
@@ -1997,7 +1997,7 @@ XMPUtils::SetTimeZone ( XMP_DateTime * xmpTime )
 		#else
 			// Win and UNIX don't have a visible offset. Make sure we know about the failure,
 			// then try using the current date/time as a close fallback.
-			ttTime = ansi_time(0);
+			ttTime = ansi_time(nullptr);
 			if ( ttTime == -1 ) XMP_Throw ( "Failure from ANSI C time function", kXMPErr_ExternalFailure );
 			ansi_localtime ( &ttTime, &tmx );
 			ansi_gmtime ( &ttTime, &tmy );

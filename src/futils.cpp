@@ -25,22 +25,20 @@
 #include "enforce.hpp"
 
 // + standard includes
-#include <sys/types.h>
 #include <sys/stat.h>
-#include <cstdio>
-#include <cerrno>
-#include <sstream>
-#include <cstring>
+#include <sys/types.h>
+
 #include <algorithm>
-#include <stdexcept>
-#include <set>
+#include <array>
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
 #include <fstream>
+#include <set>
+#include <sstream>
+#include <stdexcept>
 #ifdef   EXV_HAVE_UNISTD_H
 #include <unistd.h>                     // for stat()
-#endif
-
-#ifndef lengthof
-#define lengthof(x) (sizeof(x) / sizeof((x)[0]))
 #endif
 
 #if defined(_MSC_VER)
@@ -66,6 +64,10 @@
 # include <sys/socket.h>
 # include <sys/sysctl.h>
 # include <libprocstat.h>
+#endif
+
+#ifndef _MAX_PATH
+#define _MAX_PATH 1024
 #endif
 
 namespace Exiv2 {
@@ -97,7 +99,7 @@ namespace Exiv2 {
         const char* pstr = str;
         // \todo try to use std::string for buf and avoid the creation of another string for just
         // returning the final value
-        char* buf  = new char[strlen(str) * 3 + 1];
+        auto buf = new char[strlen(str) * 3 + 1];
         char* pbuf = buf;
         while (*pstr) {
             if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
@@ -116,7 +118,7 @@ namespace Exiv2 {
 
     char* urldecode(const char* str) {
         const char* pstr = str;
-        char* buf  = new char [(strlen(str) + 1)];
+        auto buf = new char[(strlen(str) + 1)];
         char* pbuf = buf;
         while (*pstr) {
             if (*pstr == '%') {
@@ -143,7 +145,7 @@ namespace Exiv2 {
 
     int base64encode(const void* data_buf, size_t dataLength, char* result, size_t resultSize) {
         const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        const uint8_t* data = (const uint8_t*)data_buf;
+        const auto data = static_cast<const uint8_t*>(data_buf);
         size_t resultIndex = 0;
         size_t x;
         size_t padCount = dataLength % 3;
@@ -161,10 +163,10 @@ namespace Exiv2 {
                 n += data[x+2];
 
             /* this 24-bit number gets separated into four 6-bit numbers */
-            uint8_t n0 = (uint8_t)(n >> 18) & 63;
-            uint8_t n1 = (uint8_t)(n >> 12) & 63;
-            uint8_t n2 = (uint8_t)(n >> 6) & 63;
-            uint8_t n3 = (uint8_t)n & 63;
+            uint8_t n0 = static_cast<uint8_t>(n >> 18) & 63;
+            uint8_t n1 = static_cast<uint8_t>(n >> 12) & 63;
+            uint8_t n2 = static_cast<uint8_t>(n >> 6) & 63;
+            uint8_t n3 = static_cast<uint8_t>(n) & 63;
 
             /*
             * if we have one byte available, then its encoding is spread
@@ -240,7 +242,7 @@ namespace Exiv2 {
             }
             if (!len)
                 continue;
-            if (out_size < (size_t) (done + len - 1))
+            if (out_size < static_cast<size_t>(done + len - 1))
                 /* out buffer is too small */
                 return -1;
             if (len >= 2)
@@ -251,7 +253,7 @@ namespace Exiv2 {
                 *out++ = ((quad[2] << 6) & 0xc0) | quad[3];
             done += len - 1;
         }
-        if ((size_t)(done + 1) >= out_size)
+        if (static_cast<size_t>(done + 1) >= out_size)
             return -1;
         *out++ = '\0';
         return done;
@@ -273,12 +275,12 @@ namespace Exiv2 {
         , { "data://"   ,pDataUri  , true  }
         , { "-"         ,pStdin    , false }
         };
-        for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( path.find(prots[i].name) == 0 )
+        for (const auto& prot : prots) {
+            if ((result == pFile) && (path.find(prot.name) == 0))
                 // URL's require data.  Stdin == "-" and no further data
-                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
-                    result = prots[i].prot;
-
+                if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
+                    result = prot.prot;
+        }
         return result;
     } // fileProtocol
     /// \todo Remove code duplication
@@ -299,19 +301,19 @@ namespace Exiv2 {
         , { L"data://"   ,pDataUri  , true  }
         , { L"-"         ,pStdin    , false }
         };
-        for ( size_t i = 0 ; result == pFile && i < sizeof(prots)/sizeof(prots[0]) ; i ++ )
-            if ( path.find(prots[i].name) == 0 )
+        for (const auto& prot : prots) {
+            if ((result == pFile) && (path.find(prot.name) == 0))
                 // URL's require data.  Stdin == "-" and no further data
-                if ( prots[i].isUrl ? path.size() > prots[i].name.size() : path.size() == prots[i].name.size() )
-                    result = prots[i].prot;
-
+                if (prot.isUrl ? path.size() > prot.name.size() : path.size() == prot.name.size())
+                    result = prot.prot;
+        }
         return result;
     } // fileProtocol
 #endif
     bool fileExists(const std::string& path, bool ct)
     {
         // special case: accept "-" (means stdin)
-        if (path.compare("-") == 0 || fileProtocol(path) != pFile) {
+        if (path == "-" || fileProtocol(path) != pFile) {
             return true;
         }
 
@@ -342,7 +344,7 @@ namespace Exiv2 {
         std::string path = url.substr(7);
         size_t found = path.find('/');
         if (found == std::string::npos) return path;
-        else return path.substr(found);
+        return path.substr(found);
     }
 #ifdef EXV_UNICODE_PATH
     std::wstring pathOfFileUrl(const std::wstring& wurl) {
@@ -360,7 +362,7 @@ namespace Exiv2 {
 #ifdef EXV_HAVE_STRERROR_R
         const size_t n = 1024;
 #ifdef EXV_STRERROR_R_CHAR_P
-        char *buf = 0;
+        char *buf = nullptr;
         char buf2[n];
         std::memset(buf2, 0x0, n);
         buf = strerror_r(error, buf2, n);
@@ -396,14 +398,11 @@ namespace Exiv2 {
     {
         Uri result;
 
-        typedef std::string::const_iterator iterator_t;
+        using iterator_t = std::string::const_iterator;
 
         if ( !uri.length() )  return result;
 
         iterator_t uriEnd = uri.end();
-
-        // get query start
-        iterator_t queryStart = std::find(uri.begin(), uriEnd, '?');
 
         // protocol
         iterator_t protocolStart = uri.begin();
@@ -444,6 +443,9 @@ namespace Exiv2 {
         // host
         iterator_t hostStart = authEnd;
         iterator_t pathStart = std::find(hostStart, uriEnd, '/');  // get pathStart
+
+        // get query start
+        iterator_t queryStart = std::find(pathStart, uriEnd, '?');
 
         iterator_t hostEnd = std::find(authEnd,
             (pathStart != uriEnd) ? pathStart : queryStart,
@@ -522,26 +524,26 @@ namespace Exiv2 {
         std::set<std::string>     paths;
         std::string               path ;
 
-    #if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
+#if defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW__)
         // enumerate loaded libraries and determine path to executable
-        HMODULE handles[200];
-        DWORD   cbNeeded;
-        if ( EnumProcessModules(GetCurrentProcess(),handles,lengthof(handles),&cbNeeded)) {
-            char szFilename[_MAX_PATH];
-            for ( DWORD h = 0 ; h < cbNeeded/sizeof(handles[0]) ; h++ ) {
-                GetModuleFileNameA(handles[h],szFilename,lengthof(szFilename)) ;
-                std::string path(szFilename);
+        std::array<HMODULE, 200> handles;
+        DWORD cbNeeded;
+        if (EnumProcessModules(GetCurrentProcess(), handles.data(), DWORD(handles.size()), &cbNeeded)) {
+            std::array<char, _MAX_PATH> szFilename;
+            for (const auto& h : handles) {
+                GetModuleFileNameA(h, szFilename.data(), DWORD(szFilename.size()));
+                std::string path(szFilename.data());
                 pushPath(path,libs,paths);
             }
         }
-    #elif defined(__APPLE__)
+#elif defined(__APPLE__)
         // man 3 dyld
         uint32_t count = _dyld_image_count();
         for (uint32_t image = 0 ; image < count ; image++ ) {
             std::string path(_dyld_get_image_name(image));
             pushPath(path,libs,paths);
         }
-    #elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__)
         unsigned int n;
         struct procstat*      procstat = procstat_open_sysctl();
         struct kinfo_proc*    procs    = procstat ? procstat_getprocs(procstat, KERN_PROC_PID, getpid(), &n) : NULL;
@@ -558,7 +560,7 @@ namespace Exiv2 {
         if ( procs    ) procstat_freeprocs(procstat, procs);
         if ( procstat ) procstat_close    (procstat);
 
-    #elif defined(__unix__)
+#elif defined(__unix__)
         // read file /proc/self/maps which has a list of files in memory
         std::ifstream maps("/proc/self/maps",std::ifstream::in);
         std::string   string ;
@@ -569,7 +571,7 @@ namespace Exiv2 {
                 pushPath(path,libs,paths);
             }
         }
-    #endif
+#endif
         return libs;
     }
 }                                       // namespace Exiv2

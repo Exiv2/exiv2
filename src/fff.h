@@ -49,7 +49,7 @@ struct _fpgaheader_t
 	BYTE		        reserved[18];
 };
 
-typedef	struct _fpgaheader_t	    FPGA_HEADER;
+using FPGA_HEADER = struct _fpgaheader_t;
 
 // main types
 
@@ -386,7 +386,7 @@ struct _bidata_t
     EXTENDED_IMAGEINFO_T ExtendedImageInfo;
 };
 
-typedef	struct _bidata_t	    BI_DATA_T;
+using BI_DATA_T = struct _bidata_t;
 
 struct _fff_header_t
 {
@@ -395,7 +395,7 @@ struct _fff_header_t
     FLIRFILEINDEX   btag;
 };
 
-typedef struct _fff_header_t        FFF_FILE_HEADER;
+using FFF_FILE_HEADER = struct _fff_header_t;
 
 #define BASICDATAREV 102
 #define IMAGEPIXELREV   100L

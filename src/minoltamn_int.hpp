@@ -154,4 +154,5 @@ namespace Exiv2 {
 
     // TODO: Added shared methods here.
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

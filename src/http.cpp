@@ -28,25 +28,21 @@
 #endif
 
 // included header files
-#include "config.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+
+#include "config.h"
 #include "datasets.hpp"
 #include "futils.hpp"
 #include "http.hpp"
 
-#include <stdio.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <time.h>
-#include <cstdlib>
-
 #define SLEEP 1000
 #define SNOOZE 0
-
-#ifdef __MINGW__
-#define fopen_S(f, n, a) f = fopen(n, a)
-#endif
 
 ////////////////////////////////////////
 // platform specific code
@@ -61,7 +57,6 @@
 #define close _close
 #define strdup _strdup
 #define stat _stat
-#define fopen_S(f, n, a) fopen_s(&f, n, a)
 #endif
 #else
 ////////////////////////////////////////
@@ -70,7 +65,6 @@
 #define closesocket close
 
 #include <arpa/inet.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -80,11 +74,12 @@
 #include <sys/un.h>
 #include <unistd.h>
 
-#define fopen_S(f, n, o) f = fopen(n, o)
-#define WINAPI
-typedef unsigned long DWORD;
+#include <cerrno>
 
-#define SOCKET_ERROR -1
+#define WINAPI
+using DWORD = unsigned long;
+
+#define SOCKET_ERROR (-1)
 #define WSAEWOULDBLOCK EINPROGRESS
 #define WSAENOTCONN EAGAIN
 
@@ -104,7 +99,7 @@ static void Sleep(int millisecs)
 
 ////////////////////////////////////////
 // code
-static const char* httpTemplate =
+static constexpr const char* httpTemplate =
     "%s %s HTTP/%s\r\n"  // $verb $page $version
     "User-Agent: exiv2http/1.0.0\r\n"
     "Accept: */*\r\n"
@@ -112,16 +107,13 @@ static const char* httpTemplate =
     "%s"            // $header
     "\r\n";
 
-#ifndef lengthof
-#define lengthof(x) (sizeof(x) / sizeof((x)[0]))
-#endif
+#define FINISH (-999)
+static constexpr bool OK(int s)
+{
+    return 200 <= (s) && (s) < 300;
+};
 
-#define white(c) ((c == ' ') || (c == '\t'))
-
-#define FINISH -999
-#define OK(s) (200 <= s && s < 300)
-
-const char* blankLines[] = {
+static const auto blankLines = {
     "\r\n\r\n"  // this is the standard
     ,
     "\n\n"  // this is commonly sent by CGI scripts
@@ -173,29 +165,29 @@ static Exiv2::Dictionary stringToDict(const std::string& s)
     Exiv2::Dictionary result;
     std::string token;
 
-    size_t i = 0;
-    while (i < s.length()) {
-        if (s[i] != ',') {
-            if (s[i] != ' ')
-                token += s[i];
+    for (const auto& c : s) {
+        if (c != ',') {
+            if (c != ' ')
+                token += c;
         } else {
             result[token] = token;
             token.clear();
         }
-        i++;
     }
+
     result[token] = token;
     return result;
 }
 
-static int makeNonBlocking(int sockfd)
-{
 #ifdef WIN32
+static void makeNonBlocking(SOCKET sockfd)
+{
     ULONG ioctl_opt = 1;
-    return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
+    ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
 #else
-    int result = fcntl(sockfd, F_SETFL, O_NONBLOCK);
-    return result >= 0 ? result : SOCKET_ERROR;
+static void makeNonBlocking(int sockfd)
+{
+    fcntl(sockfd, F_SETFL, O_NONBLOCK);
 #endif
 }
 
@@ -268,14 +260,14 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
     ////////////////////////////////////
     // open the socket
-    int sockfd = (int)socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    auto sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sockfd < 0)
         return error(errors, "unable to create socket\n", nullptr, nullptr, 0);
 
     // fill in the address
     struct sockaddr_in serv_addr;
     int serv_len = sizeof(serv_addr);
-    memset((char*)&serv_addr, 0, serv_len);
+    memset(reinterpret_cast<char*>(&serv_addr), 0, serv_len);
 
     serv_addr.sin_addr.s_addr = inet_addr(servername_p);
     serv_addr.sin_family = AF_INET;
@@ -283,7 +275,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
     // convert unknown servername into IP address
     // http://publib.boulder.ibm.com/infocenter/iseries/v5r3/index.jsp?topic=/rzab6/rzab6uafinet.htm
-    if (serv_addr.sin_addr.s_addr == (unsigned long)INADDR_NONE) {
+    if (serv_addr.sin_addr.s_addr == static_cast<unsigned long>(INADDR_NONE)) {
         struct hostent* host = gethostbyname(servername_p);
         if (!host) {
             closesocket(sockfd);
@@ -296,7 +288,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
     ////////////////////////////////////
     // connect the socket to the server
-    auto server = connect(sockfd, (const struct sockaddr*)&serv_addr, serv_len);
+    auto server = connect(sockfd, reinterpret_cast<const struct sockaddr*>(&serv_addr), serv_len);
     if (server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK) {
         auto errorCode = WSAGetLastError();
         closesocket(sockfd);
@@ -335,7 +327,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     ////////////////////////////////////
     // read and process the response
     int err;
-    n = forgive(recv(sockfd, buffer, (int)buff_l, 0), err);
+    n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
     while (n >= 0 && OK(status)) {
         if (n) {
             end += n;
@@ -344,11 +336,14 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
             size_t body = 0;  // start of body
             if (bSearching) {
                 // search for the body
-                for (size_t b = 0; bSearching && b < lengthof(blankLines); b++) {
-                    const char* blankLinePos = strstr(buffer, blankLines[b]);
+                for (const auto& b : blankLines) {
+                    if (!bSearching) {
+                        break;
+                    }
+                    const auto blankLinePos = std::strstr(buffer, b);
                     if (blankLinePos) {
                         bSearching = false;
-                        body = blankLinePos - buffer + strlen(blankLines[b]);
+                        body = blankLinePos - buffer + strlen(b);
                         const char* firstSpace = strchr(buffer, ' ');
                         if (firstSpace) {
                             status = atoi(firstSpace);
@@ -400,7 +395,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
                 flushBuffer(buffer, body, end, file);
             }
         }
-        n = forgive(recv(sockfd, buffer + end, (int)(buff_l - end), 0), err);
+        n = forgive(recv(sockfd, buffer + end, static_cast<int>(buff_l - end), 0), err);
         if (!n) {
             Sleep(snooze);
             sleep_ -= snooze;

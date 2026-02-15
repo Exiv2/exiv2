@@ -56,11 +56,11 @@ WXMPUtils_ComposeArrayItemPath_1 ( XMP_StringPtr   schemaNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ComposeArrayItemPath_1" )
 	
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
 		
-		if ( fullPath == 0 ) fullPath = &voidStringPtr;
-		if ( pathSize == 0 ) pathSize = &voidStringLen;
+		if ( fullPath == nullptr ) fullPath = &voidStringPtr;
+		if ( pathSize == nullptr ) pathSize = &voidStringLen;
 
 		XMPUtils::ComposeArrayItemPath ( schemaNS, arrayName, itemIndex, fullPath, pathSize );
 
@@ -80,13 +80,13 @@ WXMPUtils_ComposeStructFieldPath_1 ( XMP_StringPtr	 schemaNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ComposeStructFieldPath_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (structName == 0) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
-		if ( (fieldNS == 0) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
-		if ( (fieldName == 0) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (structName == nullptr) || (*structName == 0) ) XMP_Throw ( "Empty struct name", kXMPErr_BadXPath );
+		if ( (fieldNS == nullptr) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
+		if ( (fieldName == nullptr) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
 		
-		if ( fullPath == 0 ) fullPath = &voidStringPtr;
-		if ( pathSize == 0 ) pathSize = &voidStringLen;
+		if ( fullPath == nullptr ) fullPath = &voidStringPtr;
+		if ( pathSize == nullptr ) pathSize = &voidStringLen;
 
 		XMPUtils::ComposeStructFieldPath ( schemaNS, structName, fieldNS, fieldName, fullPath, pathSize );
 
@@ -106,13 +106,13 @@ WXMPUtils_ComposeQualifierPath_1 ( XMP_StringPtr   schemaNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ComposeQualifierPath_1" )
 	
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (propName == 0) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
-		if ( (qualNS == 0) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
-		if ( (qualName == 0) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (propName == nullptr) || (*propName == 0) ) XMP_Throw ( "Empty property name", kXMPErr_BadXPath );
+		if ( (qualNS == nullptr) || (*qualNS == 0) ) XMP_Throw ( "Empty qualifier namespace URI", kXMPErr_BadSchema );
+		if ( (qualName == nullptr) || (*qualName == 0) ) XMP_Throw ( "Empty qualifier name", kXMPErr_BadXPath );
 		
-		if ( fullPath == 0 ) fullPath = &voidStringPtr;
-		if ( pathSize == 0 ) pathSize = &voidStringLen;
+		if ( fullPath == nullptr ) fullPath = &voidStringPtr;
+		if ( pathSize == nullptr ) pathSize = &voidStringLen;
 
 		XMPUtils::ComposeQualifierPath ( schemaNS, propName, qualNS, qualName, fullPath, pathSize );
 
@@ -131,12 +131,12 @@ WXMPUtils_ComposeLangSelector_1 ( XMP_StringPtr	  schemaNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ComposeLangSelector_1" )
 	
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
-		if ( (langName == 0) || (*langName == 0) ) XMP_Throw ( "Empty language name", kXMPErr_BadParam );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (langName == nullptr) || (*langName == 0) ) XMP_Throw ( "Empty language name", kXMPErr_BadParam );
 		
-		if ( fullPath == 0 ) fullPath = &voidStringPtr;
-		if ( pathSize == 0 ) pathSize = &voidStringLen;
+		if ( fullPath == nullptr ) fullPath = &voidStringPtr;
+		if ( pathSize == nullptr ) pathSize = &voidStringLen;
 
 		XMPUtils::ComposeLangSelector ( schemaNS, arrayName, langName, fullPath, pathSize );
 
@@ -157,14 +157,14 @@ WXMPUtils_ComposeFieldSelector_1 ( XMP_StringPtr   schemaNS,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ComposeFieldSelector_1" )
 	
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
-		if ( (fieldNS == 0) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
-		if ( (fieldName == 0) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
-		if ( fieldValue == 0 ) fieldValue = "";
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (fieldNS == nullptr) || (*fieldNS == 0) ) XMP_Throw ( "Empty field namespace URI", kXMPErr_BadSchema );
+		if ( (fieldName == nullptr) || (*fieldName == 0) ) XMP_Throw ( "Empty field name", kXMPErr_BadXPath );
+		if ( fieldValue == nullptr ) fieldValue = "";
 		
-		if ( fullPath == 0 ) fullPath = &voidStringPtr;
-		if ( pathSize == 0 ) pathSize = &voidStringLen;
+		if ( fullPath == nullptr ) fullPath = &voidStringPtr;
+		if ( pathSize == nullptr ) pathSize = &voidStringLen;
 
 		XMPUtils::ComposeFieldSelector ( schemaNS, arrayName, fieldNS, fieldName, fieldValue, fullPath, pathSize );
 
@@ -181,8 +181,8 @@ WXMPUtils_ConvertFromBool_1 ( XMP_Bool		  binValue,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ConvertFromBool_1" )
 
-		if ( strValue == 0 ) strValue = &voidStringPtr;
-		if ( strSize == 0 ) strSize = &voidStringLen;
+		if ( strValue == nullptr ) strValue = &voidStringPtr;
+		if ( strSize == nullptr ) strSize = &voidStringLen;
 
 		XMPUtils::ConvertFromBool ( binValue, strValue, strSize );
 
@@ -200,10 +200,10 @@ WXMPUtils_ConvertFromInt_1 ( XMP_Int32		 binValue,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ConvertFromInt_1" )
 
-		if ( format == 0 ) format = "";
+		if ( format == nullptr ) format = "";
 		
-		if ( strValue == 0 ) strValue = &voidStringPtr;
-		if ( strSize == 0 ) strSize = &voidStringLen;
+		if ( strValue == nullptr ) strValue = &voidStringPtr;
+		if ( strSize == nullptr ) strSize = &voidStringLen;
 
 		XMPUtils::ConvertFromInt ( binValue, format, strValue, strSize );
 
@@ -221,10 +221,10 @@ WXMPUtils_ConvertFromInt64_1 ( XMP_Int64	   binValue,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ConvertFromInt64_1" )
 
-		if ( format == 0 ) format = "";
+		if ( format == nullptr ) format = "";
 		
-		if ( strValue == 0 ) strValue = &voidStringPtr;
-		if ( strSize == 0 ) strSize = &voidStringLen;
+		if ( strValue == nullptr ) strValue = &voidStringPtr;
+		if ( strSize == nullptr ) strSize = &voidStringLen;
 
 		XMPUtils::ConvertFromInt64 ( binValue, format, strValue, strSize );
 
@@ -242,10 +242,10 @@ WXMPUtils_ConvertFromFloat_1 ( double		   binValue,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ConvertFromFloat_1" )
 
-		if ( format == 0 ) format = "";
+		if ( format == nullptr ) format = "";
 		
-		if ( strValue == 0 ) strValue = &voidStringPtr;
-		if ( strSize == 0 ) strSize = &voidStringLen;
+		if ( strValue == nullptr ) strValue = &voidStringPtr;
+		if ( strSize == nullptr ) strSize = &voidStringLen;
 
 		XMPUtils::ConvertFromFloat ( binValue, format, strValue, strSize );
 
@@ -262,8 +262,8 @@ WXMPUtils_ConvertFromDate_1 ( const XMP_DateTime & binValue,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_ConvertFromDate_1" )
 
-		if ( strValue == 0 ) strValue = &voidStringPtr;
-		if ( strSize == 0 ) strSize = &voidStringLen;
+		if ( strValue == nullptr ) strValue = &voidStringPtr;
+		if ( strSize == nullptr ) strSize = &voidStringLen;
 
 		XMPUtils::ConvertFromDate( binValue, strValue, strSize );
 
@@ -278,7 +278,7 @@ WXMPUtils_ConvertToBool_1 ( XMP_StringPtr strValue,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_ConvertToBool_1" )
 
-		if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty string value", kXMPErr_BadParam);
+		if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty string value", kXMPErr_BadParam);
 		XMP_Bool result = XMPUtils::ConvertToBool ( strValue );
 		wResult->int32Result = result;
 
@@ -293,7 +293,7 @@ WXMPUtils_ConvertToInt_1 ( XMP_StringPtr strValue,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_ConvertToInt_1" )
 
-		if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty string value", kXMPErr_BadParam);
+		if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty string value", kXMPErr_BadParam);
 		XMP_Int32 result = XMPUtils::ConvertToInt ( strValue );
 		wResult->int32Result = result;
 
@@ -308,7 +308,7 @@ WXMPUtils_ConvertToInt64_1 ( XMP_StringPtr strValue,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_ConvertToInt64_1" )
 
-		if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty string value", kXMPErr_BadParam);
+		if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty string value", kXMPErr_BadParam);
 		XMP_Int64 result = XMPUtils::ConvertToInt64 ( strValue );
 		wResult->int64Result = result;
 
@@ -323,7 +323,7 @@ WXMPUtils_ConvertToFloat_1 ( XMP_StringPtr strValue,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_ConvertToFloat_1")
 
-		if ( (strValue == 0) || (*strValue == 0) ) XMP_Throw ( "Empty string value", kXMPErr_BadParam);
+		if ( (strValue == nullptr) || (*strValue == 0) ) XMP_Throw ( "Empty string value", kXMPErr_BadParam);
 		double result = XMPUtils::ConvertToFloat ( strValue );
 		wResult->floatResult = result;
 
@@ -339,7 +339,7 @@ WXMPUtils_ConvertToDate_1 ( XMP_StringPtr  strValue,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_ConvertToDate_1" )
 
-		if ( binValue == 0 ) XMP_Throw ( "Null output date", kXMPErr_BadParam); // ! Pointer is from the client.
+		if ( binValue == nullptr ) XMP_Throw ( "Null output date", kXMPErr_BadParam); // ! Pointer is from the client.
 		XMPUtils::ConvertToDate ( strValue, binValue );
 
 	XMP_EXIT_WRAPPER
@@ -353,7 +353,7 @@ WXMPUtils_CurrentDateTime_1 ( XMP_DateTime * time,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_CurrentDateTime_1" )
 	
-		if ( time == 0 ) XMP_Throw ( "Null output date", kXMPErr_BadParam);
+		if ( time == nullptr ) XMP_Throw ( "Null output date", kXMPErr_BadParam);
 		XMPUtils::CurrentDateTime ( time );
 
 	XMP_EXIT_WRAPPER
@@ -367,7 +367,7 @@ WXMPUtils_SetTimeZone_1 ( XMP_DateTime * time,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_SetTimeZone_1" )
 
-		if ( time == 0 ) XMP_Throw ( "Null output date", kXMPErr_BadParam);
+		if ( time == nullptr ) XMP_Throw ( "Null output date", kXMPErr_BadParam);
 		XMPUtils::SetTimeZone ( time );
 
 	XMP_EXIT_WRAPPER
@@ -381,7 +381,7 @@ WXMPUtils_ConvertToUTCTime_1 ( XMP_DateTime * time,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_ConvertToUTCTime_1" )
 
-		if ( time == 0 ) XMP_Throw ( "Null output date", kXMPErr_BadParam);
+		if ( time == nullptr ) XMP_Throw ( "Null output date", kXMPErr_BadParam);
 		XMPUtils::ConvertToUTCTime ( time );
 
 	XMP_EXIT_WRAPPER
@@ -395,7 +395,7 @@ WXMPUtils_ConvertToLocalTime_1 ( XMP_DateTime * time,
 {
 	XMP_ENTER_WRAPPER_NO_LOCK ( "WXMPUtils_ConvertToLocalTime_1" )
 
-		if ( time == 0 ) XMP_Throw ( "Null output date", kXMPErr_BadParam);
+		if ( time == nullptr ) XMP_Throw ( "Null output date", kXMPErr_BadParam);
 		XMPUtils::ConvertToLocalTime ( time );
 
 	XMP_EXIT_WRAPPER
@@ -427,8 +427,8 @@ WXMPUtils_EncodeToBase64_1 ( XMP_StringPtr	 rawStr,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_EncodeToBase64_1" )
 	
-		if ( encodedStr == 0 ) encodedStr = &voidStringPtr;
-		if ( encodedLen == 0 ) encodedLen = &voidStringLen;
+		if ( encodedStr == nullptr ) encodedStr = &voidStringPtr;
+		if ( encodedLen == nullptr ) encodedLen = &voidStringLen;
 
 		XMPUtils::EncodeToBase64 ( rawStr, rawLen, encodedStr, encodedLen );
 
@@ -446,8 +446,8 @@ WXMPUtils_DecodeFromBase64_1 ( XMP_StringPtr   encodedStr,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_DecodeFromBase64_1" )
 
-		if ( rawStr == 0 ) rawStr = &voidStringPtr;
-		if ( rawLen == 0 ) rawLen = &voidStringLen;
+		if ( rawStr == nullptr ) rawStr = &voidStringPtr;
+		if ( rawLen == nullptr ) rawLen = &voidStringLen;
 
 		XMPUtils::DecodeFromBase64 ( encodedStr, encodedLen, rawStr, rawLen );
 
@@ -468,12 +468,12 @@ WXMPUtils_PackageForJPEG_1 ( XMPMetaRef      wxmpObj,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_PackageForJPEG_1" )
 
-		if ( stdStr == 0 ) stdStr = &voidStringPtr;
-		if ( stdLen == 0 ) stdLen = &voidStringLen;
-		if ( extStr == 0 ) extStr = &voidStringPtr;
-		if ( extLen == 0 ) extLen = &voidStringLen;
-		if ( digestStr == 0 ) digestStr = &voidStringPtr;
-		if ( digestLen == 0 ) digestLen = &voidStringLen;
+		if ( stdStr == nullptr ) stdStr = &voidStringPtr;
+		if ( stdLen == nullptr ) stdLen = &voidStringLen;
+		if ( extStr == nullptr ) extStr = &voidStringPtr;
+		if ( extLen == nullptr ) extLen = &voidStringLen;
+		if ( digestStr == nullptr ) digestStr = &voidStringPtr;
+		if ( digestLen == nullptr ) digestLen = &voidStringLen;
 
 		const XMPMeta & xmpObj = WtoXMPMeta_Ref ( wxmpObj );
 		XMPUtils::PackageForJPEG ( xmpObj, stdStr, stdLen, extStr, extLen, digestStr, digestLen );
@@ -490,7 +490,7 @@ WXMPUtils_MergeFromJPEG_1 ( XMPMetaRef    wfullXMP,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_MergeFromJPEG_1" )
 
-		if ( wfullXMP == 0 ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
+		if ( wfullXMP == nullptr ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
 
 		XMPMeta * fullXMP = WtoXMPMeta_Ptr ( wfullXMP );
 		const XMPMeta & extendedXMP = WtoXMPMeta_Ref ( wextendedXMP );
@@ -514,14 +514,14 @@ WXMPUtils_CatenateArrayItems_1 ( XMPMetaRef 	 wxmpObj,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_CatenateArrayItems_1" )
 
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
 		
-		if ( separator == 0 ) separator = "; ";
-		if ( quotes == 0 ) quotes = "\"";
+		if ( separator == nullptr ) separator = "; ";
+		if ( quotes == nullptr ) quotes = "\"";
 		
-		if ( catedStr == 0 ) catedStr = &voidStringPtr;
-		if ( catedLen == 0 ) catedLen = &voidStringLen;
+		if ( catedStr == nullptr ) catedStr = &voidStringPtr;
+		if ( catedLen == nullptr ) catedLen = &voidStringLen;
 
 		const XMPMeta & xmpObj = WtoXMPMeta_Ref ( wxmpObj );
 		XMPUtils::CatenateArrayItems ( xmpObj, schemaNS, arrayName, separator, quotes, options, catedStr, catedLen );
@@ -541,10 +541,10 @@ WXMPUtils_SeparateArrayItems_1 ( XMPMetaRef 	wxmpObj,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_SeparateArrayItems_1" )
 
-		if ( wxmpObj == 0 ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
-		if ( (schemaNS == 0) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
-		if ( (arrayName == 0) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
-		if ( catedStr == 0 ) catedStr = "";
+		if ( wxmpObj == nullptr ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
+		if ( (schemaNS == nullptr) || (*schemaNS == 0) ) XMP_Throw ( "Empty schema namespace URI", kXMPErr_BadSchema );
+		if ( (arrayName == nullptr) || (*arrayName == 0) ) XMP_Throw ( "Empty array name", kXMPErr_BadXPath );
+		if ( catedStr == nullptr ) catedStr = "";
 		
 		XMPMeta * xmpObj = WtoXMPMeta_Ptr ( wxmpObj );
 		XMPUtils::SeparateArrayItems ( xmpObj, schemaNS, arrayName, options, catedStr );
@@ -563,9 +563,9 @@ WXMPUtils_RemoveProperties_1 ( XMPMetaRef 	  wxmpObj,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_RemoveProperties_1" )
 
-		if ( wxmpObj == 0 ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
-		if ( schemaNS == 0 ) schemaNS = "";
-		if ( propName == 0 ) propName = "";
+		if ( wxmpObj == nullptr ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
+		if ( schemaNS == nullptr ) schemaNS = "";
+		if ( propName == nullptr ) propName = "";
 		
 		XMPMeta * xmpObj = WtoXMPMeta_Ptr ( wxmpObj );
 		XMPUtils::RemoveProperties ( xmpObj, schemaNS, propName, options );
@@ -583,7 +583,7 @@ WXMPUtils_AppendProperties_1 ( XMPMetaRef     wSource,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_AppendProperties_1" )
 
-		if ( wDest == 0 ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
+		if ( wDest == nullptr ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
 
 		const XMPMeta & source = WtoXMPMeta_Ref ( wSource );
 		XMPMeta * dest = WtoXMPMeta_Ptr ( wDest );
@@ -606,11 +606,11 @@ WXMPUtils_DuplicateSubtree_1 ( XMPMetaRef     wSource,
 {
 	XMP_ENTER_WRAPPER ( "WXMPUtils_DuplicateSubtree_1" )
 	
-		if ( wDest == 0 ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
-		if ( (sourceNS == 0) || (*sourceNS == 0) ) XMP_Throw ( "Empty source schema URI", kXMPErr_BadSchema );
-		if ( (sourceRoot == 0) || (*sourceRoot == 0) ) XMP_Throw ( "Empty source root name", kXMPErr_BadXPath );
-		if ( destNS == 0 ) destNS = sourceNS;
-		if ( destRoot == 0 ) destRoot = sourceRoot;
+		if ( wDest == nullptr ) XMP_Throw ( "Output XMP pointer is null", kXMPErr_BadParam );
+		if ( (sourceNS == nullptr) || (*sourceNS == 0) ) XMP_Throw ( "Empty source schema URI", kXMPErr_BadSchema );
+		if ( (sourceRoot == nullptr) || (*sourceRoot == 0) ) XMP_Throw ( "Empty source root name", kXMPErr_BadXPath );
+		if ( destNS == nullptr ) destNS = sourceNS;
+		if ( destRoot == nullptr ) destRoot = sourceRoot;
 
 		const XMPMeta & source = WtoXMPMeta_Ref ( wSource );
 		XMPMeta * dest = WtoXMPMeta_Ptr ( wDest );

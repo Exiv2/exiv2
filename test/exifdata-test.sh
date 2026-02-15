@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for exifdata copy construction and assignment unit tests
 source ./functions.source
 

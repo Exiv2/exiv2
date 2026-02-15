@@ -29,10 +29,10 @@ ComposeArrayItemPath ( XMP_StringPtr schemaNS,
 					   XMP_Index	 itemIndex,
 					   tStringObj *  fullPath )
 {
-	XMP_StringPtr pathPtr = 0;
+	XMP_StringPtr pathPtr = nullptr;
 	XMP_StringLen pathLen = 0;
 	WrapCheckVoid ( zXMPUtils_ComposeArrayItemPath_1 ( schemaNS, arrayName, itemIndex, &pathPtr, &pathLen ) );
-	if ( fullPath != 0 ) fullPath->assign ( pathPtr, pathLen );
+	if ( fullPath != nullptr ) fullPath->assign ( pathPtr, pathLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -45,10 +45,10 @@ ComposeStructFieldPath ( XMP_StringPtr schemaNS,
 						 XMP_StringPtr fieldName,
 						 tStringObj *  fullPath )
 {
-	XMP_StringPtr pathPtr = 0;
+	XMP_StringPtr pathPtr = nullptr;
 	XMP_StringLen pathLen = 0;
 	WrapCheckVoid ( zXMPUtils_ComposeStructFieldPath_1 ( schemaNS, structName, fieldNS, fieldName, &pathPtr, &pathLen ) );
-	if ( fullPath != 0 ) fullPath->assign ( pathPtr, pathLen );
+	if ( fullPath != nullptr ) fullPath->assign ( pathPtr, pathLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -61,10 +61,10 @@ ComposeQualifierPath ( XMP_StringPtr schemaNS,
 					   XMP_StringPtr qualName,
 					   tStringObj *	 fullPath )
 {
-	XMP_StringPtr pathPtr = 0;
+	XMP_StringPtr pathPtr = nullptr;
 	XMP_StringLen pathLen = 0;
 	WrapCheckVoid ( zXMPUtils_ComposeQualifierPath_1 ( schemaNS, propName, qualNS, qualName, &pathPtr, &pathLen ) );
-	if ( fullPath != 0 ) fullPath->assign ( pathPtr, pathLen );
+	if ( fullPath != nullptr ) fullPath->assign ( pathPtr, pathLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -76,10 +76,10 @@ ComposeLangSelector ( XMP_StringPtr schemaNS,
 					  XMP_StringPtr langName,
 					  tStringObj *	fullPath )
 {
-	XMP_StringPtr pathPtr = 0;
+	XMP_StringPtr pathPtr = nullptr;
 	XMP_StringLen pathLen = 0;
 	WrapCheckVoid ( zXMPUtils_ComposeLangSelector_1 ( schemaNS, arrayName, langName, &pathPtr, &pathLen ) );
-	if ( fullPath != 0 ) fullPath->assign ( pathPtr, pathLen );
+	if ( fullPath != nullptr ) fullPath->assign ( pathPtr, pathLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -104,11 +104,11 @@ ComposeFieldSelector ( XMP_StringPtr schemaNS,
 					   XMP_StringPtr fieldValue,
 					   tStringObj *	 fullPath )
 {
-	XMP_StringPtr pathPtr = 0;
+	XMP_StringPtr pathPtr = nullptr;
 	XMP_StringLen pathLen = 0;
 	WrapCheckVoid ( zXMPUtils_ComposeFieldSelector_1 ( schemaNS, arrayName, fieldNS, fieldName, fieldValue,
 													   &pathPtr, &pathLen ) );
-	if ( fullPath != 0 ) fullPath->assign ( pathPtr, pathLen );
+	if ( fullPath != nullptr ) fullPath->assign ( pathPtr, pathLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -132,10 +132,10 @@ XMP_MethodIntro(TXMPUtils,void)::
 ConvertFromBool ( bool		   binValue,
 				  tStringObj * strValue )
 {
-	XMP_StringPtr strPtr = 0;
+	XMP_StringPtr strPtr = nullptr;
 	XMP_StringLen strLen = 0;
 	WrapCheckVoid ( zXMPUtils_ConvertFromBool_1 ( binValue, &strPtr, &strLen ) );
-	if ( strValue != 0 ) strValue->assign ( strPtr, strLen );
+	if ( strValue != nullptr ) strValue->assign ( strPtr, strLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -146,10 +146,10 @@ ConvertFromInt ( long		   binValue,
 				 XMP_StringPtr format,
 				 tStringObj *  strValue )
 {
-	XMP_StringPtr strPtr = 0;
+	XMP_StringPtr strPtr = nullptr;
 	XMP_StringLen strLen = 0;
 	WrapCheckVoid ( zXMPUtils_ConvertFromInt_1 ( binValue, format, &strPtr, &strLen ) );
-	if ( strValue != 0 ) strValue->assign ( strPtr, strLen );
+	if ( strValue != nullptr ) strValue->assign ( strPtr, strLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -160,10 +160,10 @@ ConvertFromInt64 ( long long 	 binValue,
 				   XMP_StringPtr format,
 				   tStringObj *  strValue )
 {
-	XMP_StringPtr strPtr = 0;
+	XMP_StringPtr strPtr = nullptr;
 	XMP_StringLen strLen = 0;
 	WrapCheckVoid ( zXMPUtils_ConvertFromInt64_1 ( binValue, format, &strPtr, &strLen ) );
-	if ( strValue != 0 ) strValue->assign ( strPtr, strLen );
+	if ( strValue != nullptr ) strValue->assign ( strPtr, strLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -174,10 +174,10 @@ ConvertFromFloat ( double		 binValue,
 				   XMP_StringPtr format,
 				   tStringObj *	 strValue )
 {
-	XMP_StringPtr strPtr = 0;
+	XMP_StringPtr strPtr = nullptr;
 	XMP_StringLen strLen = 0;
 	WrapCheckVoid ( zXMPUtils_ConvertFromFloat_1 ( binValue, format, &strPtr, &strLen ) );
-	if ( strValue != 0 ) strValue->assign ( strPtr, strLen );
+	if ( strValue != nullptr ) strValue->assign ( strPtr, strLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -187,10 +187,10 @@ XMP_MethodIntro(TXMPUtils,void)::
 ConvertFromDate ( const XMP_DateTime & binValue,
 				  tStringObj *		   strValue )
 {
-	XMP_StringPtr strPtr = 0;
+	XMP_StringPtr strPtr = nullptr;
 	XMP_StringLen strLen = 0;
 	WrapCheckVoid ( zXMPUtils_ConvertFromDate_1 ( binValue, &strPtr, &strLen ) );
-	if ( strValue != 0 ) strValue->assign ( strPtr, strLen );
+	if ( strValue != nullptr ) strValue->assign ( strPtr, strLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -331,10 +331,10 @@ EncodeToBase64 ( XMP_StringPtr rawStr,
 				 XMP_StringLen rawLen,
 				 tStringObj *  encodedStr )
 {
-	XMP_StringPtr encPtr = 0;
+	XMP_StringPtr encPtr = nullptr;
 	XMP_StringLen encLen = 0;
 	WrapCheckVoid ( zXMPUtils_EncodeToBase64_1 ( rawStr, rawLen, &encPtr, &encLen ) );
-	if ( encodedStr != 0 ) encodedStr->assign ( encPtr, encLen );
+	if ( encodedStr != nullptr ) encodedStr->assign ( encPtr, encLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -354,10 +354,10 @@ DecodeFromBase64 ( XMP_StringPtr encodedStr,
 				   XMP_StringLen encodedLen,
 				   tStringObj *	 rawStr )
 {
-	XMP_StringPtr rawPtr = 0;
+	XMP_StringPtr rawPtr = nullptr;
 	XMP_StringLen rawLen = 0;
 	WrapCheckVoid ( zXMPUtils_DecodeFromBase64_1 ( encodedStr, encodedLen, &rawPtr, &rawLen ) );
-	if ( rawStr != 0 ) rawStr->assign ( rawPtr, rawLen );
+	if ( rawStr != nullptr ) rawStr->assign ( rawPtr, rawLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -381,17 +381,17 @@ PackageForJPEG ( const TXMPMeta<tStringObj> & xmpObj,
                  tStringObj * extendedXMP,
                  tStringObj * extendedDigest )
 {
-	XMP_StringPtr stdStr = 0;
+	XMP_StringPtr stdStr = nullptr;
 	XMP_StringLen stdLen = 0;
-	XMP_StringPtr extStr = 0;
+	XMP_StringPtr extStr = nullptr;
 	XMP_StringLen extLen = 0;
-	XMP_StringPtr digestStr = 0;
+	XMP_StringPtr digestStr = nullptr;
 	XMP_StringLen digestLen = 0;
 	WrapCheckVoid ( zXMPUtils_PackageForJPEG_1 ( xmpObj.GetInternalRef(),
 	                                             &stdStr, &stdLen, &extStr, &extLen, &digestStr, &digestLen ) );
-	if ( standardXMP != 0 ) standardXMP->assign ( stdStr, stdLen );
-	if ( extendedXMP != 0 ) extendedXMP->assign ( extStr, extLen );
-	if ( extendedDigest != 0 ) extendedDigest->assign ( digestStr, digestLen );
+	if ( standardXMP != nullptr ) standardXMP->assign ( stdStr, stdLen );
+	if ( extendedXMP != nullptr ) extendedXMP->assign ( extStr, extLen );
+	if ( extendedDigest != nullptr ) extendedDigest->assign ( digestStr, digestLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -416,11 +416,11 @@ CatenateArrayItems ( const TXMPMeta<tStringObj> & xmpObj,
 					 XMP_OptionBits options,
 					 tStringObj *	catedStr )
 {
-	XMP_StringPtr catedPtr = 0;
+	XMP_StringPtr catedPtr = nullptr;
 	XMP_StringLen catedLen = 0;
 	WrapCheckVoid ( zXMPUtils_CatenateArrayItems_1 ( xmpObj.GetInternalRef(), schemaNS, arrayName, 
 													 separator, quotes, options, &catedPtr, &catedLen ) );
-	if ( catedStr != 0 ) catedStr->assign ( catedPtr, catedLen );
+	if ( catedStr != nullptr ) catedStr->assign ( catedPtr, catedLen );
 	WXMPUtils_Unlock_1 ( 0 );
 }
 
@@ -433,7 +433,7 @@ SeparateArrayItems ( TXMPMeta<tStringObj> * xmpObj,
 					 XMP_OptionBits options,
 					 XMP_StringPtr	catedStr )
 {
-	if ( xmpObj == 0 ) throw XMP_Error ( kXMPErr_BadParam, "Null output SXMPMeta pointer" );
+	if ( xmpObj == nullptr ) throw XMP_Error ( kXMPErr_BadParam, "Null output SXMPMeta pointer" );
 	WrapCheckVoid ( zXMPUtils_SeparateArrayItems_1 ( xmpObj->GetInternalRef(), schemaNS, arrayName, options, catedStr ) );
 }
 
@@ -457,7 +457,7 @@ RemoveProperties ( TXMPMeta<tStringObj> * xmpObj,
 				   XMP_StringPtr  propName /* = 0 */,
 				   XMP_OptionBits options /* = 0 */ )
 {
-	if ( xmpObj == 0 ) throw XMP_Error ( kXMPErr_BadParam, "Null output SXMPMeta pointer" );
+	if ( xmpObj == nullptr ) throw XMP_Error ( kXMPErr_BadParam, "Null output SXMPMeta pointer" );
 	WrapCheckVoid ( zXMPUtils_RemoveProperties_1 ( xmpObj->GetInternalRef(), schemaNS, propName, options ) );
 }
 
@@ -468,7 +468,7 @@ AppendProperties ( const TXMPMeta<tStringObj> & source,
 				   TXMPMeta<tStringObj> *		dest,
 				   XMP_OptionBits options /* = 0 */ )
 {
-	if ( dest == 0 ) throw XMP_Error ( kXMPErr_BadParam, "Null output SXMPMeta pointer" );
+	if ( dest == nullptr ) throw XMP_Error ( kXMPErr_BadParam, "Null output SXMPMeta pointer" );
 	WrapCheckVoid ( zXMPUtils_AppendProperties_1 ( source.GetInternalRef(), dest->GetInternalRef(), options ) );
 }
 
@@ -483,7 +483,7 @@ DuplicateSubtree ( const TXMPMeta<tStringObj> & source,
 				   XMP_StringPtr  destRoot /* = 0 */,
 				   XMP_OptionBits options /* = 0 */ )
 {
-	if ( dest == 0 ) throw XMP_Error ( kXMPErr_BadParam, "Null output SXMPMeta pointer" );
+	if ( dest == nullptr ) throw XMP_Error ( kXMPErr_BadParam, "Null output SXMPMeta pointer" );
 	WrapCheckVoid ( zXMPUtils_DuplicateSubtree_1 ( source.GetInternalRef(), dest->GetInternalRef(),
 												   sourceNS, sourceRoot, destNS, destRoot, options ) );
 }

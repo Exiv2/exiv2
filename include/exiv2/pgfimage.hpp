@@ -94,13 +94,13 @@ namespace Exiv2
 
           @return 4 if opening or writing to the associated BasicIo fails
          */
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         //! Read Magick number. Only version >= 6 is supported.
-        byte readPgfMagicNumber(BasicIo& iIo);
+        static byte readPgfMagicNumber(BasicIo& iIo);
         //! Read PGF Header size encoded in 32 bits integer.
-        uint32_t readPgfHeaderSize(BasicIo& iIo);
+        uint32_t readPgfHeaderSize(BasicIo& iIo) const;
         //! Read header structure.
-        DataBuf readPgfHeaderStructure(BasicIo& iIo, int& width,int & height);
+        DataBuf readPgfHeaderStructure(BasicIo& iIo, int& width, int& height) const;
         //@}
 
     }; // class PgfImage

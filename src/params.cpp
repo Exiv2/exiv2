@@ -22,9 +22,20 @@
 
 #include "actions.hpp"
 #include "i18n.h"  // NLS support.
+#include <exiv2/convert.hpp>
+#include <exiv2/error.hpp>
 
 #if defined(_MSC_VER)
 #include <Windows.h>
+#endif
+
+#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
+#else
+// select & fd_set for musl libc
+#include <sys/select.h>
 #endif
 
 #include <fstream>
@@ -94,30 +105,15 @@ namespace
 
 Params::Params()
     : optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
-      first_(true),
-      help_(false),
-      version_(false),
-      verbose_(false),
-      force_(false),
-      binary_(true),
-      unknown_(true),
-      preserve_(false),
-      timestamp_(false),
-      timestampOnly_(false),
-      fileExistsPolicy_(askPolicy),
-      adjust_(false),
-      printMode_(pmSummary),
-      printItems_(0),
-      printTags_(Exiv2::mdNone),
-      action_(0),
+
       target_(ctExif | ctIptc | ctComment | ctXmp),
-      adjustment_(0),
-      format_("%Y%m%d_%H%M%S"),
-      formatSet_(false)
+
+      format_("%Y%m%d_%H%M%S")
+
 {
-    yodAdjust_[yodYear] = {false, "-Y", 0};
-    yodAdjust_[yodMonth] = {false, "-O", 0};
-    yodAdjust_[yodDay] = {false, "-D", 0};
+  yodAdjust_[yodYear] = {false, "-Y", 0};
+  yodAdjust_[yodMonth] = {false, "-O", 0};
+  yodAdjust_[yodDay] = {false, "-D", 0};
 }
 
 Params& Params::instance()
@@ -126,16 +122,9 @@ Params& Params::instance()
     return ins;
 }
 
-Params::~Params()
-{
-#if defined(EXV_HAVE_REGEX_H)
-    for (size_t i = 0; i < instance().greps_.size(); ++i) {
-        regfree(&instance().greps_.at(i));
-    }
-#endif
-}
+Params::~Params() = default;
 
-void Params::version(bool verbose, std::ostream& os) const
+void Params::version(bool verbose, std::ostream& os)
 {
     os << EXV_PACKAGE_STRING << std::endl;
     if (Params::instance().greps_.empty()) {
@@ -437,15 +426,13 @@ int Params::evalGrep(const std::string& optarg)
     std::string pattern;
     std::string ignoreCase("/i");
     const bool bIgnoreCase = ends_with(optarg, ignoreCase, pattern);
-    auto flags = std::regex_constants::ECMAScript;
+    const auto flags =
+        bIgnoreCase ? (re::regex_constants::ECMAScript | re::regex_constants::icase) : re::regex_constants::ECMAScript;
 
-    if (bIgnoreCase)
-        flags |= std::regex_constants::icase;
-
-    greps_.push_back(std::regex(pattern, flags));
+    greps_.push_back(re::regex(pattern, flags));
 
     return result;
-}  // Params::evalGrep
+}
 
 int Params::evalKey(const std::string& optarg)
 {
@@ -482,7 +469,7 @@ int Params::evalRename(int opt, const std::string& optarg)
             }
             break;
         default:
-            std::cerr << progname() << ": " << _("Option") << " -" << (char)opt << " "
+            std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(opt) << " "
                       << _("is not compatible with a previous option\n");
             rc = 1;
             break;
@@ -628,8 +615,8 @@ int Params::evalPrintFlags(const std::string& optarg)
         case Action::none:
             action_ = Action::print;
             printMode_ = pmList;
-            for (std::size_t i = 0; i < optarg.length(); ++i) {
-                switch (optarg[i]) {
+            for (char i : optarg) {
+                switch (i) {
                     case 'E':
                         printTags_ |= Exiv2::mdExif;
                         break;
@@ -676,7 +663,7 @@ int Params::evalPrintFlags(const std::string& optarg)
                         printItems_ |= prSet | prValue;
                         break;
                     default:
-                        std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << optarg[i] << "'\n";
+                        std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << i << "'\n";
                         rc = 1;
                         break;
                 }
@@ -788,7 +775,7 @@ int Params::evalModify(int opt, const std::string& optarg)
                 cmdLines_.push_back(optarg);  // parse the commands later
             break;
         default:
-            std::cerr << progname() << ": " << _("Option") << " -" << (char)opt << " "
+            std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(opt) << " "
                       << _("is not compatible with a previous option\n");
             rc = 1;
             break;
@@ -905,12 +892,12 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         // if we have something in the pipe, read it
         if (select(1, &readfds, nullptr, nullptr, &timeout)) {
 #endif
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "stdin has data" << std::endl;
 #endif
             readFileToBuf(stdin, stdinBuf);
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         // this is only used to simulate reading from stdin when debugging
         // to simulate exiv2 -pX foo.jpg                | exiv2 -iXX- bar.jpg
         //             exiv2 -pX foo.jpg > ~/temp/stdin ; exiv2 -iXX- bar.jpg
@@ -924,7 +911,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
             }
         }
 #endif
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
 #endif
     }
@@ -934,7 +921,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
         buf.alloc(stdinBuf.size_);
         memcpy(buf.pData_, stdinBuf.pData_, buf.size_);
     }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size_ << std::endl;
 #endif
 
@@ -942,7 +929,7 @@ void Params::getStdin(Exiv2::DataBuf& buf)
 
 int Params::getopt(int argc, char* const Argv[])
 {
-    char** argv = new char*[argc + 1];
+    auto argv = new char*[argc + 1];
     argv[argc] = nullptr;
     std::map<std::string, std::string> longs;
 
@@ -978,7 +965,7 @@ int Params::getopt(int argc, char* const Argv[])
     longs["--years"] = "-Y";
 
     for (int i = 0; i < argc; i++) {
-        std::string* arg = new std::string(Argv[i]);
+        auto arg = new std::string(Argv[i]);
         if (longs.find(*arg) != longs.end()) {
             argv[i] = ::strdup(longs[*arg].c_str());
         } else {
@@ -1006,7 +993,7 @@ int Params::getopt(int argc, char* const Argv[])
         std::cerr << progname() << ": " << _("Modify action requires at least one -c, -m or -M option\n");
         rc = 1;
     }
-    if (0 == files_.size()) {
+    if (files_.empty()) {
         std::cerr << progname() << ": " << _("At least one file is required\n");
         rc = 1;
     }
@@ -1065,15 +1052,15 @@ namespace
     bool parseTime(const std::string& ts, long& time)
     {
         std::string hstr, mstr, sstr;
-        char* cts = new char[ts.length() + 1];
+        auto cts = new char[ts.length() + 1];
         strcpy(cts, ts.c_str());
         char* tmp = ::strtok(cts, ":");
         if (tmp)
             hstr = tmp;
-        tmp = ::strtok(0, ":");
+        tmp = ::strtok(nullptr, ":");
         if (tmp)
             mstr = tmp;
-        tmp = ::strtok(0, ":");
+        tmp = ::strtok(nullptr, ":");
         if (tmp)
             sstr = tmp;
         delete[] cts;
@@ -1091,7 +1078,7 @@ namespace
         if (hh == 0 && hstr.find('-') != std::string::npos)
             sign = -1;
         // MM part, if there is one
-        if (mstr != "") {
+        if (!mstr.empty()) {
             if (!Util::strtol(mstr.c_str(), mm))
                 return false;
             if (mm > 59)
@@ -1100,7 +1087,7 @@ namespace
                 return false;
         }
         // SS part, if there is one
-        if (sstr != "") {
+        if (!sstr.empty()) {
             if (!Util::strtol(sstr.c_str(), ss))
                 return false;
             if (ss > 59)
@@ -1255,6 +1242,11 @@ namespace
         modifyCmd.value_ = value;
 
         if (cmdId == reg) {
+            if (value.empty()) {
+                throw Exiv2::Error(Exiv2::kerErrorMessage,
+                                   Exiv2::toString(num) + ": " + _("Empty value for key") +  + " `" + key + "'");
+            }
+
             // Registration needs to be done immediately as the new namespaces are
             // looked up during parsing of subsequent lines (to validate XMP keys).
             Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
@@ -1268,7 +1260,7 @@ namespace
         for (const auto& filename: cmdFiles) {
             try {
                 std::ifstream file(filename.c_str());
-                bool bStdin = filename.compare("-") == 0;
+                bool bStdin = filename == "-";
                 if (!file && !bStdin) {
                     std::cerr << filename << ": " << _("Failed to open command file for reading\n");
                     return false;
@@ -1293,9 +1285,9 @@ namespace
     {
         try {
             int num = 0;
-            for (auto line = cmdLines.cbegin(); line != cmdLines.cend(); ++line) {
+            for (const auto& cmdLine : cmdLines) {
                 ModifyCmd modifyCmd;
-                if (parseLine(modifyCmd, *line, ++num)) {
+                if (parseLine(modifyCmd, cmdLine, ++num)) {
                     modifyCmds.push_back(modifyCmd);
                 }
             }
@@ -1312,7 +1304,10 @@ namespace
         int target = 0;
         int all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
         int extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
-        for (size_t i = 0; rc == 0 && i < optarg.size(); ++i) {
+        for (size_t i = 0; i < optarg.size(); ++i) {
+            if (rc != 0) {
+                break;
+            }
             switch (optarg[i]) {
                 case 'e':
                     target |= Params::ctExif;
@@ -1351,7 +1346,8 @@ namespace
 
                 case 'p': {
                     if (strcmp(action.c_str(), "extract") == 0) {
-                        i += (size_t)parsePreviewNumbers(Params::instance().previewNumbers_, optarg, (int)i + 1);
+                        i += static_cast<size_t>(
+                            parsePreviewNumbers(Params::instance().previewNumbers_, optarg, static_cast<int>(i) + 1));
                         target |= Params::ctPreview;
                         break;
                     }
@@ -1394,19 +1390,19 @@ namespace
         if (ret == 0) {
             previewNumbers.insert(0);
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "\nThe set now contains: ";
-        for (auto i = previewNumbers.cbegin(); i != previewNumbers.cend(); ++i) {
-            std::cout << *i << ", ";
+        for (const auto& number : reviewNumbers) {
+            std::cout << number << ", ";
         }
         std::cout << std::endl;
 #endif
-        return (int)(k - j);
+        return static_cast<int>(k - j);
     }  // parsePreviewNumbers
 
     std::string parseEscapes(const std::string& input)
     {
-        std::string result = "";
+        std::string result;
         for (unsigned int i = 0; i < input.length(); ++i) {
             char ch = input[i];
             if (ch != '\\') {
@@ -1456,9 +1452,9 @@ namespace
                             break;
                         }
 
-                        std::string ucs2toUtf8 = "";
-                        ucs2toUtf8.push_back((char)((acc & 0xff00) >> 8));
-                        ucs2toUtf8.push_back((char)(acc & 0x00ff));
+                        std::string ucs2toUtf8;
+                        ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00) >> 8));
+                        ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ff));
 
                         if (Exiv2::convertStringCharset(ucs2toUtf8, "UCS-2BE", "UTF-8")) {
                             result.append(ucs2toUtf8);
@@ -1479,15 +1475,15 @@ namespace
     int readFileToBuf(FILE* f, Exiv2::DataBuf& buf)
     {
         const int buff_size = 4 * 1028;
-        Exiv2::byte* bytes = (Exiv2::byte*)::malloc(buff_size);
+        auto bytes = static_cast<Exiv2::byte*>(::malloc(buff_size));
         int nBytes = 0;
         bool more = bytes != nullptr;
         while (more) {
             char buff[buff_size];
-            int n = (int)fread(buff, 1, buff_size, f);
+            int n = static_cast<int>(fread(buff, 1, buff_size, f));
             more = n > 0;
             if (more) {
-                bytes = (Exiv2::byte*)realloc(bytes, nBytes + n);
+                bytes = static_cast<Exiv2::byte*>(realloc(bytes, nBytes + n));
                 memcpy(bytes + nBytes, buff, n);
                 nBytes += n;
             }

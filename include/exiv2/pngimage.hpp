@@ -81,7 +81,7 @@ namespace Exiv2
         /// provided BasicIo.
         /// @throw Error on input-output errors or when the image data is not valid.
         /// @param oIo BasicIo instance to write to (a temporary location).
-        void doWriteMetadata(BasicIo& oIo);
+        void doWriteMetadata(BasicIo& outIo);
         //@}
 
         std::string profileName_;

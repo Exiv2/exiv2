@@ -73,11 +73,11 @@ namespace Exiv2 {
     static uint32_t byteSwap_(Exiv2::DataBuf& buf,size_t offset,bool bSwap)
     {
         uint32_t v;
-        char*    p = (char*) &v;
+        auto p = reinterpret_cast<char*>(&v);
         int      i;
         for ( i = 0 ; i < 4 ; i++ ) p[i] = buf.pData_[offset+i];
         uint32_t result = byteSwap_(v,bSwap);
-        p               = (char*) &result;
+        p = reinterpret_cast<char*>(&result);
         for ( i = 0 ; i < 4 ; i++ ) buf.pData_[offset+i] = p[i];
         return result;
     }
@@ -90,13 +90,13 @@ namespace Exiv2 {
         {
             if (io_->open() == 0)
             {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
 #endif
                 IoCloser closer(*io_);
                 if (io_->write(pgfBlank, sizeof(pgfBlank)) != sizeof(pgfBlank))
                 {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Exiv2::PgfImage:: Failed to create PGF image on memory\n";
 #endif
                 }
@@ -106,7 +106,7 @@ namespace Exiv2 {
 
     void PgfImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Exiv2::PgfImage::readMetadata: Reading PGF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0)
@@ -136,7 +136,7 @@ namespace Exiv2 {
 #endif
         int64 size = static_cast<int64>(headerSize) + 8 - io_->tell();
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
 #endif
 
@@ -165,7 +165,7 @@ namespace Exiv2 {
         }
         IoCloser closer(*io_);
         BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        assert (tempIo.get() != nullptr);
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
@@ -178,7 +178,7 @@ namespace Exiv2 {
         if (!io_->isopen()) throw Error(kerInputDataReadFailed);
         if (!outIo.isopen()) throw Error(kerImageWriteFailed);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage::doWriteMetadata: Writing PGF file " << io_->path() << "\n";
         std::cout << "Exiv2::PgfImage::doWriteMetadata: tmp file created " << outIo.path() << "\n";
 #endif
@@ -205,9 +205,9 @@ namespace Exiv2 {
         img->setXmpData(xmpData_);
         img->writeMetadata();
         size_t imgSize = img->io().size();
-        DataBuf imgBuf = img->io().read((long)imgSize);
+        DataBuf imgBuf = img->io().read(static_cast<long>(imgSize));
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage::doWriteMetadata: Creating image to host metadata (" << imgSize << " bytes)\n";
 #endif
 
@@ -226,7 +226,7 @@ namespace Exiv2 {
         byteSwap_(buffer,0,bSwap_);
         if (outIo.write(buffer.pData_, 4) != 4) throw Error(kerImageWriteFailed);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage: new PGF header size : " << newHeaderSize << " bytes\n";
 
         printf("%x\n", buffer.pData_[0]);
@@ -261,7 +261,7 @@ namespace Exiv2 {
         if (b < 0x36)   // 0x36 = '6'.
         {
             // Not right Magick version.
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::PgfImage::readMetadata: wrong Magick number\n";
 #endif
         }
@@ -269,24 +269,24 @@ namespace Exiv2 {
         return b;
     } // PgfImage::readPgfMagicNumber
 
-    uint32_t PgfImage::readPgfHeaderSize(BasicIo& iIo)
+    uint32_t PgfImage::readPgfHeaderSize(BasicIo& iIo) const
     {
         DataBuf buffer(4);
         size_t bufRead = iIo.read(buffer.pData_, buffer.size_);
         if (iIo.error()) throw Error(kerFailedToReadImageData);
         if (bufRead != buffer.size_) throw Error(kerInputDataReadFailed);
 
-        int headerSize = (int) byteSwap_(buffer,0,bSwap_);
+        int headerSize = static_cast<int>(byteSwap_(buffer, 0, bSwap_));
         if (headerSize <= 0 ) throw Error(kerNoImageInInputData);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PgfImage: PGF header size : " << headerSize << " bytes\n";
 #endif
 
         return headerSize;
     } // PgfImage::readPgfHeaderSize
 
-    DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int& width, int& height)
+    DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, int& width, int& height) const
     {
         DataBuf header(16);
         size_t bufRead = iIo.read(header.pData_, header.size_);

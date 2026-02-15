@@ -633,7 +633,7 @@ You must tell CMake to link Adobe's library:
 ```bash
 $ cmake .. -DEXIV2_ENABLE_EXTERNAL_XMP=On # -G "Visual Studio 15 2017 Win64" -DCMAKE_BUILD_TYPE=Release
 ```
-**MacOS-X** users should use the cmake _**Xcode**_ Generator
+**macOS** users should use the cmake _**Xcode**_ Generator
 
 ```bash
 $ cmake .. -DEXIV2_ENABLE_EXTERNAL_XMP=On -G Xcode

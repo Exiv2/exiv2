@@ -97,7 +97,7 @@ namespace Exiv2 {
 
         mimeType_ = std::string("image/tiff");
         std::string key = "Exif." + primaryGroup() + ".Compression";
-        ExifData::const_iterator md = exifData_.findKey(ExifKey(key));
+        auto md = exifData_.findKey(ExifKey(key));
         if (md != exifData_.end() && md->count() > 0) {
             const MimeTypeList* i = find(mimeTypeList, static_cast<int>(md->toLong()));
             if (i) mimeType_ = std::string(i->mimeType_);
@@ -123,14 +123,15 @@ namespace Exiv2 {
         };
         // Find the group of the primary image, default to "Image"
         primaryGroup_ = std::string("Image");
-        for (unsigned int i = 0; i < EXV_COUNTOF(keys); ++i) {
-            ExifData::const_iterator md = exifData_.findKey(ExifKey(keys[i]));
+        for (auto& i : keys) {
+            auto md = exifData_.findKey(ExifKey(i));
             // Is it the primary image?
             if (md != exifData_.end() && md->count() > 0 && md->toLong() == 0) {
                 // Sometimes there is a JPEG primary image; that's not our first choice
                 primaryGroup_ = md->groupName();
                 std::string key = "Exif." + primaryGroup_ + ".JPEGInterchangeFormat";
-                if (exifData_.findKey(ExifKey(key)) == exifData_.end()) break;
+                if (exifData_.findKey(ExifKey(key)) == exifData_.end())
+                    break;
             }
         }
         return primaryGroup_;
@@ -141,7 +142,7 @@ namespace Exiv2 {
         if (pixelWidth_ != 0) return pixelWidth_;
 
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageWidth"));
-        ExifData::const_iterator imageWidth = exifData_.findKey(key);
+        auto imageWidth = exifData_.findKey(key);
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             pixelWidth_ = static_cast<int>(imageWidth->toLong());
         }
@@ -153,7 +154,7 @@ namespace Exiv2 {
         if (pixelHeight_ != 0) return pixelHeight_;
 
         ExifKey key(std::string("Exif.") + primaryGroup() + std::string(".ImageLength"));
-        ExifData::const_iterator imageHeight = exifData_.findKey(key);
+        auto imageHeight = exifData_.findKey(key);
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             pixelHeight_ = imageHeight->toLong();
         }
@@ -168,7 +169,7 @@ namespace Exiv2 {
 
     void TiffImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading TIFF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -184,16 +185,13 @@ namespace Exiv2 {
         }
         clearMetadata();
 
-        ByteOrder bo = TiffParser::decode(exifData_,
-                                          iptcData_,
-                                          xmpData_,
-                                          io_->mmap(),
-                                          (uint32_t) io_->size());
+        ByteOrder bo =
+            TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
         setByteOrder(bo);
 
         // read profile from the metadata
         Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
-        Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
+        auto pos = exifData_.findKey(key);
         if ( pos != exifData_.end() ) {
             const size_t size = pos->count() * pos->typeSize();
             if (size == 0) {
@@ -207,18 +205,18 @@ namespace Exiv2 {
 
     void TiffImage::writeMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Writing TIFF file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
-        byte* pData = 0;
+        byte* pData = nullptr;
         long size = 0;
         IoCloser closer(*io_);
         if (io_->open() == 0) {
             // Ensure that this is the correct image type
             if (isTiffType(*io_, false)) {
                 pData = io_->mmap(true);
-                size = (long) io_->size();
+                size = static_cast<long>(io_->size());
                 TiffHeader tiffHeader;
                 if (0 == tiffHeader.read(pData, 8)) {
                     bo = tiffHeader.byteOrder();
@@ -232,10 +230,10 @@ namespace Exiv2 {
 
         // fixup ICC profile
         Exiv2::ExifKey            key("Exif.Image.InterColorProfile");
-        Exiv2::ExifData::iterator pos   = exifData_.findKey(key);
+        auto pos = exifData_.findKey(key);
         bool                      found = pos != exifData_.end();
         if ( iccProfileDefined() ) {
-            Exiv2::DataValue value(iccProfile_.pData_, (long)iccProfile_.size_);
+            Exiv2::DataValue value(iccProfile_.pData_, static_cast<long>(iccProfile_.size_));
             if (found)
                 pos->setValue(&value);
             else
@@ -282,27 +280,16 @@ namespace Exiv2 {
         static const IfdId filteredIfds[] = {
             panaRawId
         };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+        for (auto filteredIfd : filteredIfds) {
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
-            ed.erase(std::remove_if(ed.begin(),
-                                    ed.end(),
-                                    FindExifdatum(filteredIfds[i])),
-                     ed.end());
+            ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
         }
 
         std::unique_ptr<TiffHeaderBase> header(new TiffHeader(byteOrder));
-        return TiffParserWorker::encode(io,
-                                        pData,
-                                        size,
-                                        ed,
-                                        iptcData,
-                                        xmpData,
-                                        Tag::root,
-                                        TiffMapping::findEncoder,
-                                        header.get(),
-                                        0);
+        return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder,
+                                        header.get(), nullptr);
     } // TiffParser::encode
 
     // *************************************************************************
@@ -337,14 +324,15 @@ namespace Exiv2 {
         if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
         // Ensure that this is the correct image type
         if ( imageType() == ImageType::none )
-        if (!isTiffType(*io_, false)) {
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
-            throw Error(kerNotAJpeg);
-        }
+            if (!isTiffType(*io_, false)) {
+                if (io_->error() || io_->eof())
+                    throw Error(kerFailedToReadImageData);
+                throw Error(kerNotAJpeg);
+            }
 
         io_->seek(0,BasicIo::beg);
 
         printTiffStructure(io(),out,option,depth-1);
     }
 
-}                                       // namespace Exiv2
+}  // namespace Exiv2

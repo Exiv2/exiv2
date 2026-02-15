@@ -29,6 +29,9 @@
 
 int _tmain(int argc, _tchar* const argv[])
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     const _tchar* prog = argv[0];
     const _tchar* file = argv[1];
 
@@ -41,7 +44,8 @@ try {
         exv_grep_keys_t keys;
         Exiv2::dumpLibraryInfo(std::cout,keys);
         return 0;
-    } else if ( _tstrcmp(file,_t("--version-test")) == 0 ) {
+    }
+    if (_tstrcmp(file, _t("--version-test")) == 0) {
         // verifies/test macro EXIV2_TEST_VERSION
         // described in include/exiv2/version.hpp
         std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION             << std::endl
@@ -68,7 +72,7 @@ try {
     }
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    assert(image.get() != nullptr);
     image->readMetadata();
 
     Exiv2::ExifData &exifData = image->exifData();
@@ -77,8 +81,8 @@ try {
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
 
-    Exiv2::ExifData::const_iterator end = exifData.end();
-    for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != end; ++i) {
+    auto end = exifData.end();
+    for (auto i = exifData.begin(); i != end; ++i) {
         const char* tn = i->typeName();
         std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << i->key() << " "

@@ -25,6 +25,8 @@
   @date    11-March-18, D4N: created
  */
 
+#pragma once
+
 #include <string>
 
 #include "error.hpp"

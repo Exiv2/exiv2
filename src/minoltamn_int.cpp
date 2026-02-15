@@ -28,21 +28,20 @@
 // *****************************************************************************
 // included header files
 #include "minoltamn_int.hpp"
-#include "tags_int.hpp"
-#include "makernote_int.hpp"
-#include "value.hpp"
-#include "exif.hpp"
-#include "i18n.h"                // NLS support.
-#include "datasets.hpp"
 
-#include <string>
-#include <sstream>
-#include <iomanip>
 #include <cassert>
+#include <cstdio>  // popen to call exiftool
 #include <cstring>
+#include <iomanip>
+#include <sstream>
+#include <string>
 
-#include <stdio.h> // popen to call exiftool
-#include <string.h>
+#include "datasets.hpp"
+#include "exif.hpp"
+#include "i18n.h"  // NLS support.
+#include "makernote_int.hpp"
+#include "tags_int.hpp"
+#include "value.hpp"
 
 // *****************************************************************************
 // class member definitions
@@ -1984,7 +1983,7 @@ namespace Exiv2 {
     {
         long result = -1;
         if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
-            result = (long) metadata->findKey(ExifKey(key))->toFloat(which);
+            result = static_cast<long>(metadata->findKey(ExifKey(key))->toFloat(which));
         }
         return result;
     }
@@ -2499,4 +2498,5 @@ namespace Exiv2 {
         return os;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

@@ -35,11 +35,12 @@
 #include "types.hpp"
 
 // + standard includes
-#include <map>
-#include <iomanip>
-#include <memory>
-#include <cstring>
 #include <climits>
+#include <cstring>
+#include <iomanip>
+#include <map>
+#include <memory>
+#include <numeric>
 
 // *****************************************************************************
 // namespace extensions
@@ -59,7 +60,7 @@ namespace Exiv2 {
     class EXIV2API Value {
     public:
         //! Shortcut for a %Value auto pointer.
-        typedef std::unique_ptr<Value> UniquePtr;
+        using UniquePtr = std::unique_ptr<Value>;
 
         //! @name Creators
         //@{
@@ -68,6 +69,7 @@ namespace Exiv2 {
         //! Virtual destructor.
         virtual ~Value();
         //@}
+        Value(const Value& val) = default;
         //! @name Manipulators
         //@{
         /*!
@@ -261,13 +263,13 @@ namespace Exiv2 {
     class EXIV2API DataValue : public Value {
     public:
         //! Shortcut for a %DataValue auto pointer.
-        typedef std::unique_ptr<DataValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<DataValue>;
 
         explicit DataValue(TypeId typeId =undefined);
 
         DataValue(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder, TypeId typeId = undefined);
 
-        virtual ~DataValue();
+        ~DataValue() override;
 
         //! @name Manipulators
         //@{
@@ -325,7 +327,7 @@ namespace Exiv2 {
         DataValue* clone_() const override;
 
         //! Type used to store the data.
-        typedef std::vector<byte> ValueType;
+        using ValueType = std::vector<byte>;
         // DATA
         ValueType value_;                       //!< Stores the data value
 
@@ -340,7 +342,7 @@ namespace Exiv2 {
     class EXIV2API StringValueBase : public Value {
     public:
         //! Shortcut for a %StringValueBase auto pointer.
-        typedef std::unique_ptr<StringValueBase> UniquePtr;
+        using UniquePtr = std::unique_ptr<StringValueBase>;
 
         //! @name Creators
         //@{
@@ -351,7 +353,7 @@ namespace Exiv2 {
         //! Copy constructor
         StringValueBase(const StringValueBase& rhs);
         //! Virtual destructor.
-        virtual ~StringValueBase();
+        ~StringValueBase() override;
         //@}
 
         //! @name Manipulators
@@ -422,7 +424,7 @@ namespace Exiv2 {
     class EXIV2API StringValue : public StringValueBase {
     public:
         //! Shortcut for a %StringValue auto pointer.
-        typedef std::unique_ptr<StringValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<StringValue>;
 
         //! @name Creators
         //@{
@@ -431,7 +433,7 @@ namespace Exiv2 {
         //! Constructor
         explicit StringValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~StringValue();
+        ~StringValue() override;
         //@}
 
         //! @name Accessors
@@ -454,7 +456,7 @@ namespace Exiv2 {
     class EXIV2API AsciiValue : public StringValueBase {
     public:
         //! Shortcut for a %AsciiValue auto pointer.
-        typedef std::unique_ptr<AsciiValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<AsciiValue>;
 
         //! @name Creators
         //@{
@@ -463,7 +465,7 @@ namespace Exiv2 {
         //! Constructor
         explicit AsciiValue(const std::string& buf);
         //! Virtual destructor.
-        virtual ~AsciiValue();
+        ~AsciiValue() override;
         //@}
 
         //! @name Manipulators
@@ -548,7 +550,7 @@ namespace Exiv2 {
         }; // class CharsetInfo
 
         //! Shortcut for a %CommentValue auto pointer.
-        typedef std::unique_ptr<CommentValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<CommentValue>;
 
         //! @name Creators
         //@{
@@ -606,7 +608,7 @@ namespace Exiv2 {
 
           @return A string containing the comment converted to UTF-8.
          */
-        std::string comment(const char* encoding =0) const;
+        std::string comment(const char* encoding =nullptr) const;
         /*!
           @brief Determine the character encoding that was used to encode the
               UNICODE comment value as an iconv(3) name.
@@ -627,7 +629,8 @@ namespace Exiv2 {
 
     public:
         // DATA
-        ByteOrder byteOrder_;      //!< Byte order of the comment string that was read
+      ByteOrder byteOrder_{
+          littleEndian}; //!< Byte order of the comment string that was read
 
     }; // class CommentValue
 
@@ -637,7 +640,7 @@ namespace Exiv2 {
     class EXIV2API XmpValue : public Value {
     public:
         //! Shortcut for a %XmpValue auto pointer.
-        typedef std::unique_ptr<XmpValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<XmpValue>;
 
         //! XMP array types.
         enum XmpArrayType { xaNone, xaAlt, xaBag, xaSeq };
@@ -647,6 +650,7 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         explicit XmpValue(TypeId typeId);
+        explicit XmpValue(const XmpValue&) = default;
         //@}
 
         //! @name Accessors
@@ -729,7 +733,7 @@ namespace Exiv2 {
     class EXIV2API XmpTextValue : public XmpValue {
     public:
         //! Shortcut for a %XmpTextValue auto pointer.
-        typedef std::unique_ptr<XmpTextValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<XmpTextValue>;
 
         //! @name Creators
         //@{
@@ -802,7 +806,7 @@ namespace Exiv2 {
     class EXIV2API XmpArrayValue : public XmpValue {
     public:
         //! Shortcut for a %XmpArrayValue auto pointer.
-        typedef std::unique_ptr<XmpArrayValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<XmpArrayValue>;
 
         //! @name Creators
         //@{
@@ -893,7 +897,7 @@ namespace Exiv2 {
     class EXIV2API LangAltValue : public XmpValue {
     public:
         //! Shortcut for a %LangAltValue auto pointer.
-        typedef std::unique_ptr<LangAltValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<LangAltValue>;
 
         //! @name Creators
         //@{
@@ -961,7 +965,7 @@ namespace Exiv2 {
 
     public:
         //! Type used to store language alternative arrays.
-        typedef std::map<std::string, std::string,LangAltValueComparator>  ValueType;
+        using ValueType = std::map<std::string, std::string, LangAltValueComparator>;
         // DATA
         /*!
           @brief Map to store the language alternative values. The language
@@ -980,7 +984,7 @@ namespace Exiv2 {
     class EXIV2API DateValue : public Value {
     public:
         //! Shortcut for a %DateValue auto pointer.
-        typedef std::unique_ptr<DateValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<DateValue>;
 
         //! @name Creators
         //@{
@@ -989,15 +993,15 @@ namespace Exiv2 {
         //! Constructor
         DateValue(int year, int month, int day);
         //! Virtual destructor.
-        virtual ~DateValue();
+        ~DateValue() override;
         //@}
 
         //! Simple Date helper structure
         struct EXIV2API Date {
-            Date() : year(0), month(0), day(0) {}
-            int year;                           //!< Year
-            int month;                          //!< Month
-            int day;                            //!< Day
+          Date() = default;
+          int year{0};  //!< Year
+          int month{0}; //!< Month
+          int day{0};   //!< Day
         };
 
         //! @name Manipulators
@@ -1085,7 +1089,7 @@ namespace Exiv2 {
     class EXIV2API TimeValue : public Value {
     public:
         //! Shortcut for a %TimeValue auto pointer.
-        typedef std::unique_ptr<TimeValue> UniquePtr;
+        using UniquePtr = std::unique_ptr<TimeValue>;
 
         //! @name Creators
         //@{
@@ -1096,19 +1100,19 @@ namespace Exiv2 {
                   int tzHour =0, int tzMinute =0);
 
         //! Virtual destructor.
-        virtual ~TimeValue();
+        ~TimeValue() override;
         //@}
 
         //! Simple Time helper structure
         struct Time
         {
-            Time() : hour(0), minute(0), second(0), tzHour(0), tzMinute(0) {}
+          Time() = default;
 
-            int hour;                           //!< Hour
-            int minute;                         //!< Minute
-            int second;                         //!< Second
-            int tzHour;                         //!< Hours ahead or behind UTC
-            int tzMinute;                       //!< Minutes ahead or behind UTC
+          int hour{0};     //!< Hour
+          int minute{0};   //!< Minute
+          int second{0};   //!< Second
+          int tzHour{0};   //!< Hours ahead or behind UTC
+          int tzMinute{0}; //!< Minutes ahead or behind UTC
         };
 
         //! @name Manipulators
@@ -1244,7 +1248,7 @@ namespace Exiv2 {
     class ValueType : public Value {
     public:
         //! Shortcut for a %ValueType\<T\> auto pointer.
-        typedef std::unique_ptr<ValueType<T> > UniquePtr;
+        using UniquePtr = std::unique_ptr<ValueType<T>>;
 
         //! @name Creators
         //@{
@@ -1260,7 +1264,7 @@ namespace Exiv2 {
         //! Copy constructor
         ValueType(const ValueType<T>& rhs);
         //! Virtual destructor.
-        virtual ~ValueType();
+        ~ValueType() override;
         //@}
 
         //! @name Manipulators
@@ -1309,11 +1313,11 @@ namespace Exiv2 {
         //@}
 
         //! Container for values
-        typedef std::vector<T> ValueList;
+        using ValueList = std::vector<T>;
         //! Iterator type defined for convenience.
-        typedef typename std::vector<T>::iterator iterator;
+        using iterator = typename std::vector<T>::iterator;
         //! Const iterator type defined for convenience.
-        typedef typename std::vector<T>::const_iterator const_iterator;
+        using const_iterator = typename std::vector<T>::const_iterator;
 
         // DATA
         /*!
@@ -1330,30 +1334,30 @@ namespace Exiv2 {
 
         // DATA
         //! Pointer to the buffer, 0 if none has been allocated
-        byte* pDataArea_;
+        byte *pDataArea_{nullptr};
         //! The current size of the buffer
-        size_t sizeDataArea_;
+        size_t sizeDataArea_{0};
     }; // class ValueType
 
     //! Unsigned short value type
-    typedef ValueType<uint16_t> UShortValue;
+    using UShortValue = ValueType<uint16_t>;
     //! Unsigned long value type
-    typedef ValueType<uint32_t> ULongValue;
+    using ULongValue = ValueType<uint32_t>;
     //! Unsigned rational value type
-    typedef ValueType<URational> URationalValue;
+    using URationalValue = ValueType<URational>;
     //! Signed short value type
-    typedef ValueType<int16_t> ShortValue;
+    using ShortValue = ValueType<int16_t>;
     //! Signed long value type
-    typedef ValueType<int32_t> LongValue;
+    using LongValue = ValueType<int32_t>;
     //! Signed rational value type
-    typedef ValueType<Rational> RationalValue;
+    using RationalValue = ValueType<Rational>;
     //! Float value type
-    typedef ValueType<float> FloatValue;
+    using FloatValue = ValueType<float>;
     //! Double value type
-    typedef ValueType<double> DoubleValue;
+    using DoubleValue = ValueType<double>;
 
-// *****************************************************************************
-// free functions, template and inline definitions
+    // *****************************************************************************
+    // free functions, template and inline definitions
 
     /*!
       @brief Read a value of type T from the data buffer.
@@ -1502,35 +1506,31 @@ namespace Exiv2 {
         return d2Data(buf, t, byteOrder);
     }
 
-    template<typename T>
-    ValueType<T>::ValueType()
-        : Value(getType<T>()), pDataArea_(0), sizeDataArea_(0)
-    {
-    }
+    template <typename T> ValueType<T>::ValueType() : Value(getType<T>()) {}
 
     template<typename T>
     ValueType<T>::ValueType(TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
     }
 
     template<typename T>
     ValueType<T>::ValueType(const byte* buf, long len, ByteOrder byteOrder, TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
         read(buf, len, byteOrder);
     }
 
     template<typename T>
     ValueType<T>::ValueType(const T& val, TypeId typeId)
-        : Value(typeId), pDataArea_(0), sizeDataArea_(0)
+        : Value(typeId), pDataArea_(nullptr), sizeDataArea_(0)
     {
         value_.push_back(val);
     }
 
     template<typename T>
     ValueType<T>::ValueType(const ValueType<T>& rhs)
-        : Value(rhs), value_(rhs.value_), pDataArea_(0), sizeDataArea_(0)
+        : Value(rhs), value_(rhs.value_), pDataArea_(nullptr), sizeDataArea_(0)
     {
         if (rhs.sizeDataArea_ > 0) {
             pDataArea_ = new byte[rhs.sizeDataArea_];
@@ -1552,7 +1552,7 @@ namespace Exiv2 {
         Value::operator=(rhs);
         value_ = rhs.value_;
 
-        byte* tmp = 0;
+        byte* tmp = nullptr;
         if (rhs.sizeDataArea_ > 0) {
             tmp = new byte[rhs.sizeDataArea_];
             std::memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_);
@@ -1595,12 +1595,8 @@ namespace Exiv2 {
     template<typename T>
     long ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const
     {
-        long offset = 0;
-        typename ValueList::const_iterator end = value_.end();
-        for (typename ValueList::const_iterator i = value_.begin(); i != end; ++i) {
-            offset += toData(buf + offset, *i, byteOrder);
-        }
-        return offset;
+        return std::accumulate(value_.begin(), value_.end(), 0,
+                               [=](long offset, T val) { return offset + toData(buf + offset, val, byteOrder); });
     }
 
     template<typename T>
@@ -1624,8 +1620,8 @@ namespace Exiv2 {
     template<typename T>
     std::ostream& ValueType<T>::write(std::ostream& os) const
     {
-        typename ValueList::const_iterator end = value_.end();
-        typename ValueList::const_iterator i = value_.begin();
+        const auto end = value_.end();
+        auto i = value_.begin();
         while (i != end) {
             os << std::setprecision(15) << *i;
             if (++i != end) os << " ";
@@ -1677,7 +1673,8 @@ namespace Exiv2 {
     inline float ValueType<Rational>::toFloat(long n) const
     {
         ok_ = (value_[n].second != 0);
-        if (!ok_) return 0.0f;
+        if (!ok_)
+            return 0.0F;
         return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Specialization for unsigned rational
@@ -1685,7 +1682,8 @@ namespace Exiv2 {
     inline float ValueType<URational>::toFloat(long n) const
     {
         ok_ = (value_[n].second != 0);
-        if (!ok_) return 0.0f;
+        if (!ok_)
+            return 0.0F;
         return static_cast<float>(value_[n].first) / value_[n].second;
     }
     // Default implementation
@@ -1693,21 +1691,21 @@ namespace Exiv2 {
     Rational ValueType<T>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return {value_[n], 1};
     }
     // Specialization for rational
     template<>
     inline Rational ValueType<Rational>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n].first, value_[n].second);
+        return {value_[n].first, value_[n].second};
     }
     // Specialization for unsigned rational
     template<>
     inline Rational ValueType<URational>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n].first, value_[n].second);
+        return {value_[n].first, value_[n].second};
     }
     // Specialization for float.
     template<>
@@ -1741,7 +1739,7 @@ namespace Exiv2 {
     template<typename T>
     int ValueType<T>::setDataArea(const byte* buf, size_t len)
     {
-        byte* tmp = 0;
+        byte* tmp = nullptr;
         if (len > 0) {
             tmp = new byte[len];
             std::memcpy(tmp, buf, len);

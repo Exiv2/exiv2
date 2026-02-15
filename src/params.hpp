@@ -27,8 +27,8 @@
 #pragma once
 
 // *****************************************************************************
-// included header files
-#include <exiv2/exiv2.hpp>
+//#include <exiv2/exiv2.hpp>
+#include <exiv2/version.hpp>
 
 #include "getopt.hpp"
 #include "types.hpp"
@@ -42,23 +42,6 @@
 
 #ifdef EXV_HAVE_UNISTD_H
 #include <unistd.h>
-#endif
-
-// stdin handler includes
-#ifndef _MSC_VER
-#include <stdio.h>
-#include <string.h>
-#include <cstdlib>
-#if defined(__CYGWIN__) || defined(__MINGW__)
-#include <windows.h>
-#else
-#include <sys/select.h>
-#endif
-#endif
-
-#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
-#include <fcntl.h>
-#include <io.h>
 #endif
 
 // *****************************************************************************
@@ -89,20 +72,17 @@ enum MetadataId
 struct ModifyCmd
 {
     //! C'tor
-    ModifyCmd()
-        : cmdId_(invalidCmdId), metadataId_(invalidMetadataId), typeId_(Exiv2::invalidTypeId), explicitType_(false)
-    {
-    }
-    CmdId cmdId_;            //!< Command identifier
+    ModifyCmd() = default;
+    CmdId cmdId_{invalidCmdId}; //!< Command identifier
     std::string key_;        //!< Exiv2 key string
-    MetadataId metadataId_;  //!< Metadata identifier
-    Exiv2::TypeId typeId_;   //!< Exiv2 type identifier
+    MetadataId metadataId_{invalidMetadataId};   //!< Metadata identifier
+    Exiv2::TypeId typeId_{Exiv2::invalidTypeId}; //!< Exiv2 type identifier
     //! Flag to indicate if the type was explicitly specified (true)
-    bool explicitType_;
+    bool explicitType_{false};
     std::string value_;  //!< Data
 };
 //! Container for modification commands
-typedef std::vector<ModifyCmd> ModifyCmds;
+using ModifyCmds = std::vector<ModifyCmd>;
 //! Structure to link command identifiers to strings
 struct CmdIdAndString
 {
@@ -154,17 +134,17 @@ public:
     Params(const Params&& rhs) = delete;
 
     //! Container for command files
-    typedef std::vector<std::string> CmdFiles;
+    using CmdFiles = std::vector<std::string>;
     //! Container for commands from the command line
-    typedef std::vector<std::string> CmdLines;
+    using CmdLines = std::vector<std::string>;
     //! Container to store filenames.
-    typedef std::vector<std::string> Files;
+    using Files = std::vector<std::string>;
     //! Container for preview image numbers
-    typedef std::set<int> PreviewNumbers;
+    using PreviewNumbers = std::set<int>;
     //! Container for greps
-    typedef exv_grep_keys_t Greps;
+    using Greps = exv_grep_keys_t;
     //! Container for keys
-    typedef std::vector<std::string> Keys;
+    using Keys = std::vector<std::string>;
 
     /*!
       @brief Controls all access to the global Params instance.
@@ -267,7 +247,7 @@ public:
     void help(std::ostream& os = std::cout) const;
 
     //! Print version information to an output stream.
-    void version(bool verbose = false, std::ostream& os = std::cout) const;
+    static void version(bool verbose = false, std::ostream& os = std::cout);
 
     //! getStdin binary data read from stdin to DataBuf
     /*
@@ -284,7 +264,7 @@ private:
     Params();
 
     //! Destructor, frees any allocated regexes in greps_
-    ~Params();
+    ~Params() override;
 
     //! @name Helpers
     //@{
@@ -303,31 +283,33 @@ private:
     //@}
 
     std::string optstring_;
-    bool first_;
+    bool first_{true};
 
-public:
-    bool help_;                          //!< Help option flag.
-    bool version_;                       //!< Version option flag.
-    bool verbose_;                       //!< Verbose (talkative) option flag.
-    bool force_;                         //!< Force overwrites flag.
-    bool binary_;                        //!< Suppress long binary values.
-    bool unknown_;                       //!< Suppress unknown tags.
-    bool preserve_;                      //!< Preserve timestamps flag.
-    bool timestamp_;                     //!< Rename also sets the file timestamp.
-    bool timestampOnly_;                 //!< Rename only sets the file timestamp.
-    FileExistsPolicy fileExistsPolicy_;  //!< What to do if file to rename exists.
-    bool adjust_;                        //!< Adjustment flag.
-    PrintMode printMode_;                //!< Print mode.
-    unsigned long printItems_;           //!< Print items.
-    unsigned long printTags_;            //!< Print tags (bitmap of MetadataId flags).
+  public:
+    bool help_{false};          //!< Help option flag.
+    bool version_{false};       //!< Version option flag.
+    bool verbose_{false};       //!< Verbose (talkative) option flag.
+    bool force_{false};         //!< Force overwrites flag.
+    bool binary_{true};         //!< Suppress long binary values.
+    bool unknown_{true};        //!< Suppress unknown tags.
+    bool preserve_{false};      //!< Preserve timestamps flag.
+    bool timestamp_{false};     //!< Rename also sets the file timestamp.
+    bool timestampOnly_{false}; //!< Rename only sets the file timestamp.
+    FileExistsPolicy fileExistsPolicy_{
+        askPolicy};                  //!< What to do if file to rename exists.
+    bool adjust_{false};             //!< Adjustment flag.
+    PrintMode printMode_{pmSummary}; //!< Print mode.
+    unsigned long printItems_{0};    //!< Print items.
+    unsigned long printTags_{
+        Exiv2::mdNone}; //!< Print tags (bitmap of MetadataId flags).
     //! %Action (integer rather than TaskType to avoid dependency).
-    int action_;
+    int action_{0};
     int target_;                         //!< What common target to process.
 
-    long adjustment_;                    //!< Adjustment in seconds.
+    long adjustment_{0};                 //!< Adjustment in seconds.
     YodAdjust yodAdjust_[3];             //!< Year, month and day adjustment info.
     std::string format_;                 //!< Filename format (-r option arg).
-    bool formatSet_;                     //!< Whether the format is set with -r
+    bool formatSet_{false};              //!< Whether the format is set with -r
     CmdFiles cmdFiles_;                  //!< Names of the modification command files
     CmdLines cmdLines_;                  //!< Commands from the command line
     ModifyCmds modifyCmds_;              //!< Parsed modification commands

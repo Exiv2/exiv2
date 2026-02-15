@@ -166,7 +166,7 @@ namespace Exiv2 {
         //@{
         //! Constructor, taking \em tag and \em group of the component to find.
         TiffFinder(uint16_t tag, IfdId group)
-            : tag_(tag), group_(group), tiffComponent_(0) {}
+            : tag_(tag), group_(group), tiffComponent_(nullptr) {}
         //! Virtual destructor
         ~TiffFinder() override;
         //@}
@@ -331,6 +331,8 @@ namespace Exiv2 {
         void decodeIptc(const TiffEntryBase* object);
         //! Decode XMP packet from an XMLPacket tag
         void decodeXmp(const TiffEntryBase* object);
+        //! Decode Exif.Canon.AFInfo
+        void decodeCanonAFInfo(const TiffEntryBase* object);
         //@}
 
     private:
@@ -387,16 +389,9 @@ namespace Exiv2 {
                  to, the image with the metadata to encode and a function to
                  find special encoders.
          */
-        TiffEncoder(
-            const ExifData&      exifData,
-            const IptcData&      iptcData,
-            const XmpData&       xmpData,
-                  TiffComponent* pRoot,
-            const bool           isNewImage,
-            const PrimaryGroups* pPrimaryGroups,
-            const TiffHeaderBase* pHeader,
-                  FindEncoderFct findEncoderFct
-        );
+        TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpData& xmpData, TiffComponent* pRoot,
+                    const bool isNewImage, const PrimaryGroups* pPrimaryGroups, const TiffHeaderBase* pHeader,
+                    FindEncoderFct findEncoderFct);
         //! Virtual destructor
         ~TiffEncoder() override;
         //@}
@@ -449,10 +444,7 @@ namespace Exiv2 {
 
           @note Encoder functions may use metadata other than \em datum.
          */
-        void encodeTiffComponent(
-                  TiffEntryBase* object,
-            const Exifdatum*     datum =0
-        );
+        void encodeTiffComponent(TiffEntryBase* object, const Exifdatum* datum = nullptr);
 
         //! Callback encoder function for an element of a binary array.
         void encodeBinaryElement(TiffBinaryElement* object, const Exifdatum* datum);
@@ -493,13 +485,9 @@ namespace Exiv2 {
           tree is then traversed and metadata from the image is used to encode
           each existing component.
         */
-        void add(
-            TiffComponent* pRootDir,
-            TiffComponent* pSourceDir,
-            uint32_t       root
-        );
+        void add(TiffComponent* pRootDir, TiffComponent* pSourceDir, uint32_t root);
         //! Set the dirty flag and end of traversing signal.
-        void setDirty(bool flag =true);
+        void setDirty(bool flag = true);
         //@}
 
         //! @name Accessors
@@ -508,14 +496,20 @@ namespace Exiv2 {
           @brief Return the applicable byte order. May be different for
                  the Makernote and the rest of the TIFF entries.
          */
-        ByteOrder byteOrder() const { return byteOrder_; }
+        ByteOrder byteOrder() const
+        {
+            return byteOrder_;
+        }
         /*!
           @brief True if any tag was deleted or allocated in the process of
                  visiting a TIFF composite tree.
          */
         bool dirty() const;
         //! Return the write method used.
-        WriteMethod writeMethod() const { return writeMethod_; }
+        WriteMethod writeMethod() const
+        {
+            return writeMethod_;
+        }
         //@}
 
     private:
@@ -541,9 +535,7 @@ namespace Exiv2 {
                  entries are encoded. It takes care of type and count changes
                  and size shrinkage for non-intrusive writing.
          */
-        uint32_t updateDirEntry(byte* buf,
-                                ByteOrder byteOrder,
-                                TiffComponent* pTiffComponent) const;
+        static uint32_t updateDirEntry(byte* buf, ByteOrder byteOrder, TiffComponent* pTiffComponent);
         /*!
           @brief Check if the tag is an image tag of an existing image. Such
                  tags are copied from the original image and can't be modifed.
@@ -678,7 +670,7 @@ namespace Exiv2 {
           Uses the \em state passed in, if any, and remembers it for use during
           subsequent calls without any argument.
          */
-        void setMnState(const TiffRwState* state =0);
+        void setMnState(const TiffRwState* state =nullptr);
         //! Set the state to the original state as set in the constructor.
         void setOrigState();
         //! Check IFD directory pointer \em start for circular reference
@@ -707,9 +699,9 @@ namespace Exiv2 {
         //@}
 
     private:
-        typedef std::map<const byte*, IfdId> DirList;
-        typedef std::map<uint16_t, int> IdxSeq;
-        typedef std::vector<TiffComponent*> PostList;
+        using DirList = std::map<const byte*, IfdId>;
+        using IdxSeq = std::map<uint16_t, int>;
+        using PostList = std::vector<TiffComponent*>;
 
         // DATA
         const byte*          pData_;      //!< Pointer to the memory buffer
@@ -725,4 +717,5 @@ namespace Exiv2 {
         bool                 postProc_;   //!< True in postProcessList()
     }; // class TiffReader
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

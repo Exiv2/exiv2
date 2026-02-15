@@ -1161,13 +1161,11 @@ namespace Exiv2 {
     {
         if ( ! metadata ) return os << "undefined" ;
 
-        ExifData::const_iterator dateIt = metadata->findKey(
-                ExifKey("Exif.PentaxDng.Date"));
+        auto dateIt = metadata->findKey(ExifKey("Exif.PentaxDng.Date"));
         if (dateIt == metadata->end()) {
             dateIt = metadata->findKey(ExifKey("Exif.Pentax.Date"));
         }
-        ExifData::const_iterator timeIt = metadata->findKey(
-                ExifKey("Exif.PentaxDng.Time"));
+        auto timeIt = metadata->findKey(ExifKey("Exif.PentaxDng.Time"));
         if (timeIt == metadata->end()) {
             timeIt = metadata->findKey(ExifKey("Exif.Pentax.Time"));
         }
@@ -1209,7 +1207,7 @@ namespace Exiv2 {
     {
         long result = -1;
         if ( metadata->findKey(ExifKey(key)) != metadata->end() ) {
-            result = (long) metadata->findKey(ExifKey(key))->toFloat(0);
+            result = static_cast<long>(metadata->findKey(ExifKey(key))->toFloat(0));
         }
         return result;
     }
@@ -1250,10 +1248,9 @@ namespace Exiv2 {
             unsigned long index  = 0;
 
             // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
-                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
-                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
-                                                    ;
+            const auto lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+                                      ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
+                                      : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
             if ( lensInfo == metadata->end() ) return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
             if ( lensInfo->count() < 5       ) return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
 
@@ -1308,10 +1305,9 @@ namespace Exiv2 {
         try {
             unsigned long index  = 0;
 
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
-                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
-                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
-                                                    ;
+            const auto lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+                                      ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
+                                      : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
                 if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
@@ -1336,10 +1332,9 @@ namespace Exiv2 {
         try {
             unsigned long index  = 0;
 
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
-                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
-                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
-                                                    ;
+            const auto lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
+                                      ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
+                                      : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
                 if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
@@ -1697,4 +1692,5 @@ namespace Exiv2 {
         return tagInfo_;
     }
 
-}}                                       // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

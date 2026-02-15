@@ -39,7 +39,10 @@ void exifPrint(const ExifData& exifData);
 // Main
 int main(int argc, char* const argv[])
 {
-try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
+    try {
 
     if (argc != 3) {
         std::cout << "Usage: write-test file case\n\n"
@@ -162,7 +165,7 @@ void testCase(const std::string& file1,
 
     //Open first image
     Image::UniquePtr image1 = ImageFactory::open(file1);
-    assert(image1.get() != 0);
+    assert(image1.get() != nullptr);
 
     // Load existing metadata
     std::cerr << "---> Reading file " << file1 << "\n";
@@ -170,7 +173,7 @@ void testCase(const std::string& file1,
 
     Exiv2::ExifData &ed1 = image1->exifData();
     std::cerr << "---> Modifying Exif data\n";
-    Exiv2::ExifData::iterator pos = ed1.findKey(ek);
+    auto pos = ed1.findKey(ek);
     if (pos == ed1.end()) {
         throw Error(kerErrorMessage, "Metadatum with key = " + ek.key() + " not found");
     }
@@ -178,7 +181,7 @@ void testCase(const std::string& file1,
 
     // Open second image
     Image::UniquePtr image2 = ImageFactory::open(file2);
-    assert(image2.get() != 0);
+    assert(image2.get() != nullptr);
 
     image2->setExifData(image1->exifData());
 
@@ -200,18 +203,11 @@ void testCase(const std::string& file1,
 
 void exifPrint(const ExifData& exifData)
 {
-    ExifData::const_iterator i = exifData.begin();
-    for (; i != exifData.end(); ++i) {
-        std::cout << std::setw(44) << std::setfill(' ') << std::left
-                  << i->key() << " "
-                  << "0x" << std::setw(4) << std::setfill('0') << std::right
-                  << std::hex << i->tag() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << i->typeName() << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << i->count() << "  "
-                  << std::dec << i->value()
+    for (const auto& exif : exifData) {
+        std::cout << std::setw(44) << std::setfill(' ') << std::left << exif.key() << " "
+                  << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << exif.tag() << " "
+                  << std::setw(9) << std::setfill(' ') << std::left << exif.typeName() << " " << std::dec
+                  << std::setw(3) << std::setfill(' ') << std::right << exif.count() << "  " << std::dec << exif.value()
                   << "\n";
     }
 }

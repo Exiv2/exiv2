@@ -34,16 +34,16 @@
 #include "unused.h"
 
 // + standard includes
-#include <iostream>
-#include <iomanip>
-#include <sstream>
 #include <cassert>
-#include <cstring>
-#include <ctime>
+#include <cctype>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
-#include <ctype.h>
+#include <cstring>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
 
 #if defined(_MSC_VER) && _MSC_VER < 1900
 
@@ -85,9 +85,7 @@ namespace Exiv2 {
     {
     }
 
-    Value::~Value()
-    {
-    }
+    Value::~Value() = default;
 
     Value& Value::operator=(const Value& rhs)
     {
@@ -192,7 +190,7 @@ namespace Exiv2 {
 
     DataBuf Value::dataArea() const
     {
-        return DataBuf(0, 0);
+        return DataBuf(nullptr, 0);
     }
 
     DataValue::DataValue(TypeId typeId) : Value(typeId)
@@ -206,9 +204,7 @@ namespace Exiv2 {
         read(buf, len, byteOrder);
     }
 
-    DataValue::~DataValue()
-    {
-    }
+    DataValue::~DataValue() = default;
 
     long DataValue::count() const
     {
@@ -256,7 +252,7 @@ namespace Exiv2 {
 
     std::ostream& DataValue::write(std::ostream& os) const
     {
-        std::vector<byte>::size_type end = value_.size();
+        const auto end = value_.size();
         for (std::vector<byte>::size_type i = 0; i != end; ++i) {
             os << static_cast<int>(value_[i]);
             if (i < end - 1) os << " ";
@@ -287,7 +283,7 @@ namespace Exiv2 {
     Rational DataValue::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return {value_[n], 1};
     }
 
     StringValueBase::StringValueBase(TypeId typeId)
@@ -301,14 +297,10 @@ namespace Exiv2 {
         read(buf);
     }
 
-    StringValueBase::StringValueBase(const StringValueBase& rhs)
-        : Value(rhs), value_(rhs.value_)
-    {
-    }
+    StringValueBase::StringValueBase(const StringValueBase &rhs)
+        : Value(rhs), value_(rhs.value_) {}
 
-    StringValueBase::~StringValueBase()
-    {
-    }
+    StringValueBase::~StringValueBase() = default;
 
     StringValueBase& StringValueBase::operator=(const StringValueBase& rhs)
     {
@@ -333,9 +325,10 @@ namespace Exiv2 {
 
     long StringValueBase::copy(byte* buf, ByteOrder /*byteOrder*/) const
     {
-        if (value_.size() == 0) return 0;
+        if (value_.empty())
+            return 0;
         // byteOrder not needed
-        assert(buf != 0);
+        assert(buf != nullptr);
         return static_cast<long>(
             value_.copy(reinterpret_cast<char*>(buf), value_.size())
             );
@@ -371,7 +364,7 @@ namespace Exiv2 {
     Rational StringValueBase::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return {value_[n], 1};
     }
 
     StringValue::StringValue()
@@ -384,9 +377,7 @@ namespace Exiv2 {
     {
     }
 
-    StringValue::~StringValue()
-    {
-    }
+    StringValue::~StringValue() = default;
 
     StringValue* StringValue::clone_() const
     {
@@ -403,14 +394,13 @@ namespace Exiv2 {
     {
     }
 
-    AsciiValue::~AsciiValue()
-    {
-    }
+    AsciiValue::~AsciiValue() = default;
 
     int AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
-        if (value_.size() > 0 && value_[value_.size()-1] != '\0') value_ += '\0';
+        if (!value_.empty() && value_[value_.size() - 1] != '\0')
+            value_ += '\0';
         return 0;
     }
 
@@ -474,20 +464,15 @@ namespace Exiv2 {
                invalidCharsetId : charsetTable_[i].charsetId_;
     }
 
-    CommentValue::CommentValue()
-        : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian)
-    {
-    }
+    CommentValue::CommentValue() : StringValueBase(Exiv2::undefined) {}
 
     CommentValue::CommentValue(const std::string& comment)
-        : StringValueBase(Exiv2::undefined), byteOrder_(littleEndian)
+        : StringValueBase(Exiv2::undefined)
     {
         read(comment);
     }
 
-    CommentValue::~CommentValue()
-    {
-    }
+    CommentValue::~CommentValue() = default;
 
     int CommentValue::read(const std::string& comment)
     {
@@ -540,9 +525,9 @@ namespace Exiv2 {
             }
             c = value_.substr(0, 8) + c;
         }
-        if (c.size() == 0)
+        if (c.empty())
             return 0;
-        assert(buf != 0);
+        assert(buf != nullptr);
         return static_cast<long>(c.copy(reinterpret_cast<char*>(buf), c.size()));
     }
 
@@ -563,7 +548,7 @@ namespace Exiv2 {
         }
         c = value_.substr(8);
         if (charsetId() == unicode) {
-            const char* from = encoding == 0 || *encoding == '\0' ? detectCharset(c) : encoding;
+            const char* from = encoding == nullptr || *encoding == '\0' ? detectCharset(c) : encoding;
             convertStringCharset(c, from, "UTF-8");
         }
         return c;
@@ -658,7 +643,8 @@ namespace Exiv2 {
         std::ostringstream os;
         write(os);
         std::string s = os.str();
-        if (s.size() > 0) std::memcpy(buf, &s[0], s.size());
+        if (!s.empty())
+            std::memcpy(buf, &s[0], s.size());
         return static_cast<long>(s.size());
     }
 
@@ -805,8 +791,7 @@ namespace Exiv2 {
 
     std::ostream& XmpArrayValue::write(std::ostream& os) const
     {
-        for (std::vector<std::string>::const_iterator i = value_.begin();
-             i != value_.end(); ++i) {
+        for (auto i = value_.begin(); i != value_.end(); ++i) {
             if (i != value_.begin()) os << ", ";
             os << *i;
         }
@@ -884,7 +869,7 @@ namespace Exiv2 {
         bool        first     = true;
 
         // Write the default entry first
-        ValueType::const_iterator i = value_.find(x_default);
+        auto i = value_.find(x_default);
         if (i != value_.end()) {
             os << "lang=\"" << i->first << "\" " << i->second;
             first = false;
@@ -908,7 +893,7 @@ namespace Exiv2 {
 
     std::string LangAltValue::toString(const std::string& qualifier) const
     {
-        ValueType::const_iterator i = value_.find(qualifier);
+        auto i = value_.find(qualifier);
         if (i != value_.end()) {
             ok_ = true;
             return i->second;
@@ -926,13 +911,13 @@ namespace Exiv2 {
     float LangAltValue::toFloat(long /*n*/) const
     {
         ok_ = false;
-        return 0.0f;
+        return 0.0F;
     }
 
     Rational LangAltValue::toRational(long /*n*/) const
     {
         ok_ = false;
-        return Rational(0, 0);
+        return {0, 0};
     }
 
     LangAltValue* LangAltValue::clone_() const
@@ -953,9 +938,7 @@ namespace Exiv2 {
         date_.day = day;
     }
 
-    DateValue::~DateValue()
-    {
-    }
+    DateValue::~DateValue() = default;
 
     int DateValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
@@ -1069,7 +1052,7 @@ namespace Exiv2 {
 
     Rational DateValue::toRational(long n) const
     {
-        return Rational(toLong(n), 1);
+        return {toLong(n), 1};
     }
 
     TimeValue::TimeValue()
@@ -1089,9 +1072,7 @@ namespace Exiv2 {
         time_.tzMinute = tzMinute;
     }
 
-    TimeValue::~TimeValue()
-    {
-    }
+    TimeValue::~TimeValue() = default;
 
     int TimeValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/)
     {
@@ -1253,7 +1234,7 @@ namespace Exiv2 {
 
     Rational TimeValue::toRational(long n) const
     {
-        return Rational(toLong(n), 1);
+        return {toLong(n), 1};
     }
 
 }                                       // namespace Exiv2

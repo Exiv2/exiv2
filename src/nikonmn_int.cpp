@@ -40,12 +40,13 @@
 #include "i18n.h"                // NLS support.
 
 // + standard includes
-#include <string>
-#include <sstream>
-#include <iomanip>
+#include <array>
 #include <cassert>
+#include <cmath>  //for log, pow, abs
 #include <cstring>
-#include <math.h> //for log, pow, abs
+#include <iomanip>
+#include <sstream>
+#include <string>
 
 // *****************************************************************************
 // class member definitions
@@ -77,32 +78,17 @@ namespace Exiv2 {
     };
 
     //! Focus area for Nikon cameras.
-    extern const char * const nikonFocusarea[] = {
-        N_("Single area"),
-        N_("Dynamic area"),
-        N_("Dynamic area, closest subject"),
-        N_("Group dynamic"),
-        N_("Single area (wide)"),
-        N_("Dynamic area (wide)")
-    };
+    constexpr std::array<const char*, 6> nikonFocusarea = {{N_("Single area"), N_("Dynamic area"),
+                                                            N_("Dynamic area, closest subject"), N_("Group dynamic"),
+                                                            N_("Single area (wide)"), N_("Dynamic area (wide)")}};
 
     // Roger Larsson: My guess is that focuspoints will follow autofocus sensor
     // module. Note that relative size and position will vary depending on if
     // "wide" or not
     //! Focus points for Nikon cameras, used for Nikon 1 and Nikon 3 makernotes.
-    extern const char * const nikonFocuspoints[] = {
-        N_("Center"),
-        N_("Top"),
-        N_("Bottom"),
-        N_("Left"),
-        N_("Right"),
-        N_("Upper-left"),
-        N_("Upper-right"),
-        N_("Lower-left"),
-        N_("Lower-right"),
-        N_("Left-most"),
-        N_("Right-most")
-    };
+    constexpr std::array<const char*, 11> nikonFocuspoints = {
+        N_("Center"),      N_("Top"),        N_("Bottom"),      N_("Left"),      N_("Right"),     N_("Upper-left"),
+        N_("Upper-right"), N_("Lower-left"), N_("Lower-right"), N_("Left-most"), N_("Right-most")};
 
     //! FlashComp, tag 0x0012
     extern const TagDetails nikonFlashComp[] = {
@@ -298,7 +284,8 @@ namespace Exiv2 {
         if ( value.count() >= 9 ) {
             ByteOrder bo = getKeyString("Exif.MakerNote.ByteOrder",exifData) == "MM" ? bigEndian : littleEndian;
             byte      p[4];
-            for ( int n = 0 ; n < 4 ; n++ ) p[n] = (byte)value.toLong(6+n);
+            for (int n = 0; n < 4; n++)
+                p[n] = static_cast<byte>(value.toLong(6 + n));
             os << getLong(p, bo);
         }
 
@@ -329,9 +316,7 @@ namespace Exiv2 {
         else if (distance.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(2)
-               << (float)distance.first / distance.second
-               << " m";
+            os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
             os.copyfmt(oss);
         }
         else {
@@ -353,9 +338,7 @@ namespace Exiv2 {
         else if (zoom.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)zoom.first / zoom.second
-               << "x";
+            os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
             os.copyfmt(oss);
         }
         else {
@@ -371,7 +354,7 @@ namespace Exiv2 {
     {
         if (value.count() >= 1) {
             const unsigned long focusArea = value.toLong(0);
-            if (focusArea >= EXV_COUNTOF(nikonFocusarea)) {
+            if (focusArea >= nikonFocusarea.size()) {
                 os << "Invalid value";
             } else {
                 os << nikonFocusarea[focusArea];
@@ -392,7 +375,7 @@ namespace Exiv2 {
                 break;
             default:
                 os << value;
-                if (focusPoint < sizeof(nikonFocuspoints)/sizeof(nikonFocuspoints[0]))
+                if (focusPoint < nikonFocuspoints.size())
                     os << " " << _("guess") << " " << nikonFocuspoints[focusPoint];
                 break;
             }
@@ -540,9 +523,7 @@ namespace Exiv2 {
         else if (zoom.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)zoom.first / zoom.second
-               << "x";
+            os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
             os.copyfmt(oss);
         }
         else {
@@ -1577,9 +1558,7 @@ namespace Exiv2 {
         else if (distance.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(2)
-               << (float)distance.first / distance.second
-               << " m";
+            os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
             os.copyfmt(oss);
         }
         else {
@@ -1601,9 +1580,7 @@ namespace Exiv2 {
         else if (zoom.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)zoom.first / zoom.second
-               << "x";
+            os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second << "x";
             os.copyfmt(oss);
         }
         else {
@@ -1626,8 +1603,6 @@ namespace Exiv2 {
             unsigned focuspoint = value.toLong(1);
             unsigned focusused = (value.toLong(2) << 8) + value.toLong(3);
             // TODO: enum {standard, wide} combination = standard;
-            const unsigned focuspoints =   sizeof(nikonFocuspoints)
-                                         / sizeof(nikonFocuspoints[0]);
 
             if (focusmetering == 0 && focuspoint == 0 && focusused == 0) {
                 // Special case, in Manual focus and with Nikon compacts
@@ -1654,11 +1629,10 @@ namespace Exiv2 {
                 os << sep << ' ';
 
                 // What focuspoint did the user select?
-                if (focuspoint < focuspoints) {
+                if (focuspoint < nikonFocuspoints.size()) {
                     os << nikonFocuspoints[focuspoint];
                     // TODO: os << position[fokuspoint][combination]
-                }
-                else
+                } else
                     os << "(" << focuspoint << ")";
 
                 sep = ',';
@@ -1671,7 +1645,7 @@ namespace Exiv2 {
                 // selected point was not the actually used one
                 // (Roger Larsson: my interpretation, verify)
                 os << sep;
-                for (unsigned fpid=0; fpid<focuspoints; fpid++)
+                for (size_t fpid = 0; fpid < nikonFocuspoints.size(); fpid++)
                     if (focusused & 1<<fpid)
                         os << ' ' << nikonFocuspoints[fpid];
             }
@@ -1690,7 +1664,7 @@ namespace Exiv2 {
 
         bool dModel = false;
         if (metadata) {
-            ExifData::const_iterator pos = metadata->findKey(ExifKey("Exif.Image.Model"));
+            auto pos = metadata->findKey(ExifKey("Exif.Image.Model"));
             if (pos != metadata->end() && pos->count() != 0) {
                 std::string model = pos->toString();
                 if (model.find("NIKON D") != std::string::npos) {
@@ -1699,14 +1673,14 @@ namespace Exiv2 {
             }
         }
 
-        uint16_t val = static_cast<uint16_t>(value.toLong());
+        auto val = static_cast<uint16_t>(value.toLong());
         if (dModel) val = (val >> 8) | ((val & 0x00ff) << 8);
 
         if (val == 0x07ff) return os << _("All 11 Points");
 
         UShortValue v;
         v.value_.push_back(val);
-        return EXV_PRINT_TAG_BITMASK(nikonAfPointsInFocus)(os, v, 0);
+        return EXV_PRINT_TAG_BITMASK(nikonAfPointsInFocus)(os, v, nullptr);
     }
 
     std::ostream& Nikon3MakerNote::print0x0089(std::ostream& os,
@@ -1722,7 +1696,7 @@ namespace Exiv2 {
         bool d70 = false;
         if (metadata) {
             ExifKey key("Exif.Image.Model");
-            ExifData::const_iterator pos = metadata->findKey(key);
+            auto pos = metadata->findKey(key);
             if (pos != metadata->end() && pos->count() != 0) {
                 std::string model = pos->toString();
                 if (model.find("D70") != std::string::npos) {
@@ -1731,10 +1705,10 @@ namespace Exiv2 {
             }
         }
         if (d70) {
-            EXV_PRINT_TAG_BITMASK(nikonShootingModeD70)(os, value, 0);
+            EXV_PRINT_TAG_BITMASK(nikonShootingModeD70)(os, value, nullptr);
         }
         else {
-            EXV_PRINT_TAG_BITMASK(nikonShootingMode)(os, value, 0);
+            EXV_PRINT_TAG_BITMASK(nikonShootingMode)(os, value, nullptr);
         }
         return os;
     }
@@ -2365,7 +2339,7 @@ fmountlens[] = {
 {0xF7,0x53,0x5C,0x80,0x24,0x24,0x84,0x06,0x01,0x00,0x00, "Tamron", "A001", "SP AF 70-200mm F/2.8 Di LD (IF) Macro"},
 {0xFE,0x53,0x5C,0x80,0x24,0x24,0x84,0x06,0x01,0x00,0x00, "Tamron", "A001", "SP AF 70-200mm F/2.8 Di LD (IF) Macro"},
 {0xF7,0x53,0x5C,0x80,0x24,0x24,0x40,0x06,0x01,0x00,0x00, "Tamron", "A001", "SP AF 70-200mm F/2.8 Di LD (IF) Macro"},
-{0xFE,0x54,0x5C,0x80,0x24,0x24,0xDF,0x0E,0x01,0x00,0x00, "Tamron", "A009", "SP AF 70-200mm F/2.8 Di VC USD"},
+{0xFE,0x54,0x5C,0x80,0x24,0x24,0xDF,0x0E,0x01,0x00,0x00, "Tamron", "A009", "SP 70-200mm F/2.8 Di VC USD"},
 //M                                         "Tamron" "67D"    "SP AF 70-210mm f/2.8 LD";
 //M                                         "Tamron" ""       "AF 70-210mm F/3.5-4.5";
 //M                                         "Tamron" "158D"   "AF 70-210mm F/4-5.6";
@@ -2532,13 +2506,21 @@ fmountlens[] = {
 {0x00,0x58,0x64,0x64,0x20,0x20,0x00,0x00,0x00,0x00,0x00, "Soligor", "", "C/D Macro MC 90mm f/2.5"},
 //
 // https://github.com/Exiv2/exiv2/issues/743
-{0xc9,0x48,0x37,0x5c,0x24,0x24,0x4b,0x4e,0x01,0x00,0x00, "Sigma", "", "24-70mm F2,8 DG OS HSM Art"},
+{0xc9,0x48,0x37,0x5c,0x24,0x24,0x4b,0x4e,0x01,0x00,0x00, "Sigma", "", "24-70mm F2.8 DG OS HSM Art"},
 //
 //  https://github.com/Exiv2/exiv2/issues/598 , https://github.com/Exiv2/exiv2/pull/891
 {0xCF,0x47,0x5C,0x8E,0x31,0x3D,0xDF,0x0E,0x00,0x00,0x00, "Tamron", "A030", "SP 70-300mm F/4-5.6 Di VC USD"},
 //
 // https://github.com/Exiv2/exiv2/issues/811
 {0xC1,0x48,0x24,0x37,0x24,0x24,0x4b,0x46,0x00,0x00,0x00, "Sigma", "", "14-24mm F2.8 DG HSM Art"},
+//
+{0xf4,0x4c,0x7c,0x7c,0x2c,0x2c,0x4b,0x02,0x00,0x00,0x00, "Sigma", "", "APO Macro 180mm F3.5 EX DG HSM"},
+//
+// https://github.com/Exiv2/exiv2/issues/1069
+{0xc8,0x54,0x44,0x44,0x0d,0x0d,0xdf,0x46,0x00,0x00,0x00, "Tamron", "F045", "SP 35mm f/1.4 Di USD"},
+//
+// https://github.com/Exiv2/exiv2/issues/1078
+{0x80,0x48,0x1C,0x29,0x24,0x24,0x7A,0x06,0x00,0x00,0x00, "Tokina", "", "atx-i 11-16mm F2.8 CF"},
 //
 {0,0,0,0,0,0,0,0,0,0,0, nullptr, nullptr, nullptr}
 };
@@ -2549,18 +2531,18 @@ fmountlens[] = {
     /* if no meta obj is provided, try to use the value param that *may*
      * be the pre-parsed lensid
      */
-        if (metadata == 0)
+        if (metadata == nullptr)
         {
-            const unsigned char  vid = (unsigned)value.toLong(0);
+            const unsigned char vid = static_cast<unsigned>(value.toLong(0));
 
-        /* the 'FMntLens' name is added to the annonymous struct for
-         * fmountlens[]
-         *
-         * remember to name the struct when importing/updating the lens info
-         * from:
-         *
-         * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
-         */
+            /* the 'FMntLens' name is added to the annonymous struct for
+             * fmountlens[]
+             *
+             * remember to name the struct when importing/updating the lens info
+             * from:
+             *
+             * www.rottmerhusen.com/objektives/lensid/files/c-header/fmountlens4.h
+             */
             const struct FMntLens*  pf = fmountlens;
             while (pf->lid && pf->lensname) {
                 if (pf->lid == vid) {
@@ -2572,35 +2554,28 @@ fmountlens[] = {
             if (pf->lensname == nullptr) {
                 return os << value;
             }
-            else {
-                return os << pf->manuf << " " << pf->lensname;
-            }
+
+            return os << pf->manuf << " " << pf->lensname;
         }
 
 
         byte raw[] = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
 
-        static const char* tags[] = {
-            "LensIDNumber",
-            "LensFStops",
-            "MinFocalLength",
-            "MaxFocalLength",
-            "MaxApertureAtMinFocal",
-            "MaxApertureAtMaxFocal",
-            "MCUVersion"
-        };
+        static constexpr std::array<const char*, 7> tags = {
+            "LensIDNumber",          "LensFStops", "MinFocalLength", "MaxFocalLength", "MaxApertureAtMinFocal",
+            "MaxApertureAtMaxFocal", "MCUVersion"};
 
         const std::string pre = std::string("Exif.") + group + std::string(".");
-        for (unsigned int i = 0; i < 7; ++i) {
+        for (size_t i = 0; i < tags.size(); ++i) {
             ExifKey key(pre + std::string(tags[i]));
-            ExifData::const_iterator md = metadata->findKey(key);
+            auto md = metadata->findKey(key);
             if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
                 return os << value;
             }
             raw[i] = static_cast<byte>(md->toLong());
         }
 
-        ExifData::const_iterator md = metadata->findKey(ExifKey("Exif.Nikon3.LensType"));
+        auto md = metadata->findKey(ExifKey("Exif.Nikon3.LensType"));
         if (md == metadata->end() || md->typeId() != unsignedByte || md->count() == 0) {
             return os << value;
         }
@@ -2612,7 +2587,7 @@ fmountlens[] = {
                 const std::string  undefined("undefined") ;
                 const std::string  section  ("nikon");
                 std::ostringstream lensIDStream;
-                lensIDStream  << (int) raw[7];
+                lensIDStream << static_cast<int>(raw[7]);
                 if ( Internal::readExiv2Config(section,lensIDStream.str(),undefined) != undefined ) {
                     return os << Internal::readExiv2Config(section,lensIDStream.str(),undefined);
                 }
@@ -2792,8 +2767,8 @@ fmountlens[] = {
         std::ostringstream oss;
         oss.copyfmt(os);
         char sign = value.toLong() < 0 ? '-' : '+';
-        long h    = long(std::abs( (int) (value.toFloat()/60.0)  ))%24;
-        long min  = long(std::abs( (int) (value.toFloat()-h*60)  ))%60;
+        long h = long(std::abs(static_cast<int>(value.toFloat() / 60.0))) % 24;
+        long min = long(std::abs(static_cast<int>(value.toFloat() - h * 60))) % 60;
         os << std::fixed << "UTC " << sign << std::setw(2) << std::setfill('0') << h << ":"
            << std::setw(2) << std::setfill('0') << min;
         os.copyfmt(oss);
@@ -2861,13 +2836,14 @@ fmountlens[] = {
             std::string d = s.empty() ? "" : "; ";
             const TagDetails* td = find(nikonRetouchHistory, l);
             if (td) {
-                s = std::string(exvGettext(td->label_)) + d + s;
+                s = std::string(exvGettext(td->label_)).append(d).append(s);
             }
             else {
-                s = std::string(_("Unknown")) + std::string(" (") + toString(l) + std::string(")") + d + s;
+                s = std::string(_("Unknown")).append(" (").append(toString(l)).append(")").append(d).append(s);
             }
         }
         return os << s;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

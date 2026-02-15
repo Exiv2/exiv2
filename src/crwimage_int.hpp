@@ -58,18 +58,13 @@ namespace Exiv2 {
 // type definitions
 
     //! Function pointer for functions to decode Exif tags from a CRW entry
-    typedef void (*CrwDecodeFct)(const CiffComponent&,
-                                 const CrwMapping*,
-                                 Image&,
-                                 ByteOrder);
+    using CrwDecodeFct = void (*)(const CiffComponent&, const CrwMapping*, Image&, ByteOrder);
 
     //! Function pointer for functions to encode CRW entries from Exif tags
-    typedef void (*CrwEncodeFct)(const Image&,
-                                 const CrwMapping*,
-                                 CiffHeader*);
+    using CrwEncodeFct = void (*)(const Image&, const CrwMapping*, CiffHeader*);
 
     //! Stack to hold a path of CRW directories
-    typedef std::stack<CrwSubDir> CrwDirs;
+    using CrwDirs = std::stack<CrwSubDir>;
 
     //! Type to identify where the data is stored in a directory
     enum DataLocId {
@@ -90,20 +85,23 @@ namespace Exiv2 {
     class CiffComponent {
     public:
         //! CiffComponent auto_ptr type
-        typedef std::unique_ptr<CiffComponent> UniquePtr;
+        using UniquePtr = std::unique_ptr<CiffComponent>;
         //! Container type to hold all metadata
-        typedef std::vector<CiffComponent*> Components;
+        using Components = std::vector<CiffComponent*>;
 
         //! @name Creators
         //@{
         //! Default constructor
-        CiffComponent()
-            : dir_(0), tag_(0), size_(0), offset_(0), pData_(0),
-              isAllocated_(false) {}
+        CiffComponent() = default;
         //! Constructor taking a tag and directory
         CiffComponent(uint16_t tag, uint16_t dir)
-            : dir_(dir), tag_(tag), size_(0), offset_(0), pData_(0),
-              isAllocated_(false) {}
+            : dir_(dir)
+            , tag_(tag)
+            , size_(0)
+            , offset_(0)
+            , pData_(nullptr)
+        {
+        }
         //! Virtual destructor.
         virtual ~CiffComponent();
         //@}
@@ -294,12 +292,12 @@ namespace Exiv2 {
 
     private:
         // DATA
-        uint16_t    dir_;         //!< Tag of the directory containing this component
-        uint16_t    tag_;         //!< Tag of the entry
-        uint32_t    size_;        //!< Size of the data area
-        uint32_t    offset_;      //!< Offset to the data area from start of dir
-        const byte* pData_;       //!< Pointer to the data area
-        bool        isAllocated_; //!< True if this entry owns the value data
+      uint16_t dir_{0};    //!< Tag of the directory containing this component
+      uint16_t tag_{0};    //!< Tag of the entry
+      uint32_t size_{0};   //!< Size of the data area
+      uint32_t offset_{0}; //!< Offset to the data area from start of dir
+      const byte *pData_{nullptr}; //!< Pointer to the data area
+      bool isAllocated_{false};    //!< True if this entry owns the value data
 
     }; // class CiffComponent
 
@@ -309,18 +307,18 @@ namespace Exiv2 {
      */
     class CiffEntry : public CiffComponent {
     public:
-        //! @name Creators
-        //@{
-        //! Default constructor
-        CiffEntry() {}
-        //! Constructor taking a tag and directory
-        CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
+      //! @name Creators
+      //@{
+      //! Default constructor
+      CiffEntry() = default;
+      //! Constructor taking a tag and directory
+      CiffEntry(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir) {}
 
-        //! Virtual destructor.
-        ~CiffEntry() override;
-        //@}
+      //! Virtual destructor.
+      ~CiffEntry() override;
+      //@}
 
-        // Default assignment operator is fine
+      // Default assignment operator is fine
 
     private:
         //! @name Manipulators
@@ -348,29 +346,28 @@ namespace Exiv2 {
         //! @name Creators
         //@{
         //! Default constructor
-        CiffDirectory() : cc_(nullptr) {}
-        //! Constructor taking a tag and directory
-        CiffDirectory(uint16_t tag, uint16_t dir) : CiffComponent(tag, dir), cc_(nullptr) {}
+      CiffDirectory() = default;
+      //! Constructor taking a tag and directory
+      CiffDirectory(uint16_t tag, uint16_t dir)
+          : CiffComponent(tag, dir), cc_(nullptr) {}
 
-        //! Virtual destructor
-        ~CiffDirectory() override;
-        //@}
+      //! Virtual destructor
+      ~CiffDirectory() override;
+      //@}
 
-        //! @name Manipulators
-        //@{
-        // Default assignment operator is fine
+      //! @name Manipulators
+      //@{
+      // Default assignment operator is fine
 
-        /*!
-          @brief Parse a CIFF directory from a memory buffer
+      /*!
+        @brief Parse a CIFF directory from a memory buffer
 
-          @param pData     Pointer to the memory buffer containing the directory
-          @param size      Size of the memory buffer
-          @param byteOrder Applicable byte order (little or big endian)
-         */
-        void readDirectory(const byte* pData,
-                           uint32_t    size,
-                           ByteOrder   byteOrder);
-        //@}
+        @param pData     Pointer to the memory buffer containing the directory
+        @param size      Size of the memory buffer
+        @param byteOrder Applicable byte order (little or big endian)
+       */
+      void readDirectory(const byte *pData, uint32_t size, ByteOrder byteOrder);
+      //@}
 
     private:
         //! @name Manipulators
@@ -409,7 +406,7 @@ namespace Exiv2 {
         // DATA
         Components components_; //!< List of components in this dir
         UniquePtr    m_; // used by recursive doAdd
-        CiffComponent* cc_;
+        CiffComponent *cc_{nullptr};
 
     }; // class CiffDirectory
 
@@ -422,18 +419,12 @@ namespace Exiv2 {
     class CiffHeader {
     public:
         //! CiffHeader auto_ptr type
-        typedef std::unique_ptr<CiffHeader> UniquePtr;
+        using UniquePtr = std::unique_ptr<CiffHeader>;
 
         //! @name Creators
         //@{
         //! Default constructor
-        CiffHeader()
-            : pRootDir_  (0),
-              byteOrder_ (littleEndian),
-              offset_    (0x0000001a),
-              pPadding_  (0),
-              padded_    (0)
-            {}
+        CiffHeader() = default;
         //! Virtual destructor
         virtual ~CiffHeader();
         //@}
@@ -515,11 +506,11 @@ namespace Exiv2 {
         static constexpr char signature_[]{
             'H', 'E', 'A', 'P', 'C', 'C', 'D', 'R', '\0' };   //!< Canon CRW signature "HEAPCCDR"
 
-        CiffDirectory*    pRootDir_;      //!< Pointer to the root directory
-        ByteOrder         byteOrder_;     //!< Applicable byte order
-        uint32_t          offset_;        //!< Offset to the start of the root dir
-        byte*             pPadding_;      //!< Pointer to the (unknown) remainder
-        uint32_t          padded_;        //!< Number of padding-bytes
+        CiffDirectory *pRootDir_{nullptr};  //!< Pointer to the root directory
+        ByteOrder byteOrder_{littleEndian}; //!< Applicable byte order
+        uint32_t offset_{0x0000001a}; //!< Offset to the start of the root dir
+        byte *pPadding_{nullptr};     //!< Pointer to the (unknown) remainder
+        uint32_t padded_{0};          //!< Number of padding-bytes
 
     }; // class CiffHeader
 
@@ -726,4 +717,5 @@ namespace Exiv2 {
                             IfdId     ifdId,
                             ByteOrder byteOrder);
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

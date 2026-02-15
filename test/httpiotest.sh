@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for httptest and httpIo
 
 source ./functions.source
@@ -36,12 +36,12 @@ httpIoTest()
     testfile="conntest.jpg"
     iopngfiles+=(remoteio{1..5}.png)
     iojpgfiles+=(remoteio{6..10}.jpg)
-    
+
     # test connection (basic sanity test)
     printf 'http test connection '
     TEST_CON=$("$bin"/conntest http://$EXIV2_AWSUBUNTU_HOST/$testfile)
     if [[ "$TEST_CON" == OK* ]]; then
-        #Tests for httpIo 
+        #Tests for httpIo
         printf 'OK\nHTTP IO '
         for name in ${iopngfiles[@]}; do
             httpIoTest "http://$EXIV2_AWSUBUNTU_HOST/$name"

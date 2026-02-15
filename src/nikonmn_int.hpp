@@ -282,4 +282,5 @@ namespace Exiv2 {
 
     }; // class Nikon3MakerNote
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

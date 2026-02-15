@@ -96,7 +96,7 @@ public:
 
 private:
 
-	XML_Node() : kind(0), parent(0)	{};	// ! Hidden to make sure parent pointer is always set.
+	XML_Node() : kind(0), parent(nullptr)	{};	// ! Hidden to make sure parent pointer is always set.
 
 };
 
@@ -109,7 +109,7 @@ class XMLParserAdapter {
 public:
 
 	XMLParserAdapter()
-		: tree(0,"",kRootNode), rootNode(0), rootCount(0), charEncoding(XMP_OptionBits(-1)), pendingCount(0)
+		: tree(nullptr,"",kRootNode), rootNode(nullptr), rootCount(0), charEncoding(XMP_OptionBits(-1)), pendingCount(0)
 	{
 		#if XMP_DebugBuild
 			parseLog = 0;

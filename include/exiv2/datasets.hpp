@@ -91,84 +91,84 @@ namespace Exiv2 {
                  IIM4 standard (and not commonly used in images).
          */
         //@{
-        static const uint16_t invalidRecord = 0;
-        static const uint16_t envelope = 1;
-        static const uint16_t application2 = 2;
+        static constexpr uint16_t invalidRecord = 0;
+        static constexpr uint16_t envelope = 1;
+        static constexpr uint16_t application2 = 2;
         //@}
 
         //! @name Dataset identifiers
         //@{
-        static const uint16_t ModelVersion           = 0;
-        static const uint16_t Destination            = 5;
-        static const uint16_t FileFormat             = 20;
-        static const uint16_t FileVersion            = 22;
-        static const uint16_t ServiceId              = 30;
-        static const uint16_t EnvelopeNumber         = 40;
-        static const uint16_t ProductId              = 50;
-        static const uint16_t EnvelopePriority       = 60;
-        static const uint16_t DateSent               = 70;
-        static const uint16_t TimeSent               = 80;
-        static const uint16_t CharacterSet           = 90;
-        static const uint16_t UNO                    = 100;
-        static const uint16_t ARMId                  = 120;
-        static const uint16_t ARMVersion             = 122;
-        static const uint16_t RecordVersion          = 0;
-        static const uint16_t ObjectType             = 3;
-        static const uint16_t ObjectAttribute        = 4;
-        static const uint16_t ObjectName             = 5;
-        static const uint16_t EditStatus             = 7;
-        static const uint16_t EditorialUpdate        = 8;
-        static const uint16_t Urgency                = 10;
-        static const uint16_t Subject                = 12;
-        static const uint16_t Category               = 15;
-        static const uint16_t SuppCategory           = 20;
-        static const uint16_t FixtureId              = 22;
-        static const uint16_t Keywords               = 25;
-        static const uint16_t LocationCode           = 26;
-        static const uint16_t LocationName           = 27;
-        static const uint16_t ReleaseDate            = 30;
-        static const uint16_t ReleaseTime            = 35;
-        static const uint16_t ExpirationDate         = 37;
-        static const uint16_t ExpirationTime         = 38;
-        static const uint16_t SpecialInstructions    = 40;
-        static const uint16_t ActionAdvised          = 42;
-        static const uint16_t ReferenceService       = 45;
-        static const uint16_t ReferenceDate          = 47;
-        static const uint16_t ReferenceNumber        = 50;
-        static const uint16_t DateCreated            = 55;
-        static const uint16_t TimeCreated            = 60;
-        static const uint16_t DigitizationDate       = 62;
-        static const uint16_t DigitizationTime       = 63;
-        static const uint16_t Program                = 65;
-        static const uint16_t ProgramVersion         = 70;
-        static const uint16_t ObjectCycle            = 75;
-        static const uint16_t Byline                 = 80;
-        static const uint16_t BylineTitle            = 85;
-        static const uint16_t City                   = 90;
-        static const uint16_t SubLocation            = 92;
-        static const uint16_t ProvinceState          = 95;
-        static const uint16_t CountryCode            = 100;
-        static const uint16_t CountryName            = 101;
-        static const uint16_t TransmissionReference  = 103;
-        static const uint16_t Headline               = 105;
-        static const uint16_t Credit                 = 110;
-        static const uint16_t Source                 = 115;
-        static const uint16_t Copyright              = 116;
-        static const uint16_t Contact                = 118;
-        static const uint16_t Caption                = 120;
-        static const uint16_t Writer                 = 122;
-        static const uint16_t RasterizedCaption      = 125;
-        static const uint16_t ImageType              = 130;
-        static const uint16_t ImageOrientation       = 131;
-        static const uint16_t Language               = 135;
-        static const uint16_t AudioType              = 150;
-        static const uint16_t AudioRate              = 151;
-        static const uint16_t AudioResolution        = 152;
-        static const uint16_t AudioDuration          = 153;
-        static const uint16_t AudioOutcue            = 154;
-        static const uint16_t PreviewFormat          = 200;
-        static const uint16_t PreviewVersion         = 201;
-        static const uint16_t Preview                = 202;
+        static constexpr uint16_t ModelVersion = 0;
+        static constexpr uint16_t Destination = 5;
+        static constexpr uint16_t FileFormat = 20;
+        static constexpr uint16_t FileVersion = 22;
+        static constexpr uint16_t ServiceId = 30;
+        static constexpr uint16_t EnvelopeNumber = 40;
+        static constexpr uint16_t ProductId = 50;
+        static constexpr uint16_t EnvelopePriority = 60;
+        static constexpr uint16_t DateSent = 70;
+        static constexpr uint16_t TimeSent = 80;
+        static constexpr uint16_t CharacterSet = 90;
+        static constexpr uint16_t UNO = 100;
+        static constexpr uint16_t ARMId = 120;
+        static constexpr uint16_t ARMVersion = 122;
+        static constexpr uint16_t RecordVersion = 0;
+        static constexpr uint16_t ObjectType = 3;
+        static constexpr uint16_t ObjectAttribute = 4;
+        static constexpr uint16_t ObjectName = 5;
+        static constexpr uint16_t EditStatus = 7;
+        static constexpr uint16_t EditorialUpdate = 8;
+        static constexpr uint16_t Urgency = 10;
+        static constexpr uint16_t Subject = 12;
+        static constexpr uint16_t Category = 15;
+        static constexpr uint16_t SuppCategory = 20;
+        static constexpr uint16_t FixtureId = 22;
+        static constexpr uint16_t Keywords = 25;
+        static constexpr uint16_t LocationCode = 26;
+        static constexpr uint16_t LocationName = 27;
+        static constexpr uint16_t ReleaseDate = 30;
+        static constexpr uint16_t ReleaseTime = 35;
+        static constexpr uint16_t ExpirationDate = 37;
+        static constexpr uint16_t ExpirationTime = 38;
+        static constexpr uint16_t SpecialInstructions = 40;
+        static constexpr uint16_t ActionAdvised = 42;
+        static constexpr uint16_t ReferenceService = 45;
+        static constexpr uint16_t ReferenceDate = 47;
+        static constexpr uint16_t ReferenceNumber = 50;
+        static constexpr uint16_t DateCreated = 55;
+        static constexpr uint16_t TimeCreated = 60;
+        static constexpr uint16_t DigitizationDate = 62;
+        static constexpr uint16_t DigitizationTime = 63;
+        static constexpr uint16_t Program = 65;
+        static constexpr uint16_t ProgramVersion = 70;
+        static constexpr uint16_t ObjectCycle = 75;
+        static constexpr uint16_t Byline = 80;
+        static constexpr uint16_t BylineTitle = 85;
+        static constexpr uint16_t City = 90;
+        static constexpr uint16_t SubLocation = 92;
+        static constexpr uint16_t ProvinceState = 95;
+        static constexpr uint16_t CountryCode = 100;
+        static constexpr uint16_t CountryName = 101;
+        static constexpr uint16_t TransmissionReference = 103;
+        static constexpr uint16_t Headline = 105;
+        static constexpr uint16_t Credit = 110;
+        static constexpr uint16_t Source = 115;
+        static constexpr uint16_t Copyright = 116;
+        static constexpr uint16_t Contact = 118;
+        static constexpr uint16_t Caption = 120;
+        static constexpr uint16_t Writer = 122;
+        static constexpr uint16_t RasterizedCaption = 125;
+        static constexpr uint16_t ImageType = 130;
+        static constexpr uint16_t ImageOrientation = 131;
+        static constexpr uint16_t Language = 135;
+        static constexpr uint16_t AudioType = 150;
+        static constexpr uint16_t AudioRate = 151;
+        static constexpr uint16_t AudioResolution = 152;
+        static constexpr uint16_t AudioDuration = 153;
+        static constexpr uint16_t AudioOutcue = 154;
+        static constexpr uint16_t PreviewFormat = 200;
+        static constexpr uint16_t PreviewVersion = 201;
+        static constexpr uint16_t Preview = 202;
         //@}
 
         IptcDataSets() = delete;
@@ -271,7 +271,7 @@ namespace Exiv2 {
     class EXIV2API IptcKey : public Key {
     public:
         //! Shortcut for an %IptcKey auto pointer.
-        typedef std::unique_ptr<IptcKey> UniquePtr;
+        using UniquePtr = std::unique_ptr<IptcKey>;
 
         //! @name Creators
         //@{
@@ -283,25 +283,25 @@ namespace Exiv2 {
                  the remaining parts of the key cannot be parsed and
                  converted to a record name and a dataset name.
         */
-        explicit IptcKey(const std::string& key);
+        explicit IptcKey(std::string key);
 
         /*!
-          @brief Constructor to create an IPTC key from dataset and record ids.
-          @param tag Dataset id
-          @param record Record id
-         */
+              @brief Constructor to create an IPTC key from dataset and record ids.
+              @param tag Dataset id
+              @param record Record id
+             */
         IptcKey(uint16_t tag, uint16_t record);
         //! Copy constructor
         IptcKey(const IptcKey& rhs);
         //! Destructor
-        virtual ~IptcKey();
+        ~IptcKey() override;
         //@}
 
         //! @name Manipulators
         //@{
         /*!
-          @brief Assignment operator.
-         */
+              @brief Assignment operator.
+             */
         IptcKey& operator=(const IptcKey& rhs);
         //@}
 
@@ -310,9 +310,9 @@ namespace Exiv2 {
         std::string key() const override;
         const char* familyName() const override;
         /*!
-          @brief Return the name of the group (the second part of the key).
-                 For IPTC keys, the group name is the record name.
-        */
+              @brief Return the name of the group (the second part of the key).
+                     For IPTC keys, the group name is the record name.
+            */
         std::string groupName() const override;
         std::string tagName() const override;
         std::string tagLabel() const override;
@@ -357,36 +357,35 @@ namespace Exiv2 {
     }; // class IptcKey
 
     /// @brief typedef for string:string map
-    typedef std::map<std::string,std::string>                 Dictionary;
+    using Dictionary = std::map<std::string, std::string>;
     /// @brief typedef for Dictionary*
-    typedef Dictionary*                                       Dictionary_p;
+    using Dictionary_p = Dictionary*;
     /// @brief typedef for Dictionary iterator
-    typedef Dictionary::const_iterator                        Dictionary_i;
+    using Dictionary_i = Dictionary::const_iterator;
 
     /// @brief typedef for string set (unique strings)
-    typedef std::set<std::string>                             StringSet;
+    using StringSet = std::set<std::string>;
     /// @brief typedef for StringSet*
-    typedef StringSet*                                        StringSet_p;
+    using StringSet_p = StringSet*;
     /// @brief Class to provide a StringSet iterator
-    typedef std::set<std::string>::const_iterator             StringSet_i;
+    using StringSet_i = std::set<std::string>::const_iterator;
 
     /// @brief typedef for string vector
-    typedef std::vector<std::string>                          StringVector;
+    using StringVector = std::vector<std::string>;
     /// @brief typedef for StringVector pointer
-    typedef StringVector*                                     StringVector_p;
+    using StringVector_p = StringVector*;
     /// @brief Class to provide a StringVector iterator
-    typedef StringVector::const_iterator                      StringVector_i;
+    using StringVector_i = StringVector::const_iterator;
 
     /// @brief typedef for uint32_t vector
-    typedef std::vector<uint32_t>                             Uint32Vector  ;
+    using Uint32Vector = std::vector<uint32_t>;
     /// @brief typedef for Uint32Vector pointer
-    typedef Uint32Vector*                                     Uint32Vector_p;
+    using Uint32Vector_p = Uint32Vector*;
     /// @brief typedef for Uint32Vector iterator
-    typedef Uint32Vector::const_iterator                      Uint32Vector_i;
+    using Uint32Vector_i = Uint32Vector::const_iterator;
 
-
-// *****************************************************************************
-// free functions
+    // *****************************************************************************
+    // free functions
 
     //! Output operator for dataSet
     EXIV2API std::ostream& operator<<(std::ostream& os, const DataSet& dataSet);

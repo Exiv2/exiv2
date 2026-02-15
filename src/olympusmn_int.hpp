@@ -122,4 +122,5 @@ namespace Exiv2 {
 
     }; // class OlympusMakerNote
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

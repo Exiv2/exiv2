@@ -37,7 +37,7 @@
 #include "futils.hpp"
 
 // + standard includes
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
 # include <iostream>
 #endif
 
@@ -59,8 +59,7 @@ namespace Exiv2 {
 
     int Rw2Image::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth =
-            exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorWidth"));
+        auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorWidth"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
@@ -69,8 +68,7 @@ namespace Exiv2 {
 
     int Rw2Image::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight =
-            exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorHeight"));
+        auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorHeight"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
@@ -112,7 +110,7 @@ namespace Exiv2 {
 
     void Rw2Image::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading RW2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -125,11 +123,8 @@ namespace Exiv2 {
             throw Error(kerNotAnImage, "RW2");
         }
         clearMetadata();
-        ByteOrder bo = Rw2Parser::decode(exifData_,
-                                         iptcData_,
-                                         xmpData_,
-                                         io_->mmap(),
-                                         (uint32_t) io_->size());
+        ByteOrder bo =
+            Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
         setByteOrder(bo);
 
         // A lot more metadata is hidden in the embedded preview image
@@ -146,7 +141,7 @@ namespace Exiv2 {
         ExifData exifData;
         PreviewImage preview = loader.getPreviewImage(*list.begin());
         Image::UniquePtr image = ImageFactory::open(preview.pData(), preview.size());
-        if (image.get() == 0) {
+        if (image.get() == nullptr) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to open RW2 preview image.\n";
 #endif
@@ -156,11 +151,12 @@ namespace Exiv2 {
         ExifData& prevData = image->exifData();
         if (!prevData.empty()) {
             // Filter duplicate tags
-            for (ExifData::const_iterator pos = exifData_.begin(); pos != exifData_.end(); ++pos) {
-                if (pos->ifdId() == panaRawId) continue;
-                ExifData::iterator dup = prevData.findKey(ExifKey(pos->key()));
+            for (auto& pos : exifData_) {
+                if (pos.ifdId() == panaRawId)
+                    continue;
+                auto dup = prevData.findKey(ExifKey(pos.key()));
                 if (dup != prevData.end()) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Filtering duplicate tag " << pos->key()
                               << " (values '" << pos->value()
                               << "' and '" << dup->value() << "')\n";
@@ -200,10 +196,10 @@ namespace Exiv2 {
             "Exif.Image.PrintImageMatching",
             "Exif.Image.YCbCrPositioning"
         };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredTags); ++i) {
-            ExifData::iterator pos = prevData.findKey(ExifKey(filteredTags[i]));
+        for (auto& filteredTag : filteredTags) {
+            auto pos = prevData.findKey(ExifKey(filteredTag));
             if (pos != prevData.end()) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exif tag " << pos->key() << " removed\n";
 #endif
                 prevData.erase(pos);
@@ -211,8 +207,8 @@ namespace Exiv2 {
         }
 
         // Add the remaining tags
-        for (ExifData::const_iterator pos = prevData.begin(); pos != prevData.end(); ++pos) {
-            exifData_.add(*pos);
+        for (auto& pos : prevData) {
+            exifData_.add(pos);
         }
 
     } // Rw2Image::readMetadata

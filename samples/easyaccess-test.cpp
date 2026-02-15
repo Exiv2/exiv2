@@ -9,7 +9,7 @@
 #include <iomanip>
 #include <cassert>
 
-typedef Exiv2::ExifData::const_iterator (*EasyAccessFct)(const Exiv2::ExifData& ed);
+using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
 
 struct EasyAccess {
     const char*   label_;
@@ -43,25 +43,27 @@ static const EasyAccess easyAccess[] = {
 
 int main(int argc, char **argv)
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
     }
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
-    assert (image.get() != 0);
+    assert (image.get() != nullptr);
     image->readMetadata();
     Exiv2::ExifData& ed = image->exifData();
 
-    for (unsigned int i = 0; i < EXV_COUNTOF(easyAccess); ++i) {
-        Exiv2::ExifData::const_iterator pos = easyAccess[i].findFct_(ed);
-        std::cout << std::setw(20) << std::left << easyAccess[i].label_;
+    for (auto easyAcces : easyAccess) {
+        auto pos = easyAcces.findFct_(ed);
+        std::cout << std::setw(20) << std::left << easyAcces.label_;
         if (pos != ed.end()) {
-            std::cout << " (" << std::setw(35) << pos->key() << ") : "
-                      << pos->print(&ed) << "\n";
-        }
-        else {
-            std::cout << " (" << std::setw(35) << " " << ") : \n";
+            std::cout << " (" << std::setw(35) << pos->key() << ") : " << pos->print(&ed) << "\n";
+        } else {
+            std::cout << " (" << std::setw(35) << " "
+                      << ") : \n";
         }
     }
 

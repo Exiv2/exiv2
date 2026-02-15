@@ -62,11 +62,11 @@ namespace Exiv2
         /// @param key %ExifKey.
         /// @param pValue Pointer to an %Exifdatum value.
         /// @throw Error if the key cannot be parsed and converted.
-        explicit Exifdatum(const ExifKey& key, const Value* pValue = 0);
+        explicit Exifdatum(const ExifKey& key, const Value* pValue = nullptr);
 
         Exifdatum(const Exifdatum& rhs);
 
-        virtual ~Exifdatum();
+        ~Exifdatum() override;
         //@}
 
         //! @name Manipulators
@@ -138,7 +138,7 @@ namespace Exiv2
         /// @return Number of characters written.
         long copy(byte* buf, ByteOrder byteOrder) const override;
 
-        std::ostream& write(std::ostream& os, const ExifData* pMetadata = 0) const override;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata = nullptr) const override;
         //! Return the type id of the value
         TypeId typeId() const override;
         //! Return the name of the type
@@ -305,7 +305,7 @@ namespace Exiv2
     };
 
     //! Container type to hold all metadata
-    typedef std::list<Exifdatum> ExifMetadata;
+    using ExifMetadata = std::list<Exifdatum>;
 
     /// @brief A container for EXIF data. This is a top-level class of the library. The container holds Exifdatum
     /// objects.
@@ -321,9 +321,9 @@ namespace Exiv2
     {
     public:
         //! ExifMetadata iterator type
-        typedef ExifMetadata::iterator iterator;
+        using iterator = ExifMetadata::iterator;
         //! ExifMetadata const iterator type
-        typedef ExifMetadata::const_iterator const_iterator;
+        using const_iterator = ExifMetadata::const_iterator;
 
         //! @name Manipulators
         //@{

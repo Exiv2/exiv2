@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2SAMPLES 1 "Dec 29, 2015"
+.TH EXIV2 1 "Aug 25, 2019"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -16,7 +16,7 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-exiv2 sample applications\- Image metadata manipulation tool
+exiv2 \- Image metadata manipulation tool
 .SH SYNOPSIS
 .B exiv2
 [\fIoptions\fP] [\fIaction\fP] \fIfile\fP ...
@@ -28,45 +28,41 @@ exiv2 sample applications\- Image metadata manipulation tool
 .\" respectively.
 .B exiv2
 is a program to read and write Exif, IPTC, XMP metadata and
-image comments and can read many vendor makernote tags.  Users
-who build exiv2 and its library also build some sample and test applications.
-.br
-The samples are:
-.br
-.nf
-exiv2json	Format metadata in json
-exifprint	Print the metadata in one or more images
-.fi
+image comments and can read many vendor makernote tags. The program
+optionally converts between Exif tags, XMP properties and IPTC
+datasets as recommended by the Exif Standard, the IPTC Standard,
+the XMP specification and Metadata Working Group guidelines.
 .br
 The following image formats are supported:
 .TS
-lB lB lB lB lB
-_	_	_	_	_
-l l l l l.
-Type	Exif	IPTC	XMP	Image comments
-JPEG	Read/Write	Read/Write	Read/Write	Read/Write
-EXV	Read/Write	Read/Write	Read/Write	Read/Write
-CR2	Read/Write	Read/Write	Read/Write	-
-CRW	Read/Write	-	-	Read/Write
-MRW	Read	Read	Read	-
-TIFF	Read/Write	Read/Write	Read/Write	-
-DNG	Read/Write	Read/Write	Read/Write	-
-NEF	Read/Write	Read/Write	Read/Write	-
-PEF	Read/Write	Read/Write	Read/Write	-
-ARW	Read	Read	Read	-
-RW2	Read	Read	Read	-
-SR2	Read	Read	Read	-
-SRW	Read/Write	Read/Write	Read/Write	-
-ORF	Read/Write	Read/Write	Read/Write	-
-PNG	Read/Write	Read/Write	Read/Write	Read/Write
-PGF	Read/Write	Read/Write	Read/Write	Read/Write
-RAF	Read	Read	Read	-
-XMP	-	-	Read/Write	-
-GIF	-	-	-	-
-PSD	Read/Write	Read/Write	Read/Write	-
-TGA	-	-	-	-
-BMP	-	-	-	-
-JP2	Read/Write	Read/Write	Read/Write	-
+lB lB lB lB lB lB
+_	_	_	_	_	_
+l l l l l l.
+Type	Exif	IPTC	XMP	Image Comments	ICC Profile
+JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+EXV	Read/Write	Read/Write	Read/Write	Read/Write Read/Write
+CR2	Read/Write	Read/Write	Read/Write	-	Read/Write
+CRW	Read/Write	-	-	Read/Write	-
+MRW	Read	Read	Read	-	-
+TIFF	Read/Write	Read/Write	Read/Write	-	Read/Write
+WEBP	Read/Write	-	Read/Write	-	Read/Write
+DNG	Read/Write	Read/Write	Read/Write	-	Read/Write
+NEF	Read/Write	Read/Write	Read/Write	-	Read/Write
+PEF	Read/Write	Read/Write	Read/Write	-	Read/Write
+ARW	Read	Read	Read	-	-
+RW2	Read	Read	Read	-	-
+SR2	Read	Read	Read	-	-
+SRW	Read/Write	Read/Write	Read/Write	-	-
+ORF	Read/Write	Read/Write	Read/Write	-	-
+PNG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+PGF	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+RAF	Read	Read	Read	-	-
+XMP	-	-	Read/Write	-	-
+GIF	-	-	-	-	-
+PSD	Read/Write	Read/Write	Read/Write	-	-
+TGA	-	-	-	-	-
+BMP	-	-	-	-	-
+JP2	Read/Write	Read/Write	Read/Write	-	Read/Write
 .TE
 .IP \(bu 2
 Support for GIF, TGA and BMP images is minimal: the image format is
@@ -142,11 +138,11 @@ option [arg]	long option	description
 -e	tgt	--extract	Extract target(s) for the 'extract' action.
 -f		--force	Do not prompt before overwriting existing  files ...
 -F		--Force	Do not prompt before renaming files (Force rename) ...
--g	key	--grep	Only output info for this Exiv2 key (grep).
+-g	key	--grep	Only output info for this Exiv2 key
 -h		--help	Display help and exit.
 -i	tgt	--insert	Insert target(s) for the 'insert' action. ...
--k		--keep	Preserve file timestamps when updating files (keep)
--K	Key	--key	Report key.  Similar to -g (grep) however key must match exactly.
+-k		--keep	Preserve file timestamps when updating files
+-K	key	--key	Report key.  Similar to -g (grep) however key must match exactly.
 -l	dir	--location	Location (directory) for files to be inserted or extracted.
 -m	file	--modify	read commands from cmd-file
 -M	cmd	--Modify	Command line for the 'modify' action. ...
@@ -166,24 +162,24 @@ option [arg]	long option	description
 -Y	+-n	--years	Time adjustment by a positive or negative number of years ...
 .sp 1
 act		pr | ex | in | rm | ad | mo | mv | fi | fc
-		print, extract, insert, delete, adjust, modify, rename, fixiso,fixcom
+		print, extract, insert, delete, adjust, modify, rename, fixiso, fixcom
 
 cmd		See "Commands" below.
 
 flg		E | I | X | x | g | k | l | n | y | c | s | v | t | h
-		Exif , IPTC, XMP, num, grp, key, label, name , type, count, size, vanilla, translated, hex
+		Exif, IPTC, XMP, num, grp, key, label, name, type, count, size, vanilla, translated, hex
 
 fmt		Default format is %Y%m%d_%H%M%S.
 
 lvl		d | i | i | w | e
 		debug, info, warning, error
 
-mod		s | a | t | v | h | i | x | c | p | i | S | X :
-		summary, add, translated, vanilla, hex ...
-		iptc ,xmp, comment, preview, Structure,XMP raw
+mod		s | a | e | t | v | h | i | x | c | p | i | C | R | S | X
+		summary, all, exif, translated, vanilla, hex, iptc, xmp, comment, preview,
+		ICC Profile, Recursive Structure, Simple Structure, raw XMP
 
-tgt		a | c | e | i | t | x
-		all, comment, exif, iptc, thumb, xmp
+tgt		a | c | e | i | p | t | x | C | X | XX | -
+		all, comment, exif, iptc, preview, thumb, xmp, ICC Profile, SideCar, RawXMP, stdin/out
 
 .br
 .fi
@@ -199,7 +195,7 @@ Show the program version and exit.
 When \fB\-V\fP is combined with \fB\-v\fP (Verbose version), build information
 is printed to standard output along with a list of shared libraries which
 have been loaded into memory. Verbose version is supported on Windows
-(MSVC, Cygwin and MinGW builds), MacOSX and Linux and is provided
+(MSVC, Cygwin and MinGW builds), macOS and Linux and is provided
 for test and debugging.
 .TP
 .B \-v
@@ -225,22 +221,30 @@ Show unknown tags (default is to suppress tags which don't have a name).
 Only keys which match the given key (grep).
 .br
 Multiple \fB\-g\fP options
-can be used to grep info for several keys.  When the library is build with C++11,
-keys are matched using std::regex::extended.  When build without C++11, keys are
-processed with the system regular expression engine:  see man 3 regex.  Platforms which do not support
-regex use key for a substring match.  You can determine the availability of regex
-using the command: exiv2 -v -V -g have_regex -g cplusplus.
+can be used to filter info to less keys. Example:
+exiv2 -v -V -g webready -g time.
+The default exiv2 command prints a "summary report" which is quite short.  When you use -g without a -pmod option, you do not get a summary report and in effect you get -g pattern -pa image ...
 
 .nf
-exiv2 \-g Date \-pt R.jpg
-Exif.Image.DateTime           Ascii      20  2012:08:07 16:01:05
-Exif.Photo.DateTimeOriginal   Ascii      20  2011:09:18 16:25:48
-Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48
+$ bin/exiv2 -g Date http://clanmills.com/Stonehenge.jpg
+Exif.Image.DateTime                 Ascii    20  2015:07:16 20:25:28
+Exif.Photo.DateTimeOriginal         Ascii    20  2015:07:16 15:38:54
+Exif.Photo.DateTimeDigitized        Ascii    20  2015:07:16 15:38:54
+Exif.NikonWt.DateDisplayFormat      Byte      1  Y/M/D
+Exif.GPSInfo.GPSDateStamp           Ascii    11  2015:07:16
+Xmp.xmp.ModifyDate                  XmpText  25  2015-07-16T20:25:28+01:00
 
 .fi
--g (--grep) is only applied to keys.  It is not generally applied to all output such as the default -ps report.
+You may use -pmod filters to further filter output.  For example:
+.nf
 
-The key may finish with the optional modifier /i to indicated case insensitive.
+$ bin/exiv2 -px -g Date http://clanmills.com/Stonehenge.jpg
+Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
+
+.fi
+The option -g (--grep) applies to keys and not values.
+
+The key may finish with the optional modifier /i to indicate case insensitive.
 .TP
 .B \-K \fIkey\fP
 Only report data for given key.
@@ -249,8 +253,8 @@ Multiple \fB\-K\fP options can be used to report more than a single key.
 
 .nf
 exiv2 \-K Exif.Photo.DateTimeDigitized -K Exif.Photo.DateTimeOriginal \-pt R.jpg
-Exif.Photo.DateTimeOriginal   Ascii      20  2011:09:18 16:25:48
-Exif.Photo.DateTimeDigitized  Ascii      20  2011:09:18 16:25:48
+Exif.Photo.DateTimeOriginal   Ascii    20  2011:09:18 16:25:48
+Exif.Photo.DateTimeDigitized  Ascii    20  2011:09:18 16:25:48
 .fi
 .TP
 .B \-n \fIenc\fP
@@ -273,12 +277,50 @@ not rename the file (overrides \fB\-k\fP). This option is only used
 with the 'rename' action. Note: On Windows you may have to set the TZ
 environment variable for this option to work correctly.
 .TP
-.B \-f
-Do not prompt before overwriting existing files (force overwrite).
+.B \-f,\-F
+These options are used by the commands 'rename' and 'extract' to
+determine the file overwrite policy.  These options are usually
+combined with -v/--verbose to provide additional status output.
+.br
+.sp 1
+The options --force and --Force apply to the 'rename' command.
+The 'extract' command treats --force and --Force as permission to
+overwrite.
+.br
+.sp 1
+The default behaviour is to prompt the user.
+.br
+-f = Do not prompt before overwriting existing files.
+.br
+-F = Do not prompt before renaming files. Appends '_1'
+('_2', ...) to the name of the new file.  For example:
+.sp 1
+.nf
+$ curl --silent -O http://clanmills.com/Stonehenge.jpg
+$ exiv2 --verbose --Force rename Stonehenge.jpg
+File 1/1: Stonehenge.jpg
+Renaming file to ./20150716_153854.jpg
+$ curl --silent -O http://clanmills.com/Stonehenge.jpg
+$ exiv2 --verbose --Force rename Stonehenge.jpg
+File 1/1: Stonehenge.jpg
+Renaming file to ./20150716_153854_1.jpg
+.sp 1
+.fi
+The 'rename' command will only overwrite files when the option --force is used.  The option --Force is provided to avoid unintentional loss of valuable image files.
+.sp 1
+The 'extract' command will overwrite files when either --force or --Force is used.  Overwriting extracted files will not cause the loss of image files.
+.br
 .TP
-.B \-F
-Do not prompt before renaming files (Force rename). Appends '_1'
-('_2', ...) to the name of the new file.
+.B \-r \fIfmt\fP
+Filename format for the 'rename' action. The format string follows
+\fBstrftime\fP(3) and supports the following keywords:
+.TS
+l l.
+:basename:	original filename without extension
+:dirname:	name of the directory holding the original file
+:parentname:	name of parent directory
+.TE
+Default filename format is %Y%m%d_%H%M%S.
 .TP
 .B \-a \fItime\fP
 Time adjustment in the format [\-]HH[:MM[:SS]]. This option is only
@@ -299,78 +341,60 @@ the 'adjust' action.
 .TP
 .B \-p \fImode\fP
 Print mode for the 'print' action. Possible modes are:
-.br
+.TS
+l l.
 s : print a summary of the Exif metadata (the default)
-.br
 a : print Exif, IPTC and XMP metadata (shortcut for \-Pkyct)
-.br
+e : print Exif metadata (shortcut for \-PEkycv)
 t : interpreted (translated) Exif tags (\-PEkyct)
-.br
 v : plain Exif tag values (\-PExgnycv)
-.br
 h : hexdump of the Exif data (\-PExgnycsh)
-.br
 i : IPTC datasets (\-PIkyct)
-.br
 x : XMP properties (\-PXkyct)
-.br
 c : JPEG comment
-.br
 p : list available image previews, sorted by preview image size in pixels
-.br
-S : print image structure information (jpg, png and tiff only)
-.br
-X : print "raw" XMP (jpg, png and tiff only)
+C : print image ICC Profile (jpg, png, tiff, webp, cr2, jp2 only)
+R : print image structure recursively (jpg, png, tiff, webp, cr2, jp2 only)
+S : print image structure information (jpg, png, tiff, webp, cr2, jp2 only)
+X : print "raw" XMP (jpg, png, tiff, webp, cr2, jp2 only)
+.TE
 .TP
 .B \-P \fIflgs\fP
 Print flags for fine control of the tag list ('print' action). Allows
 control of the type of metadata as well as data columns included in
 the print output.  Valid flags are:
-.br
+.TS
+l l.
 E : include Exif tags in the list
-.br
 I : IPTC datasets
-.br
 X : XMP properties
-.br
 x : print a column with the tag number
-.br
 g : group name
-.br
 k : key
-.br
 l : tag label
-.br
 n : tag name
-.br
 y : type
-.br
 c : number of components (count)
-.br
 s : size in bytes
-.br
-v : plain data value
-.br
-V : plain data value AND the word 'set ' at the start of line (for use with exiv2 -m-)
-.br
-t : interpreted (translated) data
-.br
+v : plain data value (vanilla values)
+V : plain data value AND the word 'set ' (for use with exiv2 -m-)
+t : interpreted (translated) human readable data
 h : hexdump of the data
+.TE
 .TP
 .B \-d \fItgt\fP
 Delete target(s) for the 'delete' action. Possible targets are:
-.br
+.TS
+l l.
 a : all supported metadata (the default)
-.br
 e : Exif section
-.br
 t : Exif thumbnail only
-.br
 i : IPTC data
-.br
 x : XMP packet
-.br
 c : JPEG comment
+C : ICC Profile
+I : All IPTC data
+.TE
 .TP
 .B \-i \fItgt\fP
 Insert target(s) for the 'insert' action. Possible targets are the
@@ -381,13 +405,14 @@ insert targets determine what metadata to insert from the sidecar
 file. Possible are Exif, IPTC and XMP and the default is all of
 these. Note that the inserted XMP properties include those converted
 to Exif and IPTC.
-.br
-This is option is intended for "filter" operations on the XMP such as:
+.sp 1
+XX: Insert "raw" XMP metadata from a sidecar (see option -pX)
+.sp 1
+- : Read from stdin.  This option is intended for "filter" operations such as:
 .br
 $ exiv2 -e{tgt}- \fIfilename\fP | xmllint .... | exiv2 -i{tgt}- \fIfilename\fP
 .sp 1
-Only JPEG thumbnails can be inserted (not TIFF thumbnails), they need to
-be named \fIfile\fP\-thumb.jpg.
+Only JPEG thumbnails can be inserted (not TIFF thumbnails), and must be named \fIfile\fP\-thumb.jpg.
 .TP
 .B \-e \fItgt\fP
 Extract target(s) for the 'extract' action. Possible targets are the same
@@ -399,33 +424,28 @@ list of preview image numbers is used to determine which preview images
 to extract. The available preview images and their numbers are displayed
 with the 'print' option \fB\-pp\fP.
 .sp 1
+C : Extract embedded ICC profile to <file>.icc
+.sp 1
 X : Extract metadata to an XMP sidecar file <file>.xmp. The remaining
 extract targets determine what metadata to extract to the sidecar
 file. Possible are Exif, IPTC and XMP and the default is all of these.
+.sp
+XX: Extract "raw" XMP metadata to a sidecar (see -pX)
+.br
+    You may not use modify commands with the -eXX option and only XMP is written to the sidecar.
 .sp 1
-- : Output sidecar file to stdout (see -i tgt for example)
+- : Output to stdout (see -i tgt for an example of this feature)
 .sp 1
-.TP
-.B \-r \fIfmt\fP
-Filename format for the 'rename' action. The format string follows
-\fBstrftime\fP(3) and supports the following keywords:
-.br
-:basename:   - original filename without extension
-.br
-:dirname:    - name of the directory holding the original file
-.br
-:parentname: - name of parent directory
-.br
-Default filename format is %Y%m%d_%H%M%S.
 .TP
 .B \-c \fItxt\fP
 JPEG comment string to set in the image ('modify' action). This option
 can also be used with the 'extract' and 'insert' actions to modify
-metadata on-the-fly.  -m- represents standard-input.
+metadata on-the-fly.
 .TP
 .B \-m \fIfile\fP
 Command file for the 'modify' action. This option can also be used
 with the 'extract' and 'insert' actions to modify metadata on-the-fly.
+-m- represents standard-input.
 .TP
 .B \-M \fIcmd\fP
 Command line for the 'modify' action. This option can also be used
@@ -438,6 +458,8 @@ Location (directory) for files to be inserted or extracted.
 .TP
 .B \-S \fI.suf\fP
 Use suffix \fI.suf\fP for source files in 'insert' action.
+.br
+.ne 40
 .SH COMMANDS
 Commands for the 'modify' action can be read from a command file, e.g.,
 .sp 1
@@ -520,77 +542,164 @@ is used by default if the value doesn't start with a charset
 definition.
 .sp 1
 The format for an IPTC \fBDate\fP value is:
-.br
+.sp 1
     YYYY\-MM\-DD (year, month, day)
 .sp 1
 The format for an IPTC \fBTime\fP value is:
-.br
+.sp 1
     HH:MM:SS (hours, minutes, seconds)
-.br
+.sp
 and may optionally be followed by:
-.br
+.sp 1
    \-HH:MM or +HH:MM (hours, minutes ahead/behind UTC)
 .sp 1
 The format of \fBRational\fP (and \fBSRational\fP) is one of:
-.br
-    integer
-.br
-    integer-numerator/integer-denominator
-.br
-    Fnumber
-.br
-    fnumber
+.sp 1
+   integer | integer/integer | Fnumber | number
 .sp 1
 Rational Examples:
-.br
-    exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
-.br
-    exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
 .sp 1
-The Rational format Fnumber (or fnumber) is for the convenience of setting aperture values.  Aperture values
+.nf
+$ exiv2 "-Mset Exif.Photo.MaxApertureValue 557429/62500" X.jpg
+$ exiv2 "-Mset Exif.Photo.MaxApertureValue F5.6" X.jpg
+.fi
+.sp 1
+The Rational format Fnumber is for the convenience of setting aperture values.  Aperture values
 are stored in Exif is an \fBAPEX\fP value which can be evaluated by the expression:
 .sp 1
-    apex-value  =    log(Fnumber) * 2.0 / log(2.0)
-.br
-    Fnumber     = exp(apex-value * log(2.0) / 2.0)
+.nf
+apex-value  =    log(Fnumber) * 2.0 / log(2.0)
+number      = exp(apex-value * log(2.0) / 2.0)
+.fi
 .sp 1
 The Rational format Fnumber is valid for any \fBRational\fP, even when the key is not an Aperture.
 More information about \fBAPEX\fP value is available from: http://en.wikipedia.org/wiki/APEX_system
 .sp 1
 The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
-.br
-.B  lang="\fIlanguage-code\fP\fI" text\fP
+.nf
+.B lang="\fIlanguage-code\fP\fI" text\fP
+.fi
 .sp
 lang="x-default" is used if the value doesn't start with a language qualifier.
 .sp 1
-    exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
-.br
-    exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
-.br
-    exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
-.br
-    exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
+.nf
+$ exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
+$ exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
+.fi
 .sp 1
 To remove a language specification, set the value to '' (empty string)
-.br
-    exiv2 -M'set Xmp.dc.title lang="en-US"' X.jpg
-.sp 1
+.nf
+exiv2 -M'set Xmp.dc.title lang="en-US"' X.jpg
+.fi
 To remove all language specifications, delete the key:
-.br
-    exiv2 -M'del Xmp.dc.title' X.jpg
-.TP
+.nf
+$ exiv2 -M'del Xmp.dc.title' X.jpg
+.fi
 To register additional XMP namespaces, combine the command with:
-.TP
 .nf
 \fBreg\fP \fIprefix\fP \fInamespace\fP
+.br
+.ne 4
 .fi
 .SS Command file format
 Empty lines and lines starting with \fB#\fP in a command file are
 ignored (comments). Remaining lines are commands as described above.
+.br
+
+
+.ne 40
+.SH EXIF TAGNAMES AND VALUES
+Exiv2 displays metadata tags and values.
+.sp 1
+The tag is a triplet of Family.Group.Tagname.  The following groups are defined for the family Exif:
+.sp 1
+.nf
+GPSInfo           Canon           Fujifilm      NikonLd1      OlympusFe1     Pentax
+Image             CanonCf                       NikonLd2      OlympusFe2     PentaxDng
+Image2            CanonCs         Nikon1        NikonLd3      OlympusFe3
+Image3            CanonF1         Nikon2        NikonMe       OlympusFe4     Samsung2
+Iop               CanonPa         Nikon3        NikonPc       OlympusFe5     SamsungPictureWizard
+MakerNote         CanonPi         NikonAFT      NikonPreview  OlympusFe6     SamsungPreview
+MpfInfo           CanonPr         NikonAf       NikonSi01xx   OlympusFe7
+Photo             CanonSi         NikonAf2      NikonSi02xx   OlympusFe8     Sony1
+SubImage1         CanonTi         NikonAf22     NikonSiD300a  OlympusFe9     Sony1Cs
+SubImage2                         NikonCb1      NikonSiD300b  OlympusFi      Sony1Cs2
+SubImage3         Casio           NikonCb2      NikonSiD40    OlympusIp      Sony1MltCs7D
+SubImage4         Casio2          NikonCb2a     NikonSiD80    OlympusRd      Sony1MltCsA100
+SubImage5                         NikonCb3      NikonVr       OlympusRd2     Sony1MltCsNew
+SubImage6         Minolta         NikonCb4      NikonWt       OlympusRi      Sony1MltCsOld
+SubImage7         MinoltaCs5D     NikonFi                                    Sony2
+SubImage8         MinoltaCs7D     NikonFl1      Olympus       Panasonic      Sony2Cs
+SubImage9         MinoltaCsNew    NikonFl2      Olympus2      PanasonicRaw   Sony2Cs2
+SubThumb1         MinoltaCsOld    NikonFl3      OlympusCs                    Sony2Fp
+Thumbnail                         NikonIi       OlympusEq     Sigma          SonyMinolta
+.fi
+.sp 1
+Exiv2 supports Exif 2.2 Standard Tags.  Exiv2 also supports reading and writing manufacturer's MakerNote.  The information in Exif.Photo.MakerNote is encoded as manufacturer's sub-records.  For example, CanonCs are Camera Settings, NikonAf are Nikon Auto Focus records, NikonCb are Nikon Color Balance Records.  Every tag is defined by a unique tagId (16 bit integer) which is unique within a Group.
+.sp
+You can query Exiv2 groups and tags with the sample program taglist which is documented in README-SAMPLES.md
+.sp
+.ne 20
+Exif Metadata values are defined in the Exif Standard.  All data is an array of data elements.  The Count defines the number elements in the array.  All elements in an array have the same type.
+.sp 1
+.nf
+Type               Explanation
+ 1 BYTE            An 8-bit unsigned integer.
+ 2 ASCII           7-bit ASCII. NUL terminated.
+ 3 SHORT           A 16-bit (2-byte) unsigned integer.
+ 4 LONG            A 32-bit (4-byte) unsigned integer
+ 5 RATIONAL        Two LONGs. Numerator, denominator.
+ 7 UNDEFINED       An 8-bit byte.
+ 8 SSHORT          A 16-bit (2-byte) signed integer.
+ 9 SLONG           A 32-bit (4-byte) signed integer.
+10 SRATIONAL       Two SLONGs. Numerator, denominator.
+.fi
+.sp
+The printing flag t = translated and is intended for human use.  Scripts should never use translated values as they are localised and the format may change as Exiv2 evolves.  The printing flag v reports the values recorded in the metadata and should be used by scripts.
+.ne 40
+.SH CONFIGURATION FILE
+Exiv2 can read an optional configuration file ~/.exiv2 on Unix systems and %USERPROFILE%\\exiv2.ini on Windows (using a Visual Studio build).  Cygwin and MinGW/msys2 follow the unix convention and use ~/.exiv2  You can fine the location of the configuration file with the command:
+.br
+.sp 1
+.nf
+$ exiv2 --verbose --version --grep config_path
+exiv2 0.27.0.1
+config_path=/Users/rmills/.exiv2
+.fi
+.sp 1
+The purpose of the configuration file is to define your own lenses for recognition by Exiv2.  The configuration file is in Windows .ini format and has sections for each of the major camera manufactures canon,nikon,pentax,minolta,olympus and sony.  The lens metadata is stored as a integer called the lensID.  You can change the lens name associated with any lensID.
+.br
+.sp 1
+.nf
+$ cat ~/.exiv2
+[nikon]
+146=Robin's Sigma Lens  <--- The name of your lens
+.fi
+.sp 1
+You obtain the lensID for your camera with the command:
+.nf
+.sp 1
+$ exiv2 -pv --grep lens/i http://clanmills.com/Stonehenge.jpg
+0x0083 Nikon3       LensType           Byte       1  14
+0x0084 Nikon3       Lens               Rational   4  180/10 2500/10 35/10 63/10
+0x008b Nikon3       LensFStops         Undefined  4  55 1 12 0
+0x000c NikonLd3     LensIDNumber       Byte       1  146 <--- This number
+0x000d NikonLd3     LensFStops         Byte       1  55
+.br
+.ne 40
 .SH EXAMPLES
 .TP
 exiv2 *.jpg
-Prints a summary of the Exif information for all JPEG files in the directory.
+Prints a summary of the Exif information for all JPEG files in the directory.  The summary report is rather brief and presentation does not use the Family.Group.Tag convention.
+
+If you use --grep pattern, the default becomes -pa.  See -g/grep above.
+
+.nf
+$ exiv2 -g Date http://clanmills.com/Stonehenge.jpg
+
+.fi
 .TP
 exiv2 \-pi image.jpg
 Prints the IPTC metadata of the image.
@@ -624,24 +733,17 @@ Core" XMP schema properties in the sidecar file to the older IPTC IIM4
 format. The inserted XMP properties include those in the "IPTC Core"
 XMP schema.
 .TP
-.nf
 exiv2 \-M"set Exif.Photo.UserComment charset=Ascii New Exif comment" image.jpg
-.fi
 Sets the Exif comment to an ASCII string.
 .TP
-.nf
-exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\
-\-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg
-.fi
+exiv2 \-M"set Exif.GPSInfo.GPSLatitude 4/1 15/1 33/1" \\ \-M"set Exif.GPSInfo.GPSLatitudeRef N" image.jpg
 Sets the latitude to 4 degrees, 15 minutes and 33 seconds north. The
 Exif standard stipulates that the GPSLatitude tag consists of three
 Rational numbers for the degrees, minutes and seconds of the latitude
 and GPSLatitudeRef contains either 'N' or 'S' for north or south
 latitude respectively.
 .TP
-.nf
 exiv2 insert \-l/tmp -S.CRW /data/*.JPG
-.fi
 Copy all metadata from CRW files in the /tmp directory to JPG files
 with corresponding basenames in the /data directory. Note that this
 copies metadata as is, without any modifications to adapt it to the
@@ -649,13 +751,13 @@ requirements of the target format. Some tags copied like this may not
 make sense in the target image.
 .SH SEE ALSO
 .TP
-.I http://www.exiv2.org/sample.html#modify
+.I http://exiv2.dyndns.org/sample.html#modify
 Sample command files.
 .TP
-.I http://www.exiv2.org/metadata.html
+.I http://exiv2.dyndns.org/metadata.html
 Taglists with \fIkey\fP and default \fItype\fP values.
 .SH AUTHORS
 .B exiv2
-was written by Andreas Huggel and others.  The Exiv2 project web site is http://exiv2.org
+was written by Andreas Huggel and others.  The Exiv2 project web site is http://exiv2.dyndns.org.  The code is hosted on GitHub at https://github.com/exiv2/exiv2
 .PP
 This manual page was originally created for the Debian project by KELEMEN Peter <fuji@debian.org>.

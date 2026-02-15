@@ -12,6 +12,9 @@
 
 int main(int argc, char* const argv[])
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     if (argc < 2) {
         std::cout << "Usage: " << argv[0] << " file {--nocurl | --curl}\n\n";
         return 1;
@@ -41,14 +44,14 @@ try {
     exifData.add(key, v.get());
 
     Exiv2::Image::UniquePtr writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
-    assert(writeTest.get() != 0);
+    assert(writeTest.get() != nullptr);
     writeTest->setExifData(exifData);
     writeTest->writeMetadata();
 
     // read the result to make sure everything fine
     std::cout << "Print out the new metadata ...\n";
     Exiv2::Image::UniquePtr readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
-    assert(readTest.get() != 0);
+    assert(readTest.get() != nullptr);
     readTest->readMetadata();
     Exiv2::ExifData &exifReadData = readTest->exifData();
     if (exifReadData.empty()) {
@@ -56,8 +59,8 @@ try {
         error += ": No Exif data found in the file";
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
     }
-    Exiv2::ExifData::const_iterator end = exifReadData.end();
-    for (Exiv2::ExifData::const_iterator i = exifReadData.begin(); i != end; ++i) {
+    auto end = exifReadData.end();
+    for (auto i = exifReadData.begin(); i != end; ++i) {
         const char* tn = i->typeName();
         std::cout << std::setw(44) << std::setfill(' ') << std::left
                   << i->key() << " "
@@ -72,14 +75,13 @@ try {
                   << "\n";
     }
 
-
     // del, reset the metadata
     std::cout << "Reset ...\n";
     exifReadData["Exif.Photo.UserComment"]  = "Have a nice day";           // AsciiValue
     exifReadData["Exif.Image.Software"]     = "Exiv2.org";                 // AsciiValue
     exifReadData["Exif.Image.Copyright"]    = "Exiv2.org";                 // AsciiValue
     key = Exiv2::ExifKey("Exif.Image.Make");
-    Exiv2::ExifData::iterator pos = exifReadData.findKey(key);
+    auto pos = exifReadData.findKey(key);
     if (pos == exifReadData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Exif.Image.Make not found");
     exifReadData.erase(pos);
     key = Exiv2::ExifKey("Exif.Image.DateTime");

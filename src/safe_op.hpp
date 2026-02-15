@@ -96,7 +96,7 @@ namespace Safe
         template <class T>
         struct enable_if<true, T>
         {
-            typedef T type;
+            using type = T;
         };
 
         /*!
@@ -123,10 +123,9 @@ namespace Safe
             if (((summand_2 >= 0) && (summand_1 > std::numeric_limits<T>::max() - summand_2)) ||
                 ((summand_2 < 0) && (summand_1 < std::numeric_limits<T>::min() - summand_2))) {
                 return true;
-            } else {
+            }
                 result = summand_1 + summand_2;
                 return false;
-            }
         }
 
         /*!
@@ -155,10 +154,9 @@ namespace Safe
             const int res = summand_1 + summand_2;
             if ((res > std::numeric_limits<T>::max()) || (res < std::numeric_limits<T>::min())) {
                 return true;
-            } else {
+            }
                 result = static_cast<T>(res);
                 return false;
-            }
         }
 
         /*!

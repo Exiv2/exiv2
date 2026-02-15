@@ -11,6 +11,9 @@
 
 int main(int argc, char* const argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     if (argc != 3) {
         std::cerr << "Usage: " << argv[0] << " file key\n";
         return 1;
@@ -20,7 +23,7 @@ int main(int argc, char* const argv[])
     const char* key  = argv[2];
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    assert(image.get() != nullptr);
     image->readMetadata();
     Exiv2::ExifData &exifData = image->exifData();
 

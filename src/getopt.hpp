@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ctype.h>
-#include <stdio.h>
+#include <cctype>
+#include <cstdio>
 #include <string>
 
 namespace Util {
@@ -92,7 +92,7 @@ namespace Util {
 
     private:
         std::string progname_;
-        int errcnt_;
+        int errcnt_{0};
     };
 
 } // namespace Util

@@ -40,6 +40,9 @@
 int main(int argc, char* const argv[])
 {
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     // Handle command line arguments
     Params params;
     if (params.getopt(argc, argv)) {
@@ -57,11 +60,11 @@ try {
     memIo->transfer(*fileIo);
 
     Exiv2::Image::UniquePtr readImg = Exiv2::ImageFactory::open(std::move(memIo));
-    assert(readImg.get() != 0);
+    assert(readImg.get() != nullptr);
     readImg->readMetadata();
 
     Exiv2::Image::UniquePtr writeImg = Exiv2::ImageFactory::open(params.write_);
-    assert(writeImg.get() != 0);
+    assert(writeImg.get() != nullptr);
     if (params.preserve_) writeImg->readMetadata();
     if (params.iptc_) {
         writeImg->setIptcData(readImg->iptcData());
@@ -146,7 +149,7 @@ int Params::getopt(int argc, char* const argv[])
 {
     int rc = Util::Getopt::getopt(argc, argv, optstring_);
     // Further consistency checks
-    if (help_==false) {
+    if (!help_) {
         if (rc==0 && read_.empty() ) {
             std::cerr << progname() << ": Read and write files must be specified\n";
             rc = 1;

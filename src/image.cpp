@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2020 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -30,6 +30,7 @@
 #include "futils.hpp"
 #include "safe_op.hpp"
 #include "slice.hpp"
+#include "unused.h"
 
 #include "cr2image.hpp"
 #include "crwimage.hpp"
@@ -43,7 +44,6 @@
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffvisitor_int.hpp"
-#include "bigtiffimage.hpp"
 #include "webpimage.hpp"
 #include "orfimage.hpp"
 #include "gifimage.hpp"
@@ -105,7 +105,6 @@ namespace {
         { ImageType::crw,  newCrwInstance,  isCrwType,  amReadWrite, amNone,      amNone,      amReadWrite },
         { ImageType::mrw,  newMrwInstance,  isMrwType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::tiff, newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
-        { ImageType::bigtiff, newBigTiffInstance, isBigTiffType, amRead, amRead,  amRead,      amNone      },
         { ImageType::webp, newWebPInstance, isWebPType, amReadWrite, amNone,      amReadWrite, amNone      },
         { ImageType::dng,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::nef,  newTiffInstance, isTiffType, amReadWrite, amReadWrite, amReadWrite, amNone      },
@@ -122,196 +121,207 @@ namespace {
         { ImageType::raf,  newRafInstance,  isRafType,  amRead,      amRead,      amRead,      amNone      },
         { ImageType::xmp,  newXmpInstance,  isXmpType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::gif,  newGifInstance,  isGifType,  amNone,      amNone,      amNone,      amNone      },
-        { ImageType::psd,  newPsdInstance,  isPsdType,  amRead,      amRead,      amRead,      amNone      },
+        { ImageType::psd,  newPsdInstance,  isPsdType,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         { ImageType::tga,  newTgaInstance,  isTgaType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::bmp,  newBmpInstance,  isBmpType,  amNone,      amNone,      amNone,      amNone      },
         { ImageType::jp2,  newJp2Instance,  isJp2Type,  amReadWrite, amReadWrite, amReadWrite, amNone      },
         // End of list marker
-        { ImageType::none, 0,               0,          amNone,      amNone,      amNone,      amNone      }
+        { ImageType::none, nullptr,               nullptr,          amNone,      amNone,      amNone,      amNone      }
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
 
-    Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io)
-        : io_(std::move(io)),
-          pixelWidth_(0),
-          pixelHeight_(0),
-          imageType_(type),
-          supportedMetadata_(supportedMetadata),
+Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io)
+    : io_(std::move(io)), pixelWidth_(0), pixelHeight_(0), imageType_(type),
+      supportedMetadata_(supportedMetadata),
 #ifdef EXV_HAVE_XMP_TOOLKIT
-          writeXmpFromPacket_(false),
+      writeXmpFromPacket_(false),
 #else
-          writeXmpFromPacket_(true),
+      writeXmpFromPacket_(true),
 #endif
-          byteOrder_(invalidByteOrder),
-          tags_(),
-          init_(true)
-    {
-    }
+      byteOrder_(invalidByteOrder),
 
-    Image::~Image()
-    {
-    }
+      init_(true) {
+}
 
-    void Image::printStructure(std::ostream&, PrintStructureOption,int /*depth*/)
-    {
-        throw Error(kerUnsupportedImageType, io_->path());
-    }
+Image::~Image() = default;
 
-    bool Image::isStringType(uint16_t type)
-    {
-        return type == Exiv2::asciiString
-            || type == Exiv2::unsignedByte
-            || type == Exiv2::signedByte
-            || type == Exiv2::undefined
-            ;
-    }
-    bool Image::isShortType(uint16_t type) {
-         return type == Exiv2::unsignedShort
-             || type == Exiv2::signedShort
-             ;
-    }
-    bool Image::isLongType(uint16_t type) {
-         return type == Exiv2::unsignedLong
-             || type == Exiv2::signedLong
-             ;
-    }
-    bool Image::isLongLongType(uint16_t type) {
-        return type == Exiv2::unsignedLongLong
-            || type == Exiv2::signedLongLong
-            ;
-    }
-    bool Image::isRationalType(uint16_t type) {
-         return type == Exiv2::unsignedRational
-             || type == Exiv2::signedRational
-             ;
-    }
-    bool Image::is2ByteType(uint16_t type)
-    {
-        return isShortType(type);
-    }
-    bool Image::is4ByteType(uint16_t type)
-    {
-        return isLongType(type)
-            || type == Exiv2::tiffFloat
-            || type == Exiv2::tiffIfd
-            ;
-    }
-    bool Image::is8ByteType(uint16_t type)
-    {
-        return isRationalType(type)
-             || isLongLongType(type)
-             || type == Exiv2::tiffIfd8
-             || type == Exiv2::tiffDouble
-            ;
-    }
-    bool Image::isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option)
-    {
-        return type == 700 && option == kpsXMP;
-    }
-    bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option)
-    {
-        return type == 0x8773 && option == kpsIccProfile;
-    }
+void Image::printStructure(std::ostream &, PrintStructureOption,
+                           int /*depth*/) {
+  throw Error(kerUnsupportedImageType, io_->path());
+}
 
-    bool Image::isBigEndianPlatform()
-    {
-        union {
-            uint32_t i;
-            char c[4];
-        } e = { 0x01000000 };
+bool Image::isStringType(uint16_t type)
+{
+    return type == Exiv2::asciiString || type == Exiv2::unsignedByte || type == Exiv2::signedByte ||
+           type == Exiv2::undefined;
+}
+bool Image::isShortType(uint16_t type)
+{
+    return type == Exiv2::unsignedShort || type == Exiv2::signedShort;
+}
+bool Image::isLongType(uint16_t type)
+{
+    return type == Exiv2::unsignedLong || type == Exiv2::signedLong;
+}
+bool Image::isLongLongType(uint16_t type)
+{
+    return type == Exiv2::unsignedLongLong || type == Exiv2::signedLongLong;
+}
+bool Image::isRationalType(uint16_t type)
+{
+    return type == Exiv2::unsignedRational || type == Exiv2::signedRational;
+}
+bool Image::is2ByteType(uint16_t type)
+{
+    return isShortType(type);
+}
+bool Image::is4ByteType(uint16_t type)
+{
+    return isLongType(type) || type == Exiv2::tiffFloat || type == Exiv2::tiffIfd;
+}
+bool Image::is8ByteType(uint16_t type)
+{
+    return isRationalType(type) || isLongLongType(type) || type == Exiv2::tiffIfd8 || type == Exiv2::tiffDouble;
+}
+bool Image::isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option)
+{
+    return type == 700 && option == kpsXMP;
+}
+bool Image::isPrintICC(uint16_t type, Exiv2::PrintStructureOption option)
+{
+    return type == 0x8773 && option == kpsIccProfile;
+}
 
-        return e.c[0]?true:false;
+bool Image::isBigEndianPlatform()
+{
+    union {
+        uint32_t i;
+        char c[4];
+    } e = {0x01000000};
+
+    return e.c[0] != 0;
+}
+bool Image::isLittleEndianPlatform()
+{
+    return !isBigEndianPlatform();
+}
+
+uint64_t Image::byteSwap(uint64_t value, bool bSwap)
+{
+    uint64_t result = 0;
+    auto source_value = reinterpret_cast<byte*>(&value);
+    auto destination_value = reinterpret_cast<byte*>(&result);
+
+    for (int i = 0; i < 8; i++)
+        destination_value[i] = source_value[8 - i - 1];
+
+    return bSwap ? result : value;
+}
+
+uint32_t Image::byteSwap(uint32_t value, bool bSwap)
+{
+    uint32_t result = 0;
+    result |= (value & 0x000000FF) << 24;
+    result |= (value & 0x0000FF00) << 8;
+    result |= (value & 0x00FF0000) >> 8;
+    result |= (value & 0xFF000000) >> 24;
+    return bSwap ? result : value;
+}
+
+uint16_t Image::byteSwap(uint16_t value, bool bSwap)
+{
+    uint16_t result = 0;
+    result |= (value & 0x00FF) << 8;
+    result |= (value & 0xFF00) >> 8;
+    return bSwap ? result : value;
+}
+
+uint16_t Image::byteSwap2(const DataBuf& buf, size_t offset, bool bSwap)
+{
+    uint16_t v;
+    auto p = reinterpret_cast<char*>(&v);
+    p[0] = buf.pData_[offset];
+    p[1] = buf.pData_[offset + 1];
+    return Image::byteSwap(v, bSwap);
+}
+
+uint32_t Image::byteSwap4(const DataBuf& buf, size_t offset, bool bSwap)
+{
+    uint32_t v;
+    auto p = reinterpret_cast<char*>(&v);
+    p[0] = buf.pData_[offset];
+    p[1] = buf.pData_[offset + 1];
+    p[2] = buf.pData_[offset + 2];
+    p[3] = buf.pData_[offset + 3];
+    return Image::byteSwap(v, bSwap);
+}
+
+uint64_t Image::byteSwap8(const DataBuf& buf, size_t offset, bool bSwap)
+{
+    uint64_t v;
+    auto p = reinterpret_cast<byte*>(&v);
+
+    for (int i = 0; i < 8; i++)
+        p[i] = buf.pData_[offset + i];
+
+    return Image::byteSwap(v, bSwap);
+}
+
+const char* Image::typeName(uint16_t tag)
+{
+    //! List of TIFF image tags
+    const char* result = nullptr;
+    switch (tag) {
+        case Exiv2::unsignedByte:
+            result = "BYTE";
+            break;
+        case Exiv2::asciiString:
+            result = "ASCII";
+            break;
+        case Exiv2::unsignedShort:
+            result = "SHORT";
+            break;
+        case Exiv2::unsignedLong:
+            result = "LONG";
+            break;
+        case Exiv2::unsignedRational:
+            result = "RATIONAL";
+            break;
+        case Exiv2::signedByte:
+            result = "SBYTE";
+            break;
+        case Exiv2::undefined:
+            result = "UNDEFINED";
+            break;
+        case Exiv2::signedShort:
+            result = "SSHORT";
+            break;
+        case Exiv2::signedLong:
+            result = "SLONG";
+            break;
+        case Exiv2::signedRational:
+            result = "SRATIONAL";
+            break;
+        case Exiv2::tiffFloat:
+            result = "FLOAT";
+            break;
+        case Exiv2::tiffDouble:
+            result = "DOUBLE";
+            break;
+        case Exiv2::tiffIfd:
+            result = "IFD";
+            break;
+        default:
+            result = "unknown";
+            break;
     }
-    bool Image::isLittleEndianPlatform() { return !isBigEndianPlatform(); }
-
-    uint64_t Image::byteSwap(uint64_t value,bool bSwap) const
-    {
-        uint64_t result = 0;
-        byte* source_value = reinterpret_cast<byte *>(&value);
-        byte* destination_value = reinterpret_cast<byte *>(&result);
-
-        for (int i = 0; i < 8; i++)
-            destination_value[i] = source_value[8 - i - 1];
-
-        return bSwap ? result : value;
-    }
-
-    uint32_t Image::byteSwap(uint32_t value,bool bSwap) const
-    {
-        uint32_t result = 0;
-        result |= (value & 0x000000FF) << 24;
-        result |= (value & 0x0000FF00) << 8;
-        result |= (value & 0x00FF0000) >> 8;
-        result |= (value & 0xFF000000) >> 24;
-        return bSwap ? result : value;
-    }
-
-    uint16_t Image::byteSwap(uint16_t value,bool bSwap) const
-    {
-        uint16_t result = 0;
-        result |= (value & 0x00FF) << 8;
-        result |= (value & 0xFF00) >> 8;
-        return bSwap ? result : value;
-    }
-
-    uint16_t Image::byteSwap2(const DataBuf& buf,size_t offset,bool bSwap) const
-    {
-        uint16_t v;
-        char*    p = (char*) &v;
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        return Image::byteSwap(v,bSwap);
-    }
-
-    uint32_t Image::byteSwap4(const DataBuf& buf,size_t offset,bool bSwap) const
-    {
-        uint32_t v;
-        char*    p = (char*) &v;
-        p[0] = buf.pData_[offset];
-        p[1] = buf.pData_[offset+1];
-        p[2] = buf.pData_[offset+2];
-        p[3] = buf.pData_[offset+3];
-        return Image::byteSwap(v,bSwap);
-    }
-
-    uint64_t Image::byteSwap8(const DataBuf& buf,size_t offset,bool bSwap) const
-    {
-        uint64_t v;
-        byte*    p = reinterpret_cast<byte *>(&v);
-
-        for(int i = 0; i < 8; i++)
-            p[i] = buf.pData_[offset + i];
-
-        return Image::byteSwap(v,bSwap);
-    }
-
-    const char* Image::typeName(uint16_t tag) const
-    {
-        //! List of TIFF image tags
-        const char* result = nullptr;
-        switch (tag ) {
-            case Exiv2::unsignedByte     : result = "BYTE"      ; break;
-            case Exiv2::asciiString      : result = "ASCII"     ; break;
-            case Exiv2::unsignedShort    : result = "SHORT"     ; break;
-            case Exiv2::unsignedLong     : result = "LONG"      ; break;
-            case Exiv2::unsignedRational : result = "RATIONAL"  ; break;
-            case Exiv2::signedByte       : result = "SBYTE"     ; break;
-            case Exiv2::undefined        : result = "UNDEFINED" ; break;
-            case Exiv2::signedShort      : result = "SSHORT"    ; break;
-            case Exiv2::signedLong       : result = "SLONG"     ; break;
-            case Exiv2::signedRational   : result = "SRATIONAL" ; break;
-            case Exiv2::tiffFloat        : result = "FLOAT"     ; break;
-            case Exiv2::tiffDouble       : result = "DOUBLE"    ; break;
-            case Exiv2::tiffIfd          : result = "IFD"       ; break;
-            default                      : result = "unknown"   ; break;
-        }
-        return result;
-    }
+    return result;
+}
 
     static bool typeValid(uint16_t type)
     {
@@ -364,12 +374,12 @@ namespace Exiv2 {
 
                 // Break for unknown tag types else we may segfault.
                 if ( !typeValid(type) ) {
-                    std::cerr << "invalid type value detected in Image::printIFDStructure:  " << type << std::endl;
+                    std::cerr << "invalid type in tiff structure" << type << std::endl;
                     start = 0; // break from do loop
                     throw Error(kerInvalidTypeValue);
                 }
 
-                std::string sp  = "" ; // output spacer
+                std::string sp;  // output spacer
 
                 //prepare to print the value
                 uint32_t kount  = isPrintXMP(tag,option) ? count // haul in all the data
@@ -389,11 +399,11 @@ namespace Exiv2 {
                 // if ( offset > io.size() ) offset = 0; // Denial of service?
 
                 // #55 and #56 memory allocation crash test/data/POC8
-                long long allocate = (long long) size*count + pad+20;
-                if ( allocate > (long long) io.size() ) {
+                long long allocate = static_cast<long long>(size) * count + pad + 20;
+                if (allocate > static_cast<long long>(io.size())) {
                     throw Error(kerInvalidMalloc);
                 }
-                DataBuf  buf((long)allocate);  // allocate a buffer
+                DataBuf buf(static_cast<long>(allocate));  // allocate a buffer
                 std::memset(buf.pData_, 0, buf.size_);
                 std::memcpy(buf.pData_,dir.pData_+8,4);  // copy dir[8:11] into buffer (short strings)
                 const bool bOffsetIsPointer = count*size > 4;
@@ -466,13 +476,13 @@ namespace Exiv2 {
 
                         uint32_t jump= 10           ;
                         byte     bytes[20]          ;
-                        const char* chars = (const char*) &bytes[0] ;
+                        const auto chars = reinterpret_cast<const char*>(&bytes[0]);
                         io.seek(offset,BasicIo::beg);  // position
                         io.read(bytes,jump    )     ;  // read
                         bytes[jump]=0               ;
                         if ( ::strcmp("Nikon",chars) == 0 ) {
                             // tag is an embedded tiff
-                            byte* bytes2=new byte[count-jump] ;  // allocate memory
+                            auto bytes2 = new byte[count - jump];  // allocate memory
                             io.read(bytes2,count-jump)        ;  // read
                             MemIo memIo(bytes2,count-jump)    ;  // create a file
                             printTiffStructure(memIo,out,option,depth);
@@ -489,10 +499,10 @@ namespace Exiv2 {
 
                 if ( isPrintXMP(tag,option) ) {
                     buf.pData_[count]=0;
-                    out << (char*) buf.pData_;
+                    out << reinterpret_cast<char*>(buf.pData_);
                 }
                 if ( isPrintICC(tag,option) ) {
-                    out.write((const char*)buf.pData_,count);
+                    out.write(reinterpret_cast<const char*>(buf.pData_), count);
                 }
             }
             if ( start ) {
@@ -517,12 +527,12 @@ namespace Exiv2 {
 
             // read header (we already know for certain that we have a Tiff file)
             io.read(dir.pData_,  8);
-            char c = (char) dir.pData_[0] ;
+            char c = static_cast<char>(dir.pData_[0]);
             bool bSwap   = ( c == 'M' && isLittleEndianPlatform() )
                         || ( c == 'I' && isBigEndianPlatform()    )
                         ;
             uint32_t start = byteSwap4(dir,4,bSwap);
-            printIFDStructure(io,out,option,start+(uint32_t)offset,bSwap,c,depth);
+            printIFDStructure(io, out, option, start + static_cast<uint32_t>(offset), bSwap, c, depth);
         }
     }
 
@@ -625,7 +635,8 @@ namespace Exiv2 {
     void Image::setIccProfile(Exiv2::DataBuf& iccProfile,bool bTestValid)
     {
         if ( bTestValid ) {
-            if ( iccProfile.pData_ && ( iccProfile.size_ < (long) sizeof(long)) ) throw Error(kerInvalidIccProfile);
+            if (iccProfile.pData_ && (iccProfile.size_ < static_cast<long>(sizeof(long))))
+                throw Error(kerInvalidIccProfile);
             const size_t size = iccProfile.pData_ ? getULong(iccProfile.pData_, bigEndian): -1;
             if ( size!= iccProfile.size_ ) throw Error(kerInvalidIccProfile);
         }
@@ -637,7 +648,10 @@ namespace Exiv2 {
         iccProfile_.free();
     }
 
-    bool Image::iccProfileDefined() const { return iccProfile_.size_?true:false;}
+    bool Image::iccProfileDefined() const
+    {
+        return iccProfile_.size_ != 0;
+    }
 
     void Image::setByteOrder(ByteOrder byteOrder)
     {
@@ -790,7 +804,7 @@ namespace Exiv2 {
     bool ImageFactory::checkType(ImageType type, BasicIo& io, bool advance)
     {
         const Registry* r = find(registry, type);
-        if (0 != r) {
+        if (nullptr != r) {
             return r->isThisType_(io, advance);
         }
         return false;
@@ -833,12 +847,6 @@ namespace Exiv2 {
     {
         Protocol fProt = fileProtocol(path);
 
-#ifdef EXV_USE_SSH
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::UniquePtr(new SshIo(path)); // may throw
-        }
-#endif
-
 #ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::UniquePtr(new CurlIo(path)); // may throw
@@ -861,15 +869,13 @@ namespace Exiv2 {
     BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& wpath, bool useCurl)
     {
         Protocol fProt = fileProtocol(wpath);
-#if EXV_USE_SSH == 1
-        if (fProt == pSsh || fProt == pSftp) {
-            return BasicIo::UniquePtr(new SshIo(wpath));
-        }
-#endif
-#if EXV_USE_CURL == 1
+
+#ifdef EXV_USE_CURL
         if (useCurl && (fProt == pHttp || fProt == pHttps || fProt == pFtp)) {
             return BasicIo::UniquePtr(new CurlIo(wpath));
         }
+#else
+        UNUSED(useCurl);
 #endif
         if (fProt == pHttp)
             return BasicIo::UniquePtr(new HttpIo(wpath));
@@ -883,7 +889,7 @@ namespace Exiv2 {
     Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl)
     {
         Image::UniquePtr image = open(ImageFactory::createIo(path, useCurl)); // may throw
-        if (image.get() == 0)
+        if (image.get() == nullptr)
             throw Error(kerFileContainsUnknownImageType, path);
         return image;
     }
@@ -901,7 +907,7 @@ namespace Exiv2 {
     {
         BasicIo::UniquePtr io(new MemIo(data, size));
         Image::UniquePtr image = open(std::move(io)); // may throw
-        if (image.get() == 0) throw Error(kerMemoryContainsUnknownImageType);
+        if (image.get() == nullptr) throw Error(kerMemoryContainsUnknownImageType);
         return image;
     }
 
@@ -954,7 +960,7 @@ namespace Exiv2 {
     {
         BasicIo::UniquePtr io(new MemIo);
         Image::UniquePtr image = create(type, std::move(io));
-        if (image.get() == 0) {
+        if (image.get() == nullptr) {
             throw Error(kerUnsupportedImageType, static_cast<int>(type));
         }
         return image;
@@ -978,7 +984,7 @@ namespace Exiv2 {
     void append(Blob& blob, const byte* buf, uint32_t len)
     {
         if (len != 0) {
-            assert(buf != 0);
+            assert(buf != nullptr);
             Blob::size_type size = blob.size();
             if (blob.capacity() - size < len) {
                 blob.reserve(size + 65536);

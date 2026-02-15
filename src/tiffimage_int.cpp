@@ -2,19 +2,20 @@
 
 #include "error.hpp"
 #include "makernote_int.hpp"
+#include "sonymn_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "i18n.h"                // NLS support.
 
 // Shortcuts for the newTiffBinaryArray templates.
-#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<&arrayCfg, EXV_COUNTOF(arrayDef), arrayDef>)
-#define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<&arrayCfg>)
+#define EXV_BINARY_ARRAY(arrayCfg, arrayDef) (newTiffBinaryArray0<(&arrayCfg), EXV_COUNTOF(arrayDef), arrayDef>)
+#define EXV_SIMPLE_BINARY_ARRAY(arrayCfg) (newTiffBinaryArray1<(&arrayCfg)>)
 #define EXV_COMPLEX_BINARY_ARRAY(arraySet, cfgSelFct) (newTiffBinaryArray2<arraySet, EXV_COUNTOF(arraySet), cfgSelFct>)
 
 namespace Exiv2 {
     namespace Internal {
 
     //! Constant for non-encrypted binary arrays
-    const CryptFct notEncrypted = 0;
+    const CryptFct notEncrypted = nullptr;
 
     //! Canon Camera Settings binary array - configuration
     extern const ArrayCfg canonCsCfg = {
@@ -767,6 +768,24 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedShort, 1 }
     };
+
+    extern const ArrayCfg sony2FpCfg = {
+        sony2FpId,        // Group for the elements
+        bigEndian,        // Big endian
+        ttUnsignedByte,   // Type for array entry and size element
+        sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
+        false,            // No size element
+        false,            // No fillers
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte, 1 }
+    };
+    extern const ArrayDef sony2FpDef[] = {
+        {  0x4, ttSignedByte  , 1 }, // Exif.Sony2Fp.AmbientTemperature
+        { 0x16, ttUnsignedByte, 1 }, // Exif.Sony2Fp.FocusMode
+        { 0x17, ttUnsignedByte, 1 }, // Exif.Sony2Fp.AFAreaMode
+        { 0x2d, ttUnsignedByte, 1 }  // Exif.Sony2Fp.FocusPosition2
+    };
+
     //! Sony[12] Camera Settings binary array - definition
     extern const ArrayDef sonyCsDef[] = {
         {  12, ttSignedShort,   1 }  // Exif.Sony[12]Cs.WhiteBalanceFineTune
@@ -988,6 +1007,7 @@ namespace Exiv2 {
         { Tag::root, sony1MltCs7DId,   sonyMltId,        0x0004    },
         { Tag::root, sony1MltCsA100Id, sonyMltId,        0x0114    },
         { Tag::root, sony2Id,          exifId,           0x927c    },
+        { Tag::root, sony2FpId,        sony2Id,          0x9402    },
         { Tag::root, sony2CsId,        sony2Id,          0x0114    },
         { Tag::root, sony2Cs2Id,       sony2Id,          0x0114    },
         { Tag::root, minoltaId,        exifId,           0x927c    },
@@ -1418,6 +1438,10 @@ namespace Exiv2 {
         {  Tag::all, sony1CsId,        newTiffBinaryElement                      },
         {  Tag::all, sony1Cs2Id,       newTiffBinaryElement                      },
 
+        // Tag 0x9402 Sony2Fp Focus Position
+        {  Tag::all, sony2FpId,        newTiffBinaryElement                      },
+        {    0x9402, sony2Id,          EXV_BINARY_ARRAY(sony2FpCfg, sony2FpDef)  },
+
         // Sony2 makernote
         {    0x0114, sony2Id,          EXV_COMPLEX_BINARY_ARRAY(sony2CsSet, sonyCsSelector) },
         { Tag::next, sony2Id,          ignoreTiffComponent                       },
@@ -1487,10 +1511,11 @@ namespace Exiv2 {
 
     // TIFF mapping table for special decoding and encoding requirements
     const TiffMappingInfo TiffMapping::tiffMappingInfo_[] = {
-        { "*",       Tag::all, ignoreId,  0, 0 }, // Do not decode tags with group == ignoreId
-        { "*",         0x02bc, ifd0Id,    &TiffDecoder::decodeXmp,          0 /*done before the tree is traversed*/ },
-        { "*",         0x83bb, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ },
-        { "*",         0x8649, ifd0Id,    &TiffDecoder::decodeIptc,         0 /*done before the tree is traversed*/ }
+        { "*",       Tag::all, ignoreId,  nullptr, nullptr }, // Do not decode tags with group == ignoreId
+        { "*",         0x02bc, ifd0Id,    &TiffDecoder::decodeXmp,          nullptr /*done before the tree is traversed*/ },
+        { "*",         0x83bb, ifd0Id,    &TiffDecoder::decodeIptc,         nullptr /*done before the tree is traversed*/ },
+        { "*",         0x8649, ifd0Id,    &TiffDecoder::decodeIptc,         nullptr /*done before the tree is traversed*/ },
+        { "*",         0x0026, canonId,   &TiffDecoder::decodeCanonAFInfo,  nullptr /* Exiv2.Canon.AFInfo is read-only */ },
     };
 
     DecoderFct TiffMapping::findDecoder(const std::string& make,
@@ -1513,7 +1538,7 @@ namespace Exiv2 {
               IfdId        group
     )
     {
-        EncoderFct encoderFct = 0;
+        EncoderFct encoderFct = nullptr;
         const TiffMappingInfo* td = find(tiffMappingInfo_,
                                          TiffMappingInfo::Key(make, extendedTag, group));
         if (td) {
@@ -1532,13 +1557,13 @@ namespace Exiv2 {
                                                IfdId    group)
     {
         TiffComponent::UniquePtr tc;
-        uint16_t tag = static_cast<uint16_t>(extendedTag & 0xffff);
+        auto tag = static_cast<uint16_t>(extendedTag & 0xffff);
         const TiffGroupStruct* ts = find(tiffGroupStruct_,
                                          TiffGroupStruct::Key(extendedTag, group));
         if (ts && ts->newTiffCompFct_) {
             tc = ts->newTiffCompFct_(tag, group);
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         else {
             if (!ts) {
                 std::cerr << "Warning: No TIFF structure entry found for ";
@@ -1559,11 +1584,11 @@ namespace Exiv2 {
                               IfdId     group,
                               uint32_t  root)
     {
-        const TiffTreeStruct* ts = 0;
+        const TiffTreeStruct* ts = nullptr;
         do {
             tiffPath.push(TiffPathItem(extendedTag, group));
             ts = find(tiffTreeStruct_, TiffTreeStruct::Key(root, group));
-            assert(ts != 0);
+            assert(ts != nullptr);
             extendedTag = ts->parentExtTag_;
             group = ts->parentGroup_;
         } while (!(ts->root_ == root && ts->group_ == ifdIdNotSet));
@@ -1588,7 +1613,7 @@ namespace Exiv2 {
             pHeader = ph.get();
         }
         TiffComponent::UniquePtr rootDir = parse(pData, size, root, pHeader);
-        if (0 != rootDir.get()) {
+        if (nullptr != rootDir.get()) {
             TiffDecoder decoder(exifData,
                                 iptcData,
                                 xmpData,
@@ -1626,7 +1651,7 @@ namespace Exiv2 {
         TiffComponent::UniquePtr parsedTree = parse(pData, size, root, pHeader);
         PrimaryGroups primaryGroups;
         findPrimaryGroups(primaryGroups, parsedTree.get());
-        if (0 != parsedTree.get()) {
+        if (nullptr != parsedTree.get()) {
             // Attempt to update existing TIFF components based on metadata entries
             TiffEncoder encoder(exifData,
                                 iptcData,
@@ -1641,7 +1666,7 @@ namespace Exiv2 {
         }
         if (writeMethod == wmIntrusive) {
             TiffComponent::UniquePtr createdTree = TiffCreator::create(root, ifdIdNotSet);
-            if (0 != parsedTree.get()) {
+            if (nullptr != parsedTree.get()) {
                 // Copy image tags from the original image to the composite
                 TiffCopier copier(createdTree.get(), root, pHeader, &primaryGroups);
                 parsedTree->accept(copier);
@@ -1651,7 +1676,7 @@ namespace Exiv2 {
                                 iptcData,
                                 xmpData,
                                 createdTree.get(),
-                                parsedTree.get() == 0,
+                                parsedTree.get() == nullptr,
                                 &primaryGroups,
                                 pHeader,
                                 findEncoderFct);
@@ -1659,15 +1684,11 @@ namespace Exiv2 {
             // Write binary representation from the composite tree
             DataBuf header = pHeader->write();
             BasicIo::UniquePtr tempIo(new MemIo);
-            assert(tempIo.get() != 0);
-            IoWrapper ioWrapper(*tempIo, header.pData_, (long)header.size_, pOffsetWriter);
-            uint32_t imageIdx(uint32_t(-1));
-            createdTree->write(ioWrapper,
-                               pHeader->byteOrder(),
-                               (int32_t)header.size_,
-                               uint32_t(-1),
-                               uint32_t(-1),
-                               imageIdx);
+            assert(tempIo.get() != nullptr);
+            IoWrapper ioWrapper(*tempIo, header.pData_, static_cast<long>(header.size_), pOffsetWriter);
+            auto imageIdx(uint32_t(-1));
+            createdTree->write(ioWrapper, pHeader->byteOrder(), static_cast<int32_t>(header.size_), uint32_t(-1),
+                               uint32_t(-1), imageIdx);
             if (pOffsetWriter) pOffsetWriter->writeOffsets(*tempIo);
             io.transfer(*tempIo); // may throw
 #ifndef SUPPRESS_WARNINGS
@@ -1689,13 +1710,13 @@ namespace Exiv2 {
               TiffHeaderBase*    pHeader
     )
     {
-        if (pData == 0 || size == 0)
+        if (pData == nullptr || size == 0)
             return nullptr;
         if (!pHeader->read(pData, size) || pHeader->offset() >= size) {
             throw Error(kerNotAnImage, "TIFF");
         }
         TiffComponent::UniquePtr rootDir = TiffCreator::create(root, ifdIdNotSet);
-        if (0 != rootDir.get()) {
+        if (nullptr != rootDir.get()) {
             rootDir->setStart(pData + pHeader->offset());
             TiffRwState state(pHeader->byteOrder(), 0);
             TiffReader reader(pData, size, rootDir.get(), state);
@@ -1708,7 +1729,7 @@ namespace Exiv2 {
 
     void TiffParserWorker::findPrimaryGroups(PrimaryGroups& primaryGroups, TiffComponent* pSourceDir)
     {
-        if (0 == pSourceDir)
+        if (nullptr == pSourceDir)
             return;
 
         const IfdId imageGroups[] = {
@@ -1727,10 +1748,10 @@ namespace Exiv2 {
             subImage9Id
         };
 
-        for (unsigned int i = 0; i < EXV_COUNTOF(imageGroups); ++i) {
-            TiffFinder finder(0x00fe, imageGroups[i]);
+        for (auto imageGroup : imageGroups) {
+            TiffFinder finder(0x00fe, imageGroup);
             pSourceDir->accept(finder);
-            TiffEntryBase* te = dynamic_cast<TiffEntryBase*>(finder.result());
+            auto te = dynamic_cast<TiffEntryBase*>(finder.result());
             const Value* pV = te != nullptr ? te->pValue() : nullptr;
             if (pV && pV->typeId() == unsignedLong && pV->count() == 1 && (pV->toLong() & 1) == 0) {
                 primaryGroups.push_back(te->group());
@@ -1750,9 +1771,7 @@ namespace Exiv2 {
     {
     }
 
-    TiffHeaderBase::~TiffHeaderBase()
-    {
-    }
+    TiffHeaderBase::~TiffHeaderBase() = default;
 
     bool TiffHeaderBase::read(const byte* pData, size_t size)
     {
@@ -1920,17 +1939,17 @@ namespace Exiv2 {
         };
 
         // If tag, group is one of the image tags listed above -> bingo!
+#ifdef EXIV2_DEBUG_MESSAGES
         if (find(tiffImageTags, TiffImgTagStruct::Key(tag, group))) {
-#ifdef DEBUG
             ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (3)\n";
-#endif
             return true;
         }
-#ifdef DEBUG
         std::cerr << "Not an image tag: " << tag << " (4)\n";
-#endif
         return false;
+#else
+        return find(tiffImageTags, TiffImgTagStruct::Key(tag, group));
+#endif
     }
 
     TiffHeader::TiffHeader(ByteOrder byteOrder, uint32_t offset, bool hasImageTags)
@@ -1939,39 +1958,37 @@ namespace Exiv2 {
     {
     }
 
-    TiffHeader::~TiffHeader()
-    {
-    }
+    TiffHeader::~TiffHeader() = default;
 
     bool TiffHeader::isImageTag(      uint16_t       tag,
                                       IfdId          group,
                                 const PrimaryGroups* pPrimaryGroups) const
     {
         if (!hasImageTags_) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "No image tags in this image\n";
 #endif
             return false;
         }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         ExifKey key(tag, groupName(group));
 #endif
         // If there are primary groups and none matches group, we're done
-        if (   pPrimaryGroups != 0
+        if (   pPrimaryGroups != nullptr
             && !pPrimaryGroups->empty()
             && std::find(pPrimaryGroups->begin(), pPrimaryGroups->end(), group)
                == pPrimaryGroups->end()) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Not an image tag: " << key << " (1)\n";
 #endif
             return false;
         }
         // All tags of marked primary groups other than IFD0 are considered
         // image tags. That should take care of NEFs until we know better.
-        if (   pPrimaryGroups != 0
+        if (   pPrimaryGroups != nullptr
             && !pPrimaryGroups->empty()
             && group != ifd0Id) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             ExifKey key(tag, groupName(group));
             std::cerr << "Image tag: " << key << " (2)\n";
 #endif
@@ -1988,18 +2005,19 @@ namespace Exiv2 {
 
     void OffsetWriter::setTarget(OffsetId id, uint32_t target)
     {
-        OffsetList::iterator it = offsetList_.find(id);
+        auto it = offsetList_.find(id);
         if (it != offsetList_.end()) it->second.target_ = target;
     }
 
     void OffsetWriter::writeOffsets(BasicIo& io) const
     {
-        for (OffsetList::const_iterator it = offsetList_.begin(); it != offsetList_.end(); ++it) {
-            io.seek(it->second.origin_, BasicIo::beg);
-            byte buf[4] = { 0, 0, 0, 0 };
-            l2Data(buf, it->second.target_, it->second.byteOrder_);
+        for (auto it : offsetList_) {
+            io.seek(it.second.origin_, BasicIo::beg);
+            byte buf[4] = {0, 0, 0, 0};
+            l2Data(buf, it.second.target_, it.second.byteOrder_);
             io.write(buf, 4);
         }
     }
 
-}}                                       // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

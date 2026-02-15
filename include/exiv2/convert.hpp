@@ -64,9 +64,9 @@ namespace Exiv2 {
     EXIV2API void syncExifWithXmp(ExifData& exifData, XmpData& xmpData);
 
     //! Convert (copy) IPTC datasets to XMP properties.
-    EXIV2API void copyIptcToXmp(const IptcData& iptcData, XmpData& xmpData, const char *iptcCharset = 0);
+    EXIV2API void copyIptcToXmp(const IptcData& iptcData, XmpData& xmpData, const char *iptcCharset = nullptr);
     //! Convert (move) IPTC datasets to XMP properties, remove converted IPTC datasets.
-    EXIV2API void moveIptcToXmp(IptcData& iptcData, XmpData& xmpData, const char *iptcCharset = 0);
+    EXIV2API void moveIptcToXmp(IptcData& iptcData, XmpData& xmpData, const char *iptcCharset = nullptr);
 
     //! Convert (copy) XMP properties to IPTC datasets.
     EXIV2API void copyXmpToIptc(const XmpData& xmpData, IptcData& iptcData);

@@ -37,7 +37,6 @@
 
 // + standard includes
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cstdio>
 #include <cstring>
@@ -68,8 +67,8 @@ namespace Exiv2
         {
             enforce(data.size_ == 13, kerCorruptedMetadata);
 
-            h.width = getLong((const byte*)data.pData_, bigEndian);
-            h.height = getLong((const byte*)data.pData_ + 4, bigEndian);
+            h.width = getLong(static_cast<const byte*>(data.pData_), bigEndian);
+            h.height = getLong(static_cast<const byte*>(data.pData_ + 4), bigEndian);
             h.bitDepth = data.pData_[8];
             h.colorType = data.pData_[9];
             h.compressionMethod = data.pData_[10];
@@ -108,7 +107,7 @@ namespace Exiv2
             DataBuf key = keyTXTChunk(data);
             DataBuf arr = parseTXTChunk(data, key.size_, type);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: "
                       << std::string((const char*)arr.pData_, arr.size_) << std::endl;
 #endif
@@ -120,7 +119,7 @@ namespace Exiv2
         {
             DataBuf key = keyTXTChunk(data);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk key: "
                       << std::string((const char*)key.pData_, key.size_) << std::endl;
 #endif
@@ -163,7 +162,7 @@ namespace Exiv2
                 const byte* compressionMethod = data.pData_ + keysize + 1;
                 if (*compressionMethod != 0x00) {
                     // then it isn't zlib compressed and we are sunk
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard zTXt compression method.\n";
 #endif
                     throw Error(kerFailedToReadImageData);
@@ -174,7 +173,7 @@ namespace Exiv2
                 size_t compressedTextSize = data.size_ - keysize - 2;
                 enforce(compressedTextSize < data.size_, kerCorruptedMetadata);
 
-                zlibUncompress(compressedText, (uint32_t)compressedTextSize, arr);
+                zlibUncompress(compressedText, static_cast<uint32_t>(compressedTextSize), arr);
             } else if (type == tEXt_Chunk) {
                 enforce(data.size_ >= Safe::add(keysize, 1_z), Exiv2::kerCorruptedMetadata);
                 // Extract a non-compressed Latin-1 text chunk
@@ -201,21 +200,21 @@ namespace Exiv2
 
                 // language description string after the compression technique spec
                 const size_t languageTextMaxSize = data.size_ - keysize - 3;
-                std::string languageText =
-                    string_from_unterminated((const char*)(data.pData_ + Safe::add(keysize, 3_z)), languageTextMaxSize);
+                std::string languageText = string_from_unterminated(
+                    reinterpret_cast<const char*>(data.pData_ + Safe::add(keysize, 3_z)), languageTextMaxSize);
                 const size_t languageTextSize = languageText.size();
 
                 enforce(static_cast<unsigned long>(data.size_) >= Safe::add(Safe::add(keysize, 4_z), languageTextSize),
                         Exiv2::kerCorruptedMetadata);
                 // translated keyword string after the language description
-                std::string translatedKeyText =
-                    string_from_unterminated((const char*)(data.pData_ + keysize + 3 + languageTextSize + 1),
-                                             data.size_ - (keysize + 3 + languageTextSize + 1));
-                const unsigned int translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
+                std::string translatedKeyText = string_from_unterminated(
+                    reinterpret_cast<const char*>(data.pData_ + keysize + 3 + languageTextSize + 1),
+                    data.size_ - (keysize + 3 + languageTextSize + 1));
+                const auto translatedKeyTextSize = static_cast<unsigned int>(translatedKeyText.size());
 
                 if ((compressionFlag == 0x00) || (compressionFlag == 0x01 && compressionMethod == 0x00)) {
                     enforce(Safe::add(static_cast<unsigned int>(keysize + 3 + languageTextSize + 1),
-                                      Safe::add(translatedKeyTextSize, 1u)) <= static_cast<unsigned int>(data.size_),
+                                      Safe::add(translatedKeyTextSize, 1U)) <= static_cast<unsigned int>(data.size_),
                             Exiv2::kerCorruptedMetadata);
 
                     const byte* text = data.pData_ + keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1;
@@ -224,7 +223,7 @@ namespace Exiv2
 
                     if (compressionFlag == 0x00) {
                         // then it's an uncompressed iTXt chunk
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parseTXTChunk: We found an uncompressed iTXt field\n";
 #endif
 
@@ -232,7 +231,7 @@ namespace Exiv2
                         arr = DataBuf(text, textsize);
                     } else if (compressionFlag == 0x01 && compressionMethod == 0x00) {
                         // then it's a zlib compressed iTXt chunk
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parseTXTChunk: We found a zlib compressed iTXt field\n";
 #endif
 
@@ -241,13 +240,13 @@ namespace Exiv2
                     }
                 } else {
                     // then it isn't zlib compressed and we are sunk
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cerr << "Exiv2::PngChunk::parseTXTChunk: Non-standard iTXt compression method.\n";
 #endif
                     throw Error(kerFailedToReadImageData);
                 }
             } else {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PngChunk::parseTXTChunk: We found a field, not expected though\n";
 #endif
                 throw Error(kerFailedToReadImageData);
@@ -257,7 +256,7 @@ namespace Exiv2
 
         }  // PngChunk::parsePngChunk
 
-        void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize, const DataBuf arr)
+        void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize, const DataBuf& arr)
         {
             // We look if an ImageMagick EXIF raw profile exist.
 
@@ -271,22 +270,21 @@ namespace Exiv2
                     // Find the position of Exif header in bytes array.
                     bool foundPos{false};
                     size_t pos{0};
-                    const std::array<byte, 6> exifHeader{0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
-                    const auto& it =
-                        std::search(exifData.cbegin(), exifData.cend(), exifHeader.cbegin(), exifHeader.cend());
-                    if (it != exifData.cend()) {
-                        pos = it - exifData.cbegin() + exifHeader.size();
+                    const auto exifHeader = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
+                    const auto it = std::search(exifData.begin(), exifData.end(), exifHeader.begin(), exifHeader.end());
+                    if (it != exifData.end()) {
+                        pos = it - exifData.begin() + exifHeader.size();
                         foundPos = true;
                     }
 
                     // If found it, store only these data at from this place.
                     if (foundPos) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parseChunkContent: Exif header found at position " << pos
                                   << "\n";
 #endif
                         ByteOrder bo = TiffParser::decode(pImage->exifData(), pImage->iptcData(), pImage->xmpData(),
-                                                          exifData.pData_ + pos, (uint32_t)(length - pos));
+                                                          exifData.pData_ + pos, static_cast<uint32_t>(length - pos));
                         pImage->setByteOrder(bo);
                     } else {
 #ifndef SUPPRESS_WARNINGS
@@ -303,7 +301,7 @@ namespace Exiv2
                 DataBuf psData = readRawProfile(arr, false);
                 if (psData.size_ > 0) {
                     Blob iptcBlob;
-                    const byte* record = 0;
+                    const byte* record = nullptr;
                     uint32_t sizeIptc = 0;
                     uint32_t sizeHdr = 0;
 
@@ -312,7 +310,7 @@ namespace Exiv2
                     while (pCur < pEnd && 0 == Photoshop::locateIptcIrb(pCur, static_cast<long>(pEnd - pCur), &record,
                                                                         &sizeHdr, &sizeIptc)) {
                         if (sizeIptc) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                             std::cerr << "Found IPTC IRB, size = " << sizeIptc << "\n";
 #endif
                             append(iptcBlob, record + sizeHdr, sizeIptc);
@@ -320,7 +318,7 @@ namespace Exiv2
                         pCur = record + sizeHdr + sizeIptc;
                         pCur += (sizeIptc & 1);
                     }
-                    if (iptcBlob.size() > 0 &&
+                    if (!iptcBlob.empty() &&
                         IptcParser::decode(pImage->iptcData(), &iptcBlob[0], static_cast<uint32_t>(iptcBlob.size()))) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Failed to decode IPTC metadata.\n";
@@ -430,7 +428,8 @@ namespace Exiv2
 
             do {
                 arr.alloc(uncompressedLen);
-                zlibResult = uncompress((Bytef*)arr.pData_, &uncompressedLen, compressedText, compressedTextSize);
+                zlibResult =
+                    uncompress(static_cast<Bytef*>(arr.pData_), &uncompressedLen, compressedText, compressedTextSize);
                 if (zlibResult == Z_OK) {
                     assert((uLongf)arr.size_ >= uncompressedLen);
                     arr.size_ = uncompressedLen;
@@ -456,14 +455,15 @@ namespace Exiv2
 
         std::string PngChunk::zlibCompress(const std::string& text)
         {
-            uLongf compressedLen = static_cast<uLongf>(text.size() * 2);  // just a starting point
+            auto compressedLen = static_cast<uLongf>(text.size() * 2);  // just a starting point
             int zlibResult;
 
             DataBuf arr;
             do {
                 arr.alloc(compressedLen);
-                zlibResult = compress2((Bytef*)arr.pData_, &compressedLen, (const Bytef*)text.data(),
-                                       static_cast<uLong>(text.size()), Z_BEST_COMPRESSION);
+                zlibResult = compress2(static_cast<Bytef*>(arr.pData_), &compressedLen,
+                                       reinterpret_cast<const Bytef*>(text.data()), static_cast<uLong>(text.size()),
+                                       Z_BEST_COMPRESSION);
 
                 switch (zlibResult) {
                     case Z_OK:
@@ -472,7 +472,7 @@ namespace Exiv2
                         break;
                     case Z_BUF_ERROR:
                         // The compressed array needs to be larger
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cout << "Exiv2::PngChunk::parsePngChunk: doubling size for compression.\n";
 #endif
                         compressedLen *= 2;
@@ -486,7 +486,7 @@ namespace Exiv2
                 }
             } while (zlibResult == Z_BUF_ERROR);
 
-            return std::string((const char*)arr.pData_, arr.size_);
+            return std::string(reinterpret_cast<const char*>(arr.pData_), arr.size_);
 
         }  // PngChunk::zlibCompress
 
@@ -518,11 +518,12 @@ namespace Exiv2
             // Calculate CRC on chunk type and chunk data
             std::string crcData = chunkType + chunkData;
             uLong tmp = crc32(0L, Z_NULL, 0);
-            tmp = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
+            tmp = crc32(tmp, reinterpret_cast<const Bytef*>(crcData.data()), static_cast<uInt>(crcData.size()));
             byte crc[4];
             ul2Data(crc, tmp, bigEndian);
             // Assemble the chunk
-            return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
+            return std::string(reinterpret_cast<const char*>(length), 4) + chunkType + chunkData +
+                   std::string(reinterpret_cast<const char*>(crc), 4);
 
         }  // PngChunk::makeAsciiTxtChunk
 
@@ -552,11 +553,12 @@ namespace Exiv2
             std::string chunkType = "iTXt";
             std::string crcData = chunkType + chunkData;
             uLong tmp = crc32(0L, Z_NULL, 0);
-            tmp = crc32(tmp, (const Bytef*)crcData.data(), static_cast<uInt>(crcData.size()));
+            tmp = crc32(tmp, reinterpret_cast<const Bytef*>(crcData.data()), static_cast<uInt>(crcData.size()));
             byte crc[4];
             ul2Data(crc, tmp, bigEndian);
             // Assemble the chunk
-            return std::string((const char*)length, 4) + chunkType + chunkData + std::string((const char*)crc, 4);
+            return std::string(reinterpret_cast<const char*>(length), 4) + chunkType + chunkData +
+                   std::string(reinterpret_cast<const char*>(crc), 4);
 
         }  // PngChunk::makeUtf8TxtChunk
 
@@ -578,8 +580,8 @@ namespace Exiv2
                 return info;
             }
 
-            const char* sp = (char*)text.pData_ + 1;            // current byte (space pointer)
-            const char* eot = (char*)text.pData_ + text.size_;  // end of text
+            const char* sp = reinterpret_cast<char*>(text.pData_) + 1;            // current byte (space pointer)
+            const char* eot = reinterpret_cast<char*>(text.pData_) + text.size_;  // end of text
 
             if (sp >= eot) {
                 return DataBuf();
@@ -628,13 +630,13 @@ namespace Exiv2
 
             // Allocate space
             if (length == 0) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: invalid profile length\n";
 #endif
             }
             info.alloc(length);
-            if (info.size_ != (size_t)length) {
-#ifdef DEBUG
+            if (info.size_ != static_cast<size_t>(length)) {
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: cannot allocate memory\n";
 #endif
                 return DataBuf();
@@ -642,14 +644,14 @@ namespace Exiv2
 
             // Copy profile, skipping white space and column 1 "=" signs
 
-            unsigned char* dp = (unsigned char*)info.pData_;  // decode pointer
+            auto dp = static_cast<unsigned char*>(info.pData_);  // decode pointer
             unsigned int nibbles = length * 2;
 
-            for (long i = 0; i < (long)nibbles; i++) {
+            for (long i = 0; i < static_cast<long>(nibbles); i++) {
                 enforce(sp < eot, Exiv2::kerCorruptedMetadata);
                 while (*sp < '0' || (*sp > '9' && *sp < 'a') || *sp > 'f') {
                     if (*sp == '\0') {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                         std::cerr << "Exiv2::PngChunk::readRawProfile: Unable To Copy Raw Profile: ran out of data\n";
 #endif
                         return DataBuf();
@@ -660,9 +662,9 @@ namespace Exiv2
                 }
 
                 if (i%2 == 0)
-                    *dp = (unsigned char) (16*unhex[(int) *sp++]);
+                    *dp = static_cast<unsigned char>(16 * unhex[static_cast<int>(*sp++)]);
                 else
-                    (*dp++) += unhex[(int) *sp++];
+                    (*dp++) += unhex[static_cast<int>(*sp++)];
             }
 
             return info;

@@ -210,7 +210,7 @@ public:
     bool Next ( tStringObj *     schemaNS = 0,
           		tStringObj *     propPath = 0,
            		tStringObj *     propValue = 0,
-           		XMP_OptionBits * options = 0 );
+           		XMP_OptionBits * options = nullptr );
 
     // ---------------------------------------------------------------------------------------------
     /// @brief \c Skip() skips some portion of the remaining iterations.

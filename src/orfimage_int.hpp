@@ -50,7 +50,7 @@ namespace Exiv2 {
         //! Default constructor
         explicit OrfHeader(ByteOrder byteOrder =littleEndian);
         //! Destructor.
-        ~OrfHeader();
+        ~OrfHeader() override;
         //@}
 
         //! @name Manipulators
@@ -64,7 +64,8 @@ namespace Exiv2 {
         //@}
     private:
         // DATA
-        uint16_t sig_;       //<! The actual magic number
+      uint16_t sig_{0x4f52}; //<! The actual magic number
     }; // class OrfHeader
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

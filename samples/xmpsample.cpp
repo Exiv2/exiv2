@@ -19,6 +19,9 @@ bool isEqual(float a, float b)
 
 int main()
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     // The XMP property container
     Exiv2::XmpData xmpData;
 
@@ -62,18 +65,18 @@ try {
 
     const Exiv2::Value &getv2 = xmpData["Xmp.dc.two"].value();
     UNUSED(getv2);
-    assert(isEqual(getv2.toFloat(), 3.1415f));
+    assert(isEqual(getv2.toFloat(), 3.1415F));
     assert(getv2.ok());
     assert(getv2.toLong() == 3);
     assert(getv2.ok());
     Exiv2::Rational R = getv2.toRational();
     UNUSED(R);
     assert(getv2.ok());
-    assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415f ));
+    assert(isEqual(static_cast<float>(R.first) / R.second, 3.1415F));
 
     const Exiv2::Value &getv3 = xmpData["Xmp.dc.three"].value();
     UNUSED(getv3);
-    assert(isEqual(getv3.toFloat(), 5.0f/7.0f));
+    assert(isEqual(getv3.toFloat(), 5.0F / 7.0F));
     assert(getv3.ok());
     assert(getv3.toLong() == 0);  // long(5.0 / 7.0)
     assert(getv3.ok());
@@ -84,7 +87,7 @@ try {
     UNUSED(getv6);
     assert(getv6.toLong() == 0);
     assert(getv6.ok());
-    assert(getv6.toFloat() == 0.0f);
+    assert(getv6.toFloat() == 0.0F);
     assert(getv6.ok());
     assert(getv6.toRational() == Exiv2::Rational(0, 1));
     assert(getv6.ok());
@@ -97,13 +100,13 @@ try {
     UNUSED(getv8);
     assert(getv8.toLong() == 1);
     assert(getv8.ok());
-    assert(getv8.toFloat() == 1.0f);
+    assert(getv8.toFloat() == 1.0F);
     assert(getv8.ok());
     assert(getv8.toRational() == Exiv2::Rational(1, 1));
     assert(getv8.ok());
 
     // Deleting an XMP property
-    Exiv2::XmpData::iterator pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));
+    auto pos = xmpData.findKey(Exiv2::XmpKey("Xmp.dc.eight"));
     if (pos == xmpData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Key not found");
     xmpData.erase(pos);
 
@@ -190,18 +193,10 @@ try {
 
     // -------------------------------------------------------------------------
     // Output XMP properties
-    for (Exiv2::XmpData::const_iterator md = xmpData.begin();
-        md != xmpData.end(); ++md) {
-        std::cout << std::setfill(' ') << std::left
-                  << std::setw(44)
-                  << md->key() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << md->typeName() << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << md->count() << "  "
-                  << std::dec << md->value()
-                  << std::endl;
+    for (const auto &md : xmpData) {
+        std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9)
+                  << std::setfill(' ') << std::left << md.typeName() << " " << std::dec << std::setw(3)
+                  << std::setfill(' ') << std::right << md.count() << "  " << std::dec << md.value() << std::endl;
     }
 
     // -------------------------------------------------------------------------

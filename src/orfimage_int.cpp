@@ -4,14 +4,11 @@ namespace Exiv2 {
     namespace Internal {
 
     OrfHeader::OrfHeader(ByteOrder byteOrder)
-        : TiffHeaderBase(0x4f52, 8, byteOrder, 0x00000008),
-          sig_(0x4f52)
-    {
-    }
+        : TiffHeaderBase(0x4f52, 8, byteOrder, 0x00000008)
 
-    OrfHeader::~OrfHeader()
-    {
-    }
+    {}
+
+    OrfHeader::~OrfHeader() = default;
 
     bool OrfHeader::read(const byte* pData, size_t size)
     {
@@ -55,4 +52,5 @@ namespace Exiv2 {
         return buf;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

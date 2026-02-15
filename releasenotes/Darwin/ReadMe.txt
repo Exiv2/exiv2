@@ -1,5 +1,5 @@
-MacOS-X (Darwin) Exiv2 v0.27 Release Bundle
--------------------------------------------
+macOS (Darwin) Exiv2 v0.27 Release Bundle
+-----------------------------------------
 
 Structure of the bundle
 -----------------------

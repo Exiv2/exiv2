@@ -37,9 +37,9 @@ public:
 	#endif
 	
 	ExpatAdapter();
-	virtual ~ExpatAdapter();
+	~ExpatAdapter() override;
 	
-	void ParseBuffer ( const void * buffer, size_t length, bool last = true );
+	void ParseBuffer ( const void * buffer, size_t length, bool last = true ) override;
 
 };
 

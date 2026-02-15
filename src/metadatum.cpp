@@ -37,43 +37,21 @@
 // class member definitions
 namespace Exiv2 {
 
-    Key::~Key()
-    {
-    }
+Key::UniquePtr Key::clone() const { return UniquePtr(clone_()); }
 
-    Key::UniquePtr Key::clone() const
-    {
-        return UniquePtr(clone_());
-    }
+Metadatum::Metadatum() = default;
 
-    Key& Key::operator=(const Key& /*rhs*/)
-    {
-        return *this;
-    }
+Metadatum::Metadatum(const Metadatum & /*rhs*/) = default;
 
-    Metadatum::Metadatum()
-    {
-    }
+Metadatum::~Metadatum() = default;
 
-    Metadatum::Metadatum(const Metadatum& /*rhs*/)
-    {
-    }
+Metadatum &Metadatum::operator=(const Metadatum & /*rhs*/) = default;
 
-    Metadatum::~Metadatum()
-    {
-    }
-
-    Metadatum& Metadatum::operator=(const Metadatum& /*rhs*/)
-    {
-        return *this;
-    }
-
-    std::string Metadatum::print(const ExifData* pMetadata) const
-    {
-        std::ostringstream os;
-        write(os, pMetadata);
-        return os.str();
-    }
+std::string Metadatum::print(const ExifData *pMetadata) const {
+  std::ostringstream os;
+  write(os, pMetadata);
+  return os.str();
+}
 
     bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs)
     {

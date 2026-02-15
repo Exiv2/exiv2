@@ -13,7 +13,7 @@ class Issue743NikonSigmaArtLens(metaclass=CaseMeta):
     commands = ["$exiv2 -pa --grep lensid/i $filename"]
     stderr = [""]
     stdout = [""
-        """Exif.NikonLd3.LensIDNumber                   Byte        1  Sigma 24-70mm F2,8 DG OS HSM Art
+        """Exif.NikonLd3.LensIDNumber                   Byte        1  Sigma 24-70mm F2.8 DG OS HSM Art
 """
 ]
     retval = [0]

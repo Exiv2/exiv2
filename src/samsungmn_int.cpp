@@ -202,4 +202,5 @@ namespace Exiv2 {
         return tagInfoPw_;
     }
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

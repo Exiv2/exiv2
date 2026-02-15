@@ -46,7 +46,10 @@ int WriteReadSeek(BasicIo &io);
 // Main
 int main(int argc, char* const argv[])
 {
-try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
+    try {
     if (argc != 4) {
         std::cout << "Usage: " << argv[0] << " filein fileout1 fileout2\n";
         std::cout << "fileouts are overwritten and should match filein exactly\n";
@@ -139,7 +142,7 @@ int WriteReadSeek(BasicIo &io)
         throw Error(Exiv2::kerDataSourceOpenFailed, io.path(), strError());
     }
     IoCloser closer(io);
-    if ((size_t) io.write((byte*)tester1, (long)size1) != size1) {
+    if (io.write(reinterpret_cast<byte*>(const_cast<char*>(tester1)), static_cast<long>(size1)) != size1) {
         std::cerr << ": WRS initial write failed\n";
         return 2;
     }
@@ -148,13 +151,13 @@ int WriteReadSeek(BasicIo &io)
         std::cerr << ": WRS size is not " << size1 << "\n";
         return 2;
     }
-    long     backup = (long)size1;
+    long backup = static_cast<long>(size1);
     io.seek(-backup, BasicIo::cur);
 
     int c = EOF;
     std::memset(buf, -1, sizeof(buf));
     for (int i = 0; (c=io.getb()) != EOF; ++i) {
-        buf[i] = (byte)c;
+        buf[i] = static_cast<byte>(c);
     }
 
     // Make sure we got the null back
@@ -163,7 +166,7 @@ int WriteReadSeek(BasicIo &io)
         return 3;
     }
 
-    if (strcmp(tester1, (char*)buf) != 0 ) {
+    if (strcmp(tester1, reinterpret_cast<char*>(buf)) != 0) {
         std::cerr << ": WRS strings don't match 1\n";
         return 4;
     }
@@ -192,7 +195,7 @@ int WriteReadSeek(BasicIo &io)
     }
 
     io.seek(insert, BasicIo::beg);
-    if((size_t)io.write((byte*)tester2, (long)size2) != size2) {
+    if (io.write(reinterpret_cast<byte*>(const_cast<char*>(tester2)), static_cast<long>(size2)) != size2) {
         std::cerr << ": WRS bad write 1\n";
         return 9;
     }
@@ -202,7 +205,7 @@ int WriteReadSeek(BasicIo &io)
         throw Error(Exiv2::kerDataSourceOpenFailed, io.path(), strError());
     }
     std::memset(buf, -1, sizeof(buf));
-    if ((size_t) io.read(buf, sizeof(buf)) != insert + size2) {
+    if (io.read(buf, sizeof(buf)) != insert + size2) {
         std::cerr << ": WRS something went wrong\n";
         return 10;
     }
@@ -213,7 +216,7 @@ int WriteReadSeek(BasicIo &io)
         return 11;
     }
 
-    if (std::strcmp(expect, (char*)buf) != 0 ) {
+    if (std::strcmp(expect, reinterpret_cast<char*>(buf)) != 0) {
         std::cerr << ": WRS strings don't match 2\n";
         return 12;
     }

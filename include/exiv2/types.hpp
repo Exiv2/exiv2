@@ -35,13 +35,13 @@
 #include "slice.hpp"
 
 // + standard includes
-#include <string>
-#include <vector>
-#include <limits>
 #include <algorithm>
+#include <cstdint>
+#include <limits>
 #include <sstream>
-#include <stdint.h> /// \todo change to cstdint
-
+#include <string>
+#include <utility>
+#include <vector>
 
 // MSVC macro to convert a string to a wide string
 #ifdef EXV_UNICODE_PATH
@@ -56,7 +56,7 @@
 #define EXV_CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))
 
 #if defined(__GNUC__) && (__GNUC__ >= 4) || defined(__clang__)
-#define EXV_WARN_UNUSED_RESULT __attribute__ ((warn_unused_result))
+#define EXV_WARN_UNUSED_RESULT [[gnu::warn_unused_result]]
 #elif defined(_MSC_VER) && (_MSC_VER >= 1700)
 #define EXV_WARN_UNUSED_RESULT _Check_return_
 #else
@@ -75,87 +75,88 @@ namespace Exiv2 {
 // type definitions
 
     //! 1 byte unsigned integer type.
-    typedef uint8_t byte;
+using byte = uint8_t;
 
-    //! 8 byte unsigned rational type.
-    typedef std::pair<uint32_t, uint32_t> URational;
-    //! 8 byte signed rational type.
-    typedef std::pair<int32_t, int32_t> Rational;
+//! 8 byte unsigned rational type.
+using URational = std::pair<uint32_t, uint32_t>;
+//! 8 byte signed rational type.
+using Rational = std::pair<int32_t, int32_t>;
 
-    //! Type to express the byte order (little or big endian)
-    enum ByteOrder
-    {
-        invalidByteOrder,
-        littleEndian,
-        bigEndian,
-    };
+//! Type to express the byte order (little or big endian)
+enum ByteOrder
+{
+    invalidByteOrder,
+    littleEndian,
+    bigEndian,
+};
 
-    //! Type to indicate write method used by TIFF parsers
-    enum WriteMethod
-    {
-        wmIntrusive,
-        wmNonIntrusive,
-    };
+//! Type to indicate write method used by TIFF parsers
+enum WriteMethod
+{
+    wmIntrusive,
+    wmNonIntrusive,
+};
 
-    //! An identifier for each type of metadata
-    enum MetadataId
-    {
-        mdNone = 0,
-        mdExif = 1,
-        mdIptc = 2,
-        mdComment = 4,
-        mdXmp = 8,
-        mdIccProfile = 16,
-    };
+//! An identifier for each type of metadata
+enum MetadataId
+{
+    mdNone = 0,
+    mdExif = 1,
+    mdIptc = 2,
+    mdComment = 4,
+    mdXmp = 8,
+    mdIccProfile = 16,
+};
 
-    //! An identifier for each mode of metadata support
-    enum AccessMode
-    {
-        amNone = 0,
-        amRead = 1,
-        amWrite = 2,
-        amReadWrite = 3,
-    };
+//! An identifier for each mode of metadata support
+enum AccessMode
+{
+    amNone = 0,
+    amRead = 1,
+    amWrite = 2,
+    amReadWrite = 3,
+};
 
-    /*!
-      @brief %Exiv2 value type identifiers.
+/*!
+  @brief %Exiv2 value type identifiers.
 
-      Used primarily as identifiers when creating %Exiv2 Value instances.
-      See Value::create. 0x0000 to 0xffff are reserved for TIFF (Exif) types.
-     */
-    enum TypeId {
-        unsignedByte       = 1, //!< Exif BYTE type, 8-bit unsigned integer.
-        asciiString        = 2, //!< Exif ASCII type, 8-bit byte.
-        unsignedShort      = 3, //!< Exif SHORT type, 16-bit (2-byte) unsigned integer.
-        unsignedLong       = 4, //!< Exif LONG type, 32-bit (4-byte) unsigned integer.
-        unsignedRational   = 5, //!< Exif RATIONAL type, two LONGs: numerator and denumerator of a fraction.
-        signedByte         = 6, //!< Exif SBYTE type, an 8-bit signed (twos-complement) integer.
-        undefined          = 7, //!< Exif UNDEFINED type, an 8-bit byte that may contain anything.
-        signedShort        = 8, //!< Exif SSHORT type, a 16-bit (2-byte) signed (twos-complement) integer.
-        signedLong         = 9, //!< Exif SLONG type, a 32-bit (4-byte) signed (twos-complement) integer.
-        signedRational     =10, //!< Exif SRATIONAL type, two SLONGs: numerator and denumerator of a fraction.
-        tiffFloat          =11, //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
-        tiffDouble         =12, //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
-        tiffIfd            =13, //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
-        unsignedLongLong   =16, //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
-        signedLongLong     =17, //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
-        tiffIfd8           =18, //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
-        string        =0x10000, //!< IPTC string type.
-        date          =0x10001, //!< IPTC date type.
-        time          =0x10002, //!< IPTC time type.
-        comment       =0x10003, //!< %Exiv2 type for the Exif user comment.
-        directory     =0x10004, //!< %Exiv2 type for a CIFF directory.
-        xmpText       =0x10005, //!< XMP text type.
-        xmpAlt        =0x10006, //!< XMP alternative type.
-        xmpBag        =0x10007, //!< XMP bag type.
-        xmpSeq        =0x10008, //!< XMP sequence type.
-        langAlt       =0x10009, //!< XMP language alternative type.
-        invalidTypeId =0x1fffe, //!< Invalid type id.
-        lastTypeId    =0x1ffff  //!< Last type id.
-    };
+  Used primarily as identifiers when creating %Exiv2 Value instances.
+  See Value::create. 0x0000 to 0xffff are reserved for TIFF (Exif) types.
+ */
+enum TypeId
+{
+    unsignedByte = 1,         //!< Exif BYTE type, 8-bit unsigned integer.
+    asciiString = 2,          //!< Exif ASCII type, 8-bit byte.
+    unsignedShort = 3,        //!< Exif SHORT type, 16-bit (2-byte) unsigned integer.
+    unsignedLong = 4,         //!< Exif LONG type, 32-bit (4-byte) unsigned integer.
+    unsignedRational = 5,     //!< Exif RATIONAL type, two LONGs: numerator and denumerator of a fraction.
+    signedByte = 6,           //!< Exif SBYTE type, an 8-bit signed (twos-complement) integer.
+    undefined = 7,            //!< Exif UNDEFINED type, an 8-bit byte that may contain anything.
+    signedShort = 8,          //!< Exif SSHORT type, a 16-bit (2-byte) signed (twos-complement) integer.
+    signedLong = 9,           //!< Exif SLONG type, a 32-bit (4-byte) signed (twos-complement) integer.
+    signedRational = 10,      //!< Exif SRATIONAL type, two SLONGs: numerator and denumerator of a fraction.
+    tiffFloat = 11,           //!< TIFF FLOAT type, single precision (4-byte) IEEE format.
+    tiffDouble = 12,          //!< TIFF DOUBLE type, double precision (8-byte) IEEE format.
+    tiffIfd = 13,             //!< TIFF IFD type, 32-bit (4-byte) unsigned integer.
+    unsignedLongLong = 16,    //!< Exif LONG LONG type, 64-bit (8-byte) unsigned integer.
+    signedLongLong = 17,      //!< Exif LONG LONG type, 64-bit (8-byte) signed integer.
+    tiffIfd8 = 18,            //!< TIFF IFD type, 64-bit (8-byte) unsigned integer.
+    string = 0x10000,         //!< IPTC string type.
+    date = 0x10001,           //!< IPTC date type.
+    time = 0x10002,           //!< IPTC time type.
+    comment = 0x10003,        //!< %Exiv2 type for the Exif user comment.
+    directory = 0x10004,      //!< %Exiv2 type for a CIFF directory.
+    xmpText = 0x10005,        //!< XMP text type.
+    xmpAlt = 0x10006,         //!< XMP alternative type.
+    xmpBag = 0x10007,         //!< XMP bag type.
+    xmpSeq = 0x10008,         //!< XMP sequence type.
+    langAlt = 0x10009,        //!< XMP language alternative type.
+    invalidTypeId = 0x1fffe,  //!< Invalid type id.
+    lastTypeId = 0x1ffff      //!< Last type id.
+};
 
-    //! Container for binary data
-    typedef std::vector<byte> Blob;
+//! Container for binary data
+using Blob = std::vector<byte>;
 
 // *****************************************************************************
 // class definitions
@@ -185,7 +186,10 @@ namespace Exiv2 {
      */
     struct EXIV2API DataBufRef {
         //! Constructor
-        explicit DataBufRef(std::pair<byte*, size_t> rhs) : p(rhs) {}
+        explicit DataBufRef(std::pair<byte*, size_t> rhs)
+            : p(std::move(rhs))
+        {
+        }
         //! Pointer to a byte array and its size
         std::pair<byte*, size_t> p;
     };
@@ -223,7 +227,7 @@ namespace Exiv2 {
                  buffer at the original object similar to std::unique_ptr, i.e.,
                  the original object is modified.
          */
-        DataBuf& operator=(DataBuf& rhs);
+        DataBuf& operator=(DataBuf rhs);
         /*!
           @brief Allocate a data buffer of at least the given size. Note that if
                  the requested \em size is less than the current buffer size, no
@@ -243,7 +247,7 @@ namespace Exiv2 {
         void free();
 
         //! Reset value
-        void reset(std::pair<byte*, size_t> =std::make_pair((byte*)(0),size_t(0)));
+        void reset(std::pair<byte*, size_t> =std::make_pair((byte*)nullptr,size_t(0)));
         //@}
 
         /*!
@@ -263,32 +267,20 @@ namespace Exiv2 {
         //! @name Iterators
         //@{
         //! Return iterator pointing to first element of buffer
-        byte* begin() noexcept
-        {
-            return pData_;
-        }
+        byte* begin() noexcept;
         //! Return const iterator pointing to first element of buffer
-        const byte* cbegin() const noexcept
-        {
-            return pData_;
-        }
+        const byte* cbegin() const noexcept;
         //! Return iterator pointing behind last element of buffer
-        byte* end() noexcept
-        {
-            return pData_ + size_;
-        }
+        byte* end() noexcept;
         //! Return const iterator pointing behind last element of buffer
-        const byte* cend() const noexcept
-        {
-            return pData_ + size_;
-        }
+        const byte* cend() const noexcept;
         //@}
 
         // DATA
         //! Pointer to the buffer, 0 if none has been allocated
-        byte* pData_;
+        byte *pData_{nullptr};
         //! The current size of the buffer
-        size_t size_;
+        size_t size_{0};
     }; // class DataBuf
 
     /*!
@@ -318,9 +310,8 @@ namespace Exiv2 {
     {
         if (byteOrder == littleEndian) {
             return static_cast<byte>(buf.at(1)) << 8 | static_cast<byte>(buf.at(0));
-        } else {
-            return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
         }
+        return static_cast<byte>(buf.at(0)) << 8 | static_cast<byte>(buf.at(1));
     }
 
     //! Read a 4 byte unsigned long value from the data buffer
@@ -419,12 +410,15 @@ namespace Exiv2 {
      */
     EXIV2API const char* exvGettext(const char* str);
 
-#ifdef EXV_UNICODE_PATH
-    //! Convert an std::string s to a unicode string returned as a std::wstring.
+    //! Convert a std::string s to a wide string returned as a std::wstring.
     EXIV2API std::wstring s2ws(const std::string& s);
-    //! Convert a unicode std::wstring s to an std::string.
+
+    //! Convert a wide std::wstring s to its multibyte representation as a std::string.
+    //!
+    //! @return A narrow byte version of `s` or an empty string if `s`
+    //!     contains invalid characters.
     EXIV2API std::string ws2s(const std::wstring& s);
-#endif
+
     /*!
       @brief Return a \em long set to the value represented by \em s.
 

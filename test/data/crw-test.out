@@ -6,7 +6,7 @@ Exif.Photo.PixelXDimension                   Long        1  2272
 Exif.Photo.PixelYDimension                   Long        1  1704
 Exif.Image.Orientation                       Short       1  top, left
 Exif.Canon.FileNumber                        Long        1  130-3050
-Exif.Photo.DateTimeOriginal                  Ascii      20  2005:04:23 17:54:36
+Exif.Photo.DateTimeOriginal                  Ascii      20  2005:04:23 18:54:36
 Exif.Canon.ImageType                         Ascii      30  CRW:High definition CCD image
 Exif.Canon.OwnerName                         Ascii      15  Andreas Huggel
 Exif.Image.Make                              Ascii       6  Canon
@@ -14,18 +14,25 @@ Exif.Image.Model                             Ascii      20  Canon PowerShot S40
 Exif.Canon.SerialNumber                      Long        2  43b226716
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.10
 Exif.Canon.FocalLength                       Short       4  7.1 mm
+Exif.CanonSi.AutoISO                         Short       1  100
 Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  6.97
 Exif.CanonSi.TargetAperture                  Short       1  F2.8
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/15 s
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
+Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.CameraTemperature               Short       1  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
-Exif.CanonSi.SubjectDistance                 Short       1  892
+Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.SubjectDistance                 Short       1  8.92 m
 Exif.CanonSi.ApertureValue                   Short       1  F2.9
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/15 s
 Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
+Exif.CanonSi.BulbDuration                    Short       1  0
+Exif.CanonSi.CameraType                      Short       1  Compact
 Exif.Photo.FNumber                           Rational    1  F2.9
 Exif.Photo.ExposureTime                      Rational    1  1/15 s
 Exif.CanonCs.Macro                           Short       1  Off
@@ -66,13 +73,8 @@ Set Exif.Canon.SerialNumber "1" (Long)
 Add Exif.Canon.SerialNumber "2" (Long)
 Set Exif.Photo.ISOSpeedRatings "155" (Short)
 Set Exif.Photo.DateTimeOriginal "2007:11:11 09:10:11" (Ascii)
-File 1/1: exiv2-canon-powershot-s40.crw
-Exif.Image.Make                              Ascii       6  Canon
-Exif.Image.Model                             Ascii      20  Canon PowerShot S40
-Exif.Canon.OwnerName                         Ascii      16  Different owner
-Exif.Canon.FocalLength                       Short       1  65535
-Exif.Photo.DateTimeOriginal                  Ascii      20  2086:12:17 15:32:15
-./crw-test.sh: line 40: $cmdfile2: ambiguous redirect
+Set Exif.Image.DateTime "2020:05:26 07:31:41" (Ascii)
+Set Exif.Photo.DateTimeDigitized "2020:05:26 07:31:42" (Ascii)
 File 1/1: exiv2-canon-powershot-s40.crw
 Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
@@ -81,7 +83,44 @@ Exif.Photo.PixelXDimension                   Long        1  2272
 Exif.Photo.PixelYDimension                   Long        1  1704
 Exif.Image.Orientation                       Short       1  top, left
 Exif.Canon.FileNumber                        Long        1  130-3050
-Exif.Photo.DateTimeOriginal                  Ascii      20  2005:04:23 17:54:36
+Exif.Photo.DateTimeOriginal                  Ascii      20  2007:11:11 09:10:11
+Exif.Canon.ImageType                         Ascii      30  CRW:High definition CCD image
+Exif.Canon.OwnerName                         Ascii      16  Different owner
+Exif.Image.Make                              Ascii       6  Canon
+Exif.Image.Model                             Ascii      20  Canon PowerShot S40
+Exif.Canon.SerialNumber                      Long        2  000000001
+Exif.Canon.FirmwareVersion                   Ascii      17  Whatever version
+Exif.Canon.FocalLength                       Short       4  2 227 286 215
+Exif.CanonSi.AutoISO                         Short       1  100
+Exif.CanonSi.ISOSpeed                        Short       1  100
+Exif.CanonSi.MeasuredEV                      Short       1  6.97
+Exif.CanonSi.TargetAperture                  Short       1  F2.8
+Exif.CanonSi.TargetShutterSpeed              Short       1  1/15 s
+Exif.CanonSi.WhiteBalance                    Short       1  Auto
+Exif.CanonSi.SlowShutter                     Short       1  Off
+Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.CameraTemperature               Short       1  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0
+Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
+Exif.CanonSi.FlashBias                       Short       1  0 EV
+Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.SubjectDistance                 Short       1  8.92 m
+Exif.CanonSi.ApertureValue                   Short       1  F2.9
+Exif.CanonSi.ShutterSpeedValue               Short       1  1/15 s
+Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
+Exif.CanonSi.BulbDuration                    Short       1  0
+Exif.CanonSi.CameraType                      Short       1  Compact
+Exif.Photo.FNumber                           Rational    1  F2.9
+Exif.Photo.ExposureTime                      Rational    1  1/15 s
+File 1/1: exiv2-canon-powershot-s40.crw
+Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4418
+Exif.Photo.PixelXDimension                   Long        1  2272
+Exif.Photo.PixelYDimension                   Long        1  1704
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Canon.FileNumber                        Long        1  130-3050
+Exif.Photo.DateTimeOriginal                  Ascii      20  2005:04:23 18:54:36
 Exif.Canon.ImageType                         Ascii      30  CRW:High definition CCD image
 Exif.Canon.OwnerName                         Ascii      15  Andreas Huggel
 Exif.Image.Make                              Ascii       6  Canon
@@ -89,18 +128,25 @@ Exif.Image.Model                             Ascii      20  Canon PowerShot S40
 Exif.Canon.SerialNumber                      Long        2  43b226716
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.10
 Exif.Canon.FocalLength                       Short       4  7.1 mm
+Exif.CanonSi.AutoISO                         Short       1  100
 Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  6.97
 Exif.CanonSi.TargetAperture                  Short       1  F2.8
 Exif.CanonSi.TargetShutterSpeed              Short       1  1/15 s
 Exif.CanonSi.WhiteBalance                    Short       1  Auto
+Exif.CanonSi.SlowShutter                     Short       1  Off
 Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.CameraTemperature               Short       1  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0
 Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
-Exif.CanonSi.SubjectDistance                 Short       1  892
+Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.SubjectDistance                 Short       1  8.92 m
 Exif.CanonSi.ApertureValue                   Short       1  F2.9
 Exif.CanonSi.ShutterSpeedValue               Short       1  1/15 s
 Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
+Exif.CanonSi.BulbDuration                    Short       1  0
+Exif.CanonSi.CameraType                      Short       1  Compact
 Exif.Photo.FNumber                           Rational    1  F2.9
 Exif.Photo.ExposureTime                      Rational    1  1/15 s
 Exif.CanonCs.Macro                           Short       1  Off
@@ -136,21 +182,68 @@ Exif.CanonCs.SpotMeteringMode                Short       1  Center
 File 1/1: exiv2-canon-powershot-s40.crw
 Del Exif.Canon.OwnerName
 File 1/1: exiv2-canon-powershot-s40.crw
+Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
+Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4418
+Exif.Photo.PixelXDimension                   Long        1  2272
+Exif.Photo.PixelYDimension                   Long        1  1704
+Exif.Image.Orientation                       Short       1  top, left
+Exif.Canon.FileNumber                        Long        1  130-3050
+Exif.Photo.DateTimeOriginal                  Ascii      20  2005:04:23 18:54:36
+Exif.Canon.ImageType                         Ascii      30  CRW:High definition CCD image
 Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Model                             Ascii      20  Canon PowerShot S40
-Exif.Canon.SerialNumber                      Long      1104  dbff55551
-Exif.Canon.ImageType                         Ascii      30  CRW:High definition CCD image
-Exif.CanonSi.ISOSpeed                        Short       1  3.125
-Exif.CanonSi.MeasuredEV                      Short       1  5.13
-Exif.CanonSi.TargetAperture                  Short       1  F1
-Exif.CanonSi.TargetShutterSpeed              Short       1  1 s
-Exif.CanonSi.WhiteBalance                    Short       1  Daylight
-Exif.CanonSi.Sequence                        Short       1  2
-Exif.CanonSi.AFPointUsed                     Short       1  0 focus points; none used
+Exif.Canon.SerialNumber                      Long        2  43b226716
+Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.10
+Exif.Canon.FocalLength                       Short       4  7.1 mm
+Exif.CanonSi.AutoISO                         Short       1  100
+Exif.CanonSi.ISOSpeed                        Short       1  100
+Exif.CanonSi.MeasuredEV                      Short       1  6.97
+Exif.CanonSi.TargetAperture                  Short       1  F2.8
+Exif.CanonSi.TargetShutterSpeed              Short       1  1/15 s
+Exif.CanonSi.WhiteBalance                    Short       1  Auto
+Exif.CanonSi.SlowShutter                     Short       1  Off
+Exif.CanonSi.Sequence                        Short       1  0
+Exif.CanonSi.CameraTemperature               Short       1  --
+Exif.CanonSi.FlashGuideNumber                Short       1  0
+Exif.CanonSi.AFPointUsed                     Short       1  3 focus points; center used
 Exif.CanonSi.FlashBias                       Short       1  0 EV
-Exif.CanonSi.SubjectDistance                 Short       1  12291
-Exif.CanonSi.ApertureValue                   Short       1  65535
-Exif.CanonSi.ShutterSpeedValue               Short       1  1 s
-Exif.CanonSi.MeasuredEV2                     Short       1  79.25
-Exif.Photo.FNumber                           Rational    1  F-2.1e+03
-Exif.Photo.ExposureTime                      Rational    1  (1/0)
+Exif.CanonSi.AutoExposureBracketing          Short       1  Off
+Exif.CanonSi.SubjectDistance                 Short       1  8.92 m
+Exif.CanonSi.ApertureValue                   Short       1  F2.9
+Exif.CanonSi.ShutterSpeedValue               Short       1  1/15 s
+Exif.CanonSi.MeasuredEV2                     Short       1  -6.00
+Exif.CanonSi.BulbDuration                    Short       1  0
+Exif.CanonSi.CameraType                      Short       1  Compact
+Exif.Photo.FNumber                           Rational    1  F2.9
+Exif.Photo.ExposureTime                      Rational    1  1/15 s
+Exif.CanonCs.Macro                           Short       1  Off
+Exif.CanonCs.Selftimer                       Short       1  Off
+Exif.CanonCs.Quality                         Short       1  RAW
+Exif.CanonCs.FlashMode                       Short       1  Off
+Exif.CanonCs.DriveMode                       Short       1  Single / timer
+Exif.CanonCs.FocusMode                       Short       1  AI servo AF
+Exif.CanonCs.ImageSize                       Short       1  Large
+Exif.CanonCs.EasyMode                        Short       1  Manual
+Exif.CanonCs.DigitalZoom                     Short       1  None
+Exif.CanonCs.Contrast                        Short       1  Normal
+Exif.CanonCs.Saturation                      Short       1  Normal
+Exif.CanonCs.Sharpness                       Short       1  Normal
+Exif.CanonCs.ISOSpeed                        Short       1  100
+Exif.CanonCs.MeteringMode                    Short       1  Evaluative
+Exif.CanonCs.FocusType                       Short       1  Auto
+Exif.CanonCs.AFPoint                         Short       1  Center
+Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+Exif.CanonCs.LensType                        Short       1  n/a
+Exif.CanonCs.Lens                            Short       3  7.1 - 21.3 mm
+Exif.CanonCs.MaxAperture                     Short       1  F2.9
+Exif.CanonCs.MinAperture                     Short       1  F8
+Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+Exif.CanonCs.FlashDetails                    Short       1  
+Exif.CanonCs.FocusContinuous                 Short       1  Single
+Exif.CanonCs.AESetting                       Short       1  Normal AE
+Exif.CanonCs.ImageStabilization              Short       1  (65535)
+Exif.CanonCs.DisplayAperture                 Short       1  0
+Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
+Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
+Exif.CanonCs.SpotMeteringMode                Short       1  Center

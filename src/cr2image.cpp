@@ -58,7 +58,7 @@ namespace Exiv2 {
 
     int Cr2Image::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
+        auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
@@ -67,7 +67,7 @@ namespace Exiv2 {
 
     int Cr2Image::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
+        auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
@@ -89,7 +89,7 @@ namespace Exiv2 {
 
     void Cr2Image::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading CR2 file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -102,28 +102,25 @@ namespace Exiv2 {
             throw Error(kerNotAnImage, "CR2");
         }
         clearMetadata();
-        ByteOrder bo = Cr2Parser::decode(exifData_,
-                                         iptcData_,
-                                         xmpData_,
-                                         io_->mmap(),
-                                         (uint32_t) io_->size());
+        ByteOrder bo =
+            Cr2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), static_cast<uint32_t>(io_->size()));
         setByteOrder(bo);
     } // Cr2Image::readMetadata
 
     void Cr2Image::writeMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Writing CR2 file " << io_->path() << "\n";
 #endif
         ByteOrder bo = byteOrder();
-        byte* pData = 0;
+        byte* pData = nullptr;
         long size = 0;
         IoCloser closer(*io_);
         if (io_->open() == 0) {
             // Ensure that this is the correct image type
             if (isCr2Type(*io_, false)) {
                 pData = io_->mmap(true);
-                size = (long) io_->size();
+                size = static_cast<long>(io_->size());
                 Cr2Header cr2Header;
                 if (0 == cr2Header.read(pData, 16)) {
                     bo = cr2Header.byteOrder();
@@ -173,14 +170,11 @@ namespace Exiv2 {
         static const IfdId filteredIfds[] = {
             panaRawId
         };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+        for (auto filteredIfd : filteredIfds) {
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
-            ed.erase(std::remove_if(ed.begin(),
-                                    ed.end(),
-                                    FindExifdatum(filteredIfds[i])),
-                     ed.end());
+            ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
         }
 
         std::unique_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));

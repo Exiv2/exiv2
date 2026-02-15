@@ -60,39 +60,33 @@ namespace Exiv2 {
 // class definitions
 
     //! Type for a pointer to a function creating a makernote (image)
-    typedef TiffComponent* (*NewMnFct)(uint16_t    tag,
-                                       IfdId       group,
-                                       IfdId       mnGroup,
-                                       const byte* pData,
-                                       uint32_t    size,
-                                       ByteOrder   byteOrder);
+        using NewMnFct = TiffComponent* (*)(uint16_t, IfdId, IfdId, const byte*, uint32_t, ByteOrder);
 
-    //! Type for a pointer to a function creating a makernote (group)
-    typedef TiffComponent* (*NewMnFct2)(uint16_t   tag,
-                                        IfdId      group,
-                                        IfdId      mnGroup);
+        //! Type for a pointer to a function creating a makernote (group)
+        using NewMnFct2 = TiffComponent* (*)(uint16_t, IfdId, IfdId);
 
-    //! Makernote registry structure
-    struct TiffMnRegistry {
-        struct MakeKey;
-        /*!
-          @brief Compare a TiffMnRegistry structure with a key being the make
-                 string from the image. The two are equal if
-                 TiffMnRegistry::make_ equals a substring of the key of the
-                 same size. E.g., registry = "OLYMPUS",
-                 key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match.
-         */
-        bool operator==(const std::string& key) const;
+        //! Makernote registry structure
+        struct TiffMnRegistry
+        {
+            struct MakeKey;
+            /*!
+              @brief Compare a TiffMnRegistry structure with a key being the make
+                     string from the image. The two are equal if
+                     TiffMnRegistry::make_ equals a substring of the key of the
+                     same size. E.g., registry = "OLYMPUS",
+                     key = "OLYMPUS OPTICAL CO.,LTD" (found in the image) match.
+             */
+            bool operator==(const std::string& key) const;
 
-        //! Compare a TiffMnRegistry structure with a makernote group
-        bool operator==(IfdId key) const;
+            //! Compare a TiffMnRegistry structure with a makernote group
+            bool operator==(IfdId key) const;
 
-        // DATA
-        const char* make_;                      //!< Camera make
-        IfdId       mnGroup_;                   //!< Group identifier
-        NewMnFct    newMnFct_;                  //!< Makernote create function (image)
-        NewMnFct2   newMnFct2_;                 //!< Makernote create function (group)
-    };
+            // DATA
+            const char* make_;     //!< Camera make
+            IfdId mnGroup_;        //!< Group identifier
+            NewMnFct newMnFct_;    //!< Makernote create function (image)
+            NewMnFct2 newMnFct2_;  //!< Makernote create function (group)
+        };
 
     /*!
       @brief TIFF makernote factory for concrete TIFF makernotes.
@@ -125,8 +119,9 @@ namespace Exiv2 {
                                      IfdId              mnGroup);
 
     protected:
-        //! Prevent destruction (needed if used as a policy class)
-        ~TiffMnCreator() {}
+      //! Prevent destruction (needed if used as a policy class)
+      ~TiffMnCreator() = default;
+
     private:
         static const TiffMnRegistry registry_[]; //<! List of makernotes
     }; // class TiffMnCreator
@@ -269,7 +264,7 @@ namespace Exiv2 {
         static constexpr byte signature_[]{
             'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00 }; //!< Fujifilm makernote header signature
         static constexpr ByteOrder byteOrder_{ littleEndian }; //!< Byteorder for makernote (always II)
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
 
     }; // class FujiMnHeader
 
@@ -298,7 +293,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature_[]{
             'N', 'i', 'k', 'o', 'n', '\0', 0x01, 0x00 }; //!< Nikon 2 makernote header signature
 
@@ -365,7 +360,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature_[]{
             'P', 'a', 'n', 'a', 's', 'o', 'n', 'i', 'c', 0x00, 0x00, 0x00 }; //!< Panasonic makernote header signature
 
@@ -478,7 +473,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                    //!< Raw header data
-        uint32_t start_;                 //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature1_[]{
             'S', 'I', 'G', 'M', 'A', '\0', '\0', '\0', 0x01, 0x00 };  //!< Sigma makernote header signature 1
         static constexpr byte signature2_[]{
@@ -511,7 +506,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature_[]{
             'S', 'O', 'N', 'Y', ' ', 'D', 'S', 'C', ' ', '\0', '\0', '\0' }; //!< Sony makernote header signature
 
@@ -543,7 +538,7 @@ namespace Exiv2 {
 
     private:
         DataBuf buf_;                   //!< Raw header data
-        uint32_t start_;                //!< Start of the mn IFD rel. to mn start
+        uint32_t start_{0}; //!< Start of the mn IFD rel. to mn start
         static constexpr byte signature_[]{
             'Q', 'V', 'C', '\0', '\0', '\0' }; //!< Casio makernote header signature
         static constexpr ByteOrder byteOrder_{ bigEndian }; //!< Byteorder for makernote (always big endian)
@@ -757,4 +752,5 @@ namespace Exiv2 {
      */
     DataBuf nikonCrypt(uint16_t tag, const byte* pData, uint32_t size, TiffComponent* const pRoot);
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

@@ -12,8 +12,10 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behaviour:
-1. Provide image with which you observed the issue 
+
+1. Provide the image with which you observed the issue (commonly named PoC)
 2. Provide exact command to reproduce the issue
+3. Mention the branch/commit in which you observed the issue (i.e: `master` or `0.27-maintenance`)
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.

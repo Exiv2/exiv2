@@ -4,36 +4,19 @@
 
 // g++ geotag.cpp -o geotag -lexiv2 -lexpat
 
-#include <exiv2/exiv2.hpp>
-#include "unused.h"
-
-#include <iostream>
-#include <iomanip>
-#include <cassert>
-#include <algorithm>
-
-#include <stdio.h>
-#include <cstdlib>
-#include <time.h>
-#include <string.h>
+#include <expat.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include <expat.h>
+#include <algorithm>
+#include <exiv2/exiv2.hpp>
 
-#include <vector>
-#include <string>
+#include "unused.h"
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
 # ifndef  __MINGW__
 #  define __MINGW__
 # endif
-#endif
-
-using namespace std;
-
-#ifndef  lengthof
-#define  lengthof(x) (sizeof(*x)/sizeof(x))
 #endif
 
 #if defined(_MSC_VER) || defined(__MINGW__)
@@ -63,7 +46,7 @@ class Options;
 int getFileType(const char* path ,Options& options);
 int getFileType(std::string& path,Options& options);
 
-string getExifTime(const time_t t);
+std::string getExifTime(const time_t t);
 time_t parseTime(const char* ,bool bAdjust=false);
 int    timeZoneAdjust();
 
@@ -71,7 +54,7 @@ int    timeZoneAdjust();
 #if defined(_MSC_VER) || defined(__MINGW__)
 char* realpath(const char* file,char* path)
 {
-    char* result = (char*) malloc(_MAX_PATH);
+    const auto result = reinterpret_cast<char*>(malloc(_MAX_PATH));
     if   (result) GetFullPathName(file,_MAX_PATH,result,nullptr);
     return result ;
     UNUSED(path);
@@ -98,8 +81,13 @@ public:
         ascii       = false;
     }
 
-    virtual ~Options() {} ;
-} ;
+    virtual ~Options() = default;
+
+    Options& operator=(const Options& rhs) = delete;
+    Options& operator=(const Options&& rhs) = delete;
+    Options(const Options& rhs) = delete;
+    Options(const Options&& rhs) = delete;
+};
 
 enum
 {   resultOK=0
@@ -139,9 +127,9 @@ enum
 class Position;
 
 // globals
-typedef std::map<time_t,Position>           TimeDict_t;
-typedef std::map<time_t,Position>::iterator TimeDict_i;
-typedef std::vector<std::string>            strings_t;
+using TimeDict_t = std::map<time_t, Position>;
+using TimeDict_i = std::map<time_t, Position>::iterator;
+using strings_t = std::vector<std::string>;
 const char*  gDeg = nullptr ; // string "°" or "deg"
 TimeDict_t   gTimeDict   ;
 strings_t    gFiles;
@@ -150,24 +138,17 @@ strings_t    gFiles;
 class Position
 {
 public:
-    Position(time_t time, double lat, double lon, double ele) :
-        time_(time)
-      , lon_(lon)
-      , lat_(lat)
-      , ele_(ele)
-      , delta_(0)
+    Position(time_t time, double lat, double lon, double ele)
+        : time_(time)
+        , lon_(lon)
+        , lat_(lat)
+        , ele_(ele)
     {}
 
-    Position():
-        time_(0)
-      , lon_(0.0)
-      , lat_(0.0)
-      , ele_(0.0)
-      , delta_(0)
-    { }
+    Position() = default;
 
-    virtual ~Position() {}
-//  copy constructor
+    virtual ~Position() = default;
+    //  copy constructor
     Position(const Position& o) :
         time_(o.time_)
       , lon_(o.lon_)
@@ -176,29 +157,69 @@ public:
       , delta_(o.delta_)
     {}
 
-//  instance methods
-    bool good()                 { return time_ || lon_ || lat_ || ele_ ; }
-    std::string getTimeString() { if ( times_.empty() ) times_ = getExifTime(time_) ;  return times_; }
-    time_t      getTime()       { return time_ ; }
-    std::string toString();
+    Position& operator=(const Position& o)
+    {
+        time_ = o.time_;
+        lon_ = o.lon_;
+        lat_ = o.lat_;
+        ele_ = o.ele_;
+        delta_ = o.delta_;
+        return *this;
+    }
 
-//  getters/setters
-    double lat()            {return lat_   ;}
-    double lon()            {return lon_   ;}
-    double ele()            {return ele_   ;}
-    int    delta()          {return delta_ ;}
+    Position& operator=(Position&& o) noexcept
+    {
+        time_ = o.time_;
+        lon_ = o.lon_;
+        lat_ = o.lat_;
+        ele_ = o.ele_;
+        delta_ = o.delta_;
+        return *this;
+    }
+
+    Position(Position&& rhs) = delete;
+
+    //  instance methods
+    EXV_WARN_UNUSED_RESULT bool good() const
+    {
+        return time_ || lon_ || lat_ || ele_;
+    }
+    std::string getTimeString() { if ( times_.empty() ) times_ = getExifTime(time_) ;  return times_; }
+    EXV_WARN_UNUSED_RESULT time_t getTime() const
+    {
+        return time_;
+    }
+    EXV_WARN_UNUSED_RESULT std::string toString() const;
+
+    //  getters/setters
+    EXV_WARN_UNUSED_RESULT double lat() const
+    {
+        return lat_;
+    }
+    EXV_WARN_UNUSED_RESULT double lon() const
+    {
+        return lon_;
+    }
+    EXV_WARN_UNUSED_RESULT double ele() const
+    {
+        return ele_;
+    }
+    EXV_WARN_UNUSED_RESULT int delta() const
+    {
+        return delta_;
+    }
     void   delta(int delta) {delta_=delta  ;}
 
 //  data
 private:
-    time_t      time_;
-    double      lon_ ;
-    double      lat_ ;
-    double      ele_ ;
-    std::string times_;
-    int         delta_;
+  time_t time_{0};
+  double lon_{0.0};
+  double lat_{0.0};
+  double ele_{0.0};
+  std::string times_;
+  int delta_{0};
 
-// public static data
+  // public static data
 public:
     static int    adjust_  ;
     static int    tz_      ;
@@ -206,7 +227,7 @@ public:
     static time_t deltaMax_;
 
 // public static member functions
-public:
+
     static int    Adjust() {return Position::adjust_ + Position::tz_ + Position::dst_ ;}
     static int    tz()     {return tz_    ;}
     static int    dst()    {return dst_   ;}
@@ -237,7 +258,7 @@ std::string Position::toExifString(double d)
 {
     char result[200];
     d *= 100;
-    sprintf(result,"%d/100",abs((int)d));
+    sprintf(result, "%d/100", abs(static_cast<int>(d)));
     return std::string(result);
 }
 
@@ -247,13 +268,13 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
     const char* EW   = d>=0.0?"E":"W";
     const char* NSEW = bLat  ? NS: EW;
     if ( d < 0 ) d = -d;
-    int deg = (int) d;
-        d  -= deg;
-        d  *= 60;
-    int min = (int) d ;
-        d  -= min;
-        d  *= 60;
-    int sec = (int)d;
+    int deg = static_cast<int>(d);
+    d -= deg;
+    d *= 60;
+    int min = static_cast<int>(d);
+    d -= min;
+    d *= 60;
+    int sec = static_cast<int>(d);
     char result[200];
     if ( bRational )
         sprintf(result,"%d/1 %d/1 %d/1" ,deg,min,sec);
@@ -262,7 +283,7 @@ std::string Position::toExifString(double d,bool bRational,bool bLat)
     return std::string(result);
 }
 
-std::string Position::toString()
+std::string Position::toString() const
 {
     char result[200];
     std::string sLat = Position::toExifString(lat_,false,true );
@@ -293,9 +314,14 @@ public:
       , lon(0.0)
       , options_(options)
     {}
-    virtual ~UserData() {}
+    virtual ~UserData() = default;
 
-//  public data members
+    UserData& operator=(const UserData& rhs) = delete;
+    UserData& operator=(const UserData&& rhs) = delete;
+    UserData(const UserData& rhs) = delete;
+    UserData(const UserData&& rhs) = delete;
+
+    //  public data members
     int         indent;
     size_t      count ;
     Position    now ;
@@ -316,7 +342,7 @@ public:
 // XML Parser Callbacks
 static void startElement(void* userData, const char* name, const char** atts )
 {
-    UserData* me = (UserData*) userData;
+    auto me = static_cast<UserData*>(userData);
     //for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
     //printf("begin %s\n",name);
     me->bTime = strcmp(name,"time")==0;
@@ -338,7 +364,7 @@ static void startElement(void* userData, const char* name, const char** atts )
 
 static void endElement(void* userData, const char* name)
 {
-    UserData* me = (UserData*) userData;
+    auto me = static_cast<UserData*>(userData);
     me->indent-- ;
     if ( strcmp(name,"trkpt")==0 ) {
 
@@ -360,7 +386,7 @@ static void endElement(void* userData, const char* name)
 
 void charHandler(void* userData,const char* s,int len)
 {
-    UserData* me = (UserData*) userData;
+    auto me = static_cast<UserData*>(userData);
 
     if ( me->nTrkpt == 1 ) {
         char buffer[100];
@@ -450,7 +476,7 @@ int timeZoneAdjust()
     struct tm local = *localtime(&now) ;
     offset          = local.tm_gmtoff ;
 
-#if DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
     struct tm utc = *gmtime(&now);
     printf("utc  :  offset = %6d dst = %d time = %s", 0     ,utc  .tm_isdst, asctime(&utc  ));
     printf("local:  offset = %6d dst = %d time = %s", offset,local.tm_isdst, asctime(&local));
@@ -460,7 +486,7 @@ int timeZoneAdjust()
     return offset ;
 }
 
-string getExifTime(const time_t t)
+std::string getExifTime(const time_t t)
 {
     static char result[100];
     strftime(result,sizeof(result),"%Y-%m-%d %H:%M:%S",localtime(&t));
@@ -574,14 +600,14 @@ bool readXML(const char* path,Options& options)
         // swallow it
         if ( bResult ) {
             len = sip(f,buffer,sizeof buffer,len);
-            bResult = XML_Parse(parser, buffer,(int)len, len == 0 ) == XML_STATUS_OK;
+            bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
         }
 
         // drink the rest of the file
         while ( bResult && len != 0 ) {
             len = fread(buffer,1,sizeof(buffer)-100,f);
             len = sip(f,buffer,sizeof buffer,len);
-            bResult = XML_Parse(parser, buffer,(int)len, len == 0 ) == XML_STATUS_OK;
+            bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
         };
     }
 
@@ -651,7 +677,7 @@ bool sina(const char* s,const char** a)
     return bResult;
 }
 
-int readFile(const char* path,Options /* options */)
+int readFile(const char* path, const Options& /* options */)
 {
     FILE* f     = fopen(path,"r");
     int nResult = f ? typeFile : typeUnknown;
@@ -764,6 +790,9 @@ bool mySort(const std::string& a, const std::string& b)
 
 int main(int argc,const char* argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     int result=0;
     const char* program = argv[0];
 
@@ -788,7 +817,7 @@ int main(int argc,const char* argv[])
     keywords[kwTZ      ] = "tz";
     keywords[kwDELTA   ] = "delta";
 
-    map<std::string,string> shorts;
+    std::map<std::string, std::string> shorts;
     shorts["-?"] = "-help";
     shorts["-h"] = "-help";
     shorts["-v"] = "-verbose";
@@ -845,7 +874,8 @@ int main(int argc,const char* argv[])
 #endif
                     char*  path = realpath(arg,buffer);
                     if  ( t && path ) {
-                        if ( options.verbose) printf("%s %ld %s",path,(long int)t,asctime(localtime(&t)));
+                        if (options.verbose)
+                            printf("%s %ld %s", path, static_cast<long int>(t), asctime(localtime(&t)));
                         gFiles.push_back(path);
                     }
                     if ( path && path != buffer ) ::free((void*) path);
@@ -892,40 +922,42 @@ int main(int argc,const char* argv[])
             }
         }
 */
-        for ( size_t p = 0 ; p < gFiles.size() ; p++ ) {
-            std::string path  = gFiles[p] ;
-            std::string stamp ;
+        for (const auto& path : gFiles) {
+            std::string stamp;
             try {
-                time_t t       = readImageTime(path,&stamp) ;
-                Position* pPos = searchTimeDict(gTimeDict,t,Position::deltaMax_);
+                time_t t = readImageTime(path, &stamp);
+                Position* pPos = searchTimeDict(gTimeDict, t, Position::deltaMax_);
                 Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-                if ( image.get() ) {
+                if (image.get()) {
                     image->readMetadata();
                     Exiv2::ExifData& exifData = image->exifData();
-                    if ( pPos ) {
-                        exifData["Exif.GPSInfo.GPSProcessingMethod" ] = "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88"; // ASCII HYBRID-FIX
-                        exifData["Exif.GPSInfo.GPSVersionID"        ] = "2 2 0 0";
-                        exifData["Exif.GPSInfo.GPSMapDatum"         ] = "WGS-84";
+                    if (pPos) {
+                        exifData["Exif.GPSInfo.GPSProcessingMethod"] =
+                            "65 83 67 73 73 0 0 0 72 89 66 82 73 68 45 70 73 88";  // ASCII HYBRID-FIX
+                        exifData["Exif.GPSInfo.GPSVersionID"] = "2 2 0 0";
+                        exifData["Exif.GPSInfo.GPSMapDatum"] = "WGS-84";
 
-                        exifData["Exif.GPSInfo.GPSLatitude"         ] = Position::toExifString(pPos->lat(),true,true);
-                        exifData["Exif.GPSInfo.GPSLongitude"        ] = Position::toExifString(pPos->lon(),true,false);
-                        exifData["Exif.GPSInfo.GPSAltitude"         ] = Position::toExifString(pPos->ele());
+                        exifData["Exif.GPSInfo.GPSLatitude"] = Position::toExifString(pPos->lat(), true, true);
+                        exifData["Exif.GPSInfo.GPSLongitude"] = Position::toExifString(pPos->lon(), true, false);
+                        exifData["Exif.GPSInfo.GPSAltitude"] = Position::toExifString(pPos->ele());
 
-                        exifData["Exif.GPSInfo.GPSAltitudeRef"      ] = pPos->ele()<0.0?"1":"0";
-                        exifData["Exif.GPSInfo.GPSLatitudeRef"      ] = pPos->lat()>0?"N":"S";
-                        exifData["Exif.GPSInfo.GPSLongitudeRef"     ] = pPos->lon()>0?"E":"W";
+                        exifData["Exif.GPSInfo.GPSAltitudeRef"] = pPos->ele() < 0.0 ? "1" : "0";
+                        exifData["Exif.GPSInfo.GPSLatitudeRef"] = pPos->lat() > 0 ? "N" : "S";
+                        exifData["Exif.GPSInfo.GPSLongitudeRef"] = pPos->lon() > 0 ? "E" : "W";
 
-                        exifData["Exif.GPSInfo.GPSDateStamp"        ] = stamp;
-                        exifData["Exif.GPSInfo.GPSTimeStamp"        ] = Position::toExifTimeStamp(stamp);
-                        exifData["Exif.Image.GPSTag"                ] = 4908;
+                        exifData["Exif.GPSInfo.GPSDateStamp"] = stamp;
+                        exifData["Exif.GPSInfo.GPSTimeStamp"] = Position::toExifTimeStamp(stamp);
+                        exifData["Exif.Image.GPSTag"] = 4908;
 
-                        printf("%s %s % 2d\n",path.c_str(),pPos->toString().c_str(),pPos->delta());
+                        printf("%s %s % 2d\n", path.c_str(), pPos->toString().c_str(), pPos->delta());
                     } else {
-                        printf("%s *** not in time dict ***\n",path.c_str());
+                        printf("%s *** not in time dict ***\n", path.c_str());
                     }
-                    if ( !options.dryrun ) image->writeMetadata();
+                    if (!options.dryrun)
+                        image->writeMetadata();
                 }
-            } catch ( ... ) {};
+            } catch (...) {
+            };
         }
     }
 

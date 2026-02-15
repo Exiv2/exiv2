@@ -26,20 +26,22 @@
 // *****************************************************************************
 // included header files
 #include "properties.hpp"
-#include "tags_int.hpp"
+
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <utility>
+
 #include "error.hpp"
+#include "i18n.h"  // NLS support.
+#include "metadatum.hpp"
+#include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
-#include "metadatum.hpp"
-#include "i18n.h"                // NLS support.
 #include "xmp_exiv2.hpp"
-
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <cstring>
-#include <cstdlib>
-#include <cctype>
 
 // *****************************************************************************
 namespace {
@@ -56,7 +58,7 @@ namespace {
         Exiv2::PrintFct printFct_;             //!< Print function
     };
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -101,7 +103,7 @@ namespace Exiv2 {
     extern const XmpPropertyInfo xmpAcdseeInfo[];
     extern const XmpPropertyInfo xmpGPanoInfo[];
 
-    extern const XmpNsInfo xmpNsInfo[] = {
+    constexpr XmpNsInfo xmpNsInfo[] = {
         // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize - Todo: Automate this
         { "http://purl.org/dc/elements/1.1/",             "dc",             xmpDcInfo,        N_("Dublin Core schema")                        },
         { "http://www.digikam.org/ns/1.0/",               "digiKam",        xmpDigikamInfo,   N_("digiKam Photo Management schema")           },
@@ -143,18 +145,18 @@ namespace Exiv2 {
 
 
         // Structures
-        { "http://ns.adobe.com/xap/1.0/g/",                   "xmpG",    0, N_("Colorant structure")           },
-        { "http://ns.adobe.com/xap/1.0/g/img/",               "xmpGImg", 0, N_("Thumbnail structure")          },
-        { "http://ns.adobe.com/xap/1.0/sType/Dimensions#",    "stDim",   0, N_("Dimensions structure")         },
-        { "http://ns.adobe.com/xap/1.0/sType/Font#",          "stFnt",   0, N_("Font structure")               },
-        { "http://ns.adobe.com/xap/1.0/sType/ResourceEvent#", "stEvt",   0, N_("Resource Event structure")     },
-        { "http://ns.adobe.com/xap/1.0/sType/ResourceRef#",   "stRef",   0, N_("ResourceRef structure")        },
-        { "http://ns.adobe.com/xap/1.0/sType/Version#",       "stVer",   0, N_("Version structure")            },
-        { "http://ns.adobe.com/xap/1.0/sType/Job#",           "stJob",   0, N_("Basic Job/Workflow structure") },
-        { "http://ns.adobe.com/xmp/sType/Area#",              "stArea",  0, N_("Area structure")               },
+        { "http://ns.adobe.com/xap/1.0/g/",                   "xmpG",    nullptr, N_("Colorant structure")           },
+        { "http://ns.adobe.com/xap/1.0/g/img/",               "xmpGImg", nullptr, N_("Thumbnail structure")          },
+        { "http://ns.adobe.com/xap/1.0/sType/Dimensions#",    "stDim",   nullptr, N_("Dimensions structure")         },
+        { "http://ns.adobe.com/xap/1.0/sType/Font#",          "stFnt",   nullptr, N_("Font structure")               },
+        { "http://ns.adobe.com/xap/1.0/sType/ResourceEvent#", "stEvt",   nullptr, N_("Resource Event structure")     },
+        { "http://ns.adobe.com/xap/1.0/sType/ResourceRef#",   "stRef",   nullptr, N_("ResourceRef structure")        },
+        { "http://ns.adobe.com/xap/1.0/sType/Version#",       "stVer",   nullptr, N_("Version structure")            },
+        { "http://ns.adobe.com/xap/1.0/sType/Job#",           "stJob",   nullptr, N_("Basic Job/Workflow structure") },
+        { "http://ns.adobe.com/xmp/sType/Area#",              "stArea",  nullptr, N_("Area structure")               },
 
         // Qualifiers
-        { "http://ns.adobe.com/xmp/Identifier/qual/1.0/", "xmpidq", 0, N_("Qualifier for xmp:Identifier") }
+        { "http://ns.adobe.com/xmp/Identifier/qual/1.0/", "xmpidq", nullptr, N_("Qualifier for xmp:Identifier") }
     };
 
     extern const XmpPropertyInfo xmpDcInfo[] = {
@@ -185,7 +187,7 @@ namespace Exiv2 {
                                                                                                        "a name by which the resource is formally known.")                                      },
         { "type",             N_("Type"),             "bag open Choice", xmpBag,       xmpExternal, N_("A document type; for example, novel, poem, or working paper.")                         },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpDigikamInfo[] = {
@@ -196,8 +198,9 @@ namespace Exiv2 {
         { "LensCorrectionSettings", N_("Lens Correction Settings"),  "Text",     xmpText, xmpExternal, N_("The list of Lens Correction tools settings used to fix lens distortion. This include Batch Queue Manager and Image editor tools based on LensFun library.") },
         { "ColorLabel",             N_("Color Label"),               "Text",     xmpText, xmpExternal, N_("The color label assigned to this item. Possible values are \"0\": no label; \"1\": Red; \"2\": Orange; \"3\": Yellow; \"4\": Green; \"5\": Blue; \"6\": Magenta; \"7\": Gray; \"8\": Black; \"9\": White.") },
         { "PickLabel",              N_("Pick Label"),                "Text",     xmpText, xmpExternal, N_("The pick label assigned to this item. Possible values are \"0\": no label; \"1\": item rejected; \"2\": item in pending validation; \"3\": item accepted.") },
+        { "Preview",                N_("JPEG preview"),              "Text",     xmpText, xmpExternal, N_("Reduced size JPEG preview image encoded as base64 for a fast screen rendering.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpKipiInfo[] = {
@@ -207,7 +210,7 @@ namespace Exiv2 {
         { "picasawebGPhotoId",      N_("PicasaWeb Item ID"),         "Text",     xmpText, xmpExternal, N_("Item ID from PicasaWeb web service.") },
         { "yandexGPhotoId",         N_("Yandex Fotki Item ID"),      "Text",     xmpText, xmpExternal, N_("Item ID from Yandex Fotki web service.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpXmpInfo[] = {
@@ -242,7 +245,7 @@ namespace Exiv2 {
         { "Thumbnails",       N_("Thumbnails"),       "alt Thumbnail",            xmpText, xmpInternal, N_("An alternative array of thumbnail images for a file, which can differ in "
                                                                                                              "characteristics such as size or image encoding.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpXmpRightsInfo[] = {
@@ -252,7 +255,7 @@ namespace Exiv2 {
         { "UsageTerms",       N_("Usage Terms"),   "Lang Alt",       langAlt,       xmpExternal, N_("Text instructions on how a resource can be legally used.") },
         { "WebStatement",     N_("Web Statement"), "URL",            xmpText,       xmpExternal, N_("The location of a web page describing the owner and/or rights statement for this resource.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpXmpMMInfo[] = {
@@ -314,7 +317,7 @@ namespace Exiv2 {
                                                                                                         "a rendition.") },
         { "SaveID",           N_("Save ID"),           "Integer",           xmpText,    xmpInternal, N_("Deprecated. Previously used only to support the xmpMM:LastURL property.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpXmpBJInfo[] = {
@@ -323,7 +326,7 @@ namespace Exiv2 {
                                                                                                 "There are multiple values because there can be more than one job using a particular document at any time, and it can "
                                                                                                 "also be useful to keep historical information about what jobs a document was part of previously.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpXmpTPgInfo[] = {
@@ -333,7 +336,7 @@ namespace Exiv2 {
         { "Colorants",        N_("Colorants"),         "seq Colorant", xmpText,    xmpInternal, N_("An ordered array of colorants (swatches) that are used in the document (including any in contained documents).") },
         { "PlateNames",       N_("Plate Names"),       "seq Text",     xmpSeq,     xmpInternal, N_("An ordered array of plate names that are needed to print the document (including any in contained documents).") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpXmpDMInfo[] = {
@@ -423,7 +426,7 @@ namespace Exiv2 {
         { "discNumber",                   N_("Disc Number"),                      "Text",                  xmpText, xmpExternal, N_("If in a multi-disc set, might contain total number of discs. For example: 2/3.") },
 
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpMicrosoftInfo[] = {
@@ -437,14 +440,14 @@ namespace Exiv2 {
         { "LensModel",          N_("Lens Model"),           "Text",     xmpText, xmpExternal, N_("Lens Model.")           },
         { "Rating",             N_("Rating Percent"),       "Text",     xmpText, xmpExternal, N_("Rating Percent.")       },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpLrInfo[] = {
         { "hierarchicalSubject",    N_("Hierarchical Subject"),    "bag Text",  xmpBag,      xmpExternal, N_("Adobe Lightroom hierarchical keywords.")   },
         { "privateRTKInfo",         N_("Private RTK Info"),        "Text",      xmpText,     xmpExternal, N_("Adobe Lightroom private RTK info.")        },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpPdfInfo[] = {
@@ -453,7 +456,7 @@ namespace Exiv2 {
         { "Producer",   N_("Producer"),    "AgentName", xmpText, xmpInternal, N_("The name of the tool that created the PDF document.") },
         { "Trapped",    N_("Trapped"),     "Boolean",   xmpText, xmpExternal, N_("True when the document has been trapped.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpPhotoshopInfo[] = {
@@ -487,7 +490,7 @@ namespace Exiv2 {
         { "SidecarForExtension",    N_("Sidecar F or Extension"),  "Text",       xmpText, xmpExternal, N_("Filename extension of associated image file.") },
 
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     //! XMP crs:CropUnits
@@ -503,7 +506,7 @@ namespace Exiv2 {
         { "Type",  			N_("Type"),   			"Text",            	xmpText,    xmpExternal, N_("Camera Raw Saved Settings Type.")              },
         { "Parameters", 	N_("Parameters"), 		"Parameters", 		xmpText, 	xmpInternal, N_("*Main structure* Camera Raw Saved Settings Parameters.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpCrsInfo[] = {
@@ -743,7 +746,7 @@ namespace Exiv2 {
         { "Feather",              			N_("Feather"),                  		"Real",                             xmpText, xmpExternal, N_("Not in XMP Specification. Found in sample files.") },
         { "Seed",              				N_("Seed"),                  			"Integer",                          xmpText, xmpExternal, N_("Not in XMP Specification. Found in sample files.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpTiffInfo[] = {
@@ -793,7 +796,7 @@ namespace Exiv2 {
         { "Copyright",                 N_("Copyright"),                  "Lang Alt",                     langAlt, xmpExternal, N_("TIFF tag 33432, 0x8298. Copyright information. "
                                                                                                                                   "Note: This property is stored in XMP as dc:rights.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpExifInfo[] = {
@@ -896,7 +899,7 @@ namespace Exiv2 {
         { "GPSAreaInformation",       N_("GPS Area Information"),                "Text",                         xmpText, xmpInternal, N_("GPS tag 28, 0x1C. A character string recording the name of the GPS area.") },
         { "GPSDifferential",          N_("GPS Differential"),                    "Closed Choice of Integer",     xmpText, xmpInternal, N_("GPS tag 30, 0x1E. Indicates whether differential correction is applied to the GPS receiver.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpExifEXInfo[] = {
@@ -927,14 +930,14 @@ namespace Exiv2 {
                                                                                                                                  "THM = Indicates a file conforming to DCF thumbnail file stipulated by Design rule for Camera File System. "
                                                                                                                                  "R03 = Indicates a file conforming to DCF Option File stipulated by Design rule for Camera File System.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpAuxInfo[] = {
         { "Lens",             N_("Lens"),             "Text",        xmpText,          xmpInternal, N_("A description of the lens used to take the photograph. For example, \"70-200 mm f/2.8-4.0\".") },
         { "SerialNumber",     N_("Serial Number"),     "Text",       xmpText,          xmpInternal, N_("The serial number of the camera or camera body used to take the photograph.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpIptcInfo[] = {
@@ -965,7 +968,7 @@ namespace Exiv2 {
                                                                                                                          "a top-down geographical hierarchy. The code should be taken from ISO 3166 two or three "
                                                                                                                          "letter code. The full name of a country should go to the \"Country\" element.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpIptcExtInfo[] = {
@@ -1000,7 +1003,7 @@ namespace Exiv2 {
         { "AOSourceInvNo",           N_("Artwork or object-Source inventory number"), "Text",             xmpText, xmpExternal, N_("The inventory number issued by the organisation or body holding and registering the artwork or object in the image.") },
         { "AOTitle",                 N_("Artwork or object-Title"),         "Lang Alt",                   langAlt, xmpExternal, N_("A reference for the artwork or object in the image.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     //! XMP iptcExt:DigitalSourcefileType
@@ -1100,7 +1103,7 @@ namespace Exiv2 {
         { "Custom9", N_("Custom 9"), "bag Lang Alt", xmpBag, xmpExternal, N_("Optional field for use at Licensee's discretion.") },
         { "Custom10", N_("Custom 10"), "bag Lang Alt", xmpBag, xmpExternal, N_("Optional field for use at Licensee's discretion.") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     //! XMP plus:AdultContentWarning
@@ -1238,7 +1241,7 @@ namespace Exiv2 {
         { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
         { "CatalogSets", N_("Catalog Sets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpExpressionMediaInfo[] = {
@@ -1247,20 +1250,20 @@ namespace Exiv2 {
         { "People",      N_("People"),      "bag Text", xmpBag,  xmpExternal, N_("Contact")                                         },
         { "CatalogSets", N_("Catalog Sets"), "bag Text", xmpBag,  xmpExternal, N_("Descriptive markers of catalog items by content") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpMicrosoftPhotoInfo[] = {
         { "RegionInfo", N_("RegionInfo"), "RegionInfo", xmpText, xmpInternal, N_("Microsoft Photo people-tagging metadata root") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[] = {
         { "Regions",          N_("Regions"),            "bag Region", xmpBag,  xmpExternal, N_("Contains Regions/person tags") },
         { "DateRegionsValid", N_("Date Regions Valid"), "Date",       xmpText, xmpExternal, N_("Date the last region was created")  },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[] = {
@@ -1269,7 +1272,7 @@ namespace Exiv2 {
         { "PersonEmailDigest", N_("Person Email Digest"),   "Text", xmpText, xmpExternal, N_("SHA-1 encrypted message hash of the person's Windows Live e-mail address"), },
         { "PersonLiveIdCID",   N_("Person LiveId CID"),     "Text", xmpText, xmpExternal, N_("Signed decimal representation of the person's Windows Live CID")            },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpMWGRegionsInfo[] = {
@@ -1284,7 +1287,7 @@ namespace Exiv2 {
         { "BarCodeValue",        N_("Bar Code Value"),        "Text",             xmpText, xmpExternal,        N_("Decoded BarCode value string")                         },
         { "Extensions",          N_("Extensions"),            "Text",             xmpText, xmpInternal,        N_("Any top level XMP property to describe the region content") },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpMWGKeywordInfo[] = {
@@ -1295,7 +1298,7 @@ namespace Exiv2 {
         { "Children",       N_("Children"),     "bag KeywordStruct",    xmpBag,  xmpExternal,   N_("List of children keyword structures")   },
 
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpGPanoInfo[] = {
@@ -1323,7 +1326,7 @@ namespace Exiv2 {
         { "InitialCameraDolly",             N_("Initial Camera Dolly"),             "Real",                 xmpText, xmpExternal,   N_("This optional parameter moves the virtual camera position along the line of sight, away from the center of the photo sphere. A rear surface position is represented by the value -1.0, while a front surface position is represented by 1.0. For normal viewing, this parameter should be set to 0.")   },
 
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpVideoInfo[] = {
@@ -1666,7 +1669,7 @@ namespace Exiv2 {
         { "XResolution",            N_("X Resolution"),                     "Rational",                 xmpText, xmpInternal, N_("Horizontal resolution in pixels per unit.") },
         { "Year",                   N_("Year"),                             "Integer",                  xmpText, xmpExternal, N_("Year in which the video was made.")   },
         { "YResolution",            N_("Y Resolution"),                     "Rational",                 xmpText, xmpInternal, N_("Vertical resolution in pixels per unit.") },
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpAudioInfo[] = {
@@ -1717,7 +1720,7 @@ namespace Exiv2 {
         { "URL",                N_("Audio URL"),                    "Text",                  xmpText, xmpExternal, N_("A C string that specifies a URL. There may be additional data after the C string.")   },
         { "URN",                N_("Audio URN"),                    "Text",                  xmpText, xmpExternal, N_("A C string that specifies a URN. There may be additional data after the C string.")   },
         { "VendorID",           N_("Vendor ID"),                    "Text",                  xmpText, xmpExternal, N_("A 32-bit integer that specifies the developer of the compressor that generated the compressed data. Often this field contains 'appl' to indicate Apple Computer, Inc.")   },
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpDctermsInfo[] = {
@@ -1735,7 +1738,7 @@ namespace Exiv2 {
                                     N_("*Main structure* containing Darwin Core location based information."),
         },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
    extern const XmpPropertyInfo xmpDwCInfo[] = {
@@ -2370,7 +2373,7 @@ namespace Exiv2 {
                                                 N_("Comments or notes accompanying the MeasurementOrFact.")
             },
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPropertyInfo xmpAcdseeInfo[] = {
@@ -2383,7 +2386,7 @@ namespace Exiv2 {
         { "categories",    N_("Categories"),  "Text",                 xmpText, xmpExternal,   N_("Catalog of hierarchical keywords and groups")   },
 
         // End of list marker
-        { 0, 0, 0, invalidTypeId, xmpInternal, 0 }
+        { nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr }
     };
 
     extern const XmpPrintInfo xmpPrintInfo[] = {
@@ -2452,13 +2455,13 @@ namespace Exiv2 {
         {"Xmp.plus.Reuse",                       EXV_PRINT_VOCABULARY(plusReuse)                      }
     };
 
-    XmpNsInfo::Ns::Ns(const std::string& ns)
-        : ns_(ns)
+    XmpNsInfo::Ns::Ns(std::string ns)
+        : ns_(std::move(ns))
     {
     }
 
-    XmpNsInfo::Prefix::Prefix(const std::string& prefix)
-        : prefix_(prefix)
+    XmpNsInfo::Prefix::Prefix(std::string prefix)
+        : prefix_(std::move(prefix))
     {
     }
 
@@ -2491,11 +2494,11 @@ namespace Exiv2 {
 
     const XmpNsInfo* XmpProperties::lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix)
     {
-        for (NsRegistry::const_iterator i = nsRegistry_.begin();
-             i != nsRegistry_.end(); ++i) {
-            if (i->second == prefix) return &(i->second);
+        for (const auto& ns : nsRegistry_) {
+            if (ns.second == prefix)
+                return &(ns.second);
         }
-        return 0;
+        return nullptr;
     }
 
     void XmpProperties::registerNs(const std::string& ns,
@@ -2520,13 +2523,13 @@ namespace Exiv2 {
         // Using malloc/free for better system compatibility in case
         // users don't unregister their namespaces explicitly.
         XmpNsInfo xn;
-        char* c = static_cast<char*>(std::malloc(ns2.size() + 1));
+        auto c = static_cast<char*>(std::malloc(ns2.size() + 1));
         std::strcpy(c, ns2.c_str());
         xn.ns_ = c;
         c = static_cast<char*>(std::malloc(prefix.size() + 1));
         std::strcpy(c, prefix.c_str());
         xn.prefix_ = c;
-        xn.xmpPropertyInfo_ = 0;
+        xn.xmpPropertyInfo_ = nullptr;
         xn.desc_ = "";
         nsRegistry_[ns2] = xn;
     }
@@ -2539,7 +2542,7 @@ namespace Exiv2 {
 
     void XmpProperties::unregisterNsUnsafe(const std::string& ns)
     {
-        NsRegistry::iterator i = nsRegistry_.find(ns);
+        auto i = nsRegistry_.find(ns);
         if (i != nsRegistry_.end()) {
             std::free(const_cast<char*>(i->second.prefix_));
             std::free(const_cast<char*>(i->second.ns_));
@@ -2550,9 +2553,9 @@ namespace Exiv2 {
     void XmpProperties::unregisterNs()
     {
         std::lock_guard<std::mutex> scoped_write_lock(mutex_);
-        NsRegistry::iterator i = nsRegistry_.begin();
+        auto i = nsRegistry_.begin();
         while (i != nsRegistry_.end()) {
-            NsRegistry::iterator kill = i++;
+            auto kill = i++;
             unregisterNsUnsafe(kill->first);
         }
     }
@@ -2563,7 +2566,7 @@ namespace Exiv2 {
         std::string ns2 = ns;
         if (   ns2.substr(ns2.size() - 1, 1) != "/"
             && ns2.substr(ns2.size() - 1, 1) != "#") ns2 += "/";
-        NsRegistry::const_iterator i = nsRegistry_.find(ns2);
+        auto i = nsRegistry_.find(ns2);
         std::string p;
         if (i != nsRegistry_.end()) {
             p = i->second.prefix_;
@@ -2579,20 +2582,20 @@ namespace Exiv2 {
     {
         std::lock_guard<std::mutex> scoped_read_lock(mutex_);
         const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
-        if (xn != 0) return xn->ns_;
+        if (xn != nullptr) return xn->ns_;
         return nsInfoUnsafe(prefix)->ns_;
     }
 
     const char* XmpProperties::propertyTitle(const XmpKey& key)
     {
         const XmpPropertyInfo* pi = propertyInfo(key);
-        return pi ? pi->title_ : 0;
+        return pi ? pi->title_ : nullptr;
     }
 
     const char* XmpProperties::propertyDesc(const XmpKey& key)
     {
         const XmpPropertyInfo* pi = propertyInfo(key);
-        return pi ? pi->desc_ : 0;
+        return pi ? pi->desc_ : nullptr;
     }
 
     TypeId XmpProperties::propertyType(const XmpKey& key)
@@ -2615,15 +2618,15 @@ namespace Exiv2 {
                 prefix = property.substr(0, i);
                 property = property.substr(i+1);
             }
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cout << "Nested key: " << key.key() << ", prefix: " << prefix
                       << ", property: " << property << "\n";
 #endif
         }
         const XmpPropertyInfo* pl = propertyList(prefix);
-        if (!pl) return 0;
-        const XmpPropertyInfo* pi = 0;
-        for (int j = 0; pl[j].name_ != 0; ++j) {
+        if (!pl) return nullptr;
+        const XmpPropertyInfo* pi = nullptr;
+        for (int j = 0; pl[j].name_ != nullptr; ++j) {
             if (0 == strcmp(pl[j].name_, property.c_str())) {
                 pi = pl + j;
                 break;
@@ -2659,8 +2662,8 @@ namespace Exiv2 {
 
     void XmpProperties::registeredNamespaces(Exiv2::Dictionary& nsDict)
     {
-        for (unsigned int i = 0; i < EXV_COUNTOF(xmpNsInfo); ++i) {
-             Exiv2::XmpParser::registerNs(xmpNsInfo[i].ns_,xmpNsInfo[i].prefix_);
+        for (const auto& i : xmpNsInfo) {
+            Exiv2::XmpParser::registerNs(i.ns_, i.prefix_);
         }
         Exiv2::XmpParser::registeredNamespaces(nsDict);
     }
@@ -2669,7 +2672,7 @@ namespace Exiv2 {
     {
         const XmpPropertyInfo* pl = propertyList(prefix);
         if (pl) {
-            for (int i = 0; pl[i].name_ != 0; ++i) {
+            for (int i = 0; pl[i].name_ != nullptr; ++i) {
                 os << pl[i];
             }
         }
@@ -2685,31 +2688,30 @@ namespace Exiv2 {
             const XmpPrintInfo* info = find(xmpPrintInfo, key);
             if (info) fct = info->printFct_;
         }
-        return fct(os, value, 0);
+        return fct(os, value, nullptr);
     }
 
     //! @brief Internal Pimpl structure with private members and data of class XmpKey.
     struct XmpKey::Impl
     {
-        Impl()
-        {
-        }                                                              //!< Default constructor
-        Impl(const std::string& prefix, const std::string& property);  //!< Constructor
+      Impl() = default; //!< Default constructor
+      Impl(const std::string &prefix,
+           const std::string &property); //!< Constructor
 
-        /*!
-          @brief Parse and convert the \em key string into property and prefix.
-                 Updates data members if the string can be decomposed, or throws
-                 \em Error.
+      /*!
+        @brief Parse and convert the \em key string into property and prefix.
+               Updates data members if the string can be decomposed, or throws
+               \em Error.
 
-          @throw Error if the key cannot be decomposed.
-        */
-        void decomposeKey(const std::string& key);  //!< Misterious magic
+        @throw Error if the key cannot be decomposed.
+      */
+      void decomposeKey(const std::string &key); //!< Misterious magic
 
-        // DATA
-        static const char* familyName_;  //!< "Xmp"
+      // DATA
+      static const char *familyName_; //!< "Xmp"
 
-        std::string prefix_;    //!< Prefix
-        std::string property_;  //!< Property name
+      std::string prefix_;   //!< Prefix
+      std::string property_; //!< Property name
     };
 
     //! @brief Constructor for Internal Pimpl structure XmpKey::Impl::Impl
@@ -2734,9 +2736,7 @@ namespace Exiv2 {
     {
     }
 
-    XmpKey::~XmpKey()
-    {
-    }
+    XmpKey::~XmpKey() = default;
 
     XmpKey::XmpKey(const XmpKey& rhs) : Key(rhs), p_(new Impl(*rhs.p_))
     {
@@ -2817,11 +2817,11 @@ namespace Exiv2 {
             throw Error(kerInvalidKey, key);
         }
         std::string prefix = key.substr(pos0, pos1 - pos0);
-        if (prefix == "") {
+        if (prefix.empty()) {
             throw Error(kerInvalidKey, key);
         }
         std::string property = key.substr(pos1 + 1);
-        if (property == "") {
+        if (property.empty()) {
             throw Error(kerInvalidKey, key);
         }
 

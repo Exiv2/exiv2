@@ -31,11 +31,16 @@
 #include "params.hpp"
 #include "i18n.h"  // NLS support.
 
+#include <exiv2/futils.hpp>
+
 int main(int argc, char* const argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
 #ifdef EXV_ENABLE_NLS
     setlocale(LC_ALL, "");
-    const std::string localeDir = Exiv2::getProcessPath() + EXV_LOCALEDIR;
+    const std::string localeDir = EXV_LOCALEDIR[0] == '/' ? EXV_LOCALEDIR : (Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR);
     bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
     textdomain(EXV_PACKAGE_NAME);
 #endif
@@ -67,12 +72,12 @@ int main(int argc, char* const argv[])
         int n = 1;
         int s = static_cast<int>(params.files_.size());
         int w = s > 9 ? s > 99 ? 3 : 2 : 1;
-        for (Params::Files::const_iterator i = params.files_.begin(); i != params.files_.end(); ++i) {
+        for (const auto& file : params.files_) {
             if (params.verbose_) {
-                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << *i
+                std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << file
                           << std::endl;
             }
-            int ret = task->run(*i);
+            int ret = task->run(file);
             if (rc == EXIT_SUCCESS)
                 rc = ret;
         }

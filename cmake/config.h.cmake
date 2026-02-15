@@ -9,9 +9,6 @@
 // Define if you require webready support.
 #cmakedefine EXV_ENABLE_WEBREADY
 
-// Define if you have the `gmtime_r' function.
-#cmakedefine EXV_HAVE_GMTIME_R
-
 // Define if you have the <libintl.h> header file.
 #cmakedefine EXV_HAVE_LIBINTL_H
 
@@ -75,5 +72,8 @@
 
 // Definition to enable conversion of UCS2 encoded Windows tags to UTF-8.
 #cmakedefine EXV_HAVE_PRINTUCS2
+
+// Defined if we are compiling with gcc < 4.9 and need boost::regex
+#cmakedefine EXV_NEED_BOOST_REGEX
 
 #endif /* !_EXV_CONF_H_ */

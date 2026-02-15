@@ -1,7 +1,9 @@
 #include <exiv2/types.hpp>
 
+#include <clocale>
 #include <cmath>
 #include <limits>
+#include <system_error>
 
 #include <gtest/gtest.h>
 
@@ -58,4 +60,80 @@ TEST(Rational, floatToRationalCast)
     const Rational minus_inf = floatToRationalCast(-1 * std::numeric_limits<float>::infinity());
     ASSERT_EQ(minus_inf.first, -1);
     ASSERT_EQ(minus_inf.second, 0);
+}
+
+struct WideStrTest : public ::testing::Test
+{
+    WideStrTest()
+    {
+#if (!defined(_MSC_VER)) && (!defined(__CYGWIN__)) && (!defined(__MINGW__))
+        if (std::setlocale(LC_ALL, "en_US.UTF-8") == nullptr) {
+            if (std::setlocale(LC_ALL, "en_US") == nullptr) {
+                throw std::system_error(errno, std::system_category(),
+                                        "Could not set locale to either 'en_US.UTF-8' or 'en_US'");
+            }
+        }
+#endif
+    }
+
+    ~WideStrTest()
+    {
+#if (!defined(_MSC_VER)) && (!defined(__CYGWIN__)) && (!defined(__MINGW__))
+        std::setlocale(LC_ALL, "C");
+#endif
+    }
+};
+
+TEST_F(WideStrTest, asciiWideStringToUtf8)
+{
+    const std::wstring wStr{L"this is an ordinary ASCII string"};
+    const std::string res = ws2s(wStr);
+
+    ASSERT_STREQ(res.c_str(), "this is an ordinary ASCII string");
+}
+
+TEST_F(WideStrTest, UtfWideStringToUtf8)
+{
+    const std::wstring wStr{L"This String cöntains Special characters: zß水"};
+    const std::string res = ws2s(wStr);
+
+    // clang-format off
+    // clang format adds a space between u8 and the string
+    ASSERT_STREQ(res.c_str(), u8"This String cöntains Special characters: zß水");
+    // clang-format on
+}
+
+TEST_F(WideStrTest, invalidUnicodeWideStringToUtf8)
+{
+    const std::wstring wStr{L"\000"};
+    const std::string res = ws2s(wStr);
+
+    ASSERT_STREQ(res.c_str(), "");
+}
+
+TEST_F(WideStrTest, AsciiStringToWide)
+{
+    const std::string str{"this is an ordinary ASCII string"};
+    const std::wstring res = s2ws(str);
+
+    ASSERT_STREQ(res.c_str(), L"this is an ordinary ASCII string");
+}
+
+TEST_F(WideStrTest, Utf8WithSpecialCharsToWide)
+{
+    // clang-format off
+    // clang format adds a space between u8 and the string
+    const std::string str{u8"This String cöntains Special characters: zß水"};
+    // clang-format on
+    const std::wstring res = s2ws(str);
+
+    ASSERT_STREQ(res.c_str(), L"This String cöntains Special characters: zß水");
+}
+
+TEST_F(WideStrTest, invalidUtf8ToWide)
+{
+    const std::string str{"\000"};
+    const std::wstring res = s2ws(str);
+
+    ASSERT_STREQ(res.c_str(), L"");
 }

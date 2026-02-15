@@ -32,6 +32,7 @@
 #include "image.hpp"
 #include "basicio.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "futils.hpp"
 
 // + standard includes
@@ -56,7 +57,7 @@ namespace Exiv2 {
 
     int MrwImage::pixelWidth() const
     {
-        ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
+        auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
             return imageWidth->toLong();
         }
@@ -65,7 +66,7 @@ namespace Exiv2 {
 
     int MrwImage::pixelHeight() const
     {
-        ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
+        auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
             return imageHeight->toLong();
         }
@@ -92,7 +93,7 @@ namespace Exiv2 {
 
     void MrwImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading MRW file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) {
@@ -114,32 +115,35 @@ namespace Exiv2 {
         uint32_t const end = getULong(tmp + 4, bigEndian);
 
         pos += len;
-        if (pos > end) throw Error(kerFailedToReadImageData);
+        enforce(pos <= end, kerFailedToReadImageData);
         io_->read(tmp, len);
         if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 
         while (memcmp(tmp + 1, "TTW", 3) != 0) {
             uint32_t const siz = getULong(tmp + 4, bigEndian);
+            enforce(siz <= end - pos, kerFailedToReadImageData);
             pos += siz;
-            if (pos > end) throw Error(kerFailedToReadImageData);
             io_->seek(siz, BasicIo::cur);
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
 
+            enforce(len <= end - pos, kerFailedToReadImageData);
             pos += len;
-            if (pos > end) throw Error(kerFailedToReadImageData);
             io_->read(tmp, len);
-            if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+            enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
         }
 
-        DataBuf buf(getULong(tmp + 4, bigEndian));
+        const uint32_t siz = getULong(tmp + 4, bigEndian);
+        // First do an approximate bounds check of siz, so that we don't
+        // get DOS-ed by a 4GB allocation on the next line. If siz is
+        // greater than io_->size() then it is definitely invalid. But the
+        // exact bounds checking is done by the call to io_->read, which
+        // will fail if there are fewer than siz bytes left to read.
+        enforce(siz <= io_->size(), kerFailedToReadImageData);
+        DataBuf buf(siz);
         io_->read(buf.pData_, buf.size_);
-        if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
+        enforce(!io_->error() && !io_->eof(), kerFailedToReadImageData);
 
-        ByteOrder bo = TiffParser::decode(exifData_,
-                                          iptcData_,
-                                          xmpData_,
-                                          buf.pData_,
-                                          (uint32_t)buf.size_);
+        ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.pData_, static_cast<uint32_t>(buf.size_));
         setByteOrder(bo);
     } // MrwImage::readMetadata
 

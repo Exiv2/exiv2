@@ -11,6 +11,9 @@
 
 int main(int argc, char* const argv[])
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     try {
         if (argc != 2) {
             std::cout << "Usage: " << argv[0] << " file\n";
@@ -18,7 +21,7 @@ int main(int argc, char* const argv[])
         }
 
         Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
-        assert(image.get() != 0);
+        assert(image.get() != nullptr);
         image->readMetadata();
 
         Exiv2::ExifData& exifData = image->exifData();
@@ -29,7 +32,7 @@ int main(int argc, char* const argv[])
         }
 
         Exiv2::ExifKey key("Exif.Minolta.ThumbnailOffset");
-        Exiv2::ExifData::const_iterator format = exifData.findKey(key);
+        auto format = exifData.findKey(key);
 
         if (format != exifData.end()) {
             Exiv2::DataBuf buf = format->dataArea();

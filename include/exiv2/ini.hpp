@@ -7,11 +7,11 @@
 
 #pragma once
 
-#include "exiv2lib_export.h"
-
+#include <cstdio>
 #include <map>
 #include <string>
-#include <stdio.h>
+
+#include "exiv2lib_export.h"
 
 namespace Exiv2 {
 
@@ -33,11 +33,10 @@ extern "C" {
 #endif
 
 //! @brief typedef for prototype of handler function.
-typedef int (*ini_handler)(void* user, const char* section,
-                           const char* name, const char* value);
+using ini_handler = int (*)(void*, const char*, const char*, const char*);
 
 //! Typedef for prototype of fgets-style reader function.
-typedef char* (*ini_reader)(char* str, int num, void* stream);
+using ini_reader = char* (*)(char*, int, void*);
 
 /*!
     @brief Parse given INI-style file. May have [section]s, name=value pairs
@@ -144,7 +143,7 @@ public:
     /*! @brief Return the result of ini_parse(), i.e., 0 on success, line number of
         first error on parse error, or -1 on file open error.
     */
-    int ParseError();
+    int ParseError() const;
 
     /*! @brief Get a string value from INI file, returning default_value if not found.
 
@@ -154,8 +153,7 @@ public:
 
       @return value
     */
-    std::string Get(std::string section, std::string name,
-                    std::string default_value);
+    std::string Get(const std::string& section, const std::string& name, const std::string& default_value);
 
     /*! @brief Get an integer (long) value from INI file, returning default_value if
         not found or not a valid integer (decimal "1234", "-1234", or hex "0x4d2").
@@ -166,7 +164,7 @@ public:
 
       @return value
     */
-    long GetInteger(std::string section, std::string name, long default_value);
+    long GetInteger(const std::string& section, const std::string& name, long default_value);
 
     /*! @brief Get a real (floating point double) value from INI file, returning
         default_value if not found or not a valid floating point value
@@ -178,7 +176,7 @@ public:
 
       @return value
     */
-    double GetReal(std::string section, std::string name, double default_value);
+    double GetReal(const std::string& section, const std::string& name, double default_value);
 
     /*! @brief Get a boolean value from INI file, returning default_value if not found or if
         not a valid true/false value. Valid true values are "true", "yes", "on", "1",
@@ -190,12 +188,13 @@ public:
 
       @return value
     */
-    bool GetBoolean(std::string section, std::string name, bool default_value);
+    bool GetBoolean(const std::string& section, const std::string& name, bool default_value);
 
 private:
     int _error;                                                        //!< status
     std::map<std::string, std::string> _values;                        //!< values from file
-    static std::string MakeKey(std::string section, std::string name); //!< return key encoded from section/name
+    static std::string MakeKey(const std::string& section,
+                               const std::string& name);  //!< return key encoded from section/name
     static int ValueHandler(void* user, const char* section, const char* name,
                             const char* value); //!< value handler
 };

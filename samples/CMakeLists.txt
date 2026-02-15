@@ -131,9 +131,5 @@ foreach(application ${APPLICATIONS})
     endif()
 endforeach()
 
-# ******************************************************************************
-# Man page
-install( FILES exiv2samples.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 )
-
 # That's all Folks!
 ##

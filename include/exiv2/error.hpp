@@ -89,7 +89,7 @@ namespace Exiv2 {
                  specific way.  The default handler sends the log message to
                  standard error.
          */
-        typedef void (*Handler)(int, const char*);
+        using Handler = void (*)(int, const char*);
 
         //! @name Creators
         //@{
@@ -176,7 +176,11 @@ namespace Exiv2 {
         AnyError();
         AnyError(const AnyError& o);
 
-        virtual ~AnyError() noexcept;
+        ~AnyError() noexcept override;
+
+        AnyError& operator=(const AnyError& o) = delete;
+        AnyError& operator=(const AnyError&& o) = delete;
+
         ///@brief  Return the error code.
         virtual int code() const noexcept =0;
     };
@@ -280,7 +284,7 @@ namespace Exiv2 {
         BasicError(ErrorCode code, const A& arg1, const B& arg2, const C& arg3);
 
         //! Virtual destructor. (Needed because of noexcept)
-        virtual ~BasicError() noexcept;
+        ~BasicError() noexcept override;
         //@}
 
         //! @name Accessors
@@ -320,10 +324,10 @@ namespace Exiv2 {
     }; // class BasicError
 
     //! Error class used for exceptions (std::string based)
-    typedef BasicError<char> Error;
+    using Error = BasicError<char>;
 #ifdef EXV_UNICODE_PATH
     //! Error class used for exceptions (std::wstring based)
-    typedef BasicError<wchar_t> WError;
+    using WError = BasicError<wchar_t>;
 #endif
 
 // *****************************************************************************
@@ -365,10 +369,8 @@ namespace Exiv2 {
         setMsg();
     }
 
-    template<typename charT>
-    BasicError<charT>::~BasicError() noexcept
-    {
-    }
+    template <typename charT>
+    BasicError<charT>::~BasicError() noexcept = default;
 
     template<typename charT>
     int BasicError<charT>::code() const noexcept

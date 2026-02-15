@@ -842,8 +842,8 @@ public:
     ///   \li \c #kXMPUtil_IncludeAliases - Include aliases if the schema is explicitly specified.
 
     static void RemoveProperties ( TXMPMeta<tStringObj> * xmpObj,
-								   XMP_StringPtr          schemaNS = 0,
-								   XMP_StringPtr          propName = 0,
+								   XMP_StringPtr          schemaNS = nullptr,
+								   XMP_StringPtr          propName = nullptr,
 								   XMP_OptionBits         options = 0 );
 
     // ---------------------------------------------------------------------------------------------
@@ -948,8 +948,8 @@ public:
 								   TXMPMeta<tStringObj> *       dest,
 								   XMP_StringPtr                sourceNS,
 								   XMP_StringPtr                sourceRoot,
-								   XMP_StringPtr                destNS = 0,
-								   XMP_StringPtr                destRoot = 0,
+								   XMP_StringPtr                destNS = nullptr,
+								   XMP_StringPtr                destRoot = nullptr,
 								   XMP_OptionBits               options = 0 );
 
     /// @}

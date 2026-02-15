@@ -36,11 +36,11 @@
 #endif
 
 // + standard includes
+#include <cstdio>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 #include <string>
-#include <stdio.h>
-#include <iostream>
 
 #if ! defined(WIN32) && ! defined(__CYGWIN__) && ! defined(__MINGW__)
 #include <unistd.h>
@@ -63,18 +63,15 @@ std::string Exiv2::versionNumberHexString()
 
 static bool shouldOutput(const exv_grep_keys_t& greps,const char* key,const std::string& value)
 {
-    bool bPrint = greps.empty();
-    for( exv_grep_keys_t::const_iterator g = greps.begin();
-      !bPrint && g != greps.end() ; ++g
-    ) {
-        std::smatch m;
+    if (greps.empty())
+        return true;
+
+    return std::any_of(greps.begin(), greps.end(), [key, &value](const re::regex& g) {
+        re::smatch m;
         const std::string Key(key);
 
-        bPrint = (  std::regex_search( Key, m, *g)
-                 || std::regex_search( value, m, *g)
-                 );
-    }
-    return bPrint;
+        return re::regex_search(Key, m, g) || re::regex_search(value, m, g);
+    });
 }
 
 static void output(std::ostream& os,const exv_grep_keys_t& greps,const char* name,const std::string& value)
@@ -172,12 +169,6 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 #endif
 
     constexpr int have_strings_h = 0;
-
-#ifdef EXV_HAVE_GMTIME_R
-    constexpr int have_gmtime_r = 1;
-#else
-    constexpr int have_gmtime_r = 0;
-#endif
 
 #ifdef EXV_HAVE_LIBINTL_H
     constexpr int have_libintl = 1;
@@ -306,12 +297,11 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
     output(os,keys,"curl"          , use_curl);
     if ( libs.begin() != libs.end() ) {
         output(os,keys,"executable" ,*libs.begin());
-        for ( std::vector<std::string>::iterator lib = libs.begin()+1 ; lib != libs.end() ; ++lib )
+        for (auto lib = libs.begin() + 1; lib != libs.end(); ++lib)
             output(os,keys,"library",*lib);
     }
 
     output(os,keys,"have_strerror_r"   ,have_strerror_r  );
-    output(os,keys,"have_gmtime_r"     ,have_gmtime_r    );
     output(os,keys,"have_libintl"      ,have_libintl     );
     output(os,keys,"have_lensdata"     ,have_lensdata    );
     output(os,keys,"have_iconv"        ,have_iconv       );
@@ -347,10 +337,10 @@ void Exiv2::dumpLibraryInfo(std::ostream& os,const exv_grep_keys_t& keys)
 
     Exiv2::Dictionary ns;
     Exiv2::XmpProperties::registeredNamespaces(ns);
-    for ( Exiv2::Dictionary_i it = ns.begin(); it != ns.end() ; ++it ) {
-        std::string xmlns = (*it).first;
-        std::string uri   = (*it).second;
-        output(os,keys,name,xmlns+":"+uri);
+    for (const auto& dict : ns) {
+        std::string xmlns = dict.first;
+        std::string uri = dict.second;
+        output(os, keys, name, xmlns.append(":").append(uri));
     }
 #endif
 }

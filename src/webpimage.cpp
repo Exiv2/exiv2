@@ -51,18 +51,7 @@
 #include <cassert>
 #include <cstdio>
 
-#define CHECK_BIT(var,pos) ((var) & (1<<(pos)))
-
-// *****************************************************************************
-// class member definitions
 namespace Exiv2 {
-    namespace Internal {
-
-    }}                                      // namespace Internal, Exiv2
-
-namespace Exiv2 {
-    using namespace Exiv2::Internal;
-
     WebPImage::WebPImage(BasicIo::UniquePtr io)
     : Image(ImageType::webp, mdNone, std::move(io))
     {
@@ -119,7 +108,7 @@ namespace Exiv2 {
         }
         IoCloser closer(*io_);
         BasicIo::UniquePtr tempIo(new MemIo);
-        assert (tempIo.get() != 0);
+        assert (tempIo.get() != nullptr);
 
         doWriteMetadata(*tempIo); // may throw
         io_->close();
@@ -132,7 +121,7 @@ namespace Exiv2 {
         if (!io_->isopen()) throw Error(kerInputDataReadFailed);
         if (!outIo.isopen()) throw Error(kerImageWriteFailed);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Writing metadata" << std::endl;
 #endif
 
@@ -163,7 +152,7 @@ namespace Exiv2 {
 
         if (exifData_.count() > 0) {
             ExifParser::encode(blob, littleEndian, exifData_);
-            if (blob.size() > 0) {
+            if (!blob.empty()) {
                 has_exif = true;
             }
         }
@@ -173,13 +162,13 @@ namespace Exiv2 {
                               XmpParser::useCompactFormat |
                               XmpParser::omitAllFormatting);
         }
-        has_xmp = xmpPacket_.size() > 0;
+        has_xmp = !xmpPacket_.empty();
         std::string xmp(xmpPacket_);
 
         /* Verify for a VP8X Chunk First before writing in
          case we have any exif or xmp data, also check
          for any chunks with alpha frame/layer set */
-        while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
+        while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
             io_->read(chunkId.pData_, WEBP_TAG_SIZE);
             io_->read(size_buff, WEBP_TAG_SIZE);
             long size = Exiv2::getULong(size_buff, littleEndian);
@@ -303,7 +292,7 @@ namespace Exiv2 {
         }
 
         io_->seek(12, BasicIo::beg);
-        while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
+        while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
             io_->read(chunkId.pData_, 4);
             io_->read(size_buff, 4);
 
@@ -343,8 +332,10 @@ namespace Exiv2 {
                 }
 
                 if (has_icc) {
-                    if (outIo.write((const byte*)WEBP_CHUNK_HEADER_ICCP, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-                    ul2Data(data, (uint32_t) iccProfile_.size_, littleEndian);
+                    if (outIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_ICCP), WEBP_TAG_SIZE) !=
+                        WEBP_TAG_SIZE)
+                        throw Error(kerImageWriteFailed);
+                    ul2Data(data, static_cast<uint32_t>(iccProfile_.size_), littleEndian);
                     if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
                     if (outIo.write(iccProfile_.pData_, iccProfile_.size_) != iccProfile_.size_) {
                         throw Error(kerImageWriteFailed);
@@ -373,12 +364,12 @@ namespace Exiv2 {
         }
 
         if (has_exif) {
-            if (outIo.write((const byte*)WEBP_CHUNK_HEADER_EXIF, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            us2Data(data, (uint16_t) blob.size()+8, bigEndian);
-            ul2Data(data, (uint32_t) blob.size(), littleEndian);
+            if (outIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_EXIF), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
+                throw Error(kerImageWriteFailed);
+            us2Data(data, static_cast<uint16_t>(blob.size()) + 8, bigEndian);
+            ul2Data(data, static_cast<uint32_t>(blob.size()), littleEndian);
             if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            if (outIo.write((const byte*)&blob[0], blob.size()) != blob.size())
-            {
+            if (outIo.write(static_cast<const byte*>(&blob[0]), blob.size()) != blob.size()) {
                 throw Error(kerImageWriteFailed);
             }
             if (outIo.tell() % 2) {
@@ -387,10 +378,11 @@ namespace Exiv2 {
         }
 
         if (has_xmp) {
-            if (outIo.write((const byte*)WEBP_CHUNK_HEADER_XMP, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            ul2Data(data, (uint32_t) xmpPacket().size(), littleEndian);
+            if (outIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_XMP), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
+                throw Error(kerImageWriteFailed);
+            ul2Data(data, static_cast<uint32_t>(xmpPacket().size()), littleEndian);
             if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
-            if (outIo.write((const byte*)xmp.data(), xmp.size()) != xmp.size()) {
+            if (outIo.write(reinterpret_cast<const byte*>(xmp.data()), xmp.size()) != xmp.size()) {
                 throw Error(kerImageWriteFailed);
             }
             if (outIo.tell() % 2) {
@@ -402,7 +394,7 @@ namespace Exiv2 {
         outIo.seek(0, BasicIo::beg);
         filesize = outIo.size() - 8;
         outIo.seek(4, BasicIo::beg);
-        ul2Data(data, (uint32_t) filesize, littleEndian);
+        ul2Data(data, static_cast<uint32_t>(filesize), littleEndian);
         if (outIo.write(data, WEBP_TAG_SIZE) != WEBP_TAG_SIZE) throw Error(kerImageWriteFailed);
 
     } // WebPImage::writeMetadata
@@ -439,8 +431,8 @@ namespace Exiv2 {
             }
 
             io_->seek(0,BasicIo::beg); // rewind
-            while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
-                uint64_t offset = (uint64_t) io_->tell();
+            while (!io_->eof() && static_cast<uint64_t>(io_->tell()) < filesize) {
+                auto offset = static_cast<uint64_t>(io_->tell());
                 byte     size_buff[WEBP_TAG_SIZE];
                 io_->read(chunkId.pData_, WEBP_TAG_SIZE);
                 io_->read(size_buff, WEBP_TAG_SIZE);
@@ -450,9 +442,10 @@ namespace Exiv2 {
 
                 if ( bPrint ) {
                     out << Internal::indent(depth)
-                    << Internal::stringFormat("  %s | %8u | %8u | ", (const char*)chunkId.pData_,(uint32_t)size,(uint32_t)offset)
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_ > 32 ? 32 : payload.size_))
-                    << std::endl;
+                        << Internal::stringFormat("  %s | %8u | %8u | ", reinterpret_cast<const char*>(chunkId.pData_),
+                                                  static_cast<uint32_t>(size), static_cast<uint32_t>(offset))
+                        << Internal::binaryToString(makeSlice(payload, 0, payload.size_ > 32 ? 32 : payload.size_))
+                        << std::endl;
                 }
 
                 if ( equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_EXIF) && option==kpsRecursive ) {
@@ -465,7 +458,7 @@ namespace Exiv2 {
                                   || (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ICCP) && option==kpsIccProfile)
                                    ;
                 if ( bPrintPayload ) {
-                    out.write((const char*) payload.pData_,payload.size_);
+                    out.write(reinterpret_cast<const char*>(payload.pData_), payload.size_);
                 }
 
                 if ( offset && io_->tell() % 2 ) io_->seek(+1, BasicIo::cur); // skip padding byte on sub-chunks
@@ -515,7 +508,7 @@ namespace Exiv2 {
         byte      size_buff[WEBP_TAG_SIZE];
         bool      has_canvas_data = false;
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Reading metadata" << std::endl;
 #endif
 
@@ -629,22 +622,26 @@ namespace Exiv2 {
                 bool  s_header = false;
                 bool  le_header = false;
                 bool  be_header = false;
-                long  pos = getHeaderOffset (payload.pData_, (long)payload.size_, (byte*)&exifLongHeader, 4);
+                long pos = getHeaderOffset(payload.pData_, static_cast<long>(payload.size_),
+                                           reinterpret_cast<byte*>(&exifLongHeader), 4);
 
                 if (pos == -1) {
-                    pos = getHeaderOffset (payload.pData_, (long)payload.size_, (byte*)&exifLongHeader, 6);
+                    pos = getHeaderOffset(payload.pData_, static_cast<long>(payload.size_),
+                                          reinterpret_cast<byte*>(&exifLongHeader), 6);
                     if (pos != -1) {
                         s_header = true;
                     }
                 }
                 if (pos == -1) {
-                    pos = getHeaderOffset (payload.pData_, (long)payload.size_, (byte*)&exifTiffLEHeader, 3);
+                    pos = getHeaderOffset(payload.pData_, static_cast<long>(payload.size_),
+                                          reinterpret_cast<byte*>(&exifTiffLEHeader), 3);
                     if (pos != -1) {
                         le_header = true;
                     }
                 }
                 if (pos == -1) {
-                    pos = getHeaderOffset (payload.pData_, (long)payload.size_, (byte*)&exifTiffBEHeader, 4);
+                    pos = getHeaderOffset(payload.pData_, static_cast<long>(payload.size_),
+                                          reinterpret_cast<byte*>(&exifTiffBEHeader), 4);
                     if (pos != -1) {
                         be_header = true;
                     }
@@ -657,35 +654,34 @@ namespace Exiv2 {
                     offset += 12;
                 }
 
-                const uint16_t sizePayload = (uint16_t)(payload.size_ + offset);
-                rawExifData = (byte*)malloc(sizePayload);
+                const auto sizePayload = static_cast<uint16_t>(payload.size_ + offset);
+                rawExifData = static_cast<byte*>(malloc(sizePayload));
 
                 byte  sizeBuff[2];
                 if (s_header) {
                     us2Data(sizeBuff, (sizePayload - 6), bigEndian);
-                    memcpy(rawExifData, (char*)&exifLongHeader, 4);
-                    memcpy(rawExifData + 4, (char*)&sizeBuff, 2);
+                    memcpy(rawExifData, reinterpret_cast<char*>(&exifLongHeader), 4);
+                    memcpy(rawExifData + 4, reinterpret_cast<char*>(&sizeBuff), 2);
                 }
 
                 if (be_header || le_header) {
                     us2Data(sizeBuff, (sizePayload - 6), bigEndian);
-                    memcpy(rawExifData, (char*)&exifLongHeader, 4);
-                    memcpy(rawExifData + 4, (char*)&sizeBuff, 2);
-                    memcpy(rawExifData + 6, (char*)&exifShortHeader, 6);
+                    memcpy(rawExifData, reinterpret_cast<char*>(&exifLongHeader), 4);
+                    memcpy(rawExifData + 4, reinterpret_cast<char*>(&sizeBuff), 2);
+                    memcpy(rawExifData + 6, reinterpret_cast<char*>(&exifShortHeader), 6);
                 }
 
                 memcpy(rawExifData + offset, payload.pData_, payload.size_);
 
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Display Hex Dump [size:" << (unsigned long)sizePayload << "]" << std::endl;
                 std::cout << Internal::binaryToHex(rawExifData, sizePayload);
 #endif
 
                 if (pos != -1) {
                     XmpData  xmpData;
-                    ByteOrder bo = ExifParser::decode(exifData_,
-                                                      payload.pData_ + pos,
-                                                      static_cast<uint32_t>(payload.size_ - (size_t)pos));
+                    ByteOrder bo = ExifParser::decode(exifData_, payload.pData_ + pos,
+                                                      static_cast<uint32_t>(payload.size_ - static_cast<size_t>(pos)));
                     setByteOrder(bo);
                 }
                 else
@@ -701,12 +697,12 @@ namespace Exiv2 {
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
                 io_->readOrThrow(payload.pData_, payload.size_);
                 xmpPacket_.assign(reinterpret_cast<char*>(payload.pData_), payload.size_);
-                if (xmpPacket_.size() > 0 && XmpParser::decode(xmpData_, xmpPacket_)) {
+                if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Failed to decode XMP metadata." << std::endl;
 #endif
                 } else {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                     std::cout << "Display Hex Dump [size:" << (unsigned long)payload.size_ << "]" << std::endl;
                     std::cout << Internal::binaryToHex(payload.pData_, payload.size_);
 #endif
@@ -779,7 +775,7 @@ namespace Exiv2 {
         byte size[4]  = { 0x0A, 0x00, 0x00, 0x00 };
         byte data[10] = { 0x00, 0x00, 0x00, 0x00, 0x00,
             0x00, 0x00, 0x00, 0x00, 0x00 };
-        iIo.write((const byte*)WEBP_CHUNK_HEADER_VP8X, WEBP_TAG_SIZE);
+        iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE);
         iIo.write(size, WEBP_TAG_SIZE);
 
         if (has_alpha) {
@@ -815,8 +811,8 @@ namespace Exiv2 {
         /* Handle inject an icc profile right after VP8X chunk */
         if (has_icc) {
             byte size_buff[WEBP_TAG_SIZE];
-            ul2Data(size_buff, (uint32_t)iccProfile_.size_, littleEndian);
-            if (iIo.write((const byte*)WEBP_CHUNK_HEADER_VP8X, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
+            ul2Data(size_buff, static_cast<uint32_t>(iccProfile_.size_), littleEndian);
+            if (iIo.write(reinterpret_cast<const byte*>(WEBP_CHUNK_HEADER_VP8X), WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
                 throw Error(kerImageWriteFailed);
             if (iIo.write(size_buff, WEBP_TAG_SIZE) != WEBP_TAG_SIZE)
                 throw Error(kerImageWriteFailed);
@@ -830,12 +826,15 @@ namespace Exiv2 {
         }
     }
 
-    long WebPImage::getHeaderOffset(byte *data, size_t data_size,
-                                    byte *header, size_t header_size) {
+    long WebPImage::getHeaderOffset(byte* data, size_t data_size, byte* header, size_t header_size)
+    {
+        if (data_size < header_size) {
+            return -1;
+        }
         long pos = -1;
-        for (size_t i=0; i < data_size - header_size; i++) {
+        for (size_t i = 0; i < data_size - header_size; i++) {
             if (memcmp(header, &data[i], header_size) == 0) {
-                pos = (long)i;
+                pos = static_cast<long>(i);
                 break;
             }
         }

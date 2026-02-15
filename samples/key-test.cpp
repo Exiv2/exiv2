@@ -19,6 +19,9 @@ using namespace Exiv2;
 
 int main()
 {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     int tc = 0;
     int rc = 0;
 
@@ -73,7 +76,7 @@ int main()
     // -----
 
     // Copy constructor
-    ExifKey ek2(ek);
+    const ExifKey& ek2(ek);
 
     // operator<<
     tc += 1;

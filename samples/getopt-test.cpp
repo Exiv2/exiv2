@@ -33,7 +33,11 @@
 #include <iomanip>
 #include <cassert>
 
-#define Safe(x) (x?x:"unknown")
+static constexpr const char* Safe(const char* x)
+{
+    return x ? x : "unknown";
+}
+
 const char* optstring = ":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:";
 
 // *****************************************************************************
@@ -61,7 +65,7 @@ public:
     }
 
     //! Handle options and their arguments.
-    int option(int opt, const std::string& optarg, int optopt)
+    int option(int opt, const std::string& optarg, int optopt) override
     {
     	std::cout << "Params::option()"
     	          << " opt = "    << opt
@@ -72,7 +76,7 @@ public:
     }
 
     //! Handle non-option parameters.
-    int nonoption(const std::string& argv)
+    int nonoption(const std::string& argv) override
     {
     	std::cout << "Params::nonoption()"
     	          << " " << argv
@@ -83,6 +87,9 @@ public:
 
 int main(int argc, char** const argv)
 {
+	Exiv2::XmpParser::initialize();
+	::atexit(Exiv2::XmpParser::terminate);
+
 	int n;
 
 #ifdef EXV_HAVE_UNISTD_H
@@ -90,37 +97,31 @@ int main(int argc, char** const argv)
 	do {
 	    n = ::getopt(argc,argv,::optstring);
 	    if ( n >= 0 ) {
-	    	char N = (char) n;
-		    std::cout << n   << " = " << N ;
-	    } else {
-	    	std::cout << n ;
-	    }
-		std::cout << " optind = " << ::optind
-				  << " opterr = " << ::opterr
-				  << " optopt = " << ::optopt
-				  << " optarg = " << Safe(::optarg)
-				  << std::endl;
-	} while ( n >= 0 );
-	std::cout << std::endl;
+            char N = static_cast<char>(n);
+            std::cout << n << " = " << N;
+        } else {
+            std::cout << n;
+        }
+        std::cout << " optind = " << ::optind << " opterr = " << ::opterr << " optopt = " << ::optopt
+                  << " optarg = " << Safe(::optarg) << std::endl;
+    } while (n >= 0);
+    std::cout << std::endl;
 #endif
 
 	std::cout << "homemade getopt()" << std::endl;
 	do {
 	    n = Util::getopt(argc,argv,::optstring);
 	    if ( n >= 0 ) {
-	    	char N = (char) n;
-		    std::cout << n   << " = " << N ;
-	    } else {
-	    	std::cout << n ;
-	    }
-		std::cout << " optind = " << Util::optind
-				  << " opterr = " << Util::opterr
-				  << " optopt = " << Util::optopt
-				  << " optarg = " << Safe(Util::optarg)
-				  << std::endl;
+            char N = static_cast<char>(n);
+            std::cout << n << " = " << N;
+        } else {
+            std::cout << n;
+        }
+        std::cout << " optind = " << Util::optind << " opterr = " << Util::opterr << " optopt = " << Util::optopt
+                  << " optarg = " << Safe(Util::optarg) << std::endl;
 
-	} while ( n >= 0 );
-	std::cout << std::endl;
+    } while (n >= 0);
+    std::cout << std::endl;
 
     // Handle command line arguments
     Params params;

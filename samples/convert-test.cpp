@@ -10,13 +10,16 @@
 
 int main(int argc, char* const argv[])
 try {
+    Exiv2::XmpParser::initialize();
+    ::atexit(Exiv2::XmpParser::terminate);
+
     if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " file\n";
         return 1;
     }
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
-    assert(image.get() != 0);
+    assert(image.get() != nullptr);
     image->readMetadata();
 
     Exiv2::XmpData xmpData;

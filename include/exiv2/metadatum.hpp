@@ -54,14 +54,15 @@ namespace Exiv2 {
     class EXIV2API Key {
     public:
         //! Shortcut for a %Key auto pointer.
-        typedef std::unique_ptr<Key> UniquePtr;
+        using UniquePtr = std::unique_ptr<Key>;
 
+        Key() = default;
         //! @name Creators
         //@{
         //! Destructor
-        virtual ~Key();
+        virtual ~Key() = default;
         //@}
-
+        Key(const Key& rhs) = default;
         //! @name Accessors
         //@{
         /*!
@@ -103,7 +104,7 @@ namespace Exiv2 {
           @brief Assignment operator. Protected so that it can only be used
                  by subclasses but not directly.
          */
-        Key& operator=(const Key& rhs);
+        Key& operator=(const Key& rhs) = default;
         //@}
 
     private:
@@ -157,7 +158,7 @@ namespace Exiv2 {
 
           Implemented in terms of write(), see there.
          */
-        std::string print(const ExifData* pMetadata =0) const;
+        std::string print(const ExifData* pMetadata =nullptr) const;
         /*!
           @brief Write value to a data buffer and return the number
                  of bytes written.
@@ -193,7 +194,7 @@ namespace Exiv2 {
          */
         virtual std::ostream& write(
                   std::ostream& os,
-            const ExifData*     pMetadata =0
+            const ExifData*     pMetadata =nullptr
         ) const =0;
         /*!
           @brief Return the key of the metadatum. The key is of the form

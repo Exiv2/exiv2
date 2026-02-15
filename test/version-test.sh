@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Test driver for exiv2.exe --verbose --version
 
 source ./functions.source

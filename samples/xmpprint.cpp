@@ -16,7 +16,10 @@
 
 int main(int argc, char** argv)
 {
-try 
+  Exiv2::XmpParser::initialize();
+  ::atexit(Exiv2::XmpParser::terminate);
+
+  try
   {
     if (argc != 2) 
       {
@@ -25,7 +28,7 @@ try
       }
 
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(argv[1]);
-    assert (image.get() != 0);
+    assert (image.get() != nullptr);
     image->readMetadata();
 
     Exiv2::XmpData &xmpData = image->xmpData();
@@ -41,19 +44,10 @@ try
         throw Exiv2::Error(Exiv2::kerErrorMessage, error);
       }
 
-    for (Exiv2::XmpData::const_iterator md = xmpData.begin();
-         md != xmpData.end(); ++md) 
-      {
-        std::cout << std::setfill(' ') << std::left
-                  << std::setw(44)
-                  << md->key() << " "
-                  << std::setw(9) << std::setfill(' ') << std::left
-                  << md->typeName() << " "
-                  << std::dec << std::setw(3)
-                  << std::setfill(' ') << std::right
-                  << md->count() << "  "
-                  << std::dec << md->value()
-                  << std::endl;
+      for (const auto& md : xmpData) {
+          std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9)
+                    << std::setfill(' ') << std::left << md.typeName() << " " << std::dec << std::setw(3)
+                    << std::setfill(' ') << std::right << md.count() << "  " << std::dec << md.value() << std::endl;
       }
 
     Exiv2::XmpParser::terminate();

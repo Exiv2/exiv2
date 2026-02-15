@@ -53,7 +53,7 @@ namespace Exiv2
     };
 
     //! List of native previews. This is meant to be used only by the PreviewManager.
-    typedef std::vector<NativePreview> NativePreviewList;
+    using NativePreviewList = std::vector<NativePreview>;
 
     /// @brief Options for printStructure
     typedef enum { kpsNone, kpsBasic, kpsXMP, kpsRecursive, kpsIccProfile, kpsIptcErase } PrintStructureOption;
@@ -70,7 +70,7 @@ namespace Exiv2
     {
     public:
         //! Image auto_ptr type
-        typedef std::unique_ptr<Image> UniquePtr;
+        using UniquePtr = std::unique_ptr<Image>;
 
         //! @name Creators
         //@{
@@ -210,28 +210,28 @@ namespace Exiv2
                                bool bSwap, char c, int depth);
 
         /// @brief Is the host platform big Endian?
-        bool isBigEndianPlatform();
+        static bool isBigEndianPlatform();
 
         /// @brief Is the host platform little Endian?
-        bool isLittleEndianPlatform();
+        static bool isLittleEndianPlatform();
 
-        bool isStringType(uint16_t type);
-        bool isShortType(uint16_t type);
-        bool isLongType(uint16_t type);
-        bool isLongLongType(uint16_t type);
-        bool isRationalType(uint16_t type);
-        bool is2ByteType(uint16_t type);
-        bool is4ByteType(uint16_t type);
-        bool is8ByteType(uint16_t type);
-        bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
-        bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
+        static bool isStringType(uint16_t type);
+        static bool isShortType(uint16_t type);
+        static bool isLongType(uint16_t type);
+        static bool isLongLongType(uint16_t type);
+        static bool isRationalType(uint16_t type);
+        static bool is2ByteType(uint16_t type);
+        static bool is4ByteType(uint16_t type);
+        static bool is8ByteType(uint16_t type);
+        static bool isPrintXMP(uint16_t type, Exiv2::PrintStructureOption option);
+        static bool isPrintICC(uint16_t type, Exiv2::PrintStructureOption option);
 
-        uint64_t byteSwap(uint64_t value, bool bSwap) const;
-        uint32_t byteSwap(uint32_t value, bool bSwap) const;
-        uint16_t byteSwap(uint16_t value, bool bSwap) const;
-        uint16_t byteSwap2(const DataBuf& buf, size_t offset, bool bSwap) const;
-        uint32_t byteSwap4(const DataBuf& buf, size_t offset, bool bSwap) const;
-        uint64_t byteSwap8(const DataBuf& buf, size_t offset, bool bSwap) const;
+        static uint64_t byteSwap(uint64_t value, bool bSwap);
+        static uint32_t byteSwap(uint32_t value, bool bSwap);
+        static uint16_t byteSwap(uint16_t value, bool bSwap);
+        static uint16_t byteSwap2(const DataBuf& buf, size_t offset, bool bSwap);
+        static uint32_t byteSwap4(const DataBuf& buf, size_t offset, bool bSwap);
+        static uint64_t byteSwap8(const DataBuf& buf, size_t offset, bool bSwap);
 
         //@}
 
@@ -360,7 +360,7 @@ namespace Exiv2
         const std::string& tagName(uint16_t tag);
 
         //! Return tag type for given tag id.
-        const char* typeName(uint16_t tag) const;
+        static const char* typeName(uint16_t tag);
 
     public:
         Image& operator=(const Image& rhs) = delete;
@@ -381,9 +381,9 @@ namespace Exiv2
     };
 
     //! Type for function pointer that creates new Image instances
-    typedef Image::UniquePtr (*NewInstanceFct)(BasicIo::UniquePtr io, bool create);
+    using NewInstanceFct = Image::UniquePtr (*)(BasicIo::UniquePtr, bool);
     //! Type for function pointer that checks image types
-    typedef bool (*IsThisTypeFct)(BasicIo& iIo, bool advance);
+    using IsThisTypeFct = bool (*)(BasicIo&, bool);
 
     /// @brief Returns an Image instance of the specified type. The factory is implemented as a static class.
     class EXIV2API ImageFactory

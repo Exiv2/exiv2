@@ -65,11 +65,11 @@ namespace Exiv2 {
                  to a known schema namespace prefix and property name.
          */
         explicit Xmpdatum(const XmpKey& key,
-                          const Value* pValue =0);
+                          const Value* pValue =nullptr);
         //! Copy constructor
         Xmpdatum(const Xmpdatum& rhs);
         //! Destructor
-        virtual ~Xmpdatum();
+        ~Xmpdatum() override;
         //@}
 
         //! @name Manipulators
@@ -117,7 +117,7 @@ namespace Exiv2 {
         //@{
         //! Not implemented. Calling this method will raise an exception.
         long copy(byte* buf, ByteOrder byteOrder) const override;
-        std::ostream& write(std::ostream& os, const ExifData* pMetadata =0) const override;
+        std::ostream& write(std::ostream& os, const ExifData* pMetadata =nullptr) const override;
         /*!
           @brief Return the key of the Xmpdatum. The key is of the form
                  '<b>Xmp</b>.prefix.property'. Note however that the
@@ -157,7 +157,7 @@ namespace Exiv2 {
     }; // class Xmpdatum
 
     //! Container type to hold all metadata
-    typedef std::vector<Xmpdatum> XmpMetadata;
+    using XmpMetadata = std::vector<Xmpdatum>;
 
     /*!
       @brief A container for XMP data. This is a top-level class of
@@ -172,86 +172,90 @@ namespace Exiv2 {
     class EXIV2API XmpData {
     public:
         //! Default constructor
-        XmpData() : xmpMetadata_(), xmpPacket_(), usePacket_(0) {}
+      XmpData() = default;
 
-        //! XmpMetadata iterator type
-        typedef XmpMetadata::iterator iterator;
-        //! XmpMetadata const iterator type
-        typedef XmpMetadata::const_iterator const_iterator;
+      //! XmpMetadata iterator type
+      using iterator = XmpMetadata::iterator;
+      //! XmpMetadata const iterator type
+      using const_iterator = XmpMetadata::const_iterator;
 
-        //! @name Manipulators
-        //@{
-        /*!
-          @brief Returns a reference to the %Xmpdatum that is associated with a
-                 particular \em key. If %XmpData does not already contain such
-                 an %Xmpdatum, operator[] adds object \em Xmpdatum(key).
+      //! @name Manipulators
+      //@{
+      /*!
+        @brief Returns a reference to the %Xmpdatum that is associated with a
+               particular \em key. If %XmpData does not already contain such
+               an %Xmpdatum, operator[] adds object \em Xmpdatum(key).
 
-          @note  Since operator[] might insert a new element, it can't be a const
-                 member function.
-         */
-        Xmpdatum& operator[](const std::string& key);
-        /*!
-          @brief Add an %Xmpdatum from the supplied key and value pair. This
-                 method copies (clones) the value.
-          @return 0 if successful.
-         */
-        int add(const XmpKey& key, const Value* value);
-        /*!
-          @brief Add a copy of the Xmpdatum to the XMP metadata.
-          @return 0 if successful.
-         */
-        int add(const Xmpdatum& xmpdatum);
-        /*
-        @brief Delete the Xmpdatum at iterator position pos, return the
-                position of the next Xmpdatum.
+        @note  Since operator[] might insert a new element, it can't be a const
+               member function.
+       */
+      Xmpdatum &operator[](const std::string &key);
+      /*!
+        @brief Add an %Xmpdatum from the supplied key and value pair. This
+               method copies (clones) the value.
+        @return 0 if successful.
+       */
+      int add(const XmpKey &key, const Value *value);
+      /*!
+        @brief Add a copy of the Xmpdatum to the XMP metadata.
+        @return 0 if successful.
+       */
+      int add(const Xmpdatum &xmpdatum);
+      /*
+      @brief Delete the Xmpdatum at iterator position pos, return the
+              position of the next Xmpdatum.
 
-        @note  Iterators into the metadata, including pos, are potentially
-                invalidated by this call.
+      @note  Iterators into the metadata, including pos, are potentially
+              invalidated by this call.
+      @brief Delete the Xmpdatum at iterator position pos and update pos
+      */
+      iterator erase(XmpData::iterator pos);
+      /*!
         @brief Delete the Xmpdatum at iterator position pos and update pos
-        */
-        iterator erase(XmpData::iterator pos);
-        /*!
-          @brief Delete the Xmpdatum at iterator position pos and update pos
-                 erases all following keys from the same family
-                 See: https://github.com/Exiv2/exiv2/issues/521
-         */
-        void eraseFamily(XmpData::iterator& pos);
-        //! Delete all Xmpdatum instances resulting in an empty container.
-        void clear();
-        //! Sort metadata by key
-        void sortByKey();
-        //! Begin of the metadata
-        iterator begin();
-        //! End of the metadata
-        iterator end();
-        /*!
-          @brief Find the first Xmpdatum with the given key, return an iterator
-                 to it.
-         */
-        iterator findKey(const XmpKey& key);
-        //@}
+               erases all following keys from the same family
+               See: https://github.com/Exiv2/exiv2/issues/521
+       */
+      void eraseFamily(XmpData::iterator &pos);
+      //! Delete all Xmpdatum instances resulting in an empty container.
+      void clear();
+      //! Sort metadata by key
+      void sortByKey();
+      //! Begin of the metadata
+      iterator begin();
+      //! End of the metadata
+      iterator end();
+      /*!
+        @brief Find the first Xmpdatum with the given key, return an iterator
+               to it.
+       */
+      iterator findKey(const XmpKey &key);
+      //@}
 
-        //! @name Accessors
-        //@{
-        //! Begin of the metadata
-        const_iterator begin() const;
-        //! End of the metadata
-        const_iterator end() const;
-        /*!
-          @brief Find the first Xmpdatum with the given key, return a const
-                 iterator to it.
-         */
-        const_iterator findKey(const XmpKey& key) const;
-        //! Return true if there is no XMP metadata
-        bool empty() const;
-        //! Get the number of metadata entries
-        long count() const;
+      //! @name Accessors
+      //@{
+      //! Begin of the metadata
+      const_iterator begin() const;
+      //! End of the metadata
+      const_iterator end() const;
+      /*!
+        @brief Find the first Xmpdatum with the given key, return a const
+               iterator to it.
+       */
+      const_iterator findKey(const XmpKey &key) const;
+      //! Return true if there is no XMP metadata
+      bool empty() const;
+      //! Get the number of metadata entries
+      long count() const;
 
-        //! are we to use the packet?
-        bool usePacket() const { return usePacket_; } ;
+      //! are we to use the packet?
+      bool usePacket() const { return usePacket_; };
 
-        //! set usePacket_
-        bool usePacket(bool b) { bool r = usePacket_; usePacket_=b ; return r; };
+      //! set usePacket_
+      bool usePacket(bool b) {
+        bool r = usePacket_;
+        usePacket_ = b;
+        return r;
+      };
         //! setPacket
         void setPacket(const std::string& xmpPacket)
         {
@@ -267,7 +271,7 @@ namespace Exiv2 {
         // DATA
         XmpMetadata xmpMetadata_;
         std::string xmpPacket_  ;
-        bool        usePacket_  ;
+        bool usePacket_{false};
     }; // class XmpData
 
     /*!
@@ -333,7 +337,7 @@ namespace Exiv2 {
           @param pLockData Pointer to the pLockData passed to initialize()
           @param lockUnlock Indicates whether to lock (true) or unlock (false)
          */
-        typedef void (*XmpLockFct)(void* pLockData, bool lockUnlock);
+        using XmpLockFct = void (*)(void*, bool);
 
         /*!
           @brief Initialize the XMP Toolkit.
@@ -385,7 +389,7 @@ namespace Exiv2 {
 
           @return True if the initialization was successful, else false.
          */
-        static bool initialize(XmpParser::XmpLockFct xmpLockFct =0, void* pLockData =0);
+        static bool initialize(XmpParser::XmpLockFct xmpLockFct =nullptr, void* pLockData =nullptr);
         /*!
           @brief Terminate the XMP Toolkit and unregister custom namespaces.
 

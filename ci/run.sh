@@ -17,17 +17,11 @@ if [ -n "$WITH_VALGRIND" ]; then
     export EXIV2_VALGRIND="valgrind --quiet"
 fi
 
-
-if [[ "$(uname -s)" == 'Linux' ]]; then
-    source conan/bin/activate
-else
+if [[ "$(uname -s)" == 'Darwin' ]]; then
     export CMAKE_OPTIONS="$CMAKE_OPTIONS -DCMAKE_PREFIX_PATH=/usr/local/opt/gettext/"
-    export PATH="/Users/travis/.pyenv/shims:${PATH}"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-    pyenv activate conan
 fi
 
+source conan/bin/activate
 
 mkdir build && cd build
 conan install .. -o webready=True --build missing

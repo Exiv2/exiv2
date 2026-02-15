@@ -145,4 +145,5 @@ namespace Exiv2 {
      */
     float canonEv(long val);
 
-}}                                      // namespace Internal, Exiv2
+    }  // namespace Internal
+}  // namespace Exiv2

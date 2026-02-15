@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # XMP parser test driver
 
 # ----------------------------------------------------------------------
@@ -207,11 +207,11 @@ fi
     platform=$(runTest exiv2 -vV 2>/dev/null | grep platform=)
     if [ "$platform" == "platform=windows" ]; then
         runTest exiv2 -PEkycv v.jpg | sed -E -e 's#17 19:10:22#18 02:10:22#g'
-    else 
+    else
         runTest exiv2 -PEkycv v.jpg
     fi
     runTest exiv2 -pi v.jpg
-    
+
     # 16) https://github.com/Exiv2/exiv2/issues/521
     echo
     echo Testcase 16

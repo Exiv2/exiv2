@@ -39,14 +39,7 @@
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp" // for Tag::root
 
-// + standard includes
 #include <iostream>
-#include <sstream>
-#include <utility>
-#include <algorithm>
-#include <cstring>
-#include <cassert>
-#include <cstdio>
 
 // *****************************************************************************
 namespace {
@@ -82,12 +75,12 @@ namespace {
     class Thumbnail {
     public:
         //! Shortcut for a %Thumbnail auto pointer.
-        typedef std::unique_ptr<Thumbnail> UniquePtr;
+        using UniquePtr = std::unique_ptr<Thumbnail>;
 
         //! @name Creators
         //@{
         //! Virtual destructor
-        virtual ~Thumbnail() {}
+        virtual ~Thumbnail() = default;
         //@}
 
         //! Factory function to create a thumbnail for the Exif metadata provided.
@@ -99,23 +92,23 @@ namespace {
           @brief Return the thumbnail image in a %DataBuf. The caller owns the
                  data buffer and %DataBuf ensures that it will be deleted.
          */
-        virtual Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const =0;
+        EXV_WARN_UNUSED_RESULT virtual Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const = 0;
         /*!
           @brief Return the MIME type of the thumbnail ("image/tiff" or
                  "image/jpeg").
          */
-        virtual const char* mimeType() const =0;
+        EXV_WARN_UNUSED_RESULT virtual const char* mimeType() const = 0;
         /*!
           @brief Return the file extension for the format of the thumbnail
                  (".tif", ".jpg").
          */
-        virtual const char* extension() const =0;
+        EXV_WARN_UNUSED_RESULT virtual const char* extension() const = 0;
 #ifdef EXV_UNICODE_PATH
         /*!
           @brief Like extension() but returns the extension in a wchar_t.
           @note This function is only available on Windows.
          */
-        virtual const wchar_t* wextension() const =0;
+        EXV_WARN_UNUSED_RESULT virtual const wchar_t* wextension() const = 0;
 #endif
         //@}
 
@@ -125,7 +118,7 @@ namespace {
     class TiffThumbnail : public Thumbnail {
     public:
         //! Shortcut for a %TiffThumbnail auto pointer.
-        typedef std::unique_ptr<TiffThumbnail> UniquePtr;
+        using UniquePtr = std::unique_ptr<TiffThumbnail>;
 
         //! @name Manipulators
         //@{
@@ -135,11 +128,11 @@ namespace {
 
         //! @name Accessors
         //@{
-        Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
-        const char* mimeType() const override;
-        const char* extension() const override;
+        EXV_WARN_UNUSED_RESULT Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
+        EXV_WARN_UNUSED_RESULT const char* mimeType() const override;
+        EXV_WARN_UNUSED_RESULT const char* extension() const override;
 #ifdef EXV_UNICODE_PATH
-        const wchar_t* wextension() const override;
+        EXV_WARN_UNUSED_RESULT const wchar_t* wextension() const override;
 #endif
         //@}
 
@@ -149,7 +142,7 @@ namespace {
     class JpegThumbnail : public Thumbnail {
     public:
         //! Shortcut for a %JpegThumbnail auto pointer.
-        typedef std::unique_ptr<JpegThumbnail> UniquePtr;
+        using UniquePtr = std::unique_ptr<JpegThumbnail>;
 
         //! @name Manipulators
         //@{
@@ -159,11 +152,11 @@ namespace {
 
         //! @name Accessors
         //@{
-        Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
-        const char* mimeType() const override;
-        const char* extension() const override;
+        EXV_WARN_UNUSED_RESULT Exiv2::DataBuf copy(const Exiv2::ExifData& exifData) const override;
+        EXV_WARN_UNUSED_RESULT const char* mimeType() const override;
+        EXV_WARN_UNUSED_RESULT const char* extension() const override;
 #ifdef EXV_UNICODE_PATH
-        const wchar_t* wextension() const override;
+        EXV_WARN_UNUSED_RESULT const wchar_t* wextension() const override;
 #endif
         //@}
 
@@ -175,7 +168,7 @@ namespace {
     //! Helper function to delete all tags of a specific IFD from the metadata.
     void eraseIfd(Exiv2::ExifData& ed, Exiv2::Internal::IfdId ifdId);
 
-}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -194,8 +187,7 @@ namespace Exiv2 {
     template<typename T>
     Exiv2::Exifdatum& setValue(Exiv2::Exifdatum& exifDatum, const T& value)
     {
-        std::unique_ptr<Exiv2::ValueType<T> > v
-            = std::unique_ptr<Exiv2::ValueType<T> >(new Exiv2::ValueType<T>);
+        auto v = std::unique_ptr<Exiv2::ValueType<T>>(new Exiv2::ValueType<T>);
         v->value_.push_back(value);
         exifDatum.value_ = std::move(v);
         return exifDatum;
@@ -207,15 +199,13 @@ namespace Exiv2 {
         if (pValue) value_ = pValue->clone();
     }
 
-    Exifdatum::~Exifdatum()
-    {
-    }
+    Exifdatum::~Exifdatum() = default;
 
     Exifdatum::Exifdatum(const Exifdatum& rhs)
         : Metadatum(rhs)
     {
-        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
-        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
+        if (rhs.key_.get() != nullptr) key_ = rhs.key_->clone(); // deep copy
+        if (rhs.value_.get() != nullptr) value_ = rhs.value_->clone(); // deep copy
     }
 
     std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) const
@@ -223,13 +213,13 @@ namespace Exiv2 {
         if (value().count() == 0) return os;
         PrintFct fct = printValue;
         const TagInfo* ti = Internal::tagInfo(tag(), static_cast<IfdId>(ifdId()));
-        if (ti != 0) fct = ti->printFct_;
+        if (ti != nullptr) fct = ti->printFct_;
         return fct(os, value(), pMetadata);
     }
 
     const Value& Exifdatum::value() const
     {
-        if (value_.get() == 0) throw Error(kerValueNotSet);
+        if (value_.get() == nullptr) throw Error(kerValueNotSet);
         return *value_;
     }
 
@@ -239,10 +229,10 @@ namespace Exiv2 {
         Metadatum::operator=(rhs);
 
         key_.reset();
-        if (rhs.key_.get() != 0) key_ = rhs.key_->clone(); // deep copy
+        if (rhs.key_.get() != nullptr) key_ = rhs.key_->clone(); // deep copy
 
         value_.reset();
-        if (rhs.value_.get() != 0) value_ = rhs.value_->clone(); // deep copy
+        if (rhs.value_.get() != nullptr) value_ = rhs.value_->clone(); // deep copy
 
         return *this;
     } // Exifdatum::operator=
@@ -297,7 +287,7 @@ namespace Exiv2 {
 
     int Exifdatum::setValue(const std::string& value)
     {
-        if (value_.get() == 0) {
+        if (value_.get() == nullptr) {
             TypeId type = key_->defaultTypeId();
             value_ = Value::create(type);
         }
@@ -306,62 +296,62 @@ namespace Exiv2 {
 
     int Exifdatum::setDataArea(const byte* buf, size_t len)
     {
-        return value_.get() == 0 ? -1 : value_->setDataArea(buf, len);
+        return value_.get() == nullptr ? -1 : value_->setDataArea(buf, len);
     }
 
     std::string Exifdatum::key() const
     {
-        return key_.get() == 0 ? "" : key_->key();
+        return key_.get() == nullptr ? "" : key_->key();
     }
 
     const char* Exifdatum::familyName() const
     {
-        return key_.get() == 0 ? "" : key_->familyName();
+        return key_.get() == nullptr ? "" : key_->familyName();
     }
 
     std::string Exifdatum::groupName() const
     {
-        return key_.get() == 0 ? "" : key_->groupName();
+        return key_.get() == nullptr ? "" : key_->groupName();
     }
 
     std::string Exifdatum::tagName() const
     {
-        return key_.get() == 0 ? "" : key_->tagName();
+        return key_.get() == nullptr ? "" : key_->tagName();
     }
 
     std::string Exifdatum::tagLabel() const
     {
-        return key_.get() == 0 ? "" : key_->tagLabel();
+        return key_.get() == nullptr ? "" : key_->tagLabel();
     }
 
     uint16_t Exifdatum::tag() const
     {
-        return key_.get() == 0 ? 0xffff : key_->tag();
+        return key_.get() == nullptr ? 0xffff : key_->tag();
     }
 
     int Exifdatum::ifdId() const
     {
-        return key_.get() == 0 ? ifdIdNotSet : key_->ifdId();
+        return key_.get() == nullptr ? ifdIdNotSet : key_->ifdId();
     }
 
     const char* Exifdatum::ifdName() const
     {
-        return key_.get() == 0 ? "" : Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId()));
+        return key_.get() == nullptr ? "" : Internal::ifdName(static_cast<Internal::IfdId>(key_->ifdId()));
     }
 
     int Exifdatum::idx() const
     {
-        return key_.get() == 0 ? 0 : key_->idx();
+        return key_.get() == nullptr ? 0 : key_->idx();
     }
 
     long Exifdatum::copy(byte* buf, ByteOrder byteOrder) const
     {
-        return value_.get() == 0 ? 0 : value_->copy(buf, byteOrder);
+        return value_.get() == nullptr ? 0 : value_->copy(buf, byteOrder);
     }
 
     TypeId Exifdatum::typeId() const
     {
-        return value_.get() == 0 ? invalidTypeId : value_->typeId();
+        return value_.get() == nullptr ? invalidTypeId : value_->typeId();
     }
 
     const char* Exifdatum::typeName() const
@@ -376,52 +366,52 @@ namespace Exiv2 {
 
     size_t Exifdatum::count() const
     {
-        return value_.get() == 0 ? 0 : value_->count();
+        return value_.get() == nullptr ? 0 : value_->count();
     }
 
     size_t Exifdatum::size() const
     {
-        return value_.get() == 0 ? 0 : value_->size();
+        return value_.get() == nullptr ? 0 : value_->size();
     }
 
     std::string Exifdatum::toString() const
     {
-        return value_.get() == 0 ? "" : value_->toString();
+        return value_.get() == nullptr ? "" : value_->toString();
     }
 
     std::string Exifdatum::toString(long n) const
     {
-        return value_.get() == 0 ? "" : value_->toString(n);
+        return value_.get() == nullptr ? "" : value_->toString(n);
     }
 
     long Exifdatum::toLong(long n) const
     {
-        return value_.get() == 0 ? -1 : value_->toLong(n);
+        return value_.get() == nullptr ? -1 : value_->toLong(n);
     }
 
     float Exifdatum::toFloat(long n) const
     {
-        return value_.get() == 0 ? -1 : value_->toFloat(n);
+        return value_.get() == nullptr ? -1 : value_->toFloat(n);
     }
 
     Rational Exifdatum::toRational(long n) const
     {
-        return value_.get() == 0 ? Rational(-1, 1) : value_->toRational(n);
+        return value_.get() == nullptr ? Rational(-1, 1) : value_->toRational(n);
     }
 
     Value::UniquePtr Exifdatum::getValue() const
     {
-        return value_.get() == 0 ? nullptr : value_->clone();
+        return value_.get() == nullptr ? nullptr : value_->clone();
     }
 
     size_t Exifdatum::sizeDataArea() const
     {
-        return value_.get() == 0 ? 0 : value_->sizeDataArea();
+        return value_.get() == nullptr ? 0 : value_->sizeDataArea();
     }
 
     DataBuf Exifdatum::dataArea() const
     {
-        return value_.get() == 0 ? DataBuf(0, 0) : value_->dataArea();
+        return value_.get() == nullptr ? DataBuf(nullptr, 0) : value_->dataArea();
     }
 
     ExifThumbC::ExifThumbC(const ExifData& exifData)
@@ -432,14 +422,14 @@ namespace Exiv2 {
     DataBuf ExifThumbC::copy() const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return DataBuf();
+        if (thumbnail.get() == nullptr) return DataBuf();
         return thumbnail->copy(exifData_);
     }
 
     size_t ExifThumbC::writeFile(const std::string& path) const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return 0;
+        if (thumbnail.get() == nullptr) return 0;
         std::string name = path + thumbnail->extension();
         DataBuf buf(thumbnail->copy(exifData_));
         if (buf.size_ == 0) return 0;
@@ -461,14 +451,14 @@ namespace Exiv2 {
     const char* ExifThumbC::mimeType() const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return "";
+        if (thumbnail.get() == nullptr) return "";
         return thumbnail->mimeType();
     }
 
     const char* ExifThumbC::extension() const
     {
         Thumbnail::UniquePtr thumbnail = Thumbnail::create(exifData_);
-        if (thumbnail.get() == 0) return "";
+        if (thumbnail.get() == nullptr) return "";
         return thumbnail->extension();
     }
 
@@ -512,7 +502,7 @@ namespace Exiv2 {
 #endif
     void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit)
     {
-        setJpegThumbnail(buf, (long)size);
+        setJpegThumbnail(buf, static_cast<long>(size));
         exifData_["Exif.Thumbnail.XResolution"] = xres;
         exifData_["Exif.Thumbnail.YResolution"] = yres;
         exifData_["Exif.Thumbnail.ResolutionUnit"] = unit;
@@ -521,7 +511,7 @@ namespace Exiv2 {
     void ExifThumb::setJpegThumbnail(const std::string& path)
     {
         DataBuf thumb = readFile(path); // may throw
-        setJpegThumbnail(thumb.pData_, (long)thumb.size_);
+        setJpegThumbnail(thumb.pData_, static_cast<long>(thumb.size_));
     }
 
 #ifdef EXV_UNICODE_PATH
@@ -549,7 +539,7 @@ namespace Exiv2 {
     Exifdatum& ExifData::operator[](const std::string& key)
     {
         ExifKey exifKey(key);
-        iterator pos = findKey(exifKey);
+        auto pos = findKey(exifKey);
         if (pos == end()) {
             add(Exifdatum(exifKey));
             pos = findKey(exifKey);
@@ -658,12 +648,28 @@ namespace Exiv2 {
             "Exif.Image.StripByteCounts",
             "Exif.Image.JPEGInterchangeFormat",
             "Exif.Image.JPEGInterchangeFormatLength",
-            "Exif.Image.SubIFDs"
+            "Exif.Image.SubIFDs",
+            // Issue 981.  Never allow manufactured data to be written
+            "Exif.Canon.AFInfoSize",
+            "Exif.Canon.AFAreaMode",
+            "Exif.Canon.AFNumPoints",
+            "Exif.Canon.AFValidPoints",
+            "Exif.Canon.AFCanonImageWidth",
+            "Exif.Canon.AFCanonImageHeight",
+            "Exif.Canon.AFImageWidth",
+            "Exif.Canon.AFImageHeight",
+            "Exif.Canon.AFAreaWidths",
+            "Exif.Canon.AFAreaHeights",
+            "Exif.Canon.AFXPositions",
+            "Exif.Canon.AFYPositions",
+            "Exif.Canon.AFPointsInFocus",
+            "Exif.Canon.AFPointsSelected",
+            "Exif.Canon.AFPrimaryPoint",
         };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfd0Tags); ++i) {
-            ExifData::iterator pos = ed.findKey(ExifKey(filteredIfd0Tags[i]));
+        for (auto& filteredIfd0Tag : filteredIfd0Tags) {
+            auto pos = ed.findKey(ExifKey(filteredIfd0Tag));
             if (pos != ed.end()) {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
                 std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
 #endif
                 ed.erase(pos);
@@ -671,26 +677,14 @@ namespace Exiv2 {
         }
 
         // Delete IFDs which do not occur in JPEGs
-        static const IfdId filteredIfds[] = {
-            subImage1Id,
-            subImage2Id,
-            subImage3Id,
-            subImage4Id,
-            subImage5Id,
-            subImage6Id,
-            subImage7Id,
-            subImage8Id,
-            subImage9Id,
-            subThumb1Id,
-            panaRawId,
-            ifd2Id,
-            ifd3Id
-        };
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredIfds); ++i) {
-#ifdef DEBUG
+        static const IfdId filteredIfds[] = {subImage1Id, subImage2Id, subImage3Id, subImage4Id, subImage5Id,
+                                             subImage6Id, subImage7Id, subImage8Id, subImage9Id, subThumb1Id,
+                                             panaRawId,   ifd2Id,      ifd3Id};
+        for (auto filteredIfd : filteredIfds) {
+#ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << "Warning: Exif IFD " << filteredIfds[i] << " not encoded\n";
 #endif
-            eraseIfd(ed, filteredIfds[i]);
+            eraseIfd(ed, filteredIfd);
         }
 
         // IPTC and XMP are stored elsewhere, not in the Exif APP1 segment.
@@ -709,9 +703,9 @@ namespace Exiv2 {
                                                   Tag::root,
                                                   TiffMapping::findEncoder,
                                                   header.get(),
-                                                  0);
+                                                  nullptr);
         if (mio1.size() <= 65527) {
-            append(blob, mio1.mmap(), (uint32_t) mio1.size());
+            append(blob, mio1.mmap(), static_cast<uint32_t>(mio1.size()));
             return wm;
         }
 
@@ -752,22 +746,22 @@ namespace Exiv2 {
         };
         bool delTags = false;
         ExifData::iterator pos;
-        for (unsigned int i = 0; i < EXV_COUNTOF(filteredPvTags); ++i) {
-            switch (filteredPvTags[i].ptt_) {
-            case pttLen:
-                delTags = false;
-                pos = ed.findKey(ExifKey(filteredPvTags[i].key_));
-                if (pos != ed.end() && sumToLong(*pos) > 32768) {
-                    delTags = true;
+        for (auto filteredPvTag : filteredPvTags) {
+            switch (filteredPvTag.ptt_) {
+                case pttLen:
+                    delTags = false;
+                    pos = ed.findKey(ExifKey(filteredPvTag.key_));
+                    if (pos != ed.end() && sumToLong(*pos) > 32768) {
+                        delTags = true;
 #ifndef SUPPRESS_WARNINGS
                     EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
 #endif
                     ed.erase(pos);
-                }
-                break;
+                    }
+                    break;
             case pttTag:
                 if (delTags) {
-                    pos = ed.findKey(ExifKey(filteredPvTags[i].key_));
+                    pos = ed.findKey(ExifKey(filteredPvTag.key_));
                     if (pos != ed.end()) {
 #ifndef SUPPRESS_WARNINGS
                         EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
@@ -779,16 +773,16 @@ namespace Exiv2 {
             case pttIfd:
                 if (delTags) {
 #ifndef SUPPRESS_WARNINGS
-                    EXV_WARNING << "Exif IFD " << filteredPvTags[i].key_ << " not encoded\n";
+                    EXV_WARNING << "Exif IFD " << filteredPvTag.key_ << " not encoded\n";
 #endif
-                    eraseIfd(ed, Internal::groupId(filteredPvTags[i].key_));
+                    eraseIfd(ed, Internal::groupId(filteredPvTag.key_));
                 }
                 break;
             }
         }
 
         // Delete unknown tags larger than 4kB and known tags larger than 20kB.
-        for (ExifData::iterator tag_iter = ed.begin(); tag_iter != ed.end(); ) {
+        for (auto tag_iter = ed.begin(); tag_iter != ed.end();) {
             if ( (tag_iter->size() > 4096 && tag_iter->tagName().substr(0, 2) == "0x") ||
                   tag_iter->size() > 20480) {
 #ifndef SUPPRESS_WARNINGS
@@ -812,9 +806,9 @@ namespace Exiv2 {
                                       Tag::root,
                                       TiffMapping::findEncoder,
                                       header.get(),
-                                      0);
-        append(blob, mio2.mmap(), (uint32_t) mio2.size());
-#ifdef DEBUG
+                                      nullptr);
+        append(blob, mio2.mmap(), static_cast<uint32_t>(mio2.size()));
+#ifdef EXIV2_DEBUG_MESSAGES
         if (wm == wmIntrusive) {
             std::cerr << "SIZE OF EXIF DATA IS " << std::dec << mio2.size() << " BYTES\n";
         }
@@ -827,7 +821,7 @@ namespace Exiv2 {
     }
 
     void ExifParser::encode(Blob &blob, ByteOrder byteOrder, const ExifData &exifData) {
-        encode(blob, 0, 0, byteOrder, exifData);
+        encode(blob, nullptr, 0, byteOrder, exifData);
     }
 
 }                                       // namespace Exiv2
@@ -841,7 +835,7 @@ namespace {
     {
         Thumbnail::UniquePtr thumbnail;
         const Exiv2::ExifKey k1("Exif.Thumbnail.Compression");
-        Exiv2::ExifData::const_iterator pos = exifData.findKey(k1);
+        auto pos = exifData.findKey(k1);
         if (pos != exifData.end()) {
             if (pos->count() == 0) return thumbnail;
             long compression = pos->toLong();
@@ -883,18 +877,18 @@ namespace {
     {
         Exiv2::ExifData thumb;
         // Copy all Thumbnail (IFD1) tags from exifData to Image (IFD0) tags in thumb
-        for (Exiv2::ExifData::const_iterator i = exifData.begin(); i != exifData.end(); ++i) {
-            if (i->groupName() == "Thumbnail") {
-                std::string key = "Exif.Image." + i->tagName();
-                thumb.add(Exiv2::ExifKey(key), &i->value());
+        for (const auto& i : exifData) {
+            if (i.groupName() == "Thumbnail") {
+                std::string key = "Exif.Image." + i.tagName();
+                thumb.add(Exiv2::ExifKey(key), &i.value());
             }
         }
 
         Exiv2::MemIo io;
         Exiv2::IptcData emptyIptc;
         Exiv2::XmpData  emptyXmp;
-        Exiv2::TiffParser::encode(io, 0, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
-        return io.read((long) io.size());
+        Exiv2::TiffParser::encode(io, nullptr, 0, Exiv2::littleEndian, thumb, emptyIptc, emptyXmp);
+        return io.read(static_cast<long>(io.size()));
     }
 
     const char* JpegThumbnail::mimeType() const
@@ -917,7 +911,7 @@ namespace {
     Exiv2::DataBuf JpegThumbnail::copy(const Exiv2::ExifData& exifData) const
     {
         Exiv2::ExifKey key("Exif.Thumbnail.JPEGInterchangeFormat");
-        Exiv2::ExifData::const_iterator format = exifData.findKey(key);
+        auto format = exifData.findKey(key);
         if (format == exifData.end()) return Exiv2::DataBuf();
         return format->dataArea();
     }
@@ -939,4 +933,4 @@ namespace {
                  ed.end());
     }
     //! @endcond
-}
+}  // namespace

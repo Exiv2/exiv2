@@ -68,13 +68,13 @@ try {
 
     // Alternatively, we can use findKey()
     key = Exiv2::ExifKey("Exif.Image.PrimaryChromaticities");
-    Exiv2::ExifData::iterator pos = exifData.findKey(key);
+    auto pos = exifData.findKey(key);
     if (pos == exifData.end()) throw Exiv2::Error(Exiv2::kerErrorMessage, "Key not found");
     // Get a pointer to a copy of the value
     v = pos->getValue();
     // Downcast the Value pointer to its actual type
-    Exiv2::URationalValue* prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
-    if (prv == 0) throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
+    auto prv = dynamic_cast<Exiv2::URationalValue*>(v.release());
+    if (prv == nullptr) throw Exiv2::Error(Exiv2::kerErrorMessage, "Downcast failed");
     rv = Exiv2::URationalValue::UniquePtr(prv);
     // Modify the value directly through the interface of URationalValue
     rv->value_[2] = std::make_pair(88,77);
@@ -96,7 +96,7 @@ try {
     // *************************************************************************
     // Finally, write the remaining Exif data to the image file
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(file);
-    assert(image.get() != 0);
+    assert(image.get() != nullptr);
 
     image->setExifData(exifData);
     image->writeMetadata();

@@ -52,14 +52,14 @@ namespace {
         if (str[0] != '0') os << str[0];
         return os << str[1] << "." << str[2] << str[3];
     }
-}
+}  // namespace
 
 namespace Exiv2 {
     namespace Internal {
 
     //! List of all known Exif groups. Important: Group name (3rd column) must be unique!
     extern const GroupInfo groupInfo[] = {
-        { ifdIdNotSet,     "Unknown IFD", "Unknown", 0 },
+        { ifdIdNotSet,     "Unknown IFD", "Unknown", nullptr },
         { ifd0Id,          "IFD0",      "Image",        ifdTagList                     },
         { ifd1Id,          "IFD1",      "Thumbnail",    ifdTagList                     },
         { ifd2Id,          "IFD2",      "Image2",       ifdTagList                     },
@@ -162,10 +162,11 @@ namespace Exiv2 {
         { sony1MltCs7DId,  "Makernote", "Sony1MltCs7D", MinoltaMakerNote::tagListCs7D  },
         { sony1MltCsOldId, "Makernote", "Sony1MltCsOld",MinoltaMakerNote::tagListCsStd },
         { sony1MltCsNewId, "Makernote", "Sony1MltCsNew",MinoltaMakerNote::tagListCsStd },
-        { sony1MltCsA100Id,"Makernote","Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
+        { sony1MltCsA100Id,"Makernote", "Sony1MltCsA100",MinoltaMakerNote::tagListCsA100},
         { sony2CsId,       "Makernote", "Sony2Cs",      SonyMakerNote::tagListCs       },
         { sony2Cs2Id,      "Makernote", "Sony2Cs2",     SonyMakerNote::tagListCs2      },
-        { lastId,          "(Last IFD info)", "(Last IFD item)", 0 }
+        { sony2FpId,       "Makernote", "Sony2Fp",      SonyMakerNote::tagListFp       },
+        { lastId,          "(Last IFD info)", "(Last IFD item)", nullptr }
     };
 
     //! Units for measuring X and Y resolution, tags 0x0128, 0xa210
@@ -732,6 +733,18 @@ namespace Exiv2 {
         TagInfo(0x4749, "RatingPercent", N_("Windows Rating Percent"),
                 N_("Rating tag used by Windows, value in percent"),
                 ifd0Id, otherTags, unsignedShort, -1, printValue), // Windows Tag
+        TagInfo(0x7032, "VignettingCorrParams",
+                N_("Vignetting Correction Params"),
+                N_("Sony vignetting correction parameters"),
+                ifd0Id, otherTags, signedShort, 17, printValue),  // Sony Tag
+        TagInfo(0x7035, "ChromaticAberrationCorrParams",
+                N_("Chromatic Aberration Correction Params"),
+                N_("Sony chromatic aberration correction parameters"),
+                ifd0Id, otherTags, signedShort, 33, printValue),  // Sony Tag
+        TagInfo(0x7037, "DistortionCorrParams",
+                N_("Distortion Correction Params"),
+                N_("Sony distortion correction parameters"),
+                ifd0Id, otherTags, signedShort, 17, printValue),  // Sony Tag
         TagInfo(0x800d, "ImageID", N_("Image ID"),
                 N_("ImageID is the full pathname of the original, high-resolution image, "
                    "or any other identifying string that uniquely identifies the original "
@@ -1943,7 +1956,7 @@ namespace Exiv2 {
         TagInfo(0xb002, "MPFImageList", N_("MPFImageList"),
                 N_("MPF Image List"),
                 mpfId, mpfTags, asciiString, 0, printValue),
-        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList	"),
+        TagInfo(0xb003, "MPFImageUIDList", N_("MPFImageUIDList  "),
                 N_("MPF Image UID List"),
                 mpfId, mpfTags, unsignedLong, 1, printValue),
         TagInfo(0xb004, "MPFTotalFrames", N_("MPFTotalFrames"),
@@ -2060,7 +2073,7 @@ namespace Exiv2 {
     {
         bool rc = false;
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii != 0 && 0 == strcmp(ii->ifdName_, "Makernote")) {
+        if (ii != nullptr && 0 == strcmp(ii->ifdName_, "Makernote")) {
             rc = true;
         }
         return rc;
@@ -2097,7 +2110,7 @@ namespace Exiv2 {
     void taglist(std::ostream& os, IfdId ifdId)
     {
         const TagInfo* ti = Internal::tagList(ifdId);
-        if (ti != 0) {
+        if (ti != nullptr) {
             for (int k = 0; ti[k].tag_ != 0xffff; ++k) {
                 os << ti[k] << "\n";
             }
@@ -2107,14 +2120,14 @@ namespace Exiv2 {
     const TagInfo* tagList(IfdId ifdId)
     {
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii == 0 || ii->tagList_ == 0) return 0;
+        if (ii == nullptr || ii->tagList_ == nullptr) return nullptr;
         return ii->tagList_();
     } // tagList
 
     const TagInfo* tagInfo(uint16_t tag, IfdId ifdId)
     {
         const TagInfo* ti = tagList(ifdId);
-        if (ti == 0) return 0;
+        if (ti == nullptr) return nullptr;
         int idx = 0;
         for (idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
             if (ti[idx].tag_ == tag) break;
@@ -2125,36 +2138,36 @@ namespace Exiv2 {
     const TagInfo* tagInfo(const std::string& tagName, IfdId ifdId)
     {
         const TagInfo* ti = tagList(ifdId);
-        if (ti == 0) return 0;
+        if (ti == nullptr) return nullptr;
         const char* tn = tagName.c_str();
-        if (tn == 0) return 0;
+        if (tn == nullptr) return nullptr;
         for (int idx = 0; ti[idx].tag_ != 0xffff; ++idx) {
             if (0 == strcmp(ti[idx].name_, tn)) {
                 return &ti[idx];
             }
         }
-        return 0;
+        return nullptr;
     } // tagInfo
 
     IfdId groupId(const std::string& groupName)
     {
         IfdId ifdId = ifdIdNotSet;
         const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
-        if (ii != 0) ifdId = static_cast<IfdId>(ii->ifdId_);
+        if (ii != nullptr) ifdId = static_cast<IfdId>(ii->ifdId_);
         return ifdId;
     }
 
     const char* ifdName(IfdId ifdId)
     {
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii == 0) return groupInfo[0].ifdName_;
+        if (ii == nullptr) return groupInfo[0].ifdName_;
         return ii->ifdName_;
     }
 
     const char* groupName(IfdId ifdId)
     {
         const GroupInfo* ii = find(groupInfo, ifdId);
-        if (ii == 0) return groupInfo[0].groupName_;
+        if (ii == nullptr) return groupInfo[0].groupName_;
         return ii->groupName_;
     }
 
@@ -2163,9 +2176,35 @@ namespace Exiv2 {
         return os << value;
     }
 
+    std::ostream& printBitmask(std::ostream& os, const Value& value, const ExifData* metadata)
+    {
+        if (value.typeId() == Exiv2::unsignedShort || value.typeId() == Exiv2::signedShort)
+        {
+            uint16_t bit   = 0;
+            uint16_t comma = 0;
+            for (long i = 0; i < value.count(); i++) {  // for each element in value array
+                auto bits = static_cast<uint16_t>(value.toLong(i));
+                for (uint16_t b = 0; b < 16; ++b) { // for every bit
+                    if (bits & (1 << b)) {
+                        if ( comma++ ) {
+                            os << ",";
+                        }
+                        os << bit;
+                    }
+                    bit++ ;
+                }
+            }
+            // if no bits are set, print "(none)"
+            if ( !comma ) os << N_("(none)");
+        } else {
+            printValue(os,value,metadata);
+        }
+        return os;
+    }
+
     float fnumber(float apertureValue)
     {
-        return std::exp(std::log(2.0f) * apertureValue / 2.f);
+        return std::exp(std::log(2.0F) * apertureValue / 2.F);
     }
 
     URational exposureTime(float shutterSpeedValue)
@@ -2184,7 +2223,7 @@ namespace Exiv2 {
     uint16_t tagNumber(const std::string& tagName, IfdId ifdId)
     {
         const TagInfo* ti = tagInfo(tagName, ifdId);
-        if (ti != 0 && ti->tag_ != 0xffff) return ti->tag_;
+        if (ti != nullptr && ti->tag_ != 0xffff) return ti->tag_;
         if (!isHex(tagName, 4, "0x")) throw Error(kerInvalidTag, tagName, ifdId);
         std::istringstream is(tagName);
         uint16_t tag;
@@ -2219,8 +2258,8 @@ namespace Exiv2 {
                 if (value.toRational(n).first != 0) break;
             }
             for (int i = 0; i < n + 1; ++i) {
-                const uint32_t z = (uint32_t) value.toRational(i).first;
-                const uint32_t d = (uint32_t) value.toRational(i).second;
+                const uint32_t z = static_cast<uint32_t>(value.toRational(i).first);
+                const uint32_t d = static_cast<uint32_t>(value.toRational(i).second);
                 if (d == 0)
                 {
                     os << "(" << value << ")";
@@ -2260,7 +2299,7 @@ namespace Exiv2 {
                 }
             }
 
-            std::string str((const char*)buf.pData_, buf.size_);
+            std::string str(reinterpret_cast<const char*>(buf.pData_), buf.size_);
             cnv = convertStringCharset(str, "UCS-2LE", "UTF-8");
             if (cnv) os << str;
         }
@@ -2393,7 +2432,7 @@ namespace Exiv2 {
             std::string photographer(val, 0, pos);
             if (photographer != " ") os << photographer;
             std::string editor(val, pos + 1);
-            if (editor != "") {
+            if (!editor.empty()) {
                 if (photographer != " ") os << ", ";
                 os << editor;
             }
@@ -2518,7 +2557,7 @@ namespace Exiv2 {
     {
         Rational bias = value.toRational();
 
-        if (bias.first == 0 || bias.first == (int32_t)0x80000000 ) {
+        if (bias.first == 0 || bias.first == static_cast<int32_t>(0x80000000)) {
             os << "0 EV";
         } else if (bias.second <= 0) {
             os << "(" << bias.first << "/" << bias.second << ")";
@@ -2548,9 +2587,7 @@ namespace Exiv2 {
         else if (distance.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(2)
-               << (float)distance.first / distance.second
-               << " m";
+            os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
             os.copyfmt(oss);
         }
         else {
@@ -2615,9 +2652,7 @@ namespace Exiv2 {
         if (length.second != 0) {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)length.first / length.second
-               << " mm";
+            os << std::fixed << std::setprecision(1) << static_cast<float>(length.first) / length.second << " mm";
             os.copyfmt(oss);
         }
         else {
@@ -2629,7 +2664,7 @@ namespace Exiv2 {
 
     std::ostream& print0x9286(std::ostream& os, const Value& value, const ExifData*)
     {
-        const CommentValue* pcv = dynamic_cast<const CommentValue*>(&value);
+        const auto pcv = dynamic_cast<const CommentValue*>(&value);
         if (pcv) {
             os << pcv->comment();
         }
@@ -2733,8 +2768,7 @@ namespace Exiv2 {
         else {
             std::ostringstream oss;
             oss.copyfmt(os);
-            os << std::fixed << std::setprecision(1)
-               << (float)zoom.first / zoom.second;
+            os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second;
             os.copyfmt(oss);
         }
         os.flags(f);
@@ -2864,10 +2898,8 @@ namespace Exiv2 {
         if (stringValue[19] == 'Z') {
             stringValue = stringValue.substr(0, 19);
         }
-        for (unsigned int i = 0; i < stringValue.length(); ++i) {
-            if (stringValue[i] == 'T') stringValue[i] = ' ';
-            if (stringValue[i] == '-') stringValue[i] = ':';
-        }
+        std::replace(stringValue.begin(), stringValue.end(), 'T', ' ');
+        std::replace(stringValue.begin(), stringValue.end(), '-', ':');
 
         return os << stringValue;
     }
@@ -2880,10 +2912,11 @@ namespace Exiv2 {
     const TagInfo* tagList(const std::string& groupName)
     {
         const GroupInfo* ii = find(groupInfo, GroupInfo::GroupName(groupName));
-        if (ii == 0 || ii->tagList_ == 0) {
-            return 0;
+        if (ii == nullptr || ii->tagList_ == nullptr) {
+            return nullptr;
         }
         return ii->tagList_();
     }
 
-} }
+    }  // namespace Internal
+}  // namespace Exiv2

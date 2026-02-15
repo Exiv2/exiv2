@@ -59,19 +59,15 @@ namespace Exiv2 {
 
     int RafImage::pixelWidth() const
     {
-        Exiv2::ExifData::const_iterator widthIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
-        if (widthIter != exifData_.end() && widthIter->count() > 0) {
-            return widthIter->toLong();
-        }
+        if (pixelWidth_ != 0) return pixelWidth_;
+
         return 0;
     }
 
     int RafImage::pixelHeight() const
     {
-        Exiv2::ExifData::const_iterator heightIter = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
-        if (heightIter != exifData_.end() && heightIter->count() > 0) {
-            return heightIter->toLong();
-        }
+        if (pixelHeight_ != 0) return pixelHeight_;
+
         return 0;
     }
 
@@ -120,55 +116,40 @@ namespace Exiv2 {
             io_->read(magicdata, 16);
             magicdata[16] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 16, 0)
-                    << "Magic number : "
-                    << std::string((char*)&magicdata)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 16, 0)
+                    << "Magic number : " << std::string(reinterpret_cast<char *>(&magicdata)) << std::endl;
             }
 
             byte data1 [5];
             io_->read(data1, 4);
             data1[4] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 16)
-                    << "data 1 : "
-                    << std::string((char*)&data1)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 4, 16)
+                    << "data 1 : " << std::string(reinterpret_cast<char *>(&data1)) << std::endl;
             }
 
             byte data2 [9];
             io_->read(data2, 8);
             data2[8] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 8, 20)
-                    << "data 2 : "
-                    << std::string((char*)&data2)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 8, 20)
+                    << "data 2 : " << std::string(reinterpret_cast<char *>(&data2)) << std::endl;
             }
 
             byte camdata [33];
             io_->read(camdata, 32);
             camdata[32] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 32, 28)
-                    << "camera : "
-                    << std::string((char*)&camdata)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 32, 28)
+                    << "camera : " << std::string(reinterpret_cast<char *>(&camdata)) << std::endl;
             }
 
             byte dir_version [5];
             io_->read(dir_version, 4);
             dir_version[4] = 0;
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", 4, 60)
-                    << "dir version : "
-                    << std::string((char*)&dir_version)
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8u | %8u | ", 4, 60)
+                    << "dir version : " << std::string(reinterpret_cast<char *>(&dir_version)) << std::endl;
             }
 
             byte unknown [20];
@@ -178,8 +159,8 @@ namespace Exiv2 {
             io_->read(jpg_img_offset, 4);
             byte jpg_img_length [4];
             io_->read(jpg_img_length, 4);
-            long jpg_img_off = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-            long jpg_img_len = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+            long jpg_img_off = Exiv2::getULong(static_cast<const byte *>(jpg_img_offset), bigEndian);
+            long jpg_img_len = Exiv2::getULong(static_cast<const byte *>(jpg_img_length), bigEndian);
             std::stringstream j_off;
             std::stringstream j_len;
             j_off << jpg_img_off;
@@ -201,8 +182,8 @@ namespace Exiv2 {
             io_->read(cfa_header_offset, 4);
             byte cfa_header_length [4];
             io_->read(cfa_header_length, 4);
-            long cfa_hdr_off = Exiv2::getULong((const byte *) cfa_header_offset, bigEndian);
-            long cfa_hdr_len = Exiv2::getULong((const byte *) cfa_header_length, bigEndian);
+            long cfa_hdr_off = Exiv2::getULong(static_cast<const byte *>(cfa_header_offset), bigEndian);
+            long cfa_hdr_len = Exiv2::getULong(static_cast<const byte *>(cfa_header_length), bigEndian);
             std::stringstream ch_off;
             std::stringstream ch_len;
             ch_off << cfa_hdr_off;
@@ -224,8 +205,8 @@ namespace Exiv2 {
             io_->read(cfa_offset, 4);
             byte cfa_length [4];
             io_->read(cfa_length, 4);
-            long cfa_off = Exiv2::getULong((const byte *) cfa_offset, bigEndian);
-            long cfa_len = Exiv2::getULong((const byte *) cfa_length, bigEndian);
+            long cfa_off = Exiv2::getULong(static_cast<const byte *>(cfa_offset), bigEndian);
+            long cfa_len = Exiv2::getULong(static_cast<const byte *>(cfa_length), bigEndian);
             std::stringstream c_off;
             std::stringstream c_len;
             c_off << cfa_off;
@@ -247,38 +228,30 @@ namespace Exiv2 {
             DataBuf payload(16); // header is different from chunks
             io_->read(payload.pData_, payload.size_);
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", jpg_img_len, jpg_img_off)
-                    << "jpg image / exif : "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
+                out << Internal::indent(depth) << Internal::stringFormat("  %8ld | %8ld | ", jpg_img_len, jpg_img_off)
+                    << "jpg image / exif : " << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
                     << std::endl;
             }
 
             io_->seek(cfa_hdr_off, BasicIo::beg); // rewind
             io_->read(payload.pData_, payload.size_);
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", cfa_hdr_len, cfa_hdr_off)
-                    << "CFA Header: "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8ld | %8ld | ", cfa_hdr_len, cfa_hdr_off)
+                    << "CFA Header: " << Internal::binaryToString(makeSlice(payload, 0, payload.size_)) << std::endl;
             }
 
             io_->seek(cfa_off, BasicIo::beg); // rewind
             io_->read(payload.pData_, payload.size_);
             {
-                out << Internal::indent(depth)
-                    << Internal::stringFormat("  %8u | %8u | ", cfa_len, cfa_off)
-                    << "CFA : "
-                    << Internal::binaryToString(makeSlice(payload, 0, payload.size_))
-                    << std::endl;
+                out << Internal::indent(depth) << Internal::stringFormat("  %8ld | %8ld | ", cfa_len, cfa_off)
+                    << "CFA : " << Internal::binaryToString(makeSlice(payload, 0, payload.size_)) << std::endl;
             }
         }
     } // RafImage::printStructure
 
     void RafImage::readMetadata()
     {
-#ifdef DEBUG
+#ifdef EXIV2_DEBUG_MESSAGES
         std::cerr << "Reading RAF file " << io_->path() << "\n";
 #endif
         if (io_->open() != 0) throw Error(kerDataSourceOpenFailed, io_->path(), strError());
@@ -296,8 +269,8 @@ namespace Exiv2 {
         if (io_->read(jpg_img_offset, 4) != 4) throw Error(kerFailedToReadImageData);
         byte jpg_img_length [4];
         if (io_->read(jpg_img_length, 4) != 4) throw Error(kerFailedToReadImageData);
-        uint32_t jpg_img_off_u32 = Exiv2::getULong((const byte *) jpg_img_offset, bigEndian);
-        uint32_t jpg_img_len_u32 = Exiv2::getULong((const byte *) jpg_img_length, bigEndian);
+        uint32_t jpg_img_off_u32 = Exiv2::getULong(static_cast<const byte *>(jpg_img_offset), bigEndian);
+        uint32_t jpg_img_len_u32 = Exiv2::getULong(static_cast<const byte *>(jpg_img_length), bigEndian);
 
         enforce(Safe::add(jpg_img_off_u32, jpg_img_len_u32) <= io_->size(), kerCorruptedMetadata);
 
@@ -313,8 +286,64 @@ namespace Exiv2 {
 
         enforce(jpg_img_len >= 12, kerCorruptedMetadata);
 
+        /* Look for the height and width of the raw image in the raf metadata header.
+         * Raf metadata starts with 4 bytes giving the number of available tags,
+         * followed by the tags. Each tag starts with two bytes with the tag id and
+         * two bytes with the tag size, followed by the actual tag data.
+         * The image width and height have the tag id of 0x0100.
+         * For more tag ids have a look at e.g. exiftool.
+         */
+        byte cfa_header_offset [4];
+        if (io_->read(cfa_header_offset, 4) != 4) throw Error(kerFailedToReadImageData);
+        byte cfa_header_length [4];
+        if (io_->read(cfa_header_length, 4) != 4) throw Error(kerFailedToReadImageData);
+        uint32_t cfa_hdr_off_u32 = Exiv2::getULong(static_cast<const byte *>(cfa_header_offset), bigEndian);
+        uint32_t cfa_hdr_len_u32 = Exiv2::getULong(static_cast<const byte *>(cfa_header_length), bigEndian);
+
+        enforce(Safe::add(cfa_hdr_off_u32, cfa_hdr_len_u32) <= io_->size(), kerCorruptedMetadata);
+
+        long cfa_hdr_off = static_cast<long>(cfa_hdr_off_u32);
+
+        if (io_->seek(cfa_hdr_off, BasicIo::beg) != 0)  throw Error(kerFailedToReadImageData);
+
+        byte tag_count[4];
+        if (io_->read(tag_count, 4) != 4) throw Error(kerFailedToReadImageData);
+        uint32_t count = getULong(tag_count, bigEndian);
+        // check that the count value is in a sane range
+        // assume a size of 4 bytes, but raf tags may also be larger
+        enforce(count < cfa_hdr_len_u32 / 4, kerCorruptedMetadata);
+
+        byte byte_tag[2];
+        byte byte_size[2];
+        uint16_t tag;
+        uint16_t tag_size;
+
+        for (uint32_t i = 0; i < count; ++i ) {
+            if (io_->read(byte_tag, 2) != 2 || io_->read(byte_size, 2) != 2) {
+                break;
+            }
+                tag = getUShort(byte_tag, bigEndian);
+                tag_size = getUShort(byte_size, bigEndian);
+
+            if (tag == 0x0100) {
+                byte image_height [2];
+                byte image_width [2];
+                if (io_->read(image_height, 2) == 2) {
+                    pixelHeight_ = getUShort(image_height, bigEndian);
+                }
+                if (io_->read(image_width, 2) == 2) {
+                    pixelWidth_ = getUShort(image_width, bigEndian);
+                }
+                break;
+            }
+                if (io_->seek(tag_size, BasicIo::cur) != 0 || io_->eof()) {
+                    break;
+                };
+
+        } // raf metadata header
+
         DataBuf buf(jpg_img_len - 12);
-        if (io_->seek(jpg_img_off + 12,BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
+        if (io_->seek(jpg_img_off + 12, BasicIo::beg) != 0) throw Error(kerFailedToReadImageData);
         io_->read(buf.pData_, buf.size_);
         if (io_->error() || io_->eof()) throw Error(kerFailedToReadImageData);
 

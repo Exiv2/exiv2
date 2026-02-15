@@ -26,15 +26,17 @@
 // *****************************************************************************
 // included header files
 #include "datasets.hpp"
+
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <utility>
+
 #include "error.hpp"
+#include "i18n.h"  // NLS support.
+#include "metadatum.hpp"
 #include "types.hpp"
 #include "value.hpp"
-#include "metadatum.hpp"
-#include "i18n.h"                // NLS support.
-
-#include <iostream>
-#include <iomanip>
-#include <sstream>
 
 // *****************************************************************************
 // class member definitions
@@ -446,16 +448,16 @@ namespace Exiv2 {
     // Dataset lookup lists.This is an array with pointers to one list per IIM4 Record.
     // The record id is used as the index into the array.
     const DataSet* IptcDataSets::records_[] = {
-        0,
+        nullptr,
         envelopeRecord, application2Record,
-        0
+        nullptr
     };
 
     int IptcDataSets::dataSetIdx(uint16_t number, uint16_t recordId)
     {
         if( recordId != envelope && recordId != application2 ) return -1;
         const DataSet* dataSet = records_[recordId];
-        if (dataSet == 0) return -1;
+        if (dataSet == nullptr) return -1;
         int idx;
         for (idx = 0; dataSet[idx].number_ != number; ++idx) {
             if (dataSet[idx].number_ == 0xffff) return -1;
@@ -467,7 +469,7 @@ namespace Exiv2 {
     {
         if( recordId != envelope && recordId != application2 ) return -1;
         const DataSet* dataSet = records_[recordId];
-        if (dataSet == 0) return -1;
+        if (dataSet == nullptr) return -1;
         int idx;
         for (idx = 0; dataSet[idx].name_ != dataSetName; ++idx) {
             if (dataSet[idx].number_ == 0xffff) return -1;
@@ -574,10 +576,8 @@ namespace Exiv2 {
 
     void IptcDataSets::dataSetList(std::ostream& os)
     {
-        const int count = sizeof(records_)/sizeof(records_[0]);
-        for (int i=0; i < count; ++i) {
-            const DataSet *record = records_[i];
-            for (int j=0; record != 0 && record[j].number_ != 0xffff; ++j) {
+        for (auto record : records_) {
+            for (int j = 0; record != nullptr && record[j].number_ != 0xffff; ++j) {
                 os << record[j] << "\n";
             }
         }
@@ -585,8 +585,8 @@ namespace Exiv2 {
 
     const char* IptcKey::familyName_ = "Iptc";
 
-    IptcKey::IptcKey(const std::string& key)
-        : key_(key)
+    IptcKey::IptcKey(std::string key)
+        : key_(std::move(key))
     {
         decomposeKey();
     }
@@ -597,14 +597,10 @@ namespace Exiv2 {
         makeKey();
     }
 
-    IptcKey::IptcKey(const IptcKey& rhs)
-        : Key(rhs), tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_)
-    {
-    }
+    IptcKey::IptcKey(const IptcKey &rhs)
+        : Key(rhs), tag_(rhs.tag_), record_(rhs.record_), key_(rhs.key_) {}
 
-    IptcKey::~IptcKey()
-    {
-    }
+    IptcKey::~IptcKey() = default;
 
     IptcKey& IptcKey::operator=(const IptcKey& rhs)
     {
@@ -679,9 +675,11 @@ namespace Exiv2 {
         pos1 = key_.find('.', pos0);
         if (pos1 == std::string::npos) throw Error(kerInvalidKey, key_);
         std::string recordName = key_.substr(pos0, pos1 - pos0);
-        if (recordName == "") throw Error(kerInvalidKey, key_);
+        if (recordName.empty())
+            throw Error(kerInvalidKey, key_);
         std::string dataSetName = key_.substr(pos1 + 1);
-        if (dataSetName == "") throw Error(kerInvalidKey, key_);
+        if (dataSetName.empty())
+            throw Error(kerInvalidKey, key_);
 
         // Use the parts of the key to find dataSet and recordId
         uint16_t recId = IptcDataSets::recordId(recordName);
