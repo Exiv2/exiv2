@@ -1,25 +1,23 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "version.hpp"
 #include "config.h"
+#include "futils.hpp"
+#include "image_int.hpp"
+#include "makernote_int.hpp"
+
+// + standard includes
+#include <fstream>
+#include <set>
+
+// Adobe XMP Toolkit
+#ifdef EXV_HAVE_XMP_TOOLKIT
+#include "properties.hpp"
+#endif
 
 #ifdef EXV_USE_CURL
 #include <curl/curl.h>
 #endif
-
-#include "futils.hpp"
-#include "makernote_int.hpp"
-#include "version.hpp"
-
-// Adobe XMP Toolkit
-#ifdef EXV_HAVE_XMP_TOOLKIT
-#include "xmp_exiv2.hpp"
-#endif
-
-// + standard includes
-#include <array>
-#include <fstream>
-#include <regex>
-#include <set>
 
 // #1147
 #ifndef _WIN32
@@ -34,14 +32,20 @@
 // platform specific support for getLoadedLibraries
 #if defined(_WIN32) || defined(__CYGWIN__)
 // clang-format off
+#include <winapifamily.h>
 #include <windows.h>
-#include <psapi.h>
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY != WINAPI_FAMILY_APP)
+  #include <psapi.h>
+#endif
 // clang-format on
 #if __LP64__
 #ifdef _WIN64
 #undef _WIN64
 #endif
 #define _WIN64 1
+#endif
+#ifdef _MSC_VER
+#include <array>
 #endif
 #elif defined(__APPLE__)
 #include <mach-o/dyld.h>
@@ -65,15 +69,11 @@ uint32_t versionNumber() {
 }
 
 std::string versionString() {
-  std::ostringstream os;
-  os << EXIV2_MAJOR_VERSION << '.' << EXIV2_MINOR_VERSION << '.' << EXIV2_PATCH_VERSION;
-  return os.str();
+  return stringFormat("{}.{}.{}", EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
 }
 
 std::string versionNumberHexString() {
-  std::ostringstream os;
-  os << std::hex << std::setw(6) << std::setfill('0') << Exiv2::versionNumber();
-  return os.str();
+  return stringFormat("{:06x}", Exiv2::versionNumber());
 }
 
 const char* version() {
@@ -98,17 +98,15 @@ static bool shouldOutput(const std::vector<std::regex>& greps, const char* key, 
 
 static void output(std::ostream& os, const std::vector<std::regex>& greps, const char* name, const std::string& value) {
   if (shouldOutput(greps, name, value))
-    os << name << "=" << value << std::endl;
+    os << name << "=" << value << '\n';
 }
 
 static void output(std::ostream& os, const std::vector<std::regex>& greps, const char* name, int value) {
-  std::ostringstream stringStream;
-  stringStream << value;
-  output(os, greps, name, stringStream.str());
+  output(os, greps, name, std::to_string(value));
 }
 
 static bool pushPath(const std::string& path, std::vector<std::string>& libs, std::set<std::string>& paths) {
-  bool result = Exiv2::fileExists(path) && paths.find(path) == paths.end() && path != "/";
+  bool result = Exiv2::fileExists(path) && !paths.contains(path) && path != "/";
   if (result) {
     paths.insert(path);
     libs.push_back(path);
@@ -122,7 +120,8 @@ static std::vector<std::string> getLoadedLibraries() {
   std::string path;
 
 #if defined(_WIN32) || defined(__CYGWIN__)
-  // enumerate loaded libraries and determine path to executable
+// enumerate loaded libraries and determine path to executable (unsupported on UWP)
+#if defined(WINAPI_FAMILY) && (WINAPI_FAMILY != WINAPI_FAMILY_APP)
   HMODULE handles[200];
   DWORD cbNeeded;
   if (EnumProcessModules(GetCurrentProcess(), handles, static_cast<DWORD>(std::size(handles)), &cbNeeded)) {
@@ -132,6 +131,7 @@ static std::vector<std::string> getLoadedLibraries() {
       pushPath(szFilename, libs, paths);
     }
   }
+#endif
 #elif defined(__APPLE__)
   // man 3 dyld
   uint32_t count = _dyld_image_count();
@@ -175,7 +175,7 @@ static std::vector<std::string> getLoadedLibraries() {
 
   // read file /proc/self/maps which has a list of files in memory
   // (this doesn't yield anything on __sun__)
-  std::ifstream maps("/proc/self/maps", std::ifstream::in);
+  std::ifstream maps("/proc/self/maps");
   std::string string;
   while (std::getline(maps, string)) {
     std::size_t pos = string.find_last_of(' ');
@@ -206,7 +206,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
 #endif
 
   const char* compiler =
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
       "MSVC";
 
 #ifndef __VERSION__
@@ -258,7 +258,7 @@ void Exiv2::dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& key
 #endif
 
   const char* platform =
-#if defined(__MSYS__)
+#ifdef __MSYS__
       "msys";
 #elif defined(__CYGWIN__)
       "cygwin";

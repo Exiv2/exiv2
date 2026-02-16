@@ -11,6 +11,7 @@ class LargeAllocationInPngChunk(metaclass=CaseMeta):
     An unchecked allocation size causes a std::bad_alloc to
     be thrown.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/845"
 
     filename = path("$data_path/issue_845_poc.png")
@@ -19,5 +20,6 @@ class LargeAllocationInPngChunk(metaclass=CaseMeta):
     stderr = [
         """$exiv2_exception_message $filename:
 Failed to read image data
-"""]
+"""
+    ]
     retval = [1]

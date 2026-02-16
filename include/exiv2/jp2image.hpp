@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef JP2IMAGE_HPP_
-#define JP2IMAGE_HPP_
+#ifndef EXIV2_JP2IMAGE_HPP
+#define EXIV2_JP2IMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -36,7 +36,7 @@ class EXIV2API Jp2Image : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  Jp2Image(BasicIo::UniquePtr io, bool create);
+  Jp2Image(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -83,6 +83,8 @@ class EXIV2API Jp2Image : public Image {
   //@}
 
   static std::string toAscii(uint32_t n);
+
+  uint32_t brand_{0};
 };  // class Jp2Image
 
 // *****************************************************************************
@@ -95,11 +97,11 @@ class EXIV2API Jp2Image : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newJp2Instance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a JPEG-2000 image.
 EXIV2API bool isJp2Type(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef JP2IMAGE_HPP_
+#endif  // EXIV2_JP2IMAGE_HPP

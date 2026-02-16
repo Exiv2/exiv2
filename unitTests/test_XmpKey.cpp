@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <gtest/gtest.h>
-#include <exiv2/error.hpp>
 #include <exiv2/properties.hpp>
 
 using namespace Exiv2;

@@ -1,20 +1,67 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-// included header files
 #include "pentaxmn_int.hpp"
+
+// included header files
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags.hpp"
+#include "tags_int.hpp"
 #include "types.hpp"
-#include "utils.hpp"
 #include "value.hpp"
 
-#include <array>
+#include <iomanip>
+
+namespace {
+// Exception thrown by findLensInfo when the lens info can't be found.
+class LensInfoNotFound : public std::exception {
+  using std::exception::exception;
+};
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {
+/*!
+  @brief Print function to translate Pentax "combi-values" to a description
+         by looking up a reference table.
+ */
+template <size_t N, const TagDetails (&array)[N], int count, int ignoredcount, int ignoredcountmax>
+static std::ostream& printCombiTag(std::ostream& os, const Value& value, const ExifData* metadata) {
+  static_assert(N > 0, "Passed zero length printCombiTag");
+  std::ios::fmtflags f(os.flags());
+  if ((value.count() != count &&
+       (value.count() < (count + ignoredcount) || value.count() > (count + ignoredcountmax))) ||
+      count > 4) {
+    return printValue(os, value, metadata);
+  }
+  uint32_t l = 0;
+  for (int c = 0; c < count; ++c) {
+    if (value.toInt64(c) < 0 || value.toInt64(c) > 255) {
+      return printValue(os, value, metadata);
+    }
+    l += (value.toUint32(c) << ((count - c - 1) * 8));
+  }
+
+  if (auto td = Exiv2::find(array, l)) {
+    os << _(td->label_);
+  } else {
+    os << _("Unknown") << " (0x" << std::setw(2 * count) << std::setfill('0') << std::hex << l << std::dec << ")";
+  }
+
+  os.flags(f);
+  return os;
+}
+
+//! Shortcut for the printCombiTag template which requires typing the array name only once.
+#define EXV_PRINT_COMBITAG(array, count, ignoredcount) \
+  printCombiTag<std::size(array), array, count, ignoredcount, ignoredcount>
+//! Shortcut for the printCombiTag template which requires typing the array name only once.
+#define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) \
+  printCombiTag<std::size(array), array, count, ignoredcount, ignoredcountmax>
+
 //! ShootingMode, tag 0x0001
 constexpr TagDetails pentaxShootingMode[] = {
     {0, N_("Auto")},
@@ -166,7 +213,9 @@ constexpr TagDetails pentaxModel[] = {
     {0x13254, "K-3 Mark III"},
     {0x13290, "WG-70"},
     {0x1329a, "GR IIIx"},
+    {0x132b8, "KF"},
     {0x132d6, "K-3 Mark III Monochrome"},
+    {0x132e0, "GR IV"},
 };
 
 //! Quality, tag 0x0008
@@ -417,9 +466,8 @@ constexpr TagDetails pentaxWhiteBalanceMode[] = {
 
 //! Saturation, tag 0x001f
 constexpr TagDetails pentaxSaturation[] = {
-    {0, N_("Low")},      {1, N_("Normal")},   {2, N_("High")},      {3, N_("Med Low")},
-    {4, N_("Med High")}, {5, N_("Very Low")}, {6, N_("Very High")}, {7, N_("-4")},
-    {8, N_("+4")},       {65535, N_("None")}, {65535, N_("None")}  // To silence compiler warning
+    {0, N_("Low")},      {1, N_("Normal")},    {2, N_("High")}, {3, N_("Med Low")}, {4, N_("Med High")},
+    {5, N_("Very Low")}, {6, N_("Very High")}, {7, N_("-4")},   {8, N_("+4")},      {65535, N_("None")},
 };
 
 //! Contrast, tag 0x0020
@@ -824,6 +872,7 @@ constexpr TagDetails pentaxLensType[] = {
     {0x0841, "HD PENTAX-D FA 70-210mm F4 ED SDM WR"},
     {0x0842, "HD PENTAX-D FA* 85mm F1.4 SDM AW"},
     {0x0843, "HD PENTAX-D FA 21mm F2.4 ED Limited DC WR"},
+    {0x08c3, "HD PENTAX DA* 16-50mm F2.8 ED PLM AW"},
     {0x08c4, "HD PENTAX-DA* 11-18mm F2.8 ED DC AW"},
     {0x08c5, "HD PENTAX-DA 55-300mm F4.5-6.3 ED PLM WR RE"},
     {0x08c6, "smc PENTAX-DA L 18-50mm F4-5.6 DC WR RE"},
@@ -914,64 +963,40 @@ std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& va
 
 std::ostream& PentaxMakerNote::printDate(std::ostream& os, const Value& value, const ExifData*) {
   /* I choose same format as is used inside EXIF itself */
-  os << ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1));
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(2);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(3);
-  return os;
+  return os << stringFormat("{}:{:02}:{:02}", ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1)),
+                            value.toInt64(2), value.toInt64(3));
 }
 
 std::ostream& PentaxMakerNote::printTime(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::setw(2) << std::setfill('0') << value.toInt64(0);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(1);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(2);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:02}:{:02}:{:02}", value.toInt64(0), value.toInt64(1), value.toInt64(2));
 }
 
 std::ostream& PentaxMakerNote::printExposure(std::ostream& os, const Value& value, const ExifData*) {
-  os << static_cast<float>(value.toInt64()) / 100 << " ms";
-  return os;
+  return os << stringFormat("{:g} ms", static_cast<float>(value.toInt64()) / 100);
 }
 
 std::ostream& PentaxMakerNote::printFValue(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << "F" << std::setprecision(2) << static_cast<float>(value.toInt64()) / 10;
-  os.flags(f);
-  return os;
+  return os << stringFormat("F{:.2g}", static_cast<float>(value.toInt64()) / 10);
 }
 
 std::ostream& PentaxMakerNote::printFocalLength(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::fixed << std::setprecision(1) << static_cast<float>(value.toInt64()) / 100 << " mm";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.1f} mm", static_cast<float>(value.toInt64()) / 100);
 }
 
 std::ostream& PentaxMakerNote::printCompensation(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::setprecision(2) << (static_cast<float>(value.toInt64()) - 50) / 10 << " EV";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2g} EV", (static_cast<float>(value.toInt64()) - 50) / 10);
 }
 
 std::ostream& PentaxMakerNote::printTemperature(std::ostream& os, const Value& value, const ExifData*) {
-  os << value.toInt64() << " C";
-  return os;
+  return os << stringFormat("{} C", value.toInt64());
 }
 
 std::ostream& PentaxMakerNote::printFlashCompensation(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::setprecision(2) << static_cast<float>(value.toInt64()) / 256 << " EV";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2g} EV", static_cast<float>(value.toInt64()) / 256);
 }
 
 std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& value, const ExifData*) {
+  std::ios::fmtflags f(os.flags());
   if (auto l0 = value.toUint32(0); l0 < 10) {
     os << std::setprecision(2) << static_cast<float>(l0) / 3 << " EV";
   } else {
@@ -985,7 +1010,7 @@ std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& va
       os << _("No extended bracketing");
     } else {
       auto type = l1 >> 8;
-      auto range = l1 & 0xff;
+      auto range = static_cast<byte>(l1);
       switch (type) {
         case 1:
           os << _("WB-BA");
@@ -1006,10 +1031,11 @@ std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& va
           os << _("Unknown ") << type;
           break;
       }
-      os << " " << range;
+      os << " " << +range;
     }
     os << ")";
   }
+  os.flags(f);
   return os;
 }
 
@@ -1063,11 +1089,6 @@ static long getKeyLong(const std::string& key, const ExifData* metadata) {
   return result;
 }
 
-// Exception thrown by findLensInfo when the lens info can't be found.
-class LensInfoNotFound : public std::exception {
-  using std::exception::exception;
-};
-
 // Throws std::exception if the LensInfo can't be found.
 static ExifData::const_iterator findLensInfo(const ExifData* metadata) {
   const auto dngLensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"));
@@ -1089,7 +1110,7 @@ static std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, cons
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
     bool bFL10_20 = 10 <= focalLength && focalLength <= 20;
 
-    // std::cout << "model,focalLength = " << model << "," << focalLength << std::endl;
+    // std::cout << "model,focalLength = " << model << "," << focalLength << '\n';
     if (bFL10_20) {
       index = 1;
     }
@@ -1097,8 +1118,7 @@ static std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, cons
     if (index > 0) {
       const unsigned long lensID = 0x32c;
       auto td = Exiv2::find(pentaxLensType, lensID);
-      os << exvGettext(td[index].label_);
-      return os;
+      return os << _(td[index].label_);
     }
   } catch (...) {
   }
@@ -1161,8 +1181,7 @@ static std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, cons
     if (index > 0) {
       const unsigned long lensID = 0x3ff;
       auto td = Exiv2::find(pentaxLensType, lensID);
-      os << exvGettext(td[index].label_);
-      return os;
+      return os << _(td[index].label_);
     }
   } catch (...) {
   }
@@ -1180,7 +1199,7 @@ static std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, cons
     const auto lensInfo = findLensInfo(metadata);
     if (value.count() == 4) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (startsWith(model, "PENTAX K-3") && lensInfo->count() == 128 && lensInfo->toUint32(1) == 168 &&
+      if (model.starts_with("PENTAX K-3") && lensInfo->count() == 128 && lensInfo->toUint32(1) == 168 &&
           lensInfo->toUint32(2) == 144)
         index = 7;
     }
@@ -1188,8 +1207,7 @@ static std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, cons
     if (index > 0) {
       const unsigned long lensID = 0x8ff;
       auto td = Exiv2::find(pentaxLensType, lensID);
-      os << exvGettext(td[index].label_);
-      return os;
+      return os << _(td[index].label_);
     }
   } catch (...) {
   }
@@ -1207,23 +1225,22 @@ static std::ostream& resolveLens0x319(std::ostream& os, const Value& value, cons
     const auto lensInfo = findLensInfo(metadata);
     if (value.count() == 4) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (startsWith(model, "PENTAX K-3") && lensInfo->count() == 128 && lensInfo->toUint32(1) == 131 &&
+      if (model.starts_with("PENTAX K-3") && lensInfo->count() == 128 && lensInfo->toUint32(1) == 131 &&
           lensInfo->toUint32(2) == 128)
         index = 6;
     }
     if (value.count() == 2) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (startsWith(model, "PENTAX K100D") && lensInfo->count() == 44)
+      if (model.starts_with("PENTAX K100D") && lensInfo->count() == 44)
         index = 6;
-      if (startsWith(model, "PENTAX *ist DL") && lensInfo->count() == 36)
+      if (model.starts_with("PENTAX *ist DL") && lensInfo->count() == 36)
         index = 6;
     }
 
     if (index > 0) {
       const unsigned long lensID = 0x319;
       auto td = Exiv2::find(pentaxLensType, lensID);
-      os << exvGettext(td[index].label_);
-      return os;
+      return os << _(td[index].label_);
     }
   } catch (...) {
   }
@@ -1258,9 +1275,9 @@ static std::ostream& printLensType(std::ostream& os, const Value& value, const E
     return os << Internal::readExiv2Config(section, value.toString(), undefined);
   }
 
-  const auto index = value.toUint32(0) * 256 + value.toUint32(1);
+  const auto index = (value.toUint32(0) * 256) + value.toUint32(1);
 
-  // std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
+  // std::cout << '\n' << "printLensType value =" << value.toLong() << " index = " << index << '\n';
   auto lif = Exiv2::find(lensIdFct, index);
   if (!lif)
     return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
@@ -1455,9 +1472,5 @@ constexpr TagInfo PentaxMakerNote::tagInfo_[] = {
     {0xffff, "(UnknownPentaxMakerNoteTag)", "(UnknownPentaxMakerNoteTag)", N_("Unknown PentaxMakerNote tag"),
      IfdId::pentaxId, SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* PentaxMakerNote::tagList() {
-  return tagInfo_;
-}
 
 }  // namespace Exiv2::Internal

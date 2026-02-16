@@ -1,8 +1,7 @@
 import system_tests
 
 
-class IntegerOverflowInPngImageReadMetadata(
-        metaclass=system_tests.CaseMeta):
+class IntegerOverflowInPngImageReadMetadata(metaclass=system_tests.CaseMeta):
     """
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/issues/790
@@ -13,15 +12,15 @@ class IntegerOverflowInPngImageReadMetadata(
     `ulimit -v 8000000` to reduce the available memory to slightly
     less than 8GB.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/790"
 
-    filename = system_tests.path(
-        "$data_path/issue_790_poc2.png"
-    )
+    filename = system_tests.path("$data_path/issue_790_poc2.png")
     commands = ["$exiv2 $filename"]
     stdout = [""]
-    stderr = ["""Exiv2 exception in print action for file $filename:
+    stderr = [
+        """Exiv2 exception in print action for file $filename:
 corrupted image metadata
 """
-]
+    ]
     retval = [1]

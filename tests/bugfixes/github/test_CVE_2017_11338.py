@@ -4,7 +4,6 @@ import system_tests
 
 
 class TestCvePoC(metaclass=system_tests.CaseMeta):
-
     url = "https://github.com/Exiv2/exiv2/issues/51"
 
     filename = "$data_path/POC4"

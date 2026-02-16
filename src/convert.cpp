@@ -12,19 +12,23 @@
 #include "config.h"
 #include "error.hpp"
 #include "exif.hpp"
-#include "futils.hpp"
+#include "image_int.hpp"
 #include "iptc.hpp"
+#include "properties.hpp"
+#include "tags.hpp"
 #include "types.hpp"
+#include "value.hpp"
 #include "xmp_exiv2.hpp"
 
 // + standard includes
 #include <algorithm>
 #include <functional>
-#include <iomanip>
 
 #ifdef EXV_HAVE_ICONV
+#ifndef SUPPRESS_WARNINGS
+#include "futils.hpp"
+#endif
 #include <iconv.h>
-#include <cerrno>
 #elif defined _WIN32
 #include <windows.h>
 #endif
@@ -43,12 +47,12 @@
 // *****************************************************************************
 // local declarations
 namespace {
-#if defined EXV_HAVE_ICONV
+#ifdef EXV_HAVE_ICONV
 // Convert string charset with iconv.
-bool convertStringCharsetIconv(std::string& str, const char* from, const char* to);
+bool convertStringCharsetIconv(std::string& str, std::string_view from, std::string_view to);
 #elif defined _WIN32
 // Convert string charset with Windows functions.
-bool convertStringCharsetWindows(std::string& str, const char* from, const char* to);
+bool convertStringCharsetWindows(std::string& str, std::string_view from, std::string_view to);
 #endif
 /*!
   @brief Get the text value of an XmpDatum \em pos.
@@ -58,7 +62,7 @@ bool convertStringCharsetWindows(std::string& str, const char* from, const char*
   exactly one entry, \em value is set to this entry, without the qualifier.
   The return code indicates if the operation was successful.
  */
-bool getTextValue(std::string& value, const Exiv2::XmpData::iterator& pos);
+bool getTextValue(std::string& value, Exiv2::XmpData::iterator pos);
 }  // namespace
 
 // *****************************************************************************
@@ -622,7 +626,6 @@ void Converter::cnvExifDate(const char* from, const char* to) {
   int min = 0;
   int sec = 0;
   std::string subsec;
-  char buf[30];
 
   if (std::string(from) != "Exif.GPSInfo.GPSTimeStamp") {
     std::string value = pos->toString();
@@ -670,7 +673,8 @@ void Converter::cnvExifDate(const char* from, const char* to) {
       return;
     }
 
-    dsec = dhour * 3600.0 + dmin * 60.0 + dsec;
+    dsec += dhour * 3600.0;
+    dsec += dmin * 60.0;
 
     hour = static_cast<int>(dsec / 3600.0);
     dsec -= hour * 3600;
@@ -679,10 +683,7 @@ void Converter::cnvExifDate(const char* from, const char* to) {
     sec = static_cast<int>(dsec);
     dsec -= sec;
 
-    snprintf(buf, sizeof(buf), "%.9f", dsec);
-    buf[sizeof(buf) - 1] = 0;
-    buf[1] = '.';  // some locales use ','
-    subsec = buf + 1;
+    subsec = stringFormat(".{:09.0f}", dsec * 1'000'000'000);
 
     auto datePos = exifData_->findKey(ExifKey("Exif.GPSInfo.GPSDateStamp"));
     if (datePos == exifData_->end()) {
@@ -734,10 +735,8 @@ void Converter::cnvExifDate(const char* from, const char* to) {
 
   if (subsec.size() > 10)
     subsec.resize(10);
-  snprintf(buf, sizeof(buf), "%4d-%02d-%02dT%02d:%02d:%02d%s", year, month, day, hour, min, sec, subsec.c_str());
-  buf[sizeof(buf) - 1] = 0;
 
-  (*xmpData_)[to] = buf;
+  (*xmpData_)[to] = stringFormat("{:4}-{:02}-{:02}T{:02}:{:02}:{:02}{}", year, month, day, hour, min, sec, subsec);
   if (erase_)
     exifData_->erase(pos);
 }
@@ -748,11 +747,13 @@ void Converter::cnvExifVersion(const char* from, const char* to) {
     return;
   if (!prepareXmpTarget(to))
     return;
-  std::ostringstream value;
-  for (size_t i = 0; i < pos->count(); ++i) {
-    value << static_cast<char>(pos->toInt64(i));
+  auto count = pos->count();
+  std::string value;
+  value.reserve(count);
+  for (size_t i = 0; i < count; ++i) {
+    value.push_back(pos->toUint32(i));
   }
-  (*xmpData_)[to] = value.str();
+  (*xmpData_)[to] = value;
   if (erase_)
     exifData_->erase(pos);
 }
@@ -763,13 +764,13 @@ void Converter::cnvExifGPSVersion(const char* from, const char* to) {
     return;
   if (!prepareXmpTarget(to))
     return;
-  std::ostringstream value;
+  std::string value;
   for (size_t i = 0; i < pos->count(); ++i) {
     if (i > 0)
-      value << '.';
-    value << pos->toInt64(i);
+      value += '.';
+    value += std::to_string(pos->toInt64(i));
   }
-  (*xmpData_)[to] = value.str();
+  (*xmpData_)[to] = value;
   if (erase_)
     exifData_->erase(pos);
 }
@@ -829,12 +830,10 @@ void Converter::cnvExifGPSCoord(const char* from, const char* to) {
     // Hack: Need Value::toDouble
     deg[i] = static_cast<double>(z) / d;
   }
-  double min = deg[0] * 60.0 + deg[1] + deg[2] / 60.0;
+  double min = (deg[0] * 60.0) + deg[1] + (deg[2] / 60.0);
   auto ideg = static_cast<int>(min / 60.0);
   min -= ideg * 60;
-  std::ostringstream oss;
-  oss << ideg << "," << std::fixed << std::setprecision(7) << min << refPos->toString().c_str()[0];
-  (*xmpData_)[to] = oss.str();
+  (*xmpData_)[to] = stringFormat("{},{:.7f}{}", ideg, min, refPos->toString().front());
 
   if (erase_)
     exifData_->erase(pos);
@@ -889,7 +888,7 @@ void Converter::cnvXmpArray(const char* from, const char* to) {
   auto pos = xmpData_->findKey(XmpKey(from));
   if (pos == xmpData_->end())
     return;
-  std::ostringstream array;
+  std::string array;
   for (size_t i = 0; i < pos->count(); ++i) {
     std::string value = pos->toString(i);
     if (!pos->value().ok()) {
@@ -898,11 +897,11 @@ void Converter::cnvXmpArray(const char* from, const char* to) {
 #endif
       return;
     }
-    array << value;
+    array += value;
     if (i != pos->count() - 1)
-      array << " ";
+      array += " ";
   }
-  (*exifData_)[to] = array.str();
+  (*exifData_)[to] = array;
   if (erase_)
     xmpData_->erase(pos);
 }
@@ -924,14 +923,11 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
   XMP_DateTime datetime;
   try {
     SXMPUtils::ConvertToDate(value, &datetime);
-    char buf[30];
     if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
       SXMPUtils::ConvertToLocalTime(&datetime);
 
-      snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d", datetime.year, datetime.month, datetime.day,
-               datetime.hour, datetime.minute, datetime.second);
-      buf[sizeof(buf) - 1] = 0;
-      (*exifData_)[to] = buf;
+      (*exifData_)[to] = stringFormat("{:4}:{:02}:{:02} {:02}:{:02}:{:02}", datetime.year, datetime.month, datetime.day,
+                                      datetime.hour, datetime.minute, datetime.second);
 
       if (datetime.nanoSecond) {
         const char* subsecTag = nullptr;
@@ -969,9 +965,8 @@ void Converter::cnvXmpDate(const char* from, const char* to) {
       (*exifData_)[to] = array.str();
 
       prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
-      snprintf(buf, sizeof(buf), "%4d:%02d:%02d", datetime.year, datetime.month, datetime.day);
-      buf[sizeof(buf) - 1] = 0;
-      (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
+      (*exifData_)["Exif.GPSInfo.GPSDateStamp"] =
+          stringFormat("{:4}:{:02}:{:02}", datetime.year, datetime.month, datetime.day);
     }
   }
 #ifndef SUPPRESS_WARNINGS
@@ -1007,12 +1002,9 @@ void Converter::cnvXmpVersion(const char* from, const char* to) {
 #endif
     return;
   }
-  std::ostringstream array;
 
-  array << static_cast<int>(value[0]) << " " << static_cast<int>(value[1]) << " " << static_cast<int>(value[2]) << " "
-        << static_cast<int>(value[3]);
-
-  (*exifData_)[to] = array.str();
+  (*exifData_)[to] = stringFormat("{} {} {} {}", static_cast<int>(value[0]), static_cast<int>(value[1]),
+                                  static_cast<int>(value[2]), static_cast<int>(value[3]));
   if (erase_)
     xmpData_->erase(pos);
 }
@@ -1051,7 +1043,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
       value |= fired & 1;
 #ifndef SUPPRESS_WARNINGS
     else
-      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Fired"
+      EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Fired"
                   << " to " << to << "\n";
 #endif
   }
@@ -1062,7 +1054,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
       value |= (ret & 3) << 1;
 #ifndef SUPPRESS_WARNINGS
     else
-      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Return"
+      EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Return"
                   << " to " << to << "\n";
 #endif
   }
@@ -1073,7 +1065,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
       value |= (mode & 3) << 3;
 #ifndef SUPPRESS_WARNINGS
     else
-      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Mode"
+      EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Mode"
                   << " to " << to << "\n";
 #endif
   }
@@ -1084,7 +1076,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
       value |= (function & 1) << 5;
 #ifndef SUPPRESS_WARNINGS
     else
-      EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Function"
+      EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:Function"
                   << " to " << to << "\n";
 #endif
   }
@@ -1096,7 +1088,7 @@ void Converter::cnvXmpFlash(const char* from, const char* to) {
         value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
       else
-        EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:RedEyeMode"
+        EXV_WARNING << "Failed to convert " << std::string(from) << "/exif:RedEyeMode"
                     << " to " << to << "\n";
 #endif
     }
@@ -1244,7 +1236,7 @@ void Converter::cnvXmpValueToIptc(const char* from, const char* to) {
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 std::string Converter::computeExifDigest(bool tiff) {
-  std::ostringstream res;
+  std::string res;
   MD5_CTX context;
   unsigned char digest[16];
 
@@ -1257,9 +1249,9 @@ std::string Converter::computeExifDigest(bool tiff) {
       if (!tiff && key.groupName() == "Image")
         continue;
 
-      if (!res.str().empty())
-        res << ',';
-      res << key.tag();
+      if (!res.empty())
+        res += ',';
+      res += std::to_string(key.tag());
       auto pos = exifData_->findKey(key);
       if (pos == exifData_->end())
         continue;
@@ -1269,12 +1261,11 @@ std::string Converter::computeExifDigest(bool tiff) {
     }
   }
   MD5Final(digest, &context);
-  res << ';';
-  res << std::setw(2) << std::setfill('0') << std::hex << std::uppercase;
+  res += ';';
   for (const auto& i : digest) {
-    res << static_cast<int>(i);
+    res += stringFormat("{:02X}", i);
   }
-  return res.str();
+  return res;
 }
 #else
 std::string Converter::computeExifDigest(bool) {
@@ -1389,7 +1380,7 @@ void moveXmpToIptc(XmpData& xmpData, IptcData& iptcData) {
 bool convertStringCharset([[maybe_unused]] std::string& str, const char* from, const char* to) {
   if (0 == strcmp(from, to))
     return true;  // nothing to do
-#if defined EXV_HAVE_ICONV
+#ifdef EXV_HAVE_ICONV
   return convertStringCharsetIconv(str, from, to);
 #elif defined _WIN32
   return convertStringCharsetWindows(str, from, to);
@@ -1407,13 +1398,13 @@ bool convertStringCharset([[maybe_unused]] std::string& str, const char* from, c
 namespace {
 using namespace Exiv2;
 
-#if defined EXV_HAVE_ICONV
-bool convertStringCharsetIconv(std::string& str, const char* from, const char* to) {
-  if (strcmp(from, to) == 0)
+#ifdef EXV_HAVE_ICONV
+bool convertStringCharsetIconv(std::string& str, std::string_view from, std::string_view to) {
+  if (from == to)
     return true;  // nothing to do
 
   bool ret = true;
-  auto cd = iconv_open(to, from);
+  auto cd = iconv_open(to.data(), from.data());
   if (cd == iconv_t(-1)) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "iconv_open: " << strError() << "\n";
@@ -1447,7 +1438,7 @@ bool convertStringCharsetIconv(std::string& str, const char* from, const char* t
     iconv_close(cd);
 
   if (ret)
-    str = outstr;
+    str = std::move(outstr);
   return ret;
 }
 
@@ -1460,11 +1451,8 @@ bool swapBytes(std::string& str) {
 #endif
     return false;
   }
-  for (unsigned int i = 0; i < str.size() / 2; ++i) {
-    char t = str[2 * i];
-    str[2 * i] = str[2 * i + 1];
-    str[2 * i + 1] = t;
-  }
+  for (auto it = str.begin(); it != str.end(); it += 2)
+    std::iter_swap(it, std::next(it));
   return true;
 }
 
@@ -1568,11 +1556,11 @@ bool asciiToUtf8(std::string& /*str*/) {
 using ConvFct = bool (*)(std::string&);
 
 struct ConvFctList {
-  bool operator==(const std::pair<const char*, const char*>& fromTo) const {
-    return 0 == strcmp(from_, fromTo.first) && 0 == strcmp(to_, fromTo.second);
+  bool operator==(const std::pair<std::string_view, std::string_view>& fromTo) const {
+    return from_ == fromTo.first && to_ == fromTo.second;
   }
-  const char* from_;
-  const char* to_;
+  std::string_view from_;
+  std::string_view to_;
   ConvFct convFct_;
 };
 
@@ -1584,23 +1572,24 @@ constexpr ConvFctList convFctList[] = {
     // Update the convertStringCharset() documentation if you add more here!
 };
 
-[[maybe_unused]] bool convertStringCharsetWindows(std::string& str, const char* from, const char* to) {
+bool convertStringCharsetWindows(std::string& str, std::string_view from, std::string_view to) {
   bool ret = false;
   std::string tmpstr = str;
   if (auto p = Exiv2::find(convFctList, std::pair(from, to)))
     ret = p->convFct_(tmpstr);
 #ifndef SUPPRESS_WARNINGS
   else {
-    EXV_WARNING << "No Windows function to map character string from " << from << " to " << to << " available.\n";
+    EXV_WARNING << "No Windows function to map character string from " << from.data() << " to " << to.data()
+                << " available.\n";
   }
 #endif
   if (ret)
-    str = tmpstr;
+    str = std::move(tmpstr);
   return ret;
 }
 
 #endif  // EXV_HAVE_ICONV
-bool getTextValue(std::string& value, const XmpData::iterator& pos) {
+bool getTextValue(std::string& value, XmpData::iterator pos) {
   if (pos->typeId() == langAlt) {
     // get the default language entry without x-default qualifier
     value = pos->toString(0);
@@ -1608,7 +1597,7 @@ bool getTextValue(std::string& value, const XmpData::iterator& pos) {
       // If there is no default but exactly one entry, take that
       // without the qualifier
       value = pos->toString();
-      if (pos->value().ok() && value.length() > 5 && value.substr(0, 5) == "lang=") {
+      if (pos->value().ok() && value.starts_with("lang=")) {
         const std::string::size_type first_space_pos = value.find_first_of(' ');
         if (first_space_pos != std::string::npos) {
           value = value.substr(first_space_pos + 1);

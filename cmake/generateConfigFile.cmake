@@ -6,10 +6,11 @@ include(CheckCXXSymbolExists)
 if (${EXIV2_ENABLE_WEBREADY})
     set(EXV_USE_CURL  ${EXIV2_ENABLE_CURL})
 endif()
-set(EXV_ENABLE_BMFF      ${EXIV2_ENABLE_BMFF})
-set(EXV_ENABLE_WEBREADY  ${EXIV2_ENABLE_WEBREADY})
-set(EXV_HAVE_LENSDATA    ${EXIV2_ENABLE_LENSDATA})
-set(EXV_ENABLE_INIH      ${EXIV2_ENABLE_INIH})
+set(EXV_ENABLE_BMFF       ${EXIV2_ENABLE_BMFF})
+set(EXV_ENABLE_WEBREADY   ${EXIV2_ENABLE_WEBREADY})
+set(EXV_HAVE_LENSDATA     ${EXIV2_ENABLE_LENSDATA})
+set(EXV_ENABLE_INIH       ${EXIV2_ENABLE_INIH})
+set(EXV_ENABLE_FILESYSTEM ${EXIV2_ENABLE_FILESYSTEM_ACCESS})
 
 set(EXV_PACKAGE_NAME     ${PROJECT_NAME})
 set(EXV_PACKAGE_VERSION  ${PROJECT_VERSION})
@@ -23,6 +24,7 @@ set(EXV_HAVE_ICONV       ${ICONV_FOUND})
 set(EXV_HAVE_LIBZ        ${ZLIB_FOUND})
 set(EXV_HAVE_BROTLI      ${BROTLI_FOUND})
 
+check_cxx_source_compiles("#include <format>\nint main(){std::format(\"t\");}" EXV_HAVE_STD_FORMAT)
 check_cxx_symbol_exists(strerror_r  string.h       EXV_HAVE_STRERROR_R )
 
 check_cxx_source_compiles( "

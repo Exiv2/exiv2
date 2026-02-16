@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef ORFIMAGE_HPP_
-#define ORFIMAGE_HPP_
+#ifndef EXIV2_ORFIMAGE_HPP
+#define EXIV2_ORFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -38,7 +38,7 @@ class EXIV2API OrfImage : public TiffImage {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  OrfImage(BasicIo::UniquePtr io, bool create);
+  OrfImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -55,9 +55,9 @@ class EXIV2API OrfImage : public TiffImage {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 };  // class OrfImage
 
@@ -79,7 +79,7 @@ class EXIV2API OrfParser {
            See TiffParser::encode().
   */
   static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
-                            IptcData& iptcData, XmpData& xmpData);
+                            const IptcData& iptcData, const XmpData& xmpData);
 };  // class OrfParser
 
 // *****************************************************************************
@@ -92,11 +92,11 @@ class EXIV2API OrfParser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newOrfInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is an ORF image.
 EXIV2API bool isOrfType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef ORFIMAGE_HPP_
+#endif  // EXIV2_ORFIMAGE_HPP

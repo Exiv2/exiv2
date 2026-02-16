@@ -2,23 +2,26 @@
 
 // included header files
 #include "types.hpp"
-
+#include "config.h"
 #include "enforce.hpp"
-#include "futils.hpp"
-#include "i18n.h"  // for _exvGettext
-#include "safe_op.hpp"
 #include "utils.hpp"
 
 // + standard includes
-#include <array>
+#include <bit>
 #include <cctype>
-#include <climits>
 #include <cmath>
 #include <cstring>
 #include <iomanip>
 #include <numeric>
-#include <sstream>
-#include <utility>
+
+#ifdef EXV_ENABLE_NLS
+#include "futils.hpp"
+
+#include <filesystem>
+namespace fs = std::filesystem;
+
+#include <libintl.h>
+#endif
 
 // *****************************************************************************
 namespace {
@@ -89,8 +92,7 @@ size_t TypeInfo::typeSize(TypeId typeId) {
 DataBuf::DataBuf(size_t size) : pData_(size) {
 }
 
-DataBuf::DataBuf(const byte* pData, size_t size) : pData_(size) {
-  std::copy_n(pData, size, pData_.begin());
+DataBuf::DataBuf(const byte* pData, size_t size) : pData_(pData, pData + size) {
 }
 
 void DataBuf::alloc(size_t size) {
@@ -209,14 +211,13 @@ std::ostream& operator<<(std::ostream& os, const Rational& r) {
   return os << r.first << "/" << r.second;
 }
 
-template <typename T>
-std::istream& fromStreamToRational(std::istream& is, T& r) {
+static std::istream& fromStreamToRational(std::istream& is, auto& r) {
   // http://dev.exiv2.org/boards/3/topics/1912?r=1915
   if (std::tolower(is.peek()) == 'f') {
     char F = 0;
     float f = 0.F;
     is >> F >> f;
-    f = 2.0F * std::log(f) / std::log(2.0F);
+    f = 2.0F * std::log2(f);
     r = Exiv2::floatToRationalCast(f);
   } else {
     int32_t nominator = 0;
@@ -297,18 +298,33 @@ float getFloat(const byte* buf, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the float
   // type is the 4-byte IEEE 754 binary32 format, which is common but not
   // required by the C++ standard.
+#ifdef __cpp_lib_bit_cast
+  return std::bit_cast<float>(getULong(buf, byteOrder));
+#else
   union {
     uint32_t ul_;
     float f_;
   } u;
   u.ul_ = getULong(buf, byteOrder);
   return u.f_;
+#endif
 }
 
 double getDouble(const byte* buf, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the double
   // type is the 8-byte IEEE 754 binary64 format, which is common but not
   // required by the C++ standard.
+#ifdef __cpp_lib_bit_cast
+  if (byteOrder == littleEndian)
+    return std::bit_cast<double>(static_cast<uint64_t>(buf[7]) << 56 | static_cast<uint64_t>(buf[6]) << 48 |
+                                 static_cast<uint64_t>(buf[5]) << 40 | static_cast<uint64_t>(buf[4]) << 32 |
+                                 static_cast<uint64_t>(buf[3]) << 24 | static_cast<uint64_t>(buf[2]) << 16 |
+                                 static_cast<uint64_t>(buf[1]) << 8 | static_cast<uint64_t>(buf[0]));
+  return std::bit_cast<double>(static_cast<uint64_t>(buf[0]) << 56 | static_cast<uint64_t>(buf[1]) << 48 |
+                               static_cast<uint64_t>(buf[2]) << 40 | static_cast<uint64_t>(buf[3]) << 32 |
+                               static_cast<uint64_t>(buf[4]) << 24 | static_cast<uint64_t>(buf[5]) << 16 |
+                               static_cast<uint64_t>(buf[6]) << 8 | static_cast<uint64_t>(buf[7]));
+#else
   union {
     uint64_t ull_;
     double d_;
@@ -326,6 +342,7 @@ double getDouble(const byte* buf, ByteOrder byteOrder) {
              static_cast<uint64_t>(buf[6]) << 8 | static_cast<uint64_t>(buf[7]);
   }
   return u.d_;
+#endif
 }
 
 size_t us2Data(byte* buf, uint16_t s, ByteOrder byteOrder) {
@@ -357,12 +374,12 @@ size_t ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder) {
 size_t ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder) {
   if (byteOrder == littleEndian) {
     for (size_t i = 0; i < 8; i++) {
-      buf[i] = static_cast<byte>(l & 0xff);
+      buf[i] = static_cast<byte>(l);
       l >>= 8;
     }
   } else {
     for (size_t i = 0; i < 8; i++) {
-      buf[8 - i - 1] = static_cast<byte>(l & 0xff);
+      buf[8 - i - 1] = static_cast<byte>(l);
       l >>= 8;
     }
   }
@@ -411,12 +428,16 @@ size_t f2Data(byte* buf, float f, ByteOrder byteOrder) {
   // This algorithm assumes that the internal representation of the float
   // type is the 4-byte IEEE 754 binary32 format, which is common but not
   // required by the C++ standard.
+#ifdef __cpp_lib_bit_cast
+  return ul2Data(buf, std::bit_cast<uint32_t>(f), byteOrder);
+#else
   union {
     uint32_t ul_;
     float f_;
   } u;
   u.f_ = f;
   return ul2Data(buf, u.ul_, byteOrder);
+#endif
 }
 
 size_t d2Data(byte* buf, double d, ByteOrder byteOrder) {
@@ -452,28 +473,34 @@ size_t d2Data(byte* buf, double d, ByteOrder byteOrder) {
 }
 
 void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
-  const std::string::size_type pos = 8 + 16 * 3 + 2;
+  const size_t hexbase = 16;
+  const std::string::size_type pos = 8 + (hexbase * 3) + 2;
   const std::string align(pos, ' ');
   std::ios::fmtflags f(os.flags());
+
+  auto space = [](unsigned char c) { return (c < 32 || c > 126) ? '.' : static_cast<char>(c); };
 
   size_t i = 0;
   while (i < len) {
     os << "  " << std::setw(4) << std::setfill('0') << std::hex << i + offset << "  ";
-    std::ostringstream ss;
-    do {
-      byte c = buf[i];
-      os << std::setw(2) << std::setfill('0') << std::right << std::hex << static_cast<int>(c) << " ";
-      ss << (static_cast<int>(c) >= 31 && static_cast<int>(c) < 127 ? static_cast<char>(buf[i]) : '.');
-    } while (++i < len && i % 16 != 0);
-    std::string::size_type width = 9 + ((i - 1) % 16 + 1) * 3;
-    os << (width > pos ? "" : align.substr(width)) << ss.str() << "\n";
+    std::string ss;
+
+    for (size_t j = 0; j < hexbase && i < len; ++j, ++i) {
+      auto c = static_cast<int>(buf[i]);
+      os << std::setw(2) << std::setfill('0') << std::right << std::hex << c << " ";
+      ss += space(c);
+    }
+
+    std::string::size_type width = 9 + (((i - 1) % hexbase + 1) * 3);
+    os << (width > pos ? "" : align.substr(width)) << ss << "\n";
   }
+
   os << std::dec << std::setfill(' ');
   os.flags(f);
 }
 
 bool isHex(const std::string& str, size_t size, const std::string& prefix) {
-  if (str.size() <= prefix.size() || str.substr(0, prefix.size()) != prefix)
+  if (!str.starts_with(prefix))
     return false;
   if (size > 0 && str.size() != size + prefix.size())
     return false;
@@ -503,7 +530,24 @@ int exifTime(const char* buf, tm* tm) {
 
 const char* exvGettext(const char* str) {
 #ifdef EXV_ENABLE_NLS
-  return _exvGettext(str);
+  static bool exvGettextInitialized = false;
+
+  if (!exvGettextInitialized) {
+    // bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
+    auto localeDir = []() -> std::string {
+      fs::path ret = EXV_LOCALEDIR;
+      if constexpr (EXV_LOCALEDIR[0] != '/')
+        ret = fs::path(Exiv2::getProcessPath()) / EXV_LOCALEDIR;
+      return ret.string();
+    }();
+    bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
+#ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
+    bind_textdomain_codeset(EXV_PACKAGE_NAME, "UTF-8");
+#endif
+    exvGettextInitialized = true;
+  }
+
+  return dgettext(EXV_PACKAGE_NAME, str);
 #else
   return str;
 #endif
@@ -629,27 +673,3 @@ Rational floatToRationalCast(float f) {
 }
 
 }  // namespace Exiv2
-
-#ifdef EXV_ENABLE_NLS
-// Declaration is in i18n.h
-const char* _exvGettext(const char* str) {
-  static bool exvGettextInitialized = false;
-
-  if (!exvGettextInitialized) {
-    // bindtextdomain(EXV_PACKAGE_NAME, EXV_LOCALEDIR);
-    auto localeDir = []() -> std::string {
-      if constexpr (EXV_LOCALEDIR[0] == '/')
-        return EXV_LOCALEDIR;
-      else
-        return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
-    }();
-    bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
-#ifdef EXV_HAVE_BIND_TEXTDOMAIN_CODESET
-    bind_textdomain_codeset(EXV_PACKAGE_NAME, "UTF-8");
-#endif
-    exvGettextInitialized = true;
-  }
-
-  return dgettext(EXV_PACKAGE_NAME, str);
-}
-#endif  // EXV_ENABLE_NLS

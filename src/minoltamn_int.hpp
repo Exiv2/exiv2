@@ -5,11 +5,16 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -17,15 +22,25 @@ namespace Exiv2::Internal {
 class MinoltaMakerNote {
  public:
   //! Return read-only list of built-in Minolta tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in Minolta Standard Camera Settings tags
-  static const TagInfo* tagListCsStd();
+  static constexpr auto tagListCsStd() {
+    return tagInfoCsStd_;
+  }
   //! Return read-only list of built-in Minolta 7D Camera Settings tags
-  static const TagInfo* tagListCs7D();
+  static constexpr auto tagListCs7D() {
+    return tagInfoCs7D_;
+  }
   //! Return read-only list of built-in Minolta 5D Camera Settings tags
-  static const TagInfo* tagListCs5D();
+  static constexpr auto tagListCs5D() {
+    return tagInfoCs5D_;
+  }
   //! Return read-only list of built-in Sony A100 Camera Settings tags
-  static const TagInfo* tagListCsA100();
+  static constexpr auto tagListCsA100() {
+    return tagInfoCsA100_;
+  }
 
   //! @name Print functions for Minolta %MakerNote tags
   //@{
@@ -115,6 +130,7 @@ std::ostream& printMinoltaSonyZoneMatching(std::ostream&, const Value&, const Ex
 
 // TODO: Added shared methods here.
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef MINOLTAMN_INT_HPP_

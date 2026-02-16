@@ -14,6 +14,7 @@ set(SAMPLES
     iptceasy.cpp
     iptcprint.cpp
     iptctest.cpp
+    jpegparsetest.cpp
     key-test.cpp
     largeiptc-test.cpp
     mmap-test.cpp
@@ -91,13 +92,11 @@ endif()
 
 # ******************************************************************************
 # connection test application
-add_executable(conntest conntest.cpp)
-list(APPEND APPLICATIONS conntest)
-
 if(EXIV2_ENABLE_WEBREADY)
+  add_executable(conntest conntest.cpp)
+  list(APPEND APPLICATIONS conntest)
   if(EXIV2_ENABLE_CURL)
-    target_include_directories(conntest SYSTEM PRIVATE ${CURL_INCLUDE_DIR})
-    target_link_libraries(conntest PRIVATE ${CURL_LIBRARIES})
+    target_link_libraries(conntest PRIVATE CURL::libcurl)
   endif()
 endif()
 
@@ -108,16 +107,16 @@ list(APPEND APPLICATIONS remotetest)
 
 # ******************************************************************************
 foreach(application ${APPLICATIONS})
-  target_link_libraries(${application} PRIVATE exiv2lib std::filesystem)
-  if(MSVC)
-    target_link_libraries(${application} PRIVATE wmain)
-    target_link_options(${application} PRIVATE "/ENTRY:wWinMainCRTStartup")
+  # Make app use UTF-8 code page in Windows
+  if(WIN32)
+    if(MSVC)
+      target_sources(${application} PRIVATE ${PROJECT_SOURCE_DIR}/app/utf8.manifest)
+    else()
+      # Must wrap manifest in .rc w/ other toolchains
+      target_sources(${application} PRIVATE ${PROJECT_SOURCE_DIR}/app/utf8.rc)
+    endif()
   endif()
-  if(MINGW)
-    target_link_libraries(${application} PRIVATE wmain)
-    target_compile_options(${application} PRIVATE -municode)
-    target_link_options(${application} PRIVATE -municode)
-  endif()
+  target_link_libraries(${application} PRIVATE exiv2lib)
   if(EXIV2_ENABLE_PNG)
     target_link_libraries(${application} PRIVATE ${ZLIB_LIBRARIES})
     if(MSVC)

@@ -130,7 +130,7 @@ Exif.NikonMe.MultiExposureAutoGain           Long        1  0  Off
 Exif.Nikon3.HighISONoiseReduction            Short       1  6  High
 Exif.NikonAf2.Version                        Undefined   4  48 49 48 48  1.00
 Exif.NikonAf2.ContrastDetectAF               Byte        1  0  Off
-Exif.NikonAf2.AFAreaMode                     Byte        1  5  5
+Exif.NikonAf2.AFAreaMode                     Byte        1  5  Dynamic-area AF (21 points)
 Exif.NikonAf2.PhaseDetectAF                  Byte        1  3  On (39-point)
 Exif.NikonAf2.PrimaryAFPoint                 Byte        1  1  1
 Exif.NikonAf2.AFPointsUsed                   Byte        7  1 0 0 0 0 0 0  1 0 0 0 0 0 0

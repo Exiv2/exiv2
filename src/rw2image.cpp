@@ -2,20 +2,23 @@
 
 // included header files
 #include "rw2image.hpp"
-
+#include "basicio.hpp"
 #include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 #include "preview.hpp"
 #include "rw2image_int.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 
 // + standard includes
 #include <array>
+
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#include "value.hpp"
 #endif
 
 // *****************************************************************************
@@ -60,7 +63,7 @@ void Rw2Image::setComment(const std::string&) {
 }
 
 void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
-  out << "RW2 IMAGE" << std::endl;
+  out << "RW2 IMAGE" << '\n';
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type

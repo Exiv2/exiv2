@@ -6,12 +6,6 @@
 #include <iostream>
 
 int main(int argc, char* const argv[]) try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " file\n";
     return EXIT_FAILURE;
@@ -23,7 +17,7 @@ int main(int argc, char* const argv[]) try {
   iptcData["Iptc.Application2.Headline"] = "The headline I am";
   iptcData["Iptc.Application2.Keywords"] = "Yet another keyword";
   iptcData["Iptc.Application2.DateCreated"] = "2004-8-3";
-  iptcData["Iptc.Application2.Urgency"] = static_cast<uint16_t>(1);
+  iptcData["Iptc.Application2.Urgency"] = uint16_t{1};
   iptcData["Iptc.Envelope.ModelVersion"] = 42;
   iptcData["Iptc.Envelope.TimeSent"] = "14:41:0-05:00";
   iptcData["Iptc.Application2.RasterizedCaption"] = "230 42 34 2 90 84 23 146";

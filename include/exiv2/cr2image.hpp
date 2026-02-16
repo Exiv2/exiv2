@@ -5,8 +5,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    22-Apr-06, ahu: created
  */
-#ifndef CR2IMAGE_HPP_
-#define CR2IMAGE_HPP_
+#ifndef EXIV2_CR2IMAGE_HPP
+#define EXIV2_CR2IMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -43,7 +43,7 @@ class EXIV2API Cr2Image : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  Cr2Image(BasicIo::UniquePtr io, bool create);
+  Cr2Image(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -90,7 +90,7 @@ class EXIV2API Cr2Parser {
            See TiffParser::encode().
   */
   static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
-                            IptcData& iptcData, XmpData& xmpData);
+                            const IptcData& iptcData, const XmpData& xmpData);
 
 };  // class Cr2Parser
 
@@ -104,11 +104,11 @@ class EXIV2API Cr2Parser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newCr2Instance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a CR2 image.
 EXIV2API bool isCr2Type(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef CR2IMAGE_HPP_
+#endif  // EXIV2_CR2IMAGE_HPP

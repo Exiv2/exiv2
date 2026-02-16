@@ -2,7 +2,7 @@
 
 // included header files
 #include "iptc.hpp"
-
+#include "config.h"
 #include "datasets.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
@@ -58,12 +58,14 @@ Iptcdatum::Iptcdatum(const IptcKey& key, const Value* pValue) : key_(key.clone()
     value_ = pValue->clone();
 }
 
-Iptcdatum::Iptcdatum(const Iptcdatum& rhs) : Metadatum(rhs) {
+Iptcdatum::Iptcdatum(const Iptcdatum& rhs) {
   if (rhs.key_)
     key_ = rhs.key_->clone();  // deep copy
   if (rhs.value_)
     value_ = rhs.value_->clone();  // deep copy
 }
+
+Iptcdatum::~Iptcdatum() = default;
 
 size_t Iptcdatum::copy(byte* buf, ByteOrder byteOrder) const {
   return value_ ? value_->copy(buf, byteOrder) : 0;
@@ -162,7 +164,6 @@ const Value& Iptcdatum::value() const {
 Iptcdatum& Iptcdatum::operator=(const Iptcdatum& rhs) {
   if (this == &rhs)
     return *this;
-  Metadatum::operator=(rhs);
 
   key_.reset();
   if (rhs.key_)
@@ -210,8 +211,7 @@ Iptcdatum& IptcData::operator[](const std::string& key) {
   IptcKey iptcKey(key);
   auto pos = findKey(iptcKey);
   if (pos == end()) {
-    iptcMetadata_.emplace_back(iptcKey);
-    return iptcMetadata_.back();
+    return iptcMetadata_.emplace_back(iptcKey);
   }
   return *pos;
 }
@@ -282,22 +282,21 @@ void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, size
   size_t i = 0;
   while (i < bytes.size() - 3 && bytes.at(i) != 0x1c)
     i++;
-  out << Internal::indent(++depth) << "Record | DataSet | Name                     | Length | Data" << std::endl;
+  out << Internal::indent(++depth) << "Record | DataSet | Name                     | Length | Data" << '\n';
   while (i < bytes.size() - 3) {
     if (bytes.at(i) != 0x1c) {
       break;
     }
-    char buff[100];
     uint16_t record = bytes.at(i + 1);
     uint16_t dataset = bytes.at(i + 2);
     Internal::enforce(bytes.size() - i >= 5, ErrorCode::kerCorruptedMetadata);
     uint16_t len = getUShort(bytes.subSlice(i + 3, bytes.size()), bigEndian);
-    snprintf(buff, sizeof(buff), "  %6hu | %7hu | %-24s | %6hu | ", record, dataset,
-             Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
     Internal::enforce(bytes.size() - i >= 5 + static_cast<size_t>(len), ErrorCode::kerCorruptedMetadata);
-    out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
-        << (len > 40 ? "..." : "") << std::endl;
+    out << stringFormat("  {:6} | {:7} | {:<24} | {:6} | ", record, dataset,
+                        Exiv2::IptcDataSets::dataSetName(dataset, record), len);
+    out << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + std::min<uint16_t>(40, len)))
+        << (len > 40 ? "...\n" : "\n");
     i += 5 + len;
   }
 }
@@ -313,9 +312,9 @@ const char* IptcData::detectCharset() const {
   bool ascii = true;
   bool utf8 = true;
 
-  for (pos = begin(); pos != end(); ++pos) {
-    std::string value = pos->toString();
-    if (pos->value().ok()) {
+  for (const auto& key : *this) {
+    std::string value = key.toString();
+    if (key.value().ok()) {
       int seqCount = 0;
       for (auto c : value) {
         if (seqCount) {
@@ -420,15 +419,15 @@ int IptcParser::decode(IptcData& iptcData, const byte* pData, size_t size) {
 }  // IptcParser::decode
 
 DataBuf IptcParser::encode(const IptcData& iptcData) {
+  DataBuf buf;
   if (iptcData.empty())
-    return {};
+    return buf;
 
-  DataBuf buf(iptcData.size());
+  buf = DataBuf(iptcData.size());
   byte* pWrite = buf.data();
 
   // Copy the iptc data sets and sort them by record but preserve the order of datasets
-  IptcMetadata sortedIptcData;
-  std::copy(iptcData.begin(), iptcData.end(), std::back_inserter(sortedIptcData));
+  IptcMetadata sortedIptcData(iptcData.begin(), iptcData.end());
   std::stable_sort(sortedIptcData.begin(), sortedIptcData.end(),
                    [](const auto& l, const auto& r) { return l.record() < r.record(); });
 

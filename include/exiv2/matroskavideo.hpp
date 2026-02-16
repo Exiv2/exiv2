@@ -17,8 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-#ifndef MATROSKAVIDEO_HPP_
-#define MATROSKAVIDEO_HPP_
+#ifndef EXIV2_MATROSKAVIDEO_HPP
+#define EXIV2_MATROSKAVIDEO_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -112,7 +112,7 @@ class EXIV2API MatroskaVideo : public Image {
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
    */
-  explicit MatroskaVideo(BasicIo::UniquePtr io);
+  explicit MatroskaVideo(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -149,11 +149,11 @@ class EXIV2API MatroskaVideo : public Image {
     @param size Size of \em buf.
    */
 
+  void decodeDateTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
   void decodeInternalTags(const Internal::MatroskaTag* tag, const byte* buf);
   void decodeStringTags(const Internal::MatroskaTag* tag, const byte* buf);
   void decodeIntegerTags(const Internal::MatroskaTag* tag, const byte* buf);
   void decodeBooleanTags(const Internal::MatroskaTag* tag, const byte* buf);
-  void decodeDateTags(const Internal::MatroskaTag* tag, const byte* buf, size_t size);
   void decodeFloatTags(const Internal::MatroskaTag* tag, const byte* buf);
 
  private:
@@ -180,11 +180,11 @@ class EXIV2API MatroskaVideo : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-EXIV2API Image::UniquePtr newMkvInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newMkvInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a Matroska Video.
 EXIV2API bool isMkvType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef MATROSKAVIDEO_HPP_
+#endif  // EXIV2_MATROSKAVIDEO_HPP

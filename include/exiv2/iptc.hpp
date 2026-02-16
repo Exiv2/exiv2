@@ -4,8 +4,8 @@
   @file    iptc.hpp
   @brief   Encoding and decoding of IPTC data
  */
-#ifndef IPTC_HPP_
-#define IPTC_HPP_
+#ifndef EXIV2_IPTC_HPP
+#define EXIV2_IPTC_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -50,7 +50,7 @@ class EXIV2API Iptcdatum : public Metadatum {
   //! Copy constructor
   Iptcdatum(const Iptcdatum& rhs);
   //! Destructor
-  ~Iptcdatum() override = default;
+  ~Iptcdatum() override;
   //@}
 
   //! @name Manipulators
@@ -127,14 +127,14 @@ class EXIV2API Iptcdatum : public Metadatum {
   [[nodiscard]] int64_t toInt64(size_t n = 0) const override;
   [[nodiscard]] float toFloat(size_t n = 0) const override;
   [[nodiscard]] Rational toRational(size_t n = 0) const override;
-  [[nodiscard]] Value::UniquePtr getValue() const override;
+  [[nodiscard]] std::unique_ptr<Value> getValue() const override;
   [[nodiscard]] const Value& value() const override;
   //@}
 
  private:
   // DATA
-  IptcKey::UniquePtr key_;  //!< Key
-  Value::UniquePtr value_;  //!< Value
+  IptcKey::UniquePtr key_;        //!< Key
+  std::unique_ptr<Value> value_;  //!< Value
 
 };  // class Iptcdatum
 
@@ -185,7 +185,7 @@ class EXIV2API IptcData {
     @return 0 if successful;<BR>
            6 if the dataset already exists and is not repeatable;<BR>
    */
-  int add(const Iptcdatum& iptcdatum);
+  int add(const Iptcdatum& iptcDatum);
   /*!
     @brief Delete the Iptcdatum at iterator position pos, return the
            position of the next Iptcdatum. Note that iterators into
@@ -305,4 +305,4 @@ class EXIV2API IptcParser {
 
 }  // namespace Exiv2
 
-#endif  // #ifndef IPTC_HPP_
+#endif  // EXIV2_IPTC_HPP

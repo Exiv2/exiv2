@@ -3,21 +3,24 @@
 #ifndef IMAGE_INT_HPP_
 #define IMAGE_INT_HPP_
 
+#include "config.h"
+
 // *****************************************************************************
 // included header files
 #include "slice.hpp"  // for Slice
 
 #include <cstddef>  // for size_t
-#include <cstdint>  // for int32_t
 #include <ostream>  // for ostream, basic_ostream::put
 #include <string>
 
-#if defined(__MINGW32__)
-#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(__MINGW_PRINTF_FORMAT, 1, 2)))
-#elif defined(__GNUC__)
-#define ATTRIBUTE_FORMAT_PRINTF __attribute__((format(printf, 1, 2)))
+#ifdef EXV_HAVE_STD_FORMAT
+#include <format>
+#define stringFormat std::format
+#define stringFormatTo std::format_to
 #else
-#define ATTRIBUTE_FORMAT_PRINTF
+#include <fmt/format.h>
+#define stringFormat fmt::format
+#define stringFormatTo fmt::format_to
 #endif
 
 // *****************************************************************************
@@ -25,11 +28,6 @@
 namespace Exiv2::Internal {
 // *****************************************************************************
 // class definitions
-
-/*!
-  @brief format a string in the pattern of \em sprintf \em .
- */
-std::string stringFormat(const char* format, ...) ATTRIBUTE_FORMAT_PRINTF;
 
 /*!
  * @brief Helper struct for binary data output via @ref binaryToString.
@@ -45,18 +43,17 @@ struct binaryToStringHelper;
  * @brief Actual implementation of the output algorithm described in @ref
  * binaryToString
  *
- * @throws nothing
+ * @note Does not throw
  */
 template <typename T>
-std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr) {
+std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& binToStr) noexcept {
   for (size_t i = 0; i < binToStr.buf_.size(); ++i) {
-    auto c = static_cast<int>(binToStr.buf_.at(i));
-    const bool bTrailingNull = c == 0 && i == binToStr.buf_.size() - 1;
-    if (!bTrailingNull) {
-      if (c < ' ' || c >= 127) {
-        c = '.';
-      }
-      stream.put(static_cast<char>(c));
+    auto c = static_cast<unsigned char>(binToStr.buf_.at(i));
+    if (c != 0 || i != binToStr.buf_.size() - 1) {
+      if (c < 32 || c > 126)
+        stream.put('.');
+      else
+        stream.put(static_cast<char>(c));
     }
   }
   return stream;
@@ -64,7 +61,7 @@ std::ostream& operator<<(std::ostream& stream, const binaryToStringHelper<T>& bi
 
 template <typename T>
 struct binaryToStringHelper {
-  constexpr binaryToStringHelper(Slice<T>&& myBuf) noexcept : buf_(std::move(myBuf)) {
+  explicit constexpr binaryToStringHelper(Slice<T>&& myBuf) noexcept : buf_(std::move(myBuf)) {
   }
 
   // the Slice is stored by value to avoid dangling references, in case we
@@ -95,7 +92,7 @@ struct binaryToStringHelper {
  *     the stream throws neither.
  */
 template <typename T>
-constexpr binaryToStringHelper<T> binaryToString(Slice<T>&& sl) noexcept {
+constexpr auto binaryToString(Slice<T>&& sl) noexcept {
   return binaryToStringHelper<T>(std::move(sl));
 }
 

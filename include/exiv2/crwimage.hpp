@@ -9,8 +9,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    28-Aug-05, ahu: created
  */
-#ifndef CRWIMAGE_HPP_
-#define CRWIMAGE_HPP_
+#ifndef EXIV2_CRWIMAGE_HPP
+#define EXIV2_CRWIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -52,7 +52,7 @@ class EXIV2API CrwImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  CrwImage(BasicIo::UniquePtr io, bool create);
+  CrwImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -123,11 +123,11 @@ class EXIV2API CrwParser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newCrwInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newCrwInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a CRW image.
 EXIV2API bool isCrwType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef CRWIMAGE_HPP_
+#endif  // EXIV2_CRWIMAGE_HPP

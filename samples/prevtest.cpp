@@ -6,12 +6,6 @@
 #include <iostream>
 
 int main(int argc, char* const argv[]) try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " file\n";
     return EXIT_FAILURE;
@@ -22,8 +16,7 @@ int main(int argc, char* const argv[]) try {
   image->readMetadata();
 
   Exiv2::PreviewManager loader(*image);
-  Exiv2::PreviewPropertiesList list = loader.getPreviewProperties();
-  for (auto&& pos : list) {
+  for (const auto& pos : loader.getPreviewProperties()) {
     std::cout << pos.mimeType_ << " preview, type " << pos.id_ << ", " << pos.size_ << " bytes, " << pos.width_ << 'x'
               << pos.height_ << " pixels"
               << "\n";
@@ -35,7 +28,6 @@ int main(int argc, char* const argv[]) try {
   }
 
   // Cleanup
-  Exiv2::XmpParser::terminate();
 
   return EXIT_SUCCESS;
 } catch (Exiv2::Error& e) {

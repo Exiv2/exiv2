@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <exiv2/basicio.hpp>
 #include <exiv2/pngimage.hpp>
 #include "pngchunk_int.hpp"  // This is not part of the public API
 
@@ -20,7 +21,7 @@ TEST(PngChunk, keyTxtChunkExtractsKeywordCorrectlyInPresenceOfNullChar) {
 
   DataBuf chunkBuf(data.data(), data.size());
   DataBuf key = Internal::PngChunk::keyTXTChunk(chunkBuf, true);
-  ASSERT_EQ(21, key.size());
+  ASSERT_EQ(21u, key.size());
 
   ASSERT_TRUE(std::equal(key.data(), key.data() + key.size(), data.data() + 8));
 }

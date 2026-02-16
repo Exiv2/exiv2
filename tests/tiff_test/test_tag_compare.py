@@ -98,16 +98,16 @@ class OutputTagExtract(metaclass=system_tests.CaseMeta):
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
         super().compare_stdout(i, command, got_stdout, expected_stdout)
 
-        if '-pa' in command:
+        if ' -pa ' in command:
             self.pa_data = self.parse_pa(got_stdout.splitlines())
-        if '-pS' in command:
+        if ' -pS ' in command:
             self.pS_data = self.parse_pS(got_stdout.splitlines())
 
         if i == 1:
             self.compare_pS_pa()
 
     commands = [
-        "$exiv2 %s $data_path/mini9.tif" % (opt) for opt in ["-pa", "-pS"]
+        f"$exiv2 {opt} $data_path/mini9.tif" for opt in ["-pa", "-pS"]
     ]
 
     stderr = [""] * 2

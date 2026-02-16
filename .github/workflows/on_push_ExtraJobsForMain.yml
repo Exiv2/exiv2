@@ -20,11 +20,14 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          python3 -m pip install conan==1.59.0 gcovr ninja
+          sudo eatmydata apt-get -y install ninja-build gcovr
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |

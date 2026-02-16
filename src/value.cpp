@@ -2,14 +2,15 @@
 
 // included header files
 #include "value.hpp"
-
+#include "config.h"
 #include "convert.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
+#include "image_int.hpp"
 #include "types.hpp"
 
 // + standard includes
-#include <regex>
+#include <iterator>
 #include <sstream>
 
 // *****************************************************************************
@@ -110,13 +111,11 @@ int DataValue::read(const std::string& buf) {
   std::istringstream is(buf);
   int tmp = 0;
   ValueType val;
-  while (!(is.eof())) {
-    is >> tmp;
-    if (is.fail())
-      return 1;
-    val.push_back(static_cast<byte>(tmp));
-  }
-  value_.swap(val);
+  while (is >> tmp)
+    val.push_back(tmp);
+  if (!is.eof())
+    return 1;
+  value_ = std::move(val);
   return 0;
 }
 
@@ -134,20 +133,16 @@ DataValue* DataValue::clone_() const {
 }
 
 std::ostream& DataValue::write(std::ostream& os) const {
-  size_t end = value_.size();
-  for (size_t i = 0; i != end; ++i) {
-    os << static_cast<int>(value_.at(i));
-    if (i < end - 1)
-      os << " ";
+  if (!value_.empty()) {
+    std::copy(value_.begin(), value_.end() - 1, std::ostream_iterator<int>(os, " "));
+    os << static_cast<int>(value_.back());
   }
   return os;
 }
 
 std::string DataValue::toString(size_t n) const {
-  std::ostringstream os;
-  os << static_cast<int>(value_.at(n));
-  ok_ = !os.fail();
-  return os.str();
+  ok_ = true;
+  return std::to_string(value_.at(n));
 }
 
 int64_t DataValue::toInt64(size_t n) const {
@@ -304,7 +299,7 @@ CommentValue::CommentValue(const std::string& comment) : StringValueBase(Exiv2::
 int CommentValue::read(const std::string& comment) {
   std::string c = comment;
   CharsetId charsetId = undefined;
-  if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
+  if (comment.starts_with("charset=")) {
     const std::string::size_type pos = comment.find_first_of(' ');
     std::string name = comment.substr(8, pos - 8);
     // Strip quotes (so you can also specify the charset without quotes)
@@ -394,15 +389,15 @@ CommentValue::CharsetId CommentValue::charsetId() const {
 
 const char* CommentValue::detectCharset(std::string& c) const {
   // Interpret a BOM if there is one
-  if (0 == strncmp(c.data(), "\xef\xbb\xbf", 3)) {
+  if (c.compare(0, 3, "\xef\xbb\xbf") == 0) {
     c = c.substr(3);
     return "UTF-8";
   }
-  if (0 == strncmp(c.data(), "\xff\xfe", 2)) {
+  if (c.compare(0, 2, "\xff\xfe") == 0) {
     c = c.substr(2);
     return "UCS-2LE";
   }
-  if (0 == strncmp(c.data(), "\xfe\xff", 2)) {
+  if (c.compare(0, 2, "\xfe\xff") == 0) {
     c = c.substr(2);
     return "UCS-2BE";
   }
@@ -455,7 +450,7 @@ size_t XmpValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   write(os);
   std::string s = os.str();
   if (!s.empty())
-    std::copy_n(s.data(), s.size(), buf);
+    std::copy(s.begin(), s.end(), buf);
   return s.size();
 }
 
@@ -481,7 +476,7 @@ int XmpTextValue::read(const std::string& buf) {
   // support a type=Alt,Bag,Seq,Struct indicator
   std::string b = buf;
   std::string type;
-  if (buf.length() > 5 && buf.substr(0, 5) == "type=") {
+  if (buf.starts_with("type=")) {
     std::string::size_type pos = buf.find_first_of(' ');
     type = buf.substr(5, pos - 5);
     // Strip quotes (so you can also specify the type without quotes)
@@ -506,7 +501,7 @@ int XmpTextValue::read(const std::string& buf) {
       throw Error(ErrorCode::kerInvalidXmpText, type);
     }
   }
-  value_ = b;
+  value_ = std::move(b);
   return 0;
 }
 
@@ -515,7 +510,9 @@ XmpTextValue::UniquePtr XmpTextValue::clone() const {
 }
 
 size_t XmpTextValue::size() const {
-  return value_.size();
+  std::ostringstream os;
+  write(os);
+  return os.str().size();
 }
 
 size_t XmpTextValue::count() const {
@@ -593,10 +590,9 @@ size_t XmpArrayValue::count() const {
 }
 
 std::ostream& XmpArrayValue::write(std::ostream& os) const {
-  for (auto i = value_.begin(); i != value_.end(); ++i) {
-    if (i != value_.begin())
-      os << ", ";
-    os << *i;
+  if (!value_.empty()) {
+    std::copy(value_.begin(), value_.end() - 1, std::ostream_iterator<std::string>(os, ", "));
+    os << value_.back();
   }
   return os;
 }
@@ -636,7 +632,7 @@ LangAltValue::LangAltValue(const std::string& buf) : XmpValue(langAlt) {
 int LangAltValue::read(const std::string& buf) {
   std::string b = buf;
   std::string lang = "x-default";
-  if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
+  if (buf.starts_with("lang=")) {
     static constexpr auto ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     const std::string::size_type pos = buf.find_first_of(' ');
@@ -651,7 +647,7 @@ int LangAltValue::read(const std::string& buf) {
     if (lang.front() == '"') {
       lang = lang.substr(1);
 
-      if (lang.empty() || lang.find('"') != lang.length() - 1)
+      if (lang.empty() || lang.back() != '"')
         throw Error(ErrorCode::kerInvalidLangAltValue, buf);
 
       lang.pop_back();
@@ -672,7 +668,7 @@ int LangAltValue::read(const std::string& buf) {
       b = buf.substr(pos + 1);
   }
 
-  value_[lang] = b;
+  value_[lang] = std::move(b);
   return 0;
 }
 
@@ -758,9 +754,8 @@ int DateValue::read(const byte* buf, size_t len, ByteOrder /*byteOrder*/) {
 int DateValue::read(const std::string& buf) {
   // ISO 8601 date formats:
   // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
-  static const std::regex reExtended(R"(^(\d{4})-(\d{2})-(\d{2}))");
-  static const std::regex reBasic(R"(^(\d{4})(\d{2})(\d{2}))");
-  std::smatch sm;
+  size_t monthPos = 0;
+  size_t dayPos = 0;
 
   auto printWarning = [] {
 #ifndef SUPPRESS_WARNINGS
@@ -768,18 +763,38 @@ int DateValue::read(const std::string& buf) {
 #endif
   };
 
-  // Note: We use here regex_search instead of regex_match, because the string can be longer than expected and
-  // also contain the time
-  if (std::regex_search(buf, sm, reExtended) || std::regex_search(buf, sm, reBasic)) {
-    date_.year = std::stoi(sm[1].str());
-    date_.month = std::stoi(sm[2].str());
-    if (date_.month > 12) {
-      date_.month = 0;
+  if (buf.size() < 8) {
+    printWarning();
+    return 1;
+  }
+
+  if ((buf.size() >= 10 && buf[4] == '-' && buf[7] == '-') || (buf.size() == 8)) {
+    if (buf.size() >= 10) {
+      monthPos = 5;
+      dayPos = 8;
+    } else {
+      monthPos = 4;
+      dayPos = 6;
+    }
+
+    auto checkDigits = [&buf, &printWarning](size_t start, size_t count, int32_t& dest) {
+      for (size_t i = start; i < start + count; ++i) {
+        if (!std::isdigit(buf[i])) {
+          printWarning();
+          return 1;
+        }
+      }
+      dest = std::stoul(buf.substr(start, count));
+      return 0;
+    };
+
+    if (checkDigits(0, 4, date_.year) || checkDigits(monthPos, 2, date_.month) || checkDigits(dayPos, 2, date_.day)) {
       printWarning();
       return 1;
     }
-    date_.day = std::stoi(sm[3].str());
-    if (date_.day > 31) {
+
+    if (date_.month > 12 || date_.day > 31) {
+      date_.month = 0;
       date_.day = 0;
       printWarning();
       return 1;
@@ -798,11 +813,10 @@ size_t DateValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   // \note Here the date is copied in the Basic format YYYYMMDD, as the IPTC key	Iptc.Application2.DateCreated
   // wants it. Check https://exiv2.org/iptc.html
 
-  // sprintf wants to add the null terminator, so use oversized buffer
-  char temp[9];
-  auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day));
-  std::copy_n(temp, wrote, buf);
-  return wrote;
+  auto out = reinterpret_cast<char*>(buf);
+  auto it = stringFormatTo(out, "{:04}{:02}{:02}", date_.year, date_.month, date_.day);
+
+  return it - out;
 }
 
 const DateValue::Date& DateValue::getDate() const {
@@ -823,11 +837,7 @@ DateValue* DateValue::clone_() const {
 
 std::ostream& DateValue::write(std::ostream& os) const {
   // Write DateValue in ISO 8601 Extended format: YYYY-MM-DD
-  std::ios::fmtflags f(os.flags());
-  os << std::setw(4) << std::setfill('0') << date_.year << '-' << std::right << std::setw(2) << std::setfill('0')
-     << date_.month << '-' << std::setw(2) << std::setfill('0') << date_.day;
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:04}-{:02}-{:02}", date_.year, date_.month, date_.day);
 }
 
 int64_t DateValue::toInt64(size_t /*n*/) const {
@@ -845,6 +855,7 @@ int64_t DateValue::toInt64(size_t /*n*/) const {
 uint32_t DateValue::toUint32(size_t /*n*/) const {
   const int64_t t = toInt64();
   if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
+    ok_ = false;
     return 0;
   }
   return static_cast<uint32_t>(t);
@@ -855,7 +866,12 @@ float DateValue::toFloat(size_t n) const {
 }
 
 Rational DateValue::toRational(size_t n) const {
-  return {static_cast<int32_t>(toInt64(n)), 1};
+  const int64_t t = toInt64(n);
+  if (t < std::numeric_limits<int32_t>::min() || t > std::numeric_limits<int32_t>::max()) {
+    ok_ = false;
+    return {0, 1};
+  }
+  return {static_cast<int32_t>(t), 1};
 }
 
 TimeValue::TimeValue() : Value(time) {
@@ -876,39 +892,83 @@ int TimeValue::read(const std::string& buf) {
   // https://web.archive.org/web/20171020084445/https://www.loc.gov/standards/datetime/ISO_DIS%208601-1.pdf
   // Not supported formats:
   // 4.2.2.4 Representations with decimal fraction: 232050,5
-  static const std::regex re(R"(^(2[0-3]|[01][0-9]):?([0-5][0-9])?:?([0-5][0-9])?$)");
-  static const std::regex reExt(
-      R"(^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$)");
+  auto printWarning = [] {
+#ifndef SUPPRESS_WARNINGS
+    EXV_WARNING << Error(ErrorCode::kerUnsupportedTimeFormat) << "\n";
+#endif
+    return 1;
+  };
 
-  if (std::smatch sm; std::regex_match(buf, sm, re) || std::regex_match(buf, sm, reExt)) {
-    time_.hour = sm.length(1) ? std::stoi(sm[1].str()) : 0;
-    time_.minute = sm.length(2) ? std::stoi(sm[2].str()) : 0;
-    time_.second = sm.length(3) ? std::stoi(sm[3].str()) : 0;
-    if (sm.size() > 4) {
-      std::string str = sm[4].str();
-      const auto strSize = str.size();
-      auto posColon = str.find(':');
+  if (buf.size() < 2)
+    return printWarning();
 
-      if (posColon == std::string::npos) {
-        // Extended format
-        time_.tzHour = std::stoi(str.substr(0, 3));
-        if (strSize > 3) {
-          int minute = std::stoi(str.substr(3));
-          time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
-        }
-      } else {
-        // Basic format
-        time_.tzHour = std::stoi(str.substr(0, posColon));
-        int minute = std::stoi(str.substr(posColon + 1));
+  for (auto c : buf)
+    if (c != ':' && c != '+' && c != '-' && c != 'Z' && !std::isdigit(c))
+      return printWarning();
+
+  size_t mpos;
+  size_t spos;
+  if (buf.find(':') != std::string::npos) {
+    mpos = 3;
+    spos = 6;
+  } else {
+    mpos = 2;
+    spos = 4;
+  }
+
+  auto hi = std::stoi(buf.substr(0, 2));
+  if (hi < 0 || hi > 23)
+    return printWarning();
+  time_.hour = hi;
+  if (buf.size() > 3) {
+    auto mi = std::stoi(buf.substr(mpos, 2));
+    if (mi < 0 || mi > 59)
+      return printWarning();
+    time_.minute = std::stoi(buf.substr(mpos, 2));
+  } else {
+    time_.minute = 0;
+  }
+  if (buf.size() > 5) {
+    auto si = std::stoi(buf.substr(spos, 2));
+    if (si < 0 || si > 60)
+      return printWarning();
+    time_.second = std::stoi(buf.substr(spos, 2));
+  } else {
+    time_.second = 0;
+  }
+
+  auto fpos = buf.find('+');
+  if (fpos == std::string::npos)
+    fpos = buf.find('-');
+
+  if (fpos != std::string::npos) {
+    auto format = buf.substr(fpos, buf.size());
+    auto posColon = format.find(':');
+    if (posColon == std::string::npos) {
+      // Extended format
+      auto tzhi = std::stoi(format.substr(0, 3));
+      if (tzhi < -23 || tzhi > 23)
+        return printWarning();
+      time_.tzHour = tzhi;
+      if (format.size() > 3) {
+        int minute = std::stoi(format.substr(3));
+        if (minute < 0 || minute > 59)
+          return printWarning();
         time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
       }
+    } else {
+      // Basic format
+      auto tzhi = std::stoi(format.substr(0, posColon));
+      if (tzhi < -23 || tzhi > 23)
+        return printWarning();
+      time_.tzHour = tzhi;
+      int minute = std::stoi(format.substr(posColon + 1));
+      if (minute < 0 || minute > 59)
+        return printWarning();
+      time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
     }
-    return 0;
   }
-#ifndef SUPPRESS_WARNINGS
-  EXV_WARNING << Error(ErrorCode::kerUnsupportedTimeFormat) << "\n";
-#endif
-  return 1;
+  return 0;
 }
 
 /// \todo not used internally. At least we should test it
@@ -919,17 +979,16 @@ void TimeValue::setTime(const Time& src) {
 size_t TimeValue::copy(byte* buf, ByteOrder /*byteOrder*/) const {
   // NOTE: Here the time is copied in the Basic format HHMMSS:HHMM, as the IPTC key
   // Iptc.Application2.TimeCreated wants it. Check https://exiv2.org/iptc.html
-  char temp[12];
   char plusMinus = '+';
   if (time_.tzHour < 0 || time_.tzMinute < 0)
     plusMinus = '-';
 
-  const auto wrote = static_cast<size_t>(snprintf(temp, sizeof(temp),  // 11 bytes are written + \0
-                                                  "%02d%02d%02d%1c%02d%02d", time_.hour, time_.minute, time_.second,
-                                                  plusMinus, abs(time_.tzHour), abs(time_.tzMinute)));
+  auto out = reinterpret_cast<char*>(buf);
+  auto it = stringFormatTo(out, "{:02}{:02}{:02}{}{:02}{:02}", time_.hour, time_.minute, time_.second, plusMinus,
+                           std::abs(time_.tzHour), std::abs(time_.tzMinute));
 
+  auto wrote = static_cast<size_t>(it - out);
   Internal::enforce(wrote == 11, Exiv2::ErrorCode::kerUnsupportedTimeFormat);
-  std::copy_n(temp, wrote, buf);
   return wrote;
 }
 
@@ -955,13 +1014,8 @@ std::ostream& TimeValue::write(std::ostream& os) const {
   if (time_.tzHour < 0 || time_.tzMinute < 0)
     plusMinus = '-';
 
-  std::ios::fmtflags f(os.flags());
-  os << std::right << std::setw(2) << std::setfill('0') << time_.hour << ':' << std::setw(2) << std::setfill('0')
-     << time_.minute << ':' << std::setw(2) << std::setfill('0') << time_.second << plusMinus << std::setw(2)
-     << std::setfill('0') << abs(time_.tzHour) << ':' << std::setw(2) << std::setfill('0') << abs(time_.tzMinute);
-  os.flags(f);
-
-  return os;
+  return os << stringFormat("{:02}:{:02}:{:02}{}{:02}:{:02}", time_.hour, time_.minute, time_.second, plusMinus,
+                            std::abs(time_.tzHour), std::abs(time_.tzMinute));
 }
 
 int64_t TimeValue::toInt64(size_t /*n*/) const {
@@ -977,11 +1031,7 @@ int64_t TimeValue::toInt64(size_t /*n*/) const {
 }
 
 uint32_t TimeValue::toUint32(size_t /*n*/) const {
-  const int64_t t = toInt64();
-  if (t < 0 || t > std::numeric_limits<uint32_t>::max()) {
-    return 0;
-  }
-  return static_cast<uint32_t>(t);
+  return static_cast<uint32_t>(std::clamp<int64_t>(toInt64(), 0, std::numeric_limits<uint32_t>::max()));
 }
 
 float TimeValue::toFloat(size_t n) const {

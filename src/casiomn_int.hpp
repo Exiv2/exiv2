@@ -14,12 +14,16 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
-#include "types.hpp"
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -27,7 +31,9 @@ namespace Exiv2::Internal {
 class CasioMakerNote {
  public:
   //! Return read-only list of built-in Casio tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Print ObjectDistance
   static std::ostream& print0x0006(std::ostream& os, const Value& value, const ExifData*);
   //! Print FirmwareDate
@@ -43,7 +49,9 @@ class CasioMakerNote {
 class Casio2MakerNote {
  public:
   //! Return read-only list of built-in Casio2 tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Print FirmwareDate
   static std::ostream& print0x2001(std::ostream& os, const Value& value, const ExifData*);
   //! Print ObjectDistance
@@ -55,6 +63,7 @@ class Casio2MakerNote {
 
 };  // class Casio2MakerNote
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // EXIV2_CASIOMN_INT_HPP

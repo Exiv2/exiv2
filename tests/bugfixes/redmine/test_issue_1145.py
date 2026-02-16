@@ -13,11 +13,11 @@ class CheckSonyMinoltaLenses(metaclass=system_tests.CaseMeta):
                  "$data_path/exiv2-bug1145e.exv",
     ]
 
-    commands = [ "$exiv2 -pa -g Lens " + filenames[0],
-                 "$exiv2 -pa -g Lens " + filenames[1],
-                 "$exiv2 -pa -g Lens " + filenames[2],
-                 "$exiv2 -pa -g Lens " + filenames[3],
-                 "$exiv2 -pa -g Lens " + filenames[4],
+    commands = [ f"$exiv2 -pa -g Lens {filenames[0]}",
+                 f"$exiv2 -pa -g Lens {filenames[1]}",
+                 f"$exiv2 -pa -g Lens {filenames[2]}",
+                 f"$exiv2 -pa -g Lens {filenames[3]}",
+                 f"$exiv2 -pa -g Lens {filenames[4]}",
     ]
 
     stdout = [ """Exif.Sony1.LensID                            Long        1  Tamron SP AF 11-18mm F4.5-5.6 Di II LD Aspherical IF

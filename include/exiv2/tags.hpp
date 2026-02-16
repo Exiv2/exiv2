@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef TAGS_HPP_
-#define TAGS_HPP_
+#ifndef EXIV2_TAGS_HPP
+#define EXIV2_TAGS_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -231,7 +231,7 @@ struct EXIV2API TagInfo {
   TypeId typeId_;        //!< Type id
   int16_t count_;        //!< The number of values (not bytes!), 0=any, -1=count not known.
   PrintFct printFct_;    //!< Pointer to tag print function
-};                       // struct TagInfo
+};
 
 //! Access to Exif group and tag lists and misc. tag reference methods, implemented as a static class.
 class EXIV2API ExifTags {
@@ -355,4 +355,4 @@ EXIV2API std::ostream& operator<<(std::ostream& os, const TagInfo& ti);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef TAGS_HPP_
+#endif  // EXIV2_TAGS_HPP

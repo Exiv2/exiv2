@@ -6,17 +6,7 @@
 
 namespace Exiv2::Internal {
 
-template <typename T>
-constexpr bool startsWith(std::string_view s, T start) {
-#ifdef __cpp_lib_starts_ends_with
-  return s.starts_with(start);
-#else
-  return s.find(start) == 0;
-#endif
-}
-
-template <typename T>
-constexpr bool contains(std::string_view s, T c) {
+constexpr bool contains(std::string_view s, auto c) {
 #ifdef __cpp_lib_string_contains
   return s.contains(c);
 #else
@@ -25,10 +15,10 @@ constexpr bool contains(std::string_view s, T c) {
 }
 
 /// @brief Returns the uppercase version of \b str
-std::string upper(const std::string& str);
+std::string upper(std::string_view str);
 
 /// @brief Returns the lowercase version of \b str
-std::string lower(const std::string& a);
+std::string lower(std::string_view a);
 
 }  // namespace Exiv2::Internal
 

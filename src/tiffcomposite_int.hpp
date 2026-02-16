@@ -6,34 +6,41 @@
 // *****************************************************************************
 // included header files
 #include "tifffwd_int.hpp"
+#include "types.hpp"
 
+#include <cstddef>
+#include <cstdint>
 #include <memory>
+#include <string_view>
+#include <utility>
+#include <vector>
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
 class BasicIo;
+class Value;
 
 namespace Internal {
 // *****************************************************************************
 // class definitions
 
 //! TIFF value type.
-using TiffType = uint16_t;
-
-const TiffType ttUnsignedByte = 1;      //!< Exif BYTE type
-const TiffType ttAsciiString = 2;       //!< Exif ASCII type
-const TiffType ttUnsignedShort = 3;     //!< Exif SHORT type
-const TiffType ttUnsignedLong = 4;      //!< Exif LONG type
-const TiffType ttUnsignedRational = 5;  //!< Exif RATIONAL type
-const TiffType ttSignedByte = 6;        //!< Exif SBYTE type
-const TiffType ttUndefined = 7;         //!< Exif UNDEFINED type
-const TiffType ttSignedShort = 8;       //!< Exif SSHORT type
-const TiffType ttSignedLong = 9;        //!< Exif SLONG type
-const TiffType ttSignedRational = 10;   //!< Exif SRATIONAL type
-const TiffType ttTiffFloat = 11;        //!< TIFF FLOAT type
-const TiffType ttTiffDouble = 12;       //!< TIFF DOUBLE type
-const TiffType ttTiffIfd = 13;          //!< TIFF IFD type
+enum TiffType : uint16_t {
+  ttUnsignedByte = 1,      //!< Exif BYTE type
+  ttAsciiString = 2,       //!< Exif ASCII type
+  ttUnsignedShort = 3,     //!< Exif SHORT type
+  ttUnsignedLong = 4,      //!< Exif LONG type
+  ttUnsignedRational = 5,  //!< Exif RATIONAL type
+  ttSignedByte = 6,        //!< Exif SBYTE type
+  ttUndefined = 7,         //!< Exif UNDEFINED type
+  ttSignedShort = 8,       //!< Exif SSHORT type
+  ttSignedLong = 9,        //!< Exif SLONG type
+  ttSignedRational = 10,   //!< Exif SRATIONAL type
+  ttTiffFloat = 11,        //!< TIFF FLOAT type
+  ttTiffDouble = 12,       //!< TIFF DOUBLE type
+  ttTiffIfd = 13,          //!< TIFF IFD type
+};
 
 //! Convert the \em tiffType of a \em tag and \em group to an Exiv2 \em typeId.
 TypeId toTypeId(TiffType tiffType, uint16_t tag, IfdId group);
@@ -43,17 +50,17 @@ TiffType toTiffType(TypeId typeId);
 /*!
   Special TIFF tags for the use in TIFF structures only
 */
-namespace Tag {
-const uint32_t none = 0x10000;   //!< Dummy tag
-const uint32_t root = 0x20000;   //!< Special tag: root IFD
-const uint32_t next = 0x30000;   //!< Special tag: next IFD
-const uint32_t all = 0x40000;    //!< Special tag: all tags in a group
-const uint32_t pana = 0x80000;   //!< Special tag: root IFD of Panasonic RAW images
-const uint32_t fuji = 0x100000;  //!< Special tag: root IFD of Fujifilm RAF images
-const uint32_t cmt2 = 0x110000;  //!< Special tag: root IFD of CR3 images
-const uint32_t cmt3 = 0x120000;  //!< Special tag: root IFD of CR3 images
-const uint32_t cmt4 = 0x130000;  //!< Special tag: root IFD of CR3 images
-}  // namespace Tag
+enum Tag {
+  none = 0x10000,   //!< Dummy tag
+  root = 0x20000,   //!< Special tag: root IFD
+  next = 0x30000,   //!< Special tag: next IFD
+  all = 0x40000,    //!< Special tag: all tags in a group
+  pana = 0x80000,   //!< Special tag: root IFD of Panasonic RAW images
+  fuji = 0x100000,  //!< Special tag: root IFD of Fujifilm RAF images
+  cmt2 = 0x110000,  //!< Special tag: root IFD of CR3 images
+  cmt3 = 0x120000,  //!< Special tag: root IFD of CR3 images
+  cmt4 = 0x130000,  //!< Special tag: root IFD of CR3 images
+};
 
 /*!
   @brief A tuple consisting of extended Tag and group used as an item in
@@ -72,7 +79,7 @@ class TiffPathItem {
   //@{
   //! Return the tag corresponding to the extended tag
   [[nodiscard]] uint16_t tag() const {
-    return static_cast<uint16_t>(extendedTag_ & 0xffff);
+    return static_cast<uint16_t>(extendedTag_);
   }
   //! Return the extended tag (32 bit so that it can contain special tags)
   [[nodiscard]] uint32_t extendedTag() const {
@@ -153,8 +160,9 @@ class TiffComponent {
  public:
   //! TiffComponent auto_ptr type
   using UniquePtr = std::unique_ptr<TiffComponent>;
+  using SharedPtr = std::shared_ptr<TiffComponent>;
   //! Container type to hold all metadata
-  using Components = std::vector<TiffComponent*>;
+  using Components = std::vector<SharedPtr>;
 
   //! @name Creators
   //@{
@@ -163,8 +171,6 @@ class TiffComponent {
   }
   //! Virtual destructor.
   virtual ~TiffComponent() = default;
-  TiffComponent(const TiffComponent&) = default;
-  TiffComponent& operator=(const TiffComponent&) = default;
   //@}
 
   //! @name Manipulators
@@ -187,7 +193,7 @@ class TiffComponent {
     @param tiffComponent Auto pointer to the component to add.
     @return Return a pointer to the newly added child element or 0.
    */
-  TiffComponent* addChild(UniquePtr tiffComponent);
+  TiffComponent* addChild(SharedPtr tiffComponent);
   /*!
       @brief Add a "next" component to the component. Default is to do
              nothing.
@@ -295,10 +301,9 @@ class TiffComponent {
   //! @name Protected Manipulators
   //@{
   //! Implements addPath(). The default implementation does nothing.
-  virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                                   TiffComponent::UniquePtr object);
+  virtual TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object);
   //! Implements addChild(). The default implementation does nothing.
-  virtual TiffComponent* doAddChild(UniquePtr tiffComponent);
+  virtual TiffComponent* doAddChild(SharedPtr tiffComponent);
   //! Implements addNext(). The default implementation does nothing.
   virtual TiffComponent* doAddNext(UniquePtr tiffComponent);
   //! Implements accept().
@@ -352,11 +357,11 @@ struct TiffMappingInfo {
   bool operator==(const Key& key) const;
   //! Return the tag corresponding to the extended tag
   [[nodiscard]] uint16_t tag() const {
-    return static_cast<uint16_t>(extendedTag_ & 0xffff);
+    return static_cast<uint16_t>(extendedTag_);
   }
 
   // DATA
-  const char* make_;       //!< Camera make for which these mapping functions apply
+  std::string_view make_;  //!< Camera make for which these mapping functions apply
   uint32_t extendedTag_;   //!< Tag (32 bit so that it can contain special tags)
   IfdId group_;            //!< Group that contains the tag
   DecoderFct decoderFct_;  //!< Decoder function for matching tags
@@ -366,9 +371,9 @@ struct TiffMappingInfo {
 
 //! Search key for TIFF mapping structures.
 struct TiffMappingInfo::Key {
-  std::string m_;  //!< Camera make
-  uint32_t e_;     //!< Extended tag
-  IfdId g_;        //!< %Group
+  std::string_view m_;  //!< Camera make
+  uint32_t e_;          //!< Extended tag
+  IfdId g_;             //!< %Group
 };
 
 /*!
@@ -385,9 +390,7 @@ class TiffEntryBase : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor.
-  constexpr TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined) :
-      TiffComponent(tag, group), tiffType_(tiffType) {
-  }
+  TiffEntryBase(uint16_t tag, IfdId group, TiffType tiffType = ttUndefined);
 
   //! Virtual destructor.
   ~TiffEntryBase() override;
@@ -440,13 +443,13 @@ class TiffEntryBase : public TiffComponent {
 
    Update binary value data and call setValue().
  */
-  void updateValue(Value::UniquePtr value, ByteOrder byteOrder);
+  void updateValue(std::unique_ptr<Value> value, ByteOrder byteOrder);
   /*!
     @brief Set tag value. Takes ownership of the pointer passed in.
 
     Update type, count and the pointer to the value.
   */
-  void setValue(Value::UniquePtr value);
+  void setValue(std::unique_ptr<Value> value);
   //@}
 
   //! @name Accessors
@@ -475,7 +478,7 @@ class TiffEntryBase : public TiffComponent {
   }
   //! Return a const pointer to the converted value of this component
   [[nodiscard]] const Value* pValue() const {
-    return pValue_;
+    return pValue_.get();
   }
   //@}
 
@@ -552,8 +555,8 @@ class TiffEntryBase : public TiffComponent {
   // storage_ DataBuf below.
   byte* pData_{};  //!< Pointer to the data area
 
-  int idx_{};        //!< Unique id of the entry in the image
-  Value* pValue_{};  //!< Converted data value
+  int idx_{};                      //!< Unique id of the entry in the image
+  std::unique_ptr<Value> pValue_;  //!< Converted data value
 
   // This DataBuf is only used when TiffEntryBase::setData is called.
   // Otherwise, it remains empty. It is wrapped in a shared_ptr because
@@ -567,12 +570,7 @@ class TiffEntryBase : public TiffComponent {
  */
 class TiffEntry : public TiffEntryBase {
  public:
-  //! @name Creators
-  //@{
-  //! Constructor
-  constexpr TiffEntry(uint16_t tag, IfdId group) : TiffEntryBase(tag, group) {
-  }
-  //@}
+  using TiffEntryBase::TiffEntryBase;
 
  protected:
   //! @name Manipulators
@@ -602,6 +600,8 @@ class TiffDataEntryBase : public TiffEntryBase {
   //! Constructor
   TiffDataEntryBase(uint16_t tag, IfdId group, uint16_t szTag, IfdId szGroup);
   //@}
+
+  ~TiffDataEntryBase() override;
 
   //! @name Manipulators
   //@{
@@ -780,10 +780,7 @@ class TiffSizeEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Constructor
-  constexpr TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup) :
-      TiffEntryBase(tag, group), dtTag_(dtTag), dtGroup_(dtGroup) {
-  }
-
+  TiffSizeEntry(uint16_t tag, IfdId group, uint16_t dtTag, IfdId dtGroup);
   //@}
 
   //! @name Accessors
@@ -830,7 +827,7 @@ class TiffDirectory : public TiffComponent {
   //! Default constructor
   TiffDirectory(uint16_t tag, IfdId group, bool hasNext = true);
   //! Virtual destructor
-  ~TiffDirectory() override;
+  ~TiffDirectory() override = default;
   //@}
 
   //! @name NOT implemented
@@ -851,15 +848,14 @@ class TiffDirectory : public TiffComponent {
   //! @name Protected Creators
   //@{
   //! Copy constructor (used to implement clone()).
-  TiffDirectory(const TiffDirectory&) = default;
+  TiffDirectory(const TiffDirectory& rhs);
   //@}
 
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
-  TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
+  TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   /*!
     @brief Implements write(). Write the TIFF directory, values and
@@ -917,9 +913,9 @@ class TiffDirectory : public TiffComponent {
   //@}
 
   // DATA
-  Components components_;   //!< List of components in this directory
-  bool hasNext_;            //!< True if the directory has a next pointer
-  TiffComponent* pNext_{};  //!< Pointer to the next IFD
+  Components components_;  //!< List of components in this directory
+  bool hasNext_;           //!< True if the directory has a next pointer
+  UniquePtr pNext_;        //!< Pointer to the next IFD
 };
 
 /*!
@@ -938,22 +934,26 @@ class TiffSubIfd : public TiffEntryBase {
   //! Default constructor
   TiffSubIfd(uint16_t tag, IfdId group, IfdId newGroup);
   //! Virtual destructor
-  ~TiffSubIfd() override;
+  ~TiffSubIfd() override = default;
   //@}
 
-  //! @name Protected Creators
+  //! @name NOT implemented
   //@{
-  //! Copy constructor (used to implement clone()).
-  TiffSubIfd(const TiffSubIfd&) = default;
+  //! Assignment operator.
   TiffSubIfd& operator=(const TiffSubIfd&) = delete;
   //@}
 
  protected:
+  //! @name Protected Creators
+  //@{
+  //! Copy constructor (used to implement clone()).
+  TiffSubIfd(const TiffSubIfd& rhs);
+  //@}
+
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
   /*!
@@ -989,7 +989,7 @@ class TiffSubIfd : public TiffEntryBase {
 
  private:
   //! A collection of TIFF directories (IFDs)
-  using Ifds = std::vector<TiffDirectory*>;
+  using Ifds = std::vector<std::shared_ptr<TiffDirectory>>;
 
   // DATA
   IfdId newGroup_;  //!< Start of the range of group numbers for the sub-IFDs
@@ -1012,29 +1012,15 @@ class TiffMnEntry : public TiffEntryBase {
   //! @name Creators
   //@{
   //! Default constructor
-  constexpr TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup) :
-      TiffEntryBase(tag, group, ttUndefined), mnGroup_(mnGroup) {
-  }
-
-  //! Virtual destructor
+  TiffMnEntry(uint16_t tag, IfdId group, IfdId mnGroup);
   ~TiffMnEntry() override;
-  //@}
-
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor.
-  TiffMnEntry(const TiffMnEntry&) = delete;
-  //! Assignment operator.
-  TiffMnEntry& operator=(const TiffMnEntry&) = delete;
-  //@}
 
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
-  TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
+  TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
   /*!
@@ -1063,8 +1049,8 @@ class TiffMnEntry : public TiffEntryBase {
 
  private:
   // DATA
-  IfdId mnGroup_;        //!< New group for concrete mn
-  TiffComponent* mn_{};  //!< The Makernote
+  IfdId mnGroup_;                         //!< New group for concrete mn
+  std::unique_ptr<TiffIfdMakernote> mn_;  //!< The Makernote
 };
 
 /*!
@@ -1083,7 +1069,7 @@ class TiffIfdMakernote : public TiffComponent {
   //! @name Creators
   //@{
   //! Default constructor
-  TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, MnHeader* pHeader, bool hasNext = true);
+  TiffIfdMakernote(uint16_t tag, IfdId group, IfdId mnGroup, std::unique_ptr<MnHeader> pHeader, bool hasNext = true);
   //! Virtual destructor
   ~TiffIfdMakernote() override;
   //@}
@@ -1158,10 +1144,9 @@ class TiffIfdMakernote : public TiffComponent {
  protected:
   //! @name Protected Manipulators
   //@{
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
-  TiffComponent* doAddNext(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
+  TiffComponent* doAddNext(UniquePtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   /*!
     @brief Implements write(). Write the Makernote header, TIFF directory,
@@ -1211,7 +1196,7 @@ class TiffIfdMakernote : public TiffComponent {
 
  private:
   // DATA
-  MnHeader* pHeader_;                           //!< Makernote header
+  std::unique_ptr<MnHeader> pHeader_;           //!< Makernote header
   TiffDirectory ifd_;                           //!< Makernote IFD
   size_t mnOffset_{};                           //!< Makernote offset
   ByteOrder imageByteOrder_{invalidByteOrder};  //!< Byte order for the image
@@ -1281,7 +1266,12 @@ class TiffBinaryArray : public TiffEntryBase {
   //! Constructor for a complex binary array
   TiffBinaryArray(uint16_t tag, IfdId group, const ArraySet* arraySet, size_t setSize, CfgSelFct cfgSelFct);
   //! Virtual destructor
-  ~TiffBinaryArray() override;
+  ~TiffBinaryArray() override = default;
+  //@}
+
+  //! @name NOT implemented
+  //@{
+  //! Assignment operator.
   TiffBinaryArray& operator=(const TiffBinaryArray&) = delete;
   //@}
 
@@ -1346,7 +1336,7 @@ class TiffBinaryArray : public TiffEntryBase {
   //! @name Protected Creators
   //@{
   //! Copy constructor (used to implement clone()).
-  TiffBinaryArray(const TiffBinaryArray&) = default;
+  TiffBinaryArray(const TiffBinaryArray& rhs);
   //@}
 
   //! @name Protected Manipulators
@@ -1354,12 +1344,11 @@ class TiffBinaryArray : public TiffEntryBase {
   /*!
     @brief Implements addPath(). Todo: Document it!
    */
-  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot,
-                           TiffComponent::UniquePtr object) override;
+  TiffComponent* doAddPath(uint16_t tag, TiffPath& tiffPath, TiffComponent* pRoot, UniquePtr object) override;
   /*!
     @brief Implements addChild(). Todo: Document it!
    */
-  TiffComponent* doAddChild(TiffComponent::UniquePtr tiffComponent) override;
+  TiffComponent* doAddChild(SharedPtr tiffComponent) override;
   void doAccept(TiffVisitor& visitor) override;
   void doEncode(TiffEncoder& encoder, const Exifdatum* datum) override;
   /*!
@@ -1482,13 +1471,7 @@ class TiffBinaryElement : public TiffEntryBase {
   @brief Compare two TIFF component pointers by tag. Return true if the tag
          of component lhs is less than that of rhs.
  */
-bool cmpTagLt(const TiffComponent* lhs, const TiffComponent* rhs);
-
-/*!
-  @brief Compare two TIFF component pointers by group. Return true if the
-         group of component lhs is less than that of rhs.
- */
-bool cmpGroupLt(const TiffComponent* lhs, const TiffComponent* rhs);
+bool cmpTagLt(const TiffComponent::SharedPtr& lhs, const TiffComponent::SharedPtr& rhs);
 
 //! Function to create and initialize a new TIFF entry
 TiffComponent::UniquePtr newTiffEntry(uint16_t tag, IfdId group);
@@ -1514,6 +1497,7 @@ TiffComponent::UniquePtr newTiffSubIfd(uint16_t tag, IfdId group) {
 //! Function to create and initialize a new binary array entry
 template <const ArrayCfg& arrayCfg, size_t N, const ArrayDef (&arrayDef)[N]>
 TiffComponent::UniquePtr newTiffBinaryArray0(uint16_t tag, IfdId group) {
+  static_assert(N > 0, "Passed zero length newTiffBinaryArray0");
   return std::make_unique<TiffBinaryArray>(tag, group, arrayCfg, arrayDef, N);
 }
 
@@ -1526,6 +1510,7 @@ TiffComponent::UniquePtr newTiffBinaryArray1(uint16_t tag, IfdId group) {
 //! Function to create and initialize a new complex binary array entry
 template <size_t N, const ArraySet (&arraySet)[N], CfgSelFct cfgSelFct>
 TiffComponent::UniquePtr newTiffBinaryArray2(uint16_t tag, IfdId group) {
+  static_assert(N > 0, "Passed zero length newTiffBinaryArray2");
   return std::make_unique<TiffBinaryArray>(tag, group, arraySet, N, cfgSelFct);
 }
 

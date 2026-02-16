@@ -14,7 +14,7 @@ class CheckLensDetectionTeleconverter(metaclass=system_tests.CaseMeta):
     stdout = [ """0x0016 CanonCs      LensType                    Short       1  173
 0x0017 CanonCs      Lens                        Short       3  1000 300 1
 0x0095 Canon        LensModel                   Ascii      74  300-1000mm
-0x0000 CanonLe      LensSerialNumber            SLong       1  0
+0x0000 CanonLe      LensSerialNumber            Byte        5  0 0 0 0 0
 0xa432 Photo        LensSpecification           Rational    4  300/1 1000/1 0/1 0/1
 0xa434 Photo        LensModel                   Ascii      11  300-1000mm
 0xa435 Photo        LensSerialNumber            Ascii      11  0000000000
@@ -22,7 +22,7 @@ class CheckLensDetectionTeleconverter(metaclass=system_tests.CaseMeta):
     """Exif.CanonCs.LensType                        Short       1  Sigma 150-500mm f/5-6.3 APO DG OS HSM + 2x
 Exif.CanonCs.Lens                            Short       3  300.0 - 1000.0 mm
 Exif.Canon.LensModel                         Ascii      74  300-1000mm
-Exif.CanonLe.LensSerialNumber                SLong       1  0
+Exif.CanonLe.LensSerialNumber                Byte        5  0000000000
 Exif.Photo.LensSpecification                 Rational    4  300-1000mm
 Exif.Photo.LensModel                         Ascii      11  300-1000mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000

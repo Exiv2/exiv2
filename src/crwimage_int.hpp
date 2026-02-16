@@ -5,16 +5,25 @@
 
 // *****************************************************************************
 // included header files
-#include "image.hpp"
-#include "tags_int.hpp"
+#include "types.hpp"
 
 // + standard includes
+#include <cstddef>
+#include <cstdint>
+#include <iosfwd>
+#include <memory>
 #include <stack>
+#include <string>
 #include <vector>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+enum class IfdId : uint32_t;
+class ExifData;
+class Image;
+
+namespace Internal {
 // *****************************************************************************
 // class declarations
 class CiffHeader;
@@ -32,7 +41,7 @@ struct CrwSubDir {
 using CrwDecodeFct = void (*)(const CiffComponent&, const CrwMapping*, Image&, ByteOrder);
 
 //! Function pointer for functions to encode CRW entries from Exif tags
-using CrwEncodeFct = void (*)(const Image&, const CrwMapping*, CiffHeader*);
+using CrwEncodeFct = void (*)(const Image&, const CrwMapping&, CiffHeader&);
 
 //! Stack to hold a path of CRW directories
 using CrwDirs = std::stack<CrwSubDir>;
@@ -54,7 +63,7 @@ class CiffComponent {
   //! CiffComponent auto_ptr type
   using UniquePtr = std::unique_ptr<CiffComponent>;
   //! Container type to hold all metadata
-  using Components = std::vector<CiffComponent*>;
+  using Components = std::vector<UniquePtr>;
 
   //! @name Creators
   //@{
@@ -62,10 +71,10 @@ class CiffComponent {
   CiffComponent() = default;
   //! Constructor taking a tag and directory
   CiffComponent(uint16_t tag, uint16_t dir);
-  CiffComponent(const CiffComponent&) = delete;
-  CiffComponent& operator=(const CiffComponent&) = delete;
   //! Virtual destructor.
   virtual ~CiffComponent() = default;
+  CiffComponent(const CiffComponent&) = delete;
+  CiffComponent& operator=(const CiffComponent&) = delete;
   //@}
 
   //! @name Manipulators
@@ -73,7 +82,7 @@ class CiffComponent {
   // Default assignment operator is fine
 
   //! Add a component to the composition
-  void add(UniquePtr component);
+  const UniquePtr& add(UniquePtr component);
   /*!
     @brief Add \em crwTagId to the parse tree, if it doesn't exist
            yet. \em crwDirs contains the path of subdirectories, starting
@@ -87,7 +96,7 @@ class CiffComponent {
 
     @return A pointer to the newly added component.
    */
-  CiffComponent* add(CrwDirs& crwDirs, uint16_t crwTagId);
+  const UniquePtr& add(CrwDirs& crwDirs, uint16_t crwTagId);
   /*!
     @brief Remove \em crwTagId from the parse tree, if it exists yet. \em
            crwDirs contains the path of subdirectories, starting with the
@@ -224,16 +233,16 @@ class CiffComponent {
     @brief Finds \em crwTagId in directory \em crwDir, returning a pointer to
            the component or 0 if not found.
    */
-  [[nodiscard]] CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir) const;
+  [[nodiscard]] CiffComponent* findComponent(uint16_t crwTagId, uint16_t crwDir);
   //@}
 
  protected:
   //! @name Manipulators
   //@{
   //! Implements add()
-  virtual void doAdd(UniquePtr component) = 0;
+  virtual const UniquePtr& doAdd(UniquePtr component) = 0;
   //! Implements add(). The default implementation does nothing.
-  virtual CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
+  virtual const UniquePtr& doAdd(CrwDirs& crwDirs, uint16_t crwTagId);
   //! Implements remove(). The default implementation does nothing.
   virtual void doRemove(CrwDirs& crwDirs, uint16_t crwTagId);
   //! Implements read(). The default implementation reads a directory entry.
@@ -259,7 +268,7 @@ class CiffComponent {
   //! Implements empty(). Default implementation returns true if size is 0.
   [[nodiscard]] virtual bool doEmpty() const;
   //! Implements findComponent(). The default implementation checks the entry.
-  [[nodiscard]] virtual CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const;
+  [[nodiscard]] virtual CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir);
   //@}
 
  private:
@@ -291,7 +300,7 @@ class CiffEntry : public CiffComponent {
   //@{
   using CiffComponent::doAdd;
   // See base class comment
-  void doAdd(UniquePtr component) override;
+  const UniquePtr& doAdd(UniquePtr component) override;
   /*!
     @brief Implements write(). Writes only the value data of the entry,
            using writeValueData().
@@ -312,15 +321,6 @@ class CiffDirectory : public CiffComponent {
   using CiffComponent::CiffComponent;
 
  public:
-  //! @name Creators
-  //@{
-  //! Virtual destructor
-  ~CiffDirectory() override;
-  //@}
-
-  CiffDirectory(const CiffDirectory&) = delete;
-  CiffDirectory& operator=(const CiffDirectory&) = delete;
-
   //! @name Manipulators
   //@{
   // Default assignment operator is fine
@@ -339,9 +339,9 @@ class CiffDirectory : public CiffComponent {
   //! @name Manipulators
   //@{
   // See base class comment
-  void doAdd(UniquePtr component) override;
+  const UniquePtr& doAdd(UniquePtr component) override;
   // See base class comment
-  CiffComponent* doAdd(CrwDirs& crwDirs, uint16_t crwTagId) override;
+  const UniquePtr& doAdd(CrwDirs& crwDirs, uint16_t crwTagId) override;
   // See base class comment
   void doRemove(CrwDirs& crwDirs, uint16_t crwTagId) override;
   /*!
@@ -365,13 +365,11 @@ class CiffDirectory : public CiffComponent {
   [[nodiscard]] bool doEmpty() const override;
 
   // See base class comment
-  [[nodiscard]] CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) const override;
+  [[nodiscard]] CiffComponent* doFindComponent(uint16_t crwTagId, uint16_t crwDir) override;
   //@}
 
   // DATA
   Components components_;  //!< List of components in this dir
-  UniquePtr m_;            // used by recursive doAdd
-  CiffComponent* cc_ = nullptr;
 
 };  // class CiffDirectory
 
@@ -383,17 +381,6 @@ class CiffDirectory : public CiffComponent {
  */
 class CiffHeader {
  public:
-  //! CiffHeader auto_ptr type
-  using UniquePtr = std::unique_ptr<CiffHeader>;
-
-  //! @name Creators
-  //@{
-  //! Default constructor
-  CiffHeader() = default;
-  //! Virtual destructor
-  virtual ~CiffHeader() = default;
-  //@}
-
   //! @name Manipulators
   //@{
   /*!
@@ -428,7 +415,7 @@ class CiffHeader {
   //@}
 
   //! Return a pointer to the Canon CRW signature.
-  static const char* signature() {
+  static auto signature() {
     return signature_;
   }
 
@@ -466,12 +453,12 @@ class CiffHeader {
 
  private:
   // DATA
-  static constexpr auto signature_ = "HEAPCCDR";  //!< Canon CRW signature
+  static const byte signature_[];  //!< Canon CRW signature
 
   std::unique_ptr<CiffDirectory> pRootDir_;  //!< Pointer to the root directory
   ByteOrder byteOrder_ = littleEndian;       //!< Applicable byte order
   uint32_t offset_ = 0;                      //!< Offset to the start of the root dir
-  std::vector<byte> pPadding_;               //!< the (unknown) remainder
+  Blob pPadding_;                            //!< the (unknown) remainder
   uint32_t padded_ = 0;                      //!< Number of padding-bytes
 
 };  // class CiffHeader
@@ -516,7 +503,7 @@ class CrwMap {
     @param pHead         Destination parse tree.
     @param image         Source image containing the metadata.
    */
-  static void encode(CiffHeader* pHead, const Image& image);
+  static void encode(CiffHeader& pHead, const Image& image);
 
   /*!
     @brief Load the stack: loop through the CRW subdirs hierarchy and push
@@ -580,25 +567,25 @@ class CrwMap {
     @param pHead Pointer to the head of the CIFF parse tree into which
                  the metadata from \em image is encoded.
    */
-  static void encodeBasic(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encodeBasic(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode the user comment
-  static void encode0x0805(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x0805(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode camera Make and Model information
-  static void encode0x080a(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x080a(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode Canon Camera Settings 1, 2 and Custom Function arrays
-  static void encodeArray(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encodeArray(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode the date when the picture was taken
-  static void encode0x180e(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x180e(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode image width and height
-  static void encode0x1810(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x1810(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   //! Encode the thumbnail image
-  static void encode0x2008(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead);
+  static void encode0x2008(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead);
 
   // DATA
   static const CrwMapping crwMapping_[];  //!< Metadata conversion table
@@ -616,6 +603,7 @@ class CrwMap {
  */
 DataBuf packIfdId(const ExifData& exifData, IfdId ifdId, ByteOrder byteOrder);
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // EXIV2_CRWIMAGE_INT_HPP

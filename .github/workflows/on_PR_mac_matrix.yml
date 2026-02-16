@@ -11,7 +11,7 @@ on:
 
 jobs:
   MacOS:
-    name: 'MacOS - clang, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
+    name: 'macOS - XCode - ${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
     runs-on: macos-latest
 
     strategy:
@@ -21,13 +21,13 @@ jobs:
         shared_libraries: [ON, OFF]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          brew install ninja
-          brew install inih
-          brew install googletest
+          brew install inih googletest
 
       - name: Build
         run: |
@@ -41,5 +41,4 @@ jobs:
 
       - name: Test
         run: |
-          cd build
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure

@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef JPGIMAGE_HPP_
-#define JPGIMAGE_HPP_
+#ifndef EXIV2_JPGIMAGE_HPP
+#define EXIV2_JPGIMAGE_HPP
 
 #include "exiv2lib_export.h"
 
 // included header files
-#include "error.hpp"
 #include "image.hpp"
 
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+enum class ErrorCode;
 // *****************************************************************************
 // class definitions
 
@@ -48,7 +48,7 @@ class EXIV2API JpegBase : public Image {
         valid image of the calling subclass.
     @param dataSize Size of initData in bytes.
    */
-  JpegBase(ImageType type, BasicIo::UniquePtr io, bool create, const byte initData[], size_t dataSize);
+  JpegBase(ImageType type, std::unique_ptr<BasicIo> io, bool create, const byte initData[], size_t dataSize);
   //@}
 
   //! @name Accessors
@@ -85,6 +85,9 @@ class EXIV2API JpegBase : public Image {
    */
   virtual int writeHeader(BasicIo& oIo) const = 0;
   //@}
+
+  int num_color_components_{-1};      //!< image number of color components
+  std::string sof_encoding_process_;  //!< image encoding process
 
  private:
   //! @name Manipulators
@@ -148,11 +151,23 @@ class EXIV2API JpegImage : public JpegBase {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  JpegImage(BasicIo::UniquePtr io, bool create);
+  JpegImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
   //! @name Accessors
   //@{
   [[nodiscard]] std::string mimeType() const override;
+  /*!
+    @brief Get the number of color components of the JPEG Image
+  */
+  [[nodiscard]] int numColorComponents() const {
+    return num_color_components_;
+  }
+  /*!
+    @brief Get the encoding process of the JPEG Image derived from the Start of Frame (SOF) markers
+  */
+  [[nodiscard]] const std::string& encodingProcess() const {
+    return sof_encoding_process_;
+  }
   //@}
 
  protected:
@@ -200,7 +215,7 @@ class EXIV2API ExvImage : public JpegBase {
     @param create Specifies if an existing image should be read (false)
            or if a new file should be created (true).
    */
-  ExvImage(BasicIo::UniquePtr io, bool create);
+  ExvImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
   //! @name Accessors
   //@{
@@ -234,7 +249,7 @@ class EXIV2API ExvImage : public JpegBase {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newJpegInstance(std::unique_ptr<BasicIo> io, bool create);
 //! Check if the file iIo is a JPEG image.
 EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
 /*!
@@ -242,10 +257,10 @@ EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newExvInstance(std::unique_ptr<BasicIo> io, bool create);
 //! Check if the file iIo is an EXV file
 EXIV2API bool isExvType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef JPGIMAGE_HPP_
+#endif  // EXIV2_JPGIMAGE_HPP

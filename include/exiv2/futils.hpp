@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef FUTILS_HPP_
-#define FUTILS_HPP_
+#ifndef EXIV2_FUTILS_HPP
+#define EXIV2_FUTILS_HPP
 
-#include "config.h"
 #include "exiv2lib_export.h"
 
 #include <string>
@@ -120,4 +119,4 @@ class Uri {
 
 }  // namespace Exiv2
 
-#endif  // #ifndef FUTILS_HPP_
+#endif  // EXIV2_FUTILS_HPP

@@ -3,13 +3,13 @@
 // included header files
 #include "tags.hpp"
 
-#include "canonmn_int.hpp"
-#include "casiomn_int.hpp"
-#include "convert.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
+
+#include <memory>
 
 // *****************************************************************************
 // class member definitions
@@ -45,10 +45,8 @@ constexpr SectionInfo sectionInfo[] = {
 }  // namespace Exiv2
 
 namespace Exiv2::Internal {
-bool TagVocabulary::operator==(const std::string& key) const {
-  if (strlen(voc_) > key.size())
-    return false;
-  return 0 == strcmp(voc_, key.c_str() + key.size() - strlen(voc_));
+bool TagVocabulary::operator==(std::string_view key) const {
+  return key.ends_with(voc_);
 }
 
 // Unknown Tag
@@ -76,18 +74,16 @@ bool GroupInfo::operator==(const GroupName& groupName) const {
 }
 
 const char* ExifTags::sectionName(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), key.ifdId());
-  if (!ti)
-    return sectionInfo[static_cast<int>(unknownTag.sectionId_)].name_;
-  return sectionInfo[static_cast<int>(ti->sectionId_)].name_;
+  if (auto ti = tagInfo(key.tag(), key.ifdId()))
+    return sectionInfo[static_cast<int>(ti->sectionId_)].name_;
+  return sectionInfo[static_cast<int>(unknownTag.sectionId_)].name_;
 }
 
 /// \todo not used internally. At least we should test it
 uint16_t ExifTags::defaultCount(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), key.ifdId());
-  if (!ti)
-    return unknownTag.count_;
-  return ti->count_;
+  if (auto ti = tagInfo(key.tag(), key.ifdId()))
+    return ti->count_;
+  return unknownTag.count_;
 }
 
 const char* ExifTags::ifdName(const std::string& groupName) {
@@ -182,9 +178,7 @@ std::string ExifKey::Impl::tagName() const {
   if (tagInfo_ && tagInfo_->tag_ != 0xffff) {
     return tagInfo_->name_;
   }
-  std::ostringstream os;
-  os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << tag_;
-  return os.str();
+  return stringFormat("0x{:04x}", tag_);
 }
 
 void ExifKey::Impl::decomposeKey(const std::string& key) {
@@ -240,12 +234,12 @@ ExifKey::ExifKey(uint16_t tag, const std::string& groupName) : p_(std::make_uniq
   if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
     throw Error(ErrorCode::kerInvalidIfdId, ifdId);
   }
-  const TagInfo* ti = tagInfo(tag, ifdId);
-  if (!ti) {
-    throw Error(ErrorCode::kerInvalidIfdId, ifdId);
+  if (auto ti = tagInfo(tag, ifdId)) {
+    p_->groupName_ = groupName;
+    p_->makeKey(tag, ifdId, ti);
+    return;
   }
-  p_->groupName_ = groupName;
-  p_->makeKey(tag, ifdId, ti);
+  throw Error(ErrorCode::kerInvalidIfdId, ifdId);
 }
 
 ExifKey::ExifKey(const TagInfo& ti) : p_(std::make_unique<Impl>()) {
@@ -261,7 +255,7 @@ ExifKey::ExifKey(const std::string& key) : p_(std::make_unique<Impl>()) {
   p_->decomposeKey(key);
 }
 
-ExifKey::ExifKey(const ExifKey& rhs) : Key(rhs), p_(std::make_unique<Impl>(*rhs.p_)) {
+ExifKey::ExifKey(const ExifKey& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 ExifKey::~ExifKey() = default;
@@ -269,7 +263,6 @@ ExifKey::~ExifKey() = default;
 ExifKey& ExifKey::operator=(const ExifKey& rhs) {
   if (this == &rhs)
     return *this;
-  Key::operator=(rhs);
   *p_ = *rhs.p_;
   return *this;
 }
@@ -336,22 +329,22 @@ int ExifKey::idx() const {
 // free functions
 
 std::ostream& operator<<(std::ostream& os, const TagInfo& ti) {
-  std::ios::fmtflags f(os.flags());
   ExifKey exifKey(ti);
-  os << exifKey.tagName() << "," << std::dec << exifKey.tag() << ","
-     << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << exifKey.tag() << ","
-     << exifKey.groupName() << "," << exifKey.key() << "," << TypeInfo::typeName(exifKey.defaultTypeId()) << ",";
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
-  char Q = '"';
-  os << Q;
+  std::string escapedDesc;
+  escapedDesc.push_back('"');
   for (char c : exifKey.tagDesc()) {
-    if (c == Q)
-      os << Q;
-    os << c;
+    if (c == '"') {
+      escapedDesc += "\"\"";
+    } else {
+      escapedDesc += c;
+    }
   }
-  os << Q;
-  os.flags(f);
-  return os;
+  escapedDesc.push_back('"');
+
+  return os << stringFormat("{},{},0x{:04x},{},{},{},{}", exifKey.tagName(), exifKey.tag(), exifKey.tag(),
+                            exifKey.groupName(), exifKey.key(), TypeInfo::typeName(exifKey.defaultTypeId()),
+                            escapedDesc);
 }
 
 }  // namespace Exiv2

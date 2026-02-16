@@ -10,19 +10,13 @@
 
 using namespace Exiv2;
 
-void print(const ExifData& exifData);
+static void print(const ExifData& exifData);
 
-void mini1(const char* path);
-void mini9(const char* path);
+static void mini1(const char* path);
+static void mini9(const char* path);
 
 int main(int argc, char* const argv[]) {
   try {
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
-#endif
-
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " file\n";
       return EXIT_FAILURE;
@@ -90,11 +84,10 @@ void print(const ExifData& exifData) {
     std::string error("No Exif data found in the file");
     throw Exiv2::Error(ErrorCode::kerErrorMessage, error);
   }
-  auto end = exifData.end();
-  for (auto i = exifData.begin(); i != end; ++i) {
-    std::cout << std::setw(44) << std::setfill(' ') << std::left << i->key() << " "
-              << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i->tag() << " " << std::setw(9)
-              << std::setfill(' ') << std::left << i->typeName() << " " << std::dec << std::setw(3) << std::setfill(' ')
-              << std::right << i->count() << "  " << std::dec << i->value() << "\n";
+  for (const auto& i : exifData) {
+    std::cout << std::setw(44) << std::setfill(' ') << std::left << i.key() << " "
+              << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i.tag() << " " << std::setw(9)
+              << std::setfill(' ') << std::left << i.typeName() << " " << std::dec << std::setw(3) << std::setfill(' ')
+              << std::right << i.count() << "  " << std::dec << i.value() << "\n";
   }
 }

@@ -10,8 +10,12 @@
 // included header files
 #include "fujimn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
+
+#include <cstddef>
+#include <ostream>
 
 // + standard includes
 
@@ -92,12 +96,13 @@ constexpr TagDetails fujiContrast[] = {
 //! WhiteBalanceFineTune, tag 0x100a
 static std::ostream& printFujiWhiteBalanceFineTune(std::ostream& os, const Value& value, const ExifData*) {
   if (value.typeId() == signedLong && value.size() == 8) {
-    auto longValue = dynamic_cast<const LongValue&>(value);
-    if (longValue.toInt64(0) % 20 == 0 && longValue.toInt64(1) % 20 == 0) {
-      auto redShift = longValue.toInt64(0) / 20;
-      auto blueShift = longValue.toInt64(1) / 20;
-      os << "R: " << redShift << " B: " << blueShift;
-      return os;
+    if (auto longValue = dynamic_cast<const LongValue*>(&value)) {
+      if (longValue->toInt64(0) % 20 == 0 && longValue->toInt64(1) % 20 == 0) {
+        auto redShift = longValue->toInt64(0) / 20;
+        auto blueShift = longValue->toInt64(1) / 20;
+        os << "R: " << redShift << " B: " << blueShift;
+        return os;
+      }
     }
   }
   os << "(" << value << ")";
@@ -282,15 +287,16 @@ constexpr TagDetails fujiDriveSettingByte1[] = {
 
 //! DriveSetting, tag 0x1103
 static std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value, const ExifData*) {
-  auto byte1 = value.toInt64() & 0xff;
-  auto byte2 = (value.toInt64() >> 8) & 0xff;
-  auto byte3 = (value.toInt64() >> 16) & 0xff;
-  auto fps = value.toInt64() >> 24;
+  auto valint = value.toUint32();
+  auto byte1 = static_cast<byte>(valint);
+  auto byte2 = static_cast<byte>(valint >> 8);
+  auto byte3 = static_cast<byte>(valint >> 16);
+  auto fps = valint >> 24;
 
   if (auto setting = Exiv2::find(fujiDriveSettingByte1, byte1)) {
-    os << exvGettext(setting->label_);
+    os << _(setting->label_);
   } else {
-    os << "(" << byte1 << ")";
+    os << "(" << +byte1 << ")";
   }
 
   if (fps != 0) {
@@ -298,7 +304,7 @@ static std::ostream& printFujiDriveSetting(std::ostream& os, const Value& value,
   }
 
   if (byte1 != 0) {
-    os << ", (" << byte2 << ", " << byte3 << ")";  // unknown values
+    os << ", (" << +byte2 << ", " << +byte3 << ")";  // unknown values
   }
   return os;
 }
@@ -358,6 +364,7 @@ constexpr TagDetails fujiFilmMode[] = {
     {2048, N_("CLASSIC Neg.")},
     {2304, N_("ETERNA Bleach Bypass")},
     {2560, N_("Nostalgic Neg.")},
+    {2816, N_("REALA ACE")},
 };
 
 //! DynamicRange, tag 0x1402
@@ -429,7 +436,7 @@ static std::ostream& printFujiFaceElementTypes(std::ostream& os, const Value& va
         os << " ";
       }
       if (auto td = Exiv2::find(fujiFaceElementType, longValue)) {
-        os << exvGettext(td->label_);
+        os << _(td->label_);
       } else {
         os << "(" << value.toInt64(n) << ")";
       }
@@ -639,9 +646,5 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
     {0xffff, "(UnknownFujiMakerNoteTag)", "(UnknownFujiMakerNoteTag)", N_("Unknown FujiMakerNote tag"), IfdId::fujiId,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* FujiMakerNote::tagList() {
-  return tagInfo_;
-}
 
 }  // namespace Exiv2::Internal

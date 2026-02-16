@@ -1,10 +1,10 @@
 [wrap-file]
-directory = inih-r57
-source_url = https://github.com/benhoyt/inih/archive/r57.tar.gz
-source_filename = inih-r57.tar.gz
-source_hash = f03f98ca35c3adb56b2358573c8d3eda319ccd5287243d691e724b7eafa970b3
-source_fallback_url = https://github.com/mesonbuild/wrapdb/releases/download/inih_r57-1/inih-r57.tar.gz
-wrapdb_version = r57-1
+directory = inih-r58
+source_url = https://github.com/benhoyt/inih/archive/r58.tar.gz
+source_filename = inih-r58.tar.gz
+source_hash = e79216260d5dffe809bda840be48ab0eec7737b2bb9f02d2275c1b46344ea7b7
+source_fallback_url = https://github.com/mesonbuild/wrapdb/releases/download/inih_r58-1/inih-r58.tar.gz
+wrapdb_version = r58-1
 
 [provide]
 inih = inih_dep

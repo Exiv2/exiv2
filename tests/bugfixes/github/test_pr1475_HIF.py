@@ -4,30 +4,33 @@ import system_tests
 import unittest
 
 # test needs system_tests.BT.vv['enable_bmff']=1
-bSkip=system_tests.BT.verbose_version().get('enable_bmff')!='1'
+bSkip = system_tests.BT.verbose_version().get("enable_bmff") != "1"
 if bSkip:
-    raise unittest.SkipTest('*** requires enable_bmff=1 ***')
+    raise unittest.SkipTest("*** requires enable_bmff=1 ***")
+
 
 class pr_1475_Sony_hif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/Sony.HIF"
     if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdout=[]
+        commands = []
+        retval = []
+        stdin = []
+        stderr = []
+        stdout = []
         print("*** test skipped.  requires enable_bmff=1***")
     else:
-        commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
-                   ,"$exiv2 -pC $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.Make                              Ascii       5  SONY
+        commands = [
+            "$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename",
+            "$exiv2 -pS $filename",
+            "$exiv2 -pX $filename",
+            "$exiv2 -pC $filename",
+        ]
+        retval = [0] * len(commands)
+        stderr = [""] * len(commands)
+        stdin = [""] * len(commands)
+        stdout = [
+            """Exif.Image.Make                              Ascii       5  SONY
 Exif.Image.DateTime                          Ascii      20  2021:02:18 19:55:41
 Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 Exif.Photo.ExposureProgram                   Short       1  Manual
@@ -45,7 +48,8 @@ Exif.Sony1.FlashLevel                        SShort      1  Normal
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ExposureMode                      Short       1  Manual
 Xmp.xmp.Rating                               XmpText     1  0
-""","""Exiv2::BmffImage::boxHandler: ftyp        0->40 brand: heix
+""",
+            """Exiv2::BmffImage::boxHandler: ftyp        0->40 brand: heix
 Exiv2::BmffImage::boxHandler: meta       40->2081 
   Exiv2::BmffImage::boxHandler: hdlr       52->33 
   Exiv2::BmffImage::boxHandler: pitm       85->14 
@@ -101,7 +105,8 @@ Exiv2::BMFF Exif: ID = 14 from,length = 61440,40960
 Exiv2::BMFF XMP: ID = 15 from,length = 4096,57344
 Exiv2::BmffImage::boxHandler: free     2121->1967 
 Exiv2::BmffImage::boxHandler: mdat     4088->147464 
-""","""<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+""",
+            """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
@@ -130,29 +135,34 @@ Exiv2::BmffImage::boxHandler: mdat     4088->147464
                                                                                                     
                                                                                                     
                            
-<?xpacket end="w"?>""",""]
+<?xpacket end="w"?>""",
+            "",
+        ]
+
 
 class pr_1475_Canon_hif(metaclass=system_tests.CaseMeta):
     url = "https://github.com/Exiv2/exiv2/pull/1475"
     filename = "$data_path/Canon.HIF"
 
     if bSkip:
-        commands=[]
-        retval=[]
-        stdin=[]
-        stderr=[]
-        stdin=[]
+        commands = []
+        retval = []
+        stdin = []
+        stderr = []
+        stdin = []
         print("*** test skipped.  requires enable_bmff=1***")
     else:
-        commands = ["$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename"
-                   ,"$exiv2 -pS $filename"
-                   ,"$exiv2 -pX $filename"
-                   ,"$exiv2 -pC $filename"
-                   ]
-        retval = [ 0  ] * len(commands)
-        stderr = [ "" ] * len(commands)
-        stdin  = [ "" ] * len(commands)
-        stdout = ["""Exif.Image.Make                              Ascii       6  Canon
+        commands = [
+            "$exiv2  -g Image.Make -g Date -g Xm -g Expo -g Flash $filename",
+            "$exiv2 -pS $filename",
+            "$exiv2 -pX $filename",
+            "$exiv2 -pC $filename",
+        ]
+        retval = [0] * len(commands)
+        stderr = [""] * len(commands)
+        stdin = [""] * len(commands)
+        stdout = [
+            """Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.DateTime                          Ascii      20  2021:02:18 19:54:47
 Exif.Photo.ExposureTime                      Rational    1  1/1000 s
 Exif.Photo.ExposureProgram                   Short       1  Manual
@@ -180,7 +190,8 @@ Exif.CanonMe.MultiExposureShots              SLong       1  Off
 Exif.Photo.FlashpixVersion                   Undefined   4  1.00
 Exif.Photo.ExposureMode                      Short       1  Manual
 Xmp.xmp.Rating                               XmpText     1  0
-""","""Exiv2::BmffImage::boxHandler: ftyp        0->32 brand: heix
+""",
+            """Exiv2::BmffImage::boxHandler: ftyp        0->32 brand: heix
 Exiv2::BmffImage::boxHandler: meta       32->1163 
   Exiv2::BmffImage::boxHandler: hdlr       44->33 
   Exiv2::BmffImage::boxHandler: uuid       77->62  uuidName cano
@@ -224,7 +235,8 @@ Exiv2::BmffImage::boxHandler: meta       32->1163
 Exiv2::BMFF Exif: ID = 768 from,length = 1536,30463
 Exiv2::BMFF XMP: ID = 769 from,length = 43008,3072
 Exiv2::BmffImage::boxHandler: mdat     1195->1252197 
-""","""<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+""",
+            """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
@@ -253,5 +265,6 @@ Exiv2::BmffImage::boxHandler: mdat     1195->1252197
                                                                                                     
                                                                                                     
                            
-<?xpacket end="w"?>""",""]
-
+<?xpacket end="w"?>""",
+            "",
+        ]

@@ -85,8 +85,7 @@ if __name__ == '__main__':
         )
     else:
         print(
-            "WARNING: Invalid search location, falling back to {!s}"
-            .format(DEFAULT_ROOT),
+            f"WARNING: Invalid search location, falling back to {DEFAULT_ROOT!s}",
             file=sys.stderr
         )
         discovered_tests = testLoader.discover(

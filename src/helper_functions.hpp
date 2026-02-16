@@ -3,9 +3,11 @@
 #ifndef HELPER_FUNCTIONS_HPP
 #define HELPER_FUNCTIONS_HPP
 
+#include <cstddef>
+#include <cstdint>
+#include <memory>
 #include <string>
-#include "basicio.hpp"
-#include "types.hpp"
+
 /*!
   @brief Convert a (potentially not null terminated) array into a
   std::string.
@@ -24,6 +26,7 @@
 std::string string_from_unterminated(const char* data, size_t data_length);
 
 namespace Exiv2 {
+class BasicIo;
 
 static constexpr size_t BYTE = 0x1;
 static constexpr size_t WCHAR = 0x2;
@@ -32,15 +35,15 @@ static constexpr size_t DWORD = 0x4;
 static constexpr size_t QWORD = 0x8;
 static constexpr size_t GUID = 0x10;
 
-[[nodiscard]] uint64_t readQWORDTag(const Exiv2::BasicIo::UniquePtr& io);
+[[nodiscard]] uint64_t readQWORDTag(const std::unique_ptr<Exiv2::BasicIo>& io);
 
-[[nodiscard]] uint32_t readDWORDTag(const Exiv2::BasicIo::UniquePtr& io);
+[[nodiscard]] uint32_t readDWORDTag(const std::unique_ptr<Exiv2::BasicIo>& io);
 
-[[nodiscard]] uint16_t readWORDTag(const Exiv2::BasicIo::UniquePtr& io);
+[[nodiscard]] uint16_t readWORDTag(const std::unique_ptr<Exiv2::BasicIo>& io);
 
-[[nodiscard]] std::string readStringWcharTag(const Exiv2::BasicIo::UniquePtr& io, size_t length);
+[[nodiscard]] std::string readStringWcharTag(const std::unique_ptr<Exiv2::BasicIo>& io, size_t length);
 
-[[nodiscard]] std::string readStringTag(const Exiv2::BasicIo::UniquePtr& io, size_t length = DWORD);
+[[nodiscard]] std::string readStringTag(const std::unique_ptr<Exiv2::BasicIo>& io, size_t length = DWORD);
 
 /*!
   @brief Calculates Aspect Ratio of a video

@@ -9,11 +9,11 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "orfimage_int.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 
-#include <array>
 #include <iostream>
 
 // *****************************************************************************
@@ -52,7 +52,7 @@ void OrfImage::setComment(const std::string&) {
 }
 
 void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
-  out << "ORF IMAGE" << std::endl;
+  out << "ORF IMAGE" << '\n';
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type
@@ -91,7 +91,7 @@ void OrfImage::writeMetadata() {
   std::cerr << "Writing ORF file " << io_->path() << "\n";
 #endif
   ByteOrder bo = byteOrder();
-  byte* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
   // Ensure that this is the correct image type
@@ -117,7 +117,7 @@ ByteOrder OrfParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
 }
 
 WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
-                              IptcData& iptcData, XmpData& xmpData) {
+                              const IptcData& iptcData, const XmpData& xmpData) {
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = {
       IfdId::panaRawId,

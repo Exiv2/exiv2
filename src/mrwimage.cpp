@@ -9,9 +9,15 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "tags.hpp"
 #include "tiffimage.hpp"
 
+#include <array>
+#include <cstring>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 namespace Exiv2 {
 MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/) :
@@ -127,16 +133,17 @@ Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create) {
 
 bool isMrwType(BasicIo& iIo, bool advance) {
   const int32_t len = 4;
-  byte buf[len];
-  iIo.read(buf, len);
+  const std::array<byte, len> MrwId{0x0, 0x4d, 0x52, 0x4d};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  int rc = memcmp(buf, "\0MRM", 4);
-  if (!advance || rc != 0) {
+  bool rc = buf == MrwId;
+  if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);
   }
-  return rc == 0;
+  return rc;
 }
 
 }  // namespace Exiv2

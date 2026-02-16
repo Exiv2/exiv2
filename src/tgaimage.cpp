@@ -9,7 +9,11 @@
 #include "futils.hpp"
 #include "image.hpp"
 
+#include <cstring>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -99,7 +103,7 @@ Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool /*create*/) {
 bool isTgaType(BasicIo& iIo, bool /*advance*/) {
   // not all TARGA files have a signature string, so first just try to match the file name extension
   const std::string& path = iIo.path();
-  if (path.rfind(".tga") != std::string::npos || path.rfind(".TGA") != std::string::npos) {
+  if (path.ends_with(".tga") || path.ends_with(".TGA")) {
     return true;
   }
   byte buf[26];

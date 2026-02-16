@@ -46,6 +46,7 @@ option(EXIV2_ENABLE_BMFF "Build with BMFF support" ON)
 option(EXIV2_ENABLE_BROTLI "Use Brotli for JPEG XL compressed boxes (BMFF)" ON)
 option(EXIV2_ENABLE_VIDEO "Build with video support" ON)
 option(EXIV2_ENABLE_INIH "Use inih library" ON)
+option(EXIV2_ENABLE_FILESYSTEM_ACCESS "Build with filesystem access" ON)
 
 option(EXIV2_BUILD_SAMPLES "Build sample applications" OFF)
 option(EXIV2_BUILD_EXIV2_COMMAND "Build exiv2 command-line executable" ON)
@@ -91,6 +92,10 @@ endif()
 
 include_directories(${CMAKE_BINARY_DIR}) # Make the exv_conf.h file visible for the full project
 
+if(NOT EXV_HAVE_STD_FORMAT)
+  find_package(fmt "5.0.0" REQUIRED)
+endif()
+
 if(EXIV2_ENABLE_XMP)
   add_subdirectory(xmpsdk)
 endif()
@@ -100,18 +105,22 @@ include(cmake/compilerFlagsExiv2.cmake REQUIRED)
 add_subdirectory(src)
 
 if(BUILD_TESTING AND EXIV2_BUILD_UNIT_TESTS)
+  set(EXIV2_ENABLE_FILESYSTEM_ACCESS ON)
   add_subdirectory(unitTests)
 endif()
 
 if(EXIV2_BUILD_FUZZ_TESTS)
+  set(EXIV2_ENABLE_FILESYSTEM_ACCESS ON)
   add_subdirectory(fuzz)
 endif()
 
 if(EXIV2_BUILD_EXIV2_COMMAND)
   add_subdirectory(app)
+  set(EXIV2_ENABLE_FILESYSTEM_ACCESS ON)
 
   if(EXIV2_BUILD_SAMPLES)
     add_subdirectory(samples)
+    set(EXIV2_ENABLE_FILESYSTEM_ACCESS ON)
     get_directory_property(SAMPLES DIRECTORY samples DEFINITION APPLICATIONS)
 
     if(BUILD_TESTING AND Python3_Interpreter_FOUND)
@@ -133,6 +142,14 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
       NAME lensTests
       WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
       COMMAND cmake -E env EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
+    )
+    # Repeat lens test with a DE locale that uses "," as float delimiter
+    # to check that all float conversions are done independently of locale
+    # See GitHub issue #2746
+    add_test(
+      NAME lensTestsLocaleDE
+      WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
+      COMMAND cmake -E env LC_ALL=de_DE.UTF-8 EXIV2_BINDIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${Python3_EXECUTABLE} runner.py --verbose lens_tests
     )
     add_test(
       NAME tiffTests

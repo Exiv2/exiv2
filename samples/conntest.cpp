@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <iostream>
 
+namespace {
 void httpcon(const std::string& url, bool useHttp1_0 = false) {
   Exiv2::Dictionary response;
   Exiv2::Dictionary request;
@@ -37,7 +38,7 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
 
   // get the timeout value
   std::string timeoutStr = Exiv2::getEnv(Exiv2::envTIMEOUT);
-  long timeout = atol(timeoutStr.c_str());
+  long timeout = std::stol(timeoutStr);
   if (timeout == 0) {
     throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, "Timeout Environmental Variable must be a positive integer.");
   }
@@ -71,16 +72,11 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
   }
 }
 #endif
+}  // namespace
 
 int main(int argc, const char** argv) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   if (argc < 2) {
-    std::cout << "Usage: " << argv[0] << " url {-http1_0}" << std::endl;
+    std::cout << "Usage: " << argv[0] << " url {-http1_0}" << '\n';
     return EXIT_FAILURE;
   }
   std::string url(argv[1]);
@@ -106,14 +102,14 @@ int main(int argc, const char** argv) {
       isOk = true;
     }
   } catch (const Exiv2::Error& e) {
-    std::cout << "Error: '" << e << "'" << std::endl;
+    std::cout << "Error: '" << e << "'" << '\n';
     return EXIT_FAILURE;
   }
 
   if (!isOk)
-    std::cout << "The protocol is unsupported." << std::endl;
+    std::cout << "The protocol is unsupported." << '\n';
   else
-    std::cout << "OK." << std::endl;
+    std::cout << "OK." << '\n';
   return EXIT_SUCCESS;
 }
 

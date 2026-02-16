@@ -948,7 +948,7 @@ FindQualifierNode	( XMP_Node *		parent,
 	
 	if ( (qualNode == 0) && createNodes ) {
 
-		qualNode = new XMP_Node ( parent, qualName, (kXMP_PropIsQualifier | kXMP_NewImplicitNode) );
+		qualNode = new XMP_Node ( parent, qualName, (static_cast<unsigned long>(kXMP_PropIsQualifier) | static_cast<unsigned long>(kXMP_NewImplicitNode)) );
 		parent->options |= kXMP_PropHasQualifiers;
 
 		const bool isLang 	 = XMP_LitMatch ( qualName, "xml:lang" );

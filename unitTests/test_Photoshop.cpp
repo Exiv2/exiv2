@@ -9,12 +9,8 @@
 
 using namespace Exiv2;
 
-namespace {
-constexpr std::array validMarkers{"8BIM", "AgHg", "DCSR", "PHUT"};
-}  // namespace
-
 TEST(PhotoshopIsIrb, returnsTrueWithValidMarkers) {
-  for (const auto& marker : validMarkers) {
+  for (const auto& marker : {"8BIM", "AgHg", "DCSR", "PHUT"}) {
     ASSERT_TRUE(Photoshop::isIrb(reinterpret_cast<const byte*>(marker)));
   }
 }
@@ -76,8 +72,8 @@ TEST(PhotoshopLocateIrb, returns0withGoodIptcIrb) {
   uint32_t sizeData = 0;
 
   ASSERT_EQ(0, Photoshop::locateIrb(data.data(), data.size(), Photoshop::iptc_, &record, sizeHdr, sizeData));
-  ASSERT_EQ(12, sizeHdr);
-  ASSERT_EQ(27, sizeData);
+  ASSERT_EQ(12u, sizeHdr);
+  ASSERT_EQ(27u, sizeData);
 }
 
 TEST(PhotoshopLocateIptcIrb, returns0withGoodIptcIrb) {
@@ -94,8 +90,8 @@ TEST(PhotoshopLocateIptcIrb, returns0withGoodIptcIrb) {
   uint32_t sizeData = 0;
 
   ASSERT_EQ(0, Photoshop::locateIptcIrb(data.data(), data.size(), &record, sizeHdr, sizeData));
-  ASSERT_EQ(12, sizeHdr);
-  ASSERT_EQ(27, sizeData);
+  ASSERT_EQ(12u, sizeHdr);
+  ASSERT_EQ(27u, sizeData);
 }
 
 TEST(PhotoshopLocateIptcIrb, returns3withoutIptcMarker) {
@@ -128,8 +124,8 @@ TEST(PhotoshopLocatePreviewIrb, returns0withGoodPreviewIrb) {
   uint32_t sizeData = 0;
 
   ASSERT_EQ(0, Photoshop::locatePreviewIrb(data.data(), data.size(), &record, sizeHdr, sizeData));
-  ASSERT_EQ(12, sizeHdr);
-  ASSERT_EQ(27, sizeData);
+  ASSERT_EQ(12u, sizeHdr);
+  ASSERT_EQ(27u, sizeData);
 }
 
 // --------------------------------

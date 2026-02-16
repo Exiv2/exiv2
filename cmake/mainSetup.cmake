@@ -3,6 +3,7 @@
 
 include(GNUInstallDirs)
 include(CheckFunctionExists)
+include(CheckCXXSymbolExists)
 include(GenerateExportHeader)
 include(CMakeDependentOption)
 include(cmake/JoinPaths.cmake)
@@ -29,6 +30,13 @@ if (UNIX)
     else()
         join_paths(CMAKE_INSTALL_RPATH "$ORIGIN" ".." "${CMAKE_INSTALL_LIBDIR}")
     endif()
+endif()
+
+if(MINGW)
+  check_cxx_symbol_exists(_UCRT "ctime" USES_UCRT)
+  if(NOT USES_UCRT)
+    message(FATAL_ERROR "Non UCRT MinGW is unsupported. Please update toolchain")
+  endif()
 endif()
 
 # Prevent conflicts when exiv2 is consumed in multiple-subdirectory projects.

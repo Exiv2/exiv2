@@ -2,15 +2,17 @@
 
 import system_tests
 
+
 class TestFirstPoC(metaclass=system_tests.CaseMeta):
     """
     Regression test for the first bug described in:
     https://github.com/Exiv2/exiv2/issues/247
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/247"
 
     filename = "$data_path/2-invalid-memory-access"
-    commands = ["$exiv2 -pt -b " + filename]
+    commands = [f"$exiv2 -pt -b {filename}"]
     stdout = [
         """Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Orientation                       Short       1  top, left
@@ -125,6 +127,7 @@ Exif.Thumbnail.YResolution                   Rational    1  180
 Exif.Thumbnail.ResolutionUnit                Short       1  inch
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  2036
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  5448
-"""]
+"""
+    ]
     stderr = [""]
     retval = [0]

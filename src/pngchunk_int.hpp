@@ -5,12 +5,20 @@
 
 // *****************************************************************************
 // included header files
-#include "pngimage.hpp"
 #include "types.hpp"
+
+#include <cstddef>
+#include <cstdint>
+#include <string>
+#include <string_view>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+struct DataBuf;
+class Image;
+class PngImage;
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -70,7 +78,7 @@ class PngChunk {
     @param metadata    metadata buffer.
     @param type        metadata type.
   */
-  static std::string makeMetadataChunk(const std::string& metadata, MetadataId type);
+  static std::string makeMetadataChunk(std::string_view metadata, MetadataId type);
 
  private:
   /*!
@@ -100,7 +108,7 @@ class PngChunk {
 
     @return String containing the PNG chunk
   */
-  static std::string makeAsciiTxtChunk(const std::string& keyword, const std::string& text, bool compress);
+  static std::string makeAsciiTxtChunk(std::string_view keyword, std::string_view text, bool compress);
 
   /*!
     @brief Return a compressed or uncompressed (iTXt) PNG international text chunk
@@ -110,7 +118,7 @@ class PngChunk {
     @param text     Text to be recorded in the PNG chunk.
     @param compress Flag indicating whether to compress the PNG chunk data.
   */
-  static std::string makeUtf8TxtChunk(const std::string& keyword, const std::string& text, bool compress);
+  static std::string makeUtf8TxtChunk(std::string_view keyword, std::string_view text, bool compress);
 
   /*!
     @brief Wrapper around zlib to uncompress a PNG chunk content.
@@ -120,7 +128,7 @@ class PngChunk {
   /*!
     @brief Wrapper around zlib to compress a PNG chunk content.
    */
-  static std::string zlibCompress(const std::string& text);
+  static std::string zlibCompress(std::string_view text);
 
   /*!
     @brief Decode from ImageMagick raw text profile which host encoded Exif/Iptc/Xmp metadata byte array.
@@ -131,12 +139,13 @@ class PngChunk {
     @brief Encode to ImageMagick raw text profile, which host encoded
            Exif/IPTC/XMP metadata byte arrays.
    */
-  static std::string writeRawProfile(const std::string& profileData, const char* profileType);
+  static std::string writeRawProfile(std::string_view profileData, const char* profileType);
 
   friend class Exiv2::PngImage;
 
 };  // class PngChunk
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef PNGCHUNK_INT_HPP_

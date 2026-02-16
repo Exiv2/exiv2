@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef METADATUM_HPP_
-#define METADATUM_HPP_
+#ifndef EXIV2_METADATUM_HPP
+#define EXIV2_METADATUM_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
-#include "value.hpp"
+#include "types.hpp"
+
+#include <cstdint>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -15,6 +18,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 class ExifData;
+class Value;
 
 // *****************************************************************************
 // class definitions
@@ -31,10 +35,8 @@ class EXIV2API Key {
   //! @name Creators
   //@{
   //! Destructor
-  virtual ~Key() = default;
+  virtual ~Key();
   //@}
-  Key(Key&&) = delete;
-  Key& operator=(Key&&) = delete;
   //! @name Accessors
   //@{
   /*!
@@ -105,7 +107,7 @@ class EXIV2API Metadatum {
   //! @name Creators
   //@{
   //! Destructor
-  virtual ~Metadatum() = default;
+  virtual ~Metadatum();
   //@}
 
   //! @name Manipulators
@@ -238,7 +240,7 @@ class EXIV2API Metadatum {
     @return An auto-pointer containing a pointer to a copy (clone) of the
             value, 0 if the value is not set.
    */
-  [[nodiscard]] virtual Value::UniquePtr getValue() const = 0;
+  [[nodiscard]] virtual std::unique_ptr<Value> getValue() const = 0;
   /*!
     @brief Return a constant reference to the value.
 
@@ -290,4 +292,4 @@ EXIV2API bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef METADATUM_HPP_
+#endif  // EXIV2_METADATUM_HPP

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef TIFFIMAGE_HPP_
-#define TIFFIMAGE_HPP_
+#ifndef EXIV2_TIFFIMAGE_HPP
+#define EXIV2_TIFFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -12,6 +12,7 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+class BasicIo;
 // *****************************************************************************
 // class definitions
 
@@ -38,7 +39,7 @@ class EXIV2API TiffImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  TiffImage(BasicIo::UniquePtr io, bool create);
+  TiffImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -63,16 +64,16 @@ class EXIV2API TiffImage : public Image {
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
  private:
   //! @name Accessors
   //@{
   //! Return the group name of the group with the primary image.
-  std::string primaryGroup() const;
+  [[nodiscard]] std::string primaryGroup() const;
   //@}
 
   // DATA
@@ -138,7 +139,7 @@ class EXIV2API TiffParser {
     @return Write method used.
   */
   static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
-                            IptcData& iptcData, XmpData& xmpData);
+                            const IptcData& iptcData, const XmpData& xmpData);
 
 };  // class TiffParser
 
@@ -152,11 +153,11 @@ class EXIV2API TiffParser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newTiffInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a TIFF image.
 EXIV2API bool isTiffType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef TIFFIMAGE_HPP_
+#endif  // EXIV2_TIFFIMAGE_HPP

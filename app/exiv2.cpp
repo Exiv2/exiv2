@@ -22,14 +22,21 @@
 #include <iostream>
 #include <regex>
 
-#if defined(_WIN32)
+#include <filesystem>
+namespace fs = std::filesystem;
+
+#ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
 #include <windows.h>
 #else
 #include <sys/select.h>
-#include <sys/time.h>
 #include <unistd.h>
+#define _strdup strdup
+#endif
+
+#ifdef EXV_ENABLE_NLS
+#include <libintl.h>
 #endif
 
 // *****************************************************************************
@@ -114,21 +121,13 @@ std::string parseEscapes(const std::string& input);
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[]) {
-  setlocale(LC_CTYPE, ".utf8");
-
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
 #ifdef EXV_ENABLE_NLS
   setlocale(LC_ALL, "");
   auto localeDir = []() -> std::string {
-    if constexpr (EXV_LOCALEDIR[0] == '/')
-      return EXV_LOCALEDIR;
-    else
-      return Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR;
+    fs::path ret = EXV_LOCALEDIR;
+    if constexpr (EXV_LOCALEDIR[0] != '/')
+      ret = fs::path(Exiv2::getProcessPath()) / EXV_LOCALEDIR;
+    return ret.string();
   }();
   bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
   textdomain(EXV_PACKAGE_NAME);
@@ -158,7 +157,7 @@ int main(int argc, char* const argv[]) {
     // Process all files
     auto filesCount = params.files_.size();
     if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && filesCount > 1) {
-      std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
+      std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << '\n';
       returnCode = EXIT_FAILURE;
     } else {
       int w = [=]() {
@@ -174,7 +173,7 @@ int main(int argc, char* const argv[]) {
         // If extracting to stdout then ignore verbose
         if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
           std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << filesCount << ": " << file
-                    << std::endl;
+                    << '\n';
         }
         task->setBinary(params.binary_);
         int ret = task->run(file);
@@ -183,10 +182,9 @@ int main(int argc, char* const argv[]) {
       }
 
       Action::TaskFactory::instance().cleanup();
-      Exiv2::XmpParser::terminate();
     }
   } catch (const std::exception& exc) {
-    std::cerr << "Uncaught exception: " << exc.what() << std::endl;
+    std::cerr << "Uncaught exception: " << exc.what() << '\n';
     returnCode = EXIT_FAILURE;
   }
 
@@ -210,7 +208,7 @@ Params& Params::instance() {
 }
 
 void Params::version(bool verbose, std::ostream& os) {
-  os << EXV_PACKAGE_STRING << std::endl;
+  os << EXV_PACKAGE_STRING << '\n';
   if (Params::instance().greps_.empty() && !verbose) {
     os << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
@@ -763,7 +761,7 @@ int Params::evalDelete(const std::string& optArg) {
   switch (action_) {
     case Action::none:
       action_ = Action::erase;
-      target_ = static_cast<CommonTarget>(0);
+      target_ = CommonTarget{0};
       [[fallthrough]];
     case Action::erase: {
       const auto rc = parseCommonTargets(optArg, "erase");
@@ -784,7 +782,7 @@ int Params::evalExtract(const std::string& optArg) {
     case Action::none:
     case Action::modify:
       action_ = Action::extract;
-      target_ = static_cast<CommonTarget>(0);
+      target_ = CommonTarget{0};
       [[fallthrough]];
     case Action::extract: {
       const auto rc = parseCommonTargets(optArg, "extract");
@@ -805,7 +803,7 @@ int Params::evalInsert(const std::string& optArg) {
     case Action::none:
     case Action::modify:
       action_ = Action::insert;
-      target_ = static_cast<CommonTarget>(0);
+      target_ = CommonTarget{0};
       [[fallthrough]];
     case Action::insert: {
       const auto rc = parseCommonTargets(optArg, "insert");
@@ -958,9 +956,9 @@ static size_t readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
 void Params::getStdin(Exiv2::DataBuf& buf) {
   // copy stdin to stdinBuf
   if (stdinBuf.empty()) {
-#if defined(_WIN32)
+#ifdef _WIN32
     DWORD fdwMode;
-    _setmode(fileno(stdin), O_BINARY);
+    _setmode(_fileno(stdin), O_BINARY);
     Sleep(300);
     if (!GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode)) {  // failed: stdin has bytes!
 #else
@@ -974,7 +972,7 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
     if (select(1, &readfds, nullptr, nullptr, &timeout)) {
 #endif
 #ifdef DEBUG
-      std::cerr << "stdin has data" << std::endl;
+      std::cerr << "stdin has data" << '\n';
 #endif
       readFileToBuf(stdin, stdinBuf);
     }
@@ -988,12 +986,12 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
       if (f) {
         readFileToBuf(f, stdinBuf);
         fclose(f);
-        std::cerr << "read stdin from " << path << std::endl;
+        std::cerr << "read stdin from " << path << '\n';
       }
     }
 #endif
 #ifdef DEBUG
-    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;
+    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << '\n';
 #endif
   }
 
@@ -1003,14 +1001,14 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
     std::copy(stdinBuf.begin(), stdinBuf.end(), buf.begin());
   }
 #ifdef DEBUG
-  std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;
+  std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << '\n';
 #endif
 
 }  // Params::getStdin()
 
 int Params::getopt(int argc, char* const Argv[]) {
   std::vector<char*> argv(argc + 1);
-  argv[argc] = nullptr;
+  argv.back() = nullptr;
 
   const std::unordered_map<std::string, std::string> longs{
       {"--adjust", "-a"},    {"--binary", "-b"},  {"--comment", "-c"}, {"--delete", "-d"},   {"--days", "-D"},
@@ -1024,10 +1022,10 @@ int Params::getopt(int argc, char* const Argv[]) {
 
   for (int i = 0; i < argc; i++) {
     std::string arg(Argv[i]);
-    if (longs.find(arg) != longs.end()) {
-      argv[i] = ::strdup(longs.at(arg).c_str());
+    if (longs.contains(arg)) {
+      argv[i] = _strdup(longs.at(arg).c_str());
     } else {
-      argv[i] = ::strdup(Argv[i]);
+      argv[i] = _strdup(Argv[i]);
     }
   }
 
@@ -1137,7 +1135,7 @@ void printUnrecognizedArgument(const char argc, const std::string& action) {
 
 int64_t parseCommonTargets(const std::string& optArg, const std::string& action) {
   int64_t rc = 0;
-  auto target = static_cast<Params::CommonTarget>(0);
+  auto target = Params::CommonTarget{0};
   Params::CommonTarget all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
   Params::CommonTarget extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
   for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
@@ -1226,7 +1224,7 @@ int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::strin
   for (auto&& number : previewNumbers) {
     std::cout << number << ", ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 #endif
   return static_cast<int>(k - j);
 }  // parsePreviewNumbers
@@ -1397,8 +1395,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 
     if (valStart != std::string::npos) {
       value = parseEscapes(line.substr(valStart, valEnd + 1 - valStart));
-      std::string::size_type last = value.length() - 1;
-      if ((value.at(0) == '"' && value.at(last) == '"') || (value.at(0) == '\'' && value.at(last) == '\'')) {
+      if ((value.front() == '"' && value.back() == '"') || (value.front() == '\'' && value.back() == '\'')) {
         value = value.substr(1, value.length() - 2);
       }
     }
@@ -1483,8 +1480,8 @@ std::string parseEscapes(const std::string& input) {
           }
 
           std::string ucs2toUtf8;
-          ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00U) >> 8));
-          ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ffU));
+          ucs2toUtf8.push_back((acc & 0xff00U) >> 8);
+          ucs2toUtf8.push_back(acc & 0x00ffU);
 
           if (Exiv2::convertStringCharset(ucs2toUtf8, "UCS-2BE", "UTF-8")) {
             result.append(ucs2toUtf8);

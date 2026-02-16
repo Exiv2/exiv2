@@ -8,13 +8,11 @@
   @date    15-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
-#ifndef ERROR_HPP_
-#define ERROR_HPP_
+#ifndef EXIV2_ERROR_HPP
+#define EXIV2_ERROR_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
-
-#include "config.h"
 
 #include <exception>  // for exception
 #include <sstream>    // for operator<<, ostream, ostringstream, bas...
@@ -224,6 +222,7 @@ enum class ErrorCode {
   kerArithmeticOverflow,
   kerMallocFailed,
   kerInvalidIconvEncoding,
+  kerFileAccessDisabled,
 
   kerErrorCount,
 };
@@ -262,10 +261,6 @@ class EXIV2API Error : public std::exception {
     setMsg(3);
   }
 
-  //! Virtual destructor. (Needed because of throw())
-  ~Error() noexcept override = default;
-  //@}
-
   //! @name Accessors
   //@{
   [[nodiscard]] ErrorCode code() const noexcept;
@@ -301,4 +296,4 @@ inline std::ostream& operator<<(std::ostream& os, const Error& error) {
 #endif
 
 }  // namespace Exiv2
-#endif  // #ifndef ERROR_HPP_
+#endif  // EXIV2_ERROR_HPP

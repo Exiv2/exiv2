@@ -7,14 +7,18 @@
 
 #include "bmpimage.hpp"
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 
 // + standard includes
-#include <cstring>
-#include <iostream>
+#include <array>
 #include <string>
+
+#ifdef EXIV2_DEBUG_MESSAGES
+#include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -99,13 +103,13 @@ Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, bool /*create*/) {
 
 bool isBmpType(BasicIo& iIo, bool advance) {
   const int32_t len = 2;
-  const unsigned char BmpImageId[2] = {'B', 'M'};
-  byte buf[len];
-  iIo.read(buf, len);
+  const std::array<byte, len> BmpImageId{'B', 'M'};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  bool matched = (memcmp(buf, BmpImageId, len) == 0);
+  bool matched = buf == BmpImageId;
   if (!advance || !matched) {
     iIo.seek(-len, BasicIo::cur);
   }

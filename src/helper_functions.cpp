@@ -2,11 +2,13 @@
 
 #include "helper_functions.hpp"
 
-#include <cmath>
-#include <cstring>
-#include <numeric>
+#include "basicio.hpp"
 #include "convert.hpp"
 #include "enforce.hpp"
+#include "types.hpp"
+
+#include <cstring>
+#include <numeric>
 
 std::string string_from_unterminated(const char* data, size_t data_length) {
   if (data_length == 0) {
@@ -19,7 +21,7 @@ std::string string_from_unterminated(const char* data, size_t data_length) {
 namespace Exiv2 {
 uint64_t readQWORDTag(const BasicIo::UniquePtr& io) {
   Internal::enforce(QWORD <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
-  DataBuf FieldBuf = io->read(QWORD);
+  auto FieldBuf = io->read(QWORD);
   return FieldBuf.read_uint64(0, littleEndian);
 }
 

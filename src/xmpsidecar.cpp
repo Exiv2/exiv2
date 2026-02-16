@@ -7,14 +7,20 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "properties.hpp"
 #include "utils.hpp"
+#include "value.hpp"
 #include "xmp_exiv2.hpp"
 
+#include <cstring>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 namespace {
-constexpr auto xmlHeader = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
-const auto xmlHdrCnt = static_cast<long>(std::strlen(xmlHeader));  // without the trailing 0-character
+constexpr char xmlHeader[] = "<?xpacket begin=\"\xef\xbb\xbf\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n";
+constexpr auto xmlHdrCnt = std::size(xmlHeader) - 1;  // without the trailing 0-character
 constexpr auto xmlFooter = "<?xpacket end=\"w\"?>";
 }  // namespace
 
@@ -53,15 +59,14 @@ void XmpSidecar::readMetadata() {
   // Read the XMP packet from the IO stream
   std::string xmpPacket;
   const long len = 64 * 1024;
-  byte buf[len];
-  size_t l;
-  while ((l = io_->read(buf, len)) > 0) {
-    xmpPacket.append(reinterpret_cast<char*>(buf), l);
+  auto buf = std::make_unique<byte[]>(len);
+  while (auto l = io_->read(buf.get(), len)) {
+    xmpPacket.append(reinterpret_cast<char*>(buf.get()), l);
   }
   if (io_->error())
     throw Error(ErrorCode::kerFailedToReadImageData);
   clearMetadata();
-  xmpPacket_ = xmpPacket;
+  xmpPacket_ = std::move(xmpPacket);
   if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Failed to decode XMP metadata.\n";
@@ -72,8 +77,7 @@ void XmpSidecar::readMetadata() {
   for (const auto& xmp : xmpData_) {
     std::string key(xmp.key());
     if (Internal::contains(key, "Date")) {
-      std::string value(xmp.value().toString());
-      dates_[key] = value;
+      dates_[key] = xmp.value().toString();
     }
   }
 
@@ -109,7 +113,7 @@ void XmpSidecar::writeMetadata() {
       Exiv2::XmpKey key(sKey);
       if (xmpData_.findKey(key) != xmpData_.end()) {
         std::string value_now(xmpData_[sKey].value().toString());
-        // std::cout << key << " -> " << value_now << " => " << value_orig << std::endl;
+        // std::cout << key << " -> " << value_now << " => " << value_orig << '\n';
         if (Internal::contains(value_orig, value_now.substr(0, 10))) {
           xmpData_[sKey] = value_orig;
         }
@@ -128,7 +132,7 @@ void XmpSidecar::writeMetadata() {
     }
   }
   if (!xmpPacket_.empty()) {
-    if (xmpPacket_.substr(0, 5) != "<?xml") {
+    if (!xmpPacket_.starts_with("<?xml")) {
       xmpPacket_ = xmlHeader + xmpPacket_ + xmlFooter;
     }
     MemIo tempIo;
@@ -181,13 +185,13 @@ bool isXmpType(BasicIo& iIo, bool advance) {
   }
   bool rc = false;
   std::string head(reinterpret_cast<const char*>(buf + start), len - start);
-  if (head.substr(0, 5) == "<?xml") {
+  if (head.starts_with("<?xml")) {
     // Forward to the next tag
     auto it = std::find(head.begin() + 5, head.end(), '<');
     if (it != head.end())
       head = head.substr(std::distance(head.begin(), it));
   }
-  if (head.size() > 9 && (head.substr(0, 9) == "<?xpacket" || head.substr(0, 10) == "<x:xmpmeta")) {
+  if (head.starts_with("<?xpacket") || head.starts_with("<x:xmpmeta")) {
     rc = true;
   }
   if (!advance || !rc) {

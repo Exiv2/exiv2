@@ -1,18 +1,24 @@
+#include "config.h"
+
 #include "photoshop.hpp"
 
 #include "enforce.hpp"
 #include "image.hpp"
 #include "safe_op.hpp"
 
+#include <cstring>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 namespace Exiv2 {
 
-bool Photoshop::isIrb(const byte* data) {
-  if (data == nullptr) {
+bool Photoshop::isIrb(const byte* pPsData) {
+  if (pPsData == nullptr) {
     return false;
   }
-  return std::any_of(irbId_.begin(), irbId_.end(), [data](auto id) { return memcmp(data, id, 4) == 0; });
+  return std::any_of(irbId_.begin(), irbId_.end(), [pPsData](auto id) { return memcmp(pPsData, id, 4) == 0; });
 }
 
 bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {
@@ -138,7 +144,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   // Write new iptc record if we have it
   if (DataBuf rawIptc = IptcParser::encode(iptcData); !rawIptc.empty()) {
     std::array<byte, 12> tmpBuf;
-    std::copy_n(Photoshop::irbId_.front(), 4, tmpBuf.data());
+    std::copy_n(Photoshop::irbId_.front(), 4, tmpBuf.begin());
     us2Data(tmpBuf.data() + 4, iptc_, bigEndian);
     tmpBuf[6] = 0;
     tmpBuf[7] = 0;

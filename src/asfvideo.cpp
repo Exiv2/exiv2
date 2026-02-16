@@ -2,17 +2,14 @@
 // included header files
 #include "asfvideo.hpp"
 
-#include <cstring>
-#include <iostream>
-#include <sstream>
-
 #include "basicio.hpp"
 #include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
-#include "utils.hpp"
+#include "image_int.hpp"
+
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
@@ -47,35 +44,18 @@ bool AsfVideo::GUIDTag::operator==(const AsfVideo::GUIDTag& other) const {
 }
 
 AsfVideo::GUIDTag::GUIDTag(const uint8_t* bytes) {
-  std::copy_n(bytes, DWORD, reinterpret_cast<uint8_t*>(&data1_));
-  std::copy_n(bytes + DWORD, WORD, reinterpret_cast<uint8_t*>(&data2_));
-  std::copy_n(bytes + DWORD + WORD, WORD, reinterpret_cast<uint8_t*>(&data3_));
-  std::copy(bytes + QWORD, bytes + 2 * QWORD, data4_.begin());
-  if (isBigEndianPlatform()) {
-    data1_ = byteSwap(data1_, true);
-    data2_ = byteSwap(data2_, true);
-    data3_ = byteSwap(data3_, true);
-  }
+  data1_ = Exiv2::getULong(bytes, ByteOrder::littleEndian);
+  data2_ = Exiv2::getUShort(bytes + DWORD, ByteOrder::littleEndian);
+  data3_ = Exiv2::getUShort(bytes + DWORD + WORD, ByteOrder::littleEndian);
+  std::copy(bytes + QWORD, bytes + (2 * QWORD), data4_.begin());
 }
 
-std::string AsfVideo::GUIDTag::to_string() {
-  // Convert each field of the GUID structure to a string
-  std::stringstream ss;
-  ss << std::hex << std::setw(8) << std::setfill('0') << data1_ << "-";
-  ss << std::hex << std::setw(4) << std::setfill('0') << data2_ << "-";
-  ss << std::hex << std::setw(4) << std::setfill('0') << data3_ << "-";
-
-  for (size_t i = 0; i < 8; i++) {
-    if (i == 2) {
-      ss << "-";
-    }
-    ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data4_[i]);
-  }
-
+std::string AsfVideo::GUIDTag::to_string() const {
   // Concatenate all strings into a single string
   // Convert the string to uppercase
   // Example of output 399595EC-8667-4E2D-8FDB-98814CE76C1E
-  return Internal::upper(ss.str());
+  return stringFormat("{:08X}-{:04X}-{:04X}-{:02X}{:02X}-{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}", data1_, data2_, data3_,
+                      data4_[0], data4_[1], data4_[2], data4_[3], data4_[4], data4_[5], data4_[6], data4_[7]);
 }
 
 bool AsfVideo::GUIDTag::operator<(const GUIDTag& other) const {
@@ -235,7 +215,7 @@ void AsfVideo::readMetadata() {
 
 AsfVideo::HeaderReader::HeaderReader(const BasicIo::UniquePtr& io) : IdBuf_(GUID) {
   if (io->size() >= io->tell() + GUID + QWORD) {
-    IdBuf_ = io->read(GUID);
+    io->readOrThrow(IdBuf_.data(), IdBuf_.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
     size_ = readQWORDTag(io);
     if (size_ >= GUID + QWORD)
@@ -248,7 +228,7 @@ void AsfVideo::decodeBlock() {
   HeaderReader objectHeader(io_);
 #ifdef EXIV2_DEBUG_MESSAGES
   EXV_INFO << "decodeBlock = " << GUIDTag(objectHeader.getId().data()).to_string()
-           << "\tsize= " << objectHeader.getSize() << "\t " << io_->tell() << "/" << io_->size() << std::endl;
+           << "\tsize= " << objectHeader.getSize() << "\t " << io_->tell() << "/" << io_->size() << '\n';
 #endif
   Internal::enforce(objectHeader.getSize() <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   auto tag = GUIDReferenceTags.find(GUIDTag(objectHeader.getId().data()));
@@ -291,11 +271,11 @@ void AsfVideo::decodeBlock() {
 
 void AsfVideo::decodeHeader() {
   DataBuf nbHeadersBuf(DWORD + 1);
-  io_->read(nbHeadersBuf.data(), DWORD);
+  io_->readOrThrow(nbHeadersBuf.data(), DWORD, Exiv2::ErrorCode::kerCorruptedMetadata);
 
   uint32_t nb_headers = Exiv2::getULong(nbHeadersBuf.data(), littleEndian);
   Internal::enforce(nb_headers < std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerCorruptedMetadata);
-  io_->seekOrThrow(io_->tell() + BYTE * 2, BasicIo::beg,
+  io_->seekOrThrow(io_->tell() + (BYTE * 2), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // skip two reserved tags
   for (uint32_t i = 0; i < nb_headers; i++) {
     decodeBlock();
@@ -346,17 +326,18 @@ void AsfVideo::DegradableJPEGMedia() {
   height_ = height;
   xmpData_["Xmp.video.Height"] = height;
 
-  io_->seek(io_->tell() + WORD * 3 /*3 Reserved*/, BasicIo::beg);
+  io_->seek(io_->tell() + (WORD * 3) /*3 Reserved*/, BasicIo::beg);
 
   uint32_t interchange_data_length = readWORDTag(io_);
   io_->seek(io_->tell() + interchange_data_length /*Interchange data*/, BasicIo::beg);
 }
 
 void AsfVideo::streamProperties() {
-  DataBuf streamTypedBuf = io_->read(GUID);
+  DataBuf streamTypedBuf(GUID);
+  io_->readOrThrow(streamTypedBuf.data(), streamTypedBuf.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
 
   enum class streamTypeInfo { Audio = 1, Video = 2 };
-  auto stream = static_cast<streamTypeInfo>(0);
+  auto stream = streamTypeInfo{0};
 
   auto tag_stream_type = GUIDReferenceTags.find(GUIDTag(streamTypedBuf.data()));
   if (tag_stream_type != GUIDReferenceTags.end()) {
@@ -471,7 +452,8 @@ void AsfVideo::contentDescription() {
 }  // AsfVideo::extendedContentDescription
 
 void AsfVideo::fileProperties() {
-  DataBuf FileIddBuf = io_->read(GUID);
+  DataBuf FileIddBuf(GUID);
+  io_->readOrThrow(FileIddBuf.data(), FileIddBuf.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
   xmpData()["Xmp.video.FileID"] = GUIDTag(FileIddBuf.data()).to_string();
   xmpData()["Xmp.video.FileLength"] = readQWORDTag(io_);
   xmpData()["Xmp.video.CreationDate"] = readQWORDTag(io_);

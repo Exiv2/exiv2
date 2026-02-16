@@ -94,12 +94,14 @@ Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  0
 
 FILES = [
     make_filename(irb_type, img_format)
-    for irb_type, img_format in itertools.product(TYPES, FORMATS)
+    for irb_type in TYPES
+    for img_format in FORMATS
 ]
 
 ORIGINAL_FILES = [
     "$data_path/exiv2-bug800-" + irb_type + "." + img_format
-    for irb_type, img_format in itertools.product(TYPES, FORMATS)
+    for irb_type in TYPES
+    for img_format in FORMATS
 ]
 
 
@@ -111,16 +113,13 @@ class MissingPhotoshopIrbTypes(metaclass=system_tests.CaseMeta):
     types = ["8BIM", "AgHg", "DCSR", "PHUT"]
     formats = ["jpg", "psd"]
 
-    commands = list(
-        itertools.chain.from_iterable(
-            make_commands(fname) for fname in FILES
-        )
-    )
+    commands = [cmd for fname in FILES for cmd in make_commands(fname)]
 
     stdout = list(
         itertools.chain.from_iterable(
             make_stdout(irb_type, img_format)
-            for irb_type, img_format in itertools.product(TYPES, FORMATS)
+            for irb_type in TYPES
+            for img_format in FORMATS
         )
     )
     stderr = [""] * 16

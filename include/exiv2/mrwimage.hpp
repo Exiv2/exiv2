@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef MRWIMAGE_HPP_
-#define MRWIMAGE_HPP_
+#ifndef EXIV2_MRWIMAGE_HPP
+#define EXIV2_MRWIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -38,7 +38,7 @@ class EXIV2API MrwImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  MrwImage(BasicIo::UniquePtr io, bool create);
+  MrwImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -84,11 +84,11 @@ class EXIV2API MrwImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newMrwInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a MRW image.
 EXIV2API bool isMrwType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef MRWIMAGE_HPP_
+#endif  // EXIV2_MRWIMAGE_HPP

@@ -12,7 +12,6 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
-#include "jpgimage.hpp"
 #include "photoshop.hpp"
 #include "pngchunk_int.hpp"
 #include "pngimage.hpp"
@@ -21,11 +20,12 @@
 #include "utils.hpp"
 
 #include <array>
+#include <cstring>
 #include <iostream>
 
 namespace {
 // Signature from front of PNG file
-constexpr unsigned char pngSignature[] = {
+constexpr std::array<unsigned char, 8> pngSignature{
     0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
 };
 
@@ -75,7 +75,7 @@ static bool zlibToDataBuf(const byte* bytes, uLongf length, DataBuf& result) {
   uLongf uncompressedLen = length;  // just a starting point
   int zlibResult = Z_BUF_ERROR;
 
-  do {
+  while (zlibResult == Z_BUF_ERROR) {
     result.alloc(uncompressedLen);
     zlibResult = uncompress(result.data(), &uncompressedLen, bytes, length);
     // if result buffer is large than necessary, redo to fit perfectly.
@@ -95,7 +95,7 @@ static bool zlibToDataBuf(const byte* bytes, uLongf length, DataBuf& result) {
       else
         uncompressedLen *= 2;
     }
-  } while (zlibResult == Z_BUF_ERROR);
+  }
 
   return zlibResult == Z_OK;
 }
@@ -104,7 +104,7 @@ static bool zlibToCompressed(const byte* bytes, uLongf length, DataBuf& result) 
   uLongf compressedLen = length;  // just a starting point
   int zlibResult = Z_BUF_ERROR;
 
-  do {
+  while (zlibResult == Z_BUF_ERROR) {
     result.alloc(compressedLen);
     zlibResult = compress(result.data(), &compressedLen, bytes, length);
     if (zlibResult == Z_BUF_ERROR) {
@@ -116,7 +116,7 @@ static bool zlibToCompressed(const byte* bytes, uLongf length, DataBuf& result) 
       result.alloc(compressedLen);
       zlibResult = compress(result.data(), &compressedLen, bytes, length);
     }
-  } while (zlibResult == Z_BUF_ERROR);
+  }
 
   return zlibResult == Z_OK;
 }
@@ -185,9 +185,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
     throw Error(ErrorCode::kerNotAnImage, "PNG");
   }
 
-  char chType[5];
-  chType[0] = 0;
-  chType[4] = 0;
+  std::string chType(4, 0);
 
   if (option == kpsBasic || option == kpsXMP || option == kpsIccProfile || option == kpsRecursive) {
     const auto xmpKey = upper("XML:com.adobe.xmp");
@@ -200,14 +198,14 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
 
     bool bPrint = option == kpsBasic || option == kpsRecursive;
     if (bPrint) {
-      out << "STRUCTURE OF PNG FILE: " << io_->path() << std::endl;
-      out << " address | chunk |  length | data                           | checksum" << std::endl;
+      out << "STRUCTURE OF PNG FILE: " << io_->path() << '\n';
+      out << " address | chunk |  length | data                           | checksum" << '\n';
     }
 
     const size_t imgSize = io_->size();
     DataBuf cheaderBuf(8);
 
-    while (!io_->eof() && ::strcmp(chType, "IEND") != 0) {
+    while (!io_->eof() && chType != "IEND") {
       const size_t address = io_->tell();
 
       size_t bufRead = io_->read(cheaderBuf.data(), cheaderBuf.size());
@@ -237,7 +235,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
 
       // format output
       const int iMax = 30;
-      const uint32_t blen = dataOffset > iMax ? iMax : dataOffset;
+      const auto blen = std::min<uint32_t>(iMax, dataOffset);
       std::string dataString;
       // if blen == 0 => slice construction fails
       if (blen > 0) {
@@ -256,18 +254,16 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
         enforce(bufRead == 4, ErrorCode::kerFailedToReadImageData);
         io_->seek(restore, BasicIo::beg);  // restore file pointer
 
-        out << Internal::stringFormat("%8d | %-5s |%8d | ", static_cast<uint32_t>(address), chType, dataOffset)
-            << dataString
-            << Internal::stringFormat(" | 0x%02x%02x%02x%02x", checksum[0], checksum[1], checksum[2], checksum[3])
-            << std::endl;
+        out << stringFormat("{:8} | {:<5} |{:8} | {}", address, chType, dataOffset, dataString)
+            << stringFormat(" | 0x{:02x}{:02x}{:02x}{:02x}\n", checksum[0], checksum[1], checksum[2], checksum[3]);
       }
 
       // chunk type
-      bool tEXt = std::strcmp(chType, "tEXt") == 0;
-      bool zTXt = std::strcmp(chType, "zTXt") == 0;
-      bool iCCP = std::strcmp(chType, "iCCP") == 0;
-      bool iTXt = std::strcmp(chType, "iTXt") == 0;
-      bool eXIf = std::strcmp(chType, "eXIf") == 0;
+      bool tEXt = chType == "tEXt";
+      bool zTXt = chType == "zTXt";
+      bool iCCP = chType == "iCCP";
+      bool iTXt = chType == "iTXt";
+      bool eXIf = chType == "eXIf";
 
       // for XMP, ICC etc: read and format data
       const auto dataStringU = upper(dataString);
@@ -322,13 +318,19 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
             DataBuf parsedBuf = PngChunk::readRawProfile(dataBuf, tEXt);
 #ifdef EXIV2_DEBUG_MESSAGES
             std::cerr << Exiv2::Internal::binaryToString(
-                             makeSlice(parsedBuf.c_data(), parsedBuf.size() > 50 ? 50 : parsedBuf.size(), 0))
-                      << std::endl;
+                             makeSlice(parsedBuf.c_data(), std::min<size_t>(50, parsedBuf.size()), 0))
+                      << '\n';
 #endif
             if (!parsedBuf.empty()) {
               if (bExif) {
+                // check for expected "Exif\0\0" APP1 identifier, punt otherwise
+                size_t offset = 0;
+                std::array<byte, 6> exifId{0x45, 0x78, 0x69, 0x66, 0x00, 0x00};  // "Exif\0\0"
+                if (0 == parsedBuf.cmpBytes(0, exifId.data(), exifId.size())) {
+                  offset = 6;
+                }
                 // create memio object with the data, then print the structure
-                MemIo p(parsedBuf.c_data(6), parsedBuf.size() - 6);
+                MemIo p(parsedBuf.c_data(offset), parsedBuf.size() - offset);
                 printTiffStructure(p, out, option, depth + 1);
               }
               if (bIptc) {
@@ -364,7 +366,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
           }
 
           if (bLF)
-            out << std::endl;
+            out << '\n';
         }
       }
       io_->seek(dataOffset + 4, BasicIo::cur);  // jump past checksum
@@ -376,7 +378,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
 
 static void readChunk(DataBuf& buffer, BasicIo& io) {
 #ifdef EXIV2_DEBUG_MESSAGES
-  std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << std::endl;
+  std::cout << "Exiv2::PngImage::readMetadata: Position: " << io.tell() << '\n';
 #endif
   const size_t bufRead = io.read(buffer.data(), buffer.size());
   if (io.error()) {
@@ -389,7 +391,7 @@ static void readChunk(DataBuf& buffer, BasicIo& io) {
 
 void PngImage::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
-  std::cerr << "Exiv2::PngImage::readMetadata: Reading PNG file " << io_->path() << std::endl;
+  std::cerr << "Exiv2::PngImage::readMetadata: Reading PNG file " << io_->path() << '\n';
 #endif
   if (io_->open() != 0) {
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
@@ -414,7 +416,7 @@ void PngImage::readMetadata() {
 
     std::string chunkType(cheaderBuf.c_str(4), 4);
 #ifdef EXIV2_DEBUG_MESSAGES
-    std::cout << "Exiv2::PngImage::readMetadata: chunk type: " << chunkType << " length: " << chunkLength << std::endl;
+    std::cout << "Exiv2::PngImage::readMetadata: chunk type: " << chunkType << " length: " << chunkLength << '\n';
 #endif
 
     /// \todo analyse remaining chunks of the standard
@@ -453,9 +455,8 @@ void PngImage::readMetadata() {
 
         zlibToDataBuf(chunkData.c_data(iccOffset), static_cast<uLongf>(chunkLength - iccOffset), iccProfile_);
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cout << "Exiv2::PngImage::readMetadata: profile name: " << profileName_ << std::endl;
-        std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ (uncompressed) : " << iccProfile_.size()
-                  << std::endl;
+        std::cout << "Exiv2::PngImage::readMetadata: profile name: " << profileName_ << '\n';
+        std::cout << "Exiv2::PngImage::readMetadata: iccProfile.size_ (uncompressed) : " << iccProfile_.size() << '\n';
 #endif
       }
 
@@ -466,7 +467,7 @@ void PngImage::readMetadata() {
 
     // Move to the next chunk: chunk data size + 4 CRC bytes.
 #ifdef EXIV2_DEBUG_MESSAGES
-    std::cout << "Exiv2::PngImage::readMetadata: Seek to offset: " << chunkLength + 4 << std::endl;
+    std::cout << "Exiv2::PngImage::readMetadata: Seek to offset: " << chunkLength + 4 << '\n';
 #endif
     io_->seek(chunkLength + 4, BasicIo::cur);
     if (io_->error() || io_->eof()) {
@@ -504,7 +505,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
   }
 
   // Write PNG Signature.
-  if (outIo.write(pngSignature, 8) != 8)
+  if (outIo.write(pngSignature.data(), 8) != 8)
     throw Error(ErrorCode::kerImageWriteFailed);
 
   DataBuf cheaderBuf(8);  // Chunk header : 4 bytes (data size) + 4 bytes (chunk type).
@@ -525,19 +526,17 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
 
     // Read whole chunk : Chunk header + Chunk data (not fixed size - can be null) + CRC (4 bytes).
 
-    DataBuf chunkBuf(8 + dataOffset + 4);                   // Chunk header (8 bytes) + Chunk data + CRC (4 bytes).
-    std::copy_n(cheaderBuf.begin(), 8, chunkBuf.begin());   // Copy header.
-    bufRead = io_->read(chunkBuf.data(8), dataOffset + 4);  // Extract chunk data + CRC
+    DataBuf chunkBuf(8 + dataOffset + 4);  // Chunk header (8 bytes) + Chunk data + CRC (4 bytes).
+    std::copy(cheaderBuf.begin(), cheaderBuf.end(), chunkBuf.begin());  // Copy header.
+    bufRead = io_->read(chunkBuf.data(8), dataOffset + 4);              // Extract chunk data + CRC
     if (io_->error())
       throw Error(ErrorCode::kerFailedToReadImageData);
     if (bufRead != dataOffset + 4)
       throw Error(ErrorCode::kerInputDataReadFailed);
 
-    char szChunk[5];
-    std::copy_n(cheaderBuf.c_data(4), 4, szChunk);
-    szChunk[4] = 0;
+    const std::string szChunk(cheaderBuf.begin() + 4, cheaderBuf.end());
 
-    if (!strcmp(szChunk, "IEND")) {
+    if (szChunk == "IEND") {
       // Last chunk found: we write it and done.
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata: Write IEND chunk (length: " << dataOffset << ")\n";
@@ -546,14 +545,14 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
         throw Error(ErrorCode::kerImageWriteFailed);
       return;
     }
-    if (!strcmp(szChunk, "eXIf") || !strcmp(szChunk, "iCCP")) {
+    if (szChunk == "eXIf" || szChunk == "iCCP") {
       // do nothing (strip): Exif metadata is written following IHDR
       // together with the ICC profile as fresh eXIf and iCCP chunks
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk << " chunk (length: " << dataOffset << ")"
-                << std::endl;
+                << '\n';
 #endif
-    } else if (!strcmp(szChunk, "IHDR")) {
+    } else if (szChunk == "IHDR") {
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata: Write IHDR chunk (length: " << dataOffset << ")\n";
 #endif
@@ -590,7 +589,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
           }
 #ifdef EXIV2_DEBUG_MESSAGES
           std::cout << "Exiv2::PngImage::doWriteMetadata: build eXIf"
-                    << " chunk (length: " << blob.size() << ")" << std::endl;
+                    << " chunk (length: " << blob.size() << ")" << '\n';
 #endif
         }
       }
@@ -633,7 +632,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
           }
 #ifdef EXIV2_DEBUG_MESSAGES
           std::cout << "Exiv2::PngImage::doWriteMetadata: build iCCP"
-                    << " chunk (length: " << chunkLength << ")" << std::endl;
+                    << " chunk (length: " << chunkLength << ")" << '\n';
 #endif
         }
       }
@@ -650,19 +649,19 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
           throw Error(ErrorCode::kerImageWriteFailed);
         }
       }
-    } else if (!strcmp(szChunk, "tEXt") || !strcmp(szChunk, "zTXt") || !strcmp(szChunk, "iTXt")) {
+    } else if (szChunk == "tEXt" || szChunk == "zTXt" || szChunk == "iTXt") {
       DataBuf key = PngChunk::keyTXTChunk(chunkBuf, true);
       if (!key.empty() && (compare("Raw profile type exif", key) || compare("Raw profile type APP1", key) ||
                            compare("Raw profile type iptc", key) || compare("Raw profile type xmp", key) ||
                            compare("XML:com.adobe.xmp", key) || compare("Description", key))) {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngImage::doWriteMetadata: strip " << szChunk << " chunk (length: " << dataOffset << ")"
-                  << std::endl;
+                  << '\n';
 #endif
       } else {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::PngImage::doWriteMetadata: write " << szChunk << " chunk (length: " << dataOffset << ")"
-                  << std::endl;
+                  << '\n';
 #endif
         if (outIo.write(chunkBuf.c_data(), chunkBuf.size()) != chunkBuf.size())
           throw Error(ErrorCode::kerImageWriteFailed);
@@ -671,7 +670,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
       // Write all others chunk as well.
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cout << "Exiv2::PngImage::doWriteMetadata:  copy " << szChunk << " chunk (length: " << dataOffset << ")"
-                << std::endl;
+                << '\n';
 #endif
       if (outIo.write(chunkBuf.c_data(), chunkBuf.size()) != chunkBuf.size())
         throw Error(ErrorCode::kerImageWriteFailed);
@@ -695,17 +694,17 @@ bool isPngType(BasicIo& iIo, bool advance) {
     throw Error(ErrorCode::kerInputDataReadFailed);
   }
   const int32_t len = 8;
-  byte buf[len];
-  iIo.read(buf, len);
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  int rc = memcmp(buf, pngSignature, 8);
-  if (!advance || rc != 0) {
+  bool rc = buf == pngSignature;
+  if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);
   }
 
-  return rc == 0;
+  return rc;
 }
 }  // namespace Exiv2
 #endif

@@ -2,12 +2,16 @@
 
 // included header files
 #include "gifimage.hpp"
-
+#include "basicio.hpp"
 #include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
 
+#include <array>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -74,14 +78,14 @@ Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool /*create*/) {
 
 bool isGifType(BasicIo& iIo, bool advance) {
   const int32_t len = 6;
-  const unsigned char Gif87aId[8] = {'G', 'I', 'F', '8', '7', 'a'};
-  const unsigned char Gif89aId[8] = {'G', 'I', 'F', '8', '9', 'a'};
-  byte buf[len];
-  iIo.read(buf, len);
+  const std::array<byte, len> Gif87aId{'G', 'I', 'F', '8', '7', 'a'};
+  const std::array<byte, len> Gif89aId{'G', 'I', 'F', '8', '9', 'a'};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  bool matched = (memcmp(buf, Gif87aId, len) == 0) || (memcmp(buf, Gif89aId, len) == 0);
+  bool matched = buf == Gif87aId || buf == Gif89aId;
   if (!advance || !matched) {
     iIo.seek(-len, BasicIo::cur);
   }

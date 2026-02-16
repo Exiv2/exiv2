@@ -6,12 +6,12 @@
 
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "utils.hpp"
 #include "value.hpp"
-
-#include <array>
 
 // *****************************************************************************
 // class member definitions
@@ -319,10 +319,6 @@ constexpr TagInfo OlympusMakerNote::tagInfo_[] = {
     {0xffff, "(UnknownOlympusMakerNoteTag)", "(UnknownOlympusMakerNoteTag)", N_("Unknown OlympusMakerNote tag"),
      IfdId::olympusId, SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagList() {
-  return tagInfo_;
-}
 
 // Olympus CameraSettings Tags
 //! ExposureMode, tag 0x0200
@@ -645,10 +641,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* OlympusMakerNote::tagListCs() {
-  return tagInfoCs_;
-}
-
 //! OlympusEq FlashType, tag 0x1000
 constexpr TagDetails olympusEqFlashType[] = {
     {0, N_("None")},
@@ -658,8 +650,8 @@ constexpr TagDetails olympusEqFlashType[] = {
 
 //! OlympusEq FlashModel, tag 0x1001
 constexpr TagDetails olympusEqFlashModel[] = {
-    {0, N_("None")}, {1, "FL-20"},  {2, "FL-50"}, {3, "RF-11"},    {4, "TF-22"},   {5, "FL-36"},
-    {6, "FL-50R"},   {7, "FL-36R"}, {9, "FL-14"}, {11, "FL-600R"}, {11, "FL-600R"}  // To silence compiler warning
+    {0, N_("None")}, {1, "FL-20"},  {2, "FL-50"},  {3, "RF-11"}, {4, "TF-22"},
+    {5, "FL-36"},    {6, "FL-50R"}, {7, "FL-36R"}, {9, "FL-14"}, {11, "FL-600R"},
 };
 
 constexpr TagInfo OlympusMakerNote::tagInfoEq_[] = {
@@ -701,7 +693,7 @@ constexpr TagInfo OlympusMakerNote::tagInfoEq_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
     {0x0303, "ExtenderModel", N_("Extender Model"), N_("Extender model"), IfdId::olympusEqId, SectionId::makerTags,
      asciiString, -1, printValue},
-    {0x0304, "ExtenderFirmwareVersion", N_("Extender Firmware Version"), N_("Extender firmwareversion"),
+    {0x0304, "ExtenderFirmwareVersion", N_("Extender Firmware Version"), N_("Extender firmware version"),
      IfdId::olympusEqId, SectionId::makerTags, unsignedLong, -1, printValue},
     {0x0403, "ConversionLens", N_("Conversion Lens"), N_("Conversion lens"), IfdId::olympusEqId, SectionId::makerTags,
      asciiString, -1, printValue},
@@ -717,10 +709,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoEq_[] = {
     {0xffff, "(UnknownOlympusEqTag)", "(UnknownOlympusEqTag)", N_("Unknown OlympusEq tag"), IfdId::olympusEqId,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListEq() {
-  return tagInfoEq_;
-}
 
 //! OlympusRd ColorSpace, tag 0x0108
 constexpr TagDetails olympusRdColorSpace[] = {
@@ -785,10 +773,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoRd_[] = {
     {0xffff, "(UnknownOlympusRdTag)", "(UnknownOlympusRdTag)", N_("Unknown OlympusRd tag"), IfdId::olympusRdId,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListRd() {
-  return tagInfoRd_;
-}
 
 //! OlympusRd2 WhiteBalance, tag 0x0101
 constexpr TagDetails olympusRd2WhiteBalance[] = {
@@ -875,10 +859,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoRd2_[] = {
     {0xffff, "(UnknownOlympusRd2Tag)", "(UnknownOlympusRd2Tag)", N_("Unknown OlympusRd2 tag"), IfdId::olympusRd2Id,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListRd2() {
-  return tagInfoRd2_;
-}
 
 //! OlympusIp MultipleExposureMode, tag 0x101c
 constexpr TagDetails olympusIpMultipleExposureMode[] = {
@@ -1000,10 +980,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoIp_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* OlympusMakerNote::tagListIp() {
-  return tagInfoIp_;
-}
-
 //! OlympusFi ExternalFlashBounce, tag 0x1204
 constexpr TagDetails olympusFiExternalFlashBounce[] = {
     {0, N_("Bounce or Off")},
@@ -1054,10 +1030,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoFi_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* OlympusMakerNote::tagListFi() {
-  return tagInfoFi_;
-}
-
 constexpr TagInfo OlympusMakerNote::tagInfoFe_[] = {
     {0x0100, "BodyFirmwareVersion", N_("Body Firmware Version"), N_("Body firmware version"), IfdId::olympusFe1Id,
      SectionId::makerTags, asciiString, -1, printValue},
@@ -1065,10 +1037,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoFe_[] = {
     {0xffff, "(UnknownOlympusFeTag)", "(UnknownOlympusFeTag)", N_("Unknown OlympusFe tag"), IfdId::olympusFe1Id,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListFe() {
-  return tagInfoFe_;
-}
 
 //! OlympusRi LightSource, tag 0x1000
 constexpr TagDetails olympusRiLightSource[] = {
@@ -1163,10 +1131,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoRi_[] = {
     {0xffff, "(UnknownOlympusRiTag)", "(UnknownOlympusRiTag)", N_("Unknown OlympusRi tag"), IfdId::olympusRiId,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListRi() {
-  return tagInfoRi_;
-}
 
 // Gradation
 std::ostream& OlympusMakerNote::print0x050f(std::ostream& os, const Value& value, const ExifData*) {
@@ -1275,19 +1239,13 @@ std::ostream& OlympusMakerNote::print0x0200(std::ostream& os, const Value& value
 }  // OlympusMakerNote::print0x0200
 
 std::ostream& OlympusMakerNote::print0x0204(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags of(os.flags());
   if (value.count() == 0 || value.toRational().second == 0) {
     return os << "(" << value << ")";
   }
   float f = value.toFloat();
   if (f == 0.0F || f == 1.0F)
     return os << _("None");
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(1) << f << "x";
-  os.copyfmt(oss);
-  os.flags(of);
-  return os;
+  return os << stringFormat("{:.1f}x", f);
 }  // OlympusMakerNote::print0x0204
 
 std::ostream& OlympusMakerNote::print0x1015(std::ostream& os, const Value& value, const ExifData*) {
@@ -1360,7 +1318,7 @@ std::ostream& OlympusMakerNote::print0x0201(std::ostream& os, const Value& value
 
   // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
   // Only the Make, Model and Sub-model are used to determine the lens model
-  static const struct {
+  static constexpr struct {
     byte val[3];
     const char* label;
   } lensTypes[] = {
@@ -1514,7 +1472,7 @@ std::ostream& OlympusMakerNote::print0x0209(std::ostream& os, const Value& value
 std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& value, const ExifData*) {
   // 6 numbers: 0. Make, 1. Unknown, 2. Model, 3. Sub-model, 4-5. Unknown.
   // Only the Make and Model are used to determine the extender model
-  static const struct {
+  static constexpr struct {
     byte val[2];
     const char* label;
   } extenderModels[] = {
@@ -1542,10 +1500,7 @@ std::ostream& OlympusMakerNote::printEq0x0301(std::ostream& os, const Value& val
 //! OlympusCs FocusMode, tag 0x0301
 // (1 or 2 values)
 std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& value, const ExifData*) {
-  struct mode {
-    uint16_t tag;
-    const char* name;
-  };
+  using mode = std::pair<uint16_t, const char*>;
   static constexpr mode focusModes0[] = {
       {0, N_("Single AF")},     {1, N_("Sequential shooting AF")},
       {2, N_("Continuous AF")}, {3, N_("Multi AF")},
@@ -1590,18 +1545,15 @@ std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& val
 
 //! OlympusCs ArtFilter, tag 0x0529, OlympusCs MagicFilter, tag 0x052c
 std::ostream& OlympusMakerNote::print0x0529(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 4 || value.typeId() != unsignedShort) {
+  if (value.count() != 4 || value.typeId() != unsignedShort)
     return os << "(" << value << ")";
-  }
 
   const auto v0 = value.toInt64(0);
-
-  printTag<std::size(artFilters), artFilters>(os, v0, metadata);
+  EXV_PRINT_TAG(artFilters)(os, v0, metadata);
 
   if (v0 == 39) {  // The "Partial color" option also has a color choice
     const auto v3 = value.toInt64(3);
-    os << " (" << _("position") << " " << (v3 + 1) << ")";
-    return os;
+    return os << " (" << _("position") << " " << (v3 + 1) << ")";
   }
 
   return os;
@@ -1632,40 +1584,25 @@ std::ostream& OlympusMakerNote::print0x1209(std::ostream& os, const Value& value
 
 // Olympus FocusDistance 0x0305
 std::ostream& OlympusMakerNote::print0x0305(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedRational) {
-    os.flags(f);
     return os << value;
   }
 
   auto [r, s] = value.toRational();
   if (static_cast<uint32_t>(r) == 0xffffffff) {
-    os << _("Infinity");
-  } else {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2);
-    os << static_cast<float>(r) / 1000 << " m";
-    os.copyfmt(oss);
+    return os << _("Infinity");
   }
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", static_cast<float>(r) / 1000);
 }
 
 // Olympus FocusInfo tag 0x0308 AFPoint
 std::ostream& OlympusMakerNote::print0x0308(std::ostream& os, const Value& value, const ExifData* metadata) {
-  static constexpr struct point {
-    uint16_t p;
-    const char* name;
-  } afPoints[] = {
+  static constexpr std::pair<uint16_t, const char*> afPoints[] = {
       {0, N_("Left (or n/a)")}, {1, N_("Center (horizontal)")}, {2, N_("Right")}, {3, N_("Center (vertical)")},
       {255, N_("None")},
   };
 
-  static constexpr struct pointE3 {
-    byte p;
-    const char* name;
-  } afPointsE3[] = {
+  static constexpr std::pair<byte, const char*> afPointsE3[] = {
       {0x00, N_("None")},
       {0x01, N_("Top-left (horizontal)")},
       {0x02, N_("Top-center (horizontal)")},

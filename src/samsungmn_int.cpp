@@ -3,13 +3,14 @@
 // included header files
 #include "samsungmn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
 
 // + standard includes
-#include <iomanip>
-#include <sstream>
+#include <ostream>
 
 // *****************************************************************************
 // class member definitions
@@ -58,20 +59,14 @@ static std::ostream& printCameraTemperature(std::ostream& os, const Value& value
 
 //! Print the 35mm focal length
 static std::ostream& printFocalLength35(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.count() != 1 || value.typeId() != unsignedLong) {
     return os << value;
   }
-  if (auto length = value.toInt64(); length == 0) {
-    os << _("Unknown");
-  } else {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << length / 10.0 << " mm";
-    os.copyfmt(oss);
+  auto length = value.toInt64();
+  if (length == 0) {
+    return os << _("Unknown");
   }
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.1f} mm", length / 10.0);
 }
 
 // Samsung MakerNote Tag Info
@@ -141,10 +136,6 @@ constexpr TagInfo Samsung2MakerNote::tagInfo_[] = {
      IfdId::samsung2Id, SectionId::makerTags, undefined, -1, printValue},
 };
 
-const TagInfo* Samsung2MakerNote::tagList() {
-  return tagInfo_;
-}
-
 //! PictureWizard Mode
 constexpr TagDetails samsungPwMode[] = {
     {0, N_("Standard")}, {1, N_("Vivid")},   {2, N_("Portrait")}, {3, N_("Landscape")},
@@ -189,9 +180,5 @@ constexpr TagInfo Samsung2MakerNote::tagInfoPw_[] = {
     {0xffff, "(UnknownSamsungPictureWizardTag)", "(UnknownSamsungPictureWizardTag)",
      N_("Unknown SamsungPictureWizard tag"), IfdId::samsungPwId, SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* Samsung2MakerNote::tagListPw() {
-  return tagInfoPw_;
-}
 
 }  // namespace Exiv2::Internal

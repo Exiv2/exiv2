@@ -10,8 +10,8 @@ class CheckShutterInPentax(metaclass=system_tests.CaseMeta):
                  "$data_path/RAW_PENTAX_K100.exv"]
 
     commands = [
-        "$exiv2 -pa --grep Shutter " + filenames[0],
-        "$exiv2 -pa --grep Shutter " + filenames[1],
+        f"$exiv2 -pa --grep Shutter {filenames[0]}",
+        f"$exiv2 -pa --grep Shutter {filenames[1]}",
     ]
 
     stdout = [

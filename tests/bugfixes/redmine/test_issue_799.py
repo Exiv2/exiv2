@@ -90,21 +90,21 @@ Set Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:h "0.28125" (XmpT
 Set Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:unit "normalized" (XmpText)
 """,
         """File 1/1: $filename
-Xmp.MP.RegionInfo                            XmpText     0  type="Struct"
-Xmp.MP.RegionInfo/MPRI:Regions               XmpText     0  type="Bag"
-Xmp.MP.RegionInfo/MPRI:Regions[1]            XmpText     0  type="Struct"
+Xmp.MP.RegionInfo                            XmpText    13  type="Struct"
+Xmp.MP.RegionInfo/MPRI:Regions               XmpText    10  type="Bag"
+Xmp.MP.RegionInfo/MPRI:Regions[1]            XmpText    13  type="Struct"
 Xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle XmpText    22  0.11, 0.22, 0.33, 0.44
 Xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:PersonDisplayName XmpText     8  Baby Gnu
-Xmp.mwg-rs.Regions                           XmpText     0  type="Struct"
-Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions                           XmpText    13  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions XmpText    13  type="Struct"
 Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:w XmpText     4  1600
 Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:h XmpText     3  800
 Xmp.mwg-rs.Regions/mwg-rs:AppliedToDimensions/stDim:unit XmpText     5  pixel
-Xmp.mwg-rs.Regions/mwg-rs:RegionList         XmpText     0  type="Bag"
-Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]      XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList         XmpText    10  type="Bag"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]      XmpText    13  type="Struct"
 Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Name XmpText     8  Baby Gnu
 Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Type XmpText     4  Face
-Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area XmpText     0  type="Struct"
+Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area XmpText    13  type="Struct"
 Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:x XmpText     8  0.275312
 Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:y XmpText     6  0.3775
 Xmp.mwg-rs.Regions/mwg-rs:RegionList[1]/mwg-rs:Area/stArea:w XmpText     8  0.164375

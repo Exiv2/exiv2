@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef PSDIMAGE_HPP_
-#define PSDIMAGE_HPP_
+#ifndef EXIV2_PSDIMAGE_HPP
+#define EXIV2_PSDIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -34,7 +34,7 @@ class EXIV2API PsdImage : public Image {
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
    */
-  explicit PsdImage(BasicIo::UniquePtr io);
+  explicit PsdImage(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -96,11 +96,11 @@ class EXIV2API PsdImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newPsdInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a Photoshop image.
 EXIV2API bool isPsdType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef PSDIMAGE_HPP_
+#endif  // EXIV2_PSDIMAGE_HPP

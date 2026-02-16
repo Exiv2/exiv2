@@ -14,27 +14,21 @@ Config loaded from : 'initest.ini' version=6, name=Bob Smith, email=bob@smith.co
 #include <iostream>
 
 int main() {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   const char* ini = "ini-test.ini";
   INIReader reader(ini);
 
   if (reader.ParseError() < 0) {
-    std::cerr << "Can't load '" << ini << "'" << std::endl;
+    std::cerr << "Can't load '" << ini << "'" << '\n';
     return EXIT_FAILURE;
   }
   std::cout << "Config loaded from : '" << ini << "' "
             << "version=" << reader.GetInteger("protocol", "version", -1)
             << ", name=" << reader.Get("user", "name", "UNKNOWN")
             << ", email=" << reader.Get("user", "email", "UNKNOWN") << ", pi=" << reader.GetReal("user", "pi", -1)
-            << ", active=" << reader.GetBoolean("user", "active", true) << std::endl;
+            << ", active=" << reader.GetBoolean("user", "active", true) << '\n';
 
   std::cout << "169=" << reader.Get("canon", "169", "UNDEFINED") << ", 170=" << reader.Get("canon", "170", "UNDEFINED")
-            << std::endl;
+            << '\n';
 
   return EXIT_SUCCESS;
 }

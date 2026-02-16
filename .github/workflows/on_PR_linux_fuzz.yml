@@ -16,11 +16,18 @@ on:
 
 jobs:
   Linux:
-    name: 'Ubuntu 22.04 - clang/libFuzzer'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu 24.04 - clang/libFuzzer'
+    runs-on: ubuntu-24.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        fuzz_target: [fuzz-read-write, fuzz-read-print-write]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
     - name: Install dependencies
       run: |
         sudo ./ci/install_dependencies.sh
@@ -37,4 +44,4 @@ jobs:
       run: |
         cd build
         mkdir corpus
-        LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/fuzz-read-print-write corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_len=4096 -max_total_time=120
+        LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/${{matrix.fuzz_target}} corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_len=4096 -max_total_time=120

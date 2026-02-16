@@ -4,15 +4,11 @@
 
 #include <error.hpp>  // Need to include this header for the Exiv2::Error exception
 
+#include <filesystem>
+
 #include <gtest/gtest.h>
 
-#if __has_include(<filesystem>)
-#include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
 
 using namespace Exiv2;
 

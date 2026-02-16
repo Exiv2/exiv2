@@ -1,11 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-
 #include "crwimage_int.hpp"
 #include "canonmn_int.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "image.hpp"
+#include "image_int.hpp"
+#include "tags.hpp"
+#include "tags_int.hpp"
 
+#include <algorithm>
 #include <ctime>
 #include <iostream>
 
@@ -21,43 +26,28 @@ class RotationMap {
   static int32_t degrees(uint16_t orientation);
 
  private:
-  //! Helper structure for the mapping list
-  struct OmList {
-    uint16_t orientation;
-    int32_t degrees;
-  };
   // DATA
-  static const OmList omList_[];
+  static const std::pair<uint16_t, int32_t> omList_[];
 };  // class RotationMap
-}  // namespace
 
 // *****************************************************************************
 // local definitions
-namespace {
-constexpr RotationMap::OmList RotationMap::omList_[] = {
+constexpr std::pair<uint16_t, int32_t> RotationMap::omList_[] = {
     {1, 0}, {3, 180}, {3, -180}, {6, 90}, {6, -270}, {8, 270}, {8, -90},
 };
 
 uint16_t RotationMap::orientation(int32_t degrees) {
-  uint16_t o = 1;
-  for (auto&& [orient, deg] : omList_) {
-    if (deg == degrees) {
-      o = orient;
-      break;
-    }
-  }
-  return o;
+  for (auto&& [orient, deg] : omList_)
+    if (deg == degrees)
+      return orient;
+  return 1;
 }
 
 int32_t RotationMap::degrees(uint16_t orientation) {
-  int32_t d = 0;
-  for (auto&& [orient, deg] : omList_) {
-    if (orient == orientation) {
-      d = deg;
-      break;
-    }
-  }
-  return d;
+  for (auto&& [orient, deg] : omList_)
+    if (orient == orientation)
+      return deg;
+  return 0;
 }
 }  // namespace
 
@@ -133,23 +123,19 @@ const CrwSubDir CrwMap::crwSubDir_[] = {
 CiffComponent::CiffComponent(uint16_t tag, uint16_t dir) : dir_(dir), tag_(tag) {
 }
 
-CiffDirectory::~CiffDirectory() {
-  for (auto&& component : components_) {
-    delete component;
-  }
+const CiffComponent::UniquePtr& CiffComponent::add(UniquePtr component) {
+  return doAdd(std::move(component));
 }
 
-void CiffComponent::add(UniquePtr component) {
-  doAdd(std::move(component));
-}
-
-void CiffEntry::doAdd(UniquePtr /*component*/) {
+const CiffComponent::UniquePtr& CiffEntry::doAdd(UniquePtr /*component*/) {
   throw Error(ErrorCode::kerFunctionNotSupported, "CiffEntry::add");
 }  // CiffEntry::doAdd
 
-void CiffDirectory::doAdd(UniquePtr component) {
-  components_.push_back(component.release());
+const CiffComponent::UniquePtr& CiffDirectory::doAdd(UniquePtr component) {
+  return components_.emplace_back(std::move(component));
 }  // CiffDirectory::doAdd
+
+const byte CiffHeader::signature_[] = {'H', 'E', 'A', 'P', 'C', 'C', 'D', 'R'};
 
 void CiffHeader::read(const byte* pData, size_t size) {
   if (size < 14)
@@ -170,9 +156,11 @@ void CiffHeader::read(const byte* pData, size_t size) {
   }
 
   pPadding_.clear();
-  pPadding_.resize(offset_ - 14);
-  padded_ = offset_ - 14;
-  std::copy_n(pData + 14, padded_, pPadding_.begin());
+  if (offset_ > 14) {
+    pPadding_.resize(offset_ - 14);
+    padded_ = offset_ - 14;
+    std::copy_n(pData + 14, padded_, pPadding_.begin());
+  }
 
   pRootDir_ = std::make_unique<CiffDirectory>();
   pRootDir_->readDirectory(pData + offset_, size - offset_, byteOrder_);
@@ -250,7 +238,7 @@ void CiffDirectory::readDirectory(const byte* pData, size_t size, ByteOrder byte
 
   for (uint16_t i = 0; i < count; ++i) {
     uint16_t tag = getUShort(pData + o, byteOrder);
-    auto m = [this, tag]() -> std::unique_ptr<CiffComponent> {
+    auto m = [this, tag]() -> UniquePtr {
       if (this->typeId(tag) == TypeId::directory)
         return std::make_unique<CiffDirectory>();
       return std::make_unique<CiffEntry>();
@@ -295,7 +283,7 @@ void CiffHeader::write(Blob& blob) const {
   ul2Data(buf, offset_, byteOrder_);
   append(blob, buf, 4);
   o += 4;
-  append(blob, reinterpret_cast<const byte*>(signature_), 8);
+  append(blob, signature_, 8);
   o += 8;
   // Pad as needed
   if (!pPadding_.empty()) {
@@ -416,10 +404,8 @@ void CiffComponent::print(std::ostream& os, ByteOrder byteOrder, const std::stri
 }
 
 void CiffComponent::doPrint(std::ostream& os, ByteOrder byteOrder, const std::string& prefix) const {
-  os << prefix << _("tag") << " = 0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << tagId() << ", "
-     << _("dir") << " = 0x" << std::setw(4) << std::setfill('0') << std::hex << std::right << dir() << ", " << _("type")
-     << " = " << TypeInfo::typeName(typeId()) << ", " << _("size") << " = " << std::dec << size_ << ", " << _("offset")
-     << " = " << offset_ << "\n";
+  os << stringFormat("{}{} = 0x{:04x}, {} = 0x{:04x}, {} = {}, {} = {}, {} = {}\n", prefix, _("tag"), tagId(), _("dir"),
+                     dir(), _("type"), TypeInfo::typeName(typeId()), _("size"), size_, _("offset"), offset_);
 
   if (typeId() != directory) {
     auto value = Value::create(typeId());
@@ -487,18 +473,18 @@ CiffComponent* CiffHeader::findComponent(uint16_t crwTagId, uint16_t crwDir) con
   return pRootDir_->findComponent(crwTagId, crwDir);
 }  // CiffHeader::findComponent
 
-CiffComponent* CiffComponent::findComponent(uint16_t crwTagId, uint16_t crwDir) const {
+CiffComponent* CiffComponent::findComponent(uint16_t crwTagId, uint16_t crwDir) {
   return doFindComponent(crwTagId, crwDir);
 }  // CiffComponent::findComponent
 
-CiffComponent* CiffComponent::doFindComponent(uint16_t crwTagId, uint16_t crwDir) const {
+CiffComponent* CiffComponent::doFindComponent(uint16_t crwTagId, uint16_t crwDir) {
   if (tagId() == crwTagId && dir() == crwDir) {
-    return const_cast<CiffComponent*>(this);
+    return this;
   }
   return nullptr;
 }  // CiffComponent::doFindComponent
 
-CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId, uint16_t crwDir) const {
+CiffComponent* CiffDirectory::doFindComponent(uint16_t crwTagId, uint16_t crwDir) {
   for (auto&& component : components_) {
     if (auto cc = component->findComponent(crwTagId, crwDir))
       return cc;
@@ -513,20 +499,20 @@ void CiffHeader::add(uint16_t crwTagId, uint16_t crwDir, DataBuf&& buf) {
   if (!pRootDir_) {
     pRootDir_ = std::make_unique<CiffDirectory>();
   }
-  if (auto child = pRootDir_->add(crwDirs, crwTagId)) {
+  if (const auto& child = pRootDir_->add(crwDirs, crwTagId)) {
     child->setValue(std::move(buf));
   }
 }  // CiffHeader::add
 
-CiffComponent* CiffComponent::add(CrwDirs& crwDirs, uint16_t crwTagId) {
+const CiffComponent::UniquePtr& CiffComponent::add(CrwDirs& crwDirs, uint16_t crwTagId) {
   return doAdd(crwDirs, crwTagId);
 }  // CiffComponent::add
 
-CiffComponent* CiffComponent::doAdd(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/) {
-  return nullptr;
+const CiffComponent::UniquePtr& CiffComponent::doAdd(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/) {
+  throw Error(ErrorCode::kerFunctionNotSupported, "CiffEntry::doAdd");
 }  // CiffComponent::doAdd
 
-CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
+const CiffComponent::UniquePtr& CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
   /*
     add()
       if stack not empty
@@ -543,31 +529,26 @@ CiffComponent* CiffDirectory::doAdd(CrwDirs& crwDirs, uint16_t crwTagId) {
     auto dir = crwDirs.top();
     crwDirs.pop();
     // Find the directory
-    auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == dir.dir; });
-    if (it != components_.end())
-      cc_ = *it;
-    if (!cc_) {
-      // Directory doesn't exist yet, add it
-      m_ = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
-      cc_ = m_.get();
-      add(std::move(m_));
-    }
-    // Recursive call to next lower level directory
-    cc_ = cc_->add(crwDirs, crwTagId);
-  } else {
-    // Find the tag
-    auto it =
-        std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tagId() == crwTagId; });
-    if (it != components_.end())
-      cc_ = *it;
-    if (!cc_) {
-      // Tag doesn't exist yet, add it
-      m_ = std::make_unique<CiffEntry>(crwTagId, tag());
-      cc_ = m_.get();
-      add(std::move(m_));
-    }
+    for (const auto& c : components_)
+      if (c->tag() == dir.dir) {
+        // Recursive call to next lower level directory
+        return c->add(crwDirs, crwTagId);
+      }
+
+    // Directory doesn't exist yet, add it
+    auto m = std::make_unique<CiffDirectory>(dir.dir, dir.parent);
+    return add(std::move(m))->add(crwDirs, crwTagId);
   }
-  return cc_;
+
+  // Find the tag
+  for (const auto& c : components_)
+    if (c->tagId() == crwTagId) {
+      return c;
+    }
+
+  // Tag doesn't exist yet, add it
+  auto m = std::make_unique<CiffEntry>(crwTagId, tag());
+  return add(std::move(m));
 }  // CiffDirectory::doAdd
 
 void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) const {
@@ -580,7 +561,7 @@ void CiffHeader::remove(uint16_t crwTagId, uint16_t crwDir) const {
 }  // CiffHeader::remove
 
 void CiffComponent::remove(CrwDirs& crwDirs, uint16_t crwTagId) {
-  return doRemove(crwDirs, crwTagId);
+  doRemove(crwDirs, crwTagId);
 }  // CiffComponent::remove
 
 void CiffComponent::doRemove(CrwDirs& /*crwDirs*/, uint16_t /*crwTagId*/) {
@@ -603,7 +584,6 @@ void CiffDirectory::doRemove(CrwDirs& crwDirs, uint16_t crwTagId) {
     // Find the tag
     auto it = std::find_if(components_.begin(), components_.end(), [=](const auto& c) { return c->tag() == crwTagId; });
     if (it != components_.end()) {
-      delete *it;
       components_.erase(it);
     }
   }
@@ -639,7 +619,7 @@ const CrwMapping* CrwMap::crwMapping(uint16_t crwDir, uint16_t crwTagId) {
 
 void CrwMap::decode0x0805(const CiffComponent& ciffComponent, const CrwMapping* /*pCrwMapping*/, Image& image,
                           ByteOrder /*byteOrder*/) {
-  std::string s(reinterpret_cast<const char*>(ciffComponent.pData()));
+  auto s = Exiv2::toString(ciffComponent.pData());
   image.setComment(s);
 }  // CrwMap::decode0x0805
 
@@ -652,8 +632,11 @@ void CrwMap::decode0x080a(const CiffComponent& ciffComponent, const CrwMapping* 
   ExifKey key1("Exif.Image.Make");
   auto value1 = Value::create(ciffComponent.typeId());
   uint32_t i = 0;
-  while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-    // empty
+  while (i < ciffComponent.size()) {
+    ++i;
+    if (ciffComponent.pData()[i - 1] == '\0') {
+      break;
+    }
   }
   value1->read(ciffComponent.pData(), i, byteOrder);
   image.exifData().add(key1, value1.get());
@@ -662,8 +645,11 @@ void CrwMap::decode0x080a(const CiffComponent& ciffComponent, const CrwMapping* 
   ExifKey key2("Exif.Image.Model");
   auto value2 = Value::create(ciffComponent.typeId());
   uint32_t j = i;
-  while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-    // empty
+  while (i < ciffComponent.size()) {
+    ++i;
+    if (ciffComponent.pData()[i - 1] == '\0') {
+      break;
+    }
   }
   value2->read(ciffComponent.pData() + j, i - j, byteOrder);
   image.exifData().add(key2, value2.get());
@@ -672,7 +658,8 @@ void CrwMap::decode0x080a(const CiffComponent& ciffComponent, const CrwMapping* 
 void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* pCrwMapping, Image& image,
                          ByteOrder byteOrder) {
   if (ciffComponent.typeId() != unsignedShort) {
-    return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    return;
   }
 
   int64_t aperture = 0;
@@ -703,7 +690,7 @@ void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* p
     UShortValue value;
     if (ifdId == IfdId::canonCsId && c == 23 && component_size >= 52)
       n = 3;
-    value.read(ciffComponent.pData() + c * 2, n * 2, byteOrder);
+    value.read(ciffComponent.pData() + (c * 2), n * 2, byteOrder);
     image.exifData().add(key, &value);
     if (ifdId == IfdId::canonSiId && c == 21)
       aperture = value.toInt64();
@@ -732,33 +719,35 @@ void CrwMap::decodeArray(const CiffComponent& ciffComponent, const CrwMapping* p
 void CrwMap::decode0x180e(const CiffComponent& ciffComponent, const CrwMapping* pCrwMapping, Image& image,
                           ByteOrder byteOrder) {
   if (ciffComponent.size() < 8 || ciffComponent.typeId() != unsignedLong) {
-    return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    return;
   }
   ULongValue v;
   v.read(ciffComponent.pData(), 8, byteOrder);
   time_t t = v.value_.at(0);
-  tm r;
+  std::tm r;
 #ifdef _WIN32
   auto tm = localtime_s(&r, &t) ? nullptr : &r;
 #else
   auto tm = localtime_r(&t, &r);
 #endif
-  if (tm) {
-    const size_t m = 20;
-    char s[m];
-    std::strftime(s, m, "%Y:%m:%d %H:%M:%S", tm);
+  if (!tm)
+    return;
+  const size_t m = 20;
+  char s[m];
+  std::strftime(s, m, "%Y:%m:%d %T", tm);
 
-    ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-    AsciiValue value;
-    value.read(std::string(s));
-    image.exifData().add(key, &value);
-  }
+  ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
+  AsciiValue value;
+  value.read(s);
+  image.exifData().add(key, &value);
 }  // CrwMap::decode0x180e
 
 void CrwMap::decode0x1810(const CiffComponent& ciffComponent, const CrwMapping* pCrwMapping, Image& image,
                           ByteOrder byteOrder) {
   if (ciffComponent.typeId() != unsignedLong || ciffComponent.size() < 28) {
-    return decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    decodeBasic(ciffComponent, pCrwMapping, image, byteOrder);
+    return;
   }
 
   ExifKey key1("Exif.Photo.PixelXDimension");
@@ -787,7 +776,7 @@ void CrwMap::decodeBasic(const CiffComponent& ciffComponent, const CrwMapping* p
                          ByteOrder byteOrder) {
   // create a key and value pair
   ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
-  std::unique_ptr<Value> value;
+  Value::UniquePtr value;
   if (ciffComponent.typeId() != directory) {
     value = Value::create(ciffComponent.typeId());
     size_t size = 0;
@@ -796,8 +785,11 @@ void CrwMap::decodeBasic(const CiffComponent& ciffComponent, const CrwMapping* p
     } else if (ciffComponent.typeId() == asciiString) {
       // determine size from the data, by looking for the first 0
       uint32_t i = 0;
-      while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
-        // empty
+      while (i < ciffComponent.size()) {
+        ++i;
+        if (ciffComponent.pData()[i - 1] == '\0') {
+          break;
+        }
       }
       size = i;
     } else {
@@ -820,40 +812,40 @@ void CrwMap::loadStack(CrwDirs& crwDirs, uint16_t crwDir) {
   }
 }  // CrwMap::loadStack
 
-void CrwMap::encode(CiffHeader* pHead, const Image& image) {
+void CrwMap::encode(CiffHeader& pHead, const Image& image) {
   for (auto&& crw : crwMapping_) {
     if (crw.fromExif_) {
-      crw.fromExif_(image, &crw, pHead);
+      crw.fromExif_(image, crw, pHead);
     }
   }
 }  // CrwMap::encode
 
-void CrwMap::encodeBasic(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encodeBasic(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   // Determine the source Exif metadatum
-  ExifKey ek(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
+  ExifKey ek(pCrwMapping.tag_, Internal::groupName(pCrwMapping.ifdId_));
   auto ed = image.exifData().findKey(ek);
 
   // Set the new value or remove the entry
   if (ed != image.exifData().end() && ed->size() > 0) {
     DataBuf buf(ed->size());
-    ed->copy(buf.data(), pHead->byteOrder());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    ed->copy(buf.data(), pHead.byteOrder());
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encodeBasic
 
-void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x0805(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   std::string comment = image.comment();
 
-  CiffComponent* cc = pHead->findComponent(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+  auto cc = pHead.findComponent(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   if (!comment.empty()) {
     auto size = comment.size();
     if (cc && cc->size() > size)
       size = cc->size();
     DataBuf buf(size);
     std::move(comment.begin(), comment.end(), buf.begin());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
     if (cc) {
       // Just delete the value, do not remove the tag
@@ -863,7 +855,7 @@ void CrwMap::encode0x0805(const Image& image, const CrwMapping* pCrwMapping, Cif
   }
 }  // CrwMap::encode0x0805
 
-void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x080a(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   const ExifKey k1("Exif.Image.Make");
   const ExifKey k2("Exif.Image.Model");
   const auto ed1 = image.exifData().findKey(k1);
@@ -879,22 +871,22 @@ void CrwMap::encode0x080a(const Image& image, const CrwMapping* pCrwMapping, Cif
     DataBuf buf(size);
     size_t pos{0};
     if (ed1 != edEnd) {
-      ed1->copy(buf.data(), pHead->byteOrder());
+      ed1->copy(buf.data(), pHead.byteOrder());
       pos += ed1->size();
     }
     if (ed2 != edEnd) {
-      ed2->copy(buf.data(pos), pHead->byteOrder());
+      ed2->copy(buf.data(pos), pHead.byteOrder());
       pos += ed2->size();
     }
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }
 
-void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encodeArray(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   auto ifdId = [=] {
-    switch (pCrwMapping->tag_) {
+    switch (pCrwMapping.tag_) {
       case 0x0001:
         return IfdId::canonCsId;
       case 0x0004:
@@ -906,39 +898,39 @@ void CrwMap::encodeArray(const Image& image, const CrwMapping* pCrwMapping, Ciff
     }
     return IfdId::ifdIdNotSet;
   }();
-  DataBuf buf = packIfdId(image.exifData(), ifdId, pHead->byteOrder());
+  DataBuf buf = packIfdId(image.exifData(), ifdId, pHead.byteOrder());
   if (buf.empty()) {
     // Try the undecoded tag
     encodeBasic(image, pCrwMapping, pHead);
   }
   if (!buf.empty()) {
     // Write the number of shorts to the beginning of buf
-    buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead->byteOrder());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    buf.write_uint16(0, static_cast<uint16_t>(buf.size()), pHead.byteOrder());
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encodeArray
 
-void CrwMap::encode0x180e(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x180e(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   time_t t = 0;
-  const ExifKey key(pCrwMapping->tag_, Internal::groupName(pCrwMapping->ifdId_));
+  const ExifKey key(pCrwMapping.tag_, Internal::groupName(pCrwMapping.ifdId_));
   if (auto ed = image.exifData().findKey(key); ed != image.exifData().end()) {
-    tm tm = {};
+    std::tm tm = {};
     if (exifTime(ed->toString().c_str(), &tm) == 0) {
       t = ::mktime(&tm);
     }
   }
   if (t != 0) {
     DataBuf buf(12);
-    buf.write_uint32(0, static_cast<uint32_t>(t), pHead->byteOrder());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    buf.write_uint32(0, static_cast<uint32_t>(t), pHead.byteOrder());
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encode0x180e
 
-void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x1810(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   const ExifKey kX("Exif.Photo.PixelXDimension");
   const ExifKey kY("Exif.Photo.PixelYDimension");
   const ExifKey kO("Exif.Image.Orientation");
@@ -948,7 +940,7 @@ void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, Cif
   const auto edO = exivData.findKey(kO);
   const auto edEnd = exivData.end();
 
-  auto cc = pHead->findComponent(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+  auto cc = pHead.findComponent(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   if (edX != edEnd || edY != edEnd || edO != edEnd) {
     size_t size = 28;
     if (cc) {
@@ -960,29 +952,29 @@ void CrwMap::encode0x1810(const Image& image, const CrwMapping* pCrwMapping, Cif
     if (cc)
       std::copy_n(cc->pData() + 8, cc->size() - 8, buf.begin() + 8);
     if (edX != edEnd && edX->size() == 4) {
-      edX->copy(buf.data(), pHead->byteOrder());
+      edX->copy(buf.data(), pHead.byteOrder());
     }
     if (edY != edEnd && edY->size() == 4) {
-      edY->copy(buf.data(4), pHead->byteOrder());
+      edY->copy(buf.data(4), pHead.byteOrder());
     }
     int32_t d = 0;
     if (edO != edEnd && edO->count() > 0 && edO->typeId() == unsignedShort) {
       d = RotationMap::degrees(static_cast<uint16_t>(edO->toInt64()));
     }
-    buf.write_uint32(12, d, pHead->byteOrder());
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    buf.write_uint32(12, d, pHead.byteOrder());
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encode0x1810
 
-void CrwMap::encode0x2008(const Image& image, const CrwMapping* pCrwMapping, CiffHeader* pHead) {
+void CrwMap::encode0x2008(const Image& image, const CrwMapping& pCrwMapping, CiffHeader& pHead) {
   ExifThumbC exifThumb(image.exifData());
   DataBuf buf = exifThumb.copy();
   if (!buf.empty()) {
-    pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, std::move(buf));
+    pHead.add(pCrwMapping.crwTagId_, pCrwMapping.crwDir_, std::move(buf));
   } else {
-    pHead->remove(pCrwMapping->crwTagId_, pCrwMapping->crwDir_);
+    pHead.remove(pCrwMapping.crwTagId_, pCrwMapping.crwDir_);
   }
 }  // CrwMap::encode0x2008
 
@@ -997,17 +989,16 @@ DataBuf packIfdId(const ExifData& exifData, IfdId ifdId, ByteOrder byteOrder) {
   for (auto&& exif : exifData) {
     if (exif.ifdId() != ifdId)
       continue;
-    const uint16_t s = exif.tag() * 2 + static_cast<uint16_t>(exif.size());
+    const uint16_t s = (exif.tag() * 2) + static_cast<uint16_t>(exif.size());
     if (s <= size) {
-      if (len < s)
-        len = s;
+      len = std::max(len, s);
       exif.copy(buf.data(exif.tag() * 2), byteOrder);
     } else {
       EXV_ERROR << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
     }
   }
   // Round the size to make it even.
-  buf.resize(len + len % 2);
+  buf.resize(len + (len % 2));
   return buf;
 }
 

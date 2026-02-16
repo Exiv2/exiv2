@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "config.h"
-
-#include "futils.hpp"
 #include "http.hpp"
+#include "config.h"
+#include "futils.hpp"
 
 #include <array>
+#include <cerrno>
 #include <chrono>
-#include <cinttypes>
+#include <cstring>
 #include <thread>
 
 ////////////////////////////////////////
@@ -25,8 +25,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-#include <cerrno>
 
+#define INVALID_SOCKET (-1)
 #define SOCKET_ERROR (-1)
 #define WSAEWOULDBLOCK EINPROGRESS
 #define WSAENOTCONN EAGAIN
@@ -54,7 +54,7 @@ static constexpr auto httpTemplate =
 #define FINISH (-999)
 #define OK(s) (200 <= (s) && (s) < 300)
 
-static constexpr std::array<const char*, 2> blankLines{
+static constexpr std::array blankLines{
     "\r\n\r\n",  // this is the standard
     "\n\n",      // this is commonly sent by CGI scripts
 };
@@ -112,25 +112,11 @@ static Exiv2::Dictionary stringToDict(const std::string& s) {
   return result;
 }
 
-static int makeNonBlocking(int sockfd) {
-#if defined(_WIN32)
-  ULONG ioctl_opt = 1;
-  return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
-#else
-  int result = fcntl(sockfd, F_SETFL, O_NONBLOCK);
-  return result >= 0 ? result : SOCKET_ERROR;
-#endif
-}
-
 int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::string& errors) {
-  if (request.find("verb") == request.end())
-    request["verb"] = "GET";
-  if (request.find("header") == request.end())
-    request["header"] = "";
-  if (request.find("version") == request.end())
-    request["version"] = "1.0";
-  if (request.find("port") == request.end())
-    request["port"] = "";
+  request.try_emplace("verb", "GET");
+  request.try_emplace("header");
+  request.try_emplace("version", "1.0");
+  request.try_emplace("port");
 
   std::string file;
   errors = "";
@@ -138,7 +124,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // Windows specific code
-#if defined(_WIN32)
+#ifdef _WIN32
   WSADATA wsaData;
   if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
     return error(errors, "could not start WinSock");
@@ -174,7 +160,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   Exiv2::Dictionary noProxy = stringToDict(no_prox + ",localhost,127.0.0.1");
 
   // if the server is on the no_proxy list ... ignore the proxy!
-  if (noProxy.count(servername))
+  if (noProxy.contains(servername))
     bProx = false;
 
   if (bProx) {
@@ -189,12 +175,9 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // open the socket
-  auto sockfd = static_cast<int>(socket(AF_INET, SOCK_STREAM, IPPROTO_TCP));
-  if (sockfd < 0)
+  auto sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+  if (sockfd == INVALID_SOCKET)
     return error(errors, "unable to create socket\n", nullptr, nullptr, 0);
-
-  // connect the socket to the server
-  int server = -1;
 
   // fill in the address
   sockaddr_in serv_addr = {};
@@ -206,31 +189,39 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
     struct addrinfo hints = {};
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
-    struct addrinfo* result;
+    struct addrinfo* r;
 
-    int res = getaddrinfo(servername_p, port_p, &hints, &result);
+    int res = getaddrinfo(servername_p, port_p, &hints, &r);
     if (res != 0) {
       closesocket(sockfd);
       return error(errors, "no such host: %s", gai_strerror(res));
     }
 
-    serv_addr = *reinterpret_cast<sockaddr_in*>(result->ai_addr);
+    std::memcpy(&serv_addr, r->ai_addr, serv_len);
 
-    freeaddrinfo(result);
+    freeaddrinfo(r);
   }
 
-  makeNonBlocking(sockfd);
+  [](auto sockfd) {
+#if defined(_WIN32)
+    ULONG ioctl_opt = 1;
+    return ioctlsocket(sockfd, FIONBIO, &ioctl_opt);
+#else
+    int result = fcntl(sockfd, F_SETFL, O_NONBLOCK);
+    return result >= 0 ? result : SOCKET_ERROR;
+#endif
+  }(sockfd);
 
   ////////////////////////////////////
   // and connect
-  server = connect(sockfd, reinterpret_cast<const sockaddr*>(&serv_addr), serv_len);
+  auto server = connect(sockfd, reinterpret_cast<const sockaddr*>(&serv_addr), serv_len);
   if (server == SOCKET_ERROR && WSAGetLastError() != WSAEWOULDBLOCK) {
     closesocket(sockfd);
     return error(errors, "error - unable to connect to server = %s port = %s wsa_error = %d", servername_p,
                  std::to_string(serv_addr.sin_port).c_str(), WSAGetLastError());
   }
 
-  char buffer[32 * 1024 + 1];
+  char buffer[(32 * 1024) + 1];
   size_t buff_l = sizeof buffer - 1;
 
   ////////////////////////////////////
@@ -241,8 +232,13 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
 
   ////////////////////////////////////
   // send the header (we'll have to wait for the connection by the non-blocking socket)
-  while (sleep_ >= std::chrono::milliseconds::zero() &&
-         send(sockfd, buffer, n, 0) == SOCKET_ERROR /* && WSAGetLastError() == WSAENOTCONN */) {
+  while (sleep_ >= std::chrono::milliseconds::zero()) {
+    auto sent = send(sockfd, buffer, n, 0);
+    if (sent != SOCKET_ERROR)
+      break;
+    // auto err = WSAGetLastError();
+    // if (err != WSAENOTCONN && err != WSAEWOULDBLOCK)
+    //   break;
     std::this_thread::sleep_for(snooze);
     sleep_ -= snooze;
   }
@@ -310,7 +306,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
           std::string value(c + 1);
           key.resize(c - h);
           value.resize(first_newline - c - 1);
-          response[key] = value;
+          response[key] = std::move(value);
           h = first_newline + 1;
           c = strchr(h, C);
           first_newline = strchr(h, N);
@@ -355,7 +351,7 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   // close sockets
   closesocket(server);
   closesocket(sockfd);
-  response["body"] = file;
+  response["body"] = std::move(file);
   return result;
 }
 

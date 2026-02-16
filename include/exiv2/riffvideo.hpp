@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-#pragma once
+#ifndef EXIV2_RIFFVIDEO_HPP
+#define EXIV2_RIFFVIDEO_HPP
 
-#include "exif.hpp"
 #include "exiv2lib_export.h"
+
 #include "image.hpp"
 
 namespace Exiv2 {
@@ -28,7 +29,7 @@ class EXIV2API RiffVideo : public Image {
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
    */
-  explicit RiffVideo(BasicIo::UniquePtr io);
+  explicit RiffVideo(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -48,7 +49,7 @@ class EXIV2API RiffVideo : public Image {
     uint64_t size_ = 0;
 
    public:
-    explicit HeaderReader(const BasicIo::UniquePtr& io);
+    explicit HeaderReader(const std::unique_ptr<BasicIo>& io);
 
     [[nodiscard]] uint64_t getSize() const {
       return size_;
@@ -177,9 +178,11 @@ class EXIV2API RiffVideo : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-EXIV2API Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newRiffInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a Riff Video.
 EXIV2API bool isRiffType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
+
+#endif  // EXIV2_RIFFVIDEO_HPP

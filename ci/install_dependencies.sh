@@ -20,28 +20,17 @@ debian_build_gtest() {
     cd ..
 }
 
-# Centos doesn't have a working version of the inih library, so we need to build it ourselves.
-centos_build_inih() {
-    [-d inih_build ] || git clone https://github.com/benhoyt/inih.git inih_build
-    cd inih_build
-    git checkout r57
-    meson --buildtype=plain builddir
-    meson compile -C builddir
-    meson install -C builddir
-    cd ..
-}
-
-# workaround for really bare-bones Archlinux containers:
-if [ -x "$(command -v pacman)" ]; then
-    pacman --noconfirm -Sy
-    pacman --noconfirm --needed -S grep gawk sed
-fi
+# workaround for really old bare-bones Archlinux containers:
+# if [ -x "$(command -v pacman)" ]; then
+#     pacman --noconfirm -Sy
+#     pacman --noconfirm --needed -S grep gawk sed
+# fi
 
 distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
     'fedora')
-        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel gmock-devel glibc-langpack-en inih-devel
+        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel gmock-devel glibc-langpack-en
         ;;
 
     'debian')
@@ -67,15 +56,12 @@ case "$distro_id" in
         ;;
 
     'rhel')
-        dnf clean all
-        dnf -y install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
+        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
         ;;
 
     'centos')
-        dnf clean all
-        dnf -y install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel git
-        dnf -y --enablerepo=crb install ninja-build meson
-        centos_build_inih
+        dnf -y --refresh install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel
+        dnf -y --refresh --enablerepo=crb install ninja-build inih-devel
         ;;
 
     'opensuse-tumbleweed')

@@ -2,34 +2,26 @@
 
 // included header files
 #include "preview.hpp"
-
+#include "basicio.hpp"
 #include "config.h"
 #include "enforce.hpp"
 #include "futils.hpp"
 #include "image.hpp"
-#include "jpgimage.hpp"
 #include "photoshop.hpp"
+#include "properties.hpp"
 #include "safe_op.hpp"
+#include "tags.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
+#include "value.hpp"
 
 #include <algorithm>
 #include <climits>
+#include <cstring>
 
 namespace {
 using namespace Exiv2;
 using Exiv2::byte;
-
-/*!
-  @brief Compare two preview images by number of pixels, if width and height
-         of both lhs and rhs are available or else by size.
-         Return true if lhs is smaller than rhs.
- */
-bool cmpPreviewProperties(const PreviewProperties& lhs, const PreviewProperties& rhs) {
-  auto l = lhs.width_ * lhs.height_;
-  auto r = rhs.width_ * rhs.height_;
-  return l < r;
-}
 
 /// @brief Decode a Hex string.
 DataBuf decodeHex(const byte* src, size_t srcSize);
@@ -325,16 +317,16 @@ const LoaderTiff::Param LoaderTiff::param_[] = {
 };
 
 Loader::UniquePtr Loader::create(PreviewId id, const Image& image) {
+  Loader::UniquePtr loader;
   if (id < 0 || id >= Loader::getNumLoaders())
-    return nullptr;
+    return loader;
 
   if (loaderList_[id].imageMimeType_ && std::string(loaderList_[id].imageMimeType_) != image.mimeType())
-    return nullptr;
+    return loader;
 
-  auto loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
-
-  if (loader && !loader->valid())
-    return nullptr;
+  loader = loaderList_[id].create_(id, image, loaderList_[id].parIdx_);
+  if (!loader->valid())
+    loader = nullptr;
 
   return loader;
 }
@@ -347,7 +339,7 @@ PreviewProperties Loader::getProperties() const {
 }
 
 PreviewId Loader::getNumLoaders() {
-  return static_cast<PreviewId>(std::size(loaderList_));
+  return PreviewId{std::size(loaderList_)};
 }
 
 LoaderNative::LoaderNative(PreviewId id, const Image& image, int parIdx) : Loader(id, image) {
@@ -425,7 +417,7 @@ DataBuf LoaderNative::getData() const {
     }
     return {record + sizeHdr + 28, sizeData - 28};
   }
-  throw Error(ErrorCode::kerErrorMessage, "Invalid native preview filter: " + nativePreview_.filter_);
+  throw Error(ErrorCode::kerErrorMessage, "Invalid native preview filter: ", nativePreview_.filter_);
 }
 
 bool LoaderNative::readDimensions() {
@@ -568,11 +560,13 @@ PreviewProperties LoaderExifDataJpeg::getProperties() const {
 }
 
 DataBuf LoaderExifDataJpeg::getData() const {
+  DataBuf buf;
+
   if (!valid())
-    return {};
+    return buf;
 
   if (auto pos = image_.exifData().findKey(dataKey_); pos != image_.exifData().end()) {
-    DataBuf buf = pos->dataArea();  // indirect data
+    buf = pos->dataArea();  // indirect data
 
     if (buf.empty()) {  // direct data
       buf = DataBuf(pos->size());
@@ -583,7 +577,7 @@ DataBuf LoaderExifDataJpeg::getData() const {
     return buf;
   }
 
-  return {};
+  return buf;
 }
 
 bool LoaderExifDataJpeg::readDimensions() {
@@ -749,7 +743,7 @@ DataBuf LoaderTiff::getData() const {
 
   // Fix compression value in the CR2 IFD2 image
   if (0 == strcmp(group_, "Image2") && image_.mimeType() == "image/x-canon-cr2") {
-    preview["Exif.Image.Compression"] = static_cast<uint16_t>(1);
+    preview["Exif.Image.Compression"] = std::uint16_t{1};
   }
 
   // write new image
@@ -817,7 +811,8 @@ bool LoaderXmpJpeg::readDimensions() {
 DataBuf decodeHex(const byte* src, size_t srcSize) {
   // create decoding table
   byte invalid = 16;
-  auto decodeHexTable = std::vector<byte>(256, invalid);
+  std::array<byte, 256> decodeHexTable;
+  decodeHexTable.fill(invalid);
   for (byte i = 0; i < 10; i++)
     decodeHexTable[static_cast<byte>('0') + i] = i;
   for (byte i = 0; i < 6; i++)
@@ -854,6 +849,7 @@ DataBuf decodeHex(const byte* src, size_t srcSize) {
 const char encodeBase64Table[64 + 1] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 DataBuf decodeBase64(const std::string& src) {
+  DataBuf dest;
   // create decoding table
   unsigned long invalid = 64;
   auto decodeBase64Table = std::vector<unsigned long>(256, invalid);
@@ -864,11 +860,11 @@ DataBuf decodeBase64(const std::string& src) {
   auto validSrcSize = static_cast<unsigned long>(
       std::count_if(src.begin(), src.end(), [&](unsigned char c) { return decodeBase64Table.at(c) != invalid; }));
   if (validSrcSize > ULONG_MAX / 3)
-    return {};  // avoid integer overflow
+    return dest;  // avoid integer overflow
   const unsigned long destSize = (validSrcSize * 3) / 4;
 
   // allocate dest buffer
-  DataBuf dest(destSize);
+  dest = DataBuf(destSize);
 
   // decode
   for (unsigned long srcPos = 0, destPos = 0; destPos < destSize;) {
@@ -881,7 +877,7 @@ DataBuf decodeBase64(const std::string& src) {
       bufferPos--;
     }
     for (int bufferPos = 2; bufferPos >= 0 && destPos < destSize; bufferPos--, destPos++) {
-      dest.write_uint8(destPos, static_cast<byte>((buffer >> (bufferPos * 8)) & 0xFF));
+      dest.write_uint8(destPos, static_cast<byte>((buffer >> (bufferPos * 8))));
     }
   }
   return dest;
@@ -930,20 +926,20 @@ DataBuf decodeAi7Thumbnail(const DataBuf& src) {
 }
 
 DataBuf makePnm(size_t width, size_t height, const DataBuf& rgb) {
+  DataBuf dest;
   if (size_t expectedSize = width * height * 3UL; rgb.size() != expectedSize) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size()
                 << " bytes.\n";
 #endif
-    return {};
+    return dest;
   }
 
   const std::string header = "P6\n" + std::to_string(width) + " " + std::to_string(height) + "\n255\n";
-  const auto headerBytes = reinterpret_cast<const byte*>(header.data());
 
-  DataBuf dest(header.size() + rgb.size());
-  std::copy_n(headerBytes, header.size(), dest.begin());
-  std::copy_n(rgb.c_data(), rgb.size(), dest.begin() + header.size());
+  dest = DataBuf(header.size() + rgb.size());
+  std::copy(header.begin(), header.end(), dest.begin());
+  std::copy(rgb.begin(), rgb.end(), dest.begin() + header.size());
   return dest;
 }
 
@@ -967,12 +963,14 @@ PreviewImage& PreviewImage::operator=(const PreviewImage& rhs) {
   return *this;
 }
 
+#ifdef EXV_ENABLE_FILESYSTEM
 size_t PreviewImage::writeFile(const std::string& path) const {
   std::string name = path + extension();
   // Todo: Creating a DataBuf here unnecessarily copies the memory
   DataBuf buf(pData(), size());
   return Exiv2::writeFile(buf, name);
 }
+#endif
 
 DataBuf PreviewImage::copy() const {
   return {pData(), size()};
@@ -986,11 +984,11 @@ uint32_t PreviewImage::size() const {
   return static_cast<uint32_t>(preview_.size());
 }
 
-std::string PreviewImage::mimeType() const {
+const std::string& PreviewImage::mimeType() const {
   return properties_.mimeType_;
 }
 
-std::string PreviewImage::extension() const {
+const std::string& PreviewImage::extension() const {
   return properties_.extension_;
 }
 
@@ -1021,7 +1019,9 @@ PreviewPropertiesList PreviewManager::getPreviewProperties() const {
       list.push_back(std::move(props));
     }
   }
-  std::sort(list.begin(), list.end(), cmpPreviewProperties);
+  std::sort(list.begin(), list.end(),
+            [](const auto& lhs, const auto& rhs) { return lhs.width_ * lhs.height_ < rhs.width_ * rhs.height_; });
+
   return list;
 }
 

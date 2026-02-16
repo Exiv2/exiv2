@@ -90,7 +90,7 @@ Exif.NikonLd4.AFAperture                     Byte        1  0  n/a
 Exif.NikonLd4.FocusPosition                  Byte        1  0  0
 Exif.NikonLd4.FocusDistance                  Byte        1  0  n/a
 Exif.NikonLd4.FocalLength                    Byte        1  0  n/a
-Exif.NikonLd4.LensIDNumber                   Byte        1  0  0
+Exif.NikonLd4.LensIDNumber                   Byte        1  0  (0)
 Exif.NikonLd4.LensFStops                     Byte        1  0  F0.0
 Exif.NikonLd4.MinFocalLength                 Byte        1  0  n/a
 Exif.NikonLd4.MaxFocalLength                 Byte        1  0  n/a

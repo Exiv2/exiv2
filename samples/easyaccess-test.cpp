@@ -62,12 +62,6 @@ static void printFct(EasyAccessFct fct, Exiv2::ExifData ed, const char* label) {
 
 int main(int argc, char** argv) {
   try {
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
-#endif
-
     if (argc < 2) {
       int count = 0;
       std::cout << "Usage: " << argv[0] << " file [category [category ...]]\nCategories: ";

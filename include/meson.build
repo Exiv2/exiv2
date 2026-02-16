@@ -14,7 +14,6 @@ headers = files(
   'exiv2/exiv2.hpp',
   'exiv2/futils.hpp',
   'exiv2/gifimage.hpp',
-  'exiv2/http.hpp',
   'exiv2/image.hpp',
   'exiv2/image_types.hpp',
   'exiv2/iptc.hpp',
@@ -45,6 +44,10 @@ headers = files(
 
 if get_option('video')
   headers += files('exiv2/asfvideo.hpp', 'exiv2/matroskavideo.hpp', 'exiv2/quicktimevideo.hpp', 'exiv2/riffvideo.hpp')
+endif
+
+if get_option('webready')
+  headers += files('exiv2/http.hpp')
 endif
 
 if zlib_dep.found()

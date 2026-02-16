@@ -38,7 +38,7 @@ find_package_handle_standard_args(Brotli
 )
 
 set(Brotli_INCLUDE_DIRS ${BROTLI_INCLUDE_DIR})
-set(Brotli_LIBRARIES ${BROTLICOMMON_LIBRARY} ${BROTLIDEC_LIBRARY})
+set(Brotli_LIBRARIES ${BROTLIDEC_LIBRARY} ${BROTLICOMMON_LIBRARY} )
 
 mark_as_advanced(BROTLI_INCLUDE_DIR)
 mark_as_advanced(BROTLICOMMON_LIBRARY)

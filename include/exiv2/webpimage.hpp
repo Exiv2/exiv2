@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef WEBPIMAGE_HPP
-#define WEBPIMAGE_HPP
+#ifndef EXIV2_WEBPIMAGE_HPP
+#define EXIV2_WEBPIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -33,7 +33,7 @@ class EXIV2API WebPImage : public Image {
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
    */
-  explicit WebPImage(BasicIo::UniquePtr io);
+  explicit WebPImage(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -94,11 +94,11 @@ class EXIV2API WebPImage : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-EXIV2API Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newWebPInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a WebP Video.
 EXIV2API bool isWebPType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // WEBPIMAGE_HPP
+#endif  // EXIV2_WEBPIMAGE_HPP

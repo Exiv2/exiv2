@@ -9,18 +9,13 @@
 // Auxiliary headers
 #include <cerrno>
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 #include <stdexcept>
 
 #include <gtest/gtest.h>
 
-#if __has_include(<filesystem>)
-#include <filesystem>
 namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-namespace fs = std::experimental::filesystem;
-#endif
 
 using namespace Exiv2;
 
@@ -30,10 +25,10 @@ TEST(strError, returnSuccessAfterClosingFile) {
   // -> reset errno so that a real failure is only detected here
   errno = 0;
 
-  std::string tmpFile("tmp.dat");
-  std::ofstream auxFile(tmpFile.c_str());
+  fs::path tmpFile("tmp.dat");
+  std::ofstream auxFile(tmpFile);
   auxFile.close();
-  fs::remove(tmpFile.c_str());
+  fs::remove(tmpFile);
   ASSERT_TRUE(Internal::contains(strError(), "(errno = 0)"));
 }
 
@@ -108,11 +103,11 @@ TEST(base64decode, decodesValidString) {
   const std::string original("VGhpcyBpcyBhIHVuaXQgdGVzdA==");
   const std::string expected("This is a unit test");
   std::vector<char> result(original.size());
-  ASSERT_EQ(static_cast<long>(expected.size()), base64decode(original.c_str(), result.data(), original.size()));
+  ASSERT_EQ(expected.size(), base64decode(original.c_str(), result.data(), original.size()));
   ASSERT_STREQ(expected.c_str(), result.data());
 }
 
-TEST(AUri, parsesAndDecoreUrl) {
+TEST(AUri, parseAndDecodeUrl1) {
   const std::string url("http://www.geekhideout.com/urlcode.shtml");
   Uri uri = Uri::Parse(url);
 
@@ -122,6 +117,36 @@ TEST(AUri, parsesAndDecoreUrl) {
   ASSERT_EQ("80", uri.Port);
   ASSERT_EQ("/urlcode.shtml", uri.Path);
   ASSERT_EQ("", uri.Username);
+  ASSERT_EQ("", uri.Password);
+
+  Uri::Decode(uri);
+}
+
+TEST(AUri, parseAndDecodeUrl2) {
+  const std::string url("http://username:password@example.com:8000/path/to/page?name=ferret&color=purple");
+  Uri uri = Uri::Parse(url);
+
+  ASSERT_EQ("?name=ferret&color=purple", uri.QueryString);
+  ASSERT_EQ("http", uri.Protocol);
+  ASSERT_EQ("example.com", uri.Host);
+  ASSERT_EQ("8000", uri.Port);
+  ASSERT_EQ("/path/to/page", uri.Path);
+  ASSERT_EQ("username", uri.Username);
+  ASSERT_EQ("password", uri.Password);
+
+  Uri::Decode(uri);
+}
+
+TEST(AUri, parseAndDecodeUrl3) {
+  const std::string url("http://host?query@");  // bogus uri
+  Uri uri = Uri::Parse(url);
+
+  ASSERT_EQ("", uri.QueryString);
+  ASSERT_EQ("http", uri.Protocol);
+  ASSERT_EQ("", uri.Host);
+  ASSERT_EQ("80", uri.Port);
+  ASSERT_EQ("", uri.Path);
+  ASSERT_EQ("host?query", uri.Username);
   ASSERT_EQ("", uri.Password);
 
   Uri::Decode(uri);

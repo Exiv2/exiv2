@@ -113,8 +113,7 @@ def configure_suite(config_file):
 
     if not os.path.exists(config_file):
         raise ValueError(
-            "Test suite config file {:s} does not exist"
-            .format(os.path.abspath(config_file))
+            f"Test suite config file {os.path.abspath(config_file):s} does not exist"
         )
 
     config = CasePreservingConfigParser(
@@ -156,8 +155,8 @@ def configure_suite(config_file):
             abs_path = os.path.abspath(
                 os.path.join(_parameters["suite_root"], rel_path)
             )
-            if key == "tmp_path" and not os.path.isdir(abs_path):
-                os.mkdir(abs_path)
+            if key == "tmp_path":
+                os.makedirs(abs_path, exist_ok=True)
             if key == "data_path" and not os.path.exists(abs_path):
                 raise ValueError(
                     "Path replacement for {short}: {abspath} does not exist"
@@ -184,7 +183,7 @@ def configure_suite(config_file):
             _parameters["timeout"] *= config.getfloat(
                 "General", "memcheck_timeout_penalty", fallback=20.0
             )
-    
+
     # Configure the parameters for bash tests
     BT.Config.bin_dir           = os.path.abspath(config['ENV']['exiv2_path'])
     BT.Config.dyld_library_path = os.path.abspath(config['ENV']['dyld_library_path'])
@@ -317,7 +316,7 @@ class FileDecoratorBase(object):
         """
         if len(files) == 0:
             raise ValueError("No files supplied.")
-        elif len(files) == 1:
+        if len(files) == 1:
             if isinstance(files[0], type):
                 raise UserWarning(
                     "Decorator used wrongly, must be called with "
@@ -371,7 +370,6 @@ class FileDecoratorBase(object):
 
         The default implementation does nothing.
         """
-        pass
 
     def new_tearDown(self, old_tearDown):
         """
@@ -459,9 +457,9 @@ class CopyFiles(FileDecoratorBase):
 
     def setUp_file_action(self, expanded_file_name):
         fname, ext = os.path.splitext(expanded_file_name)
-        new_name = fname + '_copy' + ext
+        new_name = f"{fname}_copy{ext}"
         return shutil.copyfile(expanded_file_name, new_name)
-   
+
 class CopyTmpFiles(FileDecoratorBase):
     """
     This class copies files from test/data to test/tmp
@@ -560,13 +558,13 @@ def test_run(self):
         retval = int(retval)
 
         if "memcheck" in _parameters:
-            command = _parameters["memcheck"] + " " + command
+            command = f"{_parameters['memcheck']} {command}"
 
         if _debug_mode:
             print(
-                '', "="*80, "will run: " + command, "expected stdout:", stdout,
+                '', "="*80, f"will run: {command}", "expected stdout:", stdout,
                 "expected stderr:", stderr,
-                "expected return value: {:d}".format(retval),
+                f"expected return value: {retval:d}",
                 sep='\n'
             )
 
@@ -643,8 +641,7 @@ def test_run(self):
         if _debug_mode:
             print(
                 "got stdout:", processed_stdout, "got stderr:",
-                processed_stderr, "got return value: {:d}"
-                .format(proc.returncode),
+                processed_stderr, f"got return value: {proc.returncode:d}",
                 sep='\n'
             )
 
@@ -724,7 +721,7 @@ class Case(unittest.TestCase):
         """
         result = None
         for encoding in self.encodings:
-            if encoding == bytes:
+            if encoding is bytes:
                 return data_in
             try:
                 result = encode_action(data_in, encoding)
@@ -806,7 +803,6 @@ class Case(unittest.TestCase):
 
         The default implementation does nothing.
         """
-        pass
 
     def post_tests_hook(self):
         """
@@ -818,7 +814,6 @@ class Case(unittest.TestCase):
 
         The default implementation does nothing.
         """
-        pass
 
 
 class CaseMeta(type):
@@ -851,7 +846,7 @@ class CaseMeta(type):
         # expand all non-private variables by brute force
         # => try all expanding all elements defined in the current class until
         # there is no change in them any more
-        keys = [key for key in list(dct.keys()) if not key.startswith('_')]
+        keys = [key for key in dct if not key.startswith('_')]
         while changed:
             changed = False
 
@@ -894,7 +889,7 @@ class CaseMeta(type):
     def add_default_values(clsname, dct):
         if 'commands' not in dct:
             raise ValueError(
-                "No member 'commands' in class {!s}.".format(clsname)
+                f"No member 'commands' in class {clsname!s}."
             )
 
         cmd_length = len(dct['commands'])

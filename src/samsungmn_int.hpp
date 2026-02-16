@@ -4,12 +4,11 @@
 #define SAMSUNGMN_INT_HPP_
 
 // *****************************************************************************
-// included header files
-#include "tags.hpp"
-
-// *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -17,9 +16,13 @@ namespace Exiv2::Internal {
 class Samsung2MakerNote {
  public:
   //! Return read-only list of built-in Samsung tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in PictureWizard tags
-  static const TagInfo* tagListPw();
+  static constexpr auto tagListPw() {
+    return tagInfoPw_;
+  }
 
  private:
   //! Tag information
@@ -29,6 +32,7 @@ class Samsung2MakerNote {
 
 };  // class Samsung2MakerNote
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef SAMSUNGMN_INT_HPP_

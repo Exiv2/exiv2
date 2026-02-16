@@ -33,7 +33,9 @@ jobs:
         CMAKE_FLAGS: -DEXIV2_TEAM_EXTRA_WARNINGS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF -DCMAKE_INSTALL_PREFIX=install
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Install dependencies
         run: ./ci/install_dependencies.sh
       - name: Build and install

@@ -36,13 +36,21 @@ add_executable(
   test_TimeValue.cpp
   test_utils.cpp
   test_XmpKey.cpp
+  test_xmp_concurrent.cpp
+  test_xmp_lifecycle.cpp
+  test_xmp_race_encode_decode.cpp
+  test_xmp_concurrent_registry.cpp
   ${VIDEO_SUPPORT}
   $<TARGET_OBJECTS:exiv2lib_int>
 )
 
 target_compile_definitions(unit_tests PRIVATE exiv2lib_STATIC TESTDATA_PATH="${PROJECT_SOURCE_DIR}/test/data")
 
-target_link_libraries(unit_tests PRIVATE exiv2lib GTest::gmock_main std::filesystem)
+target_link_libraries(unit_tests PRIVATE exiv2lib GTest::gmock_main)
+
+if(NOT EXV_HAVE_STD_FORMAT)
+  target_link_libraries(unit_tests PRIVATE fmt::fmt)
+endif()
 
 if(EXIV2_ENABLE_INIH)
   target_link_libraries(unit_tests PRIVATE inih::libinih inih::inireader)

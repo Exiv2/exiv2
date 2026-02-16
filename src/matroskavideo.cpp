@@ -19,23 +19,18 @@
  */
 // *****************************************************************************
 // included header files
-#include "config.h"
-
+#include "matroskavideo.hpp"
 #include "basicio.hpp"
+#include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "helper_functions.hpp"
-#include "matroskavideo.hpp"
-#include "tags.hpp"
-#include "tags_int.hpp"
 
 // + standard includes
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include <limits>
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {
@@ -836,10 +831,9 @@ void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size
   switch (tag->_id) {
     case Xmp_video_Duration:
       if (size <= 4) {
-        duration_in_ms =
-            static_cast<int64_t>(getFloat(buf, bigEndian) * static_cast<float>(time_code_scale_) * 1000.0f);
+        duration_in_ms = std::llround(getFloat(buf, bigEndian) * time_code_scale_ * 1000.0);
       } else {
-        duration_in_ms = static_cast<int64_t>(getDouble(buf, bigEndian) * time_code_scale_ * 1000);
+        duration_in_ms = std::llround(getDouble(buf, bigEndian) * time_code_scale_ * 1000);
       }
       xmpData_[tag->_label] = duration_in_ms;
       break;
@@ -866,7 +860,6 @@ void MatroskaVideo::decodeDateTags(const MatroskaTag* tag, const byte* buf, size
 void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
   xmpData_[tag->_label] = getFloat(buf, bigEndian);
 
-  double frame_rate = 0;
   switch (tag->_id) {
     case Xmp_audio_SampleRate:
     case Xmp_audio_OutputSampleRate:
@@ -878,9 +871,10 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
       if (!key)
         return;
       if (auto internalMt = Exiv2::find(streamRate, key)) {
+        double frame_rate = 0;
         switch (stream_) {
           case 1:  // video
-            frame_rate = static_cast<double>(1000000000) / static_cast<double>(key);
+            frame_rate = 1000000000.0 / static_cast<double>(key);
             break;
           case 2:  // audio
             frame_rate = static_cast<double>(key) / 1000;
@@ -888,7 +882,7 @@ void MatroskaVideo::decodeFloatTags(const MatroskaTag* tag, const byte* buf) {
           default:
             break;
         }
-        if (frame_rate)
+        if (std::isgreater(frame_rate, 0.0))
           xmpData_[internalMt->_label] = frame_rate;
       } else
         xmpData_[tag->_label] = "Variable Bit Rate";

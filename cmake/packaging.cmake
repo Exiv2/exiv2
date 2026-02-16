@@ -1,5 +1,5 @@
 set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
-set(CPACK_PACKAGE_CONTACT "Luis DÃ­az MÃ¡s <piponazo@gmail.com>")
+set(CPACK_PACKAGE_CONTACT "Luis Díaz Más <piponazo@gmail.com>")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 
 set(CPACK_SOURCE_GENERATOR TGZ)
@@ -12,27 +12,26 @@ else()
     set(CPACK_GENERATOR TGZ)  # MinGW/Cygwin/Linux/macOS etc use .tar.gz
 endif()
 
-set (BS "") # Bit Size
-if ( NOT APPLE )
-  if ( CMAKE_SIZEOF_VOID_P EQUAL 8 )
-    set (BS 64)
-  else()
-    set (BS 32)
-  endif()
+set (BARCH ${CMAKE_SYSTEM_PROCESSOR}) # Target architecture
+if ( CMAKE_SIZEOF_VOID_P EQUAL 4 )
+  # 32-bit build, force architecture
+  set (BARCH "i686")
 endif()
 
 set (LT "") # Library Type
 if ( NOT BUILD_SHARED_LIBS )
-	set (LT Static)
+	set (LT -Static)
 endif()
 
 set (BT "") # Build Type
 if ( NOT ${CMAKE_BUILD_TYPE} STREQUAL Release )
-	set (BT ${CMAKE_BUILD_TYPE})
+	set (BT -${CMAKE_BUILD_TYPE})
 endif()
 
-if ( MINGW OR MSYS )
+if ( MINGW )
     set (PACKDIR MinGW)
+elseif ( MSYS )
+    set (PACKDIR MSYS)
 elseif ( MSVC )
     set (PACKDIR msvc)
 elseif ( CYGWIN )
@@ -55,19 +54,21 @@ endif()
 set (CC "") # Compiler
 if ( NOT APPLE AND NOT CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" )
   if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-    set (CC Clang)
+    set (CC -Clang)
   endif()
 endif()
 
 set (WR "") # WebReady
 if ( EXIV2_ENABLE_WEBREADY )
-    set (WR Webready)
+    set (WR -Webready)
 endif()
 
 set (VS "") # VisualStudio
 if ( MSVC )
-    # VS2015 >= 1900, VS2017 >= 1910, VS2019 >= 1920
-    if     ( MSVC_VERSION GREATER  1919 )
+    # VS2015 >= 1900, VS2017 >= 1910, VS2019 >= 1920, VS2022 >= 1930
+    if     ( MSVC_VERSION GREATER  1929 )
+       set(VS 2022)
+    elseif ( MSVC_VERSION GREATER  1919 )
        set(VS 2019)
     elseif ( MSVC_VERSION GREATER  1909 )
        set(VS 2017)
@@ -113,7 +114,7 @@ endif()
 # Set RV = Release Version
 set(RV "Exiv2 v${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
 
-set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VS}${BUNDLE_NAME}${BS}${CC}${LT}${BT}${WR})
+set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${VS}${BUNDLE_NAME}-${BARCH}${CC}${LT}${BT}${WR})
 
 # https://stackoverflow.com/questions/17495906/copying-files-and-including-them-in-a-cpack-archive
 install(FILES     "${PROJECT_SOURCE_DIR}/samples/exifprint.cpp" DESTINATION "samples")

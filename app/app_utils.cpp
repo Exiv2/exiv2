@@ -2,6 +2,7 @@
 
 #include "app_utils.hpp"
 #include <climits>
+#include <cstdint>
 #include <cstdlib>
 #include <limits>
 

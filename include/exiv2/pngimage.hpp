@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef PNGIMAGE_HPP_
-#define PNGIMAGE_HPP_
+#ifndef EXIV2_PNGIMAGE_HPP
+#define EXIV2_PNGIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -38,7 +38,7 @@ class EXIV2API PngImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  PngImage(BasicIo::UniquePtr io, bool create);
+  PngImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -85,11 +85,11 @@ class EXIV2API PngImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newPngInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a PNG image.
 EXIV2API bool isPngType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef PNGIMAGE_HPP_
+#endif  // EXIV2_PNGIMAGE_HPP

@@ -10,8 +10,7 @@ on:
       - "*.md"
   workflow_dispatch:
   push:
-    branches:
-    - main
+    branches: [0.28.x, main]
     tags:
     - '!*'
     paths-ignore:
@@ -30,7 +29,9 @@ jobs:
         platform: [ x64, x86 ]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
@@ -38,14 +39,15 @@ jobs:
           arch: ${{matrix.platform}}
 
       - name: Restore Conan cache
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
+            lookup-only: true
 
       - name: Install Conan & Common config
         run: |
-          python -m pip install conan==1.59.0
+          python -m pip install conan==1.* lxml
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
@@ -94,7 +96,9 @@ jobs:
         shell: msys2 {0}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
@@ -150,10 +154,12 @@ jobs:
       # Make sure we don't check out scripts using Windows CRLF line endings
       - run: git config --global core.autocrlf input
         shell: pwsh
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Cygwin
-        uses: cygwin/cygwin-install-action@v4
+        uses: cygwin/cygwin-install-action@v6
         with:
           platform: ${{matrix.platform}}
           packages: >-
@@ -178,6 +184,7 @@ jobs:
             -DEXIV2_BUILD_SAMPLES=OFF \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
+            -DPython3_EXECUTABLE=/usr/bin/python3 \
             -S . -B build && \
           cmake --build build --parallel
 

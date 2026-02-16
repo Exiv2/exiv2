@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef HTTP_HPP_
-#define HTTP_HPP_
+#ifndef EXIV2_HTTP_HPP
+#define EXIV2_HTTP_HPP
 
 #include "exiv2lib_export.h"
 

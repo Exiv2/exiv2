@@ -7,14 +7,15 @@
 // included header files
 #include "casiomn_int.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
 
 // + standard includes
 #include <cstring>
-#include <iomanip>
-#include <sstream>
+#include <ostream>
 #include <vector>
 
 // *****************************************************************************
@@ -102,7 +103,7 @@ constexpr TagDetails casioCCDSensitivity[] = {
 
 // Casio MakerNote Tag Info
 constexpr TagInfo CasioMakerNote::tagInfo_[] = {
-    {0x0001, "RecodingMode", N_("RecodingMode"), N_("Recording Mode"), IfdId::casioId, SectionId::makerTags,
+    {0x0001, "RecordingMode", N_("Recording Mode"), N_("Recording Mode"), IfdId::casioId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(casioRecordingMode)},
     {0x0002, "Quality", N_("Quality"), N_("Quality"), IfdId::casioId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(casioQuality)},
@@ -143,18 +144,8 @@ constexpr TagInfo CasioMakerNote::tagInfo_[] = {
      IfdId::casioId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* CasioMakerNote::tagList() {
-  return tagInfo_;
-}
-
 std::ostream& CasioMakerNote::print0x0006(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << value.toInt64() / 1000.0 << _(" m");
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", value.toInt64() / 1000.0);
 }
 
 std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, const ExifData*) {
@@ -163,13 +154,13 @@ std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, 
   for (size_t i = 0; i < value.size(); i++) {
     const auto l = value.toInt64(i);
     if (l != 0) {
-      numbers.push_back(static_cast<char>(l));
+      numbers.push_back(l);
     }
   }
 
   if (numbers.size() >= 10) {
     // year
-    long l = (numbers[0] - 48) * 10 + (numbers[1] - 48);
+    long l = ((numbers[0] - 48) * 10) + (numbers[1] - 48);
     if (l < 70)
       l += 2000;
     else
@@ -454,15 +445,11 @@ constexpr TagInfo Casio2MakerNote::tagInfo_[] = {
      IfdId::casio2Id, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* Casio2MakerNote::tagList() {
-  return tagInfo_;
-}
-
 std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value, const ExifData*) {
   // format is:  "YYMM#00#00DDHH#00#00MM#00#00#00#00"
   std::vector<char> numbers;
   for (size_t i = 0; i < value.size(); i++) {
-    const auto l = static_cast<char>(value.toInt64(i));
+    const auto l = value.toInt64(i);
     if (l != 0) {
       numbers.push_back(l);
     }
@@ -470,7 +457,7 @@ std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value,
 
   if (numbers.size() >= 10) {
     // year
-    long l = (numbers[0] - 48) * 10 + (numbers[1] - 48);
+    long l = ((numbers[0] - 48) * 10) + (numbers[1] - 48);
     if (l < 70)
       l += 2000;
     else
@@ -485,18 +472,10 @@ std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value,
 }
 
 std::ostream& Casio2MakerNote::print0x2022(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   if (value.toInt64() >= 0x20000000) {
-    os << N_("Inf");
-    os.flags(f);
-    return os;
+    return os << N_("Inf");
   }
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << std::fixed << std::setprecision(2) << value.toInt64() / 1000.0 << _(" m");
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2f} m", value.toInt64() / 1000.0);
 }
 
 }  // namespace Exiv2::Internal

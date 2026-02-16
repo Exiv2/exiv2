@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef RW2IMAGE_HPP_
-#define RW2IMAGE_HPP_
+#ifndef EXIV2_RW2IMAGE_HPP
+#define EXIV2_RW2IMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -36,7 +36,7 @@ class EXIV2API Rw2Image : public Image {
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
    */
-  explicit Rw2Image(BasicIo::UniquePtr io);
+  explicit Rw2Image(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -99,11 +99,11 @@ class EXIV2API Rw2Parser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newRw2Instance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a RW2 image.
 EXIV2API bool isRw2Type(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef RW2IMAGE_HPP_
+#endif  // EXIV2_RW2IMAGE_HPP

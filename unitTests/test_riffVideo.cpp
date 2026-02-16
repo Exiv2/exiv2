@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <array>
+#include <exiv2/basicio.hpp>
 #include <exiv2/riffvideo.hpp>
 
 using namespace Exiv2;
@@ -51,5 +51,5 @@ TEST(RiffVideo, readMetadata) {
   ASSERT_NO_THROW(riff.setXmpData(xmpData));
   auto data = riff.xmpData();
   ASSERT_FALSE(data.empty());
-  ASSERT_EQ(xmpData["Xmp.video.TotalStream"].count(), 4);
+  ASSERT_EQ(xmpData["Xmp.video.TotalStream"].count(), 4u);
 }

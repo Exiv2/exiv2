@@ -9,12 +9,6 @@ using namespace Exiv2;
 
 int main(int argc, char* const argv[]) {
   try {
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
-#endif
-
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " file\n";
       return EXIT_FAILURE;
@@ -28,7 +22,7 @@ int main(int argc, char* const argv[]) {
     }
     // Map it to memory
     const Exiv2::byte* pData = file.mmap();
-    std::vector<byte> buf(file.size());
+    Blob buf(file.size());
 
     // Read from the memory mapped region
     std::copy_n(pData, buf.size(), buf.begin());

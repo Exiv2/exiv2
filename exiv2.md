@@ -455,12 +455,13 @@ environment variable). The *fmt* string follows the definitions in
 date and time. In addition, the following special character sequences are 
 also provided:
 
-| Variable       | Description                                                                                                                   |
-|:------         |:----                                                                                                                          |
-| :basename:     | Original filename without extension                                                                                           |
-| :basesuffix:   | Suffix in original filename, starts with first dot and ends before extension, e.g. PANO, MP, NIGHT added by Google Camera app |
-| :dirname:      | Name of the directory holding the original file                                                                               |
-| :parentname:   | Name of parent directory                                                                                                      |
+| Variable        | Description                                                                                                                   |
+|:------          |:----                                                                                                                          |
+| :basename:      | Original filename without extension                                                                                           |
+| :basesuffix:    | Suffix in original filename, starts with first dot and ends before extension, e.g. PANO, MP, NIGHT added by Google Camera app |
+| :dirname:       | Name of the directory holding the original file                                                                               |
+| :parentname:    | Name of parent directory                                                                                                      |
+| :*ExifTagName*: | Placeholder will be replaced by translated value of tag, characters not allowed in file name are replaced by underscore       |
 
 The default *fmt* is %Y%m%d_%H%M%S
 
@@ -496,7 +497,8 @@ If the filename contains a suffix, which shall be included in new filename:
 ```
 $ exiv2 --verbose --rename '%d_%b_%Y:basesuffix:' Stonehenge.PANO.jpg
 File 1/1: Stonehenge.PANO.jpg
-Renaming file to '16_Jul_2015.PANO'.jpg```
+Renaming file to '16_Jul_2015.PANO'.jpg
+```
 
 <div id="adjust_time">
 
@@ -890,7 +892,7 @@ any array having the same type. Available types for the different
 | XmpAlt  | A string of text | Multi   | An ordered array, any default value is first |
 | XmpBag  | A string of text | Multi   | An unordered array (e.g., 3 values, "Red, Yellow, Green"). See [Multiple elements](#multi_elements) and ['Modify' command format](#mod_cmd_format) |
 | XmpSeq  | A string of text | Multi   | An ordered array (e.g., 3 values, "Gold, Silver, Bronze"). See [Multiple elements](#multi_elements) and ['Modify' command format](#mod_cmd_format) |
-| XmpText | A string of text | Single  | -                                            |
+| XmpText | A string of text | Single  | Value type suitable for simple XMP properties and XMP nodes of complex types which are not parsed into specific values. |
 
 [TOC](#TOC)
 

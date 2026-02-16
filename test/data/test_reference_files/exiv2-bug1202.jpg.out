@@ -96,7 +96,7 @@ Exif.CanonFi.RawJpgSize                      SShort      1  -1  n/a
 Exif.CanonFi.NoiseReduction                  SShort      1  -1  (-1)
 Exif.Canon.ImageType                         Ascii      32  IMG:EOS 300D DIGITAL JPEG  IMG:EOS 300D DIGITAL JPEG
 Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 1.0.2  Firmware Version 1.0.2
-Exif.Canon.SerialNumber                      Long        1  570004681  21f938089
+Exif.Canon.SerialNumber                      Long        1  570004681  570004681
 Exif.Canon.SerialNumberFormat                Long        1  2415919104  Format 1
 Exif.Canon.FileNumber                        Long        1  1030390  103-0390
 Exif.Canon.OwnerName                         Ascii      32    

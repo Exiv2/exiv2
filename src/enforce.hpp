@@ -18,7 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <string>
+#ifndef EXIV2_ENFORCE_HPP
+#define EXIV2_ENFORCE_HPP
 
 #include "error.hpp"
 
@@ -46,3 +47,4 @@ constexpr void enforce(bool condition, Exiv2::ErrorCode err_code, T&&... args) {
   enforce<Exiv2::Error>(condition, err_code, std::forward<T>(args)...);
 }
 }  // namespace Exiv2::Internal
+#endif  // EXIV2_ENFORCE_HPP

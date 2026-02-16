@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import itertools
 import system_tests
 
 def char_range(c1, c2):
@@ -8,19 +7,18 @@ def char_range(c1, c2):
     for c in range(ord(c1), ord(c2)+1):
         yield chr(c)
 
-ORIGINAL_FILES = ["$data_path/exiv2-bug1179" + case + ".exv"
+ORIGINAL_FILES = [f"$data_path/exiv2-bug1179{case}.exv"
     for case in char_range('a', 'j')]
 
 def make_command(filename):
-    return ["$exiv2 -pa --grep fuji/i " + filename]
+    return [f"$exiv2 -pa --grep fuji/i {filename}"]
 
 
 class CheckFilmMode(metaclass=system_tests.CaseMeta):
 
     url = "http://dev.exiv2.org/issues/1179"
 
-    commands = list(itertools.chain.from_iterable(
-            make_command(fname) for fname in ORIGINAL_FILES))
+    commands = [cmd for fname in ORIGINAL_FILES for cmd in make_command(fname)]
 
     stdout = [
         """Exif.Fujifilm.Version                        Undefined   4  48 49 51 48

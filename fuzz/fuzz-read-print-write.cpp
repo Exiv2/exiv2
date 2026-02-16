@@ -8,12 +8,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   // Invalid files generate a lot of warnings, so switch off logging.
   Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   try {
     Exiv2::DataBuf data_copy(data, size);
     Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(data_copy.c_data(), size);
@@ -21,16 +15,22 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 
     image->readMetadata();
     for (auto& md : image->exifData()) {
-      md.print();
-      md.print(&image->exifData());
+      if (md.tagName().substr(0, 2) != "0x") {
+        md.print();
+        md.print(&image->exifData());
+      }
     }
     for (auto& md : image->iptcData()) {
-      md.print();
-      md.print(&image->exifData());
+      if (md.tagName().substr(0, 2) != "0x") {
+        md.print();
+        md.print(&image->exifData());
+      }
     }
     for (auto& md : image->xmpData()) {
-      md.print();
-      md.print(&image->exifData());
+      if (md.tagName().substr(0, 2) != "0x") {
+        md.print();
+        md.print(&image->exifData());
+      }
     }
 
     // Print to a std::ostringstream so that the fuzzer doesn't

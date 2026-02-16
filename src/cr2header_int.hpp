@@ -12,11 +12,20 @@
 
 // *****************************************************************************
 // included header files
+#include "types.hpp"
+
+#include "tifffwd_int.hpp"
 #include "tiffimage_int.hpp"
+
+#include <array>
+#include <cstddef>
+#include <cstdint>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+enum class IfdId : uint32_t;
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -37,7 +46,7 @@ class Cr2Header : public TiffHeaderBase {
   //! @name Accessors
   //@{
   [[nodiscard]] DataBuf write() const override;
-  bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* pPrimaryGroups) const override;
+  [[nodiscard]] bool isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& pPrimaryGroups) const override;
   //@}
 
   //! Return the address of offset2 from the start of the header
@@ -47,10 +56,11 @@ class Cr2Header : public TiffHeaderBase {
 
  private:
   // DATA
-  uint32_t offset2_{0x00000000};             //!< Bytes 12-15 from the header
-  static constexpr auto cr2sig_ = "CR\2\0";  //!< Signature for CR2 type TIFF
+  uint32_t offset2_{0x00000000};                                          //!< Bytes 12-15 from the header
+  static constexpr std::array<byte, 4> cr2sig_ = {0x43, 0x52, 0x2, 0x0};  //!< Signature for CR2 type TIFF
 };
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // EXIV2_CR2HEADER_INT_HPP
