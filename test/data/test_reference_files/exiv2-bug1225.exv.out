@@ -159,7 +159,7 @@ Iptc.Application2.CountryName                String      9  Australia  Australia
 Iptc.Application2.RecordVersion              Short       1  4  4
 Xmp.iptc.CountryCode                         XmpText     3  AUS  AUS
 Xmp.iptc.Location                            XmpText    11  Snowy Flats  Snowy Flats
-Xmp.iptc.CreatorContactInfo                  XmpText     0  type="Struct"
+Xmp.iptc.CreatorContactInfo                  XmpText    13  type="Struct"  type="Struct"
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiEmailWork XmpText    27  mark.jekabsons@yahoo.com.au  mark.jekabsons@yahoo.com.au
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiTelWork XmpText    12  +61401922543  +61401922543
 Xmp.exif.DateTimeDigitized                   XmpText    25  2016-03-17T16:37:48+11:00  2016-03-17T16:37:48+11:00

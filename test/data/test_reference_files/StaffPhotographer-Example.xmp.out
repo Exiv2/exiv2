@@ -57,7 +57,7 @@ Iptc.Application2.Writer                     String     11  Susan Brown  Susan B
 Xmp.iptc.IntellectualGenre                   XmpText     7  Profile  Profile
 Xmp.iptc.Location                            XmpText    17  Moore family farm  Moore family farm
 Xmp.iptc.CountryCode                         XmpText     2  US  US
-Xmp.iptc.CreatorContactInfo                  XmpText     0  type="Struct"
+Xmp.iptc.CreatorContactInfo                  XmpText    13  type="Struct"  type="Struct"
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrExtadr XmpText    30  Big Newspaper, 123 Main Street  Big Newspaper, 123 Main Street
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity XmpText     6  Boston  Boston
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrRegion XmpText    13  Massachusetts  Massachusetts
@@ -98,7 +98,7 @@ Xmp.xmp.ModifyDate                           XmpText    25  2005-03-13T02:01:44-
 Xmp.xmp.MetadataDate                         XmpText    25  2007-01-08T13:25:45+01:00  2007-01-08T13:25:45+01:00
 Xmp.xmp.CreatorTool                          XmpText    26  Adobe Photoshop CS Windows  Adobe Photoshop CS Windows
 Xmp.xmpMM.DocumentID                         XmpText    58  adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9  adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:0f410640-9396-11d9-bb8e-a67e6693b6e9  uuid:0f410640-9396-11d9-bb8e-a67e6693b6e9
 Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:e4d002a0-9392-11d9-bb8e-a67e6693b6e9  adobe:docid:photoshop:e4d002a0-9392-11d9-bb8e-a67e6693b6e9
 Xmp.xmpMM.InstanceID                         XmpText    41  uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9  uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9

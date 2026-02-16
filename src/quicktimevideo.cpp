@@ -685,6 +685,8 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursi
       xmpData_["Xmp.video.URL"] = readString(*io_, size);
     else if (currentStream_ == Audio)
       xmpData_["Xmp.audio.URL"] = readString(*io_, size);
+    else
+      discard(size);
   }
 
   else if (equalsQTimeTag(buf, "urn ")) {
@@ -692,6 +694,8 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursi
       xmpData_["Xmp.video.URN"] = readString(*io_, size);
     else if (currentStream_ == Audio)
       xmpData_["Xmp.audio.URN"] = readString(*io_, size);
+    else
+      discard(size);
   }
 
   else if (equalsQTimeTag(buf, "dcom")) {

@@ -25,14 +25,14 @@ Xmp.iptcExt.RegistryId                       XmpBag      0
 Xmp.xmpMM.DocumentID                         XmpText    52  gimp:docid:gimp:e38231ee-2d28-42e6-b17e-6fa80c9fd85b  gimp:docid:gimp:e38231ee-2d28-42e6-b17e-6fa80c9fd85b
 Xmp.xmpMM.InstanceID                         XmpText    44  xmp.iid:34774f89-42e3-4411-a691-f8cdb5b11def  xmp.iid:34774f89-42e3-4411-a691-f8cdb5b11def
 Xmp.xmpMM.OriginalDocumentID                 XmpText    44  xmp.did:e2129b55-045f-4085-bbd2-e11d11edfa0c  xmp.did:e2129b55-045f-4085-bbd2-e11d11edfa0c
-Xmp.xmpMM.History                            XmpText     0  type="Seq"
-Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History                            XmpText    10  type="Seq"  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved  saved
 Xmp.xmpMM.History[1]/stEvt:changed           XmpText     9  /metadata  /metadata
 Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    44  xmp.iid:928b36e2-0239-4616-847a-eff7a31816e3  xmp.iid:928b36e2-0239-4616-847a-eff7a31816e3
 Xmp.xmpMM.History[1]/stEvt:softwareAgent     XmpText    19  GIMP 2.99.5 (Linux)  GIMP 2.99.5 (Linux)
 Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2021-02-13T21:24:26+01:00  2021-02-13T21:24:26+01:00
-Xmp.xmpMM.History[2]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History[2]                         XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.History[2]/stEvt:action            XmpText     5  saved  saved
 Xmp.xmpMM.History[2]/stEvt:changed           XmpText     1  /  /
 Xmp.xmpMM.History[2]/stEvt:instanceID        XmpText    44  xmp.iid:23f267c5-c40a-45c8-947d-11313b4881c1  xmp.iid:23f267c5-c40a-45c8-947d-11313b4881c1

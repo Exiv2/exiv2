@@ -9,7 +9,7 @@ Xmp.xmp.ModifyDate                           XmpText    25  2005-09-07T15:09:51-
 Xmp.xmp.MetadataDate                         XmpText    25  2006-04-10T13:37:10-07:00
 Xmp.xmpMM.DocumentID                         XmpText    37  uuid:9A3B7F52214211DAB6308A7391270C13
 Xmp.xmpMM.InstanceID                         XmpText    37  uuid:B59AC1B3214311DAB6308A7391270C13
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"
 Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    37  uuid:9A3B7F4F214211DAB6308A7391270C13
 Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    37  uuid:9A3B7F4E214211DAB6308A7391270C13
 Xmp.photoshop.ColorMode                      XmpText     1  3
@@ -84,7 +84,7 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 Xmp.iptc.IntellectualGenre                   XmpText     7  Profile
 Xmp.iptc.Location                            XmpText    17  Moore family farm
 Xmp.iptc.CountryCode                         XmpText     2  US
-Xmp.iptc.CreatorContactInfo                  XmpText     0  type="Struct"
+Xmp.iptc.CreatorContactInfo                  XmpText    13  type="Struct"
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrExtadr XmpText    30  Big Newspaper, 123 Main Street
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity XmpText     6  Boston
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrRegion XmpText    13  Massachusetts
@@ -125,7 +125,7 @@ Xmp.xmp.ModifyDate                           XmpText    25  2005-03-13T02:01:44-
 Xmp.xmp.MetadataDate                         XmpText    25  2007-01-08T13:25:45+01:00
 Xmp.xmp.CreatorTool                          XmpText    26  Adobe Photoshop CS Windows
 Xmp.xmpMM.DocumentID                         XmpText    58  adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"
 Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:0f410640-9396-11d9-bb8e-a67e6693b6e9
 Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:e4d002a0-9392-11d9-bb8e-a67e6693b6e9
 Xmp.xmpMM.InstanceID                         XmpText    41  uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9
@@ -192,7 +192,7 @@ Xmp.ns1.SimpleProp2                          XmpText    13  Simple2 value
 Xmp.ns1.SimpleProp2/?xml:lang                XmpText     9  x-default
 Xmp.ns1.ArrayProp1                           XmpBag      2  Item1.1 value, Item1.2 value
 Xmp.ns1.ArrayProp2                           LangAlt     2  lang="x-two" Item2.2 value, lang="x-one" Item2.1 value
-Xmp.ns1.StructProp                           XmpText     0  type="Struct"
+Xmp.ns1.StructProp                           XmpText    13  type="Struct"
 Xmp.ns1.StructProp/ns2:Field1                XmpText    12  Field1 value
 Xmp.ns1.StructProp/ns2:Field2                XmpText    12  Field2 value
 Xmp.ns1.QualProp1                            XmpText    10  Prop value
@@ -200,10 +200,10 @@ Xmp.ns1.QualProp1/?ns2:Qual                  XmpText    10  Qual value
 Xmp.ns1.QualProp2                            XmpText    10  Prop value
 Xmp.ns1.QualProp2/?xml:lang                  XmpText     9  x-default
 Xmp.ns1.QualProp2/?ns2:Qual                  XmpText    10  Qual value
-Xmp.ns1.NestedStructProp                     XmpText     0  type="Struct"
-Xmp.ns1.NestedStructProp/ns2:Outer           XmpText     0  type="Struct"
-Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle XmpText     0  type="Struct"
-Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner XmpText     0  type="Struct"
+Xmp.ns1.NestedStructProp                     XmpText    13  type="Struct"
+Xmp.ns1.NestedStructProp/ns2:Outer           XmpText    13  type="Struct"
+Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle XmpText    13  type="Struct"
+Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner XmpText    13  type="Struct"
 Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field1 XmpText    12  Field1 value
 Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12  Field2 value
 -----> Encoding XMP data to write to xmpsdk.xmp-new <-----
@@ -344,7 +344,7 @@ Xmp.xmpDM.videoFrameSize/stDim:unit          XmpText     4  inch
 Xmp.dc.publisher                             XmpBag      1  James Bond
 Xmp.dc.publisher[1]/?ns:role                 XmpText    12  secret agent
 Xmp.dc.creator[2]/?ns:role                   XmpText    10  programmer
-Xmp.xmpBJ.JobRef                             XmpText     0  type="Bag"
+Xmp.xmpBJ.JobRef                             XmpText    10  type="Bag"
 Xmp.xmpBJ.JobRef[1]/stJob:name               XmpText    14  Birthday party
 Xmp.xmpBJ.JobRef[1]/stJob:role               XmpText    12  Photographer
 Xmp.xmpBJ.JobRef[2]/stJob:name               XmpText    16  Wedding ceremony
@@ -505,25 +505,25 @@ Xmp.dc.seven                                 XmpText     5  Seven
 Xmp.dc.format                                XmpText    10  image/jpeg
 Xmp.dc.subject                               XmpBag      2  Palmtree, Rubbertree
 Xmp.dc.title                                 LangAlt     2  lang="en-US" Sunset on the beach, lang="de-DE" Sonnenuntergang am Strand
-Xmp.dc.creator                               XmpText     0  type="Seq"
+Xmp.dc.creator                               XmpText    10  type="Seq"
 Xmp.dc.creator[1]                            XmpText    20  1) The first creator
 Xmp.dc.creator[2]                            XmpText    21  2) The second creator
 Xmp.dc.creator[2]/?ns:role                   XmpText    10  programmer
 Xmp.dc.creator[3]                            XmpText    18  3) And another one
 Xmp.dc.description                           LangAlt     2  lang="x-default" Hello, World, lang="de-DE" Hallo, Welt
-Xmp.dc.publisher                             XmpText     0  type="Bag"
+Xmp.dc.publisher                             XmpText    10  type="Bag"
 Xmp.dc.publisher[1]                          XmpText    10  James Bond
 Xmp.dc.publisher[1]/?ns:role                 XmpText    12  secret agent
 Xmp.ns.myProperty                            XmpText     7  myValue
 Xmp.tiff.ImageDescription                    LangAlt     2  lang="x-default" TIFF image description, lang="de-DE" TIFF Bildbeschreibung
-Xmp.xmpDM.videoFrameSize                     XmpText     0  type="Struct"
+Xmp.xmpDM.videoFrameSize                     XmpText    13  type="Struct"
 Xmp.xmpDM.videoFrameSize/stDim:w             XmpText     2  16
 Xmp.xmpDM.videoFrameSize/stDim:h             XmpText     1  9
 Xmp.xmpDM.videoFrameSize/stDim:unit          XmpText     4  inch
-Xmp.xmpBJ.JobRef                             XmpText     0  type="Bag"
-Xmp.xmpBJ.JobRef[1]                          XmpText     0  type="Struct"
+Xmp.xmpBJ.JobRef                             XmpText    10  type="Bag"
+Xmp.xmpBJ.JobRef[1]                          XmpText    13  type="Struct"
 Xmp.xmpBJ.JobRef[1]/stJob:name               XmpText    14  Birthday party
 Xmp.xmpBJ.JobRef[1]/stJob:role               XmpText    12  Photographer
-Xmp.xmpBJ.JobRef[2]                          XmpText     0  type="Struct"
+Xmp.xmpBJ.JobRef[2]                          XmpText    13  type="Struct"
 Xmp.xmpBJ.JobRef[2]/stJob:name               XmpText    16  Wedding ceremony
 Xmp.xmpBJ.JobRef[2]/stJob:role               XmpText     8  Best man

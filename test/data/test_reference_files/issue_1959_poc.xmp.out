@@ -33,7 +33,7 @@ Xmp.iptc.IntellectualGenre                   XmpText    10  Test Genre  Test Gen
 Xmp.iptc.Location                            XmpText    16  Test Sublocation  Test Sublocation
 Xmp.iptc.CountryCode                         XmpText     3  GBR  GBR
 Xmp.iptc.AltTextAccessibility                LangAlt     1  lang="x-default" Alternative text description for accessibility  lang="x-default" Alternative text description for accessibility
-Xmp.iptc.CreatorContactInfo                  XmpText     0  type="Struct"
+Xmp.iptc.CreatorContactInfo                  XmpText    13  type="Struct"  type="Struct"
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity XmpText    19  Test Creator's City  Test Creator's City
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCtry XmpText    22  Test Creator's Country  Test Creator's Country
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrExtadr XmpText    22  Test Creator's Address  Test Creator's Address
@@ -50,14 +50,14 @@ Xmp.iptcExt.DigImageGUID                     XmpText    35  nq394uihqtj085jh0qj5
 Xmp.iptcExt.DigitalSourceType                XmpText    60  http://cv.iptc.org/newscodes/digitalsourcetype/softwareImage  The digital image was created by computer software
 Xmp.iptcExt.MaxAvailHeight                   XmpText     3  250  250
 Xmp.iptcExt.MaxAvailWidth                    XmpText     3  250  250
-Xmp.iptcExt.AboutCvTerm                      XmpText     0  type="Bag"
-Xmp.iptcExt.AboutCvTerm[1]                   XmpText     0  type="Struct"
+Xmp.iptcExt.AboutCvTerm                      XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.AboutCvTerm[1]                   XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.AboutCvTerm[1]/Iptc4xmpExt:CvId  XmpText    26  http://example.com/cv/test  http://example.com/cv/test
 Xmp.iptcExt.AboutCvTerm[1]/Iptc4xmpExt:CvTermId XmpText    40  http://example.com/2489rtuj35i5gon3509hg  http://example.com/2489rtuj35i5gon3509hg
 Xmp.iptcExt.AboutCvTerm[1]/Iptc4xmpExt:CvTermRefinedAbout XmpText    39  http://example.com/eopihjg30mhn0q4emn09  http://example.com/eopihjg30mhn0q4emn09
 Xmp.iptcExt.AboutCvTerm[1]/Iptc4xmpExt:CvTermName LangAlt     1  lang="x-default" Test CV-Term Name  lang="x-default" Test CV-Term Name
-Xmp.iptcExt.ArtworkOrObject                  XmpText     0  type="Bag"
-Xmp.iptcExt.ArtworkOrObject[1]               XmpText     0  type="Struct"
+Xmp.iptcExt.ArtworkOrObject                  XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.ArtworkOrObject[1]               XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCircaDateCreated XmpText    10  2022-01-04  2022-01-04
 Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCopyrightNotice XmpText    15  Copyright Exiv2  Copyright Exiv2
 Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCurrentCopyrightOwnerId XmpText    52  http://www.example.com/userID/q30w4jyg34nh0h4j0934jh  http://www.example.com/userID/q30w4jyg34nh0h4j0934jh
@@ -75,47 +75,47 @@ Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOCreatorId XmpSeq      1  http://www
 Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOPhysicalDescription LangAlt     1  lang="x-default" Test data  lang="x-default" Test data
 Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOStylePeriod XmpBag      1  Art Deco  Art Deco
 Xmp.iptcExt.ArtworkOrObject[1]/Iptc4xmpExt:AOTitle LangAlt     1  lang="x-default" Xmp.iptc.* and Xmp.iptcExt.* test data  lang="x-default" Xmp.iptc.* and Xmp.iptcExt.* test data
-Xmp.iptcExt.EmbdEncRightsExpr                XmpText     0  type="Bag"
-Xmp.iptcExt.EmbdEncRightsExpr[1]             XmpText     0  type="Struct"
+Xmp.iptcExt.EmbdEncRightsExpr                XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.EmbdEncRightsExpr[1]             XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.EmbdEncRightsExpr[1]/Iptc4xmpExt:EncRightsExpr XmpText    81  Exiv2 project license: https://raw.githubusercontent.com/Exiv2/exiv2/main/COPYING  Exiv2 project license: https://raw.githubusercontent.com/Exiv2/exiv2/main/COPYING
 Xmp.iptcExt.EmbdEncRightsExpr[1]/Iptc4xmpExt:RightsExprEncType XmpText    10  text/plain  text/plain
 Xmp.iptcExt.EmbdEncRightsExpr[1]/Iptc4xmpExt:RightsExprLangId XmpText    52  http://www.example.com/rightsID/lkjusahgnoie439j9340  http://www.example.com/rightsID/lkjusahgnoie439j9340
 Xmp.iptcExt.Event                            LangAlt     1  lang="x-default" None  lang="x-default" None
 Xmp.iptcExt.EventId                          XmpBag      1  https://example.com/eventID/39085yjinmhq09043h  https://example.com/eventID/39085yjinmhq09043h
-Xmp.iptcExt.Genre                            XmpText     0  type="Bag"
-Xmp.iptcExt.Genre[1]                         XmpText     0  type="Struct"
+Xmp.iptcExt.Genre                            XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.Genre[1]                         XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.Genre[1]/Iptc4xmpExt:CvId        XmpText    44  http://example.com/cvID/380940jeokjhinthrstn  http://example.com/cvID/380940jeokjhinthrstn
 Xmp.iptcExt.Genre[1]/Iptc4xmpExt:CvTermId    XmpText    48  http://example.com/cvtermID/dfjkhng93jqg03jrs0hm  http://example.com/cvtermID/dfjkhng93jqg03jrs0hm
 Xmp.iptcExt.Genre[1]/Iptc4xmpExt:CvTermRefinedAbout XmpText    67  http://example.com/cvtermrefinedabout/fjh3n809jn0q3jh5q09hjrojh3509  http://example.com/cvtermrefinedabout/fjh3n809jn0q3jh5q09hjrojh3509
 Xmp.iptcExt.Genre[1]/Iptc4xmpExt:CvTermName  LangAlt     1  lang="x-default" Test CvTermName  lang="x-default" Test CvTermName
-Xmp.iptcExt.ImageRegion                      XmpText     0  type="Bag"
-Xmp.iptcExt.ImageRegion[1]                   XmpText     0  type="Struct"
+Xmp.iptcExt.ImageRegion                      XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.ImageRegion[1]                   XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rId   XmpText    10  testregion  testregion
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:Name  LangAlt     1  lang="x-default" Test Region  lang="x-default" Test Region
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:OrganisationInImageName XmpBag      1  Exiv2  Exiv2
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:PersonInImage XmpBag      1  None  None
-Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary XmpText     0  type="Struct"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbH XmpText     4  0.35  0.35
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbShape XmpText     9  rectangle  rectangle
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbUnit XmpText     8  relative  relative
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbW XmpText     4  0.15  0.15
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbX XmpText     4  0.25  0.25
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:RegionBoundary/Iptc4xmpExt:rbY XmpText     4  0.25  0.25
-Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype XmpText     0  type="Bag"
-Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype[1] XmpText     0  type="Struct"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype[1] XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype[1]/Iptc4xmpExt:Name LangAlt     1  lang="x-default" Somewhere  lang="x-default" Somewhere
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rCtype[1]/xmp:Identifier XmpBag      1  https://example.org/GUID/q3094jg304ng3049jhtio4j3  https://example.org/GUID/q3094jg304ng3049jhtio4j3
-Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole XmpText     0  type="Bag"
-Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole[1] XmpText     0  type="Struct"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole[1] XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole[1]/Iptc4xmpExt:Name LangAlt     1  lang="x-default" Test name  lang="x-default" Test name
 Xmp.iptcExt.ImageRegion[1]/Iptc4xmpExt:rRole[1]/xmp:Identifier XmpBag      1  https://example.org/GUID/ioehg03q94jh0935nhq3hj9  https://example.org/GUID/ioehg03q94jh0935nhq3hj9
-Xmp.iptcExt.LinkedEncRightsExpr              XmpText     0  type="Bag"
-Xmp.iptcExt.LinkedEncRightsExpr[1]           XmpText     0  type="Struct"
+Xmp.iptcExt.LinkedEncRightsExpr              XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.LinkedEncRightsExpr[1]           XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.LinkedEncRightsExpr[1]/Iptc4xmpExt:LinkedRightsExpr XmpText    66  http://example.org/linkedrightsexpression/034j093jhn0erihjmkjnh034  http://example.org/linkedrightsexpression/034j093jhn0erihjmkjnh034
 Xmp.iptcExt.LinkedEncRightsExpr[1]/Iptc4xmpExt:RightsExprEncType XmpText     8  text/xml  text/xml
 Xmp.iptcExt.LinkedEncRightsExpr[1]/Iptc4xmpExt:RightsExprLangId XmpText    62  http://example.org/rightsexprlangid/3098jnyqgh03jnh0jw45uj65yh  http://example.org/rightsexprlangid/3098jnyqgh03jnh0jw45uj65yh
-Xmp.iptcExt.LocationCreated                  XmpText     0  type="Bag"
-Xmp.iptcExt.LocationCreated[1]               XmpText     0  type="Struct"
+Xmp.iptcExt.LocationCreated                  XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.LocationCreated[1]               XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:City XmpText     9  Test City  Test City
 Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:CountryCode XmpText     3  GBR  GBR
 Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:CountryName XmpText    12  Test Country  Test Country
@@ -127,8 +127,8 @@ Xmp.iptcExt.LocationCreated[1]/exif:GPSLatitude XmpText     9  51,30.30N  51,30.
 Xmp.iptcExt.LocationCreated[1]/exif:GPSLongitude XmpText     8  0,07.32W  0,07.32W
 Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:LocationId XmpBag      1  http://example.org/locationId/3409j0ijm3fgldsgjk2  http://example.org/locationId/3409j0ijm3fgldsgjk2
 Xmp.iptcExt.LocationCreated[1]/Iptc4xmpExt:LocationName LangAlt     1  lang="x-default" Test Location  lang="x-default" Test Location
-Xmp.iptcExt.LocationShown                    XmpText     0  type="Bag"
-Xmp.iptcExt.LocationShown[1]                 XmpText     0  type="Struct"
+Xmp.iptcExt.LocationShown                    XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.LocationShown[1]                 XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:City XmpText     9  Test City  Test City
 Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:CountryCode XmpText     3  GBR  GBR
 Xmp.iptcExt.LocationShown[1]/Iptc4xmpExt:CountryName XmpText    12  Test Country  Test Country
@@ -144,10 +144,10 @@ Xmp.iptcExt.ModelAge                         XmpBag      1  25  25
 Xmp.iptcExt.OrganisationInImageCode          XmpBag      1  Test code:code  Test code:code
 Xmp.iptcExt.OrganisationInImageName          XmpBag      1  None  None
 Xmp.iptcExt.PersonInImage                    XmpBag      1  Nobody  Nobody
-Xmp.iptcExt.PersonInImageWDetails            XmpText     0  type="Bag"
-Xmp.iptcExt.PersonInImageWDetails[1]         XmpText     0  type="Struct"
-Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic XmpText     0  type="Bag"
-Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1] XmpText     0  type="Struct"
+Xmp.iptcExt.PersonInImageWDetails            XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.PersonInImageWDetails[1]         XmpText    13  type="Struct"  type="Struct"
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1] XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]/Iptc4xmpExt:CvId XmpText    43  http://example.com/cvid/0q349ji3mg30gme45h4  http://example.com/cvid/0q349ji3mg30gme45h4
 Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]/Iptc4xmpExt:CvTermId XmpText    52  http://example.com/cvtermid/0249jtgmn3wopmhpmklfmnh5  http://example.com/cvtermid/0249jtgmn3wopmhpmklfmnh5
 Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]/Iptc4xmpExt:CvTermRefinedAbout XmpText    63  http://example.com/cvtermrefinedabout/0294jgmionmheohknmm5ohtyk  http://example.com/cvtermrefinedabout/0294jgmionmheohknmm5ohtyk
@@ -155,13 +155,13 @@ Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonCharacteristic[1]/Iptc4xm
 Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonDescription LangAlt     1  lang="x-default" None  lang="x-default" None
 Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonId XmpBag      1  http://www.example.com/personid/039nmkojnsrgaioj4g04ew4gm  http://www.example.com/personid/039nmkojnsrgaioj4g04ew4gm
 Xmp.iptcExt.PersonInImageWDetails[1]/Iptc4xmpExt:PersonName LangAlt     1  lang="x-default" Nobody  lang="x-default" Nobody
-Xmp.iptcExt.ProductInImage                   XmpText     0  type="Bag"
-Xmp.iptcExt.ProductInImage[1]                XmpText     0  type="Struct"
+Xmp.iptcExt.ProductInImage                   XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.ProductInImage[1]                XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.ProductInImage[1]/Iptc4xmpExt:ProductGTIN XmpText    14  12345678901234  12345678901234
 Xmp.iptcExt.ProductInImage[1]/Iptc4xmpExt:ProductDescription LangAlt     1  lang="x-default" None  lang="x-default" None
 Xmp.iptcExt.ProductInImage[1]/Iptc4xmpExt:ProductName LangAlt     1  lang="x-default" None  lang="x-default" None
-Xmp.iptcExt.RegistryId                       XmpText     0  type="Bag"
-Xmp.iptcExt.RegistryId[1]                    XmpText     0  type="Struct"
+Xmp.iptcExt.RegistryId                       XmpText    10  type="Bag"  type="Bag"
+Xmp.iptcExt.RegistryId[1]                    XmpText    13  type="Struct"  type="Struct"
 Xmp.iptcExt.RegistryId[1]/Iptc4xmpExt:RegEntryRole XmpText    56  http://www.example.com/regentryrole/09mnwergomng409mg049  http://www.example.com/regentryrole/09mnwergomng409mg049
 Xmp.iptcExt.RegistryId[1]/Iptc4xmpExt:RegItemId XmpText    22  aeijt0293jtg0in340g0gh  aeijt0293jtg0in340g0gh
 Xmp.iptcExt.RegistryId[1]/Iptc4xmpExt:RegOrgId XmpText    22  awring049j0gm4i03jh340  awring049j0gm4i03jh340
@@ -170,20 +170,20 @@ Xmp.plus.ImageSupplierImageID                XmpText    28  Test Image Supplier 
 Xmp.plus.MinorModelAgeDisclosure             XmpText    38  http://ns.useplus.org/ldf/vocab/AG-A25  Age 25 or Over
 Xmp.plus.ModelReleaseStatus                  XmpText    38  http://ns.useplus.org/ldf/vocab/MR-NAP  Not Applicable
 Xmp.plus.PropertyReleaseStatus               XmpText    38  http://ns.useplus.org/ldf/vocab/PR-NAP  Not Applicable
-Xmp.plus.CopyrightOwner                      XmpText     0  type="Seq"
-Xmp.plus.CopyrightOwner[1]                   XmpText     0  type="Struct"
+Xmp.plus.CopyrightOwner                      XmpText    10  type="Seq"  type="Seq"
+Xmp.plus.CopyrightOwner[1]                   XmpText    13  type="Struct"  type="Struct"
 Xmp.plus.CopyrightOwner[1]/plus:CopyrightOwnerID XmpText    64  http://www.example.com/copyrightownerid/0n4w3g0m409mg04dalnowun9  http://www.example.com/copyrightownerid/0n4w3g0m409mg04dalnowun9
 Xmp.plus.CopyrightOwner[1]/plus:CopyrightOwnerName XmpText     5  Exiv2  Exiv2
-Xmp.plus.ImageCreator                        XmpText     0  type="Seq"
-Xmp.plus.ImageCreator[1]                     XmpText     0  type="Struct"
+Xmp.plus.ImageCreator                        XmpText    10  type="Seq"  type="Seq"
+Xmp.plus.ImageCreator[1]                     XmpText    13  type="Struct"  type="Struct"
 Xmp.plus.ImageCreator[1]/plus:ImageCreatorID XmpText    62  http://www.example.com/imagecreatorid/09n4mg09jreokrmhglwkmgdv  http://www.example.com/imagecreatorid/09n4mg09jreokrmhglwkmgdv
 Xmp.plus.ImageCreator[1]/plus:ImageCreatorName XmpText    14  postscript-dev  postscript-dev
-Xmp.plus.ImageSupplier                       XmpText     0  type="Seq"
-Xmp.plus.ImageSupplier[1]                    XmpText     0  type="Struct"
+Xmp.plus.ImageSupplier                       XmpText    10  type="Seq"  type="Seq"
+Xmp.plus.ImageSupplier[1]                    XmpText    13  type="Struct"  type="Struct"
 Xmp.plus.ImageSupplier[1]/plus:ImageSupplierID XmpText    61  http://www.example.com/imagesupplierid/09gmn0pamwpomgnhtuhn50  http://www.example.com/imagesupplierid/09gmn0pamwpomgnhtuhn50
 Xmp.plus.ImageSupplier[1]/plus:ImageSupplierName XmpText     5  Exiv2  Exiv2
-Xmp.plus.Licensor                            XmpText     0  type="Seq"
-Xmp.plus.Licensor[1]                         XmpText     0  type="Struct"
+Xmp.plus.Licensor                            XmpText    10  type="Seq"  type="Seq"
+Xmp.plus.Licensor[1]                         XmpText    13  type="Struct"  type="Struct"
 Xmp.plus.Licensor[1]/plus:LicensorCity       XmpText     9  Test City  Test City
 Xmp.plus.Licensor[1]/plus:LicensorCountry    XmpText    12  Test Country  Test Country
 Xmp.plus.Licensor[1]/plus:LicensorEmail      XmpText    42  testlicensoremail_q23048jtn042@example.com  testlicensoremail_q23048jtn042@example.com

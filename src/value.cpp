@@ -514,7 +514,9 @@ XmpTextValue::UniquePtr XmpTextValue::clone() const {
 }
 
 size_t XmpTextValue::size() const {
-  return value_.size();
+  std::ostringstream os;
+  write(os);
+  return os.str().size();
 }
 
 size_t XmpTextValue::count() const {

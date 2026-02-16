@@ -298,6 +298,7 @@ class EXIV2API DataValue : public Value {
   //! Internal virtual copy constructor.
   DataValue* clone_() const override;
 
+ public:
   //! Type used to store the data.
   using ValueType = std::vector<byte>;
   // DATA

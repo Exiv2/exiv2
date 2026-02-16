@@ -37,7 +37,7 @@ TEST(DataBuf, defaultInstanceIsEmpty) {
 TEST(DataBuf, allocatesDataWithNonEmptyConstructor) {
   DataBuf instance(5);
   ASSERT_NE(nullptr, instance.c_data());
-  ASSERT_EQ(5, instance.size());
+  ASSERT_EQ(5u, instance.size());
 }
 
 TEST(DataBuf, canBeConstructedFromExistingData) {
@@ -58,8 +58,8 @@ TEST(DataBuf, readUintFunctionsWorksOnExistingData) {
   DataBuf instance(data.data(), data.size());
   ASSERT_EQ(data[0], instance.read_uint8(0));
   ASSERT_EQ(data[1], instance.read_uint16(0, bigEndian));
-  ASSERT_EQ(0x00010203, instance.read_uint32(0, bigEndian));
-  ASSERT_EQ(0x0001020304050607, instance.read_uint64(0, bigEndian));
+  ASSERT_EQ(0x00010203u, instance.read_uint32(0, bigEndian));
+  ASSERT_EQ(0x0001020304050607u, instance.read_uint64(0, bigEndian));
 }
 
 TEST(DataBuf, readUintFunctionsThrowsOnTooFarElements) {
@@ -78,10 +78,10 @@ TEST(DataBuf, writeUintFunctionsWorksWhenThereIsEnoughData) {
   ASSERT_EQ(0x01, instance.read_uint8(0));
 
   ASSERT_NO_THROW(instance.write_uint16(0, (val >> 48), bigEndian));
-  ASSERT_EQ(0x0102, instance.read_uint16(0, bigEndian));
+  ASSERT_EQ(0x0102u, instance.read_uint16(0, bigEndian));
 
   ASSERT_NO_THROW(instance.write_uint32(0, (val >> 32), bigEndian));
-  ASSERT_EQ(0x01020304, instance.read_uint32(0, bigEndian));
+  ASSERT_EQ(0x01020304u, instance.read_uint32(0, bigEndian));
 
   ASSERT_NO_THROW(instance.write_uint64(0, val, bigEndian));
   ASSERT_EQ(val, instance.read_uint64(0, bigEndian));
@@ -110,7 +110,7 @@ TEST(DataBuf, readWriteEndianess) {
   ASSERT_EQ(0, buf.cmpBytes(0, expected_le, buf.size()));
   ASSERT_EQ(buf.read_uint8(4), 0x01);
   ASSERT_EQ(buf.read_uint16(4 + 1, bigEndian), 0x0203);
-  ASSERT_EQ(buf.read_uint32(4 + 1 + 2, bigEndian), 0x04050607);
+  ASSERT_EQ(buf.read_uint32(4 + 1 + 2, bigEndian), 0x04050607u);
   ASSERT_EQ(buf.read_uint64(4 + 1 + 2 + 4, bigEndian), 0x08090a0b0c0d0e0fULL);
 
   // Little endian.
@@ -123,7 +123,7 @@ TEST(DataBuf, readWriteEndianess) {
   ASSERT_EQ(0, buf.cmpBytes(0, expected_be, buf.size()));
   ASSERT_EQ(buf.read_uint8(4), 0x01);
   ASSERT_EQ(buf.read_uint16(4 + 1, littleEndian), 0x0203);
-  ASSERT_EQ(buf.read_uint32(4 + 1 + 2, littleEndian), 0x04050607);
+  ASSERT_EQ(buf.read_uint32(4 + 1 + 2, littleEndian), 0x04050607u);
   ASSERT_EQ(buf.read_uint64(4 + 1 + 2 + 4, littleEndian), 0x08090a0b0c0d0e0fULL);
 }
 
@@ -227,20 +227,20 @@ TEST(URational, readRationalFromStream) {
   URational r;
   std::istringstream input("1/2");
   input >> r;
-  ASSERT_EQ(1, r.first);
-  ASSERT_EQ(2, r.second);
+  ASSERT_EQ(1u, r.first);
+  ASSERT_EQ(2u, r.second);
 }
 
 // --------------------
 
 TEST(parseUint32, withNumberInRangeReturnsOK) {
   bool ok{false};
-  ASSERT_EQ(123456, parseUint32("123456", ok));
+  ASSERT_EQ(123456u, parseUint32("123456", ok));
   ASSERT_TRUE(ok);
 }
 
 TEST(parseUint32, withNumberOutOfRangeReturnsFalse) {
   bool ok{false};
-  ASSERT_EQ(0, parseUint32("4333333333", ok));
+  ASSERT_EQ(0u, parseUint32("4333333333", ok));
   ASSERT_FALSE(ok);
 }
