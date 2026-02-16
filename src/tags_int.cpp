@@ -11,6 +11,7 @@
 #include "canonmn_int.hpp"
 #include "casiomn_int.hpp"
 #include "fujimn_int.hpp"
+#include "image_int.hpp"
 #include "minoltamn_int.hpp"
 #include "nikonmn_int.hpp"
 #include "olympusmn_int.hpp"
@@ -43,130 +44,130 @@ namespace Exiv2::Internal {
 //! List of all known Exif groups. Important: Group name (3rd column) must be unique!
 constexpr GroupInfo groupInfo[] = {
     {IfdId::ifdIdNotSet, "Unknown IFD", "Unknown", nullptr},
-    {IfdId::ifd0Id, "IFD0", "Image", ifdTagList},
-    {IfdId::ifd1Id, "IFD1", "Thumbnail", ifdTagList},
-    {IfdId::ifd2Id, "IFD2", "Image2", ifdTagList},
-    {IfdId::ifd3Id, "IFD3", "Image3", ifdTagList},
-    {IfdId::exifId, "Exif", "Photo", exifTagList},
-    {IfdId::gpsId, "GPSInfo", "GPSInfo", gpsTagList},
-    {IfdId::iopId, "Iop", "Iop", iopTagList},
-    {IfdId::mpfId, "MPF", "MpfInfo", mpfTagList},
-    {IfdId::subImage1Id, "SubImage1", "SubImage1", ifdTagList},
-    {IfdId::subImage2Id, "SubImage2", "SubImage2", ifdTagList},
-    {IfdId::subImage3Id, "SubImage3", "SubImage3", ifdTagList},
-    {IfdId::subImage4Id, "SubImage4", "SubImage4", ifdTagList},
-    {IfdId::subImage5Id, "SubImage5", "SubImage5", ifdTagList},
-    {IfdId::subImage6Id, "SubImage6", "SubImage6", ifdTagList},
-    {IfdId::subImage7Id, "SubImage7", "SubImage7", ifdTagList},
-    {IfdId::subImage8Id, "SubImage8", "SubImage8", ifdTagList},
-    {IfdId::subImage9Id, "SubImage9", "SubImage9", ifdTagList},
-    {IfdId::subThumb1Id, "SubThumb1", "SubThumb1", ifdTagList},
-    {IfdId::panaRawId, "PanaRaw", "PanasonicRaw", PanasonicMakerNote::tagListRaw},
-    {IfdId::mnId, "Makernote", "MakerNote", mnTagList},
-    {IfdId::canonId, "Makernote", "Canon", CanonMakerNote::tagList},
-    {IfdId::canonCsId, "Makernote", "CanonCs", CanonMakerNote::tagListCs},
-    {IfdId::canonSiId, "Makernote", "CanonSi", CanonMakerNote::tagListSi},
-    {IfdId::canonCfId, "Makernote", "CanonCf", CanonMakerNote::tagListCf},
-    {IfdId::canonPiId, "Makernote", "CanonPi", CanonMakerNote::tagListPi},
-    {IfdId::canonTiId, "Makernote", "CanonTi", CanonMakerNote::tagListTi},
-    {IfdId::canonFiId, "Makernote", "CanonFi", CanonMakerNote::tagListFi},
-    {IfdId::canonPaId, "Makernote", "CanonPa", CanonMakerNote::tagListPa},
-    {IfdId::canonPrId, "Makernote", "CanonPr", CanonMakerNote::tagListPr},
-    {IfdId::canonVigCor2Id, "Makernote", "CanonVigCor2", CanonMakerNote::tagListVigCor2},
-    {IfdId::canonLiOpId, "Makernote", "CanonLiOp", CanonMakerNote::tagListLiOp},
-    {IfdId::canonAfMiAdjId, "Makernote", "CanonAfMiAdj", CanonMakerNote::tagListAfMiAdj},
-    {IfdId::canonLeId, "Makernote", "CanonLe", CanonMakerNote::tagListLe},
-    {IfdId::canonAmId, "Makernote", "CanonAm", CanonMakerNote::tagListAm},
-    {IfdId::canonFilId, "Makernote", "CanonFil", CanonMakerNote::tagListFil},
-    {IfdId::canonMeId, "Makernote", "CanonMe", CanonMakerNote::tagListMe},
-    {IfdId::canonHdrId, "Makernote", "CanonHdr", CanonMakerNote::tagListHdr},
-    {IfdId::canonAfCId, "Makernote", "CanonAfC", CanonMakerNote::tagListAfC},
-    {IfdId::canonRawBId, "Makernote", "CanonRawB", CanonMakerNote::tagListRawB},
-    {IfdId::casioId, "Makernote", "Casio", CasioMakerNote::tagList},
-    {IfdId::casio2Id, "Makernote", "Casio2", Casio2MakerNote::tagList},
-    {IfdId::fujiId, "Makernote", "Fujifilm", FujiMakerNote::tagList},
-    {IfdId::minoltaId, "Makernote", "Minolta", MinoltaMakerNote::tagList},
-    {IfdId::minoltaCs5DId, "Makernote", "MinoltaCs5D", MinoltaMakerNote::tagListCs5D},
-    {IfdId::minoltaCs7DId, "Makernote", "MinoltaCs7D", MinoltaMakerNote::tagListCs7D},
-    {IfdId::minoltaCsOldId, "Makernote", "MinoltaCsOld", MinoltaMakerNote::tagListCsStd},
-    {IfdId::minoltaCsNewId, "Makernote", "MinoltaCsNew", MinoltaMakerNote::tagListCsStd},
-    {IfdId::nikon1Id, "Makernote", "Nikon1", Nikon1MakerNote::tagList},
-    {IfdId::nikon2Id, "Makernote", "Nikon2", Nikon2MakerNote::tagList},
-    {IfdId::nikon3Id, "Makernote", "Nikon3", Nikon3MakerNote::tagList},
-    {IfdId::nikonPvId, "Makernote", "NikonPreview", ifdTagList},
-    {IfdId::nikonVrId, "Makernote", "NikonVr", Nikon3MakerNote::tagListVr},
-    {IfdId::nikonPcId, "Makernote", "NikonPc", Nikon3MakerNote::tagListPc},
-    {IfdId::nikonWtId, "Makernote", "NikonWt", Nikon3MakerNote::tagListWt},
-    {IfdId::nikonIiId, "Makernote", "NikonIi", Nikon3MakerNote::tagListIi},
-    {IfdId::nikonAfId, "Makernote", "NikonAf", Nikon3MakerNote::tagListAf},
-    {IfdId::nikonAf21Id, "Makernote", "NikonAf2", Nikon3MakerNote::tagListAf21},
-    {IfdId::nikonAf22Id, "Makernote", "NikonAf22", Nikon3MakerNote::tagListAf22},
-    {IfdId::nikonAFTId, "Makernote", "NikonAFT", Nikon3MakerNote::tagListAFT},
-    {IfdId::nikonFiId, "Makernote", "NikonFi", Nikon3MakerNote::tagListFi},
-    {IfdId::nikonMeId, "Makernote", "NikonMe", Nikon3MakerNote::tagListMe},
-    {IfdId::nikonFl1Id, "Makernote", "NikonFl1", Nikon3MakerNote::tagListFl1},
-    {IfdId::nikonFl2Id, "Makernote", "NikonFl2", Nikon3MakerNote::tagListFl2},
-    {IfdId::nikonFl3Id, "Makernote", "NikonFl3", Nikon3MakerNote::tagListFl3},
-    {IfdId::nikonFl6Id, "Makernote", "NikonFl6", Nikon3MakerNote::tagListFl6},
-    {IfdId::nikonFl7Id, "Makernote", "NikonFl7", Nikon3MakerNote::tagListFl7},
-    {IfdId::nikonSi1Id, "Makernote", "NikonSiD80", Nikon3MakerNote::tagListSi1},
-    {IfdId::nikonSi2Id, "Makernote", "NikonSiD40", Nikon3MakerNote::tagListSi2},
-    {IfdId::nikonSi3Id, "Makernote", "NikonSiD300a", Nikon3MakerNote::tagListSi3},
-    {IfdId::nikonSi4Id, "Makernote", "NikonSiD300b", Nikon3MakerNote::tagListSi4},
-    {IfdId::nikonSi5Id, "Makernote", "NikonSi02xx", Nikon3MakerNote::tagListSi5},
-    {IfdId::nikonSi6Id, "Makernote", "NikonSi01xx", Nikon3MakerNote::tagListSi5},
-    {IfdId::nikonCb1Id, "Makernote", "NikonCb1", Nikon3MakerNote::tagListCb1},
-    {IfdId::nikonCb2Id, "Makernote", "NikonCb2", Nikon3MakerNote::tagListCb2},
-    {IfdId::nikonCb2aId, "Makernote", "NikonCb2a", Nikon3MakerNote::tagListCb2a},
-    {IfdId::nikonCb2bId, "Makernote", "NikonCb2b", Nikon3MakerNote::tagListCb2b},
-    {IfdId::nikonCb3Id, "Makernote", "NikonCb3", Nikon3MakerNote::tagListCb3},
-    {IfdId::nikonCb4Id, "Makernote", "NikonCb4", Nikon3MakerNote::tagListCb4},
-    {IfdId::nikonLd1Id, "Makernote", "NikonLd1", Nikon3MakerNote::tagListLd1},
-    {IfdId::nikonLd2Id, "Makernote", "NikonLd2", Nikon3MakerNote::tagListLd2},
-    {IfdId::nikonLd3Id, "Makernote", "NikonLd3", Nikon3MakerNote::tagListLd3},
-    {IfdId::nikonLd4Id, "Makernote", "NikonLd4", Nikon3MakerNote::tagListLd4},
-    {IfdId::olympusId, "Makernote", "Olympus", OlympusMakerNote::tagList},
-    {IfdId::olympus2Id, "Makernote", "Olympus2", OlympusMakerNote::tagList},
-    {IfdId::olympusCsId, "Makernote", "OlympusCs", OlympusMakerNote::tagListCs},
-    {IfdId::olympusEqId, "Makernote", "OlympusEq", OlympusMakerNote::tagListEq},
-    {IfdId::olympusRdId, "Makernote", "OlympusRd", OlympusMakerNote::tagListRd},
-    {IfdId::olympusRd2Id, "Makernote", "OlympusRd2", OlympusMakerNote::tagListRd2},
-    {IfdId::olympusIpId, "Makernote", "OlympusIp", OlympusMakerNote::tagListIp},
-    {IfdId::olympusFiId, "Makernote", "OlympusFi", OlympusMakerNote::tagListFi},
-    {IfdId::olympusFe1Id, "Makernote", "OlympusFe1", OlympusMakerNote::tagListFe},
-    {IfdId::olympusFe2Id, "Makernote", "OlympusFe2", OlympusMakerNote::tagListFe},
-    {IfdId::olympusFe3Id, "Makernote", "OlympusFe3", OlympusMakerNote::tagListFe},
-    {IfdId::olympusFe4Id, "Makernote", "OlympusFe4", OlympusMakerNote::tagListFe},
-    {IfdId::olympusFe5Id, "Makernote", "OlympusFe5", OlympusMakerNote::tagListFe},
-    {IfdId::olympusFe6Id, "Makernote", "OlympusFe6", OlympusMakerNote::tagListFe},
-    {IfdId::olympusFe7Id, "Makernote", "OlympusFe7", OlympusMakerNote::tagListFe},
-    {IfdId::olympusFe8Id, "Makernote", "OlympusFe8", OlympusMakerNote::tagListFe},
-    {IfdId::olympusFe9Id, "Makernote", "OlympusFe9", OlympusMakerNote::tagListFe},
-    {IfdId::olympusRiId, "Makernote", "OlympusRi", OlympusMakerNote::tagListRi},
-    {IfdId::panasonicId, "Makernote", "Panasonic", PanasonicMakerNote::tagList},
-    {IfdId::pentaxDngId, "Makernote", "PentaxDng", PentaxMakerNote::tagList},
-    {IfdId::pentaxId, "Makernote", "Pentax", PentaxMakerNote::tagList},
-    {IfdId::samsung2Id, "Makernote", "Samsung2", Samsung2MakerNote::tagList},
-    {IfdId::samsungPvId, "Makernote", "SamsungPreview", ifdTagList},
-    {IfdId::samsungPwId, "Makernote", "SamsungPictureWizard", Samsung2MakerNote::tagListPw},
-    {IfdId::sigmaId, "Makernote", "Sigma", SigmaMakerNote::tagList},
-    {IfdId::sony1Id, "Makernote", "Sony1", SonyMakerNote::tagList},
-    {IfdId::sony2Id, "Makernote", "Sony2", SonyMakerNote::tagList},
-    {IfdId::sonyMltId, "Makernote", "SonyMinolta", MinoltaMakerNote::tagList},
-    {IfdId::sony1CsId, "Makernote", "Sony1Cs", SonyMakerNote::tagListCs},
-    {IfdId::sony1Cs2Id, "Makernote", "Sony1Cs2", SonyMakerNote::tagListCs2},
-    {IfdId::sony1MltCs7DId, "Makernote", "Sony1MltCs7D", MinoltaMakerNote::tagListCs7D},
-    {IfdId::sony1MltCsOldId, "Makernote", "Sony1MltCsOld", MinoltaMakerNote::tagListCsStd},
-    {IfdId::sony1MltCsNewId, "Makernote", "Sony1MltCsNew", MinoltaMakerNote::tagListCsStd},
-    {IfdId::sony1MltCsA100Id, "Makernote", "Sony1MltCsA100", MinoltaMakerNote::tagListCsA100},
-    {IfdId::sony2CsId, "Makernote", "Sony2Cs", SonyMakerNote::tagListCs},
-    {IfdId::sony2Cs2Id, "Makernote", "Sony2Cs2", SonyMakerNote::tagListCs2},
-    {IfdId::sony2FpId, "Makernote", "Sony2Fp", SonyMakerNote::tagListFp},
-    {IfdId::sonyMisc1Id, "Makernote", "SonyMisc1", SonyMakerNote::tagListSonyMisc1},
-    {IfdId::sonyMisc2bId, "Makernote", "SonyMisc2b", SonyMakerNote::tagListSonyMisc2b},
-    {IfdId::sonyMisc3cId, "Makernote", "SonyMisc3c", SonyMakerNote::tagListSonyMisc3c},
-    {IfdId::sonySInfo1Id, "Makernote", "SonySInfo1", SonyMakerNote::tagListSonySInfo1},
-    {IfdId::sony2010eId, "Makernote", "Sony2010e", SonyMakerNote::tagList2010e},
+    {IfdId::ifd0Id, "IFD0", "Image", &ifdTagList},
+    {IfdId::ifd1Id, "IFD1", "Thumbnail", &ifdTagList},
+    {IfdId::ifd2Id, "IFD2", "Image2", &ifdTagList},
+    {IfdId::ifd3Id, "IFD3", "Image3", &ifdTagList},
+    {IfdId::exifId, "Exif", "Photo", &exifTagList},
+    {IfdId::gpsId, "GPSInfo", "GPSInfo", &gpsTagList},
+    {IfdId::iopId, "Iop", "Iop", &iopTagList},
+    {IfdId::mpfId, "MPF", "MpfInfo", &mpfTagList},
+    {IfdId::subImage1Id, "SubImage1", "SubImage1", &ifdTagList},
+    {IfdId::subImage2Id, "SubImage2", "SubImage2", &ifdTagList},
+    {IfdId::subImage3Id, "SubImage3", "SubImage3", &ifdTagList},
+    {IfdId::subImage4Id, "SubImage4", "SubImage4", &ifdTagList},
+    {IfdId::subImage5Id, "SubImage5", "SubImage5", &ifdTagList},
+    {IfdId::subImage6Id, "SubImage6", "SubImage6", &ifdTagList},
+    {IfdId::subImage7Id, "SubImage7", "SubImage7", &ifdTagList},
+    {IfdId::subImage8Id, "SubImage8", "SubImage8", &ifdTagList},
+    {IfdId::subImage9Id, "SubImage9", "SubImage9", &ifdTagList},
+    {IfdId::subThumb1Id, "SubThumb1", "SubThumb1", &ifdTagList},
+    {IfdId::panaRawId, "PanaRaw", "PanasonicRaw", &PanasonicMakerNote::tagListRaw},
+    {IfdId::mnId, "Makernote", "MakerNote", &mnTagList},
+    {IfdId::canonId, "Makernote", "Canon", &CanonMakerNote::tagList},
+    {IfdId::canonCsId, "Makernote", "CanonCs", &CanonMakerNote::tagListCs},
+    {IfdId::canonSiId, "Makernote", "CanonSi", &CanonMakerNote::tagListSi},
+    {IfdId::canonCfId, "Makernote", "CanonCf", &CanonMakerNote::tagListCf},
+    {IfdId::canonPiId, "Makernote", "CanonPi", &CanonMakerNote::tagListPi},
+    {IfdId::canonTiId, "Makernote", "CanonTi", &CanonMakerNote::tagListTi},
+    {IfdId::canonFiId, "Makernote", "CanonFi", &CanonMakerNote::tagListFi},
+    {IfdId::canonPaId, "Makernote", "CanonPa", &CanonMakerNote::tagListPa},
+    {IfdId::canonPrId, "Makernote", "CanonPr", &CanonMakerNote::tagListPr},
+    {IfdId::canonVigCor2Id, "Makernote", "CanonVigCor2", &CanonMakerNote::tagListVigCor2},
+    {IfdId::canonLiOpId, "Makernote", "CanonLiOp", &CanonMakerNote::tagListLiOp},
+    {IfdId::canonAfMiAdjId, "Makernote", "CanonAfMiAdj", &CanonMakerNote::tagListAfMiAdj},
+    {IfdId::canonLeId, "Makernote", "CanonLe", &CanonMakerNote::tagListLe},
+    {IfdId::canonAmId, "Makernote", "CanonAm", &CanonMakerNote::tagListAm},
+    {IfdId::canonFilId, "Makernote", "CanonFil", &CanonMakerNote::tagListFil},
+    {IfdId::canonMeId, "Makernote", "CanonMe", &CanonMakerNote::tagListMe},
+    {IfdId::canonHdrId, "Makernote", "CanonHdr", &CanonMakerNote::tagListHdr},
+    {IfdId::canonAfCId, "Makernote", "CanonAfC", &CanonMakerNote::tagListAfC},
+    {IfdId::canonRawBId, "Makernote", "CanonRawB", &CanonMakerNote::tagListRawB},
+    {IfdId::casioId, "Makernote", "Casio", &CasioMakerNote::tagList},
+    {IfdId::casio2Id, "Makernote", "Casio2", &Casio2MakerNote::tagList},
+    {IfdId::fujiId, "Makernote", "Fujifilm", &FujiMakerNote::tagList},
+    {IfdId::minoltaId, "Makernote", "Minolta", &MinoltaMakerNote::tagList},
+    {IfdId::minoltaCs5DId, "Makernote", "MinoltaCs5D", &MinoltaMakerNote::tagListCs5D},
+    {IfdId::minoltaCs7DId, "Makernote", "MinoltaCs7D", &MinoltaMakerNote::tagListCs7D},
+    {IfdId::minoltaCsOldId, "Makernote", "MinoltaCsOld", &MinoltaMakerNote::tagListCsStd},
+    {IfdId::minoltaCsNewId, "Makernote", "MinoltaCsNew", &MinoltaMakerNote::tagListCsStd},
+    {IfdId::nikon1Id, "Makernote", "Nikon1", &Nikon1MakerNote::tagList},
+    {IfdId::nikon2Id, "Makernote", "Nikon2", &Nikon2MakerNote::tagList},
+    {IfdId::nikon3Id, "Makernote", "Nikon3", &Nikon3MakerNote::tagList},
+    {IfdId::nikonPvId, "Makernote", "NikonPreview", &ifdTagList},
+    {IfdId::nikonVrId, "Makernote", "NikonVr", &Nikon3MakerNote::tagListVr},
+    {IfdId::nikonPcId, "Makernote", "NikonPc", &Nikon3MakerNote::tagListPc},
+    {IfdId::nikonWtId, "Makernote", "NikonWt", &Nikon3MakerNote::tagListWt},
+    {IfdId::nikonIiId, "Makernote", "NikonIi", &Nikon3MakerNote::tagListIi},
+    {IfdId::nikonAfId, "Makernote", "NikonAf", &Nikon3MakerNote::tagListAf},
+    {IfdId::nikonAf21Id, "Makernote", "NikonAf2", &Nikon3MakerNote::tagListAf21},
+    {IfdId::nikonAf22Id, "Makernote", "NikonAf22", &Nikon3MakerNote::tagListAf22},
+    {IfdId::nikonAFTId, "Makernote", "NikonAFT", &Nikon3MakerNote::tagListAFT},
+    {IfdId::nikonFiId, "Makernote", "NikonFi", &Nikon3MakerNote::tagListFi},
+    {IfdId::nikonMeId, "Makernote", "NikonMe", &Nikon3MakerNote::tagListMe},
+    {IfdId::nikonFl1Id, "Makernote", "NikonFl1", &Nikon3MakerNote::tagListFl1},
+    {IfdId::nikonFl2Id, "Makernote", "NikonFl2", &Nikon3MakerNote::tagListFl2},
+    {IfdId::nikonFl3Id, "Makernote", "NikonFl3", &Nikon3MakerNote::tagListFl3},
+    {IfdId::nikonFl6Id, "Makernote", "NikonFl6", &Nikon3MakerNote::tagListFl6},
+    {IfdId::nikonFl7Id, "Makernote", "NikonFl7", &Nikon3MakerNote::tagListFl7},
+    {IfdId::nikonSi1Id, "Makernote", "NikonSiD80", &Nikon3MakerNote::tagListSi1},
+    {IfdId::nikonSi2Id, "Makernote", "NikonSiD40", &Nikon3MakerNote::tagListSi2},
+    {IfdId::nikonSi3Id, "Makernote", "NikonSiD300a", &Nikon3MakerNote::tagListSi3},
+    {IfdId::nikonSi4Id, "Makernote", "NikonSiD300b", &Nikon3MakerNote::tagListSi4},
+    {IfdId::nikonSi5Id, "Makernote", "NikonSi02xx", &Nikon3MakerNote::tagListSi5},
+    {IfdId::nikonSi6Id, "Makernote", "NikonSi01xx", &Nikon3MakerNote::tagListSi5},
+    {IfdId::nikonCb1Id, "Makernote", "NikonCb1", &Nikon3MakerNote::tagListCb1},
+    {IfdId::nikonCb2Id, "Makernote", "NikonCb2", &Nikon3MakerNote::tagListCb2},
+    {IfdId::nikonCb2aId, "Makernote", "NikonCb2a", &Nikon3MakerNote::tagListCb2a},
+    {IfdId::nikonCb2bId, "Makernote", "NikonCb2b", &Nikon3MakerNote::tagListCb2b},
+    {IfdId::nikonCb3Id, "Makernote", "NikonCb3", &Nikon3MakerNote::tagListCb3},
+    {IfdId::nikonCb4Id, "Makernote", "NikonCb4", &Nikon3MakerNote::tagListCb4},
+    {IfdId::nikonLd1Id, "Makernote", "NikonLd1", &Nikon3MakerNote::tagListLd1},
+    {IfdId::nikonLd2Id, "Makernote", "NikonLd2", &Nikon3MakerNote::tagListLd2},
+    {IfdId::nikonLd3Id, "Makernote", "NikonLd3", &Nikon3MakerNote::tagListLd3},
+    {IfdId::nikonLd4Id, "Makernote", "NikonLd4", &Nikon3MakerNote::tagListLd4},
+    {IfdId::olympusId, "Makernote", "Olympus", &OlympusMakerNote::tagList},
+    {IfdId::olympus2Id, "Makernote", "Olympus2", &OlympusMakerNote::tagList},
+    {IfdId::olympusCsId, "Makernote", "OlympusCs", &OlympusMakerNote::tagListCs},
+    {IfdId::olympusEqId, "Makernote", "OlympusEq", &OlympusMakerNote::tagListEq},
+    {IfdId::olympusRdId, "Makernote", "OlympusRd", &OlympusMakerNote::tagListRd},
+    {IfdId::olympusRd2Id, "Makernote", "OlympusRd2", &OlympusMakerNote::tagListRd2},
+    {IfdId::olympusIpId, "Makernote", "OlympusIp", &OlympusMakerNote::tagListIp},
+    {IfdId::olympusFiId, "Makernote", "OlympusFi", &OlympusMakerNote::tagListFi},
+    {IfdId::olympusFe1Id, "Makernote", "OlympusFe1", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusFe2Id, "Makernote", "OlympusFe2", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusFe3Id, "Makernote", "OlympusFe3", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusFe4Id, "Makernote", "OlympusFe4", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusFe5Id, "Makernote", "OlympusFe5", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusFe6Id, "Makernote", "OlympusFe6", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusFe7Id, "Makernote", "OlympusFe7", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusFe8Id, "Makernote", "OlympusFe8", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusFe9Id, "Makernote", "OlympusFe9", &OlympusMakerNote::tagListFe},
+    {IfdId::olympusRiId, "Makernote", "OlympusRi", &OlympusMakerNote::tagListRi},
+    {IfdId::panasonicId, "Makernote", "Panasonic", &PanasonicMakerNote::tagList},
+    {IfdId::pentaxDngId, "Makernote", "PentaxDng", &PentaxMakerNote::tagList},
+    {IfdId::pentaxId, "Makernote", "Pentax", &PentaxMakerNote::tagList},
+    {IfdId::samsung2Id, "Makernote", "Samsung2", &Samsung2MakerNote::tagList},
+    {IfdId::samsungPvId, "Makernote", "SamsungPreview", &ifdTagList},
+    {IfdId::samsungPwId, "Makernote", "SamsungPictureWizard", &Samsung2MakerNote::tagListPw},
+    {IfdId::sigmaId, "Makernote", "Sigma", &SigmaMakerNote::tagList},
+    {IfdId::sony1Id, "Makernote", "Sony1", &SonyMakerNote::tagList},
+    {IfdId::sony2Id, "Makernote", "Sony2", &SonyMakerNote::tagList},
+    {IfdId::sonyMltId, "Makernote", "SonyMinolta", &MinoltaMakerNote::tagList},
+    {IfdId::sony1CsId, "Makernote", "Sony1Cs", &SonyMakerNote::tagListCs},
+    {IfdId::sony1Cs2Id, "Makernote", "Sony1Cs2", &SonyMakerNote::tagListCs2},
+    {IfdId::sony1MltCs7DId, "Makernote", "Sony1MltCs7D", &MinoltaMakerNote::tagListCs7D},
+    {IfdId::sony1MltCsOldId, "Makernote", "Sony1MltCsOld", &MinoltaMakerNote::tagListCsStd},
+    {IfdId::sony1MltCsNewId, "Makernote", "Sony1MltCsNew", &MinoltaMakerNote::tagListCsStd},
+    {IfdId::sony1MltCsA100Id, "Makernote", "Sony1MltCsA100", &MinoltaMakerNote::tagListCsA100},
+    {IfdId::sony2CsId, "Makernote", "Sony2Cs", &SonyMakerNote::tagListCs},
+    {IfdId::sony2Cs2Id, "Makernote", "Sony2Cs2", &SonyMakerNote::tagListCs2},
+    {IfdId::sony2FpId, "Makernote", "Sony2Fp", &SonyMakerNote::tagListFp},
+    {IfdId::sonyMisc1Id, "Makernote", "SonyMisc1", &SonyMakerNote::tagListSonyMisc1},
+    {IfdId::sonyMisc2bId, "Makernote", "SonyMisc2b", &SonyMakerNote::tagListSonyMisc2b},
+    {IfdId::sonyMisc3cId, "Makernote", "SonyMisc3c", &SonyMakerNote::tagListSonyMisc3c},
+    {IfdId::sonySInfo1Id, "Makernote", "SonySInfo1", &SonyMakerNote::tagListSonySInfo1},
+    {IfdId::sony2010eId, "Makernote", "Sony2010e", &SonyMakerNote::tagList2010e},
     {IfdId::lastId, "(Last IFD info)", "(Last IFD item)", nullptr},
 };
 
@@ -242,7 +243,7 @@ constexpr TagDetails exifCompression[] = {
     {8, N_("Adobe Deflate")},
     {9, N_("JBIG B&W")},
     {10, N_("JBIG Color")},
-    {32766, N_("Next 2-bits RLE")},
+    {32766, N_("NeXT 2-bits RLE or Sony ARW Compressed 2")},
     {32767, N_("Sony ARW Compressed")},
     {32769, N_("Epson ERF Compressed")},
     {32770, N_("Samsung SRW Compressed")},
@@ -2474,8 +2475,9 @@ const TagInfo* mnTagList() {
 }
 
 bool isMakerIfd(IfdId ifdId) {
-  auto ii = Exiv2::find(groupInfo, ifdId);
-  return ii && strcmp(ii->ifdName_, "Makernote") == 0;
+  if (auto ii = Exiv2::find(groupInfo, ifdId))
+    return std::string_view("Makernote") == ii->ifdName_;
+  return false;
 }
 
 bool isExifIfd(IfdId ifdId) {
@@ -2620,7 +2622,7 @@ URational exposureTime(float shutterSpeedValue) {
 }
 
 uint16_t tagNumber(const std::string& tagName, IfdId ifdId) {
-  const TagInfo* ti = tagInfo(tagName, ifdId);
+  auto ti = tagInfo(tagName, ifdId);
   if (ti && ti->tag_ != 0xffff)
     return ti->tag_;
   if (!isHex(tagName, 4, "0x"))
@@ -2719,8 +2721,7 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
       (value.toRational(1).first != 0 && value.toRational(1).second == 0) ||
       (value.toRational(2).first != 0 && value.toRational(2).second == 0) ||
       (value.toRational(3).first != 0 && value.toRational(3).second == 0)) {
-    os << "(" << value << ")";
-    return os;
+    return os << "(" << value << ")";
   }
   // values numerically are ok, so they can be converted
   // here first and second can be zero, so initialise float with 0.0f
@@ -2740,19 +2741,16 @@ std::ostream& printLensSpecification(std::ostream& os, const Value& value, const
   // first value must not be bigger than second
   if ((std::isgreater(focalLength1, focalLength2) && std::isgreater(focalLength2, 0.0f)) ||
       (std::isgreater(fNumber1, fNumber2) && std::isgreater(fNumber2, 0.0f))) {
-    os << "(" << value << ")";
-    return os;
+    return os << "(" << value << ")";
   }
 
   // no lens specification available
-  if (focalLength1 == 0.0f && focalLength2 == 0.0f && fNumber1 == 0.0f && fNumber2 == 0.0f) {
-    os << "n/a";
-    return os;
-  }
+  if (focalLength1 == 0.0f && focalLength2 == 0.0f && fNumber1 == 0.0f && fNumber2 == 0.0f)
+    return os << _("n/a");
 
   // lens specification available - at least parts
   if (focalLength1 == 0.0f)
-    os << "n/a";
+    os << _("n/a");
   else
     os << std::setprecision(5) << focalLength1;
   if (focalLength1 != focalLength2) {
@@ -2910,6 +2908,7 @@ std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*)
   if (value.typeId() != unsignedRational)
     return os << "(" << value << ")";
 
+  using Exiv2::operator<<;
   URational t = value.toRational();
   if (t.first == 0 || t.second == 0) {
     os << "(" << t << ")";
@@ -2926,18 +2925,10 @@ std::ostream& print0x829a(std::ostream& os, const Value& value, const ExifData*)
 }
 
 std::ostream& print0x829d(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   Rational fnumber = value.toRational();
-  if (fnumber.second != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << "F" << std::setprecision(2) << static_cast<float>(fnumber.first) / fnumber.second;
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (fnumber.second != 0)
+    return os << stringFormat("F{:.2g}", static_cast<float>(fnumber.first) / fnumber.second);
+  return os << "(" << value << ")";
 }
 
 //! ExposureProgram, tag 0x8822
@@ -3001,16 +2992,9 @@ std::ostream& print0x9201(std::ostream& os, const Value& value, const ExifData*)
 }
 
 std::ostream& print0x9202(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  if (value.count() == 0 || value.toRational().second == 0) {
+  if (value.count() == 0 || value.toRational().second == 0)
     return os << "(" << value << ")";
-  }
-  std::ostringstream oss;
-  oss.copyfmt(os);
-  os << "F" << std::setprecision(2) << fnumber(value.toFloat());
-  os.copyfmt(oss);
-  os.flags(f);
-  return os;
+  return os << stringFormat("F{:.2g}", fnumber(value.toFloat()));
 }
 
 std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*) {
@@ -3034,22 +3018,14 @@ std::ostream& print0x9204(std::ostream& os, const Value& value, const ExifData*)
 }
 
 std::ostream& print0x9206(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   Rational distance = value.toRational();
-  if (distance.first == 0) {
-    os << _("Unknown");
-  } else if (static_cast<uint32_t>(distance.first) == 0xffffffff) {
-    os << _("Infinity");
-  } else if (distance.second != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(2) << static_cast<float>(distance.first) / distance.second << " m";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (distance.first == 0)
+    return os << _("Unknown");
+  if (static_cast<uint32_t>(distance.first) == std::numeric_limits<uint32_t>::max())
+    return os << _("Infinity");
+  if (distance.second != 0)
+    return os << stringFormat("{:.2f} m", static_cast<float>(distance.first) / distance.second);
+  return os << "(" << value << ")";
 }
 
 //! MeteringMode, tag 0x9207
@@ -3068,18 +3044,10 @@ std::ostream& print0x9208(std::ostream& os, const Value& value, const ExifData* 
 }
 
 std::ostream& print0x920a(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   Rational length = value.toRational();
-  if (length.second != 0) {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(length.first) / length.second << " mm";
-    os.copyfmt(oss);
-  } else {
-    os << "(" << value << ")";
-  }
-  os.flags(f);
-  return os;
+  if (length.second != 0)
+    return os << stringFormat("{:.1f} mm", static_cast<float>(length.first) / length.second);
+  return os << "(" << value << ")";
 }
 
 //! ColorSpace, tag 0xa001
@@ -3160,26 +3128,16 @@ std::ostream& print0xa403(std::ostream& os, const Value& value, const ExifData* 
 }
 
 std::ostream& print0xa404(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
   Rational zoom = value.toRational();
-  if (zoom.second == 0) {
-    os << _("Digital zoom not used");
-  } else {
-    std::ostringstream oss;
-    oss.copyfmt(os);
-    os << std::fixed << std::setprecision(1) << static_cast<float>(zoom.first) / zoom.second;
-    os.copyfmt(oss);
-  }
-  os.flags(f);
-  return os;
+  if (zoom.second == 0)
+    return os << _("Digital zoom not used");
+  return os << stringFormat("{:.1f}", static_cast<float>(zoom.first) / zoom.second);
 }
 
 std::ostream& print0xa405(std::ostream& os, const Value& value, const ExifData*) {
-  if (auto length = value.toInt64(); length == 0)
-    os << _("Unknown");
-  else
-    os << length << ".0 mm";
-  return os;
+  if (auto length = value.toInt64(); length != 0)
+    return os << length << ".0 mm";
+  return os << _("Unknown");
 }
 
 //! SceneCaptureType, tag 0xa406

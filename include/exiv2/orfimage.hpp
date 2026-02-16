@@ -79,7 +79,7 @@ class EXIV2API OrfParser {
            See TiffParser::encode().
   */
   static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
-                            IptcData& iptcData, XmpData& xmpData);
+                            const IptcData& iptcData, const XmpData& xmpData);
 };  // class OrfParser
 
 // *****************************************************************************

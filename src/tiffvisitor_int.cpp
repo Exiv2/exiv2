@@ -355,7 +355,7 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   std::vector<uint16_t> uint;
   for (size_t i = 0; i < object->pValue()->count(); i++) {
     ints.push_back(object->pValue()->toInt64(i));
-    uint.push_back(object->pValue()->toInt64(i));
+    uint.push_back(object->pValue()->toUint32(i));
   }
   // Check this is AFInfo2 (ints[0] = bytes in object)
   if (ints.front() != static_cast<int16_t>(object->pValue()->count()) * 2)
@@ -393,7 +393,7 @@ void TiffDecoder::decodeCanonAFInfo(const TiffEntryBase* object) {
   }
 
   for (const auto& [tag, size, bSigned] : records) {
-    const TagInfo* pTags = ExifTags::tagList("Canon");
+    auto pTags = ExifTags::tagList("Canon");
     if (auto pTag = findTag(pTags, tag)) {
       auto v = Exiv2::Value::create(bSigned ? Exiv2::signedShort : Exiv2::unsignedShort);
       std::string s;
@@ -962,11 +962,11 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent::UniquePtr pSourceD
   TiffFinder finder(0x927c, IfdId::exifId);
   pRootDir->accept(finder);
   if (auto te = dynamic_cast<const TiffMnEntry*>(finder.result())) {
-    if (auto tim = dynamic_cast<TiffIfdMakernote*>(te->mn_.get())) {
+    if (const auto& mn = te->mn_) {
       // Set Makernote byte order
       ByteOrder bo = stringToByteOrder(posBo->toString());
       if (bo != invalidByteOrder)
-        tim->setByteOrder(bo);
+        mn->setByteOrder(bo);
     }
   }
 

@@ -326,7 +326,7 @@ struct PtrSliceStorage {
    * Obtain a reference to the element with the given `index` in the
    * array.
    *
-   * @throw nothing
+   * @note Does not throw
    */
   [[nodiscard]] auto& unsafeAt(size_t index) noexcept {
     return data_[index];
@@ -340,7 +340,7 @@ struct PtrSliceStorage {
    * Obtain an iterator (=pointer) at the position of the element with
    * the given index in the container.
    *
-   * @throw nothing
+   * @note Does not throw
    */
   [[nodiscard]] auto unsafeGetIteratorAt(size_t index) noexcept {
     return data_ + index;

@@ -6,9 +6,6 @@
 #include <iostream>
 
 int main(int argc, char* const argv[]) try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " file\n";
     return EXIT_FAILURE;
@@ -48,7 +45,6 @@ int main(int argc, char* const argv[]) try {
   if (file.write(reinterpret_cast<const Exiv2::byte*>(xmpPacket.data()), xmpPacket.size()) == 0) {
     throw Exiv2::Error(Exiv2::ErrorCode::kerCallFailed, filename, Exiv2::strError(), "FileIo::write");
   }
-  Exiv2::XmpParser::terminate();
   return EXIT_SUCCESS;
 } catch (Exiv2::Error& e) {
   std::cout << "Caught Exiv2 exception '" << e << "'\n";

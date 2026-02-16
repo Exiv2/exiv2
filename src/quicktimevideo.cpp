@@ -687,6 +687,8 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursi
       xmpData_["Xmp.video.URL"] = readString(*io_, size);
     else if (currentStream_ == Audio)
       xmpData_["Xmp.audio.URL"] = readString(*io_, size);
+    else
+      discard(size);
   }
 
   else if (equalsQTimeTag(buf, "urn ")) {
@@ -694,6 +696,8 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursi
       xmpData_["Xmp.video.URN"] = readString(*io_, size);
     else if (currentStream_ == Audio)
       xmpData_["Xmp.audio.URN"] = readString(*io_, size);
+    else
+      discard(size);
   }
 
   else if (equalsQTimeTag(buf, "dcom")) {
@@ -1430,9 +1434,7 @@ void QuickTimeVideo::mediaHeaderDecoder(size_t size) {
           xmpData_["Xmp.video.MediaTimeScale"] = buf.read_uint32(0, bigEndian);
         else if (currentStream_ == Audio)
           xmpData_["Xmp.audio.MediaTimeScale"] = buf.read_uint32(0, bigEndian);
-        time_scale = buf.read_uint32(0, bigEndian);
-        if (time_scale <= 0)
-          time_scale = 1;
+        time_scale = std::max(1U, buf.read_uint32(0, bigEndian));
         break;
       case MediaDuration:
         if (currentStream_ == Video)
@@ -1551,9 +1553,7 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
         break;
       case TimeScale:
         xmpData_["Xmp.video.TimeScale"] = buf.read_uint32(0, bigEndian);
-        timeScale_ = buf.read_uint32(0, bigEndian);
-        if (timeScale_ <= 0)
-          timeScale_ = 1;
+        timeScale_ = std::max(1U, buf.read_uint32(0, bigEndian));
         break;
       case Duration:
         if (timeScale_ != 0) {  // To prevent division by zero

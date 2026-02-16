@@ -14,9 +14,6 @@ Config loaded from : 'initest.ini' version=6, name=Bob Smith, email=bob@smith.co
 #include <iostream>
 
 int main() {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   const char* ini = "ini-test.ini";
   INIReader reader(ini);
 

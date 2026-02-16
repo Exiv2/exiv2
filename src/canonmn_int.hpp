@@ -35,71 +35,137 @@ namespace Internal {
 class CanonMakerNote {
  public:
   //! Return read-only list of built-in Canon tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in Canon Camera Settings tags
-  static const TagInfo* tagListCs();
+  static constexpr auto tagListCs() {
+    return tagInfoCs_;
+  }
   //! Return read-only list of built-in Canon Shot Info tags
-  static const TagInfo* tagListSi();
+  static constexpr auto tagListSi() {
+    return tagInfoSi_;
+  }
   //! Return read-only list of built-in Canon Panorama tags
-  static const TagInfo* tagListPa();
+  static constexpr auto tagListPa() {
+    return tagInfoPa_;
+  }
   //! Return read-only list of built-in Canon Custom Function tags
-  static const TagInfo* tagListCf();
+  static constexpr auto tagListCf() {
+    return tagInfoCf_;
+  }
   //! Return read-only list of built-in Canon Picture Info tags
-  static const TagInfo* tagListPi();
+  static constexpr auto tagListPi() {
+    return tagInfoPi_;
+  }
   //! Return read-only list of built-in Canon Time Info tags
-  static const TagInfo* tagListTi();
+  static constexpr auto tagListTi() {
+    return tagInfoTi_;
+  }
   //! Return read-only list of built-in Canon File Info tags
-  static const TagInfo* tagListFi();
+  static constexpr auto tagListFi() {
+    return tagInfoFi_;
+  }
   //! Return read-only list of built-in Canon Processing Info tags
-  static const TagInfo* tagListPr();
+  static constexpr auto tagListPr() {
+    return tagInfoPr_;
+  }
   //! Return read-only list of built-in Canon Movie Info tags
-  static const TagInfo* tagListMv();
+  static constexpr auto tagListMv() {
+    return tagInfoMv_;
+  }
   //! Return read-only list of built-in Canon My Colors Info tags
-  static const TagInfo* tagListMc();
+  static constexpr auto tagListMc() {
+    return tagInfoMc_;
+  }
   //! Return read-only list of built-in Canon Face detection Info tags
-  static const TagInfo* tagListFcd3();
+  static constexpr auto tagListFcd3() {
+    return tagInfoFcd3_;
+  }
   //! Return read-only list of built-in Canon White balance Info tags
-  static const TagInfo* tagListWbi();
+  static constexpr auto tagListWbi() {
+    return tagInfoWbi_;
+  }
   //! Return read-only list of built-in Canon Contrast Info tags
-  static const TagInfo* tagListCo();
+  static constexpr auto tagListCo() {
+    return tagInfoCo_;
+  }
   //! Return read-only list of built-in Canon Face detection 1 Info tags
-  static const TagInfo* tagListFcd2();
+  static constexpr auto tagListFcd2() {
+    return tagInfoFcd2_;
+  }
   //! Return read-only list of built-in Canon Face detection 2 Info tags
-  static const TagInfo* tagListFcd1();
+  static constexpr auto tagListFcd1() {
+    return tagInfoFcd1_;
+  }
   //! Return read-only list of built-in Canon Aspect Info tags
-  static const TagInfo* tagListAs();
+  static constexpr auto tagListAs() {
+    return tagInfoAs_;
+  }
   //! Return read-only list of built-in Canon Balance Info tags
-  static const TagInfo* tagListCbi();
+  static constexpr auto tagListCbi() {
+    return tagInfoCbi_;
+  }
   //! Return read-only list of built-in Canon Flags Info tags
-  static const TagInfo* tagListFl();
+  static constexpr auto tagListFl() {
+    return tagInfoFl_;
+  }
   //! Return read-only list of built-in Canon Modified On Info tags
-  static const TagInfo* tagListMo();
+  static constexpr auto tagListMo() {
+    return tagInfoMo_;
+  }
   //! Return read-only list of built-in Canon Preview Image Info tags
-  static const TagInfo* tagListPreI();
+  static constexpr auto tagListPreI() {
+    return tagInfoPreI_;
+  }
   //! Return read-only list of built-in Canon Color Info tags
-  static const TagInfo* tagListCi();
+  static constexpr auto tagListCi() {
+    return tagInfoCi_;
+  }
   //! Return read-only list of built-in Canon AFMicroAdjMode Quality Info tags
-  static const TagInfo* tagListAfMiAdj();
+  static constexpr auto tagListAfMiAdj() {
+    return tagInfoAfMiAdj_;
+  }
   //! Return read-only list of built-in Canon VignettingCorr Info tags
-  static const TagInfo* tagListVigCor();
+  static constexpr auto tagListVigCor() {
+    return tagInfoVigCor_;
+  }
   //! Return read-only list of built-in Canon VignettingCorr2 Info tags
-  static const TagInfo* tagListVigCor2();
+  static constexpr auto tagListVigCor2() {
+    return tagInfoVigCor2_;
+  }
   //! Return read-only list of built-in Canon LightingOpt Info tags
-  static const TagInfo* tagListLiOp();
+  static constexpr auto tagListLiOp() {
+    return tagInfoLiOp_;
+  }
   //! Return read-only list of built-in Canon LensInfo Info tags
-  static const TagInfo* tagListLe();
+  static constexpr auto tagListLe() {
+    return tagInfoLe_;
+  }
   //! Return read-only list of built-in Canon Ambience Info tags
-  static const TagInfo* tagListAm();
+  static constexpr auto tagListAm() {
+    return tagInfoAm_;
+  }
   //! Return read-only list of built-in Canon MultiExposureControl Info tags
-  static const TagInfo* tagListMe();
+  static constexpr auto tagListMe() {
+    return tagInfoMe_;
+  }
   //! Return read-only list of built-in Canon Filter Info tags
-  static const TagInfo* tagListFil();
+  static constexpr auto tagListFil() {
+    return tagInfoFil_;
+  }
   //! Return read-only list of built-in Canon HDR Info tags
-  static const TagInfo* tagListHdr();
+  static constexpr auto tagListHdr() {
+    return tagInfoHdr_;
+  }
   //! Return read-only list of built-in Canon AFConfig Info tags
-  static const TagInfo* tagListAfC();
+  static constexpr auto tagListAfC() {
+    return tagInfoAfC_;
+  }
   //! Return read-only list of built-in Canon RawBurstInfo Info tags
-  static const TagInfo* tagListRawB();
+  static constexpr auto tagListRawB() {
+    return tagInfoRawB_;
+  }
 
   //! @name Print functions for Canon %MakerNote tags
   //@{

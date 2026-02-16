@@ -21,7 +21,9 @@ jobs:
         shared_libraries: [ON, OFF]
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install dependencies
         run: |
@@ -62,7 +64,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: ['riscv64', 's390x']
+        arch: ['loongarch64', 'riscv64', 's390x']
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
 
@@ -71,7 +73,9 @@ jobs:
         shell: alpine.sh {0}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: jirutka/setup-alpine@v1
         with:
           arch: ${{matrix.arch}}

@@ -59,9 +59,9 @@ void XmpSidecar::readMetadata() {
   // Read the XMP packet from the IO stream
   std::string xmpPacket;
   const long len = 64 * 1024;
-  byte buf[len];
-  while (auto l = io_->read(buf, len)) {
-    xmpPacket.append(reinterpret_cast<char*>(buf), l);
+  auto buf = std::make_unique<byte[]>(len);
+  while (auto l = io_->read(buf.get(), len)) {
+    xmpPacket.append(reinterpret_cast<char*>(buf.get()), l);
   }
   if (io_->error())
     throw Error(ErrorCode::kerFailedToReadImageData);

@@ -20,7 +20,9 @@ jobs:
     runs-on: windows-2022
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
@@ -28,7 +30,7 @@ jobs:
           arch: x64
 
       - name: Restore Conan cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{github.workspace}}/conanCache
           key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
@@ -56,7 +58,9 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install dependencies
         run: |
@@ -90,11 +94,13 @@ jobs:
           - { os: macos-latest,   arch: ARM64 }
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install dependencies
         run: |
-          brew install ninja inih googletest
+          brew install inih googletest
 
       - name: Build
         run: |

@@ -447,13 +447,21 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
 
   bool const manyFiles = Params::instance().files_.size() > 1;
   if (manyFiles) {
-    std::cout << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
+    std::ostringstream os;
+    std::ios::fmtflags f(os.flags());
+    os << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
+    binaryOutput(os);
+    os.flags(f);
   }
 
   bool first = true;
   if (Params::instance().printItems_ & Params::prTag) {
     first = false;
-    std::cout << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << md.tag();
+    std::ostringstream os;
+    std::ios::fmtflags f(os.flags());
+    os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << md.tag();
+    binaryOutput(os);
+    os.flags(f);
   }
   if (Params::instance().printItems_ & Params::prSet) {
     if (!first)
@@ -522,6 +530,7 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
       std::cout << "  ";
     first = false;
     std::ostringstream os;
+    std::ios::fmtflags f(os.flags());
     // #1114 - show negative values for SByte
     if (md.typeId() == Exiv2::signedByte) {
       for (size_t c = 0; c < md.value().count(); c++) {
@@ -532,14 +541,17 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
       os << std::dec << md.value();
     }
     binaryOutput(os);
+    os.flags(f);
   }
   if (Params::instance().printItems_ & Params::prTrans) {
     if (!first)
       std::cout << "  ";
     first = false;
     std::ostringstream os;
+    std::ios::fmtflags f(os.flags());
     os << std::dec << md.print(&pImage->exifData());
     binaryOutput(os);
+    os.flags(f);
   }
   if (Params::instance().printItems_ & Params::prHex) {
     if (!first)
@@ -580,17 +592,22 @@ int Print::printPreviewList() {
   bool const manyFiles = Params::instance().files_.size() > 1;
   int cnt = 0;
   Exiv2::PreviewManager pm(*image);
+  std::ostringstream os;
+  std::ios::fmtflags f(os.flags());
   Exiv2::PreviewPropertiesList list = pm.getPreviewProperties();
   for (const auto& pos : list) {
-    if (manyFiles) {
-      std::cout << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
-    }
-    std::cout << _("Preview") << " " << ++cnt << ": " << pos.mimeType_ << ", ";
-    if (pos.width_ != 0 && pos.height_ != 0) {
-      std::cout << pos.width_ << "x" << pos.height_ << " " << _("pixels") << ", ";
-    }
-    std::cout << pos.size_ << " " << _("bytes") << "\n";
+    if (manyFiles)
+      os << std::setfill(' ') << std::left << std::setw(20) << path_ << "  ";
+
+    os << _("Preview") << " " << ++cnt << ": " << pos.mimeType_ << ", ";
+
+    if (pos.width_ != 0 && pos.height_ != 0)
+      os << pos.width_ << "x" << pos.height_ << " " << _("pixels") << ", ";
+
+    os << pos.size_ << " " << _("bytes") << "\n";
   }
+  binaryOutput(os);
+  os.flags(f);
   return 0;
 }  // Print::printPreviewList
 

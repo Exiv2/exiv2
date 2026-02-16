@@ -20,7 +20,9 @@ namespace Internal {
 class PentaxMakerNote {
  public:
   //! Return read-only list of built-in Pentaxfilm tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
 
   //! Print Pentax version
   static std::ostream& printVersion(std::ostream& os, const Value& value, const ExifData*);

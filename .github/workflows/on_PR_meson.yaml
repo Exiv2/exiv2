@@ -15,8 +15,10 @@ jobs:
         cxx: ['9', '13']
         deps: ['enabled', 'disabled']
     steps:
-      - uses: actions/checkout@v5
-      - uses: egor-tensin/setup-gcc@v1
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: egor-tensin/setup-gcc@v2
         with:
           version: ${{matrix.cxx}}
       - name: Install meson
@@ -36,8 +38,10 @@ jobs:
         cxx: ['11', '21']
         deps: ['enabled', 'disabled']
     steps:
-      - uses: actions/checkout@v5
-      - uses: egor-tensin/setup-clang@v1
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: egor-tensin/setup-clang@v2
         with:
           version: ${{matrix.cxx}}
       - name: Install meson
@@ -69,7 +73,9 @@ jobs:
           - platform: x86
             runner: windows-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install packages
         run: |
@@ -97,7 +103,9 @@ jobs:
           - platform: x64
             runner: windows-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install packages
         run: |
@@ -129,7 +137,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - uses: msys2/setup-msys2@v2
         with:
@@ -156,7 +166,9 @@ jobs:
       run:
         shell: msys2 {0}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: msys2/setup-msys2@v2
         with:
           msystem: 'MSYS'
@@ -178,7 +190,9 @@ jobs:
       matrix:
         deps: ['enabled', 'disabled']
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install packages
         run: |
@@ -193,7 +207,9 @@ jobs:
   FreeBSD:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
@@ -205,7 +221,9 @@ jobs:
   OmniOS:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: vmactions/omnios-vm@v1
         with:
           prepare: |
@@ -217,7 +235,9 @@ jobs:
   Emscripten:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Install packages
         run: |
           sudo apt install -y meson

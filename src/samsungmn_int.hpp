@@ -16,9 +16,13 @@ namespace Internal {
 class Samsung2MakerNote {
  public:
   //! Return read-only list of built-in Samsung tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in PictureWizard tags
-  static const TagInfo* tagListPw();
+  static constexpr auto tagListPw() {
+    return tagInfoPw_;
+  }
 
  private:
   //! Tag information

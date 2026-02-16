@@ -6,9 +6,6 @@
 #include <iostream>
 
 int main(int argc, char* const argv[]) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   if (argc != 3) {
     std::cerr << "Usage: " << argv[0] << " file key\n";
     return EXIT_FAILURE;

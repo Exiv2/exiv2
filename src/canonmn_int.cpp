@@ -282,6 +282,7 @@ constexpr TagDetails canonModelId[] = {
     {0x04170000, "PowerShot SX730 HS"},
     {0x04180000, "PowerShot G1 X Mark III"},
     {0x06040000, "PowerShot S100 / Digital IXUS / IXY Digital"},
+    {0x40000227, "EOS C50"},
     {0x4007d673, "DC19/DC21/DC22"},
     {0x4007d674, "XH A1"},
     {0x4007d675, "HV10"},
@@ -395,6 +396,7 @@ constexpr TagDetails canonModelId[] = {
     {0x80000497, "PowerShot V1"},
     {0x80000498, "EOS R100"},
     {0x80000516, "EOS R50 V"},
+    {0x80000518, "EOS R6 Mark III"},
     {0x80000520, "EOS D2000C"},
     {0x80000560, "EOS D6000C"},
 };
@@ -681,10 +683,6 @@ constexpr TagInfo CanonMakerNote::tagInfo_[] = {
      IfdId::canonId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagList() {
-  return tagInfo_;
-}
-
 // Canon Movie Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoMv_[] = {
     {0x0001, "FrameRate", N_("FrameRate"), N_("FrameRate"), IfdId::canonMvId, SectionId::makerTags, unsignedShort, -1,
@@ -707,10 +705,6 @@ constexpr TagInfo CanonMakerNote::tagInfoMv_[] = {
      -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListMv() {
-  return tagInfoMv_;
-}
-
 // MyColors, tag 0x001d
 constexpr TagDetails canonMyColors[] = {
     {0, N_("Off")},        {1, N_("Positive Film")}, {2, N_("Light Skin Tone")}, {3, N_("Dark Skin Tone")},
@@ -724,10 +718,6 @@ constexpr TagInfo CanonMakerNote::tagInfoMc_[] = {
     {0x0002, "MyColorMode", N_("My Color Mode"), N_("My Color Mode"), IfdId::canonMyColorID, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(canonMyColors)},
 };
-
-const TagInfo* CanonMakerNote::tagListMc() {
-  return tagInfoMc_;
-}
 
 // Canon FaceDetect 1 Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoFcd1_[] = {
@@ -755,10 +745,6 @@ constexpr TagInfo CanonMakerNote::tagInfoFcd1_[] = {
      signedShort, -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListFcd1() {
-  return tagInfoFcd1_;
-}
-
 // Canon FaceDetect 2 Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoFcd2_[] = {
     {0x0001, "FaceWidth", N_("Face Width"), N_("Faces Width"), IfdId::canonFcd2Id, SectionId::makerTags, unsignedByte,
@@ -766,10 +752,6 @@ constexpr TagInfo CanonMakerNote::tagInfoFcd2_[] = {
     {0x0002, "FacesDetected", N_("Faces Detected"), N_("Faces Detected"), IfdId::canonFcd2Id, SectionId::makerTags,
      unsignedByte, -1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListFcd2() {
-  return tagInfoFcd2_;
-}
 
 // Canon ContrastInfo, tag 0x001d
 constexpr TagDetails canonContrastInfo[] = {
@@ -783,10 +765,6 @@ constexpr TagInfo CanonMakerNote::tagInfoCo_[] = {
     {0x0004, "IntelligentContrast", N_("Intelligent Contrast"), N_("Intelligent Contrast"), IfdId::canonContrastId,
      SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(canonContrastInfo)},
 };
-
-const TagInfo* CanonMakerNote::tagListCo() {
-  return tagInfoCo_;
-}
 
 // Canon WhiteBalance Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoWbi_[] = {
@@ -812,19 +790,11 @@ constexpr TagInfo CanonMakerNote::tagInfoWbi_[] = {
      SectionId::makerTags, unsignedLong, -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListWbi() {
-  return tagInfoWbi_;
-}
-
 // Canon FaceDetect 3 Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoFcd3_[] = {
     {0x0003, "FacesDetected", N_("Face Detected"), N_("Faces Detected"), IfdId::canonFcd3Id, SectionId::makerTags,
      unsignedShort, -1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListFcd3() {
-  return tagInfoFcd3_;
-}
 
 /*
 // Canon Aspect Info, tag 0x001d
@@ -853,10 +823,6 @@ constexpr TagInfo CanonMakerNote::tagInfoAs_[] = {
      SectionId::makerTags, unsignedLong, -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListAs() {
-  return tagInfoAs_;
-}
-
 // Canon Color Balance Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoCbi_[] = {
     {0x0001, "WB_RGGBLevelsAuto", N_("WB_RGGB Levels Auto"), N_("WB_RGGB Levels Auto"), IfdId::canonCbId,
@@ -881,19 +847,11 @@ constexpr TagInfo CanonMakerNote::tagInfoCbi_[] = {
      SectionId::makerTags, signedShort, -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListCbi() {
-  return tagInfoCbi_;
-}
-
 // Canon Flags Tag
 constexpr TagInfo CanonMakerNote::tagInfoFl_[] = {
     {0x0001, "ModifiedParamFlag", N_("Modified Param Flag"), N_("Modified Param Flag"), IfdId::canonFlId,
      SectionId::makerTags, signedShort, -1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListFl() {
-  return tagInfoFl_;
-}
 
 // Canon Modified ToneCurve Info, tag 0x0001
 constexpr TagDetails canonModifiedToneCurve[] = {
@@ -933,10 +891,6 @@ constexpr TagInfo CanonMakerNote::tagInfoMo_[] = {
      SectionId::makerTags, signedShort, -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListMo() {
-  return tagInfoMo_;
-}
-
 // Canon Preview Quality Info, tag 0x0001
 constexpr TagDetails canonPreviewQuality[] = {
     {-1, N_("n/a")},      {1, N_("Economy")}, {2, N_("Normal")},         {3, N_("Fine")},        {4, N_("RAW")},
@@ -957,10 +911,6 @@ constexpr TagInfo CanonMakerNote::tagInfoPreI_[] = {
      SectionId::makerTags, unsignedLong, -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListPreI() {
-  return tagInfoPreI_;
-}
-
 // Canon Color Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoCi_[] = {
     {0x0001, "Saturation", N_("Saturation"), N_("Saturation"), IfdId::canonCiId, SectionId::makerTags, signedShort, -1,
@@ -970,10 +920,6 @@ constexpr TagInfo CanonMakerNote::tagInfoCi_[] = {
     {0x0003, "ColorSpace", N_("Color Space"), N_("Color Space"), IfdId::canonCiId, SectionId::makerTags, signedShort,
      -1, EXV_PRINT_TAG(canonColorSpace)},
 };
-
-const TagInfo* CanonMakerNote::tagListCi() {
-  return tagInfoCi_;
-}
 
 // Canon AFMicroAdjMode Quality Info, tag 0x0001
 constexpr TagDetails canonAFMicroAdjMode[] = {
@@ -991,10 +937,6 @@ constexpr TagInfo CanonMakerNote::tagInfoAfMiAdj_[] = {
     {0xffff, "(UnknownCanonAFMicroAdjTag)", "(UnknownCanonAFMicroAdjTag)", N_("Unknown Canon AFMicroAdj tag"),
      IfdId::canonAfMiAdjId, SectionId::makerTags, signedShort, 1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListAfMiAdj() {
-  return tagInfoAfMiAdj_;
-}
 
 // Canon VignettingCorr Tag
 constexpr TagInfo CanonMakerNote::tagInfoVigCor_[] = {
@@ -1018,10 +960,6 @@ constexpr TagInfo CanonMakerNote::tagInfoVigCor_[] = {
      SectionId::makerTags, signedShort, -1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListVigCor() {
-  return tagInfoVigCor_;
-}
-
 // Canon VignettingCorr2 Tag
 constexpr TagInfo CanonMakerNote::tagInfoVigCor2_[] = {
     {0x0005, "PeripheralLightingSetting", N_("Peripheral Lighting Setting"), N_("Peripheral Lighting Setting"),
@@ -1033,10 +971,6 @@ constexpr TagInfo CanonMakerNote::tagInfoVigCor2_[] = {
     {0xffff, "(UnknownVignettingCorr2Tag)", "(UnknownVignettingCorr2Tag)", N_("UnknownVignettingCorr2Tag  Tag"),
      IfdId::canonVigCor2Id, SectionId::makerTags, signedLong, 1, printValue}  // important to add end of tag
 };
-
-const TagInfo* CanonMakerNote::tagListVigCor2() {
-  return tagInfoVigCor2_;
-}
 
 // Canon AutoLightingOptimizer, tag 0x0002
 constexpr TagDetails canonAutoLightingOptimizer[] = {
@@ -1095,10 +1029,6 @@ constexpr TagInfo CanonMakerNote::tagInfoLiOp_[] = {
      printValue}  // important to add end of tag
 };
 
-const TagInfo* CanonMakerNote::tagListLiOp() {
-  return tagInfoLiOp_;
-}
-
 // Canon LensInfo Tag
 constexpr TagInfo CanonMakerNote::tagInfoLe_[] = {
     {0x0000, "LensSerialNumber", N_("Lens Serial Number"),
@@ -1108,10 +1038,6 @@ constexpr TagInfo CanonMakerNote::tagInfoLe_[] = {
     {0xffff, "(UnknownCanonLensInfoTag)", "(UnknownCanonLensInfoTag)", N_("UnknownCanonLensInfoTag"), IfdId::canonLeId,
      SectionId::makerTags, undefined, 1, printValue}  // important to add end of tag
 };
-
-const TagInfo* CanonMakerNote::tagListLe() {
-  return tagInfoLe_;
-}
 
 // Canon AmbienceSelection, tag 0x0001
 constexpr TagDetails canonAmbienceSelection[] = {
@@ -1126,10 +1052,6 @@ constexpr TagInfo CanonMakerNote::tagInfoAm_[] = {
     {0xffff, "(AmbienceSelectionTag)", "(AmbienceSelectionTag)", N_("UAmbience Selection Tag"), IfdId::canonAmId,
      SectionId::makerTags, signedLong, 1, printValue}  // important to add end of tag
 };
-
-const TagInfo* CanonMakerNote::tagListAm() {
-  return tagInfoAm_;
-}
 
 // Canon MultiExposure, tag 0x0001
 constexpr TagDetails canonMultiExposure[] = {
@@ -1157,10 +1079,6 @@ constexpr TagInfo CanonMakerNote::tagInfoMe_[] = {
     {0xffff, "(UnknownMultiExposureTag)", "(UnknownMultiExposureTag)", N_("UnknownMultiExposureTag"), IfdId::canonMeId,
      SectionId::makerTags, signedLong, 1, printValue}  // important to add end of tag
 };
-
-const TagInfo* CanonMakerNote::tagListMe() {
-  return tagInfoMe_;
-}
 
 // Canon FilterInfo, tag 0x0001
 constexpr TagDetails canonFilterInfo[] = {
@@ -1199,10 +1117,6 @@ constexpr TagInfo CanonMakerNote::tagInfoFil_[] = {
      SectionId::makerTags, signedLong, 1, printValue}  // important to add end of tag
 };
 
-const TagInfo* CanonMakerNote::tagListFil() {
-  return tagInfoFil_;
-}
-
 // Canon HDR, tag 0x0001
 constexpr TagDetails canonHdr[] = {
     {0, N_("Off")},
@@ -1225,10 +1139,6 @@ constexpr TagInfo CanonMakerNote::tagInfoHdr_[] = {
     {0xffff, "(UnknownHDRTag)", "(UnknownHDRTag)", N_("Unknown Canon HDR Tag"), IfdId::canonHdrId, SectionId::makerTags,
      signedLong, 1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListHdr() {
-  return tagInfoHdr_;
-}
 
 // Canon AIServoFirstImage, tag 0x0001
 constexpr TagDetails canonAIServoFirstImage[] = {
@@ -1372,10 +1282,6 @@ constexpr TagInfo CanonMakerNote::tagInfoAfC_[] = {
      SectionId::makerTags, signedLong, 1, printValue}  // important to add end of tag
 };
 
-const TagInfo* CanonMakerNote::tagListAfC() {
-  return tagInfoAfC_;
-}
-
 // Canon RawBurstInfo Info Tag
 constexpr TagInfo CanonMakerNote::tagInfoRawB_[] = {
     {0x0001, "RawBurstImageNum", N_("Raw Burst Image Num"), N_("Raw Burst Image Num"), IfdId::canonRawBId,
@@ -1385,10 +1291,6 @@ constexpr TagInfo CanonMakerNote::tagInfoRawB_[] = {
     {0xffff, "(UnknownRawBurstTag)", "(UnknownRawBurstTag)", N_("UnknownRawBurstTag"), IfdId::canonRawBId,
      SectionId::makerTags, signedLong, 1, printValue}  // important to add end of tag
 };
-
-const TagInfo* CanonMakerNote::tagListRawB() {
-  return tagInfoRawB_;
-}
 
 //! Macro, tag 0x0001
 constexpr TagDetails canonCsMacro[] = {
@@ -2125,6 +2027,10 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 50mm F1.4 L VCM"},
     {61182, "Canon RF 24mm F1.4 L VCM"},
     {61182, "Canon RF 20mm F1.4 L VCM"},
+    {61182, "Canon RF 85mm F1.4 L VCM"},
+    {61182, "Canon RF 45mm F1.2 STM"},
+    {61182, "Canon RF 7-14mm F2.8-3.5 L Fisheye STM"},
+    {61182, "Canon RF 14mm F1.4 L VCM"},
     {65535, N_("n/a")},
 };
 
@@ -2279,10 +2185,6 @@ constexpr TagInfo CanonMakerNote::tagInfoCs_[] = {
      SectionId::makerTags, signedShort, 1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListCs() {
-  return tagInfoCs_;
-}
-
 //! AFPointUsed, tag 0x000e
 constexpr TagDetailsBitmask canonSiAFPointUsed[] = {
     {0x0004, N_("left")},
@@ -2390,10 +2292,6 @@ constexpr TagInfo CanonMakerNote::tagInfoSi_[] = {
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListSi() {
-  return tagInfoSi_;
-}
-
 //! PanoramaDirection, tag 0x0005
 constexpr TagDetails canonPaDirection[] = {
     {0, N_("Left to right")}, {1, N_("Right to left")},          {2, N_("Bottom to top")},
@@ -2410,10 +2308,6 @@ constexpr TagInfo CanonMakerNote::tagInfoPa_[] = {
     {0xffff, "(UnknownCanonCs2Tag)", "(UnknownCanonCs2Tag)", N_("Unknown Canon Panorama tag"), IfdId::canonPaId,
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListPa() {
-  return tagInfoPa_;
-}
 
 // Canon Custom Function Tag Info
 constexpr TagInfo CanonMakerNote::tagInfoCf_[] = {
@@ -2452,10 +2346,6 @@ constexpr TagInfo CanonMakerNote::tagInfoCf_[] = {
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListCf() {
-  return tagInfoCf_;
-}
-
 //! AFPointsUsed, tag 0x0016
 constexpr TagDetailsBitmask canonPiAFPointsUsed[] = {
     {0x01, N_("right")}, {0x02, N_("mid-right")}, {0x04, N_("bottom")}, {0x08, N_("center")},
@@ -2487,10 +2377,6 @@ constexpr TagInfo CanonMakerNote::tagInfoPi_[] = {
     {0xffff, "(UnknownCanonPiTag)", "(UnknownCanonPiTag)", N_("Unknown Canon Picture Info tag"), IfdId::canonPiId,
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListPi() {
-  return tagInfoPi_;
-}
 
 //! BracketMode, tag 0x0003
 constexpr TagDetails canonBracketMode[] = {
@@ -2543,7 +2429,7 @@ constexpr TagDetails canonToningEffect[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/13.16/lib/Image/ExifTool/Canon.pm#L6961
+// from https://github.com/exiftool/exiftool/blob/13.50/lib/Image/ExifTool/Canon.pm#L7009
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
     {257, "Canon RF 50mm F1.2 L USM"},
@@ -2616,6 +2502,10 @@ constexpr TagDetails canonRFLensType[] = {
     {325, "Canon RF 50mm F1.4 L VCM"},
     {326, "Canon RF 24mm F1.4 L VCM"},
     {327, "Canon RF 20mm F1.4 L VCM"},
+    {328, "Canon RF 85mm F1.4 L VCM"},
+    {330, "Canon RF 45mm F1.2 STM"},
+    {331, "Canon RF 7-14mm F2.8-3.5 L Fisheye STM"},
+    {332, "Canon RF 14mm F1.4 L VCM"},
 };
 
 // Canon File Info Tag
@@ -2661,10 +2551,6 @@ constexpr TagInfo CanonMakerNote::tagInfoFi_[] = {
      SectionId::makerTags, signedShort, 1, printValue},
 };
 
-const TagInfo* CanonMakerNote::tagListFi() {
-  return tagInfoFi_;
-}
-
 //! Tone Curve Values
 constexpr TagDetails canonToneCurve[] = {
     {0, N_("Standard")},
@@ -2708,10 +2594,6 @@ constexpr TagInfo CanonMakerNote::tagInfoPr_[] = {
     {0xffff, "(UnknownCanonPrTag)", "(UnknownCanonPrTag)", N_("Unknown Canon Processing Info tag"), IfdId::canonPrId,
      SectionId::makerTags, signedShort, 1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListPr() {
-  return tagInfoPr_;
-}
 
 //! canonTimeZoneCity - array of cityID/cityName used by Canon
 constexpr TagDetails canonTimeZoneCity[] = {
@@ -2763,10 +2645,6 @@ constexpr TagInfo CanonMakerNote::tagInfoTi_[] = {
     {0xffff, "(UnknownCanonTiTag)", "(UnknownCanonTiTag)", N_("Unknown Canon Time Info tag"), IfdId::canonTiId,
      SectionId::makerTags, signedLong, 1, printValue},
 };
-
-const TagInfo* CanonMakerNote::tagListTi() {
-  return tagInfoTi_;
-}
 
 std::ostream& CanonMakerNote::printFiFileNumber(std::ostream& os, const Value& value, const ExifData* metadata) {
   if (!metadata || value.typeId() != unsignedLong || value.count() == 0) {

@@ -101,7 +101,7 @@ Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
 Exif.Photo.SubjectDistanceRange              Short       1  3  Distant view
 Xmp.xmp.Rating                               XmpText     1  1  1
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"  type="Struct"
 Xmp.darktable.xmp_version                    XmpText     1  1  1
 Xmp.darktable.raw_params                     XmpText     1  0  0
 Xmp.darktable.auto_presets_applied           XmpText     1  1  1

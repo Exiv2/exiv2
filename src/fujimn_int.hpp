@@ -16,7 +16,9 @@ namespace Internal {
 class FujiMakerNote {
  public:
   //! Return read-only list of built-in Fujifilm tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
 
  private:
   //! Tag information

@@ -375,10 +375,8 @@ constexpr StringTagDetails sonyVariableLowPassFilter[] = {
 
 //! Lookup table to translate Sony RAW file type values to readable labels
 constexpr TagDetails sonyRAWFileType[] = {
-    {0, N_("Compressed RAW")},
-    {1, N_("Uncompressed RAW")},
-    {2, N_("Lossless Compressed RAW")},
-    {0xffff, N_("n/a")},
+    {0, N_("Compressed RAW")},   {1, N_("Uncompressed RAW")}, {2, N_("Lossless Compressed RAW")},
+    {3, N_("Compressed RAW 2")}, {0xffff, N_("n/a")},
 };
 
 //! Lookup table to translate Sony metering mode 2 values to readable labels
@@ -407,6 +405,26 @@ constexpr StringTagDetails sonyQuality2Std[] = {
     {"1 2", N_("RAW + fine")},
     {"1 3", N_("RAW + extra fine")},
     {"1 4", N_("RAW + light")},
+    {"2 0", N_("S-size RAW")},
+    {"2 1", N_("S-size RAW + standard")},
+    {"2 2", N_("S-size RAW + fine")},
+    {"2 3", N_("S-size RAW + extra fine")},
+    {"2 4", N_("S-size RAW + light")},
+    {"3 0", N_("M-size RAW")},
+    {"3 1", N_("M-size RAW + standard")},
+    {"3 2", N_("M-size RAW + fine")},
+    {"3 3", N_("M-size RAW + extra fine")},
+    {"3 4", N_("M-size RAW + light")},
+    {"4 0", N_("Compressed RAW")},
+    {"4 1", N_("Compressed RAW + standard")},
+    {"4 2", N_("Compressed RAW + fine")},
+    {"4 3", N_("Compressed RAW + extra fine")},
+    {"4 4", N_("Compressed RAW + light")},
+    {"5 0", N_("Compressed (HQ) RAW")},
+    {"5 1", N_("Compressed (HQ) RAW + standard")},
+    {"5 2", N_("Compressed (HQ) RAW + fine")},
+    {"5 3", N_("Compressed (HQ) RAW + extra fine")},
+    {"5 4", N_("Compressed (HQ) RAW + light")},
 };
 
 //! Lookup table to translate Sony JPEG/HEIF switch values to readable labels
@@ -531,6 +549,7 @@ constexpr TagDetails sonyModelId[] = {
     {403, "ILCE-6100A"},
     {404, "DSC-RX100M7A"},
     {406, "ILME-FX2"},
+    {407, "ILCE-7M5"},
     {408, "ZV-1A"},
 };
 
@@ -562,7 +581,7 @@ constexpr StringTagDetails sonyFileFormat[] = {
     {"0 0 0 2", "JPEG"},      {"1 0 0 0", "SR2 1.0"},   {"2 0 0 0", "ARW 1.0"},   {"3 0 0 0", "ARW 2.0"},
     {"3 1 0 0", "ARW 2.1"},   {"3 2 0 0", "ARW 2.2"},   {"3 3 0 0", "ARW 2.3"},   {"3 3 1 0", "ARW 2.3.1"},
     {"3 3 2 0", "ARW 2.3.2"}, {"3 3 3 0", "ARW 2.3.3"}, {"3 3 5 0", "ARW 2.3.5"}, {"4 0 0 0", "ARW 4.0"},
-    {"4 0 1 0", "ARW 4.0.1"}, {"5 0 0 0", "ARW 5.0.0"}, {"5 0 1 0", "ARW 5.0.1"},
+    {"4 0 1 0", "ARW 4.0.1"}, {"5 0 0 0", "ARW 5.0.0"}, {"5 0 1 0", "ARW 5.0.1"}, {"6 0 0 0", "ARW 6.0.0"},
 };
 
 //! Lookup table to translate Sony dynamic range optimizer values to readable labels
@@ -898,45 +917,37 @@ static auto getFocusMode2(const ExifData* metadata, uint32_t& val) {
 }
 
 std::ostream& SonyMakerNote::printWhiteBalanceFineTune(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 1 || value.typeId() != unsignedLong) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedLong)
+    return os << "(" << value << ")";
+
   // Sony writes the tag as an unsignedLong but treat it as a signedLong. Source:
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L681
-  os << static_cast<int32_t>(value.toUint32(0));
-  return os;
+  return os << static_cast<int32_t>(value.toUint32(0));
 }
 
 std::ostream& SonyMakerNote::printMultiBurstMode(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != undefined) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != undefined)
+    return os << "(" << value << ")";
+
   // Some cameras do not set the type to undefined. Source:
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L763
 
-  printMinoltaSonyBoolValue(os, value, metadata);
-  return os;
+  return printMinoltaSonyBoolValue(os, value, metadata);
 }
 
 std::ostream& SonyMakerNote::printMultiBurstSize(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 1 || value.typeId() != unsignedShort) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedShort)
+    return os << "(" << value << ")";
+
   // Some cameras do not set the type to unsignedShort. Source:
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L771
 
-  os << value.toUint32(0);
-  return os;
+  return os << value.toUint32(0);
 }
 
 std::ostream& SonyMakerNote::printAutoHDRStd(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedLong) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedLong)
+    return os << "(" << value << ")";
 
   // Sony writes the tag as an unsignedLong but treat it as 2 unsignedShort values. Source:
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L887
@@ -950,10 +961,9 @@ std::ostream& SonyMakerNote::printAutoHDRStd(std::ostream& os, const Value& valu
 }
 
 std::ostream& SonyMakerNote::printWBShiftABGM(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 2 || value.typeId() != signedLong) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 2 || value.typeId() != signedLong)
+    return os << "(" << value << ")";
+
   // Examples of Output:
   // 1. "A/B: 0, G/M: 0"
   // 2. "A/B: 1B, G/M: 2M"
@@ -971,226 +981,171 @@ std::ostream& SonyMakerNote::printWBShiftABGM(std::ostream& os, const Value& val
   }
 
   os << ", G/M: ";
-  if (v1 == 0) {
-    os << 0;
-  } else if (v1 < 0) {
-    os << "G" << -v1;
-  } else {
-    os << "M" << v1;
-  }
-  return os;
+  if (v1 == 0)
+    return os << 0;
+
+  if (v1 < 0)
+    return os << "G" << -v1;
+
+  return os << "M" << v1;
 }
 
 std::ostream& SonyMakerNote::printFocusMode2(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata)
+    return os << "(" << value << ")";
 
   // Tag only valid for certain camera models. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L1123
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
+
   const auto v0 = value.toUint32(0);
 
   constexpr std::array models{"DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
   if (!model.starts_with("DSC-") ||
-      std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); })) {
-    EXV_PRINT_TAG(sonyFocusMode2)(os, v0, metadata);
-    return os;
-  }
+      std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); }))
+    return EXV_PRINT_TAG(sonyFocusMode2)(os, v0, metadata);
 
-  os << _("n/a");
-
-  return os;
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printAFAreaModeSetting(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata)
+    return os << "(" << value << ")";
 
   // Tag only valid for certain camera models. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L1139
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
+
   const auto v0 = value.toUint32(0);
 
-  constexpr std::array models1{"SLT-", "HV"};
-  if (std::any_of(models1.begin(), models1.end(), [&model](auto m) { return model.starts_with(m); })) {
-    EXV_PRINT_TAG(sonyAFAreaModeSettingSet1)(os, v0, metadata);
-    return os;
-  }
+  for (auto m : {"SLT-", "HV"})
+    if (model.starts_with(m))
+      return EXV_PRINT_TAG(sonyAFAreaModeSettingSet1)(os, v0, metadata);
 
-  constexpr std::array models2{"NEX-",        "ILCE-",        "ILME-",    "DSC-RX10M4", "DSC-RX100M6",
-                               "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return model.starts_with(m); })) {
-    EXV_PRINT_TAG(sonyAFAreaModeSettingSet2)(os, v0, metadata);
-    return os;
-  }
+  constexpr std::array models2{
+      "NEX-", "ILCE-", "ILME-", "DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2",
+  };
+  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return model.starts_with(m); }))
+    return EXV_PRINT_TAG(sonyAFAreaModeSettingSet2)(os, v0, metadata);
 
-  if (model.starts_with("ILCA-")) {
-    EXV_PRINT_TAG(sonyAFAreaModeSettingSet3)(os, v0, metadata);
-    return os;
-  }
+  if (model.starts_with("ILCA-"))
+    return EXV_PRINT_TAG(sonyAFAreaModeSettingSet3)(os, v0, metadata);
 
-  os << _("n/a");
-  return os;
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printFlexibleSpotPosition(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 2 || value.typeId() != unsignedShort || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 2 || value.typeId() != unsignedShort || !metadata)
+    return os << "(" << value << ")";
 
   // Tag only valid for certain camera models. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L1189
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
-  constexpr std::array models{"NEX-",        "ILCE-",        "ILME-",    "DSC-RX10M4", "DSC-RX100M6",
-                              "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
-  if (std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); })) {
-    os << value.toUint32(0) << ", " << value.toUint32(1);
-    return os;
-  }
+  constexpr std::array models{
+      "NEX-", "ILCE-", "ILME-", "DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2",
+  };
+  if (std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); }))
+    return os << value.toUint32(0) << ", " << value.toUint32(1);
 
-  os << _("n/a");
-  return os;
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printAFPointSelected(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata)
+    return os << "(" << value << ")";
 
   // Tag only valid for certain camera models. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L1203
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   uint32_t aFAreaModeSetting = 0;
   const auto status = getAFAreaModeSetting(metadata, aFAreaModeSetting);
-  constexpr std::array models1{"SLT-", "HV-"};
-  constexpr std::array models2{"ILCE-", "ILME-"};
-  constexpr std::array models3{"ILCA-68", "ILCA-77M2"};
-  constexpr std::array models4{"NEX-", "ILCE-", "ILME-"};
 
-  if (std::any_of(models1.begin(), models1.end(), [&model](auto m) { return model.starts_with(m); })) {
-    EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
-    return os;
-  }
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto& m) { return model.starts_with(m); }) && status &&
-      aFAreaModeSetting == 4) {
-    EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
-    return os;
-  }
-  if (std::any_of(models3.begin(), models3.end(), [&model](auto m) { return model.starts_with(m); }) && status &&
-      aFAreaModeSetting != 8) {
-    EXV_PRINT_TAG(sonyAFPointSelectedSet2)(os, value, metadata);
-    return os;
-  }
-  if (model.starts_with("ILCA-99M2") && status && aFAreaModeSetting != 8) {
-    EXV_PRINT_TAG(sonyAFPointSelectedSet3)(os, value, metadata);
-    return os;
-  }
-  if (model.starts_with("ILCA-") && status && aFAreaModeSetting == 8) {
-    EXV_PRINT_TAG(sonyAFPointSelectedSet4)(os, value.toUint32(0), metadata);
-    return os;
-  }
-  if (std::any_of(models4.begin(), models4.end(), [&model](auto m) { return model.starts_with(m); })) {
-    EXV_PRINT_TAG(sonyAFPointSelectedSet5)(os, value.toUint32(0), metadata);
-    return os;
-  }
-  os << _("n/a");
-  return os;
+  for (auto m : {"SLT-", "HV-"})
+    if (model.starts_with(m))
+      return EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
+
+  for (auto m : {"ILCE-", "ILME-"})
+    if (model.starts_with(m) && status && aFAreaModeSetting == 4)
+      return EXV_PRINT_TAG(sonyAFPointSelectedSet1)(os, value.toUint32(0), metadata);
+
+  for (auto m : {"ILCA-68", "ILCA-77M2"})
+    if (model.starts_with(m) && status && aFAreaModeSetting != 8)
+      return EXV_PRINT_TAG(sonyAFPointSelectedSet2)(os, value, metadata);
+
+  if (model.starts_with("ILCA-99M2") && status && aFAreaModeSetting != 8)
+    return EXV_PRINT_TAG(sonyAFPointSelectedSet3)(os, value, metadata);
+
+  if (model.starts_with("ILCA-") && status && aFAreaModeSetting == 8)
+    return EXV_PRINT_TAG(sonyAFPointSelectedSet4)(os, value.toUint32(0), metadata);
+
+  for (auto m : {"NEX-", "ILCE-", "ILME-"})
+    if (model.starts_with(m))
+      return EXV_PRINT_TAG(sonyAFPointSelectedSet5)(os, value.toUint32(0), metadata);
+
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printAFPointsUsed(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.typeId() != unsignedByte || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.typeId() != unsignedByte || !metadata)
+    return os << "(" << value << ")";
 
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   constexpr std::array models1{"ILCA-", "DSC-"};
-  constexpr std::array models2{"ILCA-68", "ILCA-77M2"};
+  if (std::none_of(models1.begin(), models1.end(), [&model](auto m) { return model.starts_with(m); }))
+    return EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet1)(os, value, metadata);
 
-  if (std::none_of(models1.begin(), models1.end(), [&model](auto m) { return model.starts_with(m); })) {
-    EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet1)(os, value, metadata);
-    return os;
-  }
-  if (std::any_of(models2.begin(), models2.end(), [&model](auto m) { return model.starts_with(m); })) {
-    EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet2)(os, value, metadata);
-    return os;
-  }
-  os << _("n/a");
-  return os;
+  for (auto m : {"ILCA-68", "ILCA-77M2"})
+    if (model.starts_with(m))
+      return EXV_PRINT_TAG_BITLIST_ALL_LE(sonyAFPointsUsedSet2)(os, value, metadata);
+
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printAFTracking(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedByte || !metadata)
+    return os << "(" << value << ")";
 
   // Tag only valid for certain camera models. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L1353
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   constexpr std::array models{"DSC-RX10M4", "DSC-RX100M6", "DSC-RX100M7", "DSC-RX100M5A", "DSC-HX99", "DSC-RX0M2"};
   if (!model.starts_with("DSC-") ||
-      std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); })) {
-    EXV_PRINT_TAG(sonyAFTracking)(os, value.toUint32(0), metadata);
-    return os;
-  }
+      std::any_of(models.begin(), models.end(), [&model](auto m) { return model.starts_with(m); }))
+    return EXV_PRINT_TAG(sonyAFTracking)(os, value.toUint32(0), metadata);
 
-  os << _("n/a");
-  return os;
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printFocalPlaneAFPointsUsed(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    return os;
-  }
-  if (value.toUint32(0) == 0) {
-    os << _("None");
-    return os;
-  }
-  os << "(" << value << ")";
-  return os;
+  if (value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
+
+  if (value.toUint32(0) == 0)
+    return os << _("None");
+
+  return os << "(" << value << ")";
 }
 
 std::ostream& SonyMakerNote::printWBShiftABGMPrecise(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 2 || value.typeId() != signedLong) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 2 || value.typeId() != signedLong)
+    return os << "(" << value << ")";
+
   std::ios::fmtflags f(os.flags());
 
   const auto temp0 = static_cast<double>(value.toInt64(0)) / 1000.0;
@@ -1227,17 +1182,13 @@ std::ostream& SonyMakerNote::printExposureStandardAdjustment(std::ostream& os, c
 }
 
 std::ostream& SonyMakerNote::printPixelShiftInfo(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 6 || value.typeId() != undefined) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 6 || value.typeId() != undefined)
+    return os << "(" << value << ")";
 
   // Tag format:
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L1504
-  if (value.toString() == "0 0 0 0 0 0") {
-    os << _("n/a");
-    return os;
-  }
+  if (value.toString() == "0 0 0 0 0 0")
+    return os << _("n/a");
 
   // Convert from little endian format
   auto groupID = (value.toUint32(3) << 24) + (value.toUint32(2) << 16) + (value.toUint32(1) << 8) + value.toUint32(0);
@@ -1248,55 +1199,49 @@ std::ostream& SonyMakerNote::printPixelShiftInfo(std::ostream& os, const Value& 
 }
 
 std::ostream& SonyMakerNote::printFocusFrameSize(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 6 || value.typeId() != undefined) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 6 || value.typeId() != undefined)
+    return os << "(" << value << ")";
 
   // Tag is written as undefined type but is used as unsignedShort. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L1578
 
-  if (value.toUint32(4) == 0 && value.toUint32(5) == 0) {
-    os << _("n/a");
-    return os;
-  }
+  if (value.toUint32(4) == 0 && value.toUint32(5) == 0)
+    return os << _("n/a");
+
   // Convert from little endian format
-  os << ((value.toUint32(1) << 8) + value.toUint32(0)) << "x" << ((value.toUint32(3) << 8) + value.toUint32(2));
-  return os;
+  return os << ((value.toUint32(1) << 8) + value.toUint32(0)) << "x" << ((value.toUint32(3) << 8) + value.toUint32(2));
 }
 
 std::ostream& SonyMakerNote::printColorTemperature(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 1 || value.typeId() != unsignedLong) {
-    os << "(" << value << ")";
-    return os;
-  }
-  if (auto v0 = value.toUint32(0); v0 == 0)
-    os << _("Auto");
-  else if (v0 == 0xffffffff)
-    os << _("n/a");
-  else
-    os << v0 << " K";
-  return os;
+  if (value.count() != 1 || value.typeId() != unsignedLong)
+    return os << "(" << value << ")";
+
+  auto v0 = value.toUint32(0);
+  if (v0 == 0)
+    return os << _("Auto");
+
+  if (v0 == 0xffffffff)
+    return os << _("n/a");
+
+  return os << v0 << " K";
 }
 
 std::ostream& SonyMakerNote::printColorCompensationFilter(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 1 || value.typeId() != unsignedLong) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedLong)
+    return os << "(" << value << ")";
+
   // Tag is written as an unsignedLong but used as a signedLong. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2093
 
   int64_t temp = static_cast<int32_t>(value.toUint32(0));
   os << "G/M: ";
   if (temp == 0)
-    os << "0";
-  else if (temp < 0)
-    os << "G" << -temp;
-  else
-    os << "M" << temp;
+    return os << "0";
 
-  return os;
+  if (temp < 0)
+    return os << "G" << -temp;
+
+  return os << "M" << temp;
 }
 
 static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::string& flagsEnd) {
@@ -1339,10 +1284,8 @@ static void findLensSpecFlags(const Value& value, std::string& flagsStart, std::
 }
 
 std::ostream& SonyMakerNote::printLensSpec(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 8 || value.typeId() != unsignedByte) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 8 || value.typeId() != unsignedByte)
+    return os << "(" << value << ")";
 
   // Tag uses 8 bytes in the format:
   // <Flgs 1> <Flgs 2> <Focal len min> <Focal len max 1> <Focal len max 2> <Aperture min> <Aperture max> <Flags
@@ -1372,10 +1315,8 @@ std::ostream& SonyMakerNote::printLensSpec(std::ostream& os, const Value& value,
   const auto appertureMin = value.toUint32(5);
   const auto apertureMax = value.toUint32(6);
 
-  if (value.toString() == "0 0 0 0 0 0 0 0" || focalLenMin == 0 || appertureMin == 0) {
-    os << _("Unknown");
-    return os;
-  }
+  if (value.toString() == "0 0 0 0 0 0 0 0" || focalLenMin == 0 || appertureMin == 0)
+    return os << _("Unknown");
 
   std::string flagsStart;
   std::string flagsEnd;
@@ -1427,93 +1368,68 @@ std::ostream& SonyMakerNote::printLensSpec(std::ostream& os, const Value& value,
 }
 
 std::ostream& SonyMakerNote::printImageSize(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() != 2 || value.typeId() != unsignedLong) {
-    os << "(" << value << ")";
-    return os;
-  }
-  // Values are stored as Height then Width
-  os << value.toString(1) << " x " << value.toString(0);
+  if (value.count() != 2 || value.typeId() != unsignedLong)
+    return os << "(" << value << ")";
 
-  return os;
+  // Values are stored as Height then Width
+  return os << value.toString(1) << " x " << value.toString(0);
 }
 
 std::ostream& SonyMakerNote::printFocusMode(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata)
+    return os << "(" << value << ")";
+
   // Only valid for certain models of camera. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2255
 
-  if (std::string metaVersion; !getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000") {
-    EXV_PRINT_TAG(sonyFocusMode)(os, value.toUint32(0), metadata);
-    return os;
-  }
+  if (std::string metaVersion; !getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000")
+    return EXV_PRINT_TAG(sonyFocusMode)(os, value.toUint32(0), metadata);
 
-  os << _("n/a");
-  return os;
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printAFMode(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata)
+    return os << "(" << value << ")";
 
   // Only valid for certain models of camera. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2275
-  if (std::string metaVersion; !getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000") {
-    EXV_PRINT_TAG(sonyAFModeSet1)(os, value.toUint32(0), metadata);
-    return os;
-  }
+  if (std::string metaVersion; !getMetaVersion(metadata, metaVersion) || metaVersion != "DC7303320222000")
+    return EXV_PRINT_TAG(sonyAFModeSet1)(os, value.toUint32(0), metadata);
 
-  if (uint32_t focusMode2 = 0; getFocusMode2(metadata, focusMode2) && focusMode2 != 0) {
-    EXV_PRINT_TAG(sonyAFModeSet2)(os, value.toUint32(0), metadata);
-    return os;
-  }
+  if (uint32_t focusMode2 = 0; getFocusMode2(metadata, focusMode2) && focusMode2 != 0)
+    return EXV_PRINT_TAG(sonyAFModeSet2)(os, value.toUint32(0), metadata);
 
-  os << _("n/a");
-  return os;
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printFocusMode3(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata)
+    return os << "(" << value << ")";
 
   // Only valid for certain models of camera. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2411
-  if (std::string metaVersion; getMetaVersion(metadata, metaVersion) && metaVersion == "DC7303320222000") {
-    EXV_PRINT_TAG(sonyFocusMode3)(os, value.toUint32(0), metadata);
-    return os;
-  }
-  os << _("n/a");
-  return os;
+  if (std::string metaVersion; getMetaVersion(metadata, metaVersion) && metaVersion == "DC7303320222000")
+    return EXV_PRINT_TAG(sonyFocusMode3)(os, value.toUint32(0), metadata);
+
+  return os << _("n/a");
 }
 
 std::ostream& SonyMakerNote::printHighISONoiseReduction2(std::ostream& os, const Value& value,
                                                          const ExifData* metadata) {
-  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (value.count() != 1 || value.typeId() != unsignedShort || !metadata)
+    return os << "(" << value << ")";
 
   // Only valid for certain models of camera. See
   // https://github.com/exiftool/exiftool/blob/1e17485cbb372a502e5b9d052d01303db735e6fa/lib/Image/ExifTool/Sony.pm#L2437
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
-  if (model.starts_with("DSC-") || model.starts_with("Stellar")) {
-    EXV_PRINT_TAG(sonyHighISONoiseReduction2)(os, value.toUint32(0), metadata);
-    return os;
-  }
+  if (model.starts_with("DSC-") || model.starts_with("Stellar"))
+    return EXV_PRINT_TAG(sonyHighISONoiseReduction2)(os, value.toUint32(0), metadata);
 
-  os << _("n/a");
-  return os;
+  return os << _("n/a");
 }
 
 // Sony MakerNote Tag Info
@@ -1697,10 +1613,6 @@ constexpr TagInfo SonyMakerNote::tagInfo_[] = {
      IfdId::sony1Id, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagList() {
-  return tagInfo_;
-}
-
 // -- Sony camera settings ---------------------------------------------------------------
 
 //! Lookup table to translate Sony camera settings drive mode values to readable labels
@@ -1881,10 +1793,6 @@ constexpr TagInfo SonyMakerNote::tagInfoCs_[] = {
      SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagListCs() {
-  return tagInfoCs_;
-}
-
 // -- Sony camera settings 2 ---------------------------------------------------------------
 
 // Sony Camera Settings Tag Version 2 Info
@@ -1928,10 +1836,6 @@ constexpr TagInfo SonyMakerNote::tagInfoCs2_[] = {
      IfdId::sony1Cs2Id, SectionId::makerTags, unsignedShort, 1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagListCs2() {
-  return tagInfoCs2_;
-}
-
 //! Lookup table to translate Sony2Fp AF Area Mode values to readable labels
 constexpr TagDetails sony2FpAFAreaMode[] = {
     {0, N_("Multi")},
@@ -1962,10 +1866,6 @@ constexpr TagInfo SonyMakerNote::tagInfoFp_[] = {
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagListFp() {
-  return tagInfoFp_;
-}
-
 std::ostream& SonyMakerNote::printSony2FpAmbientTemperature(std::ostream& os, const Value& value,
                                                             const ExifData* metadata) {
   if (value.count() != 1 || !metadata)
@@ -1980,58 +1880,44 @@ std::ostream& SonyMakerNote::printSony2FpAmbientTemperature(std::ostream& os, co
 
 std::ostream& SonyMakerNote::printSony2FpFocusMode(std::ostream& os, const Value& value, const ExifData*) {
   if (value.count() != 1)
-    os << value;
-  else {
-    const auto val = (value.toInt64() & 0x7F);
-    switch (val) {
-      case 0:
-        os << N_("Manual");
-        break;
-      case 2:
-        os << N_("AF-S");
-        break;
-      case 3:
-        os << N_("AF-C");
-        break;
-      case 4:
-        os << N_("AF-A");
-        break;
-      case 6:
-        os << N_("DMF");
-        break;
-      default:
-        os << "(" << val << ")";
-    }
+    return os << value;
+
+  const auto val = (value.toInt64() & 0x7F);
+  switch (val) {
+    case 0:
+      return os << N_("Manual");
+    case 2:
+      return os << N_("AF-S");
+    case 3:
+      return os << N_("AF-C");
+    case 4:
+      return os << N_("AF-A");
+    case 6:
+      return os << N_("DMF");
   }
 
-  return os;
+  return os << "(" << val << ")";
 }
 
 std::ostream& SonyMakerNote::printSony2FpFocusPosition2(std::ostream& os, const Value& value,
                                                         const ExifData* metadata) {
   if (value.count() != 1 || !metadata)
-    os << "(" << value << ")";
-  else {
-    std::string model;
-    if (!getModel(metadata, model)) {
-      os << "(" << value << ")";
-      return os;
-    }
+    return os << "(" << value << ")";
 
-    // Ranges of models that do not support this tag
-    for (const auto& m : {"DSC-", "Stellar"}) {
-      if (model.starts_with(m)) {
-        os << N_("n/a");
-        return os;
-      }
-    }
-    const auto val = value.toInt64();
-    if (val == 255)
-      os << N_("Infinity");
-    else
-      os << val;
-  }
-  return os;
+  std::string model;
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
+
+  // Ranges of models that do not support this tag
+  for (const auto& m : {"DSC-", "Stellar"})
+    if (model.starts_with(m))
+      return os << N_("n/a");
+
+  const auto val = value.toInt64();
+  if (val == 255)
+    return os << N_("Infinity");
+
+  return os << val;
 }
 
 //! Sony Tag 9403 SonyMisc1
@@ -2042,10 +1928,6 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc1_[] = {
     {0xffff, "(UnknownSonyMisc1Tag)", "(UnknownSonyMisc1Tag)", "(UnknownSonyMisc1Tag)", IfdId::sonyMisc1Id,
      SectionId::makerTags, unsignedByte, -1, printValue},
 };
-
-const TagInfo* SonyMakerNote::tagListSonyMisc1() {
-  return tagInfoSonyMisc1_;
-}
 
 std::ostream& SonyMakerNote::printSonyMisc1CameraTemperature(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
@@ -2110,10 +1992,6 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc2b_[] = {
     {0xffff, "(UnknownSonyMisc2bTag)", "(Unknown SonyMisc2b tag)", "(Unknown SonyMisc2b tag)", IfdId::sonyMisc2bId,
      SectionId::makerTags, unsignedByte, -1, printValue},
 };
-
-const TagInfo* SonyMakerNote::tagListSonyMisc2b() {
-  return tagInfoSonyMisc2b_;
-}
 
 std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, const Value& value,
                                                              const ExifData* metadata) {
@@ -2224,20 +2102,14 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc3c_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* SonyMakerNote::tagListSonyMisc3c() {
-  return tagInfoSonyMisc3c_;
-}
-
 std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream& os, const Value& value,
                                                                    const ExifData* metadata) {
   if (value.count() != 1 || value.typeId() != unsignedLong || !metadata)
     return os << "(" << value << ")";
 
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   // Tag only valid for certain camera models. See
   // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8170
@@ -2249,9 +2121,9 @@ std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream&
       "DSC-RX100M3", "DSC-RX100M4", "DSC-RX100M5", "DSC-WX220",  "DSC-WX350", "DSC-WX500",
   };
 
-  if (Exiv2::find(models, model)) {
+  if (Exiv2::find(models, model))
     return os << value.toInt64();
-  }
+
   return os << N_("n/a");
 }
 
@@ -2265,10 +2137,8 @@ std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Val
     return os << "(" << value << ")";
 
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   const auto val = value.toInt64();
 
@@ -2276,10 +2146,8 @@ std::ostream& SonyMakerNote::printSonyMisc3cQuality2(std::ostream& os, const Val
   // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8219
   constexpr const char* models[] = {"ILCE-1", "ILCE-7M4", "ILCE-7RM5", "ILCE-7SM3", "ILME-FX3"};
 
-  if (Exiv2::find(models, model)) {
-    EXV_PRINT_TAG(sonyMisc3cQuality2a)(os, val, metadata);
-    return os;
-  }
+  if (Exiv2::find(models, model))
+    return EXV_PRINT_TAG(sonyMisc3cQuality2a)(os, val, metadata);
 
   return EXV_PRINT_TAG(sonyMisc3cQuality2b)(os, val, metadata);
 }
@@ -2290,21 +2158,20 @@ std::ostream& SonyMakerNote::printSonyMisc3cSonyImageHeight(std::ostream& os, co
     return os << "(" << value << ")";
 
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   // Tag only valid for certain camera models. See
   // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8239
   constexpr const char* models[] = {"ILCE-1", "ILCE-7M4", "ILCE-7RM5", "ILCE-7SM3", "ILME-FX3"};
 
-  if (Exiv2::find(models, model)) {
+  if (Exiv2::find(models, model))
     return os << N_("n/a");
-  }
-  const auto val = value.toInt64();
 
-  return val > 0 ? os << (8 * val) : os << N_("n/a");
+  const auto val = value.toInt64();
+  if (val > 0)
+    return os << (8 * val);
+  return os << N_("n/a");
 }
 
 std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, const Value& value,
@@ -2313,10 +2180,8 @@ std::ostream& SonyMakerNote::printSonyMisc3cModelReleaseYear(std::ostream& os, c
     return os << "(" << value << ")";
 
   std::string model;
-  if (!getModel(metadata, model)) {
-    os << "(" << value << ")";
-    return os;
-  }
+  if (!getModel(metadata, model))
+    return os << "(" << value << ")";
 
   // Tag only valid for certain camera models. See
   // https://github.com/exiftool/exiftool/blob/7368629751669ba170511419b3d1e05bf0076d0e/lib/Image/ExifTool/Sony.pm#L8245
@@ -2357,10 +2222,6 @@ constexpr TagInfo SonyMakerNote::tagInfoSonySInfo1_[] = {
     {0xffff, "(UnknownsonySInfo1Tag)", "(Unknown SonySInfo1 Tag)", "(Unknown SonySInfo1 Tag)", IfdId::sonySInfo1Id,
      SectionId::makerTags, unsignedByte, -1, printValue},
 };
-
-const TagInfo* SonyMakerNote::tagListSonySInfo1() {
-  return tagInfoSonySInfo1_;
-}
 
 //! Sony Tag 2010 Sony2010 (Miscellaneous)
 constexpr TagInfo SonyMakerNote::tagInfo2010e_[] = {
@@ -2440,10 +2301,6 @@ constexpr TagInfo SonyMakerNote::tagInfo2010e_[] = {
     {0xffff, "(UnknownSony2010eTag)", "(UnknownSony2010eTag)", "(UnknownSony2010eTag)", IfdId::sony2010eId,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
-
-const TagInfo* SonyMakerNote::tagList2010e() {
-  return tagInfo2010e_;
-}
 
 // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
 static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size, const TiffComponent* /*object*/,

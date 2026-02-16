@@ -16,7 +16,7 @@ class DarwinCoreXmpMetadataPrint(metaclass=CaseMeta):
     ]
 
     stdout = [
-        """Xmp.dwc.Record                               XmpText     0  type="Struct"
+        """Xmp.dwc.Record                               XmpText    13  type="Struct"
 Xmp.dwc.Record/dwc:institutionID             XmpText    25  Charles Darwin Foundation
 Xmp.dwc.Record/dwc:collectionID              XmpText    29  urn:lsid:biocol.org:col:34818
 Xmp.dwc.Record/dwc:institutionCode           XmpText     3  CDS
@@ -28,7 +28,7 @@ Xmp.dwc.Record/dwc:basisOfRecord             XmpText    14  FossilSpecimen
 Xmp.dwc.Record/dwc:informationWithheld       XmpText    53  location information not given for endangered species
 Xmp.dwc.Record/dwc:dataGeneralizations       XmpText    90  Coordinates generalized from original GPS coordinates to the nearest half degree grid cell
 Xmp.dwc.Record/dwc:dynamicProperties         XmpText    45  targusLengthInMeters=0.014; weightInGrams=120
-Xmp.dwc.Occurrence                           XmpText     0  type="Struct"
+Xmp.dwc.Occurrence                           XmpText    13  type="Struct"
 Xmp.dwc.Occurrence/dwc:occurrenceID          XmpText    28  urn:lsid:nhm.ku.edu:Herps:32
 Xmp.dwc.Occurrence/dwc:catalogNumber         XmpText     9  2008.1334
 Xmp.dwc.Occurrence/dwc:occurrenceDetails     XmpText    50  http://mvzarctos.berkeley.edu/guid/MVZ:Mamm:165861
@@ -52,7 +52,7 @@ Xmp.dwc.Occurrence/dwc:associatedOccurrences XmpText    56  sibling of FMNH:Mamm
 Xmp.dwc.Occurrence/dwc:associatedSequences   XmpText    16  GenBank:U34853.1
 Xmp.dwc.Occurrence/dwc:associatedTaxa        XmpText    17  host:Quercus alba
 Xmp.dwc.Occurrence/dwc:occurrenceRemarks     XmpText    18  found dead on road
-Xmp.dwc.Event                                XmpText     0  type="Struct"
+Xmp.dwc.Event                                XmpText    13  type="Struct"
 Xmp.dwc.Event/dwc:eventID                    XmpText     4  1234
 Xmp.dwc.Event/dwc:samplingProtocol           XmpText   134  Penguins from space: faecal stains reveal the location of emperor penguin colonies, http://dx.doi.org/10.1111/j.1466-8238.2009.00467.x
 Xmp.dwc.Event/dwc:samplingEffort             XmpText    14  40 trap-nights
@@ -69,7 +69,7 @@ Xmp.dwc.Event/dwc:verbatimEventDate          XmpText    11  spring 1910
 Xmp.dwc.Event/dwc:fieldNumber                XmpText    16  RV Sol  87-03-08
 Xmp.dwc.Event/dwc:fieldNotes                 XmpText    42  notes available in Grinnell-Miller Library
 Xmp.dwc.Event/dwc:eventRemarks               LangAlt     1  lang="x-default" after the recent rains the river is nearly at flood stage
-Xmp.dwc.dctermsLocation                      XmpText     0  type="Struct"
+Xmp.dwc.dctermsLocation                      XmpText    13  type="Struct"
 Xmp.dwc.dctermsLocation/dwc:locationID       XmpText     4  1234
 Xmp.dwc.dctermsLocation/dwc:higherGeographyID XmpText    11  TGN:1002002
 Xmp.dwc.dctermsLocation/dwc:higherGeography  XmpText    24  South America; Argenitna
@@ -113,7 +113,7 @@ Xmp.dwc.dctermsLocation/dwc:georeferenceProtocol XmpText    45  MaNIS/HerpNet/OR
 Xmp.dwc.dctermsLocation/dwc:georeferenceSources XmpText    35  USGS 1:24,000 Florence Montana Quad
 Xmp.dwc.dctermsLocation/dwc:georeferenceVerificationStatus XmpText    21  requires verification
 Xmp.dwc.dctermsLocation/dwc:georeferenceRemarks XmpText    35  assumed distance by road (Hwy. 101)
-Xmp.dwc.GeologicalContext                    XmpText     0  type="Struct"
+Xmp.dwc.GeologicalContext                    XmpText    13  type="Struct"
 Xmp.dwc.GeologicalContext/dwc:geologicalContextID XmpText     4  1234
 Xmp.dwc.GeologicalContext/dwc:earliestEonOrLowestEonothem XmpText    11  Phanerozoic
 Xmp.dwc.GeologicalContext/dwc:latestEonOrHighestEonothem XmpText    11  Proterozoic
@@ -131,7 +131,7 @@ Xmp.dwc.GeologicalContext/dwc:group          XmpText    16  Notch Peak Group
 Xmp.dwc.GeologicalContext/dwc:formation      XmpText    20  Notch Peak Formation
 Xmp.dwc.GeologicalContext/dwc:member         XmpText    15  Lava Dam Member
 Xmp.dwc.GeologicalContext/dwc:bed            XmpText    12  Lava Dam Bed
-Xmp.dwc.Identification                       XmpText     0  type="Struct"
+Xmp.dwc.Identification                       XmpText    13  type="Struct"
 Xmp.dwc.Identification/dwc:identificationID  XmpText     4  1234
 Xmp.dwc.Identification/dwc:identifiedBy      XmpText    15  James L. Patton
 Xmp.dwc.Identification/dwc:dateIdentified    XmpText    25  2013-01-27T00:00:00-06:00
@@ -139,7 +139,7 @@ Xmp.dwc.Identification/dwc:identificationReferences XmpText    50  Aves del Noro
 Xmp.dwc.Identification/dwc:identificationRemarks XmpText   106  Distinguished between Anthus correndera and Anthus hellmayri based on the comparative lengths of the uñas
 Xmp.dwc.Identification/dwc:identificationQualifier XmpText    29  aff. agrifolia var. oxyadenia
 Xmp.dwc.Identification/dwc:typeStatus        XmpText   101  holotype of Ctenomys sociabilis. Pearson O. P., and M. I. Christie. 1985. Historia Natural, 5(37):388
-Xmp.dwc.Taxon                                XmpText     0  type="Struct"
+Xmp.dwc.Taxon                                XmpText    13  type="Struct"
 Xmp.dwc.Taxon/dwc:taxonID                    XmpText    36  8fa58e08-08de-4ac1-b69c-1235340b7001
 Xmp.dwc.Taxon/dwc:scientificNameID           XmpText    35  urn:lsid:ipni.org:names:37829-1:1.3
 Xmp.dwc.Taxon/dwc:acceptedNameUsageID        XmpText    36  8fa58e08-08de-4ac1-b69c-1235340b7001
@@ -171,7 +171,7 @@ Xmp.dwc.Taxon/dwc:vernacularName             LangAlt     1  lang="x-default" And
 Xmp.dwc.Taxon/dwc:taxonomicStatus            XmpText     7  invalid
 Xmp.dwc.Taxon/dwc:nomenclaturalStatus        XmpText    11  nom. ambig.
 Xmp.dwc.Taxon/dwc:taxonRemarks               XmpText    39  this name is a mispelling in common use
-Xmp.dwc.ResourceRelationship                 XmpText     0  type="Struct"
+Xmp.dwc.ResourceRelationship                 XmpText    13  type="Struct"
 Xmp.dwc.ResourceRelationship/dwc:resourceRelationshipID XmpText     4  1234
 Xmp.dwc.ResourceRelationship/dwc:resourceID  XmpText     4  1234
 Xmp.dwc.ResourceRelationship/dwc:relatedResourceID XmpText     4  1234
@@ -179,7 +179,7 @@ Xmp.dwc.ResourceRelationship/dwc:relationshipOfResource XmpText    12  duplicate
 Xmp.dwc.ResourceRelationship/dwc:relationshipAccordingTo XmpText    14  Julie Woodruff
 Xmp.dwc.ResourceRelationship/dwc:relationshipEstablishedDate XmpText    25  2013-01-27T00:00:00-06:00
 Xmp.dwc.ResourceRelationship/dwc:relationshipRemarks XmpText    30  pollinator captured in the act
-Xmp.dwc.MeasurementOrFact                    XmpText     0  type="Struct"
+Xmp.dwc.MeasurementOrFact                    XmpText    13  type="Struct"
 Xmp.dwc.MeasurementOrFact/dwc:measurementID  XmpText     4  1234
 Xmp.dwc.MeasurementOrFact/dwc:measurementType XmpText    11  tail length
 Xmp.dwc.MeasurementOrFact/dwc:measurementValue XmpText     2  45
@@ -224,7 +224,7 @@ class DarwinCoreXmpMetadataModify(metaclass=CaseMeta):
     stdout = [
         "",
         "",
-        """Xmp.dwc.Record                               XmpText     0  type="Struct"
+        """Xmp.dwc.Record                               XmpText    13  type="Struct"
 Xmp.dwc.Record/dwc:basisOfRecord             XmpText    14  FossilSpecimen
 Xmp.dwc.Record/dwc:collectionCode            XmpText     7  Mammals
 Xmp.dwc.Record/dwc:collectionID              XmpText    29  urn:lsid:biocol.org:col:34818
@@ -236,7 +236,7 @@ Xmp.dwc.Record/dwc:institutionCode           XmpText     3  CDS
 Xmp.dwc.Record/dwc:institutionID             XmpText    14  Charles Darwin
 Xmp.dwc.Record/dwc:ownerInstitutionCode      XmpText     3  NPS
 Xmp.dwc.Record/dwc:dynamicProperties         XmpBag      1  targusLengthInMeters=0.014; weightInGrams=120
-Xmp.dwc.Occurrence                           XmpText     0  type="Struct"
+Xmp.dwc.Occurrence                           XmpText    13  type="Struct"
 Xmp.dwc.Occurrence/dwc:behavior              XmpText     8  roosting
 Xmp.dwc.Occurrence/dwc:catalogNumber         XmpText     9  2008.1334
 Xmp.dwc.Occurrence/dwc:disposition           XmpText    13  in collection
@@ -260,7 +260,7 @@ Xmp.dwc.Occurrence/dwc:otherCatalogNumbers   XmpBag      1  FNMH:Mammal:1234
 Xmp.dwc.Occurrence/dwc:preparations          XmpBag      1  skin
 Xmp.dwc.Occurrence/dwc:previousIdentifications XmpBag      1  Anthus sp.,
 Xmp.dwc.Occurrence/dwc:recordedBy            XmpBag      1  Oliver P.
-Xmp.dwc.Event                                XmpText     0  type="Struct"
+Xmp.dwc.Event                                XmpText    13  type="Struct"
 Xmp.dwc.Event/dwc:day                        XmpText     2  31
 Xmp.dwc.Event/dwc:earliestDate               XmpText    25  2012-09-03T00:00:00-06:00
 Xmp.dwc.Event/dwc:latestDate                 XmpText    25  2013-01-27T00:00:00-06:00
@@ -278,7 +278,7 @@ Xmp.dwc.Event/dwc:startDayOfYear             XmpText     1  1
 Xmp.dwc.Event/dwc:verbatimEventDate          XmpText    11  spring 1910
 Xmp.dwc.Event/dwc:year                       XmpText     4  1999
 Xmp.dwc.Event/dwc:eventRemarks               XmpText    16  lang=en-us after
-Xmp.dwc.dctermsLocation                      XmpText     0  type="Struct"
+Xmp.dwc.dctermsLocation                      XmpText    13  type="Struct"
 Xmp.dwc.dctermsLocation/dwc:continent        XmpText    10  Antarctica
 Xmp.dwc.dctermsLocation/dwc:coordinatePrecision XmpText     7  0.00001
 Xmp.dwc.dctermsLocation/dwc:coordinateUncertaintyInMeters XmpText     2  30
@@ -322,7 +322,7 @@ Xmp.dwc.dctermsLocation/dwc:waterBody        XmpText    12  Indian Ocean
 Xmp.dwc.dctermsLocation/dwc:georeferenceSources XmpBag      1  USGS 1:24,000
 Xmp.dwc.dctermsLocation/dwc:georeferencedBy  XmpBag      1  Kristina Yamamoto
 Xmp.dwc.dctermsLocation/dwc:higherGeography  XmpBag      1  South America;
-Xmp.dwc.GeologicalContext                    XmpText     0  type="Struct"
+Xmp.dwc.GeologicalContext                    XmpText    13  type="Struct"
 Xmp.dwc.GeologicalContext/dwc:bed            XmpText     8  Lava Dam
 Xmp.dwc.GeologicalContext/dwc:earliestAgeOrLowestStage XmpText     8  Atlantic
 Xmp.dwc.GeologicalContext/dwc:earliestEonOrLowestEonothem XmpText    11  Phanerozoic
@@ -340,7 +340,7 @@ Xmp.dwc.GeologicalContext/dwc:latestPeriodOrHighestSystem XmpText     8  Tertiar
 Xmp.dwc.GeologicalContext/dwc:lithostratigraphicTerms XmpText    10  Supergroup
 Xmp.dwc.GeologicalContext/dwc:lowestBiostratigraphicZone XmpText     6  Boreal
 Xmp.dwc.GeologicalContext/dwc:member         XmpText     8  Lava Dam
-Xmp.dwc.Identification                       XmpText     0  type="Struct"
+Xmp.dwc.Identification                       XmpText    13  type="Struct"
 Xmp.dwc.Identification/dwc:dateIdentified    XmpText    25  2011-01-27T00:17:00-18:00
 Xmp.dwc.Identification/dwc:identificationID  XmpText     4  1234
 Xmp.dwc.Identification/dwc:identificationQualifier XmpText    14  aff. agrifolia
@@ -348,7 +348,7 @@ Xmp.dwc.Identification/dwc:identificationRemarks XmpText    21  Distinguished be
 Xmp.dwc.Identification/dwc:identificationReferences XmpBag      1  Aves del
 Xmp.dwc.Identification/dwc:identifiedBy      XmpBag      1  James L.
 Xmp.dwc.Identification/dwc:typeStatus        XmpBag      1  holotype of
-Xmp.dwc.Taxon                                XmpText     0  type="Struct"
+Xmp.dwc.Taxon                                XmpText    13  type="Struct"
 Xmp.dwc.Taxon/dwc:acceptedNameUsage          XmpText    14  Tamias minimus
 Xmp.dwc.Taxon/dwc:acceptedNameUsageID        XmpText    36  8fa58e08-08de-4ac1-b69c-1235340b7001
 Xmp.dwc.Taxon/dwc:class                      XmpText    10  Vertebrata
@@ -381,7 +381,7 @@ Xmp.dwc.Taxon/dwc:taxonomicStatus            XmpText     7  invalid
 Xmp.dwc.Taxon/dwc:verbatimTaxonRank          XmpText    12  Agamospecies
 Xmp.dwc.Taxon/dwc:higherClassification       XmpBag      1  Animalia;Chordata;Vertebrata;Mammalia;Theria;Eutheria
 Xmp.dwc.Taxon/dwc:vernacularName             LangAlt     2  lang="es-ES" Puma, lang="en-US" Cougar
-Xmp.dwc.MeasurementOrFact                    XmpText     0  type="Struct"
+Xmp.dwc.MeasurementOrFact                    XmpText    13  type="Struct"
 Xmp.dwc.MeasurementOrFact/dwc:measurementAccuracy XmpText     4  0.01
 Xmp.dwc.MeasurementOrFact/dwc:measurementDeterminedDate XmpText    25  2013-01-27T00:00:00-06:00
 Xmp.dwc.MeasurementOrFact/dwc:measurementID  XmpText     4  1234
@@ -391,7 +391,7 @@ Xmp.dwc.MeasurementOrFact/dwc:measurementType XmpText    11  tail length
 Xmp.dwc.MeasurementOrFact/dwc:measurementUnit XmpText     2  mm
 Xmp.dwc.MeasurementOrFact/dwc:measurementValue XmpText     2  45
 Xmp.dwc.MeasurementOrFact/dwc:measurementDeterminedBy XmpBag      1  Javier de
-Xmp.dwc.ResourceRelationship                 XmpText     0  type="Struct"
+Xmp.dwc.ResourceRelationship                 XmpText    13  type="Struct"
 Xmp.dwc.ResourceRelationship/dwc:relatedResourceID XmpText     4  1234
 Xmp.dwc.ResourceRelationship/dwc:relationshipAccordingTo XmpText    14  Julie Woodruff
 Xmp.dwc.ResourceRelationship/dwc:relationshipEstablishedDate XmpText    25  2013-01-27T00:00:00-06:00

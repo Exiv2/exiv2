@@ -124,10 +124,6 @@ constexpr TagInfo MinoltaMakerNote::tagInfo_[] = {
      IfdId::minoltaId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* MinoltaMakerNote::tagList() {
-  return tagInfo_;
-}
-
 // -- Standard Minolta camera settings ---------------------------------------------------------------
 
 //! Lookup table to translate Minolta Std camera settings exposure mode values to readable labels
@@ -467,10 +463,6 @@ constexpr TagInfo MinoltaMakerNote::tagInfoCsStd_[] = {
      IfdId::minoltaCsNewId, SectionId::makerTags, unsignedLong, 1, printValue},
 };
 
-const TagInfo* MinoltaMakerNote::tagListCsStd() {
-  return tagInfoCsStd_;
-}
-
 // -- Minolta Dynax 7D camera settings ---------------------------------------------------------------
 
 //! Lookup table to translate Minolta Dynax 7D camera settings exposure mode values to readable labels
@@ -589,10 +581,6 @@ constexpr TagInfo MinoltaMakerNote::tagInfoCs7D_[] = {
     {0xffff, "(UnknownMinoltaCs7DTag)", "(UnknownMinoltaCs7DTag)", N_("Unknown Minolta Camera Settings 7D tag"),
      IfdId::minoltaCs7DId, SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* MinoltaMakerNote::tagListCs7D() {
-  return tagInfoCs7D_;
-}
 
 // -- Minolta Dynax 5D camera settings ---------------------------------------------------------------
 
@@ -778,10 +766,6 @@ constexpr TagInfo MinoltaMakerNote::tagInfoCs5D_[] = {
     {0xFFFF, "(UnknownMinoltaCs5DTag)", "(UnknownMinoltaCs5DTag)", N_("Unknown Minolta Camera Settings 5D tag"),
      IfdId::minoltaCs5DId, SectionId::makerTags, invalidTypeId, -1, printValue},
 };
-
-const TagInfo* MinoltaMakerNote::tagListCs5D() {
-  return tagInfoCs5D_;
-}
 
 // -- Sony A100 camera settings ---------------------------------------------------------------
 
@@ -1202,10 +1186,6 @@ constexpr TagInfo MinoltaMakerNote::tagInfoCsA100_[] = {
     {0xffff, "(UnknownSonyCsA100Tag)", "(UnknownSonyCsA100Tag)", N_("Unknown Sony Camera Settings A100 tag"),
      IfdId::sony1MltCsA100Id, SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* MinoltaMakerNote::tagListCsA100() {
-  return tagInfoCsA100_;
-}
 
 // TODO : Add camera settings tags info "New2"...
 

@@ -614,9 +614,8 @@ class BlockMap {
   //! @param num The size of data
   void populate(const byte* source, size_t num) {
     size_ = num;
-    data_ = std::make_unique<byte[]>(size_);
+    data_ = Blob(source, source + num);
     type_ = bMemory;
-    std::memcpy(data_.get(), source, size_);
   }
 
   /*!
@@ -638,8 +637,8 @@ class BlockMap {
     return type_ == bKnown;
   }
 
-  [[nodiscard]] byte* getData() const {
-    return data_.get();
+  [[nodiscard]] auto getData() const {
+    return data_.data();
   }
 
   [[nodiscard]] size_t getSize() const {
@@ -648,8 +647,8 @@ class BlockMap {
 
  private:
   blockType_e type_{bNone};
-  std::unique_ptr<byte[]> data_;
-  size_t size_{0};
+  Blob data_;
+  size_t size_{};
 };
 
 void MemIo::Impl::reserve(size_t wcount) {
@@ -914,13 +913,13 @@ std::string XPathIo::writeDataToFile(const std::string& orgPath) {
 #endif
     std::ofstream fs(path, std::ios::out | std::ios::binary | std::ios::trunc);
     // read stdin and write to the temp file.
-    char readBuf[100 * 1024];
+    auto readBuf = std::make_unique<char[]>(100 * 1024);
     std::streamsize readBufSize = 0;
     do {
-      std::cin.read(readBuf, sizeof(readBuf));
+      std::cin.read(readBuf.get(), 100 * 1024);
       readBufSize = std::cin.gcount();
       if (readBufSize > 0) {
-        fs.write(readBuf, readBufSize);
+        fs.write(readBuf.get(), readBufSize);
       }
     } while (readBufSize);
     fs.close();

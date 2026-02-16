@@ -168,7 +168,7 @@ void TiffImage::writeMetadata() {
   std::cerr << "Writing TIFF file " << io_->path() << "\n";
 #endif
   ByteOrder bo = byteOrder();
-  byte* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
   // Ensure that this is the correct image type
@@ -219,7 +219,7 @@ ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xm
 }  // TiffParser::decode
 
 WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
-                               IptcData& iptcData, XmpData& xmpData) {
+                               const IptcData& iptcData, const XmpData& xmpData) {
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
       IfdId::panaRawId,

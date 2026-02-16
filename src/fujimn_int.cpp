@@ -647,8 +647,4 @@ constexpr TagInfo FujiMakerNote::tagInfo_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* FujiMakerNote::tagList() {
-  return tagInfo_;
-}
-
 }  // namespace Exiv2::Internal

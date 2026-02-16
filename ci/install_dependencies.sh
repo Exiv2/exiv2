@@ -20,11 +20,11 @@ debian_build_gtest() {
     cd ..
 }
 
-# workaround for really bare-bones Archlinux containers:
-if [ -x "$(command -v pacman)" ]; then
-    pacman --noconfirm -Sy
-    pacman --noconfirm --needed -S grep gawk sed
-fi
+# workaround for really old bare-bones Archlinux containers:
+# if [ -x "$(command -v pacman)" ]; then
+#     pacman --noconfirm -Sy
+#     pacman --noconfirm --needed -S grep gawk sed
+# fi
 
 distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
@@ -35,40 +35,38 @@ case "$distro_id" in
 
     'debian')
         apt-get update
-        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev libfmt-dev
+        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev
         # debian_build_gtest
         ;;
 
     'arch')
         pacman --noconfirm -Syu
-        pacman --noconfirm --needed -S gcc clang cmake ninja expat zlib brotli libssh curl gtest libinih fmt
+        pacman --noconfirm --needed -S gcc clang cmake ninja expat zlib brotli libssh curl gtest libinih
         ;;
 
     'ubuntu')
         apt-get update
-        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev libfmt-dev
+        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev
         # debian_build_gtest
         ;;
 
     'alpine')
         apk update
-        apk add gcc g++ clang cmake samurai expat-dev zlib-dev brotli-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev libxml2-utils inih-dev inih-inireader-dev fmt-dev
+        apk add gcc g++ clang cmake samurai expat-dev zlib-dev brotli-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev libxml2-utils inih-dev inih-inireader-dev
         ;;
 
     'rhel')
-        dnf clean all
-        dnf -y install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
+        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
         ;;
 
     'centos')
-        dnf clean all
-        dnf -y install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel
-        dnf -y --enablerepo=crb install ninja-build inih-devel
+        dnf -y --refresh install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel
+        dnf -y --refresh --enablerepo=crb install ninja-build inih-devel
         ;;
 
     'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake ninja libexpat-devel zlib-devel libbrotli-devel libssh-devel libcurl-devel gmock libxml2-tools libinih-devel libfmt-devel
+        zypper --non-interactive install gcc-c++ clang cmake ninja libexpat-devel zlib-devel libbrotli-devel libssh-devel libcurl-devel gmock libxml2-tools libinih-devel
         ;;
     *)
         echo "Sorry, no predefined dependencies for your distribution $distro_id exist yet"

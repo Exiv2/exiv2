@@ -48,15 +48,19 @@ class EXIV2API BmpImage : public Image {
   void readMetadata() override;
 
   /// @throws Error(ErrorCode::kerWritingImageFormatUnsupported).
+  /// Always
   void writeMetadata() override;
 
   /// @throws Error(ErrorCode::kerInvalidSettingForImage)
+  /// Always
   void setExifData(const ExifData& exifData) override;
 
   /// @throws Error(ErrorCode::kerInvalidSettingForImage)
+  /// Always
   void setIptcData(const IptcData& iptcData) override;
 
   /// @throws Error(ErrorCode::kerInvalidSettingForImage)
+  /// Always
   void setComment(const std::string&) override;
   //@}
 

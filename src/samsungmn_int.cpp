@@ -136,10 +136,6 @@ constexpr TagInfo Samsung2MakerNote::tagInfo_[] = {
      IfdId::samsung2Id, SectionId::makerTags, undefined, -1, printValue},
 };
 
-const TagInfo* Samsung2MakerNote::tagList() {
-  return tagInfo_;
-}
-
 //! PictureWizard Mode
 constexpr TagDetails samsungPwMode[] = {
     {0, N_("Standard")}, {1, N_("Vivid")},   {2, N_("Portrait")}, {3, N_("Landscape")},
@@ -184,9 +180,5 @@ constexpr TagInfo Samsung2MakerNote::tagInfoPw_[] = {
     {0xffff, "(UnknownSamsungPictureWizardTag)", "(UnknownSamsungPictureWizardTag)",
      N_("Unknown SamsungPictureWizard tag"), IfdId::samsungPwId, SectionId::makerTags, unsignedShort, 1, printValue},
 };
-
-const TagInfo* Samsung2MakerNote::tagListPw() {
-  return tagInfoPw_;
-}
 
 }  // namespace Exiv2::Internal

@@ -320,10 +320,6 @@ constexpr TagInfo OlympusMakerNote::tagInfo_[] = {
      IfdId::olympusId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* OlympusMakerNote::tagList() {
-  return tagInfo_;
-}
-
 // Olympus CameraSettings Tags
 //! ExposureMode, tag 0x0200
 constexpr TagDetails olympusExposureMode[] = {
@@ -645,10 +641,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoCs_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* OlympusMakerNote::tagListCs() {
-  return tagInfoCs_;
-}
-
 //! OlympusEq FlashType, tag 0x1000
 constexpr TagDetails olympusEqFlashType[] = {
     {0, N_("None")},
@@ -718,10 +710,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoEq_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* OlympusMakerNote::tagListEq() {
-  return tagInfoEq_;
-}
-
 //! OlympusRd ColorSpace, tag 0x0108
 constexpr TagDetails olympusRdColorSpace[] = {
     {0, N_("sRGB")},
@@ -785,10 +773,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoRd_[] = {
     {0xffff, "(UnknownOlympusRdTag)", "(UnknownOlympusRdTag)", N_("Unknown OlympusRd tag"), IfdId::olympusRdId,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListRd() {
-  return tagInfoRd_;
-}
 
 //! OlympusRd2 WhiteBalance, tag 0x0101
 constexpr TagDetails olympusRd2WhiteBalance[] = {
@@ -875,10 +859,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoRd2_[] = {
     {0xffff, "(UnknownOlympusRd2Tag)", "(UnknownOlympusRd2Tag)", N_("Unknown OlympusRd2 tag"), IfdId::olympusRd2Id,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListRd2() {
-  return tagInfoRd2_;
-}
 
 //! OlympusIp MultipleExposureMode, tag 0x101c
 constexpr TagDetails olympusIpMultipleExposureMode[] = {
@@ -1000,10 +980,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoIp_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* OlympusMakerNote::tagListIp() {
-  return tagInfoIp_;
-}
-
 //! OlympusFi ExternalFlashBounce, tag 0x1204
 constexpr TagDetails olympusFiExternalFlashBounce[] = {
     {0, N_("Bounce or Off")},
@@ -1054,10 +1030,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoFi_[] = {
      SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* OlympusMakerNote::tagListFi() {
-  return tagInfoFi_;
-}
-
 constexpr TagInfo OlympusMakerNote::tagInfoFe_[] = {
     {0x0100, "BodyFirmwareVersion", N_("Body Firmware Version"), N_("Body firmware version"), IfdId::olympusFe1Id,
      SectionId::makerTags, asciiString, -1, printValue},
@@ -1065,10 +1037,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoFe_[] = {
     {0xffff, "(UnknownOlympusFeTag)", "(UnknownOlympusFeTag)", N_("Unknown OlympusFe tag"), IfdId::olympusFe1Id,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListFe() {
-  return tagInfoFe_;
-}
 
 //! OlympusRi LightSource, tag 0x1000
 constexpr TagDetails olympusRiLightSource[] = {
@@ -1163,10 +1131,6 @@ constexpr TagInfo OlympusMakerNote::tagInfoRi_[] = {
     {0xffff, "(UnknownOlympusRiTag)", "(UnknownOlympusRiTag)", N_("Unknown OlympusRi tag"), IfdId::olympusRiId,
      SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* OlympusMakerNote::tagListRi() {
-  return tagInfoRi_;
-}
 
 // Gradation
 std::ostream& OlympusMakerNote::print0x050f(std::ostream& os, const Value& value, const ExifData*) {
@@ -1581,18 +1545,15 @@ std::ostream& OlympusMakerNote::printCs0x0301(std::ostream& os, const Value& val
 
 //! OlympusCs ArtFilter, tag 0x0529, OlympusCs MagicFilter, tag 0x052c
 std::ostream& OlympusMakerNote::print0x0529(std::ostream& os, const Value& value, const ExifData* metadata) {
-  if (value.count() != 4 || value.typeId() != unsignedShort) {
+  if (value.count() != 4 || value.typeId() != unsignedShort)
     return os << "(" << value << ")";
-  }
 
   const auto v0 = value.toInt64(0);
-
-  printTag<std::size(artFilters), artFilters>(os, v0, metadata);
+  EXV_PRINT_TAG(artFilters)(os, v0, metadata);
 
   if (v0 == 39) {  // The "Partial color" option also has a color choice
     const auto v3 = value.toInt64(3);
-    os << " (" << _("position") << " " << (v3 + 1) << ")";
-    return os;
+    return os << " (" << _("position") << " " << (v3 + 1) << ")";
   }
 
   return os;

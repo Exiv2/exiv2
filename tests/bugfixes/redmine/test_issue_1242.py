@@ -116,11 +116,11 @@ Xmp.photoshop.SupplementalCategories         XmpBag      3  703-614-9154, navyvi
 Xmp.xmpMM.InstanceID                         XmpText    40  xmp.iid:F77F117407206811822A8C00775B3FDC
 Xmp.xmpMM.DocumentID                         XmpText    37  uuid:D6CBDC1D8DF2E511BA6BFBE914561F6D
 Xmp.xmpMM.OriginalDocumentID                 XmpText    37  uuid:D6CBDC1D8DF2E511BA6BFBE914561F6D
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"
 Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    41  uuid:ec11a6b0-cc13-11d8-9c21-fa22e28297f6
 Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    58  adobe:docid:photoshop:1c90e091-c489-11d8-ad7d-b4c1b2598b09
-Xmp.xmpMM.History                            XmpText     0  type="Seq"
-Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History                            XmpText    10  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText    13  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
 Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    40  xmp.iid:F77F117407206811822A8C00775B3FDC
 Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2016-09-13T11:58:16+01:00

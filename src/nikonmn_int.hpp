@@ -35,7 +35,9 @@ namespace Internal {
 class Nikon1MakerNote {
  public:
   //! Return read-only list of built-in Nikon1 tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
 
   //! @name Print functions for Nikon1 %MakerNote tags
   //@{
@@ -66,7 +68,9 @@ class Nikon1MakerNote {
 class Nikon2MakerNote {
  public:
   //! Return read-only list of built-in Nikon2 tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
 
   //! @name Print functions for Nikon2 %MakerNote tags
   //@{
@@ -84,67 +88,129 @@ class Nikon2MakerNote {
 class Nikon3MakerNote {
  public:
   //! Return read-only list of built-in Nikon3 tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in Vibration Reduction tags
-  static const TagInfo* tagListVr();
+  static constexpr auto tagListVr() {
+    return tagInfoVr_;
+  }
   //! Return read-only list of built-in Picture Control tags
-  static const TagInfo* tagListPc();
+  static constexpr auto tagListPc() {
+    return tagInfoPc_;
+  }
   //! Return read-only list of built-in World time tags
-  static const TagInfo* tagListWt();
+  static constexpr auto tagListWt() {
+    return tagInfoWt_;
+  }
   //! Return read-only list of built-in ISO info tags
-  static const TagInfo* tagListIi();
+  static constexpr auto tagListIi() {
+    return tagInfoIi_;
+  }
   //! Return read-only list of built-in Auto Focus tags
-  static const TagInfo* tagListAf();
+  static constexpr auto tagListAf() {
+    return tagInfoAf_;
+  }
   //! Return read-only list of built-in Auto Focus 2 tags
-  static const TagInfo* tagListAf21();
+  static constexpr auto tagListAf21() {
+    return tagInfoAf21_;
+  }
   //! Return read-only list of built-in Auto Focus 2 tags
-  static const TagInfo* tagListAf22();
+  static constexpr auto tagListAf22() {
+    return tagInfoAf22_;
+  }
   //! Return read-only list of built-in AF Fine Tune tags
-  static const TagInfo* tagListAFT();
+  static constexpr auto tagListAFT() {
+    return tagInfoAFT_;
+  }
   //! Return read-only list of built-in File Info tags
-  static const TagInfo* tagListFi();
+  static constexpr auto tagListFi() {
+    return tagInfoFi_;
+  }
   //! Return read-only list of built-in Multi Exposure tags
-  static const TagInfo* tagListMe();
+  static constexpr auto tagListMe() {
+    return tagInfoMe_;
+  }
   //! Return read-only list of built-in Flash Info 1 tags
-  static const TagInfo* tagListFl1();
+  static constexpr auto tagListFl1() {
+    return tagInfoFl1_;
+  }
   //! Return read-only list of built-in Flash Info 2 tags
-  static const TagInfo* tagListFl2();
+  static constexpr auto tagListFl2() {
+    return tagInfoFl2_;
+  }
   //! Return read-only list of built-in Flash Info 3 tags
-  static const TagInfo* tagListFl3();
+  static constexpr auto tagListFl3() {
+    return tagInfoFl3_;
+  }
   //! Return read-only list of built-in Flash Info 6 (0106) tags
-  static const TagInfo* tagListFl6();
+  static constexpr auto tagListFl6() {
+    return tagInfoFl6_;
+  }
   //! Return read-only list of built-in Flash Info 7 (0107 and 0108) tags
-  static const TagInfo* tagListFl7();
+  static constexpr auto tagListFl7() {
+    return tagInfoFl7_;
+  }
   //! Return read-only list of built-in Shot Info D80 tags
-  static const TagInfo* tagListSi1();
+  static constexpr auto tagListSi1() {
+    return tagInfoSi1_;
+  }
   //! Return read-only list of built-in Shot Info D40 tags
-  static const TagInfo* tagListSi2();
+  static constexpr auto tagListSi2() {
+    return tagInfoSi2_;
+  }
   //! Return read-only list of built-in Shot Info D300 (a) tags
-  static const TagInfo* tagListSi3();
+  static constexpr auto tagListSi3() {
+    return tagInfoSi3_;
+  }
   //! Return read-only list of built-in Shot Info D300 (b) tags
-  static const TagInfo* tagListSi4();
+  static constexpr auto tagListSi4() {
+    return tagInfoSi4_;
+  }
   //! Return read-only list of built-in Shot Info tags
-  static const TagInfo* tagListSi5();
+  static constexpr auto tagListSi5() {
+    return tagInfoSi5_;
+  }
   //! Return read-only list of built-in Color Balance 1 tags
-  static const TagInfo* tagListCb1();
+  static constexpr auto tagListCb1() {
+    return tagInfoCb1_;
+  }
   //! Return read-only list of built-in Color Balance 2 tags
-  static const TagInfo* tagListCb2();
+  static constexpr auto tagListCb2() {
+    return tagInfoCb2_;
+  }
   //! Return read-only list of built-in Color Balance 2a tags
-  static const TagInfo* tagListCb2a();
+  static constexpr auto tagListCb2a() {
+    return tagInfoCb2a_;
+  }
   //! Return read-only list of built-in Color Balance 2b tags
-  static const TagInfo* tagListCb2b();
+  static constexpr auto tagListCb2b() {
+    return tagInfoCb2b_;
+  }
   //! Return read-only list of built-in Color Balance 3 tags
-  static const TagInfo* tagListCb3();
+  static constexpr auto tagListCb3() {
+    return tagInfoCb3_;
+  }
   //! Return read-only list of built-in Color Balance 4 tags
-  static const TagInfo* tagListCb4();
+  static constexpr auto tagListCb4() {
+    return tagInfoCb4_;
+  }
   //! Return read-only list of built-in Lens Data 1 tags
-  static const TagInfo* tagListLd1();
+  static constexpr auto tagListLd1() {
+    return tagInfoLd1_;
+  }
   //! Return read-only list of built-in Lens Data 2 tags
-  static const TagInfo* tagListLd2();
+  static constexpr auto tagListLd2() {
+    return tagInfoLd2_;
+  }
   //! Return read-only list of built-in Lens Data 3 tags
-  static const TagInfo* tagListLd3();
+  static constexpr auto tagListLd3() {
+    return tagInfoLd3_;
+  }
   //! Return read-only list of built-in Lens Data 4 tags
-  static const TagInfo* tagListLd4();
+  static constexpr auto tagListLd4() {
+    return tagInfoLd4_;
+  }
 
   //! @name Print functions for Nikon3 %MakerNote tags
   //@{

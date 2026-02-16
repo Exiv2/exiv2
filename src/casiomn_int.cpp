@@ -144,10 +144,6 @@ constexpr TagInfo CasioMakerNote::tagInfo_[] = {
      IfdId::casioId, SectionId::makerTags, asciiString, -1, printValue},
 };
 
-const TagInfo* CasioMakerNote::tagList() {
-  return tagInfo_;
-}
-
 std::ostream& CasioMakerNote::print0x0006(std::ostream& os, const Value& value, const ExifData*) {
   return os << stringFormat("{:.2f} m", value.toInt64() / 1000.0);
 }
@@ -448,10 +444,6 @@ constexpr TagInfo Casio2MakerNote::tagInfo_[] = {
     {0xffff, "(UnknownCasio2MakerNoteTag)", "(UnknownCasio2MakerNoteTag)", N_("Unknown Casio2MakerNote tag"),
      IfdId::casio2Id, SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* Casio2MakerNote::tagList() {
-  return tagInfo_;
-}
 
 std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value, const ExifData*) {
   // format is:  "YYMM#00#00DDHH#00#00MM#00#00#00#00"

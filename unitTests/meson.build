@@ -28,6 +28,9 @@ test_sources = files(
   'test_tiffheader.cpp',
   'test_types.cpp',
   'test_utils.cpp',
+  'test_xmp_concurrent.cpp',
+  'test_xmp_concurrent_registry.cpp',
+  'test_xmp_race_encode_decode.cpp',
 )
 
 if get_option('video')
@@ -54,7 +57,7 @@ unit_tests = executable(
   'unit_tests',
   test_sources,
   cpp_args: t_args,
-  dependencies: [deps, exiv2_dep, gtest_dep],
+  dependencies: [exiv2_dep, gtest_dep],
   include_directories: exiv2inc,
 )
 

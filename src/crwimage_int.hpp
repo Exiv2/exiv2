@@ -8,10 +8,12 @@
 #include "types.hpp"
 
 // + standard includes
+#include <cstddef>
 #include <cstdint>
 #include <iosfwd>
 #include <memory>
 #include <stack>
+#include <string>
 #include <vector>
 
 // *****************************************************************************
@@ -71,6 +73,8 @@ class CiffComponent {
   CiffComponent(uint16_t tag, uint16_t dir);
   //! Virtual destructor.
   virtual ~CiffComponent() = default;
+  CiffComponent(const CiffComponent&) = delete;
+  CiffComponent& operator=(const CiffComponent&) = delete;
   //@}
 
   //! @name Manipulators
@@ -411,7 +415,7 @@ class CiffHeader {
   //@}
 
   //! Return a pointer to the Canon CRW signature.
-  static const char* signature() {
+  static auto signature() {
     return signature_;
   }
 
@@ -449,12 +453,12 @@ class CiffHeader {
 
  private:
   // DATA
-  static constexpr auto signature_ = "HEAPCCDR";  //!< Canon CRW signature
+  static const byte signature_[];  //!< Canon CRW signature
 
   std::unique_ptr<CiffDirectory> pRootDir_;  //!< Pointer to the root directory
   ByteOrder byteOrder_ = littleEndian;       //!< Applicable byte order
   uint32_t offset_ = 0;                      //!< Offset to the start of the root dir
-  std::vector<byte> pPadding_;               //!< the (unknown) remainder
+  Blob pPadding_;                            //!< the (unknown) remainder
   uint32_t padded_ = 0;                      //!< Number of padding-bytes
 
 };  // class CiffHeader
