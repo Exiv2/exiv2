@@ -1435,9 +1435,7 @@ void QuickTimeVideo::mediaHeaderDecoder(size_t size) {
           xmpData_["Xmp.video.MediaTimeScale"] = buf.read_uint32(0, bigEndian);
         else if (currentStream_ == Audio)
           xmpData_["Xmp.audio.MediaTimeScale"] = buf.read_uint32(0, bigEndian);
-        time_scale = buf.read_uint32(0, bigEndian);
-        if (time_scale <= 0)
-          time_scale = 1;
+        time_scale = std::max(1U, buf.read_uint32(0, bigEndian));
         mdhdTimeScale_ = time_scale;
         break;
       case MediaDuration:
@@ -1557,9 +1555,7 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
         break;
       case TimeScale:
         xmpData_["Xmp.video.TimeScale"] = buf.read_uint32(0, bigEndian);
-        mvhdTimeScale_ = buf.read_uint32(0, bigEndian);
-        if (mvhdTimeScale_ <= 0)
-          mvhdTimeScale_ = 1;
+        mvhdTimeScale_ = std::max(1U, buf.read_uint32(0, bigEndian));
         break;
       case Duration:
         if (mvhdTimeScale_ != 0) {  // To prevent division by zero

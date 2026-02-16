@@ -6,9 +6,6 @@
 #include <iostream>
 
 int main(int argc, char* const argv[]) try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   if (argc != 2) {
     std::cout << "Usage: " << argv[0] << " file\n";
     return EXIT_FAILURE;
@@ -31,7 +28,6 @@ int main(int argc, char* const argv[]) try {
   }
 
   // Cleanup
-  Exiv2::XmpParser::terminate();
 
   return EXIT_SUCCESS;
 } catch (Exiv2::Error& e) {

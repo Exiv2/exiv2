@@ -6,11 +6,16 @@
 // *****************************************************************************
 // included header files
 #include "exif.hpp"
+#include "types.hpp"
 
 #include "tiffcomposite_int.hpp"
 
 #include <array>
+#include <cstddef>
+#include <cstdint>
 #include <map>
+#include <string>
+#include <vector>
 
 // *****************************************************************************
 // namespace extensions

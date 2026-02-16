@@ -24,8 +24,8 @@ Xmp.dc.subject                               XmpBag      6  1st, 2nd, next1, nex
 Xmp.xmpMM.DocumentID                         XmpText    32  004D48F936062EF5085A81BF96D4C494
 Xmp.xmpMM.OriginalDocumentID                 XmpText    32  004D48F936062EF5085A81BF96D4C494
 Xmp.xmpMM.InstanceID                         XmpText    44  xmp.iid:f74f0d02-e921-134e-8107-1dda17aad853
-Xmp.xmpMM.History                            XmpText     0  type="Seq"
-Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History                            XmpText    10  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText    13  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
 Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    44  xmp.iid:f74f0d02-e921-134e-8107-1dda17aad853
 Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2015-03-24T20:35:55-05:00
@@ -42,8 +42,8 @@ Xmp.dc.subject                               XmpBag      6  1st, 2nd, next1, nex
 Xmp.xmpMM.DocumentID                         XmpText    32  004D48F936062EF5085A81BF96D4C494
 Xmp.xmpMM.OriginalDocumentID                 XmpText    32  004D48F936062EF5085A81BF96D4C494
 Xmp.xmpMM.InstanceID                         XmpText    44  xmp.iid:f74f0d02-e921-134e-8107-1dda17aad853
-Xmp.xmpMM.History                            XmpText     0  type="Seq"
-Xmp.xmpMM.History[1]                         XmpText     0  type="Struct"
+Xmp.xmpMM.History                            XmpText    10  type="Seq"
+Xmp.xmpMM.History[1]                         XmpText    13  type="Struct"
 Xmp.xmpMM.History[1]/stEvt:action            XmpText     5  saved
 Xmp.xmpMM.History[1]/stEvt:instanceID        XmpText    44  xmp.iid:f74f0d02-e921-134e-8107-1dda17aad853
 Xmp.xmpMM.History[1]/stEvt:when              XmpText    25  2015-03-24T20:35:55-05:00

@@ -9,6 +9,9 @@
 // included header files
 #include "datasets.hpp"
 #include "metadatum.hpp"
+#include "properties.hpp"
+
+#include <atomic>
 
 // *****************************************************************************
 // namespace extensions
@@ -236,6 +239,14 @@ class EXIV2API XmpData {
   XmpMetadata xmpMetadata_;
   std::string xmpPacket_;
   bool usePacket_{};
+
+  int addUnlocked(const XmpKey& key, const Value* value, const XmpProperties::XmpLock&);
+  int addUnlocked(const Xmpdatum& xmpDatum, const XmpProperties::XmpLock&);
+  bool emptyUnlocked(const XmpProperties::XmpLock&) const;
+  long countUnlocked(const XmpProperties::XmpLock&) const;
+  void sortByKeyUnlocked(const XmpProperties::XmpLock&);
+  void clearUnlocked(const XmpProperties::XmpLock&);
+  friend class XmpParser;
 };  // class XmpData
 
 /*!
@@ -288,76 +299,32 @@ class EXIV2API XmpParser {
   */
   static int encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t formatFlags = useCompactFormat,
                     uint32_t padding = 0);
-  /*!
-    @brief Lock/unlock function type
-
-    A function of this type can be passed to initialize() to
-    make subsequent registration of XMP namespaces thread-safe.
-    See the initialize() function for more information.
-
-    @param pLockData Pointer to the pLockData passed to initialize()
-    @param lockUnlock Indicates whether to lock (true) or unlock (false)
-   */
-  using XmpLockFct = void (*)(void* pLockData, bool lockUnlock);
 
   /*!
-    @brief Initialize the XMP Toolkit.
+    @deprecated This function is no longer needed and does absolutely nothing.
+                XMP Toolkit initialization is handled automatically.
+                Arguments are ignored.
 
-    Calling this method is usually not needed, as encode() and
-    decode() will initialize the XMP Toolkit if necessary.
-
-    The function takes optional pointers to a callback function
-    \em xmpLockFct and related data \em pLockData that the parser
-    uses when XMP namespaces are subsequently registered.
-
-    The initialize() function itself still is not thread-safe and
-    needs to be called in a thread-safe manner (e.g., on program
-    startup), but if used with suitable additional locking
-    parameters, any subsequent registration of namespaces will be
-    thread-safe.
-
-    Example usage on Windows using a critical section:
-
-    @code
-    void main()
-    {
-        struct XmpLock
-        {
-            CRITICAL_SECTION cs;
-            XmpLock()  { InitializeCriticalSection(&cs); }
-            ~XmpLock() { DeleteCriticalSection(&cs); }
-
-            static void LockUnlock(void* pData, bool fLock)
-            {
-                XmpLock* pThis = reinterpret_cast<XmpLock*>(pData);
-                if (pThis)
-                {
-                    (fLock) ? EnterCriticalSection(&pThis->cs)
-                            : LeaveCriticalSection(&pThis->cs);
-                }
-            }
-        } xmpLock;
-
-        // Pass the locking mechanism to the XMP parser on initialization.
-        // Note however that this call itself is still not thread-safe.
-        Exiv2::XmpParser::initialize(XmpLock::LockUnlock, &xmpLock);
-
-        // Program continues here, subsequent registrations of XMP
-        // namespaces are serialized using xmpLock.
-
-    }
-    @endcode
-
-    @return True if the initialization was successful, else false.
+    @return Always returns true.
    */
-  static bool initialize(XmpParser::XmpLockFct xmpLockFct = nullptr, void* pLockData = nullptr);
+  [[deprecated(
+      "XmpParser::initialize is deprecated and does nothing. The XMP Toolkit is initialized "
+      "automatically.")]] static bool
+  initialize(void (*)(void*, bool) = nullptr, void* = nullptr);
+
   /*!
-    @brief Terminate the XMP Toolkit and unregister custom namespaces.
-
-    Call this method when the XmpParser is no longer needed to
-    allow the XMP Toolkit to cleanly shutdown.
+    @deprecated This function is no longer needed and does absolutely nothing.
+                XMP Toolkit termination is handled automatically.
    */
-  static void terminate();
+  [[deprecated(
+      "XmpParser::terminate is deprecated and does nothing. The XMP Toolkit termination is handled "
+      "automatically.")]] static void
+  terminate();
+  /*!
+    @brief Clear all custom namespaces registered with the XMP Toolkit.
+           This is useful for resetting the registry state in tests.
+   */
+  static void clearCustomNamespaces();
 
  private:
   /*!
@@ -372,16 +339,22 @@ class EXIV2API XmpParser {
   static void unregisterNs(const std::string& ns);
 
   /*!
+    @brief Register a namespace with the XMP Toolkit without locking.
+           Assumes the lock obtained via XmpProperties::XmpLock is already held by caller.
+   */
+  static void registerNsImpl(const std::string& ns, const std::string& prefix);
+
+  static void registeredNamespacesUnlocked(Exiv2::Dictionary&, const XmpProperties::XmpLock&);
+
+  /*!
     @brief Get namespaces registered with XMPsdk
    */
   static void registeredNamespaces(Exiv2::Dictionary&);
 
-  // DATA
-  static bool initialized_;  //! Indicates if the XMP Toolkit has been initialized
-  static XmpLockFct xmpLockFct_;
-  static void* pLockData_;
-
   friend class XmpProperties;  // permit XmpProperties -> registerNs() and registeredNamespaces()
+
+  static std::unique_ptr<XmpKey> makeXmpKey(const std::string& schemaNs, const std::string& propPath,
+                                            const XmpProperties::XmpLock&);
 
 };  // class XmpParser
 

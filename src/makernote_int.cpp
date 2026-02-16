@@ -140,14 +140,14 @@ bool TiffMnRegistry::operator==(IfdId key) const {
   return mnGroup_ == key;
 }
 
-TiffComponent::UniquePtr TiffMnCreator::create(uint16_t tag, IfdId group, std::string_view make, const byte* pData,
-                                               size_t size, ByteOrder byteOrder) {
+std::unique_ptr<TiffIfdMakernote> TiffMnCreator::create(uint16_t tag, IfdId group, std::string_view make,
+                                                        const byte* pData, size_t size, ByteOrder byteOrder) {
   if (auto tmr = Exiv2::find(registry_, make))
     return tmr->newMnFct_(tag, group, tmr->mnGroup_, pData, size, byteOrder);
   return nullptr;
 }  // TiffMnCreator::create
 
-TiffComponent::UniquePtr TiffMnCreator::create(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> TiffMnCreator::create(uint16_t tag, IfdId group, IfdId mnGroup) {
   if (auto tmr = Exiv2::find(registry_, mnGroup)) {
     if (tmr->newMnFct2_) {
       return tmr->newMnFct2_(tag, group, mnGroup);
@@ -638,18 +638,20 @@ size_t Casio2MnHeader::write(IoWrapper& ioWrapper, ByteOrder) const {
 // *************************************************************************
 // free functions
 
-TiffComponent::UniquePtr newIfdMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newIfdMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size,
+                                           ByteOrder) {
   // Require at least an IFD with 1 entry, but not necessarily a next pointer
   if (size < 14)
     return nullptr;
   return newIfdMn2(tag, group, mnGroup);
 }
 
-TiffComponent::UniquePtr newIfdMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newIfdMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, nullptr);
 }
 
-TiffComponent::UniquePtr newOlympusMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newOlympusMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size,
+                                               ByteOrder) {
   // FIXME: workaround for overwritten OM System header in Olympus files (https://github.com/Exiv2/exiv2/issues/2542)
   if (size >= 14 && std::string(reinterpret_cast<const char*>(pData), 14) == std::string("OM SYSTEM\0\0\0II", 14)) {
     // Require at least the header and an IFD with 1 entry
@@ -669,37 +671,40 @@ TiffComponent::UniquePtr newOlympusMn(uint16_t tag, IfdId group, IfdId, const by
   return newOlympus2Mn2(tag, group, IfdId::olympus2Id);
 }
 
-TiffComponent::UniquePtr newOlympusMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newOlympusMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<OlympusMnHeader>());
 }
 
-TiffComponent::UniquePtr newOlympus2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newOlympus2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<Olympus2MnHeader>());
 }
 
-TiffComponent::UniquePtr newOMSystemMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newOMSystemMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size,
+                                                ByteOrder) {
   // Require at least the header and an IFD with 1 entry
   if (size < OMSystemMnHeader::sizeOfSignature() + 18)
     return nullptr;
   return newOMSystemMn2(tag, group, mnGroup);
 }
 
-TiffComponent::UniquePtr newOMSystemMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newOMSystemMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<OMSystemMnHeader>());
 }
 
-TiffComponent::UniquePtr newFujiMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newFujiMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size,
+                                            ByteOrder) {
   // Require at least the header and an IFD with 1 entry
   if (size < FujiMnHeader::sizeOfSignature() + 18)
     return nullptr;
   return newFujiMn2(tag, group, mnGroup);
 }
 
-TiffComponent::UniquePtr newFujiMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newFujiMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<FujiMnHeader>());
 }
 
-TiffComponent::UniquePtr newNikonMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newNikonMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size,
+                                             ByteOrder) {
   // If there is no "Nikon" string it must be Nikon1 format
   if (size < 6 || std::string(reinterpret_cast<const char*>(pData), 6) != std::string("Nikon\0", 6)) {
     // Require at least an IFD with 1 entry
@@ -723,26 +728,28 @@ TiffComponent::UniquePtr newNikonMn(uint16_t tag, IfdId group, IfdId, const byte
   return newNikon3Mn2(tag, group, IfdId::nikon3Id);
 }
 
-TiffComponent::UniquePtr newNikon2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newNikon2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<Nikon2MnHeader>());
 }
 
-TiffComponent::UniquePtr newNikon3Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newNikon3Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<Nikon3MnHeader>());
 }
 
-TiffComponent::UniquePtr newPanasonicMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newPanasonicMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size,
+                                                 ByteOrder) {
   // Require at least the header and an IFD with 1 entry, but without a next pointer
   if (size < PanasonicMnHeader::sizeOfSignature() + 14)
     return nullptr;
   return newPanasonicMn2(tag, group, mnGroup);
 }
 
-TiffComponent::UniquePtr newPanasonicMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newPanasonicMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<PanasonicMnHeader>(), false);
 }
 
-TiffComponent::UniquePtr newPentaxMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newPentaxMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size,
+                                              ByteOrder) {
   if (size > 8 && std::string(reinterpret_cast<const char*>(pData), 8) == std::string("PENTAX \0", 8)) {
     // Require at least the header and an IFD with 1 entry
     if (size < PentaxDngMnHeader::sizeOfSignature() + 18)
@@ -758,16 +765,16 @@ TiffComponent::UniquePtr newPentaxMn(uint16_t tag, IfdId group, IfdId, const byt
   return nullptr;
 }
 
-TiffComponent::UniquePtr newPentaxMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newPentaxMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<PentaxMnHeader>());
 }
 
-TiffComponent::UniquePtr newPentaxDngMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newPentaxDngMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<PentaxDngMnHeader>());
 }
 
-TiffComponent::UniquePtr newSamsungMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
-                                      ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newSamsungMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte* pData, size_t size,
+                                               ByteOrder) {
   if (size > 4 && std::string(reinterpret_cast<const char*>(pData), 4) == std::string("AOC\0", 4)) {
     // Samsung branded Pentax camera:
     // Require at least the header and an IFD with 1 entry
@@ -782,22 +789,24 @@ TiffComponent::UniquePtr newSamsungMn(uint16_t tag, IfdId group, IfdId mnGroup, 
   return newSamsungMn2(tag, group, mnGroup);
 }
 
-TiffComponent::UniquePtr newSamsungMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newSamsungMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<SamsungMnHeader>());
 }
 
-TiffComponent::UniquePtr newSigmaMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newSigmaMn(uint16_t tag, IfdId group, IfdId mnGroup, const byte*, size_t size,
+                                             ByteOrder) {
   // Require at least the header and an IFD with 1 entry
   if (size < SigmaMnHeader::sizeOfSignature() + 18)
     return nullptr;
   return newSigmaMn2(tag, group, mnGroup);
 }
 
-TiffComponent::UniquePtr newSigmaMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newSigmaMn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<SigmaMnHeader>());
 }
 
-TiffComponent::UniquePtr newSonyMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newSonyMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size,
+                                            ByteOrder) {
   // If there is no "SONY DSC " string we assume it's a simple IFD Makernote
   if (size < 12 || std::string(reinterpret_cast<const char*>(pData), 12) != std::string("SONY DSC \0\0\0", 12)) {
     // Require at least an IFD with 1 entry
@@ -811,15 +820,16 @@ TiffComponent::UniquePtr newSonyMn(uint16_t tag, IfdId group, IfdId, const byte*
   return newSony1Mn2(tag, group, IfdId::sony1Id);
 }
 
-TiffComponent::UniquePtr newSony1Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newSony1Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<SonyMnHeader>(), false);
 }
 
-TiffComponent::UniquePtr newSony2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newSony2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, nullptr, true);
 }
 
-TiffComponent::UniquePtr newCasioMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size, ByteOrder) {
+std::unique_ptr<TiffIfdMakernote> newCasioMn(uint16_t tag, IfdId group, IfdId, const byte* pData, size_t size,
+                                             ByteOrder) {
   if (size > 6 && std::string(reinterpret_cast<const char*>(pData), 6) == std::string("QVC\0\0\0", 6))
     return newCasio2Mn2(tag, group, IfdId::casio2Id);
   // Require at least an IFD with 1 entry, but not necessarily a next pointer
@@ -828,7 +838,7 @@ TiffComponent::UniquePtr newCasioMn(uint16_t tag, IfdId group, IfdId, const byte
   return newIfdMn2(tag, group, IfdId::casioId);
 }
 
-TiffComponent::UniquePtr newCasio2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
+std::unique_ptr<TiffIfdMakernote> newCasio2Mn2(uint16_t tag, IfdId group, IfdId mnGroup) {
   return std::make_unique<TiffIfdMakernote>(tag, group, mnGroup, std::make_unique<Casio2MnHeader>());
 }
 

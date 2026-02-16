@@ -135,6 +135,8 @@ const CiffComponent::UniquePtr& CiffDirectory::doAdd(UniquePtr component) {
   return components_.emplace_back(std::move(component));
 }  // CiffDirectory::doAdd
 
+const byte CiffHeader::signature_[] = {'H', 'E', 'A', 'P', 'C', 'C', 'D', 'R'};
+
 void CiffHeader::read(const byte* pData, size_t size) {
   if (size < 14)
     throw Error(ErrorCode::kerNotACrwImage);
@@ -281,7 +283,7 @@ void CiffHeader::write(Blob& blob) const {
   ul2Data(buf, offset_, byteOrder_);
   append(blob, buf, 4);
   o += 4;
-  append(blob, reinterpret_cast<const byte*>(signature_), 8);
+  append(blob, signature_, 8);
   o += 8;
   // Pad as needed
   if (!pPadding_.empty()) {

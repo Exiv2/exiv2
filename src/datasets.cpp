@@ -578,14 +578,8 @@ void IptcKey::makeKey() {
 // free functions
 
 std::ostream& operator<<(std::ostream& os, const DataSet& dataSet) {
-  std::ios::fmtflags f(os.flags());
   IptcKey iptcKey(dataSet.number_, dataSet.recordId_);
-  os << dataSet.name_ << ", " << std::dec << dataSet.number_ << ", "
-     << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << dataSet.number_ << ", "
-     << IptcDataSets::recordName(dataSet.recordId_) << ", " << std::boolalpha << dataSet.mandatory_ << ", "
-     << dataSet.repeatable_ << ", " << std::dec << dataSet.minbytes_ << ", " << dataSet.maxbytes_ << ", "
-     << iptcKey.key() << ", " << TypeInfo::typeName(IptcDataSets::dataSetType(dataSet.number_, dataSet.recordId_))
-     << ", ";
+
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
   std::string escapedDesc;
   escapedDesc.push_back('"');
@@ -596,9 +590,12 @@ std::ostream& operator<<(std::ostream& os, const DataSet& dataSet) {
       escapedDesc.push_back(c);
   }
   escapedDesc.push_back('"');
-  os << escapedDesc;
-  os.flags(f);
-  return os;
+
+  return os << stringFormat(
+             "{}, {}, 0x{:04x}, {}, {}, {}, {}, {}, {}, {}, {}", dataSet.name_, dataSet.number_, dataSet.number_,
+             IptcDataSets::recordName(dataSet.recordId_), dataSet.mandatory_ ? "true" : "false",
+             dataSet.repeatable_ ? "true" : "false", dataSet.minbytes_, dataSet.maxbytes_, iptcKey.key(),
+             TypeInfo::typeName(IptcDataSets::dataSetType(dataSet.number_, dataSet.recordId_)), escapedDesc);
 }
 
 }  // namespace Exiv2

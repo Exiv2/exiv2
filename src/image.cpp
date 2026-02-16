@@ -646,6 +646,9 @@ void Image::setIccProfile(Exiv2::DataBuf&& iccProfile, bool bTestValid) {
 }
 
 void Image::appendIccProfile(const uint8_t* bytes, size_t size, bool bTestValid) {
+  if (size == 0) {
+    return;
+  }
   const size_t start = iccProfile_.size();
   iccProfile_.resize(Safe::add(start, size));
   memcpy(iccProfile_.data(start), bytes, size);

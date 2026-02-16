@@ -70,8 +70,8 @@ Xmp.tiff.YCbCrPositioning                    XmpText     1  Co-sited
 Xmp.tiff.YResolution                         XmpText     5  300
 Xmp.xmp.CreateDate                           XmpText    20  2002-07-13T15:58:28Z
 Xmp.xmp.ModifyDate                           XmpText    20  2002-07-19T13:28:10Z
-Xmp.xmpBJ.JobRef                             XmpText     0  type="Bag"
-Xmp.xmpBJ.JobRef[1]                          XmpText     0  type="Struct"
+Xmp.xmpBJ.JobRef                             XmpText    10  type="Bag"
+Xmp.xmpBJ.JobRef[1]                          XmpText    13  type="Struct"
 Xmp.xmpBJ.JobRef[1]/stJob:name               XmpText    12  Photographer
 Xmp.xmpMM.DocumentID                         XmpText    58  adobe:docid:photoshop:84d4dba8-9b11-11d6-895d-c4d063a70fb0
 Xmp.xmpRights.Marked                         XmpText     4  True

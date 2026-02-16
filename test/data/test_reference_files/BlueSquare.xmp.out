@@ -30,7 +30,7 @@ Xmp.xmp.ModifyDate                           XmpText    25  2005-09-07T15:09:51-
 Xmp.xmp.MetadataDate                         XmpText    25  2006-04-10T13:37:10-07:00  2006-04-10T13:37:10-07:00
 Xmp.xmpMM.DocumentID                         XmpText    37  uuid:9A3B7F52214211DAB6308A7391270C13  uuid:9A3B7F52214211DAB6308A7391270C13
 Xmp.xmpMM.InstanceID                         XmpText    37  uuid:B59AC1B3214311DAB6308A7391270C13  uuid:B59AC1B3214311DAB6308A7391270C13
-Xmp.xmpMM.DerivedFrom                        XmpText     0  type="Struct"
+Xmp.xmpMM.DerivedFrom                        XmpText    13  type="Struct"  type="Struct"
 Xmp.xmpMM.DerivedFrom/stRef:instanceID       XmpText    37  uuid:9A3B7F4F214211DAB6308A7391270C13  uuid:9A3B7F4F214211DAB6308A7391270C13
 Xmp.xmpMM.DerivedFrom/stRef:documentID       XmpText    37  uuid:9A3B7F4E214211DAB6308A7391270C13  uuid:9A3B7F4E214211DAB6308A7391270C13
 Xmp.photoshop.ColorMode                      XmpText     1  3  3

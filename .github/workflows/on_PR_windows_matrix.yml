@@ -184,6 +184,7 @@ jobs:
             -DEXIV2_BUILD_SAMPLES=OFF \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
+            -DPython3_EXECUTABLE=/usr/bin/python3 \
             -S . -B build && \
           cmake --build build --parallel
 

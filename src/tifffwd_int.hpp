@@ -5,9 +5,7 @@
 
 // *****************************************************************************
 // included header files
-#include "types.hpp"
-
-// + standard includes
+#include <cstdint>
 #include <memory>
 #include <stack>
 #include <string_view>

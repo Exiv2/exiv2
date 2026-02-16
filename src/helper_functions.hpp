@@ -3,6 +3,7 @@
 #ifndef HELPER_FUNCTIONS_HPP
 #define HELPER_FUNCTIONS_HPP
 
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <string>

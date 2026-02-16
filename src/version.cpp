@@ -3,11 +3,11 @@
 #include "version.hpp"
 #include "config.h"
 #include "futils.hpp"
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 
 // + standard includes
 #include <fstream>
-#include <iomanip>
 #include <set>
 
 // Adobe XMP Toolkit
@@ -69,15 +69,11 @@ uint32_t versionNumber() {
 }
 
 std::string versionString() {
-  std::ostringstream os;
-  os << EXIV2_MAJOR_VERSION << '.' << EXIV2_MINOR_VERSION << '.' << EXIV2_PATCH_VERSION;
-  return os.str();
+  return stringFormat("{}.{}.{}", EXIV2_MAJOR_VERSION, EXIV2_MINOR_VERSION, EXIV2_PATCH_VERSION);
 }
 
 std::string versionNumberHexString() {
-  std::ostringstream os;
-  os << std::hex << std::setw(6) << std::setfill('0') << Exiv2::versionNumber();
-  return os.str();
+  return stringFormat("{:06x}", Exiv2::versionNumber());
 }
 
 const char* version() {
@@ -106,9 +102,7 @@ static void output(std::ostream& os, const std::vector<std::regex>& greps, const
 }
 
 static void output(std::ostream& os, const std::vector<std::regex>& greps, const char* name, int value) {
-  std::ostringstream stringStream;
-  stringStream << value;
-  output(os, greps, name, stringStream.str());
+  output(os, greps, name, std::to_string(value));
 }
 
 static bool pushPath(const std::string& path, std::vector<std::string>& libs, std::set<std::string>& paths) {

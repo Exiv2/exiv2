@@ -125,6 +125,7 @@ def get_valid_files(data_dir):
         "pocIssue283.jpg",
         "poc_1522.jp2",
         "xmpsdk.xmp",
+        "crash-23eba73bb01cb01caa96a389eb12955c34b98a37.jpg",
         # large file that creates 11Mb of output so let's exclude it
         "ReaganLargeTiff.tiff",
         # files that don't create any output

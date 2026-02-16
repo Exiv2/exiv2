@@ -8,10 +8,12 @@
 #include "types.hpp"
 
 // + standard includes
+#include <cstddef>
 #include <cstdint>
 #include <iosfwd>
 #include <memory>
 #include <stack>
+#include <string>
 #include <vector>
 
 // *****************************************************************************
@@ -413,7 +415,7 @@ class CiffHeader {
   //@}
 
   //! Return a pointer to the Canon CRW signature.
-  static const char* signature() {
+  static auto signature() {
     return signature_;
   }
 
@@ -451,7 +453,7 @@ class CiffHeader {
 
  private:
   // DATA
-  static constexpr auto signature_ = "HEAPCCDR";  //!< Canon CRW signature
+  static const byte signature_[];  //!< Canon CRW signature
 
   std::unique_ptr<CiffDirectory> pRootDir_;  //!< Pointer to the root directory
   ByteOrder byteOrder_ = littleEndian;       //!< Applicable byte order

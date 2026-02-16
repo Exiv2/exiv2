@@ -17,9 +17,6 @@ static void exifPrint(const ExifData& exifData);
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[]) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-
   try {
     if (argc != 3) {
       std::cout << "Usage: write-test file case\n\n"

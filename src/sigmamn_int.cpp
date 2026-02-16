@@ -79,42 +79,39 @@ std::ostream& SigmaMakerNote::printStripLabel(std::ostream& os, const Value& val
 }
 
 std::ostream& SigmaMakerNote::print0x0008(std::ostream& os, const Value& value, const ExifData*) {
-  switch (value.toString().front()) {
-    case 'P':
-      os << _("Program");
-      break;
-    case 'A':
-      os << _("Aperture priority");
-      break;
-    case 'S':
-      os << _("Shutter priority");
-      break;
-    case 'M':
-      os << _("Manual");
-      break;
-    default:
-      os << "(" << value << ")";
-      break;
+  std::string v = value.toString();
+  if (v.empty()) {
+    return os;
   }
-  return os;
+  switch (v.front()) {
+    case 'P':
+      return os << _("Program");
+    case 'A':
+      return os << _("Aperture priority");
+    case 'S':
+      return os << _("Shutter priority");
+    case 'M':
+      return os << _("Manual");
+    default:
+      return os << "(" << value << ")";
+  }
 }
 
 std::ostream& SigmaMakerNote::print0x0009(std::ostream& os, const Value& value, const ExifData*) {
-  switch (value.toString().front()) {
-    case 'A':
-      os << _("Average");
-      break;
-    case 'C':
-      os << _("Center");
-      break;
-    case '8':
-      os << _("8-Segment");
-      break;
-    default:
-      os << "(" << value << ")";
-      break;
+  std::string v = value.toString();
+  if (v.empty()) {
+    return os;
   }
-  return os;
+  switch (v.front()) {
+    case 'A':
+      return os << _("Average");
+    case 'C':
+      return os << _("Center");
+    case '8':
+      return os << _("8-Segment");
+    default:
+      return os << "(" << value << ")";
+  }
 }
 
 }  // namespace Exiv2::Internal
