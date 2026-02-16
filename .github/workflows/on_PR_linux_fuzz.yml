@@ -16,8 +16,8 @@ on:
 
 jobs:
   Linux:
-    name: 'Ubuntu 22.04 - clang/libFuzzer'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu 24.04 - clang/libFuzzer'
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -25,7 +25,9 @@ jobs:
         fuzz_target: [fuzz-read-write, fuzz-read-print-write]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
     - name: Install dependencies
       run: |
         sudo ./ci/install_dependencies.sh

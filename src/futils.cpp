@@ -6,6 +6,7 @@
 #include "config.h"
 #include "enforce.hpp"
 #include "error.hpp"
+#include "image_int.hpp"
 #include "utils.hpp"
 
 // + standard includes
