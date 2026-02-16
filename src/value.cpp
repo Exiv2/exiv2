@@ -389,15 +389,15 @@ CommentValue::CharsetId CommentValue::charsetId() const {
 
 const char* CommentValue::detectCharset(std::string& c) const {
   // Interpret a BOM if there is one
-  if (c.front() == '\xef' && c[1] == '\xbb' && c[2] == '\xbf') {
+  if (c.compare(0, 3, "\xef\xbb\xbf") == 0) {
     c = c.substr(3);
     return "UTF-8";
   }
-  if (c.front() == '\xff' && c[1] == '\xfe') {
+  if (c.compare(0, 2, "\xff\xfe") == 0) {
     c = c.substr(2);
     return "UCS-2LE";
   }
-  if (c.front() == '\xfe' && c[1] == '\xff') {
+  if (c.compare(0, 2, "\xfe\xff") == 0) {
     c = c.substr(2);
     return "UCS-2BE";
   }
