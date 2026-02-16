@@ -45,3 +45,12 @@ jobs:
         cd build
         mkdir corpus
         LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/${{matrix.fuzz_target}} corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_len=4096 -max_total_time=120
+
+    - uses: actions/upload-artifact@v6
+      with:
+        name: exiv2-${{ matrix.fuzz_target }}
+        path: |
+          ./build/crash-*
+          ./build/leak-*
+          ./build/timeout-*
+        if-no-files-found: ignore
