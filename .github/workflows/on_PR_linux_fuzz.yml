@@ -1,0 +1,30 @@
+# Builds and runs the fuzz target for a short amount of time.  This is
+# mainly to protect the fuzz target from bitrot, but hopefully will
+# also help to quickly catch some bugs before the PR is merged.
+
+name: Linux-Ubuntu Quick Fuzz on PRs
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  Linux:
+    name: 'Ubuntu 20.04 - clang/libFuzzer'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: install dependencies
+      run: sudo ./ci/install_dependencies.sh
+    - name: build and compile
+      run: |
+        mkdir build && cd build
+        cmake -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_CXX_COMPILER=$(which clang++) -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_TEAM_USE_SANITIZERS=ON ..
+        make -j $(nproc)
+
+    - name: Fuzz
+      run: |
+        cd build
+        mkdir corpus
+        LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/fuzz-read-print-write corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_total_time=120 -max_len=4096

@@ -30,7 +30,7 @@ Exif.Image.DateTime                          Ascii      20  2008:04:14 08:24:04
 Exif.Image.YCbCrPositioning                  Short       1  Centered
 Exif.Image.Rating                            SLong       1  3
 Exif.Image.RatingPercent                     SLong       1  50
-Exif.Image.ExifTag                           Long        1  318
+Exif.Image.ExifTag                           Long        1  320
 Exif.Photo.ExposureTime                      Rational    1  1/250 s
 Exif.Photo.FNumber                           Rational    1  F11
 Exif.Photo.ExposureProgram                   Short       1  Auto
@@ -46,10 +46,10 @@ Exif.Photo.MeteringMode                      Short       1  Multi-segment
 Exif.Photo.Flash                             Short       1  No, compulsory
 Exif.Photo.FocalLength                       Rational    1  10.0 mm
 Exif.Photo.MakerNote                         Undefined  18  0 1 2 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0
-Exif.MakerNote.Offset                        Long        1  796
+Exif.MakerNote.Offset                        Long        1  798
 Exif.MakerNote.ByteOrder                     Ascii       3  MM
 Exif.Canon.0x0200                            0x0300      0  
-Exif.Photo.UserComment                       Undefined  37  charset=Ascii binary comment
+Exif.Photo.UserComment                       Undefined  38  Chateaux de la Loire, Chambord
 Exif.Photo.SubSecTime                        Ascii       3  81
 Exif.Photo.SubSecTimeOriginal                Ascii       3  81
 Exif.Photo.SubSecTimeDigitized               Ascii       3  81
@@ -66,7 +66,7 @@ Exif.Photo.WhiteBalance                      Short       1  Auto
 Exif.Photo.SceneCaptureType                  Short       1  Standard
 Exif.Photo.Contrast                          Short       1  Normal
 Exif.Photo.Saturation                        Short       1  Normal
-Exif.Image.GPSTag                            Long        1  867
+Exif.Image.GPSTag                            Long        1  870
 Exif.GPSInfo.GPSVersionID                    Byte        4  2.0.0.0
 Exif.GPSInfo.GPSLatitudeRef                  Ascii       2  North
 Exif.GPSInfo.GPSLatitude                     Rational    3  47deg 36' 58"
@@ -75,7 +75,7 @@ Exif.GPSInfo.GPSLongitude                    Rational    3  1deg 31' 1"
 Exif.GPSInfo.GPSAltitudeRef                  Byte        1  Above sea level
 Exif.GPSInfo.GPSAltitude                     Rational    1  86 m
 Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
-Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1055
+Exif.Thumbnail.JPEGInterchangeFormat         Long        1  1058
 Exif.Thumbnail.JPEGInterchangeFormatLength   Long        1  4492
 """,
         """File 1/1: $filename

@@ -1,0 +1,152 @@
+# Basic CI for all platforms on push
+# Note that we want to run this as fast as possible and just for the more common configurations. On
+# PRs, we will test things more intensively :)
+# - Only running UnitTests and not regression tests
+
+on: [push]
+name: Basic CI for all platforms on push
+
+jobs:
+  windows:
+    name: 'Win10 Arch:x64 BuildType:Release - SHARED'
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
+        with:
+          version: 1.10.0
+
+      - name: Set up Visual Studio shell
+        uses: egor-tensin/vs-shell@v2
+        with:
+          arch: x64
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.9
+
+      - name: Install Conan & Common config
+        run: |
+          pip.exe install "conan==1.59.0"
+          conan config install https://github.com/conan-io/conanclientcert.git
+          conan profile new --detect default
+          conan profile show default
+          conan profile update settings.compiler="Visual Studio" default
+          conan profile update settings.compiler.version=17 default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+
+      - name: Run Conan
+        run: |
+          md build
+          cd build
+          conan profile list
+          conan install .. --build missing
+
+      - name: Build
+        run: |
+          cmake -GNinja `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DBUILD_SHARED_LIBS=ON `
+            -DEXIV2_BUILD_SAMPLES=ON `
+            -DEXIV2_ENABLE_NLS=OFF `
+            -DEXIV2_ENABLE_PNG=ON `
+            -DEXIV2_ENABLE_WEBREADY=ON `
+            -DEXIV2_ENABLE_BMFF=ON `
+            -DEXIV2_BUILD_UNIT_TESTS=ON `
+            -DEXIV2_ENABLE_WIN_UNICODE=OFF `
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
+            -DCMAKE_INSTALL_PREFIX=install .. `
+            -S . -B build && `
+          cmake --build build --parallel
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  Linux:
+    name: 'Ubuntu 20.04 - GCC - Arch:x64 BuildType:Release - SHARED'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install ninja-build
+          pip3 install conan==1.59.0
+
+      - name: Conan
+        run: |
+          mkdir build && cd build
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: build and compile
+        run: |
+          cd build && \
+          cmake -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=ON \
+            -DEXIV2_BUILD_SAMPLES=ON \
+            -DEXIV2_ENABLE_PNG=ON \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_CURL=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
+            -DCMAKE_INSTALL_PREFIX=install \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            .. && \
+          cmake --build . --parallel
+
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  MacOS:
+    name: 'MacOS - clang - Arch:x64 BuildType:Release - SHARED'
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          brew install ninja
+          pushd /tmp
+          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+          tar xzf   release-1.8.0.tar.gz
+          mkdir -p  googletest-release-1.8.0/build
+          pushd     googletest-release-1.8.0/build
+          cmake .. ; make ; make install
+          popd
+          popd
+
+      - name: build and compile
+        run: |
+          mkdir build && cd build && \
+          cmake -GNinja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_SHARED_LIBS=ON \
+            -DEXIV2_BUILD_SAMPLES=ON \
+            -DEXIV2_ENABLE_PNG=ON \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_CURL=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
+            -DCMAKE_INSTALL_PREFIX=install \
+            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
+            .. && \
+          cmake --build . --parallel
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure

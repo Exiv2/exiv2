@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this f; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      xmp.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   13-July-07, ahu: created
  */
 // *****************************************************************************
 // included header files
@@ -38,6 +33,7 @@
 
 // Adobe XMP Toolkit
 #ifdef   EXV_HAVE_XMP_TOOLKIT
+# include <expat.h>
 # define TXMP_STRING_TYPE std::string
 # ifdef  EXV_ADOBE_XMPSDK
 # include <XMP.hpp>
@@ -45,6 +41,173 @@
 # include <XMPSDK.hpp>
 # endif
 # include <XMP.incl_cpp>
+#endif // EXV_HAVE_XMP_TOOLKIT
+
+#ifdef EXV_HAVE_XMP_TOOLKIT
+// This anonymous namespace contains a class named XMLValidator, which uses
+// libexpat to do a basic validation check on an XML document. This is to
+// reduce the chance of hitting a bug in the (third-party) xmpsdk
+// library. For example, it is easy to a trigger a stack overflow in xmpsdk
+// with a deeply nested tree.
+namespace {
+    using namespace Exiv2;
+
+    class XMLValidator {
+        size_t element_depth_;
+        size_t namespace_depth_;
+
+        // These fields are used to record whether an error occurred during
+        // parsing. Why do we need to store the error for later, rather
+        // than throw an exception immediately? Because expat is a C
+        // library, so it isn't designed to be able to handle exceptions
+        // thrown by the callback functions. Throwing exceptions during
+        // parsing is an example of one of the things that xmpsdk does
+        // wrong, leading to problems like https://github.com/Exiv2/exiv2/issues/1821.
+        bool haserror_;
+        std::string errmsg_;
+        XML_Size errlinenum_;
+        XML_Size errcolnum_;
+
+        // Very deeply nested XML trees can cause a stack overflow in
+        // xmpsdk.  They are also very unlikely to be valid XMP, so we
+        // error out if the depth exceeds this limit.
+        static const size_t max_recursion_limit_ = 1000;
+
+        const XML_Parser parser_;
+
+    public:
+        // Runs an XML parser on `buf`. Throws an exception if the XML is invalid.
+        static void check(const char* buf, size_t buflen) {
+            XMLValidator validator;
+            validator.check_internal(buf, buflen);
+        }
+
+    private:
+        // Private constructor, because this class is only constructed by
+        // the (static) check method.
+        XMLValidator() :
+            element_depth_(0), namespace_depth_(0), haserror_(false),
+            errlinenum_(0), errcolnum_(0),
+            parser_(XML_ParserCreateNS(0, '@'))
+        {
+            if (!parser_) {
+                throw Error(kerXMPToolkitError, "Could not create expat parser");
+            }
+        }
+
+        ~XMLValidator() {
+            XML_ParserFree(parser_);
+        }
+
+        void setError(const char* msg) {
+            const XML_Size errlinenum = XML_GetCurrentLineNumber(parser_);
+            const XML_Size errcolnum = XML_GetCurrentColumnNumber(parser_);
+#ifndef SUPPRESS_WARNINGS
+            EXV_INFO << "Invalid XML at line " << errlinenum
+                     << ", column " << errcolnum
+                     << ": " << msg << "\n";
+#endif
+            // If this is the first error, then save it.
+            if (!haserror_) {
+                haserror_ = true;
+                errmsg_ = msg;
+                errlinenum_ = errlinenum;
+                errcolnum_ = errcolnum;
+            }
+        }
+
+        void check_internal(const char* buf, size_t buflen) {
+            if (buflen > static_cast<size_t>(std::numeric_limits<int>::max())) {
+                throw Error(kerXMPToolkitError, "Buffer length is greater than INT_MAX");
+            }
+
+            XML_SetUserData(parser_, this);
+            XML_SetElementHandler(parser_, startElement_cb, endElement_cb);
+            XML_SetNamespaceDeclHandler(parser_, startNamespace_cb, endNamespace_cb);
+            XML_SetStartDoctypeDeclHandler(parser_, startDTD_cb);
+
+            const XML_Status result = XML_Parse(parser_, buf, static_cast<int>(buflen), true);
+            if (result == XML_STATUS_ERROR) {
+                setError(XML_ErrorString(XML_GetErrorCode(parser_)));
+            }
+
+            if (haserror_) {
+                throw XMP_Error(kXMPErr_BadXML, "Error in XMLValidator");
+            }
+        }
+
+        void startElement(const XML_Char*, const XML_Char**) {
+            if (element_depth_ > max_recursion_limit_) {
+                setError("Too deeply nested");
+            }
+            ++element_depth_;
+        }
+
+        void endElement(const XML_Char*) {
+            if (element_depth_ > 0) {
+                --element_depth_;
+            } else {
+                setError("Negative depth");
+            }
+        }
+
+        void startNamespace(const XML_Char*, const XML_Char*) {
+            if (namespace_depth_ > max_recursion_limit_) {
+                setError("Too deeply nested");
+            }
+            ++namespace_depth_;
+        }
+
+        void endNamespace(const XML_Char*) {
+            if (namespace_depth_ > 0) {
+                --namespace_depth_;
+            } else {
+                setError("Negative depth");
+            }
+        }
+
+        void startDTD(const XML_Char*, const XML_Char*, const XML_Char*, int) {
+            // DOCTYPE is used for XXE attacks.
+            setError("DOCTYPE not supported");
+        }
+
+        // This callback function is called by libexpat. It's a static wrapper
+        // around startElement().
+        static void XMLCALL startElement_cb(
+            void* userData, const XML_Char* name, const XML_Char* *attrs
+        ) {
+            static_cast<XMLValidator*>(userData)->startElement(name, attrs);
+        }
+
+        // This callback function is called by libexpat. It's a static wrapper
+        // around endElement().
+        static void XMLCALL endElement_cb(void* userData, const XML_Char* name) {
+            static_cast<XMLValidator*>(userData)->endElement(name);
+        }
+
+        // This callback function is called by libexpat. It's a static wrapper
+        // around startNamespace().
+        static void XMLCALL startNamespace_cb(
+            void* userData, const XML_Char* prefix, const XML_Char* uri
+        ) {
+            static_cast<XMLValidator*>(userData)->startNamespace(prefix, uri);
+        }
+
+        // This callback function is called by libexpat. It's a static wrapper
+        // around endNamespace().
+        static void XMLCALL endNamespace_cb(void* userData, const XML_Char* prefix) {
+            static_cast<XMLValidator*>(userData)->endNamespace(prefix);
+        }
+
+        static void XMLCALL startDTD_cb(
+            void *userData, const XML_Char *doctypeName, const XML_Char *sysid,
+            const XML_Char *pubid, int has_internal_subset
+        ) {
+            static_cast<XMLValidator*>(userData)->startDTD(
+                doctypeName, sysid, pubid, has_internal_subset);
+        }
+    };
+}  // namespace
 #endif // EXV_HAVE_XMP_TOOLKIT
 
 // *****************************************************************************
@@ -313,8 +476,8 @@ namespace Exiv2 {
         XmpKey xmpKey(key);
         iterator pos = findKey(xmpKey);
         if (pos == end()) {
-            add(Xmpdatum(xmpKey));
-            pos = findKey(xmpKey);
+            xmpMetadata_.push_back(Xmpdatum(xmpKey));
+            return xmpMetadata_.back();
         }
         return *pos;
     }
@@ -500,8 +663,8 @@ namespace Exiv2 {
         bool bNS  = out.find(':') != std::string::npos && !bURI;
 
         // pop trailing ':' on a namespace
-        if ( bNS ) {
-        std::size_t length = out.length();
+        if ( bNS && !out.empty() ) {
+            std::size_t length = out.length();
             if ( out[length-1] == ':' ) out = out.substr(0,length-1);
         }
 
@@ -602,10 +765,15 @@ namespace Exiv2 {
             return 2;
         }
 
-        SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(xmpPacket.size()));
+        // Make sure the unterminated substring is used
+        size_t len = xmpPacket.size();
+        while (len > 0 && 0 == xmpPacket[len - 1]) --len;
+
+        XMLValidator::check(xmpPacket.data(), len);
+        SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(len));
         SXMPIterator iter(meta);
         std::string schemaNs, propPath, propValue;
-        XMP_OptionBits opt;
+        XMP_OptionBits opt = 0;
         while (iter.Next(&schemaNs, &propPath, &propValue, &opt)) {
             printNode(schemaNs, propPath, propValue, opt);
             if (XMP_PropIsAlias(opt)) {
@@ -660,7 +828,7 @@ namespace Exiv2 {
                 bool simpleArray = true;
                 SXMPIterator aIter(meta, schemaNs.c_str(), propPath.c_str());
                 std::string aSchemaNs, aPropPath, aPropValue;
-                XMP_OptionBits aOpt;
+                XMP_OptionBits aOpt = 0;
                 while (aIter.Next(&aSchemaNs, &aPropPath, &aPropValue, &aOpt)) {
                     if (propPath == aPropPath) continue;
                     if (   !XMP_PropIsSimple(aOpt)
@@ -794,7 +962,7 @@ namespace Exiv2 {
                 || i->typeId() == xmpAlt) {
                 printNode(ns, i->tagName(), "", options);
                 meta.SetProperty(ns.c_str(), i->tagName().c_str(), 0, options);
-                for (int idx = 0; idx < i->count(); ++idx) {
+                for (long idx = 0; idx < i->count(); ++idx) {
                     const std::string item = i->tagName() + "[" + toString(idx + 1) + "]";
                     printNode(ns, item, i->toString(idx), 0);
                     meta.SetProperty(ns.c_str(), item.c_str(), i->toString(idx).c_str());

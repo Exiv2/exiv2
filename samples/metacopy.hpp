@@ -1,5 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -15,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    metacopy.hpp
-  @brief   Defines class Params, used for the command line handling
-  @author  Brad Schick (brad) <brad@robotbattle.com>
-  @date    13-Jul-04, brad: created
  */
 #ifndef METACOPY_HPP_
 #define METACOPY_HPP_
@@ -44,7 +39,7 @@ public:
     /*!
       @brief Default constructor. Note that optstring_ is initialized here.
      */
-    Params() : optstring_(":iecaph"),
+    Params() : optstring_(":iecxaph"),
                first_(true),
                help_(false),
                iptc_(false),

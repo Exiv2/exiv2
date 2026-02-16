@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,14 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      sigmamn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   02-Apr-04, ahu: created
-  Credits:   Sigma and Foveon MakerNote implemented according to the specification
-             in "SIGMA and FOVEON EXIF MakerNote Documentation" by Foveon.
-             <http://www.x3f.info/technotes/FileDocs/MakerNoteDoc.html>
  */
 // *****************************************************************************
 // included header files
@@ -134,7 +126,7 @@ namespace Exiv2 {
         std::string v = value.toString();
         std::string::size_type pos = v.find(':');
         if (pos != std::string::npos) {
-            if (v[pos + 1] == ' ') ++pos;
+            if (v.at(pos + 1) == ' ') ++pos;
             v = v.substr(pos + 1);
         }
         return os << v;
@@ -144,7 +136,7 @@ namespace Exiv2 {
                                               const Value& value,
                                               const ExifData*)
     {
-        switch (value.toString()[0]) {
+        switch (value.toString().at(0)) {
         case 'P': os << _("Program"); break;
         case 'A': os << _("Aperture priority"); break;
         case 'S': os << _("Shutter priority"); break;
@@ -158,7 +150,7 @@ namespace Exiv2 {
                                               const Value& value,
                                               const ExifData*)
     {
-        switch (value.toString()[0]) {
+        switch (value.toString().at(0)) {
         case 'A': os << _("Average"); break;
         case 'C': os << _("Center"); break;
         case '8': os << _("8-Segment"); break;

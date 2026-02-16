@@ -19,6 +19,7 @@ add_library( exiv2lib_int OBJECT
     fujimn_int.cpp          fujimn_int.hpp
     helper_functions.cpp    helper_functions.hpp
     image_int.cpp           image_int.hpp
+    jp2image_int.cpp        jp2image_int.hpp
     makernote_int.cpp       makernote_int.hpp
     minoltamn_int.cpp       minoltamn_int.hpp
     nikonmn_int.cpp         nikonmn_int.hpp
@@ -118,6 +119,10 @@ if( EXIV2_ENABLE_VIDEO )
     )
 endif()
 
+target_sources(exiv2lib PRIVATE
+    bmffimage.cpp           ../include/exiv2/bmffimage.hpp
+)
+
 # Other library target properties
 # ---------------------------------------------------------
 
@@ -143,11 +148,20 @@ set_target_properties( exiv2lib_int PROPERTIES
     COMPILE_DEFINITIONS exiv2lib_EXPORTS
 )
 
+# NOTE: Cannot use target_link_libraries on OBJECT libraries with old versions of CMake
 target_include_directories(exiv2lib_int PRIVATE ${ZLIB_INCLUDE_DIR})
-target_include_directories(exiv2lib PRIVATE 
+target_include_directories(exiv2lib SYSTEM PRIVATE 
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/xmpsdk/include>
-    ${ZLIB_INCLUDE_DIR}
 )
+
+if (EXIV2_ENABLE_XMP OR EXIV2_ENABLE_EXTERNAL_XMP)
+    target_include_directories(exiv2lib PRIVATE ${EXPAT_INCLUDE_DIR})
+    target_link_libraries(exiv2lib PRIVATE ${EXPAT_LIBRARIES})
+
+    if (WIN32)
+        target_compile_definitions(exiv2lib PRIVATE XML_STATIC)
+      endif()
+endif()
 
 if (EXIV2_ENABLE_XMP)
     target_link_libraries(exiv2lib PRIVATE exiv2-xmp)
@@ -211,7 +225,7 @@ else()
 endif()
 
 if( EXIV2_ENABLE_PNG )
-    target_link_libraries( exiv2lib PRIVATE $<BUILD_INTERFACE:${ZLIB_LIBRARIES}>)
+	target_link_libraries( exiv2lib PRIVATE ZLIB::ZLIB)
 endif()
 
 if( EXIV2_ENABLE_NLS )
@@ -260,6 +274,9 @@ if(EXIV2_BUILD_EXIV2_COMMAND)
         COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS}
         XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS[variant=Debug] "YES"
     )
+    if (MSVC)
+        set_target_properties(exiv2 PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
+    endif()
 
     target_link_libraries( exiv2 PRIVATE exiv2lib )
 

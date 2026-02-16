@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,15 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  Abstract:  Command line program to display and manipulate image metadata.
 
-  File:      exiv2.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   10-Dec-03, ahu: created
- */
-// *****************************************************************************
-// included header files
 #include <exiv2/exiv2.hpp>
 
 // include local header files which are not part of libexiv2
@@ -48,7 +40,6 @@
 #if defined(EXV_HAVE_REGEX_H)
 #include <regex.h>
 #endif
-
 
 // *****************************************************************************
 // local declarations
@@ -129,6 +120,9 @@ int main(int argc, char* const argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
 #ifdef EXV_ENABLE_NLS
     setlocale(LC_ALL, "");
@@ -169,6 +163,7 @@ int main(int argc, char* const argv[])
                 std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << s << ": " << *i
                           << std::endl;
             }
+            task->setBinary(params.binary_);
             int ret = task->run(*i);
             if (rc == 0)
                 rc = ret;
@@ -385,7 +380,7 @@ int Params::option(int opt, const std::string& optarg, int optopt)
     case 'q': Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute); break;
     case 'Q': rc = setLogLevel(optarg); break;
     case 'k': preserve_ = true; break;
-    case 'b': binary_ = false; break;
+    case 'b': binary_ = true; break;
     case 'u': unknown_ = false; break;
     case 'f': force_ = true; fileExistsPolicy_ = overwritePolicy; break;
     case 'F': force_ = true; fileExistsPolicy_ = renamePolicy; break;
@@ -1460,8 +1455,8 @@ namespace {
             if (valStart != std::string::npos) {
                 value = parseEscapes(line.substr(valStart, valEnd+1-valStart));
                 std::string::size_type last = value.length()-1;
-                if (   (value[0] == '"' && value[last] == '"')
-                       || (value[0] == '\'' && value[last] == '\'')) {
+                if (   (value.at(0) == '"' && value.at(last) == '"')
+                       || (value.at(0) == '\'' && value.at(last) == '\'')) {
                     value = value.substr(1, value.length()-2);
                 }
             }
@@ -1499,13 +1494,13 @@ namespace {
     std::string parseEscapes(const std::string& input)
     {
         std::string result = "";
-        for (unsigned int i = 0; i < input.length(); ++i) {
+        for (size_t i = 0; i < input.length(); ++i) {
             char ch = input[i];
             if (ch != '\\') {
                 result.push_back(ch);
                 continue;
             }
-            int escapeStart = i;
+            size_t escapeStart = i;
             if (!(input.length() - 1 > i)) {
                 result.push_back(ch);
                 continue;
@@ -1526,7 +1521,7 @@ namespace {
                 result.push_back('\t');
                 break;
             case 'u':                           // Escaping of unicode
-                if (input.length() - 4 > i) {
+                if (input.length() >= 4 && input.length() - 4 > i) {
                     int acc = 0;
                     for (int j = 0; j < 4; ++j) {
                         ++i;

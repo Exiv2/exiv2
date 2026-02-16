@@ -15,6 +15,7 @@ xcode_build*
 msvc_build*
 cygwin_build*
 mingw_build*
+linux_build*
 po/POTFILES
 po/remove-potcdate.sed
 po/stamp-po

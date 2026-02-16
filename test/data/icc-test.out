@@ -5,7 +5,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
     5722 | 0xffed APP13 |    3038 | Photoshop 3.0.8BIM..........Z...
     8762 | 0xffe1 APP1  |    5329 | http://ns.adobe.com/xap/1.0/.<?x
    14093 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   14671 | 0xffee APP14 |      14 | Adobe.d@......
+   14671 | 0xffee APP14 |      14 | Adobe.d@....
    14687 | 0xffdb DQT   |     132 
    14821 | 0xffc0 SOF0  |      17 
    14840 | 0xffdd DRI   |       4 
@@ -18,7 +18,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
    11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14607 | 0xffee APP14 |      14 | Adobe.d@....
    14623 | 0xffdb DQT   |     132 
    14757 | 0xfffe COM   |      10 | abcdefg
    14769 | 0xffc0 SOF0  |      17 
@@ -33,7 +33,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
    11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14607 | 0xffee APP14 |      14 | Adobe.d@....
    14623 | 0xffdb DQT   |     132 
    14757 | 0xffc0 SOF0  |      17 
    14776 | 0xffdd DRI   |       4 
@@ -70,7 +70,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
  1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
  1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
  1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628079 | 0xffee APP14 |      14 | Adobe.d@......
+ 1628079 | 0xffee APP14 |      14 | Adobe.d@....
  1628095 | 0xffdb DQT   |     132 
  1628229 | 0xffc0 SOF0  |      17 
  1628248 | 0xffdd DRI   |       4 
@@ -107,7 +107,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
  1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
  1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
  1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628079 | 0xffee APP14 |      14 | Adobe.d@......
+ 1628079 | 0xffee APP14 |      14 | Adobe.d@....
  1628095 | 0xffdb DQT   |     132 
  1628229 | 0xfffe COM   |      10 | abcdefg
  1628241 | 0xffc0 SOF0  |      17 
@@ -146,7 +146,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
  1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
  1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
  1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628079 | 0xffee APP14 |      14 | Adobe.d@......
+ 1628079 | 0xffee APP14 |      14 | Adobe.d@....
  1628095 | 0xffdb DQT   |     132 
  1628229 | 0xffc0 SOF0  |      17 
  1628248 | 0xffdd DRI   |       4 
@@ -159,7 +159,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
    11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14607 | 0xffee APP14 |      14 | Adobe.d@....
    14623 | 0xffdb DQT   |     132 
    14757 | 0xffc0 SOF0  |      17 
    14776 | 0xffdd DRI   |       4 
@@ -172,7 +172,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
    11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14607 | 0xffee APP14 |      14 | Adobe.d@....
    14623 | 0xffdb DQT   |     132 
    14757 | 0xfffe COM   |      10 | abcdefg
    14769 | 0xffc0 SOF0  |      17 
@@ -187,7 +187,7 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
     5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
    10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
    11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@......
+   14607 | 0xffee APP14 |      14 | Adobe.d@....
    14623 | 0xffdb DQT   |     132 
    14757 | 0xffc0 SOF0  |      17 
    14776 | 0xffdd DRI   |       4 
@@ -463,7 +463,7 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe1 APP1  |    6191 | http://ns.adobe.com/xap/1.0/.<?x
    10288 | 0xffe2 APP2  |   65535 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
@@ -504,7 +504,7 @@ Warning: Failed to decode XMP metadata.
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
    69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
@@ -542,7 +542,7 @@ abcdefg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
    69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
@@ -578,7 +578,7 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
    69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
@@ -614,7 +614,7 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
    69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
@@ -652,7 +652,7 @@ abcdefg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
    69609 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
@@ -688,7 +688,7 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
     4673 | 0xffdb DQT   |      67 
@@ -700,7 +700,7 @@ STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
     4673 | 0xffdb DQT   |      67 
@@ -714,7 +714,7 @@ abcdefg
 STRUCTURE OF JPEG FILE: ReaganLargeJpg.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
-       2 | 0xffe0 APP0  |      16 | JFIF.....,.,....
+       2 | 0xffe0 APP0  |      16 | JFIF.....,.,.
       20 | 0xffe1 APP1  |    4073 | Exif..MM.*......................
     4095 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
     4673 | 0xffdb DQT   |      67 
@@ -735,7 +735,7 @@ STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
       12 |       20 | ftyp      | 
       32 |     3185 | jp2h      | 
       40 |       22 |  sub:ihdr | .............
-      62 |     3155 |  sub:colr | ......HLino....mntrRGB XYZ .. | pad: 2 0 0 | iccLength:3144
+      62 |     3155 |  sub:colr | ......HLino....mntrRGB XYZ .. | iccLength:3144
     3217 |        0 | jp2c      | 
 STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
  address |   length | box       | data
@@ -743,7 +743,7 @@ STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
       12 |       20 | ftyp      | 
       32 |  1613641 | jp2h      | 
       40 |       22 |  sub:ihdr | .............
-      62 |  1613611 |  sub:colr | ...... APPL....prtrRGB Lab .. | pad: 2 0 0 | iccLength:1613600
+      62 |  1613611 |  sub:colr | ...... APPL....prtrRGB Lab .. | iccLength:1613600
  1613673 |        0 | jp2c      | 
 STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
  address |   length | box       | data
@@ -751,7 +751,7 @@ STRUCTURE OF JPEG2000 FILE: Reagan2.jp2
       12 |       20 | ftyp      | 
       32 |      601 | jp2h      | 
       40 |       22 |  sub:ihdr | .............
-      62 |      571 |  sub:colr | ......0ADBE....mntrRGB XYZ .. | pad: 2 0 0 | iccLength:560
+      62 |      571 |  sub:colr | ......0ADBE....mntrRGB XYZ .. | iccLength:560
      633 |        0 | jp2c      | 
 1d3fda2edb4a89ab60a23c5f7c7d81dd
 1d3fda2edb4a89ab60a23c5f7c7d81dd

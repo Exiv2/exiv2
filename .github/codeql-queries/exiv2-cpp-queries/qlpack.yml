@@ -1,0 +1,4 @@
+name: exiv2-cpp-queries
+version: 0.0.0
+libraryPathDependencies: codeql-cpp
+suites: exiv2-cpp-suite

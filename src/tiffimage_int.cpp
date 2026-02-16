@@ -1,8 +1,28 @@
-#include "tiffimage_int.hpp"
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 
+#include "tiffimage_int.hpp"
 #include "error.hpp"
 #include "makernote_int.hpp"
 #include "sonymn_int.hpp"
+#include "tags_int.hpp"
 #include "tiffvisitor_int.hpp"
 #include "i18n.h"                // NLS support.
 
@@ -563,15 +583,35 @@ namespace Exiv2 {
         false,            // Don't concatenate gaps
         { 0, ttUnsignedByte,  1 }
     };
+    //! Nikon Lens Data binary array - configuration 3
+    extern const ArrayCfg nikonLd4Cfg = {
+        nikonLd4Id,       // Group for the elements
+        invalidByteOrder, // Use byte order from parent
+        ttUndefined,      // Type for array entry
+        nikonCrypt,       // Encryption function
+        false,            // No size element
+        true,             // Write all tags
+        false,            // Don't concatenate gaps
+        { 0, ttUnsignedByte,  1 }
+    };
     //! Nikon Lens Data binary array - definition
     extern const ArrayDef nikonLdDef[] = {
         { 0, ttUndefined, 4 } // Version
+    };
+    //! Nikon Lens Data binary array - definition
+    extern const ArrayDef nikonLd4Def[] = {
+        { 0, ttUndefined, 4 }, // Version
+        { 48, ttUnsignedShort, 1 }, // LensID
+        { 54, ttUnsignedShort, 1 }, // MacAperture
+        { 56, ttUnsignedShort, 1 }, // FNumber
+        { 60, ttUnsignedShort, 1 }  // FocalLength
     };
     //! Nikon Lens Data configurations and definitions
     extern const ArraySet nikonLdSet[] = {
         { nikonLd1Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
         { nikonLd2Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
-        { nikonLd3Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) }
+        { nikonLd3Cfg, nikonLdDef, EXV_COUNTOF(nikonLdDef) },
+        { nikonLd4Cfg, nikonLd4Def, EXV_COUNTOF(nikonLd4Def) }
     };
 
     //! Nikon Color Balance binary array - configuration 1
@@ -787,8 +827,8 @@ namespace Exiv2 {
     };
 
     extern const ArrayCfg sony2010eCfg = {
-        sony2010eId,       // Group for the elements
-        bigEndian,        // Big endian
+        sony2010eId,      // Group for the elements
+        invalidByteOrder, // inherit from file.  Usually littleEndian
         ttUnsignedByte,   // Type for array entry and size element
         sonyTagDecipher,  // (uint16_t, const byte*, uint32_t, TiffComponent* const);
         false,            // No size element
@@ -1037,6 +1077,7 @@ namespace Exiv2 {
         { Tag::root, nikonLd1Id,       nikon3Id,         0x0098    },
         { Tag::root, nikonLd2Id,       nikon3Id,         0x0098    },
         { Tag::root, nikonLd3Id,       nikon3Id,         0x0098    },
+        { Tag::root, nikonLd4Id,       nikon3Id,         0x0098    },
         { Tag::root, nikonMeId,        nikon3Id,         0x00b0    },
         { Tag::root, nikonAf21Id,      nikon3Id,         0x00b7    },
         { Tag::root, nikonAf22Id,      nikon3Id,         0x00b7    },
@@ -1103,6 +1144,11 @@ namespace Exiv2 {
         // Fujifilm RAF #1402.  Use different root when parsing embedded tiff.
         { Tag::fuji, ifdIdNotSet,      newTiffDirectory<fujiId>                  },
         {    0xf000, fujiId,           newTiffSubIfd<fujiId>                     },
+
+        // CR3 images #1475
+        { Tag::cmt2, ifdIdNotSet,      newTiffDirectory<exifId>                  },
+        { Tag::cmt3, ifdIdNotSet,      newTiffDirectory<canonId>                 },
+        { Tag::cmt4, ifdIdNotSet,      newTiffDirectory<gpsId>                   },
 
         // IFD0
         {    0x8769, ifd0Id,           newTiffSubIfd<exifId>                     },
@@ -1453,6 +1499,7 @@ namespace Exiv2 {
         {  Tag::all, nikonLd1Id,       newTiffBinaryElement                      },
         {  Tag::all, nikonLd2Id,       newTiffBinaryElement                      },
         {  Tag::all, nikonLd3Id,       newTiffBinaryElement                      },
+        {  Tag::all, nikonLd4Id,       newTiffBinaryElement                      },
 
         // Panasonic makernote
         { Tag::next, panasonicId,      ignoreTiffComponent                       },

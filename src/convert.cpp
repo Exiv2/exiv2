@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -48,7 +48,7 @@
 #endif
 #include <cstring>
 
-#if defined WIN32 && !defined __CYGWIN__
+#if defined _WIN32 && !defined __CYGWIN__
 # include <windows.h>
 #endif
 
@@ -71,7 +71,7 @@
 // *****************************************************************************
 // local declarations
 namespace {
-#if defined WIN32 && !defined __CYGWIN__
+#if !defined EXV_HAVE_ICONV && defined _WIN32 && !defined __CYGWIN__
     // Convert string charset with Windows functions.
     bool convertStringCharsetWindows(std::string& str, const char* from, const char* to);
 #endif
@@ -545,7 +545,7 @@ namespace Exiv2 {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        for (int i = 0; i < pos->count(); ++i) {
+        for (long i = 0; i < pos->count(); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -563,7 +563,7 @@ namespace Exiv2 {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
-        int year, month, day, hour, min, sec;
+        int year=0, month=0, day=0, hour=0, min=0, sec=0;
         std::string subsec;
         char buf[30];
 
@@ -665,16 +665,17 @@ namespace Exiv2 {
 
         if (subsecTag) {
             ExifData::iterator subsec_pos = exifData_->findKey(ExifKey(subsecTag));
-            if (   subsec_pos != exifData_->end()
-                && subsec_pos->typeId() == asciiString) {
-                std::string ss = subsec_pos->toString();
-                if (!ss.empty()) {
-                    bool ok = false;
-                    stringTo<long>(ss, ok);
-                    if (ok) subsec = std::string(".") + ss;
+            if (subsec_pos != exifData_->end()) {
+                if (subsec_pos->typeId() == asciiString) {
+                    std::string ss = subsec_pos->toString();
+                    if (!ss.empty()) {
+                        bool ok = false;
+                        stringTo<long>(ss, ok);
+                        if (ok) subsec = std::string(".") + ss;
+                    }
                 }
+                if (erase_) exifData_->erase(subsec_pos);
             }
-            if (erase_) exifData_->erase(subsec_pos);
         }
 
         if (subsec.size() > 10) subsec = subsec.substr(0, 10);
@@ -692,7 +693,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (int i = 0; i < pos->count(); ++i) {
+        for (long i = 0; i < pos->count(); ++i) {
             value << static_cast<char>(pos->toLong(i));
         }
         (*xmpData_)[to] = value.str();
@@ -705,7 +706,7 @@ namespace Exiv2 {
         if (pos == exifData_->end()) return;
         if (!prepareXmpTarget(to)) return;
         std::ostringstream value;
-        for (int i = 0; i < pos->count(); ++i) {
+        for (long i = 0; i < pos->count(); ++i) {
             if (i > 0) value << '.';
             value << pos->toLong(i);
         }
@@ -823,7 +824,7 @@ namespace Exiv2 {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(from));
         if (pos == xmpData_->end()) return;
         std::ostringstream array;
-        for (int i = 0; i < pos->count(); ++i) {
+        for (long i = 0; i < pos->count(); ++i) {
             std::string value = pos->toString(i);
             if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
@@ -854,6 +855,68 @@ namespace Exiv2 {
         XMP_DateTime datetime;
         try {
             SXMPUtils::ConvertToDate(value, &datetime);
+            char buf[30];
+            if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
+
+                SXMPUtils::ConvertToLocalTime(&datetime);
+
+                snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d",
+                         static_cast<int>(datetime.year),
+                         static_cast<int>(datetime.month),
+                         static_cast<int>(datetime.day),
+                         static_cast<int>(datetime.hour),
+                         static_cast<int>(datetime.minute),
+                         static_cast<int>(datetime.second));
+                buf[sizeof(buf) - 1] = 0;
+                (*exifData_)[to] = buf;
+
+                if (datetime.nanoSecond) {
+                    const char* subsecTag = 0;
+                    if (std::string(to) == "Exif.Image.DateTime") {
+                        subsecTag = "Exif.Photo.SubSecTime";
+                    }
+                    else if (std::string(to) == "Exif.Photo.DateTimeOriginal") {
+                        subsecTag = "Exif.Photo.SubSecTimeOriginal";
+                    }
+                    else if (std::string(to) == "Exif.Photo.DateTimeDigitized") {
+                        subsecTag = "Exif.Photo.SubSecTimeDigitized";
+                    }
+                    if (subsecTag) {
+                        prepareExifTarget(subsecTag, true);
+                        (*exifData_)[subsecTag] = toString(datetime.nanoSecond);
+                    }
+                }
+            }
+            else { // "Exif.GPSInfo.GPSTimeStamp"
+
+                // Ignore the time zone, assuming the time is in UTC as it should be
+
+                URational rhour(datetime.hour, 1);
+                URational rmin(datetime.minute, 1);
+                URational rsec(datetime.second, 1);
+                if (datetime.nanoSecond != 0) {
+                    if (datetime.second != 0) {
+                        // Add the seconds to rmin so that the ns fit into rsec
+                        rmin.second = 60;
+                        rmin.first *= 60;
+                        rmin.first += datetime.second;
+                    }
+                    rsec.second = 1000000000;
+                    rsec.first = datetime.nanoSecond;
+                }
+
+                std::ostringstream array;
+                array << rhour << " " << rmin << " " << rsec;
+                (*exifData_)[to] = array.str();
+
+                prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
+                snprintf(buf, sizeof(buf), "%4d:%02d:%02d",
+                        static_cast<int>(datetime.year),
+                        static_cast<int>(datetime.month),
+                        static_cast<int>(datetime.day));
+                buf[sizeof(buf) - 1] = 0;
+                (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
+            }
         }
 #ifndef SUPPRESS_WARNINGS
         catch (const XMP_Error& e) {
@@ -865,68 +928,6 @@ namespace Exiv2 {
             return;
         }
 #endif // SUPPRESS_WARNINGS
-        char buf[30];
-        if (std::string(to) != "Exif.GPSInfo.GPSTimeStamp") {
-
-            SXMPUtils::ConvertToLocalTime(&datetime);
-
-            snprintf(buf, sizeof(buf), "%4d:%02d:%02d %02d:%02d:%02d",
-                     static_cast<int>(datetime.year),
-                     static_cast<int>(datetime.month),
-                     static_cast<int>(datetime.day),
-                     static_cast<int>(datetime.hour),
-                     static_cast<int>(datetime.minute),
-                     static_cast<int>(datetime.second));
-            buf[sizeof(buf) - 1] = 0;
-            (*exifData_)[to] = buf;
-
-            if (datetime.nanoSecond) {
-                const char* subsecTag = 0;
-                if (std::string(to) == "Exif.Image.DateTime") {
-                    subsecTag = "Exif.Photo.SubSecTime";
-                }
-                else if (std::string(to) == "Exif.Photo.DateTimeOriginal") {
-                    subsecTag = "Exif.Photo.SubSecTimeOriginal";
-                }
-                else if (std::string(to) == "Exif.Photo.DateTimeDigitized") {
-                    subsecTag = "Exif.Photo.SubSecTimeDigitized";
-                }
-                if (subsecTag) {
-                    prepareExifTarget(subsecTag, true);
-                    (*exifData_)[subsecTag] = toString(datetime.nanoSecond);
-                }
-            }
-        }
-        else { // "Exif.GPSInfo.GPSTimeStamp"
-
-            // Ignore the time zone, assuming the time is in UTC as it should be
-
-            URational rhour(datetime.hour, 1);
-            URational rmin(datetime.minute, 1);
-            URational rsec(datetime.second, 1);
-            if (datetime.nanoSecond != 0) {
-                if (datetime.second != 0) {
-                    // Add the seconds to rmin so that the ns fit into rsec
-                    rmin.second = 60;
-                    rmin.first *= 60;
-                    rmin.first += datetime.second;
-                }
-                rsec.second = 1000000000;
-                rsec.first = datetime.nanoSecond;
-            }
-
-            std::ostringstream array;
-            array << rhour << " " << rmin << " " << rsec;
-            (*exifData_)[to] = array.str();
-
-            prepareExifTarget("Exif.GPSInfo.GPSDateStamp", true);
-            snprintf(buf, sizeof(buf), "%4d:%02d:%02d",
-                    static_cast<int>(datetime.year),
-                    static_cast<int>(datetime.month),
-                    static_cast<int>(datetime.day));
-            buf[sizeof(buf) - 1] = 0;
-            (*exifData_)["Exif.GPSInfo.GPSDateStamp"] = buf;
-        }
 
         if (erase_) xmpData_->erase(pos);
 #else
@@ -972,7 +973,7 @@ namespace Exiv2 {
             return;
         }
 
-        for (unsigned i = 0; i < value.length(); ++i) {
+        for (size_t i = 0; i < value.length(); ++i) {
             if (value[i] == '.') value[i] = ' ';
         }
         (*exifData_)[to] = value;
@@ -1027,18 +1028,20 @@ namespace Exiv2 {
 #endif
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
-        if (pos != xmpData_->end() && pos->count() > 0) {
-            int red = pos->toLong();
-            if (pos->value().ok())
-                value |= (red & 1) << 6;
+        if (pos != xmpData_->end()) {
+            if (pos->count() > 0) {
+                int red = pos->toLong();
+                if (pos->value().ok())
+                    value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
-            else
-                EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:RedEyeMode" << " to " << to << "\n";
+                else
+                    EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:RedEyeMode" << " to " << to << "\n";
 #endif
+            }
+            if (erase_) xmpData_->erase(pos);
         }
 
         (*exifData_)[to] = value;
-        if (erase_) xmpData_->erase(pos);
     }
 
     void Converter::cnvXmpGPSCoord(const char* from, const char* to)
@@ -1351,7 +1354,7 @@ namespace Exiv2 {
         bool ret = false;
 #if defined EXV_HAVE_ICONV
         ret = convertStringCharsetIconv(str, from, to);
-#elif defined WIN32 && !defined __CYGWIN__
+#elif defined _WIN32 && !defined __CYGWIN__
         ret = convertStringCharsetWindows(str, from, to);
 #else
 # ifndef SUPPRESS_WARNINGS
@@ -1369,7 +1372,7 @@ namespace {
 
     using namespace Exiv2;
 
-#if defined WIN32 && !defined __CYGWIN__
+#if !defined EXV_HAVE_ICONV && defined _WIN32 && !defined __CYGWIN__
     bool swapBytes(std::string& str)
     {
         // Naive byte-swapping, I'm sure this can be done more efficiently
@@ -1523,7 +1526,7 @@ namespace {
         return ret;
     }
 
-#endif // defined WIN32 && !defined __CYGWIN__
+#endif // !defined EXV_HAVE_ICONV && defined _WIN32 && !defined __CYGWIN__
 #if defined EXV_HAVE_ICONV
     bool convertStringCharsetIconv(std::string& str, const char* from, const char* to)
     {

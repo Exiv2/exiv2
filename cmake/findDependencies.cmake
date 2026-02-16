@@ -1,17 +1,23 @@
 # set include path for FindXXX.cmake files
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
+if (APPLE)
+    # On Apple, we use the conan cmake_paths generator
+    if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
+        include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
+    endif()
+else()
+    # Otherwise, we rely on the conan cmake_find_package generator
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+    list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+endif()
+
 # don't use Frameworks on the Mac (#966)
 if (APPLE)
      set(CMAKE_FIND_FRAMEWORK NEVER)
 endif()
 
-# Check if the conan file exist to find the dependencies
-if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    set(USING_CONAN ON)
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup(NO_OUTPUT_DIRS KEEP_RPATHS TARGETS)
-endif()
+find_package (Python3 COMPONENTS Interpreter)
 
 find_package(Threads REQUIRED)
 

@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,16 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    makernote_int.hpp
-  @brief   Makernote factory and registry, IFD makernote header, and camera
-           vendor specific makernote implementations.<BR>References:<BR>
-  [1] <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey<BR>
-  [2] <a href="http://www.cybercom.net/~dcoffin/dcraw/">Decoding raw digital photos in Linux</a> by Dave Coffin
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    11-Apr-06, ahu: created
  */
 #ifndef MAKERNOTE_INT_HPP_
 #define MAKERNOTE_INT_HPP_
@@ -241,6 +231,38 @@ namespace Exiv2 {
         static const byte signature_[]; //!< Olympus makernote header signature
 
     }; // class Olympus2MnHeader
+
+    //! Header of an OM Digital Solutions (ex Olympus) Makernote
+    class OMSystemMnHeader : public MnHeader {
+    public:
+        //! @name Creators
+        //@{
+        //! Default constructor
+        OMSystemMnHeader();
+        //! Virtual destructor.
+        virtual ~OMSystemMnHeader();
+        //@}
+        //! @name Manipulators
+        //@{
+        virtual bool read(const byte* pData,
+                          uint32_t    size,
+                          ByteOrder   byteOrder);
+        //@}
+        //! @name Accessors
+        //@{
+        virtual uint32_t size() const;
+        virtual uint32_t write(IoWrapper& ioWrapper, ByteOrder byteOrder) const;
+        virtual uint32_t ifdOffset() const;
+        virtual uint32_t baseOffset(uint32_t mnOffset) const;
+        //@}
+        //! Return the size of the makernote header signature
+        static uint32_t sizeOfSignature();
+
+    private:
+        DataBuf header_;                //!< Data buffer for the makernote header
+        static const byte signature_[]; //!< OM Digital Solutions makernote header signature
+
+    }; // class OMSystemMnHeader
 
     //! Header of a Fujifilm Makernote
     class FujiMnHeader : public MnHeader {
@@ -596,6 +618,19 @@ namespace Exiv2 {
     TiffComponent* newOlympus2Mn2(uint16_t tag,
                                  IfdId     group,
                                  IfdId     mnGroup);
+
+    //! Function to create an OM Digital Solutions makernote
+    TiffComponent* newOMSystemMn(uint16_t    tag,
+                                 IfdId       group,
+                                 IfdId       mnGroup,
+                                 const byte* pData,
+                                 uint32_t    size,
+                                 ByteOrder   byteOrder);
+
+    //! Function to create a OM Digital Solutions makernote
+    TiffComponent* newOMSystemMn2(uint16_t tag,
+                                  IfdId    group,
+                                  IfdId    mnGroup);
 
     //! Function to create a Fujifilm makernote
     TiffComponent* newFujiMn(uint16_t    tag,

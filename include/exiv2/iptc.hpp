@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -20,9 +20,6 @@
 /*!
   @file    iptc.hpp
   @brief   Encoding and decoding of IPTC data
-  @author  Brad Schick (brad)
-           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
-  @date    31-Jul-04, brad: created
  */
 #ifndef IPTC_HPP_
 #define IPTC_HPP_

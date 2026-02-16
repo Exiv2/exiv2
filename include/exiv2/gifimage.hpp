@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,14 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    gifimage.hpp
-  @brief   GIF image, implemented using the following references:
-           <a href="http://www.w3.org/Graphics/GIF/spec-gif89a.txt">GIF89 specification</a> by W3C<br>
-  @author  Marco Piovanelli, Ovolab (marco)
-           <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
-  @date    26-Feb-2007, marco: created
  */
 #ifndef GIFIMAGE_HPP_
 #define GIFIMAGE_HPP_

@@ -1,8 +1,26 @@
 // ***************************************************************** -*- C++ -*-
 // Test for large (>65535 bytes) IPTC buffer
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 
 #include <exiv2/exiv2.hpp>
-
 #include <cassert>
 #include <iostream>
 
@@ -11,6 +29,9 @@ int main(int argc, char* const argv[])
     try {
         Exiv2::XmpParser::initialize();
         ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+        Exiv2::enableBMFF();
+#endif
 
         if (argc != 3) {
             std::cout << "Usage: " << argv[0] << " image datafile\n";
@@ -48,8 +69,8 @@ int main(int argc, char* const argv[])
         Exiv2::DataBuf irb = Exiv2::Photoshop::setIptcIrb(0, 0, iptcData);
         std::cout << "IRB buffer : " << irb.size_ << "\n";
         const Exiv2::byte* record;
-        uint32_t sizeHdr;
-        uint32_t sizeData;
+        uint32_t sizeHdr = 0;
+        uint32_t sizeData = 0;
         Exiv2::Photoshop::locateIptcIrb(irb.pData_, irb.size_, &record, &sizeHdr, &sizeData);
         Exiv2::DataBuf rawIptc = Exiv2::IptcParser::encode(iptcData);
         std::cout << "Comparing IPTC and IRB size... ";

@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      webpimage.cpp
  */
 /*
   Google's WEBP container spec can be found at the link below:
@@ -148,7 +145,7 @@ namespace Exiv2 {
         DataBuf chunkId(WEBP_TAG_SIZE+1);
         chunkId.pData_ [WEBP_TAG_SIZE] = '\0';
 
-        io_->read(data, WEBP_TAG_SIZE * 3);
+        readOrThrow(*io_, data, WEBP_TAG_SIZE * 3, Exiv2::kerCorruptedMetadata);
         uint64_t filesize = Exiv2::getULong(data + WEBP_TAG_SIZE, littleEndian);
 
         /* Set up header */
@@ -188,13 +185,20 @@ namespace Exiv2 {
          case we have any exif or xmp data, also check
          for any chunks with alpha frame/layer set */
         while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
-            io_->read(chunkId.pData_, WEBP_TAG_SIZE);
-            io_->read(size_buff, WEBP_TAG_SIZE);
-            long size = Exiv2::getULong(size_buff, littleEndian);
+            readOrThrow(*io_, chunkId.pData_, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, size_buff, WEBP_TAG_SIZE, Exiv2::kerCorruptedMetadata);
+            const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
+
+            // Check that `size_u32` is safe to cast to `long`.
+            enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
+                    Exiv2::kerCorruptedMetadata);
+            const long size = static_cast<long>(size_u32);
             DataBuf payload(size);
-            io_->read(payload.pData_, payload.size_);
-            byte c;
-            if ( payload.size_ % 2 ) io_->read(&c,1);
+            readOrThrow(*io_, payload.pData_, payload.size_, Exiv2::kerCorruptedMetadata);
+            if ( payload.size_ % 2 ) {
+              byte c = 0;
+              readOrThrow(*io_, &c, 1, Exiv2::kerCorruptedMetadata);
+            }
 
             /* Chunk with information about features
              used in the file. */
@@ -202,6 +206,7 @@ namespace Exiv2 {
                 has_vp8x = true;
             }
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_size) {
+                enforce(size >= 10, Exiv2::kerCorruptedMetadata);
                 has_size = true;
                 byte size_buf[WEBP_TAG_SIZE];
 
@@ -230,6 +235,7 @@ namespace Exiv2 {
             }
 #endif
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_size) {
+                enforce(size >= 10, Exiv2::kerCorruptedMetadata);
                 has_size = true;
                 byte size_buf[2];
 
@@ -247,11 +253,13 @@ namespace Exiv2 {
 
             /* Chunk with with lossless image data. */
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_alpha) {
+                enforce(size >= 5, Exiv2::kerCorruptedMetadata);
                 if ((payload.pData_[4] & WEBP_VP8X_ALPHA_BIT) == WEBP_VP8X_ALPHA_BIT) {
                     has_alpha = true;
                 }
             }
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_size) {
+                enforce(size >= 5, Exiv2::kerCorruptedMetadata);
                 has_size = true;
                 byte size_buf_w[2];
                 byte size_buf_h[3];
@@ -279,11 +287,13 @@ namespace Exiv2 {
 
             /* Chunk with animation frame. */
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_alpha) {
+                enforce(size >= 6, Exiv2::kerCorruptedMetadata);
                 if ((payload.pData_[5] & 0x2) == 0x2) {
                     has_alpha = true;
                 }
             }
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_size) {
+                enforce(size >= 12, Exiv2::kerCorruptedMetadata);
                 has_size = true;
                 byte size_buf[WEBP_TAG_SIZE];
 
@@ -312,16 +322,22 @@ namespace Exiv2 {
 
         io_->seek(12, BasicIo::beg);
         while ( !io_->eof() && (uint64_t) io_->tell() < filesize) {
-            io_->read(chunkId.pData_, 4);
-            io_->read(size_buff, 4);
+            readOrThrow(*io_, chunkId.pData_, 4, Exiv2::kerCorruptedMetadata);
+            readOrThrow(*io_, size_buff, 4, Exiv2::kerCorruptedMetadata);
 
-            long size = Exiv2::getULong(size_buff, littleEndian);
+            const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
+
+            // Check that `size_u32` is safe to cast to `long`.
+            enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
+                    Exiv2::kerCorruptedMetadata);
+            const long size = static_cast<long>(size_u32);
 
             DataBuf payload(size);
-            io_->read(payload.pData_, size);
+            readOrThrow(*io_, payload.pData_, size, Exiv2::kerCorruptedMetadata);
             if ( io_->tell() % 2 ) io_->seek(+1,BasicIo::cur); // skip pad
 
             if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X)) {
+                enforce(size >= 1, Exiv2::kerCorruptedMetadata);
                 if (has_icc){
                     payload.pData_[0] |= WEBP_VP8X_ICC_BIT;
                 } else {
@@ -530,7 +546,7 @@ namespace Exiv2 {
             const uint32_t size_u32 = Exiv2::getULong(size_buff, littleEndian);
 
             // Check that `size_u32` is safe to cast to `long`.
-            enforce(size_u32 <= static_cast<size_t>(std::numeric_limits<unsigned int>::max()),
+            enforce(static_cast<uint64_t>(size_u32) <= static_cast<unsigned long>(std::numeric_limits<long>::max()),
                     Exiv2::kerCorruptedMetadata);
             const long size = static_cast<long>(size_u32);
 
@@ -623,7 +639,6 @@ namespace Exiv2 {
                 byte  exifShortHeader[]  = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
                 byte  exifTiffLEHeader[] = { 0x49, 0x49, 0x2A };       // "MM*"
                 byte  exifTiffBEHeader[] = { 0x4D, 0x4D, 0x00, 0x2A }; // "II\0*"
-                byte* rawExifData = NULL;
                 long  offset = 0;
                 bool  s_header = false;
                 bool  le_header = false;
@@ -656,27 +671,27 @@ namespace Exiv2 {
                     offset += 12;
                 }
 
-                const long size = payload.size_ + offset;
-                rawExifData = (byte*)malloc(size);
+                const long size = Safe::add(payload.size_, offset);
+                DataBuf rawExifData(size);
 
                 if (s_header) {
                     us2Data(size_buff, (uint16_t) (size - 6), bigEndian);
-                    memcpy(rawExifData, (char*)&exifLongHeader, 4);
-                    memcpy(rawExifData + 4, (char*)&size_buff, 2);
+                    memcpy(rawExifData.pData_, (char*)&exifLongHeader, 4);
+                    memcpy(rawExifData.pData_ + 4, (char*)&size_buff, 2);
                 }
 
                 if (be_header || le_header) {
                     us2Data(size_buff, (uint16_t) (size - 6), bigEndian);
-                    memcpy(rawExifData, (char*)&exifLongHeader, 4);
-                    memcpy(rawExifData + 4, (char*)&size_buff, 2);
-                    memcpy(rawExifData + 6, (char*)&exifShortHeader, 6);
+                    memcpy(rawExifData.pData_, (char*)&exifLongHeader, 4);
+                    memcpy(rawExifData.pData_ + 4, (char*)&size_buff, 2);
+                    memcpy(rawExifData.pData_ + 6, (char*)&exifShortHeader, 6);
                 }
 
-                memcpy(rawExifData + offset, payload.pData_, payload.size_);
+                memcpy(rawExifData.pData_ + offset, payload.pData_, payload.size_);
 
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Display Hex Dump [size:" << (unsigned long)size << "]" << std::endl;
-                std::cout << Internal::binaryToHex(rawExifData, size);
+                std::cout << Internal::binaryToHex(rawExifData.pData_, size);
 #endif
 
                 if (pos != -1) {
@@ -693,8 +708,6 @@ namespace Exiv2 {
 #endif
                     exifData_.clear();
                 }
-
-                if (rawExifData) free(rawExifData);
             } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
                 readOrThrow(*io_, payload.pData_, payload.size_, Exiv2::kerCorruptedMetadata);
                 xmpPacket_.assign(reinterpret_cast<char*>(payload.pData_), payload.size_);
@@ -738,9 +751,9 @@ namespace Exiv2 {
         byte webp[len];
         byte data[len];
         byte riff[len];
-        iIo.read(riff, len);
-        iIo.read(data, len);
-        iIo.read(webp, len);
+        readOrThrow(iIo, riff, len, Exiv2::kerCorruptedMetadata);
+        readOrThrow(iIo, data, len, Exiv2::kerCorruptedMetadata);
+        readOrThrow(iIo, webp, len, Exiv2::kerCorruptedMetadata);
         bool matched_riff = (memcmp(riff, RiffImageId, len) == 0);
         bool matched_webp = (memcmp(webp, WebPImageId, len) == 0);
         iIo.seek(-12, BasicIo::cur);

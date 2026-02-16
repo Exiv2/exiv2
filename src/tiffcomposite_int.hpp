@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    tiffcomposite_int.hpp
-  @brief   Internal classes used in a TIFF composite structure
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    11-Apr-06, ahu: created
  */
 #ifndef TIFFCOMPOSITE_INT_HPP_
 #define TIFFCOMPOSITE_INT_HPP_
@@ -76,12 +69,15 @@ namespace Exiv2 {
       Special TIFF tags for the use in TIFF structures only
     */
     namespace Tag {
-        const uint32_t none =  0x10000; //!< Dummy tag
-        const uint32_t root =  0x20000; //!< Special tag: root IFD
-        const uint32_t next =  0x30000; //!< Special tag: next IFD
-        const uint32_t all  =  0x40000; //!< Special tag: all tags in a group
-        const uint32_t pana =  0x80000; //!< Special tag: root IFD of Panasonic RAW images
-        const uint32_t fuji = 0x100000; //!< Special tag: root IFD of Fujifilm RAF images
+        const uint32_t none      =  0x10000; //!< Dummy tag
+        const uint32_t root      =  0x20000; //!< Special tag: root IFD
+        const uint32_t next      =  0x30000; //!< Special tag: next IFD
+        const uint32_t all       =  0x40000; //!< Special tag: all tags in a group
+        const uint32_t pana      =  0x80000; //!< Special tag: root IFD of Panasonic RAW images
+        const uint32_t fuji      = 0x100000; //!< Special tag: root IFD of Fujifilm RAF images
+        const uint32_t cmt2      = 0x110000; //!< Special tag: root IFD of CR3 images
+        const uint32_t cmt3      = 0x120000; //!< Special tag: root IFD of CR3 images
+        const uint32_t cmt4      = 0x130000; //!< Special tag: root IFD of CR3 images
     }
 
     /*!

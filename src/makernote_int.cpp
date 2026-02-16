@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -130,6 +130,7 @@ namespace Exiv2 {
         { "Minolta",        minoltaId,   newIfdMn,       newIfdMn2       },
         { "NIKON",          ifdIdNotSet, newNikonMn,     0               }, // mnGroup_ is not used
         { "OLYMPUS",        ifdIdNotSet, newOlympusMn,   0               }, // mnGroup_ is not used
+        { "OM Digital",     olympus2Id,  newOMSystemMn,  newOMSystemMn2  },
         { "Panasonic",      panasonicId, newPanasonicMn, newPanasonicMn2 },
         { "PENTAX",         ifdIdNotSet, newPentaxMn,    0               }, // mnGroup_ is not used
         { "RICOH",          ifdIdNotSet, newPentaxMn,    0               }, // mnGroup_ is not used
@@ -329,6 +330,60 @@ namespace Exiv2 {
         ioWrapper.write(signature_, sizeOfSignature());
         return sizeOfSignature();
     } // Olympus2MnHeader::write
+
+    const byte OMSystemMnHeader::signature_[] = {
+        'O', 'M', ' ', 'S', 'Y', 'S', 'T',  'E', 'M', 0x00, 0x00, 0x00, 'I', 'I', 0x04, 0x00
+    };
+
+    uint32_t OMSystemMnHeader::sizeOfSignature()
+    {
+        return sizeof(signature_);
+    }
+
+    OMSystemMnHeader::OMSystemMnHeader()
+    {
+        read(signature_, sizeOfSignature(), invalidByteOrder);
+    }
+
+    OMSystemMnHeader::~OMSystemMnHeader()
+    {
+    }
+
+    uint32_t OMSystemMnHeader::size() const
+    {
+        return header_.size_;
+    }
+
+    uint32_t OMSystemMnHeader::ifdOffset() const
+    {
+        return sizeOfSignature();
+    }
+
+    uint32_t OMSystemMnHeader::baseOffset(uint32_t mnOffset) const
+    {
+        return mnOffset;
+    }
+
+    bool OMSystemMnHeader::read(const byte* pData,
+                                uint32_t size,
+                                ByteOrder /*byteOrder*/)
+    {
+        if (!pData || size < sizeOfSignature()) return false;
+        header_.alloc(sizeOfSignature());
+        std::memcpy(header_.pData_, pData, header_.size_);
+        if (   static_cast<uint32_t>(header_.size_) < sizeOfSignature()
+            || 0 != memcmp(header_.pData_, signature_, sizeOfSignature() - 2)) {
+            return false;
+        }
+        return true;
+    } // OMSystemMnHeader::read
+
+    uint32_t OMSystemMnHeader::write(IoWrapper& ioWrapper,
+                                    ByteOrder /*byteOrder*/) const
+    {
+        ioWrapper.write(signature_, sizeOfSignature());
+        return sizeOfSignature();
+    } // OMSystemMnHeader::write
 
     const byte FujiMnHeader::signature_[] = {
         'F', 'U', 'J', 'I', 'F', 'I', 'L', 'M', 0x0c, 0x00, 0x00, 0x00
@@ -875,6 +930,13 @@ namespace Exiv2 {
                                 uint32_t    size,
                                 ByteOrder   /*byteOrder*/)
     {
+        // FIXME: workaround for overwritten OM System header in Olympus files (https://github.com/Exiv2/exiv2/issues/2542)
+        if (size >= 14 &&   std::string(reinterpret_cast<const char*>(pData), 14)
+                         == std::string("OM SYSTEM\0\0\0II", 14)) {
+          // Require at least the header and an IFD with 1 entry
+          if (size < OMSystemMnHeader::sizeOfSignature() + 18) return 0;
+          return newOMSystemMn2(tag, group, olympus2Id);
+        }
         if (size < 10 ||   std::string(reinterpret_cast<const char*>(pData), 10)
                         != std::string("OLYMPUS\0II", 10)) {
             // Require at least the header and an IFD with 1 entry
@@ -898,6 +960,25 @@ namespace Exiv2 {
                                   IfdId    mnGroup)
     {
         return new TiffIfdMakernote(tag, group, mnGroup, new Olympus2MnHeader);
+    }
+
+    TiffComponent* newOMSystemMn(uint16_t    tag,
+                                 IfdId       group,
+                                 IfdId       mnGroup,
+                                 const byte* /*pData*/,
+                                 uint32_t    size,
+                                 ByteOrder   /*byteOrder*/)
+    {
+        // Require at least the header and an IFD with 1 entry
+        if (size < OMSystemMnHeader::sizeOfSignature() + 18) return 0;
+        return newOMSystemMn2(tag, group, mnGroup);
+    }
+
+    TiffComponent* newOMSystemMn2(uint16_t tag,
+                                  IfdId    group,
+                                  IfdId    mnGroup)
+    {
+        return new TiffIfdMakernote(tag, group, mnGroup, new OMSystemMnHeader);
     }
 
     TiffComponent* newFujiMn(uint16_t    tag,
@@ -1171,6 +1252,9 @@ namespace Exiv2 {
         { 0x0098, "0202",    0, 1,   4 },
         { 0x0098, "0203",    0, 1,   4 },
         { 0x0098, "0204",    0, 2,   4 },
+        { 0x0098, "0800",    0, 3,   4 }, // for e.g. Z6/7
+        { 0x0098, "0801",    0, 3,   4 }, // for e.g. Z6/7
+        { 0x0098, "0802",    0, 3,   4 }, // for e.g. Z9
         // NikonFl
         { 0x00a8, "0100",    0, 0,  NA },
         { 0x00a8, "0101",    0, 0,  NA },

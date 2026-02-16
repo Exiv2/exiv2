@@ -1,0 +1,198 @@
+name: Win Matrix on PRs
+
+on:
+  pull_request:
+  push:
+    branches:
+    - 0.27-maintenance
+    tags:
+    - '!*'
+
+jobs:
+  windows:
+    name: 'Win10 Arch: ${{matrix.platform}} BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
+    runs-on: windows-2022
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        platform: [ x64, x86 ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Visual Studio shell
+        uses: egor-tensin/vs-shell@v2
+        with:
+          arch: ${{matrix.platform}}
+
+      - name: Set up Ninja
+        uses: ashutoshvarma/setup-ninja@master
+        with:
+          version: 1.10.0
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.7
+
+      - name: Restore Conan cache
+        uses: actions/cache@v2
+        with:
+            path: ${{github.workspace}}/conanCache
+            key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
+
+      - name: Install Conan & Common config
+        run: |
+          pip.exe install "conan==1.59.0"
+          conan profile new --detect default
+          conan profile update settings.build_type=${{matrix.build_type}} default
+          conan profile update settings.compiler="Visual Studio" default
+          conan profile update settings.compiler.version=17 default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+
+      - name: Conan Arch conditional config
+        if: ${{matrix.platform == 'x86'}}
+        run: |
+          conan profile update settings.arch=x86 default
+          conan profile update settings.arch_build=x86 default
+
+      - name: Run Conan
+        run: |
+          md build
+          cd build
+          conan profile list
+          conan install .. --build missing
+          dir ..
+          tree /f ../conanCache
+
+      - name: Build
+        run: |
+          cmake -GNinja `
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} `
+            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} `
+            -DEXIV2_ENABLE_NLS=OFF `
+            -DEXIV2_ENABLE_WIN_UNICODE=OFF `
+            -DEXIV2_ENABLE_WEBREADY=ON `
+            -DEXIV2_ENABLE_BMFF=ON `
+            -DEXIV2_BUILD_UNIT_TESTS=ON `
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
+            -DCMAKE_INSTALL_PREFIX=install `
+            -S . -B build && `
+          cmake --build build --parallel
+
+      - name: Install
+        run: |
+          cd build
+          cmake --install .
+          tree /f install
+
+      - name: Test
+        if: ${{matrix.platform == 'x64'}}
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  msys2:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        sys: [MINGW64]
+    name: MSYS2 ${{matrix.sys}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{matrix.sys}}
+          update: true
+          install: >-
+            base-devel
+          pacboy: >-
+            toolchain:p
+            cmake:p
+            ninja:p
+            expat:p
+            gettext:p
+            gtest:p
+            libiconv:p
+            python-lxml:p
+            zlib:p
+
+      - name: Build
+        run: |
+          cmake -GNinja \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
+            -DEXIV2_BUILD_SAMPLES=ON \
+            -DEXIV2_ENABLE_NLS=ON \
+            -DEXIV2_ENABLE_WIN_UNICODE=ON \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=ON \
+            -S . -B build && \
+          cmake --build build --parallel
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  cygwin:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release]
+        shared_libraries: [ON]
+        platform: [x64]
+    name: Cygwin ${{matrix.platform}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
+    env:
+      SHELLOPTS: igncr
+    defaults:
+      run:
+        shell: C:\tools\cygwin\bin\bash.exe -eo pipefail '{0}'
+    steps:
+      # Make sure we don't check out scripts using Windows CRLF line endings
+      - run: git config --global core.autocrlf input
+        shell: pwsh
+      - uses: actions/checkout@v3
+
+      - name: Set up Cygwin
+        uses: egor-tensin/setup-cygwin@v3
+        with:
+          platform: ${{matrix.platform}}
+          packages: >-
+            gcc-g++
+            cmake
+            ninja
+            libexpat-devel
+            libxml2-devel
+            libxslt-devel
+            python38-lxml
+            zlib-devel
+      - name: Build
+        run: |
+          cmake -GNinja \
+            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
+            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
+            -DEXIV2_ENABLE_NLS=OFF \
+            -DEXIV2_ENABLE_WIN_UNICODE=OFF \
+            -DEXIV2_ENABLE_WEBREADY=ON \
+            -DEXIV2_ENABLE_BMFF=ON \
+            -DEXIV2_BUILD_UNIT_TESTS=OFF \
+            -S . -B build && \
+          cmake --build build --parallel
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure

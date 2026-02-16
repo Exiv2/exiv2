@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,19 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    jpgimage.hpp
-  @brief   Class JpegImage to access JPEG images
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Brad Schick (brad)
-           <a href="mailto:brad@robotbattle.com">brad@robotbattle.com</a>
-  @author  Volker Grabsch (vog)
-           <a href="mailto:vog@notjusthosting.com">vog@notjusthosting.com</a>
-  @author  Michael Ulbrich (mul)
-           <a href="mailto:mul@rentapacs.de">mul@rentapacs.de</a>
-  @date    15-Jan-05, brad: split out from image.cpp
- */
+ 
 #ifndef JPGIMAGE_HPP_
 #define JPGIMAGE_HPP_
 

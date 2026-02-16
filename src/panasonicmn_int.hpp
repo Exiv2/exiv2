@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,18 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    panasonicmn_int.hpp
-  @brief   Panasonic MakerNote implemented using the following references:
-           <a href="http://www.compton.nu/panasonic.html">Panasonic MakerNote Information</a> by Tom Hughes,
-           Panasonic.pm of <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/">ExifTool</a> by Phil Harvey,
-           <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/panasonic_mn.html">Panasonic Makernote Format Specification</a> by Evan Hunter.
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (gc)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @date    11-Jun-05, ahu: created
  */
 #ifndef PANASONICMN_INT_HPP_
 #define PANASONICMN_INT_HPP_

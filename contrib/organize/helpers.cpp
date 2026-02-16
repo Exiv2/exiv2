@@ -18,11 +18,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
- File:      helpers.cpp
- Author(s): Brad Schick (brad) <schickb@gmail.com>
- History:   19-Jan-09, brad: created
-*/
 // *****************************************************************************
 
 #include <boost/algorithm/string.hpp>

@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    pentaxmn_int.hpp
-  @brief   Pentax MakerNote implemented according to the specification
-           http://www.gvsoft.homedns.org/exif/makernote-pentax-type3.html and
-           based on ExifTool implementation and
-           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html">Pentax Makernote list</a> by Phil Harvey<br>
  */
 #ifndef PENTAXMN_INT_HPP_
 #define PENTAXMN_INT_HPP_

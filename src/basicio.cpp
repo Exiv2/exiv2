@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -190,11 +190,11 @@ namespace Exiv2 {
         case opRead:
             // Flush if current mode allows reading, else reopen (in mode "r+b"
             // as in this case we know that we can write to the file)
-            if (openMode_[0] == 'r' || openMode_[1] == '+') reopen = false;
+            if (openMode_.at(0) == 'r' || openMode_.at(1) == '+') reopen = false;
             break;
         case opWrite:
             // Flush if current mode allows writing, else reopen
-            if (openMode_[0] != 'r' || openMode_[1] == '+') reopen = false;
+            if (openMode_.at(0) != 'r' || openMode_.at(1) == '+') reopen = false;
             break;
         case opSeek:
             reopen = false;
@@ -934,7 +934,7 @@ namespace Exiv2 {
     size_t FileIo::size() const
     {
         // Flush and commit only if the file is open for writing
-        if (p_->fp_ != 0 && (p_->openMode_[0] != 'r' || p_->openMode_[1] == '+')) {
+        if (p_->fp_ != 0 && (p_->openMode_.at(0) != 'r' || p_->openMode_.at(1) == '+')) {
             std::fflush(p_->fp_);
 #if defined WIN32 && !defined __CYGWIN__
             // This is required on msvcrt before stat after writing to a file
@@ -1301,7 +1301,7 @@ namespace Exiv2 {
         if (newIdx < 0)
             return 1;
 
-        if (static_cast<size_t>(newIdx) > p_->size_) {
+        if (newIdx > p_->size_) {
             p_->eof_ = true;
             return 1;
         }
@@ -1384,7 +1384,9 @@ namespace Exiv2 {
     {
         long avail = EXV_MAX(p_->size_ - p_->idx_, 0);
         long allow = EXV_MIN(rcount, avail);
-        std::memcpy(buf, &p_->data_[p_->idx_], allow);
+        if (allow > 0) {
+          std::memcpy(buf, &p_->data_[p_->idx_], allow);
+        }
         p_->idx_ += allow;
         if (rcount > avail) p_->eof_ = true;
         return allow;
@@ -1800,9 +1802,10 @@ namespace Exiv2 {
 
         // find $right
         findDiff    = false;
-        blockIndex  = nBlocks - 1;
-        blockSize   = p_->blocksMap_[blockIndex].getSize();
-        while ((blockIndex + 1 > 0) && right < src.size() && !findDiff) {
+        blockIndex  = nBlocks;
+        while (blockIndex > 0 && right < src.size() && !findDiff) {
+            blockIndex--;
+            blockSize = p_->blocksMap_[blockIndex].getSize();
             if(src.seek(-1 * (blockSize + right), BasicIo::end)) {
                 findDiff = true;
             } else {
@@ -1817,8 +1820,6 @@ namespace Exiv2 {
                     }
                 }
             }
-            blockIndex--;
-            blockSize = (long)p_->blocksMap_[blockIndex].getSize();
         }
 
         // free buf
@@ -2133,7 +2134,7 @@ namespace Exiv2 {
     void HttpIo::HttpImpl::writeRemote(const byte* data, size_t size, long from, long to)
     {
         std::string scriptPath(getEnv(envHTTPPOST));
-        if (scriptPath == "") {
+        if (scriptPath.empty()) {
             throw Error(kerErrorMessage, "Please set the path of the server script to handle http post data to EXIV2_HTTP_POST environmental variable.");
         }
 

@@ -1,3 +1,4 @@
+// ***************************************************************** -*- C++ -*-
 /*
 Copyright (c) 2013 Johannes Häggqvist
 
@@ -229,7 +230,7 @@ namespace Jzon
 		if (IsNumber())
 		{
 			std::stringstream sstr(valueStr);
-			int val;
+			int val = 0;
 			sstr >> val;
 			return val;
 		}
@@ -243,7 +244,7 @@ namespace Jzon
 		if (IsNumber())
 		{
 			std::stringstream sstr(valueStr);
-			float val;
+			float val = 0;
 			sstr >> val;
 			return val;
 		}
@@ -257,7 +258,7 @@ namespace Jzon
 		if (IsNumber())
 		{
 			std::stringstream sstr(valueStr);
-			double val;
+			double val = 0;
 			sstr >> val;
 			return val;
 		}

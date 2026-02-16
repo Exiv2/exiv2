@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      value.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   26-Jan-04, ahu: created
-             11-Feb-04, ahu: isolated as a component
-             31-Jul-04, brad: added Time, Date and String values
  */
 // *****************************************************************************
 // included header files
@@ -225,7 +218,7 @@ namespace Exiv2 {
     int DataValue::read(const std::string& buf)
     {
         std::istringstream is(buf);
-        int tmp;
+        int tmp = 0;
         ValueType val;
         while (!(is.eof())) {
             is >> tmp;
@@ -258,7 +251,7 @@ namespace Exiv2 {
     {
         std::vector<byte>::size_type end = value_.size();
         for (std::vector<byte>::size_type i = 0; i != end; ++i) {
-            os << static_cast<int>(value_[i]);
+            os << static_cast<int>(value_.at(i));
             if (i < end - 1) os << " ";
         }
         return os;
@@ -267,7 +260,7 @@ namespace Exiv2 {
     std::string DataValue::toString(long n) const
     {
         std::ostringstream os;
-        os << static_cast<int>(value_[n]);
+        os << static_cast<int>(value_.at(n));
         ok_ = !os.fail();
         return os.str();
     }
@@ -275,19 +268,19 @@ namespace Exiv2 {
     long DataValue::toLong(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     float DataValue::toFloat(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     Rational DataValue::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return Rational(value_.at(n), 1);
     }
 
     StringValueBase::StringValueBase(TypeId typeId)
@@ -359,19 +352,19 @@ namespace Exiv2 {
     long StringValueBase::toLong(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     float StringValueBase::toFloat(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     Rational StringValueBase::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return Rational(value_.at(n), 1);
     }
 
     StringValue::StringValue()
@@ -410,7 +403,8 @@ namespace Exiv2 {
     int AsciiValue::read(const std::string& buf)
     {
         value_ = buf;
-        if (value_.size() > 0 && value_[value_.size()-1] != '\0') value_ += '\0';
+        // ensure count>0 and nul terminated # https://github.com/Exiv2/exiv2/issues/1484
+        if (value_.size() == 0 || value_.at(value_.size()-1) != '\0') value_ += '\0';
         return 0;
     }
 
@@ -494,11 +488,11 @@ namespace Exiv2 {
         std::string c = comment;
         CharsetId charsetId = undefined;
         if (comment.length() > 8 && comment.substr(0, 8) == "charset=") {
-            std::string::size_type pos = comment.find_first_of(' ');
+            const std::string::size_type pos = comment.find_first_of(' ');
             std::string name = comment.substr(8, pos-8);
             // Strip quotes (so you can also specify the charset without quotes)
-            if (name[0] == '"') name = name.substr(1);
-            if (name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
+            if (!name.empty() && name[0] == '"') name = name.substr(1);
+            if (!name.empty() && name[name.length()-1] == '"') name = name.substr(0, name.length()-1);
             charsetId = CharsetInfo::charsetIdByName(name);
             if (charsetId == invalidCharsetId) {
 #ifndef SUPPRESS_WARNINGS
@@ -555,18 +549,6 @@ namespace Exiv2 {
         return os << comment();
     }
 
-    // test string for printable ascii-7 (' ' .. '~')
-    static bool isBinary(const std::string& s)
-    {
-        bool result = false ;
-        size_t i = 0;
-        while ( !result && i < s.length() ) {
-            unsigned char c = (unsigned char) s[i++];
-            result = c < 32 || c > 127 ;
-        }
-        return result;
-    }
-
     std::string CommentValue::comment(const char* encoding) const
     {
         std::string c;
@@ -582,11 +564,6 @@ namespace Exiv2 {
         // # 1266 Remove trailing nulls
         if ( bAscii && c.find('\0') != c.std::string::npos) {
             c = c.substr(0,c.find('\0'));
-        }
-        // return "binary comment" if results contains non-printable bytes
-        // this ensures no binary bytes in the output stream.
-        if ( bAscii && isBinary(c) ) {
-            c = "binary comment" ;
         }
         return c;
     }
@@ -719,8 +696,8 @@ namespace Exiv2 {
             std::string::size_type pos = buf.find_first_of(' ');
             type = buf.substr(5, pos-5);
             // Strip quotes (so you can also specify the type without quotes)
-            if (type[0] == '"') type = type.substr(1);
-            if (type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
+            if (!type.empty() && type[0] == '"') type = type.substr(1);
+            if (!type.empty() && type[type.length()-1] == '"') type = type.substr(0, type.length()-1);
             b.clear();
             if (pos != std::string::npos) b = buf.substr(pos+1);
         }
@@ -838,22 +815,22 @@ namespace Exiv2 {
     std::string XmpArrayValue::toString(long n) const
     {
         ok_ = true;
-        return value_[n];
+        return value_.at(n);
     }
 
     long XmpArrayValue::toLong(long n) const
     {
-        return parseLong(value_[n], ok_);
+        return parseLong(value_.at(n), ok_);
     }
 
     float XmpArrayValue::toFloat(long n) const
     {
-        return parseFloat(value_[n], ok_);
+        return parseFloat(value_.at(n), ok_);
     }
 
     Rational XmpArrayValue::toRational(long n) const
     {
-        return parseRational(value_[n], ok_);
+        return parseRational(value_.at(n), ok_);
     }
 
     XmpArrayValue* XmpArrayValue::clone_() const
@@ -873,18 +850,43 @@ namespace Exiv2 {
     }
 
     int LangAltValue::read(const std::string& buf)
-    {
+    {        
         std::string b = buf;
         std::string lang = "x-default";
         if (buf.length() > 5 && buf.substr(0, 5) == "lang=") {
-            std::string::size_type pos = buf.find_first_of(' ');
-            lang = buf.substr(5, pos-5);
+            static const char* ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            static const char* ALPHA_NUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            
+            const std::string::size_type pos = buf.find_first_of(' ');
+            if (pos == std::string::npos) {
+                lang = buf.substr(5);
+            } else {
+                lang = buf.substr(5, pos-5);
+            }
+            if (lang.empty()) throw Error(kerInvalidLangAltValue, buf);
             // Strip quotes (so you can also specify the language without quotes)
-            if (lang[0] == '"') lang = lang.substr(1);
-            if (lang[lang.length()-1] == '"') lang = lang.substr(0, lang.length()-1);
+            if (lang[0] == '"') {
+                lang = lang.substr(1);
+
+                if (lang.empty() || lang.find('"') != lang.length()-1)
+                    throw Error(kerInvalidLangAltValue, buf);
+            
+                lang = lang.substr(0, lang.length()-1);
+            }
+            
+            if (lang.empty()) throw Error(kerInvalidLangAltValue, buf);
+
+            // Check language is in the correct format (see https://www.ietf.org/rfc/rfc3066.txt)
+            std::string::size_type charPos = lang.find_first_not_of(ALPHA);
+            if (charPos != std::string::npos) {
+                if (lang.at(charPos) != '-' || lang.find_first_not_of(ALPHA_NUM, charPos+1) != std::string::npos)
+                    throw Error(kerInvalidLangAltValue, buf);
+            }
+            
             b.clear();
             if (pos != std::string::npos) b = buf.substr(pos+1);
         }
+
         value_[lang] = b;
         return 0;
     }
@@ -993,7 +995,10 @@ namespace Exiv2 {
         std::memcpy(b, reinterpret_cast<const char*>(buf), 8);
         int scanned = sscanf(b, "%4d%2d%2d",
                              &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) {
+        if (   scanned != 3
+            || date_.year < 0
+            || date_.month < 1 || date_.month > 12
+            || date_.day < 1 || date_.day > 31) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
@@ -1011,9 +1016,12 @@ namespace Exiv2 {
 #endif
             return 1;
         }
-        int scanned = sscanf(buf.c_str(), "%4d-%d-%d",
+        int scanned = sscanf(buf.c_str(), "%4d-%2d-%2d",
                              &date_.year, &date_.month, &date_.day);
-        if (scanned != 3) {
+        if (   scanned != 3
+            || date_.year < 0
+            || date_.month < 1 || date_.month > 12
+            || date_.day < 1 || date_.day > 31) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << Error(kerUnsupportedDateFormat) << "\n";
 #endif
@@ -1034,7 +1042,7 @@ namespace Exiv2 {
         // sprintf wants to add the null terminator, so use oversized buffer
         char temp[9];
 
-        int wrote = sprintf(temp, "%04d%02d%02d", date_.year, date_.month, date_.day);
+        int wrote = snprintf(temp, sizeof(temp), "%04d%02d%02d", date_.year, date_.month, date_.day);
         assert(wrote == 8);
         std::memcpy(buf, temp, wrote);
         return wrote;
@@ -1177,7 +1185,7 @@ namespace Exiv2 {
     {
         int rc = 1;
         Time t;
-        char plusMinus;
+        char plusMinus = 0;
         int scanned = sscanf(buf, format, &t.hour, &t.minute, &t.second,
                              &plusMinus, &t.tzHour, &t.tzMinute);
         if (   scanned    == 6

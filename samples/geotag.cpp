@@ -1,7 +1,24 @@
 // ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 // geotag.cpp
 // Sample program to read gpx files and update images with GPS tags
-
 // g++ geotag.cpp -o geotag -lexiv2 -lexpat
 
 #include <exiv2/exiv2.hpp>
@@ -225,8 +242,8 @@ std::string Position::toExifTimeStamp(std::string& t)
     int mm = 0 ;
     int SS1 = 0 ;
     if ( strstr(arg,":") || strstr(arg,"-") ) {
-        int  YY,MM,DD    ;
-        char a,b,c,d,e   ;
+        int YY=0,MM=0,DD=0;
+        char a=0,b=0,c=0,d=0,e=0;
         sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
     }
     sprintf(result,"%d/1 %d/1 %d/1",HH,mm,SS1);
@@ -406,8 +423,8 @@ time_t parseTime(const char* arg,bool bAdjust)
         // <time>2012-07-14T17:33:16Z</time>
 
         if ( strstr(arg,":") || strstr(arg,"-") ) {
-            int  YY,MM,DD,HH,mm,SS1 ;
-            char a,b,c,d,e   ;
+            int  YY=0,MM=0,DD=0,HH=0,mm=0,SS1=0;
+            char a=0,b=0,c=0,d=0,e=0;
             sscanf(arg,"%d%c%d%c%d%c%d%c%d%c%d",&YY,&a,&MM,&b,&DD,&c,&HH,&d,&mm,&e,&SS1);
 
             struct tm T;
@@ -619,9 +636,9 @@ time_t readImageTime(const std::string& path,std::string* pS=NULL)
     , "Exif.Image.DateTime"
     , NULL
     };
-    const char* dateString = dateStrings[0] ;
 
-    do {
+    for (size_t i = 0; !result && dateStrings[i]; i++) {
+        const char* dateString = dateStrings[i] ;
         try {
             Image::AutoPtr image = ImageFactory::open(path);
             if ( image.get() ) {
@@ -632,7 +649,7 @@ time_t readImageTime(const std::string& path,std::string* pS=NULL)
                 if ( result && pS ) *pS = exifData[dateString].toString();
             }
         } catch ( ... ) {};
-    } while ( !result && ++dateString );
+    }
 
     return result ;
 }
@@ -747,7 +764,7 @@ int parseTZ(const char* adjust)
 {
     int   h=0;
     int   m=0;
-    char  c  ;
+    char  c=0;
     try {
         sscanf(adjust,"%d%c%d",&h,&c,&m);
     } catch ( ... ) {} ;
@@ -766,6 +783,9 @@ int main(int argc,const char* argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     int result=0;
     const char* program = argv[0];

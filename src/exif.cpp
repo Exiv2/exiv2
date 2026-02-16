@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -35,6 +35,7 @@
 #include "types.hpp"
 #include "error.hpp"
 #include "basicio.hpp"
+#include "safe_op.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 #include "tiffcomposite_int.hpp" // for Tag::root
@@ -230,7 +231,22 @@ namespace Exiv2 {
               fct=NULL;
             }
         }
-        if ( fct ) fct(os, value(), pMetadata);
+        if ( fct ) {
+          // https://github.com/Exiv2/exiv2/issues/1706
+          // Sometimes the type of the value doesn't match what the
+          // print function expects. (The expected types are stored
+          // in the TagInfo tables, but they are not enforced when the
+          // metadata is parsed.) These type mismatches can sometimes
+          // cause a std::out_of_range exception to be thrown.
+          try {
+            fct(os, value(), pMetadata);
+          } catch (std::out_of_range&) {
+            os << "Bad value";
+#ifdef EXIV2_DEBUG_MESSAGES
+            std::cerr << "Caught std::out_of_range exception in Exifdatum::write().\n";
+#endif
+          }
+        }
         return os;
     }
 
@@ -564,8 +580,8 @@ namespace Exiv2 {
         ExifKey exifKey(key);
         iterator pos = findKey(exifKey);
         if (pos == end()) {
-            add(Exifdatum(exifKey));
-            pos = findKey(exifKey);
+            exifMetadata_.push_back(Exifdatum(exifKey));
+            return exifMetadata_.back();
         }
         return *pos;
     }
@@ -948,8 +964,8 @@ namespace {
     long sumToLong(const Exiv2::Exifdatum& md)
     {
         long sum = 0;
-        for (int i = 0; i < md.count(); ++i) {
-            sum += md.toLong(i);
+        for (long i = 0; i < md.count(); ++i) {
+            sum = Safe::add(sum, md.toLong(i));
         }
         return sum;
     }

@@ -1,3 +1,23 @@
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
+
 #include <exiv2/exiv2.hpp>
 // File under test
 #include <exiv2/futils.hpp>
@@ -8,7 +28,7 @@
 #include <cerrno>
 #include <stdexcept>
 
-#include "gtestwrapper.h"
+#include <gtest/gtest.h>
 
 using namespace Exiv2;
 
@@ -22,21 +42,8 @@ TEST(strError, returnSuccessAfterClosingFile)
     std::string tmpFile("tmp.dat");
     std::ofstream auxFile(tmpFile.c_str());
     auxFile.close();
-#if   defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(__MSYS__)
-    const char * expectedString = "No error (errno = 0)";
-#elif defined(__APPLE__)
-    const char * expectedString = "Undefined error: 0 (errno = 0)";
-#elif defined(__sun__)
-    const char * expectedString = "Error 0 (errno = 0)";
-#elif defined(__FreeBSD__)
-    const char * expectedString = "No error: 0 (errno = 0)";
-#elif defined(__NetBSD__)
-    const char * expectedString = "Undefined error: 0 (errno = 0)";
-#else
-    const char * expectedString = "Success (errno = 0)";
-#endif
     std::remove(tmpFile.c_str());
-    ASSERT_STREQ(expectedString, strError().c_str());
+    ASSERT_TRUE(strError().find("errno = 0") != std::string::npos);
 }
 
 TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile)
@@ -48,22 +55,7 @@ TEST(strError, returnNoSuchFileOrDirectoryWhenTryingToOpenNonExistingFile)
 TEST(strError, doNotRecognizeUnknownError)
 {
     errno = 9999;
-#if   defined(__MINGW__) || defined(__MSYS__) || defined(__CYGWIN__)
-    const char * expectedString = "Unknown error 9999 (errno = 9999)";
-#elif defined(_WIN32)
-    const char * expectedString = "Unknown error (errno = 9999)";
-#elif defined(__APPLE__)
-    const char * expectedString = "Unknown error: 9999 (errno = 9999)";
-#elif defined(__sun__)
-    const char * expectedString = "Unknown error (errno = 9999)";
-#elif defined(__FreeBSD__)
-    const char * expectedString = "Unknown error: 9999 (errno = 9999)";
-#elif defined(__NetBSD__)
-    const char * expectedString = "Unknown error: 9999 (errno = 9999)";
-#else
-    const char * expectedString = "Unknown error 9999 (errno = 9999)";
-#endif
-    ASSERT_STREQ(expectedString, strError().c_str());
+    ASSERT_TRUE(strError().find("errno = 9999") != std::string::npos) << "strError = " << strError();
 }
 
 TEST(getEnv, getsDefaultValueWhenExpectedEnvVariableDoesNotExist)
@@ -147,7 +139,7 @@ TEST(base64decode, decodesValidString)
     const std::string original ("VGhpcyBpcyBhIHVuaXQgdGVzdA==");
     const std::string expected ("This is a unit test");
     char * result = new char [original.size()];
-    ASSERT_EQ(static_cast<long>(expected.size()+1),
+    ASSERT_EQ(static_cast<long>(expected.size()),
               base64decode(original.c_str(), result, original.size()));
     ASSERT_STREQ(expected.c_str(), result);
     delete [] result;

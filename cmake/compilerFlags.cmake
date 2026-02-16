@@ -25,7 +25,9 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
     if (COMPILER_IS_GCC OR COMPILER_IS_CLANG)
         # This fails under Fedora - MinGW - Gcc 8.3
         if (NOT (MINGW OR CYGWIN OR CMAKE_HOST_SOLARIS))
-            check_cxx_compiler_flag(-fstack-clash-protection HAS_FSTACK_CLASH_PROTECTION)
+            if (NOT APPLE) # Don't know why this isn't working correctly on Apple with M1 processor
+                check_cxx_compiler_flag(-fstack-clash-protection HAS_FSTACK_CLASH_PROTECTION)
+            endif()
             check_cxx_compiler_flag(-fcf-protection HAS_FCF_PROTECTION)
             check_cxx_compiler_flag(-fstack-protector-strong HAS_FSTACK_PROTECTOR_STRONG)
             if(HAS_FSTACK_CLASH_PROTECTION)
@@ -41,7 +43,7 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
 
         add_compile_options(-Wp,-D_GLIBCXX_ASSERTIONS)
 
-        if (CMAKE_BUILD_TYPE STREQUAL Release AND NOT APPLE AND NOT MSYS)
+        if (CMAKE_BUILD_TYPE STREQUAL Release AND NOT (APPLE OR MINGW OR MSYS))
             add_compile_options(-Wp,-D_FORTIFY_SOURCE=2) # Requires to compile with -O2
         endif()
 
@@ -71,7 +73,9 @@ if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address")
                 endif()
             elseif( COMPILER_IS_CLANG )
-                if ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
+                if ( EXIV2_BUILD_FUZZ_TESTS )
+                    set(SANITIZER_FLAGS "-fsanitize=fuzzer-no-link,address,undefined")
+                elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9 )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined -fno-sanitize-recover=all")
                 elseif ( CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.4 )
                     set(SANITIZER_FLAGS "-fno-omit-frame-pointer -fsanitize=address,undefined")

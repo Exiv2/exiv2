@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      minoltamn.cpp
-  Author(s): Gilles Caulier (cgilles) <caulier dot gilles at gmail dot com>
-             Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   06-May-06, gc: submitted
-  Credits:   See header file.
  */
 
 // *****************************************************************************
@@ -2037,7 +2030,7 @@ namespace Exiv2 {
     {
         const TagDetails* td = find(minoltaSonyLensID, lensID);
         std::vector<std::string> tokens = split(td[0].label_,"|");
-        return os << exvGettext(trim(tokens[index-1]).c_str());
+        return os << exvGettext(trim(tokens.at(index-1)).c_str());
     }
 
     static std::ostream& resolveLens0x1c(std::ostream& os, const Value& value,
@@ -2179,16 +2172,20 @@ namespace Exiv2 {
 
             if ( model == "ILCE-6000" && maxAperture == F1_8 ) try {
                 long    focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
-                long    focalL35mm  = getKeyLong  ("Exif.Photo.FocalLengthIn35mmFilm",metadata);
-                long    focalRatio  = (focalL35mm*100)/focalLength;
-                if ( inRange(focalRatio,145,155) ) index = 2 ;
+                if (focalLength > 0) {
+                  long    focalL35mm  = getKeyLong  ("Exif.Photo.FocalLengthIn35mmFilm",metadata);
+                  long    focalRatio  = (focalL35mm*100)/focalLength;
+                  if ( inRange(focalRatio,145,155) ) index = 2 ;
+                }
             } catch (...) {}
 
             if ( model == "ILCE-6000" && maxApertures.find(maxAperture) != maxApertures.end() ) try {
                 long    focalLength = getKeyLong  ("Exif.Photo.FocalLength"      ,metadata);
-                long    focalL35mm  = getKeyLong  ("Exif.Photo.FocalLengthIn35mmFilm",metadata);
-                long    focalRatio  = (focalL35mm*100)/focalLength;
-                if ( inRange(focalRatio,145,155) ) index = 3 ;
+                if (focalLength > 0) {
+                  long    focalL35mm  = getKeyLong  ("Exif.Photo.FocalLengthIn35mmFilm",metadata);
+                  long    focalRatio  = (focalL35mm*100)/focalLength;
+                  if ( inRange(focalRatio,145,155) ) index = 3 ;
+                }
             } catch (...) {}
 
             if ( index > 0 ) {

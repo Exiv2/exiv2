@@ -3,7 +3,7 @@
  * Lens database for the conversion of Nikon lens data to readable lens names
  * Copyright (C) 2005-2014 Robert Rottmerhusen <lens_id@rottmerhusen.com>
  *
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -19,14 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      nikonmn.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-             Gilles Caulier (gc) <caulier dot gilles at gmail dot com>
-             Jens Mueller (jm) <tschensinger at web dot de>
-  History:   17-May-04, ahu: created
-             25-May-04, ahu: combined all Nikon formats in one component
  */
 // *****************************************************************************
 // included header files
@@ -102,6 +94,16 @@ namespace Exiv2 {
         N_("Lower-right"),
         N_("Left-most"),
         N_("Right-most")
+    };
+
+    //! Shutter Modes (credits to exiftool)
+    extern const TagDetails nikonShutterModes[] = {
+        { 0, "Mechanical" },
+        { 16, "Electronic" },
+        { 48, "Electronic Front Curtain" },
+        { 64, "Electronic (Movie)" },
+        { 80, "Auto (Mechanical)" },
+        { 81, "Auto (Electronic Front Curtain)" }
     };
 
     //! FlashComp, tag 0x0012
@@ -589,6 +591,9 @@ namespace Exiv2 {
         TagInfo(0x0024, "WorldTime", N_("World Time"), N_("World time"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x0025, "ISOInfo", N_("ISO Info"), N_("ISO info"), nikon3Id, makerTags, undefined, -1, printValue),
         TagInfo(0x002a, "VignetteControl", N_("Vignette Control"), N_("Vignette control"), nikon3Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(nikonOlnh)),
+        TagInfo(0x0034, "ShutterMode", N_("Shutter Mode"), N_("Shutter mode"), nikon3Id, makerTags, unsignedShort, -1, EXV_PRINT_TAG(nikonShutterModes)),
+        TagInfo(0x0037, "MechanicalShutterCount", N_("Mechanical Shutter Count"), N_("Mechanical shutter count"), nikon3Id, makerTags, unsignedLong, -1, printValue),
+        TagInfo(0x003f, "WhiteBalanceBias2", N_("White Balance Bias 2"), N_("White balance bias 2"), nikon3Id, makerTags, signedRational, -1, printValue),
         TagInfo(0x0080, "ImageAdjustment", N_("Image Adjustment"), N_("Image adjustment setting"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x0081, "ToneComp", N_("Tone Compensation"), N_("Tone compensation"), nikon3Id, makerTags, asciiString, -1, printValue),
         TagInfo(0x0082, "AuxiliaryLens", N_("Auxiliary Lens"), N_("Auxiliary lens (adapter)"), nikon3Id, makerTags, asciiString, -1, printValue),
@@ -1465,6 +1470,37 @@ namespace Exiv2 {
         return tagInfoLd3_;
     }
 
+    // Nikon3 Lens Data 4 Tag Info
+    // based on https://exiftool.org/TagNames/Nikon.html#LensData0800
+    const TagInfo Nikon3MakerNote::tagInfoLd4_[] = {
+        TagInfo( 0, "Version", N_("Version"), N_("Version"), nikonLd4Id, makerTags, undefined, 4, printExifVersion),
+        TagInfo( 4, "ExitPupilPosition", N_("Exit Pupil Position"), N_("Exit pupil position"), nikonLd4Id, makerTags, unsignedByte, 1, printExitPupilPosition),
+        TagInfo( 5, "AFAperture", N_("AF Aperture"), N_("AF aperture"), nikonLd4Id, makerTags, unsignedByte, 1, printAperture),
+        TagInfo( 9, "FocusPosition", N_("Focus Position"), N_("Focus position"), nikonLd4Id, makerTags, unsignedByte, 1, printValue),
+        TagInfo(11, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), nikonLd4Id, makerTags, unsignedByte, 1, printFocusDistance),
+        TagInfo(12, "FocalLength", N_("Focal Length"), N_("Focal length"), nikonLd4Id, makerTags, unsignedByte, 1, printFocal),
+        TagInfo(13, "LensIDNumber", N_("Lens ID Number"), N_("Lens ID number"), nikonLd4Id, makerTags, unsignedByte, 1, printLensId4),
+        TagInfo(14, "LensFStops", N_("Lens F-Stops"), N_("Lens F-stops"), nikonLd4Id, makerTags, unsignedByte, 1, printFStops),
+        TagInfo(15, "MinFocalLength", N_("Min Focal Length"), N_("Min focal length"), nikonLd4Id, makerTags, unsignedByte, 1, printFocal),
+        TagInfo(16, "MaxFocalLength", N_("Max Focal Length"), N_("Max focal length"), nikonLd4Id, makerTags, unsignedByte, 1, printFocal),
+        TagInfo(17, "MaxApertureAtMinFocal", N_("Max Aperture At Min Focal"), N_("Max aperture at min focal length"), nikonLd4Id, makerTags, unsignedByte, 1, printAperture),
+        TagInfo(18, "MaxApertureAtMaxFocal", N_("Max Aperture At Max Focal"), N_("Max aperture at max focal length"), nikonLd4Id, makerTags, unsignedByte, 1, printAperture),
+        TagInfo(19, "MCUVersion", N_("MCU Version"), N_("MCU version"), nikonLd4Id, makerTags, unsignedByte, 1, printValue),
+        TagInfo(20, "EffectiveMaxAperture", N_("Effective Max Aperture"), N_("Effective max aperture"), nikonLd4Id, makerTags, unsignedByte, 1, printAperture),
+        TagInfo(48, "LensID", N_("LensID"), N_("Lens ID"), nikonLd4Id, makerTags, unsignedShort, 1, printLensId4ZMount),
+        TagInfo(54, "MaxAperture", N_("Max Aperture"), N_("Max aperture"), nikonLd4Id, makerTags, unsignedShort, 1, printApertureLd4),
+        TagInfo(56, "FNumber", N_("F-Number"), N_("F-Number"), nikonLd4Id, makerTags, unsignedShort, 1, printApertureLd4),
+        TagInfo(60, "FocalLength", N_("Focal Length"), N_("Focal length"), nikonLd4Id, makerTags, unsignedShort, 1, printFocalLd4),
+        TagInfo(79, "FocusDistance", N_("Focus Distance"), N_("Focus distance"), nikonLd4Id, makerTags, unsignedByte, 1, printFocusDistance),
+        // End of list marker
+        TagInfo(0xffff, "(UnknownNikonLd4Tag)", "(UnknownNikonLd4Tag)", N_("Unknown Nikon Lens Data 3 Tag"), nikonLd4Id, makerTags, unsignedByte, 1, printValue)
+    };
+
+    const TagInfo* Nikon3MakerNote::tagListLd4()
+    {
+        return tagInfoLd4_;
+    }
+
     std::ostream& Nikon3MakerNote::printIiIso(std::ostream& os,
                                               const Value& value,
                                               const ExifData*)
@@ -1790,6 +1826,13 @@ namespace Exiv2 {
         return testConfigFile(os,value) ? os : printLensId(os, value, metadata, "NikonLd3");
     }
 
+    std::ostream& Nikon3MakerNote::printLensId4(std::ostream& os,
+                                                const Value& value,
+                                                const ExifData* metadata)
+    {
+        return testConfigFile(os,value) ? os : printLensId(os, value, metadata, "NikonLd4");
+    }
+
     std::ostream& Nikon3MakerNote::printLensId(std::ostream& os,
                                                const Value& value,
                                                const ExifData* metadata,
@@ -2059,6 +2102,7 @@ fmountlens[] = {
 {0x9F,0x58,0x44,0x44,0x14,0x14,0xA1,0x06,0x01,0x00,0x00, "Nikon", "JAA132DA", "AF-S DX Nikkor 35mm f/1.8G"},
 {0xA0,0x54,0x50,0x50,0x0C,0x0C,0xA2,0x06,0x01,0x00,0x00, "Nikon", "JAA014DA", "AF-S Nikkor 50mm f/1.4G"},
 {0xA1,0x40,0x18,0x37,0x2C,0x34,0xA3,0x06,0x01,0x00,0x00, "Nikon", "JAA804DA", "AF-S DX Nikkor 10-24mm f/3.5-4.5G ED"},
+{0xA2,0x38,0x5C,0x8E,0x34,0x40,0xCD,0x86,0x00,0x00,0x00, "Nikon", "JAA829DA", "AF-P DX Nikkor 70-300mm f/4.5-6.3G ED VR"},
 {0xA2,0x48,0x5C,0x80,0x24,0x24,0xA4,0x0E,0x13,0x00,0x00, "Nikon", "JAA807DA", "AF-S Nikkor 70-200mm f/2.8G ED VR II"},
 {0xA3,0x3C,0x29,0x44,0x30,0x30,0xA5,0x0E,0x01,0x00,0x00, "Nikon", "JAA806DA", "AF-S Nikkor 16-35mm f/4G ED VR"},
 {0xA4,0x54,0x37,0x37,0x0C,0x0C,0xA6,0x06,0x01,0x00,0x00, "Nikon", "JAA131DA", "AF-S Nikkor 24mm f/1.4G ED"},
@@ -2071,6 +2115,7 @@ fmountlens[] = {
 //AB                AD                                          -- no lens --
 {0xAC,0x38,0x53,0x8E,0x34,0x3C,0xAE,0x0E,0x01,0x00,0x00, "Nikon", "JAA814DA", "AF-S DX Nikkor 55-300mm f/4.5-5.6G ED VR"},
 {0xAD,0x3C,0x2D,0x8E,0x2C,0x3C,0xAF,0x0E,0x01,0x00,0x00, "Nikon", "JAA812DA", "AF-S DX Nikkor 18-300mm f/3.5-5.6G ED VR"},
+{0xAD,0x3C,0xA0,0xA0,0x3C,0x3C,0xD8,0x4E,0x00,0x00,0x00, "Nikon", "JAA535DA", "AF-S Nikkor 500mm f/5.6E PF ED VR"},
 {0xAE,0x54,0x62,0x62,0x0C,0x0C,0xB0,0x06,0x01,0x00,0x00, "Nikon", "JAA338DA", "AF-S Nikkor 85mm f/1.4G"},
 {0xAF,0x54,0x44,0x44,0x0C,0x0C,0xB1,0x06,0x01,0x00,0x00, "Nikon", "JAA134DA", "AF-S Nikkor 35mm f/1.4G"},
 {0xB0,0x4C,0x50,0x50,0x14,0x14,0xB2,0x06,0x01,0x00,0x00, "Nikon", "JAA015DA", "AF-S Nikkor 50mm f/1.8G"},
@@ -2362,6 +2407,7 @@ fmountlens[] = {
 //M                                         "Tamron" "63D"    "AF 35-90mm F/4-5.6";
 //M                                         "Tamron" "65D"    "SP AF 35-105mm F/2.8 Aspherical";
 //M                                         "Tamron" ""       "AF 35-135mm F/3.5-4.5";
+{0xC9,0x3C,0x44,0x76,0x25,0x31,0xDF,0x4E,0x00,0x00,0x00, "Tamron", "A043", "35-150mm F/2.8-4 Di VC OSD"},
 {0x00,0x47,0x53,0x80,0x30,0x3C,0x00,0x06,0x00,0x00,0x00, "Tamron", "A15", "AF 55-200mm F/4-5.6 Di II LD"},
 {0xF7,0x53,0x5C,0x80,0x24,0x24,0x84,0x06,0x01,0x00,0x00, "Tamron", "A001", "SP AF 70-200mm F/2.8 Di LD (IF) Macro"},
 {0xFE,0x53,0x5C,0x80,0x24,0x24,0x84,0x06,0x01,0x00,0x00, "Tamron", "A001", "SP AF 70-200mm F/2.8 Di LD (IF) Macro"},
@@ -2875,5 +2921,79 @@ fmountlens[] = {
         }
         return os << s;
     }
+
+    std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os,
+                                              const Value& value,
+                                              const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedShort) {
+            return os << "(" << value << ")";
+        }
+
+// from https://github.com/exiftool/exiftool/blob/12.44/lib/Image/ExifTool/Nikon.pm#L4969
+static const struct ZMntLens {uint16_t lid; const char *manuf, *lensname;}
+zmountlens[] = {
+             {1 , "Nikon", "Nikkor Z 24-70mm f/4 S"},
+             {2 , "Nikon", "Nikkor Z 14-30mm f/4 S"},
+             {4 , "Nikon", "Nikkor Z 35mm f/1.8 S"},
+             {8 , "Nikon", "Nikkor Z 58mm f/0.95 S Noct"}, //IB
+             {9 , "Nikon", "Nikkor Z 50mm f/1.8 S"},
+            {11 , "Nikon", "Nikkor Z DX 16-50mm f/3.5-6.3 VR"},
+            {12 , "Nikon", "Nikkor Z DX 50-250mm f/4.5-6.3 VR"},
+            {13 , "Nikon", "Nikkor Z 24-70mm f/2.8 S"},
+            {14 , "Nikon", "Nikkor Z 85mm f/1.8 S"},
+            {15 , "Nikon", "Nikkor Z 24mm f/1.8 S"}, //IB
+            {16 , "Nikon", "Nikkor Z 70-200mm f/2.8 VR S"}, //IB
+            {17 , "Nikon", "Nikkor Z 20mm f/1.8 S"}, //IB
+            {18 , "Nikon", "Nikkor Z 24-200mm f/4-6.3 VR"}, //IB
+            {21 , "Nikon", "Nikkor Z 50mm f/1.2 S"}, //IB
+            {22 , "Nikon", "Nikkor Z 24-50mm f/4-6.3"}, //IB
+            {23 , "Nikon", "Nikkor Z 14-24mm f/2.8 S"}, //IB
+            {24 , "Nikon", "Nikkor Z MC 105mm f/2.8 VR S"}, //IB
+            {27 , "Nikon", "Nikkor Z MC 50mm f/2.8"}, //IB
+            {28 , "Nikon", "Nikkor Z 100-400mm f/4.5-5.6 VR S"}, //28
+            {29 , "Nikon", "Nikkor Z 28mm f/2.8"}, //IB
+            {30 , "Nikon", "Nikkor Z 400mm f/2.8 TC VR S"}, //28
+            {31 , "Nikon", "Nikkor Z 24-120 f/4"}, //28
+            {32 , "Nikon", "Nikkor Z 800mm f/6.3 VR S"}, //28
+            {0 , "", ""} //end of array
+};
+
+        uint16_t lid = static_cast<uint16_t>(value.toLong());
+        for(int i = 0; zmountlens[i].lid != 0; ++i){
+          if ( zmountlens[i].lid == lid ) return os << zmountlens[i].manuf << " " << zmountlens[i].lensname;
+        }
+        return os << lid;
+    }
+
+    std::ostream& Nikon3MakerNote::printApertureLd4(std::ostream& os,
+                                              const Value& value,
+                                              const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedShort) {
+            return os << "(" << value << ")";
+        }
+
+        double aperture = pow(2.0, value.toLong()/384.0 - 1.0);
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(1) << "F" << aperture;
+        os.copyfmt(oss);
+        return os;
+    }
+    std::ostream& Nikon3MakerNote::printFocalLd4(std::ostream& os,
+                                              const Value& value,
+                                              const ExifData*)
+    {
+        if (value.count() != 1 || value.typeId() != unsignedShort) {
+            return os << "(" << value << ")";
+        }
+        std::ostringstream oss;
+        oss.copyfmt(os);
+        os << std::fixed << std::setprecision(1) << value.toLong() << " mm";
+        os.copyfmt(oss);
+        return os;
+    }
+
 
 }}                                      // namespace Internal, Exiv2

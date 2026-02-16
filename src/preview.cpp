@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,17 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      preview.cpp
-  Author(s): Vladimir Nadvornik (vn) <nadvornik@suse.cz>
-  History:   18-Sep-08, vn: created
- */
 // *****************************************************************************
 // included header files
 #include "config.h"
 
 #include <climits>
 #include <string>
+#include <vector>
 
 #include "preview.hpp"
 #include "futils.hpp"
@@ -484,8 +480,8 @@ namespace {
         } else if (nativePreview_.filter_ == "hex-irb") {
             const DataBuf psData = decodeHex(data + nativePreview_.position_, static_cast<long>(nativePreview_.size_));
             const byte *record;
-            uint32_t sizeHdr;
-            uint32_t sizeData;
+            uint32_t sizeHdr = 0;
+            uint32_t sizeData = 0;
             if (Photoshop::locatePreviewIrb(psData.pData_, psData.size_, &record, &sizeHdr, &sizeData) != 0) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "Missing preview IRB in Photoshop EPS preview.\n";
@@ -809,12 +805,19 @@ namespace {
                     enforce(size_ <= static_cast<uint32_t>(io.size()), kerCorruptedMetadata);
                     DataBuf buf(size_);
                     uint32_t idxBuf = 0;
-                    for (int i = 0; i < sizes.count(); i++) {
+                    for (long i = 0; i < sizes.count(); i++) {
                         uint32_t offset = dataValue.toLong(i);
                         uint32_t size = sizes.toLong(i);
-                        enforce(Safe::add(idxBuf, size) < size_, kerCorruptedMetadata);
-                        if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size()))
+
+                        // the size_ parameter is originally computed by summing all values inside sizes
+                        // see the constructor of LoaderTiff
+                        // But e.g in malicious files some of thes values could be negative
+                        // That's why we check again for each step here to really make sure we don't overstep
+                        enforce(Safe::add(idxBuf, size) <= size_, kerCorruptedMetadata);
+                        if (size!=0 && Safe::add(offset, size) <= static_cast<uint32_t>(io.size())){
                             memcpy(&buf.pData_[idxBuf], base + offset, size);
+                        }
+
                         idxBuf += size;
                     }
                     dataValue.setDataArea(buf.pData_, buf.size_);
@@ -934,9 +937,8 @@ namespace {
 
         // create decoding table
         unsigned long invalid = 64;
-        unsigned long decodeBase64Table[256] = {};
-        for (unsigned long i = 0; i < 256; i++)
-            decodeBase64Table[i] = invalid;
+        std::vector<unsigned long> decodeBase64Table(256, invalid);
+
         for (unsigned long i = 0; i < 64; i++)
             decodeBase64Table[(unsigned char)encodeBase64Table[i]] = i;
 

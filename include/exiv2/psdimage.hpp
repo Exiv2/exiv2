@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,16 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    psdimage.hpp
-  @brief   Photoshop image, implemented using the following references:
-           <a href="http://www.fine-view.com/jp/lab/doc/ps6ffspecsv2.pdf">Adobe Photoshop 6.0 File Format Specification</a> by Adobe<br>
-  @author  Marco Piovanelli, Ovolab (marco)
-           <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
-  @author  Michael Ulbrich
-           <a href="mailto:mul@rentapacs.de">mul@rentapacs.de</a>
-  @date    05-Mar-2007, marco: created
  */
 #ifndef PSDIMAGE_HPP_
 #define PSDIMAGE_HPP_

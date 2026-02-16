@@ -1,0 +1,162 @@
+name: Linux Special Builds on PRs
+
+on: [pull_request]
+
+jobs:
+  special_debugRelease:
+    name: 'Ubuntu 20.04 - GCC - Debug+Coverage'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+          # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install ninja-build
+          pip3 install conan==1.59.0
+
+      - name: Conan common config
+        run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          cmake --build .
+
+      - name: Tests + Upload coverage
+        run: |
+          cd build
+          ctest --output-on-failure
+          pip install gcovr
+          gcovr -r ./../ -x --exclude-unreachable-branches --exclude-throw-branches -o coverage.xml .
+          curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+          curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+          gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
+          shasum -a 256 -c codecov.SHA256SUM
+          chmod +x codecov
+          ./codecov -f build/coverage.xml
+
+  special_releaseValgrind:
+    name: 'Ubuntu 20.04 - GCC - Release+Valgrind'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install valgrind ninja-build
+          pip3 install conan==1.59.0
+
+      - name: Conan common config
+        run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=OFF -DCMAKE_INSTALL_PREFIX=install ..
+          cmake --build .
+
+      - name: Tests with valgrind
+        run: |
+          cd build/bin
+          valgrind ./unit_tests
+
+
+  special_releaseSanitizers:
+    name: 'Ubuntu 20.04 - GCC - Release+Sanitizers'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install ninja-build
+          pip3 install conan==1.59.0
+
+      - name: Conan common config
+        run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=OFF -DEXIV2_TEAM_USE_SANITIZERS=ON -DCMAKE_INSTALL_PREFIX=install ..
+          cmake --build .
+
+      - name: Tests
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  special_allEnabled:
+    name: 'Ubuntu 20.04 - GCC - All Options Enabled'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install valgrind doxygen graphviz gettext
+          pip3 install conan==1.59.0
+
+      - name: Conan common config
+        run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_NLS=ON -DCMAKE_CXX_FLAGS="-DEXIV2_DEBUG_MESSAGES" ..
+          make -j
+
+      - name: Generate documentation
+        run: |
+          make doc

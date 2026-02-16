@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,19 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    fujimn_int.hpp
-  @brief   Fujifilm MakerNote implemented according to the specification
-           in Appendix 4: Makernote of Fujifilm of the document
-           <a href="http://park2.wakwak.com/%7Etsuruzoh/Computer/Digicams/exif-e.html">
-           Exif file format</a> by TsuruZoh Tachibanaya<br>
-           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Fuji.html">Fuji Makernote list</a> by Phil Harvey<br>
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (gc)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @date    11-Feb-04, ahu: created
- */
+
 #ifndef FUJIMN_INT_HPP_
 #define FUJIMN_INT_HPP_
 

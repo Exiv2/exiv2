@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -524,7 +524,7 @@ namespace Exiv2 {
     uint16_t IptcDataSets::dataSet(const std::string& dataSetName,
                                    uint16_t recordId)
     {
-        uint16_t dataSet;
+        uint16_t dataSet = 0;
         int idx = dataSetIdx(dataSetName, recordId);
         if (idx != -1) {
             // dataSetIdx checks the range of recordId

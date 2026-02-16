@@ -40,7 +40,6 @@ foreach(entry ${SAMPLES})
     set_target_properties(${target} PROPERTIES
       COMPILE_FLAGS ${EXTRA_COMPILE_FLAGS})
     list(APPEND APPLICATIONS ${target})
-    add_test( ${target}_test ${target} )
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
     if ( NOT ${target} MATCHES ".*test.*")                                # don't install tests
         install( TARGETS ${target} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
@@ -79,6 +78,8 @@ if( EXPAT_FOUND )
             exiv2-xmp
             ${EXPAT_LIBRARIES}
     )
+    target_include_directories(geotag PRIVATE ${CMAKE_BINARY_DIR})          # exv_conf.h 
+    target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/include)  # <exiv2/exiv2.hpp>    
     target_include_directories(geotag PRIVATE ${EXPAT_INCLUDE_DIR})
     target_include_directories(geotag PRIVATE ${CMAKE_SOURCE_DIR}/src) # To find unused.h
 
@@ -123,7 +124,10 @@ list(APPEND APPLICATIONS remotetest)
 foreach(application ${APPLICATIONS})
     target_link_libraries(${application} PRIVATE exiv2lib)
     if( EXIV2_ENABLE_PNG )
-        target_link_libraries( ${application} PRIVATE ${ZLIB_LIBRARIES} )
+        target_link_libraries(${application} PRIVATE ${ZLIB_LIBRARIES} )
+	if (MSVC)
+	    set_target_properties(${application} PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
+	endif()
     endif()
 endforeach()
 

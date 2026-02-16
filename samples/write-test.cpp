@@ -1,21 +1,24 @@
 // ***************************************************************** -*- C++ -*-
 /*
-  Abstract : ExifData write unit tests
-
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-
-  Test procedure:
-   $ rm -f test.jpg thumb.jpg iii ttt;
-   $ ./exifprint ../test/img_1771.jpg > iii;
-   $ cp ../test/img_1771.jpg ./test.jpg;
-   $ ./makernote-test2 ../test/img_1771.jpg > ttt;
-   $ diff iii ttt
-
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-// *****************************************************************************
-// included header files
-#include <exiv2/exiv2.hpp>
 
+#include <exiv2/exiv2.hpp>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -41,6 +44,9 @@ int main(int argc, char* const argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     try {
 
@@ -52,7 +58,7 @@ int main(int argc, char* const argv[])
 
     std::string testFile = argv[1];
     std::istringstream iss(argv[2]);
-    int testNo;
+    int testNo = 0;
     iss >> testNo;
 
     int rc = 0;

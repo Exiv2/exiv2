@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      pentaxmn.cpp
  */
 // *****************************************************************************
 // included header files
@@ -1017,8 +1014,8 @@ namespace Exiv2 {
     std::ostream& PentaxMakerNote::printVersion(std::ostream& os, const Value& value, const ExifData*)
     {
         std::string val = value.toString();
-        size_t i;
-        while ((i = val.find(' ')) != std::string::npos && i != val.length() - 1) {
+        size_t i = 0;
+        while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
             val.replace(i, 1, ".");
         }
         os << val;
@@ -1028,8 +1025,8 @@ namespace Exiv2 {
     std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& value, const ExifData*)
     {
         std::string val = value.toString();
-        size_t i;
-        while ((i = val.find(' ')) != std::string::npos && i != val.length() - 1) {
+        size_t i = 0;
+        while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
             val.replace(i, 1, "x");
         }
         os << val;
@@ -1216,6 +1213,25 @@ namespace Exiv2 {
         return result;
     }
 
+    // Exception thrown by findLensInfo when the lens info can't be found.
+    class LensInfoNotFound : public std::exception {
+    public:
+      LensInfoNotFound() {}
+    };
+
+    // Throws std::exception if the LensInfo can't be found.
+    static ExifData::const_iterator findLensInfo(const ExifData* metadata) {
+      const ExifData::const_iterator dngLensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"));
+      if (dngLensInfo != metadata->end()) {
+        return dngLensInfo;
+      }
+      const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.Pentax.LensInfo"));
+      if (lensInfo != metadata->end()) {
+        return lensInfo;
+      }
+      throw LensInfoNotFound();
+    }
+
     //! resolveLens0x32c print lens in human format
     std::ostream& resolveLens0x32c(std::ostream& os, const Value& value,
                                                  const ExifData* metadata)
@@ -1252,11 +1268,7 @@ namespace Exiv2 {
             unsigned long index  = 0;
 
             // http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Pentax.html#LensData
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
-                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
-                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
-                                                    ;
-            if ( lensInfo == metadata->end() ) return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
+            const ExifData::const_iterator lensInfo = findLensInfo(metadata);
             if ( lensInfo->count() < 5       ) return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
 
             if ( value.count() == 2 ) {
@@ -1310,13 +1322,10 @@ namespace Exiv2 {
         try {
             unsigned long index  = 0;
 
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
-                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
-                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
-                                                    ;
+            const ExifData::const_iterator lensInfo = findLensInfo(metadata);
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
+                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 168 && lensInfo->toLong(2) == 144 ) index = 7;
             }
 
             if ( index > 0 )  {
@@ -1338,20 +1347,17 @@ namespace Exiv2 {
         try {
             unsigned long index  = 0;
 
-            const ExifData::const_iterator lensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo")) != metadata->end()
-                                                    ? metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"))
-                                                    : metadata->findKey(ExifKey("Exif.Pentax.LensInfo"))
-                                                    ;
+            const ExifData::const_iterator lensInfo = findLensInfo(metadata);
             if ( value.count() == 4 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K-3")==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
+                if ( model.rfind("PENTAX K-3", 0)==0 && lensInfo->count() == 128 && lensInfo->toLong(1) == 131 && lensInfo->toLong(2) == 128 )
                     index = 6;
             }
             if ( value.count() == 2 ) {
                 std::string model       = getKeyString("Exif.Image.Model"      ,metadata);
-                if ( model.find("PENTAX K100D")==0 && lensInfo->count() == 44 )
+                if ( model.rfind("PENTAX K100D", 0)==0 && lensInfo->count() == 44 )
                     index = 6;
-                if ( model.find("PENTAX *ist DL")==0 && lensInfo->count() == 36 )
+                if ( model.rfind("PENTAX *ist DL", 0)==0 && lensInfo->count() == 36 )
                     index = 6;
             }
 

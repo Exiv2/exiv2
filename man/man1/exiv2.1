@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EXIV2 1 "Nov 6, 2020"
+.TH EXIV2 1 "November 02, 2022"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -39,31 +39,36 @@ lB lB lB lB lB lB
 _	_	_	_	_	_
 l l l l l l.
 Type	Exif	IPTC	XMP	Image Comments	ICC Profile
-JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-EXV	Read/Write	Read/Write	Read/Write	Read/Write Read/Write
-CR2	Read/Write	Read/Write	Read/Write	-	Read/Write
-CRW	Read/Write	-	-	Read/Write	-
-MRW	Read	Read	Read	-	-
-TIFF	Read/Write	Read/Write	Read/Write	-	Read/Write
-WEBP	Read/Write	-	Read/Write	-	Read/Write
-DNG	Read/Write	Read/Write	Read/Write	-	Read/Write
-NEF	Read/Write	Read/Write	Read/Write	-	Read/Write
-PEF	Read/Write	Read/Write	Read/Write	-	Read/Write
 ARW	Read	Read	Read	-	-
+AVIF	Read	Read	Read	-	-
+BMP	-	-	-	-	-
+CR2	Read/Write	Read/Write	Read/Write	-	Read/Write
+CR3	Read	Read	Read	-	Read
+CRW	Read/Write	-	-	Read/Write	-
+DNG	Read/Write	Read/Write	Read/Write	-	Read/Write
+EPS	-	-	Read/Write	-	-
+EXV	Read/Write	Read/Write	Read/Write	Read/Write Read/Write
+GIF	-	-	-	-	-
+HEIC	Read	Read	Read	-	-
+HEIF	Read	Read	Read	-	-
+JP2	Read/Write	Read/Write	Read/Write	-	Read/Write
+JPEG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+JPEG XL	Read	Read	Read	-	-
+MRW	Read	Read	Read	-	-
+NEF	Read/Write	Read/Write	Read/Write	-	Read/Write
+ORF	Read/Write	Read/Write	Read/Write	-	-
+PEF	Read/Write	Read/Write	Read/Write	-	Read/Write
+PGF	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+PNG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
+PSD	Read/Write	Read/Write	Read/Write	-	-
+RAF	Read	Read	Read	-	-
 RW2	Read	Read	Read	-	-
 SR2	Read	Read	Read	-	-
 SRW	Read/Write	Read/Write	Read/Write	-	-
-ORF	Read/Write	Read/Write	Read/Write	-	-
-PNG	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-PGF	Read/Write	Read/Write	Read/Write	Read/Write	Read/Write
-RAF	Read	Read	Read	-	-
-EPS	-	-	Read/Write	-	-
-XMP	-	-	Read/Write	-	-
-GIF	-	-	-	-	-
-PSD	Read/Write	Read/Write	Read/Write	-	-
 TGA	-	-	-	-	-
-BMP	-	-	-	-	-
-JP2	Read/Write	Read/Write	Read/Write	-	Read/Write
+TIFF	Read/Write	Read/Write	Read/Write	-	Read/Write
+WEBP	Read/Write	-	Read/Write	-	Read/Write
+XMP	-	-	Read/Write	-	-
 .TE
 .IP \(bu 2
 Support for GIF, TGA and BMP images is minimal: the image format is
@@ -72,6 +77,19 @@ image are determined.
 .IP \(bu 2
 Reading other TIFF-like RAW image formats, which are not listed in the
 table, may also work.
+.IP \(bu 2
+Support for BMFF file types such as CR3, HEIF, HEIC, AVIF, and 
+JPEG XL is a build option. To check if this is enabled, use: 
+.PP
+.in +4n
+.EX
+$ exiv2 --version --verbose | grep bmff
+enable_bmff=1
+.EE
+.in
+.PP
+.IP \(bu 2
+Naked codestream JPEG XL files do not contain Exif, IPTC, or XMP metadata.
 .SH ACTIONS
 The \fIaction\fP argument is only required if it is not clear from the
 \fIoptions\fP which action is implied.
@@ -110,7 +128,8 @@ Rename files and/or set file timestamps according to the Exif create
 timestamp. Uses the value of tag Exif.Photo.DateTimeOriginal or, if
 not present, Exif.Image.DateTime to determine the timestamp. The
 filename format can be set with \fB\-r\fP \fIfmt\fP, timestamp options
-are \fB\-t\fP and \fB\-T\fP.
+are \fB\-t\fP and \fB\-T\fP. When no rename format is provided, 
+the default is \'%Y%m%d_%H%M%S\' using definitions from \fBstrftime\fP(3).
 .TP
 .B fi | fixiso
 Copy the ISO setting from one of the proprietary Nikon or Canon
@@ -132,7 +151,7 @@ exiv2 [ opt [arg] ]+ [ act ] file ...
 .sp 1
 option [arg]	long option	description
 -a	tim	--adjust	Modify time stamps.  [+|-]HH[:MM[:SS[.mmm]]]
--b		--binary	This option is obsolete and does nothing.
+-b		--binary	This option is obsolete and should not be used.  Reserved for test suite (with option -pC)
 -c	txt	--comment	JPEG comment string to set in the image ('modify' action).  ...
 -d	tgt	--delete	Delete target(s) for the 'delete' action. ...
 -D	+-n	--days	Time  adjustment by a positive or negative number of days ...
@@ -308,15 +327,17 @@ The 'extract' command will overwrite files when either --force or --Force is use
 .br
 .TP
 .B \-r \fIfmt\fP
-Filename format for the 'rename' action. The format string follows
-\fBstrftime\fP(3) and supports the following keywords:
+Filename format for the 'rename' action. The format string 
+uses \fBstrftime\fP(3) definitions and supports the following 
+keywords:
 .TS
 l l.
 :basename:	original filename without extension
 :dirname:	name of the directory holding the original file
 :parentname:	name of parent directory
 .TE
-Default filename format is %Y%m%d_%H%M%S.
+.sp 1
+Note that the colons are part of the keyword.
 .TP
 .B \-a \fItime\fP
 Time adjustment in the format [\-]HH[:MM[:SS]]. This option is only
@@ -584,12 +605,16 @@ The format of XMP \fBLangAlt\fP values includes an optional language qualifier:
 .B lang="\fIlanguage-code\fP\fI" text\fP
 .fi
 .sp
-lang="x-default" is used if the value doesn't start with a language qualifier.
+The double quotes around the \fIlanguage-code\fP are optional. If no languge qualifier
+is supplied, then the value of "x-default" is used. More information 
+on the language format can be found at: https://www.ietf.org/rfc/rfc3066.txt
 .sp 1
 .nf
 $ exiv2 -M'set Xmp.dc.title lang="de-DE" Euros' X.jpg
 $ exiv2 -M'set Xmp.dc.title lang="en-GB" Pounds' X.jpg
 $ exiv2 -M'set Xmp.dc.title lang="en-US" In God We Trust' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang=fr-FR Euros' X.jpg
+$ exiv2 -M'set Xmp.dc.title lang=jp Yen' X.jpg
 $ exiv2 -M'set Xmp.dc.title All others pay cash' X.jpg
 .fi
 .sp 1
@@ -616,25 +641,28 @@ Exiv2 displays metadata tags and values.
 The tag is a triplet of Family.Group.Tagname.  The following groups are defined for the family Exif:
 .sp 1
 .nf
-GPSInfo           Canon           Fujifilm      NikonLd1      OlympusFe1     Pentax
-Image             CanonCf                       NikonLd2      OlympusFe2     PentaxDng
-Image2            CanonCs         Nikon1        NikonLd3      OlympusFe3
-Image3            CanonFi         Nikon2        NikonMe       OlympusFe4     Samsung2
-Iop               CanonPa         Nikon3        NikonPc       OlympusFe5     SamsungPictureWizard
-MakerNote         CanonPi         NikonAFT      NikonPreview  OlympusFe6     SamsungPreview
-MpfInfo           CanonPr         NikonAf       NikonSi01xx   OlympusFe7
-Photo             CanonSi         NikonAf2      NikonSi02xx   OlympusFe8     Sony1
-SubImage1         CanonTi         NikonAf22     NikonSiD300a  OlympusFe9     Sony1Cs
-SubImage2                         NikonCb1      NikonSiD300b  OlympusFi      Sony1Cs2
-SubImage3         Casio           NikonCb2      NikonSiD40    OlympusIp      Sony1MltCs7D
-SubImage4         Casio2          NikonCb2a     NikonSiD80    OlympusRd      Sony1MltCsA100
-SubImage5                         NikonCb3      NikonVr       OlympusRd2     Sony1MltCsNew
-SubImage6         Minolta         NikonCb4      NikonWt       OlympusRi      Sony1MltCsOld
-SubImage7         MinoltaCs5D     NikonFi                                    Sony2
-SubImage8         MinoltaCs7D     NikonFl1      Olympus       Panasonic      Sony2Cs
-SubImage9         MinoltaCsNew    NikonFl2      Olympus2      PanasonicRaw   Sony2Cs2
-SubThumb1         MinoltaCsOld    NikonFl3      OlympusCs                    Sony2Fp
-Thumbnail                         NikonIi       OlympusEq     Sigma          SonyMinolta
+GPSInfo      Canon           Fujifilm     NikonMe         OlympusFe7        SonyMisc2b
+Image        CanonCf                      NikonPc         OlympusFe9        SonyMisc3c
+Image2       CanonCs         Nikon1       NikonPreview    OlympusFi         SonyMinolta
+Image3       CanonFi         Nikon2       NikonSi01xx     OlympusIp         SonySInfo1
+Iop          CanonPa         Nikon3       NikonSi02xx     OlympusRd
+MakerNote    CanonPi         NikonAFT     NikonSiD300a    OlympusRd2        Samsung2
+MpfInfo      CanonPr         NikonAf      NikonSiD300b    OlympusRi         SamsungPictureWizard
+Photo        CanonSi         NikonAf2     NikonSiD40                        SamsungPreview
+SubImage1    CanonTi         NikonAf22    NikonSiD80      Sigma
+SubImage2                    NikonCb1     NikonVr
+SubImage3    Casio           NikonCb2     NikonWt         Sony1
+SubImage4    Casio2          NikonCb2a                    Sony1Cs
+SubImage5                    NikonCb3     Olympus         Sony1Cs2
+SubImage6    Minolta         NikonCb4     Olympus2        Sony1MltCs7D
+SubImage7    MinoltaCs5D     NikonFi      OlympusCs       Sony1MltCsA100
+SubImage8    MinoltaCs7D     NikonFl1     OlympusEq       Sony1MltCsNew
+SubImage9    MinoltaCsNew    NikonFl2     OlympusFe1      Sony1MltCsOld
+SubThumb1    MinoltaCsOld    NikonFl3     OlympusFe2      Sony2
+Thumbnail                    NikonIi      OlympusFe3      Sony2Cs
+             Panasonic       NikonLd1     OlympusFe4      Sony2Cs2
+Pentax       PanasonicRaw    NikonLd2     OlympusFe5      Sony2Fp
+PentaxDng                    NikonLd3     OlympusFe6      SonyMisc1
 .fi
 .sp 1
 Exiv2 supports Exif 2.2 Standard Tags.  Exiv2 also supports reading and writing manufacturer's MakerNote.  The information in Exif.Photo.MakerNote is encoded as manufacturer's sub-records.  For example, CanonCs are Camera Settings, NikonAf are Nikon Auto Focus records, NikonCb are Nikon Color Balance Records.  Every tag is defined by a unique tagId (16 bit integer) which is unique within a Group.
@@ -775,7 +803,7 @@ and GPSLatitudeRef contains either 'N' or 'S' for north or south
 latitude respectively.
 .sp 1
 .nf
-$ exiv2 insert \-l/tmp -S.CRW /data/*.JPG
+$ exiv2 \-l/tmp -S.CRW insert /data/*.JPG
 .fi
 Copy all metadata from CRW files in the /tmp directory to JPG files
 with corresponding basenames in the /data directory. Note that this

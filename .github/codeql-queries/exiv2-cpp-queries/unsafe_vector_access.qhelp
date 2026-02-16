@@ -1,0 +1,30 @@
+<!DOCTYPE qhelp SYSTEM "qhelp.dtd">
+<qhelp>
+    <overview>
+        <p>
+        The <a href="https://en.cppreference.com/w/cpp/container/vector/operator_at"><tt>operator[]</tt></a> method of <a href="https://en.cppreference.com/w/cpp/container/vector"><tt>std::vector</tt></a> does not do any bounds checking on the index. It is safer to use the <a href="https://en.cppreference.com/w/cpp/container/vector/at"><tt>at()</tt></a> method, which does do bounds checking.
+        </p>
+    </overview>
+    <recommendation>
+        <p>
+        Use the <a href="https://en.cppreference.com/w/cpp/container/vector/at"><tt>at()</tt></a> method, rather than <a href="https://en.cppreference.com/w/cpp/container/vector/operator_at"><tt>operator[]</tt></a>.
+        </p>
+        <p>
+          Some uses of <a href="https://en.cppreference.com/w/cpp/container/vector/operator_at"><tt>operator[]</tt></a> are safe because they are protected by a bounds check. The query recognises the following safe coding patterns:
+        </p>
+        <ul>
+          <li><tt>if (!x.empty()) { ...x[0]... }</tt></li>
+          <li><tt>if (x.length()) { ...x[0]... }</tt></li>
+          <li><tt>if (x.size() > 2) { ...x[2]... }</tt></li>
+          <li><tt>if (x.size() == 2) { ...x[1]... }</tt></li>
+          <li><tt>if (x.size() != 0) { ...x[0]... }</tt></li>
+          <li><tt>if (i < x.size()) { ... x[i] ... }</tt></li>
+          <li><tt>if (!x.empty()) { ... x[x.size() - 1] ... }</tt></li>
+        </ul>
+    </recommendation>
+    <example>
+        <p>
+          <a href="https://github.com/Exiv2/exiv2/issues/1706">#1706</a> was caused by a lack of bounds-checking on <a href="https://github.com/Exiv2/exiv2/blob/15098f4ef50cc721ad0018218acab2ff06e60beb/include/exiv2/value.hpp#L1639">this array access</a>. The bug was <a href="https://github.com/Exiv2/exiv2/pull/1735">fixed</a> calling the <a href="https://en.cppreference.com/w/cpp/container/vector/at"><tt>at()</tt></a> method instead.
+        </p>
+    </example>
+</qhelp>

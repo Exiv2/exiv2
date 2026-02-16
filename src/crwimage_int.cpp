@@ -1,3 +1,23 @@
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
+
 #include "crwimage_int.hpp"
 #include "canonmn_int.hpp"
 #include "i18n.h"                // NLS support.
@@ -559,7 +579,7 @@ namespace Exiv2 {
     void CiffComponent::setValue(DataBuf buf)
     {
         if (isAllocated_) {
-            delete pData_;
+            delete[] pData_;
             pData_ = 0;
             size_ = 0;
         }
@@ -827,22 +847,20 @@ namespace Exiv2 {
         ExifKey key1("Exif.Image.Make");
         Value::AutoPtr value1 = Value::create(ciffComponent.typeId());
         uint32_t i = 0;
-        for (;    i < ciffComponent.size()
-               && ciffComponent.pData()[i] != '\0'; ++i) {
+        while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
             // empty
         }
-        value1->read(ciffComponent.pData(), ++i, byteOrder);
+        value1->read(ciffComponent.pData(), i, byteOrder);
         image.exifData().add(key1, value1.get());
 
         // Model
         ExifKey key2("Exif.Image.Model");
         Value::AutoPtr value2 = Value::create(ciffComponent.typeId());
         uint32_t j = i;
-        for (;    i < ciffComponent.size()
-               && ciffComponent.pData()[i] != '\0'; ++i) {
+        while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
             // empty
         }
-        value2->read(ciffComponent.pData() + j, i - j + 1, byteOrder);
+        value2->read(ciffComponent.pData() + j, i - j, byteOrder);
         image.exifData().add(key2, value2.get());
     } // CrwMap::decode0x080a
 
@@ -868,12 +886,16 @@ namespace Exiv2 {
         assert(ifdId != ifdIdNotSet);
 
         std::string groupName(Internal::groupName(ifdId));
+        const uint32_t component_size = ciffComponent.size();
+        enforce(component_size % 2 == 0, kerCorruptedMetadata);
+        enforce(component_size/2 <= static_cast<uint32_t>(std::numeric_limits<uint16_t>::max()), kerCorruptedMetadata);
+        const uint16_t num_components = static_cast<uint16_t>(component_size/2);
         uint16_t c = 1;
-        while (uint32_t(c)*2 < ciffComponent.size()) {
+        while (c < num_components) {
             uint16_t n = 1;
             ExifKey key(c, groupName);
             UShortValue value;
-            if (ifdId == canonCsId && c == 23 && ciffComponent.size() > 50) n = 3;
+            if (ifdId == canonCsId && c == 23 && component_size >= 52) n = 3;
             value.read(ciffComponent.pData() + c*2, n*2, byteOrder);
             image.exifData().add(key, &value);
             if (ifdId == canonSiId && c == 21) aperture = value.toLong();
@@ -909,7 +931,7 @@ namespace Exiv2 {
         assert(pCrwMapping != 0);
         ULongValue v;
         v.read(ciffComponent.pData(), 8, byteOrder);
-        time_t t = v.value_[0];
+        time_t t = v.value_.at(0);
         struct tm* tm = std::localtime(&t);
         if (tm) {
             const size_t m = 20;
@@ -976,11 +998,10 @@ namespace Exiv2 {
             else if (ciffComponent.typeId() == asciiString) {
                 // determine size from the data, by looking for the first 0
                 uint32_t i = 0;
-                for (;    i < ciffComponent.size()
-                       && ciffComponent.pData()[i] != '\0'; ++i) {
+                while (i < ciffComponent.size() && ciffComponent.pData()[i++] != '\0') {
                     // empty
                 }
-                size = ++i;
+                size = i;
             }
             else {
                 // by default, use the size from the directory entry
@@ -1080,8 +1101,16 @@ namespace Exiv2 {
         if (ed2 != edEnd) size += ed2->size();
         if (size != 0) {
             DataBuf buf(size);
-            if (ed1 != edEnd) ed1->copy(buf.pData_, pHead->byteOrder());
-            if (ed2 != edEnd) ed2->copy(buf.pData_ + ed1->size(), pHead->byteOrder());
+            long pos = 0;
+            if (ed1 != edEnd) {
+                ed1->copy(buf.pData_, pHead->byteOrder());
+                pos += ed1->size();
+            }
+            if (ed2 != edEnd) {
+                ed2->copy(buf.pData_ + pos, pHead->byteOrder());
+                pos += ed2->size();
+            }
+            assert(pos == size);
             pHead->add(pCrwMapping->crwTagId_, pCrwMapping->crwDir_, buf);
         }
         else {
@@ -1167,7 +1196,11 @@ namespace Exiv2 {
                                                  pCrwMapping->crwDir_);
         if (edX != edEnd || edY != edEnd || edO != edEnd) {
             uint32_t size = 28;
-            if (cc && cc->size() > size) size = cc->size();
+            if (cc) {
+              if (cc->size() < size)
+                throw Error(kerCorruptedMetadata);
+              size = cc->size();
+            }
             DataBuf buf(size);
             std::memset(buf.pData_, 0x0, buf.size_);
             if (cc) std::memcpy(buf.pData_ + 8, cc->pData() + 8, cc->size() - 8);
@@ -1222,9 +1255,12 @@ namespace Exiv2 {
         for (ExifData::const_iterator i = b; i != e; ++i) {
             if (i->ifdId() != ifdId) continue;
             const uint16_t s = i->tag()*2 + static_cast<uint16_t>(i->size());
-            assert(s <= size);
-            if (len < s) len = s;
-            i->copy(buf.pData_ + i->tag()*2, byteOrder);
+            if (s <= size) {
+                if (len < s) len = s;
+                i->copy(buf.pData_ + i->tag()*2, byteOrder);
+            } else {
+                EXV_ERROR << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
+            }
         }
         // Round the size to make it even.
         buf.size_ = len + len%2;

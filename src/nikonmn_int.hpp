@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -28,15 +28,6 @@
   [5] Email communication with <a href="http://www.rottmerhusen.com">Robert Rottmerhusen</a><BR>
   [6] Email communication with Roger Larsson<BR>
   [7] <a href="http://www.cybercom.net/~dcoffin/dcraw/">Decoding raw digital photos in Linux</a> by Dave Coffin<br>
-
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (gc)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @author  Jens Mueller (jm)
-           <a href="mailto:tschensinger at web dot de">tschensinger at web dot de</a>
-  @date    17-May-04, ahu: created<BR>
-           25-May-04, ahu: combined all Nikon formats in one component
  */
 #ifndef NIKONMN_INT_HPP_
 #define NIKONMN_INT_HPP_
@@ -167,6 +158,8 @@ namespace Exiv2 {
         static const TagInfo* tagListLd2();
         //! Return read-only list of built-in Lens Data 3 tags
         static const TagInfo* tagListLd3();
+        //! Return read-only list of built-in Lens Data 4 tags
+        static const TagInfo* tagListLd4();
 
         //! @name Print functions for Nikon3 %MakerNote tags
         //@{
@@ -195,12 +188,19 @@ namespace Exiv2 {
         static std::ostream& printLensId1(std::ostream& os, const Value& value, const ExifData* metadata);
         static std::ostream& printLensId2(std::ostream& os, const Value& value, const ExifData* metadata);
         static std::ostream& printLensId3(std::ostream& os, const Value& value, const ExifData* metadata);
+        static std::ostream& printLensId4(std::ostream& os, const Value& value, const ExifData* metadata);
+        //! Print lensname for ZMount Lens in new LensData as used for e.g. Nikon Z 6/7
+        static std::ostream& printLensId4ZMount(std::ostream& os, const Value& value, const ExifData*);
         //! Print focus distance
         static std::ostream& printFocusDistance(std::ostream& os, const Value& value, const ExifData*);
         //! Print lens aperture value
         static std::ostream& printAperture(std::ostream& os, const Value& value, const ExifData*);
+        //! Print lens aperture value for new LensData as used for e.g. Nikon Z 6/7
+        static std::ostream& printApertureLd4(std::ostream& os, const Value& value, const ExifData*);
         //! Print lens focal length
         static std::ostream& printFocal(std::ostream& os, const Value& value, const ExifData*);
+        //! Print Focal length value for new LensData as used for e.g. Nikon Z 6/7
+        static std::ostream& printFocalLd4(std::ostream& os, const Value& value, const ExifData*);
         //! Print lens f-stops
         static std::ostream& printFStops(std::ostream& os, const Value& value, const ExifData*);
         //! Print exit pupil position
@@ -280,6 +280,8 @@ namespace Exiv2 {
         static const TagInfo tagInfoLd2_[];
         //! Lens Data 3 tag information
         static const TagInfo tagInfoLd3_[];
+        //! Lens Data 4 tag information
+        static const TagInfo tagInfoLd4_[];
 
     }; // class Nikon3MakerNote
 

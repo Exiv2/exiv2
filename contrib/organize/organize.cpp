@@ -1,8 +1,7 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2009 Brad Schick <schickb@gmail.com>
- *
- * This file is part of the organize tool.
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,11 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
- File:      organize.cpp
- Author(s): Brad Schick (brad) <schickb@gmail.com>
- History:   19-Jan-09, brad: created
-*/
 // *****************************************************************************
 
 #include <boost/program_options.hpp>

@@ -1,11 +1,28 @@
+// ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
+
 #include <exiv2/exiv2.hpp>
 #include <stdint.h>
-
 #include "slice.hpp"
 #include "types.hpp"
-
-#include "gtestwrapper.h"
-
+#include <gtest/gtest.h>
 using namespace Exiv2;
 
 template <typename T>
@@ -422,12 +439,12 @@ REGISTER_TYPED_TEST_CASE_P(slice, atAccess, iteratorAccess, constructionFailsFro
                            constMethodsPreserveConst);
 
 typedef ::testing::Types<const std::vector<int>, std::vector<int>, int*, const int*> test_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, slice, test_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, slice, test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(mutableSlice, iterators, at);
 typedef ::testing::Types<std::vector<int>, int*> mut_test_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, mutableSlice, mut_test_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, mutableSlice, mut_test_types_t);
 
 REGISTER_TYPED_TEST_CASE_P(dataBufSlice, successfulConstruction, failedConstruction);
 typedef ::testing::Types<DataBuf&, const DataBuf&> data_buf_types_t;
-INSTANTIATE_TYPED_TEST_CASE_P(, dataBufSlice, data_buf_types_t);
+INSTANTIATE_TYPED_TEST_CASE_P(slice, dataBufSlice, data_buf_types_t);

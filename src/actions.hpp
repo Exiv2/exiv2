@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -66,6 +66,8 @@ namespace Action {
     public:
         //! Shortcut for an auto pointer.
         typedef std::auto_ptr<Task> AutoPtr;
+        //! Contructor.
+        Task() : binary_(false) {}
         //! Virtual destructor.
         virtual ~Task();
         //! Virtual copy construction.
@@ -77,10 +79,22 @@ namespace Action {
           @return 0 if successful.
          */
         virtual int run(const std::string& path) =0;
+        
+        /*!
+          @brief Application interface to perform a task.
+
+          @param path Path of the file to process.
+          @return 0 if successful.
+         */
+        bool setBinary(bool b) { bool bResult = binary_ ; binary_ = b ; return bResult ;}
+        bool binary() { return binary_ ; }
 
     private:
         //! Internal virtual copy constructor.
         virtual Task* clone_() const =0;
+        
+        //! copy binary_ from command-line params to task
+        bool binary_;
 
     }; // class Task
 

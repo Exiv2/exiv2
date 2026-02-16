@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,13 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    riffvideo.hpp
-  @brief   An Image subclass to support RIFF video files
-  @author  Abhinav Badola for GSoC 2012
-           <a href="mailto:mail.abu.to@gmail.com">mail.abu.to@gmail.com</a>
-  @date    18-Jun-12, AB: created
  */
 #ifndef RIFFVIDEO_HPP
 #define RIFFVIDEO_HPP

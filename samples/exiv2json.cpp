@@ -1,4 +1,22 @@
 // ***************************************************************** -*- C++ -*-
+/*
+ * Copyright (C) 2004-2021 Exiv2 authors
+ * This program is part of the Exiv2 distribution.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
+ */
 // exiv2json.cpp
 // Sample program to print metadata in JSON format
 
@@ -12,7 +30,6 @@
 #include <map>
 #include <vector>
 #include <set>
-
 #include <cstdlib>
 #include <limits.h>
 #include <sys/types.h>
@@ -57,7 +74,7 @@ bool getToken(std::string& in,Token& token,Exiv2::StringSet* pNS=NULL)
 
     while ( !result && in.length() ) {
         std::string c = in.substr(0,1);
-        char        C = c[0];
+        char        C = c.at(0);
         in            = in.substr(1,std::string::npos);
         if ( in.length() == 0 && C != ']' ) token.n += c;
         if ( C == '/' || C == '[' || C == ':' || C == '.' || C == ']' || in.length() == 0 ) {
@@ -97,7 +114,7 @@ Jzon::Node& addToTree(Jzon::Node& r1,Token token)
 
 Jzon::Node& recursivelyBuildTree(Jzon::Node& root,Tokens& tokens,size_t k)
 {
-    return addToTree( k==0 ? root : recursivelyBuildTree(root,tokens,k-1), tokens[k] );
+    return addToTree( k==0 ? root : recursivelyBuildTree(root,tokens,k-1), tokens.at(k) );
 }
 
 // build the json tree for this key.  return location and discover the name
@@ -109,7 +126,7 @@ Jzon::Node& objectForKey(const std::string& Key,Jzon::Object& root,std::string& 
     std::string input  = Key ; // Example: "XMP.xmp.MP.RegionInfo/MPRI:Regions[1]/MPReg:Rectangle"
     while ( getToken(input,token,pNS) ) tokens.push_back(token);
     size_t      l      = tokens.size()-1; // leave leaf name to push()
-    name               = tokens[l].n ;
+    name               = tokens.at(l).n ;
 
     // The second token.  For example: XMP.dc is a namespace
     if ( pNS && tokens.size() > 1 ) pNS->insert(tokens[1].n);
@@ -270,6 +287,9 @@ int main(int argc, char* const argv[])
 {
     Exiv2::XmpParser::initialize();
     ::atexit(Exiv2::XmpParser::terminate);
+#ifdef EXV_ENABLE_BMFF
+    Exiv2::enableBMFF();
+#endif
 
     try {
         if (argc < 2 || argc > 3) {

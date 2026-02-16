@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2020 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -230,10 +230,34 @@ namespace Action {
     {
     }
 
-    int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path)
+    int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path,bool binary)
     {
-        _setmode(_fileno(stdout),O_BINARY);
-        return printStructure(std::cout, option, path);
+        int result = 0 ;
+        if ( binary && option == Exiv2::kpsIccProfile ) {
+            std::stringstream output(std::stringstream::out|std::stringstream::binary);
+            result       = printStructure(output, option, path);
+            if ( result == 0 ) {
+                size_t          size = (long) output.str().size();
+                Exiv2::DataBuf  iccProfile((long)size);
+                Exiv2::DataBuf   ascii((long)(size * 3 + 1));
+                ascii.pData_[size * 3] = 0;
+                ::memcpy(iccProfile.pData_,output.str().c_str(),size);
+                if ( Exiv2::base64encode(iccProfile.pData_,size,(char*)ascii.pData_,size*3) ) {
+                    long       chunk = 60 ;
+                    std::string code = std::string("data:") + std::string((char*)ascii.pData_);
+                    long      length = (long) code.size() ;
+                    for ( long start = 0 ; start < length ; start += chunk ) {
+                        long   count = (start+chunk) < length ? chunk : length - start ;
+                        std::cout << code.substr(start,count) << std::endl;
+                    }
+                }
+            }
+        } else {
+            _setmode(_fileno(stdout),O_BINARY);
+            result = printStructure(std::cout, option, path);
+        }
+
+        return result;
     }
 
     int Print::run(const std::string& path)
@@ -252,12 +276,12 @@ namespace Action {
                 case Params::pmXMP:
                     if (option == Exiv2::kpsNone)
                         option = Exiv2::kpsXMP;
-                    rc = setModeAndPrintStructure(option, path_);
+                    rc = setModeAndPrintStructure(option, path_,binary());
                     break;
                 case Params::pmIccProfile:
                     if (option == Exiv2::kpsNone)
                         option = Exiv2::kpsIccProfile;
-                    rc = setModeAndPrintStructure(option, path_);
+                    rc = setModeAndPrintStructure(option, path_,binary());
                     break;
             }
             return rc;
@@ -601,8 +625,8 @@ namespace Action {
             std::ostringstream os;
             // #1114 - show negative values for SByte
             if (md.typeId() == Exiv2::signedByte) {
-                for ( int c = 0 ; c < md.value().count() ; c++ ) {
-                    int value = md.value().toLong(c);
+                for ( long c = 0 ; c < md.value().count() ; c++ ) {
+                    long value = md.value().toLong(c);
                     os << (c?" ":"") << std::dec << (value < 128 ? value : value - 256);
                 }
             } else {
@@ -1007,19 +1031,21 @@ namespace Action {
 
         const Params::PreviewNumbers& numbers = Params::instance().previewNumbers_;
         for (Params::PreviewNumbers::const_iterator n = numbers.begin(); n != numbers.end(); ++n) {
-            if (*n == 0) {
+            size_t num = static_cast<size_t>(*n);
+            if (num == 0) {
                 // Write all previews
-                for (int num = 0; num < static_cast<int>(pvList.size()); ++num) {
-                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), num + 1);
+                for (num = 0; num < pvList.size(); ++num) {
+                    writePreviewFile(pvMgr.getPreviewImage(pvList[num]), static_cast<int>(num + 1));
                 }
                 break;
             }
-            if (*n > static_cast<int>(pvList.size())) {
+            num--;
+            if (num >= pvList.size()) {
                 std::cerr << path_ << ": " << _("Image does not have preview")
-                          << " " << *n << "\n";
+                          << " " << num + 1 << "\n";
                 continue;
             }
-            writePreviewFile(pvMgr.getPreviewImage(pvList[*n - 1]), *n);
+            writePreviewFile(pvMgr.getPreviewImage(pvList[num]), static_cast<int>(num + 1));
         }
         return 0;
     } // Extract::writePreviews
@@ -1579,7 +1605,7 @@ namespace Action {
             return 0;
         }
         std::string timeStr = md->toString();
-        if (timeStr == "" || timeStr[0] == ' ') {
+        if (timeStr.empty() || timeStr[0] == ' ') {
             std::cerr << path << ": " << _("Timestamp of metadatum with key") << " `"
                       << ek << "' " << _("not set\n");
             return 1;
@@ -1841,7 +1867,7 @@ namespace {
         std::memset(tm, 0x0, sizeof(struct tm));
         tm->tm_isdst = -1;
 
-        long tmp;
+        long tmp = 0;
         if (!Util::strtol(timeStr.substr(0,4).c_str(), tmp)) return 5;
         tm->tm_year = tmp - 1900;
         if (!Util::strtol(timeStr.substr(5,2).c_str(), tmp)) return 6;
@@ -2139,7 +2165,7 @@ namespace {
                               << "' " << _("exists. [O]verwrite, [r]ename or [s]kip?")
                               << " ";
                     std::cin >> s;
-                    switch (s[0]) {
+                    switch (s.at(0)) {
                     case 'o':
                     case 'O':
                         go = false;
@@ -2204,7 +2230,7 @@ namespace {
                       << ": " << _("Overwrite") << " `" << path << "'? ";
             std::string s;
             std::cin >> s;
-            if (s[0] != 'y' && s[0] != 'Y') return 1;
+            if (s.at(0) != 'y' && s.at(0) != 'Y') return 1;
         }
         return 0;
     }

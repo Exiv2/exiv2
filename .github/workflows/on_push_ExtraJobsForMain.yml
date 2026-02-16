@@ -1,0 +1,54 @@
+name: Linux Special Builds for 0.27-maintenance branch on push
+
+on:
+  push:
+    branches:
+    - 0.27-maintenance
+    tags:
+    - '!*'
+
+jobs:
+  special_debugRelease:
+    name: 'Ubuntu 20.04 - GCC - Debug+Coverage'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          pip3 install conan==1.59.0
+
+      - name: Conan common config
+        run: |
+          conan config install https://github.com/conan-io/conanclientcert.git
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
+        run: |
+          mkdir build && cd build
+          conan profile list
+          conan profile show default
+          conan install .. -o webready=True --build missing
+
+      - name: Build
+        run: |
+          cd build
+          cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=ON -DCMAKE_INSTALL_PREFIX=install ..
+          make -j
+
+      - name: Tests + Upload coverage
+        run: |
+          cd build
+          ctest  --output-on-failure
+          pip install gcovr
+          gcovr -r ./../ -x --exclude-unreachable-branches --exclude-throw-branches -o coverage.xml .
+          curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import
+          curl -Os https://uploader.codecov.io/latest/linux/codecov
+          curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+          curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+          gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
+          shasum -a 256 -c codecov.SHA256SUM
+          chmod +x codecov
+          ./codecov -f build/coverage.xml

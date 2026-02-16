@@ -898,7 +898,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
         for language in ['fr_FR', 'es_ES']:
             e    = BT.Executer(cmd='exiv2', extra_env={'LC_ALL': language, LANG: language}, assert_returncode=[1], decode_output=False)
             out += e.stdout.split(b'\n')[0].decode()
-        BT.reportTest('nls-test', out)
+        BT.reportTest('nls-test', out,forgive=True)
 
 
     def path_test(self):

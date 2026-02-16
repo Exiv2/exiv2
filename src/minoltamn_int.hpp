@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,20 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    minoltamn_int.hpp
-  @brief   Minolta MakerNote implemented using the following references:<br>
-           <a href="http://www.dalibor.cz/minolta/makernote.htm">Minolta Makernote Format Specification</a> by Dalibor Jelinek,<br>
-           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/Minolta.html">Minolta Makernote list</a> by Phil Harvey<br>
-           <a href="http://www.ozhiker.com/electronics/pjmt/jpeg_info/minolta_mn.html">Minolta Makernote list from PHP JPEG Metadata Toolkit</a><br>
-           Email communication with <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a><br>
-           Some Minolta camera settings have been decoded by <a href="mailto:xraynaud@gmail.com">Xavier Raynaud</a> from digiKam project and added by Gilles Caulier.
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @author  Gilles Caulier (cgilles)
-           <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a>
-  @date    06-May-06, gc: submitted
  */
 #ifndef MINOLTAMN_INT_HPP_
 #define MINOLTAMN_INT_HPP_

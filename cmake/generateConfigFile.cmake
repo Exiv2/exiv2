@@ -7,6 +7,7 @@ if (${EXIV2_ENABLE_WEBREADY})
     set(EXV_USE_SSH   ${EXIV2_ENABLE_SSH})
     set(EXV_USE_CURL  ${EXIV2_ENABLE_CURL})
 endif()
+set(EXV_ENABLE_BMFF      ${EXIV2_ENABLE_BMFF})
 set(EXV_ENABLE_VIDEO     ${EXIV2_ENABLE_VIDEO})
 set(EXV_ENABLE_WEBREADY  ${EXIV2_ENABLE_WEBREADY})
 set(EXV_HAVE_LENSDATA    ${EXIV2_ENABLE_LENSDATA})
@@ -34,6 +35,7 @@ check_cxx_source_compiles( "
 int main() {
     char buff[100];
     const char* c = strerror_r(0,buff,100);
+    (void)c;  // ignore unuse-variable
     return 0;
 }" EXV_STRERROR_R_CHAR_P )
 

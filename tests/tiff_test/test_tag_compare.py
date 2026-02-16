@@ -92,7 +92,7 @@ class OutputTagExtract(metaclass=system_tests.CaseMeta):
             if pa_elem["tag"] in [
                     "ImageWidth", "ImageLength", "BitsPerSample",
                     "DocumentName", "ImageDescription", "StripOffsets",
-                    "SamplesPerPixel", "StripByteCounts", "PlanarConfiguration"]:
+                    "SamplesPerPixel", "StripByteCounts"]:
                 self.assertEquals(pa_elem["val"], pS_elem["val"])
 
     def compare_stdout(self, i, command, got_stdout, expected_stdout):
@@ -128,7 +128,7 @@ Exif.Image.RowsPerStrip                      Short       1  64
 Exif.Image.StripByteCounts                   Long        1  243
 Exif.Image.XResolution                       Rational    1  72
 Exif.Image.YResolution                       Rational    1  72
-Exif.Image.PlanarConfiguration               Short       1  1
+Exif.Image.PlanarConfiguration               Short       1  Chunky
 Exif.Image.ResolutionUnit                    Short       1  inch
 """,
         """STRUCTURE OF TIFF FILE (II): $data_path/mini9.tif

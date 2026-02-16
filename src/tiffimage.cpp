@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      tiffimage.cpp
  */
 // *****************************************************************************
 // included header files
@@ -86,8 +83,11 @@ namespace Exiv2 {
 
     //! List of TIFF compression to MIME type mappings
     MimeTypeList mimeTypeList[] = {
+        { 32767, "image/x-sony-arw"    },
+        { 32769, "image/x-epson-erf"   },
         { 32770, "image/x-samsung-srw" },
         { 34713, "image/x-nikon-nef"   },
+        { 65000, "image/x-kodak-dcr"   },
         { 65535, "image/x-pentax-pef"  }
     };
 

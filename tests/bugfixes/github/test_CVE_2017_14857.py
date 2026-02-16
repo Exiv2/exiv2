@@ -52,7 +52,7 @@ Warning: Directory Image, entry 0x0111: Strip 9 is outside of the data area; ign
 Error: Offset of directory Image, entry 0x0132 is out of bounds: Offset = 0x30003030; truncating the entry
 Error: Directory Image, entry 0x8649 has invalid size 4294967295*1; skipping entry.
 Error: Directory Image, entry 0x8769 Sub-IFD pointer 0 is out of bounds; ignoring it.
-Error: XMP Toolkit error 201: XML parsing failure
+Error: XMP Toolkit error 201: Error in XMLValidator
 Warning: Failed to decode XMP metadata.
 """
     ]

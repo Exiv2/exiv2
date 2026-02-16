@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,16 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*
-  File:      iptc.cpp
-  Author(s): Brad Schick (brad) <brad@robotbattle.com>
-  History:   31-July-04, brad: created
- */
 // *****************************************************************************
 // included header files
 #include "iptc.hpp"
 #include "types.hpp"
 #include "error.hpp"
+#include "enforce.hpp"
 #include "value.hpp"
 #include "datasets.hpp"
 #include "jpgimage.hpp"
@@ -268,8 +264,8 @@ namespace Exiv2 {
         IptcKey iptcKey(key);
         iterator pos = findKey(iptcKey);
         if (pos == end()) {
-            add(Iptcdatum(iptcKey));
-            pos = findKey(iptcKey);
+            iptcMetadata_.push_back(Iptcdatum(iptcKey));
+            return iptcMetadata_.back();
         }
         return *pos;
     }
@@ -350,7 +346,10 @@ namespace Exiv2 {
 
     void IptcData::printStructure(std::ostream& out, const Slice<byte*>& bytes, uint32_t depth)
     {
-        uint32_t i = 0;
+        if (bytes.size() < 3) {
+            return;
+        }
+        size_t i = 0;
         while (i < bytes.size() - 3 && bytes.at(i) != 0x1c)
             i++;
         depth++;
@@ -362,10 +361,12 @@ namespace Exiv2 {
             char buff[100];
             uint16_t record = bytes.at(i + 1);
             uint16_t dataset = bytes.at(i + 2);
+            enforce(bytes.size() - i >= 5, kerCorruptedMetadata);
             uint16_t len = getUShort(bytes.subSlice(i + 3, bytes.size()), bigEndian);
             sprintf(buff, "  %6d | %7d | %-24s | %6d | ", record, dataset,
                     Exiv2::IptcDataSets::dataSetName(dataset, record).c_str(), len);
 
+            enforce(bytes.size() - i >= 5 + static_cast<size_t>(len), kerCorruptedMetadata);
             out << buff << Internal::binaryToString(makeSlice(bytes, i + 5, i + 5 + (len > 40 ? 40 : len)))
                 << (len > 40 ? "..." : "")
                 << std::endl;

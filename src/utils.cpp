@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*
-  File:      utils.cpp
-  Author(s): Andreas Huggel (ahu) <ahuggel@gmx.net>
-  History:   08-Dec-03, ahu: created
  */
 // *****************************************************************************
 // included header files
@@ -65,7 +60,7 @@ namespace Util {
         if (p.length() == 2 && p[1] == ':') return p; // For Windows paths
         std::string::size_type idx = p.find_last_of("\\/");
         if (idx == std::string::npos) return ".";
-        if (idx == 1 && p[0] == '\\' && p[1] == '\\') return p; // For Windows paths
+        if (idx == 1 && p.at(0) == '\\' && p.at(1) == '\\') return p; // For Windows paths
         p = p.substr(0, idx == 0 ? 1 : idx);
         while (   p.length() > 1
                && (p[p.length()-1] == '\\' || p[p.length()-1] == '/')) {
@@ -85,7 +80,7 @@ namespace Util {
         }
         if (p.length() == 2 && p[1] == ':') return ""; // For Windows paths
         std::string::size_type idx = p.find_last_of("\\/");
-        if (idx == 1 && p[0] == '\\' && p[1] == '\\') return ""; // For Windows paths
+        if (idx == 1 && p.at(0) == '\\' && p.at(1) == '\\') return ""; // For Windows paths
         if (idx != std::string::npos) p = p.substr(idx+1);
         if (delsuffix) p = p.substr(0, p.length() - suffix(p).length());
         return p;

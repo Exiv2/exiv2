@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -16,15 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
- */
-/*!
-  @file    value.hpp
-  @brief   Value interface and concrete subclasses
-  @author  Andreas Huggel (ahu)
-           <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
-  @date    09-Jan-04, ahu: created
-           11-Feb-04, ahu: isolated as a component
-           31-Jul-04, brad: added Time, Data and String values
  */
 #ifndef VALUE_HPP_
 #define VALUE_HPP_
@@ -1569,7 +1560,7 @@ namespace Exiv2 {
     {
         value_.clear();
         long ts = TypeInfo::typeSize(typeId());
-        if (ts != 0)
+        if (ts > 0)
             if (len % ts != 0) len = (len / ts) * ts;
         for (long i = 0; i < len; i += ts) {
             value_.push_back(getValue<T>(buf + i, byteOrder));
@@ -1581,7 +1572,7 @@ namespace Exiv2 {
     int ValueType<T>::read(const std::string& buf)
     {
         std::istringstream is(buf);
-        T tmp;
+        T tmp = T();
         ValueList val;
         while (!(is.eof())) {
             is >> tmp;
@@ -1637,7 +1628,7 @@ namespace Exiv2 {
     std::string ValueType<T>::toString(long n) const
     {
         ok_ = true;
-        return Exiv2::toString<T>(value_[n]);
+        return Exiv2::toString<T>(value_.at(n));
     }
 
     // Default implementation
@@ -1645,69 +1636,87 @@ namespace Exiv2 {
     long ValueType<T>::toLong(long n) const
     {
         ok_ = true;
-        return static_cast<long>(value_[n]);
+        return static_cast<long>(value_.at(n));
     }
-// #55 crash when value_[n].first == LONG_MIN
+// #55 crash when value_.at(n).first == LONG_MIN
 #define LARGE_INT 1000000
+    // Specialization for double
+    template<>
+    inline long ValueType<double>::toLong(long n) const
+    {
+        const double v = value_.at(n);
+        ok_ = (INT_MIN <= v && v <= INT_MAX);
+        if (!ok_) return 0;
+        return static_cast<long>(v);
+    }
+    // Specialization for float
+    template<>
+    inline long ValueType<float>::toLong(long n) const
+    {
+        const double v = value_.at(n);
+        ok_ = (INT_MIN <= v && v <= INT_MAX);
+        if (!ok_) return 0;
+        return static_cast<long>(v);
+    }
     // Specialization for rational
     template<>
     inline long ValueType<Rational>::toLong(long n) const
     {
-        ok_ = (value_[n].second != 0 && INT_MIN < value_[n].first && value_[n].first < INT_MAX );
+        ok_ = (value_.at(n).second > 0 && INT_MIN < value_.at(n).first && value_.at(n).first < INT_MAX );
         if (!ok_) return 0;
-        return value_[n].first / value_[n].second;
+        return value_.at(n).first / value_.at(n).second;
     }
     // Specialization for unsigned rational
     template<>
     inline long ValueType<URational>::toLong(long n) const
     {
-        ok_ = (value_[n].second != 0 && value_[n].first < LARGE_INT);
+        ok_ = (value_.at(n).second > 0 && value_.at(n).first < LARGE_INT);
         if (!ok_) return 0;
-        return value_[n].first / value_[n].second;
+        return value_.at(n).first / value_.at(n).second;
     }
     // Default implementation
     template<typename T>
     float ValueType<T>::toFloat(long n) const
     {
         ok_ = true;
-        return static_cast<float>(value_[n]);
+        return static_cast<float>(value_.at(n));
     }
     // Specialization for rational
     template<>
     inline float ValueType<Rational>::toFloat(long n) const
     {
-        ok_ = (value_[n].second != 0);
+        ok_ = (value_.at(n).second != 0);
         if (!ok_) return 0.0f;
-        return static_cast<float>(value_[n].first) / value_[n].second;
+        return static_cast<float>(value_.at(n).first) / value_.at(n).second;
     }
     // Specialization for unsigned rational
     template<>
     inline float ValueType<URational>::toFloat(long n) const
     {
-        ok_ = (value_[n].second != 0);
+        ok_ = (value_.at(n).second != 0);
         if (!ok_) return 0.0f;
-        return static_cast<float>(value_[n].first) / value_[n].second;
+        return static_cast<float>(value_.at(n).first) / value_.at(n).second;
     }
     // Default implementation
     template<typename T>
     Rational ValueType<T>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n], 1);
+        return Rational(value_.at(n), 1);
     }
     // Specialization for rational
     template<>
     inline Rational ValueType<Rational>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n].first, value_[n].second);
+        return Rational(value_.at(n).first, value_.at(n).second);
     }
     // Specialization for unsigned rational
     template<>
     inline Rational ValueType<URational>::toRational(long n) const
     {
         ok_ = true;
-        return Rational(value_[n].first, value_[n].second);
+        return Rational(value_.at(n).first, value_.at(n).second);
     }
     // Specialization for float.
     template<>
@@ -1715,7 +1724,7 @@ namespace Exiv2 {
     {
         ok_ = true;
         // Warning: This is a very simple conversion, see floatToRationalCast()
-        return floatToRationalCast(value_[n]);
+        return floatToRationalCast(value_.at(n));
     }
     // Specialization for double.
     template<>
@@ -1723,7 +1732,7 @@ namespace Exiv2 {
     {
         ok_ = true;
         // Warning: This is a very simple conversion, see floatToRationalCast()
-        return floatToRationalCast(static_cast<float>(value_[n]));
+        return floatToRationalCast(static_cast<float>(value_.at(n)));
     }
 
     template<typename T>

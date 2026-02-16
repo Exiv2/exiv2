@@ -1,0 +1,43 @@
+name: Mac Matrix on PRs
+
+on: [pull_request]
+
+jobs:
+  windows:
+    name: 'MacOS - clang, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
+    runs-on: macos-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+        
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: install dependencies
+        run: |
+          brew install ninja
+          pushd /tmp
+          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+          tar xzf   release-1.8.0.tar.gz
+          mkdir -p  googletest-release-1.8.0/build
+          pushd     googletest-release-1.8.0/build
+          cmake .. ; make ; make install
+          popd
+          popd
+
+      - name: Build
+        run: |
+          mkdir build && cd build
+          cmake -GNinja -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX=install -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" ..
+          cmake --build .
+
+      - name: Install
+        run: |
+          cmake --build build --target install
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure

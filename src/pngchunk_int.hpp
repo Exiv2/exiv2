@@ -1,6 +1,6 @@
 // ***************************************************************** -*- C++ -*-
 /*
- * Copyright (C) 2004-2018 Exiv2 authors
+ * Copyright (C) 2004-2021 Exiv2 authors
  * This program is part of the Exiv2 distribution.
  *
  * This program is free software; you can redistribute it and/or
@@ -17,19 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, 5th Floor, Boston, MA 02110-1301 USA.
  */
-/*!
-  @file    pngchunk_int.hpp
-  @brief   Class PngChunk to parse PNG chunk data implemented using the following references:<br>
-           <a href="http://www.vias.org/pngguide/chapter11_05.html">PNG iTXt chunk structure</a> from PNG definitive guide,<br>
-           <a href="http://www.vias.org/pngguide/chapter11_04.html">PNG tTXt and zTXt chunks structures</a> from PNG definitive guide,<br>
-           <a href="http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html">PNG tags list</a> by Phil Harvey<br>
-           Email communication with <a href="mailto:caulier dot gilles at gmail dot com">caulier dot gilles at gmail dot com</a><br>
- */
-
- /*
-  File:    pngchunk.cpp
- */
-
 #ifndef PNGCHUNK_INT_HPP_
 #define PNGCHUNK_INT_HPP_
 

@@ -8,6 +8,7 @@ README-CONAN.md                                 Developer Manual Appendix
 README-SAMPLES.md                               Developer Sample Code Manual
 releasenotes.txt                                Late breaking news
 exiv2.png                                       Exiv2 Logo
+matrix-standard-vector-logo-xs.png              Chat Server Logo
 COPYING                                         GPLv2.0 Software License
 
 Deliverable                                     Location
@@ -17,7 +18,7 @@ libraries                                       lib/libexiv2.so.@VM@.@VN@.@VD@@V
 pkg-config file                                 lib/pkgconfig/exiv2.pc
 CMake support/consume files                     lib/cmake/exiv2
 pkg-config file                                 lib/pkgconfig/exiv2.pc
-man pages                                       share/man/
+man page                                        share/man/man1/exiv2.1
 localisation files                              share/locale/
 sample code                                     samples/exifprint.cpp
 build and test log                              logs/build.txt
@@ -25,7 +26,7 @@ build and test log                              logs/build.txt
 To run exiv2 from the bundle
 ----------------------------
 $ cd <bundle>
-$ bin/exiv2
+$ env LD_LIBRARY_PATH="$PWD/lib:$LD_LIBRARY_PATH" bin/exiv2
 
 To build samples/exiftool.cpp from the bundle
 ---------------------------------------------
@@ -64,4 +65,4 @@ $ man exiv2
 
 Robin Mills
 robin@clanmills.com
-Updated: 2020-04-22
+Updated: 2020-03-19
