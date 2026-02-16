@@ -14,10 +14,10 @@ class CheckDumpSubFiles(metaclass=system_tests.CaseMeta):
                  "$data_path/Reagan.jpg"
     ]
 
-    commands = ["$exiv2 -pR " + filenames[0],
-                "$exiv2 -pR " + filenames[1],
-                "$exiv2 -pR " + filenames[2],
-                "$exiv2 -pR " + filenames[3]
+    commands = [f"$exiv2 -pR {filenames[0]}",
+                f"$exiv2 -pR {filenames[1]}",
+                f"$exiv2 -pR {filenames[2]}",
+                f"$exiv2 -pR {filenames[3]}"
     ]
 
     stdout = [ """STRUCTURE OF JPEG FILE: """ + filenames[0] + """
@@ -159,7 +159,7 @@ class CheckDumpSubFiles(metaclass=system_tests.CaseMeta):
        2 |     120 | Caption                  |     12 | Classic View
    17987 | 0xffd9 EOI  
 """,
-    """STRUCTURE OF PNG FILE: """ + filenames[1] + """
+    """STRUCTURE OF PNG FILE: """ + filenames[1] + r"""
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ...@........                   | 0x7f775da4
       33 | iCCP  |    1404 | icc..x...i8........af\...w_3.. | 0x363e2409

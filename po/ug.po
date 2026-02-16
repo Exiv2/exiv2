@@ -2664,8 +2664,8 @@ msgstr "ئالجىر"
 
 #: src/error.cpp:101
 msgid ""
-"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net `"
-"%1', `%2', `%3'"
+"Aliases are not supported. Please send this XMP packet to ahuggel@gmx.net "
+"`%1', `%2', `%3'"
 msgstr ""
 
 #: src/nikonmn.cpp:1680
@@ -12824,8 +12824,8 @@ msgstr ""
 
 #: src/tags.cpp:2107
 msgid ""
-"Indicates the unit used to express the distance to the destination point. \"K"
-"\", \"M\" and \"N\" represent kilometers, miles and knots."
+"Indicates the unit used to express the distance to the destination point. "
+"\"K\", \"M\" and \"N\" represent kilometers, miles and knots."
 msgstr ""
 
 #: src/tags.cpp:1981
@@ -19575,7 +19575,7 @@ msgstr ""
 
 #: src/properties.cpp:277
 msgid ""
-"References to resources that were incorporated, byinclusion or reference, "
+"References to resources that were incorporated, by inclusion or reference, "
 "into this resource."
 msgstr ""
 

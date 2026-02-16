@@ -4,6 +4,10 @@
 
 name: On PRs - Linux-Ubuntu Quick Fuzz
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths-ignore:
@@ -12,33 +16,32 @@ on:
 
 jobs:
   Linux:
-    name: 'Ubuntu 20.04 - clang/libFuzzer'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 24.04 - clang/libFuzzer'
+    runs-on: ubuntu-24.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        fuzz_target: [fuzz-read-write, fuzz-read-print-write]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: install dependencies
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+    - name: Install dependencies
       run: |
         sudo ./ci/install_dependencies.sh
-        sudo apt-get install ninja-build
 
-    - name: build and compile
+    - name: Build
+      env:
+        CC: clang
+        CXX: clang++
       run: |
-        mkdir build && cd build && \
-        cmake -GNinja -DEXIV2_ENABLE_PNG=ON \
-          -DEXIV2_BUILD_SAMPLES=ON \
-          -DEXIV2_ENABLE_WEBREADY=ON \
-          -DEXIV2_ENABLE_CURL=ON \
-          -DEXIV2_ENABLE_BMFF=ON \
-          -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-          -DCMAKE_CXX_COMPILER=$(which clang++) \
-          -DEXIV2_BUILD_FUZZ_TESTS=ON \
-          -DEXIV2_TEAM_USE_SANITIZERS=ON \
-          .. && \
-        cmake --build . --parallel
+        cmake --preset linux-sanitizers -S . -B build -DCMAKE_BUILD_TYPE=Release -DEXIV2_BUILD_FUZZ_TESTS=ON -DEXIV2_BUILD_UNIT_TESTS=OFF
+        cmake --build build --parallel
 
     - name: Fuzz
       run: |
         cd build
         mkdir corpus
-        LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/fuzz-read-print-write corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_len=4096 -max_total_time=120
+        LSAN_OPTIONS=suppressions=../fuzz/knownleaks.txt ./bin/${{matrix.fuzz_target}} corpus ../test/data/ -dict=../fuzz/exiv2.dict -jobs=$(nproc) -workers=$(nproc) -max_len=4096 -max_total_time=120

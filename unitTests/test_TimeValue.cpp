@@ -33,7 +33,7 @@ TEST(ATimeValue, canBeReadFromCompleteBasicFormatString) {
   ASSERT_EQ(2, value.getTime().second);
 }
 
-TEST(ATimeValue, canBeReadFromReducedBasicFormatString_HHMM) {
+TEST(ATimeValue, canBeReadFromReducedBasicFormatStringHHMM) {
   TimeValue value;
   const std::string hms("2355");
   ASSERT_EQ(0, value.read(hms));
@@ -42,7 +42,7 @@ TEST(ATimeValue, canBeReadFromReducedBasicFormatString_HHMM) {
   ASSERT_EQ(0, value.getTime().second);
 }
 
-TEST(ATimeValue, canBeReadFromReducedBasicFormatString_HH) {
+TEST(ATimeValue, canBeReadFromReducedBasicFormatStringHH) {
   TimeValue value;
   const std::string hms("23");
   ASSERT_EQ(0, value.read(hms));
@@ -60,7 +60,7 @@ TEST(ATimeValue, canBeReadFromCompleteExtendedFormatString) {
   ASSERT_EQ(2, value.getTime().second);
 }
 
-TEST(ATimeValue, canBeReadFromReducedExtendedFormatString_HHMM) {
+TEST(ATimeValue, canBeReadFromReducedExtendedFormatStringHHMM) {
   TimeValue value;
   const std::string hms("23:55");
   ASSERT_EQ(0, value.read(hms));
@@ -151,7 +151,7 @@ TEST(ATimeValue, cannotReadFromStringWithBadFormat) {
 TEST(ATimeValue, isCopiedToBuffer) {
   const TimeValue value(23, 55, 2);
   byte buffer[11];
-  ASSERT_EQ(11, value.copy(buffer));
+  ASSERT_EQ(11u, value.copy(buffer));
 
   const byte expectedDate[11] = {'2', '3', '5', '5', '0', '2', '+', '0', '0', '0', '0'};
   for (int i = 0; i < 11; ++i) {

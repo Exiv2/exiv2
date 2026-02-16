@@ -8,8 +8,8 @@
 debian_build_gtest() {
     [ -d gtest_build ] || mkdir gtest_build
     cd gtest_build
-    cmake -DBUILD_SHARED_LIBS=1 /usr/src/googletest/googletest
-    make
+    cmake -GNinja -DBUILD_SHARED_LIBS=1 /usr/src/googletest/googletest
+    cmake --build .
     if [ -f "lib/libgtest.so" ]; then
         # Ubuntu 20.04 with gtest 1.10
         cp lib/libgtest* /usr/lib/
@@ -20,57 +20,53 @@ debian_build_gtest() {
     cd ..
 }
 
-# workaround for really bare-bones Archlinux containers:
-if [ -x "$(command -v pacman)" ]; then
-    pacman --noconfirm -Sy
-    pacman --noconfirm -S grep gawk sed
-fi
+# workaround for really old bare-bones Archlinux containers:
+# if [ -x "$(command -v pacman)" ]; then
+#     pacman --noconfirm -Sy
+#     pacman --noconfirm --needed -S grep gawk sed
+# fi
 
 distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
     'fedora')
-        dnf -y --refresh install gcc-c++ clang cmake make expat-devel zlib-devel libssh-devel libcurl-devel gtest-devel which dos2unix glibc-langpack-en diffutils
+        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel gmock-devel glibc-langpack-en
         ;;
 
     'debian')
         apt-get update
-        apt-get install -y cmake g++ clang make libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev libxml2-utils
-        debian_build_gtest
+        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev
+        # debian_build_gtest
         ;;
 
     'arch')
         pacman --noconfirm -Syu
-        pacman --noconfirm -S gcc clang cmake make expat zlib libssh curl gtest dos2unix which diffutils
+        pacman --noconfirm --needed -S gcc clang cmake ninja expat zlib brotli libssh curl gtest libinih
         ;;
 
     'ubuntu')
         apt-get update
-        apt-get install -y cmake g++ clang make libexpat1-dev zlib1g-dev libssh-dev libcurl4-openssl-dev libgtest-dev google-mock libxml2-utils
-        debian_build_gtest
+        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev
+        # debian_build_gtest
         ;;
 
     'alpine')
         apk update
-        apk add gcc g++ clang cmake make expat-dev zlib-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev which dos2unix bash libxml2-utils diffutils 
+        apk add gcc g++ clang cmake samurai expat-dev zlib-dev brotli-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev libxml2-utils inih-dev inih-inireader-dev
         ;;
 
-    'centos'|'rhel')
-        dnf clean all
-        dnf -y install gcc-c++ clang cmake make expat-devel zlib-devel libssh-devel libcurl-devel which dos2unix
+    'rhel')
+        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
+        ;;
+
+    'centos')
+        dnf -y --refresh install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel
+        dnf -y --refresh --enablerepo=crb install ninja-build inih-devel
         ;;
 
     'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake make libexpat-devel zlib-devel libssh-devel curl libcurl-devel git which dos2unix libxml2-tools
-        pushd /tmp
-          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
-          tar xzf   release-1.8.0.tar.gz
-          mkdir -p  googletest-release-1.8.0/build
-          pushd     googletest-release-1.8.0/build
-            cmake .. ; make ; make install
-          popd
-        popd
+        zypper --non-interactive install gcc-c++ clang cmake ninja libexpat-devel zlib-devel libbrotli-devel libssh-devel libcurl-devel gmock libxml2-tools libinih-devel
         ;;
     *)
         echo "Sorry, no predefined dependencies for your distribution $distro_id exist yet"

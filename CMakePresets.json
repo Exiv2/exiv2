@@ -1,0 +1,151 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "base_ninja",
+      "description": "Base preset to use ninja as generator",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-${presetName}",
+      "installDir": "${sourceDir}/build-${presetName}/install",
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": true,
+        "CONAN_AUTO_INSTALL": true,
+        "EXIV2_BUILD_SAMPLES": true,
+        "EXIV2_ENABLE_WEBREADY": true,
+        "EXIV2_ENABLE_CURL": true,
+        "EXIV2_ENABLE_PNG": true,
+        "EXIV2_ENABLE_BMFF": true,
+        "EXIV2_BUILD_UNIT_TESTS": true,
+        "EXIV2_TEAM_WARNINGS_AS_ERRORS": true,
+        "EXIV2_ENABLE_NLS": false,
+        "EXIV2_ENABLE_VIDEO": true
+      }
+    },
+    {
+      "name": "base_windows",
+      "description": "Base preset for Windows (specially useful for CI jobs)",
+      "displayName": "Base preset for Windows (specially useful for CI jobs)",
+      "inherits": "base_ninja",
+      "condition": {
+        "type": "matches",
+        "string": "${hostSystemName}",
+        "regex": "Windows|CYGWIN.*|MSYS.*"
+      }
+    },
+    {
+      "name": "base_linux",
+      "description": "Base preset for Linux",
+      "displayName": "Base preset for Linux with default compiler: GCC (specially useful for CI jobs)",
+      "inherits": "base_ninja",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "BUILD_WITH_CCACHE": true
+      }
+    },
+    {
+      "name": "base_mac",
+      "description": "Base preset for macOS (no conan usage)",
+      "displayName": "Base preset for macOS with default compiler: AppleClang (specially useful for CI jobs)",
+      "inherits": "base_ninja",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "cacheVariables": { 
+        "CMAKE_BUILD_TYPE": "Release",
+        "CONAN_AUTO_INSTALL": false 
+      }
+    },
+
+    {
+     "name": "msvc",
+     "displayName": "Visual Studio cl toolchain (also usable from VS Code)",
+     "inherits": "base_windows",
+     "architecture": {
+       "value": "x64",
+       "strategy": "external"
+     },
+     "toolset": {
+       "value": "host=x64",
+       "strategy": "external"
+     },
+     "cacheVariables": {
+       "CMAKE_C_COMPILER": "cl.exe",
+       "CMAKE_CXX_COMPILER": "cl.exe",
+       "CMAKE_BUILD_TYPE": "Debug"
+     }
+    },
+    {
+      "name": "win-debug",
+      "displayName": "Windows Debug with configured architecture",
+      "description": "Sets Debug build type with the preloaded Visual Studio Environment",
+      "inherits": "base_windows",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "win-release",
+      "displayName": "Windows Release with configured architecture",
+      "description": "Sets Release build type with the preloaded Visual Studio Environment",
+      "inherits": "base_windows",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "Linux Debug (Ninja Generator) with default architecture",
+      "inherits": "base_linux",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Linux Release (Ninja Generator) with default architecture",
+      "inherits": "base_linux",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "linux-debug-NoConan",
+      "displayName": "Same as linux-debug but without automatic conan execution",
+      "inherits": "linux-debug",
+      "cacheVariables": { "CONAN_AUTO_INSTALL": false }
+    },
+    {
+      "name": "linux-release-NoConan",
+      "displayName": "Same as linux-release but without automatic conan execution",
+      "inherits": "linux-release",
+      "cacheVariables": { "CONAN_AUTO_INSTALL": false }
+    },
+    {
+      "name": "linux-coverage",
+      "displayName": "Same as linux-debug-NoConan with coverage enabled",
+      "inherits": "linux-debug-NoConan",
+      "cacheVariables": { "BUILD_WITH_COVERAGE": true }
+    },
+    {
+      "name": "linux-sanitizers",
+      "displayName": "Same as linux-debug-NoConan with sanitizers enabled",
+      "inherits": "linux-debug-NoConan",
+      "cacheVariables": { "EXIV2_TEAM_USE_SANITIZERS": true }
+    },
+    {
+      "name": "linux-all",
+      "displayName": "Same as linux-release-NoConan and with rest of things enabled (doc + NLS)",
+      "description": "requires installation of packages: doxygen graphviz gettext",
+      "inherits": "linux-release-NoConan",
+      "cacheVariables": { 
+        "EXIV2_ENABLE_NLS": true,
+        "EXIV2_ENABLE_VIDEO": false,
+        "EXIV2_BUILD_DOC": true
+      }
+    }
+
+  ]
+}

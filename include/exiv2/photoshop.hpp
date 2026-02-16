@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef PHOTOSHOP_INT_HPP
-#define PHOTOSHOP_INT_HPP
+#ifndef EXIV2_PHOTOSHOP_HPP
+#define EXIV2_PHOTOSHOP_HPP
 
 #include "exiv2lib_export.h"
 
@@ -16,10 +16,10 @@ class IptcData;
 /// @brief Helper class, has methods to deal with %Photoshop "Information Resource Blocks" (IRBs).
 struct EXIV2API Photoshop {
   // Todo: Public for now
-  static constexpr std::array irbId_{"8BIM", "AgHg", "DCSR", "PHUT"};  //!< %Photoshop IRB markers
-  static constexpr auto ps3Id_ = "Photoshop 3.0\0";                    //!< %Photoshop marker
-  static constexpr uint16_t iptc_ = 0x0404;                            //!< %Photoshop IPTC marker
-  static constexpr uint16_t preview_ = 0x040c;                         //!< %Photoshop preview marker
+  static constexpr std::array<const char*, 4> irbId_{"8BIM", "AgHg", "DCSR", "PHUT"};  //!< %Photoshop IRB markers
+  static constexpr auto ps3Id_ = "Photoshop 3.0\0";                                    //!< %Photoshop marker
+  static constexpr uint16_t iptc_ = 0x0404;                                            //!< %Photoshop IPTC marker
+  static constexpr uint16_t preview_ = 0x040c;                                         //!< %Photoshop preview marker
 
   /// @brief Checks an IRB
   /// @param pPsData  Existing IRB buffer. It is expected to be of size 4.
@@ -34,9 +34,9 @@ struct EXIV2API Photoshop {
   /// @return true  if all IRBs are valid;<BR> false otherwise
   static bool valid(const byte* pPsData, size_t sizePsData);
 
-  /// @brief Locates the data for a %Photoshop tag in a %Photoshop formated memory buffer.
+  /// @brief Locates the data for a %Photoshop tag in a %Photoshop formatted memory buffer.
   /// Operates on raw data to simplify reuse.
-  /// @param pPsData Pointer to buffer containing entire payload of %Photoshop formated data (from APP13 Jpeg segment)
+  /// @param pPsData Pointer to buffer containing entire payload of %Photoshop formatted data (from APP13 Jpeg segment)
   /// @param sizePsData Size in bytes of pPsData.
   /// @param psTag %Tag number of the block to look for.
   /// @param record Output value that is set to the start of the data block within pPsData (may not be null).
@@ -67,4 +67,4 @@ struct EXIV2API Photoshop {
 };
 }  // namespace Exiv2
 
-#endif  // PHOTOSHOP_INT_HPP
+#endif  // EXIV2_PHOTOSHOP_HPP

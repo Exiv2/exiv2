@@ -1,5 +1,9 @@
 name: On PRs - Mac Special Builds
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   pull_request:
@@ -8,44 +12,23 @@ on:
 
 jobs:
   MacOS_releaseSanitizers:
-    name: 'MacOS - Clang - Release+Sanitizers'
+    name: 'macOS - XCode - Release+Sanitizers'
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          brew install ninja
-          pushd /tmp
-          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
-          tar xzf   release-1.8.0.tar.gz
-          mkdir -p  googletest-release-1.8.0/build
-          pushd     googletest-release-1.8.0/build
-          cmake .. ; make ; make install
-          popd
-          popd
+          brew install inih googletest
 
       - name: Build
         run: |
-          mkdir build && cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DBUILD_WITH_COVERAGE=OFF \
-            -DEXIV2_TEAM_USE_SANITIZERS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset base_mac -S . -B build -DEXIV2_TEAM_USE_SANITIZERS=ON
+          cmake --build build --parallel
 
-      - name: Tests
+      - name: Test
         run: |
-          cd build
-          ctest --output-on-failure
+          ASAN_OPTIONS=detect_container_overflow=0 ctest --test-dir build --output-on-failure

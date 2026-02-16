@@ -128,7 +128,7 @@ Exif.CanonFi.FileNumber                      Long        1  0  (0)
 Exif.CanonFi.BracketMode                     SShort      1  0  Off
 Exif.CanonFi.BracketValue                    SShort      1  0  0
 Exif.CanonFi.BracketShotNumber               SShort      1  0  0
-Exif.CanonFi.RawJpgQuality                   SShort      1  0  unkown
+Exif.CanonFi.RawJpgQuality                   SShort      1  0  unknown
 Exif.CanonFi.RawJpgSize                      SShort      1  0  Large
 Exif.CanonFi.NoiseReduction                  SShort      1  -1  (-1)
 Exif.CanonFi.WBBracketMode                   SShort      1  0  Off
@@ -176,7 +176,9 @@ Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  0  Standard
 Exif.CanonLiOp.HighlightTonePriority         SLong       1  0  Off
 Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  0  Off
 Exif.CanonLiOp.HighISONoiseReduction         SLong       1  0  Standard
-Exif.CanonLe.LensSerialNumber                SLong       1  0  0
+Exif.CanonLiOp.DigitalLensOptimizer          SLong       1  1  Standard
+Exif.CanonLiOp.DualPixelRaw                  SLong       1  0  Off
+Exif.CanonLe.LensSerialNumber                Byte        5  0 0 0 0 0  0000000000
 Exif.CanonAm.AmbienceSelection               SLong       1  0  Standard
 Exif.CanonHdr.HDR                            SLong       1  0  Off
 Exif.CanonHdr.HDREffect                      SLong       1  0  Natural
@@ -197,7 +199,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii      12  Danny Heijl  Danny Heijl
 Exif.Photo.BodySerialNumber                  Ascii      13  693035001174  693035001174
-Exif.Photo.LensSpecification                 Rational    4  30/1 30/1 0/1 0/1  30/1 30/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  30/1 30/1 0/1 0/1  30mm
 Exif.Photo.LensModel                         Ascii      35  30mm F1.4 DC DN | Contemporary 016  30mm F1.4 DC DN | Contemporary 016
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.GPSTag                            Long        1  6426  6426

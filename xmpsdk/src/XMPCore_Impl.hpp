@@ -114,7 +114,7 @@ extern WXMP_Result		void_wResult;
 #define WtoXMPDocOps_Ref(docRef)	*((const XMPDocOps *)(docRef))
 #define WtoXMPDocOps_Ptr(docRef)	(((docRef) == 0) ? 0 : (XMPDocOps *)(docRef))
 
-#define IgnoreParam(p)	voidVoidPtr = (void*)&p
+#define IgnoreParam(p)	(void)p
 
 // =================================================================================================
 // Version info

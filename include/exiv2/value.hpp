@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef VALUE_HPP_
-#define VALUE_HPP_
+#ifndef EXIV2_VALUE_HPP
+#define EXIV2_VALUE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -14,6 +14,7 @@
 #include <cstring>
 #include <iomanip>
 #include <map>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -38,7 +39,6 @@ class EXIV2API Value {
   //@{
   //! Constructor, taking a type id to initialize the base class with
   explicit Value(TypeId typeId);
-  Value(const Value&) = default;
   //! Virtual destructor.
   virtual ~Value() = default;
   //@}
@@ -222,13 +222,14 @@ class EXIV2API Value {
   static UniquePtr create(TypeId typeId);
 
  protected:
+  Value(const Value&) = default;
   /*!
     @brief Assignment operator. Protected so that it can only be used
            by subclasses but not directly.
    */
   Value& operator=(const Value&) = default;
   // DATA
-  mutable bool ok_;  //!< Indicates the status of the previous to<Type> conversion
+  mutable bool ok_{true};  //!< Indicates the status of the previous to<Type> conversion
 
  private:
   //! Internal virtual copy constructor.
@@ -251,8 +252,6 @@ class EXIV2API DataValue : public Value {
   explicit DataValue(TypeId typeId = undefined);
 
   DataValue(const byte* buf, size_t len, ByteOrder byteOrder = invalidByteOrder, TypeId typeId = undefined);
-
-  ~DataValue() override = default;
 
   //! @name Manipulators
   //@{
@@ -299,6 +298,7 @@ class EXIV2API DataValue : public Value {
   //! Internal virtual copy constructor.
   DataValue* clone_() const override;
 
+ public:
   //! Type used to store the data.
   using ValueType = std::vector<byte>;
   // DATA
@@ -313,6 +313,8 @@ class EXIV2API DataValue : public Value {
   most operations.
  */
 class EXIV2API StringValueBase : public Value {
+  using Value::Value;
+
  public:
   //! Shortcut for a %StringValueBase auto pointer.
   using UniquePtr = std::unique_ptr<StringValueBase>;
@@ -320,13 +322,7 @@ class EXIV2API StringValueBase : public Value {
   //! @name Creators
   //@{
   //! Constructor for subclasses
-  explicit StringValueBase(TypeId typeId);
-  //! Constructor for subclasses
   StringValueBase(TypeId typeId, const std::string& buf);
-  //! Copy constructor
-  StringValueBase(const StringValueBase&) = default;
-  //! Virtual destructor.
-  ~StringValueBase() override = default;
   //@}
 
   //! @name Manipulators
@@ -365,8 +361,6 @@ class EXIV2API StringValueBase : public Value {
   //@}
 
  protected:
-  //! Assignment operator.
-  StringValueBase& operator=(const StringValueBase&);
   //! Internal virtual copy constructor.
   StringValueBase* clone_() const override = 0;
 
@@ -394,8 +388,6 @@ class EXIV2API StringValue : public StringValueBase {
   StringValue();
   //! Constructor
   explicit StringValue(const std::string& buf);
-  //! Virtual destructor.
-  ~StringValue() override = default;
   //@}
 
   //! @name Accessors
@@ -428,8 +420,6 @@ class EXIV2API AsciiValue : public StringValueBase {
   AsciiValue();
   //! Constructor
   explicit AsciiValue(const std::string& buf);
-  //! Virtual destructor.
-  ~AsciiValue() override = default;
   //@}
 
   //! @name Manipulators
@@ -476,22 +466,14 @@ class EXIV2API CommentValue : public StringValueBase {
   enum CharsetId { ascii, jis, unicode, undefined, invalidCharsetId, lastCharsetId };
   //! Information pertaining to the defined character sets
   struct CharsetTable {
-    //! Constructor
-    constexpr CharsetTable(CharsetId charsetId, const char* name, const char* code);
     CharsetId charsetId_;  //!< Charset id
     const char* name_;     //!< Name of the charset
     const char* code_;     //!< Code of the charset
-  };                       // struct CharsetTable
+  };
 
   //! Charset information lookup functions. Implemented as a static class.
   class EXIV2API CharsetInfo {
    public:
-    //! Prevent copy-construction: not implemented.
-    CharsetInfo(const CharsetInfo&) = delete;
-    //! Prevent assignment: not implemented.
-    CharsetInfo& operator=(const CharsetInfo&) = delete;
-    ~CharsetInfo() = delete;
-
     //! Return the name for a charset id
     static const char* name(CharsetId charsetId);
     //! Return the code for a charset id
@@ -514,8 +496,6 @@ class EXIV2API CommentValue : public StringValueBase {
   CommentValue();
   //! Constructor, uses read(const std::string& comment)
   explicit CommentValue(const std::string& comment);
-  //! Virtual destructor.
-  ~CommentValue() override = default;
   //@}
 
   //! @name Manipulators
@@ -590,6 +570,8 @@ class EXIV2API CommentValue : public StringValueBase {
   @brief Base class for all Exiv2 values used to store XMP property values.
  */
 class EXIV2API XmpValue : public Value {
+  using Value::Value;
+
  public:
   //! Shortcut for a %XmpValue auto pointer.
   using UniquePtr = std::unique_ptr<XmpValue>;
@@ -598,11 +580,6 @@ class EXIV2API XmpValue : public Value {
   enum XmpArrayType { xaNone, xaAlt, xaBag, xaSeq };
   //! XMP structure indicator.
   enum XmpStruct { xsNone, xsStruct };
-
-  //! @name Creators
-  //@{
-  explicit XmpValue(TypeId typeId);
-  //@}
 
   //! @name Accessors
   //@{
@@ -647,8 +624,8 @@ class EXIV2API XmpValue : public Value {
 
  private:
   // DATA
-  XmpArrayType xmpArrayType_;  //!< Type of XMP array
-  XmpStruct xmpStruct_;        //!< XMP structure indicator
+  XmpArrayType xmpArrayType_{xaNone};  //!< Type of XMP array
+  XmpStruct xmpStruct_{xsNone};        //!< XMP structure indicator
 
 };  // class XmpValue
 
@@ -816,13 +793,11 @@ class EXIV2API XmpArrayValue : public XmpValue {
 struct LangAltValueComparator {
   //! LangAltValueComparator comparison case insensitive function
   bool operator()(const std::string& str1, const std::string& str2) const {
-    int result = str1.size() < str2.size() ? 1 : str1.size() > str2.size() ? -1 : 0;
-    if (result == 0) {
-      for (auto c1 = str1.begin(), c2 = str2.begin(); result == 0 && c1 != str1.end(); ++c1, ++c2) {
-        result = tolower(*c1) < tolower(*c2) ? 1 : tolower(*c1) > tolower(*c2) ? -1 : 0;
-      }
-    }
-    return result < 0;
+    if (str1.size() != str2.size())
+      return str1.size() > str2.size();
+
+    auto f = [](unsigned char a, unsigned char b) { return std::tolower(a) > std::tolower(b); };
+    return std::lexicographical_compare(str1.begin(), str1.end(), str2.begin(), str2.end(), f);
   }
 };
 
@@ -931,16 +906,14 @@ class EXIV2API DateValue : public Value {
   //! Default constructor.
   DateValue();
   //! Constructor
-  DateValue(int year, int month, int day);
-  //! Virtual destructor.
-  ~DateValue() override = default;
+  DateValue(int32_t year, int32_t month, int32_t day);
   //@}
 
   //! Simple Date helper structure
   struct EXIV2API Date {
-    int year{0};   //!< Year
-    int month{0};  //!< Month
-    int day{0};    //!< Day
+    int32_t year;   //!< Year
+    int32_t month;  //!< Month
+    int32_t day;    //!< Day
   };
 
   //! @name Manipulators
@@ -987,13 +960,13 @@ class EXIV2API DateValue : public Value {
   size_t count() const override;
   size_t size() const override;
   std::ostream& write(std::ostream& os) const override;
-  //! Return the value as a UNIX calender time converted to int64_t.
+  //! Return the value as a UNIX calendar time converted to int64_t.
   int64_t toInt64(size_t n = 0) const override;
-  //! Return the value as a UNIX calender time converted to uint32_t.
+  //! Return the value as a UNIX calendar time converted to uint32_t.
   uint32_t toUint32(size_t n = 0) const override;
-  //! Return the value as a UNIX calender time converted to float.
+  //! Return the value as a UNIX calendar time converted to float.
   float toFloat(size_t n = 0) const override;
-  //! Return the value as a UNIX calender time  converted to Rational.
+  //! Return the value as a UNIX calendar time converted to Rational.
   Rational toRational(size_t n = 0) const override;
   //@}
 
@@ -1024,21 +997,16 @@ class EXIV2API TimeValue : public Value {
   //! Default constructor.
   TimeValue();
   //! Constructor
-  TimeValue(int hour, int minute, int second = 0, int tzHour = 0, int tzMinute = 0);
-
-  //! Virtual destructor.
-  ~TimeValue() override = default;
+  TimeValue(int32_t hour, int32_t minute, int32_t second = 0, int32_t tzHour = 0, int32_t tzMinute = 0);
   //@}
 
   //! Simple Time helper structure
   struct Time {
-    Time() = default;
-
-    int hour{0};      //!< Hour
-    int minute{0};    //!< Minute
-    int second{0};    //!< Second
-    int tzHour{0};    //!< Hours ahead or behind UTC
-    int tzMinute{0};  //!< Minutes ahead or behind UTC
+    int32_t hour;      //!< Hour
+    int32_t minute;    //!< Minute
+    int32_t second;    //!< Second
+    int32_t tzHour;    //!< Hours ahead or behind UTC
+    int32_t tzMinute;  //!< Minutes ahead or behind UTC
   };
 
   //! @name Manipulators
@@ -1160,6 +1128,8 @@ inline TypeId getType<double>() {
  */
 template <typename T>
 class ValueType : public Value {
+  using Value::Value;
+
  public:
   //! Shortcut for a %ValueType\<T\> auto pointer.
   using UniquePtr = std::unique_ptr<ValueType<T>>;
@@ -1169,16 +1139,11 @@ class ValueType : public Value {
   //! Default Constructor.
   ValueType();
   //! Constructor.
-  // The default c'tor and this one can be combined, but that causes MSVC 7.1 to fall on its nose
-  explicit ValueType(TypeId typeId);
-  //! Constructor.
   ValueType(const byte* buf, size_t len, ByteOrder byteOrder, TypeId typeId = getType<T>());
   //! Constructor.
   explicit ValueType(const T& val, TypeId typeId = getType<T>());
   //! Copy constructor
   ValueType(const ValueType<T>& rhs);
-  //! Virtual destructor.
-  ~ValueType() override;
   //@}
 
   //! @name Manipulators
@@ -1231,10 +1196,6 @@ class ValueType : public Value {
 
   //! Container for values
   using ValueList = std::vector<T>;
-  //! Iterator type defined for convenience.
-  using iterator = typename std::vector<T>::iterator;
-  //! Const iterator type defined for convenience.
-  using const_iterator = typename std::vector<T>::const_iterator;
 
   // DATA
   /*!
@@ -1248,19 +1209,20 @@ class ValueType : public Value {
  private:
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
-  inline I float_to_integer_helper(size_t n) const {
+  I float_to_integer_helper(size_t n) const {
     const auto v = value_.at(n);
     if (static_cast<decltype(v)>(std::numeric_limits<I>::min()) <= v &&
         v <= static_cast<decltype(v)>(std::numeric_limits<I>::max())) {
-      return static_cast<I>(std::round(v));
+      return static_cast<I>(std::lround(v));
     }
     return 0;
   }
 
   //! Utility for toInt64, toUint32, etc.
   template <typename I>
-  inline I rational_to_integer_helper(size_t n) const {
-    auto&& [a, b] = value_.at(n);
+  I rational_to_integer_helper(size_t n) const {
+    auto a = value_.at(n).first;
+    auto b = value_.at(n).second;
 
     // Protect against divide-by-zero.
     if (b <= 0) {
@@ -1268,16 +1230,24 @@ class ValueType : public Value {
     }
 
     // Check for integer overflow.
-    if (std::is_signed_v<I> == std::is_signed_v<decltype(a)>) {
+#ifdef __cpp_if_constexpr
+    if constexpr (std::is_signed_v<I> == std::is_signed_v<decltype(a)>) {
+#else
+    if (std::is_signed<I>::value == std::is_signed<decltype(a)>::value) {
+#endif
       // conversion does not change sign
       const auto imin = std::numeric_limits<I>::min();
       const auto imax = std::numeric_limits<I>::max();
       if (imax < b || a < imin || imax < a) {
         return 0;
       }
-    } else if (std::is_signed_v<I>) {
+#ifdef __cpp_if_constexpr
+    } else if constexpr (std::is_signed_v<I>) {
+#else
+    } else if (std::is_signed<I>::value) {
+#endif
       // conversion is from unsigned to signed
-      const auto imax = std::make_unsigned_t<I>(std::numeric_limits<I>::max());
+      const auto imax = static_cast<std::make_unsigned_t<I>>(std::numeric_limits<I>::max());
       if (imax < b || imax < a) {
         return 0;
       }
@@ -1288,8 +1258,8 @@ class ValueType : public Value {
         return 0;
       }
       // Inputs are not negative so convert them to unsigned.
-      const auto a_u = std::make_unsigned_t<decltype(a)>(a);
-      const auto b_u = std::make_unsigned_t<decltype(b)>(b);
+      const auto a_u = static_cast<std::make_unsigned_t<decltype(a)>>(a);
+      const auto b_u = static_cast<std::make_unsigned_t<decltype(b)>>(b);
       if (imax < b_u || imax < a_u) {
         return 0;
       }
@@ -1303,9 +1273,7 @@ class ValueType : public Value {
 
   // DATA
   //! Pointer to the buffer, nullptr if none has been allocated
-  byte* pDataArea_{nullptr};
-  //! The current size of the buffer
-  size_t sizeDataArea_{0};
+  Blob pDataArea_;
 };  // class ValueType
 
 //! Unsigned short value type
@@ -1395,13 +1363,13 @@ inline double getValue(const byte* buf, ByteOrder byteOrder) {
   @return The number of bytes written to the buffer.
  */
 template <typename T>
-long toData(byte* buf, T t, ByteOrder byteOrder);
+size_t toData(byte* buf, T t, ByteOrder byteOrder);
 /*!
   @brief Specialization to write an unsigned short to the data buffer.
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, uint16_t t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, uint16_t t, ByteOrder byteOrder) {
   return us2Data(buf, t, byteOrder);
 }
 /*!
@@ -1409,7 +1377,7 @@ inline long toData(byte* buf, uint16_t t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, uint32_t t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, uint32_t t, ByteOrder byteOrder) {
   return ul2Data(buf, t, byteOrder);
 }
 /*!
@@ -1417,7 +1385,7 @@ inline long toData(byte* buf, uint32_t t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, URational t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, URational t, ByteOrder byteOrder) {
   return ur2Data(buf, t, byteOrder);
 }
 /*!
@@ -1425,7 +1393,7 @@ inline long toData(byte* buf, URational t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, int16_t t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, int16_t t, ByteOrder byteOrder) {
   return s2Data(buf, t, byteOrder);
 }
 /*!
@@ -1433,7 +1401,7 @@ inline long toData(byte* buf, int16_t t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, int32_t t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, int32_t t, ByteOrder byteOrder) {
   return l2Data(buf, t, byteOrder);
 }
 /*!
@@ -1441,7 +1409,7 @@ inline long toData(byte* buf, int32_t t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, Rational t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, Rational t, ByteOrder byteOrder) {
   return r2Data(buf, t, byteOrder);
 }
 /*!
@@ -1449,7 +1417,7 @@ inline long toData(byte* buf, Rational t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, float t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, float t, ByteOrder byteOrder) {
   return f2Data(buf, t, byteOrder);
 }
 /*!
@@ -1457,16 +1425,12 @@ inline long toData(byte* buf, float t, ByteOrder byteOrder) {
          Return the number of bytes written.
  */
 template <>
-inline long toData(byte* buf, double t, ByteOrder byteOrder) {
+inline size_t toData(byte* buf, double t, ByteOrder byteOrder) {
   return d2Data(buf, t, byteOrder);
 }
 
 template <typename T>
 ValueType<T>::ValueType() : Value(getType<T>()) {
-}
-
-template <typename T>
-ValueType<T>::ValueType(TypeId typeId) : Value(typeId) {
 }
 
 template <typename T>
@@ -1480,38 +1444,21 @@ ValueType<T>::ValueType(const T& val, TypeId typeId) : Value(typeId) {
 }
 
 template <typename T>
-ValueType<T>::ValueType(const ValueType<T>& rhs) :
-    Value(rhs.typeId()),
-    value_(rhs.value_)
-
-{
-  if (rhs.sizeDataArea_ > 0) {
-    pDataArea_ = new byte[rhs.sizeDataArea_];
-    std::memcpy(pDataArea_, rhs.pDataArea_, rhs.sizeDataArea_);
-    sizeDataArea_ = rhs.sizeDataArea_;
-  }
-}
-
-template <typename T>
-ValueType<T>::~ValueType() {
-  delete[] pDataArea_;
+ValueType<T>::ValueType(const ValueType<T>& rhs) : Value(rhs.typeId()), value_(rhs.value_) {
+  if (!rhs.pDataArea_.empty())
+    pDataArea_ = rhs.pDataArea_;
 }
 
 template <typename T>
 ValueType<T>& ValueType<T>::operator=(const ValueType<T>& rhs) {
   if (this == &rhs)
     return *this;
-  Value::operator=(rhs);
   value_ = rhs.value_;
 
-  byte* tmp = nullptr;
-  if (rhs.sizeDataArea_ > 0) {
-    tmp = new byte[rhs.sizeDataArea_];
-    std::memcpy(tmp, rhs.pDataArea_, rhs.sizeDataArea_);
-  }
-  delete[] pDataArea_;
-  pDataArea_ = tmp;
-  sizeDataArea_ = rhs.sizeDataArea_;
+  if (!rhs.pDataArea_.empty())
+    pDataArea_ = rhs.pDataArea_;
+  else
+    pDataArea_.clear();
 
   return *this;
 }
@@ -1520,9 +1467,8 @@ template <typename T>
 int ValueType<T>::read(const byte* buf, size_t len, ByteOrder byteOrder) {
   value_.clear();
   size_t ts = TypeInfo::typeSize(typeId());
-  if (ts > 0)
-    if (len % ts != 0)
-      len = (len / ts) * ts;
+  if (ts > 0 && len % ts != 0)
+    len = (len / ts) * ts;
   for (size_t i = 0; i < len; i += ts) {
     value_.push_back(getValue<T>(buf + i, byteOrder));
   }
@@ -1532,23 +1478,21 @@ int ValueType<T>::read(const byte* buf, size_t len, ByteOrder byteOrder) {
 template <typename T>
 int ValueType<T>::read(const std::string& buf) {
   std::istringstream is(buf);
-  T tmp = T();
+  T tmp;
   ValueList val;
-  while (!(is.eof())) {
-    is >> tmp;
-    if (is.fail())
-      return 1;
+  while (is >> tmp)
     val.push_back(tmp);
-  }
-  value_.swap(val);
+  if (!is.eof())
+    return 1;
+  value_ = std::move(val);
   return 0;
 }
 
 template <typename T>
 size_t ValueType<T>::copy(byte* buf, ByteOrder byteOrder) const {
   size_t offset = 0;
-  for (auto i = value_.begin(); i != value_.end(); ++i) {
-    offset += toData(buf + offset, *i, byteOrder);
+  for (const auto& val : value_) {
+    offset += toData(buf + offset, val, byteOrder);
   }
   return offset;
 }
@@ -1693,26 +1637,22 @@ inline Rational ValueType<double>::toRational(size_t n) const {
 
 template <typename T>
 size_t ValueType<T>::sizeDataArea() const {
-  return sizeDataArea_;
+  return pDataArea_.size();
 }
 
 template <typename T>
 DataBuf ValueType<T>::dataArea() const {
-  return {pDataArea_, sizeDataArea_};
+  return {pDataArea_.data(), pDataArea_.size()};
 }
 
 template <typename T>
 int ValueType<T>::setDataArea(const byte* buf, size_t len) {
-  byte* tmp = nullptr;
-  if (len > 0) {
-    tmp = new byte[len];
-    std::memcpy(tmp, buf, len);
-  }
-  delete[] pDataArea_;
-  pDataArea_ = tmp;
-  sizeDataArea_ = len;
+  if (len > 0)
+    pDataArea_ = Blob(buf, buf + len);
+  else
+    pDataArea_.clear();
   return 0;
 }
 }  // namespace Exiv2
 
-#endif  // #ifndef VALUE_HPP_
+#endif  // EXIV2_VALUE_HPP

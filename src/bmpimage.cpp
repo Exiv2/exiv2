@@ -7,14 +7,18 @@
 
 #include "bmpimage.hpp"
 #include "basicio.hpp"
+#include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 
 // + standard includes
-#include <cstring>
-#include <iostream>
+#include <array>
 #include <string>
+
+#ifdef EXIV2_DEBUG_MESSAGES
+#include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -35,7 +39,7 @@ void BmpImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "BMP"));
 }
 
-void BmpImage::setComment(std::string_view /*comment*/) {
+void BmpImage::setComment(const std::string&) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "BMP"));
 }
 
@@ -77,8 +81,8 @@ void BmpImage::readMetadata() {
   */
   byte buf[26];
   if (io_->read(buf, sizeof(buf)) == sizeof(buf)) {
-    pixelWidth_ = getLong(buf + 18, littleEndian);
-    pixelHeight_ = getLong(buf + 22, littleEndian);
+    pixelWidth_ = getULong(buf + 18, littleEndian);
+    pixelHeight_ = getULong(buf + 22, littleEndian);
   }
 }
 
@@ -92,20 +96,20 @@ void BmpImage::writeMetadata() {
 Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<BmpImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
 
 bool isBmpType(BasicIo& iIo, bool advance) {
   const int32_t len = 2;
-  const unsigned char BmpImageId[2] = {'B', 'M'};
-  byte buf[len];
-  iIo.read(buf, len);
+  const std::array<byte, len> BmpImageId{'B', 'M'};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  bool matched = (memcmp(buf, BmpImageId, len) == 0);
+  bool matched = buf == BmpImageId;
   if (!advance || !matched) {
     iIo.seek(-len, BasicIo::cur);
   }

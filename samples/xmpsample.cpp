@@ -5,20 +5,17 @@
 
 #include <cassert>
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 
-bool isEqual(float a, float b) {
+namespace {
+[[maybe_unused]] bool isEqual(float a, float b) {
   double d = std::fabs(a - b);
   return d < 0.00001;
 }
+}  // namespace
 
 int main() try {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   // The XMP property container
   Exiv2::XmpData xmpData;
 
@@ -40,7 +37,7 @@ int main() try {
   xmpData["Xmp.dc.one"] = -1;
   xmpData["Xmp.dc.two"] = 3.1415;
   xmpData["Xmp.dc.three"] = Exiv2::Rational(5, 7);
-  xmpData["Xmp.dc.four"] = uint16_t(255);
+  xmpData["Xmp.dc.four"] = std::uint16_t{255};
   xmpData["Xmp.dc.five"] = 256;
   xmpData["Xmp.dc.six"] = false;
 
@@ -188,7 +185,7 @@ int main() try {
   for (auto&& md : xmpData) {
     std::cout << std::setfill(' ') << std::left << std::setw(44) << md.key() << " " << std::setw(9) << std::setfill(' ')
               << std::left << md.typeName() << " " << std::dec << std::setw(3) << std::setfill(' ') << std::right
-              << md.count() << "  " << std::dec << md.value() << std::endl;
+              << md.count() << "  " << std::dec << md.value() << '\n';
   }
 
   // -------------------------------------------------------------------------
@@ -200,7 +197,6 @@ int main() try {
   std::cout << xmpPacket << "\n";
 
   // Cleanup
-  Exiv2::XmpParser::terminate();
 
   return EXIT_SUCCESS;
 } catch (Exiv2::Error& e) {

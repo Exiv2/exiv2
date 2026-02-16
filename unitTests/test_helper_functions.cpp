@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include "helper_functions.hpp"
 
-TEST(string_from_unterminated, terminatedArray) {
+TEST(stringFromUnterminated, terminatedArray) {
   const char data[5] = {'a', 'b', 'c', 0, 'd'};
   const std::string res = string_from_unterminated(data, 5);
 
@@ -11,7 +11,7 @@ TEST(string_from_unterminated, terminatedArray) {
   ASSERT_STREQ(res.c_str(), "abc");
 }
 
-TEST(string_from_unterminated, unterminatedArray) {
+TEST(stringFromUnterminated, unterminatedArray) {
   const char data[4] = {'a', 'b', 'c', 'd'};
   const std::string res = string_from_unterminated(data, 4);
 

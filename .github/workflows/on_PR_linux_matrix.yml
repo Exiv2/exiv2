@@ -1,5 +1,9 @@
 name: On PRs - Linux-Ubuntu Matrix
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths-ignore:
@@ -7,22 +11,24 @@ on:
 
 jobs:
   Linux:
-    name: 'Ubuntu 20.04 - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: false
       matrix:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
-        
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: install dependencies
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.45.0
+          sudo apt install -y tree ninja-build
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -32,35 +38,55 @@ jobs:
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
+          mkdir build-base_linux && cd build-base_linux
           conan profile list
           conan profile show default
           conan install .. -o webready=True --build missing
 
       - name: Build
         run: |
-          cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
-            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
+          cmake --build build-base_linux --parallel
 
       - name: Install
         run: |
-          cd build
-          cmake --install . 
-          tree install
+          cd build-base_linux
+          cmake --install .
 
       - name: Test
         run: |
-          cd build
+          cd build-base_linux
+          ctest --output-on-failure
+  Alpine:
+    name: 'Alpine Edge - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}} ARCH:${{matrix.arch}}'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ['loongarch64', 'riscv64', 's390x']
+        build_type: [Release, Debug]
+        shared_libraries: [ON, OFF]
+
+    defaults:
+      run:
+        shell: alpine.sh {0}
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: jirutka/setup-alpine@v1
+        with:
+          arch: ${{matrix.arch}}
+          branch: edge
+          packages: >
+            build-base cmake samurai brotli-dev curl-dev expat-dev inih-inireader-dev gtest-dev python3-dev zlib-dev
+      - name: Build
+        run: |
+          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DCONAN_AUTO_INSTALL=OFF
+          cmake --build build-base_linux --parallel
+      - name: Test
+        run: |
+          cd build-base_linux
           ctest --output-on-failure

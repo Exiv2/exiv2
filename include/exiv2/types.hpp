@@ -1,30 +1,18 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef TYPES_HPP_
-#define TYPES_HPP_
+#ifndef EXIV2_TYPES_HPP
+#define EXIV2_TYPES_HPP
 
 #include "exiv2lib_export.h"
 
 // included header files
-#include "config.h"
 #include "slice.hpp"
 
 // standard includes
 #include <algorithm>
-#include <limits>
+#include <cstdint>
 #include <sstream>
 #include <vector>
-
-/*!
-  @brief Macro to make calls to member functions through a pointer more readable.
-         See the C++ FAQ LITE, item
-         <a href="http://www.parashift.com/c++-faq-lite/pointers-to-members.html#faq-33.5" title="[33.5] How can I avoid
-  syntax errors when calling a member function using a pointer-to-member-function?">[33.5] How can I avoid syntax errors
-  when calling a member function using a pointer-to-member-function?</a>.
- */
-#define EXV_CALL_MEMBER_FN(object, ptrToMember) ((object).*(ptrToMember))
-
-// *****************************************************************************
 
 // *****************************************************************************
 // namespace extensions
@@ -105,7 +93,7 @@ enum TypeId {
   xmpSeq = 0x10008,         //!< XMP sequence type.
   langAlt = 0x10009,        //!< XMP language alternative type.
   invalidTypeId = 0x1fffe,  //!< Invalid type id.
-  lastTypeId = 0x1ffff      //!< Last type id.
+  lastTypeId = 0x1ffff,     //!< Last type id.
 };
 
 //! Container for binary data
@@ -117,12 +105,6 @@ using Blob = std::vector<byte>;
 //! Type information lookup functions. Implemented as a static class.
 class EXIV2API TypeInfo {
  public:
-  //! Prevent copy-construction: not implemented.
-  TypeInfo(const TypeInfo&) = delete;
-  //! Prevent assignment: not implemented.
-  TypeInfo& operator=(const TypeInfo&) = delete;
-  ~TypeInfo() = delete;
-
   //! Return the name of the type, 0 if unknown.
   static const char* typeName(TypeId typeId);
   //! Return the type id for a type name
@@ -165,19 +147,19 @@ struct EXIV2API DataBuf {
   void reset();
   //@}
 
-  using iterator = std::vector<byte>::iterator;
-  using const_iterator = std::vector<byte>::const_iterator;
-
-  inline iterator begin() noexcept {
+  [[nodiscard]] auto begin() noexcept {
     return pData_.begin();
   }
-  [[nodiscard]] inline const_iterator cbegin() const noexcept {
-    return pData_.cbegin();
-  }
-  inline iterator end() noexcept {
+
+  [[nodiscard]] auto end() noexcept {
     return pData_.end();
   }
-  [[nodiscard]] inline const_iterator cend() const noexcept {
+
+  [[nodiscard]] auto begin() const noexcept {
+    return pData_.begin();
+  }
+
+  [[nodiscard]] auto end() const noexcept {
     return pData_.end();
   }
 
@@ -214,16 +196,18 @@ struct EXIV2API DataBuf {
   }
 
  private:
-  std::vector<byte> pData_;
+  Blob pData_;
 };
 
 /*!
  * @brief Create a new Slice from a DataBuf given the bounds.
  *
- * @param[in] begin, end  Bounds of the new Slice. `begin` must be smaller
- *     than `end` and both must not be larger than LONG_MAX.
  * @param[in] buf  The DataBuf from which' data the Slice will be
  *     constructed
+ * @param[in] begin Beginning bound of the new Slice. Must be smaller
+ *     than `end` and both must not be larger than LONG_MAX.
+ * @param[in] end End bound of the new Slice. Must be smaller
+ *     than `end` and both must not be larger than LONG_MAX.
  *
  * @throw std::invalid_argument when `end` is larger than `LONG_MAX` or
  * anything that the constructor of @ref Slice throws
@@ -277,47 +261,47 @@ EXIV2API std::istream& operator>>(std::istream& is, URational& r);
   @brief Convert an unsigned short to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long us2Data(byte* buf, uint16_t s, ByteOrder byteOrder);
+EXIV2API size_t us2Data(byte* buf, uint16_t s, ByteOrder byteOrder);
 /*!
   @brief Convert an unsigned long to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
+EXIV2API size_t ul2Data(byte* buf, uint32_t l, ByteOrder byteOrder);
 /*!
   @brief Convert an uint64_t to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder);
+EXIV2API size_t ull2Data(byte* buf, uint64_t l, ByteOrder byteOrder);
 /*!
   @brief Convert an unsigned rational to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long ur2Data(byte* buf, URational l, ByteOrder byteOrder);
+EXIV2API size_t ur2Data(byte* buf, URational l, ByteOrder byteOrder);
 /*!
   @brief Convert a signed short to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long s2Data(byte* buf, int16_t s, ByteOrder byteOrder);
+EXIV2API size_t s2Data(byte* buf, int16_t s, ByteOrder byteOrder);
 /*!
   @brief Convert a signed long to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long l2Data(byte* buf, int32_t l, ByteOrder byteOrder);
+EXIV2API size_t l2Data(byte* buf, int32_t l, ByteOrder byteOrder);
 /*!
   @brief Convert a signed rational to data, write the data to the buffer,
          return number of bytes written.
  */
-EXIV2API long r2Data(byte* buf, Rational l, ByteOrder byteOrder);
+EXIV2API size_t r2Data(byte* buf, Rational l, ByteOrder byteOrder);
 /*!
   @brief Convert a single precision floating point (IEEE 754 binary32) float
          to data, write the data to the buffer, return number of bytes written.
  */
-EXIV2API long f2Data(byte* buf, float f, ByteOrder byteOrder);
+EXIV2API size_t f2Data(byte* buf, float f, ByteOrder byteOrder);
 /*!
   @brief Convert a double precision floating point (IEEE 754 binary64) double
          to data, write the data to the buffer, return number of bytes written.
  */
-EXIV2API long d2Data(byte* buf, double d, ByteOrder byteOrder);
+EXIV2API size_t d2Data(byte* buf, double d, ByteOrder byteOrder);
 
 /*!
   @brief Print len bytes from buf in hex and ASCII format to the given
@@ -338,7 +322,7 @@ EXIV2API bool isHex(const std::string& str, size_t size = 0, const std::string& 
          "2007:05:24 12:31:55" to broken down time format,
          returns 0 if successful, else 1.
  */
-EXIV2API int exifTime(const char* buf, struct tm* tm);
+EXIV2API int exifTime(const char* buf, tm* tm);
 
 /*!
   @brief Translate a string using the gettext framework. This wrapper hides
@@ -459,18 +443,28 @@ EXIV2API Rational floatToRationalCast(float f);
   }
   @endcode
 */
-template <typename T, typename K, int N>
+template <typename T, typename K, size_t N>
 const T* find(T (&src)[N], const K& key) {
-  const T* rc = std::find(src, src + N, key);
+  static_assert(N > 0, "Passed zero length find");
+  auto rc = std::find(src, src + N, key);
   return rc == src + N ? nullptr : rc;
 }
 
 //! Utility function to convert the argument of any type to a string
 template <typename T>
-std::string toString(const T& arg) {
+std::string toStringHelper(const T& arg, std::true_type) {
+  return std::to_string(arg);
+}
+
+template <typename T>
+std::string toStringHelper(const T& arg, std::false_type) {
   std::ostringstream os;
   os << arg;
   return os.str();
+}
+template <typename T>
+std::string toString(const T& arg) {
+  return toStringHelper(arg, std::is_integral<T>());
 }
 
 /*!
@@ -488,7 +482,7 @@ template <typename T>
 T stringTo(const std::string& s, bool& ok) {
   std::istringstream is(s);
   T tmp = T();
-  ok = bool(is >> tmp);
+  ok = static_cast<bool>(is >> tmp);
   std::string rest;
   is >> std::skipws >> rest;
   if (!rest.empty())
@@ -506,45 +500,6 @@ T stringTo(const std::string& s, bool& ok) {
 template <>
 bool stringTo<bool>(const std::string& s, bool& ok);
 
-/*!
-  @brief Return the greatest common denominator of n and m.
-         (Implementation from Boost rational.hpp)
-
-  @note We use n and m as temporaries in this function, so there is no
-        value in using const IntType& as we would only need to make a copy
-        anyway...
- */
-template <typename IntType>
-IntType gcd(IntType n, IntType m) {
-  // Avoid repeated construction
-  IntType zero(0);
-
-  // This is abs() - given the existence of broken compilers with Koenig
-  // lookup issues and other problems, I code this explicitly. (Remember,
-  // IntType may be a user-defined type).
-  if (n < zero) {
-    if (n == std::numeric_limits<IntType>::min()) {
-      n = std::numeric_limits<IntType>::max();
-    } else {
-      n = -n;
-    }
-  }
-  if (m < zero)
-    m = -m;
-
-  // As n and m are now positive, we can be sure that %= returns a
-  // positive value (the standard guarantees this for built-in types,
-  // and we require it of user-defined types).
-  for (;;) {
-    if (m == zero)
-      return n;
-    n %= m;
-    if (n == zero)
-      return m;
-    m %= n;
-  }
-}
-
 }  // namespace Exiv2
 
-#endif  // #ifndef TYPES_HPP_
+#endif  // EXIV2_TYPES_HPP

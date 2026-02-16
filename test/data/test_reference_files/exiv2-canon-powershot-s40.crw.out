@@ -10,7 +10,7 @@ Exif.Canon.ImageType                         Ascii      30  CRW:High definition 
 Exif.Canon.OwnerName                         Ascii      15  Andreas Huggel  Andreas Huggel
 Exif.Image.Make                              Ascii       6  Canon  Canon
 Exif.Image.Model                             Ascii      20  Canon PowerShot S40  Canon PowerShot S40
-Exif.Canon.SerialNumber                      Long        2  1135765596 1446117789  43b226716
+Exif.Canon.SerialNumber                      Long        2  1135765596 1446117789  1135765596 1446117789
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.10  Firmware Version 1.10
 Exif.Canon.FocalLength                       Short       4  2 227 286 215  7.1 mm
 Exif.CanonSi.AutoISO                         Short       1  0  100

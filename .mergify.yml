@@ -1,7 +1,7 @@
 pull_request_rules:
   - name: forward patches to main branch
     conditions:
-      - base=0.27-maintenance
+      - base=0.28.x
       - label=forward-to-main
     actions:
       backport:

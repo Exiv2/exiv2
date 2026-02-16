@@ -9,11 +9,20 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "types.hpp"
 
+#include <array>
+#include <cstdint>
+#include <cstring>
+#include <limits>
+#include <utility>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // Signature from front of PGF file
-const unsigned char pgfSignature[3] = {0x50, 0x47, 0x46};
+const std::array<unsigned char, 3> pgfSignature{0x50, 0x47, 0x46};
 
 const unsigned char pgfBlank[] = {
     0x50, 0x47, 0x46, 0x36, 0x10, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -27,22 +36,13 @@ const unsigned char pgfBlank[] = {
 // class member definitions
 
 namespace Exiv2 {
-static uint32_t byteSwap_(uint32_t value, bool bSwap) {
-  uint32_t result = 0;
-  result |= (value & 0x000000FF) << 24;
-  result |= (value & 0x0000FF00) << 8;
-  result |= (value & 0x00FF0000) >> 8;
-  result |= (value & 0xFF000000) >> 24;
-  return bSwap ? result : value;
-}
-
 static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
   uint32_t v = 0;
   auto p = reinterpret_cast<byte*>(&v);
   int i;
   for (i = 0; i < 4; i++)
     p[i] = buf.read_uint8(offset + i);
-  uint32_t result = byteSwap_(v, bSwap);
+  uint32_t result = Image::byteSwap(v, bSwap);
   p = reinterpret_cast<byte*>(&result);
   for (i = 0; i < 4; i++)
     buf.write_uint8(offset + i, p[i]);
@@ -51,17 +51,15 @@ static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
 
 PgfImage::PgfImage(BasicIo::UniquePtr io, bool create) :
     Image(ImageType::pgf, mdExif | mdIptc | mdXmp | mdComment, std::move(io)), bSwap_(isBigEndianPlatform()) {
-  if (create) {
-    if (io_->open() == 0) {
+  if (create && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
-      std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
+    std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
 #endif
-      IoCloser closer(*io_);
-      if (io_->write(pgfBlank, sizeof(pgfBlank)) != sizeof(pgfBlank)) {
+    IoCloser closer(*io_);
+    if (io_->write(pgfBlank, sizeof(pgfBlank)) != sizeof(pgfBlank)) {
 #ifdef EXIV2_DEBUG_MESSAGES
-        std::cerr << "Exiv2::PgfImage:: Failed to create PGF image on memory\n";
+      std::cerr << "Exiv2::PgfImage:: Failed to create PGF image on memory\n";
 #endif
-      }
     }
   }
 }  // PgfImage::PgfImage
@@ -89,8 +87,8 @@ void PgfImage::readMetadata() {
 
   // And now, the most interesting, the user data byte array where metadata are stored as small image.
 
-  enforce(headerSize <= std::numeric_limits<size_t>::max() - 8, ErrorCode::kerCorruptedMetadata);
-  size_t size = headerSize + 8 - static_cast<size_t>(io_->tell());
+  Internal::enforce(headerSize <= std::numeric_limits<size_t>::max() - 8, ErrorCode::kerCorruptedMetadata);
+  size_t size = headerSize + 8 - io_->tell();
 
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
@@ -151,7 +149,8 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
 
   readPgfHeaderSize(*io_);
 
-  uint32_t w = 0, h = 0;
+  uint32_t w = 0;
+  uint32_t h = 0;
   DataBuf header = readPgfHeaderStructure(*io_, w, h);
 
   auto img = ImageFactory::create(ImageType::png);
@@ -170,7 +169,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   //---------------------------------------------------------------
 
   // Write PGF Signature.
-  if (outIo.write(pgfSignature, 3) != 3)
+  if (outIo.write(pgfSignature.data(), 3) != 3)
     throw Error(ErrorCode::kerImageWriteFailed);
 
   // Write Magic number.
@@ -180,7 +179,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   // Write new Header size.
   auto newHeaderSize = static_cast<uint32_t>(header.size() + imgSize);
   DataBuf buffer(4);
-  std::copy_n(&newHeaderSize, 4, buffer.data());
+  std::memcpy(buffer.data(), &newHeaderSize, sizeof(uint32_t));
   byteSwap_(buffer, 0, bSwap_);
   if (outIo.write(buffer.c_data(), 4) != 4)
     throw Error(ErrorCode::kerImageWriteFailed);
@@ -205,10 +204,11 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   // Copy the rest of PGF image data.
 
   DataBuf buf(4096);
-  size_t readSize = 0;
-  while ((readSize = io_->read(buf.data(), buf.size()))) {
+  size_t readSize = io_->read(buf.data(), buf.size());
+  while (readSize != 0) {
     if (outIo.write(buf.c_data(), readSize) != readSize)
       throw Error(ErrorCode::kerImageWriteFailed);
+    readSize = io_->read(buf.data(), buf.size());
   }
   if (outIo.error())
     throw Error(ErrorCode::kerImageWriteFailed);
@@ -216,7 +216,7 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
 }  // PgfImage::doWriteMetadata
 
 byte PgfImage::readPgfMagicNumber(BasicIo& iIo) {
-  byte b = iIo.getb();
+  auto b = static_cast<byte>(iIo.getb());
   if (iIo.error())
     throw Error(ErrorCode::kerFailedToReadImageData);
 
@@ -258,8 +258,7 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
   if (bufRead != header.size())
     throw Error(ErrorCode::kerInputDataReadFailed);
 
-  DataBuf work(8);  // don't disturb the binary data - doWriteMetadata reuses it
-  std::copy_n(header.c_data(), 8, work.begin());
+  DataBuf work(header.data(), 8);  // don't disturb the binary data - doWriteMetadata reuses it
   width = byteSwap_(work, 0, bSwap_);
   height = byteSwap_(work, 4, bSwap_);
 
@@ -269,11 +268,10 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
   byte bpp      = buffer.pData_[10];
   byte channels = buffer.pData_[11];
   */
-  byte mode = header.read_uint8(12);
 
-  if (mode == 2)  // Indexed color image. We pass color table (256 * 3 bytes).
+  if (header.read_uint8(12) == 2)  // Indexed color image. We pass color table (256 * 3 bytes).
   {
-    header.alloc(16 + 256 * 3);
+    header.alloc(16 + (256 * 3));
 
     bufRead = iIo.read(header.data(16), 256 * 3);
     if (iIo.error())
@@ -290,23 +288,23 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
 Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<PgfImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
 
 bool isPgfType(BasicIo& iIo, bool advance) {
   const int32_t len = 3;
-  byte buf[len];
-  iIo.read(buf, len);
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  int rc = memcmp(buf, pgfSignature, 3);
-  if (!advance || rc != 0) {
+  bool rc = buf == pgfSignature;
+  if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);
   }
 
-  return rc == 0;
+  return rc;
 }
 }  // namespace Exiv2

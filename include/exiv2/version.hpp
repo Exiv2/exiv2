@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef VERSION_HPP_
-#define VERSION_HPP_
+#ifndef EXIV2_VERSION_HPP
+#define EXIV2_VERSION_HPP
 
 #include "exiv2lib_export.h"
-#include "exv_conf.h"
 
 // *****************************************************************************
 // included header files
 // + standard includes
+#include <cstdint>
 #include <regex>
 #include <vector>
 
@@ -72,9 +72,9 @@
 // namespace extensions
 namespace Exiv2 {
 /*!
-  @brief Return the version of %Exiv2 available at runtime as an integer.
+  @brief Return the version of %Exiv2 available at runtime as a uint32_t.
 */
-EXIV2API int versionNumber();
+EXIV2API uint32_t versionNumber();
 /*!
   @brief Return the version string Example: "0.25.0" (major.minor.patch)
 */
@@ -96,7 +96,7 @@ EXIV2API const char* version();
   Versions are denoted using a triplet of integers: \em major.minor.patch .
   The fourth version number is designated a "tweak" an used by Release Candidates
 */
-EXIV2API bool testVersion(int major, int minor, int patch);
+EXIV2API bool testVersion(uint32_t major, uint32_t minor, uint32_t patch);
 /*!
   @brief dumpLibraryInfo implements the exiv2 option --version --verbose
          used by exiv2 test suite to inspect libraries loaded at run-time
@@ -104,4 +104,4 @@ EXIV2API bool testVersion(int major, int minor, int patch);
 EXIV2API void dumpLibraryInfo(std::ostream& os, const std::vector<std::regex>& keys);
 }  // namespace Exiv2
 
-#endif  // VERSION_HPP_
+#endif  // EXIV2_VERSION_HPP

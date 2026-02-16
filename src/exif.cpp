@@ -64,8 +64,11 @@ class Thumbnail {
 
   //! @name Creators
   //@{
+  Thumbnail() = default;
   //! Virtual destructor
   virtual ~Thumbnail() = default;
+  Thumbnail(const Thumbnail&) = delete;
+  Thumbnail& operator=(const Thumbnail&) = delete;
   //@}
 
   //! Factory function to create a thumbnail for the Exif metadata provided.
@@ -97,7 +100,6 @@ class TiffThumbnail : public Thumbnail {
  public:
   //! Shortcut for a %TiffThumbnail auto pointer.
   using UniquePtr = std::unique_ptr<TiffThumbnail>;
-  ~TiffThumbnail() override = default;
 
   //! @name Accessors
   //@{
@@ -113,7 +115,6 @@ class JpegThumbnail : public Thumbnail {
  public:
   //! Shortcut for a %JpegThumbnail auto pointer.
   using UniquePtr = std::unique_ptr<JpegThumbnail>;
-  ~JpegThumbnail() override = default;
 
   //! @name Accessors
   //@{
@@ -128,7 +129,7 @@ class JpegThumbnail : public Thumbnail {
 int64_t sumToLong(const Exiv2::Exifdatum& md);
 
 //! Helper function to delete all tags of a specific IFD from the metadata.
-void eraseIfd(Exiv2::ExifData& ed, Exiv2::Internal::IfdId ifdId);
+void eraseIfd(Exiv2::ExifData& ed, Exiv2::IfdId ifdId);
 
 }  // namespace
 
@@ -158,21 +159,22 @@ Exifdatum::Exifdatum(const ExifKey& key, const Value* pValue) : key_(key.clone()
     value_ = pValue->clone();
 }
 
-Exifdatum::Exifdatum(const Exifdatum& rhs) : Metadatum(rhs) {
+Exifdatum::Exifdatum(const Exifdatum& rhs) {
   if (rhs.key_)
     key_ = rhs.key_->clone();  // deep copy
   if (rhs.value_)
     value_ = rhs.value_->clone();  // deep copy
 }
 
+Exifdatum::~Exifdatum() = default;
+
 std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) const {
   if (value().count() == 0)
     return os;
 
   PrintFct fct = printValue;
-  const TagInfo* ti = Internal::tagInfo(tag(), static_cast<IfdId>(ifdId()));
   // be careful with comments (User.Photo.UserComment, GPSAreaInfo etc).
-  if (ti) {
+  if (auto ti = Internal::tagInfo(tag(), ifdId())) {
     fct = ti->printFct_;
     if (ti->typeId_ == comment) {
       os << value().toString();
@@ -188,7 +190,7 @@ std::ostream& Exifdatum::write(std::ostream& os, const ExifData* pMetadata) cons
     // cause a std::out_of_range exception to be thrown.
     try {
       fct(os, value(), pMetadata);
-    } catch (std::out_of_range&) {
+    } catch (const std::out_of_range&) {
       os << "Bad value";
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << "Caught std::out_of_range exception in Exifdatum::write().\n";
@@ -207,7 +209,6 @@ const Value& Exifdatum::value() const {
 Exifdatum& Exifdatum::operator=(const Exifdatum& rhs) {
   if (this == &rhs)
     return *this;
-  Metadatum::operator=(rhs);
 
   key_.reset();
   if (rhs.key_)
@@ -268,7 +269,7 @@ int Exifdatum::setValue(const std::string& value) {
   return value_->read(value);
 }
 
-int Exifdatum::setDataArea(const byte* buf, size_t len) {
+int Exifdatum::setDataArea(const byte* buf, size_t len) const {
   return value_ ? value_->setDataArea(buf, len) : -1;
 }
 
@@ -292,16 +293,20 @@ std::string Exifdatum::tagLabel() const {
   return key_ ? key_->tagLabel() : "";
 }
 
+std::string Exifdatum::tagDesc() const {
+  return key_ ? key_->tagDesc() : "";
+}
+
 uint16_t Exifdatum::tag() const {
   return key_ ? key_->tag() : 0xffff;
 }
 
-int Exifdatum::ifdId() const {
-  return key_ ? key_->ifdId() : ifdIdNotSet;
+IfdId Exifdatum::ifdId() const {
+  return key_ ? key_->ifdId() : IfdId::ifdIdNotSet;
 }
 
 const char* Exifdatum::ifdName() const {
-  return key_ ? Internal::ifdName(Internal::IfdId(key_->ifdId())) : "";
+  return key_ ? Internal::ifdName(key_->ifdId()) : "";
 }
 
 int Exifdatum::idx() const {
@@ -374,6 +379,7 @@ DataBuf ExifThumbC::copy() const {
   return thumbnail->copy(exifData_);
 }
 
+#ifdef EXV_ENABLE_FILESYSTEM
 size_t ExifThumbC::writeFile(const std::string& path) const {
   auto thumbnail = Thumbnail::create(exifData_);
   if (!thumbnail)
@@ -386,6 +392,7 @@ size_t ExifThumbC::writeFile(const std::string& path) const {
 
   return Exiv2::writeFile(buf, name);
 }
+#endif
 
 const char* ExifThumbC::mimeType() const {
   auto thumbnail = Thumbnail::create(exifData_);
@@ -404,10 +411,12 @@ const char* ExifThumbC::extension() const {
 ExifThumb::ExifThumb(ExifData& exifData) : ExifThumbC(exifData), exifData_(exifData) {
 }
 
+#ifdef EXV_ENABLE_FILESYSTEM
 void ExifThumb::setJpegThumbnail(const std::string& path, URational xres, URational yres, uint16_t unit) {
   DataBuf thumb = readFile(path);  // may throw
   setJpegThumbnail(thumb.c_data(), thumb.size(), xres, yres, unit);
 }
+#endif
 
 void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit) {
   setJpegThumbnail(buf, size);
@@ -416,29 +425,30 @@ void ExifThumb::setJpegThumbnail(const byte* buf, size_t size, URational xres, U
   exifData_["Exif.Thumbnail.ResolutionUnit"] = unit;
 }
 
+#ifdef EXV_ENABLE_FILESYSTEM
 void ExifThumb::setJpegThumbnail(const std::string& path) {
   DataBuf thumb = readFile(path);  // may throw
   setJpegThumbnail(thumb.c_data(), thumb.size());
 }
+#endif
 
 void ExifThumb::setJpegThumbnail(const byte* buf, size_t size) {
-  exifData_["Exif.Thumbnail.Compression"] = uint16_t(6);
+  exifData_["Exif.Thumbnail.Compression"] = std::uint16_t{6};
   Exifdatum& format = exifData_["Exif.Thumbnail.JPEGInterchangeFormat"];
-  format = uint32_t(0);
+  format = 0U;
   format.setDataArea(buf, size);
-  exifData_["Exif.Thumbnail.JPEGInterchangeFormatLength"] = uint32_t(size);
+  exifData_["Exif.Thumbnail.JPEGInterchangeFormatLength"] = static_cast<uint32_t>(size);
 }
 
 void ExifThumb::erase() {
-  eraseIfd(exifData_, ifd1Id);
+  eraseIfd(exifData_, IfdId::ifd1Id);
 }
 
 Exifdatum& ExifData::operator[](const std::string& key) {
   ExifKey exifKey(key);
   auto pos = findKey(exifKey);
   if (pos == end()) {
-    exifMetadata_.emplace_back(exifKey);
-    return exifMetadata_.back();
+    return exifMetadata_.emplace_back(exifKey);
   }
   return *pos;
 }
@@ -497,13 +507,9 @@ ByteOrder ExifParser::decode(ExifData& exifData, const byte* pData, size_t size)
 
 //! @cond IGNORE
 enum Ptt { pttLen, pttTag, pttIfd };
-using PreviewTags = std::pair<Ptt, const char*>;
 //! @endcond
 
-WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder,
-                               const ExifData& exifData) {
-  ExifData ed = exifData;
-
+WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData) {
   // Delete IFD0 tags that are "not recorded" in compressed images
   // Reference: Exif 2.2 specs, 4.6.8 Tag Support Levels, section A
   static constexpr auto filteredIfd0Tags = std::array{
@@ -533,25 +539,26 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
       "Exif.Canon.AFFineRotation",
   };
   for (auto&& filteredIfd0Tag : filteredIfd0Tags) {
-    auto pos = ed.findKey(ExifKey(filteredIfd0Tag));
-    if (pos != ed.end()) {
+    auto pos = exifData.findKey(ExifKey(filteredIfd0Tag));
+    if (pos != exifData.end()) {
 #ifdef EXIV2_DEBUG_MESSAGES
       std::cerr << "Warning: Exif tag " << pos->key() << " not encoded\n";
 #endif
-      ed.erase(pos);
+      exifData.erase(pos);
     }
   }
 
   // Delete IFDs which do not occur in JPEGs
   static constexpr auto filteredIfds = std::array{
-      subImage1Id, subImage2Id, subImage3Id, subImage4Id, subImage5Id, subImage6Id, subImage7Id,
-      subImage8Id, subImage9Id, subThumb1Id, panaRawId,   ifd2Id,      ifd3Id,
+      IfdId::subImage1Id, IfdId::subImage2Id, IfdId::subImage3Id, IfdId::subImage4Id, IfdId::subImage5Id,
+      IfdId::subImage6Id, IfdId::subImage7Id, IfdId::subImage8Id, IfdId::subImage9Id, IfdId::subThumb1Id,
+      IfdId::panaRawId,   IfdId::ifd2Id,      IfdId::ifd3Id,
   };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
-    eraseIfd(ed, filteredIfd);
+    eraseIfd(exifData, filteredIfd);
   }
 
   // IPTC and XMP are stored elsewhere, not in the Exif APP1 segment.
@@ -561,7 +568,7 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   // Encode and check if the result fits into a JPEG Exif APP1 segment
   MemIo mio1;
   TiffHeader header(byteOrder, 0x00000008, false);
-  WriteMethod wm = TiffParserWorker::encode(mio1, pData, size, ed, emptyIptc, emptyXmp, Tag::root,
+  WriteMethod wm = TiffParserWorker::encode(mio1, pData, size, exifData, emptyIptc, emptyXmp, Tag::root,
                                             TiffMapping::findEncoder, &header, nullptr);
   if (mio1.size() <= 65527) {
     append(blob, mio1.mmap(), mio1.size());
@@ -574,58 +581,56 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
   // Todo: Enhance preview classes to be able to write and delete previews and use that instead.
   // Table must be sorted by preview, the first tag in each group is the size
   static constexpr auto filteredPvTags = std::array{
-      PreviewTags(pttLen, "Exif.Minolta.ThumbnailLength"),
-      PreviewTags(pttTag, "Exif.Minolta.ThumbnailOffset"),
-      PreviewTags(pttLen, "Exif.Minolta.Thumbnail"),
-      PreviewTags(pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength"),
-      PreviewTags(pttIfd, "NikonPreview"),
-      PreviewTags(pttLen, "Exif.Olympus.ThumbnailLength"),
-      PreviewTags(pttTag, "Exif.Olympus.ThumbnailOffset"),
-      PreviewTags(pttLen, "Exif.Olympus.ThumbnailImage"),
-      PreviewTags(pttLen, "Exif.Olympus.Thumbnail"),
-      PreviewTags(pttLen, "Exif.Olympus2.ThumbnailLength"),
-      PreviewTags(pttTag, "Exif.Olympus2.ThumbnailOffset"),
-      PreviewTags(pttLen, "Exif.Olympus2.ThumbnailImage"),
-      PreviewTags(pttLen, "Exif.Olympus2.Thumbnail"),
-      PreviewTags(pttLen, "Exif.OlympusCs.PreviewImageLength"),
-      PreviewTags(pttTag, "Exif.OlympusCs.PreviewImageStart"),
-      PreviewTags(pttTag, "Exif.OlympusCs.PreviewImageValid"),
-      PreviewTags(pttLen, "Exif.Pentax.PreviewLength"),
-      PreviewTags(pttTag, "Exif.Pentax.PreviewOffset"),
-      PreviewTags(pttTag, "Exif.Pentax.PreviewResolution"),
-      PreviewTags(pttLen, "Exif.PentaxDng.PreviewLength"),
-      PreviewTags(pttTag, "Exif.PentaxDng.PreviewOffset"),
-      PreviewTags(pttTag, "Exif.PentaxDng.PreviewResolution"),
-      PreviewTags(pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength"),
-      PreviewTags(pttIfd, "SamsungPreview"),
-      PreviewTags(pttLen, "Exif.Thumbnail.StripByteCounts"),
-      PreviewTags(pttIfd, "Thumbnail"),
-      PreviewTags(pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"),
-      PreviewTags(pttIfd, "Thumbnail"),
+      std::pair(pttLen, "Exif.Minolta.ThumbnailLength"),
+      std::pair(pttTag, "Exif.Minolta.ThumbnailOffset"),
+      std::pair(pttLen, "Exif.Minolta.Thumbnail"),
+      std::pair(pttLen, "Exif.NikonPreview.JPEGInterchangeFormatLength"),
+      std::pair(pttIfd, "NikonPreview"),
+      std::pair(pttLen, "Exif.Olympus.ThumbnailLength"),
+      std::pair(pttTag, "Exif.Olympus.ThumbnailOffset"),
+      std::pair(pttLen, "Exif.Olympus.ThumbnailImage"),
+      std::pair(pttLen, "Exif.Olympus.Thumbnail"),
+      std::pair(pttLen, "Exif.Olympus2.ThumbnailLength"),
+      std::pair(pttTag, "Exif.Olympus2.ThumbnailOffset"),
+      std::pair(pttLen, "Exif.Olympus2.ThumbnailImage"),
+      std::pair(pttLen, "Exif.Olympus2.Thumbnail"),
+      std::pair(pttLen, "Exif.OlympusCs.PreviewImageLength"),
+      std::pair(pttTag, "Exif.OlympusCs.PreviewImageStart"),
+      std::pair(pttTag, "Exif.OlympusCs.PreviewImageValid"),
+      std::pair(pttLen, "Exif.Pentax.PreviewLength"),
+      std::pair(pttTag, "Exif.Pentax.PreviewOffset"),
+      std::pair(pttTag, "Exif.Pentax.PreviewResolution"),
+      std::pair(pttLen, "Exif.PentaxDng.PreviewLength"),
+      std::pair(pttTag, "Exif.PentaxDng.PreviewOffset"),
+      std::pair(pttTag, "Exif.PentaxDng.PreviewResolution"),
+      std::pair(pttLen, "Exif.SamsungPreview.JPEGInterchangeFormatLength"),
+      std::pair(pttIfd, "SamsungPreview"),
+      std::pair(pttLen, "Exif.Thumbnail.StripByteCounts"),
+      std::pair(pttIfd, "Thumbnail"),
+      std::pair(pttLen, "Exif.Thumbnail.JPEGInterchangeFormatLength"),
+      std::pair(pttIfd, "Thumbnail"),
   };
   bool delTags = false;
   for (auto&& [ptt, key] : filteredPvTags) {
     switch (ptt) {
       case pttLen: {
         delTags = false;
-        auto pos = ed.findKey(ExifKey(key));
-        if (pos != ed.end() && sumToLong(*pos) > 32768) {
+        if (auto pos = exifData.findKey(ExifKey(key)); pos != exifData.end() && sumToLong(*pos) > 32768) {
           delTags = true;
 #ifndef SUPPRESS_WARNINGS
           EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
 #endif
-          ed.erase(pos);
+          exifData.erase(pos);
         }
         break;
       }
       case pttTag: {
         if (delTags) {
-          auto pos = ed.findKey(ExifKey(key));
-          if (pos != ed.end()) {
+          if (auto pos = exifData.findKey(ExifKey(key)); pos != exifData.end()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Exif tag " << pos->key() << " not encoded\n";
 #endif
-            ed.erase(pos);
+            exifData.erase(pos);
           }
         }
         break;
@@ -635,27 +640,19 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
 #ifndef SUPPRESS_WARNINGS
           EXV_WARNING << "Exif IFD " << key << " not encoded\n";
 #endif
-          eraseIfd(ed, Internal::groupId(key));
+          eraseIfd(exifData, Internal::groupId(key));
         }
         break;
     }
   }
 
   // Delete unknown tags larger than 4kB and known tags larger than 20kB.
-  for (auto tag_iter = ed.begin(); tag_iter != ed.end();) {
-    if ((tag_iter->size() > 4096 && tag_iter->tagName().substr(0, 2) == "0x") || tag_iter->size() > 20480) {
-#ifndef SUPPRESS_WARNINGS
-      EXV_WARNING << "Exif tag " << tag_iter->key() << " not encoded\n";
-#endif
-      tag_iter = ed.erase(tag_iter);
-    } else {
-      ++tag_iter;
-    }
-  }
+  auto f = [](const auto& tag) { return (tag.size() > 4096 && tag.tagName().starts_with("0x")) || tag.size() > 20480; };
+  exifData.erase(std::remove_if(exifData.begin(), exifData.end(), f), exifData.end());
 
   // Encode the remaining Exif tags again, don't care if it fits this time
   MemIo mio2;
-  wm = TiffParserWorker::encode(mio2, pData, size, ed, emptyIptc, emptyXmp, Tag::root, TiffMapping::findEncoder,
+  wm = TiffParserWorker::encode(mio2, pData, size, exifData, emptyIptc, emptyXmp, Tag::root, TiffMapping::findEncoder,
                                 &header, nullptr);
   append(blob, mio2.mmap(), mio2.size());
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -676,26 +673,21 @@ WriteMethod ExifParser::encode(Blob& blob, const byte* pData, size_t size, ByteO
 namespace {
 //! @cond IGNORE
 Thumbnail::UniquePtr Thumbnail::create(const Exiv2::ExifData& exifData) {
-  std::unique_ptr<Thumbnail> thumbnail;
   const Exiv2::ExifKey k1("Exif.Thumbnail.Compression");
   auto pos = exifData.findKey(k1);
   if (pos != exifData.end()) {
     if (pos->count() == 0)
-      return thumbnail;
-    auto compression = pos->toInt64();
-    if (compression == 6) {
-      thumbnail = std::make_unique<JpegThumbnail>();
-    } else {
-      thumbnail = std::make_unique<TiffThumbnail>();
-    }
-  } else {
-    const Exiv2::ExifKey k2("Exif.Thumbnail.JPEGInterchangeFormat");
-    pos = exifData.findKey(k2);
-    if (pos != exifData.end()) {
-      thumbnail = std::make_unique<JpegThumbnail>();
-    }
+      return nullptr;
+    if (pos->toInt64() == 6)
+      return std::make_unique<JpegThumbnail>();
+    return std::make_unique<TiffThumbnail>();
   }
-  return thumbnail;
+
+  const Exiv2::ExifKey k2("Exif.Thumbnail.JPEGInterchangeFormat");
+  pos = exifData.findKey(k2);
+  if (pos != exifData.end())
+    return std::make_unique<JpegThumbnail>();
+  return nullptr;
 }
 
 const char* TiffThumbnail::mimeType() const {

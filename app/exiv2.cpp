@@ -10,6 +10,7 @@
 #include "convert.hpp"
 #include "getopt.hpp"
 #include "i18n.h"  // NLS support.
+#include "utils.hpp"
 #include "xmp_exiv2.hpp"
 
 #include <algorithm>
@@ -21,28 +22,46 @@
 #include <iostream>
 #include <regex>
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+#include <filesystem>
+namespace fs = std::filesystem;
+
+#ifdef _WIN32
 #include <fcntl.h>
 #include <io.h>
 #include <windows.h>
 #else
 #include <sys/select.h>
-#include <sys/time.h>
 #include <unistd.h>
+#define _strdup strdup
+#endif
+
+#ifdef EXV_ENABLE_NLS
+#include <libintl.h>
 #endif
 
 // *****************************************************************************
 // local declarations
 namespace {
-const Params::YodAdjust emptyYodAdjust_[] = {
-    {false, "-Y", 0},
-    {false, "-O", 0},
-    {false, "-D", 0},
+constexpr auto emptyYodAdjust_ = std::array{
+    Params::YodAdjust{false, "-Y", 0},
+    Params::YodAdjust{false, "-O", 0},
+    Params::YodAdjust{false, "-D", 0},
 };
 
 //! List of all command identifiers and corresponding strings
-const CmdIdAndString cmdIdAndString[] = {
-    {add, "add"}, {set, "set"}, {del, "del"}, {reg, "reg"}, {invalidCmdId, "invalidCmd"},  // End of list marker
+constexpr struct CmdIdAndString {
+  CmdId cmdId_;
+  const char* string_;
+  //! Comparison operator for \em string
+  bool operator==(const std::string& string) const {
+    return string == string_;
+  }
+} cmdIdAndString[] = {
+    {CmdId::add, "add"},
+    {CmdId::set, "set"},
+    {CmdId::del, "del"},
+    {CmdId::reg, "reg"},
+    {CmdId::invalid, "invalidCmd"},  // End of list marker
 };
 
 // Return a command Id for a command string
@@ -50,7 +69,7 @@ CmdId commandId(const std::string& cmdString);
 
 // Evaluate [-]HH[:MM[:SS]], returns true and sets time to the value
 // in seconds if successful, else returns false.
-bool parseTime(const std::string& ts, long& time);
+bool parseTime(const std::string& ts, int64_t& time);
 
 /*!
   @brief Parse the oparg string into a bitmap of common targets.
@@ -58,7 +77,7 @@ bool parseTime(const std::string& ts, long& time);
   @param action Action being processed
   @return A bitmap of common targets or -1 in case of a parse error
  */
-int parseCommonTargets(const std::string& optArg, const std::string& action);
+int64_t parseCommonTargets(const std::string& optArg, const std::string& action);
 
 /*!
   @brief Parse numbers separated by commas into container
@@ -102,18 +121,14 @@ std::string parseEscapes(const std::string& input);
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[]) {
-  setlocale(LC_CTYPE, ".utf8");
-
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
 #ifdef EXV_ENABLE_NLS
   setlocale(LC_ALL, "");
-  const std::string localeDir =
-      EXV_LOCALEDIR[0] == '/' ? EXV_LOCALEDIR : (Exiv2::getProcessPath() + EXV_SEPARATOR_STR + EXV_LOCALEDIR);
+  auto localeDir = []() -> std::string {
+    fs::path ret = EXV_LOCALEDIR;
+    if constexpr (EXV_LOCALEDIR[0] != '/')
+      ret = fs::path(Exiv2::getProcessPath()) / EXV_LOCALEDIR;
+    return ret.string();
+  }();
   bindtextdomain(EXV_PACKAGE_NAME, localeDir.c_str());
   textdomain(EXV_PACKAGE_NAME);
 #endif
@@ -137,21 +152,28 @@ int main(int argc, char* const argv[]) {
 
   try {
     // Create the required action class
-    auto task = Action::TaskFactory::instance().create(Action::TaskType(params.action_));
+    auto task = Action::TaskFactory::instance().create(static_cast<Action::TaskType>(params.action_));
 
     // Process all files
     auto filesCount = params.files_.size();
     if (params.action_ & Action::extract && params.target_ & Params::ctStdInOut && filesCount > 1) {
-      std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << std::endl;
+      std::cerr << params.progname() << ": " << _("Only one file is allowed when extracting to stdout") << '\n';
       returnCode = EXIT_FAILURE;
     } else {
-      int w = filesCount > 9 ? filesCount > 99 ? 3 : 2 : 1;
+      int w = [=]() {
+        if (filesCount > 9) {
+          if (filesCount > 99)
+            return 3;
+          return 2;
+        }
+        return 1;
+      }();
       int n = 1;
-      for (auto&& file : params.files_) {
+      for (const auto& file : params.files_) {
         // If extracting to stdout then ignore verbose
         if (params.verbose_ && !(params.action_ & Action::extract && params.target_ & Params::ctStdInOut)) {
           std::cout << _("File") << " " << std::setw(w) << std::right << n++ << "/" << filesCount << ": " << file
-                    << std::endl;
+                    << '\n';
         }
         task->setBinary(params.binary_);
         int ret = task->run(file);
@@ -160,10 +182,9 @@ int main(int argc, char* const argv[]) {
       }
 
       Action::TaskFactory::instance().cleanup();
-      Exiv2::XmpParser::terminate();
     }
   } catch (const std::exception& exc) {
-    std::cerr << "Uncaught exception: " << exc.what() << std::endl;
+    std::cerr << "Uncaught exception: " << exc.what() << '\n';
     returnCode = EXIT_FAILURE;
   }
 
@@ -176,13 +197,9 @@ int main(int argc, char* const argv[]) {
 
 Params::Params() :
     optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
-
     target_(ctExif | ctIptc | ctComment | ctXmp),
-
+    yodAdjust_(emptyYodAdjust_),
     format_("%Y%m%d_%H%M%S") {
-  yodAdjust_[yodYear] = emptyYodAdjust_[yodYear];
-  yodAdjust_[yodMonth] = emptyYodAdjust_[yodMonth];
-  yodAdjust_[yodDay] = emptyYodAdjust_[yodDay];
 }
 
 Params& Params::instance() {
@@ -191,7 +208,7 @@ Params& Params::instance() {
 }
 
 void Params::version(bool verbose, std::ostream& os) {
-  os << EXV_PACKAGE_STRING << std::endl;
+  os << EXV_PACKAGE_STRING << '\n';
   if (Params::instance().greps_.empty() && !verbose) {
     os << "\n"
        << _("This program is free software; you can redistribute it and/or\n"
@@ -279,14 +296,16 @@ void Params::help(std::ostream& os) const {
      << _("             X : Extract \"raw\" XMP\n")
      << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
      << _("             E : Exif tags\n") << _("             I : IPTC tags\n") << _("             X : XMP tags\n")
-     << _("             x : Tag number (Exif and IPTC only)\n")
+     << _("             x : Tag number for Exif or IPTC tags (in hexadecimal)\n")
      << _("             g : Group name (e.g. Exif.Photo.UserComment, Photo)\n")
      << _("             k : Key (e.g. Exif.Photo.UserComment)\n")
      << _("             l : Tag label (e.g. Exif.Photo.UserComment, 'User comment')\n")
+     << _("             d : Tag description\n")
      << _("             n : Tag name (e.g. Exif.Photo.UserComment, UserComment)\n") << _("             y : Type\n")
-     << _("             c : Number of components (count)\n")
-     << _("             s : Size in bytes (Ascii and Comment types include NULL)\n")
-     << _("             v : Plain data value, untranslated (vanilla)\n")
+     << _("             y : Type\n") << _("             c : Number of components (count)\n")
+     << _("             s : Size in bytes of vanilla value (may include NULL)\n")
+     << _("             v : Plain data value of untranslated (vanilla)\n")
+     << _("             V : Plain data value, data type and the word 'set'\n")
      << _("             t : Interpreted (translated) human readable values\n")
      << _("             h : Hex dump of the data\n")
      << _("   -d tgt1  Delete target(s) for the 'delete' action. Possible targets are:\n")
@@ -313,6 +332,7 @@ void Params::help(std::ostream& os) const {
      << _("   -r fmt  Filename format for the 'rename' action. The format string\n")
      << _("           follows strftime(3). The following keywords are also supported:\n")
      << _("             :basename:   - original filename without extension\n")
+     << _("             :basesuffix: - suffix in original filename, starts with first dot and ends before extension\n")
      << _("             :dirname:    - name of the directory holding the original file\n")
      << _("             :parentname: - name of parent directory\n") << _("           Default 'fmt' is %Y%m%d_%H%M%S\n")
      << _("   -c txt  JPEG comment string to set in the image.\n")
@@ -449,7 +469,7 @@ int Params::option(int opt, const std::string& optArg, int optOpt) {
 
 int Params::setLogLevel(const std::string& optArg) {
   int rc = 0;
-  const char logLevel = tolower(optArg[0]);
+  const auto logLevel = static_cast<char>(tolower(optArg[0]));
   switch (logLevel) {
     case 'd':
       Exiv2::LogMsg::setLevel(Exiv2::LogMsg::debug);
@@ -563,7 +583,7 @@ int Params::evalAdjust(const std::string& optArg) {
 int Params::evalYodAdjust(const Yod& yod, const std::string& optArg) {
   int rc = 0;
   switch (action_) {
-    case Action::none:  // fall-through
+    case Action::none:
     case Action::adjust:
       if (yodAdjust_[yod].flag_) {
         std::cerr << progname() << ": " << _("Ignoring surplus option") << " " << yodAdjust_[yod].option_ << " "
@@ -672,13 +692,13 @@ int Params::evalPrintFlags(const std::string& optArg) {
       for (auto&& i : optArg) {
         switch (i) {
           case 'E':
-            printTags_ |= Exiv2::mdExif;
+            printTags_ |= MetadataId::exif;
             break;
           case 'I':
-            printTags_ |= Exiv2::mdIptc;
+            printTags_ |= MetadataId::iptc;
             break;
           case 'X':
-            printTags_ |= Exiv2::mdXmp;
+            printTags_ |= MetadataId::xmp;
             break;
           case 'x':
             printItems_ |= prTag;
@@ -716,6 +736,9 @@ int Params::evalPrintFlags(const std::string& optArg) {
           case 'V':
             printItems_ |= prSet | prKey | prType | prValue;
             break;
+          case 'd':
+            printItems_ |= prDesc;
+            break;
           default:
             std::cerr << progname() << ": " << _("Unrecognized print item") << " `" << i << "'\n";
             rc = 1;
@@ -735,85 +758,72 @@ int Params::evalPrintFlags(const std::string& optArg) {
 }  // Params::evalPrintFlags
 
 int Params::evalDelete(const std::string& optArg) {
-  int rc = 0;
   switch (action_) {
     case Action::none:
       action_ = Action::erase;
-      target_ = 0;
-      // fallthrough
-    case Action::erase:
-      rc = parseCommonTargets(optArg, "erase");
+      target_ = CommonTarget{0};
+      [[fallthrough]];
+    case Action::erase: {
+      const auto rc = parseCommonTargets(optArg, "erase");
       if (rc > 0) {
-        target_ |= rc;
-        rc = 0;
-      } else {
-        rc = 1;
+        target_ |= static_cast<CommonTarget>(rc);
+        return 0;
       }
-      break;
+      return 1;
+    }
     default:
       std::cerr << progname() << ": " << _("Option -d is not compatible with a previous option\n");
-      rc = 1;
-      break;
+      return 1;
   }
-  return rc;
 }  // Params::evalDelete
 
 int Params::evalExtract(const std::string& optArg) {
-  int rc = 0;
   switch (action_) {
     case Action::none:
     case Action::modify:
       action_ = Action::extract;
-      target_ = 0;
-      // fallthrough
-    case Action::extract:
-      rc = parseCommonTargets(optArg, "extract");
+      target_ = CommonTarget{0};
+      [[fallthrough]];
+    case Action::extract: {
+      const auto rc = parseCommonTargets(optArg, "extract");
       if (rc > 0) {
-        target_ |= rc;
-        rc = 0;
-      } else {
-        rc = 1;
+        target_ |= static_cast<CommonTarget>(rc);
+        return 0;
       }
-      break;
+      return 1;
+    }
     default:
       std::cerr << progname() << ": " << _("Option -e is not compatible with a previous option\n");
-      rc = 1;
-      break;
+      return 1;
   }
-  return rc;
 }  // Params::evalExtract
 
 int Params::evalInsert(const std::string& optArg) {
-  int rc = 0;
   switch (action_) {
     case Action::none:
     case Action::modify:
       action_ = Action::insert;
-      target_ = 0;
-      // fallthrough
-    case Action::insert:
-      rc = parseCommonTargets(optArg, "insert");
+      target_ = CommonTarget{0};
+      [[fallthrough]];
+    case Action::insert: {
+      const auto rc = parseCommonTargets(optArg, "insert");
       if (rc > 0) {
-        target_ |= rc;
-        rc = 0;
-      } else {
-        rc = 1;
+        target_ |= static_cast<CommonTarget>(rc);
+        return 0;
       }
-      break;
+      return 1;
+    }
     default:
       std::cerr << progname() << ": " << _("Option -i is not compatible with a previous option\n");
-      rc = 1;
-      break;
+      return 1;
   }
-  return rc;
 }  // Params::evalInsert
 
 int Params::evalModify(int opt, const std::string& optArg) {
-  int rc = 0;
   switch (action_) {
     case Action::none:
       action_ = Action::modify;
-      // fallthrough
+      [[fallthrough]];
     case Action::modify:
     case Action::extract:
     case Action::insert:
@@ -823,14 +833,12 @@ int Params::evalModify(int opt, const std::string& optArg) {
         cmdFiles_.push_back(optArg);  // parse the files later
       if (opt == 'M')
         cmdLines_.push_back(optArg);  // parse the commands later
-      break;
+      return 0;
     default:
       std::cerr << progname() << ": " << _("Option") << " -" << static_cast<char>(opt) << " "
                 << _("is not compatible with a previous option\n");
-      rc = 1;
-      break;
+      return 1;
   }
-  return rc;
 }  // Params::evalModify
 
 int Params::nonoption(const std::string& argv) {
@@ -948,9 +956,9 @@ static size_t readFileToBuf(FILE* f, Exiv2::DataBuf& buf) {
 void Params::getStdin(Exiv2::DataBuf& buf) {
   // copy stdin to stdinBuf
   if (stdinBuf.empty()) {
-#if defined(_WIN32) || defined(__CYGWIN__) || defined(__MINGW__) || defined(_MSC_VER)
+#ifdef _WIN32
     DWORD fdwMode;
-    _setmode(fileno(stdin), O_BINARY);
+    _setmode(_fileno(stdin), O_BINARY);
     Sleep(300);
     if (!GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &fdwMode)) {  // failed: stdin has bytes!
 #else
@@ -958,13 +966,13 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
     fd_set readfds;
     FD_ZERO(&readfds);
     FD_SET(STDIN_FILENO, &readfds);
-    struct timeval timeout = {1, 0};  // yes: set timeout seconds,microseconds
+    timeval timeout = {1, 0};  // yes: set timeout seconds,microseconds
 
     // if we have something in the pipe, read it
     if (select(1, &readfds, nullptr, nullptr, &timeout)) {
 #endif
 #ifdef DEBUG
-      std::cerr << "stdin has data" << std::endl;
+      std::cerr << "stdin has data" << '\n';
 #endif
       readFileToBuf(stdin, stdinBuf);
     }
@@ -978,12 +986,12 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
       if (f) {
         readFileToBuf(f, stdinBuf);
         fclose(f);
-        std::cerr << "read stdin from " << path << std::endl;
+        std::cerr << "read stdin from " << path << '\n';
       }
     }
 #endif
 #ifdef DEBUG
-    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;
+    std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << '\n';
 #endif
   }
 
@@ -993,14 +1001,14 @@ void Params::getStdin(Exiv2::DataBuf& buf) {
     std::copy(stdinBuf.begin(), stdinBuf.end(), buf.begin());
   }
 #ifdef DEBUG
-  std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << std::endl;
+  std::cerr << "getStdin stdinBuf.size_ = " << stdinBuf.size() << '\n';
 #endif
 
 }  // Params::getStdin()
 
 int Params::getopt(int argc, char* const Argv[]) {
   std::vector<char*> argv(argc + 1);
-  argv[argc] = nullptr;
+  argv.back() = nullptr;
 
   const std::unordered_map<std::string, std::string> longs{
       {"--adjust", "-a"},    {"--binary", "-b"},  {"--comment", "-c"}, {"--delete", "-d"},   {"--days", "-D"},
@@ -1014,10 +1022,10 @@ int Params::getopt(int argc, char* const Argv[]) {
 
   for (int i = 0; i < argc; i++) {
     std::string arg(Argv[i]);
-    if (longs.find(arg) != longs.end()) {
-      argv[i] = ::strdup(longs.at(arg).c_str());
+    if (longs.contains(arg)) {
+      argv[i] = _strdup(longs.at(arg).c_str());
     } else {
-      argv[i] = ::strdup(Argv[i]);
+      argv[i] = _strdup(Argv[i]);
     }
   }
 
@@ -1044,37 +1052,33 @@ int Params::getopt(int argc, char* const Argv[]) {
     std::cerr << progname() << ": " << _("At least one file is required\n");
     rc = 1;
   }
-  if (rc == 0 && !cmdFiles_.empty()) {
-    // Parse command files
-    if (!parseCmdFiles(modifyCmds_, cmdFiles_)) {
-      std::cerr << progname() << ": " << _("Error parsing -m option arguments\n");
-      rc = 1;
-    }
+  // Parse command files
+  if (rc == 0 && !cmdFiles_.empty() && !parseCmdFiles(modifyCmds_, cmdFiles_)) {
+    std::cerr << progname() << ": " << _("Error parsing -m option arguments\n");
+    rc = 1;
   }
-  if (rc == 0 && !cmdLines_.empty()) {
-    // Parse command lines
-    if (!parseCmdLines(modifyCmds_, cmdLines_)) {
-      std::cerr << progname() << ": " << _("Error parsing -M option arguments\n");
-      rc = 1;
-    }
+  // Parse command lines
+  if (rc == 0 && !cmdLines_.empty() && !parseCmdLines(modifyCmds_, cmdLines_)) {
+    std::cerr << progname() << ": " << _("Error parsing -M option arguments\n");
+    rc = 1;
   }
   if (rc == 0 && (!cmdFiles_.empty() || !cmdLines_.empty())) {
     // We'll set them again, after reading the file
     Exiv2::XmpProperties::unregisterNs();
   }
-  if (!directory_.empty() && !(action_ == Action::insert || action_ == Action::extract)) {
+  if (!directory_.empty() && action_ != Action::insert && action_ != Action::extract) {
     std::cerr << progname() << ": " << _("-l option can only be used with extract or insert actions\n");
     rc = 1;
   }
-  if (!suffix_.empty() && !(action_ == Action::insert)) {
+  if (!suffix_.empty() && action_ != Action::insert) {
     std::cerr << progname() << ": " << _("-S option can only be used with insert action\n");
     rc = 1;
   }
-  if (timestamp_ && !(action_ == Action::rename)) {
+  if (timestamp_ && action_ != Action::rename) {
     std::cerr << progname() << ": " << _("-t option can only be used with rename action\n");
     rc = 1;
   }
-  if (timestampOnly_ && !(action_ == Action::rename)) {
+  if (timestampOnly_ && action_ != Action::rename) {
     std::cerr << progname() << ": " << _("-T option can only be used with rename action\n");
     rc = 1;
   }
@@ -1090,49 +1094,33 @@ cleanup:
 // *****************************************************************************
 // local implementations
 namespace {
-bool parseTime(const std::string& ts, long& time) {
-  std::string hstr, mstr, sstr;
-  auto cts = new char[ts.length() + 1];
-  strcpy(cts, ts.c_str());
-  char* tmp = ::strtok(cts, ":");
-  if (tmp)
-    hstr = tmp;
-  tmp = ::strtok(nullptr, ":");
-  if (tmp)
-    mstr = tmp;
-  tmp = ::strtok(nullptr, ":");
-  if (tmp)
-    sstr = tmp;
-  delete[] cts;
-
+bool parseTime(const std::string& ts, int64_t& time) {
+  std::istringstream sts(ts);
   int sign = 1;
-  long hh(0), mm(0), ss(0);
+  int64_t hh = 0;
+  int64_t mm = 0;
+  int64_t ss = 0;
+
   // [-]HH part
-  if (!Util::strtol(hstr.c_str(), hh))
+  if (!(sts >> hh))
     return false;
   if (hh < 0) {
     sign = -1;
     hh *= -1;
   }
   // check for the -0 special case
-  if (hh == 0 && hstr.find('-') != std::string::npos)
+  if (hh == 0 && Exiv2::Internal::contains(ts, '-'))
     sign = -1;
   // MM part, if there is one
-  if (!mstr.empty()) {
-    if (!Util::strtol(mstr.c_str(), mm))
-      return false;
-    if (mm > 59)
-      return false;
-    if (mm < 0)
+  if (sts.peek() == ':') {
+    sts.ignore();
+    if (!(sts >> mm) || mm > 59 || mm < 0)
       return false;
   }
   // SS part, if there is one
-  if (!sstr.empty()) {
-    if (!Util::strtol(sstr.c_str(), ss))
-      return false;
-    if (ss > 59)
-      return false;
-    if (ss < 0)
+  if (sts.peek() == ':') {
+    sts.ignore();
+    if (!(sts >> ss) || ss > 59 || ss < 0)
       return false;
   }
 
@@ -1145,11 +1133,11 @@ void printUnrecognizedArgument(const char argc, const std::string& action) {
             << argc << "'\n";
 }
 
-int parseCommonTargets(const std::string& optArg, const std::string& action) {
-  int rc = 0;
-  int target = 0;
-  int all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
-  int extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
+int64_t parseCommonTargets(const std::string& optArg, const std::string& action) {
+  int64_t rc = 0;
+  auto target = Params::CommonTarget{0};
+  Params::CommonTarget all = Params::ctExif | Params::ctIptc | Params::ctComment | Params::ctXmp;
+  Params::CommonTarget extra = Params::ctXmpSidecar | Params::ctExif | Params::ctIptc | Params::ctXmp;
   for (size_t i = 0; rc == 0 && i < optArg.size(); ++i) {
     switch (optArg[i]) {
       case 'e':
@@ -1183,12 +1171,12 @@ int parseCommonTargets(const std::string& optArg, const std::string& action) {
         target |= extra;  // -eX
         if (i > 0) {      // -eXX or -iXX
           target |= Params::ctXmpRaw;
-          target &= ~extra;  // turn off those bits
+          target = static_cast<Params::CommonTarget>(target & ~extra);  // turn off those bits
         }
         break;
 
       case 'p': {
-        if (strcmp(action.c_str(), "extract") == 0) {
+        if (action == "extract") {
           i += static_cast<size_t>(
               parsePreviewNumbers(Params::instance().previewNumbers_, optArg, static_cast<int>(i) + 1));
           target |= Params::ctPreview;
@@ -1204,7 +1192,7 @@ int parseCommonTargets(const std::string& optArg, const std::string& action) {
         break;
     }
   }
-  return rc ? rc : target;
+  return rc ? rc : static_cast<int64_t>(target);
 }
 
 int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::string& optArg, int j) {
@@ -1224,7 +1212,7 @@ int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::strin
       }
       i = k;
     }
-    if (!(k < optArg.size() && optArg[i] == ','))
+    if (k >= optArg.size() || optArg[i] != ',')
       break;
   }
   auto ret = static_cast<int>(k - j);
@@ -1236,7 +1224,7 @@ int parsePreviewNumbers(Params::PreviewNumbers& previewNumbers, const std::strin
   for (auto&& number : previewNumbers) {
     std::cout << number << ", ";
   }
-  std::cout << std::endl;
+  std::cout << '\n';
 #endif
   return static_cast<int>(k - j);
 }  // parsePreviewNumbers
@@ -1255,7 +1243,7 @@ bool parseCmdFiles(ModifyCmds& modifyCmds, const Params::CmdFiles& cmdFiles) {
       while (bStdin ? std::getline(std::cin, line) : std::getline(file, line)) {
         ModifyCmd modifyCmd;
         if (parseLine(modifyCmd, line, ++num)) {
-          modifyCmds.push_back(modifyCmd);
+          modifyCmds.push_back(std::move(modifyCmd));
         }
       }
     } catch (const Exiv2::Error& error) {
@@ -1272,7 +1260,7 @@ bool parseCmdLines(ModifyCmds& modifyCmds, const Params::CmdLines& cmdLines) {
     for (auto&& line : cmdLines) {
       ModifyCmd modifyCmd;
       if (parseLine(modifyCmd, line, ++num)) {
-        modifyCmds.push_back(modifyCmd);
+        modifyCmds.push_back(std::move(modifyCmd));
       }
     }
     return true;
@@ -1282,16 +1270,16 @@ bool parseCmdLines(ModifyCmds& modifyCmds, const Params::CmdLines& cmdLines) {
   }
 }  // parseCmdLines
 
-#if defined(_MSC_VER) || defined(__MINGW__)
-static std::string formatArg(const char* arg) {
-  std::string result = "";
+#ifdef _WIN32
+std::string formatArg(const char* arg) {
+  std::string result;
   char b = ' ';
   char e = '\\';
   std::string E = std::string("\\");
   char q = '\'';
   std::string Q = std::string("'");
   bool qt = false;
-  char* a = (char*)arg;
+  char* a = const_cast<char*>(arg);
   while (*a) {
     if (*a == b || *a == e || *a == q)
       qt = true;
@@ -1323,57 +1311,57 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
   std::string::size_type keyEnd = line.find_first_of(delim, keyStart + 1);
   if (cmdEnd == std::string::npos || keyStart == std::string::npos) {
     std::string cmdLine;
-#if defined(_MSC_VER) || defined(__MINGW__)
+#ifdef _WIN32
     for (int i = 1; i < __argc; i++) {
       cmdLine += std::string(" ") + formatArg(__argv[i]);
     }
 #endif
     throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                       Exiv2::toString(num) + ": " + _("Invalid command line:") + cmdLine);
+                       std::to_string(num) + ": " + _("Invalid command line:") + cmdLine);
   }
 
   std::string cmd(line.substr(cmdStart, cmdEnd - cmdStart));
   CmdId cmdId = commandId(cmd);
-  if (cmdId == invalidCmdId) {
+  if (cmdId == CmdId::invalid) {
     throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                       Exiv2::toString(num) + ": " + _("Invalid command") + " `" + cmd + "'");
+                       std::to_string(num) + ": " + _("Invalid command") + " `" + cmd + "'");
   }
 
   Exiv2::TypeId defaultType = Exiv2::invalidTypeId;
   std::string key(line.substr(keyStart, keyEnd - keyStart));
-  MetadataId metadataId = invalidMetadataId;
-  if (cmdId != reg) {
+  MetadataId metadataId = MetadataId::invalid;
+  if (cmdId != CmdId::reg) {
     try {
       Exiv2::IptcKey iptcKey(key);
-      metadataId = iptc;
+      metadataId = MetadataId::iptc;
       defaultType = Exiv2::IptcDataSets::dataSetType(iptcKey.tag(), iptcKey.record());
     } catch (const Exiv2::Error&) {
     }
-    if (metadataId == invalidMetadataId) {
+    if (metadataId == MetadataId::invalid) {
       try {
         Exiv2::ExifKey exifKey(key);
-        metadataId = exif;
+        metadataId = MetadataId::exif;
         defaultType = exifKey.defaultTypeId();
       } catch (const Exiv2::Error&) {
       }
     }
-    if (metadataId == invalidMetadataId) {
+    if (metadataId == MetadataId::invalid) {
       try {
         Exiv2::XmpKey xmpKey(key);
-        metadataId = xmp;
+        metadataId = MetadataId::xmp;
         defaultType = Exiv2::XmpProperties::propertyType(xmpKey);
       } catch (const Exiv2::Error&) {
       }
     }
-    if (metadataId == invalidMetadataId) {
+    if (metadataId == MetadataId::invalid) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                         Exiv2::toString(num) + ": " + _("Invalid key") + " `" + key + "'");
+                         std::to_string(num) + ": " + _("Invalid key") + " `" + key + "'");
     }
   }
   std::string value;
   Exiv2::TypeId type = defaultType;
   bool explicitType = false;
-  if (cmdId != del) {
+  if (cmdId != CmdId::del) {
     // Get type and value
     std::string::size_type typeStart = std::string::npos;
     if (keyEnd != std::string::npos)
@@ -1386,19 +1374,19 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
     if (valStart != std::string::npos)
       valEnd = line.find_last_not_of(delim);
 
-    if (cmdId == reg && (keyEnd == std::string::npos || valStart == std::string::npos)) {
+    if (cmdId == CmdId::reg && (keyEnd == std::string::npos || valStart == std::string::npos)) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                         Exiv2::toString(num) + ": " + _("Invalid command line") + " ");
+                         std::to_string(num) + ": " + _("Invalid command line") + " ");
     }
 
-    if (cmdId != reg && typeStart != std::string::npos && typeEnd != std::string::npos) {
+    if (cmdId != CmdId::reg && typeStart != std::string::npos && typeEnd != std::string::npos) {
       std::string typeStr(line.substr(typeStart, typeEnd - typeStart));
       Exiv2::TypeId tmpType = Exiv2::TypeInfo::typeId(typeStr);
       if (tmpType != Exiv2::invalidTypeId) {
         valStart = line.find_first_not_of(delim, typeEnd + 1);
         if (valStart == std::string::npos) {
           throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                             Exiv2::toString(num) + ": " + _("Invalid command line") + " ");
+                             std::to_string(num) + ": " + _("Invalid command line") + " ");
         }
         type = tmpType;
         explicitType = true;
@@ -1407,8 +1395,7 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 
     if (valStart != std::string::npos) {
       value = parseEscapes(line.substr(valStart, valEnd + 1 - valStart));
-      std::string::size_type last = value.length() - 1;
-      if ((value.at(0) == '"' && value.at(last) == '"') || (value.at(0) == '\'' && value.at(last) == '\'')) {
+      if ((value.front() == '"' && value.back() == '"') || (value.front() == '\'' && value.back() == '\'')) {
         value = value.substr(1, value.length() - 2);
       }
     }
@@ -1421,10 +1408,10 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
   modifyCmd.explicitType_ = explicitType;
   modifyCmd.value_ = value;
 
-  if (cmdId == reg) {
+  if (cmdId == CmdId::reg) {
     if (value.empty()) {
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage,
-                         Exiv2::toString(num) + ": " + _("Empty value for key") + +" `" + key + "'");
+                         std::to_string(num) + ": " + _("Empty value for key") + +" `" + key + "'");
     }
 
     // Registration needs to be done immediately as the new namespaces are
@@ -1436,11 +1423,9 @@ bool parseLine(ModifyCmd& modifyCmd, const std::string& line, int num) {
 }  // parseLine
 
 CmdId commandId(const std::string& cmdString) {
-  int i = 0;
-  while (cmdIdAndString[i].first != invalidCmdId && cmdIdAndString[i].second != cmdString) {
-    ++i;
-  }
-  return cmdIdAndString[i].first;
+  if (auto it = Exiv2::find(cmdIdAndString, cmdString))
+    return it->cmdId_;
+  return CmdId::invalid;
 }
 
 std::string parseEscapes(const std::string& input) {
@@ -1452,7 +1437,7 @@ std::string parseEscapes(const std::string& input) {
       continue;
     }
     size_t escapeStart = i;
-    if (!(input.length() - 1 > i)) {
+    if (input.length() - 1 <= i) {
       result.push_back(ch);
       continue;
     }
@@ -1473,7 +1458,7 @@ std::string parseEscapes(const std::string& input) {
         break;
       case 'u':  // Escaping of unicode
         if (input.length() >= 4 && input.length() - 4 > i) {
-          int acc = 0;
+          uint32_t acc = 0;
           for (int j = 0; j < 4; ++j) {
             ++i;
             acc <<= 4;
@@ -1484,19 +1469,19 @@ std::string parseEscapes(const std::string& input) {
             } else if (input[i] >= 'A' && input[i] <= 'F') {
               acc |= input[i] - 'A' + 10;
             } else {
-              acc = -1;
+              acc = 0xFFFFFFFF;
               break;
             }
           }
-          if (acc == -1) {
+          if (acc == 0xFFFFFFFF) {
             result.push_back('\\');
             i = escapeStart;
             break;
           }
 
           std::string ucs2toUtf8;
-          ucs2toUtf8.push_back(static_cast<char>((acc & 0xff00) >> 8));
-          ucs2toUtf8.push_back(static_cast<char>(acc & 0x00ff));
+          ucs2toUtf8.push_back((acc & 0xff00U) >> 8);
+          ucs2toUtf8.push_back(acc & 0x00ffU);
 
           if (Exiv2::convertStringCharset(ucs2toUtf8, "UCS-2BE", "UTF-8")) {
             result.append(ucs2toUtf8);

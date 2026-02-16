@@ -1,0 +1,67 @@
+Xmp.video.FileSize                           XmpText     9  0.0185566  0.0185566
+Xmp.video.MimeType                           XmpText    15  video/quicktime  video/quicktime
+Xmp.video.MajorBrand                         XmpText    37  MP4 Base Media v1 [IS0 14496-12:2003]  MP4 Base Media v1 [IS0 14496-12:2003]
+Xmp.video.MinorVersion                       XmpText     3  512  512
+Xmp.video.CompatibleBrands                   XmpSeq      3  MP4 Base Media v1 [IS0 14496-12:2003], MP4 Base Media v2 [ISO 14496-12:2005], MP4 v1 [ISO 14496-1:ch13]  MP4 Base Media v1 [IS0 14496-12:2003], MP4 Base Media v2 [ISO 14496-12:2005], MP4 v1 [ISO 14496-1:ch13]
+Xmp.video.MovieHeaderVersion                 XmpText     1  0  0
+Xmp.video.DateUTC                            XmpText     1  0  0
+Xmp.video.ModificationDate                   XmpText     1  0  0
+Xmp.video.TimeScale                          XmpText     4  1000  1000
+Xmp.video.Duration                           XmpText     3  672  672
+Xmp.video.PreferredRate                      XmpText     1  1  1
+Xmp.video.PreferredVolume                    XmpText     3  100  100
+Xmp.video.PreviewTime                        XmpText     1  0  0
+Xmp.video.PreviewDuration                    XmpText     1  0  0
+Xmp.video.PosterTime                         XmpText     1  0  0
+Xmp.video.SelectionTime                      XmpText     1  0  0
+Xmp.video.SelectionDuration                  XmpText     1  0  0
+Xmp.video.CurrentTime                        XmpText     1  0  0
+Xmp.video.NextTrackID                        XmpText     1  3  3
+Xmp.video.TrackHeaderVersion                 XmpText     1  0  0
+Xmp.video.TrackCreateDate                    XmpText     1  0  0
+Xmp.video.TrackModifyDate                    XmpText     1  0  0
+Xmp.video.TrackID                            XmpText     1  1  1
+Xmp.video.TrackDuration                      XmpText     1  0  0
+Xmp.video.TrackLayer                         XmpText     1  0  0
+Xmp.video.TrackVolume                        XmpText     3  100  100
+Xmp.video.Width                              XmpText     3  216  216
+Xmp.video.Height                             XmpText     3  384  384
+Xmp.video.MediaHeaderVersion                 XmpText     1  0  0
+Xmp.video.MediaCreateDate                    XmpText     1  0  0
+Xmp.video.MediaModifyDate                    XmpText     1  0  0
+Xmp.video.MediaTimeScale                     XmpText     5  15360  15360
+Xmp.video.MediaDuration                      XmpText     1  0  0
+Xmp.video.MediaLangCode                      XmpText     5  21956  21956
+Xmp.video.HandlerType                        XmpText    11  Video Track  Video Track
+Xmp.video.GraphicsMode                       XmpText     7  srcCopy  srcCopy
+Xmp.video.OpColor                            XmpText     1  0  0
+Xmp.video.URL                                XmpText     0  
+Xmp.video.Codec                              XmpText     4  hev1  hev1
+Xmp.video.SourceImageWidth                   XmpText     3  216  216
+Xmp.video.SourceImageHeight                  XmpText     3  384  384
+Xmp.video.XResolution                        XmpText     2  72  72
+Xmp.video.YResolution                        XmpText     2  72  72
+Xmp.video.Compressor                         XmpText    21  Lavc59.37.100 libx265  Lavc59.37.100 libx265
+Xmp.video.BitDepth                           XmpText     2  24  24
+Xmp.video.FrameRate                          XmpText     7  1.95312  1.95312
+Xmp.audio.TrackHeaderVersion                 XmpText     1  0  0
+Xmp.audio.TrackCreateDate                    XmpText     1  0  0
+Xmp.audio.TrackModifyDate                    XmpText     1  0  0
+Xmp.audio.TrackID                            XmpText     1  2  2
+Xmp.audio.TrackDuration                      XmpText     1  0  0
+Xmp.audio.TrackLayer                         XmpText     1  0  0
+Xmp.audio.MediaHeaderVersion                 XmpText     1  0  0
+Xmp.audio.MediaCreateDate                    XmpText     1  0  0
+Xmp.audio.MediaModifyDate                    XmpText     1  0  0
+Xmp.audio.MediaTimeScale                     XmpText     5  44100  44100
+Xmp.audio.MediaDuration                      XmpText     1  0  0
+Xmp.audio.MediaLangCode                      XmpText     5  21956  21956
+Xmp.audio.HandlerType                        XmpText     8  Metadata  Metadata
+Xmp.audio.Balance                            XmpText     1  0  0
+Xmp.audio.URL                                XmpText     0  
+Xmp.audio.Compressor                         XmpText     4  mp4a  mp4a
+Xmp.audio.ChannelType                        XmpText     1  2  2
+Xmp.audio.BitsPerSample                      XmpText     2  16  16
+Xmp.audio.SampleRate                         XmpText     5  44100  44100
+Xmp.audio.HandlerVendorID                    XmpText     5  Apple  Apple
+Xmp.video.AspectRatio                        XmpText     4  9:16  9:16

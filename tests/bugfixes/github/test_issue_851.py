@@ -14,18 +14,22 @@ class DenialOfServiceInAdjustTimeOverflow(metaclass=CaseMeta):
     out-of-bounds days in a loop that subtracts one month per
     iteration.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/851"
 
     filename = path("$data_path/issue_851_poc.xmp")
     commands = ["$exiv2 $filename"]
-    stdout = ["""File name       : $filename
+    stdout = [
+        """File name       : $filename
 File size       : 317 Bytes
 MIME type       : application/rdf+xml
 Image size      : 0 x 0
 """
-]
-    stderr = ["""Error: XMP Toolkit error 201: Error in XMLValidator
+    ]
+    stderr = [
+        """Error: XMP Toolkit error 201: Error in XMLValidator
 Warning: Failed to decode XMP metadata.
 $filename: No Exif data found in the file
-"""]
+"""
+    ]
     retval = [253]

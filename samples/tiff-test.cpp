@@ -10,19 +10,13 @@
 
 using namespace Exiv2;
 
-void print(const ExifData& exifData);
+static void print(const ExifData& exifData);
 
-void mini1(const char* path);
-void mini9(const char* path);
+static void mini1(const char* path);
+static void mini9(const char* path);
 
 int main(int argc, char* const argv[]) {
   try {
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
-#endif
-
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " file\n";
       return EXIT_FAILURE;
@@ -46,23 +40,23 @@ void mini1(const char* path) {
 
   // Write nothing to a new structure, without a previous binary image
   wm = ExifParser::encode(blob, nullptr, 0, bigEndian, exifData);
-  enforce(wm == wmIntrusive, Exiv2::ErrorCode::kerErrorMessage, "encode returned an unexpected value");
+  Internal::enforce(wm == wmIntrusive, Exiv2::ErrorCode::kerErrorMessage, "encode returned an unexpected value");
   std::cout << "Test 1: Writing empty Exif data without original binary data: ok.\n";
 
   // Write nothing, this time with a previous binary image
   DataBuf buf = readFile(path);
   wm = ExifParser::encode(blob, buf.c_data(), buf.size(), bigEndian, exifData);
-  enforce(wm == wmIntrusive, Exiv2::ErrorCode::kerErrorMessage, "encode returned an unexpected value");
+  Internal::enforce(wm == wmIntrusive, Exiv2::ErrorCode::kerErrorMessage, "encode returned an unexpected value");
   std::cout << "Test 2: Writing empty Exif data with original binary data: ok.\n";
 
   // Write something to a new structure, without a previous binary image
   exifData["Exif.Photo.DateTimeOriginal"] = "Yesterday at noon";
   wm = ExifParser::encode(blob, nullptr, 0, bigEndian, exifData);
-  enforce(wm == wmIntrusive, Exiv2::ErrorCode::kerErrorMessage, "encode returned an unexpected value");
+  Internal::enforce(wm == wmIntrusive, Exiv2::ErrorCode::kerErrorMessage, "encode returned an unexpected value");
   std::cout << "Test 3: Wrote non-empty Exif data without original binary data:\n";
   exifData.clear();
-  ByteOrder bo = ExifParser::decode(exifData, &blob[0], blob.size());
-  enforce(bo == bigEndian, Exiv2::ErrorCode::kerErrorMessage, "decode returned an unexpected value");
+  ByteOrder bo = ExifParser::decode(exifData, blob.data(), blob.size());
+  Internal::enforce(bo == bigEndian, Exiv2::ErrorCode::kerErrorMessage, "decode returned an unexpected value");
   print(exifData);
 }
 
@@ -90,11 +84,10 @@ void print(const ExifData& exifData) {
     std::string error("No Exif data found in the file");
     throw Exiv2::Error(ErrorCode::kerErrorMessage, error);
   }
-  auto end = exifData.end();
-  for (auto i = exifData.begin(); i != end; ++i) {
-    std::cout << std::setw(44) << std::setfill(' ') << std::left << i->key() << " "
-              << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i->tag() << " " << std::setw(9)
-              << std::setfill(' ') << std::left << i->typeName() << " " << std::dec << std::setw(3) << std::setfill(' ')
-              << std::right << i->count() << "  " << std::dec << i->value() << "\n";
+  for (const auto& i : exifData) {
+    std::cout << std::setw(44) << std::setfill(' ') << std::left << i.key() << " "
+              << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i.tag() << " " << std::setw(9)
+              << std::setfill(' ') << std::left << i.typeName() << " " << std::dec << std::setw(3) << std::setfill(' ')
+              << std::right << i.count() << "  " << std::dec << i.value() << "\n";
   }
 }

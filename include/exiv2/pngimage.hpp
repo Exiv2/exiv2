@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef PNGIMAGE_HPP_
-#define PNGIMAGE_HPP_
+#ifndef EXIV2_PNGIMAGE_HPP
+#define EXIV2_PNGIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -38,7 +38,7 @@ class EXIV2API PngImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  PngImage(BasicIo::UniquePtr io, bool create);
+  PngImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -52,7 +52,7 @@ class EXIV2API PngImage : public Image {
           not valid (does not look like data of the specific image type).
     @warning This function is not thread safe and intended for exiv2 -pS for debugging.
    */
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   //@}
 
   //! @name Accessors
@@ -60,20 +60,12 @@ class EXIV2API PngImage : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
-  ~PngImage() override = default;
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor
-  PngImage(const PngImage&) = delete;
-  //! Assignment operator
-  PngImage& operator=(const PngImage&) = delete;
-
  private:
   /*!
     @brief Provides the main implementation of writeMetadata() by
           writing all buffered metadata to the provided BasicIo.
     @throw Error on input-output errors or when the image data is not valid.
-    @param oIo BasicIo instance to write to (a temporary location).
+    @param outIo BasicIo instance to write to (a temporary location).
 
    */
   void doWriteMetadata(BasicIo& outIo);
@@ -93,11 +85,11 @@ class EXIV2API PngImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newPngInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a PNG image.
 EXIV2API bool isPngType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef PNGIMAGE_HPP_
+#endif  // EXIV2_PNGIMAGE_HPP

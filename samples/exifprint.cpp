@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <exiv2/exiv2.hpp>
+#include <iomanip>
 #include <iostream>
 #include <regex>
 
@@ -13,16 +14,9 @@ static const Exiv2::TagInfo* findTag(const Exiv2::TagInfo* pList, uint16_t tag) 
 
 int main(int argc, char* const argv[]) {
   try {
-    setlocale(LC_CTYPE, ".utf8");
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
-#endif
-
     const char* prog = argv[0];
     if (argc == 1) {
-      std::cout << "Usage: " << prog << " [ [--lint] path | --version | --version-test ]" << std::endl;
+      std::cout << "Usage: " << prog << " [ [--lint] path | --version | --version-test ]" << '\n';
       return EXIT_FAILURE;
     }
 
@@ -40,12 +34,12 @@ int main(int argc, char* const argv[]) {
     if (strcmp(file, "--version-test") == 0) {
       // verifies/test macro EXIV2_TEST_VERSION
       // described in include/exiv2/version.hpp
-      std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION << std::endl
-                << "Exiv2::version()                " << Exiv2::version() << std::endl
-                << "strlen(Exiv2::version())        " << ::strlen(Exiv2::version()) << std::endl
-                << "Exiv2::versionNumber()          " << Exiv2::versionNumber() << std::endl
-                << "Exiv2::versionString()          " << Exiv2::versionString() << std::endl
-                << "Exiv2::versionNumberHexString() " << Exiv2::versionNumberHexString() << std::endl;
+      std::cout << "EXV_PACKAGE_VERSION             " << EXV_PACKAGE_VERSION << '\n'
+                << "Exiv2::version()                " << Exiv2::version() << '\n'
+                << "strlen(Exiv2::version())        " << ::strlen(Exiv2::version()) << '\n'
+                << "Exiv2::versionNumber()          " << Exiv2::versionNumber() << '\n'
+                << "Exiv2::versionString()          " << Exiv2::versionString() << '\n'
+                << "Exiv2::versionNumberHexString() " << Exiv2::versionNumberHexString() << '\n';
 
 // Test the Exiv2 version available at runtime but compile the if-clause only if
 // the compile-time version is at least 0.15. Earlier versions didn't have a
@@ -80,27 +74,26 @@ int main(int argc, char* const argv[]) {
     shortLong.insert("Exif.Photo.StripOffsets");
     shortLong.insert("Exif.Photo.StripByteCounts");
 
-    auto end = exifData.end();
-    for (auto i = exifData.begin(); i != end; ++i) {
+    for (const auto& i : exifData) {
       if (!bLint) {
-        const char* tn = i->typeName();
-        std::cout << std::setw(44) << std::setfill(' ') << std::left << i->key() << " "
-                  << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i->tag() << " "
+        const char* tn = i.typeName();
+        std::cout << std::setw(44) << std::setfill(' ') << std::left << i.key() << " "
+                  << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i.tag() << " "
                   << std::setw(9) << std::setfill(' ') << std::left << (tn ? tn : "Unknown") << " " << std::dec
-                  << std::setw(3) << std::setfill(' ') << std::right << i->count() << "  " << std::dec << i->toString()
+                  << std::setw(3) << std::setfill(' ') << std::right << i.count() << "  " << std::dec << i.toString()
                   << "\n";
       } else {
-        const Exiv2::TagInfo* tagInfo = findTag(Exiv2::ExifTags::tagList(i->groupName()), i->tag());
+        const Exiv2::TagInfo* tagInfo = findTag(Exiv2::ExifTags::tagList(i.groupName()), i.tag());
         if (tagInfo) {
-          Exiv2::TypeId type = i->typeId();
+          Exiv2::TypeId type = i.typeId();
           if (type != tagInfo->typeId_ &&
-              !(tagInfo->typeId_ == Exiv2::comment && type == Exiv2::undefined)  // comment is stored as undefined
-              && !(shortLong.find(i->key()) != shortLong.end() &&
-                   (type == Exiv2::unsignedShort || type == Exiv2::unsignedLong))  // can be short or long!
+              (tagInfo->typeId_ != Exiv2::comment || type != Exiv2::undefined)  // comment is stored as undefined
+              && (!shortLong.contains(i.key()) ||
+                  (type != Exiv2::unsignedShort && type != Exiv2::unsignedLong))  // can be short or long!
           ) {
-            std::cerr << i->key() << " type " << i->typeName() << " (" << type << ")"
+            std::cerr << i.key() << " type " << i.typeName() << " (" << type << ")"
                       << " expected " << Exiv2::TypeInfo::typeName(tagInfo->typeId_) << " (" << tagInfo->typeId_ << ")"
-                      << std::endl;
+                      << '\n';
             rc = 2;
           }
         }

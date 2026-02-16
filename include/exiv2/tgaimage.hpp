@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-#ifndef TGAIMAGE_HPP_
-#define TGAIMAGE_HPP_
+#ifndef EXIV2_TGAIMAGE_HPP
+#define EXIV2_TGAIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -20,15 +20,6 @@ namespace Exiv2 {
  */
 class EXIV2API TgaImage : public Image {
  public:
-  ~TgaImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  TgaImage(const TgaImage&) = delete;
-  //! Assignment operator
-  TgaImage& operator=(const TgaImage&) = delete;
-  //@}
-
   //! @name Creators
   //@{
   /*!
@@ -43,7 +34,7 @@ class EXIV2API TgaImage : public Image {
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
    */
-  explicit TgaImage(BasicIo::UniquePtr io);
+  explicit TgaImage(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -68,7 +59,7 @@ class EXIV2API TgaImage : public Image {
     @brief Not supported. Calling this function will throw an instance
         of Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
@@ -88,11 +79,11 @@ class EXIV2API TgaImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newTgaInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a Targa v2 image.
 EXIV2API bool isTgaType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef TGAIMAGE_HPP_
+#endif  // EXIV2_TGAIMAGE_HPP

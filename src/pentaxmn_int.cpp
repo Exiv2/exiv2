@@ -1,19 +1,67 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-// included header files
 #include "pentaxmn_int.hpp"
+
+// included header files
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "makernote_int.hpp"
 #include "tags.hpp"
+#include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
 
-#include <array>
+#include <iomanip>
+
+namespace {
+// Exception thrown by findLensInfo when the lens info can't be found.
+class LensInfoNotFound : public std::exception {
+  using std::exception::exception;
+};
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
 namespace Exiv2::Internal {
+/*!
+  @brief Print function to translate Pentax "combi-values" to a description
+         by looking up a reference table.
+ */
+template <size_t N, const TagDetails (&array)[N], int count, int ignoredcount, int ignoredcountmax>
+static std::ostream& printCombiTag(std::ostream& os, const Value& value, const ExifData* metadata) {
+  static_assert(N > 0, "Passed zero length printCombiTag");
+  std::ios::fmtflags f(os.flags());
+  if ((value.count() != count &&
+       (value.count() < (count + ignoredcount) || value.count() > (count + ignoredcountmax))) ||
+      count > 4) {
+    return printValue(os, value, metadata);
+  }
+  uint32_t l = 0;
+  for (int c = 0; c < count; ++c) {
+    if (value.toInt64(c) < 0 || value.toInt64(c) > 255) {
+      return printValue(os, value, metadata);
+    }
+    l += (value.toUint32(c) << ((count - c - 1) * 8));
+  }
+
+  if (auto td = Exiv2::find(array, l)) {
+    os << _(td->label_);
+  } else {
+    os << _("Unknown") << " (0x" << std::setw(2 * count) << std::setfill('0') << std::hex << l << std::dec << ")";
+  }
+
+  os.flags(f);
+  return os;
+}
+
+//! Shortcut for the printCombiTag template which requires typing the array name only once.
+#define EXV_PRINT_COMBITAG(array, count, ignoredcount) \
+  printCombiTag<std::size(array), array, count, ignoredcount, ignoredcount>
+//! Shortcut for the printCombiTag template which requires typing the array name only once.
+#define EXV_PRINT_COMBITAG_MULTI(array, count, ignoredcount, ignoredcountmax) \
+  printCombiTag<std::size(array), array, count, ignoredcount, ignoredcountmax>
+
 //! ShootingMode, tag 0x0001
 constexpr TagDetails pentaxShootingMode[] = {
     {0, N_("Auto")},
@@ -158,8 +206,16 @@ constexpr TagDetails pentaxModel[] = {
     {0x13092, "K-1"},
     {0x1309c, "K-3 II"},
     {0x131f0, "WG-M2"},
+    {0x1320e, "GR III"},
     {0x13222, "K-70"},
     {0x1322c, "KP"},
+    {0x13240, "K-1 Mark II"},
+    {0x13254, "K-3 Mark III"},
+    {0x13290, "WG-70"},
+    {0x1329a, "GR IIIx"},
+    {0x132b8, "KF"},
+    {0x132d6, "K-3 Mark III Monochrome"},
+    {0x132e0, "GR IV"},
 };
 
 //! Quality, tag 0x0008
@@ -410,9 +466,8 @@ constexpr TagDetails pentaxWhiteBalanceMode[] = {
 
 //! Saturation, tag 0x001f
 constexpr TagDetails pentaxSaturation[] = {
-    {0, N_("Low")},      {1, N_("Normal")},   {2, N_("High")},      {3, N_("Med Low")},
-    {4, N_("Med High")}, {5, N_("Very Low")}, {6, N_("Very High")}, {7, N_("-4")},
-    {8, N_("+4")},       {65535, N_("None")}, {65535, N_("None")}  // To silence compiler warning
+    {0, N_("Low")},      {1, N_("Normal")},    {2, N_("High")}, {3, N_("Med Low")}, {4, N_("Med High")},
+    {5, N_("Very Low")}, {6, N_("Very High")}, {7, N_("-4")},   {8, N_("+4")},      {65535, N_("None")},
 };
 
 //! Contrast, tag 0x0020
@@ -458,9 +513,10 @@ constexpr TagDetails pentaxCities[] = {
 
 //! ImageProcessing, combi-tag 0x0032 (4 bytes)
 constexpr TagDetails pentaxImageProcessing[] = {
-    {0x00000000, N_("Unprocessed")},     {0x00000004, N_("Digital Filter")}, {0x01000000, N_("Resized")},
-    {0x02000000, N_("Cropped")},         {0x04000000, N_("Color Filter")},   {0x06000000, N_("Digital Filter 6")},
-    {0x10000000, N_("Frame Synthesis?")}};
+    {0x00000000, N_("Unprocessed")},      {0x00000004, N_("Digital Filter")}, {0x01000000, N_("Resized")},
+    {0x02000000, N_("Cropped")},          {0x04000000, N_("Color Filter")},   {0x06000000, N_("Digital Filter 6")},
+    {0x10000000, N_("Frame Synthesis?")},
+};
 
 //! PictureMode, combi-tag 0x0033 (3 bytes)
 constexpr TagDetails pentaxPictureMode[] = {
@@ -658,6 +714,7 @@ constexpr TagDetails pentaxLensType[] = {
     {0x0402, "smc PENTAX-FA 80-320mm F4.5-5.6"},
     {0x0403, "smc PENTAX-FA 43mm F1.9 Limited"},
     {0x0406, "smc PENTAX-FA 35-80mm F4-5.6"},
+    {0x0407, "Irix 45mm F/1.4"},
     {0x0408, "Irix 150mm F/2.8 Macro"},
     {0x0409, "Irix 11mm F/4"},
     {0x040a, "Irix 15mm F/2.4"},
@@ -811,6 +868,12 @@ constexpr TagDetails pentaxLensType[] = {
     {0x083d, "HD PENTAX-D FA 28-105mm F3.5-5.6 ED DC WR"},
     {0x083e, "HD PENTAX-D FA 24-70mm F2.8 ED SDM WR"},
     {0x083f, "HD PENTAX-D FA 15-30mm F2.8 ED SDM WR"},
+    {0x0840, "HD PENTAX-D FA* 50mm F1.4 SDM AW"},
+    {0x0841, "HD PENTAX-D FA 70-210mm F4 ED SDM WR"},
+    {0x0842, "HD PENTAX-D FA* 85mm F1.4 SDM AW"},
+    {0x0843, "HD PENTAX-D FA 21mm F2.4 ED Limited DC WR"},
+    {0x08c3, "HD PENTAX DA* 16-50mm F2.8 ED PLM AW"},
+    {0x08c4, "HD PENTAX-DA* 11-18mm F2.8 ED DC AW"},
     {0x08c5, "HD PENTAX-DA 55-300mm F4.5-6.3 ED PLM WR RE"},
     {0x08c6, "smc PENTAX-DA L 18-50mm F4-5.6 DC WR RE"},
     {0x08c7, "HD PENTAX-DA 18-50mm F4-5.6 DC WR RE"},
@@ -886,100 +949,68 @@ constexpr TagDetails pentaxHighISONoiseReduction[] = {
 
 std::ostream& PentaxMakerNote::printVersion(std::ostream& os, const Value& value, const ExifData*) {
   std::string val = value.toString();
-  size_t i = 0;
-  while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
-    val.replace(i, 1, ".");
-  }
+  std::replace(val.begin(), val.end(), ' ', '.');
   os << val;
   return os;
 }
 
 std::ostream& PentaxMakerNote::printResolution(std::ostream& os, const Value& value, const ExifData*) {
   std::string val = value.toString();
-  size_t i = 0;
-  while ((i = val.find(' ', i)) != std::string::npos && i != val.length() - 1) {
-    val.replace(i, 1, "x");
-  }
+  std::replace(val.begin(), val.end(), ' ', 'x');
   os << val;
   return os;
 }
 
 std::ostream& PentaxMakerNote::printDate(std::ostream& os, const Value& value, const ExifData*) {
   /* I choose same format as is used inside EXIF itself */
-  os << ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1));
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(2);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(3);
-  return os;
+  return os << stringFormat("{}:{:02}:{:02}", ((static_cast<uint16_t>(value.toInt64(0)) << 8) + value.toInt64(1)),
+                            value.toInt64(2), value.toInt64(3));
 }
 
 std::ostream& PentaxMakerNote::printTime(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::setw(2) << std::setfill('0') << value.toInt64(0);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(1);
-  os << ":";
-  os << std::setw(2) << std::setfill('0') << value.toInt64(2);
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:02}:{:02}:{:02}", value.toInt64(0), value.toInt64(1), value.toInt64(2));
 }
 
 std::ostream& PentaxMakerNote::printExposure(std::ostream& os, const Value& value, const ExifData*) {
-  os << static_cast<float>(value.toInt64()) / 100 << " ms";
-  return os;
+  return os << stringFormat("{:g} ms", static_cast<float>(value.toInt64()) / 100);
 }
 
 std::ostream& PentaxMakerNote::printFValue(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << "F" << std::setprecision(2) << static_cast<float>(value.toInt64()) / 10;
-  os.flags(f);
-  return os;
+  return os << stringFormat("F{:.2g}", static_cast<float>(value.toInt64()) / 10);
 }
 
 std::ostream& PentaxMakerNote::printFocalLength(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::fixed << std::setprecision(1) << static_cast<float>(value.toInt64()) / 100 << " mm";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.1f} mm", static_cast<float>(value.toInt64()) / 100);
 }
 
 std::ostream& PentaxMakerNote::printCompensation(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::setprecision(2) << (static_cast<float>(value.toInt64()) - 50) / 10 << " EV";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2g} EV", (static_cast<float>(value.toInt64()) - 50) / 10);
 }
 
 std::ostream& PentaxMakerNote::printTemperature(std::ostream& os, const Value& value, const ExifData*) {
-  os << value.toInt64() << " C";
-  return os;
+  return os << stringFormat("{} C", value.toInt64());
 }
 
 std::ostream& PentaxMakerNote::printFlashCompensation(std::ostream& os, const Value& value, const ExifData*) {
-  std::ios::fmtflags f(os.flags());
-  os << std::setprecision(2) << static_cast<float>(value.toInt64()) / 256 << " EV";
-  os.flags(f);
-  return os;
+  return os << stringFormat("{:.2g} EV", static_cast<float>(value.toInt64()) / 256);
 }
 
 std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& value, const ExifData*) {
-  const auto l0 = value.toInt64(0);
-
-  if (l0 < 10) {
+  std::ios::fmtflags f(os.flags());
+  if (auto l0 = value.toUint32(0); l0 < 10) {
     os << std::setprecision(2) << static_cast<float>(l0) / 3 << " EV";
   } else {
     os << std::setprecision(2) << static_cast<float>(l0) - 9.5F << " EV";
   }
 
   if (value.count() == 2) {
-    const auto l1 = value.toInt64(1);
+    const auto l1 = value.toUint32(1);
     os << " (";
     if (l1 == 0) {
       os << _("No extended bracketing");
     } else {
       auto type = l1 >> 8;
-      auto range = l1 & 0xff;
+      auto range = static_cast<byte>(l1);
       switch (type) {
         case 1:
           os << _("WB-BA");
@@ -1000,10 +1031,11 @@ std::ostream& PentaxMakerNote::printBracketing(std::ostream& os, const Value& va
           os << _("Unknown ") << type;
           break;
       }
-      os << " " << range;
+      os << " " << +range;
     }
     os << ")";
   }
+  os.flags(f);
   return os;
 }
 
@@ -1057,11 +1089,6 @@ static long getKeyLong(const std::string& key, const ExifData* metadata) {
   return result;
 }
 
-// Exception thrown by findLensInfo when the lens info can't be found.
-class LensInfoNotFound : public std::exception {
-  using std::exception::exception;
-};
-
 // Throws std::exception if the LensInfo can't be found.
 static ExifData::const_iterator findLensInfo(const ExifData* metadata) {
   const auto dngLensInfo = metadata->findKey(ExifKey("Exif.PentaxDng.LensInfo"));
@@ -1076,23 +1103,22 @@ static ExifData::const_iterator findLensInfo(const ExifData* metadata) {
 }
 
 //! resolveLens0x32c print lens in human format
-std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifData* metadata) {
   try {
     unsigned long index = 0;
 
     long focalLength = getKeyLong("Exif.Photo.FocalLength", metadata);
     bool bFL10_20 = 10 <= focalLength && focalLength <= 20;
 
-    // std::cout << "model,focalLength = " << model << "," << focalLength << std::endl;
+    // std::cout << "model,focalLength = " << model << "," << focalLength << '\n';
     if (bFL10_20) {
       index = 1;
     }
 
     if (index > 0) {
       const unsigned long lensID = 0x32c;
-      const TagDetails* td = find(pentaxLensType, lensID);
-      os << exvGettext(td[index].label_);
-      return os;
+      auto td = Exiv2::find(pentaxLensType, lensID);
+      return os << _(td[index].label_);
     }
   } catch (...) {
   }
@@ -1102,7 +1128,7 @@ std::ostream& resolveLens0x32c(std::ostream& os, const Value& value, const ExifD
 
 // #816 begin
 //! resolveLens0x3ff print lens in human format
-std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1154,9 +1180,8 @@ std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifD
 
     if (index > 0) {
       const unsigned long lensID = 0x3ff;
-      const TagDetails* td = find(pentaxLensType, lensID);
-      os << exvGettext(td[index].label_);
-      return os;
+      auto td = Exiv2::find(pentaxLensType, lensID);
+      return os << _(td[index].label_);
     }
   } catch (...) {
   }
@@ -1165,7 +1190,7 @@ std::ostream& resolveLens0x3ff(std::ostream& os, const Value& value, const ExifD
 
 // #1155
 //! resolveLens0x8ff print lens in human format
-std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1174,16 +1199,15 @@ std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifD
     const auto lensInfo = findLensInfo(metadata);
     if (value.count() == 4) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (model.rfind("PENTAX K-3", 0) == 0 && lensInfo->count() == 128 && lensInfo->toUint32(1) == 168 &&
+      if (model.starts_with("PENTAX K-3") && lensInfo->count() == 128 && lensInfo->toUint32(1) == 168 &&
           lensInfo->toUint32(2) == 144)
         index = 7;
     }
 
     if (index > 0) {
       const unsigned long lensID = 0x8ff;
-      const TagDetails* td = find(pentaxLensType, lensID);
-      os << exvGettext(td[index].label_);
-      return os;
+      auto td = Exiv2::find(pentaxLensType, lensID);
+      return os << _(td[index].label_);
     }
   } catch (...) {
   }
@@ -1192,7 +1216,7 @@ std::ostream& resolveLens0x8ff(std::ostream& os, const Value& value, const ExifD
 
 // #1155
 //! resolveLens0x319 print lens in human format
-std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifData* metadata)
+static std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifData* metadata)
 // ----------------------------------------------------------------------
 {
   try {
@@ -1201,23 +1225,22 @@ std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifD
     const auto lensInfo = findLensInfo(metadata);
     if (value.count() == 4) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (model.rfind("PENTAX K-3", 0) == 0 && lensInfo->count() == 128 && lensInfo->toUint32(1) == 131 &&
+      if (model.starts_with("PENTAX K-3") && lensInfo->count() == 128 && lensInfo->toUint32(1) == 131 &&
           lensInfo->toUint32(2) == 128)
         index = 6;
     }
     if (value.count() == 2) {
       std::string model = getKeyString("Exif.Image.Model", metadata);
-      if (model.rfind("PENTAX K100D", 0) == 0 && lensInfo->count() == 44)
+      if (model.starts_with("PENTAX K100D") && lensInfo->count() == 44)
         index = 6;
-      if (model.rfind("PENTAX *ist DL", 0) == 0 && lensInfo->count() == 36)
+      if (model.starts_with("PENTAX *ist DL") && lensInfo->count() == 36)
         index = 6;
     }
 
     if (index > 0) {
       const unsigned long lensID = 0x319;
-      const TagDetails* td = find(pentaxLensType, lensID);
-      os << exvGettext(td[index].label_);
-      return os;
+      auto td = Exiv2::find(pentaxLensType, lensID);
+      return os << _(td[index].label_);
     }
   } catch (...) {
   }
@@ -1225,30 +1248,26 @@ std::ostream& resolveLens0x319(std::ostream& os, const Value& value, const ExifD
 }
 
 //! resolveLensType print lens in human format
-std::ostream& resolveLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& resolveLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
   return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
 }
 
-struct LensIdFct {
-  long id_;       //!< Lens id
-  PrintFct fct_;  //!< Pretty-print function
-  //! Comparison operator for find template
-  bool operator==(long id) const {
-    return id_ == id;
-  }
-};
-
-//! List of lens ids which require special treatment using resolveLensType
-constexpr auto lensIdFct = std::array{
-    LensIdFct{0x0317, resolveLensType}, LensIdFct{0x0319, resolveLens0x319}, LensIdFct{0x031b, resolveLensType},
-    LensIdFct{0x031c, resolveLensType}, LensIdFct{0x031d, resolveLensType},  LensIdFct{0x031f, resolveLensType},
-    LensIdFct{0x0329, resolveLensType}, LensIdFct{0x032c, resolveLens0x32c}, LensIdFct{0x032e, resolveLensType},
-    LensIdFct{0x0334, resolveLensType}, LensIdFct{0x03ff, resolveLens0x3ff}, LensIdFct{0x041a, resolveLensType},
-    LensIdFct{0x042d, resolveLensType}, LensIdFct{0x08ff, resolveLens0x8ff},
-};
-
 //! A lens id and a pretty-print function for special treatment of the id.
-std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+static std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData* metadata) {
+  //! List of lens ids which require special treatment using resolveLensType
+  static constexpr struct LensIdFct {
+    uint32_t id_;   //!< Lens id
+    PrintFct fct_;  //!< Pretty-print function
+    //! Comparison operator for find template
+    bool operator==(uint32_t id) const {
+      return id_ == id;
+    }
+  } lensIdFct[] = {
+      {0x0317, resolveLensType}, {0x0319, resolveLens0x319}, {0x031b, resolveLensType},  {0x031c, resolveLensType},
+      {0x031d, resolveLensType}, {0x031f, resolveLensType},  {0x0329, resolveLensType},  {0x032c, resolveLens0x32c},
+      {0x032e, resolveLensType}, {0x0334, resolveLensType},  {0x03ff, resolveLens0x3ff}, {0x041a, resolveLensType},
+      {0x042d, resolveLensType}, {0x08ff, resolveLens0x8ff},
+  };
   // #1034
   const std::string undefined("undefined");
   const std::string section("pentax");
@@ -1256,11 +1275,11 @@ std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData
     return os << Internal::readExiv2Config(section, value.toString(), undefined);
   }
 
-  const auto index = value.toUint32(0) * 256 + value.toUint32(1);
+  const auto index = (value.toUint32(0) * 256) + value.toUint32(1);
 
-  // std::cout << std::endl << "printLensType value =" << value.toLong() << " index = " << index << std::endl;
-  auto lif = std::find(lensIdFct.begin(), lensIdFct.end(), index);
-  if (lif == lensIdFct.end())
+  // std::cout << '\n' << "printLensType value =" << value.toLong() << " index = " << index << '\n';
+  auto lif = Exiv2::find(lensIdFct, index);
+  if (!lif)
     return EXV_PRINT_COMBITAG_MULTI(pentaxLensType, 2, 1, 2)(os, value, metadata);
   if (metadata && lif->fct_)
     return lif->fct_(os, value, metadata);
@@ -1274,181 +1293,184 @@ std::ostream& printLensType(std::ostream& os, const Value& value, const ExifData
 
 // Pentax MakerNote Tag Info
 constexpr TagInfo PentaxMakerNote::tagInfo_[] = {
-    {0x0000, "Version", N_("Version"), N_("Pentax Makernote version"), pentaxId, makerTags, undefined, -1,
-     printVersion},
-    {0x0001, "Mode", N_("Shooting mode"), N_("Camera shooting mode"), pentaxId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(pentaxShootingMode)},
-    {0x0002, "PreviewResolution", N_("Resolution of a preview image"), N_("Resolution of a preview image"), pentaxId,
-     makerTags, undefined, -1, printResolution},
+    {0x0000, "Version", N_("Version"), N_("Pentax Makernote version"), IfdId::pentaxId, SectionId::makerTags, undefined,
+     -1, printVersion},
+    {0x0001, "Mode", N_("Shooting mode"), N_("Camera shooting mode"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(pentaxShootingMode)},
+    {0x0002, "PreviewResolution", N_("Resolution of a preview image"), N_("Resolution of a preview image"),
+     IfdId::pentaxId, SectionId::makerTags, undefined, -1, printResolution},
     {0x0003, "PreviewLength", N_("Length of a preview image"), N_("Size of an IFD containing a preview image"),
-     pentaxId, makerTags, undefined, -1, printValue},
+     IfdId::pentaxId, SectionId::makerTags, undefined, -1, printValue},
     {0x0004, "PreviewOffset", N_("Pointer to a preview image"), N_("Offset to an IFD containing a preview image"),
-     pentaxId, makerTags, undefined, -1, printValue},
-    {0x0005, "ModelID", N_("Model identification"), N_("Pentax model identification"), pentaxId, makerTags,
-     unsignedShort, -1, EXV_PRINT_TAG(pentaxModel)},
-    {0x0006, "Date", N_("Date"), N_("Date"), pentaxId, makerTags, undefined, -1, printDate},
-    {0x0007, "Time", N_("Time"), N_("Time"), pentaxId, makerTags, undefined, -1, printTime},
-    {0x0008, "Quality", N_("Image quality"), N_("Image quality settings"), pentaxId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(pentaxQuality)},
-    {0x0009, "Size", N_("Image size"), N_("Image size settings"), pentaxId, makerTags, unsignedLong, -1,
-     EXV_PRINT_TAG(pentaxSize)},
+     IfdId::pentaxId, SectionId::makerTags, undefined, -1, printValue},
+    {0x0005, "ModelID", N_("Model identification"), N_("Pentax model identification"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxModel)},
+    {0x0006, "Date", N_("Date"), N_("Date"), IfdId::pentaxId, SectionId::makerTags, undefined, -1, printDate},
+    {0x0007, "Time", N_("Time"), N_("Time"), IfdId::pentaxId, SectionId::makerTags, undefined, -1, printTime},
+    {0x0008, "Quality", N_("Image quality"), N_("Image quality settings"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(pentaxQuality)},
+    {0x0009, "Size", N_("Image size"), N_("Image size settings"), IfdId::pentaxId, SectionId::makerTags, unsignedLong,
+     -1, EXV_PRINT_TAG(pentaxSize)},
     /* Some missing ! */
-    {0x000c, "Flash", N_("Flash mode"), N_("Flash mode settings"), pentaxId, makerTags, unsignedLong, -1,
-     EXV_PRINT_TAG(pentaxFlash)},
-    {0x000d, "Focus", N_("Focus mode"), N_("Focus mode settings"), pentaxId, makerTags, unsignedLong, -1,
-     EXV_PRINT_TAG(pentaxFocus)},
-    {0x000e, "AFPoint", N_("AF point"), N_("Selected AF point"), pentaxId, makerTags, unsignedLong, -1,
-     EXV_PRINT_TAG(pentaxAFPoint)},
-    {0x000F, "AFPointInFocus", N_("AF point in focus"), N_("AF point in focus"), pentaxId, makerTags, unsignedLong, -1,
-     EXV_PRINT_TAG(pentaxAFPointFocus)},
+    {0x000c, "Flash", N_("Flash mode"), N_("Flash mode settings"), IfdId::pentaxId, SectionId::makerTags, unsignedLong,
+     -1, EXV_PRINT_TAG(pentaxFlash)},
+    {0x000d, "Focus", N_("Focus mode"), N_("Focus mode settings"), IfdId::pentaxId, SectionId::makerTags, unsignedLong,
+     -1, EXV_PRINT_TAG(pentaxFocus)},
+    {0x000e, "AFPoint", N_("AF point"), N_("Selected AF point"), IfdId::pentaxId, SectionId::makerTags, unsignedLong,
+     -1, EXV_PRINT_TAG(pentaxAFPoint)},
+    {0x000F, "AFPointInFocus", N_("AF point in focus"), N_("AF point in focus"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedLong, -1, EXV_PRINT_TAG(pentaxAFPointFocus)},
     /* Some missing ! */
-    {0x0012, "ExposureTime", N_("Exposure time"), N_("Exposure time"), pentaxId, makerTags, unsignedLong, -1,
-     printExposure},
-    {0x0013, "FNumber", N_("F-Number"), N_("F-Number"), pentaxId, makerTags, unsignedLong, -1, printFValue},
-    {0x0014, "ISO", N_("ISO sensitivity"), N_("ISO sensitivity settings"), pentaxId, makerTags, unsignedLong, -1,
-     EXV_PRINT_TAG(pentaxISO)},
+    {0x0012, "ExposureTime", N_("Exposure time"), N_("Exposure time"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedLong, -1, printExposure},
+    {0x0013, "FNumber", N_("F-Number"), N_("F-Number"), IfdId::pentaxId, SectionId::makerTags, unsignedLong, -1,
+     printFValue},
+    {0x0014, "ISO", N_("ISO sensitivity"), N_("ISO sensitivity settings"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedLong, -1, EXV_PRINT_TAG(pentaxISO)},
     /* Some missing ! */
-    {0x0016, "ExposureCompensation", N_("Exposure compensation"), N_("Exposure compensation"), pentaxId, makerTags,
-     unsignedLong, -1, printCompensation},
+    {0x0016, "ExposureCompensation", N_("Exposure compensation"), N_("Exposure compensation"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedLong, -1, printCompensation},
     /* Some missing ! */
-    {0x0017, "MeteringMode", N_("MeteringMode"), N_("MeteringMode"), pentaxId, makerTags, undefined, -1,
-     EXV_PRINT_TAG(pentaxMeteringMode)},
-    {0x0018, "AutoBracketing", N_("AutoBracketing"), N_("AutoBracketing"), pentaxId, makerTags, undefined, -1,
-     printBracketing},
-    {0x0019, "WhiteBalance", N_("White balance"), N_("White balance"), pentaxId, makerTags, undefined, -1,
-     EXV_PRINT_TAG(pentaxWhiteBalance)},
-    {0x001a, "WhiteBalanceMode", N_("White balance mode"), N_("White balance mode"), pentaxId, makerTags, undefined, -1,
-     EXV_PRINT_TAG(pentaxWhiteBalanceMode)},
-    {0x001b, "BlueBalance", N_("Blue balance"), N_("Blue color balance"), pentaxId, makerTags, unsignedLong, -1,
-     printValue},
-    {0x001c, "RedBalance", N_("Red balance"), N_("Red color balance"), pentaxId, makerTags, unsignedLong, -1,
-     printValue},
-    {0x001d, "FocalLength", N_("FocalLength"), N_("FocalLength"), pentaxId, makerTags, undefined, -1, printFocalLength},
-    {0x001e, "DigitalZoom", N_("Digital zoom"), N_("Digital zoom"), pentaxId, makerTags, unsignedLong, -1, printValue},
-    {0x001f, "Saturation", N_("Saturation"), N_("Saturation"), pentaxId, makerTags, undefined, -1,
+    {0x0017, "MeteringMode", N_("MeteringMode"), N_("MeteringMode"), IfdId::pentaxId, SectionId::makerTags, undefined,
+     -1, EXV_PRINT_TAG(pentaxMeteringMode)},
+    {0x0018, "AutoBracketing", N_("AutoBracketing"), N_("AutoBracketing"), IfdId::pentaxId, SectionId::makerTags,
+     undefined, -1, printBracketing},
+    {0x0019, "WhiteBalance", N_("White balance"), N_("White balance"), IfdId::pentaxId, SectionId::makerTags, undefined,
+     -1, EXV_PRINT_TAG(pentaxWhiteBalance)},
+    {0x001a, "WhiteBalanceMode", N_("White balance mode"), N_("White balance mode"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, EXV_PRINT_TAG(pentaxWhiteBalanceMode)},
+    {0x001b, "BlueBalance", N_("Blue balance"), N_("Blue color balance"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedLong, -1, printValue},
+    {0x001c, "RedBalance", N_("Red balance"), N_("Red color balance"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedLong, -1, printValue},
+    {0x001d, "FocalLength", N_("FocalLength"), N_("FocalLength"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printFocalLength},
+    {0x001e, "DigitalZoom", N_("Digital zoom"), N_("Digital zoom"), IfdId::pentaxId, SectionId::makerTags, unsignedLong,
+     -1, printValue},
+    {0x001f, "Saturation", N_("Saturation"), N_("Saturation"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      EXV_PRINT_TAG(pentaxSaturation)},
-    {0x0020, "Contrast", N_("Contrast"), N_("Contrast"), pentaxId, makerTags, undefined, -1,
+    {0x0020, "Contrast", N_("Contrast"), N_("Contrast"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      EXV_PRINT_TAG(pentaxContrast)},
-    {0x0021, "Sharpness", N_("Sharpness"), N_("Sharpness"), pentaxId, makerTags, undefined, -1,
+    {0x0021, "Sharpness", N_("Sharpness"), N_("Sharpness"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      EXV_PRINT_TAG(pentaxSharpness)},
-    {0x0022, "Location", N_("Location"), N_("Location"), pentaxId, makerTags, undefined, -1,
+    {0x0022, "Location", N_("Location"), N_("Location"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      EXV_PRINT_TAG(pentaxLocation)},
-    {0x0023, "Hometown", N_("Hometown"), N_("Home town"), pentaxId, makerTags, undefined, -1,
+    {0x0023, "Hometown", N_("Hometown"), N_("Home town"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      EXV_PRINT_TAG(pentaxCities)},
-    {0x0024, "Destination", N_("Destination"), N_("Destination"), pentaxId, makerTags, undefined, -1,
+    {0x0024, "Destination", N_("Destination"), N_("Destination"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      EXV_PRINT_TAG(pentaxCities)},
-    {0x0025, "HometownDST", N_("Hometown DST"), N_("Whether day saving time is active in home town"), pentaxId,
-     makerTags, undefined, -1, EXV_PRINT_TAG(pentaxYesNo)},
-    {0x0026, "DestinationDST", N_("Destination DST"), N_("Whether day saving time is active in destination"), pentaxId,
-     makerTags, undefined, -1, EXV_PRINT_TAG(pentaxYesNo)},
-    {0x0027, "DSPFirmwareVersion", N_("DSPFirmwareVersion"), N_("DSPFirmwareVersion"), pentaxId, makerTags,
-     unsignedByte, -1, printValue}, /* TODO: Decoding missing */
-    {0x0028, "CPUFirmwareVersion", N_("CPUFirmwareVersion"), N_("CPUFirmwareVersion"), pentaxId, makerTags,
-     unsignedByte, -1, printValue}, /* TODO: Decoding missing */
-    {0x0029, "FrameNumber", N_("Frame number"), N_("Frame number"), pentaxId, makerTags, undefined, -1, printValue},
+    {0x0025, "HometownDST", N_("Hometown DST"), N_("Whether day saving time is active in home town"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, EXV_PRINT_TAG(pentaxYesNo)},
+    {0x0026, "DestinationDST", N_("Destination DST"), N_("Whether day saving time is active in destination"),
+     IfdId::pentaxId, SectionId::makerTags, undefined, -1, EXV_PRINT_TAG(pentaxYesNo)},
+    {0x0027, "DSPFirmwareVersion", N_("DSPFirmwareVersion"), N_("DSPFirmwareVersion"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedByte, -1, printValue}, /* TODO: Decoding missing */
+    {0x0028, "CPUFirmwareVersion", N_("CPUFirmwareVersion"), N_("CPUFirmwareVersion"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedByte, -1, printValue}, /* TODO: Decoding missing */
+    {0x0029, "FrameNumber", N_("Frame number"), N_("Frame number"), IfdId::pentaxId, SectionId::makerTags, undefined,
+     -1, printValue},
     /* Some missing ! */
     {0x002d, "EffectiveLV", N_("Light value"), N_("Camera calculated light value, includes exposure compensation"),
-     pentaxId, makerTags, unsignedShort, -1, printValue},
+     IfdId::pentaxId, SectionId::makerTags, unsignedShort, -1, printValue},
     /* Some missing ! */
-    {0x0032, "ImageProcessing", N_("Image processing"), N_("Image processing"), pentaxId, makerTags, undefined, -1,
-     EXV_PRINT_COMBITAG(pentaxImageProcessing, 4, 0)},
-    {0x0033, "PictureMode", N_("Picture mode"), N_("Picture mode"), pentaxId, makerTags, undefined, -1,
-     EXV_PRINT_COMBITAG(pentaxPictureMode, 3, 0)},
-    {0x0034, "DriveMode", N_("Drive mode"), N_("Drive mode"), pentaxId, makerTags, undefined, -1,
+    {0x0032, "ImageProcessing", N_("Image processing"), N_("Image processing"), IfdId::pentaxId, SectionId::makerTags,
+     undefined, -1, EXV_PRINT_COMBITAG(pentaxImageProcessing, 4, 0)},
+    {0x0033, "PictureMode", N_("Picture mode"), N_("Picture mode"), IfdId::pentaxId, SectionId::makerTags, undefined,
+     -1, EXV_PRINT_COMBITAG(pentaxPictureMode, 3, 0)},
+    {0x0034, "DriveMode", N_("Drive mode"), N_("Drive mode"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      EXV_PRINT_COMBITAG(pentaxDriveMode, 4, 0)},
     /* Some missing ! */
-    {0x0037, "ColorSpace", N_("Color space"), N_("Color space"), pentaxId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(pentaxColorSpace)},
-    {0x0038, "ImageAreaOffset", N_("Image area offset"), N_("Image area offset"), pentaxId, makerTags, unsignedLong, -1,
-     printValue},
-    {0x0039, "RawImageSize", N_("Raw image size"), N_("Raw image size"), pentaxId, makerTags, unsignedLong, -1,
-     printValue},
+    {0x0037, "ColorSpace", N_("Color space"), N_("Color space"), IfdId::pentaxId, SectionId::makerTags, unsignedShort,
+     -1, EXV_PRINT_TAG(pentaxColorSpace)},
+    {0x0038, "ImageAreaOffset", N_("Image area offset"), N_("Image area offset"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedLong, -1, printValue},
+    {0x0039, "RawImageSize", N_("Raw image size"), N_("Raw image size"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedLong, -1, printValue},
     /* Some missing ! */
-    {0x003e, "PreviewImageBorders", N_("Preview image borders"), N_("Preview image borders"), pentaxId, makerTags,
-     unsignedByte, -1, printValue},
-    {0x003f, "LensType", N_("Lens type"), N_("Lens type"), pentaxId, makerTags, unsignedByte, -1,
+    {0x003e, "PreviewImageBorders", N_("Preview image borders"), N_("Preview image borders"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedByte, -1, printValue},
+    {0x003f, "LensType", N_("Lens type"), N_("Lens type"), IfdId::pentaxId, SectionId::makerTags, unsignedByte, -1,
      printLensType},  // #816
-    {0x0040, "SensitivityAdjust", N_("Sensitivity adjust"), N_("Sensitivity adjust"), pentaxId, makerTags, unsignedLong,
-     -1, printValue},
-    {0x0041, "DigitalFilter", N_("Digital filter"), N_("Digital filter"), pentaxId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(pentaxOffOn)},
+    {0x0040, "SensitivityAdjust", N_("Sensitivity adjust"), N_("Sensitivity adjust"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedLong, -1, printValue},
+    {0x0041, "DigitalFilter", N_("Digital filter"), N_("Digital filter"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)},
     /* Some missing ! */
-    {0x0047, "Temperature", N_("Temperature"), N_("Camera temperature"), pentaxId, makerTags, signedByte, -1,
-     printTemperature},
-    {0x0048, "AELock", N_("AE lock"), N_("AE lock"), pentaxId, makerTags, unsignedShort, -1,
+    {0x0047, "Temperature", N_("Temperature"), N_("Camera temperature"), IfdId::pentaxId, SectionId::makerTags,
+     signedByte, -1, printTemperature},
+    {0x0048, "AELock", N_("AE lock"), N_("AE lock"), IfdId::pentaxId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(pentaxOffOn)},
-    {0x0049, "NoiseReduction", N_("Noise reduction"), N_("Noise reduction"), pentaxId, makerTags, unsignedShort, -1,
-     EXV_PRINT_TAG(pentaxOffOn)},
+    {0x0049, "NoiseReduction", N_("Noise reduction"), N_("Noise reduction"), IfdId::pentaxId, SectionId::makerTags,
+     unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)},
     /* Some missing ! */
     {0x004d, "FlashExposureCompensation", N_("Flash exposure compensation"), N_("Flash exposure compensation"),
-     pentaxId, makerTags, signedLong, -1, printFlashCompensation},
+     IfdId::pentaxId, SectionId::makerTags, signedLong, -1, printFlashCompensation},
     /* Some missing ! */
-    {0x004f, "ImageTone", N_("Image tone"), N_("Image tone"), pentaxId, makerTags, unsignedShort, -1,
+    {0x004f, "ImageTone", N_("Image tone"), N_("Image tone"), IfdId::pentaxId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(pentaxImageTone)},
-    {0x0050, "ColorTemperature", N_("Color temperature"), N_("Color temperature"), pentaxId, makerTags, unsignedShort,
-     -1, printValue},
+    {0x0050, "ColorTemperature", N_("Color temperature"), N_("Color temperature"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedShort, -1, printValue},
     /* Some missing ! */
-    {0x005c, "ShakeReduction", N_("Shake reduction"), N_("Shake reduction information"), pentaxId, makerTags, undefined,
+    {0x005c, "ShakeReduction", N_("Shake reduction"), N_("Shake reduction information"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, printValue},
+    {0x005d, "ShutterCount", N_("Shutter count"), N_("Shutter count"), IfdId::pentaxId, SectionId::makerTags, undefined,
+     -1, printShutterCount},
+    {0x0069, "DynamicRangeExpansion", N_("Dynamic range expansion"), N_("Dynamic range expansion"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, EXV_PRINT_COMBITAG(pentaxDynamicRangeExpansion, 4, 0)},
+    {0x0071, "HighISONoiseReduction", N_("High ISO noise reduction"), N_("High ISO noise reduction"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedByte, -1, EXV_PRINT_TAG(pentaxHighISONoiseReduction)},
+    {0x0072, "AFAdjustment", N_("AF Adjustment"), N_("AF Adjustment"), IfdId::pentaxId, SectionId::makerTags, undefined,
      -1, printValue},
-    {0x005d, "ShutterCount", N_("Shutter count"), N_("Shutter count"), pentaxId, makerTags, undefined, -1,
-     printShutterCount},
-    {0x0069, "DynamicRangeExpansion", N_("Dynamic range expansion"), N_("Dynamic range expansion"), pentaxId, makerTags,
-     undefined, -1, EXV_PRINT_COMBITAG(pentaxDynamicRangeExpansion, 4, 0)},
-    {0x0071, "HighISONoiseReduction", N_("High ISO noise reduction"), N_("High ISO noise reduction"), pentaxId,
-     makerTags, unsignedByte, -1, EXV_PRINT_TAG(pentaxHighISONoiseReduction)},
-    {0x0072, "AFAdjustment", N_("AF Adjustment"), N_("AF Adjustment"), pentaxId, makerTags, undefined, -1, printValue},
     /* Many missing ! */
-    {0x0200, "BlackPoint", N_("Black point"), N_("Black point"), pentaxId, makerTags, undefined, -1, printValue},
-    {0x0201, "WhitePoint", N_("White point"), N_("White point"), pentaxId, makerTags, undefined, -1, printValue},
-    /* Some missing ! */
-    {0x0205, "ShotInfo", N_("ShotInfo"), N_("ShotInfo"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x0206, "AEInfo", N_("AEInfo"), N_("AEInfo"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x0207, "LensInfo", N_("LensInfo"), N_("LensInfo"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x0208, "FlashInfo", N_("FlashInfo"), N_("FlashInfo"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x0209, "AEMeteringSegments", N_("AEMeteringSegments"), N_("AEMeteringSegments"), pentaxId, makerTags, undefined,
-     -1, printValue}, /* TODO: Decoding missing */
-    {0x020a, "FlashADump", N_("FlashADump"), N_("FlashADump"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x020b, "FlashBDump", N_("FlashBDump"), N_("FlashBDump"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    /* Some missing ! */
-    {0x020d, "WB_RGGBLevelsDaylight", N_("WB_RGGBLevelsDaylight"), N_("WB_RGGBLevelsDaylight"), pentaxId, makerTags,
-     undefined, -1, printValue}, /* TODO: Decoding missing */
-    {0x020e, "WB_RGGBLevelsShade", N_("WB_RGGBLevelsShade"), N_("WB_RGGBLevelsShade"), pentaxId, makerTags, undefined,
-     -1, printValue}, /* TODO: Decoding missing */
-    {0x020f, "WB_RGGBLevelsCloudy", N_("WB_RGGBLevelsCloudy"), N_("WB_RGGBLevelsCloudy"), pentaxId, makerTags,
-     undefined, -1, printValue}, /* TODO: Decoding missing */
-    {0x0210, "WB_RGGBLevelsTungsten", N_("WB_RGGBLevelsTungsten"), N_("WB_RGGBLevelsTungsten"), pentaxId, makerTags,
-     undefined, -1, printValue}, /* TODO: Decoding missing */
-    {0x0211, "WB_RGGBLevelsFluorescentD", N_("WB_RGGBLevelsFluorescentD"), N_("WB_RGGBLevelsFluorescentD"), pentaxId,
-     makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
-    {0x0212, "WB_RGGBLevelsFluorescentN", N_("WB_RGGBLevelsFluorescentN"), N_("WB_RGGBLevelsFluorescentN"), pentaxId,
-     makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
-    {0x0213, "WB_RGGBLevelsFluorescentW", N_("WB_RGGBLevelsFluorescentW"), N_("WB_RGGBLevelsFluorescentW"), pentaxId,
-     makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
-    {0x0214, "WB_RGGBLevelsFlash", N_("WB_RGGBLevelsFlash"), N_("WB_RGGBLevelsFlash"), pentaxId, makerTags, undefined,
-     -1, printValue}, /* TODO: Decoding missing */
-    {0x0215, "CameraInfo", N_("CameraInfo"), N_("CameraInfo"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x0216, "BatteryInfo", N_("BatteryInfo"), N_("BatteryInfo"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x021f, "AFInfo", N_("AFInfo"), N_("AFInfo"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x0222, "ColorInfo", N_("ColorInfo"), N_("ColorInfo"), pentaxId, makerTags, undefined, -1,
-     printValue}, /* TODO: Decoding missing */
-    {0x0229, "SerialNumber", N_("Serial Number"), N_("Serial Number"), pentaxId, makerTags, asciiString, -1,
+    {0x0200, "BlackPoint", N_("Black point"), N_("Black point"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      printValue},
+    {0x0201, "WhitePoint", N_("White point"), N_("White point"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue},
+    /* Some missing ! */
+    {0x0205, "ShotInfo", N_("ShotInfo"), N_("ShotInfo"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x0206, "AEInfo", N_("AEInfo"), N_("AEInfo"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x0207, "LensInfo", N_("LensInfo"), N_("LensInfo"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x0208, "FlashInfo", N_("FlashInfo"), N_("FlashInfo"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x0209, "AEMeteringSegments", N_("AEMeteringSegments"), N_("AEMeteringSegments"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x020a, "FlashADump", N_("FlashADump"), N_("FlashADump"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x020b, "FlashBDump", N_("FlashBDump"), N_("FlashBDump"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    /* Some missing ! */
+    {0x020d, "WB_RGGBLevelsDaylight", N_("WB_RGGBLevelsDaylight"), N_("WB_RGGBLevelsDaylight"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x020e, "WB_RGGBLevelsShade", N_("WB_RGGBLevelsShade"), N_("WB_RGGBLevelsShade"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x020f, "WB_RGGBLevelsCloudy", N_("WB_RGGBLevelsCloudy"), N_("WB_RGGBLevelsCloudy"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x0210, "WB_RGGBLevelsTungsten", N_("WB_RGGBLevelsTungsten"), N_("WB_RGGBLevelsTungsten"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x0211, "WB_RGGBLevelsFluorescentD", N_("WB_RGGBLevelsFluorescentD"), N_("WB_RGGBLevelsFluorescentD"),
+     IfdId::pentaxId, SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x0212, "WB_RGGBLevelsFluorescentN", N_("WB_RGGBLevelsFluorescentN"), N_("WB_RGGBLevelsFluorescentN"),
+     IfdId::pentaxId, SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x0213, "WB_RGGBLevelsFluorescentW", N_("WB_RGGBLevelsFluorescentW"), N_("WB_RGGBLevelsFluorescentW"),
+     IfdId::pentaxId, SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x0214, "WB_RGGBLevelsFlash", N_("WB_RGGBLevelsFlash"), N_("WB_RGGBLevelsFlash"), IfdId::pentaxId,
+     SectionId::makerTags, undefined, -1, printValue}, /* TODO: Decoding missing */
+    {0x0215, "CameraInfo", N_("CameraInfo"), N_("CameraInfo"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x0216, "BatteryInfo", N_("BatteryInfo"), N_("BatteryInfo"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x021f, "AFInfo", N_("AFInfo"), N_("AFInfo"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x0222, "ColorInfo", N_("ColorInfo"), N_("ColorInfo"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
+     printValue}, /* TODO: Decoding missing */
+    {0x0229, "SerialNumber", N_("Serial Number"), N_("Serial Number"), IfdId::pentaxId, SectionId::makerTags,
+     asciiString, -1, printValue},
     // End of list marker
-    {0xffff, "(UnknownPentaxMakerNoteTag)", "(UnknownPentaxMakerNoteTag)", N_("Unknown PentaxMakerNote tag"), pentaxId,
-     makerTags, asciiString, -1, printValue},
+    {0xffff, "(UnknownPentaxMakerNoteTag)", "(UnknownPentaxMakerNoteTag)", N_("Unknown PentaxMakerNote tag"),
+     IfdId::pentaxId, SectionId::makerTags, asciiString, -1, printValue},
 };
-
-const TagInfo* PentaxMakerNote::tagList() {
-  return tagInfo_;
-}
 
 }  // namespace Exiv2::Internal

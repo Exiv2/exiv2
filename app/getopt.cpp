@@ -83,7 +83,7 @@ int Getopt::getopt(int argc, char* const argv[], const std::string& optstring) {
   progname_ = fs::path(argv[0]).filename().string();
   Util::optind = 0;  // reset the Util::Getopt scanner
 
-  for (; !errcnt_;) {
+  while (!errcnt_) {
     int c = Util::getopt(argc, argv, optstring.c_str());
     if (c == -1) {
       break;

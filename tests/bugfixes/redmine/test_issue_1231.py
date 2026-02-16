@@ -10,8 +10,8 @@ class CheckTimeZones(metaclass=system_tests.CaseMeta):
                  "$data_path/exiv2-bug1231b.jpg"]
 
     commands = [
-        "$exiv2 -pa --grep CanonTi/i " + filenames[0],
-        "$exiv2 -pa --grep CanonTi/i " + filenames[1]
+        f"$exiv2 -pa --grep CanonTi/i {filenames[0]}",
+        f"$exiv2 -pa --grep CanonTi/i {filenames[1]}"
     ]
 
     stdout = [

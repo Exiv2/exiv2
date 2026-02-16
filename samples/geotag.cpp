@@ -1,52 +1,27 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 // Sample program to read gpx files and update images with GPS tags
 
-#include <expat.h>
 #include <exiv2/exiv2.hpp>
 
-#include <sys/stat.h>
-#include <sys/types.h>
+#include <expat.h>
 
 #include <algorithm>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 
-#if defined(__MINGW32__) || defined(__MINGW64__)
-#ifndef __MINGW__
-#define __MINGW__
-#endif
+namespace fs = std::filesystem;
+
+#ifndef _WIN32
+#define _stricmp strcasecmp
 #endif
 
-using namespace std;
-
-#if defined(_MSC_VER) || defined(__MINGW__)
-#include <windows.h>
-char* realpath(const char* file, char* path);
-#define lstat _stat
-#define stat _stat
-#if _MSC_VER < 1400
-#define strcpy_s(d, l, s) strcpy(d, s)
-#define strcat_s(d, l, s) strcat(d, s)
-#endif
-#endif
-
-#if !defined(_MSC_VER)
-#include <dirent.h>
-#include <sys/param.h>
-#include <unistd.h>
-#define stricmp strcasecmp
-#endif
-
-#ifndef _MAX_PATH
-#define _MAX_PATH 1024
-#endif
-
+namespace {
 // prototypes
 class Options;
-int getFileType(const char* path, Options& options);
-int getFileType(std::string& path, Options& options);
+int getFileType(const fs::path& path, Options& options);
 
-string getExifTime(time_t t);
+std::string getExifTime(time_t t);
 time_t parseTime(const char*, bool bAdjust = false);
 int timeZoneAdjust();
 
@@ -64,10 +39,14 @@ class Options {
   virtual ~Options() = default;
 };
 
-enum { resultOK = 0, resultSyntaxError, resultSelectFailed };
+enum {
+  resultOK = 0,
+  resultSyntaxError,
+  resultSelectFailed,
+};
 
-enum  // keyword indices
-{
+// keyword indices
+enum {
   kwHELP = 0,
   kwVERSION,
   kwDST,
@@ -77,13 +56,10 @@ enum  // keyword indices
   kwADJUST,
   kwTZ,
   kwDELTA,
-  kwMAX  // manages keyword array
-  ,
-  kwNEEDVALUE  // bogus keywords for error reporting
-  ,
-  kwSYNTAX  // -- ditto --
-  ,
-  kwNOVALUE = -kwVERBOSE  // keywords <= kwNOVALUE are flags (no value needed)
+  kwMAX,                   // manages keyword array
+  kwNEEDVALUE,             // bogus keywords for error reporting
+  kwSYNTAX,                // -- ditto --
+  kwNOVALUE = -kwVERBOSE,  // keywords <= kwNOVALUE are flags (no value needed)
 };
 
 // file types supported
@@ -103,20 +79,21 @@ class Position;
 
 // globals
 using TimeDict_t = std::map<time_t, Position>;
-using TimeDict_i = std::map<time_t, Position>::iterator;
-using strings_t = std::vector<std::string>;
+using paths_t = std::vector<fs::path>;
 const char* gDeg = nullptr;  // string "°" or "deg"
 TimeDict_t gTimeDict;
-strings_t gFiles;
+paths_t gFiles;
 
 // Position (from gpx file)
-class Position {
+class Position final {
  public:
   Position(time_t time, double lat, double lon, double ele) : time_(time), lon_(lon), lat_(lat), ele_(ele) {
   }
 
   Position() = default;
-  virtual ~Position() = default;
+  ~Position() = default;
+  Position(const Position&) = default;
+  Position& operator=(const Position&) = default;
 
   //  instance methods
   [[nodiscard]] bool good() const {
@@ -267,7 +244,7 @@ struct UserData final {
 };
 
 // XML Parser Callbacks
-static void startElement(void* userData, const char* name, const char** atts) {
+void startElement(void* userData, const char* name, const char** atts) {
   auto me = static_cast<UserData*>(userData);
   // for ( int i = 0 ; i < me->indent ; i++ ) printf(" ");
   // printf("begin %s\n",name);
@@ -290,7 +267,7 @@ static void startElement(void* userData, const char* name, const char** atts) {
   me->indent++;
 }
 
-static void endElement(void* userData, const char* name) {
+void endElement(void* userData, const char* name) {
   auto me = static_cast<UserData*>(userData);
   me->indent--;
   if (strcmp(name, "trkpt") == 0) {
@@ -375,180 +352,115 @@ time_t parseTime(const char* arg, bool bAdjust) {
       result = mktime(&T);
     }
   } catch (...) {
-  };
+  }
   return result;
 }
 
 // West of GMT is negative (PDT = Pacific Daylight = -07:00 == -25200 seconds
 int timeZoneAdjust() {
-  [[maybe_unused]] time_t now = time(nullptr);
-  int offset;
+  std::tm gmt;
+  std::tm local;
 
-#if defined(_MSC_VER) || defined(__MINGW__)
-  TIME_ZONE_INFORMATION TimeZoneInfo;
-  GetTimeZoneInformation(&TimeZoneInfo);
-  offset = -(((int)TimeZoneInfo.Bias + (int)TimeZoneInfo.DaylightBias) * 60);
-#elif defined(__CYGWIN__)
-  struct tm lcopy = *localtime(&now);
-  time_t gmt = timegm(&lcopy);  // timegm modifies lcopy
-  offset = (int)(((long signed int)gmt) - ((long signed int)now));
-#elif defined(OS_SOLARIS) || defined(__sun__)
-  struct tm local = *localtime(&now);
-  time_t local_tt = (int)mktime(&local);
-  time_t time_gmt = (int)mktime(gmtime(&now));
-  offset = time_gmt - local_tt;
+  auto now = std::time(nullptr);
+#if defined(_WIN32)
+  if (localtime_s(&local, &now) || gmtime_s(&gmt, &now))
+    return 0;
 #else
-  struct tm local = *localtime(&now);
-  offset = local.tm_gmtoff;
-
-#if EXIV2_DEBUG_MESSAGES
-  struct tm utc = *gmtime(&now);
-  printf("utc  :  offset = %6d dst = %d time = %s", 0, utc.tm_isdst, asctime(&utc));
-  printf("local:  offset = %6d dst = %d time = %s", offset, local.tm_isdst, asctime(&local));
-  printf("timeZoneAdjust = %6d\n", offset);
+  localtime_r(&now, &local);
+  gmtime_r(&now, &gmt);
 #endif
-#endif
-  return offset;
+  return std::mktime(&gmt) - std::mktime(&local);
 }
 
-string getExifTime(const time_t t) {
+std::string getExifTime(const time_t t) {
   static char result[100];
   strftime(result, sizeof(result), "%Y-%m-%d %H:%M:%S", localtime(&t));
   return result;
 }
 
-std::string makePath(const std::string& dir, const std::string& file) {
-  return dir + std::string(EXV_SEPARATOR_STR) + file;
-}
-
-const char* makePath(const char* dir, const char* file) {
-  static char result[_MAX_PATH];
-  std::string r = makePath(std::string(dir), std::string(file));
-  strcpy(result, r.c_str());
-  return result;
-}
-
 // file utilities
-bool readDir(const char* path, Options& options) {
-  bool bResult = false;
-
-#ifdef _MSC_VER
-  DWORD attrs = GetFileAttributes(path);
-  bool bOKAttrs = attrs != INVALID_FILE_ATTRIBUTES;
-  bool bIsDir = (attrs & FILE_ATTRIBUTE_DIRECTORY) ? true : false;
-
-  if (bOKAttrs && bIsDir) {
-    bResult = true;
-
-    char search[_MAX_PATH + 10];
-    strcpy_s(search, _MAX_PATH, path);
-    strcat_s(search, _MAX_PATH, "\\*");
-
-    WIN32_FIND_DATA ffd;
-    HANDLE hFind = FindFirstFile(search, &ffd);
-    BOOL bGo = hFind != INVALID_HANDLE_VALUE;
-
-    if (bGo) {
-      while (bGo) {
-        if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-          // _tprintf(TEXT("  %s   <DIR>\n"), ffd.cFileName);
-        } else {
-          std::string pathName = makePath(path, std::string(ffd.cFileName));
-          if (getFileType(pathName, options) == typeImage) {
-            gFiles.push_back(pathName);
-          }
-        }
-        bGo = FindNextFile(hFind, &ffd) != 0;
-      }
-      // CloseHandle(hFind);
-    }
-  }
-#else
-  DIR* dir = opendir(path);
-  if (dir != nullptr) {
-    bResult = true;
-    struct dirent* ent;
-
-    // print all the files and directories within directory
-    while ((ent = readdir(dir)) != nullptr) {
-      std::string pathName = makePath(path, ent->d_name);
-      struct stat buf;
-      lstat(path, &buf);
-      if (ent->d_name[0] != '.') {
-        // printf("reading %s => %s\n",ent->d_name,pathName.c_str());
-        if (getFileType(pathName, options) == typeImage) {
-          gFiles.push_back(pathName);
-        }
+bool readDir(const fs::path& path, Options& options) {
+  try {
+    for (const auto& entry : fs::directory_iterator(path)) {
+      auto pathName = entry.path();
+      if (entry.is_regular_file() && getFileType(pathName, options) == typeImage) {
+        gFiles.push_back(std::move(pathName));
       }
     }
-    closedir(dir);
+    return true;
+  } catch (const fs::filesystem_error&) {
+    return false;
   }
-#endif
-  return bResult;
 }
 
-inline size_t sip(FILE* f, char* buffer, size_t max_len, size_t len) {
-  while (!feof(f) && len < max_len && buffer[len - 1] != '>')
-    buffer[len++] = fgetc(f);
+inline size_t sip(std::ifstream& f, std::vector<char>& buffer, size_t len) {
+  while (f && len < buffer.size() && buffer[len - 1] != '>') {
+    char c;
+    f.get(c);
+    buffer[len++] = c;
+  }
   return len;
 }
 
-bool readXML(const char* path, Options& options) {
-  FILE* f = fopen(path, "r");
-  XML_Parser parser = XML_ParserCreate(nullptr);
-  bool bResult = f && parser;
-  if (bResult) {
-    char buffer[8 * 1024];
-    UserData me(options);
-
-    XML_SetUserData(parser, &me);
-    XML_SetElementHandler(parser, startElement, endElement);
-    XML_SetCharacterDataHandler(parser, charHandler);
-
-    // a little sip at the data
-    size_t len = fread(buffer, 1, sizeof(buffer) - 100, f);
-    const char* lead = "<?xml";
-    bResult = strncmp(lead, buffer, strlen(lead)) == 0;
-
-    // swallow it
-    if (bResult) {
-      len = sip(f, buffer, sizeof buffer, len);
-      bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
-    }
-
-    // drink the rest of the file
-    while (bResult && len != 0) {
-      len = fread(buffer, 1, sizeof(buffer) - 100, f);
-      len = sip(f, buffer, sizeof buffer, len);
-      bResult = XML_Parse(parser, buffer, static_cast<int>(len), len == 0) == XML_STATUS_OK;
-    };
+bool readXML(const fs::path& path, Options& options) {
+  std::ifstream file(path);
+  if (!file) {
+    return false;
   }
 
-  if (f)
-    fclose(f);
-  if (parser)
-    XML_ParserFree(parser);
+  XML_Parser parser = XML_ParserCreate(nullptr);
+  if (!parser) {
+    return false;
+  }
 
+  bool bResult = true;
+  std::vector<char> buffer(8 * 1024);
+  UserData me(options);
+
+  XML_SetUserData(parser, &me);
+  XML_SetElementHandler(parser, startElement, endElement);
+  XML_SetCharacterDataHandler(parser, charHandler);
+
+  // A little sip at the data
+  file.read(buffer.data(), buffer.size() - 100);
+  std::streamsize len = file.gcount();
+  const char* lead = "<?xml";
+  bResult = len > 0 && strncmp(lead, buffer.data(), strlen(lead)) == 0;
+
+  // Swallow it
+  if (bResult) {
+    len = sip(file, buffer, len);
+    bResult = XML_Parse(parser, buffer.data(), static_cast<int>(len), len == 0) == XML_STATUS_OK;
+  }
+
+  // Drink the rest of the file
+  while (bResult && len > 0) {
+    file.read(buffer.data(), buffer.size() - 100);
+    len = file.gcount();
+    len = sip(file, buffer, len);
+    bResult = XML_Parse(parser, buffer.data(), static_cast<int>(len), len == 0) == XML_STATUS_OK;
+  }
+
+  XML_ParserFree(parser);
   return bResult;
 }
 
-bool readImage(const char* path, Options& /* options */) {
+bool readImage(const fs::path& path, Options& /* options */) {
   using namespace Exiv2;
   bool bResult = false;
 
   try {
-    Image::UniquePtr image = ImageFactory::open(path);
-    if (image.get()) {
+    if (auto image = ImageFactory::open(path)) {
       image->readMetadata();
       ExifData& exifData = image->exifData();
       bResult = !exifData.empty();
     }
   } catch (...) {
-  };
+  }
   return bResult;
 }
 
-time_t readImageTime(const std::string& path, std::string* pS = nullptr) {
+time_t readImageTime(const fs::path& path, std::string* pS = nullptr) {
   using namespace Exiv2;
 
   time_t result = 0;
@@ -559,8 +471,7 @@ time_t readImageTime(const std::string& path, std::string* pS = nullptr) {
   for (size_t i = 0; !result && dateStrings[i]; i++) {
     const char* dateString = dateStrings[i];
     try {
-      Image::UniquePtr image = ImageFactory::open(path);
-      if (image.get()) {
+      if (auto image = ImageFactory::open(path)) {
         image->readMetadata();
         ExifData& exifData = image->exifData();
         //  printf("%s => %s\n",dateString, exifData[dateString].toString().c_str());
@@ -569,7 +480,7 @@ time_t readImageTime(const std::string& path, std::string* pS = nullptr) {
           *pS = exifData[dateString].toString();
       }
     } catch (...) {
-    };
+    }
   }
 
   return result;
@@ -584,29 +495,26 @@ bool sina(const char* s, const char** a) {
     const char* A = a[i];
     while (*A == '-')
       A++;
-    bResult = stricmp(s, A) == 0;
+    bResult = _stricmp(s, A) == 0;
     i++;
   }
   return bResult;
 }
 
-int readFile(const char* path, const Options& /* options */) {
-  FILE* f = fopen(path, "r");
-  int nResult = f ? typeFile : typeUnknown;
-  if (f) {
-    const char* ext = strstr(path, ".");
-    if (ext) {
-      const char* docs[] = {".doc", ".txt", nullptr};
-      const char* code[] = {".cpp", ".h", ".pl", ".py", ".pyc", nullptr};
-      if (sina(ext, docs))
-        nResult = typeDoc;
-      if (sina(ext, code))
-        nResult = typeCode;
-    }
-    fclose(f);
+int readFile(const fs::path& path, const Options& /* options */) {
+  if (!fs::exists(path)) {
+    return typeUnknown;
   }
 
-  return nResult;
+  for (auto doc : {".doc", ".txt"})
+    if (path.extension() == doc)
+      return typeDoc;
+
+  for (auto code : {".cpp", ".h", ".pl", ".py", ".pyc"})
+    if (path.extension() == code)
+      return typeCode;
+
+  return typeFile;
 }
 
 Position* searchTimeDict(TimeDict_t& td, const time_t& time, long long delta) {
@@ -614,7 +522,7 @@ Position* searchTimeDict(TimeDict_t& td, const time_t& time, long long delta) {
   for (int t = 0; !result && t < delta; t++) {
     for (int x = 0; !result && x < 2; x++) {
       int T = t * ((x == 0) ? -1 : 1);
-      if (td.count(time + T)) {
+      if (td.contains(time + T)) {
         result = &td[time + T];
         result->delta(T);
       }
@@ -623,14 +531,14 @@ Position* searchTimeDict(TimeDict_t& td, const time_t& time, long long delta) {
   return result;
 }
 
-int getFileType(std::string& path, Options& options) {
-  return getFileType(path.c_str(), options);
-}
-int getFileType(const char* path, Options& options) {
-  return readXML(path, options)     ? typeXML
-         : readDir(path, options)   ? typeDirectory
-         : readImage(path, options) ? typeImage
-                                    : readFile(path, options);
+int getFileType(const fs::path& path, Options& options) {
+  if (readXML(path, options))
+    return typeXML;
+  if (readDir(path, options))
+    return typeDirectory;
+  if (readImage(path, options))
+    return typeImage;
+  return readFile(path, options);
 }
 
 int version(const char* program) {
@@ -685,24 +593,19 @@ int parseTZ(const char* adjust) {
   try {
     sscanf(adjust, "%d%c%d", &h, &c, &m);
   } catch (...) {
-  };
+  }
 
   return (3600 * h) + (60 * m);
 }
 
-bool mySort(const std::string& a, const std::string& b) {
+bool mySort(const fs::path& a, const fs::path& b) {
   time_t A = readImageTime(a);
   time_t B = readImageTime(b);
   return (A < B);
 }
+}  // namespace
 
 int main(int argc, const char* argv[]) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   int result = 0;
   const char* program = argv[0];
 
@@ -726,7 +629,7 @@ int main(int argc, const char* argv[]) {
   keywords[kwTZ] = "tz";
   keywords[kwDELTA] = "delta";
 
-  map<std::string, string> shorts;
+  std::map<std::string, std::string> shorts;
   shorts["-?"] = "-help";
   shorts["-h"] = "-help";
   shorts["-v"] = "-verbose";
@@ -749,7 +652,7 @@ int main(int argc, const char* argv[]) {
 
   for (int i = 1; !result && i < argc; i++) {
     const char* arg = argv[i++];
-    if (shorts.count(arg))
+    if (shorts.contains(arg))
       arg = shorts[arg].c_str();
 
     const char* value = argv[i];
@@ -800,13 +703,16 @@ int main(int argc, const char* argv[]) {
         if (options.verbose)
           printf("%s %s ", arg, types[type]);
         if (type == typeImage) {
-          time_t t = readImageTime(std::string(arg));
-          auto p = std::filesystem::absolute(std::filesystem::path(arg));
-          std::string path = p.string();
-          if (t && !path.empty()) {
+          time_t t = readImageTime(fs::path(arg));
+          auto p = fs::absolute(fs::path(arg));
+          if (t && !p.empty()) {
             if (options.verbose)
-              printf("%s %ld %s", path.c_str(), static_cast<long int>(t), asctime(localtime(&t)));
-            gFiles.push_back(path);
+#ifdef _WIN32
+              printf("%ls %ld %s", p.c_str(), static_cast<long int>(t), asctime(localtime(&t)));
+#else
+              printf("%s %ld %s", p.c_str(), static_cast<long int>(t), asctime(localtime(&t)));
+#endif
+            gFiles.push_back(std::move(p));
           }
         }
         if (type == typeUnknown) {
@@ -843,7 +749,7 @@ int main(int argc, const char* argv[]) {
     /*
             if ( options.verbose ) {
                 printf("Time Dictionary\n");
-                for ( TimeDict_i it = gTimeDict.begin() ;  it != gTimeDict.end() ; it++ ) {
+                for (auto it = gTimeDict.begin() ;  it != gTimeDict.end() ; it++ ) {
                     std::string sTime = getExifTime(it->first);
                     Position*   pPos  = &it->second;
                     std::string sPos  = Position::toExifString(pPos->lat(),false,true)
@@ -859,8 +765,7 @@ int main(int argc, const char* argv[]) {
       try {
         time_t t = readImageTime(path, &stamp);
         Position* pPos = searchTimeDict(gTimeDict, t, Position::deltaMax_);
-        Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
-        if (image.get()) {
+        if (auto image = Exiv2::ImageFactory::open(path)) {
           image->readMetadata();
           Exiv2::ExifData& exifData = image->exifData();
           if (pPos) {
@@ -880,15 +785,23 @@ int main(int argc, const char* argv[]) {
             exifData["Exif.GPSInfo.GPSTimeStamp"] = Position::toExifTimeStamp(stamp);
             exifData["Exif.Image.GPSTag"] = 4908;
 
+#ifdef _WIN32
+            printf("%ls %s % 2d\n", path.c_str(), pPos->toString().c_str(), pPos->delta());
+#else
             printf("%s %s % 2d\n", path.c_str(), pPos->toString().c_str(), pPos->delta());
+#endif
           } else {
+#ifdef _WIN32
+            printf("%ls *** not in time dict ***\n", path.c_str());
+#else
             printf("%s *** not in time dict ***\n", path.c_str());
+#endif
           }
           if (!options.dryrun)
             image->writeMetadata();
         }
       } catch (...) {
-      };
+      }
     }
   }
 

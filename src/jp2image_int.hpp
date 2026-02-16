@@ -3,6 +3,7 @@
 #ifndef JP2IMAGE_INT_HPP
 #define JP2IMAGE_INT_HPP
 
+#include <array>
 #include <cstdint>
 #include <vector>
 
@@ -17,17 +18,18 @@ struct Jp2ImageHeaderBox {
   uint32_t imageHeight;
   uint32_t imageWidth;
   uint16_t componentCount;
-  uint8_t bpc;   //<! Bits per component
-  uint8_t c;     //<! Compression type
-  uint8_t unkC;  //<! Colourspace unknown
-  uint8_t ipr;   //<! Intellectual property
+  uint8_t bpc;   //!< Bits per component
+  uint8_t c;     //!< Compression type
+  uint8_t unkC;  //!< Colourspace unknown
+  uint8_t ipr;   //!< Intellectual property
 };
 
 struct Jp2UuidBox {
-  uint8_t uuid[16];
+  std::array<uint8_t, 16> uuid;
 };
 
 constexpr uint32_t brandJp2{0x6a703220};
+constexpr uint32_t brandJph{0x6a706820};
 
 /// @brief Determines if the File Type box is valid
 bool isValidBoxFileType(const std::vector<std::uint8_t>& boxData);

@@ -3,11 +3,13 @@
 // included header files
 #include "cr2image.hpp"
 
+#include "basicio.hpp"
 #include "config.h"
 #include "cr2header_int.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 
@@ -42,14 +44,14 @@ uint32_t Cr2Image::pixelHeight() const {
   return 0;
 }
 
-void Cr2Image::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) {
+void Cr2Image::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   io_->seek(0, BasicIo::beg);
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }
 
-void Cr2Image::setComment(std::string_view /*comment*/) {
+void Cr2Image::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "CR2"));
 }
@@ -78,18 +80,16 @@ void Cr2Image::writeMetadata() {
   std::cerr << "Writing CR2 file " << io_->path() << "\n";
 #endif
   ByteOrder bo = byteOrder();
-  byte* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
-  if (io_->open() == 0) {
-    // Ensure that this is the correct image type
-    if (isCr2Type(*io_, false)) {
-      pData = io_->mmap(true);
-      size = io_->size();
-      Internal::Cr2Header cr2Header;
-      if (0 == cr2Header.read(pData, 16)) {
-        bo = cr2Header.byteOrder();
-      }
+  // Ensure that this is the correct image type
+  if (io_->open() == 0 && isCr2Type(*io_, false)) {
+    pData = io_->mmap(true);
+    size = io_->size();
+    Internal::Cr2Header cr2Header;
+    if (0 == cr2Header.read(pData, 16)) {
+      bo = cr2Header.byteOrder();
     }
   }
   if (bo == invalidByteOrder) {
@@ -105,26 +105,24 @@ ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
                                             Internal::TiffMapping::findDecoder, &cr2Header);
 }
 
-WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
-                              const ExifData& exifData, const IptcData& iptcData, const XmpData& xmpData) {
-  // Copy to be able to modify the Exif data
-  ExifData ed = exifData;
-
+WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
+                              const IptcData& iptcData, const XmpData& xmpData) {
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
-      Internal::panaRawId,
+      IfdId::panaRawId,
   };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
-    ed.erase(std::remove_if(ed.begin(), ed.end(), Internal::FindExifdatum(filteredIfd)), ed.end());
+    exifData.erase(std::remove_if(exifData.begin(), exifData.end(), Internal::FindExifdatum(filteredIfd)),
+                   exifData.end());
   }
 
   auto header = Internal::Cr2Header(byteOrder);
   Internal::OffsetWriter offsetWriter;
   offsetWriter.setOrigin(Internal::OffsetWriter::cr2RawIfdOffset, Internal::Cr2Header::offset2addr(), byteOrder);
-  return Internal::TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Internal::Tag::root,
+  return Internal::TiffParserWorker::encode(io, pData, size, exifData, iptcData, xmpData, Internal::Tag::root,
                                             Internal::TiffMapping::findEncoder, &header, &offsetWriter);
 }
 
@@ -133,7 +131,7 @@ WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<Cr2Image>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

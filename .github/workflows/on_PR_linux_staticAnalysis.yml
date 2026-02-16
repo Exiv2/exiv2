@@ -1,5 +1,9 @@
 name: On PRs - Linux - Static Analysis
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   pull_request:
@@ -8,23 +12,24 @@ on:
 
 jobs:
   special_pvsStudio:
-    name: 'Ubuntu 20.04 - GCC - Static Analyzer: PVS-Studio'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC - Static Analyzer: PVS-Studio'
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
+          persist-credentials: false
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          pip3 install conan==1.45.0
+          python3 -m pip install conan==1.*
           sudo add-apt-repository ppa:ubuntu-lxc/daily -y
           wget -q -O - https://files.pvs-studio.com/etc/pubkey.txt |sudo apt-key add -
           sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.pvs-studio.com/etc/viva64.list
-          sudo apt-get update -qq
-          sudo apt-get install -qq pvs-studio
+          sudo apt update -qq
+          sudo apt install -qq pvs-studio
 
       - name: Conan common config
         run: |
@@ -40,19 +45,7 @@ jobs:
 
       - name: Configure
         run: |
-          cd build && \
-          cmake -DCMAKE_BUILD_TYPE=Debug \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DBUILD_WITH_COVERAGE=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-            .. \
+          cmake --preset linux-debug -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Static Analysis
         env:
@@ -64,10 +57,10 @@ jobs:
           pvs-studio-analyzer analyze -l PVS_license.lic -o pvsStudio.log -j4 --disableLicenseExpirationCheck
           plog-converter -a GA:1,2 -d V1042 -t fullhtml pvsStudio.log -o pvsReportHtml
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v6
         with:
           name: static_analysis
           path: build/pvsReportHtml
           retention-days: 7
-          
-          
+
+

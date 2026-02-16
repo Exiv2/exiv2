@@ -14,7 +14,7 @@ using namespace Exiv2;
 // More info about tm : http://www.cplusplus.com/reference/ctime/tm/
 
 TEST(ExivTime, getsTimeFromValidString) {
-  struct tm tmInstance;
+  tm tmInstance;
   ASSERT_EQ(0, exifTime("2007:05:24 12:31:55", &tmInstance));
   ASSERT_EQ(107, tmInstance.tm_year);  // Years since 1900
   ASSERT_EQ(4, tmInstance.tm_mon);
@@ -25,7 +25,7 @@ TEST(ExivTime, getsTimeFromValidString) {
 }
 
 TEST(ExivTime, doesNotGetTimeWithBadFormedString) {
-  struct tm tmInstance;
+  tm tmInstance;
   ASSERT_EQ(1, exifTime("007:a5:24 aa:bb:cc", &tmInstance));
 }
 
@@ -37,7 +37,7 @@ TEST(DataBuf, defaultInstanceIsEmpty) {
 TEST(DataBuf, allocatesDataWithNonEmptyConstructor) {
   DataBuf instance(5);
   ASSERT_NE(nullptr, instance.c_data());
-  ASSERT_EQ(5, instance.size());
+  ASSERT_EQ(5u, instance.size());
 }
 
 TEST(DataBuf, canBeConstructedFromExistingData) {
@@ -49,20 +49,20 @@ TEST(DataBuf, canBeConstructedFromExistingData) {
 TEST(DataBuf, tryingToAccessTooFarElementThrows) {
   const std::array<byte, 4> data{'h', 'o', 'l', 'a'};
   DataBuf instance(data.data(), data.size());
-  ASSERT_THROW([[maybe_unused]] auto d = instance.data(4), std::out_of_range);
-  ASSERT_THROW([[maybe_unused]] auto d = instance.c_data(4), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.data(5), std::out_of_range);
+  ASSERT_THROW([[maybe_unused]] auto d = instance.c_data(5), std::out_of_range);
 }
 
-TEST(DataBuf, read_uintFunctionsWorksOnExistingData) {
+TEST(DataBuf, readUintFunctionsWorksOnExistingData) {
   const std::array<byte, 8> data{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
   DataBuf instance(data.data(), data.size());
   ASSERT_EQ(data[0], instance.read_uint8(0));
   ASSERT_EQ(data[1], instance.read_uint16(0, bigEndian));
-  ASSERT_EQ(0x00010203, instance.read_uint32(0, bigEndian));
-  ASSERT_EQ(0x0001020304050607, instance.read_uint64(0, bigEndian));
+  ASSERT_EQ(0x00010203u, instance.read_uint32(0, bigEndian));
+  ASSERT_EQ(0x0001020304050607u, instance.read_uint64(0, bigEndian));
 }
 
-TEST(DataBuf, read_uintFunctionsThrowsOnTooFarElements) {
+TEST(DataBuf, readUintFunctionsThrowsOnTooFarElements) {
   const std::array<byte, 8> data{0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
   DataBuf instance(data.data(), data.size());
   ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint8(data.size()), std::out_of_range);
@@ -71,23 +71,23 @@ TEST(DataBuf, read_uintFunctionsThrowsOnTooFarElements) {
   ASSERT_THROW([[maybe_unused]] auto d = instance.read_uint64(data.size(), bigEndian), std::out_of_range);
 }
 
-TEST(DataBuf, write_uintFunctionsWorksWhenThereIsEnoughData) {
+TEST(DataBuf, writeUintFunctionsWorksWhenThereIsEnoughData) {
   DataBuf instance(8);
   std::uint64_t val{0x0102030405060708};
   ASSERT_NO_THROW(instance.write_uint8(0, (val >> 56)));
   ASSERT_EQ(0x01, instance.read_uint8(0));
 
   ASSERT_NO_THROW(instance.write_uint16(0, (val >> 48), bigEndian));
-  ASSERT_EQ(0x0102, instance.read_uint16(0, bigEndian));
+  ASSERT_EQ(0x0102u, instance.read_uint16(0, bigEndian));
 
   ASSERT_NO_THROW(instance.write_uint32(0, (val >> 32), bigEndian));
-  ASSERT_EQ(0x01020304, instance.read_uint32(0, bigEndian));
+  ASSERT_EQ(0x01020304u, instance.read_uint32(0, bigEndian));
 
   ASSERT_NO_THROW(instance.write_uint64(0, val, bigEndian));
   ASSERT_EQ(val, instance.read_uint64(0, bigEndian));
 }
 
-TEST(DataBuf, write_uintFunctionsThrowsIfTryingToWriteOutOfBounds) {
+TEST(DataBuf, writeUintFunctionsThrowsIfTryingToWriteOutOfBounds) {
   DataBuf instance(8);
   std::uint64_t val{0x0102030405060708};
   ASSERT_THROW(instance.write_uint8(8, (val >> 56)), std::out_of_range);
@@ -97,7 +97,7 @@ TEST(DataBuf, write_uintFunctionsThrowsIfTryingToWriteOutOfBounds) {
 }
 
 // Test methods like DataBuf::read_uint32 and DataBuf::write_uint32.
-TEST(DataBuf, read_write_endianess) {
+TEST(DataBuf, readWriteEndianess) {
   DataBuf buf(4 + 1 + 2 + 4 + 8);
 
   // Big endian.
@@ -110,7 +110,7 @@ TEST(DataBuf, read_write_endianess) {
   ASSERT_EQ(0, buf.cmpBytes(0, expected_le, buf.size()));
   ASSERT_EQ(buf.read_uint8(4), 0x01);
   ASSERT_EQ(buf.read_uint16(4 + 1, bigEndian), 0x0203);
-  ASSERT_EQ(buf.read_uint32(4 + 1 + 2, bigEndian), 0x04050607);
+  ASSERT_EQ(buf.read_uint32(4 + 1 + 2, bigEndian), 0x04050607u);
   ASSERT_EQ(buf.read_uint64(4 + 1 + 2 + 4, bigEndian), 0x08090a0b0c0d0e0fULL);
 
   // Little endian.
@@ -123,7 +123,7 @@ TEST(DataBuf, read_write_endianess) {
   ASSERT_EQ(0, buf.cmpBytes(0, expected_be, buf.size()));
   ASSERT_EQ(buf.read_uint8(4), 0x01);
   ASSERT_EQ(buf.read_uint16(4 + 1, littleEndian), 0x0203);
-  ASSERT_EQ(buf.read_uint32(4 + 1 + 2, littleEndian), 0x04050607);
+  ASSERT_EQ(buf.read_uint32(4 + 1 + 2, littleEndian), 0x04050607u);
   ASSERT_EQ(buf.read_uint64(4 + 1 + 2 + 4, littleEndian), 0x08090a0b0c0d0e0fULL);
 }
 
@@ -227,20 +227,20 @@ TEST(URational, readRationalFromStream) {
   URational r;
   std::istringstream input("1/2");
   input >> r;
-  ASSERT_EQ(1, r.first);
-  ASSERT_EQ(2, r.second);
+  ASSERT_EQ(1u, r.first);
+  ASSERT_EQ(2u, r.second);
 }
 
 // --------------------
 
 TEST(parseUint32, withNumberInRangeReturnsOK) {
   bool ok{false};
-  ASSERT_EQ(123456, parseUint32("123456", ok));
+  ASSERT_EQ(123456u, parseUint32("123456", ok));
   ASSERT_TRUE(ok);
 }
 
 TEST(parseUint32, withNumberOutOfRangeReturnsFalse) {
   bool ok{false};
-  ASSERT_EQ(0, parseUint32("4333333333", ok));
+  ASSERT_EQ(0u, parseUint32("4333333333", ok));
   ASSERT_FALSE(ok);
 }

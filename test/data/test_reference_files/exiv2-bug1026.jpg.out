@@ -115,7 +115,7 @@ Exif.NikonFl3.ExternalFlashFlags             Byte        1  0  Fired
 Exif.NikonFl3.FlashFocalLength               Byte        1  0  n/a
 Exif.NikonFl3.RepeatingFlashRate             Byte        1  0  n/a
 Exif.NikonFl3.RepeatingFlashCount            Byte        1  0  n/a
-Exif.NikonFl3.FlashGNDistance                Byte        1  0  None
+Exif.NikonFl3.FlashGNDistance                Byte        1  0  n/a
 Exif.NikonFl3.FlashColorFilter               Byte        1  0  None
 Exif.NikonMe.Version                         Undefined   4  48 49 48 48  1.00
 Exif.NikonMe.MultiExposureMode               Long        1  0  Off
@@ -124,7 +124,7 @@ Exif.NikonMe.MultiExposureAutoGain           Long        1  0  Off
 Exif.Nikon3.HighISONoiseReduction            Short       1  4  Normal
 Exif.NikonAf2.Version                        Undefined   4  48 49 48 48  1.00
 Exif.NikonAf2.ContrastDetectAF               Byte        1  0  Off
-Exif.NikonAf2.AFAreaMode                     Byte        1  0  0
+Exif.NikonAf2.AFAreaMode                     Byte        1  0  Single-point AF
 Exif.NikonAf2.PhaseDetectAF                  Byte        1  0  Off
 Exif.NikonAf2.PrimaryAFPoint                 Byte        1  0  0
 Exif.NikonAf2.AFPointsUsed                   Byte        7  0 0 0 0 0 0 0  0 0 0 0 0 0 0

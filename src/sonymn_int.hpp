@@ -5,11 +5,20 @@
 
 // *****************************************************************************
 // included header files
-#include "tiffcomposite_int.hpp"
+#include "tifffwd_int.hpp"
+#include "types.hpp"
+
+#include <cstddef>
+#include <cstdint>
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -17,26 +26,92 @@ namespace Exiv2::Internal {
 class SonyMakerNote {
  public:
   //! Return read-only list of built-in Sony tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in Sony Standard Camera Settings tags
-  static const TagInfo* tagListCs();
+  static constexpr auto tagListCs() {
+    return tagInfoCs_;
+  }
   //! Return read-only list of built-in Sony Standard Camera Settings version 2 tags
-  static const TagInfo* tagListCs2();
+  static constexpr auto tagListCs2() {
+    return tagInfoCs2_;
+  }
   //! Return read-only list of built-in Sony FocusPosition tags
-  static const TagInfo* tagListFp();
+  static constexpr auto tagListFp() {
+    return tagInfoFp_;
+  }
   //! Return read-only list of built-in Sony Misc1 tags (Tag 9403)
-  static const TagInfo* tagListSonyMisc1();
+  static constexpr auto tagListSonyMisc1() {
+    return tagInfoSonyMisc1_;
+  }
   //! Return read-only list of built-in Sony Misc2b tags (Tag 9404)
-  static const TagInfo* tagListSonyMisc2b();
+  static constexpr auto tagListSonyMisc2b() {
+    return tagInfoSonyMisc2b_;
+  }
   //! Return read-only list of built-in Sony Misc3c tags (Tag 9400)
-  static const TagInfo* tagListSonyMisc3c();
+  static constexpr auto tagListSonyMisc3c() {
+    return tagInfoSonyMisc3c_;
+  }
   //! Return read-only list of built-in Sony SInfo1 tags (Tag 3000)
-  static const TagInfo* tagListSonySInfo1();
+  static constexpr auto tagListSonySInfo1() {
+    return tagInfoSonySInfo1_;
+  }
   //! Return read-only list of built-in Sony 2010e tags (Tag 2010)
-  static const TagInfo* tagList2010e();
+  static constexpr auto tagList2010e() {
+    return tagInfo2010e_;
+  }
 
   //! @name Print functions for Sony %MakerNote tags
   //@{
+  //! Print Sony white balance fine tune values
+  static std::ostream& printWhiteBalanceFineTune(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony multi-burst mode values
+  static std::ostream& printMultiBurstMode(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony multi-burst size values
+  static std::ostream& printMultiBurstSize(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony HDR values
+  static std::ostream& printAutoHDRStd(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony white balance shift amber/blue or green/magenta values
+  static std::ostream& printWBShiftABGM(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focus mode 2 values
+  static std::ostream& printFocusMode2(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus area mode Settings values
+  static std::ostream& printAFAreaModeSetting(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony flexible spot position values
+  static std::ostream& printFlexibleSpotPosition(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus point selected values
+  static std::ostream& printAFPointSelected(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus points used values
+  static std::ostream& printAFPointsUsed(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus tracking values
+  static std::ostream& printAFTracking(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focal plane auto-focus points used values
+  static std::ostream& printFocalPlaneAFPointsUsed(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony white balance shift amber/blue and green/magenta precise values
+  static std::ostream& printWBShiftABGMPrecise(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony variable low pass filter values
+  static std::ostream& printExposureStandardAdjustment(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony pixel shift information values
+  static std::ostream& printPixelShiftInfo(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focus frame size values
+  static std::ostream& printFocusFrameSize(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony color temperature values
+  static std::ostream& printColorTemperature(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony color compensation filter values
+  static std::ostream& printColorCompensationFilter(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony lens specification values
+  static std::ostream& printLensSpec(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focus mode values
+  static std::ostream& printFocusMode(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony full and preview image size values
+  static std::ostream& printImageSize(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony auto-focus area mode values
+  static std::ostream& printAFMode(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony focus mode 3 values
+  static std::ostream& printFocusMode3(std::ostream&, const Value&, const ExifData*);
+  //! Print Sony high ISO noise reduction 2 values
+  static std::ostream& printHighISONoiseReduction2(std::ostream&, const Value&, const ExifData*);
   //! Print Sony SonyMisc1 CameraTemperature values (in degrees Celsius)
   static std::ostream& printSonyMisc1CameraTemperature(std::ostream&, const Value&, const ExifData*);
   //! Print Sony2Fp Focus Mode value
@@ -59,10 +134,6 @@ class SonyMakerNote {
   static std::ostream& printSonyMisc3cModelReleaseYear(std::ostream&, const Value&, const ExifData* metadata);
   //! Print SonyMisc3c quality 2 value
   static std::ostream& printSonyMisc3cQuality2(std::ostream&, const Value&, const ExifData* metadata);
-  //! Print Sony Camera Model
-  static std::ostream& print0xb000(std::ostream&, const Value&, const ExifData*);
-  //! Print Full and Preview Image size
-  static std::ostream& printImageSize(std::ostream&, const Value&, const ExifData*);
 
  private:
   //! Tag information
@@ -81,6 +152,7 @@ class SonyMakerNote {
 DataBuf sonyTagDecipher(uint16_t, const byte*, size_t, TiffComponent*);
 DataBuf sonyTagEncipher(uint16_t, const byte*, size_t, TiffComponent*);
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef SONYMN_INT_HPP_

@@ -9,7 +9,11 @@
 #include "futils.hpp"
 #include "image.hpp"
 
+#include <cstring>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 // *****************************************************************************
 // class member definitions
@@ -31,7 +35,7 @@ void TgaImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "TGA"));
 }
 
-void TgaImage::setComment(std::string_view /*comment*/) {
+void TgaImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TGA"));
 }
@@ -91,7 +95,7 @@ void TgaImage::writeMetadata() {
 Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<TgaImage>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
@@ -99,11 +103,11 @@ Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool /*create*/) {
 bool isTgaType(BasicIo& iIo, bool /*advance*/) {
   // not all TARGA files have a signature string, so first just try to match the file name extension
   const std::string& path = iIo.path();
-  if (path.rfind(".tga") != std::string::npos || path.rfind(".TGA") != std::string::npos) {
+  if (path.ends_with(".tga") || path.ends_with(".TGA")) {
     return true;
   }
   byte buf[26];
-  long curPos = iIo.tell();
+  const size_t curPos = iIo.tell();
   if (curPos < 26)
     return false;
 

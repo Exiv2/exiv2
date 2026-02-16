@@ -1,0 +1,64 @@
+@PACKAGE_INIT@
+
+cmake_minimum_required(VERSION 3.12)
+include(CMakeFindDependencyMacro)
+
+if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
+  if(@EXIV2_ENABLE_PNG@) # if(EXIV2_ENABLE_PNG)
+    find_dependency(ZLIB REQUIRED)
+  endif()
+
+  if(@EXIV2_ENABLE_BMFF@ AND @EXIV2_ENABLE_BROTLI@) # if(EXIV2_ENABLE_BMFF AND EXIV2_ENABLE_BROTLI)
+    find_package(Brotli QUIET)
+    if (NOT Brotli_FOUND)
+      message(FATAL_ERROR
+        "Static builds of exiv2 require Brotli. "
+        "Please provide FindBrotli.cmake on CMAKE_MODULE_PATH "
+        "or point to the cmake/ dir in the exiv2 source tree.")
+    endif()
+  endif()
+
+  if(@EXIV2_ENABLE_WEBREADY@) # if(EXIV2_ENABLE_WEBREADY)
+    if(@EXIV2_ENABLE_CURL@) # if(EXIV2_ENABLE_CURL)
+      find_dependency(CURL REQUIRED)
+    endif()
+  endif()
+
+  if(@EXIV2_ENABLE_XMP@) # if(EXIV2_ENABLE_XMP)
+    find_dependency(EXPAT REQUIRED)
+  elseif(@EXIV2_ENABLE_EXTERNAL_XMP@) # elseif(EXIV2_ENABLE_EXTERNAL_XMP)
+    find_dependency(XmpSdk REQUIRED)
+  endif()
+
+  if(@EXIV2_ENABLE_NLS@) # if(EXIV2_ENABLE_NLS)
+    find_dependency(Intl REQUIRED)
+  endif()
+
+  if(@EXV_HAVE_LIBICONV@) # if(EXV_HAVE_LIBICONV)
+    find_dependency(Iconv REQUIRED)
+  endif()
+
+  if(@EXIV2_ENABLE_INIH@) # if(EXIV2_ENABLE_INIH)
+    find_package(inih QUIET)
+    if (NOT inih_FOUND)
+      message(FATAL_ERROR
+        "Static builds of exiv2 require inih. "
+        "Please provide Findinih.cmake on CMAKE_MODULE_PATH "
+        "or point to the cmake/ dir in the exiv2 source tree.")
+    endif()
+  endif()
+
+  if(NOT "@EXV_HAVE_STD_FORMAT@") # if(NOT EXV_HAVE_STD_FORMAT)
+    find_dependency(fmt "5.0.0" REQUIRED)
+  endif()
+endif()
+
+include("${CMAKE_CURRENT_LIST_DIR}/exiv2-targets.cmake")
+
+check_required_components(exiv2)
+
+# compatibility with non-aliased users
+if(NOT TARGET exiv2lib)
+  add_library(exiv2lib ALIAS Exiv2::exiv2lib)
+endif()
+

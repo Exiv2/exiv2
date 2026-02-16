@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef FUTILS_HPP_
-#define FUTILS_HPP_
+#ifndef EXIV2_FUTILS_HPP
+#define EXIV2_FUTILS_HPP
 
-#include "config.h"
 #include "exiv2lib_export.h"
 
 #include <string>
@@ -18,7 +17,7 @@ enum Protocol { pFile = 0, pHttp, pFtp, pHttps, pSftp, pFileUri, pDataUri, pStdi
 // free functions
 /*!
   @brief  Return the value of environmental variable.
-  @param[in]  var The name of environmental variable. Must be a member of the enumeration @ref EnVar.
+  @param[in]  env_var The name of environmental variable. Must be a member of the enumeration @ref EnVar.
   @return the value of environmental variable. If it's empty, the default value is returned.
   @throws std::out_of_range when an unexpected EnVar is given as input.
  */
@@ -31,7 +30,7 @@ EXIV2API std::string getEnv(int env_var);
   @note Source: http://www.geekhideout.com/urlcode.shtml
   @todo This function can probably be hidden into the implementation details
  */
-EXIV2API std::string urlencode(std::string_view str);
+EXIV2API std::string urlencode(const std::string& str);
 
 /*!
   @brief Like urlencode(char* str) but accept the input url in the std::string and modify it.
@@ -74,7 +73,6 @@ EXIV2API Protocol fileProtocol(const std::string& path);
   @brief Test if a file exists.
 
   @param  path Name of file to verify.
-  @param  ct   Flag to check if <i>path</i> is a regular file.
   @return true if <i>path</i> exists and, if <i>ct</i> is set,
   is a regular file, else false.
 
@@ -121,4 +119,4 @@ class Uri {
 
 }  // namespace Exiv2
 
-#endif  // #ifndef FUTILS_HPP_
+#endif  // EXIV2_FUTILS_HPP

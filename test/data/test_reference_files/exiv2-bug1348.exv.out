@@ -80,7 +80,7 @@ Exif.NikonMe.MultiExposureShots              Long        1  0  0
 Exif.NikonMe.MultiExposureAutoGain           Long        1  0  Off
 Exif.NikonAf2.Version                        Undefined   4  48 49 48 48  1.00
 Exif.NikonAf2.ContrastDetectAF               Byte        1  0  Off
-Exif.NikonAf2.AFAreaMode                     Byte        1  1  1
+Exif.NikonAf2.AFAreaMode                     Byte        1  1  Dynamic-area AF
 Exif.NikonAf2.PhaseDetectAF                  Byte        1  1  On (51-point)
 Exif.NikonAf2.PrimaryAFPoint                 Byte        1  1  1
 Exif.NikonAf2.AFPointsUsed                   Byte        7  1 0 0 0 0 0 0  1 0 0 0 0 0 0
@@ -117,6 +117,7 @@ Exif.Nikon3.SerialNumber                     Ascii       8  4463736  4463736
 Exif.Nikon3.ColorSpace                       Short       1  2  Adobe RGB
 Exif.Nikon3.ActiveDLighting                  Short       1  0  Off
 Exif.Nikon3.VignetteControl                  Short       1  0  Off
+Exif.Nikon3.WhiteBalanceBias2                SRational   2  0/4 0/4  0/4 0/4
 Exif.Nikon3.LensType                         Byte        1  78  D G VR
 Exif.Nikon3.Lens                             Rational    4  1500/10 6000/10 50/10 63/10  150-600mm F5-6.3
 Exif.Nikon3.FlashMode                        Byte        1  0  Did not fire
@@ -133,18 +134,29 @@ Exif.Nikon3.ShutterCount                     Long        1  1882  1882
 Exif.NikonFl7.Version                        Undefined   4  48 49 48 55  1.07
 Exif.NikonFl7.FlashSource                    Byte        1  0  None
 Exif.NikonFl7.ExternalFlashFirmware          Short       1  0  n/a
-Exif.NikonFl7.ExternalFlashData1             Byte        1  0  No external flash zoom override, external flash not attached
-Exif.NikonFl7.ExternalFlashData2             Byte        1  0  n/a
-Exif.NikonFl7.FlashCompensation              SByte       1  0  0
+Exif.NikonFl7.ExternalFlashData1             Byte        1  0  External flash off
+Exif.NikonFl7.ExternalFlashData2             Byte        1  0  Off
+Exif.NikonFl7.FlashCompensationMaster        Byte        1  0  n/a
 Exif.NikonFl7.FlashFocalLength               Byte        1  0  n/a
 Exif.NikonFl7.RepeatingFlashRate             Byte        1  0  n/a
 Exif.NikonFl7.RepeatingFlashCount            Byte        1  0  n/a
-Exif.NikonFl7.FlashGNDistance                Byte        1  0  None
+Exif.NikonFl7.FlashGNDistance                Byte        1  0  n/a
+Exif.NikonFl7.FlashColorFilter               Byte        1  0  None
 Exif.NikonFl7.FlashGroupAControlData         Byte        1  0  Off
 Exif.NikonFl7.FlashGroupBCControlData        Byte        1  0  Off, Off
-Exif.NikonFl7.FlashGroupAData                Byte        1  0  0
-Exif.NikonFl7.FlashGroupBData                Byte        1  0  0
-Exif.NikonFl7.FlashGroupCData                Byte        1  0  0
+Exif.NikonFl7.FlashCompensationGroupA        Byte        1  0  n/a
+Exif.NikonFl7.FlashCompensationGroupB        Byte        1  0  n/a
+Exif.NikonFl7.FlashCompensationGroupC        Byte        1  0  n/a
+Exif.NikonFl7.ExternalFlashData3             Byte        1  0  Exposure Comp.: Entire frame
+Exif.NikonFl7.CameraFlashOutput              Byte        1  0  0.0 EV
+Exif.NikonFl7.CameraExposureCompensation     Byte        1  0  0.0 EV
+Exif.NikonFl7.CameraFlashCompensation        Byte        1  0  0.0 EV
+Exif.NikonFl7.ExternalFlashData4             Byte        1  0  Illumination Pat.: Standard
+Exif.NikonFl7.FlashZoomHeadPosition          Byte        1  0  n/a
+Exif.NikonFl7.FlashMasterOutput              Byte        1  0  n/a
+Exif.NikonFl7.FlashGroupAOutput              Byte        1  0  n/a
+Exif.NikonFl7.FlashGroupBOutput              Byte        1  0  n/a
+Exif.NikonFl7.FlashGroupCOutput              Byte        1  0  n/a
 Exif.Nikon3.VariProgram                      Ascii      16                                  
 Exif.Nikon3.HighISONoiseReduction            Short       1  0  Off
 Exif.Nikon3.Preview                          Long        1  28682  28682

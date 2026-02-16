@@ -78,7 +78,7 @@ Exif.OlympusCs.FlashRemoteControl            Short       1  0  Off
 Exif.OlympusCs.FlashControlMode              Short       4  0 0 0 0  Off
 Exif.OlympusCs.FlashIntensity                SRational   4  0/0 0/0 0/0 0/0  0/0 0/0 0/0 0/0
 Exif.OlympusCs.ManualFlashStrength           SRational   4  0/0 0/0 0/0 0/0  0/0 0/0 0/0 0/0
-Exif.OlympusCs.WhiteBalance                  Short       1  1  Auto (Keep Warm Color Off
+Exif.OlympusCs.WhiteBalance                  Short       1  1  Auto (Keep Warm Color Off)
 Exif.OlympusCs.WhiteBalanceTemperature       Short       1  0  0
 Exif.OlympusCs.WhiteBalanceBracket           SShort      2  0 0  0 0
 Exif.OlympusCs.CustomSaturation              SShort      3  0 -5 5  0 -5 5
@@ -102,7 +102,7 @@ Exif.OlympusCs.NoiseFilter                   SShort      3  -2 -2 1  Off
 Exif.OlympusCs.ArtFilter                     Short       4  0 0 0 0  Off
 Exif.OlympusCs.DriveMode                     Short       5  1 1 0 0 0  1 1 0 0 0
 Exif.OlympusCs.PanoramaMode                  Short       2  0 0  0 0
-Exif.OlympusCs.ImageStabilization            Long        1  4  (4)
+Exif.OlympusCs.ImageStabilization            Long        1  4  S-IS AUTO
 Exif.OlympusCs.ManometerPressure             Short       1  0  0
 Exif.OlympusCs.ManometerReading              SLong       2  -9999 -9999  -9999 -9999
 Exif.OlympusCs.ExtendedWBDetect              Short       1  0  Off
@@ -192,7 +192,7 @@ Exif.Photo.GainControl                       Short       1  0  None
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  12/1 45/1 40/10 40/10  12/1 45/1 40/10 40/10
+Exif.Photo.LensSpecification                 Rational    4  12/1 45/1 40/10 40/10  12-45mm F4
 Exif.Photo.LensModel                         Ascii      32  OLYMPUS M.12-45mm F4.0  OLYMPUS M.12-45mm F4.0
 Exif.Image.GPSTag                            Long        1  15782  15782
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 3 0 0  2.3.0.0

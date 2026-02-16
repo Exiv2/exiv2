@@ -1,5 +1,9 @@
 name: On PRs - Mac Matrix
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths-ignore:
@@ -7,7 +11,7 @@ on:
 
 jobs:
   MacOS:
-    name: 'MacOS - clang, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
+    name: 'macOS - XCode - ${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
     runs-on: macos-latest
 
     strategy:
@@ -15,39 +19,20 @@ jobs:
       matrix:
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
-        
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: install dependencies
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Install dependencies
         run: |
-          brew install ninja
-          pushd /tmp
-          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
-          tar xzf   release-1.8.0.tar.gz
-          mkdir -p  googletest-release-1.8.0/build
-          pushd     googletest-release-1.8.0/build
-          cmake .. ; make ; make install
-          popd
-          popd
+          brew install inih googletest
 
       - name: Build
         run: |
-          mkdir build && cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
-            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset base_mac -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
+          cmake --build build --parallel
 
       - name: Install
         run: |
@@ -56,5 +41,4 @@ jobs:
 
       - name: Test
         run: |
-          cd build
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 
 # Utility for generating a fuzzing dictionary for Exiv2.
 # See README.md (in this directory) for more information.
@@ -11,22 +11,21 @@ import json
 def escapeChar(c):
     if c == '\\':
         return '\\\\'
-    elif c == '"':
+    if c == '"':
         return '\\"'
-    elif c.isascii() and c.isprintable():
+    if c.isascii() and c.isprintable():
         return c
-    else:
-        return '\\x{:02X}'.format(ord(c))
+    return f'\\x{ord(c):02X}'
 
 def escapeString(str):
-    return ''.join(map(lambda c: escapeChar(chr(c)), bytes(str, 'utf-8')))
+    return ''.join(map(escapeChar, bytes(str, 'utf-8')))
 
 if len(sys.argv) < 2:
     print("usage: mkdict.py dict.json")
     sys.exit(1)
 
-f = open(sys.argv[1], 'r')
-dict_json = json.loads(f.read())
-tuples = dict_json["#select"]["tuples"]
-for r in tuples:
-    print('"' + escapeString(r[0]) + '"')
+with open(sys.argv[1], 'r', encoding=None) as f:
+    dict_json = json.loads(f.read())
+    tuples = dict_json["#select"]["tuples"]
+    for r in tuples:
+        print(f"\"{escapeString(r[0])}\"")

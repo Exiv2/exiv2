@@ -121,7 +121,7 @@ Exif.CanonFi.FileNumber                      Long        1  0  (0)
 Exif.CanonFi.BracketMode                     SShort      1  0  Off
 Exif.CanonFi.BracketValue                    SShort      1  0  0
 Exif.CanonFi.BracketShotNumber               SShort      1  0  0
-Exif.CanonFi.RawJpgQuality                   SShort      1  0  unkown
+Exif.CanonFi.RawJpgQuality                   SShort      1  0  unknown
 Exif.CanonFi.RawJpgSize                      SShort      1  0  Large
 Exif.CanonFi.NoiseReduction                  SShort      1  -1  (-1)
 Exif.CanonFi.WBBracketMode                   SShort      1  0  Off
@@ -169,7 +169,7 @@ Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  0  Standard
 Exif.CanonLiOp.HighlightTonePriority         SLong       1  0  Off
 Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  1  Auto
 Exif.CanonLiOp.HighISONoiseReduction         SLong       1  0  Standard
-Exif.CanonLe.LensSerialNumber                SLong       1  0  0
+Exif.CanonLe.LensSerialNumber                Byte        5  0 0 0 0 0  0000000000
 Exif.CanonAm.AmbienceSelection               SLong       1  0  Standard
 Exif.CanonMe.MultiExposure                   SLong       1  0  Off
 Exif.CanonMe.MultiExposureControl            SLong       1  0  Additive
@@ -196,7 +196,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
 Exif.Photo.BodySerialNumber                  Ascii      13  253020008411  253020008411
-Exif.Photo.LensSpecification                 Rational    4  15/1 30/1 0/1 0/1  15/1 30/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  15/1 30/1 0/1 0/1  15-30mm
 Exif.Photo.LensModel                         Ascii      39  TAMRON SP 15-30mm F/2.8 Di VC USD A012  TAMRON SP 15-30mm F/2.8 Di VC USD A012
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.GPSTag                            Long        1  8930  8930

@@ -5,11 +5,16 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -17,7 +22,9 @@ namespace Exiv2::Internal {
 class SigmaMakerNote {
  public:
   //! Return read-only list of built-in Sigma tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
 
   //! @name Print functions for Sigma (Foveon) %MakerNote tags
   //@{
@@ -35,6 +42,7 @@ class SigmaMakerNote {
 
 };  // class SigmaMakerNote
 
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef SIGMAMN_INT_HPP_

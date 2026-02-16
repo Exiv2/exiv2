@@ -9,11 +9,11 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "orfimage_int.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage.hpp"
 #include "tiffimage_int.hpp"
 
-#include <array>
 #include <iostream>
 
 // *****************************************************************************
@@ -46,26 +46,25 @@ uint32_t OrfImage::pixelHeight() const {
   return 0;
 }
 
-void OrfImage::setComment(std::string_view /*comment*/) {
+void OrfImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "ORF"));
 }
 
-void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
-  out << "ORF IMAGE" << std::endl;
+void OrfImage::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
+  out << "ORF IMAGE" << '\n';
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type
-  if (imageType() == ImageType::none)
-    if (!isOrfType(*io_, false)) {
-      if (io_->error() || io_->eof())
-        throw Error(ErrorCode::kerFailedToReadImageData);
-      throw Error(ErrorCode::kerNotAJpeg);
-    }
+  if (imageType() == ImageType::none && !isOrfType(*io_, false)) {
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    throw Error(ErrorCode::kerNotAJpeg);
+  }
 
   io_->seek(0, BasicIo::beg);
 
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }  // OrfImage::printStructure
 
 void OrfImage::readMetadata() {
@@ -92,18 +91,16 @@ void OrfImage::writeMetadata() {
   std::cerr << "Writing ORF file " << io_->path() << "\n";
 #endif
   ByteOrder bo = byteOrder();
-  byte* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
-  if (io_->open() == 0) {
-    // Ensure that this is the correct image type
-    if (isOrfType(*io_, false)) {
-      pData = io_->mmap(true);
-      size = io_->size();
-      OrfHeader orfHeader;
-      if (0 == orfHeader.read(pData, 8)) {
-        bo = orfHeader.byteOrder();
-      }
+  // Ensure that this is the correct image type
+  if (io_->open() == 0 && isOrfType(*io_, false)) {
+    pData = io_->mmap(true);
+    size = io_->size();
+    OrfHeader orfHeader;
+    if (0 == orfHeader.read(pData, 8)) {
+      bo = orfHeader.byteOrder();
     }
   }
   if (bo == invalidByteOrder) {
@@ -119,25 +116,22 @@ ByteOrder OrfParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
                                   &orfHeader);
 }
 
-WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
-                              const ExifData& exifData, const IptcData& iptcData, const XmpData& xmpData) {
-  // Copy to be able to modify the Exif data
-  ExifData ed = exifData;
-
+WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
+                              const IptcData& iptcData, const XmpData& xmpData) {
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = {
-      panaRawId,
+      IfdId::panaRawId,
   };
   for (auto&& filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
-    ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
+    exifData.erase(std::remove_if(exifData.begin(), exifData.end(), FindExifdatum(filteredIfd)), exifData.end());
   }
 
   OrfHeader header(byteOrder);
-  return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder, &header,
-                                  nullptr);
+  return TiffParserWorker::encode(io, pData, size, exifData, iptcData, xmpData, Tag::root, TiffMapping::findEncoder,
+                                  &header, nullptr);
 }
 
 // *************************************************************************
@@ -145,7 +139,7 @@ WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<OrfImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

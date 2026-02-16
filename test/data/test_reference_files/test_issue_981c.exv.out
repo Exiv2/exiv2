@@ -128,7 +128,7 @@ Exif.CanonFi.FileNumber                      Long        1  0  (0)
 Exif.CanonFi.BracketMode                     SShort      1  0  Off
 Exif.CanonFi.BracketValue                    SShort      1  0  0
 Exif.CanonFi.BracketShotNumber               SShort      1  0  0
-Exif.CanonFi.RawJpgQuality                   SShort      1  0  unkown
+Exif.CanonFi.RawJpgQuality                   SShort      1  0  unknown
 Exif.CanonFi.RawJpgSize                      SShort      1  0  Large
 Exif.CanonFi.NoiseReduction                  SShort      1  -1  (-1)
 Exif.CanonFi.WBBracketMode                   SShort      1  0  Off
@@ -178,7 +178,9 @@ Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  0  Standard
 Exif.CanonLiOp.HighlightTonePriority         SLong       1  0  Off
 Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  1  Auto
 Exif.CanonLiOp.HighISONoiseReduction         SLong       1  1  Low
-Exif.CanonLe.LensSerialNumber                SLong       1  0  0
+Exif.CanonLiOp.DigitalLensOptimizer          SLong       1  0  Off
+Exif.CanonLiOp.DualPixelRaw                  SLong       1  0  Off
+Exif.CanonLe.LensSerialNumber                Byte        5  0 0 0 0 0  0000000000
 Exif.CanonMe.MultiExposure                   SLong       1  0  Off
 Exif.CanonMe.MultiExposureControl            SLong       1  0  Additive
 Exif.CanonMe.MultiExposureShots              SLong       1  0  Off
@@ -223,7 +225,7 @@ Exif.Photo.WhiteBalance                      Short       1  1  Manual
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
 Exif.Photo.BodySerialNumber                  Ascii      13  263057004424  263057004424
-Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1  35/1 35/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1  35mm
 Exif.Photo.LensModel                         Ascii      27  35mm F1.4 DG HSM | Art 012  35mm F1.4 DG HSM | Art 012
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.GPSTag                            Long        1  43156  43156

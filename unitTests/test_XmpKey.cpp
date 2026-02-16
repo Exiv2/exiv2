@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <gtest/gtest.h>
-#include <exiv2/error.hpp>
 #include <exiv2/properties.hpp>
 
 using namespace Exiv2;
@@ -18,11 +17,11 @@ const std::string notRegisteredValidKey("Xmp.noregistered.prop");
 // behavior of the XmpKey class
 class AXmpKey : public testing::Test {
  public:
-  static void SetUpTestCase() {
+  static void SetUpTestSuite() {
     XmpProperties::registerNs(expectedFamily, expectedPrefix);
   }
 
-  static void TearDownTestCase() {
+  static void TearDownTestSuite() {
     XmpProperties::unregisterNs();
   }
 

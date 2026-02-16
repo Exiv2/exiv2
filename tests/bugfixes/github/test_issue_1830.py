@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyTmpFiles, path, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta, path, check_no_ASAN_UBSAN_errors
+
 
 class ValueTypeFloatToLong(metaclass=CaseMeta):
     """
     Regression test for the bug described in:
     https://github.com/Exiv2/exiv2/issues/1830
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/1830"
 
     filename = path("$data_path/issue_1830_poc.tiff")

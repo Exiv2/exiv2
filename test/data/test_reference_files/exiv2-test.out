@@ -90,15 +90,18 @@ Options:
              E : Exif tags
              I : IPTC tags
              X : XMP tags
-             x : Tag number (Exif and IPTC only)
+             x : Tag number for Exif or IPTC tags (in hexadecimal)
              g : Group name (e.g. Exif.Photo.UserComment, Photo)
              k : Key (e.g. Exif.Photo.UserComment)
              l : Tag label (e.g. Exif.Photo.UserComment, 'User comment')
+             d : Tag description
              n : Tag name (e.g. Exif.Photo.UserComment, UserComment)
              y : Type
+             y : Type
              c : Number of components (count)
-             s : Size in bytes (Ascii and Comment types include NULL)
-             v : Plain data value, untranslated (vanilla)
+             s : Size in bytes of vanilla value (may include NULL)
+             v : Plain data value of untranslated (vanilla)
+             V : Plain data value, data type and the word 'set'
              t : Interpreted (translated) human readable values
              h : Hex dump of the data
    -d tgt1  Delete target(s) for the 'delete' action. Possible targets are:
@@ -137,6 +140,7 @@ Options:
    -r fmt  Filename format for the 'rename' action. The format string
            follows strftime(3). The following keywords are also supported:
              :basename:   - original filename without extension
+             :basesuffix: - suffix in original filename, starts with first dot and ends before extension
              :dirname:    - name of the directory holding the original file
              :parentname: - name of parent directory
            Default 'fmt' is %Y%m%d_%H%M%S
@@ -974,12 +978,12 @@ File  4/16: 20040329_224245.jpg
 20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+20040329_224245.jpg   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -1189,7 +1193,7 @@ File  6/16: 20030925_201850.jpg
 20030925_201850.jpg   Exif.CanonFi.NoiseReduction                  SShort      1  (-1)
 20030925_201850.jpg   Exif.Canon.ImageType                         Ascii      32  IMG:EOS 300D DIGITAL JPEG
 20030925_201850.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 1.0.2
-20030925_201850.jpg   Exif.Canon.SerialNumber                      Long        1  21f938089
+20030925_201850.jpg   Exif.Canon.SerialNumber                      Long        1  570004681
 20030925_201850.jpg   Exif.Canon.SerialNumberFormat                Long        1  Format 1
 20030925_201850.jpg   Exif.Canon.FileNumber                        Long        1  103-0390
 20030925_201850.jpg   Exif.Canon.OwnerName                         Ascii      32  
@@ -1330,17 +1334,17 @@ File  8/16: 20030926_111535.jpg
 20030926_111535.jpg   Exif.MakerNote.ByteOrder                     Ascii       3  II
 20030926_111535.jpg   Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  Normal
+20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 20030926_111535.jpg   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Normal
+20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  0 (normal)
 20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Normal
 20030926_111535.jpg   Exif.Fujifilm.FlashMode                      Short       1  On
 20030926_111535.jpg   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 20030926_111535.jpg   Exif.Fujifilm.FocusMode                      Short       1  Auto
-20030926_111535.jpg   Exif.Fujifilm.0x1022                         Short       1  1
+20030926_111535.jpg   Exif.Fujifilm.FocusArea                      Short       1  Single Point
 20030926_111535.jpg   Exif.Fujifilm.SlowSync                       Short       1  Off
 20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
-20030926_111535.jpg   Exif.Fujifilm.0x1032                         Short       1  1
+20030926_111535.jpg   Exif.Fujifilm.ExposureCount                  Short       1  1
 20030926_111535.jpg   Exif.Fujifilm.Continuous                     Short       1  Off
 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
@@ -1776,7 +1780,7 @@ Warning: Directory Canon has an unexpected next pointer; ignored.
 20060802_095200.jpg   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 20060802_095200.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 20060802_095200.jpg   Exif.Canon.OwnerName                         Ascii      32  unknown
-20060802_095200.jpg   Exif.Canon.SerialNumber                      Long        1  672c63236
+20060802_095200.jpg   Exif.Canon.SerialNumber                      Long        1  1731000068
 20060802_095200.jpg   Exif.Canon.CameraInfo                        Undefined 1024  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 20060802_095200.jpg   Exif.CanonCf.0x0000                          Short       1  38
 20060802_095200.jpg   Exif.CanonCf.NoiseReduction                  Short       1  1
@@ -2615,12 +2619,12 @@ Compare image data and extracted data ------------------------------------
 < 20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 < 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-< 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+< 20040329_224245.jpg   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 < 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 < 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -2830,7 +2834,7 @@ Compare image data and extracted data ------------------------------------
 < 20030925_201850.jpg   Exif.CanonFi.NoiseReduction                  SShort      1  (-1)
 < 20030925_201850.jpg   Exif.Canon.ImageType                         Ascii      32  IMG:EOS 300D DIGITAL JPEG
 < 20030925_201850.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 1.0.2
-< 20030925_201850.jpg   Exif.Canon.SerialNumber                      Long        1  21f938089
+< 20030925_201850.jpg   Exif.Canon.SerialNumber                      Long        1  570004681
 < 20030925_201850.jpg   Exif.Canon.SerialNumberFormat                Long        1  Format 1
 < 20030925_201850.jpg   Exif.Canon.FileNumber                        Long        1  103-0390
 < 20030925_201850.jpg   Exif.Canon.OwnerName                         Ascii      32  
@@ -2971,17 +2975,17 @@ Compare image data and extracted data ------------------------------------
 < 20030926_111535.jpg   Exif.MakerNote.ByteOrder                     Ascii       3  II
 < 20030926_111535.jpg   Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 < 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-< 20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  Normal
+< 20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 < 20030926_111535.jpg   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-< 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Normal
+< 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  0 (normal)
 < 20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Normal
 < 20030926_111535.jpg   Exif.Fujifilm.FlashMode                      Short       1  On
 < 20030926_111535.jpg   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 < 20030926_111535.jpg   Exif.Fujifilm.FocusMode                      Short       1  Auto
-< 20030926_111535.jpg   Exif.Fujifilm.0x1022                         Short       1  1
+< 20030926_111535.jpg   Exif.Fujifilm.FocusArea                      Short       1  Single Point
 < 20030926_111535.jpg   Exif.Fujifilm.SlowSync                       Short       1  Off
 < 20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
-< 20030926_111535.jpg   Exif.Fujifilm.0x1032                         Short       1  1
+< 20030926_111535.jpg   Exif.Fujifilm.ExposureCount                  Short       1  1
 < 20030926_111535.jpg   Exif.Fujifilm.Continuous                     Short       1  Off
 < 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 < 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
@@ -3416,7 +3420,7 @@ Compare image data and extracted data ------------------------------------
 < 20060802_095200.jpg   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 < 20060802_095200.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 < 20060802_095200.jpg   Exif.Canon.OwnerName                         Ascii      32  unknown
-< 20060802_095200.jpg   Exif.Canon.SerialNumber                      Long        1  672c63236
+< 20060802_095200.jpg   Exif.Canon.SerialNumber                      Long        1  1731000068
 < 20060802_095200.jpg   Exif.Canon.CameraInfo                        Undefined 1024  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 < 20060802_095200.jpg   Exif.CanonCf.0x0000                          Short       1  38
 < 20060802_095200.jpg   Exif.CanonCf.NoiseReduction                  Short       1  1
@@ -4178,12 +4182,12 @@ Compare image data and extracted data ------------------------------------
 > 20040329_224245.exv   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 > 20040329_224245.exv   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-> 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+> 20040329_224245.exv   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
 > 20040329_224245.exv   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 > 20040329_224245.exv   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -4393,7 +4397,7 @@ Compare image data and extracted data ------------------------------------
 > 20030925_201850.exv   Exif.CanonFi.NoiseReduction                  SShort      1  (-1)
 > 20030925_201850.exv   Exif.Canon.ImageType                         Ascii      32  IMG:EOS 300D DIGITAL JPEG
 > 20030925_201850.exv   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 1.0.2
-> 20030925_201850.exv   Exif.Canon.SerialNumber                      Long        1  21f938089
+> 20030925_201850.exv   Exif.Canon.SerialNumber                      Long        1  570004681
 > 20030925_201850.exv   Exif.Canon.SerialNumberFormat                Long        1  Format 1
 > 20030925_201850.exv   Exif.Canon.FileNumber                        Long        1  103-0390
 > 20030925_201850.exv   Exif.Canon.OwnerName                         Ascii      32  
@@ -4534,17 +4538,17 @@ Compare image data and extracted data ------------------------------------
 > 20030926_111535.exv   Exif.MakerNote.ByteOrder                     Ascii       3  II
 > 20030926_111535.exv   Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 > 20030926_111535.exv   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-> 20030926_111535.exv   Exif.Fujifilm.Sharpness                      Short       1  Normal
+> 20030926_111535.exv   Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 > 20030926_111535.exv   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-> 20030926_111535.exv   Exif.Fujifilm.Color                          Short       1  Normal
+> 20030926_111535.exv   Exif.Fujifilm.Color                          Short       1  0 (normal)
 > 20030926_111535.exv   Exif.Fujifilm.Tone                           Short       1  Normal
 > 20030926_111535.exv   Exif.Fujifilm.FlashMode                      Short       1  On
 > 20030926_111535.exv   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 > 20030926_111535.exv   Exif.Fujifilm.FocusMode                      Short       1  Auto
-> 20030926_111535.exv   Exif.Fujifilm.0x1022                         Short       1  1
+> 20030926_111535.exv   Exif.Fujifilm.FocusArea                      Short       1  Single Point
 > 20030926_111535.exv   Exif.Fujifilm.SlowSync                       Short       1  Off
 > 20030926_111535.exv   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
-> 20030926_111535.exv   Exif.Fujifilm.0x1032                         Short       1  1
+> 20030926_111535.exv   Exif.Fujifilm.ExposureCount                  Short       1  1
 > 20030926_111535.exv   Exif.Fujifilm.Continuous                     Short       1  Off
 > 20030926_111535.exv   Exif.Fujifilm.SequenceNumber                 Short       1  0
 > 20030926_111535.exv   Exif.Fujifilm.0x1200                         Short       1  0
@@ -4979,7 +4983,7 @@ Compare image data and extracted data ------------------------------------
 > 20060802_095200.exv   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 > 20060802_095200.exv   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 > 20060802_095200.exv   Exif.Canon.OwnerName                         Ascii      32  unknown
-> 20060802_095200.exv   Exif.Canon.SerialNumber                      Long        1  672c63236
+> 20060802_095200.exv   Exif.Canon.SerialNumber                      Long        1  1731000068
 > 20060802_095200.exv   Exif.Canon.CameraInfo                        Undefined 1024  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 > 20060802_095200.exv   Exif.CanonCf.0x0000                          Short       1  38
 > 20060802_095200.exv   Exif.CanonCf.NoiseReduction                  Short       1  1
@@ -5979,12 +5983,12 @@ Compare original and inserted image data ---------------------------------
 < 20040329_224245.jpg   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+< 20040329_224245.jpg   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 < 20040329_224245.jpg   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 < 20040329_224245.jpg   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-< 20040329_224245.jpg   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+< 20040329_224245.jpg   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 < 20040329_224245.jpg   Exif.Nikon3.VariProgram                      Ascii      16                 
 < 20040329_224245.jpg   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 < 20040329_224245.jpg   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -6194,7 +6198,7 @@ Compare original and inserted image data ---------------------------------
 < 20030925_201850.jpg   Exif.CanonFi.NoiseReduction                  SShort      1  (-1)
 < 20030925_201850.jpg   Exif.Canon.ImageType                         Ascii      32  IMG:EOS 300D DIGITAL JPEG
 < 20030925_201850.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 1.0.2
-< 20030925_201850.jpg   Exif.Canon.SerialNumber                      Long        1  21f938089
+< 20030925_201850.jpg   Exif.Canon.SerialNumber                      Long        1  570004681
 < 20030925_201850.jpg   Exif.Canon.SerialNumberFormat                Long        1  Format 1
 < 20030925_201850.jpg   Exif.Canon.FileNumber                        Long        1  103-0390
 < 20030925_201850.jpg   Exif.Canon.OwnerName                         Ascii      32  
@@ -6335,17 +6339,17 @@ Compare original and inserted image data ---------------------------------
 < 20030926_111535.jpg   Exif.MakerNote.ByteOrder                     Ascii       3  II
 < 20030926_111535.jpg   Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 < 20030926_111535.jpg   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-< 20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  Normal
+< 20030926_111535.jpg   Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 < 20030926_111535.jpg   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-< 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  Normal
+< 20030926_111535.jpg   Exif.Fujifilm.Color                          Short       1  0 (normal)
 < 20030926_111535.jpg   Exif.Fujifilm.Tone                           Short       1  Normal
 < 20030926_111535.jpg   Exif.Fujifilm.FlashMode                      Short       1  On
 < 20030926_111535.jpg   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 < 20030926_111535.jpg   Exif.Fujifilm.FocusMode                      Short       1  Auto
-< 20030926_111535.jpg   Exif.Fujifilm.0x1022                         Short       1  1
+< 20030926_111535.jpg   Exif.Fujifilm.FocusArea                      Short       1  Single Point
 < 20030926_111535.jpg   Exif.Fujifilm.SlowSync                       Short       1  Off
 < 20030926_111535.jpg   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
-< 20030926_111535.jpg   Exif.Fujifilm.0x1032                         Short       1  1
+< 20030926_111535.jpg   Exif.Fujifilm.ExposureCount                  Short       1  1
 < 20030926_111535.jpg   Exif.Fujifilm.Continuous                     Short       1  Off
 < 20030926_111535.jpg   Exif.Fujifilm.SequenceNumber                 Short       1  0
 < 20030926_111535.jpg   Exif.Fujifilm.0x1200                         Short       1  0
@@ -6780,7 +6784,7 @@ Compare original and inserted image data ---------------------------------
 < 20060802_095200.jpg   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 < 20060802_095200.jpg   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 < 20060802_095200.jpg   Exif.Canon.OwnerName                         Ascii      32  unknown
-< 20060802_095200.jpg   Exif.Canon.SerialNumber                      Long        1  672c63236
+< 20060802_095200.jpg   Exif.Canon.SerialNumber                      Long        1  1731000068
 < 20060802_095200.jpg   Exif.Canon.CameraInfo                        Undefined 1024  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 < 20060802_095200.jpg   Exif.CanonCf.0x0000                          Short       1  38
 < 20060802_095200.jpg   Exif.CanonCf.NoiseReduction                  Short       1  1
@@ -7542,12 +7546,12 @@ Compare original and inserted image data ---------------------------------
 > 20040329_224245.exv   Exif.NikonFl1.FlashFocalLength               Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashRate             Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.RepeatingFlashCount            Byte        1  n/a
-> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  None
+> 20040329_224245.exv   Exif.NikonFl1.FlashGNDistance                Byte        1  n/a
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupAControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.FlashGroupBControlMode         Byte        1  Off
 > 20040329_224245.exv   Exif.NikonFl1.0x0011                         Byte        3  0 0 0
 > 20040329_224245.exv   Exif.Nikon3.ImageOptimization                Ascii      16  NORMAL         
-> 20040329_224245.exv   Exif.Nikon3.Saturation                       Ascii      16  NORMAL         
+> 20040329_224245.exv   Exif.Nikon3.Saturation2                      Ascii      16  NORMAL         
 > 20040329_224245.exv   Exif.Nikon3.VariProgram                      Ascii      16                 
 > 20040329_224245.exv   Exif.Photo.UserComment                       Undefined  44  charset=Ascii                                     
 > 20040329_224245.exv   Exif.Photo.SubSecTime                        Ascii       3  00
@@ -7757,7 +7761,7 @@ Compare original and inserted image data ---------------------------------
 > 20030925_201850.exv   Exif.CanonFi.NoiseReduction                  SShort      1  (-1)
 > 20030925_201850.exv   Exif.Canon.ImageType                         Ascii      32  IMG:EOS 300D DIGITAL JPEG
 > 20030925_201850.exv   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware Version 1.0.2
-> 20030925_201850.exv   Exif.Canon.SerialNumber                      Long        1  21f938089
+> 20030925_201850.exv   Exif.Canon.SerialNumber                      Long        1  570004681
 > 20030925_201850.exv   Exif.Canon.SerialNumberFormat                Long        1  Format 1
 > 20030925_201850.exv   Exif.Canon.FileNumber                        Long        1  103-0390
 > 20030925_201850.exv   Exif.Canon.OwnerName                         Ascii      32  
@@ -7898,17 +7902,17 @@ Compare original and inserted image data ---------------------------------
 > 20030926_111535.exv   Exif.MakerNote.ByteOrder                     Ascii       3  II
 > 20030926_111535.exv   Exif.Fujifilm.Version                        Undefined   4  48 49 51 48
 > 20030926_111535.exv   Exif.Fujifilm.Quality                        Ascii       8  NORMAL 
-> 20030926_111535.exv   Exif.Fujifilm.Sharpness                      Short       1  Normal
+> 20030926_111535.exv   Exif.Fujifilm.Sharpness                      Short       1  0 (normal)
 > 20030926_111535.exv   Exif.Fujifilm.WhiteBalance                   Short       1  Daylight
-> 20030926_111535.exv   Exif.Fujifilm.Color                          Short       1  Normal
+> 20030926_111535.exv   Exif.Fujifilm.Color                          Short       1  0 (normal)
 > 20030926_111535.exv   Exif.Fujifilm.Tone                           Short       1  Normal
 > 20030926_111535.exv   Exif.Fujifilm.FlashMode                      Short       1  On
 > 20030926_111535.exv   Exif.Fujifilm.FlashStrength                  SRational   1  10/10
 > 20030926_111535.exv   Exif.Fujifilm.FocusMode                      Short       1  Auto
-> 20030926_111535.exv   Exif.Fujifilm.0x1022                         Short       1  1
+> 20030926_111535.exv   Exif.Fujifilm.FocusArea                      Short       1  Single Point
 > 20030926_111535.exv   Exif.Fujifilm.SlowSync                       Short       1  Off
 > 20030926_111535.exv   Exif.Fujifilm.PictureMode                    Short       1  Aperture-priority AE
-> 20030926_111535.exv   Exif.Fujifilm.0x1032                         Short       1  1
+> 20030926_111535.exv   Exif.Fujifilm.ExposureCount                  Short       1  1
 > 20030926_111535.exv   Exif.Fujifilm.Continuous                     Short       1  Off
 > 20030926_111535.exv   Exif.Fujifilm.SequenceNumber                 Short       1  0
 > 20030926_111535.exv   Exif.Fujifilm.0x1200                         Short       1  0
@@ -8343,7 +8347,7 @@ Compare original and inserted image data ---------------------------------
 > 20060802_095200.exv   Exif.Canon.ImageType                         Ascii      32  Canon EOS 20D
 > 20060802_095200.exv   Exif.Canon.FirmwareVersion                   Ascii      32  Firmware 2.0.3
 > 20060802_095200.exv   Exif.Canon.OwnerName                         Ascii      32  unknown
-> 20060802_095200.exv   Exif.Canon.SerialNumber                      Long        1  672c63236
+> 20060802_095200.exv   Exif.Canon.SerialNumber                      Long        1  1731000068
 > 20060802_095200.exv   Exif.Canon.CameraInfo                        Undefined 1024  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 > 20060802_095200.exv   Exif.CanonCf.0x0000                          Short       1  38
 > 20060802_095200.exv   Exif.CanonCf.NoiseReduction                  Short       1  1

@@ -11,17 +11,11 @@ using Exiv2::IoCloser;
 using Exiv2::MemIo;
 using Exiv2::strError;
 
-int WriteReadSeek(BasicIo& io);
+static int WriteReadSeek(BasicIo& io);
 
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[]) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   try {
     if (argc < 4 || argc > 6) {
       std::cout << "Usage: " << argv[0]
@@ -40,30 +34,23 @@ int main(int argc, char* const argv[]) {
     const char* ba = argv[5];  // block argument
 
     if (argc >= 5) {
-      int blocksize = argc == 6 ? atoi(ba) : 10000;
-      // ensure blocksize is sane
-      if (blocksize > 1024 * 1024)
-        blocksize = 10000;
-
-      std::vector<Exiv2::byte> bytes(blocksize);
-
       // copy fileIn from a remote location.
       auto io = Exiv2::ImageFactory::createIo(fr);
       if (io->open() != 0) {
-        Error(Exiv2::ErrorCode::kerFileOpenFailed, io->path(), "rb", strError());
+        throw Error(Exiv2::ErrorCode::kerFileOpenFailed, io->path(), "rb", strError());
       }
       FileIo output(f0);
       if (!output.open("wb")) {
         Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path(), "w+b", strError());
       }
-      size_t l = 0;
-      if (!bytes.empty()) {
-        size_t r;
-        while ((r = io->read(bytes.data(), blocksize)) > 0) {
-          l += r;
-          output.write(bytes.data(), r);
+      int blocksize = std::min(argc == 6 ? atoi(ba) : 10000, 1024 * 1024);
+      if (blocksize > 0) {
+        auto bytes = std::make_unique<Exiv2::byte[]>(blocksize);
+        while (auto r = io->read(bytes.get(), blocksize)) {
+          output.write(bytes.get(), r);
         }
       } else {
+        size_t l = 0;
         // read/write byte-wise (#1029)
         while (l++ < io->size()) {
           output.putb(io->getb());
@@ -121,9 +108,8 @@ int main(int argc, char* const argv[]) {
       throw Error(Exiv2::ErrorCode::kerFileOpenFailed, f2, "w+b", strError());
     }
 
-    size_t readCount = 0;
     byte buf[32];
-    while ((readCount = fileOut1.read(buf, sizeof(buf)))) {
+    while (auto readCount = fileOut1.read(buf, sizeof(buf))) {
       if (memIo2.write(buf, readCount) != readCount) {
         std::cerr << argv[0] << ": MemIo bad write 2\n";
         return 13;

@@ -13,6 +13,7 @@ class OutOfMemoryInLoaderTiffGetData(metaclass=CaseMeta):
     if less than 4GB is available.  On Linux, you can use `ulimit -v
     4000000` to reduce the available memory to slightly less than 4GB.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/839"
 
     filename = path("$data_path/issue_839_poc.rw2")
@@ -21,6 +22,7 @@ class OutOfMemoryInLoaderTiffGetData(metaclass=CaseMeta):
     stderr = [
         """$exiv2_exception_message $filename:
 $kerCorruptedMetadata
-"""]
+"""
+    ]
     compare_stderr = check_no_ASAN_UBSAN_errors
     retval = [1]

@@ -41,7 +41,7 @@ Exif.Photo.ExposureMode                      Short       1  0  Auto
 Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.FocalLengthIn35mmFilm             Short       1  26  26.0 mm
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
-Exif.Photo.LensSpecification                 Rational    4  17/4 17/4 9/5 9/5  17/4 17/4 9/5 9/5
+Exif.Photo.LensSpecification                 Rational    4  17/4 17/4 9/5 9/5  4.25mm F1.8
 Exif.Photo.LensMake                          Ascii       6  Apple  Apple
 Exif.Photo.LensModel                         Ascii      35  iPhone XR back camera 4.25mm f/1.8  iPhone XR back camera 4.25mm f/1.8
 Exif.Photo.CompositeImage                    Short       1  2  GeneralComposite

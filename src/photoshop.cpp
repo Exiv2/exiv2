@@ -1,18 +1,24 @@
+#include "config.h"
+
 #include "photoshop.hpp"
 
 #include "enforce.hpp"
 #include "image.hpp"
 #include "safe_op.hpp"
 
+#include <cstring>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 namespace Exiv2 {
 
-bool Photoshop::isIrb(const byte* data) {
-  if (data == nullptr) {
+bool Photoshop::isIrb(const byte* pPsData) {
+  if (pPsData == nullptr) {
     return false;
   }
-  return std::any_of(irbId_.begin(), irbId_.end(), [data](auto id) { return memcmp(data, id, 4) == 0; });
+  return std::any_of(irbId_.begin(), irbId_.end(), [pPsData](auto id) { return memcmp(pPsData, id, 4) == 0; });
 }
 
 bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {
@@ -136,10 +142,9 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   }
 
   // Write new iptc record if we have it
-  DataBuf rawIptc = IptcParser::encode(iptcData);
-  if (!rawIptc.empty()) {
+  if (DataBuf rawIptc = IptcParser::encode(iptcData); !rawIptc.empty()) {
     std::array<byte, 12> tmpBuf;
-    std::copy_n(Photoshop::irbId_.front(), 4, tmpBuf.data());
+    std::copy_n(Photoshop::irbId_.front(), 4, tmpBuf.begin());
     us2Data(tmpBuf.data() + 4, iptc_, bigEndian);
     tmpBuf[6] = 0;
     tmpBuf[7] = 0;
@@ -154,7 +159,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   // Write existing stuff after record, skip the current and all remaining IPTC blocks
   size_t pos = sizeFront;
   auto nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
-  enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
   while (0 == Photoshop::locateIptcIrb(pPsData + pos, nextSizeData, &record, sizeHdr, sizeIptc)) {
     const auto newPos = static_cast<size_t>(record - pPsData);
     if (newPos > pos) {  // Copy data up to the IPTC IRB
@@ -162,7 +167,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
     }
     pos = newPos + sizeHdr + sizeIptc + (sizeIptc & 1);  // Skip the IPTC IRB
     nextSizeData = Safe::add<long>(static_cast<long>(sizePsData), -static_cast<long>(pos));
-    enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(nextSizeData >= 0, ErrorCode::kerCorruptedMetadata);
   }
   if (pos < sizePsData) {
     append(psBlob, pPsData + pos, sizePsData - pos);
@@ -170,7 +175,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
 
   // Data is rounded to be even
   if (!psBlob.empty())
-    rc = DataBuf(&psBlob[0], psBlob.size());
+    rc = DataBuf(psBlob.data(), psBlob.size());
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "IRB block at the end of Photoshop::setIptcIrb\n";
   if (rc.empty())

@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 
 #include <array>
+#include <exiv2/basicio.hpp>
 #include <exiv2/bmpimage.hpp>
 
 using namespace Exiv2;
@@ -88,8 +89,8 @@ TEST(BmpImage, readMetadataReadsImageDimensionsWhenDataIsAvailable) {
   auto memIo = std::make_unique<MemIo>(header.data(), header.size());
   BmpImage bmp(std::move(memIo));
   ASSERT_NO_THROW(bmp.readMetadata());
-  ASSERT_EQ(1280, bmp.pixelWidth());
-  ASSERT_EQ(800, bmp.pixelHeight());
+  ASSERT_EQ(1280u, bmp.pixelWidth());
+  ASSERT_EQ(800u, bmp.pixelHeight());
 }
 
 TEST(BmpImage, readMetadataThrowsWhenImageIsNotBMP) {

@@ -1,4 +1,7 @@
 name: Release
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 on:
   push:
     tags:
@@ -15,14 +18,21 @@ on:
 jobs:
   Linux:
     name: 'Build Linux Release'
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: ubuntu-22.04, arch: x64   }
+          - { os: ubuntu-22.04-arm, arch: arm64 }
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install dependencies
         run: |
-          sudo apt-get install ninja-build gettext doxygen graphviz
-          pip3 install conan==1.45.0
+          sudo apt install -y gettext doxygen graphviz ninja-build
+          python -m pip install conan==1.*
 
       - name: Conan common config
         run: |
@@ -39,95 +49,91 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake -GNinja -S . -B build \
-            -DEXIV2_TEAM_PACKAGING=ON \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_ENABLE_WEBREADY=OFF \
-            -DEXIV2_ENABLE_NLS=ON \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-            -DEXIV2_BUILD_DOC=ON
+          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
           cmake --build build -t doc
           cmake --build build -t package
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v6
         with:
-          name: exiv2-linux64
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
 
   macOS:
     name: 'Build macOS Release'
-    runs-on: macos-latest
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: macos-15-intel, arch: x64   }
+          - { os: macos-14,       arch: arm64 }
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Install dependencies
         run: |
-          brew install ninja
-          brew install tree
-          brew install gettext
-          brew install doxygen
-          brew install graphviz
+          brew install inih tree doxygen graphviz
 
       - name: Build packaged release
         run: |
-          mkdir build
           cmake -GNinja -S . -B build \
             -DEXIV2_TEAM_PACKAGING=ON \
             -DBUILD_SHARED_LIBS=ON \
             -DEXIV2_ENABLE_WEBREADY=OFF \
             -DEXIV2_ENABLE_NLS=ON \
             -DCMAKE_BUILD_TYPE=Release \
-            -DEXIV2_ENABLE_BMFF=ON \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
             -DEXIV2_BUILD_DOC=ON \
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
-            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations"
+            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
           cmake --build build -t doc
           cmake --build build -t package
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v6
         with:
-          name: exiv2-macos
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
 
   Windows:
     name: 'Build Windows Release'
-    runs-on: windows-2022
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: windows-2022, arch: x64   }
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Visual Studio shell
-        uses: egor-tensin/vs-shell@v2
-
-      - name: Setup Ninja
-        uses: ashutoshvarma/setup-ninja@master
-        with:
-          version: 1.10.0
-
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: 3.9
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Install doxygen
         run: |
           choco install doxygen.install
           choco install graphviz
 
+      - name: Restore conan cache
+        uses: actions/cache@v5
+        with:
+            path: ${{github.workspace}}/conanCache
+            key: ${{runner.os}}-release-win-${{ hashFiles('conanfile.py') }}
+            lookup-only: true
+
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.45.0"
+          python -m pip install conan==1.*
           conan profile new --detect default
+          conan profile show default
           conan profile update settings.build_type=Release default
           conan profile update settings.compiler="Visual Studio" default
           conan profile update settings.compiler.version=17 default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
 
       - name: Run Conan
         run: |
@@ -137,42 +143,35 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake -GNinja -S . -B build `
-            -DEXIV2_TEAM_PACKAGING=ON `
-            -DBUILD_SHARED_LIBS=ON `
-            -DEXIV2_ENABLE_WEBREADY=OFF `
-            -DEXIV2_ENABLE_NLS=OFF `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DEXIV2_ENABLE_BMFF=ON `
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON `
-            -DEXIV2_BUILD_DOC=ON
-          cmake --build build -t doc
-          cmake --build build -t package
+          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
+          cmake --build build --parallel -t doc
+          cmake --build build --parallel -t package
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v6
         with:
-          name: exiv2-win
+          name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.zip
           if-no-files-found: error
           retention-days: 1
 
   publish:
     needs: [Linux, macOS, Windows]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     permissions:
       contents: write
     steps:
 
       - if: github.event_name == 'workflow_dispatch'
-        run: echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
+        run: echo "TAG_NAME=${GITHUB_EVENT_INPUTS_TAG_NAME}" >> $GITHUB_ENV
+        env:
+          GITHUB_EVENT_INPUTS_TAG_NAME: ${{ github.event.inputs.tag_name }}
 
       - if: github.event_name == 'schedule'
         run: echo 'TAG_NAME=nightly' >> $GITHUB_ENV
 
       - if: github.event_name == 'push'
         run: |
-          TAG_NAME=${{ github.ref }}
+          TAG_NAME=${GITHUB_REF}
           echo "TAG_NAME=${TAG_NAME#refs/tags/}" >> $GITHUB_ENV
 
       - if: env.TAG_NAME == 'nightly'
@@ -186,24 +185,24 @@ jobs:
       - if: env.TAG_NAME != 'nightly'
         run: |
           echo 'BODY<<EOF' >> $GITHUB_ENV
-          echo '## Exiv2 Release ${{ env.TAG_NAME }}' >> $GITHUB_ENV
+          echo '## Exiv2 Release ${TAG_NAME}' >> $GITHUB_ENV
           echo 'See [ChangeLog](doc/ChangeLog) for more information about the changes in this release.' >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Cleanup old nightly
         if: env.TAG_NAME == 'nightly'
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         with:
           script: |
             try{
-              const rel_id = await github.repos.getReleaseByTag({
+              const rel_id = await github.rest.repos.getReleaseByTag({
                 ...context.repo,
                 tag: "nightly"
               }).then(result => result.data.id);
 
               console.log( "Found existing nightly release with id: ", rel_id);
 
-              await github.repos.deleteRelease({
+              await github.rest.repos.deleteRelease({
                 ...context.repo,
                 release_id: rel_id
               });
@@ -215,7 +214,7 @@ jobs:
             }
 
             try{
-              await github.git.deleteRef({
+              await github.rest.git.deleteRef({
                 ...context.repo,
                 ref: "tags/nightly"
               });
@@ -225,11 +224,11 @@ jobs:
               console.log( "Failed with error\n", error);
             }
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v7
       - name: List downloaded files
         run: tree -L 3
 
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -239,6 +238,5 @@ jobs:
           prerelease: ${{ env.TAG_NAME == 'nightly' }}
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            ./exiv2-linux64/exiv2-*
-            ./exiv2-macos/exiv2-*
-            ./exiv2-win/exiv2-*
+            ./exiv2-*/exiv2-*
+

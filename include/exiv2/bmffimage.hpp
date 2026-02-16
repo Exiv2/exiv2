@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#pragma once
+#ifndef EXIV2_BMFFIMAGE_HPP
+#define EXIV2_BMFFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
+#include "config.h"
 #include "image.hpp"
 
 #include <set>
@@ -13,14 +15,14 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
-EXIV2API bool enableBMFF(bool enable = true);
-}
+[[deprecated]] EXIV2API bool enableBMFF(bool enable = true);
+}  // namespace Exiv2
 
 #ifdef EXV_ENABLE_BMFF
 namespace Exiv2 {
 struct Iloc {
-  explicit Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length){};
-  virtual ~Iloc() = default;
+  explicit Iloc(uint32_t ID = 0, uint32_t start = 0, uint32_t length = 0) : ID_(ID), start_(start), length_(length) {
+  }
 
   uint32_t ID_;
   uint32_t start_;
@@ -53,10 +55,11 @@ class EXIV2API BmffImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  BmffImage(BasicIo::UniquePtr io, bool create);
+  BmffImage(std::unique_ptr<BasicIo> io, bool create, size_t max_box_depth = 1000);
   //@}
 
   //@{
+  void parseTiff(uint32_t root_tag, uint64_t length);
   /*!
     @brief parse embedded tiff file (Exif metadata)
     @param root_tag root of parse tree Tag::root, Tag::cmt2 etc.
@@ -64,7 +67,6 @@ class EXIV2API BmffImage : public Image {
     @param start offset in file (default, io_->tell())
    @
    */
-  void parseTiff(uint32_t root_tag, uint64_t length);
   void parseTiff(uint32_t root_tag, uint64_t length, uint64_t start);
   //@}
 
@@ -91,29 +93,32 @@ class EXIV2API BmffImage : public Image {
   @param relative_position Location of the start of image data in the file,
       relative to the current file position indicator.
   */
-  void parseCr3Preview(DataBuf& data, std::ostream& out, bool bTrace, uint8_t version, size_t width_offset,
+  void parseCr3Preview(const DataBuf& data, std::ostream& out, bool bTrace, uint8_t version, size_t width_offset,
                        size_t height_offset, size_t size_offset, size_t relative_position);
   //@}
 
   //! @name Manipulators
   //@{
-  void readMetadata() override /* override */;
-  void writeMetadata() override /* override */;
-  void setComment(std::string_view comment) override /* override */;
-  void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) override;
+  void readMetadata() override;
+  void writeMetadata() override;
+  void setExifData(const ExifData&) override;
+  void setIptcData(const IptcData&) override;
+  void setXmpData(const XmpData&) override;
+  void setComment(const std::string& comment) override;
+  void printStructure(std::ostream& out, Exiv2::PrintStructureOption option, size_t depth) override;
   //@}
 
   //! @name Accessors
   //@{
-  [[nodiscard]] std::string mimeType() const override /* override */;
+  [[nodiscard]] std::string mimeType() const override;
   [[nodiscard]] uint32_t pixelWidth() const override;
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
-  const Exiv2::ByteOrder endian_{Exiv2::bigEndian};
+  static constexpr Exiv2::ByteOrder endian_{Exiv2::bigEndian};
 
  private:
-  void openOrThrow();
+  void openOrThrow() const;
   /*!
     @brief recursiveBoxHandler
     @throw Error if we visit a box more than once
@@ -122,29 +127,34 @@ class EXIV2API BmffImage : public Image {
     @return address of next box
     @warning This function should only be called by readMetadata()
    */
-  long boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, long pbox_end, int depth);
-  [[nodiscard]] static std::string indent(int i) {
-    return std::string(2 * i, ' ');
-  }
+  uint64_t boxHandler(std::ostream& out, Exiv2::PrintStructureOption option, uint64_t pbox_end, size_t depth);
 
   uint32_t fileType_{0};
-  std::set<uint64_t> visits_;
+  std::set<size_t> visits_;
   uint64_t visits_max_{0};
   uint16_t unknownID_{0xffff};
   uint16_t exifID_{0xffff};
   uint16_t xmpID_{0};
   std::map<uint32_t, Iloc> ilocs_;
   bool bReadMetadata_{false};
+  const size_t max_box_depth_;
   //@}
 
   /*!
     @brief box utilities
    */
-  static std::string toAscii(long n);
+  static std::string toAscii(uint32_t n);
   std::string boxName(uint32_t box);
   static bool superBox(uint32_t box);
   static bool fullBox(uint32_t box);
-  static std::string uuidName(Exiv2::DataBuf& uuid);
+  static std::string uuidName(const Exiv2::DataBuf& uuid);
+
+  /*!
+    @brief Wrapper around brotli to uncompress JXL brob content.
+   */
+#ifdef EXV_HAVE_BROTLI
+  static void brotliUncompress(const byte* compressedBuf, size_t compressedBufSize, DataBuf& arr);
+#endif
 
 };  // class BmffImage
 
@@ -158,9 +168,11 @@ class EXIV2API BmffImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newBmffInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a BMFF image.
 EXIV2API bool isBmffType(BasicIo& iIo, bool advance);
 }  // namespace Exiv2
 #endif  // EXV_ENABLE_BMFF
+
+#endif  // EXIV2_BMFFIMAGE_HPP

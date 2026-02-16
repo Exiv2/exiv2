@@ -308,152 +308,152 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
-      76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
-    8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9197 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168394 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175562 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175578 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175596 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175617 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175636 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175926 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184130 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192334 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200538 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208742 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215927 | IEND  |       0 |                                | 0xae426082
+      76 | eXIf  |    8408 | II*..........................  | 0x81634e71
+    8496 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9144 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
+ 1168341 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175509 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175525 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175543 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175564 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175583 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175873 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184077 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192281 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200485 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208689 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215874 | IEND  |       0 |                                | 0xae426082
 abcdefg
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
-      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
-    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215884 | IEND  |       0 |                                | 0xae426082
+      33 | eXIf  |    8408 | II*..........................  | 0x81634e71
+    8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9101 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
+ 1168298 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175466 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175482 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175500 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175521 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175540 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175830 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184034 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192238 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200442 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208646 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215831 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
-      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
-    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215884 | IEND  |       0 |                                | 0xae426082
+      33 | eXIf  |    8408 | II*..........................  | 0x81634e71
+    8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9101 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
+ 1168298 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175466 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175482 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175500 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175521 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175540 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175830 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184034 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192238 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200442 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208646 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215831 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
-      76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
-    8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9197 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168394 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175562 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175578 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175596 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175617 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175636 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175926 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184130 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192334 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200538 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208742 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215927 | IEND  |       0 |                                | 0xae426082
+      76 | eXIf  |    8408 | II*..........................  | 0x81634e71
+    8496 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9144 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
+ 1168341 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175509 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175525 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175543 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175564 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175583 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175873 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184077 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192281 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200485 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208689 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215874 | IEND  |       0 |                                | 0xae426082
 abcdefg
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
-      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
-    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168351 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215884 | IEND  |       0 |                                | 0xae426082
+      33 | eXIf  |    8408 | II*..........................  | 0x81634e71
+    8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9101 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
+ 1168298 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+ 1175466 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175482 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175500 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175521 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175540 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175830 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184034 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192238 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200442 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208646 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215831 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
-      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
-    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
-    9459 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
-   16627 | gAMA  |       4 | ....                           | 0x0bfc6105
-   16643 | bKGD  |       6 | ......                         | 0xa0bda793
-   16661 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   16682 | tIME  |       7 | ......2                        | 0x582d32e4
-   16701 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   16991 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25195 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
-   33399 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
-   41603 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
-   49807 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
-   56992 | IEND  |       0 |                                | 0xae426082
+      33 | eXIf  |    8408 | II*..........................  | 0x81634e71
+    8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9101 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
+    9406 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+   16574 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16590 | bKGD  |       6 | ......                         | 0xa0bda793
+   16608 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16629 | tIME  |       7 | ......2                        | 0x582d32e4
+   16648 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   16938 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25142 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+   33346 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41550 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49754 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   56939 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | iTXt  |      31 | Description.....x.KLJNIMK..... | 0xc1fefec8
-      76 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
-    8549 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9197 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
-    9502 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
-   16670 | gAMA  |       4 | ....                           | 0x0bfc6105
-   16686 | bKGD  |       6 | ......                         | 0xa0bda793
-   16704 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   16725 | tIME  |       7 | ......2                        | 0x582d32e4
-   16744 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   17034 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25238 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
-   33442 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
-   41646 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
-   49850 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
-   57035 | IEND  |       0 |                                | 0xae426082
+      76 | eXIf  |    8408 | II*..........................  | 0x81634e71
+    8496 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9144 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
+    9449 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+   16617 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16633 | bKGD  |       6 | ......                         | 0xa0bda793
+   16651 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16672 | tIME  |       7 | ......2                        | 0x582d32e4
+   16691 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   16981 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25185 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+   33389 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41593 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49797 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   56982 | IEND  |       0 |                                | 0xae426082
 abcdefg
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
-      33 | zTXt  |    8461 | Raw profile type exif..x...iv. | 0x91fbf6a0
-    8506 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
-    9154 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
-    9459 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
-   16627 | gAMA  |       4 | ....                           | 0x0bfc6105
-   16643 | bKGD  |       6 | ......                         | 0xa0bda793
-   16661 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   16682 | tIME  |       7 | ......2                        | 0x582d32e4
-   16701 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   16991 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25195 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
-   33399 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
-   41603 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
-   49807 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
-   56992 | IEND  |       0 |                                | 0xae426082
+      33 | eXIf  |    8408 | II*..........................  | 0x81634e71
+    8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
+    9101 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
+    9406 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
+   16574 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16590 | bKGD  |       6 | ......                         | 0xa0bda793
+   16608 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16629 | tIME  |       7 | ......2                        | 0x582d32e4
+   16648 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   16938 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25142 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+   33346 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41550 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49754 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   56939 | IEND  |       0 |                                | 0xae426082
 45ed3c125cc6041b37b44ee4cb881cd8
 45ed3c125cc6041b37b44ee4cb881cd8
 50b9125494306a6fc1b7c4f2a1a8d49d

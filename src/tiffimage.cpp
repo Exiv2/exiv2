@@ -8,9 +8,11 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 #include "types.hpp"
+#include "value.hpp"
 
 #include <array>
 #include <iostream>
@@ -39,16 +41,21 @@ namespace Exiv2 {
 using namespace Internal;
 
 TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)), pixelWidthPrimary_(0), pixelHeightPrimary_(0) {
+    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)) {
 }  // TiffImage::TiffImage
 
-//! Structure for TIFF compression to MIME type mappings
-using MimeTypeList = std::pair<int, const char*>;
 //! List of TIFF compression to MIME type mappings
-constexpr auto mimeTypeList = std::array{
-    MimeTypeList(32770, "image/x-samsung-srw"),
-    MimeTypeList(34713, "image/x-nikon-nef"),
-    MimeTypeList(65535, "image/x-pentax-pef"),
+
+constexpr struct mimeType {
+  int comp;
+  const char* type;
+
+  bool operator==(int c) const {
+    return comp == c;
+  }
+} mimeTypeList[] = {
+    {32767, "image/x-sony-arw"},  {32769, "image/x-epson-erf"}, {32770, "image/x-samsung-srw"},
+    {34713, "image/x-nikon-nef"}, {65000, "image/x-kodak-dcr"}, {65535, "image/x-pentax-pef"},
 };
 
 std::string TiffImage::mimeType() const {
@@ -59,10 +66,9 @@ std::string TiffImage::mimeType() const {
   std::string key = "Exif." + primaryGroup() + ".Compression";
   auto md = exifData_.findKey(ExifKey(key));
   if (md != exifData_.end() && md->count() > 0) {
-    for (auto&& [comp, type] : mimeTypeList)
-      if (comp == static_cast<int>(md->toInt64())) {
-        mimeType_ = type;
-      }
+    auto mt = Exiv2::find(mimeTypeList, static_cast<int>(md->toInt64()));
+    if (mt)
+      mimeType_ = mt->type;
   }
   return mimeType_;
 }
@@ -79,7 +85,7 @@ std::string TiffImage::primaryGroup() const {
   };
   // Find the group of the primary image, default to "Image"
   primaryGroup_ = std::string("Image");
-  for (auto&& i : keys) {
+  for (auto i : keys) {
     auto md = exifData_.findKey(ExifKey(i));
     // Is it the primary image?
     if (md != exifData_.end() && md->count() > 0 && md->toInt64() == 0) {
@@ -119,7 +125,7 @@ uint32_t TiffImage::pixelHeight() const {
   return pixelHeightPrimary_;
 }
 
-void TiffImage::setComment(std::string_view /*comment*/) {
+void TiffImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "TIFF"));
 }
@@ -162,18 +168,16 @@ void TiffImage::writeMetadata() {
   std::cerr << "Writing TIFF file " << io_->path() << "\n";
 #endif
   ByteOrder bo = byteOrder();
-  byte* pData = nullptr;
+  const byte* pData = nullptr;
   size_t size = 0;
   IoCloser closer(*io_);
-  if (io_->open() == 0) {
-    // Ensure that this is the correct image type
-    if (isTiffType(*io_, false)) {
-      pData = io_->mmap(true);
-      size = io_->size();
-      TiffHeader tiffHeader;
-      if (0 == tiffHeader.read(pData, 8)) {
-        bo = tiffHeader.byteOrder();
-      }
+  // Ensure that this is the correct image type
+  if (io_->open() == 0 && isTiffType(*io_, false)) {
+    pData = io_->mmap(true);
+    size = io_->size();
+    TiffHeader tiffHeader;
+    if (0 == tiffHeader.read(pData, 8)) {
+      bo = tiffHeader.byteOrder();
     }
   }
   if (bo == invalidByteOrder) {
@@ -207,34 +211,29 @@ ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xm
 
   // #1402  Fujifilm RAF. Change root when parsing embedded tiff
   Exiv2::ExifKey key("Exif.Image.Make");
-  if (exifData.findKey(key) != exifData.end()) {
-    if (exifData.findKey(key)->toString() == "FUJIFILM") {
-      root = Tag::fuji;
-    }
+  if (exifData.findKey(key) != exifData.end() && exifData.findKey(key)->toString() == "FUJIFILM") {
+    root = Tag::fuji;
   }
 
   return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, root, TiffMapping::findDecoder);
 }  // TiffParser::decode
 
-WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder,
-                               const ExifData& exifData, const IptcData& iptcData, const XmpData& xmpData) {
-  // Copy to be able to modify the Exif data
-  ExifData ed = exifData;
-
+WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
+                               const IptcData& iptcData, const XmpData& xmpData) {
   // Delete IFDs which do not occur in TIFF images
   static constexpr auto filteredIfds = std::array{
-      panaRawId,
+      IfdId::panaRawId,
   };
-  for (auto&& filteredIfd : filteredIfds) {
+  for (auto filteredIfd : filteredIfds) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Warning: Exif IFD " << filteredIfd << " not encoded\n";
 #endif
-    ed.erase(std::remove_if(ed.begin(), ed.end(), FindExifdatum(filteredIfd)), ed.end());
+    exifData.erase(std::remove_if(exifData.begin(), exifData.end(), FindExifdatum(filteredIfd)), exifData.end());
   }
 
   TiffHeader header(byteOrder);
-  return TiffParserWorker::encode(io, pData, size, ed, iptcData, xmpData, Tag::root, TiffMapping::findEncoder, &header,
-                                  nullptr);
+  return TiffParserWorker::encode(io, pData, size, exifData, iptcData, xmpData, Tag::root, TiffMapping::findEncoder,
+                                  &header, nullptr);
 }  // TiffParser::encode
 
 // *************************************************************************
@@ -242,7 +241,7 @@ WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, Byte
 Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<TiffImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
@@ -262,21 +261,19 @@ bool isTiffType(BasicIo& iIo, bool advance) {
   return rc;
 }
 
-void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, int depth) {
+void TiffImage::printStructure(std::ostream& out, Exiv2::PrintStructureOption option, size_t depth) {
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type
-  if (imageType() == ImageType::none) {
-    if (!isTiffType(*io_, false)) {
-      if (io_->error() || io_->eof())
-        throw Error(ErrorCode::kerFailedToReadImageData);
-      throw Error(ErrorCode::kerNotAJpeg);
-    }
+  if (imageType() == ImageType::none && !isTiffType(*io_, false)) {
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    throw Error(ErrorCode::kerNotAJpeg);
   }
 
   io_->seek(0, BasicIo::beg);
 
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }
 
 }  // namespace Exiv2

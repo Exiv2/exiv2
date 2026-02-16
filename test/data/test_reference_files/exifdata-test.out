@@ -817,7 +817,7 @@ Exif.NikonFl1.FlashGroupAControlMode          0x000f Makernote    Byte        1 
 Exif.NikonFl1.FlashGroupBControlMode          0x0010 Makernote    Byte        1 0
 Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 0 0 0
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
-Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.Saturation2                       0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
 Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset=Ascii                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
@@ -988,7 +988,7 @@ Exif.NikonFl1.FlashGroupAControlMode          0x000f Makernote    Byte        1 
 Exif.NikonFl1.FlashGroupBControlMode          0x0010 Makernote    Byte        1 0
 Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 0 0 0
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
-Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.Saturation2                       0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
 Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset=Ascii                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
@@ -1160,7 +1160,7 @@ Exif.NikonFl1.FlashGroupAControlMode          0x000f Makernote    Byte        1 
 Exif.NikonFl1.FlashGroupBControlMode          0x0010 Makernote    Byte        1 0
 Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 0 0 0
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
-Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.Saturation2                       0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
 Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset=Ascii                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00
@@ -1332,7 +1332,7 @@ Exif.NikonFl1.FlashGroupAControlMode          0x000f Makernote    Byte        1 
 Exif.NikonFl1.FlashGroupBControlMode          0x0010 Makernote    Byte        1 0
 Exif.NikonFl1.0x0011                          0x0011 Makernote    Byte        3 0 0 0
 Exif.Nikon3.ImageOptimization                 0x00a9 Makernote    Ascii      16 NORMAL         
-Exif.Nikon3.Saturation                        0x00aa Makernote    Ascii      16 NORMAL         
+Exif.Nikon3.Saturation2                       0x00aa Makernote    Ascii      16 NORMAL         
 Exif.Nikon3.VariProgram                       0x00ab Makernote    Ascii      16                
 Exif.Photo.UserComment                        0x9286 Exif         Undefined  44 charset=Ascii                                     
 Exif.Photo.SubSecTime                         0x9290 Exif         Ascii       3 00

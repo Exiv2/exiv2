@@ -103,7 +103,7 @@ Exif.OlympusCs.NoiseFilter                   SShort      3  0 -2 1  Standard
 Exif.OlympusCs.ArtFilter                     Short       4  0 0 0 0  Off
 Exif.OlympusCs.DriveMode                     Short       5  5 1 1 0 0  5 1 1 0 0
 Exif.OlympusCs.PanoramaMode                  Short       2  0 0  0 0
-Exif.OlympusCs.ImageStabilization            Long        1  4  (4)
+Exif.OlympusCs.ImageStabilization            Long        1  4  S-IS AUTO
 Exif.OlympusCs.ManometerPressure             Short       1  0  0
 Exif.OlympusCs.ManometerReading              SLong       2  -9999 -9999  -9999 -9999
 Exif.OlympusCs.ExtendedWBDetect              Short       1  0  Off
@@ -180,7 +180,7 @@ Exif.Photo.GainControl                       Short       1  0  None
 Exif.Photo.Contrast                          Short       1  0  Normal
 Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
-Exif.Photo.LensSpecification                 Rational    4  17/1 17/1 12/10 12/10  17/1 17/1 12/10 12/10
+Exif.Photo.LensSpecification                 Rational    4  17/1 17/1 12/10 12/10  17mm F1.2
 Exif.Photo.LensModel                         Ascii      32  OLYMPUS M.17mm F1.2  OLYMPUS M.17mm F1.2
 Exif.Image.GPSTag                            Long        1  16792  16792
 Exif.GPSInfo.GPSVersionID                    Byte        4  2 3 0 0  2.3.0.0

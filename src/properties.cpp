@@ -2,10 +2,11 @@
 
 // included header files
 #include "properties.hpp"
-
+#include "config.h"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
-#include "metadatum.hpp"
+#include "image_int.hpp"
+#include "tags.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 #include "value.hpp"
@@ -18,10 +19,10 @@ namespace {
 struct XmpPrintInfo {
   //! Comparison operator for key
   bool operator==(const std::string& key) const {
-    return 0 == strcmp(key_, key.c_str());
+    return key == key_;
   }
 
-  const char* key_;           //!< XMP key
+  std::string_view key_;      //!< XMP key
   Exiv2::PrintFct printFct_;  //!< Print function
 };
 
@@ -70,7 +71,7 @@ extern const XmpPropertyInfo xmpAcdseeInfo[];
 extern const XmpPropertyInfo xmpGPanoInfo[];
 
 constexpr XmpNsInfo xmpNsInfo[] = {
-    // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpParser::initialize -
+    // Schemas   -   NOTE: Schemas which the XMP-SDK doesn't know must be registered in XmpToolkitLifetimeManager -
     // Todo: Automate this
     {"http://purl.org/dc/elements/1.1/", "dc", xmpDcInfo, N_("Dublin Core schema")},
     {"http://www.digikam.org/ns/1.0/", "digiKam", xmpDigikamInfo, N_("digiKam Photo Management schema")},
@@ -132,9 +133,10 @@ constexpr XmpNsInfo xmpNsInfo[] = {
     {"http://ns.adobe.com/xmp/sType/Area#", "stArea", nullptr, N_("Area structure")},
 
     // Qualifiers
-    {"http://ns.adobe.com/xmp/Identifier/qual/1.0/", "xmpidq", nullptr, N_("Qualifier for xmp:Identifier")}};
+    {"http://ns.adobe.com/xmp/Identifier/qual/1.0/", "xmpidq", nullptr, N_("Qualifier for xmp:Identifier")},
+};
 
-extern const XmpPropertyInfo xmpDcInfo[] = {
+const XmpPropertyInfo xmpDcInfo[] = {
     {"contributor", N_("Contributor"), "bag ProperName", xmpBag, xmpExternal,
      N_("Contributors to the resource (other than the authors).")},
     {"coverage", N_("Coverage"), "Text", xmpText, xmpExternal,
@@ -177,9 +179,10 @@ extern const XmpPropertyInfo xmpDcInfo[] = {
     {"type", N_("Type"), "bag open Choice", xmpBag, xmpExternal,
      N_("A document type; for example, novel, poem, or working paper.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpDigikamInfo[] = {
+const XmpPropertyInfo xmpDigikamInfo[] = {
     {"TagsList", N_("Tags List"), "seq Text", xmpSeq, xmpExternal,
      N_("The list of complete tags path as string. The path hierarchy is separated by '/' character (ex.: "
         "\"City/Paris/Monument/Eiffel Tower\".")},
@@ -203,9 +206,10 @@ extern const XmpPropertyInfo xmpDigikamInfo[] = {
     {"Preview", N_("JPEG preview"), "Text", xmpText, xmpExternal,
      N_("Reduced size JPEG preview image encoded as base64 for a fast screen rendering.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpKipiInfo[] = {
+const XmpPropertyInfo xmpKipiInfo[] = {
     {"PanoramaInputFiles", N_("Panorama Input Files"), "Text", xmpText, xmpExternal,
      N_("The list of files processed with Hugin program through Panorama tool.")},
     {"EnfuseInputFiles", N_("Enfuse Input Files"), "Text", xmpText, xmpExternal,
@@ -217,9 +221,10 @@ extern const XmpPropertyInfo xmpKipiInfo[] = {
     {"yandexGPhotoId", N_("Yandex Fotki Item ID"), "Text", xmpText, xmpExternal,
      N_("Item ID from Yandex Fotki web service.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpXmpInfo[] = {
+const XmpPropertyInfo xmpXmpInfo[] = {
     {"Advisory", N_("Advisory"), "bag XPath", xmpBag, xmpExternal,
      N_("An unordered array specifying properties that were edited outside the authoring "
         "application. Each item should contain a single namespace and XPath separated by "
@@ -261,9 +266,10 @@ extern const XmpPropertyInfo xmpXmpInfo[] = {
      N_("An alternative array of thumbnail images for a file, which can differ in "
         "characteristics such as size or image encoding.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpXmpRightsInfo[] = {
+const XmpPropertyInfo xmpXmpRightsInfo[] = {
     {"Certificate", N_("Certificate"), "URL", xmpText, xmpExternal, N_("Online rights management certificate.")},
     {"Marked", N_("Marked"), "Boolean", xmpText, xmpExternal, N_("Indicates that this is a rights-managed resource.")},
     {"Owner", N_("Owner"), "bag ProperName", xmpBag, xmpExternal,
@@ -273,9 +279,10 @@ extern const XmpPropertyInfo xmpXmpRightsInfo[] = {
     {"WebStatement", N_("Web Statement"), "URL", xmpText, xmpExternal,
      N_("The location of a web page describing the owner and/or rights statement for this resource.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpXmpMMInfo[] = {
+const XmpPropertyInfo xmpXmpMMInfo[] = {
     {"DerivedFrom", N_("Derived From"), "ResourceRef", xmpText, xmpInternal,
      N_("A reference to the original document from which this one is derived. It is a "
         "minimal reference; missing components can be assumed to be unchanged. For example, "
@@ -352,9 +359,10 @@ extern const XmpPropertyInfo xmpXmpMMInfo[] = {
     {"SaveID", N_("Save ID"), "Integer", xmpText, xmpInternal,
      N_("Deprecated. Previously used only to support the xmpMM:LastURL property.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpXmpBJInfo[] = {
+const XmpPropertyInfo xmpXmpBJInfo[] = {
     {"JobRef", N_("Job Reference"), "bag Job", xmpText, xmpExternal,
      N_("References an external job management file for a job process in which the document is being used. Use of "
         "job "
@@ -364,9 +372,10 @@ extern const XmpPropertyInfo xmpXmpBJInfo[] = {
         "and it can "
         "also be useful to keep historical information about what jobs a document was part of previously.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpXmpTPgInfo[] = {
+const XmpPropertyInfo xmpXmpTPgInfo[] = {
     {"MaxPageSize", N_("Maximum Page Size"), "Dimensions", xmpText, xmpInternal,
      N_("The size of the largest page in the document (including any in contained documents).")},
     {"NPages", N_("Number of Pages"), "Integer", xmpText, xmpInternal,
@@ -380,9 +389,10 @@ extern const XmpPropertyInfo xmpXmpTPgInfo[] = {
      N_("An ordered array of plate names that are needed to print the document (including any in contained "
         "documents).")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpXmpDMInfo[] = {
+const XmpPropertyInfo xmpXmpDMInfo[] = {
     {"absPeakAudioFilePath", N_("Absolute Peak Audio File Path"), "URI", xmpText, xmpInternal,
      N_("The absolute path to the file's peak audio file. If empty, no peak file exists.")},
     {"album", N_("Album"), "Text", xmpText, xmpExternal, N_("The name of the album.")},
@@ -518,7 +528,7 @@ extern const XmpPropertyInfo xmpXmpDMInfo[] = {
     {"videoFrameSize", N_("Video Frame Size"), "Dimensions", xmpText, xmpInternal,
      N_("The frame size. For example: w:720, h: 480, unit:pixels")},
     {"videoModDate", N_("Video Modified Date"), "Date", xmpText, xmpInternal,
-     N_("(deprecated)The date and time when the video was last modified.")},
+     N_("(deprecated) The date and time when the video was last modified.")},
     {"videoPixelDepth", N_("Video Pixel Depth"), "closed Choice of Text", xmpText, xmpInternal,
      N_("The size in bits of each color component of a pixel. Standard Windows 32-bit "
         "pixels have 8 bits per component. One of: 8Int, 16Int, 32Int, 32Float.")},
@@ -530,9 +540,10 @@ extern const XmpPropertyInfo xmpXmpDMInfo[] = {
      N_("If in a multi-disc set, might contain total number of discs. For example: 2/3.")},
 
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpMicrosoftInfo[] = {
+const XmpPropertyInfo xmpMicrosoftInfo[] = {
     {"CameraSerialNumber", N_("Camera Serial Number"), "Text", xmpText, xmpExternal, N_("Camera Serial Number.")},
     {"DateAcquired", N_("Date Acquired"), "Date", xmpText, xmpExternal, N_("Date Acquired.")},
     {"FlashManufacturer", N_("Flash Manufacturer"), "Text", xmpText, xmpExternal, N_("Flash Manufacturer.")},
@@ -543,16 +554,18 @@ extern const XmpPropertyInfo xmpMicrosoftInfo[] = {
     {"LensModel", N_("Lens Model"), "Text", xmpText, xmpExternal, N_("Lens Model.")},
     {"Rating", N_("Rating Percent"), "Text", xmpText, xmpExternal, N_("Rating Percent.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpLrInfo[] = {
+const XmpPropertyInfo xmpLrInfo[] = {
     {"hierarchicalSubject", N_("Hierarchical Subject"), "bag Text", xmpBag, xmpExternal,
      N_("Adobe Lightroom hierarchical keywords.")},
     {"privateRTKInfo", N_("Private RTK Info"), "Text", xmpText, xmpExternal, N_("Adobe Lightroom private RTK info.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpPdfInfo[] = {
+const XmpPropertyInfo xmpPdfInfo[] = {
     {"Keywords", N_("Keywords"), "Text", xmpText, xmpExternal, N_("Keywords.")},
     {"PDFVersion", N_("PDF Version"), "Text", xmpText, xmpInternal,
      N_("The PDF file version (for example: 1.0, 1.3, and so on).")},
@@ -560,9 +573,10 @@ extern const XmpPropertyInfo xmpPdfInfo[] = {
      N_("The name of the tool that created the PDF document.")},
     {"Trapped", N_("Trapped"), "Boolean", xmpText, xmpExternal, N_("True when the document has been trapped.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpPhotoshopInfo[] = {
+const XmpPropertyInfo xmpPhotoshopInfo[] = {
     {"DateCreated", N_("Date Created"), "Date", xmpText, xmpExternal,
      N_("The date the intellectual content of the document was created (rather than the creation "
         "date of the physical representation), following IIM conventions. For example, a photo "
@@ -604,12 +618,17 @@ extern const XmpPropertyInfo xmpPhotoshopInfo[] = {
      N_("Filename extension of associated image file.")},
 
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
 //! XMP crs:CropUnits
-constexpr TagDetails crsCropUnits[] = {{0, N_("pixels")}, {1, N_("inches")}, {2, N_("cm")}};
+constexpr TagDetails crsCropUnits[] = {
+    {0, N_("pixels")},
+    {1, N_("inches")},
+    {2, N_("cm")},
+};
 
-extern const XmpPropertyInfo xmpCrssInfo[] = {
+const XmpPropertyInfo xmpCrssInfo[] = {
     {"SavedSettings", N_("Saved Settings"), "SavedSettings", xmpText, xmpInternal,
      N_("*Main structure* Camera Raw Saved Settings.")},
     {"Name", N_("Name"), "Text", xmpText, xmpExternal, N_("Camera Raw Saved Settings Name.")},
@@ -617,9 +636,10 @@ extern const XmpPropertyInfo xmpCrssInfo[] = {
     {"Parameters", N_("Parameters"), "Parameters", xmpText, xmpInternal,
      N_("*Main structure* Camera Raw Saved Settings Parameters.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpCrsInfo[] = {
+const XmpPropertyInfo xmpCrsInfo[] = {
     {"AutoBrightness", N_("Auto Brightness"), "Boolean", xmpText, xmpInternal,
      N_("When true, \"Brightness\" is automatically adjusted.")},
     {"AutoContrast", N_("Auto Contrast"), "Boolean", xmpText, xmpInternal,
@@ -1042,9 +1062,10 @@ extern const XmpPropertyInfo xmpCrsInfo[] = {
     {"Feather", N_("Feather"), "Real", xmpText, xmpExternal, N_("Not in XMP Specification. Found in sample files.")},
     {"Seed", N_("Seed"), "Integer", xmpText, xmpExternal, N_("Not in XMP Specification. Found in sample files.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpTiffInfo[] = {
+const XmpPropertyInfo xmpTiffInfo[] = {
     {"ImageWidth", N_("Image Width"), "Integer", xmpText, xmpInternal,
      N_("TIFF tag 256, 0x100. Image width in pixels.")},
     {"ImageLength", N_("Image Length"), "Integer", xmpText, xmpInternal,
@@ -1116,9 +1137,10 @@ extern const XmpPropertyInfo xmpTiffInfo[] = {
      N_("TIFF tag 33432, 0x8298. Copyright information. "
         "Note: This property is stored in XMP as dc:rights.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpExifInfo[] = {
+const XmpPropertyInfo xmpExifInfo[] = {
     {"ExifVersion", N_("Exif Version"), "Closed Choice of Text", xmpText, xmpInternal,
      N_("EXIF tag 36864, 0x9000. EXIF version number.")},
     {"FlashpixVersion", N_("Flashpix Version"), "Closed Choice of Text", xmpText, xmpInternal,
@@ -1295,9 +1317,10 @@ extern const XmpPropertyInfo xmpExifInfo[] = {
     {"GPSDifferential", N_("GPS Differential"), "Closed Choice of Integer", xmpText, xmpInternal,
      N_("GPS tag 30, 0x1E. Indicates whether differential correction is applied to the GPS receiver.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpExifEXInfo[] = {
+const XmpPropertyInfo xmpExifEXInfo[] = {
     {"Gamma", N_("Gamma"), "Rational", xmpText, xmpInternal,
      N_("EXIF tag 42240, 0xA500. Indicates the value of coefficient gamma.")},
     {"PhotographicSensitivity", N_("Photographic Sensitivity"), "Integer", xmpText, xmpInternal,
@@ -1351,17 +1374,19 @@ extern const XmpPropertyInfo xmpExifEXInfo[] = {
         "THM = Indicates a file conforming to DCF thumbnail file stipulated by Design rule for Camera File System. "
         "R03 = Indicates a file conforming to DCF Option File stipulated by Design rule for Camera File System.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpAuxInfo[] = {
+const XmpPropertyInfo xmpAuxInfo[] = {
     {"Lens", N_("Lens"), "Text", xmpText, xmpInternal,
      N_("A description of the lens used to take the photograph. For example, \"70-200 mm f/2.8-4.0\".")},
     {"SerialNumber", N_("Serial Number"), "Text", xmpText, xmpInternal,
      N_("The serial number of the camera or camera body used to take the photograph.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpIptcInfo[] = {
+const XmpPropertyInfo xmpIptcInfo[] = {
     {"AltTextAccessibility", N_("Alternative Text (Accessibility)"), "Lang Alt", langAlt, xmpExternal,
      N_("A brief textual description of the purpose and meaning of an image that can be accessed by assistive "
         "technology or displayed when the image is disabled in the browser. It should not exceed 250 characters.")},
@@ -1416,9 +1441,10 @@ extern const XmpPropertyInfo xmpIptcInfo[] = {
         "a top-down geographical hierarchy. The code should be taken from ISO 3166 two or three "
         "letter code. The full name of a country should go in the \"Country\" element.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpIptcExtInfo[] = {
+const XmpPropertyInfo xmpIptcExtInfo[] = {
     {"AddlModelInfo", N_("Additional model information"), "Text", xmpText, xmpExternal,
      N_("Information about the ethnicity and other facets of the model(s) in a model-released image.")},
     {"OrganisationInImageCode", N_("Code of featured Organisation"), "bag Text", xmpBag, xmpExternal,
@@ -1525,7 +1551,8 @@ extern const XmpPropertyInfo xmpIptcExtInfo[] = {
      N_("Deprecated, use the AOTitle tag in ArtworkOrObjectDetails struct instead. A reference for the artwork or "
         "object in the image.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
 //! XMP Iptc4xmpCore:Scene
 //  Source: http://cv.iptc.org/newscodes/scene/
@@ -2957,7 +2984,8 @@ constexpr TagVocabulary iptcSubjectCode[] = {
 constexpr TagVocabulary iptcExtDigitalSourcefileType[] = {
     {"scanfilm", N_("Scan from film")},   {"scantransparency", N_("Scan from transparency (including slide)")},
     {"scanprint", N_("Scan from print")}, {"cameraraw", N_("Camera RAW")},
-    {"cameratiff", N_("Camera TIFF")},    {"camerajpeg", N_("Camera JPEG")}};
+    {"cameratiff", N_("Camera TIFF")},    {"camerajpeg", N_("Camera JPEG")},
+};
 
 //! XMP iptcExt:DigitalSourceType
 //  Source: http://cv.iptc.org/newscodes/digitalsourcetype/
@@ -2969,8 +2997,10 @@ constexpr TagVocabulary iptcExtDigitalSourceType[] = {
     {"softwareImage", N_("The digital image was created by computer software")},
 };
 
-extern const XmpPropertyInfo xmpPlusInfo[] = {
-    // PLUS Version 1.2.0
+const XmpPropertyInfo xmpPlusInfo[] = {
+    // PLUS Version 2.0.1
+    // https://ns.useplus.org/LDF/ldf-XMPSpecification
+    // Header
     {"Version", N_("PLUS Version"), "Text", xmpText, xmpExternal,
      N_("The version number of the PLUS standards in place at the time of the transaction.")},
     {"Licensee", N_("Licensee"), "seq LicenseeDetail", xmpSeq, xmpExternal,
@@ -3003,11 +3033,14 @@ extern const XmpPropertyInfo xmpPlusInfo[] = {
     {"LicensorTelephone2", N_("Licensor Telephone 2"), "Text", xmpText, xmpExternal,
      N_("Licensor Telephone number 2.")},
     {"LicensorEmail", N_("Licensor Email"), "Text", xmpText, xmpExternal, N_("Licensor Email address.")},
-    {"LicensorURL", N_("Licensor URL"), "URL", xmpText, xmpExternal, N_("Licensor world wide web address.")},
+    {"LicensorURL", N_("Licensor URL"), "URL", xmpText, xmpExternal,
+     N_("URL for a Licensor web page. May facilitate licensing of the image.")},
     {"LicensorNotes", N_("Licensor Notes"), "Lang Alt", langAlt, xmpExternal,
      N_("Supplemental information for use in identifying and contacting the Licensor/s.")},
+    // Media Permissions
     {"MediaSummaryCode", N_("PLUS Media Summary Code"), "Text", xmpText, xmpExternal,
      N_("A PLUS-standardized alphanumeric code string summarizing the media usages included in the license.")},
+    // Constraints
     {"LicenseStartDate", N_("License Start Date"), "Date", xmpText, xmpExternal,
      N_("The date on which the license takes effect.")},
     {"LicenseEndDate", N_("License End Date"), "Date", xmpText, xmpExternal,
@@ -3041,19 +3074,22 @@ extern const XmpPropertyInfo xmpPlusInfo[] = {
     {"PropertyReleaseID", N_("Property Release ID"), "bag Text", xmpBag, xmpExternal,
      N_("Optional identifier associated with each Property Release.")},
     {"OtherConstraints", N_("Other Constraints"), "Lang Alt", langAlt, xmpExternal,
-     N_("Additional constraints on the license.")},
+     N_("Additional constraints on the use of the asset.")},
+    // Requirements
     {"CreditLineRequired", N_("Credit Line Required"), "URL", xmpText, xmpExternal,
      N_("Attribution requirements, if any.")},
     {"AdultContentWarning", N_("Adult Content Warning"), "URL", xmpText, xmpExternal,
      N_("Warning indicating the presence of content not suitable for minors.")},
     {"OtherLicenseRequirements", N_("Other License Requirements"), "Lang Alt", langAlt, xmpExternal,
      N_("Additional license requirements.")},
+    // Conditions
     {"TermsAndConditionsText", N_("Terms and Conditions Text"), "Lang Alt", langAlt, xmpExternal,
      N_("Terms and Conditions applying to the license.")},
     {"TermsAndConditionsURL", N_("Terms and Conditions URL"), "URL", xmpText, xmpExternal,
      N_("URL for Terms and Conditions applying to the license.")},
     {"OtherConditions", N_("Other License Conditions"), "Lang Alt", langAlt, xmpExternal,
      N_("Additional license conditions.")},
+    // Image Info
     {"ImageType", N_("Image Type"), "URL", xmpText, xmpExternal, N_("Identifies the type of image delivered.")},
     {"LicensorImageID", N_("Licensor Image ID"), "Text", xmpText, xmpExternal,
      N_("Optional identifier assigned by the Licensor to the image.")},
@@ -3092,6 +3128,7 @@ extern const XmpPropertyInfo xmpPlusInfo[] = {
     {"LicenseeImageNotes", N_("Licensee Image Notes"), "Lang Alt", langAlt, xmpExternal,
      N_("Notes added by Licensee.")},
     {"OtherImageInfo", N_("Other Image Info"), "Lang Alt", langAlt, xmpExternal, N_("Additional image information.")},
+    // License Info
     {"LicenseID", N_("License ID"), "Text", xmpText, xmpExternal,
      N_("Optional PLUS-ID assigned by the Licensor to the License.")},
     {"LicensorTransactionID", N_("Licensor Transaction ID"), "bag Text", xmpBag, xmpExternal,
@@ -3105,10 +3142,13 @@ extern const XmpPropertyInfo xmpPlusInfo[] = {
     {"Reuse", N_("Reuse"), "URL", xmpText, xmpExternal,
      N_("Indicates whether a license is a repeat or an initial license.  Reuse may require that licenses stored in "
         "files previously delivered to the customer be updated.")},
+    {"DataMining", N_("Data Mining"), "URL", xmpText, xmpExternal,
+     N_("Data mining prohibition or permission, optionally with constraints.")},
     {"OtherLicenseDocuments", N_("Other License Documents"), "bag Text", xmpBag, xmpExternal,
      N_("Reference information for additional documents associated with the license.")},
     {"OtherLicenseInfo", N_("Other License Info"), "Lang Alt", langAlt, xmpExternal,
      N_("Additional license information.")},
+    // Custom Fields
     {"Custom1", N_("Custom 1"), "bag Lang Alt", xmpBag, xmpExternal,
      N_("Optional field for use at Licensor's discretion.")},
     {"Custom2", N_("Custom 2"), "bag Lang Alt", xmpBag, xmpExternal,
@@ -3130,126 +3170,168 @@ extern const XmpPropertyInfo xmpPlusInfo[] = {
     {"Custom10", N_("Custom 10"), "bag Lang Alt", xmpBag, xmpExternal,
      N_("Optional field for use at Licensee's discretion.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
 //! XMP plus:AdultContentWarning
 constexpr TagVocabulary plusAdultContentWarning[] = {
-    {"CW-AWR", N_("Adult Content Warning Required")}, {"CW-NRQ", N_("Not Required")}, {"CW-UNK", N_("Unknown")}};
+    {"CW-AWR", N_("Adult Content Warning Required")},
+    {"CW-NRQ", N_("Not Required")},
+    {"CW-UNK", N_("Unknown")},
+};
 
 //! XMP plus:CopyrightStatus
 constexpr TagVocabulary plusCopyrightStatus[] = {
-    {"CS-PRO", N_("Protected")}, {"CS-PUB", N_("Public Domain")}, {"CS-UNK", N_("Unknown")}};
+    {"CS-PRO", N_("Protected")},
+    {"CS-PUB", N_("Public Domain")},
+    {"CS-UNK", N_("Unknown")},
+};
 
 //! XMP plus:CreditLineRequired
-constexpr TagVocabulary plusCreditLineRequired[] = {{"CR-CAI", N_("Credit Adjacent To Image")},
-                                                    {"CR-CCA", N_("Credit in Credits Area")},
-                                                    {"CR-COI", N_("Credit on Image")},
-                                                    {"CR-NRQ", N_("Not Require")}};
+constexpr TagVocabulary plusCreditLineRequired[] = {
+    {"CR-CAI", N_("Credit Adjacent To Image")},
+    {"CR-CCA", N_("Credit in Credits Area")},
+    {"CR-COI", N_("Credit on Image")},
+    {"CR-NRQ", N_("Not Require")},
+};
 
 //! XMP plus:ImageAlterationConstraints
 constexpr TagVocabulary plusImageAlterationConstraints[] = {
     {"AL-CLR", N_("No Colorization")}, {"AL-CRP", N_("No Cropping")}, {"AL-DCL", N_("No De-Colorization")},
-    {"AL-FLP", N_("No Flipping")},     {"AL-MRG", N_("No Merging")},  {"AL-RET", N_("No Retouching")}};
+    {"AL-FLP", N_("No Flipping")},     {"AL-MRG", N_("No Merging")},  {"AL-RET", N_("No Retouching")},
+};
 
 //! XMP plus:ImageDuplicationConstraints
 constexpr TagVocabulary plusImageDuplicationConstraints[] = {
     {"DP-LIC", N_("Duplication Only as Necessary Under License")},
     {"DP-NDC", N_("No Duplication Constraints")},
-    {"DP-NOD", N_("No Duplication")}};
+    {"DP-NOD", N_("No Duplication")},
+};
 
 //! XMP plus:ImageFileConstraints
-constexpr TagVocabulary plusImageFileConstraints[] = {{"IF-MFN", N_("Maintain File Name")},
-                                                      {"IF-MFT", N_("Maintain File Type")},
-                                                      {"IF-MID", N_("Maintain ID in File Name")},
-                                                      {"IF-MMD", N_("Maintain Metadata")}};
+constexpr TagVocabulary plusImageFileConstraints[] = {
+    {"IF-MFN", N_("Maintain File Name")},
+    {"IF-MFT", N_("Maintain File Type")},
+    {"IF-MID", N_("Maintain ID in File Name")},
+    {"IF-MMD", N_("Maintain Metadata")},
+};
 
 //! XMP plus:ImageFileFormatAsDelivered
-constexpr TagVocabulary plusImageFileFormatAsDelivered[] = {{"FF-BMP", N_("Windows Bitmap (BMP)")},
-                                                            {"FF-DNG", N_("Digital Negative (DNG)")},
-                                                            {"FF-EPS", N_("Encapsulated PostScript (EPS)")},
-                                                            {"FF-GIF", N_("Graphics Interchange Format (GIF)")},
-                                                            {"FF-JPG", N_("JPEG Interchange Formats (JPG, JIF, JFIF)")},
-                                                            {"FF-OTR", N_("Other")},
-                                                            {"FF-PIC", N_("Macintosh Picture (PICT)")},
-                                                            {"FF-PNG", N_("Portable Network Graphics (PNG)")},
-                                                            {"FF-PSD", N_("Photoshop Document (PSD)")},
-                                                            {"FF-RAW", N_("Proprietary RAW Image Format")},
-                                                            {"FF-TIF", N_("Tagged Image File Format (TIFF)")},
-                                                            {"FF-WMP", N_("Windows Media Photo (HD Photo)")}};
+constexpr TagVocabulary plusImageFileFormatAsDelivered[] = {
+    {"FF-BMP", N_("Windows Bitmap (BMP)")},
+    {"FF-DNG", N_("Digital Negative (DNG)")},
+    {"FF-EPS", N_("Encapsulated PostScript (EPS)")},
+    {"FF-GIF", N_("Graphics Interchange Format (GIF)")},
+    {"FF-JPG", N_("JPEG Interchange Formats (JPG, JIF, JFIF)")},
+    {"FF-OTR", N_("Other")},
+    {"FF-PIC", N_("Macintosh Picture (PICT)")},
+    {"FF-PNG", N_("Portable Network Graphics (PNG)")},
+    {"FF-PSD", N_("Photoshop Document (PSD)")},
+    {"FF-RAW", N_("Proprietary RAW Image Format")},
+    {"FF-TIF", N_("Tagged Image File Format (TIFF)")},
+    {"FF-WMP", N_("Windows Media Photo (HD Photo)")},
+};
 
 //! XMP plus:ImageFileSizeAsDelivered
-constexpr TagVocabulary plusImageFileSizeAsDelivered[] = {{"SZ-G50", N_("Greater than 50 MB")},
-                                                          {"SZ-U01", N_("Up to 1 MB")},
-                                                          {"SZ-U10", N_("Up to 10 MB")},
-                                                          {"SZ-U30", N_("Up to 30 MB")},
-                                                          {"SZ-U50", N_("Up to 50 MB")}};
+constexpr TagVocabulary plusImageFileSizeAsDelivered[] = {
+    {"SZ-G50", N_("Greater than 50 MB")}, {"SZ-U01", N_("Up to 1 MB")},  {"SZ-U10", N_("Up to 10 MB")},
+    {"SZ-U30", N_("Up to 30 MB")},        {"SZ-U50", N_("Up to 50 MB")},
+};
 
 //! XMP plus:ImageType
-constexpr TagVocabulary plusImageType[] = {{"TY-ILL", N_("Illustrated Image")},
-                                           {"TY-MCI", N_("Multimedia or Composited Image")},
-                                           {"TY-OTR", N_("Other")},
-                                           {"TY-PHO", N_("Photographic Image")},
-                                           {"TY-VID", N_("Video")}};
+constexpr TagVocabulary plusImageType[] = {
+    {"TY-ILL", N_("Illustrated Image")},
+    {"TY-MCI", N_("Multimedia or Composited Image")},
+    {"TY-OTR", N_("Other")},
+    {"TY-PHO", N_("Photographic Image")},
+    {"TY-VID", N_("Video")},
+};
 
 //! XMP plus:LicensorTelephoneType
 constexpr TagVocabulary plusLicensorTelephoneType[] = {
-    {"cell", N_("Cell")}, {"fax", N_("FAX")}, {"home", N_("Home")}, {"pager", N_("Pager")}, {"work", N_("Work")}};
+    {"cell", N_("Cell")}, {"fax", N_("FAX")}, {"home", N_("Home")}, {"pager", N_("Pager")}, {"work", N_("Work")},
+};
 
 //! XMP plus:MinorModelAgeDisclosure
 constexpr TagVocabulary plusMinorModelAgeDisclosure[] = {
-    {"AG-UNK", N_("Age Unknown")},    {"AG-A25", N_("Age 25 or Over")}, {"AG-A24", N_("Age 24")},
-    {"AG-A23", N_("Age 23")},         {"AG-A22", N_("Age 22")},         {"AG-A21", N_("Age 21")},
-    {"AG-A20", N_("Age 20")},         {"AG-A19", N_("Age 19")},         {"AG-A18", N_("Age 18")},
-    {"AG-A17", N_("Age 17")},         {"AG-A16", N_("Age 16")},         {"AG-A15", N_("Age 15")},
-    {"AG-U14", N_("Age 14 or Under")}};
+    {"AG-UNK", N_("Age Unknown")},     {"AG-A25", N_("Age 25 or Over")}, {"AG-A24", N_("Age 24")},
+    {"AG-A23", N_("Age 23")},          {"AG-A22", N_("Age 22")},         {"AG-A21", N_("Age 21")},
+    {"AG-A20", N_("Age 20")},          {"AG-A19", N_("Age 19")},         {"AG-A18", N_("Age 18")},
+    {"AG-A17", N_("Age 17")},          {"AG-A16", N_("Age 16")},         {"AG-A15", N_("Age 15")},
+    {"AG-U14", N_("Age 14 or Under")},
+};
 
 //! XMP plus:ModelReleaseStatus
-constexpr TagVocabulary plusModelReleaseStatus[] = {{"MR-NON", N_("None")},
-                                                    {"MR-NAP", N_("Not Applicable")},
-                                                    {"MR-UMR", N_("Unlimited Model Releases")},
-                                                    {"MR-LMR", N_("Limited or Incomplete Model Releases")}};
+constexpr TagVocabulary plusModelReleaseStatus[] = {
+    {"MR-NON", N_("None")},
+    {"MR-NAP", N_("Not Applicable")},
+    {"MR-UMR", N_("Unlimited Model Releases")},
+    {"MR-LMR", N_("Limited or Incomplete Model Releases")},
+};
 
 //! XMP plus:PropertyReleaseStatus
-constexpr TagVocabulary plusPropertyReleaseStatus[] = {{"PR-NON", N_("None")},
-                                                       {"PR-NAP", N_("Not Applicable")},
-                                                       {"PR-UPR", N_("Unlimited Property Releases")},
-                                                       {"PR-LPR", N_("Limited or Incomplete Property Releases")}};
+constexpr TagVocabulary plusPropertyReleaseStatus[] = {
+    {"PR-NON", N_("None")},
+    {"PR-NAP", N_("Not Applicable")},
+    {"PR-UPR", N_("Unlimited Property Releases")},
+    {"PR-LPR", N_("Limited or Incomplete Property Releases")},
+};
 
 //! XMP plus:Reuse
-constexpr TagVocabulary plusReuse[] = {{"RE-NAP", N_("Not Applicable")}, {"RE-REU", N_("Repeat Use")}};
+constexpr TagVocabulary plusReuse[] = {
+    {"RE-NAP", N_("Not Applicable")},
+    {"RE-REU", N_("Repeat Use")},
+};
 
-extern const XmpPropertyInfo xmpMediaProInfo[] = {
+//! XMP plus:DataMining
+constexpr TagVocabulary plusDataMining[] = {
+    {"DMI-UNSPECIFIED", N_("Unspecified - no prohibition defined")},
+    {"DMI-ALLOWED", N_("Allowed")},
+    {"DMI-PROHIBITED-AIMLTRAINING", N_("Prohibited for AI/ML training")},
+    {"DMI-PROHIBITED-GENAIMLTRAINING", N_("Prohibited for Generative AI/ML training")},
+    {"DMI-PROHIBITED-EXCEPTSEARCHENGINEINDEXING", N_("Prohibited except for search engine indexing")},
+    {"DMI-PROHIBITED", N_("Prohibited")},
+    {"DMI-PROHIBITED-SEECONSTRAINT", N_("Prohibited, see Other Constraints property")},
+    {"DMI-PROHIBITED-SEEEMBEDDEDRIGHTSEXPR", N_("Prohibited, see Embedded Encoded Rights Expression property")},
+    {"DMI-PROHIBITED-SEELINKEDRIGHTSEXPR", N_("Prohibited, see Linked Encoded Rights Expression property")},
+};
+
+const XmpPropertyInfo xmpMediaProInfo[] = {
     {"Event", N_("Event"), "Text", xmpText, xmpExternal, N_("Fixture Identification")},
     {"Status", N_("Status"), "Text", xmpText, xmpExternal, N_("A notation making the image unique")},
     {"People", N_("People"), "bag Text", xmpBag, xmpExternal, N_("Contact")},
     {"CatalogSets", N_("Catalog Sets"), "bag Text", xmpBag, xmpExternal,
      N_("Descriptive markers of catalog items by content")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpExpressionMediaInfo[] = {
+const XmpPropertyInfo xmpExpressionMediaInfo[] = {
     {"Event", N_("Event"), "Text", xmpText, xmpExternal, N_("Fixture Identification")},
     {"Status", N_("Status"), "Text", xmpText, xmpExternal, N_("A notation making the image unique")},
     {"People", N_("People"), "bag Text", xmpBag, xmpExternal, N_("Contact")},
     {"CatalogSets", N_("Catalog Sets"), "bag Text", xmpBag, xmpExternal,
      N_("Descriptive markers of catalog items by content")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpMicrosoftPhotoInfo[] = {
+const XmpPropertyInfo xmpMicrosoftPhotoInfo[] = {
     {"RegionInfo", N_("RegionInfo"), "RegionInfo", xmpText, xmpInternal,
      N_("Microsoft Photo people-tagging metadata root")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[] = {
+const XmpPropertyInfo xmpMicrosoftPhotoRegionInfoInfo[] = {
     {"Regions", N_("Regions"), "bag Region", xmpBag, xmpExternal, N_("Contains Regions/person tags")},
     {"DateRegionsValid", N_("Date Regions Valid"), "Date", xmpText, xmpExternal,
      N_("Date the last region was created")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[] = {
+const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[] = {
     {"PersonDisplayName", N_("Person Display Name"), "Text", xmpText, xmpExternal,
      N_("Name of the person (in the given rectangle)")},
     {"Rectangle", N_("Rectangle"), "Text", xmpText, xmpExternal,
@@ -3265,9 +3347,10 @@ extern const XmpPropertyInfo xmpMicrosoftPhotoRegionInfo[] = {
     {"PersonLiveIdCID", N_("Person LiveId CID"), "Text", xmpText, xmpExternal,
      N_("Signed decimal representation of the person's Windows Live CID")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpMWGRegionsInfo[] = {
+const XmpPropertyInfo xmpMWGRegionsInfo[] = {
     {"Regions", N_("Regions"), "RegionInfo", xmpText, xmpInternal,
      N_("Main structure containing region based information")},
     {"AppliedToDimensions", N_("Applied To Dimensions"), "Dimensions", xmpText, xmpExternal,
@@ -3285,9 +3368,10 @@ extern const XmpPropertyInfo xmpMWGRegionsInfo[] = {
     {"Extensions", N_("Extensions"), "Text", xmpText, xmpInternal,
      N_("Any top level XMP property to describe the region content")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpMWGKeywordInfo[] = {
+const XmpPropertyInfo xmpMWGKeywordInfo[] = {
     {"Keywords", N_("Keywords"), "KeywordInfo", xmpText, xmpInternal,
      N_("Main structure containing keyword based information")},
     {"Hierarchy", N_("Hierarchy"), "bag KeywordStruct", xmpBag, xmpExternal, N_("List of root keyword structures")},
@@ -3298,9 +3382,10 @@ extern const XmpPropertyInfo xmpMWGKeywordInfo[] = {
     {"Children", N_("Children"), "bag KeywordStruct", xmpBag, xmpExternal, N_("List of children keyword structures")},
 
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpGPanoInfo[] = {
+const XmpPropertyInfo xmpGPanoInfo[] = {
     {"UsePanoramaViewer", N_("Use Panorama Viewer"), "Boolean", xmpText, xmpExternal,
      N_("Whether to show this image in a panorama viewer rather than as a normal flat image. This may be specified "
         "based on user preferences or by the stitching software. The application displaying or ingesting the image "
@@ -3359,9 +3444,10 @@ extern const XmpPropertyInfo xmpGPanoInfo[] = {
         "position is represented by 1.0. For normal viewing, this parameter should be set to 0.")},
 
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpVideoInfo[] = {
+const XmpPropertyInfo xmpVideoInfo[] = {
     {"Album", N_("Album"), "Text", xmpText, xmpExternal, N_("The name of the album.")},
     {"ArchivalLocation", N_("Archival Location"), "Text", xmpText, xmpExternal,
      N_("Information about the Archival Location.")},
@@ -3372,7 +3458,7 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
     {"AspectRatio", N_("Video Aspect Ratio"), "Rational", xmpText, xmpExternal,
      N_("Ratio of Width:Height, helps to determine how a video would be displayed on a screen")},
     {"AspectRatioType", N_("Video Aspect Ratio Type"), "Text", xmpText, xmpExternal,
-     N_("Aspect Ratio Type. Eg - Free-Resizing or Fixed")},
+     N_("Aspect Ratio Type. E.g.: Free-Resizing or Fixed")},
     {"AttachFileData", N_("Attached File Data"), "Text", xmpText, xmpExternal, N_("Attached File Data")},
     {"AttachFileDesc", N_("Attached File Description"), "Text", xmpText, xmpExternal, N_("Attached File Description")},
     {"AttachFileMIME", N_("Attached File MIME Type"), "Text", xmpText, xmpExternal, N_("Attached File MIME Type")},
@@ -3423,15 +3509,15 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
      N_("Information about the Compressor Version.")},
     {"Container", N_("Container Type"), "Text", xmpText, xmpExternal, N_("Primary Metadata Container")},
     {"ContentCompressAlgo", N_("Content Compression Algorithm"), "Text", xmpText, xmpExternal,
-     N_("Content Compression Algorithm. Eg: zlib")},
+     N_("Content Compression Algorithm. E.g.: zlib")},
     {"ContentEncodingType", N_("Content Encoding Type"), "Text", xmpText, xmpExternal,
-     N_("Content Encoding Type. Eg: Encryption or Compression")},
+     N_("Content Encoding Type. E.g.: Encryption or Compression")},
     {"ContentEncryptAlgo", N_("Content Encryption Algorithm"), "Text", xmpText, xmpExternal,
-     N_("Content Encryption Algorithm. Eg: Blowfish")},
+     N_("Content Encryption Algorithm. E.g.: Blowfish")},
     {"ContentSignAlgo", N_("Content Signature Algorithm"), "Text", xmpText, xmpExternal,
-     N_("Content Signature Algorithm. Eg: RSA")},
+     N_("Content Signature Algorithm. E.g.: RSA")},
     {"ContentSignHashAlgo", N_("Content Sign Hash Algorithm"), "Text", xmpText, xmpExternal,
-     N_("Content Signature Hash Algorithm. Eg: SHA1-160 or MD5")},
+     N_("Content Signature Hash Algorithm. E.g.: SHA1-160 or MD5")},
     {"Contrast", N_("Contrast"), "Closed Choice of Integer", xmpText, xmpInternal,
      N_("Indicates the direction of contrast processing applied by the camera.")},
     {"Copyright", N_("Copyright"), "Text", xmpText, xmpExternal,
@@ -3470,7 +3556,7 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
      N_("Information about the Dimensions of the video frame.")},
     {"Director", N_("Director"), "Text", xmpText, xmpExternal, N_("Information about the Director.")},
     {"DisplayUnit", N_("Video Display Unit"), "Text", xmpText, xmpExternal,
-     N_("Video display unit. Eg - cm, pixels, inch")},
+     N_("Video display unit. E.g.: cm, pixels, inch")},
     {"DistributedBy", N_("Distributed By"), "Text", xmpText, xmpExternal,
      N_("Distributed By, i.e. name of person or organization.")},
     {"DocType", N_("Doc Type"), "Text", xmpText, xmpExternal,
@@ -3538,7 +3624,8 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
     {"FNumber", N_("F Number"), "Rational", xmpText, xmpInternal, N_("F number. Camera Lens specific data.")},
     {"FocalLength", N_("Focal Length"), "Rational", xmpText, xmpInternal,
      N_("Focal length of the lens, in millimeters.")},
-    {"FocusMode", N_("Focus Mode"), "Text", xmpText, xmpExternal, N_("Focus Mode of the Lens. Eg - AF for Auto Focus")},
+    {"FocusMode", N_("Focus Mode"), "Text", xmpText, xmpExternal,
+     N_("Focus Mode of the Lens. E.g.: AF for Auto Focus")},
     {"Format", N_("Format"), "Text", xmpText, xmpExternal,
      N_("Indication of movie format (computer-generated, digitized, and so on).")},
     {"FrameCount", N_("Frame Count"), "Integer", xmpText, xmpExternal, N_("Total number of frames in a video")},
@@ -3742,7 +3829,7 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
      N_("A reference to the project that created this file.")},
     {"Rate", N_("Rate"), "Integer", xmpText, xmpExternal, N_("Rate.")},
     {"Rated", N_("Rated"), "Text", xmpText, xmpExternal, N_("The age circle required for viewing the video.")},
-    {"Rating", N_("Rating"), "Text", xmpText, xmpExternal, N_("Rating, eg. 7  or 8 (generally out of 10).")},
+    {"Rating", N_("Rating"), "Text", xmpText, xmpExternal, N_("Rating, e.g. 7  or 8 (generally out of 10).")},
     {"RecordLabelName", N_("Record Label Name"), "Text", xmpText, xmpExternal,
      N_("Record Label Name, or the name of the organization recording the video.")},
     {"RecordLabelURL", N_("Record Label URL"), "Text", xmpText, xmpExternal, N_("Record Label URL.")},
@@ -3753,7 +3840,7 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
     {"RippedBy", N_("Ripped By"), "Text", xmpText, xmpExternal, N_("Ripped By, i.e. name of person or organization.")},
     {"Saturation", N_("Saturation"), "Closed Choice of Integer", xmpText, xmpInternal,
      N_("Indicates the direction of saturation processing applied by the camera.")},
-    {"SecondaryGenre", N_("Secondary Genre"), "Text", xmpText, xmpExternal, N_("The name of the secondary genre..")},
+    {"SecondaryGenre", N_("Secondary Genre"), "Text", xmpText, xmpExternal, N_("The name of the secondary genre.")},
     {"SelectionTime", N_("Selection Time"), "Integer", xmpText, xmpExternal,
      N_("The time value for the start time of the current selection.")},
     {"SelectionDuration", N_("Selection Duration"), "Integer", xmpText, xmpExternal,
@@ -3777,13 +3864,13 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
     {"Statistics", N_("Statistics"), "Text", xmpText, xmpExternal, N_("Statistics.")},
     {"StreamCount", N_("Stream Count"), "Integer", xmpText, xmpExternal, N_("Total Number Of Streams")},
     {"StreamName", N_("Stream Name"), "Text", xmpText, xmpExternal,
-     N_("Describes the Stream Name. Eg - FUJIFILM AVI STREAM 0100")},
+     N_("Describes the Stream Name. E.g.: FUJIFILM AVI STREAM 0100")},
     {"StreamQuality", N_("Stream Quality"), "Integer", xmpText, xmpExternal, N_("General Stream Quality")},
     {"StreamSampleRate", N_("Stream Sample Rate"), "Rational", xmpText, xmpExternal, N_("Stream Sample Rate")},
     {"StreamSampleCount", N_("Stream Sample Count"), "Integer", xmpText, xmpExternal, N_("Stream Sample Count")},
     {"StreamSampleSize", N_("Stream Sample Size"), "Integer", xmpText, xmpExternal, N_("General Stream Sample Size")},
     {"StreamType", N_("Stream Type"), "Text", xmpText, xmpExternal,
-     N_("Describes the Stream Type. Eg - Video, Audio or Subtitles")},
+     N_("Describes the Stream Type. E.g.: Video, Audio or Subtitles")},
     {"SubTCodec", N_("Subtitles Codec"), "Text", xmpText, xmpExternal,
      N_("Subtitles stream codec, for general purpose")},
     {"SubTCodecDecodeAll", N_("Subtitle Codec Decode Info"), "Text", xmpText, xmpExternal,
@@ -3836,7 +3923,7 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
     {"TotalFrameCount", N_("Total Frame Count"), "Integer", xmpText, xmpExternal,
      N_("Total number of frames in a video")},
     {"TotalStream", N_("Number Of Streams"), "Integer", xmpText, xmpExternal,
-     N_("Total number of streams present in a video. Eg - Video, Audio or Subtitles")},
+     N_("Total number of streams present in a video. E.g.: Video, Audio or Subtitles")},
     {"Track", N_("Track"), "Text", xmpText, xmpExternal, N_("Information about the Track.")},
     {"TrackCreateDate", N_("Video Track Create Date"), "Integer", xmpText, xmpExternal,
      N_("A 32-bit integer that indicates (in seconds since midnight, January 1, 1904) when the track header was "
@@ -3909,9 +3996,10 @@ extern const XmpPropertyInfo xmpVideoInfo[] = {
     {"Year", N_("Year"), "Integer", xmpText, xmpExternal, N_("Year in which the video was made.")},
     {"YResolution", N_("Y Resolution"), "Rational", xmpText, xmpInternal,
      N_("Vertical resolution in pixels per unit.")},
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpAudioInfo[] = {
+const XmpPropertyInfo xmpAudioInfo[] = {
     {"AvgBytePerSec", N_("Average Bytes Per Second"), "Integer", xmpText, xmpExternal,
      N_("Average Bytes Per Second found in audio stream")},
     {"Balance", N_("Balance"), "Integer", xmpText, xmpExternal, N_("Indicates the left-right balance of the audio")},
@@ -4009,9 +4097,10 @@ extern const XmpPropertyInfo xmpAudioInfo[] = {
     {"VendorID", N_("Vendor ID"), "Text", xmpText, xmpExternal,
      N_("A 32-bit integer that specifies the developer of the compressor that generated the compressed data. Often "
         "this field contains 'appl' to indicate Apple Computer, Inc.")},
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpDctermsInfo[] = {
+const XmpPropertyInfo xmpDctermsInfo[] = {
     // dcterms properties used by DwC under the Record Class.
     {"type", N_("Type"), "bag open Choice", xmpBag, xmpExternal, N_("The nature or genre of the resource.")},
     {"modified", N_("Date Modified"), "seq Date", xmpSeq, xmpExternal, N_("Date on which the resource was changed.")},
@@ -4036,9 +4125,10 @@ extern const XmpPropertyInfo xmpDctermsInfo[] = {
         N_("*Main structure* containing Darwin Core location based information."),
     },
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpDwCInfo[] = {
+const XmpPropertyInfo xmpDwCInfo[] = {
 
     // Record Level Class
     {
@@ -4759,9 +4849,10 @@ extern const XmpPropertyInfo xmpDwCInfo[] = {
     {"measurementRemarks", N_("Measurement Remarks"), "Text", xmpText, xmpExternal,
      N_("Comments or notes accompanying the MeasurementOrFact.")},
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPropertyInfo xmpAcdseeInfo[] = {
+const XmpPropertyInfo xmpAcdseeInfo[] = {
     {"caption", N_("Caption"), "Text", xmpText, xmpExternal, N_("A brief description of the file")},
     {"datetime", N_("Date Time"), "Text", xmpText, xmpExternal, N_("Date and Time")},
     {"author", N_("Author"), "Text", xmpText, xmpExternal, N_("The name of the author or photographer")},
@@ -4772,9 +4863,10 @@ extern const XmpPropertyInfo xmpAcdseeInfo[] = {
     {"categories", N_("Categories"), "Text", xmpText, xmpExternal, N_("Catalog of hierarchical keywords and groups")},
 
     // End of list marker
-    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr}};
+    {nullptr, nullptr, nullptr, invalidTypeId, xmpInternal, nullptr},
+};
 
-extern const XmpPrintInfo xmpPrintInfo[] = {
+constexpr XmpPrintInfo xmpPrintInfo[] = {
     {"Xmp.crs.CropUnits", EXV_PRINT_TAG(crsCropUnits)},
     {"Xmp.exif.ApertureValue", print0x9202},
     {"Xmp.exif.BrightnessValue", printFloat},
@@ -4840,61 +4932,72 @@ extern const XmpPrintInfo xmpPrintInfo[] = {
     {"Xmp.plus.MinorModelAgeDisclosure", EXV_PRINT_VOCABULARY(plusMinorModelAgeDisclosure)},
     {"Xmp.plus.ModelReleaseStatus", EXV_PRINT_VOCABULARY(plusModelReleaseStatus)},
     {"Xmp.plus.PropertyReleaseStatus", EXV_PRINT_VOCABULARY(plusPropertyReleaseStatus)},
-    {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)}};
-
-XmpNsInfo::Ns::Ns(std::string ns) : ns_(std::move(ns)) {
-}
-
-XmpNsInfo::Prefix::Prefix(std::string prefix) : prefix_(std::move(prefix)) {
-}
+    {"Xmp.plus.Reuse", EXV_PRINT_VOCABULARY(plusReuse)},
+    {"Xmp.plus.DataMining", EXV_PRINT_VOCABULARY(plusDataMining)},
+};
 
 bool XmpNsInfo::operator==(const XmpNsInfo::Ns& ns) const {
-  std::string n(ns_);
-  return n == ns.ns_;
+  return ns_ == ns.ns_;
 }
 
 bool XmpNsInfo::operator==(const XmpNsInfo::Prefix& prefix) const {
-  std::string p(prefix_);
-  return p == prefix.prefix_;
+  return prefix_ == prefix.prefix_;
 }
 
 bool XmpPropertyInfo::operator==(const std::string& name) const {
-  std::string n(name_);
-  return n == name;
+  return name_ == name;
 }
 
 XmpProperties::NsRegistry XmpProperties::nsRegistry_;
-std::mutex XmpProperties::mutex_;
+std::mutex& XmpProperties::getMutex() {
+  static std::mutex m;
+  return m;
+}
 
 /// \todo not used internally. At least we should test it
 const XmpNsInfo* XmpProperties::lookupNsRegistry(const XmpNsInfo::Prefix& prefix) {
-  std::lock_guard<std::mutex> scoped_read_lock(mutex_);
-  return lookupNsRegistryUnsafe(prefix);
+  XmpLock lock;
+  return lookupNsRegistryUnlocked(prefix, lock);
 }
 
-const XmpNsInfo* XmpProperties::lookupNsRegistryUnsafe(const XmpNsInfo::Prefix& prefix) {
-  for (auto&& ns : nsRegistry_) {
-    if (ns.second == prefix)
-      return &(ns.second);
+const XmpNsInfo* XmpProperties::lookupNsRegistryUnlocked(const XmpNsInfo::Prefix& prefix, const XmpLock&) {
+  for (const auto& [_, p] : nsRegistry_) {
+    if (p == prefix)
+      return &p;
   }
   return nullptr;
 }
 
 void XmpProperties::registerNs(const std::string& ns, const std::string& prefix) {
-  std::lock_guard<std::mutex> scoped_write_lock(mutex_);
+  XmpLock lock;
+  registerNsUnlocked(ns, prefix, lock);
+}
+
+void XmpProperties::registerNsUnlocked(const std::string& ns, const std::string& prefix, const XmpLock& lock) {
+  if (ns.empty())
+    return;
   std::string ns2 = ns;
-  if (ns2.substr(ns2.size() - 1, 1) != "/" && ns2.substr(ns2.size() - 1, 1) != "#")
-    ns2 += "/";
-  // Check if there is already a registered namespace with this prefix
-  const XmpNsInfo* xnp = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
-  if (xnp) {
-#ifndef SUPPRESS_WARNINGS
-    if (strcmp(xnp->ns_, ns2.c_str()) != 0) {
-      EXV_WARNING << "Updating namespace URI for " << prefix << " from " << xnp->ns_ << " to " << ns2 << "\n";
-    }
-#endif
-    unregisterNsUnsafe(xnp->ns_);
+  if (ns2.back() != '/' && ns2.back() != '#')
+    ns2 += '/';
+
+  // 1. Check if this URI is already registered with this exact prefix
+  auto it = nsRegistry_.find(ns2);
+  if (it != nsRegistry_.end() && std::strcmp(it->second.prefix_, prefix.c_str()) == 0) {
+    return;  // Already registered with this prefix
   }
+
+  // 2. Check if this prefix is already registered with a DIFFERENT URI
+  if (auto xnp = lookupNsRegistryUnlocked(XmpNsInfo::Prefix{prefix}, lock)) {
+#ifndef SUPPRESS_WARNINGS
+    if (ns2 != xnp->ns_)
+      EXV_WARNING << "Updating namespace URI for " << prefix << " from " << xnp->ns_ << " to " << ns2 << "\n";
+#endif
+    unregisterNsUnlocked(xnp->ns_, lock);
+  }
+
+  // 3. Ensure the URI is unregistered if it's currently used with a different prefix
+  // (This handles the case where prefix changed for the same URI, preventing memory leak)
+  unregisterNsUnlocked(ns2, lock);
   // Allocated memory is freed when the namespace is unregistered.
   // Using malloc/free for better system compatibility in case
   // users don't unregister their namespaces explicitly.
@@ -4911,11 +5014,15 @@ void XmpProperties::registerNs(const std::string& ns, const std::string& prefix)
 }
 
 void XmpProperties::unregisterNs(const std::string& ns) {
-  std::lock_guard<std::mutex> scoped_write_lock(mutex_);
-  unregisterNsUnsafe(ns);
+  XmpLock lock;
+  unregisterNsUnlocked(ns, lock);
 }
 
-void XmpProperties::unregisterNsUnsafe(const std::string& ns) {
+void XmpProperties::unregisterNsUnlocked(const std::string& ns, const XmpLock&) {
+  unregisterNsNoLock(ns, LifetimeKey{});
+}
+
+void XmpProperties::unregisterNsNoLock(const std::string& ns, LifetimeKey) {
   auto i = nsRegistry_.find(ns);
   if (i != nsRegistry_.end()) {
     delete[] i->second.prefix_;
@@ -4925,64 +5032,93 @@ void XmpProperties::unregisterNsUnsafe(const std::string& ns) {
 }
 
 void XmpProperties::unregisterNs() {
-  std::lock_guard<std::mutex> scoped_write_lock(mutex_);
+  XmpLock lock;
+  unregisterNsUnlocked(lock);
+}
+
+void XmpProperties::unregisterNsUnlocked(const XmpLock&) {
+  unregisterAllNsNoLock(LifetimeKey{});
+}
+void XmpProperties::unregisterAllNsNoLock(LifetimeKey) {
   /// \todo check if we are not unregistering the first NS
   auto i = nsRegistry_.begin();
   while (i != nsRegistry_.end()) {
     auto kill = i++;
-    unregisterNsUnsafe(kill->first);
+    unregisterNsNoLock(kill->first, LifetimeKey{});
   }
 }
 
 std::string XmpProperties::prefix(const std::string& ns) {
-  std::lock_guard<std::mutex> scoped_read_lock(mutex_);
+  XmpLock lock;
+  return prefixUnlocked(ns, lock);
+}
+
+std::string XmpProperties::prefixUnlocked(const std::string& ns, const XmpLock&) {
   std::string ns2 = ns;
-  if (ns2.substr(ns2.size() - 1, 1) != "/" && ns2.substr(ns2.size() - 1, 1) != "#")
-    ns2 += "/";
+  if (ns2.back() != '/' && ns2.back() != '#')
+    ns2 += '/';
 
   auto i = nsRegistry_.find(ns2);
   std::string p;
-  if (i != nsRegistry_.end()) {
+  if (i != nsRegistry_.end())
     p = i->second.prefix_;
-  } else {
-    const XmpNsInfo* xn = find(xmpNsInfo, XmpNsInfo::Ns(ns2));
-    if (xn)
-      p = std::string(xn->prefix_);
-  }
+  else if (auto xn = Exiv2::find(xmpNsInfo, XmpNsInfo::Ns{std::move(ns2)}))
+    p = std::string(xn->prefix_);
   return p;
 }
 
 std::string XmpProperties::ns(const std::string& prefix) {
-  std::lock_guard<std::mutex> scoped_read_lock(mutex_);
-  const XmpNsInfo* xn = lookupNsRegistryUnsafe(XmpNsInfo::Prefix(prefix));
-  if (xn)
+  XmpLock lock;
+  return nsUnlocked(prefix, lock);
+}
+
+std::string XmpProperties::nsUnlocked(const std::string& prefix, const XmpLock& lock) {
+  if (auto xn = lookupNsRegistryUnlocked(XmpNsInfo::Prefix{prefix}, lock))
     return xn->ns_;
-  return nsInfoUnsafe(prefix)->ns_;
+  return nsInfoUnlocked(prefix, lock)->ns_;
 }
 
 const char* XmpProperties::propertyTitle(const XmpKey& key) {
-  const XmpPropertyInfo* pi = propertyInfo(key);
+  XmpLock lock;
+  return propertyTitleUnlocked(key, lock);
+}
+
+const char* XmpProperties::propertyTitleUnlocked(const XmpKey& key, const XmpLock& lock) {
+  const XmpPropertyInfo* pi = propertyInfoUnlocked(key, lock);
   return pi ? pi->title_ : nullptr;
 }
 
 const char* XmpProperties::propertyDesc(const XmpKey& key) {
-  const XmpPropertyInfo* pi = propertyInfo(key);
+  XmpLock lock;
+  return propertyDescUnlocked(key, lock);
+}
+
+const char* XmpProperties::propertyDescUnlocked(const XmpKey& key, const XmpLock& lock) {
+  const XmpPropertyInfo* pi = propertyInfoUnlocked(key, lock);
   return pi ? pi->desc_ : nullptr;
 }
 
 TypeId XmpProperties::propertyType(const XmpKey& key) {
-  const XmpPropertyInfo* pi = propertyInfo(key);
+  XmpLock lock;
+  return propertyTypeUnlocked(key, lock);
+}
+
+TypeId XmpProperties::propertyTypeUnlocked(const XmpKey& key, const XmpLock& lock) {
+  const XmpPropertyInfo* pi = propertyInfoUnlocked(key, lock);
   return pi ? pi->typeId_ : xmpText;
 }
 
 const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key) {
+  XmpLock lock;
+  return propertyInfoUnlocked(key, lock);
+}
+
+const XmpPropertyInfo* XmpProperties::propertyInfoUnlocked(const XmpKey& key, const XmpLock& lock) {
   std::string prefix = key.groupName();
   std::string property = key.tagName();
   // If property is a path for a nested property, determines the innermost element
-  std::string::size_type i = property.find_last_of('/');
-  if (i != std::string::npos) {
-    for (; i != std::string::npos && !isalpha(property.at(i)); ++i) {
-    }
+  if (auto i = property.find_last_of('/'); i != std::string::npos) {
+    i = std::distance(property.begin(), std::find_if(property.begin() + i, property.end(), isalpha));
     property = property.substr(i);
     i = property.find_first_of(':');
     if (i != std::string::npos) {
@@ -4993,65 +5129,86 @@ const XmpPropertyInfo* XmpProperties::propertyInfo(const XmpKey& key) {
     std::cout << "Nested key: " << key.key() << ", prefix: " << prefix << ", property: " << property << "\n";
 #endif
   }
-  const XmpPropertyInfo* pl = propertyList(prefix);
-  if (!pl)
-    return nullptr;
-  const XmpPropertyInfo* pi = nullptr;
-  for (int j = 0; pl[j].name_; ++j) {
-    if (0 == strcmp(pl[j].name_, property.c_str())) {
-      pi = pl + j;
-      break;
+  if (auto pl = propertyListUnlocked(prefix, lock)) {
+    for (size_t j = 0; pl[j].name_; ++j) {
+      if (property == pl[j].name_) {
+        return pl + j;
+      }
     }
   }
-  return pi;
+  return nullptr;
 }
 
 /// \todo not used internally. At least we should test it
 const char* XmpProperties::nsDesc(const std::string& prefix) {
-  return nsInfo(prefix)->desc_;
+  XmpLock lock;
+  return nsDescUnlocked(prefix, lock);
+}
+
+const char* XmpProperties::nsDescUnlocked(const std::string& prefix, const XmpLock& lock) {
+  return nsInfoUnlocked(prefix, lock)->desc_;
 }
 
 const XmpPropertyInfo* XmpProperties::propertyList(const std::string& prefix) {
-  return nsInfo(prefix)->xmpPropertyInfo_;
+  XmpLock lock;
+  return propertyListUnlocked(prefix, lock);
+}
+
+const XmpPropertyInfo* XmpProperties::propertyListUnlocked(const std::string& prefix, const XmpLock& lock) {
+  return nsInfoUnlocked(prefix, lock)->xmpPropertyInfo_;
 }
 
 const XmpNsInfo* XmpProperties::nsInfo(const std::string& prefix) {
-  std::lock_guard<std::mutex> scoped_read_lock(mutex_);
-  return nsInfoUnsafe(prefix);
+  XmpLock lock;
+  return nsInfoUnlocked(prefix, lock);
 }
 
-const XmpNsInfo* XmpProperties::nsInfoUnsafe(const std::string& prefix) {
-  const XmpNsInfo::Prefix pf(prefix);
-  const XmpNsInfo* xn = lookupNsRegistryUnsafe(pf);
+const XmpNsInfo* XmpProperties::nsInfoUnlocked(const std::string& prefix, const XmpLock& lock) {
+  const auto pf = XmpNsInfo::Prefix{prefix};
+  const XmpNsInfo* xn = lookupNsRegistryUnlocked(pf, lock);
   if (!xn)
-    xn = find(xmpNsInfo, pf);
+    xn = Exiv2::find(xmpNsInfo, pf);
   if (!xn)
     throw Error(ErrorCode::kerNoNamespaceInfoForXmpPrefix, prefix);
   return xn;
 }
 
 void XmpProperties::registeredNamespaces(Exiv2::Dictionary& nsDict) {
+  // Lock must be held for the duration of registry iteration
+  XmpLock lock;
+  registeredNamespacesUnlocked(nsDict, lock);
+}
+
+void XmpProperties::registeredNamespacesUnlocked(Exiv2::Dictionary& nsDict, const XmpLock& lock) {
   for (auto&& i : xmpNsInfo) {
-    Exiv2::XmpParser::registerNs(i.ns_, i.prefix_);
+    Exiv2::XmpParser::registerNsImpl(i.ns_, i.prefix_);
   }
-  Exiv2::XmpParser::registeredNamespaces(nsDict);
+  Exiv2::XmpParser::registeredNamespacesUnlocked(nsDict, lock);
 }
 
 void XmpProperties::printProperties(std::ostream& os, const std::string& prefix) {
-  const XmpPropertyInfo* pl = propertyList(prefix);
-  if (pl) {
+  XmpLock lock;
+  printPropertiesUnlocked(os, prefix, lock);
+}
+
+void XmpProperties::printPropertiesUnlocked(std::ostream& os, const std::string& prefix, const XmpLock& lock) {
+  if (auto pl = propertyListUnlocked(prefix, lock)) {
     for (int i = 0; pl[i].name_; ++i) {
       os << pl[i];
     }
   }
-
-}  // XmpProperties::printProperties
+}  // XmpProperties::printPropertiesUnlocked
 
 std::ostream& XmpProperties::printProperty(std::ostream& os, const std::string& key, const Value& value) {
+  XmpLock lock;
+  return printPropertyUnlocked(os, key, value, lock);
+}
+
+std::ostream& XmpProperties::printPropertyUnlocked(std::ostream& os, const std::string& key, const Value& value,
+                                                   const XmpLock&) {
   PrintFct fct = printValue;
   if (value.count() != 0) {
-    const XmpPrintInfo* info = find(xmpPrintInfo, key);
-    if (info)
+    if (auto info = Exiv2::find(xmpPrintInfo, key))
       fct = info->printFct_;
   }
   return fct(os, value, nullptr);
@@ -5059,8 +5216,9 @@ std::ostream& XmpProperties::printProperty(std::ostream& os, const std::string& 
 
 //! @brief Internal Pimpl structure with private members and data of class XmpKey.
 struct XmpKey::Impl {
-  Impl() = default;                                              //!< Default constructor
-  Impl(const std::string& prefix, const std::string& property);  //!< Constructor
+  Impl() = default;                                                                             //!< Default constructor
+  Impl(const std::string& prefix, const std::string& property);                                 //!< Constructor
+  Impl(const std::string& prefix, const std::string& property, const XmpProperties::XmpLock&);  // Unlocked constructor
 
   /*!
     @brief Parse and convert the \em key string into property and prefix.
@@ -5070,6 +5228,7 @@ struct XmpKey::Impl {
     @throw Error if the key cannot be decomposed.
   */
   void decomposeKey(const std::string& key);  //!< Mysterious magic
+  void decomposeKeyUnlocked(const std::string& key, const XmpProperties::XmpLock&);
 
   // DATA
   static constexpr auto familyName_ = "Xmp";  //!< "Xmp"
@@ -5079,9 +5238,13 @@ struct XmpKey::Impl {
 };
 
 //! @brief Constructor for Internal Pimpl structure XmpKey::Impl::Impl
-XmpKey::Impl::Impl(const std::string& prefix, const std::string& property) {
-  // Validate prefix
-  if (XmpProperties::ns(prefix).empty())
+XmpKey::Impl::Impl(const std::string& prefix, const std::string& property) :
+    Impl(prefix, property, XmpProperties::XmpLock()) {
+}
+
+XmpKey::Impl::Impl(const std::string& prefix, const std::string& property, const XmpProperties::XmpLock& lock) {
+  // Validate prefix unlocked (must hold lock)
+  if (XmpProperties::nsUnlocked(prefix, lock).empty())
     throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
 
   property_ = property;
@@ -5092,18 +5255,25 @@ XmpKey::XmpKey(const std::string& key) : p_(std::make_unique<Impl>()) {
   p_->decomposeKey(key);
 }
 
+XmpKey::XmpKey(const std::string& key, const XmpProperties::XmpLock& lock) : p_(std::make_unique<Impl>()) {
+  p_->decomposeKeyUnlocked(key, lock);
+}
+
 XmpKey::XmpKey(const std::string& prefix, const std::string& property) : p_(std::make_unique<Impl>(prefix, property)) {
+}
+
+XmpKey::XmpKey(const std::string& prefix, const std::string& property, const XmpProperties::XmpLock& lock) :
+    p_(std::make_unique<Impl>(prefix, property, lock)) {
 }
 
 XmpKey::~XmpKey() = default;
 
-XmpKey::XmpKey(const XmpKey& rhs) : Key(), p_(std::make_unique<Impl>(*rhs.p_)) {
+XmpKey::XmpKey(const XmpKey& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 XmpKey& XmpKey::operator=(const XmpKey& rhs) {
   if (this == &rhs)
     return *this;
-  Key::operator=(rhs);
   *p_ = *rhs.p_;
   return *this;
 }
@@ -5117,11 +5287,11 @@ XmpKey* XmpKey::clone_() const {
 }
 
 std::string XmpKey::key() const {
-  return std::string(p_->familyName_) + "." + p_->prefix_ + "." + p_->property_;
+  return std::string(Exiv2::XmpKey::Impl::familyName_) + "." + p_->prefix_ + "." + p_->property_;
 }
 
 const char* XmpKey::familyName() const {
-  return p_->familyName_;
+  return Exiv2::XmpKey::Impl::familyName_;
 }
 
 std::string XmpKey::groupName() const {
@@ -5133,9 +5303,18 @@ std::string XmpKey::tagName() const {
 }
 
 std::string XmpKey::tagLabel() const {
-  const char* pt = XmpProperties::propertyTitle(*this);
+  XmpProperties::XmpLock lock;
+  const char* pt = XmpProperties::propertyTitleUnlocked(*this, lock);
   if (!pt)
     return tagName();
+  return pt;
+}
+
+std::string XmpKey::tagDesc() const {
+  XmpProperties::XmpLock lock;
+  const char* pt = XmpProperties::propertyDescUnlocked(*this, lock);
+  if (!pt)
+    return "";
   return pt;
 }
 
@@ -5144,61 +5323,59 @@ uint16_t XmpKey::tag() const {
 }
 
 std::string XmpKey::ns() const {
-  return XmpProperties::ns(p_->prefix_);
+  XmpProperties::XmpLock lock;
+  return XmpProperties::nsUnlocked(p_->prefix_, lock);
 }
 
 //! @cond IGNORE
 void XmpKey::Impl::decomposeKey(const std::string& key) {
-  // Get the family name, prefix and property name parts of the key
-  std::string::size_type pos1 = key.find('.');
-  if (pos1 == std::string::npos) {
-    throw Error(ErrorCode::kerInvalidKey, key);
-  }
-  std::string familyName = key.substr(0, pos1);
-  if (0 != strcmp(familyName.c_str(), familyName_)) {
-    throw Error(ErrorCode::kerInvalidKey, key);
-  }
-  std::string::size_type pos0 = pos1 + 1;
-  pos1 = key.find('.', pos0);
-  if (pos1 == std::string::npos) {
-    throw Error(ErrorCode::kerInvalidKey, key);
-  }
-  std::string prefix = key.substr(pos0, pos1 - pos0);
-  if (prefix.empty()) {
-    throw Error(ErrorCode::kerInvalidKey, key);
-  }
-  std::string property = key.substr(pos1 + 1);
-  if (property.empty()) {
-    throw Error(ErrorCode::kerInvalidKey, key);
-  }
-
-  // Validate prefix
-  if (XmpProperties::ns(prefix).empty())
-    throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
-
-  property_ = property;
-  prefix_ = prefix;
+  XmpProperties::XmpLock lock;
+  decomposeKeyUnlocked(key, lock);
 }  // XmpKey::Impl::decomposeKey
 
+void XmpKey::Impl::decomposeKeyUnlocked(const std::string& key, const XmpProperties::XmpLock& lock) {
+  // Get the family name, prefix and property name parts of the key
+  if (!key.starts_with(familyName_))
+    throw Error(ErrorCode::kerInvalidKey, key);
+  std::string::size_type pos1 = key.find('.');
+  std::string::size_type pos0 = pos1 + 1;
+  pos1 = key.find('.', pos0);
+  if (pos1 == std::string::npos)
+    throw Error(ErrorCode::kerInvalidKey, key);
+  std::string prefix = key.substr(pos0, pos1 - pos0);
+  if (prefix.empty())
+    throw Error(ErrorCode::kerInvalidKey, key);
+  std::string property = key.substr(pos1 + 1);
+  if (property.empty())
+    throw Error(ErrorCode::kerInvalidKey, key);
+
+  // Validate prefix unlocked (must hold lock)
+  if (XmpProperties::nsUnlocked(prefix, lock).empty())
+    throw Error(ErrorCode::kerNoNamespaceForPrefix, prefix);
+
+  property_ = std::move(property);
+  prefix_ = std::move(prefix);
+}  // XmpKey::Impl::decomposeKeyUnlocked
+
 // *************************************************************************
 // free functions
 // *************************************************************************
 // free functions
-std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& property) {
-  os << property.name_ << "," << property.title_ << "," << property.xmpValueType_ << ","
-     << TypeInfo::typeName(property.typeId_) << "," << (property.xmpCategory_ == xmpExternal ? "External" : "Internal")
-     << ",";
+std::ostream& operator<<(std::ostream& os, const XmpPropertyInfo& propertyInfo) {
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
-  char Q = '"';
-  os << Q;
-  for (size_t i = 0; i < ::strlen(property.desc_); i++) {
-    char c = property.desc_[i];
-    if (c == Q)
-      os << Q;
-    os << c;
+  std::string escapedDesc;
+  escapedDesc.push_back('"');
+  for (char c : std::string_view(propertyInfo.desc_)) {
+    if (c == '"')
+      escapedDesc += "\"\"";
+    else
+      escapedDesc.push_back(c);
   }
-  os << Q << std::endl;
-  return os;
+  escapedDesc.push_back('"');
+
+  return os << stringFormat("{},{},{},{},{},{}\n", propertyInfo.name_, propertyInfo.title_, propertyInfo.xmpValueType_,
+                            TypeInfo::typeName(propertyInfo.typeId_),
+                            (propertyInfo.xmpCategory_ == xmpExternal ? "External" : "Internal"), escapedDesc);
 }
 //! @endcond
 

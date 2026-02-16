@@ -5,8 +5,8 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    22-Apr-06, ahu: created
  */
-#ifndef CR2IMAGE_HPP_
-#define CR2IMAGE_HPP_
+#ifndef EXIV2_CR2IMAGE_HPP
+#define EXIV2_CR2IMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -43,7 +43,7 @@ class EXIV2API Cr2Image : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  Cr2Image(BasicIo::UniquePtr io, bool create);
+  Cr2Image(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -56,12 +56,12 @@ class EXIV2API Cr2Image : public Image {
           not valid (does not look like data of the specific image type).
     @warning This function is not thread safe and intended for exiv2 -pS for debugging.
    */
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   /*!
     @brief Not supported. CR2 format does not contain a comment.
         Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
@@ -70,16 +70,6 @@ class EXIV2API Cr2Image : public Image {
   [[nodiscard]] uint32_t pixelWidth() const override;
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
-
-  ~Cr2Image() override = default;
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor
-  Cr2Image(const Cr2Image&) = delete;
-  //! Assignment operator
-  Cr2Image& operator=(const Cr2Image&) = delete;
-  //@}
-
 };  // class Cr2Image
 
 /*!
@@ -99,7 +89,7 @@ class EXIV2API Cr2Parser {
     @brief Encode metadata from the provided metadata to CR2 format.
            See TiffParser::encode().
   */
-  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, const ExifData& exifData,
+  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
                             const IptcData& iptcData, const XmpData& xmpData);
 
 };  // class Cr2Parser
@@ -114,11 +104,11 @@ class EXIV2API Cr2Parser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newCr2Instance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a CR2 image.
 EXIV2API bool isCr2Type(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef CR2IMAGE_HPP_
+#endif  // EXIV2_CR2IMAGE_HPP

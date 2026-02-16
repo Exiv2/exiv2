@@ -123,7 +123,7 @@ Exif.CanonFi.FileNumber                      Long        1  0  (0)
 Exif.CanonFi.BracketMode                     SShort      1  0  Off
 Exif.CanonFi.BracketValue                    SShort      1  0  0
 Exif.CanonFi.BracketShotNumber               SShort      1  0  0
-Exif.CanonFi.RawJpgQuality                   SShort      1  0  unkown
+Exif.CanonFi.RawJpgQuality                   SShort      1  0  unknown
 Exif.CanonFi.RawJpgSize                      SShort      1  0  Large
 Exif.CanonFi.NoiseReduction                  SShort      1  -1  (-1)
 Exif.CanonFi.WBBracketMode                   SShort      1  0  Off
@@ -170,7 +170,7 @@ Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  0  Standard
 Exif.CanonLiOp.HighlightTonePriority         SLong       1  0  Off
 Exif.CanonLiOp.LongExposureNoiseReduction    SLong       1  0  Off
 Exif.CanonLiOp.HighISONoiseReduction         SLong       1  0  Standard
-Exif.CanonLe.LensSerialNumber                SLong       1  0  0
+Exif.CanonLe.LensSerialNumber                Byte        5  0 0 0 0 0  0000000000
 Exif.CanonAm.AmbienceSelection               SLong       1  0  Standard
 Exif.CanonMe.MultiExposure                   SLong       1  0  Off
 Exif.CanonMe.MultiExposureControl            SLong       1  0  Additive
@@ -196,7 +196,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii       1    
 Exif.Photo.BodySerialNumber                  Ascii      13  053024015642  053024015642
-Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1  35/1 35/1 0/1 0/1
+Exif.Photo.LensSpecification                 Rational    4  35/1 35/1 0/1 0/1  35mm
 Exif.Photo.LensModel                         Ascii       5  35mm  35mm
 Exif.Photo.LensSerialNumber                  Ascii      11  0000000000  0000000000
 Exif.Image.DateTimeOriginal                  Ascii      20  2016:03:22 12:58:55  2016:03:22 12:58:55

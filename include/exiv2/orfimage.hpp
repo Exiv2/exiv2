@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef ORFIMAGE_HPP_
-#define ORFIMAGE_HPP_
+#ifndef EXIV2_ORFIMAGE_HPP
+#define EXIV2_ORFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -21,15 +21,6 @@ namespace Exiv2 {
  */
 class EXIV2API OrfImage : public TiffImage {
  public:
-  ~OrfImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  OrfImage(const OrfImage&) = delete;
-  //! Assignment operator
-  OrfImage& operator=(const OrfImage&) = delete;
-  //@}
-
   //! @name Creators
   //@{
   /*!
@@ -47,26 +38,26 @@ class EXIV2API OrfImage : public TiffImage {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  OrfImage(BasicIo::UniquePtr io, bool create);
+  OrfImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
   //@{
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   void readMetadata() override;
   void writeMetadata() override;
   /*!
     @brief Not supported. ORF format does not contain a comment.
         Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 };  // class OrfImage
 
@@ -87,7 +78,7 @@ class EXIV2API OrfParser {
     @brief Encode metadata from the provided metadata to ORF format.
            See TiffParser::encode().
   */
-  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, const ExifData& exifData,
+  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
                             const IptcData& iptcData, const XmpData& xmpData);
 };  // class OrfParser
 
@@ -101,11 +92,11 @@ class EXIV2API OrfParser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newOrfInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is an ORF image.
 EXIV2API bool isOrfType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef ORFIMAGE_HPP_
+#endif  // EXIV2_ORFIMAGE_HPP

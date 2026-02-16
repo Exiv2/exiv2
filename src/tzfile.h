@@ -25,7 +25,7 @@
 
 #ifndef lint
 #ifndef NOID
-static char tzfilehid[] = "@(#)tzfile.h	7.14";
+static char tzfilehid[] = "@(#)tzfile.h\t7.14";
 #endif /* !defined NOID */
 #endif /* !defined lint */
 

@@ -65,7 +65,7 @@ Exif.CanonCs.SRAWQuality                     Short       1  65535  (65535)
 Exif.Canon.CanonFlashInfo                    Short       4  0 0 0 0  0 0 0 0
 Exif.CanonSi.AutoISO                         Short       1  96  106.714
 Exif.CanonSi.ISOSpeed                        Short       1  192  200
-Exif.CanonSi.MeasuredEV                      Short       1  65241  -4.21
+Exif.CanonSi.MeasuredEV                      Short       1  65241  -4.22
 Exif.CanonSi.TargetAperture                  Short       1  116  F3.5
 Exif.CanonSi.TargetShutterSpeed              Short       1  0  1 s
 Exif.CanonSi.ExposureCompensation            Short       1  0  0

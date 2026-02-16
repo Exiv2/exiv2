@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef GIFIMAGE_HPP_
-#define GIFIMAGE_HPP_
+#ifndef EXIV2_GIFIMAGE_HPP
+#define EXIV2_GIFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -21,15 +21,6 @@ namespace Exiv2 {
  */
 class EXIV2API GifImage : public Image {
  public:
-  ~GifImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  GifImage(const GifImage&) = delete;
-  //! Assignment operator
-  GifImage& operator=(const GifImage&) = delete;
-  //@}
-
   //! @name Creators
   //@{
   /*!
@@ -44,7 +35,7 @@ class EXIV2API GifImage : public Image {
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
    */
-  explicit GifImage(BasicIo::UniquePtr io);
+  explicit GifImage(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -69,7 +60,7 @@ class EXIV2API GifImage : public Image {
     @brief Not supported. Calling this function will throw an instance
         of Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
@@ -89,11 +80,11 @@ class EXIV2API GifImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newGifInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a GIF image.
 EXIV2API bool isGifType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef GIFIMAGE_HPP_
+#endif  // EXIV2_GIFIMAGE_HPP

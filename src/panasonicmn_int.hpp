@@ -5,11 +5,16 @@
 
 // *****************************************************************************
 // included header files
-#include "tags.hpp"
+#include <iosfwd>
 
 // *****************************************************************************
 // namespace extensions
-namespace Exiv2::Internal {
+namespace Exiv2 {
+class ExifData;
+class Value;
+struct TagInfo;
+
+namespace Internal {
 // *****************************************************************************
 // class definitions
 
@@ -17,9 +22,13 @@ namespace Exiv2::Internal {
 class PanasonicMakerNote {
  public:
   //! Return read-only list of built-in Panasonic tags
-  static const TagInfo* tagList();
+  static constexpr auto tagList() {
+    return tagInfo_;
+  }
   //! Return read-only list of built-in Panasonic RAW image tags (IFD0)
-  static const TagInfo* tagListRaw();
+  static constexpr auto tagListRaw() {
+    return tagInfoRaw_;
+  }
 
   //! @name Print functions for Panasonic %MakerNote tags
   //@{
@@ -54,6 +63,7 @@ class PanasonicMakerNote {
   static const TagInfo tagInfoRaw_[];
 
 };  // class PanasonicMakerNote
-}  // namespace Exiv2::Internal
+}  // namespace Internal
+}  // namespace Exiv2
 
 #endif  // #ifndef PANASONICMN_INT_HPP_

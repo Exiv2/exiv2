@@ -27,7 +27,8 @@ class ArrayIndexCall extends FunctionCall {
     ti = this.getQualifier().getType().getUnspecifiedType() and
     tc = ti.getTemplate() and
     tc.getSimpleName() != "map" and
-    tc.getSimpleName() != "match_results"
+    tc.getSimpleName() != "match_results" and
+    tc.getSimpleName() != "unique_ptr"
   }
 
   ClassTemplateInstantiation getClassTemplateInstantiation() { result = ti }
@@ -53,7 +54,7 @@ predicate indexK_with_fixedarray(ClassTemplateInstantiation t, ArrayIndexCall ca
     t.getSimpleName() = "array" and
     idx = call.getArgument(0) and
     lowerBound(idx) >= 0 and
-    upperBound(idx) < t.getTemplateArgument(1).(Literal).getValue().toInt()
+    upperBound(idx) < lowerBound(t.getTemplateArgument(1))
   )
 }
 

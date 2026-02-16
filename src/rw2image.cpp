@@ -2,20 +2,23 @@
 
 // included header files
 #include "rw2image.hpp"
-
+#include "basicio.hpp"
 #include "config.h"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
 #include "preview.hpp"
 #include "rw2image_int.hpp"
+#include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
 
 // + standard includes
 #include <array>
+
 #ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#include "value.hpp"
 #endif
 
 // *****************************************************************************
@@ -32,18 +35,16 @@ std::string Rw2Image::mimeType() const {
 
 uint32_t Rw2Image::pixelWidth() const {
   auto imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorWidth"));
-  if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-    return imageWidth->toUint32();
-  }
-  return 0;
+  if (imageWidth == exifData_.end() || imageWidth->count() == 0)
+    return 0;
+  return imageWidth->toUint32();
 }
 
 uint32_t Rw2Image::pixelHeight() const {
   auto imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.PanasonicRaw.SensorHeight"));
-  if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-    return imageHeight->toUint32();
-  }
-  return 0;
+  if (imageHeight == exifData_.end() || imageHeight->count() == 0)
+    return 0;
+  return imageHeight->toUint32();
 }
 
 void Rw2Image::setExifData(const ExifData& /*exifData*/) {
@@ -56,26 +57,25 @@ void Rw2Image::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "RW2"));
 }
 
-void Rw2Image::setComment(std::string_view /*comment*/) {
+void Rw2Image::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "RW2"));
 }
 
-void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, int depth) {
-  out << "RW2 IMAGE" << std::endl;
+void Rw2Image::printStructure(std::ostream& out, PrintStructureOption option, size_t depth) {
+  out << "RW2 IMAGE" << '\n';
   if (io_->open() != 0)
     throw Error(ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
   // Ensure that this is the correct image type
-  if (imageType() == ImageType::none)
-    if (!isRw2Type(*io_, false)) {
-      if (io_->error() || io_->eof())
-        throw Error(ErrorCode::kerFailedToReadImageData);
-      throw Error(ErrorCode::kerNotAJpeg);
-    }
+  if (imageType() == ImageType::none && !isRw2Type(*io_, false)) {
+    if (io_->error() || io_->eof())
+      throw Error(ErrorCode::kerFailedToReadImageData);
+    throw Error(ErrorCode::kerNotAJpeg);
+  }
 
   io_->seek(0, BasicIo::beg);
 
-  printTiffStructure(io(), out, option, depth - 1);
+  printTiffStructure(io(), out, option, depth);
 }  // Rw2Image::printStructure
 
 void Rw2Image::readMetadata() {
@@ -121,8 +121,8 @@ void Rw2Image::readMetadata() {
   ExifData& prevData = image->exifData();
   if (!prevData.empty()) {
     // Filter duplicate tags
-    for (auto&& pos : exifData_) {
-      if (pos.ifdId() == panaRawId)
+    for (const auto& pos : exifData_) {
+      if (pos.ifdId() == IfdId::panaRawId)
         continue;
       auto dup = prevData.findKey(ExifKey(pos.key()));
       if (dup != prevData.end()) {
@@ -176,7 +176,7 @@ void Rw2Image::readMetadata() {
   }
 
   // Add the remaining tags
-  for (auto&& pos : prevData) {
+  for (const auto& pos : prevData) {
     exifData_.add(pos);
   }
 
@@ -198,7 +198,7 @@ ByteOrder Rw2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
 Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool /*create*/) {
   auto image = std::make_unique<Rw2Image>(std::move(io));
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }

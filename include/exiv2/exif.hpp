@@ -7,15 +7,15 @@
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
   @date    09-Jan-04, ahu: created
  */
-#ifndef EXIF_HPP_
-#define EXIF_HPP_
+#ifndef EXIV2_EXIF_HPP
+#define EXIV2_EXIF_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
+#include "config.h"
 #include "metadatum.hpp"
-#include "tags.hpp"
 
 // + standard includes
 #include <list>
@@ -30,6 +30,8 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 class ExifData;
+class ExifKey;
+enum class IfdId : uint32_t;
 
 // *****************************************************************************
 // class definitions
@@ -60,7 +62,7 @@ class EXIV2API Exifdatum : public Metadatum {
   //! Copy constructor
   Exifdatum(const Exifdatum& rhs);
   //! Destructor
-  ~Exifdatum() override = default;
+  ~Exifdatum() override;
   //@}
 
   //! @name Manipulators
@@ -129,7 +131,7 @@ class EXIV2API Exifdatum : public Metadatum {
     @return Return -1 if the %Exifdatum does not have a value yet or the
             value has no data area, else 0.
    */
-  int setDataArea(const byte* buf, size_t len);
+  int setDataArea(const byte* buf, size_t len) const;
   //@}
 
   //! @name Accessors
@@ -140,9 +142,10 @@ class EXIV2API Exifdatum : public Metadatum {
   [[nodiscard]] std::string groupName() const override;
   [[nodiscard]] std::string tagName() const override;
   [[nodiscard]] std::string tagLabel() const override;
+  [[nodiscard]] std::string tagDesc() const override;
   [[nodiscard]] uint16_t tag() const override;
   //! Return the IFD id as an integer. (Do not use, this is meant for library internal use.)
-  [[nodiscard]] int ifdId() const;
+  [[nodiscard]] IfdId ifdId() const;
   //! Return the name of the IFD
   [[nodiscard]] const char* ifdName() const;
   //! Return the index (unique id of this key within the original IFD)
@@ -176,7 +179,7 @@ class EXIV2API Exifdatum : public Metadatum {
   [[nodiscard]] int64_t toInt64(size_t n = 0) const override;
   [[nodiscard]] float toFloat(size_t n = 0) const override;
   [[nodiscard]] Rational toRational(size_t n = 0) const override;
-  [[nodiscard]] Value::UniquePtr getValue() const override;
+  [[nodiscard]] std::unique_ptr<Value> getValue() const override;
   [[nodiscard]] const Value& value() const override;
   //! Return the size of the data area.
   [[nodiscard]] size_t sizeDataArea() const;
@@ -197,8 +200,8 @@ class EXIV2API Exifdatum : public Metadatum {
 
  private:
   // DATA
-  ExifKey::UniquePtr key_;  //!< Key
-  Value::UniquePtr value_;  //!< Value
+  std::unique_ptr<ExifKey> key_;  //!< Key
+  std::unique_ptr<Value> value_;  //!< Value
 
 };  // class Exifdatum
 
@@ -228,6 +231,7 @@ class EXIV2API ExifThumbC {
            data buffer and %DataBuf ensures that it will be deleted.
    */
   [[nodiscard]] DataBuf copy() const;
+#ifdef EXV_ENABLE_FILESYSTEM
   /*!
     @brief Write the thumbnail image to a file.
 
@@ -239,6 +243,7 @@ class EXIV2API ExifThumbC {
     @return The number of bytes written.
   */
   [[nodiscard]] size_t writeFile(const std::string& path) const;
+#endif
   /*!
     @brief Return the MIME type of the thumbnail, either \c "image/tiff"
            or \c "image/jpeg".
@@ -278,6 +283,7 @@ class EXIV2API ExifThumb : public ExifThumbC {
 
   //! @name Manipulators
   //@{
+#ifdef EXV_ENABLE_FILESYSTEM
   /*!
     @brief Set the Exif thumbnail to the JPEG image \em path. Set
            XResolution, YResolution and ResolutionUnit to \em xres,
@@ -296,6 +302,7 @@ class EXIV2API ExifThumb : public ExifThumbC {
            application that comes with OS X for one.) - David Harvey.
    */
   void setJpegThumbnail(const std::string& path, URational xres, URational yres, uint16_t unit);
+#endif
   /*!
     @brief Set the Exif thumbnail to the JPEG image pointed to by \em buf,
            and size \em size. Set XResolution, YResolution and
@@ -314,6 +321,7 @@ class EXIV2API ExifThumb : public ExifThumbC {
            application that comes with OS X for one.) - David Harvey.
    */
   void setJpegThumbnail(const byte* buf, size_t size, URational xres, URational yres, uint16_t unit);
+#ifdef EXV_ENABLE_FILESYSTEM
   /*!
     @brief Set the Exif thumbnail to the JPEG image \em path.
 
@@ -328,6 +336,7 @@ class EXIV2API ExifThumb : public ExifThumbC {
     @note  Additional existing Exif thumbnail tags are not modified.
    */
   void setJpegThumbnail(const std::string& path);
+#endif
   /*!
     @brief Set the Exif thumbnail to the JPEG image pointed to by \em buf,
            and size \em size.
@@ -529,7 +538,7 @@ class EXIV2API ExifParser {
 
     @return Write method used.
   */
-  static WriteMethod encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder, const ExifData& exifData);
+  static WriteMethod encode(Blob& blob, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData);
   /*!
     @brief Encode metadata from the provided metadata to Exif format.
 
@@ -550,7 +559,7 @@ class EXIV2API ExifParser {
     @param byteOrder Byte order to use.
     @param exifData  Exif metadata container.
   */
-  static void encode(Blob& blob, ByteOrder byteOrder, const ExifData& exifData) {
+  static void encode(Blob& blob, ByteOrder byteOrder, ExifData& exifData) {
     encode(blob, nullptr, 0, byteOrder, exifData);
   }
 
@@ -558,4 +567,4 @@ class EXIV2API ExifParser {
 
 }  // namespace Exiv2
 
-#endif  // #ifndef EXIF_HPP_
+#endif  // EXIV2_EXIF_HPP

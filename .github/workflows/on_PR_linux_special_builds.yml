@@ -1,5 +1,9 @@
 name: On PRs - Linux Special Builds
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   workflow_dispatch:
   pull_request:
@@ -8,20 +12,20 @@ on:
 
 jobs:
   special_debugRelease:
-    name: 'Ubuntu 20.04 - GCC - Debug+Coverage'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC - Debug+Coverage'
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
+          persist-credentials: false
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.45.0
-          pip3 install gcovr
+          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build gcovr
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -37,21 +41,8 @@ jobs:
 
       - name: Build
         run: |
-          cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DBUILD_WITH_COVERAGE=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset linux-coverage -S . -B build
+          cmake --build build --parallel
 
       - name: Tests + Upload coverage
         run: |
@@ -70,17 +61,19 @@ jobs:
           ./codecov -f coverage.xml
 
   special_releaseValgrind:
-    name: 'Ubuntu 20.04 - GCC - Release+Valgrind'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC - Release+Valgrind'
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install valgrind ninja-build
-          pip3 install conan==1.45.0
+          sudo eatmydata apt-get -y update
+          sudo eatmydata apt-get -y install valgrind ninja-build
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -96,9 +89,8 @@ jobs:
 
       - name: Build
         run: |
-          cd build
-          cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DEXIV2_ENABLE_PNG=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON -DBUILD_WITH_COVERAGE=OFF -DCMAKE_INSTALL_PREFIX=install ..
-          cmake --build . --parallel
+          cmake --preset linux-release -S . -B build
+          cmake --build build --parallel
 
       - name: Tests with valgrind
         run: |
@@ -107,16 +99,18 @@ jobs:
 
 
   special_releaseSanitizers:
-    name: 'Ubuntu 20.04 - GCC - Release+Sanitizers'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC - Release+Sanitizers'
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.45.0
+          sudo apt install -y ninja-build
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -132,40 +126,52 @@ jobs:
 
       - name: Build
         run: |
-          cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DBUILD_WITH_COVERAGE=OFF \
-            -DEXIV2_TEAM_USE_SANITIZERS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset linux-sanitizers -S . -B build
+          cmake --build build --parallel
 
       - name: Tests
         run: |
           cd build
           ctest --output-on-failure
 
-  special_allEnabled:
-    name: 'Ubuntu 20.04 - GCC - All Options Enabled + Documentation'
-    runs-on: ubuntu-latest
+  special_noFilesystemAccess:
+    name: 'Ubuntu 22.04 - GCC - No filesystem access build'
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install valgrind doxygen graphviz gettext
-          pip3 install conan==1.45.0
+          sudo apt install -y ninja-build
+          python3 -m pip install conan==1.* lxml
+
+      - name: Conan common config
+        run: |
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Build
+        run: |
+          cmake --preset linux-release -S . -B build -DEXIV2_ENABLE_FILESYSTEM_ACCESS=OFF -DEXIV2_BUILD_SAMPLES=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_EXIV2_COMMAND=OFF
+          cmake --build build --parallel
+
+  special_allEnabled:
+    name: 'Ubuntu 22.04 - GCC - All Options Enabled + Documentation'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: |
+          sudo eatmydata apt-get -y update
+          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan common config
         run: |
@@ -180,23 +186,11 @@ jobs:
           conan install .. -o webready=True --build missing
 
       - name: Build
+        env:
+          CXXFLAGS: -DEXIV2_DEBUG_MESSAGES
         run: |
-          cd build && \
-          cmake -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DBUILD_WITH_COVERAGE=ON \
-            -DEXIV2_BUILD_DOC=ON \
-            -DEXIV2_ENABLE_NLS=ON \
-            -DCMAKE_CXX_FLAGS="-DEXIV2_DEBUG_MESSAGES" \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON
+          cmake --build build --parallel
 
       - name: Generate documentation
         run: |

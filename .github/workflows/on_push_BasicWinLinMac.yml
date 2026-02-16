@@ -8,87 +8,64 @@ on:
     paths-ignore:
       - "*.md"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 name: On PUSH - Basic CI for main platforms
 
 jobs:
   windows:
-    name: 'Win10 Arch:x64 BuildType:Release - SHARED'
+    name: 'Windows 10 - MSVC - Arch:X64 BuildType:Release - SHARED'
     runs-on: windows-2022
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Ninja
-        uses: ashutoshvarma/setup-ninja@master
+      - uses: actions/checkout@v6
         with:
-          version: 1.10.0
+          persist-credentials: false
 
       - name: Set up Visual Studio shell
-        uses: egor-tensin/vs-shell@v2
+        uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
+      - name: Restore Conan cache
+        uses: actions/cache@v5
         with:
-          python-version: 3.7
-
-      - name: Restore conan cache
-        uses: actions/cache@v2
-        with:
-            path: ${{github.workspace}}/conanCache
-            key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
+          path: ${{github.workspace}}/conanCache
+          key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.45.0"
+          python -m pip install conan==1.* lxml
           conan profile new --detect default
           conan profile show default
           conan profile update settings.compiler="Visual Studio" default
           conan profile update settings.compiler.version=17 default
           conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
 
-      - name: Run Conan
-        run: |
-          md build
-          cd build
-          conan profile list
-          conan install .. --build missing
-
       - name: Build
         run: |
-          cmake -GNinja `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DBUILD_SHARED_LIBS=ON `
-            -DEXIV2_BUILD_SAMPLES=ON `
-            -DEXIV2_ENABLE_NLS=OFF `
-            -DEXIV2_ENABLE_PNG=ON `
-            -DEXIV2_ENABLE_WEBREADY=ON `
-            -DEXIV2_ENABLE_BMFF=ON `
-            -DEXIV2_BUILD_UNIT_TESTS=ON `
-            -DEXIV2_ENABLE_WIN_UNICODE=OFF `
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
-            -DCMAKE_INSTALL_PREFIX=install .. `
-            -S . -B build && `
+          cmake --preset win-release -S . -B build
           cmake --build build --parallel
-
 
       - name: Test
         run: |
-          cd build
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure
 
   Linux:
-    name: 'Ubuntu 20.04 - GCC - Arch:x64 BuildType:Release - SHARED'
-    runs-on: ubuntu-latest
+    name: 'Ubuntu 22.04 - GCC - Arch:X64 BuildType:Release - SHARED'
+    runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get install ninja-build
-          pip3 install conan==1.45.0
+          sudo eatmydata apt-get -y install ninja-build
+          python3 -m pip install conan==1.* lxml
 
       - name: Conan
         run: |
@@ -98,66 +75,38 @@ jobs:
           conan profile show default
           conan install .. -o webready=True --build missing
 
-      - name: build and compile
+      - name: Build
         run: |
-          cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset linux-release -S . -B build
+          cmake --build build --parallel
 
       - name: Test
         run: |
-          cd build
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure
 
   MacOS:
-    name: 'MacOS - clang - Arch:x64 BuildType:Release - SHARED'
-    runs-on: macos-latest
+    name: 'macOS - XCode - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: macos-15-intel, arch: X64   }
+          - { os: macos-latest,   arch: ARM64 }
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
-          brew install ninja
-          pushd /tmp
-          curl -LO https://github.com/google/googletest/archive/release-1.8.0.tar.gz
-          tar xzf   release-1.8.0.tar.gz
-          mkdir -p  googletest-release-1.8.0/build
-          pushd     googletest-release-1.8.0/build
-          cmake .. ; make ; make install
-          popd
-          popd
+          brew install inih googletest
 
-      - name: build and compile
+      - name: Build
         run: |
-          mkdir build && cd build && \
-          cmake -GNinja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DBUILD_SHARED_LIBS=ON \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_PNG=ON \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_CURL=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON \
-            -DCMAKE_INSTALL_PREFIX=install \
-            -DCMAKE_CXX_FLAGS="-Wno-deprecated-declarations" \
-            .. && \
-          cmake --build . --parallel
+          cmake --preset base_mac -S . -B build
+          cmake --build build --parallel
 
       - name: Test
         run: |
-          cd build
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure

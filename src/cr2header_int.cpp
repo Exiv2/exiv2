@@ -2,6 +2,14 @@
 
 #include "cr2header_int.hpp"
 
+#include "tags.hpp"
+#include "tiffimage_int.hpp"
+#include "types.hpp"
+
+#include <algorithm>
+#include <cstdint>
+#include <cstring>
+
 namespace Exiv2::Internal {
 Cr2Header::Cr2Header(ByteOrder byteOrder) : TiffHeaderBase(42, 16, byteOrder, 0x00000010) {
 }
@@ -21,7 +29,7 @@ bool Cr2Header::read(const byte* pData, size_t size) {
   if (tag() != getUShort(pData + 2, byteOrder()))
     return false;
   setOffset(getULong(pData + 4, byteOrder()));
-  if (0 != memcmp(pData + 8, cr2sig_, 4))
+  if (0 != memcmp(pData + 8, cr2sig_.data(), 4))
     return false;
   offset2_ = getULong(pData + 12, byteOrder());
 
@@ -44,15 +52,15 @@ DataBuf Cr2Header::write() const {
 
   buf.write_uint16(2, tag(), byteOrder());
   buf.write_uint32(4, 0x00000010, byteOrder());
-  std::copy_n(cr2sig_, 4, buf.begin() + 8);
+  std::copy(cr2sig_.begin(), cr2sig_.end(), buf.begin() + 8);
   // Write a dummy value for the RAW IFD offset. The offset-writer is used to set this offset in a second pass.
   buf.write_uint32(12, 0x00000000, byteOrder());
   return buf;
 }  // Cr2Header::write
 
-bool Cr2Header::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups* /*pPrimaryGroups*/) const {
+bool Cr2Header::isImageTag(uint16_t tag, IfdId group, const PrimaryGroups& /*pPrimaryGroups*/) const {
   // CR2 image tags are all IFD2 and IFD3 tags
-  if (group == ifd2Id || group == ifd3Id)
+  if (group == IfdId::ifd2Id || group == IfdId::ifd3Id)
     return true;
   // ...and any (IFD0) tag that is in the TIFF image tags list
   return isTiffImageTag(tag, group);

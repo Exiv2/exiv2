@@ -1,20 +1,15 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <exiv2/exiv2.hpp>
+#include <iomanip>
 #include <iostream>
 
-void write(const std::string& file, Exiv2::ExifData& ed);
-void print(const std::string& file);
+static void write(const std::string& file, Exiv2::ExifData& ed);
+static void print(const std::string& file);
 
 // *****************************************************************************
 // Main
 int main(int argc, char* const argv[]) {
-  Exiv2::XmpParser::initialize();
-  ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-  Exiv2::enableBMFF();
-#endif
-
   try {
     if (argc != 2) {
       std::cout << "Usage: " << argv[0] << " file\n";
@@ -56,11 +51,11 @@ int main(int argc, char* const argv[]) {
     edMn1["Exif.Image.Make"] = "Canon";
     edMn1["Exif.Image.Model"] = "Canon PowerShot S40";
     edMn1["Exif.Canon.0xabcd"] = "A Canon makernote tag";
-    edMn1["Exif.CanonCs.0x0002"] = uint16_t(41);
-    edMn1["Exif.CanonSi.0x0005"] = uint16_t(42);
-    edMn1["Exif.CanonCf.0x0001"] = uint16_t(43);
-    edMn1["Exif.CanonPi.0x0001"] = uint16_t(44);
-    edMn1["Exif.CanonPa.0x0001"] = uint16_t(45);
+    edMn1["Exif.CanonCs.0x0002"] = std::uint16_t{41};
+    edMn1["Exif.CanonSi.0x0005"] = std::uint16_t{42};
+    edMn1["Exif.CanonCf.0x0001"] = std::uint16_t{43};
+    edMn1["Exif.CanonPi.0x0001"] = std::uint16_t{44};
+    edMn1["Exif.CanonPa.0x0001"] = std::uint16_t{45};
     write(file, edMn1);
     print(file);
 
@@ -69,8 +64,8 @@ int main(int argc, char* const argv[]) {
     image->readMetadata();
 
     Exiv2::ExifData& rEd = image->exifData();
-    rEd["Exif.CanonCs.0x0001"] = uint16_t(88);
-    rEd["Exif.CanonSi.0x0004"] = uint16_t(99);
+    rEd["Exif.CanonCs.0x0001"] = std::uint16_t{88};
+    rEd["Exif.CanonSi.0x0004"] = std::uint16_t{99};
     image->writeMetadata();
     print(file);
 
@@ -118,7 +113,7 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifData edMn7;
     edMn7["Exif.Image.Make"] = "OLYMPUS CORPORATION";
     edMn7["Exif.Image.Model"] = "C8080WZ";
-    edMn7["Exif.Olympus.0x0201"] = uint16_t(1);
+    edMn7["Exif.Olympus.0x0201"] = std::uint16_t{1};
     write(file, edMn7);
     print(file);
 
@@ -126,7 +121,7 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifData edMn8;
     edMn8["Exif.Image.Make"] = "Panasonic";
     edMn8["Exif.Image.Model"] = "DMC-FZ5";
-    edMn8["Exif.Panasonic.0x0001"] = uint16_t(1);
+    edMn8["Exif.Panasonic.0x0001"] = std::uint16_t{1};
     write(file, edMn8);
     print(file);
 
@@ -134,7 +129,7 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifData edMn9;
     edMn9["Exif.Image.Make"] = "SONY";
     edMn9["Exif.Image.Model"] = "DSC-W7";
-    edMn9["Exif.Sony1.0x2000"] = "0 1 2 3 4 5";
+    edMn9["Exif.Sony1.Quality"] = std::uint32_t{2};
     write(file, edMn9);
     print(file);
 
@@ -142,13 +137,13 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifData edMn10;
     edMn10["Exif.Image.Make"] = "Minolta";
     edMn10["Exif.Image.Model"] = "A fancy Minolta camera";
-    edMn10["Exif.Minolta.ColorMode"] = uint32_t(1);
-    edMn10["Exif.MinoltaCsNew.WhiteBalance"] = uint32_t(2);
-    edMn10["Exif.MinoltaCs5D.WhiteBalance"] = uint16_t(3);
-    edMn10["Exif.MinoltaCs5D.ColorTemperature"] = int16_t(-1);
-    edMn10["Exif.MinoltaCs7D.WhiteBalance"] = uint16_t(4);
-    edMn10["Exif.MinoltaCs7D.ExposureCompensation"] = int16_t(-2);
-    edMn10["Exif.MinoltaCs7D.ColorTemperature"] = int16_t(-3);
+    edMn10["Exif.Minolta.ColorMode"] = std::uint32_t{1};
+    edMn10["Exif.MinoltaCsNew.WhiteBalance"] = std::uint32_t{2};
+    edMn10["Exif.MinoltaCs5D.WhiteBalance"] = std::uint16_t{3};
+    edMn10["Exif.MinoltaCs5D.ColorTemperature"] = std::int16_t{-1};
+    edMn10["Exif.MinoltaCs7D.WhiteBalance"] = std::uint16_t{4};
+    edMn10["Exif.MinoltaCs7D.ExposureCompensation"] = std::int16_t{-2};
+    edMn10["Exif.MinoltaCs7D.ColorTemperature"] = std::int16_t{-3};
     write(file, edMn10);
     print(file);
 
@@ -204,13 +199,11 @@ void print(const std::string& file) {
   auto image = Exiv2::ImageFactory::open(file);
   image->readMetadata();
 
-  Exiv2::ExifData& ed = image->exifData();
-  auto end = ed.end();
-  for (auto i = ed.begin(); i != end; ++i) {
-    std::cout << std::setw(45) << std::setfill(' ') << std::left << i->key() << " "
-              << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i->tag() << " " << std::setw(12)
-              << std::setfill(' ') << std::left << i->ifdName() << " " << std::setw(9) << std::setfill(' ') << std::left
-              << i->typeName() << " " << std::dec << std::setw(3) << std::setfill(' ') << std::right << i->count()
-              << " " << std::dec << i->value() << "\n";
+  for (const auto& i : image->exifData()) {
+    std::cout << std::setw(45) << std::setfill(' ') << std::left << i.key() << " "
+              << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i.tag() << " " << std::setw(12)
+              << std::setfill(' ') << std::left << i.ifdName() << " " << std::setw(9) << std::setfill(' ') << std::left
+              << i.typeName() << " " << std::dec << std::setw(3) << std::setfill(' ') << std::right << i.count() << " "
+              << std::dec << i.value() << "\n";
   }
 }

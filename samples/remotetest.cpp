@@ -9,12 +9,6 @@
 
 int main(int argc, char* const argv[]) {
   try {
-    Exiv2::XmpParser::initialize();
-    ::atexit(Exiv2::XmpParser::terminate);
-#ifdef EXV_ENABLE_BMFF
-    Exiv2::enableBMFF();
-#endif
-
     if (argc < 2) {
       std::cout << "Usage: " << argv[0] << " file {--nocurl | --curl}\n\n";
       return EXIT_FAILURE;
@@ -34,12 +28,12 @@ int main(int argc, char* const argv[]) {
     // set/add metadata
     std::cout << "Modify the metadata ...\n";
     Exiv2::ExifData exifData;
-    exifData["Exif.Photo.UserComment"] = "Hello World";   // AsciiValue
-    exifData["Exif.Image.Software"] = "Exiv2";            // AsciiValue
-    exifData["Exif.Image.Copyright"] = "Exiv2";           // AsciiValue
-    exifData["Exif.Image.Make"] = "Canon";                // AsciiValue
-    exifData["Exif.Canon.OwnerName"] = "Tuan";            // UShortValue
-    exifData["Exif.CanonCs.LensType"] = uint16_t(65535);  // LongValue
+    exifData["Exif.Photo.UserComment"] = "Hello World";        // AsciiValue
+    exifData["Exif.Image.Software"] = "Exiv2";                 // AsciiValue
+    exifData["Exif.Image.Copyright"] = "Exiv2";                // AsciiValue
+    exifData["Exif.Image.Make"] = "Canon";                     // AsciiValue
+    exifData["Exif.Canon.OwnerName"] = "Tuan";                 // UShortValue
+    exifData["Exif.CanonCs.LensType"] = std::uint16_t{65535};  // LongValue
     Exiv2::Value::UniquePtr v = Exiv2::Value::create(Exiv2::asciiString);
     v->read("2013:06:09 14:30:30");
     Exiv2::ExifKey key("Exif.Image.DateTime");
@@ -59,14 +53,12 @@ int main(int argc, char* const argv[]) {
       error += ": No Exif data found in the file";
       throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);
     }
-    auto end = exifReadData.end();
-    for (auto i = exifReadData.begin(); i != end; ++i) {
-      const char* tn = i->typeName();
-      std::cout << std::setw(44) << std::setfill(' ') << std::left << i->key() << " "
-                << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i->tag() << " "
-                << std::setw(9) << std::setfill(' ') << std::left << (tn ? tn : "Unknown") << " " << std::dec
-                << std::setw(3) << std::setfill(' ') << std::right << i->count() << "  " << std::dec << i->value()
-                << "\n";
+    for (const auto& i : exifReadData) {
+      const char* tn = i.typeName();
+      std::cout << std::setw(44) << std::setfill(' ') << std::left << i.key() << " "
+                << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << i.tag() << " " << std::setw(9)
+                << std::setfill(' ') << std::left << (tn ? tn : "Unknown") << " " << std::dec << std::setw(3)
+                << std::setfill(' ') << std::right << i.count() << "  " << std::dec << i.value() << "\n";
     }
 
     // del, reset the metadata

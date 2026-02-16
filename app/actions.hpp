@@ -12,8 +12,9 @@
 #define ACTIONS_HPP_
 
 // *****************************************************************************
-#include <unordered_map>
 #include "exiv2app.hpp"
+
+#include <unordered_map>
 
 // *****************************************************************************
 // class declarations
@@ -59,8 +60,12 @@ class Task {
   //! Virtual destructor.
   virtual ~Task() = default;
 
+  Task() = default;
+  Task(const Task&) = default;
+  Task& operator=(const Task&) = default;
+
   //! Virtual copy construction.
-  virtual UniquePtr clone() const = 0;
+  [[nodiscard]] virtual UniquePtr clone() const = 0;
 
   /// @brief Application interface to perform a task.
   /// @param path Path of the file to process.
@@ -73,7 +78,7 @@ class Task {
     return bResult;
   }
 
-  bool binary() const {
+  [[nodiscard]] bool binary() const {
     return binary_;
   }
 
@@ -97,8 +102,10 @@ class TaskFactory {
   */
   static TaskFactory& instance();
 
+  ~TaskFactory() = default;
   //! Prevent copy construction: not implemented.
   TaskFactory(const TaskFactory&) = delete;
+  TaskFactory& operator=(const TaskFactory&) = delete;
 
   //! Destructor
   void cleanup();
@@ -126,9 +133,8 @@ class TaskFactory {
 //! %Print the Exif (or other metadata) of a file to stdout
 class Print : public Task {
  public:
-  ~Print() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
   //! Print the Jpeg comment
   int printComment();
@@ -155,14 +161,14 @@ class Print : public Task {
    */
   int printTag(const Exiv2::ExifData& exifData, const std::string& key, const std::string& label = "") const;
   //! Type for an Exiv2 Easy access function
-  using EasyAccessFct = std::function<Exiv2::ExifData::const_iterator(const Exiv2::ExifData& ed)>;
+  using EasyAccessFct = Exiv2::ExifData::const_iterator (*)(const Exiv2::ExifData&);
   /*!
     @brief Print one summary line with a label (if provided) and requested
            data. A line break is printed only if a label is provided.
     @return 1 if a line was written, 0 if the information was not found.
    */
-  int printTag(const Exiv2::ExifData& exifData, const EasyAccessFct& easyAccessFct, const std::string& label = "",
-               const EasyAccessFct& easyAccessFctFallback = nullptr) const;
+  int printTag(const Exiv2::ExifData& exifData, EasyAccessFct easyAccessFct, const std::string& label = "",
+               EasyAccessFct easyAccessFctFallback = nullptr) const;
 
  private:
   std::string path_;
@@ -172,34 +178,31 @@ class Print : public Task {
 /// @brief %Rename a file to its metadata creation timestamp, in the specified format.
 class Rename : public Task {
  public:
-  ~Rename() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 };  // class Rename
 
 //! %Adjust the Exif (or other metadata) timestamps
 class Adjust : public Task {
  public:
-  ~Adjust() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
   int adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const std::string& path) const;
 
-  long adjustment_{0};
-  long yearAdjustment_{0};
-  long monthAdjustment_{0};
-  long dayAdjustment_{0};
+  int64_t adjustment_{0};
+  int64_t yearAdjustment_{0};
+  int64_t monthAdjustment_{0};
+  int64_t dayAdjustment_{0};
 
 };  // class Adjust
 
 /// @brief %Erase the entire exif data or only the thumbnail section.
 class Erase : public Task {
  public:
-  ~Erase() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
   /// @brief Delete the thumbnail image, incl IFD1 metadata from the file.
   static int eraseThumbnail(Exiv2::Image* image);
@@ -226,9 +229,8 @@ class Erase : public Task {
 /// @brief %Extract the entire exif data or only the thumbnail section.
 class Extract : public Task {
  public:
-  ~Extract() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
   /*!
     @brief Write the thumbnail image to a file. The filename is composed by
@@ -236,10 +238,10 @@ class Extract : public Task {
            "-thumb" and the appropriate suffix (".jpg" or ".tif"), depending
            on the format of the Exif thumbnail image.
    */
-  int writeThumbnail() const;
+  [[nodiscard]] int writeThumbnail() const;
 
   /// @brief Write preview images to files.
-  int writePreviews() const;
+  [[nodiscard]] int writePreviews() const;
 
   /// @brief Write one preview image to a file. The filename is composed by removing the suffix from the image
   /// filename and appending "-preview<num>" and the appropriate suffix (".jpg" or ".tif"), depending on the
@@ -247,7 +249,7 @@ class Extract : public Task {
   void writePreviewFile(const Exiv2::PreviewImage& pvImg, size_t num) const;
 
   /// @brief Write embedded iccProfile files.
-  int writeIccProfile(const std::string& target) const;
+  [[nodiscard]] int writeIccProfile(const std::string& target) const;
 
  private:
   std::string path_;
@@ -256,9 +258,8 @@ class Extract : public Task {
 /// @brief %Insert the Exif data from corresponding *.exv files.
 class Insert : public Task {
  public:
-  ~Insert() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
   /*!
     @brief Insert a Jpeg thumbnail image from a file into file \em path.
@@ -283,10 +284,8 @@ class Insert : public Task {
 /// @brief %Modify the Exif data according to the commands in the modification table.
 class Modify : public Task {
  public:
-  Modify() = default;
-  ~Modify() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
   //! Apply modification commands to the \em pImage, return 0 if successful.
   static int applyCommands(Exiv2::Image* pImage);
 
@@ -304,9 +303,8 @@ class Modify : public Task {
 /// @brief %Copy ISO settings from any of the Nikon makernotes to the regular Exif tag, Exif.Photo.ISOSpeedRatings.
 class FixIso : public Task {
  public:
-  ~FixIso() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
   std::string path_;
@@ -317,9 +315,8 @@ class FixIso : public Task {
 /// Decodes the comment using the auto-detected or specified character encoding and writes it back in UCS-2.
 class FixCom : public Task {
  public:
-  ~FixCom() override = default;
   int run(const std::string& path) override;
-  Task::UniquePtr clone() const override;
+  [[nodiscard]] Task::UniquePtr clone() const override;
 
  private:
   std::string path_;

@@ -5,7 +5,12 @@
 
 // *****************************************************************************
 // included header files
+#include "types.hpp"
+
 #include "tiffimage_int.hpp"
+
+#include <cstddef>
+#include <cstdint>
 
 // *****************************************************************************
 // namespace extensions
@@ -22,8 +27,6 @@ class OrfHeader : public TiffHeaderBase {
   //@{
   //! Default constructor
   explicit OrfHeader(ByteOrder byteOrder = littleEndian);
-  //! Destructor.
-  ~OrfHeader() override = default;
   //@}
 
   //! @name Manipulators
@@ -37,8 +40,8 @@ class OrfHeader : public TiffHeaderBase {
   //@}
  private:
   // DATA
-  uint16_t sig_{0x4f52};  //<! The actual magic number
-};                        // class OrfHeader
+  uint16_t sig_{0x4f52};  //!< The actual magic number
+};
 
 }  // namespace Exiv2::Internal
 

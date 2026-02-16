@@ -5,8 +5,8 @@
            <a href="mailto:marco.piovanelli@pobox.com">marco.piovanelli@pobox.com</a>
   @date    05-Mar-2007, marco: created
  */
-#ifndef BMPIMAGE_HPP_
-#define BMPIMAGE_HPP_
+#ifndef EXIV2_BMPIMAGE_HPP
+#define EXIV2_BMPIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -26,15 +26,6 @@ namespace Exiv2 {
  */
 class EXIV2API BmpImage : public Image {
  public:
-  ~BmpImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  BmpImage(const BmpImage&) = delete;
-  //! Assignment operator
-  BmpImage& operator=(const BmpImage&) = delete;
-  //@}
-
   //! @name Creators
   //@{
   /*!
@@ -49,7 +40,7 @@ class EXIV2API BmpImage : public Image {
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
    */
-  explicit BmpImage(BasicIo::UniquePtr io);
+  explicit BmpImage(std::unique_ptr<BasicIo> io);
   //@}
 
   //! @name Manipulators
@@ -57,16 +48,20 @@ class EXIV2API BmpImage : public Image {
   void readMetadata() override;
 
   /// @throws Error(ErrorCode::kerWritingImageFormatUnsupported).
+  /// Always
   void writeMetadata() override;
 
   /// @throws Error(ErrorCode::kerInvalidSettingForImage)
+  /// Always
   void setExifData(const ExifData& exifData) override;
 
   /// @throws Error(ErrorCode::kerInvalidSettingForImage)
+  /// Always
   void setIptcData(const IptcData& iptcData) override;
 
   /// @throws Error(ErrorCode::kerInvalidSettingForImage)
-  void setComment(std::string_view comment) override;
+  /// Always
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
@@ -85,11 +80,11 @@ class EXIV2API BmpImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newBmpInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a Windows Bitmap image.
 EXIV2API bool isBmpType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef BMPIMAGE_HPP_
+#endif  // EXIV2_BMPIMAGE_HPP

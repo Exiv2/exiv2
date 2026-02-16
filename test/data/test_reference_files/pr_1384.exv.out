@@ -55,7 +55,7 @@ Exif.Photo.Saturation                        Short       1  0  Normal
 Exif.Photo.Sharpness                         Short       1  0  Normal
 Exif.Photo.SubjectDistanceRange              Short       1  0  Unknown
 Exif.Photo.BodySerialNumber                  Ascii       8  6009148  6009148
-Exif.Photo.LensSpecification                 Rational    4  500/10 500/10 180/100 180/100  500/10 500/10 180/100 180/100
+Exif.Photo.LensSpecification                 Rational    4  500/10 500/10 180/100 180/100  50mm F1.8
 Exif.Photo.LensMake                          Ascii       6  NIKON  NIKON
 Exif.Photo.LensModel                         Ascii      22  NIKKOR Z 50mm f/1.8 S  NIKKOR Z 50mm f/1.8 S
 Exif.Photo.LensSerialNumber                  Ascii       9  20043925  20043925

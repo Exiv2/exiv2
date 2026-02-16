@@ -34,7 +34,7 @@ def matrix_build(shared_libs, ccs, build_types, cmake_bin, cmake_options,
             os.path.join(
                 "build",
                 "_".join(
-                    map(lambda p: str(p) if p is not None else "", params)
+                    map(str, filter(None, params))
                 )
             )
         )
@@ -46,7 +46,7 @@ def matrix_build(shared_libs, ccs, build_types, cmake_bin, cmake_options,
                 cmake_options, cmake_bin=cmake_bin, build_type=build_type,
                 lib_type=lib_type, tests="ON" if tests else "OFF"
             )
-        make = "make -j " + str(NCPUS)
+        make = f"make -j {str(NCPUS)}"
         make_tests = "make tests"
         unit_test_binary = os.path.join(cwd, "bin", "unit_tests")
 
@@ -79,7 +79,7 @@ if __name__ == '__main__':
         description="Build and test exiv2 using a matrix of build switches")
     parser.add_argument(
         "--compilers",
-        help="Compilers to be used to build exiv2 (when none ore specified, "
+        help="Compilers to be used to build exiv2 (when none are specified, "
         "then the default compiler will be used)",
         nargs='*',
         default=["gcc", "clang"],

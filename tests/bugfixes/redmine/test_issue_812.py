@@ -27,7 +27,7 @@ class DoNotDestroyHardLinks(metaclass=system_tests.CaseMeta):
     link_2 = "$data_path/exiv2-bug$num-C.jpg"
 
     # list of files passed to exiv2 since we can't use * in the command
-    file_list = "{!s} {!s} {!s}".format(filename, link_1,  link_2)
+    file_list = f"{filename!s} {link_1!s} {link_2!s}"
 
     commands = [
         """$exiv2 -u -v -M"set Exif.Photo.UserComment Test Bug $num" $filename""",

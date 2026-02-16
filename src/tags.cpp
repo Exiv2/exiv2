@@ -3,15 +3,13 @@
 // included header files
 #include "tags.hpp"
 
-#include "canonmn_int.hpp"
-#include "casiomn_int.hpp"
-#include "convert.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "image_int.hpp"
 #include "tags_int.hpp"
 #include "types.hpp"
 
-#include <array>
+#include <memory>
 
 // *****************************************************************************
 // class member definitions
@@ -19,74 +17,73 @@ namespace Exiv2 {
 using namespace Internal;
 
 //! List of all defined Exif sections.
-constexpr auto sectionInfo = std::array{
-    SectionInfo(sectionIdNotSet, "(UnknownSection)", N_("Unknown section")),
-    SectionInfo(imgStruct, "ImageStructure", N_("Image data structure")),
-    SectionInfo(recOffset, "RecordingOffset", N_("Recording offset")),
-    SectionInfo(imgCharacter, "ImageCharacteristics", N_("Image data characteristics")),
-    SectionInfo(otherTags, "OtherTags", N_("Other data")),
-    SectionInfo(exifFormat, "ExifFormat", N_("Exif data structure")),
-    SectionInfo(exifVersion, "ExifVersion", N_("Exif version")),
-    SectionInfo(imgConfig, "ImageConfig", N_("Image configuration")),
-    SectionInfo(userInfo, "UserInfo", N_("User information")),
-    SectionInfo(relatedFile, "RelatedFile", N_("Related file")),
-    SectionInfo(dateTime, "DateTime", N_("Date and time")),
-    SectionInfo(captureCond, "CaptureConditions", N_("Picture taking conditions")),
-    SectionInfo(gpsTags, "GPS", N_("GPS information")),
-    SectionInfo(iopTags, "Interoperability", N_("Interoperability information")),
-    SectionInfo(mpfTags, "MPF", N_("CIPA Multi-Picture Format")),
-    SectionInfo(makerTags, "Makernote", N_("Vendor specific information")),
-    SectionInfo(dngTags, "DngTags", N_("Adobe DNG tags")),
-    SectionInfo(panaRaw, "PanasonicRaw", N_("Panasonic RAW tags")),
-    SectionInfo(tiffEp, "TIFF/EP", N_("TIFF/EP tags")),
-    SectionInfo(tiffPm6, "TIFF&PM6", N_("TIFF PageMaker 6.0 tags")),
-    SectionInfo(adobeOpi, "AdobeOPI", N_("Adobe OPI tags")),
-    SectionInfo(lastSectionId, "(LastSection)", N_("Last section")),
+constexpr SectionInfo sectionInfo[] = {
+    {SectionId::sectionIdNotSet, "(UnknownSection)", N_("Unknown section")},
+    {SectionId::imgStruct, "ImageStructure", N_("Image data structure")},
+    {SectionId::recOffset, "RecordingOffset", N_("Recording offset")},
+    {SectionId::imgCharacter, "ImageCharacteristics", N_("Image data characteristics")},
+    {SectionId::otherTags, "OtherTags", N_("Other data")},
+    {SectionId::exifFormat, "ExifFormat", N_("Exif data structure")},
+    {SectionId::exifVersion, "ExifVersion", N_("Exif version")},
+    {SectionId::imgConfig, "ImageConfig", N_("Image configuration")},
+    {SectionId::userInfo, "UserInfo", N_("User information")},
+    {SectionId::relatedFile, "RelatedFile", N_("Related file")},
+    {SectionId::dateTime, "DateTime", N_("Date and time")},
+    {SectionId::captureCond, "CaptureConditions", N_("Picture taking conditions")},
+    {SectionId::gpsTags, "GPS", N_("GPS information")},
+    {SectionId::iopTags, "Interoperability", N_("Interoperability information")},
+    {SectionId::mpfTags, "MPF", N_("CIPA Multi-Picture Format")},
+    {SectionId::makerTags, "Makernote", N_("Vendor specific information")},
+    {SectionId::dngTags, "DngTags", N_("Adobe DNG tags")},
+    {SectionId::panaRaw, "PanasonicRaw", N_("Panasonic RAW tags")},
+    {SectionId::tiffEp, "TIFF/EP", N_("TIFF/EP tags")},
+    {SectionId::tiffPm6, "TIFF&PM6", N_("TIFF PageMaker 6.0 tags")},
+    {SectionId::adobeOpi, "AdobeOPI", N_("Adobe OPI tags")},
+    {SectionId::lastSectionId, "(LastSection)", N_("Last section")},
 };
 
 }  // namespace Exiv2
 
 namespace Exiv2::Internal {
-bool TagVocabulary::operator==(const std::string& key) const {
-  if (strlen(voc_) > key.size())
-    return false;
-  return 0 == strcmp(voc_, key.c_str() + key.size() - strlen(voc_));
+bool TagVocabulary::operator==(std::string_view key) const {
+  return key.ends_with(voc_);
 }
 
 // Unknown Tag
-static const TagInfo unknownTag{0xffff,      "Unknown tag",   N_("Unknown tag"), N_("Unknown tag"),
-                                ifdIdNotSet, sectionIdNotSet, asciiString,       -1,
-                                printValue};
+static constexpr TagInfo unknownTag{
+    0xffff,
+    "Unknown tag",
+    N_("Unknown tag"),
+    N_("Unknown tag"),
+    IfdId::ifdIdNotSet,
+    SectionId::sectionIdNotSet,
+    asciiString,
+    -1,
+    printValue,
+};
 
 }  // namespace Exiv2::Internal
 
 namespace Exiv2 {
-//! @cond IGNORE
-GroupInfo::GroupName::GroupName(std::string groupName) : g_(std::move(groupName)) {
-}
-//! @endcond
-
-bool GroupInfo::operator==(int ifdId) const {
+bool GroupInfo::operator==(IfdId ifdId) const {
   return ifdId_ == ifdId;
 }
 
 bool GroupInfo::operator==(const GroupName& groupName) const {
-  return 0 == strcmp(groupName.g_.c_str(), groupName_);
+  return groupName == groupName_;
 }
 
 const char* ExifTags::sectionName(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
-  if (!ti)
-    return sectionInfo[unknownTag.sectionId_].name_;
-  return sectionInfo[ti->sectionId_].name_;
+  if (auto ti = tagInfo(key.tag(), key.ifdId()))
+    return sectionInfo[static_cast<int>(ti->sectionId_)].name_;
+  return sectionInfo[static_cast<int>(unknownTag.sectionId_)].name_;
 }
 
 /// \todo not used internally. At least we should test it
 uint16_t ExifTags::defaultCount(const ExifKey& key) {
-  const TagInfo* ti = tagInfo(key.tag(), static_cast<Internal::IfdId>(key.ifdId()));
-  if (!ti)
-    return unknownTag.count_;
-  return ti->count_;
+  if (auto ti = tagInfo(key.tag(), key.ifdId()))
+    return ti->count_;
+  return unknownTag.count_;
 }
 
 const char* ExifTags::ifdName(const std::string& groupName) {
@@ -169,21 +166,19 @@ struct ExifKey::Impl {
   // DATA
   static constexpr auto familyName_ = "Exif";  //!< "Exif"
 
-  const TagInfo* tagInfo_{};  //!< Tag info
-  uint16_t tag_{0};           //!< Tag value
-  IfdId ifdId_{ifdIdNotSet};  //!< The IFD associated with this tag
-  int idx_{0};                //!< Unique id of the Exif key in the image
-  std::string groupName_;     //!< The group name
-  std::string key_;           //!< %Key
+  const TagInfo* tagInfo_{};         //!< Tag info
+  uint16_t tag_{0};                  //!< Tag value
+  IfdId ifdId_{IfdId::ifdIdNotSet};  //!< The IFD associated with this tag
+  int idx_{0};                       //!< Unique id of the Exif key in the image
+  std::string groupName_;            //!< The group name
+  std::string key_;                  //!< %Key
 };
 
 std::string ExifKey::Impl::tagName() const {
   if (tagInfo_ && tagInfo_->tag_ != 0xffff) {
     return tagInfo_->name_;
   }
-  std::ostringstream os;
-  os << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << tag_;
-  return os.str();
+  return stringFormat("0x{:04x}", tag_);
 }
 
 void ExifKey::Impl::decomposeKey(const std::string& key) {
@@ -192,9 +187,8 @@ void ExifKey::Impl::decomposeKey(const std::string& key) {
   if (pos1 == std::string::npos)
     throw Error(ErrorCode::kerInvalidKey, key);
   std::string familyName = key.substr(0, pos1);
-  if (0 != strcmp(familyName.c_str(), familyName_)) {
+  if (familyName != familyName_)
     throw Error(ErrorCode::kerInvalidKey, key);
-  }
   std::string::size_type pos0 = pos1 + 1;
   pos1 = key.find('.', pos0);
   if (pos1 == std::string::npos)
@@ -208,7 +202,7 @@ void ExifKey::Impl::decomposeKey(const std::string& key) {
 
   // Find IfdId
   IfdId ifdId = groupId(groupName);
-  if (ifdId == ifdIdNotSet)
+  if (ifdId == IfdId::ifdIdNotSet)
     throw Error(ErrorCode::kerInvalidKey, key);
   if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
     throw Error(ErrorCode::kerInvalidKey, key);
@@ -240,16 +234,16 @@ ExifKey::ExifKey(uint16_t tag, const std::string& groupName) : p_(std::make_uniq
   if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
     throw Error(ErrorCode::kerInvalidIfdId, ifdId);
   }
-  const TagInfo* ti = tagInfo(tag, ifdId);
-  if (!ti) {
-    throw Error(ErrorCode::kerInvalidIfdId, ifdId);
+  if (auto ti = tagInfo(tag, ifdId)) {
+    p_->groupName_ = groupName;
+    p_->makeKey(tag, ifdId, ti);
+    return;
   }
-  p_->groupName_ = groupName;
-  p_->makeKey(tag, ifdId, ti);
+  throw Error(ErrorCode::kerInvalidIfdId, ifdId);
 }
 
 ExifKey::ExifKey(const TagInfo& ti) : p_(std::make_unique<Impl>()) {
-  auto ifdId = static_cast<IfdId>(ti.ifdId_);
+  auto ifdId = ti.ifdId_;
   if (!Internal::isExifIfd(ifdId) && !Internal::isMakerIfd(ifdId)) {
     throw Error(ErrorCode::kerInvalidIfdId, ifdId);
   }
@@ -261,7 +255,7 @@ ExifKey::ExifKey(const std::string& key) : p_(std::make_unique<Impl>()) {
   p_->decomposeKey(key);
 }
 
-ExifKey::ExifKey(const ExifKey& rhs) : Key(), p_(std::make_unique<Impl>(*rhs.p_)) {
+ExifKey::ExifKey(const ExifKey& rhs) : p_(std::make_unique<Impl>(*rhs.p_)) {
 }
 
 ExifKey::~ExifKey() = default;
@@ -269,12 +263,11 @@ ExifKey::~ExifKey() = default;
 ExifKey& ExifKey::operator=(const ExifKey& rhs) {
   if (this == &rhs)
     return *this;
-  Key::operator=(rhs);
   *p_ = *rhs.p_;
   return *this;
 }
 
-void ExifKey::setIdx(int idx) {
+void ExifKey::setIdx(int idx) const {
   p_->idx_ = idx;
 }
 
@@ -302,7 +295,7 @@ std::string ExifKey::tagLabel() const {
 
 std::string ExifKey::tagDesc() const {
   if (!p_->tagInfo_ || p_->tagInfo_->tag_ == 0xffff)
-    return "";
+    return {};
   return _(p_->tagInfo_->desc_);
 }
 
@@ -324,7 +317,7 @@ ExifKey* ExifKey::clone_() const {
   return new ExifKey(*this);
 }
 
-int ExifKey::ifdId() const {
+IfdId ExifKey::ifdId() const {
   return p_->ifdId_;
 }
 
@@ -336,23 +329,22 @@ int ExifKey::idx() const {
 // free functions
 
 std::ostream& operator<<(std::ostream& os, const TagInfo& ti) {
-  std::ios::fmtflags f(os.flags());
   ExifKey exifKey(ti);
-  os << exifKey.tagName() << "," << std::dec << exifKey.tag() << ","
-     << "0x" << std::setw(4) << std::setfill('0') << std::right << std::hex << exifKey.tag() << ","
-     << exifKey.groupName() << "," << exifKey.key() << "," << TypeInfo::typeName(exifKey.defaultTypeId()) << ",";
   // CSV encoded I am \"dead\" beat" => "I am ""dead"" beat"
-  char Q = '"';
-  os << Q;
-  for (size_t i = 0; i < exifKey.tagDesc().size(); i++) {
-    char c = exifKey.tagDesc()[i];
-    if (c == Q)
-      os << Q;
-    os << c;
+  std::string escapedDesc;
+  escapedDesc.push_back('"');
+  for (char c : exifKey.tagDesc()) {
+    if (c == '"') {
+      escapedDesc += "\"\"";
+    } else {
+      escapedDesc += c;
+    }
   }
-  os << Q;
-  os.flags(f);
-  return os;
+  escapedDesc.push_back('"');
+
+  return os << stringFormat("{},{},0x{:04x},{},{},{},{}", exifKey.tagName(), exifKey.tag(), exifKey.tag(),
+                            exifKey.groupName(), exifKey.key(), TypeInfo::typeName(exifKey.defaultTypeId()),
+                            escapedDesc);
 }
 
 }  // namespace Exiv2

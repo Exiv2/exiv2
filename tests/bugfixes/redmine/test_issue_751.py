@@ -24,7 +24,7 @@ class AdobeXmpNamespace(metaclass=CaseMeta):
             with open(self.xmpname, "r", encoding='utf-8') as xmp:
                 return xmp.read(-1)
 
-        if i == 2 or i == 4:
+        if i in (2,4):
             self.assertMultiLineEqual(self.xmp_packets[i//2 - 1], read_xmpfile())
 
 

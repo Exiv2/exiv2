@@ -4,14 +4,16 @@
   @author  Brad Schick (brad) <brad@robotbattle.com>
   @date    24-Jul-04, brad: created
  */
-#ifndef DATASETS_HPP_
-#define DATASETS_HPP_
+#ifndef EXIV2_DATASETS_HPP
+#define EXIV2_DATASETS_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
 #include "metadatum.hpp"
+
+#include <map>
 
 // *****************************************************************************
 // namespace extensions
@@ -39,7 +41,7 @@ struct EXIV2API DataSet {
   TypeId type_;            //!< Exiv2 default type
   uint16_t recordId_;      //!< Record id
   const char* photoshop_;  //!< Photoshop string
-};                         // struct DataSet
+};
 
 //! IPTC dataset reference, implemented as a static class.
 class EXIV2API IptcDataSets {
@@ -131,12 +133,6 @@ class EXIV2API IptcDataSets {
   static constexpr uint16_t PreviewVersion = 201;
   static constexpr uint16_t Preview = 202;
   //@}
-
-  ~IptcDataSets() = delete;
-  //! Prevent copy-construction: not implemented.
-  IptcDataSets(const IptcDataSets&) = delete;
-  //! Prevent assignment: not implemented.
-  IptcDataSets& operator=(const IptcDataSets&) = delete;
 
   /*!
     @brief Return the name of the dataset.
@@ -262,11 +258,6 @@ class EXIV2API IptcKey : public Key {
     @param record Record id
    */
   IptcKey(uint16_t tag, uint16_t record);
-  //! Copy constructor
-  IptcKey(const IptcKey& rhs);
-  IptcKey& operator=(const IptcKey&) = default;
-  //! Destructor
-  ~IptcKey() override = default;
   //@}
 
   //! @name Accessors
@@ -280,6 +271,7 @@ class EXIV2API IptcKey : public Key {
   [[nodiscard]] std::string groupName() const override;
   [[nodiscard]] std::string tagName() const override;
   [[nodiscard]] std::string tagLabel() const override;
+  [[nodiscard]] std::string tagDesc() const override;
   [[nodiscard]] uint16_t tag() const override;
   [[nodiscard]] UniquePtr clone() const;
   //! Return the name of the record
@@ -329,4 +321,4 @@ EXIV2API std::ostream& operator<<(std::ostream& os, const DataSet& dataSet);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef DATASETS_HPP_
+#endif  // EXIV2_DATASETS_HPP

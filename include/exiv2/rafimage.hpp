@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef RAFIMAGE_HPP_
-#define RAFIMAGE_HPP_
+#ifndef EXIV2_RAFIMAGE_HPP
+#define EXIV2_RAFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -38,12 +38,12 @@ class EXIV2API RafImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  RafImage(BasicIo::UniquePtr io, bool create);
+  RafImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
   //@{
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
   void readMetadata() override;
   /*!
     @brief Todo: Write metadata back to the image. This method is not
@@ -64,7 +64,7 @@ class EXIV2API RafImage : public Image {
     @brief Not supported. RAF format does not contain a comment.
         Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
@@ -73,16 +73,6 @@ class EXIV2API RafImage : public Image {
   [[nodiscard]] uint32_t pixelWidth() const override;
   [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
-
-  ~RafImage() override = default;
-  //! @name NOT implemented
-  //@{
-  //! Copy constructor
-  RafImage(const RafImage&) = delete;
-  //! Assignment operator
-  RafImage& operator=(const RafImage&) = delete;
-  //@}
-
 };  // class RafImage
 
 // *****************************************************************************
@@ -95,11 +85,11 @@ class EXIV2API RafImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newRafInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a RAF image.
 EXIV2API bool isRafType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef RAFIMAGE_HPP_
+#endif  // EXIV2_RAFIMAGE_HPP

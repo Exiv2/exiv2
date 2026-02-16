@@ -1,7 +1,6 @@
 Error: Directory Image: Next pointer is out of bounds; ignored.
 Error: Offset of directory Image, entry 0x0146 is out of bounds: Offset = 0xbb000002; truncating the entry
 Error: Offset of directory Image, entry 0x83bb is out of bounds: Offset = 0x0000e120; truncating the entry
-Error: Offset of directory Image, entry 0x0146 is out of bounds: Offset = 0x00000000; truncating the entry
 Error: Offset of directory Image, entry 0x0146 is out of bounds: Offset = 0xbb000002; truncating the entry
 Error: Offset of directory Image, entry 0x83c2 is out of bounds: Offset = 0xf4000121; truncating the entry
 Error: Offset of directory Image, entry 0x0145 is out of bounds: Offset = 0x03000301; truncating the entry

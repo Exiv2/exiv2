@@ -11,7 +11,7 @@ Exif.Canon.ImageType                         Ascii      30  CRW:High definition 
 Exif.Canon.OwnerName                         Ascii      15  Andreas Huggel
 Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Model                             Ascii      20  Canon PowerShot S40
-Exif.Canon.SerialNumber                      Long        2  43b226716
+Exif.Canon.SerialNumber                      Long        2  1135765596 1446117789
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.10
 Exif.Canon.FocalLength                       Short       4  7.1 mm
 Exif.CanonSi.AutoISO                         Short       1  100
@@ -93,9 +93,9 @@ Exif.Canon.ImageType                         Ascii      30  CRW:High definition 
 Exif.Canon.OwnerName                         Ascii      16  Different owner
 Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Model                             Ascii      20  Canon PowerShot S40
-Exif.Canon.SerialNumber                      Long        2  000000001
+Exif.Canon.SerialNumber                      Long        2  1 0
 Exif.Canon.FirmwareVersion                   Ascii      17  Whatever version
-Exif.Canon.FocalLength                       Short       4  2 227 286 215
+Exif.Canon.FocalLength                       Short       4  7.1 mm
 Exif.CanonSi.AutoISO                         Short       1  100
 Exif.CanonSi.ISOSpeed                        Short       1  100
 Exif.CanonSi.MeasuredEV                      Short       1  6.97
@@ -121,6 +121,38 @@ Exif.CanonSi.BulbDuration                    Short       1  0
 Exif.CanonSi.CameraType                      Short       1  Compact
 Exif.Photo.FNumber                           Rational    1  F2.9
 Exif.Photo.ExposureTime                      Rational    1  1/15 s
+Exif.CanonCs.Macro                           Short       1  Off
+Exif.CanonCs.Selftimer                       Short       1  Off
+Exif.CanonCs.Quality                         Short       1  RAW
+Exif.CanonCs.FlashMode                       Short       1  Off
+Exif.CanonCs.DriveMode                       Short       1  Single / timer
+Exif.CanonCs.FocusMode                       Short       1  AI servo AF
+Exif.CanonCs.RecordMode                      Short       1  CRW+THM
+Exif.CanonCs.ImageSize                       Short       1  Large
+Exif.CanonCs.EasyMode                        Short       1  Manual
+Exif.CanonCs.DigitalZoom                     Short       1  None
+Exif.CanonCs.Contrast                        Short       1  Normal
+Exif.CanonCs.Saturation                      Short       1  Normal
+Exif.CanonCs.Sharpness                       Short       1  Normal
+Exif.CanonCs.ISOSpeed                        Short       1  100
+Exif.CanonCs.MeteringMode                    Short       1  Evaluative
+Exif.CanonCs.FocusType                       Short       1  Auto
+Exif.CanonCs.AFPoint                         Short       1  Center
+Exif.CanonCs.ExposureProgram                 Short       1  Program (P)
+Exif.CanonCs.LensType                        Short       1  n/a
+Exif.CanonCs.Lens                            Short       3  7.1 - 21.3 mm
+Exif.CanonCs.MaxAperture                     Short       1  F2.9
+Exif.CanonCs.MinAperture                     Short       1  F8
+Exif.CanonCs.FlashActivity                   Short       1  Did not fire
+Exif.CanonCs.FlashDetails                    Short       1  
+Exif.CanonCs.FocusContinuous                 Short       1  Single
+Exif.CanonCs.AESetting                       Short       1  Normal AE
+Exif.CanonCs.ImageStabilization              Short       1  (65535)
+Exif.CanonCs.DisplayAperture                 Short       1  0
+Exif.CanonCs.ZoomSourceWidth                 Short       1  2272
+Exif.CanonCs.ZoomTargetWidth                 Short       1  2272
+Exif.CanonCs.SpotMeteringMode                Short       1  Center
+Exif.Photo.ColorSpace                        Short       1  Uncalibrated
 File 1/1: exiv2-canon-powershot-s40.crw
 Exif.Thumbnail.Compression                   Short       1  JPEG (old-style)
 Exif.Thumbnail.JPEGInterchangeFormat         Long        1  0
@@ -134,7 +166,7 @@ Exif.Canon.ImageType                         Ascii      30  CRW:High definition 
 Exif.Canon.OwnerName                         Ascii      15  Andreas Huggel
 Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Model                             Ascii      20  Canon PowerShot S40
-Exif.Canon.SerialNumber                      Long        2  43b226716
+Exif.Canon.SerialNumber                      Long        2  1135765596 1446117789
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.10
 Exif.Canon.FocalLength                       Short       4  7.1 mm
 Exif.CanonSi.AutoISO                         Short       1  100
@@ -207,7 +239,7 @@ Exif.Photo.DateTimeOriginal                  Ascii      20  2005:04:23 18:54:36
 Exif.Canon.ImageType                         Ascii      30  CRW:High definition CCD image
 Exif.Image.Make                              Ascii       6  Canon
 Exif.Image.Model                             Ascii      20  Canon PowerShot S40
-Exif.Canon.SerialNumber                      Long        2  43b226716
+Exif.Canon.SerialNumber                      Long        2  1135765596 1446117789
 Exif.Canon.FirmwareVersion                   Ascii      22  Firmware Version 1.10
 Exif.Canon.FocalLength                       Short       4  7.1 mm
 Exif.CanonSi.AutoISO                         Short       1  100

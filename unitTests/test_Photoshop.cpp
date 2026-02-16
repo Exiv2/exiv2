@@ -9,33 +9,29 @@
 
 using namespace Exiv2;
 
-namespace {
-constexpr std::array validMarkers{"8BIM", "AgHg", "DCSR", "PHUT"};
-}
-
-TEST(Photoshop_isIrb, returnsTrueWithValidMarkers) {
-  for (const auto& marker : validMarkers) {
+TEST(PhotoshopIsIrb, returnsTrueWithValidMarkers) {
+  for (const auto& marker : {"8BIM", "AgHg", "DCSR", "PHUT"}) {
     ASSERT_TRUE(Photoshop::isIrb(reinterpret_cast<const byte*>(marker)));
   }
 }
 
-TEST(Photoshop_isIrb, returnsFalseWithInvalidMarkers) {
+TEST(PhotoshopIsIrb, returnsFalseWithInvalidMarkers) {
   ASSERT_FALSE(Photoshop::isIrb(reinterpret_cast<const byte*>("7BIM")));
   ASSERT_FALSE(Photoshop::isIrb(reinterpret_cast<const byte*>("AGHg")));
   ASSERT_FALSE(Photoshop::isIrb(reinterpret_cast<const byte*>("dcsr")));
   ASSERT_FALSE(Photoshop::isIrb(reinterpret_cast<const byte*>("LUIS")));
 }
 
-TEST(Photoshop_isIrb, returnsFalseWithNullPointer) {
+TEST(PhotoshopIsIrb, returnsFalseWithNullPointer) {
   ASSERT_FALSE(Photoshop::isIrb(nullptr));
 }
 
 /// \note probably this is not safe and we need to remove it
-TEST(Photoshop_isIrb, returnsFalseWithShorterMarker) {
+TEST(PhotoshopIsIrb, returnsFalseWithShorterMarker) {
   ASSERT_FALSE(Photoshop::isIrb(reinterpret_cast<const byte*>("8BI")));
 }
 
-TEST(Photoshop_locateIrb, returnsMinus2withInvalidPhotoshopIRB) {
+TEST(PhotoshopLocateIrb, returnsMinus2withInvalidPhotoshopIRB) {
   const std::string data{"8BIMlalalalalalala"};
   const Exiv2::byte* record;
   uint32_t sizeHdr = 0;
@@ -44,7 +40,7 @@ TEST(Photoshop_locateIrb, returnsMinus2withInvalidPhotoshopIRB) {
                                      &record, sizeHdr, sizeData));
 }
 
-TEST(Photoshop_locateIrb, returnsMinus2WithMarkerNotStartingWith8BIM) {
+TEST(PhotoshopLocateIrb, returnsMinus2WithMarkerNotStartingWith8BIM) {
   const std::string data{"7BIMlalalalalalalala"};
   const Exiv2::byte* record;
   uint32_t sizeHdr = 0;
@@ -53,7 +49,7 @@ TEST(Photoshop_locateIrb, returnsMinus2WithMarkerNotStartingWith8BIM) {
                                      &record, sizeHdr, sizeData));
 }
 
-TEST(Photoshop_locateIrb, returns3withNotLongEnoughData) {
+TEST(PhotoshopLocateIrb, returns3withNotLongEnoughData) {
   const std::string data{"8BIMlala"};
   const Exiv2::byte* record;
   uint32_t sizeHdr = 0;
@@ -62,7 +58,7 @@ TEST(Photoshop_locateIrb, returns3withNotLongEnoughData) {
                                     sizeHdr, sizeData));
 }
 
-TEST(Photoshop_locateIrb, returns0withGoodIptcIrb) {
+TEST(PhotoshopLocateIrb, returns0withGoodIptcIrb) {
   // Data taken from file test/data/DSC_3079.jpg
   // The IPTC marker is 0x04 0x04
   const std::array<byte, 68> data{0x38, 0x42, 0x49, 0x4d, 0x04, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1b, 0x1c, 0x01,
@@ -76,11 +72,11 @@ TEST(Photoshop_locateIrb, returns0withGoodIptcIrb) {
   uint32_t sizeData = 0;
 
   ASSERT_EQ(0, Photoshop::locateIrb(data.data(), data.size(), Photoshop::iptc_, &record, sizeHdr, sizeData));
-  ASSERT_EQ(12, sizeHdr);
-  ASSERT_EQ(27, sizeData);
+  ASSERT_EQ(12u, sizeHdr);
+  ASSERT_EQ(27u, sizeData);
 }
 
-TEST(Photoshop_locateIptcIrb, returns0withGoodIptcIrb) {
+TEST(PhotoshopLocateIptcIrb, returns0withGoodIptcIrb) {
   // Data taken from file test/data/DSC_3079.jpg
   // The IPTC marker is 0x04 0x04
   const std::array<byte, 68> data{0x38, 0x42, 0x49, 0x4d, 0x04, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1b, 0x1c, 0x01,
@@ -94,11 +90,11 @@ TEST(Photoshop_locateIptcIrb, returns0withGoodIptcIrb) {
   uint32_t sizeData = 0;
 
   ASSERT_EQ(0, Photoshop::locateIptcIrb(data.data(), data.size(), &record, sizeHdr, sizeData));
-  ASSERT_EQ(12, sizeHdr);
-  ASSERT_EQ(27, sizeData);
+  ASSERT_EQ(12u, sizeHdr);
+  ASSERT_EQ(27u, sizeData);
 }
 
-TEST(Photoshop_locateIptcIrb, returns3withoutIptcMarker) {
+TEST(PhotoshopLocateIptcIrb, returns3withoutIptcMarker) {
   // Data taken from file test/data/DSC_3079.jpg
   // The IPTC marker (0x04 0x04) was manipulated to 0x03 0x04
   const std::array<byte, 68> data{0x38, 0x42, 0x49, 0x4d, 0x03, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1b, 0x1c, 0x01,
@@ -114,7 +110,7 @@ TEST(Photoshop_locateIptcIrb, returns3withoutIptcMarker) {
   ASSERT_EQ(3, Photoshop::locateIptcIrb(data.data(), data.size(), &record, sizeHdr, sizeData));
 }
 
-TEST(Photoshop_locatePreviewIrb, returns0withGoodPreviewIrb) {
+TEST(PhotoshopLocatePreviewIrb, returns0withGoodPreviewIrb) {
   // Data taken from file test/data/DSC_3079.jpg
   // The IPTC marker is 0x04 0x04 was transformed to a Preview one => (0x04 0x0c)
   const std::array<byte, 68> data{0x38, 0x42, 0x49, 0x4d, 0x04, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1b, 0x1c, 0x01,
@@ -128,19 +124,19 @@ TEST(Photoshop_locatePreviewIrb, returns0withGoodPreviewIrb) {
   uint32_t sizeData = 0;
 
   ASSERT_EQ(0, Photoshop::locatePreviewIrb(data.data(), data.size(), &record, sizeHdr, sizeData));
-  ASSERT_EQ(12, sizeHdr);
-  ASSERT_EQ(27, sizeData);
+  ASSERT_EQ(12u, sizeHdr);
+  ASSERT_EQ(27u, sizeData);
 }
 
 // --------------------------------
 
-TEST(Photoshop_setIptcIrb, withEmptyDataReturnsEmptyBuffer) {
+TEST(PhotoshopSetIptcIrb, withEmptyDataReturnsEmptyBuffer) {
   const IptcData iptc;
   DataBuf buf = Photoshop::setIptcIrb(nullptr, 0, iptc);
   ASSERT_TRUE(buf.empty());
 }
 
-TEST(Photoshop_setIptcIrb, detectIntegerOverflow_withDataFromPOC2179) {
+TEST(PhotoshopSetIptcIrb, detectIntegerOverflowWithDataFromPOC2179) {
   const std::array<byte, 141> data{
       0x38, 0x42, 0x49, 0x4d, 0x20, 0x20, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x38, 0x42, 0x49, 0x4d, 0x04, 0x04,
       0x00, 0x20, 0x00, 0x00, 0x00, 0x75, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0xff, 0x20, 0x20,
@@ -156,7 +152,7 @@ TEST(Photoshop_setIptcIrb, detectIntegerOverflow_withDataFromPOC2179) {
   ASSERT_THROW(Photoshop::setIptcIrb(data.data(), data.size(), iptc), Exiv2::Error);
 }
 
-TEST(Photoshop_setIptcIrb, returnsEmptyBufferWhenDataDoesNotHave8BIM) {
+TEST(PhotoshopSetIptcIrb, returnsEmptyBufferWhenDataDoesNotHave8BIM) {
   // First byte replaced from 0x38 to 0x37
   const std::array<byte, 181> data{
       0x37, 0x42, 0x49, 0x4d, 0x20, 0x20, 0x00, 0x20, 0x00, 0x00, 0x00, 0x00, 0x38, 0x42, 0x49, 0x4d, 0x04, 0x04, 0x00,

@@ -4,11 +4,13 @@
 
 #include <error.hpp>  // Need to include this header for the Exiv2::Error exception
 
-#include <gtest/gtest.h>
 #include <filesystem>
 
-using namespace Exiv2;
+#include <gtest/gtest.h>
+
 namespace fs = std::filesystem;
+
+using namespace Exiv2;
 
 TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory) {
   // Note that the constructor of these Image classes take an 'create' argument
@@ -16,7 +18,9 @@ TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory) {
   EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg));
   EXPECT_NO_THROW(ImageFactory::create(ImageType::exv));
   EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf));
+#ifdef EXV_HAVE_LIBZ
   EXPECT_NO_THROW(ImageFactory::create(ImageType::png));
+#endif
 }
 
 TEST(TheImageFactory, cannotCreateInstancesForMostTypesInMemory) {
@@ -60,7 +64,9 @@ TEST(TheImageFactory, createsInstancesForFewSupportedTypesInFiles) {
   EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg, filePath));
   EXPECT_NO_THROW(ImageFactory::create(ImageType::exv, filePath));
   EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf, filePath));
+#ifdef EXV_HAVE_LIBZ
   EXPECT_NO_THROW(ImageFactory::create(ImageType::png, filePath));
+#endif
 
   EXPECT_TRUE(fs::remove(filePath));
 }
@@ -110,9 +116,11 @@ TEST(TheImageFactory, loadInstancesDifferentImageTypes) {
   EXPECT_EQ(ImageType::tiff, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
 
+#ifdef EXV_HAVE_LIBZ
   imagePath = (testData / "exiv2-bug1074.png").string();
   EXPECT_EQ(ImageType::png, ImageFactory::getType(imagePath));
   EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+#endif
 
   imagePath = (testData / "BlueSquare.xmp").string();
   EXPECT_EQ(ImageType::xmp, ImageFactory::getType(imagePath));
@@ -351,15 +359,6 @@ TEST(TheImageFactory, getsExpectedModesForXmpImages) {
   EXPECT_EQ(amReadWrite, ImageFactory::checkMode(ImageType::xmp, mdXmp));
   EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::xmp, mdComment));
   EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::xmp, mdIccProfile));
-}
-
-TEST(TheImageFactory, getsExpectedModesForNoneValue) {
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdNone));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdExif));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdIptc));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdXmp));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdComment));
-  EXPECT_EQ(amNone, ImageFactory::checkMode(ImageType::none, mdIccProfile));
 }
 
 /// \todo check why JpegBase is taking ImageType in the constructor

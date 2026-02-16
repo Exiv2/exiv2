@@ -4,7 +4,6 @@ import system_tests
 
 
 class ShadowingError(metaclass=system_tests.CaseMeta):
-
     commands = ["$exiv2 -PE -b $data_path/IMGP0020.exv"]
     stdout = [""]
     stderr = [""]
@@ -17,5 +16,5 @@ class ShadowingError(metaclass=system_tests.CaseMeta):
         """
         self.assertIn(
             "Exif.PentaxDng.LensInfo                      Undefined  69  131 0 0 255 0 40 148 111 65 69 6 238 65 78 153 80 40 1 73 107 251 255 255 255 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0",
-            got_stdout
+            got_stdout,
         )

@@ -1,10 +1,14 @@
 on:
-  pull_request:
-    paths-ignore:
-      - "*.md"
-  workflow_dispatch:
   schedule:
-  - cron: 0 4 * * *
+    - cron: 0 4 * * *
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 name: Nightly - Linux distributions
 
@@ -15,23 +19,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # arch suffering this issue: https://github.com/abseil/abseil-cpp/issues/709
-        container_image: ["fedora:latest", "debian:10", "archlinux:base", "ubuntu:20.04", "tgagor/centos-stream:2.0.11", "alpine:3.13"]
-        compiler: [g++, clang++]
+        container_image: ["fedora", "debian", "archlinux", "ubuntu", "tgagor/centos", "alpine"]
+        compiler:
+          - { CC: gcc,   CXX: g++ }
+          - { CC: clang, CXX: clang++ }
         build_type: [Release, Debug]
         shared_libraries: [ON, OFF]
     container:
       image: ${{ matrix.container_image }}
       env:
-        CMAKE_FLAGS: -DEXIV2_TEAM_EXTRA_WARNINGS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_ENABLE_BMFF=ON -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF -DEXIV2_ENABLE_PNG=ON -DCMAKE_INSTALL_PREFIX=install
+        CC: ${{ matrix.compiler.CC }}
+        CXX: ${{ matrix.compiler.CXX }}
+        CMAKE_FLAGS: -DEXIV2_TEAM_EXTRA_WARNINGS=OFF -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF -DCMAKE_INSTALL_PREFIX=install
 
     steps:
-    - uses: actions/checkout@v3
-    - name: install dependencies
-      run: ./ci/install_dependencies.sh
-    - name: build and compile
-      run: |
-        mkdir build && cd build
-        cmake $CMAKE_FLAGS -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_SHARED_LIBS=${{ matrix.shared_libraries }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} ..
-        cmake --build . --parallel
-        cmake --install .
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Install dependencies
+        run: ./ci/install_dependencies.sh
+      - name: Build and install
+        run: |
+          cmake -GNinja $CMAKE_FLAGS -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_SHARED_LIBS=${{ matrix.shared_libraries }} -S . -B build
+          cmake --build build --parallel
+          cmake --install build

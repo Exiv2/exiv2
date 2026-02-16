@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef TIFFIMAGE_HPP_
-#define TIFFIMAGE_HPP_
+#ifndef EXIV2_TIFFIMAGE_HPP
+#define EXIV2_TIFFIMAGE_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -12,6 +12,7 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+class BasicIo;
 // *****************************************************************************
 // class definitions
 
@@ -38,7 +39,7 @@ class EXIV2API TiffImage : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new file should be created (true).
    */
-  TiffImage(BasicIo::UniquePtr io, bool create);
+  TiffImage(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -52,43 +53,34 @@ class EXIV2API TiffImage : public Image {
           not valid (does not look like data of the specific image type).
     @warning This function is not thread safe and intended for exiv2 -p{S|R} as a file debugging aid
    */
-  void printStructure(std::ostream& out, PrintStructureOption option, int depth = 0) override;
+  void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override;
 
   /*!
     @brief Not supported. TIFF format does not contain a comment.
         Calling this function will throw an Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
   //@{
-  std::string mimeType() const override;
-  uint32_t pixelWidth() const override;
-  uint32_t pixelHeight() const override;
-  //@}
-
-  ~TiffImage() override = default;
-  //! @name NOT Implemented
-  //@{
-  //! Copy constructor
-  TiffImage(const TiffImage&) = delete;
-  //! Assignment operator
-  TiffImage& operator=(const TiffImage&) = delete;
+  [[nodiscard]] std::string mimeType() const override;
+  [[nodiscard]] uint32_t pixelWidth() const override;
+  [[nodiscard]] uint32_t pixelHeight() const override;
   //@}
 
  private:
   //! @name Accessors
   //@{
   //! Return the group name of the group with the primary image.
-  std::string primaryGroup() const;
+  [[nodiscard]] std::string primaryGroup() const;
   //@}
 
   // DATA
-  mutable std::string primaryGroup_;     //!< The primary group
-  mutable std::string mimeType_;         //!< The MIME type
-  mutable uint32_t pixelWidthPrimary_;   //!< Width of the primary image in pixels
-  mutable uint32_t pixelHeightPrimary_;  //!< Height of the primary image in pixels
+  mutable std::string primaryGroup_;        //!< The primary group
+  mutable std::string mimeType_;            //!< The MIME type
+  mutable uint32_t pixelWidthPrimary_{0};   //!< Width of the primary image in pixels
+  mutable uint32_t pixelHeightPrimary_{0};  //!< Height of the primary image in pixels
 
 };  // class TiffImage
 
@@ -146,7 +138,7 @@ class EXIV2API TiffParser {
 
     @return Write method used.
   */
-  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, const ExifData& exifData,
+  static WriteMethod encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
                             const IptcData& iptcData, const XmpData& xmpData);
 
 };  // class TiffParser
@@ -161,11 +153,11 @@ class EXIV2API TiffParser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newTiffInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is a TIFF image.
 EXIV2API bool isTiffType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef TIFFIMAGE_HPP_
+#endif  // EXIV2_TIFFIMAGE_HPP

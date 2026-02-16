@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef XMPSIDECAR_HPP_
-#define XMPSIDECAR_HPP_
+#ifndef EXIV2_XMPSIDECAR_HPP
+#define EXIV2_XMPSIDECAR_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
@@ -35,7 +35,7 @@ class EXIV2API XmpSidecar : public Image {
     @param create Specifies if an existing image should be read (false)
         or if a new image should be created (true).
    */
-  XmpSidecar(BasicIo::UniquePtr io, bool create);
+  XmpSidecar(std::unique_ptr<BasicIo> io, bool create);
   //@}
 
   //! @name Manipulators
@@ -46,7 +46,7 @@ class EXIV2API XmpSidecar : public Image {
     @brief Not supported. XMP sidecar files do not contain a comment.
         Calling this function will throw an instance of Error(ErrorCode::kerInvalidSettingForImage).
    */
-  void setComment(std::string_view comment) override;
+  void setComment(const std::string&) override;
   //@}
 
   //! @name Accessors
@@ -54,17 +54,7 @@ class EXIV2API XmpSidecar : public Image {
   [[nodiscard]] std::string mimeType() const override;
   //@}
 
-  //! @name NOT Implemented
-  //@{
-  ~XmpSidecar() override = default;
-  //! Copy constructor
-  XmpSidecar(const XmpSidecar&) = delete;
-  //! Assignment operator
-  XmpSidecar& operator=(const XmpSidecar&) = delete;
-  //@}
-
   Exiv2::Dictionary dates_;
-
 };  // class XmpSidecar
 
 // *****************************************************************************
@@ -77,11 +67,11 @@ class EXIV2API XmpSidecar : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newXmpInstance(BasicIo::UniquePtr io, bool create);
+EXIV2API Image::UniquePtr newXmpInstance(std::unique_ptr<BasicIo> io, bool create);
 
 //! Check if the file iIo is an XMP sidecar file.
 EXIV2API bool isXmpType(BasicIo& iIo, bool advance);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef XMPSIDECAR_HPP_
+#endif  // EXIV2_XMPSIDECAR_HPP

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, path, check_no_ASAN_UBSAN_errors
+from system_tests import CaseMeta, path
 
 
 class InfiniteRecursionInCiffDirectoryReadDirectory(metaclass=CaseMeta):
@@ -10,6 +10,7 @@ class InfiniteRecursionInCiffDirectoryReadDirectory(metaclass=CaseMeta):
 
     A malicious file can cause an infinite recursion.
     """
+
     url = "https://github.com/Exiv2/exiv2/issues/1097"
 
     filename = path("$data_path/issue_1097_poc.crw")
@@ -18,5 +19,6 @@ class InfiniteRecursionInCiffDirectoryReadDirectory(metaclass=CaseMeta):
     stderr = [
         """$exiv2_exception_message $filename:
 $kerOffsetOutOfRange
-"""]
+"""
+    ]
     retval = [1]

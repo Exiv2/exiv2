@@ -1,12 +1,16 @@
 name: On PRs - Windows Matrix
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     paths-ignore:
       - "*.md"
+  workflow_dispatch:
   push:
-    branches:
-    - main
+    branches: [0.28.x, main]
     tags:
     - '!*'
     paths-ignore:
@@ -25,32 +29,25 @@ jobs:
         platform: [ x64, x86 ]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Visual Studio shell
-        uses: egor-tensin/vs-shell@v2
+        uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: ${{matrix.platform}}
 
-      - name: Set up Ninja
-        uses: ashutoshvarma/setup-ninja@master
-        with:
-          version: 1.10.0
-
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: 3.7
-
       - name: Restore Conan cache
-        uses: actions/cache@v2
+        uses: actions/cache@v5
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
+            lookup-only: true
 
       - name: Install Conan & Common config
         run: |
-          pip.exe install "conan==1.45.0"
+          python -m pip install conan==1.* lxml
           conan config install https://github.com/conan-io/conanclientcert.git
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
@@ -73,26 +70,14 @@ jobs:
 
       - name: Build
         run: |
-          cmake -GNinja `
-            -DCMAKE_BUILD_TYPE=${{matrix.build_type}} `
-            -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} `
-            -DEXIV2_ENABLE_NLS=OFF `
-            -DEXIV2_ENABLE_WEBREADY=ON `
-            -DEXIV2_ENABLE_BMFF=ON `
-            -DEXIV2_BUILD_UNIT_TESTS=ON `
-            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=ON `
-            -DCMAKE_INSTALL_PREFIX=install `
-            -S . -B build && `
+          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
           cmake --build build --parallel
 
       - name: Install
         run: |
-          cd build
-          cmake --install .
-          tree /f install
+          cmake --install build
 
       - name: Test
-        if: ${{matrix.platform == 'x64'}}
         run: |
           ctest --test-dir build --output-on-failure
 
@@ -111,7 +96,9 @@ jobs:
         shell: msys2 {0}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
@@ -119,28 +106,29 @@ jobs:
           path-type: strict
           msystem: ${{matrix.sys}}
           update: true
-          install: >-
-            base-devel
           pacboy: >-
-            toolchain:p
+            cc:p
+            gcc-libs:p
+            libwinpthread:p
             cmake:p
-            expat:p
-            gettext:p
+            ninja:p
+            python:p
             gtest:p
+            brotli:p
+            curl:p
+            expat:p
             libiconv:p
+            libinih:p
             zlib:p
 
       - name: Build
         run: |
-          cmake -G"MSYS Makefiles" \
-            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+          cmake --preset base_windows \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DEXIV2_BUILD_SAMPLES=ON \
-            -DEXIV2_ENABLE_NLS=OFF \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
-            -DEXIV2_BUILD_UNIT_TESTS=ON \
+            -DCONAN_AUTO_INSTALL=OFF \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
+            -DPython3_EXECUTABLE=${MINGW_PREFIX}/bin/python.exe \
             -S . -B build && \
           cmake --build build --parallel
 
@@ -155,43 +143,48 @@ jobs:
       matrix:
         build_type: [Release]
         shared_libraries: [ON]
-        platform: [x64]
+        platform: [x86_64]
     name: Cygwin ${{matrix.platform}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}
     env:
       SHELLOPTS: igncr
     defaults:
       run:
-        shell: C:\tools\cygwin\bin\bash.exe -eo pipefail '{0}'
+        shell: C:\cygwin\bin\bash.exe -eo pipefail '{0}'
     steps:
       # Make sure we don't check out scripts using Windows CRLF line endings
       - run: git config --global core.autocrlf input
         shell: pwsh
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Cygwin
-        uses: egor-tensin/setup-cygwin@v3
+        uses: cygwin/cygwin-install-action@v6
         with:
           platform: ${{matrix.platform}}
           packages: >-
             gcc-g++
             cmake
             ninja
+            pkg-config
+            python3
+            libbrotli-devel
+            libcurl-devel
             libexpat-devel
-            libxml2-devel
-            libxslt-devel
-            python38-lxml
+            libiconv-devel
+            libinih-devel
             zlib-devel
+
       - name: Build
         run: |
-          cmake -GNinja \
-            -DCMAKE_CXX_FLAGS=-Wno-deprecated \
+          cmake --preset base_windows \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DEXIV2_ENABLE_NLS=OFF \
-            -DEXIV2_ENABLE_WIN_UNICODE=OFF \
-            -DEXIV2_ENABLE_WEBREADY=ON \
-            -DEXIV2_ENABLE_BMFF=ON \
+            -DCONAN_AUTO_INSTALL=OFF \
+            -DEXIV2_BUILD_SAMPLES=OFF \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
+            -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
+            -DPython3_EXECUTABLE=/usr/bin/python3 \
             -S . -B build && \
           cmake --build build --parallel
 

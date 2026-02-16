@@ -9,9 +9,15 @@
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
+#include "tags.hpp"
 #include "tiffimage.hpp"
 
+#include <array>
+#include <cstring>
+
+#ifdef EXIV2_DEBUG_MESSAGES
 #include <iostream>
+#endif
 
 namespace Exiv2 {
 MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/) :
@@ -48,7 +54,7 @@ void MrwImage::setIptcData(const IptcData& /*iptcData*/) {
   throw(Error(ErrorCode::kerInvalidSettingForImage, "IPTC metadata", "MRW"));
 }
 
-void MrwImage::setComment(std::string_view /*comment*/) {
+void MrwImage::setComment(const std::string&) {
   // not supported
   throw(Error(ErrorCode::kerInvalidSettingForImage, "Image comment", "MRW"));
 }
@@ -77,22 +83,22 @@ void MrwImage::readMetadata() {
   uint32_t const end = getULong(tmp + 4, bigEndian);
 
   pos += len;
-  enforce(pos <= end, ErrorCode::kerFailedToReadImageData);
+  Internal::enforce(pos <= end, ErrorCode::kerFailedToReadImageData);
   io_->read(tmp, len);
   if (io_->error() || io_->eof())
     throw Error(ErrorCode::kerFailedToReadImageData);
 
   while (memcmp(tmp + 1, "TTW", 3) != 0) {
     uint32_t const siz = getULong(tmp + 4, bigEndian);
-    enforce(siz <= end - pos, ErrorCode::kerFailedToReadImageData);
+    Internal::enforce(siz <= end - pos, ErrorCode::kerFailedToReadImageData);
     pos += siz;
     io_->seek(siz, BasicIo::cur);
-    enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
+    Internal::enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
-    enforce(len <= end - pos, ErrorCode::kerFailedToReadImageData);
+    Internal::enforce(len <= end - pos, ErrorCode::kerFailedToReadImageData);
     pos += len;
     io_->read(tmp, len);
-    enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
+    Internal::enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
   }
 
   const uint32_t siz = getULong(tmp + 4, bigEndian);
@@ -101,10 +107,10 @@ void MrwImage::readMetadata() {
   // greater than io_->size() then it is definitely invalid. But the
   // exact bounds checking is done by the call to io_->read, which
   // will fail if there are fewer than siz bytes left to read.
-  enforce(siz <= io_->size(), ErrorCode::kerFailedToReadImageData);
+  Internal::enforce(siz <= io_->size(), ErrorCode::kerFailedToReadImageData);
   DataBuf buf(siz);
   io_->read(buf.data(), buf.size());
-  enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
+  Internal::enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
   ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size());
   setByteOrder(bo);
@@ -120,23 +126,24 @@ void MrwImage::writeMetadata() {
 Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create) {
   auto image = std::make_unique<MrwImage>(std::move(io), create);
   if (!image->good()) {
-    image.reset();
+    return nullptr;
   }
   return image;
 }
 
 bool isMrwType(BasicIo& iIo, bool advance) {
   const int32_t len = 4;
-  byte buf[len];
-  iIo.read(buf, len);
+  const std::array<byte, len> MrwId{0x0, 0x4d, 0x52, 0x4d};
+  std::array<byte, len> buf;
+  iIo.read(buf.data(), len);
   if (iIo.error() || iIo.eof()) {
     return false;
   }
-  int rc = memcmp(buf, "\0MRM", 4);
-  if (!advance || rc != 0) {
+  bool rc = buf == MrwId;
+  if (!advance || !rc) {
     iIo.seek(-len, BasicIo::cur);
   }
-  return rc == 0;
+  return rc;
 }
 
 }  // namespace Exiv2

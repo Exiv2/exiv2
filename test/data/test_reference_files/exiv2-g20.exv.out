@@ -122,7 +122,7 @@ Exif.CanonFi.FileNumber                      Long        1  0  (0)
 Exif.CanonFi.BracketMode                     SShort      1  0  Off
 Exif.CanonFi.BracketValue                    SShort      1  0  0
 Exif.CanonFi.BracketShotNumber               SShort      1  0  0
-Exif.CanonFi.RawJpgQuality                   SShort      1  0  unkown
+Exif.CanonFi.RawJpgQuality                   SShort      1  0  unknown
 Exif.CanonFi.RawJpgSize                      SShort      1  0  Large
 Exif.CanonFi.NoiseReduction                  SShort      1  4  Auto
 Exif.CanonFi.WBBracketMode                   SShort      1  0  Off
@@ -164,7 +164,7 @@ Exif.Canon.VignettingCorr                    Undefined 116  0 16 116 0 0 0 0 0 0
 Exif.CanonVigCor2.PeripheralLightingSetting  SLong       1  0  Off
 Exif.CanonLiOp.PeripheralIlluminationCorr    SLong       1  0  Off
 Exif.CanonLiOp.AutoLightingOptimizer         SLong       1  1  Low
-Exif.CanonLe.LensSerialNumber                SLong       1  0  0
+Exif.CanonLe.LensSerialNumber                Byte        5  0 0 0 0 0  0000000000
 Exif.CanonAm.AmbienceSelection               SLong       1  0  Standard
 Exif.Photo.UserComment                       Undefined 264    
 Exif.Photo.SubSecTime                        Ascii       3  40  40
@@ -186,7 +186,7 @@ Exif.Photo.WhiteBalance                      Short       1  0  Auto
 Exif.Photo.SceneCaptureType                  Short       1  0  Standard
 Exif.Photo.CameraOwnerName                   Ascii      32    
 Exif.Photo.BodySerialNumber                  Ascii      13  043022015995  043022015995
-Exif.Photo.LensSpecification                 Rational    4  90/1 90/1 0/0 0/0  90/1 90/1 0/0 0/0
+Exif.Photo.LensSpecification                 Rational    4  90/1 90/1 0/0 0/0  90mm
 Exif.Photo.LensModel                         Ascii      70  TAMRON SP 90mm F/2.8 Di VC USD MACRO1:1 F017  TAMRON SP 90mm F/2.8 Di VC USD MACRO1:1 F017
 Exif.Photo.LensSerialNumber                  Ascii      12  0000000000  0000000000
 Exif.Photo.Gamma                             Rational    1  22/10  2.2

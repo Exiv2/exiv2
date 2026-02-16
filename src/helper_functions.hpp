@@ -3,6 +3,9 @@
 #ifndef HELPER_FUNCTIONS_HPP
 #define HELPER_FUNCTIONS_HPP
 
+#include <cstddef>
+#include <cstdint>
+#include <memory>
 #include <string>
 
 /*!
@@ -22,4 +25,30 @@
  */
 std::string string_from_unterminated(const char* data, size_t data_length);
 
+namespace Exiv2 {
+class BasicIo;
+
+static constexpr size_t BYTE = 0x1;
+static constexpr size_t WCHAR = 0x2;
+static constexpr size_t WORD = 0X2;
+static constexpr size_t DWORD = 0x4;
+static constexpr size_t QWORD = 0x8;
+static constexpr size_t GUID = 0x10;
+
+[[nodiscard]] uint64_t readQWORDTag(const std::unique_ptr<Exiv2::BasicIo>& io);
+
+[[nodiscard]] uint32_t readDWORDTag(const std::unique_ptr<Exiv2::BasicIo>& io);
+
+[[nodiscard]] uint16_t readWORDTag(const std::unique_ptr<Exiv2::BasicIo>& io);
+
+[[nodiscard]] std::string readStringWcharTag(const std::unique_ptr<Exiv2::BasicIo>& io, size_t length);
+
+[[nodiscard]] std::string readStringTag(const std::unique_ptr<Exiv2::BasicIo>& io, size_t length = DWORD);
+
+/*!
+  @brief Calculates Aspect Ratio of a video
+ */
+[[nodiscard]] std::string getAspectRatio(uint64_t width, uint64_t height);
+
+}  // namespace Exiv2
 #endif  // HELPER_FUNCTIONS_HPP

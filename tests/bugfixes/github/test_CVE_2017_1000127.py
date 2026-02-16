@@ -4,7 +4,6 @@ import system_tests
 
 
 class TestPoC(metaclass=system_tests.CaseMeta):
-
     url = "https://github.com/Exiv2/exiv2/issues/176"
 
     filename = "$data_path/heap-oob-write.tiff"

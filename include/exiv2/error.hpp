@@ -8,13 +8,11 @@
   @date    15-Jan-04, ahu: created<BR>
            11-Feb-04, ahu: isolated as a component
  */
-#ifndef ERROR_HPP_
-#define ERROR_HPP_
+#ifndef EXIV2_ERROR_HPP
+#define EXIV2_ERROR_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
-
-#include "config.h"
 
 #include <exception>  // for exception
 #include <sstream>    // for operator<<, ostream, ostringstream, bas...
@@ -120,7 +118,7 @@ class EXIV2API LogMsg {
   // The log handler in use
   static Handler handler_;
   // The type of this log message
-  const Level msgType_;
+  Level msgType_;
   // Holds the log message until it is passed to the message handler
   std::ostringstream os_;
 
@@ -223,6 +221,8 @@ enum class ErrorCode {
   kerCorruptedMetadata,
   kerArithmeticOverflow,
   kerMallocFailed,
+  kerInvalidIconvEncoding,
+  kerFileAccessDisabled,
 
   kerErrorCount,
 };
@@ -261,10 +261,6 @@ class EXIV2API Error : public std::exception {
     setMsg(3);
   }
 
-  //! Virtual destructor. (Needed because of throw())
-  ~Error() noexcept override = default;
-  //@}
-
   //! @name Accessors
   //@{
   [[nodiscard]] ErrorCode code() const noexcept;
@@ -283,12 +279,12 @@ class EXIV2API Error : public std::exception {
   //@}
 
   // DATA
-  const ErrorCode code_;    //!< Error code
-  const std::string arg1_;  //!< First argument
-  const std::string arg2_;  //!< Second argument
-  const std::string arg3_;  //!< Third argument
-  std::string msg_;         //!< Complete error message
-};                          // class BasicError
+  ErrorCode code_;    //!< Error code
+  std::string arg1_;  //!< First argument
+  std::string arg2_;  //!< Second argument
+  std::string arg3_;  //!< Third argument
+  std::string msg_;   //!< Complete error message
+};
 
 //! %Error output operator
 inline std::ostream& operator<<(std::ostream& os, const Error& error) {
@@ -300,4 +296,4 @@ inline std::ostream& operator<<(std::ostream& os, const Error& error) {
 #endif
 
 }  // namespace Exiv2
-#endif  // #ifndef ERROR_HPP_
+#endif  // EXIV2_ERROR_HPP

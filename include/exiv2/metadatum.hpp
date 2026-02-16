@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#ifndef METADATUM_HPP_
-#define METADATUM_HPP_
+#ifndef EXIV2_METADATUM_HPP
+#define EXIV2_METADATUM_HPP
 
 // *****************************************************************************
 #include "exiv2lib_export.h"
 
 // included header files
-#include "value.hpp"
+#include "types.hpp"
+
+#include <cstdint>
+#include <memory>
 
 // *****************************************************************************
 // namespace extensions
@@ -15,6 +18,7 @@ namespace Exiv2 {
 // *****************************************************************************
 // class declarations
 class ExifData;
+class Value;
 
 // *****************************************************************************
 // class definitions
@@ -30,11 +34,9 @@ class EXIV2API Key {
 
   //! @name Creators
   //@{
-  Key() = default;
   //! Destructor
-  virtual ~Key() = default;
+  virtual ~Key();
   //@}
-  Key(const Key&) = default;
   //! @name Accessors
   //@{
   /*!
@@ -52,6 +54,8 @@ class EXIV2API Key {
   [[nodiscard]] virtual std::string tagName() const = 0;
   //! Return a label for the tag
   [[nodiscard]] virtual std::string tagLabel() const = 0;
+  //! Return a description for the tag
+  [[nodiscard]] virtual std::string tagDesc() const = 0;
   //! Return the tag number
   [[nodiscard]] virtual uint16_t tag() const = 0;
   /*!
@@ -72,6 +76,8 @@ class EXIV2API Key {
   //@}
 
  protected:
+  Key() = default;
+  Key(const Key&) = default;
   //! @name Manipulators
   //@{
   /*!
@@ -100,12 +106,8 @@ class EXIV2API Metadatum {
  public:
   //! @name Creators
   //@{
-  //! Default Constructor
-  Metadatum() = default;
-  //! Copy constructor
-  Metadatum(const Metadatum&) = default;
   //! Destructor
-  virtual ~Metadatum() = default;
+  virtual ~Metadatum();
   //@}
 
   //! @name Manipulators
@@ -181,6 +183,8 @@ class EXIV2API Metadatum {
   [[nodiscard]] virtual std::string tagName() const = 0;
   //! Return a label for the tag
   [[nodiscard]] virtual std::string tagLabel() const = 0;
+  //! Return a description for the tag
+  [[nodiscard]] virtual std::string tagDesc() const = 0;
   //! Return the tag
   [[nodiscard]] virtual uint16_t tag() const = 0;
   //! Return the type id of the value
@@ -236,7 +240,7 @@ class EXIV2API Metadatum {
     @return An auto-pointer containing a pointer to a copy (clone) of the
             value, 0 if the value is not set.
    */
-  [[nodiscard]] virtual Value::UniquePtr getValue() const = 0;
+  [[nodiscard]] virtual std::unique_ptr<Value> getValue() const = 0;
   /*!
     @brief Return a constant reference to the value.
 
@@ -254,6 +258,8 @@ class EXIV2API Metadatum {
   //@}
 
  protected:
+  Metadatum() = default;
+  Metadatum(const Metadatum&) = default;
   //! @name Manipulators
   //@{
   /*!
@@ -286,4 +292,4 @@ EXIV2API bool cmpMetadataByKey(const Metadatum& lhs, const Metadatum& rhs);
 
 }  // namespace Exiv2
 
-#endif  // #ifndef METADATUM_HPP_
+#endif  // EXIV2_METADATUM_HPP

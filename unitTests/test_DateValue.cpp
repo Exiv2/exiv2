@@ -34,10 +34,7 @@ TEST(ADateValue, canBeConstructedWithInvalidDate) {
 
 TEST(ADateValue, setsValidDateCorrectly) {
   DateValue dateValue;
-  DateValue::Date date;
-  date.year = 2018;
-  date.month = 4;
-  date.day = 2;
+  DateValue::Date date = {2018, 4, 2};
 
   dateValue.setDate(date);
   ASSERT_EQ(2018, dateValue.getDate().year);
@@ -48,10 +45,7 @@ TEST(ADateValue, setsValidDateCorrectly) {
 /// \todo Probably we should avoid this ...
 TEST(ADateValue, setsInvalidDateCorrectly) {
   DateValue dateValue;
-  DateValue::Date date;
-  date.year = 2018;
-  date.month = 13;
-  date.day = 69;
+  DateValue::Date date = {2018, 13, 69};
 
   dateValue.setDate(date);
   ASSERT_EQ(2018, dateValue.getDate().year);
@@ -154,11 +148,10 @@ TEST(ADateValue, writesVeryOldDateToExtendedFormat) {
 
 TEST(ADateValue, copiesToByteBufferWithBasicFormat) {
   const DateValue dateValue(2021, 12, 1);
-  std::array<byte, 8> buf;
-  buf.fill(0);
+  std::array<byte, 8> buf = {};
 
   const byte expectedDate[10] = {'2', '0', '2', '1', '1', '2', '0', '1'};
-  ASSERT_EQ(8, dateValue.copy(buf.data()));
+  ASSERT_EQ(8u, dateValue.copy(buf.data()));
   ASSERT_TRUE(std::equal(buf.begin(), buf.end(), expectedDate));
 }
 
