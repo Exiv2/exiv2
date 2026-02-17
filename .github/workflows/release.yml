@@ -9,11 +9,6 @@ on:
   schedule:
     - cron: '30 4 * * *'
   workflow_dispatch:
-    inputs:
-      tag_name:
-        description: 'Tag name for release'
-        required: false
-        default: nightly
 
 jobs:
   Linux:
