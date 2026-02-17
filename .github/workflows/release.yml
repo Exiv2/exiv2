@@ -115,7 +115,8 @@ jobs:
     strategy:
       matrix:
         runner:
-          - { os: windows-2022, arch: x64   }
+          - { os: windows-2022,   arch: x64   }
+          - { os: windows-11-arm, arch: arm64 }
     permissions:
       id-token: write  # For sigstore
     steps:
@@ -125,6 +126,8 @@ jobs:
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.runner.arch }}
 
       - name: Install doxygen
         run: |
@@ -143,6 +146,8 @@ jobs:
           python -m pip install conan==1.*
           conan profile new --detect default
           conan profile show default
+          conan profile update settings.arch=${{ runner.arch == 'X64' && 'x86_64' || 'armv8' }} default
+          conan profile update settings.arch_build=${{ runner.arch == 'X64' && 'x86_64' || 'armv8' }} default
           conan profile update settings.build_type=Release default
           conan profile update settings.compiler="Visual Studio" default
           conan profile update settings.compiler.version=17 default
