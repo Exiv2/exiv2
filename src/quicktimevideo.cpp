@@ -538,7 +538,8 @@ using namespace Exiv2::Internal;
 
 QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io, size_t max_recursion_depth) :
     Image(ImageType::qtime, mdNone, std::move(io)),
-    timeScale_(1),
+    mvhdTimeScale_(1),
+    mdhdTimeScale_(1),
     currentStream_(Null),
     max_recursion_depth_(max_recursion_depth) {
 }  // QuickTimeVideo::QuickTimeVideo
@@ -1170,7 +1171,7 @@ void QuickTimeVideo::timeToSampleDecoder() {
     if (timeOfFrames == 0)
       timeOfFrames = 1;
     xmpData_["Xmp.video.FrameRate"] =
-        static_cast<double>(totalframes) * static_cast<double>(timeScale_) / static_cast<double>(timeOfFrames);
+        static_cast<double>(totalframes) * static_cast<double>(mdhdTimeScale_) / static_cast<double>(timeOfFrames);
   }
 }  // QuickTimeVideo::timeToSampleDecoder
 
@@ -1435,6 +1436,7 @@ void QuickTimeVideo::mediaHeaderDecoder(size_t size) {
         else if (currentStream_ == Audio)
           xmpData_["Xmp.audio.MediaTimeScale"] = buf.read_uint32(0, bigEndian);
         time_scale = std::max(1U, buf.read_uint32(0, bigEndian));
+        mdhdTimeScale_ = time_scale;
         break;
       case MediaDuration:
         if (currentStream_ == Video)
@@ -1494,9 +1496,9 @@ void QuickTimeVideo::trackHeaderDecoder(size_t size) {
         break;
       case TrackDuration:
         if (currentStream_ == Video)
-          xmpData_["Xmp.video.TrackDuration"] = timeScale_ ? buf.read_uint32(0, bigEndian) / timeScale_ : 0;
+          xmpData_["Xmp.video.TrackDuration"] = mvhdTimeScale_ ? buf.read_uint32(0, bigEndian) / mvhdTimeScale_ : 0;
         else if (currentStream_ == Audio)
-          xmpData_["Xmp.audio.TrackDuration"] = timeScale_ ? buf.read_uint32(0, bigEndian) / timeScale_ : 0;
+          xmpData_["Xmp.audio.TrackDuration"] = mvhdTimeScale_ ? buf.read_uint32(0, bigEndian) / mvhdTimeScale_ : 0;
         break;
       case TrackLayer:
         if (currentStream_ == Video)
@@ -1553,11 +1555,11 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
         break;
       case TimeScale:
         xmpData_["Xmp.video.TimeScale"] = buf.read_uint32(0, bigEndian);
-        timeScale_ = std::max(1U, buf.read_uint32(0, bigEndian));
+        mvhdTimeScale_ = std::max(1U, buf.read_uint32(0, bigEndian));
         break;
       case Duration:
-        if (timeScale_ != 0) {  // To prevent division by zero
-          xmpData_["Xmp.video.Duration"] = buf.read_uint32(0, bigEndian) * 1000 / timeScale_;
+        if (mvhdTimeScale_ != 0) {  // To prevent division by zero
+          xmpData_["Xmp.video.Duration"] = buf.read_uint32(0, bigEndian) * 1000 / mvhdTimeScale_;
         }
         break;
       case PreferredRate:
