@@ -2,7 +2,7 @@
 cmake_minimum_required( VERSION 3.11.0 )
 
 project(exiv2
-    VERSION 0.28.7
+    VERSION 0.28.8
     DESCRIPTION    "Exif/IPTC/Xmp C++ metadata library and tools plus ICC Profiles, Previews and more."
     LANGUAGES C CXX
 )
