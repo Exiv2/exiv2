@@ -68,19 +68,13 @@ void BasicIo::seekOrThrow(int64_t offset, Position pos, ErrorCode err) {
 class FileIo::Impl {
  public:
   //! Constructor
-  explicit Impl(std::string path);
-#ifdef _WIN32
-  explicit Impl(std::wstring path);
-#endif
+  explicit Impl(fs::path path);
   ~Impl() = default;
   // Enumerations
   //! Mode of operation
   enum OpMode { opRead, opWrite, opSeek };
   // DATA
-  std::string path_;  //!< (Standard) path
-#ifdef _WIN32
-  std::wstring wpath_;  //!< UCS2 path
-#endif
+  fs::path path_;          //!< (Standard) path
   std::string openMode_;   //!< File open mode
   FILE* fp_{};             //!< File stream pointer
   OpMode opMode_{opSeek};  //!< File open mode
@@ -114,21 +108,8 @@ class FileIo::Impl {
   Impl& operator=(const Impl&) = delete;  //!< Assignment
 };
 
-FileIo::Impl::Impl(std::string path) : path_(std::move(path)) {
-#ifdef _WIN32
-  wchar_t t[512];
-  const auto nw = MultiByteToWideChar(CP_UTF8, 0, path_.data(), static_cast<int>(path_.size()), t, 512);
-  wpath_.assign(t, nw);
-#endif
+FileIo::Impl::Impl(fs::path path) : path_(std::move(path)) {
 }
-#ifdef _WIN32
-FileIo::Impl::Impl(std::wstring path) : wpath_(std::move(path)) {
-  char t[1024];
-  const auto nc =
-      WideCharToMultiByte(CP_UTF8, 0, wpath_.data(), static_cast<int>(wpath_.size()), t, 1024, nullptr, nullptr);
-  path_.assign(t, nc);
-}
-#endif
 
 int FileIo::Impl::switchMode(OpMode opMode) {
   if (opMode_ == opMode)
@@ -178,7 +159,7 @@ int FileIo::Impl::switchMode(OpMode opMode) {
   openMode_ = "r+b";
   opMode_ = opSeek;
 #ifdef _WIN32
-  if (_wfopen_s(&fp_, wpath_.c_str(), L"r+b"))
+  if (_wfopen_s(&fp_, path_.c_str(), L"r+b"))
     return 1;
   return _fseeki64(fp_, offset, SEEK_SET);
 #else
@@ -190,11 +171,7 @@ int FileIo::Impl::switchMode(OpMode opMode) {
 }  // FileIo::Impl::switchMode
 
 int FileIo::Impl::stat(StructStat& buf) const {
-#ifdef _WIN32
-  const auto& file = wpath_;
-#else
   const auto& file = path_;
-#endif
   try {
     buf.st_size = fs::file_size(file);
     buf.st_mode = fs::status(file).permissions();
@@ -321,21 +298,12 @@ byte* FileIo::mmap(bool isWriteable) {
 void FileIo::setPath(const std::string& path) {
   close();
   p_->path_ = path;
-#ifdef _WIN32
-  wchar_t t[512];
-  const auto nw = MultiByteToWideChar(CP_UTF8, 0, p_->path_.data(), static_cast<int>(p_->path_.size()), t, 512);
-  p_->wpath_.assign(t, nw);
-#endif
 }
 
 #ifdef _WIN32
 void FileIo::setPath(const std::wstring& path) {
   close();
-  p_->wpath_ = path;
-  char t[1024];
-  const auto nc = WideCharToMultiByte(CP_UTF8, 0, p_->wpath_.data(), static_cast<int>(p_->wpath_.size()), t, 1024,
-                                      nullptr, nullptr);
-  p_->path_.assign(t, nc);
+  p_->path_ = path;
 }
 #endif
 
@@ -447,7 +415,7 @@ void FileIo::transfer(BasicIo& src) {
 
   if (wasOpen) {
     if (open(lastMode) != 0) {
-      throw Error(ErrorCode::kerFileOpenFailed, path(), lastMode, strError());
+      throw Error(ErrorCode::kerFileOpenFailed, path(), strError());
     }
   } else
     close();
@@ -522,15 +490,28 @@ int FileIo::open(const std::string& mode) {
   p_->openMode_ = mode;
   p_->opMode_ = Impl::opSeek;
 #ifdef _WIN32
-  wchar_t wmode[10];
-  MultiByteToWideChar(CP_UTF8, 0, mode.c_str(), -1, wmode, 10);
-  if (_wfopen_s(&p_->fp_, p_->wpath_.c_str(), wmode))
-    return 1;
+  auto wMode = [&] {
+    if (mode == "ab")
+      return L"ab";
+    if (mode == "rb")
+      return L"rb";
+    if (mode == "wb")
+      return L"wb";
+    if (mode == "a+b")
+      return L"a+b";
+    if (mode == "r+b")
+      return L"r+b";
+    if (mode == "w+b")
+      return L"w+b";
+    return L"";
+  }();
+
+  if (_wfopen_s(&p_->fp_, p_->path_.c_str(), wMode))
 #else
-  p_->fp_ = ::fopen(path().c_str(), mode.c_str());
+  p_->fp_ = std::fopen(path().c_str(), mode.c_str());
   if (!p_->fp_)
-    return 1;
 #endif
+    return 1;
   return 0;
 }
 
@@ -584,7 +565,9 @@ bool FileIo::eof() const {
 }
 
 const std::string& FileIo::path() const noexcept {
-  return p_->path_;
+  static thread_local std::string p;
+  p = p_->path_.string();
+  return p;
 }
 
 void FileIo::populateFakeData() {
@@ -870,7 +853,7 @@ bool MemIo::eof() const {
 }
 
 const std::string& MemIo::path() const noexcept {
-  static std::string _path{"MemIo"};
+  static const std::string _path{"MemIo"};
   return _path;
 }
 
@@ -1677,6 +1660,28 @@ size_t writeFile(const DataBuf& buf, const std::string& path) {
   }
   return file.write(buf.c_data(), buf.size());
 }
+
+#ifdef _WIN32
+DataBuf readFile(const std::wstring& path) {
+  FileIo file(path);
+  if (file.open("rb") != 0) {
+    throw Error(ErrorCode::kerFileOpenFailed, "rb", strError());
+  }
+  DataBuf buf(static_cast<size_t>(fs::file_size(path)));
+  if (file.read(buf.data(), buf.size()) != buf.size()) {
+    throw Error(ErrorCode::kerCallFailed, strError(), "FileIo::read");
+  }
+  return buf;
+}
+
+size_t writeFile(const DataBuf& buf, const std::wstring& path) {
+  FileIo file(path);
+  if (file.open("wb") != 0) {
+    throw Error(ErrorCode::kerFileOpenFailed, "wb", strError());
+  }
+  return file.write(buf.c_data(), buf.size());
+}
+#endif
 #endif
 
 #ifdef EXV_USE_CURL

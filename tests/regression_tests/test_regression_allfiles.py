@@ -58,6 +58,7 @@ def get_valid_files(data_dir):
         "imagemagick.pgf",
         "iptc-psAPP13s-wIPTC-psAPP13s-noIPTC.jpg",
         "Reagan.jp2",
+        "Реган.jp2",
         "issue_ghsa_8949_hhfh_j7rj_poc.exv",
         "exiv2-bug495.jpg",
         "issue_1920_poc.tiff",

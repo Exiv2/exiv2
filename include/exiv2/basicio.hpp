@@ -939,12 +939,19 @@ class EXIV2API CurlIo : public RemoteIo {
   @throw Error In case of failure.
  */
 EXIV2API DataBuf readFile(const std::string& path);
+#ifdef _WIN32
+EXIV2API DataBuf readFile(const std::wstring& path);
+#endif
 /*!
   @brief Write DataBuf \em buf to file \em path.
   @return Return the number of bytes written.
   @throw Error In case of failure.
  */
+#ifdef _WIN32
 EXIV2API size_t writeFile(const DataBuf& buf, const std::string& path);
+#else
+EXIV2API size_t writeFile(const DataBuf& buf, const std::string& path);
+#endif
 #ifdef EXV_USE_CURL
 /*!
   @brief The callback function is called by libcurl to write the data
