@@ -216,6 +216,8 @@ constexpr TagDetails pentaxModel[] = {
     {0x132b8, "KF"},
     {0x132d6, "K-3 Mark III Monochrome"},
     {0x132e0, "GR IV"},
+    {0x132e1, "GR IV HDF"},
+    {0x13330, "GR IV Monochrome"},
 };
 
 //! Quality, tag 0x0008
