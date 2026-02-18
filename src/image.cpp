@@ -148,7 +148,7 @@ void Image::printStructure(std::ostream&, PrintStructureOption, size_t /*depth*/
 
 bool Image::isStringType(uint16_t type) {
   return type == Exiv2::asciiString || type == Exiv2::unsignedByte || type == Exiv2::signedByte ||
-         type == Exiv2::undefined;
+         type == Exiv2::undefined || type == Exiv2::utf8String;
 }
 bool Image::isShortType(uint16_t type) {
   return type == Exiv2::unsignedShort || type == Exiv2::signedShort;
@@ -301,6 +301,9 @@ const char* Image::typeName(uint16_t tag) {
       break;
     case Exiv2::tiffIfd:
       result = "IFD";
+      break;
+    case Exiv2::utf8String:
+      result = "UTF-8";
       break;
     default:
       result = "unknown";
