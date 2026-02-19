@@ -162,7 +162,6 @@ Xmp.iptc.Location                            XmpText    11  Snowy Flats  Snowy F
 Xmp.iptc.CreatorContactInfo                  XmpText    13  type="Struct"  type="Struct"
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiEmailWork XmpText    27  mark.jekabsons@yahoo.com.au  mark.jekabsons@yahoo.com.au
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiTelWork XmpText    12  +61401922543  +61401922543
-Xmp.exif.DateTimeDigitized                   XmpText    25  2016-03-17T16:37:48+11:00  2016-03-17T16:37:48+11:00
 Xmp.exif.DateTimeOriginal                    XmpText    25  2016-03-17T16:37:48+11:00  2016-03-17T16:37:48+11:00
 Xmp.exif.GPSAltitude                         XmpText     6  1601/1  1601/1
 Xmp.exif.GPSAltitudeRef                      XmpText     1  0  Above sea level
@@ -176,10 +175,10 @@ Xmp.exif.GPSVersionID                        XmpText     7  2.2.0.0  2.2.0.0
 Xmp.photoshop.City                           XmpText    21  Namadgi National Park  Namadgi National Park
 Xmp.photoshop.Country                        XmpText     9  Australia  Australia
 Xmp.photoshop.State                          XmpText    28  Australian Capital Territory  Australian Capital Territory
-Xmp.tiff.Artist                              XmpText    14  Mark Jekabsons  Mark Jekabsons
 Xmp.xmp.BaseURL                              XmpText    40  https://www.flickr.com/photos/jekabsons/  https://www.flickr.com/photos/jekabsons/
 Xmp.xmp.ModifyDate                           XmpText    25  2016-03-17T16:37:48+11:00  2016-03-17T16:37:48+11:00
 Xmp.xmp.CreatorTool                          XmpText    37  Microsoft Photo Gallery 16.4.3528.331  Microsoft Photo Gallery 16.4.3528.331
+Xmp.xmp.CreateDate                           XmpText    25  2016-03-17T16:37:48+11:00  2016-03-17T16:37:48+11:00
 Xmp.prefix0.PipelineVersion                  XmpText     5  01.00  01.00
 Xmp.prefix0.CameraModelID                    XmpText     0  
 Xmp.prefix0.StreamType                       XmpText     1  3  3

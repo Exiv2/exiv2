@@ -31,7 +31,7 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 2c2
 < <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
 ---
-> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
 35d34
 <      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
 36a36
@@ -144,13 +144,56 @@ Xmp.wine.Recommend                           XmpText     5  False
 2c2
 < <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
 ---
-> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
 4c4
 <   <rdf:Description rdf:about="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
 ---
 >   <rdf:Description rdf:about=""
-46a47
->    xapMM:InstanceID="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
+9,2c9,2
+<     xmlns:xap="http://ns.adobe.com/xap/1.0/"
+<     xmlns:xapMM="http://ns.adobe.com/xap/1.0/mm/"
+---
+>     xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+>     xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
+12c12
+<     xmlns:xapRights="http://ns.adobe.com/xap/1.0/rights/"
+---
+>     xmlns:xmpRights="http://ns.adobe.com/xap/1.0/rights/"
+42,7c42,8
+<    xap:CreateDate="2005-03-13T02:01:44-06:00"
+<    xap:ModifyDate="2005-03-13T02:01:44-06:00"
+<    xap:MetadataDate="2007-01-08T13:25:45+01:00"
+<    xap:CreatorTool="Adobe Photoshop CS Windows"
+<    xapMM:DocumentID="adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9"
+<    xapRights:WebStatement="http://www.bignewspaper.com/"
+<    xapRights:Marked="True"
+---
+>    xmp:CreateDate="2005-03-13T02:01:44-06:00"
+>    xmp:ModifyDate="2005-03-13T02:01:44-06:00"
+>    xmp:MetadataDate="2007-01-08T13:25:45+01:00"
+>    xmp:CreatorTool="Adobe Photoshop CS Windows"
+>    xmpMM:DocumentID="adobe:docid:photoshop:0f410643-9396-11d9-bb8e-a67e6693b6e9"
+>    xmpMM:InstanceID="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
+>    xmpRights:WebStatement="http://www.bignewspaper.com/"
+>    xmpRights:Marked="True"
+78c79
+<    <xapMM:DerivedFrom
+---
+>    <xmpMM:DerivedFrom
+81c82
+<    <xapRights:RightsUsageTerms>
+---
+>    <xmpRights:RightsUsageTerms>
+85,2c86,2
+<    </xapRights:RightsUsageTerms>
+<    <xapRights:UsageTerms>
+---
+>    </xmpRights:RightsUsageTerms>
+>    <xmpRights:UsageTerms>
+90c91
+<    </xapRights:UsageTerms>
+---
+>    </xmpRights:UsageTerms>
 160,191c161
 <                                                                                                     
 <                                                                                                     
@@ -258,7 +301,7 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 <     </rdf:RDF>
 ---
 > <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
 >  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 >   <rdf:Description rdf:about=""
 >     xmlns:ns1="ns:test1/"
@@ -353,12 +396,11 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCity XmpText    12  Kuala Lumpur
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiAdrCtry XmpText     8  Malaysia
 Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exiv2.org
 <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:ns="myNamespace/"
-    xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
     xmlns:xmpDM="http://ns.adobe.com/xmp/1.0/DynamicMedia/"
     xmlns:stDim="http://ns.adobe.com/xap/1.0/sType/Dimensions#"
     xmlns:xmpBJ="http://ns.adobe.com/xap/1.0/bj/"
@@ -398,7 +440,7 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exi
    </dc:creator>
    <dc:description>
     <rdf:Alt>
-     <rdf:li xml:lang="x-default">Hello, World</rdf:li>
+     <rdf:li xml:lang="x-default">TIFF image description</rdf:li>
      <rdf:li xml:lang="de-DE">Hallo, Welt</rdf:li>
     </rdf:Alt>
    </dc:description>
@@ -410,12 +452,6 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exi
      </rdf:li>
     </rdf:Bag>
    </dc:publisher>
-   <tiff:ImageDescription>
-    <rdf:Alt>
-     <rdf:li xml:lang="x-default">TIFF image description</rdf:li>
-     <rdf:li xml:lang="de-DE">TIFF Bildbeschreibung</rdf:li>
-    </rdf:Alt>
-   </tiff:ImageDescription>
    <xmpDM:videoFrameSize
     stDim:w="16"
     stDim:h="9"
@@ -510,12 +546,11 @@ Xmp.dc.creator[1]                            XmpText    20  1) The first creator
 Xmp.dc.creator[2]                            XmpText    21  2) The second creator
 Xmp.dc.creator[2]/?ns:role                   XmpText    10  programmer
 Xmp.dc.creator[3]                            XmpText    18  3) And another one
-Xmp.dc.description                           LangAlt     2  lang="x-default" Hello, World, lang="de-DE" Hallo, Welt
+Xmp.dc.description                           LangAlt     2  lang="x-default" TIFF image description, lang="de-DE" TIFF image description
 Xmp.dc.publisher                             XmpText    10  type="Bag"
 Xmp.dc.publisher[1]                          XmpText    10  James Bond
 Xmp.dc.publisher[1]/?ns:role                 XmpText    12  secret agent
 Xmp.ns.myProperty                            XmpText     7  myValue
-Xmp.tiff.ImageDescription                    LangAlt     2  lang="x-default" TIFF image description, lang="de-DE" TIFF Bildbeschreibung
 Xmp.xmpDM.videoFrameSize                     XmpText    13  type="Struct"
 Xmp.xmpDM.videoFrameSize/stDim:w             XmpText     2  16
 Xmp.xmpDM.videoFrameSize/stDim:h             XmpText     1  9

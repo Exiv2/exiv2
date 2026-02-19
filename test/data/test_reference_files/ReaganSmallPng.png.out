@@ -107,7 +107,6 @@ Xmp.exif.ColorSpace                          XmpText     1  1  sRGB
 Xmp.exif.CompressedBitsPerPixel              XmpText     3  4/1  4/1
 Xmp.exif.Contrast                            XmpText     1  0  Normal
 Xmp.exif.CustomRendered                      XmpText     1  0  Normal process
-Xmp.exif.DateTimeDigitized                   XmpText    25  2004-06-21T23:37:53+01:00  2004-06-21T23:37:53+01:00
 Xmp.exif.DateTimeOriginal                    XmpText    25  2004-06-21T23:37:53+01:00  2004-06-21T23:37:53+01:00
 Xmp.exif.DigitalZoomRatio                    XmpText     3  1/1  1/1
 Xmp.exif.ExifVersion                         XmpText     4  0220  2.20
