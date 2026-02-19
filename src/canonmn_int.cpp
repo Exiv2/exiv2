@@ -1929,6 +1929,7 @@ constexpr TagDetails canonCsLensType[] = {
     {754, "Canon EF 70-200mm f/4L IS II USM"},
     {757, "Canon EF 400mm f/2.8L IS III USM"},
     {758, "Canon EF 600mm f/4L IS III USM"},
+    {923, "Meike 85mm f/1.8 DCM"},
     {1136, "Sigma 24-70mm f/2.8 DG OS HSM | Art 017"},
     {4142, "Canon EF-S 18-135mm f/3.5-5.6 IS STM"},
     {4143, "Canon EF-M 18-55mm f/3.5-5.6 IS STM"},
