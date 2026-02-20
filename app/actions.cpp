@@ -1725,7 +1725,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
   std::string target(bStdout ? temporaryPath() : tgt);
 
   std::unique_ptr<Exiv2::Image> targetImage;
-  if (Exiv2::fileExists(target)) {
+  if (preserve && Exiv2::fileExists(target)) {
     targetImage = Exiv2::ImageFactory::open(target);
     targetImage->readMetadata();
   } else {

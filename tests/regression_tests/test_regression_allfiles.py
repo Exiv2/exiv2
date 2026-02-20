@@ -164,6 +164,7 @@ def get_valid_files(data_dir):
         # different output let's try and fix this later
         "exiv2-bug1044.tif",
         "issue_2403_poc.exv",
+        "pr_2425_poc1.jpg",
     ]
 
     file_paths = [
