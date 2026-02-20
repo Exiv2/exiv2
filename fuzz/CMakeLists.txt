@@ -14,3 +14,4 @@ endmacro()
 
 FUZZER(fuzz-read-print-write)
 FUZZER(fuzz-read-write)
+FUZZER(fuzz-preview)
