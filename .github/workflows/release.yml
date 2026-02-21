@@ -51,17 +51,17 @@ jobs:
           cmake --build build -t doc
           cmake --build build -t package
 
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
+        with:
+          subject-path: ./build/exiv2-*.tar.gz
+
       - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
-
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
-        with:
-          subject-path: ./build/exiv2-*.tar.gz
 
   macOS:
     name: 'Build macOS Release'
@@ -97,17 +97,17 @@ jobs:
           cmake --build build -t doc
           cmake --build build -t package
 
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
+        with:
+          subject-path: ./build/exiv2-*.tar.gz
+
       - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.tar.gz
           if-no-files-found: error
           retention-days: 1
-
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
-        with:
-          subject-path: ./build/exiv2-*.tar.gz
 
   Windows:
     name: 'Build Windows Release'
@@ -161,17 +161,17 @@ jobs:
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
+        with:
+          subject-path: ./build/exiv2-*.zip
+
       - uses: actions/upload-artifact@v6
         with:
           name: exiv2-${{ matrix.runner.arch }}-${{ matrix.runner.os }}
           path: ./build/exiv2-*.zip
           if-no-files-found: error
           retention-days: 1
-
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
-        with:
-          subject-path: ./build/exiv2-*.zip
 
   publish:
     needs: [Linux, macOS, Windows]
