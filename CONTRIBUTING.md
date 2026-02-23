@@ -69,9 +69,8 @@ Once you have a GitHub login:
 5. Configure the project and check that it builds (if not, please report a bug):
 
         $ rm -rf build
-        $ mkdir build && cd build
-        $ cmake -DCMAKE_BUILD_TYPE=Release ..
-        $ cmake --build . --parallel
+        $ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        $ cmake --build build --parallel
 
 6. Now, make your change(s), add tests for your changes, and commit each change:
 
