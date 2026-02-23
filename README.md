@@ -899,7 +899,7 @@ All project resources are accessible from the project website.
 
 ## License
 
-Copyright (C) 2004-2024 Exiv2 authors.
+Copyright (C) 2004-2026 Exiv2 authors.
 You should have received a copy of the file [COPYING](COPYING) which details the GPLv2 license.
 
 Exiv2 is free software; you can redistribute it and/or modify
@@ -934,8 +934,8 @@ You execute the Test Suite using CTest with the command `$ ctest --test-dir buil
 The build creates 6 tests: bashTests, bugfixTests, lensTests, tiffTests, unitTests and versionTests.  You can run all tests or a subset. To list all available tests, execute ctest with the `-N` or `--show-only` option, which disables execution:
 
 ```bash
-.../exiv2/ $ ctest --test-dir build --show-only
-Test project ...main/exiv2
+.../exiv2 $ ctest --test-dir build --show-only
+Test project .../exiv2/build
   Test #1: bashTests
   Test #2: bugfixTests
   Test #3: lensTests
@@ -1061,11 +1061,11 @@ You can build with Visual Studio using Conan.  The is described in detail in [RE
 As a summary, the procedure is:
 
 ```
-c:\...\exiv2\build>conan install . --build missing --profile msvc2019Release
-c:\...\exiv2\build>cmake -S . B build -DEXIV2_BUILD_UNIT_TESTS=ON -G "Visual Studio 16 2019"
-c:\...\exiv2\build>cmake --build build --config Release
+c:\...\exiv2>conan install . --build missing --profile msvc2019Release
+c:\...\exiv2>cmake -S . B build -DEXIV2_BUILD_UNIT_TESTS=ON -G "Visual Studio 16 2019"
+c:\...\exiv2>cmake --build build --config Release
 ... lots of output from compiler and linker ...
-c:\...\exiv2\build>ctest --test-dir build -C Release
+c:\...\exiv2>ctest --test-dir build -C Release
 ```
 
 If you wish to use an environment variables, use set:
@@ -1255,7 +1255,6 @@ cmake -S . -B build
       -DEXIV2_ENABLE_WEBREADY=ON
       -DEXIV2_ENABLE_BMFF=ON
       -DEXIV2_BUILD_UNIT_TESTS=ON
-      ..
 
 cmake --build build
 ```
@@ -1406,5 +1405,4 @@ $ sudo pkg install developer/gcc-7
 
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2022-02-22
-
+Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2026-02-23
