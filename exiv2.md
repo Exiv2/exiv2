@@ -1870,4 +1870,3 @@ Exiv2 github contributors: https://github.com/Exiv2/exiv2/graphs/contributors
 | Exiv2 GitHub contributors      | https://github.com/Exiv2/exiv2/graphs/contributors           |
 
 [TOC](#TOC)
-
