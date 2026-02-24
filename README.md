@@ -1402,7 +1402,6 @@ To install a package:
 $ sudo pkg install developer/gcc-7
 ```
 
-
 [TOC](#TOC)
 
-Written by Robin Mills<br>robin@clanmills.com<br>Updated: 2026-02-23
+Updated: 2026-02-24
