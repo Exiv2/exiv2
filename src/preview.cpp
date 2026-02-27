@@ -415,6 +415,7 @@ DataBuf LoaderNative::getData() const {
 #endif
       return {};
     }
+    Internal::enforce(sizeData >= 28, ErrorCode::kerCorruptedMetadata);
     return {record + sizeHdr + 28, sizeData - 28};
   }
   throw Error(ErrorCode::kerErrorMessage, "Invalid native preview filter: ", nativePreview_.filter_);
