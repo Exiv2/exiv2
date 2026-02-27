@@ -284,6 +284,9 @@ void PsdImage::readResourceBlock(uint16_t resourceId, uint32_t resourceSize) {
       nativePreview.height_ = getLong(buf + 8, bigEndian);
       const uint32_t format = getLong(buf + 0, bigEndian);
 
+      Internal::enforce(nativePreview.size_ <= static_cast<size_t>(std::numeric_limits<long>::max()),
+                        Exiv2::ErrorCode::kerCorruptedMetadata);
+
       if (nativePreview.size_ > 0 && nativePreview.position_ > 0) {
         io_->seek(static_cast<long>(nativePreview.size_), BasicIo::cur);
         if (io_->error() || io_->eof())
