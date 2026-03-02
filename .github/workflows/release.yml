@@ -180,7 +180,7 @@ jobs:
       contents: write
     if: github.event_name == 'push'  # only publish when a new version tag is pushed
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
       - name: List downloaded files
         run: tree -L 3
       - name: Create GitHub Release
