@@ -18,6 +18,7 @@
 #include <ctime>    // timestamp for the name of temporary file
 #include <fstream>  // write the temporary file
 #include <iostream>
+#include <memory>
 
 #if __has_include(<sys/mman.h>)
 #include <sys/mman.h>  // for mmap and munmap
@@ -975,14 +976,15 @@ class RemoteIo::Impl {
   virtual ~Impl() = default;
 
   // DATA
-  std::string path_;                       //!< (Standard) path
-  size_t blockSize_;                       //!< Size of the block memory.
-  std::unique_ptr<BlockMap[]> blocksMap_;  //!< An array contains all blocksMap
-  size_t size_{0};                         //!< The file size
-  size_t idx_{0};                          //!< Index into the memory area
-  bool eof_{false};                        //!< EOF indicator
-  Protocol protocol_;                      //!< the protocol of url
-  size_t totalRead_{0};                    //!< bytes requested from host
+  std::string path_;                                //!< (Standard) path
+  size_t blockSize_;                                //!< Size of the block memory.
+  std::unique_ptr<BlockMap[]> blocksMap_;           //!< An array contains all blocksMap
+  size_t size_{0};                                  //!< The file size
+  size_t idx_{0};                                   //!< Index into the memory area
+  bool eof_{false};                                 //!< EOF indicator
+  Protocol protocol_;                               //!< the protocol of url
+  size_t totalRead_{0};                             //!< bytes requested from host
+  std::map<std::string, std::string> httpHeaders_;  //!< Custom HTTP headers
 
   // METHODS
   /*!
@@ -1519,6 +1521,13 @@ class CurlIo::CurlImpl : public Impl {
   void writeRemote(const byte* data, size_t size, size_t from, size_t to) override;
 
  private:
+  typedef std::unique_ptr<curl_slist, decltype(&curl_slist_free_all)> curl_slist_ptr;
+
+  /*!
+    @brief Build a header list for curl, or NULL if no headers are set
+   */
+  curl_slist_ptr populateHttpHeaders() const;
+
   long timeout_;  //!< The number of seconds to wait while trying to connect.
 };
 
@@ -1546,6 +1555,10 @@ int64_t CurlIo::CurlImpl::getFileLength() const {
   curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
   curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYHOST, 0L);
   curl_easy_setopt(curl_.get(), CURLOPT_CONNECTTIMEOUT, timeout_);
+  auto headers = populateHttpHeaders();
+  if (headers) {
+    curl_easy_setopt(curl_.get(), CURLOPT_HTTPHEADER, headers.get());
+  }
   // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
 
   /* Perform the request, res will get the return code */
@@ -1573,6 +1586,10 @@ void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
   curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
   curl_easy_setopt(curl_.get(), CURLOPT_CONNECTTIMEOUT, timeout_);
   curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYHOST, 0L);
+  auto headers = populateHttpHeaders();
+  if (headers) {
+    curl_easy_setopt(curl_.get(), CURLOPT_HTTPHEADER, headers.get());
+  }
 
   // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
 
@@ -1614,6 +1631,10 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
   curl_easy_setopt(curl_.get(), CURLOPT_URL, scriptPath.c_str());
   curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
+  auto headers = populateHttpHeaders();
+  if (headers) {
+    curl_easy_setopt(curl_.get(), CURLOPT_HTTPHEADER, headers.get());
+  }
 
   // encode base64
   size_t encodeLength = (((size + 2) / 3) * 4) + 1;
@@ -1635,6 +1656,14 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   }
 }
 
+CurlIo::CurlImpl::curl_slist_ptr CurlIo::CurlImpl::populateHttpHeaders() const {
+  curl_slist* headers = nullptr;
+  for (auto e : httpHeaders_) {
+    headers = curl_slist_append(headers, (e.first + ": " + e.second).c_str());
+  }
+  return curl_slist_ptr(headers, curl_slist_free_all);
+}
+
 size_t CurlIo::write(const byte* data, size_t wcount) {
   if (p_->protocol_ == pHttp || p_->protocol_ == pHttps) {
     return RemoteIo::write(data, wcount);
@@ -1647,6 +1676,10 @@ size_t CurlIo::write(BasicIo& src) {
     return RemoteIo::write(src);
   }
   throw Error(ErrorCode::kerErrorMessage, "does not support write for this protocol.");
+}
+
+void CurlIo::addHttpHeaders(const std::map<std::string, std::string>& headers) {
+  p_->httpHeaders_.insert(headers.begin(), headers.end());
 }
 
 CurlIo::CurlIo(const std::string& url, size_t blockSize) {
