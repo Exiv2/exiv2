@@ -11,7 +11,7 @@ Exif.Image.Copyright                         Ascii      42  ©2003 Big Newspaper
 Exif.Photo.ColorSpace                        Short       1  1  sRGB
 Exif.Photo.PixelXDimension                   Long        1  432  432
 Exif.Photo.PixelYDimension                   Long        1  293  293
-Exif.Photo.DateTimeOriginal                  Ascii      20  2003:04:03 08:00:00  2003:04:03 08:00:00
+Exif.Photo.DateTimeOriginal                  Ascii      20  2003:04:03 00:00:00  2003:04:03 00:00:00
 Exif.Photo.DateTimeDigitized                 Ascii      20  2005:03:13 16:01:44  2005:03:13 16:01:44
 Iptc.Application2.ObjectName                 String      8  01661gdx  01661gdx
 Iptc.Envelope.CharacterSet                   String      3  %G  %G

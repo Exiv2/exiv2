@@ -88,12 +88,11 @@ exiv2int_dep = declare_dependency(
 exiv2 = library(
   'exiv2',
   base_lib,
-  xmp_lib,
-  cpp_args: cargs,
+  cpp_args: [cargs, xmp_public_args],
   version: meson.project_version(),
   soversion: sover,
   gnu_symbol_visibility: 'hidden',
-  dependencies: [exiv2int_dep, brotli_dep, curl_dep, expat_dep, iconv_dep, net_dep],
+  dependencies: [exiv2int_dep, xmp_dep, brotli_dep, curl_dep, expat_dep, iconv_dep, net_dep],
   install: true,
 )
 

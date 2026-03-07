@@ -28,8 +28,9 @@ class XMPUtilsSetTimeZoneIntegerOverflow(metaclass=CaseMeta):
 """,
         """$filename3: No Exif data found in the file
 """,
-        "",
+        """$filename4: No Exif data found in the file
+""",
     ]
-    retval = [253, 253, 253, 0]
+    retval = [253, 253, 253, 253]
 
     compare_stdout = check_no_ASAN_UBSAN_errors

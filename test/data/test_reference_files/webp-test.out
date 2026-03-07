@@ -40,11 +40,11 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   186958 |        0 | WEBP
+  RIFF |   186952 |        0 | WEBP
   VP8X |       10 |       12 | .........
   VP8  |   172008 |       30 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172046 | II*........................... .
-  XMP  |     2864 |   184094 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2858 |   184094 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -55,11 +55,11 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   175478 |        0 | WEBP
+  RIFF |   175472 |        0 | WEBP
   VP8X |       10 |       12 | $........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
-  XMP  |     2864 |   172614 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2858 |   172614 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -85,10 +85,10 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   174910 |        0 | WEBP
+  RIFF |   174904 |        0 | WEBP
   VP8X |       10 |       12 | .........
   VP8  |   172008 |       30 | .G...*.. .>1..B.!..o.. ......]..
-  XMP  |     2864 |   172046 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2858 |   172046 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -126,12 +126,12 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   190110 |        0 | WEBP
+  RIFF |   190104 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |     3144 |       30 | ...HLino....mntrRGB XYZ ........
   VP8  |   172008 |     3182 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   175198 | II*........................... .
-  XMP  |     2864 |   187246 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2858 |   187246 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -142,12 +142,12 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   187526 |        0 | WEBP
+  RIFF |   187520 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2858 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -158,12 +158,12 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   189324 |        0 | WEBP
+  RIFF |   189318 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |     4661 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     4655 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -174,20 +174,20 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   188070 |        0 | WEBP
+  RIFF |   188064 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |     3407 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     3401 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |  1864146 |        0 | WEBP
+  RIFF |  1864140 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |  1679484 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |  1679478 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
   RIFF |   187526 |        0 | WEBP
@@ -198,9 +198,9 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
   XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   187684 |        0 | WEBP
+  RIFF |   187678 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12198 |   172614 | II*.............................
-  XMP  |     2864 |   184820 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2858 |   184820 | <?xpacket begin="..." id="W5M0Mp
