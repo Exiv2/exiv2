@@ -44,7 +44,7 @@ add_executable(
   $<TARGET_OBJECTS:exiv2lib_int>
 )
 
-target_compile_definitions(unit_tests PRIVATE exiv2lib_STATIC TESTDATA_PATH="${PROJECT_SOURCE_DIR}/test/data")
+target_compile_definitions(unit_tests PRIVATE exiv2lib_STATIC TESTDATA_PATH="${PROJECT_SOURCE_DIR}/test/data/")
 
 target_link_libraries(unit_tests PRIVATE exiv2lib GTest::gmock_main)
 
