@@ -2261,14 +2261,11 @@ static bool isTiffImageTagLookup(uint16_t tag, IfdId group) {
     case 0x0115:  // Exif.Image.SamplesPerPixel
     case 0x0116:  // Exif.Image.RowsPerStrip
     case 0x0117:  // Exif.Image.StripByteCounts
-    case 0x011a:  // Exif.Image.XResolution
-    case 0x011b:  // Exif.Image.YResolution
     case 0x011c:  // Exif.Image.PlanarConfiguration
     case 0x0122:  // Exif.Image.GrayResponseUnit
     case 0x0123:  // Exif.Image.GrayResponseCurve
     case 0x0124:  // Exif.Image.T4Options
     case 0x0125:  // Exif.Image.T6Options
-    case 0x0128:  // Exif.Image.ResolutionUnit
     case 0x0129:  // Exif.Image.PageNumber
     case 0x012d:  // Exif.Image.TransferFunction
     case 0x013d:  // Exif.Image.Predictor
