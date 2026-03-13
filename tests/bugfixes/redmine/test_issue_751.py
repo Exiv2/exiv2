@@ -66,7 +66,6 @@ Set Xmp.imageapp.uuid "abcd" (XmpText)
         "",
         """Warning: Updating namespace URI for imageapp from orig/ to dest/
 """,
-        """Warning: Updating namespace URI for imageapp from dest/ to orig/
-""",
+        """""",
     ]
     retval = [0] * 4
