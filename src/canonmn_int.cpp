@@ -2790,6 +2790,13 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
     return printCsLensFFFF(os, value, metadata);
   }
 
+  // TODO: The lens identification could be improved further:
+  // 1. RF lenses also set Exif.CanonFi.RFLensType. If a lens cannot be found here then
+  //    the RF mechanism could be used instead.
+  // 2. Exif.Photo.LensModel and Exif.Canon.LensModel provide a text description of the lens
+  //    (e.g., "RF24-105mm F4-7.1 IS STM" - Note: no manufacturer or space after "RF").
+  //    After parsing, the values could be used to search in the lens array.
+
   // get the values we need from the metadata container
   ExifKey lensKey("Exif.CanonCs.Lens");
   auto pos = metadata->findKey(lensKey);
@@ -3056,6 +3063,8 @@ float canonEv(int64_t val) {
     frac = 64.0F / 3;
   } else if ((val == 160) && (frac == 0x08)) {  // for Sigma f/6.3 lenses that report f/6.2 to camera
     frac = 30.0F / 3;
+  } else if ((val == 160) && (frac == 0x18)) {  // for Canon F4-7.1 lens that reports max aperture as f/7.3
+    frac = 21.0F;
   }
   return sign * (val + frac) / 32.0F;
 }
