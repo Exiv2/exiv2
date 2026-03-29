@@ -184,7 +184,7 @@ class EXIV2API QuickTimeVideo : public Image {
     @brief Recognizes which stream is currently under processing,
         and save its information in currentStream_ .
    */
-  void setMediaStream();
+  void setMediaStream(size_t atom_size);
   /*!
     @brief Used to discard a tag along with its data. The Tag will
         be skipped and not decoded.

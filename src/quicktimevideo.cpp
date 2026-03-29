@@ -645,7 +645,7 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursi
     fileTypeDecoder(size);
 
   else if (equalsQTimeTag(buf, "trak"))
-    setMediaStream();
+    setMediaStream(size);
 
   else if (equalsQTimeTag(buf, "mvhd"))
     movieHeaderDecoder(size);
@@ -1126,13 +1126,18 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
   io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::NikonTagsDecoder
 
-void QuickTimeVideo::setMediaStream() {
+void QuickTimeVideo::setMediaStream(size_t atom_size) {
   size_t current_position = io_->tell();
+  size_t search_end = current_position + atom_size;
+  if (search_end > io_->size())
+    search_end = io_->size();
   DataBuf buf(4 + 1);
 
-  while (!io_->eof()) {
+  while (!io_->eof() && io_->tell() + 4 <= search_end) {
     io_->readOrThrow(buf.data(), 4);
     if (equalsQTimeTag(buf, "hdlr")) {
+      if (io_->tell() + 12 > search_end)
+        break;
       io_->readOrThrow(buf.data(), 4);
       io_->readOrThrow(buf.data(), 4);
       io_->readOrThrow(buf.data(), 4);
