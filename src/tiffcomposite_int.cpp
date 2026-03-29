@@ -772,7 +772,7 @@ size_t TiffBinaryArray::doCount() const {
     typeSize = 1;
   }
 
-  return std::lround(static_cast<double>(size()) / typeSize);
+  return size() / typeSize;
 }
 
 size_t TiffBinaryElement::doCount() const {
