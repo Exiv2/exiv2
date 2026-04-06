@@ -242,7 +242,7 @@ jobs:
         run: |
           sudo apt install -y meson
       - name: Emscripten
-        uses: mymindstorm/setup-emsdk@v14
+        uses: mymindstorm/setup-emsdk@v15
       - name: Compile
         run: |
           meson setup "${{github.workspace}}/build" --cross-file="${{github.workspace}}/em.txt" --wrap-mode=forcefallback -Ddefault_library=static -Dwarning_level=3 -DunitTests=disabled -Dcurl=disabled
