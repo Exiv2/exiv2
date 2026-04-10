@@ -241,7 +241,7 @@ constexpr TagDetails exifCompression[] = {
     {6, N_("JPEG (old-style)")},
     {7, N_("JPEG")},
     {8, N_("Adobe Deflate")},
-    {9, N_("JBIG B&W")},
+    {9, N_("JBIG B&W or VC-5")},
     {10, N_("JBIG Color")},
     {32766, N_("NeXT 2-bits RLE or Sony ARW Compressed 2")},
     {32767, N_("Sony ARW Compressed")},
