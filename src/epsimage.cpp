@@ -179,7 +179,7 @@ void findXmp(size_t& xmpPos, size_t& xmpSize, const byte* data, size_t startPos,
 
       // search for valid XMP trailer
       for (size_t trailerPos = xmpPos + header.size(); trailerPos < size; trailerPos++) {
-        if (data[xmpPos] != '\x00' && data[xmpPos] != '<')
+        if (data[trailerPos] != '\x00' && data[trailerPos] != '<')
           continue;
         for (const auto& [trailer, readOnly] : xmpTrailers) {
           if (trailerPos + trailer.size() > size)
