@@ -1779,6 +1779,20 @@ const TagInfo* ifdTagList() {
   return ifdTagInfo;
 }
 
+//! Distortion/ChromaticAbberation/ShadingCorrection, tags 0xa40f, 0xa410, 0xa411
+constexpr TagDetails exifLensCorrection[] = {
+    {0, N_("Not applied")},
+    {1, N_("Applied")},
+};
+
+//! NoiseReduction, tag 0xa412
+constexpr TagDetails exifNoiseReduction[] = {
+    {0, N_("Not applied")},
+    {1, N_("Low strength")},
+    {2, N_("Normal strength")},
+    {3, N_("High strength")},
+};
+
 //! CompositeImage, tag 0xa460
 constexpr TagDetails exifCompositeImage[] = {
     {0, N_("Unknown")},
@@ -1921,6 +1935,9 @@ constexpr TagInfo exifTagInfo[] = {
         "besides those in <ImageDescription>, and without the "
         "character code limitations of the <ImageDescription> tag."),
      IfdId::exifId, SectionId::userInfo, comment, 0, printValue},
+    {0x9287, "LearningOptOutIn", N_("Learning Usage Intention"),
+     N_("This tag indicates the copyright holder's intention on use of the file for machine (AI) learning."),
+     IfdId::exifId, SectionId::userInfo, undefined, 0, printValue},  // Exif 3.1
     {0x9290, "SubSecTime", N_("Sub-seconds Time"),
      N_("A tag used to record fractions of seconds for the <DateTime> tag."), IfdId::exifId, SectionId::dateTime,
      asciiString, 0, printValue},
@@ -2101,6 +2118,28 @@ constexpr TagInfo exifTagInfo[] = {
     {0xa40c, "SubjectDistanceRange", N_("Subject Distance Range"),
      N_("This tag indicates the distance to the subject."), IfdId::exifId, SectionId::captureCond, unsignedShort, 1,
      print0xa40c},
+    {0xa40d, "DevelopmentType", N_("Development Type"),
+     N_("This tag indicates the qualitative type of image processing (development) performed when generating the "
+        "recorded image."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, printValue},  // Exif 3.1
+    {0xa40e, "DevelopmentTypeDescription", N_("Development Type Description"),
+     N_("This tag is used to record the concrete image processing (development) on the qualitative information shown "
+        "by DevelopmentType tag."),
+     IfdId::exifId, SectionId::captureCond, asciiString, 0, printValue},  // Exif 3.1
+    {0xa40f, "DistortionCorrection", N_("Distortion Correction"),
+     N_("This tag indicates whether or not distortion correction processing was applied by the camera at the capture."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifLensCorrection)},  // Exif 3.1
+    {0xa410, "ChromaticAberrationCorrection", N_("Chromatic Aberration Correction"),
+     N_("This tag indicates whether or not chromatic aberration correction processing was applied by the camera at the "
+        "capture."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifLensCorrection)},  // Exif 3.1
+    {0xa411, "ShadingCorrection", N_("Shading Correction"),
+     N_("This tag indicates whether or not shading correction processing was applied by the camera at the capture."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifLensCorrection)},  // Exif 3.1
+    {0xa412, "NoiseReduction", N_("Noise Reduction"),
+     N_("This tag indicates whether or not, and the tendency of noise reduction was applied by the camera at the "
+        "capture."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifNoiseReduction)},  // Exif 3.1
     {0xa420, "ImageUniqueID", N_("Image Unique ID"),
      N_("This tag indicates an identifier assigned uniquely to "
         "each image. It is recorded as an ASCII string equivalent "
