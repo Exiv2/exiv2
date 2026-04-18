@@ -396,7 +396,14 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       // if ( offset > io.size() ) offset = 0; // Denial of service?
 
       // #55 and #56 memory allocation crash test/data/POC8
-      const size_t allocate64 = (size * count) + pad + 20;
+      const size_t overhead = static_cast<size_t>(pad) + 20;
+      const size_t maxCount = (std::numeric_limits<size_t>::max() - overhead) / size;
+
+      // check for overflow before multiplying
+      if (static_cast<size_t>(count) > maxCount) {
+        throw Error(ErrorCode::kerInvalidMalloc);
+      }
+      const size_t allocate64 = (size * static_cast<size_t>(count)) + overhead;
       if (allocate64 > io.size()) {
         throw Error(ErrorCode::kerInvalidMalloc);
       }
