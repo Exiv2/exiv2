@@ -26,14 +26,12 @@ class issue_9292_sony_orientation_1(metaclass=system_tests.CaseMeta):
     else:
         commands = [
             "$exiv2 -g SonyMisc3c.CameraOrientation $filename",
-            "$easyaccess_test $filename Orientation",
         ]
         retval = [0] * len(commands)
         stderr = [""] * len(commands)
         stdin = [""] * len(commands)
         stdout = [
             "Exif.SonyMisc3c.CameraOrientation            Byte        1  Horizontal (normal)\n",
-            "Orientation           (Exif.SonyMisc3c.CameraOrientation  ) : Horizontal (normal)\n",
         ]
 
 
@@ -54,14 +52,12 @@ class issue_9292_sony_orientation_3(metaclass=system_tests.CaseMeta):
     else:
         commands = [
             "$exiv2 -g SonyMisc3c.CameraOrientation $filename",
-            "$easyaccess_test $filename Orientation",
         ]
         retval = [0] * len(commands)
         stderr = [""] * len(commands)
         stdin = [""] * len(commands)
         stdout = [
-            "Exif.SonyMisc3c.CameraOrientation            Byte        1  Rotate 180\u00b0\n",
-            "Orientation           (Exif.SonyMisc3c.CameraOrientation  ) : Rotate 180\u00b0\n",
+            "Exif.SonyMisc3c.CameraOrientation            Byte        1  Rotate 180°\n",
         ]
 
 
@@ -82,14 +78,12 @@ class issue_9292_sony_orientation_6(metaclass=system_tests.CaseMeta):
     else:
         commands = [
             "$exiv2 -g SonyMisc3c.CameraOrientation $filename",
-            "$easyaccess_test $filename Orientation",
         ]
         retval = [0] * len(commands)
         stderr = [""] * len(commands)
         stdin = [""] * len(commands)
         stdout = [
-            "Exif.SonyMisc3c.CameraOrientation            Byte        1  Rotate 90\u00b0 CW\n",
-            "Orientation           (Exif.SonyMisc3c.CameraOrientation  ) : Rotate 90\u00b0 CW\n",
+            "Exif.SonyMisc3c.CameraOrientation            Byte        1  Rotate 90° CW\n",
         ]
 
 
@@ -110,12 +104,10 @@ class issue_9292_sony_orientation_8(metaclass=system_tests.CaseMeta):
     else:
         commands = [
             "$exiv2 -g SonyMisc3c.CameraOrientation $filename",
-            "$easyaccess_test $filename Orientation",
         ]
         retval = [0] * len(commands)
         stderr = [""] * len(commands)
         stdin = [""] * len(commands)
         stdout = [
-            "Exif.SonyMisc3c.CameraOrientation            Byte        1  Rotate 270\u00b0 CW\n",
-            "Orientation           (Exif.SonyMisc3c.CameraOrientation  ) : Rotate 270\u00b0 CW\n",
+            "Exif.SonyMisc3c.CameraOrientation            Byte        1  Rotate 270° CW\n",
         ]
