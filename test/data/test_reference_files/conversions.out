@@ -80,15 +80,13 @@ Iptc.Application2.Keywords                   String     11  Rock'n'roll
 Testcase 10
 ===========
 Exif.Image.Software                          Ascii       6  Exiv2
-Xmp.tiff.Software                            XmpText     5  Exiv2
-Exif.Image.Software                          Ascii       6  Exiv2
+Xmp.xmp.CreatorTool                          XmpText     5  Exiv2
 File 1/1: q.xmp
 q.xmp: No IPTC data found in the file
 
 Testcase 11
 ===========
-Xmp.tiff.Software                            XmpText     5  Exiv2
-Exif.Image.Software                          Ascii       6  Exiv2
+Xmp.xmp.CreatorTool                          XmpText     5  Exiv2
 File 1/1: r.jpg
 r.jpg: No IPTC data found in the file
 

@@ -109,7 +109,6 @@ Exif.Photo.SubjectDistanceRange              Short       1  2  Close view
 Xmp.exif.PixelXDimension                     XmpText     3  240  240
 Xmp.exif.PixelYDimension                     XmpText     3  160  160
 Xmp.exif.DateTimeOriginal                    XmpText    20  2013-01-30T19:30:52Z  2013:01:30 19:30:52
-Xmp.exif.DateTimeDigitized                   XmpText    20  2013-01-30T19:30:52Z  2013-01-30T19:30:52Z
 Xmp.tiff.ImageWidth                          XmpText     1  1  1
 Xmp.tiff.ImageHeight                         XmpText     3  160  160
 Xmp.xmp.CreateDate                           XmpText    20  2013-01-30T19:30:52Z  2013-01-30T19:30:52Z

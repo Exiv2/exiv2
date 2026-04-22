@@ -111,7 +111,6 @@ Xmp.exif.ColorSpace                          XmpText     1  1  sRGB
 Xmp.exif.CompressedBitsPerPixel              XmpText     3  4/1  4/1
 Xmp.exif.Contrast                            XmpText     1  0  Normal
 Xmp.exif.CustomRendered                      XmpText     1  0  Normal process
-Xmp.exif.DateTimeDigitized                   XmpText    25  2004-06-21T23:37:53+01:00  2004-06-21T23:37:53+01:00
 Xmp.exif.DateTimeOriginal                    XmpText    25  2004-06-21T23:37:53+01:00  2004-06-21T23:37:53+01:00
 Xmp.exif.DigitalZoomRatio                    XmpText     3  1/1  1/1
 Xmp.exif.ExifVersion                         XmpText     4  0220  2.20
@@ -161,7 +160,6 @@ Xmp.photoshop.Source                         XmpText    24  Navy Visual News Ser
 Xmp.photoshop.Urgency                        XmpText     1  5  5
 Xmp.photoshop.SupplementalCategories         XmpBag      1  703-614-9154, navyvisualnews@navy.mil, UNCLASSFIED  703-614-9154, navyvisualnews@navy.mil, UNCLASSFIED
 Xmp.tiff.Compression                         XmpText     1  1  1
-Xmp.tiff.DateTime                            XmpText    19  2016:09:13 12:23:27  2016:09:13 12:23:27
 Xmp.tiff.ImageLength                         XmpText     3  130  130
 Xmp.tiff.ImageWidth                          XmpText     3  200  200
 Xmp.tiff.Make                                XmpText    17  NIKON CORPORATION  NIKON CORPORATION
