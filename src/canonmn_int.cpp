@@ -1883,7 +1883,7 @@ constexpr TagDetails canonCsLensType[] = {
     {368, "Sigma 18-35mm f/1.8 DC HSM | A"},          // 10
     {368, "Sigma 35mm f/1.4 DG HSM | A"},             // 11
     {368, "Sigma 100-400mm f/5-6.3 DG OS HSM | C"},   // 12
-    {368, "Sigma 100-400mm f/5-6.3 DG OS HSM | C + 1.4x"},// 13
+    {368, "Sigma 100-400mm f/5-6.3 DG OS HSM | C + 1.4x"}, // 13
     {488, "Canon EF-S 15-85mm f/3.5-5.6 IS USM"},
     {489, "Canon EF 70-300mm f/4-5.6L IS USM"},
     {490, "Canon EF 8-15mm f/4L Fisheye USM"},
