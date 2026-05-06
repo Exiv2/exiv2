@@ -3838,7 +3838,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
     return os << "(" << value << ")";
   }
 
-  // cf. https://github.com/exiftool/exiftool/blob/13.44/lib/Image/ExifTool/Nikon.pm#L5816
+  // cf. https://github.com/exiftool/exiftool/blob/13.58/lib/Image/ExifTool/Nikon.pm#L5819
   static constexpr struct lens {
     uint16_t l;
     const char* vendor;
@@ -3888,6 +3888,7 @@ std::ostream& Nikon3MakerNote::printLensId4ZMount(std::ostream& os, const Value&
       {51, "Nikon", "Nikkor Z 35mm f/1.4"},
       {52, "Nikon", "Nikkor Z 50mm f/1.4"},
       {53, "Nikon", "Nikkor Z DX 16-50mm f/2.8 VR"},
+      {54, "Nikon", "Nikkor Z 70-200mm f/2.8 VR S II"},
       {55, "Nikon", "Nikkor Z DX MC 35mm f/1.7"},
       {57, "Nikon", "Nikkor Z 24-105mm f/4-7.1"},
       {2305, "Laowa", "FFII 10mm F2.8 C&D Dreamer"},
