@@ -689,6 +689,7 @@ constexpr TagDetails pentaxLensType[] = {
     {0x032e, "Sigma APO 70-200mm F2.8 EX"},                    // 1
     {0x032e, "Sigma EX APO 100-300mm F4 IF"},                  // 2
     {0x032e, "Samsung/Schneider D-XENON 50-200mm F4-5.6 ED"},  // 3
+    {0x032e, "Tokina AT-X AF SD 80-400mm f/4.5-5.6"},          // 4
     {0x0332, "smc PENTAX-FA 28-70mm F4 AL"},
     {0x0333, "Sigma 28mm F1.8 EX DG Aspherical Macro"},
     {0x0334, "smc PENTAX-FA 28-200mm F3.8-5.6 AL[IF]"},                 // 0
