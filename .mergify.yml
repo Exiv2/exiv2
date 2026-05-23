@@ -10,14 +10,9 @@ pull_request_rules:
         assignees:
           - "{{ author }}"
 
-  - name: delete head branch after merge
-    conditions:
-      - merged
-    actions:
-      delete_head_branch: {}
 
   - name: remove outdated reviews
     conditions: []
     actions:
       dismiss_reviews:
-        changes_requested: False
+        changes_requested: false
