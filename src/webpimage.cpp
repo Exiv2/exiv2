@@ -770,7 +770,7 @@ void WebPImage::inject_VP8X(BasicIo& iIo, bool has_xmp, bool has_exif, bool has_
   data[6] = (w >> 16) & 0xFF;
 
   /* set height - stored in 24bits */
-  Internal::enforce(width > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(height > 0, Exiv2::ErrorCode::kerCorruptedMetadata);
   uint32_t h = height - 1;
   data[7] = h & 0xFF;
   data[8] = (h >> 8) & 0xFF;
