@@ -789,6 +789,17 @@ ImageType ImageFactory::getType([[maybe_unused]] const std::string& path) {
 #endif
 }
 
+#ifdef _WIN32
+ImageType ImageFactory::getType([[maybe_unused]] const std::wstring& path) {
+#ifdef EXV_ENABLE_FILESYSTEM
+  FileIo fileIo(path);
+  return getType(fileIo);
+#else
+  return ImageType::none;
+#endif
+}
+#endif
+
 ImageType ImageFactory::getType(const byte* data, size_t size) {
   MemIo memIo(data, size);
   return getType(memIo);
@@ -832,7 +843,7 @@ BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, [[maybe_unuse
 }  // ImageFactory::createIo
 
 #ifdef _WIN32
-BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& path) {
+BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& path, bool) {
 #ifdef EXV_ENABLE_FILESYSTEM
   return std::make_unique<FileIo>(path);
 #else
@@ -849,8 +860,8 @@ Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl) {
 }
 
 #ifdef _WIN32
-Image::UniquePtr ImageFactory::open(const std::wstring& path) {
-  auto image = open(ImageFactory::createIo(path));  // may throw
+Image::UniquePtr ImageFactory::open(const std::wstring& path, bool useCurl) {
+  auto image = open(ImageFactory::createIo(path, useCurl));  // may throw
   if (!image) {
     char t[1024];
     WideCharToMultiByte(CP_UTF8, 0, path.c_str(), -1, t, 1024, nullptr, nullptr);
@@ -894,6 +905,22 @@ Image::UniquePtr ImageFactory::create(ImageType type, const std::string& path) {
     throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
   return image;
 }
+
+#ifdef _WIN32
+Image::UniquePtr ImageFactory::create(ImageType type, const std::wstring& path) {
+  auto fileIo = std::make_unique<FileIo>(path);
+  // Create or overwrite the file, then close it
+  if (fileIo->open("w+b") != 0)
+    throw Error(ErrorCode::kerFileOpenFailed, "w+b", strError());
+  fileIo->close();
+
+  BasicIo::UniquePtr io(std::move(fileIo));
+  auto image = create(type, std::move(io));
+  if (!image)
+    throw Error(ErrorCode::kerUnsupportedImageType, static_cast<int>(type));
+  return image;
+}
+#endif
 #endif
 
 Image::UniquePtr ImageFactory::create(ImageType type) {
