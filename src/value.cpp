@@ -926,6 +926,7 @@ int TimeValue::read(const std::string& buf) {
     spos = 4;
   }
 
+  try {
   auto hi = std::stoi(buf.substr(0, 2));
   if (hi < 0 || hi > 23)
     return printWarning();
@@ -977,6 +978,10 @@ int TimeValue::read(const std::string& buf) {
         return printWarning();
       time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
     }
+  }
+  } catch (std::exception&) {
+    // std::stoi might throw an exception if the syntax is invalid.
+    return printWarning();
   }
   return 0;
 }
