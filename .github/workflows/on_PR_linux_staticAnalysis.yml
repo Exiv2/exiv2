@@ -21,6 +21,8 @@ jobs:
           fetch-depth: 2
           persist-credentials: false
           # Trying to deal with warning: ->  Issue detecting commit SHA. Please run actions/checkout with fetch-depth > 1 or set to 0
+      - name: Checkout submodules
+        run: git submodule update --init --depth=1
 
       - name: Install dependencies
         run: |

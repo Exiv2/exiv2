@@ -24,10 +24,10 @@ class WrongXmpTypeForNestedXmpKeys(metaclass=CaseMeta):
 
     def post_tests_hook(self):
         with open(self.xmpfile, "r", encoding='utf-8') as xmp_file:
-            self.assertMultiLineEqual(self.xmp_packet, xmp_file.read(-1))
+            self.assertMultiLineEqual(self.expand_variables(self.xmp_packet), xmp_file.read(-1))
 
     xmp_packet = """<?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:MP="http://ns.microsoft.com/photo/1.2/"

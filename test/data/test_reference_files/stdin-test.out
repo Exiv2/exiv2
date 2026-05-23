@@ -124,17 +124,17 @@ STRUCTURE OF JPEG FILE: girl.jpg
        0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffe1 APP1  |    5704 | Exif..II*......................
-    5726 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   11015 | 0xffed APP13 |     784 | Photoshop 3.0.8BIM..........Z...
-   11801 | 0xffdb DQT   |      67 
-   11870 | 0xffdb DQT   |      67 
-   11939 | 0xffc0 SOF0  |      17 
-   11958 | 0xffc4 DHT   |      28 
-   11988 | 0xffc4 DHT   |      74 
-   12064 | 0xffc4 DHT   |      28 
-   12094 | 0xffc4 DHT   |      57 
-   12153 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
-   16757 | 0xffda SOS  
+    5726 | 0xffe1 APP1  |    5281 | http://ns.adobe.com/xap/1.0/.<?x
+   11009 | 0xffed APP13 |     784 | Photoshop 3.0.8BIM..........Z...
+   11795 | 0xffdb DQT   |      67 
+   11864 | 0xffdb DQT   |      67 
+   11933 | 0xffc0 SOF0  |      17 
+   11952 | 0xffc4 DHT   |      28 
+   11982 | 0xffc4 DHT   |      74 
+   12058 | 0xffc4 DHT   |      28 
+   12088 | 0xffc4 DHT   |      57 
+   12147 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   16751 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
@@ -154,53 +154,53 @@ STRUCTURE OF JPEG FILE: girl.jpg
        0 | 0xffd8 SOI  
        2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffe1 APP1  |    8528 | Exif..II*......................
-    8550 | 0xffe1 APP1  |    6730 | http://ns.adobe.com/xap/1.0/.<?x
-   15282 | 0xffed APP13 |     788 | Photoshop 3.0.8BIM..........Z...
-   16072 | 0xffdb DQT   |      67 
-   16141 | 0xffdb DQT   |      67 
-   16210 | 0xffc0 SOF0  |      17 
-   16229 | 0xffc4 DHT   |      28 
-   16259 | 0xffc4 DHT   |      74 
-   16335 | 0xffc4 DHT   |      28 
-   16365 | 0xffc4 DHT   |      57 
-   16424 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
-   21028 | 0xffda SOS  
+    8550 | 0xffe1 APP1  |    6673 | http://ns.adobe.com/xap/1.0/.<?x
+   15225 | 0xffed APP13 |     788 | Photoshop 3.0.8BIM..........Z...
+   16015 | 0xffdb DQT   |      67 
+   16084 | 0xffdb DQT   |      67 
+   16153 | 0xffc0 SOF0  |      17 
+   16172 | 0xffc4 DHT   |      28 
+   16202 | 0xffc4 DHT   |      74 
+   16278 | 0xffc4 DHT   |      28 
+   16308 | 0xffc4 DHT   |      57 
+   16367 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   20971 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |    3160 | ICC_PROFILE......HLino....mntrRG chunk 1/1
-   14159 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   17191 | 0xffee APP14 |      14 | Adobe.d@....
-   17207 | 0xffdb DQT   |     132 
-   17341 | 0xffc0 SOF0  |      17 
-   17360 | 0xffdd DRI   |       4 
-   17366 | 0xffc4 DHT   |     418 
-   17786 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5281 | http://ns.adobe.com/xap/1.0/.<?x
+   10991 | 0xffe2 APP2  |    3160 | ICC_PROFILE......HLino....mntrRG chunk 1/1
+   14153 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   17185 | 0xffee APP14 |      14 | Adobe.d@....
+   17201 | 0xffdb DQT   |     132 
+   17335 | 0xffc0 SOF0  |      17 
+   17354 | 0xffdd DRI   |       4 
+   17360 | 0xffc4 DHT   |     418 
+   17780 | 0xffda SOS  
 STRUCTURE OF PNG FILE: ReaganSmallPng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | eXIf  |    8520 | II*..........................  | 0x479a6662
     8565 | zTXt  |     630 | Raw profile type iptc..x..T... | 0xa492403c
     9207 | iCCP  |    2593 | ..x...wTS.....7.&....!...@.... | 0x56151192
-   11812 | iTXt  |    7117 | XML:com.adobe.xmp.....<?xpacke | 0x2ff025b8
-   18941 | gAMA  |       4 | ....                           | 0x0bfc6105
-   18957 | bKGD  |       6 | ......                         | 0xa0bda793
-   18975 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   18996 | tIME  |       7 | ......#                        | 0xdf7f5bbd
-   19015 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   19305 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
-   27509 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
-   35713 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
-   43917 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
-   52121 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
-   59199 | IEND  |       0 |                                | 0xae426082
+   11812 | iTXt  |    7057 | XML:com.adobe.xmp.....<?xpacke | 0xfd71ca82
+   18881 | gAMA  |       4 | ....                           | 0x0bfc6105
+   18897 | bKGD  |       6 | ......                         | 0xa0bda793
+   18915 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   18936 | tIME  |       7 | ......#                        | 0xdf7f5bbd
+   18955 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   19245 | IDAT  |    8192 | x...i.$.u%v....Gdd...U..X.`0.9 | 0x96dc2ed9
+   27449 | IDAT  |    8192 | df.."..1L...0...j....`F.&.yf.. | 0xbfeb3575
+   35653 | IDAT  |    8192 | K-N.t.ENL.R..q](jm...sN..U.+.. | 0xe249a922
+   43857 | IDAT  |    8192 | >..?.Nw..iN......xE....z..[..} | 0x054b9d1e
+   52061 | IDAT  |    7066 | ...q.B...2*@..#....T....h..v.. | 0x327f1e3e
+   59139 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   190110 |        0 | WEBP
+  RIFF |   190104 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |     3144 |       30 | ...HLino....mntrRGB XYZ ........
   VP8  |   172008 |     3182 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   175198 | II*........................... .
-  XMP  |     2864 |   187246 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2858 |   187246 | <?xpacket begin="..." id="W5M0Mp

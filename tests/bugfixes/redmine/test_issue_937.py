@@ -190,8 +190,7 @@ Xmp.dwc.MeasurementOrFact/dwc:measurementDeterminedBy XmpText    18  Javier de l
 Xmp.dwc.MeasurementOrFact/dwc:measurementMethod XmpText    20  barometric altimeter
 Xmp.dwc.MeasurementOrFact/dwc:measurementRemarks XmpText    19  tip of tail missing
 """,
-        """Xmp.exif.DateTimeDigitized                   Date and Time Digitized        XmpText    29  2008-03-14T11:31:48.098-07:00
-Xmp.exif.DateTimeOriginal                    Date and Time Original         XmpText    25  2008-03-14T13:59:26-06:00
+        """Xmp.exif.DateTimeOriginal                    Date and Time Original         XmpText    25  2008-03-14T13:59:26-06:00
 Xmp.photoshop.DateCreated                    Date Created                   XmpText    29  2008-03-14T13:59:26.054-06:00
 Xmp.xmp.MetadataDate                         Metadata Date                  XmpText    29  2013-02-07T21:56:33.820-06:00
 Xmp.xmp.CreateDate                           Create Date                    XmpText    24  2008-03-14T20:59:26.535Z

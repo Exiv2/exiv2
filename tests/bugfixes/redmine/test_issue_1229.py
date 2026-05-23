@@ -16,12 +16,8 @@ class CheckXmpData(metaclass=system_tests.CaseMeta):
     stderr = [""]
     retval = [0]
 
-    def post_tests_hook(self):
-        with open(self.filename_xmp, "r", encoding='utf-8') as xmp:
-            content = xmp.read(-1)
-
-        expected =  """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+    expected_xmp = """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -37,4 +33,8 @@ class CheckXmpData(metaclass=system_tests.CaseMeta):
 </x:xmpmeta>
 <?xpacket end="w"?>"""
 
-        self.assertMultiLineEqual(expected, content)
+    def post_tests_hook(self):
+        with open(self.filename_xmp, "r", encoding='utf-8') as xmp:
+            content = xmp.read(-1)
+
+        self.assertMultiLineEqual(self.expand_variables(self.expected_xmp), content)
