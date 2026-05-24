@@ -1136,7 +1136,7 @@ void QuickTimeVideo::setMediaStream(size_t atom_size) {
   while (!io_->eof() && Safe::add(io_->tell(), 4) <= search_end) {
     io_->readOrThrow(buf.data(), 4);
     if (equalsQTimeTag(buf, "hdlr")) {
-      if (io_->tell() + 12 > search_end)
+      if (Safe::add(io_->tell(), 12) > search_end)
         break;
       io_->readOrThrow(buf.data(), 4);
       io_->readOrThrow(buf.data(), 4);
