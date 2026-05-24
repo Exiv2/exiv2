@@ -1128,7 +1128,7 @@ void QuickTimeVideo::NikonTagsDecoder(size_t size) {
 
 void QuickTimeVideo::setMediaStream(size_t atom_size) {
   size_t current_position = io_->tell();
-  size_t search_end = current_position + atom_size;
+  size_t search_end = Safe::add(current_position, atom_size);
   if (search_end > io_->size())
     search_end = io_->size();
   DataBuf buf(4 + 1);
