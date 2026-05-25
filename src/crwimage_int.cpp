@@ -817,6 +817,7 @@ void CrwMap::decodeBasic(const CiffComponent& ciffComponent, const CrwMapping* p
       // by default, use the size from the directory entry
       size = ciffComponent.size();
     }
+    enforce(size <= ciffComponent.size(), ErrorCode::kerCorruptedMetadata);
     value->read(ciffComponent.pData(), size, byteOrder);
   }
   // Add metadatum to exif data
