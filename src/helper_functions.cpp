@@ -36,7 +36,7 @@ uint16_t readWORDTag(const BasicIo::UniquePtr& io) {
 }
 
 std::string readStringWcharTag(const BasicIo::UniquePtr& io, size_t length) {
-  Internal::enforce(length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(length >= 2 && length <= io->size() - io->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   DataBuf FieldBuf(length + 1);
   io->readOrThrow(FieldBuf.data(), length, ErrorCode::kerFailedToReadImageData);
   std::string wst(FieldBuf.begin(), FieldBuf.end() - 3);
