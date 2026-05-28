@@ -136,6 +136,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  68  68
 Exif.CanonFi.LiveViewShooting                SShort      1  0  Off
 Exif.CanonFi.FocusDistanceUpper              SShort      1  605  6.05 m
 Exif.CanonFi.FocusDistanceLower              SShort      1  393  3.93 m
+Exif.CanonFi.ShutterMode                     SShort      1  0  Mechanical
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.Canon.LensModel                         Ascii      74  17-70mm  17-70mm
 Exif.Canon.InternalSerialNumber              Ascii      16  FA1151457  FA1151457

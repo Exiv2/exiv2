@@ -125,6 +125,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  278  278
 Exif.CanonFi.LiveViewShooting                SShort      1  1  On
 Exif.CanonFi.FocusDistanceUpper              SShort      1  -1  Infinite
 Exif.CanonFi.FocusDistanceLower              SShort      1  961  9.61 m
+Exif.CanonFi.ShutterMode                     SShort      1  1  Electronic First Curtain
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.Canon.InternalSerialNumber              Ascii      10  CG0162284  CG0162284
 Exif.Canon.CustomFunctions                   Long       35  140 2 1 32 2 259 1 0 264 1 0 4 72 4 1798 1 0 1804 10 0 0 1 1 0 0 0 0 0 0 1809 1 0 2068 1 1  140 2 1 32 2 259 1 0 264 1 0 4 72 4 1798 1 0 1804 10 0 0 1 1 0 0 0 0 0 0 1809 1 0 2068 1 1
