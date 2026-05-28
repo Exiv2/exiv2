@@ -136,6 +136,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  169  169
 Exif.CanonFi.LiveViewShooting                SShort      1  0  Off
 Exif.CanonFi.FocusDistanceUpper              SShort      1  0  0.00 m
 Exif.CanonFi.FocusDistanceLower              SShort      1  0  0.00 m
+Exif.CanonFi.ShutterMode                     SShort      1  0  Mechanical
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.Canon.LensModel                         Ascii      74  EF35-80mm f/4-5.6 II  EF35-80mm f/4-5.6 II
 Exif.Canon.InternalSerialNumber              Ascii      16  GD1515322  GD1515322

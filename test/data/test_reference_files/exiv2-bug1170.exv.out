@@ -135,6 +135,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  105  105
 Exif.CanonFi.LiveViewShooting                SShort      1  0  Off
 Exif.CanonFi.FocusDistanceUpper              SShort      1  34  0.34 m
 Exif.CanonFi.FocusDistanceLower              SShort      1  33  0.33 m
+Exif.CanonFi.ShutterMode                     SShort      1  0  Mechanical
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.Canon.LensModel                         Ascii      74  35mm  35mm
 Exif.Canon.InternalSerialNumber              Ascii      16  GD0386222  GD0386222
