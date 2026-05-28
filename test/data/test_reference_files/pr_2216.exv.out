@@ -116,6 +116,7 @@ Exif.CanonFi.FocusDistanceUpper              SShort      1  -1  Infinite
 Exif.CanonFi.FocusDistanceLower              SShort      1  2125  21.25 m
 Exif.CanonFi.ShutterMode                     SShort      1  1  Electronic First Curtain
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
+Exif.CanonFi.AntiFlicker                     SShort      1  0  Off
 Exif.CanonFi.RFLensType                      SShort      1  274  Canon RF 24-105mm F4-7.1 IS STM
 Exif.CanonPr.ToneCurve                       SShort      1  0  Standard
 Exif.CanonPr.Sharpness                       SShort      1  4  4
