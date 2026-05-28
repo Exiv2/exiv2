@@ -2557,6 +2557,8 @@ constexpr TagInfo CanonMakerNote::tagInfoFi_[] = {
      1, EXV_PRINT_TAG(canonShutterMode)},
     {0x0019, "FlashExposureLock", N_("Flash Exposure Lock"), N_("Flash exposure lock"), IfdId::canonFiId,
      SectionId::makerTags, signedShort, 1, EXV_PRINT_TAG(canonOffOn)},
+    {0x0020, "AntiFlicker", N_("Anti-Flicker"), N_("Anti-flicker"), IfdId::canonFiId, SectionId::makerTags, signedShort,
+     1, EXV_PRINT_TAG(canonOffOn)},
     {0x003D, "RFLensType", N_("RF Lens Type"), N_("RF Lens Type"), IfdId::canonFiId, SectionId::makerTags,
      unsignedShort, 1, EXV_PRINT_TAG(canonRFLensType)},
     // End of list marker
