@@ -134,6 +134,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  92  92
 Exif.CanonFi.LiveViewShooting                SShort      1  0  Off
 Exif.CanonFi.FocusDistanceUpper              SShort      1  150  1.50 m
 Exif.CanonFi.FocusDistanceLower              SShort      1  119  1.19 m
+Exif.CanonFi.ShutterMode                     SShort      1  0  Mechanical
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.Canon.LensModel                         Ascii      70  TAMRON SP 90mm F/2.8 Di VC USD MACRO1:1 F017  TAMRON SP 90mm F/2.8 Di VC USD MACRO1:1 F017
 Exif.Canon.InternalSerialNumber              Ascii      16  ZA0277063  ZA0277063

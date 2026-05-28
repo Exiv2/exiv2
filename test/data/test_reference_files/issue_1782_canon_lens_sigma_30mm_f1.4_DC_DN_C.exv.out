@@ -140,6 +140,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  142  142
 Exif.CanonFi.LiveViewShooting                SShort      1  1  On
 Exif.CanonFi.FocusDistanceUpper              SShort      1  646  6.46 m
 Exif.CanonFi.FocusDistanceLower              SShort      1  316  3.16 m
+Exif.CanonFi.ShutterMode                     SShort      1  1  Electronic First Curtain
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.CanonFi.RFLensType                      SShort      1  0  n/a
 Exif.Canon.LensModel                         Ascii      74  30mm F1.4 DC DN | Contemporary 016  30mm F1.4 DC DN | Contemporary 016

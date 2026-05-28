@@ -133,6 +133,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  68  68
 Exif.CanonFi.LiveViewShooting                SShort      1  0  Off
 Exif.CanonFi.FocusDistanceUpper              SShort      1  231  2.31 m
 Exif.CanonFi.FocusDistanceLower              SShort      1  220  2.20 m
+Exif.CanonFi.ShutterMode                     SShort      1  0  Mechanical
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.Canon.LensModel                         Ascii      74  150-500mm  150-500mm
 Exif.Canon.InternalSerialNumber              Ascii      16  AD1759084  AD1759084
