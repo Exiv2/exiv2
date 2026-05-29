@@ -184,6 +184,7 @@ void Jp2Image::readMetadata() {
           throw Error(ErrorCode::kerCorruptedMetadata);
         }
         boxFileTypeFound = true;
+        Internal::enforce(box.length >= boxHSize, ErrorCode::kerCorruptedMetadata);
         Blob boxData(box.length - boxHSize);
         io_->readOrThrow(boxData.data(), boxData.size(), ErrorCode::kerCorruptedMetadata);
         if (!Internal::isValidBoxFileType(boxData))
