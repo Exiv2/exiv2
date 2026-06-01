@@ -2714,8 +2714,14 @@ std::ostream& CanonMakerNote::print0x0008(std::ostream& os, const Value& value, 
 }
 
 std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
-  uint32_t l = std::stoul(value.toString());
-  return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
+  try {
+    uint32_t l = std::stoul(value.toString());
+    return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
+  } catch (const std::invalid_argument&) {
+    return os << value;
+  } catch (const std::out_of_range&) {
+    return os << value;
+  }
 }
 
 std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, const ExifData* exifData) {
@@ -2727,8 +2733,14 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
   auto pos = exifData->findKey(key);
   // if model is EOS D30
   if (pos != exifData->end() && pos->value().count() == 1 && pos->value().toInt64() == 0x01140000) {
-    uint32_t l = std::stoul(value.toString());
-    return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
+    try {
+      uint32_t l = std::stoul(value.toString());
+      return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
+    } catch (const std::invalid_argument&) {
+      return os << value;
+    } catch (const std::out_of_range&) {
+      return os << value;
+    }
   }
   return os << value;
 }
