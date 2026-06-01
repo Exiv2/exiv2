@@ -2690,11 +2690,17 @@ std::ostream& CanonMakerNote::print0x0008(std::ostream& os, const Value& value, 
 }
 
 std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
-  std::istringstream is(value.toString());
-  uint32_t l = 0;
-  is >> l;
-  return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
-            << std::setfill('0') << std::dec << (l & 0x0000ffff);
+  try {
+    std::istringstream is(value.toString());
+    uint32_t l = 0;
+    is >> l;
+    return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
+              << std::setfill('0') << std::dec << (l & 0x0000ffff);
+  } catch (const std::invalid_argument&) {
+    return os << value;
+  } catch (const std::out_of_range&) {
+    return os << value;
+  }
 }
 
 std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, const ExifData* exifData) {
@@ -2708,10 +2714,16 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
   auto pos = exifData->findKey(key);
   // if model is EOS D30
   if (pos != exifData->end() && pos->value().count() == 1 && pos->value().toInt64() == 0x01140000) {
-    uint32_t l = 0;
-    is >> l;
-    return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
-              << std::setfill('0') << std::dec << (l & 0x0000ffff);
+    try {
+      uint32_t l = 0;
+      is >> l;
+      return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
+                << std::setfill('0') << std::dec << (l & 0x0000ffff);
+    } catch (const std::invalid_argument&) {
+      return os << value;
+    } catch (const std::out_of_range&) {
+      return os << value;
+    }
   } else {
     return os << value;
   }
