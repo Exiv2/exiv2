@@ -434,7 +434,7 @@ Exiv2::BMFF XMP: ID = 3 from,length = 1630,3150
 Exiv2::BmffImage::boxHandler: mdat      532->1 
 """,
             """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:aux="http://ns.adobe.com/exif/1.0/aux/"

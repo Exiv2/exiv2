@@ -53,23 +53,20 @@ Xmp.photoshop.Headline                       XmpText    14  Communications
 Xmp.photoshop.State                          XmpText     1   
 Xmp.photoshop.SupplementalCategories         XmpBag      1  Communications
 Xmp.photoshop.Urgency                        XmpText     1  5
-Xmp.tiff.Artist                              XmpText    11  Ian Britton
 Xmp.tiff.BitsPerSample                       XmpSeq      1  8
 Xmp.tiff.Compression                         XmpText     1  6
-Xmp.tiff.Copyright                           LangAlt     1  lang="x-default" ian Britton - FreeFoto.com
-Xmp.tiff.ImageDescription                    LangAlt     1  lang="x-default" Communications
 Xmp.tiff.ImageLength                         XmpText     3  400
 Xmp.tiff.ImageWidth                          XmpText     3  600
 Xmp.tiff.Make                                XmpText     8  FUJIFILM
 Xmp.tiff.Model                               XmpText    12  FinePixS1Pro
 Xmp.tiff.Orientation                         XmpText     1  top, left
 Xmp.tiff.ResolutionUnit                      XmpText     1  inch
-Xmp.tiff.Software                            XmpText    19  Adobe Photoshop 7.0
 Xmp.tiff.XResolution                         XmpText     5  300
 Xmp.tiff.YCbCrPositioning                    XmpText     1  Co-sited
 Xmp.tiff.YResolution                         XmpText     5  300
 Xmp.xmp.CreateDate                           XmpText    20  2002-07-13T15:58:28Z
 Xmp.xmp.ModifyDate                           XmpText    20  2002-07-19T13:28:10Z
+Xmp.xmp.CreatorTool                          XmpText    19  Adobe Photoshop 7.0
 Xmp.xmpBJ.JobRef                             XmpText    10  type="Bag"
 Xmp.xmpBJ.JobRef[1]                          XmpText    13  type="Struct"
 Xmp.xmpBJ.JobRef[1]/stJob:name               XmpText    12  Photographer

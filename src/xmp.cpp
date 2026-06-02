@@ -549,9 +549,12 @@ void XmpParser::registerNsImpl(const std::string& ns, const std::string& prefix)
         // Already registered correctly, skip overhead
         return;
       }
+      // DeleteNamespace is not implemented in XMP-Toolkit-SDK, so we cannot
+      // re-register a namespace URI with a different prefix.
+      EXV_WARNING << "Cannot re-register namespace " << ns << " with prefix " << prefix
+                  << " (already registered with prefix " << existingPrefix << ").\n";
     }
 
-    SXMPMeta::DeleteNamespace(ns.c_str());
 #ifdef EXV_ADOBE_XMPSDK
     SXMPMeta::RegisterNamespace(ns.c_str(), prefix.c_str(), nullptr);
 #else
@@ -851,15 +854,91 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
         if (!la)
           throw Error(ErrorCode::kerEncodeLangAltPropertyFailed, xmp.key());
 
-        int idx = 1;
+        // XMP-Toolkit-SDK registers standard aliases (e.g. tiff:ImageDescription →
+        // dc:description[?xml:lang="x-default"]) that resolve to a specific array item
+        // rather than the array itself.  Array operations like CountArrayItems and
+        // AppendArrayItem fail on such aliases because the SDK finds a simple value node
+        // instead of an array node.  Detect this situation and fall back to SetProperty,
+        // which correctly handles alias resolution for the x-default value.
+        bool isArrayItemAlias = false;
+        try {
+          meta.CountArrayItems(ns.c_str(), xmp.tagName().c_str());
+        } catch (const XMP_Error& e) {
+          if (e.GetID() == kXMPErr_BadXPath)
+            isArrayItemAlias = true;
+          else
+            throw;
+        }
+
+        if (isArrayItemAlias) {
+          // Set only the x-default value through the alias (the SDK resolves it to
+          // the correct array item).  Other language variants are not representable
+          // through a single-value alias; they belong on the canonical property.
+          auto it = la->value_.find("x-default");
+          if (it == la->value_.end())
+            it = la->value_.begin();
+          if (it != la->value_.end() && !it->second.empty()) {
+            printNode(ns, xmp.tagName(), it->second, 0);
+            meta.SetProperty(ns.c_str(), xmp.tagName().c_str(), it->second.c_str());
+          }
+          continue;
+        }
+
         for (const auto& [lang, specs] : la->value_) {
           if (!specs.empty()) {  // remove lang specs with no value
             printNode(ns, xmp.tagName(), specs, 0);
-            meta.AppendArrayItem(ns.c_str(), xmp.tagName().c_str(), kXMP_PropArrayIsAlternate, specs.c_str());
-            const std::string item = xmp.tagName() + "[" + toString(idx++) + "]";
-            meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", lang.c_str());
+
+            // Check if there is already an item in the array with the given lang
+            std::size_t item_cnt = meta.CountArrayItems(ns.c_str(), xmp.tagName().c_str());
+            std::size_t existing_item_idx = 0;  // 0 means not found (XMP arrays are 1-indexed)
+            for (std::size_t i = 1; i <= item_cnt; ++i) {
+              std::string qualifier_value;
+              const std::string item = xmp.tagName() + "[" + toString(i) + "]";
+
+              if (meta.GetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", &qualifier_value, nullptr) &&
+                  qualifier_value == lang) {
+                existing_item_idx = i;
+                break;
+              }
+            }
+
+            if (existing_item_idx) {
+              meta.SetArrayItem(ns.c_str(), xmp.tagName().c_str(), existing_item_idx, specs.c_str());
+            } else {
+              meta.AppendArrayItem(ns.c_str(), xmp.tagName().c_str(), kXMP_PropArrayIsAlternate, specs.c_str());
+              auto index = meta.CountArrayItems(ns.c_str(), xmp.tagName().c_str());
+              const std::string item = xmp.tagName() + "[" + toString(index) + "]";
+              meta.SetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", lang.c_str());
+            }
           }
         }
+
+        // XMP-Toolkit-SDK's NormalizeLangArray (called during serialization) overwrites
+        // the second item's value with x-default's when there are exactly 2 items.
+        // To preserve language-specific values, update x-default to match the sole
+        // language entry so the normalization becomes a no-op.
+        auto item_cnt = meta.CountArrayItems(ns.c_str(), xmp.tagName().c_str());
+        if (item_cnt == 2) {
+          std::size_t xd_idx = 0;
+          std::size_t lang_idx = 0;
+          for (std::size_t i = 1; i <= 2; ++i) {
+            std::string qualifier_value;
+            const std::string item = xmp.tagName() + "[" + toString(i) + "]";
+            if (meta.GetQualifier(ns.c_str(), item.c_str(), kXMP_NS_XML, "lang", &qualifier_value, nullptr)) {
+              if (qualifier_value == "x-default")
+                xd_idx = i;
+              else
+                lang_idx = i;
+            }
+          }
+          if (xd_idx && lang_idx) {
+            std::string lang_value;
+            meta.GetArrayItem(ns.c_str(), xmp.tagName().c_str(), static_cast<XMP_Index>(lang_idx), &lang_value,
+                              nullptr);
+            meta.SetArrayItem(ns.c_str(), xmp.tagName().c_str(), static_cast<XMP_Index>(xd_idx), lang_value.c_str());
+          }
+        }
+
         continue;
       }
 

@@ -24,6 +24,8 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      - name: Checkout submodules
+        run: git submodule update --init --depth=1
 
       - name: Install dependencies
         run: |
@@ -76,6 +78,9 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      - name: Checkout submodules
+        shell: bash
+        run: git submodule update --init --depth=1
       - uses: jirutka/setup-alpine@v1
         with:
           arch: ${{matrix.arch}}

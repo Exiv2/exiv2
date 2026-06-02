@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import os
+
 from system_tests import CaseMeta, path, check_no_ASAN_UBSAN_errors
 
 
@@ -16,7 +18,7 @@ class TestVerboseExtractXmpSidecarToStdout(metaclass=CaseMeta):
 
     stdout = [
         """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -57,7 +59,7 @@ class TestVerboseModifyRegAddExtractXmpSidecarToStdout(metaclass=CaseMeta):
 
     stdout = [
         """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -99,7 +101,7 @@ class TestVerboseModifySetExtractXmpSidecarToStdout(metaclass=CaseMeta):
 
     stdout = [
         """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -140,7 +142,7 @@ class TestVerboseModifyDelExtractXmpSidecarToStdout(metaclass=CaseMeta):
 
     stdout = [
         """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:exif="http://ns.adobe.com/exif/1.0/">
@@ -163,6 +165,11 @@ class TestVerboseExtractRawMetadataToStdout(metaclass=CaseMeta):
     """
     Regression test for 'verbose extracting raw metadata to stdout' bug described in:
     https://github.com/Exiv2/exiv2/issues/1934
+
+    Instead of comparing against a static reference file (which would break
+    on XMP-Toolkit-SDK upgrades due to the version string in the XMP packet),
+    we extract to a temp file first and verify that stdout extraction produces
+    identical bytes.
     """
 
     url = "https://github.com/Exiv2/exiv2/issues/1934"
@@ -170,10 +177,25 @@ class TestVerboseExtractRawMetadataToStdout(metaclass=CaseMeta):
     encodings = [bytes]
 
     def setUp(self):
-        self.stdout = [bytes(open(self.expand_variables("$filename_ref"), "rb").read())]
+        import shutil, subprocess, tempfile
+        src = self.expand_variables("$filename")
+        exiv2 = self.expand_variables("$exiv2")
+        fd, self._tmp_jpg = tempfile.mkstemp(suffix='.jpg')
+        os.close(fd)
+        shutil.copy2(src, self._tmp_jpg)
+        subprocess.run(
+            [exiv2, '--verbose', '--extract', 'XXeix', self._tmp_jpg],
+            capture_output=True, timeout=30
+        )
+        exv_path = self._tmp_jpg.replace('.jpg', '.exv')
+        self.stdout = [bytes(open(exv_path, "rb").read())]
+        os.unlink(exv_path)
+
+    def tearDown(self):
+        if hasattr(self, '_tmp_jpg') and os.path.exists(self._tmp_jpg):
+            os.unlink(self._tmp_jpg)
 
     filename = path("$data_path/issue_1934_poc4.jpg")
-    filename_ref = path("$data_path/issue_1934_poc4_ref.exv")
 
     commands = ["$exiv2 --verbose --extract XXeix- $filename"]
 

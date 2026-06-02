@@ -148,10 +148,10 @@ Exiv2::BMFF XMP: ID = 3 from,length = 735,4683
 Exiv2::BmffImage::boxHandler: mdat      411->10452 
 """,
             """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
-    xmlns:iptcExt="http://iptc.org/std/Iptc4xmpExt/2008-02-29/"
+    xmlns:Iptc4xmpExt="http://iptc.org/std/Iptc4xmpExt/2008-02-29/"
     xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
     xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#"
     xmlns:plus="http://ns.useplus.org/ldf/xmp/1.0/"
@@ -160,7 +160,7 @@ Exiv2::BmffImage::boxHandler: mdat      411->10452
     xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
     xmlns:xmp="http://ns.adobe.com/xap/1.0/"
     xmlns:xmpRights="http://ns.adobe.com/xap/1.0/rights/"
-   iptcExt:DigitalSourceType="http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+   Iptc4xmpExt:DigitalSourceType="http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
    xmpMM:DocumentID="gimp:docid:gimp:8cf1b29a-9b12-4dec-9930-f2c608b298de"
    xmpMM:InstanceID="xmp.iid:33e259b4-7237-4b2a-87bf-4609986012a8"
    xmpMM:OriginalDocumentID="xmp.did:02dfa8e8-ce11-4de7-971d-566a5bba5edb"
@@ -174,18 +174,18 @@ Exiv2::BmffImage::boxHandler: mdat      411->10452
    xmp:CreatorTool="GIMP"
    xmp:Rating="5"
    xmpRights:Marked="True">
-   <iptcExt:LocationCreated>
+   <Iptc4xmpExt:LocationCreated>
     <rdf:Bag/>
-   </iptcExt:LocationCreated>
-   <iptcExt:LocationShown>
+   </Iptc4xmpExt:LocationCreated>
+   <Iptc4xmpExt:LocationShown>
     <rdf:Bag/>
-   </iptcExt:LocationShown>
-   <iptcExt:ArtworkOrObject>
+   </Iptc4xmpExt:LocationShown>
+   <Iptc4xmpExt:ArtworkOrObject>
     <rdf:Bag/>
-   </iptcExt:ArtworkOrObject>
-   <iptcExt:RegistryId>
+   </Iptc4xmpExt:ArtworkOrObject>
+   <Iptc4xmpExt:RegistryId>
     <rdf:Bag/>
-   </iptcExt:RegistryId>
+   </Iptc4xmpExt:RegistryId>
    <xmpMM:History>
     <rdf:Seq>
      <rdf:li
@@ -344,17 +344,17 @@ Exiv2::BMFF XMP: ID = 3 from,length = 5530,4254
 Exiv2::BmffImage::boxHandler: mdat      380->9404 
 """,
             """<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
-    xmlns:iptcExt="http://iptc.org/std/Iptc4xmpExt/2008-02-29/"
+    xmlns:Iptc4xmpExt="http://iptc.org/std/Iptc4xmpExt/2008-02-29/"
     xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"
     xmlns:stEvt="http://ns.adobe.com/xap/1.0/sType/ResourceEvent#"
     xmlns:plus="http://ns.useplus.org/ldf/xmp/1.0/"
     xmlns:GIMP="http://www.gimp.org/xmp/"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:xmp="http://ns.adobe.com/xap/1.0/"
-   iptcExt:DigitalSourceType="http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+   Iptc4xmpExt:DigitalSourceType="http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
    xmpMM:DocumentID="gimp:docid:gimp:e38231ee-2d28-42e6-b17e-6fa80c9fd85b"
    xmpMM:InstanceID="xmp.iid:34774f89-42e3-4411-a691-f8cdb5b11def"
    xmpMM:OriginalDocumentID="xmp.did:e2129b55-045f-4085-bbd2-e11d11edfa0c"
@@ -365,18 +365,18 @@ Exiv2::BmffImage::boxHandler: mdat      380->9404
    GIMP:Version="2.99.5"
    dc:Format="image/avif"
    xmp:CreatorTool="GIMP">
-   <iptcExt:LocationCreated>
+   <Iptc4xmpExt:LocationCreated>
     <rdf:Bag/>
-   </iptcExt:LocationCreated>
-   <iptcExt:LocationShown>
+   </Iptc4xmpExt:LocationCreated>
+   <Iptc4xmpExt:LocationShown>
     <rdf:Bag/>
-   </iptcExt:LocationShown>
-   <iptcExt:ArtworkOrObject>
+   </Iptc4xmpExt:LocationShown>
+   <Iptc4xmpExt:ArtworkOrObject>
     <rdf:Bag/>
-   </iptcExt:ArtworkOrObject>
-   <iptcExt:RegistryId>
+   </Iptc4xmpExt:ArtworkOrObject>
+   <Iptc4xmpExt:RegistryId>
     <rdf:Bag/>
-   </iptcExt:RegistryId>
+   </Iptc4xmpExt:RegistryId>
    <xmpMM:History>
     <rdf:Seq>
      <rdf:li

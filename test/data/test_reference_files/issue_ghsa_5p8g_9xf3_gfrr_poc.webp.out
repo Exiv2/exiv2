@@ -166,10 +166,10 @@ Xmp.tiff.YResolution                         XmpText     5  300/1  300
 Xmp.tiff.ResolutionUnit                      XmpText     1  2  inch
 Xmp.tiff.Make                                XmpText    17  NIKON CORPORATION  NIKON CORPORATION
 Xmp.tiff.Model                               XmpText    11  NIKON D5300  NIKON D5300
-Xmp.tiff.Software                            XmpText    10  GIMP 2.9.5  GIMP 2.9.5
 Xmp.tiff.BitsPerSample                       XmpSeq      1  8 8 8  8 8 8
 Xmp.xmp.ModifyDate                           XmpText    19  2016-08-13T10:54:16  2016-08-13T10:54:16
 Xmp.xmp.CreateDate                           XmpText    22  2015-07-16T15:38:54.00  2015-07-16T15:38:54.00
+Xmp.xmp.CreatorTool                          XmpText    10  GIMP 2.9.5  GIMP 2.9.5
 Xmp.exif.ExifVersion                         XmpText     4  0230  2.30
 Xmp.exif.FlashpixVersion                     XmpText     4  0100  1.00
 Xmp.exif.ColorSpace                          XmpText     1  1  sRGB

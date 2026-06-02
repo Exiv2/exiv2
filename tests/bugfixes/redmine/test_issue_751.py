@@ -25,12 +25,12 @@ class AdobeXmpNamespace(metaclass=CaseMeta):
                 return xmp.read(-1)
 
         if i in (2,4):
-            self.assertMultiLineEqual(self.xmp_packets[i//2 - 1], read_xmpfile())
+            self.assertMultiLineEqual(self.expand_variables(self.xmp_packets[i//2 - 1]), read_xmpfile())
 
 
     xmp_packets = [
         """<?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:imageapp="orig/"
@@ -39,11 +39,11 @@ class AdobeXmpNamespace(metaclass=CaseMeta):
 </x:xmpmeta>
 <?xpacket end="w"?>""",
         """<?xpacket begin="\ufeff" id="W5M0MpCehiHzreSzNTczkc9d"?>
-<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="$xmp_toolkit_version">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
-    xmlns:imageapp="orig/"
-   imageapp:uuid="abcd"/>
+    xmlns:imageapp_1_="dest/"
+   imageapp_1_:uuid="abcd"/>
  </rdf:RDF>
 </x:xmpmeta>
 <?xpacket end="w"?>"""
@@ -66,7 +66,6 @@ Set Xmp.imageapp.uuid "abcd" (XmpText)
         "",
         """Warning: Updating namespace URI for imageapp from orig/ to dest/
 """,
-        """Warning: Updating namespace URI for imageapp from dest/ to orig/
-""",
+        "",
     ]
     retval = [0] * 4

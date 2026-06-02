@@ -167,6 +167,35 @@ def configure_suite(config_file):
                 )
             _config_variables[key] = abs_path
 
+    # Detect the XMP toolkit version string by writing minimal XMP and
+    # extracting the x:xmptk attribute. This avoids hardcoding the version
+    # in test expectations, which would break on SDK upgrades.
+    import re, tempfile
+    exiv2_path = _config_variables.get('exiv2', '')
+    # shutil.which handles Windows .exe extension resolution (the config
+    # path omits the extension, so os.path.isfile would fail on Windows).
+    if exiv2_path and shutil.which(exiv2_path):
+        data_path = _config_variables.get('data_path', '')
+        empty_jpg = os.path.join(data_path, 'exiv2-empty.jpg')
+        if os.path.isfile(empty_jpg):
+            fd, tmp_path = tempfile.mkstemp(suffix='.jpg')
+            os.close(fd)
+            shutil.copy2(empty_jpg, tmp_path)
+            try:
+                subprocess.run(
+                    [exiv2_path, '-M', 'set Xmp.dc.title test', tmp_path],
+                    capture_output=True, timeout=10
+                )
+                result = subprocess.run(
+                    [exiv2_path, '-pX', tmp_path],
+                    capture_output=True, timeout=10
+                )
+                match = re.search(r'x:xmptk="([^"]+)"', result.stdout.decode('utf-8', errors='replace'))
+                if match:
+                    _config_variables['xmp_toolkit_version'] = match.group(1)
+            finally:
+                os.unlink(tmp_path)
+
     for key in _config_variables:
         if key in globals():
             raise ValueError("Variable name {!s} already used.")
