@@ -17,6 +17,7 @@
 #include <ctime>    // timestamp for the name of temporary file
 #include <fstream>  // write the temporary file
 #include <iostream>
+#include <stdexcept>  // std::logic_error from std::stoll
 
 // + standard includes
 #include <fcntl.h>     // _O_BINARY in FileIo::FileIo
@@ -1443,7 +1444,18 @@ int64_t HttpIo::HttpImpl::getFileLength() {
   }
 
   auto lengthIter = response.find("Content-Length");
+<<<<<<< HEAD
   return (lengthIter == response.end()) ? -1 : atol((lengthIter->second).c_str());
+=======
+  if (lengthIter == response.end())
+    return -1;
+  try {
+    return std::stoll(lengthIter->second);
+  } catch (const std::logic_error&) {
+    // the server returned a non-numeric or out-of-range Content-Length; treat the size as unknown
+    return -1;
+  }
+>>>>>>> 0cce07be (catch malformed Content-Length in HttpIo::getFileLength)
 }
 
 void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) {
