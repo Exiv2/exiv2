@@ -2432,6 +2432,13 @@ constexpr TagDetails canonToningEffect[] = {
     {0, N_("None")}, {1, N_("Sepia")}, {2, N_("Blue")}, {3, N_("Purple")}, {4, N_("Green")},
 };
 
+//! ShutterMode, tag 0x0017
+constexpr TagDetails canonShutterMode[] = {
+    {0, N_("Mechanical")},
+    {1, N_("Electronic First Curtain")},
+    {2, N_("Electronic")},
+};
+
 //! RFLensType, tag 0x003D
 // from https://github.com/exiftool/exiftool/blob/13.50/lib/Image/ExifTool/Canon.pm#L7009
 constexpr TagDetails canonRFLensType[] = {
@@ -2546,8 +2553,12 @@ constexpr TagInfo CanonMakerNote::tagInfoFi_[] = {
      SectionId::makerTags, unsignedShort, 1, printFiFocusDistance},
     {0x0015, "FocusDistanceLower", N_("Focus Distance Lower"), N_("Focus Distance Lower"), IfdId::canonFiId,
      SectionId::makerTags, unsignedShort, 1, printFiFocusDistance},
+    {0x0017, "ShutterMode", N_("Shutter Mode"), N_("Shutter mode"), IfdId::canonFiId, SectionId::makerTags, signedShort,
+     1, EXV_PRINT_TAG(canonShutterMode)},
     {0x0019, "FlashExposureLock", N_("Flash Exposure Lock"), N_("Flash exposure lock"), IfdId::canonFiId,
      SectionId::makerTags, signedShort, 1, EXV_PRINT_TAG(canonOffOn)},
+    {0x0020, "AntiFlicker", N_("Anti-Flicker"), N_("Anti-flicker"), IfdId::canonFiId, SectionId::makerTags, signedShort,
+     1, EXV_PRINT_TAG(canonOffOn)},
     {0x003D, "RFLensType", N_("RF Lens Type"), N_("RF Lens Type"), IfdId::canonFiId, SectionId::makerTags,
      unsignedShort, 1, EXV_PRINT_TAG(canonRFLensType)},
     // End of list marker

@@ -133,6 +133,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  77  77
 Exif.CanonFi.LiveViewShooting                SShort      1  0  Off
 Exif.CanonFi.FocusDistanceUpper              SShort      1  1507  15.07 m
 Exif.CanonFi.FocusDistanceLower              SShort      1  371  3.71 m
+Exif.CanonFi.ShutterMode                     SShort      1  0  Mechanical
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.Canon.LensModel                         Ascii      74  TAMRON SP 15-30mm F/2.8 Di VC USD A012  TAMRON SP 15-30mm F/2.8 Di VC USD A012
 Exif.Canon.InternalSerialNumber              Ascii      16  GD0919375  GD0919375
