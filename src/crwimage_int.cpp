@@ -5,6 +5,7 @@
 #include "enforce.hpp"
 #include "error.hpp"
 #include "i18n.h"  // NLS support.
+#include "safe_op.hpp"
 
 #include <ctime>
 #include <iostream>
@@ -1011,10 +1012,11 @@ DataBuf packIfdId(const ExifData& exifData, IfdId ifdId, ByteOrder byteOrder) {
   for (auto&& exif : exifData) {
     if (exif.ifdId() != ifdId)
       continue;
-    const uint16_t s = exif.tag() * 2 + static_cast<uint16_t>(exif.size());
+    const size_t s = Safe::add<size_t>(exif.tag() * 2, exif.size());
+    enforce(s <= static_cast<size_t>(std::numeric_limits<uint16_t>::max()), ErrorCode::kerCorruptedMetadata);
     if (s <= size) {
       if (len < s)
-        len = s;
+        len = static_cast<uint16_t>(s);
       exif.copy(buf.data(exif.tag() * 2), byteOrder);
     } else {
       EXV_ERROR << "packIfdId out-of-bounds error: s = " << std::dec << s << "\n";
