@@ -196,11 +196,11 @@ Xmp.photoshop.DateCreated                    Date Created                   XmpT
 Xmp.xmp.MetadataDate                         Metadata Date                  XmpText    29  2013-02-07T21:56:33.820-06:00
 Xmp.xmp.CreateDate                           Create Date                    XmpText    24  2008-03-14T20:59:26.535Z
 Xmp.xmp.ModifyDate                           Modify Date                    XmpText    25  2013-01-27T14:02:29-06:00
-Xmp.dwc.Event/dwc:earliestDate               Event/dwc:earliestDate         XmpText    25  2012-09-03T00:00:00-06:00
-Xmp.dwc.Event/dwc:latestDate                 Event/dwc:latestDate           XmpText    25  2013-01-27T00:00:00-06:00
-Xmp.dwc.Event/dwc:verbatimEventDate          Event/dwc:verbatimEventDate    XmpText    11  spring 1910
-Xmp.dwc.ResourceRelationship/dwc:relationshipEstablishedDate ResourceRelationship/dwc:relationshipEstablishedDate XmpText    25  2013-01-27T00:00:00-06:00
-Xmp.dwc.MeasurementOrFact/dwc:measurementDeterminedDate MeasurementOrFact/dwc:measurementDeterminedDate XmpText    25  2013-01-27T00:00:00-06:00
+Xmp.dwc.Event/dwc:earliestDate               Event Earliest Date            XmpText    25  2012-09-03T00:00:00-06:00
+Xmp.dwc.Event/dwc:latestDate                 Event Latest Date              XmpText    25  2013-01-27T00:00:00-06:00
+Xmp.dwc.Event/dwc:verbatimEventDate          Verbatim Event Date            XmpText    11  spring 1910
+Xmp.dwc.ResourceRelationship/dwc:relationshipEstablishedDate Relationship Established Date  XmpText    25  2013-01-27T00:00:00-06:00
+Xmp.dwc.MeasurementOrFact/dwc:measurementDeterminedDate Measurement Determined Date    XmpText    25  2013-01-27T00:00:00-06:00
 """
     ]
 

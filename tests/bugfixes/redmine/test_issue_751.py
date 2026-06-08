@@ -66,7 +66,8 @@ Set Xmp.imageapp.uuid "abcd" (XmpText)
         "",
         """Warning: Updating namespace URI for imageapp from orig/ to dest/
 """,
-        """Warning: Updating namespace URI for imageapp from dest/ to orig/
-""",
+        # Command 4 only *reads* the file; with per-instance namespace bindings a
+        # read no longer rebinds the global registry, so no warning is emitted.
+        "",
     ]
     retval = [0] * 4
