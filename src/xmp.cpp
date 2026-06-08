@@ -438,6 +438,7 @@ void XmpData::clear() {
 
 void XmpData::clearUnlocked(const XmpProperties::XmpLock&) {
   xmpMetadata_.clear();
+  nsBindings_.clear();
 }
 
 void XmpData::sortByKey() {
@@ -698,13 +699,26 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
       if (XMP_NodeIsSchema(opt)) {
         // Register unknown namespaces with Exiv2
         // (Namespaces are automatically registered with the XMP Toolkit)
-        if (XmpProperties::prefixUnlocked(schemaNs, lock).empty()) {
-          std::string prefix;
+        std::string prefix = XmpProperties::prefixUnlocked(schemaNs, lock);
+        if (prefix.empty()) {
           if (!SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &prefix))
             throw Error(ErrorCode::kerSchemaNamespaceNotRegistered, schemaNs);
           prefix.pop_back();
-          XmpProperties::registerNsUnlocked(schemaNs, prefix, lock);
+          // Hardening: a parsed packet must not silently rebind a prefix that is
+          // already globally bound -- a built-in standard prefix, or one a prior
+          // explicit registerNs() established -- to a different URI.  Letting it
+          // would poison every later write and lookup in this process (the
+          // namespace-leak bug).  The packet's own binding is still captured
+          // per-instance below, so this object round-trips faithfully; we just
+          // don't pollute the global registry on a read.
+          if (!XmpProperties::prefixIsBoundUnlocked(prefix, lock))
+            XmpProperties::registerNsUnlocked(schemaNs, prefix, lock);
         }
+        // Record the prefix->URI binding exactly as declared by THIS packet so
+        // encode() can resolve each property's URI from the data it came from,
+        // rather than from the process-global registry which another image may
+        // have rebound (e.g. to a corrupted URI).  See XmpData::nsBindings().
+        xmpData.nsBindings_[prefix] = schemaNs;
         continue;
       }
       auto key = makeXmpKey(schemaNs, propPath, lock);
@@ -839,10 +853,16 @@ int XmpParser::encode(std::string& xmpPacket, const XmpData& xmpData, uint16_t f
       registerNsImpl(xmp, uri.prefix_);
     }
 
+    // Note: we deliberately do NOT re-register the per-instance bindings with
+    // the toolkit here.  Every URI they contain was already registered while its
+    // packet was parsed in decode() (custom ones are also in nsRegistry_, handled
+    // above), so SetProperty resolves them.  Re-registering would overwrite the
+    // toolkit's URI->prefix mapping whenever our preferred prefix differs from the
+    // one the file used for that URI (e.g. iptc vs Iptc4xmpCore), which breaks
+    // serialization of struct fields that still carry the file's prefix.
     SXMPMeta meta;
     for (const auto& xmp : xmpData) {
-      // Must use Unlocked version of ns() because we hold the lock!
-      const std::string ns = XmpProperties::nsUnlocked(xmp.groupName(), lock);
+      const std::string ns = resolveNamespace(xmpData, xmp.groupName(), lock);
       XMP_OptionBits options = 0;
 
       if (xmp.typeId() == langAlt) {
@@ -1083,8 +1103,26 @@ Exiv2::XmpKey::UniquePtr Exiv2::XmpParser::makeXmpKey(const std::string& schemaN
   property = propPath.substr(idx + 1);
   std::string prefix = Exiv2::XmpProperties::prefixUnlocked(schemaNs, lock);
   if (prefix.empty()) {
+    // The namespace was intentionally not registered globally (e.g. a packet
+    // that rebinds an already-bound prefix to a different URI -- see the
+    // hardening in decode()).  Fall back to the prefix the toolkit parsed so
+    // the property still gets a key; its URI is preserved per-instance.
+    std::string toolkitPrefix;
+    if (SXMPMeta::GetNamespacePrefix(schemaNs.c_str(), &toolkitPrefix)) {
+      toolkitPrefix.pop_back();
+      prefix = std::move(toolkitPrefix);
+    }
+  }
+  if (prefix.empty()) {
     throw Exiv2::Error(Exiv2::ErrorCode::kerNoPrefixForNamespace, propPath, schemaNs);
   }
   return Exiv2::XmpKey::UniquePtr(new Exiv2::XmpKey(prefix, property, lock));
 }  // makeXmpKey
+
+std::string Exiv2::XmpParser::resolveNamespace(const XmpData& xmpData, const std::string& prefix,
+                                               const XmpProperties::XmpLock& lock) {
+  const auto& nsBindings = xmpData.nsBindings();
+  const auto binding = nsBindings.find(prefix);
+  return binding != nsBindings.end() ? binding->second : XmpProperties::nsUnlocked(prefix, lock);
+}  // resolveNamespace
 #endif  // EXV_HAVE_XMP_TOOLKIT
