@@ -5078,6 +5078,11 @@ std::string XmpProperties::nsUnlocked(const std::string& prefix, const XmpLock& 
   return nsInfoUnlocked(prefix, lock)->ns_;
 }
 
+bool XmpProperties::prefixIsBoundUnlocked(const std::string& prefix, const XmpLock& lock) {
+  const auto pf = XmpNsInfo::Prefix{prefix};
+  return lookupNsRegistryUnlocked(pf, lock) != nullptr || Exiv2::find(xmpNsInfo, pf) != nullptr;
+}
+
 const char* XmpProperties::propertyTitle(const XmpKey& key) {
   XmpLock lock;
   return propertyTitleUnlocked(key, lock);

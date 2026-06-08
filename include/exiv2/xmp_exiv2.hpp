@@ -12,6 +12,7 @@
 #include "properties.hpp"
 
 #include <atomic>
+#include <map>
 
 // *****************************************************************************
 // namespace extensions
@@ -239,6 +240,26 @@ class EXIV2API XmpData {
   XmpMetadata xmpMetadata_;
   std::string xmpPacket_;
   bool usePacket_{};
+  //! Per-instance prefix-to-URI namespace bindings, see nsBindings().
+  std::map<std::string, std::string> nsBindings_;
+
+  /*!
+    @brief Namespace prefix-to-URI bindings captured from this object's own
+           source packet at decode time.
+
+    XMP namespace prefixes are document-scoped: two images may legitimately
+    bind the same prefix to different URIs.  Exiv2 keys are prefix-based and
+    the URI is otherwise re-derived from a process-global registry at encode
+    time, which lets one image's binding (including a corrupted one) leak into
+    another.  These per-instance bindings let encode() resolve each property's
+    URI from the data it actually came from, falling back to the global
+    registry only for keys that were added without a source packet.
+
+    @note Internal: read by XmpParser::resolveNamespace() during encode().
+   */
+  [[nodiscard]] const std::map<std::string, std::string>& nsBindings() const {
+    return nsBindings_;
+  }
 
   int addUnlocked(const XmpKey& key, const Value* value, const XmpProperties::XmpLock&);
   int addUnlocked(const Xmpdatum& xmpDatum, const XmpProperties::XmpLock&);
@@ -355,6 +376,14 @@ class EXIV2API XmpParser {
 
   static std::unique_ptr<XmpKey> makeXmpKey(const std::string& schemaNs, const std::string& propPath,
                                             const XmpProperties::XmpLock&);
+
+  /*!
+    @brief Resolve a namespace prefix to its URI for serialization, preferring the
+           binding declared by \em xmpData's own source packet and falling back to
+           the process-global registry for keys added without one.
+           Assumes the lock obtained via XmpProperties::XmpLock is held by caller.
+   */
+  static std::string resolveNamespace(const XmpData& xmpData, const std::string& prefix, const XmpProperties::XmpLock&);
 
 };  // class XmpParser
 
