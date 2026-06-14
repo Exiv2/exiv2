@@ -131,6 +131,7 @@ Exif.CanonFi.MacroMagnification              SShort      1  87  87
 Exif.CanonFi.LiveViewShooting                SShort      1  0  Off
 Exif.CanonFi.FocusDistanceUpper              SShort      1  255  2.55 m
 Exif.CanonFi.FocusDistanceLower              SShort      1  224  2.24 m
+Exif.CanonFi.ShutterMode                     SShort      1  0  Mechanical
 Exif.CanonFi.FlashExposureLock               SShort      1  0  Off
 Exif.Canon.LensModel                         Ascii      70  18-200mm  18-200mm
 Exif.Canon.InternalSerialNumber              Ascii      16  Q0798990  Q0798990

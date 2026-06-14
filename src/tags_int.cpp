@@ -241,7 +241,7 @@ constexpr TagDetails exifCompression[] = {
     {6, N_("JPEG (old-style)")},
     {7, N_("JPEG")},
     {8, N_("Adobe Deflate")},
-    {9, N_("JBIG B&W")},
+    {9, N_("JBIG B&W or VC-5")},
     {10, N_("JBIG Color")},
     {32766, N_("NeXT 2-bits RLE or Sony ARW Compressed 2")},
     {32767, N_("Sony ARW Compressed")},
@@ -328,8 +328,9 @@ constexpr TagDetails exifLightSource[] = {
     {11, N_("Shade")},
     {12, N_("Daylight fluorescent (D 5700 - 7100K)")},
     {13, N_("Day white fluorescent (N 4600 - 5400K)")},
-    {14, N_("Cool white fluorescent (W 3900 - 4500K)")},
-    {15, N_("White fluorescent (WW 3200 - 3700K)")},
+    {14, N_("Cool white fluorescent (W 3800 - 4500K)")},
+    {15, N_("White fluorescent (WW 3250 - 3800K)")},
+    {16, N_("Warm white fluorescent (L 2600 - 3250K)")},
     {17, N_("Standard light A")},
     {18, N_("Standard light B")},
     {19, N_("Standard light C")},
@@ -338,6 +339,16 @@ constexpr TagDetails exifLightSource[] = {
     {22, N_("D75")},
     {23, N_("D50")},
     {24, N_("ISO studio tungsten")},
+    {25, N_("Daylight light source (D 5700 - 7100K)")},
+    {26, N_("Day white light source (N 4600 - 5500K)")},
+    {27, N_("Cool white light source (W 3800 - 4500K)")},
+    {28, N_("White light source (WW 3250 - 3800K)")},
+    {29, N_("Warm white light source (L 2600 - 3250K)")},
+    {30, N_("Daylight LED (D 5700 - 7100K)")},
+    {31, N_("Day white LED (N 4600 - 5500K)")},
+    {32, N_("Cool white LED (W 3800 - 4500K)")},
+    {33, N_("White LED (WW 3250 - 3800K)")},
+    {34, N_("Warm white LED (L 2600 - 3250K)")},
     {255, N_("Other light source")},
 };
 
@@ -1768,6 +1779,20 @@ const TagInfo* ifdTagList() {
   return ifdTagInfo;
 }
 
+//! Distortion/ChromaticAbberation/ShadingCorrection, tags 0xa40f, 0xa410, 0xa411
+constexpr TagDetails exifLensCorrection[] = {
+    {0, N_("Not applied")},
+    {1, N_("Applied")},
+};
+
+//! NoiseReduction, tag 0xa412
+constexpr TagDetails exifNoiseReduction[] = {
+    {0, N_("Not applied")},
+    {1, N_("Low strength")},
+    {2, N_("Normal strength")},
+    {3, N_("High strength")},
+};
+
 //! CompositeImage, tag 0xa460
 constexpr TagDetails exifCompositeImage[] = {
     {0, N_("Unknown")},
@@ -1910,6 +1935,9 @@ constexpr TagInfo exifTagInfo[] = {
         "besides those in <ImageDescription>, and without the "
         "character code limitations of the <ImageDescription> tag."),
      IfdId::exifId, SectionId::userInfo, comment, 0, printValue},
+    {0x9287, "LearningOptOutIn", N_("Learning Usage Intention"),
+     N_("This tag indicates the copyright holder's intention on use of the file for machine (AI) learning."),
+     IfdId::exifId, SectionId::userInfo, undefined, 0, printValue},  // Exif 3.1
     {0x9290, "SubSecTime", N_("Sub-seconds Time"),
      N_("A tag used to record fractions of seconds for the <DateTime> tag."), IfdId::exifId, SectionId::dateTime,
      asciiString, 0, printValue},
@@ -2090,6 +2118,28 @@ constexpr TagInfo exifTagInfo[] = {
     {0xa40c, "SubjectDistanceRange", N_("Subject Distance Range"),
      N_("This tag indicates the distance to the subject."), IfdId::exifId, SectionId::captureCond, unsignedShort, 1,
      print0xa40c},
+    {0xa40d, "DevelopmentType", N_("Development Type"),
+     N_("This tag indicates the qualitative type of image processing (development) performed when generating the "
+        "recorded image."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, printValue},  // Exif 3.1
+    {0xa40e, "DevelopmentTypeDescription", N_("Development Type Description"),
+     N_("This tag is used to record the concrete image processing (development) on the qualitative information shown "
+        "by DevelopmentType tag."),
+     IfdId::exifId, SectionId::captureCond, asciiString, 0, printValue},  // Exif 3.1
+    {0xa40f, "DistortionCorrection", N_("Distortion Correction"),
+     N_("This tag indicates whether or not distortion correction processing was applied by the camera at the capture."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifLensCorrection)},  // Exif 3.1
+    {0xa410, "ChromaticAberrationCorrection", N_("Chromatic Aberration Correction"),
+     N_("This tag indicates whether or not chromatic aberration correction processing was applied by the camera at the "
+        "capture."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifLensCorrection)},  // Exif 3.1
+    {0xa411, "ShadingCorrection", N_("Shading Correction"),
+     N_("This tag indicates whether or not shading correction processing was applied by the camera at the capture."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifLensCorrection)},  // Exif 3.1
+    {0xa412, "NoiseReduction", N_("Noise Reduction"),
+     N_("This tag indicates whether or not, and the tendency of noise reduction was applied by the camera at the "
+        "capture."),
+     IfdId::exifId, SectionId::captureCond, unsignedShort, 1, EXV_PRINT_TAG(exifNoiseReduction)},  // Exif 3.1
     {0xa420, "ImageUniqueID", N_("Image Unique ID"),
      N_("This tag indicates an identifier assigned uniquely to "
         "each image. It is recorded as an ASCII string equivalent "
