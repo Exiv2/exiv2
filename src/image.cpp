@@ -601,6 +601,11 @@ void Image::setIptcData(const IptcData& iptcData) {
 
 void Image::clearXmpPacket() {
   xmpPacket_.clear();
+  // Also clear the packet cached inside xmpData_. Some formats (e.g. TIFF, where
+  // XMP is stored in the Exif.Image.XMLPacket tag) write XMP from xmpData_'s
+  // packet when writeXmpFromPacket() is set. Without this, a stale packet would
+  // survive and the XMP would not be erased (e.g. "exiv2 -dx" on a TIFF).
+  xmpData_.setPacket(std::string());
   writeXmpFromPacket(true);
 }
 
