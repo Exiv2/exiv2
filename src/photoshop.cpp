@@ -6,6 +6,7 @@
 #include "image.hpp"
 #include "safe_op.hpp"
 
+#include <array>
 #include <cstring>
 
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -14,11 +15,24 @@
 
 namespace Exiv2 {
 
+const char Photoshop::irbId_[4][4] = {
+    {'8', 'B', 'I', 'M'},
+    {'A', 'g', 'H', 'g'},
+    {'D', 'C', 'S', 'R'},
+    {'P', 'H', 'U', 'T'},
+};
+
+const char Photoshop::ps3Id_[14] = {'P', 'h', 'o', 't', 'o', 's', 'h', 'o', 'p', ' ', '3', '.', '0', '\0'};
+
 bool Photoshop::isIrb(const byte* pPsData) {
-  if (pPsData == nullptr) {
+  if (pPsData == nullptr)
     return false;
-  }
-  return std::any_of(irbId_.begin(), irbId_.end(), [pPsData](auto id) { return memcmp(pPsData, id, 4) == 0; });
+
+  for (auto id : irbId_)
+    if (std::equal(id, id + 4, pPsData))
+      return true;
+
+  return false;
 }
 
 bool Photoshop::valid(const byte* pPsData, size_t sizePsData) {
@@ -144,7 +158,7 @@ DataBuf Photoshop::setIptcIrb(const byte* pPsData, size_t sizePsData, const Iptc
   // Write new iptc record if we have it
   if (DataBuf rawIptc = IptcParser::encode(iptcData); !rawIptc.empty()) {
     std::array<byte, 12> tmpBuf;
-    std::copy_n(Photoshop::irbId_.front(), 4, tmpBuf.begin());
+    std::copy_n(Photoshop::irbId_[0], 4, tmpBuf.begin());
     us2Data(tmpBuf.data() + 4, iptc_, bigEndian);
     tmpBuf[6] = 0;
     tmpBuf[7] = 0;
