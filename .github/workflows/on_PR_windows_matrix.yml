@@ -108,7 +108,6 @@ jobs:
           release: false
           pacboy: >-
             cc:p
-            cc-libs:p
             cmake:p
             ninja:p
             python:p
