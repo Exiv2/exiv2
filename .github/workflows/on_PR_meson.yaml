@@ -118,7 +118,7 @@ jobs:
           CC: clang-cl
           CXX: clang-cl
         run: |
-          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest -Db_sanitize=address -Ddefault_library=static -Db_vscrt=md
+          meson setup "${{github.workspace}}/build" --wrap-mode=${{matrix.deps}} -Dwarning_level=3 -Dcpp_std=c++latest -Db_sanitize=address -Ddefault_library=static --buildtype=release
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   MSYS2:
