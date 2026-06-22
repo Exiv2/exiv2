@@ -12,6 +12,13 @@ namespace Util {
          n is not modified if the conversion is unsuccessful. See strtol(2).
  */
 bool strtol(const char* nptr, int64_t& n);
+
+/*!
+  @brief This raises the default stack size limit so that deeply nested
+         files won't cause a crash. On Linux, the default stack size is
+         often only 8192KB, which is very easy to hit.
+ */
+void increase_stack_limit();
 }  // namespace Util
 
 #endif  // APP_UTILS_HPP_
