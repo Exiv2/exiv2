@@ -2717,9 +2717,7 @@ std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, 
   try {
     uint32_t l = std::stoul(value.toString());
     return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
-  } catch (const std::invalid_argument&) {
-    return os << value;
-  } catch (const std::out_of_range&) {
+  } catch (const std::logic_error&) {
     return os << value;
   }
 }
@@ -2736,9 +2734,7 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
     try {
       uint32_t l = std::stoul(value.toString());
       return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
-    } catch (const std::invalid_argument&) {
-      return os << value;
-    } catch (const std::out_of_range&) {
+    } catch (const std::logic_error&) {
       return os << value;
     }
   }
