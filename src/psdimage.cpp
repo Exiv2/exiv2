@@ -15,6 +15,8 @@
 #include <iostream>
 #endif
 
+#include <array>
+
 // Todo: Consolidate with existing code in struct Photoshop (jpgimage.hpp):
 //       Extend this helper to a proper class with all required functionality,
 //       then move it here or into a separate file?
@@ -549,7 +551,7 @@ uint32_t PsdImage::writeIptcData(const IptcData& iptcData, BasicIo& out) {
       std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID::IPTC_NAA << "\n";
       std::cerr << std::dec << "Writing IPTC_NAA: size: " << rawIptc.size() << "\n";
 #endif
-      if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_.front()), 4) != 4)
+      if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4)
         throw Error(ErrorCode::kerImageWriteFailed);
       us2Data(buf, kPhotoshopResourceID::IPTC_NAA, bigEndian);
       if (out.write(buf, 2) != 2)
@@ -594,7 +596,7 @@ uint32_t PsdImage::writeExifData(ExifData& exifData, BasicIo& out) {
       std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID::ExifInfo << "\n";
       std::cerr << std::dec << "Writing ExifInfo: size: " << blob.size() << "\n";
 #endif
-      if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_.front()), 4) != 4)
+      if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4)
         throw Error(ErrorCode::kerImageWriteFailed);
       us2Data(buf, kPhotoshopResourceID::ExifInfo, bigEndian);
       if (out.write(buf, 2) != 2)
@@ -641,7 +643,7 @@ uint32_t PsdImage::writeXmpData(const XmpData& xmpData, BasicIo& out) const {
     std::cerr << std::hex << "write: resourceId: " << kPhotoshopResourceID::XMPPacket << "\n";
     std::cerr << std::dec << "Writing XMPPacket: size: " << xmpPacket.size() << "\n";
 #endif
-    if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_.front()), 4) != 4)
+    if (out.write(reinterpret_cast<const byte*>(Photoshop::irbId_[0]), 4) != 4)
       throw Error(ErrorCode::kerImageWriteFailed);
     us2Data(buf, kPhotoshopResourceID::XMPPacket, bigEndian);
     if (out.write(buf, 2) != 2)

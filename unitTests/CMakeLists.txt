@@ -37,6 +37,7 @@ add_executable(
   test_utils.cpp
   test_XmpKey.cpp
   test_xmp_concurrent.cpp
+  test_xmp_ns_leak.cpp
   test_xmp_lifecycle.cpp
   test_xmp_race_encode_decode.cpp
   test_xmp_concurrent_registry.cpp

@@ -324,13 +324,13 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
   // buffer
   const size_t dirSize = 32;
   DataBuf dir(dirSize);
-  bool bPrint = option == kpsBasic || option == kpsRecursive;
+  const bool bPrint = option == kpsBasic || option == kpsRecursive;
 
   do {
     // Read top of directory
     io.seekOrThrow(start, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
     io.readOrThrow(dir.data(), 2, ErrorCode::kerCorruptedMetadata);
-    uint16_t dirLength = byteSwap2(dir, 0, bSwap);
+    const uint16_t dirLength = byteSwap2(dir, 0, bSwap);
     // Prevent infinite loops. (GHSA-m479-7frc-gqqg)
     Internal::enforce(dirLength > 0, ErrorCode::kerCorruptedMetadata);
 
@@ -355,10 +355,10 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       bFirst = false;
 
       io.readOrThrow(dir.data(), 12, ErrorCode::kerCorruptedMetadata);
-      uint16_t tag = byteSwap2(dir, 0, bSwap);
-      uint16_t type = byteSwap2(dir, 2, bSwap);
-      uint32_t count = byteSwap4(dir, 4, bSwap);
-      uint32_t offset = byteSwap4(dir, 8, bSwap);
+      const uint16_t tag = byteSwap2(dir, 0, bSwap);
+      const uint16_t type = byteSwap2(dir, 2, bSwap);
+      const uint32_t count = byteSwap4(dir, 4, bSwap);
+      const uint32_t offset = byteSwap4(dir, 8, bSwap);
 
       // Break for unknown tag types else we may segfault.
       if (!typeValid(type)) {
@@ -367,7 +367,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       }
 
       // prepare to print the value
-      uint32_t kount = [=] {
+      const uint32_t kount = [=] {
         // haul in all the data
         if (isPrintXMP(tag, option))
           return count;
@@ -380,8 +380,8 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         }
         return std::min(count, 5u);
       }();
-      uint32_t pad = isStringType(type) ? 1 : 0;
-      size_t size = [=] {
+      const uint32_t pad = isStringType(type) ? 1 : 0;
+      const uint32_t size = [=] {
         if (isStringType(type))
           return 1;
         if (is2ByteType(type))
@@ -396,7 +396,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       // if ( offset > io.size() ) offset = 0; // Denial of service?
 
       // #55 and #56 memory allocation crash test/data/POC8
-      const size_t allocate64 = (size * count) + pad + 20;
+      const uint64_t allocate64 = (size * static_cast<uint64_t>(count)) + pad + 20;
       if (allocate64 > io.size()) {
         throw Error(ErrorCode::kerInvalidMalloc);
       }
@@ -404,7 +404,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
       std::copy_n(dir.begin() + 8, 4, buf.begin());  // copy dir[8:11] into buffer (short strings)
 
       // We have already checked that this multiplication cannot overflow.
-      const size_t count_x_size = count * size;
+      const size_t count_x_size = static_cast<size_t>(count) * size;
       const bool bOffsetIsPointer = count_x_size > 4;
 
       if (bOffsetIsPointer) {                                                       // read into buffer
@@ -435,8 +435,8 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
         } else if (isRationalType(type)) {
           for (size_t k = 0; k < kount; k++) {
-            uint32_t a = byteSwap4(buf, (k * size) + 0, bSwap);
-            uint32_t b = byteSwap4(buf, (k * size) + 4, bSwap);
+            const uint32_t a = byteSwap4(buf, (k * size) + 0, bSwap);
+            const uint32_t b = byteSwap4(buf, (k * size) + 4, bSwap);
             out << sp << a << "/" << b;
             sp = " ";
           }
@@ -450,8 +450,8 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         if (option == kpsRecursive && (tag == 0x8769 /* ExifTag */ || tag == 0x014a /*SubIFDs*/ || type == tiffIfd)) {
           for (size_t k = 0; k < count; k++) {
             const size_t restore = io.tell();
-            offset = byteSwap4(buf, k * size, bSwap);
-            printIFDStructure(io, out, option, offset, bSwap, c, depth + 1);
+            const uint32_t offset_inner = byteSwap4(buf, k * size, bSwap);
+            printIFDStructure(io, out, option, offset_inner, bSwap, c, depth + 1);
             io.seekOrThrow(restore, BasicIo::beg, ErrorCode::kerCorruptedMetadata);
           }
         } else if (option == kpsRecursive && tag == 0x83bb /* IPTCNAA */) {
@@ -470,7 +470,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         } else if (option == kpsRecursive && tag == 0x927c /* MakerNote */ && count > 10) {
           const size_t restore = io.tell();  // save
 
-          uint32_t jump = 10;
+          const uint32_t jump = 10;
           byte bytes[20];
           const auto chars = reinterpret_cast<const char*>(&bytes[0]);
           io.seekOrThrow(offset, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
@@ -482,14 +482,14 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
 
           if (bNikon) {
             // tag is an embedded tiff
-            const long byteslen = count - jump;
+            const uint32_t byteslen = count - jump;
             auto b = DataBuf(byteslen);                                           // allocate a buffer
             io.readOrThrow(b.data(), byteslen, ErrorCode::kerCorruptedMetadata);  // read
             MemIo memIo(b.c_data(), byteslen);                                    // create a file
             printTiffStructure(memIo, out, option, depth + 1);
           } else {
             // tag is an IFD
-            uint32_t punt = bSony ? 12 : 0;
+            const uint32_t punt = bSony ? 12 : 0;
             io.seekOrThrow(0, BasicIo::beg, ErrorCode::kerCorruptedMetadata);  // position
             printIFDStructure(io, out, option, offset + punt, bSwap, c, depth + 1);
           }
@@ -601,6 +601,11 @@ void Image::setIptcData(const IptcData& iptcData) {
 
 void Image::clearXmpPacket() {
   xmpPacket_.clear();
+  // Also clear the packet cached inside xmpData_. Some formats (e.g. TIFF, where
+  // XMP is stored in the Exif.Image.XMLPacket tag) write XMP from xmpData_'s
+  // packet when writeXmpFromPacket() is set. Without this, a stale packet would
+  // survive and the XMP would not be erased (e.g. "exiv2 -dx" on a TIFF).
+  xmpData_.setPacket(std::string());
   writeXmpFromPacket(true);
 }
 

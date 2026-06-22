@@ -17,7 +17,6 @@
 #include "tifffwd_int.hpp"
 #include "tiffimage_int.hpp"
 
-#include <array>
 #include <cstddef>
 #include <cstdint>
 
@@ -56,8 +55,8 @@ class Cr2Header : public TiffHeaderBase {
 
  private:
   // DATA
-  uint32_t offset2_{0x00000000};                                          //!< Bytes 12-15 from the header
-  static constexpr std::array<byte, 4> cr2sig_ = {0x43, 0x52, 0x2, 0x0};  //!< Signature for CR2 type TIFF
+  uint32_t offset2_{0x00000000};                              //!< Bytes 12-15 from the header
+  static constexpr byte cr2sig_[4] = {0x43, 0x52, 0x2, 0x0};  //!< Signature for CR2 type TIFF
 };
 
 }  // namespace Internal

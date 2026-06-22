@@ -15,6 +15,7 @@
 #include "getopt.hpp"
 
 // + standard includes
+#include <array>
 #include <iostream>
 #include <regex>
 #include <set>

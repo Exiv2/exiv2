@@ -100,6 +100,13 @@ class EXIV2API XmpProperties {
   // Unlocked versions of public methods (Caller MUST hold the lock obtained via XmpProperties::XmpLock)
   static std::string nsUnlocked(const std::string& prefix, const XmpLock&);
   static std::string prefixUnlocked(const std::string& ns, const XmpLock&);
+  /*!
+    @brief Return true if \em prefix already has a canonical built-in binding or
+           an existing registered binding, i.e. some URI is already globally
+           associated with it. Non-throwing; used to stop a parsed packet from
+           silently rebinding an established prefix to a different URI.
+   */
+  static bool prefixIsBoundUnlocked(const std::string& prefix, const XmpLock&);
   static void registerNsUnlocked(const std::string& ns, const std::string& prefix, const XmpLock&);
   static void unregisterNsUnlocked(const XmpLock&);
   static void registeredNamespacesUnlocked(Exiv2::Dictionary& nsDict, const XmpLock&);

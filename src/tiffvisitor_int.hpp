@@ -10,7 +10,6 @@
 
 #include "tiffcomposite_int.hpp"
 
-#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <map>
@@ -54,8 +53,8 @@ class TiffVisitor {
   };
 
  private:
-  static const int events_ = 2;               //!< The number of stop/go flags.
-  std::array<bool, events_> go_{true, true};  //!< Array of stop/go flags. See setGo().
+  static const int events_ = 2;   //!< The number of stop/go flags.
+  bool go_[events_]{true, true};  //!< Array of stop/go flags. See setGo().
 
  public:
   //! @name Creators
