@@ -23,7 +23,7 @@ If you have found a security vulnerability in Exiv2, please follow these steps:
 
 The draft security advisory is private until we publish it, so it is a good place to discuss the details of the vulnerability privately.
 
-To qualify as a security issue, the bug **must** be reproducible on an official release of Exiv2, via a realistic attack vector. That means it should be reproducible with a simple command like: `exiv2 poc-file`. And it needs to cause something genuinely bad to happen, like an out-of-bounds memory write. We also always treat OSS-Fuzz crashes (see [our OSS-Fuzz configuration](https://github.com/google/oss-fuzz/tree/master/projects/exiv2) for build instructions) as security issues.
+To qualify as a security issue, the bug **must** be reproducible on an official release of Exiv2, via a realistic attack vector. That means it should be reproducible with a simple command like: `exiv2 poc-file`. And the reproduction steps need to cause something genuinely bad to happen, like an out-of-bounds memory write. We also always treat OSS-Fuzz crashes (see [our OSS-Fuzz configuration](https://github.com/google/oss-fuzz/tree/master/projects/exiv2) for build instructions) as security issues.
 
 Examples of issues that are **not** security issues:
 
