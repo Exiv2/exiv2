@@ -16,6 +16,7 @@
 #include "value.hpp"
 
 #include <algorithm>
+#include <array>
 #include <climits>
 #include <cstring>
 

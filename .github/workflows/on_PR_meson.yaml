@@ -101,7 +101,7 @@ jobs:
           - platform: arm64
             runner: windows-11-arm
           - platform: x64
-            runner: windows-latest
+            runner: windows-2022
     steps:
       - uses: actions/checkout@v6
         with:

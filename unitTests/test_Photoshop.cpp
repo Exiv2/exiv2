@@ -7,6 +7,8 @@
 
 #include <gtest/gtest.h>
 
+#include <array>
+
 using namespace Exiv2;
 
 TEST(PhotoshopIsIrb, returnsTrueWithValidMarkers) {
