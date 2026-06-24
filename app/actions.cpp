@@ -23,6 +23,8 @@
 #include <mutex>
 #include <sstream>
 
+#include <nlohmann/json.hpp>
+
 // + standard includes
 #include <sys/stat.h>  // for stat()
 #if __has_include(<unistd.h>)
@@ -212,6 +214,8 @@ int Print::run(const std::string& path) {
         return setModeAndPrintStructure(Exiv2::kpsXMP, path_, binary());
       case Params::pmIccProfile:
         return setModeAndPrintStructure(Exiv2::kpsIccProfile, path_, binary());
+      case Params::pmJson:
+        return printJson();
     }
     return 0;
   } catch (const Exiv2::Error& e) {
@@ -359,6 +363,103 @@ int Print::printList() {
   }
   return printMetadata(image.get());
 }  // Print::printList
+
+//! Write the raw value of a metadatum to \em os, handling the signedByte
+//! special case (#1114): values >= 128 represent negative numbers.
+static void writeMetadatumValue(std::ostream& os, const Exiv2::Metadatum& md) {
+  if (md.typeId() == Exiv2::signedByte) {
+    for (size_t c = 0; c < md.value().count(); c++) {
+      const auto value = md.value().toInt64(c);
+      os << (c ? " " : "") << std::dec << (value < 128 ? value : value - 256);
+    }
+  } else {
+    os << std::dec << md.value();
+  }
+}
+
+static nlohmann::ordered_json buildMetadatumJson(const Exiv2::Metadatum& md, const Exiv2::Image* pImage) {
+  nlohmann::ordered_json j;
+
+  j["key"] = md.key();
+  j["group"] = md.groupName();
+  j["name"] = md.tagName();
+  j["label"] = md.tagLabel();
+  j["tag"] = md.tag();
+
+  const char* tn = Exiv2::TypeInfo::typeName(md.typeId());
+  if (tn) {
+    j["type"] = tn;
+  } else {
+    std::ostringstream os;
+    os << "0x" << std::setw(4) << std::setfill('0') << std::hex << md.typeId();
+    j["type"] = os.str();
+  }
+
+  j["count"] = md.count();
+  j["size"] = md.size();
+
+  // value (raw)
+  if (md.size() > 0) {
+    std::ostringstream os;
+    writeMetadatumValue(os, md);
+    j["value"] = os.str();
+  } else {
+    j["value"] = "";
+  }
+
+  // interpreted
+  std::ostringstream ios;
+  ios << std::dec << md.print(&pImage->exifData());
+  j["interpreted"] = ios.str();
+
+  return j;
+}
+
+//! Serialize a metadata container (Exif/Iptc/Xmp) into a JSON array under \em key.
+//! Filters by grep/key/unknown settings, same as printMetadata().
+template <typename ContainerT>
+static void serializeMetadataJson(nlohmann::ordered_json& dst, const char* key, const ContainerT& container,
+                                  MetadataId flag, const Exiv2::Image* pImage) {
+  dst[key] = nlohmann::ordered_json::array();
+  if ((Params::instance().printTags_ & flag) != flag && Params::instance().printTags_ != MetadataId::invalid)
+    return;
+
+  for (auto&& md : container) {
+    if (!Print::grepTag(md.key()))
+      continue;
+    if (!Print::keyTag(md.key()))
+      continue;
+    if (Params::instance().unknown_ && md.tagName().starts_with("0x"))
+      continue;
+    dst[key].push_back(buildMetadatumJson(md, pImage));
+  }
+}
+
+int Print::printJson() {
+  if (!Exiv2::fileExists(path_)) {
+    std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
+    return -1;
+  }
+
+  auto image = Exiv2::ImageFactory::open(path_);
+  image->readMetadata();
+
+  nlohmann::ordered_json root;
+
+  root["file"] = path_;
+  root["mime"] = image->mimeType();
+  root["imageWidth"] = image->pixelWidth();
+  root["imageHeight"] = image->pixelHeight();
+  root["comment"] = image->comment();
+
+  serializeMetadataJson(root, "exif", image->exifData(), MetadataId::exif, image.get());
+  serializeMetadataJson(root, "iptc", image->iptcData(), MetadataId::iptc, image.get());
+  serializeMetadataJson(root, "xmp", image->xmpData(), MetadataId::xmp, image.get());
+
+  std::cout << root.dump(4) << "\n";
+
+  return 0;
+}  // Print::printJson
 
 int Print::printMetadata(const Exiv2::Image* image) {
   bool ret = false;
@@ -531,15 +632,7 @@ bool Print::printMetadatum(const Exiv2::Metadatum& md, const Exiv2::Image* pImag
     first = false;
     std::ostringstream os;
     std::ios::fmtflags f(os.flags());
-    // #1114 - show negative values for SByte
-    if (md.typeId() == Exiv2::signedByte) {
-      for (size_t c = 0; c < md.value().count(); c++) {
-        const auto value = md.value().toInt64(c);
-        os << (c ? " " : "") << std::dec << (value < 128 ? value : value - 256);
-      }
-    } else {
-      os << std::dec << md.value();
-    }
+    writeMetadatumValue(os, md);
     binaryOutput(os);
     os.flags(f);
   }
