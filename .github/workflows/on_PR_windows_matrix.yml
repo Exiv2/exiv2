@@ -103,13 +103,11 @@ jobs:
       - name: Set up MSYS2
         uses: msys2/setup-msys2@v2
         with:
-          path-type: strict
           msystem: ${{matrix.sys}}
-          update: true
+          path-type: strict
+          release: false
           pacboy: >-
             cc:p
-            gcc-libs:p
-            libwinpthread:p
             cmake:p
             ninja:p
             python:p
