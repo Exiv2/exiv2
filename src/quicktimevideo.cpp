@@ -848,7 +848,7 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
 
 void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) {
   enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
-  size_t cur_pos = io_->tell();
+  const size_t start_pos = io_->tell();
   const TagVocabulary* td;
   const TagVocabulary* tv;
   const TagVocabulary* tv_internal;
@@ -859,6 +859,7 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
   std::memset(buf.data(), 0x0, buf.size());
 
   while ((size_internal / 4 != 0) && (size_internal > 0)) {
+    const size_t loop_start_pos = io_->tell();
     buf.data()[4] = '\0';
     io_->readOrThrow(buf.data(), 4);
     const size_t size = buf.read_uint32(0, bigEndian);
@@ -910,9 +911,11 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
 
     else if (td)
       tagDecoder(buf, size - 8, recursion_depth + 1);
+
+    enforce(io_->tell() <= loop_start_pos + size, Exiv2::ErrorCode::kerCorruptedMetadata);
   }
 
-  io_->seek(cur_pos + outer_size, BasicIo::beg);
+  io_->seek(start_pos + outer_size, BasicIo::beg);
 }  // QuickTimeVideo::userDataDecoder
 
 void QuickTimeVideo::NikonTagsDecoder(size_t size) {
