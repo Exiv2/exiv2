@@ -28,6 +28,8 @@ class Exiv2Conan(ConanFile):
 
         self.requires('fmt/11.0.2')
 
+        self.requires('nlohmann_json/3.11.3')
+
         if self.options.webready:
             self.requires('libcurl/8.10.1')
 
