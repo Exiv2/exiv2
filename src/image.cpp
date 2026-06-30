@@ -386,7 +386,7 @@ void Image::printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStruct
         throw Error(ErrorCode::kerInvalidMalloc);
       }
       DataBuf buf(static_cast<size_t>(allocate64));  // allocate a buffer
-      std::copy_n(dir.c_data(8), 4, buf.begin());  // copy dir[8:11] into buffer (short strings)
+      std::copy_n(dir.c_data(8), 4, buf.begin());    // copy dir[8:11] into buffer (short strings)
 
       // We have already checked that this multiplication cannot overflow.
       const size_t count_x_size = static_cast<size_t>(count) * size;
