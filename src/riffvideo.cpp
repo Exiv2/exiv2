@@ -672,7 +672,7 @@ void RiffVideo::readInfoListChunk(uint64_t size_) {
     current_size += size;
   }
   // Copy the elements from the temporary table to xmpData_.
-  for (auto it : table) {
+  for (const auto& it : table) {
     xmpData_[it.first] = it.second;
   }
 }
