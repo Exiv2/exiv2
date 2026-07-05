@@ -18,6 +18,7 @@
 #include <ctime>    // timestamp for the name of temporary file
 #include <fstream>  // write the temporary file
 #include <iostream>
+#include <stdexcept>  // std::logic_error from std::stoll
 
 #if __has_include(<sys/mman.h>)
 #include <sys/mman.h>  // for mmap and munmap
@@ -1400,7 +1401,14 @@ int64_t HttpIo::HttpImpl::getFileLength() const {
   }
 
   auto lengthIter = response.find("Content-Length");
-  return (lengthIter == response.end()) ? -1 : std::stoll(lengthIter->second);
+  if (lengthIter == response.end())
+    return -1;
+  try {
+    return std::stoll(lengthIter->second);
+  } catch (const std::logic_error&) {
+    // the server returned a non-numeric or out-of-range Content-Length; treat the size as unknown
+    return -1;
+  }
 }
 
 void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const {
