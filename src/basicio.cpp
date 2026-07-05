@@ -1207,8 +1207,11 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
   p_->totalRead_ += rcount;
 
   auto allow = std::min<size_t>(rcount, (p_->size_ - p_->idx_));
+  if (allow == 0) {
+    return 0;
+  }
   size_t lowBlock = p_->idx_ / p_->blockSize_;
-  size_t highBlock = (p_->idx_ + allow) / p_->blockSize_;
+  size_t highBlock = (p_->idx_ + allow - 1) / p_->blockSize_;
 
   // connect to the remote machine & populate the blocks just in time.
   p_->populateBlocks(lowBlock, highBlock);
