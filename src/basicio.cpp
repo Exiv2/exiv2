@@ -1244,7 +1244,6 @@ DataBuf RemoteIo::read(size_t rcount) {
 size_t RemoteIo::read(byte* buf, size_t rcount) {
   if (p_->eof_)
     return 0;
-  p_->totalRead_ += rcount;
 
   auto allow = std::min<size_t>(rcount, (p_->size_ - p_->idx_));
   if (allow == 0) {
@@ -1278,6 +1277,7 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
 
   p_->idx_ += totalRead;
   p_->eof_ = (p_->idx_ == p_->size_);
+  p_->totalRead_ += totalRead;
 
   return totalRead;
 }
