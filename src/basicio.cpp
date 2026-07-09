@@ -1017,7 +1017,7 @@ class RemoteIo::Impl {
   bool isMalloced_{false};        //!< Was the blocksMap_ allocated?
   bool eof_{false};               //!< EOF indicator
   Protocol protocol_;             //!< the protocol of url
-  size_t totalRead_{0};           //!< bytes requested from host
+  size_t totalRead_{0};           //!< total number of bytes read from host
 
   // METHODS
   /*!
