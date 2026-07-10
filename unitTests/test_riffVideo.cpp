@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <exiv2/basicio.hpp>
 #include <exiv2/riffvideo.hpp>
+
+#include "mock_basicio.hpp"
 
 using namespace Exiv2;
 
@@ -20,8 +23,15 @@ TEST(RiffVideo, mimeTypeIsRiff) {
 }
 
 TEST(RiffVideo, isRiffTypewithEmptyDataReturnsFalse) {
-  MemIo memIo;
-  ASSERT_FALSE(isRiffType(memIo, false));
+  auto mockIo = makeMockIo();
+  setupReadFailure(*mockIo);
+  ASSERT_FALSE(isRiffType(*mockIo, false));
+}
+
+TEST(RiffVideo, isRiffTypeWithValidSignatureReturnsTrue) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {'R', 'I', 'F', 'F'});
+  ASSERT_TRUE(isRiffType(*mockIo, false));
 }
 
 TEST(RiffVideo, emptyThrowError) {
