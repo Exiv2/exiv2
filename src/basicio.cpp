@@ -598,14 +598,6 @@ class BlockMap {
   //! Default constructor. the init status of the block is bNone.
   BlockMap() = default;
 
-  //! Destructor. Releases all managed memory.
-  ~BlockMap() {
-    delete[] data_;
-  }
-
-  BlockMap(const BlockMap&) = delete;
-  BlockMap& operator=(const BlockMap&) = delete;
-
   //! @brief Populate the block.
   //! @param source The data populate to the block
   //! @param num The size of data
