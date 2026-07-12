@@ -51,7 +51,7 @@ int main(int argc, char* const argv[]) {
       }
       FileIo output(f0);
       if (!output.open("wb")) {
-        Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path(), "w+b", strError());
+        throw Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path(), "w+b", strError());
       }
       size_t l = 0;
       if (!bytes.empty()) {
