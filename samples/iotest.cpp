@@ -50,7 +50,7 @@ int main(int argc, char* const argv[]) {
         Error(Exiv2::ErrorCode::kerFileOpenFailed, io->path(), "rb", strError());
       }
       FileIo output(f0);
-      if (!output.open("wb")) {
+      if (output.open("wb") != 0) {
         throw Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path(), "w+b", strError());
       }
       size_t l = 0;
