@@ -41,7 +41,7 @@ int main(int argc, char* const argv[]) {
       }
       FileIo output(f0);
       if (!output.open("wb")) {
-        Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path(), "w+b", strError());
+        throw Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path(), "w+b", strError());
       }
       int blocksize = std::min(argc == 6 ? atoi(ba) : 10000, 1024 * 1024);
       if (blocksize > 0) {
