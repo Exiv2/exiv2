@@ -359,7 +359,7 @@ class HttpServer:
         log.info('Starting HTTP server ...')
         self.proc = multiprocessing.Process(target=self._start, name=str(self))
         self.proc.start()
-        time.sleep(2)
+        time.sleep(10)
         try:
             os.system("ps -Af")
             os.system("netstat -anlt")
