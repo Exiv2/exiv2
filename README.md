@@ -982,7 +982,6 @@ Exiv2 optionally uses several different environment variables when building or t
 | Variable           | Default                    | Platforms          | Purpose |
 |:--                 |:--                         |:--                 |:--      |
 | EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms      | Path of built binaries (e.g., exiv2.exe) |
-| EXIV2_PORT         | **12762**<br>**12671**<br>**12760**             | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
 | EXIV2_HTTP         | **http://localhost**       | All Platforms      | Test http server   |
 | EXIV2_ECHO         | _**not set**_              | All Platforms      | For debugging bashTests |
 | VALGRIND           | _**not set**_              | All Platforms      | For debugging bashTests |
@@ -1071,9 +1070,9 @@ c:\...\exiv2>ctest --test-dir build -C Release
 If you wish to use an environment variables, use set:
 
 ```
-set EXIV2_PORT=54321
+set EXIV2_HTTP="http://127.0.0.1"
 ctest --test-dir build -C Release --verbose -R bash
-set EXIV2_PORT=
+set EXIV2_HTTP=
 ```
 
 [TOC](#TOC)
