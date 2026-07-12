@@ -356,6 +356,7 @@ class HttpServer:
                 server.test(HandlerClass=server.SimpleHTTPRequestHandler, bind=self.bind, port=port)
             except:
                 continue
+        shared_port.value = -1
         log.error('The HTTP server exits without calling stop()')
         print(log.to_str())
 
