@@ -362,7 +362,7 @@ class HttpServer:
         time.sleep(2)
         try:
             os.system("ps -Af")
-            os.system("netstat -anltp")
+            os.system("netstat -anlt")
             with request.urlopen('http://127.0.0.1:{}'.format(self.port), timeout=3) as f:
                 if f.status != 200:
                     raise RuntimeError()
