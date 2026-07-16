@@ -357,6 +357,7 @@ class HttpServer:
 
     def start(self):
         log.info('Starting HTTP server ...')
+        os.system(f"python3 -m http.server -p {self.port} & sleep 2 ; kill $!")
         self.proc = multiprocessing.Process(target=self._start, name=str(self))
         self.proc.start()
         time.sleep(10)
