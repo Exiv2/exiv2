@@ -358,7 +358,7 @@ class HttpServer:
     def start(self):
         log.info('Starting HTTP server ...')
         os.system("echo kevwozere")
-        os.system("bash -c 'python3 -m http.server 8123 & export KEVPID=$!; (sleep 20s; kill $KEVPID)&'")
+        os.system("bash -c 'python3 -m http.server 8123 --bind 127.0.0.1 & export KEVPID=$!; (sleep 20s; kill $KEVPID)&'")
         self.proc = multiprocessing.Process(target=self._start, name=str(self))
         self.proc.start()
         time.sleep(10)
