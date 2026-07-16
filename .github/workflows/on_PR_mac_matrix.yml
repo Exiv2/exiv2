@@ -39,6 +39,12 @@ jobs:
           cd build
           cmake --install .
 
+      - name: Allow Python through macOS firewall
+        run: |
+          PYTHON_BIN=$(python3 -c "import sys; print(sys.executable)")
+          sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add "$PYTHON_BIN"
+          sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp "$PYTHON_BIN"
+
       - name: Test
         run: |
           nc -l 8127 &
