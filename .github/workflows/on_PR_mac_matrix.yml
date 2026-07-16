@@ -41,4 +41,5 @@ jobs:
 
       - name: Test
         run: |
+          python3 -m http.server 8125 &
           ctest --test-dir build --output-on-failure
