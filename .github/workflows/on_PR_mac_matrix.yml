@@ -42,5 +42,5 @@ jobs:
       - name: Test
         run: |
           nc -l 8127 &
-          python3 -m http.server 8125 &
+          python3 -m http.server 8125 --bind 127.0.0.1 &
           ctest --test-dir build --output-on-failure
