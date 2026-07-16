@@ -39,14 +39,15 @@ jobs:
           cd build
           cmake --install .
 
-      - name: Allow Python through macOS firewall
-        run: |
-          PYTHON_BIN=$(python3 -c "import sys; print(sys.executable)")
-          sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add "$PYTHON_BIN"
-          sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp "$PYTHON_BIN"
-
       - name: Test
         run: |
+          PYTHON_BIN=$(python3 -c "import sys; print(sys.executable)")
+          echo $PYTHON_BIN
+          sudo /usr/libexec/ApplicationFirewall/socketfilterfw --add "$PYTHON_BIN"
+          sudo /usr/libexec/ApplicationFirewall/socketfilterfw --unblockapp "$PYTHON_BIN"
+          sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
+          sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setloggingopt detail
           nc -l 8127 &
           python3 -m http.server 8125 --bind 127.0.0.1 &
+          log show --predicate 'senderImagePath contains "socketfilterfw"' --info
           ctest --test-dir build --output-on-failure
