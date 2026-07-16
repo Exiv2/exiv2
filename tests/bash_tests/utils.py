@@ -357,12 +357,12 @@ class HttpServer:
 
     def start(self):
         log.info('Starting HTTP server ...')
-        os.system(f"python3 -m http.server -p {self.port} & sleep 2 ; kill $!")
+        os.system("echo kevwozere")
+        os.system("bash -c 'python3 -m http.server 8123 & sleep 20s; kill $!'")
         self.proc = multiprocessing.Process(target=self._start, name=str(self))
         self.proc.start()
         time.sleep(10)
         try:
-            os.system("ps -Af")
             os.system("netstat -anlt")
             with request.urlopen('http://127.0.0.1:{}'.format(self.port), timeout=3) as f:
                 if f.status != 200:
