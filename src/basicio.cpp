@@ -1000,15 +1000,15 @@ class RemoteIo::Impl {
   Impl& operator=(const Impl&) = delete;
 
   // DATA
-  std::string path_;              //!< (Standard) path
-  size_t blockSize_;              //!< Size of the block memory.
-  BlockMap* blocksMap_{nullptr};  //!< An array contains all blocksMap
-  size_t size_{0};                //!< The file size
-  size_t idx_{0};                 //!< Index into the memory area
-  bool isMalloced_{false};        //!< Was the blocksMap_ allocated?
-  bool eof_{false};               //!< EOF indicator
-  Protocol protocol_;             //!< the protocol of url
-  size_t totalRead_{0};           //!< total number of bytes read from host
+  std::string path_;                 //!< (Standard) path
+  size_t blockSize_;                 //!< Size of the block memory.
+  std::vector<BlockMap> blocksMap_;  //!< An array contains all blocksMap
+  size_t size_{0};                   //!< The file size
+  size_t idx_{0};                    //!< Index into the memory area
+  bool isOpen_{false};               //!< Was the blocksMap_ allocated?
+  bool eof_{false};                  //!< EOF indicator
+  Protocol protocol_;                //!< the protocol of url
+  size_t totalRead_{0};              //!< total number of bytes read from host
 
   // METHODS
   /*!
@@ -1054,13 +1054,13 @@ RemoteIo::Impl::Impl(const std::string& url, size_t blockSize) :
 
 size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
   // optimize: ignore all true blocks on left & right sides.
-  while (!blocksMap_[lowBlock].isNone() && lowBlock < highBlock)
+  while (!blocksMap_.at(lowBlock).isNone() && lowBlock < highBlock)
     lowBlock++;
-  while (!blocksMap_[highBlock].isNone() && highBlock > lowBlock)
+  while (!blocksMap_.at(highBlock).isNone() && highBlock > lowBlock)
     highBlock--;
 
   size_t rcount = 0;
-  if (blocksMap_[highBlock].isNone()) {
+  if (blocksMap_.at(highBlock).isNone()) {
     std::string data;
     getDataByRange(lowBlock, highBlock, data);
     rcount = data.length();
@@ -1074,7 +1074,7 @@ size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
 
     while (remain) {
       auto allow = std::min<size_t>(remain, blockSize_);
-      blocksMap_[iBlock].populate(&source[totalRead], allow);
+      blocksMap_.at(iBlock).populate(&source[totalRead], allow);
       remain -= allow;
       totalRead += allow;
       iBlock++;
@@ -1085,7 +1085,6 @@ size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
 }
 
 RemoteIo::Impl::~Impl() {
-  delete[] blocksMap_;
 }
 
 RemoteIo::RemoteIo() = default;
@@ -1099,22 +1098,22 @@ RemoteIo::~RemoteIo() {
 int RemoteIo::open() {
   close();  // reset the IO position
   bigBlock_ = nullptr;
-  if (!p_->isMalloced_) {
+  if (!p_->isOpen_) {
     const auto length = p_->getFileLength();
     if (length < 0) {  // unable to get the length of remote file, get the whole file content.
       std::string data;
       p_->getDataByRange(std::numeric_limits<size_t>::max(), std::numeric_limits<size_t>::max(), data);
       p_->size_ = data.length();
       size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
-      p_->blocksMap_ = new BlockMap[nBlocks];
-      p_->isMalloced_ = true;
+      p_->blocksMap_.resize(nBlocks);
+      p_->isOpen_ = true;
       auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
       size_t remain = p_->size_;
       size_t iBlock = 0;
       size_t totalRead = 0;
       while (remain) {
         auto allow = std::min<size_t>(remain, p_->blockSize_);
-        p_->blocksMap_[iBlock].populate(&source[totalRead], allow);
+        p_->blocksMap_.at(iBlock).populate(&source[totalRead], allow);
         remain -= allow;
         totalRead += allow;
         iBlock++;
@@ -1124,17 +1123,18 @@ int RemoteIo::open() {
     } else {
       p_->size_ = static_cast<size_t>(length);
       size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
-      p_->blocksMap_ = new BlockMap[nBlocks];
-      p_->isMalloced_ = true;
+      p_->blocksMap_.resize(nBlocks);
+      p_->isOpen_ = true;
     }
   }
   return 0;  // means OK
 }
 
 int RemoteIo::close() {
-  if (p_->isMalloced_) {
+  if (p_->isOpen_) {
     p_->eof_ = false;
     p_->idx_ = 0;
+    p_->isOpen_ = false;
   }
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "RemoteIo::close totalRead_ = " << p_->totalRead_ << std::endl;
@@ -1171,10 +1171,10 @@ size_t RemoteIo::write(BasicIo& src) {
   src.seek(0, BasicIo::beg);
   bool findDiff = false;
   while (blockIndex < nBlocks && !src.eof() && !findDiff) {
-    size_t blockSize = p_->blocksMap_[blockIndex].getSize();
-    bool isFakeData = p_->blocksMap_[blockIndex].isKnown();  // fake data
+    size_t blockSize = p_->blocksMap_.at(blockIndex).getSize();
+    bool isFakeData = p_->blocksMap_.at(blockIndex).isKnown();  // fake data
     size_t readCount = src.read(buf.data(), blockSize);
-    auto blockData = p_->blocksMap_[blockIndex].getData();
+    auto blockData = p_->blocksMap_.at(blockIndex).getData();
     for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
       if ((!isFakeData && buf[i] != blockData[i]) || (isFakeData && buf[i] != 0)) {
         findDiff = true;
@@ -1190,13 +1190,13 @@ size_t RemoteIo::write(BasicIo& src) {
   blockIndex = nBlocks;
   while (blockIndex > 0 && right < src.size() && !findDiff) {
     blockIndex--;
-    size_t blockSize = p_->blocksMap_[blockIndex].getSize();
+    size_t blockSize = p_->blocksMap_.at(blockIndex).getSize();
     if (src.seek(-1 * (blockSize + right), BasicIo::end)) {
       findDiff = true;
     } else {
-      bool isFakeData = p_->blocksMap_[blockIndex].isKnown();  // fake data
+      bool isFakeData = p_->blocksMap_.at(blockIndex).isKnown();  // fake data
       size_t readCount = src.read(buf.data(), blockSize);
-      auto blockData = p_->blocksMap_[blockIndex].getData();
+      auto blockData = p_->blocksMap_.at(blockIndex).getData();
       for (size_t i = 0; (i < readCount) && (i < blockSize) && !findDiff; i++) {
         if ((!isFakeData && buf[readCount - i - 1] != blockData[blockSize - i - 1]) ||
             (isFakeData && buf[readCount - i - 1] != 0)) {
@@ -1254,7 +1254,7 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
   size_t startPos = p_->idx_ - lowBlock * p_->blockSize_;
   size_t totalRead = 0;
   do {
-    auto data = p_->blocksMap_[iBlock++].getData();
+    auto data = p_->blocksMap_.at(iBlock++).getData();
     if (!data)
       data = fakeData;
     auto blockR = std::min<size_t>(allow, p_->blockSize_ - startPos);
@@ -1283,7 +1283,7 @@ int RemoteIo::getb() {
   // connect to the remote machine & populate the blocks just in time.
   p_->populateBlocks(expectedBlock, expectedBlock);
 
-  auto data = p_->blocksMap_[expectedBlock].getData();
+  auto data = p_->blocksMap_.at(expectedBlock).getData();
   return data[p_->idx_++ - expectedBlock * p_->blockSize_];
 }
 
@@ -1326,7 +1326,7 @@ byte* RemoteIo::mmap(bool /*isWriteable*/) {
     size_t blocks = (p_->size_ + blockSize - 1) / blockSize;
     bigBlock_ = new byte[blocks * blockSize];
     for (size_t block = 0; block < blocks; block++) {
-      auto p = p_->blocksMap_[block].getData();
+      auto p = p_->blocksMap_.at(block).getData();
       if (p) {
         size_t nRead = block == (blocks - 1) ? p_->size_ - nRealData : blockSize;
         memcpy(bigBlock_ + (block * blockSize), p, nRead);
@@ -1354,7 +1354,7 @@ size_t RemoteIo::size() const {
 }
 
 bool RemoteIo::isopen() const {
-  return p_->isMalloced_;
+  return p_->isOpen_;
 }
 
 int RemoteIo::error() const {
@@ -1372,8 +1372,8 @@ const std::string& RemoteIo::path() const noexcept {
 void RemoteIo::populateFakeData() {
   size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
   for (size_t i = 0; i < nBlocks; i++) {
-    if (p_->blocksMap_[i].isNone())
-      p_->blocksMap_[i].markKnown(p_->blockSize_);
+    if (p_->blocksMap_.at(i).isNone())
+      p_->blocksMap_.at(i).markKnown(p_->blockSize_);
   }
 }
 
