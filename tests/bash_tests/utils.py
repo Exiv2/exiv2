@@ -364,8 +364,8 @@ class HttpServer:
         shared_port = multiprocessing.Value('i', -1)
         self.proc = multiprocessing.Process(target=self._start, name=str(self), args=(shared_port,))
         self.proc.start()
-        for i in range(0,5):
-            time.sleep(2)
+        for i in range(0,60):
+            time.sleep(1)
             self.port = shared_port.value
             log.info(f"HTTP server is running on port {self.port}")
             try:
