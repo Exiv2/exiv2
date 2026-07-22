@@ -168,7 +168,8 @@ void Jp2Image::readMetadata() {
           throw Error(ErrorCode::kerCorruptedMetadata);
         }
         boxFileTypeFound = true;
-        std::vector<byte> boxData(box.length - boxHSize);
+        Internal::enforce(box.length >= boxHSize, ErrorCode::kerCorruptedMetadata);
+        Blob boxData(box.length - boxHSize);
         io_->readOrThrow(boxData.data(), boxData.size(), ErrorCode::kerCorruptedMetadata);
         if (!Internal::isValidBoxFileType(boxData))
           throw Error(ErrorCode::kerCorruptedMetadata);
@@ -430,7 +431,8 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
         case kJp2BoxTypeFileTypeBox: {
           // This box shall immediately follow the JPEG 2000 Signature box
           /// \todo  All files shall contain one and only one File Type box.
-          std::vector<byte> boxData(box.length - boxHSize);
+          Internal::enforce(box.length >= boxHSize, ErrorCode::kerCorruptedMetadata);
+          Blob boxData(box.length - boxHSize);
           io_->readOrThrow(boxData.data(), boxData.size(), ErrorCode::kerCorruptedMetadata);
           if (!Internal::isValidBoxFileType(boxData))
             throw Error(ErrorCode::kerCorruptedMetadata);
