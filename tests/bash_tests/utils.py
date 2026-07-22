@@ -378,7 +378,7 @@ class HttpServer:
                 return
             except:
                 # Pause if request.urlopen returned too quickly
-                delta = start_time + i * wait_time - time.time()
+                delta = start_time + (i+1) * wait_time - time.time()
                 if delta > 0:
                     time.sleep(delta)
                 continue
