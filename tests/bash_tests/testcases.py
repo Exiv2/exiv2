@@ -582,7 +582,7 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             print('Skipped http test. Because of invalid environment variables: EXIV2_HTTP={}'.format(
                   exiv2_http))
             return
-        server      = BT.HttpServer(bind=exiv2_http.lstrip('http://'),
+        server      = BT.HttpServer(bind=exiv2_http.removeprefix('http://'),
                                     work_dir=BT.Config.data_dir)
         try:
             server.start()
