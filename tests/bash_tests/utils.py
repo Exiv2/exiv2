@@ -364,17 +364,22 @@ class HttpServer:
         shared_port = multiprocessing.Value('i', -1)
         self.proc = multiprocessing.Process(target=self._start, name=str(self), args=(shared_port,))
         self.proc.start()
-        for i in range(0,60):
-            time.sleep(1)
+        start_time = time.time()
+        wait_time = 3
+        for i in range(0,30):
             self.port = shared_port.value
             log.info(f"HTTP server is running on port {self.port}")
             try:
-                with request.urlopen(f'http://127.0.0.1:{self.port}', timeout=3) as f:
+                with request.urlopen(f'http://{self.bind}:{self.port}', timeout=wait_time) as f:
                     if f.status != 200:
                         raise RuntimeError()
                 log.info('The HTTP server started')
                 return
             except:
+                # Pause if request.urlopen returned too quickly
+                delta = start_time + i * wait_time - time.time()
+                if delta > 0:
+                    time.sleep(delta)
                 continue
         raise RuntimeError('Failed to run the HTTP server')
 
