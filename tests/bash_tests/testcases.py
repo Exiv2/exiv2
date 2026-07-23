@@ -578,17 +578,15 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
             return ' '.join(result)
 
         exiv2_http  = BT.Config.exiv2_http
-        exiv2_port  = BT.Config.exiv2_port
-        if not exiv2_http or not exiv2_port:
-            print('Skipped http test. Because of invalid environment variables: EXIV2_HTTP={} EXIV2_PORT={}'.format(
-                  exiv2_http, exiv2_port))
+        if not exiv2_http:
+            print('Skipped http test. Because of invalid environment variables: EXIV2_HTTP={}'.format(
+                  exiv2_http))
             return
-        server_url  = f'{exiv2_http}:{exiv2_port}'
-        server      = BT.HttpServer(bind=exiv2_http.lstrip('http://'),
-                                    port=exiv2_port,    # It can be of type int or str
+        server      = BT.HttpServer(bind=exiv2_http.removeprefix('http://'),
                                     work_dir=BT.Config.data_dir)
         try:
             server.start()
+            server_url  = f'{exiv2_http}:{server.port}'
             out          = BT.Output()
             for img in ['table.jpg', 'Reagan.tiff', 'exiv2-bug922a.jpg']:
                 files    = ['s0', 's1', 's2', f'{server_url}/{img}']
