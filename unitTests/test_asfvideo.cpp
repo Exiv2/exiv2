@@ -1,11 +1,27 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <exiv2/asfvideo.hpp>
 #include <exiv2/basicio.hpp>
 
+#include "mock_basicio.hpp"
+
+#include <array>
+
 using namespace Exiv2;
+
+namespace {
+
+// ASF Header GUID in little-endian byte order:
+// data1(0x75B22630)=30 26 B2 75, data2(0x668E)=8E 66, data3(0x11CF)=CF 11,
+// data4={A6 D9 00 AA 00 62 CE 6C}
+constexpr std::array<byte, 16> kAsfHeaderSignature = {
+    0x30, 0x26, 0xB2, 0x75, 0x8E, 0x66, 0xCF, 0x11, 0xA6, 0xD9, 0x00, 0xAA, 0x00, 0x62, 0xCE, 0x6C,
+};
+
+}  // namespace
 
 TEST(AsfVideo, canBeOpenedWithEmptyMemIo) {
   auto memIo = std::make_unique<MemIo>();
@@ -20,8 +36,15 @@ TEST(AsfVideo, mimeTypeIsAsf) {
 }
 
 TEST(AsfVideo, isAsfTypewithEmptyDataReturnsFalse) {
-  MemIo memIo;
-  ASSERT_FALSE(isAsfType(memIo, false));
+  auto mockIo = makeMockIo();
+  setupReadFailure(*mockIo);
+  ASSERT_FALSE(isAsfType(*mockIo, false));
+}
+
+TEST(AsfVideo, isAsfTypeWithValidSignatureReturnsTrue) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, kAsfHeaderSignature);
+  ASSERT_TRUE(isAsfType(*mockIo, false));
 }
 
 TEST(AsfVideo, emptyThrowError) {
