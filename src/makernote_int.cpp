@@ -1015,7 +1015,7 @@ int sonyMisc2bSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
 }
 int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
   // For condition, see Exiftool (Tag 9400c):
-  // https://github.com/exiftool/exiftool/blob/5a8b6b6ead12b39e3f32f978a4efd0233facbb01/lib/Image/ExifTool/Sony.pm#L1807
+  // https://github.com/exiftool/exiftool/blob/2200871d9cef988051d2a99d67df3bda6cbb30a8/lib/Image/ExifTool/Sony.pm#L1826
 
   // Get the value from the image format that is being used
   auto value = getExifValue(pRoot, 0x9400, Exiv2::IfdId::sony1Id);
@@ -1037,7 +1037,9 @@ int sonyMisc3cSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/,
     case 49:  // 0x31 for ILCE-1/7M4/7SM3, ILME-FX3
     case 50:  // 0x32 for ILCE-7RM5, ILME-FX30
     case 51:  // 0x33 for ILCE-6700/7CM2/7CR/9M3, ZV-E1
+    case 52:  // 0x34 for DSC-RX10M5
     case 65:  // 0x41 for ILCE-7M5
+    case 67:  // 0x43 for ILCE-7RM6
       return 0;
     default:
       break;

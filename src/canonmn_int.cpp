@@ -2032,6 +2032,7 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 24mm F1.4 L VCM"},
     {61182, "Canon RF 20mm F1.4 L VCM"},
     {61182, "Canon RF 85mm F1.4 L VCM"},
+    {61182, "Canon RF 20-50mm F4 L IS USM PZ"},
     {61182, "Canon RF 45mm F1.2 STM"},
     {61182, "Canon RF 7-14mm F2.8-3.5 L Fisheye STM"},
     {61182, "Canon RF 14mm F1.4 L VCM"},
@@ -2440,7 +2441,7 @@ constexpr TagDetails canonShutterMode[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/13.50/lib/Image/ExifTool/Canon.pm#L7009
+// from https://github.com/exiftool/exiftool/blob/13.59/lib/Image/ExifTool/Canon.pm#L7060
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
     {257, "Canon RF 50mm F1.2 L USM"},
@@ -2514,6 +2515,7 @@ constexpr TagDetails canonRFLensType[] = {
     {326, "Canon RF 24mm F1.4 L VCM"},
     {327, "Canon RF 20mm F1.4 L VCM"},
     {328, "Canon RF 85mm F1.4 L VCM"},
+    {329, "Canon RF 20-50mm F4 L IS USM PZ"},
     {330, "Canon RF 45mm F1.2 STM"},
     {331, "Canon RF 7-14mm F2.8-3.5 L Fisheye STM"},
     {332, "Canon RF 14mm F1.4 L VCM"},
