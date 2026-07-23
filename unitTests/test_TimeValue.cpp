@@ -129,6 +129,20 @@ TEST(ATimeValue, canBeReadFromExtendedStringWithTimeZoneDesignatorNegative) {
   ASSERT_EQ(0, value.getTime().tzMinute);
 }
 
+TEST(ATimeValue, canBeReadFromExtendedStringWithNegativeZeroHourOffset) {
+  // Regression test: when the offset hour magnitude is 0 (e.g. "-00:30"),
+  // the minute's sign used to be derived from tzHour < 0, which is false
+  // for both +0 and -0, silently dropping the sign.
+  TimeValue value;
+  const std::string hms("12:34:56-00:30");
+  ASSERT_EQ(0, value.read(hms));
+  ASSERT_EQ(12, value.getTime().hour);
+  ASSERT_EQ(34, value.getTime().minute);
+  ASSERT_EQ(56, value.getTime().second);
+  ASSERT_EQ(0, value.getTime().tzHour);
+  ASSERT_EQ(-30, value.getTime().tzMinute);
+}
+
 TEST(ATimeValue, cannotBeReadFromStringWithTimeZoneDesignatorWithoutSymbol) {
   TimeValue value;
   const std::string hms("23:55:02?04:04");

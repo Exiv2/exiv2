@@ -944,6 +944,11 @@ int TimeValue::read(const std::string& buf) {
 
     if (fpos != std::string::npos) {
       auto format = buf.substr(fpos, buf.size());
+      // Use the sign of the raw offset string rather than of the parsed
+      // tzHour: when the hour magnitude is 0 (e.g. "-00:30"), std::stoi
+      // returns 0, which loses the '-' sign that std::stoi("-00") cannot
+      // preserve. format always starts with '+' or '-' (see fpos above).
+      const bool negative = format[0] == '-';
       auto posColon = format.find(':');
       if (posColon == std::string::npos) {
         // Extended format
@@ -955,7 +960,7 @@ int TimeValue::read(const std::string& buf) {
           int minute = std::stoi(format.substr(3));
           if (minute < 0 || minute > 59)
             return printWarning();
-          time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
+          time_.tzMinute = negative ? -minute : minute;
         }
       } else {
         // Basic format
@@ -966,7 +971,7 @@ int TimeValue::read(const std::string& buf) {
         int minute = std::stoi(format.substr(posColon + 1));
         if (minute < 0 || minute > 59)
           return printWarning();
-        time_.tzMinute = time_.tzHour < 0 ? -minute : minute;
+        time_.tzMinute = negative ? -minute : minute;
       }
     }
   } catch (std::exception&) {
