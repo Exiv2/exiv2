@@ -41,14 +41,14 @@ class EXIV2API JpegBase : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
-    @param create Specifies if an existing image should be read (false)
-        or if a new image should be created (true).
+    @param params Parameters that are passed through to Image's constructor.
     @param initData Data to initialize newly created images. Only used
-        when \em create is true. Should contain data for the smallest
+        when params specify creation. Should contain data for the smallest
         valid image of the calling subclass.
     @param dataSize Size of initData in bytes.
    */
-  JpegBase(ImageType type, std::unique_ptr<BasicIo> io, bool create, const byte initData[], size_t dataSize);
+  JpegBase(ImageType type, std::unique_ptr<BasicIo> io, const ImageCtorParams& params, const byte initData[],
+           size_t dataSize);
   //@}
 
   //! @name Accessors
@@ -148,10 +148,9 @@ class EXIV2API JpegImage : public JpegBase {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
-    @param create Specifies if an existing image should be read (false)
-        or if a new file should be created (true).
+    @param params Parameters that are passed through to Image's constructor.
    */
-  JpegImage(std::unique_ptr<BasicIo> io, bool create);
+  JpegImage(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
   //! @name Accessors
   //@{
@@ -212,10 +211,9 @@ class EXIV2API ExvImage : public JpegBase {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
-    @param create Specifies if an existing image should be read (false)
-           or if a new file should be created (true).
+    @param params Parameters that are passed through to Image's constructor.
    */
-  ExvImage(std::unique_ptr<BasicIo> io, bool create);
+  ExvImage(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
   //! @name Accessors
   //@{
@@ -249,7 +247,7 @@ class EXIV2API ExvImage : public JpegBase {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newJpegInstance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newJpegInstance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 //! Check if the file iIo is a JPEG image.
 EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
 /*!
@@ -257,7 +255,7 @@ EXIV2API bool isJpegType(BasicIo& iIo, bool advance);
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newExvInstance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newExvInstance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 //! Check if the file iIo is an EXV file
 EXIV2API bool isExvType(BasicIo& iIo, bool advance);
 

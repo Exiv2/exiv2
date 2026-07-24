@@ -40,8 +40,8 @@
 namespace Exiv2 {
 using namespace Internal;
 
-TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)) {
+TiffImage::TiffImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }  // TiffImage::TiffImage
 
 //! List of TIFF compression to MIME type mappings
@@ -238,8 +238,8 @@ WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, Byte
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<TiffImage>(std::move(io), create);
+Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<TiffImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

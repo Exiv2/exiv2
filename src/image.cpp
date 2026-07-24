@@ -136,7 +136,12 @@ std::string pathOfFileUrl(const std::string& url) {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io) :
+
+ImageCtorParams::ImageCtorParams(bool create, size_t max_recursion_depth) :
+    create_(create), max_recursion_depth_(max_recursion_depth) {
+}
+
+Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io, const ImageCtorParams& /*params*/) :
     io_(std::move(io)), imageType_(type), supportedMetadata_(supportedMetadata) {
 }
 
@@ -878,7 +883,7 @@ Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io) {
   }
   for (const auto& r : registry) {
     if (r.isThisType_(*io, false)) {
-      return r.newInstance_(std::move(io), false);
+      return r.newInstance_(std::move(io), ImageCtorParams(false, 1000));
     }
   }
   return nullptr;
@@ -913,7 +918,7 @@ Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io) {
   if (type == ImageType::none)
     return {};
   if (auto r = Exiv2::find(registry, type))
-    return r->newInstance_(std::move(io), true);
+    return r->newInstance_(std::move(io), ImageCtorParams(true, 1000));
   return {};
 }
 

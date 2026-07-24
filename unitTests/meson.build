@@ -31,6 +31,7 @@ test_sources = files(
   'test_xmp_concurrent.cpp',
   'test_xmp_concurrent_registry.cpp',
   'test_xmp_race_encode_decode.cpp',
+  'unittest_utils.cpp',
 )
 
 if get_option('video')

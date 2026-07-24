@@ -16,7 +16,8 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-GifImage::GifImage(BasicIo::UniquePtr io) : Image(ImageType::gif, mdNone, std::move(io)) {
+GifImage::GifImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::gif, mdNone, std::move(io), params) {
 }
 
 std::string GifImage::mimeType() const {
@@ -68,8 +69,8 @@ void GifImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<GifImage>(std::move(io));
+Image::UniquePtr newGifInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<GifImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

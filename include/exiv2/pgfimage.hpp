@@ -35,10 +35,9 @@ class EXIV2API PgfImage : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
-    @param create Specifies if an existing image should be read (false)
-        or if a new file should be created (true).
+    @param params Parameters that are passed through to Image's constructor.
    */
-  PgfImage(std::unique_ptr<BasicIo> io, bool create);
+  PgfImage(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
 
   //! @name Manipulators
@@ -84,7 +83,7 @@ class EXIV2API PgfImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newPgfInstance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newPgfInstance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 
 //! Check if the file iIo is a PGF image.
 EXIV2API bool isPgfType(BasicIo& iIo, bool advance);

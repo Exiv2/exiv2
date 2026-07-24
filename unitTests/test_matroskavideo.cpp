@@ -4,17 +4,18 @@
 
 #include <exiv2/basicio.hpp>
 #include <exiv2/matroskavideo.hpp>
+#include "unittest_utils.hpp"
 
 using namespace Exiv2;
 
 TEST(MatroskaVideo, canBeOpenedWithEmptyMemIo) {
   auto memIo = std::make_unique<MemIo>();
-  ASSERT_NO_THROW(MatroskaVideo mkv(std::move(memIo)));
+  ASSERT_NO_THROW(MatroskaVideo mkv(std::move(memIo), defaultImageCtorParams(false)));
 }
 
 TEST(MatroskaVideo, mimeTypeIsMkv) {
   auto memIo = std::make_unique<MemIo>();
-  MatroskaVideo mkv(std::move(memIo));
+  MatroskaVideo mkv(std::move(memIo), defaultImageCtorParams(false));
 
   ASSERT_EQ("video/matroska", mkv.mimeType());
 }
@@ -26,13 +27,13 @@ TEST(MatroskaVideo, isMkvTypewithEmptyDataReturnsFalse) {
 
 TEST(MatroskaVideo, emptyThrowError) {
   auto memIo = std::make_unique<MemIo>();
-  MatroskaVideo mkv(std::move(memIo));
+  MatroskaVideo mkv(std::move(memIo), defaultImageCtorParams(false));
   ASSERT_THROW(mkv.readMetadata(), Exiv2::Error);
 }
 
 TEST(MatroskaVideo, printStructurePrintsNothingAndthrowError) {
   auto memIo = std::make_unique<MemIo>();
-  MatroskaVideo mkv(std::move(memIo));
+  MatroskaVideo mkv(std::move(memIo), defaultImageCtorParams(false));
 
   std::ostringstream stream;
 
@@ -43,7 +44,7 @@ TEST(MatroskaVideo, printStructurePrintsNothingAndthrowError) {
 
 TEST(MatroskaVideo, readMetadata) {
   auto memIo = std::make_unique<MemIo>();
-  MatroskaVideo mkv(std::move(memIo));
+  MatroskaVideo mkv(std::move(memIo), defaultImageCtorParams(false));
   XmpData xmpData;
   xmpData["Xmp.video.TotalStream"] = 1000;
   xmpData["Xmp.video.TimecodeScale"] = 10001;

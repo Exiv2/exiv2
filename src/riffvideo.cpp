@@ -361,7 +361,8 @@ namespace Exiv2 {
 
 enum streamTypeInfo { Audio = 1, MIDI, Text, Video };
 
-RiffVideo::RiffVideo(BasicIo::UniquePtr io) : Image(ImageType::riff, mdNone, std::move(io)) {
+RiffVideo::RiffVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::riff, mdNone, std::move(io), params) {
 }  // RiffVideo::RiffVideo
 
 std::string RiffVideo::mimeType() const {
@@ -757,8 +758,8 @@ void RiffVideo::fillDuration(double frame_rate, size_t frame_count) {
   xmpData_["Xmp.video.Duration"] = duration;  // Duration in number of seconds
 }  // RiffVideo::fillDuration
 
-Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<RiffVideo>(std::move(io));
+Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<RiffVideo>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

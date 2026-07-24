@@ -536,12 +536,12 @@ namespace Exiv2 {
 
 using namespace Exiv2::Internal;
 
-QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io, size_t max_recursion_depth) :
-    Image(ImageType::qtime, mdNone, std::move(io)),
+QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::qtime, mdNone, std::move(io), params),
     mvhdTimeScale_(1),
     mdhdTimeScale_(1),
     currentStream_(Null),
-    max_recursion_depth_(max_recursion_depth) {
+    max_recursion_depth_(params.max_recursion_depth()) {
 }  // QuickTimeVideo::QuickTimeVideo
 
 std::string QuickTimeVideo::mimeType() const {
@@ -1602,8 +1602,8 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
   io_->readOrThrow(buf.data(), size % 4);
 }  // QuickTimeVideo::movieHeaderDecoder
 
-Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<QuickTimeVideo>(std::move(io));
+Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<QuickTimeVideo>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

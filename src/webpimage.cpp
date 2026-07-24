@@ -74,7 +74,8 @@ std::string binaryToHex(const uint8_t* data, size_t size) {
 // class member definitions
 namespace Exiv2 {
 
-WebPImage::WebPImage(BasicIo::UniquePtr io) : Image(ImageType::webp, mdNone, std::move(io)) {
+WebPImage::WebPImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::webp, mdNone, std::move(io), params) {
 }  // WebPImage::WebPImage
 
 std::string WebPImage::mimeType() const {
@@ -691,8 +692,8 @@ void WebPImage::decodeChunks(uint32_t filesize) {
 
 /* =========================================== */
 
-Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<WebPImage>(std::move(io));
+Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<WebPImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

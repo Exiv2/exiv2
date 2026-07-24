@@ -83,8 +83,9 @@ std::string Iloc::toString() const {
   return stringFormat("ID = {} from,length = {},{}", ID_, start_, length_);
 }
 
-BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */, size_t max_box_depth) :
-    Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io)), max_box_depth_(max_box_depth) {
+BmffImage::BmffImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io), params),
+    max_box_depth_(params.max_recursion_depth()) {
 }  // BmffImage::BmffImage
 
 std::string BmffImage::toAscii(uint32_t n) {
@@ -765,8 +766,8 @@ void BmffImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<BmffImage>(std::move(io), create);
+Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<BmffImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

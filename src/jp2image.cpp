@@ -97,8 +97,9 @@ void boxes_check(size_t b, size_t m) {
 
 }  // namespace
 
-Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create) : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, std::move(io)) {
-  if (create && io_->open() == 0) {
+Jp2Image::Jp2Image(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::jp2, mdExif | mdIptc | mdXmp, std::move(io), params) {
+  if (params.create() && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Exiv2::Jp2Image:: Creating JPEG2000 image to memory" << '\n';
 #endif
@@ -866,8 +867,8 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<Jp2Image>(std::move(io), create);
+Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<Jp2Image>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

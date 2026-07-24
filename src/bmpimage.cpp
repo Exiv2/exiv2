@@ -23,7 +23,8 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-BmpImage::BmpImage(BasicIo::UniquePtr io) : Image(ImageType::bmp, mdNone, std::move(io)) {
+BmpImage::BmpImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::bmp, mdNone, std::move(io), params) {
 }
 
 std::string BmpImage::mimeType() const {
@@ -93,8 +94,8 @@ void BmpImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<BmpImage>(std::move(io));
+Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<BmpImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }
