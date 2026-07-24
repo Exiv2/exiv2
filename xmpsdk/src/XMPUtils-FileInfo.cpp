@@ -655,6 +655,7 @@ AppendSubtree ( const XMP_Node * sourceNode, XMP_Node * destParent, const bool r
 		if ( destNode != 0 ) {
 			delete ( destNode );
 			destParent->children.erase ( destPos );
+			return;
 		}
 	
 	} else if ( destNode == 0 ) {
@@ -695,6 +696,7 @@ AppendSubtree ( const XMP_Node * sourceNode, XMP_Node * destParent, const bool r
 				if ( deleteEmpty && destNode->children.empty() ) {
 					delete ( destNode );
 					destParent->children.erase ( destPos );
+					return;
 				}
 			}
 			
@@ -719,6 +721,7 @@ AppendSubtree ( const XMP_Node * sourceNode, XMP_Node * destParent, const bool r
 						if ( destNode->children.empty() ) {
 							delete ( destNode );
 							destParent->children.erase ( destPos );
+							return;
 						}
 					}
 
