@@ -99,7 +99,8 @@ enum kPhotoshopResourceID {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-PsdImage::PsdImage(BasicIo::UniquePtr io) : Image(ImageType::psd, mdExif | mdIptc | mdXmp, std::move(io)) {
+PsdImage::PsdImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::psd, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }  // PsdImage::PsdImage
 
 std::string PsdImage::mimeType() const {
@@ -673,8 +674,8 @@ uint32_t PsdImage::writeXmpData(const XmpData& xmpData, BasicIo& out) const {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<PsdImage>(std::move(io));
+Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<PsdImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

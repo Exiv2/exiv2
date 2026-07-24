@@ -179,8 +179,8 @@ static bool isASFType(const byte buf[]) {
   return Header == AsfVideo::GUIDTag(buf);
 }
 
-AsfVideo::AsfVideo(BasicIo::UniquePtr io, size_t max_recursion_depth) :
-    Image(ImageType::asf, mdNone, std::move(io)), max_recursion_depth_(max_recursion_depth) {
+AsfVideo::AsfVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::asf, mdNone, std::move(io), params), max_recursion_depth_(params.max_recursion_depth()) {
 }  // AsfVideo::AsfVideo
 
 std::string AsfVideo::mimeType() const {
@@ -469,8 +469,8 @@ void AsfVideo::fileProperties() {
   xmpData()["Xmp.video.MaxBitRate"] = readDWORDTag(io_);
 }  // AsfVideo::fileProperties
 
-Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<AsfVideo>(std::move(io));
+Image::UniquePtr newAsfInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<AsfVideo>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

@@ -18,7 +18,8 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-TgaImage::TgaImage(BasicIo::UniquePtr io) : Image(ImageType::tga, mdNone, std::move(io)) {
+TgaImage::TgaImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::tga, mdNone, std::move(io), params) {
 }
 
 std::string TgaImage::mimeType() const {
@@ -92,8 +93,8 @@ void TgaImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<TgaImage>(std::move(io));
+Image::UniquePtr newTgaInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<TgaImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

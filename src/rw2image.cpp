@@ -26,7 +26,8 @@
 namespace Exiv2 {
 using namespace Internal;
 
-Rw2Image::Rw2Image(BasicIo::UniquePtr io) : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, std::move(io)) {
+Rw2Image::Rw2Image(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::rw2, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }  // Rw2Image::Rw2Image
 
 std::string Rw2Image::mimeType() const {
@@ -195,8 +196,8 @@ ByteOrder Rw2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmp
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<Rw2Image>(std::move(io));
+Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<Rw2Image>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

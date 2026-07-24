@@ -40,6 +40,30 @@ using NativePreviewList = std::vector<NativePreview>;
 enum PrintStructureOption { kpsNone, kpsBasic, kpsXMP, kpsRecursive, kpsIccProfile, kpsIptcErase };
 
 /*!
+  @brief Parameters for the Image constructor. A large number of classes
+  inherit from Image, and they all have a builder function that matches
+  the NewInstanceFct signature. This class makes it easier to add new
+  parameters to Image's constructor when we need to, because they can
+  be added as fields of this class.
+ */
+class EXIV2API ImageCtorParams {
+ public:
+  ImageCtorParams(bool create, size_t max_recursion_depth);
+
+  bool create() const {
+    return create_;
+  }
+
+  size_t max_recursion_depth() const {
+    return max_recursion_depth_;
+  }
+
+ private:
+  const bool create_;
+  const size_t max_recursion_depth_;
+};
+
+/*!
   @brief Abstract base class defining the interface for an image. This is
      the top-level interface to the Exiv2 library.
 
@@ -60,8 +84,9 @@ class EXIV2API Image {
     @brief Constructor taking the image type, a bitmap of the supported
         metadata types and an auto-pointer that owns an IO instance.
         See subclass constructor doc.
+    @param params Parameters that are passed through to Image's constructor.
    */
-  Image(ImageType type, uint16_t supportedMetadata, std::unique_ptr<BasicIo> io);
+  Image(ImageType type, uint16_t supportedMetadata, std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //! Virtual Destructor
   virtual ~Image();
   //@}
@@ -507,7 +532,7 @@ class EXIV2API Image {
 };  // class Image
 
 //! Type for function pointer that creates new Image instances
-using NewInstanceFct = Image::UniquePtr (*)(std::unique_ptr<BasicIo> io, bool create);
+using NewInstanceFct = Image::UniquePtr (*)(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 //! Type for function pointer that checks image types
 using IsThisTypeFct = bool (*)(BasicIo& iIo, bool advance);
 

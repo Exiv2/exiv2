@@ -35,8 +35,9 @@ class EXIV2API Rw2Image : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
+      @param params Parameters that are passed through to Image's constructor.
    */
-  explicit Rw2Image(std::unique_ptr<BasicIo> io);
+  explicit Rw2Image(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
 
   //! @name Manipulators
@@ -99,7 +100,7 @@ class EXIV2API Rw2Parser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newRw2Instance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newRw2Instance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 
 //! Check if the file iIo is a RW2 image.
 EXIV2API bool isRw2Type(BasicIo& iIo, bool advance);
