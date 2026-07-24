@@ -1425,6 +1425,8 @@ constexpr TagInfo PentaxMakerNote::tagInfo_[] = {
     {0x0072, "AFAdjustment", N_("AF Adjustment"), N_("AF Adjustment"), IfdId::pentaxId, SectionId::makerTags, undefined,
      -1, printValue},
     /* Many missing ! */
+    {0x009e, "HDF", N_("Highlight diffusion filter"), N_("Highlight diffusion filter"), IfdId::pentaxId,
+     SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(pentaxOffOn)},
     {0x0200, "BlackPoint", N_("Black point"), N_("Black point"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,
      printValue},
     {0x0201, "WhitePoint", N_("White point"), N_("White point"), IfdId::pentaxId, SectionId::makerTags, undefined, -1,

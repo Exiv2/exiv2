@@ -18,6 +18,7 @@
 #include <ctime>    // timestamp for the name of temporary file
 #include <fstream>  // write the temporary file
 #include <iostream>
+#include <stdexcept>  // std::logic_error from std::stoll
 
 #if __has_include(<sys/mman.h>)
 #include <sys/mman.h>  // for mmap and munmap
@@ -982,7 +983,7 @@ class RemoteIo::Impl {
   size_t idx_{0};                          //!< Index into the memory area
   bool eof_{false};                        //!< EOF indicator
   Protocol protocol_;                      //!< the protocol of url
-  size_t totalRead_{0};                    //!< bytes requested from host
+  size_t totalRead_{0};                    //!< total number of bytes read from host
 
   // METHODS
   /*!
@@ -1203,11 +1204,13 @@ DataBuf RemoteIo::read(size_t rcount) {
 size_t RemoteIo::read(byte* buf, size_t rcount) {
   if (p_->eof_)
     return 0;
-  p_->totalRead_ += rcount;
 
   auto allow = std::min<size_t>(rcount, (p_->size_ - p_->idx_));
+  if (allow == 0) {
+    return 0;
+  }
   size_t lowBlock = p_->idx_ / p_->blockSize_;
-  size_t highBlock = (p_->idx_ + allow) / p_->blockSize_;
+  size_t highBlock = (p_->idx_ + allow - 1) / p_->blockSize_;
 
   // connect to the remote machine & populate the blocks just in time.
   p_->populateBlocks(lowBlock, highBlock);
@@ -1234,6 +1237,7 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
 
   p_->idx_ += totalRead;
   p_->eof_ = (p_->idx_ == p_->size_);
+  p_->totalRead_ += totalRead;
 
   return totalRead;
 }
@@ -1400,7 +1404,14 @@ int64_t HttpIo::HttpImpl::getFileLength() const {
   }
 
   auto lengthIter = response.find("Content-Length");
-  return (lengthIter == response.end()) ? -1 : std::stoll(lengthIter->second);
+  if (lengthIter == response.end())
+    return -1;
+  try {
+    return std::stoll(lengthIter->second);
+  } catch (const std::logic_error&) {
+    // the server returned a non-numeric or out-of-range Content-Length; treat the size as unknown
+    return -1;
+  }
 }
 
 void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const {

@@ -20,7 +20,7 @@ jobs:
     runs-on: windows-2022
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -30,7 +30,7 @@ jobs:
           arch: x64
 
       - name: Restore Conan cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ${{github.workspace}}/conanCache
           key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -94,7 +94,7 @@ jobs:
           - { os: macos-latest,   arch: ARM64 }
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
