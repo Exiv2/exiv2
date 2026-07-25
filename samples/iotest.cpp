@@ -47,11 +47,11 @@ int main(int argc, char* const argv[]) {
       // copy fileIn from a remote location.
       auto io = Exiv2::ImageFactory::createIo(fr);
       if (io->open() != 0) {
-        Error(Exiv2::ErrorCode::kerFileOpenFailed, io->path(), "rb", strError());
+        throw Error(Exiv2::ErrorCode::kerFileOpenFailed, io->path(), "rb", strError());
       }
       FileIo output(f0);
-      if (!output.open("wb")) {
-        Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path(), "w+b", strError());
+      if (output.open("wb") != 0) {
+        throw Error(Exiv2::ErrorCode::kerFileOpenFailed, output.path(), "w+b", strError());
       }
       size_t l = 0;
       if (!bytes.empty()) {
