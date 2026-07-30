@@ -52,10 +52,9 @@ class EXIV2API BmffImage : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
-    @param create Specifies if an existing image should be read (false)
-        or if a new file should be created (true).
+    @param params Parameters that are passed through to Image's constructor.
    */
-  BmffImage(std::unique_ptr<BasicIo> io, bool create, size_t max_box_depth = 1000);
+  BmffImage(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
 
   //@{
@@ -168,7 +167,7 @@ class EXIV2API BmffImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newBmffInstance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newBmffInstance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 
 //! Check if the file iIo is a BMFF image.
 EXIV2API bool isBmffType(BasicIo& iIo, bool advance);

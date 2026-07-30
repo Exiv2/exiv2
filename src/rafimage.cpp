@@ -21,8 +21,8 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-RafImage::RafImage(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::raf, mdExif | mdIptc | mdXmp, std::move(io)) {
+RafImage::RafImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::raf, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }  // RafImage::RafImage
 
 std::string RafImage::mimeType() const {
@@ -296,7 +296,7 @@ void RafImage::readMetadata() {
   // Retrieve metadata from embedded JPEG preview image.
   try {
     auto jpg_io = std::make_unique<Exiv2::MemIo>(jpg_buf.data(), jpg_buf.size());
-    auto jpg_img = JpegImage(std::move(jpg_io), false);
+    auto jpg_img = JpegImage(std::move(jpg_io), ImageCtorParams(false, 0));
     jpg_img.readMetadata();
     setByteOrder(jpg_img.byteOrder());
     xmpData_ = jpg_img.xmpData();
@@ -358,8 +358,8 @@ void RafImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<RafImage>(std::move(io), create);
+Image::UniquePtr newRafInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<RafImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

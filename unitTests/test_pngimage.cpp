@@ -3,6 +3,7 @@
 #include <exiv2/basicio.hpp>
 #include <exiv2/pngimage.hpp>
 #include "pngchunk_int.hpp"  // This is not part of the public API
+#include "unittest_utils.hpp"
 
 #include <gtest/gtest.h>
 
@@ -47,28 +48,24 @@ TEST(PngChunk, keyTxtChunkThrowsIfSizeIsNotEnough) {
 
 TEST(PngImage, canBeCreatedFromScratch) {
   auto memIo = std::make_unique<MemIo>();
-  const bool create{true};
-  ASSERT_NO_THROW(PngImage png(std::move(memIo), create));
+  ASSERT_NO_THROW(PngImage png(std::move(memIo), defaultImageCtorParams(true)));
 }
 
 TEST(PngImage, canBeOpenedEvenWithAnEmptyMemIo) {
   auto memIo = std::make_unique<MemIo>();
-  const bool create{false};
-  ASSERT_NO_THROW(PngImage png(std::move(memIo), create));
+  ASSERT_NO_THROW(PngImage png(std::move(memIo), defaultImageCtorParams(false)));
 }
 
 TEST(PngImage, mimeTypeIsPng) {
   auto memIo = std::make_unique<MemIo>();
-  const bool create{true};
-  PngImage png(std::move(memIo), create);
+  PngImage png(std::move(memIo), defaultImageCtorParams(true));
 
   ASSERT_EQ("image/png", png.mimeType());
 }
 
 TEST(PngImage, printStructurePrintsNothingWithKpsNone) {
   auto memIo = std::make_unique<MemIo>();
-  const bool create{true};
-  PngImage png(std::move(memIo), create);
+  PngImage png(std::move(memIo), defaultImageCtorParams(true));
 
   std::ostringstream stream;
   png.printStructure(stream, Exiv2::kpsNone, 1);
@@ -78,8 +75,7 @@ TEST(PngImage, printStructurePrintsNothingWithKpsNone) {
 
 TEST(PngImage, printStructurePrintsDataWithKpsBasic) {
   auto memIo = std::make_unique<MemIo>();
-  const bool create{true};
-  PngImage png(std::move(memIo), create);
+  PngImage png(std::move(memIo), defaultImageCtorParams(true));
 
   std::ostringstream stream;
   png.printStructure(stream, Exiv2::kpsBasic, 1);
@@ -89,8 +85,7 @@ TEST(PngImage, printStructurePrintsDataWithKpsBasic) {
 
 TEST(PngImage, cannotReadMetadataFromEmptyIo) {
   auto memIo = std::make_unique<MemIo>();
-  const bool create{false};
-  PngImage png(std::move(memIo), create);
+  PngImage png(std::move(memIo), defaultImageCtorParams(false));
 
   try {
     png.readMetadata();
@@ -103,8 +98,7 @@ TEST(PngImage, cannotReadMetadataFromEmptyIo) {
 
 TEST(PngImage, cannotReadMetadataFromIoWhichCannotBeOpened) {
   auto memIo = std::make_unique<FileIo>("NonExistingPath.png");
-  const bool create{false};
-  PngImage png(std::move(memIo), create);
+  PngImage png(std::move(memIo), defaultImageCtorParams(false));
 
   try {
     png.readMetadata();
@@ -116,8 +110,7 @@ TEST(PngImage, cannotReadMetadataFromIoWhichCannotBeOpened) {
 
 TEST(PngImage, cannotWriteMetadataToEmptyIo) {
   auto memIo = std::make_unique<MemIo>();
-  const bool create{false};
-  PngImage png(std::move(memIo), create);
+  PngImage png(std::move(memIo), defaultImageCtorParams(false));
 
   try {
     png.writeMetadata();
@@ -129,15 +122,13 @@ TEST(PngImage, cannotWriteMetadataToEmptyIo) {
 
 TEST(PngImage, canWriteMetadataFromCreatedPngImage) {
   auto memIo = std::make_unique<MemIo>();
-  const bool create{true};
-  PngImage png(std::move(memIo), create);
+  PngImage png(std::move(memIo), defaultImageCtorParams(true));
   ASSERT_NO_THROW(png.writeMetadata());
 }
 
 TEST(PngImage, cannotWriteMetadataToIoWhichCannotBeOpened) {
   auto memIo = std::make_unique<FileIo>("NonExistingPath.png");
-  const bool create{false};
-  PngImage png(std::move(memIo), create);
+  PngImage png(std::move(memIo), defaultImageCtorParams(false));
 
   try {
     png.readMetadata();

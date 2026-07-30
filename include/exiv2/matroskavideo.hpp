@@ -111,8 +111,9 @@ class EXIV2API MatroskaVideo : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method. Use the Image::io()
         method to get a temporary reference.
+      @param params Parameters that are passed through to Image's constructor.
    */
-  explicit MatroskaVideo(std::unique_ptr<BasicIo> io);
+  explicit MatroskaVideo(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
 
   //! @name Manipulators
@@ -180,7 +181,7 @@ class EXIV2API MatroskaVideo : public Image {
       Caller owns the returned object and the auto-pointer ensures that
       it will be deleted.
  */
-EXIV2API Image::UniquePtr newMkvInstance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newMkvInstance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 
 //! Check if the file iIo is a Matroska Video.
 EXIV2API bool isMkvType(BasicIo& iIo, bool advance);

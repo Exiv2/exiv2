@@ -49,9 +49,9 @@ static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
   return result;
 }
 
-PgfImage::PgfImage(BasicIo::UniquePtr io, bool create) :
-    Image(ImageType::pgf, mdExif | mdIptc | mdXmp | mdComment, std::move(io)), bSwap_(isBigEndianPlatform()) {
-  if (create && io_->open() == 0) {
+PgfImage::PgfImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::pgf, mdExif | mdIptc | mdXmp | mdComment, std::move(io), params), bSwap_(isBigEndianPlatform()) {
+  if (params.create() && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
 #endif
@@ -285,8 +285,8 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<PgfImage>(std::move(io), create);
+Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<PgfImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }
