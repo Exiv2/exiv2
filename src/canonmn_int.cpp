@@ -2696,7 +2696,7 @@ std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, 
     is >> l;
     return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
               << std::setfill('0') << std::dec << (l & 0x0000ffff);
-  } catch (const std::logic_error&) {
+  } catch (const std::system_error&) {
     return os << value;
   }
 }
@@ -2717,7 +2717,7 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
       is >> l;
       return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
                 << std::setfill('0') << std::dec << (l & 0x0000ffff);
-    } catch (const std::logic_error&) {
+    } catch (const std::system_error&) {
       return os << value;
     }
   } else {
