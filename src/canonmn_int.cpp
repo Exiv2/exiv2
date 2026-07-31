@@ -2695,7 +2695,7 @@ std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, 
   try {
     std::istringstream is(value.toString());
     uint32_t l = 0;
-    is.exceptions(std::ifstream::failbit);
+    is.exceptions(std::istringstream::failbit);
     is >> l;
     return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
               << std::setfill('0') << std::dec << (l & 0x0000ffff);
@@ -2717,7 +2717,7 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
   if (pos != exifData->end() && pos->value().count() == 1 && pos->value().toInt64() == 0x01140000) {
     try {
       uint32_t l = 0;
-      is.exceptions(std::ifstream::failbit);
+      is.exceptions(std::istringstream::failbit);
       is >> l;
       return os << std::setw(4) << std::setfill('0') << std::hex << ((l & 0xffff0000) >> 16) << std::setw(5)
                 << std::setfill('0') << std::dec << (l & 0x0000ffff);
