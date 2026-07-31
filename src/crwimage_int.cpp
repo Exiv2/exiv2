@@ -7,9 +7,9 @@
 #include "i18n.h"  // NLS support.
 #include "image.hpp"
 #include "image_int.hpp"
+#include "safe_op.hpp"
 #include "tags.hpp"
 #include "tags_int.hpp"
-#include "safe_op.hpp"
 
 #include <algorithm>
 #include <ctime>
