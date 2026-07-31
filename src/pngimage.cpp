@@ -431,16 +431,17 @@ void PngImage::readMetadata() {
       if (chunkType == "IEND") {
         return;  // Last chunk found: we stop parsing.
       }
+      const DecodeParams dp(max_recursion_depth_);
       if (chunkType == "IHDR" && chunkData.size() >= 8) {
         PngChunk::decodeIHDRChunk(chunkData, &pixelWidth_, &pixelHeight_);
       } else if (chunkType == "tEXt") {
-        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::tEXt_Chunk);
+        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::tEXt_Chunk, dp);
       } else if (chunkType == "zTXt") {
-        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::zTXt_Chunk);
+        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::zTXt_Chunk, dp);
       } else if (chunkType == "iTXt") {
-        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::iTXt_Chunk);
+        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::iTXt_Chunk, dp);
       } else if (chunkType == "eXIf") {
-        ByteOrder bo = TiffParser::decode(exifData(), iptcData(), xmpData(), chunkData.c_data(), chunkData.size());
+        ByteOrder bo = TiffParser::decode(exifData(), iptcData(), xmpData(), chunkData.c_data(), chunkData.size(), dp);
         setByteOrder(bo);
       } else if (chunkType == "iCCP") {
         // The ICC profile name can vary from 1-79 characters.

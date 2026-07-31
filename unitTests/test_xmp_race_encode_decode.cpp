@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include "unittest_utils.hpp"
 
 // Test concurrent encode() and decode() operations to trigger race condition #1:
 // encode() iterates nsRegistry_ without lock while decode() can modify it
@@ -69,7 +70,7 @@ TEST(XmpRace, ConcurrentEncodeDecode) {
 
         Exiv2::XmpData xmpData;
         // decode() will modify nsRegistry_ when it sees the unknown namespace
-        if (Exiv2::XmpParser::decode(xmpData, xmpPacket) == 0) {
+        if (Exiv2::XmpParser::decode(xmpData, xmpPacket, defaultDecodeParams()) == 0) {
           decode_count++;
         }
       } catch (const std::exception& e) {
@@ -162,7 +163,7 @@ TEST(XmpRace, ConcurrentDecodeDecode) {
     for (int i = 0; i < ITERATIONS; ++i) {
       try {
         Exiv2::XmpData xmpData;
-        Exiv2::XmpParser::decode(xmpData, xmpPacket);
+        Exiv2::XmpParser::decode(xmpData, xmpPacket, defaultDecodeParams());
       } catch (...) {
       }
     }

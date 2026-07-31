@@ -537,11 +537,7 @@ namespace Exiv2 {
 using namespace Exiv2::Internal;
 
 QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
-    Image(ImageType::qtime, mdNone, std::move(io), params),
-    mvhdTimeScale_(1),
-    mdhdTimeScale_(1),
-    currentStream_(Null),
-    max_recursion_depth_(params.max_recursion_depth()) {
+    Image(ImageType::qtime, mdNone, std::move(io), params), mvhdTimeScale_(1), mdhdTimeScale_(1), currentStream_(Null) {
 }  // QuickTimeVideo::QuickTimeVideo
 
 std::string QuickTimeVideo::mimeType() const {

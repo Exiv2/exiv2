@@ -479,6 +479,26 @@ class EXIV2API ExifData {
 };  // class ExifData
 
 /*!
+  @brief Parameters for the "decode" functions. There are a fairly large
+  number of static "decode" functions. Examples are `ExifParser::decode`,
+  `TiffParser::decode`, and `XmpParser::decode`. Similar to `ImageCtorParams` above,
+  this class is a common set of parameters for those functions. It currently
+  only contains a `max_recursion_depth_` field, but it will make it easier to
+  add new parameters in the future.
+ */
+class EXIV2API DecodeParams {
+ public:
+  explicit DecodeParams(size_t max_recursion_depth);
+
+  size_t max_recursion_depth() const {
+    return max_recursion_depth_;
+  }
+
+ private:
+  const size_t max_recursion_depth_;
+};
+
+/*!
   @brief Stateless parser class for Exif data. Images use this class to
          decode and encode binary Exif data.
 
@@ -494,12 +514,13 @@ class EXIV2API ExifParser {
            in which the data is encoded.
 
     @param exifData Exif metadata container.
-    @param pData 	  Pointer to the data buffer. Must point to data in
-                    binary Exif format; no checks are performed.
-    @param size 	  Length of the data buffer
+    @param pData   Pointer to the data buffer. Must point to data in
+                   binary Exif format; no checks are performed.
+    @param size    Length of the data buffer
+    @param dp      Parameters for all decode() functions
     @return Byte order in which the data is encoded.
   */
-  static ByteOrder decode(ExifData& exifData, const byte* pData, size_t size);
+  static ByteOrder decode(ExifData& exifData, const byte* pData, size_t size, const DecodeParams& dp);
   /*!
     @brief Encode Exif metadata from the provided metadata to binary Exif
            format.

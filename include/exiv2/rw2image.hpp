@@ -86,7 +86,8 @@ class EXIV2API Rw2Parser {
            with data in RW2 format to the provided metadata containers.
            See TiffParser::decode().
   */
-  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size);
+  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                          const DecodeParams& dp);
 
 };  // class Rw2Parser
 

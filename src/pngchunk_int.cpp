@@ -48,7 +48,7 @@ void PngChunk::decodeIHDRChunk(const DataBuf& data, uint32_t* outWidth, uint32_t
   *outHeight = data.read_uint32(4, bigEndian);
 }
 
-void PngChunk::decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType type) {
+void PngChunk::decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType type, const DecodeParams& dp) {
   DataBuf key = keyTXTChunk(data);
   DataBuf arr = parseTXTChunk(data, key.size(), type);
 
@@ -56,7 +56,7 @@ void PngChunk::decodeTXTChunk(Image* pImage, const DataBuf& data, TxtChunkType t
   std::cout << "Exiv2::PngChunk::decodeTXTChunk: TXT chunk data: " << std::string(arr.c_str(), arr.size()) << '\n';
 #endif
   if (!key.empty())
-    parseChunkContent(pImage, key.c_data(), key.size(), arr);
+    parseChunkContent(pImage, key.c_data(), key.size(), arr, dp);
 }
 
 DataBuf PngChunk::decodeTXTChunk(const DataBuf& data, TxtChunkType type) {
@@ -179,7 +179,8 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
   return arr;
 }
 
-void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize, const DataBuf& arr) {
+void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize, const DataBuf& arr,
+                                 const DecodeParams& dp) {
   // We look if an ImageMagick EXIF raw profile exist.
 
   if (keySize >= 21 &&
@@ -211,7 +212,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
         std::cout << "Exiv2::PngChunk::parseChunkContent: TIFF header found at position " << pos << "\n";
 #endif
         ByteOrder bo = TiffParser::decode(pImage->exifData(), pImage->iptcData(), pImage->xmpData(),
-                                          exifData.c_data(pos), length - pos);
+                                          exifData.c_data(pos), length - pos, dp);
         pImage->setByteOrder(bo);
       } else {
 #ifndef SUPPRESS_WARNINGS
@@ -275,7 +276,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 #endif
         xmpPacket = xmpPacket.substr(idx);
       }
-      if (XmpParser::decode(pImage->xmpData(), xmpPacket)) {
+      if (XmpParser::decode(pImage->xmpData(), xmpPacket, dp)) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
@@ -295,7 +296,7 @@ void PngChunk::parseChunkContent(Image* pImage, const byte* key, size_t keySize,
 #endif
       xmpPacket = xmpPacket.substr(idx);
     }
-    if (XmpParser::decode(pImage->xmpData(), xmpPacket)) {
+    if (XmpParser::decode(pImage->xmpData(), xmpPacket, dp)) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
