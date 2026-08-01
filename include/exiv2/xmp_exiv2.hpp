@@ -9,6 +9,7 @@
 // included header files
 #include "datasets.hpp"
 #include "metadatum.hpp"
+#include "params.hpp"
 #include "properties.hpp"
 
 #include <atomic>
@@ -21,7 +22,6 @@ namespace Exiv2 {
 // class declarations
 class ExifData;
 class XmpKey;
-class DecodeParams;
 
 // *****************************************************************************
 // class definitions
