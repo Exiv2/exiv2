@@ -52,9 +52,9 @@ bool compare(std::string_view str, const Exiv2::DataBuf& buf) {
 namespace Exiv2 {
 using namespace Internal;
 
-PngImage::PngImage(BasicIo::UniquePtr io, bool create) :
-    Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, std::move(io)) {
-  if (create && io_->open() == 0) {
+PngImage::PngImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, std::move(io), params) {
+  if (params.create() && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Exiv2::PngImage:: Creating PNG image to memory\n";
 #endif
@@ -681,8 +681,8 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<PngImage>(std::move(io), create);
+Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<PngImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }
