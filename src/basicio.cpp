@@ -1062,7 +1062,7 @@ size_t RemoteIo::Impl::populateBlocks(size_t startBlock, size_t stopBlock) {
   // optimize: ignore all true blocks on left & right sides.
   while (startBlock < stopBlock && !blocksMap_.at(startBlock).isNone())
     startBlock++;
-  while (startBlock < stopBlock && !blocksMap_.at(stopBlock-1).isNone())
+  while (startBlock < stopBlock && !blocksMap_.at(stopBlock - 1).isNone())
     stopBlock--;
   if (startBlock >= stopBlock) {
     return 0;
@@ -1301,7 +1301,7 @@ int RemoteIo::getb() {
 
   size_t expectedBlock = p_->idx_ / p_->blockSize_;
   // connect to the remote machine & populate the blocks just in time.
-  p_->populateBlocks(expectedBlock, expectedBlock+1);
+  p_->populateBlocks(expectedBlock, expectedBlock + 1);
 
   auto data = p_->blocksMap_.at(expectedBlock).getData();
   return data[p_->idx_++ - expectedBlock * p_->blockSize_];
