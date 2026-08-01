@@ -132,6 +132,7 @@ def get_valid_files(data_dir):
         "crash-23eba73bb01cb01caa96a389eb12955c34b98a37.jpg",
         "issue_3511_poc.eps",
         "issue_9368_coverage.exv",
+        "issue_9324_poc.crw",
         # large file that creates 11Mb of output so let's exclude it
         "ReaganLargeTiff.tiff",
         # files that don't create any output
