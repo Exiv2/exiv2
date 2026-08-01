@@ -13,10 +13,10 @@ namespace Exiv2 {
 /*!
   @brief Parameters for the "decode" functions. There are a fairly large
   number of static "decode" functions. Examples are `ExifParser::decode`,
-  `TiffParser::decode`, and `XmpParser::decode`. Similar to `ImageCtorParams` above,
-  this class is a common set of parameters for those functions. It currently
-  only contains a `max_recursion_depth_` field, but it will make it easier to
-  add new parameters in the future.
+  `TiffParser::decode`, and `XmpParser::decode`. This class is a common
+  set of parameters for those functions. It currently only contains a
+  `max_recursion_depth_` field, but it will make it easier to add new
+  parameters in the future.
  */
 class EXIV2API DecodeParams {
  public:
