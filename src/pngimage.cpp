@@ -404,6 +404,7 @@ void PngImage::readMetadata() {
 
   const size_t imgSize = io_->size();
   DataBuf cheaderBuf(8);  // Chunk header: 4 bytes (data size) + 4 bytes (chunk type).
+  const DecodeParams dp(max_recursion_depth_);
 
   while (!io_->eof()) {
     readChunk(cheaderBuf, *io_);  // Read chunk header.
@@ -431,7 +432,6 @@ void PngImage::readMetadata() {
       if (chunkType == "IEND") {
         return;  // Last chunk found: we stop parsing.
       }
-      const DecodeParams dp(max_recursion_depth_);
       if (chunkType == "IHDR" && chunkData.size() >= 8) {
         PngChunk::decodeIHDRChunk(chunkData, &pixelWidth_, &pixelHeight_);
       } else if (chunkType == "tEXt") {
