@@ -49,6 +49,12 @@ namespace fs = std::filesystem;
 #define _isatty isatty
 #endif
 
+// When RemoteIo is used to access a file, the remote server can claim
+// that the file is ludicrously large, which will cause a large allocation
+// on the client side (Exiv2). To avoid this, we will throw an exception if
+// the file size is larger than this limit.
+static constexpr int MAX_REMOTE_FILE_SIZE = 0x8000000;
+
 namespace Exiv2 {
 
 BasicIo::~BasicIo() = default;
@@ -995,13 +1001,13 @@ class RemoteIo::Impl {
   [[nodiscard]] virtual int64_t getFileLength() const = 0;
   /*!
     @brief Get the data by range.
-    @param lowBlock The start block index.
-    @param highBlock The end block index.
+    @param startBlock The start block index.
+    @param stopBlock The stop block index.
     @param response The data from the server.
     @throw Error if the server returns the error code.
-    @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
+    @note Set startBlock = -1 and stopBlock = -1 to get the whole file content.
    */
-  virtual void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const = 0;
+  virtual void getDataByRange(size_t startBlock, size_t stopBlock, std::string& response) const = 0;
   /*!
     @brief Submit the data to the remote machine. The data replace a part of the remote file.
           The replaced part of remote file is indicated by from and to parameters.
@@ -1016,45 +1022,57 @@ class RemoteIo::Impl {
   virtual void writeRemote(const byte* data, size_t size, size_t from, size_t to) = 0;
   /*!
     @brief Get the data from the remote machine and write them to the memory blocks.
-    @param lowBlock The start block index.
-    @param highBlock The end block index.
+    @param startBlock The start block index.
+    @param stopBlock The stop block index.
     @return Number of bytes written to the memory block successfully
     @throw Error if it fails.
    */
-  virtual size_t populateBlocks(size_t lowBlock, size_t highBlock);
+  virtual size_t populateBlocks(size_t startBlock, size_t stopBlock);
 };
 
 RemoteIo::Impl::Impl(const std::string& url, size_t blockSize) :
     path_(url), blockSize_(blockSize), protocol_(fileProtocol(url)) {
 }
 
-size_t RemoteIo::Impl::populateBlocks(size_t lowBlock, size_t highBlock) {
+size_t RemoteIo::Impl::populateBlocks(size_t startBlock, size_t stopBlock) {
   // optimize: ignore all true blocks on left & right sides.
-  while (!blocksMap_.at(lowBlock).isNone() && lowBlock < highBlock)
-    lowBlock++;
-  while (!blocksMap_.at(highBlock).isNone() && highBlock > lowBlock)
-    highBlock--;
+  while (startBlock < stopBlock && !blocksMap_.at(startBlock).isNone())
+    startBlock++;
+  while (startBlock < stopBlock && !blocksMap_.at(stopBlock-1).isNone())
+    stopBlock--;
+  if (startBlock >= stopBlock) {
+    return 0;
+  }
 
   size_t rcount = 0;
-  if (blocksMap_.at(highBlock).isNone()) {
-    std::string data;
-    getDataByRange(lowBlock, highBlock, data);
-    rcount = data.length();
-    if (rcount == 0) {
-      throw Error(ErrorCode::kerErrorMessage, "Data By Range is empty. Please check the permission.");
-    }
-    auto source = reinterpret_cast<const byte*>(data.c_str());
-    size_t remain = rcount;
-    size_t totalRead = 0;
-    size_t iBlock = (rcount == size_) ? 0 : lowBlock;
+  std::string data;
+  getDataByRange(startBlock, stopBlock, data);
+  rcount = data.length();
+  size_t iBlock;
+  size_t iStop;
+  if (rcount == 0) {
+    throw Error(ErrorCode::kerErrorMessage, "Data By Range is empty. Please check the permission.");
+  } else if (rcount > size_) {
+    throw Error(ErrorCode::kerErrorMessage, "Remote server returned more bytes than the specified file size.");
+  } else if (rcount == size_) {
+    // The remote server is returning the entire file, rather than the subset that we asked for.
+    iBlock = 0;
+    iStop = (size_ + blockSize_ - 1) / blockSize_;
+  } else {
+    iBlock = startBlock;
+    iStop = stopBlock;
+  }
 
-    while (remain) {
-      auto allow = std::min<size_t>(remain, blockSize_);
-      blocksMap_.at(iBlock).populate(&source[totalRead], allow);
-      remain -= allow;
-      totalRead += allow;
-      iBlock++;
-    }
+  auto source = reinterpret_cast<byte*>(const_cast<char*>(data.c_str()));
+  size_t remain = rcount;
+  size_t totalRead = 0;
+
+  while (iBlock < iStop && remain) {
+    auto allow = std::min<size_t>(remain, blockSize_);
+    blocksMap_.at(iBlock).populate(&source[totalRead], allow);
+    remain -= allow;
+    totalRead += allow;
+    iBlock++;
   }
 
   return rcount;
@@ -1093,6 +1111,8 @@ int RemoteIo::open() {
       }
     } else if (length == 0) {  // file is empty
       throw Error(ErrorCode::kerErrorMessage, "the file length is 0");
+    } else if (length > MAX_REMOTE_FILE_SIZE) {
+      throw Error(ErrorCode::kerErrorMessage, "the remote file is too large");
     } else {
       p_->size_ = static_cast<size_t>(length);
       size_t nBlocks = (p_->size_ + p_->blockSize_ - 1) / p_->blockSize_;
@@ -1213,18 +1233,18 @@ size_t RemoteIo::read(byte* buf, size_t rcount) {
   if (allow == 0) {
     return 0;
   }
-  size_t lowBlock = p_->idx_ / p_->blockSize_;
-  size_t highBlock = (p_->idx_ + allow - 1) / p_->blockSize_;
+  size_t startBlock = p_->idx_ / p_->blockSize_;
+  size_t stopBlock = (p_->idx_ + allow + p_->blockSize_ - 1) / p_->blockSize_;
 
   // connect to the remote machine & populate the blocks just in time.
-  p_->populateBlocks(lowBlock, highBlock);
+  p_->populateBlocks(startBlock, stopBlock);
   auto fakeData = static_cast<byte*>(std::calloc(p_->blockSize_, sizeof(byte)));
   if (!fakeData) {
     throw Error(ErrorCode::kerErrorMessage, "Unable to allocate data");
   }
 
-  size_t iBlock = lowBlock;
-  size_t startPos = p_->idx_ - (lowBlock * p_->blockSize_);
+  size_t iBlock = startBlock;
+  size_t startPos = p_->idx_ - (startBlock * p_->blockSize_);
   size_t totalRead = 0;
   do {
     auto data = p_->blocksMap_.at(iBlock++).getData();
@@ -1254,7 +1274,7 @@ int RemoteIo::getb() {
 
   size_t expectedBlock = p_->idx_ / p_->blockSize_;
   // connect to the remote machine & populate the blocks just in time.
-  p_->populateBlocks(expectedBlock, expectedBlock);
+  p_->populateBlocks(expectedBlock, expectedBlock+1);
 
   auto data = p_->blocksMap_.at(expectedBlock).getData();
   return data[p_->idx_++ - (expectedBlock * p_->blockSize_)];
@@ -1365,13 +1385,13 @@ class HttpIo::HttpImpl : public Impl {
   [[nodiscard]] int64_t getFileLength() const override;
   /*!
     @brief Get the data by range.
-    @param lowBlock The start block index.
-    @param highBlock The end block index.
+    @param startBlock The start block index.
+    @param stopBlock The stop block index.
     @param response The data from the server.
     @throw Error if the server returns the error code.
-    @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
+    @note Set startBlock = -1 and stopBlock = -1 to get the whole file content.
    */
-  void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const override;
+  void getDataByRange(size_t startBlock, size_t stopBlock, std::string& response) const override;
   /*!
     @brief Submit the data to the remote machine. The data replace a part of the remote file.
           The replaced part of remote file is indicated by from and to parameters.
@@ -1418,7 +1438,7 @@ int64_t HttpIo::HttpImpl::getFileLength() const {
   }
 }
 
-void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const {
+void HttpIo::HttpImpl::getDataByRange(size_t startBlock, size_t stopBlock, std::string& response) const {
   Exiv2::Dictionary responseDic;
   Exiv2::Dictionary request;
   request["server"] = hostInfo_.Host;
@@ -1427,8 +1447,8 @@ void HttpIo::HttpImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
     request["port"] = hostInfo_.Port;
   request["verb"] = "GET";
   std::string errors;
-  if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
-    request["header"] = stringFormat("Range: bytes={}-{}", lowBlock * blockSize_, (highBlock + 1) * blockSize_ - 1);
+  if (startBlock != std::numeric_limits<size_t>::max() && stopBlock != std::numeric_limits<size_t>::max()) {
+    request["header"] = stringFormat("Range: bytes={}-{}", startBlock * blockSize_, stopBlock * blockSize_ - 1);
   }
 
   int serverCode = http(request, responseDic, errors);
@@ -1510,13 +1530,13 @@ class CurlIo::CurlImpl : public Impl {
   [[nodiscard]] int64_t getFileLength() const override;
   /*!
     @brief Get the data by range.
-    @param lowBlock The start block index.
-    @param highBlock The end block index.
+    @param startBlock The start block index.
+    @param stopBlock The stop block index.
     @param response The data from the server.
     @throw Error if the server returns the error code.
-    @note Set lowBlock = -1 and highBlock = -1 to get the whole file content.
+    @note Set startBlock = -1 and stopBlock = -1 to get the whole file content.
    */
-  void getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const override;
+  void getDataByRange(size_t startBlock, size_t stopBlock, std::string& response) const override;
   /*!
     @brief Submit the data to the remote machine. The data replace a part of the remote file.
           The replaced part of remote file is indicated by from and to parameters.
@@ -1579,7 +1599,7 @@ int64_t CurlIo::CurlImpl::getFileLength() const {
   return temp;
 }
 
-void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::string& response) const {
+void CurlIo::CurlImpl::getDataByRange(size_t startBlock, size_t stopBlock, std::string& response) const {
   curl_easy_reset(curl_.get());  // reset all options
   curl_easy_setopt(curl_.get(), CURLOPT_URL, path_.c_str());
   curl_easy_setopt(curl_.get(), CURLOPT_NOPROGRESS, 1L);  // no progress meter please
@@ -1591,8 +1611,8 @@ void CurlIo::CurlImpl::getDataByRange(size_t lowBlock, size_t highBlock, std::st
 
   // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
 
-  if (lowBlock != std::numeric_limits<size_t>::max() && highBlock != std::numeric_limits<size_t>::max()) {
-    auto range = stringFormat("{}-{}", lowBlock * blockSize_, ((highBlock + 1) * blockSize_) - 1);
+  if (startBlock != std::numeric_limits<size_t>::max() && stopBlock != std::numeric_limits<size_t>::max()) {
+    auto range = stringFormat("{}-{}", startBlock * blockSize_, (stopBlock * blockSize_) - 1);
     curl_easy_setopt(curl_.get(), CURLOPT_RANGE, range.c_str());
   }
 
