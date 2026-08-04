@@ -933,7 +933,9 @@ DataBuf decodeAi7Thumbnail(const DataBuf& src, size_t expectedSize) {
   const byte* imageData = src.c_data(colorTableSize);
   const size_t imageDataSize = src.size() - colorTableSize;
   const bool rle = (imageDataSize >= 3 && imageData[0] == 'R' && imageData[1] == 'L' && imageData[2] == 'E');
-  std::string dest;
+  DataBuf dest(expectedSize);
+  auto destData = dest.data();
+  size_t destPos = 0;
   for (size_t i = rle ? 3 : 0; i < imageDataSize;) {
     byte num = 1;
     byte value = imageData[i++];
@@ -956,28 +958,23 @@ DataBuf decodeAi7Thumbnail(const DataBuf& src, size_t expectedSize) {
         value = imageData[i++];
       }
     }
-    for (; num != 0; num--) {
-      if (expectedSize - dest.size() < 3) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << "Invalid size of AI7 thumbnail data. Expected " << expectedSize << " bytes.\n";
-#endif
-        return {};
-      }
-      dest.append(reinterpret_cast<const char*>(colorTable + (3 * value)), 3);
+    Internal::enforce(expectedSize - destPos >= num * 3, ErrorCode::kerCorruptedMetadata);
+    const auto c0 = colorTable[value * 3];
+    const auto c1 = colorTable[value * 3 + 1];
+    const auto c2 = colorTable[value * 3 + 2];
+    for (; num > 0; num--) {
+      destData[destPos++] = c0;
+      destData[destPos++] = c1;
+      destData[destPos++] = c2;
     }
   }
-  return {reinterpret_cast<const byte*>(dest.data()), dest.size()};
+  Internal::enforce(destPos == expectedSize, ErrorCode::kerCorruptedMetadata);
+  return dest;
 }
 
 DataBuf makePnm(size_t width, size_t height, const DataBuf& rgb) {
-  size_t expectedSize = 0;
-  if (!ai7ThumbnailSize(width, height, expectedSize) || rgb.size() != expectedSize) {
-#ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size()
-                << " bytes.\n";
-#endif
-    return {};
-  }
+  // This was already checked in decodeAi7Thumbnail().
+  assert(width * height * 3UL == rgb.size());
 
   const std::string header = "P6\n" + std::to_string(width) + " " + std::to_string(height) + "\n255\n";
   const auto headerBytes = reinterpret_cast<const byte*>(header.data());
