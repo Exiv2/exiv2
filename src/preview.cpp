@@ -15,11 +15,8 @@
 
 #include <algorithm>
 #include <climits>
-<<<<<<< HEAD
-=======
 #include <cstring>
 #include <limits>
->>>>>>> cca6b19d (Limit AI7 thumbnail expansion)
 
 namespace {
 using namespace Exiv2;
@@ -973,13 +970,8 @@ DataBuf decodeAi7Thumbnail(const DataBuf& src, size_t expectedSize) {
 }
 
 DataBuf makePnm(size_t width, size_t height, const DataBuf& rgb) {
-<<<<<<< HEAD
-  if (size_t expectedSize = width * height * 3UL; rgb.size() != expectedSize) {
-=======
-  DataBuf dest;
   size_t expectedSize = 0;
   if (!ai7ThumbnailSize(width, height, expectedSize) || rgb.size() != expectedSize) {
->>>>>>> cca6b19d (Limit AI7 thumbnail expansion)
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Invalid size of preview data. Expected " << expectedSize << " bytes, got " << rgb.size()
                 << " bytes.\n";
