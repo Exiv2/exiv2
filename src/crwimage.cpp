@@ -23,7 +23,8 @@
 // class member definitions
 namespace Exiv2 {
 
-CrwImage::CrwImage(BasicIo::UniquePtr io, bool /*create*/) : Image(ImageType::crw, mdExif | mdComment, std::move(io)) {
+CrwImage::CrwImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::crw, mdExif | mdComment, std::move(io), params) {
 }  // CrwImage::CrwImage
 
 std::string CrwImage::mimeType() const {
@@ -131,8 +132,8 @@ void CrwParser::encode(Blob& blob, const byte* pData, size_t size, const CrwImag
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newCrwInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<CrwImage>(std::move(io), create);
+Image::UniquePtr newCrwInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<CrwImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

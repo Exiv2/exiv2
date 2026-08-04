@@ -112,9 +112,10 @@ std::pair<std::array<byte, 2>, uint16_t> readSegmentSize(const byte marker, Basi
 }
 }  // namespace
 
-JpegBase::JpegBase(ImageType type, BasicIo::UniquePtr io, bool create, const byte initData[], size_t dataSize) :
-    Image(type, mdExif | mdIptc | mdXmp | mdComment, std::move(io)) {
-  if (create) {
+JpegBase::JpegBase(ImageType type, BasicIo::UniquePtr io, const ImageCtorParams& params, const byte initData[],
+                   size_t dataSize) :
+    Image(type, mdExif | mdIptc | mdXmp | mdComment, std::move(io), params) {
+  if (params.create()) {
     initImage(initData, dataSize);
   }
 }
@@ -964,8 +965,8 @@ const byte JpegImage::blank_[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xDA,
     0x00, 0x0C, 0x03, 0x01, 0x00, 0x02, 0x11, 0x03, 0x11, 0x00, 0x3F, 0x00, 0xA0, 0x00, 0x0F, 0xFF, 0xD9};
 
-JpegImage::JpegImage(BasicIo::UniquePtr io, bool create) :
-    JpegBase(ImageType::jpeg, std::move(io), create, blank_, sizeof(blank_)) {
+JpegImage::JpegImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    JpegBase(ImageType::jpeg, std::move(io), params, blank_, sizeof(blank_)) {
 }
 
 std::string JpegImage::mimeType() const {
@@ -988,8 +989,8 @@ bool JpegImage::isThisType(BasicIo& iIo, bool advance) const {
   return isJpegType(iIo, advance);
 }
 
-Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<JpegImage>(std::move(io), create);
+Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<JpegImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }
@@ -1011,8 +1012,8 @@ bool isJpegType(BasicIo& iIo, bool advance) {
   return result;
 }
 
-ExvImage::ExvImage(BasicIo::UniquePtr io, bool create) :
-    JpegBase(ImageType::exv, std::move(io), create, blank_, sizeof(blank_)) {
+ExvImage::ExvImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    JpegBase(ImageType::exv, std::move(io), params, blank_, sizeof(blank_)) {
 }
 
 std::string ExvImage::mimeType() const {
@@ -1034,8 +1035,8 @@ bool ExvImage::isThisType(BasicIo& iIo, bool advance) const {
   return isExvType(iIo, advance);
 }
 
-Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<ExvImage>(std::move(io), create);
+Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<ExvImage>(std::move(io), params);
   if (!image->good())
     return nullptr;
   return image;

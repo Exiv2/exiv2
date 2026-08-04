@@ -48,10 +48,7 @@ class Config:
     tmp_dir             = os.path.join(exiv2_dir, 'test/tmp')
     system_name         = platform.system() or 'Unknown'    # It could be Windows, Linux, etc.
     exiv2_http          = 'http://127.0.0.1'
-    exiv2_port          = '12760'
     valgrind            = ''
-    if 'EXIV2_PORT' in os.environ:
-        exiv2_port      = os.environ['EXIV2_PORT']
     if 'EXIV2_HTTP' in os.environ:
         exiv2_http      = os.environ['EXIV2_HTTP']
     if 'VALGRIND' in os.environ:
@@ -342,30 +339,49 @@ log = Log()
 
 
 class HttpServer:
-    def __init__(self, bind='127.0.0.1', port=80, work_dir='.'):
+    def __init__(self, bind='127.0.0.1', work_dir='.'):
         self.bind = bind
-        self.port = int(port)
+        self.port = -1
         self.work_dir = work_dir
 
-    def _start(self):
+    def _start(self, shared_port):
         """ Equivalent to executing `python3 -m http.server` """
         os.chdir(self.work_dir)
-        server.test(HandlerClass=server.SimpleHTTPRequestHandler, bind=self.bind, port=self.port)
+        # Loop looking for a free port
+        for port in range(0x1000,0x10000):
+            # Share the port number with the parent process
+            shared_port.value = port
+            try:
+                server.test(HandlerClass=server.SimpleHTTPRequestHandler, bind=self.bind, port=port)
+            except:
+                continue
+        shared_port.value = -1
         log.error('The HTTP server exits without calling stop()')
         print(log.to_str())
 
     def start(self):
         log.info('Starting HTTP server ...')
-        self.proc = multiprocessing.Process(target=self._start, name=str(self))
+        shared_port = multiprocessing.Value('i', -1)
+        self.proc = multiprocessing.Process(target=self._start, name=str(self), args=(shared_port,))
         self.proc.start()
-        time.sleep(2)
-        try:
-            with request.urlopen(f'http://127.0.0.1:{self.port}', timeout=3) as f:
-                if f.status != 200:
-                    raise RuntimeError()
-        except Exception as e:
-            raise RuntimeError(f'Failed to run the HTTP server: {e}') from e
-        log.info('The HTTP server started')
+        start_time = time.time()
+        wait_time = 3
+        for i in range(0,30):
+            self.port = shared_port.value
+            log.info(f"HTTP server is running on port {self.port}")
+            try:
+                with request.urlopen(f'http://{self.bind}:{self.port}', timeout=wait_time) as f:
+                    if f.status != 200:
+                        raise RuntimeError()
+                log.info('The HTTP server started')
+                return
+            except:
+                # Pause if request.urlopen returned too quickly
+                delta = start_time + (i+1) * wait_time - time.time()
+                if delta > 0:
+                    time.sleep(delta)
+                continue
+        raise RuntimeError('Failed to run the HTTP server')
 
     def stop(self):
         self.proc.terminate()

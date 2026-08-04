@@ -596,7 +596,8 @@ namespace Exiv2 {
 
 using namespace Exiv2::Internal;
 
-MatroskaVideo::MatroskaVideo(BasicIo::UniquePtr io) : Image(ImageType::mkv, mdNone, std::move(io)) {
+MatroskaVideo::MatroskaVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::mkv, mdNone, std::move(io), params) {
 }  // MatroskaVideo::MatroskaVideo
 
 std::string MatroskaVideo::mimeType() const {
@@ -913,8 +914,8 @@ uint32_t MatroskaVideo::findBlockSize(byte b) {
   return 0;
 }
 
-Image::UniquePtr newMkvInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<MatroskaVideo>(std::move(io));
+Image::UniquePtr newMkvInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<MatroskaVideo>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

@@ -33,8 +33,9 @@ class EXIV2API PsdImage : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
+      @param params Parameters that are passed through to Image's constructor.
    */
-  explicit PsdImage(std::unique_ptr<BasicIo> io);
+  explicit PsdImage(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
 
   //! @name Manipulators
@@ -96,7 +97,7 @@ class EXIV2API PsdImage : public Image {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newPsdInstance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newPsdInstance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 
 //! Check if the file iIo is a Photoshop image.
 EXIV2API bool isPsdType(BasicIo& iIo, bool advance);
