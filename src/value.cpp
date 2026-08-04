@@ -948,7 +948,7 @@ int TimeValue::read(const std::string& buf) {
       // tzHour: when the hour magnitude is 0 (e.g. "-00:30"), std::stoi
       // returns 0, which loses the '-' sign that std::stoi("-00") cannot
       // preserve. format always starts with '+' or '-' (see fpos above).
-      const bool negative = format[0] == '-';
+      const bool negative = format.at(0) == '-';
       auto posColon = format.find(':');
       if (posColon == std::string::npos) {
         // Extended format
