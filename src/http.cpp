@@ -88,7 +88,7 @@ static int error(std::string& errors, const char* msg, const char* x = nullptr, 
   return -1;
 }
 
-static void flushBuffer(const char* buffer, size_t start, int& end, std::string& file) {
+static void flushBuffer(const char* buffer, size_t start, size_t& end, std::string& file) {
   file += std::string(buffer + start, end - start);
   end = 0;
 }
@@ -222,18 +222,21 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
   }
 
   char buffer[(32 * 1024) + 1];
-  size_t buff_l = sizeof buffer - 1;
+  constexpr size_t buff_l = sizeof buffer - 1;
 
   ////////////////////////////////////
   // format the request
-  int n = snprintf(buffer, buff_l, httpTemplate, verb, page, version, servername, header);
-  buffer[n] = 0;
-  response["requestheaders"] = std::string(buffer, n);
+  const int response_len = snprintf(buffer, sizeof(buffer), httpTemplate, verb, page, version, servername, header);
+  if (response_len < 0 || static_cast<size_t>(response_len) > buff_l) {
+    closesocket(sockfd);
+    return error(errors, "HTTP request is too large");
+  }
+  response["requestheaders"] = std::string(buffer, response_len);
 
   ////////////////////////////////////
   // send the header (we'll have to wait for the connection by the non-blocking socket)
   while (sleep_ >= std::chrono::milliseconds::zero()) {
-    auto sent = send(sockfd, buffer, n, 0);
+    auto sent = send(sockfd, buffer, response_len, 0);
     if (sent != SOCKET_ERROR)
       break;
     // auto err = WSAGetLastError();
@@ -249,14 +252,14 @@ int Exiv2::http(Exiv2::Dictionary& request, Exiv2::Dictionary& response, std::st
                  WSAGetLastError());
   }
 
-  int end = 0;             // write position in buffer
+  size_t end = 0;          // write position in buffer
   bool bSearching = true;  // looking for headers in the response
   int status = 200;        // assume happiness
 
   ////////////////////////////////////
   // read and process the response
   int err = 0;
-  n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
+  int n = forgive(recv(sockfd, buffer, static_cast<int>(buff_l), 0), err);
   while (n >= 0 && OK(status)) {
     if (n) {
       end += n;
