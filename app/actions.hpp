@@ -140,6 +140,8 @@ class Print : public Task {
   int printComment();
   //! Print list of available preview images
   int printPreviewList();
+  //! Print Exif, IPTC and XMP metadata in JSON format
+  int printJson();
   //! Print Exif summary information
   int printSummary();
   //! Print Exif, IPTC and XMP metadata in user defined format

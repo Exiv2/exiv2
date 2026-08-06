@@ -24,7 +24,7 @@ if(MSVC)
   set_target_properties(exiv2 PROPERTIES LINK_FLAGS "/ignore:4099") # Ignore missing PDBs
 endif()
 
-target_link_libraries(exiv2 PRIVATE exiv2lib)
+target_link_libraries(exiv2 PRIVATE exiv2lib nlohmann_json::nlohmann_json)
 
 if(EXIV2_ENABLE_NLS)
   target_link_libraries(exiv2 PRIVATE ${Intl_LIBRARIES})
