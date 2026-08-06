@@ -5,6 +5,9 @@
 
 #include <exiv2/image.hpp>
 
+constexpr size_t MAX_RECURSION_DEPTH = 500;
+
 Exiv2::ImageCtorParams defaultImageCtorParams(bool create);
+Exiv2::DecodeParams defaultDecodeParams();
 
 #endif  // #ifndef UNITTEST_UTILS_HPP_

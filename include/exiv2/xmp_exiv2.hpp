@@ -9,6 +9,7 @@
 // included header files
 #include "datasets.hpp"
 #include "metadatum.hpp"
+#include "params.hpp"
 #include "properties.hpp"
 
 #include <atomic>
@@ -300,7 +301,7 @@ class EXIV2API XmpParser {
             2 if the XMP toolkit failed to initialize;<BR>
             3 if the XMP toolkit failed and raised an XMP_Error
   */
-  static int decode(XmpData& xmpData, const std::string& xmpPacket);
+  static int decode(XmpData& xmpData, const std::string& xmpPacket, const DecodeParams& dp);
   /*!
     @brief Encode (serialize) XMP metadata from \em xmpData into a
            string xmpPacket. The XMP packet returned in the string

@@ -100,10 +100,12 @@ class EXIV2API TiffParser {
     @param pData    Pointer to the data buffer. Must point to data in TIFF
                     format; no checks are performed.
     @param size     Length of the data buffer.
+    @param dp       Parameters for all decode() functions
 
     @return Byte order in which the data is encoded.
   */
-  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size);
+  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                          const DecodeParams& dp);
   /*!
     @brief Encode metadata from the provided metadata to TIFF format.
 

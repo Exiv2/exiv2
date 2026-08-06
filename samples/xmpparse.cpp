@@ -15,7 +15,8 @@ int main(int argc, char* const argv[]) try {
   std::string xmpPacket;
   xmpPacket.assign(buf.c_str(), buf.size());
   Exiv2::XmpData xmpData;
-  if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket)) {
+  const Exiv2::DecodeParams dp(500);
+  if (0 != Exiv2::XmpParser::decode(xmpData, xmpPacket, dp)) {
     std::string error(argv[1]);
     error += ": Failed to parse file contents (XMP packet)";
     throw Exiv2::Error(Exiv2::ErrorCode::kerErrorMessage, error);

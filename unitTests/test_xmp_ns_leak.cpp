@@ -28,6 +28,7 @@
 
 #include <gtest/gtest.h>
 #include <exiv2/exiv2.hpp>
+#include "unittest_utils.hpp"
 
 #include <regex>
 #include <string>
@@ -79,12 +80,12 @@ TEST(XmpNsLeak, ReporterPoisonedFileDoesNotLeakIntoCleanFile) {
   // Read the poisoned file first (discard its data; keep global side-effects).
   {
     Exiv2::XmpData poisonedXmp;
-    Exiv2::XmpParser::decode(poisonedXmp, poisoned);
+    Exiv2::XmpParser::decode(poisonedXmp, poisoned, defaultDecodeParams());
   }
 
   // Read the clean victim file second, set the two properties the reporter sets.
   Exiv2::XmpData xmp;
-  ASSERT_EQ(0, Exiv2::XmpParser::decode(xmp, victim));
+  ASSERT_EQ(0, Exiv2::XmpParser::decode(xmp, victim, defaultDecodeParams()));
   xmp["Xmp.xmp.Rating"] = "1";
   xmp["Xmp.xmpMM.DocumentID"] = "xmp.did:exiv2-namespace-poison-repro";
 
@@ -122,7 +123,7 @@ TEST(XmpNsLeak, PoisonedReadDoesNotRebindRegisteredPrefix) {
                              R"( xleak:Foo="bar"/>)"
                              R"(</rdf:RDF></x:xmpmeta><?xpacket end="w"?>)";
   Exiv2::XmpData d;
-  Exiv2::XmpParser::decode(d, poison);
+  Exiv2::XmpParser::decode(d, poison, defaultDecodeParams());
 
   EXPECT_EQ(good, XmpProperties::ns("xleak"))
       << "decode() of a poisoned packet rebound prefix 'xleak' in the global registry";
@@ -152,9 +153,9 @@ TEST(XmpNsLeak, PerImageNamespaceBindingsAreIndependent) {
 
   // Read both images (same prefix, different valid URIs) before writing either.
   Exiv2::XmpData a;
-  ASSERT_EQ(0, Exiv2::XmpParser::decode(a, packetFor(uriA)));
+  ASSERT_EQ(0, Exiv2::XmpParser::decode(a, packetFor(uriA), defaultDecodeParams()));
   Exiv2::XmpData b;
-  ASSERT_EQ(0, Exiv2::XmpParser::decode(b, packetFor(uriB)));
+  ASSERT_EQ(0, Exiv2::XmpParser::decode(b, packetFor(uriB), defaultDecodeParams()));
 
   std::string pa, pb;
   ASSERT_EQ(0, Exiv2::XmpParser::encode(pa, a, Exiv2::XmpParser::omitPacketWrapper));
@@ -180,7 +181,7 @@ TEST(XmpNsLeak, ProgrammaticAddUsesCanonicalUriAfterPoison) {
                              R"(</rdf:RDF></x:xmpmeta><?xpacket end="w"?>)";
   {
     Exiv2::XmpData p;
-    Exiv2::XmpParser::decode(p, poison);
+    Exiv2::XmpParser::decode(p, poison, defaultDecodeParams());
   }
 
   // Victim never declared xmpMM; we add it programmatically.

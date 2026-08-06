@@ -1057,7 +1057,8 @@ void EpsImage::readMetadata() {
   readWriteEpsMetadata(*io_, xmpPacket_, nativePreviews_, /* write = */ false);
 
   // decode XMP metadata
-  if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_) > 1) {
+  const DecodeParams dp(max_recursion_depth_);
+  if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_, dp) > 1) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif

@@ -136,7 +136,6 @@ class EXIV2API BmffImage : public Image {
   uint16_t xmpID_{0};
   std::map<uint32_t, Iloc> ilocs_;
   bool bReadMetadata_{false};
-  const size_t max_box_depth_;
   //@}
 
   /*!

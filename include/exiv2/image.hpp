@@ -508,6 +508,7 @@ class EXIV2API Image {
   uint32_t pixelWidth_{0};            //!< image pixel width
   uint32_t pixelHeight_{0};           //!< image pixel height
   NativePreviewList nativePreviews_;  //!< list of native previews
+  const size_t max_recursion_depth_;  //!< don't allow recursion deeper than this
 
   //! Return tag name for given tag id.
   const std::string& tagName(uint16_t tag);

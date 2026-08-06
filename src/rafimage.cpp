@@ -346,7 +346,8 @@ void RafImage::readMetadata() {
     io_->read(tiff.data(), tiff.size());
 
     if (!io_->error() && !io_->eof()) {
-      TiffParser::decode(exifData_, iptcData_, xmpData_, tiff.c_data(), tiff.size());
+      const DecodeParams dp(max_recursion_depth_);
+      TiffParser::decode(exifData_, iptcData_, xmpData_, tiff.c_data(), tiff.size(), dp);
     }
   }
 }
