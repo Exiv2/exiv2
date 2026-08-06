@@ -955,7 +955,7 @@ DataBuf decodeAi7Thumbnail(const DataBuf& src, size_t expectedSize) {
         value = imageData[i++];
       }
     }
-    Internal::enforce(expectedSize - destPos >= num * 3, ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(expectedSize - destPos >= static_cast<size_t>(num) * 3, ErrorCode::kerCorruptedMetadata);
     const auto c0 = colorTable[value * 3];
     const auto c1 = colorTable[value * 3 + 1];
     const auto c2 = colorTable[value * 3 + 2];
