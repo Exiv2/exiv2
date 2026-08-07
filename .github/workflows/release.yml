@@ -17,8 +17,8 @@ jobs:
     strategy:
       matrix:
         runner:
-          - { os: ubuntu-22.04, arch: x64   }
-          - { os: ubuntu-22.04-arm, arch: arm64 }
+          - { os: ubuntu-24.04,     arch: x64   }
+          - { os: ubuntu-24.04-arm, arch: arm64 }
     permissions:
       id-token: write  # For sigstore
       attestations: write  # For artifact attestation
@@ -36,7 +36,7 @@ jobs:
         run: |
           conan profile new --detect default
           conan profile update settings.build_type=Release default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile update settings.compiler.libcxx=libstdc++13 default
 
       - name: Run Conan
         run: |
@@ -47,7 +47,12 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
+          cmake --preset linux-all -S . -B build \
+            -DEXIV2_TEAM_PACKAGING=ON \
+            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+            -DEXIV2_ENABLE_WEBREADY=OFF \
+            -DEXIV2_ENABLE_CURL=OFF \
+            -DEXIV2_BUILD_SAMPLES=OFF
           cmake --build build -t doc
           cmake --build build -t package
 
@@ -70,7 +75,7 @@ jobs:
       matrix:
         runner:
           - { os: macos-15-intel, arch: x64   }
-          - { os: macos-14,       arch: arm64 }
+          - { os: macos-15,       arch: arm64 }
     permissions:
       id-token: write  # For sigstore
       attestations: write  # For artifact attestation
@@ -157,7 +162,12 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
+          cmake --preset win-release -S . -B build \
+            -DEXIV2_TEAM_PACKAGING=ON \
+            -DEXIV2_BUILD_DOC=ON \
+            -DEXIV2_ENABLE_WEBREADY=OFF \
+            -DEXIV2_ENABLE_CURL=OFF \
+            -DEXIV2_BUILD_SAMPLES=OFF
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
@@ -175,7 +185,7 @@ jobs:
 
   publish:
     needs: [Linux, macOS, Windows]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     if: github.event_name == 'push'  # only publish when a new version tag is pushed
