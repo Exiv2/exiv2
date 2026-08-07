@@ -36,7 +36,7 @@ jobs:
         run: |
           conan profile new --detect default
           conan profile update settings.build_type=Release default
-          conan profile update settings.compiler.libcxx=libstdc++13 default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
 
       - name: Run Conan
         run: |
