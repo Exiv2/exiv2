@@ -3,6 +3,8 @@
 # PRs, we will test things more intensively :)
 # - Only running UnitTests and not regression tests
 
+name: On PUSH - Basic CI for main platforms
+
 on:
   push:
     paths-ignore:
@@ -12,51 +14,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-name: On PUSH - Basic CI for main platforms
-
 jobs:
-  windows:
-    name: 'Windows 10 - MSVC - Arch:X64 BuildType:Release - SHARED'
-    runs-on: windows-2022
-
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-
-      - name: Set up Visual Studio shell
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-
-      - name: Restore Conan cache
-        uses: actions/cache@v6
-        with:
-          path: ${{github.workspace}}/conanCache
-          key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
-
-      - name: Install Conan & Common config
-        run: |
-          python -m pip install conan==1.* lxml
-          conan profile new --detect default
-          conan profile show default
-          conan profile update settings.compiler="Visual Studio" default
-          conan profile update settings.compiler.version=17 default
-          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
-
-      - name: Build
-        run: |
-          cmake --preset win-release -S . -B build
-          cmake --build build --parallel
-
-      - name: Test
-        run: |
-          ctest --test-dir build --output-on-failure
-
   Linux:
-    name: 'Ubuntu 24.04 - GCC - Arch:X64 BuildType:Release - SHARED'
-    runs-on: ubuntu-24.04
-
+    name: 'Ubuntu 24.04 - GCC - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
+    runs-on: ${{ matrix.runner.os }}
+        strategy:
+      matrix:
+        runner:
+          - { os: ubuntu-24.04,     arch: x64   }
+          - { os: ubuntu-24.04-arm, arch: arm64 }
     steps:
       - uses: actions/checkout@v7
         with:
@@ -65,13 +31,17 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y install ninja-build
-          python3 -m pip install conan==1.* lxml
 
-      - name: Conan
+      - name: Install Conan & common config
+        run: |
+          python -m pip install conan==1.* lxml
+          conan profile new --detect default
+          conan profile update settings.build_type=Release default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+
+      - name: Run Conan
         run: |
           mkdir build && cd build
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
           conan profile show default
           conan install .. -o webready=True --build missing
 
@@ -84,15 +54,14 @@ jobs:
         run: |
           ctest --test-dir build --output-on-failure
 
-  MacOS:
+  macOS:
     name: 'macOS - XCode - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
     runs-on: ${{ matrix.runner.os }}
     strategy:
       matrix:
         runner:
-          - { os: macos-15-intel, arch: X64   }
-          - { os: macos-latest,   arch: ARM64 }
-
+          - { os: macos-15-intel, arch: x64   }
+          - { os: macos-15,       arch: arm64 }
     steps:
       - uses: actions/checkout@v7
         with:
@@ -105,6 +74,54 @@ jobs:
       - name: Build
         run: |
           cmake --preset base_mac -S . -B build
+          cmake --build build --parallel
+
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure
+
+  Windows:
+    name: 'Windows 10 - MSVC - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
+    runs-on: ${{ matrix.runner.os }}
+    strategy:
+      matrix:
+        runner:
+          - { os: windows-2022, arch: x64   }
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Visual Studio shell
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.runner.arch }}
+
+      - name: Restore Conan cache
+        uses: actions/cache@v6
+        with:
+          path: ${{github.workspace}}/conanCache
+          key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
+
+      - name: Install Conan & common config
+        run: |
+          python -m pip install conan==1.* lxml
+          conan profile new --detect default
+          conan profile show default
+          conan profile update settings.build_type=Release default
+          conan profile update settings.compiler="Visual Studio" default
+          conan profile update settings.compiler.version=17 default
+          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+
+      - name: Run Conan
+        run: |
+          md build
+          cd build
+          conan install .. --build missing
+
+      - name: Build
+        run: |
+          cmake --preset win-release -S . -B build
           cmake --build build --parallel
 
       - name: Test
