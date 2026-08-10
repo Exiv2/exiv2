@@ -1,7 +1,5 @@
 name: Release
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+
 on:
   push:
     tags:
@@ -9,6 +7,10 @@ on:
   schedule:
     - cron: '30 4 * * *'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   Linux:
@@ -30,10 +32,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y gettext doxygen graphviz ninja-build
-          python -m pip install conan==1.*
 
-      - name: Conan common config
+      - name: Install Conan & common config
         run: |
+          python -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.build_type=Release default
           conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -41,7 +43,6 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build && cd build
-          conan profile list
           conan profile show default
           conan install .. -o webready=False --build missing
 
@@ -131,20 +132,22 @@ jobs:
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.runner.arch }}
 
       - name: Install doxygen
         run: |
           choco install doxygen.install
           choco install graphviz
 
-      - name: Restore conan cache
+      - name: Restore Conan cache
         uses: actions/cache@v6
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-release-win-${{ hashFiles('conanfile.py') }}
             lookup-only: true
 
-      - name: Install Conan & Common config
+      - name: Install Conan & common config
         run: |
           python -m pip install conan==1.*
           conan profile new --detect default
