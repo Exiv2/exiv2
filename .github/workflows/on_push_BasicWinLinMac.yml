@@ -18,7 +18,7 @@ jobs:
   Linux:
     name: 'Ubuntu 24.04 - GCC - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
     runs-on: ${{ matrix.runner.os }}
-        strategy:
+    strategy:
       matrix:
         runner:
           - { os: ubuntu-24.04,     arch: x64   }
