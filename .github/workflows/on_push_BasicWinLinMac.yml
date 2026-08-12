@@ -81,7 +81,7 @@ jobs:
           ctest --test-dir build --output-on-failure
 
   Windows:
-    name: 'Windows 10 - MSVC - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
+    name: 'Windows 11 - MSVC - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
     runs-on: ${{ matrix.runner.os }}
     strategy:
       matrix:
