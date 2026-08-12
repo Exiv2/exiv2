@@ -18,7 +18,7 @@ on:
 
 jobs:
   windows:
-    name: 'Win10 Arch: ${{matrix.platform}} BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
+    name: 'Windows 11 MSVC ${{matrix.platform}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
     runs-on: windows-2022
 
     strategy:
