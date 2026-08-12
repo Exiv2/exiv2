@@ -8,11 +8,11 @@ concurrency:
 
 jobs:
   Ubuntu:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Linux-GCC${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['9', '13']
+        cxx: ['9', '16']
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v7
@@ -31,11 +31,11 @@ jobs:
           meson compile -C "${{github.workspace}}/build" --verbose
           meson test -C "${{github.workspace}}/build" --verbose
   Ubuntu-clang:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: Linux-Clang${{matrix.cxx}}-deps=${{matrix.deps}}
     strategy:
       matrix:
-        cxx: ['11', '21']
+        cxx: ['14', '22']
         deps: ['enabled', 'disabled']
     steps:
       - uses: actions/checkout@v7
