@@ -55,7 +55,7 @@ jobs:
           ctest --test-dir build --output-on-failure
 
   macOS:
-    name: 'macOS - XCode - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
+    name: 'macOS 15 - XCode - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
     runs-on: ${{ matrix.runner.os }}
     strategy:
       matrix:
@@ -81,7 +81,7 @@ jobs:
           ctest --test-dir build --output-on-failure
 
   Windows:
-    name: 'Windows 11 - MSVC - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
+    name: 'Windows 2022 - MSVC - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
     runs-on: ${{ matrix.runner.os }}
     strategy:
       matrix:
