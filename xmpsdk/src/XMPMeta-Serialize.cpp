@@ -131,7 +131,9 @@ DeclareOneNamespace	( const XMP_VarString &	nsPrefix,
 					  XMP_StringPtr			indentStr,
 					  XMP_Index				indent )
 {
-	size_t nsPos = usedNS.find ( nsPrefix );
+	XMP_VarString boundedPrefix = ":";
+	boundedPrefix += nsPrefix;
+	size_t nsPos = usedNS.find ( boundedPrefix );
 
 	if ( nsPos == XMP_VarString::npos ) {
 		
@@ -139,7 +141,10 @@ DeclareOneNamespace	( const XMP_VarString &	nsPrefix,
 		for ( ; indent > 0; --indent ) outputStr += indentStr;
 		outputStr += "xmlns:";
 		outputStr += nsPrefix;
-		outputStr[outputStr.size()-1] = '=';	// Change the colon to =.
+		if (outputStr[outputStr.size ( ) - 1] == ':')
+			outputStr[outputStr.size ( ) - 1] = '=';	// Change the colon to =.
+		else
+			outputStr += '=';
 		outputStr += '"';
 		outputStr += nsURI;
 		outputStr += '"';

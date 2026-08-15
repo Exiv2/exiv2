@@ -32,11 +32,15 @@ Xmp.exif.NativeDigest                        XmpText   414  36864,40960,40961,37
 < <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="3.1.2-113">
 ---
 > <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
-35d34
-<      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
-36a36
->      <rdf:li xml:lang="en-US">Blue Square Test File - .jpg</rdf:li>
-67,87c67,87
+5,0c6
+---
+>     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+34,0c36
+---
+>      <rdf:li xml:lang="x-default">Blue Square Test File - .jpg</rdf:li>
+36c37,0
+<      <rdf:li xml:lang="x-default">Blue Square Test File - .jpg</rdf:li>
+67,21c68,21
 < 
 < 
 < 
@@ -149,9 +153,13 @@ Xmp.wine.Recommend                           XmpText     5  False
 <   <rdf:Description rdf:about="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
 ---
 >   <rdf:Description rdf:about=""
-46a47
+12,0c13
+---
+>     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+46,0c48
+---
 >    xapMM:InstanceID="uuid:0f410644-9396-11d9-bb8e-a67e6693b6e9"
-160,191c161
+160,32c162
 <                                                                                                     
 <                                                                                                     
 <                                                                                                     
@@ -207,7 +215,7 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner XmpText    13  type="Str
 Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field1 XmpText    12  Field1 value
 Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12  Field2 value
 -----> Encoding XMP data to write to xmpsdk.xmp-new <-----
-1,48c1,65
+1,49c1,66
 <     <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
 <       <rdf:Description rdf:about='' xmlns:ns1='ns:test1/' xmlns:ns2='ns:test2/'>
 <     
@@ -262,6 +270,7 @@ Xmp.ns1.NestedStructProp/ns2:Outer/ns2:Middle/ns2:Inner/ns2:Field2 XmpText    12
 >  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 >   <rdf:Description rdf:about=""
 >     xmlns:ns1="ns:test1/"
+>     xmlns:xml="http://www.w3.org/XML/1998/namespace"
 >     xmlns:ns2="ns:test2/"
 >    ns1:SimpleProp1="Simple1 value">
 >    <ns1:SimpleProp2 xml:lang="x-default">Simple2 value</ns1:SimpleProp2>
@@ -357,6 +366,7 @@ Xmp.iptc.CreatorContactInfo/Iptc4xmpCore:CiUrlWork XmpText    20  http://www.exi
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
     xmlns:ns="myNamespace/"
     xmlns:tiff="http://ns.adobe.com/tiff/1.0/"
     xmlns:xmpDM="http://ns.adobe.com/xmp/1.0/DynamicMedia/"
