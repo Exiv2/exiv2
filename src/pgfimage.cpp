@@ -94,19 +94,18 @@ void PgfImage::readMetadata() {
   std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
 #endif
 
-  if (size > io_->size())
+  const size_t offset = io_->tell();
+  assert(offset <= io_->size());
+  if (size > io_->size() - offset)
     throw Error(ErrorCode::kerInputDataReadFailed);
   if (size == 0)
     return;
 
-  DataBuf imgData(size);
-  const size_t bufRead = io_->read(imgData.data(), imgData.size());
+  const Exiv2::byte* base = io_->mmap();
   if (io_->error())
     throw Error(ErrorCode::kerFailedToReadImageData);
-  if (bufRead != imgData.size())
-    throw Error(ErrorCode::kerInputDataReadFailed);
 
-  auto image = Exiv2::ImageFactory::open(imgData.c_data(), imgData.size());
+  auto image = Exiv2::ImageFactory::open(base + offset, size);
   image->readMetadata();
   exifData() = image->exifData();
   iptcData() = image->iptcData();
