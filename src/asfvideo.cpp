@@ -180,7 +180,7 @@ static bool isASFType(const byte buf[]) {
 }
 
 AsfVideo::AsfVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
-    Image(ImageType::asf, mdNone, std::move(io), params), max_recursion_depth_(params.max_recursion_depth()) {
+    Image(ImageType::asf, mdNone, std::move(io), params) {
 }  // AsfVideo::AsfVideo
 
 std::string AsfVideo::mimeType() const {

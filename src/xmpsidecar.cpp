@@ -68,7 +68,8 @@ void XmpSidecar::readMetadata() {
     throw Error(ErrorCode::kerFailedToReadImageData);
   clearMetadata();
   xmpPacket_ = std::move(xmpPacket);
-  if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
+  const DecodeParams dp(max_recursion_depth_);
+  if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_, dp)) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif

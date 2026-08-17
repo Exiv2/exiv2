@@ -206,8 +206,6 @@ class EXIV2API QuickTimeVideo : public Image {
   //! Variable to store height and width of a video frame.
   uint64_t height_ = 0;
   uint64_t width_ = 0;
-  //! Prevent stack exhaustion due to excessively deep recursion.
-  const size_t max_recursion_depth_;
 
 };  // QuickTimeVideo End
 

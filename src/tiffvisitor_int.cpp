@@ -191,8 +191,13 @@ void TiffCopier::visitBinaryElement(TiffBinaryElement* object) {
 }
 
 TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
-                         FindDecoderFct findDecoderFct) :
-    exifData_(exifData), iptcData_(iptcData), xmpData_(xmpData), pRoot_(pRoot), findDecoderFct_(findDecoderFct) {
+                         FindDecoderFct findDecoderFct, const DecodeParams& dp) :
+    exifData_(exifData),
+    iptcData_(iptcData),
+    xmpData_(xmpData),
+    pRoot_(pRoot),
+    findDecoderFct_(findDecoderFct),
+    max_recursion_depth_(dp.max_recursion_depth()) {
   // #1402 Fujifilm RAF. Search for the make
   // Find camera make in existing metadata (read from the JPEG)
   ExifKey key("Exif.Image.Make");
@@ -284,7 +289,8 @@ void TiffDecoder::decodeXmp(const TiffEntryBase* object) {
 #endif
       xmpPacket = xmpPacket.substr(idx);
     }
-    if (XmpParser::decode(xmpData_, xmpPacket)) {
+    const DecodeParams dp(max_recursion_depth_);
+    if (XmpParser::decode(xmpData_, xmpPacket, dp)) {
 #ifndef SUPPRESS_WARNINGS
       EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif

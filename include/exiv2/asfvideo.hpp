@@ -171,9 +171,6 @@ class EXIV2API AsfVideo : public Image {
   //! Variable to store height and width of a video frame.
   uint64_t height_{};
   uint64_t width_{};
-
-  // Maximum recursion depth
-  const size_t max_recursion_depth_;
 };  // Class AsfVideo
 
 // *****************************************************************************

@@ -220,7 +220,8 @@ class TiffParserWorker {
             decoding failed.
   */
   static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
-                          uint32_t root, FindDecoderFct findDecoderFct, TiffHeaderBase* pHeader = nullptr);
+                          uint32_t root, FindDecoderFct findDecoderFct, const DecodeParams& dp,
+                          TiffHeaderBase* pHeader = nullptr);
   /*!
     @brief Encode TIFF metadata from the metadata containers into a
            memory block \em blob.

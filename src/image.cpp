@@ -141,8 +141,11 @@ ImageCtorParams::ImageCtorParams(bool create, size_t max_recursion_depth) :
     create_(create), max_recursion_depth_(max_recursion_depth) {
 }
 
-Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io, const ImageCtorParams& /*params*/) :
-    io_(std::move(io)), imageType_(type), supportedMetadata_(supportedMetadata) {
+Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    io_(std::move(io)),
+    max_recursion_depth_(params.max_recursion_depth()),
+    imageType_(type),
+    supportedMetadata_(supportedMetadata) {
 }
 
 Image::~Image() = default;
@@ -615,7 +618,8 @@ void Image::clearXmpPacket() {
 }
 
 void Image::setXmpPacket(const std::string& xmpPacket) {
-  if (XmpParser::decode(xmpData_, xmpPacket)) {
+  const DecodeParams dp(max_recursion_depth_);
+  if (XmpParser::decode(xmpData_, xmpPacket, dp)) {
     throw Error(ErrorCode::kerInvalidXMP);
   }
   xmpPacket_ = xmpPacket;

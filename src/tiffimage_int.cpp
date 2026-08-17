@@ -2043,7 +2043,8 @@ TiffPath TiffCreator::getPath(uint32_t extendedTag, IfdId group, uint32_t root) 
 }
 
 ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData,
-                                   size_t size, uint32_t root, FindDecoderFct findDecoderFct, TiffHeaderBase* pHeader) {
+                                   size_t size, uint32_t root, FindDecoderFct findDecoderFct, const DecodeParams& dp,
+                                   TiffHeaderBase* pHeader) {
   // Create standard TIFF header if necessary
   std::unique_ptr<TiffHeaderBase> ph;
   if (!pHeader) {
@@ -2052,7 +2053,7 @@ ByteOrder TiffParserWorker::decode(ExifData& exifData, IptcData& iptcData, XmpDa
   }
 
   if (auto rootDir = parse(pData, size, root, pHeader)) {
-    auto decoder = TiffDecoder(exifData, iptcData, xmpData, rootDir.get(), findDecoderFct);
+    auto decoder = TiffDecoder(exifData, iptcData, xmpData, rootDir.get(), findDecoderFct, dp);
     rootDir->accept(decoder);
   }
   return pHeader->byteOrder();

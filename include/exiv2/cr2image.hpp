@@ -83,7 +83,8 @@ class EXIV2API Cr2Parser {
            with data in CR2 format to the provided metadata containers.
            See TiffParser::decode().
   */
-  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size);
+  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                          const DecodeParams& dp);
   /*!
     @brief Encode metadata from the provided metadata to CR2 format.
            See TiffParser::encode().
