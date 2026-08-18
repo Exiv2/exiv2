@@ -22,6 +22,7 @@ headers = files(
   'exiv2/metadatum.hpp',
   'exiv2/mrwimage.hpp',
   'exiv2/orfimage.hpp',
+  'exiv2/params.hpp',
   'exiv2/pgfimage.hpp',
   'exiv2/photoshop.hpp',
   'exiv2/pngimage.hpp',
