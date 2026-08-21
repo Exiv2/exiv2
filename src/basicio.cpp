@@ -296,7 +296,10 @@ byte* FileIo::mmap(bool isWriteable) {
   if (!DuplicateHandle(hPh, hFd, hPh, &p_->hFile_, 0, false, DUPLICATE_SAME_ACCESS)) {
     throw Error(ErrorCode::kerCallFailed, path(), "MSG2", "DuplicateHandle");
   }
-  p_->hMap_ = CreateFileMapping(p_->hFile_, nullptr, flProtect, 0, static_cast<DWORD>(p_->mappedLength_), nullptr);
+  // For the call to CreateFileMapping(), p_->mappedLength_ needs to be split into high and low parts:
+  ULARGE_INTEGER mappedLength{};
+  mappedLength.QuadPart = p_->mappedLength_;
+  p_->hMap_ = CreateFileMapping(p_->hFile_, nullptr, flProtect, mappedLength.HighPart, mappedLength.LowPart, nullptr);
   if (p_->hMap_ == nullptr) {
     throw Error(ErrorCode::kerCallFailed, path(), "MSG3", "CreateFileMapping");
   }
