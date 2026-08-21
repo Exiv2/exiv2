@@ -580,7 +580,7 @@ void Image::setMetadata(const Image& image) {
     setIptcData(image.iptcData());
   }
   if (checkMode(mdIccProfile) & amWrite) {
-    setIccProfile(DataBuf(image.iccProfile()));
+    setIccProfile(image.iccProfile().clone());
   }
   if (checkMode(mdXmp) & amWrite) {
     setXmpPacket(image.xmpPacket());
