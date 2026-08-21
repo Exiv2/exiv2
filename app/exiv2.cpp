@@ -293,7 +293,7 @@ void Params::help(std::ostream& os) const {
      << _("             C : Print ICC profile\n")
      << _("             R : Recursive print structure of image (debug build only)\n")
      << _("             S : Print structure of image (limited file types)\n")
-     << _("             X : Extract \"raw\" XMP\n")
+     << _("             X : Extract \"raw\" XMP\n") << _("             j : JSON output (Exif, IPTC and XMP tags)\n")
      << _("   -P flgs Print flags for fine control of tag lists ('print' action):\n")
      << _("             E : Exif tags\n") << _("             I : IPTC tags\n") << _("             X : XMP tags\n")
      << _("             x : Tag number for Exif or IPTC tags (in hexadecimal)\n")
@@ -665,6 +665,10 @@ int Params::evalPrint(const std::string& optArg) {
         case 'X':
           action_ = Action::print;
           printMode_ = pmXMP;
+          break;
+        case 'j':
+          action_ = Action::print;
+          printMode_ = pmJson;
           break;
         default:
           std::cerr << progname() << ": " << _("Unrecognized print mode") << " `" << optArg << "'\n";
