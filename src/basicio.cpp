@@ -1312,21 +1312,16 @@ int RemoteIo::seek(int64_t offset, Position pos) {
 }
 
 byte* RemoteIo::mmap(bool /*isWriteable*/) {
-  size_t nRealData = 0;
   if (!bigBlock_) {
     size_t blockSize = p_->blockSize_;
     size_t blocks = (p_->size_ + blockSize - 1) / blockSize;
-    bigBlock_ = new byte[blocks * blockSize];
+    bigBlock_ = new byte[blocks * blockSize]{};
     for (size_t block = 0; block < blocks; block++) {
-      if (auto p = p_->blocksMap_.at(block).getData()) {
-        size_t nRead = block == (blocks - 1) ? p_->size_ - nRealData : blockSize;
-        memcpy(bigBlock_ + (block * blockSize), p, nRead);
-        nRealData += nRead;
+      auto& b = p_->blocksMap_.at(block);
+      if (!b.isNone()) {
+        memcpy(bigBlock_ + (block * blockSize), b.getData(), b.getSize());
       }
     }
-#ifdef EXIV2_DEBUG_MESSAGES
-    std::cerr << "RemoteIo::mmap nRealData = " << nRealData << '\n';
-#endif
   }
 
   return bigBlock_;
