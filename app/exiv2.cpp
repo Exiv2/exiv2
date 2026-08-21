@@ -119,6 +119,7 @@ std::string parseEscapes(const std::string& input);
 // Main
 int main(int argc, char* const argv[]) {
   setlocale(LC_CTYPE, ".utf8");
+  Util::increase_stack_limit();
 
   Exiv2::XmpParser::initialize();
   ::atexit(Exiv2::XmpParser::terminate);
