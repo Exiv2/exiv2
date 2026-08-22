@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "metadatum.hpp"
-#include "enforce.hpp"
 #include <limits>
+#include "enforce.hpp"
 
 namespace Exiv2 {
 Key::UniquePtr Key::clone() const {
