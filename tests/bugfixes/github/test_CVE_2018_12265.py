@@ -10,13 +10,11 @@ class AdditionOverflowInLoaderExifJpeg(metaclass=system_tests.CaseMeta):
     https://cve.mitre.org/cgi-bin/cvename.cgi?name=2018-12265
     """
     filename = system_tests.path("$data_path/1-out-of-read-Poc")
-    commands = ["$exiv2 -ep $filename"]
-    stdout = [""]
+    commands = ["$exiv2 -q -ep $filename"]
+    retval = [1]
     stderr = [
-        """Error: Upper boundary of data for directory Image, entry 0x00fe is out of bounds: Offset = 0x0000002a, size = 64, exceeds buffer size by 22 Bytes; truncating the entry
-Warning: Directory Image, entry 0x0201: Strip 0 is outside of the data area; ignored.
-Warning: Directory Image, entry 0x0201: Strip 7 is outside of the data area; ignored.
-""" +
-        ("" if system_tests.BT.Config.is_64bit else "Uncaught exception: Overflow in addition\n")
+        """$exception_in_extract $filename:
+$kerCorruptedMetadata
+"""
     ]
-    retval = [0 if system_tests.BT.Config.is_64bit else 1]
+    stdout = [""]
