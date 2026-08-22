@@ -206,22 +206,22 @@ std::ostream& StringValueBase::write(std::ostream& os) const {
 
 int64_t StringValueBase::toInt64(size_t n) const {
   ok_ = true;
-  return value_.at(n);
+  return static_cast<signed char>(value_.at(n));
 }
 
 uint32_t StringValueBase::toUint32(size_t n) const {
   ok_ = true;
-  return value_.at(n);
+  return static_cast<unsigned char>(value_.at(n));
 }
 
 float StringValueBase::toFloat(size_t n) const {
   ok_ = true;
-  return value_.at(n);
+  return static_cast<signed char>(value_.at(n));
 }
 
 Rational StringValueBase::toRational(size_t n) const {
   ok_ = true;
-  return {value_.at(n), 1};
+  return {static_cast<signed char>(value_.at(n)), 1};
 }
 
 StringValue::StringValue() : StringValueBase(string) {

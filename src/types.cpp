@@ -25,6 +25,15 @@
 #include <libintl.h>
 #endif
 
+// This is a workaround for Exscripten (WebAssembly toolchain
+// https://emscripten.org/). Emscripted doesn't support floating point
+// exceptions, so this bitmask isn't defined:
+// https://github.com/emscripten-core/emscripten/pull/11087.
+// We need to define the macro to avoid a compile error.
+#ifndef FE_INVALID
+#define FE_INVALID 0
+#endif
+
 // *****************************************************************************
 namespace {
 //! Information pertaining to the defined %Exiv2 value type identifiers.
@@ -540,7 +549,6 @@ int64_t parseInt64(const std::string& s, bool& ok) {
   auto d = stringTo<double>(s, ok);
   if (ok) {
     std::feclearexcept(FE_ALL_EXCEPT);
-    std::fesetround(FE_TONEAREST);
     auto ll = std::llround(d);
     if (!std::fetestexcept(FE_INVALID) && std::numeric_limits<int64_t>::min() <= ll &&
         ll <= std::numeric_limits<int64_t>::max()) {
