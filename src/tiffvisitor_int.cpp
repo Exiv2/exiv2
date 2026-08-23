@@ -1124,7 +1124,7 @@ void TiffReader::visitDirectory(TiffDirectory* object) {
 #endif
     }
     if (tc) {
-      if (baseOffset() + next > size_) {
+      if (next > size_ || baseOffset() > size_ - next) {
 #ifndef SUPPRESS_WARNINGS
         EXV_ERROR << "Directory " << groupName(object->group()) << ": Next pointer is out of bounds; ignored.\n";
 #endif
@@ -1146,8 +1146,8 @@ void TiffReader::visitSubIfd(TiffSubIfd* object) {
     if (object->group() == IfdId::ifd1Id)
       maxi = 1;
     for (uint32_t i = 0; i < object->count(); ++i) {
-      uint32_t offset = getULong(object->pData() + (4 * i), byteOrder());
-      if (baseOffset() + offset > size_) {
+      const uint32_t offset = getULong(object->pData() + (4 * i), byteOrder());
+      if (offset > size_ || baseOffset() > size_ - offset) {
 #ifndef SUPPRESS_WARNINGS
         EXV_ERROR << "Directory " << groupName(object->group()) << ", entry 0x" << std::setw(4) << std::setfill('0')
                   << std::hex << object->tag() << " Sub-IFD pointer " << i << " is out of bounds; ignoring it.\n";
