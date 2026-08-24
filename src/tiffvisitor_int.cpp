@@ -1210,10 +1210,15 @@ void TiffReader::visitIfdMakernote(TiffIfdMakernote* object) {
     return;
   }
 
-  object->ifd_.setStart(object->start() + object->ifdOffset());
+  auto start = object->start();
+  auto offset = object->ifdOffset();
+  enforce(pData_ <= start, ErrorCode::kerCorruptedMetadata);
+  enforce(start <= pLast_, ErrorCode::kerCorruptedMetadata);
+  enforce(offset <= static_cast<size_t>(pLast_ - start), ErrorCode::kerCorruptedMetadata);
+  object->ifd_.setStart(start + offset);
 
   // Modify reader for Makernote peculiarities, byte order and offset
-  object->mnOffset_ = object->start() - pData_;
+  object->mnOffset_ = start - pData_;
   auto state = TiffRwState{object->byteOrder(), object->baseOffset()};
   setMnState(&state);
 
