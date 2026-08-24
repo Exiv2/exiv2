@@ -12,6 +12,7 @@
 // + standard includes
 #include <array>
 #include <cctype>
+#include <cfenv>
 #include <climits>
 #include <cmath>
 #include <cstring>
@@ -22,6 +23,14 @@
 
 #ifdef EXV_ENABLE_NLS
 #include <libintl.h>
+#endif
+
+// This is a workaround for Emscripten (WebAssembly toolchain https://emscripten.org/).
+// Emscripten doesn't support floating point exceptions, so this bitmask isn't defined
+// (see: https://github.com/emscripten-core/emscripten/pull/11087). We need to define
+// the macro to avoid a compile error.
+#ifndef FE_INVALID
+#define FE_INVALID 0
 #endif
 
 // *****************************************************************************
@@ -536,9 +545,15 @@ int64_t parseInt64(const std::string& s, bool& ok) {
   if (ok)
     return ret;
 
-  auto f = stringTo<float>(s, ok);
-  if (ok)
-    return static_cast<int64_t>(f);
+  auto d = stringTo<double>(s, ok);
+  if (ok) {
+    std::feclearexcept(FE_ALL_EXCEPT);
+    auto ll = std::llround(d);
+    if (!std::fetestexcept(FE_INVALID) && std::numeric_limits<int64_t>::min() <= ll &&
+        ll <= std::numeric_limits<int64_t>::max()) {
+      return static_cast<int64_t>(ll);
+    }
+  }
 
   auto [r, st] = stringTo<Rational>(s, ok);
   if (ok) {

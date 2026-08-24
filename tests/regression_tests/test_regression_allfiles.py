@@ -130,6 +130,7 @@ def get_valid_files(data_dir):
         "xmpsdk.xmp",
         "issue_3513_poc.psd",
         "issue_3511_poc.eps",
+        "issue_3519_poc.xmp",
         "issue_9324_poc.crw",
         # large file that creates 11Mb of output so let's exclude it
         "ReaganLargeTiff.tiff",
