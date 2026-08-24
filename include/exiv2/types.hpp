@@ -128,6 +128,14 @@ struct EXIV2API DataBuf {
   explicit DataBuf(size_t size);
   //! Constructor, copies an existing buffer
   DataBuf(const byte* pData, size_t size);
+  //! Move constructor
+  DataBuf(DataBuf&&) = default;
+  //! Move assignment operator
+  DataBuf& operator=(DataBuf&& other) = default;
+  //! Copy constructor (deleted to avoid accidental copying)
+  DataBuf(const DataBuf&) = delete;
+  //! Assignment operator (deleted to avoid accidental copying)
+  DataBuf& operator=(const DataBuf&) = delete;
   //@}
 
   //! @name Manipulators
@@ -165,6 +173,11 @@ struct EXIV2API DataBuf {
 
   [[nodiscard]] size_t size() const {
     return pData_.size();
+  }
+
+  //! Returns a copy
+  [[nodiscard]] DataBuf clone() const {
+    return DataBuf(c_data(), size());
   }
 
   [[nodiscard]] uint8_t read_uint8(size_t offset) const;
