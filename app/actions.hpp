@@ -82,34 +82,6 @@ class Task {
     return binary_;
   }
 
- private:
-  //! copy binary_ from command-line params to task
-  bool binary_{false};
-};  // class Task
-
-/*!
-  @brief Task factory.
-
-  Creates an instance of the task of the requested type.  The factory is
-  implemented as a singleton, which can be accessed only through the static
-  member function instance().
-*/
-class TaskFactory {
- public:
-  /*!
-    @brief Get access to the task factory.
-    Clients access the task factory exclusively through this method. (SINGLETON)
-  */
-  static TaskFactory& instance();
-
-  ~TaskFactory() = default;
-  //! Prevent copy construction: not implemented.
-  TaskFactory(const TaskFactory&) = delete;
-  TaskFactory& operator=(const TaskFactory&) = delete;
-
-  //! Destructor
-  void cleanup();
-
   /*!
     @brief  Create a task.
 
@@ -120,15 +92,12 @@ class TaskFactory {
             returned auto pointer and take appropriate action (e.g., throw
             an exception) if it is 0.
    */
-  Task::UniquePtr create(TaskType type);
+  static Task::UniquePtr create(TaskType type);
 
  private:
-  //! Prevent construction other than through instance().
-  TaskFactory();
-
-  //! List of task types and corresponding prototypes.
-  std::unordered_map<TaskType, Task::UniquePtr> registry_;
-};
+  //! copy binary_ from command-line params to task
+  bool binary_{false};
+};  // class Task
 
 //! %Print the Exif (or other metadata) of a file to stdout
 class Print : public Task {

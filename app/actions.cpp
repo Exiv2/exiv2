@@ -134,33 +134,30 @@ int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const 
 // *****************************************************************************
 // class member definitions
 namespace Action {
-TaskFactory& TaskFactory::instance() {
-  static TaskFactory instance_;
-  return instance_;
-}
 
-void TaskFactory::cleanup() {
-  registry_.clear();
-}
-
-TaskFactory::TaskFactory() {
-  registry_.emplace(adjust, std::make_unique<Adjust>());
-  registry_.emplace(print, std::make_unique<Print>());
-  registry_.emplace(rename, std::make_unique<Rename>());
-  registry_.emplace(erase, std::make_unique<Erase>());
-  registry_.emplace(extract, std::make_unique<Extract>());
-  registry_.emplace(insert, std::make_unique<Insert>());
-  registry_.emplace(modify, std::make_unique<Modify>());
-  registry_.emplace(fixiso, std::make_unique<FixIso>());
-  registry_.emplace(fixcom, std::make_unique<FixCom>());
-}
-
-Task::UniquePtr TaskFactory::create(TaskType type) {
-  auto i = registry_.find(type);
-  if (i != registry_.end() && i->second) {
-    return i->second->clone();
+Task::UniquePtr Task::create(TaskType type) {
+  switch (type) {
+    case adjust:
+      return std::make_unique<Adjust>();
+    case print:
+      return std::make_unique<Print>();
+    case rename:
+      return std::make_unique<Rename>();
+    case erase:
+      return std::make_unique<Erase>();
+    case extract:
+      return std::make_unique<Extract>();
+    case insert:
+      return std::make_unique<Insert>();
+    case modify:
+      return std::make_unique<Modify>();
+    case fixiso:
+      return std::make_unique<FixIso>();
+    case fixcom:
+      return std::make_unique<FixCom>();
+    default:
+      return nullptr;
   }
-  return nullptr;
 }
 
 static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path, bool binary) {
