@@ -608,10 +608,6 @@ int Print::printPreviewList() {
   return 0;
 }  // Print::printPreviewList
 
-Task::UniquePtr Print::clone() const {
-  return std::make_unique<Print>(*this);
-}
-
 int Rename::run(const std::string& path) {
   try {
     if (!Exiv2::fileExists(path)) {
@@ -670,10 +666,6 @@ int Rename::run(const std::string& path) {
     std::cerr << "Exiv2 exception in rename action for file " << path << ":\n" << e << "\n";
     return 1;
   }
-}
-
-Task::UniquePtr Rename::clone() const {
-  return std::make_unique<Rename>(*this);
 }
 
 int Erase::run(const std::string& path) {
@@ -778,10 +770,6 @@ int Erase::eraseIccProfile(Exiv2::Image* image) {
   }
   image->clearIccProfile();
   return 0;
-}
-
-Task::UniquePtr Erase::clone() const {
-  return std::make_unique<Erase>(*this);
 }
 
 int Extract::run(const std::string& path) {
@@ -950,10 +938,6 @@ void Extract::writePreviewFile(const Exiv2::PreviewImage& pvImg, size_t num) con
   }
 }
 
-Task::UniquePtr Extract::clone() const {
-  return std::make_unique<Extract>(*this);
-}
-
 int Insert::run(const std::string& path) try {
   // -i{tgt}-  reading from stdin?
   bool bStdin = (Params::instance().target_ & Params::ctStdInOut) != 0;
@@ -1100,10 +1084,6 @@ int Insert::insertThumbnail(const std::string& path) {
 
   return 0;
 }  // Insert::insertThumbnail
-
-Task::UniquePtr Insert::clone() const {
-  return std::make_unique<Insert>(*this);
-}
 
 int Modify::run(const std::string& path) {
   try {
@@ -1306,10 +1286,6 @@ void Modify::regNamespace(const ModifyCmd& modifyCmd) {
   Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
 }
 
-Task::UniquePtr Modify::clone() const {
-  return std::make_unique<Modify>(*this);
-}
-
 int Adjust::run(const std::string& path) try {
   adjustment_ = Params::instance().adjustment_;
   yearAdjustment_ = Params::instance().yodAdjust_[Params::yodYear].adjustment_;
@@ -1346,10 +1322,6 @@ int Adjust::run(const std::string& path) try {
   std::cerr << "Exiv2 exception in adjust action for file " << path << ":\n" << e << "\n";
   return 1;
 }  // Adjust::run
-
-Task::UniquePtr Adjust::clone() const {
-  return std::make_unique<Adjust>(*this);
-}
 
 int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const std::string& path) const {
   Exiv2::ExifKey ek(key);
@@ -1505,10 +1477,6 @@ int FixIso::run(const std::string& path) {
   }
 }  // FixIso::run
 
-Task::UniquePtr FixIso::clone() const {
-  return std::make_unique<FixIso>(*this);
-}
-
 int FixCom::run(const std::string& path) {
   try {
     if (!Exiv2::fileExists(path)) {
@@ -1565,10 +1533,6 @@ int FixCom::run(const std::string& path) {
     return 1;
   }
 }  // FixCom::run
-
-Task::UniquePtr FixCom::clone() const {
-  return std::make_unique<FixCom>(*this);
-}
 
 }  // namespace Action
 
