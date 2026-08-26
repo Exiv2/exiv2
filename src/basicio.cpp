@@ -1576,8 +1576,6 @@ int64_t CurlIo::CurlImpl::getFileLength() const {
   curl_easy_setopt(curl_.get(), CURLOPT_URL, path_.c_str());
   curl_easy_setopt(curl_.get(), CURLOPT_NOBODY, 1);  // HEAD
   curl_easy_setopt(curl_.get(), CURLOPT_WRITEFUNCTION, curlWriter);
-  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
-  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYHOST, 0L);
   curl_easy_setopt(curl_.get(), CURLOPT_CONNECTTIMEOUT, timeout_);
   // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
 
@@ -1603,9 +1601,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t startBlock, size_t stopBlock, std::
   curl_easy_setopt(curl_.get(), CURLOPT_NOPROGRESS, 1L);  // no progress meter please
   curl_easy_setopt(curl_.get(), CURLOPT_WRITEFUNCTION, curlWriter);
   curl_easy_setopt(curl_.get(), CURLOPT_WRITEDATA, &response);
-  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
   curl_easy_setopt(curl_.get(), CURLOPT_CONNECTTIMEOUT, timeout_);
-  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYHOST, 0L);
 
   // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
 
@@ -1646,7 +1642,6 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   curl_easy_setopt(curl_.get(), CURLOPT_NOPROGRESS, 1L);  // no progress meter please
   // curl_easy_setopt(curl_.get(), CURLOPT_VERBOSE, 1); // debugging mode
   curl_easy_setopt(curl_.get(), CURLOPT_URL, scriptPath.c_str());
-  curl_easy_setopt(curl_.get(), CURLOPT_SSL_VERIFYPEER, 0L);
 
   // encode base64
   size_t encodeLength = (((size + 2) / 3) * 4) + 1;
