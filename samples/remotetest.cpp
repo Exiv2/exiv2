@@ -10,17 +10,8 @@
 int main(int argc, char* const argv[]) {
   try {
     if (argc < 2) {
-      std::cout << "Usage: " << argv[0] << " file {--nocurl | --curl}\n\n";
+      std::cout << "Usage: " << argv[0] << " file\n\n";
       return EXIT_FAILURE;
-    }
-
-    bool useCurlFromExiv2TestApps = true;
-    for (int a = 1; a < argc; a++) {
-      std::string arg(argv[a]);
-      if (arg == "--nocurl")
-        useCurlFromExiv2TestApps = false;
-      else if (arg == "--curl")
-        useCurlFromExiv2TestApps = true;
     }
 
     std::string file(argv[1]);
@@ -39,13 +30,13 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifKey key("Exif.Image.DateTime");
     exifData.add(key, v.get());
 
-    auto writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
+    auto writeTest = Exiv2::ImageFactory::open(file);
     writeTest->setExifData(exifData);
     writeTest->writeMetadata();
 
     // read the result to make sure everything fine
     std::cout << "Print out the new metadata ...\n";
-    auto readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
+    auto readTest = Exiv2::ImageFactory::open(file);
     readTest->readMetadata();
     Exiv2::ExifData& exifReadData = readTest->exifData();
     if (exifReadData.empty()) {

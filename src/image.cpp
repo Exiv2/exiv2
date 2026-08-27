@@ -820,7 +820,7 @@ ImageType ImageFactory::getType(BasicIo& io) {
   return ImageType::none;
 }
 
-BasicIo::UniquePtr ImageFactory::createIo(const std::string& path, [[maybe_unused]] bool useCurl) {
+BasicIo::UniquePtr ImageFactory::createIo(const std::string& path) {
   [[maybe_unused]] Protocol fProt = fileProtocol(path);
 
 #ifdef EXV_USE_CURL
@@ -855,8 +855,8 @@ BasicIo::UniquePtr ImageFactory::createIo(const std::wstring& path) {
 }
 #endif
 
-Image::UniquePtr ImageFactory::open(const std::string& path, bool useCurl) {
-  auto image = open(ImageFactory::createIo(path, useCurl));  // may throw
+Image::UniquePtr ImageFactory::open(const std::string& path) {
+  auto image = open(ImageFactory::createIo(path));  // may throw
   if (!image)
     throw Error(ErrorCode::kerFileContainsUnknownImageType, path);
   return image;

@@ -560,7 +560,7 @@ class EXIV2API ImageFactory {
     @throw Error If the file is not found or it is unable to connect to the server to
           read the remote file.
    */
-  static std::unique_ptr<BasicIo> createIo(const std::string& path, bool useCurl = true);
+  static std::unique_ptr<BasicIo> createIo(const std::string& path);
 #ifdef _WIN32
   static std::unique_ptr<BasicIo> createIo(const std::wstring& path);
 #endif
@@ -577,7 +577,7 @@ class EXIV2API ImageFactory {
     @throw Error If opening the file fails or it contains data of an
         unknown image type.
    */
-  static Image::UniquePtr open(const std::string& path, bool useCurl = true);
+  static Image::UniquePtr open(const std::string& path);
 #ifdef _WIN32
   static Image::UniquePtr open(const std::wstring& path);
 #endif
