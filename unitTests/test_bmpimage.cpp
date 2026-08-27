@@ -92,6 +92,28 @@ TEST(BmpImage, readMetadataReadsImageDimensionsWhenDataIsAvailable) {
   ASSERT_EQ(800u, bmp.pixelHeight());
 }
 
+TEST(BmpImage, readMetadataReadsImageDimensionsForOs2V1Header) {
+  // OS/2 1.x / Windows 2.x BMP uses the 12-byte BITMAPCOREHEADER, whose width and height
+  // fields are 16-bit instead of the 32-bit fields used by BITMAPINFOHEADER. Regression test
+  // for https://github.com/Exiv2/exiv2/issues/3304
+  const std::array<unsigned char, 26> header{
+      'B',  'M',               // Signature                                                         off:0   size:2
+      0x1A, 0x0E, 0x0E, 0x00,  // Size of the BMP file in bytes                                     off:2,  size:4
+      0x00, 0x00,              // Reserved                                                          off:6,  size:2
+      0x00, 0x00,              // Reserved                                                          off:8,  size:2
+      0x1A, 0x00, 0x00, 0x00,  // Offset of the byte where the bitmap image data can be found       off:10, size:4
+      0x0C, 0x00, 0x00, 0x00,  // Size of this header (12 => BITMAPCOREHEADER)                      off:14, size:4
+      0x80, 0x02,              // The bitmap width in pixels (unsigned 16 bit): 640                 off:18, size:2
+      0xE0, 0x01,              // The bitmap height in pixels (unsigned 16 bit): 480                off:20, size:2
+  };
+
+  auto memIo = std::make_unique<MemIo>(header.data(), header.size());
+  BmpImage bmp(std::move(memIo));
+  ASSERT_NO_THROW(bmp.readMetadata());
+  ASSERT_EQ(640u, bmp.pixelWidth());
+  ASSERT_EQ(480u, bmp.pixelHeight());
+}
+
 TEST(BmpImage, readMetadataThrowsWhenImageIsNotBMP) {
   const std::array<unsigned char, 26> header{
       'B',  'A',               // Signature                                                         off:0   size:2
