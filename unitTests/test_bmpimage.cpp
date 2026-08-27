@@ -108,7 +108,7 @@ TEST(BmpImage, readMetadataReadsImageDimensionsForOs2V1Header) {
   };
 
   auto memIo = std::make_unique<MemIo>(header.data(), header.size());
-  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
+  BmpImage bmp(std::move(memIo));
   ASSERT_NO_THROW(bmp.readMetadata());
   ASSERT_EQ(640u, bmp.pixelWidth());
   ASSERT_EQ(480u, bmp.pixelHeight());
