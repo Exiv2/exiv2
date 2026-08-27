@@ -134,33 +134,30 @@ int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const 
 // *****************************************************************************
 // class member definitions
 namespace Action {
-TaskFactory& TaskFactory::instance() {
-  static TaskFactory instance_;
-  return instance_;
-}
 
-void TaskFactory::cleanup() {
-  registry_.clear();
-}
-
-TaskFactory::TaskFactory() {
-  registry_.emplace(adjust, std::make_unique<Adjust>());
-  registry_.emplace(print, std::make_unique<Print>());
-  registry_.emplace(rename, std::make_unique<Rename>());
-  registry_.emplace(erase, std::make_unique<Erase>());
-  registry_.emplace(extract, std::make_unique<Extract>());
-  registry_.emplace(insert, std::make_unique<Insert>());
-  registry_.emplace(modify, std::make_unique<Modify>());
-  registry_.emplace(fixiso, std::make_unique<FixIso>());
-  registry_.emplace(fixcom, std::make_unique<FixCom>());
-}
-
-Task::UniquePtr TaskFactory::create(TaskType type) {
-  auto i = registry_.find(type);
-  if (i != registry_.end() && i->second) {
-    return i->second->clone();
+Task::UniquePtr Task::create(TaskType type) {
+  switch (type) {
+    case adjust:
+      return std::make_unique<Adjust>();
+    case print:
+      return std::make_unique<Print>();
+    case rename:
+      return std::make_unique<Rename>();
+    case erase:
+      return std::make_unique<Erase>();
+    case extract:
+      return std::make_unique<Extract>();
+    case insert:
+      return std::make_unique<Insert>();
+    case modify:
+      return std::make_unique<Modify>();
+    case fixiso:
+      return std::make_unique<FixIso>();
+    case fixcom:
+      return std::make_unique<FixCom>();
+    default:
+      return nullptr;
   }
-  return nullptr;
 }
 
 static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path, bool binary) {
@@ -611,10 +608,6 @@ int Print::printPreviewList() {
   return 0;
 }  // Print::printPreviewList
 
-Task::UniquePtr Print::clone() const {
-  return std::make_unique<Print>(*this);
-}
-
 int Rename::run(const std::string& path) {
   try {
     if (!Exiv2::fileExists(path)) {
@@ -673,10 +666,6 @@ int Rename::run(const std::string& path) {
     std::cerr << "Exiv2 exception in rename action for file " << path << ":\n" << e << "\n";
     return 1;
   }
-}
-
-Task::UniquePtr Rename::clone() const {
-  return std::make_unique<Rename>(*this);
 }
 
 int Erase::run(const std::string& path) {
@@ -781,10 +770,6 @@ int Erase::eraseIccProfile(Exiv2::Image* image) {
   }
   image->clearIccProfile();
   return 0;
-}
-
-Task::UniquePtr Erase::clone() const {
-  return std::make_unique<Erase>(*this);
 }
 
 int Extract::run(const std::string& path) {
@@ -953,10 +938,6 @@ void Extract::writePreviewFile(const Exiv2::PreviewImage& pvImg, size_t num) con
   }
 }
 
-Task::UniquePtr Extract::clone() const {
-  return std::make_unique<Extract>(*this);
-}
-
 int Insert::run(const std::string& path) try {
   // -i{tgt}-  reading from stdin?
   bool bStdin = (Params::instance().target_ & Params::ctStdInOut) != 0;
@@ -1103,10 +1084,6 @@ int Insert::insertThumbnail(const std::string& path) {
 
   return 0;
 }  // Insert::insertThumbnail
-
-Task::UniquePtr Insert::clone() const {
-  return std::make_unique<Insert>(*this);
-}
 
 int Modify::run(const std::string& path) {
   try {
@@ -1309,10 +1286,6 @@ void Modify::regNamespace(const ModifyCmd& modifyCmd) {
   Exiv2::XmpProperties::registerNs(modifyCmd.value_, modifyCmd.key_);
 }
 
-Task::UniquePtr Modify::clone() const {
-  return std::make_unique<Modify>(*this);
-}
-
 int Adjust::run(const std::string& path) try {
   adjustment_ = Params::instance().adjustment_;
   yearAdjustment_ = Params::instance().yodAdjust_[Params::yodYear].adjustment_;
@@ -1349,10 +1322,6 @@ int Adjust::run(const std::string& path) try {
   std::cerr << "Exiv2 exception in adjust action for file " << path << ":\n" << e << "\n";
   return 1;
 }  // Adjust::run
-
-Task::UniquePtr Adjust::clone() const {
-  return std::make_unique<Adjust>(*this);
-}
 
 int Adjust::adjustDateTime(Exiv2::ExifData& exifData, const std::string& key, const std::string& path) const {
   Exiv2::ExifKey ek(key);
@@ -1508,10 +1477,6 @@ int FixIso::run(const std::string& path) {
   }
 }  // FixIso::run
 
-Task::UniquePtr FixIso::clone() const {
-  return std::make_unique<FixIso>(*this);
-}
-
 int FixCom::run(const std::string& path) {
   try {
     if (!Exiv2::fileExists(path)) {
@@ -1568,10 +1533,6 @@ int FixCom::run(const std::string& path) {
     return 1;
   }
 }  // FixCom::run
-
-Task::UniquePtr FixCom::clone() const {
-  return std::make_unique<FixCom>(*this);
-}
 
 }  // namespace Action
 
