@@ -1612,8 +1612,6 @@ int64_t CurlIo::CurlImpl::getFileLength() {
   curl_easy_setopt(curl_, CURLOPT_NOBODY, 1);  // HEAD
   curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curlWriter);
   curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &response);
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYHOST, 0L);
   curl_easy_setopt(curl_, CURLOPT_CONNECTTIMEOUT, timeout_);
   // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
 
@@ -1639,9 +1637,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t startBlock, size_t stopBlock, std::
   curl_easy_setopt(curl_, CURLOPT_NOPROGRESS, 1L);  // no progress meter please
   curl_easy_setopt(curl_, CURLOPT_WRITEFUNCTION, curlWriter);
   curl_easy_setopt(curl_, CURLOPT_WRITEDATA, &response);
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
   curl_easy_setopt(curl_, CURLOPT_CONNECTTIMEOUT, timeout_);
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYHOST, 0L);
 
   // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
 
@@ -1684,7 +1680,6 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   curl_easy_setopt(curl_, CURLOPT_NOPROGRESS, 1L);  // no progress meter please
   // curl_easy_setopt(curl_, CURLOPT_VERBOSE, 1); // debugging mode
   curl_easy_setopt(curl_, CURLOPT_URL, scriptPath.c_str());
-  curl_easy_setopt(curl_, CURLOPT_SSL_VERIFYPEER, 0L);
 
   // encode base64
   size_t encodeLength = ((size + 2) / 3) * 4 + 1;
