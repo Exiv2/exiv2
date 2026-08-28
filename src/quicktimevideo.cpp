@@ -614,9 +614,6 @@ void QuickTimeVideo::decodeBlock(size_t recursion_depth, std::string const& ente
     discard(newsize);
     return;
   }
-  if (newsize > buf.size()) {
-    buf.resize(newsize);
-  }
   tagDecoder(buf, newsize, recursion_depth + 1);
 }  // QuickTimeVideo::decodeBlock
 
