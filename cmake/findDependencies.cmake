@@ -17,10 +17,6 @@ if (CONAN_AUTO_INSTALL)
                         SETTINGS ${settings})
 endif()
 
-if (APPLE AND EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
-    include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
-endif()
-
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
