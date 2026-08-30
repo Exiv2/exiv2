@@ -49,9 +49,15 @@ jobs:
           $value = "core.cache:storage_path=$Env:GITHUB_WORKSPACE/conanCache"
           if (-not ((Get-Content $globalConfig -ErrorAction SilentlyContinue) -contains $value)) { Add-Content -Path $globalConfig -Value $value }
 
+      - name: Run Conan
+        run: |
+          md build
+          cd build
+          conan install .. -o webready=True --build missing
+
       - name: Build
         run: |
-          cmake --preset win-release -S . -B build
+          cmake --preset win-release -S . -B build -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Test
