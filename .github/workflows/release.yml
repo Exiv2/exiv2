@@ -69,6 +69,7 @@ jobs:
     strategy:
       matrix:
         runner:
+          - { os: macos-15-intel, arch: x64   }
           - { os: macos-14,       arch: arm64 }
     permissions:
       id-token: write  # For sigstore
