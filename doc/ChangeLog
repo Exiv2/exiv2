@@ -1,3 +1,21 @@
+Changes from version 0.28.8 to 0.28.9
+-------------------------------------
+
+Release Notes:
+
+* https://github.com/Exiv2/exiv2/issues/9331
+* https://github.com/Exiv2/exiv2/milestone/20?closed=1
+
+This release fixes one moderate and six low-severity vulnerabilities:
+
+* [CVE-2026-68546](https://github.com/Exiv2/exiv2/security/advisories/GHSA-3695-mjv8-3r52) (moderate severity)
+* [CVE-2026-68547](https://github.com/Exiv2/exiv2/security/advisories/GHSA-jcgh-p9v3-pw6j) (low severity)
+* [CVE-2026-49275](https://github.com/Exiv2/exiv2/security/advisories/GHSA-hxph-pv7w-8649) (low severity)
+* https://github.com/Exiv2/exiv2/security/advisories/GHSA-vg6c-9f6h-4x5q (low severity, CVE requested)
+* https://github.com/Exiv2/exiv2/security/advisories/GHSA-9v3x-mhg4-wwv2 (low severity, CVE requested)
+* https://github.com/Exiv2/exiv2/security/advisories/GHSA-fgw8-p7pr-37cp (low severity, CVE requested)
+* https://github.com/Exiv2/exiv2/security/advisories/GHSA-pwvq-9w4q-786w (low severity, CVE requested)
+
 Changes from version 0.28.7 to 0.28.8
 -------------------------------------
 
