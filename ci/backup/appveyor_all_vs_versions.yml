@@ -42,19 +42,18 @@ install:
     - set PATH=C:\projects\deps\ninja;%PATH%
     - ninja --version
     - python -m pip install --upgrade pip
-    - pip3.exe install conan==1.35.2
+    - pip3.exe install 'conan>=2,<3'
     - pip3.exe install lxml
     - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
     - cmd: conan config install https://github.com/conan-io/conanclientcert.git
     - cmd: conan remote list
-    - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
-    - cmd: conan profile new --detect default
-    - cmd: conan profile update settings.compiler.version=%VS_COMPILER_VERSION% default
-    - cmd: conan profile update settings.arch=%ARCHITECTURE% default
-    - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
-    - cmd: cat c:\Users\appveyor\.conan\conan.conf
+    - cmd: if not exist c:\Users\appveyor\.conan2 mkdir c:\Users\appveyor\.conan2
+    - cmd: conan profile detect --name default --force
+    - cmd: powershell -NoProfile -Command "$profile = Join-Path $env:USERPROFILE '.conan2\profiles\default'; $content = Get-Content $profile; $content = $content -replace '^arch=.*', \"arch=$env:ARCHITECTURE\"; $content = $content -replace '^build_type=.*', 'build_type=Release'; $content = $content -replace '^compiler=.*', 'compiler=msvc'; $content = $content -replace '^compiler.version=.*', \"compiler.version=$env:VS_COMPILER_VERSION\"; Set-Content -Path $profile -Value $content"
+    - cmd: powershell -NoProfile -Command "$path = 'c:\\Users\\appveyor\\.conan2\\global.conf'; if (-not (Test-Path $path)) { New-Item -ItemType File -Path $path -Force | Out-Null }; $value = 'core.cache:storage_path=c:\\Users\\appveyor\\conanCache'; if (-not ((Get-Content $path -ErrorAction SilentlyContinue) -contains $value)) { Add-Content -Path $path -Value $value }"
+    - cmd: cat c:\Users\appveyor\.conan2\global.conf
 
 build_script:
     - cmd: md build

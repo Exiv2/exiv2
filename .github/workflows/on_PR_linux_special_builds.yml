@@ -25,18 +25,17 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build gcovr
-          python3 -m pip install conan==1.* lxml
+          python3 -m pip install 'conan>=2,<3' lxml
 
       - name: Conan common config
         run: |
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
+          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
 
       - name: Run Conan
         run: |
           mkdir build && cd build
           conan profile list
-          conan profile show default
           conan install .. -o webready=True --build missing
 
       - name: Build
@@ -73,18 +72,17 @@ jobs:
         run: |
           sudo eatmydata apt-get -y update
           sudo eatmydata apt-get -y install valgrind ninja-build
-          python3 -m pip install conan==1.* lxml
+          python3 -m pip install 'conan>=2,<3' lxml
 
       - name: Conan common config
         run: |
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
+          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
 
       - name: Run Conan
         run: |
           mkdir build && cd build
           conan profile list
-          conan profile show default
           conan install .. -o webready=True --build missing
 
       - name: Build
@@ -110,18 +108,17 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y ninja-build
-          python3 -m pip install conan==1.* lxml
+          python3 -m pip install 'conan>=2,<3' lxml
 
       - name: Conan common config
         run: |
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
+          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
 
       - name: Run Conan
         run: |
           mkdir build && cd build
           conan profile list
-          conan profile show default
           conan install .. -o webready=True --build missing
 
       - name: Build
@@ -146,12 +143,12 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y ninja-build
-          python3 -m pip install conan==1.* lxml
+          python3 -m pip install 'conan>=2,<3' lxml
 
       - name: Conan common config
         run: |
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
+          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
 
       - name: Build
         run: |
@@ -171,18 +168,17 @@ jobs:
         run: |
           sudo eatmydata apt-get -y update
           sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build
-          python3 -m pip install conan==1.* lxml
+          python3 -m pip install 'conan>=2,<3' lxml
 
       - name: Conan common config
         run: |
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
+          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
 
       - name: Run Conan
         run: |
           mkdir build && cd build
           conan profile list
-          conan profile show default
           conan install .. -o webready=True --build missing
 
       - name: Build

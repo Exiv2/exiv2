@@ -48,15 +48,14 @@ The build procedures for those platforms are discussed here: See [README.md](REA
 ##### 1.1) </a>Install conan:
 
 ```bash
-$ pip install conan
+$ pip install "conan>=2,<3"
 ```
-For other installation methods (brew, installers, from sources), visit this [link]([install
-conan](http://docs.conan.io/en/latest/installation.html)).
+For other installation methods (brew, installers, from sources), visit the [Conan installation guide](https://docs.conan.io/2/installation.html).
 
-To upgrade the version of conan:
+To upgrade Conan 2:
 
 ```bash
-$ pip install conan --upgrade
+$ pip install "conan>=2,<3" --upgrade
 ```
 
 <name id="1-2"></a>
@@ -65,7 +64,7 @@ $ pip install conan --upgrade
 
 ```bash
 $ conan --version
-Conan version 1.23.0
+Conan version 2.31.2
 ```
 
 <name id="1-3"></a>
@@ -123,7 +122,7 @@ _Profiles for Visual Studio are discussed in detail here: [Visual Studio Notes](
 
 ##### Default Profile
 
-When you run conan install for the first time, it will detect and write the default profile ~/.conan/profile/default.  On my Ubuntu system with GCC 4.9, this is:
+When you run conan install for the first time, it will detect and write the default profile ~/.conan2/profiles/default. On a modern Ubuntu system with GCC 13, this is:
 
 ```ini
 [settings]

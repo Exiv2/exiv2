@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python3 -m pip install conan==1.*
+          python3 -m pip install 'conan>=2,<3'
           sudo add-apt-repository ppa:ubuntu-lxc/daily -y
           wget -q -O - https://files.pvs-studio.com/etc/pubkey.txt |sudo apt-key add -
           sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.pvs-studio.com/etc/viva64.list
@@ -33,14 +33,13 @@ jobs:
 
       - name: Conan common config
         run: |
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
+          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
 
       - name: Run Conan
         run: |
           mkdir build && cd build
           conan profile list
-          conan profile show default
           conan install .. -o webready=True --build missing
 
       - name: Configure

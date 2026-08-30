@@ -31,23 +31,20 @@ install:
     - set PATH=%APPVEYOR_BUILD_FOLDER%\deps\ninja;%PATH%
     - ninja --version
     - python -m pip install --upgrade pip
-    - pip3.exe install conan==1.35.2
+    - pip3.exe install 'conan>=2,<3'
     - pip3.exe install lxml
     - cd %APPVEYOR_BUILD_FOLDER%
 
 before_build:
     - cmd: conan remote list
-    - cmd: conan config set storage.path=c:\Users\appveyor\conanCache
-    - cmd: conan profile new --detect default
-    - cmd: conan profile update settings.compiler.version=16 default
+    - cmd: if not exist c:\Users\appveyor\.conan2 mkdir c:\Users\appveyor\.conan2
+    - cmd: conan profile detect --name default --force
     - cmd: if "%platform%"=="x64" (set ARCHITECTURE=x86_64) else (set ARCHITECTURE=x86)
     - cmd: if "%CONFIGURATION%"=="Debug" (set RUNTIME=MDd) else (set RUNTIME=MD)
-    - cmd: conan profile update settings.arch=%ARCHITECTURE% default
-    - cmd: conan profile update settings.arch_build=%ARCHITECTURE% default
-    - cmd: conan profile update settings.build_type=%CONFIGURATION% default
-    - cmd: conan profile update settings.compiler.runtime=%RUNTIME% default
-    - cmd: cat c:\Users\appveyor\.conan\conan.conf
-    - cmd: cat c:\Users\appveyor\.conan\profiles\default
+    - cmd: powershell -NoProfile -Command "$profile = Join-Path $env:USERPROFILE '.conan2\profiles\default'; $content = Get-Content $profile; $content = $content -replace '^arch=.*', \"arch=$env:ARCHITECTURE\"; $content = $content -replace '^build_type=.*', \"build_type=$env:CONFIGURATION\"; $content = $content -replace '^compiler=.*', 'compiler=msvc'; $content = $content -replace '^compiler.version=.*', 'compiler.version=193'; $content = $content -replace '^compiler.runtime=.*', \"compiler.runtime=$env:RUNTIME\"; Set-Content -Path $profile -Value $content"
+    - cmd: powershell -NoProfile -Command "$path = 'c:\\Users\\appveyor\\.conan2\\global.conf'; if (-not (Test-Path $path)) { New-Item -ItemType File -Path $path -Force | Out-Null }; $value = 'core.cache:storage_path=c:\\Users\\appveyor\\conanCache'; if (-not ((Get-Content $path -ErrorAction SilentlyContinue) -contains $value)) { Add-Content -Path $path -Value $value }"
+    - cmd: cat c:\Users\appveyor\.conan2\global.conf
+    - cmd: cat c:\Users\appveyor\.conan2\profiles\default
 
 build_script:
     - cmd: md build
