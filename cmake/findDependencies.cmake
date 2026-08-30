@@ -44,7 +44,10 @@ endif( )
 
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL )
-        find_package(CURL REQUIRED)
+        find_package(CURL CONFIG QUIET)
+        if(NOT CURL_FOUND)
+            find_package(CURL REQUIRED)
+        endif()
     endif()
 endif()
 
