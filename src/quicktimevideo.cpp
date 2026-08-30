@@ -807,9 +807,9 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
     io_->seek(cur_pos, BasicIo::beg);
 
     io_->readOrThrow(buf.data(), 24);
-    xmpData_["Xmp.video.Make"] = buf.data();
+    xmpData_["Xmp.video.Make"] = std::string{buf.c_str(), 24};
     io_->readOrThrow(buf.data(), 14);
-    xmpData_["Xmp.video.Model"] = buf.data();
+    xmpData_["Xmp.video.Model"] = std::string{buf.c_str(), 14};
     io_->readOrThrow(buf.data(), 4);
     xmpData_["Xmp.video.ExposureTime"] = stringFormat("1/{}", std::ceil(buf.read_uint32(0, littleEndian) / 10.0));
     io_->readOrThrow(buf.data(), 4);
