@@ -146,7 +146,6 @@ jobs:
           $content = Get-Content $profile
           $content = $content -replace '^build_type=.*', 'build_type=Release'
           $content = $content -replace '^compiler=.*', 'compiler=msvc'
-          $content = $content -replace '^compiler.version=.*', 'compiler.version=193'
           Set-Content -Path $profile -Value $content
           $globalConfig = Join-Path $HOME '.conan2/global.conf'
           if (-not (Test-Path $globalConfig)) { New-Item -ItemType File -Path $globalConfig -Force | Out-Null }

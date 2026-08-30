@@ -1,5 +1,5 @@
 [settings]
-arch=x86
+arch=x86_64
 build_type=Release
 compiler=msvc
 compiler.runtime=dynamic
