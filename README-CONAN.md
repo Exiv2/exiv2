@@ -80,19 +80,17 @@ $ conan profile list
 ```
 _**Visual Studio Users**_
 
-_The profile msvc2019Release96 in `%USERPROFILE%\.conan\profiles\msvc2019Release64` is:_
+_The profile for a modern Conan 2 Windows setup is typically stored under `%USERPROFILE%\.conan2\profiles\default` and can look like:_
 
 ```ini
 [build_requires]
 [settings]
 arch=x86_64
 build_type=Release
-compiler=Visual Studio
-compiler.runtime=MD
-compiler.version=16
+compiler=msvc
+compiler.runtime=dynamic
+compiler.version=193
 os=Windows
-arch_build=x86_64
-os_build=Windows
 [options]
 [env]
 ```
@@ -127,12 +125,10 @@ When you run conan install for the first time, it will detect and write the defa
 ```ini
 [settings]
 os=Linux
-os_build=Linux
 arch=x86_64
-arch_build=x86_64
 compiler=gcc
-compiler.version=4.9
-compiler.libcxx=libstdc++
+compiler.version=13
+compiler.libcxx=libstdc++11
 build_type=Release
 [options]
 [build_requires]
@@ -190,19 +186,17 @@ Bits    :=  { 64      | 32    }
 Examples:     msvc2019Release64 msvc2017Release32  msvc2015Debug32
 ```
 
-The profile msvc2019Release64 is as follows:
+The Conan 2 profile for msvc is as follows:
 
 ```ini
 [build_requires]
 [settings]
 arch=x86_64
 build_type=Release
-compiler=Visual Studio
-compiler.runtime=MD
-compiler.version=16
+compiler=msvc
+compiler.runtime=dynamic
+compiler.version=193
 os=Windows
-arch_build=x86_64
-os_build=Windows
 [options]
 [env]
 ```
