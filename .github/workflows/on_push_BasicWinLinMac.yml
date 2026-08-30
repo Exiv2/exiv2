@@ -86,7 +86,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-release -S . -B build
+          cmake --preset linux-release -S . -B build -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Test
