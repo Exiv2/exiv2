@@ -1335,7 +1335,6 @@ void QuickTimeVideo::handlerDecoder(size_t size) {
   size_t cur_pos = io_->tell();
   DataBuf buf(5);
   std::memset(buf.data(), 0x0, buf.size());
-  buf.data()[4] = '\0';
 
   const TagVocabulary* tv;
 
