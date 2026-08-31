@@ -72,7 +72,7 @@ jobs:
           md build
           cd build
           conan profile list
-          conan install .. --build missing
+          conan install .. --build missing --output-folder=.
 
       - name: Build
         run: |

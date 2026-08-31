@@ -36,7 +36,7 @@ jobs:
         run: |
           mkdir build && cd build
           conan profile list
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True --build missing --output-folder=.
 
       - name: Build
         run: |
@@ -83,7 +83,7 @@ jobs:
         run: |
           mkdir build && cd build
           conan profile list
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True --build missing --output-folder=.
 
       - name: Build
         run: |
@@ -119,7 +119,7 @@ jobs:
         run: |
           mkdir build && cd build
           conan profile list
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True --build missing --output-folder=.
 
       - name: Build
         run: |
@@ -179,7 +179,7 @@ jobs:
         run: |
           mkdir build && cd build
           conan profile list
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True --build missing --output-folder=.
 
       - name: Build
         env:

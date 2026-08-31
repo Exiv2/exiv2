@@ -52,7 +52,7 @@ jobs:
         run: |
           md build
           cd build
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True --build missing --output-folder=.
 
       - name: Build
         run: |
@@ -82,7 +82,7 @@ jobs:
           mkdir build && cd build
           conan profile detect --name default --force
           sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True --build missing --output-folder=.
 
       - name: Build
         run: |

@@ -42,7 +42,7 @@ jobs:
         run: |
           mkdir build && cd build
           conan profile list
-          conan install .. -o webready=False --build missing
+          conan install .. -o webready=False --build missing --output-folder=.
 
       - name: Build packaged release
         run: |
@@ -156,7 +156,7 @@ jobs:
         run: |
           md build
           cd build
-          conan install .. --build missing
+          conan install .. --build missing --output-folder=.
 
       - name: Build packaged release
         run: |
