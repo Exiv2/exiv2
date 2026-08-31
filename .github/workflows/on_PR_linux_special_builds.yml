@@ -40,7 +40,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-coverage -S . -B build
+          cmake --preset linux-coverage -S . -B build -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Tests + Upload coverage
@@ -87,7 +87,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-release -S . -B build
+          cmake --preset linux-release -S . -B build -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Tests with valgrind
@@ -123,7 +123,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset linux-sanitizers -S . -B build
+          cmake --preset linux-sanitizers -S . -B build -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Tests
@@ -185,10 +185,9 @@ jobs:
         env:
           CXXFLAGS: -DEXIV2_DEBUG_MESSAGES
         run: |
-          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON
+          cmake --preset linux-release -S . -B build -DEXIV2_BUILD_DOC=ON -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Generate documentation
         run: |
           make doc
-

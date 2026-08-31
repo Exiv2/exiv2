@@ -44,7 +44,7 @@ jobs:
 
       - name: Configure
         run: |
-          cmake --preset linux-debug -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          cmake --preset linux-debug -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCONAN_AUTO_INSTALL=OFF
 
       - name: Static Analysis
         env:
@@ -61,5 +61,4 @@ jobs:
           name: static_analysis
           path: build/pvsReportHtml
           retention-days: 7
-
 
