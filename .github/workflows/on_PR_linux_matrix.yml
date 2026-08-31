@@ -33,14 +33,12 @@ jobs:
       - name: Conan common config
         run: |
           conan profile detect --name default --force
-          sed -i "s/^build_type=.*/build_type=${{matrix.build_type}}/" ~/.conan2/profiles/default
-          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
 
       - name: Run Conan
         run: |
           mkdir build-base_linux && cd build-base_linux
           conan profile list
-          conan install .. -o webready=True --build missing --output-folder=.
+          conan install .. -o webready=True --build missing --output-folder=. -s build_type=${{matrix.build_type}} -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
