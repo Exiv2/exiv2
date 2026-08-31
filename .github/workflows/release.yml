@@ -1,7 +1,5 @@
 name: Release
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+
 on:
   push:
     tags:
@@ -10,6 +8,10 @@ on:
     - cron: '30 4 * * *'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   Linux:
     name: 'Build Linux Release'
@@ -17,8 +19,8 @@ jobs:
     strategy:
       matrix:
         runner:
-          - { os: ubuntu-22.04, arch: x64   }
-          - { os: ubuntu-22.04-arm, arch: arm64 }
+          - { os: ubuntu-24.04,     arch: x64   }
+          - { os: ubuntu-24.04-arm, arch: arm64 }
     permissions:
       id-token: write  # For sigstore
       attestations: write  # For artifact attestation
@@ -30,10 +32,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y gettext doxygen graphviz ninja-build
-          python -m pip install conan==1.*
 
-      - name: Conan common config
+      - name: Install Conan & common config
         run: |
+          python -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.build_type=Release default
           conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -41,13 +43,17 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build && cd build
-          conan profile list
           conan profile show default
           conan install .. -o webready=False --build missing
 
       - name: Build packaged release
         run: |
-          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
+          cmake --preset linux-all -S . -B build \
+            -DEXIV2_TEAM_PACKAGING=ON \
+            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+            -DEXIV2_ENABLE_WEBREADY=OFF \
+            -DEXIV2_ENABLE_CURL=OFF \
+            -DEXIV2_BUILD_SAMPLES=OFF
           cmake --build build -t doc
           cmake --build build -t package
 
@@ -70,7 +76,7 @@ jobs:
       matrix:
         runner:
           - { os: macos-15-intel, arch: x64   }
-          - { os: macos-14,       arch: arm64 }
+          - { os: macos-15,       arch: arm64 }
     permissions:
       id-token: write  # For sigstore
       attestations: write  # For artifact attestation
@@ -126,20 +132,22 @@ jobs:
 
       - name: Set up Visual Studio shell
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{ matrix.runner.arch }}
 
       - name: Install doxygen
         run: |
           choco install doxygen.install
           choco install graphviz
 
-      - name: Restore conan cache
+      - name: Restore Conan cache
         uses: actions/cache@v6
         with:
             path: ${{github.workspace}}/conanCache
             key: ${{runner.os}}-release-win-${{ hashFiles('conanfile.py') }}
             lookup-only: true
 
-      - name: Install Conan & Common config
+      - name: Install Conan & common config
         run: |
           python -m pip install conan==1.*
           conan profile new --detect default
@@ -157,7 +165,12 @@ jobs:
 
       - name: Build packaged release
         run: |
-          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
+          cmake --preset win-release -S . -B build `
+            -DEXIV2_TEAM_PACKAGING=ON `
+            -DEXIV2_BUILD_DOC=ON `
+            -DEXIV2_ENABLE_WEBREADY=OFF `
+            -DEXIV2_ENABLE_CURL=OFF `
+            -DEXIV2_BUILD_SAMPLES=OFF
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
@@ -175,7 +188,7 @@ jobs:
 
   publish:
     needs: [Linux, macOS, Windows]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     if: github.event_name == 'push'  # only publish when a new version tag is pushed
