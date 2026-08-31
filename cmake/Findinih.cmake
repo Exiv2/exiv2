@@ -1,3 +1,10 @@
+# Prefer a CMake config package (e.g. provided by Conan's CMakeDeps generator),
+# which already exports the inih::libinih and inih::inireader targets.
+find_package(inih CONFIG QUIET)
+if(inih_FOUND)
+  return()
+endif()
+
 set(inih_LIBRARY_NAMES "inih" "libinih")
 set(inih_inireader_LIBRARY_NAMES "INIReader" "libINIReader")
 
