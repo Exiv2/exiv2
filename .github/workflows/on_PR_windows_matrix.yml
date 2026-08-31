@@ -76,7 +76,7 @@ jobs:
 
       - name: Build
         run: |
-          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
+          cmake --preset base_windows -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Install
