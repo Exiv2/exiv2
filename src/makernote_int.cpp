@@ -959,12 +959,22 @@ DataBuf nikonCrypt(uint16_t tag, const byte* pData, size_t size, TiffComponent* 
 }
 
 int sonyCsSelector(uint16_t /*tag*/, const byte* /*pData*/, size_t /*size*/, TiffComponent* pRoot) {
+  // Models whose camera settings block is an array of bytes rather than of
+  // shorts. Matched in full: "NEX-5" must not catch the NEX-5N, NEX-5R and
+  // NEX-5T, which use a different layout again.
+  static constexpr const char* byteModels[] = {
+      "DSLR-A450", "DSLR-A500", "DSLR-A550", "DSLR-A560",  "DSLR-A580", "NEX-3",
+      "NEX-5",     "NEX-C3",    "NEX-VG10E", "SLT-A33",    "SLT-A35",   "SLT-A55",
+      "SLT-A55V",
+  };
   std::string model = getExifModel(pRoot);
   if (model.empty())
     return -1;
   int idx = 0;
   if (Internal::contains(model, "DSLR-A330") || Internal::contains(model, "DSLR-A380")) {
     idx = 1;
+  } else if (Exiv2::find(byteModels, model)) {
+    idx = 2;
   }
   return idx;
 }
