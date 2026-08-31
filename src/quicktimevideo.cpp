@@ -1628,7 +1628,7 @@ bool isQTimeType(BasicIo& iIo, bool advance) {
       // we only match if we actually know the video type. This is done
       // to avoid matching just on ftyp because bmffimage also has that
       // header.
-      if (Exiv2::find(qTimeFileType, Exiv2::toString(buf.data(8)))) {
+      if (Exiv2::find(qTimeFileType, std::string{buf.c_str(8), 4})) {
         matched = true;
       }
       break;
