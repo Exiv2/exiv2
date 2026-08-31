@@ -1335,6 +1335,7 @@ void QuickTimeVideo::handlerDecoder(size_t size) {
   size_t cur_pos = io_->tell();
   DataBuf buf(5);
   std::memset(buf.data(), 0x0, buf.size());
+  buf.data()[4] = '\0';
 
   const TagVocabulary* tv;
 
@@ -1628,7 +1629,7 @@ bool isQTimeType(BasicIo& iIo, bool advance) {
       // we only match if we actually know the video type. This is done
       // to avoid matching just on ftyp because bmffimage also has that
       // header.
-      if (Exiv2::find(qTimeFileType, std::string{buf.c_str(8), 4})) {
+      if (Exiv2::find(qTimeFileType, Exiv2::toString(buf.data(8)))) {
         matched = true;
       }
       break;
