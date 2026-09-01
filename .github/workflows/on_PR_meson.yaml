@@ -144,6 +144,7 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: ${{matrix.platform}}
+          release: false
           pacboy: >-
             cc:p
             cmake:p
@@ -172,6 +173,7 @@ jobs:
       - uses: msys2/setup-msys2@v2
         with:
           msystem: 'MSYS'
+          release: false
           install: >-
             cmake
             gcc
