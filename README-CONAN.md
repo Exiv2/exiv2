@@ -76,8 +76,6 @@ cmake --build .
 ctest --output-on-failure
 ```
 
-The repository also ships Conan 2-compatible profile examples under `cmake/msvc_conan_profiles/`.
-
 ## Visual Studio notes
 
 The repository's legacy `Visual Studio` Conan 1 profiles are no longer valid for Conan 2. Use `compiler=msvc` and the matching `compiler.version` instead of `arch_build` / `os_build` / `compiler.runtime=MD*` settings.

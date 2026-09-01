@@ -1,9 +1,0 @@
-[settings]
-arch=x86
-build_type=Release
-compiler=msvc
-compiler.runtime=dynamic
-compiler.runtime_type=Release
-compiler.version=190
-os=Windows
-[options]
