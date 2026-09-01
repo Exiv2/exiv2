@@ -10,6 +10,7 @@
 #include "types.hpp"
 
 // + standard includes
+#include <ctime>
 #include <iterator>
 #include <sstream>
 
