@@ -37,16 +37,26 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          python -m pip install conan==1.* lxml
-          conan profile new --detect default
-          conan profile show default
-          conan profile update settings.compiler="Visual Studio" default
-          conan profile update settings.compiler.version=17 default
-          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+          python -m pip install 'conan>=2,<3' lxml
+          conan profile detect --name default --force
+          $profile = Join-Path $HOME '.conan2/profiles/default'
+          $content = Get-Content $profile
+          $content = $content -replace '^compiler=.*', 'compiler=msvc'
+          Set-Content -Path $profile -Value $content
+          $globalConfig = Join-Path $HOME '.conan2/global.conf'
+          if (-not (Test-Path $globalConfig)) { New-Item -ItemType File -Path $globalConfig -Force | Out-Null }
+          $value = "core.cache:storage_path=$Env:GITHUB_WORKSPACE/conanCache"
+          if (-not ((Get-Content $globalConfig -ErrorAction SilentlyContinue) -contains $value)) { Add-Content -Path $globalConfig -Value $value }
+
+      - name: Run Conan
+        run: |
+          md build
+          cd build
+          conan install .. -o webready=True --build missing --output-folder=.
 
       - name: Build
         run: |
-          cmake --preset win-release -S . -B build
+          cmake --preset win-release -S . -B build -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Test
@@ -65,19 +75,18 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y install ninja-build
-          python3 -m pip install conan==1.* lxml
+          python3 -m pip install 'conan>=2,<3' lxml
 
       - name: Conan
         run: |
           mkdir build && cd build
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          conan profile detect --name default --force
+          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
+          conan install .. -o webready=True --build missing --output-folder=.
 
       - name: Build
         run: |
-          cmake --preset linux-release -S . -B build
+          cmake --preset linux-release -S . -B build -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel
 
       - name: Test

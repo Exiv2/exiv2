@@ -17,16 +17,9 @@ if (CONAN_AUTO_INSTALL)
                         SETTINGS ${settings})
 endif()
 
-if (APPLE)
-    # On Apple, we use the conan cmake_paths generator
-    if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
-        include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
-    endif()
-else()
-    # Otherwise, we rely on the conan cmake_find_package generator
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-    list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
-endif()
+# Add path to Conan's CMakeDeps generator files
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 
@@ -52,7 +45,10 @@ endif( )
 
 if( EXIV2_ENABLE_WEBREADY )
     if( EXIV2_ENABLE_CURL )
-        find_package(CURL REQUIRED)
+        find_package(CURL CONFIG QUIET)
+        if(NOT CURL_FOUND)
+            find_package(CURL REQUIRED)
+        endif()
     endif()
 endif()
 

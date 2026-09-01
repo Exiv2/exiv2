@@ -1,19 +1,18 @@
-from conans import ConanFile
-from conans.tools import os_info
+from conan import ConanFile
 
 class Exiv2Conan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
-    generators = 'cmake_find_package', 'cmake_paths'
+    generators = 'CMakeDeps'
     options = {'unitTests': [True, False],
                'xmp': [True, False],
                'iconv': [True, False],
                'webready': [True, False],
               }
-    default_options = ('unitTests=True',
-                       'xmp=False',
-                       'iconv=False',
-                       'webready=False',
-                      )
+    default_options = {'unitTests': True,
+                      'xmp': False,
+                      'iconv': False,
+                      'webready': False,
+                      }
 
     def configure(self):
         self.options['libcurl'].shared = True
@@ -31,7 +30,7 @@ class Exiv2Conan(ConanFile):
         if self.options.webready:
             self.requires('libcurl/8.10.1')
 
-        if os_info.is_windows and self.options.iconv:
+        if self.settings.os == "Windows" and self.options.iconv:
             self.requires('libiconv/1.17')
 
         if self.options.unitTests:

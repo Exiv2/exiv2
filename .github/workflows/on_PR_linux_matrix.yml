@@ -28,24 +28,21 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y tree ninja-build
-          python3 -m pip install conan==1.* lxml
+          python3 -m pip install 'conan>=2,<3' lxml
 
       - name: Conan common config
         run: |
-          conan profile new --detect default
-          conan profile update settings.build_type=${{matrix.build_type}} default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
           mkdir build-base_linux && cd build-base_linux
           conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          conan install .. -o webready=True --build missing --output-folder=. -s build_type=${{matrix.build_type}} -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
-          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
+          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DCONAN_AUTO_INSTALL=OFF
           cmake --build build-base_linux --parallel
 
       - name: Install

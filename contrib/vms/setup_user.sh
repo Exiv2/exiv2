@@ -33,10 +33,10 @@ esac
 
 $PIP install conan --user --upgrade
 
-CONAN_PROFILE=~/.conan/profiles/default
+CONAN_PROFILE=~/.conan2/profiles/default
 
 # create a new conan profile & set the used libstdc++ to use the C++11 ABI
-[ -e $CONAN_PROFILE ] || ~/.local/bin/conan profile new --detect default
+[ -e $CONAN_PROFILE ] || ~/.local/bin/conan profile detect --name default --force
 sed -i 's/compiler.libcxx=libstdc++/compiler.libcxx=libstdc++11/' $CONAN_PROFILE
 
 [ -d exiv2 ] || clone_exiv2

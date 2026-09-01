@@ -30,24 +30,23 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y gettext doxygen graphviz ninja-build
-          python -m pip install conan==1.*
+          python -m pip install 'conan>=2,<3'
 
       - name: Conan common config
         run: |
-          conan profile new --detect default
-          conan profile update settings.build_type=Release default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
+          sed -i "s/^build_type=.*/build_type=Release/" ~/.conan2/profiles/default
+          sed -i 's/^compiler.libcxx=.*/compiler.libcxx=libstdc++11/' ~/.conan2/profiles/default
 
       - name: Run Conan
         run: |
           mkdir build && cd build
           conan profile list
-          conan profile show default
-          conan install .. -o webready=False --build missing
+          conan install .. -o webready=False --build missing --output-folder=.
 
       - name: Build packaged release
         run: |
-          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
+          cmake --preset linux-all -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF -DCONAN_AUTO_INSTALL=OFF
           cmake --build build -t doc
           cmake --build build -t package
 
@@ -141,23 +140,27 @@ jobs:
 
       - name: Install Conan & Common config
         run: |
-          python -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile show default
-          conan profile update settings.build_type=Release default
-          conan profile update settings.compiler="Visual Studio" default
-          conan profile update settings.compiler.version=17 default
-          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+          python -m pip install 'conan>=2,<3'
+          conan profile detect --name default --force
+          $profile = Join-Path $HOME '.conan2/profiles/default'
+          $content = Get-Content $profile
+          $content = $content -replace '^build_type=.*', 'build_type=Release'
+          $content = $content -replace '^compiler=.*', 'compiler=msvc'
+          Set-Content -Path $profile -Value $content
+          $globalConfig = Join-Path $HOME '.conan2/global.conf'
+          if (-not (Test-Path $globalConfig)) { New-Item -ItemType File -Path $globalConfig -Force | Out-Null }
+          $value = "core.cache:storage_path=$Env:GITHUB_WORKSPACE/conanCache"
+          if (-not ((Get-Content $globalConfig -ErrorAction SilentlyContinue) -contains $value)) { Add-Content -Path $globalConfig -Value $value }
 
       - name: Run Conan
         run: |
           md build
           cd build
-          conan install .. --build missing
+          conan install .. --build missing --output-folder=.
 
       - name: Build packaged release
         run: |
-          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF
+          cmake --preset win-release -S . -B build -DEXIV2_TEAM_PACKAGING=ON -DEXIV2_BUILD_DOC=ON -DEXIV2_ENABLE_WEBREADY=OFF -DEXIV2_ENABLE_CURL=OFF -DEXIV2_BUILD_SAMPLES=OFF -DCONAN_AUTO_INSTALL=OFF
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
