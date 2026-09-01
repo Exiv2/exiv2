@@ -17,6 +17,7 @@ if (CONAN_AUTO_INSTALL)
                         SETTINGS ${settings})
 endif()
 
+# Add path to Conan's CMakeDeps generator files
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
 list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
