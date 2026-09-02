@@ -65,6 +65,7 @@ PgfImage::PgfImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
 }  // PgfImage::PgfImage
 
 void PgfImage::readMetadata() {
+  RECURSION_GUARD(recursion_limit_);
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "Exiv2::PgfImage::readMetadata: Reading PGF file " << io_->path() << "\n";
 #endif
@@ -105,7 +106,8 @@ void PgfImage::readMetadata() {
   if (io_->error())
     throw Error(ErrorCode::kerFailedToReadImageData);
 
-  auto image = Exiv2::ImageFactory::open(base + offset, size);
+  ImageCtorParams params(false, false, recursion_limit());
+  auto image = Exiv2::ImageFactory::open(base + offset, size, params);
   image->readMetadata();
   exifData() = image->exifData();
   iptcData() = image->iptcData();
@@ -152,7 +154,8 @@ void PgfImage::doWriteMetadata(BasicIo& outIo) {
   uint32_t h = 0;
   DataBuf header = readPgfHeaderStructure(*io_, w, h);
 
-  auto img = ImageFactory::create(ImageType::png);
+  ImageCtorParams params(false, false, recursion_limit());
+  auto img = ImageFactory::create(ImageType::png, params);
 
   img->setExifData(exifData_);
   img->setIptcData(iptcData_);

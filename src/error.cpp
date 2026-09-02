@@ -92,6 +92,7 @@ constexpr std::array errList{
     N_("Memory allocation failed"),                              // kerMallocFailed
     N_("Cannot convert text encoding from '%1' to '%2'"),        // kerInvalidIconvEncoding
     N_("%1: File access disabled in exiv2 build options"),       // kerFileAccessDisabled %1=path
+    N_("File is too deeply nested"),                             // kerMaxRecursionDepth
 };
 static_assert(errList.size() == static_cast<size_t>(Exiv2::ErrorCode::kerErrorCount),
               "errList needs to contain a error msg for every ErrorCode defined in error.hpp");

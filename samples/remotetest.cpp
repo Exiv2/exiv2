@@ -23,6 +23,8 @@ int main(int argc, char* const argv[]) {
         useCurlFromExiv2TestApps = true;
     }
 
+    Exiv2::ImageCtorParams params(false, useCurlFromExiv2TestApps, Exiv2::RecursionLimit(500));
+
     std::string file(argv[1]);
 
     // set/add metadata
@@ -39,13 +41,13 @@ int main(int argc, char* const argv[]) {
     Exiv2::ExifKey key("Exif.Image.DateTime");
     exifData.add(key, v.get());
 
-    auto writeTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
+    auto writeTest = Exiv2::ImageFactory::open(file, params);
     writeTest->setExifData(exifData);
     writeTest->writeMetadata();
 
     // read the result to make sure everything fine
     std::cout << "Print out the new metadata ...\n";
-    auto readTest = Exiv2::ImageFactory::open(file, useCurlFromExiv2TestApps);
+    auto readTest = Exiv2::ImageFactory::open(file, params);
     readTest->readMetadata();
     Exiv2::ExifData& exifReadData = readTest->exifData();
     if (exifReadData.empty()) {
