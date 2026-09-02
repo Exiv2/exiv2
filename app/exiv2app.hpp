@@ -222,6 +222,7 @@ class Params : public Util::Getopt {
   std::vector<std::regex> greps_;       //!< List of keys to 'grep' from the metadata
   Keys keys_;                           //!< List of keys to match from the metadata
   std::string charset_;                 //!< Charset to use for UNICODE Exif user comment
+  size_t max_recursion_depth_;          //!< Guards against very deeply nested files
 
   Exiv2::DataBuf stdinBuf;  //!< DataBuf with the binary bytes from stdin
 
@@ -233,6 +234,7 @@ class Params : public Util::Getopt {
   //! @name Helpers
   //@{
   int setLogLevel(const std::string& optarg);
+  int setRecursionLimit(const std::string& optarg);
   int evalGrep(const std::string& optarg);
   int evalKey(const std::string& optarg);
   int evalRename(int opt, const std::string& optarg);

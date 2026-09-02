@@ -71,7 +71,7 @@ void Cr2Image::readMetadata() {
     throw Error(ErrorCode::kerNotAnImage, "CR2");
   }
   clearMetadata();
-  const DecodeParams dp(max_recursion_depth_);
+  const DecodeParams dp(recursion_limit());
   ByteOrder bo = Cr2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
   setByteOrder(bo);
 }  // Cr2Image::readMetadata

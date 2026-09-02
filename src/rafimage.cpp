@@ -296,7 +296,8 @@ void RafImage::readMetadata() {
   // Retrieve metadata from embedded JPEG preview image.
   try {
     auto jpg_io = std::make_unique<Exiv2::MemIo>(jpg_buf.data(), jpg_buf.size());
-    auto jpg_img = JpegImage(std::move(jpg_io), ImageCtorParams(false, 0));
+    ImageCtorParams params(false, false, recursion_limit());
+    auto jpg_img = JpegImage(std::move(jpg_io), params);
     jpg_img.readMetadata();
     setByteOrder(jpg_img.byteOrder());
     xmpData_ = jpg_img.xmpData();
@@ -346,7 +347,7 @@ void RafImage::readMetadata() {
     io_->read(tiff.data(), tiff.size());
 
     if (!io_->error() && !io_->eof()) {
-      const DecodeParams dp(max_recursion_depth_);
+      const DecodeParams dp(recursion_limit());
       TiffParser::decode(exifData_, iptcData_, xmpData_, tiff.c_data(), tiff.size(), dp);
     }
   }
