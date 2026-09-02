@@ -12,6 +12,7 @@
 #include "exif.hpp"
 #include "image_types.hpp"
 #include "iptc.hpp"
+#include "recursion_guard.hpp"
 #include "xmp_exiv2.hpp"
 
 // *****************************************************************************
@@ -48,19 +49,31 @@ enum PrintStructureOption { kpsNone, kpsBasic, kpsXMP, kpsRecursive, kpsIccProfi
  */
 class EXIV2API ImageCtorParams {
  public:
-  ImageCtorParams(bool create, size_t max_recursion_depth);
+  ImageCtorParams(bool create, bool useCurl, RecursionLimit max_recursion_depth);
 
   bool create() const {
     return create_;
   }
 
-  size_t max_recursion_depth() const {
+  bool useCurl() const {
+    return useCurl_;
+  }
+
+  RecursionLimit max_recursion_depth() const {
     return max_recursion_depth_;
   }
 
+  //! Return a new version of the params with an updated value
+  //! for the create field.
+  ImageCtorParams withCreate(bool create) const;
+
+  // Default settings, useful for things like the applications in the samples directory.
+  static ImageCtorParams defaultSettings();
+
  private:
   const bool create_;
-  const size_t max_recursion_depth_;
+  const bool useCurl_;
+  const RecursionLimit max_recursion_depth_;
 };
 
 /*!
@@ -475,6 +488,10 @@ class EXIV2API Image {
   [[nodiscard]] bool writeXmpFromPacket() const;
   //! Return list of native previews. This is meant to be used only by the PreviewManager.
   [[nodiscard]] const NativePreviewList& nativePreviews() const;
+  //! Get the current recursion limit.
+  [[nodiscard]] RecursionLimit recursion_limit() const {
+    return recursion_limit_;
+  };
   //@}
 
   //! set type support for this image format
@@ -508,7 +525,7 @@ class EXIV2API Image {
   uint32_t pixelWidth_{0};            //!< image pixel width
   uint32_t pixelHeight_{0};           //!< image pixel height
   NativePreviewList nativePreviews_;  //!< list of native previews
-  const size_t max_recursion_depth_;  //!< don't allow recursion deeper than this
+  RecursionLimit recursion_limit_;    //!< don't allow recursion deeper than this
 
   //! Return tag name for given tag id.
   const std::string& tagName(uint16_t tag);
@@ -577,9 +594,11 @@ class EXIV2API ImageFactory {
     @throw Error If opening the file fails or it contains data of an
         unknown image type.
    */
-  static Image::UniquePtr open(const std::string& path, bool useCurl = true);
+  static Image::UniquePtr open(const std::string& path,
+                               const ImageCtorParams& params = ImageCtorParams::defaultSettings());
 #ifdef _WIN32
-  static Image::UniquePtr open(const std::wstring& path);
+  static Image::UniquePtr open(const std::wstring& path,
+                               const ImageCtorParams& params = ImageCtorParams::defaultSettings());
 #endif
   /*!
     @brief Create an Image subclass of the appropriate type by reading
@@ -592,7 +611,8 @@ class EXIV2API ImageFactory {
         matches that of the data buffer.
     @throw Error If the memory contains data of an unknown image type.
    */
-  static Image::UniquePtr open(const byte* data, size_t size);
+  static Image::UniquePtr open(const byte* data, size_t size,
+                               const ImageCtorParams& params = ImageCtorParams::defaultSettings());
   /*!
     @brief Create an Image subclass of the appropriate type by reading
         the provided BasicIo instance. %Image type is derived from the
@@ -610,7 +630,8 @@ class EXIV2API ImageFactory {
         determined, the pointer is 0.
     @throw Error If opening the BasicIo fails
    */
-  static Image::UniquePtr open(std::unique_ptr<BasicIo> io);
+  static Image::UniquePtr open(std::unique_ptr<BasicIo> io,
+                               const ImageCtorParams& params = ImageCtorParams::defaultSettings());
   /*!
     @brief Create an Image subclass of the requested type by creating a
         new image file. If the file already exists, it will be overwritten.
@@ -620,7 +641,8 @@ class EXIV2API ImageFactory {
         type.
     @throw Error If the image type is not supported.
    */
-  static Image::UniquePtr create(ImageType type, const std::string& path);
+  static Image::UniquePtr create(ImageType type, const std::string& path,
+                                 const ImageCtorParams& params = ImageCtorParams::defaultSettings());
   /*!
     @brief Create an Image subclass of the requested type by creating a
         new image in memory.
@@ -629,7 +651,7 @@ class EXIV2API ImageFactory {
         type.
     @throw Error If the image type is not supported
    */
-  static Image::UniquePtr create(ImageType type);
+  static Image::UniquePtr create(ImageType type, const ImageCtorParams& params = ImageCtorParams::defaultSettings());
 
   /*!
     @brief Create an Image subclass of the requested type by writing a
@@ -646,7 +668,8 @@ class EXIV2API ImageFactory {
         type. If the image type is not supported, the pointer is 0.
    */
 
-  static Image::UniquePtr create(ImageType type, std::unique_ptr<BasicIo> io);
+  static Image::UniquePtr create(ImageType type, std::unique_ptr<BasicIo> io,
+                                 const ImageCtorParams& params = ImageCtorParams::defaultSettings());
   /*!
     @brief Returns the image type of the provided file.
     @param path %Image file. The contents of the file are tested to
