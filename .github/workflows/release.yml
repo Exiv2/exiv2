@@ -188,7 +188,7 @@ jobs:
 
   publish:
     needs: [Linux, macOS, Windows]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     if: github.event_name == 'push'  # only publish when a new version tag is pushed
