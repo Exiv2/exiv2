@@ -1,7 +1,3 @@
-| Travis        | AppVeyor      | GitLab| Codecov| Repology| Chat |
-|:-------------:|:-------------:|:-----:|:------:|:-------:|:----:|
-| [![Build Status](https://travis-ci.org/Exiv2/exiv2.svg?branch=0.27-maintenance)](https://travis-ci.org/Exiv2/exiv2) | [![Build status](https://ci.appveyor.com/api/projects/status/d6vxf2n0cp3v88al/branch/0.27-maintenance?svg=true)](https://ci.appveyor.com/project/piponazo/exiv2-wutfp/branch/0.27-maintenance) | [![pipeline status](https://gitlab.com/D4N/exiv2/badges/0.27-maintenance/pipeline.svg)](https://gitlab.com/D4N/exiv2/commits/0.27-maintenance) | [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/0.27-maintenance/graph/badge.svg)](https://codecov.io/gh/Exiv2/exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
-
 ![Exiv2](exiv2.png)
 
 # Exiv2 Sample Applications
@@ -24,7 +20,6 @@ The following programs are build and installed in /usr/local/bin.
 | _**exifprint**_   | Print _**Exif**_ metadata in images<br>Miscellaneous other features | [exifprint](#exifprint)| [exifprint.cpp](samples/exifprint.cpp) |
 | _**exifvalue**_   | Prints the value of a single _**Exif**_ tag in a file | [exifvalue](#exifvalue) | [exifvalue.cpp](samples/exifvalue.cpp) |
 | _**exiv2**_       | Utility to read and write image metadata, including Exif, IPTC, XMP, image comments, ICC Profile, thumbnails, image previews and many vendor makernote tags.<br>This is the primary test tool used by Team Exiv2 and can exercise almost all code in the library.  Due to the extensive capability of this utility, the APIs used are usually less obvious for casual code inspection. | [exiv2 manpage](exiv2.md)<br>[https://exiv2.org/sample.html](https://exiv2.org/sample.html) | |
-| _**exiv2json**_   | Extracts data from image in JSON format.<br>This program also contains a parser to recursively parse Xmp metadata into vectors and objects. | [exiv2json](#exiv2json) | [exiv2json.cpp](samples/exiv2json.cpp) |
 | _**geotag**_      | Reads GPX data and updates images with GPS Tags | [geotag](#geotag) | [geotag.cpp](samples/geotag.cpp) |
 | _**iptceasy**_    | Demonstrates read, set or modify IPTC metadata | [iptceasy](#iptceasy) | [iptceasy.cpp](samples/iptceasy.cpp) |
 | _**iptcprint**_   | Demonstrates Exiv2 library APIs to print Iptc data | [iptceasy](#iptceasy) | [iptcprint.cpp](samples/iptcprint.cpp) |
@@ -139,66 +134,6 @@ _Code: [exifprint.cpp](samples/exifprint.cpp)_
 Usage: exifvalue file tag
 ```
 Prints the value of a single _**Exif**_ tag in a file. _Code: [exifvalue.cpp](samples/exifvalue.cpp)_
-
-[Sample](#TOC1) Programs [Test](#TOC2) Programs
-
-<div id="exiv2json">
-
-#### exiv2json
-
-```
-Usage: exiv2json [-option] file
-Option: all | exif | iptc | xmp | filesystem
-```
-| Arguments | Description |
-|:--        |:---  |
-| all      | All metadata |
-| filesystem    | Filesystem metadata |
-| exif     | Exif metadata |
-| iptc     | Iptc metadata |
-| xmp      | Xmp metadata |
-| file   | path to image |
-
-This program dumps metadata from an image in JSON format. _Code: [exiv2json.cpp](samples/exiv2json.cpp)_
-
-exiv2json has a recursive parser to encode XMP into Vectors and Objects.  XMP data is XMP and can contain XMP `Bag` and `Seq` which are converted to JSON Objects and Arrays.  Exiv2 presents data in the format:  [Family.Group.Tagname](exiv2.md#exiv2_key_syntax).  For XMP, results in "flat" output such as:
-
-```
-$ curl --silent -O https://clanmills.com/Stonehenge.jpg
-$ exiv2 --print x Stonehenge.jpg
-Xmp.xmp.Rating                               XmpText     1  0
-Xmp.xmp.ModifyDate                           XmpText    25  2015-07-16T20:25:28+01:00
-Xmp.cm2e.Father                              XmpText    11  Robin Mills
-Xmp.cm2e.Family                              XmpBag      0
-Xmp.dc.description                           LangAlt     1  lang="x-default" Classic View
-Xmp.dc.Family                                XmpBag      1  Robin
-```
-
-exiv2json parses the Exiv2 [Family.Group.Tagname](exiv2.md#exiv2_key_syntax) data and restores the structure of the original data in JSON.  _Code: [exiv2json.cpp](samples/exiv2json.cpp)_
-
-```
-$ exiv2json -xmp http://clanmills.com/Stonehenge.jpg
-{
-  "Xmp": {
-    "xmp": {
-      "Rating": "0",
-      "ModifyDate": "2015-07-16T20:25:28+01:00"
-    },
-    "dc": {
-      "description": {
-        "lang": {
-          "x-default": "Classic View"
-        }
-      }
-    },
-    "xmlns": {
-      "dc": "http:\/\/purl.org\/dc\/elements\/1.1\/",
-      "xmp": "http:\/\/ns.adobe.com\/xap\/1.0\/"
-    }
-  }
-}
-$
-```
 
 [Sample](#TOC1) Programs [Test](#TOC2) Programs
 
