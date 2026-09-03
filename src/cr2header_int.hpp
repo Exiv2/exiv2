@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 /*!
-  @file    cr2image_int.hpp
+  @file    cr2header_int.hpp
   @brief   Internal classes to support CR2 image format
   @author  Andreas Huggel (ahu)
            <a href="mailto:ahuggel@gmx.net">ahuggel@gmx.net</a>
