@@ -146,10 +146,6 @@
   Prints the value of a single Exif tag in a file
  */
 /*!
-  @example exiv2json.cpp
-  Extracts data from image in JSON format.
- */
-/*!
   @example geotag.cpp
   Reads GPX data and updates images with GPS Tags
  */
