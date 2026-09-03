@@ -2866,8 +2866,9 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
 
     auto tc = base_match[5].length() > 0 ? string_to_float(base_match[5].str()) : 1.f;
 
-    auto flMax = static_cast<int>(string_to_float(base_match[2].str()) * tc);
-    int flMin = base_match[1].length() > 0 ? static_cast<int>(string_to_float(base_match[1].str()) * tc) : flMax;
+    auto flMax = static_cast<int>(std::lround(string_to_float(base_match[2].str()) * tc));
+    int flMin =
+        base_match[1].length() > 0 ? static_cast<int>(std::lround(string_to_float(base_match[1].str()) * tc)) : flMax;
 
     auto aperMaxTele = string_to_float(base_match[4].str()) * tc;
     auto aperMaxShort = base_match[3].length() > 0 ? string_to_float(base_match[3].str()) * tc : aperMaxTele;
