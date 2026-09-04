@@ -404,7 +404,7 @@ void PngImage::readMetadata() {
 
   const size_t imgSize = io_->size();
   DataBuf cheaderBuf(8);  // Chunk header: 4 bytes (data size) + 4 bytes (chunk type).
-  const DecodeParams dp(max_recursion_depth_);
+  const DecodeParams dp(recursion_limit());
 
   while (!io_->eof()) {
     readChunk(cheaderBuf, *io_);  // Read chunk header.

@@ -567,13 +567,13 @@ void QuickTimeVideo::readMetadata() {
   xmpData_["Xmp.video.MimeType"] = mimeType();
 
   while (continueTraversing_)
-    decodeBlock(0);
+    decodeBlock();
 
   xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width_, height_);
 }  // QuickTimeVideo::readMetadata
 
-void QuickTimeVideo::decodeBlock(size_t recursion_depth, std::string const& entered_from) {
-  enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
+void QuickTimeVideo::decodeBlock(std::string const& entered_from) {
+  RECURSION_GUARD(recursion_limit_);
 
   const long bufMinSize = 4;
   DataBuf buf(bufMinSize + 1);
@@ -614,7 +614,7 @@ void QuickTimeVideo::decodeBlock(size_t recursion_depth, std::string const& ente
     discard(newsize);
     return;
   }
-  tagDecoder(buf, newsize, recursion_depth + 1);
+  tagDecoder(buf, newsize);
 }  // QuickTimeVideo::decodeBlock
 
 static std::string readString(BasicIo& io, size_t size) {
@@ -625,15 +625,15 @@ static std::string readString(BasicIo& io, size_t size) {
   return Exiv2::toString(str.data());
 }
 
-void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursion_depth) {
-  enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
+void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size) {
+  RECURSION_GUARD(recursion_limit_);
   assert(buf.size() > 4);
 
   if (ignoreList(buf))
     discard(size);
 
   else if (dataIgnoreList(buf)) {
-    decodeBlock(recursion_depth + 1, Exiv2::toString(buf.data()));
+    decodeBlock(Exiv2::toString(buf.data()));
   } else if (equalsQTimeTag(buf, "ftyp"))
     fileTypeDecoder(size);
 
@@ -656,10 +656,10 @@ void QuickTimeVideo::tagDecoder(Exiv2::DataBuf& buf, size_t size, size_t recursi
     videoHeaderDecoder(size);
 
   else if (equalsQTimeTag(buf, "udta"))
-    userDataDecoder(size, recursion_depth + 1);
+    userDataDecoder(size);
 
   else if (equalsQTimeTag(buf, "dref"))
-    multipleEntriesDecoder(recursion_depth + 1);
+    multipleEntriesDecoder();
 
   else if (equalsQTimeTag(buf, "stsd"))
     sampleDesc(size);
@@ -843,8 +843,8 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
   io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::CameraTagsDecoder
 
-void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) {
-  enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
+void QuickTimeVideo::userDataDecoder(size_t outer_size) {
+  RECURSION_GUARD(recursion_limit_);
   const size_t start_pos = io_->tell();
   const TagVocabulary* td;
   const TagVocabulary* tv;
@@ -875,7 +875,7 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
       break;
 
     if (equalsQTimeTag(buf, "DcMD") || equalsQTimeTag(buf, "NCDT"))
-      userDataDecoder(size - 8, recursion_depth + 1);
+      userDataDecoder(size - 8);
 
     else if (equalsQTimeTag(buf, "NCTG"))
       NikonTagsDecoder(size - 8);
@@ -907,7 +907,7 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
     }
 
     else if (td)
-      tagDecoder(buf, size - 8, recursion_depth + 1);
+      tagDecoder(buf, size - 8);
 
     enforce(io_->tell() <= loop_start_pos + size, Exiv2::ErrorCode::kerCorruptedMetadata);
   }
@@ -1290,8 +1290,8 @@ void QuickTimeVideo::imageDescDecoder() {
   xmpData_["Xmp.video.BitDepth"] = static_cast<int>(buf.read_uint8(0));
 }  // QuickTimeVideo::imageDescDecoder
 
-void QuickTimeVideo::multipleEntriesDecoder(size_t recursion_depth) {
-  enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
+void QuickTimeVideo::multipleEntriesDecoder() {
+  RECURSION_GUARD(recursion_limit_);
   DataBuf buf(4 + 1);
   io_->readOrThrow(buf.data(), 4);
   io_->readOrThrow(buf.data(), 4);
@@ -1300,7 +1300,7 @@ void QuickTimeVideo::multipleEntriesDecoder(size_t recursion_depth) {
   noOfEntries = buf.read_uint32(0, bigEndian);
 
   for (uint32_t i = 0; i < noOfEntries && continueTraversing_; i++) {
-    decodeBlock(recursion_depth + 1);
+    decodeBlock();
   }
 }  // QuickTimeVideo::multipleEntriesDecoder
 

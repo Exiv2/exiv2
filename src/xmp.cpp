@@ -75,8 +75,8 @@ class XMLValidator {
  private:
   // Private constructor, because this class is only constructed by
   // the (static) check method.
-  explicit XMLValidator(size_t max_recursion_depth) :
-      max_recursion_depth_(max_recursion_depth), parser_(XML_ParserCreateNS(nullptr, '@')) {
+  explicit XMLValidator(RecursionLimit max_recursion_depth) :
+      max_recursion_depth_(max_recursion_depth.remaining()), parser_(XML_ParserCreateNS(nullptr, '@')) {
     if (!parser_) {
       throw Error(ErrorCode::kerXMPToolkitError, "Could not create expat parser");
     }
