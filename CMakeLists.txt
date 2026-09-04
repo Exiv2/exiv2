@@ -33,7 +33,7 @@ endif()
 include(cmake/mainSetup.cmake)
 
 # options and their default values
-option(BUILD_SHARED_LIBS "Build exiv2lib as a shared library" ON)
+option(BUILD_SHARED_LIBS "Build exiv2lib as a shared library" OFF)
 option(EXIV2_ENABLE_XMP "Build with XMP metadata support" ON)
 option(EXIV2_ENABLE_EXTERNAL_XMP "Use external version of XMP" OFF)
 option(EXIV2_ENABLE_PNG "Build with PNG support (requires zlib)" ON)
