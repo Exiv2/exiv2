@@ -6,6 +6,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include "unittest_utils.hpp"
 
 // Test for Concurrent Registered Namespaces and Terminate Race Condition:
 // verifiable thread safety issue where registeredNamespaces() calls DumpNamespaces()
@@ -40,7 +41,7 @@ TEST(XmpConcurrentRegistry, ConcurrentDecodePrintNode) {
     for (int i = 0; i < ITERATIONS; ++i) {
       try {
         auto xmpData = Exiv2::XmpData{};
-        Exiv2::XmpParser::decode(xmpData, xmpPacket);
+        Exiv2::XmpParser::decode(xmpData, xmpPacket, defaultDecodeParams());
       } catch (...) {
       }
     }

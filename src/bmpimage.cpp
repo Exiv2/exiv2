@@ -23,7 +23,8 @@
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-BmpImage::BmpImage(BasicIo::UniquePtr io) : Image(ImageType::bmp, mdNone, std::move(io)) {
+BmpImage::BmpImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::bmp, mdNone, std::move(io), params) {
 }
 
 std::string BmpImage::mimeType() const {
@@ -78,11 +79,30 @@ void BmpImage::readMetadata() {
     4 = JPEG; 5 = PNG 34      4 bytes  image size             size of the raw bitmap data, in bytes 38      4
     bytes  horizontal resolution  (in pixels per meter) 42      4 bytes  vertical resolution    (in pixels per
     meter) 46      4 bytes  color count 50      4 bytes  important colors       number of "important" colors
+
+    The layout above describes the BITMAPINFOHEADER (and later) variants, identified by a header size
+    of 40 bytes or more. The older OS/2 1.x / Windows 2.x format uses the shorter, 12-byte
+    BITMAPCOREHEADER instead, in which the width and height fields are only 2 bytes wide:
+
+    offset  length   name                   description
+    ======  =======  =====================  =======
+    14      4 bytes  header size            always 12 for BITMAPCOREHEADER
+    18      2 bytes  bitmap width
+    20      2 bytes  bitmap height
+    22      2 bytes  plane count
+    24      2 bytes  depth
   */
   byte buf[26];
   if (io_->read(buf, sizeof(buf)) == sizeof(buf)) {
-    pixelWidth_ = getULong(buf + 18, littleEndian);
-    pixelHeight_ = getULong(buf + 22, littleEndian);
+    const uint32_t headerSize = getULong(buf + 14, littleEndian);
+    if (headerSize == 12) {
+      // OS/2 1.x / Windows 2.x BITMAPCOREHEADER: width and height are 16-bit fields.
+      pixelWidth_ = getUShort(buf + 18, littleEndian);
+      pixelHeight_ = getUShort(buf + 20, littleEndian);
+    } else {
+      pixelWidth_ = getULong(buf + 18, littleEndian);
+      pixelHeight_ = getULong(buf + 22, littleEndian);
+    }
   }
 }
 
@@ -93,8 +113,8 @@ void BmpImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<BmpImage>(std::move(io));
+Image::UniquePtr newBmpInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<BmpImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

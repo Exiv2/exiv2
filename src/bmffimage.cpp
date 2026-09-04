@@ -83,8 +83,8 @@ std::string Iloc::toString() const {
   return stringFormat("ID = {} from,length = {},{}", ID_, start_, length_);
 }
 
-BmffImage::BmffImage(BasicIo::UniquePtr io, bool /* create */, size_t max_box_depth) :
-    Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io)), max_box_depth_(max_box_depth) {
+BmffImage::BmffImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::bmff, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }  // BmffImage::BmffImage
 
 std::string BmffImage::toAscii(uint32_t n) {
@@ -229,7 +229,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   // never visit a box twice!
   if (depth == 0)
     visits_.clear();
-  if (visits_.contains(address) || visits_.size() > visits_max_ || depth >= max_box_depth_) {
+  if (visits_.contains(address) || visits_.size() > visits_max_ || depth >= max_recursion_depth_) {
     throw Error(ErrorCode::kerCorruptedMetadata);
   }
   visits_.insert(address);
@@ -532,14 +532,15 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 #ifdef EXV_HAVE_BROTLI
       DataBuf arr;
       brotliUncompress(data.c_data(4), data.size() - 4, arr);
+      const DecodeParams dp(max_recursion_depth_);
       if (realType == TAG::exif) {
         uint32_t offset = Safe::add(arr.read_uint32(0, endian_), 4u);
         Internal::enforce(Safe::add(offset, 4u) < arr.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
         Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), arr.c_data(offset), arr.size() - offset,
-                                           Internal::Tag::root, Internal::TiffMapping::findDecoder);
+                                           Internal::Tag::root, Internal::TiffMapping::findDecoder, dp);
       } else if (realType == TAG::xml) {
         try {
-          Exiv2::XmpParser::decode(xmpData(), std::string(arr.c_str(), arr.size()));
+          Exiv2::XmpParser::decode(xmpData(), std::string(arr.c_str(), arr.size()), dp);
         } catch (...) {
           throw Error(ErrorCode::kerFailedToReadImageData);
         }
@@ -601,8 +602,9 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length, uint64_t start) {
         punt = i;
     }
     if (punt != eof) {
+      const DecodeParams dp(max_recursion_depth_);
       Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), exif.c_data(punt), exif.size() - punt,
-                                         root_tag, Internal::TiffMapping::findDecoder);
+                                         root_tag, Internal::TiffMapping::findDecoder, dp);
     }
   }
   io_->seek(restore, BasicIo::beg);
@@ -620,8 +622,9 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length) {
     if (bufRead != data.size())
       throw Error(ErrorCode::kerInputDataReadFailed);
 
+    const DecodeParams dp(max_recursion_depth_);
     Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), data.c_data(), data.size(), root_tag,
-                                       Internal::TiffMapping::findDecoder);
+                                       Internal::TiffMapping::findDecoder, dp);
   }
 }
 
@@ -640,7 +643,8 @@ void BmffImage::parseXmp(uint64_t length, uint64_t start) {
   if (io_->error())
     throw Error(ErrorCode::kerFailedToReadImageData);
   try {
-    Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str()));
+    const DecodeParams dp(max_recursion_depth_);
+    Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str()), dp);
   } catch (...) {
     throw Error(ErrorCode::kerFailedToReadImageData);
   }
@@ -765,8 +769,8 @@ void BmffImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<BmffImage>(std::move(io), create);
+Image::UniquePtr newBmffInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<BmffImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

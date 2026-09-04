@@ -36,10 +36,9 @@ class EXIV2API TiffImage : public Image {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
-    @param create Specifies if an existing image should be read (false)
-        or if a new file should be created (true).
+    @param params Parameters that are passed through to Image's constructor.
    */
-  TiffImage(std::unique_ptr<BasicIo> io, bool create);
+  TiffImage(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
 
   //! @name Manipulators
@@ -101,10 +100,12 @@ class EXIV2API TiffParser {
     @param pData    Pointer to the data buffer. Must point to data in TIFF
                     format; no checks are performed.
     @param size     Length of the data buffer.
+    @param dp       Parameters for all decode() functions
 
     @return Byte order in which the data is encoded.
   */
-  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size);
+  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                          const DecodeParams& dp);
   /*!
     @brief Encode metadata from the provided metadata to TIFF format.
 
@@ -153,7 +154,7 @@ class EXIV2API TiffParser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newTiffInstance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newTiffInstance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 
 //! Check if the file iIo is a TIFF image.
 EXIV2API bool isTiffType(BasicIo& iIo, bool advance);

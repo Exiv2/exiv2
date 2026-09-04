@@ -536,12 +536,8 @@ namespace Exiv2 {
 
 using namespace Exiv2::Internal;
 
-QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io, size_t max_recursion_depth) :
-    Image(ImageType::qtime, mdNone, std::move(io)),
-    mvhdTimeScale_(1),
-    mdhdTimeScale_(1),
-    currentStream_(Null),
-    max_recursion_depth_(max_recursion_depth) {
+QuickTimeVideo::QuickTimeVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::qtime, mdNone, std::move(io), params), mvhdTimeScale_(1), mdhdTimeScale_(1), currentStream_(Null) {
 }  // QuickTimeVideo::QuickTimeVideo
 
 std::string QuickTimeVideo::mimeType() const {
@@ -617,9 +613,6 @@ void QuickTimeVideo::decodeBlock(size_t recursion_depth, std::string const& ente
   if (ignoreList(buf)) {
     discard(newsize);
     return;
-  }
-  if (newsize > buf.size()) {
-    buf.resize(newsize);
   }
   tagDecoder(buf, newsize, recursion_depth + 1);
 }  // QuickTimeVideo::decodeBlock
@@ -722,7 +715,7 @@ void QuickTimeVideo::discard(size_t size) {
 }  // QuickTimeVideo::discard
 
 void QuickTimeVideo::previewTagDecoder(size_t size) {
-  DataBuf buf(4);
+  DataBuf buf(5);
   size_t cur_pos = io_->tell();
   io_->readOrThrow(buf.data(), 4);
   xmpData_["Xmp.video.PreviewDate"] = buf.read_uint32(0, bigEndian);
@@ -730,16 +723,17 @@ void QuickTimeVideo::previewTagDecoder(size_t size) {
   xmpData_["Xmp.video.PreviewVersion"] = getShort(buf.data(), bigEndian);
 
   io_->readOrThrow(buf.data(), 4);
+  buf.write_uint8(4, 0);  // nul-terminate string
   if (equalsQTimeTag(buf, "PICT"))
     xmpData_["Xmp.video.PreviewAtomType"] = "QuickDraw Picture";
   else
-    xmpData_["Xmp.video.PreviewAtomType"] = std::string{buf.c_str(), 4};
+    xmpData_["Xmp.video.PreviewAtomType"] = buf.data();
 
   io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::previewTagDecoder
 
 void QuickTimeVideo::keysTagDecoder(size_t size) {
-  DataBuf buf(4);
+  DataBuf buf(5);
   size_t cur_pos = io_->tell();
   io_->readOrThrow(buf.data(), 4);
   xmpData_["Xmp.video.PreviewDate"] = buf.read_uint32(0, bigEndian);
@@ -747,10 +741,11 @@ void QuickTimeVideo::keysTagDecoder(size_t size) {
   xmpData_["Xmp.video.PreviewVersion"] = getShort(buf.data(), bigEndian);
 
   io_->readOrThrow(buf.data(), 4);
+  buf.write_uint8(4, 0);  // nul-terminate string
   if (equalsQTimeTag(buf, "PICT"))
     xmpData_["Xmp.video.PreviewAtomType"] = "QuickDraw Picture";
   else
-    xmpData_["Xmp.video.PreviewAtomType"] = std::string{buf.c_str(), 4};
+    xmpData_["Xmp.video.PreviewAtomType"] = buf.data();
 
   io_->seek(cur_pos + size, BasicIo::beg);
 }  // QuickTimeVideo::keysTagDecoder
@@ -806,7 +801,7 @@ void QuickTimeVideo::trackApertureTagDecoder(size_t size) {
 
 void QuickTimeVideo::CameraTagsDecoder(size_t size) {
   size_t cur_pos = io_->tell();
-  DataBuf buf(50);
+  DataBuf buf(49);
   DataBuf buf2(4);
 
   io_->readOrThrow(buf.data(), 4);
@@ -814,8 +809,10 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
     io_->seek(cur_pos, BasicIo::beg);
 
     io_->readOrThrow(buf.data(), 24);
+    buf.write_uint8(24, 0);  // nul-terminate string
     xmpData_["Xmp.video.Make"] = buf.data();
     io_->readOrThrow(buf.data(), 14);
+    buf.write_uint8(14, 0);  // nul-terminate string
     xmpData_["Xmp.video.Model"] = buf.data();
     io_->readOrThrow(buf.data(), 4);
     xmpData_["Xmp.video.ExposureTime"] = stringFormat("1/{}", std::ceil(buf.read_uint32(0, littleEndian) / 10.0));
@@ -848,7 +845,7 @@ void QuickTimeVideo::CameraTagsDecoder(size_t size) {
 
 void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) {
   enforce(recursion_depth < max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
-  size_t cur_pos = io_->tell();
+  const size_t start_pos = io_->tell();
   const TagVocabulary* td;
   const TagVocabulary* tv;
   const TagVocabulary* tv_internal;
@@ -859,6 +856,7 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
   std::memset(buf.data(), 0x0, buf.size());
 
   while ((size_internal / 4 != 0) && (size_internal > 0)) {
+    const size_t loop_start_pos = io_->tell();
     buf.data()[4] = '\0';
     io_->readOrThrow(buf.data(), 4);
     const size_t size = buf.read_uint32(0, bigEndian);
@@ -910,9 +908,11 @@ void QuickTimeVideo::userDataDecoder(size_t outer_size, size_t recursion_depth) 
 
     else if (td)
       tagDecoder(buf, size - 8, recursion_depth + 1);
+
+    enforce(io_->tell() <= loop_start_pos + size, Exiv2::ErrorCode::kerCorruptedMetadata);
   }
 
-  io_->seek(cur_pos + outer_size, BasicIo::beg);
+  io_->seek(start_pos + outer_size, BasicIo::beg);
 }  // QuickTimeVideo::userDataDecoder
 
 void QuickTimeVideo::NikonTagsDecoder(size_t size) {
@@ -1248,6 +1248,7 @@ void QuickTimeVideo::imageDescDecoder() {
 
   for (int i = 0; size / 4 != 0; size -= 4, i++) {
     io_->readOrThrow(buf.data(), 4);
+    buf.write_uint8(4, 0);  // nul-terminate string
 
     switch (i) {
       case codec:
@@ -1332,7 +1333,7 @@ void QuickTimeVideo::videoHeaderDecoder(size_t size) {
 
 void QuickTimeVideo::handlerDecoder(size_t size) {
   size_t cur_pos = io_->tell();
-  DataBuf buf(100);
+  DataBuf buf(5);
   std::memset(buf.data(), 0x0, buf.size());
   buf.data()[4] = '\0';
 
@@ -1602,8 +1603,8 @@ void QuickTimeVideo::movieHeaderDecoder(size_t size) {
   io_->readOrThrow(buf.data(), size % 4);
 }  // QuickTimeVideo::movieHeaderDecoder
 
-Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<QuickTimeVideo>(std::move(io));
+Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<QuickTimeVideo>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }
@@ -1611,8 +1612,9 @@ Image::UniquePtr newQTimeInstance(BasicIo::UniquePtr io, bool /*create*/) {
 }
 
 bool isQTimeType(BasicIo& iIo, bool advance) {
-  auto buf = DataBuf(12);
+  auto buf = DataBuf(12 + 1);
   iIo.read(buf.data(), 12);
+  buf.write_uint8(12, 0);  // nul-terminate string
 
   if (iIo.error() || iIo.eof()) {
     return false;
@@ -1627,7 +1629,7 @@ bool isQTimeType(BasicIo& iIo, bool advance) {
       // we only match if we actually know the video type. This is done
       // to avoid matching just on ftyp because bmffimage also has that
       // header.
-      if (Exiv2::find(qTimeFileType, std::string{buf.c_str(8), 4})) {
+      if (Exiv2::find(qTimeFileType, Exiv2::toString(buf.data(8)))) {
         matched = true;
       }
       break;

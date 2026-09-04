@@ -26,7 +26,8 @@
 namespace Exiv2 {
 using namespace Internal;
 
-Rw2Image::Rw2Image(BasicIo::UniquePtr io) : Image(ImageType::rw2, mdExif | mdIptc | mdXmp, std::move(io)) {
+Rw2Image::Rw2Image(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::rw2, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }  // Rw2Image::Rw2Image
 
 std::string Rw2Image::mimeType() const {
@@ -93,7 +94,8 @@ void Rw2Image::readMetadata() {
     throw Error(ErrorCode::kerNotAnImage, "RW2");
   }
   clearMetadata();
-  ByteOrder bo = Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
+  const DecodeParams dp(max_recursion_depth_);
+  ByteOrder bo = Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
   setByteOrder(bo);
 
   // A lot more metadata is hidden in the embedded preview image
@@ -187,16 +189,17 @@ void Rw2Image::writeMetadata() {
   throw(Error(ErrorCode::kerWritingImageFormatUnsupported, "RW2"));
 }  // Rw2Image::writeMetadata
 
-ByteOrder Rw2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size) {
+ByteOrder Rw2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                            const DecodeParams& dp) {
   Rw2Header rw2Header;
-  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, Tag::pana, TiffMapping::findDecoder,
+  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, Tag::pana, TiffMapping::findDecoder, dp,
                                   &rw2Header);
 }
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<Rw2Image>(std::move(io));
+Image::UniquePtr newRw2Instance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<Rw2Image>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

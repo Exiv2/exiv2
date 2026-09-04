@@ -1556,7 +1556,7 @@ constexpr TagInfo Nikon3MakerNote::tagInfoLd3_[] = {
 };
 
 //! LensID, tag index 48
-// see https://github.com/exiftool/exiftool/blob/13.44/lib/Image/ExifTool/Nikon.pm#L5816
+// see https://github.com/exiftool/exiftool/blob/13.58/lib/Image/ExifTool/Nikon.pm#L5819
 constexpr TagDetails nikonZMountLensId[] = {
     {0, N_("n/a")},
     {1, "Nikon Nikkor Z 24-70mm f/4 S"},
@@ -1603,6 +1603,7 @@ constexpr TagDetails nikonZMountLensId[] = {
     {51, "Nikon Nikkor Z 35mm f/1.4"},
     {52, "Nikon Nikkor Z 50mm f/1.4"},
     {53, "Nikon Nikkor Z DX 16-50mm f/2.8 VR"},
+    {54, "Nikon Nikkor Z 70-200mm f/2.8 VR S II"},
     {55, "Nikon Nikkor Z DX MC 35mm f/1.7"},
     {57, "Nikon Nikkor Z 24-105mm f/4-7.1"},
     {2305, "Laowa FFII 10mm F2.8 C&D Dreamer"},

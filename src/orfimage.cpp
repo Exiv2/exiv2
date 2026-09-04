@@ -21,8 +21,8 @@
 namespace Exiv2 {
 using namespace Internal;
 
-OrfImage::OrfImage(BasicIo::UniquePtr io, bool create) :
-    TiffImage(/*ImageType::orf, mdExif | mdIptc | mdXmp,*/ std::move(io), create) {
+OrfImage::OrfImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    TiffImage(/*ImageType::orf, mdExif | mdIptc | mdXmp,*/ std::move(io), params) {
   setTypeSupported(ImageType::orf, mdExif | mdIptc | mdXmp);
 }  // OrfImage::OrfImage
 
@@ -82,7 +82,8 @@ void OrfImage::readMetadata() {
     throw Error(ErrorCode::kerNotAnImage, "ORF");
   }
   clearMetadata();
-  ByteOrder bo = OrfParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
+  const DecodeParams dp(max_recursion_depth_);
+  ByteOrder bo = OrfParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
   setByteOrder(bo);
 }
 
@@ -110,9 +111,10 @@ void OrfImage::writeMetadata() {
   OrfParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_);  // may throw
 }  // OrfImage::writeMetadata
 
-ByteOrder OrfParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size) {
+ByteOrder OrfParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                            const DecodeParams& dp) {
   OrfHeader orfHeader;
-  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, Tag::root, TiffMapping::findDecoder,
+  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, Tag::root, TiffMapping::findDecoder, dp,
                                   &orfHeader);
 }
 
@@ -136,8 +138,8 @@ WriteMethod OrfParser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<OrfImage>(std::move(io), create);
+Image::UniquePtr newOrfInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<OrfImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

@@ -1,12 +1,12 @@
-|                           Codecov                            |                           OSS-Fuzz                           |                           Repology                           |                             Chat                             |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| [![codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2) | [![Fuzzing Status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/exiv2.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:exiv2) | [![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions) | [![#exiv2-chat on matrix.org](matrix-standard-vector-logo-xs.png)](https://matrix.to/#/#exiv2-chat:matrix.org) |
+[![Codecov](https://codecov.io/gh/Exiv2/exiv2/branch/main/graph/badge.svg?token=O9G7Iswx26)](https://codecov.io/gh/Exiv2/exiv2)
+[![Fuzzing status](https://oss-fuzz-build-logs.storage.googleapis.com/badges/exiv2.svg)](https://bugs.chromium.org/p/oss-fuzz/issues/list?sort=-opened&can=1&q=proj:exiv2)
+[![Packaging status](https://repology.org/badge/tiny-repos/exiv2.svg)](https://repology.org/metapackage/exiv2/versions)
+[![Matrix chat](https://img.shields.io/matrix/exiv2-chat:matrix.org.svg?label=Matrix&logo=matrix)](https://matrix.to/#/#exiv2-chat:matrix.org)
 
-
-
-| **CI Status:**    |      |      |     |
-|:--                |:--   |:--   |:--  |
-| [![Release](https://github.com/Exiv2/exiv2/actions/workflows/release.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/release.yml) | [![Basic jobs for all platforms](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml) |  [![Nightly jobs for Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml) | [![On PUSH - Linux Special Builds for main branch](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml) |
+[![Release](https://github.com/Exiv2/exiv2/actions/workflows/release.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/release.yml)
+[![Nightly jobs for Linux distributions](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/nightly_Linux_distributions.yml)
+[![Basic jobs for main platforms](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml/badge.svg?branch=main)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_BasicWinLinMac.yml)
+[![Linux special builds for main branch](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml/badge.svg)](https://github.com/Exiv2/exiv2/actions/workflows/on_push_ExtraJobsForMain.yml)
 
 <div id="Welcome">
 
@@ -982,14 +982,13 @@ Exiv2 optionally uses several different environment variables when building or t
 | Variable           | Default                    | Platforms          | Purpose |
 |:--                 |:--                         |:--                 |:--      |
 | EXIV2_BINDIR       | **\<exiv2dir\>/build/bin** | All Platforms      | Path of built binaries (e.g., exiv2.exe) |
-| EXIV2_PORT         | **12762**<br>**12671**<br>**12760**             | Cygwin<br>MinGW/msys2<br>Other Platforms | Test TCP/IP Port   |
 | EXIV2_HTTP         | **http://localhost**       | All Platforms      | Test http server   |
 | EXIV2_ECHO         | _**not set**_              | All Platforms      | For debugging bashTests |
 | VALGRIND           | _**not set**_              | All Platforms      | For debugging bashTests |
 | VERBOSE            | _**not set**_              | Makefile platforms | Instructs make to report its actions |
 | PATH<br>DYLD\_LIBRARY\_PATH<br>LD\_LIBRARY\_PATH    | $EXIV2\_BINDIR/../lib | Windows<br>macOS<br>Other platforms | Path of dynamic libraries |
 
-The Variable EXIV2\_PORT or EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**once**_ to authorise the firewall to permit python to use the port.
+The Variable EXIV2\_HTTP can be set to None to skip http tests.  The http server is started with the command `python3 -m http.server $port`.  On Windows, you will need to run this manually _**once**_ to authorise the firewall to permit python to use the port.
 
 [TOC](#TOC)
 <div id="TestsOnUnix">
@@ -1071,9 +1070,9 @@ c:\...\exiv2>ctest --test-dir build -C Release
 If you wish to use an environment variables, use set:
 
 ```
-set EXIV2_PORT=54321
+set EXIV2_HTTP="http://127.0.0.1"
 ctest --test-dir build -C Release --verbose -R bash
-set EXIV2_PORT=
+set EXIV2_HTTP=
 ```
 
 [TOC](#TOC)

@@ -47,8 +47,6 @@ void curlcon(const std::string& url, bool useHttp1_0 = false) {
   curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Exiv2::curlWriter);
   curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-  curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-  curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
   curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
   // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1); // debug
   if (useHttp1_0)

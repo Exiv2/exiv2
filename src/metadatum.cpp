@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "metadatum.hpp"
+#include <limits>
+#include "enforce.hpp"
 
 #include <sstream>
 
@@ -21,7 +23,10 @@ std::string Metadatum::print(const ExifData* pMetadata) const {
 }
 
 uint32_t Metadatum::toUint32(size_t n) const {
-  return static_cast<uint32_t>(toInt64(n));
+  auto i = toInt64(n);
+  Internal::enforce(std::numeric_limits<uint32_t>::min() <= i, ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(i <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerCorruptedMetadata);
+  return static_cast<uint32_t>(i);
 }
 
 bool cmpMetadataByTag(const Metadatum& lhs, const Metadatum& rhs) {

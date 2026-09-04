@@ -15,184 +15,184 @@ STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@....
-   14623 | 0xffdb DQT   |     132 
-   14757 | 0xfffe COM   |      10 | abcdefg
-   14769 | 0xffc0 SOF0  |      17 
-   14788 | 0xffdd DRI   |       4 
-   14794 | 0xffc4 DHT   |     418 
-   15214 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
+   11046 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
+   11624 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14656 | 0xffee APP14 |      14 | Adobe.d@....
+   14672 | 0xffdb DQT   |     132 
+   14806 | 0xfffe COM   |      10 | abcdefg
+   14818 | 0xffc0 SOF0  |      17 
+   14837 | 0xffdd DRI   |       4 
+   14843 | 0xffc4 DHT   |     418 
+   15263 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@....
-   14623 | 0xffdb DQT   |     132 
-   14757 | 0xffc0 SOF0  |      17 
-   14776 | 0xffdd DRI   |       4 
-   14782 | 0xffc4 DHT   |     418 
-   15202 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
+   11046 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
+   11624 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14656 | 0xffee APP14 |      14 | Adobe.d@....
+   14672 | 0xffdb DQT   |     132 
+   14806 | 0xffc0 SOF0  |      17 
+   14825 | 0xffdd DRI   |       4 
+   14831 | 0xffc4 DHT   |     418 
+   15251 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   76511 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  142025 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  207539 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  273053 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  338567 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  404081 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  469595 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  535109 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  600623 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  666137 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  731651 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  797165 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  862679 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  928193 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  993707 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1059221 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1124735 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1190249 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1255763 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1321277 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1386791 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1452305 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628079 | 0xffee APP14 |      14 | Adobe.d@....
- 1628095 | 0xffdb DQT   |     132 
- 1628229 | 0xffc0 SOF0  |      17 
- 1628248 | 0xffdd DRI   |       4 
- 1628254 | 0xffc4 DHT   |     418 
- 1628674 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
+   11046 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
+   76560 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  142074 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  207588 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  273102 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  338616 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  404130 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  469644 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  535158 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  600672 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  666186 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  731700 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  797214 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  862728 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  928242 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  993756 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1059270 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1124784 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1190298 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1255812 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1321326 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1386840 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1452354 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1517868 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1583382 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1625096 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+ 1628128 | 0xffee APP14 |      14 | Adobe.d@....
+ 1628144 | 0xffdb DQT   |     132 
+ 1628278 | 0xffc0 SOF0  |      17 
+ 1628297 | 0xffdd DRI   |       4 
+ 1628303 | 0xffc4 DHT   |     418 
+ 1628723 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   76511 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  142025 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  207539 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  273053 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  338567 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  404081 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  469595 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  535109 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  600623 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  666137 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  731651 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  797165 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  862679 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  928193 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  993707 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1059221 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1124735 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1190249 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1255763 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1321277 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1386791 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1452305 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628079 | 0xffee APP14 |      14 | Adobe.d@....
- 1628095 | 0xffdb DQT   |     132 
- 1628229 | 0xfffe COM   |      10 | abcdefg
- 1628241 | 0xffc0 SOF0  |      17 
- 1628260 | 0xffdd DRI   |       4 
- 1628266 | 0xffc4 DHT   |     418 
- 1628686 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
+   11046 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
+   76560 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  142074 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  207588 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  273102 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  338616 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  404130 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  469644 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  535158 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  600672 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  666186 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  731700 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  797214 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  862728 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  928242 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  993756 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1059270 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1124784 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1190298 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1255812 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1321326 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1386840 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1452354 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1517868 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1583382 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1625096 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+ 1628128 | 0xffee APP14 |      14 | Adobe.d@....
+ 1628144 | 0xffdb DQT   |     132 
+ 1628278 | 0xfffe COM   |      10 | abcdefg
+ 1628290 | 0xffc0 SOF0  |      17 
+ 1628309 | 0xffdd DRI   |       4 
+ 1628315 | 0xffc4 DHT   |     418 
+ 1628735 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
-   76511 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
-  142025 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
-  207539 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
-  273053 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
-  338567 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
-  404081 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
-  469595 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
-  535109 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
-  600623 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
-  666137 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
-  731651 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
-  797165 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
-  862679 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
-  928193 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
-  993707 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
- 1059221 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
- 1124735 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
- 1190249 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
- 1255763 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
- 1321277 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
- 1386791 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
- 1452305 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
- 1517819 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
- 1583333 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
- 1625047 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
- 1628079 | 0xffee APP14 |      14 | Adobe.d@....
- 1628095 | 0xffdb DQT   |     132 
- 1628229 | 0xffc0 SOF0  |      17 
- 1628248 | 0xffdd DRI   |       4 
- 1628254 | 0xffc4 DHT   |     418 
- 1628674 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
+   11046 | 0xffe2 APP2  |   65512 | ICC_PROFILE...... APPL....prtrRG chunk 1/25
+   76560 | 0xffe2 APP2  |   65512 | ICC_PROFILE...X..Ih.V...j.U..4mV chunk 2/25
+  142074 | 0xffe2 APP2  |   65512 | ICC_PROFILE...}.f...~mcx....`... chunk 3/25
+  207588 | 0xffe2 APP2  |   65512 | ICC_PROFILE....|...S...^...v.... chunk 4/25
+  273102 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....bXf2..`Og...^0g. chunk 5/25
+  338616 | 0xffe2 APP2  |   65512 | ICC_PROFILE.....~.|...{.}P..y.}. chunk 6/25
+  404130 | 0xffe2 APP2  |   65512 | ICC_PROFILE......b.....:...?.... chunk 7/25
+  469644 | 0xffe2 APP2  |   65512 | ICC_PROFILE...Q8yq].R.wW].S.uJ]e chunk 8/25
+  535158 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.T'..RA.Y..P,.... chunk 9/25
+  600672 | 0xffe2 APP2  |   65512 | ICC_PROFILE...i.}/..key...l.v..c chunk 10/25
+  666186 | 0xffe2 APP2  |   65512 | ICC_PROFILE...{....O{.....|..c.. chunk 11/25
+  731700 | 0xffe2 APP2  |   65512 | ICC_PROFILE...E.;.O-F.-.R>J...a. chunk 12/25
+  797214 | 0xffe2 APP2  |   65512 | ICC_PROFILE....X..up............ chunk 13/25
+  862728 | 0xffe2 APP2  |   65512 | ICC_PROFILE........<............ chunk 14/25
+  928242 | 0xffe2 APP2  |   65512 | ICC_PROFILE..............,...'.. chunk 15/25
+  993756 | 0xffe2 APP2  |   65512 | ICC_PROFILE.......g.....m%....qw chunk 16/25
+ 1059270 | 0xffe2 APP2  |   65512 | ICC_PROFILE......s....xX.M..n... chunk 17/25
+ 1124784 | 0xffe2 APP2  |   65512 | ICC_PROFILE............0......E. chunk 18/25
+ 1190298 | 0xffe2 APP2  |   65512 | ICC_PROFILE........(.n.B........ chunk 19/25
+ 1255812 | 0xffe2 APP2  |   65512 | ICC_PROFILE...0.0.282.0.282.0.28 chunk 20/25
+ 1321326 | 0xffe2 APP2  |   65512 | ICC_PROFILE...175.0.176.0.175.0. chunk 21/25
+ 1386840 | 0xffe2 APP2  |   65512 | ICC_PROFILE...103.0.114.0.126.0. chunk 22/25
+ 1452354 | 0xffe2 APP2  |   65512 | ICC_PROFILE...6.0.049.0.053.0.05 chunk 23/25
+ 1517868 | 0xffe2 APP2  |   65512 | ICC_PROFILE....0.670.0.653.0.634 chunk 24/25
+ 1583382 | 0xffe2 APP2  |   41712 | ICC_PROFILE...09.0.584.0.555.0.5 chunk 25/25
+ 1625096 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+ 1628128 | 0xffee APP14 |      14 | Adobe.d@....
+ 1628144 | 0xffdb DQT   |     132 
+ 1628278 | 0xffc0 SOF0  |      17 
+ 1628297 | 0xffdd DRI   |       4 
+ 1628303 | 0xffc4 DHT   |     418 
+ 1628723 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@....
-   14623 | 0xffdb DQT   |     132 
-   14757 | 0xffc0 SOF0  |      17 
-   14776 | 0xffdd DRI   |       4 
-   14782 | 0xffc4 DHT   |     418 
-   15202 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
+   11046 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
+   11624 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14656 | 0xffee APP14 |      14 | Adobe.d@....
+   14672 | 0xffdb DQT   |     132 
+   14806 | 0xffc0 SOF0  |      17 
+   14825 | 0xffdd DRI   |       4 
+   14831 | 0xffc4 DHT   |     418 
+   15251 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@....
-   14623 | 0xffdb DQT   |     132 
-   14757 | 0xfffe COM   |      10 | abcdefg
-   14769 | 0xffc0 SOF0  |      17 
-   14788 | 0xffdd DRI   |       4 
-   14794 | 0xffc4 DHT   |     418 
-   15214 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
+   11046 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
+   11624 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14656 | 0xffee APP14 |      14 | Adobe.d@....
+   14672 | 0xffdb DQT   |     132 
+   14806 | 0xfffe COM   |      10 | abcdefg
+   14818 | 0xffc0 SOF0  |      17 
+   14837 | 0xffdd DRI   |       4 
+   14843 | 0xffc4 DHT   |     418 
+   15263 | 0xffda SOS  
 abcdefg
 STRUCTURE OF JPEG FILE: Reagan.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
        2 | 0xffe1 APP1  |    5704 | Exif..MM.*......................
-    5708 | 0xffe1 APP1  |    5287 | http://ns.adobe.com/xap/1.0/.<?x
-   10997 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
-   11575 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
-   14607 | 0xffee APP14 |      14 | Adobe.d@....
-   14623 | 0xffdb DQT   |     132 
-   14757 | 0xffc0 SOF0  |      17 
-   14776 | 0xffdd DRI   |       4 
-   14782 | 0xffc4 DHT   |     418 
-   15202 | 0xffda SOS  
+    5708 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
+   11046 | 0xffe2 APP2  |     576 | ICC_PROFILE......0ADBE....mntrRG chunk 1/1
+   11624 | 0xffed APP13 |    3030 | Photoshop 3.0.8BIM..........Z...
+   14656 | 0xffee APP14 |      14 | Adobe.d@....
+   14672 | 0xffdb DQT   |     132 
+   14806 | 0xffc0 SOF0  |      17 
+   14825 | 0xffdd DRI   |       4 
+   14831 | 0xffc4 DHT   |     418 
+   15251 | 0xffda SOS  
 50b9125494306a6fc1b7c4f2a1a8d49d
 50b9125494306a6fc1b7c4f2a1a8d49d
 50b9125494306a6fc1b7c4f2a1a8d49d
@@ -220,66 +220,66 @@ STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
 
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   187526 |        0 | WEBP
+  RIFF |   187576 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ ........
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2913 |   184662 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |  1800566 |        0 | WEBP
+  RIFF |  1800616 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |  1613600 |       30 | ... APPL....prtrRGB Lab ........
   VP8  |   172008 |  1613638 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |  1785654 | II*........................... .
-  XMP  |     2864 |  1797702 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2913 |  1797702 | <?xpacket begin="..." id="W5M0Mp
 Exiv2 exception in modify action for file exiv2-bug1199.webp:
 Setting Image comment in WebP images is not supported
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |  1800566 |        0 | WEBP
+  RIFF |  1800616 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |  1613600 |       30 | ... APPL....prtrRGB Lab ........
   VP8  |   172008 |  1613638 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |  1785654 | II*........................... .
-  XMP  |     2864 |  1797702 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2913 |  1797702 | <?xpacket begin="..." id="W5M0Mp
 
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |  1800566 |        0 | WEBP
+  RIFF |  1800616 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |  1613600 |       30 | ... APPL....prtrRGB Lab ........
   VP8  |   172008 |  1613638 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |  1785654 | II*........................... .
-  XMP  |     2864 |  1797702 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2913 |  1797702 | <?xpacket begin="..." id="W5M0Mp
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   187526 |        0 | WEBP
+  RIFF |   187576 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ .......
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2913 |   184662 | <?xpacket begin="..." id="W5M0Mp
 Exiv2 exception in modify action for file exiv2-bug1199.webp:
 Setting Image comment in WebP images is not supported
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   187526 |        0 | WEBP
+  RIFF |   187576 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ .......
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2913 |   184662 | <?xpacket begin="..." id="W5M0Mp
 
 STRUCTURE OF WEBP FILE: exiv2-bug1199.webp
  Chunk |   Length |   Offset | Payload
-  RIFF |   187526 |        0 | WEBP
+  RIFF |   187576 |        0 | WEBP
   VP8X |       10 |       12 | ,........
   ICCP |      560 |       30 | ...0ADBE....mntrRGB XYZ .......
   VP8  |   172008 |      598 | .G...*.. .>1..B.!..o.. ......]..
   EXIF |    12040 |   172614 | II*........................... .
-  XMP  |     2864 |   184662 | <?xpacket begin="..." id="W5M0Mp
+  XMP  |     2913 |   184662 | <?xpacket begin="..." id="W5M0Mp
 dea88382d899d5f6e573b432473ae138
 dea88382d899d5f6e573b432473ae138
 50b9125494306a6fc1b7c4f2a1a8d49d
@@ -311,18 +311,18 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       76 | eXIf  |    8408 | II*..........................  | 0x81634e71
     8496 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
     9144 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168341 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175509 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175525 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175543 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175564 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175583 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175873 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184077 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192281 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200485 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208689 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215874 | IEND  |       0 |                                | 0xae426082
+ 1168341 | iTXt  |    7209 | XML:com.adobe.xmp.....<?xpacke | 0xe4b737d4
+ 1175562 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175578 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175596 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175617 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175636 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175926 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184130 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192334 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200538 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208742 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215927 | IEND  |       0 |                                | 0xae426082
 abcdefg
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
@@ -330,36 +330,36 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       33 | eXIf  |    8408 | II*..........................  | 0x81634e71
     8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
     9101 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168298 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175466 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175482 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175500 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175521 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175540 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175830 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184034 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192238 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200442 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208646 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215831 | IEND  |       0 |                                | 0xae426082
+ 1168298 | iTXt  |    7209 | XML:com.adobe.xmp.....<?xpacke | 0xe4b737d4
+ 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215884 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | eXIf  |    8408 | II*..........................  | 0x81634e71
     8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
     9101 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168298 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175466 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175482 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175500 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175521 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175540 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175830 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184034 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192238 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200442 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208646 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215831 | IEND  |       0 |                                | 0xae426082
+ 1168298 | iTXt  |    7209 | XML:com.adobe.xmp.....<?xpacke | 0xe4b737d4
+ 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215884 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
@@ -367,18 +367,18 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       76 | eXIf  |    8408 | II*..........................  | 0x81634e71
     8496 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
     9144 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168341 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175509 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175525 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175543 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175564 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175583 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175873 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184077 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192281 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200485 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208689 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215874 | IEND  |       0 |                                | 0xae426082
+ 1168341 | iTXt  |    7209 | XML:com.adobe.xmp.....<?xpacke | 0xe4b737d4
+ 1175562 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175578 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175596 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175617 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175636 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175926 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184130 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192334 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200538 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208742 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215927 | IEND  |       0 |                                | 0xae426082
 abcdefg
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
@@ -386,36 +386,36 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       33 | eXIf  |    8408 | II*..........................  | 0x81634e71
     8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
     9101 | iCCP  | 1159185 | ICC profile..x...uP.[..9@.HB.D | 0xd3dbe519
- 1168298 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
- 1175466 | gAMA  |       4 | ....                           | 0x0bfc6105
- 1175482 | bKGD  |       6 | ......                         | 0xa0bda793
- 1175500 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
- 1175521 | tIME  |       7 | ......2                        | 0x582d32e4
- 1175540 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
- 1175830 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
- 1184034 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
- 1192238 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
- 1200442 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
- 1208646 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
- 1215831 | IEND  |       0 |                                | 0xae426082
+ 1168298 | iTXt  |    7209 | XML:com.adobe.xmp.....<?xpacke | 0xe4b737d4
+ 1175519 | gAMA  |       4 | ....                           | 0x0bfc6105
+ 1175535 | bKGD  |       6 | ......                         | 0xa0bda793
+ 1175553 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+ 1175574 | tIME  |       7 | ......2                        | 0x582d32e4
+ 1175593 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+ 1175883 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+ 1184087 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+ 1192291 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+ 1200495 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+ 1208699 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+ 1215884 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
       33 | eXIf  |    8408 | II*..........................  | 0x81634e71
     8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
     9101 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
-    9406 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
-   16574 | gAMA  |       4 | ....                           | 0x0bfc6105
-   16590 | bKGD  |       6 | ......                         | 0xa0bda793
-   16608 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   16629 | tIME  |       7 | ......2                        | 0x582d32e4
-   16648 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   16938 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25142 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
-   33346 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
-   41550 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
-   49754 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
-   56939 | IEND  |       0 |                                | 0xae426082
+    9406 | iTXt  |    7209 | XML:com.adobe.xmp.....<?xpacke | 0xe4b737d4
+   16627 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16643 | bKGD  |       6 | ......                         | 0xa0bda793
+   16661 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16682 | tIME  |       7 | ......2                        | 0x582d32e4
+   16701 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   16991 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25195 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+   33399 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41603 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49807 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   56992 | IEND  |       0 |                                | 0xae426082
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
        8 | IHDR  |      13 | ............                   | 0x8cf910c3
@@ -423,18 +423,18 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       76 | eXIf  |    8408 | II*..........................  | 0x81634e71
     8496 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
     9144 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
-    9449 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
-   16617 | gAMA  |       4 | ....                           | 0x0bfc6105
-   16633 | bKGD  |       6 | ......                         | 0xa0bda793
-   16651 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   16672 | tIME  |       7 | ......2                        | 0x582d32e4
-   16691 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   16981 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25185 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
-   33389 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
-   41593 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
-   49797 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
-   56982 | IEND  |       0 |                                | 0xae426082
+    9449 | iTXt  |    7209 | XML:com.adobe.xmp.....<?xpacke | 0xe4b737d4
+   16670 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16686 | bKGD  |       6 | ......                         | 0xa0bda793
+   16704 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16725 | tIME  |       7 | ......2                        | 0x582d32e4
+   16744 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   17034 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25238 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+   33442 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41646 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49850 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   57035 | IEND  |       0 |                                | 0xae426082
 abcdefg
 STRUCTURE OF PNG FILE: ReaganLargePng.png
  address | chunk |  length | data                           | checksum
@@ -442,18 +442,18 @@ STRUCTURE OF PNG FILE: ReaganLargePng.png
       33 | eXIf  |    8408 | II*..........................  | 0x81634e71
     8453 | zTXt  |     636 | Raw profile type iptc..x..TKn. | 0x4e5178d3
     9101 | iCCP  |     293 | ICC profile..x.c``2ptqre.``..+ | 0x7d41600b
-    9406 | iTXt  |    7156 | XML:com.adobe.xmp.....<?xpacke | 0x8d6d70ba
-   16574 | gAMA  |       4 | ....                           | 0x0bfc6105
-   16590 | bKGD  |       6 | ......                         | 0xa0bda793
-   16608 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
-   16629 | tIME  |       7 | ......2                        | 0x582d32e4
-   16648 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
-   16938 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
-   25142 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
-   33346 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
-   41550 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
-   49754 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
-   56939 | IEND  |       0 |                                | 0xae426082
+    9406 | iTXt  |    7209 | XML:com.adobe.xmp.....<?xpacke | 0xe4b737d4
+   16627 | gAMA  |       4 | ....                           | 0x0bfc6105
+   16643 | bKGD  |       6 | ......                         | 0xa0bda793
+   16661 | pHYs  |       9 | ...#...#.                      | 0x78a53f76
+   16682 | tIME  |       7 | ......2                        | 0x582d32e4
+   16701 | zTXt  |     278 | Comment..x.}..n.@....O..5..h.. | 0xdb1dfff5
+   16991 | IDAT  |    8192 | x...k.%.u%....D......GWW...ER. | 0x929ed75c
+   25195 | IDAT  |    8192 | .F('.T)/....D"]..."2 '(...D%.. | 0x52c572c0
+   33399 | IDAT  |    8192 | y-.....>....3..p.....$....E.Bj | 0x65a90ffb
+   41603 | IDAT  |    8192 | ....S....?..G.....G........... | 0xf44da161
+   49807 | IDAT  |    7173 | .evl...3K..j.S.....x......Z .D | 0xbe6d3574
+   56992 | IEND  |       0 |                                | 0xae426082
 45ed3c125cc6041b37b44ee4cb881cd8
 45ed3c125cc6041b37b44ee4cb881cd8
 50b9125494306a6fc1b7c4f2a1a8d49d

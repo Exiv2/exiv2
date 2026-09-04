@@ -16,6 +16,7 @@
 // included header files
 #include "config.h"
 #include "metadatum.hpp"
+#include "params.hpp"
 
 // + standard includes
 #include <list>
@@ -494,12 +495,13 @@ class EXIV2API ExifParser {
            in which the data is encoded.
 
     @param exifData Exif metadata container.
-    @param pData 	  Pointer to the data buffer. Must point to data in
-                    binary Exif format; no checks are performed.
-    @param size 	  Length of the data buffer
+    @param pData   Pointer to the data buffer. Must point to data in
+                   binary Exif format; no checks are performed.
+    @param size    Length of the data buffer
+    @param dp      Parameters for all decode() functions
     @return Byte order in which the data is encoded.
   */
-  static ByteOrder decode(ExifData& exifData, const byte* pData, size_t size);
+  static ByteOrder decode(ExifData& exifData, const byte* pData, size_t size, const DecodeParams& dp);
   /*!
     @brief Encode Exif metadata from the provided metadata to binary Exif
            format.

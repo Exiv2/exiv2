@@ -152,7 +152,7 @@ int main(int argc, char* const argv[]) {
 
   try {
     // Create the required action class
-    auto task = Action::TaskFactory::instance().create(static_cast<Action::TaskType>(params.action_));
+    auto task = Action::Task::create(static_cast<Action::TaskType>(params.action_));
 
     // Process all files
     auto filesCount = params.files_.size();
@@ -180,8 +180,6 @@ int main(int argc, char* const argv[]) {
         if (returnCode == EXIT_SUCCESS)
           returnCode = ret;
       }
-
-      Action::TaskFactory::instance().cleanup();
     }
   } catch (const std::exception& exc) {
     std::cerr << "Uncaught exception: " << exc.what() << '\n';

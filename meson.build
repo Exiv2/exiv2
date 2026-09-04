@@ -1,3 +1,4 @@
+# set tweak version below
 project(
   'exiv2',
   'cpp',
@@ -38,8 +39,14 @@ cdata.set('PROJECT_VERSION_MAJOR', ver[0])
 cdata.set('PROJECT_VERSION_MINOR', ver[1])
 cdata.set('PROJECT_VERSION_PATCH', ver[2])
 cdata.set('PROJECT_VERSION_TWEAK', 9)
-cdata.set('PROJECT_VERSION', '@0@.@1@'.format(meson.project_version(), cdata.get('PROJECT_VERSION_TWEAK')))
-cdata.set('EXV_PACKAGE_VERSION', '@0@.@1@'.format(meson.project_version(), cdata.get('PROJECT_VERSION_TWEAK')))
+if cdata.get('PROJECT_VERSION_TWEAK') > 0
+  cdata.set('PROJECT_VERSION', '@0@.@1@'.format(meson.project_version(), cdata.get('PROJECT_VERSION_TWEAK')))
+  cdata.set('EXV_PACKAGE_VERSION', '@0@.@1@'.format(meson.project_version(), cdata.get('PROJECT_VERSION_TWEAK')))
+else
+  cdata.set('PROJECT_VERSION_TWEAK', '')
+  cdata.set('PROJECT_VERSION', meson.project_version())
+  cdata.set('EXV_PACKAGE_VERSION', meson.project_version())
+endif
 cdata.set('EXV_PACKAGE_STRING', '@0@ @1@'.format(meson.project_name(), cdata.get('PROJECT_VERSION')))
 
 cdata.set('EXV_HAVE_STRERROR_R', cpp.has_function('strerror_r'))

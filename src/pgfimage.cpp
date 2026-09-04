@@ -49,9 +49,9 @@ static uint32_t byteSwap_(Exiv2::DataBuf& buf, size_t offset, bool bSwap) {
   return result;
 }
 
-PgfImage::PgfImage(BasicIo::UniquePtr io, bool create) :
-    Image(ImageType::pgf, mdExif | mdIptc | mdXmp | mdComment, std::move(io)), bSwap_(isBigEndianPlatform()) {
-  if (create && io_->open() == 0) {
+PgfImage::PgfImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::pgf, mdExif | mdIptc | mdXmp | mdComment, std::move(io), params), bSwap_(isBigEndianPlatform()) {
+  if (params.create() && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Exiv2::PgfImage:: Creating PGF image to memory\n";
 #endif
@@ -94,19 +94,18 @@ void PgfImage::readMetadata() {
   std::cout << "Exiv2::PgfImage::readMetadata: Found Image data (" << size << " bytes)\n";
 #endif
 
-  if (size > io_->size())
+  const size_t offset = io_->tell();
+  assert(offset <= io_->size());
+  if (size > io_->size() - offset)
     throw Error(ErrorCode::kerInputDataReadFailed);
   if (size == 0)
     return;
 
-  DataBuf imgData(size);
-  const size_t bufRead = io_->read(imgData.data(), imgData.size());
+  const Exiv2::byte* base = io_->mmap();
   if (io_->error())
     throw Error(ErrorCode::kerFailedToReadImageData);
-  if (bufRead != imgData.size())
-    throw Error(ErrorCode::kerInputDataReadFailed);
 
-  auto image = Exiv2::ImageFactory::open(imgData.c_data(), imgData.size());
+  auto image = Exiv2::ImageFactory::open(base + offset, size);
   image->readMetadata();
   exifData() = image->exifData();
   iptcData() = image->iptcData();
@@ -285,8 +284,8 @@ DataBuf PgfImage::readPgfHeaderStructure(BasicIo& iIo, uint32_t& width, uint32_t
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<PgfImage>(std::move(io), create);
+Image::UniquePtr newPgfInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<PgfImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

@@ -4,6 +4,7 @@
 
 // included header files
 #include "error.hpp"
+#include "exif.hpp"
 #include "properties.hpp"
 #include "types.hpp"
 #include "value.hpp"
@@ -57,14 +58,14 @@ class XMLValidator {
   // Very deeply nested XML trees can cause a stack overflow in
   // xmpsdk.  They are also very unlikely to be valid XMP, so we
   // error out if the depth exceeds this limit.
-  static const size_t max_recursion_limit_ = 1000;
+  const size_t max_recursion_depth_;
 
   XML_Parser parser_;
 
  public:
   // Runs an XML parser on `buf`. Throws an exception if the XML is invalid.
-  static void check(const char* buf, size_t buflen) {
-    XMLValidator validator;
+  static void check(const char* buf, size_t buflen, const DecodeParams& dp) {
+    XMLValidator validator(dp.max_recursion_depth());
     validator.check_internal(buf, buflen);
   }
 
@@ -74,7 +75,8 @@ class XMLValidator {
  private:
   // Private constructor, because this class is only constructed by
   // the (static) check method.
-  XMLValidator() : parser_(XML_ParserCreateNS(nullptr, '@')) {
+  explicit XMLValidator(size_t max_recursion_depth) :
+      max_recursion_depth_(max_recursion_depth), parser_(XML_ParserCreateNS(nullptr, '@')) {
     if (!parser_) {
       throw Error(ErrorCode::kerXMPToolkitError, "Could not create expat parser");
     }
@@ -119,7 +121,7 @@ class XMLValidator {
   }
 
   void startElement(const XML_Char*, const XML_Char**) noexcept {
-    if (element_depth_ > max_recursion_limit_) {
+    if (element_depth_ > max_recursion_depth_) {
       setError("Too deeply nested");
     }
     ++element_depth_;
@@ -134,7 +136,7 @@ class XMLValidator {
   }
 
   void startNamespace(const XML_Char*, const XML_Char*) noexcept {
-    if (namespace_depth_ > max_recursion_limit_) {
+    if (namespace_depth_ > max_recursion_depth_) {
       setError("Too deeply nested");
     }
     ++namespace_depth_;
@@ -658,7 +660,7 @@ void XmpParser::terminate() {
 }
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
-int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
+int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket, const DecodeParams& dp) {
   try {
     xmpData.setPacket(xmpPacket);
     if (xmpPacket.empty()) {
@@ -684,7 +686,7 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
     while (len > 0 && 0 == xmpPacket[len - 1])
       --len;
 
-    XMLValidator::check(xmpPacket.data(), len);
+    XMLValidator::check(xmpPacket.data(), len, dp);
     SXMPMeta meta(xmpPacket.data(), static_cast<XMP_StringLen>(len));
     SXMPIterator iter(meta);
     std::string schemaNs;
@@ -815,7 +817,7 @@ int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
 #endif  // SUPPRESS_WARNINGS
 }  // XmpParser::decode
 #else
-int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket) {
+int XmpParser::decode(XmpData& xmpData, const std::string& xmpPacket, const DecodeParams&) {
   xmpData.clear();
   if (!xmpPacket.empty()) {
 #ifndef SUPPRESS_WARNINGS

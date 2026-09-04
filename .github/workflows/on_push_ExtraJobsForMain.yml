@@ -7,30 +7,28 @@ concurrency:
 on:
   push:
     branches:
-    - main
-    tags:
-    - '!*'
+      - main
     paths-ignore:
       - "*.md"
   workflow_dispatch:
 
 jobs:
   special_debugRelease:
-    name: 'Ubuntu 22.04 - GCC - Debug+Coverage'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu - GCC - Debug+Coverage'
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y install ninja-build gcovr
-          python3 -m pip install conan==1.* lxml
+          sudo eatmydata apt-get -y install ninja-build python3-lxml gcovr
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 

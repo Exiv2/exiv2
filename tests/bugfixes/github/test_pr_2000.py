@@ -20,7 +20,8 @@ class TestVerboseExtractXmpSidecarToStdout(metaclass=CaseMeta):
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:exif="http://ns.adobe.com/exif/1.0/">
+    xmlns:exif="http://ns.adobe.com/exif/1.0/"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace">
    <dc:subject>
     <rdf:Bag>
      <rdf:li>Value 1</rdf:li>
@@ -63,6 +64,7 @@ class TestVerboseModifyRegAddExtractXmpSidecarToStdout(metaclass=CaseMeta):
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:TempGroup="tempgroup/"
     xmlns:exif="http://ns.adobe.com/exif/1.0/"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
    TempGroup:val="Value 1">
    <dc:subject>
     <rdf:Bag>
@@ -103,7 +105,8 @@ class TestVerboseModifySetExtractXmpSidecarToStdout(metaclass=CaseMeta):
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
     xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:exif="http://ns.adobe.com/exif/1.0/">
+    xmlns:exif="http://ns.adobe.com/exif/1.0/"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace">
    <dc:subject>
     <rdf:Bag>
      <rdf:li>Value 1</rdf:li>
@@ -143,7 +146,8 @@ class TestVerboseModifyDelExtractXmpSidecarToStdout(metaclass=CaseMeta):
 <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 4.4.0-Exiv2">
  <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <rdf:Description rdf:about=""
-    xmlns:exif="http://ns.adobe.com/exif/1.0/">
+    xmlns:exif="http://ns.adobe.com/exif/1.0/"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace">
    <exif:UserComment>
     <rdf:Alt>
      <rdf:li xml:lang="x-default">Value 1</rdf:li>

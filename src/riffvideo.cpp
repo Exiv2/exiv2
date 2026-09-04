@@ -361,7 +361,8 @@ namespace Exiv2 {
 
 enum streamTypeInfo { Audio = 1, MIDI, Text, Video };
 
-RiffVideo::RiffVideo(BasicIo::UniquePtr io) : Image(ImageType::riff, mdNone, std::move(io)) {
+RiffVideo::RiffVideo(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::riff, mdNone, std::move(io), params) {
 }  // RiffVideo::RiffVideo
 
 std::string RiffVideo::mimeType() const {
@@ -655,14 +656,25 @@ void RiffVideo::StreamName(uint64_t size_) const {
 
 void RiffVideo::readInfoListChunk(uint64_t size_) {
   uint64_t current_size = DWORD;
+
+  // Add the elements to a temporary table first, so that we can check
+  // for duplicates before adding them to xmpData_.
+  std::map<std::string, std::string> table;
   while (current_size < size_) {
     std::string type = readStringTag(io_);
     size_t size = readDWORDTag(io_);
     std::string content = readStringTag(io_, size);
-    if (auto it = Internal::infoTags.find(type); it != Internal::infoTags.end())
-      xmpData_[it->second] = content;
+    if (auto it = Internal::infoTags.find(type); it != Internal::infoTags.end()) {
+      // Check that it isn't a duplicate.
+      Internal::enforce(table.find(it->second) == table.end(), ErrorCode::kerCorruptedMetadata);
+      table[it->second] = content;
+    }
     current_size += DWORD * 2;
     current_size += size;
+  }
+  // Copy the elements from the temporary table to xmpData_.
+  for (const auto& it : table) {
+    xmpData_[it.first] = it.second;
   }
 }
 
@@ -757,8 +769,8 @@ void RiffVideo::fillDuration(double frame_rate, size_t frame_count) {
   xmpData_["Xmp.video.Duration"] = duration;  // Duration in number of seconds
 }  // RiffVideo::fillDuration
 
-Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<RiffVideo>(std::move(io));
+Image::UniquePtr newRiffInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<RiffVideo>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

@@ -4,17 +4,18 @@
 
 #include <exiv2/basicio.hpp>
 #include <exiv2/riffvideo.hpp>
+#include "unittest_utils.hpp"
 
 using namespace Exiv2;
 
 TEST(RiffVideo, canBeOpenedWithEmptyMemIo) {
   auto memIo = std::make_unique<MemIo>();
-  ASSERT_NO_THROW(RiffVideo riff(std::move(memIo)));
+  ASSERT_NO_THROW(RiffVideo riff(std::move(memIo), defaultImageCtorParams(false)));
 }
 
 TEST(RiffVideo, mimeTypeIsRiff) {
   auto memIo = std::make_unique<MemIo>();
-  RiffVideo riff(std::move(memIo));
+  RiffVideo riff(std::move(memIo), defaultImageCtorParams(false));
 
   ASSERT_EQ("video/riff", riff.mimeType());
 }
@@ -26,13 +27,13 @@ TEST(RiffVideo, isRiffTypewithEmptyDataReturnsFalse) {
 
 TEST(RiffVideo, emptyThrowError) {
   auto memIo = std::make_unique<MemIo>();
-  RiffVideo riff(std::move(memIo));
+  RiffVideo riff(std::move(memIo), defaultImageCtorParams(false));
   ASSERT_THROW(riff.readMetadata(), Exiv2::Error);
 }
 
 TEST(RiffVideo, printStructurePrintsNothingAndthrowError) {
   auto memIo = std::make_unique<MemIo>();
-  RiffVideo riff(std::move(memIo));
+  RiffVideo riff(std::move(memIo), defaultImageCtorParams(false));
 
   std::ostringstream stream;
 
@@ -43,7 +44,7 @@ TEST(RiffVideo, printStructurePrintsNothingAndthrowError) {
 
 TEST(RiffVideo, readMetadata) {
   auto memIo = std::make_unique<MemIo>();
-  RiffVideo riff(std::move(memIo));
+  RiffVideo riff(std::move(memIo), defaultImageCtorParams(false));
   XmpData xmpData;
   xmpData["Xmp.video.TotalStream"] = 1000;
   xmpData["Xmp.video.TimecodeScale"] = 10001;

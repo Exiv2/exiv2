@@ -136,8 +136,16 @@ std::string pathOfFileUrl(const std::string& url) {
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io) :
-    io_(std::move(io)), imageType_(type), supportedMetadata_(supportedMetadata) {
+
+ImageCtorParams::ImageCtorParams(bool create, size_t max_recursion_depth) :
+    create_(create), max_recursion_depth_(max_recursion_depth) {
+}
+
+Image::Image(ImageType type, uint16_t supportedMetadata, BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    io_(std::move(io)),
+    max_recursion_depth_(params.max_recursion_depth()),
+    imageType_(type),
+    supportedMetadata_(supportedMetadata) {
 }
 
 Image::~Image() = default;
@@ -572,7 +580,7 @@ void Image::setMetadata(const Image& image) {
     setIptcData(image.iptcData());
   }
   if (checkMode(mdIccProfile) & amWrite) {
-    setIccProfile(DataBuf(image.iccProfile()));
+    setIccProfile(image.iccProfile().clone());
   }
   if (checkMode(mdXmp) & amWrite) {
     setXmpPacket(image.xmpPacket());
@@ -610,7 +618,8 @@ void Image::clearXmpPacket() {
 }
 
 void Image::setXmpPacket(const std::string& xmpPacket) {
-  if (XmpParser::decode(xmpData_, xmpPacket)) {
+  const DecodeParams dp(max_recursion_depth_);
+  if (XmpParser::decode(xmpData_, xmpPacket, dp)) {
     throw Error(ErrorCode::kerInvalidXMP);
   }
   xmpPacket_ = xmpPacket;
@@ -878,7 +887,7 @@ Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io) {
   }
   for (const auto& r : registry) {
     if (r.isThisType_(*io, false)) {
-      return r.newInstance_(std::move(io), false);
+      return r.newInstance_(std::move(io), ImageCtorParams(false, 1000));
     }
   }
   return nullptr;
@@ -913,7 +922,7 @@ Image::UniquePtr ImageFactory::create(ImageType type, BasicIo::UniquePtr io) {
   if (type == ImageType::none)
     return {};
   if (auto r = Exiv2::find(registry, type))
-    return r->newInstance_(std::move(io), true);
+    return r->newInstance_(std::move(io), ImageCtorParams(true, 1000));
   return {};
 }
 

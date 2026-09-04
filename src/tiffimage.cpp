@@ -40,8 +40,8 @@
 namespace Exiv2 {
 using namespace Internal;
 
-TiffImage::TiffImage(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io)) {
+TiffImage::TiffImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::tiff, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }  // TiffImage::TiffImage
 
 //! List of TIFF compression to MIME type mappings
@@ -147,7 +147,8 @@ void TiffImage::readMetadata() {
   }
   clearMetadata();
 
-  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
+  const DecodeParams dp(max_recursion_depth_);
+  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
   setByteOrder(bo);
 
   // read profile from the metadata
@@ -206,7 +207,8 @@ void TiffImage::writeMetadata() {
   TiffParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_);  // may throw
 }  // TiffImage::writeMetadata
 
-ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size) {
+ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                             const DecodeParams& dp) {
   uint32_t root = Tag::root;
 
   // #1402  Fujifilm RAF. Change root when parsing embedded tiff
@@ -215,7 +217,7 @@ ByteOrder TiffParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xm
     root = Tag::fuji;
   }
 
-  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, root, TiffMapping::findDecoder);
+  return TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, root, TiffMapping::findDecoder, dp);
 }  // TiffParser::decode
 
 WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
@@ -238,8 +240,8 @@ WriteMethod TiffParser::encode(BasicIo& io, const byte* pData, size_t size, Byte
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<TiffImage>(std::move(io), create);
+Image::UniquePtr newTiffInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<TiffImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

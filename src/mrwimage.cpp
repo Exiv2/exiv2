@@ -20,8 +20,8 @@
 #endif
 
 namespace Exiv2 {
-MrwImage::MrwImage(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::mrw, mdExif | mdIptc | mdXmp, std::move(io)) {
+MrwImage::MrwImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::mrw, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }
 
 std::string MrwImage::mimeType() const {
@@ -112,7 +112,8 @@ void MrwImage::readMetadata() {
   io_->read(buf.data(), buf.size());
   Internal::enforce(!io_->error() && !io_->eof(), ErrorCode::kerFailedToReadImageData);
 
-  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size());
+  const DecodeParams dp(max_recursion_depth_);
+  ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, buf.c_data(), buf.size(), dp);
   setByteOrder(bo);
 }  // MrwImage::readMetadata
 
@@ -123,8 +124,8 @@ void MrwImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<MrwImage>(std::move(io), create);
+Image::UniquePtr newMrwInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<MrwImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

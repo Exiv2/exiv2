@@ -5,24 +5,25 @@
 #include <array>
 #include <exiv2/basicio.hpp>
 #include <exiv2/bmpimage.hpp>
+#include "unittest_utils.hpp"
 
 using namespace Exiv2;
 
 TEST(BmpImage, canBeOpenedWithEmptyMemIo) {
   auto memIo = std::make_unique<MemIo>();
-  ASSERT_NO_THROW(BmpImage bmp(std::move(memIo)));
+  ASSERT_NO_THROW(BmpImage bmp(std::move(memIo), defaultImageCtorParams(false)));
 }
 
 TEST(BmpImage, mimeTypeIsBmp) {
   auto memIo = std::make_unique<MemIo>();
-  BmpImage bmp(std::move(memIo));
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
 
   ASSERT_EQ("image/x-ms-bmp", bmp.mimeType());
 }
 
 TEST(BmpImage, writeMetadataIsNotImplemented) {
   auto memIo = std::make_unique<MemIo>();
-  BmpImage bmp(std::move(memIo));
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
 
   try {
     bmp.writeMetadata();
@@ -35,7 +36,7 @@ TEST(BmpImage, writeMetadataIsNotImplemented) {
 
 TEST(BmpImage, setExitDataIsNotImplemented) {
   auto memIo = std::make_unique<MemIo>();
-  BmpImage bmp(std::move(memIo));
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
 
   try {
     ExifData data;
@@ -49,7 +50,7 @@ TEST(BmpImage, setExitDataIsNotImplemented) {
 
 TEST(BmpImage, setIptcDataIsNotImplemented) {
   auto memIo = std::make_unique<MemIo>();
-  BmpImage bmp(std::move(memIo));
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
 
   try {
     IptcData data;
@@ -63,7 +64,7 @@ TEST(BmpImage, setIptcDataIsNotImplemented) {
 
 TEST(BmpImage, setCommentIsNotImplemented) {
   auto memIo = std::make_unique<MemIo>();
-  BmpImage bmp(std::move(memIo));
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
 
   try {
     bmp.setComment("random comment");
@@ -87,10 +88,32 @@ TEST(BmpImage, readMetadataReadsImageDimensionsWhenDataIsAvailable) {
   };
 
   auto memIo = std::make_unique<MemIo>(header.data(), header.size());
-  BmpImage bmp(std::move(memIo));
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
   ASSERT_NO_THROW(bmp.readMetadata());
   ASSERT_EQ(1280u, bmp.pixelWidth());
   ASSERT_EQ(800u, bmp.pixelHeight());
+}
+
+TEST(BmpImage, readMetadataReadsImageDimensionsForOs2V1Header) {
+  // OS/2 1.x / Windows 2.x BMP uses the 12-byte BITMAPCOREHEADER, whose width and height
+  // fields are 16-bit instead of the 32-bit fields used by BITMAPINFOHEADER. Regression test
+  // for https://github.com/Exiv2/exiv2/issues/3304
+  const std::array<unsigned char, 26> header{
+      'B',  'M',               // Signature                                                         off:0   size:2
+      0x1A, 0x0E, 0x0E, 0x00,  // Size of the BMP file in bytes                                     off:2,  size:4
+      0x00, 0x00,              // Reserved                                                          off:6,  size:2
+      0x00, 0x00,              // Reserved                                                          off:8,  size:2
+      0x1A, 0x00, 0x00, 0x00,  // Offset of the byte where the bitmap image data can be found       off:10, size:4
+      0x0C, 0x00, 0x00, 0x00,  // Size of this header (12 => BITMAPCOREHEADER)                      off:14, size:4
+      0x80, 0x02,              // The bitmap width in pixels (unsigned 16 bit): 640                 off:18, size:2
+      0xE0, 0x01,              // The bitmap height in pixels (unsigned 16 bit): 480                off:20, size:2
+  };
+
+  auto memIo = std::make_unique<MemIo>(header.data(), header.size());
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
+  ASSERT_NO_THROW(bmp.readMetadata());
+  ASSERT_EQ(640u, bmp.pixelWidth());
+  ASSERT_EQ(480u, bmp.pixelHeight());
 }
 
 TEST(BmpImage, readMetadataThrowsWhenImageIsNotBMP) {
@@ -106,7 +129,7 @@ TEST(BmpImage, readMetadataThrowsWhenImageIsNotBMP) {
   };
 
   auto memIo = std::make_unique<MemIo>(header.data(), header.size());
-  BmpImage bmp(std::move(memIo));
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
   try {
     bmp.readMetadata();
     FAIL();
@@ -119,7 +142,7 @@ TEST(BmpImage, readMetadataThrowsWhenImageIsNotBMP) {
 TEST(BmpImage, readMetadataThrowsWhenThereIsNotEnoughInfoToRead) {
   const std::array<unsigned char, 1> header{'B'};
   auto memIo = std::make_unique<MemIo>(header.data(), header.size());
-  BmpImage bmp(std::move(memIo));
+  BmpImage bmp(std::move(memIo), defaultImageCtorParams(false));
   try {
     bmp.readMetadata();
     FAIL();
@@ -131,7 +154,7 @@ TEST(BmpImage, readMetadataThrowsWhenThereIsNotEnoughInfoToRead) {
 
 TEST(BmpImage, readMetadataThrowsWhenIoCannotBeOpened) {
   auto fileIo = std::make_unique<FileIo>("NonExistingPath.png");
-  BmpImage bmp(std::move(fileIo));
+  BmpImage bmp(std::move(fileIo), defaultImageCtorParams(false));
   try {
     bmp.readMetadata();
     FAIL();
@@ -149,13 +172,13 @@ TEST(newBmpInstance, createsValidInstace) {
       0x00, 0x00, 0x00, 0x00   // Offset of the byte where the bitmap image data can be found
   };
   auto memIo = std::make_unique<MemIo>(bitmapHeader.data(), bitmapHeader.size());
-  auto img = newBmpInstance(std::move(memIo), false);
+  auto img = newBmpInstance(std::move(memIo), defaultImageCtorParams(false));
   ASSERT_TRUE(img->good());
 }
 
 TEST(newBmpInstance, createsInvalidInstaceWithNonExistingFilePath) {
   auto fileIo = std::make_unique<FileIo>("NonExistingPath.png");
-  auto img = newBmpInstance(std::move(fileIo), false);
+  auto img = newBmpInstance(std::move(fileIo), defaultImageCtorParams(false));
   ASSERT_FALSE(img);
 }
 

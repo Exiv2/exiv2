@@ -490,10 +490,13 @@ ExifData::iterator ExifData::erase(ExifData::iterator pos) {
   return exifMetadata_.erase(pos);
 }
 
-ByteOrder ExifParser::decode(ExifData& exifData, const byte* pData, size_t size) {
+DecodeParams::DecodeParams(size_t max_recursion_depth) : max_recursion_depth_(max_recursion_depth) {
+}
+
+ByteOrder ExifParser::decode(ExifData& exifData, const byte* pData, size_t size, const DecodeParams& dp) {
   IptcData iptcData;
   XmpData xmpData;
-  ByteOrder bo = TiffParser::decode(exifData, iptcData, xmpData, pData, size);
+  ByteOrder bo = TiffParser::decode(exifData, iptcData, xmpData, pData, size, dp);
 #ifndef SUPPRESS_WARNINGS
   if (!iptcData.empty()) {
     EXV_WARNING << "Ignoring IPTC information encoded in the Exif data.\n";

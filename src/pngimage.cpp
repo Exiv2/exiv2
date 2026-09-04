@@ -52,9 +52,9 @@ bool compare(std::string_view str, const Exiv2::DataBuf& buf) {
 namespace Exiv2 {
 using namespace Internal;
 
-PngImage::PngImage(BasicIo::UniquePtr io, bool create) :
-    Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, std::move(io)) {
-  if (create && io_->open() == 0) {
+PngImage::PngImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::png, mdExif | mdIptc | mdXmp | mdComment, std::move(io), params) {
+  if (params.create() && io_->open() == 0) {
 #ifdef EXIV2_DEBUG_MESSAGES
     std::cerr << "Exiv2::PngImage:: Creating PNG image to memory\n";
 #endif
@@ -404,6 +404,7 @@ void PngImage::readMetadata() {
 
   const size_t imgSize = io_->size();
   DataBuf cheaderBuf(8);  // Chunk header: 4 bytes (data size) + 4 bytes (chunk type).
+  const DecodeParams dp(max_recursion_depth_);
 
   while (!io_->eof()) {
     readChunk(cheaderBuf, *io_);  // Read chunk header.
@@ -434,13 +435,13 @@ void PngImage::readMetadata() {
       if (chunkType == "IHDR" && chunkData.size() >= 8) {
         PngChunk::decodeIHDRChunk(chunkData, &pixelWidth_, &pixelHeight_);
       } else if (chunkType == "tEXt") {
-        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::tEXt_Chunk);
+        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::tEXt_Chunk, dp);
       } else if (chunkType == "zTXt") {
-        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::zTXt_Chunk);
+        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::zTXt_Chunk, dp);
       } else if (chunkType == "iTXt") {
-        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::iTXt_Chunk);
+        PngChunk::decodeTXTChunk(this, chunkData, PngChunk::iTXt_Chunk, dp);
       } else if (chunkType == "eXIf") {
-        ByteOrder bo = TiffParser::decode(exifData(), iptcData(), xmpData(), chunkData.c_data(), chunkData.size());
+        ByteOrder bo = TiffParser::decode(exifData(), iptcData(), xmpData(), chunkData.c_data(), chunkData.size(), dp);
         setByteOrder(bo);
       } else if (chunkType == "iCCP") {
         // The ICC profile name can vary from 1-79 characters.
@@ -681,8 +682,8 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<PngImage>(std::move(io), create);
+Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<PngImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

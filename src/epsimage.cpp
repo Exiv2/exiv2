@@ -1023,9 +1023,10 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 // *****************************************************************************
 // class member definitions
 namespace Exiv2 {
-EpsImage::EpsImage(BasicIo::UniquePtr io, bool create) : Image(ImageType::eps, mdXmp, std::move(io)) {
+EpsImage::EpsImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::eps, mdXmp, std::move(io), params) {
   // LogMsg::setLevel(LogMsg::debug);
-  if (create && io_->open() == 0) {
+  if (params.create() && io_->open() == 0) {
 #ifdef DEBUG
     EXV_DEBUG << "Exiv2::EpsImage:: Creating blank EPS image\n";
 #endif
@@ -1056,7 +1057,8 @@ void EpsImage::readMetadata() {
   readWriteEpsMetadata(*io_, xmpPacket_, nativePreviews_, /* write = */ false);
 
   // decode XMP metadata
-  if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_) > 1) {
+  const DecodeParams dp(max_recursion_depth_);
+  if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_, dp) > 1) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Failed to decode XMP metadata.\n";
 #endif
@@ -1091,8 +1093,8 @@ void EpsImage::writeMetadata() {
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<EpsImage>(std::move(io), create);
+Image::UniquePtr newEpsInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<EpsImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

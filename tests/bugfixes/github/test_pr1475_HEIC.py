@@ -442,6 +442,7 @@ Exiv2::BmffImage::boxHandler: mdat      532->1
     xmlns:cm2e="http://clanmills.com/exiv2/"
     xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:xml="http://www.w3.org/XML/1998/namespace"
    aux:SerialNumber="2567806"
    aux:FlashCompensation="0/1"
    aux:LensInfo="18/1 250/1 7/2 63/10"

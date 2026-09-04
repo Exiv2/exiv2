@@ -11,8 +11,8 @@ on:
 
 jobs:
   Linux:
-    name: 'Ubuntu 22.04 - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}}'
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -21,17 +21,17 @@ jobs:
         shared_libraries: [ON, OFF]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Install dependencies
         run: |
-          sudo apt install -y tree ninja-build
-          python3 -m pip install conan==1.* lxml
+          sudo apt install -y tree ninja-build python3-lxml
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.build_type=${{matrix.build_type}} default
           conan profile update settings.compiler.libcxx=libstdc++11 default
@@ -73,7 +73,7 @@ jobs:
         shell: alpine.sh {0}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
       - uses: jirutka/setup-alpine@v1

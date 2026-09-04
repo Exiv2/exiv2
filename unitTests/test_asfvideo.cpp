@@ -4,17 +4,18 @@
 
 #include <exiv2/asfvideo.hpp>
 #include <exiv2/basicio.hpp>
+#include "unittest_utils.hpp"
 
 using namespace Exiv2;
 
 TEST(AsfVideo, canBeOpenedWithEmptyMemIo) {
   auto memIo = std::make_unique<MemIo>();
-  ASSERT_NO_THROW(AsfVideo asf(std::move(memIo)));
+  ASSERT_NO_THROW(AsfVideo asf(std::move(memIo), defaultImageCtorParams(false)));
 }
 
 TEST(AsfVideo, mimeTypeIsAsf) {
   auto memIo = std::make_unique<MemIo>();
-  AsfVideo asf(std::move(memIo));
+  AsfVideo asf(std::move(memIo), defaultImageCtorParams(false));
 
   ASSERT_EQ("video/asf", asf.mimeType());
 }
@@ -26,13 +27,13 @@ TEST(AsfVideo, isAsfTypewithEmptyDataReturnsFalse) {
 
 TEST(AsfVideo, emptyThrowError) {
   auto memIo = std::make_unique<MemIo>();
-  AsfVideo asf(std::move(memIo));
+  AsfVideo asf(std::move(memIo), defaultImageCtorParams(false));
   ASSERT_THROW(asf.readMetadata(), Exiv2::Error);
 }
 
 TEST(AsfVideo, printStructurePrintsNothingAndthrowError) {
   auto memIo = std::make_unique<MemIo>();
-  AsfVideo asf(std::move(memIo));
+  AsfVideo asf(std::move(memIo), defaultImageCtorParams(false));
 
   std::ostringstream stream;
 
@@ -43,7 +44,7 @@ TEST(AsfVideo, printStructurePrintsNothingAndthrowError) {
 
 TEST(AsfVideo, readMetadata) {
   auto memIo = std::make_unique<MemIo>();
-  AsfVideo asf(std::move(memIo));
+  AsfVideo asf(std::move(memIo), defaultImageCtorParams(false));
   XmpData xmpData;
   xmpData["Xmp.video.TotalStream"] = 1000;
   xmpData["Xmp.video.TimecodeScale"] = 10001;

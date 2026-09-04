@@ -2032,6 +2032,7 @@ constexpr TagDetails canonCsLensType[] = {
     {61182, "Canon RF 24mm F1.4 L VCM"},
     {61182, "Canon RF 20mm F1.4 L VCM"},
     {61182, "Canon RF 85mm F1.4 L VCM"},
+    {61182, "Canon RF 20-50mm F4 L IS USM PZ"},
     {61182, "Canon RF 45mm F1.2 STM"},
     {61182, "Canon RF 7-14mm F2.8-3.5 L Fisheye STM"},
     {61182, "Canon RF 14mm F1.4 L VCM"},
@@ -2440,7 +2441,7 @@ constexpr TagDetails canonShutterMode[] = {
 };
 
 //! RFLensType, tag 0x003D
-// from https://github.com/exiftool/exiftool/blob/13.50/lib/Image/ExifTool/Canon.pm#L7009
+// from https://github.com/exiftool/exiftool/blob/13.59/lib/Image/ExifTool/Canon.pm#L7060
 constexpr TagDetails canonRFLensType[] = {
     {0, N_("n/a")},
     {257, "Canon RF 50mm F1.2 L USM"},
@@ -2514,6 +2515,7 @@ constexpr TagDetails canonRFLensType[] = {
     {326, "Canon RF 24mm F1.4 L VCM"},
     {327, "Canon RF 20mm F1.4 L VCM"},
     {328, "Canon RF 85mm F1.4 L VCM"},
+    {329, "Canon RF 20-50mm F4 L IS USM PZ"},
     {330, "Canon RF 45mm F1.2 STM"},
     {331, "Canon RF 7-14mm F2.8-3.5 L Fisheye STM"},
     {332, "Canon RF 14mm F1.4 L VCM"},
@@ -2714,8 +2716,12 @@ std::ostream& CanonMakerNote::print0x0008(std::ostream& os, const Value& value, 
 }
 
 std::ostream& CanonMakerNote::print0x000a(std::ostream& os, const Value& value, const ExifData*) {
-  uint32_t l = std::stoul(value.toString());
-  return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
+  try {
+    uint32_t l = std::stoul(value.toString());
+    return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
+  } catch (const std::logic_error&) {
+    return os << value;
+  }
 }
 
 std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, const ExifData* exifData) {
@@ -2727,8 +2733,12 @@ std::ostream& CanonMakerNote::print0x000c(std::ostream& os, const Value& value, 
   auto pos = exifData->findKey(key);
   // if model is EOS D30
   if (pos != exifData->end() && pos->value().count() == 1 && pos->value().toInt64() == 0x01140000) {
-    uint32_t l = std::stoul(value.toString());
-    return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
+    try {
+      uint32_t l = std::stoul(value.toString());
+      return os << stringFormat("{:04x}{:05}", (l >> 16) & 0xFFFF, l & 0xFFFF);
+    } catch (const std::logic_error&) {
+      return os << value;
+    }
   }
   return os << value;
 }
@@ -2856,8 +2866,9 @@ std::ostream& printCsLensTypeByMetadata(std::ostream& os, const Value& value, co
 
     auto tc = base_match[5].length() > 0 ? string_to_float(base_match[5].str()) : 1.f;
 
-    auto flMax = static_cast<int>(string_to_float(base_match[2].str()) * tc);
-    int flMin = base_match[1].length() > 0 ? static_cast<int>(string_to_float(base_match[1].str()) * tc) : flMax;
+    auto flMax = static_cast<int>(std::lround(string_to_float(base_match[2].str()) * tc));
+    int flMin =
+        base_match[1].length() > 0 ? static_cast<int>(std::lround(string_to_float(base_match[1].str()) * tc)) : flMax;
 
     auto aperMaxTele = string_to_float(base_match[4].str()) * tc;
     auto aperMaxShort = base_match[3].length() > 0 ? string_to_float(base_match[3].str()) * tc : aperMaxTele;

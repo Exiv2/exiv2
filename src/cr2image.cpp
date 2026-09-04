@@ -20,8 +20,8 @@
 // class member definitions
 namespace Exiv2 {
 
-Cr2Image::Cr2Image(BasicIo::UniquePtr io, bool /*create*/) :
-    Image(ImageType::cr2, mdExif | mdIptc | mdXmp, std::move(io)) {
+Cr2Image::Cr2Image(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::cr2, mdExif | mdIptc | mdXmp, std::move(io), params) {
 }  // Cr2Image::Cr2Image
 
 std::string Cr2Image::mimeType() const {
@@ -71,7 +71,8 @@ void Cr2Image::readMetadata() {
     throw Error(ErrorCode::kerNotAnImage, "CR2");
   }
   clearMetadata();
-  ByteOrder bo = Cr2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size());
+  const DecodeParams dp(max_recursion_depth_);
+  ByteOrder bo = Cr2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
   setByteOrder(bo);
 }  // Cr2Image::readMetadata
 
@@ -99,10 +100,11 @@ void Cr2Image::writeMetadata() {
   Cr2Parser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_);  // may throw
 }  // Cr2Image::writeMetadata
 
-ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size) {
+ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                            const DecodeParams& dp) {
   Internal::Cr2Header cr2Header;
   return Internal::TiffParserWorker::decode(exifData, iptcData, xmpData, pData, size, Internal::Tag::root,
-                                            Internal::TiffMapping::findDecoder, &cr2Header);
+                                            Internal::TiffMapping::findDecoder, dp, &cr2Header);
 }
 
 WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteOrder byteOrder, ExifData& exifData,
@@ -128,8 +130,8 @@ WriteMethod Cr2Parser::encode(BasicIo& io, const byte* pData, size_t size, ByteO
 
 // *************************************************************************
 // free functions
-Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, bool create) {
-  auto image = std::make_unique<Cr2Image>(std::move(io), create);
+Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<Cr2Image>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

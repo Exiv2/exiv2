@@ -12,11 +12,11 @@ on:
 
 jobs:
   special_debugRelease:
-    name: 'Ubuntu 22.04 - GCC - Debug+Coverage'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu - GCC - Debug+Coverage'
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 2
           persist-credentials: false
@@ -24,11 +24,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build gcovr
-          python3 -m pip install conan==1.* lxml
+          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build python3-lxml gcovr
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -61,22 +61,22 @@ jobs:
           ./codecov -f coverage.xml
 
   special_releaseValgrind:
-    name: 'Ubuntu 22.04 - GCC - Release+Valgrind'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu - GCC - Release+Valgrind'
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y update
-          sudo eatmydata apt-get -y install valgrind ninja-build
-          python3 -m pip install conan==1.* lxml
+          sudo eatmydata apt-get -y install valgrind ninja-build python3-lxml
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -99,21 +99,21 @@ jobs:
 
 
   special_releaseSanitizers:
-    name: 'Ubuntu 22.04 - GCC - Release+Sanitizers'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu - GCC - Release+Sanitizers'
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build
-          python3 -m pip install conan==1.* lxml
+          sudo apt install -y ninja-build python3-lxml
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -135,21 +135,21 @@ jobs:
           ctest --output-on-failure
 
   special_noFilesystemAccess:
-    name: 'Ubuntu 22.04 - GCC - No filesystem access build'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu - GCC - No filesystem access build'
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build
-          python3 -m pip install conan==1.* lxml
+          sudo apt install -y ninja-build python3-lxml
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 
@@ -159,22 +159,22 @@ jobs:
           cmake --build build --parallel
 
   special_allEnabled:
-    name: 'Ubuntu 22.04 - GCC - All Options Enabled + Documentation'
-    runs-on: ubuntu-22.04
+    name: 'Ubuntu - GCC - All Options Enabled + Documentation'
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y update
-          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build
-          python3 -m pip install conan==1.* lxml
+          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build python3-lxml
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan==1.*
           conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
 

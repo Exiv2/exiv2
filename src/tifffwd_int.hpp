@@ -16,6 +16,7 @@
 namespace Exiv2 {
 enum class IfdId : uint32_t;
 class Exifdatum;
+class DecodeParams;
 
 namespace Internal {
 class TiffHeaderBase;

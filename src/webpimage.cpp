@@ -74,7 +74,8 @@ std::string binaryToHex(const uint8_t* data, size_t size) {
 // class member definitions
 namespace Exiv2 {
 
-WebPImage::WebPImage(BasicIo::UniquePtr io) : Image(ImageType::webp, mdNone, std::move(io)) {
+WebPImage::WebPImage(BasicIo::UniquePtr io, const ImageCtorParams& params) :
+    Image(ImageType::webp, mdNone, std::move(io), params) {
 }  // WebPImage::WebPImage
 
 std::string WebPImage::mimeType() const {
@@ -659,7 +660,8 @@ void WebPImage::decodeChunks(uint32_t filesize) {
 
       if (pos != std::string::npos) {
         XmpData xmpData;
-        ByteOrder bo = ExifParser::decode(exifData_, payload.c_data(pos), payload.size() - pos);
+        const DecodeParams dp(max_recursion_depth_);
+        ByteOrder bo = ExifParser::decode(exifData_, payload.c_data(pos), payload.size() - pos, dp);
         setByteOrder(bo);
       } else {
 #ifndef SUPPRESS_WARNINGS
@@ -670,7 +672,8 @@ void WebPImage::decodeChunks(uint32_t filesize) {
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_XMP)) {
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
       xmpPacket_.assign(payload.c_str(), payload.size());
-      if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_)) {
+      const DecodeParams dp(max_recursion_depth_);
+      if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_, dp)) {
 #ifndef SUPPRESS_WARNINGS
         EXV_WARNING << "Failed to decode XMP metadata." << '\n';
 #endif
@@ -691,8 +694,8 @@ void WebPImage::decodeChunks(uint32_t filesize) {
 
 /* =========================================== */
 
-Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, bool /*create*/) {
-  auto image = std::make_unique<WebPImage>(std::move(io));
+Image::UniquePtr newWebPInstance(BasicIo::UniquePtr io, const ImageCtorParams& params) {
+  auto image = std::make_unique<WebPImage>(std::move(io), params);
   if (!image->good()) {
     return nullptr;
   }

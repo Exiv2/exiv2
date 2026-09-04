@@ -35,10 +35,9 @@ class EXIV2API OrfImage : public TiffImage {
         auto-pointer. Callers should not continue to use the BasicIo
         instance after it is passed to this method.  Use the Image::io()
         method to get a temporary reference.
-    @param create Specifies if an existing image should be read (false)
-        or if a new file should be created (true).
+    @param params Parameters that are passed through to Image's constructor.
    */
-  OrfImage(std::unique_ptr<BasicIo> io, bool create);
+  OrfImage(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
   //@}
 
   //! @name Manipulators
@@ -73,7 +72,8 @@ class EXIV2API OrfParser {
            with data in ORF format to the provided metadata containers.
            See TiffParser::decode().
   */
-  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size);
+  static ByteOrder decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
+                          const DecodeParams& dp);
   /*!
     @brief Encode metadata from the provided metadata to ORF format.
            See TiffParser::encode().
@@ -92,7 +92,7 @@ class EXIV2API OrfParser {
          Caller owns the returned object and the auto-pointer ensures that
          it will be deleted.
  */
-EXIV2API Image::UniquePtr newOrfInstance(std::unique_ptr<BasicIo> io, bool create);
+EXIV2API Image::UniquePtr newOrfInstance(std::unique_ptr<BasicIo> io, const ImageCtorParams& params);
 
 //! Check if the file iIo is an ORF image.
 EXIV2API bool isOrfType(BasicIo& iIo, bool advance);

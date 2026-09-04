@@ -258,7 +258,7 @@ class TiffDecoder : public TiffVisitor {
            function to get the decoder function for each tag.
    */
   TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, TiffComponent* pRoot,
-              FindDecoderFct findDecoderFct);
+              FindDecoderFct findDecoderFct, const DecodeParams& dp);
   //@}
 
   //! @name Manipulators
@@ -311,13 +311,14 @@ class TiffDecoder : public TiffVisitor {
   //@}
 
   // DATA
-  ExifData& exifData_;             //!< Exif metadata container
-  IptcData& iptcData_;             //!< IPTC metadata container
-  XmpData& xmpData_;               //!< XMP metadata container
-  TiffComponent* pRoot_;           //!< Root element of the composite
-  FindDecoderFct findDecoderFct_;  //!< Ptr to the function to find special decoding functions
-  std::string make_;               //!< Camera make, determined from the tags to decode
-  bool decodedIptc_{false};        //!< Indicates if IPTC has been decoded yet
+  ExifData& exifData_;                //!< Exif metadata container
+  IptcData& iptcData_;                //!< IPTC metadata container
+  XmpData& xmpData_;                  //!< XMP metadata container
+  TiffComponent* pRoot_;              //!< Root element of the composite
+  FindDecoderFct findDecoderFct_;     //!< Ptr to the function to find special decoding functions
+  const size_t max_recursion_depth_;  //!< don't allow recursion deeper than this
+  std::string make_;                  //!< Camera make, determined from the tags to decode
+  bool decodedIptc_{false};           //!< Indicates if IPTC has been decoded yet
 
 };  // class TiffDecoder
 
