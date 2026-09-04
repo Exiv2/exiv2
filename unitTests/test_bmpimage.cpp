@@ -7,6 +7,10 @@
 #include <exiv2/bmpimage.hpp>
 #include "unittest_utils.hpp"
 
+#include "mock_basicio.hpp"
+
+#include <gmock/gmock.h>
+
 using namespace Exiv2;
 
 TEST(BmpImage, canBeOpenedWithEmptyMemIo) {
@@ -153,8 +157,9 @@ TEST(BmpImage, readMetadataThrowsWhenThereIsNotEnoughInfoToRead) {
 }
 
 TEST(BmpImage, readMetadataThrowsWhenIoCannotBeOpened) {
-  auto fileIo = std::make_unique<FileIo>("NonExistingPath.png");
-  BmpImage bmp(std::move(fileIo), defaultImageCtorParams(false));
+  auto mockIo = makeMockIo();
+  setupOpenFailure(*mockIo);
+  BmpImage bmp(std::move(mockIo), defaultImageCtorParams(false));
   try {
     bmp.readMetadata();
     FAIL();
@@ -177,8 +182,9 @@ TEST(newBmpInstance, createsValidInstace) {
 }
 
 TEST(newBmpInstance, createsInvalidInstaceWithNonExistingFilePath) {
-  auto fileIo = std::make_unique<FileIo>("NonExistingPath.png");
-  auto img = newBmpInstance(std::move(fileIo), defaultImageCtorParams(false));
+  auto mockIo = makeMockIo();
+  setupOpenFailure(*mockIo);
+  auto img = newBmpInstance(std::move(mockIo), defaultImageCtorParams(false));
   ASSERT_FALSE(img);
 }
 
