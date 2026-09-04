@@ -24,6 +24,10 @@ if host_machine.system() == 'windows'
   endif
 endif
 
+if host_machine.system() == 'linux' and cpp.sizeof('void *') == 4
+  add_project_arguments('-D_FILE_OFFSET_BITS=64', language: 'cpp')
+endif
+
 exiv_api = configuration_data()
 exiv_conf = configure_file(output: 'exiv2lib_export.h', configuration: exiv_api)
 

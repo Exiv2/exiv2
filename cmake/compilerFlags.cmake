@@ -9,6 +9,10 @@ if (CYGWIN) # Cygwin and MSYS
   set(CMAKE_CXX_EXTENSIONS ON)
 endif()
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+  add_compile_options(-D_FILE_OFFSET_BITS=64)
+endif()
+
 if ( MINGW OR UNIX OR MSYS ) # MINGW, Linux, APPLE, CYGWIN
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
         set(COMPILER_IS_GCC ON)
