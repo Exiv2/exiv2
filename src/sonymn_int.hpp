@@ -37,6 +37,10 @@ class SonyMakerNote {
   static constexpr auto tagListCs2() {
     return tagInfoCs2_;
   }
+  //! Return read-only list of built-in Sony Standard Camera Settings version 3 tags
+  static constexpr auto tagListCs3() {
+    return tagInfoCs3_;
+  }
   //! Return read-only list of built-in Sony FocusPosition tags
   static constexpr auto tagListFp() {
     return tagInfoFp_;
@@ -140,6 +144,7 @@ class SonyMakerNote {
   static const TagInfo tagInfo_[];
   static const TagInfo tagInfoCs_[];
   static const TagInfo tagInfoCs2_[];
+  static const TagInfo tagInfoCs3_[];
   static const TagInfo tagInfoFp_[];
   static const TagInfo tagInfoSonyMisc1_[];
   static const TagInfo tagInfoSonyMisc2b_[];
