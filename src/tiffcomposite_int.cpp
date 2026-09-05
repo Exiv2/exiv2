@@ -978,6 +978,8 @@ size_t TiffEntryBase::writeOffset(byte* buf, size_t offset, TiffType tiffType, B
       break;
     case ttUnsignedLong:
     case ttSignedLong:
+      if (offset > std::numeric_limits<uint32_t>::max())
+        throw Error(ErrorCode::kerOffsetOutOfRange);
       rc = l2Data(buf, static_cast<uint32_t>(offset), byteOrder);
       break;
     default:
