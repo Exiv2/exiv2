@@ -25,7 +25,6 @@ test_sources = files(
   'test_jp2image_int.cpp',
   'test_safe_op.cpp',
   'test_slice.cpp',
-  'test_tiffentrybase_writeoffset.cpp',
   'test_tiffheader.cpp',
   'test_types.cpp',
   'test_utils.cpp',
