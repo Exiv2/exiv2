@@ -444,15 +444,88 @@ void FileIo::transfer(BasicIo& src) {
     }
   }  // if (fileIo)
   else {
-    // Generic handling, reopen both to reset to start
-    if (open("w+b") != 0) {
-      throw Error(ErrorCode::kerFileOpenFailed, path(), "w+b", strError());
+    // Generic handling. Build the new bytes in a temporary file next to the
+    // target, then rename it into place, matching the durability of the
+    // FileIo branch above. Without this, a crash between the open("w+b")
+    // truncate and the write left a zero-byte file where the original image
+    // was (issue #9482).
+    bool statOk = true;
+    fs::perms origStMode{};
+    const auto& pf = path();
+
+    Impl::StructStat buf1;
+    if (p_->stat(buf1) == -1) {
+      statOk = false;
     }
-    if (src.open() != 0) {
-      throw Error(ErrorCode::kerDataSourceOpenFailed, src.path(), strError());
+    origStMode = buf1.st_mode;
+
+    // Close self before touching a temp file; we only reopen at the end.
+    close();
+
+    // Same directory as pf so fs::rename is atomic on POSIX and ReplaceFileA
+    // works on Windows.
+    fs::path tmp_path(pf);
+    tmp_path += ".exv-tmp-";
+    tmp_path += std::to_string(static_cast<long long>(
+#ifdef _WIN32
+        _getpid()
+#else
+        getpid()
+#endif
+        ));
+    if (fileExists(tmp_path.string())) {
+      auto base_tmp = tmp_path;
+      for (int i = 1; i <= 4096; ++i) {
+        auto candidate = base_tmp;
+        candidate += "-";
+        candidate += std::to_string(i);
+        if (!fileExists(candidate.string())) {
+          tmp_path = candidate;
+          break;
+        }
+      }
     }
-    write(src);
-    src.close();
+
+    {
+      FileIo tmp(tmp_path);
+      if (tmp.open("w+b") != 0) {
+        throw Error(ErrorCode::kerFileOpenFailed, tmp_path.string(), "w+b", strError());
+      }
+      if (src.open() != 0) {
+        tmp.close();
+        fs::remove(tmp_path);
+        throw Error(ErrorCode::kerDataSourceOpenFailed, src.path(), strError());
+      }
+      tmp.write(src);
+      src.close();
+      tmp.close();
+      if (tmp.error()) {
+        fs::remove(tmp_path);
+        throw Error(ErrorCode::kerTransferFailed, pf, strError());
+      }
+    }
+
+#if defined(_WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
+    {
+      auto ret = ReplaceFileA(pf.c_str(), tmp_path.string().c_str(), nullptr,
+                              REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
+      if (ret == 0) {
+        if (GetLastError() != ERROR_FILE_NOT_FOUND) {
+          fs::remove(tmp_path);
+          throw Error(ErrorCode::kerFileRenameFailed, tmp_path.string(), pf, strError());
+        }
+        fs::rename(tmp_path, pf);
+      }
+    }
+#else
+    fs::rename(tmp_path, pf);
+#endif
+
+    // Preserve original permissions, mirroring the FileIo branch.
+    auto newStMode = fs::status(pf).permissions();
+    if (statOk && origStMode != newStMode) {
+      fs::permissions(pf, origStMode);
+    }
   }
 
   if (wasOpen) {

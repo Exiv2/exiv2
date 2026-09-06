@@ -77,3 +77,58 @@ TEST(AFileIO, canSeekBeyondEOF) {
   ASSERT_FALSE(file.error());
   ASSERT_FALSE(file.eof());
 }
+
+// ---------------------------------------------------------------------
+// Regression: issue #9482
+// FileIo::transfer's generic branch used to open the target with "w+b"
+// (which truncates) BEFORE writing the new content. If anything failed
+// between the truncate and the write, the original image was gone: a
+// zero-byte file with no backup. The fix writes the new bytes into a
+// temporary file next to the target and renames it in atomically.
+// ---------------------------------------------------------------------
+
+#include <fstream>
+#include <filesystem>
+
+namespace {
+// A source that behaves like a MemIo but refuses to open, simulating a
+// mid-transfer failure BEFORE any bytes could reach the target.
+class FailingOpenMemIo : public Exiv2::MemIo {
+ public:
+  int open() override { return -1; }
+};
+}  // namespace
+
+TEST(AFileIO, transferGenericBranchPreservesOriginalOnSourceOpenFailure_9482) {
+  namespace fs = std::filesystem;
+  auto dir = fs::temp_directory_path() / "exiv2_9482_repro";
+  std::error_code ec;
+  fs::remove_all(dir, ec);
+  fs::create_directories(dir);
+  auto orig = dir / "victim.bin";
+  const std::string original_bytes = "ORIGINAL_CONTENTS_9482";
+  {
+    std::ofstream ofs(orig, std::ios::binary);
+    ofs << original_bytes;
+  }
+  ASSERT_TRUE(fs::exists(orig));
+  ASSERT_EQ(fs::file_size(orig), original_bytes.size());
+
+  FailingOpenMemIo src;  // else branch: not a FileIo, open() will fail
+  Exiv2::FileIo victim(orig.string());
+  EXPECT_THROW(victim.transfer(src), Exiv2::Error);
+
+  // Regression invariant for #9482: the original file must still be readable
+  // and byte-identical after a failed transfer through the generic branch.
+  ASSERT_TRUE(fs::exists(orig));
+  EXPECT_EQ(fs::file_size(orig), original_bytes.size());
+  std::ifstream in(orig, std::ios::binary);
+  std::string got((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+  EXPECT_EQ(got, original_bytes);
+
+  // No temp litter left behind.
+  for (const auto& entry : fs::directory_iterator(dir)) {
+    EXPECT_EQ(entry.path().filename(), std::string("victim.bin"));
+  }
+  fs::remove_all(dir, ec);
+}
