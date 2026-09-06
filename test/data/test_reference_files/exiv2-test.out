@@ -112,7 +112,7 @@ Options:
              x : XMP tags
              c : JPEG comment
              C : ICC Profile
-             c : All IPTC data (any broken multiple IPTC blocks)
+             I : All IPTC data (any broken multiple IPTC blocks)
              - : Input from stdin
    -i tgt2 Insert target(s) for the 'insert' action. Possible targets are
              a : All supported metadata (the default)
