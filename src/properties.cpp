@@ -5332,7 +5332,6 @@ std::string XmpKey::ns() const {
   return XmpProperties::nsUnlocked(p_->prefix_, lock);
 }
 
-//! @cond IGNORE
 void XmpKey::Impl::decomposeKey(const std::string& key) {
   XmpProperties::XmpLock lock;
   decomposeKeyUnlocked(key, lock);
