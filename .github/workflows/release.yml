@@ -32,10 +32,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y gettext doxygen graphviz ninja-build
-          python3 -m pip install conan lxml
 
       - name: Install Conan & common config
         run: |
+          python3 -m pip install conan lxml
           conan profile detect --name default --force
 
       - name: Run Conan

@@ -28,10 +28,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt install -y tree ninja-build
-          python3 -m pip install conan lxml
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan lxml
           conan profile detect --name default --force
 
       - name: Run Conan
@@ -80,7 +80,7 @@ jobs:
             build-base cmake samurai brotli-dev curl-dev expat-dev inih-inireader-dev gtest-dev python3-dev zlib-dev
       - name: Build
         run: |
-          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} -DCONAN_AUTO_INSTALL=OFF
+          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
           cmake --build build-base_linux --parallel
       - name: Test
         run: |

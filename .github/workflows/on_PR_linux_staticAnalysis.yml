@@ -29,10 +29,10 @@ jobs:
           sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.pvs-studio.com/etc/viva64.list
           sudo apt update -qq
           sudo apt install -qq pvs-studio
-          python3 -m pip install conan lxml
 
       - name: Conan common config
         run: |
+          python3 -m pip install conan lxml
           conan profile detect --name default --force
 
       - name: Run Conan

@@ -117,7 +117,6 @@ jobs:
           cmake --preset base_windows \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DCONAN_AUTO_INSTALL=OFF \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
             -DPython3_EXECUTABLE=${MINGW_PREFIX}/bin/python.exe \
             -S . -B build && \
@@ -171,7 +170,6 @@ jobs:
           cmake --preset base_windows \
             -DCMAKE_BUILD_TYPE=${{matrix.build_type}} \
             -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}} \
-            -DCONAN_AUTO_INSTALL=OFF \
             -DEXIV2_BUILD_SAMPLES=OFF \
             -DEXIV2_BUILD_UNIT_TESTS=OFF \
             -DEXIV2_TEAM_WARNINGS_AS_ERRORS=OFF \
