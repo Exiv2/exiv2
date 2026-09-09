@@ -37,7 +37,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build-base_linux
-          conan install . -o webready=True --build missing --output-folder=build-base_linux -s build_type=${{matrix.build_type}} -s compiler.cppstd=20
+          conan install . -o webready=True --build missing --output-folder=build-base_linux -s build_type=${{matrix.build_type}}
 
       - name: Build
         run: |

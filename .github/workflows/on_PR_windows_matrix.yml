@@ -56,7 +56,7 @@ jobs:
       - name: Run Conan
         run: |
           md build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=${{matrix.build_type}} -s compiler=msvc -s arch=${{ case(matrix.platform == 'x64', 'x86_64', matrix.platform) }} -s compiler.cppstd=20
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=${{matrix.build_type}} -s compiler=msvc -s arch=${{ case(matrix.platform == 'x64', 'x86_64', matrix.platform) }}
 
       - name: Build
         run: |

@@ -34,7 +34,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.cppstd=20
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug
 
       - name: Build
         run: |
