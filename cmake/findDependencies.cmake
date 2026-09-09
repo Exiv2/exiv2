@@ -17,16 +17,9 @@ if (CONAN_AUTO_INSTALL)
                         SETTINGS ${settings})
 endif()
 
-if (APPLE)
-    # On Apple, we use the conan cmake_paths generator
-    if (EXISTS ${CMAKE_BINARY_DIR}/conan_paths.cmake)
-        include(${CMAKE_BINARY_DIR}/conan_paths.cmake)
-    endif()
-else()
-    # Otherwise, we rely on the conan cmake_find_package generator
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
-    list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
-endif()
+# Otherwise, we rely on conan CMakeDeps
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 
@@ -47,7 +40,10 @@ if( EXIV2_ENABLE_PNG )
 endif( )
 
 if( EXIV2_ENABLE_BMFF AND EXIV2_ENABLE_BROTLI )
-    find_package( Brotli REQUIRED )
+    find_package(brotli CONFIG QUIET)
+    if(NOT brotli_FOUND)
+        find_package(brotli MODULE REQUIRED)
+    endif()
 endif( )
 
 if( EXIV2_ENABLE_WEBREADY )
@@ -77,11 +73,14 @@ if( ICONV_FOUND )
 endif()
 
 if( EXIV2_ENABLE_INIH )
-  find_package(inih)
-  message ( "-- inih_INCLUDE_DIRS : " ${inih_INCLUDE_DIRS} )
-  message ( "-- inih_LIBRARIES : " ${inih_LIBRARIES} )
-  message ( "-- inih_inireader_INCLUDE_DIRS : " ${inih_inireader_INCLUDE_DIRS} )
-  message ( "-- inih_inireader_LIBRARIES : " ${inih_inireader_LIBRARIES} )
+    find_package(inih CONFIG QUIET)
+    if(NOT inih_FOUND)
+        find_package(inih MODULE REQUIRED)
+    endif()
+    message ( "-- inih_INCLUDE_DIRS : " ${inih_INCLUDE_DIRS} )
+    message ( "-- inih_LIBRARIES : " ${inih_LIBRARIES} )
+    message ( "-- inih_inireader_INCLUDE_DIRS : " ${inih_inireader_INCLUDE_DIRS} )
+    message ( "-- inih_inireader_LIBRARIES : " ${inih_inireader_LIBRARIES} )
 endif()
 
 if( BUILD_WITH_CCACHE )

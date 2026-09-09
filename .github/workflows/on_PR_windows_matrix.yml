@@ -20,6 +20,10 @@ jobs:
     name: 'Windows MSVC ${{matrix.platform}} - BuildType:${{matrix.build_type}} - SHARED:${{matrix.shared_libraries}}'
     runs-on: windows-2022
 
+    env:
+      CONAN_HOME: ${{github.workspace}}/conanCache
+      VERBOSE: 1
+
     strategy:
       fail-fast: false
       matrix:
@@ -40,32 +44,19 @@ jobs:
       - name: Restore Conan cache
         uses: actions/cache@v6
         with:
-            path: ${{github.workspace}}/conanCache
+            path: ${{ env.CONAN_HOME }}
             key: ${{runner.os}}-${{matrix.platform}}-${{matrix.build_type}}-Shared${{matrix.shared_libraries}}-${{ hashFiles('conanfile.py') }}
             lookup-only: true
 
       - name: Install Conan & common config
         run: |
-          python -m pip install conan==1.* lxml
-          conan config install https://github.com/conan-io/conanclientcert.git
-          conan profile new --detect default
-          conan profile update settings.build_type=${{matrix.build_type}} default
-          conan profile update settings.compiler="Visual Studio" default
-          conan profile update settings.compiler.version=17 default
-          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
-
-      - name: Conan Arch conditional config
-        if: ${{matrix.platform == 'x86'}}
-        run: |
-          conan profile update settings.arch=x86 default
-          conan profile update settings.arch_build=x86 default
+          python -m pip install conan lxml
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
           md build
-          cd build
-          conan profile list
-          conan install .. --build missing
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=${{matrix.build_type}} -s compiler=msvc -s arch=${{ case(matrix.platform == 'x64', 'x86_64', matrix.platform) }} -s compiler.cppstd=20
 
       - name: Build
         run: |
@@ -77,7 +68,9 @@ jobs:
           cmake --install build
 
       - name: Test
+        shell: cmd
         run: |
+          ${{ case(matrix.platform == 'x86', 'call build\conanrun.bat', '') }}
           ctest --test-dir build --output-on-failure
 
   msys2:

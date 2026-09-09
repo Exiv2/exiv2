@@ -21,25 +21,25 @@
 ###########################################################################
 include(FindPackageHandleStandardArgs)
 
-find_path(BROTLI_INCLUDE_DIR "brotli/decode.h")
+find_path(brotli_INCLUDE_DIR "brotli/decode.h")
 
-find_library(BROTLICOMMON_LIBRARY NAMES brotlicommon)
-find_library(BROTLIDEC_LIBRARY NAMES brotlidec)
+find_library(brotlicommon_LIBRARY NAMES brotlicommon)
+find_library(brotlidec_LIBRARY NAMES brotlidec)
 
-find_package_handle_standard_args(Brotli
+find_package_handle_standard_args(brotli
     FOUND_VAR
-      BROTLI_FOUND
+      brotli_FOUND
     REQUIRED_VARS
-      BROTLIDEC_LIBRARY
-      BROTLICOMMON_LIBRARY
-      BROTLI_INCLUDE_DIR
+      brotlidec_LIBRARY
+      brotlicommon_LIBRARY
+      brotli_INCLUDE_DIR
     FAIL_MESSAGE
-      "Could NOT find Brotli"
+      "Could NOT find brotli"
 )
 
-set(Brotli_INCLUDE_DIRS ${BROTLI_INCLUDE_DIR})
-set(Brotli_LIBRARIES ${BROTLIDEC_LIBRARY} ${BROTLICOMMON_LIBRARY} )
+set(brotli_INCLUDE_DIRS ${brotli_INCLUDE_DIR})
+set(brotli_LIBRARIES ${brotlidec_LIBRARY} ${brotlicommon_LIBRARY} )
 
-mark_as_advanced(BROTLI_INCLUDE_DIR)
-mark_as_advanced(BROTLICOMMON_LIBRARY)
-mark_as_advanced(BROTLIDEC_LIBRARY)
+mark_as_advanced(brotli_INCLUDE_DIR)
+mark_as_advanced(brotlicommon_LIBRARY)
+mark_as_advanced(brotlidec_LIBRARY)

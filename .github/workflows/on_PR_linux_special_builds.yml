@@ -24,20 +24,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build python3-lxml gcovr
+          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build gcovr
+          python3 -m pip install conan lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.cppstd=20
 
       - name: Build
         run: |
@@ -72,20 +69,23 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y update
-          sudo eatmydata apt-get -y install valgrind ninja-build python3-lxml
+          sudo eatmydata apt-get -y install valgrind ninja-build
+          python3 -m pip install conan lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.cppstd=20
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.cppstd=20
+
+      - name: Build
+        run: |
+          cmake --preset linux-coverage -S . -B build
+          cmake --build build --parallel
 
       - name: Build
         run: |
@@ -109,20 +109,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build python3-lxml
+          sudo apt install -y ninja-build
+          python3 -m pip install conan lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.cppstd=20
 
       - name: Build
         run: |
@@ -145,13 +142,17 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build python3-lxml
+          sudo apt install -y ninja-build
+          python3 -m pip install conan lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
+
+      - name: Run Conan
+        run: |
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s compiler.cppstd=20
 
       - name: Build
         run: |
@@ -170,20 +171,17 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y update
-          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build python3-lxml
+          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build
+          python3 -m pip install conan lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s compiler.cppstd=20
 
       - name: Build
         env:
