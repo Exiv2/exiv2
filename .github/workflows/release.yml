@@ -35,7 +35,7 @@ jobs:
 
       - name: Install Conan & common config
         run: |
-          python3 -m pip install conan lxml
+          python3 -m pip install conan
           conan profile detect --name default --force
 
       - name: Run Conan
