@@ -1,3 +1,5 @@
+include(FindPackageHandleStandardArgs)
+
 set(inih_LIBRARY_NAMES "inih" "libinih")
 set(inih_inireader_LIBRARY_NAMES "INIReader" "libINIReader")
 
