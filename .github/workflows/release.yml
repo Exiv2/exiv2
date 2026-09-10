@@ -149,7 +149,7 @@ jobs:
 
       - name: Install Conan & common config
         run: |
-          python -m pip install conan lxml
+          python -m pip install conan
           conan profile detect --name default --force
 
       - name: Run Conan

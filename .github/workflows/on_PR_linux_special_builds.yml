@@ -24,11 +24,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build gcovr
+          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build python3-lxml gcovr
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan lxml
+          python3 -m pip install conan
           conan profile detect --name default --force
 
       - name: Run Conan
@@ -69,11 +69,11 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y update
-          sudo eatmydata apt-get -y install valgrind ninja-build
+          sudo eatmydata apt-get -y install valgrind ninja-build python3-lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan lxml
+          python3 -m pip install conan
           conan profile detect --name default --force
 
       - name: Run Conan
@@ -103,11 +103,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build
+          sudo apt install -y ninja-build python3-lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan lxml
+          python3 -m pip install conan
           conan profile detect --name default --force
 
       - name: Run Conan
@@ -136,11 +136,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build
+          sudo apt install -y ninja-build python3-lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan lxml
+          python3 -m pip install conan
           conan profile detect --name default --force
 
       - name: Run Conan
@@ -165,11 +165,11 @@ jobs:
       - name: Install dependencies
         run: |
           sudo eatmydata apt-get -y update
-          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build
+          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build python3-lxml
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan lxml
+          python3 -m pip install conan
           conan profile detect --name default --force
 
       - name: Run Conan

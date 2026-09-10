@@ -24,11 +24,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y install ninja-build gcovr
+          sudo eatmydata apt-get -y install ninja-build python3-lxml gcovr
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan lxml
+          python3 -m pip install conan
           conan profile detect --name default --force
 
       - name: Run Conan
