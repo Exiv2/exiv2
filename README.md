@@ -164,7 +164,7 @@ Available configure presets:
 The project configuration with a specific preset can be chosen with the CMake `--preset` option. In the following terminal output we comment out some interesting things happening during the project configuration:
 
 ```bash
-# Install dependencies before configuring the project.  See README-CONAN.md
+# Install dependencies before configuring the project. See README-CONAN.md
 # for the complete command and platform-specific settings.
 $ conan install . -o webready=True --build missing --output-folder=build-win-release -s build_type=Release
 
@@ -1048,8 +1048,8 @@ You can build with Visual Studio using Conan.  The is described in detail in [RE
 As a summary, the procedure is:
 
 ```
-c:\...\exiv2>conan install . --build missing --output-folder=build -s build_type=Release -s compiler=msvc -s arch=x86_64
-c:\...\exiv2>cmake -S . -B build -DEXIV2_BUILD_UNIT_TESTS=ON -G "Visual Studio 17 2022" -A x64
+c:\...\exiv2>conan install . -o webready=True --build missing --output-folder=build -s build_type=Release
+c:\...\exiv2>cmake -S . -B build -DEXIV2_BUILD_UNIT_TESTS=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON -G "Visual Studio 17 2022" -A x64
 c:\...\exiv2>cmake --build build --config Release
 ... lots of output from compiler and linker ...
 c:\...\exiv2>ctest --test-dir build -C Release
