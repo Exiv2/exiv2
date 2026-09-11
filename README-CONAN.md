@@ -32,7 +32,7 @@ build directory, configure, build, and test:
 
 ```bash
 conan install . -o webready=True --build missing --output-folder=build -s build_type=Release
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON
 cmake --build build
 ctest --test-dir build
 ```
@@ -46,7 +46,7 @@ build type:
 
 ```bash
 conan install . -o webready=True --build missing --output-folder=build-debug -s build_type=Debug
-cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug
+cmake -S . -B build-debug -DCMAKE_BUILD_TYPE=Debug -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON
 cmake --build build-debug
 ctest --test-dir build-debug
 ```
@@ -57,8 +57,8 @@ Open a Developer Command Prompt for Visual Studio, then run the same commands.
 For a 64-bit Release build with Visual Studio:
 
 ```bat
-conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler=msvc -s arch=x86_64
-cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+conan install . -o webready=True --build missing --output-folder=build -s build_type=Release
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_CURL=ON
 cmake --build build --config Release
 ctest --test-dir build -C Release
 ```
