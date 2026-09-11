@@ -27,14 +27,10 @@ find_library(brotlicommon_LIBRARY NAMES brotlicommon)
 find_library(brotlidec_LIBRARY NAMES brotlidec)
 
 find_package_handle_standard_args(brotli
-    FOUND_VAR
-      brotli_FOUND
     REQUIRED_VARS
       brotlidec_LIBRARY
       brotlicommon_LIBRARY
       brotli_INCLUDE_DIR
-    FAIL_MESSAGE
-      "Could NOT find brotli"
 )
 
 set(brotli_INCLUDE_DIRS ${brotli_INCLUDE_DIR})
