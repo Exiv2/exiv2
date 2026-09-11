@@ -12,6 +12,8 @@
 #include "value.hpp"
 #include "xmp_exiv2.hpp"
 
+#include <algorithm>
+#include <cctype>
 #include <iostream>
 
 namespace {
@@ -25,6 +27,27 @@ struct XmpPrintInfo {
   std::string_view key_;      //!< XMP key
   Exiv2::PrintFct printFct_;  //!< Print function
 };
+
+/*!
+  @brief Return the key of the innermost element of a nested XMP property key.
+
+  For example, "Xmp.plus.Licensor[1]/plus:LicensorTelephoneType1" yields
+  "Xmp.plus.LicensorTelephoneType1". Returns an empty string if \em key is not
+  the key of a nested property.
+ */
+std::string innermostElementKey(const std::string& key) {
+  const auto slash = key.find_last_of('/');
+  if (slash == std::string::npos)
+    return {};
+  // Skip the array index and any other non-alphabetic characters of the path element
+  const auto prefix = std::find_if(key.begin() + slash, key.end(), [](unsigned char c) { return std::isalpha(c) != 0; });
+  const auto colon = std::find(prefix, key.end(), ':');
+  if (colon == key.end() || colon + 1 == key.end())
+    return {};
+  std::string result = "Xmp.";
+  result.append(prefix, colon).append(1, '.').append(colon + 1, key.end());
+  return result;
+}
 
 }  // namespace
 
@@ -5213,7 +5236,13 @@ std::ostream& XmpProperties::printPropertyUnlocked(std::ostream& os, const std::
                                                    const XmpLock&) {
   PrintFct fct = printValue;
   if (value.count() != 0) {
-    if (auto info = Exiv2::find(xmpPrintInfo, key))
+    auto info = Exiv2::find(xmpPrintInfo, key);
+    if (!info) {
+      // A nested property is keyed by its path, look up the innermost element instead
+      if (auto nested = innermostElementKey(key); !nested.empty())
+        info = Exiv2::find(xmpPrintInfo, nested);
+    }
+    if (info)
       fct = info->printFct_;
   }
   return fct(os, value, nullptr);
