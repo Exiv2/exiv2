@@ -10,7 +10,7 @@
       "installDir": "${sourceDir}/build-${presetName}/install",
       "cacheVariables": {
         "BUILD_SHARED_LIBS": true,
-        "CONAN_AUTO_INSTALL": true,
+        "CONAN_AUTO_INSTALL": false,
         "EXIV2_BUILD_SAMPLES": true,
         "EXIV2_ENABLE_WEBREADY": true,
         "EXIV2_ENABLE_CURL": true,

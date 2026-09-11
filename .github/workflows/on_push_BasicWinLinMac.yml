@@ -39,16 +39,13 @@ jobs:
 
       - name: Install Conan & common config
         run: |
-          python -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.build_type=Release default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          python3 -m pip install conan
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -88,6 +85,9 @@ jobs:
   Windows:
     name: 'Windows - MSVC - Arch:${{ matrix.runner.arch }} BuildType:Release - SHARED'
     runs-on: ${{ matrix.runner.os }}
+    env:
+      CONAN_HOME: ${{github.workspace}}/conanCache
+      VERBOSE: 1
     strategy:
       matrix:
         runner:
@@ -105,24 +105,18 @@ jobs:
       - name: Restore Conan cache
         uses: actions/cache@v6
         with:
-          path: ${{github.workspace}}/conanCache
+          path: ${{ env.CONAN_HOME }}
           key: ${{runner.os}}-push-win-${{ hashFiles('conanfile.py') }}
 
       - name: Install Conan & common config
         run: |
-          python -m pip install conan==1.* lxml
-          conan profile new --detect default
-          conan profile show default
-          conan profile update settings.build_type=Release default
-          conan profile update settings.compiler="Visual Studio" default
-          conan profile update settings.compiler.version=17 default
-          conan config set storage.path=$Env:GITHUB_WORKSPACE/conanCache
+          python -m pip install conan lxml
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
           md build
-          cd build
-          conan install .. --build missing
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler=msvc
 
       - name: Build
         run: |

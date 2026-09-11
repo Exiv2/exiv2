@@ -9,12 +9,10 @@ if(NOT @BUILD_SHARED_LIBS@) # if(NOT BUILD_SHARED_LIBS)
   endif()
 
   if(@EXIV2_ENABLE_BMFF@ AND @EXIV2_ENABLE_BROTLI@) # if(EXIV2_ENABLE_BMFF AND EXIV2_ENABLE_BROTLI)
-    find_package(Brotli QUIET)
-    if (NOT Brotli_FOUND)
+    find_package(brotli QUIET)
+    if (NOT brotli_FOUND)
       message(FATAL_ERROR
-        "Static builds of exiv2 require Brotli. "
-        "Please provide FindBrotli.cmake on CMAKE_MODULE_PATH "
-        "or point to the cmake/ dir in the exiv2 source tree.")
+        "Static builds of exiv2 require brotli.")
     endif()
   endif()
 

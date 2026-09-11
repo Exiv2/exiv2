@@ -260,9 +260,9 @@ if(EXIV2_ENABLE_PNG)
   list(APPEND requires_private_list "zlib")
 endif()
 
-if(EXIV2_ENABLE_BMFF AND BROTLI_FOUND)
-  target_link_libraries(exiv2lib PRIVATE ${Brotli_LIBRARIES})
-  target_include_directories(exiv2lib PRIVATE ${Brotli_INCLUDE_DIRS})
+if(EXIV2_ENABLE_BMFF AND brotli_FOUND)
+  target_link_libraries(exiv2lib PRIVATE ${brotli_LIBRARIES})
+  target_include_directories(exiv2lib PRIVATE ${brotli_INCLUDE_DIRS})
   list(APPEND requires_private_list "libbrotlidec")
 endif()
 

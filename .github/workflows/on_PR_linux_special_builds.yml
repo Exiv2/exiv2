@@ -28,16 +28,13 @@ jobs:
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          python3 -m pip install conan
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -76,16 +73,13 @@ jobs:
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          python3 -m pip install conan
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -113,16 +107,13 @@ jobs:
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          python3 -m pip install conan
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -149,9 +140,13 @@ jobs:
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          python3 -m pip install conan
+          conan profile detect --name default --force
+
+      - name: Run Conan
+        run: |
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -174,16 +169,13 @@ jobs:
 
       - name: Conan common config
         run: |
-          python3 -m pip install conan==1.*
-          conan profile new --detect default
-          conan profile update settings.compiler.libcxx=libstdc++11 default
+          python3 -m pip install conan
+          conan profile detect --name default --force
 
       - name: Run Conan
         run: |
-          mkdir build && cd build
-          conan profile list
-          conan profile show default
-          conan install .. -o webready=True --build missing
+          mkdir build
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
 
       - name: Build
         env:
