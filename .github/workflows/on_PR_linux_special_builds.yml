@@ -34,7 +34,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -79,7 +79,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -113,7 +113,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -146,7 +146,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build
-          conan install . -o webready=True --build missing --output-folder=build
+          conan install . -o webready=True --build missing --output-folder=build -s compiler.libcxx=libstdc++11
 
       - name: Build
         run: |
@@ -175,7 +175,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build
-          conan install . -o webready=True --build missing --output-folder=build
+          conan install . -o webready=True --build missing --output-folder=build -s compiler.libcxx=libstdc++11
 
       - name: Build
         env:

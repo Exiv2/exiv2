@@ -38,7 +38,7 @@ jobs:
       - name: Run Conan
         run: |
           mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug
+          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
 
       - name: Configure
         run: |
