@@ -125,16 +125,16 @@ STRUCTURE OF JPEG FILE: girl.jpg
        2 | 0xffe0 APP0  |      16 | JFIF.........
       20 | 0xffe1 APP1  |    5704 | Exif..II*......................
     5726 | 0xffe1 APP1  |    5336 | http://ns.adobe.com/xap/1.0/.<?x
-   11064 | 0xffed APP13 |     784 | Photoshop 3.0.8BIM..........Z...
-   11850 | 0xffdb DQT   |      67 
-   11919 | 0xffdb DQT   |      67 
-   11988 | 0xffc0 SOF0  |      17 
-   12007 | 0xffc4 DHT   |      28 
-   12037 | 0xffc4 DHT   |      74 
-   12113 | 0xffc4 DHT   |      28 
-   12143 | 0xffc4 DHT   |      57 
-   12202 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
-   16806 | 0xffda SOS  
+   11064 | 0xffed APP13 |     952 | Photoshop 3.0.8BIM..........Z...
+   12018 | 0xffdb DQT   |      67 
+   12087 | 0xffdb DQT   |      67 
+   12156 | 0xffc0 SOF0  |      17 
+   12175 | 0xffc4 DHT   |      28 
+   12205 | 0xffc4 DHT   |      74 
+   12281 | 0xffc4 DHT   |      28 
+   12311 | 0xffc4 DHT   |      57 
+   12370 | 0xffe1 APP1  |    4602 | http://ns.adobe.com/xap/1.0/.<?x
+   16974 | 0xffda SOS  
 STRUCTURE OF JPEG FILE: girl.jpg
  address | marker       |  length | data
        0 | 0xffd8 SOI  
