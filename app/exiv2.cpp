@@ -194,10 +194,11 @@ int main(int argc, char* const argv[]) {
 // class Params
 
 Params::Params() :
-    optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:"),
+    optstring_(":hVvqfbuktTFa:Y:O:D:r:p:P:d:e:i:c:m:M:l:S:g:K:n:Q:R:"),
     target_(ctExif | ctIptc | ctComment | ctXmp),
     yodAdjust_(emptyYodAdjust_),
-    format_("%Y%m%d_%H%M%S") {
+    format_("%Y%m%d_%H%M%S"),
+    max_recursion_depth_(1000) {
 }
 
 Params& Params::instance() {
@@ -264,6 +265,7 @@ void Params::help(std::ostream& os) const {
      << _("   -V      Show the program version and exit\n") << _("   -v      Be verbose during the program run\n")
      << _("   -q      Silence warnings and error messages (quiet)\n")
      << _("   -Q lvl  Set log-level to d(ebug), i(nfo), w(arning), e(rror) or m(ute)\n")
+     << _("   -R num  Set maximum recursion depth limit. 0 means no limit.\n")
      << _("   -b      Obsolete, reserved for use with the test suit\n")
      << _("   -u      Show unknown tags (e.g., Exif.SonyMisc3c.0x022b)\n")
      << _("   -g str  Only output where 'str' matches in output text (grep)\n"
@@ -365,6 +367,9 @@ int Params::option(int opt, const std::string& optArg, int optOpt) {
       break;
     case 'Q':
       rc = setLogLevel(optArg);
+      break;
+    case 'R':
+      rc = setRecursionLimit(optArg);
       break;
     case 'k':
       preserve_ = true;
@@ -491,6 +496,27 @@ int Params::setLogLevel(const std::string& optArg) {
   }
   return rc;
 }  // Params::setLogLevel
+
+int Params::setRecursionLimit(const std::string& optArg) {
+  int64_t n = 0;
+  if (!Util::strtol(optArg.c_str(), n)) {
+    std::cerr << progname() << ": " << _("Error parsing maximum recursion depth") << " "
+              << " `" << optArg << "'\n";
+    return 1;
+  }
+
+  if (n > 0) {
+    const uint64_t u = static_cast<uint64_t>(n);
+    if (u <= std::numeric_limits<size_t>::max()) {
+      max_recursion_depth_ = static_cast<size_t>(u);
+      return 0;
+    }
+  }
+
+  // Zero or negative means no limit.
+  max_recursion_depth_ = std::numeric_limits<size_t>::max();
+  return 0;
+}  // Params::setRecursionLimit
 
 int Params::evalGrep(const std::string& optArg) {
   // check that string ends in "/i"

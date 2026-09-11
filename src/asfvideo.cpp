@@ -209,7 +209,7 @@ void AsfVideo::readMetadata() {
   xmpData()["Xmp.video.FileSize"] = io_->size() / 1048576.;
   xmpData()["Xmp.video.MimeType"] = mimeType();
 
-  decodeBlock(0);
+  decodeBlock();
 
   xmpData_["Xmp.video.AspectRatio"] = getAspectRatio(width_, height_);
 }  // AsfVideo::readMetadata
@@ -224,7 +224,7 @@ AsfVideo::HeaderReader::HeaderReader(const BasicIo::UniquePtr& io) : IdBuf_(GUID
   }
 }
 
-void AsfVideo::decodeBlock(size_t depth) {
+void AsfVideo::decodeBlock() {
   Internal::enforce(GUID + QWORD <= io_->size() - io_->tell(), Exiv2::ErrorCode::kerCorruptedMetadata);
   HeaderReader objectHeader(io_);
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -236,7 +236,7 @@ void AsfVideo::decodeBlock(size_t depth) {
 
   if (tag != GUIDReferenceTags.end()) {
     if (tag->second == "Header")
-      decodeHeader(depth + 1);
+      decodeHeader();
     else if (tag->second == "File_Properties")
       fileProperties();
     else if (tag->second == "Stream_Properties")
@@ -270,8 +270,8 @@ void AsfVideo::decodeBlock(size_t depth) {
 
 }  // AsfVideo::decodeBlock
 
-void AsfVideo::decodeHeader(size_t depth) {
-  Internal::enforce(depth <= max_recursion_depth_, Exiv2::ErrorCode::kerCorruptedMetadata);
+void AsfVideo::decodeHeader() {
+  RECURSION_GUARD(recursion_limit_);
   DataBuf nbHeadersBuf(DWORD + 1);
   io_->readOrThrow(nbHeadersBuf.data(), DWORD, Exiv2::ErrorCode::kerCorruptedMetadata);
 
@@ -280,7 +280,7 @@ void AsfVideo::decodeHeader(size_t depth) {
   io_->seekOrThrow(io_->tell() + (BYTE * 2), BasicIo::beg,
                    ErrorCode::kerFailedToReadImageData);  // skip two reserved tags
   for (uint32_t i = 0; i < nb_headers; i++) {
-    decodeBlock(depth);
+    decodeBlock();
   }
 }
 

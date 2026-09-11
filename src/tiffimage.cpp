@@ -147,7 +147,7 @@ void TiffImage::readMetadata() {
   }
   clearMetadata();
 
-  const DecodeParams dp(max_recursion_depth_);
+  const DecodeParams dp(recursion_limit());
   ByteOrder bo = TiffParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
   setByteOrder(bo);
 
