@@ -79,6 +79,10 @@ if( EXIV2_ENABLE_INIH )
     endif()
 endif()
 
+# nlohmann_json (header-only JSON library, used by the exiv2 CLI)
+find_package(nlohmann_json 3.9 REQUIRED)
+message ( "-- nlohmann_json_VERSION : " ${nlohmann_json_VERSION} )
+
 if( BUILD_WITH_CCACHE )
     find_program(CCACHE_FOUND ccache)
     if(CCACHE_FOUND)
