@@ -85,18 +85,8 @@ if( EXIV2_ENABLE_INIH )
 endif()
 
 # nlohmann_json (header-only JSON library, used by the exiv2 CLI)
-find_package(nlohmann_json QUIET)
-if(NOT nlohmann_json_FOUND)
-    include(FetchContent)
-    FetchContent_Declare(nlohmann_json
-        GIT_REPOSITORY https://github.com/nlohmann/json.git
-        GIT_TAG v3.11.3
-    )
-    FetchContent_MakeAvailable(nlohmann_json)
-    message(STATUS "nlohmann_json: fetched from GitHub")
-else()
-    message(STATUS "nlohmann_json: found system/Conan package (${nlohmann_json_VERSION})")
-endif()
+find_package(nlohmann_json 3.9 REQUIRED)
+message ( "-- nlohmann_json_VERSION : " ${nlohmann_json_VERSION} )
 
 if( BUILD_WITH_CCACHE )
     find_program(CCACHE_FOUND ccache)
