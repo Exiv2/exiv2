@@ -1186,6 +1186,22 @@ constexpr ArrayCfg sony2Cs2Cfg = {
 constexpr ArrayDef sonyCs2Def[] = {
     {44, ttUnsignedShort, 1},  // Exif.Sony[12]Cs2.FocusMode
 };
+//! Sony2 Camera Settings 3 binary array - configuration
+// Unlike the two above this block is an array of bytes, not of shorts.
+constexpr ArrayCfg sony2Cs3Cfg = {
+    IfdId::sony2Cs3Id,  // Group for the elements
+    bigEndian,          // Big endian
+    ttUndefined,        // Type for array entry and size element
+    notEncrypted,       // Not encrypted
+    false,              // No size element
+    false,              // No fillers
+    false,              // Don't concatenate gaps
+    {0, ttUnsignedByte, 1},
+};
+//! Sony2 Camera Settings 3 binary array - definition
+constexpr ArrayDef sonyCs3Def[] = {
+    {0x0a, ttUnsignedByte, 1},  // Exif.Sony2Cs3.AspectRatio
+};
 //! Sony1 Camera Settings configurations and definitions
 constexpr ArraySet sony1CsSet[] = {
     {sony1CsCfg, sonyCsDef, std::size(sonyCsDef)},
@@ -1195,6 +1211,7 @@ constexpr ArraySet sony1CsSet[] = {
 constexpr ArraySet sony2CsSet[] = {
     {sony2CsCfg, sonyCsDef, std::size(sonyCsDef)},
     {sony2Cs2Cfg, sonyCs2Def, std::size(sonyCs2Def)},
+    {sony2Cs3Cfg, sonyCs3Def, std::size(sonyCs3Def)},
 };
 
 //! Sony Minolta Camera Settings (old) binary array - configuration
@@ -1404,6 +1421,7 @@ const TiffTreeTable TiffCreator::tiffTreeTable_ = {
     {{Tag::root, IfdId::sonySInfo1Id}, {IfdId::sony2Id, 0x3000}},
     {{Tag::root, IfdId::sony2CsId}, {IfdId::sony2Id, 0x0114}},
     {{Tag::root, IfdId::sony2Cs2Id}, {IfdId::sony2Id, 0x0114}},
+    {{Tag::root, IfdId::sony2Cs3Id}, {IfdId::sony2Id, 0x0114}},
     {{Tag::root, IfdId::minoltaId}, {IfdId::exifId, 0x927c}},
     {{Tag::root, IfdId::minoltaCsOldId}, {IfdId::minoltaId, 0x0001}},
     {{Tag::root, IfdId::minoltaCsNewId}, {IfdId::minoltaId, 0x0003}},
@@ -1920,6 +1938,7 @@ const TiffGroupTable TiffCreator::tiffGroupTable_ = {
     // Sony2 camera settings
     {{Tag::all, IfdId::sony2CsId}, &newTiffBinaryElement},
     {{Tag::all, IfdId::sony2Cs2Id}, &newTiffBinaryElement},
+    {{Tag::all, IfdId::sony2Cs3Id}, &newTiffBinaryElement},
 
     // Sony1 Minolta makernote
     {{0x0001, IfdId::sonyMltId}, EXV_SIMPLE_BINARY_ARRAY(sony1MCsoCfg)},
