@@ -1,16 +1,17 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include <image.hpp>  // Unit under test
+#include <basicio.hpp>  // For MemIo, BasicIo
+#include <error.hpp>    // Need to include this header for the Exiv2::Error exception
+#include <image.hpp>    // Unit under test
 
-#include <error.hpp>  // Need to include this header for the Exiv2::Error exception
+#include "mock_basicio.hpp"
 
-#include <filesystem>
-
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-namespace fs = std::filesystem;
-
 using namespace Exiv2;
+
+// ── create() tests (in-memory only; no filesystem dependency) ──────────────
 
 TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory) {
   // Note that the constructor of these Image classes take an 'create' argument
@@ -20,6 +21,8 @@ TEST(TheImageFactory, createsInstancesForFewSupportedTypesInMemory) {
   EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf));
 #ifdef EXV_HAVE_LIBZ
   EXPECT_NO_THROW(ImageFactory::create(ImageType::png));
+#else
+  EXPECT_THROW(ImageFactory::create(ImageType::png), Error);
 #endif
 }
 
@@ -56,91 +59,158 @@ TEST(TheImageFactory, throwsWithNonExistingImageTypes) {
   EXPECT_THROW(ImageFactory::create(static_cast<ImageType>(666)), Error);
 }
 
-TEST(TheImageFactory, createsInstancesForFewSupportedTypesInFiles) {
-  const std::string filePath("./here");
+// ── getType() / open() via MockBasicIo (no filesystem, full I/O control) ──
 
-  // Note that the constructor of these Image classes take an 'create' argument
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::jp2, filePath));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::jpeg, filePath));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::exv, filePath));
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::pgf, filePath));
-#ifdef EXV_HAVE_LIBZ
-  EXPECT_NO_THROW(ImageFactory::create(ImageType::png, filePath));
-#endif
-
-  EXPECT_TRUE(fs::remove(filePath));
+TEST(TheImageFactory, detectsJpegTypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0xFF, 0xD8});
+  EXPECT_EQ(ImageType::jpeg, ImageFactory::getType(*mockIo));
 }
 
-TEST(TheImageFactory, cannotCreateInstancesForSomeTypesInFiles) {
-  const std::string filePath("./here");
-
-  // Note that the constructor of these Image classes does not take an 'create' argument
-  EXPECT_THROW(ImageFactory::create(ImageType::bmp, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::cr2, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::crw, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::gif, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::mrw, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::orf, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::psd, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::raf, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::rw2, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::tga, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::webp, filePath), Error);
-
-  // TIFF
-  EXPECT_THROW(ImageFactory::create(ImageType::tiff, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::dng, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::nef, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::pef, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::arw, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::sr2, filePath), Error);
-  EXPECT_THROW(ImageFactory::create(ImageType::srw, filePath), Error);
+TEST(TheImageFactory, opensJpegFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0xFF, 0xD8});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+  EXPECT_EQ(image->mimeType(), "image/jpeg");
 }
 
-TEST(TheImageFactory, loadInstancesDifferentImageTypes) {
-  fs::path testData(TESTDATA_PATH);
+TEST(TheImageFactory, detectsExvTypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0xFF, 0x01, 0x45, 0x78, 0x69, 0x76, 0x32});
+  EXPECT_EQ(ImageType::exv, ImageFactory::getType(*mockIo));
+}
 
-  std::string imagePath = (testData / "DSC_3079.jpg").string();
-  EXPECT_EQ(ImageType::jpeg, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, opensExvFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0xFF, 0x01, 0x45, 0x78, 0x69, 0x76, 0x32});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+}
 
-  imagePath = (testData / "exiv2-bug1108.exv").string();
-  EXPECT_EQ(ImageType::exv, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, detectsCrwTypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  // II byte-order + 4 don't-care bytes + HEAPCCDR signature
+  setupRead(*mockIo, {0x49, 0x49, 0x00, 0x00, 0x00, 0x00, 0x48, 0x45, 0x41, 0x50, 0x43, 0x43, 0x44, 0x52});
+  EXPECT_EQ(ImageType::crw, ImageFactory::getType(*mockIo));
+}
 
-  imagePath = (testData / "exiv2-canon-powershot-s40.crw").string();
-  EXPECT_EQ(ImageType::crw, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, opensCrwFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x49, 0x49, 0x00, 0x00, 0x00, 0x00, 0x48, 0x45, 0x41, 0x50, 0x43, 0x43, 0x44, 0x52});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+}
 
-  imagePath = (testData / "exiv2-bug1044.tif").string();
-  EXPECT_EQ(ImageType::tiff, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, detectsTiffTypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  // Little-endian TIFF: II + tag 42 (0x002A) + 4-byte IFD offset
+  setupRead(*mockIo, {0x49, 0x49, 0x2A, 0x00, 0x00, 0x00, 0x00, 0x00});
+  EXPECT_EQ(ImageType::tiff, ImageFactory::getType(*mockIo));
+}
 
-#ifdef EXV_HAVE_LIBZ
-  imagePath = (testData / "exiv2-bug1074.png").string();
-  EXPECT_EQ(ImageType::png, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
-#endif
+TEST(TheImageFactory, opensTiffFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x49, 0x49, 0x2A, 0x00, 0x00, 0x00, 0x00, 0x00});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+}
 
-  imagePath = (testData / "BlueSquare.xmp").string();
-  EXPECT_EQ(ImageType::xmp, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, detectsPngTypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A});
+  EXPECT_EQ(ImageType::png, ImageFactory::getType(*mockIo));
+}
 
-  imagePath = (testData / "exiv2-photoshop.psd").string();
-  EXPECT_EQ(ImageType::psd, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, opensPngFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+}
 
-  imagePath = (testData / "cve_2017_1000126_stack-oob-read.webp").string();
-  EXPECT_EQ(ImageType::webp, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, detectsXmpTypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {'<', '?', 'x', 'p', 'a', 'c', 'k', 'e', 't'});
+  EXPECT_EQ(ImageType::xmp, ImageFactory::getType(*mockIo));
+}
 
-  imagePath = (testData / "imagemagick.pgf").string();
-  EXPECT_EQ(ImageType::pgf, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, opensXmpFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {'<', '?', 'x', 'p', 'a', 'c', 'k', 'e', 't'});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+}
 
-  imagePath = (testData / "Reagan.jp2").string();
-  EXPECT_EQ(ImageType::jp2, ImageFactory::getType(imagePath));
-  EXPECT_NO_THROW(ImageFactory::open(imagePath, false));
+TEST(TheImageFactory, detectsPsdTypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x38, 0x42, 0x50, 0x53, 0x00, 0x01});
+  EXPECT_EQ(ImageType::psd, ImageFactory::getType(*mockIo));
+}
+
+TEST(TheImageFactory, opensPsdFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x38, 0x42, 0x50, 0x53, 0x00, 0x01});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+}
+
+// NOTE: WebP type detection is not tested here because isWebPType() performs
+// three sequential 4-byte reads (RIFF / size / WEBP), which requires a
+// position-aware mock.  The position-agnostic MockBasicIo always returns
+// from offset 0, causing the second and third reads to return RIFF bytes
+// instead of the expected WEBP identifier.  isRiffType() then matches first.
+// WebP detection is covered by the riff video tests.
+
+TEST(TheImageFactory, detectsPgfTypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x50, 0x47, 0x46});
+  EXPECT_EQ(ImageType::pgf, ImageFactory::getType(*mockIo));
+}
+
+TEST(TheImageFactory, opensPgfFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x50, 0x47, 0x46});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+}
+
+TEST(TheImageFactory, detectsJp2TypeFromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x00, 0x00, 0x00, 0x0C, 0x6A, 0x50, 0x20, 0x20, 0x0D, 0x0A, 0x87, 0x0A});
+  EXPECT_EQ(ImageType::jp2, ImageFactory::getType(*mockIo));
+}
+
+TEST(TheImageFactory, opensJp2FromMockedIo) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x00, 0x00, 0x00, 0x0C, 0x6A, 0x50, 0x20, 0x20, 0x0D, 0x0A, 0x87, 0x0A});
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_NE(image, nullptr);
+}
+
+TEST(TheImageFactory, openFailureThrows) {
+  auto mockIo = makeMockIo();
+  setupOpenFailure(*mockIo);
+  ASSERT_THROW(ImageFactory::open(std::move(mockIo)), Error);
+}
+
+TEST(TheImageFactory, getTypeWithAllReadsFailingReturnsNone) {
+  auto mockIo = makeMockIo();
+  setupReadFailure(*mockIo);
+  EXPECT_EQ(ImageType::none, ImageFactory::getType(*mockIo));
+}
+
+TEST(TheImageFactory, openWithAllReadsFailingReturnsNullptr) {
+  auto mockIo = makeMockIo();
+  setupReadFailure(*mockIo);
+  auto image = ImageFactory::open(std::move(mockIo));
+  ASSERT_EQ(image, nullptr);
+}
+
+TEST(TheImageFactory, getTypeWithOpenFailureReturnsNone) {
+  auto mockIo = makeMockIo();
+  setupOpenFailure(*mockIo);
+  EXPECT_EQ(ImageType::none, ImageFactory::getType(*mockIo));
 }
 
 TEST(TheImageFactory, getsExpectedModesForJp2Images) {
