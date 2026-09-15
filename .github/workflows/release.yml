@@ -154,7 +154,7 @@ jobs:
       - name: Run Conan
         run: |
           md build
-          conan install . --build missing --output-folder=build -s build_type=Release
+          conan install . --build missing --output-folder=build -s build_type=Release -s compiler=msvc -s compiler.cppstd=17 -s arch=${{ case(matrix.runner.arch == 'x64', 'x86_64', matrix.runner.arch) }}
 
       - name: Build packaged release
         run: |
