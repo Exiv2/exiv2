@@ -1,6 +1,9 @@
 name: On PRs - meson
 
-on: pull_request
+on:
+  pull_request:
+    paths-ignore:
+      - '*.md'
 
 concurrency:
   group: ${{github.workflow}}-${{github.head_ref}}
