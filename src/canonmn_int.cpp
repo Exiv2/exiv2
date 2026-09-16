@@ -396,8 +396,10 @@ constexpr TagDetails canonModelId[] = {
     {0x80000497, "PowerShot V1"},
     {0x80000498, "EOS R100"},
     {0x80000516, "EOS R50 V"},
+    {0x80000517, "EOS R6 V"},
     {0x80000518, "EOS R6 Mark III"},
     {0x80000520, "EOS D2000C"},
+    {0x80000543, "EOS R8 Mark II"},
     {0x80000560, "EOS D6000C"},
 };
 
