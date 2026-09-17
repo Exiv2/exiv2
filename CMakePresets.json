@@ -10,7 +10,6 @@
       "installDir": "${sourceDir}/build-${presetName}/install",
       "cacheVariables": {
         "BUILD_SHARED_LIBS": true,
-        "CONAN_AUTO_INSTALL": false,
         "EXIV2_BUILD_SAMPLES": true,
         "EXIV2_ENABLE_WEBREADY": true,
         "EXIV2_ENABLE_CURL": true,
@@ -58,8 +57,7 @@
         "rhs": "Darwin"
       },
       "cacheVariables": { 
-        "CMAKE_BUILD_TYPE": "Release",
-        "CONAN_AUTO_INSTALL": false 
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
 
@@ -114,14 +112,12 @@
     {
       "name": "linux-debug-NoConan",
       "displayName": "Same as linux-debug but without automatic conan execution",
-      "inherits": "linux-debug",
-      "cacheVariables": { "CONAN_AUTO_INSTALL": false }
+      "inherits": "linux-debug"
     },
     {
       "name": "linux-release-NoConan",
       "displayName": "Same as linux-release but without automatic conan execution",
-      "inherits": "linux-release",
-      "cacheVariables": { "CONAN_AUTO_INSTALL": false }
+      "inherits": "linux-release"
     },
     {
       "name": "linux-coverage",
