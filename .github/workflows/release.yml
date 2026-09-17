@@ -31,26 +31,20 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y gettext doxygen graphviz ninja-build
-
-      - name: Install Conan & common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get dist-upgrade
+          sudo eatmydata apt-get -y install doxygen gettext graphviz libbrotli-dev libinih-dev
 
       - name: Build packaged release
         run: |
           cmake --preset linux-all -S . -B build \
             -DEXIV2_TEAM_PACKAGING=ON \
             -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON \
+            -DEXIV2_ENABLE_VIDEO=ON \
             -DEXIV2_ENABLE_WEBREADY=OFF \
             -DEXIV2_ENABLE_CURL=OFF \
-            -DEXIV2_BUILD_SAMPLES=OFF
+            -DEXIV2_BUILD_SAMPLES=OFF \
+            -DEXIV2_BUILD_UNIT_TESTS=OFF
           cmake --build build -t doc
           cmake --build build -t package
 
@@ -83,7 +77,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install inih tree doxygen graphviz
+          brew update --quiet
+          brew upgrade
+          brew install inih doxygen graphviz
 
       - name: Build packaged release
         run: |
@@ -120,7 +116,8 @@ jobs:
     strategy:
       matrix:
         runner:
-          - { os: windows-2022, arch: x64   }
+          - { os: windows-2022,   arch: x64   }
+          - { os: windows-11-arm, arch: arm64 }
     permissions:
       id-token: write  # For sigstore
       attestations: write  # For artifact attestation
@@ -143,7 +140,7 @@ jobs:
         uses: actions/cache@v6
         with:
             path: ${{ env.CONAN_HOME }}
-            key: ${{runner.os}}-release-win-${{ hashFiles('conanfile.py') }}
+            key: ${{runner.os}}-${{matrix.runner.arch}}-Release-${{ hashFiles('conanfile.py') }}
             lookup-only: true
 
       - name: Install Conan & common config
@@ -154,7 +151,7 @@ jobs:
       - name: Run Conan
         run: |
           md build
-          conan install . --build missing --output-folder=build -s build_type=Release -s compiler=msvc -s compiler.cppstd=17 -s arch=${{ case(matrix.runner.arch == 'x64', 'x86_64', matrix.runner.arch) }}
+          conan install . -o '&:unitTests=False' --build missing --output-folder=build
 
       - name: Build packaged release
         run: |
@@ -163,7 +160,8 @@ jobs:
             -DEXIV2_BUILD_DOC=ON `
             -DEXIV2_ENABLE_WEBREADY=OFF `
             -DEXIV2_ENABLE_CURL=OFF `
-            -DEXIV2_BUILD_SAMPLES=OFF
+            -DEXIV2_BUILD_SAMPLES=OFF `
+            -DEXIV2_BUILD_UNIT_TESTS=OFF
           cmake --build build --parallel -t doc
           cmake --build build --parallel -t package
 
