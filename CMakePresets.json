@@ -110,32 +110,22 @@
       "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
     },
     {
-      "name": "linux-debug-NoConan",
-      "displayName": "Same as linux-debug but without automatic conan execution",
-      "inherits": "linux-debug"
-    },
-    {
-      "name": "linux-release-NoConan",
-      "displayName": "Same as linux-release but without automatic conan execution",
-      "inherits": "linux-release"
-    },
-    {
       "name": "linux-coverage",
-      "displayName": "Same as linux-debug-NoConan with coverage enabled",
-      "inherits": "linux-debug-NoConan",
+      "displayName": "Same as linux-debug with coverage enabled",
+      "inherits": "linux-debug",
       "cacheVariables": { "BUILD_WITH_COVERAGE": true }
     },
     {
       "name": "linux-sanitizers",
-      "displayName": "Same as linux-debug-NoConan with sanitizers enabled",
-      "inherits": "linux-debug-NoConan",
+      "displayName": "Same as linux-debug with sanitizers enabled",
+      "inherits": "linux-debug",
       "cacheVariables": { "EXIV2_TEAM_USE_SANITIZERS": true }
     },
     {
       "name": "linux-all",
-      "displayName": "Same as linux-release-NoConan and with rest of things enabled (doc + NLS)",
+      "displayName": "Same as linux-release and with rest of things enabled (doc + NLS)",
       "description": "requires installation of packages: doxygen graphviz gettext",
-      "inherits": "linux-release-NoConan",
+      "inherits": "linux-release",
       "cacheVariables": { 
         "EXIV2_ENABLE_NLS": true,
         "EXIV2_ENABLE_VIDEO": false,
