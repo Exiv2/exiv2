@@ -7,6 +7,8 @@ name: On PUSH - Basic CI for main platforms
 
 on:
   push:
+    branches:
+      - '**'
     tags-ignore:
       - '**'
     paths-ignore:
@@ -35,17 +37,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y install ninja-build python3-lxml
-
-      - name: Install Conan & common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
 
       - name: Build
         run: |
@@ -71,6 +64,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          brew update --quiet
           brew install inih googletest
 
       - name: Build
@@ -91,7 +85,8 @@ jobs:
     strategy:
       matrix:
         runner:
-          - { os: windows-2022, arch: x64   }
+          - { os: windows-2022,   arch: x64   }
+          # - { os: windows-11-arm, arch: arm64 }
     steps:
       - uses: actions/checkout@v7
         with:
@@ -116,7 +111,7 @@ jobs:
       - name: Run Conan
         run: |
           md build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler=msvc
+          conan install . -o '&:webready=True' --build missing --output-folder=build -s compiler.cppstd=17
 
       - name: Build
         run: |
