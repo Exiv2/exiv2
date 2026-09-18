@@ -24,17 +24,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y install libxml2-dev libxslt-dev python3-dev ninja-build python3-lxml gcovr
-
-      - name: Conan common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml gcovr
 
       - name: Build
         run: |
@@ -43,10 +34,9 @@ jobs:
 
       - name: Tests + Upload coverage
         run: |
-          cd build
-          ctest --output-on-failure
-          # this needs to match th ecommand in on_push_ExtraJobsForMain.yml!
-          gcovr --root .. --object-dir . --exclude-unreachable-branches --exclude-throw-branches --xml -o coverage.xml
+          ctest --test-dir build --output-on-failure
+          # this needs to match the ecommand in on_push_ExtraJobsForMain.yml!
+          gcovr --root . --object-dir build --exclude-unreachable-branches --exclude-throw-branches --xml -o build/coverage.xml build
           curl https://keybase.io/codecovsecops/pgp_keys.asc | gpg --import
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
@@ -54,8 +44,7 @@ jobs:
           gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
           shasum -a 256 -c codecov.SHA256SUM
           chmod +x codecov
-          ls -lh
-          ./codecov -f coverage.xml
+          ./codecov -f build/coverage.xml
 
   special_releaseValgrind:
     name: 'Ubuntu - GCC - Release+Valgrind'
@@ -68,25 +57,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y update
-          sudo eatmydata apt-get -y install valgrind ninja-build python3-lxml
-
-      - name: Conan common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml valgrind
 
       - name: Build
         run: |
           cmake --preset linux-release -S . -B build
           cmake --build build --parallel
 
-      - name: Tests with valgrind
+      - name: Tests with Valgrind
         run: |
           cd build/bin
           valgrind ./unit_tests
@@ -103,17 +82,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build python3-lxml
-
-      - name: Conan common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
 
       - name: Build
         run: |
@@ -122,8 +92,7 @@ jobs:
 
       - name: Tests
         run: |
-          cd build
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure
 
   special_noFilesystemAccess:
     name: 'Ubuntu - GCC - No filesystem access build'
@@ -136,17 +105,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y ninja-build python3-lxml
-
-      - name: Conan common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
 
       - name: Build
         run: |
@@ -164,18 +124,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y update
-          sudo eatmydata apt-get -y install valgrind doxygen graphviz gettext ninja-build python3-lxml
-
-      - name: Conan common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install doxygen graphviz gettext libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
 
       - name: Build
         env:
@@ -186,5 +136,4 @@ jobs:
 
       - name: Generate documentation
         run: |
-          make doc
-
+          cmake --build build -t doc
