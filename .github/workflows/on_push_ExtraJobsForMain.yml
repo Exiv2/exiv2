@@ -24,17 +24,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo eatmydata apt-get -y install ninja-build python3-lxml gcovr
-
-      - name: Conan common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml gcovr
 
       - name: Build
         run: |
@@ -43,10 +34,9 @@ jobs:
 
       - name: Tests + Upload coverage
         run: |
-          cd build
-          ctest --output-on-failure
-          # this needs to match th ecommand in on_PR_linux_secial_builds.yml!
-          gcovr --root .. --object-dir . --exclude-unreachable-branches --exclude-throw-branches --xml -o coverage.xml .
+          ctest --test-dir build --output-on-failure
+          # this needs to match the ecommand in on_PR_linux_secial_builds.yml!
+          gcovr --root . --object-dir build --exclude-unreachable-branches --exclude-throw-branches --xml -o build/coverage.xml build
           curl https://keybase.io/codecovsecops/pgp_keys.asc | gpg --import
           curl -Os https://uploader.codecov.io/latest/linux/codecov
           curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
