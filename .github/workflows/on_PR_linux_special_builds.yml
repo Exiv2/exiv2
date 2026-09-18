@@ -10,6 +10,9 @@ on:
     paths-ignore:
       - "*.md"
 
+permissions:
+  contents: read
+
 jobs:
   special_debugRelease:
     name: 'Ubuntu - GCC - Debug+Coverage'
