@@ -88,7 +88,8 @@ std::string time2Str(time_t time);
                 be kept.
   @return 0 if successful, else an error code
 */
-int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType targetType, bool preserve);
+int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType targetType, bool preserve,
+             const Exiv2::ImageCtorParams& params);
 
 /*!
   @brief Rename a file according to a timestamp value.
@@ -128,12 +129,16 @@ int dontOverwrite(const std::string& path);
 std::ostream& operator<<(std::ostream& os, const std::pair<std::string, int>& strAndWidth);
 
 //! Print image Structure information
-int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string& path);
+int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string& path,
+                   const Exiv2::ImageCtorParams& params);
 }  // namespace
 
 // *****************************************************************************
 // class member definitions
 namespace Action {
+
+Task::Task() : imageCtorParams_(false, true, Exiv2::RecursionLimit(Params::instance().max_recursion_depth_)) {
+}
 
 Task::UniquePtr Task::create(TaskType type) {
   switch (type) {
@@ -160,11 +165,12 @@ Task::UniquePtr Task::create(TaskType type) {
   }
 }
 
-static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path, bool binary) {
+static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const std::string& path, bool binary,
+                                    const Exiv2::ImageCtorParams& params) {
   int result = 0;
   if (binary && option == Exiv2::kpsIccProfile) {
     std::stringstream output(std::stringstream::out | std::stringstream::binary);
-    result = printStructure(output, option, path);
+    result = printStructure(output, option, path, params);
     std::string str = output.str();
     if (result == 0 && !str.empty()) {
       Exiv2::DataBuf iccProfile(str.size());
@@ -183,7 +189,7 @@ static int setModeAndPrintStructure(Exiv2::PrintStructureOption option, const st
     }
   } else {
     _setmode(_fileno(stdout), O_BINARY);
-    result = printStructure(std::cout, option, path);
+    result = printStructure(std::cout, option, path, params);
   }
 
   return result;
@@ -202,13 +208,13 @@ int Print::run(const std::string& path) {
       case Params::pmPreview:
         return printPreviewList();
       case Params::pmStructure:
-        return printStructure(std::cout, Exiv2::kpsBasic, path_);
+        return printStructure(std::cout, Exiv2::kpsBasic, path_, imageCtorParams_);
       case Params::pmRecursive:
-        return printStructure(std::cout, Exiv2::kpsRecursive, path_);
+        return printStructure(std::cout, Exiv2::kpsRecursive, path_, imageCtorParams_);
       case Params::pmXMP:
-        return setModeAndPrintStructure(Exiv2::kpsXMP, path_, binary());
+        return setModeAndPrintStructure(Exiv2::kpsXMP, path_, binary(), imageCtorParams_);
       case Params::pmIccProfile:
-        return setModeAndPrintStructure(Exiv2::kpsIccProfile, path_, binary());
+        return setModeAndPrintStructure(Exiv2::kpsIccProfile, path_, binary(), imageCtorParams_);
     }
     return 0;
   } catch (const Exiv2::Error& e) {
@@ -226,7 +232,7 @@ int Print::printSummary() {
     return -1;
   }
 
-  auto image = Exiv2::ImageFactory::open(path_);
+  auto image = Exiv2::ImageFactory::open(path_, imageCtorParams_);
   image->readMetadata();
   const Exiv2::ExifData& exifData = image->exifData();
   align_ = 16;
@@ -345,7 +351,7 @@ int Print::printList() {
     return -1;
   }
 
-  auto image = Exiv2::ImageFactory::open(path_);
+  auto image = Exiv2::ImageFactory::open(path_, imageCtorParams_);
   image->readMetadata();
   // Set defaults for metadata types and data columns
   if (Params::instance().printTags_ == MetadataId::invalid) {
@@ -569,7 +575,7 @@ int Print::printComment() {
     return -1;
   }
 
-  auto image = Exiv2::ImageFactory::open(path_);
+  auto image = Exiv2::ImageFactory::open(path_, imageCtorParams_);
   image->readMetadata();
   if (Params::instance().verbose_) {
     std::cout << _("JPEG comment") << ": ";
@@ -584,7 +590,7 @@ int Print::printPreviewList() {
     return -1;
   }
 
-  auto image = Exiv2::ImageFactory::open(path_);
+  auto image = Exiv2::ImageFactory::open(path_, imageCtorParams_);
   image->readMetadata();
   bool const manyFiles = Params::instance().files_.size() > 1;
   int cnt = 0;
@@ -618,7 +624,7 @@ int Rename::run(const std::string& path) {
     if (Params::instance().preserve_)
       ts.read(path);
 
-    auto image = Exiv2::ImageFactory::open(path);
+    auto image = Exiv2::ImageFactory::open(path, imageCtorParams_);
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
@@ -680,7 +686,7 @@ int Erase::run(const std::string& path) {
     if (Params::instance().preserve_)
       ts.read(path);
 
-    auto image = Exiv2::ImageFactory::open(path_);
+    auto image = Exiv2::ImageFactory::open(path_, imageCtorParams_);
     image->readMetadata();
     // Thumbnail must be before Exif
     int rc = 0;
@@ -703,7 +709,7 @@ int Erase::run(const std::string& path) {
       rc = eraseIccProfile(image.get());
     }
     if (0 == rc && Params::instance().target_ & Params::ctIptcRaw) {
-      rc = printStructure(std::cout, Exiv2::kpsIptcErase, path_);
+      rc = printStructure(std::cout, Exiv2::kpsIptcErase, path_, imageCtorParams_);
     }
 
     if (0 == rc) {
@@ -792,7 +798,7 @@ int Extract::run(const std::string& path) {
       std::string xmpPath = bStdout ? "-" : newFilePath(path_, ".xmp");
       if (dontOverwrite(xmpPath))
         return 0;
-      rc = metacopy(path_, xmpPath, Exiv2::ImageType::xmp, false);
+      rc = metacopy(path_, xmpPath, Exiv2::ImageType::xmp, false, imageCtorParams_);
     }
     if (!rc && Params::instance().target_ & Params::ctIccProfile) {
       std::string iccPath = bStdout ? "-" : newFilePath(path_, ".icc");
@@ -804,7 +810,7 @@ int Extract::run(const std::string& path) {
       std::string exvPath = bStdout ? "-" : newFilePath(path_, ".exv");
       if (dontOverwrite(exvPath))
         return 0;
-      rc = metacopy(path_, exvPath, Exiv2::ImageType::exv, false);
+      rc = metacopy(path_, exvPath, Exiv2::ImageType::exv, false, imageCtorParams_);
     }
     return rc;
   } catch (const Exiv2::Error& e) {
@@ -818,7 +824,7 @@ int Extract::writeThumbnail() const {
     std::cerr << path_ << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
-  auto image = Exiv2::ImageFactory::open(path_);
+  auto image = Exiv2::ImageFactory::open(path_, imageCtorParams_);
   image->readMetadata();
   Exiv2::ExifData& exifData = image->exifData();
   if (exifData.empty()) {
@@ -862,7 +868,7 @@ int Extract::writePreviews() const {
     return -1;
   }
 
-  auto image = Exiv2::ImageFactory::open(path_);
+  auto image = Exiv2::ImageFactory::open(path_, imageCtorParams_);
   image->readMetadata();
 
   Exiv2::PreviewManager pvMgr(*image);
@@ -898,7 +904,7 @@ int Extract::writeIccProfile(const std::string& target) const {
   bool bStdout = target == "-";
 
   if (rc == 0) {
-    auto image = Exiv2::ImageFactory::open(path_);
+    auto image = Exiv2::ImageFactory::open(path_, imageCtorParams_);
     image->readMetadata();
     if (!image->iccProfileDefined()) {
       std::cerr << _("No embedded iccProfile: ") << path_ << '\n';
@@ -965,7 +971,7 @@ int Insert::run(const std::string& path) try {
     if (Params::instance().target_ & Params::ctXmpSidecar)
       suffix = ".xmp";
     std::string exvPath = bStdin ? "-" : newFilePath(path, suffix);
-    rc = metacopy(exvPath, path, Exiv2::ImageType::none, true);
+    rc = metacopy(exvPath, path, Exiv2::ImageType::none, true, imageCtorParams_);
   }
 
   if (0 == rc && (Params::instance().target_ & (Params::ctXmpSidecar | Params::ctXmpRaw))) {
@@ -986,7 +992,7 @@ int Insert::run(const std::string& path) try {
   return 1;
 }  // Insert::run
 
-int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath) {
+int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath) const {
   int rc = 0;
   bool bStdin = xmpPath == "-";
   if (bStdin) {
@@ -1011,9 +1017,9 @@ int Insert::insertXmpPacket(const std::string& path, const std::string& xmpPath)
 
 }  // Insert::insertXmpPacket
 
-int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket) {
+int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBlob, bool usePacket) const {
   std::string xmpPacket(xmpBlob.begin(), xmpBlob.end());
-  auto image = Exiv2::ImageFactory::open(path);
+  auto image = Exiv2::ImageFactory::open(path, imageCtorParams_);
   image->readMetadata();
   image->clearXmpData();
   image->setXmpPacket(xmpPacket);
@@ -1023,7 +1029,7 @@ int Insert::insertXmpPacket(const std::string& path, const Exiv2::DataBuf& xmpBl
   return 0;
 }
 
-int Insert::insertIccProfile(const std::string& path, const std::string& iccPath) {
+int Insert::insertIccProfile(const std::string& path, const std::string& iccPath) const {
   int rc = 0;
   // for path "foo.XXX", do a binary copy of "foo.icc"
   std::string iccProfilePath = newFilePath(path, ".icc");
@@ -1043,7 +1049,7 @@ int Insert::insertIccProfile(const std::string& path, const std::string& iccPath
   return rc;
 }  // Insert::insertIccProfile
 
-int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfileBlob) {
+int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfileBlob) const {
   int rc = 0;
   // test path exists
   if (!Exiv2::fileExists(path)) {
@@ -1053,7 +1059,7 @@ int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfil
 
   // read in the metadata
   if (rc == 0) {
-    auto image = Exiv2::ImageFactory::open(path);
+    auto image = Exiv2::ImageFactory::open(path, imageCtorParams_);
     image->readMetadata();
     // clear existing profile, assign the blob and rewrite image
     image->clearIccProfile();
@@ -1066,7 +1072,7 @@ int Insert::insertIccProfile(const std::string& path, Exiv2::DataBuf&& iccProfil
   return rc;
 }  // Insert::insertIccProfile
 
-int Insert::insertThumbnail(const std::string& path) {
+int Insert::insertThumbnail(const std::string& path) const {
   std::string thumbPath = newFilePath(path, "-thumb.jpg");
   if (!Exiv2::fileExists(thumbPath)) {
     std::cerr << thumbPath << ": " << _("Failed to open the file") << "\n";
@@ -1076,7 +1082,7 @@ int Insert::insertThumbnail(const std::string& path) {
     std::cerr << path << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
-  auto image = Exiv2::ImageFactory::open(path);
+  auto image = Exiv2::ImageFactory::open(path, imageCtorParams_);
   image->readMetadata();
   Exiv2::ExifThumb exifThumb(image->exifData());
   exifThumb.setJpegThumbnail(thumbPath);
@@ -1095,7 +1101,7 @@ int Modify::run(const std::string& path) {
     if (Params::instance().preserve_)
       ts.read(path);
 
-    auto image = Exiv2::ImageFactory::open(path);
+    auto image = Exiv2::ImageFactory::open(path, imageCtorParams_);
     image->readMetadata();
 
     int rc = applyCommands(image.get());
@@ -1300,7 +1306,7 @@ int Adjust::run(const std::string& path) try {
   if (Params::instance().preserve_)
     ts.read(path);
 
-  auto image = Exiv2::ImageFactory::open(path);
+  auto image = Exiv2::ImageFactory::open(path, imageCtorParams_);
   image->readMetadata();
   Exiv2::ExifData& exifData = image->exifData();
   if (exifData.empty()) {
@@ -1443,7 +1449,7 @@ int FixIso::run(const std::string& path) {
     if (Params::instance().preserve_)
       ts.read(path);
 
-    auto image = Exiv2::ImageFactory::open(path);
+    auto image = Exiv2::ImageFactory::open(path, imageCtorParams_);
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
@@ -1487,7 +1493,7 @@ int FixCom::run(const std::string& path) {
     if (Params::instance().preserve_)
       ts.read(path);
 
-    auto image = Exiv2::ImageFactory::open(path);
+    auto image = Exiv2::ImageFactory::open(path, imageCtorParams_);
     image->readMetadata();
     Exiv2::ExifData& exifData = image->exifData();
     if (exifData.empty()) {
@@ -1651,7 +1657,8 @@ std::string temporaryPath() {
   return p.string();
 }
 
-int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType targetType, bool preserve) {
+int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType targetType, bool preserve,
+             const Exiv2::ImageCtorParams& params) {
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "actions.cpp::metacopy"
             << " source = " << source << " target = " << tgt << '\n';
@@ -1672,9 +1679,9 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
   if (bStdin) {
     Params::instance().getStdin(stdIn);
     auto ioStdin = std::make_unique<Exiv2::MemIo>(stdIn.c_data(), stdIn.size());
-    sourceImage = Exiv2::ImageFactory::open(std::move(ioStdin));
+    sourceImage = Exiv2::ImageFactory::open(std::move(ioStdin), params);
   } else {
-    sourceImage = Exiv2::ImageFactory::open(source);
+    sourceImage = Exiv2::ImageFactory::open(source, params);
   }
 
   sourceImage->readMetadata();
@@ -1687,10 +1694,10 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
 
   std::unique_ptr<Exiv2::Image> targetImage;
   if (Exiv2::fileExists(target)) {
-    targetImage = Exiv2::ImageFactory::open(target);
+    targetImage = Exiv2::ImageFactory::open(target, params);
     targetImage->readMetadata();
   } else {
-    targetImage = Exiv2::ImageFactory::create(targetType, target);
+    targetImage = Exiv2::ImageFactory::create(targetType, target, params);
   }
 
   // Copy each type of metadata
@@ -1943,12 +1950,13 @@ std::ostream& operator<<(std::ostream& os, const std::pair<std::string, int>& st
   return os << std::setw(minChCount) << str;
 }
 
-int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string& path) {
+int printStructure(std::ostream& out, Exiv2::PrintStructureOption option, const std::string& path,
+                   const Exiv2::ImageCtorParams& params) {
   if (!Exiv2::fileExists(path)) {
     std::cerr << path << ": " << _("Failed to open the file") << "\n";
     return -1;
   }
-  Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path);
+  Exiv2::Image::UniquePtr image = Exiv2::ImageFactory::open(path, params);
   image->printStructure(out, option);
   return 0;
 }

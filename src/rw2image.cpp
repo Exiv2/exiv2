@@ -94,7 +94,7 @@ void Rw2Image::readMetadata() {
     throw Error(ErrorCode::kerNotAnImage, "RW2");
   }
   clearMetadata();
-  const DecodeParams dp(max_recursion_depth_);
+  const DecodeParams dp(recursion_limit());
   ByteOrder bo = Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
   setByteOrder(bo);
 
@@ -112,7 +112,8 @@ void Rw2Image::readMetadata() {
     return;
   ExifData exifData;
   PreviewImage preview = loader.getPreviewImage(*list.begin());
-  auto image = ImageFactory::open(preview.pData(), preview.size());
+  ImageCtorParams params(false, false, recursion_limit());
+  auto image = ImageFactory::open(preview.pData(), preview.size(), params);
   if (!image) {
 #ifndef SUPPRESS_WARNINGS
     EXV_WARNING << "Failed to open RW2 preview image.\n";

@@ -82,7 +82,7 @@ void OrfImage::readMetadata() {
     throw Error(ErrorCode::kerNotAnImage, "ORF");
   }
   clearMetadata();
-  const DecodeParams dp(max_recursion_depth_);
+  const DecodeParams dp(recursion_limit());
   ByteOrder bo = OrfParser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
   setByteOrder(bo);
 }
