@@ -137,3 +137,36 @@ jobs:
       - name: Generate documentation
         run: |
           cmake --build build -t doc
+
+  special_conan:
+    name: 'Ubuntu - GCC - Conan build'
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: |
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install python3-lxml
+
+      - name: Conan common config
+        run: |
+          python3 -m pip install conan
+          conan profile detect --name default --force
+
+      - name: Run Conan
+        run: |
+          mkdir build
+          conan install . -o '&:webready=True' --build missing --output-folder=build
+
+      - name: Build
+        run: |
+          cmake --preset linux-release -S . -B build
+          cmake --build build --parallel
+
+      - name: Tests
+        run: |
+          ctest --test-dir build --output-on-failure
