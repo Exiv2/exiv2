@@ -48,10 +48,6 @@ if (EXIV2_ENABLE_NLS)
 endif( )
 
 find_package(Iconv)
-if( ICONV_FOUND )
-    message ( "-- Iconv_INCLUDE_DIRS : " ${Iconv_INCLUDE_DIRS} )
-    message ( "-- Iconv_LIBRARIES : " ${Iconv_LIBRARIES} )
-endif()
 
 if( EXIV2_ENABLE_INIH )
     find_package(inih CONFIG QUIET)
