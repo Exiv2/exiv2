@@ -48,7 +48,7 @@ if (EXIV2_ENABLE_NLS)
 endif( )
 
 find_package(Iconv)
-if( ICONV_FOUND )
+if(ICONV_FOUND AND NOT Iconv_IS_BUILT_IN)
     message ( "-- Iconv_INCLUDE_DIRS : " ${Iconv_INCLUDE_DIRS} )
     message ( "-- Iconv_LIBRARIES : " ${Iconv_LIBRARIES} )
 endif()
