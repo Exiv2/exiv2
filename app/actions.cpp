@@ -1673,6 +1673,11 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
     Params::instance().getStdin(stdIn);
     auto ioStdin = std::make_unique<Exiv2::MemIo>(stdIn.c_data(), stdIn.size());
     sourceImage = Exiv2::ImageFactory::open(std::move(ioStdin));
+    // The BasicIo overload of ImageFactory::open() returns nullptr for
+    // unrecognised data (unlike the path overload, which throws).
+    if (!sourceImage) {
+      throw Exiv2::Error(Exiv2::ErrorCode::kerMemoryContainsUnknownImageType);
+    }
   } else {
     sourceImage = Exiv2::ImageFactory::open(source);
   }
