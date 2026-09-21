@@ -30,6 +30,7 @@ headers = files(
   'exiv2/properties.hpp',
   'exiv2/psdimage.hpp',
   'exiv2/rafimage.hpp',
+  'exiv2/recursion_guard.hpp',
   'exiv2/rw2image.hpp',
   'exiv2/slice.hpp',
   'exiv2/tags.hpp',
