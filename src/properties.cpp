@@ -40,7 +40,8 @@ std::string innermostElementKey(const std::string& key) {
   if (slash == std::string::npos)
     return {};
   // Skip the array index and any other non-alphabetic characters of the path element
-  const auto prefix = std::find_if(key.begin() + slash, key.end(), [](unsigned char c) { return std::isalpha(c) != 0; });
+  const auto prefix =
+      std::find_if(key.begin() + slash, key.end(), [](unsigned char c) { return std::isalpha(c) != 0; });
   const auto colon = std::find(prefix, key.end(), ':');
   if (colon == key.end() || colon + 1 == key.end())
     return {};
