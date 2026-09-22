@@ -396,18 +396,18 @@ void replaceFileAtomically(const std::string& newPath, const std::string& pf, bo
   // (see also http://stackoverflow.com/a/11023068)
   auto ret = ReplaceFileA(pf.c_str(), newPath.c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
   if (ret == 0) {
+    // ReplaceFile() fails with ERROR_FILE_NOT_FOUND when `pf` does not exist
+    // yet, i.e. there is nothing for it to replace; fall back to a plain
+    // rename for that case. Any other failure is a genuine error.
     if (GetLastError() != ERROR_FILE_NOT_FOUND)
       throw Error(ErrorCode::kerFileRenameFailed, newPath, pf, strError());
     fs::rename(newPath, pf);
-    fs::remove(newPath);
-  } else {
-    // fs::remove() returns true if it deleted the file; throw only if it was
-    // there and remove() failed to get rid of it.
-    if (fileExists(pf) && !fs::remove(pf))
-      throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
-    fs::rename(newPath, pf);
-    fs::remove(newPath);
   }
+  // On success, ReplaceFile() has already atomically given `pf` the content
+  // of `newPath` and consumed `newPath` itself, so there is nothing left to
+  // do. Re-running the plain-rename fallback here (as this code used to)
+  // deletes the just-replaced `pf` and then tries to rename the now
+  // nonexistent `newPath` onto it, which fails with ERROR_FILE_NOT_FOUND.
 #else
   // fs::remove() returns true if it deleted the file; throw only if it was
   // there and remove() failed to get rid of it.
@@ -421,10 +421,13 @@ void replaceFileAtomically(const std::string& newPath, const std::string& pf, bo
   auto newStMode = fs::status(pf).permissions();
   // Set original file permissions
   if (statOk && origStMode != newStMode) {
-    fs::permissions(pf, origStMode);
+    std::error_code ec;
+    fs::permissions(pf, origStMode, ec);
+    if (ec) {
 #ifndef SUPPRESS_WARNINGS
-    EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::chmod") << "\n";
+      EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, ec.message(), "::chmod") << "\n";
 #endif
+    }
   }
 }
 }  // namespace
