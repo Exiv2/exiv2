@@ -27,24 +27,14 @@ jobs:
           sudo add-apt-repository ppa:ubuntu-lxc/daily -y
           wget -q -O - https://files.pvs-studio.com/etc/pubkey.txt |sudo apt-key add -
           sudo wget -O /etc/apt/sources.list.d/viva64.list https://files.pvs-studio.com/etc/viva64.list
-          sudo apt update -qq
-          sudo apt install -qq pvs-studio
-
-      - name: Conan common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build
-          conan install . -o webready=True --build missing --output-folder=build -s build_type=Debug -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get -qq update
+          sudo eatmydata apt-get -y -qq install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev pvs-studio
 
       - name: Configure
         run: |
           cmake --preset linux-debug -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-      - name: Static Analysis
+      - name: Static analysis
         env:
           PVS_USERNAME: ${{ secrets.PVS_USERNAME }}
           PVS_KEY: ${{ secrets.PVS_KEY }}
@@ -59,5 +49,3 @@ jobs:
           name: static_analysis
           path: build/pvsReportHtml
           retention-days: 7
-
-
