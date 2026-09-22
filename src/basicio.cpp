@@ -504,11 +504,11 @@ void FileIo::transfer(BasicIo& src) {
       static std::atomic<unsigned> tmpFileCounter{0};
       const std::string tmp = stringFormat("{}.exv-tmp-{}-{}", pf,
 #ifdef _WIN32
-                                            _getpid(),
+                                           _getpid(),
 #else
-                                            getpid(),
+                                           getpid(),
 #endif
-                                            tmpFileCounter++);
+                                           tmpFileCounter++);
 
       FileIo tmpIo(tmp);
       if (tmpIo.open("w+b") != 0) {
