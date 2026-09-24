@@ -813,7 +813,12 @@ int MemIo::seek(int64_t offset, Position pos) {
   return 0;
 }
 
-byte* MemIo::mmap(bool /*isWriteable*/) {
+byte* MemIo::mmap(bool isWriteable) {
+  if (isWriteable && !p_->isMalloced_) {
+    // Trigger copy-on-write: make an owned, writable copy of the
+    // borrowed buffer before handing it out (same path as MemIo::write()).
+    p_->reserve(0);
+  }
   return p_->data_;
 }
 
