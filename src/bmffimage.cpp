@@ -225,11 +225,12 @@ void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBuf
 
 uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintStructureOption option /* = kpsNone */,
                                uint64_t pbox_end, size_t depth) {
+  RECURSION_GUARD(recursion_limit_);
   const size_t address = io_->tell();
   // never visit a box twice!
   if (depth == 0)
     visits_.clear();
-  if (visits_.contains(address) || visits_.size() > visits_max_ || depth >= max_recursion_depth_) {
+  if (visits_.contains(address) || visits_.size() > visits_max_) {
     throw Error(ErrorCode::kerCorruptedMetadata);
   }
   visits_.insert(address);
@@ -532,7 +533,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
 #ifdef EXV_HAVE_BROTLI
       DataBuf arr;
       brotliUncompress(data.c_data(4), data.size() - 4, arr);
-      const DecodeParams dp(max_recursion_depth_);
+      const DecodeParams dp(recursion_limit());
       if (realType == TAG::exif) {
         uint32_t offset = Safe::add(arr.read_uint32(0, endian_), 4u);
         Internal::enforce(Safe::add(offset, 4u) < arr.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
@@ -602,7 +603,7 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length, uint64_t start) {
         punt = i;
     }
     if (punt != eof) {
-      const DecodeParams dp(max_recursion_depth_);
+      const DecodeParams dp(recursion_limit());
       Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), exif.c_data(punt), exif.size() - punt,
                                          root_tag, Internal::TiffMapping::findDecoder, dp);
     }
@@ -622,7 +623,7 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length) {
     if (bufRead != data.size())
       throw Error(ErrorCode::kerInputDataReadFailed);
 
-    const DecodeParams dp(max_recursion_depth_);
+    const DecodeParams dp(recursion_limit());
     Internal::TiffParserWorker::decode(exifData(), iptcData(), xmpData(), data.c_data(), data.size(), root_tag,
                                        Internal::TiffMapping::findDecoder, dp);
   }
@@ -643,7 +644,7 @@ void BmffImage::parseXmp(uint64_t length, uint64_t start) {
   if (io_->error())
     throw Error(ErrorCode::kerFailedToReadImageData);
   try {
-    const DecodeParams dp(max_recursion_depth_);
+    const DecodeParams dp(recursion_limit());
     Exiv2::XmpParser::decode(xmpData(), std::string(xmp.c_str()), dp);
   } catch (...) {
     throw Error(ErrorCode::kerFailedToReadImageData);

@@ -16,7 +16,7 @@ class QuickTimeVideoNikonTagsDecoderOutOfBoundsRead(metaclass=CaseMeta):
     retval = [1]
     stderr = [
         """$exiv2_exception_message $filename:
-$kerCorruptedMetadata
+$kerMaxRecursionDepth
 """
     ]
     stdout = [""]
