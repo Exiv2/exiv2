@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from system_tests import CaseMeta, CopyTmpFiles, path
-@CopyTmpFiles("$data_path/Stonehenge.exv")
+import shutil
+from system_tests import CaseMeta, path
 
 class test_exifprint_lint(metaclass=CaseMeta):
     url       = "https://github.com/Exiv2/exiv2/pull/1738"
-    filename  = path("$tmp_path/Stonehenge.exv")
+    # test_issue_1473 and test_issue_1484 from the bugfixes suite modify
+    # tmp_path/Stonehenge.exv and that suite can run at the same time as this
+    # one, so this test uses a file name of its own.
+    original  = path("$data_path/Stonehenge.exv")
+    filename  = path("$tmp_path/Stonehenge_exifprint_lint.exv")
+
+    def setUp(self):
+        shutil.copyfile(self.original, self.filename)
+
     commands  = [ "$exifprint --lint                                  $filename" 
                 , '$exiv2 -M"set Exif.Image.ImageDescription Short 3" $filename'
                 , "$exifprint --lint                                  $filename"
