@@ -12,6 +12,7 @@
 #include "types.hpp"
 
 #include <algorithm>
+#include <atomic>   // for the temporary file name counter in FileIo::transfer
 #include <cstdio>   // for remove, rename
 #include <cstdlib>  // for alloc, realloc, free
 #include <cstring>  // std::memcpy
@@ -380,6 +381,57 @@ size_t FileIo::write(BasicIo& src) {
   return writeTotal;
 }
 
+namespace {
+// Atomically replace `pf` with the file currently at `newPath` (which must be
+// removed or renamed by the time this returns), then restore `pf`'s original
+// permissions. Shared by both branches of FileIo::transfer() below: the
+// FileIo-source branch, where `newPath` is the caller's temporary file, and
+// the generic branch, where `newPath` is a temporary file written internally.
+void replaceFileAtomically(const std::string& newPath, const std::string& pf, bool statOk, fs::perms origStMode) {
+#if defined(_WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
+  // Windows implementation that deals with the fact that ::rename fails
+  // if the target filename still exists, which regularly happens when
+  // that file has been opened with FILE_SHARE_DELETE by another process,
+  // like a virus scanner or disk indexer
+  // (see also http://stackoverflow.com/a/11023068)
+  auto ret = ReplaceFileA(pf.c_str(), newPath.c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
+  if (ret == 0) {
+    // ReplaceFile() fails with ERROR_FILE_NOT_FOUND when `pf` does not exist
+    // yet, i.e. there is nothing for it to replace; fall back to a plain
+    // rename for that case. Any other failure is a genuine error.
+    if (GetLastError() != ERROR_FILE_NOT_FOUND)
+      throw Error(ErrorCode::kerFileRenameFailed, newPath, pf, strError());
+    fs::rename(newPath, pf);
+  }
+  // On success, ReplaceFile() has already atomically given `pf` the content
+  // of `newPath` and consumed `newPath` itself, so there is nothing left to
+  // do. Re-running the plain-rename fallback here (as this code used to)
+  // deletes the just-replaced `pf` and then tries to rename the now
+  // nonexistent `newPath` onto it, which fails with ERROR_FILE_NOT_FOUND.
+#else
+  // fs::remove() returns true if it deleted the file; throw only if it was
+  // there and remove() failed to get rid of it.
+  if (fileExists(pf) && !fs::remove(pf)) {
+    throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
+  }
+  fs::rename(newPath, pf);
+  fs::remove(newPath);
+#endif
+  // Check permissions of new file
+  auto newStMode = fs::status(pf).permissions();
+  // Set original file permissions
+  if (statOk && origStMode != newStMode) {
+    std::error_code ec;
+    fs::permissions(pf, origStMode, ec);
+    if (ec) {
+#ifndef SUPPRESS_WARNINGS
+      EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, ec.message(), "::chmod") << "\n";
+#endif
+    }
+  }
+}
+}  // namespace
+
 void FileIo::transfer(BasicIo& src) {
   const bool wasOpen = (p_->fp_ != nullptr);
   const std::string lastMode(p_->openMode_);
@@ -405,54 +457,82 @@ void FileIo::transfer(BasicIo& src) {
     }
     origStMode = buf1.st_mode;
 
-    {
-#if defined(_WIN32) && defined(REPLACEFILE_IGNORE_MERGE_ERRORS)
-      // Windows implementation that deals with the fact that ::rename fails
-      // if the target filename still exists, which regularly happens when
-      // that file has been opened with FILE_SHARE_DELETE by another process,
-      // like a virus scanner or disk indexer
-      // (see also http://stackoverflow.com/a/11023068)
-      auto ret =
-          ReplaceFileA(pf.c_str(), fileIo->path().c_str(), nullptr, REPLACEFILE_IGNORE_MERGE_ERRORS, nullptr, nullptr);
-      if (ret == 0) {
-        if (GetLastError() != ERROR_FILE_NOT_FOUND)
-          throw Error(ErrorCode::kerFileRenameFailed, fileIo->path(), pf, strError());
-        fs::rename(fileIo->path(), pf);
-        fs::remove(fileIo->path());
-      } else {
-        if (fileExists(pf) && fs::remove(pf) != 0)
-          throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
-        fs::rename(fileIo->path(), pf);
-        fs::remove(fileIo->path());
-      }
-#else
-      if (fileExists(pf) && fs::remove(pf) != 0) {
-        throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
-      }
-      fs::rename(fileIo->path(), pf);
-      fs::remove(fileIo->path());
-#endif
-      // Check permissions of new file
-      auto newStMode = fs::status(pf).permissions();
-      // Set original file permissions
-      if (statOk && origStMode != newStMode) {
-        fs::permissions(pf, origStMode);
-#ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << Error(ErrorCode::kerCallFailed, pf, strError(), "::chmod") << "\n";
-#endif
-      }
-    }
+    replaceFileAtomically(fileIo->path(), pf, statOk, origStMode);
   }  // if (fileIo)
   else {
-    // Generic handling, reopen both to reset to start
-    if (open("w+b") != 0) {
-      throw Error(ErrorCode::kerFileOpenFailed, path(), "w+b", strError());
+    // Generic handling. Before this fix, the target was reopened here with
+    // "w+b", which truncates it immediately, then the new content was
+    // written on top. A crash, a failing src.open(), or an I/O error during
+    // the write left the target as a truncated file with the old content
+    // gone and the new content incomplete, with no way to recover the
+    // original (issue #9482).
+    //
+    // When the target has no other hard links, fix this by mirroring the
+    // FileIo-source branch above: write the new content into a temporary
+    // file next to the target, then rename it into place only once the
+    // write is known to be complete, so the target is never opened for
+    // writing and never at risk. This is *not* done unconditionally: a
+    // rename gives the target path a new inode, which would silently leave
+    // any other hard link to the same file holding the stale, pre-write
+    // content. tests/bugfixes/redmine/test_issue_812.py specifically
+    // requires that a metadata write is visible through every hard link to
+    // the file, so for a hard-linked target this falls back to the previous
+    // truncate-and-write-in-place behavior, keeping that guarantee at the
+    // cost of keeping the original crash window for that less common case.
+    const auto& pf = path();
+    std::error_code ec;
+    const auto linkCount = fs::hard_link_count(pf, ec);
+    const bool canReplaceAtomically = !ec && linkCount <= 1;
+
+    if (!canReplaceAtomically) {
+      if (open("w+b") != 0) {
+        throw Error(ErrorCode::kerFileOpenFailed, path(), "w+b", strError());
+      }
+      if (src.open() != 0) {
+        throw Error(ErrorCode::kerDataSourceOpenFailed, src.path(), strError());
+      }
+      write(src);
+      src.close();
+    } else {
+      close();
+
+      bool statOk = true;
+      fs::perms origStMode;
+      Impl::StructStat buf1;
+      if (p_->stat(buf1) == -1) {
+        statOk = false;
+      }
+      origStMode = buf1.st_mode;
+
+      static std::atomic<unsigned> tmpFileCounter{0};
+      const std::string tmp = stringFormat("{}.exv-tmp-{}-{}", pf,
+#ifdef _WIN32
+                                           _getpid(),
+#else
+                                           getpid(),
+#endif
+                                           tmpFileCounter++);
+
+      FileIo tmpIo(tmp);
+      if (tmpIo.open("w+b") != 0) {
+        throw Error(ErrorCode::kerFileOpenFailed, tmp, "w+b", strError());
+      }
+      if (src.open() != 0) {
+        tmpIo.close();
+        fs::remove(tmp);
+        throw Error(ErrorCode::kerDataSourceOpenFailed, src.path(), strError());
+      }
+      tmpIo.write(src);
+      const bool writeFailed = tmpIo.error() || src.error();
+      src.close();
+      tmpIo.close();
+      if (writeFailed) {
+        fs::remove(tmp);
+        throw Error(ErrorCode::kerTransferFailed, pf, strError());
+      }
+
+      replaceFileAtomically(tmp, pf, statOk, origStMode);
     }
-    if (src.open() != 0) {
-      throw Error(ErrorCode::kerDataSourceOpenFailed, src.path(), strError());
-    }
-    write(src);
-    src.close();
   }
 
   if (wasOpen) {
