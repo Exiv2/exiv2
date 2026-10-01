@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <exiv2/basicio.hpp>
 #include <exiv2/matroskavideo.hpp>
 #include "unittest_utils.hpp"
+
+#include "mock_basicio.hpp"
 
 using namespace Exiv2;
 
@@ -21,8 +24,15 @@ TEST(MatroskaVideo, mimeTypeIsMkv) {
 }
 
 TEST(MatroskaVideo, isMkvTypewithEmptyDataReturnsFalse) {
-  MemIo memIo;
-  ASSERT_FALSE(isMkvType(memIo, false));
+  auto mockIo = makeMockIo();
+  setupReadFailure(*mockIo);
+  ASSERT_FALSE(isMkvType(*mockIo, false));
+}
+
+TEST(MatroskaVideo, isMkvTypeWithValidSignatureReturnsTrue) {
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x1a, 0x45, 0xdf, 0xa3});
+  ASSERT_TRUE(isMkvType(*mockIo, false));
 }
 
 TEST(MatroskaVideo, emptyThrowError) {
