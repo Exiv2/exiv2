@@ -2,6 +2,7 @@
 
 // included header files
 #include "minoltamn_int.hpp"
+#include "canonmn_int.hpp"
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
@@ -1818,6 +1819,50 @@ static std::ostream& resolveLens0xffff(std::ostream& os, const Value& value, con
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 
+//! Canon EF lenses on an EF-E adapter (Metabones Smart Adapter, Sigma MC-11, Fotodiox, Viltrox) report
+//! 0xef00 + Canon LensType, which gives these high bytes (See ExifTool for reference)
+static constexpr uint32_t canonEfAdapterOffset = 0xef00;
+
+static bool isCanonEfAdapterLens(uint32_t id) {
+  // Also handling some exceptions first.
+  // The exceptions are mostly inspired by Etxiftool.
+
+  // Sigma 16mm F2.8 Filtermatic Fisheye
+  if (id == 0xff00)
+    return false;
+
+  // E-mount, manual or no lens
+  if (id == 0xffff)
+    return false;
+
+  switch (id & 0xff00) {
+    case 0xef00:  // Canon LensType 0x00xx
+    case 0xf000:  // Canon LensType 0x01xx
+    case 0xf100:  // Canon LensType 0x02xx
+    case 0xff00:  // Canon LensType 0x10xx
+      return true;
+    default:
+      return false;
+  }
+}
+
+static std::ostream& resolveCanonEfAdapterLens(std::ostream& os, const Value& value, const ExifData* metadata) {
+  try {
+    const auto canonLensType = static_cast<int64_t>(value.toUint32()) - canonEfAdapterOffset;
+
+    const long flMin = getKeyLong("Exif.Photo.LensSpecification", metadata, 0);
+    const long flMax = getKeyLong("Exif.Photo.LensSpecification", metadata, 1);
+    const auto apertureValue = metadata->findKey(ExifKey("Exif.Photo.MaxApertureValue"));
+
+    if (flMin > 0 && flMax > 0 && apertureValue != metadata->end() && apertureValue->count() == 1) {
+      const float aperMax = fnumber(apertureValue->toFloat());
+      return printCanonLensType(os, canonLensType, flMin, flMax, aperMax);
+    }
+  } catch (...) {
+  }
+  return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
+}
+
 std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const ExifData* metadata) {
   //! List of lens ids which require special treatment from printMinoltaSonyLensID
   static constexpr struct LensIdFct {
@@ -1848,9 +1893,12 @@ std::ostream& printMinoltaSonyLensID(std::ostream& os, const Value& value, const
 
   // #1145 - respect lenses with shared LensID
   uint32_t index = value.toUint32();
-  if (metadata)
+  if (metadata) {
     if (auto f = Exiv2::find(lensIdFct, index))
       return f->fct(os, value, metadata);
+    if (isCanonEfAdapterLens(index))
+      return resolveCanonEfAdapterLens(os, value, metadata);
+  }
   return EXV_PRINT_TAG(minoltaSonyLensID)(os, value, metadata);
 }
 
