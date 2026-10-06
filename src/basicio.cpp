@@ -1620,7 +1620,7 @@ int64_t CurlIo::CurlImpl::getFileLength() {
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
   // get status
-  int serverCode;
+  long serverCode;
   curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
   if (serverCode >= 400 || serverCode < 0) {
     throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
@@ -1652,7 +1652,7 @@ void CurlIo::CurlImpl::getDataByRange(size_t startBlock, size_t stopBlock, std::
   if (auto res = curl_easy_perform(curl_); res != CURLE_OK) {
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
-  int serverCode;
+  long serverCode;
   curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);  // get code
   if (serverCode >= 400 || serverCode < 0) {
     throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
@@ -1699,7 +1699,7 @@ void CurlIo::CurlImpl::writeRemote(const byte* data, size_t size, size_t from, s
   if (auto res = curl_easy_perform(curl_); res != CURLE_OK) {
     throw Error(ErrorCode::kerErrorMessage, curl_easy_strerror(res));
   }
-  int serverCode;
+  long serverCode;
   curl_easy_getinfo(curl_, CURLINFO_RESPONSE_CODE, &serverCode);
   if (serverCode >= 400 || serverCode < 0) {
     throw Error(ErrorCode::kerFileOpenFailed, "http", serverCode, path_);
