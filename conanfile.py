@@ -28,7 +28,7 @@ class Exiv2Conan(ConanFile):
         self.requires('fmt/12.2.0')
 
         if self.options.webready:
-            self.requires('libcurl/8.21.0')
+            self.requires('libcurl/8.22.0')
 
         if self.settings.os == "Windows" and self.options.iconv:
             self.requires('libiconv/1.18')
@@ -39,4 +39,4 @@ class Exiv2Conan(ConanFile):
         if self.options.xmp:
             self.requires('XmpSdk/2016.7@piponazo/stable') # from conan-piponazo
         else:
-            self.requires('expat/2.8.3')
+            self.requires('expat/2.9.0')
