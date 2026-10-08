@@ -87,8 +87,8 @@ class XMLValidator {
   }
 
   void setError(const char* msg) {
-    const XML_Size errlinenum = XML_GetCurrentLineNumber(parser_);
-    const XML_Size errcolnum = XML_GetCurrentColumnNumber(parser_);
+    const XML_Size errlinenum = XML_GetCurrentLineNumber64(parser_);
+    const XML_Size errcolnum = XML_GetCurrentColumnNumber64(parser_);
 #ifndef SUPPRESS_WARNINGS
     EXV_INFO << "Invalid XML at line " << errlinenum << ", column " << errcolnum << ": " << msg << "\n";
 #endif
