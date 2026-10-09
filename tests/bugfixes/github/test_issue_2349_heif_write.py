@@ -33,6 +33,8 @@ class HeifMetadataWriting(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0)
         return result.stdout
 
+    @unittest.skipUnless(system_tests.BT.verbose_version().get("have_xmptoolkit") == "1",
+                         "requires structured XMP editing")
     def test_extract_clear_and_insert_metadata(self):
         target = self.copy("Stonehenge.heic")
         self.run_exiv2("-M", "set Exif.Image.Artist HEIF_EXIF_CANARY_627c",
