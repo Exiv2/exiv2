@@ -1529,6 +1529,31 @@ TEST(HeifImage, readsAndReplacesMultiplePrimaryMetadataItems) {
   EXPECT_EQ(imageBytes(*image), source);
 }
 
+TEST(HeifImage, mergesDuplicateExifGroupsInFileOrder) {
+  ExifData first, second;
+  first["Exif.Image.Make"] = "retained";
+  first["Exif.Image.Artist"] = "old first";
+  auto value = Value::create(asciiString);
+  value->read("old second");
+  first.add(ExifKey("Exif.Image.Artist"), value.get());
+  second["Exif.Image.Model"] = "new model";
+  second["Exif.Image.Artist"] = "new first";
+  value->read("new second");
+  second.add(ExifKey("Exif.Image.Artist"), value.get());
+  Options options;
+  options.secondExif = true;
+  options.exifPayload = tiffItem(first);
+  options.xmpPayload = tiffItem(second);
+  auto image = openHeif(fixture(options));
+  std::vector<std::string> artists;
+  for (const auto& datum : image->exifData())
+    if (datum.key() == "Exif.Image.Artist")
+      artists.push_back(datum.toString());
+  EXPECT_EQ(artists, (std::vector<std::string>{"new first", "new second"}));
+  EXPECT_EQ(image->exifData()["Exif.Image.Make"].toString(), "retained");
+  EXPECT_EQ(image->exifData()["Exif.Image.Model"].toString(), "new model");
+}
+
 TEST(HeifImage, updatesIdatMetadataAndWideItemIds) {
   ExifData exif;
   exif["Exif.Image.Artist"] = "PRIVATE_IDAT_METADATA_7703";
