@@ -17,6 +17,8 @@
 #include <array>
 #include <cerrno>
 #include <cstring>
+#include <iterator>
+#include <list>
 #include <map>
 #include <ostream>
 #include <set>
@@ -54,24 +56,39 @@ std::string encodeXmp(const XmpData& data) {
   return packet;
 }
 
-void merge(ExifData& target, const ExifData& source) {
-  std::set<std::string> keys;
-  for (const auto& datum : source)
-    keys.insert(datum.key());
-  target.erase(std::remove_if(target.begin(), target.end(), [&](const auto& d) { return keys.contains(d.key()); }),
-               target.end());
-  for (const auto& datum : source)
-    target.add(datum);
-}
-
-void merge(XmpData& target, const XmpData& source) {
-  for (const auto& datum : source) {
-    auto found = target.findKey(XmpKey(datum.key()));
-    if (found != target.end())
-      target.erase(found);
-    target.add(datum);
+// Keep last-item precedence without rescanning all previously decoded tags for
+// each item. The list preserves file order; the index removes superseded groups.
+template <typename Data>
+class MetadataMerger {
+ public:
+  void add(const Data& source, bool preserveDuplicates = false) {
+    std::set<std::string> seen;
+    for (const auto& datum : source) {
+      const auto key = datum.key();
+      if (!preserveDuplicates || seen.insert(key).second) {
+        if (auto found = index_.find(key); found != index_.end()) {
+          for (auto entry : found->second)
+            values_.erase(entry);
+          index_.erase(found);
+        }
+      }
+      values_.push_back(datum);
+      index_[key].push_back(std::prev(values_.end()));
+    }
   }
-}
+
+  Data data() const {
+    Data result;
+    for (const auto& datum : values_)
+      result.add(datum);
+    return result;
+  }
+
+ private:
+  using Datum = typename std::iterator_traits<typename Data::iterator>::value_type;
+  std::list<Datum> values_;
+  std::map<std::string, std::vector<typename std::list<Datum>::iterator>> index_;
+};
 
 // Compare raw values, preserving duplicate tags and attached thumbnail data.
 template <typename Data>
@@ -113,6 +130,8 @@ struct Metadata {
 
 Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodeParams& params) {
   Metadata metadata;
+  MetadataMerger<ExifData> exifMerger;
+  MetadataMerger<XmpData> embeddedMerger;
   uint64_t total = 0;
   auto read = [&](uint32_t id) {
     auto bytes = readBmffItem(io, document.items.at(id), bmffMetadataLimit - total);
@@ -148,12 +167,17 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
       rememberPacket(std::string(packet.begin(), packet.end()));
 #endif
     }
-    merge(metadata.exif, exif);
+    exifMerger.add(exif, true);
     for (const auto& datum : iptc)
       metadata.iptc.add(datum);
-    merge(metadata.embeddedXmp, xmp);
+    embeddedMerger.add(xmp);
   }
-  metadata.xmp = metadata.embeddedXmp;
+  metadata.exif = exifMerger.data();
+  metadata.embeddedXmp = embeddedMerger.data();
+#ifdef EXV_HAVE_XMP_TOOLKIT
+  MetadataMerger<XmpData> xmpMerger;
+  xmpMerger.add(metadata.embeddedXmp);
+#endif
   auto xmpIds = document.metadataItems(bmffType("mime"));
   for (auto id : xmpIds) {
     supported(document.items.at(id).info.contentEncoding.empty(), "compressed primary XMP");
@@ -162,13 +186,14 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
 #ifdef EXV_HAVE_XMP_TOOLKIT
     XmpData xmp;
     enforce(XmpParser::decode(xmp, packet, params) == 0, ErrorCode::kerInvalidXMP);
-    merge(metadata.xmp, xmp);
+    xmpMerger.add(xmp);
     metadata.packet = std::move(packet);
 #else
     rememberPacket(packet);
 #endif
   }
 #ifdef EXV_HAVE_XMP_TOOLKIT
+  metadata.xmp = xmpMerger.data();
   if (xmpIds.size() != 1 || !metadata.embeddedXmp.empty())
     metadata.packet = encodeXmp(metadata.xmp);
 #endif
