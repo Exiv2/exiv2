@@ -102,10 +102,12 @@ Exif.OlympusCs.NoiseFilter                   SShort      3  0 -2 1  Standard
 Exif.OlympusCs.ArtFilter                     Short       4  39 4352 0 5  Partial Color (position 6)
 Exif.OlympusCs.DriveMode                     Short       5  0 0 0 0 0  0 0 0 0 0
 Exif.OlympusCs.PanoramaMode                  Short       2  0 0  0 0
-Exif.OlympusCs.ImageStabilization            Long        1  4  S-IS AUTO
+Exif.OlympusCs.ImageStabilization            Long        1  4  S-IS Auto
+Exif.OlympusCs.StackedImage                  Long        2  0 0  No
 Exif.OlympusCs.ManometerPressure             Short       1  0  0
 Exif.OlympusCs.ManometerReading              SLong       2  0 0  0 0
 Exif.OlympusCs.ExtendedWBDetect              Short       1  0  Off
+Exif.OlympusCs.DateTimeUTC                   Ascii      20  2022:05:31 15:48:25  2022:05:31 15:48:25
 Exif.Olympus2.RawDevelopment                 Ifd         1  2650  2650
 Exif.OlympusRd.RawDevVersion                 Undefined   4  48 49 48 48  1.00
 Exif.OlympusRd.ExposureBiasValue             SRational   1  0/1  0/1
