@@ -1764,8 +1764,7 @@ int metacopy(const std::string& source, const std::string& tgt, Exiv2::ImageType
   Exiv2::Image::UniquePtr sourceImage;
   if (bStdin) {
     Params::instance().getStdin(stdIn);
-    auto ioStdin = std::make_unique<Exiv2::MemIo>(stdIn.c_data(), stdIn.size());
-    sourceImage = Exiv2::ImageFactory::open(std::move(ioStdin));
+    sourceImage = Exiv2::ImageFactory::open(stdIn.c_data(), stdIn.size());
   } else {
     sourceImage = Exiv2::ImageFactory::open(source);
   }

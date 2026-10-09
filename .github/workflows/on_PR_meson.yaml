@@ -1,6 +1,9 @@
 name: On PRs - meson
 
-on: pull_request
+on:
+  pull_request:
+    paths-ignore:
+      - '*.md'
 
 concurrency:
   group: ${{github.workflow}}-${{github.head_ref}}
@@ -112,6 +115,8 @@ jobs:
           python -m pip install lxml meson ninja
 
       - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.platform}}
 
       - name: Compile and Test
         env:

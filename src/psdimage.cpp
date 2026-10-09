@@ -532,7 +532,7 @@ void PsdImage::doWriteMetadata(BasicIo& outIo) {
   if (outIo.error())
     throw Error(ErrorCode::kerImageWriteFailed);
 
-    // Update length of resources
+  // Update length of resources
 #ifdef EXIV2_DEBUG_MESSAGES
   std::cerr << "newResLength: " << newResLength << "\n";
 #endif

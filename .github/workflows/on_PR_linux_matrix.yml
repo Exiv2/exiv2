@@ -27,32 +27,22 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt install -y tree ninja-build python3-lxml
-
-      - name: Conan common config
-        run: |
-          python3 -m pip install conan
-          conan profile detect --name default --force
-
-      - name: Run Conan
-        run: |
-          mkdir build-base_linux
-          conan install . -o webready=True --build missing --output-folder=build-base_linux -s build_type=${{matrix.build_type}} -s compiler.libcxx=libstdc++11
+          sudo eatmydata apt-get update
+          sudo eatmydata apt-get -y install libbrotli-dev libcurl4-openssl-dev libinih-dev libgmock-dev python3-lxml
 
       - name: Build
         run: |
-          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
-          cmake --build build-base_linux --parallel
+          cmake --preset base_linux -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
+          cmake --build build --parallel
 
       - name: Install
         run: |
-          cd build-base_linux
-          cmake --install .
+          cmake --install build
 
       - name: Test
         run: |
-          cd build-base_linux
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure
+
   Alpine:
     name: 'Alpine Edge - GCC, BuildType:${{matrix.build_type}}, SHARED:${{matrix.shared_libraries}} ARCH:${{matrix.arch}}'
     runs-on: ubuntu-latest
@@ -80,9 +70,8 @@ jobs:
             build-base cmake samurai brotli-dev curl-dev expat-dev inih-inireader-dev gtest-dev python3-dev zlib-dev
       - name: Build
         run: |
-          cmake --preset base_linux -S . -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
-          cmake --build build-base_linux --parallel
+          cmake --preset base_linux -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DBUILD_SHARED_LIBS=${{matrix.shared_libraries}}
+          cmake --build build --parallel
       - name: Test
         run: |
-          cd build-base_linux
-          ctest --output-on-failure
+          ctest --test-dir build --output-on-failure

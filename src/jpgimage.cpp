@@ -504,7 +504,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
 #ifdef EXIV2_DEBUG_MESSAGES
             if (start < max)
               std::cout << "  FFF start = " << start << '\n';
-              // << " index = " << pFFF->dwIndexOff << '\n';
+            // << " index = " << pFFF->dwIndexOff << '\n';
 #endif
           }
 

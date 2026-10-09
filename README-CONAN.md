@@ -1,5 +1,17 @@
 ![Exiv2](exiv2.png)
 
+# NOTE
+
+This document was written for [Conan V1](https://docs.conan.io/1/).
+We upgraded to Conan V2 in https://github.com/Exiv2/exiv2/pull/9487,
+so some of the commands mentioned in this document are no longer
+accurate.  But we are preserving this document because it's still
+useful as an overview of how the conan system works.
+
+For the most up-to-date instructions on how to build Exiv2 with conan,
+it's best to consult our build workflows in the `.github/workflows`
+directory.
+
 # Building Exiv2 and dependencies with conan
 
 Conan is a portable package manager for C/C++ libraries. It can be used to create all  dependencies needed to build Exiv2, without needing to install system packages.
