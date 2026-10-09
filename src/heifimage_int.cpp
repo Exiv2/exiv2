@@ -33,11 +33,13 @@ namespace Exiv2::Internal {
 namespace {
 using Bytes = std::vector<byte>;
 
+// Reject unsupported edits before they can replace the source stream.
 void supported(bool condition, std::string_view reason) {
   if (!condition)
     throw Error(ErrorCode::kerErrorMessage, std::string("Unsupported HEIF edit: ") + std::string(reason));
 }
 
+// Read a bounded property payload from a validated absolute input span.
 Bytes readRange(BasicIo& io, BmffSpan span) {
   supported(span.size <= bmffMetadataLimit, "metadata exceeds the allocation limit");
   Bytes bytes(static_cast<size_t>(span.size));
@@ -46,9 +48,11 @@ Bytes readRange(BasicIo& io, BmffSpan span) {
   return bytes;
 }
 
+// Serialize structured XMP compactly; empty data denotes an absent packet.
 std::string encodeXmp(const XmpData& data) {
   if (data.empty())
     return {};
+
   std::string packet;
   enforce(XmpParser::encode(packet, data, XmpParser::useCompactFormat | XmpParser::omitAllFormatting) == 0,
           ErrorCode::kerInvalidXMP);
@@ -61,9 +65,11 @@ std::string encodeXmp(const XmpData& data) {
 template <typename Data>
 class MetadataMerger {
  public:
+  //! @brief Merge the next item, retaining duplicate Exif values within its winning key group.
   void add(const Data& source, bool preserveDuplicates = false) {
     std::set<std::string> seen;
     for (const auto& datum : source) {
+      // Remove a superseded group once, but preserve duplicates within the incoming Exif item.
       const auto key = datum.key();
       if (!preserveDuplicates || seen.insert(key).second) {
         if (auto found = index_.find(key); found != index_.end()) {
@@ -72,11 +78,13 @@ class MetadataMerger {
           index_.erase(found);
         }
       }
+
       values_.push_back(datum);
       index_[key].push_back(std::prev(values_.end()));
     }
   }
 
+  //! @brief Materialize the accumulated metadata in its surviving file order.
   Data data() const {
     Data result;
     for (const auto& datum : values_)
@@ -95,6 +103,8 @@ template <typename Data>
 bool sameData(const Data& a, const Data& b) {
   if (a.count() != b.count())
     return false;
+
+  // Compare canonical raw values and attached data areas, independent of container offsets.
   auto snapshot = [](const Data& data) {
     std::multimap<std::string, std::pair<TypeId, Bytes>> values;
     uint64_t total = 0;
@@ -104,7 +114,9 @@ bool sameData(const Data& a, const Data& b) {
       Bytes bytes(datum.size());
       if (!bytes.empty())
         datum.copy(bytes.data(), littleEndian);
+
       supported(datum.value().sizeDataArea() <= bmffMetadataLimit - total, "metadata exceeds the allocation limit");
+
       auto area = datum.value().dataArea();
       total += area.size();
       if (!area.empty())
@@ -113,9 +125,11 @@ bool sameData(const Data& a, const Data& b) {
     }
     return values;
   };
+
   return snapshot(a) == snapshot(b);
 }
 
+// Decoded primary metadata plus the raw packet and image properties needed for preservation.
 struct Metadata {
   ExifData exif;
   IptcData iptc;
@@ -128,16 +142,20 @@ struct Metadata {
   uint32_t width{}, height{};
 };
 
+// Decode primary-image items in file order and retain the state needed for later writes.
 Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodeParams& params) {
   Metadata metadata;
   MetadataMerger<ExifData> exifMerger;
   MetadataMerger<XmpData> embeddedMerger;
   uint64_t total = 0;
+
+  // Charge all Exif and XMP payloads to one aggregate allocation budget.
   auto read = [&](uint32_t id) {
     auto bytes = readBmffItem(io, document.items.at(id), bmffMetadataLimit - total);
     total += bytes.size();
     return bytes;
   };
+
 #ifndef EXV_HAVE_XMP_TOOLKIT
   // Without a toolkit, preserve packets exactly. Different packets cannot be
   // merged when several primary metadata items must become one new Exif item.
@@ -149,6 +167,7 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
   };
 #endif
   for (auto id : document.metadataItems(bmffType("Exif"))) {
+    // Exif offsets are relative to the byte after the four-byte HEIF prefix.
     auto bytes = read(id);
     enforce(bytes.size() >= 12, ErrorCode::kerCorruptedMetadata);
     const auto offset = getULong(bytes.data(), bigEndian);
@@ -159,6 +178,8 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
     auto order = TiffParser::decode(exif, iptc, xmp, bytes.data() + 4 + offset, bytes.size() - 4 - offset, params);
     enforce(order != invalidByteOrder, ErrorCode::kerCorruptedMetadata);
     metadata.order = order;
+
+    // Remember embedded packets even when structured XMP decoding is unavailable.
     if (auto xml = exif.findKey(ExifKey("Exif.Image.XMLPacket")); xml != exif.end()) {
       metadata.hasEmbeddedXmp = true;
 #ifndef EXV_HAVE_XMP_TOOLKIT
@@ -167,6 +188,8 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
       rememberPacket(std::string(packet.begin(), packet.end()));
 #endif
     }
+
+    // Later Exif items replace earlier keys while retaining their own duplicate values.
     exifMerger.add(exif, true);
     for (const auto& datum : iptc)
       metadata.iptc.add(datum);
@@ -174,6 +197,8 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
   }
   metadata.exif = exifMerger.data();
   metadata.embeddedXmp = embeddedMerger.data();
+
+  // Separate MIME XMP takes precedence over the XMP embedded in Exif.
 #ifdef EXV_HAVE_XMP_TOOLKIT
   MetadataMerger<XmpData> xmpMerger;
   xmpMerger.add(metadata.embeddedXmp);
@@ -192,12 +217,14 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
     rememberPacket(packet);
 #endif
   }
+
 #ifdef EXV_HAVE_XMP_TOOLKIT
   metadata.xmp = xmpMerger.data();
   if (xmpIds.size() != 1 || !metadata.embeddedXmp.empty())
     metadata.packet = encodeXmp(metadata.xmp);
 #endif
 
+  // Read dimensions and ICC only from properties associated with the primary item.
   std::set<uint16_t> properties;
   for (const auto& entry : document.associations) {
     if (entry.itemId == document.primaryItem) {
@@ -220,19 +247,23 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
       metadata.icc = DataBuf(bytes.data() + 4, bytes.size() - 4);
     }
   }
+
   return metadata;
 }
 
+// Remove every occurrence of a tag, including duplicates from merged metadata.
 void eraseTag(ExifData& exif, std::string_view key) {
   exif.erase(std::remove_if(exif.begin(), exif.end(), [&](const auto& d) { return d.key() == key; }), exif.end());
 }
 
+// Identify synthesized Canon autofocus fields that cannot be edited independently.
 bool canonDerived(const Exifdatum& datum) {
   // These values are synthesized by decodeCanonAFInfo from Canon's 0x0026
   // record. ExifParser filters the same read-only fields for JPEG writing.
   return datum.groupName() == "Canon" && ((datum.tag() >= 0x2600 && datum.tag() <= 0x260e) || datum.tag() == 0x2611);
 }
 
+// Isolate synthesized autofocus values for read-only consistency checks.
 ExifData derivedCanonData(const ExifData& data) {
   ExifData derived;
   for (const auto& datum : data)
@@ -241,6 +272,7 @@ ExifData derivedCanonData(const ExifData& data) {
   return derived;
 }
 
+// Exclude regenerated offsets and raw decoded MakerNotes from semantic comparisons.
 ExifData exifValues(ExifData data) {
   const bool decodedMakerNote = data.findKey(ExifKey("Exif.MakerNote.ByteOrder")) != data.end();
   data.erase(std::remove_if(data.begin(), data.end(),
@@ -256,11 +288,13 @@ ExifData exifValues(ExifData data) {
   return data;
 }
 
+// Encode a fresh HEIF Exif item and reject serializers that lose requested values.
 Bytes encodeExif(ExifData exif, const IptcData& iptc, XmpData embedded, ByteOrder order, const DecodeParams& params) {
   // A fresh tree excludes original TIFF gaps, shortened values and tail bytes.
   // The serializer reconstructs known MakerNotes and copies retained data areas.
   const auto requested = exifValues(exif);
   exif.erase(std::remove_if(exif.begin(), exif.end(), canonDerived), exif.end());
+
   MemIo output;
   uint64_t total = 0;
   for (const auto& datum : exif) {
@@ -269,11 +303,17 @@ Bytes encodeExif(ExifData exif, const IptcData& iptc, XmpData embedded, ByteOrde
     supported(datum.value().sizeDataArea() <= bmffMetadataLimit - total, "Exif exceeds the allocation limit");
     total += datum.value().sizeDataArea();
   }
+
+  // Use no original TIFF backing buffer, so deleted values cannot survive in slack.
   TiffParser::encode(output, nullptr, 0, order, exif, iptc, embedded);
   supported(output.size() <= bmffMetadataLimit - 4, "Exif exceeds the allocation limit");
+
+  // A zero HEIF Exif offset places the TIFF header immediately after the prefix.
   Bytes bytes(4 + output.size(), 0);
   output.seekOrThrow(0, BasicIo::beg, ErrorCode::kerInputDataReadFailed);
   output.readOrThrow(bytes.data() + 4, bytes.size() - 4);
+
+  // Decode the new item to catch unsupported MakerNote or metadata transformations.
   ExifData checked;
   IptcData checkedIptc;
   XmpData checkedXmp;
@@ -282,15 +322,20 @@ Bytes encodeExif(ExifData exif, const IptcData& iptc, XmpData embedded, ByteOrde
   supported(sameData(requested, exifValues(checked)), "TIFF serializer cannot preserve requested Exif values");
   supported(sameData(iptc, checkedIptc), "TIFF serializer cannot preserve embedded IPTC");
   supported(encodeXmp(embedded) == encodeXmp(checkedXmp), "TIFF serializer cannot preserve embedded XMP");
+
   return bytes;
 }
 
+// Detect media bytes that no current item owns, including stale metadata from older edits.
 bool hasOrphanedMedia(const BmffDocument& document) {
   std::vector<BmffSpan> spans;
   for (const auto& [id, item] : document.items)
     for (const auto& extent : item.location.extents)
       spans.push_back(extent.source);
+
   std::sort(spans.begin(), spans.end(), [](auto a, auto b) { return a.offset < b.offset; });
+
+  // Measure the union so shared extents do not disguise unreferenced media bytes.
   uint64_t covered = 0, previousEnd = 0;
   for (const auto span : spans) {
     const auto end = span.offset + span.size;
@@ -299,6 +344,8 @@ bool hasOrphanedMedia(const BmffDocument& document) {
       previousEnd = end;
     }
   }
+
+  // A gap in either mdat or idat requires compaction even without a metadata edit.
   uint64_t available = document.itemData ? document.itemData->size : 0;
   for (const auto span : document.mediaData)
     available += span.size;
@@ -310,62 +357,101 @@ bool hasOrphanedMedia(const BmffDocument& document) {
 // success for an error. Keep that independent FileIo repair outside this writer.
 class TransferSource final : public BasicIo {
  public:
+  //! @brief Borrow prepared bytes without exposing FileIo-specific transfer behavior.
   explicit TransferSource(BasicIo& io) : io_(io) {
   }
+
+  //! @brief Open or rewind the borrowed source for a complete transfer.
   int open() override {
     return io_.isopen() ? io_.seek(0, BasicIo::beg) : io_.open();
   }
+
+  //! @brief Close the borrowed stream when its transfer consumer finishes.
   int close() override {
     return io_.close();
   }
+
+  //! @brief Reject direct writes through this read-only view.
   size_t write(const byte*, size_t) override {
     throw Error(ErrorCode::kerImageWriteFailed);
   }
+
+  //! @brief Reject copying another stream into the prepared source.
   size_t write(BasicIo&) override {
     throw Error(ErrorCode::kerImageWriteFailed);
   }
+
+  //! @brief Reject single-byte writes through this view.
   int putb(byte) override {
     throw Error(ErrorCode::kerImageWriteFailed);
   }
+
+  //! @brief Read an owned buffer from the borrowed source.
   DataBuf read(size_t count) override {
     return io_.read(count);
   }
+
+  //! @brief Read into the caller buffer using the borrowed source.
   size_t read(byte* data, size_t count) override {
     return io_.read(data, count);
   }
+
+  //! @brief Read one byte from the borrowed source.
   int getb() override {
     return io_.getb();
   }
+
+  //! @brief Reject replacing the prepared source through this view.
   void transfer(BasicIo&) override {
     throw Error(ErrorCode::kerImageWriteFailed);
   }
+
+  //! @brief Seek the borrowed source using BasicIo positioning semantics.
   int seek(int64_t offset, Position position) override {
     return io_.seek(offset, position);
   }
+
+  //! @brief Reject mapping, which would expose mutable prepared bytes.
   byte* mmap(bool = false) override {
     throw Error(ErrorCode::kerImageWriteFailed);
   }
+
+  //! @brief Report success because this view never creates a mapping.
   int munmap() override {
     return 0;
   }
+
+  //! @brief Return the borrowed stream position.
   size_t tell() const override {
     return io_.tell();
   }
+
+  //! @brief Return the prepared byte count.
   size_t size() const override {
     return io_.size();
   }
+
+  //! @brief Report whether the borrowed stream is open.
   bool isopen() const override {
     return io_.isopen();
   }
+
+  //! @brief Forward the borrowed stream error state.
   int error() const override {
     return io_.error();
   }
+
+  //! @brief Forward the borrowed stream end-of-file state.
   bool eof() const override {
     return io_.eof();
   }
+
+  //! @brief Return the borrowed source path without copying it.
   const std::string& path() const noexcept override {
     return io_.path();
   }
+
+  //! @brief Reject creation of synthetic contents in a prepared source.
   void populateFakeData() override {
     throw Error(ErrorCode::kerImageWriteFailed);
   }
@@ -374,8 +460,10 @@ class TransferSource final : public BasicIo {
   BasicIo& io_;
 };
 
+// Own staging storage and remove any temporary file when preparation or transfer ends.
 class PreparedOutput {
  public:
+  //! @brief Use a private sibling temporary file for FileIo, otherwise an owned MemIo.
   explicit PreparedOutput(BasicIo& source) {
 #ifdef EXV_ENABLE_FILESYSTEM
     if (dynamic_cast<FileIo*>(&source)) {
@@ -391,6 +479,7 @@ class PreparedOutput {
         auto file = std::make_unique<FileIo>(name.string());
 #endif
         if (file->open("w+bx") == 0) {
+          // Restrict staging permissions before retaining the temporary path.
           std::error_code error;
           std::filesystem::permissions(name, std::filesystem::perms::owner_read | std::filesystem::perms::owner_write,
                                        std::filesystem::perm_options::replace, error);
@@ -399,10 +488,12 @@ class PreparedOutput {
             std::filesystem::remove(name, error);
             throw Error(ErrorCode::kerImageWriteFailed);
           }
+
           path_ = name;
           io_ = std::move(file);
           return;
         }
+
         if (errno != EEXIST)
           throw Error(ErrorCode::kerDataSourceOpenFailed, source.path(), strError());
       }
@@ -411,9 +502,12 @@ class PreparedOutput {
 #else
     (void)source;
 #endif
+
+    // Memory-backed and filesystem-disabled builds use the same preparation contract.
     io_ = std::make_unique<MemIo>();
   }
 
+  //! @brief Close staging storage before removing its temporary path, including on failure.
   ~PreparedOutput() {
     io_.reset();
 #ifdef EXV_ENABLE_FILESYSTEM
@@ -423,6 +517,8 @@ class PreparedOutput {
     }
 #endif
   }
+
+  //! @brief Borrow the open staging stream while this owner remains alive.
   BasicIo& io() {
     return *io_;
   }
@@ -437,17 +533,21 @@ class PreparedOutput {
 // Private subclass supplies edit intent without changing BmffImage's public ABI.
 class HeifImage final : public BmffImage {
  public:
+  //! @brief Own the source stream and register the HEIF metadata capabilities.
   HeifImage(BasicIo::UniquePtr io, const ImageCtorParams& params) : BmffImage(std::move(io), params) {
     setTypeSupported(ImageType::heif, mdExif | mdIptc | mdXmp);
   }
 
+  //! @brief Report the MIME type corresponding to the most recently read major brand.
   std::string mimeType() const override {
     return brand_ == bmffType("mif1") ? "image/heif" : "image/heic";
   }
 
+  //! @brief Load the native item model, falling back to the legacy reader for deferred layouts.
   void readMetadata() override {
     enforce(io_->open() == 0, ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
     IoCloser closer(*io_);
+
     BmffDocument document;
     try {
       document = parseBmff(*io_);
@@ -462,28 +562,39 @@ class HeifImage final : public BmffImage {
     }
   }
 
+  //! @brief Replace Exif data, treating an empty replacement as an explicit removal request.
   void setExifData(const ExifData& exif) override {
     Image::setExifData(exif);
     removeExif_ = exif.empty();
   }
+
+  //! @brief Request physical Exif removal even when the decoded view is already empty.
   void clearExifData() override {
     Image::clearExifData();
     removeExif_ = true;
   }
+
+  //! @brief Replace structured XMP, or request removal when the replacement is empty.
   void setXmpData(const XmpData& xmp) override {
 #ifndef EXV_HAVE_XMP_TOOLKIT
     supported(xmp.empty(), "structured XMP editing requires the XMP toolkit");
 #endif
+
     if (xmp.empty())
       Image::clearXmpPacket();
+
     Image::setXmpData(xmp);
     removeXmp_ = xmp.empty();
   }
+
+  //! @brief Clear both XMP views so a cached packet cannot restore removed metadata.
   void clearXmpData() override {
     Image::clearXmpPacket();
     Image::clearXmpData();
     removeXmp_ = true;
   }
+
+  //! @brief Select a bounded raw XMP replacement without requiring structured editing support.
   void setXmpPacket(const std::string& packet) override {
     supported(packet.size() <= bmffMetadataLimit, "XMP exceeds the allocation limit");
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -492,13 +603,18 @@ class HeifImage final : public BmffImage {
     xmpPacket_ = packet;
     xmpData_.clear();
 #endif
+
     writeXmpFromPacket(true);
     removeXmp_ = packet.empty();
   }
+
+  //! @brief Request removal of the primary XMP packet from the rewritten output.
   void clearXmpPacket() override {
     Image::clearXmpPacket();
     removeXmp_ = true;
   }
+
+  //! @brief Clear writable Exif/XMP categories while retaining unsupported standalone IPTC/ICC state.
   void clearMetadata() override {
     clearExifData();
     clearXmpPacket();
@@ -506,7 +622,9 @@ class HeifImage final : public BmffImage {
     // Only the writable categories are cleared; standalone IPTC/ICC edits are unsupported.
   }
 
+  //! @brief Prepare and verify a compact edit before transfer; final transfer is not guaranteed atomic.
   void writeMetadata() override {
+    // Reparse current source bytes before deciding whether any edit can be supported.
     supported(dynamic_cast<RemoteIo*>(io_.get()) == nullptr, "remote I/O");
     enforce(io_->open() == 0, ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
     IoCloser closer(*io_);
@@ -514,6 +632,8 @@ class HeifImage final : public BmffImage {
     enforceHeifWriteSupport(document);
     const DecodeParams params(max_recursion_depth_);
     auto original = Internal::readMetadata(*io_, document, params);
+
+    // Reject changes to categories that the HEIF writer only preserves.
     if (loaded_ || !iccProfile_.empty())
       supported(iccProfile_.size() == original.icc.size() &&
                     (iccProfile_.empty() ||
@@ -524,6 +644,7 @@ class HeifImage final : public BmffImage {
                 "standalone IPTC editing");
     supported(comment_.empty(), "image comments");
 
+    // Deleting the MakerNote also removes its decoded vendor fields from the fresh TIFF tree.
     auto exif = exifData_;
     if (original.exif.findKey(ExifKey("Exif.Photo.MakerNote")) != original.exif.end() &&
         exif.findKey(ExifKey("Exif.Photo.MakerNote")) == exif.end()) {
@@ -533,6 +654,8 @@ class HeifImage final : public BmffImage {
                                 }),
                  exif.end());
     }
+
+    // Determine effective edit intent from both explicit clears and mutable metadata views.
 #ifndef EXV_HAVE_XMP_TOOLKIT
     supported(xmpData_.empty(), "structured XMP editing requires the XMP toolkit");
 #endif
@@ -543,15 +666,19 @@ class HeifImage final : public BmffImage {
     const bool exifChanged = removeExif_ || !sameData(exif, original.exif);
     supported(!original.needsXmpToolkit || xmpChanged || !exifChanged,
               "merging different primary XMP packets requires the XMP toolkit");
+
+    // Promote embedded XMP to its own item when Exif removal would otherwise discard it.
     BmffMetadataUpdate update;
     if (xmpChanged || (exifChanged && exif.empty() && original.hasEmbeddedXmp))
       update.xmp = Bytes(packet.begin(), packet.end());
+
     // A separate MIME item becomes authoritative when XMP is edited. Remove its
     // old embedded TIFF copy so it cannot reappear after removing the MIME item.
     auto embedded = original.embeddedXmp;
 #ifdef EXV_HAVE_XMP_TOOLKIT
     auto xml = exif.findKey(ExifKey("Exif.Image.XMLPacket"));
 #endif
+
     // Even without a live XMLPacket tag, prior XMP may survive in TIFF slack.
     const bool embeddedChanged = xmpChanged && !exif.empty();
     if (xmpChanged) {
@@ -571,24 +698,32 @@ class HeifImage final : public BmffImage {
       }
 #endif
     }
+
+    // Rebuild Exif when its values change or when old embedded XMP must be scrubbed.
     if (exifChanged || embeddedChanged) {
       if (exif.findKey(ExifKey("Exif.Canon.AFInfo")) != exif.end() &&
           original.exif.findKey(ExifKey("Exif.Canon.AFInfo")) != original.exif.end()) {
         supported(sameData(derivedCanonData(exif), derivedCanonData(original.exif)),
                   "Canon synthesized autofocus fields are read-only");
       }
+
       if (exif.empty())
         update.exif = Bytes{};
       else
         update.exif = encodeExif(exif, original.iptc, embedded, original.order, params);
     }
+
+    // Preserve byte identity only when neither an edit nor orphaned-media cleanup is pending.
     if (!update.exif && !update.xmp && !hasOrphanedMedia(document))
       return;
 
+    // Prepare and decode the complete result before touching the original destination.
     PreparedOutput prepared(*io_);
     rewriteBmff(*io_, prepared.io(), document, update);
     auto verified = Internal::readMetadata(prepared.io(), parseBmff(prepared.io()), params);
     const auto preparedSize = prepared.io().size();
+
+    // The final BasicIo transfer can still fail after preparation; it is not an atomic replacement.
 #ifdef EXV_ENABLE_FILESYSTEM
     if (dynamic_cast<FileIo*>(io_.get())) {
       TransferSource source(prepared.io());
@@ -598,14 +733,18 @@ class HeifImage final : public BmffImage {
     {
       io_->transfer(prepared.io());
     }
+
+    // Publish the verified in-memory state only after the transfer reports the expected size.
     enforce(io_->size() == preparedSize, ErrorCode::kerTransferFailed, io_->path(), "short prepared-output transfer");
     assign(std::move(verified));
     brand_ = document.majorBrand;
   }
 
+  //! @brief Print metadata or delegate structural tracing without changing pending edits.
   void printStructure(std::ostream& out, PrintStructureOption option, size_t depth) override {
     if (!loaded_)
       readMetadata();
+
     if (option == kpsXMP) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
       std::string packet;
@@ -625,6 +764,7 @@ class HeifImage final : public BmffImage {
   }
 
  private:
+  // Adopt verified metadata and reset edit intent after a successful read or write.
   void assign(Metadata metadata) {
     exifData_ = std::move(metadata.exif);
     iptcData_ = std::move(metadata.iptc);
@@ -634,40 +774,53 @@ class HeifImage final : public BmffImage {
     pixelWidth_ = metadata.width;
     pixelHeight_ = metadata.height;
     setByteOrder(metadata.order);
+
+    // The adopted state becomes the new baseline for detecting the next edit.
     writeXmpFromPacket(false);
     loaded_ = true;
     removeExif_ = removeXmp_ = false;
   }
+
   uint32_t brand_{bmffType("heic")};
   bool loaded_{}, removeExif_{}, removeXmp_{};
 };
 }  // namespace
 
 bool isHeifType(BasicIo& io, bool advance) {
+  // Probe only the leading ftyp box, without constructing a metadata reader.
   const auto start = io.tell();
   std::array<byte, 16> header{};
   bool matched = io.read(header.data(), 8) == 8 && getULong(header.data() + 4, bigEndian) == bmffType("ftyp");
   uint64_t size = matched ? getULong(header.data(), bigEndian) : 0;
   unsigned headerSize = 8;
+
   if (matched && size == 1) {
     matched = io.read(header.data() + 8, 8) == 8;
     size = matched ? getULongLong(header.data() + 8, bigEndian) : 0;
     headerSize = 16;
   }
+
+  // Accept complete bounded brand tables, including the extended-size header form.
   matched = matched && size >= headerSize + 8 && size <= BmffLimits{}.maxBytesRead && size <= io.size() - start &&
             (size - headerSize) % 4 == 0;
+
   if (matched) {
     matched = io.read(header.data(), 8) == 8;
     const auto brand = getULong(header.data(), bigEndian);
     matched = matched && (brand == bmffType("heic") || brand == bmffType("heix") || brand == bmffType("mif1"));
+
+    // An AVIF compatible brand keeps generic mif1 files on the read-only path.
     for (uint64_t offset = headerSize + 8; matched && offset < size; offset += 4) {
       matched = io.read(header.data(), 4) == 4;
       const auto compatible = getULong(header.data(), bigEndian);
       matched = matched && compatible != bmffType("avif") && compatible != bmffType("avis");
     }
   }
+
+  // Failed probes and non-advancing probes restore the caller position.
   if (!advance || !matched)
     io.seek(static_cast<int64_t>(start), BasicIo::beg);
+
   return matched;
 }
 
