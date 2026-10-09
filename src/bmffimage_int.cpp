@@ -567,8 +567,25 @@ void enforceHeifWriteSupport(const BmffDocument& document) {
   supported(primaryType == bmffType("hvc1") || primaryType == bmffType("grid") || primaryType == bmffType("iden") ||
                 primaryType == bmffType("iovl"),
             "primary image type");
-  for (const auto id : document.metadataItems(bmffType("mime")))
-    supported(document.items.at(id).info.contentEncoding.empty(), "compressed primary XMP");
+  for (const auto& reference : document.references) {
+    if (reference.type != bmffType("cdsc") ||
+        std::find(reference.to.begin(), reference.to.end(), document.primaryItem) == reference.to.end())
+      continue;
+    const auto& info = document.items.at(reference.from).info;
+    if (info.type != bmffType("mime"))
+      continue;
+    auto type = info.contentType.substr(0, info.contentType.find(';'));
+    std::transform(type.begin(), type.end(), type.begin(),
+                   [](unsigned char c) { return static_cast<char>(c >= 'A' && c <= 'Z' ? c + ('a' - 'A') : c); });
+    const auto first = type.find_first_not_of(" \t");
+    const auto last = type.find_last_not_of(" \t");
+    if (first != std::string::npos)
+      type = type.substr(first, last - first + 1);
+    if (type == "application/rdf+xml") {
+      supported(info.contentType == "application/rdf+xml", "ambiguous primary XMP MIME type");
+      supported(info.contentEncoding.empty(), "compressed primary XMP");
+    }
+  }
   checkRelocation(document.boxes, Context::file);
 }
 
