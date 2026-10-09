@@ -38,6 +38,7 @@ enum class ImageType {
   qtime,
   riff,
   mkv,
+  heif,  //!< Item-based HEIF/HEIC; writing depends on the file layout.
 };
 }  // namespace Exiv2
 
