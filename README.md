@@ -826,6 +826,17 @@ This is discussed: [https://github.com/Exiv2/exiv2/issues/1230](https://github.c
 
 Access to the BMFF code is guarded by the CMake option: `-DEXIV2_ENABLE_BMFF=ON` (enabled by default).
 
+Existing item-based HEIF/HEIC files support primary-image Exif and XMP writing,
+including growth, replacement and removal. The native writer preserves encoded
+image payloads and compacts obsolete metadata storage without an image codec
+dependency. AVIF, CR3 and JPEG XL writing remain unsupported. Unsupported layouts
+and edits conflicting with shared item data are rejected before source transfer.
+
+See [HEIF and HEIC metadata writing](exiv2.md#heif-and-heic-metadata-writing) for
+the supported structures, metadata-removal scope, build options and transfer
+failure limitations. Use `ImageFactory::open()` to obtain the HEIF writer; the
+factory reports `ImageType::heif`, while the general `BmffImage` remains read-only.
+
 [TOC](#TOC)
 <div id="LicenseSupport">
 
