@@ -1264,6 +1264,22 @@ Image::UniquePtr openHeif(const Bytes& bytes) {
   return image;
 }
 
+std::string rawXmpSource(std::string_view value) {
+  return "<x:xmpmeta xmlns:x='adobe:ns:meta/'><rdf:RDF "
+         "xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>"
+         "<rdf:Description rdf:about='' xmlns:dc='http://purl.org/dc/elements/1.1/' "
+         "dc:source='" +
+         std::string(value) + "'/></rdf:RDF></x:xmpmeta>";
+}
+
+void setHeifXmpSource(Image& image, const std::string& value) {
+#ifdef EXV_HAVE_XMP_TOOLKIT
+  image.xmpData()["Xmp.dc.source"] = value;
+#else
+  image.setXmpPacket(rawXmpSource(value));
+#endif
+}
+
 Bytes imageBytes(Image& image) {
   auto& io = image.io();
   io.open();
@@ -1282,12 +1298,12 @@ TEST(HeifImage, addsGrowsShrinksDeletesAndPreservesEncodedImage) {
   for (unsigned cycle = 0; cycle < 4; ++cycle) {
     const auto canary = "PRIVATE_HEIF_DESCRIPTION_" + std::to_string(cycle);
     image->exifData()["Exif.Image.ImageDescription"] = std::string(70000, 'v') + canary;
-    image->xmpData()["Xmp.dc.source"] = "Příliš žluťoučký kůň — " + canary;
+    setHeifXmpSource(*image, "Příliš žluťoučký kůň — " + canary);
     ASSERT_NO_THROW(image->writeMetadata());
     auto large = imageBytes(*image);
     EXPECT_TRUE(contains(large, canary));
     image->exifData()["Exif.Image.ImageDescription"] = "short";
-    image->xmpData()["Xmp.dc.source"] = "short";
+    setHeifXmpSource(*image, "short");
     ASSERT_NO_THROW(image->writeMetadata());
     auto small = imageBytes(*image);
     EXPECT_FALSE(contains(small, canary));
@@ -1345,6 +1361,9 @@ TEST(HeifImage, removesDeletedTagsAndOriginalTiffSlack) {
 }
 
 TEST(HeifImage, clearsEmbeddedXmpAndPreservesItWhenOnlyExifIsRemoved) {
+#ifndef EXV_HAVE_XMP_TOOLKIT
+  GTEST_SKIP() << "requires structured XMP decoding; raw packet behavior is tested separately";
+#endif
   ExifData exif;
   exif["Exif.Image.Artist"] = "keep artist";
   XmpData xmp;
@@ -1373,6 +1392,9 @@ TEST(HeifImage, clearsEmbeddedXmpAndPreservesItWhenOnlyExifIsRemoved) {
 }
 
 TEST(HeifImage, usesRawXmpPacketsSetMetadataAndRejectsUnsupportedCategories) {
+#ifndef EXV_HAVE_XMP_TOOLKIT
+  GTEST_SKIP() << "requires structured XMP decoding; raw packet behavior is tested separately";
+#endif
   auto source = openHeif(heifWithMetadata());
   XmpData xmp;
   xmp["Xmp.dc.source"] = "RAW_XMP_říční";
@@ -1444,7 +1466,7 @@ TEST_P(BmffCorpus, editsThroughPublicApiAndKeepsOtherItems) {
   ASSERT_EQ(image->imageType(), ImageType::heif);
   image->readMetadata();
   image->exifData()["Exif.Image.ImageDescription"] = "PUBLIC_API_CANARY_6f9326";
-  image->xmpData()["Xmp.dc.source"] = "PUBLIC_API_CANARY_6f9326";
+  setHeifXmpSource(*image, "PUBLIC_API_CANARY_6f9326");
   ASSERT_NO_THROW(image->writeMetadata());
   auto output = imageBytes(*image);
   auto before = parse(bytes), after = parse(output);
@@ -1682,5 +1704,82 @@ TEST(HeifImage, preservesAuxiliaryAndThumbnailGraphsAsOpaqueImageData) {
     EXPECT_TRUE(contains(output, uri));
   }
 }
+
+TEST(HeifImage, preservesRawXmpDuringExifEditsAndClearsItsStorage) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "artist";
+  const auto packet = rawXmpSource("PRIVATE_RAW_PACKET_594e");
+  auto image = openHeif(heifWithMetadata(exif, packet));
+#ifdef EXV_HAVE_XMP_TOOLKIT
+  EXPECT_EQ(image->xmpData()["Xmp.dc.source"].toString(), "PRIVATE_RAW_PACKET_594e");
+#else
+  EXPECT_EQ(image->xmpPacket(), packet);
+#endif
+  auto before = imageBytes(*image);
+  image->writeMetadata();
+  EXPECT_EQ(imageBytes(*image), before);
+  image->exifData()["Exif.Image.Artist"] = "edited";
+  ASSERT_NO_THROW(image->writeMetadata());
+  auto bytes = imageBytes(*image);
+  auto document = parse(bytes);
+  const auto ids = document.metadataItems(bmffType("mime"));
+  ASSERT_EQ(ids.size(), 1u);
+  EXPECT_EQ(payload(bytes, document.items.at(ids.front())), Bytes(packet.begin(), packet.end()));
+  image->setXmpPacket(rawXmpSource("PRIVATE_REPLACEMENT_PACKET_653c"));
+  image->writeMetadata();
+  EXPECT_FALSE(contains(imageBytes(*image), "PRIVATE_RAW_PACKET_594e"));
+  image->clearXmpData();
+  image->writeMetadata();
+  EXPECT_FALSE(contains(imageBytes(*image), "PRIVATE_REPLACEMENT_PACKET_653c"));
+  EXPECT_TRUE(image->xmpPacket().empty());
+  image->setXmpPacket(packet);
+  image->writeMetadata();
+  image->setXmpData(XmpData{});
+  image->writeMetadata();
+  EXPECT_FALSE(contains(imageBytes(*image), "PRIVATE_RAW_PACKET_594e"));
+}
+
+#ifndef EXV_HAVE_XMP_TOOLKIT
+TEST(HeifImage, preservesEmbeddedRawXmpWithoutToolkitAndRejectsUnmergeablePackets) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "artist";
+  const auto packet = rawXmpSource("PRIVATE_EMBEDDED_RAW_819c");
+  auto value = Value::create(unsignedByte);
+  value->read(reinterpret_cast<const byte*>(packet.data()), packet.size(), invalidByteOrder);
+  exif.add(ExifKey("Exif.Image.XMLPacket"), value.get());
+  auto image = openHeif(heifWithMetadata(exif));
+  EXPECT_EQ(image->xmpPacket(), packet);
+  image->exifData()["Exif.Image.Artist"] = "edited";
+  ASSERT_NO_THROW(image->writeMetadata());
+  EXPECT_EQ(image->xmpPacket(), packet);
+  image->clearExifData();
+  image->writeMetadata();
+  auto bytes = imageBytes(*image);
+  auto document = parse(bytes);
+  EXPECT_TRUE(document.metadataItems(bmffType("Exif")).empty());
+  ASSERT_EQ(document.metadataItems(bmffType("mime")).size(), 1u);
+  EXPECT_EQ(image->xmpPacket(), packet);
+  image->clearXmpData();
+  image->writeMetadata();
+  EXPECT_FALSE(contains(imageBytes(*image), "PRIVATE_EMBEDDED_RAW_819c"));
+
+  const auto other = rawXmpSource("PRIVATE_DIFFERENT_RAW_0551");
+  bytes = heifWithMetadata(exif, other);
+  image = openHeif(bytes);
+  image->writeMetadata();
+  EXPECT_EQ(imageBytes(*image), bytes);
+  image->exifData()["Exif.Image.Artist"] = "pending";
+  EXPECT_THROW(image->writeMetadata(), Error);
+  EXPECT_EQ(imageBytes(*image), bytes);
+  image->clearXmpData();
+  ASSERT_NO_THROW(image->writeMetadata());
+  EXPECT_FALSE(contains(imageBytes(*image), "PRIVATE_EMBEDDED_RAW_819c"));
+  EXPECT_FALSE(contains(imageBytes(*image), "PRIVATE_DIFFERENT_RAW_0551"));
+  image->xmpData()["Xmp.dc.source"] = "requires toolkit";
+  bytes = imageBytes(*image);
+  EXPECT_THROW(image->writeMetadata(), Error);
+  EXPECT_EQ(imageBytes(*image), bytes);
+}
+#endif
 
 #endif  // EXV_ENABLE_BMFF
