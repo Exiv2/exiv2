@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "bmffimage_int.hpp"
+#include "bmffwrite_int.hpp"
 
 #ifdef EXV_ENABLE_BMFF
 
@@ -8,11 +9,13 @@
 #include <exiv2/basicio.hpp>
 #include <exiv2/bmffimage.hpp>
 #include <exiv2/error.hpp>
+#include <exiv2/exiv2.hpp>
 
 #include <algorithm>
 #include <array>
 #include <cstring>
 #include <limits>
+#include <sstream>
 #include <stdexcept>
 #include <string_view>
 #include <utility>
@@ -72,6 +75,10 @@ void patch(Bytes& bytes, size_t offset, uint64_t value, unsigned width) {
 }
 
 struct Options {
+  std::optional<Bytes> exifPayload, xmpPayload;
+  bool secondExif{}, metadataIdat{};
+  std::string mimeType{"application/rdf+xml"};
+  std::string auxiliaryType;
   uint32_t brand{bmffType("heic")};
   uint32_t idBase{};
   uint8_t locationVersion{};
@@ -108,7 +115,12 @@ Bytes fixture(const Options& opt = {}) {
   integer(fileType, bmffType("mif1"), 4);
   integer(fileType, opt.brand, 4);
   auto ftyp = box(bmffType("ftyp"), fileType, opt.extended);
-  const Bytes payload{'A', 'B', 'e', 'x', 'i', 'f', 'C', 'D', 'x', 'm', 'p'};
+  const auto exifPayload = opt.exifPayload.value_or(Bytes{'e', 'x', 'i', 'f'});
+  const auto xmpPayload = opt.xmpPayload.value_or(Bytes{'x', 'm', 'p'});
+  Bytes payload{'A', 'B'};
+  append(payload, exifPayload);
+  append(payload, Bytes{'C', 'D'});
+  append(payload, xmpPayload);
   const unsigned count = opt.noMetadata ? 1 : 3;
   const unsigned headerSize = opt.extended ? 16 : 8;
 
@@ -130,10 +142,10 @@ Bytes fixture(const Options& opt = {}) {
       auto entry = full(opt.entryVersion, i == 1 ? 0 : 1);
       integer(entry, opt.idBase + i, opt.entryVersion == 2 ? 2 : 4);
       integer(entry, 0, 2);
-      integer(entry, i == 1 ? bmffType("hvc1") : i == 2 ? bmffType("Exif") : bmffType("mime"), 4);
+      integer(entry, i == 1 ? bmffType("hvc1") : i == 2 || opt.secondExif ? bmffType("Exif") : bmffType("mime"), 4);
       string(entry, i == 1 ? "image" : i == 2 ? "exif" : "xmp");
-      if (i == 3) {
-        string(entry, "application/rdf+xml");
+      if (i == 3 && !opt.secondExif) {
+        string(entry, opt.mimeType);
         string(entry, opt.encoding);
       }
       append(info, box(bmffType("infe"), entry, opt.extended));
@@ -143,9 +155,9 @@ Bytes fixture(const Options& opt = {}) {
     integer(locations, (opt.baseWidth << 4) | opt.indexWidth, 1);
     integer(locations, count, opt.locationVersion < 2 ? 2 : 4);
     for (unsigned i = 1; i <= count; ++i) {
-      const bool inIdat = opt.idat && i == 1;
+      const bool inIdat = opt.idat && (i == 1 || opt.metadataIdat);
       const uint64_t source = inIdat ? 0 : mediaStart;
-      const uint64_t itemOffset = i == 1 ? 0 : i == 2 ? 2 : 8;
+      const uint64_t itemOffset = i == 1 ? 0 : i == 2 ? 2 : 4 + exifPayload.size();
       integer(locations, opt.idBase + i, opt.locationVersion < 2 ? 2 : 4);
       if (opt.locationVersion != 0)
         integer(locations, inIdat ? 1 : 0, 2);
@@ -155,10 +167,14 @@ Bytes fixture(const Options& opt = {}) {
       integer(locations, fragmented ? 2 : 1, 2);
       integer(locations, 0, opt.indexWidth);
       integer(locations, (opt.baseWidth == 0 ? source : 0) + itemOffset, opt.offsetWidth);
-      integer(locations, i == 1 ? (fragmented ? 2 : 8) : i == 2 ? 4 : 3, opt.lengthWidth);
+      integer(locations,
+              i == 1   ? (fragmented ? 2 : 4 + exifPayload.size())
+              : i == 2 ? exifPayload.size()
+                       : xmpPayload.size(),
+              opt.lengthWidth);
       if (fragmented) {
         integer(locations, 0, opt.indexWidth);
-        integer(locations, (opt.baseWidth == 0 ? source : 0) + 6, opt.offsetWidth);
+        integer(locations, (opt.baseWidth == 0 ? source : 0) + 2 + exifPayload.size(), opt.offsetWidth);
         integer(locations, 2, opt.lengthWidth);
       }
     }
@@ -185,14 +201,24 @@ Bytes fixture(const Options& opt = {}) {
       auto value = full();
       integer(value, 32, 4);
       integer(value, 16, 4);
-      append(properties, box(opt.propertyType, value, opt.extended));
+      if (i == 1 && !opt.auxiliaryType.empty()) {
+        value = full();
+        string(value, opt.auxiliaryType);
+        append(properties, box(bmffType("auxC"), value, opt.extended));
+      } else {
+        append(properties, box(opt.propertyType, value, opt.extended));
+      }
     }
     auto iprp = box(bmffType("ipco"), properties, opt.extended);
     auto associations = full(opt.associationVersion, opt.wideProperties ? 1 : 0);
-    integer(associations, 1, 4);
+    integer(associations, opt.auxiliaryType.empty() ? 1 : 2, 4);
     integer(associations, opt.idBase + 1, opt.associationVersion == 0 ? 2 : 4);
-    integer(associations, 2, 1);
+    integer(associations, opt.auxiliaryType.empty() ? 2 : 1, 1);
     integer(associations, (opt.wideProperties ? 0x8000 : 0x80) | 1, opt.wideProperties ? 2 : 1);
+    if (!opt.auxiliaryType.empty()) {
+      integer(associations, opt.idBase + 2, opt.associationVersion == 0 ? 2 : 4);
+      integer(associations, 1, 1);
+    }
     integer(associations, opt.propertyCount, opt.wideProperties ? 2 : 1);
     append(iprp, box(bmffType("ipma"), associations, opt.extended));
     append(result, box(bmffType("iprp"), iprp, opt.extended));
@@ -799,6 +825,861 @@ TEST(BmffModel, rejectsNonItemFormatsAndMalformedRegressionFiles) {
     FileIo input(std::string(TESTDATA_PATH) + "/" + file);
     ASSERT_EQ(input.open("rb"), 0);
     EXPECT_THROW(parseBmff(input), Error);
+  }
+}
+
+namespace {
+
+Bytes rewritten(const Bytes& bytes, const BmffMetadataUpdate& update = {}) {
+  MemIo input(bytes.data(), bytes.size());
+  MemIo output;
+  rewriteBmff(input, output, parseBmff(input), update);
+  EXPECT_EQ(input.size(), bytes.size());
+  EXPECT_EQ(std::memcmp(input.mmap(), bytes.data(), bytes.size()), 0);
+  return Bytes(output.mmap(), output.mmap() + output.size());
+}
+
+bool contains(const Bytes& bytes, std::string_view text) {
+  return std::search(bytes.begin(), bytes.end(), text.begin(), text.end()) != bytes.end();
+}
+
+Bytes withOrphanedBytes(Bytes bytes) {
+  const std::string_view canary = "UNREACHABLE_PRIVATE_METADATA_296bc8";
+  const auto media = position(bytes, "mdat");
+  bytes.insert(bytes.end(), canary.begin(), canary.end());
+  patch(bytes, media, bytes.size() - media, 4);
+  return bytes;
+}
+
+void rejectsRewrite(const Bytes& bytes, const BmffMetadataUpdate& update = {}) {
+  MemIo input(bytes.data(), bytes.size());
+  MemIo output;
+  const auto document = parseBmff(input);
+  EXPECT_THROW(rewriteBmff(input, output, document, update), Error);
+  EXPECT_EQ(output.size(), 0u);
+  EXPECT_EQ(input.size(), bytes.size());
+  EXPECT_EQ(std::memcmp(input.mmap(), bytes.data(), bytes.size()), 0);
+}
+
+}  // namespace
+
+TEST(BmffRewrite, compactsOrphansAndPaddingWhilePreservingEveryRetainedItem) {
+  Options opt;
+  opt.extraMeta = box(bmffType("free"), {'P', 'R', 'I', 'V', 'A', 'T', 'E'});
+  opt.extraRoot = box(bmffType("skip"), {'S', 'E', 'C', 'R', 'E', 'T'});
+  const auto source = withOrphanedBytes(fixture(opt));
+  const auto original = parse(source);
+  const auto bytes = rewritten(source);
+  const auto output = parse(bytes);
+  EXPECT_LT(bytes.size(), source.size());
+  EXPECT_FALSE(contains(bytes, "UNREACHABLE_PRIVATE_METADATA_296bc8"));
+  EXPECT_FALSE(contains(bytes, "PRIVATE"));
+  EXPECT_FALSE(contains(bytes, "SECRET"));
+  EXPECT_EQ(output.primaryItem, original.primaryItem);
+  for (const auto& [id, item] : original.items)
+    EXPECT_EQ(payload(source, item), payload(bytes, output.items.at(id)));
+  EXPECT_EQ(rewritten(bytes), bytes);
+}
+
+TEST(BmffRewrite, removesMetadataPayloadsAndTheirReferences) {
+  const auto source = withOrphanedBytes(fixture());
+  BmffMetadataUpdate update;
+  update.exif = Bytes{};
+  update.xmp = Bytes{};
+  const auto bytes = rewritten(source, update);
+  const auto output = parse(bytes);
+  ASSERT_EQ(output.items.size(), 1u);
+  EXPECT_TRUE(output.references.empty());
+  EXPECT_TRUE(output.metadataItems(bmffType("Exif")).empty());
+  EXPECT_TRUE(output.metadataItems(bmffType("mime")).empty());
+  EXPECT_EQ(payload(bytes, output.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+  ASSERT_EQ(output.mediaData.size(), 1u);
+  EXPECT_EQ(output.mediaData.front().size, 4u);
+  EXPECT_FALSE(contains(bytes, "exif"));
+  EXPECT_FALSE(contains(bytes, "xmp"));
+  EXPECT_FALSE(contains(bytes, "UNREACHABLE_PRIVATE_METADATA_296bc8"));
+}
+
+TEST(BmffRewrite, repacksIdatAndRemovesUnreferencedMediaCopies) {
+  Options opt;
+  opt.idat = true;
+  opt.locationVersion = 1;
+  auto source = fixture(opt);
+  const auto loc = position(source, "iloc");
+  patch(source, loc + 42, 1, 2);  // Exif construction method.
+  patch(source, loc + 48, 2, 4);  // Exif offset into idat.
+  patch(source, loc + 58, 1, 2);  // XMP construction method.
+  patch(source, loc + 64, 8, 4);  // XMP offset into idat.
+  BmffMetadataUpdate update;
+  update.exif = Bytes{};
+  update.xmp = Bytes{};
+  const auto bytes = rewritten(source, update);
+  const auto output = parse(bytes);
+  ASSERT_TRUE(output.itemData.has_value());
+  EXPECT_EQ(output.itemData->size, 4u);
+  EXPECT_TRUE(output.mediaData.empty());
+  const auto& image = output.items.at(1);
+  EXPECT_EQ(image.location.constructionMethod, 1u);
+  EXPECT_EQ(image.location.extents.at(0).offset, 0u);
+  EXPECT_EQ(image.location.extents.at(1).offset, 2u);
+  EXPECT_EQ(payload(bytes, image), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_FALSE(contains(bytes, "exif"));
+  EXPECT_FALSE(contains(bytes, "xmp"));
+}
+
+TEST(BmffRewrite, insertsIntoMetadataFreeFilesAndPreservesUnassociatedItems) {
+  Options opt;
+  opt.noMetadata = true;
+  BmffMetadataUpdate update;
+  update.exif = Bytes{'n', 'e', 'w', 'e', 'x', 'i', 'f'};
+  update.xmp = Bytes{'n', 'e', 'w', 'x', 'm', 'p'};
+  auto bytes = rewritten(fixture(opt), update);
+  auto document = parse(bytes);
+  ASSERT_EQ(document.items.size(), 3u);
+  ASSERT_EQ(document.metadataItems(bmffType("Exif")).size(), 1u);
+  ASSERT_EQ(document.metadataItems(bmffType("mime")).size(), 1u);
+  EXPECT_EQ(payload(bytes, document.items.at(document.metadataItems(bmffType("Exif")).front())), *update.exif);
+  EXPECT_EQ(payload(bytes, document.items.at(document.metadataItems(bmffType("mime")).front())), *update.xmp);
+  opt.noMetadata = false;
+  opt.noReferences = true;
+  bytes = rewritten(fixture(opt), update);
+  document = parse(bytes);
+  EXPECT_EQ(document.items.size(), 5u);
+  EXPECT_EQ(payload(bytes, document.items.at(2)), (Bytes{'e', 'x', 'i', 'f'}));
+  EXPECT_EQ(payload(bytes, document.items.at(3)), (Bytes{'x', 'm', 'p'}));
+}
+
+TEST(BmffRewrite, replacesGrowsAndShrinksWithoutRetainingEarlierPayloads) {
+  const auto original = fixture();
+  auto current = original;
+  size_t smallSize = 0;
+  for (unsigned iteration = 0; iteration < 8; ++iteration) {
+    const auto previous = "PRIVATE_OLD_VALUE_" + std::to_string(iteration);
+    BmffMetadataUpdate update;
+    update.exif = Bytes(70000, 'q');
+    update.exif->insert(update.exif->end(), previous.begin(), previous.end());
+    current = rewritten(current, update);
+    EXPECT_TRUE(contains(current, previous));
+    update.exif = Bytes{'n', 'e', 'w'};
+    current = rewritten(current, update);
+    EXPECT_FALSE(contains(current, previous));
+    const auto output = parse(current);
+    EXPECT_EQ(payload(current, output.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+    if (iteration == 0)
+      smallSize = current.size();
+    else
+      EXPECT_EQ(current.size(), smallSize);
+  }
+}
+
+TEST(BmffRewrite, rejectsSharedMetadataAndOverlappingRetainedDataBeforeWriting) {
+  Options opt;
+  opt.sharedMetadata = true;
+  BmffMetadataUpdate update;
+  update.exif = Bytes{};
+  rejectsRewrite(fixture(opt), update);
+  update.exif = Bytes{'n', 'e', 'w'};
+  rejectsRewrite(fixture(opt), update);
+  auto source = fixture();
+  const auto loc = position(source, "iloc");
+  patch(source, loc + 44, position(source, "mdat") + 8, 4);  // Exif overlaps first image extent.
+  rejectsRewrite(source, update);
+  // Unmodified sharing is representable and compacted without duplicating bytes.
+  const auto bytes = rewritten(source);
+  EXPECT_EQ(payload(bytes, parse(bytes).items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+}
+
+TEST(BmffRewrite, handlesWideIdsFieldsExtendedAndTerminalHeaders) {
+  Options opt;
+  opt.idBase = 65536;
+  opt.locationVersion = 2;
+  opt.infoVersion = 2;
+  opt.entryVersion = 3;
+  opt.primaryVersion = 1;
+  opt.referenceVersion = 1;
+  opt.associationVersion = 1;
+  opt.offsetWidth = opt.lengthWidth = opt.baseWidth = opt.indexWidth = 8;
+  opt.extended = true;
+  opt.wideProperties = true;
+  BmffMetadataUpdate update;
+  update.exif = Bytes{'r', 'e', 'p', 'l', 'a', 'c', 'e'};
+  auto bytes = rewritten(fixture(opt), update);
+  auto output = parse(bytes);
+  EXPECT_EQ(output.primaryItem, 65537u);
+  EXPECT_EQ(output.locationFormat.version, 2u);
+  EXPECT_EQ(output.items.at(65537).location.baseOffset, 0u);
+  EXPECT_EQ(output.locationFormat.indexSize, 8u);
+  EXPECT_EQ(payload(bytes, output.items.at(65537)), (Bytes{'A', 'B', 'C', 'D'}));
+  opt = Options{};
+  opt.terminal = true;
+  bytes = rewritten(fixture(opt), update);
+  output = parse(bytes);
+  EXPECT_FALSE(output.boxes.back().extendsToEnd);
+  EXPECT_EQ(output.mediaData.size(), 2u);
+}
+
+TEST(BmffRewrite, reusesAvailableIdWhenLargestIdIsOccupied) {
+  Options opt;
+  opt.noMetadata = true;
+  opt.idBase = std::numeric_limits<uint32_t>::max() - 1;
+  opt.locationVersion = 2;
+  opt.entryVersion = 3;
+  opt.primaryVersion = 1;
+  opt.associationVersion = 1;
+  BmffMetadataUpdate update;
+  update.exif = Bytes{'n', 'e', 'w'};
+  const auto bytes = rewritten(fixture(opt), update);
+  const auto output = parse(bytes);
+  EXPECT_EQ(output.primaryItem, std::numeric_limits<uint32_t>::max());
+  EXPECT_EQ(output.metadataItems(bmffType("Exif")), (std::vector<uint32_t>{1}));
+}
+
+TEST(BmffRewrite, keepsIndexedPaddingSlotsButDiscardsTheirBodies) {
+  Options opt;
+  opt.propertyType = bmffType("free");
+  const auto bytes = rewritten(fixture(opt));
+  const auto output = parse(bytes);
+  ASSERT_EQ(output.properties.size(), 2u);
+  EXPECT_EQ(output.properties.front().payload().size, 0u);
+  EXPECT_EQ(output.associations.front().properties.back().index, 2u);
+}
+
+TEST(BmffRewrite, propagatesShortWritesAndReadFailuresWithoutMutatingSource) {
+  class ShortOutput : public MemIo {
+   public:
+    using MemIo::write;
+    size_t remaining{70};
+    size_t write(const byte* bytes, size_t count) override {
+      const auto n = std::min(count, remaining);
+      remaining -= n;
+      return MemIo::write(bytes, n);
+    }
+  } output;
+  const auto source = fixture();
+  MemIo input(source.data(), source.size());
+  const auto document = parseBmff(input);
+  EXPECT_THROW(rewriteBmff(input, output, document), Error);
+  EXPECT_EQ(input.size(), source.size());
+  EXPECT_EQ(std::memcmp(input.mmap(), source.data(), source.size()), 0);
+  class ShortInput : public MemIo {
+   public:
+    using MemIo::read;
+    explicit ShortInput(const Bytes& bytes) : MemIo(bytes.data(), bytes.size()) {
+    }
+    size_t read(byte*, size_t) override {
+      return 0;
+    }
+  } failing(source);
+  MemIo other;
+  EXPECT_THROW(rewriteBmff(failing, other, document), Error);
+  EXPECT_EQ(std::memcmp(failing.mmap(), source.data(), source.size()), 0);
+}
+
+TEST(BmffRewrite, detectsCorruptedPreparedOutput) {
+  class CorruptOutput : public MemIo {
+   public:
+    using MemIo::write;
+    size_t write(const byte* bytes, size_t count) override {
+      Bytes data(bytes, bytes + count);
+      if (contains(data, "ABexifCDxmp"))
+        data.back() ^= 1;
+      return MemIo::write(data.data(), data.size());
+    }
+  } output;
+  const auto source = fixture();
+  MemIo input(source.data(), source.size());
+  EXPECT_THROW(rewriteBmff(input, output, parseBmff(input)), Error);
+  EXPECT_EQ(std::memcmp(input.mmap(), source.data(), source.size()), 0);
+}
+
+TEST(BmffRewrite, promotesOutputOffsetsAndStreamsLargePayloadsWithBoundedIo) {
+  if (sizeof(size_t) < 8)
+    GTEST_SKIP() << "BasicIo size() cannot represent this input on a 32-bit host";
+  class SparseIo : public MemIo {
+   public:
+    using MemIo::read;
+    using MemIo::write;
+    std::map<uint64_t, Bytes> segments;
+    uint64_t length{};
+    uint64_t position{};
+    size_t largestWrite{};
+    size_t writeCalls{};
+
+    size_t size() const override {
+      return static_cast<size_t>(length);
+    }
+    size_t tell() const override {
+      return static_cast<size_t>(position);
+    }
+    int seek(int64_t offset, Position origin) override {
+      if (origin != beg || offset < 0 || static_cast<uint64_t>(offset) > length)
+        return 1;
+      position = static_cast<uint64_t>(offset);
+      return 0;
+    }
+    size_t read(byte* output, size_t count) override {
+      if (position > length || count > length - position)
+        return 0;
+      std::memset(output, 0, count);
+      auto it = segments.upper_bound(position);
+      if (it != segments.begin())
+        --it;
+      for (; it != segments.end() && it->first < position + count; ++it) {
+        const auto start = std::max(position, it->first);
+        const auto end = std::min<uint64_t>(position + count, it->first + it->second.size());
+        if (start < end)
+          std::memcpy(output + start - position, it->second.data() + start - it->first, end - start);
+      }
+      position += count;
+      return count;
+    }
+    size_t write(const byte* data, size_t count) override {
+      largestWrite = std::max(largestWrite, count);
+      ++writeCalls;
+      // Only the large zero-filled media payload uses full 64 KiB chunks here.
+      // Store all structural and short payload writes for the output reparse.
+      if (count != 64 * 1024)
+        segments.emplace(position, Bytes(data, data + count));
+      else if (data[0] != 0 || data[count - 1] != 0)
+        throw std::runtime_error("unexpected nonzero virtual media");
+      position += count;
+      length = std::max(length, position);
+      return count;
+    }
+  } input, output;
+  Options opt;
+  opt.noMetadata = true;
+  opt.offsetWidth = 0;
+  opt.lengthWidth = opt.baseWidth = 8;
+  auto prefix = fixture(opt);
+  const auto media = position(prefix, "mdat");
+  prefix.resize(media);
+  const uint64_t imageSize = (uint64_t{5} << 30) + 7;
+  patch(prefix, position(prefix, "iloc") + 20, media + 16, 8);
+  patch(prefix, position(prefix, "iloc") + 30, imageSize, 8);
+  integer(prefix, 1, 4);
+  integer(prefix, bmffType("mdat"), 4);
+  integer(prefix, imageSize + 16, 8);
+  input.length = prefix.size() + imageSize;
+  input.segments.emplace(0, prefix);
+  const auto original = parseBmff(input);
+  BmffMetadataUpdate update;
+  update.exif = Bytes{'n', 'e', 'w', '6', '4'};
+  rewriteBmff(input, output, original, update);
+  const auto document = parseBmff(output);
+  EXPECT_EQ(document.locationFormat.offsetSize, 8u);
+  EXPECT_EQ(document.locationFormat.lengthSize, 8u);
+  EXPECT_EQ(document.items.at(1).location.dataSize, imageSize);
+  const auto exif = document.metadataItems(bmffType("Exif")).front();
+  EXPECT_GT(document.items.at(exif).location.extents.front().offset, std::numeric_limits<uint32_t>::max());
+  EXPECT_EQ(readBmffItem(output, document.items.at(exif)), *update.exif);
+  EXPECT_LE(output.largestWrite, 64u * 1024);
+  EXPECT_EQ(input.writeCalls, 0u);
+  EXPECT_LT(output.segments.size(), 100u);
+
+  // A source that fits the seek contract can still overflow after metadata growth.
+  const auto maximum = static_cast<uint64_t>(std::numeric_limits<int64_t>::max());
+  patch(prefix, position(prefix, "iloc") + 30, maximum - prefix.size(), 8);
+  patch(prefix, media + 8, maximum - media, 8);
+  input.segments.at(0) = prefix;
+  input.length = maximum;
+  const auto tooLarge = parseBmff(input);
+  SparseIo untouched;
+  EXPECT_THROW(rewriteBmff(input, untouched, tooLarge, update), Error);
+  EXPECT_EQ(untouched.writeCalls, 0u);
+  EXPECT_EQ(input.writeCalls, 0u);
+}
+
+TEST(BmffRewrite, rejectsUnsupportedLayoutsAndNonemptySinksBeforeWriting) {
+  Options opt;
+  opt.extraMeta = box(bmffType("zzzz"), {1, 2, 3});
+  rejectsRewrite(fixture(opt));
+  opt.extraMeta.clear();
+  opt.brand = bmffType("avif");
+  rejectsRewrite(fixture(opt));
+  auto source = fixture();
+  MemIo input(source.data(), source.size());
+  MemIo output(source.data(), source.size());
+  const auto document = parseBmff(input);
+  EXPECT_THROW(rewriteBmff(input, input, document), Error);
+  EXPECT_THROW(rewriteBmff(input, output, document), Error);
+  EXPECT_EQ(std::memcmp(input.mmap(), source.data(), source.size()), 0);
+  EXPECT_EQ(std::memcmp(output.mmap(), source.data(), source.size()), 0);
+}
+
+TEST_P(BmffCorpus, preservesOrRejectsCorpusAccordingToWriteEnvelope) {
+  const auto& expected = GetParam();
+  FileIo input(std::string(TESTDATA_PATH) + "/" + expected.file);
+  ASSERT_EQ(input.open("rb"), 0);
+  const auto original = parseBmff(input);
+  MemIo output;
+  if (!expected.heif) {
+    EXPECT_THROW(rewriteBmff(input, output, original), Error);
+    EXPECT_EQ(output.size(), 0u);
+    return;
+  }
+  rewriteBmff(input, output, original);
+  const auto document = parseBmff(output);
+  for (const auto& [id, item] : original.items)
+    EXPECT_EQ(readBmffItem(input, item), readBmffItem(output, document.items.at(id))) << id;
+  BmffMetadataUpdate update;
+  update.exif = Bytes{};
+  update.xmp = Bytes{};
+  MemIo stripped;
+  rewriteBmff(input, stripped, original, update);
+  const auto cleaned = parseBmff(stripped);
+  EXPECT_TRUE(cleaned.metadataItems(bmffType("Exif")).empty());
+  EXPECT_TRUE(cleaned.metadataItems(bmffType("mime")).empty());
+  for (const auto& [id, item] : cleaned.items)
+    EXPECT_EQ(readBmffItem(input, original.items.at(id)), readBmffItem(stripped, item)) << id;
+}
+
+namespace {
+Bytes tiffItem(ExifData exif, const XmpData& xmp = {}, ByteOrder order = littleEndian) {
+  MemIo output;
+  TiffParser::encode(output, nullptr, 0, order, exif, IptcData{}, xmp);
+  Bytes bytes(4, 0);
+  bytes.insert(bytes.end(), output.mmap(), output.mmap() + output.size());
+  return bytes;
+}
+
+Bytes heifWithMetadata(const ExifData& exif = {}, std::string_view xmp = {}, ByteOrder order = littleEndian) {
+  Options options;
+  options.noMetadata = true;
+  BmffMetadataUpdate update;
+  if (!exif.empty())
+    update.exif = tiffItem(exif, {}, order);
+  if (!xmp.empty())
+    update.xmp = Bytes(xmp.begin(), xmp.end());
+  return rewritten(fixture(options), update);
+}
+
+Image::UniquePtr openHeif(const Bytes& bytes) {
+  auto owned = std::make_unique<MemIo>();
+  owned->write(bytes.data(), bytes.size());
+  auto image = ImageFactory::open(std::move(owned));
+  if (image->imageType() != ImageType::heif)
+    throw std::runtime_error("HEIF was not classified separately");
+  image->readMetadata();
+  return image;
+}
+
+Bytes imageBytes(Image& image) {
+  auto& io = image.io();
+  io.open();
+  auto data = io.read(io.size());
+  return Bytes(data.c_data(), data.c_data() + data.size());
+}
+
+}  // namespace
+
+TEST(HeifImage, addsGrowsShrinksDeletesAndPreservesEncodedImage) {
+  auto image = openHeif(heifWithMetadata());
+  EXPECT_EQ(image->checkMode(mdExif), amReadWrite);
+  EXPECT_EQ(image->checkMode(mdXmp), amReadWrite);
+  EXPECT_EQ(image->checkMode(mdIptc), amRead);
+  size_t smallSize = 0;
+  for (unsigned cycle = 0; cycle < 4; ++cycle) {
+    const auto canary = "PRIVATE_HEIF_DESCRIPTION_" + std::to_string(cycle);
+    image->exifData()["Exif.Image.ImageDescription"] = std::string(70000, 'v') + canary;
+    image->xmpData()["Xmp.dc.source"] = "Příliš žluťoučký kůň — " + canary;
+    ASSERT_NO_THROW(image->writeMetadata());
+    auto large = imageBytes(*image);
+    EXPECT_TRUE(contains(large, canary));
+    image->exifData()["Exif.Image.ImageDescription"] = "short";
+    image->xmpData()["Xmp.dc.source"] = "short";
+    ASSERT_NO_THROW(image->writeMetadata());
+    auto small = imageBytes(*image);
+    EXPECT_FALSE(contains(small, canary));
+    auto parsed = parse(small);
+    EXPECT_EQ(payload(small, parsed.items.at(parsed.primaryItem)), (Bytes{'A', 'B', 'C', 'D'}));
+    if (cycle != 0) {
+      EXPECT_EQ(small.size(), smallSize);
+    }
+    smallSize = small.size();
+  }
+  image->clearMetadata();
+  ASSERT_NO_THROW(image->writeMetadata());
+  auto clean = imageBytes(*image);
+  EXPECT_FALSE(contains(clean, "short"));
+  EXPECT_TRUE(parse(clean).metadataItems(bmffType("Exif")).empty());
+  EXPECT_TRUE(parse(clean).metadataItems(bmffType("mime")).empty());
+}
+
+TEST(HeifImage, preservesNoOpAndCleansExplicitEmptyRemoval) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "original";
+  auto bytes = heifWithMetadata(exif);
+  auto image = openHeif(bytes);
+  image->writeMetadata();
+  EXPECT_EQ(imageBytes(*image), bytes);
+  bytes = withOrphanedBytes(heifWithMetadata());
+  image = openHeif(bytes);
+  image->clearExifData();
+  image->clearXmpPacket();
+  image->writeMetadata();
+  EXPECT_FALSE(contains(imageBytes(*image), "UNREACHABLE_PRIVATE_METADATA_296bc8"));
+}
+
+TEST(HeifImage, removesDeletedTagsAndOriginalTiffSlack) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "KEEP_ARTIST";
+  exif["Exif.Photo.UserComment"] = "charset=Ascii PRIVATE_REMOVED_USER_COMMENT_841bb0";
+  auto item = tiffItem(exif, {}, bigEndian);
+  const std::string slack = "PRIVATE_UNUSED_TIFF_STORAGE_2223f1";
+  item.insert(item.end(), slack.begin(), slack.end());
+  BmffMetadataUpdate update;
+  update.exif = item;
+  auto image = openHeif(rewritten(heifWithMetadata(), update));
+  image->exifData().erase(image->exifData().findKey(ExifKey("Exif.Photo.UserComment")));
+  image->writeMetadata();
+  auto bytes = imageBytes(*image);
+  EXPECT_FALSE(contains(bytes, slack));
+  EXPECT_FALSE(contains(bytes, "PRIVATE_REMOVED_USER_COMMENT_841bb0"));
+  EXPECT_TRUE(contains(bytes, "KEEP_ARTIST"));
+  auto doc = parse(bytes);
+  auto tiff = payload(bytes, doc.items.at(doc.metadataItems(bmffType("Exif")).front()));
+  ASSERT_GT(tiff.size(), 8u);
+  EXPECT_EQ(tiff[4], 'M');
+  EXPECT_EQ(tiff[5], 'M');
+}
+
+TEST(HeifImage, clearsEmbeddedXmpAndPreservesItWhenOnlyExifIsRemoved) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "keep artist";
+  XmpData xmp;
+  xmp["Xmp.dc.source"] = "PRIVATE_EMBEDDED_XMP_350597";
+  BmffMetadataUpdate update;
+  update.exif = tiffItem(exif, xmp);
+  auto bytes = rewritten(heifWithMetadata(), update);
+  auto image = openHeif(bytes);
+  ASSERT_FALSE(image->xmpData().empty());
+  image->clearXmpPacket();
+  image->writeMetadata();
+  auto cleaned = imageBytes(*image);
+  EXPECT_FALSE(contains(cleaned, "PRIVATE_EMBEDDED_XMP_350597"));
+  EXPECT_TRUE(contains(cleaned, "keep artist"));
+  image = openHeif(bytes);
+  auto xml = image->exifData().findKey(ExifKey("Exif.Image.XMLPacket"));
+  ASSERT_NE(xml, image->exifData().end());
+  image->exifData().erase(xml);
+  image->writeMetadata();
+  EXPECT_FALSE(contains(imageBytes(*image), "PRIVATE_EMBEDDED_XMP_350597"));
+  image = openHeif(bytes);
+  image->clearExifData();
+  image->writeMetadata();
+  EXPECT_EQ(image->xmpData()["Xmp.dc.source"].toString(), "PRIVATE_EMBEDDED_XMP_350597");
+  EXPECT_TRUE(image->exifData().empty());
+}
+
+TEST(HeifImage, usesRawXmpPacketsSetMetadataAndRejectsUnsupportedCategories) {
+  auto source = openHeif(heifWithMetadata());
+  XmpData xmp;
+  xmp["Xmp.dc.source"] = "RAW_XMP_říční";
+  std::string packet;
+  ASSERT_EQ(XmpParser::encode(packet, xmp), 0);
+  source->setXmpPacket(packet);
+  source->exifData()["Exif.Image.Artist"] = "copied";
+  source->writeMetadata();
+  auto bytes = imageBytes(*source);
+  auto doc = parse(bytes);
+  EXPECT_EQ(payload(bytes, doc.items.at(doc.metadataItems(bmffType("mime")).front())),
+            Bytes(packet.begin(), packet.end()));
+  auto target = openHeif(heifWithMetadata());
+  target->setMetadata(*source);
+  target->writeMetadata();
+  EXPECT_EQ(target->exifData()["Exif.Image.Artist"].toString(), "copied");
+  EXPECT_EQ(target->xmpData()["Xmp.dc.source"].toString(), "RAW_XMP_říční");
+  EXPECT_THROW(target->setIptcData(IptcData{}), Error);
+  EXPECT_THROW(target->setComment("comment"), Error);
+  target->clearXmpData();
+  target->writeMetadata();
+  EXPECT_TRUE(target->xmpData().empty());
+  EXPECT_FALSE(contains(imageBytes(*target), "RAW_XMP"));
+}
+
+TEST(HeifImage, failsBeforeTransferAndDoesNotOverwritePendingEdits) {
+  class TransferIo : public MemIo {
+   public:
+    explicit TransferIo(const Bytes& bytes) : MemIo(bytes.data(), bytes.size()) {
+    }
+    void transfer(BasicIo&) override {
+      transferred = true;
+      throw Error(ErrorCode::kerImageWriteFailed);
+    }
+    bool transferred{};
+  };
+  auto bytes = heifWithMetadata();
+  auto source = std::make_unique<TransferIo>(bytes);
+  auto* observer = source.get();
+  auto image = ImageFactory::open(std::move(source));
+  image->readMetadata();
+  image->exifData()["Exif.Image.Artist"] = "pending";
+  EXPECT_THROW(image->writeMetadata(), Error);
+  EXPECT_TRUE(observer->transferred);
+  EXPECT_EQ(imageBytes(*image), bytes);
+  EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "pending");
+  append(bytes, box(bmffType("moov"), {}));
+  source = std::make_unique<TransferIo>(bytes);
+  observer = source.get();
+  image = ImageFactory::open(std::move(source));
+  image->exifData()["Exif.Image.Artist"] = "pending";
+  EXPECT_THROW(image->writeMetadata(), Error);
+  EXPECT_FALSE(observer->transferred);
+  EXPECT_EQ(imageBytes(*image), bytes);
+}
+
+TEST_P(BmffCorpus, editsThroughPublicApiAndKeepsOtherItems) {
+  const auto& expected = GetParam();
+  FileIo original(std::string(TESTDATA_PATH) + "/" + expected.file);
+  ASSERT_EQ(original.open(), 0);
+  auto data = original.read(original.size());
+  Bytes bytes(data.c_data(), data.c_data() + data.size());
+  auto image = ImageFactory::open(bytes.data(), bytes.size());
+  if (!expected.heif) {
+    EXPECT_EQ(image->imageType(), ImageType::bmff);
+    EXPECT_THROW(image->writeMetadata(), Error);
+    return;
+  }
+  ASSERT_EQ(image->imageType(), ImageType::heif);
+  image->readMetadata();
+  image->exifData()["Exif.Image.ImageDescription"] = "PUBLIC_API_CANARY_6f9326";
+  image->xmpData()["Xmp.dc.source"] = "PUBLIC_API_CANARY_6f9326";
+  ASSERT_NO_THROW(image->writeMetadata());
+  auto output = imageBytes(*image);
+  auto before = parse(bytes), after = parse(output);
+  auto exif = before.metadataItems(bmffType("Exif"));
+  auto xmp = before.metadataItems(bmffType("mime"));
+  for (const auto& [id, item] : before.items) {
+    if (std::find(exif.begin(), exif.end(), id) != exif.end() || std::find(xmp.begin(), xmp.end(), id) != xmp.end())
+      continue;
+    ASSERT_TRUE(after.items.contains(id));
+    EXPECT_EQ(payload(bytes, item), payload(output, after.items.at(id)));
+  }
+  auto first = output;
+  image->writeMetadata();
+  EXPECT_EQ(imageBytes(*image), first);
+  const auto tagCount = image->exifData().count();
+  size_t steadySize = 0;
+  for (unsigned cycle = 0; cycle != 3; ++cycle) {
+    image->exifData()["Exif.Image.ImageDescription"] = "PUBLIC_API_CANARY_6f9327";
+    image->writeMetadata();
+    image->exifData()["Exif.Image.ImageDescription"] = "PUBLIC_API_CANARY_6f9326";
+    image->writeMetadata();
+    EXPECT_EQ(image->exifData().count(), tagCount);
+    const auto currentSize = imageBytes(*image).size();
+    // Editing Exif alone may separate it from retained XMP into one more mdat.
+    EXPECT_LE(currentSize, first.size() + 8);
+    if (cycle != 0) {
+      EXPECT_EQ(currentSize, steadySize);
+    }
+    steadySize = currentSize;
+  }
+  image->clearMetadata();
+  ASSERT_NO_THROW(image->writeMetadata());
+  EXPECT_FALSE(contains(imageBytes(*image), "PUBLIC_API_CANARY_6f9326"));
+}
+
+TEST(HeifImage, readsAndReplacesMultiplePrimaryMetadataItems) {
+  ExifData first, second;
+  first["Exif.Image.Artist"] = "PRIVATE_FIRST_PRIMARY_450a";
+  first["Exif.Photo.DateTimeOriginal"] = "2001:02:03 04:05:06";
+  second["Exif.Image.Artist"] = "PRIVATE_SECOND_PRIMARY_917a";
+  Options options;
+  options.exifPayload = tiffItem(first);
+  options.xmpPayload = tiffItem(second);
+  options.secondExif = true;
+  auto source = fixture(options);
+  auto image = openHeif(source);
+  EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "PRIVATE_SECOND_PRIMARY_917a");
+  EXPECT_EQ(image->exifData()["Exif.Photo.DateTimeOriginal"].toString(), "2001:02:03 04:05:06");
+  image->exifData()["Exif.Image.Artist"] = "replacement";
+  image->writeMetadata();
+  auto bytes = imageBytes(*image);
+  EXPECT_EQ(parse(bytes).metadataItems(bmffType("Exif")).size(), 1u);
+  EXPECT_FALSE(contains(bytes, "PRIVATE_FIRST_PRIMARY_450a"));
+  EXPECT_FALSE(contains(bytes, "PRIVATE_SECOND_PRIMARY_917a"));
+  options.sharedMetadata = true;
+  source = fixture(options);
+  image = openHeif(source);
+  image->clearExifData();
+  EXPECT_THROW(image->writeMetadata(), Error);
+  EXPECT_EQ(imageBytes(*image), source);
+}
+
+TEST(HeifImage, updatesIdatMetadataAndWideItemIds) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "PRIVATE_IDAT_METADATA_7703";
+  Options options;
+  options.idat = options.metadataIdat = true;
+  options.exifPayload = tiffItem(exif);
+  options.xmpPayload = tiffItem(exif);
+  options.secondExif = true;
+  options.idBase = 70000;
+  options.locationVersion = 2;
+  options.entryVersion = 3;
+  options.primaryVersion = options.referenceVersion = options.associationVersion = 1;
+  auto image = openHeif(fixture(options));
+  image->exifData()["Exif.Image.Artist"] = "new";
+  image->writeMetadata();
+  auto bytes = imageBytes(*image);
+  auto document = parse(bytes);
+  EXPECT_FALSE(contains(bytes, "PRIVATE_IDAT_METADATA_7703"));
+  EXPECT_EQ(document.primaryItem, 70001u);
+  EXPECT_EQ(payload(bytes, document.items.at(70001)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(document.items.at(70001).location.constructionMethod, 1u);
+}
+
+TEST(HeifImage, preservesIndependentMetadataAndRejectsGenericAvifBrand) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "INDEPENDENT_METADATA_f880";
+  Options options;
+  options.exifPayload = tiffItem(exif);
+  options.xmpPayload = tiffItem(exif);
+  options.secondExif = true;
+  options.noReferences = true;
+  auto bytes = fixture(options);
+  auto image = openHeif(bytes);
+  EXPECT_TRUE(image->exifData().empty());
+  image->clearExifData();
+  image->writeMetadata();
+  auto result = imageBytes(*image);
+  EXPECT_EQ(payload(bytes, parse(bytes).items.at(2)), payload(result, parse(result).items.at(2)));
+  image->exifData()["Exif.Image.Artist"] = "primary metadata";
+  image->writeMetadata();
+  result = imageBytes(*image);
+  EXPECT_TRUE(contains(result, "INDEPENDENT_METADATA_f880"));
+  EXPECT_EQ(parse(result).metadataItems(bmffType("Exif")).size(), 1u);
+  bytes = heifWithMetadata();
+  patch(bytes, 8, bmffType("mif1"), 4);
+  patch(bytes, 16, bmffType("avif"), 4);
+  image = ImageFactory::open(bytes.data(), bytes.size());
+  EXPECT_EQ(image->imageType(), ImageType::bmff);
+  EXPECT_EQ(image->checkMode(mdExif), amRead);
+  EXPECT_THROW(image->writeMetadata(), Error);
+}
+
+TEST(HeifImage, preservesEmbeddedIptcAndThumbnailDataOnExifEdits) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "original";
+  const Bytes thumbnail{0xff, 0xd8, 1, 2, 3, 4, 0xff, 0xd9};
+  ExifThumb(exif).setJpegThumbnail(thumbnail.data(), thumbnail.size());
+  IptcData iptc;
+  iptc["Iptc.Application2.Caption"] = "retained IPTC";
+  MemIo output;
+  TiffParser::encode(output, nullptr, 0, littleEndian, exif, iptc, XmpData{});
+  BmffMetadataUpdate update;
+  update.exif = Bytes(4, 0);
+  update.exif->insert(update.exif->end(), output.mmap(), output.mmap() + output.size());
+  auto image = openHeif(rewritten(heifWithMetadata(), update));
+  image->exifData()["Exif.Image.Artist"] = "new";
+  image->writeMetadata();
+  EXPECT_EQ(image->iptcData()["Iptc.Application2.Caption"].toString(), "retained IPTC");
+  auto copied = ExifThumbC(image->exifData()).copy();
+  EXPECT_EQ(Bytes(copied.c_data(), copied.c_data() + copied.size()), thumbnail);
+  auto before = imageBytes(*image);
+  image->iptcData()["Iptc.Application2.Caption"] = "unsupported";
+  EXPECT_THROW(image->writeMetadata(), Error);
+  EXPECT_EQ(imageBytes(*image), before);
+}
+
+TEST(HeifImage, clearsOrphanedEmbeddedXmpAndPrintsWithoutDiscardingEdits) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "original";
+  auto item = tiffItem(exif);
+  const std::string canary = "PRIVATE_ORPHANED_TIFF_XMP_9c1f";
+  item.insert(item.end(), canary.begin(), canary.end());
+  BmffMetadataUpdate update;
+  update.exif = item;
+  auto image = openHeif(rewritten(heifWithMetadata(), update));
+  image->exifData()["Exif.Image.Artist"] = "pending";
+  std::ostringstream trace;
+  EXPECT_NO_THROW(image->printStructure(trace, kpsBasic, 0));
+  EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "pending");
+  image->clearXmpPacket();
+  image->writeMetadata();
+  EXPECT_FALSE(contains(imageBytes(*image), canary));
+}
+
+TEST(HeifImage, rejectsAmbiguousPrimaryXmpEncodingsBeforeTransfer) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "original";
+  Options options;
+  options.exifPayload = tiffItem(exif);
+  const std::string packet =
+      "<x:xmpmeta xmlns:x='adobe:ns:meta/'><rdf:RDF "
+      "xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'/></x:xmpmeta>";
+  options.xmpPayload = Bytes(packet.begin(), packet.end());
+  for (const auto* type : {"APPLICATION/RDF+XML", "application/rdf+xml; charset=utf-8", " application/rdf+xml "}) {
+    options.mimeType = type;
+    auto bytes = fixture(options);
+    auto image = ImageFactory::open(bytes.data(), bytes.size());
+    image->clearXmpData();
+    EXPECT_THROW(image->writeMetadata(), Error);
+    EXPECT_EQ(imageBytes(*image), bytes);
+  }
+}
+
+TEST(HeifImage, removesUnicodeUserCommentsInBothTiffByteOrders) {
+  const std::string canary = "PRIVATE_UNICODE_COMMENT_7ead";
+  Bytes big, little;
+  for (unsigned char c : canary) {
+    integer(big, c, 2);
+    little.push_back(c);
+    little.push_back(0);
+  }
+  auto has = [](const Bytes& data, const Bytes& needle) {
+    return std::search(data.begin(), data.end(), needle.begin(), needle.end()) != data.end();
+  };
+  for (const auto order : {littleEndian, bigEndian}) {
+    ExifData exif;
+    exif["Exif.Image.Artist"] = "retained";
+    exif["Exif.Photo.UserComment"] = "charset=Unicode " + canary + " žluťoučký";
+    auto bytes = heifWithMetadata(exif, {}, order);
+    ASSERT_TRUE(has(bytes, big) || has(bytes, little));
+    auto image = openHeif(bytes);
+    image->exifData().erase(image->exifData().findKey(ExifKey("Exif.Photo.UserComment")));
+    image->writeMetadata();
+    bytes = imageBytes(*image);
+    EXPECT_FALSE(has(bytes, big));
+    EXPECT_FALSE(has(bytes, little));
+  }
+}
+
+TEST(HeifImage, preservesAuxiliaryAndThumbnailGraphsAsOpaqueImageData) {
+  // A structural fixture: compressed-image decoding is intentionally outside
+  // this test. The writer must preserve every image item and relationship.
+  for (const auto* uri : {"urn:mpeg:hevc:2015:auxid:1", "urn:mpeg:hevc:2015:auxid:2"}) {
+    Options options;
+    options.secondExif = true;
+    options.auxiliaryType = uri;
+    options.exifPayload = Bytes{'A', 'L', 'P', 'H', 'A'};
+    options.xmpPayload = Bytes{'T', 'H', 'U', 'M', 'B'};
+    auto bytes = fixture(options);
+    auto before = parse(bytes);
+    for (const auto id : {2, 3}) {
+      const auto& info = before.items.at(id).info;
+      patch(bytes, info.box.offset + 16, bmffType("hvc1"), 4);
+    }
+    for (const auto& ref : before.references)
+      patch(bytes, ref.box.offset + 4, ref.from == 2 ? bmffType("auxl") : bmffType("thmb"), 4);
+    before = parse(bytes);
+    auto image = openHeif(bytes);
+    EXPECT_TRUE(image->exifData().empty());
+    image->exifData()["Exif.Image.Artist"] = "new metadata";
+    image->writeMetadata();
+    auto output = imageBytes(*image);
+    const auto after = parse(output);
+    for (const auto& [id, item] : before.items)
+      EXPECT_EQ(payload(bytes, item), payload(output, after.items.at(id)));
+    ASSERT_EQ(after.references.size(), before.references.size() + 1);
+    for (size_t i = 0; i != before.references.size(); ++i) {
+      EXPECT_EQ(after.references[i].type, before.references[i].type);
+      EXPECT_EQ(after.references[i].from, before.references[i].from);
+      EXPECT_EQ(after.references[i].to, before.references[i].to);
+    }
+    EXPECT_EQ(after.associations.size(), before.associations.size());
+    EXPECT_TRUE(contains(output, uri));
   }
 }
 
