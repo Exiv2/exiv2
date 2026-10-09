@@ -105,6 +105,7 @@ struct Metadata {
   XmpData xmp;
   XmpData embeddedXmp;
   std::string packet;
+  bool hasEmbeddedXmp{}, needsXmpToolkit{};
   ByteOrder order{littleEndian};
   DataBuf icc;
   uint32_t width{}, height{};
@@ -118,6 +119,16 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
     total += bytes.size();
     return bytes;
   };
+#ifndef EXV_HAVE_XMP_TOOLKIT
+  // Without a toolkit, preserve packets exactly. Different packets cannot be
+  // merged when several primary metadata items must become one new Exif item.
+  auto rememberPacket = [&](const std::string& packet) {
+    if (packet.empty())
+      return;
+    metadata.needsXmpToolkit |= !metadata.packet.empty() && metadata.packet != packet;
+    metadata.packet = packet;
+  };
+#endif
   for (auto id : document.metadataItems(bmffType("Exif"))) {
     auto bytes = read(id);
     enforce(bytes.size() >= 12, ErrorCode::kerCorruptedMetadata);
@@ -129,6 +140,14 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
     auto order = TiffParser::decode(exif, iptc, xmp, bytes.data() + 4 + offset, bytes.size() - 4 - offset, params);
     enforce(order != invalidByteOrder, ErrorCode::kerCorruptedMetadata);
     metadata.order = order;
+    if (auto xml = exif.findKey(ExifKey("Exif.Image.XMLPacket")); xml != exif.end()) {
+      metadata.hasEmbeddedXmp = true;
+#ifndef EXV_HAVE_XMP_TOOLKIT
+      Bytes packet(xml->size());
+      xml->copy(packet.data(), order);
+      rememberPacket(std::string(packet.begin(), packet.end()));
+#endif
+    }
     merge(metadata.exif, exif);
     for (const auto& datum : iptc)
       metadata.iptc.add(datum);
@@ -140,13 +159,19 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
     supported(document.items.at(id).info.contentEncoding.empty(), "compressed primary XMP");
     auto bytes = read(id);
     std::string packet(bytes.begin(), bytes.end());
+#ifdef EXV_HAVE_XMP_TOOLKIT
     XmpData xmp;
     enforce(XmpParser::decode(xmp, packet, params) == 0, ErrorCode::kerInvalidXMP);
     merge(metadata.xmp, xmp);
     metadata.packet = std::move(packet);
+#else
+    rememberPacket(packet);
+#endif
   }
+#ifdef EXV_HAVE_XMP_TOOLKIT
   if (xmpIds.size() != 1 || !metadata.embeddedXmp.empty())
     metadata.packet = encodeXmp(metadata.xmp);
+#endif
 
   std::set<uint16_t> properties;
   for (const auto& entry : document.associations) {
@@ -421,16 +446,27 @@ class HeifImage final : public BmffImage {
     removeExif_ = true;
   }
   void setXmpData(const XmpData& xmp) override {
+#ifndef EXV_HAVE_XMP_TOOLKIT
+    supported(xmp.empty(), "structured XMP editing requires the XMP toolkit");
+#endif
+    if (xmp.empty())
+      Image::clearXmpPacket();
     Image::setXmpData(xmp);
     removeXmp_ = xmp.empty();
   }
   void clearXmpData() override {
+    Image::clearXmpPacket();
     Image::clearXmpData();
     removeXmp_ = true;
   }
   void setXmpPacket(const std::string& packet) override {
     supported(packet.size() <= bmffMetadataLimit, "XMP exceeds the allocation limit");
+#ifdef EXV_HAVE_XMP_TOOLKIT
     Image::setXmpPacket(packet);
+#else
+    xmpPacket_ = packet;
+    xmpData_.clear();
+#endif
     writeXmpFromPacket(true);
     removeXmp_ = packet.empty();
   }
@@ -472,18 +508,25 @@ class HeifImage final : public BmffImage {
                                 }),
                  exif.end());
     }
+#ifndef EXV_HAVE_XMP_TOOLKIT
+    supported(xmpData_.empty(), "structured XMP editing requires the XMP toolkit");
+#endif
     auto packet = writeXmpFromPacket() ? xmpPacket_ : encodeXmp(xmpData_);
     supported(packet.size() <= bmffMetadataLimit, "XMP exceeds the allocation limit");
     const bool xmpChanged =
         removeXmp_ || (writeXmpFromPacket() ? packet != original.packet : packet != encodeXmp(original.xmp));
     const bool exifChanged = removeExif_ || !sameData(exif, original.exif);
+    supported(!original.needsXmpToolkit || xmpChanged || !exifChanged,
+              "merging different primary XMP packets requires the XMP toolkit");
     BmffMetadataUpdate update;
-    if (xmpChanged || (exifChanged && exif.empty() && !original.embeddedXmp.empty()))
+    if (xmpChanged || (exifChanged && exif.empty() && original.hasEmbeddedXmp))
       update.xmp = Bytes(packet.begin(), packet.end());
     // A separate MIME item becomes authoritative when XMP is edited. Remove its
     // old embedded TIFF copy so it cannot reappear after removing the MIME item.
     auto embedded = original.embeddedXmp;
+#ifdef EXV_HAVE_XMP_TOOLKIT
     auto xml = exif.findKey(ExifKey("Exif.Image.XMLPacket"));
+#endif
     // Even without a live XMLPacket tag, prior XMP may survive in TIFF slack.
     const bool embeddedChanged = xmpChanged && !exif.empty();
     if (xmpChanged) {
@@ -493,6 +536,7 @@ class HeifImage final : public BmffImage {
       // The Exif API can also delete or replace the embedded XMLPacket tag.
       // Honor its current value instead of restoring the old decoded packet.
       embedded.clear();
+#ifdef EXV_HAVE_XMP_TOOLKIT
       if (xml != exif.end()) {
         supported(xml->size() <= bmffMetadataLimit, "embedded XMP exceeds the allocation limit");
         Bytes bytes(xml->size());
@@ -500,6 +544,7 @@ class HeifImage final : public BmffImage {
         enforce(XmpParser::decode(embedded, std::string(bytes.begin(), bytes.end()), params) == 0,
                 ErrorCode::kerInvalidXMP);
       }
+#endif
     }
     if (exifChanged || embeddedChanged) {
       if (exif.findKey(ExifKey("Exif.Canon.AFInfo")) != exif.end() &&
@@ -537,9 +582,13 @@ class HeifImage final : public BmffImage {
     if (!loaded_)
       readMetadata();
     if (option == kpsXMP) {
+#ifdef EXV_HAVE_XMP_TOOLKIT
       std::string packet;
       enforce(XmpParser::encode(packet, xmpData_) == 0, ErrorCode::kerInvalidXMP);
       out << packet;
+#else
+      out << xmpPacket_;
+#endif
     } else if (option == kpsIccProfile)
       out.write(iccProfile_.c_str(), iccProfile_.size());
     else if (option == kpsBasic || option == kpsRecursive) {
