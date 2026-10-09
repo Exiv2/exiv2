@@ -36,6 +36,12 @@ struct Iloc {
 
 /*!
   @brief Class to access BMFF images.
+
+  This general BMFF class provides read access. Use ImageFactory::open() for
+  HEIF/HEIC editing: the factory selects a private specialization and reports
+  ImageType::heif. Its Exif/XMP write capability is subject to validation of the
+  file's item layout; unsupported layouts fail before source replacement.
+  Direct construction of BmffImage does not enable HEIF writing.
  */
 class EXIV2API BmffImage : public Image {
  public:
