@@ -109,6 +109,8 @@ add_library(
   asfvideo.cpp
   basicio.cpp
   bmffimage.cpp
+  heifimage_int.cpp
+  heifimage_int.hpp
   bmpimage.cpp
   convert.cpp
   cr2image.cpp

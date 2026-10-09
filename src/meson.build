@@ -1,6 +1,7 @@
 base_lib = files(
   'basicio.cpp',
   'bmffimage.cpp',
+  'heifimage_int.cpp',
   'bmpimage.cpp',
   'convert.cpp',
   'cr2image.cpp',
