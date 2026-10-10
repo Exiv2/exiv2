@@ -40,6 +40,11 @@ struct BmffFullBox {
   uint32_t flags{};   //!< Low 24 flag bits of the FullBox prefix.
 };
 
+//! @brief Split a FullBox field without imposing an adapter's version or flag restrictions.
+constexpr BmffFullBox decodeBmffFullBox(uint32_t value) {
+  return {static_cast<uint8_t>(value >> 24), value & 0xffffff};
+}
+
 //! @brief Input box boundaries and decoded children, with opaque payloads left in the input.
 struct BmffBox {
   uint32_t type{};                     //!< Packed four-character box code.
@@ -168,17 +173,20 @@ class BmffReader {
     @param input A cursor belonging to this reader, bounding the sibling range.
     @param depth Nesting depth; root is zero and recursive child visits add one.
     @param visitor Callback taking a mutable BmffBox and bounded payload cursor.
+    @param count Maximum sibling boxes to visit; defaults to the entire range.
     @throws Error For invalid structure, depth, exhausted budgets, or failed I/O.
 
     The callback may read a prefix and recursively visit the remaining payload
     with depth + 1, populate children, or leave the payload opaque. It must not
     retain references to the callback arguments. Unconsumed payload bytes are
-    skipped; input reaches its end on success. Callback exceptions propagate.
+    skipped; input reaches its end or the requested count on success. Callback
+    exceptions propagate. Counted format tables validate their expected count.
    */
   template <typename Visitor>
-  void visit(BmffCursor& input, unsigned depth, Visitor&& visitor) {
+  void visit(BmffCursor& input, unsigned depth, Visitor&& visitor, uint64_t count = UINT64_MAX) {
     checkTraversal(input, depth);
-    while (input.remaining() != 0) {
+    while (input.remaining() != 0 && count != 0) {
+      --count;
       auto box = readBox(input);
       auto fields = cursor(box.payload());
       visitor(box, fields);
