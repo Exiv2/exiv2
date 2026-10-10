@@ -562,6 +562,30 @@ class HeifImage final : public BmffImage {
     }
   }
 
+  /*!
+    @brief Copy writable Exif/XMP metadata, preserving raw packets without the XMP toolkit.
+    @param image Source image; self-copy is supported and source buffers are not retained.
+    @throws Error If structured XMP needs an unavailable toolkit or a packet exceeds the size limit.
+
+    The copy changes buffered metadata only. An empty source XMP packet requests
+    removal when the toolkit is unavailable, just as an explicit clear does.
+   */
+  void setMetadata(const Image& image) override {
+#ifdef EXV_HAVE_XMP_TOOLKIT
+    Image::setMetadata(image);
+#else
+    supported(image.xmpData().empty(), "structured XMP editing requires the XMP toolkit");
+    const auto& sourcePacket = image.xmpPacket();
+    supported(sourcePacket.size() <= bmffMetadataLimit, "XMP exceeds the allocation limit");
+
+    // Snapshot both views before changing this image, which may also be the source.
+    const auto exif = image.exifData();
+    const auto packet = sourcePacket;
+    setExifData(exif);
+    setXmpPacket(packet);
+#endif
+  }
+
   //! @brief Replace Exif data, treating an empty replacement as an explicit removal request.
   void setExifData(const ExifData& exif) override {
     Image::setExifData(exif);
