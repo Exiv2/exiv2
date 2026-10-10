@@ -169,6 +169,35 @@ TEST(BmffBoxReader, traversesNonImageBoxesWithoutInterpretingOpaquePayloads) {
   EXPECT_NO_THROW(input.finish());
 }
 
+// Counted tables may consume a prefix of siblings and resume at the next header.
+TEST(BmffBoxReader, visitsCountedSiblingsWithoutConsumingTheRemainder) {
+  auto bytes = box(bmffType("one "));
+  append(bytes, box(bmffType("two ")));
+  MemIo io(bytes.data(), bytes.size());
+  BmffReader reader(io, testLimits);
+  auto input = reader.cursor({0, reader.fileSize()});
+  std::vector<uint32_t> types;
+  auto collect = [&](const BmffBox& current, BmffCursor&) { types.push_back(current.type); };
+
+  reader.visit(input, 0, collect, 0);
+  EXPECT_EQ(input.position(), 0u);
+  reader.visit(input, 0, collect, 1);
+  EXPECT_EQ(input.position(), 8u);
+  EXPECT_EQ(types, (std::vector<uint32_t>{bmffType("one ")}));
+  reader.visit(input, 0, collect, 5);
+
+  EXPECT_EQ(types, (std::vector<uint32_t>{bmffType("one "), bmffType("two ")}));
+  EXPECT_NO_THROW(input.finish());
+}
+
+// Shared prefix decoding retains all bits so each adapter can apply its own policy.
+TEST(BmffBoxReader, decodesFullBoxVersionAndFlagsWithoutValidation) {
+  const auto full = decodeBmffFullBox(0xab123456);
+  EXPECT_EQ(full.version, 0xabu);
+  EXPECT_EQ(full.flags, 0x123456u);
+  EXPECT_EQ(decodeBmffFullBox(0xffffffff).flags, 0xffffffu);
+}
+
 // Empty sibling ranges require neither header reads nor a minimum box count.
 TEST(BmffBoxReader, acceptsAnEmptyRangeWithZeroBudgets) {
   MemIo io;
