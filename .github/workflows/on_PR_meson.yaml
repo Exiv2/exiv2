@@ -27,7 +27,7 @@ jobs:
       - name: Install meson
         run: python3 -m pip install lxml meson ninja
       - name: Install dependencies
-        run: sudo apt install -y cmake libcurl4-openssl-dev libbrotli-dev libexpat-dev libfmt-dev libinih-dev libz-dev gettext
+        run: sudo apt install -y cmake libcurl4-openssl-dev libbrotli-dev libexpat-dev libfmt-dev libinih-dev libz-dev gettext nlohmann-json3-dev
       - name: Compile and Test
         run: |
           meson setup "${{github.workspace}}/build" -Dauto_features=${{matrix.deps}} -Dwarning_level=3
@@ -52,7 +52,7 @@ jobs:
           python3 -m pip install lxml meson ninja
       - name: Install dependencies
         run: |
-          sudo apt install -y libcurl4-openssl-dev libbrotli-dev libz-dev gettext
+          sudo apt install -y libcurl4-openssl-dev libbrotli-dev libz-dev gettext nlohmann-json3-dev
           sudo apt install -y libc++abi-${{matrix.cxx}}-dev libc++-${{matrix.cxx}}-dev
       - name: Compile and Test
         env:
@@ -158,6 +158,7 @@ jobs:
             libinih:p
             meson:p
             ninja:p
+            nlohmann-json:p
             pkgconf:p
             python-lxml:p
 
@@ -203,7 +204,7 @@ jobs:
 
       - name: Install packages
         run: |
-          brew install inih meson
+          brew install inih meson nlohmann-json
           python -m pip install lxml
 
       - name: Compile and Test
@@ -220,7 +221,7 @@ jobs:
       - uses: vmactions/freebsd-vm@v1
         with:
           prepare: |
-            pkg install -y cmake curl ninja meson gettext python pkgconf googletest expat inih brotli
+            pkg install -y cmake curl ninja meson gettext python pkgconf googletest expat inih brotli nlohmann-json
           run: |
             meson setup "${{github.workspace}}/build" -Dwarning_level=3
             meson compile -C "${{github.workspace}}/build" --verbose

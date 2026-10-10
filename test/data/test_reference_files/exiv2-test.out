@@ -86,6 +86,7 @@ Options:
              R : Recursive print structure of image (debug build only)
              S : Print structure of image (limited file types)
              X : Extract "raw" XMP
+             j : JSON output (Exif, IPTC and XMP tags)
    -P flgs Print flags for fine control of tag lists ('print' action):
              E : Exif tags
              I : IPTC tags

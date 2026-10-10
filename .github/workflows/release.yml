@@ -79,7 +79,7 @@ jobs:
         run: |
           brew update --quiet
           brew upgrade
-          brew install inih doxygen graphviz
+          brew install inih doxygen graphviz nlohmann-json
 
       - name: Build packaged release
         run: |

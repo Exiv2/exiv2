@@ -30,43 +30,45 @@ distro_id=$(grep '^ID=' /etc/os-release|awk -F = '{print $2}'|sed 's/\"//g')
 
 case "$distro_id" in
     'fedora')
-        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel gmock-devel glibc-langpack-en
+        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel gmock-devel glibc-langpack-en json-devel
         ;;
 
     'debian')
         apt-get update
-        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev
+        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev nlohmann-json3-dev
         # debian_build_gtest
         ;;
 
     'arch')
         pacman --noconfirm -Syu
-        pacman --noconfirm --needed -S gcc clang cmake ninja expat zlib brotli libssh curl gtest libinih
+        pacman --noconfirm --needed -S gcc clang cmake ninja expat zlib brotli libssh curl gtest libinih nlohmann-json
         ;;
 
     'ubuntu')
         apt-get update
-        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev
+        apt-get install -y cmake ninja-build g++ clang libexpat1-dev zlib1g-dev libbrotli-dev libssh-dev libcurl4-openssl-dev libgmock-dev libxml2-utils libinih-dev nlohmann-json3-dev
         # debian_build_gtest
         ;;
 
     'alpine')
         apk update
-        apk add gcc g++ clang cmake samurai expat-dev zlib-dev brotli-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev libxml2-utils inih-dev inih-inireader-dev
+        apk add gcc g++ clang cmake samurai expat-dev zlib-dev brotli-dev libssh-dev curl-dev gtest gtest-dev gmock libintl gettext-dev libxml2-utils inih-dev inih-inireader-dev nlohmann-json
         ;;
 
     'rhel')
-        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel
+        dnf -y --refresh install epel-release
+        dnf -y --refresh install gcc-c++ clang cmake ninja-build expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel inih-devel json-devel
         ;;
 
     'centos')
-        dnf -y --refresh install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel
+        dnf -y --refresh install epel-release
+        dnf -y --refresh install gcc-c++ clang cmake expat-devel zlib-devel brotli-devel libssh-devel libcurl-devel json-devel
         dnf -y --refresh --enablerepo=crb install ninja-build inih-devel
         ;;
 
     'opensuse-tumbleweed')
         zypper --non-interactive refresh
-        zypper --non-interactive install gcc-c++ clang cmake ninja libexpat-devel zlib-devel libbrotli-devel libssh-devel libcurl-devel gmock libxml2-tools libinih-devel
+        zypper --non-interactive install gcc-c++ clang cmake ninja libexpat-devel zlib-devel libbrotli-devel libssh-devel libcurl-devel gmock libxml2-tools libinih-devel nlohmann_json-devel
         ;;
     *)
         echo "Sorry, no predefined dependencies for your distribution $distro_id exist yet"
