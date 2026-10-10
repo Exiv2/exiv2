@@ -1552,6 +1552,33 @@ std::string rawXmpSource(std::string_view value) {
          std::string(value) + "'/></rdf:RDF></x:xmpmeta>";
 }
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
+// Build two primary Exif items with disjoint and overlapping embedded XMP properties.
+Bytes heifWithMergedEmbeddedXmp(bool separate = false) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "original artist";
+  XmpData first, second;
+  first["Xmp.dc.source"] = "FIRST_EMBEDDED_78b2";
+  first["Xmp.xmp.Label"] = "FIRST_LABEL";
+  second["Xmp.dc.format"] = "SECOND_EMBEDDED_4c19";
+  second["Xmp.xmp.Label"] = "SECOND_LABEL";
+  Options options;
+  options.secondExif = true;
+  options.exifPayload = tiffItem(exif, first);
+  options.xmpPayload = tiffItem(exif, second);
+  auto bytes = fixture(options);
+
+  // A separate packet overrides the overlapping embedded source property.
+  if (separate) {
+    const auto packet = rawXmpSource("MIME_SOURCE");
+    BmffMetadataUpdate update;
+    update.xmp = Bytes(packet.begin(), packet.end());
+    bytes = rewritten(bytes, update);
+  }
+  return bytes;
+}
+#endif
+
 // Build a legacy-readable UUID layout, optionally with a competing item-based XMP packet.
 Bytes heifWithUuidXmp(bool nested, bool extended, bool itemXmp, bool adobe = true) {
   Bytes uuid{0xbe, 0x7a, 0xcf, 0xcb, 0x97, 0xa9, 0x42, 0xe8, 0x9c, 0x71, 0x99, 0x94, 0x91, 0xe3, 0xaf, 0xac};
@@ -1920,6 +1947,155 @@ TEST_P(BmffCorpus, editsThroughPublicApiAndKeepsOtherItems) {
   ASSERT_NO_THROW(image->writeMetadata());
   EXPECT_FALSE(contains(imageBytes(*image), "PUBLIC_API_CANARY_6f9326"));
 }
+
+#ifdef EXV_HAVE_XMP_TOOLKIT
+// Preserve the union of embedded packets when an unrelated Exif field changes.
+TEST(HeifImage, preservesMergedEmbeddedXmpOnExifEdits) {
+  for (bool separate : {false, true}) {
+    SCOPED_TRACE(separate);
+    auto source = heifWithMergedEmbeddedXmp(separate);
+    auto image = openHeif(source);
+    ASSERT_EQ(image->xmpData().count(), 3u);
+    EXPECT_EQ(image->xmpData()["Xmp.dc.source"].toString(), separate ? "MIME_SOURCE" : "FIRST_EMBEDDED_78b2");
+    EXPECT_EQ(image->xmpData()["Xmp.xmp.Label"].toString(), "SECOND_LABEL");
+
+    image->exifData()["Exif.Image.Artist"] = "edited artist";
+    ASSERT_NO_THROW(image->writeMetadata());
+    const auto bytes = imageBytes(*image);
+    const auto document = parse(bytes);
+    const auto items = document.metadataItems(bmffType("Exif"));
+    ASSERT_EQ(items.size(), 1u);
+
+    // Inspect the embedded packet independently so separate XMP cannot mask lost properties.
+    const auto tiff = payload(bytes, document.items.at(items.front()));
+    ExifData checkedExif;
+    IptcData checkedIptc;
+    XmpData checkedXmp;
+    ASSERT_EQ(TiffParser::decode(checkedExif, checkedIptc, checkedXmp, tiff.data() + 4, tiff.size() - 4,
+                                 DecodeParams(defaultImageCtorParams(false).max_recursion_depth())),
+              littleEndian);
+    ASSERT_EQ(checkedXmp.count(), 3u);
+    EXPECT_EQ(checkedXmp["Xmp.dc.source"].toString(), "FIRST_EMBEDDED_78b2");
+    const auto original = parse(source);
+    EXPECT_EQ(payload(bytes, document.items.at(document.primaryItem)),
+              payload(source, original.items.at(original.primaryItem)));
+    image = openHeif(bytes);
+
+    EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "edited artist");
+    ASSERT_EQ(image->xmpData().count(), 3u);
+    EXPECT_EQ(image->xmpData()["Xmp.dc.source"].toString(), separate ? "MIME_SOURCE" : "FIRST_EMBEDDED_78b2");
+    EXPECT_EQ(image->xmpData()["Xmp.dc.format"].toString(), "SECOND_EMBEDDED_4c19");
+    EXPECT_EQ(image->xmpData()["Xmp.xmp.Label"].toString(), "SECOND_LABEL");
+
+    // Once consolidated, a write without edits must preserve all source bytes.
+    ASSERT_NO_THROW(image->writeMetadata());
+    EXPECT_EQ(imageBytes(*image), bytes);
+  }
+}
+
+// Honor explicit packet edits and removals without resurrecting merged embedded properties.
+TEST(HeifImage, honorsExplicitEditsToMergedEmbeddedXmp) {
+  for (unsigned operation = 0; operation < 4; ++operation) {
+    SCOPED_TRACE(operation);
+    auto image = openHeif(heifWithMergedEmbeddedXmp());
+    ASSERT_EQ(image->xmpData().count(), 3u);
+
+    // Replace or delete XMLPacket, clear all XMP, or remove only Exif.
+    if (operation < 2) {
+      auto& exif = image->exifData();
+      exif.erase(exif.findKey(ExifKey("Exif.Image.XMLPacket")));
+      if (operation == 0) {
+        const auto packet = rawXmpSource("REPLACEMENT_EMBEDDED_025f");
+        auto value = Value::create(unsignedByte);
+        value->read(reinterpret_cast<const byte*>(packet.data()), packet.size(), invalidByteOrder);
+        exif.add(ExifKey("Exif.Image.XMLPacket"), value.get());
+      }
+    } else if (operation == 2) {
+      image->clearXmpData();
+    } else {
+      image->clearExifData();
+    }
+
+    ASSERT_NO_THROW(image->writeMetadata());
+    const auto bytes = imageBytes(*image);
+    image = openHeif(bytes);
+    if (operation == 3) {
+      EXPECT_TRUE(image->exifData().empty());
+      ASSERT_EQ(image->xmpData().count(), 3u);
+      EXPECT_EQ(image->xmpData()["Xmp.dc.source"].toString(), "FIRST_EMBEDDED_78b2");
+      EXPECT_EQ(image->xmpData()["Xmp.dc.format"].toString(), "SECOND_EMBEDDED_4c19");
+      EXPECT_EQ(parse(bytes).metadataItems(bmffType("mime")).size(), 1u);
+    } else {
+      EXPECT_FALSE(contains(bytes, "FIRST_EMBEDDED_78b2"));
+      EXPECT_FALSE(contains(bytes, "SECOND_EMBEDDED_4c19"));
+      if (operation == 0) {
+        ASSERT_EQ(image->xmpData().count(), 1u);
+        EXPECT_EQ(image->xmpData()["Xmp.dc.source"].toString(), "REPLACEMENT_EMBEDDED_025f");
+      } else {
+        EXPECT_TRUE(image->xmpData().empty());
+      }
+    }
+  }
+}
+
+// Treat duplicate XMLPacket insertion as an explicit edit even if its first value is unchanged.
+TEST(HeifImage, detectsChangesToDuplicateEmbeddedPacketGroups) {
+  auto image = openHeif(heifWithMergedEmbeddedXmp());
+  auto& exif = image->exifData();
+  const auto packet = exif.findKey(ExifKey("Exif.Image.XMLPacket"))->value().clone();
+  exif.add(ExifKey("Exif.Image.XMLPacket"), packet.get());
+
+  ASSERT_NO_THROW(image->writeMetadata());
+  const auto bytes = imageBytes(*image);
+  image = openHeif(bytes);
+
+  // The existing first-packet interpretation applies to explicitly edited raw tags.
+  EXPECT_FALSE(contains(bytes, "FIRST_EMBEDDED_78b2"));
+  ASSERT_EQ(image->xmpData().count(), 2u);
+  EXPECT_EQ(image->xmpData()["Xmp.dc.format"].toString(), "SECOND_EMBEDDED_4c19");
+  EXPECT_EQ(std::count_if(image->exifData().begin(), image->exifData().end(),
+                          [](const auto& datum) { return datum.key() == "Exif.Image.XMLPacket"; }),
+            1);
+}
+#else
+// Reject an Exif edit requiring two different embedded packets to merge without the toolkit.
+TEST(HeifImage, rejectsMergingMultipleEmbeddedPacketsWithoutToolkit) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "original";
+  Options options;
+  options.secondExif = true;
+  const auto first = rawXmpSource("FIRST_RAW_EMBEDDED_81f5");
+  const auto second = rawXmpSource("SECOND_RAW_EMBEDDED_517a");
+  auto value = Value::create(unsignedByte);
+
+  // Build raw XML tags directly because structured serialization is unavailable.
+  value->read(reinterpret_cast<const byte*>(first.data()), first.size(), invalidByteOrder);
+  exif.add(ExifKey("Exif.Image.XMLPacket"), value.get());
+  options.exifPayload = tiffItem(exif);
+  exif.erase(exif.findKey(ExifKey("Exif.Image.XMLPacket")));
+  value->read(reinterpret_cast<const byte*>(second.data()), second.size(), invalidByteOrder);
+  exif.add(ExifKey("Exif.Image.XMLPacket"), value.get());
+  options.xmpPayload = tiffItem(exif);
+  const auto bytes = fixture(options);
+  auto image = openHeif(bytes);
+
+  ASSERT_NO_THROW(image->writeMetadata());
+  EXPECT_EQ(imageBytes(*image), bytes);
+  image->exifData()["Exif.Image.Artist"] = "pending";
+  EXPECT_THROW(image->writeMetadata(), Error);
+  EXPECT_EQ(imageBytes(*image), bytes);
+
+  // Explicit removal resolves the ambiguity and physically removes both packets.
+  image->clearXmpData();
+  ASSERT_NO_THROW(image->writeMetadata());
+  const auto cleaned = imageBytes(*image);
+  EXPECT_FALSE(contains(cleaned, "FIRST_RAW_EMBEDDED_81f5"));
+  EXPECT_FALSE(contains(cleaned, "SECOND_RAW_EMBEDDED_517a"));
+  image = openHeif(cleaned);
+  EXPECT_TRUE(image->xmpPacket().empty());
+  EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "pending");
+}
+#endif
 
 // Merge primary metadata in file order and replace obsolete copies together.
 TEST(HeifImage, readsAndReplacesMultiplePrimaryMetadataItems) {
