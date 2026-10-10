@@ -1,0 +1,238 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#include "bmfflayout_int.hpp"
+
+#ifdef EXV_ENABLE_BMFF
+
+#include "basicio.hpp"
+#include "enforce.hpp"
+#include "error.hpp"
+
+#include <algorithm>
+#include <limits>
+#include <utility>
+
+namespace Exiv2::Internal {
+namespace {
+constexpr uint64_t maxPosition = std::numeric_limits<int64_t>::max();
+constexpr uint64_t max32 = std::numeric_limits<uint32_t>::max();
+constexpr size_t copyBufferSize = 64 * 1024;
+
+// Reject inconsistent layout state through the common metadata error code.
+void require(bool condition) {
+  enforce(condition, ErrorCode::kerCorruptedMetadata);
+}
+
+// Add positions within the signed seek range supported by BasicIo.
+uint64_t add(uint64_t a, uint64_t b) {
+  require(a <= maxPosition && b <= maxPosition - a);
+  return a + b;
+}
+
+// Return the checked exclusive end of a source interval.
+uint64_t end(BmffSpan span) {
+  return add(span.offset, span.size);
+}
+
+// Measure descendants before deciding whether the containing header must grow.
+void measure(BmffOutputBox& box) {
+  uint64_t payload = box.prefix.size();
+  for (auto& child : box.children) {
+    measure(child);
+    payload = add(payload, child.size);
+  }
+  for (const auto& segment : box.segments) {
+    if (!segment.bytes)
+      (void)end(segment.source);
+    payload = add(payload, segment.size());
+  }
+
+  // Header promotion is monotonic, including the extra UUID header bytes.
+  const unsigned uuidSize = box.type == bmffType("uuid") ? 16 : 0;
+  box.extended |= add(payload, 8 + uuidSize) > max32;
+  box.header = static_cast<uint8_t>((box.extended ? 16 : 8) + uuidSize);
+  box.size = add(box.header, payload);
+}
+
+// Assign absolute output coordinates without interpreting boxes or payloads.
+uint64_t locate(BmffOutputBox& box, uint64_t offset) {
+  box.position = offset;
+  auto position = add(add(offset, box.header), box.prefix.size());
+  for (auto& child : box.children)
+    position = locate(child, position);
+  for (auto& segment : box.segments) {
+    segment.position = position;
+    position = add(position, segment.size());
+  }
+
+  require(position == add(offset, box.size));
+  return position;
+}
+
+// Encode the at-most-32-byte framing independently of adapter-owned fields.
+std::vector<byte> header(const BmffOutputBox& box) {
+  std::vector<byte> bytes;
+  // Only the standard size/type fields and optional UUID belong to the core.
+  const auto number = [&](uint64_t value, unsigned width) {
+    require(width == 8 || value <= max32);
+    for (unsigned i = width; i != 0; --i)
+      bytes.push_back(static_cast<byte>(value >> ((i - 1) * 8)));
+  };
+  number(box.extended ? 1 : box.size, 4);
+  number(box.type, 4);
+  if (box.extended)
+    number(box.size, 8);
+  if (box.type == bmffType("uuid"))
+    bytes.insert(bytes.end(), box.uuid.begin(), box.uuid.end());
+  require(bytes.size() == box.header);
+  return bytes;
+}
+
+// Read an exact range and propagate seek, short-read and stream errors.
+void read(BasicIo& input, uint64_t offset, byte* data, size_t size) {
+  (void)add(offset, size);
+  input.seekOrThrow(static_cast<int64_t>(offset), BasicIo::beg, ErrorCode::kerInputDataReadFailed);
+  input.readOrThrow(data, size, ErrorCode::kerInputDataReadFailed);
+  enforce(!input.error(), ErrorCode::kerInputDataReadFailed);
+}
+
+// Reject short writes before proceeding to the next measured range.
+void write(BasicIo& output, const byte* data, size_t size) {
+  if (size != 0)
+    enforce(output.write(data, size) == size && !output.error(), ErrorCode::kerImageWriteFailed);
+}
+
+// Borrow both streams and reuse fixed buffers for emission and comparison.
+class LayoutIo {
+ public:
+  // Keep source and destination ownership with the adapter.
+  LayoutIo(BasicIo& input, BasicIo& output) : input_(input), output_(output) {
+    require(&input != &output && input.isopen() && output.isopen());
+  }
+
+  // Emit framing and adapter-provided content in measured order.
+  void emit(const BmffOutputBox& box) {
+    require(output_.tell() == box.position);
+    const auto bytes = header(box);
+    emitMemory(bytes);
+    emitMemory(box.prefix);
+    for (const auto& child : box.children)
+      emit(child);
+
+    // Stream borrowed source and memory segments with the same bounded requests.
+    for (const auto& segment : box.segments) {
+      require(output_.tell() == segment.position);
+      for (uint64_t done = 0; done < segment.size();) {
+        const auto count = static_cast<size_t>(std::min<uint64_t>(copy_.size(), segment.size() - done));
+        if (segment.bytes) {
+          write(output_, segment.bytes->data() + done, count);
+        } else {
+          read(input_, add(segment.source.offset, done), copy_.data(), count);
+          write(output_, copy_.data(), count);
+        }
+        done += count;
+      }
+    }
+    require(output_.tell() == add(box.position, box.size));
+  }
+
+  // Verify every byte, including framing and prefixes generated by the adapter.
+  void verify(const BmffOutputBox& box) {
+    const auto bytes = header(box);
+    verifySegment({{}, &bytes, box.position});
+    verifySegment({{}, &box.prefix, add(box.position, box.header)});
+    for (const auto& child : box.children)
+      verify(child);
+    for (const auto& segment : box.segments)
+      verifySegment(segment);
+  }
+
+ private:
+  // Bound writes of structural prefixes as well as payload buffers.
+  void emitMemory(const std::vector<byte>& bytes) {
+    for (size_t done = 0; done < bytes.size();) {
+      const auto count = std::min(copy_.size(), bytes.size() - done);
+      write(output_, bytes.data() + done, count);
+      done += count;
+    }
+  }
+
+  // Compare prepared bytes to borrowed source ranges or immutable memory buffers.
+  void verifySegment(const BmffOutputSegment& segment) {
+    for (uint64_t done = 0; done < segment.size();) {
+      const auto count = static_cast<size_t>(std::min<uint64_t>(copy_.size(), segment.size() - done));
+      read(output_, add(segment.position, done), verify_.data(), count);
+      if (segment.bytes) {
+        require(std::equal(verify_.begin(), verify_.begin() + count, segment.bytes->begin() + done));
+      } else {
+        read(input_, add(segment.source.offset, done), copy_.data(), count);
+        require(std::equal(copy_.begin(), copy_.begin() + count, verify_.begin()));
+      }
+      done += count;
+    }
+  }
+
+  BasicIo& input_;
+  BasicIo& output_;
+  std::array<byte, copyBufferSize> copy_{};
+  std::array<byte, copyBufferSize> verify_{};
+};
+
+// Return the final measured end, including the empty-layout case.
+uint64_t outputSize(const std::vector<BmffOutputBox>& boxes) {
+  return boxes.empty() ? 0 : add(boxes.back().position, boxes.back().size);
+}
+}  // namespace
+
+uint64_t BmffOutputSegment::size() const {
+  return bytes ? bytes->size() : source.size;
+}
+
+BmffRelocations::BmffRelocations(std::vector<BmffRelocation> ranges) : ranges_(std::move(ranges)) {
+  std::sort(ranges_.begin(), ranges_.end(),
+            [](const auto& a, const auto& b) { return a.source.offset < b.source.offset; });
+
+  uint64_t previousEnd = 0;
+  for (const auto& range : ranges_) {
+    require(range.source.offset >= previousEnd);
+    previousEnd = end(range.source);
+    (void)add(range.destination, range.source.size);
+  }
+}
+
+uint64_t BmffRelocations::position(BmffSpan source) const {
+  auto found = std::upper_bound(ranges_.begin(), ranges_.end(), source.offset,
+                                [](auto offset, const auto& map) { return offset < map.source.offset; });
+  require(found != ranges_.begin());
+  --found;
+  require(source.offset >= found->source.offset && end(source) <= end(found->source));
+  return add(found->destination, source.offset - found->source.offset);
+}
+
+uint64_t layoutBmff(std::vector<BmffOutputBox>& boxes) {
+  uint64_t position = 0;
+  for (auto& box : boxes) {
+    measure(box);
+    position = locate(box, position);
+  }
+  return position;
+}
+
+void writeBmffLayout(BasicIo& input, BasicIo& output, const std::vector<BmffOutputBox>& boxes) {
+  LayoutIo io(input, output);
+  require(output.size() == 0);
+  output.seekOrThrow(0, BasicIo::beg, ErrorCode::kerImageWriteFailed);
+  for (const auto& box : boxes)
+    io.emit(box);
+  require(output.size() == outputSize(boxes));
+}
+
+void verifyBmffLayout(BasicIo& input, BasicIo& output, const std::vector<BmffOutputBox>& boxes) {
+  LayoutIo io(input, output);
+  require(output.size() == outputSize(boxes));
+  for (const auto& box : boxes)
+    io.verify(box);
+}
+
+}  // namespace Exiv2::Internal
+#endif
