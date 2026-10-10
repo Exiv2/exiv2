@@ -2170,6 +2170,101 @@ TEST(HeifImage, preservesRawXmpDuringExifEditsAndClearsItsStorage) {
 
 #ifndef EXV_HAVE_XMP_TOOLKIT
 
+// Copy raw XMP and Exif together without mistaking an absent structured view for removal.
+TEST(HeifImage, copiesRawXmpMetadataWithoutToolkit) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "copied artist";
+  const auto packet = rawXmpSource("COPIED_RAW_XMP_8cd372");
+  auto source = openHeif(heifWithMetadata(exif, packet));
+  ASSERT_TRUE(source->xmpData().empty());
+
+  auto target = openHeif(heifWithMetadata({}, rawXmpSource("REPLACED_RAW_XMP_246da7")));
+  target->setMetadata(*source);
+  EXPECT_EQ(target->xmpPacket(), packet);
+  ASSERT_NO_THROW(target->writeMetadata());
+
+  // Inspect the stored item and reopen it independently of the writer's cached state.
+  auto bytes = imageBytes(*target);
+  auto document = parse(bytes);
+  const auto ids = document.metadataItems(bmffType("mime"));
+  ASSERT_EQ(ids.size(), 1u);
+  EXPECT_EQ(payload(bytes, document.items.at(ids.front())), Bytes(packet.begin(), packet.end()));
+  EXPECT_FALSE(contains(bytes, "REPLACED_RAW_XMP_246da7"));
+  target = openHeif(bytes);
+  EXPECT_EQ(target->xmpPacket(), packet);
+  EXPECT_EQ(target->exifData()["Exif.Image.Artist"].toString(), "copied artist");
+
+  // Self-copy must retain the packet and remain a byte-for-byte no-op on disk.
+  target->setMetadata(*target);
+  ASSERT_NO_THROW(target->writeMetadata());
+  EXPECT_EQ(imageBytes(*target), bytes);
+}
+
+// Remove copied raw XMP through empty-source copying and each explicit clearing API.
+TEST(HeifImage, clearsCopiedRawXmpWithoutToolkit) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "retained artist";
+  auto source = openHeif(heifWithMetadata(exif, rawXmpSource("REMOVED_COPIED_XMP_08c4a1")));
+  auto emptySource = openHeif(heifWithMetadata(exif));
+
+  for (unsigned method = 0; method != 4; ++method) {
+    SCOPED_TRACE(method);
+    auto target = openHeif(heifWithMetadata());
+    target->setMetadata(*source);
+    target->writeMetadata();
+    ASSERT_TRUE(contains(imageBytes(*target), "REMOVED_COPIED_XMP_08c4a1"));
+
+    // These requests all explicitly replace the source's XMP with an empty value.
+    switch (method) {
+      case 0:
+        target->setMetadata(*emptySource);
+        break;
+      case 1:
+        target->setXmpData(XmpData{});
+        break;
+      case 2:
+        target->clearXmpData();
+        break;
+      case 3:
+        target->clearXmpPacket();
+        break;
+    }
+    ASSERT_NO_THROW(target->writeMetadata());
+
+    auto bytes = imageBytes(*target);
+    EXPECT_FALSE(contains(bytes, "REMOVED_COPIED_XMP_08c4a1"));
+    EXPECT_TRUE(parse(bytes).metadataItems(bmffType("mime")).empty());
+    target = openHeif(bytes);
+    EXPECT_TRUE(target->xmpPacket().empty());
+    EXPECT_EQ(target->exifData()["Exif.Image.Artist"].toString(), "retained artist");
+  }
+}
+
+// Reject unsupported structured data and oversized packets before changing the destination.
+TEST(HeifImage, rejectsUnsupportedMetadataCopyWithoutToolkit) {
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "retained artist";
+  const auto packet = rawXmpSource("RETAINED_RAW_XMP_933fe4");
+  auto target = openHeif(heifWithMetadata(exif, packet));
+  const auto before = imageBytes(*target);
+  auto source = openHeif(heifWithMetadata());
+  source->exifData()["Exif.Image.Artist"] = "unsupported copy";
+  source->xmpData()["Xmp.dc.source"] = "requires toolkit";
+
+  EXPECT_THROW(target->setMetadata(*source), Error);
+  EXPECT_EQ(target->exifData()["Exif.Image.Artist"].toString(), "retained artist");
+  EXPECT_EQ(target->xmpPacket(), packet);
+  EXPECT_EQ(imageBytes(*target), before);
+
+  // The mutable packet accessor can bypass setter limits; copying must still enforce them.
+  source->clearXmpData();
+  source->xmpPacket().assign(static_cast<size_t>(bmffMetadataLimit) + 1, 'x');
+  EXPECT_THROW(target->setMetadata(*source), Error);
+  EXPECT_EQ(target->exifData()["Exif.Image.Artist"].toString(), "retained artist");
+  EXPECT_EQ(target->xmpPacket(), packet);
+  EXPECT_EQ(imageBytes(*target), before);
+}
+
 // Handle embedded raw XMP without the toolkit and reject ambiguous merges.
 TEST(HeifImage, preservesEmbeddedRawXmpWithoutToolkitAndRejectsUnmergeablePackets) {
   ExifData exif;
