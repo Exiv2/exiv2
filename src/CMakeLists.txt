@@ -8,6 +8,10 @@ add_library(
   bmffbox_int.hpp
   bmffitem_int.cpp
   bmffitem_int.hpp
+  bmffitemwrite_int.cpp
+  bmffitemwrite_int.hpp
+  bmfflayout_int.cpp
+  bmfflayout_int.hpp
   heifstructure_int.cpp
   heifstructure_int.hpp
   heifwrite_int.cpp
