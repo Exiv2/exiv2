@@ -1743,6 +1743,79 @@ TEST(HeifImage, retainsUnsupportedMetadataOnExplicitClear) {
   EXPECT_EQ(std::memcmp(image->iccProfile().c_data(), profile.data(), profile.size()), 0);
 }
 
+// Native and compatibility readers must report the major brand that was actually read.
+TEST(HeifImage, reportsMimeTypeAfterNativeAndFallbackReads) {
+  for (auto brand : {bmffType("mif1"), bmffType("heic"), bmffType("heix")}) {
+    for (unsigned route = 0; route < 3; ++route) {
+      SCOPED_TRACE(::testing::Message() << "brand=" << brand << " route=" << route);
+      Options options;
+      options.noMetadata = true;
+      options.brand = brand;
+      const auto bytes = route == 0 ? fixture(options) : heifForFallback(route == 2, false, brand);
+      BmffImage legacy(std::make_unique<MemIo>(bytes.data(), bytes.size()), defaultImageCtorParams(false));
+      ASSERT_NO_THROW(legacy.readMetadata());
+      auto image = openHeif(bytes);
+
+      EXPECT_EQ(image->mimeType(), brand == bmffType("mif1") ? "image/heif" : "image/heic");
+      EXPECT_EQ(image->mimeType(), legacy.mimeType());
+      ASSERT_NO_THROW(image->readMetadata());
+      EXPECT_EQ(image->mimeType(), legacy.mimeType());
+      if (route != 0) {
+        EXPECT_THROW(image->writeMetadata(), Error);
+        EXPECT_EQ(imageBytes(*image), bytes);
+      }
+    }
+  }
+}
+
+// Switching a reused image between legacy and native storage must not retain an old MIME source.
+TEST(HeifImage, updatesMimeTypeWhenReadPathChanges) {
+  auto image = openHeif(heifForFallback(false, false, bmffType("mif1")));
+  EXPECT_EQ(image->mimeType(), "image/heif");
+
+  // Replace owned MemIo storage while keeping the same Image instance and cached state.
+  Options options;
+  options.noMetadata = true;
+  options.brand = bmffType("heix");
+  auto bytes = fixture(options);
+  MemIo native(bytes.data(), bytes.size());
+  image->io().transfer(native);
+  ASSERT_NO_THROW(image->readMetadata());
+  EXPECT_EQ(image->mimeType(), "image/heic");
+
+  bytes = heifForFallback(true, false, bmffType("mif1"));
+  MemIo fallback(bytes.data(), bytes.size());
+  image->io().transfer(fallback);
+  ASSERT_NO_THROW(image->readMetadata());
+  EXPECT_EQ(image->mimeType(), "image/heif");
+
+  // A successful write also adopts native state, without requiring a prior native reread.
+  bytes = fixture(options);
+  MemIo writable(bytes.data(), bytes.size());
+  image->io().transfer(writable);
+  image->clearMetadata();
+  image->exifData()["Exif.Image.Artist"] = "native write";
+  ASSERT_NO_THROW(image->writeMetadata());
+  EXPECT_EQ(image->mimeType(), "image/heic");
+  image = openHeif(imageBytes(*image));
+  EXPECT_EQ(image->mimeType(), "image/heic");
+  EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "native write");
+}
+
+// A failed native parse must still propagate the legacy reader's error for malformed storage.
+TEST(HeifImage, preservesErrorsFromLegacyFallback) {
+  auto image = openHeif(heifForFallback(false, false));
+  auto bytes = heifForFallback(false, false);
+  patch(bytes, position(bytes, "meta"), bytes.size() + 1, 4);
+  BmffImage legacy(std::make_unique<MemIo>(bytes.data(), bytes.size()), defaultImageCtorParams(false));
+  MemIo malformed(bytes.data(), bytes.size());
+  image->io().transfer(malformed);
+
+  EXPECT_THROW(legacy.readMetadata(), Error);
+  EXPECT_THROW(image->readMetadata(), Error);
+  EXPECT_EQ(imageBytes(*image), bytes);
+}
+
 // Restore legacy UUID reading and precedence without making these layouts writable.
 TEST(HeifImage, readsAdobeUuidXmpThroughLegacyFallback) {
   for (bool nested : {false, true}) {
