@@ -1606,6 +1606,55 @@ Bytes heifWithUuidXmp(bool nested, bool extended, bool itemXmp, bool adobe = tru
   return fixture(options);
 }
 
+// Build a profile satisfying the legacy reader's size validation with recognizable bytes.
+Bytes fixtureIcc(byte marker) {
+  Bytes profile(128, marker);
+  patch(profile, 0, profile.size(), 4);
+  return profile;
+}
+
+// Construct either fallback path, optionally with IPTC and ICC to reload from disk.
+Bytes heifForFallback(bool uuid, bool metadata, uint32_t brand = bmffType("heic")) {
+  Options options;
+  options.brand = brand;
+  options.singleImageExtent = true;
+  options.noMetadata = !metadata;
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "disk artist";
+  IptcData iptc;
+  iptc["Iptc.Application2.Caption"] = "disk caption";
+  MemIo tiff;
+  TiffParser::encode(tiff, nullptr, 0, littleEndian, exif, iptc, XmpData{});
+  options.exifPayload = Bytes(4, 0);
+  options.exifPayload->insert(options.exifPayload->end(), tiff.mmap(), tiff.mmap() + tiff.size());
+  const auto packet = rawXmpSource("DISK_FALLBACK_XMP");
+  options.xmpPayload = Bytes(packet.begin(), packet.end());
+
+  if (uuid) {
+    // The validated tree contains Adobe XMP, selecting compatibility traversal.
+    Bytes data{0xbe, 0x7a, 0xcf, 0xcb, 0x97, 0xa9, 0x42, 0xe8, 0x9c, 0x71, 0x99, 0x94, 0x91, 0xe3, 0xaf, 0xac};
+    data.insert(data.end(), packet.begin(), packet.end());
+    options.extraRoot = box(bmffType("uuid"), data);
+    append(options.extraRoot, box(bmffType("free"), Bytes(24)));
+  } else {
+    // An unused external reference is rejected by the native parser, but ignored by legacy reading.
+    auto location = full();
+    string(location, "external.heic");
+    auto references = full();
+    integer(references, 1, 4);
+    append(references, box(bmffType("url "), location));
+    options.extraMeta = box(bmffType("dinf"), box(bmffType("dref"), references));
+  }
+
+  if (metadata) {
+    Bytes colour;
+    integer(colour, bmffType("prof"), 4);
+    append(colour, fixtureIcc(0x43));
+    append(options.extraRoot, box(bmffType("colr"), colour));
+  }
+  return fixture(options);
+}
+
 // Set equivalent XMP data with or without the structured XMP toolkit.
 void setHeifXmpSource(Image& image, const std::string& value) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -1625,6 +1674,74 @@ Bytes imageBytes(Image& image) {
 }
 
 }  // namespace
+
+// A fallback reread must discard pending metadata and reload only the disk's values.
+TEST(HeifImage, resetsAllMetadataBeforeLegacyFallback) {
+  for (bool uuid : {false, true}) {
+    for (bool metadata : {false, true}) {
+      SCOPED_TRACE(::testing::Message() << "uuid=" << uuid << " metadata=" << metadata);
+      const auto bytes = heifForFallback(uuid, metadata);
+      if (uuid) {
+        ASSERT_NO_THROW(parse(bytes));
+      } else {
+        EXPECT_THROW(parse(bytes), Error);
+      }
+      BmffImage legacy(std::make_unique<MemIo>(bytes.data(), bytes.size()), defaultImageCtorParams(false));
+      ASSERT_NO_THROW(legacy.readMetadata());
+      ASSERT_EQ(legacy.iptcData().count(), metadata ? 1u : 0u);
+      ASSERT_EQ(legacy.iccProfileDefined(), metadata);
+      auto image = openHeif(bytes);
+      const auto pendingProfile = fixtureIcc(0x50);
+
+      // Repeat to catch state surviving across more than one successful fallback.
+      for (unsigned pass = 0; pass < 2; ++pass) {
+        image->exifData()["Exif.Image.Artist"] = "pending artist";
+        image->iptcData()["Iptc.Application2.Caption"] = "pending caption";
+        image->setIccProfile(DataBuf(pendingProfile.data(), pendingProfile.size()));
+        // Seed the base buffer directly; BMFF's public comment setter rejects edits.
+        image->Image::setComment("pending comment");
+        image->clearXmpData();
+        ASSERT_NO_THROW(image->readMetadata());
+
+        EXPECT_EQ(image->exifData().count(), legacy.exifData().count());
+        EXPECT_EQ(image->iptcData().count(), legacy.iptcData().count());
+        EXPECT_EQ(image->xmpPacket(), legacy.xmpPacket());
+        EXPECT_EQ(image->xmpData().count(), legacy.xmpData().count());
+        EXPECT_EQ(image->comment(), legacy.comment());
+        EXPECT_EQ(image->iccProfileDefined(), legacy.iccProfileDefined());
+        if (metadata) {
+          EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "disk artist");
+          EXPECT_EQ(image->iptcData()["Iptc.Application2.Caption"].toString(), "disk caption");
+          ASSERT_EQ(image->iccProfile().size(), legacy.iccProfile().size());
+          EXPECT_EQ(std::memcmp(image->iccProfile().c_data(), legacy.iccProfile().c_data(), legacy.iccProfile().size()),
+                    0);
+        }
+      }
+      EXPECT_THROW(image->writeMetadata(), Error);
+      EXPECT_EQ(imageBytes(*image), bytes);
+    }
+  }
+}
+
+// User clearing still retains categories for which standalone HEIF editing is unsupported.
+TEST(HeifImage, retainsUnsupportedMetadataOnExplicitClear) {
+  auto image = openHeif(heifWithMetadata());
+  image->exifData()["Exif.Image.Artist"] = "pending artist";
+  setHeifXmpSource(*image, "pending XMP");
+  image->iptcData()["Iptc.Application2.Caption"] = "retained caption";
+  const auto profile = fixtureIcc(0x50);
+  image->setIccProfile(DataBuf(profile.data(), profile.size()));
+
+  image->clearMetadata();
+
+  EXPECT_TRUE(image->exifData().empty());
+  EXPECT_TRUE(image->xmpData().empty());
+  EXPECT_TRUE(image->xmpPacket().empty());
+  EXPECT_EQ(image->iptcData()["Iptc.Application2.Caption"].toString(), "retained caption");
+  ASSERT_TRUE(image->iccProfileDefined());
+  ASSERT_EQ(image->iccProfile().size(), profile.size());
+  EXPECT_EQ(std::memcmp(image->iccProfile().c_data(), profile.data(), profile.size()), 0);
+}
 
 // Restore legacy UUID reading and precedence without making these layouts writable.
 TEST(HeifImage, readsAdobeUuidXmpThroughLegacyFallback) {
