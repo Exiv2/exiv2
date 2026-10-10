@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "bmffimage_int.hpp"
-#include "bmffwrite_int.hpp"
+#include "heifstructure_int.hpp"
+#include "heifwrite_int.hpp"
 
 #ifdef EXV_ENABLE_BMFF
 
@@ -277,9 +277,33 @@ Bytes fixture(const Options& opt = {}) {
 }
 
 // Parse borrowed fixture bytes with optional resource limits.
-BmffDocument parse(const Bytes& bytes, const BmffLimits& limits = {}) {
+HeifDocument parse(const Bytes& bytes, const HeifLimits& limits = {}) {
   MemIo input(bytes.data(), bytes.size());
-  return parseBmff(input, limits);
+  return parseHeif(input, limits);
+}
+
+// Keep generic item test results separate from the HEIF document and its admission policy.
+struct ItemFixture {
+  BmffFile file;
+  BmffItemModel model;
+};
+
+// Frame arbitrary fixture bytes and decode their meta tables with explicit neutral budgets.
+ItemFixture parseItems(const Bytes& bytes) {
+  MemIo input(bytes.data(), bytes.size());
+  BmffReader reader(input, {1000, 1024 * 1024, 16});
+  const BmffItemLimits limits{100, 1000, 1000, 1000, 4096, 1024, 1000};
+  ItemFixture result;
+  result.file.size = reader.fileSize();
+  auto fields = reader.cursor({0, result.file.size});
+
+  reader.visit(fields, 0, [&](BmffBox& box, BmffCursor& payload) {
+    if (box.type == bmffType("meta"))
+      result.model = parseBmffItems(reader, box, payload, 1, limits);
+    result.file.boxes.push_back(std::move(box));
+  });
+  resolveBmffItems(result.model, result.file.size);
+  return result;
 }
 
 // Assert that a malformed fixture is rejected by the container parser.
@@ -301,30 +325,178 @@ Bytes payload(const Bytes& file, const BmffItem& item) {
 
 }  // namespace
 
+// Resolve a standalone item container without a file brand, primary image, or property table.
+TEST(BmffItems, resolvesStandaloneMetaWithoutHeifAdmission) {
+  Options opt;
+  opt.idat = opt.metadataIdat = true;
+  opt.locationVersion = 1;
+  const auto complete = fixture(opt);
+  const auto heif = parse(complete);
+  const auto span = heif.file.boxes.at(1).span;
+  Bytes bytes(complete.begin() + span.offset, complete.begin() + span.offset + span.size);
+  patch(bytes, position(bytes, "pitm") + 4, bmffType("free"), 4);
+  patch(bytes, position(bytes, "iprp") + 4, bmffType("free"), 4);
+  patch(bytes, position(bytes, "hdlr") + 16, bmffType("mdta"), 4);
+
+  auto result = parseItems(bytes);
+  EXPECT_EQ(result.file.boxes.size(), 1u);
+  EXPECT_EQ(result.model.handler, bmffType("mdta"));
+  EXPECT_FALSE(result.model.hasPrimaryItem);
+  EXPECT_TRUE(result.model.properties.empty());
+  EXPECT_EQ(result.model.infoOrder, (std::vector<uint32_t>{1, 2, 3}));
+  ASSERT_TRUE(result.model.itemData);
+  EXPECT_EQ(result.model.items.at(1).location.extents.front().source.offset, result.model.itemData->offset);
+
+  MemIo input(bytes.data(), bytes.size());
+  EXPECT_EQ(readBmffItem(input, result.model.items.at(1), 4), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(readBmffItem(input, result.model.items.at(3), 3), (Bytes{'x', 'm', 'p'}));
+  EXPECT_THROW(readBmffItem(input, result.model.items.at(1), 3), Error);
+  resolveBmffItems(result.model, result.file.size);
+  EXPECT_EQ(result.model.items.at(1).location.dataSize, 4u);
+  EXPECT_THROW(parse(bytes), Error);
+}
+
+// Item-free standard meta containers do not acquire a HEIF primary-image requirement.
+TEST(BmffItems, acceptsEmptyStandardMetaWithoutPictureTables) {
+  const auto result = parseItems(box(bmffType("meta"), full()));
+  EXPECT_TRUE(result.model.items.empty());
+  EXPECT_FALSE(result.model.hasPrimaryItem);
+  EXPECT_TRUE(result.file.boxes.front().children.empty());
+}
+
+// File-relative addressing is a standard mechanism; mdat ownership is HEIF policy.
+TEST(BmffItems, separatesFileRelativeResolutionFromMediaOwnership) {
+  auto bytes = fixture();
+  patch(bytes, position(bytes, "mdat") + 4, bmffType("data"), 4);
+  const auto result = parseItems(bytes);
+
+  EXPECT_EQ(payload(bytes, result.model.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(result.model.references.front().from, 2u);
+  EXPECT_EQ(result.model.references.front().to, (std::vector<uint32_t>{1}));
+  EXPECT_THROW(parse(bytes), Error);
+
+  // The generic resolver still enforces file boundaries without relying on the adapter.
+  patch(bytes, position(bytes, "iloc") + 22, bytes.size(), 4);
+  EXPECT_THROW(parseItems(bytes), Error);
+}
+
+// Preserve standard field widths and opaque properties without any brand or codec policy.
+TEST(BmffItems, retainsWideTablesAndOpaquePropertiesIndependentlyOfBrands) {
+  Options opt;
+  opt.brand = bmffType("avif");
+  opt.idBase = 65536;
+  opt.locationVersion = 2;
+  opt.infoVersion = opt.primaryVersion = opt.referenceVersion = opt.associationVersion = 1;
+  opt.entryVersion = 3;
+  opt.offsetWidth = opt.lengthWidth = opt.baseWidth = opt.indexWidth = 8;
+  opt.wideProperties = opt.locationFirst = true;
+  opt.propertyCount = 130;
+  opt.propertyType = bmffType("cust");
+  opt.mimeType = "application/custom";
+  opt.encoding = "gzip";
+  const auto bytes = fixture(opt);
+  const auto result = parseItems(bytes);
+
+  EXPECT_EQ(result.model.primaryItem, 65537u);
+  EXPECT_EQ(result.model.locationFormat.indexSize, 8u);
+  EXPECT_EQ(result.model.associations.front().properties.back().index, 130u);
+  EXPECT_EQ(result.model.properties.front().type, bmffType("cust"));
+  EXPECT_EQ(result.model.items.at(65539).info.contentType, "application/custom");
+  EXPECT_EQ(result.model.items.at(65539).info.contentEncoding, "gzip");
+  EXPECT_EQ(payload(bytes, result.model.items.at(65537)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_THROW(enforceHeifWriteSupport(parse(bytes)), Error);
+}
+
+// Protection and handler admission belong to the adapter, with its original diagnostic order.
+TEST(BmffItems, retainsFieldsWhileHeifRejectsAtTheOriginalCheckpoint) {
+  auto bytes = fixture();
+  patch(bytes, position(bytes, "hdlr") + 16, bmffType("mdta"), 4);
+  EXPECT_EQ(parseItems(bytes).model.handler, bmffType("mdta"));
+
+  // An invalid reserved field must not replace the earlier non-picture rejection.
+  patch(bytes, position(bytes, "hdlr") + 20, 1, 4);
+  try {
+    parse(bytes);
+    FAIL() << "HEIF accepted a non-picture handler";
+  } catch (const Error& error) {
+    EXPECT_STREQ(error.what(), "Unsupported HEIF layout: non-picture handler");
+  }
+
+  bytes = fixture();
+  patch(bytes, position(bytes, "infe") + 14, 1, 2);
+  EXPECT_EQ(parseItems(bytes).model.items.at(1).info.protectionIndex, 1u);
+  // An unsupported codec is irrelevant when protection has already rejected the item.
+  patch(bytes, position(bytes, "infe") + 16, bmffType("cust"), 4);
+  try {
+    parse(bytes);
+    FAIL() << "HEIF accepted a protected item";
+  } catch (const Error& error) {
+    EXPECT_STREQ(error.what(), "Unsupported HEIF layout: protected item");
+  }
+}
+
+// The neutral parser never interprets Canon UUID payloads; HEIF retains its explicit exception.
+TEST(BmffItems, leavesCanonExtensionTraversalToHeif) {
+  Options opt;
+  Bytes content{0x85, 0xc0, 0xb6, 0x87, 0x82, 0x0f, 0x11, 0xe0, 0x81, 0x11, 0xf4, 0xce, 0x46, 0x2b, 0x6a, 0x48};
+  append(content, box(bmffType("CNCV"), {'v', '1', 0}));
+  opt.extraMeta = box(bmffType("uuid"), content, true);
+  auto bytes = fixture(opt);
+  const auto neutral = parseItems(bytes);
+  EXPECT_TRUE(neutral.file.boxes.at(1).children.back().children.empty());
+  EXPECT_EQ(parse(bytes).file.boxes.at(1).children.back().children.size(), 1u);
+  EXPECT_NO_THROW(enforceHeifWriteSupport(parse(bytes)));
+
+  append(content, box(bmffType("CNCV"), {}));
+  opt.extraMeta = box(bmffType("uuid"), content);
+  bytes = fixture(opt);
+  EXPECT_NO_THROW(parseItems(bytes));
+  EXPECT_THROW(parse(bytes), Error);
+}
+
+// Standard model validation rejects broken joins, graph endpoints and property indices on its own.
+TEST(BmffItems, rejectsInvalidRelationsWithoutHeifPolicy) {
+  auto bytes = fixture();
+  patch(bytes, position(bytes, "iloc") + 16, 4, 2);
+  EXPECT_THROW(parseItems(bytes), Error);
+
+  bytes = fixture();
+  patch(bytes, position(bytes, "cdsc") + 12, 7, 2);
+  EXPECT_THROW(parseItems(bytes), Error);
+
+  bytes = fixture();
+  patch(bytes, position(bytes, "ipma") + 19, 0x83, 1);
+  EXPECT_THROW(parseItems(bytes), Error);
+
+  bytes = fixture();
+  patch(bytes, position(bytes, "pitm") + 12, 0, 2);
+  EXPECT_THROW(parseItems(bytes), Error);
+}
+
 // Retain the complete item graph and fragmented payload coordinates.
 TEST(BmffModel, retainsAllItemsExtentsAndMetadataAssociations) {
   const auto bytes = fixture();
   const auto document = parse(bytes);
   EXPECT_NO_THROW(enforceHeifWriteSupport(document));
-  ASSERT_EQ(document.items.size(), 3u);
-  EXPECT_EQ(document.primaryItem, 1u);
+  ASSERT_EQ(document.meta.items.size(), 3u);
+  EXPECT_EQ(document.meta.primaryItem, 1u);
   EXPECT_EQ(document.majorBrand, bmffType("heic"));
-  EXPECT_EQ(document.infoOrder, (std::vector<uint32_t>{1, 2, 3}));
-  EXPECT_EQ(document.locationOrder, document.infoOrder);
+  EXPECT_EQ(document.meta.infoOrder, (std::vector<uint32_t>{1, 2, 3}));
+  EXPECT_EQ(document.meta.locationOrder, document.meta.infoOrder);
   EXPECT_EQ(document.metadataItems(bmffType("Exif")), (std::vector<uint32_t>{2}));
   EXPECT_EQ(document.metadataItems(bmffType("mime")), (std::vector<uint32_t>{3}));
-  EXPECT_EQ(document.items.at(3).info.contentType, "application/rdf+xml");
-  EXPECT_EQ(document.items.at(2).info.flags, 1u);
+  EXPECT_EQ(document.meta.items.at(3).info.contentType, "application/rdf+xml");
+  EXPECT_EQ(document.meta.items.at(2).info.flags, 1u);
 
-  EXPECT_EQ(document.items.at(1).location.extents.size(), 2u);
-  EXPECT_EQ(document.items.at(1).location.dataSize, 4u);
-  EXPECT_EQ(payload(bytes, document.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
-  EXPECT_EQ(payload(bytes, document.items.at(2)), (Bytes{'e', 'x', 'i', 'f'}));
-  EXPECT_EQ(payload(bytes, document.items.at(3)), (Bytes{'x', 'm', 'p'}));
-  ASSERT_EQ(document.associations.size(), 1u);
-  EXPECT_EQ(document.associations.front().properties.front().index, 1u);
-  EXPECT_TRUE(document.associations.front().properties.front().essential);
-  EXPECT_FALSE(document.associations.front().properties.back().essential);
+  EXPECT_EQ(document.meta.items.at(1).location.extents.size(), 2u);
+  EXPECT_EQ(document.meta.items.at(1).location.dataSize, 4u);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(payload(bytes, document.meta.items.at(2)), (Bytes{'e', 'x', 'i', 'f'}));
+  EXPECT_EQ(payload(bytes, document.meta.items.at(3)), (Bytes{'x', 'm', 'p'}));
+  ASSERT_EQ(document.meta.associations.size(), 1u);
+  EXPECT_EQ(document.meta.associations.front().properties.front().index, 1u);
+  EXPECT_TRUE(document.meta.associations.front().properties.front().essential);
+  EXPECT_FALSE(document.meta.associations.front().properties.back().essential);
 }
 
 // Resolve item records independently of box order and explicit base offsets.
@@ -334,9 +506,9 @@ TEST(BmffModel, acceptsLocationBeforeInfoAndExplicitBaseOffsets) {
   opt.baseWidth = 4;
   const auto bytes = fixture(opt);
   const auto document = parse(bytes);
-  EXPECT_GT(document.items.at(1).location.baseOffset, 0u);
+  EXPECT_GT(document.meta.items.at(1).location.baseOffset, 0u);
 
-  EXPECT_EQ(payload(bytes, document.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(payload(bytes, document.meta.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
 }
 
 // Resolve idat extents from the payload origin, distinct from file offsets.
@@ -346,11 +518,11 @@ TEST(BmffModel, resolvesIdatRelativeDataWithoutConfusingItWithFileOffsets) {
   opt.locationVersion = 1;
   const auto bytes = fixture(opt);
   const auto document = parse(bytes);
-  ASSERT_TRUE(document.itemData.has_value());
-  EXPECT_EQ(document.items.at(1).location.constructionMethod, 1u);
+  ASSERT_TRUE(document.meta.itemData.has_value());
+  EXPECT_EQ(document.meta.items.at(1).location.constructionMethod, 1u);
 
-  EXPECT_EQ(document.items.at(1).location.extents.front().source.offset, document.itemData->offset);
-  EXPECT_EQ(payload(bytes, document.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(document.meta.items.at(1).location.extents.front().source.offset, document.meta.itemData->offset);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
   EXPECT_NO_THROW(enforceHeifWriteSupport(document));
 }
 
@@ -369,11 +541,11 @@ TEST(BmffModel, retains32BitIds64BitFieldsAndWidePropertyIndices) {
   opt.propertyCount = 130;
 
   const auto document = parse(fixture(opt));
-  EXPECT_EQ(document.primaryItem, 65537u);
+  EXPECT_EQ(document.meta.primaryItem, 65537u);
   EXPECT_EQ(document.metadataItems(bmffType("Exif")), (std::vector<uint32_t>{65538}));
-  EXPECT_EQ(document.locationFormat.indexSize, 8u);
-  EXPECT_EQ(document.associations.front().properties.back().index, 130u);
-  EXPECT_EQ(document.items.at(65537).info.version, 3u);
+  EXPECT_EQ(document.meta.locationFormat.indexSize, 8u);
+  EXPECT_EQ(document.meta.associations.front().properties.back().index, 130u);
+  EXPECT_EQ(document.meta.items.at(65537).info.version, 3u);
 }
 
 // Allow item locations expressed entirely through their base offsets.
@@ -384,8 +556,8 @@ TEST(BmffModel, acceptsZeroOffsetWidthAndNonzeroBaseOffsets) {
   const auto bytes = fixture(opt);
 
   const auto document = parse(bytes);
-  EXPECT_EQ(document.locationFormat.offsetSize, 0u);
-  EXPECT_EQ(payload(bytes, document.items.at(2)), (Bytes{'e', 'x', 'i', 'f'}));
+  EXPECT_EQ(document.meta.locationFormat.offsetSize, 0u);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(2)), (Bytes{'e', 'x', 'i', 'f'}));
 }
 
 // Retain both extended-size and end-of-file box representations.
@@ -395,16 +567,16 @@ TEST(BmffModel, preservesExtendedHeadersAndTerminalMediaBox) {
   auto bytes = fixture(opt);
 
   auto document = parse(bytes);
-  EXPECT_EQ(document.boxes.front().headerSize, 16u);
-  EXPECT_EQ(payload(bytes, document.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(document.file.boxes.front().headerSize, 16u);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
 
   // A terminal mdat consumes the remainder of the file without an explicit size.
   opt.extended = false;
   opt.terminal = true;
   bytes = fixture(opt);
   document = parse(bytes);
-  EXPECT_TRUE(document.boxes.back().extendsToEnd);
-  EXPECT_EQ(document.boxes.back().span.size, 19u);
+  EXPECT_TRUE(document.file.boxes.back().extendsToEnd);
+  EXPECT_EQ(document.file.boxes.back().span.size, 19u);
 }
 
 // Accept images without metadata and retain metadata lacking primary associations.
@@ -413,7 +585,7 @@ TEST(BmffModel, acceptsMetadataFreeFilesAndMissingReferences) {
   opt.noMetadata = true;
   auto document = parse(fixture(opt));
 
-  EXPECT_EQ(document.items.size(), 1u);
+  EXPECT_EQ(document.meta.items.size(), 1u);
   EXPECT_TRUE(document.metadataItems(bmffType("Exif")).empty());
   EXPECT_NO_THROW(enforceHeifWriteSupport(document));
 
@@ -421,7 +593,7 @@ TEST(BmffModel, acceptsMetadataFreeFilesAndMissingReferences) {
   opt.noMetadata = false;
   opt.noReferences = true;
   document = parse(fixture(opt));
-  EXPECT_EQ(document.items.size(), 3u);
+  EXPECT_EQ(document.meta.items.size(), 3u);
   EXPECT_TRUE(document.metadataItems(bmffType("Exif")).empty());
 }
 
@@ -432,8 +604,8 @@ TEST(BmffModel, preservesSharedMetadataAndReferenceDirection) {
   auto bytes = fixture(opt);
   auto document = parse(bytes);
 
-  EXPECT_EQ(document.references.front().from, 2u);
-  EXPECT_EQ(document.references.front().to, (std::vector<uint32_t>{1, 3}));
+  EXPECT_EQ(document.meta.references.front().from, 2u);
+  EXPECT_EQ(document.meta.references.front().to, (std::vector<uint32_t>{1, 3}));
   EXPECT_EQ(document.metadataItems(bmffType("Exif")), (std::vector<uint32_t>{2}));
 
   // Reverse cdsc to ensure an image-to-metadata edge is not mistaken for metadata.
@@ -450,7 +622,7 @@ TEST(BmffModel, retainsOpaqueBoxesButRejectsUnprovedRelocation) {
   opt.extraMeta = box(bmffType("zzzz"), {'k', 'e', 'e', 'p'});
   auto bytes = fixture(opt);
   auto document = parse(bytes);
-  const auto& opaque = document.boxes.at(1).children.back();
+  const auto& opaque = document.file.boxes.at(1).children.back();
   EXPECT_EQ(opaque.type, bmffType("zzzz"));
   EXPECT_EQ(opaque.span.offset, position(bytes, "zzzz"));
 
@@ -466,7 +638,7 @@ TEST(BmffModel, retainsOpaqueBoxesButRejectsUnprovedRelocation) {
   opt.extraRoot.clear();
   opt.propertyType = bmffType("zzzz");
   document = parse(fixture(opt));
-  EXPECT_EQ(document.properties.front().type, bmffType("zzzz"));
+  EXPECT_EQ(document.meta.properties.front().type, bmffType("zzzz"));
   EXPECT_THROW(enforceHeifWriteSupport(document), Error);
 }
 
@@ -483,7 +655,7 @@ TEST(BmffModel, rejectsDeferredBrandsAndCompressedPrimaryXmp) {
   Options opt;
   opt.encoding = "gzip";
   auto document = parse(fixture(opt));
-  EXPECT_EQ(document.items.at(3).info.contentEncoding, "gzip");
+  EXPECT_EQ(document.meta.items.at(3).info.contentEncoding, "gzip");
   EXPECT_THROW(enforceHeifWriteSupport(document), Error);
 }
 
@@ -682,39 +854,39 @@ TEST(BmffModel, rejectsInvalidWidthsZeroLengthsAndExtentBounds) {
 TEST(BmffModel, boundsAggregateResourcesAndStrings) {
   const auto bytes = fixture();
   for (unsigned limit = 0; limit < 8; ++limit) {
-    BmffLimits limits;
+    HeifLimits limits;
     switch (limit) {
       case 0:
-        limits.maxBoxes = 2;
+        limits.boxes.maxBoxes = 2;
         break;
       case 1:
-        limits.maxItems = 2;
+        limits.items.maxItems = 2;
         break;
       case 2:
-        limits.maxExtents = 1;
+        limits.items.maxExtents = 1;
         break;
       case 3:
-        limits.maxReferences = 1;
+        limits.items.maxReferences = 1;
         break;
       case 4:
-        limits.maxAssociations = 1;
+        limits.items.maxAssociations = 1;
         break;
       case 5:
-        limits.maxStringBytes = 2;
+        limits.items.maxStringBytes = 2;
         break;
       case 6:
-        limits.maxBytesRead = 8;
+        limits.boxes.maxBytesRead = 8;
         break;
       case 7:
-        limits.maxDepth = 1;
+        limits.boxes.maxDepth = 1;
         break;
     }
     EXPECT_THROW(parse(bytes, limits), Error) << limit;
   }
 
   // Check per-string limits and missing terminators separately from aggregate budgets.
-  BmffLimits limits;
-  limits.maxStringLength = 2;
+  HeifLimits limits;
+  limits.items.maxStringLength = 2;
   EXPECT_THROW(parse(bytes, limits), Error);
   auto malformed = bytes;
   const auto entry = position(malformed, "infe");
@@ -747,11 +919,11 @@ TEST(BmffModel, ioFailuresPropagateWithoutWriting) {
 
   const auto bytes = fixture();
   FailingIo input(bytes);
-  EXPECT_THROW(parseBmff(input), Error);
+  EXPECT_THROW(parseHeif(input), Error);
 
   // Exercise seek failure separately from the injected short read.
   input.failSeek = true;
-  EXPECT_THROW(parseBmff(input), Error);
+  EXPECT_THROW(parseHeif(input), Error);
 
   EXPECT_EQ(input.size(), bytes.size());
   EXPECT_EQ(std::memcmp(input.mmap(), bytes.data(), bytes.size()), 0);
@@ -816,13 +988,13 @@ TEST(BmffModel, resolvesSparse64BitFileWithoutReadingMediaOrAllocatingItsSize) {
   integer(input.mediaHeader, bmffType("mdat"), 4);
 
   // Parse only structural bytes and resolve the large absolute media position.
-  const auto document = parseBmff(input);
+  const auto document = parseHeif(input);
   EXPECT_NO_THROW(enforceHeifWriteSupport(document));
-  EXPECT_EQ(document.fileSize, input.mediaOffset + 19);
-  EXPECT_EQ(document.items.at(1).location.extents.at(0).source, (BmffSpan{input.mediaOffset + 8, 2}));
-  EXPECT_EQ(document.items.at(1).location.extents.at(1).source, (BmffSpan{input.mediaOffset + 14, 2}));
-  EXPECT_EQ(document.boxes.at(2).headerSize, 16u);
-  EXPECT_EQ(document.boxes.at(2).span.size, gap);
+  EXPECT_EQ(document.file.size, input.mediaOffset + 19);
+  EXPECT_EQ(document.meta.items.at(1).location.extents.at(0).source, (BmffSpan{input.mediaOffset + 8, 2}));
+  EXPECT_EQ(document.meta.items.at(1).location.extents.at(1).source, (BmffSpan{input.mediaOffset + 14, 2}));
+  EXPECT_EQ(document.file.boxes.at(2).headerSize, 16u);
+  EXPECT_EQ(document.file.boxes.at(2).span.size, gap);
 
   EXPECT_FALSE(input.forbiddenRead);
   EXPECT_LT(input.bytesRead, 1024u);
@@ -836,7 +1008,7 @@ TEST(BmffModel, validatesUuidHeadersAndKnownCanonContainer) {
   append(content, box(bmffType("CNCV"), {'v', '1', 0}));
   opt.extraMeta = box(bmffType("uuid"), content, true);
   const auto document = parse(fixture(opt));
-  const auto& canon = document.boxes.at(1).children.back();
+  const auto& canon = document.file.boxes.at(1).children.back();
   EXPECT_EQ(canon.headerSize, 32u);
   EXPECT_EQ(canon.children.size(), 1u);
   EXPECT_EQ(canon.payload().size, 11u);
@@ -845,7 +1017,7 @@ TEST(BmffModel, validatesUuidHeadersAndKnownCanonContainer) {
   content[0] = 0;
   opt.extraMeta = box(bmffType("uuid"), content);
   auto unknown = parse(fixture(opt));
-  EXPECT_TRUE(unknown.boxes.at(1).children.back().children.empty());
+  EXPECT_TRUE(unknown.file.boxes.at(1).children.back().children.empty());
   EXPECT_THROW(enforceHeifWriteSupport(unknown), Error);
 
   opt.extraMeta = box(bmffType("uuid"), Bytes(15));
@@ -876,6 +1048,23 @@ TEST(BmffModel, acceptsSelfContainedDataReferenceAndRejectsExternalReferences) {
   rejects(bytes);
 }
 
+// Honor the explicit item budget while retaining the HEIF adapter's aggregate box-count ceiling.
+TEST(BmffItems, boundsDeclaredDataReferencesBeforeVisitingEntries) {
+  Options opt;
+  auto references = full();
+  integer(references, 1, 4);
+  append(references, box(bmffType("url "), full(0, 1)));
+  opt.extraMeta = box(bmffType("dinf"), box(bmffType("dref"), references));
+  const auto bytes = fixture(opt);
+  EXPECT_NO_THROW(parseItems(bytes));
+
+  HeifLimits limits;
+  limits.items.maxEntries = 0;
+  EXPECT_THROW(parse(bytes, limits), Error);
+  limits.items.maxEntries = 1;
+  EXPECT_NO_THROW(parse(bytes, limits));
+}
+
 // Allow shared bytes on read while enforcing individual data-box boundaries.
 TEST(BmffModel, acceptsSharedPayloadRangesButRejectsRangesCrossingDataBounds) {
   Options opt;
@@ -885,8 +1074,9 @@ TEST(BmffModel, acceptsSharedPayloadRangesButRejectsRangesCrossingDataBounds) {
   // Give the second primary extent the same range as the first.
   patch(bytes, loc + 34, 0, 4);
   auto document = parse(bytes);
-  EXPECT_EQ(document.items.at(1).location.extents.at(0).source, document.items.at(1).location.extents.at(1).source);
-  EXPECT_EQ(payload(bytes, document.items.at(1)), (Bytes{'A', 'B', 'A', 'B'}));
+  EXPECT_EQ(document.meta.items.at(1).location.extents.at(0).source,
+            document.meta.items.at(1).location.extents.at(1).source);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(1)), (Bytes{'A', 'B', 'A', 'B'}));
 
   // Reject extents crossing either idat or mdat boundaries.
   opt.idat = true;
@@ -946,11 +1136,11 @@ TEST_P(BmffCorpus, agreesWithIndependentItemInventory) {
   FileIo input(std::string(TESTDATA_PATH) + "/" + expected.file);
   ASSERT_EQ(input.open("rb"), 0);
 
-  const auto document = parseBmff(input);
-  EXPECT_EQ(document.primaryItem, expected.primary);
-  EXPECT_EQ(document.items.size(), expected.count);
-  EXPECT_EQ(document.infoOrder.size(), expected.count);
-  EXPECT_EQ(document.locationOrder.size(), expected.count);
+  const auto document = parseHeif(input);
+  EXPECT_EQ(document.meta.primaryItem, expected.primary);
+  EXPECT_EQ(document.meta.items.size(), expected.count);
+  EXPECT_EQ(document.meta.infoOrder.size(), expected.count);
+  EXPECT_EQ(document.meta.locationOrder.size(), expected.count);
 
   const auto exif = document.metadataItems(bmffType("Exif"));
   const auto xmp = document.metadataItems(bmffType("mime"));
@@ -986,17 +1176,17 @@ TEST(BmffModel, rejectsNonItemFormatsAndMalformedRegressionFiles) {
     SCOPED_TRACE(file);
     FileIo input(std::string(TESTDATA_PATH) + "/" + file);
     ASSERT_EQ(input.open("rb"), 0);
-    EXPECT_THROW(parseBmff(input), Error);
+    EXPECT_THROW(parseHeif(input), Error);
   }
 }
 
 namespace {
 
 // Rewrite into separate memory and verify the borrowed source remains unchanged.
-Bytes rewritten(const Bytes& bytes, const BmffMetadataUpdate& update = {}) {
+Bytes rewritten(const Bytes& bytes, const HeifMetadataUpdate& update = {}) {
   MemIo input(bytes.data(), bytes.size());
   MemIo output;
-  rewriteBmff(input, output, parseBmff(input), update);
+  rewriteHeif(input, output, parseHeif(input), update);
 
   EXPECT_EQ(input.size(), bytes.size());
   EXPECT_EQ(std::memcmp(input.mmap(), bytes.data(), bytes.size()), 0);
@@ -1019,12 +1209,12 @@ Bytes withOrphanedBytes(Bytes bytes) {
 }
 
 // Assert rejection occurs before output is written or source bytes change.
-void rejectsRewrite(const Bytes& bytes, const BmffMetadataUpdate& update = {}) {
+void rejectsRewrite(const Bytes& bytes, const HeifMetadataUpdate& update = {}) {
   MemIo input(bytes.data(), bytes.size());
   MemIo output;
-  const auto document = parseBmff(input);
+  const auto document = parseHeif(input);
 
-  EXPECT_THROW(rewriteBmff(input, output, document, update), Error);
+  EXPECT_THROW(rewriteHeif(input, output, document, update), Error);
   EXPECT_EQ(output.size(), 0u);
   EXPECT_EQ(input.size(), bytes.size());
   EXPECT_EQ(std::memcmp(input.mmap(), bytes.data(), bytes.size()), 0);
@@ -1050,10 +1240,10 @@ TEST(BmffRewrite, compactsOrphansAndPaddingWhilePreservingEveryRetainedItem) {
   EXPECT_FALSE(contains(bytes, "PRIVATE"));
   EXPECT_FALSE(contains(bytes, "SECRET"));
 
-  EXPECT_EQ(output.primaryItem, original.primaryItem);
+  EXPECT_EQ(output.meta.primaryItem, original.meta.primaryItem);
 
-  for (const auto& [id, item] : original.items)
-    EXPECT_EQ(payload(source, item), payload(bytes, output.items.at(id)));
+  for (const auto& [id, item] : original.meta.items)
+    EXPECT_EQ(payload(source, item), payload(bytes, output.meta.items.at(id)));
 
   // A second compaction must be byte-for-byte stable.
   EXPECT_EQ(rewritten(bytes), bytes);
@@ -1063,7 +1253,7 @@ TEST(BmffRewrite, compactsOrphansAndPaddingWhilePreservingEveryRetainedItem) {
 TEST(BmffRewrite, removesMetadataPayloadsAndTheirReferences) {
   const auto source = withOrphanedBytes(fixture());
 
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes{};
   update.xmp = Bytes{};
 
@@ -1071,12 +1261,12 @@ TEST(BmffRewrite, removesMetadataPayloadsAndTheirReferences) {
   const auto output = parse(bytes);
 
   // Check both graph removal and absence of the discarded payload bytes.
-  ASSERT_EQ(output.items.size(), 1u);
-  EXPECT_TRUE(output.references.empty());
+  ASSERT_EQ(output.meta.items.size(), 1u);
+  EXPECT_TRUE(output.meta.references.empty());
   EXPECT_TRUE(output.metadataItems(bmffType("Exif")).empty());
   EXPECT_TRUE(output.metadataItems(bmffType("mime")).empty());
 
-  EXPECT_EQ(payload(bytes, output.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(payload(bytes, output.meta.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
   ASSERT_EQ(output.mediaData.size(), 1u);
   EXPECT_EQ(output.mediaData.front().size, 4u);
 
@@ -1099,18 +1289,18 @@ TEST(BmffRewrite, repacksIdatAndRemovesUnreferencedMediaCopies) {
   patch(source, loc + 64, 8, 4);  // XMP offset into idat.
 
   // Clear both metadata categories while keeping the idat-backed image.
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes{};
   update.xmp = Bytes{};
 
   const auto bytes = rewritten(source, update);
   const auto output = parse(bytes);
 
-  ASSERT_TRUE(output.itemData.has_value());
-  EXPECT_EQ(output.itemData->size, 4u);
+  ASSERT_TRUE(output.meta.itemData.has_value());
+  EXPECT_EQ(output.meta.itemData->size, 4u);
   EXPECT_TRUE(output.mediaData.empty());
 
-  const auto& image = output.items.at(1);
+  const auto& image = output.meta.items.at(1);
   EXPECT_EQ(image.location.constructionMethod, 1u);
   EXPECT_EQ(image.location.extents.at(0).offset, 0u);
   EXPECT_EQ(image.location.extents.at(1).offset, 2u);
@@ -1125,7 +1315,7 @@ TEST(BmffRewrite, insertsIntoMetadataFreeFilesAndPreservesUnassociatedItems) {
   Options opt;
   opt.noMetadata = true;
 
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes{'n', 'e', 'w', 'e', 'x', 'i', 'f'};
   update.xmp = Bytes{'n', 'e', 'w', 'x', 'm', 'p'};
 
@@ -1133,20 +1323,20 @@ TEST(BmffRewrite, insertsIntoMetadataFreeFilesAndPreservesUnassociatedItems) {
   auto document = parse(bytes);
 
   // Check newly allocated primary metadata records and their payloads.
-  ASSERT_EQ(document.items.size(), 3u);
+  ASSERT_EQ(document.meta.items.size(), 3u);
   ASSERT_EQ(document.metadataItems(bmffType("Exif")).size(), 1u);
   ASSERT_EQ(document.metadataItems(bmffType("mime")).size(), 1u);
-  EXPECT_EQ(payload(bytes, document.items.at(document.metadataItems(bmffType("Exif")).front())), *update.exif);
-  EXPECT_EQ(payload(bytes, document.items.at(document.metadataItems(bmffType("mime")).front())), *update.xmp);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(document.metadataItems(bmffType("Exif")).front())), *update.exif);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(document.metadataItems(bmffType("mime")).front())), *update.xmp);
 
   // Keep unassociated original metadata when inserting a new primary association.
   opt.noMetadata = false;
   opt.noReferences = true;
   bytes = rewritten(fixture(opt), update);
   document = parse(bytes);
-  EXPECT_EQ(document.items.size(), 5u);
-  EXPECT_EQ(payload(bytes, document.items.at(2)), (Bytes{'e', 'x', 'i', 'f'}));
-  EXPECT_EQ(payload(bytes, document.items.at(3)), (Bytes{'x', 'm', 'p'}));
+  EXPECT_EQ(document.meta.items.size(), 5u);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(2)), (Bytes{'e', 'x', 'i', 'f'}));
+  EXPECT_EQ(payload(bytes, document.meta.items.at(3)), (Bytes{'x', 'm', 'p'}));
 }
 
 // Keep repeated metadata edits compact and remove earlier payload canaries.
@@ -1157,7 +1347,7 @@ TEST(BmffRewrite, replacesGrowsAndShrinksWithoutRetainingEarlierPayloads) {
   for (unsigned iteration = 0; iteration < 8; ++iteration) {
     // Grow metadata with unique canaries, then shrink it in the same edit cycle.
     const auto previous = "PRIVATE_OLD_VALUE_" + std::to_string(iteration);
-    BmffMetadataUpdate update;
+    HeifMetadataUpdate update;
     update.exif = Bytes(70000, 'q');
     update.exif->insert(update.exif->end(), previous.begin(), previous.end());
     current = rewritten(current, update);
@@ -1169,7 +1359,7 @@ TEST(BmffRewrite, replacesGrowsAndShrinksWithoutRetainingEarlierPayloads) {
 
     // Earlier payloads must disappear without cumulative file growth.
     const auto output = parse(current);
-    EXPECT_EQ(payload(current, output.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+    EXPECT_EQ(payload(current, output.meta.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
 
     if (iteration == 0)
       smallSize = current.size();
@@ -1183,7 +1373,7 @@ TEST(BmffRewrite, rejectsSharedMetadataAndOverlappingRetainedDataBeforeWriting) 
   Options opt;
   opt.sharedMetadata = true;
 
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes{};
   rejectsRewrite(fixture(opt), update);
 
@@ -1197,7 +1387,7 @@ TEST(BmffRewrite, rejectsSharedMetadataAndOverlappingRetainedDataBeforeWriting) 
   rejectsRewrite(source, update);
   // Unmodified sharing is representable and compacted without duplicating bytes.
   const auto bytes = rewritten(source);
-  EXPECT_EQ(payload(bytes, parse(bytes).items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(payload(bytes, parse(bytes).meta.items.at(1)), (Bytes{'A', 'B', 'C', 'D'}));
 }
 
 // Rewrite wide fields and unusual box headers without losing item identities.
@@ -1214,25 +1404,25 @@ TEST(BmffRewrite, handlesWideIdsFieldsExtendedAndTerminalHeaders) {
   opt.extended = true;
   opt.wideProperties = true;
 
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes{'r', 'e', 'p', 'l', 'a', 'c', 'e'};
 
   auto bytes = rewritten(fixture(opt), update);
   auto output = parse(bytes);
 
   // Verify wide IDs and field widths remain consistent after replacement.
-  EXPECT_EQ(output.primaryItem, 65537u);
-  EXPECT_EQ(output.locationFormat.version, 2u);
-  EXPECT_EQ(output.items.at(65537).location.baseOffset, 0u);
-  EXPECT_EQ(output.locationFormat.indexSize, 8u);
-  EXPECT_EQ(payload(bytes, output.items.at(65537)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(output.meta.primaryItem, 65537u);
+  EXPECT_EQ(output.meta.locationFormat.version, 2u);
+  EXPECT_EQ(output.meta.items.at(65537).location.baseOffset, 0u);
+  EXPECT_EQ(output.meta.locationFormat.indexSize, 8u);
+  EXPECT_EQ(payload(bytes, output.meta.items.at(65537)), (Bytes{'A', 'B', 'C', 'D'}));
 
   // Exercise a terminal media box separately from extended-size headers.
   opt = Options{};
   opt.terminal = true;
   bytes = rewritten(fixture(opt), update);
   output = parse(bytes);
-  EXPECT_FALSE(output.boxes.back().extendsToEnd);
+  EXPECT_FALSE(output.file.boxes.back().extendsToEnd);
   EXPECT_EQ(output.mediaData.size(), 2u);
 }
 
@@ -1245,11 +1435,11 @@ TEST(BmffRewrite, reusesAvailableIdWhenLargestIdIsOccupied) {
   opt.entryVersion = 3;
   opt.primaryVersion = 1;
   opt.associationVersion = 1;
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes{'n', 'e', 'w'};
   const auto bytes = rewritten(fixture(opt), update);
   const auto output = parse(bytes);
-  EXPECT_EQ(output.primaryItem, std::numeric_limits<uint32_t>::max());
+  EXPECT_EQ(output.meta.primaryItem, std::numeric_limits<uint32_t>::max());
   EXPECT_EQ(output.metadataItems(bmffType("Exif")), (std::vector<uint32_t>{1}));
 }
 
@@ -1260,9 +1450,9 @@ TEST(BmffRewrite, keepsIndexedPaddingSlotsButDiscardsTheirBodies) {
   const auto bytes = rewritten(fixture(opt));
 
   const auto output = parse(bytes);
-  ASSERT_EQ(output.properties.size(), 2u);
-  EXPECT_EQ(output.properties.front().payload().size, 0u);
-  EXPECT_EQ(output.associations.front().properties.back().index, 2u);
+  ASSERT_EQ(output.meta.properties.size(), 2u);
+  EXPECT_EQ(output.meta.properties.front().payload().size, 0u);
+  EXPECT_EQ(output.meta.associations.front().properties.back().index, 2u);
 }
 
 // Stop on staging I/O failures and preserve the original source bytes.
@@ -1283,9 +1473,9 @@ TEST(BmffRewrite, propagatesShortWritesAndReadFailuresWithoutMutatingSource) {
 
   const auto source = fixture();
   MemIo input(source.data(), source.size());
-  const auto document = parseBmff(input);
+  const auto document = parseHeif(input);
 
-  EXPECT_THROW(rewriteBmff(input, output, document), Error);
+  EXPECT_THROW(rewriteHeif(input, output, document), Error);
   EXPECT_EQ(input.size(), source.size());
   EXPECT_EQ(std::memcmp(input.mmap(), source.data(), source.size()), 0);
 
@@ -1306,7 +1496,7 @@ TEST(BmffRewrite, propagatesShortWritesAndReadFailuresWithoutMutatingSource) {
 
   // Repeat the failure check with unreadable source payloads and an empty sink.
   MemIo other;
-  EXPECT_THROW(rewriteBmff(failing, other, document), Error);
+  EXPECT_THROW(rewriteHeif(failing, other, document), Error);
   EXPECT_EQ(std::memcmp(failing.mmap(), source.data(), source.size()), 0);
 }
 
@@ -1329,7 +1519,7 @@ TEST(BmffRewrite, detectsCorruptedPreparedOutput) {
   const auto source = fixture();
   MemIo input(source.data(), source.size());
 
-  EXPECT_THROW(rewriteBmff(input, output, parseBmff(input)), Error);
+  EXPECT_THROW(rewriteHeif(input, output, parseHeif(input)), Error);
   EXPECT_EQ(std::memcmp(input.mmap(), source.data(), source.size()), 0);
 }
 
@@ -1423,22 +1613,22 @@ TEST(BmffRewrite, promotesOutputOffsetsAndStreamsLargePayloadsWithBoundedIo) {
   input.length = prefix.size() + imageSize;
   input.segments.emplace(0, prefix);
 
-  const auto original = parseBmff(input);
+  const auto original = parseHeif(input);
 
   // Place new metadata beyond the image so output offsets must widen.
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes{'n', 'e', 'w', '6', '4'};
-  rewriteBmff(input, output, original, update);
+  rewriteHeif(input, output, original, update);
 
-  const auto document = parseBmff(output);
+  const auto document = parseHeif(output);
 
   // Verify promoted locations and bounded streaming without allocating the image.
-  EXPECT_EQ(document.locationFormat.offsetSize, 8u);
-  EXPECT_EQ(document.locationFormat.lengthSize, 8u);
-  EXPECT_EQ(document.items.at(1).location.dataSize, imageSize);
+  EXPECT_EQ(document.meta.locationFormat.offsetSize, 8u);
+  EXPECT_EQ(document.meta.locationFormat.lengthSize, 8u);
+  EXPECT_EQ(document.meta.items.at(1).location.dataSize, imageSize);
   const auto exif = document.metadataItems(bmffType("Exif")).front();
-  EXPECT_GT(document.items.at(exif).location.extents.front().offset, std::numeric_limits<uint32_t>::max());
-  EXPECT_EQ(readBmffItem(output, document.items.at(exif)), *update.exif);
+  EXPECT_GT(document.meta.items.at(exif).location.extents.front().offset, std::numeric_limits<uint32_t>::max());
+  EXPECT_EQ(readHeifItem(output, document.meta.items.at(exif)), *update.exif);
 
   EXPECT_LE(output.largestWrite, 64u * 1024);
   EXPECT_EQ(input.writeCalls, 0u);
@@ -1450,9 +1640,9 @@ TEST(BmffRewrite, promotesOutputOffsetsAndStreamsLargePayloadsWithBoundedIo) {
   patch(prefix, media + 8, maximum - media, 8);
   input.segments.at(0) = prefix;
   input.length = maximum;
-  const auto tooLarge = parseBmff(input);
+  const auto tooLarge = parseHeif(input);
   SparseIo untouched;
-  EXPECT_THROW(rewriteBmff(input, untouched, tooLarge, update), Error);
+  EXPECT_THROW(rewriteHeif(input, untouched, tooLarge, update), Error);
   EXPECT_EQ(untouched.writeCalls, 0u);
   EXPECT_EQ(input.writeCalls, 0u);
 }
@@ -1471,9 +1661,9 @@ TEST(BmffRewrite, rejectsUnsupportedLayoutsAndNonemptySinksBeforeWriting) {
   auto source = fixture();
   MemIo input(source.data(), source.size());
   MemIo output(source.data(), source.size());
-  const auto document = parseBmff(input);
-  EXPECT_THROW(rewriteBmff(input, input, document), Error);
-  EXPECT_THROW(rewriteBmff(input, output, document), Error);
+  const auto document = parseHeif(input);
+  EXPECT_THROW(rewriteHeif(input, input, document), Error);
+  EXPECT_THROW(rewriteHeif(input, output, document), Error);
   EXPECT_EQ(std::memcmp(input.mmap(), source.data(), source.size()), 0);
   EXPECT_EQ(std::memcmp(output.mmap(), source.data(), source.size()), 0);
 }
@@ -1483,34 +1673,34 @@ TEST_P(BmffCorpus, preservesOrRejectsCorpusAccordingToWriteEnvelope) {
   const auto& expected = GetParam();
   FileIo input(std::string(TESTDATA_PATH) + "/" + expected.file);
   ASSERT_EQ(input.open("rb"), 0);
-  const auto original = parseBmff(input);
+  const auto original = parseHeif(input);
   MemIo output;
   if (!expected.heif) {
-    EXPECT_THROW(rewriteBmff(input, output, original), Error);
+    EXPECT_THROW(rewriteHeif(input, output, original), Error);
     EXPECT_EQ(output.size(), 0u);
     return;
   }
 
   // A preserving rewrite must keep every independently inventoried item payload.
-  rewriteBmff(input, output, original);
-  const auto document = parseBmff(output);
-  for (const auto& [id, item] : original.items)
-    EXPECT_EQ(readBmffItem(input, item), readBmffItem(output, document.items.at(id))) << id;
+  rewriteHeif(input, output, original);
+  const auto document = parseHeif(output);
+  for (const auto& [id, item] : original.meta.items)
+    EXPECT_EQ(readHeifItem(input, item), readHeifItem(output, document.meta.items.at(id))) << id;
 
   // Clear metadata and compare every remaining item against the original stream.
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes{};
   update.xmp = Bytes{};
   MemIo stripped;
 
-  rewriteBmff(input, stripped, original, update);
-  const auto cleaned = parseBmff(stripped);
+  rewriteHeif(input, stripped, original, update);
+  const auto cleaned = parseHeif(stripped);
 
   EXPECT_TRUE(cleaned.metadataItems(bmffType("Exif")).empty());
   EXPECT_TRUE(cleaned.metadataItems(bmffType("mime")).empty());
 
-  for (const auto& [id, item] : cleaned.items)
-    EXPECT_EQ(readBmffItem(input, original.items.at(id)), readBmffItem(stripped, item)) << id;
+  for (const auto& [id, item] : cleaned.meta.items)
+    EXPECT_EQ(readHeifItem(input, original.meta.items.at(id)), readHeifItem(stripped, item)) << id;
 }
 
 namespace {
@@ -1529,7 +1719,7 @@ Bytes tiffItem(ExifData exif, const XmpData& xmp = {}, ByteOrder order = littleE
 Bytes heifWithMetadata(const ExifData& exif = {}, std::string_view xmp = {}, ByteOrder order = littleEndian) {
   Options options;
   options.noMetadata = true;
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
 
   if (!exif.empty())
     update.exif = tiffItem(exif, {}, order);
@@ -1577,7 +1767,7 @@ Bytes heifWithMergedEmbeddedXmp(bool separate = false) {
   // A separate packet overrides the overlapping embedded source property.
   if (separate) {
     const auto packet = rawXmpSource("MIME_SOURCE");
-    BmffMetadataUpdate update;
+    HeifMetadataUpdate update;
     update.xmp = Bytes(packet.begin(), packet.end());
     bytes = rewritten(bytes, update);
   }
@@ -1900,7 +2090,7 @@ TEST(HeifImage, addsGrowsShrinksDeletesAndPreservesEncodedImage) {
     EXPECT_FALSE(contains(small, canary));
 
     auto parsed = parse(small);
-    EXPECT_EQ(payload(small, parsed.items.at(parsed.primaryItem)), (Bytes{'A', 'B', 'C', 'D'}));
+    EXPECT_EQ(payload(small, parsed.meta.items.at(parsed.meta.primaryItem)), (Bytes{'A', 'B', 'C', 'D'}));
 
     if (cycle != 0) {
       EXPECT_EQ(small.size(), smallSize);
@@ -1946,7 +2136,7 @@ TEST(HeifImage, removesDeletedTagsAndOriginalTiffSlack) {
   // Plant a canary in TIFF slack that a fresh serialization must discard.
   const std::string slack = "PRIVATE_UNUSED_TIFF_STORAGE_2223f1";
   item.insert(item.end(), slack.begin(), slack.end());
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = item;
   auto image = openHeif(rewritten(heifWithMetadata(), update));
 
@@ -1961,7 +2151,7 @@ TEST(HeifImage, removesDeletedTagsAndOriginalTiffSlack) {
 
   // Verify that fresh serialization preserves the original big-endian TIFF order.
   auto doc = parse(bytes);
-  auto tiff = payload(bytes, doc.items.at(doc.metadataItems(bmffType("Exif")).front()));
+  auto tiff = payload(bytes, doc.meta.items.at(doc.metadataItems(bmffType("Exif")).front()));
   ASSERT_GT(tiff.size(), 8u);
   EXPECT_EQ(tiff[4], 'M');
   EXPECT_EQ(tiff[5], 'M');
@@ -1976,7 +2166,7 @@ TEST(HeifImage, clearsEmbeddedXmpAndPreservesItWhenOnlyExifIsRemoved) {
   exif["Exif.Image.Artist"] = "keep artist";
   XmpData xmp;
   xmp["Xmp.dc.source"] = "PRIVATE_EMBEDDED_XMP_350597";
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = tiffItem(exif, xmp);
   auto bytes = rewritten(heifWithMetadata(), update);
   auto image = openHeif(bytes);
@@ -2023,7 +2213,7 @@ TEST(HeifImage, usesRawXmpPacketsSetMetadataAndRejectsUnsupportedCategories) {
   auto doc = parse(bytes);
 
   // Check raw packet handling and metadata copying through the public API.
-  EXPECT_EQ(payload(bytes, doc.items.at(doc.metadataItems(bmffType("mime")).front())),
+  EXPECT_EQ(payload(bytes, doc.meta.items.at(doc.metadataItems(bmffType("mime")).front())),
             Bytes(packet.begin(), packet.end()));
   auto target = openHeif(heifWithMetadata());
   target->setMetadata(*source);
@@ -2108,11 +2298,11 @@ TEST_P(BmffCorpus, editsThroughPublicApiAndKeepsOtherItems) {
   auto before = parse(bytes), after = parse(output);
   auto exif = before.metadataItems(bmffType("Exif"));
   auto xmp = before.metadataItems(bmffType("mime"));
-  for (const auto& [id, item] : before.items) {
+  for (const auto& [id, item] : before.meta.items) {
     if (std::find(exif.begin(), exif.end(), id) != exif.end() || std::find(xmp.begin(), xmp.end(), id) != xmp.end())
       continue;
-    ASSERT_TRUE(after.items.contains(id));
-    EXPECT_EQ(payload(bytes, item), payload(output, after.items.at(id)));
+    ASSERT_TRUE(after.meta.items.contains(id));
+    EXPECT_EQ(payload(bytes, item), payload(output, after.meta.items.at(id)));
   }
 
   // A true no-op keeps the entire file byte-for-byte unchanged.
@@ -2163,7 +2353,7 @@ TEST(HeifImage, preservesMergedEmbeddedXmpOnExifEdits) {
     ASSERT_EQ(items.size(), 1u);
 
     // Inspect the embedded packet independently so separate XMP cannot mask lost properties.
-    const auto tiff = payload(bytes, document.items.at(items.front()));
+    const auto tiff = payload(bytes, document.meta.items.at(items.front()));
     ExifData checkedExif;
     IptcData checkedIptc;
     XmpData checkedXmp;
@@ -2173,8 +2363,8 @@ TEST(HeifImage, preservesMergedEmbeddedXmpOnExifEdits) {
     ASSERT_EQ(checkedXmp.count(), 3u);
     EXPECT_EQ(checkedXmp["Xmp.dc.source"].toString(), "FIRST_EMBEDDED_78b2");
     const auto original = parse(source);
-    EXPECT_EQ(payload(bytes, document.items.at(document.primaryItem)),
-              payload(source, original.items.at(original.primaryItem)));
+    EXPECT_EQ(payload(bytes, document.meta.items.at(document.meta.primaryItem)),
+              payload(source, original.meta.items.at(original.meta.primaryItem)));
     image = openHeif(bytes);
 
     EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "edited artist");
@@ -2383,9 +2573,9 @@ TEST(HeifImage, updatesIdatMetadataAndWideItemIds) {
   auto bytes = imageBytes(*image);
   auto document = parse(bytes);
   EXPECT_FALSE(contains(bytes, "PRIVATE_IDAT_METADATA_7703"));
-  EXPECT_EQ(document.primaryItem, 70001u);
-  EXPECT_EQ(payload(bytes, document.items.at(70001)), (Bytes{'A', 'B', 'C', 'D'}));
-  EXPECT_EQ(document.items.at(70001).location.constructionMethod, 1u);
+  EXPECT_EQ(document.meta.primaryItem, 70001u);
+  EXPECT_EQ(payload(bytes, document.meta.items.at(70001)), (Bytes{'A', 'B', 'C', 'D'}));
+  EXPECT_EQ(document.meta.items.at(70001).location.constructionMethod, 1u);
 }
 
 // Preserve unrelated metadata and exclude AVIF with a generic compatible brand.
@@ -2406,7 +2596,7 @@ TEST(HeifImage, preservesIndependentMetadataAndRejectsGenericAvifBrand) {
   image->clearExifData();
   image->writeMetadata();
   auto result = imageBytes(*image);
-  EXPECT_EQ(payload(bytes, parse(bytes).items.at(2)), payload(result, parse(result).items.at(2)));
+  EXPECT_EQ(payload(bytes, parse(bytes).meta.items.at(2)), payload(result, parse(result).meta.items.at(2)));
 
   image->exifData()["Exif.Image.Artist"] = "primary metadata";
   image->writeMetadata();
@@ -2438,7 +2628,7 @@ TEST(HeifImage, preservesEmbeddedIptcAndThumbnailDataOnExifEdits) {
   // Embed IPTC and thumbnail content in the original serialized Exif item.
   MemIo output;
   TiffParser::encode(output, nullptr, 0, littleEndian, exif, iptc, XmpData{});
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = Bytes(4, 0);
   update.exif->insert(update.exif->end(), output.mmap(), output.mmap() + output.size());
   auto image = openHeif(rewritten(heifWithMetadata(), update));
@@ -2466,7 +2656,7 @@ TEST(HeifImage, clearsOrphanedEmbeddedXmpAndPrintsWithoutDiscardingEdits) {
   // Leave an XMP canary in TIFF slack rather than an active XML tag.
   const std::string canary = "PRIVATE_ORPHANED_TIFF_XMP_9c1f";
   item.insert(item.end(), canary.begin(), canary.end());
-  BmffMetadataUpdate update;
+  HeifMetadataUpdate update;
   update.exif = item;
   auto image = openHeif(rewritten(heifWithMetadata(), update));
 
@@ -2550,11 +2740,11 @@ TEST(HeifImage, preservesAuxiliaryAndThumbnailGraphsAsOpaqueImageData) {
 
     // Repurpose the extra fixture items as opaque auxiliary and thumbnail images.
     for (const auto id : {2, 3}) {
-      const auto& info = before.items.at(id).info;
+      const auto& info = before.meta.items.at(id).info;
       patch(bytes, info.box.offset + 16, bmffType("hvc1"), 4);
     }
 
-    for (const auto& ref : before.references)
+    for (const auto& ref : before.meta.references)
       patch(bytes, ref.box.offset + 4, ref.from == 2 ? bmffType("auxl") : bmffType("thmb"), 4);
     before = parse(bytes);
 
@@ -2566,15 +2756,15 @@ TEST(HeifImage, preservesAuxiliaryAndThumbnailGraphsAsOpaqueImageData) {
 
     auto output = imageBytes(*image);
     const auto after = parse(output);
-    for (const auto& [id, item] : before.items)
-      EXPECT_EQ(payload(bytes, item), payload(output, after.items.at(id)));
-    ASSERT_EQ(after.references.size(), before.references.size() + 1);
-    for (size_t i = 0; i != before.references.size(); ++i) {
-      EXPECT_EQ(after.references[i].type, before.references[i].type);
-      EXPECT_EQ(after.references[i].from, before.references[i].from);
-      EXPECT_EQ(after.references[i].to, before.references[i].to);
+    for (const auto& [id, item] : before.meta.items)
+      EXPECT_EQ(payload(bytes, item), payload(output, after.meta.items.at(id)));
+    ASSERT_EQ(after.meta.references.size(), before.meta.references.size() + 1);
+    for (size_t i = 0; i != before.meta.references.size(); ++i) {
+      EXPECT_EQ(after.meta.references[i].type, before.meta.references[i].type);
+      EXPECT_EQ(after.meta.references[i].from, before.meta.references[i].from);
+      EXPECT_EQ(after.meta.references[i].to, before.meta.references[i].to);
     }
-    EXPECT_EQ(after.associations.size(), before.associations.size());
+    EXPECT_EQ(after.meta.associations.size(), before.meta.associations.size());
     EXPECT_TRUE(contains(output, uri));
   }
 }
@@ -2603,7 +2793,7 @@ TEST(HeifImage, preservesRawXmpDuringExifEditsAndClearsItsStorage) {
   auto document = parse(bytes);
   const auto ids = document.metadataItems(bmffType("mime"));
   ASSERT_EQ(ids.size(), 1u);
-  EXPECT_EQ(payload(bytes, document.items.at(ids.front())), Bytes(packet.begin(), packet.end()));
+  EXPECT_EQ(payload(bytes, document.meta.items.at(ids.front())), Bytes(packet.begin(), packet.end()));
 
   // Replace the packet, then clear it and inspect all remaining file bytes.
   image->setXmpPacket(rawXmpSource("PRIVATE_REPLACEMENT_PACKET_653c"));
@@ -2642,7 +2832,7 @@ TEST(HeifImage, copiesRawXmpMetadataWithoutToolkit) {
   auto document = parse(bytes);
   const auto ids = document.metadataItems(bmffType("mime"));
   ASSERT_EQ(ids.size(), 1u);
-  EXPECT_EQ(payload(bytes, document.items.at(ids.front())), Bytes(packet.begin(), packet.end()));
+  EXPECT_EQ(payload(bytes, document.meta.items.at(ids.front())), Bytes(packet.begin(), packet.end()));
   EXPECT_FALSE(contains(bytes, "REPLACED_RAW_XMP_246da7"));
   target = openHeif(bytes);
   EXPECT_EQ(target->xmpPacket(), packet);
@@ -2712,7 +2902,7 @@ TEST(HeifImage, rejectsUnsupportedMetadataCopyWithoutToolkit) {
 
   // The mutable packet accessor can bypass setter limits; copying must still enforce them.
   source->clearXmpData();
-  source->xmpPacket().assign(static_cast<size_t>(bmffMetadataLimit) + 1, 'x');
+  source->xmpPacket().assign(static_cast<size_t>(heifMetadataLimit) + 1, 'x');
   EXPECT_THROW(target->setMetadata(*source), Error);
   EXPECT_EQ(target->exifData()["Exif.Image.Artist"].toString(), "retained artist");
   EXPECT_EQ(target->xmpPacket(), packet);
