@@ -14,6 +14,7 @@ test_sources = files(
   'test_TimeValue.cpp',
   'test_XmpKey.cpp',
   'test_basicio.cpp',
+  'test_bmffbox_int.cpp',
   'test_bmffimage_int.cpp',
   'test_bmpimage.cpp',
   'test_cr2header_int.cpp',
