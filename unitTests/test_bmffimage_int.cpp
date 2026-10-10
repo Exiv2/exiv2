@@ -29,6 +29,12 @@ using namespace Exiv2::Internal;
 namespace {
 using Bytes = std::vector<byte>;
 
+// Construct the embedded-XMP lookup key once, on its first use.
+const ExifKey& xmlPacketKey() {
+  static const ExifKey key("Exif.Image.XMLPacket");
+  return key;
+}
+
 // Append a big-endian field without using the production serializer.
 void integer(Bytes& output, uint64_t value, unsigned width) {
   for (unsigned i = width; i != 0; --i)
@@ -1985,7 +1991,7 @@ TEST(HeifImage, clearsEmbeddedXmpAndPreservesItWhenOnlyExifIsRemoved) {
 
   // Deleting the embedded XML tag must also remove its serialized packet.
   image = openHeif(bytes);
-  auto xml = image->exifData().findKey(ExifKey("Exif.Image.XMLPacket"));
+  auto xml = image->exifData().findKey(xmlPacketKey());
   ASSERT_NE(xml, image->exifData().end());
   image->exifData().erase(xml);
   image->writeMetadata();
@@ -2193,12 +2199,12 @@ TEST(HeifImage, honorsExplicitEditsToMergedEmbeddedXmp) {
     // Replace or delete XMLPacket, clear all XMP, or remove only Exif.
     if (operation < 2) {
       auto& exif = image->exifData();
-      exif.erase(exif.findKey(ExifKey("Exif.Image.XMLPacket")));
+      exif.erase(exif.findKey(xmlPacketKey()));
       if (operation == 0) {
         const auto packet = rawXmpSource("REPLACEMENT_EMBEDDED_025f");
         auto value = Value::create(unsignedByte);
         value->read(reinterpret_cast<const byte*>(packet.data()), packet.size(), invalidByteOrder);
-        exif.add(ExifKey("Exif.Image.XMLPacket"), value.get());
+        exif.add(xmlPacketKey(), value.get());
       }
     } else if (operation == 2) {
       image->clearXmpData();
@@ -2232,8 +2238,8 @@ TEST(HeifImage, honorsExplicitEditsToMergedEmbeddedXmp) {
 TEST(HeifImage, detectsChangesToDuplicateEmbeddedPacketGroups) {
   auto image = openHeif(heifWithMergedEmbeddedXmp());
   auto& exif = image->exifData();
-  const auto packet = exif.findKey(ExifKey("Exif.Image.XMLPacket"))->value().clone();
-  exif.add(ExifKey("Exif.Image.XMLPacket"), packet.get());
+  const auto packet = exif.findKey(xmlPacketKey())->value().clone();
+  exif.add(xmlPacketKey(), packet.get());
 
   ASSERT_NO_THROW(image->writeMetadata());
   const auto bytes = imageBytes(*image);
@@ -2243,8 +2249,9 @@ TEST(HeifImage, detectsChangesToDuplicateEmbeddedPacketGroups) {
   EXPECT_FALSE(contains(bytes, "FIRST_EMBEDDED_78b2"));
   ASSERT_EQ(image->xmpData().count(), 2u);
   EXPECT_EQ(image->xmpData()["Xmp.dc.format"].toString(), "SECOND_EMBEDDED_4c19");
+  const auto name = xmlPacketKey().key();
   EXPECT_EQ(std::count_if(image->exifData().begin(), image->exifData().end(),
-                          [](const auto& datum) { return datum.key() == "Exif.Image.XMLPacket"; }),
+                          [&](const auto& datum) { return datum.key() == name; }),
             1);
 }
 #else
@@ -2260,11 +2267,11 @@ TEST(HeifImage, rejectsMergingMultipleEmbeddedPacketsWithoutToolkit) {
 
   // Build raw XML tags directly because structured serialization is unavailable.
   value->read(reinterpret_cast<const byte*>(first.data()), first.size(), invalidByteOrder);
-  exif.add(ExifKey("Exif.Image.XMLPacket"), value.get());
+  exif.add(xmlPacketKey(), value.get());
   options.exifPayload = tiffItem(exif);
-  exif.erase(exif.findKey(ExifKey("Exif.Image.XMLPacket")));
+  exif.erase(exif.findKey(xmlPacketKey()));
   value->read(reinterpret_cast<const byte*>(second.data()), second.size(), invalidByteOrder);
-  exif.add(ExifKey("Exif.Image.XMLPacket"), value.get());
+  exif.add(xmlPacketKey(), value.get());
   options.xmpPayload = tiffItem(exif);
   const auto bytes = fixture(options);
   auto image = openHeif(bytes);
@@ -2719,7 +2726,7 @@ TEST(HeifImage, preservesEmbeddedRawXmpWithoutToolkitAndRejectsUnmergeablePacket
   const auto packet = rawXmpSource("PRIVATE_EMBEDDED_RAW_819c");
   auto value = Value::create(unsignedByte);
   value->read(reinterpret_cast<const byte*>(packet.data()), packet.size(), invalidByteOrder);
-  exif.add(ExifKey("Exif.Image.XMLPacket"), value.get());
+  exif.add(xmlPacketKey(), value.get());
   auto image = openHeif(heifWithMetadata(exif));
   EXPECT_EQ(image->xmpPacket(), packet);
 
