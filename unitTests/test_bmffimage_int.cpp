@@ -106,6 +106,7 @@ struct Options {
   bool extended{};
   bool terminal{};
   bool idat{};
+  bool singleImageExtent{};
   bool noMetadata{};
   bool noReferences{};
   bool sharedMetadata{};
@@ -185,7 +186,7 @@ Bytes fixture(const Options& opt = {}) {
       integer(locations, opt.offsetWidth == 0 ? source + itemOffset : source, opt.baseWidth);
 
       // Split the primary image around metadata when the offset fields allow it.
-      const bool fragmented = i == 1 && opt.offsetWidth != 0;
+      const bool fragmented = i == 1 && opt.offsetWidth != 0 && !opt.singleImageExtent;
       integer(locations, fragmented ? 2 : 1, 2);
       integer(locations, 0, opt.indexWidth);
       integer(locations, (opt.baseWidth == 0 ? source : 0) + itemOffset, opt.offsetWidth);
@@ -1551,6 +1552,33 @@ std::string rawXmpSource(std::string_view value) {
          std::string(value) + "'/></rdf:RDF></x:xmpmeta>";
 }
 
+// Build a legacy-readable UUID layout, optionally with a competing item-based XMP packet.
+Bytes heifWithUuidXmp(bool nested, bool extended, bool itemXmp, bool adobe = true) {
+  Bytes uuid{0xbe, 0x7a, 0xcf, 0xcb, 0x97, 0xa9, 0x42, 0xe8, 0x9c, 0x71, 0x99, 0x94, 0x91, 0xe3, 0xaf, 0xac};
+  if (!adobe)
+    uuid.front() ^= 1;
+  const auto packet = rawXmpSource("UUID_XMP_579def");
+  uuid.insert(uuid.end(), packet.begin(), packet.end());
+
+  Options options;
+  options.brand = bmffType("mif1");
+  options.noMetadata = !itemXmp;
+  // The legacy iloc reader needs equal-sized records, with one extent per item.
+  options.singleImageExtent = true;
+  ExifData exif;
+  exif["Exif.Image.Artist"] = "retained UUID fixture artist";
+  options.exifPayload = tiffItem(exif);
+  const auto itemPacket = rawXmpSource("ITEM_XMP_feb32d");
+  options.xmpPayload = Bytes(itemPacket.begin(), itemPacket.end());
+  auto& extra = nested ? options.extraMeta : options.extraRoot;
+  extra = box(bmffType("uuid"), uuid, extended);
+
+  // The legacy UUID reader counts header bytes again when reading its packet.
+  // A valid following padding box keeps this fixture within its accepted layouts.
+  append(options.extraRoot, box(bmffType("free"), Bytes(24)));
+  return fixture(options);
+}
+
 // Set equivalent XMP data with or without the structured XMP toolkit.
 void setHeifXmpSource(Image& image, const std::string& value) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -1570,6 +1598,59 @@ Bytes imageBytes(Image& image) {
 }
 
 }  // namespace
+
+// Restore legacy UUID reading and precedence without making these layouts writable.
+TEST(HeifImage, readsAdobeUuidXmpThroughLegacyFallback) {
+  for (bool nested : {false, true}) {
+    for (bool extended : {false, true}) {
+      for (bool itemXmp : {false, true}) {
+        SCOPED_TRACE(::testing::Message() << "nested=" << nested << " extended=" << extended << " itemXmp=" << itemXmp);
+        const auto bytes = heifWithUuidXmp(nested, extended, itemXmp);
+        ASSERT_NO_THROW(parse(bytes));
+
+        // Compare with the reader that handled HEIF before the factory specialization.
+        BmffImage legacy(std::make_unique<MemIo>(bytes.data(), bytes.size()), defaultImageCtorParams(false));
+        ASSERT_NO_THROW(legacy.readMetadata());
+        auto image = openHeif(bytes);
+        EXPECT_EQ(image->mimeType(), "image/heif");
+        EXPECT_EQ(image->xmpPacket(), legacy.xmpPacket());
+        EXPECT_EQ(image->xmpData().count(), legacy.xmpData().count());
+        EXPECT_EQ(image->exifData().count(), legacy.exifData().count());
+#ifdef EXV_HAVE_XMP_TOOLKIT
+        ASSERT_EQ(image->xmpData().count(), 1u);
+        EXPECT_EQ(image->xmpData()["Xmp.dc.source"].toString(), legacy.xmpData()["Xmp.dc.source"].toString());
+#endif
+        if (itemXmp) {
+          EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "retained UUID fixture artist");
+        }
+
+        // Both an unchanged write and a requested edit must reject before touching the bytes.
+        EXPECT_THROW(image->writeMetadata(), Error);
+        EXPECT_EQ(imageBytes(*image), bytes);
+        image->exifData()["Exif.Image.Artist"] = "unsupported UUID edit";
+        EXPECT_THROW(image->writeMetadata(), Error);
+        EXPECT_EQ(imageBytes(*image), bytes);
+
+        // Reading again discards pending edits and reestablishes the same legacy view.
+        ASSERT_NO_THROW(image->readMetadata());
+        EXPECT_EQ(image->xmpPacket(), legacy.xmpPacket());
+        EXPECT_EQ(image->exifData().count(), legacy.exifData().count());
+      }
+    }
+  }
+}
+
+// Ignore unrelated opaque UUIDs while retaining the native reader's item metadata support.
+TEST(HeifImage, keepsOtherUuidsOnTheNativeReadPath) {
+  auto image = openHeif(heifWithUuidXmp(false, false, true, false));
+#ifdef EXV_HAVE_XMP_TOOLKIT
+  EXPECT_EQ(image->xmpData()["Xmp.dc.source"].toString(), "ITEM_XMP_feb32d");
+#else
+  // The legacy reader cannot supply raw item packets without the toolkit.
+  EXPECT_EQ(image->xmpPacket(), rawXmpSource("ITEM_XMP_feb32d"));
+#endif
+  EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "retained UUID fixture artist");
+}
 
 // Exercise public metadata edits while preserving encoded image bytes.
 TEST(HeifImage, addsGrowsShrinksDeletesAndPreservesEncodedImage) {
