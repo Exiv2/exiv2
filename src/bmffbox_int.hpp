@@ -55,6 +55,12 @@ struct BmffBox {
   [[nodiscard]] BmffSpan payload() const;
 };
 
+//! @brief File framing only; adapters decide which boxes contain children and what they mean.
+struct BmffFile {
+  uint64_t size{};             //!< Source file length in bytes.
+  std::vector<BmffBox> boxes;  //!< Top-level boxes in file order, retaining source ranges.
+};
+
 //! @brief Caller-selected limits for one reader; no image-format policy is implied.
 struct BmffReadLimits {
   uint64_t maxBoxes;      //!< Maximum aggregate headers decoded, including repeated visits.
