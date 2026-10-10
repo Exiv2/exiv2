@@ -33,6 +33,17 @@ namespace Exiv2::Internal {
 namespace {
 using Bytes = std::vector<byte>;
 
+// Search validated headers only; UUID payloads and other opaque bytes remain unread.
+bool hasAdobeXmpUuid(const std::vector<BmffBox>& boxes) {
+  static constexpr std::array<uint8_t, 16> xmpUuid{0xbe, 0x7a, 0xcf, 0xcb, 0x97, 0xa9, 0x42, 0xe8,
+                                                   0x9c, 0x71, 0x99, 0x94, 0x91, 0xe3, 0xaf, 0xac};
+  for (const auto& box : boxes) {
+    if ((box.type == bmffType("uuid") && box.userType == xmpUuid) || hasAdobeXmpUuid(box.children))
+      return true;
+  }
+  return false;
+}
+
 // Reject unsupported edits before they can replace the source stream.
 void supported(bool condition, std::string_view reason) {
   if (!condition)
@@ -548,18 +559,23 @@ class HeifImage final : public BmffImage {
     enforce(io_->open() == 0, ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
     IoCloser closer(*io_);
 
-    BmffDocument document;
     try {
-      document = parseBmff(*io_);
-      assign(Internal::readMetadata(*io_, document, DecodeParams(max_recursion_depth_)));
+      const auto document = parseBmff(*io_);
       brand_ = document.majorBrand;
+
+      // Opaque Adobe UUID packets need the legacy reader's traversal and precedence.
+      if (!hasAdobeXmpUuid(document.boxes)) {
+        assign(Internal::readMetadata(*io_, document, DecodeParams(max_recursion_depth_)));
+        return;
+      }
     } catch (const Error&) {
-      // Deferred layouts retain the existing reader. Writing still reparses and rejects.
-      BmffImage::readMetadata();
-      loaded_ = true;
-      removeExif_ = removeXmp_ = false;
-      return;
+      // Deferred layouts also retain the existing reader and its failure behavior.
     }
+
+    // Finalize either fallback only after reading succeeds. Writing still reparses and rejects.
+    BmffImage::readMetadata();
+    loaded_ = true;
+    removeExif_ = removeXmp_ = false;
   }
 
   /*!
