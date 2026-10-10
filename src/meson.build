@@ -45,6 +45,7 @@ if get_option('video')
 endif
 
 int_lib = files(
+  'bmffbox_int.cpp',
   'bmffimage_int.cpp',
   'bmffwrite_int.cpp',
   'canonmn_int.cpp',
