@@ -87,6 +87,7 @@ endif
 expat_dep = dependency('expat', required: get_option('xmp'))
 inih_dep = dependency('INIReader', required: get_option('inih'))
 zlib_dep = dependency('zlib', required: get_option('png'))
+nlohmann_json_dep = dependency('nlohmann_json', version: '>=3.9', required: get_option('app'))
 
 #hack for FreeBSD which includes external libiconv for libcurl
 if curl_dep.found() and host_machine.system() == 'freebsd'
@@ -160,7 +161,7 @@ if get_option('app')
     'exiv2',
     exiv2_sources,
     include_directories: exiv2inc,
-    dependencies: exiv2_dep,
+    dependencies: [exiv2_dep, nlohmann_json_dep],
     install: true,
   )
 endif

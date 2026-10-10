@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          brew install inih googletest
+          brew install inih googletest nlohmann-json
 
       - name: Build
         run: |

@@ -110,6 +110,7 @@ jobs:
             expat:p
             libiconv:p
             libinih:p
+            nlohmann-json:p
             zlib:p
 
       - name: Build
@@ -158,12 +159,20 @@ jobs:
             ninja
             pkg-config
             python3
+            curl
             libbrotli-devel
             libcurl-devel
             libexpat-devel
             libiconv-devel
             libinih-devel
             zlib-devel
+
+      - name: Install nlohmann_json
+        run: |
+          curl -L -O https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+          tar xf json.tar.xz
+          cmake -S json -B json-build -DJSON_BuildTests=OFF -DCMAKE_BUILD_TYPE=Release
+          cmake --install json-build --prefix /usr
 
       - name: Build
         run: |

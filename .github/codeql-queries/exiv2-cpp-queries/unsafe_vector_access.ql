@@ -28,7 +28,8 @@ class ArrayIndexCall extends FunctionCall {
     tc = ti.getTemplate() and
     tc.getSimpleName() != "map" and
     tc.getSimpleName() != "match_results" and
-    tc.getSimpleName() != "unique_ptr"
+    tc.getSimpleName() != "unique_ptr" and
+    tc.getSimpleName() != "ordered_json"
   }
 
   ClassTemplateInstantiation getClassTemplateInstantiation() { result = ti }

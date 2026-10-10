@@ -134,6 +134,7 @@ class Params : public Util::Getopt {
     pmXMP,
     pmIccProfile,
     pmRecursive,
+    pmJson,
   };
 
   //! Individual items to print, bitmap
