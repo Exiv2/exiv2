@@ -40,95 +40,13 @@ void consume(uint64_t& used, uint64_t amount, uint64_t limit) {
 // Shared counters bound work across all nested boxes in one parse.
 struct Budget {
   const BmffLimits& limits;
-  uint64_t boxes{};
   uint64_t extents{};
   uint64_t references{};
   uint64_t associations{};
   uint64_t strings{};
-  uint64_t bytes{};
 };
 
-//! @brief Every field read is checked against its immediate box, not merely the file.
-class Cursor {
- public:
-  //! @brief Borrow a previously bounded input interval and the enclosing parser budget.
-  Cursor(BasicIo& io, BmffSpan range, Budget& budget) :
-      io_(io), position_(range.offset), end_(range.offset + range.size), budget_(budget) {
-  }
-
-  //! @brief Return the absolute input offset of the next field.
-  uint64_t position() const {
-    return position_;
-  }
-
-  //! @brief Return the bytes still available within this interval.
-  uint64_t remaining() const {
-    return end_ - position_;
-  }
-
-  //! @brief Return the exclusive absolute end of the containing interval.
-  uint64_t end() const {
-    return end_;
-  }
-
-  //! @brief Skip bytes within the interval without reading their contents.
-  void advance(uint64_t count) {
-    require(count <= remaining());
-    position_ += count;
-  }
-
-  //! @brief Read an exact field, charging its bytes to the shared structural budget.
-  void read(byte* bytes, size_t size) {
-    require(size <= remaining());
-    consume(budget_.bytes, size, budget_.limits.maxBytesRead);
-
-    io_.seekOrThrow(static_cast<int64_t>(position_), BasicIo::beg, ErrorCode::kerInputDataReadFailed);
-    io_.readOrThrow(bytes, size, ErrorCode::kerInputDataReadFailed);
-    if (io_.error())
-      throw Error(ErrorCode::kerInputDataReadFailed);
-
-    position_ += size;
-  }
-
-  //! @brief Decode an unsigned big-endian field; a zero-width field has value zero.
-  uint64_t number(unsigned width) {
-    require(width <= 8);
-    std::array<byte, 8> bytes{};
-    if (width != 0)
-      read(bytes.data(), width);
-
-    uint64_t result = 0;
-    for (unsigned i = 0; i < width; ++i)
-      result = (result << 8) | bytes[i];
-    return result;
-  }
-
-  //! @brief Read a terminated string subject to per-string and aggregate limits.
-  std::string string() {
-    std::string result;
-    while (true) {
-      require(remaining() != 0);
-      const auto c = static_cast<char>(number(1));
-      consume(budget_.strings, 1, budget_.limits.maxStringBytes);
-      if (c == '\0')
-        return result;
-
-      require(result.size() < budget_.limits.maxStringLength);
-      result.push_back(c);
-    }
-  }
-
-  //! @brief Reject trailing fields where the supported box layout must be exhausted.
-  void finish() const {
-    require(remaining() == 0);
-  }
-
- private:
-  BasicIo& io_;
-  uint64_t position_;
-  uint64_t end_;
-  Budget& budget_;
-};
+using Cursor = BmffCursor;
 
 // Interpret child box types according to their immediate container.
 enum class Context { file, meta, info, properties, propertyList, references, dataInfo, dataRefs, canon };
@@ -137,16 +55,15 @@ enum class Context { file, meta, info, properties, propertyList, references, dat
 class Parser {
  public:
   //! @brief Borrow an open input and limits for the duration of parsing.
-  Parser(BasicIo& io, const BmffLimits& limits) : io_(io), budget_{limits} {
-    require(io.isopen());
-    document_.fileSize = io.size();
-    require(document_.fileSize <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max()));
+  Parser(BasicIo& io, const BmffLimits& limits) :
+      reader_(io, {limits.maxBoxes, limits.maxBytesRead, limits.maxDepth}), budget_{limits} {
+    document_.fileSize = reader_.fileSize();
   }
 
   //! @brief Parse structure and resolve item ranges without copying encoded image data.
   BmffDocument parse() {
     // Collect structure before checking relationships that may point to later boxes.
-    Cursor input(io_, {0, document_.fileSize}, budget_);
+    auto input = reader_.cursor({0, document_.fileSize});
     document_.boxes = children(input, Context::file, 0);
     require(!document_.boxes.empty() && document_.boxes.front().type == bmffType("ftyp"));
     require(has(document_.boxes, bmffType("ftyp")) && has(document_.boxes, bmffType("meta")));
@@ -162,40 +79,19 @@ class Parser {
     return std::any_of(boxes.begin(), boxes.end(), [type](const auto& box) { return box.type == type; });
   }
 
-  // Validate a box header and advance the parent cursor past the entire box.
-  BmffBox header(Cursor& input) {
-    consume(budget_.boxes, 1, budget_.limits.maxBoxes);
-    require(input.remaining() >= 8);
+  // Decode item strings while retaining the adapter's per-string and aggregate budgets.
+  std::string string(Cursor& input) {
+    std::string result;
+    while (true) {
+      require(input.remaining() != 0);
+      const auto c = static_cast<char>(input.number(1));
+      consume(budget_.strings, 1, budget_.limits.maxStringBytes);
+      if (c == '\0')
+        return result;
 
-    BmffBox box;
-    box.span.offset = input.position();
-    const auto available = input.remaining();
-    box.span.size = input.number(4);
-    box.type = static_cast<uint32_t>(input.number(4));
-    box.headerSize = 8;
-
-    // Resolve extended sizes and EOF-sized boxes before bounding the payload.
-    if (box.span.size == 1) {
-      box.span.size = input.number(8);
-      box.headerSize = 16;
-    } else if (box.span.size == 0) {
-      // A size-zero box extends to EOF, even when it is nested.
-      require(input.end() == document_.fileSize);
-      box.span.size = available;
-      box.extendsToEnd = true;
+      require(result.size() < budget_.limits.maxStringLength);
+      result.push_back(c);
     }
-
-    // UUID user types belong to the header, so exclude them from the payload span.
-    if (box.type == bmffType("uuid")) {
-      box.headerSize += 16;
-      require(box.span.size >= box.headerSize && box.span.size <= available);
-      input.read(box.userType.data(), box.userType.size());
-    }
-
-    // The child cursor will read fields independently of this parent position.
-    require(box.span.size >= box.headerSize && box.span.size <= available);
-    input.advance(box.span.size - box.headerSize);
-    return box;
   }
 
   // Decode version/flags while rejecting unsupported versions and reserved bits.
@@ -221,14 +117,11 @@ class Parser {
 
   // Traverse children with context-specific decoding and a shared nesting budget.
   std::vector<BmffBox> children(Cursor& input, Context context, unsigned depth, uint8_t version = 0) {
-    require(depth <= budget_.limits.maxDepth);
     std::vector<BmffBox> boxes;
     std::set<uint32_t> singletons;
 
     // Singleton checks apply within each immediate container, not globally.
-    while (input.remaining() != 0) {
-      auto box = header(input);
-      Cursor fields(io_, box.payload(), budget_);
+    reader_.visit(input, depth, [&](BmffBox& box, Cursor& fields) {
       auto unique = [&] { require(singletons.insert(box.type).second); };
 
       switch (context) {
@@ -331,7 +224,7 @@ class Parser {
             const auto full = fullBox(box, fields, 0, 1);
             supported(full.flags == 1, "external data reference");
             if (fields.remaining() != 0)
-              require(fields.string().empty());
+              require(string(fields).empty());
             fields.finish();
           }
           break;
@@ -341,7 +234,7 @@ class Parser {
       }
 
       boxes.push_back(std::move(box));
-    }
+    });
     return boxes;
   }
 
@@ -360,15 +253,15 @@ class Parser {
     info.protectionIndex = static_cast<uint16_t>(input.number(2));
     supported(info.protectionIndex == 0, "protected item");
     info.type = static_cast<uint32_t>(input.number(4));
-    info.name = input.string();
+    info.name = string(input);
 
     // Only MIME and URI items append type-specific strings to the common entry.
     if (info.type == bmffType("mime")) {
-      info.contentType = input.string();
+      info.contentType = string(input);
       if (input.remaining() != 0)
-        info.contentEncoding = input.string();
+        info.contentEncoding = string(input);
     } else if (info.type == bmffType("uri ")) {
-      info.uriType = input.string();
+      info.uriType = string(input);
     }
 
     input.finish();
@@ -536,7 +429,7 @@ class Parser {
     }
   }
 
-  BasicIo& io_;
+  BmffReader reader_;
   Budget budget_;
   BmffDocument document_;
   std::set<uint32_t> infoIds_;
@@ -614,11 +507,6 @@ void checkRelocation(const std::vector<BmffBox>& boxes, Context context) {
 }
 
 }  // namespace
-
-BmffSpan BmffBox::payload() const {
-  require(headerSize <= span.size && span.size <= std::numeric_limits<uint64_t>::max() - span.offset);
-  return {span.offset + headerSize, span.size - headerSize};
-}
 
 std::vector<uint32_t> BmffDocument::metadataItems(uint32_t type) const {
   // cdsc points from the metadata item to the image it describes.

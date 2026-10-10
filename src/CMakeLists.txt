@@ -4,6 +4,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(
   exiv2lib_int OBJECT
+  bmffbox_int.cpp
+  bmffbox_int.hpp
   bmffimage_int.cpp
   bmffimage_int.hpp
   bmffwrite_int.cpp

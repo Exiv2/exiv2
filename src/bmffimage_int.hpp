@@ -7,53 +7,18 @@
 
 #ifdef EXV_ENABLE_BMFF
 
-#include <array>
 #include <cstdint>
 #include <map>
 #include <optional>
 #include <string>
 #include <vector>
+#include "bmffbox_int.hpp"
 
 namespace Exiv2 {
 class BasicIo;
 }
 
 namespace Exiv2::Internal {
-
-//! @brief Pack a four-character box/item code into its big-endian integer representation.
-constexpr uint32_t bmffType(const char (&name)[5]) {
-  return (uint32_t{static_cast<unsigned char>(name[0])} << 24) | (uint32_t{static_cast<unsigned char>(name[1])} << 16) |
-         (uint32_t{static_cast<unsigned char>(name[2])} << 8) | uint32_t{static_cast<unsigned char>(name[3])};
-}
-
-//! @brief A validated interval in the original input. Payloads are never owned by the model.
-struct BmffSpan {
-  uint64_t offset{};  //!< Absolute byte offset from the start of the input.
-  uint64_t size{};    //!< Length of the interval in bytes.
-
-  //! @brief Compare the absolute offset and length of two input intervals.
-  bool operator==(const BmffSpan&) const = default;
-};
-
-//! @brief Version and flags decoded from the common FullBox prefix.
-struct BmffFullBox {
-  uint8_t version{};  //!< FullBox version selecting its field layout.
-  uint32_t flags{};   //!< Low 24 flag bits of the FullBox prefix.
-};
-
-//! @brief Input box boundaries and decoded children, with opaque payloads left in the input.
-struct BmffBox {
-  uint32_t type{};                     //!< Packed four-character box code.
-  BmffSpan span;                       //!< Complete original box interval, including its header.
-  uint8_t headerSize{};                //!< Includes a UUID user type, but excludes FullBox version/flags.
-  bool extendsToEnd{};                 //!< True when the original size field extends to end of file.
-  std::array<uint8_t, 16> userType{};  //!< UUID user type, populated only for uuid boxes.
-  std::optional<BmffFullBox> fullBox;  //!< Decoded version and flags for recognized FullBox layouts.
-  std::vector<BmffBox> children;       //!< Decoded immediate children in original file order.
-
-  //! @brief Return the absolute payload interval, excluding the box header and UUID user type.
-  [[nodiscard]] BmffSpan payload() const;
-};
 
 //! @brief Item description and its original infe span, retained for lossless rewriting.
 struct BmffItemInfo {
