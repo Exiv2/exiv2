@@ -97,6 +97,8 @@ cmake --build build-heif-debug --parallel 4
 The unit filter includes the parameterized corpus tests. The CLI regressions
 cover metadata extraction/reinsertion, MakerNote removal, rejected writes, and
 staging/transfer-open failures, using disposable fixture copies.
+See the [BMFF internal layers](../src/README-BMFF.md) for the shared reader,
+item model, output engine and format-adapter boundaries covered by these tests.
 
 Use a separate build to check raw XMP handling without either XMP toolkit:
 
