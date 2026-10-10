@@ -6,10 +6,12 @@ add_library(
   exiv2lib_int OBJECT
   bmffbox_int.cpp
   bmffbox_int.hpp
-  bmffimage_int.cpp
-  bmffimage_int.hpp
-  bmffwrite_int.cpp
-  bmffwrite_int.hpp
+  bmffitem_int.cpp
+  bmffitem_int.hpp
+  heifstructure_int.cpp
+  heifstructure_int.hpp
+  heifwrite_int.cpp
+  heifwrite_int.hpp
   canonmn_int.cpp
   canonmn_int.hpp
   casiomn_int.cpp

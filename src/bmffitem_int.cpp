@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "bmffimage_int.hpp"
+#include "bmffitem_int.hpp"
 
 #ifdef EXV_ENABLE_BMFF
 
@@ -17,18 +17,9 @@
 namespace Exiv2::Internal {
 namespace {
 
-constexpr std::array<uint8_t, 16> canonUuid{0x85, 0xc0, 0xb6, 0x87, 0x82, 0x0f, 0x11, 0xe0,
-                                            0x81, 0x11, 0xf4, 0xce, 0x46, 0x2b, 0x6a, 0x48};
-
 // Report malformed structure through the common metadata error code.
 void require(bool condition) {
   enforce(condition, ErrorCode::kerCorruptedMetadata);
-}
-
-// Distinguish unsupported layouts from corrupt container data.
-void supported(bool condition, std::string_view feature) {
-  if (!condition)
-    throw Error(ErrorCode::kerErrorMessage, std::string("Unsupported HEIF layout: ") + std::string(feature));
 }
 
 // Charge aggregate work without overflowing the counter or its limit.
@@ -39,7 +30,7 @@ void consume(uint64_t& used, uint64_t amount, uint64_t limit) {
 
 // Shared counters bound work across all nested boxes in one parse.
 struct Budget {
-  const BmffLimits& limits;
+  const BmffItemLimits& limits;
   uint64_t extents{};
   uint64_t references{};
   uint64_t associations{};
@@ -49,31 +40,31 @@ struct Budget {
 using Cursor = BmffCursor;
 
 // Interpret child box types according to their immediate container.
-enum class Context { file, meta, info, properties, propertyList, references, dataInfo, dataRefs, canon };
+enum class Context { meta, info, properties, propertyList, references, dataInfo, dataRefs };
 
 // Build a range-backed item graph, then validate links after all boxes are known.
 class Parser {
  public:
-  //! @brief Borrow an open input and limits for the duration of parsing.
-  Parser(BasicIo& io, const BmffLimits& limits) :
-      reader_(io, {limits.maxBoxes, limits.maxBytesRead, limits.maxDepth}), budget_{limits} {
-    document_.fileSize = reader_.fileSize();
+  //! @brief Borrow the enclosing reader, item budgets and format policy for one meta box.
+  Parser(BmffReader& reader, const BmffItemLimits& limits, const BmffItemPolicy& policy) :
+      reader_(reader), budget_{limits}, policy_(policy) {
   }
 
-  //! @brief Parse structure and resolve item ranges without copying encoded image data.
-  BmffDocument parse() {
-    // Collect structure before checking relationships that may point to later boxes.
-    auto input = reader_.cursor({0, document_.fileSize});
-    document_.boxes = children(input, Context::file, 0);
-    require(!document_.boxes.empty() && document_.boxes.front().type == bmffType("ftyp"));
-    require(has(document_.boxes, bmffType("ftyp")) && has(document_.boxes, bmffType("meta")));
-
-    // Cross-check item records only after both iinf and iloc have been read.
-    validateItems();
-    return std::move(document_);
+  //! @brief Decode tables while leaving range and cross-table validation to resolveBmffItems.
+  BmffItemModel parse(BmffBox& box, Cursor& fields, unsigned childDepth) {
+    fullBox(box, fields, 0);
+    box.children = children(fields, Context::meta, childDepth);
+    policy_.checkMeta(box);
+    return std::move(model_);
   }
 
  private:
+  // Delegate unsupported-syntax diagnostics without putting format names in the parser.
+  void supported(bool condition, std::string_view feature) const {
+    if (!condition)
+      policy_.unsupported(feature);
+  }
+
   // Check whether a container includes a required child type.
   static bool has(const std::vector<BmffBox>& boxes, uint32_t type) {
     return std::any_of(boxes.begin(), boxes.end(), [type](const auto& box) { return box.type == type; });
@@ -107,12 +98,12 @@ class Parser {
   // Find or create an item shared by its independently ordered info/location records.
   BmffItem& item(uint32_t id) {
     require(id != 0);
-    const auto found = document_.items.find(id);
-    if (found != document_.items.end())
+    const auto found = model_.items.find(id);
+    if (found != model_.items.end())
       return found->second;
 
-    require(document_.items.size() < budget_.limits.maxItems);
-    return document_.items.try_emplace(id).first->second;
+    require(model_.items.size() < budget_.limits.maxItems);
+    return model_.items.try_emplace(id).first->second;
   }
 
   // Traverse children with context-specific decoding and a shared nesting budget.
@@ -125,41 +116,21 @@ class Parser {
       auto unique = [&] { require(singletons.insert(box.type).second); };
 
       switch (context) {
-        case Context::file:
-          if (box.type == bmffType("ftyp")) {
-            unique();
-            require(fields.remaining() >= 8 && fields.remaining() % 4 == 0);
-            document_.majorBrand = static_cast<uint32_t>(fields.number(4));
-            document_.minorVersion = static_cast<uint32_t>(fields.number(4));
-            require(fields.remaining() / 4 <= budget_.limits.maxBoxes);
-            while (fields.remaining() != 0)
-              document_.compatibleBrands.push_back(static_cast<uint32_t>(fields.number(4)));
-          } else if (box.type == bmffType("meta")) {
-            unique();
-            fullBox(box, fields, 0);
-            box.children = children(fields, Context::meta, depth + 1);
-
-            // A picture meta box must provide the tables needed to resolve its primary item.
-            for (const auto required :
-                 {bmffType("hdlr"), bmffType("pitm"), bmffType("iinf"), bmffType("iloc"), bmffType("iprp")})
-              require(has(box.children, required));
-          } else if (box.type == bmffType("mdat")) {
-            document_.mediaData.push_back(box.payload());
-          }
-          break;
         case Context::meta:
           if (box.type == bmffType("hdlr")) {
             unique();
             fullBox(box, fields, 0);
             require(fields.number(4) == 0);
-            supported(fields.number(4) == bmffType("pict"), "non-picture handler");
+            model_.handler = static_cast<uint32_t>(fields.number(4));
+            policy_.checkHandler(model_.handler);
             for (unsigned i = 0; i < 3; ++i)
               require(fields.number(4) == 0);
             // The optional handler name is opaque and stays in its original box.
           } else if (box.type == bmffType("pitm")) {
             unique();
             const auto full = fullBox(box, fields, 1);
-            document_.primaryItem = static_cast<uint32_t>(fields.number(full.version == 0 ? 2 : 4));
+            model_.primaryItem = static_cast<uint32_t>(fields.number(full.version == 0 ? 2 : 4));
+            model_.hasPrimaryItem = true;
             fields.finish();
           } else if (box.type == bmffType("iinf")) {
             unique();
@@ -181,13 +152,13 @@ class Parser {
             require(has(box.children, bmffType("ipco")));
           } else if (box.type == bmffType("idat")) {
             unique();
-            document_.itemData = box.payload();
+            model_.itemData = box.payload();
           } else if (box.type == bmffType("dinf")) {
             unique();
             box.children = children(fields, Context::dataInfo, depth + 1);
             require(has(box.children, bmffType("dref")));
-          } else if (box.type == bmffType("uuid") && box.userType == canonUuid) {
-            box.children = children(fields, Context::canon, depth + 1);
+          } else {
+            policy_.parseExtension(reader_, box, fields, depth + 1);
           }
           break;
         case Context::info:
@@ -198,7 +169,7 @@ class Parser {
           if (box.type == bmffType("ipco")) {
             unique();
             box.children = children(fields, Context::propertyList, depth + 1);
-            document_.properties = box.children;
+            model_.properties = box.children;
           } else if (box.type == bmffType("ipma")) {
             associations(box, fields);
           }
@@ -214,7 +185,7 @@ class Parser {
             unique();
             fullBox(box, fields, 0);
             const auto count = fields.number(4);
-            require(count <= budget_.limits.maxBoxes && count <= fields.remaining() / 8);
+            require(count <= budget_.limits.maxEntries && count <= fields.remaining() / 8);
             box.children = children(fields, Context::dataRefs, depth + 1);
             require(box.children.size() == count);
           }
@@ -227,9 +198,6 @@ class Parser {
               require(string(fields).empty());
             fields.finish();
           }
-          break;
-        case Context::canon:
-          unique();
           break;
       }
 
@@ -251,7 +219,7 @@ class Parser {
     info.version = full.version;
     info.flags = full.flags;
     info.protectionIndex = static_cast<uint16_t>(input.number(2));
-    supported(info.protectionIndex == 0, "protected item");
+    policy_.checkProtection(info.protectionIndex);
     info.type = static_cast<uint32_t>(input.number(4));
     info.name = string(input);
 
@@ -265,13 +233,13 @@ class Parser {
     }
 
     input.finish();
-    document_.infoOrder.push_back(id);
+    model_.infoOrder.push_back(id);
   }
 
   // Read iloc field widths and extents; absolute ranges are resolved after parsing.
   void locations(BmffBox& box, Cursor& input) {
     const auto full = fullBox(box, input, 2);
-    auto& format = document_.locationFormat;
+    auto& format = model_.locationFormat;
     format.box = box.span;
     format.version = full.version;
 
@@ -321,7 +289,7 @@ class Parser {
         supported(extent.length != 0, "implicit extent length");
         location.extents.push_back(extent);
       }
-      document_.locationOrder.push_back(id);
+      model_.locationOrder.push_back(id);
     }
 
     input.finish();
@@ -344,7 +312,7 @@ class Parser {
       ref.to.push_back(static_cast<uint32_t>(input.number(width)));
 
     input.finish();
-    document_.references.push_back(std::move(ref));
+    model_.references.push_back(std::move(ref));
   }
 
   // Read property indices and their essential flags without interpreting properties.
@@ -372,207 +340,114 @@ class Parser {
         const unsigned essential = propertyWidth == 1 ? 0x80 : 0x8000;
         entry.properties.push_back({static_cast<uint16_t>(value & (essential - 1)), (value & essential) != 0});
       }
-      document_.associations.push_back(std::move(entry));
+      model_.associations.push_back(std::move(entry));
     }
 
     input.finish();
   }
 
-  // Resolve addressing and reject incomplete items, invalid ranges, and dangling links.
-  void validateItems() {
-    require(infoIds_ == locationIds_ && !infoIds_.empty());
-    require(document_.items.contains(document_.primaryItem));
-
-    // Method 0 uses file offsets; method 1 uses offsets from the idat payload.
-    for (auto& [id, item] : document_.items) {
-      auto& location = item.location;
-      for (auto& extent : location.extents) {
-        BmffSpan enclosing{0, document_.fileSize};
-        if (location.constructionMethod == 1) {
-          require(document_.itemData.has_value());
-          enclosing = *document_.itemData;
-        }
-
-        // Check each relative addition against the containing interval before resolving it.
-        require(location.baseOffset <= enclosing.size && extent.offset <= enclosing.size - location.baseOffset);
-        const auto relative = location.baseOffset + extent.offset;
-        require(extent.length <= enclosing.size - relative);
-        extent.source = {enclosing.offset + relative, extent.length};
-
-        // File-relative extents must lie wholly within a single mdat payload.
-        if (location.constructionMethod == 0) {
-          auto media = std::upper_bound(document_.mediaData.begin(), document_.mediaData.end(), extent.source.offset,
-                                        [](uint64_t offset, const BmffSpan& range) { return offset < range.offset; });
-          require(media != document_.mediaData.begin());
-          --media;
-          const auto offset = extent.source.offset - media->offset;
-          require(offset <= media->size && extent.length <= media->size - offset);
-        }
-        consume(location.dataSize, extent.length, std::numeric_limits<int64_t>::max());
-      }
-    }
-
-    // Validate graph endpoints after every item has a complete description and location.
-    for (const auto& ref : document_.references) {
-      require(document_.items.contains(ref.from));
-      for (const auto id : ref.to)
-        require(document_.items.contains(id));
-    }
-
-    // Property indices are one-based; an essential property cannot use the zero sentinel.
-    for (const auto& entry : document_.associations) {
-      require(document_.items.contains(entry.itemId));
-      for (const auto& property : entry.properties) {
-        require(property.index <= document_.properties.size());
-        require(property.index != 0 || !property.essential);
-      }
-    }
-  }
-
-  BmffReader reader_;
+  BmffReader& reader_;
   Budget budget_;
-  BmffDocument document_;
+  const BmffItemPolicy& policy_;
+  BmffItemModel model_;
   std::set<uint32_t> infoIds_;
   std::set<uint32_t> locationIds_;
 };
 
-// Recognize padding that can be discarded or regenerated during rewriting.
-bool padding(uint32_t type) {
-  return type == bmffType("free") || type == bmffType("skip");
-}
-
-// Reject opaque structures unless their payloads are known to be safe to relocate.
-void checkRelocation(const std::vector<BmffBox>& boxes, Context context) {
-  static constexpr auto propertyTypes =
-      std::array{bmffType("hvcC"), bmffType("av1C"), bmffType("ispe"), bmffType("pixi"), bmffType("colr"),
-                 bmffType("irot"), bmffType("imir"), bmffType("clap"), bmffType("pasp"), bmffType("auxC"),
-                 bmffType("rloc"), bmffType("clli"), bmffType("mdcv"), bmffType("cclv")};
-
-  // Reading preserves unknown boxes, but moving them requires an explicit safe case.
-  for (const auto& box : boxes) {
-    if (padding(box.type))
-      continue;
-    switch (context) {
-      case Context::file:
-        if (box.type == bmffType("meta"))
-          checkRelocation(box.children, Context::meta);
-        else
-          supported(box.type == bmffType("ftyp") || box.type == bmffType("mdat"), "unmodeled top-level box");
-        break;
-      case Context::meta:
-        switch (box.type) {
-          case bmffType("hdlr"):
-          case bmffType("pitm"):
-          case bmffType("iloc"):
-          case bmffType("idat"):
-          case bmffType("iinf"):
-          case bmffType("iref"):
-            break;
-          case bmffType("iprp"):
-            checkRelocation(box.children, Context::properties);
-            break;
-          case bmffType("dinf"):
-            checkRelocation(box.children, Context::dataInfo);
-            break;
-          case bmffType("uuid"):
-            supported(
-                box.userType == canonUuid && box.children.size() == 1 && box.children.front().type == bmffType("CNCV"),
-                "unmodeled UUID");
-            break;
-          default:
-            supported(false, "unmodeled metadata box");
-        }
-        break;
-      case Context::properties:
-        if (box.type == bmffType("ipco"))
-          checkRelocation(box.children, Context::propertyList);
-        else
-          supported(box.type == bmffType("ipma"), "unmodeled property container");
-        break;
-      case Context::propertyList:
-        supported(std::find(propertyTypes.begin(), propertyTypes.end(), box.type) != propertyTypes.end(),
-                  "unmodeled item property");
-        break;
-      case Context::dataInfo:
-        supported(box.type == bmffType("dref"), "unmodeled data information");
-        checkRelocation(box.children, Context::dataRefs);
-        break;
-      case Context::dataRefs:
-        supported(box.type == bmffType("url "), "unmodeled data reference");
-        break;
-      default:
-        supported(false, "unmodeled container");
-    }
-  }
-}
-
 }  // namespace
 
-std::vector<uint32_t> BmffDocument::metadataItems(uint32_t type) const {
-  // cdsc points from the metadata item to the image it describes.
-  std::set<uint32_t> describing;
-  for (const auto& reference : references) {
-    if (reference.type == bmffType("cdsc") &&
-        std::find(reference.to.begin(), reference.to.end(), primaryItem) != reference.to.end())
-      describing.insert(reference.from);
-  }
-
-  // Keep iinf order so later metadata items have deterministic merge precedence.
-  std::vector<uint32_t> result;
-  for (const auto id : infoOrder) {
-    const auto& info = items.at(id).info;
-    if (describing.contains(id) && info.type == type &&
-        (type != bmffType("mime") || info.contentType == "application/rdf+xml"))
-      result.push_back(id);
-  }
-
-  return result;
+void BmffItemPolicy::unsupported(std::string_view feature) const {
+  throw Error(ErrorCode::kerErrorMessage, std::string("Unsupported BMFF item layout: ") + std::string(feature));
 }
 
-BmffDocument parseBmff(BasicIo& io, const BmffLimits& limits) {
-  return Parser(io, limits).parse();
+void BmffItemPolicy::checkHandler(uint32_t) const {
 }
 
-void enforceHeifWriteSupport(const BmffDocument& document) {
-  supported(document.majorBrand == bmffType("heic") || document.majorBrand == bmffType("heix") ||
-                document.majorBrand == bmffType("mif1"),
-            "file brand");
+void BmffItemPolicy::checkProtection(uint16_t) const {
+}
 
-  // A generic mif1 brand can accompany an AVIF or another deferred codec.
-  supported(std::find(document.compatibleBrands.begin(), document.compatibleBrands.end(), bmffType("avif")) ==
-                    document.compatibleBrands.end() &&
-                std::find(document.compatibleBrands.begin(), document.compatibleBrands.end(), bmffType("avis")) ==
-                    document.compatibleBrands.end(),
-            "AVIF writing is deferred");
+void BmffItemPolicy::checkMeta(const BmffBox&) const {
+}
 
-  const auto primaryType = document.items.at(document.primaryItem).info.type;
-  supported(primaryType == bmffType("hvc1") || primaryType == bmffType("grid") || primaryType == bmffType("iden") ||
-                primaryType == bmffType("iovl"),
-            "primary image type");
+void BmffItemPolicy::checkItems(const BmffItemModel&) const {
+}
 
-  // Recognize near-matching XMP MIME labels so they cannot evade removal checks.
-  for (const auto& reference : document.references) {
-    if (reference.type != bmffType("cdsc") ||
-        std::find(reference.to.begin(), reference.to.end(), document.primaryItem) == reference.to.end())
-      continue;
-    const auto& info = document.items.at(reference.from).info;
-    if (info.type != bmffType("mime"))
-      continue;
-    auto type = info.contentType.substr(0, info.contentType.find(';'));
-    std::transform(type.begin(), type.end(), type.begin(),
-                   [](unsigned char c) { return static_cast<char>(c >= 'A' && c <= 'Z' ? c + ('a' - 'A') : c); });
-    const auto first = type.find_first_not_of(" \t");
-    const auto last = type.find_last_not_of(" \t");
-    if (first != std::string::npos)
-      type = type.substr(first, last - first + 1);
-    if (type == "application/rdf+xml") {
-      supported(info.contentType == "application/rdf+xml", "ambiguous primary XMP MIME type");
-      supported(info.contentEncoding.empty(), "compressed primary XMP");
+void BmffItemPolicy::checkExtent(const BmffItemLocation&, const BmffExtent&) const {
+}
+
+void BmffItemPolicy::parseExtension(BmffReader&, BmffBox&, BmffCursor&, unsigned) const {
+}
+
+BmffItemModel parseBmffItems(BmffReader& reader, BmffBox& box, BmffCursor& fields, unsigned childDepth,
+                             const BmffItemLimits& limits, const BmffItemPolicy& policy) {
+  return Parser(reader, limits, policy).parse(box, fields, childDepth);
+}
+
+void resolveBmffItems(BmffItemModel& model, uint64_t fileSize, const BmffItemPolicy& policy) {
+  require(fileSize <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max()));
+  require(model.infoOrder.size() == model.items.size() && model.locationOrder.size() == model.items.size());
+  policy.checkItems(model);
+  if (model.hasPrimaryItem)
+    require(model.items.contains(model.primaryItem));
+
+  // Method 0 uses file offsets; method 1 uses offsets from the idat payload.
+  for (auto& [id, item] : model.items) {
+    auto& location = item.location;
+    location.dataSize = 0;
+    for (auto& extent : location.extents) {
+      BmffSpan enclosing{0, fileSize};
+      if (location.constructionMethod == 1) {
+        require(model.itemData.has_value());
+        enclosing = *model.itemData;
+      }
+
+      // Check each relative addition against the containing interval before resolving it.
+      require(location.baseOffset <= enclosing.size && extent.offset <= enclosing.size - location.baseOffset);
+      const auto relative = location.baseOffset + extent.offset;
+      require(extent.length <= enclosing.size - relative);
+      extent.source = {enclosing.offset + relative, extent.length};
+
+      policy.checkExtent(location, extent);
+      consume(location.dataSize, extent.length, std::numeric_limits<int64_t>::max());
     }
   }
 
-  // Finally reject any retained opaque box whose internal offsets are unknown.
-  checkRelocation(document.boxes, Context::file);
+  // Validate graph endpoints after every item has a complete description and location.
+  for (const auto& ref : model.references) {
+    require(model.items.contains(ref.from));
+    for (const auto id : ref.to)
+      require(model.items.contains(id));
+  }
+
+  // Property indices are one-based; an essential property cannot use the zero sentinel.
+  for (const auto& entry : model.associations) {
+    require(model.items.contains(entry.itemId));
+    for (const auto& property : entry.properties) {
+      require(property.index <= model.properties.size());
+      require(property.index != 0 || !property.essential);
+    }
+  }
+}
+
+std::vector<uint8_t> readBmffItem(BasicIo& input, const BmffItem& item, uint64_t limit) {
+  enforce(item.location.dataSize <= limit && item.location.dataSize <= std::numeric_limits<size_t>::max(),
+          ErrorCode::kerErrorMessage, "BMFF item exceeds the allocation limit");
+
+  // Gather the requested item only after bounding its aggregate allocation.
+  std::vector<uint8_t> bytes(static_cast<size_t>(item.location.dataSize));
+  size_t position = 0;
+  for (const auto& extent : item.location.extents) {
+    require(extent.source.size <= bytes.size() - position);
+    require(extent.source.offset <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max()) &&
+            extent.source.size <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max()) - extent.source.offset);
+    input.seekOrThrow(static_cast<int64_t>(extent.source.offset), BasicIo::beg, ErrorCode::kerInputDataReadFailed);
+    input.readOrThrow(bytes.data() + position, static_cast<size_t>(extent.source.size),
+                      ErrorCode::kerInputDataReadFailed);
+    enforce(!input.error(), ErrorCode::kerInputDataReadFailed);
+    position += static_cast<size_t>(extent.source.size);
+  }
+  require(position == bytes.size());
+  return bytes;
 }
 
 }  // namespace Exiv2::Internal
