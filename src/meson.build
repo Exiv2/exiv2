@@ -46,8 +46,9 @@ endif
 
 int_lib = files(
   'bmffbox_int.cpp',
-  'bmffimage_int.cpp',
-  'bmffwrite_int.cpp',
+  'bmffitem_int.cpp',
+  'heifstructure_int.cpp',
+  'heifwrite_int.cpp',
   'canonmn_int.cpp',
   'casiomn_int.cpp',
   'cr2header_int.cpp',

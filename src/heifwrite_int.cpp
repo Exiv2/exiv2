@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "bmffwrite_int.hpp"
+#include "heifwrite_int.hpp"
 
 #ifdef EXV_ENABLE_BMFF
 
@@ -47,7 +47,7 @@ uint64_t end(BmffSpan span) {
 // Append a bounded big-endian field, rejecting values that do not fit its width.
 void number(Bytes& bytes, uint64_t value, unsigned width) {
   require(width <= 8 && (width == 8 || value < (uint64_t{1} << (width * 8))));
-  require(bytes.size() <= BmffLimits{}.maxBytesRead - width);
+  require(bytes.size() <= HeifLimits{}.boxes.maxBytesRead - width);
 
   for (unsigned i = width; i != 0; --i)
     bytes.push_back(static_cast<uint8_t>(value >> ((i - 1) * 8)));
@@ -55,7 +55,8 @@ void number(Bytes& bytes, uint64_t value, unsigned width) {
 
 // Append a terminated string within the structural serialization budget.
 void string(Bytes& bytes, std::string_view value) {
-  require(value.size() < BmffLimits{}.maxBytesRead && bytes.size() < BmffLimits{}.maxBytesRead - value.size());
+  require(value.size() < HeifLimits{}.boxes.maxBytesRead &&
+          bytes.size() < HeifLimits{}.boxes.maxBytesRead - value.size());
   bytes.insert(bytes.end(), value.begin(), value.end());
   bytes.push_back(0);
 }
@@ -157,14 +158,14 @@ void mergeRanges(std::vector<BmffSpan>& spans) {
 class Rewrite {
  public:
   //! @brief Borrow both streams and the original model; keep a separate model for the edit.
-  Rewrite(BasicIo& input, BasicIo& output, const BmffDocument& original) :
+  Rewrite(BasicIo& input, BasicIo& output, const HeifDocument& original) :
       input_(input), output_(output), original_(original), document_(original) {
   }
 
   //! @brief Validate the edit, converge its layout, and verify the prepared output.
-  void run(const BmffMetadataUpdate& update) {
+  void run(const HeifMetadataUpdate& update) {
     require(&input_ != &output_ && input_.isopen() && output_.isopen() && output_.size() == 0);
-    require(input_.size() == original_.fileSize);
+    require(input_.size() == original_.file.size);
     enforceHeifWriteSupport(original_);
 
     // Check graph and byte ownership before preparing any output.
@@ -175,9 +176,9 @@ class Rewrite {
     applyUpdates();
 
     // Index retained structures and normalize field widths before layout iteration.
-    for (const auto& entry : document_.associations)
+    for (const auto& entry : document_.meta.associations)
       associations_[entry.box.offset].push_back(&entry);
-    indexBoxes(original_.boxes);
+    indexBoxes(original_.file.boxes);
     normalizeLocations();
 
     // Only offset width can change after locating the output; it promotes 4 -> 8 once.
@@ -209,7 +210,7 @@ class Rewrite {
     if (!value)
       return;
 
-    supported(value->size() <= bmffMetadataLimit, "metadata exceeds the allocation limit");
+    supported(value->size() <= heifMetadataLimit, "metadata exceeds the allocation limit");
     const auto ids = original_.metadataItems(type);
     removed_.insert(ids.begin(), ids.end());
     if (!value->empty())
@@ -218,11 +219,12 @@ class Rewrite {
 
   // Reject removal of metadata that also participates in retained relationships.
   void validateReferences() const {
-    for (const auto& ref : original_.references) {
+    for (const auto& ref : original_.meta.references) {
       if (removed_.contains(ref.from)) {
-        supported(ref.type == bmffType("cdsc") &&
-                      std::all_of(ref.to.begin(), ref.to.end(), [&](auto id) { return id == original_.primaryItem; }),
-                  "selected metadata is shared or has other relationships");
+        supported(
+            ref.type == bmffType("cdsc") &&
+                std::all_of(ref.to.begin(), ref.to.end(), [&](auto id) { return id == original_.meta.primaryItem; }),
+            "selected metadata is shared or has other relationships");
       } else {
         for (const auto id : ref.to)
           supported(!removed_.contains(id), "selected metadata is referenced by another item");
@@ -233,8 +235,8 @@ class Rewrite {
   // Find the owning media payload, keyed by its absolute start in the input.
   uint64_t container(const BmffItem& item, BmffSpan span) const {
     if (item.location.constructionMethod == 1) {
-      require(original_.itemData.has_value());
-      const auto data = *original_.itemData;
+      require(original_.meta.itemData.has_value());
+      const auto data = *original_.meta.itemData;
       require(span.offset >= data.offset && end(span) <= end(data));
       return data.offset;
     }
@@ -251,7 +253,7 @@ class Rewrite {
   // Collect retained byte unions and prove they do not overlap discarded metadata.
   void collectRanges() {
     std::vector<BmffSpan> discarded;
-    for (const auto& [id, item] : original_.items) {
+    for (const auto& [id, item] : original_.meta.items) {
       for (const auto& extent : item.location.extents) {
         if (removed_.contains(id))
           discarded.push_back(extent.source);
@@ -280,14 +282,14 @@ class Rewrite {
 
   // Prefer an ID above the existing set, falling back to its first gap at the limit.
   uint32_t allocateId() const {
-    require(!document_.items.empty());
-    const auto greatest = document_.items.rbegin()->first;
+    require(!document_.meta.items.empty());
+    const auto greatest = document_.meta.items.rbegin()->first;
     if (greatest != max32)
       return greatest + 1;
 
     // At the maximum ID, search existing gaps rather than wrapping the counter.
     uint32_t id = 1;
-    for (const auto& [used, item] : document_.items) {
+    for (const auto& [used, item] : document_.meta.items) {
       if (used != id)
         return id;
       supported(id != max32, "no unused item ID");
@@ -300,15 +302,15 @@ class Rewrite {
   void applyUpdates() {
     // Drop the removed items and all structures owned by those metadata items.
     for (const auto id : removed_)
-      document_.items.erase(id);
-    std::erase_if(document_.infoOrder, [&](auto id) { return removed_.contains(id); });
-    std::erase_if(document_.locationOrder, [&](auto id) { return removed_.contains(id); });
-    std::erase_if(document_.references, [&](const auto& ref) { return removed_.contains(ref.from); });
-    std::erase_if(document_.associations, [&](const auto& entry) { return removed_.contains(entry.itemId); });
+      document_.meta.items.erase(id);
+    std::erase_if(document_.meta.infoOrder, [&](auto id) { return removed_.contains(id); });
+    std::erase_if(document_.meta.locationOrder, [&](auto id) { return removed_.contains(id); });
+    std::erase_if(document_.meta.references, [&](const auto& ref) { return removed_.contains(ref.from); });
+    std::erase_if(document_.meta.associations, [&](const auto& entry) { return removed_.contains(entry.itemId); });
 
     // Every replacement gets a new description and a cdsc link to the primary image.
     for (const auto& [type, bytes] : additions_) {
-      require(document_.items.size() < BmffLimits{}.maxItems);
+      require(document_.meta.items.size() < HeifLimits{}.items.maxItems);
       const auto id = allocateId();
       BmffItem item;
       item.info.version = id > max16 ? 3 : 2;
@@ -320,10 +322,10 @@ class Rewrite {
 
       item.location.dataSize = bytes->size();
       item.location.extents.push_back({0, 0, bytes->size(), {}});
-      document_.items.emplace(id, std::move(item));
-      document_.infoOrder.push_back(id);
-      document_.locationOrder.push_back(id);
-      document_.references.push_back({{}, bmffType("cdsc"), id, {document_.primaryItem}});
+      document_.meta.items.emplace(id, std::move(item));
+      document_.meta.infoOrder.push_back(id);
+      document_.meta.locationOrder.push_back(id);
+      document_.meta.references.push_back({{}, bmffType("cdsc"), id, {document_.meta.primaryItem}});
       newItems_.emplace(id, bytes);
     }
   }
@@ -338,15 +340,15 @@ class Rewrite {
 
   // Normalize base offsets and choose widths/versions before measuring output layout.
   void normalizeLocations() {
-    auto& format = document_.locationFormat;
+    auto& format = document_.meta.locationFormat;
     format.offsetSize = 4;
     format.lengthSize = 4;
     format.baseOffsetSize = 0;
-    if (document_.items.rbegin()->first > max16 || document_.items.size() > max16)
+    if (document_.meta.items.rbegin()->first > max16 || document_.meta.items.size() > max16)
       format.version = 2;
 
     // Preserve idat addressing, but eliminate per-item base offsets in the new layout.
-    for (auto& [id, item] : document_.items) {
+    for (auto& [id, item] : document_.meta.items) {
       item.location.baseOffset = 0;
       if (item.location.constructionMethod == 1)
         format.version = std::max<uint8_t>(format.version, 1);
@@ -358,7 +360,7 @@ class Rewrite {
 
   // Preserve existing infe entries or serialize a description for a new metadata item.
   Box itemInfo(uint32_t id) const {
-    const auto& info = document_.items.at(id).info;
+    const auto& info = document_.meta.items.at(id).info;
     if (info.box.size)
       return opaque(*originalBoxes_.at(info.box.offset));
 
@@ -379,16 +381,16 @@ class Rewrite {
 
   // Serialize current item locations with the widths selected for this layout pass.
   Bytes locations() const {
-    const auto& format = document_.locationFormat;
+    const auto& format = document_.meta.locationFormat;
     auto bytes = full(format.version);
     number(bytes, (format.offsetSize << 4) | format.lengthSize, 1);
     number(bytes, format.indexSize, 1);
     const unsigned width = format.version == 2 ? 4 : 2;
-    number(bytes, document_.items.size(), width);
+    number(bytes, document_.meta.items.size(), width);
 
     // Retain location-table order while writing normalized extent coordinates.
-    for (const auto id : document_.locationOrder) {
-      const auto& loc = document_.items.at(id).location;
+    for (const auto id : document_.meta.locationOrder) {
+      const auto& loc = document_.meta.items.at(id).location;
       number(bytes, id, width);
       if (format.version)
         number(bytes, loc.constructionMethod, 2);
@@ -412,12 +414,12 @@ class Rewrite {
     box.type = bmffType("iref");
     box.extended = original && original->headerSize == 16;
     uint8_t version = original ? original->fullBox->version : 0;
-    if (document_.items.rbegin()->first > max16)
+    if (document_.meta.items.rbegin()->first > max16)
       version = 1;
     box.prefix = full(version);
 
     // Relationships retain their direction and destination order.
-    for (const auto& ref : document_.references) {
+    for (const auto& ref : document_.meta.references) {
       Box child;
       child.type = ref.type;
       if (ref.box.size)
@@ -463,11 +465,11 @@ class Rewrite {
     } else if (box.type == bmffType("iinf")) {
       box.chunks.clear();
       auto version = original.fullBox->version;
-      if (document_.items.size() > max16)
+      if (document_.meta.items.size() > max16)
         version = std::max<uint8_t>(version, 1);
       box.prefix = full(version);
-      number(box.prefix, document_.items.size(), version ? 4 : 2);
-      for (const auto id : document_.infoOrder)
+      number(box.prefix, document_.meta.items.size(), version ? 4 : 2);
+      for (const auto id : document_.meta.infoOrder)
         box.children.push_back(itemInfo(id));
     } else if (box.type == bmffType("iref")) {
       box = references(&original);
@@ -501,7 +503,7 @@ class Rewrite {
         if (auto rebuilt = rebuild(child, box.type == bmffType("ipco")))
           box.children.push_back(std::move(*rebuilt));
       }
-      if (box.type == bmffType("meta") && !hasReferences && !document_.references.empty())
+      if (box.type == bmffType("meta") && !hasReferences && !document_.meta.references.empty())
         box.children.push_back(references());
       if (box.type == bmffType("dref"))
         number(box.prefix, box.children.size(), 4);
@@ -513,7 +515,7 @@ class Rewrite {
   // Preserve top-level ordering and append one media box for replacement metadata.
   std::vector<Box> build() const {
     std::vector<Box> boxes;
-    for (const auto& box : original_.boxes)
+    for (const auto& box : original_.file.boxes)
       if (auto rebuilt = rebuild(box))
         boxes.push_back(std::move(*rebuilt));
 
@@ -572,7 +574,7 @@ class Rewrite {
   // Update iloc offsets from the layout; report whether widening requires another pass.
   bool relocate() {
     bool promoted = false;
-    for (auto& [id, item] : document_.items) {
+    for (auto& [id, item] : document_.meta.items) {
       auto& location = item.location;
       for (auto& extent : location.extents) {
         uint64_t position = 0;
@@ -591,8 +593,8 @@ class Rewrite {
         const auto base = location.constructionMethod == 1 ? idatPosition_ : 0;
         require(position >= base);
         extent.offset = position - base;
-        if (extent.offset > max32 && document_.locationFormat.offsetSize != 8) {
-          document_.locationFormat.offsetSize = 8;
+        if (extent.offset > max32 && document_.meta.locationFormat.offsetSize != 8) {
+          document_.meta.locationFormat.offsetSize = 8;
           promoted = true;
         }
       }
@@ -658,18 +660,20 @@ class Rewrite {
 
   // Reparse the output and check item identity, relocated addressing, relationships, and bytes.
   void verify(const std::vector<Box>& boxes) {
-    const auto parsed = parseBmff(output_);
+    const auto parsed = parseHeif(output_);
 
     // The prepared structure must describe the same retained images and item ordering.
     enforceHeifWriteSupport(parsed);
     require(parsed.majorBrand == document_.majorBrand && parsed.minorVersion == document_.minorVersion &&
-            parsed.compatibleBrands == document_.compatibleBrands && parsed.primaryItem == document_.primaryItem &&
-            parsed.infoOrder == document_.infoOrder && parsed.locationOrder == document_.locationOrder &&
-            parsed.items.size() == document_.items.size());
+            parsed.compatibleBrands == document_.compatibleBrands &&
+            parsed.meta.primaryItem == document_.meta.primaryItem &&
+            parsed.meta.infoOrder == document_.meta.infoOrder &&
+            parsed.meta.locationOrder == document_.meta.locationOrder &&
+            parsed.meta.items.size() == document_.meta.items.size());
 
     // Check every item description and each relocated extent against the planned model.
-    for (const auto& [id, item] : document_.items) {
-      const auto& actual = parsed.items.at(id);
+    for (const auto& [id, item] : document_.meta.items) {
+      const auto& actual = parsed.meta.items.at(id);
       const auto& info = item.info;
       require(actual.info.type == info.type && actual.info.name == info.name && actual.info.flags == info.flags &&
               actual.info.contentType == info.contentType && actual.info.contentEncoding == info.contentEncoding &&
@@ -686,24 +690,24 @@ class Rewrite {
     }
 
     // Relationships and property associations must survive with identical meanings.
-    require(parsed.references.size() == document_.references.size() &&
-            parsed.associations.size() == document_.associations.size() &&
-            parsed.properties.size() == document_.properties.size());
-    for (size_t i = 0; i < document_.references.size(); ++i) {
-      const auto& a = parsed.references[i];
-      const auto& e = document_.references[i];
+    require(parsed.meta.references.size() == document_.meta.references.size() &&
+            parsed.meta.associations.size() == document_.meta.associations.size() &&
+            parsed.meta.properties.size() == document_.meta.properties.size());
+    for (size_t i = 0; i < document_.meta.references.size(); ++i) {
+      const auto& a = parsed.meta.references[i];
+      const auto& e = document_.meta.references[i];
       require(a.type == e.type && a.from == e.from && a.to == e.to);
     }
-    for (size_t i = 0; i < document_.associations.size(); ++i) {
-      const auto& a = parsed.associations[i];
-      const auto& e = document_.associations[i];
+    for (size_t i = 0; i < document_.meta.associations.size(); ++i) {
+      const auto& a = parsed.meta.associations[i];
+      const auto& e = document_.meta.associations[i];
       require(a.itemId == e.itemId && a.properties.size() == e.properties.size());
       for (size_t j = 0; j < a.properties.size(); ++j)
         require(a.properties[j].index == e.properties[j].index &&
                 a.properties[j].essential == e.properties[j].essential);
     }
-    for (size_t i = 0; i < document_.properties.size(); ++i)
-      require(parsed.properties[i].type == document_.properties[i].type);
+    for (size_t i = 0; i < document_.meta.properties.size(); ++i)
+      require(parsed.meta.properties[i].type == document_.meta.properties[i].type);
 
     // Structural agreement alone is insufficient; verify every copied or generated byte.
     for (const auto& box : boxes)
@@ -712,8 +716,8 @@ class Rewrite {
 
   BasicIo& input_;
   BasicIo& output_;
-  const BmffDocument& original_;
-  BmffDocument document_;
+  const HeifDocument& original_;
+  HeifDocument document_;
   std::set<uint32_t> removed_;
   std::map<uint32_t, const Bytes*> additions_;
   std::map<uint32_t, const Bytes*> newItems_;
@@ -729,23 +733,7 @@ class Rewrite {
 
 }  // namespace
 
-std::vector<uint8_t> readBmffItem(BasicIo& input, const BmffItem& item, uint64_t limit) {
-  supported(item.location.dataSize <= limit && item.location.dataSize <= std::numeric_limits<size_t>::max(),
-            "metadata exceeds the allocation limit");
-
-  // Gather the requested item only after bounding its aggregate allocation.
-  Bytes bytes(static_cast<size_t>(item.location.dataSize));
-  size_t position = 0;
-  for (const auto& extent : item.location.extents) {
-    require(extent.source.size <= bytes.size() - position);
-    read(input, extent.source.offset, bytes.data() + position, static_cast<size_t>(extent.source.size));
-    position += static_cast<size_t>(extent.source.size);
-  }
-  require(position == bytes.size());
-  return bytes;
-}
-
-void rewriteBmff(BasicIo& input, BasicIo& output, const BmffDocument& original, const BmffMetadataUpdate& update) {
+void rewriteHeif(BasicIo& input, BasicIo& output, const HeifDocument& original, const HeifMetadataUpdate& update) {
   Rewrite(input, output, original).run(update);
 }
 

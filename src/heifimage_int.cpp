@@ -5,10 +5,10 @@
 #ifdef EXV_ENABLE_BMFF
 #include "basicio.hpp"
 #include "bmffimage.hpp"
-#include "bmffwrite_int.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
+#include "heifwrite_int.hpp"
 #include "tags.hpp"
 #include "tiffimage.hpp"
 #include "value.hpp"
@@ -64,7 +64,7 @@ void supported(bool condition, std::string_view reason) {
 
 // Read a bounded property payload from a validated absolute input span.
 Bytes readRange(BasicIo& io, BmffSpan span) {
-  supported(span.size <= bmffMetadataLimit, "metadata exceeds the allocation limit");
+  supported(span.size <= heifMetadataLimit, "metadata exceeds the allocation limit");
   Bytes bytes(static_cast<size_t>(span.size));
   io.seekOrThrow(static_cast<int64_t>(span.offset), BasicIo::beg, ErrorCode::kerInputDataReadFailed);
   io.readOrThrow(bytes.data(), bytes.size(), ErrorCode::kerInputDataReadFailed);
@@ -79,7 +79,7 @@ std::string encodeXmp(const XmpData& data) {
   std::string packet;
   enforce(XmpParser::encode(packet, data, XmpParser::useCompactFormat | XmpParser::omitAllFormatting) == 0,
           ErrorCode::kerInvalidXMP);
-  supported(packet.size() <= bmffMetadataLimit, "XMP exceeds the allocation limit");
+  supported(packet.size() <= heifMetadataLimit, "XMP exceeds the allocation limit");
   return packet;
 }
 
@@ -132,13 +132,13 @@ bool sameData(const Data& a, const Data& b) {
     std::multimap<std::string, std::pair<TypeId, Bytes>> values;
     uint64_t total = 0;
     for (const auto& datum : data) {
-      supported(datum.size() <= bmffMetadataLimit - total, "metadata exceeds the allocation limit");
+      supported(datum.size() <= heifMetadataLimit - total, "metadata exceeds the allocation limit");
       total += datum.size();
       Bytes bytes(datum.size());
       if (!bytes.empty())
         datum.copy(bytes.data(), littleEndian);
 
-      supported(datum.value().sizeDataArea() <= bmffMetadataLimit - total, "metadata exceeds the allocation limit");
+      supported(datum.value().sizeDataArea() <= heifMetadataLimit - total, "metadata exceeds the allocation limit");
 
       auto area = datum.value().dataArea();
       total += area.size();
@@ -166,7 +166,7 @@ struct Metadata {
 };
 
 // Decode primary-image items in file order and retain the state needed for later writes.
-Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodeParams& params) {
+Metadata readMetadata(BasicIo& io, const HeifDocument& document, const DecodeParams& params) {
   Metadata metadata;
   MetadataMerger<ExifData> exifMerger;
   MetadataMerger<XmpData> embeddedMerger;
@@ -174,7 +174,7 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
 
   // Charge all Exif and XMP payloads to one aggregate allocation budget.
   auto read = [&](uint32_t id) {
-    auto bytes = readBmffItem(io, document.items.at(id), bmffMetadataLimit - total);
+    auto bytes = readHeifItem(io, document.meta.items.at(id), heifMetadataLimit - total);
     total += bytes.size();
     return bytes;
   };
@@ -228,7 +228,7 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
 #endif
   auto xmpIds = document.metadataItems(bmffType("mime"));
   for (auto id : xmpIds) {
-    supported(document.items.at(id).info.contentEncoding.empty(), "compressed primary XMP");
+    supported(document.meta.items.at(id).info.contentEncoding.empty(), "compressed primary XMP");
     auto bytes = read(id);
     std::string packet(bytes.begin(), bytes.end());
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -249,15 +249,15 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
 
   // Read dimensions and ICC only from properties associated with the primary item.
   std::set<uint16_t> properties;
-  for (const auto& entry : document.associations) {
-    if (entry.itemId == document.primaryItem) {
+  for (const auto& entry : document.meta.associations) {
+    if (entry.itemId == document.meta.primaryItem) {
       for (const auto& association : entry.properties)
         if (association.index != 0)
           properties.insert(association.index);
     }
   }
   for (auto index : properties) {
-    const auto& property = document.properties.at(index - 1);
+    const auto& property = document.meta.properties.at(index - 1);
     if (property.type != bmffType("ispe") && property.type != bmffType("colr"))
       continue;
     auto bytes = readRange(io, property.payload());
@@ -342,15 +342,15 @@ Bytes encodeExif(ExifData exif, const IptcData& iptc, XmpData embedded, ByteOrde
   MemIo output;
   uint64_t total = 0;
   for (const auto& datum : exif) {
-    supported(datum.size() <= bmffMetadataLimit - total, "Exif exceeds the allocation limit");
+    supported(datum.size() <= heifMetadataLimit - total, "Exif exceeds the allocation limit");
     total += datum.size();
-    supported(datum.value().sizeDataArea() <= bmffMetadataLimit - total, "Exif exceeds the allocation limit");
+    supported(datum.value().sizeDataArea() <= heifMetadataLimit - total, "Exif exceeds the allocation limit");
     total += datum.value().sizeDataArea();
   }
 
   // Use no original TIFF backing buffer, so deleted values cannot survive in slack.
   TiffParser::encode(output, nullptr, 0, order, exif, iptc, embedded);
-  supported(output.size() <= bmffMetadataLimit - 4, "Exif exceeds the allocation limit");
+  supported(output.size() <= heifMetadataLimit - 4, "Exif exceeds the allocation limit");
 
   // A zero HEIF Exif offset places the TIFF header immediately after the prefix.
   Bytes bytes(4 + output.size(), 0);
@@ -371,9 +371,9 @@ Bytes encodeExif(ExifData exif, const IptcData& iptc, XmpData embedded, ByteOrde
 }
 
 // Detect media bytes that no current item owns, including stale metadata from older edits.
-bool hasOrphanedMedia(const BmffDocument& document) {
+bool hasOrphanedMedia(const HeifDocument& document) {
   std::vector<BmffSpan> spans;
-  for (const auto& [id, item] : document.items)
+  for (const auto& [id, item] : document.meta.items)
     for (const auto& extent : item.location.extents)
       spans.push_back(extent.source);
 
@@ -390,7 +390,7 @@ bool hasOrphanedMedia(const BmffDocument& document) {
   }
 
   // A gap in either mdat or idat requires compaction even without a metadata edit.
-  uint64_t available = document.itemData ? document.itemData->size : 0;
+  uint64_t available = document.meta.itemData ? document.meta.itemData->size : 0;
   for (const auto span : document.mediaData)
     available += span.size;
   return covered != available;
@@ -595,11 +595,11 @@ class HeifImage final : public BmffImage {
     IoCloser closer(*io_);
 
     try {
-      const auto document = parseBmff(*io_);
+      const auto document = parseHeif(*io_);
       brand_ = document.majorBrand;
 
       // Opaque Adobe UUID packets need the legacy reader's traversal and precedence.
-      if (!hasAdobeXmpUuid(document.boxes)) {
+      if (!hasAdobeXmpUuid(document.file.boxes)) {
         assign(Internal::readMetadata(*io_, document, DecodeParams(max_recursion_depth_)));
         return;
       }
@@ -631,7 +631,7 @@ class HeifImage final : public BmffImage {
 #else
     supported(image.xmpData().empty(), "structured XMP editing requires the XMP toolkit");
     const auto& sourcePacket = image.xmpPacket();
-    supported(sourcePacket.size() <= bmffMetadataLimit, "XMP exceeds the allocation limit");
+    supported(sourcePacket.size() <= heifMetadataLimit, "XMP exceeds the allocation limit");
 
     // Snapshot both views before changing this image, which may also be the source.
     const auto exif = image.exifData();
@@ -675,7 +675,7 @@ class HeifImage final : public BmffImage {
 
   //! @brief Select a bounded raw XMP replacement without requiring structured editing support.
   void setXmpPacket(const std::string& packet) override {
-    supported(packet.size() <= bmffMetadataLimit, "XMP exceeds the allocation limit");
+    supported(packet.size() <= heifMetadataLimit, "XMP exceeds the allocation limit");
 #ifdef EXV_HAVE_XMP_TOOLKIT
     Image::setXmpPacket(packet);
 #else
@@ -707,7 +707,7 @@ class HeifImage final : public BmffImage {
     supported(dynamic_cast<RemoteIo*>(io_.get()) == nullptr, "remote I/O");
     enforce(io_->open() == 0, ErrorCode::kerDataSourceOpenFailed, io_->path(), strError());
     IoCloser closer(*io_);
-    auto document = parseBmff(*io_);
+    auto document = parseHeif(*io_);
     enforceHeifWriteSupport(document);
     const DecodeParams params(max_recursion_depth_);
     auto original = Internal::readMetadata(*io_, document, params);
@@ -739,7 +739,7 @@ class HeifImage final : public BmffImage {
     supported(xmpData_.empty(), "structured XMP editing requires the XMP toolkit");
 #endif
     auto packet = writeXmpFromPacket() ? xmpPacket_ : encodeXmp(xmpData_);
-    supported(packet.size() <= bmffMetadataLimit, "XMP exceeds the allocation limit");
+    supported(packet.size() <= heifMetadataLimit, "XMP exceeds the allocation limit");
     const bool xmpChanged =
         removeXmp_ || (writeXmpFromPacket() ? packet != original.packet : packet != encodeXmp(original.xmp));
     const bool exifChanged = removeExif_ || !sameData(exif, original.exif);
@@ -747,7 +747,7 @@ class HeifImage final : public BmffImage {
               "merging different primary XMP packets requires the XMP toolkit");
 
     // Promote embedded XMP to its own item when Exif removal would otherwise discard it.
-    BmffMetadataUpdate update;
+    HeifMetadataUpdate update;
     if (xmpChanged || (exifChanged && exif.empty() && original.hasEmbeddedXmp))
       update.xmp = Bytes(packet.begin(), packet.end());
 
@@ -767,7 +767,7 @@ class HeifImage final : public BmffImage {
       // explicit raw-tag edit replaces that union with the current first packet.
       embedded.clear();
       if (auto xml = exif.findKey(xmlPacketKey()); xml != exif.end()) {
-        supported(xml->size() <= bmffMetadataLimit, "embedded XMP exceeds the allocation limit");
+        supported(xml->size() <= heifMetadataLimit, "embedded XMP exceeds the allocation limit");
         Bytes bytes(xml->size());
         xml->copy(bytes.data(), original.order);
         enforce(XmpParser::decode(embedded, std::string(bytes.begin(), bytes.end()), params) == 0,
@@ -796,8 +796,8 @@ class HeifImage final : public BmffImage {
 
     // Prepare and decode the complete result before touching the original destination.
     PreparedOutput prepared(*io_);
-    rewriteBmff(*io_, prepared.io(), document, update);
-    auto verified = Internal::readMetadata(prepared.io(), parseBmff(prepared.io()), params);
+    rewriteHeif(*io_, prepared.io(), document, update);
+    auto verified = Internal::readMetadata(prepared.io(), parseHeif(prepared.io()), params);
     const auto preparedSize = prepared.io().size();
 
     // The final BasicIo transfer can still fail after preparation; it is not an atomic replacement.
@@ -880,7 +880,7 @@ bool isHeifType(BasicIo& io, bool advance) {
   }
 
   // Accept complete bounded brand tables, including the extended-size header form.
-  matched = matched && size >= headerSize + 8 && size <= BmffLimits{}.maxBytesRead && size <= io.size() - start &&
+  matched = matched && size >= headerSize + 8 && size <= HeifLimits{}.boxes.maxBytesRead && size <= io.size() - start &&
             (size - headerSize) % 4 == 0;
 
   if (matched) {
