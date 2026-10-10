@@ -570,6 +570,8 @@ class HeifImage final : public BmffImage {
 
   //! @brief Report the MIME type corresponding to the most recently read major brand.
   std::string mimeType() const override {
+    if (legacyRead_)
+      return BmffImage::mimeType();
     return brand_ == bmffType("mif1") ? "image/heif" : "image/heic";
   }
 
@@ -596,6 +598,7 @@ class HeifImage final : public BmffImage {
 
     // Finalize either fallback only after reading succeeds. Writing still reparses and rejects.
     BmffImage::readMetadata();
+    legacyRead_ = true;
     loaded_ = true;
     removeExif_ = removeXmp_ = false;
   }
@@ -837,12 +840,14 @@ class HeifImage final : public BmffImage {
 
     // The adopted state becomes the new baseline for detecting the next edit.
     writeXmpFromPacket(false);
+    legacyRead_ = false;
     loaded_ = true;
     removeExif_ = removeXmp_ = false;
   }
 
   uint32_t brand_{bmffType("heic")};
   bool loaded_{}, removeExif_{}, removeXmp_{};
+  bool legacyRead_{};  //!< MIME reporting uses the brand read by the successful legacy traversal.
 };
 }  // namespace
 
