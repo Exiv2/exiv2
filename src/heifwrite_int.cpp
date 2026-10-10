@@ -5,11 +5,12 @@
 #ifdef EXV_ENABLE_BMFF
 
 #include "basicio.hpp"
+#include "bmffitemwrite_int.hpp"
+#include "bmfflayout_int.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
 
 #include <algorithm>
-#include <array>
 #include <limits>
 #include <set>
 #include <string_view>
@@ -17,10 +18,10 @@
 namespace Exiv2::Internal {
 namespace {
 using Bytes = std::vector<uint8_t>;
+using Box = BmffOutputBox;
 constexpr uint64_t maxPosition = std::numeric_limits<int64_t>::max();
 constexpr uint64_t max32 = std::numeric_limits<uint32_t>::max();
 constexpr uint32_t max16 = std::numeric_limits<uint16_t>::max();
-constexpr size_t copyBufferSize = 64 * 1024;
 
 // Reject inconsistent layout state through the common metadata error code.
 void require(bool condition) {
@@ -73,70 +74,6 @@ bool padding(uint32_t type) {
   return type == bmffType("free") || type == bmffType("skip");
 }
 
-// Read an exact source range and propagate seek, short-read, and I/O errors.
-void read(BasicIo& input, uint64_t offset, byte* data, size_t size) {
-  require(offset <= maxPosition && size <= maxPosition - offset);
-  input.seekOrThrow(static_cast<int64_t>(offset), BasicIo::beg, ErrorCode::kerInputDataReadFailed);
-  input.readOrThrow(data, size, ErrorCode::kerInputDataReadFailed);
-  enforce(!input.error(), ErrorCode::kerInputDataReadFailed);
-}
-
-// Write an exact buffer, rejecting short writes before verification proceeds.
-void write(BasicIo& output, const byte* data, size_t size) {
-  if (size != 0)
-    enforce(output.write(data, size) == size && !output.error(), ErrorCode::kerImageWriteFailed);
-}
-
-// A borrowed source span or replacement buffer, with its absolute output position.
-// Replacement buffers outlive the rewrite; chunks never own encoded image data.
-struct Chunk {
-  BmffSpan source;
-  const Bytes* bytes{};
-  uint32_t item{};
-  uint64_t position{};
-
-  //! @brief Return the serialized length of the selected span or replacement buffer.
-  uint64_t size() const {
-    return bytes ? bytes->size() : source.size;
-  }
-};
-
-// Output layout node owning small prefixes and child nodes, but borrowing payloads.
-struct Box {
-  uint32_t type{};
-  bool extended{};
-  std::array<uint8_t, 16> uuid{};
-  Bytes prefix;
-  std::vector<Box> children;
-  std::vector<Chunk> chunks;
-  uint64_t position{};
-  uint64_t size{};
-  uint8_t header{};
-};
-
-// Map a retained input interval to its absolute position in the compact output.
-struct Relocation {
-  BmffSpan source;
-  uint64_t destination{};
-};
-
-// Measure descendants first, promoting box headers when a 32-bit size cannot fit.
-void measure(Box& box) {
-  uint64_t payload = box.prefix.size();
-  for (auto& child : box.children) {
-    measure(child);
-    payload = add(payload, child.size);
-  }
-  for (const auto& chunk : box.chunks)
-    payload = add(payload, chunk.size());
-
-  // Header promotion is monotonic, including the extra UUID header bytes.
-  const unsigned uuidSize = box.type == bmffType("uuid") ? 16 : 0;
-  box.extended |= add(payload, 8 + uuidSize) > max32;
-  box.header = static_cast<uint8_t>((box.extended ? 16 : 8) + uuidSize);
-  box.size = add(box.header, payload);
-}
-
 //! @brief Unite only ranges from the same source payload. Original item boundaries stay in iloc.
 void mergeRanges(std::vector<BmffSpan>& spans) {
   std::sort(spans.begin(), spans.end(), [](auto a, auto b) { return a.offset < b.offset; });
@@ -155,7 +92,7 @@ void mergeRanges(std::vector<BmffSpan>& spans) {
 }
 
 // Prepare, emit, and verify a compact container without transferring it to the source.
-class Rewrite {
+class Rewrite : public BmffItemLayoutBuilder {
  public:
   //! @brief Borrow both streams and the original model; keep a separate model for the edit.
   Rewrite(BasicIo& input, BasicIo& output, const HeifDocument& original) :
@@ -179,29 +116,11 @@ class Rewrite {
     for (const auto& entry : document_.meta.associations)
       associations_[entry.box.offset].push_back(&entry);
     indexBoxes(original_.file.boxes);
-    normalizeLocations();
+    const auto boxes = layoutBmffItems(document_.meta, *this);
 
-    // Only offset width can change after locating the output; it promotes 4 -> 8 once.
-    for (unsigned pass = 0; pass < 2; ++pass) {
-      auto boxes = build();
-      const auto size = locate(boxes);
-      if (relocate())
-        continue;
-
-      // Rebuild offset-bearing boxes with the now-resolved positions.
-      boxes = build();
-      require(locate(boxes) == size);
-
-      // Only a stable layout may be emitted and compared with the requested result.
-      output_.seekOrThrow(0, BasicIo::beg, ErrorCode::kerImageWriteFailed);
-      for (const auto& box : boxes)
-        emit(box);
-      require(output_.size() == size);
-      verify(boxes);
-      return;
-    }
-
-    throw Error(ErrorCode::kerCorruptedMetadata);
+    // Only a stable layout may be emitted and compared with the requested result.
+    writeBmffLayout(input_, output_, boxes);
+    verify(boxes);
   }
 
  private:
@@ -338,26 +257,6 @@ class Rewrite {
     }
   }
 
-  // Normalize base offsets and choose widths/versions before measuring output layout.
-  void normalizeLocations() {
-    auto& format = document_.meta.locationFormat;
-    format.offsetSize = 4;
-    format.lengthSize = 4;
-    format.baseOffsetSize = 0;
-    if (document_.meta.items.rbegin()->first > max16 || document_.meta.items.size() > max16)
-      format.version = 2;
-
-    // Preserve idat addressing, but eliminate per-item base offsets in the new layout.
-    for (auto& [id, item] : document_.meta.items) {
-      item.location.baseOffset = 0;
-      if (item.location.constructionMethod == 1)
-        format.version = std::max<uint8_t>(format.version, 1);
-      for (const auto& extent : item.location.extents)
-        if (extent.length > max32)
-          format.lengthSize = 8;
-    }
-  }
-
   // Preserve existing infe entries or serialize a description for a new metadata item.
   Box itemInfo(uint32_t id) const {
     const auto& info = document_.meta.items.at(id).info;
@@ -377,35 +276,6 @@ class Rewrite {
     }
 
     return box;
-  }
-
-  // Serialize current item locations with the widths selected for this layout pass.
-  Bytes locations() const {
-    const auto& format = document_.meta.locationFormat;
-    auto bytes = full(format.version);
-    number(bytes, (format.offsetSize << 4) | format.lengthSize, 1);
-    number(bytes, format.indexSize, 1);
-    const unsigned width = format.version == 2 ? 4 : 2;
-    number(bytes, document_.meta.items.size(), width);
-
-    // Retain location-table order while writing normalized extent coordinates.
-    for (const auto id : document_.meta.locationOrder) {
-      const auto& loc = document_.meta.items.at(id).location;
-      number(bytes, id, width);
-      if (format.version)
-        number(bytes, loc.constructionMethod, 2);
-      number(bytes, 0, 2);
-      number(bytes, loc.extents.size(), 2);
-      for (const auto& extent : loc.extents) {
-        if (format.version && format.indexSize)
-          number(bytes, extent.index, format.indexSize);
-        // The first layout pass measures fields whose relocated offsets are not known yet.
-        number(bytes, format.offsetSize == 4 && extent.offset > max32 ? 0 : extent.offset, format.offsetSize);
-        number(bytes, extent.length, format.lengthSize);
-      }
-    }
-
-    return bytes;
   }
 
   // Rebuild directed references, widening IDs while retaining original child ordering.
@@ -440,7 +310,7 @@ class Rewrite {
     box.type = original.type;
     box.extended = original.headerSize == (original.type == bmffType("uuid") ? 32 : 16);
     box.uuid = original.userType;
-    box.chunks.push_back({original.payload()});
+    box.segments.push_back({original.payload()});
     return box;
   }
 
@@ -450,20 +320,20 @@ class Rewrite {
     if (padding(box.type)) {
       if (!property)
         return {};
-      box.chunks.clear();  // Keep indexed property slots; discard their padding bytes.
+      box.segments.clear();  // Keep indexed property slots; discard their padding bytes.
     } else if (box.type == bmffType("mdat") || box.type == bmffType("idat")) {
       // Build media solely from retained ranges, excluding old metadata and gaps.
-      box.chunks.clear();
+      box.segments.clear();
       const auto found = ranges_.find(original.payload().offset);
       if (found == ranges_.end())
         return {};
       for (const auto range : found->second)
-        box.chunks.push_back({range});
+        box.segments.push_back({range});
     } else if (box.type == bmffType("iloc")) {
-      box.chunks.clear();
-      box.prefix = locations();
+      box.segments.clear();
+      box.prefix = encodeBmffLocations(document_.meta, HeifLimits{}.boxes.maxBytesRead);
     } else if (box.type == bmffType("iinf")) {
-      box.chunks.clear();
+      box.segments.clear();
       auto version = original.fullBox->version;
       if (document_.meta.items.size() > max16)
         version = std::max<uint8_t>(version, 1);
@@ -475,7 +345,7 @@ class Rewrite {
       box = references(&original);
     } else if (box.type == bmffType("ipma")) {
       // Keep property slots stable while removing associations owned by deleted items.
-      box.chunks.clear();
+      box.segments.clear();
       const auto format = *original.fullBox;
       box.prefix = full(format.version, format.flags);
       const auto found = associations_.find(original.span.offset);
@@ -492,7 +362,7 @@ class Rewrite {
                  format.flags & 1 ? 2 : 1);
       }
     } else if (!original.children.empty() || box.type == bmffType("ipco")) {
-      box.chunks.clear();
+      box.segments.clear();
       if (original.fullBox)
         box.prefix = full(original.fullBox->version, original.fullBox->flags);
 
@@ -512,8 +382,8 @@ class Rewrite {
     return box;
   }
 
-  // Preserve top-level ordering and append one media box for replacement metadata.
-  std::vector<Box> build() const {
+  //! @brief Preserve top-level order and append one media box for replacement metadata.
+  std::vector<Box> build() const override {
     std::vector<Box> boxes;
     for (const auto& box : original_.file.boxes)
       if (auto rebuilt = rebuild(box))
@@ -524,138 +394,38 @@ class Rewrite {
       Box box;
       box.type = bmffType("mdat");
       for (const auto& [id, bytes] : newItems_)
-        box.chunks.push_back({{}, bytes, id});
+        box.segments.push_back({{}, bytes});
       boxes.push_back(std::move(box));
     }
 
     return boxes;
   }
 
-  // Assign absolute output positions and collect mappings for retained media ranges.
-  uint64_t locate(Box& box, uint64_t offset) {
-    box.position = offset;
-    auto position = add(add(offset, box.header), box.prefix.size());
+  // Select only adapter-approved media mappings and the current idat origin.
+  static void collectPositions(const Box& box, BmffItemPositions& positions,
+                               std::map<const Bytes*, uint64_t>& replacements) {
     if (box.type == bmffType("idat"))
-      idatPosition_ = add(offset, box.header);
-    for (auto& child : box.children)
-      position = locate(child, position);
-    for (auto& chunk : box.chunks) {
-      // Remember new metadata positions separately from retained source-range mappings.
-      chunk.position = position;
-      if (chunk.bytes)
-        newPositions_.emplace(chunk.item, position);
+      positions.itemDataPosition = add(box.position, box.header);
+    for (const auto& child : box.children)
+      collectPositions(child, positions, replacements);
+    for (const auto& segment : box.segments) {
+      if (segment.bytes)
+        replacements.emplace(segment.bytes, segment.position);
       else if (box.type == bmffType("mdat") || box.type == bmffType("idat"))
-        relocations_.push_back({chunk.source, position});
-      position = add(position, chunk.size());
-    }
-
-    require(position == add(offset, box.size));
-    return position;
-  }
-
-  // Measure the whole output and rebuild its source-to-destination lookup tables.
-  uint64_t locate(std::vector<Box>& boxes) {
-    relocations_.clear();
-    newPositions_.clear();
-    idatPosition_ = 0;
-    uint64_t offset = 0;
-
-    for (auto& box : boxes) {
-      measure(box);
-      offset = locate(box, offset);
-    }
-
-    // A sorted mapping lets each retained extent find its containing interval.
-    std::sort(relocations_.begin(), relocations_.end(),
-              [](const auto& a, const auto& b) { return a.source.offset < b.source.offset; });
-    return offset;
-  }
-
-  // Update iloc offsets from the layout; report whether widening requires another pass.
-  bool relocate() {
-    bool promoted = false;
-    for (auto& [id, item] : document_.meta.items) {
-      auto& location = item.location;
-      for (auto& extent : location.extents) {
-        uint64_t position = 0;
-        if (newItems_.contains(id)) {
-          position = newPositions_.at(id);
-        } else {
-          auto found = std::upper_bound(relocations_.begin(), relocations_.end(), extent.source.offset,
-                                        [](auto offset, const auto& map) { return offset < map.source.offset; });
-          require(found != relocations_.begin());
-          --found;
-          require(extent.source.offset >= found->source.offset && end(extent.source) <= end(found->source));
-          position = add(found->destination, extent.source.offset - found->source.offset);
-        }
-
-        // Convert absolute output positions back to the coordinate system required by iloc.
-        const auto base = location.constructionMethod == 1 ? idatPosition_ : 0;
-        require(position >= base);
-        extent.offset = position - base;
-        if (extent.offset > max32 && document_.meta.locationFormat.offsetSize != 8) {
-          document_.meta.locationFormat.offsetSize = 8;
-          promoted = true;
-        }
-      }
-    }
-
-    return promoted;
-  }
-
-  // Stream a measured box using bounded buffers for all borrowed payload ranges.
-  void emit(const Box& box) {
-    require(output_.tell() == box.position);
-
-    Bytes header;
-    number(header, box.extended ? 1 : box.size, 4);
-    number(header, box.type, 4);
-    if (box.extended)
-      number(header, box.size, 8);
-    if (box.type == bmffType("uuid"))
-      header.insert(header.end(), box.uuid.begin(), box.uuid.end());
-    write(output_, header.data(), header.size());
-    write(output_, box.prefix.data(), box.prefix.size());
-    for (const auto& child : box.children)
-      emit(child);
-
-    // After writing structure, stream payload chunks without loading entire images.
-    auto& buffer = copyBuffer_;
-    for (const auto& chunk : box.chunks) {
-      require(output_.tell() == chunk.position);
-      for (uint64_t done = 0; done < chunk.size();) {
-        const auto count = static_cast<size_t>(std::min<uint64_t>(buffer.size(), chunk.size() - done));
-        if (chunk.bytes) {
-          write(output_, chunk.bytes->data() + done, count);
-        } else {
-          read(input_, add(chunk.source.offset, done), buffer.data(), count);
-          write(output_, buffer.data(), count);
-        }
-        done += count;
-      }
+        positions.retained.push_back({segment.source, segment.position});
     }
   }
 
-  // Compare emitted payloads to their source ranges or replacement buffers in bounded chunks.
-  void verifyBytes(const Box& box) {
-    for (const auto& child : box.children)
-      verifyBytes(child);
+  //! @brief Select retained media and replacement positions using HEIF's ownership policy.
+  BmffItemPositions positions(const std::vector<Box>& boxes) const override {
+    BmffItemPositions result;
+    std::map<const Bytes*, uint64_t> replacements;
+    for (const auto& box : boxes)
+      collectPositions(box, result, replacements);
 
-    auto& a = copyBuffer_;
-    auto& b = verifyBuffer_;
-    for (const auto& chunk : box.chunks) {
-      for (uint64_t done = 0; done < chunk.size();) {
-        const auto count = static_cast<size_t>(std::min<uint64_t>(a.size(), chunk.size() - done));
-        read(output_, add(chunk.position, done), b.data(), count);
-        if (chunk.bytes) {
-          require(std::equal(b.begin(), b.begin() + count, chunk.bytes->begin() + done));
-        } else {
-          read(input_, add(chunk.source.offset, done), a.data(), count);
-          require(std::equal(a.begin(), a.begin() + count, b.begin()));
-        }
-        done += count;
-      }
-    }
+    for (const auto& [id, bytes] : newItems_)
+      result.replacements.emplace(id, replacements.at(bytes));
+    return result;
   }
 
   // Reparse the output and check item identity, relocated addressing, relationships, and bytes.
@@ -710,8 +480,7 @@ class Rewrite {
       require(parsed.meta.properties[i].type == document_.meta.properties[i].type);
 
     // Structural agreement alone is insufficient; verify every copied or generated byte.
-    for (const auto& box : boxes)
-      verifyBytes(box);
+    verifyBmffLayout(input_, output_, boxes);
   }
 
   BasicIo& input_;
@@ -723,12 +492,7 @@ class Rewrite {
   std::map<uint32_t, const Bytes*> newItems_;
   std::map<uint64_t, std::vector<BmffSpan>> ranges_;
   std::map<uint64_t, const BmffBox*> originalBoxes_;
-  std::vector<Relocation> relocations_;
   std::map<uint64_t, std::vector<const BmffAssociationEntry*>> associations_;
-  std::array<byte, copyBufferSize> copyBuffer_{};
-  std::array<byte, copyBufferSize> verifyBuffer_{};
-  std::map<uint32_t, uint64_t> newPositions_;
-  uint64_t idatPosition_{};
 };
 
 }  // namespace
