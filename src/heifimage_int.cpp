@@ -33,6 +33,18 @@ namespace Exiv2::Internal {
 namespace {
 using Bytes = std::vector<byte>;
 
+// Construct the embedded-XMP lookup key once, on its first use.
+const ExifKey& xmlPacketKey() {
+  static const ExifKey key("Exif.Image.XMLPacket");
+  return key;
+}
+
+// Construct the key for Canon's source autofocus record once, on its first use.
+const ExifKey& canonAfInfoKey() {
+  static const ExifKey key("Exif.Canon.AFInfo");
+  return key;
+}
+
 // Search validated headers only; UUID payloads and other opaque bytes remain unread.
 bool hasAdobeXmpUuid(const std::vector<BmffBox>& boxes) {
   static constexpr std::array<uint8_t, 16> xmpUuid{0xbe, 0x7a, 0xcf, 0xcb, 0x97, 0xa9, 0x42, 0xe8,
@@ -191,7 +203,7 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
     metadata.order = order;
 
     // Remember embedded packets even when structured XMP decoding is unavailable.
-    if (auto xml = exif.findKey(ExifKey("Exif.Image.XMLPacket")); xml != exif.end()) {
+    if (auto xml = exif.findKey(xmlPacketKey()); xml != exif.end()) {
       metadata.hasEmbeddedXmp = true;
 #ifndef EXV_HAVE_XMP_TOOLKIT
       Bytes packet(xml->size());
@@ -263,16 +275,18 @@ Metadata readMetadata(BasicIo& io, const BmffDocument& document, const DecodePar
 }
 
 // Remove every occurrence of a tag, including duplicates from merged metadata.
-void eraseTag(ExifData& exif, std::string_view key) {
-  exif.erase(std::remove_if(exif.begin(), exif.end(), [&](const auto& d) { return d.key() == key; }), exif.end());
+void eraseTag(ExifData& exif, const ExifKey& key) {
+  const auto name = key.key();
+  exif.erase(std::remove_if(exif.begin(), exif.end(), [&](const auto& d) { return d.key() == name; }), exif.end());
 }
 
 #ifdef EXV_HAVE_XMP_TOOLKIT
 // Isolate all raw embedded packets so duplicate insertion and deletion count as edits.
 ExifData xmlPacketData(const ExifData& exif) {
   ExifData packets;
+  const auto name = xmlPacketKey().key();
   for (const auto& datum : exif)
-    if (datum.key() == "Exif.Image.XMLPacket")
+    if (datum.key() == name)
       packets.add(datum);
   return packets;
 }
@@ -298,7 +312,7 @@ ExifData derivedCanonData(const ExifData& data) {
 ExifData exifValues(ExifData data) {
 #ifdef EXV_HAVE_XMP_TOOLKIT
   // Embedded XMP is regenerated and checked separately through its decoded properties.
-  eraseTag(data, "Exif.Image.XMLPacket");
+  eraseTag(data, xmlPacketKey());
 #endif
   const bool decodedMakerNote = data.findKey(ExifKey("Exif.MakerNote.ByteOrder")) != data.end();
   data.erase(std::remove_if(data.begin(), data.end(),
@@ -320,7 +334,7 @@ Bytes encodeExif(ExifData exif, const IptcData& iptc, XmpData embedded, ByteOrde
   // The serializer reconstructs known MakerNotes and copies retained data areas.
 #ifdef EXV_HAVE_XMP_TOOLKIT
   // Replace every raw packet, including duplicates, with the intended structured XMP.
-  eraseTag(exif, "Exif.Image.XMLPacket");
+  eraseTag(exif, xmlPacketKey());
 #endif
   const auto requested = exifValues(exif);
   exif.erase(std::remove_if(exif.begin(), exif.end(), canonDerived), exif.end());
@@ -744,7 +758,7 @@ class HeifImage final : public BmffImage {
     // Even without a live XMLPacket tag, prior XMP may survive in TIFF slack.
     const bool embeddedChanged = xmpChanged && !exif.empty();
     if (xmpChanged) {
-      eraseTag(exif, "Exif.Image.XMLPacket");
+      eraseTag(exif, xmlPacketKey());
       embedded.clear();
     }
 #ifdef EXV_HAVE_XMP_TOOLKIT
@@ -752,7 +766,7 @@ class HeifImage final : public BmffImage {
       // An unrelated Exif edit retains the union of embedded packets. Only an
       // explicit raw-tag edit replaces that union with the current first packet.
       embedded.clear();
-      if (auto xml = exif.findKey(ExifKey("Exif.Image.XMLPacket")); xml != exif.end()) {
+      if (auto xml = exif.findKey(xmlPacketKey()); xml != exif.end()) {
         supported(xml->size() <= bmffMetadataLimit, "embedded XMP exceeds the allocation limit");
         Bytes bytes(xml->size());
         xml->copy(bytes.data(), original.order);
@@ -764,8 +778,8 @@ class HeifImage final : public BmffImage {
 
     // Rebuild Exif when its values change or when old embedded XMP must be scrubbed.
     if (exifChanged || embeddedChanged) {
-      if (exif.findKey(ExifKey("Exif.Canon.AFInfo")) != exif.end() &&
-          original.exif.findKey(ExifKey("Exif.Canon.AFInfo")) != original.exif.end()) {
+      if (exif.findKey(canonAfInfoKey()) != exif.end() &&
+          original.exif.findKey(canonAfInfoKey()) != original.exif.end()) {
         supported(sameData(derivedCanonData(exif), derivedCanonData(original.exif)),
                   "Canon synthesized autofocus fields are read-only");
       }
