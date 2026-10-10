@@ -87,8 +87,7 @@ class Parser {
 
   // Decode version/flags while rejecting unsupported versions and reserved bits.
   BmffFullBox fullBox(BmffBox& box, Cursor& input, uint8_t maxVersion, uint32_t allowedFlags = 0) {
-    const auto value = static_cast<uint32_t>(input.number(4));
-    BmffFullBox full{static_cast<uint8_t>(value >> 24), value & 0xffffff};
+    const auto full = decodeBmffFullBox(static_cast<uint32_t>(input.number(4)));
     supported(full.version <= maxVersion, "box version");
     require((full.flags & ~allowedFlags) == 0);
     box.fullBox = full;
