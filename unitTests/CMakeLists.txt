@@ -13,6 +13,7 @@ add_executable(
   unit_tests
   test_basicio.cpp
   test_bmffbox_int.cpp
+  test_bmfflayout_int.cpp
   test_bmffimage_int.cpp
   test_bmpimage.cpp
   test_cr2header_int.cpp
