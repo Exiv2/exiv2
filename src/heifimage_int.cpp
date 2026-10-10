@@ -267,6 +267,17 @@ void eraseTag(ExifData& exif, std::string_view key) {
   exif.erase(std::remove_if(exif.begin(), exif.end(), [&](const auto& d) { return d.key() == key; }), exif.end());
 }
 
+#ifdef EXV_HAVE_XMP_TOOLKIT
+// Isolate all raw embedded packets so duplicate insertion and deletion count as edits.
+ExifData xmlPacketData(const ExifData& exif) {
+  ExifData packets;
+  for (const auto& datum : exif)
+    if (datum.key() == "Exif.Image.XMLPacket")
+      packets.add(datum);
+  return packets;
+}
+#endif
+
 // Identify synthesized Canon autofocus fields that cannot be edited independently.
 bool canonDerived(const Exifdatum& datum) {
   // These values are synthesized by decodeCanonAFInfo from Canon's 0x0026
@@ -285,6 +296,10 @@ ExifData derivedCanonData(const ExifData& data) {
 
 // Exclude regenerated offsets and raw decoded MakerNotes from semantic comparisons.
 ExifData exifValues(ExifData data) {
+#ifdef EXV_HAVE_XMP_TOOLKIT
+  // Embedded XMP is regenerated and checked separately through its decoded properties.
+  eraseTag(data, "Exif.Image.XMLPacket");
+#endif
   const bool decodedMakerNote = data.findKey(ExifKey("Exif.MakerNote.ByteOrder")) != data.end();
   data.erase(std::remove_if(data.begin(), data.end(),
                             [&](const auto& datum) {
@@ -303,6 +318,10 @@ ExifData exifValues(ExifData data) {
 Bytes encodeExif(ExifData exif, const IptcData& iptc, XmpData embedded, ByteOrder order, const DecodeParams& params) {
   // A fresh tree excludes original TIFF gaps, shortened values and tail bytes.
   // The serializer reconstructs known MakerNotes and copies retained data areas.
+#ifdef EXV_HAVE_XMP_TOOLKIT
+  // Replace every raw packet, including duplicates, with the intended structured XMP.
+  eraseTag(exif, "Exif.Image.XMLPacket");
+#endif
   const auto requested = exifValues(exif);
   exif.erase(std::remove_if(exif.begin(), exif.end(), canonDerived), exif.end());
 
@@ -715,29 +734,27 @@ class HeifImage final : public BmffImage {
     // A separate MIME item becomes authoritative when XMP is edited. Remove its
     // old embedded TIFF copy so it cannot reappear after removing the MIME item.
     auto embedded = original.embeddedXmp;
-#ifdef EXV_HAVE_XMP_TOOLKIT
-    auto xml = exif.findKey(ExifKey("Exif.Image.XMLPacket"));
-#endif
 
     // Even without a live XMLPacket tag, prior XMP may survive in TIFF slack.
     const bool embeddedChanged = xmpChanged && !exif.empty();
     if (xmpChanged) {
       eraseTag(exif, "Exif.Image.XMLPacket");
       embedded.clear();
-    } else if (exifChanged) {
-      // The Exif API can also delete or replace the embedded XMLPacket tag.
-      // Honor its current value instead of restoring the old decoded packet.
-      embedded.clear();
+    }
 #ifdef EXV_HAVE_XMP_TOOLKIT
-      if (xml != exif.end()) {
+    else if (exifChanged && !sameData(xmlPacketData(exif), xmlPacketData(original.exif))) {
+      // An unrelated Exif edit retains the union of embedded packets. Only an
+      // explicit raw-tag edit replaces that union with the current first packet.
+      embedded.clear();
+      if (auto xml = exif.findKey(ExifKey("Exif.Image.XMLPacket")); xml != exif.end()) {
         supported(xml->size() <= bmffMetadataLimit, "embedded XMP exceeds the allocation limit");
         Bytes bytes(xml->size());
         xml->copy(bytes.data(), original.order);
         enforce(XmpParser::decode(embedded, std::string(bytes.begin(), bytes.end()), params) == 0,
                 ErrorCode::kerInvalidXMP);
       }
-#endif
     }
+#endif
 
     // Rebuild Exif when its values change or when old embedded XMP must be scrubbed.
     if (exifChanged || embeddedChanged) {
