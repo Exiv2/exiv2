@@ -462,6 +462,9 @@ class EXIV2API Image {
   /*!
     @brief Returns the access mode, i.e., the metadata functions, which
        this image supports for the metadata type \em metadataId.
+    @note This reports format capabilities. writeMetadata() validates the
+        particular file layout and requested edits, and may reject an operation
+        even when write access is reported.
     @param metadataId The metadata identifier.
     @return Access mode for the requested image type and metadata identifier.
    */
@@ -541,6 +544,13 @@ using IsThisTypeFct = bool (*)(BasicIo& iIo, bool advance);
   @brief Returns an Image instance of the specified type.
 
   The factory is implemented as a static class.
+
+  @note With BMFF support enabled, HEIF/HEIC files recognized by the HEIF probe
+      report ImageType::heif. open() returns a private HEIF implementation with
+      Exif/XMP writing support, subject to validation of the file's layout and
+      requested edits. Direct construction of BmffImage retains its read-only
+      behavior; use this factory to obtain HEIF writing support.
+  @see BmffImage
 */
 class EXIV2API ImageFactory {
   friend bool Image::good() const;
@@ -673,6 +683,9 @@ class EXIV2API ImageFactory {
   /*!
     @brief Returns the access mode or supported metadata functions for an
         image type and a metadata type.
+    @note This reports format capabilities, without inspecting a file.
+        Image::writeMetadata() validates the particular file layout and requested
+        edits, and may reject an operation even when write access is reported.
     @param type       The image type.
     @param metadataId The metadata identifier.
     @return Access mode for the requested image type and metadata identifier.
