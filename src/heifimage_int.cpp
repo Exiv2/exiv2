@@ -591,6 +591,9 @@ class HeifImage final : public BmffImage {
       // Deferred layouts also retain the existing reader and its failure behavior.
     }
 
+    // Reading replaces all buffered categories, including those retained by a user clear.
+    Image::clearMetadata();
+
     // Finalize either fallback only after reading succeeds. Writing still reparses and rejects.
     BmffImage::readMetadata();
     loaded_ = true;
