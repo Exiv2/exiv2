@@ -87,8 +87,18 @@ class XMLValidator {
   }
 
   void setError(const char* msg) {
+#if XML_MAJOR_VERSION > 2 || (XML_MAJOR_VERSION == 2 && XML_MINOR_VERSION >= 9)
+    // This is a workaround for XML_GetCurrentLineNumber and XML_GetCurrentColumnNumber
+    // getting deprecated and replaced with 64-bit versions in Expat 2.9.0. Until all
+    // the platforms support the latest version Expat, we need to keep this code which
+    // uses the old versions.
     const XML_Size errlinenum = XML_GetCurrentLineNumber64(parser_);
     const XML_Size errcolnum = XML_GetCurrentColumnNumber64(parser_);
+#else
+    const XML_Size errlinenum = XML_GetCurrentLineNumber(parser_);
+    const XML_Size errcolnum = XML_GetCurrentColumnNumber(parser_);
+#endif
+
 #ifndef SUPPRESS_WARNINGS
     EXV_INFO << "Invalid XML at line " << errlinenum << ", column " << errcolnum << ": " << msg << "\n";
 #endif
