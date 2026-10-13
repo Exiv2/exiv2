@@ -409,13 +409,19 @@ void replaceFileAtomically(const std::string& newPath, const std::string& pf, bo
   // deletes the just-replaced `pf` and then tries to rename the now
   // nonexistent `newPath` onto it, which fails with ERROR_FILE_NOT_FOUND.
 #else
-  // fs::remove() returns true if it deleted the file; throw only if it was
-  // there and remove() failed to get rid of it.
+#ifdef _WIN32
+  // Without ReplaceFile(), rename() cannot be relied on to replace an
+  // existing target here, so remove it first.
   if (fileExists(pf) && !fs::remove(pf)) {
     throw Error(ErrorCode::kerCallFailed, pf, strError(), "fs::remove");
   }
+#endif
+  // On POSIX, rename(2) replaces an existing target in one step. Do not
+  // remove `pf` first: a crash between the two calls would leave no file at
+  // all under the original name. The temporary file is created next to the
+  // target, so this cannot fail with EXDEV; if the rename fails for any
+  // reason, the original is left untouched.
   fs::rename(newPath, pf);
-  fs::remove(newPath);
 #endif
   // Check permissions of new file
   auto newStMode = fs::status(pf).permissions();

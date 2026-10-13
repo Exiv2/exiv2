@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <gtest/gtest.h>
+#include <atomic>
 #include <filesystem>
 #include <fstream>
+#include <thread>
 #include "basicio.hpp"
 using namespace Exiv2;
 
@@ -212,3 +214,48 @@ TEST(AFileIO, canSeekBeyondEOF) {
   ASSERT_FALSE(file.error());
   ASSERT_FALSE(file.eof());
 }
+
+#ifndef _WIN32
+// The temporary file must replace the target with a single rename. Removing
+// the target first leaves a window in which nothing exists at its name, and
+// a crash inside it loses the original. A kill between two syscalls cannot be
+// injected portably, so watch the path from another thread while transfers
+// run: this never fails on a correct implementation, and catches the window
+// with high probability if it comes back.
+TEST(AFileIO, transferNeverLeavesTargetMissing) {
+  namespace fs = std::filesystem;
+  const auto dir = fs::temp_directory_path() / "exiv2_test_issue_9482_no_gap";
+  std::error_code ec;
+  fs::remove_all(dir, ec);
+  fs::create_directories(dir);
+  const auto victim = dir / "original.bin";
+  {
+    std::ofstream ofs(victim, std::ios::binary);
+    ofs << "OLD-CONTENTS";
+  }
+
+  std::atomic<bool> stop{false};
+  std::atomic<unsigned> missing{0};
+  std::thread watcher([&] {
+    while (!stop.load()) {
+      std::error_code statEc;
+      if (!fs::exists(victim, statEc))
+        ++missing;
+    }
+  });
+
+  const std::string newBytes(4096, 'N');
+  for (int i = 0; i < 500; ++i) {
+    MemIo src(reinterpret_cast<const byte*>(newBytes.data()), newBytes.size());
+    FileIo target(victim.string());
+    ASSERT_NO_THROW(target.transfer(src));
+  }
+  stop = true;
+  watcher.join();
+
+  EXPECT_EQ(missing.load(), 0u);
+  EXPECT_EQ(fs::file_size(victim), newBytes.size());
+
+  fs::remove_all(dir, ec);
+}
+#endif
