@@ -195,8 +195,8 @@ Xmp.plus.Licensor[1]/plus:LicensorRegion     XmpText    20  Test Licensor Region
 Xmp.plus.Licensor[1]/plus:LicensorStreetAddress XmpText    28  Test Licensor Street Address  Test Licensor Street Address
 Xmp.plus.Licensor[1]/plus:LicensorTelephone1 XmpText    15  +1 (234) 567890  +1 (234) 567890
 Xmp.plus.Licensor[1]/plus:LicensorTelephone2 XmpText    15  +1 (345) 678901  +1 (345) 678901
-Xmp.plus.Licensor[1]/plus:LicensorTelephoneType1 XmpText    36  http://ns.useplus.org/ldf/vocab/work  http://ns.useplus.org/ldf/vocab/work
-Xmp.plus.Licensor[1]/plus:LicensorTelephoneType2 XmpText    36  http://ns.useplus.org/ldf/vocab/cell  http://ns.useplus.org/ldf/vocab/cell
+Xmp.plus.Licensor[1]/plus:LicensorTelephoneType1 XmpText    36  http://ns.useplus.org/ldf/vocab/work  Work
+Xmp.plus.Licensor[1]/plus:LicensorTelephoneType2 XmpText    36  http://ns.useplus.org/ldf/vocab/cell  Cell
 Xmp.plus.Licensor[1]/plus:LicensorURL        XmpText    61  http://www.example.com/licensorurl/okng0934j9jkrg0430gjn0mn03  http://www.example.com/licensorurl/okng0934j9jkrg0430gjn0mn03
 Xmp.plus.ModelReleaseID                      XmpBag      1  http://www.example.com/modelreleaseid/jhgmw3m0932mg0943mh32  http://www.example.com/modelreleaseid/jhgmw3m0932mg0943mh32
 Xmp.plus.PropertyReleaseID                   XmpBag      1  http://www.example.com/propertyreleaseid/wii09mng290mg0b3mgb0ebebt  http://www.example.com/propertyreleaseid/wii09mng290mg0b3mgb0ebebt
