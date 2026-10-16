@@ -1,6 +1,7 @@
 base_lib = files(
   'basicio.cpp',
   'bmffimage.cpp',
+  'heifimage_int.cpp',
   'bmpimage.cpp',
   'convert.cpp',
   'cr2image.cpp',
@@ -44,6 +45,12 @@ if get_option('video')
 endif
 
 int_lib = files(
+  'bmffbox_int.cpp',
+  'bmffitem_int.cpp',
+  'bmffitemwrite_int.cpp',
+  'bmfflayout_int.cpp',
+  'heifstructure_int.cpp',
+  'heifwrite_int.cpp',
   'canonmn_int.cpp',
   'casiomn_int.cpp',
   'cr2header_int.cpp',
