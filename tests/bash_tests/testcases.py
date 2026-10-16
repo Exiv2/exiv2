@@ -415,10 +415,12 @@ set Exif.Photo.DateTimeDigitized 2020:05:26 07:31:42
 
     def geotag_test(self):
         # Test driver for geotag
-        jpg      = 'FurnaceCreekInn.jpg'
+        # The bugfixes suite can run at the same time and also modifies
+        # FurnaceCreekInn.jpg in tmp_dir, so work on a copy with a name of our own
+        jpg      = 'geotag-FurnaceCreekInn.jpg'
         gpx      = 'FurnaceCreekInn.gpx'
-        for i in [jpg, gpx]:
-            BT.copyTestFile(i)
+        BT.copyTestFile('FurnaceCreekInn.jpg', jpg)
+        BT.copyTestFile(gpx)
 
         out      = BT.Output()
         out     += '--- show GPSInfo tags ---'
