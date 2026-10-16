@@ -162,6 +162,7 @@ constexpr GroupInfo groupInfo[] = {
     {IfdId::sony1MltCsA100Id, "Makernote", "Sony1MltCsA100", &MinoltaMakerNote::tagListCsA100},
     {IfdId::sony2CsId, "Makernote", "Sony2Cs", &SonyMakerNote::tagListCs},
     {IfdId::sony2Cs2Id, "Makernote", "Sony2Cs2", &SonyMakerNote::tagListCs2},
+    {IfdId::sony2Cs3Id, "Makernote", "Sony2Cs3", &SonyMakerNote::tagListCs3},
     {IfdId::sony2FpId, "Makernote", "Sony2Fp", &SonyMakerNote::tagListFp},
     {IfdId::sonyMisc1Id, "Makernote", "SonyMisc1", &SonyMakerNote::tagListSonyMisc1},
     {IfdId::sonyMisc2bId, "Makernote", "SonyMisc2b", &SonyMakerNote::tagListSonyMisc2b},
