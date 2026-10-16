@@ -5,10 +5,14 @@
 #include "pngchunk_int.hpp"  // This is not part of the public API
 #include "unittest_utils.hpp"
 
+#include "mock_basicio.hpp"
+
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <algorithm>
 #include <array>
+#include <cstring>
 #include <memory>
 #include <sstream>
 
@@ -97,8 +101,9 @@ TEST(PngImage, cannotReadMetadataFromEmptyIo) {
 }
 
 TEST(PngImage, cannotReadMetadataFromIoWhichCannotBeOpened) {
-  auto memIo = std::make_unique<FileIo>("NonExistingPath.png");
-  PngImage png(std::move(memIo), defaultImageCtorParams(false));
+  auto mockIo = makeMockIo();
+  setupOpenFailure(*mockIo);
+  PngImage png(std::move(mockIo), defaultImageCtorParams(false));
 
   try {
     png.readMetadata();
@@ -127,8 +132,9 @@ TEST(PngImage, canWriteMetadataFromCreatedPngImage) {
 }
 
 TEST(PngImage, cannotWriteMetadataToIoWhichCannotBeOpened) {
-  auto memIo = std::make_unique<FileIo>("NonExistingPath.png");
-  PngImage png(std::move(memIo), defaultImageCtorParams(false));
+  auto mockIo = makeMockIo();
+  setupOpenFailure(*mockIo);
+  PngImage png(std::move(mockIo), defaultImageCtorParams(false));
 
   try {
     png.readMetadata();
@@ -139,36 +145,25 @@ TEST(PngImage, cannotWriteMetadataToIoWhichCannotBeOpened) {
 }
 
 TEST(isPngType, withValidSignatureReturnsTrue) {
-  const unsigned char pngSignature[8] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
-  MemIo memIo(pngSignature, 8);
-  ASSERT_TRUE(isPngType(memIo, false));
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A});
+  ASSERT_TRUE(isPngType(*mockIo, false));
 }
 
 TEST(isPngType, withInvalidSignatureReturnsFalse) {
-  const unsigned char pngSignature[8] = {0x69, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
-  MemIo memIo(pngSignature, 8);
-  ASSERT_FALSE(isPngType(memIo, false));
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x69, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A});
+  ASSERT_FALSE(isPngType(*mockIo, false));
 }
 
 TEST(isPngType, withShorterDataReturnsFalse) {
-  const unsigned char pngSignature[6] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A};
-  MemIo memIo(pngSignature, 6);
-  ASSERT_FALSE(isPngType(memIo, false));
+  auto mockIo = makeMockIo();
+  setupRead(*mockIo, {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A});
+  ASSERT_FALSE(isPngType(*mockIo, false));
 }
 
-TEST(isPngType, withEmptyDataReturnsFalse) {
-  MemIo memIo;
-  ASSERT_FALSE(isPngType(memIo, false));
-}
-
-TEST(isPngType, withMemIoInErroneousStatusThrows) {
-  MemIo memIo;
-  memIo.getb();
-
-  try {
-    isPngType(memIo, false);
-    FAIL();
-  } catch (const Exiv2::Error& e) {
-    ASSERT_EQ(ErrorCode::kerInputDataReadFailed, e.code());
-  }
+TEST(isPngType, withReadFailureReturnsFalse) {
+  auto mockIo = makeMockIo();
+  setupReadFailure(*mockIo);
+  ASSERT_FALSE(isPngType(*mockIo, false));
 }

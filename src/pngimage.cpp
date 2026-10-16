@@ -692,7 +692,7 @@ Image::UniquePtr newPngInstance(BasicIo::UniquePtr io, const ImageCtorParams& pa
 
 bool isPngType(BasicIo& iIo, bool advance) {
   if (iIo.error() || iIo.eof()) {
-    throw Error(ErrorCode::kerInputDataReadFailed);
+    return false;
   }
   const int32_t len = 8;
   std::array<byte, len> buf;
