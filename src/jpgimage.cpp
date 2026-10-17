@@ -110,6 +110,71 @@ std::pair<std::array<byte, 2>, uint16_t> readSegmentSize(const byte marker, Basi
   }
   return {buf, size};
 }
+
+// Identify Exif APP1 segments without assuming that their TIFF data is complete.
+bool isExifSegment(byte marker, const DataBuf& buf) {
+  return marker == app1_ && buf.size() >= 8 && buf.cmpBytes(2, exifId_.data(), exifId_.size()) == 0;
+}
+
+// Adobe's multi-segment Exif convention repeats the Exif identifier. Following
+// ExifTool (Exiv2 #1232), a fresh TIFF signature starts an independent record.
+bool isExifContinuation(byte marker, const DataBuf& buf) {
+  if (!isExifSegment(marker, buf))
+    return false;
+
+  constexpr std::array<byte, 4> littleTiff{'I', 'I', 42, 0};
+  constexpr std::array<byte, 4> bigTiff{'M', 'M', 0, 42};
+  return buf.size() < 12 || (buf.cmpBytes(8, littleTiff.data(), littleTiff.size()) != 0 &&
+                             buf.cmpBytes(8, bigTiff.data(), bigTiff.size()) != 0);
+}
+
+// Assemble only actual continuations; TIFF offsets remain relative to the first payload.
+void appendExifContinuation(Blob& data, const DataBuf& first, const DataBuf& next, size_t& fragments) {
+  constexpr size_t maxExifSize = 64 * 1024 * 1024;
+  constexpr size_t maxExifFragments = 4096;
+  enforce(first.size() > 8 && next.size() > 8 && fragments < maxExifFragments, ErrorCode::kerCorruptedMetadata);
+
+  const auto currentSize = data.empty() ? first.size() - 8 : data.size();
+  const auto addedSize = next.size() - 8;
+  enforce(currentSize <= maxExifSize && addedSize <= maxExifSize - currentSize, ErrorCode::kerCorruptedMetadata);
+
+  if (data.empty()) {
+    data.resize(currentSize);
+    std::copy_n(first.c_data(8), currentSize, data.begin());
+  }
+  data.resize(currentSize + addedSize);
+  std::copy_n(next.c_data(8), addedSize, data.begin() + currentSize);
+  ++fragments;
+}
+
+// Inspect headers through SOS/EOI before writing, then restore the initial segment position.
+template <typename NextMarker>
+void rejectExifContinuationWrites(BasicIo& io, NextMarker nextMarker) {
+  const auto start = io.tell();
+  bool previousExif = false;
+  for (auto marker = nextMarker(); marker != sos_ && marker != eoi_; marker = nextMarker()) {
+    const auto [sizebuf, size] = readSegmentSize(marker, io);
+    const auto prefixSize = std::min<size_t>(size, 12);
+    DataBuf prefix(prefixSize);
+    if (prefixSize >= 2) {
+      std::copy(sizebuf.begin(), sizebuf.end(), prefix.begin());
+      if (prefixSize > 2)
+        io.readOrThrow(prefix.data(2), prefixSize - 2, ErrorCode::kerFailedToReadImageData);
+    }
+
+    if (previousExif && isExifContinuation(marker, prefix))
+      throw Error(ErrorCode::kerWritingImageFormatUnsupported, "JPEG/EXV with multi-segment Exif");
+    previousExif = isExifSegment(marker, prefix);
+
+    // Skip opaque payloads only after verifying their declared range against the source.
+    const auto remaining = size - prefixSize;
+    const auto position = io.tell();
+    enforce(position <= io.size() && remaining <= io.size() - position, ErrorCode::kerFailedToReadImageData);
+    io.seekOrThrow(static_cast<int64_t>(remaining), BasicIo::cur, ErrorCode::kerFailedToReadImageData);
+  }
+  enforce(start <= static_cast<size_t>(std::numeric_limits<int64_t>::max()), ErrorCode::kerFailedToReadImageData);
+  io.seekOrThrow(static_cast<int64_t>(start), BasicIo::beg, ErrorCode::kerFailedToReadImageData);
+}
 }  // namespace
 
 JpegBase::JpegBase(ImageType type, BasicIo::UniquePtr io, const ImageCtorParams& params, const byte initData[],
@@ -168,6 +233,28 @@ void JpegBase::readMetadata() {
   bool foundXmpData = false;
   bool foundIccData = false;
 
+  DataBuf firstExif;
+  Blob completeExif;
+  size_t exifFragments = 0;
+
+  // Delay TIFF decoding until an adjacent continuation chain is complete. Ordinary
+  // single-segment files reuse their original buffer without an aggregate allocation.
+  const auto decodeExif = [&] {
+    const auto data = completeExif.empty() ? firstExif.c_data(8) : completeExif.data();
+    const auto size = completeExif.empty() ? firstExif.size() - 8 : completeExif.size();
+    const DecodeParams dp(max_recursion_depth_);
+    setByteOrder(ExifParser::decode(exifData_, data, size, dp));
+    if (size > 0 && byteOrder() == invalidByteOrder) {
+#ifndef SUPPRESS_WARNINGS
+      EXV_WARNING << "Failed to decode Exif metadata.\n";
+#endif
+      exifData_.clear();
+    }
+    --search;
+    foundExifData = true;
+    exifFragments = 0;
+  };
+
   // Read section marker
   byte marker = advanceToMarker(ErrorCode::kerNotAJpeg);
 
@@ -182,6 +269,13 @@ void JpegBase::readMetadata() {
       std::copy(sizebuf.begin(), sizebuf.end(), buf.begin());
     }
 
+    // Process a terminating segment normally after finalizing the pending Exif record.
+    if (exifFragments && !isExifContinuation(marker, buf)) {
+      decodeExif();
+      if (search == 0)
+        break;
+    }
+
     if (auto itSofMarker = Exiv2::find(jpegProcessMarkerTags, marker)) {
       sof_encoding_process_ = itSofMarker->label_;
       if (size >= 7 && buf.c_data(7)) {
@@ -189,19 +283,13 @@ void JpegBase::readMetadata() {
       }
     }
 
-    if (!foundExifData && marker == app1_ && size >= 8  // prevent out-of-bounds read in memcmp on next line
-        && buf.cmpBytes(2, exifId_.data(), 6) == 0) {
-      const DecodeParams dp(max_recursion_depth_);
-      ByteOrder bo = ExifParser::decode(exifData_, buf.c_data(8), size - 8, dp);
-      setByteOrder(bo);
-      if (size > 8 && byteOrder() == invalidByteOrder) {
-#ifndef SUPPRESS_WARNINGS
-        EXV_WARNING << "Failed to decode Exif metadata.\n";
-#endif
-        exifData_.clear();
+    if (!foundExifData && isExifSegment(marker, buf)) {
+      if (exifFragments) {
+        appendExifContinuation(completeExif, firstExif, buf, exifFragments);
+      } else {
+        firstExif = std::move(buf);
+        exifFragments = 1;
       }
-      --search;
-      foundExifData = true;
     } else if (!foundXmpData && marker == app1_ && size >= 31  // prevent out-of-bounds read in memcmp on next line
                && buf.cmpBytes(2, xmpId_.data(), 29) == 0) {
       xmpPacket_.assign(buf.c_str(31), size - 31);
@@ -282,10 +370,17 @@ void JpegBase::readMetadata() {
     try {
       marker = advanceToMarker(ErrorCode::kerFailedToReadImageData);
     } catch (const Error&) {
+      // A recognized chain with no terminator must not expose partial Exif as success.
+      if (exifFragments > 1)
+        throw;
       rc = 5;
       break;
     }
   }  // while there are segments to process
+
+  // SOS and EOI terminate the chain without consuming entropy-coded image data.
+  if (exifFragments)
+    decodeExif();
 
   if (!psBlob.empty()) {
     // Find actual IPTC data within the psBlob
@@ -613,6 +708,9 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
       throw Error(ErrorCode::kerInputDataReadFailed);
     throw Error(ErrorCode::kerNoImageInInputData);
   }
+
+  // The single-segment writer cannot safely replace or erase a continuation chain.
+  rejectExifContinuationWrites(*io_, [this] { return advanceToMarker(ErrorCode::kerNoImageInInputData); });
 
   // Used to initialize search variables such as skipCom.
   static const size_t notfound = std::numeric_limits<size_t>::max();

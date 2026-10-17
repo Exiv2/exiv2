@@ -25,6 +25,7 @@ add_executable(
   test_ImageFactory.cpp
   test_jp2image.cpp
   test_jp2image_int.cpp
+  test_jpgimage.cpp
   test_IptcKey.cpp
   test_LangAltValueRead.cpp
   test_Photoshop.cpp
