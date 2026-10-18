@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 
+#include <algorithm>
 #include <array>
 #include <sstream>
 #include <string>
@@ -44,6 +45,17 @@ ExifData panasonic(const char* model = "DMC-FZ5") {
   metadata["Exif.Image.Make"] = "Panasonic";
   metadata["Exif.Image.Model"] = model;
   return metadata;
+}
+// Install opaque parent bytes without manufacturing independently writable child fields.
+void setBlock(ExifData& metadata, const char* key, const std::vector<byte>& data) {
+  const DataValue value(data.data(), data.size());
+  metadata[key].setValue(&value);
+}
+
+// Fill one complete rectangle using the file's byte order.
+void rectangle(std::vector<byte>& data, size_t offset, ByteOrder order) {
+  for (size_t i = 0; i < 4; ++i)
+    us2Data(data.data() + offset + 2 * i, static_cast<uint16_t>(10 * (i + 1)), order);
 }
 }  // namespace
 
@@ -226,4 +238,108 @@ TEST(PanasonicMetadata, AfModeKeepsUnverifiedPairsRaw) {
 
   metadata["Exif.Panasonic.AFMode"].setValue("32 16 1");
   EXPECT_EQ("32 16 1", printed(metadata, "Exif.Panasonic.AFMode"));
+}
+
+// Decoding each parent view preserves byte order, rectangle coordinates and complete raw bytes.
+TEST(PanasonicMetadata, StructuredFaceBlocksPreserveTheirParents) {
+  for (const auto order : {littleEndian, bigEndian}) {
+    auto metadata = panasonic();
+    std::vector<byte> positions(42, 0);
+    us2Data(positions.data(), 1, order);
+    rectangle(positions, 2, order);
+    setBlock(metadata, "Exif.Panasonic.FaceDetInfo", positions);
+
+    std::vector<byte> recognized(148, 0);
+    us2Data(recognized.data(), 1, order);
+    std::copy_n("Alice", 5, recognized.begin() + 4);
+    rectangle(recognized, 24, order);
+    std::copy_n("0020:01:02 00:00:00", 19, recognized.begin() + 32);
+    setBlock(metadata, "Exif.Panasonic.FaceRecInfo", recognized);
+    auto decoded = roundTrip(metadata, order);
+
+    EXPECT_EQ("Stored face positions: 1; Face 1: center (10, 20), size 30 x 40",
+              printed(decoded, "Exif.Panasonic.FaceDetInfo"));
+    EXPECT_EQ("Faces recognized: 1; Face 1: Alice, center (10, 20), size 30 x 40, age 0020:01:02 00:00:00",
+              printed(decoded, "Exif.Panasonic.FaceRecInfo"));
+    EXPECT_EQ(positions, bytes(decoded["Exif.Panasonic.FaceDetInfo"]));
+    EXPECT_EQ(recognized, bytes(decoded["Exif.Panasonic.FaceRecInfo"]));
+
+    decoded["Exif.Image.Artist"] = "Unrelated edit forcing growth";
+    auto reopened = roundTrip(decoded, order);
+    EXPECT_EQ(positions, bytes(reopened["Exif.Panasonic.FaceDetInfo"]));
+    EXPECT_EQ(recognized, bytes(reopened["Exif.Panasonic.FaceRecInfo"]));
+  }
+}
+
+// Invalid record counts, lengths and missing byte-order state retain the original raw view.
+TEST(PanasonicMetadata, MalformedFaceBlocksRemainRaw) {
+  auto metadata = panasonic();
+  metadata["Exif.MakerNote.ByteOrder"] = "II";
+  for (const auto length : {size_t{0}, size_t{1}, size_t{2}, size_t{41}}) {
+    std::vector<byte> data(length, 0);
+    if (length >= 2)
+      us2Data(data.data(), 5, littleEndian);
+    setBlock(metadata, "Exif.Panasonic.FaceDetInfo", data);
+    EXPECT_EQ(metadata["Exif.Panasonic.FaceDetInfo"].toString(), printed(metadata, "Exif.Panasonic.FaceDetInfo"));
+  }
+  std::vector<byte> data(148, 0);
+  us2Data(data.data(), 4, littleEndian);
+  setBlock(metadata, "Exif.Panasonic.FaceRecInfo", data);
+  EXPECT_EQ(metadata["Exif.Panasonic.FaceRecInfo"].toString(), printed(metadata, "Exif.Panasonic.FaceRecInfo"));
+
+  us2Data(data.data(), 1, littleEndian);
+  setBlock(metadata, "Exif.Panasonic.FaceRecInfo", data);
+  metadata.erase(metadata.findKey(ExifKey("Exif.MakerNote.ByteOrder")));
+  EXPECT_EQ(metadata["Exif.Panasonic.FaceRecInfo"].toString(), printed(metadata, "Exif.Panasonic.FaceRecInfo"));
+}
+
+// The packed-decimal date and endian-dependent shot counter have distinct representations.
+TEST(PanasonicMetadata, TimeInfoPreservesPackedDateAndOpaqueGap) {
+  for (const auto order : {littleEndian, bigEndian}) {
+    auto metadata = panasonic();
+    std::vector<byte> data{0x20, 0x24, 0x02, 0x29, 0x12, 0x34, 0x56, 0x78, 0xde, 0xad,
+                           0xbe, 0xef, 1,    2,    3,    4,    0,    0,    0,    0};
+    ul2Data(data.data() + 16, 123456, order);
+    setBlock(metadata, "Exif.Panasonic.TimeInfo", data);
+    auto decoded = roundTrip(metadata, order);
+    EXPECT_EQ("Date/time: 2024:02:29 12:34:56.78; Time-lapse shot: 123456",
+              printed(decoded, "Exif.Panasonic.TimeInfo"));
+    EXPECT_EQ(data, bytes(decoded["Exif.Panasonic.TimeInfo"]));
+
+    decoded["Exif.Image.Artist"] = "Another unrelated edit";
+    auto reopened = roundTrip(decoded, order);
+    EXPECT_EQ(data, bytes(reopened["Exif.Panasonic.TimeInfo"]));
+  }
+}
+
+// Invalid BCD/calendar fields and truncated dates never become plausible timestamps.
+TEST(PanasonicMetadata, MalformedTimeInfoRemainsRaw) {
+  auto metadata = panasonic();
+  metadata["Exif.MakerNote.ByteOrder"] = "II";
+  for (const auto& data :
+       {std::vector<byte>{0x20, 0x23, 0x02, 0x29, 0, 0, 0, 0}, std::vector<byte>{0x20, 0x24, 0x1a, 0x01, 0, 0, 0, 0},
+        std::vector<byte>{0x20, 0x24, 0x01}}) {
+    setBlock(metadata, "Exif.Panasonic.TimeInfo", data);
+    EXPECT_EQ(metadata["Exif.Panasonic.TimeInfo"].toString(), printed(metadata, "Exif.Panasonic.TimeInfo"));
+  }
+}
+
+// Packed settings are interpreted without changing types or dividing by zero.
+TEST(PanasonicMetadata, PackedSettingsRetainRawRepresentation) {
+  auto metadata = panasonic();
+  metadata["Exif.Panasonic.FilterEffect"] = URational{0, 0};
+  EXPECT_EQ("Off", printed(metadata, "Exif.Panasonic.FilterEffect"));
+  metadata["Exif.Panasonic.FilterEffect"] = URational{0, 1024};
+  EXPECT_EQ("Dynamic monochrome", printed(metadata, "Exif.Panasonic.FilterEffect"));
+  metadata["Exif.Panasonic.FilterEffect"] = URational{1, 1024};
+  EXPECT_EQ("1/1024", printed(metadata, "Exif.Panasonic.FilterEffect"));
+  metadata["Exif.Panasonic.HighlightShadow"].setValue("65535 2");
+  EXPECT_EQ("Highlight: -1; Shadow: 2", printed(metadata, "Exif.Panasonic.HighlightShadow"));
+  metadata["Exif.Panasonic.PostFocusMerging"].setValue("0 0");
+  EXPECT_EQ("Post focus auto merging or none", printed(metadata, "Exif.Panasonic.PostFocusMerging"));
+
+  auto decoded = roundTrip(metadata);
+  EXPECT_EQ(unsignedRational, decoded["Exif.Panasonic.FilterEffect"].typeId());
+  EXPECT_EQ(bytes(metadata["Exif.Panasonic.FilterEffect"]), bytes(decoded["Exif.Panasonic.FilterEffect"]));
+  EXPECT_EQ(bytes(metadata["Exif.Panasonic.HighlightShadow"]), bytes(decoded["Exif.Panasonic.HighlightShadow"]));
 }
