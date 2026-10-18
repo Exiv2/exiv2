@@ -20,6 +20,8 @@
 #include <array>
 #include <cstring>
 #include <iostream>
+#include <tuple>
+#include <utility>
 
 #ifdef EXIV2_DEBUG_MESSAGES
 namespace {
@@ -69,6 +71,42 @@ std::string binaryToHex(const uint8_t* data, size_t size) {
 }
 }  // namespace
 #endif
+
+namespace {
+// The canvas and frame sizes below are read with DataBuf's bounds-checked
+// accessors. The caller checks the minimum chunk size first.
+
+//! Little-endian 24-bit value at \em offset.
+uint32_t getUInt24LE(const Exiv2::DataBuf& buf, size_t offset) {
+  const uint32_t b0 = buf.read_uint8(offset);
+  const uint32_t b1 = buf.read_uint8(offset + 1);
+  const uint32_t b2 = buf.read_uint8(offset + 2);
+  return b0 | (b1 << 8) | (b2 << 16);
+}
+
+//! VP8X chunk: canvas width - 1 and height - 1, 24 bits each, at offsets 4 and 7.
+std::pair<uint32_t, uint32_t> vp8xCanvasSize(const Exiv2::DataBuf& payload) {
+  return {getUInt24LE(payload, 4) + 1, getUInt24LE(payload, 7) + 1};
+}
+
+//! ANMF chunk: frame width - 1 and height - 1, 24 bits each, at offsets 6 and 9.
+std::pair<uint32_t, uint32_t> anmfFrameSize(const Exiv2::DataBuf& payload) {
+  return {getUInt24LE(payload, 6) + 1, getUInt24LE(payload, 9) + 1};
+}
+
+//! VP8 chunk: 14-bit width and height at offsets 6 and 8 (RFC 6386, section 9.1).
+std::pair<uint32_t, uint32_t> vp8FrameSize(const Exiv2::DataBuf& payload) {
+  const uint32_t width = payload.read_uint16(6, Exiv2::littleEndian);
+  const uint32_t height = payload.read_uint16(8, Exiv2::littleEndian);
+  return {width & 0x3fff, height & 0x3fff};
+}
+
+//! VP8L chunk: width - 1 and height - 1, 14 bits each, after the signature byte.
+std::pair<uint32_t, uint32_t> vp8lImageSize(const Exiv2::DataBuf& payload) {
+  const uint32_t bits = payload.read_uint32(1, Exiv2::littleEndian);
+  return {(bits & 0x3fff) + 1, ((bits >> 14) & 0x3fff) + 1};
+}
+}  // namespace
 
 // *****************************************************************************
 // class member definitions
@@ -183,17 +221,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8X) && !has_size) {
       Internal::enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
-      std::array<byte, WEBP_TAG_SIZE> size_buf;
-
-      // Fetch width - stored in 24bits
-      std::copy_n(payload.begin() + 4, 3, size_buf.begin());
-      size_buf.back() = 0;
-      width = Exiv2::getULong(size_buf.data(), littleEndian) + 1;
-
-      // Fetch height - stored in 24bits
-      std::copy_n(payload.begin() + 7, 3, size_buf.begin());
-      size_buf.back() = 0;
-      height = Exiv2::getULong(size_buf.data(), littleEndian) + 1;
+      std::tie(width, height) = vp8xCanvasSize(payload);
     }
 
     /* Chunk with animation control data. */
@@ -212,18 +240,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_size) {
       Internal::enforce(size_u32 >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
-      std::array<byte, 2> size_buf;
-
-      /* Refer to this https://tools.ietf.org/html/rfc6386
-         for height and width reference for VP8 chunks */
-
-      // Fetch width - stored in 16bits
-      std::copy_n(payload.begin() + 6, 2, size_buf.begin());
-      width = Exiv2::getUShort(size_buf.data(), littleEndian) & 0x3fff;
-
-      // Fetch height - stored in 16bits
-      std::copy_n(payload.begin() + 8, 2, size_buf.begin());
-      height = Exiv2::getUShort(size_buf.data(), littleEndian) & 0x3fff;
+      std::tie(width, height) = vp8FrameSize(payload);
     }
 
     /* Chunk with lossless image data. */
@@ -236,24 +253,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_size) {
       Internal::enforce(size_u32 >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
-      std::array<byte, 2> size_buf_w;
-      std::array<byte, 3> size_buf_h;
-
-      /* For VP8L chunks width & height are stored in 28 bits
-         of a 32 bit field requires bitshifting to get actual
-         sizes. Width and height are split even into 14 bits
-         each. Refer to this https://goo.gl/bpgMJf */
-
-      // Fetch width - 14 bits wide
-      std::copy_n(payload.begin() + 1, 2, size_buf_w.begin());
-      size_buf_w.back() &= 0x3F;
-      width = Exiv2::getUShort(size_buf_w.data(), littleEndian) + 1;
-
-      // Fetch height - 14 bits wide
-      std::copy_n(payload.begin() + 2, 3, size_buf_h.begin());
-      size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3FU) << 0x2);
-      size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2);
-      height = Exiv2::getUShort(size_buf_h.data(), littleEndian) + 1;
+      std::tie(width, height) = vp8lImageSize(payload);
     }
 
     /* Chunk with animation frame. */
@@ -266,17 +266,7 @@ void WebPImage::doWriteMetadata(BasicIo& outIo) {
     if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_size) {
       Internal::enforce(size_u32 >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
       has_size = true;
-      std::array<byte, WEBP_TAG_SIZE> size_buf;
-
-      // Fetch width - stored in 24bits
-      std::copy_n(payload.begin() + 6, 3, size_buf.begin());
-      size_buf.back() = 0;
-      width = Exiv2::getULong(size_buf.data(), littleEndian) + 1;
-
-      // Fetch height - stored in 24bits
-      std::copy_n(payload.begin() + 9, 3, size_buf.begin());
-      size_buf.back() = 0;
-      height = Exiv2::getULong(size_buf.data(), littleEndian) + 1;
+      std::tie(width, height) = anmfFrameSize(payload);
     }
 
     /* Chunk with alpha data. */
@@ -524,73 +514,26 @@ void WebPImage::decodeChunks(uint32_t filesize) {
       Internal::enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
-      std::array<byte, WEBP_TAG_SIZE> size_buf;
-
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
-
-      // Fetch width
-      std::copy_n(payload.begin() + 4, 3, size_buf.begin());
-      size_buf.back() = 0;
-      pixelWidth_ = Exiv2::getULong(size_buf.data(), littleEndian) + 1;
-
-      // Fetch height
-      std::copy_n(payload.begin() + 7, 3, size_buf.begin());
-      size_buf.back() = 0;
-      pixelHeight_ = Exiv2::getULong(size_buf.data(), littleEndian) + 1;
+      std::tie(pixelWidth_, pixelHeight_) = vp8xCanvasSize(payload);
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8) && !has_canvas_data) {
       Internal::enforce(size >= 10, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
-      std::array<byte, WEBP_TAG_SIZE> size_buf;
-
-      // Fetch width""
-      std::copy_n(payload.begin() + 6, 2, size_buf.begin());
-      size_buf[2] = 0;
-      size_buf[3] = 0;
-      pixelWidth_ = Exiv2::getULong(size_buf.data(), littleEndian) & 0x3fff;
-
-      // Fetch height
-      std::copy_n(payload.begin() + 8, 2, size_buf.begin());
-      size_buf[2] = 0;
-      size_buf[3] = 0;
-      pixelHeight_ = Exiv2::getULong(size_buf.data(), littleEndian) & 0x3fff;
+      std::tie(pixelWidth_, pixelHeight_) = vp8FrameSize(payload);
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_VP8L) && !has_canvas_data) {
       Internal::enforce(size >= 5, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
-      std::array<byte, 2> size_buf_w;
-      std::array<byte, 3> size_buf_h;
-
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
-
-      // Fetch width
-      std::copy_n(payload.begin() + 1, 2, size_buf_w.begin());
-      size_buf_w.back() &= 0x3F;
-      pixelWidth_ = Exiv2::getUShort(size_buf_w.data(), littleEndian) + 1;
-
-      // Fetch height
-      std::copy_n(payload.begin() + 2, 3, size_buf_h.begin());
-      size_buf_h[0] = ((size_buf_h[0] >> 6) & 0x3) | ((size_buf_h[1] & 0x3FU) << 0x2);
-      size_buf_h[1] = ((size_buf_h[1] >> 6) & 0x3) | ((size_buf_h[2] & 0xFU) << 0x2);
-      pixelHeight_ = Exiv2::getUShort(size_buf_h.data(), littleEndian) + 1;
+      std::tie(pixelWidth_, pixelHeight_) = vp8lImageSize(payload);
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ANMF) && !has_canvas_data) {
       Internal::enforce(size >= 12, Exiv2::ErrorCode::kerCorruptedMetadata);
 
       has_canvas_data = true;
-      std::array<byte, WEBP_TAG_SIZE> size_buf;
-
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
-
-      // Fetch width
-      std::copy_n(payload.begin() + 6, 3, size_buf.begin());
-      size_buf.back() = 0;
-      pixelWidth_ = Exiv2::getULong(size_buf.data(), littleEndian) + 1;
-
-      // Fetch height
-      std::copy_n(payload.begin() + 9, 3, size_buf.begin());
-      size_buf.back() = 0;
-      pixelHeight_ = Exiv2::getULong(size_buf.data(), littleEndian) + 1;
+      std::tie(pixelWidth_, pixelHeight_) = anmfFrameSize(payload);
     } else if (equalsWebPTag(chunkId, WEBP_CHUNK_HEADER_ICCP)) {
       io_->readOrThrow(payload.data(), payload.size(), Exiv2::ErrorCode::kerCorruptedMetadata);
       this->setIccProfile(std::move(payload));
