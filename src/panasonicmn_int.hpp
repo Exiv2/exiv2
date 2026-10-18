@@ -38,7 +38,7 @@ class PanasonicMakerNote {
   static std::ostream& printSignedByte(std::ostream& os, const Value& value, const ExifData*);
   //! @brief Display the camera's reserved high ISO values as unavailable.
   static std::ostream& printISO(std::ostream& os, const Value& value, const ExifData*);
-  //! Print SpotMode
+  //! @brief Print AF area mode, using camera identity for overlapping encodings.
   static std::ostream& print0x000f(std::ostream& os, const Value& value, const ExifData*);
   //! Print WhiteBalanceBias
   static std::ostream& print0x0023(std::ostream& os, const Value& value, const ExifData*);
