@@ -341,6 +341,131 @@ constexpr TagDetails panasonicFlashFired[] = {
     {2, N_("Yes")},
 };
 
+// Interpret only documented values; unknown numeric values retain the standard fallback.
+//! Values for the Panasonic BatteryLevel tag.
+constexpr TagDetails panasonicBatteryLevel[] = {
+    {1, N_("Full")},      {2, N_("Medium")},     {3, N_("Low")},   {4, N_("Near empty")},
+    {7, N_("Near full")}, {8, N_("Medium low")}, {256, N_("n/a")},
+};
+
+//! Values for the Panasonic JPEGQuality tag.
+constexpr TagDetails panasonicJPEGQuality[] = {
+    {0, N_("n/a (movie)")}, {2, N_("High")}, {3, N_("Standard")}, {6, N_("Very high")}, {255, N_("n/a (RAW only)")},
+};
+
+//! Values for the Panasonic MonochromeFilterEffect tag.
+constexpr TagDetails panasonicMonochromeFilterEffect[] = {
+    {0, N_("Off")}, {1, N_("Yellow")}, {2, N_("Orange")}, {3, N_("Red")}, {4, N_("Green")},
+};
+
+//! Values for the Panasonic VideoBurstResolution tag.
+constexpr TagDetails panasonicVideoBurstResolution[] = {
+    {1, N_("Off or 4K")},
+    {4, N_("6K")},
+};
+
+//! Values for the Panasonic MultiExposure tag.
+constexpr TagDetails panasonicMultiExposure[] = {
+    {0, N_("n/a")},
+    {1, N_("Off")},
+    {2, N_("On")},
+};
+
+//! Values for the Panasonic RedEyeRemoval tag.
+constexpr TagDetails panasonicRedEyeRemoval[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+};
+
+//! Values for the Panasonic VideoBurstMode tag.
+constexpr TagDetails panasonicVideoBurstMode[] = {
+    {1, N_("Off")},
+    {4, N_("Post focus")},
+    {24, N_("4K burst")},
+    {40, N_("4K burst (start/stop)")},
+    {72, N_("4K pre-burst")},
+    {264, N_("Loop recording")},
+    {1032, N_("Focus stacking")},
+    {2064, N_("6K burst")},
+    {2080, N_("6K burst (start/stop)")},
+    {4097, N_("High resolution mode")},
+};
+
+//! Values for the Panasonic DiffractionCorrection tag.
+constexpr TagDetails panasonicDiffractionCorrection[] = {
+    {0, N_("Off")},
+    {1, N_("Auto")},
+};
+
+//! Values for the Panasonic LongExposureNRUsed tag.
+constexpr TagDetails panasonicLongExposureNRUsed[] = {
+    {1, N_("No")},
+    {2, N_("Yes")},
+};
+
+//! Values for the Panasonic VideoPreburst tag.
+constexpr TagDetails panasonicVideoPreburst[] = {
+    {0, N_("No")},
+    {1, N_("4K or 6K")},
+};
+
+//! Values for the Panasonic SensorType tag.
+constexpr TagDetails panasonicSensorType[] = {
+    {0, N_("Multi-aspect")},
+    {1, N_("Standard")},
+};
+
+//! Values for the Panasonic MonochromeGrainEffect tag.
+constexpr TagDetails panasonicMonochromeGrainEffect[] = {
+    {0, N_("Off")},
+    {1, N_("Low")},
+    {2, N_("Standard")},
+    {3, N_("High")},
+};
+
+//! Values for the Panasonic HybridLogGamma tag.
+constexpr TagDetails panasonicHybridLogGamma[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+};
+
+//! Values for the Panasonic AFSubjectDetection tag.
+constexpr TagDetails panasonicAFSubjectDetection[] = {
+    {0, N_("n/a")},
+    {1, N_("Human eye/face/body")},
+    {2, N_("Animal")},
+    {3, N_("Human eye/face")},
+    {4, N_("Animal body")},
+    {5, N_("Animal eye/body")},
+    {6, N_("Car")},
+    {7, N_("Motorcycle")},
+    {8, N_("Car (main part priority)")},
+    {9, N_("Motorcycle (helmet priority)")},
+    {10, N_("Train")},
+    {11, N_("Train (main part priority)")},
+    {12, N_("Airplane")},
+    {13, N_("Airplane (nose priority)")},
+};
+
+//! Values for the Panasonic DynamicRangeBoost tag.
+constexpr TagDetails panasonicDynamicRangeBoost[] = {
+    {0, N_("Off")},
+    {1, N_("On")},
+};
+
+//! Values for the Panasonic HighlightWarning tag.
+constexpr TagDetails panasonicHighlightWarning[] = {
+    {0, N_("Disabled")},
+    {1, N_("No")},
+    {2, N_("Yes")},
+};
+
+//! Values for the Panasonic DarkFocusEnvironment tag.
+constexpr TagDetails panasonicDarkFocusEnvironment[] = {
+    {1, N_("No")},
+    {2, N_("Yes")},
+};
+
 // Panasonic MakerNote Tag Info
 constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0x0001, "Quality", N_("Quality"), N_("Image Quality"), IfdId::panasonicId, SectionId::makerTags, unsignedShort, -1,
@@ -378,8 +503,8 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
      IfdId::panasonicId, SectionId::makerTags, undefined, -1, printPanasonicText},
     {0x0026, "ExifVersion", "Exif Version", N_("Exif version"), IfdId::panasonicId, SectionId::makerTags, undefined, -1,
      printExifVersion},
-    {0x0027, "0x0027", "0x0027", N_("Unknown"), IfdId::panasonicId, SectionId::makerTags, unsignedShort, -1,
-     printValue},
+    {0x0027, "VideoFrameRate", N_("Video Frame Rate"), N_("Video frame rate (older models)"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, -1, printValue},
     {0x0028, "ColorEffect", N_("Color Effect"), N_("Color effect"), IfdId::panasonicId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(panasonicColorEffect)},
     {0x0029, "TimeSincePowerOn", "Time since Power On",
@@ -411,6 +536,8 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
      unsignedShort, -1, EXV_PRINT_TAG(panasonicConversionLens)},
     {0x0036, "TravelDay", N_("Travel Day"), N_("Travel day"), IfdId::panasonicId, SectionId::makerTags, unsignedShort,
      -1, print0x0036},
+    {0x0038, "BatteryLevel", N_("Battery Level"), N_("Battery Level"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedShort, 1, EXV_PRINT_TAG(panasonicBatteryLevel)},
     {0x0039, "Contrast2", N_("Contrast 2"), N_("Contrast 2"), IfdId::panasonicId, SectionId::makerTags, unsignedShort,
      -1, printValue},
     {0x003a, "WorldTimeLocation", N_("World Time Location"), N_("World time location"), IfdId::panasonicId,
@@ -431,6 +558,8 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
      printValue},
     {0x0042, "FilmMode", N_("Film Mode"), N_("Film mode"), IfdId::panasonicId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(panasonicFilmMode)},
+    {0x0043, "JPEGQuality", N_("JPEGQuality"), N_("JPEGQuality"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedShort, 1, EXV_PRINT_TAG(panasonicJPEGQuality)},
     {0x0044, "ColorTempKelvin", N_("Color Temp Kelvin"), N_("Color Temperature in Kelvin"), IfdId::panasonicId,
      SectionId::makerTags, unsignedShort, -1, printValue},
     {0x0045, "BracketSettings", N_("Bracket Settings"), N_("Bracket Settings"), IfdId::panasonicId,
@@ -485,6 +614,8 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
      printPanasonicText},
     {0x0070, "IntelligentResolution", N_("Intelligent resolution"), N_("Intelligent resolution"), IfdId::panasonicId,
      SectionId::makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicIntelligentResolution)},
+    {0x0076, "MergedImages", N_("Merged Images"), N_("Merged Images"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedShort, 1, printValue},
     {0x0077, "BurstSpeed", N_("Burst Speed"), N_("Burst Speed in pictures per second"), IfdId::panasonicId,
      SectionId::makerTags, unsignedShort, -1, printValue},
     {0x0079, "IntelligentDRange", N_("Intelligent Dynamic Range"), N_("Intelligent Dynamic Range"), IfdId::panasonicId,
@@ -499,6 +630,9 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
      unsignedShort, -1, EXV_PRINT_TAG(panasonicPhotoStyle)},
     {0x008a, "ShadingCompensation", N_("Shading Compensation"), N_("Shading Compensation"), IfdId::panasonicId,
      SectionId::makerTags, unsignedShort, -1, EXV_PRINT_TAG(panasonicShadingCompensation)},
+    {0x008b, "WBShiftIntelligentAuto", N_("WBShift Intelligent Auto"),
+     N_("Intelligent Auto white-balance shift; negative blue, positive amber"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, printSignedShort},
     {0x008c, "AccelerometerZ", N_("Accelerometer Z"), N_("positive is acceleration upwards"), IfdId::panasonicId,
      SectionId::makerTags, unsignedShort, -1, printAccelerometer},
     {0x008d, "AccelerometerX", N_("Accelerometer X"), N_("positive is acceleration to the left"), IfdId::panasonicId,
@@ -511,6 +645,9 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
      SectionId::makerTags, unsignedShort, -1, printRollAngle},
     {0x0091, "PitchAngle", N_("Pitch Angle"), N_("degrees of upwards camera tilt"), IfdId::panasonicId,
      SectionId::makerTags, unsignedShort, -1, printPitchAngle},
+    {0x0092, "WBShiftCreativeControl", N_("WBShift Creative Control"),
+     N_("Creative Control white-balance shift or style strength"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedByte, 1, printSignedByte},
     {0x0093, "SweepPanoramaDirection", N_("Sweep Panorama Direction"), N_("Sweep Panorama Direction"),
      IfdId::panasonicId, SectionId::makerTags, unsignedByte, -1, EXV_PRINT_TAG(panasonicSweepPanoramaDirection)},
     {0x0094, "PanoramaFieldOfView", N_("Field of View of Panorama"), N_("Field of View of Panorama"),
@@ -523,17 +660,83 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
      EXV_PRINT_TAG(panasonicHDR)},
     {0x009f, "ShutterType", N_("Shutter Type"), N_("Shutter Type"), IfdId::panasonicId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(panasonicShutterType)},
+    {0x00a1, "FilterEffect", N_("Filter Effect"), N_("Filter Effect"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedRational, 1, printValue},
     {0x00a3, "ClearRetouchValue", N_("Clear Retouch Value"), N_("Clear Retouch Value"), IfdId::panasonicId,
      SectionId::makerTags, unsignedRational, -1, printValue},
+    {0x00a7, "OutputLUT", N_("Output LUT"),
+     N_("Raw 14-bit to 16-bit output lookup table; no color processing is applied"), IfdId::panasonicId,
+     SectionId::makerTags, undefined, -1, printValue},
     {0x00ab, "TouchAE", N_("TouchAE"), N_("TouchAE"), IfdId::panasonicId, SectionId::makerTags, unsignedShort, -1,
      EXV_PRINT_TAG(panasonicTouchAE)},
+    {0x00ac, "MonochromeFilterEffect", N_("Monochrome Filter Effect"), N_("Monochrome Filter Effect"),
+     IfdId::panasonicId, SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicMonochromeFilterEffect)},
+    {0x00ad, "HighlightShadow", N_("Highlight Shadow"), N_("Highlight Shadow"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 2, printValue},
+    {0x00af, "TimeStamp", N_("Time Stamp"), N_("Camera timestamp; no time zone is inferred"), IfdId::panasonicId,
+     SectionId::makerTags, asciiString, -1, printValue},
+    {0x00b3, "VideoBurstResolution", N_("Video Burst Resolution"), N_("Video Burst Resolution"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicVideoBurstResolution)},
+    {0x00b4, "MultiExposure", N_("Multi Exposure"), N_("Multi Exposure"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedShort, 1, EXV_PRINT_TAG(panasonicMultiExposure)},
+    {0x00b9, "RedEyeRemoval", N_("Red Eye Removal"), N_("Red Eye Removal"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedShort, 1, EXV_PRINT_TAG(panasonicRedEyeRemoval)},
+    {0x00bb, "VideoBurstMode", N_("Video Burst Mode"), N_("Video Burst Mode"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedLong, 1, EXV_PRINT_TAG(panasonicVideoBurstMode)},
+    {0x00bc, "DiffractionCorrection", N_("Diffraction Correction"), N_("Diffraction Correction"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicDiffractionCorrection)},
+    {0x00bd, "FocusBracket", N_("Focus Bracket"), N_("Focus bracket shift; negative closer, positive further"),
+     IfdId::panasonicId, SectionId::makerTags, unsignedShort, 1, printSignedShort},
+    {0x00be, "LongExposureNRUsed", N_("Long Exposure NRUsed"), N_("Long Exposure NRUsed"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicLongExposureNRUsed)},
+    {0x00bf, "PostFocusMerging", N_("Post Focus Merging"), N_("Post Focus Merging"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedLong, 2, printValue},
+    {0x00c1, "VideoPreburst", N_("Video Preburst"), N_("Video Preburst"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedShort, 1, EXV_PRINT_TAG(panasonicVideoPreburst)},
+    {0x00c4, "LensTypeMake", N_("Lens Type Make"), N_("Raw lens manufacturer identifier; not a decoded lens name"),
+     IfdId::panasonicId, SectionId::makerTags, unsignedShort, 1, printValue},
+    {0x00c5, "LensTypeModel", N_("Lens Type Model"), N_("Raw lens model identifier at tag 0x00c5"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, printValue},
+    {0x00ca, "SensorType", N_("Sensor Type"), N_("Sensor Type"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedShort, 1, EXV_PRINT_TAG(panasonicSensorType)},
+    {0x00d1, "ISO", N_("ISO"), N_("ISO"), IfdId::panasonicId, SectionId::makerTags, unsignedLong, 1, printISO},
+    {0x00d2, "MonochromeGrainEffect", N_("Monochrome Grain Effect"), N_("Monochrome Grain Effect"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicMonochromeGrainEffect)},
+    {0x00d4, "HybridLogGamma", N_("Hybrid Log Gamma"), N_("Hybrid Log Gamma"), IfdId::panasonicId, SectionId::makerTags,
+     unsignedShort, 1, EXV_PRINT_TAG(panasonicHybridLogGamma)},
+    {0x00d6, "NoiseReductionStrength", N_("Noise Reduction Strength"), N_("Noise Reduction Strength"),
+     IfdId::panasonicId, SectionId::makerTags, signedRational, 1, printValue},
+    {0x00de, "AFAreaSize", N_("AFArea Size"), N_("AF area width and height relative to image size"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedRational, 2, printValue},
+    {0x00e4, "LensTypeModel2", N_("Lens Type Model2"), N_("Raw lens model identifier at tag 0x00e4"),
+     IfdId::panasonicId, SectionId::makerTags, unsignedShort, 1, printValue},
+    {0x00e8, "MinimumISO", N_("Minimum ISO"), N_("Minimum ISO"), IfdId::panasonicId, SectionId::makerTags, unsignedLong,
+     1, printValue},
+    {0x00e9, "AFSubjectDetection", N_("AFSubject Detection"), N_("AFSubject Detection"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicAFSubjectDetection)},
+    {0x00ee, "DynamicRangeBoost", N_("Dynamic Range Boost"), N_("Dynamic Range Boost"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicDynamicRangeBoost)},
+    {0x00f1, "LUT1Name", N_("LUT1Name"), N_("LUT1Name"), IfdId::panasonicId, SectionId::makerTags, asciiString, -1,
+     printValue},
+    {0x00f3, "LUT1Opacity", N_("LUT1Opacity"), N_("First LUT opacity in percent"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedByte, 1, printValue},
+    {0x00f4, "LUT2Name", N_("LUT2Name"), N_("LUT2Name"), IfdId::panasonicId, SectionId::makerTags, asciiString, -1,
+     printValue},
+    {0x00f5, "LUT2Opacity", N_("LUT2Opacity"), N_("Second LUT opacity in percent"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedByte, 1, printValue},
     {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), IfdId::panasonicId, SectionId::makerTags, undefined,
      -1, printValue},
+    {0x2003, "TimeInfo", N_("Time Info"), N_("Time Info"), IfdId::panasonicId, SectionId::makerTags, undefined, -1,
+     printValue},
     {0x4449, "0x4449", "0x4449", N_("Unknown"), IfdId::panasonicId, SectionId::makerTags, undefined, -1, printValue},
     {0x8000, "MakerNoteVersion", N_("MakerNote Version"), N_("MakerNote version"), IfdId::panasonicId,
      SectionId::makerTags, undefined, -1, printExifVersion},
     {0x8001, "SceneMode", N_("Scene Mode"), N_("Scene mode"), IfdId::panasonicId, SectionId::makerTags, unsignedShort,
      -1, EXV_PRINT_TAG(panasonicShootingMode)},
+    {0x8002, "HighlightWarning", N_("Highlight Warning"), N_("Highlight Warning"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicHighlightWarning)},
+    {0x8003, "DarkFocusEnvironment", N_("Dark Focus Environment"), N_("Dark Focus Environment"), IfdId::panasonicId,
+     SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicDarkFocusEnvironment)},
     {0x8004, "WBRedLevel", N_("WB Red Level"), N_("WB red level"), IfdId::panasonicId, SectionId::makerTags,
      unsignedShort, -1, printValue},
     {0x8005, "WBGreenLevel", N_("WB Green Level"), N_("WB green level"), IfdId::panasonicId, SectionId::makerTags,
@@ -554,6 +757,28 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0xffff, "(UnknownPanasonicMakerNoteTag)", "(UnknownPanasonicMakerNoteTag)", N_("Unknown PanasonicMakerNote tag"),
      IfdId::panasonicId, SectionId::makerTags, asciiString, -1, printValue},
 };
+
+// Signed display does not change the original unsigned TIFF type or bytes.
+std::ostream& PanasonicMakerNote::printSignedShort(std::ostream& os, const Value& value, const ExifData*) {
+  if (value.typeId() != unsignedShort || value.count() != 1)
+    return os << value;
+
+  return os << static_cast<int16_t>(value.toInt64());
+}
+
+std::ostream& PanasonicMakerNote::printSignedByte(std::ostream& os, const Value& value, const ExifData*) {
+  if (value.typeId() != unsignedByte || value.count() != 1)
+    return os << value;
+
+  return os << static_cast<int>(static_cast<int8_t>(value.toInt64()));
+}
+
+std::ostream& PanasonicMakerNote::printISO(std::ostream& os, const Value& value, const ExifData*) {
+  if (value.typeId() != unsignedLong || value.count() != 1 || value.toInt64() <= 0xfffffff0)
+    return os << value;
+
+  return os << _("n/a");
+}
 
 // tag Focus Mode
 std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, const Value& value, const ExifData*) {
