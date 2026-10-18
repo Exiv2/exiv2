@@ -557,13 +557,43 @@ void setNikonChoice(XmpData& xmp, const char* key, int value, const TagDetails (
     xmp[std::string("Xmp.video.") + key] = value;
 }
 
-// Retain the legacy Picture Control interpretation while record bounds are corrected.
+// Select Nikon's versioned subrecord layout without borrowing bytes from another record.
 void decodeNikonPictureControl(const DataBuf& data, XmpData& xmp) {
-  enforce(data.size() >= 58, ErrorCode::kerCorruptedMetadata);
-  xmp["Xmp.video.PictureControlVersion"] = nikonText(data, 0, 4);
-  xmp["Xmp.video.PictureControlName"] = nikonText(data, 4, 20);
-  xmp["Xmp.video.PictureControlBase"] = nikonText(data, 24, 20);
+  enforce(data.size() >= 4, ErrorCode::kerCorruptedMetadata);
+  const auto version = nikonText(data, 0, 4);
+  enforce(
+      version.size() == 4 && std::all_of(version.begin(), version.end(), [](char c) { return c >= '0' && c <= '9'; }),
+      ErrorCode::kerCorruptedMetadata);
+  const bool legacy = version.compare(0, 2, "01") == 0;
+  const bool second = version.compare(0, 2, "02") == 0;
+  const bool third = version.compare(0, 2, "03") == 0;
+  if (legacy || second || third)
+    enforce(data.size() >= (legacy ? 58U : second ? 49U : 55U), ErrorCode::kerCorruptedMetadata);
 
+  // A later record owns the whole Picture Control view, including omitted controls.
+  for (const auto key : {"PictureControlVersion", "PictureControlName", "PictureControlBase", "PictureControlAdjust",
+                         "PictureControlQuickAdjust", "Sharpness", "Contrast", "Brightness", "Saturation",
+                         "HueAdjustment", "FilterEffect", "ToningEffect", "ToningSaturation"}) {
+    const auto entry = xmp.findKey(XmpKey(std::string("Xmp.video.") + key));
+    if (entry != xmp.end())
+      xmp.erase(entry);
+  }
+
+  xmp["Xmp.video.PictureControlVersion"] = version;
+  if (!legacy && !second && !third)
+    return;
+
+  const size_t name = third ? 8 : 4;
+  xmp["Xmp.video.PictureControlName"] = nikonText(data, name, 20);
+  xmp["Xmp.video.PictureControlBase"] = nikonText(data, name + 20, 20);
+
+  // Modern controls use different offsets and biased encodings; only Adjust is verified here.
+  if (!legacy) {
+    setNikonChoice(xmp, "PictureControlAdjust", data.read_uint8(third ? 54 : 48), PictureControlAdjust);
+    return;
+  }
+
+  // Preserve the established legacy 01 control presentation.
   setNikonChoice(xmp, "PictureControlAdjust", data.read_uint8(48) & 7, PictureControlAdjust);
   setNikonChoice(xmp, "PictureControlQuickAdjust", data.read_uint8(49) & 7, NormalSoftHard, false);
   setNikonChoice(xmp, "Sharpness", data.read_uint8(50) & 7, NormalSoftHard);
