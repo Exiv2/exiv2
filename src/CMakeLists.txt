@@ -41,6 +41,8 @@ add_library(
   samsungmn_int.hpp
   sigmamn_int.cpp
   sigmamn_int.hpp
+  sonydng_int.cpp
+  sonydng_int.hpp
   sonymn_int.cpp
   sonymn_int.hpp
   tags_int.cpp
