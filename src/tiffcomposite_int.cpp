@@ -1230,8 +1230,12 @@ size_t TiffEntryBase::doWriteImage(IoWrapper& /*ioWrapper*/, ByteOrder /*byteOrd
 }  // TiffEntryBase::doWriteImage
 
 size_t TiffSubIfd::doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
-  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{}, std::plus(),
-                               [&](const auto& ifd) { return ifd->writeImage(ioWrapper, byteOrder); });
+  // Emit image data in the same order used to assign its offsets; reductions may reorder calls.
+  size_t len = 0;
+  for (const auto& ifd : ifds_) {
+    len = Safe::add(len, ifd->writeImage(ioWrapper, byteOrder));
+  }
+  return len;
 }  // TiffSubIfd::doWriteImage
 
 size_t TiffIfdMakernote::doWriteImage(IoWrapper& ioWrapper, ByteOrder byteOrder) const {
