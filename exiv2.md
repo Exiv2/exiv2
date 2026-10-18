@@ -1168,6 +1168,12 @@ then this is also included in the list of available previews.
 Currently, preview images are read only (apart from thumbnails of 
 certain [FILE TYPES](#file_types)).
 
+The default metadata summary (`-ps`) reports a conventional Exif thumbnail on
+the `Thumbnail` line. If its payload is absent but another preview is available,
+a separate `Preview` line describes the first preview from `-pp` (the smallest
+in pixel area). Its MIME type describes the extracted preview; a TIFF preview
+can contain JPEG-compressed pixels.
+
 For example, to extract a preview image, first list which previews are 
 available:
 ```

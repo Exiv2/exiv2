@@ -22,6 +22,7 @@
 #include <iostream>
 #include <mutex>
 #include <sstream>
+#include <stdexcept>
 
 // + standard includes
 #include <sys/stat.h>  // for stat()
@@ -256,6 +257,7 @@ int Print::printSummary() {
   printLabel(_("Thumbnail"));
   Exiv2::ExifThumbC exifThumb(exifData);
   std::string thumbExt = exifThumb.extension();
+  bool hasThumbnail = false;
   if (thumbExt.empty()) {
     std::cout << _("None");
   } else {
@@ -263,10 +265,33 @@ int Print::printSummary() {
     if (dataBuf.empty()) {
       std::cout << _("None");
     } else {
+      hasThumbnail = true;
       std::cout << exifThumb.mimeType() << ", " << dataBuf.size() << " " << _("Bytes");
     }
   }
   std::cout << '\n';
+
+  // Report other previews separately when there is no conventional thumbnail payload.
+  if (!hasThumbnail) {
+    Exiv2::PreviewPropertiesList previews;
+    try {
+      previews = Exiv2::PreviewManager(*image).getPreviewProperties();
+    } catch (const Exiv2::Error&) {
+      // A corrupt optional preview must not suppress otherwise readable metadata.
+    } catch (const std::overflow_error&) {
+      // Preview range arithmetic can also reject malformed offsets.
+    }
+
+    if (!previews.empty()) {
+      const auto& preview = previews.front();  // Same smallest-first ordering as -pp.
+      printLabel(_("Preview"));
+      std::cout << preview.mimeType_ << ", ";
+      if (preview.width_ != 0 && preview.height_ != 0)
+        std::cout << preview.width_ << "x" << preview.height_ << " " << _("pixels") << ", ";
+
+      std::cout << preview.size_ << " " << _("Bytes") << '\n';
+    }
+  }
 
   printTag(exifData, Exiv2::make, _("Camera make"));
   printTag(exifData, Exiv2::model, _("Camera model"));
