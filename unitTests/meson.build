@@ -27,6 +27,7 @@ test_sources = files(
   'test_slice.cpp',
   'test_tiffheader.cpp',
   'test_tiff_large_values.cpp',
+  'test_tiff_makernotes.cpp',
   'test_types.cpp',
   'test_utils.cpp',
   'test_xmp_concurrent.cpp',
