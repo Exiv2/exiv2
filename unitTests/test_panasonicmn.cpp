@@ -79,3 +79,98 @@ TEST(PanasonicMetadata, ReadsExistingPanasonicJpeg) {
   EXPECT_EQ("DMC-FZ5", image->exifData()["Exif.Image.Model"].toString());
   EXPECT_EQ("High", printed(image->exifData(), "Exif.Panasonic.Quality"));
 }
+
+// Every newly named field resolves to its unique identifier and encoded TIFF type.
+TEST(PanasonicMetadata, AddedDefinitionsHaveExpectedTypes) {
+  // Reference facts are explicit here so a typo cannot silently change the interface.
+  struct Definition {
+    uint16_t tag;
+    const char* name;
+    TypeId type;
+  };
+  const Definition definitions[] = {
+      {0x0027, "VideoFrameRate", unsignedShort},
+      {0x0038, "BatteryLevel", unsignedShort},
+      {0x0043, "JPEGQuality", unsignedShort},
+      {0x0076, "MergedImages", unsignedShort},
+      {0x008b, "WBShiftIntelligentAuto", unsignedShort},
+      {0x0092, "WBShiftCreativeControl", unsignedByte},
+      {0x00a1, "FilterEffect", unsignedRational},
+      {0x00a7, "OutputLUT", undefined},
+      {0x00ac, "MonochromeFilterEffect", unsignedShort},
+      {0x00ad, "HighlightShadow", unsignedShort},
+      {0x00af, "TimeStamp", asciiString},
+      {0x00b3, "VideoBurstResolution", unsignedShort},
+      {0x00b4, "MultiExposure", unsignedShort},
+      {0x00b9, "RedEyeRemoval", unsignedShort},
+      {0x00bb, "VideoBurstMode", unsignedLong},
+      {0x00bc, "DiffractionCorrection", unsignedShort},
+      {0x00bd, "FocusBracket", unsignedShort},
+      {0x00be, "LongExposureNRUsed", unsignedShort},
+      {0x00bf, "PostFocusMerging", unsignedLong},
+      {0x00c1, "VideoPreburst", unsignedShort},
+      {0x00c4, "LensTypeMake", unsignedShort},
+      {0x00c5, "LensTypeModel", unsignedShort},
+      {0x00ca, "SensorType", unsignedShort},
+      {0x00d1, "ISO", unsignedLong},
+      {0x00d2, "MonochromeGrainEffect", unsignedShort},
+      {0x00d4, "HybridLogGamma", unsignedShort},
+      {0x00d6, "NoiseReductionStrength", signedRational},
+      {0x00de, "AFAreaSize", unsignedRational},
+      {0x00e4, "LensTypeModel2", unsignedShort},
+      {0x00e8, "MinimumISO", unsignedLong},
+      {0x00e9, "AFSubjectDetection", unsignedShort},
+      {0x00ee, "DynamicRangeBoost", unsignedShort},
+      {0x00f1, "LUT1Name", asciiString},
+      {0x00f3, "LUT1Opacity", unsignedByte},
+      {0x00f4, "LUT2Name", asciiString},
+      {0x00f5, "LUT2Opacity", unsignedByte},
+      {0x2003, "TimeInfo", undefined},
+      {0x8002, "HighlightWarning", unsignedShort},
+      {0x8003, "DarkFocusEnvironment", unsignedShort},
+  };
+  for (const auto& definition : definitions) {
+    const ExifKey key(std::string("Exif.Panasonic.") + definition.name);
+    EXPECT_EQ(definition.tag, key.tag()) << definition.name;
+    EXPECT_EQ(definition.type, key.defaultTypeId()) << definition.name;
+  }
+
+  EXPECT_EQ("0x0063", ExifKey(0x0063, "Panasonic").tagName());
+}
+
+// Interpretation of signed shifts never changes their unsigned encoded values.
+TEST(PanasonicMetadata, SignedDisplaysPreserveEncodedTypes) {
+  auto metadata = panasonic();
+  metadata["Exif.Panasonic.WBShiftIntelligentAuto"] = uint16_t{65527};
+  metadata["Exif.Panasonic.FocusBracket"] = uint16_t{65535};
+  auto shift = Value::create(unsignedByte);
+  shift->read("255");
+  metadata.add(ExifKey("Exif.Panasonic.WBShiftCreativeControl"), shift.get());
+
+  for (const auto order : {littleEndian, bigEndian}) {
+    auto decoded = roundTrip(metadata, order);
+    EXPECT_EQ("-9", printed(decoded, "Exif.Panasonic.WBShiftIntelligentAuto"));
+    EXPECT_EQ("-1", printed(decoded, "Exif.Panasonic.FocusBracket"));
+    EXPECT_EQ("-1", printed(decoded, "Exif.Panasonic.WBShiftCreativeControl"));
+    EXPECT_EQ(bytes(metadata["Exif.Panasonic.FocusBracket"]), bytes(decoded["Exif.Panasonic.FocusBracket"]));
+    EXPECT_EQ(unsignedShort, decoded["Exif.Panasonic.FocusBracket"].typeId());
+  }
+}
+
+// Unknown enumeration values remain visible rather than being mapped to a known mode.
+TEST(PanasonicMetadata, NewEnumsAndSentinelsAreReadable) {
+  auto metadata = panasonic();
+  metadata["Exif.Panasonic.BatteryLevel"] = uint16_t{7};
+  metadata["Exif.Panasonic.AFSubjectDetection"] = uint16_t{13};
+  metadata["Exif.Panasonic.DynamicRangeBoost"] = uint16_t{1};
+  metadata["Exif.Panasonic.VideoBurstMode"] = uint32_t{0x1001};
+  metadata["Exif.Panasonic.ISO"] = uint32_t{0xffffffff};
+  EXPECT_EQ("Near full", printed(metadata, "Exif.Panasonic.BatteryLevel"));
+  EXPECT_EQ("Airplane (nose priority)", printed(metadata, "Exif.Panasonic.AFSubjectDetection"));
+  EXPECT_EQ("On", printed(metadata, "Exif.Panasonic.DynamicRangeBoost"));
+  EXPECT_EQ("High resolution mode", printed(metadata, "Exif.Panasonic.VideoBurstMode"));
+  EXPECT_EQ("n/a", printed(metadata, "Exif.Panasonic.ISO"));
+
+  metadata["Exif.Panasonic.BatteryLevel"] = uint16_t{999};
+  EXPECT_EQ("(999)", printed(metadata, "Exif.Panasonic.BatteryLevel"));
+}
