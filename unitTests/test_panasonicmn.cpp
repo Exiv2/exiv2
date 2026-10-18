@@ -343,3 +343,93 @@ TEST(PanasonicMetadata, PackedSettingsRetainRawRepresentation) {
   EXPECT_EQ(bytes(metadata["Exif.Panasonic.FilterEffect"]), bytes(decoded["Exif.Panasonic.FilterEffect"]));
   EXPECT_EQ(bytes(metadata["Exif.Panasonic.HighlightShadow"]), bytes(decoded["Exif.Panasonic.HighlightShadow"]));
 }
+
+// Maximum supported records and nonterminated strings stay inside their fixed fields.
+TEST(PanasonicMetadata, FaceRecordsRespectMaximumCountsAndStringBoundaries) {
+  for (const auto order : {littleEndian, bigEndian}) {
+    auto metadata = panasonic();
+    std::vector<byte> positions(42, 0);
+    us2Data(positions.data(), 5, order);
+    for (size_t i = 0; i < 5; ++i)
+      rectangle(positions, 2 + 8 * i, order);
+    setBlock(metadata, "Exif.Panasonic.FaceDetInfo", positions);
+
+    std::vector<byte> recognized(148, 'A');
+    us2Data(recognized.data(), 3, order);
+    for (size_t i = 0; i < 3; ++i)
+      rectangle(recognized, 24 + 48 * i, order);
+    setBlock(metadata, "Exif.Panasonic.FaceRecInfo", recognized);
+    auto decoded = roundTrip(metadata, order);
+
+    EXPECT_NE(std::string::npos, printed(decoded, "Exif.Panasonic.FaceDetInfo").find("Face 5:"));
+    EXPECT_NE(std::string::npos,
+              printed(decoded, "Exif.Panasonic.FaceRecInfo").find("Face 3: " + std::string(20, 'A')));
+    EXPECT_EQ(positions, bytes(decoded["Exif.Panasonic.FaceDetInfo"]));
+    EXPECT_EQ(recognized, bytes(decoded["Exif.Panasonic.FaceRecInfo"]));
+  }
+}
+
+// Every truncated recognized-face record and excessive count falls back before emitting partial text.
+TEST(PanasonicMetadata, TruncatedAndOversizedFaceCountsStayRaw) {
+  auto metadata = panasonic();
+  metadata["Exif.MakerNote.ByteOrder"] = "II";
+  for (size_t length = 0; length < 52; ++length) {
+    std::vector<byte> data(length, 0);
+    if (length >= 2)
+      us2Data(data.data(), 1, littleEndian);
+    setBlock(metadata, "Exif.Panasonic.FaceRecInfo", data);
+    EXPECT_EQ(metadata["Exif.Panasonic.FaceRecInfo"].toString(), printed(metadata, "Exif.Panasonic.FaceRecInfo"));
+  }
+
+  std::vector<byte> data(42, 0);
+  us2Data(data.data(), 65535, littleEndian);
+  setBlock(metadata, "Exif.Panasonic.FaceDetInfo", data);
+  EXPECT_EQ(metadata["Exif.Panasonic.FaceDetInfo"].toString(), printed(metadata, "Exif.Panasonic.FaceDetInfo"));
+}
+
+// Date-only and unset records do not fabricate a counter, time zone or standard Exif date.
+TEST(PanasonicMetadata, OptionalTimeFieldsAndInvalidByteOrderRemainExplicit) {
+  auto metadata = panasonic();
+  metadata["Exif.MakerNote.ByteOrder"] = "II";
+  const std::vector<byte> date{0x20, 0x26, 0x10, 0x18, 0x12, 0x34, 0x56, 0};
+  setBlock(metadata, "Exif.Panasonic.TimeInfo", date);
+  EXPECT_EQ("Date/time: 2026:10:18 12:34:56.00", printed(metadata, "Exif.Panasonic.TimeInfo"));
+
+  setBlock(metadata, "Exif.Panasonic.TimeInfo", std::vector<byte>(20, 0));
+  EXPECT_EQ("Date/time: not set; Time-lapse shot: 0", printed(metadata, "Exif.Panasonic.TimeInfo"));
+  EXPECT_EQ(metadata.end(), metadata.findKey(ExifKey("Exif.Photo.DateTimeOriginal")));
+  metadata["Exif.MakerNote.ByteOrder"] = "unknown";
+  EXPECT_EQ(metadata["Exif.Panasonic.TimeInfo"].toString(), printed(metadata, "Exif.Panasonic.TimeInfo"));
+}
+
+// A raw block of the wrong TIFF type and malformed signed settings are never reinterpreted.
+TEST(PanasonicMetadata, UnexpectedTypesAndCountsRemainRaw) {
+  auto metadata = panasonic();
+  metadata["Exif.MakerNote.ByteOrder"] = "II";
+  for (const auto* key : {"Exif.Panasonic.FaceDetInfo", "Exif.Panasonic.FaceRecInfo", "Exif.Panasonic.TimeInfo",
+                          "Exif.Panasonic.HighlightShadow", "Exif.Panasonic.FilterEffect",
+                          "Exif.Panasonic.PostFocusMerging", "Exif.Panasonic.WBShiftIntelligentAuto",
+                          "Exif.Panasonic.WBShiftCreativeControl", "Exif.Panasonic.FocusBracket"}) {
+    const AsciiValue value("unexpected");
+    metadata[key].setValue(&value);
+    EXPECT_EQ("unexpected", printed(metadata, key)) << key;
+  }
+
+  metadata["Exif.Panasonic.HighlightShadow"].setValue("1");
+  EXPECT_EQ("1", printed(metadata, "Exif.Panasonic.HighlightShadow"));
+}
+
+// Even a large unknown trailer remains in the parent after a separate metadata edit.
+TEST(PanasonicMetadata, StructuredDisplayDoesNotDiscardUninterpretedBytes) {
+  auto metadata = panasonic();
+  std::vector<byte> data(2048, 0xa5);
+  us2Data(data.data(), 1, littleEndian);
+  rectangle(data, 2, littleEndian);
+  setBlock(metadata, "Exif.Panasonic.FaceDetInfo", data);
+  auto decoded = roundTrip(metadata);
+  EXPECT_NE(std::string::npos, printed(decoded, "Exif.Panasonic.FaceDetInfo").find("Stored face positions: 1"));
+
+  decoded["Exif.Image.Artist"] = "An unrelated metadata edit";
+  auto reopened = roundTrip(decoded);
+  EXPECT_EQ(data, bytes(reopened["Exif.Panasonic.FaceDetInfo"]));
+}
