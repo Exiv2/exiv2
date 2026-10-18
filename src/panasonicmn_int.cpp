@@ -11,9 +11,15 @@
 #include "value.hpp"
 
 // + standard includes
+#include <algorithm>
+#include <array>
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <ostream>
+#include <span>
+#include <string>
+#include <string_view>
 
 // *****************************************************************************
 // class member definitions
@@ -599,7 +605,7 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0x004d, "AFPointPosition", N_("AF Point Position"), N_("AF Point Position"), IfdId::panasonicId,
      SectionId::makerTags, unsignedRational, -1, printValue},
     {0x004e, "FaceDetInfo", N_("Face detection info"), N_("Face detection info"), IfdId::panasonicId,
-     SectionId::makerTags, undefined, -1, printValue},
+     SectionId::makerTags, undefined, -1, printFacePositions},
     {0x0051, "LensType", N_("Lens Type"), N_("Lens type"), IfdId::panasonicId, SectionId::makerTags, asciiString, -1,
      printValue},
     {0x0052, "LensSerialNumber", N_("Lens Serial Number"), N_("Lens serial number"), IfdId::panasonicId,
@@ -615,7 +621,7 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0x0060, "LensFirmwareVersion", N_("Firmware Version of the Lens"), N_("Firmware Version of the Lens"),
      IfdId::panasonicId, SectionId::makerTags, undefined, -1, printValue},
     {0x0061, "FaceRecInfo", N_("Face recognition info"), N_("Face recognition info"), IfdId::panasonicId,
-     SectionId::makerTags, undefined, -1, printValue},
+     SectionId::makerTags, undefined, -1, printRecognizedFaces},
     {0x0062, "FlashWarning", N_("Flash Warning"), N_("Flash warning"), IfdId::panasonicId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(panasonicFlashWarning)},
     {0x0065, "Title", N_("Title"), N_("Title"), IfdId::panasonicId, SectionId::makerTags, undefined, -1,
@@ -681,7 +687,7 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0x009f, "ShutterType", N_("Shutter Type"), N_("Shutter Type"), IfdId::panasonicId, SectionId::makerTags,
      unsignedShort, -1, EXV_PRINT_TAG(panasonicShutterType)},
     {0x00a1, "FilterEffect", N_("Filter Effect"), N_("Filter Effect"), IfdId::panasonicId, SectionId::makerTags,
-     unsignedRational, 1, printValue},
+     unsignedRational, 1, printFilterEffect},
     {0x00a3, "ClearRetouchValue", N_("Clear Retouch Value"), N_("Clear Retouch Value"), IfdId::panasonicId,
      SectionId::makerTags, unsignedRational, -1, printValue},
     {0x00a7, "OutputLUT", N_("Output LUT"),
@@ -692,7 +698,7 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0x00ac, "MonochromeFilterEffect", N_("Monochrome Filter Effect"), N_("Monochrome Filter Effect"),
      IfdId::panasonicId, SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicMonochromeFilterEffect)},
     {0x00ad, "HighlightShadow", N_("Highlight Shadow"), N_("Highlight Shadow"), IfdId::panasonicId,
-     SectionId::makerTags, unsignedShort, 2, printValue},
+     SectionId::makerTags, unsignedShort, 2, printHighlightShadow},
     {0x00af, "TimeStamp", N_("Time Stamp"), N_("Camera timestamp; no time zone is inferred"), IfdId::panasonicId,
      SectionId::makerTags, asciiString, -1, printValue},
     {0x00b3, "VideoBurstResolution", N_("Video Burst Resolution"), N_("Video Burst Resolution"), IfdId::panasonicId,
@@ -710,7 +716,7 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0x00be, "LongExposureNRUsed", N_("Long Exposure NRUsed"), N_("Long Exposure NRUsed"), IfdId::panasonicId,
      SectionId::makerTags, unsignedShort, 1, EXV_PRINT_TAG(panasonicLongExposureNRUsed)},
     {0x00bf, "PostFocusMerging", N_("Post Focus Merging"), N_("Post Focus Merging"), IfdId::panasonicId,
-     SectionId::makerTags, unsignedLong, 2, printValue},
+     SectionId::makerTags, unsignedLong, 2, printPostFocusMerging},
     {0x00c1, "VideoPreburst", N_("Video Preburst"), N_("Video Preburst"), IfdId::panasonicId, SectionId::makerTags,
      unsignedShort, 1, EXV_PRINT_TAG(panasonicVideoPreburst)},
     {0x00c4, "LensTypeMake", N_("Lens Type Make"), N_("Raw lens manufacturer identifier; not a decoded lens name"),
@@ -747,7 +753,7 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0x0e00, "PrintIM", N_("Print IM"), N_("PrintIM information"), IfdId::panasonicId, SectionId::makerTags, undefined,
      -1, printValue},
     {0x2003, "TimeInfo", N_("Time Info"), N_("Time Info"), IfdId::panasonicId, SectionId::makerTags, undefined, -1,
-     printValue},
+     printTimeInfo},
     {0x4449, "0x4449", "0x4449", N_("Unknown"), IfdId::panasonicId, SectionId::makerTags, undefined, -1, printValue},
     {0x8000, "MakerNoteVersion", N_("MakerNote Version"), N_("MakerNote version"), IfdId::panasonicId,
      SectionId::makerTags, undefined, -1, printExifVersion},
@@ -777,6 +783,176 @@ constexpr TagInfo PanasonicMakerNote::tagInfo_[] = {
     {0xffff, "(UnknownPanasonicMakerNoteTag)", "(UnknownPanasonicMakerNoteTag)", N_("Unknown PanasonicMakerNote tag"),
      IfdId::panasonicId, SectionId::makerTags, asciiString, -1, printValue},
 };
+
+namespace {
+// Undefined TIFF blocks retain their bytes; the decoder records their MakerNote byte order.
+ByteOrder blockByteOrder(const ExifData* metadata) {
+  if (!metadata)
+    return invalidByteOrder;
+
+  static const ExifKey byteOrderKey("Exif.MakerNote.ByteOrder");
+  const auto position = metadata->findKey(byteOrderKey);
+  if (position == metadata->end() || position->typeId() != asciiString)
+    return invalidByteOrder;
+
+  const auto order = position->toString();
+  if (order == "II")
+    return littleEndian;
+  if (order == "MM")
+    return bigEndian;
+  return invalidByteOrder;
+}
+
+// Copy only a fixed, validated prefix; a maliciously large block cannot cause a large allocation.
+bool blockBytes(const Value& value, std::span<byte> destination) {
+  if (value.typeId() != undefined || value.count() < destination.size())
+    return false;
+
+  for (size_t i = 0; i < destination.size(); ++i)
+    destination[i] = static_cast<byte>(value.toInt64(i));
+  return true;
+}
+
+// Decode bounded camera strings without reading beyond their fixed-width record.
+std::string_view blockText(std::span<const byte> data) {
+  std::string_view text(reinterpret_cast<const char*>(data.data()), data.size());
+  text = text.substr(0, text.find('\0'));
+  while (!text.empty() && text.back() == ' ')
+    text.remove_suffix(1);
+  return text;
+}
+
+// Callers supply a complete eight-byte face rectangle in the documented thumbnail coordinate system.
+void printFaceRectangle(std::ostream& os, const byte* data, ByteOrder order) {
+  os << _("center") << " (" << getUShort(data, order) << ", " << getUShort(data + 2, order) << "), " << _("size") << ' '
+     << getUShort(data + 4, order) << " x " << getUShort(data + 6, order);
+}
+}  // namespace
+
+std::ostream& PanasonicMakerNote::printFacePositions(std::ostream& os, const Value& value, const ExifData* metadata) {
+  const auto order = blockByteOrder(metadata);
+  std::array<byte, 42> data{};
+  if (order == invalidByteOrder || !blockBytes(value, std::span(data).first(2)))
+    return os << value;
+
+  // At most five eight-byte records are defined after the two-byte count.
+  const auto count = getUShort(data.data(), order);
+  if (count > 5 || !blockBytes(value, std::span(data).first(2 + 8 * count)))
+    return os << value;
+
+  os << _("Stored face positions") << ": " << count;
+  for (size_t i = 0; i < count; ++i) {
+    os << "; " << _("Face") << ' ' << i + 1 << ": ";
+    printFaceRectangle(os, data.data() + 2 + 8 * i, order);
+  }
+  return os;
+}
+
+std::ostream& PanasonicMakerNote::printRecognizedFaces(std::ostream& os, const Value& value, const ExifData* metadata) {
+  const auto order = blockByteOrder(metadata);
+  std::array<byte, 148> data{};
+  if (order == invalidByteOrder || !blockBytes(value, std::span(data).first(4)))
+    return os << value;
+
+  // Each of three records owns a 20-byte name, rectangle and 20-byte age string.
+  const auto count = getUShort(data.data(), order);
+  if (count > 3 || !blockBytes(value, std::span(data).first(4 + 48 * count)))
+    return os << value;
+
+  os << _("Faces recognized") << ": " << count;
+  for (size_t i = 0; i < count; ++i) {
+    const auto record = std::span<const byte>(data).subspan(4 + 48 * i, 48);
+    os << "; " << _("Face") << ' ' << i + 1 << ": " << blockText(record.first(20)) << ", ";
+    printFaceRectangle(os, record.data() + 20, order);
+    os << ", " << _("age") << ' ' << blockText(record.subspan(28, 20));
+  }
+  return os;
+}
+
+std::ostream& PanasonicMakerNote::printTimeInfo(std::ostream& os, const Value& value, const ExifData* metadata) {
+  const auto order = blockByteOrder(metadata);
+  std::array<byte, 20> data{};
+  if (order == invalidByteOrder || !blockBytes(value, std::span(data).first(8)))
+    return os << value;
+
+  // The date uses packed decimal, independent of the TIFF byte order; no time zone is stored here.
+  std::array<unsigned, 8> date{};
+  if (data[0] != 0) {
+    for (size_t i = 0; i < date.size(); ++i) {
+      if ((data[i] >> 4) > 9 || (data[i] & 15) > 9)
+        return os << value;
+      date[i] = (data[i] >> 4) * 10 + (data[i] & 15);
+    }
+    const std::chrono::year_month_day calendar{std::chrono::year(static_cast<int>(date[0] * 100 + date[1])),
+                                               std::chrono::month(date[2]), std::chrono::day(date[3])};
+    if (!calendar.ok() || date[4] > 23 || date[5] > 59 || date[6] > 59)
+      return os << value;
+  }
+
+  os << _("Date/time") << ": ";
+  if (data[0] == 0)
+    os << _("not set");
+  else
+    os << stringFormat("{:04}:{:02}:{:02} {:02}:{:02}:{:02}.{:02}", date[0] * 100 + date[1], date[2], date[3], date[4],
+                       date[5], date[6], date[7]);
+
+  // The shot counter is optional and starts at byte 16, after an opaque eight-byte gap.
+  if (value.count() >= data.size() && blockBytes(value, data))
+    os << "; " << _("Time-lapse shot") << ": " << getULong(data.data() + 16, order);
+  return os;
+}
+
+std::ostream& PanasonicMakerNote::printHighlightShadow(std::ostream& os, const Value& value, const ExifData*) {
+  if (value.typeId() != unsignedShort || value.count() != 2)
+    return os << value;
+
+  return os << _("Highlight") << ": " << static_cast<int16_t>(value.toInt64(0)) << "; " << _("Shadow") << ": "
+            << static_cast<int16_t>(value.toInt64(1));
+}
+
+std::ostream& PanasonicMakerNote::printFilterEffect(std::ostream& os, const Value& value, const ExifData*) {
+  // This is a pair of integers stored in a rational slot, including a valid 0/0 for Off.
+  if (value.typeId() != unsignedRational || value.count() != 1)
+    return os << value;
+  const auto effect = value.toRational();
+  if (effect.first != 0)
+    return os << value;
+
+  static constexpr TagDetails effects[] = {
+      {0, N_("Off")},
+      {1, N_("Expressive")},
+      {2, N_("Retro")},
+      {4, N_("High key")},
+      {8, N_("Sepia")},
+      {16, N_("High dynamic")},
+      {32, N_("Miniature effect")},
+      {256, N_("Low key")},
+      {512, N_("Toy effect")},
+      {1024, N_("Dynamic monochrome")},
+      {2048, N_("Soft focus")},
+      {4096, N_("Impressive art")},
+      {8192, N_("Cross process")},
+      {16384, N_("One point color")},
+      {32768, N_("Star filter")},
+      {524288, N_("Old days")},
+      {1048576, N_("Sunshine")},
+      {2097152, N_("Bleach bypass")},
+      {4194304, N_("Toy pop")},
+      {8388608, N_("Fantasy")},
+      {33554432, N_("Monochrome")},
+      {67108864, N_("Rough monochrome")},
+      {134217728, N_("Silky monochrome")},
+  };
+  if (const auto entry = Exiv2::find(effects, effect.second))
+    return os << _(entry->label_);
+  return os << value;
+}
+
+std::ostream& PanasonicMakerNote::printPostFocusMerging(std::ostream& os, const Value& value, const ExifData*) {
+  if (value.typeId() == unsignedLong && value.count() == 2 && value.toInt64(0) == 0 && value.toInt64(1) == 0)
+    return os << _("Post focus auto merging or none");
+  return os << value;
+}
 
 // Signed display does not change the original unsigned TIFF type or bytes.
 std::ostream& PanasonicMakerNote::printSignedShort(std::ostream& os, const Value& value, const ExifData*) {
