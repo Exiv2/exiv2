@@ -6,6 +6,10 @@ add_library(
   exiv2lib_int OBJECT
   bmffbox_int.cpp
   bmffbox_int.hpp
+  bmffsample_int.cpp
+  bmffsample_int.hpp
+  cr3preview_int.cpp
+  cr3preview_int.hpp
   bmffitem_int.cpp
   bmffitem_int.hpp
   bmffitemwrite_int.cpp
