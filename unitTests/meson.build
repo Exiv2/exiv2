@@ -18,6 +18,7 @@ test_sources = files(
   'test_bmfflegacy_int.cpp',
   'test_bmfflayout_int.cpp',
   'test_bmffimage_int.cpp',
+  'test_cr3preview_int.cpp',
   'test_bmpimage.cpp',
   'test_cr2header_int.cpp',
   'test_datasets.cpp',
