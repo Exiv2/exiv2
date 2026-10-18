@@ -6,7 +6,7 @@ endif()
 
 # video support.
 if(EXV_ENABLE_VIDEO)
-  set(VIDEO_SUPPORT test_asfvideo.cpp test_matroskavideo.cpp test_riffVideo.cpp)
+  set(VIDEO_SUPPORT test_asfvideo.cpp test_matroskavideo.cpp test_quicktimevideo.cpp test_riffVideo.cpp)
 endif()
 
 add_executable(
