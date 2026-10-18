@@ -2082,16 +2082,7 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
       writeMethod = wmNonIntrusive;
   }
   if (writeMethod == wmIntrusive) {
-    auto createdTree = TiffCreator::create(root, IfdId::ifdIdNotSet);
-    if (parsedTree) {
-      // Copy image tags from the original image to the composite
-      TiffCopier copier(createdTree.get(), root, pHeader, primaryGroups);
-      parsedTree->accept(copier);
-    }
-    // Add entries from metadata to composite
-    TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, std::move(primaryGroups), pHeader,
-                        findEncoderFct);
-    encoder.add(createdTree.get(), std::move(parsedTree), root);
+    auto createdTree = buildTree(std::move(parsedTree), exifData, iptcData, xmpData, root, pHeader, findEncoderFct);
     // Write binary representation from the composite tree
     DataBuf header = pHeader->write();
     auto tempIo = MemIo();
@@ -2112,6 +2103,35 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
 #endif
   return writeMethod;
 }  // TiffParserWorker::encode
+
+TiffComponent::UniquePtr TiffParserWorker::parseDirectory(const byte* pData, size_t size, uint32_t offset,
+                                                          TiffReadContext& context) {
+  if (!pData || offset >= size)
+    throw Error(ErrorCode::kerCorruptedMetadata);
+
+  auto tree = TiffCreator::create(Tag::root, IfdId::ifdIdNotSet);
+  tree->setStart(pData + offset);
+  TiffReader reader(pData, size, tree.get(), TiffRwState{littleEndian, 0}, &context);
+  tree->accept(reader);
+  reader.postProcess();
+  return tree;
+}
+
+TiffComponent::UniquePtr TiffParserWorker::buildTree(TiffComponent::UniquePtr source, const ExifData& exifData,
+                                                     const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
+                                                     TiffHeaderBase* header, FindEncoderFct findEncoderFct) {
+  auto primaryGroups = findPrimaryGroups(source);
+  auto tree = TiffCreator::create(root, IfdId::ifdIdNotSet);
+  if (source) {
+    TiffCopier copier(tree.get(), root, header, primaryGroups);
+    source->accept(copier);
+  }
+
+  TiffEncoder encoder(exifData, iptcData, xmpData, tree.get(), !source, std::move(primaryGroups), header,
+                      findEncoderFct);
+  encoder.add(tree.get(), std::move(source), root);
+  return tree;
+}
 
 TiffComponent::UniquePtr TiffParserWorker::parse(const byte* pData, size_t size, uint32_t root,
                                                  TiffHeaderBase* pHeader) {

@@ -975,8 +975,15 @@ void TiffEncoder::add(TiffComponent* pRootDir, TiffComponent::UniquePtr pSourceD
 
 }  // TiffEncoder::add
 
-TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state) :
-    pData_(pData), size_(size), pLast_(pData + size), pRoot_(pRoot), origState_(state), mnState_(state) {
+TiffReader::TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state,
+                       TiffReadContext* context) :
+    pData_(pData),
+    size_(size),
+    pLast_(pData + size),
+    pRoot_(pRoot),
+    origState_(state),
+    mnState_(state),
+    context_(context) {
   pState_ = &origState_;
 
 }  // TiffReader::TiffReader
@@ -1066,6 +1073,62 @@ void TiffReader::postProcess() {
 void TiffReader::visitDirectory(TiffDirectory* object) {
   const byte* p = object->start();
 
+  // JPEG XR images share file-relative ownership and resource budgets, even
+  // though each image is parsed as an independent TIFF tree.
+  if (context_) {
+    const size_t offset = p - pData_;
+    enforce(offset >= 8 && (offset & 1) == 0 && offset <= size_ && size_ - offset >= 2,
+            ErrorCode::kerCorruptedMetadata);
+    enforce(context_->directories.size() < 4096 && context_->directories.insert(offset).second,
+            ErrorCode::kerCorruptedMetadata);
+    const size_t count = getUShort(p, byteOrder());
+    const size_t length = 2 + count * 12 + 4;
+    enforce(count != 0 && length <= size_ - offset && count <= 65536 - context_->entries,
+            ErrorCode::kerCorruptedMetadata);
+    context_->entries += count;
+    context_->ranges.push_back({offset, length});
+
+    // Validate each encoded field before the compatibility reader can truncate
+    // it or allocate a value. Compressed stream ranges are checked by the adapter.
+    static constexpr size_t typeSizes[] = {0, 1, 1, 2, 4, 8, 1, 1, 2, 4, 8, 4, 8};
+    uint16_t previous = 0;
+    for (size_t i = 0; i < count; ++i) {
+      const byte* entry = p + 2 + i * 12;
+      const auto tag = getUShort(entry, byteOrder());
+      const auto type = getUShort(entry + 2, byteOrder());
+      const auto elements = getULong(entry + 4, byteOrder());
+      enforce(type > 0 && type < std::size(typeSizes) && elements != 0 && (i == 0 || tag > previous),
+              ErrorCode::kerCorruptedMetadata);
+      previous = tag;
+      // Other TIFF payload layouts need different ownership rules; reject
+      // them before the compatibility visitor follows their pointers.
+      enforce(tag != 0x014a && tag != 0x0111 && tag != 0x0117 && tag != 0x0144 && tag != 0x0145 && tag != 0x0201 &&
+                  tag != 0x0202,
+              ErrorCode::kerCorruptedMetadata);
+      const uint64_t bytes = uint64_t(elements) * typeSizes[type];
+      enforce(bytes <= 64 * 1024 * 1024 - context_->valueBytes, ErrorCode::kerCorruptedMetadata);
+      context_->valueBytes += static_cast<size_t>(bytes);
+      if (bytes > 4) {
+        const size_t valueOffset = getULong(entry + 8, byteOrder());
+        enforce(valueOffset >= 8 && valueOffset <= size_ && bytes <= size_ - valueOffset,
+                ErrorCode::kerCorruptedMetadata);
+        context_->ranges.push_back({valueOffset, static_cast<size_t>(bytes)});
+      }
+      // Only standard metadata subdirectories are understood in this adapter.
+      if (tag == 0x8769 || tag == 0x8825 || tag == 0xa005) {
+        enforce(type == 4 && elements == 1 &&
+                    ((object == pRoot_ && (tag == 0x8769 || tag == 0x8825)) ||
+                     (object->group() == IfdId::exifId && tag == 0xa005)),
+                ErrorCode::kerCorruptedMetadata);
+      }
+    }
+    const auto next = getULong(p + 2 + count * 12, byteOrder());
+    if (object == pRoot_)
+      context_->nextOffset = next;
+    else
+      enforce(next == 0, ErrorCode::kerCorruptedMetadata);
+  }
+
   if (circularReference(object->start(), object->group()))
     return;
 
@@ -1078,7 +1141,7 @@ void TiffReader::visitDirectory(TiffDirectory* object) {
   const uint16_t n = getUShort(p, byteOrder());
   p += 2;
   // Sanity check with an "unreasonably" large number
-  if (n > 256) {
+  if (!context_ && n > 256) {
 #ifndef SUPPRESS_WARNINGS
     EXV_ERROR << "Directory " << groupName(object->group()) << " with " << n
               << " entries considered invalid; not read.\n";
@@ -1094,7 +1157,18 @@ void TiffReader::visitDirectory(TiffDirectory* object) {
       return;
     }
     uint16_t tag = getUShort(p, byteOrder());
-    if (auto tc = TiffCreator::create(tag, object->group())) {
+    // JPEG XR payload pairs are selected explicitly, never added to the
+    // ordinary TIFF/RAW table. Makernotes remain opaque in this adapter.
+    TiffComponent::UniquePtr component;
+    if (context_ && object == pRoot_ && (tag == 0xbcc0 || tag == 0xbcc2))
+      component = std::make_unique<TiffImageEntry>(tag, object->group(), tag + 1, object->group());
+    else if (context_ && object == pRoot_ && (tag == 0xbcc1 || tag == 0xbcc3))
+      component = std::make_unique<TiffSizeEntry>(tag, object->group(), tag - 1, object->group());
+    else if (context_ && tag == 0x927c)
+      component = std::make_unique<TiffEntry>(tag, object->group());
+    else
+      component = TiffCreator::create(tag, object->group());
+    if (auto tc = std::move(component)) {
       tc->setStart(p);
       object->addChild(std::move(tc));
     } else {
@@ -1105,7 +1179,7 @@ void TiffReader::visitDirectory(TiffDirectory* object) {
     p += 12;
   }
 
-  if (object->hasNext()) {
+  if (object->hasNext() && !context_) {
     if (p + 4 > pLast_) {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "Directory " << groupName(object->group())

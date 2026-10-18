@@ -20,6 +20,8 @@ add_library(
   image_int.hpp
   jp2image_int.cpp
   jp2image_int.hpp
+  jxrimage_int.cpp
+  jxrimage_int.hpp
   makernote_int.cpp
   makernote_int.hpp
   minoltamn_int.cpp

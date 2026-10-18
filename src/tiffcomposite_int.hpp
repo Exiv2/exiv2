@@ -842,6 +842,12 @@ class TiffDirectory : public TiffComponent {
   [[nodiscard]] bool hasNext() const {
     return hasNext_;
   }
+  /*! @brief Access owned entries for format-specific filtering before serialization.
+   *  Removing an entry does not affect the borrowed source bytes.
+   */
+  Components& components() {
+    return components_;
+  }
   //@}
 
  protected:
