@@ -174,3 +174,56 @@ TEST(PanasonicMetadata, NewEnumsAndSentinelsAreReadable) {
   metadata["Exif.Panasonic.BatteryLevel"] = uint16_t{999};
   EXPECT_EQ("(999)", printed(metadata, "Exif.Panasonic.BatteryLevel"));
 }
+
+// Older descriptions remain stable while newly documented enumeration values become readable.
+TEST(PanasonicMetadata, ExtendsExistingEnumsWithoutChangingLegacyValues) {
+  auto metadata = panasonic();
+  metadata["Exif.Panasonic.WhiteBalance"] = uint16_t{14};
+  metadata["Exif.Panasonic.ImageStabilization"] = uint16_t{12};
+  metadata["Exif.Panasonic.PhotoStyle"] = uint16_t{17};
+  metadata["Exif.Panasonic.TimerRecording"] = uint16_t{3};
+  metadata["Exif.Panasonic.BurstMode"] = uint16_t{18};
+  EXPECT_EQ("Manual 3", printed(metadata, "Exif.Panasonic.WhiteBalance"));
+  EXPECT_EQ("Dual2 IS Panning", printed(metadata, "Exif.Panasonic.ImageStabilization"));
+  EXPECT_EQ("V-Log", printed(metadata, "Exif.Panasonic.PhotoStyle"));
+  EXPECT_EQ("Focus bracketing", printed(metadata, "Exif.Panasonic.TimerRecording"));
+  EXPECT_EQ("Aperture bracketing", printed(metadata, "Exif.Panasonic.BurstMode"));
+
+  metadata["Exif.Panasonic.ImageStabilization"] = uint16_t{2};
+  metadata["Exif.Panasonic.BurstMode"] = uint16_t{2};
+  EXPECT_EQ("On, Mode 1", printed(metadata, "Exif.Panasonic.ImageStabilization"));
+  EXPECT_EQ("Infinite", printed(metadata, "Exif.Panasonic.BurstMode"));
+}
+
+// Identical AF bytes have a different documented meaning on the FZ10.
+TEST(PanasonicMetadata, AfModeUsesCameraModelAndPreservesAmbiguityWithoutIt) {
+  auto metadata = panasonic("DMC-FZ10");
+  metadata["Exif.Panasonic.AFMode"].setValue("0 1");
+  EXPECT_EQ("Spot mode on", printed(metadata, "Exif.Panasonic.AFMode"));
+  metadata["Exif.Panasonic.AFMode"].setValue("0 16");
+  EXPECT_EQ("Spot mode off", printed(metadata, "Exif.Panasonic.AFMode"));
+
+  metadata["Exif.Image.Model"] = "DMC-FZ30";
+  EXPECT_EQ("3-area (high speed)", printed(metadata, "Exif.Panasonic.AFMode"));
+  metadata["Exif.Panasonic.AFMode"].setValue("0 1");
+  EXPECT_EQ("9-area", printed(metadata, "Exif.Panasonic.AFMode"));
+  metadata.erase(metadata.findKey(ExifKey("Exif.Image.Model")));
+  EXPECT_EQ("Spot mode on or 9 area", printed(metadata, "Exif.Panasonic.AFMode"));
+}
+
+// Zone layouts and ambiguous tracking are selected only for documented camera models.
+TEST(PanasonicMetadata, AfModeKeepsUnverifiedPairsRaw) {
+  auto metadata = panasonic("DC-G9M2");
+  metadata["Exif.Panasonic.AFMode"].setValue("32 16");
+  EXPECT_EQ("Zone", printed(metadata, "Exif.Panasonic.AFMode"));
+  metadata["Exif.Image.Model"] = "DC-GH6";
+  EXPECT_EQ("32 16", printed(metadata, "Exif.Panasonic.AFMode"));
+  metadata["Exif.Panasonic.AFMode"].setValue("32 0");
+  metadata["Exif.Image.Model"] = "DMC-FS7";
+  EXPECT_EQ("Face Detect", printed(metadata, "Exif.Panasonic.AFMode"));
+  metadata["Exif.Image.Model"] = "DMC-FZ200";
+  EXPECT_EQ("Face Detect or Tracking", printed(metadata, "Exif.Panasonic.AFMode"));
+
+  metadata["Exif.Panasonic.AFMode"].setValue("32 16 1");
+  EXPECT_EQ("32 16 1", printed(metadata, "Exif.Panasonic.AFMode"));
+}

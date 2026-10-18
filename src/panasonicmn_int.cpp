@@ -2,6 +2,7 @@
 
 // included header files
 #include "panasonicmn_int.hpp"
+#include "exif.hpp"
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "tags.hpp"
@@ -25,8 +26,9 @@ constexpr TagDetails panasonicQuality[] = {
 
 //! WhiteBalance, tag 0x0003
 constexpr TagDetails panasonicWhiteBalance[] = {
-    {1, N_("Auto")},  {2, N_("Daylight")},         {3, N_("Cloudy")},  {4, N_("Halogen")}, {5, N_("Manual")},
-    {8, N_("Flash")}, {10, N_("Black and white")}, {11, N_("Manual")}, {12, N_("Shade")},  {13, N_("Kelvin")},
+    {1, N_("Auto")},      {2, N_("Daylight")},         {3, N_("Cloudy")},       {4, N_("Halogen")}, {5, N_("Manual")},
+    {8, N_("Flash")},     {10, N_("Black and white")}, {11, N_("Manual")},      {12, N_("Shade")},  {13, N_("Kelvin")},
+    {14, N_("Manual 3")}, {15, N_("Manual 4")},        {19, N_("Auto (cool)")},
 };
 
 //! FocusMode, tag 0x0007
@@ -36,8 +38,13 @@ constexpr TagDetails panasonicFocusMode[] = {
 };
 
 //! ImageStabilizer, tag 0x001a
+// Keep existing mode labels where older cameras have not been revalidated.
 constexpr TagDetails panasonicImageStabilizer[] = {
-    {2, N_("On, Mode 1")}, {3, N_("Off")}, {4, N_("On, Mode 2")}, {5, N_("Panning")}, {6, N_("On, Mode 3")},
+    {2, N_("On, Mode 1")}, {3, N_("Off")},
+    {4, N_("On, Mode 2")}, {5, N_("Panning")},
+    {6, N_("On, Mode 3")}, {7, N_("On, Body-only Panning")},
+    {9, N_("Dual IS")},    {10, N_("Dual IS Panning")},
+    {11, N_("Dual2 IS")},  {12, N_("Dual2 IS Panning")},
 };
 
 //! Macro, tag 0x001c
@@ -95,10 +102,12 @@ constexpr TagDetails panasonicShootingMode[] = {
     {44, N_("Film Grain")},
     {45, N_("My Color")},
     {46, N_("Photo Frame")},
+    {48, N_("Movie")},
     {51, N_("HDR")},
     {55, N_("Handheld Night Shot")},
     {57, N_("3D")},
     {59, N_("Creative Control")},
+    {60, N_("Intelligent Auto Plus")},
     {62, N_("Panorama")},
     {63, N_("Glass Through")},
     {64, N_("HDR")},
@@ -127,6 +136,7 @@ constexpr TagDetails panasonicShootingMode[] = {
     {88, N_("Clear Sports Shot")},
     {89, N_("Monochrome")},
     {90, N_("Creative Control")},
+    {92, N_("Handheld Night Shot")},
 };
 
 //! Audio, tag 0x0020
@@ -141,11 +151,17 @@ constexpr TagDetails panasonicColorEffect[] = {
     {1, N_("Off")}, {2, N_("Warm")}, {3, N_("Cool")}, {4, N_("Black and white")}, {5, N_("Sepia")}, {6, N_("Happy")},
 };
 
-//! BustMode, tag 0x002a
+//! BurstMode, tag 0x002a
+// Values 1 and 2 vary by model; retain the established meanings until verified.
 constexpr TagDetails panasonicBurstMode[] = {
     {0, N_("Off")},
     {1, N_("Low/High quality")},
     {2, N_("Infinite")},
+    {3, N_("Focus bracketing")},
+    {4, N_("Unlimited")},
+    {8, N_("White balance bracketing")},
+    {17, N_("On (with flash)")},
+    {18, N_("Aperture bracketing")},
 };
 
 //! Contrast, tag 0x002c
@@ -282,8 +298,11 @@ constexpr TagDetails panasonicClearRetouch[] = {
 
 //! Photo Style, tag 0x0089
 constexpr TagDetails panasonicPhotoStyle[] = {
-    {0, N_("NoAuto")},  {1, N_("Standard or Custom")}, {2, N_("Vivid")}, {3, N_("Natural")}, {4, N_("Monochrome")},
-    {5, N_("Scenery")}, {6, N_("Portrait")},
+    {0, N_("NoAuto")},         {1, N_("Standard or Custom")}, {2, N_("Vivid")},
+    {3, N_("Natural")},        {4, N_("Monochrome")},         {5, N_("Scenery")},
+    {6, N_("Portrait")},       {8, N_("Cinelike D")},         {9, N_("Cinelike V")},
+    {11, N_("L. Monochrome")}, {12, N_("Like709")},           {15, N_("L. Monochrome D")},
+    {17, N_("V-Log")},         {18, N_("Cinelike D2")},
 };
 
 //! Shading compensation, tag 0x008a
@@ -309,6 +328,7 @@ constexpr TagDetails panasonicTimerRecording[] = {
     {0, N_("Off")},
     {1, N_("Time Lapse")},
     {2, N_("Stop-Motion Animation")},
+    {3, N_("Focus bracketing")},
 };
 
 //! HDR, tag 0x009e
@@ -781,12 +801,54 @@ std::ostream& PanasonicMakerNote::printISO(std::ostream& os, const Value& value,
 }
 
 // tag Focus Mode
-std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, const Value& value, const ExifData*) {
-  if (value.count() < 2 || value.typeId() != unsignedByte) {
+std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, const Value& value, const ExifData* metadata) {
+  if (value.count() != 2 || value.typeId() != unsignedByte) {
     return os << value;
+  }
+  // The FZ10 uses the same bytes for spot mode that later cameras use for area count.
+  std::string model;
+  if (metadata) {
+    static const ExifKey modelKey("Exif.Image.Model");
+    const auto position = metadata->findKey(modelKey);
+    if (position != metadata->end())
+      model = position->toString();
   }
   const auto l0 = value.toInt64(0);
   const auto l1 = value.toInt64(1);
+  if (model == "DMC-FZ10" || model.starts_with("DMC-FZ10 ")) {
+    if (l0 == 0 && l1 == 1)
+      return os << _("Spot mode on");
+    if (l0 == 0 && l1 == 16)
+      return os << _("Spot mode off");
+    return os << value;
+  }
+
+  // Retain the legacy ambiguous description when the camera model is absent.
+  if (l0 == 0 && l1 == 1 && !model.empty())
+    return os << _("9-area");
+  if (l0 == 0 && l1 == 16 && !model.empty())
+    return os << _("3-area (high speed)");
+
+  // Newer zone modes are documented for these models; do not guess for the GH6.
+  if (model == "DC-G9M2") {
+    if (l0 == 16 && l1 == 32)
+      return os << _("1-area +");
+    if (l0 == 17 && l1 == 0)
+      return os << _("Full area");
+    if (l0 == 32 && l1 == 16)
+      return os << _("Zone");
+    if (l0 == 32 && l1 == 18)
+      return os << _("Zone (horizontal/vertical)");
+  }
+  if (model == "DC-S5D" && l0 == 16 && l1 == 225)
+    return os << _("225-area 2");
+  if (l0 == 32 && l1 == 0 && model == "DMC-FS7")
+    return os << _("Face Detect");
+  if (l0 == 32 && l1 == 0 && model == "DMC-FZ200")
+    return os << _("Face Detect or Tracking");
+
+  // Preserve existing interpretations for other established pairs.
+
   if (l0 == 0 && l1 == 1)
     os << _("Spot mode on or 9 area");
   else if (l0 == 0 && l1 == 16)
@@ -815,8 +877,12 @@ std::ostream& PanasonicMakerNote::print0x000f(std::ostream& os, const Value& val
     os << _("3-area (right)");
   else if (l0 == 64 && l1 == 0)
     os << _("Face Detect");
+  else if (l0 == 64 && l1 == 1)
+    os << _("Face Detect (animal detect on)");
+  else if (l0 == 64 && l1 == 2)
+    os << _("Face Detect (animal detect off)");
   else if (l0 == 128 && l1 == 0)
-    os << _("Spot Focusing 2");
+    os << _("Pinpoint focus");
   else if (l0 == 240 && l1 == 0)
     os << _("Tracking");
   else
