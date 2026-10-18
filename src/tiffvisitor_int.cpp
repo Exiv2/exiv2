@@ -600,6 +600,11 @@ uint32_t TiffEncoder::updateDirEntry(byte* buf, ByteOrder byteOrder, const TiffC
   auto pTiffEntry = std::dynamic_pointer_cast<TiffEntryBase>(tiffComponent);
   if (!pTiffEntry)
     return 0;
+  if (const auto* mnEntry = dynamic_cast<const TiffMnEntry*>(pTiffEntry.get()); mnEntry && mnEntry->mn_) {
+    // Decoded children were updated in place. Preserve the outer entry: its
+    // count()/size() describe a rebuilt MakerNote, not the retained source bytes.
+    return 12;
+  }
   enforce(pTiffEntry->count() <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerImageWriteFailed);
   us2Data(buf + 2, pTiffEntry->tiffType(), byteOrder);
   ul2Data(buf + 4, static_cast<uint32_t>(pTiffEntry->count()), byteOrder);
