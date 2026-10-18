@@ -87,7 +87,7 @@ Exif.CanonSi.AEBBracketValue                 Short       1  0  0
 Exif.CanonSi.ControlMode                     Short       1  1  1
 Exif.CanonSi.SubjectDistance                 Short       1  0  0 m
 Exif.CanonSi.ApertureValue                   Short       1  148  F5
-Exif.CanonSi.ShutterSpeedValue               Short       1  184  1/54 s
+Exif.CanonSi.ShutterSpeedValue               Short       1  184  1/50 s
 Exif.CanonSi.MeasuredEV2                     Short       1  123  9.38
 Exif.CanonSi.BulbDuration                    Short       1  0  0
 Exif.CanonSi.CameraType                      Short       1  248  EOS High-end
