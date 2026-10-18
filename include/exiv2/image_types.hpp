@@ -38,6 +38,7 @@ enum class ImageType {
   qtime,
   riff,
   mkv,
+  jxr,  //!< JPEG XR (version-1 still-image container)
 };
 }  // namespace Exiv2
 

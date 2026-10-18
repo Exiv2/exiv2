@@ -13,6 +13,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -569,6 +570,24 @@ class TiffRwState {
   size_t baseOffset_;
 };  // TiffRwState
 
+/*! @brief File-relative ranges and budgets shared by independently parsed image directories.
+ *  Strict JPEG XR parsing is opt-in; ordinary TIFF/RAW compatibility behavior is unchanged.
+ *  The source buffer must outlive every parsed tree. Ranges include directory tables and
+ *  out-of-line values, but not compressed streams, which the adapter validates separately.
+ */
+struct TiffReadContext {
+  //! @brief One owned source range, expressed as an absolute offset and byte length.
+  struct Range {
+    size_t offset;  //!< Absolute byte position in the source file.
+    size_t size;    //!< Number of bytes owned by the directory or value.
+  };
+  std::vector<Range> ranges;     //!< Owned tables and out-of-line values across all images.
+  std::set<size_t> directories;  //!< Visited absolute directory offsets, used to reject cycles.
+  size_t valueBytes{};           //!< Total typed-value bytes charged to the metadata budget.
+  size_t entries{};              //!< Total fields charged to the entry budget.
+  uint32_t nextOffset{};         //!< Next top-level image directory, zero at the end of the chain.
+};
+
 /*!
   @brief TIFF composite visitor to read the TIFF structure from a block of
          memory and build the composite from it (Visitor pattern). Used by
@@ -586,8 +605,10 @@ class TiffReader : public TiffVisitor {
     @param pRoot     Root element of the TIFF composite.
     @param state     State object for creation function, byte order and
                      base offset.
+    @param context   Optional shared strict JPEG XR validation state; borrowed.
    */
-  TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state);
+  TiffReader(const byte* pData, size_t size, TiffComponent* pRoot, TiffRwState state,
+             TiffReadContext* context = nullptr);
   //@}
 
   //! @name Manipulators
@@ -670,6 +691,7 @@ class TiffReader : public TiffVisitor {
   IdxSeq idxSeq_;          //!< Sequences for group, used for the entry's idx
   PostList postList_;      //!< List of components with deferred reading
   bool postProc_{false};   //!< True in postProcessList()
+  TiffReadContext* context_{};  //!< Optional strict JPEG XR state; owned by the caller.
 };
 
 }  // namespace Internal
