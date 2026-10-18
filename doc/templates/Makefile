@@ -124,6 +124,7 @@ TABLES = Exif \
          Sony1Cs \
          Sony1Cs2 \
          Sony2010e \
+         Sony9405b \
          Sony1MltCs7D \
          Sony1MltCsOld \
          Sony1MltCsA100 \
