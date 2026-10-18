@@ -38,7 +38,7 @@ Exif comment    :
     ]
     stderr = [
         """Error: Directory Image, entry 0xcf45 has invalid size 4294967292*4; skipping entry.
-Error: Offset of directory Image, entry 0x8000 is out of bounds: Offset = 0x0012ff00; truncating the entry
+Error: Directory Image, entry 0x8000 has invalid size 6401*4; skipping entry.
 """
     ]
     retval = [0]
