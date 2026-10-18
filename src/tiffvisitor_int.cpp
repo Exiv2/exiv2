@@ -217,6 +217,9 @@ TiffDecoder::TiffDecoder(ExifData& exifData, IptcData& iptcData, XmpData& xmpDat
 
 void TiffDecoder::visitEntry(TiffEntry* object) {
   decodeTiffEntry(object);
+
+  // The encrypted parent remains opaque; coefficient fields are a read-only view.
+  decodeSony9405b(exifData_, object, pRoot_);
 }
 
 void TiffDecoder::visitDataEntry(TiffDataEntry* object) {
@@ -491,9 +494,6 @@ TiffEncoder::TiffEncoder(ExifData exifData, const IptcData& iptcData, const XmpD
     byteOrder_(pHeader->byteOrder()),
     origByteOrder_(byteOrder_),
     findEncoderFct_(findEncoderFct) {
-  // Wrapped Sony fields are read-only views; the opaque parent owns their bytes.
-  filterSonyDngMetadata(exifData_, pRoot_);
-
   encodeIptc();
   encodeXmp();
 

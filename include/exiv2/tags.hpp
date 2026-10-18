@@ -172,6 +172,7 @@ enum class IfdId : uint32_t {
   sony1MltCsNewId,
   sony1MltCsA100Id,
   tagInfoMvId,
+  sony9405bId,  //!< Synthesized read-only Sony 9405b coefficient view.
   lastId,
   ignoreId = lastId
 };
