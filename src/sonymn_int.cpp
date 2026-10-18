@@ -2099,9 +2099,9 @@ constexpr TagInfo SonyMakerNote::tagInfoSonyMisc3c_[] = {
      SectionId::makerTags, unsignedShort, -1, printSonyMisc3cSonyImageHeight},
     {83, "ModelReleaseYear", N_("Model release year"), N_("Year that the model of camera was released"),
      IfdId::sonyMisc3cId, SectionId::makerTags, unsignedByte, -1, printSonyMisc3cModelReleaseYear},
-    // End of list marker
+    // Unknown offsets are bytes; string setters must not expand them into adjacent fields.
     {0xffff, "(UnknownSonyMisc3c)", "(Unknown SonyMisc3c Tag)", N_("Unknown SonyMisc23 tag"), IfdId::sonyMisc3cId,
-     SectionId::makerTags, asciiString, -1, printValue},
+     SectionId::makerTags, unsignedByte, -1, printValue},
 };
 
 std::ostream& SonyMakerNote::printSonyMisc3cShotNumberSincePowerUp(std::ostream& os, const Value& value,
