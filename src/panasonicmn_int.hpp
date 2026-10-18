@@ -32,6 +32,12 @@ class PanasonicMakerNote {
 
   //! @name Print functions for Panasonic %MakerNote tags
   //@{
+  //! @brief Display one unsigned 16-bit component as signed, preserving its encoded value.
+  static std::ostream& printSignedShort(std::ostream& os, const Value& value, const ExifData*);
+  //! @brief Display one unsigned byte as signed; unexpected types/counts remain raw.
+  static std::ostream& printSignedByte(std::ostream& os, const Value& value, const ExifData*);
+  //! @brief Display the camera's reserved high ISO values as unavailable.
+  static std::ostream& printISO(std::ostream& os, const Value& value, const ExifData*);
   //! Print SpotMode
   static std::ostream& print0x000f(std::ostream& os, const Value& value, const ExifData*);
   //! Print WhiteBalanceBias
