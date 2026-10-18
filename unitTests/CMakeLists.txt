@@ -28,6 +28,7 @@ add_executable(
   test_IptcKey.cpp
   test_LangAltValueRead.cpp
   test_Photoshop.cpp
+  test_panasonicmn.cpp
   test_pngimage.cpp
   test_safe_op.cpp
   test_slice.cpp
