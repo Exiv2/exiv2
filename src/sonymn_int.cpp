@@ -3,6 +3,7 @@
 // included header files
 #include "sonymn_int.hpp"
 
+#include "enforce.hpp"
 #include "error.hpp"
 #include "exif.hpp"
 #include "i18n.h"  // NLS support.
@@ -11,12 +12,17 @@
 #include "tags.hpp"
 #include "tags_int.hpp"
 #include "tiffcomposite_int.hpp"
+#include "tiffvisitor_int.hpp"
 #include "utils.hpp"
 #include "value.hpp"
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <iomanip>
+#include <string_view>
+#include <tuple>
+#include <vector>
 
 // *****************************************************************************
 // class member definitions
@@ -2303,6 +2309,196 @@ constexpr TagInfo SonyMakerNote::tagInfo2010e_[] = {
     {0xffff, "(UnknownSony2010eTag)", "(UnknownSony2010eTag)", "(UnknownSony2010eTag)", IfdId::sony2010eId,
      SectionId::makerTags, unsignedByte, 1, printValue},
 };
+
+// These identifiers describe synthesized fields, not physical encrypted offsets.
+constexpr TagInfo SonyMakerNote::tagInfo9405b_[] = {
+    {1, "DistortionCorrParams", N_("Distortion correction parameters"),
+     N_("Read-only Sony 9405b distortion coefficients; synthesized identifier, not a byte offset."), IfdId::sony9405bId,
+     SectionId::makerTags, signedShort, 16, printValue},
+    {2, "VignettingCorrParams", N_("Vignetting correction parameters"),
+     N_("Read-only Sony 9405b vignetting coefficients; synthesized identifier, not a byte offset."), IfdId::sony9405bId,
+     SectionId::makerTags, signedShort, 16, printValue},
+    {3, "ChromaticAberrationCorrParams", N_("Chromatic aberration correction parameters"),
+     N_("Read-only Sony 9405b chromatic aberration coefficients; synthesized identifier, not a byte offset."),
+     IfdId::sony9405bId, SectionId::makerTags, signedShort, 32, printValue},
+    {0xffff, "(UnknownSony9405bTag)", "(Unknown Sony9405b tag)", "(Unknown Sony9405b tag)", IfdId::sony9405bId,
+     SectionId::makerTags, undefined, -1, printValue},
+};
+
+namespace {
+
+// Keep model selection explicit so a new camera cannot inherit an unrelated layout.
+struct SonyLensLayout {
+  std::string_view model;
+  size_t vignetting;
+  size_t aberration;
+};
+
+// Layouts and selectors: ExifTool Sony.pm, 2200871d9cef988051d2a99d67df3bda6cbb30a8.
+// Reverse-engineered Sony tables by Phil Harvey and Jos Roost (reference JR).
+constexpr SonyLensLayout sonyLensLayouts[] = {
+    {"ILCA-68", 0x34a, 0x37c},    {"ILCA-77M2", 0x34a, 0x37c},  {"ILCE-5000", 0x34a, 0x37c},
+    {"ILCE-5100", 0x34a, 0x37c},  {"ILCE-6000", 0x34a, 0x37c},  {"ILCE-7", 0x34a, 0x37c},
+    {"ILCE-7R", 0x34a, 0x37c},    {"ILCE-7S", 0x34a, 0x37c},    {"ILCE-QX1", 0x34a, 0x37c},
+    {"Lusso", 0x34a, 0x37c},      {"ILCE-7M2", 0x350, 0x384},   {"ILCE-6300", 0x368, 0x39c},
+    {"ILCE-7RM2", 0x368, 0x39c},  {"ILCE-7SM2", 0x368, 0x39c},  {"ILCA-99M2", 0x35c, 0x3b0},
+    {"ILCE-6500", 0x35c, 0x3b0},  {"ILCE-6100", 0x35c, 0x3b8},  {"ILCE-6100A", 0x35c, 0x3b8},
+    {"ILCE-6400", 0x35c, 0x3b8},  {"ILCE-6400A", 0x35c, 0x3b8}, {"ILCE-6600", 0x35c, 0x3b8},
+    {"ILCE-7C", 0x35c, 0x3b8},    {"ILCE-7M3", 0x35c, 0x3b8},   {"ILCE-7RM3", 0x35c, 0x3b8},
+    {"ILCE-7RM3A", 0x35c, 0x3b8}, {"ILCE-7RM4", 0x35c, 0x3b8},  {"ILCE-7RM4A", 0x35c, 0x3b8},
+    {"ILCE-9", 0x35c, 0x3b8},     {"ILCE-9M2", 0x35c, 0x3b8},   {"ZV-E10", 0x35c, 0x3b8},
+};
+
+// Read model context directly from the existing tree, independent of entry order.
+std::string sonyLensModel(TiffComponent* root) {
+  if (!root)
+    return {};
+  TiffFinder finder(0x0110, IfdId::ifd0Id);
+  root->accept(finder);
+  const auto entry = dynamic_cast<const TiffEntryBase*>(finder.result());
+  return entry && entry->pValue() ? entry->pValue()->toString() : std::string{};
+}
+
+// Decode complete known arrays only, retaining opaque parents and all trailing data.
+void appendSonyLens(ExifData& data, const Value& parent, std::string_view model) {
+  if ((parent.typeId() != undefined && parent.typeId() != unsignedByte) || parent.count() == 0)
+    return;
+  const auto layout = std::find_if(std::begin(sonyLensLayouts), std::end(sonyLensLayouts),
+                                   [model](const auto& l) { return l.model == model; });
+  if (layout == std::end(sonyLensLayouts))
+    return;
+  constexpr std::array<byte, 8> selectors{0x3a, 0xb3, 0x7e, 0x9a, 0x25, 0xe1, 0x76, 0x8b};
+  if (std::find(selectors.begin(), selectors.end(), parent.toUint32(0)) == selectors.end())
+    return;
+
+  // All offsets come from this fixed table; never copy an untrusted parent length.
+  const auto required = layout->aberration + 64;
+  std::array<byte, 0x3f8> encrypted{};
+  if (required > encrypted.size() || parent.count() < required)
+    return;
+  for (size_t i = 0; i < required; ++i)
+    encrypted[i] = static_cast<byte>(parent.toUint32(i));
+  const auto bytes = sonyTagDecipher(0x9405, encrypted.data(), required, nullptr);
+
+  const std::array<size_t, 3> offsets{0x64, layout->vignetting, layout->aberration};
+  for (size_t i = 0; i < offsets.size(); ++i) {
+    auto value = Value::create(signedShort);
+    value->read(bytes.c_data() + offsets[i], i == 2 ? 64 : 32, littleEndian);
+    data.add(ExifKey(static_cast<uint16_t>(i + 1), "Sony9405b"), value.get());
+  }
+}
+
+// Compare semantic views without losing duplicate multiplicity or raw signed values.
+auto sonyLensValues(const ExifData& data) {
+  std::vector<std::tuple<uint16_t, TypeId, size_t, Blob>> result;
+  for (const auto& datum : data) {
+    if (datum.groupName() != "Sony9405b")
+      continue;
+    Blob bytes(datum.size());
+    datum.copy(bytes.data(), littleEndian);
+    result.emplace_back(datum.tag(), datum.typeId(), datum.count(), std::move(bytes));
+  }
+  std::sort(result.begin(), result.end());
+  return result;
+}
+
+// Collect every original parent using existing traversal, including duplicate tags.
+class SonyLensSource : public TiffFinder {
+ public:
+  // Borrow the destination and model only for this traversal of the parsed source.
+  SonyLensSource(ExifData& data, std::string_view model) :
+      TiffFinder(0xffff, IfdId::ignoreId), data_(data), model_(model) {
+  }
+
+  // A finder key that cannot occur leaves traversal running through all entries.
+  void visitEntry(TiffEntry* entry) override {
+    if (entry->tag() == 0x9405 && (entry->group() == IfdId::sony1Id || entry->group() == IfdId::sony2Id) &&
+        entry->pValue())
+      appendSonyLens(data_, *entry->pValue(), model_);
+  }
+
+ private:
+  ExifData& data_;
+  std::string_view model_;
+};
+
+}  // namespace
+
+void decodeSony9405b(ExifData& data, const TiffEntryBase* entry, TiffComponent* root) {
+  if (entry->tag() != 0x9405 || (entry->group() != IfdId::sony1Id && entry->group() != IfdId::sony2Id) ||
+      !entry->pValue())
+    return;
+  appendSonyLens(data, *entry->pValue(), sonyLensModel(root));
+}
+
+bool hasSonyMetadata(const ExifData& data, TiffComponent* source) {
+  // Incoming groups must be checked even when Make is absent or belongs to another brand.
+  for (const auto& datum : data) {
+    if (datum.groupName().starts_with("Sony") ||
+        (datum.tag() == 0x010f && datum.ifdId() == IfdId::ifd0Id && datum.toString().starts_with("SONY")))
+      return true;
+  }
+
+  // The caller may have changed Make or removed all exposed Sony fields.
+  if (!source)
+    return false;
+  TiffFinder finder(0x010f, IfdId::ifd0Id);
+  source->accept(finder);
+  const auto entry = dynamic_cast<const TiffEntryBase*>(finder.result());
+  return entry && entry->pValue() && entry->pValue()->toString().starts_with("SONY");
+}
+
+void filterSony9405bMetadata(ExifData& data, TiffComponent* source) {
+  const auto originalModel = sonyLensModel(source);
+  ExifData expected;
+  bool hasParent = false;
+  const auto model = data.findKey(ExifKey("Exif.Image.Model"));
+  const auto name = model != data.end() ? model->toString() : std::string{};
+  for (const auto& datum : data) {
+    if (datum.tag() == 0x9405 && (datum.groupName() == "Sony1" || datum.groupName() == "Sony2")) {
+      hasParent = true;
+      appendSonyLens(expected, datum.value(), name);
+    }
+  }
+
+  // Raw-only imports have no derived view; deleting an existing view alone is an edit.
+  const auto actual = sonyLensValues(data);
+  if (actual.empty()) {
+    const auto raw = data.findKey(ExifKey("Exif.Photo.MakerNote"));
+    if (!source || (expected.empty() && (hasParent || raw == data.end())))
+      return;
+    ExifData original;
+    SonyLensSource finder(original, originalModel);
+    source->accept(finder);
+    if (!expected.empty()) {
+      enforce(original.empty(), ErrorCode::kerInvalidSettingForImage, "Sony9405b coefficients", "Sony");
+    } else if (!original.empty()) {
+      // Removing the last decoded parent must not resurrect the stale raw MakerNote.
+      TiffFinder owner(0x927c, IfdId::exifId);
+      source->accept(owner);
+      const auto entry = dynamic_cast<const TiffEntryBase*>(owner.result());
+      const auto before = entry ? dynamic_cast<const DataValue*>(entry->pValue()) : nullptr;
+      const auto retained = dynamic_cast<const DataValue*>(&raw->value());
+      if (before && retained && before->value_ == retained->value_)
+        data.erase(raw);
+    }
+    return;
+  }
+
+  // Editing Model changes interpretation, not ownership of the untouched parent.
+  if (actual != sonyLensValues(expected) && name != originalModel) {
+    expected.clear();
+    for (const auto& datum : data) {
+      if (datum.tag() == 0x9405 && (datum.groupName() == "Sony1" || datum.groupName() == "Sony2"))
+        appendSonyLens(expected, datum.value(), originalModel);
+    }
+  }
+  enforce(actual == sonyLensValues(expected), ErrorCode::kerInvalidSettingForImage, "Sony9405b coefficients", "Sony");
+
+  // Only the opaque parent is serializable; never manufacture a second owner.
+  data.erase(std::remove_if(data.begin(), data.end(), [](const auto& d) { return d.groupName() == "Sony9405b"; }),
+             data.end());
+}
 
 // https://github.com/Exiv2/exiv2/pull/906#issuecomment-504338797
 static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size, const TiffComponent* /*object*/,

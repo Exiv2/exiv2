@@ -7,6 +7,7 @@
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "makernote_int.hpp"
+#include "sonydng_int.hpp"
 #include "sonymn_int.hpp"
 #include "tags.hpp"
 #include "tiffcomposite_int.hpp"
@@ -19,6 +20,7 @@
 
 #include <array>
 #include <iostream>
+#include <optional>
 
 // Shortcuts for the newTiffBinaryArray templates.
 #define EXV_BINARY_ARRAY(arrayCfg, arrayDef) &newTiffBinaryArray0<arrayCfg, std::size(arrayDef), arrayDef>
@@ -2073,10 +2075,22 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
    */
   WriteMethod writeMethod = wmIntrusive;
   auto parsedTree = parse(pData, size, root, pHeader);
+
+  // Prepare Sony views before either pass can modify the source; other brands need no extra copy.
+  std::optional<ExifData> preparedExifData;
+  if (hasSonyMetadata(exifData, parsedTree.get())) {
+    preparedExifData.emplace(exifData);
+    // Wrapped views must be checked before stripping their derived coefficient fields.
+    filterSonyDngMetadata(*preparedExifData, parsedTree.get());
+    filterSony9405bMetadata(*preparedExifData, parsedTree.get());
+  }
+  const auto& encodeExifData = preparedExifData ? *preparedExifData : exifData;
+
   auto primaryGroups = findPrimaryGroups(parsedTree);
   if (parsedTree) {
     // Attempt to update existing TIFF components based on metadata entries
-    TiffEncoder encoder(exifData, iptcData, xmpData, parsedTree.get(), false, primaryGroups, pHeader, findEncoderFct);
+    TiffEncoder encoder(encodeExifData, iptcData, xmpData, parsedTree.get(), false, primaryGroups, pHeader,
+                        findEncoderFct);
     parsedTree->accept(encoder);
     if (!encoder.dirty())
       writeMethod = wmNonIntrusive;
@@ -2089,8 +2103,8 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
       parsedTree->accept(copier);
     }
     // Add entries from metadata to composite
-    TiffEncoder encoder(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, std::move(primaryGroups), pHeader,
-                        findEncoderFct);
+    TiffEncoder encoder(preparedExifData ? std::move(*preparedExifData) : ExifData(exifData), iptcData, xmpData,
+                        createdTree.get(), !parsedTree, std::move(primaryGroups), pHeader, findEncoderFct);
     encoder.add(createdTree.get(), std::move(parsedTree), root);
     // Write binary representation from the composite tree
     DataBuf header = pHeader->write();
