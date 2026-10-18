@@ -119,6 +119,9 @@ Exif.Sony2Fp.FocusMode                       Byte        1  6  DMF
 Exif.Sony2Fp.AFAreaMode                      Byte        1  12  Expanded Flexible Spot
 Exif.Sony2Fp.FocusPosition2                  Byte        1  140  140
 Exif.SonyMisc1.CameraTemperature             SByte       1  26  26 °C
+Exif.Sony9405b.DistortionCorrParams          SShort     16  2 1 3 5 10 15 23 31 41 51 63 75 88 101 116 130  2 1 3 5 10 15 23 31 41 51 63 75 88 101 116 130
+Exif.Sony9405b.VignettingCorrParams          SShort     16  0 4 32 80 148 236 344 468 604 756 920 1100 1296 1500 1716 1928  0 4 32 80 148 236 344 468 604 756 920 1100 1296 1500 1716 1928
+Exif.Sony9405b.ChromaticAberrationCorrParams SShort     32  105 139 162 174 176 163 147 140 131 105 75 51 27 0 -32 -95 -368 -326 -298 -276 -268 -278 -278 -208 -140 -126 -124 -88 -48 -2 36 62  105 139 162 174 176 163 147 140 131 105 75 51 27 0 -32 -95 -368 -326 -298 -276 -268 -278 -278 -208 -140 -126 -124 -88 -48 -2 36 62
 Exif.Photo.UserComment                       Undefined  64    
 Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
 Exif.Photo.ColorSpace                        Short       1  65535  Uncalibrated

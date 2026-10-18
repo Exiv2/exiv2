@@ -8,6 +8,7 @@
 #include "i18n.h"  // NLS support.
 #include "image_int.hpp"
 #include "makernote_int.hpp"
+#include "sonydng_int.hpp"
 #include "sonymn_int.hpp"
 #include "tags.hpp"
 #include "tiffcomposite_int.hpp"
@@ -21,6 +22,7 @@
 #include <array>
 #include <iostream>
 #include <limits>
+#include <optional>
 
 // Shortcuts for the newTiffBinaryArray templates.
 #define EXV_BINARY_ARRAY(arrayCfg, arrayDef) &newTiffBinaryArray0<arrayCfg, std::size(arrayDef), arrayDef>
@@ -2074,6 +2076,17 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
    */
   WriteMethod writeMethod = wmIntrusive;
   auto parsedTree = parse(pData, size, root, pHeader);
+
+  // Prepare Sony views before either pass can modify the source; other brands need no extra copy.
+  std::optional<ExifData> preparedExifData;
+  if (hasSonyMetadata(exifData, parsedTree.get())) {
+    preparedExifData.emplace(exifData);
+    // Wrapped views must be checked before stripping their derived coefficient fields.
+    filterSonyDngMetadata(*preparedExifData, parsedTree.get());
+    filterSony9405bMetadata(*preparedExifData, parsedTree.get());
+  }
+  const auto& encodeExifData = preparedExifData ? *preparedExifData : exifData;
+
   auto primaryGroups = findPrimaryGroups(parsedTree);
   auto createdTree = TiffCreator::create(root, IfdId::ifdIdNotSet);
   if (parsedTree) {
@@ -2082,7 +2095,7 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
   }
   // The replacement encoder keeps the source tree alive for both write strategies.
   auto sourceTree = parsedTree.get();
-  TiffEncoder replacement(exifData, iptcData, xmpData, createdTree.get(), !parsedTree, primaryGroups, pHeader,
+  TiffEncoder replacement(encodeExifData, iptcData, xmpData, createdTree.get(), !parsedTree, primaryGroups, pHeader,
                           findEncoderFct);
   replacement.add(createdTree.get(), std::move(parsedTree), root);
   const size_t limit = std::numeric_limits<uint32_t>::max();
@@ -2093,7 +2106,7 @@ WriteMethod TiffParserWorker::encode(BasicIo& io, const byte* pData, size_t size
 
   if (sourceTree) {
     // Attempt to update existing TIFF components based on metadata entries
-    TiffEncoder encoder(exifData, iptcData, xmpData, sourceTree, false, primaryGroups, pHeader, findEncoderFct);
+    TiffEncoder encoder(encodeExifData, iptcData, xmpData, sourceTree, false, primaryGroups, pHeader, findEncoderFct);
     sourceTree->accept(encoder);
     if (!encoder.dirty())
       writeMethod = wmNonIntrusive;

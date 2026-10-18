@@ -19,6 +19,7 @@ class ExifData;
 class Value;
 struct TagInfo;
 namespace Internal {
+class TiffEntryBase;
 // *****************************************************************************
 // class definitions
 
@@ -60,6 +61,12 @@ class SonyMakerNote {
   //! Return read-only list of built-in Sony 2010e tags (Tag 2010)
   static constexpr auto tagList2010e() {
     return tagInfo2010e_;
+  }
+  /*! @brief Return synthesized read-only Sony 9405b coefficient tags.
+      @note Tag identifiers are logical fields, not encrypted-block offsets.
+   */
+  static constexpr auto tagList9405b() {
+    return tagInfo9405b_;
   }
 
   //! @name Print functions for Sony %MakerNote tags
@@ -146,11 +153,44 @@ class SonyMakerNote {
   static const TagInfo tagInfoSonyMisc3c_[];
   static const TagInfo tagInfoSonySInfo1_[];
   static const TagInfo tagInfo2010e_[];
+  static const TagInfo tagInfo9405b_[];  //!< Read-only coefficient view.
 
 };  // class SonyMakerNote
 
 DataBuf sonyTagDecipher(uint16_t, const byte*, size_t, TiffComponent*);
 DataBuf sonyTagEncipher(uint16_t, const byte*, size_t, TiffComponent*);
+
+/*!
+  @brief Append bounded read-only coefficient views of an opaque Sony 9405b entry.
+  @param data Destination metadata, retaining the original raw parent entry.
+  @param entry Parsed entry borrowed for this call; only Sony1/Sony2 0x9405 applies.
+  @param root Parsed tree borrowed for camera-model selection.
+  @note Unsupported types, models, selectors, and incomplete ranges add nothing.
+        Deciphering copies at most 0x03f8 bytes; coefficients are little endian.
+ */
+void decodeSony9405b(ExifData& data, const TiffEntryBase* entry, TiffComponent* root);
+
+/*!
+  @brief Detect whether requested metadata or its original source needs Sony checks.
+  @param data Requested metadata, borrowed and unchanged.
+  @param source Original TIFF tree, possibly null for imports, borrowed for this call.
+  @return True for requested Sony Make/groups or an original Sony Make.
+  @pre Inspect the original tree before encoding can modify its Make entry.
+  @note Source Make uses the same SONY prefix as TIFF MakerNote recognition.
+        Requested groups detect copied or orphaned Sony views even without Make.
+ */
+bool hasSonyMetadata(const ExifData& data, TiffComponent* source);
+
+/*!
+  @brief Validate and remove read-only coefficient views before TIFF encoding.
+  @param data Private metadata copy; the caller's metadata remains unchanged.
+  @param source Original TIFF tree, possibly null for imports, borrowed for this call.
+  @pre Call before either encoding pass modifies the original tree or source bytes.
+  @throws Error Before source writes if derived fields differ from retained parents.
+  @note Raw-only imports without an existing view and complete parent/category
+        removal remain supported. No derived field is serialized independently.
+ */
+void filterSony9405bMetadata(ExifData& data, TiffComponent* source);
 
 }  // namespace Internal
 }  // namespace Exiv2

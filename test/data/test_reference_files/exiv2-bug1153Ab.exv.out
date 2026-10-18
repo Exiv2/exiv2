@@ -111,6 +111,9 @@ Exif.SonyMisc2b.ExposureProgram              Byte        1  1  Aperture-priority
 Exif.SonyMisc2b.IntelligentAuto              Byte        1  0  Off
 Exif.SonyMisc2b.LensZoomPosition             Short       1  0  0%
 Exif.SonyMisc2b.FocusPosition2               Byte        1  0  0
+Exif.Sony9405b.DistortionCorrParams          SShort     16  -2 1 7 17 30 47 67 90 115 139 163 0 0 0 0 0  -2 1 7 17 30 47 67 90 115 139 163 0 0 0 0 0
+Exif.Sony9405b.VignettingCorrParams          SShort     16  0 0 256 800 1536 2368 3264 4160 5312 6848 8928 0 0 0 0 0  0 0 256 800 1536 2368 3264 4160 5312 6848 8928 0 0 0 0 0
+Exif.Sony9405b.ChromaticAberrationCorrParams SShort     32  -50 64 134 162 146 80 -14 -130 -228 -266 -216 0 0 0 0 0 186 94 30 -5 -14 20 54 39 8 -26 -52 0 0 0 0 0  -50 64 134 162 146 80 -14 -130 -228 -266 -216 0 0 0 0 0 186 94 30 -5 -14 20 54 39 8 -26 -52 0 0 0 0 0
 Exif.Photo.UserComment                       Undefined  64    
 Exif.Photo.FlashpixVersion                   Undefined   4  48 49 48 48  1.00
 Exif.Photo.ColorSpace                        Short       1  1  sRGB
