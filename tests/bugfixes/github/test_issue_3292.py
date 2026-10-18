@@ -147,3 +147,29 @@ class DeviceSettingsSidecar(unittest.TestCase):
         self.run_exiv2("-Mdel Xmp.exif.DeviceSettingDescription", sidecar)
         root = ET.fromstring(sidecar.read_bytes())
         self.assertIsNone(root.find(f".//{{{EXIF_NS}}}DeviceSettingDescription"))
+
+    def test_encoding_failure_reports_nonzero_without_changing_existing_bytes(self):
+        """An independently invalid XMP subtree must reach the CLI as failure."""
+        for existing in (False, True):
+            with self.subTest(existing=existing):
+                image = self.directory / "invalid.jpg"
+                image.write_bytes((Path(system_tests.BT.Config.data_dir) / "exiv2-empty.jpg").read_bytes())
+                source = image.read_bytes()
+                sidecar = image.with_suffix(".xmp")
+                sidecar.unlink(missing_ok=True)
+                if existing:
+                    sidecar.write_text(
+                        '<?xml version="1.0"?><x:xmpmeta xmlns:x="adobe:ns:meta/">'
+                        f'<rdf:RDF xmlns:rdf="{RDF_NS}"><rdf:Description rdf:about=""/>'
+                        '</rdf:RDF></x:xmpmeta>', encoding="utf-8",
+                    )
+                before = sidecar.read_bytes() if existing else None
+                result = self.run_exiv2(
+                    "-f", "-Madd Xmp.xmpMM.DerivedFrom/stRef:documentID child-canary",
+                    "-Madd Xmp.xmpMM.DerivedFrom XmpText scalar-conflict", "-eX", image,
+                    expected=1,
+                )
+                self.assertIn("Failed to encode XMP metadata", result.stderr)
+                self.assertEqual(source, image.read_bytes())
+                if existing:
+                    self.assertEqual(before, sidecar.read_bytes())

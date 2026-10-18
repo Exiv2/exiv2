@@ -153,6 +153,8 @@ void XmpSidecar::writeMetadata() {
 #ifndef SUPPRESS_WARNINGS
       EXV_ERROR << "Failed to encode XMP metadata.\n";
 #endif
+      // Keep any existing bytes intact and let callers distinguish failure from success.
+      throw Error(ErrorCode::kerImageWriteFailed);
     }
   }
   if (!xmpPacket_.empty()) {

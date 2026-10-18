@@ -42,6 +42,7 @@ add_executable(
   test_xmp_lifecycle.cpp
   test_xmp_race_encode_decode.cpp
   test_xmp_concurrent_registry.cpp
+  test_xmpsidecar.cpp
   unittest_utils.hpp
   unittest_utils.cpp
   ${VIDEO_SUPPORT}
