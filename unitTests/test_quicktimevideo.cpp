@@ -243,3 +243,101 @@ TEST(QuickTimeNikon, LegacyPictureControl) {
   EXPECT_EQ("Normal", field(*image, "Sharpness"));
   EXPECT_EQ("4", field(*image, "ToningSaturation"));
 }
+
+// Both reported modern versions place text after the extra four-byte prefix.
+TEST(QuickTimeNikon, ModernPictureControlText) {
+  for (const auto version : {"0302", "0310"}) {
+    const auto image = read(pictureMovie(picture(version)));
+    EXPECT_EQ(version, field(*image, "PictureControlVersion"));
+    EXPECT_EQ("N-LOG", field(*image, "PictureControlName"));
+    EXPECT_EQ("BASE", field(*image, "PictureControlBase"));
+    EXPECT_EQ("Full Control", field(*image, "PictureControlAdjust"));
+  }
+}
+
+// Family 02 retains the common text offsets without inheriting unverified legacy controls.
+TEST(QuickTimeNikon, FamilyTwoPictureControlText) {
+  const auto image = read(pictureMovie(picture("0200", "VIVID", "STANDARD")));
+  EXPECT_EQ("VIVID", field(*image, "PictureControlName"));
+  EXPECT_EQ("STANDARD", field(*image, "PictureControlBase"));
+  EXPECT_EQ("<absent>", field(*image, "Sharpness"));
+}
+
+// Fixed text fields accept empty, padded, and full-width content without leaking adjacent bytes.
+TEST(QuickTimeNikon, PictureControlTextBoundaries) {
+  for (const auto& name : {std::string(), std::string("SHORT"), std::string(20, 'A')}) {
+    const auto image = read(pictureMovie(picture("0310", name, std::string(20, 'B'))));
+    EXPECT_EQ(name, field(*image, "PictureControlName"));
+    EXPECT_EQ(std::string(20, 'B'), field(*image, "PictureControlBase"));
+  }
+}
+
+// Modern controls not decoded with verified encodings must not appear as legacy-offset garbage.
+TEST(QuickTimeNikon, OmitsUnverifiedModernPictureControlFields) {
+  const auto image = read(pictureMovie(picture("0310")));
+  for (const auto name : {"Sharpness", "Contrast", "Brightness", "Saturation", "HueAdjustment", "FilterEffect",
+                          "ToningEffect", "ToningSaturation", "PictureControlQuickAdjust"})
+    EXPECT_EQ("<absent>", field(*image, name)) << name;
+}
+
+// Unknown versions retain only their identifier and do not guess text or controls.
+TEST(QuickTimeNikon, UnknownPictureControlVersion) {
+  const auto image = read(pictureMovie(Blob{'9', '9', '0', '0'}));
+  EXPECT_EQ("9900", field(*image, "PictureControlVersion"));
+  EXPECT_EQ("<absent>", field(*image, "PictureControlName"));
+  EXPECT_EQ("<absent>", field(*image, "PictureControlAdjust"));
+}
+
+// Truncated supported layouts reject even if unrelated following records supply enough file bytes.
+TEST(QuickTimeNikon, RejectsTruncatedPictureControl) {
+  for (const auto version : {"0100", "0200", "0302", "0310"}) {
+    const size_t minimum = version[1] == '1' ? 58 : version[1] == '2' ? 49 : 55;
+    for (const auto size : {size_t{3}, size_t{24}, size_t{43}, minimum - 1}) {
+      auto data = picture(version);
+      data.resize(size);
+      EXPECT_THROW(read(pictureMovie(data)), Error) << version << ':' << size;
+    }
+  }
+}
+
+// Only four ASCII digits form a valid Picture Control version identifier.
+TEST(QuickTimeNikon, RejectsMalformedPictureControlVersion) {
+  for (const auto& version : {Blob{'0', '3', 0, '2'}, Blob{'0', 'X', '0', '2'}, Blob{0xff, '3', '0', '2'}})
+    EXPECT_THROW(read(pictureMovie(version)), Error);
+}
+
+// Verified modern adjustment enums are read at each family's own offset without a legacy mask.
+TEST(QuickTimeNikon, ModernPictureControlAdjustments) {
+  for (const auto version : {"0200", "0302", "0310"}) {
+    for (const auto& [value, expected] : std::array<std::pair<byte, const char*>, 4>{
+             {{0, "Default Settings"}, {1, "Quick Adjust"}, {2, "Full Control"}, {0x80, "128"}}}) {
+      auto data = picture(version);
+      data[version[1] == '3' ? 54 : 48] = value;
+      EXPECT_EQ(expected, field(*read(pictureMovie(data)), "PictureControlAdjust"));
+    }
+  }
+}
+
+// Replacing a legacy record cannot retain its controls in a modern or unsupported view.
+TEST(QuickTimeNikon, PictureControlReplacementClearsOldFields) {
+  for (const bool unknown : {false, true}) {
+    const auto old = picture("0100");
+    const auto replacement = unknown ? Blob{'9', '9', '0', '0'} : picture("0310", "NEW", "BASE");
+    auto records = record(0x02000023, 7, static_cast<uint16_t>(old.size()), old);
+    append(records, record(0x02000023, 7, static_cast<uint16_t>(replacement.size()), replacement));
+    const auto image = read(movie(padded(records, 2)));
+    EXPECT_EQ(unknown ? "9900" : "0310", field(*image, "PictureControlVersion"));
+    EXPECT_EQ(unknown ? "<absent>" : "NEW", field(*image, "PictureControlName"));
+    EXPECT_EQ("<absent>", field(*image, "Sharpness"));
+    EXPECT_EQ("<absent>", field(*image, "ToningSaturation"));
+  }
+}
+
+// Decoding one versioned subrecord resumes exactly at the following vendor record.
+TEST(QuickTimeNikon, PictureControlPreservesFollowingRecord) {
+  const auto data = picture("0310");
+  auto records = record(0x02000023, 7, static_cast<uint16_t>(data.size()), data);
+  append(records, modelRecord("after-picture"));
+  const auto image = read(movie(records));
+  EXPECT_EQ("after-picture", field(*image, "Model"));
+}

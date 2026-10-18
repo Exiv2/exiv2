@@ -62,6 +62,22 @@ class NikonVideoMetadata(unittest.TestCase):
                 self.assertEqual(str(value), fields["Xmp.video.WhiteBalanceFineTune"])
                 self.assertEqual("sentinel", fields["Xmp.video.Model"])
 
+    def test_modern_picture_control(self):
+        """Modern text uses versioned offsets, retaining native casing."""
+        for version in (b"0302", b"0310"):
+            with self.subTest(version=version):
+                data = bytearray(108)
+                data[:4] = version
+                data[4:8] = b"PAD!"
+                data[8:13] = b"N-LOG"
+                data[28:33] = b"N-LOG"
+                output = self.run_movie(self.movie(self.record(0x02000023, 7, len(data), data)))
+                fields = {line.split()[0]: line.split(maxsplit=3)[3] for line in output.splitlines()}
+                self.assertEqual(version.decode(), fields["Xmp.video.PictureControlVersion"])
+                self.assertEqual("N-LOG", fields["Xmp.video.PictureControlName"])
+                self.assertEqual("N-LOG", fields["Xmp.video.PictureControlBase"])
+                self.assertNotIn("Xmp.video.Sharpness", fields)
+
     def test_malformed_record_rejects(self):
         """A claimed field must fit its own Nikon payload."""
         malformed = self.record(2, 2, 100, b"x")
