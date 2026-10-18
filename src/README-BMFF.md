@@ -10,6 +10,8 @@ read-only. QuickTime and JPEG 2000 use their existing readers.
 | Files | Responsibility |
 | --- | --- |
 | `bmffbox_int.hpp/.cpp` | Checked box headers, source intervals, bounded field cursors, sibling traversal and explicit resource limits. |
+| `bmffsample_int.hpp/.cpp` | Standard single-sample/single-chunk table resolution, independent of brands and codecs. |
+| `cr3preview_int.hpp/.cpp` | Optional Canon CRAW/JPEG track interpretation and full-size native-preview discovery. |
 | `bmffitem_int.hpp/.cpp` | Standard item descriptions, locations, references, properties and extent resolution. |
 | `bmfflayout_int.hpp/.cpp` | Output measurement, placement, approved source relocation maps, bounded streaming and byte verification. |
 | `bmffitemwrite_int.hpp/.cpp` | Item-location encoding, file/idat coordinates, offset-width promotion and layout convergence. |
@@ -54,6 +56,25 @@ JPEG XL boxes and optional Brotli decoding have compatibility rules different
 from the strict item model. FullBox bit decoding is shared; field admission and
 metadata precedence remain with the respective adapters.
 
+CR3 full-size JPEG discovery makes a separate bounded pass over the same box
+primitives. The standard sample helper resolves version-zero `stsc`, `stsz` and
+`stco`/`co64` tables for one sample in one chunk. It returns an absolute source
+range and a one-based description index; it knows neither codecs nor media
+ownership. The Canon adapter validates the indexed `CRAW` description, its
+`JPEG` child, local data reference and complete containment in a top-level
+`mdat`. It reads only the JPEG start marker, leaving extraction to the existing
+native-preview loader. The largest eligible track supplements THMB/PRVW when a
+native slot is available; ties retain file order. CR3 metadata reads rebuild the
+preview list, while structure printing leaves it unchanged.
+
+This optional pass is limited to 4096 headers, 1 MiB of structural reads and the
+caller's nesting limit. Malformed/unsupported tracks or exhausted limits omit
+the additional preview without hiding existing metadata; underlying I/O errors
+propagate. Multi-sample tracks, external references, raw/protected descriptions
+and HEVC previews are unsupported. This is still-image JPEG extraction, not a
+movie demuxer or a CR3 writer. Canon field interpretation follows
+[Laurent Clévy's CR3 research](https://github.com/lclevy/canon_cr3/tree/151c1a965775ef409ace17714c24ed491cfcf9c4).
+
 ## Preparing writes
 
 HEIF selects metadata and retained ranges before constructing output. It rejects
@@ -89,5 +110,8 @@ safety from successful parsing or silently apply HEIF limits to another reader.
 The focused unit suites cover box mechanics, item tables, output layout, legacy
 compatibility and HEIF integration. For commands, see the HEIF metadata writing
 section of `tests/README-TESTS.md` and the instructions in `fuzz/README.md`.
+Include `:*Cr3*` in the focused unit-test filter for CR3 track previews. The
+`test_issue_2854.py` CLI regression exercises generated full-size JPEG tracks;
+`test_issue_1893.py` retains THMB/PRVW listing and extraction coverage.
 The legacy hardening tests separately cover malformed container/UUID boundaries
 and underlying I/O failures.

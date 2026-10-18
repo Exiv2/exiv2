@@ -253,7 +253,7 @@ TEST(BmffLegacy, rejectsMissingCountedEntry) {
   expectError(ErrorCode::kerCorruptedMetadata, [&] { image->readMetadata(); });
 }
 
-// Canon containers retain TIFF interpretation, preview origins, and repeated-read behavior.
+// Canon containers retain TIFF interpretation and preview origins without accumulating reads.
 TEST(BmffLegacy, readsCanonMetadataAndPrefixedPreviews) {
   for (const bool extended : {false, true}) {
     auto bytes = file("crx ");
@@ -273,7 +273,7 @@ TEST(BmffLegacy, readsCanonMetadataAndPrefixedPreviews) {
       ASSERT_NO_THROW(image->readMetadata());
       EXPECT_EQ(image->mimeType(), "image/x-canon-cr3");
       EXPECT_EQ(image->exifData()["Exif.Image.Artist"].toString(), "Canon artist");
-      ASSERT_EQ(image->nativePreviews().size(), read + 1);
+      ASSERT_EQ(image->nativePreviews().size(), 1u);
       const auto& actual = image->nativePreviews().back();
       EXPECT_EQ(actual.position_, previewPosition);
       EXPECT_EQ(actual.size_, 4u);
