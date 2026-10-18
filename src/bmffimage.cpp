@@ -6,6 +6,7 @@
 #include "basicio.hpp"
 #include "bmffbox_int.hpp"
 #include "config.h"
+#include "cr3preview_int.hpp"
 #include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
@@ -23,6 +24,7 @@
 #endif
 
 // + standard includes
+#include <algorithm>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
@@ -245,12 +247,27 @@ class BmffLegacyReader {
 
   //! @brief Visit all top-level boxes, preserving stream position at the end of the file.
   void all(std::ostream& out, PrintStructureOption option, size_t depth) {
+    readingMetadata_ = option == kpsNone;
     auto input = reader_.cursor({0, reader_.fileSize()});
     walk(input, out, option, depth);
+
+    // Track previews supplement Canon's existing thumbnail/preview slots on metadata reads only.
+    if (readingMetadata_ && image_.fileType_ == TAG::crx && image_.nativePreviews_.size() < 4) {
+      const auto preview = findCr3JpegPreview(*image_.io_, image_.max_recursion_depth_);
+      if (preview &&
+          std::none_of(image_.nativePreviews_.begin(), image_.nativePreviews_.end(), [&](const NativePreview& current) {
+            return current.position_ == preview->position_ && current.size_ == preview->size_;
+          }))
+        image_.nativePreviews_.push_back(*preview);
+      image_.io_->seekOrThrow(static_cast<int64_t>(reader_.fileSize()), BasicIo::beg,
+                              ErrorCode::kerInputDataReadFailed);
+    }
   }
 
   //! @brief Preserve the exported boxHandler entry point for one subtree at the current position.
   uint64_t one(std::ostream& out, PrintStructureOption option, uint64_t parentEnd, size_t depth) {
+    // Direct subtree callers retain the historical metadata/preview side effects.
+    readingMetadata_ = true;
     const auto start = image_.io_->tell();
     enforce(start <= parentEnd, ErrorCode::kerCorruptedMetadata);
     auto input = reader_.cursor({start, parentEnd - start});
@@ -279,6 +296,7 @@ class BmffLegacyReader {
 
   // Decode fields in the historical order; policy and compatibility heuristics stay here.
   void handle(const BmffBox& box, BmffCursor& fields, std::ostream& out, PrintStructureOption option, size_t depth) {
+    const auto previewCount = image_.nativePreviews_.size();
     const auto address = box.span.offset;
     if (depth == 0)
       image_.visits_.clear();
@@ -331,6 +349,9 @@ class BmffLegacyReader {
       case TAG::ftyp: {
         Internal::enforce(data.size() >= 4, Exiv2::ErrorCode::kerCorruptedMetadata);
         image_.fileType_ = data.read_uint32(0, BmffImage::endian_);
+        // Repeated CR3 reads replace the exposed preview view, including changed backing input.
+        if (readingMetadata_ && depth == 0 && image_.fileType_ == TAG::crx)
+          image_.nativePreviews_.clear();
         if (bTrace) {
           out << "brand: " << image_.toAscii(image_.fileType_);
         }
@@ -595,10 +616,15 @@ class BmffLegacyReader {
     }
     if (bLF && bTrace)
       out << '\n';
+
+    // Structure printing retains its text while avoiding duplicate Canon preview entries.
+    if (!readingMetadata_ && image_.fileType_ == TAG::crx && (box_type == TAG::thmb || box_type == TAG::prvw))
+      image_.nativePreviews_.resize(previewCount);
   }
 
   BmffImage& image_;
   BmffReader reader_;
+  bool readingMetadata_{};
 };
 }  // namespace Internal
 
