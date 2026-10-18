@@ -46,6 +46,8 @@ endif
 
 int_lib = files(
   'bmffbox_int.cpp',
+  'bmffsample_int.cpp',
+  'cr3preview_int.cpp',
   'bmffitem_int.cpp',
   'bmffitemwrite_int.cpp',
   'bmfflayout_int.cpp',
