@@ -905,6 +905,11 @@ constexpr NikonArrayIdx nikonArrayIdx[] = {
     // NikonAf
     {0x00b7, "0100", 30, 0, NA},  // These sizes have been found in tiff headers of MN
     {0x00b7, "0101", 84, 1, NA},  // tag 0xb7 in sample image metadata for each version
+    {0x00b7, "0300", 0, 2, NA},   // Expeed 6
+    {0x00b7, "0301", 0, 2, NA},
+    {0x00b7, "0400", 0, 3, NA},  // Expeed 7
+    {0x00b7, "0401", 0, 3, NA},
+    {0x00b7, "0402", 0, 3, NA},
 };
 
 int nikonSelector(uint16_t tag, const byte* pData, size_t size, TiffComponent* /*pRoot*/) {
