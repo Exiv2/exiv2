@@ -172,6 +172,8 @@ enum class IfdId : uint32_t {
   sony1MltCsNewId,
   sony1MltCsA100Id,
   tagInfoMvId,
+  nikonAf23Id,
+  nikonAf24Id,
   lastId,
   ignoreId = lastId
 };
