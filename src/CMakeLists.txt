@@ -87,6 +87,7 @@ set(PUBLIC_HEADERS
     ../include/exiv2/properties.hpp
     ../include/exiv2/psdimage.hpp
     ../include/exiv2/rafimage.hpp
+    ../include/exiv2/recursion_guard.hpp
     ../include/exiv2/rw2image.hpp
     ../include/exiv2/slice.hpp
     ../include/exiv2/tags.hpp

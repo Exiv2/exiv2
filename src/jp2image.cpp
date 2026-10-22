@@ -315,7 +315,7 @@ void Jp2Image::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
                 std::cout << "Exiv2::Jp2Image::readMetadata: Exif header found at position " << pos << '\n';
 #endif
-                const DecodeParams dp(max_recursion_depth_);
+                const DecodeParams dp(recursion_limit());
                 ByteOrder bo = TiffParser::decode(exifData(), iptcData(), xmpData(), rawData.c_data(pos),
                                                   rawData.size() - pos, dp);
                 setByteOrder(bo);
@@ -369,7 +369,7 @@ void Jp2Image::readMetadata() {
               xmpPacket_ = xmpPacket_.substr(idx);
             }
 
-            const DecodeParams dp(max_recursion_depth_);
+            const DecodeParams dp(recursion_limit());
             if (!xmpPacket_.empty() && XmpParser::decode(xmpData_, xmpPacket_, dp)) {
 #ifndef SUPPRESS_WARNINGS
               EXV_WARNING << "Failed to decode XMP metadata." << '\n';
