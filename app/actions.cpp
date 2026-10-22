@@ -1877,6 +1877,8 @@ int renameFile(std::string& newPath, const tm* tm, Exiv2::ExifData& exifData) {
           std::cout << Params::instance().progname() << ": " << _("File") << " `" << newPath << "' "
                     << _("exists. [O]verwrite, [r]ename or [s]kip?") << " ";
           std::cin >> s;
+          if (s.empty())
+            return -1;
           switch (s.front()) {
             case 'o':
             case 'O':
@@ -1926,7 +1928,7 @@ int dontOverwrite(const std::string& path) {
     std::cout << Params::instance().progname() << ": " << _("Overwrite") << " `" << path << "'? ";
     std::string s;
     std::cin >> s;
-    if (s.front() != 'y' && s.front() != 'Y')
+    if (s.empty() || (s.front() != 'y' && s.front() != 'Y'))
       return 1;
   }
   return 0;
