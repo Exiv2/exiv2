@@ -15,6 +15,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 
 #ifdef EXV_ENABLE_FILESYSTEM
 #include <filesystem>
@@ -59,6 +60,24 @@ namespace fs = std::filesystem;
 #endif
 
 namespace {
+// Dispatch using the function signature exposed by the platform headers.
+template <typename R>
+const char* strErrorWrapper(R (*func)(int, char*, size_t), int error, char* buffer, size_t size) {
+  const auto result = func(error, buffer, size);
+  if constexpr (std::is_same_v<R, int>) {
+    Exiv2::Internal::enforce(result != ERANGE, Exiv2::ErrorCode::kerCallFailed);
+    return buffer;
+  } else {
+    return result;
+  }
+}
+
+[[maybe_unused]] const char* strErrorWrapper(int (*func)(char*, size_t, int), int error, char* buffer, size_t size) {
+  const int result = func(buffer, size, error);
+  Exiv2::Internal::enforce(result != ERANGE, Exiv2::ErrorCode::kerCallFailed);
+  return buffer;
+}
+
 constexpr std::array ENVARDEF{
     "/exiv2.php",
     "40",
@@ -253,32 +272,20 @@ bool fileExists(const std::string& path) {
 
 std::string strError() {
   int error = errno;
-  std::string os;
 #ifdef EXV_HAVE_STRERROR_R
-  const size_t n = 1024;
-#ifdef EXV_STRERROR_R_CHAR_P
-  char buf2[n] = {};
-  auto buf = strerror_r(error, buf2, n);
+  char buffer[1024] = {};
+  std::string os = strErrorWrapper(::strerror_r, error, buffer, sizeof buffer);
+#elif defined(_WIN32)
+  char buffer[1024] = {};
+  std::string os = strErrorWrapper(::strerror_s, error, buffer, sizeof buffer);
 #else
-  char buf[n] = {};
-  const int ret = strerror_r(error, buf, n);
-  Internal::enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
+  std::string os = std::strerror(error);
 #endif
-  os = buf;
   // Issue# 908.
-  // report strerror() if strerror_r() returns empty
+  // Report strerror() if the selected function returns an empty message.
   if (os.empty()) {
     os = std::strerror(error);
   }
-#elif defined(_WIN32)
-  const size_t n = 1024;
-  char buf[n] = {};
-  const auto ret = strerror_s(buf, n, error);
-  Internal::enforce(ret != ERANGE, Exiv2::ErrorCode::kerCallFailed);
-  os = buf;
-#else
-  os = std::strerror(error);
-#endif
   return stringFormat("{} (errno = {})", os, error);
 }  // strError
 

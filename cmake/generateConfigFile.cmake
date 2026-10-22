@@ -27,15 +27,6 @@ set(EXV_HAVE_BROTLI      ${brotli_FOUND})
 check_cxx_source_compiles("#include <format>\nint main(){std::format(\"t\");}" EXV_HAVE_STD_FORMAT)
 check_cxx_symbol_exists(strerror_r  string.h       EXV_HAVE_STRERROR_R )
 
-check_cxx_source_compiles( "
-#include <string.h>
-int main() {
-    char buff[100];
-    const char* c = strerror_r(0,buff,100);
-    (void)c;  // ignore unuse-variable
-    return 0;
-}" EXV_STRERROR_R_CHAR_P )
-
 set(EXV_ENABLE_NLS ${EXIV2_ENABLE_NLS})
 set(EXV_ENABLE_VIDEO ${EXIV2_ENABLE_VIDEO})
 
