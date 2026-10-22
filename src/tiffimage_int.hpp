@@ -197,6 +197,24 @@ class TiffCreator {
  */
 class TiffParserWorker {
  public:
+  /*! @brief Parse one JPEG XR image directory with the shared TIFF reader.
+   *  @param pData Borrowed complete file; must outlive the returned tree.
+   *  @param size File size in bytes.
+   *  @param offset Absolute, aligned directory offset.
+   *  @param context Shared validation budgets/ranges; receives the next image offset.
+   *  @return Independently addressable tree using local IFD0/Exif/GPS groups.
+   *  @throw Error on malformed fields, cycles, unsupported links or exhausted budgets.
+   */
+  static std::unique_ptr<TiffComponent> parseDirectory(const byte* pData, size_t size, uint32_t offset,
+                                                       TiffReadContext& context);
+
+  /*! @brief Build a replacement TIFF tree without modifying the source buffer.
+   *  The returned tree borrows image streams from the source. Keep that buffer alive
+   *  through serialization. The header selects structural fields to retain.
+   */
+  static std::unique_ptr<TiffComponent> buildTree(std::unique_ptr<TiffComponent> source, const ExifData& exifData,
+                                                  const IptcData& iptcData, const XmpData& xmpData, uint32_t root,
+                                                  TiffHeaderBase* header, FindEncoderFct findEncoderFct);
   /*!
     @brief Decode TIFF metadata from a data buffer \em pData of length
            \em size into the provided metadata containers.
