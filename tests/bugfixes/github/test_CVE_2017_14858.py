@@ -37,7 +37,7 @@ Exif comment    :
 """
     ]
     stderr = [
-        """Error: Offset of directory Image, entry 0x0100 is out of bounds: Offset = 0x30303030; truncating the entry
+        """Error: Directory Image, entry 0x0100 has invalid size 262145*2; skipping entry.
 Warning: Directory Image, entry 0x0111: Strip 17 is outside of the data area; ignored.
 Error: Directory Photo with 8224 entries considered invalid; not read.
 Warning: Removing 913 characters from the beginning of the XMP packet
