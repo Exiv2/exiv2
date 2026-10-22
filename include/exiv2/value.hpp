@@ -19,6 +19,9 @@
 // *****************************************************************************
 // namespace extensions
 namespace Exiv2 {
+namespace Internal {
+struct XmpArrayValueAccess;
+}
 // *****************************************************************************
 // class definitions
 
@@ -726,6 +729,8 @@ class EXIV2API XmpTextValue : public XmpValue {
   Uses a vector of std::string to store the value(s).
  */
 class EXIV2API XmpArrayValue : public XmpValue {
+  friend struct Internal::XmpArrayValueAccess;
+
  public:
   //! Shortcut for a %XmpArrayValue auto pointer.
   using UniquePtr = std::unique_ptr<XmpArrayValue>;
