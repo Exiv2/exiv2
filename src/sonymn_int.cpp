@@ -1802,6 +1802,21 @@ constexpr TagInfo SonyMakerNote::tagInfoCs_[] = {
 
 // Warnings: Exiftool database give a list of tags shorted in decimal mode, not hexadecimal.
 
+//! Lookup table to translate Sony camera settings version 3 aspect ratio values
+constexpr TagDetails sonyCs3AspectRatio[] = {
+    {4, N_("3:2")},
+    {8, N_("16:9")},
+};
+
+//! Sony Standard Camera Settings version 3, a byte array
+constexpr TagInfo SonyMakerNote::tagInfoCs3_[] = {
+    {0x000a, "AspectRatio", N_("Aspect Ratio"), N_("Aspect ratio selected on the camera"), IfdId::sony2Cs3Id,
+     SectionId::makerTags, unsignedByte, 1, EXV_PRINT_TAG(sonyCs3AspectRatio)},
+    // End of list marker
+    {0xffff, "(UnknownSony2Cs3Tag)", "(UnknownSony2Cs3Tag)", N_("Unknown Sony Camera Settings 3 tag"),
+     IfdId::sony2Cs3Id, SectionId::makerTags, unsignedByte, 1, printValue},
+};
+
 constexpr TagInfo SonyMakerNote::tagInfoCs2_[] = {
     {0x0010, "FocusMode", N_("Focus Mode"), N_("Focus Mode"), IfdId::sony1Cs2Id, SectionId::makerTags, unsignedShort, 1,
      EXV_PRINT_TAG(sonyCSFocusMode)},
