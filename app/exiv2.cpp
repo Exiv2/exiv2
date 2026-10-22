@@ -310,7 +310,7 @@ void Params::help(std::ostream& os) const {
      << _("             a : All supported metadata (the default)\n") << _("             e : Exif tags\n")
      << _("             t : Exif thumbnail only\n") << _("             i : IPTC tags\n")
      << _("             x : XMP tags\n") << _("             c : JPEG comment\n") << _("             C : ICC Profile\n")
-     << _("             c : All IPTC data (any broken multiple IPTC blocks)\n")
+     << _("             I : All IPTC data (any broken multiple IPTC blocks)\n")
      << _("             - : Input from stdin\n")
      << _("   -i tgt2 Insert target(s) for the 'insert' action. Possible targets are\n")
      << _("             a : All supported metadata (the default)\n") << _("             e : Exif tags\n")
