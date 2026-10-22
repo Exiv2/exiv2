@@ -9,7 +9,7 @@ Error: Directory Photo, entry 0x77d8 has invalid size 4294967294*1; skipping ent
 Warning: Directory Photo, entry 0x6fff has unknown Exif (TIFF) type 65528; setting type size 1.
 Error: Directory Photo, entry 0x6fff has invalid size 4294967291*1; skipping entry.
 Warning: Directory Photo, entry 0x6ffc has unknown Exif (TIFF) type 65533; setting type size 1.
-Error: Upper boundary of data for directory Photo, entry 0x6ffc is out of bounds: Offset = 0x0000316b, size = 16777195, exceeds buffer size by 16776294 Bytes; truncating the entry
+Error: Directory Photo, entry 0x6ffc has invalid size 16777195*1; skipping entry.
 Exif.Image.Make                              Ascii       6  SIGMA  SIGMA
 Exif.Image.Model                             Ascii      11  SIGMA SD10  SIGMA SD10
 Exif.Image.Orientation                       Short       1  1  top, left

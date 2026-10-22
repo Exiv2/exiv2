@@ -33,6 +33,23 @@
 namespace {
 //! Add \em tobe - \em curr 0x00 filler bytes if necessary
 size_t fillGap(Exiv2::Internal::IoWrapper& ioWrapper, size_t curr, size_t tobe);
+
+//! Add TIFF layout sizes without wrapping, including on 32-bit hosts.
+size_t addTiffSize(size_t lhs, size_t rhs) {
+  Exiv2::Internal::enforce(rhs <= std::numeric_limits<size_t>::max() - lhs, Exiv2::ErrorCode::kerArithmeticOverflow);
+  return lhs + rhs;
+}
+
+//! Pad a TIFF value to the required word boundary without wrapping its size.
+size_t alignedTiffSize(size_t size) {
+  return addTiffSize(size, size & 1);
+}
+
+//! Reject offsets that classic TIFF cannot represent before narrowing them.
+uint32_t tiffOffset(size_t offset) {
+  Exiv2::Internal::enforce(offset <= std::numeric_limits<uint32_t>::max(), Exiv2::ErrorCode::kerOffsetOutOfRange);
+  return static_cast<uint32_t>(offset);
+}
 }  // namespace
 
 // *****************************************************************************
@@ -825,6 +842,11 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   if (compCount == 0 && sizeNext == 0)
     return 0;
 
+  // Include image bytes in the preflight; no classic TIFF output may wrap its offsets.
+  const auto outputSize = addTiffSize(size(), isRootDir ? sizeImage() : 0);
+  enforce(offset <= std::numeric_limits<uint32_t>::max() && outputSize <= std::numeric_limits<uint32_t>::max() - offset,
+          ErrorCode::kerOffsetOutOfRange);
+
   // Remember the offset of the CR2 RAW IFD
   if (group() == IfdId::ifd3Id) {
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -846,23 +868,20 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   size_t sizeData = 0;
   for (auto&& component : components_) {
     if (size_t sv = component->size(); sv > 4) {
-      sv += sv & 1;  // Align value to word boundary
-      sizeValue += sv;
+      sizeValue = addTiffSize(sizeValue, alignedTiffSize(sv));
     }
     // Also add the size of data, but only if needed
     if (isRootDir) {
       auto sd = component->sizeData();
-      sd += sd & 1;  // Align data to word boundary
-      sizeData += sd;
+      sizeData = addTiffSize(sizeData, alignedTiffSize(sd));
     }
   }
 
   size_t idx = 0;                 // Current IFD index / bytes written
   valueIdx = sizeDir;             // Offset to the current IFD value
-  dataIdx = sizeDir + sizeValue;  // Offset to the entry's data area
+  dataIdx = addTiffSize(sizeDir, sizeValue);  // Offset to the entry's data area
   if (isRootDir) {                // Absolute offset to the image data
-    imageIdx = offset + dataIdx + sizeData + sizeNext;
-    imageIdx += imageIdx & 1;  // Align image data to word boundary
+    imageIdx = alignedTiffSize(addTiffSize(addTiffSize(offset, dataIdx), addTiffSize(sizeData, sizeNext)));
   }
 
   // 1st: Write the IFD, a) Number of directory entries
@@ -874,18 +893,16 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
   for (auto&& component : components_) {
     idx += writeDirEntry(ioWrapper, byteOrder, offset, component.get(), valueIdx, dataIdx, imageIdx);
     if (size_t sv = component->size(); sv > 4) {
-      sv += sv & 1;  // Align value to word boundary
-      valueIdx += sv;
+      valueIdx = addTiffSize(valueIdx, alignedTiffSize(sv));
     }
     auto sd = component->sizeData();
-    sd += sd & 1;  // Align data to word boundary
-    dataIdx += sd;
+    dataIdx = addTiffSize(dataIdx, alignedTiffSize(sd));
   }
   // c) Pointer to the next IFD
   if (hasNext_) {
     memset(buf, 0x0, 4);
     if (pNext_ && sizeNext) {
-      l2Data(buf, static_cast<uint32_t>(offset + dataIdx), byteOrder);
+      l2Data(buf, tiffOffset(addTiffSize(offset, dataIdx)), byteOrder);
     }
     ioWrapper.write(buf, 4);
     idx += 4;
@@ -893,7 +910,7 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
 
   // 2nd: Write IFD values - may contain pointers to additional data
   valueIdx = sizeDir;
-  dataIdx = sizeDir + sizeValue;
+  dataIdx = addTiffSize(sizeDir, sizeValue);
   for (auto&& component : components_) {
     if (size_t sv = component->size(); sv > 4) {
       size_t d = component->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
@@ -902,26 +919,26 @@ size_t TiffDirectory::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t 
         ioWrapper.putb(0x0);  // Align value to word boundary
         sv += 1;
       }
-      idx += sv;
-      valueIdx += sv;
+      idx = addTiffSize(idx, sv);
+      valueIdx = addTiffSize(valueIdx, sv);
     }
     auto sd = component->sizeData();
-    sd += sd & 1;  // Align data to word boundary
-    dataIdx += sd;
+    dataIdx = addTiffSize(dataIdx, alignedTiffSize(sd));
   }
 
   // 3rd: Write data - may contain offsets too (eg sub-IFD)
-  dataIdx = sizeDir + sizeValue;
-  idx += writeData(ioWrapper, byteOrder, offset, dataIdx, imageIdx);
+  dataIdx = addTiffSize(sizeDir, sizeValue);
+  idx = addTiffSize(idx, writeData(ioWrapper, byteOrder, offset, dataIdx, imageIdx));
 
   // 4th: Write next-IFD
   if (pNext_ && sizeNext) {
-    idx += pNext_->write(ioWrapper, byteOrder, offset + idx, std::string::npos, std::string::npos, imageIdx);
+    idx = addTiffSize(idx, pNext_->write(ioWrapper, byteOrder, addTiffSize(offset, idx), std::string::npos,
+                                         std::string::npos, imageIdx));
   }
 
   // 5th, at the root directory level only: write image data
   if (isRootDir) {
-    idx += writeImage(ioWrapper, byteOrder);
+    idx = addTiffSize(idx, writeImage(ioWrapper, byteOrder));
   }
 
   return idx;
@@ -932,6 +949,7 @@ size_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, s
   auto pDirEntry = dynamic_cast<TiffEntryBase*>(pTiffComponent);
   if (!pDirEntry)
     return 0;
+  enforce(pDirEntry->count() <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerImageWriteFailed);
   byte buf[8];
   us2Data(buf, pDirEntry->tag(), byteOrder);
   us2Data(buf + 2, pDirEntry->tiffType(), byteOrder);
@@ -939,7 +957,7 @@ size_t TiffDirectory::writeDirEntry(IoWrapper& ioWrapper, ByteOrder byteOrder, s
   ioWrapper.write(buf, 8);
   if (pDirEntry->size() > 4) {
     pDirEntry->setOffset(Safe::add<size_t>(offset, valueIdx));
-    ul2Data(buf, static_cast<uint32_t>(pDirEntry->offset()), byteOrder);
+    ul2Data(buf, tiffOffset(pDirEntry->offset()), byteOrder);
     ioWrapper.write(buf, 4);
   } else {
     const size_t len = pDirEntry->write(ioWrapper, byteOrder, offset, valueIdx, dataIdx, imageIdx);
@@ -1037,8 +1055,8 @@ size_t TiffSubIfd::doWrite(IoWrapper& ioWrapper, ByteOrder byteOrder, size_t off
   // Sort IFDs by group, needed if image data tags were copied first
   std::sort(ifds_.begin(), ifds_.end(), [](const auto& lhs, const auto& rhs) { return lhs->group() < rhs->group(); });
   for (auto&& ifd : ifds_) {
-    idx += writeOffset(buf.data(idx), offset + dataIdx, tiffType(), byteOrder);
-    dataIdx += ifd->size();
+    idx += writeOffset(buf.data(idx), addTiffSize(offset, dataIdx), tiffType(), byteOrder);
+    dataIdx = addTiffSize(dataIdx, ifd->size());
   }
   ioWrapper.write(buf.c_data(), buf.size());
   return buf.size();
@@ -1285,23 +1303,22 @@ size_t TiffComponent::size() const {
 
 size_t TiffDirectory::doSize() const {
   size_t compCount = count();
+  enforce(compCount <= 0xffff, ErrorCode::kerTooManyTiffDirectoryEntries, groupName(group()));
   // Size of the directory, without values and additional data
   size_t len = 2 + (12 * compCount) + (hasNext_ ? 4 : 0);
   // Size of IFD values and data
   for (auto&& component : components_) {
     if (size_t sv = component->size(); sv > 4) {
-      sv += sv & 1;  // Align value to word boundary
-      len += sv;
+      len = addTiffSize(len, alignedTiffSize(sv));
     }
     auto sd = component->sizeData();
-    sd += sd & 1;  // Align data to word boundary
-    len += sd;
+    len = addTiffSize(len, alignedTiffSize(sd));
   }
   // Size of next-IFD, if any
   size_t sizeNext = 0;
   if (pNext_) {
     sizeNext = pNext_->size();
-    len += sizeNext;
+    len = addTiffSize(len, sizeNext);
   }
   // Reset size of IFD if it has no entries and no or empty next IFD.
   if (compCount == 0 && sizeNext == 0)
@@ -1329,7 +1346,7 @@ size_t TiffMnEntry::doSize() const {
 }
 
 size_t TiffIfdMakernote::doSize() const {
-  return sizeHeader() + ifd_.size();
+  return addTiffSize(sizeHeader(), ifd_.size());
 }
 
 size_t TiffBinaryArray::doSize() const {
@@ -1396,7 +1413,7 @@ size_t TiffDataEntry::doSizeData() const {
 }
 
 size_t TiffSubIfd::doSizeData() const {
-  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{}, std::plus(), std::mem_fn(&TiffSubIfd::size));
+  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{}, addTiffSize, std::mem_fn(&TiffSubIfd::size));
 }
 
 size_t TiffIfdMakernote::doSizeData() const {
@@ -1409,12 +1426,12 @@ size_t TiffComponent::sizeImage() const {
 
 size_t TiffDirectory::doSizeImage() const {
   size_t len = pNext_ ? pNext_->sizeImage() : 0;
-  return std::transform_reduce(components_.begin(), components_.end(), len, std::plus(),
+  return std::transform_reduce(components_.begin(), components_.end(), len, addTiffSize,
                                std::mem_fn(&TiffDirectory::sizeImage));
 }
 
 size_t TiffSubIfd::doSizeImage() const {
-  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{}, std::plus(), std::mem_fn(&TiffSubIfd::sizeImage));
+  return std::transform_reduce(ifds_.begin(), ifds_.end(), size_t{}, addTiffSize, std::mem_fn(&TiffSubIfd::sizeImage));
 }  // TiffSubIfd::doSizeImage
 
 size_t TiffIfdMakernote::doSizeImage() const {
@@ -1432,7 +1449,7 @@ size_t TiffImageEntry::doSizeImage() const {
   if (len != 0)
     return len;
 
-  return std::transform_reduce(strips_.begin(), strips_.end(), len, std::plus(),
+  return std::transform_reduce(strips_.begin(), strips_.end(), len, addTiffSize,
                                [](const auto& s) { return s.second; });
 }  // TiffImageEntry::doSizeImage
 

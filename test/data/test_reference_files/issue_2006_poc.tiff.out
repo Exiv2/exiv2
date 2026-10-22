@@ -24,7 +24,7 @@ Error: Directory Image, entry 0x2020 has invalid size 538976288*1; skipping entr
 Warning: Directory Image, entry 0x2020 has unknown Exif (TIFF) type 8224; setting type size 1.
 Error: Directory Image, entry 0x2020 has invalid size 538976288*1; skipping entry.
 Warning: Directory Image, entry 0x8e00 has unknown Exif (TIFF) type 2304; setting type size 1.
-Error: Offset of directory Image, entry 0x8e00 is out of bounds: Offset = 0x00008020; truncating the entry
+Error: Directory Image, entry 0x8e00 has invalid size 1024*1; skipping entry.
 Warning: Directory Image, entry 0x2020 has unknown Exif (TIFF) type 8224; setting type size 1.
 Error: Directory Image, entry 0x2020 has invalid size 545259775*1; skipping entry.
 Exif.Image.Make                              Ascii      32  Panasonic     Panasonic   
