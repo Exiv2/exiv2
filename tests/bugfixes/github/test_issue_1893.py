@@ -37,7 +37,10 @@ class issue_1893_cr3_preview(metaclass=system_tests.CaseMeta):
         print("*** test skipped.  requires enable_bmff=1***")
     else:
         retval = [0, 0]
-        stderr = ["", ""]
+        # The legacy XMP reader reports its existing limitation in toolkit-disabled builds.
+        xmp_warning = ("" if system_tests.BT.verbose_version().get("have_xmptoolkit") == "1"
+                       else "Warning: XMP toolkit support not compiled in.\n")
+        stderr = [xmp_warning, xmp_warning]
         stdin = ["", ""]
         stdout = [
             """Preview 1: image/jpeg, 160x120 pixels, 16005 bytes
