@@ -586,6 +586,7 @@ int64_t parseInt64(const std::string& s, bool& ok) {
   if (ok)
     return ret;
 
+#ifdef FE_ALL_EXCEPT
   auto d = stringTo<double>(s, ok);
   if (ok) {
     std::feclearexcept(FE_ALL_EXCEPT);
@@ -595,6 +596,11 @@ int64_t parseInt64(const std::string& s, bool& ok) {
       return static_cast<int64_t>(ll);
     }
   }
+#else
+  auto f = stringTo<float>(s, ok);
+  if (ok)
+    return static_cast<int64_t>(f);
+#endif
 
   auto [r, st] = stringTo<Rational>(s, ok);
   if (ok) {
