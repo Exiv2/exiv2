@@ -81,17 +81,17 @@ static const char * kTenSpaces = "          ";
 
 #define OutProcString(str)	{ status = (*outProc) ( refCon, (str).c_str(), (str).size() );  if ( status != 0 ) goto EXIT; }
 
-#define OutProcULong(num)	{ snprintf ( buffer, sizeof(buffer), "%lu", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */ \
+#define OutProcULong(num)	{ snprintf ( buffer, sizeof(buffer), "%lu", static_cast<unsigned long>(num) ); /* AUDIT: Using sizeof for snprintf length is safe */ \
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 #ifdef __APPLE__
-#define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%X", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
+#define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%X", static_cast<unsigned int>(num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 #else
-#define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%lX", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
+#define OutProcHexInt(num)	{ snprintf ( buffer, sizeof(buffer), "%lX", static_cast<unsigned long>(num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 #endif
 
-#define OutProcHexByte(num)	{ snprintf ( buffer, sizeof(buffer), "%.2X", (num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
+#define OutProcHexByte(num)	{ snprintf ( buffer, sizeof(buffer), "%.2X", static_cast<unsigned int>(num) ); /* AUDIT: Using sizeof for snprintf length is safe */	\
 							  status = (*outProc) ( refCon, buffer, strlen(buffer) );  if ( status != 0 ) goto EXIT; }
 
 static const char * kIndent = "   ";
