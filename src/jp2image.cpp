@@ -156,7 +156,7 @@ void Jp2Image::readMetadata() {
 
   while (io_->read(reinterpret_cast<byte*>(&box), boxHSize) == boxHSize) {
     boxes_check(boxesCount++, boxem);
-    const size_t position = io_->tell();
+    const uint64_t position = io_->tell();
     box.length = getULong(reinterpret_cast<byte*>(&box.length), bigEndian);
     box.type = getULong(reinterpret_cast<byte*>(&box.type), bigEndian);
 #ifdef EXIV2_DEBUG_MESSAGES
@@ -197,7 +197,7 @@ void Jp2Image::readMetadata() {
 #ifdef EXIV2_DEBUG_MESSAGES
         std::cout << "Exiv2::Jp2Image::readMetadata: JP2Header box found\n";
 #endif
-        size_t restore = io_->tell();
+        uint64_t restore = io_->tell();
 
         while (io_->read(reinterpret_cast<byte*>(&subBox), boxHSize) == boxHSize && subBox.length) {
           boxes_check(boxesCount++, boxem);
@@ -424,7 +424,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
 
     while (box.length && box.type != kJp2BoxType::Close &&
            io_->read(reinterpret_cast<byte*>(&box), boxHSize) == boxHSize) {
-      const size_t position = io_->tell();
+      const uint64_t position = io_->tell();
       box.length = getULong(reinterpret_cast<byte*>(&box.length), bigEndian);
       box.type = getULong(reinterpret_cast<byte*>(&box.type), bigEndian);
       Internal::enforce(box.length <= boxHSize + io_->size() - io_->tell(), ErrorCode::kerCorruptedMetadata);
@@ -462,7 +462,7 @@ void Jp2Image::printStructure(std::ostream& out, PrintStructureOption option, si
           while (io_->read(reinterpret_cast<byte*>(&subBox), boxHSize) == boxHSize &&
                  io_->tell() < position + box.length)  // don't read beyond the box!
           {
-            const size_t address = io_->tell() - boxHSize;
+            const uint64_t address = io_->tell() - boxHSize;
             subBox.length = getULong(reinterpret_cast<byte*>(&subBox.length), bigEndian);
             subBox.type = getULong(reinterpret_cast<byte*>(&subBox.type), bigEndian);
 
@@ -722,7 +722,7 @@ void Jp2Image::doWriteMetadata(BasicIo& outIo) {
                    "This is the last box of file."
                 << '\n';
 #endif
-      box.length = static_cast<uint32_t>(io_->size() - io_->tell() + 8);
+      box.length = Internal::checkedCast<uint32_t>(Safe::add(io_->size() - io_->tell(), uint64_t{8}));
     }
     if (box.length < 8) {
       // box is broken, so there is nothing we can do here

@@ -101,7 +101,7 @@ void writeTemp(BasicIo& tempIo, const std::string& data) {
 
 //! Get the current write position of temp file, taking care of errors
 uint32_t posTemp(const BasicIo& tempIo) {
-  const size_t pos = tempIo.tell();
+  const uint64_t pos = tempIo.tell();
   enforce(pos <= std::numeric_limits<uint32_t>::max(), ErrorCode::kerImageWriteFailed);
   return static_cast<uint32_t>(pos);
 }
@@ -232,9 +232,10 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
   const byte* data = io.mmap();
 
   // default positions and sizes
-  const size_t size = io.size();
+  const uint64_t fileSize = io.size();
+  const size_t mappedSize = Internal::checkedCast<size_t>(fileSize);
   size_t posEps = 0;
-  size_t posEndEps = size;
+  size_t posEndEps = mappedSize;
   uint32_t posWmf = 0;
   uint32_t sizeWmf = 0;
   uint32_t posTiff = 0;
@@ -244,13 +245,13 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
 
   // check for DOS EPS
   const bool dosEps =
-      (size >= dosEpsSignature.size() && memcmp(data, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
+      (mappedSize >= dosEpsSignature.size() && memcmp(data, dosEpsSignature.data(), dosEpsSignature.size()) == 0);
   if (dosEps) {
 #ifdef DEBUG
     EXV_DEBUG << "readWriteEpsMetadata: Found DOS EPS signature\n";
 #endif
 
-    enforce(size >= 30, errcode);
+    enforce(mappedSize >= 30, errcode);
     posEps = getULong(data + 4, littleEndian);
     posEndEps = getULong(data + 8, littleEndian) + posEps;
     posWmf = getULong(data + 12, littleEndian);
@@ -286,9 +287,9 @@ void readWriteEpsMetadata(BasicIo& io, std::string& xmpPacket, NativePreviewList
     enforce(sizeWmf == 0 || 30 <= posWmf, errcode);
     enforce(sizeTiff == 0 || 30 <= posTiff, errcode);
 
-    enforce(posEps <= posEndEps && posEndEps <= size, errcode);
-    enforce(posWmf <= size && sizeWmf <= size - posWmf, errcode);
-    enforce(posTiff <= size && sizeTiff <= size - posTiff, errcode);
+    enforce(posEps <= posEndEps && posEndEps <= fileSize, errcode);
+    enforce(posWmf <= fileSize && sizeWmf <= fileSize - posWmf, errcode);
+    enforce(posTiff <= fileSize && sizeTiff <= fileSize - posTiff, errcode);
   }
 
   // check first line
@@ -1107,7 +1108,7 @@ bool isEpsType(BasicIo& iIo, bool advance) {
     auto f = [](const auto& a, const auto& b) { return a.size() < b.size(); };
     return std::max_element(epsFirstLine.begin(), epsFirstLine.end(), f)->size();
   }();
-  const size_t restore = iIo.tell();  // save
+  const uint64_t restore = iIo.tell();  // save
   DataBuf buf = iIo.read(bufSize);
   if (iIo.error() || buf.size() != bufSize) {
     iIo.seek(restore, BasicIo::beg);

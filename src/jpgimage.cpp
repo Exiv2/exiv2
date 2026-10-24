@@ -334,7 +334,7 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
   }
 
   bool bPrint = option == kpsBasic || option == kpsRecursive;
-  std::vector<std::pair<size_t, size_t>> iptcDataSegs;
+  std::vector<std::pair<uint64_t, uint64_t>> iptcDataSegs;
 
   if (bPrint || option == kpsXMP || option == kpsIccProfile || option == kpsIptcErase) {
     // mnemonic for markers
@@ -556,9 +556,9 @@ void JpegBase::printStructure(std::ostream& out, PrintStructureOption option, si
 
     // binary copy io_ to a temporary file
     MemIo tempIo;
-    size_t start = 0;
+    uint64_t start = 0;
     for (const auto& [l, s] : iptcDataSegs) {
-      const size_t length = l - start;
+      const auto length = Internal::checkedCast<size_t>(l - start);
       io_->seekOrThrow(start, BasicIo::beg, ErrorCode::kerFailedToReadImageData);
       DataBuf buf(length);
       io_->readOrThrow(buf.data(), buf.size(), ErrorCode::kerFailedToReadImageData);
@@ -617,7 +617,7 @@ void JpegBase::doWriteMetadata(BasicIo& outIo) {
   // Used to initialize search variables such as skipCom.
   static const size_t notfound = std::numeric_limits<size_t>::max();
 
-  const size_t seek = io_->tell();
+  const uint64_t seek = io_->tell();
   size_t count = 0;
   size_t search = 0;
   size_t insertPos = 0;

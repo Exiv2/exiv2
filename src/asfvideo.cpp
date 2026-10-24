@@ -206,7 +206,7 @@ void AsfVideo::readMetadata() {
   io_->seek(0, BasicIo::beg);
   height_ = width_ = 1;
 
-  xmpData()["Xmp.video.FileSize"] = io_->size() / 1048576.;
+  xmpData()["Xmp.video.FileSize"] = static_cast<double>(io_->size()) / 1048576.;
   xmpData()["Xmp.video.MimeType"] = mimeType();
 
   decodeBlock(0);

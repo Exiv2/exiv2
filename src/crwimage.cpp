@@ -9,6 +9,7 @@
 #include "basicio.hpp"
 #include "config.h"
 #include "crwimage_int.hpp"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "tags.hpp"
@@ -67,10 +68,11 @@ void CrwImage::readMetadata() {
     throw Error(ErrorCode::kerNotACrwImage);
   }
   clearMetadata();
-  DataBuf file(io().size());
+  const uint64_t fileSize = io_->size();
+  DataBuf file(Internal::checkedCast<size_t>(fileSize));
   io_->read(file.data(), file.size());
 
-  CrwParser::decode(this, io_->mmap(), io_->size());
+  CrwParser::decode(this, io_->mmap(), Internal::checkedCast<size_t>(fileSize));
 
 }  // CrwImage::readMetadata
 
@@ -85,7 +87,8 @@ void CrwImage::writeMetadata() {
     // Ensure that this is the correct image type
     if (isCrwType(*io_, false)) {
       // Read the image into a memory buffer
-      buf.alloc(io_->size());
+      const uint64_t fileSize = io_->size();
+      buf.alloc(Internal::checkedCast<size_t>(fileSize));
       io_->read(buf.data(), buf.size());
       if (io_->error() || io_->eof()) {
         buf.reset();

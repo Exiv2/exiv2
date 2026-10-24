@@ -50,9 +50,9 @@ int main(int argc, char* const argv[]) {
           output.write(bytes.get(), r);
         }
       } else {
-        size_t l = 0;
+        const uint64_t length = io->size();
         // read/write byte-wise (#1029)
-        while (l++ < io->size()) {
+        for (uint64_t l = 0; l < length; ++l) {
           output.putb(io->getb());
         }
       }

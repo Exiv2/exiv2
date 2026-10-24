@@ -23,7 +23,7 @@ class BasicIo;
 
 //! Native preview information. This is meant to be used only by the PreviewManager.
 struct NativePreview {
-  size_t position_{};     //!< Position
+  uint64_t position_{};   //!< Position
   size_t size_{};         //!< Size
   size_t width_{};        //!< Width
   size_t height_{};       //!< Height
@@ -331,12 +331,13 @@ class EXIV2API Image {
     @throw Error if reading of the file fails or the image data is
           not valid (does not look like data of the specific image type).
    */
-  void printTiffStructure(BasicIo& io, std::ostream& out, PrintStructureOption option, size_t depth, size_t offset = 0);
+  void printTiffStructure(BasicIo& io, std::ostream& out, PrintStructureOption option, size_t depth,
+                          uint64_t offset = 0);
 
   /*!
     @brief Print out the structure of a TIFF IFD
    */
-  void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, size_t start, bool bSwap,
+  void printIFDStructure(BasicIo& io, std::ostream& out, Exiv2::PrintStructureOption option, uint64_t start, bool bSwap,
                          char c, size_t depth);
 
   /*!
