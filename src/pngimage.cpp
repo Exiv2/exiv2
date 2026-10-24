@@ -167,7 +167,7 @@ static bool tEXtToDataBuf(const byte* bytes, size_t length, DataBuf& result) {
       if (++count % 2)
         n = v * 16;  // leading digit
       else
-        *r++ = n + v;  // trailing
+        *r++ = static_cast<byte>(n + v);  // trailing
     }
   }
   return true;
@@ -582,7 +582,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
           tmp = crc32(tmp, typeExif, 4);
           tmp = crc32(tmp, blob.data(), static_cast<uint32_t>(blob.size()));
           byte crc[4];
-          ul2Data(crc, tmp, bigEndian);
+          ul2Data(crc, static_cast<uint32_t>(tmp), bigEndian);  // CRC-32 has exactly 32 bits.
 
           if (outIo.write(length, 4) != 4 || outIo.write(typeExif, 4) != 4 ||
               outIo.write(blob.data(), blob.size()) != blob.size() || outIo.write(crc, 4) != 4) {
@@ -623,7 +623,7 @@ void PngImage::doWriteMetadata(BasicIo& outIo) {
           tmp = crc32(tmp, nullComp, 2);
           tmp = crc32(tmp, compressed.c_data(), static_cast<uint32_t>(compressed.size()));
           byte crc[4];
-          ul2Data(crc, tmp, bigEndian);
+          ul2Data(crc, static_cast<uint32_t>(tmp), bigEndian);  // CRC-32 has exactly 32 bits.
 
           if (outIo.write(length, 4) != 4 || outIo.write(typeICCP, 4) != 4 ||
               outIo.write(reinterpret_cast<const byte*>(profileName_.data()), nameLength) != nameLength ||

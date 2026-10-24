@@ -145,7 +145,7 @@ constexpr TagInfo CasioMakerNote::tagInfo_[] = {
 };
 
 std::ostream& CasioMakerNote::print0x0006(std::ostream& os, const Value& value, const ExifData*) {
-  return os << stringFormat("{:.2f} m", value.toInt64() / 1000.0);
+  return os << stringFormat("{:.2f} m", static_cast<double>(value.toInt64()) / 1000.0);
 }
 
 std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, const ExifData*) {
@@ -154,7 +154,7 @@ std::ostream& CasioMakerNote::print0x0015(std::ostream& os, const Value& value, 
   for (size_t i = 0; i < value.size(); i++) {
     const auto l = value.toInt64(i);
     if (l != 0) {
-      numbers.push_back(l);
+      numbers.push_back(static_cast<char>(l));
     }
   }
 
@@ -451,7 +451,7 @@ std::ostream& Casio2MakerNote::print0x2001(std::ostream& os, const Value& value,
   for (size_t i = 0; i < value.size(); i++) {
     const auto l = value.toInt64(i);
     if (l != 0) {
-      numbers.push_back(l);
+      numbers.push_back(static_cast<char>(l));
     }
   }
 
@@ -475,7 +475,7 @@ std::ostream& Casio2MakerNote::print0x2022(std::ostream& os, const Value& value,
   if (value.toInt64() >= 0x20000000) {
     return os << N_("Inf");
   }
-  return os << stringFormat("{:.2f} m", value.toInt64() / 1000.0);
+  return os << stringFormat("{:.2f} m", static_cast<double>(value.toInt64()) / 1000.0);
 }
 
 }  // namespace Exiv2::Internal

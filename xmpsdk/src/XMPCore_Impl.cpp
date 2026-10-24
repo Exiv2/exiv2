@@ -347,7 +347,7 @@ LookupQualSelector ( XMP_Node * arrayNode, const XMP_VarString & qualName, XMP_V
 	} else {
 
 		XMP_Index itemLim;
-		for ( index = 0, itemLim = arrayNode->children.size(); index != itemLim; ++index ) {
+		for ( index = 0, itemLim = XMP_CheckedCast<XMP_Index>(arrayNode->children.size()); index != itemLim; ++index ) {
 
 			const XMP_Node * currItem = arrayNode->children[index];
 			XMP_Assert ( currItem->parent == arrayNode );
@@ -421,7 +421,7 @@ FollowXPathStep	( XMP_Node *	   parentNode,
 		if ( stepKind == kXMP_ArrayIndexStep ) {
 			index = FindIndexedItem ( parentNode, nextStep.step, createNodes );
 		} else if ( stepKind == kXMP_ArrayLastStep ) {
-			index = parentNode->children.size() - 1;
+			index = XMP_CheckedCast<XMP_Index>(parentNode->children.size()) - 1;
 		} else if ( stepKind == kXMP_FieldSelectorStep ) {
 			XMP_VarString fieldName, fieldValue;
 			SplitNameAndValue ( nextStep.step, &fieldName, &fieldValue );
@@ -992,7 +992,7 @@ LookupFieldSelector ( const XMP_Node * arrayNode, XMP_StringPtr fieldName, XMP_S
 {
 	XMP_Index index, itemLim;
 	
-	for ( index = 0, itemLim = arrayNode->children.size(); index != itemLim; ++index ) {
+	for ( index = 0, itemLim = XMP_CheckedCast<XMP_Index>(arrayNode->children.size()); index != itemLim; ++index ) {
 
 		const XMP_Node * currItem = arrayNode->children[index];
 		XMP_Assert ( currItem->parent == arrayNode );
@@ -1031,7 +1031,7 @@ LookupLangItem ( const XMP_Node * arrayNode, XMP_VarString & lang )
 	}
 
 	XMP_Index index   = 0;
-	XMP_Index itemLim = arrayNode->children.size();
+	XMP_Index itemLim = XMP_CheckedCast<XMP_Index>(arrayNode->children.size());
 	
 	for ( ; index != itemLim; ++index ) {
 		const XMP_Node * currItem = arrayNode->children[index];

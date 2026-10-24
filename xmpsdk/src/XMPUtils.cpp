@@ -712,7 +712,7 @@ XMPUtils::ComposeArrayItemPath ( XMP_StringPtr	 schemaNS,
 
 	if ( (itemIndex < 0) && (itemIndex != kXMP_ArrayLastItem) ) XMP_Throw ( "Array index out of bounds", kXMPErr_BadParam );
 
-	XMP_StringLen reserveLen = strlen(arrayName) + 2 + 32;	// Room plus padding.
+	size_t reserveLen = strlen(arrayName) + 2 + 32;	// Room plus padding.
 
 	sComposedPath->erase();
 	sComposedPath->reserve ( reserveLen );
@@ -728,7 +728,7 @@ XMPUtils::ComposeArrayItemPath ( XMP_StringPtr	 schemaNS,
 	}
 
 	*fullPath = sComposedPath->c_str();
-	*pathSize = strlen ( *fullPath );	// ! Don't use sComposedPath->size()!
+	*pathSize = XMP_CheckedCast<XMP_StringLen>(strlen ( *fullPath ));	// ! Don't use sComposedPath->size()!
 
 	XMP_Enforce ( *pathSize < sComposedPath->size() );	// Rather late, but complain about buffer overflow.
 
@@ -760,7 +760,7 @@ XMPUtils::ComposeStructFieldPath ( XMP_StringPtr   schemaNS,
 	ExpandXPath ( fieldNS, fieldName, &fieldPath );
 	if ( fieldPath.size() != 2 ) XMP_Throw ( "The fieldName must be simple", kXMPErr_BadXPath );
 
-	XMP_StringLen reserveLen = strlen(structName) + fieldPath[kRootPropStep].step.size() + 1;
+	size_t reserveLen = strlen(structName) + fieldPath[kRootPropStep].step.size() + 1;
 
 	sComposedPath->erase();
 	sComposedPath->reserve ( reserveLen );
@@ -769,7 +769,7 @@ XMPUtils::ComposeStructFieldPath ( XMP_StringPtr   schemaNS,
 	*sComposedPath += fieldPath[kRootPropStep].step;
 
 	*fullPath = sComposedPath->c_str();
-	*pathSize = sComposedPath->size();
+	*pathSize = XMP_CheckedCast<XMP_StringLen>(sComposedPath->size());
 
 }	// ComposeStructFieldPath
 
@@ -799,7 +799,7 @@ XMPUtils::ComposeQualifierPath ( XMP_StringPtr	 schemaNS,
 	ExpandXPath ( qualNS, qualName, &qualPath );
 	if ( qualPath.size() != 2 ) XMP_Throw ( "The qualifier name must be simple", kXMPErr_BadXPath );
 
-	XMP_StringLen reserveLen = strlen(propName) + qualPath[kRootPropStep].step.size() + 2;
+	size_t reserveLen = strlen(propName) + qualPath[kRootPropStep].step.size() + 2;
 
 	sComposedPath->erase();
 	sComposedPath->reserve ( reserveLen );
@@ -808,7 +808,7 @@ XMPUtils::ComposeQualifierPath ( XMP_StringPtr	 schemaNS,
 	*sComposedPath += qualPath[kRootPropStep].step;
 
 	*fullPath = sComposedPath->c_str();
-	*pathSize = sComposedPath->size();
+	*pathSize = XMP_CheckedCast<XMP_StringLen>(sComposedPath->size());
 
 }	// ComposeQualifierPath
 
@@ -838,7 +838,7 @@ XMPUtils::ComposeLangSelector ( XMP_StringPtr	schemaNS,
 	XMP_VarString langName ( _langName );
 	NormalizeLangValue ( &langName );
 
-	XMP_StringLen reserveLen = strlen(arrayName) + langName.size() + 14;
+	size_t reserveLen = strlen(arrayName) + langName.size() + 14;
 
 	sComposedPath->erase();
 	sComposedPath->reserve ( reserveLen );
@@ -848,7 +848,7 @@ XMPUtils::ComposeLangSelector ( XMP_StringPtr	schemaNS,
 	*sComposedPath += "\"]";
 
 	*fullPath = sComposedPath->c_str();
-	*pathSize = sComposedPath->size();
+	*pathSize = XMP_CheckedCast<XMP_StringLen>(sComposedPath->size());
 
 }	// ComposeLangSelector
 
@@ -881,7 +881,7 @@ XMPUtils::ComposeFieldSelector ( XMP_StringPtr	 schemaNS,
 	ExpandXPath ( fieldNS, fieldName, &fieldPath );
 	if ( fieldPath.size() != 2 ) XMP_Throw ( "The fieldName must be simple", kXMPErr_BadXPath );
 
-	XMP_StringLen reserveLen = strlen(arrayName) + fieldPath[kRootPropStep].step.size() + strlen(fieldValue) + 5;
+	size_t reserveLen = strlen(arrayName) + fieldPath[kRootPropStep].step.size() + strlen(fieldValue) + 5;
 
 	sComposedPath->erase();
 	sComposedPath->reserve ( reserveLen );
@@ -893,7 +893,7 @@ XMPUtils::ComposeFieldSelector ( XMP_StringPtr	 schemaNS,
 	*sComposedPath += "\"]";
 
 	*fullPath = sComposedPath->c_str();
-	*pathSize = sComposedPath->size();
+	*pathSize = XMP_CheckedCast<XMP_StringLen>(sComposedPath->size());
 
 }	// ComposeFieldSelector
 
@@ -942,7 +942,7 @@ XMPUtils::ConvertFromInt ( XMP_Int32	   binValue,
 	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->size(), format, binValue );
 
 	*strValue = sConvertedValue->c_str();
-	*strSize  = strlen ( *strValue );	// ! Don't use sConvertedValue->size()!
+	*strSize  = static_cast<XMP_StringLen>(strlen ( *strValue ));	// ! Don't use sConvertedValue->size()!
 
 	XMP_Enforce ( *strSize < sConvertedValue->size() ); // Rather late, but complain about buffer overflow.
 
@@ -971,7 +971,7 @@ XMPUtils::ConvertFromInt64 ( XMP_Int64	     binValue,
 	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->size(), format, binValue );
 
 	*strValue = sConvertedValue->c_str();
-	*strSize  = strlen ( *strValue );	// ! Don't use sConvertedValue->size()!
+	*strSize  = static_cast<XMP_StringLen>(strlen ( *strValue ));	// ! Don't use sConvertedValue->size()!
 
 	XMP_Enforce ( *strSize < sConvertedValue->size() ); // Rather late, but complain about buffer overflow.
 
@@ -1000,7 +1000,7 @@ XMPUtils::ConvertFromFloat ( double			 binValue,
 	snprintf ( const_cast<char*>(sConvertedValue->c_str()), sConvertedValue->size(), format, binValue );
 
 	*strValue = sConvertedValue->c_str();
-	*strSize  = strlen ( *strValue );	// ! Don't use sConvertedValue->size()!
+	*strSize  = static_cast<XMP_StringLen>(strlen ( *strValue ));	// ! Don't use sConvertedValue->size()!
 
 	XMP_Enforce ( *strSize < sConvertedValue->size() ); // Rather late, but complain about buffer overflow.
 
@@ -1138,7 +1138,7 @@ XMPUtils::ConvertFromDate ( const XMP_DateTime & binValue,
 	}
 
 	*strValue = sConvertedValue->c_str();
-	*strSize  = sConvertedValue->size();
+	*strSize  = static_cast<XMP_StringLen>(sConvertedValue->size());
 
 }	// ConvertFromDate
 
@@ -1532,7 +1532,7 @@ XMPUtils::EncodeToBase64 ( XMP_StringPtr   rawStr,
 	// Assign the output values.
 
 	*encodedStr = sBase64Str->c_str();
-	*encodedLen = sBase64Str->size();
+	*encodedLen = XMP_CheckedCast<XMP_StringLen>(sBase64Str->size());
 
 }	// EncodeToBase64
 
@@ -1658,7 +1658,7 @@ XMPUtils::DecodeFromBase64 ( XMP_StringPtr	 encodedStr,
 	// Assign the output values.
 
 	*rawStr = sBase64Str->c_str();
-	*rawLen = sBase64Str->size();
+	*rawLen = XMP_CheckedCast<XMP_StringLen>(sBase64Str->size());
 
 }	// DecodeFromBase64
 
@@ -1806,7 +1806,7 @@ XMPUtils::PackageForJPEG ( const XMPMeta & origXMP,
 				XMP_Assert ( propSize > 0 );
 
 				if ( propSize > tempLen ) propSize = tempLen;	// ! Don't go negative.
-				tempLen -= propSize;
+				tempLen -= static_cast<XMP_StringLen>(propSize);
 
 			}
 
@@ -1875,11 +1875,11 @@ XMPUtils::PackageForJPEG ( const XMPMeta & origXMP,
 	// Assign the output pointer and sizes.
 
 	*stdStr = sStandardXMP->c_str();
-	*stdLen = sStandardXMP->size();
+	*stdLen = static_cast<XMP_StringLen>(sStandardXMP->size());
 	*extStr = sExtendedXMP->c_str();
-	*extLen = sExtendedXMP->size();
+	*extLen = static_cast<XMP_StringLen>(sExtendedXMP->size());
 	*digestStr = sExtendedDigest->c_str();
-	*digestLen = sExtendedDigest->size();
+	*digestLen = static_cast<XMP_StringLen>(sExtendedDigest->size());
 
 }	// PackageForJPEG
 

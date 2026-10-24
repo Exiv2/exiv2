@@ -10,6 +10,7 @@
 // included header files
 #include "convert.hpp"
 #include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "exif.hpp"
 #include "image_int.hpp"
@@ -751,7 +752,7 @@ void Converter::cnvExifVersion(const char* from, const char* to) {
   std::string value;
   value.reserve(count);
   for (size_t i = 0; i < count; ++i) {
-    value.push_back(pos->toUint32(i));
+    value.push_back(static_cast<char>(Internal::checkedCast<byte>(pos->toUint32(i))));
   }
   (*xmpData_)[to] = value;
   if (erase_)

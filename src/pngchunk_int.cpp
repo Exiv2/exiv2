@@ -148,8 +148,7 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
     enforce(Safe::add(keysize + 3 + languageTextSize + 1, Safe::add(translatedKeyTextSize, size_t{1})) <= data.size(),
             ErrorCode::kerCorruptedMetadata);
 
-    const auto textsize =
-        static_cast<long>(data.size() - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1));
+    const size_t textsize = data.size() - (keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
     if (textsize) {
       const byte* text = data.c_data(keysize + 3 + languageTextSize + 1 + translatedKeyTextSize + 1);
 
@@ -166,7 +165,7 @@ DataBuf PngChunk::parseTXTChunk(const DataBuf& data, size_t keysize, TxtChunkTyp
 #endif
 
         // the compressed text comes after the translated keyword, but isn't null terminated
-        zlibUncompress(text, textsize, arr);
+        zlibUncompress(text, checkedCast<unsigned int>(textsize), arr);
       }
     }
   } else {
@@ -426,7 +425,7 @@ std::string PngChunk::makeAsciiTxtChunk(std::string_view keyword, std::string_vi
   uLong tmp = crc32(0L, Z_NULL, 0);
   tmp = crc32(tmp, reinterpret_cast<const Bytef*>(crcData.data()), static_cast<uInt>(crcData.size()));
   byte crc[4];
-  ul2Data(crc, tmp, bigEndian);
+  ul2Data(crc, static_cast<uint32_t>(tmp), bigEndian);  // CRC-32 has exactly 32 bits.
   // Assemble the chunk
   return std::string(reinterpret_cast<const char*>(length), 4) + chunkType + chunkData +
          std::string(reinterpret_cast<const char*>(crc), 4);
@@ -460,7 +459,7 @@ std::string PngChunk::makeUtf8TxtChunk(std::string_view keyword, std::string_vie
   uLong tmp = crc32(0L, Z_NULL, 0);
   tmp = crc32(tmp, reinterpret_cast<const Bytef*>(crcData.data()), static_cast<uInt>(crcData.size()));
   byte crc[4];
-  ul2Data(crc, tmp, bigEndian);
+  ul2Data(crc, static_cast<uint32_t>(tmp), bigEndian);  // CRC-32 has exactly 32 bits.
   // Assemble the chunk
   return std::string(reinterpret_cast<const char*>(length), 4) + chunkType + chunkData +
          std::string(reinterpret_cast<const char*>(crc), 4);

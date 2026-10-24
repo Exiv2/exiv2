@@ -124,7 +124,7 @@ ClassifyCharacter ( XMP_StringPtr fullString, size_t offset,
 			*uniChar = (*uniChar << 6) | (UnsByte(fullString[i]) & 0x3F);
 		}
 		
-		XMP_Uns32 upperBits = *uniChar >> 8;	// First filter on just the high order 24 bits.
+		const auto upperBits = *uniChar >> 8;	// First filter on just the high order 24 bits.
 
 		if ( upperBits == 0xFF ) {			// U+FFxx
 
@@ -867,7 +867,7 @@ XMPUtils::CatenateArrayItems ( const XMPMeta & xmpObj,
 	
 EXIT:
 	*catedStr = sCatenatedItems->c_str();
-	*catedLen = sCatenatedItems->size();
+	*catedLen = XMP_CheckedCast<XMP_StringLen>(sCatenatedItems->size());
 
 }	// CatenateArrayItems
 
