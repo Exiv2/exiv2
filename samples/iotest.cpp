@@ -53,7 +53,10 @@ int main(int argc, char* const argv[]) {
         const uint64_t length = io->size();
         // read/write byte-wise (#1029)
         for (uint64_t l = 0; l < length; ++l) {
-          output.putb(io->getb());
+          const int value = io->getb();
+          if (value == EOF)
+            throw Exiv2::Error(Exiv2::ErrorCode::kerInputDataReadFailed);
+          output.putb(static_cast<Exiv2::byte>(value));
         }
       }
       output.close();

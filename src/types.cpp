@@ -498,7 +498,7 @@ void hexdump(std::ostream& os, const byte* buf, size_t len, size_t offset) {
     for (size_t j = 0; j < hexbase && i < len; ++j, ++i) {
       auto c = static_cast<int>(buf[i]);
       os << std::setw(2) << std::setfill('0') << std::right << std::hex << c << " ";
-      ss += space(c);
+      ss += space(buf[i]);
     }
 
     std::string::size_type width = 9 + (((i - 1) % hexbase + 1) * 3);
@@ -602,7 +602,8 @@ int64_t parseInt64(const std::string& s, bool& ok) {
       ok = false;
       return 0;
     }
-    return static_cast<int64_t>(static_cast<float>(r) / st);
+    // Integer division keeps the rational numerator exact before truncation.
+    return r / st;
   }
 
   bool b = stringTo<bool>(s, ok);
@@ -632,7 +633,7 @@ float parseFloat(const std::string& s, bool& ok) {
       ok = false;
       return 0.0;
     }
-    return static_cast<float>(r) / st;
+    return static_cast<float>(r) / static_cast<float>(st);
   }
 
   bool b = stringTo<bool>(s, ok);

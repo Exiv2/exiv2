@@ -2009,7 +2009,7 @@ std::ostream& SonyMakerNote::printSonyMisc2bLensZoomPosition(std::ostream& os, c
     if (Internal::contains(model, m))
       return os << N_("n/a");
 
-  return os << stringFormat("{}%", std::lround(value.toInt64() / 10.24));
+  return os << stringFormat("{}%", std::lround(static_cast<double>(value.toInt64()) / 10.24));
 }
 
 std::ostream& SonyMakerNote::printSonyMisc2bFocusPosition2(std::ostream& os, const Value& value,
@@ -2315,7 +2315,7 @@ static DataBuf sonyTagCipher(uint16_t /* tag */, const byte* bytes, size_t size,
     if (bDecipher) {
       code[(i * i * i) % 249] = static_cast<byte>(i);
     } else {
-      code[i] = (i * i * i) % 249;
+      code[i] = static_cast<byte>((i * i * i) % 249);
     }
   }
   for (uint32_t i = 249; i < 256; i++) {

@@ -159,7 +159,7 @@ DoSetArrayItem ( XMP_Node *		arrayNode,
 				 XMP_OptionBits options )
 {
 	XMP_OptionBits itemLoc = options & kXMP_PropArrayLocationMask;
-	XMP_Index      arraySize = arrayNode->children.size();
+	XMP_Index      arraySize = XMP_CheckedCast<XMP_Index>(arrayNode->children.size());
 	
 	options &= ~kXMP_PropArrayLocationMask;
 	options = VerifySetOptions ( options, itemValue );
@@ -358,7 +358,7 @@ XMPMeta::GetProperty ( XMP_StringPtr	schemaNS,
 	if ( propNode == 0 ) return false;
 	
 	*propValue = propNode->value.c_str();
-	*valueSize = propNode->value.size();
+	*valueSize = XMP_CheckedCast<XMP_StringLen>(propNode->value.size());
 	*options   = propNode->options;
 	
 	return true;
@@ -818,9 +818,9 @@ XMPMeta::GetLocalizedText ( XMP_StringPtr	 schemaNS,
 	if ( match == kXMP_CLT_NoValues ) return false;
 	
 	*actualLang = itemNode->qualifiers[0]->value.c_str();
-	*langSize   = itemNode->qualifiers[0]->value.size();
+	*langSize   = XMP_CheckedCast<XMP_StringLen>(itemNode->qualifiers[0]->value.size());
 	*itemValue  = itemNode->value.c_str();
-	*valueSize  = itemNode->value.size();
+	*valueSize  = XMP_CheckedCast<XMP_StringLen>(itemNode->value.size());
 	*options    = itemNode->options;
 
 	return true;

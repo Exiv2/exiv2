@@ -21,6 +21,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <utility>
 
 #if XMP_WinBuild
 	#include <windows.h>
@@ -198,6 +199,17 @@ extern WXMP_Result		void_wResult;
 
 #define XMP_Throw(msg,id)	{ AnnounceThrow ( msg ); throw XMP_Error ( id, msg ); }
 
+// Keep native container sizes until an XMP API requires a fixed-width integer.
+template <typename Target, typename Source>
+inline Target XMP_CheckedCast ( Source value )
+{
+    if ( ! std::in_range<Target>(value) ) {
+        XMP_Throw ( "Integer value is out of range", kXMPErr_BadValue );
+    }
+    return static_cast<Target>(value);
+}
+
+
 // -------------------------------------------------------------------------------------------------
 
 #if XMP_WinBuild
@@ -371,7 +383,7 @@ static inline bool
 IsPathPrefix ( XMP_StringPtr fullPath, XMP_StringPtr prefix )
 {
 	bool isPrefix = false;
-	XMP_StringLen prefixLen = std::strlen(prefix);
+	const size_t prefixLen = std::strlen(prefix);
 	if ( XMP_LitNMatch ( prefix, fullPath, prefixLen ) ) {
 		char separator = fullPath[prefixLen];
 		if ( (separator == 0) || (separator == '/') ||

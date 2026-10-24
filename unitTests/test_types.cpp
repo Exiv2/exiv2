@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <exiv2/types.hpp>
+#include <exiv2/value.hpp>
 
 #include <gtest/gtest.h>
 
@@ -73,7 +74,7 @@ TEST(DataBuf, readUintFunctionsThrowsOnTooFarElements) {
 
 TEST(DataBuf, writeUintFunctionsWorksWhenThereIsEnoughData) {
   DataBuf instance(8);
-  std::uint64_t val{0x0102030405060708};
+  constexpr std::uint64_t val{0x0102030405060708};
   ASSERT_NO_THROW(instance.write_uint8(0, (val >> 56)));
   ASSERT_EQ(0x01, instance.read_uint8(0));
 
@@ -89,7 +90,7 @@ TEST(DataBuf, writeUintFunctionsWorksWhenThereIsEnoughData) {
 
 TEST(DataBuf, writeUintFunctionsThrowsIfTryingToWriteOutOfBounds) {
   DataBuf instance(8);
-  std::uint64_t val{0x0102030405060708};
+  constexpr std::uint64_t val{0x0102030405060708};
   ASSERT_THROW(instance.write_uint8(8, (val >> 56)), std::out_of_range);
   ASSERT_THROW(instance.write_uint16(7, (val >> 48), bigEndian), std::out_of_range);
   ASSERT_THROW(instance.write_uint32(5, (val >> 32), bigEndian), std::out_of_range);
@@ -243,4 +244,39 @@ TEST(parseUint32, withNumberOutOfRangeReturnsFalse) {
   bool ok{false};
   ASSERT_EQ(0u, parseUint32("4333333333", ok));
   ASSERT_FALSE(ok);
+}
+
+TEST(DataValue, rejectsOutOfRangeByteValuesWithoutChangingExistingData) {
+  DataValue value;
+  ASSERT_EQ(0, value.read(" 0 127 128 255 \t "));
+  EXPECT_EQ("0 127 128 255", static_cast<const Value&>(value).toString());
+  EXPECT_EQ(1, value.read("256"));
+  EXPECT_EQ(1, value.read("-1"));
+  EXPECT_EQ(1, value.read("2147483648"));
+  EXPECT_EQ(1, value.read("-2147483649"));
+  EXPECT_EQ(1, value.read("1 999999999999999999999999"));
+  EXPECT_EQ("0 127 128 255", static_cast<const Value&>(value).toString());
+  EXPECT_EQ(0, value.read(" \t\n"));
+  EXPECT_EQ(0u, value.count());
+}
+
+TEST(DataValue, retainsSignedByteRepresentations) {
+  DataValue value(signedByte);
+  ASSERT_EQ(0, value.read("-128 -1 0 127"));
+  EXPECT_EQ("128 255 0 127", static_cast<const Value&>(value).toString());
+  EXPECT_EQ(1, value.read("-129"));
+  EXPECT_EQ(1, value.read("256"));
+  EXPECT_EQ("128 255 0 127", static_cast<const Value&>(value).toString());
+}
+
+TEST(ParseInt64, keepsRationalNumeratorsExact) {
+  bool ok = false;
+  EXPECT_EQ(16777217, parseInt64("16777217/1", ok));
+  ASSERT_TRUE(ok);
+  EXPECT_EQ(2147483647, parseInt64("2147483647/1", ok));
+  ASSERT_TRUE(ok);
+  EXPECT_EQ(-2147483647, parseInt64("-2147483647/1", ok));
+  ASSERT_TRUE(ok);
+  EXPECT_EQ(1, parseInt64("5/3", ok));
+  ASSERT_TRUE(ok);
 }

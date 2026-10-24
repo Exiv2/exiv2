@@ -196,19 +196,23 @@ size_t base64decode(const char* in, char* out, size_t out_size) {
 
   if (output_length + 1 < out_size) {
     for (size_t i = 0, j = 0; i < input_length;) {
-      uint32_t sextet_a = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
-      uint32_t sextet_b = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
-      uint32_t sextet_c = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
-      uint32_t sextet_d = buff[i] == '=' ? 0 & i++ : decoding_table[buff[i++]];
+      const uint32_t sextet_a = buff[i] == '=' ? 0U : decoding_table[buff[i]];
+      ++i;
+      const uint32_t sextet_b = buff[i] == '=' ? 0U : decoding_table[buff[i]];
+      ++i;
+      const uint32_t sextet_c = buff[i] == '=' ? 0U : decoding_table[buff[i]];
+      ++i;
+      const uint32_t sextet_d = buff[i] == '=' ? 0U : decoding_table[buff[i]];
+      ++i;
 
       uint32_t triple = (sextet_a << 3 * 6) + (sextet_b << 2 * 6) + (sextet_c << 1 * 6) + (sextet_d << 0 * 6);
 
       if (j < output_length)
-        out[j++] = (triple >> 2 * 8) & 0xFF;
+        out[j++] = static_cast<char>((triple >> 2 * 8) & 0xFF);
       if (j < output_length)
-        out[j++] = (triple >> 1 * 8) & 0xFF;
+        out[j++] = static_cast<char>((triple >> 1 * 8) & 0xFF);
       if (j < output_length)
-        out[j++] = (triple >> 0 * 8) & 0xFF;
+        out[j++] = static_cast<char>((triple >> 0 * 8) & 0xFF);
     }
     out[output_length] = 0;
     result = output_length;

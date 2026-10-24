@@ -2,6 +2,7 @@
 
 // included header files
 #include "psdimage.hpp"
+#include "safe_op.hpp"
 
 #include "basicio.hpp"
 #include "config.h"
@@ -613,7 +614,7 @@ uint32_t PsdImage::writeExifData(ExifData& exifData, BasicIo& out) {
       // Write encoded Exif data
       if (out.write(blob.data(), blob.size()) != blob.size())
         throw Error(ErrorCode::kerImageWriteFailed);
-      resLength += static_cast<long>(blob.size()) + 12;
+      resLength = Safe::add(Internal::checkedCast<uint32_t>(blob.size()), uint32_t{12});
       if (blob.size() & 1)  // even padding
       {
         buf[0] = 0;

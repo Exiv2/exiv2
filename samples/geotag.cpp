@@ -9,6 +9,8 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
+#include <utility>
 
 namespace fs = std::filesystem;
 
@@ -369,7 +371,10 @@ int timeZoneAdjust() {
   localtime_r(&now, &local);
   gmtime_r(&now, &gmt);
 #endif
-  return std::mktime(&gmt) - std::mktime(&local);
+  const auto offset = std::mktime(&gmt) - std::mktime(&local);
+  if (!std::in_range<int>(offset))
+    throw std::out_of_range("Time zone offset is out of range");
+  return static_cast<int>(offset);
 }
 
 std::string getExifTime(const time_t t) {
