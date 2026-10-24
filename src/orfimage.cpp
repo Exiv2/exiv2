@@ -111,7 +111,8 @@ void OrfImage::writeMetadata() {
     bo = littleEndian;
   }
   setByteOrder(bo);
-  OrfParser::encode(*io_, pData, Internal::checkedCast<size_t>(fileSize), bo, exifData_, iptcData_, xmpData_);  // may throw
+  OrfParser::encode(*io_, pData, Internal::checkedCast<size_t>(fileSize), bo, exifData_, iptcData_,
+                    xmpData_);  // may throw
 }  // OrfImage::writeMetadata
 
 ByteOrder OrfParser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
