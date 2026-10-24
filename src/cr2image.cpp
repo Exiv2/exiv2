@@ -100,7 +100,8 @@ void Cr2Image::writeMetadata() {
     bo = littleEndian;
   }
   setByteOrder(bo);
-  Cr2Parser::encode(*io_, pData, Internal::checkedCast<size_t>(fileSize), bo, exifData_, iptcData_, xmpData_);  // may throw
+  Cr2Parser::encode(*io_, pData, Internal::checkedCast<size_t>(fileSize), bo, exifData_, iptcData_,
+                    xmpData_);  // may throw
 }  // Cr2Image::writeMetadata
 
 ByteOrder Cr2Parser::decode(ExifData& exifData, IptcData& iptcData, XmpData& xmpData, const byte* pData, size_t size,
