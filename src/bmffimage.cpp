@@ -10,6 +10,7 @@
 #include "futils.hpp"
 #include "image.hpp"
 #include "image_int.hpp"
+#include "safe_op.hpp"
 #include "tags.hpp"
 #include "tiffcomposite_int.hpp"
 #include "tiffimage_int.hpp"
@@ -18,7 +19,6 @@
 
 #ifdef EXV_HAVE_BROTLI
 #include <brotli/decode.h>  // for JXL brob
-#include "safe_op.hpp"
 #endif
 
 // + standard includes
@@ -225,7 +225,7 @@ void BmffImage::brotliUncompress(const byte* compressedBuf, size_t compressedBuf
 
 uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintStructureOption option /* = kpsNone */,
                                uint64_t pbox_end, size_t depth) {
-  const size_t address = io_->tell();
+  const uint64_t address = io_->tell();
   // never visit a box twice!
   if (depth == 0)
     visits_.clear();
@@ -244,7 +244,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   byte hdrbuf[2 * sizeof(uint32_t)];
 
   size_t hdrsize = sizeof(hdrbuf);
-  Internal::enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
+  Internal::enforce(hdrsize <= pbox_end - address, Exiv2::ErrorCode::kerCorruptedMetadata);
   if (io_->read(hdrbuf, sizeof(hdrbuf)) != sizeof(hdrbuf))
     return pbox_end;
 
@@ -263,7 +263,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   if (box_length == 1) {
     // The box size is encoded as a uint64_t, so we need to read another 8 bytes.
     hdrsize += 8;
-    Internal::enforce(hdrsize <= static_cast<size_t>(pbox_end - address), Exiv2::ErrorCode::kerCorruptedMetadata);
+    Internal::enforce(hdrsize <= pbox_end - address, Exiv2::ErrorCode::kerCorruptedMetadata);
     DataBuf data(8);
     io_->read(data.data(), data.size());
     box_length = data.read_uint64(0, endian_);
@@ -275,7 +275,7 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
   }
 
   // read data in box and restore file position
-  const size_t restore = io_->tell();
+  const uint64_t restore = io_->tell();
   Internal::enforce(box_length >= hdrsize, Exiv2::ErrorCode::kerCorruptedMetadata);
   Internal::enforce(box_length - hdrsize <= pbox_end - restore, Exiv2::ErrorCode::kerCorruptedMetadata);
 
@@ -289,8 +289,8 @@ uint64_t BmffImage::boxHandler(std::ostream& out /* = std::cout*/, Exiv2::PrintS
     return restore + buffer_size;
   }
 
-  DataBuf data(static_cast<size_t>(buffer_size));
-  const size_t box_end = restore + data.size();
+  DataBuf data(Internal::checkedCast<size_t>(buffer_size));
+  const uint64_t box_end = restore + data.size();
   io_->read(data.data(), data.size());
   io_->seek(restore, BasicIo::beg);
 
@@ -588,7 +588,7 @@ void BmffImage::parseTiff(uint32_t root_tag, uint64_t length, uint64_t start) {
   Internal::enforce(length <= std::numeric_limits<size_t>::max(), ErrorCode::kerCorruptedMetadata);
 
   // read and parse exif data
-  const size_t restore = io_->tell();
+  const uint64_t restore = io_->tell();
   DataBuf exif(static_cast<size_t>(length));
   io_->seek(static_cast<int64_t>(start), BasicIo::beg);
   if (exif.size() > 8 && io_->read(exif.data(), exif.size()) == exif.size()) {
@@ -632,11 +632,11 @@ void BmffImage::parseXmp(uint64_t length, uint64_t start) {
   Internal::enforce(start <= io_->size(), ErrorCode::kerCorruptedMetadata);
   Internal::enforce(length <= io_->size() - start, ErrorCode::kerCorruptedMetadata);
 
-  const size_t restore = io_->tell();
+  const uint64_t restore = io_->tell();
   io_->seek(static_cast<int64_t>(start), BasicIo::beg);
 
-  auto lengthSizeT = static_cast<size_t>(length);
-  DataBuf xmp(lengthSizeT + 1);
+  const auto lengthSizeT = Internal::checkedCast<size_t>(length);
+  DataBuf xmp(Safe::add(lengthSizeT, size_t{1}));
   xmp.write_uint8(lengthSizeT, 0);  // ensure xmp is null terminated!
   if (io_->read(xmp.data(), lengthSizeT) != lengthSizeT)
     throw Error(ErrorCode::kerInputDataReadFailed);
@@ -657,8 +657,8 @@ void BmffImage::parseCr3Preview(const DataBuf& data, std::ostream& out, bool bTr
                                 size_t width_offset, size_t height_offset, size_t size_offset,
                                 size_t relative_position) {
   // Derived from https://github.com/lclevy/canon_cr3
-  const size_t here = io_->tell();
-  Internal::enforce(here <= std::numeric_limits<size_t>::max() - relative_position, ErrorCode::kerCorruptedMetadata);
+  const uint64_t here = io_->tell();
+  Internal::enforce(here <= std::numeric_limits<uint64_t>::max() - relative_position, ErrorCode::kerCorruptedMetadata);
   NativePreview nativePreview;
   nativePreview.position_ = here + relative_position;
   nativePreview.width_ = data.read_uint16(width_offset, endian_);

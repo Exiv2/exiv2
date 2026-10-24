@@ -202,11 +202,11 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
       out << " address | chunk |  length | data                           | checksum" << '\n';
     }
 
-    const size_t imgSize = io_->size();
+    const uint64_t imgSize = io_->size();
     DataBuf cheaderBuf(8);
 
     while (!io_->eof() && chType != "IEND") {
-      const size_t address = io_->tell();
+      const uint64_t address = io_->tell();
 
       size_t bufRead = io_->read(cheaderBuf.data(), cheaderBuf.size());
       if (io_->error())
@@ -221,7 +221,7 @@ void PngImage::printStructure(std::ostream& out, PrintStructureOption option, si
       }
 
       // test that we haven't hit EOF, or wanting to read excessive data
-      const size_t restore = io_->tell();
+      const uint64_t restore = io_->tell();
       if (dataOffset > imgSize - restore) {
         throw Exiv2::Error(ErrorCode::kerFailedToReadImageData);
       }
@@ -402,7 +402,7 @@ void PngImage::readMetadata() {
   }
   clearMetadata();
 
-  const size_t imgSize = io_->size();
+  const uint64_t imgSize = io_->size();
   DataBuf cheaderBuf(8);  // Chunk header: 4 bytes (data size) + 4 bytes (chunk type).
   const DecodeParams dp(max_recursion_depth_);
 

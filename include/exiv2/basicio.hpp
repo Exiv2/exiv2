@@ -87,7 +87,7 @@ class EXIV2API BasicIo {
     @return Number of bytes written to IO source successfully;<BR>
         0 if failure;
    */
-  virtual size_t write(BasicIo& src) = 0;
+  virtual uint64_t write(BasicIo& src) = 0;
   /*!
     @brief Write one byte to the IO source. Current IO position is
         advanced by one byte.
@@ -198,13 +198,13 @@ class EXIV2API BasicIo {
     @brief Get the current IO position.
     @return Offset from the start of IO
    */
-  [[nodiscard]] virtual size_t tell() const = 0;
+  [[nodiscard]] virtual uint64_t tell() const = 0;
   /*!
     @brief Get the current size of the IO source in bytes.
     @return Size of the IO source in bytes;<BR>
-           -1 if failure;
+           UINT64_MAX if failure;
    */
-  [[nodiscard]] virtual size_t size() const = 0;
+  [[nodiscard]] virtual uint64_t size() const = 0;
   //! Returns true if the IO source is open, otherwise false.
   [[nodiscard]] virtual bool isopen() const = 0;
   //! Returns 0 if the IO source is in a valid state, otherwise nonzero.
@@ -342,7 +342,7 @@ class EXIV2API FileIo : public BasicIo {
     @return Number of bytes written to the file successfully;<BR>
            0 if failure;
    */
-  size_t write(BasicIo& src) override;
+  uint64_t write(BasicIo& src) override;
   /*!
     @brief Write one byte to the file. The file position is
         advanced by one byte.
@@ -439,14 +439,14 @@ class EXIV2API FileIo : public BasicIo {
     @brief Get the current file position.
     @return Offset from the start of the file
    */
-  [[nodiscard]] size_t tell() const override;
+  [[nodiscard]] uint64_t tell() const override;
   /*!
     @brief Flush any buffered writes and get the current file size
         in bytes.
     @return Size of the file in bytes;<BR>
-           -1 if failure;
+           UINT64_MAX if failure;
    */
-  [[nodiscard]] size_t size() const override;
+  [[nodiscard]] uint64_t size() const override;
   //! Returns true if the file is open, otherwise false.
   [[nodiscard]] bool isopen() const override;
   //! Returns 0 if the file is in a valid state, otherwise nonzero.
@@ -539,7 +539,7 @@ class EXIV2API MemIo : public BasicIo {
     @return Number of bytes written to the memory block successfully;<BR>
            0 if failure;
    */
-  size_t write(BasicIo& src) override;
+  uint64_t write(BasicIo& src) override;
   /*!
     @brief Write one byte to the memory block. The IO position is
         advanced by one byte.
@@ -616,13 +616,13 @@ class EXIV2API MemIo : public BasicIo {
     @brief Get the current IO position.
     @return Offset from the start of the memory block
    */
-  [[nodiscard]] size_t tell() const override;
+  [[nodiscard]] uint64_t tell() const override;
   /*!
     @brief Get the current memory buffer size in bytes.
     @return Size of the in memory data in bytes;<BR>
-           -1 if failure;
+           UINT64_MAX if failure;
    */
-  [[nodiscard]] size_t size() const override;
+  [[nodiscard]] uint64_t size() const override;
   //! Always returns true
   [[nodiscard]] bool isopen() const override;
   //! Always returns 0
@@ -754,7 +754,7 @@ class EXIV2API RemoteIo : public BasicIo {
 
     @note The write access is only supported by http, https, ssh.
    */
-  size_t write(BasicIo& src) override;
+  uint64_t write(BasicIo& src) override;
 
   /*!
    @brief Not support
@@ -833,13 +833,13 @@ class EXIV2API RemoteIo : public BasicIo {
     @brief Get the current IO position.
     @return Offset from the start of the memory block
    */
-  [[nodiscard]] size_t tell() const override;
+  [[nodiscard]] uint64_t tell() const override;
   /*!
     @brief Get the current memory buffer size in bytes.
     @return Size of the in memory data in bytes;<BR>
-           -1 if failure;
+           UINT64_MAX if failure;
    */
-  [[nodiscard]] size_t size() const override;
+  [[nodiscard]] uint64_t size() const override;
   //! Returns true if the memory area is allocated.
   [[nodiscard]] bool isopen() const override;
   //! Always returns 0
@@ -922,7 +922,7 @@ class EXIV2API CurlIo : public RemoteIo {
           will call RemoteIo::write(BasicIo& src) if the write access is available
           for the protocol. Otherwise, it throws the Error.
    */
-  size_t write(BasicIo& src) override;
+  uint64_t write(BasicIo& src) override;
 
  protected:
   // Pimpl idiom

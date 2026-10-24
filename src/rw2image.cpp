@@ -4,6 +4,7 @@
 #include "rw2image.hpp"
 #include "basicio.hpp"
 #include "config.h"
+#include "enforce.hpp"
 #include "error.hpp"
 #include "futils.hpp"
 #include "image.hpp"
@@ -95,7 +96,9 @@ void Rw2Image::readMetadata() {
   }
   clearMetadata();
   const DecodeParams dp(max_recursion_depth_);
-  ByteOrder bo = Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), io_->size(), dp);
+  const uint64_t fileSize = io_->size();
+  ByteOrder bo =
+      Rw2Parser::decode(exifData_, iptcData_, xmpData_, io_->mmap(), Internal::checkedCast<size_t>(fileSize), dp);
   setByteOrder(bo);
 
   // A lot more metadata is hidden in the embedded preview image
