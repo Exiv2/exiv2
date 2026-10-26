@@ -62,6 +62,16 @@ bool isUtf8(std::string_view s) {
   }
   return true;
 }
+
+//! Return true if \em s contains C0 control characters other than tab, line feed and carriage return
+bool hasControlChars(std::string_view s) {
+  for (const char ch : s) {
+    const auto c = static_cast<unsigned char>(ch);
+    if ((c < 0x20 && c != '\t' && c != '\n' && c != '\r') || c == 0x7f)
+      return true;
+  }
+  return false;
+}
 }  // namespace
 
 // *****************************************************************************
@@ -455,7 +465,9 @@ const char* CommentValue::detectCharset(std::string& c) const {
 
   // Exif 3.0 specifies UTF-8 for "UNICODE", older writers use UCS-2 (#3414). UCS-2 text contains
   // a NUL byte for every character in U+0000-U+00FF, so NUL-free, valid UTF-8 is taken as UTF-8.
-  if (c.find('\0') == std::string::npos && isUtf8(c))
+  // Reject C0 control characters: UCS-2 text in U+0100-U+1FFF (e.g. Cyrillic or Arabic) has a high
+  // byte of 0x01-0x1f, which is otherwise a valid single-byte UTF-8 sequence.
+  if (c.find('\0') == std::string::npos && !hasControlChars(c) && isUtf8(c))
     return "UTF-8";
 
   return byteOrder_ == littleEndian ? "UCS-2LE" : "UCS-2BE";
